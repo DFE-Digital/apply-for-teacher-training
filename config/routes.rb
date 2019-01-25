@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  root to: 'home#index'
+  devise_for :candidates
 
+  root to: 'home#index'
 
   namespace :admin do
     devise_for :users, class_name: 'Admin::User', controllers: { sessions: 'devise/sessions' }
