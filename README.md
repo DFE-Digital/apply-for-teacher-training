@@ -7,3 +7,5 @@ Ruby on Rails application has been set up with:
 * RSpec
 * `pg` driver for PostgreSQL
 * Devise for user authentication - on `Candidate` model for candidates and `Admin` model for team admins
+
+Admin pages can be accessed at `/admin` - test account: `example@example.com`, password `testing123`
