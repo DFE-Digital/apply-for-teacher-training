@@ -9,4 +9,12 @@ RSpec.describe Candidate, type: :model do
   it { should validate_presence_of(:gender) }
 
   it { should validate_uniqueness_of(:email).case_insensitive }
+
+  describe '#full_name' do
+    let(:candidate) { Candidate.new(first_name: 'Bob', surname: 'Smith') }
+
+    it 'should return the full name joined with a space' do
+      expect(candidate.full_name).to eq('Bob Smith')
+    end
+  end
 end

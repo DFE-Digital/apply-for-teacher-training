@@ -17,4 +17,8 @@ class Candidate < ApplicationRecord
   validates :surname, presence: true
   validates :date_of_birth, presence: true
   validates :gender, presence: true
+
+  def full_name
+    [first_name, surname].join(' ')
+  end
 end
