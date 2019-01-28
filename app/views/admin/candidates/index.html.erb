@@ -1,0 +1,9 @@
+<h1>Candidates admin</h1>
+
+<ul>
+  <% @candidates.each do |candidate| %>
+    <li>
+      <%= candidate.full_name %>
+    </li>
+  <% end %>
+</ul>
