@@ -13,6 +13,10 @@
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
 
+    <% if current_candidate.present? %>
+      <p><%= link_to 'Sign out', destroy_candidate_session_path, method: :delete %></p>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>

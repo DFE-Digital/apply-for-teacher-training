@@ -15,7 +15,9 @@
 
     <h1>Admin</h1>
 
-    <p><%= link_to('Logout', destroy_admin_user_session_path, method: :delete) %></p>
+    <% if current_admin_user.present? %>
+      <p><%= link_to 'Sign out', destroy_admin_user_session_path, method: :delete %></p>
+    <% end %>
 
     <%= yield %>
   </body>
