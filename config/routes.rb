@@ -4,6 +4,14 @@ Rails.application.routes.draw do
     registrations: 'candidates/registrations'
   }
 
+  authenticated :candidate do
+    root 'home#index', as: :authenticated_root
+  end
+
+  unauthenticated :candidate do
+    root 'home#landing', as: :unauthenticated_root
+  end
+
   root to: 'home#index'
 
   namespace :admin do
