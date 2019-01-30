@@ -3,7 +3,7 @@
 <ul>
   <% @candidates.each do |candidate| %>
     <li>
-      <%= candidate.full_name %>
+      <%= link_to candidate, admin_candidate_path(candidate) %>
     </li>
   <% end %>
 </ul>

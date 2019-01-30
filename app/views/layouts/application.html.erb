@@ -59,7 +59,7 @@
             <ul id="navigation" class="govuk-header__navigation " aria-label="Top Level Navigation">
               <li class="govuk-header__navigation-item">
                 <%= link_to destroy_candidate_session_path, class: 'govuk-header__link', method: :delete do %>
-                  Sign out (signed in as <strong><%= current_candidate.full_name %></strong>)
+                  Sign out (signed in as <strong><%= current_candidate %></strong>)
                 <% end %>
               </li>
             </ul>

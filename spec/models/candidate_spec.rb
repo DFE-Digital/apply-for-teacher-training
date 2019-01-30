@@ -8,9 +8,17 @@ RSpec.describe Candidate, type: :model do
   it { should validate_presence_of(:gender) }
 
   describe '#full_name' do
-    let(:candidate) { Candidate.new(first_name: 'Bob', surname: 'Smith') }
+    let(:candidate) { create(:candidate, first_name: 'Bob', surname: 'Smith') }
 
     it 'should return the full name joined with a space' do
+      expect(candidate.full_name).to eq('Bob Smith')
+    end
+  end
+
+  describe '#to_s' do
+    let(:candidate) { create(:candidate, first_name: 'Bob', surname: 'Smith') }
+
+    it 'should return the full name' do
       expect(candidate.full_name).to eq('Bob Smith')
     end
   end
