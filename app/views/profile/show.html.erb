@@ -1,0 +1,13 @@
+<h1 class="govuk-heading-xl">Your profile</h1>
+
+<p>Title: <%= @candidate.title %></p>
+
+<p>First name: <%= @candidate.first_name %></p>
+
+<p>Surname: <%= @candidate.surname %></p>
+
+<p>Date of birth: <%= @candidate.date_of_birth %></p>
+
+<p>Gender: <%= @candidate.gender.humanize %></p>
+
+<%= link_to 'Edit your profile', profile_edit_path, class: 'govuk-button' %>

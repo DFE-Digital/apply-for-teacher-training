@@ -1,0 +1,34 @@
+<h1 class="govuk-heading-xl">Edit your profile</h1>
+
+<%= form_for @candidate, url: profile_path do |f| %>
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= f.label :first_name %><br />
+    <%= f.text_field :first_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :surname %><br />
+    <%= f.text_field :surname %>
+  </div>
+
+  <div class="field">
+    <%= f.label :gender %><br />
+
+    <% Candidate.genders.keys.each do |gender| %>
+      <%= f.radio_button :gender, gender %>
+      <%= f.label gender.to_sym %>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= f.label :date_of_birth %><br />
+    <%= f.date_field :date_of_birth %>
+  </div>
+
+  <%= f.submit 'Update profile', class: 'govuk-button' %>
+<% end %>
