@@ -9,3 +9,5 @@ Ruby on Rails application has been set up with:
 * Devise for user authentication - on `Candidate` model for candidates and `Admin` model for team admins
 
 Admin pages can be accessed at `/admin` - test account: `example@example.com`, password `testing123`
+
+Uses [GOV.UK Design System](https://design-system.service.gov.uk/). Run `yarn` to pull in necessary packages.
