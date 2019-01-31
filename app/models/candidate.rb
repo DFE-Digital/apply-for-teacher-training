@@ -9,7 +9,7 @@ class Candidate < ApplicationRecord
           :trackable,
           :lockable
 
-  enum gender: { male: 0, female: 1, not_sure: 2, prefer_not_to_disclose: 3 }
+  enum gender: { female: 0, male: 1, other: 2, prefer_not_to_say: 3 }
 
   validates :title, presence: true
   validates :first_name, presence: true
