@@ -44,6 +44,14 @@ ActiveRecord::Schema.define(version: 2019_01_25_155013) do
     t.string "surname"
     t.date "date_of_birth"
     t.integer "gender", default: 0
+    t.string "address_1"
+    t.string "address_2"
+    t.string "town"
+    t.string "county"
+    t.string "post_code"
+    t.string "country"
+    t.string "telephone"
+    t.string "mobile"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email", default: "", null: false

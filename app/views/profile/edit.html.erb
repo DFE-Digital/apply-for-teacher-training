@@ -30,5 +30,35 @@
     <%= f.date_field :date_of_birth %>
   </div>
 
+  <div class="field">
+    <%= f.label :address_1 %><br />
+    <%= f.text_field :address_1 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :address_2 %><br />
+    <%= f.text_field :address_2 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :town %><br />
+    <%= f.text_field :town %>
+  </div>
+
+  <div class="field">
+    <%= f.label :county %><br />
+    <%= f.text_field :county %>
+  </div>
+
+  <div class="field">
+    <%= f.label :post_code %><br />
+    <%= f.text_field :post_code %>
+  </div>
+
+  <div class="field">
+    <%= f.label :country %><br />
+    <%= f.text_field :country %>
+  </div>
+
   <%= f.submit 'Update profile', class: 'govuk-button' %>
 <% end %>

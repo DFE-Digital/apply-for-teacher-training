@@ -7,6 +7,16 @@ class CreateCandidates < ActiveRecord::Migration[5.2]
       t.date :date_of_birth
       t.integer :gender, default: 0, index: true
 
+      t.string :address_1
+      t.string :address_2
+      t.string :town
+      t.string :county
+      t.string :post_code
+      t.string :country
+
+      t.string :telephone
+      t.string :mobile
+
       t.timestamps
     end
   end

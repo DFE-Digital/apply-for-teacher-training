@@ -18,7 +18,21 @@ class ProfileController < ApplicationController
   private
 
   def candidate_params
-    params.require(:candidate).permit(:title, :first_name, :surname, :date_of_birth, :gender)
+    params.require(:candidate).permit(
+      :title,
+      :first_name,
+      :surname,
+      :date_of_birth,
+      :gender,
+      :address_1,
+      :address_2,
+      :town,
+      :county,
+      :post_code,
+      :country,
+      :mobile,
+      :telephone
+    )
   end
 
   def set_candidate
