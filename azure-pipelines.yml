@@ -1,0 +1,53 @@
+name: '0.1.0-$(Rev:r)'
+trigger:
+  batch: true
+  branches:
+    include:
+      - vsts_build_and_deploy
+
+pool:
+  vmImage: 'Ubuntu-16.04'
+
+variables:
+  imageName: 'apply-to-become-a-teacher-poc:$(build.buildNumber)'
+  tag: 'govukdfe/$(imageName)'
+
+steps:
+- script: |
+    docker build -f Dockerfile -t $(tag) .
+  displayName: 'Build image'
+
+- script: |
+    docker run "$(tag)" /bin/sh -c "rails spec" | sed -e 1d >> rspec-results.xml
+  displayName: 'Execute tests'
+
+- script: | 
+    docker run "$(tag)" /bin/sh -c "govuk-lint-ruby app config db lib spec --format clang"
+    docker run "$(tag)" /bin/sh -c "govuk-lint-sass app/assets/stylesheets"
+  displayName: 'Execute linters'
+
+- script: |
+    echo $password | docker login --username $(dockerHubUsername) --password-stdin
+    docker push "$(tag)"
+  displayName: 'Push image'
+  env:
+    password: $(dockerHubPassword)
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+  inputs:
+    Contents: |
+     azure/**
+    TargetFolder: '$(build.artifactstagingdirectory)'
+    OverWrite: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testRunner: JUnit
+    testResultsFiles: '*.xml'
