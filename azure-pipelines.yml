@@ -21,11 +21,6 @@ steps:
     docker run "$(tag)" /bin/sh -c "rails spec" | sed -e 1d >> rspec-results.xml
   displayName: 'Execute tests'
 
-- script: | 
-    docker run "$(tag)" /bin/sh -c "govuk-lint-ruby app config db lib spec --format clang"
-    docker run "$(tag)" /bin/sh -c "govuk-lint-sass app/assets/stylesheets"
-  displayName: 'Execute linters'
-
 - script: |
     echo $password | docker login --username $(dockerHubUsername) --password-stdin
     docker push "$(tag)"
