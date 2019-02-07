@@ -5,6 +5,8 @@ Apply to Become a Teacher service for candidates to apply for teacher training c
 Ruby on Rails application has been set up with:
 
 * RSpec
+* Cucumber
+* SimpleCov
 * `pg` driver for PostgreSQL
 * Devise for user authentication - on `Candidate` model for candidates and `Admin` model for team admins
 * [AASM](https://github.com/aasm/aasm) for state machine and transitions
