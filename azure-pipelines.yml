@@ -9,8 +9,11 @@ pool:
   vmImage: 'Ubuntu-16.04'
 
 variables:
-  imageName: 'apply-to-become-a-teacher-poc:$(build.buildNumber)'
-  tag: 'govukdfe/$(imageName)'
+- group: 'Docker Shared Variables'
+- name: 'imageName'
+  value: 'apply-to-become-a-teacher-poc:$(build.buildNumber)' 
+- name: 'tag'
+  value: 'govukdfe/$(imageName)'
 
 steps:
 - script: |
