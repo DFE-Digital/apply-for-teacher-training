@@ -8,9 +8,54 @@
 
 <p class="govuk-body">This section may be hidden until a candidate has completed their profile.</p>
 
-<ul>
-  <li>Dummy</li>
-  <li>list</li>
-  <li>of</li>
-  <li>applications</li>
-</ul>
+
+<table class="govuk-table">
+  <caption class="govuk-table__caption">Submitted applications</caption>
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header" scope="col">Provider</th>
+      <th class="govuk-table__header" scope="col">Submitted</th>
+      <th class="govuk-table__header" scope="col">Updates</th>
+      <th class="govuk-table__header" scope="col"></th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">Lorem</td>
+      <td class="govuk-table__cell">02/01/19</td>
+      <td class="govuk-table__cell">3</td>
+      <td class="govuk-table__cell"><%= link_to 'Edit', '#', class: 'govuk-link' %></td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">Ipsum</td>
+      <td class="govuk-table__cell">03/01/19</td>
+      <td class="govuk-table__cell">2</td>
+      <td class="govuk-table__cell"><%= link_to 'Edit', '#', class: 'govuk-link' %></td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="govuk-table">
+  <caption class="govuk-table__caption">Draft applications</caption>
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header" scope="col">Provider</th>
+      <th class="govuk-table__header" scope="col">Last updated</th>
+      <th class="govuk-table__header" scope="col"></th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">Lorem</td>
+      <td class="govuk-table__cell">02/01/19</td>
+      <td class="govuk-table__cell"><%= link_to 'Edit', '#', class: 'govuk-link' %></td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">Ipsum</td>
+      <td class="govuk-table__cell">03/01/19</td>
+      <td class="govuk-table__cell"><%= link_to 'Edit', '#', class: 'govuk-link' %></td>
+    </tr>
+  </tbody>
+</table>
+
+<%= link_to 'Create a new application', '#', class: 'govuk-button' %>
