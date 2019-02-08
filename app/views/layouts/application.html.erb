@@ -90,7 +90,13 @@
       <div class="govuk-grid-column-two-thirds">
 
         <% flash.each do |key, value| %>
-          <p class="<%= key %>"><%= value %></p>
+          <div class="govuk-warning-text">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+              <span class="govuk-warning-text__assistive">Warning</span>
+              <%= value %>
+            </strong>
+          </div>
         <% end %>
 
         <%= yield %>

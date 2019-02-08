@@ -1,63 +1,80 @@
 <h1 class="govuk-heading-xl">Edit your profile</h1>
 
 <%= form_for @candidate, url: profile_path do |f| %>
-  <div class="field">
-    <%= f.label :title %><br />
-    <%= f.text_field :title %>
+  <% if @candidate.errors.any? %>
+    <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary" id="error_explanation">
+      <h2 class="govuk-error-summary__title" id="error-summary-title"><%= pluralize(@candidate.errors.count, "error") %> prevented profile from being updated</h2>
+      <div class="govuk-error-summary__body">
+        <ul class="govuk-list govuk-error-summary__list">
+          <% @candidate.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="govuk-form-group">
+    <%= f.label :title, class: "govuk-label" %>
+    <%= f.text_field :title, class: "govuk-input" %>
   </div>
 
-  <div class="field">
-    <%= f.label :first_name %><br />
-    <%= f.text_field :first_name %>
+  <div class="govuk-form-group">
+    <%= f.label :first_name, class: "govuk-label" %>
+    <%= f.text_field :first_name, class: "govuk-input" %>
   </div>
 
-  <div class="field">
-    <%= f.label :surname %><br />
-    <%= f.text_field :surname %>
+  <div class="govuk-form-group">
+    <%= f.label :surname, class: "govuk-label" %>
+    <%= f.text_field :surname, class: "govuk-input" %>
   </div>
 
-  <div class="field">
-    <%= f.label :gender %><br />
+  <div class="govuk-form-group">
+    <%= f.label :gender, class: "govuk-label" %>
 
-    <% Candidate.genders.keys.each do |gender| %>
-      <%= f.radio_button :gender, gender %>
-      <%= f.label gender.to_sym %>
-    <% end %>
+    <div class="govuk-radios">
+      <% Candidate.genders.keys.each do |gender| %>
+        <div class="govuk-radios__item">
+          <%= f.radio_button :gender, gender, class: "govuk-radios__input" %>
+          <%= f.label "gender_#{gender}", gender.humanize, class: "govuk-label govuk-radios__label" %>
+        </div>
+      <% end %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label :date_of_birth %><br />
-    <%= f.date_field :date_of_birth %>
+  <div class="govuk-form-group">
+    <%= f.label :date_of_birth, class: "govuk-label" %>
+    <%= f.date_field :date_of_birth, class: "govuk-input" %>
   </div>
 
-  <div class="field">
-    <%= f.label :address_1 %><br />
-    <%= f.text_field :address_1 %>
+  <div class="govuk-form-group">
+    <%= f.label :address_1, class: "govuk-label" %>
+    <%= f.text_field :address_1, class: "govuk-input" %>
   </div>
 
-  <div class="field">
-    <%= f.label :address_2 %><br />
-    <%= f.text_field :address_2 %>
+  <div class="govuk-form-group">
+    <%= f.label :address_2, class: "govuk-label" %>
+    <%= f.text_field :address_2, class: "govuk-input" %>
   </div>
 
-  <div class="field">
-    <%= f.label :town %><br />
-    <%= f.text_field :town %>
+  <div class="govuk-form-group">
+    <%= f.label :town, class: "govuk-label" %>
+    <%= f.text_field :town, class: "govuk-input" %>
   </div>
 
-  <div class="field">
-    <%= f.label :county %><br />
-    <%= f.text_field :county %>
+  <div class="govuk-form-group">
+    <%= f.label :county, class: "govuk-label" %>
+    <%= f.text_field :county, class: "govuk-input" %>
   </div>
 
-  <div class="field">
-    <%= f.label :post_code %><br />
-    <%= f.text_field :post_code %>
+  <div class="govuk-form-group">
+    <%= f.label :post_code, class: "govuk-label" %>
+    <%= f.text_field :post_code, class: "govuk-input" %>
   </div>
 
-  <div class="field">
-    <%= f.label :country %><br />
-    <%= f.text_field :country %>
+  <div class="govuk-form-group">
+    <%= f.label :country, class: "govuk-label" %>
+    <%= f.text_field :country, class: "govuk-input" %>
   </div>
 
   <%= f.submit 'Update profile', class: 'govuk-button' %>
