@@ -29,4 +29,9 @@ Rails.application.routes.draw do
 
     resources :candidates, only: [:index, :show]
   end
+
+  match '/404', to: 'errors#not_found', via: :all
+  match '/403', to: 'errors#forbidden', via: :all
+  match '/500', to: 'errors#internal_server_error', via: :all
+  match '*path', to: 'errors#not_found', via: :all
 end
