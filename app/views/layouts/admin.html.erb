@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Apply to become a teacher - Admin</title>
+    <title>Apply for postgraduate teacher training - Admin</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -13,7 +13,7 @@
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
 
-    <h1>Apply to become a teacher: Admin</h1>
+    <h1>Apply for postgraduate teacher training: Admin</h1>
 
     <% if current_admin_user.present? %>
       <p><%= link_to 'Sign out', destroy_admin_user_session_path, method: :delete %></p>

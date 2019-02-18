@@ -11,8 +11,8 @@ services:
     build:
       context: .
       cache_from:
-        - govukdfe/apply-to-become-a-teacher:latest
-    image: govukdfe/apply-to-become-a-teacher:latest
+        - govukdfe/apply-for-postgraduate-teacher-training:latest
+    image: govukdfe/apply-for-postgraduate-teacher-training:latest
     ports:
       - "3000:3000"
     volumes:

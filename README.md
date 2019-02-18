@@ -1,6 +1,6 @@
-# Apply to Become a Teacher
+# Apply for postgraduate teacher training
 
-Apply to Become a Teacher service for candidates to apply for teacher training courses.
+**Apply for postgraduate teacher training** service for candidates to apply to intitial teacher training courses.
 
 Ruby on Rails application has been set up with:
 

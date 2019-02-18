@@ -1,5 +1,5 @@
 {
-  "name": "apply-to-become-a-teacher",
+  "name": "apply-for-postgraduate-teacher-training",
   "private": true,
   "dependencies": {
     "govuk-frontend": "^2.1.0"
