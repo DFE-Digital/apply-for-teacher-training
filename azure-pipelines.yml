@@ -11,7 +11,7 @@ pool:
 variables:
 - group: 'Docker Shared Variables'
 - name: 'imageName'
-  value: 'apply-to-become-a-teacher:$(build.buildNumber)'
+  value: 'apply-for-postgraduate-teacher-training:$(build.buildNumber)'
 - name: 'tag'
   value: 'govukdfe/$(imageName)'
 
