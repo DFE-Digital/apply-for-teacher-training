@@ -4,6 +4,7 @@
 
 Ruby on Rails application has been set up with:
 
+* Ruby 2.6.1
 * RSpec
 * Cucumber
 * SimpleCov
