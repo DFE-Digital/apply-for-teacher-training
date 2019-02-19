@@ -14,3 +14,12 @@ Ruby on Rails application has been set up with:
 Admin pages can be accessed at `/admin` - test account: `example@example.com`, password `testing123`
 
 Uses [GOV.UK Design System](https://design-system.service.gov.uk/). Run `yarn` to pull in necessary packages.
+
+### Using Guard
+
+Guard can automatically run tests when files change. To take advantage of this,
+run:
+
+```
+bundle exec guard
+```
