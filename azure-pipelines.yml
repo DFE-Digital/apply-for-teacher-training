@@ -11,11 +11,18 @@ pool:
 variables:
 - group: 'Docker Shared Variables'
 - name: 'imageName'
-  value: 'apply-for-postgraduate-teacher-training:$(build.buildNumber)'
+  value: 'apply-for-postgraduate-teacher-training'
 - name: 'tag'
   value: 'govukdfe/$(imageName)'
 
 steps:
+- script: |
+    GIT_SHORT_SHA=$(echo $(Build.SourceVersion) | cut -c 1-7)
+    tag=$(dockerHubUsername)/$(imageName):$GIT_SHORT_SHA
+    echo "##vso[build.updatebuildnumber]$GIT_SHORT_SHA"
+    echo "##vso[task.setvariable variable=tag;]$tag"
+  displayName: 'Set version number'
+
 - script: |
     docker build -f Dockerfile -t $(tag) .
   displayName: 'Build image'
