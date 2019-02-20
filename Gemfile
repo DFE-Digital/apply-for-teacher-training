@@ -8,7 +8,7 @@ gem 'rails', '~> 5.2.2'
 # AASM - State machines for Ruby classes (plain Ruby, ActiveRecord, Mongoid)
 gem 'aasm'
 # Use PostgreSQL as the database for Active Record
-gem 'pg', '~> 0.18.4'
+gem 'pg', '~> 1.1.4'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
