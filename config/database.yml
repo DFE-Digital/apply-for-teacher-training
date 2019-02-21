@@ -19,6 +19,7 @@ test: &test
 production:
   <<: *default
   database: <%= ENV['APPLY_DATABASE'] %>
+  sslmode: "require"
 
 cucumber:
   <<: *test
