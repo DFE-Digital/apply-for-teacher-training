@@ -74,6 +74,13 @@
             "metadata": {
                 "description": "Secret key base for rails"
             }
+        },
+        "railsServeStaticFiles": {
+            "type": "string",
+            "defaultValue": "true",
+            "metadata": {
+                "description": "Serve static files."
+            }
         }
     },
     "variables": {
@@ -167,6 +174,10 @@
                             {
                                 "name": "SECRET_KEY_BASE",
                                 "value": "[parameters('secretKeyBase')]"
+                            },
+                            {
+                                "name": "RAILS_SERVE_STATIC_FILES",
+                                "value": "[parameters('railsServeStaticFiles')]"
                             }
                         ]
                     }
