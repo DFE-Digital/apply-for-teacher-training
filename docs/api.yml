@@ -1,0 +1,161 @@
+openapi: 3.0.2
+info:
+  version: '1'
+  title: Apply to become a teacher API
+  description: A REST API to manage applications to become a teacher.
+
+components:
+  schemas:
+    Application:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        first_name:
+          type: string
+        surname:
+          type: string
+        gender:
+          type: string
+        date_of_birth:
+          type: string
+          format: date
+        email:
+          type: string
+          format: email
+        phone_number:
+          type: string
+        mobile_number:
+          type: string
+        nationality:
+          type: string
+        country_of_birth:
+          type: string
+
+paths:
+  '/applications':
+    get:
+      summary: Get a list of applications
+      description: |
+        Returns a paginated list of applications belonging to the provider.
+      parameters:
+        - name: per_page
+          in: query
+          description: |
+            The number of applications to display per page. The default value
+            is 50.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: page
+          in: query
+          description: The page number to retrieve. The default value is 1.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: submitted_from
+          in: query
+          description: |
+            Only retrieves applications submitted after this point in time.
+          required: false
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Returns a list of applications.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Application'
+
+  '/applications/{application_id}':
+      get:
+        summary: Find application by ID
+        description: Returns a single application with the ID provided.
+        parameters:
+          - name: application_id
+            in: path
+            description: UUIDv4 of the application to find
+            required: true
+            schema:
+              type: string
+              format: uuid
+        responses:
+          '200':
+            description: Successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Application'
+          '403':
+            description: |
+              Attempted to retrieve an application which does not belong to the
+              provider.
+          '404':
+            description: Application not found
+
+  '/applications/{application_id}/make_offer':
+    patch:
+      summary: Make an offer to this application
+      description: |
+        Makes an offer to this application, if one has not already been made.
+      parameters:
+        - name: application_id
+          in: path
+          description: UUIDv4 of the application to make an offer to
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+        '403':
+          description: |
+            Attempted to retrieve an application which does not belong to the
+            provider.
+        '404':
+          description: Application not found
+        '409':
+          description: Application has already been rejected.
+
+  '/applications/{application_id}/reject':
+    patch:
+      summary: Reject this application
+      description: |
+        Rejects this application, if it has not already been rejected.
+      parameters:
+        - name: application_id
+          in: path
+          description: UUIDv4 of the application to reject
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+        '403':
+          description: |
+            Attempted to retrieve an application which does not belong to the
+            provider.
+        '404':
+          description: Application not found
+        '409':
+          description: Application has already been rejected.
