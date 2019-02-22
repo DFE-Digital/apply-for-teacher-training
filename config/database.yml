@@ -7,6 +7,7 @@ default: &default
   host: <%= ENV['APPLY_DATABASE_HOST'] || 'localhost' %>
   username: <%= ENV['APPLY_DATABASE_USERNAME'] %>
   password: <%= ENV['APPLY_DATABASE_PASSWORD'] %>
+  sslmode: "require"
 
 development:
   <<: *default
@@ -19,7 +20,6 @@ test: &test
 production:
   <<: *default
   database: <%= ENV['APPLY_DATABASE'] %>
-  sslmode: "require"
 
 cucumber:
   <<: *test
