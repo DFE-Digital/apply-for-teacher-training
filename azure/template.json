@@ -261,6 +261,32 @@
             "dependsOn": [
                 "postgresql-server"
             ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "postgresql-server-firewall-rules",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('templateBaseUrl'),'postgresql-server-firewall-rules.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "firewallRuleNamePrefix": {
+                        "value": "AZURE_IP-"
+                    },
+                    "ipAddresses": {
+                        "value": "[reference('app-service').outputs.possibleOutboundIpAddresses.value]"
+                    },
+                    "serverName": {
+                        "value": "[parameters('databaseServerName')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "postgresql-server"
+            ]
         }
     ],
     "outputs": {}
