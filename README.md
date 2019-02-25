@@ -26,3 +26,11 @@ run:
 ```
 bundle exec guard
 ```
+
+## Linting
+
+It's best to lint just your app directories and not those belonging to the framework, e.g.
+
+```
+bundle exec govuk-lint-ruby app config db lib spec --format clang
+```
