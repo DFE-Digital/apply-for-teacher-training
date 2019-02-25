@@ -63,6 +63,9 @@ group :test do
   gem 'shoulda-matchers', '4.0.0'
   gem 'rails-controller-testing'
   gem 'simplecov', require: false
+
+  # Add Junit formatter for rspec
+  gem "rspec_junit_formatter"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
