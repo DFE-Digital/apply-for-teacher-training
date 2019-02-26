@@ -2,16 +2,16 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "appServiceName": {
+        "resourceEnvironmentName": {
             "type": "string",
             "metadata": {
-                "description": "The name of the app service."
+                "description": "The environment of the resource."
             }
         },
-        "appServicePlanName": {
+        "serviceName": {
             "type": "string",
             "metadata": {
-                "description": "The name of the app service plan."
+                "description": "The abbreviation of the service name to be used when naming a resource."
             }
         },
         "dockerHubUsername": {
@@ -39,12 +39,6 @@
                 "description": "The name of the postgres database"
             }
         },
-        "databaseServerName": {
-            "type": "string",
-            "metadata": {
-                "description": "The name of the psql server hosting the database."
-            }
-        },
         "databaseUsername": {
             "type": "string",
             "metadata": {
@@ -55,12 +49,6 @@
             "type": "securestring",
             "metadata": {
                 "description": "The password used to connect to the database."
-            }
-        },
-        "storageAccountName": {
-            "type": "string",
-            "metadata": {
-                "description": "Name of the storage account for psql  logs"
             }
         },
         "securityAlertEmail": {
@@ -84,8 +72,13 @@
         }
     },
     "variables": {
-        "templateBaseUrl": "https://raw.githubusercontent.com/DFE-Digital/bat-platform-building-blocks/master/templates/",
-        "appServiceRuntimeStack": "[concat('DOCKER|', parameters('dockerHubUsername'), '/', parameters('containerImageReference'))]"
+        "deploymentUrlBase": "https://raw.githubusercontent.com/DFE-Digital/bat-platform-building-blocks/master/templates/",
+        "appServiceRuntimeStack": "[concat('DOCKER|', parameters('dockerHubUsername'), '/', parameters('containerImageReference'))]",
+        "resourceNamePrefix": "[toLower(concat('bat-', parameters('resourceEnvironmentName'),'-', parameters('serviceName')))]",
+        "appServiceName": "[concat(variables('resourceNamePrefix'), '-as')]",
+        "appServicePlanName": "[concat(variables('resourceNamePrefix'), '-asp')]",
+        "storageAccountName": "[replace(concat(variables('resourceNamePrefix'), 'str'), '-', '')]",
+        "databaseServerName": "[concat(variables('resourceNamePrefix'), '-psql')]"
     },
     "resources": [
         {
@@ -95,12 +88,12 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('templateBaseUrl'), 'storage-account.json')]",
+                    "uri": "[concat(variables('deploymentUrlBase'), 'storage-account.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
                     "storageAccountName": {
-                        "value": "[parameters('storageAccountName')]"
+                        "value": "[variables('storageAccountName')]"
                     }
                 }
             }
@@ -112,12 +105,12 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('templateBaseUrl'), 'app-service-plan.json')]",
+                    "uri": "[concat(variables('deploymentUrlBase'), 'app-service-plan.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
                     "appServicePlanName": {
-                        "value": "[parameters('appServicePlanName')]"
+                        "value": "[variables('appServicePlanName')]"
                     }
                 }
             }
@@ -129,18 +122,18 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('templateBaseUrl'), 'app-service-linux.json')]",
+                    "uri": "[concat(variables('deploymentUrlBase'), 'app-service-linux.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
                     "appServiceName": {
-                        "value": "[parameters('appServiceName')]"
+                        "value": "[variables('appServiceName')]"
                     },
                     "appServicePlanResourceGroup": {
                         "value": "[resourceGroup().name]"
                     },
                     "appServicePlanName": {
-                        "value": "[parameters('appServicePlanName')]"
+                        "value": "[variables('appServicePlanName')]"
                     },
                     "runtimeStack": {
                         "value": "[variables('appServiceRuntimeStack')]"
@@ -161,7 +154,7 @@
                             },
                             {
                                 "name": "APPLY_DATABASE_USERNAME",
-                                "value": "[parameters('databaseUsername')]"
+                                "value": "[concat(parameters('databaseUsername'), '@', variables('databaseServerName'))]"
                             },
                             {
                                 "name": "APPLY_DATABASE_PASSWORD",
@@ -194,15 +187,15 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('templateBaseUrl'), 'application-insights.json')]",
+                    "uri": "[concat(variables('deploymentUrlBase'), 'application-insights.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
                     "appInsightsName": {
-                        "value": "[parameters('appServiceName')]"
+                        "value": "[variables('appServiceName')]"
                     },
                     "attachedService": {
-                        "value": "[parameters('appServiceName')]"
+                        "value": "[variables('appServiceName')]"
                     }
                 }
             }
@@ -214,12 +207,12 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('templateBaseUrl'),'postgresql-server.json')]",
+                    "uri": "[concat(variables('deploymentUrlBase'),'postgresql-server.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
                     "postgresServerName": {
-                        "value": "[parameters('databaseServerName')]"
+                        "value": "[variables('databaseServerName')]"
                     },
                     "postgresAdminLogin": {
                         "value": "[parameters('databaseUsername')]"
@@ -231,7 +224,7 @@
                         "value": "[parameters('securityAlertEmail')]"
                     },
                     "storageAccountName": {
-                        "value": "[parameters('storageAccountName')]"
+                        "value": "[variables('storageAccountName')]"
                     }
                 }
             },
@@ -246,12 +239,12 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('templateBaseUrl'),'postgresql-database.json')]",
+                    "uri": "[concat(variables('deploymentUrlBase'),'postgresql-database.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
                     "serverName": {
-                        "value": "[parameters('databaseServerName')]"
+                        "value": "[variables('databaseServerName')]"
                     },
                     "databaseName": {
                         "value": "[parameters('databaseName')]"
@@ -269,7 +262,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('templateBaseUrl'),'postgresql-server-firewall-rules.json')]",
+                    "uri": "[concat(variables('deploymentUrlBase'),'postgresql-server-firewall-rules.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -280,7 +273,7 @@
                         "value": "[reference('app-service').outputs.possibleOutboundIpAddresses.value]"
                     },
                     "serverName": {
-                        "value": "[parameters('databaseServerName')]"
+                        "value": "[variables('databaseServerName')]"
                     }
                 }
             },
@@ -289,5 +282,10 @@
             ]
         }
     ],
-    "outputs": {}
+    "outputs": {
+        "AppServiceName": {
+            "type": "string",
+            "value": "[variables('appServiceName')]"
+        }
+    }
 }
