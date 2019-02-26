@@ -282,5 +282,10 @@
             ]
         }
     ],
-    "outputs": {}
+    "outputs": {
+        "AppServiceName": {
+            "type": "string",
+            "value": "[variables('appServiceName')]"
+        }
+    }
 }
