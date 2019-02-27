@@ -12,5 +12,3 @@ namespace :db do
   desc 'Custom task: reset the database then run migrations and seeds'
   task reseed: [:clear, 'db:migrate', 'db:seed']
 end
-
-

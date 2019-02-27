@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Admin::CandidatesController, type: :controller do
-
   context "when signed in" do
     let(:user) { Admin::User.create(email: 'example@example.com', password: 'testing123', password_confirmation: 'testing123') }
 
@@ -41,5 +40,4 @@ RSpec.describe Admin::CandidatesController, type: :controller do
       end
     end
   end
-
 end

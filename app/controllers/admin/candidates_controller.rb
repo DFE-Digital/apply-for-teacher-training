@@ -5,10 +5,9 @@ class Admin::CandidatesController < Admin::ApplicationController
     @candidates = Candidate.all
   end
 
-  def show
-  end
+  def show; end
 
-  private
+private
 
   def set_candidate
     @candidate = Candidate.find(params[:id])

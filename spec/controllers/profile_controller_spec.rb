@@ -21,7 +21,7 @@ RSpec.describe ProfileController, type: :controller do
 
     describe "PATCH/PUT #update" do
       it "updates candidate" do
-        put :update, params: { candidate: { first_name: 'Bob', surname: 'Jones' }}
+        put :update, params: { candidate: { first_name: 'Bob', surname: 'Jones' } }
         expect(candidate.reload.full_name).to eq('Bob Jones')
       end
     end
@@ -49,5 +49,4 @@ RSpec.describe ProfileController, type: :controller do
       end
     end
   end
-
 end
