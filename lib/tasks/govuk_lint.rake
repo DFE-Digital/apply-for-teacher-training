@@ -7,6 +7,6 @@ namespace :lint do
 
   task :scss do
     puts 'Linting scss...'
-    system 'bundle exec govuk-lint-sass app/webpacker/stylesheets'
+    system 'bundle exec govuk-lint-sass app/assets/stylesheets'
   end
 end
