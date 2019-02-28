@@ -1,11 +1,5 @@
-AllCops:
-  # Disable all checks for generated files.
-  Exclude:
-    - 'bin/*'
-    - 'db/schema.rb'
 Metrics/BlockLength:
   # Disable block length restriction for files that use a DSL around blocks.
   Exclude:
-    - 'Guardfile'
     - 'config/routes.rb'
     - 'spec/**/*'
