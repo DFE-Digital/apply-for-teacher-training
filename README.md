@@ -4,7 +4,7 @@
 
 **Apply for postgraduate teacher training** is a service for candidates to apply to intitial teacher training courses.
 
-## Installing and Running
+## Installing and running
 
 ### Dependencies
 
@@ -22,7 +22,7 @@ frontend libraries.
 
 Install [PostgreSQL 10](https://www.postgresql.org).
 
-#### Install Gems
+#### Install gems
 
 Install [Bundler](https://bundler.io) first.
 
@@ -36,7 +36,7 @@ Then install gems.
 bundle install
 ```
 
-#### Install Frontend Libraries
+#### Install frontend libraries
 
 Do this with Yarn, not npm.
 
@@ -46,7 +46,7 @@ yarn install
 
 ### Running
 
-#### Setting up the Database
+#### Setting up the database
 
 Start PostgreSQL before proceeding. Then set up the database.
 
@@ -70,7 +70,7 @@ Optionally, run the Rails console.
 bundle exec rails console
 ```
 
-#### Run all Tests and Checks
+#### Run all tests and checks
 
 You can run all tests and checks with:
 
@@ -80,7 +80,7 @@ bundle exec rake
 
 See below how to run individual tasks.
 
-#### Running Tests
+#### Running tests
 
 We have RSpec tests that live in `spec/` as well as Cucumber features that live
 in `features/`.
@@ -97,7 +97,7 @@ Run [Cucumber](https://cucumber.io) tests with:
 bundle exec cucumber
 ```
 
-#### Running Linters
+#### Running linters
 
 We have linters from [govuk-lint](https://github.com/alphagov/govuk-lint).
 
