@@ -4,7 +4,8 @@ module DeviseHelper
 
     messages = resource.errors.map do |field, message|
       content_tag(:li, "#{field} #{message}".humanize)
-    end.join
+    end
+    messages = messages.join
 
     sentence = I18n.t("errors.messages.not_saved",
                       count: resource.errors.count,
@@ -27,5 +28,4 @@ module DeviseHelper
   def devise_error_messages?
     !resource.errors.empty?
   end
-
 end

@@ -1,11 +1,9 @@
 class ProfileController < ApplicationController
   before_action :set_candidate
 
-  def show
-  end
+  def show; end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @candidate.update(candidate_params)
@@ -15,7 +13,7 @@ class ProfileController < ApplicationController
     end
   end
 
-  private
+private
 
   def candidate_params
     params.require(:candidate).permit(

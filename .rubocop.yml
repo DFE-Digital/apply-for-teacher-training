@@ -1,0 +1,5 @@
+Metrics/BlockLength:
+  # Disable block length restriction for files that use a DSL around blocks.
+  Exclude:
+    - 'config/routes.rb'
+    - 'spec/**/*'

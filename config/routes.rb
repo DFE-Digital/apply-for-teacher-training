@@ -27,7 +27,7 @@ Rails.application.routes.draw do
 
     root to: 'home#index'
 
-    resources :candidates, only: [:index, :show]
+    resources :candidates, only: %i[index show]
   end
 
   match '/404', to: 'errors#not_found', via: :all

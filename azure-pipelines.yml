@@ -37,11 +37,11 @@ steps:
   env:
     DOCKER_OVERRIDE: $(dockerOverride)
 
-# - script: |
-#     $DOCKER_OVERRIDE exec -T web /bin/sh -c "bundle exec govuk-lint-ruby app config db lib spec --format clang"
-#   displayName: 'Execute linters'
-#   env:
-#     DOCKER_OVERRIDE: $(dockerOverride)
+- script: |
+    $DOCKER_OVERRIDE exec -T web /bin/sh -c "bundle exec govuk-lint-ruby app config db lib spec --format clang"
+  displayName: 'Execute linters'
+  env:
+    DOCKER_OVERRIDE: $(dockerOverride)
 
 - script: |
     echo $password | docker login --username $(dockerHubUsername) --password-stdin

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe HomeController, type: :controller do
-
   describe "GET #landing" do
     context "when not signed in" do
       it "returns http success" do
@@ -39,5 +38,4 @@ RSpec.describe HomeController, type: :controller do
       end
     end
   end
-
 end
