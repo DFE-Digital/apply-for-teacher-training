@@ -1,6 +1,3 @@
-# TODO: import this automagically for /api folder
-require 'rails_helper'
-
 describe 'GET applications', type: :request do
   before do
     headers = { "ACCEPT" => "application/json" }
