@@ -2,35 +2,126 @@
 
 # Apply for postgraduate teacher training
 
-**Apply for postgraduate teacher training** service for candidates to apply to intitial teacher training courses.
+**Apply for postgraduate teacher training** is a service for candidates to apply to intitial teacher training courses.
 
-Ruby on Rails application has been set up with:
+## Installing and running
 
-* Ruby 2.6.1
-* RSpec
-* Cucumber
-* SimpleCov
-* `pg` driver for PostgreSQL
-* Devise for user authentication - on `Candidate` model for candidates and `Admin` model for team admins
-* [AASM](https://github.com/aasm/aasm) for state machine and transitions
+### Dependencies
 
-Admin pages can be accessed at `/admin` - test account: `example@example.com`, password `testing123`
+#### Install Ruby
 
-Uses [GOV.UK Design System](https://design-system.service.gov.uk/). Run `yarn` to pull in necessary packages.
+You will need to install [Ruby](https://www.ruby-lang.org/en/) first, see the `.ruby-version` file for the
+version of Ruby to install.
 
-### Using Guard
+#### Install Yarn
+
+Install the latest version of [Yarn](https://yarnpkg.com/lang/en/) to install
+frontend libraries.
+
+#### Install PostgreSQL
+
+Install [PostgreSQL 10](https://www.postgresql.org).
+
+#### Install gems
+
+Install [Bundler](https://bundler.io) first.
+
+```
+gem install bundler
+```
+
+Then install gems.
+
+```
+bundle install
+```
+
+#### Install frontend libraries
+
+Do this with Yarn, not npm.
+
+```
+yarn install
+```
+
+### Running
+
+#### Setting up the database
+
+Start PostgreSQL before proceeding. Then set up the database.
+
+```
+bundle exec rails db:setup
+```
+
+#### Running Rails
+
+Run the rails server.
+
+```
+bundle exec rails server
+```
+
+Then access the website at [localhost:3000](http://localhost:3000).
+
+Optionally, run the Rails console.
+
+```
+bundle exec rails console
+```
+
+#### Run all tests and checks
+
+You can run all tests and checks with:
+
+```
+bundle exec rake
+```
+
+See below how to run individual tasks.
+
+#### Running tests
+
+We have RSpec tests that live in `spec/` as well as Cucumber features that live
+in `features/`.
+
+Run [RSpec](http://rspec.info) tests with:
+
+```
+bundle exec rspec
+```
+
+Run [Cucumber](https://cucumber.io) tests with:
+
+```
+bundle exec cucumber
+```
+
+#### Running linters
+
+We have linters from [govuk-lint](https://github.com/alphagov/govuk-lint).
+
+Run the Ruby linters with:
+
+```
+bundle exec lint:ruby
+```
+
+Run the SCSS linters with:
+
+```
+bundle exec lint:scss
+```
+
+#### Running Guard
 
 Guard can automatically run tests when files change. To take advantage of this,
-run:
+start Guard:
 
 ```
 bundle exec guard
 ```
 
-## Linting
+## Architecture Decision Record
 
-It's best to lint just your app directories and not those belonging to the framework, e.g.
-
-```
-bundle exec govuk-lint-ruby app config db lib spec --format clang
-```
+See this [Google Doc](https://docs.google.com/document/d/1hjKIBRid-4-9X5oZVaQdsYTs-2sXN9Vr8N88DzulvG0/edit?usp=sharing)
