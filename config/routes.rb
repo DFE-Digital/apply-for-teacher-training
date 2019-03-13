@@ -30,6 +30,10 @@ Rails.application.routes.draw do
     resources :candidates, only: %i[index show]
   end
 
+  namespace :api do
+    resources :applications, only: [:index]
+  end
+
   match '/404', to: 'errors#not_found', via: :all
   match '/403', to: 'errors#forbidden', via: :all
   match '/500', to: 'errors#internal_server_error', via: :all
