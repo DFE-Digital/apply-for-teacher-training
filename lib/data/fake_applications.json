@@ -1,10 +1,10 @@
 [
   {
     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "first_name": "string",
-    "surname": "string",
+    "first_name": "Christopher",
+    "surname": "Kemp",
     "date_of_birth": "2019-03-11",
-    "email": "user@example.com",
+    "email": "christopherkemp@university.edu",
     "phone_number": "string",
     "nationality": "string",
     "disability": "string",
@@ -57,11 +57,11 @@
     }
   },
   {
-    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "first_name": "string",
-    "surname": "string",
+    "id": "74d1ed54-444d-4a9b-823f-9029fd1aacfc",
+    "first_name": "Alexander",
+    "surname": "Barry",
     "date_of_birth": "2019-03-11",
-    "email": "user@example.com",
+    "email": "alexander.barry@university.edu",
     "phone_number": "string",
     "nationality": "string",
     "disability": "string",
@@ -114,11 +114,11 @@
     }
   },
   {
-    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "first_name": "string",
-    "surname": "string",
+    "id": "7531944b-f134-4da4-ba85-a6f990055843",
+    "first_name": "Amy",
+    "surname": "McCarthy",
     "date_of_birth": "2019-03-11",
-    "email": "user@example.com",
+    "email": "amy.mccarthy@mail.com",
     "phone_number": "string",
     "nationality": "string",
     "disability": "string",
