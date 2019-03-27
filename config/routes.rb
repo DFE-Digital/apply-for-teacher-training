@@ -31,7 +31,9 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
-    resources :applications, only: %i[index show]
+    resources :applications, only: %i[index show] do
+      member { patch :make_offer }
+    end
   end
 
   match '/404', to: 'errors#not_found', via: :all
