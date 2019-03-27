@@ -32,7 +32,10 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :applications, only: %i[index show] do
-      member { patch :make_offer }
+      member do
+        patch :make_offer
+        patch :reject
+      end
     end
   end
 
