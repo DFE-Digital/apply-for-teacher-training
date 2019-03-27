@@ -11,6 +11,14 @@ class Api::ApplicationsController < ActionController::API
     end
   end
 
+  def make_offer
+    if matching_application.present?
+      render json: matching_application
+    else
+      head :not_found
+    end
+  end
+
 private
 
   def matching_application
