@@ -16,7 +16,7 @@ describe 'GET one application' do
     it 'responds with the right application' do
       expect(json_response).to include(
         'id' => id,
-        'first_name' => "Christopher"
+        'first_name' => "Boris"
       )
     end
   end
@@ -31,7 +31,7 @@ describe 'GET one application' do
     it 'responds with the right application' do
       expect(json_response).to include(
         'id' => id,
-        'first_name' => "Alexander"
+        'first_name' => "Priti"
       )
     end
   end
@@ -46,7 +46,7 @@ describe 'GET one application' do
     it 'responds with the right application' do
       expect(json_response).to include(
         'id' => id,
-        'first_name' => "Amy"
+        'first_name' => "Francis"
       )
     end
   end

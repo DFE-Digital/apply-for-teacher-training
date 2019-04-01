@@ -30,7 +30,7 @@ describe 'making an offer' do
     it 'returns the relevant application' do
       expect(JSON.parse(response.body)).to include(
         'id' => id,
-        'first_name' => "Christopher"
+        'first_name' => "Boris"
       )
     end
   end
