@@ -1,10 +1,14 @@
 version: "3.2"
 volumes:
+  dbdata:
   node_modules:
 
 services:
   db:
     image: postgres:11.1-alpine
+    # To preserve data between runs of docker-compose, we mount a folder from the host machine.
+    volumes:
+      - dbdata:/var/lib/postgresql/data
   web:
     build:
       context: .
