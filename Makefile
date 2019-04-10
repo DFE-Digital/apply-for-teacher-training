@@ -12,6 +12,7 @@ shell: docker-down docker-build
 
 .PHONY: test
 test: docker-down docker-build
+	docker-compose run --rm migrate
 	docker-compose run --rm web bundle exec rspec
 
 .PHONY: serve

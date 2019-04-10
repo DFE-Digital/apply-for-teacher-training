@@ -22,3 +22,15 @@ services:
     environment:
       - APPLY_DATABASE_HOST=db
       - APPLY_DATABASE_USERNAME=postgres
+  migrate:
+    build:
+      context: .
+      cache_from:
+        - govukdfe/apply-for-postgraduate-teacher-training:latest
+    image: govukdfe/apply-for-postgraduate-teacher-training:latest
+    depends_on:
+      - "db"
+    command: bundle exec rails db:setup
+    environment:
+      - APPLY_DATABASE_HOST=db
+      - APPLY_DATABASE_USERNAME=postgres
