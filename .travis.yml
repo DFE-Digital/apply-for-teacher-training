@@ -1,0 +1,6 @@
+sudo: required
+language: c
+services:
+  - docker
+script:
+- make test
