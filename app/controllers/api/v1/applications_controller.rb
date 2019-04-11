@@ -1,4 +1,4 @@
-class Api::ApplicationsController < ActionController::API
+class Api::V1::ApplicationsController < ActionController::API
   def index
     render json: applications
   end
@@ -34,6 +34,6 @@ private
   end
 
   def applications
-    JSON.parse(File.read('lib/data/fake_applications.json'))
+    JSON.parse(File.read('lib/data/fake_applications_v1.json'))
   end
 end
