@@ -15,11 +15,11 @@ describe 'GET applications' do
   end
 
   it 'contains three applications' do
-    expect(json_response.count).to eq(3)
+    expect(json_response['applications'].count).to eq(3)
   end
 
   context 'first application' do
-    let(:first_application) { json_response.first }
+    let(:first_application) { json_response['applications'].first }
 
     it 'has an id' do
       expect(first_application['id'])
