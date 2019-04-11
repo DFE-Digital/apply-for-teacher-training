@@ -6,7 +6,7 @@ ruby '2.6.1'
 # App Insights for Azure
 gem 'application_insights'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.2'
+gem 'rails', '~> 5.2.3'
 # AASM - State machines for Ruby classes (plain Ruby, ActiveRecord, Mongoid)
 gem 'aasm'
 # Use PostgreSQL as the database for Active Record
