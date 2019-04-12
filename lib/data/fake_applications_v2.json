@@ -1,6 +1,7 @@
 [
   {
     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "candidate_id": "a0afe017-ea18-491d-9bda-16037102e1dd",
     "first_name": "Boris",
     "surname": "Brown",
     "date_of_birth": "1970-01-03",
@@ -58,6 +59,7 @@
   },
   {
     "id": "74d1ed54-444d-4a9b-823f-9029fd1aacfc",
+    "candidate_id": "0e4260ab-fa04-47de-9044-664ee0abe60a",
     "first_name": "Priti",
     "surname": "Patel",
     "date_of_birth": "1988-02-09",
@@ -115,6 +117,7 @@
   },
   {
     "id": "7531944b-f134-4da4-ba85-a6f990055843",
+    "candidate_id": "0e4260ab-fa04-47de-9044-664ee0abe60a",
     "first_name": "Francis",
     "surname": "Platt",
     "date_of_birth": "1996-04-28",
