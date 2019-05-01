@@ -27,7 +27,7 @@ class Api::V1::ApplicationsController < ActionController::API
     end
   end
 
-private
+  private
 
   def matching_application
     applications.find { |app| app['id'] == params[:id] }
