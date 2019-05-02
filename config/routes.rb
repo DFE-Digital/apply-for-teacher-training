@@ -31,11 +31,17 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
-    resources :applications, only: %i[index show] do
-      member do
-        patch :make_offer
-        patch :reject
+    scope module: 'v1' do
+      resources :applications, only: %i[index show] do
+        member do
+          patch :make_offer
+          patch :reject
+        end
       end
+    end
+
+    namespace :v2 do
+      resources :applications, only: %i[index show]
     end
   end
 
