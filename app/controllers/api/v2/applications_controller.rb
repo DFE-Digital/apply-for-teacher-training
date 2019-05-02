@@ -4,16 +4,16 @@ class Api::V2::ApplicationsController < ActionController::API
   end
 
   def show
-    if matching_application.present?
-      render json: matching_application
+    if build_application.present?
+      render json: build_application
     else
       head :not_found
     end
   end
 
-  private
+private
 
-  def matching_application
+  def build_application
     applications.find { |app| app['id'] == params[:id] }
   end
 
