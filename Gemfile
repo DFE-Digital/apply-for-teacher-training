@@ -69,7 +69,7 @@ group :test do
   gem 'simplecov', require: false
 
   # Add Junit formatter for rspec
-  gem "rspec_junit_formatter"
+  gem 'rspec_junit_formatter'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
