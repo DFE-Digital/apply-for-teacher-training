@@ -1,3 +1,14 @@
+inherit_gem:
+  govuk-lint: configs/rubocop/all.yml
+
+AllCops:
+  Exclude:
+    - 'bin/rails'
+    - 'bin/rake'
+    - 'bin/setup'
+    - 'bin/update'
+    - 'db/schema.rb'
+
 Metrics/BlockLength:
   # Disable block length restriction for files that use a DSL around blocks.
   Exclude:
