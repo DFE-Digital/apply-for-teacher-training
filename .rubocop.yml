@@ -9,6 +9,10 @@ AllCops:
     - 'bin/update'
     - 'db/schema.rb'
 
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: single_quotes
+
 Metrics/BlockLength:
   # Disable block length restriction for files that use a DSL around blocks.
   Exclude:
