@@ -20,6 +20,10 @@ describe 'GET one application' do
       )
     end
 
+    it 'includes no offers' do
+      expect(json_response['offers']).to eq([])
+    end
+
     it 'includes a candidate ID' do
       expect(json_response.keys).to include('candidate_id')
     end

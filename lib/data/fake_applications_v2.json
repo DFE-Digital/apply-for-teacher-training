@@ -1,4 +1,5 @@
-[{
+[
+  {
     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "candidate_id": "a0afe017-ea18-491d-9bda-16037102e1dd",
     "first_name": "Boris",
@@ -39,6 +40,7 @@
         "international": false
       }
     ],
+    "offers": [],
     "work_experiences": [{
       "employer_name": "Cheadle Hulme High School",
       "start_date": "2018-05-01",
@@ -95,6 +97,16 @@
         "has_naric_statement": false
       }
     ],
+    "offers": [{
+      "training_provider_code": "X11",
+      "training_programme": "NF56",
+      "training_location": "Main Site",
+      "training_start_date": "2020-01-04",
+      "conditions": [],
+      "accepted": false,
+      "offer_date": "2018-01-01",
+      "expiry_date": "2018-02-10"
+    }],
     "work_experiences": [{
         "employer_name": "Tutorful",
         "start_date": "2017-09-01",
@@ -164,6 +176,19 @@
         "award_date": "2012"
       }
     ],
+    "offers": [{
+      "training_provider_code": "X11",
+      "training_programme": "NF81",
+      "training_location": "Main Site",
+      "training_start_date": "2020-01-04",
+      "conditions": [
+        "completion of professional skills test",
+        "two weeks' work experience in a primary school"
+      ],
+      "accepted": false,
+      "offer_date": "2018-01-01",
+      "expiry_date": "2018-02-10"
+    }],
     "work_experiences": [{
         "employer_name": "Zabardast",
         "start_date": "2018-08-01",
