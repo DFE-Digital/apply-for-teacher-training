@@ -2,4 +2,4 @@ language: c
 services:
   - docker
 script:
-- make test
+- make lint && make test

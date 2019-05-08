@@ -2,12 +2,12 @@ describe 'GET applications' do
   let(:json_response) { JSON.parse(response.body) }
 
   before do
-    headers = { "ACCEPT" => "application/json" }
+    headers = { 'ACCEPT' => 'application/json' }
     get '/api/v2/applications', headers: headers
   end
 
   it 'responds with JSON' do
-    expect(response.content_type).to eq("application/json")
+    expect(response.content_type).to eq('application/json')
   end
 
   it 'responds with a success code' do
