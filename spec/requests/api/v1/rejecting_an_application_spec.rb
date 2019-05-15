@@ -1,4 +1,4 @@
-describe 'rejecting an offer' do
+describe 'rejecting an application' do
   before do
     headers = { 'ACCEPT' => 'application/json' }
     patch "/api/applications/#{id}/reject", headers: headers
