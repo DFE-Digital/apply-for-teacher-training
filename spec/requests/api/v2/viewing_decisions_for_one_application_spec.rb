@@ -123,7 +123,7 @@ describe 'GET decisions against one application' do
       )
     end
 
-    it 'includes a candidate acceptance in the response' do
+    it 'includes a candidate withdrawal in the response' do
       expect(json_response['decisions']).to include(
         'owner' => 'candidate',
         'type' => 'withdrawal',
