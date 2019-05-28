@@ -40,7 +40,7 @@
         "international": false
       }
     ],
-    "offers": [],
+    "decisions": [],
     "work_experiences": [{
       "employer_name": "Cheadle Hulme High School",
       "start_date": "2018-05-01",
@@ -97,15 +97,10 @@
         "has_naric_statement": false
       }
     ],
-    "offers": [{
-      "training_provider_code": "X11",
-      "training_programme": "NF56",
-      "training_location": "Main Site",
-      "training_start_date": "2020-01-04",
-      "conditions": [],
-      "accepted": false,
-      "offer_date": "2018-01-01",
-      "expiry_date": "2018-02-10"
+    "decisions": [{
+      "date": "2019-03-12T14:00:00.578Z",
+      "owner": "candidate",
+      "type": "withdrawal"
     }],
     "work_experiences": [{
         "employer_name": "Tutorful",
@@ -164,7 +159,7 @@
       {
         "type": "GCSE",
         "subject": "English",
-        "grade": "B",
+        "grade": "D",
         "institution_name": "",
         "award_date": "2012"
       },
@@ -176,18 +171,11 @@
         "award_date": "2012"
       }
     ],
-    "offers": [{
-      "training_provider_code": "X11",
-      "training_programme": "NF81",
-      "training_location": "Main Site",
-      "training_start_date": "2020-01-04",
-      "conditions": [
-        "completion of professional skills test",
-        "two weeks' work experience in a primary school"
-      ],
-      "accepted": false,
-      "offer_date": "2018-01-01",
-      "expiry_date": "2018-02-10"
+    "decisions": [{
+      "date": "2019-03-15T11:00:00.000Z",
+      "owner": "provider",
+      "type": "rejection",
+      "reason": "does not meet minimum GCSE English requirement"
     }],
     "work_experiences": [{
         "employer_name": "Zabardast",
@@ -200,8 +188,61 @@
         "employer_name": "British Council",
         "start_date": "2018-02-01",
         "end_date": "2018-07-01",
-        "job_title": "English Languag;e Assistant",
+        "job_title": "English Language Assistant",
         "job_description": "I taught English on a paid six-month placement working as a language assistant in Austria. This experience helped to improve my communication and presentation skills. I also learned how to work independently and think more creatively."
+      }
+    ]
+  },
+  {
+    "id": "provider-offer-example",
+    "decisions": [{
+      "date": "2019-03-15T11:00:00.000Z",
+      "expiry_date": "2019-03-26T00:00:00.000Z",
+      "owner": "provider",
+      "type": "offer",
+      "training_programme": "NF81",
+      "training_location": "Main Site",
+      "conditions": [
+        "completion of professional skills test",
+        "two weeks' work experience in a primary school"
+      ]
+    }]
+  },
+  {
+    "id": "candidate-accept-example",
+    "decisions": [
+      {
+        "date": "2019-03-15T11:00:00.000Z",
+        "expiry_date": "2019-03-26T00:00:00.000Z",
+        "owner": "provider",
+        "type": "offer",
+        "training_programme": "NF81",
+        "training_location": "Main Site",
+        "conditions": []
+      },
+      {
+        "owner": "candidate",
+        "type": "accept",
+        "date": "2019-03-16T11:00:00.000Z"
+      }
+    ]
+  },
+  {
+    "id": "candidate-reject-example",
+    "decisions": [
+      {
+        "date": "2019-03-15T11:00:00.000Z",
+        "expiry_date": "2019-03-26T00:00:00.000Z",
+        "owner": "provider",
+        "type": "offer",
+        "training_programme": "NF81",
+        "training_location": "Main Site",
+        "conditions": []
+      },
+      {
+        "owner": "candidate",
+        "type": "withdrawal",
+        "date": "2019-03-15T10:00:00.000Z"
       }
     ]
   }

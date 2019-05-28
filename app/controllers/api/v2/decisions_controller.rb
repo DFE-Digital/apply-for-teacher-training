@@ -1,7 +1,7 @@
-class Api::V2::OffersController < ActionController::API
+class Api::V2::DecisionsController < ActionController::API
   def index
     if matching_application
-      render json: { offers: matching_application['offers'] }
+      render json: { decisions: matching_application['decisions'] }
     else
       head :not_found
     end

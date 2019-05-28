@@ -1,6 +1,6 @@
 class Api::V2::ApplicationsController < ActionController::API
   def index
-    render json: { applications: applications }
+    render json: { applications: applications[0..2] }
   end
 
   def show

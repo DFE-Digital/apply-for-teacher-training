@@ -42,7 +42,7 @@ Rails.application.routes.draw do
 
     namespace :v2 do
       resources :applications, only: %i[index show] do
-        resources :offers, only: [:index]
+        resources :decisions, only: [:index]
       end
     end
   end

@@ -20,8 +20,8 @@ describe 'GET one application' do
       )
     end
 
-    it 'includes no offers' do
-      expect(json_response['offers']).to eq([])
+    it 'includes no decisions' do
+      expect(json_response['decisions']).to eq([])
     end
 
     it 'includes a candidate ID' do
@@ -41,6 +41,10 @@ describe 'GET one application' do
         'id' => id,
         'first_name' => 'Priti'
       )
+    end
+
+    it 'includes one decision' do
+      expect(json_response['decisions'].count).to eq(1)
     end
 
     it 'includes a candidate ID' do
