@@ -56,7 +56,7 @@ describe 'GET decisions against one application' do
   end
 
   context 'with an id for a fourth example' do
-    let(:id) { 'provider-offer-example'}
+    let(:id) { 'provider-offer-example' }
 
     it { is_expected.to have_http_status(:ok) }
 
@@ -142,4 +142,3 @@ describe 'GET decisions against one application' do
     end
   end
 end
-
