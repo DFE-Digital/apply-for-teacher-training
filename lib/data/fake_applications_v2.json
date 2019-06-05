@@ -40,7 +40,6 @@
         "international": false
       }
     ],
-    "decisions": [],
     "work_experiences": [{
       "employer_name": "Cheadle Hulme High School",
       "start_date": "2018-05-01",
@@ -97,11 +96,6 @@
         "has_naric_statement": false
       }
     ],
-    "decisions": [{
-      "date": "2019-03-12T14:00:00.578Z",
-      "owner": "candidate",
-      "type": "withdrawal"
-    }],
     "work_experiences": [{
         "employer_name": "Tutorful",
         "start_date": "2017-09-01",
@@ -171,12 +165,6 @@
         "award_date": "2012"
       }
     ],
-    "decisions": [{
-      "date": "2019-03-15T11:00:00.000Z",
-      "owner": "provider",
-      "type": "rejection",
-      "reason": "does not meet minimum GCSE English requirement"
-    }],
     "work_experiences": [{
         "employer_name": "Zabardast",
         "start_date": "2018-08-01",
@@ -194,56 +182,12 @@
     ]
   },
   {
-    "id": "provider-offer-example",
-    "decisions": [{
-      "date": "2019-03-15T11:00:00.000Z",
-      "expiry_date": "2019-03-26T00:00:00.000Z",
-      "owner": "provider",
-      "type": "offer",
-      "training_programme": "NF81",
-      "training_location": "Main Site",
-      "conditions": [
-        "completion of professional skills test",
-        "two weeks' work experience in a primary school"
-      ]
-    }]
+    "id": "provider-offer-example"
   },
   {
-    "id": "candidate-accept-example",
-    "decisions": [
-      {
-        "date": "2019-03-15T11:00:00.000Z",
-        "expiry_date": "2019-03-26T00:00:00.000Z",
-        "owner": "provider",
-        "type": "offer",
-        "training_programme": "NF81",
-        "training_location": "Main Site",
-        "conditions": []
-      },
-      {
-        "owner": "candidate",
-        "type": "accept",
-        "date": "2019-03-16T11:00:00.000Z"
-      }
-    ]
+    "id": "candidate-accept-example"
   },
   {
-    "id": "candidate-reject-example",
-    "decisions": [
-      {
-        "date": "2019-03-15T11:00:00.000Z",
-        "expiry_date": "2019-03-26T00:00:00.000Z",
-        "owner": "provider",
-        "type": "offer",
-        "training_programme": "NF81",
-        "training_location": "Main Site",
-        "conditions": []
-      },
-      {
-        "owner": "candidate",
-        "type": "withdrawal",
-        "date": "2019-03-15T10:00:00.000Z"
-      }
-    ]
+    "id": "candidate-reject-example"
   }
 ]
