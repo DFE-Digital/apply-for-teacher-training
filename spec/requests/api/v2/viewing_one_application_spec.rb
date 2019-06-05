@@ -20,8 +20,17 @@ describe 'GET one application' do
       )
     end
 
-    it 'includes no decisions' do
-      expect(json_response['decisions']).to eq([])
+    it 'includes a status' do
+      expect(json_response['status']).to eq('open')
+      expect(json_response['ucas_status_code']).to eq('apply-1')
+    end
+
+    it 'has empty history' do
+      expect(json_response['history']).to eq([])
+    end
+
+    it 'has no offers' do
+      expect(json_response['offers']).to eq([])
     end
 
     it 'includes a candidate ID' do
@@ -43,8 +52,17 @@ describe 'GET one application' do
       )
     end
 
-    it 'includes one decision' do
-      expect(json_response['decisions'].count).to eq(1)
+    it 'includes a status' do
+      expect(json_response['status']).to eq('withdrawn')
+      expect(json_response['ucas_status_code']).to eq('withdrawn')
+    end
+
+    it 'shows some history' do
+      expect(json_response['history']).to be_present
+    end
+
+    it 'has no offers' do
+      expect(json_response['offers']).to eq([])
     end
 
     it 'includes a candidate ID' do
@@ -64,6 +82,19 @@ describe 'GET one application' do
         'id' => id,
         'first_name' => 'Francis'
       )
+    end
+
+    it 'includes a status' do
+      expect(json_response['status']).to eq('unsuccessful')
+      expect(json_response['ucas_status_code']).to eq('unsuccessful')
+    end
+
+    it 'shows some history' do
+      expect(json_response['history']).to be_present
+    end
+
+    it 'has no offers' do
+      expect(json_response['offers']).to eq([])
     end
 
     it 'includes a candidate ID' do

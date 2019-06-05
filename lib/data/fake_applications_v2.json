@@ -2,6 +2,8 @@
   {
     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "candidate_id": "a0afe017-ea18-491d-9bda-16037102e1dd",
+    "status": "open",
+    "ucas_status_code": "apply-1",
     "first_name": "Boris",
     "surname": "Brown",
     "date_of_birth": "1970-01-03",
@@ -46,11 +48,15 @@
       "end_date": "2019-04-01",
       "job_title": "Whole School Literacy Specialist",
       "job_description": "I lead, develop and enhance the literacy teaching practice of others. I support colleagues with selecting appropriate resources and techniques to help students with literacy difficulties. I’m also responsible for the Whole School Literacy Policy and Literacy Development Plan."
-    }]
+    }],
+    "offers": [],
+    "history": []
   },
   {
     "id": "74d1ed54-444d-4a9b-823f-9029fd1aacfc",
     "candidate_id": "0e4260ab-fa04-47de-9044-664ee0abe60a",
+    "status": "withdrawn",
+    "ucas_status_code": "withdrawn",
     "first_name": "Priti",
     "surname": "Patel",
     "date_of_birth": "1988-02-09",
@@ -110,11 +116,21 @@
         "job_title": "Graduate teaching assistant",
         "job_description": "Taught the lab sections of General Physics 1 & General Physics 2. Assessed and graded the lab journals and exams. Guided students to solve physics problems on their own."
       }
+    ],
+    "offers": [],
+    "history": [
+      {
+        "date": "2019-03-14",
+        "owner": "candidate",
+        "action": "withdraw"
+      }
     ]
   },
   {
     "id": "7531944b-f134-4da4-ba85-a6f990055843",
     "candidate_id": "0e4260ab-fa04-47de-9044-664ee0abe60a",
+    "status": "unsuccessful",
+    "ucas_status_code": "unsuccessful",
     "first_name": "Francis",
     "surname": "Platt",
     "date_of_birth": "1996-04-28",
@@ -178,6 +194,15 @@
         "end_date": "2018-07-01",
         "job_title": "English Language Assistant",
         "job_description": "I taught English on a paid six-month placement working as a language assistant in Austria. This experience helped to improve my communication and presentation skills. I also learned how to work independently and think more creatively."
+      }
+    ],
+    "offers": [],
+    "history": [
+      {
+        "date": "2019-03-14",
+        "owner": "provider",
+        "action": "reject",
+        "reason": "does not meet minimum GCSE English requirement"
       }
     ]
   },
