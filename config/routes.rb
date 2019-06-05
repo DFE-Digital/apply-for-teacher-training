@@ -41,9 +41,7 @@ Rails.application.routes.draw do
     end
 
     namespace :v2 do
-      resources :applications, only: %i[index show] do
-        resources :decisions, only: [:index]
-      end
+      resources :applications, only: %i[index show]
     end
   end
 

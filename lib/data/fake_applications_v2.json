@@ -205,14 +205,5 @@
         "reason": "does not meet minimum GCSE English requirement"
       }
     ]
-  },
-  {
-    "id": "provider-offer-example"
-  },
-  {
-    "id": "candidate-accept-example"
-  },
-  {
-    "id": "candidate-reject-example"
   }
 ]
