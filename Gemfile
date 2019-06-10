@@ -65,7 +65,7 @@ group :test do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'rails-controller-testing'
-  gem 'shoulda-matchers', '4.0.1'
+  gem 'shoulda-matchers', '4.1.0'
   gem 'simplecov', require: false
 
   # Add Junit formatter for rspec
