@@ -1,5 +1,0 @@
-language: c
-services:
-  - docker
-script:
-- make lint && make test
