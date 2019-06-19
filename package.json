@@ -1,7 +1,0 @@
-{
-  "name": "apply-for-postgraduate-teacher-training",
-  "private": true,
-  "dependencies": {
-    "govuk-frontend": "^2.7.0"
-  }
-}

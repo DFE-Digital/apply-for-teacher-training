@@ -1,9 +1,0 @@
-<h1>Candidates admin</h1>
-
-<ul>
-  <% @candidates.each do |candidate| %>
-    <li>
-      <%= link_to candidate, admin_candidate_path(candidate) %>
-    </li>
-  <% end %>
-</ul>
