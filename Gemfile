@@ -7,6 +7,8 @@ gem 'rails', '~> 5.2.2', '>= 5.2.2.1'
 gem 'puma', '~> 3.11'
 gem 'sqlite3'
 gem 'webpacker'
+gem 'rubocop'
+gem 'govuk-lint'
 
 group :development do
   gem 'web-console', '>= 3.3.0'
@@ -14,6 +16,9 @@ group :development do
 end
 
 group :test do
-  gem 'rspec-rails'
   gem 'capybara', '>= 3.24'
+end
+
+group :development, :test do
+  gem 'rspec-rails'
 end

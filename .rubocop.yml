@@ -1,0 +1,24 @@
+inherit_gem:
+  govuk-lint: configs/rubocop/all.yml
+
+AllCops:
+  Exclude:
+    - 'bin/*'
+    - 'db/schema.rb'
+    - 'node_modules/**/*'
+    - 'config/application.rb'
+    - 'config/puma.rb'
+    - 'config/environments/production.rb'
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: single_quotes
+
+Bundler/OrderedGems:
+  Enabled: false
+
+Metrics/BlockLength:
+  # Disable block length restriction for files that use a DSL around blocks.
+  Exclude:
+    - 'config/routes.rb'
+    - 'spec/**/*'
