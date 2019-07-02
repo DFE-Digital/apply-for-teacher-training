@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Candidate visits start page' do
+describe 'A candidate visits the start page' do
   it 'displays a summary of the service' do
     visit '/'
     expect(page).to have_content(

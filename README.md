@@ -1,24 +1,20 @@
-# README
+# Apply for postgraduate teacher training
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This service enables postgraduate candidates to apply for initial teacher
+training.
 
-Things you may want to cover:
+## Initial setup
 
-* Ruby version
+Clone this repo and run `bundle install`.
 
-* System dependencies
+## Running locally
 
-* Configuration
+```
+rails s
+```
 
-* Database creation
+## Running the tests and linter
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```
+bundle exec rake
+```
