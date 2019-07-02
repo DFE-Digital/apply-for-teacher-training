@@ -1,6 +1,8 @@
 inherit_gem:
   govuk-lint: configs/rubocop/all.yml
 
+require: rubocop-rspec
+
 AllCops:
   Exclude:
     - 'bin/*'
@@ -22,3 +24,15 @@ Metrics/BlockLength:
   Exclude:
     - 'config/routes.rb'
     - 'spec/**/*'
+
+RSpec/ExampleLength:
+  Exclude:
+    - 'spec/features/**'
+
+RSpec/MultipleExpectations:
+  Exclude:
+    - 'spec/features/**'
+
+RSpec/DescribeClass:
+  Exclude:
+    - 'spec/features/**'
