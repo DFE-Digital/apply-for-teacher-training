@@ -5,7 +5,8 @@ ruby '2.6.3'
 
 gem 'rails', '~> 5.2.2', '>= 5.2.2.1'
 gem 'puma', '~> 4.0'
-gem 'sqlite3'
+gem 'pg', '~> 1.1.4'
+
 gem 'webpacker'
 gem 'rubocop'
 gem 'rubocop-rspec'
