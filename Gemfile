@@ -8,6 +8,7 @@ gem 'puma', '~> 4.0'
 gem 'sqlite3'
 gem 'webpacker'
 gem 'rubocop'
+gem 'rubocop-rspec'
 gem 'govuk-lint'
 
 group :development do

@@ -209,6 +209,7 @@ DEPENDENCIES
   rails (~> 5.2.2, >= 5.2.2.1)
   rspec-rails
   rubocop
+  rubocop-rspec
   sqlite3
   web-console (>= 3.3.0)
   webpacker
