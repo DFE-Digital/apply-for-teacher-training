@@ -10,6 +10,7 @@ gem 'webpacker'
 gem 'rubocop'
 gem 'rubocop-rspec'
 gem 'govuk-lint'
+gem 'govuk_design_system_formbuilder'
 
 group :development do
   gem 'web-console', '>= 3.3.0'
