@@ -6,5 +6,15 @@ RSpec.describe 'A candidate filling in their personal details' do
     click_on t('application_form.begin_button')
 
     expect(page).to have_content t('application_form.personal_details_section.heading')
+
+    fill_in 'Title', with: 'Dr'
+
+    click_on t('application_form.save_and_continue')
+
+    expect(page).to have_content t('application_form.personal_details_section.heading')
+    expect(page).to have_content t('application_form.review_answers')
+
+    expect(page).to have_content('Title')
+    expect(page).to have_content('Dr')
   end
 end
