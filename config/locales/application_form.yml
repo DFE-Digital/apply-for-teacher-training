@@ -1,5 +1,10 @@
 en:
   application_form:
     begin_button: Begin application
+    save_and_continue: Save and continue
+    review_answers: Review your answers
     personal_details_section:
       heading: Personal details
+      title:
+        hint_text: How would you like us to address you? For example, Mr, Mrs, Miss, Ms, Mx.
+        label: Title

@@ -7,6 +7,15 @@
             <%= t('application_form.personal_details_section.heading') %>
           </h1>
         </legend>
+        <div class="govuk-form-group">
+          <%= f.govuk_text_field(
+                :title,
+                hint_text: t('application_form.personal_details_section.title.hint_text'),
+                label: { text: t('application_form.personal_details_section.title.label'), weight: 'bold' },
+                width: 'one-third',
+                required: true) %>
+        </div>
+        <%= f.govuk_submit(t('application_form.save_and_continue')) %>
       </fieldset>
     <% end %>
   </div>
