@@ -59,4 +59,8 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   config.include AbstractController::Translation
+
+  config.before(:each, type: :system) do
+    driven_by :rack_test
+  end
 end

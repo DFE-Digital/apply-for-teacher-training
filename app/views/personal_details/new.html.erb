@@ -1,0 +1,13 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_for @personal_details, builder: GOVUKDesignSystemFormBuilder::FormBuilder, url: personal_details_path do |f| %>
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+          <h1 class="govuk-fieldset__heading">
+            <%= t('application_form.personal_details_section.heading') %>
+          </h1>
+        </legend>
+      </fieldset>
+    <% end %>
+  </div>
+</div>
