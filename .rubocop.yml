@@ -27,12 +27,12 @@ Metrics/BlockLength:
 
 RSpec/ExampleLength:
   Exclude:
-    - 'spec/features/**'
+    - 'spec/system/**'
 
 RSpec/MultipleExpectations:
   Exclude:
-    - 'spec/features/**'
+    - 'spec/system/**'
 
 RSpec/DescribeClass:
   Exclude:
-    - 'spec/features/**'
+    - 'spec/system/**'

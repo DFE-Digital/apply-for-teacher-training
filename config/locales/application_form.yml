@@ -1,0 +1,5 @@
+en:
+  application_form:
+    begin_button: Begin application
+    personal_details_section:
+      heading: Personal details
