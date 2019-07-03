@@ -1,0 +1,1 @@
+class PersonalDetails < ApplicationRecord; end
