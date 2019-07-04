@@ -14,6 +14,21 @@
                 label: { text: t('application_form.personal_details_section.title.label'), weight: 'bold' },
                 width: 'one-third',
                 required: true) %>
+
+          <%= f.govuk_text_field(
+                :first_name,
+                label: { text: t('application_form.personal_details_section.first_name.label'), weight: 'bold' },
+                required: true) %>
+
+          <%= f.govuk_text_field(
+                :preferred_name,
+                label: { text: t('application_form.personal_details_section.preferred_name.label'), weight: 'bold' },
+                required: true) %>
+
+          <%= f.govuk_text_field(
+                :last_name,
+                label: { text: t('application_form.personal_details_section.last_name.label'), weight: 'bold' },
+                required: true) %>
         </div>
         <%= f.govuk_submit(t('application_form.save_and_continue')) %>
       </fieldset>

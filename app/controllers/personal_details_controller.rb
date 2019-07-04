@@ -11,6 +11,9 @@ class PersonalDetailsController < ApplicationController
 private
 
   def personal_details_params
-    params.require(:personal_details).permit(:title)
+    params.require(:personal_details).permit(:title,
+                                             :first_name,
+                                             :last_name,
+                                             :preferred_name)
   end
 end
