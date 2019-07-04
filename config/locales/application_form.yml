@@ -3,6 +3,8 @@ en:
     begin_button: Begin application
     save_and_continue: Save and continue
     review_answers: Review your answers
+    submit: Submit your application
+    application_complete: Application complete
     personal_details_section:
       heading: Personal details
       title:

@@ -16,5 +16,10 @@ RSpec.describe 'A candidate filling in their personal details' do
 
     expect(page).to have_content('Title')
     expect(page).to have_content('Dr')
+
+    click_on t('application_form.submit')
+
+    expect(page).to have_content t('application_form.application_complete')
+    expect(page).to have_content 'Dr'
   end
 end
