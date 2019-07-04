@@ -1,8 +1,24 @@
 <div class="govuk-panel govuk-panel--confirmation">
   <h1 class="govuk-panel__title">
     <%= t('application_form.application_complete') %>
-  </h1
-  <div class="govuk-panel__body">
-    <%= @personal_details.title %>
+  </h1>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l"><%= t('application_form.personal_details_section.heading') %></h1>
+
+    <dl class="govuk-summary-list govuk-!-font-size-16 govuk-summary-list--no-border">
+      <% [:title, :first_name, :last_name, :preferred_name].each do |field| %>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            <%= t("application_form.personal_details_section.#{field}.label") %>
+          </dt>
+          <dd class="govuk-summary-list__value">
+            <%= @personal_details[field] %>
+          </dd>
+        </div>
+      <% end %>
+    </dl>
   </div>
 </div>

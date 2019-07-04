@@ -10,3 +10,9 @@ en:
       title:
         hint_text: How would you like us to address you? For example, Mr, Mrs, Miss, Ms, Mx.
         label: Title
+      first_name:
+        label: First name
+      last_name:
+        label: Last name
+      preferred_name:
+        label: Name you prefer to be addressed by
