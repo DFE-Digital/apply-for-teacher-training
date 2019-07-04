@@ -5,6 +5,7 @@ class PersonalDetailsController < ApplicationController
 
   def create
     @personal_details = PersonalDetails.new(personal_details_params)
+    @personal_details.save
   end
 
 private
