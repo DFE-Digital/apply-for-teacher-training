@@ -17,26 +17,51 @@ RSpec.describe 'A candidate filling in their personal details' do
     expect(page).to have_content t('application_form.personal_details_section.heading')
     expect(page).to have_content t('application_form.review_answers')
 
-    expect(page).to have_content(t('application_form.personal_details_section.title.label'))
-    expect(page).to have_content('Dr')
-    expect(page).to have_content(t('application_form.personal_details_section.first_name.label'))
-    expect(page).to have_content('John')
-    expect(page).to have_content(t('application_form.personal_details_section.last_name.label'))
-    expect(page).to have_content('Doe')
-    expect(page).to have_content(t('application_form.personal_details_section.preferred_name.label'))
-    expect(page).to have_content('Doe')
+    within '.govuk-summary-list' do
+      expect_description_list_item(
+        t('application_form.personal_details_section.title.label'),
+        'Dr'
+      )
+      expect_description_list_item(
+        t('application_form.personal_details_section.first_name.label'),
+        'John'
+      )
+      expect_description_list_item(
+        t('application_form.personal_details_section.last_name.label'),
+        'Doe'
+      )
+      expect_description_list_item(
+        t('application_form.personal_details_section.preferred_name.label'),
+        'Dr Doe'
+      )
+    end
 
     click_on t('application_form.submit')
 
     expect(page).to have_content t('application_form.application_complete')
 
-    expect(page).to have_content(t('application_form.personal_details_section.title.label'))
-    expect(page).to have_content('Dr')
-    expect(page).to have_content(t('application_form.personal_details_section.first_name.label'))
-    expect(page).to have_content('John')
-    expect(page).to have_content(t('application_form.personal_details_section.last_name.label'))
-    expect(page).to have_content('Doe')
-    expect(page).to have_content(t('application_form.personal_details_section.preferred_name.label'))
-    expect(page).to have_content('Dr Doe')
+    within '.govuk-summary-list' do
+      expect_description_list_item(
+        t('application_form.personal_details_section.title.label'),
+        'Dr'
+      )
+      expect_description_list_item(
+        t('application_form.personal_details_section.first_name.label'),
+        'John'
+      )
+      expect_description_list_item(
+        t('application_form.personal_details_section.last_name.label'),
+        'Doe'
+      )
+      expect_description_list_item(
+        t('application_form.personal_details_section.preferred_name.label'),
+        'Dr Doe'
+      )
+    end
+  end
+
+  # search for a <dt> with an expected name adjacent to a <dd> with an expected value
+  def expect_description_list_item(key, value)
+    expect(find('dt', text: key).find('+dd')).to have_content(value)
   end
 end
