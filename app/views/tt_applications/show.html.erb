@@ -9,16 +9,10 @@
     <h1 class="govuk-heading-l"><%= t('application_form.personal_details_section.heading') %></h1>
 
     <dl class="govuk-summary-list govuk-!-font-size-16 govuk-summary-list--no-border">
-      <% [:title, :first_name, :last_name, :preferred_name].each do |field| %>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            <%= t("application_form.personal_details_section.#{field}.label") %>
-          </dt>
-          <dd class="govuk-summary-list__value">
-            <%= @personal_details[field] %>
-          </dd>
-        </div>
-      <% end %>
+      <%= render partial: 'shared/description_list_item', locals: { field: :title, value: @personal_details.title } %>
+      <%= render partial: 'shared/description_list_item', locals: { field: :first_name, value: @personal_details.first_name } %>
+      <%= render partial: 'shared/description_list_item', locals: { field: :last_name, value: @personal_details.last_name } %>
+      <%= render partial: 'shared/description_list_item', locals: { field: :preferred_name, value: @personal_details.preferred_name } %>
     </dl>
   </div>
 </div>
