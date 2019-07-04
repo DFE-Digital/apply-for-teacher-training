@@ -12,6 +12,12 @@ RSpec.describe 'A candidate filling in their personal details' do
     fill_in t('application_form.personal_details_section.preferred_name.label'), with: 'Dr Doe'
     fill_in t('application_form.personal_details_section.last_name.label'), with: 'Doe'
 
+    within '.govuk-date-input' do
+      fill_in 'Day', with: 13
+      fill_in 'Month', with: 3
+      fill_in 'Year', with: 1997
+    end
+
     click_on t('application_form.save_and_continue')
 
     expect(page).to have_content t('application_form.personal_details_section.heading')
@@ -33,6 +39,10 @@ RSpec.describe 'A candidate filling in their personal details' do
       expect_description_list_item(
         t('application_form.personal_details_section.preferred_name.label'),
         'Dr Doe'
+      )
+      expect_description_list_item(
+        t('application_form.personal_details_section.date_of_birth.label'),
+        '13 March 1997'
       )
     end
 
@@ -56,6 +66,10 @@ RSpec.describe 'A candidate filling in their personal details' do
       expect_description_list_item(
         t('application_form.personal_details_section.preferred_name.label'),
         'Dr Doe'
+      )
+      expect_description_list_item(
+        t('application_form.personal_details_section.date_of_birth.label'),
+        '13 March 1997'
       )
     end
   end

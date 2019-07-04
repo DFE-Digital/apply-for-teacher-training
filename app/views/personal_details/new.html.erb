@@ -29,6 +29,11 @@
                 :last_name,
                 label: { text: t('application_form.personal_details_section.last_name.label'), weight: 'bold' },
                 required: true) %>
+
+          <%= f.govuk_date_field(
+                :date_of_birth,
+                legend: { text: t('application_form.personal_details_section.date_of_birth.label'), size: 's' },
+                hint_text: t('application_form.personal_details_section.date_of_birth.hint_text')) %>
         </div>
         <%= f.govuk_submit(t('application_form.save_and_continue')) %>
       </fieldset>

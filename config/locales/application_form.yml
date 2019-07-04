@@ -16,3 +16,6 @@ en:
         label: Last name
       preferred_name:
         label: Name you prefer to be addressed by
+      date_of_birth:
+        label: Date of birth
+        hint_text: For example, 12 11 1997
