@@ -1,6 +1,6 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_for @personal_details, builder: GOVUKDesignSystemFormBuilder::FormBuilder, url: personal_details_path do |f| %>
+    <%= form_for @personal_details, url: personal_details_path do |f| %>
       <fieldset class="govuk-fieldset">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
           <h1 class="govuk-fieldset__heading">
@@ -8,35 +8,55 @@
           </h1>
         </legend>
         <div class="govuk-form-group">
-          <%= f.govuk_text_field(
-                :title,
-                hint_text: t('application_form.personal_details_section.title.hint_text'),
-                label: { text: t('application_form.personal_details_section.title.label'), weight: 'bold' },
-                width: 'one-third',
-                required: true) %>
-
-          <%= f.govuk_text_field(
-                :first_name,
-                label: { text: t('application_form.personal_details_section.first_name.label'), weight: 'bold' },
-                required: true) %>
-
-          <%= f.govuk_text_field(
-                :preferred_name,
-                label: { text: t('application_form.personal_details_section.preferred_name.label'), weight: 'bold' },
-                required: true) %>
-
-          <%= f.govuk_text_field(
-                :last_name,
-                label: { text: t('application_form.personal_details_section.last_name.label'), weight: 'bold' },
-                required: true) %>
-
-          <%= f.govuk_date_field(
-                :date_of_birth,
-                legend: { text: t('application_form.personal_details_section.date_of_birth.label'), size: 's' },
-                hint_text: t('application_form.personal_details_section.date_of_birth.hint_text')) %>
+          <%= f.label :title, t('application_form.personal_details_section.title.label'), class: 'govuk-label govuk-!-font-weight-bold' %>
+          <span class="govuk-hint">
+            <%= t('application_form.personal_details_section.title.hint_text') %>
+          </span>
+          <%= f.text_field :title, class: 'govuk-input govuk-!-width-one-third' %>
         </div>
-        <%= f.govuk_submit(t('application_form.save_and_continue')) %>
-      </fieldset>
+        <div class="govuk-form-group">
+          <%= f.label :first_name, t('application_form.personal_details_section.first_name.label'), class: 'govuk-label govuk-!-font-weight-bold' %>
+          <%= f.text_field :first_name, class: 'govuk-input' %>
+        </div>
+        <div class="govuk-form-group">
+          <%= f.label :preferred_name, t('application_form.personal_details_section.preferred_name.label'), class: 'govuk-label govuk-!-font-weight-bold' %>
+          <%= f.text_field :preferred_name, class: 'govuk-input' %>
+        </div>
+        <div class="govuk-form-group">
+          <%= f.label :last_name, t('application_form.personal_details_section.last_name.label'), class: 'govuk-label govuk-!-font-weight-bold' %>
+          <%= f.text_field :last_name, class: 'govuk-input' %>
+        </div>
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset" aria-describedby="date-of-birth-hint" role="group">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <%= t('application_form.personal_details_section.date_of_birth.label') %>
+            </legend>
+            <span id="date-of-birth-hint" class="govuk-hint">
+              <%= t('application_form.personal_details_section.date_of_birth.hint_text') %>
+            </span>
+            <div class="govuk-date-input" id="candidate-date-of-birth">
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <%= label_tag 'personal_details[date_of_birth(3i)]', 'Day', class: 'govuk-label govuk-date-input__label'  %>
+                  <%= text_field_tag 'personal_details[date_of_birth(3i)]', @personal_details.date_of_birth&.day, class: 'govuk-input govuk-date-input__input govuk-input--width-2' %>
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <%= label_tag 'personal_details[date_of_birth(2i)]', 'Month', class: 'govuk-label govuk-date-input__label'  %>
+                  <%= text_field_tag 'personal_details[date_of_birth(2i)]', @personal_details.date_of_birth&.month, class: 'govuk-input govuk-date-input__input govuk-input--width-2' %>
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <%= label_tag 'personal_details[date_of_birth(1i)]', 'Year', class: 'govuk-label govuk-date-input__label'  %>
+                  <%= text_field_tag 'personal_details[date_of_birth(1i)]', @personal_details.date_of_birth&.year, class: 'govuk-input govuk-date-input__input govuk-input--width-4' %>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <%= f.submit t('application_form.save_and_continue'), class: 'govuk-button' %>
     <% end %>
   </div>
 </div>
