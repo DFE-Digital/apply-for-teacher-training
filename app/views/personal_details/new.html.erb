@@ -9,26 +9,26 @@
             <%= t('application_form.personal_details_section.heading') %>
           </h1>
         </legend>
-        <div class="govuk-form-group">
+        <div class="govuk-form-group" id="title">
           <%= f.label :title, t('application_form.personal_details_section.title.label'), class: 'govuk-label govuk-!-font-weight-bold' %>
           <span class="govuk-hint">
             <%= t('application_form.personal_details_section.title.hint_text') %>
           </span>
           <%= f.text_field :title, class: 'govuk-input govuk-!-width-one-third' %>
         </div>
-        <div class="govuk-form-group">
+        <div class="govuk-form-group" id="first-name">
           <%= f.label :first_name, t('application_form.personal_details_section.first_name.label'), class: 'govuk-label govuk-!-font-weight-bold' %>
           <%= f.text_field :first_name, class: 'govuk-input' %>
         </div>
-        <div class="govuk-form-group">
+        <div class="govuk-form-group" id="preferred-name">
           <%= f.label :preferred_name, t('application_form.personal_details_section.preferred_name.label'), class: 'govuk-label govuk-!-font-weight-bold' %>
           <%= f.text_field :preferred_name, class: 'govuk-input' %>
         </div>
-        <div class="govuk-form-group">
+        <div class="govuk-form-group" id="last-name">
           <%= f.label :last_name, t('application_form.personal_details_section.last_name.label'), class: 'govuk-label govuk-!-font-weight-bold' %>
           <%= f.text_field :last_name, class: 'govuk-input' %>
         </div>
-        <div class="govuk-form-group">
+        <div class="govuk-form-group" id="date-of-birth">
           <fieldset class="govuk-fieldset" aria-describedby="date-of-birth-hint" role="group">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
               <%= t('application_form.personal_details_section.date_of_birth.label') %>
@@ -58,7 +58,7 @@
             </div>
           </fieldset>
         </div>
-        <div class="govuk-form-group">
+        <div class="govuk-form-group" id="nationality">
           <%= f.label :nationality, t('application_form.personal_details_section.nationality.label'), class: 'govuk-label govuk-!-font-weight-bold' %>
           <%= f.text_field :nationality, class: 'govuk-input' %>
         </div>
