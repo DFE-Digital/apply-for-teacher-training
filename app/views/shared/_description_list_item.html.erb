@@ -5,4 +5,9 @@
   <dd class="govuk-summary-list__value">
     <%= value %>
   </dd>
+  <dd class="govuk-summary-list__actions">
+    <%= link_to personal_details_path(reviewing: true), class: 'govuk-link', id: "change-#{field}" do %>
+        Change<span class="govuk-visually-hidden"> <%= field %></span>
+    <% end %>
+  </dd>
 </div>
