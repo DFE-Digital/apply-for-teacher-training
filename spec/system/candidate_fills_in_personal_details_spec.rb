@@ -18,6 +18,8 @@ RSpec.describe 'A candidate filling in their personal details' do
       fill_in 'Year', with: 1997
     end
 
+    fill_in t('application_form.personal_details_section.nationality.label'), with: 'British'
+
     click_on t('application_form.save_and_continue')
 
     expect(page).to have_content t('application_form.personal_details_section.heading')
@@ -44,6 +46,10 @@ RSpec.describe 'A candidate filling in their personal details' do
         t('application_form.personal_details_section.date_of_birth.label'),
         '13 March 1997'
       )
+      expect_description_list_item(
+        t('application_form.personal_details_section.nationality.label'),
+        'British'
+      )
     end
 
     click_on t('application_form.submit')
@@ -68,8 +74,8 @@ RSpec.describe 'A candidate filling in their personal details' do
         'Dr Doe'
       )
       expect_description_list_item(
-        t('application_form.personal_details_section.date_of_birth.label'),
-        '13 March 1997'
+        t('application_form.personal_details_section.nationality.label'),
+        'British'
       )
     end
   end
