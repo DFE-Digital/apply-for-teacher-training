@@ -8,9 +8,12 @@ gem 'puma', '~> 4.0'
 gem 'pg', '~> 1.1.4'
 
 gem 'webpacker'
+
+# Linting
 gem 'rubocop'
 gem 'rubocop-rspec'
 gem 'govuk-lint'
+gem 'erb_lint', require: false
 
 group :development do
   gem 'web-console', '>= 3.3.0'

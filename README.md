@@ -13,7 +13,7 @@ Clone this repo and run `bundle install`.
 rails s
 ```
 
-## Running the tests and linter
+## Running the tests and linters
 
 ```
 bundle exec rake

@@ -1,0 +1,9 @@
+---
+linters:
+  ErbSafety:
+    enabled: true
+  Rubocop:
+    enabled: false
+    rubocop_config:
+      inherit_from:
+        - .rubocop.yml
