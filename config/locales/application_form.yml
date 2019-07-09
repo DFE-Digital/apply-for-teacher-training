@@ -19,3 +19,5 @@ en:
       date_of_birth:
         label: Date of birth
         hint_text: For example, 12 11 1997
+      nationality:
+        label: What is your nationality?

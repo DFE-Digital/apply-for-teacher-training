@@ -56,6 +56,10 @@
             </div>
           </fieldset>
         </div>
+        <div class="govuk-form-group">
+          <%= f.label :nationality, t('application_form.personal_details_section.nationality.label'), class: 'govuk-label govuk-!-font-weight-bold' %>
+          <%= f.text_field :nationality, class: 'govuk-input' %>
+        </div>
         <%= f.submit t('application_form.save_and_continue'), class: 'govuk-button' %>
     <% end %>
   </div>
