@@ -30,4 +30,20 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        personal_details:
+          attributes:
+            title:
+              blank: 'Enter your title'
+            first_name:
+              blank: 'Enter your first name'
+            last_name:
+              blank: 'Enter your last name'
+            preferred_name:
+              blank: 'Enter your preferred name'
+            date_of_birth:
+              blank: 'Enter your date of birth'
+            nationality:
+              blank: 'Enter your nationality'
