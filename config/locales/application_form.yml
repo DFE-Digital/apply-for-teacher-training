@@ -2,9 +2,9 @@ en:
   application_form:
     begin_button: Start now
     save_and_continue: Save and continue
-    review_answers: Review your answers
     submit: Submit your application
-    application_complete: Application complete
+    application_submitted: Application submitted
+    check_your_answers: Check your answers before submitting your application
     personal_details_section:
       heading: Personal details
       title:

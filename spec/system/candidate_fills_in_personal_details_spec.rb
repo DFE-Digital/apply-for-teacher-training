@@ -22,8 +22,8 @@ RSpec.describe 'A candidate filling in their personal details' do
 
     click_on t('application_form.save_and_continue')
 
+    expect(page).to have_content t('application_form.check_your_answers')
     expect(page).to have_content t('application_form.personal_details_section.heading')
-    expect(page).to have_content t('application_form.review_answers')
 
     within '.govuk-summary-list' do
       expect_description_list_item(
@@ -41,10 +41,6 @@ RSpec.describe 'A candidate filling in their personal details' do
       expect_description_list_item(
         t('application_form.personal_details_section.preferred_name.label'),
         'Dr Doe'
-      )
-      expect_description_list_item(
-        t('application_form.personal_details_section.date_of_birth.label'),
-        '13 March 1997'
       )
       expect_description_list_item(
         t('application_form.personal_details_section.nationality.label'),
@@ -54,30 +50,7 @@ RSpec.describe 'A candidate filling in their personal details' do
 
     click_on t('application_form.submit')
 
-    expect(page).to have_content t('application_form.application_complete')
-
-    within '.govuk-summary-list' do
-      expect_description_list_item(
-        t('application_form.personal_details_section.title.label'),
-        'Dr'
-      )
-      expect_description_list_item(
-        t('application_form.personal_details_section.first_name.label'),
-        'John'
-      )
-      expect_description_list_item(
-        t('application_form.personal_details_section.last_name.label'),
-        'Doe'
-      )
-      expect_description_list_item(
-        t('application_form.personal_details_section.preferred_name.label'),
-        'Dr Doe'
-      )
-      expect_description_list_item(
-        t('application_form.personal_details_section.nationality.label'),
-        'British'
-      )
-    end
+    expect(page).to have_content t('application_form.application_submitted')
   end
 
   # search for a <dt> with an expected name adjacent to a <dd> with an expected value
