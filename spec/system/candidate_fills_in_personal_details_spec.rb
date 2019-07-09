@@ -51,6 +51,34 @@ RSpec.describe 'A candidate filling in their personal details' do
     expect(page).to have_content t('application_form.application_submitted')
   end
 
+  it 'can edit the Personal details section via the Check your answers page' do
+    visit '/'
+    click_on t('application_form.begin_button')
+
+    # When I fill in the personal details form and submit it
+    fill_in_personal_details(VALID_PERSONAL_DETAILS.merge(first_name: 'Zuleika'))
+    click_on t('application_form.save_and_continue')
+
+    # And I click the relevant "Change" button on the Check your answers page
+    find('#change-first_name').click
+
+    # Then I expect to see the details I entered earlier
+    expect(page).to have_field('First name', with: 'Zuleika')
+
+    # And when I submit the form with a changed first name
+    fill_in t('application_form.personal_details_section.first_name.label'), with: 'Daphne'
+    click_on t('application_form.save_and_continue')
+
+    # Then I expect to see the Check your answers page again, with the new name in place
+    expect(page).to have_content t('application_form.check_your_answers')
+
+    # And I expect to see my new first name
+    expect_description_list_item(
+      t('application_form.personal_details_section.first_name.label'),
+      'Daphne'
+    )
+  end
+
   def fill_in_personal_details(details)
     fill_in t('application_form.personal_details_section.title.label'), with: details[:title]
     fill_in t('application_form.personal_details_section.first_name.label'), with: details[:first_name]
