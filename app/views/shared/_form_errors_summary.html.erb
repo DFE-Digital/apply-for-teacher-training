@@ -3,8 +3,12 @@
     <h2 class="govuk-error-summary__title">There is a problem</h2>
     <div class="govuk-error-summary__body">
       <ul class="govuk-list govuk-error-summary__list">
-        <% errors.full_messages.each do |message| %>
-          <li id="error-message"><%= message %></li>
+        <% errors.keys.each do |field| %>
+          <li>
+            <a href='#<%= field.to_s.gsub('_', '-') %>'>
+              <%= errors.messages[field].first %>
+            </a>
+          </li>
         <% end %>
       </ul>
     </div>

@@ -9,11 +9,16 @@ describe 'A candidate leaves personal details blank' do
 
   it 'indicates there is a problem' do
     expect(page).to have_content('There is a problem')
-    expect(page).to have_content('Title can\'t be blank')
+    expect(page).to have_content('Enter your title')
   end
 
   it 'has an anchor links in the error message' do
     expect(page).to have_link(nil, href: '#title')
     expect(page).to have_link(nil, href: '#first-name')
+  end
+
+  it 'highlights fields that need attention' do
+    expect(page).to have_css('.govuk-form-group--error')
+    expect(page).to have_css('.govuk-input--error')
   end
 end

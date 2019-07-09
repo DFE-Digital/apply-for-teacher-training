@@ -83,6 +83,8 @@ GEM
       rubocop-rails (~> 2)
       rubocop-rspec (~> 1.28)
       scss_lint
+    govuk_design_system_formbuilder (0.7.9)
+      rails (~> 5.2, >= 5.2.3)
     html_tokenizer (0.0.7)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
@@ -224,6 +226,7 @@ DEPENDENCIES
   capybara (>= 3.24)
   erb_lint
   govuk-lint
+  govuk_design_system_formbuilder
   listen (>= 3.0.5, < 3.2)
   pg (~> 1.1.4)
   puma (~> 4.0)
