@@ -24,26 +24,12 @@ RSpec.describe 'A candidate filling in their personal details' do
     expect(page).to have_content t('application_form.personal_details_section.heading')
 
     within '.govuk-summary-list' do
-      expect_description_list_item(
-        t('application_form.personal_details_section.title.label'),
-        VALID_PERSONAL_DETAILS[:title]
-      )
-      expect_description_list_item(
-        t('application_form.personal_details_section.first_name.label'),
-        VALID_PERSONAL_DETAILS[:first_name]
-      )
-      expect_description_list_item(
-        t('application_form.personal_details_section.last_name.label'),
-        VALID_PERSONAL_DETAILS[:last_name]
-      )
-      expect_description_list_item(
-        t('application_form.personal_details_section.preferred_name.label'),
-        VALID_PERSONAL_DETAILS[:preferred_name]
-      )
-      expect_description_list_item(
-        t('application_form.personal_details_section.nationality.label'),
-        VALID_PERSONAL_DETAILS[:nationality]
-      )
+      expect_summary_to_include('first_name', 'John')
+      expect_summary_to_include('last_name', 'Doe')
+      expect_summary_to_include('title', 'Dr')
+      expect_summary_to_include('preferred_name', 'Dr Doe')
+      expect_summary_to_include('nationality', 'British')
+      expect_summary_to_include('date_of_birth', '13 March 1997')
     end
 
     click_on t('application_form.submit')
@@ -71,12 +57,7 @@ RSpec.describe 'A candidate filling in their personal details' do
 
     # Then I expect to see the Check your answers page again, with the new name in place
     expect(page).to have_content t('application_form.check_your_answers')
-
-    # And I expect to see my new first name
-    expect_description_list_item(
-      t('application_form.personal_details_section.first_name.label'),
-      'Daphne'
-    )
+    expect_summary_to_include('first_name', 'Daphne')
   end
 
   def fill_in_personal_details(details)
@@ -95,7 +76,8 @@ RSpec.describe 'A candidate filling in their personal details' do
   end
 
   # search for a <dt> with an expected name adjacent to a <dd> with an expected value
-  def expect_description_list_item(key, value)
-    expect(find('dt', text: key).find('+dd')).to have_content(value)
+  def expect_summary_to_include(key, value)
+    field_label = t("#{key}.label", scope: 'application_form.personal_details_section')
+    expect(find('dt', text: field_label).find('+dd')).to have_content(value)
   end
 end
