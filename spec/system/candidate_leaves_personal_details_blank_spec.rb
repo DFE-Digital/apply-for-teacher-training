@@ -13,8 +13,8 @@ describe 'A candidate leaves personal details blank' do
   end
 
   it 'has an anchor links in the error message' do
-    expect(page).to have_link(nil, href: '#title')
-    expect(page).to have_link(nil, href: '#first-name')
+    expect(page).to have_link(nil, href: '#personal_details_title')
+    expect(page).to have_link(nil, href: '#personal_details_first_name')
   end
 
   it 'highlights fields that need attention' do
