@@ -1,9 +1,9 @@
 @function frontend-font-url($filename) {
-  @return url("~fonts/" + $filename);
+  @return url("~assets/fonts/" + $filename);
 }
 
 @function frontend-image-url($filename) {
-  @return url("~images/" + $filename);
+  @return url("~assets/images/" + $filename);
 }
 
 $govuk-font-url-function: frontend-font-url;
