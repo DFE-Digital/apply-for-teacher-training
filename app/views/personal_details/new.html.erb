@@ -1,3 +1,5 @@
+<%= render "shared/form_errors_summary", errors: @personal_details.errors %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @personal_details, url: personal_details_path do |f| %>
