@@ -5,7 +5,7 @@
       <ul class="govuk-list govuk-error-summary__list">
         <% errors.keys.each do |field| %>
           <li>
-            <a href='#<%= field.to_s.gsub('_', '-') %>'>
+            <a href='#personal_details_<%= field %>'>
               <%= errors.messages[field].first %>
             </a>
           </li>
