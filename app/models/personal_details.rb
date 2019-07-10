@@ -1,1 +1,3 @@
-class PersonalDetails < ApplicationRecord; end
+class PersonalDetails < ApplicationRecord
+  validates :title, presence: :true
+end

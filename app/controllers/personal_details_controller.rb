@@ -9,16 +9,22 @@ class PersonalDetailsController < ApplicationController
 
   def create
     @personal_details = PersonalDetails.new(personal_details_params)
-    @personal_details.save
 
-    redirect_to check_your_answers_path
+    if @personal_details.save
+      redirect_to check_your_answers_path
+    else
+      render :new
+    end
   end
 
   def update
     @personal_details = PersonalDetails.last
-    @personal_details.update(personal_details_params)
 
-    redirect_to check_your_answers_path
+    if @personal_details.update(personal_details_params)
+      redirect_to check_your_answers_path
+    else
+      render :new
+    end
   end
 
 private
