@@ -1,3 +1,3 @@
-require.context('../../../node_modules/govuk-frontend/assets');
+require.context('govuk-frontend/assets');
 
 import '../styles/application.scss';
