@@ -23,7 +23,7 @@ end
 
 group :test do
   gem 'capybara', '>= 3.24'
-  gem 'shoulda-matchers', '~> 4.0'
+  gem 'shoulda-matchers', '~> 4.1'
   gem 'webdrivers', '~> 4.0'
 end
 
