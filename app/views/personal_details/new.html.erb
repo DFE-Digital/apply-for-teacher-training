@@ -14,9 +14,12 @@
         <%= f.govuk_text_field :first_name, label: { text: t('application_form.personal_details_section.first_name.label')} %>
         <%= f.govuk_text_field :preferred_name, label: { text: t('application_form.personal_details_section.preferred_name.label')} %>
         <%= f.govuk_text_field :last_name, label: { text: t('application_form.personal_details_section.last_name.label')} %>
-        <%= f.govuk_date_field :date_of_birth %>
+        <div id='personal_details_date_of_birth'>
+          <%= f.govuk_date_field :date_of_birth %>
+        </div>
         <%= f.govuk_text_field :nationality, label: { text: t('application_form.personal_details_section.nationality.label')} %>
         <%= f.submit t('application_form.save_and_continue'), class: 'govuk-button' %>
-    <% end %>
+      </fieldset>
+  <% end %>
   </div>
 </div>
