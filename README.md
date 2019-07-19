@@ -3,18 +3,18 @@
 This service enables postgraduate candidates to apply for initial teacher
 training.
 
-## Initial setup
+## Prerequisites
 
-Clone this repo and run `bundle install`.
+- Ruby 2.6.3
+- NodeJS 8.11.x
+- Yarn 1.12.x
 
-## Running locally
+## Setting up the app in development
 
-```
-rails s
-```
+1. Run `yarn` to install node dependencies
+2. Run `bundle install` to install the gem dependencies
+3. Run `rails s` to launch the app on https://localhost:3000
 
 ## Running the tests and linters
 
-```
-bundle exec rake
-```
+`bundle exec rake`
