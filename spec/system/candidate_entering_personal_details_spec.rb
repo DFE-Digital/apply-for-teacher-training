@@ -33,6 +33,10 @@ describe 'A candidate entering personal details' do
 
       it 'sees another question about nationality' do
         expect(page).to have_content('What is your residency status?')
+
+        choose 'I have the right to study and/or work in the UK'
+
+        expect(page).to have_content('What is your residency status?')
       end
     end
   end
