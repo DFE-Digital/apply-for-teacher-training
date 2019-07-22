@@ -11,7 +11,11 @@ class PersonalDetailsController < ApplicationController
     @personal_details = PersonalDetails.new(personal_details_params)
 
     if @personal_details.save
-      redirect_to contact_details_path
+      if @personal_details.nationality == 'British'
+        redirect_to contact_details_path
+      else
+        redirect_to new_residency_status_path
+      end
     else
       render :new
     end

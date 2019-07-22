@@ -9,7 +9,7 @@ describe 'A candidate entering personal details' do
         visit '/'
         click_on t('application_form.begin_button')
 
-        fill_in_personal_details(nationality: 'English')
+        fill_in_personal_details(nationality: 'British')
 
         click_on t('application_form.save_and_continue')
       end
@@ -21,7 +21,7 @@ describe 'A candidate entering personal details' do
       end
     end
 
-    xcontext 'when nationality is not in European Economic Area' do
+    context 'when nationality is not in European Economic Area' do
       before do
         visit '/'
         click_on t('application_form.begin_button')
