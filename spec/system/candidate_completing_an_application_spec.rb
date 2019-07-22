@@ -11,6 +11,8 @@ describe 'A candidate completing an application for teacher training' do
       fill_in_personal_details
 
       click_on t('application_form.save_and_continue')
+
+      visit '/check_your_answers'
       click_on t('application_form.submit')
     end
 
