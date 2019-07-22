@@ -11,7 +11,7 @@ class PersonalDetailsController < ApplicationController
     @personal_details = PersonalDetails.new(personal_details_params)
 
     if @personal_details.save
-      redirect_to check_your_answers_path
+      redirect_to contact_details_path
     else
       render :new
     end

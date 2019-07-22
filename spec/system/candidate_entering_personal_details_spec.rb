@@ -14,11 +14,15 @@ describe 'A candidate entering personal details' do
     end
 
     it 'sees a summary of those details' do
+      visit '/check_your_answers'
+
       expect(page).to have_content('First name John')
     end
 
     context 'and wishes to amend their details' do
       it 'can go back and edit them' do
+        visit '/check_your_answers'
+
         find('#change-first_name').click
         expect(page).to have_field('First name', with: 'John')
       end

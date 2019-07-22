@@ -21,3 +21,12 @@ en:
         hint_text: For example, 12 11 1997
       nationality:
         label: What is your nationality?
+    contact_details_section:
+      heading:
+        Contact details
+      phone_number:
+        label: Phone number
+      email_address:
+        label: Email address
+      address:
+        label: Address
