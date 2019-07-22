@@ -4,28 +4,51 @@ describe 'A candidate entering personal details' do
   include TestHelpers::PersonalDetails
 
   context 'who successfully enters their details' do
-    before do
+    context 'when nationality is in the European Economic Area' do
+      before do
+        visit '/'
+        click_on t('application_form.begin_button')
+
+        fill_in_personal_details(nationality: 'English')
+
+        click_on t('application_form.save_and_continue')
+      end
+
+      it 'sees a summary of those details' do
+        visit '/check_your_answers'
+
+        expect(page).to have_content('First name John')
+      end
+    end
+
+    xcontext 'when nationality is not in European Economic Area' do
+      before do
+        visit '/'
+        click_on t('application_form.begin_button')
+
+        fill_in_personal_details(nationality: 'Australian')
+
+        click_on t('application_form.save_and_continue')
+      end
+
+      it 'sees another question about nationality' do
+        expect(page).to have_content('What is your residency status?')
+      end
+    end
+  end
+
+  context 'and wishes to amend their details' do
+    it 'can go back and edit them' do
       visit '/'
       click_on t('application_form.begin_button')
 
       fill_in_personal_details
-
       click_on t('application_form.save_and_continue')
-    end
 
-    it 'sees a summary of those details' do
       visit '/check_your_answers'
+      find('#change-first_name').click
 
-      expect(page).to have_content('First name John')
-    end
-
-    context 'and wishes to amend their details' do
-      it 'can go back and edit them' do
-        visit '/check_your_answers'
-
-        find('#change-first_name').click
-        expect(page).to have_field('First name', with: 'John')
-      end
+      expect(page).to have_field('First name', with: 'John')
     end
   end
 

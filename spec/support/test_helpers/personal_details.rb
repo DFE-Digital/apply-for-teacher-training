@@ -1,6 +1,6 @@
 module TestHelpers
   module PersonalDetails
-    def fill_in_personal_details
+    def fill_in_personal_details(args = {})
       details = {
         first_name: 'John',
         last_name: 'Doe',
@@ -8,7 +8,7 @@ module TestHelpers
         preferred_name: 'Dr Doe',
         nationality: 'British',
         date_of_birth: Date.new(1997, 3, 13)
-      }
+      }.merge(args)
 
       fill_in t('application_form.personal_details_section.title.label'), with: details[:title]
       fill_in t('application_form.personal_details_section.first_name.label'), with: details[:first_name]
