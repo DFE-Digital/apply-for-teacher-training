@@ -6,7 +6,6 @@ module TestHelpers
         last_name: 'Doe',
         title: 'Dr',
         preferred_name: 'Dr Doe',
-        nationality: 'British',
         date_of_birth: Date.new(1997, 3, 13)
       }
 
@@ -20,8 +19,6 @@ module TestHelpers
         fill_in 'Month', with: details[:date_of_birth].month
         fill_in 'Year', with: details[:date_of_birth].year
       end
-
-      fill_in t('application_form.personal_details_section.nationality.label'), with: details[:nationality]
     end
   end
 end

@@ -34,7 +34,6 @@ private
                                              :first_name,
                                              :last_name,
                                              :preferred_name,
-                                             :date_of_birth,
-                                             :nationality)
+                                             :date_of_birth)
   end
 end
