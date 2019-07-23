@@ -11,7 +11,7 @@
     <%= render 'shared/section_summary',
       fields: [:phone_number, :email_address, :address],
       section_name: :contact_details,
-      record: @personal_details %>
+      record: @contact_details %>
 
     <%= link_to tt_application_path, role: 'button', class: 'govuk-button' do %>
       <%= t('application_form.submit') %>

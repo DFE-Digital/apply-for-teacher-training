@@ -11,8 +11,8 @@
           <%= record.send(field) %>
         </dd>
         <dd class="govuk-summary-list__actions">
-          <%= link_to "#{section_name}?reviewing=true", class: 'govuk-link', id: "change-#{field}" do %>
-              Change<span class="govuk-visually-hidden"><%= field %></span>
+          <%= link_to [:edit, record], class: 'govuk-link', id: "change-#{field}" do %>
+            Change<span class="govuk-visually-hidden"> <%= record[field] %></span>
           <% end %>
         </dd>
       </div>
