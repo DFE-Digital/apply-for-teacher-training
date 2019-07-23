@@ -16,4 +16,6 @@
 # end
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'TT' # Teacher Training
+  inflect.uncountable 'personal_details'
+  inflect.uncountable 'contact_details'
 end

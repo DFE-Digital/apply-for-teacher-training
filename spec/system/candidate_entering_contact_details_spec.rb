@@ -5,11 +5,7 @@ describe 'A candidate entering contact details' do
 
   context 'when details are correct' do
     before do
-      visit '/'
-      click_on t('application_form.begin_button')
-
-      fill_in_personal_details
-      click_on t('application_form.save_and_continue')
+      visit '/contact_details/new'
 
       fill_in_contact_details
       click_on t('application_form.save_and_continue')

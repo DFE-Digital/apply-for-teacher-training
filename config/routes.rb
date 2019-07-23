@@ -1,13 +1,9 @@
 Rails.application.routes.draw do
   root to: 'start_page#show'
 
-  get 'personal_details', to: 'personal_details#new'
-  post 'personal_details', to: 'personal_details#create'
-  patch 'personal_details', to: 'personal_details#update'
+  resources :personal_details, only: %i[new create edit update]
 
-  get 'contact_details', to: 'contact_details#new'
-  post 'contact_details', to: 'contact_details#create'
-  patch 'contact_details', to: 'contact_details#update'
+  resources :contact_details, only: %i[new create edit update]
 
   get 'check_your_answers', to: 'check_your_answers#show'
 

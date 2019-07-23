@@ -1,20 +1,24 @@
 class ContactDetailsController < ApplicationController
   def new
-    @personal_details = PersonalDetails.last
+    @contact_details = ContactDetails.new
   end
 
   def update
-    @personal_details = PersonalDetails.last
+    @contact_details = ContactDetails.find(params[:id])
 
-    if @personal_details.update(contact_details_params)
+    if @contact_details.update(contact_details_params)
       redirect_to check_your_answers_path
     else
       render :new
     end
   end
 
+  def edit
+    @contact_details = ContactDetails.find(params[:id])
+  end
+
   def create
-    PersonalDetails.last.update(contact_details_params)
+    @contact_details = ContactDetails.create(contact_details_params)
 
     redirect_to check_your_answers_path
   end
@@ -22,6 +26,6 @@ class ContactDetailsController < ApplicationController
 private
 
   def contact_details_params
-    params.require(:personal_details).permit(:phone_number, :email_address, :address)
+    params.require(:contact_details).permit(:phone_number, :email_address, :address)
   end
 end

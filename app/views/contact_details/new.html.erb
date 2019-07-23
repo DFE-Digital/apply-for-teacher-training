@@ -1,17 +1,1 @@
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @personal_details, builder: GOVUKDesignSystemFormBuilder::FormBuilder, url: contact_details_path do |f| %>
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-        <h1 class="govuk-fieldset__heading">
-          Contact Details
-        </h1>
-      </legend>
-
-      <%= f.govuk_text_field :phone_number, label: { text: t('application_form.contact_details_section.phone_number.label')}, width: 10 %>
-      <%= f.govuk_text_field :email_address, label: { text: t('application_form.contact_details_section.email_address.label')}, width: 10 %>
-      <%= f.govuk_text_field :address, label: { text: t('application_form.contact_details_section.address.label')}, width: 10 %>
-
-      <%= f.submit t('application_form.save_and_continue'), class: 'govuk-button' %>
-  <% end %>
-  </div>
-</div>
+<%= render 'form', action: :new %>

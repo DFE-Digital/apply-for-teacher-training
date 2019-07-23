@@ -16,6 +16,14 @@ ActiveRecord::Schema.define(version: 2019_07_23_153756) do
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
+  create_table "contact_details", force: :cascade do |t|
+    t.string "phone_number"
+    t.string "email_address"
+    t.string "address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "personal_details", force: :cascade do |t|
     t.string "title"
     t.string "first_name"
@@ -24,9 +32,6 @@ ActiveRecord::Schema.define(version: 2019_07_23_153756) do
     t.date "date_of_birth"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "phone_number"
-    t.string "email_address"
-    t.string "address"
   end
 
 end
