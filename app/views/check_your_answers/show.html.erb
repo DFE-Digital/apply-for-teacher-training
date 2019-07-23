@@ -3,24 +3,15 @@
 
     <h1 class="govuk-heading-xl"><%= t('application_form.check_your_answers') %></h1>
 
-    <h2 class="govuk-heading-m"><%= t('application_form.personal_details_section.heading') %></h2>
+    <%= render 'shared/section_summary',
+      fields: [:first_name, :last_name, :preferred_name, :date_of_birth, :nationality],
+      section_name: :personal_details,
+      record: @personal_details %>
 
-    <dl class="govuk-summary-list govuk-!-font-size-16 govuk-summary-list--no-border">
-      <%= render partial: 'shared/description_list_item', locals: { field: :title, section: :personal, value: @personal_details.title } %>
-      <%= render partial: 'shared/description_list_item', locals: { field: :first_name, section: :personal, value: @personal_details.first_name } %>
-      <%= render partial: 'shared/description_list_item', locals: { field: :last_name, section: :personal, value: @personal_details.last_name } %>
-      <%= render partial: 'shared/description_list_item', locals: { field: :preferred_name, section: :personal, value: @personal_details.preferred_name } %>
-      <%= render partial: 'shared/description_list_item', locals: { field: :date_of_birth, section: :personal, value: @personal_details.date_of_birth.to_s(:govuk_human_readable) } %>
-      <%= render partial: 'shared/description_list_item', locals: { field: :nationality, section: :personal, value: @personal_details.nationality } %>
-    </dl>
-
-    <h2 class="govuk-heading-m"><%= t('application_form.contact_details_section.heading') %></h2>
-
-    <dl class="govuk-summary-list govuk-!-font-size-16 govuk-summary-list--no-border">
-      <%= render partial: 'shared/description_list_item', locals: { field: :phone_number, section: :contact, value: @personal_details.phone_number } %>
-      <%= render partial: 'shared/description_list_item', locals: { field: :email_address, section: :contact, value: @personal_details.email_address } %>
-      <%= render partial: 'shared/description_list_item', locals: { field: :address, section: :contact, value: @personal_details.address } %>
-    </dl>
+    <%= render 'shared/section_summary',
+      fields: [:phone_number, :email_address, :address],
+      section_name: :contact_details,
+      record: @personal_details %>
 
     <%= link_to tt_application_path, role: 'button', class: 'govuk-button' do %>
       <%= t('application_form.submit') %>
