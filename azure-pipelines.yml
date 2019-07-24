@@ -43,17 +43,25 @@ stages:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
 
-    #- script: |
-    #    $DOCKER_OVERRIDE exec -T web /bin/sh -c 'bundle exec rake spec SPEC_OPTS="--format RspecJunitFormatter --out ./rspec-results.xml"'
-    #  displayName: 'Execute tests'
-    #  env:
-    #    DOCKER_OVERRIDE: $(dockerOverride)
-    #    dockerHubUsername: $(dockerHubUsername)
-    #    dockerHubImageName: $(imageName)
-
     - script: |
         $DOCKER_OVERRIDE exec -T web /bin/sh -c "bundle exec govuk-lint-ruby app config db lib spec --format clang"
-      displayName: 'Execute linters'
+      displayName: 'Rubocop'
+      env:
+        DOCKER_OVERRIDE: $(dockerOverride)
+        dockerHubUsername: $(dockerHubUsername)
+        dockerHubImageName: $(imageName)
+
+    - script: |
+        $DOCKER_OVERRIDE exec -T web /bin/sh -c "bundle exec rake lint_erb"
+      displayName: 'ERB lint'
+      env:
+        DOCKER_OVERRIDE: $(dockerOverride)
+        dockerHubUsername: $(dockerHubUsername)
+        dockerHubImageName: $(imageName)
+
+    - script: |
+       $DOCKER_OVERRIDE exec -T web /bin/sh -c 'bundle exec rake spec SPEC_OPTS="--format RspecJunitFormatter --out ./rspec-results.xml"'
+      displayName: 'Execute tests'
       env:
         DOCKER_OVERRIDE: $(dockerOverride)
         dockerHubUsername: $(dockerHubUsername)
@@ -101,11 +109,11 @@ stages:
         ArtifactName: 'arm_template'
         publishLocation: 'Container'
 
-    #- task: PublishTestResults@2
-    #  condition: succeededOrFailed()
-    #  inputs:
-    #    testRunner: JUnit
-    #    testResultsFiles: '*.xml'
+    - task: PublishTestResults@2
+      condition: succeededOrFailed()
+      inputs:
+        testRunner: JUnit
+        testResultsFiles: 'rspec-results.xml'
 
 - stage: deploy_dev
   displayName: 'Deploy - Development'

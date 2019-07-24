@@ -26,6 +26,7 @@ group :test do
   gem 'capybara', '>= 3.24'
   gem 'shoulda-matchers', '~> 4.1'
   gem 'webdrivers', '~> 4.1'
+  gem 'rspec_junit_formatter'
 end
 
 group :development, :test do
