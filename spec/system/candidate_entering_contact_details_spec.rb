@@ -29,6 +29,23 @@ describe 'A candidate entering contact details' do
     end
   end
 
+  xcontext 'who leaves out a required field' do
+    before do
+      # can cut this out shortly
+      visit '/personal_details'
+      fill_in_personal_details
+      click_on t('application_form.save_and_continue')
+
+      visit '/contact_details'
+      click_on t('application_form.save_and_continue')
+    end
+
+    it 'sees an error summary', js: true do
+      expect(page).to have_content('There is a problem')
+      expect(page).to have_content('Enter your phone number')
+    end
+  end
+
 private
 
   def fill_in_contact_details
