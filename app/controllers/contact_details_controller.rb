@@ -18,9 +18,13 @@ class ContactDetailsController < ApplicationController
   end
 
   def create
-    @contact_details = ContactDetails.create(contact_details_params)
+    @contact_details = ContactDetails.new(contact_details_params)
 
-    redirect_to check_your_answers_path
+    if @contact_details.save
+      redirect_to check_your_answers_path
+    else
+      render :new
+    end
   end
 
 private
