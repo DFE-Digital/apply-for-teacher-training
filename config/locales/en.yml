@@ -47,3 +47,11 @@ en:
               blank: 'Enter your date of birth'
             nationality:
               blank: 'Enter your nationality'
+        contact_details:
+          attributes:
+            phone_number:
+              blank: 'Enter your phone number'
+            email_address:
+              blank: 'Enter your email address'
+            address:
+              blank: 'Enter your postal address'

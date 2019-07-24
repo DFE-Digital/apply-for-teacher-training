@@ -1,3 +1,5 @@
+<%= render "shared/form_errors_summary", errors: @contact_details.errors %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @contact_details, builder: GOVUKDesignSystemFormBuilder::FormBuilder, action: action do |f| %>

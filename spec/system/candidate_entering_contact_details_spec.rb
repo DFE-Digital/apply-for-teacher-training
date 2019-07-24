@@ -15,7 +15,7 @@ describe 'A candidate entering contact details' do
       it 'contains phone number' do
         expect(page).to have_content('Phone number')
         expect(page).to have_content('Email address')
-        expect(page).to have_content('Address')
+        expect(page).to have_content('Postal address')
       end
     end
 
@@ -29,18 +29,13 @@ describe 'A candidate entering contact details' do
     end
   end
 
-  xcontext 'who leaves out a required field' do
+  context 'who leaves out a required field' do
     before do
-      # can cut this out shortly
-      visit '/personal_details'
-      fill_in_personal_details
-      click_on t('application_form.save_and_continue')
-
-      visit '/contact_details'
+      visit '/contact_details/new'
       click_on t('application_form.save_and_continue')
     end
 
-    it 'sees an error summary', js: true do
+    it 'sees an error summary' do
       expect(page).to have_content('There is a problem')
       expect(page).to have_content('Enter your phone number')
     end
