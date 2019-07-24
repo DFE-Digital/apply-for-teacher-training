@@ -7,9 +7,9 @@
         </h1>
       </legend>
 
-      <%= f.govuk_text_field :phone_number, label: { text: t('application_form.contact_details_section.phone_number.label')}, width: 10 %>
-      <%= f.govuk_text_field :email_address, label: { text: t('application_form.contact_details_section.email_address.label')}, width: 10 %>
-      <%= f.govuk_text_field :address, label: { text: t('application_form.contact_details_section.address.label')}, width: 10 %>
+      <%= f.govuk_text_field :phone_number, label: { text: t('application_form.contact_details_section.phone_number.label')}, width: 10, type: :tel %>
+      <%= f.govuk_text_field :email_address, label: { text: t('application_form.contact_details_section.email_address.label')}, type: :email %>
+      <%= f.govuk_text_area :address, label: { text: t('application_form.contact_details_section.address.label')} %>
 
       <%= f.submit t('application_form.save_and_continue'), class: 'govuk-button' %>
   <% end %>
