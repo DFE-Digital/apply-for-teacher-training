@@ -1,0 +1,165 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - "*"
+
+pr: none
+
+variables:
+  imageName: 'apply-for-postgraduate-teacher-training'
+  debug: true
+
+stages:
+- stage: build_test_release
+  displayName: 'Build, Test & Release'
+  jobs:
+  - job: build_and_test_docker_image
+    displayName: 'Build & Test Docker Image'
+    pool:
+      vmImage: 'Ubuntu-16.04'
+
+    variables:
+      # Support multiple docker-compose files to allow travis and az pipelines to co exist: https://docs.docker.com/compose/extends/#multiple-compose-files
+      dockerOverride: 'docker-compose -f docker-compose.yml'
+      system.debug: $(debug)
+
+    steps:
+    - script: |
+        GIT_SHORT_SHA=$(echo $(Build.SourceVersion) | cut -c 1-7)
+        docker_path=$(dockerHubUsername)/$(imageName)
+        echo "##vso[build.updatebuildnumber]$GIT_SHORT_SHA"
+        echo "##vso[task.setvariable variable=docker_path;]$docker_path"
+      displayName: 'Set version number'
+
+    - script: |
+        $DOCKER_OVERRIDE build
+        $DOCKER_OVERRIDE up --no-build -d
+        $DOCKER_OVERRIDE exec -T web /bin/sh -c "./wait-for-command.sh -c 'nc -z db 5432' -s 0 -t 20"
+        $DOCKER_OVERRIDE exec -T web /bin/sh -c "bundle exec rails db:setup"
+      displayName: 'Build & setup'
+      env:
+        DOCKER_OVERRIDE: $(dockerOverride)
+        dockerHubUsername: $(dockerHubUsername)
+        dockerHubImageName: $(imageName)
+
+    #- script: |
+    #    $DOCKER_OVERRIDE exec -T web /bin/sh -c 'bundle exec rake spec SPEC_OPTS="--format RspecJunitFormatter --out ./rspec-results.xml"'
+    #  displayName: 'Execute tests'
+    #  env:
+    #    DOCKER_OVERRIDE: $(dockerOverride)
+    #    dockerHubUsername: $(dockerHubUsername)
+    #    dockerHubImageName: $(imageName)
+
+    - script: |
+        $DOCKER_OVERRIDE exec -T web /bin/sh -c "bundle exec govuk-lint-ruby app config db lib spec --format clang"
+      displayName: 'Execute linters'
+      env:
+        DOCKER_OVERRIDE: $(dockerOverride)
+        dockerHubUsername: $(dockerHubUsername)
+        dockerHubImageName: $(imageName)
+
+    - task: Docker@1
+      displayName: Tag image with current build number $(Build.BuildNumber)
+      inputs:
+        command: Tag image
+        imageName: "$(docker_path):latest"
+        arguments: "$(docker_path):$(Build.BuildNumber)"
+
+    - task: Docker@1
+      displayName: Docker Hub login
+      inputs:
+        command: "login"
+        containerregistrytype: Container Registry
+        dockerRegistryEndpoint: DfE Docker Hub
+
+    - task: Docker@1
+      displayName: Push tagged image
+      inputs:
+        command: Push an image
+        imageName: "$(docker_path):$(Build.BuildNumber)"
+
+    - task: Docker@1
+      displayName: Push tagged image (latest) if master
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      inputs:
+        command: Push an image
+        imageName: "$(docker_path):latest"
+
+    - task: CopyFiles@2
+      displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+      inputs:
+        Contents: |
+          azure/**
+        TargetFolder: '$(build.artifactstagingdirectory)'
+        OverWrite: true
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact'
+      inputs:
+        PathtoPublish: '$(build.artifactstagingdirectory)'
+        ArtifactName: 'arm_template'
+        publishLocation: 'Container'
+
+    #- task: PublishTestResults@2
+    #  condition: succeededOrFailed()
+    #  inputs:
+    #    testRunner: JUnit
+    #    testResultsFiles: '*.xml'
+
+- stage: deploy_dev
+  displayName: 'Deploy - Development'
+  dependsOn: build_test_release
+  condition: succeeded('build_test_release')
+  jobs:
+  - template: azure-pipelines-deploy-template.yml
+    parameters:
+      subscriptionPrefix: 's106'
+      subscriptionName: 'Apply (106) - Dev'
+      resourceEnvironmentName: 'd01'
+      serviceName: 'apply'
+      containerImageReference: '$(imageName):$(build.buildNumber)'
+      databaseName: 'apply'
+      databaseUsername: 'applyadm512'
+      databasePassword: '$(databasePassword)'
+      dockerhubUsername: '$(dockerHubUsername)'
+      securityKeyBase: '$(secretKeyBase)'
+      railsEnv: 'development'
+
+- stage: deploy_test
+  displayName: 'Deploy - Test'
+  dependsOn: build_test_release
+  condition: succeeded('build_test_release')
+  jobs:
+  - template: azure-pipelines-deploy-template.yml
+    parameters:
+      subscriptionPrefix: 's106'
+      subscriptionName: 'Apply (106) - Test'
+      resourceEnvironmentName: 't01'
+      serviceName: 'apply'
+      containerImageReference: '$(imageName):$(build.buildNumber)'
+      databaseName: 'apply'
+      databaseUsername: 'applyadm512'
+      databasePassword: '$(databasePassword)'
+      dockerhubUsername: '$(dockerHubUsername)'
+      securityKeyBase: '$(secretKeyBase)'
+      railsEnv: 'development'
+
+- stage: deploy_production
+  displayName: 'Deploy - Production'
+  dependsOn: build_test_release
+  condition: succeeded('build_test_release')
+  jobs:
+  - template: azure-pipelines-deploy-template.yml
+    parameters:
+      subscriptionPrefix: 's106'
+      subscriptionName: 'Apply (106) - Production'
+      resourceEnvironmentName: 'p01'
+      serviceName: 'apply'
+      containerImageReference: '$(imageName):$(build.buildNumber)'
+      databaseName: 'apply'
+      databaseUsername: 'applyadm512'
+      databasePassword: '$(databasePassword)'
+      dockerhubUsername: '$(dockerHubUsername)'
+      securityKeyBase: '$(secretKeyBase)'
+      railsEnv: 'development'

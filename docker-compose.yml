@@ -1,0 +1,22 @@
+version: '3.6'
+volumes:
+  dbdata:
+services:
+  db:
+    image: postgres:9.6-alpine
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+  web:
+    build: .
+    image: ${dockerHubUsername}/${dockerHubImageName}:latest
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: ash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - DB_HOSTNAME=db
+      - DB_USERNAME=postgres

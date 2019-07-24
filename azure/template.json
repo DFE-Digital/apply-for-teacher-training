@@ -1,0 +1,291 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "resourceEnvironmentName": {
+            "type": "string",
+            "metadata": {
+                "description": "The environment of the resource."
+            }
+        },
+        "serviceName": {
+            "type": "string",
+            "metadata": {
+                "description": "The abbreviation of the service name to be used when naming a resource."
+            }
+        },
+        "dockerHubUsername": {
+            "type": "string",
+            "metadata": {
+                "description": "the username associated with the dockerhub account"
+            }
+        },
+        "containerImageReference": {
+            "type": "string",
+            "metadata": {
+                "description": "The container image to pull from the server. Should be in image:tag format."
+            }
+        },
+        "railsEnv": {
+            "type": "string",
+            "defaultValue": "production",
+            "metadata": {
+                "description": "Environment for the rails app."
+            }
+        },
+        "databaseName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the postgres database"
+            }
+        },
+        "databaseUsername": {
+            "type": "string",
+            "metadata": {
+                "description": "The username used to connect to the database."
+            }
+        },
+        "databasePassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "The password used to connect to the database."
+            }
+        },
+        "securityAlertEmail": {
+            "type": "string",
+            "metadata": {
+                "description": "Email address for psql security alerts"
+            }
+        },
+        "secretKeyBase": {
+            "type": "string",
+            "metadata": {
+                "description": "Secret key base for rails"
+            }
+        },
+        "railsServeStaticFiles": {
+            "type": "string",
+            "defaultValue": "true",
+            "metadata": {
+                "description": "Serve static files."
+            }
+        }
+    },
+    "variables": {
+        "deploymentUrlBase": "https://raw.githubusercontent.com/DFE-Digital/bat-platform-building-blocks/master/templates/",
+        "appServiceRuntimeStack": "[concat('DOCKER|', parameters('dockerHubUsername'), '/', parameters('containerImageReference'))]",
+        "resourceNamePrefix": "[toLower(concat('s106', parameters('resourceEnvironmentName'),'-', parameters('serviceName')))]",
+        "appServiceName": "[concat(variables('resourceNamePrefix'), '-as')]",
+        "appServicePlanName": "[concat(variables('resourceNamePrefix'), '-asp')]",
+        "storageAccountName": "[replace(concat(variables('resourceNamePrefix'), 'str'), '-', '')]",
+        "databaseServerName": "[concat(variables('resourceNamePrefix'), '-psql')]"
+    },
+    "resources": [
+        {
+            "name": "storage-account",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'), 'storage-account.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "storageAccountName": {
+                        "value": "[variables('storageAccountName')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "app-service-plan",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'), 'app-service-plan.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServicePlanName": {
+                        "value": "[variables('appServicePlanName')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "app-service",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'), 'app-service-linux.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServiceName": {
+                        "value": "[variables('appServiceName')]"
+                    },
+                    "appServicePlanResourceGroup": {
+                        "value": "[resourceGroup().name]"
+                    },
+                    "appServicePlanName": {
+                        "value": "[variables('appServicePlanName')]"
+                    },
+                    "runtimeStack": {
+                        "value": "[variables('appServiceRuntimeStack')]"
+                    },
+                    "appServiceAppSettings": {
+                        "value": [
+                            {
+                                "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                                "value": "[reference('app-insights').outputs.instrumentationKey.value]"
+                            },
+                            {
+                                "name": "RAILS_ENV",
+                                "value": "[parameters('railsEnv')]"
+                            },
+                            {
+                                "name": "DB_HOSTNAME",
+                                "value": "[reference('postgresql-server').outputs.fullyQualifiedDomainName.value]"
+                            },
+                            {
+                                "name": "DB_USERNAME",
+                                "value": "[concat(parameters('databaseUsername'), '@', variables('databaseServerName'))]"
+                            },
+                            {
+                                "name": "DB_PASSWORD",
+                                "value": "[parameters('databasePassword')]"
+                            },
+                            {
+                                "name": "DB_DATABASE",
+                                "value": "[parameters('databaseName')]"
+                            },
+                            {
+                                "name": "SECRET_KEY_BASE",
+                                "value": "[parameters('secretKeyBase')]"
+                            },
+                            {
+                                "name": "RAILS_SERVE_STATIC_FILES",
+                                "value": "[parameters('railsServeStaticFiles')]"
+                            }
+                        ]
+                    }
+                }
+            },
+            "dependsOn": [
+                "app-service-plan"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "app-insights",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'), 'application-insights.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appInsightsName": {
+                        "value": "[variables('appServiceName')]"
+                    },
+                    "attachedService": {
+                        "value": "[variables('appServiceName')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "postgresql-server",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'postgresql-server.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "postgresServerName": {
+                        "value": "[variables('databaseServerName')]"
+                    },
+                    "postgresAdminLogin": {
+                        "value": "[parameters('databaseUsername')]"
+                    },
+                    "postgresAdminPassword": {
+                        "value": "[parameters('databasePassword')]"
+                    },
+                    "securityAlertEmailAddress": {
+                        "value": "[parameters('securityAlertEmail')]"
+                    },
+                    "storageAccountName": {
+                        "value": "[variables('storageAccountName')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "storage-account"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "postgresql-database",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'postgresql-database.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "serverName": {
+                        "value": "[variables('databaseServerName')]"
+                    },
+                    "databaseName": {
+                        "value": "[parameters('databaseName')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "postgresql-server"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "postgresql-server-firewall-rules",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'postgresql-server-firewall-rules.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "firewallRuleNamePrefix": {
+                        "value": "AZURE_IP-"
+                    },
+                    "ipAddresses": {
+                        "value": "[reference('app-service').outputs.possibleOutboundIpAddresses.value]"
+                    },
+                    "serverName": {
+                        "value": "[variables('databaseServerName')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "postgresql-server"
+            ]
+        }
+    ],
+    "outputs": {
+        "AppServiceName": {
+            "type": "string",
+            "value": "[variables('appServiceName')]"
+        }
+    }
+}

@@ -1,0 +1,88 @@
+parameters:
+  subscriptionPrefix:
+  subscriptionName:
+  resourceEnvironmentName:
+  serviceName:
+  containerImageReference:
+  databaseName:
+  databaseUsername:
+  databasePassword:
+  dockerhubUsername:
+  securityKeyBase:
+  railsEnv: 'production'
+  securityAlertEmail: 'apprenticeshipsdevops@education.gov.uk'
+  
+jobs:
+  - job: deploy_${{parameters.resourceEnvironmentName}}
+    displayName: 'Deploy App to ${{parameters.subscriptionName}} Subscription'
+    #Your build pipeline references an undefined variable named ‘dockerHubUsername’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+    #Your build pipeline references a secret variable named ‘databasePassword’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it secret. See https://go.microsoft.com/fwlink/?linkid=865972
+    #Your build pipeline references a secret variable named ‘secretKeyBase’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it secret. See https://go.microsoft.com/fwlink/?linkid=865972
+    variables:
+      resourceGroupName: '${{parameters.subscriptionPrefix}}${{parameters.resourceEnvironmentName}}-${{parameters.serviceName}}'
+      appServiceName: '${{parameters.subscriptionPrefix}}${{parameters.resourceEnvironmentName}}-${{parameters.serviceName}}-as'
+
+    pool:
+      name: Hosted VS2017
+      #demands:
+      #- 'PowerShell'
+      #- 'AzurepPS'
+
+    steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'arm_template'
+        downloadPath: '$(System.DefaultWorkingDirectory)' 
+
+    - task: AzureResourceGroupDeployment@2
+      displayName: 'Azure Deployment:Create Or Update Resource Group action on $(resourceGroupName)'
+      inputs:
+        azureSubscription: '${{parameters.subscriptionName}}'
+        resourceGroupName: '$(resourceGroupName)'
+        location: 'West Europe'
+        csmFile: '$(System.DefaultWorkingDirectory)/arm_template/azure/template.json'
+        overrideParameters: '-resourceEnvironmentName "${{parameters.resourceEnvironmentName}}" 
+          -serviceName "${{parameters.serviceName}}" 
+          -dockerHubUsername "${{parameters.dockerHubUsername}}" 
+          -containerImageReference "${{parameters.containerImageReference}}" 
+          -railsEnv "${{parameters.railsEnv}}" 
+          -databaseName "${{parameters.databaseName}}" 
+          -databaseUsername "${{parameters.databaseUsername}}" 
+          -databasePassword "${{parameters.databasePassword}}" 
+          -securityAlertEmail "${{parameters.securityAlertEmail}}" 
+          -secretKeyBase "${{parameters.secretKeyBase}}"'
+        deploymentOutputs: DeploymentOutput
+
+    - task: RasmusWatjen.ARMOutputParserExtension.ARMOutputConverter.ARMOutputParserExtension@1
+      displayName: 'Parse ARM Deployment Outputs into variables'
+
+    - task: AzureAppServiceManage@0
+      displayName: 'Start Azure App Service: $(appServiceName)'
+      inputs:
+        azureSubscription: '${{parameters.subscriptionName}}'
+        Action: 'Start Azure App Service'
+        WebAppName: '$(appServiceName)'
+        SpecifySlotOrASE: true
+        ResourceGroupName: '$(resourceGroupName)'
+        Slot: staging
+
+    - task: AzureAppServiceManage@0
+      displayName: 'Swap Slots: $(appServiceName)'
+      inputs:
+        azureSubscription: '${{parameters.subscriptionName}}'
+        WebAppName: '$(appServiceName)'
+        ResourceGroupName: '$(resourceGroupName)'
+        SourceSlot: staging
+
+    - task: AzureAppServiceManage@0
+      displayName: 'Stop Azure App Service: $(appServiceName)'
+      inputs:
+        azureSubscription: '${{parameters.subscriptionName}}'
+        Action: 'Stop Azure App Service'
+        WebAppName: '$(appServiceName)'
+        SpecifySlotOrASE: true
+        ResourceGroupName: '$(resourceGroupName)'
+        Slot: staging
+      condition: succeeded()
