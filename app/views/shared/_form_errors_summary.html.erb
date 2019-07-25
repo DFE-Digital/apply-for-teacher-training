@@ -1,16 +1,18 @@
-<% if errors.any? %>
-  <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
-    <h2 class="govuk-error-summary__title">There is a problem</h2>
-    <div class="govuk-error-summary__body">
-      <ul class="govuk-list govuk-error-summary__list">
-        <% errors.keys.each do |field| %>
-          <li>
-            <a href='#personal_details_<%= field %>'>
-              <%= errors.messages[field].first %>
-            </a>
-          </li>
-        <% end %>
-      </ul>
+<% if model.present? %>
+  <% if model.errors.any? %>
+    <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
+      <h2 class="govuk-error-summary__title">There is a problem</h2>
+      <div class="govuk-error-summary__body">
+        <ul class="govuk-list govuk-error-summary__list">
+          <% model.errors.keys.each do |field| %>
+            <li>
+              <a href='#<%= model.model_name.param_key %>_<%= field %>'>
+                <%= model.errors.messages[field].first %>
+              </a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
     </div>
-  </div>
+  <% end %>
 <% end %>
