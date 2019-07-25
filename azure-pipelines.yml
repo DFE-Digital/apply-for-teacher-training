@@ -34,9 +34,7 @@ stages:
 
     - script: |
         $DOCKER_OVERRIDE build
-        $DOCKER_OVERRIDE up --no-build -d
-        $DOCKER_OVERRIDE exec -T web /bin/sh -c "./wait-for-command.sh -c 'nc -z db 5432' -s 0 -t 20"
-        $DOCKER_OVERRIDE exec -T web /bin/sh -c "bundle exec rails db:setup"
+        $DOCKER_OVERRIDE run web /bin/sh -c "bundle exec rails db:setup"
       displayName: 'Build & setup'
       env:
         DOCKER_OVERRIDE: $(dockerOverride)
@@ -44,7 +42,7 @@ stages:
         dockerHubImageName: $(imageName)
 
     - script: |
-        $DOCKER_OVERRIDE exec -T web /bin/sh -c "bundle exec govuk-lint-ruby app config db lib spec --format clang"
+        $DOCKER_OVERRIDE run web /bin/sh -c "bundle exec govuk-lint-ruby app config db lib spec --format clang"
       displayName: 'Rubocop'
       env:
         DOCKER_OVERRIDE: $(dockerOverride)
@@ -52,7 +50,7 @@ stages:
         dockerHubImageName: $(imageName)
 
     - script: |
-        $DOCKER_OVERRIDE exec -T web /bin/sh -c "bundle exec rake lint_erb"
+        $DOCKER_OVERRIDE run web /bin/sh -c "bundle exec rake lint_erb"
       displayName: 'ERB lint'
       env:
         DOCKER_OVERRIDE: $(dockerOverride)
@@ -60,7 +58,7 @@ stages:
         dockerHubImageName: $(imageName)
 
     - script: |
-       $DOCKER_OVERRIDE exec -T web /bin/sh -c 'bundle exec rake spec SPEC_OPTS="--format RspecJunitFormatter --out ./rspec-results.xml"'
+       $DOCKER_OVERRIDE run web /bin/sh -c 'bundle exec rake spec SPEC_OPTS="--format RspecJunitFormatter --out ./rspec-results.xml"'
       displayName: 'Execute tests'
       env:
         DOCKER_OVERRIDE: $(dockerOverride)
