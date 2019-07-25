@@ -1,9 +1,9 @@
 <% if record.present? %>
   <% if record.errors.any? %>
-    <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
-      <h2 class="govuk-error-summary__title">There is a problem</h2>
-      <div class="govuk-error-summary__body">
-        <ul class="govuk-list govuk-error-summary__list">
+    <div class='govuk-error-summary' aria-labelledby='error-summary-title' role='alert' tabindex='-1' data-module='error-summary'>
+      <h2 class='govuk-error-summary__title'>There is a problem</h2>
+      <div class='govuk-error-summary__body'>
+        <ul class='govuk-list govuk-error-summary__list'>
           <% record.errors.keys.each do |field| %>
             <li>
               <a href='#<%= record.model_name.param_key %>_<%= field %>'>
