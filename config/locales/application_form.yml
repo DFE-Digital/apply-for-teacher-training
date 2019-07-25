@@ -28,3 +28,19 @@ en:
         label: Email address
       address:
         label: Postal address
+
+    degree_details_section:
+      heading:
+        Academic qualifications
+      type:
+        label: Type of degree
+        hint_label: For example, BA, BSc, Masters, Phd, or other (please specify).
+      subject:
+        label: Subject of degree
+      institution:
+        label: Institution where you studied
+      class:
+        label: Class of degree
+      year:
+        label: Year qualification was awarded
+

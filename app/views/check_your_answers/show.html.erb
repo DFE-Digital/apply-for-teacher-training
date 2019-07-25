@@ -13,6 +13,8 @@
       section_name: :contact_details,
       record: @contact_details %>
 
+    <%= render 'academic_qualifications', degree: @degree %>
+
     <%= link_to tt_application_path, role: 'button', class: 'govuk-button' do %>
       <%= t('application_form.submit') %>
     <% end %>
