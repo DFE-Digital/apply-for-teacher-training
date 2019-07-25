@@ -1,0 +1,22 @@
+<%= render 'shared/form_errors_summary', record: @degree %>
+
+<div class='govuk-grid-row'>
+  <div class='govuk-grid-column-two-thirds'>
+    <%= form_with model: @degree, builder: GOVUKDesignSystemFormBuilder::FormBuilder, action: :edit do |f| %>
+      <legend class='govuk-fieldset__legend govuk-fieldset__legend--xl'>
+        <h1 class='govuk-fieldset__heading'>
+          <span class='govuk-caption-xl'>Academic qualifications</span>
+          Add degree
+        </h1>
+      </legend>
+
+      <%= f.govuk_text_field :type_of_degree, label: { text: t('application_form.degree_details_section.type.label')}, width: 20 %>
+      <%= f.govuk_text_field :subject, label: { text: t('application_form.degree_details_section.subject.label')}, width: 20 %>
+      <%= f.govuk_text_field :institution, label: { text: t('application_form.degree_details_section.institution.label')}, width: 20 %>
+      <%= f.govuk_text_field :class_of_degree, label: { text: t('application_form.degree_details_section.class.label')}, width: 20 %>
+      <%= f.govuk_text_field :year, label: { text: t('application_form.degree_details_section.year.label')}, width: 20 %>
+
+      <%= f.submit t('application_form.save_and_continue'), class: 'govuk-button' %>
+    <% end %>
+  </div>
+</div>

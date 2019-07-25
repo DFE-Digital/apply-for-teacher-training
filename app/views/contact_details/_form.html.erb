@@ -1,10 +1,10 @@
-<%= render "shared/form_errors_summary", record: @contact_details %>
+<%= render 'shared/form_errors_summary', record: @contact_details %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+<div class='govuk-grid-row'>
+  <div class='govuk-grid-column-two-thirds'>
     <%= form_with model: @contact_details, builder: GOVUKDesignSystemFormBuilder::FormBuilder, action: action do |f| %>
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-        <h1 class="govuk-fieldset__heading">
+      <legend class='govuk-fieldset__legend govuk-fieldset__legend--xl'>
+        <h1 class='govuk-fieldset__heading'>
           Contact Details
         </h1>
       </legend>

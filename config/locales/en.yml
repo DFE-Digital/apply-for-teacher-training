@@ -55,3 +55,15 @@ en:
               blank: 'Enter your email address'
             address:
               blank: 'Enter your postal address'
+        degree:
+          attributes:
+            type_of_degree:
+              blank: 'Enter the type of your degree'
+            subject:
+              blank: 'Enter the subject'
+            institution:
+              blank: 'Enter the institution'
+            class_of_degree:
+              blank: 'Enter the class of your degree'
+            year:
+              blank: 'Enter the year'
