@@ -17,4 +17,12 @@ training.
 
 ## Running the tests and linters
 
-`bundle exec rake`
+To run the specs you must provide a path to chromedriver, which is the headless
+browser we use to interact with JavaScript.
+
+```
+CHROMEDRIVER_PATH=/path/to/chromedriver bundle exec rake
+```
+
+If you do not have chromedriver installed, first execute
+`bin/install-chromedriver`, which will install it for you and report the path.
