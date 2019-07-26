@@ -23,7 +23,7 @@ ENV APP_HOME /app
 RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
 
-ADD Gemfile Gemfile.lock package.json $APP_HOME/
+ADD Gemfile Gemfile.lock package.json yarn.lock $APP_HOME/
 RUN yarn install --check-files
 RUN bundle install
 
