@@ -1,3 +1,5 @@
+[![Build Status](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_apis/build/status/Apply/apply-for-postgraduate-teacher-training?branchName=master)](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build/latest?definitionId=49&branchName=master)
+
 # Apply for postgraduate teacher training
 
 This service enables postgraduate candidates to apply for initial teacher
