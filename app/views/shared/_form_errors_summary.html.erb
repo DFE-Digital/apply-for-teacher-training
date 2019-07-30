@@ -1,18 +1,16 @@
-<% if record.present? %>
-  <% if record.errors.any? %>
-    <div class='govuk-error-summary' aria-labelledby='error-summary-title' role='alert' tabindex='-1' data-module='error-summary'>
-      <h2 class='govuk-error-summary__title'>There is a problem</h2>
-      <div class='govuk-error-summary__body'>
-        <ul class='govuk-list govuk-error-summary__list'>
-          <% record.errors.keys.each do |field| %>
-            <li>
-              <a href='<%= field_anchor_link(model_name: record.model_name, field: field) %>'>
-                <%= record.errors.messages[field].first %>
-              </a>
-            </li>
-          <% end %>
-        </ul>
-      </div>
+<% if record.present? && record.errors.any? %>
+  <div class='govuk-error-summary' aria-labelledby='error-summary-title' role='alert' tabindex='-1' data-module='error-summary'>
+    <h2 class='govuk-error-summary__title'>There is a problem</h2>
+    <div class='govuk-error-summary__body'>
+      <ul class='govuk-list govuk-error-summary__list'>
+        <% record.errors.keys.each do |field| %>
+          <li>
+            <a href='<%= field_anchor_link(model_name: record.model_name, field: field) %>'>
+              <%= record.errors.messages[field].first %>
+            </a>
+          </li>
+        <% end %>
+      </ul>
     </div>
-  <% end %>
+  </div>
 <% end %>
