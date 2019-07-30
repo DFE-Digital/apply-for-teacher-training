@@ -2,6 +2,8 @@ require 'rails_helper'
 
 describe 'A candidate completing an application for teacher training' do
   include TestHelpers::PersonalDetails
+  include TestHelpers::ContactDetails
+  include TestHelpers::DegreeDetails
 
   context 'who submits a valid application' do
     before do
@@ -9,7 +11,12 @@ describe 'A candidate completing an application for teacher training' do
       click_on t('application_form.begin_button')
 
       fill_in_personal_details
+      click_on t('application_form.save_and_continue')
 
+      fill_in_contact_details
+      click_on t('application_form.save_and_continue')
+
+      fill_in_degree_details
       click_on t('application_form.save_and_continue')
 
       visit '/check_your_answers'

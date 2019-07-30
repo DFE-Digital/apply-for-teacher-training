@@ -21,7 +21,7 @@ class ContactDetailsController < ApplicationController
     @contact_details = ContactDetails.new(contact_details_params)
 
     if @contact_details.save
-      redirect_to check_your_answers_path
+      redirect_to new_degree_path
     else
       render :new
     end
