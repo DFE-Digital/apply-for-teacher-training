@@ -11,10 +11,14 @@ describe 'A candidate entering contact details' do
       click_on t('application_form.save_and_continue')
     end
 
-    it 'sees a summary of those details' do
-      visit '/check-your-answers'
+    describe 'visiting the check_your_answers page' do
+      before do
+        visit '/check_your_answers'
+      end
 
-      expect(page).to have_content('Phone number 1234567890')
+      it 'sees a summary of those details' do
+        expect(page).to have_content('Phone number 1234567890')
+      end
     end
 
     context 'and wishes to amend their details' do
