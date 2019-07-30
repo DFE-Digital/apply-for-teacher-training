@@ -6,7 +6,7 @@
         <ul class='govuk-list govuk-error-summary__list'>
           <% record.errors.keys.each do |field| %>
             <li>
-              <a href='<%= field_anchor_link(record.model_name, field) %>'>
+              <a href='<%= field_anchor_link(model_name: record.model_name, field: field) %>'>
                 <%= record.errors.messages[field].first %>
               </a>
             </li>
