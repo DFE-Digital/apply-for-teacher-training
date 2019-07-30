@@ -1,27 +1,27 @@
-<h2 class="govuk-heading-m">Academic qualifications</h2>
+<h2 class='govuk-heading-m'>Academic qualifications</h2>
   <div id='degree-list'>
-  <table class="govuk-table govuk-!-font-size-16">
-    <thead class="govuk-table__head">
-    <tr class="govuk-table__row">
-      <th class="govuk-table__header" scope="col" width="30%">Degree(s)</th>
-      <th class="govuk-table__header" scope="col" width="10%">Grade</th>
-      <th class="govuk-table__header" scope="col">Institution</th>
-      <th class="govuk-table__header" scope="col">Year awarded</th>
-      <th class="govuk-table__header govuk-!-padding-right-2" scope="col">
-        <span class="govuk-visually-hidden">Actions</span>
+  <table class='govuk-table govuk-!-font-size-16'>
+    <thead class='govuk-table__head'>
+    <tr class='govuk-table__row'>
+      <th class='govuk-table__header' scope='col' width='30%'>Degree(s)</th>
+      <th class='govuk-table__header' scope='col' width='10%'>Grade</th>
+      <th class='govuk-table__header' scope='col'>Institution</th>
+      <th class='govuk-table__header' scope='col'>Year awarded</th>
+      <th class='govuk-table__header govuk-!-padding-right-2' scope='col'>
+        <span class='govuk-visually-hidden'>Actions</span>
       </th>
     </tr>
     </thead>
-    <tbody class="govuk-table__body">
+    <tbody class='govuk-table__body'>
 
     <% degrees.each do |degree| %>
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell"><%= degree.type_of_degree %></td>
-        <td class="govuk-table__cell"><%= degree.class_of_degree %></td>
-        <td class="govuk-table__cell"><%= degree.institution %></td>
-        <td class="govuk-table__cell"><%= degree.year %></td>
-        <td class="govuk-table__cell govuk-!-padding-right-2">
-          <%= link_to 'Change', [:edit, degree], class: 'govuk-link', id: "change-degree" %>
+      <tr class='govuk-table__row'>
+        <td class='govuk-table__cell'><%= degree.type_of_degree %></td>
+        <td class='govuk-table__cell'><%= degree.class_of_degree %></td>
+        <td class='govuk-table__cell'><%= degree.institution %></td>
+        <td class='govuk-table__cell'><%= degree.year %></td>
+        <td class='govuk-table__cell govuk-!-padding-right-2'>
+          <%= link_to 'Change', [:edit, degree], class: 'govuk-link', id: 'change-degree' %>
         </td>
       </tr>
     <% end %>
