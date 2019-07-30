@@ -43,4 +43,5 @@ en:
         label: Class of degree
       year:
         label: Year qualification was awarded
-
+      button:
+        add_degree: Add another degree

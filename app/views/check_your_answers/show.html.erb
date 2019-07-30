@@ -6,14 +6,14 @@
     <%= render 'shared/section_summary',
       fields: [:first_name, :last_name, :preferred_name, :date_of_birth],
       section_name: :personal_details,
-      record: @personal_details %>
+      record: @application[:personal_details] %>
 
     <%= render 'shared/section_summary',
       fields: [:phone_number, :email_address, :address],
       section_name: :contact_details,
-      record: @contact_details %>
+      record: @application[:contact_details] %>
 
-    <%= render 'academic_qualifications', degree: @degree %>
+    <%= render 'academic_qualifications', degrees: @application[:degrees] %>
 
     <%= link_to tt_application_path, role: 'button', class: 'govuk-button' do %>
       <%= t('application_form.submit') %>

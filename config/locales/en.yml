@@ -60,10 +60,10 @@ en:
             type_of_degree:
               blank: 'Enter the type of your degree'
             subject:
-              blank: 'Enter the subject'
+              blank: 'Enter the subject(s) you studied'
             institution:
-              blank: 'Enter the institution'
+              blank: 'Enter the institution at which you studied'
             class_of_degree:
               blank: 'Enter the class of your degree'
             year:
-              blank: 'Enter the year'
+              blank: 'Enter the year you were awarded your degree'
