@@ -7,7 +7,5 @@ class ContactDetails < ApplicationRecord
 
   validates :address, :email_address, :phone_number, presence: true
 
-  MAX_LENGTHS.each do |field, max|
-    validates field, length: { maximum: max }
-  end
+  MAX_LENGTHS.each { |field, max| validates field, length: { maximum: max } }
 end

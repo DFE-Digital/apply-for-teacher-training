@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2019_07_30_095213) do
     t.string "type_of_qualification"
     t.string "subject"
     t.string "institution"
-    t.string "result"
+    t.string "grade"
     t.integer "year"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

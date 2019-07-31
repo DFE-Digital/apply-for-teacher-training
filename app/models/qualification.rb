@@ -1,12 +1,12 @@
-class Degree < ApplicationRecord
+class Qualification < ApplicationRecord
   MAX_LENGTHS = {
-    class_of_degree: 20,
+    grade: 20,
     institution: 100,
     subject: 100,
-    type_of_degree: 20
+    type_of_qualification: 20
   }.freeze
 
-  validates :type_of_degree, :subject, :institution, :class_of_degree, :year, presence: true
+  validates :type_of_qualification, :subject, :institution, :grade, :year, presence: true
 
   MAX_LENGTHS.each { |field, max| validates field, length: { maximum: max } }
 

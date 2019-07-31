@@ -10,7 +10,8 @@
         </h1>
       </legend>
 
-      <%= f.govuk_text_field :type_of_degree, label: { text: t('application_form.degree_details_section.type.label')}, width: 20 %>
+      <%= f.govuk_text_field :type_of_degree, label: { text: t('application_form.degree_details_section.type.label')}, hint_text: t('application_form.degree_details_section.type.hint_label'), width: 20 %>
+
       <%= f.govuk_text_field :subject, label: { text: t('application_form.degree_details_section.subject.label')}, width: 20 %>
       <%= f.govuk_text_field :institution, label: { text: t('application_form.degree_details_section.institution.label')}, width: 20 %>
       <%= f.govuk_text_field :class_of_degree, label: { text: t('application_form.degree_details_section.class.label')}, width: 20 %>

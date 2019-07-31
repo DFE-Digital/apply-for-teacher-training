@@ -17,6 +17,8 @@
 
     <%= render 'academic_qualifications', degrees: @application[:degrees] %>
 
+    <%= render 'non_degree_qualifications', qualifications: @application[:qualifications] %>
+
     <%= link_to tt_application_path, role: 'button', class: 'govuk-button', 'data-module': 'govuk-button' do %>
       <%= t('application_form.submit') %>
     <% end %>

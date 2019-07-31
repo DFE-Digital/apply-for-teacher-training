@@ -6,7 +6,7 @@ describe 'A candidate completing an application for teacher training' do
   include TestHelpers::DegreeDetails
   include TestHelpers::NonDegreeQualifications
 
-  xcontext 'who submits a valid application' do
+  context 'when all the forms are correctly filled in' do
     before do
       visit '/'
       click_on t('application_form.begin_button')
@@ -17,14 +17,16 @@ describe 'A candidate completing an application for teacher training' do
       fill_in_contact_details
       click_on t('application_form.save_and_continue')
 
-      fill_in_non_degree_qualification
+      fill_in_degree_details
       click_on t('application_form.save_and_continue')
 
-      visit '/check-your-answers'
-      click_on t('application_form.submit')
+      fill_in_qualification_details
+      click_on t('application_form.save_and_continue')
     end
 
-    it 'can see that the application has been successfully submitted' do
+    it 'successfully submits the application' do
+      click_on t('application_form.submit')
+
       expect(page).to have_content t('application_form.application_submitted')
     end
   end
