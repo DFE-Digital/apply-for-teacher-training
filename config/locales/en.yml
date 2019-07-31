@@ -86,3 +86,15 @@ en:
               not_a_number:  'The year you were awarded your degree must be a number'
               greater_than: 'The year you were awarded your degree must be after %{count}'
               less_than_or_equal_to: 'The year you were awarded your degree must be before %{count}'
+        qualification:
+          attributes:
+            type_of_qualification:
+              blank: 'Enter the type of your qualification'
+            subject:
+              blank: 'Enter the subject(s) you studied'
+            institution:
+              blank: 'Enter the institution at which you studied'
+            grade:
+              blank: 'Enter the grade of your qualification'
+            year:
+              blank: 'Enter the year you were awarded your qualification'

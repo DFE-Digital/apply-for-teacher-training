@@ -18,20 +18,17 @@ en:
         label: Name you prefer to be addressed by
       date_of_birth:
         label: Date of birth
-        hint_text: For example, 12 11 1997
+        hint_text: For example, 31 3 1980
     contact_details_section:
-      heading:
-        Contact details
+      heading: Contact details
       phone_number:
         label: Phone number
       email_address:
         label: Email address
       address:
         label: Postal address
-
     degree_details_section:
-      heading:
-        Academic qualifications
+      heading: Academic qualifications
       type:
         label: Type of degree
         hint_label: For example, BA, BSc, Masters, Phd, or other (please specify).
@@ -45,3 +42,18 @@ en:
         label: Year qualification was awarded
       button:
         add_degree: Add another degree
+    qualification_section:
+      heading: Maths GCSE, English GCSE and other qualifications
+      type:
+        label: Type of qualification
+        hint_label: For example, GCSE, A level, BTEC, NVQ or non-UK other, please specify
+      subject:
+        label: Subject
+      institution:
+        label: Institution where you studied
+      grade:
+        label: Grade
+      year:
+        label: Year qualification was awarded
+      button:
+        add_another: Add another qualification

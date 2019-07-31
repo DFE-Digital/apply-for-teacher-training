@@ -7,7 +7,7 @@ class DegreesController < ApplicationController
     @degree = Degree.new(degree_params)
 
     if @degree.save
-      redirect_to check_your_answers_path
+      redirect_to new_qualification_path
     else
       render :new
     end

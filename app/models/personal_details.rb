@@ -9,11 +9,9 @@ class PersonalDetails < ApplicationRecord
 
   validates :first_name, :last_name, :title, :date_of_birth, presence: true
 
-  validate :date_of_birth, :date_is_not_too_old
+  MAX_LENGTHS.each { |field, max| validates field, length: { maximum: max } }
 
-  MAX_LENGTHS.each do |field, max|
-    validates field, length: { maximum: max }
-  end
+  validate :date_of_birth, :date_is_not_too_old
 
 private
 

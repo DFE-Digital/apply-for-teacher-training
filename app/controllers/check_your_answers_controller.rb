@@ -3,7 +3,8 @@ class CheckYourAnswersController < ApplicationController
     @application = {
       personal_details: PersonalDetails.last,
       contact_details: ContactDetails.last,
-      degrees: Degree.all
+      degrees: Degree.all,
+      qualifications: Qualification.all
     }
   end
 end

@@ -14,7 +14,8 @@
       <%= f.govuk_text_field :preferred_name, label: { text: t('application_form.personal_details_section.preferred_name.label')} %>
       <%= f.govuk_text_field :last_name, label: { text: t('application_form.personal_details_section.last_name.label')} %>
       <div id='personal_details_date_of_birth'>
-        <%= f.govuk_date_field :date_of_birth, legend: { text: 'Date of birth', tag: 'span', size: 's' }, hint_text: 'For example, 31 3 1980' %>
+        <%= f.govuk_date_field :date_of_birth, legend: { text: t('application_form.personal_details_section.date_of_birth.label'), tag: 'span', size: 's' },
+                               hint_text: t('application_form.personal_details_section.date_of_birth.hint_text') %>
       </div>
 
       <%= f.submit t('application_form.save_and_continue'), class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>

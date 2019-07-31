@@ -13,15 +13,13 @@ describe 'A candidate entering contact details' do
 
     describe 'visiting the check_your_answers page' do
       before do
-        visit '/check_your_answers'
+        visit '/check-your-answers'
       end
 
       it 'sees a summary of those details' do
         expect(page).to have_content('Phone number 1234567890')
       end
-    end
 
-    context 'and wishes to amend their details' do
       it 'can go back and edit them' do
         visit '/check-your-answers'
 

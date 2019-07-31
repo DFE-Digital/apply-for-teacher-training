@@ -13,6 +13,8 @@ describe 'A candidate adding a Degree' do
     end
 
     it 'sees a summary of those details' do
+      visit '/check-your-answers'
+
       expect(page).to have_content('BA')
     end
 
@@ -35,6 +37,16 @@ describe 'A candidate adding a Degree' do
       click_on t('application_form.save_and_continue')
 
       expect(page).to have_content('There is a problem')
+    end
+  end
+
+  context 'who wants to add another degree' do
+    it 'navigates to the page Add degree' do
+      visit '/check-your-answers'
+
+      click_on t('application_form.degree_details_section.button.add_degree')
+
+      expect(page).to have_content('Add degree')
     end
   end
 end
