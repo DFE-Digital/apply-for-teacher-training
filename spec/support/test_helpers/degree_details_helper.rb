@@ -17,4 +17,3 @@ module TestHelpers
     end
   end
 end
-
