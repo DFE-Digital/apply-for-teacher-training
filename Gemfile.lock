@@ -240,7 +240,7 @@ DEPENDENCIES
   capybara (>= 3.24)
   erb_lint
   govuk-lint
-  govuk_design_system_formbuilder
+  govuk_design_system_formbuilder (= 0.7.9)
   listen (>= 3.0.5, < 3.2)
   pg (~> 1.1.4)
   pry
