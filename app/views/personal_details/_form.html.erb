@@ -16,7 +16,7 @@
       <div id='personal_details_date_of_birth'>
         <%= f.govuk_date_field :date_of_birth, legend: { text: 'Date of birth', tag: 'span', size: 's' }, hint_text: 'For example, 31 3 1980' %>
       </div>
-      <%= f.submit t('application_form.save_and_continue'), class: 'govuk-button' %>
+      <%= f.submit t('application_form.save_and_continue'), class: 'govuk-button', 'data-module': 'govuk-button' %>
   <% end %>
   </div>
 </div>
