@@ -15,7 +15,7 @@
 
     <%= render 'academic_qualifications', degrees: @application[:degrees] %>
 
-    <%= link_to tt_application_path, role: 'button', class: 'govuk-button' do %>
+    <%= link_to tt_application_path, role: 'button', class: 'govuk-button', 'data-module': 'govuk-button' do %>
       <%= t('application_form.submit') %>
     <% end %>
   </div>
