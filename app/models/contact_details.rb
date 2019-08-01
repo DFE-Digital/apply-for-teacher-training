@@ -1,3 +1,13 @@
 class ContactDetails < ApplicationRecord
-  validates :phone_number, :email_address, :address, presence: true
+  MAX_LENGTHS = {
+    address: 250,
+    email_address: 250,
+    phone_number: 35
+  }.freeze
+
+  validates :address, :email_address, :phone_number, presence: true
+
+  MAX_LENGTHS.each do |field, max|
+    validates field, length: { maximum: max }
+  end
 end

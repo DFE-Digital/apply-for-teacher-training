@@ -39,22 +39,29 @@ en:
               blank: 'Enter your title'
             first_name:
               blank: 'Enter your first name'
+              too_long: 'First name must be %{count} characters or less'
             last_name:
               blank: 'Enter your last name'
+              too_long: 'Last name must be %{count} characters or less'
             preferred_name:
               blank: 'Enter your preferred name'
+              too_long: 'Preferred name must be %{count} characters or less'
             date_of_birth:
               blank: 'Enter your date of birth'
+              too_old: 'Date of birth must be after %{year}'
             nationality:
               blank: 'Enter your nationality'
         contact_details:
           attributes:
             phone_number:
               blank: 'Enter your phone number'
+              too_long: 'Phone number must be %{count} characters or less'
             email_address:
               blank: 'Enter your email address'
+              too_long: 'Email address must be %{count} characters or less'
             address:
               blank: 'Enter your postal address'
+              too_long: 'Address must be %{count} characters or less'
         degree:
           attributes:
             type_of_degree:
@@ -67,3 +74,6 @@ en:
               blank: 'Enter the class of your degree'
             year:
               blank: 'Enter the year you were awarded your degree'
+              not_a_number:  'The year you were awarded your degree must be a number'
+              greater_than: 'The year you were awarded your degree must be after %{count}'
+              less_than_or_equal_to: 'The year you were awarded your degree must be before %{count}'
