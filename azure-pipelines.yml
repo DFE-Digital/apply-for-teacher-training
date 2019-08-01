@@ -58,7 +58,7 @@ stages:
         dockerHubImageName: $(imageName)
 
     - script: |
-       $DOCKER_OVERRIDE run web /bin/sh -c 'bundle exec rake spec SPEC_OPTS="--format RspecJunitFormatter --out ./rspec-results.xml"'
+       $DOCKER_OVERRIDE run web /bin/sh -c 'bundle exec rspec --format RspecJunitFormatter' > rspec-results.xml
       displayName: 'Execute tests'
       env:
         DOCKER_OVERRIDE: $(dockerOverride)
