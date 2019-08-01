@@ -24,7 +24,7 @@ describe 'A candidate completing an application for teacher training' do
     end
 
     it 'can see that the application has been successfully submitted' do
-      expect(page).to have_content t('application_form.application_submitted')
+      expect(page).to have_content 'bananas'
     end
   end
 end
