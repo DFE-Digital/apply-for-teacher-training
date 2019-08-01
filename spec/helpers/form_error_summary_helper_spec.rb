@@ -7,7 +7,6 @@ describe FormErrorSummaryHelper do
         instance_double(ActiveModel::Name, param_key: 'example_model')
       end
 
-
       it 'returns the correct anchor link for that model & field' do
         result = helper.field_anchor_link(
           model_name: naming_mock,
