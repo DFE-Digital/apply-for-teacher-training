@@ -12,7 +12,7 @@ class Degree < ApplicationRecord
   validates :class_of_degree, presence: true
   validates :year, presence: true
 
-  validates :year, numericality: { greater_than: 1899, less_than_or_equal_to: DateTime.now.year }
+  validates :year, numericality: { greater_than: 1899, less_than_or_equal_to: DateTime.now.year }, allow_blank: true
 
   MAX_LENGTHS.each do |field, max|
     validates field, length: { maximum: max }
