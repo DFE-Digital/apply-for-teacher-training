@@ -13,7 +13,7 @@
       <%= f.govuk_text_field :email_address, label: { text: t('application_form.contact_details_section.email_address.label')}, type: :email %>
       <%= f.govuk_text_area :address, label: { text: t('application_form.contact_details_section.address.label')} %>
 
-      <%= f.submit t('application_form.save_and_continue'), class: 'govuk-button', 'data-module': 'govuk-button' %>
+      <%= f.submit t('application_form.save_and_continue'), class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
     <% end %>
   </div>
 </div>

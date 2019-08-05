@@ -16,7 +16,7 @@
       <%= f.govuk_text_field :class_of_degree, label: { text: t('application_form.degree_details_section.class.label')}, width: 20 %>
       <%= f.govuk_text_field :year, label: { text: t('application_form.degree_details_section.year.label')}, width: 20 %>
 
-      <%= f.submit t('application_form.save_and_continue'), class: 'govuk-button', 'data-module': 'govuk-button' %>
+      <%= f.submit t('application_form.save_and_continue'), class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
     <% end %>
   </div>
 </div>
