@@ -63,6 +63,24 @@
                 "description": "Secret key base for rails"
             }
         },
+        "containerStartTimeLimit": {
+            "type": "string",
+            "metadata": {
+                "description": "Time limit in seconds, up to 1800s, that the appService will wait for the container to start."
+            }
+        },
+        "warmupPingPath": {
+            "type": "string",
+            "metadata": {
+                "description": "The path to ping during webapp warmup process, prior to slot swap."
+            }
+        },
+        "warmupPingStatus": {
+            "type": "string",
+            "metadata": {
+                "description": "The permitted status codes to indicate a successful app warmup."
+            }
+        },
         "railsServeStaticFiles": {
             "type": "string",
             "defaultValue": "true",
@@ -111,6 +129,12 @@
                 "parameters": {
                     "appServicePlanName": {
                         "value": "[variables('appServicePlanName')]"
+                    },
+                    "appServicePlanTier": {
+                        "value": "Standard"
+                    },
+                    "appServicePlanSize": {
+                        "value": "2"
                     }
                 }
             }
@@ -169,6 +193,18 @@
                                 "value": "[parameters('secretKeyBase')]"
                             },
                             {
+                                "name": "WEBSITES_CONTAINER_START_TIME_LIMIT",
+                                "value": "[parameters('containerStartTimeLimit')]"
+                            },
+                            {
+                                "name": "WEBSITE_SWAP_WARMUP_PING_PATH",
+                                "value": "[parameters('warmupPingPath')]"
+                            },
+                            {
+                                "name": "WEBSITE_SWAP_WARMUP_PING_STATUSES",
+                                "value": "[parameters('warmupPingStatus')]"
+                            },
+                            {
                                 "name": "RAILS_SERVE_STATIC_FILES",
                                 "value": "[parameters('railsServeStaticFiles')]"
                             }
@@ -178,6 +214,35 @@
             },
             "dependsOn": [
                 "app-service-plan"
+            ]
+        },
+        {
+            "name": "app-service-logs",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'), 'app-service-logs.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServiceName": {
+                        "value": "[variables('appServiceName')]"
+                    },
+                    "httpLoggingEnabled": {
+                        "value": true
+                    },
+                    "detailedErrorLoggingEnabled": {
+                        "value": true
+                    },
+                    "applicationLogsFileSystem": {
+                        "value": "Verbose"
+                    }
+                }
+            },
+            "dependsOn": [
+                "app-service"
             ]
         },
         {
