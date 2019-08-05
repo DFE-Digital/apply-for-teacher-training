@@ -58,6 +58,7 @@ stages:
         dockerHubImageName: $(imageName)
 
     - script: |
+       ls -ll
        touch rspec-results.xml
       displayName: 'Prepare test output file'
 
