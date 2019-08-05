@@ -36,7 +36,7 @@ describe 'A candidate entering contact details' do
     it 'sees an error summary with clickable links', js: true do
       expect(page).to have_content('There is a problem')
       click_on 'Enter your phone number'
-      expect(page).to have_selector('#contact_details_phone_number:focus')
+      expect(page).to have_selector('#contact-details-phone-number-field-error:focus')
     end
   end
 end
