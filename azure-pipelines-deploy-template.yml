@@ -1,4 +1,5 @@
 parameters:
+  debug: false
   subscriptionPrefix:
   subscriptionName:
   resourceEnvironmentName:
@@ -9,6 +10,9 @@ parameters:
   databasePassword:
   dockerhubUsername:
   securityKeyBase:
+  containerStartTimeLimit: '600'
+  warmupPingPath: '/personal_details/new'
+  warmupPingStatus: '200'
   railsEnv: 'production'
   securityAlertEmail: 'apprenticeshipsdevops@education.gov.uk'
   
@@ -21,6 +25,7 @@ jobs:
     variables:
       resourceGroupName: '${{parameters.subscriptionPrefix}}${{parameters.resourceEnvironmentName}}-${{parameters.serviceName}}'
       appServiceName: '${{parameters.subscriptionPrefix}}${{parameters.resourceEnvironmentName}}-${{parameters.serviceName}}-as'
+      system.debug: ${{parameters.debug}}
 
     pool:
       name: Hosted VS2017
@@ -38,6 +43,7 @@ jobs:
 
     - task: AzureResourceGroupDeployment@2
       displayName: 'Azure Deployment:Create Or Update Resource Group action on $(resourceGroupName)'
+      condition: succeeded()
       inputs:
         azureSubscription: '${{parameters.subscriptionName}}'
         resourceGroupName: '$(resourceGroupName)'
@@ -52,14 +58,19 @@ jobs:
           -databaseUsername "${{parameters.databaseUsername}}" 
           -databasePassword "${{parameters.databasePassword}}" 
           -securityAlertEmail "${{parameters.securityAlertEmail}}" 
-          -secretKeyBase "${{parameters.secretKeyBase}}"'
+          -secretKeyBase "${{parameters.secretKeyBase}}"
+          -containerStartTimeLimit "${{parameters.containerStartTimeLimit}}"
+          -warmupPingPath "${{parameters.warmupPingPath}}"
+          -warmupPingStatus "${{parameters.warmupPingStatus}}"'
         deploymentOutputs: DeploymentOutput
 
     - task: RasmusWatjen.ARMOutputParserExtension.ARMOutputConverter.ARMOutputParserExtension@1
       displayName: 'Parse ARM Deployment Outputs into variables'
+      condition: succeeded()
 
     - task: AzureAppServiceManage@0
       displayName: 'Start Azure App Service: $(appServiceName)'
+      condition: succeeded()
       inputs:
         azureSubscription: '${{parameters.subscriptionName}}'
         Action: 'Start Azure App Service'
@@ -68,6 +79,99 @@ jobs:
         ResourceGroupName: '$(resourceGroupName)'
         Slot: staging
 
+    - task: AzurePowerShell@3
+      displayName: 'Azure PowerShell Script - Web App Warmup: $(appServiceName)'
+      condition: succeeded()
+      inputs:
+        azureSubscription: '${{parameters.subscriptionName}}'
+        ScriptType: InlineScript
+        azurePowerShellVersion: LatestVersion
+        Inline: |
+          Param(
+            [string] $appservicename = "$(appServiceName)",
+            [string] $path = "${{parameters.warmupPingPath}}",
+            [int]$timeoutInMinutes = 5,
+            [int]$sleepDelaySeconds = 10
+          )
+          
+          $result = @() 
+          $restartCount = 1
+
+          #Get current date and time for timeout properties
+          $startTime = (get-date).ToString()
+          
+          #Timer starts now
+          write-output "Elapsed:00:00:00"
+          $continue = $true
+
+          $uri = ("{0}-staging.azurewebsites.net{1}" -f $appservicename, $path)
+          
+          While ( $continue )
+          {
+            $webrequest = try { 
+            
+              $request = $null 
+              ## Request the URI, and measure how long the response took. 
+              $result1 = Measure-Command { $request = Invoke-WebRequest -Uri "https://$uri" -MaximumRedirection 0 -ErrorAction Ignore } 
+              write-output **Time took to invoke web request: $result1.TotalMilliseconds **
+              $request
+            }  
+            catch { 
+              $request = $_.Exception.Response 
+              $time = -1 
+            }   
+          
+            $result = [PSCustomObject] @{ 
+              Time = Get-Date; 
+              Uri = $uri; 
+              StatusCode = [int] $request.StatusCode; 
+              StatusDescription = $request.StatusDescription; 
+              ResponseLength = $request.RawContentLength; 
+              TimeTaken =  $time.TotalMilliseconds;
+              WebRequest = $webrequest 
+            }
+                  
+            $sleeprequired = $false
+            $outputstatuscode=$result.StatusCode
+            $outputuri=($result.uri).ToString()
+            $outputwebrequest= $result.WebRequest.headers.location
+            if ($result.StatusCode -eq 200 ) {
+              Write-output "$outputuri is up and running. Status code = $outputstatuscode"
+            }
+            elseif($result.StatusCode -eq 302) {
+              Write-Output "$outputuri is up and running. Redirection is in place. Status code = $outputstatuscode "
+              Write-Output "$outputuri is redirected to $outputwebrequest "
+            }
+            else { 
+              Write-Output "$outputuri site is currently down or unreachable"
+              $sleeprequired = $true
+              # Remove comment to display extra info # write-output $result | fl
+              #reseting previous result
+              $result = @() 
+            }
+          
+            $currenttime = (get-date).ToString()
+            $elapsedTime = new-timespan $startTime $currenttime
+            write-output "Elapsed:$($elapsedTime.ToString("hh\:mm\:ss"))"  
+          
+            #Handle event
+            if ( $elapsedTime.Minutes -ge $timeoutInMinutes ) {
+              if ( $restartCount -gt 0 ) {
+                write-output "Restarting web app in staging slot..."
+                Restart-AzureRmWebAppSlot -ResourceGroupName $(resourceGroupName) -Name $(appServiceName) -Slot "staging"
+                $startTime = (get-date).ToString()
+                $restartCount--
+              } else {
+                exit(1)
+              }
+            } elseif ( $sleeprequired -eq $false) { 
+              exit(0)
+            } else {
+              write-output ("Sleeping for {0}s..." -f $sleepDelaySeconds)
+              Start-Sleep $sleepDelaySeconds
+            }
+          }
+
     - task: AzureAppServiceManage@0
       displayName: 'Swap Slots: $(appServiceName)'
       inputs:
@@ -75,6 +179,7 @@ jobs:
         WebAppName: '$(appServiceName)'
         ResourceGroupName: '$(resourceGroupName)'
         SourceSlot: staging
+      condition: succeeded()
 
     - task: AzureAppServiceManage@0
       displayName: 'Stop Azure App Service: $(appServiceName)'
