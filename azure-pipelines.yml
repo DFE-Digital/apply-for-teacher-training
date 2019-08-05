@@ -59,6 +59,9 @@ stages:
 
     - script: |
        touch rspec-results.xml
+      displayName: 'Prepare test output file'
+
+    - script: |
        $DOCKER_OVERRIDE run web /bin/sh -c 'bundle exec rake spec SPEC_OPTS="--format RspecJunitFormatter --out ./rspec-results.xml"'
       displayName: 'Execute tests'
       env:
