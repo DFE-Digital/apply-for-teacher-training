@@ -1,8 +1,7 @@
-<%= render 'shared/form_errors_summary', record: @personal_details %>
-
 <div class='govuk-grid-row'>
   <div class='govuk-grid-column-two-thirds'>
     <%= form_with model: @personal_details, builder: GOVUKDesignSystemFormBuilder::FormBuilder, action: action, html: { novalidate: true } do |f| %>
+      <%= f.govuk_error_summary %>
       <legend class='govuk-fieldset__legend govuk-fieldset__legend--xl'>
         <h1 class='govuk-fieldset__heading'>
           <%= t('application_form.personal_details_section.heading') %>
