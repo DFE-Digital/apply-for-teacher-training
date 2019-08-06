@@ -5,21 +5,21 @@ describe 'A candidate entering contact details' do
 
   context 'when details are correct' do
     before do
-      visit '/contact_details/new'
+      visit '/contact-details/new'
 
       fill_in_contact_details
       click_on t('application_form.save_and_continue')
     end
 
     it 'sees a summary of those details' do
-      visit '/check_your_answers'
+      visit '/check-your-answers'
 
       expect(page).to have_content('Phone number 1234567890')
     end
 
     context 'and wishes to amend their details' do
       it 'can go back and edit them' do
-        visit '/check_your_answers'
+        visit '/check-your-answers'
 
         find('#change-phone_number').click
         expect(page).to have_field('Phone number', with: '1234567890')
@@ -29,7 +29,7 @@ describe 'A candidate entering contact details' do
 
   context 'who leaves out a required field' do
     before do
-      visit '/contact_details/new'
+      visit '/contact-details/new'
       click_on t('application_form.save_and_continue')
     end
 
