@@ -21,7 +21,7 @@ stages:
 
     variables:
       # Support multiple docker-compose files to allow travis and az pipelines to co exist: https://docs.docker.com/compose/extends/#multiple-compose-files
-      dockerOverride: 'docker-compose -f docker-compose.yml'
+      dockerOverride: 'docker-compose -f docker-compose.yml -f docker-compose.azure.yml'
       system.debug: $(debug)
 
     steps:

@@ -8,7 +8,6 @@ services:
       - dbdata:/var/lib/postgresql/data
   web:
     build: .
-    image: ${dockerHubUsername}/${dockerHubImageName}:latest
     working_dir: /app
     ports:
       - "3000:3000"
