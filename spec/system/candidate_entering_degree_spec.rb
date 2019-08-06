@@ -18,7 +18,7 @@ describe 'A candidate adding a Degree' do
 
     context 'and wishes to amend their details' do
       it 'can go back and edit them' do
-        visit '/check_your_answers'
+        visit '/check-your-answers'
 
         find('#change-degree').click
         expect(page).to have_field('Type of degree', with: 'BA')
