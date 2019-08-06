@@ -30,6 +30,15 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  page_titles:
+    application: 'Apply for postgraduate teacher training - GOV.UK'
+    personal_details: 'Personal details'
+    edit_personal_details: 'Edit personal details'
+    contact_details: 'Contact details'
+    edit_contact_details: 'Edit contact details'
+    degrees: 'Add degree'
+    edit_degrees: 'Edit degree'
+    check_your_answers: 'Check your answers before submitting your application'
   activerecord:
     errors:
       models:
