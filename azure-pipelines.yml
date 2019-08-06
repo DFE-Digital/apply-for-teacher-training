@@ -15,8 +15,6 @@ stages:
   displayName: 'Build, Test & Release'
   jobs:
   - job: build_and_test_docker_image
-    workspace:
-      clean: all
     displayName: 'Build & Test Docker Image'
     pool:
       vmImage: 'Ubuntu-16.04'
@@ -60,12 +58,7 @@ stages:
         dockerHubImageName: $(imageName)
 
     - script: |
-       ls -ll
-       touch rspec-results.xml
-      displayName: 'Prepare test output file'
-
-    - script: |
-       $DOCKER_OVERRIDE run web /bin/sh -c 'bundle exec rake spec SPEC_OPTS="--format RspecJunitFormatter --out ./rspec-results.xml"'
+       $DOCKER_OVERRIDE run web /bin/sh -c 'bundle exec rake spec SPEC_OPTS="--format RspecJunitFormatter"' > rspec-results.xml
       displayName: 'Execute tests'
       env:
         DOCKER_OVERRIDE: $(dockerOverride)

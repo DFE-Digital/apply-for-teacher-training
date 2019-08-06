@@ -14,8 +14,6 @@ services:
       - "3000:3000"
     depends_on:
       - db
-    volumes:
-      - ./rspec-results.xml:/app/rspec-results.xml
     environment:
       - DB_HOSTNAME=db
       - DB_USERNAME=postgres
