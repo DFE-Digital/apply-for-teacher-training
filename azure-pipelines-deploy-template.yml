@@ -11,7 +11,7 @@ parameters:
   dockerhubUsername:
   securityKeyBase:
   containerStartTimeLimit: '600'
-  warmupPingPath: '/personal_details/new'
+  warmupPingPath: '/personal-details/new'
   warmupPingStatus: '200'
   railsEnv: 'production'
   securityAlertEmail: 'apprenticeshipsdevops@education.gov.uk'
