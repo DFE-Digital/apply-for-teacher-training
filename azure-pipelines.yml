@@ -92,22 +92,14 @@ stages:
         command: Push an image
         imageName: "$(docker_path):latest"
 
-    - task: CopyFiles@2
-      displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Pipeline Artifacts'
       inputs:
-        Contents: |
-          azure/**
-        TargetFolder: '$(build.artifactstagingdirectory)'
-        OverWrite: true
-
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact'
-      inputs:
-        PathtoPublish: '$(build.artifactstagingdirectory)'
-        ArtifactName: 'arm_template'
-        publishLocation: 'Container'
+        path: '$(System.DefaultWorkingDirectory)/azure/'
+        artifactName: 'arm_template'
 
     - task: PublishTestResults@2
+      displayName: 'Publish Test Results'
       condition: succeededOrFailed()
       inputs:
         testRunner: JUnit
@@ -124,6 +116,7 @@ stages:
       debug: $(debug)
       subscriptionPrefix: 's106'
       subscriptionName: 'Apply (106) - Dev'
+      environment: 'development'
       resourceEnvironmentName: 'd01'
       serviceName: 'apply'
       containerImageReference: '$(imageName):$(build.buildNumber)'
@@ -145,6 +138,7 @@ stages:
       debug: $(debug)
       subscriptionPrefix: 's106'
       subscriptionName: 'Apply (106) - Test'
+      environment: 'test'
       resourceEnvironmentName: 't01'
       serviceName: 'apply'
       containerImageReference: '$(imageName):$(build.buildNumber)'
@@ -166,6 +160,7 @@ stages:
 #       debug: $(debug)
 #       subscriptionPrefix: 's106'
 #       subscriptionName: 'Apply (106) - Production'
+#       environment: 'production'
 #       resourceEnvironmentName: 'p01'
 #       serviceName: 'apply'
 #       containerImageReference: '$(imageName):$(build.buildNumber)'
