@@ -23,6 +23,8 @@ describe 'A candidate adding a Degree' do
         visit '/check-your-answers'
 
         find('#change-degree').click
+
+        expect(page).to have_content('Edit degree')
         expect(page).to have_field('Type of degree', with: 'BA')
       end
     end

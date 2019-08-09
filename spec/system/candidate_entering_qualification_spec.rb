@@ -22,7 +22,7 @@ describe 'A candidate adding a qualification' do
       visit '/check-your-answers'
 
       find('#change-qualification').click
-      expect(page).to have_content('Add qualification')
+      expect(page).to have_content('Edit qualification')
 
       expect(page).to have_field('Type of qualification', with: 'GCSE')
     end
