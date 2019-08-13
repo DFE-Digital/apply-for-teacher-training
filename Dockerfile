@@ -4,7 +4,6 @@ RUN apk add --update build-base postgresql-dev git tzdata nodejs yarn && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
     echo "Europe/London" > /etc/timezone
 
-RUN gem install rails -v '5.2.2'
 RUN gem install bundler:2.0.2
 
 ENV APP_HOME /app
