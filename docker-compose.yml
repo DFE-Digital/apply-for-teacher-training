@@ -1,11 +1,9 @@
 version: '3.6'
-volumes:
-  dbdata:
 services:
   db:
     image: postgres:9.6-alpine
-    volumes:
-      - dbdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=developmentpassword
   web:
     build: .
     working_dir: /app
@@ -16,3 +14,6 @@ services:
     environment:
       - DB_HOSTNAME=db
       - DB_USERNAME=postgres
+      - DB_PASSWORD=developmentpassword
+      - DB_DATABASE=bat_apply_dev
+      - DB_PORT=5432
