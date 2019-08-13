@@ -1,5 +1,9 @@
 class PersonalDetailsController < ApplicationController
+  before_action :require_candidate!
+
   def new
+    puts 'current_candidate >>>>>> '
+    puts current_candidate.inspect
     @personal_details = PersonalDetails.new
   end
 

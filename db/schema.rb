@@ -10,11 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_30_095213) do
+ActiveRecord::Schema.define(version: 2019_08_13_135151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "candidates", force: :cascade do |t|
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "contact_details", force: :cascade do |t|
     t.string "phone_number"
@@ -32,6 +38,20 @@ ActiveRecord::Schema.define(version: 2019_07_30_095213) do
     t.integer "year"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "passwordless_sessions", force: :cascade do |t|
+    t.string "authenticatable_type"
+    t.bigint "authenticatable_id"
+    t.datetime "timeout_at", null: false
+    t.datetime "expires_at", null: false
+    t.datetime "claimed_at"
+    t.text "user_agent", null: false
+    t.string "remote_addr", null: false
+    t.string "token", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["authenticatable_type", "authenticatable_id"], name: "authenticatable"
   end
 
   create_table "personal_details", force: :cascade do |t|

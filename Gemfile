@@ -16,6 +16,8 @@ gem 'govuk-lint'
 gem 'govuk_design_system_formbuilder', '0.9.0'
 gem 'erb_lint', require: false
 
+gem 'passwordless'
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'

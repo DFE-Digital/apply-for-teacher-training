@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  passwordless_for :candidates
+
   root to: 'start_page#show'
 
   resources :personal_details, only: %i[new create edit update], path: 'personal-details'

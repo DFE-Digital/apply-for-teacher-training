@@ -46,6 +46,7 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     arel (9.0.0)
     ast (2.4.0)
+    bcrypt (3.1.13)
     better_html (1.0.14)
       actionview (>= 4.0)
       activesupport (>= 4.0)
@@ -114,6 +115,9 @@ GEM
     parallel (1.17.0)
     parser (2.6.3.0)
       ast (~> 2.4.0)
+    passwordless (0.8.0)
+      bcrypt (~> 3.1.11)
+      rails (>= 5.1.4)
     pg (1.1.4)
     pry (0.12.2)
       coderay (~> 1.1.0)
@@ -240,6 +244,7 @@ DEPENDENCIES
   govuk-lint
   govuk_design_system_formbuilder (= 0.9.0)
   listen (>= 3.0.5, < 3.2)
+  passwordless
   pg (~> 1.1.4)
   pry
   puma (~> 4.1)
