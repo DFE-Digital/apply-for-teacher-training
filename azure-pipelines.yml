@@ -32,8 +32,7 @@ stages:
       displayName: 'Set version number'
 
     - script: |
-        docker-compose build
-        docker-compose run web /bin/sh -c "bundle exec rails db:setup"
+        make setup
       displayName: 'Build & setup'
       env:
         DOCKER_OVERRIDE: $(dockerOverride)
@@ -41,7 +40,7 @@ stages:
         dockerHubImageName: $(imageName)
 
     - script: |
-        docker-compose run web /bin/sh -c "bundle exec govuk-lint-ruby app config db lib spec --format clang"
+        make ci.lint-ruby
       displayName: 'Rubocop'
       env:
         DOCKER_OVERRIDE: $(dockerOverride)
@@ -49,7 +48,7 @@ stages:
         dockerHubImageName: $(imageName)
 
     - script: |
-        docker-compose run web /bin/sh -c "bundle exec rake lint_erb"
+        make ci.lint-erb
       displayName: 'ERB lint'
       env:
         DOCKER_OVERRIDE: $(dockerOverride)
@@ -57,7 +56,7 @@ stages:
         dockerHubImageName: $(imageName)
 
     - script: |
-       docker-compose run web /bin/sh -c 'bundle exec rspec --format RspecJunitFormatter' > rspec-results.xml
+        make ci.test
       displayName: 'Execute tests'
       env:
         DOCKER_OVERRIDE: $(dockerOverride)

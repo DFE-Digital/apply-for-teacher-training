@@ -23,3 +23,15 @@ shell: ## Open a shell on the app container
 serve: ## Run the service
 	docker-compose up --build
 	
+.PHONY: ci.lint-ruby
+ci.lint-ruby: ## Run Rubocop with results formatted for CI
+	docker-compose run --rm web /bin/sh -c "bundle exec govuk-lint-ruby app config db lib spec --format clang"
+
+.PHONY: ci.lint-erb
+ci.lint-erb: ## Run the ERB linter
+	docker-compose run --rm web /bin/sh -c "bundle exec rake lint_erb"
+
+.PHONY: ci.test
+ci.test: ## Run the tests with results formatted for CI
+	docker-compose run --rm web /bin/sh -c 'bundle exec rspec --format RspecJunitFormatter' > rspec-results.xml
+
