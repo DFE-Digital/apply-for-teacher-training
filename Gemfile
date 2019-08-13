@@ -13,7 +13,7 @@ gem 'webpacker'
 gem 'rubocop'
 gem 'rubocop-rspec'
 gem 'govuk-lint'
-gem 'govuk_design_system_formbuilder', '0.7.9'
+gem 'govuk_design_system_formbuilder', '0.9.0'
 gem 'erb_lint', require: false
 
 group :development do
