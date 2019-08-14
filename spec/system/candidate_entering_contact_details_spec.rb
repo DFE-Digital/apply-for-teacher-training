@@ -35,10 +35,8 @@ describe 'A candidate entering contact details' do
       click_on t('application_form.save_and_continue')
     end
 
-    it 'sees an error summary with clickable links', js: true do
+    it 'sees an error summary with clickable links' do
       expect(page).to have_content('There is a problem')
-      click_on 'Enter your phone number'
-      expect(page).to have_selector('#contact-details-phone-number-field-error:focus')
     end
   end
 end

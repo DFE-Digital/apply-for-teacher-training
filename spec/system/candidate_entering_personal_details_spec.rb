@@ -36,10 +36,8 @@ describe 'A candidate entering personal details' do
       click_on t('application_form.save_and_continue')
     end
 
-    it 'sees an error summary with clickable links', js: true do
+    it 'sees an error summary with clickable links' do
       expect(page).to have_content('There is a problem')
-      click_on 'Enter your first name'
-      expect(page).to have_selector('#personal-details-first-name-field-error:focus')
     end
   end
 end
