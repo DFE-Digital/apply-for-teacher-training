@@ -7,9 +7,10 @@ build: ## Create a new image
 	docker-compose build
 
 .PHONY: setup
-setup: build ## Set up a clean database for running the app or the specs in docker
+setup: build ## Set up a clean database and node_modules folder for running the app or the specs in docker
 	docker-compose down -v
 	docker-compose run --rm web bundle exec rake db:setup
+	docker-compose run --rm web yarn install
 
 .PHONY: test
 test: ## Run the linters and specs
