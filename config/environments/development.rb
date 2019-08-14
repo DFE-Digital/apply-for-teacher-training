@@ -35,6 +35,11 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  # Do not buffer STDOUT in Ruby. This behaviour interacts weirdly with the docker-compose
+  # log output and causes logs only to be printed when an exception occurs or the process
+  # exits.
+  $stdout.sync = true
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
