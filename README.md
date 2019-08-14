@@ -17,18 +17,6 @@ training.
 2. Run `bundle install` to install the gem dependencies
 3. Run `rails s` to launch the app on https://localhost:3000
 
-## Running the tests and linters
-
-To run the specs you must provide a path to chromedriver, which is the headless
-browser we use to interact with JavaScript.
-
-```
-CHROMEDRIVER_PATH=/path/to/chromedriver bundle exec rake
-```
-
-If you do not have chromedriver installed, first execute
-`bin/install-chromedriver`, which will install it for you and report the path.
-
 ## Webpacker
 
 We do not use the Rails asset pipeline. We use the Rails webpack wrapper
