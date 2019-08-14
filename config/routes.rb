@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   resources :degrees, only: %i[new create edit update]
   resources :qualifications, only: %i[new create edit update]
 
+  get 'candidates/summary', to: 'candidates#summary'
+
   get 'check-your-answers', to: 'check_your_answers#show'
   get 'application', to: 'tt_applications#show', as: :tt_application
 end

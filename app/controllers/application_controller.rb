@@ -12,6 +12,6 @@ class ApplicationController < ActionController::Base
   def require_candidate!
     return if current_candidate
 
-    redirect_to root_path, flash: { error: 'You are not worthy!' }
+    redirect_to 'candidates/invalid-token'
   end
 end
