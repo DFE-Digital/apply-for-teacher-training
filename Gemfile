@@ -8,12 +8,12 @@ gem 'puma', '~> 4.1'
 gem 'pg', '~> 1.1.4'
 
 gem 'webpacker'
+gem 'govuk_design_system_formbuilder', '0.9.0'
 
 # Linting
 gem 'rubocop'
 gem 'rubocop-rspec'
 gem 'govuk-lint'
-gem 'govuk_design_system_formbuilder', '0.9.0'
 gem 'erb_lint', require: false
 
 group :development do
@@ -27,6 +27,7 @@ group :test do
   gem 'shoulda-matchers', '~> 4.1'
   gem 'selenium-webdriver', '~> 3.142'
   gem 'rspec_junit_formatter'
+  gem 'webmock'
 end
 
 group :development, :test do
