@@ -64,6 +64,10 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "apply-for-postgraduate-teacher-training_#{Rails.env}"
 
   config.action_mailer.perform_caching = false
+  config.action_mailer.delivery_method = :notify
+  config.action_mailer.notify_settings = {
+    api_key: ENV.fetch('GOVUK_NOTIFY_API_KEY')
+  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

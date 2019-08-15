@@ -7,11 +7,6 @@ describe 'A candidate completing an application for teacher training' do
   include TestHelpers::NonDegreeQualifications
 
   context 'when all the forms are correctly filled in' do
-    let!(:notify_request) do
-      stub_request(:post, /api.notifications.service.gov.uk/)
-        .to_return(status: 200, body: '{}', headers: {})
-    end
-
     before do
       visit '/'
       click_on t('application_form.begin_button')
@@ -38,7 +33,7 @@ describe 'A candidate completing an application for teacher training' do
     it 'has submitted their application' do
       click_on t('application_form.submit')
 
-      expect(notify_request).to have_been_made
+      expect(TTApplicationMailer.deliveries.count).to eq(1)
     end
   end
 end
