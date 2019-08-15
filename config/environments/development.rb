@@ -32,8 +32,11 @@ Rails.application.configure do
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
-
   config.action_mailer.perform_caching = false
+  config.action_mailer.delivery_method = :notify
+  config.action_mailer.notify_settings = {
+    api_key: ENV.fetch('GOVUK_NOTIFY_API_KEY')
+  }
 
   # Do not buffer STDOUT in Ruby. This behaviour interacts weirdly with the docker-compose
   # log output and causes logs only to be printed when an exception occurs or the process

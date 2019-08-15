@@ -10,6 +10,9 @@ gem 'pg', '~> 1.1.4'
 gem 'webpacker'
 gem 'govuk_design_system_formbuilder', '0.9.0'
 
+# GovUK Notify
+gem 'mail-notify'
+
 # Linting
 gem 'rubocop'
 gem 'rubocop-rspec'
