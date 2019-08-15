@@ -19,8 +19,9 @@
 
     <%= render 'non_degree_qualifications', qualifications: @application[:qualifications] %>
 
-    <%= link_to tt_application_path, role: 'button', class: 'govuk-button', 'data-module': 'govuk-button' do %>
-      <%= t('application_form.submit') %>
+    <%= form_with url: tt_application_submission_path do |f| %>
+      <%= f.submit t('application_form.submit'), class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
     <% end %>
+
   </div>
 </div>
