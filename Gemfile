@@ -32,4 +32,5 @@ end
 
 group :development, :test do
   gem 'rspec-rails'
+  gem 'dotenv-rails'
 end

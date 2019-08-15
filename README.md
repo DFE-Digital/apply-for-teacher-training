@@ -13,9 +13,10 @@ training.
 
 ## Setting up the app in development
 
+1. Copy `.env.example` to `.env` and fill in the secrets
 1. Run `yarn` to install node dependencies
-2. Run `bundle install` to install the gem dependencies
-3. Run `rails s` to launch the app on https://localhost:3000
+1. Run `bundle install` to install the gem dependencies
+1. Run `rails s` to launch the app on https://localhost:3000
 
 ## Webpacker
 
