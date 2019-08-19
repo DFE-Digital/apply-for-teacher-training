@@ -24,16 +24,19 @@ describe 'A candidate completing an application for teacher training' do
       click_on t('application_form.save_and_continue')
     end
 
-    it 'can see the success page' do
+    it 'can show the application submitted page' do
       click_on t('application_form.submit')
 
       expect(page).to have_content t('application_form.application_submitted')
     end
 
-    it 'has submitted their application' do
-      click_on t('application_form.submit')
+    it 'can successfully send application submission email' do
+      ClimateControl.modify DEFAULT_PROVIDER_EMAIL: 'test@example.com' do
+        click_on t('application_form.submit')
+        open_email('test@example.com')
 
-      expect(TTApplicationMailer.deliveries.count).to eq(1)
+        expect(current_email.subject).to eq('Application submitted')
+      end
     end
   end
 end
