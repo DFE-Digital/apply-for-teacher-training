@@ -81,6 +81,12 @@
                 "description": "The permitted status codes to indicate a successful app warmup."
             }
         },
+        "govukNotifyAPIKey": {
+            "type": "string",
+            "metadata": {
+                "description": "GOV UK Notify service API key."
+            }
+        },
         "railsServeStaticFiles": {
             "type": "string",
             "defaultValue": "true",
@@ -207,6 +213,10 @@
                             {
                                 "name": "RAILS_SERVE_STATIC_FILES",
                                 "value": "[parameters('railsServeStaticFiles')]"
+                            },
+                            {
+                                "name": "GOVUK_NOTIFY_API_KEY",
+                                "value": "[parameters('govukNotifyAPIKey')]"
                             }
                         ]
                     }

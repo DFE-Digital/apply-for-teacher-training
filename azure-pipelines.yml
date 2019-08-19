@@ -7,8 +7,11 @@ trigger:
 pr: none
 
 variables:
-  imageName: 'apply-for-postgraduate-teacher-training'
-  debug: true
+- group: Docker Shared variables
+- name: imageName
+  value: 'apply-for-postgraduate-teacher-training'
+- name: debug
+  value: true
 
 stages:
 - stage: build_test_release
@@ -20,7 +23,8 @@ stages:
       vmImage: 'Ubuntu-16.04'
 
     variables:
-      system.debug: $(debug)
+    - name: system.debug 
+      value: $(debug)
 
     steps:
     - script: |
@@ -35,33 +39,33 @@ stages:
         make setup
       displayName: 'Build & setup'
       env:
-        DOCKER_OVERRIDE: $(dockerOverride)
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
+        GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
 
     - script: |
         make ci.lint-ruby
       displayName: 'Rubocop'
       env:
-        DOCKER_OVERRIDE: $(dockerOverride)
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
+        GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
 
     - script: |
         make ci.lint-erb
       displayName: 'ERB lint'
       env:
-        DOCKER_OVERRIDE: $(dockerOverride)
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
+        GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
 
     - script: |
         make ci.test
       displayName: 'Execute tests'
       env:
-        DOCKER_OVERRIDE: $(dockerOverride)
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
+        GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
 
     - task: Docker@1
       displayName: Tag image with current build number $(Build.BuildNumber)
@@ -108,6 +112,8 @@ stages:
   displayName: 'Deploy - Development'
   dependsOn: build_test_release
   condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  variables:
+  - group: APPLY - Development Secrets
   jobs:
   - template: azure-pipelines-deploy-template.yml
     parameters:
@@ -130,6 +136,8 @@ stages:
   displayName: 'Deploy - Test'
   dependsOn: build_test_release
   condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  variables:
+  - group: APPLY - Production Secrets
   jobs:
   - template: azure-pipelines-deploy-template.yml
     parameters:
@@ -152,6 +160,8 @@ stages:
 #   displayName: 'Deploy - Production'
 #   dependsOn: build_test_release
 #   condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+#   variables:
+#   - group: APPLY - Production Secrets
 #   jobs:
 #   - template: azure-pipelines-deploy-template.yml
 #     parameters:
