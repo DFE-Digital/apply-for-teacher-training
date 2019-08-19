@@ -2,7 +2,8 @@ require 'notifications/client'
 
 class TTApplicationSubmissionsController < ApplicationController
   def create
-    TTApplicationMailer.send_application(to: 'email@example.com').deliver!
+    contact_details = ContactDetails.last
+    TTApplicationMailer.send_application(to: ENV.fetch('DEFAULT_PROVIDER_EMAIL'), candidate_email: contact_details.email_address).deliver!
 
     redirect_to(tt_application_path)
   end

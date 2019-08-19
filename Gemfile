@@ -30,7 +30,8 @@ group :test do
   gem 'shoulda-matchers', '~> 4.1'
   gem 'selenium-webdriver', '~> 3.142'
   gem 'rspec_junit_formatter'
-  gem 'webmock'
+  gem 'capybara-email'
+  gem 'climate_control'
 end
 
 group :development, :test do
