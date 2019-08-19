@@ -59,7 +59,8 @@ jobs:
                 -secretKeyBase "${{parameters.secretKeyBase}}"
                 -containerStartTimeLimit "${{parameters.containerStartTimeLimit}}"
                 -warmupPingPath "${{parameters.warmupPingPath}}"
-                -warmupPingStatus "${{parameters.warmupPingStatus}}"'
+                -warmupPingStatus "${{parameters.warmupPingStatus}}"
+                -govukNotifyAPIKey "$(govukNotifyAPIKey)"'
               deploymentOutputs: DeploymentOutput
 
           - task: RasmusWatjen.ARMOutputParserExtension.ARMOutputConverter.ARMOutputParserExtension@1
