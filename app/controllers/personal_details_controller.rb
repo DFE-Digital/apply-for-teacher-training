@@ -33,7 +33,6 @@ private
     params.require(:personal_details).permit(:title,
                                              :first_name,
                                              :last_name,
-                                             :preferred_name,
-                                             :date_of_birth)
+                                             :preferred_name)
   end
 end

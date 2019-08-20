@@ -6,7 +6,7 @@
     <h1 class='govuk-heading-xl'><%= t('application_form.check_your_answers') %></h1>
 
     <%= render 'shared/section_summary',
-      fields: [:first_name, :last_name, :preferred_name, :date_of_birth],
+      fields: [:first_name, :last_name, :preferred_name],
       section_name: :personal_details,
       record: @application[:personal_details] %>
 
