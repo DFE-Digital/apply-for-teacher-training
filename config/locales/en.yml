@@ -55,9 +55,6 @@ en:
             preferred_name:
               blank: 'Enter your preferred name'
               too_long: 'Preferred name must be %{count} characters or less'
-            date_of_birth:
-              blank: 'Enter your date of birth'
-              too_old: 'Date of birth must be after %{year}'
             nationality:
               blank: 'Enter your nationality'
         contact_details:
