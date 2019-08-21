@@ -46,29 +46,29 @@ en:
           attributes:
             title:
               blank: 'Enter your title'
-              too_long: 'Title must be %{count} characters or less'
+              too_long: 'Title must be %{count} characters or fewer'
             first_name:
               blank: 'Enter your first name'
-              too_long: 'First name must be %{count} characters or less'
+              too_long: 'First name must be %{count} characters or fewer'
             last_name:
               blank: 'Enter your last name'
-              too_long: 'Last name must be %{count} characters or less'
+              too_long: 'Last name must be %{count} characters or fewer'
             preferred_name:
               blank: 'Enter your preferred name'
-              too_long: 'Preferred name must be %{count} characters or less'
+              too_long: 'Preferred name must be %{count} characters or fewer'
             nationality:
               blank: 'Enter your nationality'
         contact_details:
           attributes:
             phone_number:
               blank: 'Enter your phone number'
-              too_long: 'Phone number must be %{count} characters or less'
+              too_long: 'Phone number must be %{count} characters or fewer'
             email_address:
               blank: 'Enter your email address'
-              too_long: 'Email address must be %{count} characters or less'
+              too_long: 'Email address must be %{count} characters or fewer'
             address:
               blank: 'Enter your postal address'
-              too_long: 'Address must be %{count} characters or less'
+              too_long: 'Address must be %{count} characters or fewer'
         degree:
           attributes:
             type_of_degree:
