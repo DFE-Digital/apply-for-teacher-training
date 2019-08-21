@@ -46,6 +46,7 @@ en:
           attributes:
             title:
               blank: 'Enter your title'
+              too_long: 'Title must be %{count} characters or less'
             first_name:
               blank: 'Enter your first name'
               too_long: 'First name must be %{count} characters or less'
