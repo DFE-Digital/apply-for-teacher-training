@@ -10,7 +10,7 @@ AllCops:
     - 'node_modules/**/*'
     - 'config/application.rb'
     - 'config/puma.rb'
-    - 'config/environments/production.rb'
+    - 'config/environments/*'
 
 Style/StringLiterals:
   Enabled: true
