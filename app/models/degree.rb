@@ -1,9 +1,9 @@
 class Degree < ApplicationRecord
   MAX_LENGTHS = {
-    class_of_degree: 20,
-    institution: 100,
+    type_of_degree: 20,
     subject: 100,
-    type_of_degree: 20
+    institution: 100,
+    class_of_degree: 20
   }.freeze
 
   validates :type_of_degree, :subject, :institution, :class_of_degree, :year, presence: true

@@ -1,11 +1,11 @@
 class ContactDetails < ApplicationRecord
   MAX_LENGTHS = {
-    address: 250,
+    phone_number: 35,
     email_address: 250,
-    phone_number: 35
+    address: 250
   }.freeze
 
-  validates :address, :email_address, :phone_number, presence: true
+  validates :phone_number, :email_address, :address, presence: true
 
   MAX_LENGTHS.each { |field, max| validates field, length: { maximum: max } }
 end
