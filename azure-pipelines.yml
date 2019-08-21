@@ -23,7 +23,8 @@ stages:
       vmImage: 'Ubuntu-16.04'
 
     variables:
-    - name: system.debug 
+    - group: APPLY - Development Secrets
+    - name: system.debug
       value: $(debug)
 
     steps:
@@ -131,7 +132,7 @@ stages:
       securityKeyBase: '$(secretKeyBase)'
       railsEnv: 'development'
 
-      
+
 - stage: deploy_test
   displayName: 'Deploy - Test'
   dependsOn: build_test_release
@@ -155,7 +156,7 @@ stages:
       securityKeyBase: '$(secretKeyBase)'
       railsEnv: 'development'
 
-      
+
 # - stage: deploy_production
 #   displayName: 'Deploy - Production'
 #   dependsOn: build_test_release
