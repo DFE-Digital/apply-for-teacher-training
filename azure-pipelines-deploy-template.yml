@@ -60,7 +60,8 @@ jobs:
                 -containerStartTimeLimit "${{parameters.containerStartTimeLimit}}"
                 -warmupPingPath "${{parameters.warmupPingPath}}"
                 -warmupPingStatus "${{parameters.warmupPingStatus}}"
-                -govukNotifyAPIKey "$(govukNotifyAPIKey)"'
+                -govukNotifyAPIKey "$(govukNotifyAPIKey)"
+                -defaultProviderEmail "$(defaultProviderEmail)"'
               deploymentOutputs: DeploymentOutput
 
           - task: RasmusWatjen.ARMOutputParserExtension.ARMOutputConverter.ARMOutputParserExtension@1

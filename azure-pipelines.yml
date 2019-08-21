@@ -10,6 +10,8 @@ variables:
 - group: Docker Shared variables
 - name: imageName
   value: 'apply-for-postgraduate-teacher-training'
+- name: defaultProviderEmail
+  value: 'email@example.com'
 - name: debug
   value: true
 
@@ -43,6 +45,7 @@ stages:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
+        DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
 
     - script: |
         make ci.lint-ruby
@@ -51,6 +54,7 @@ stages:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
+        DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
 
     - script: |
         make ci.lint-erb
@@ -59,6 +63,7 @@ stages:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
+        DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
 
     - script: |
         make ci.test
@@ -67,6 +72,7 @@ stages:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
+        DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
 
     - task: Docker@1
       displayName: Tag image with current build number $(Build.BuildNumber)
@@ -163,6 +169,8 @@ stages:
 #   condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 #   variables:
 #   - group: APPLY - Production Secrets
+#   - name: govukNotifyDefaultProviderEmail
+#     value: 'email@example.com'
 #   jobs:
 #   - template: azure-pipelines-deploy-template.yml
 #     parameters:
