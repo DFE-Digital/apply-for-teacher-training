@@ -87,6 +87,12 @@
                 "description": "GOV UK Notify service API key."
             }
         },
+        "defaultProviderEmail": {
+            "type": "string",
+            "metadata": {
+                "description": "Notify service Default provider email address."
+            }
+        },
         "railsServeStaticFiles": {
             "type": "string",
             "defaultValue": "true",
@@ -217,6 +223,10 @@
                             {
                                 "name": "GOVUK_NOTIFY_API_KEY",
                                 "value": "[parameters('govukNotifyAPIKey')]"
+                            },
+                            {
+                                "name": "DEFAULT_PROVIDER_EMAIL",
+                                "value": "[parameters('defaultProviderEmail')]"
                             }
                         ]
                     }
