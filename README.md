@@ -5,18 +5,36 @@
 This service enables postgraduate candidates to apply for initial teacher
 training.
 
-## Prerequisites
+## Dependencies
 
 - Ruby 2.6.3
 - NodeJS 8.11.x
 - Yarn 1.12.x
+- PostgreSQL 9.6
 
-## Setting up the app in development
+## Prerequisites for development
+
+`docker` and `docker-compose`
+
+## Setting up the development environment
 
 1. Copy `.env.example` to `.env` and fill in the secrets
-1. Run `yarn` to install node dependencies
-1. Run `bundle install` to install the gem dependencies
-1. Run `rails s` to launch the app on https://localhost:3000
+1. Run `make setup`
+1. Run `make serve` to launch the app on https://localhost:3000
+
+See `Makefile` for the steps involved in building and running the app.
+
+## Docker workflow
+
+Under `docker-compose`, the database uses a Docker volume to persist
+storage across `docker-compose up`s and `docker-compose down`s. For
+want of cross-platform compatibility between JavaScript libraries, the
+app's `node_modules` folder is also stored in a persistent Docker
+volume.
+
+Running `make setup` will blow away and recreate those volumes,
+destroying any data you have created in development. It is necessary
+to run it at least once before the app will boot in Docker.
 
 ## Webpacker
 
