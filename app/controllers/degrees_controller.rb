@@ -1,4 +1,6 @@
 class DegreesController < ApplicationController
+  before_action :authenticate_candidate!
+
   def new
     @degree = Degree.new
   end

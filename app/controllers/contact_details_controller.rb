@@ -1,4 +1,6 @@
 class ContactDetailsController < ApplicationController
+  before_action :authenticate_candidate!
+
   def new
     @contact_details = ContactDetails.new
   end

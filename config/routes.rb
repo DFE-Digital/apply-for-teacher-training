@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  # No Devise modules are enabled
+  # Custom Warden strategy is used instead see app/warden/magic_link_token.rb
+  # Custom views are used, see app/views/magic_link/sign_up/
+  devise_for :candidates, skip: :all
+
   root to: 'start_page#show'
 
   resources :personal_details, only: %i[new create edit update], path: 'personal-details'
