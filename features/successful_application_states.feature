@@ -11,3 +11,4 @@ Feature: successful application states
       | application complete | provider  | set conditions         | offer made           |
       | offer made           | candidate | accept offer           | meeting conditions   |
       | meeting conditions   | provider  | confirm conditions met | recruited            |
+      | recruited            | provider  | confirm onboarding     | enrolled             |
