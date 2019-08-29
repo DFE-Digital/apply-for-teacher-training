@@ -6,6 +6,8 @@ Feature: successful application states
     Then the new application state is "<new state>"
 
     Examples:
-      | original state       | actor    | action           | new state            |
-      | references pending   | referee  | submit reference | application complete |
-      | application complete | provider | set conditions   | offer made           |
+      | original state       | actor     | action                 | new state            |
+      | references pending   | referee   | submit reference       | application complete |
+      | application complete | provider  | set conditions         | offer made           |
+      | offer made           | candidate | accept offer           | meeting conditions   |
+      | meeting conditions   | provider  | confirm conditions met | recruited            |
