@@ -42,6 +42,12 @@ en:
   activerecord:
     errors:
       models:
+        candidate:
+          attributes:
+            email_address:
+              blank: 'Enter your email address'
+              taken: 'Email address is already in use'
+              too_long: 'Email address must be %{count} characters or fewer'
         personal_details:
           attributes:
             title:

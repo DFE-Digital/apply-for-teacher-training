@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_27_141654) do
+ActiveRecord::Schema.define(version: 2019_08_27_155122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -20,7 +20,10 @@ ActiveRecord::Schema.define(version: 2019_08_27_141654) do
     t.string "email_address", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "magic_link_token"
+    t.datetime "magic_link_token_sent_at"
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true
+    t.index ["magic_link_token"], name: "index_candidates_on_magic_link_token", unique: true
   end
 
   create_table "contact_details", force: :cascade do |t|
