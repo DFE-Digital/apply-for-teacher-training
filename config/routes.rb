@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   resources :degrees, only: %i[new create edit update]
   resources :qualifications, only: %i[new create edit update]
 
+  get 'sign-up', to: 'magic_link/sign_up#new', as: :new_sign_up
+  post 'sign-up', to: 'magic_link/sign_up#create', as: :sign_up
+
   get 'check-your-answers', to: 'check_your_answers#show'
   get 'application', to: 'tt_applications#show', as: :tt_application
   post 'application/submit', to: 'tt_application_submissions#create', as: :tt_application_submission
