@@ -7,6 +7,7 @@ class CandidateApplication < ApplicationRecord
     state :offer_made
     state :meeting_conditions
     state :recruited
+    state :enrolled
 
     event :submit_reference do
       transitions from: :references_pending, to: :application_complete, if: :done_by_referee?
@@ -22,6 +23,10 @@ class CandidateApplication < ApplicationRecord
 
     event :confirm_conditions_met do
       transitions from: :meeting_conditions, to: :recruited, if: :done_by_provider?
+    end
+
+    event :confirm_onboarding do
+      transitions from: :recruited, to: :enrolled, if: :done_by_provider?
     end
   end
 
