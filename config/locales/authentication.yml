@@ -1,0 +1,6 @@
+en:
+  authentication:
+    sign_up:
+      button: Continue
+      email_address:
+        label: Email address
