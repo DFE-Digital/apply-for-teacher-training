@@ -33,6 +33,8 @@ group :test do
   gem 'rspec_junit_formatter'
   gem 'capybara-email'
   gem 'climate_control'
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner'
 end
 
 group :development, :test do
