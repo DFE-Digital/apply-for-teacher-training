@@ -1,6 +1,8 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    aasm (5.0.5)
+      concurrent-ruby (~> 1.0)
     actioncable (5.2.3)
       actionpack (= 5.2.3)
       nio4r (~> 2.0)
@@ -279,6 +281,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aasm
   capybara (>= 3.24)
   capybara-email
   climate_control

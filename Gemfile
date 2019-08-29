@@ -19,6 +19,9 @@ gem 'rubocop-rspec'
 gem 'govuk-lint'
 gem 'erb_lint', require: false
 
+# State machine
+gem 'aasm'
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
