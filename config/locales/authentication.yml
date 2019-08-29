@@ -4,3 +4,7 @@ en:
       button: Continue
       email_address:
         label: Email address
+      email:
+        subject: Please confirm your email address
+        heading: Please confirm your email address
+        body: Click the link below to sign in to the Apply for postgraduate teacher training service.
