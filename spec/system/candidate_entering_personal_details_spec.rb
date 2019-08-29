@@ -5,8 +5,10 @@ describe 'A candidate entering personal details' do
 
   context 'who successfully enters their details' do
     before do
-      visit '/'
-      click_on t('application_form.begin_button')
+      candidate = FactoryBot.create(:candidate)
+      login_as(candidate, scope: :candidate)
+
+      visit '/personal-details/new'
 
       fill_in_personal_details
 
@@ -31,8 +33,11 @@ describe 'A candidate entering personal details' do
 
   context 'who leaves out a required field' do
     before do
-      visit '/'
-      click_on t('application_form.begin_button')
+      candidate = FactoryBot.create(:candidate)
+      login_as(candidate, scope: :candidate)
+
+      visit '/personal-details/new'
+
       click_on t('application_form.save_and_continue')
     end
 

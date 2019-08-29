@@ -1,4 +1,6 @@
 class QualificationsController < ApplicationController
+  before_action :authenticate_candidate!
+
   def new
     @qualification = Qualification.new
   end

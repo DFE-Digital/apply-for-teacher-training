@@ -5,6 +5,9 @@ describe 'A candidate adding a qualification' do
 
   context 'who successfully enters their details' do
     before do
+      candidate = FactoryBot.create(:candidate)
+      login_as(candidate, scope: :candidate)
+
       visit '/qualifications/new'
 
       fill_in_qualification_details
@@ -30,6 +33,9 @@ describe 'A candidate adding a qualification' do
 
   context 'who leaves out a required field' do
     before do
+      candidate = FactoryBot.create(:candidate)
+      login_as(candidate, scope: :candidate)
+
       visit '/qualifications/new'
     end
 
@@ -41,6 +47,11 @@ describe 'A candidate adding a qualification' do
   end
 
   context 'who wants to add another qualification' do
+    before do
+      candidate = FactoryBot.create(:candidate)
+      login_as(candidate, scope: :candidate)
+    end
+
     it 'navigates to the "Add qualification" page' do
       visit '/check-your-answers'
 
