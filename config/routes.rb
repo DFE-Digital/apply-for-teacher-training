@@ -11,5 +11,6 @@ Rails.application.routes.draw do
   post 'application/submit', to: 'tt_application_submissions#create', as: :tt_application_submission
 
   get ':actor/applications', constraints: { actor: /candidate|provider|referee/ }, controller: 'candidate_applications', action: :index, as: :tt_applications
+  post 'candidate/applications', controller: 'candidate_applications', action: :create, as: :create_tt_application
   post ':actor/applications/:id', constraints: { actor: /candidate|provider|referee/ }, controller: 'candidate_applications', action: :update, as: :tt_application_update
 end

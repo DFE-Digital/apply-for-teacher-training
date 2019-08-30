@@ -1,4 +1,10 @@
 class CandidateApplicationsController < ApplicationController
+  def create
+    CandidateApplication.create!
+
+    redirect_to tt_applications_path(actor: 'candidate')
+  end
+
   def index
     @applications = CandidateApplication.all
     @actor = params[:actor]

@@ -28,3 +28,9 @@
     </tbody>
   </table>
 <% end %>
+
+<% if @actor == 'candidate' %>
+  <%= form_with url: create_tt_application_path do |form| %>
+    <%= form.submit 'Submit new application', class: 'govuk-button' %>
+  <% end %>
+<% end %>
