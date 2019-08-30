@@ -1,15 +1,15 @@
 <% if @applications.present? %>
-  <% @applications.each do |application| %>
-    <table class="govuk-table">
-      <caption class="govuk-table__caption">Applications</caption>
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header"></th>
-          <th scope="col" class="govuk-table__header">State</th>
-          <th scope="col" class="govuk-table__header">Actions</th>
-        </tr>
-      </thead>
-      <tbody class="govuk-table__body">
+  <table class="govuk-table">
+    <caption class="govuk-table__caption">Applications</caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header"></th>
+        <th scope="col" class="govuk-table__header">State</th>
+        <th scope="col" class="govuk-table__header">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% @applications.each do |application| %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">Application created on <%= application.created_at.strftime("%e %b %Y") %> at <%= application.created_at.strftime("%H:%M") %></td>
           <td class="govuk-table__cell"><%= application.state.gsub("_", " ") %></td>
@@ -24,7 +24,7 @@
             <% end %>
           </td>
         </tr>
-      </tbody>
-    </table>
-  <% end %>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>
