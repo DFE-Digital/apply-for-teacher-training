@@ -2,13 +2,18 @@ class CandidateApplication < ApplicationRecord
   include AASM
 
   aasm column: 'state' do
-    state :references_pending, initial: true
+    state :unsubmitted, initial: true
+    state :references_pending
     state :application_complete
     state :offer_made
     state :meeting_conditions
     state :recruited
     state :enrolled
     state :rejected
+
+    event :submit do
+      transitions from: :unsubmitted, to: :references_pending, if: :done_by_candidate?
+    end
 
     event :submit_reference do
       transitions from: :references_pending, to: :application_complete, if: :done_by_referee?

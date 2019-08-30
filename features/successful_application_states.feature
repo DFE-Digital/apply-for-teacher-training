@@ -7,6 +7,7 @@ Feature: successful application states
 
     Examples:
       | original state       | actor     | action                 | new state            |
+      | unsubmitted          | candidate | submit                 | references pending   |
       | references pending   | referee   | submit reference       | application complete |
       | application complete | provider  | set conditions         | offer made           |
       | offer made           | candidate | accept offer           | meeting conditions   |
