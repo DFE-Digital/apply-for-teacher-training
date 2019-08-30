@@ -6,7 +6,7 @@ class CandidateApplicationsController < ApplicationController
   end
 
   def index
-    @applications = CandidateApplication.all
+    @applications = CandidateApplication.all.order("created_at desc")
     @actor = params[:actor]
   end
 
