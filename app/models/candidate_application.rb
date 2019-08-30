@@ -41,4 +41,8 @@ class CandidateApplication < ApplicationRecord
   def done_by_candidate?(actor)
     actor == 'candidate'
   end
+
+  def actions_for(actor)
+    self.aasm.events({permitted: true}, actor).map(&:name)
+  end
 end
