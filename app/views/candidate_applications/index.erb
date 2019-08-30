@@ -2,12 +2,11 @@
 
 <% if @applications.present? %>
   <table class="govuk-table">
-    <caption class="govuk-table__caption">Applications</caption>
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header"></th>
-        <th scope="col" class="govuk-table__header">State</th>
-        <th scope="col" class="govuk-table__header">Actions</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-half">Applications</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Status</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Actions</th>
       </tr>
     </thead>
     <tbody class="govuk-table__body">
@@ -19,9 +18,9 @@
             <% if application.actions_for(@actor).present? %>
               <%= form_with url: tt_application_update_path(id: application.id) do |form| %>
                 <% selects = application.actions_for(@actor).collect {|a| [a.to_s.gsub("_", " "), a]} %>
-                <%= form.select :application_event, options_for_select(selects) %>
+                <%= form.select :application_event, options_for_select(selects), {}, class: 'govuk-select govuk-!-width-two-thirds' %>
                 <%= hidden_field_tag 'actor', @actor %>
-                <%= form.submit %>
+                <%= form.submit class: 'govuk-button govuk-button--secondary govuk-!-width-one-sixth govuk-!-margin-0' %>
               <% end %>
             <% end %>
           </td>
