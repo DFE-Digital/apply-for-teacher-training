@@ -8,6 +8,7 @@ class CandidateApplication < ApplicationRecord
     state :meeting_conditions
     state :recruited
     state :enrolled
+    state :rejected
 
     event :submit_reference do
       transitions from: :references_pending, to: :application_complete, if: :done_by_referee?
@@ -27,6 +28,10 @@ class CandidateApplication < ApplicationRecord
 
     event :confirm_onboarding do
       transitions from: :recruited, to: :enrolled, if: :done_by_provider?
+    end
+
+    event :reject, if: :done_by_provider? do
+      transitions from: %i[references_pending application_complete offer_made meeting_conditions], to: :rejected
     end
   end
 

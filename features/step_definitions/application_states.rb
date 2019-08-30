@@ -4,7 +4,10 @@ end
 
 When(/a (\w+) (.*)/) do |actor, action|
   event_name = action.gsub(" ", "_").to_sym
-  @application.send(event_name, actor)
+  begin
+    @application.send(event_name, actor)
+  rescue AASM::InvalidTransition
+  end
 end
 
 Then("the new application state is {string}") do |new_application_state|
