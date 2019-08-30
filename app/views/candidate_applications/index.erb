@@ -35,3 +35,12 @@
     <%= form.submit 'Start new application', class: 'govuk-button' %>
   <% end %>
 <% end %>
+
+<% content_for :footer_links do %>
+  <h2 class="govuk-visually-hidden">Support links</h2>
+  <ul class="govuk-footer__inline-list">
+    <li class="govuk-footer__inline-list-item">
+      <%= link_to "Delete all applications", delete_all_tt_applications_path, method: :delete, class: 'govuk-footer__link' %>
+    </li>
+  </ul>
+<% end %>

@@ -16,4 +16,10 @@ class CandidateApplicationsController < ApplicationController
 
     redirect_to tt_applications_path(actor: params[:actor])
   end
+
+  def destroy
+    CandidateApplication.delete_all
+
+    redirect_to tt_applications_path(actor: params[:actor])
+  end
 end
