@@ -26,6 +26,7 @@ gem 'aasm'
 
 # Calculate working days
 gem 'business_time'
+gem 'holidays'
 
 group :development do
   gem 'web-console', '>= 3.3.0'

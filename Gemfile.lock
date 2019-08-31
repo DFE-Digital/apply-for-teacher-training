@@ -136,6 +136,7 @@ GEM
       scss_lint
     govuk_design_system_formbuilder (0.9.4)
       rails (>= 5.2.3)
+    holidays (7.1.0)
     html_tokenizer (0.0.7)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
@@ -309,6 +310,7 @@ DEPENDENCIES
   factory_bot_rails
   govuk-lint
   govuk_design_system_formbuilder (= 0.9.4)
+  holidays
   listen (>= 3.0.5, < 3.2)
   mail-notify
   pg (~> 1.1.4)
