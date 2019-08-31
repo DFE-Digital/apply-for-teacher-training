@@ -1,3 +1,20 @@
+Given ("there are no holidays") do
+  $initialized_holidays = BusinessTime::Config.holidays.dup
+  BusinessTime::Config.holidays.clear
+end
+
+# Restore any initialised holidays
+After do
+  BusinessTime::Config.holidays.replace($initialized_holidays) if defined?($initialized_holidays)
+end
+
+Given("the following dates are holidays:") do |table|
+  $initialized_holidays = BusinessTime::Config.holidays.dup
+
+  holiday_dates = table.raw.flatten.map {|str| Date.parse(str)}
+  BusinessTime::Config.holidays.replace(holiday_dates)
+end
+
 Then("working days are defined as follows:") do |table|
   table.hashes.each do |row|
     date = Date.parse(row["Date"])
