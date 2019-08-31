@@ -1,5 +1,5 @@
 class WorkingDay
   def self.is_working_day?(date)
-    date.on_weekday?
+    date.workday?
   end
 end
