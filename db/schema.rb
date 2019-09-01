@@ -72,8 +72,8 @@ ActiveRecord::Schema.define(version: 2019_09_01_150451) do
   end
 
   create_table "reject_by_default_timeframes", force: :cascade do |t|
-    t.datetime "from_date", null: false
-    t.datetime "to_date", null: false
+    t.datetime "from_time", null: false
+    t.datetime "to_time", null: false
     t.integer "number_of_working_days_until_rejection", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
