@@ -1,0 +1,2 @@
+class RejectByDefaultTimeframe < ApplicationRecord
+end
