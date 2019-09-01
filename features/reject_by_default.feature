@@ -29,5 +29,6 @@ Feature: Reject by default
     Then the application's RBD time is "<RBD time>"
 
     Examples:
-      | submission time                | RBD time                                  | notes                          |
-      | Mon 2 Sept 2019 9:00:00 AM BST | Thu 5 Sept 2019 11:59:59.999999999 PM BST | app submitted during work time |
+      | submission time                 | RBD time                                  | notes                          |
+      | Mon 2 Sept 2019 9:00:00 AM BST  | Thu 5 Sept 2019 11:59:59.999999999 PM BST | app submitted during work time |
+      | Mon 2 Sept 2019 11:00:00 PM BST | Thu 5 Sept 2019 11:59:59.999999999 PM BST | app submitted out of hours     |
