@@ -16,8 +16,13 @@ Given("the following dates are holidays:") do |table|
 end
 
 Given("the following rules around “reject by default” decision timeframes:") do |table|
-  # table is a Cucumber::MultilineArgument::DataTable
-  pending # Write code here that turns the phrase above into concrete actions
+  table.hashes.each do |row|
+    RejectByDefaultTimeframe.create!(
+      from_date: DateTime.parse(row["application submitted after"]),
+      to_date: DateTime.parse(row["application submitted before"]),
+      number_of_working_days_until_rejection: row["# of working days until rejection"]
+    )
+  end
 end
 
 Then("working days are defined as follows:") do |table|

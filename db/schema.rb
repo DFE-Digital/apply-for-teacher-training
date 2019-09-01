@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_29_223527) do
+ActiveRecord::Schema.define(version: 2019_09_01_143720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -55,6 +55,14 @@ ActiveRecord::Schema.define(version: 2019_08_29_223527) do
     t.string "institution"
     t.string "grade"
     t.integer "year"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "reject_by_default_timeframes", force: :cascade do |t|
+    t.datetime "from_date", null: false
+    t.datetime "to_date", null: false
+    t.integer "number_of_working_days_until_rejection", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
