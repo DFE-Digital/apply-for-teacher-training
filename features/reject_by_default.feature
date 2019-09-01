@@ -20,11 +20,13 @@ Feature: Reject by default
   interview within the allotted time) but this is an exceptional case and would
   need to be handled through support.
 
+  Background:
+    Given there are no holidays
+
   Scenario Outline: the 'reject by default' (RBD) date on an application
     Given the following rules around “reject by default” decision timeframes:
       | application submitted after | application submitted before | # of working days until rejection |
       | 1 Oct 2018 0:00:00          | 15 Sept 2019 23:59:59        | 3                                 |
-    And there are no holidays
     When an application is submitted at "<submission time>"
     Then the application's RBD time is "<RBD time>"
 
