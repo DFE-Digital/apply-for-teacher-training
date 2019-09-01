@@ -42,6 +42,7 @@ group :test do
   gem 'climate_control'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
+  gem 'timecop'
 end
 
 group :development, :test do
