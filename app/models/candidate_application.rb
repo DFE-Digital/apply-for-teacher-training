@@ -3,7 +3,7 @@ class CandidateApplication < ApplicationRecord
 
   aasm column: 'state' do
     state :unsubmitted, initial: true
-    state :references_pending, before_enter: :record_submission_time
+    state :references_pending, before_enter: %i[record_submission_time assign_rejected_by_default_at]
     state :application_complete
     state :offer_made
     state :meeting_conditions
@@ -58,5 +58,12 @@ class CandidateApplication < ApplicationRecord
 
   def record_submission_time
     self.submitted_at = Time.now
+  end
+
+  def assign_rejected_by_default_at
+    days_until_rejection = RejectByDefaultTimeframe
+                             .applicable_at(Time.now)
+                             .number_of_working_days_until_rejection
+    self.rejected_by_default_at = days_until_rejection.business_days.from_now.end_of_day
   end
 end

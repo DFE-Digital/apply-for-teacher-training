@@ -18,8 +18,8 @@ end
 Given("the following rules around “reject by default” decision timeframes:") do |table|
   table.hashes.each do |row|
     RejectByDefaultTimeframe.create!(
-      from_date: DateTime.parse(row["application submitted after"]),
-      to_date: DateTime.parse(row["application submitted before"]),
+      from_time: DateTime.parse(row["application submitted after"]),
+      to_time: DateTime.parse(row["application submitted before"]),
       number_of_working_days_until_rejection: row["# of working days until rejection"]
     )
   end
