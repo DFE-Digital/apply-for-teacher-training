@@ -3,7 +3,7 @@ class CandidateApplication < ApplicationRecord
 
   aasm column: 'state' do
     state :unsubmitted, initial: true
-    state :references_pending
+    state :references_pending, before_enter: :record_submission_time
     state :application_complete
     state :offer_made
     state :meeting_conditions
@@ -54,5 +54,9 @@ class CandidateApplication < ApplicationRecord
 
   def actions_for(actor)
     self.aasm.events({permitted: true}, actor).map(&:name)
+  end
+
+  def record_submission_time
+    self.submitted_at = Time.now
   end
 end
