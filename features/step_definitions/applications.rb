@@ -22,5 +22,5 @@ Then("the new application state is {string}") do |new_application_state|
 end
 
 Then("the application's RBD time is {string}") do |timestamp|
-  pending
+  expect(@application.rejected_by_default_at).to eq(DateTime.parse(timestamp))
 end
