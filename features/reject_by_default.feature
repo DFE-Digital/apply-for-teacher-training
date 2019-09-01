@@ -35,3 +35,17 @@ Feature: Reject by default
       | Mon 2 Sept 2019 9:00:00 AM BST  | Thu 5 Sept 2019 11:59:59.999999999 PM BST | app submitted during work time |
       | Mon 2 Sept 2019 11:00:00 PM BST | Thu 5 Sept 2019 11:59:59.999999999 PM BST | app submitted out of hours     |
       | Mon 4 Feb 2019 11:00:00 PM GMT  | Thu 7 Feb 2019 11:59:59.999999999 PM GMT  | submissions in GMT             |
+
+  Scenario Outline: the 'reject by default' (RBD) decision time can change at different parts of the recruitment cycle
+    Given the following rules around “reject by default” decision timeframes:
+      | application submitted after | application submitted before | # of working days until rejection |
+      | 1 Oct 2018 0:00:00          | 31 May 2019 23:59:59         | 3                                 |
+      | 1 Jun 2019 0:00:00          | 15 Sept 2019 23:59:59        | 1                                 |
+    When an application is submitted at "<submission time>"
+    Then the application's RBD time is "<RBD time>"
+
+    Examples:
+      | submission time                 | RBD time                                  | notes                          |
+      | Mon 20 May 2019 9:00:00 AM BST  | Thu 23 May 2019 11:59:59.999999999 PM BST | submitted in timeframe 1       |
+      | Mon 3 June 2019 9:00:00 AM BST  | Tue 4 June 2019 11:59:59.999999999 PM BST | submitted in timeframe 2       |
+      | Fri 31 May 2019 9:00:00 AM BST  | Wed 5 June 2019 11:59:59.999999999 PM BST | across the boundary            |
