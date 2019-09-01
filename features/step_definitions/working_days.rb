@@ -15,6 +15,11 @@ Given("the following dates are holidays:") do |table|
   BusinessTime::Config.holidays.replace(holiday_dates)
 end
 
+Given("the following rules around “reject by default” decision timeframes:") do |table|
+  # table is a Cucumber::MultilineArgument::DataTable
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
 Then("working days are defined as follows:") do |table|
   table.hashes.each do |row|
     date = Date.parse(row["Date"])
