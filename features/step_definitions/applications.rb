@@ -1,4 +1,4 @@
-Given("an application in {string} state") do |orginal_application_state|
+Given(/(an|the) application in "(.*)" state/) do |_, orginal_application_state|
   @application = CandidateApplication.new(state: orginal_application_state.gsub(" ", "_"))
 end
 
@@ -30,5 +30,9 @@ When("the automatic process for rejecting applications is run at {string}") do |
 end
 
 Then("the application should be automatically rejected: {string}") do |string|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then("an {string} is able to add conditions: {string}") do |actor, yes_or_no|
   pending # Write code here that turns the phrase above into concrete actions
 end
