@@ -1,4 +1,8 @@
 Feature: successful application states
+  Background:
+    Given the following rules around “reject by default” decision timeframes:
+      | application submitted after | application submitted before | # of working days until rejection |
+      | 1 Oct 2018 0:00:00          | 15 Sept 2025 23:59:59        | 3                                 |
 
   Scenario Outline: A successful application changes state depending on candidate, referee and provider actions.
     Given an application in "<original state>" state
