@@ -50,3 +50,13 @@ Feature: Reject by default
       | Mon 20 May 2019 9:00:00 AM BST  | Thu 23 May 2019 11:59:59.999999999 PM BST | submitted in timeframe 1       |
       | Mon 3 June 2019 9:00:00 AM BST  | Tue 4 June 2019 11:59:59.999999999 PM BST | submitted in timeframe 2       |
       | Fri 31 May 2019 9:00:00 AM BST  | Wed 5 June 2019 11:59:59.999999999 PM BST | across the boundary            |
+
+  Scenario Outline: applications that without offers are rejected automatically when their RBD time has elapsed
+    Given an application in "<application state>" state
+    And its RBD time is set to "<RBD time>"
+    When the automatic process for rejecting applications is run at "<current time>"
+    Then the application should be automatically rejected: "<should be automatically rejected?>"
+
+    Examples:
+      | application state  | RBD time             | current time        | should be automatically rejected? |
+      | references pending | 23 May 2019 11:59:59 | 24 May 2019 0:00:00 | true                              |
