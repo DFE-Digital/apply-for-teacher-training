@@ -1,10 +1,8 @@
-<td class="govuk-table__cell">
-  <% if application.actions_for(actor).present? %>
-    <%= form_with url: tt_application_update_path(id: application.id) do |form| %>
-      <% selects = application.actions_for(actor).collect {|a| [a.to_s.gsub("_", " "), a]} %>
-      <%= form.select :application_event, options_for_select(selects), {}, class: 'govuk-select govuk-!-width-two-thirds' %>
-      <%= hidden_field_tag 'actor', actor %>
-      <%= form.submit class: 'govuk-button govuk-button--secondary govuk-!-width-one-sixth govuk-!-margin-0' %>
-    <% end %>
+<% if application.actions_for(actor).present? %>
+  <%= form_with url: tt_application_update_path(id: application.id) do |form| %>
+    <% selects = application.actions_for(actor).collect {|a| [a.to_s.gsub("_", " "), a]} %>
+    <%= form.select :application_event, options_for_select(selects), {}, class: 'govuk-select govuk-!-width-two-thirds' %>
+    <%= hidden_field_tag 'actor', actor %>
+    <%= form.submit class: 'govuk-button govuk-button--secondary govuk-!-width-one-sixth govuk-!-margin-0' %>
   <% end %>
-</td>
+<% end %>
