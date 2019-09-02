@@ -4,7 +4,8 @@
   <table class="govuk-table">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header govuk-!-width-one-half">Applications</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Applications</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Rejected by default after</th>
         <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Status</th>
         <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Actions</th>
       </tr>
@@ -12,9 +13,24 @@
     <tbody class="govuk-table__body">
       <% @applications.each do |application| %>
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell">Application created on <%= application.created_at.strftime("%e %b %Y") %> at <%= application.created_at.strftime("%H:%M") %></td>
-          <td class="govuk-table__cell"><%= application.state.gsub("_", " ") %></td>
-          <%= render partial: 'application_actions', locals: { application: application, actor: @actor } %>
+          <td class="govuk-table__cell">
+            <% if application.submitted_at.present? %>
+              Submitted on <%= application.submitted_at.strftime("%e %b %Y") %> at <%= application.submitted_at.strftime("%H:%M") %>
+            <% else %>
+              Created on <%= application.created_at.strftime("%e %b %Y") %> at <%= application.created_at.strftime("%H:%M") %>
+            <% end %>
+          </td>
+          <td class="govuk-table__cell">
+            <% if application.rejected_by_default_at.present? %>
+              <%= application.rejected_by_default_at.strftime("%e %b %Y") %>
+            <% end %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= application.state.gsub("_", " ") %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= render partial: 'application_actions', locals: { application: application, actor: @actor } %>
+          </td>
         </tr>
       <% end %>
     </tbody>
