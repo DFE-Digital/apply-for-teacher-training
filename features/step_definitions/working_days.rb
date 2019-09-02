@@ -25,6 +25,10 @@ Given("the following rules around “reject by default” decision timeframes:")
   end
 end
 
+Given("its RBD time is set to {string}") do |string|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
 Then("working days are defined as follows:") do |table|
   table.hashes.each do |row|
     date = Date.parse(row["Date"])

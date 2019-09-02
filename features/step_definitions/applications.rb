@@ -24,3 +24,11 @@ end
 Then("the application's RBD time is {string}") do |timestamp|
   expect(@application.rejected_by_default_at).to eq(DateTime.parse(timestamp))
 end
+
+When("the automatic process for rejecting applications is run at {string}") do |string|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then("the application should be automatically rejected: {string}") do |string|
+  pending # Write code here that turns the phrase above into concrete actions
+end
