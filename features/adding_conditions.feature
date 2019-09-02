@@ -25,6 +25,7 @@ Feature: adding conditions – who can add them and when
       | Actor          | Application status   | Can add conditions? | Notes                           |
       | Candidate      | -                    | N                   | Not a provider                  |
       | Provider (1OM) | application complete | N                   | Application in the wrong status |
+      | Provider (U80) | meeting conditions   | N                   | Application in the wrong status |
       | Provider (S13) | offer made           | N                   | Wrong provider                  |
       | Provider (U80) | offer made           | Y                   |                                 |
       | Provider (1OM) | offer made           | Y                   |                                 |
