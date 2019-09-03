@@ -36,3 +36,24 @@ end
 Then("an {string} is able to add conditions: {string}") do |actor, yes_or_no|
   pending # Write code here that turns the phrase above into concrete actions
 end
+
+Given("the application stages are set up as follows:") do |table|
+  # table is a Cucumber::MultilineArgument::DataTable
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When("the candidate tries to submit applications to {int} different courses") do |int|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/their submission succeeds: (.*)/) do |yes_or_no|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given("the candidate has already submitted {int} applications at Apply 1") do |number_of_applications|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/they can submit more Apply 1 applications: (.*)/) do |yes_or_no|
+  pending # Write code here that turns the phrase above into concrete actions
+end
