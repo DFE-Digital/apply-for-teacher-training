@@ -2,7 +2,7 @@ Given(/(an|the) application in "(.*)" state/) do |_, orginal_application_state|
   @application = CandidateApplication.new(state: orginal_application_state.gsub(" ", "_"))
 end
 
-When(/a (\w+) (.*)/) do |actor, action|
+When(/^a (\w+) (.*)/) do |actor, action|
   event_name = action.gsub(" ", "_").to_sym
   begin
     @application.send(event_name, actor)
