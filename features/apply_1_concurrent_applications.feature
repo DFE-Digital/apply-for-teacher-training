@@ -7,18 +7,19 @@ Feature: Apply 1
 
   Scenario Outline: up to 3 applications simultaneously
     Given the application stages are set up as follows:
-      | name    | simultaneous applications limit |
-      | Apply 1 | 3                               |
-    When the candidate tries to submit applications to <number of distinct courses> different courses
+      | name    | simultaneous applications limit | start time | end time    |
+      | Apply 1 | 3                               | 1 Oct 2018 | 6 Sept 2019 |
+    When the candidate tries to submit Apply 1 applications to <number of distinct courses> different courses at <current time>
     Then their submission succeeds: <success or not?>
 
   Examples:
-    | number of distinct courses | success or not? |
-    | 0                          | N               |
-    | 1                          | Y               |
-    | 2                          | Y               |
-    | 3                          | Y               |
-    | 4                          | N               |
+    | number of distinct courses | current time | success or not? | notes               |
+    | 0                          | 1 Aug 2019   | N               | not enough courses  |
+    | 1                          | 1 Aug 2019   | Y               |                     |
+    | 2                          | 1 Aug 2019   | Y               |                     |
+    | 3                          | 1 Aug 2019   | Y               |                     |
+    | 4                          | 1 Aug 2019   | N               | too many courses    |
+    | 3                          | 8 Sept 2019  | N               | submitting too late |
 
   Scenario Outline: submitting applications at Apply 1
     Given the candidate has already submitted <applications already submitted> applications at Apply 1

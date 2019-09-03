@@ -42,7 +42,7 @@ Given("the application stages are set up as follows:") do |table|
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-When("the candidate tries to submit applications to {int} different courses") do |int|
+When(/the candidate tries to submit (.*) applications to (\d) different courses at (.*)/) do |stage, number_of_courses, time|
   pending # Write code here that turns the phrase above into concrete actions
 end
 
