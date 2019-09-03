@@ -1,6 +1,8 @@
 class CandidateApplication < ApplicationRecord
   include AASM
 
+  belongs_to :course
+
   aasm column: 'state' do
     state :unsubmitted, initial: true
     state :references_pending, before_enter: %i[record_submission_time assign_rejected_by_default_at]

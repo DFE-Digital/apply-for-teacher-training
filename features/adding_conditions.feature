@@ -4,7 +4,7 @@ Feature: adding conditions – who can add them and when
   or when the application has the 'offer made' status. Both the accredited body
   and the non-accredited body can add conditions. The provider isn't allowed to
   make a successful interview a condition (i.e. an interview should happen before
-  and offer is made, not after).
+  an offer is made, not after).
 
   Background:
     Given the following providers:
