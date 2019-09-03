@@ -25,8 +25,8 @@ Given("the following rules around “reject by default” decision timeframes:")
   end
 end
 
-Given("its RBD time is set to {string}") do |string|
-  pending # Write code here that turns the phrase above into concrete actions
+Given("its RBD time is set to {string}") do |rbd_time|
+  @application.update(rejected_by_default_at: rbd_time)
 end
 
 Then("working days are defined as follows:") do |table|
