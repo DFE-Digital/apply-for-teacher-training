@@ -69,4 +69,11 @@ class CandidateApplication < ApplicationRecord
                                     .after(Time.now.in_time_zone('London'))
                                     .end_of_day
   end
+  
+  # this method is going to be run by a background process
+  def process_for_rejecting_applications
+    if Time.now > self.rejected_by_default_at
+      self.reject('provider')
+    end
+  end
 end

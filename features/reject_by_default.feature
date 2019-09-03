@@ -55,8 +55,9 @@ Feature: Reject by default
     Given an application in "<application state>" state
     And its RBD time is set to "<RBD time>"
     When the automatic process for rejecting applications is run at "<current time>"
-    Then the application should be automatically rejected: "<should be automatically rejected?>"
+    Then the new application state is "<new application state>"
 
     Examples:
-      | application state  | RBD time             | current time        | should be automatically rejected? |
-      | references pending | 23 May 2019 11:59:59 | 24 May 2019 0:00:00 | true                              |
+      | application state  | RBD time             | current time         | new application state |
+      | references pending | 23 May 2019 11:59:59 | 24 May 2019 00:00:00 | rejected              |
+      | references pending | 23 May 2019 11:59:59 | 23 May 2019 11:59:58 | references pending    |
