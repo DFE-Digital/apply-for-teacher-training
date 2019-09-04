@@ -6,7 +6,7 @@ Given(/(an|the) application in "(.*)" state/) do |_, orginal_application_state|
   end
 end
 
-When(/^a (\w+) (\w*)$/) do |actor, action|
+When(/^a (\w+) ([\w\s]+)$/) do |actor, action|
   event_name = action.gsub(" ", "_").to_sym
   begin
     @application.send(event_name, actor)
