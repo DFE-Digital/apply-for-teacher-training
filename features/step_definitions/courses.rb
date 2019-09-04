@@ -1,12 +1,19 @@
 Given("the following providers:") do |table|
   table.hashes.each do |row|
-    Provider.create(code: row['provider code'], accredited_body: row['is an accredited body?'] == 'Y')
+    Provider.create!(
+      code: row['provider code'],
+      accredited_body: row['is an accredited body?'] == 'Y'
+    )
   end
 end
 
 Given("the following courses:") do |table|
   table.hashes.each do |row|
-    Course.create(course_code: row['course code'], provider_code: row['provider'], accredited_body_code: row['accredited body'])
+    Course.create!(
+      course_code: row['course code'],
+      provider: Provider.find_by!(code: row['provider code']),
+      accredited_body_code: row['accredited body']
+    )
   end
 end
 

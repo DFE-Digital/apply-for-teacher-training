@@ -18,8 +18,8 @@ Feature: adding conditions – who can add them and when
       | U80           | Y                      |
       | S13           | Y                      |
     And the following courses:
-      | course code | provider | accredited body |
-      | X123        | 10M      | U80             |
+      | course code | provider code | accredited body |
+      | X123        | 10M           | U80             |
 
   # Scenario Outline: adding conditions – who can add them and when
   #   When an application has been made to a course X123

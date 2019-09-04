@@ -83,6 +83,6 @@ class CandidateApplication < ApplicationRecord
     return false if self.state != 'offer_made'
 
 
-    self.course.provider_code == provider_code || self.course.accredited_body_code == provider_code
+    self.course.provider.code == provider_code || self.course.accredited_body_code == provider_code
   end
 end
