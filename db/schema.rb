@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_03_154959) do
+ActiveRecord::Schema.define(version: 2019_09_04_215343) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -45,10 +45,10 @@ ActiveRecord::Schema.define(version: 2019_09_03_154959) do
 
   create_table "courses", force: :cascade do |t|
     t.string "course_code"
-    t.string "provider_code"
     t.string "accredited_body_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "provider_id"
   end
 
   create_table "degrees", force: :cascade do |t|
