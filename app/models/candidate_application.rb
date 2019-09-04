@@ -78,4 +78,11 @@ class CandidateApplication < ApplicationRecord
       self.reject!('provider')
     end
   end
+
+  def provider_can_add_conditions?(provider_code)
+    return false if self.state != 'offer_made'
+
+
+    self.course.provider_code == provider_code || self.course.accredited_body_code == provider_code
+  end
 end
