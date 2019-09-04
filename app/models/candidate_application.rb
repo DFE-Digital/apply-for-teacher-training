@@ -1,7 +1,7 @@
 class CandidateApplication < ApplicationRecord
   include AASM
 
-  belongs_to :course
+  belongs_to :course, optional: true
 
   aasm column: 'state' do
     state :unsubmitted, initial: true
