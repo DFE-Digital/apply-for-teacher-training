@@ -1,3 +1,4 @@
+@candidate
 Feature: same & different courses
 
   Candidates shouldn't be able to apply to the same course multiple times.

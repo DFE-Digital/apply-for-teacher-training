@@ -1,10 +1,11 @@
+@provider
 Feature: adding conditions – who can add them and when
 
   Providers can add conditions to an application as part of making the offer,
   or when the application has the 'offer made' status. Both the accredited body
   and the non-accredited body can add conditions. The provider isn't allowed to
   make a successful interview a condition (i.e. an interview should happen before
-  an offer is made, not after).
+  and offer is made, not after).
 
   Background:
     Given the following providers:

@@ -1,3 +1,4 @@
+@candidate @provider
 Feature: working days
 
   "Reject by default" periods are calculated using working days. Working days exclude:
