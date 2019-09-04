@@ -11,6 +11,8 @@ Given("the following courses:") do |table|
 end
 
 When(/an application has been made to a course (.*)/) do |course_code|
+  # require 'pry'; binding.pry
   course = Course.find_by(course_code: course_code)
-  CandidateApplication.create(course: course)
+
+  @application = CandidateApplication.create(course: course)
 end

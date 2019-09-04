@@ -1,8 +1,12 @@
 Given(/(an|the) application in "(.*)" state/) do |_, orginal_application_state|
-  @application = CandidateApplication.new(state: orginal_application_state.gsub(" ", "_"))
+  if @application
+    @application.update(state: orginal_application_state.gsub(" ", "_"))
+  else
+    @application = CandidateApplication.new(state: orginal_application_state.gsub(" ", "_"))
+  end
 end
 
-When(/^a (\w+) (.*)/) do |actor, action|
+When(/^a (\w+) (\w*)$/) do |actor, action|
   event_name = action.gsub(" ", "_").to_sym
   begin
     @application.send(event_name, actor)
@@ -31,8 +35,8 @@ When("the automatic process for rejecting applications is run at {string}") do |
   end
 end
 
-Then("an {string} is able to add conditions: {string}") do |actor, yes_or_no|
-  pending # Write code here that turns the phrase above into concrete actions
+Then("a provider with a {string} is able to add conditions: {string}") do |provider_code, can_add_conditions|
+  expect(@application.provider_can_add_conditions?(provider_code)).to eq(can_add_conditions == 'Y')
 end
 
 Given("the application stages are set up as follows:") do |table|

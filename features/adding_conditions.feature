@@ -21,16 +21,29 @@ Feature: adding conditions – who can add them and when
       | course code | provider | accredited body |
       | X123        | 10M      | U80             |
 
+  # Scenario Outline: adding conditions – who can add them and when
+  #   When an application has been made to a course X123
+  #   And the application in "<application status>" state
+  #   Then an "<Actor>" is able to add conditions: "<Can add conditions?>"
+
+  #   Examples:
+  #     | Actor          | Application status   | Can add conditions? | Notes                           |
+  #     | Candidate      | -                    | N                   | Not a provider                  |
+  #     | Provider (1OM) | application complete | N                   | Application in the wrong status |
+  #     | Provider (U80) | meeting conditions   | N                   | Application in the wrong status |
+  #     | Provider (S13) | offer made           | N                   | Wrong provider                  |
+  #     | Provider (U80) | offer made           | Y                   |                                 |
+  #     | Provider (1OM) | offer made           | Y                   |                                 |
+
   Scenario Outline: adding conditions – who can add them and when
     When an application has been made to a course X123
-    And the application in "<application status>" state
-    Then an "<Actor>" is able to add conditions: "<Can add conditions?>"
+    And the application in "<Application status>" state
+    Then a provider with a "<Provider code>" is able to add conditions: "<Can add conditions?>"
 
     Examples:
-      | Actor          | Application status   | Can add conditions? | Notes                           |
-      | Candidate      | -                    | N                   | Not a provider                  |
-      | Provider (1OM) | application complete | N                   | Application in the wrong status |
-      | Provider (U80) | meeting conditions   | N                   | Application in the wrong status |
-      | Provider (S13) | offer made           | N                   | Wrong provider                  |
-      | Provider (U80) | offer made           | Y                   |                                 |
-      | Provider (1OM) | offer made           | Y                   |                                 |
+      | Provider code | Application status   | Can add conditions? | Notes                           |
+      | 10M           | application complete | N                   | Application in the wrong status |
+      | U80           | meeting conditions   | N                   | Application in the wrong status |
+      | S13           | offer made           | N                   | Wrong provider                  |
+      | U80           | offer made           | Y                   |                                 |
+      | 10M           | offer made           | Y                   |                                 |
