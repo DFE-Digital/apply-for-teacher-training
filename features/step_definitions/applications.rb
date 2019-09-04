@@ -44,14 +44,11 @@ When(/the candidate tries to submit (.*) applications to (\d) different courses 
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-Then(/their submission succeeds: (.*)/) do |yes_or_no|
+Then(/the candidate's (.*) batch to course[s]? (.*) at (.*) is (.*)/) do |stage, courses, time, valid_or_invalid|
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-Given("the candidate has already submitted {int} applications at Apply 1") do |number_of_applications|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/they can submit more Apply 1 applications: (.*)/) do |yes_or_no|
+Given(/the candidate has made (.*) (Apply \d) applications in the current recruitment cycle/) do |no_or_number, stage|
+  number_of_previous_applications = no_or_number == 'no' ? 0 : no_number
   pending # Write code here that turns the phrase above into concrete actions
 end
