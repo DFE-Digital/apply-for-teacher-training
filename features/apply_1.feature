@@ -1,3 +1,4 @@
+@candidate
 Feature: Apply 1
 
   At Apply 1, candidates can submit up to 3 applications simultaneously. The

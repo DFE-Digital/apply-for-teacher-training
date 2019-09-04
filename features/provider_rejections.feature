@@ -1,3 +1,4 @@
+@provider
 Feature: rejections by the provider
 
   Scenario Outline: A provider can reject applications at various stages

@@ -1,3 +1,4 @@
+@provider @candidate
 Feature: Reject by default
 
   An application is rejected by default (RBD) if a provider doesn't make an offer

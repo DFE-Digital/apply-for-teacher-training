@@ -1,3 +1,4 @@
+@candidate @provider @referee
 Feature: successful application states
   Background:
     Given the following rules around “reject by default” decision timeframes:
