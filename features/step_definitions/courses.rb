@@ -35,9 +35,9 @@ Given("the following courses:") do |table|
 end
 
 When(/an application has been made to a course (.*)/) do |course_code|
-  course = Course.find_by(course_code: course_code)
+  course = Course.find_by!(course_code: course_code)
 
-  @application = CandidateApplication.create(course: course)
+  @application = CandidateApplication.create!(course: course)
 end
 
 Then(/(.*) and (.*) are treated as the same choice: (.*)/) do |course_a, course_b, yes_or_no|
