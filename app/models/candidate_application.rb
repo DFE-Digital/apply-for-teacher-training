@@ -80,9 +80,7 @@ class CandidateApplication < ApplicationRecord
   end
 
   def provider_can_add_conditions?(provider_code)
-    return false if self.state != 'offer_made'
-
-
-    self.course.provider.code == provider_code || self.course.accredited_body_code == provider_code
+    self.state == 'offer_made' &&
+      provider_code.in?([self.course.provider.code, self.course.accredited_body.code])
   end
 end

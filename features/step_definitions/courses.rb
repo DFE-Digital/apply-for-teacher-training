@@ -12,7 +12,7 @@ Given("the following courses:") do |table|
     Course.create!(
       course_code: row['course code'],
       provider: Provider.find_by!(code: row['provider code']),
-      accredited_body_code: row['accredited body']
+      accredited_body: Provider.find_by!(code: row['accredited body'] || row['provider code']) # self-accredited if not specified
     )
   end
 end
