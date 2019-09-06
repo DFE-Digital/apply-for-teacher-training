@@ -3,6 +3,9 @@ class CandidateApplication < ApplicationRecord
 
   belongs_to :course, optional: true
 
+  scope :with_rbd_times_in_the_past, -> { where('rejected_by_default_at < ?', Time.now) }
+  scope :pre_offer, -> { where(state: %i[unsubmitted references_pending application_complete]) }
+
   aasm column: 'state' do
     state :unsubmitted, initial: true
     state :references_pending, before_enter: %i[record_submission_time assign_rejected_by_default_at]
@@ -77,9 +80,9 @@ class CandidateApplication < ApplicationRecord
   end
 
   # this method is going to be run by a background process
-  def process_for_rejecting_applications
-    if Time.now > self.rejected_by_default_at
-      self.reject!('provider')
+  def self.reject_applications_with_expired_rbd_times
+    self.with_rbd_times_in_the_past.pre_offer.each do |application|
+      application.reject!('provider')
     end
   end
 
