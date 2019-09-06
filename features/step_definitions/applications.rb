@@ -36,7 +36,14 @@ When("the automatic process for rejecting applications is run at {string}") do |
 end
 
 Then("a provider with a {string} is able to add conditions: {string}") do |provider_code, can_add_conditions|
-  expect(@application.provider_can_add_conditions?(provider_code)).to eq(can_add_conditions == 'Y')
+  if can_add_conditions == 'Y'
+    @application.add_conditions('provider', provider_code)
+    expect(@application.state).to eq('offer_made')
+  else
+    expect {
+      @application.add_conditions('provider', provider_code)
+    }.to raise_error(AASM::InvalidTransition)
+  end
 end
 
 Given("the application stages are set up as follows:") do |table|

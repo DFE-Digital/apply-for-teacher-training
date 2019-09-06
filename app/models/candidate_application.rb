@@ -40,6 +40,10 @@ class CandidateApplication < ApplicationRecord
     event :reject, if: :done_by_provider? do
       transitions from: %i[references_pending application_complete offer_made meeting_conditions], to: :rejected
     end
+
+    event :add_conditions, if: [:done_by_provider?, :can_add_conditions?] do
+      transitions from: :offer_made, to: :offer_made
+    end
   end
 
   def done_by_referee?(actor)
@@ -79,8 +83,7 @@ class CandidateApplication < ApplicationRecord
     end
   end
 
-  def provider_can_add_conditions?(provider_code)
-    self.state == 'offer_made' &&
-      provider_code.in?([self.course.provider.code, self.course.accredited_body.code])
+  def can_add_conditions?(_, provider_code)
+    provider_code.in?([self.course.provider.code, self.course.accredited_body.code])
   end
 end
