@@ -22,7 +22,7 @@ When("an application is submitted at {string}") do |timestamp|
 end
 
 Then("the new application state is {string}") do |new_application_state|
-  expect(@application.state).to eq(new_application_state.gsub(" ", "_"))
+  expect(@application.reload.state).to eq(new_application_state.gsub(" ", "_"))
 end
 
 Then("the application's RBD time is {string}") do |timestamp|
@@ -31,7 +31,7 @@ end
 
 When("the automatic process for rejecting applications is run at {string}") do |current_time|
   Timecop.freeze(DateTime.parse(current_time)) do
-    @application.process_for_rejecting_applications
+    CandidateApplication.reject_applications_with_expired_rbd_times
   end
 end
 
