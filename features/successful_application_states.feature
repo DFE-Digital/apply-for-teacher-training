@@ -1,5 +1,34 @@
 @candidate @provider @referee
 Feature: successful application states
+
+  References pending/Application complete
+  =======================================
+  Applicants will be able to submit their applications to providers without
+  references already being present (the 'references pending' status). Once at least
+  one reference has been submitted, the application goes into 'application complete'
+  status.
+
+  Offer made & meeting conditions
+  ===============================
+  A provider makes an offer to the candidate (be it conditional and unconditional).
+  The candidate then has to accept the offer, which sets the application status
+  to 'meeting conditions'.
+
+  Recruited
+  =========
+  If the candidate has met all conditions of their offer, the provider marks
+  their application as 'recruited'.
+
+  Enrolment
+  =========
+  Once a candidate has completed the enrolment process, the provider confirms
+  their enrolment onto the training programme. Since this status would be used
+  to claim bursaries/grants from DfE, the provider may delay enrolling the trainee
+  until a few weeks after the start of the training, since trainees can still
+  not show up on the first day or drop out within the first couple of weeks.
+  This reduces the risk that DfE over-pays that provider for training they didn't
+  deliver and having to reconcile or claw back that money later on.
+
   Background:
     Given the following rules around “reject by default” decision timeframes:
       | application submitted after | application submitted before | # of working days until rejection |
