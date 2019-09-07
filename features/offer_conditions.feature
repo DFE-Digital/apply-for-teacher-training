@@ -1,5 +1,5 @@
 @provider
-Feature: adding conditions – who can add them and when
+Feature: Managing conditions – who can add or amend them and when
 
   Providers can add conditions to an application as part of making the offer,
   or when the application has the 'offer made' status. Both the accredited body
@@ -21,7 +21,10 @@ Feature: adding conditions – who can add them and when
       | course code | provider code | accredited body |
       | X123        | 10M           | U80             |
 
-  Scenario Outline: the provider and the accredited body can add conditions after an offer has been made
+  Scenario Outline: adding conditions
+
+    The provider and the accredited body can add conditions after an offer has been made.
+
     When an application has been made to a course X123
     And the application in "<Application status>" state
     Then a provider with a "<Provider code>" is able to add conditions: "<Can add conditions?>"
