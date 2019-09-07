@@ -2,14 +2,14 @@ Given(/(an|the) application in "(.*)" state/) do |_, orginal_application_state|
   if @application
     @application.update(state: orginal_application_state.gsub(" ", "_"))
   else
-    @application = CandidateApplication.new(state: orginal_application_state.gsub(" ", "_"))
+    @application = CandidateApplication.create!(state: orginal_application_state.gsub(" ", "_"))
   end
 end
 
 When(/^a (\w+) ([\w\s]+)$/) do |actor, action|
   event_name = action.gsub(" ", "_").to_sym
   begin
-    @application.send(event_name, actor)
+    @application.aasm.fire!(event_name, actor)
   rescue AASM::InvalidTransition
   end
 end
