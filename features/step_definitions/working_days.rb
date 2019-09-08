@@ -1,4 +1,4 @@
-Given ('there are no holidays') do
+Given('there are no holidays') do
   $initialized_holidays = BusinessTime::Config.holidays.dup
   BusinessTime::Config.holidays.clear
 end
@@ -34,6 +34,6 @@ Then('working days are defined as follows:') do |table|
     date = Date.parse(row['Date'])
 
     expect(date.strftime('%A')).to eq(row['Day of the week?'])
-    expect(WorkingDay.is_working_day?(date)).to (row['Working day?'] == 'Y' ? be_truthy : be_falsey)
+    expect(WorkingDay.is_working_day?(date)).to(row['Working day?'] == 'Y' ? be_truthy : be_falsey)
   end
 end

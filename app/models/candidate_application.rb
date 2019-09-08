@@ -6,6 +6,7 @@ class CandidateApplication < ApplicationRecord
   scope :with_rbd_times_in_the_past, -> { where('rejected_by_default_at < ?', Time.now) }
   scope :pre_offer, -> { where(state: %i[unsubmitted references_pending application_complete]) }
 
+  # rubocop:disable Metrics/BlockLength
   aasm column: 'state' do
     state :unsubmitted, initial: true
     state :references_pending, before_enter: %i[record_submission_time assign_rejected_by_default_at]
@@ -48,6 +49,7 @@ class CandidateApplication < ApplicationRecord
       transitions from: :offer_made, to: :offer_made
     end
   end
+  # rubocop:enable Metrics/BlockLength
 
   def done_by_referee?(actor)
     actor == 'referee'
