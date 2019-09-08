@@ -35,7 +35,7 @@ When('the automatic process for rejecting applications is run at {string}') do |
   end
 end
 
-Then('a provider with a {string} is able to add conditions: {string}') do |provider_code, can_add_conditions|
+Then('a provider with code {string} is able to add conditions: {string}') do |provider_code, can_add_conditions|
   if can_add_conditions == 'Y'
     @application.add_conditions('provider', provider_code)
     expect(@application.state).to eq('offer_made')
