@@ -10,7 +10,7 @@ When(/^a (\w+) ([\w\s]+)$/) do |actor, action|
   event_name = action.gsub(' ', '_').to_sym
   begin
     @application.aasm.fire!(event_name, actor)
-  rescue AASM::InvalidTransition
+  rescue AASM::InvalidTransition # rubocop:disable Lint/HandleExceptions
   end
 end
 
