@@ -44,7 +44,7 @@ class CandidateApplication < ApplicationRecord
       transitions from: %i[references_pending application_complete offer_made meeting_conditions], to: :rejected
     end
 
-    event :add_conditions, if: [:done_by_provider?, :can_add_conditions?] do
+    event :add_conditions, if: %i[done_by_provider? can_add_conditions?] do
       transitions from: :offer_made, to: :offer_made
     end
   end
@@ -62,7 +62,7 @@ class CandidateApplication < ApplicationRecord
   end
 
   def actions_for(actor)
-    self.aasm.events({permitted: true}, actor).map(&:name)
+    self.aasm.events({ permitted: true }, actor).map(&:name)
   end
 
   def record_submission_time
