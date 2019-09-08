@@ -1,9 +1,7 @@
 @provider
-Feature: Managing conditions – who can add or amend them and when
-
-  Providers can add conditions to an application as part of making the offer,
-  or when the application has the 'offer made' status. Both the accredited body
-  and the non-accredited body can add conditions.
+Feature: Managing conditions on offers
+  Teacher training offers often include conditions that the applicant must fulfil
+  before they can take their place on the course.
 
   Conditions can be both academic and non-academic. For example, if a candidate
   still needs to sit exams in order to obtain necessary qualifications or
@@ -21,9 +19,10 @@ Feature: Managing conditions – who can add or amend them and when
       | course code | provider code | accredited body |
       | X123        | 10M           | U80             |
 
-  Scenario Outline: adding conditions
-
-    The provider and the accredited body can add conditions after an offer has been made.
+  Scenario Outline: adding conditions - who can do it and when
+    Providers can add conditions to an application as part of making the offer,
+    or when the application has the 'offer made' status. Both the accredited body
+    and the non-accredited body can add conditions.
 
     When an application has been made to a course X123
     And the application in "<Application status>" state
@@ -36,3 +35,28 @@ Feature: Managing conditions – who can add or amend them and when
       | S13           | offer made           | N                   | Wrong provider                  |
       | U80           | offer made           | Y                   |                                 |
       | 10M           | offer made           | Y                   |                                 |
+
+  Scenario Outline: amending conditions - who can do it and when
+    Once a provider makes a conditional offer, they can amend these conditions,
+    but only if the candidate has not accepted their offer.
+
+    Given an application has been made to a course X123
+    And the application in "<Application status>" state
+    Then a provider with code "<provider code>" is able to amend conditions: "<Can amend conditions?>"
+
+    Examples:
+      | provider code | Application status   | Can amend conditions? | Notes                           |
+      | 10M           | application complete | N                     | Application in the wrong status |
+      | U80           | meeting conditions   | N                     | Application in the wrong status |
+      | S13           | offer made           | N                     | Wrong provider                  |
+      | U80           | offer made           | Y                     |                                 |
+      | 10M           | offer made           | Y                     |                                 |
+
+  Scenario: amending condition changes the offer's expiry time
+    The expiry time on the offer is reset when conditions are successfully amended.
+
+    Given an application has been made to a course X123
+    And the application in "offer made" state
+    And the expiry time on the offer is "12 June 2019 12:00:00 PM"
+    When the provider with code "U80" amends a condition at 8:00 AM on 13 June 2019
+    And the new expiry time on the offer is "<expected DBD time>"
