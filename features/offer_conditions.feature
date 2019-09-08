@@ -27,7 +27,7 @@ Feature: Managing conditions – who can add or amend them and when
 
     When an application has been made to a course X123
     And the application in "<Application status>" state
-    Then a provider with a "<Provider code>" is able to add conditions: "<Can add conditions?>"
+    Then a provider with code "<Provider code>" is able to add conditions: "<Can add conditions?>"
 
     Examples:
       | Provider code | Application status   | Can add conditions? | Notes                           |
