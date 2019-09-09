@@ -6,11 +6,12 @@ Given(/(an|the) application in "(.*)" state/) do |_, orginal_application_state|
   end
 end
 
-When(/^a (\w+) ([\w\s]+)$/) do |actor, action|
+When(/^a (\w+) (cannot)?([\w\s]+)$/) do |actor, nil_or_cannot, action|
   event_name = action.gsub(' ', '_').to_sym
-  begin
+  if nil_or_cannot == 'cannot'
+    expect { @application.aasm.fire!(event_name, actor) }.to raise_error(Exception)
+  else
     @application.aasm.fire!(event_name, actor)
-  rescue AASM::InvalidTransition # rubocop:disable Lint/HandleExceptions
   end
 end
 
