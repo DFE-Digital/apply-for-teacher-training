@@ -11,7 +11,8 @@ class CandidateApplication < ApplicationRecord
     state :unsubmitted, initial: true
     state :references_pending, before_enter: %i[record_submission_time assign_rejected_by_default_at]
     state :application_complete
-    state :offer_made
+    state :conditional_offer
+    state :unconditional_offer
     state :meeting_conditions
     state :recruited
     state :enrolled
@@ -25,12 +26,17 @@ class CandidateApplication < ApplicationRecord
       transitions from: :references_pending, to: :application_complete, if: :done_by_referee?
     end
 
-    event :set_conditions do
-      transitions from: :application_complete, to: :offer_made, if: :done_by_provider?
+    event :make_conditional_offer do
+      transitions from: :application_complete, to: :conditional_offer, if: :done_by_provider?
+    end
+
+    event :make_unconditional_offer do
+      transitions from: :application_complete, to: :unconditional_offer, if: :done_by_provider?
     end
 
     event :accept_offer do
-      transitions from: :offer_made, to: :meeting_conditions, if: :done_by_candidate?
+      transitions from: :conditional_offer, to: :meeting_conditions, if: :done_by_candidate?
+      transitions from: :unconditional_offer, to: :recruited, if: :done_by_candidate?
     end
 
     event :confirm_conditions_met do
@@ -42,11 +48,11 @@ class CandidateApplication < ApplicationRecord
     end
 
     event :reject, if: :done_by_provider? do
-      transitions from: %i[references_pending application_complete offer_made meeting_conditions], to: :rejected
+      transitions from: %i[references_pending application_complete conditional_offer unconditional_offer meeting_conditions], to: :rejected
     end
 
     event :add_conditions, if: %i[done_by_provider? can_add_conditions?] do
-      transitions from: :offer_made, to: :offer_made
+      transitions from: :conditional_offer, to: :conditional_offer
     end
   end
   # rubocop:enable Metrics/BlockLength

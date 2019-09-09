@@ -39,7 +39,7 @@ end
 Then('a provider with code {string} is able to add conditions: {string}') do |provider_code, can_add_conditions|
   if can_add_conditions == 'Y'
     @application.add_conditions('provider', provider_code)
-    expect(@application.state).to eq('offer_made')
+    expect(@application.state).to eq('conditional_offer')
   else
     expect {
       @application.add_conditions('provider', provider_code)
