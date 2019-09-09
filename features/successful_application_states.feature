@@ -8,11 +8,15 @@ Feature: successful application states
   one reference has been submitted, the application goes into 'application complete'
   status.
 
-  Offer made & meeting conditions
-  ===============================
-  A provider makes an offer to the candidate (be it conditional and unconditional).
-  The candidate then has to accept the offer, which sets the application status
-  to 'meeting conditions'.
+  Conditional offers & meeting conditions
+  =======================================
+  A provider makes a conditional offer to the candidate. The candidate then has
+  to accept the offer, which sets the application status to 'meeting conditions'.
+
+  Unconditional offers
+  ====================
+  A provider makes an unconditional offer to the candidate. Once the candidate
+  accepts this offer, the application is then goes into 'recruited' status.
 
   Recruited
   =========
