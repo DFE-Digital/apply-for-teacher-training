@@ -21,7 +21,7 @@ Feature: Managing conditions on offers
 
   Scenario Outline: adding conditions - who can do it and when
     Providers can add conditions to an application as part of making the offer,
-    or when the application has the 'offer made' status. Both the accredited body
+    or when the application has the 'conditional offer' status. Both the accredited body
     and the non-accredited body can add conditions.
 
     When an application has been made to a course X123
@@ -32,9 +32,10 @@ Feature: Managing conditions on offers
       | Provider code | Application status   | Can add conditions? | Notes                           |
       | 10M           | application complete | N                   | Application in the wrong status |
       | U80           | meeting conditions   | N                   | Application in the wrong status |
-      | S13           | offer made           | N                   | Wrong provider                  |
-      | U80           | offer made           | Y                   |                                 |
-      | 10M           | offer made           | Y                   |                                 |
+      | U80           | unconditional offer  | N                   | Application in the wrong status |
+      | S13           | conditional offer    | N                   | Wrong provider                  |
+      | U80           | conditional offer    | Y                   |                                 |
+      | 10M           | conditional offer    | Y                   |                                 |
 
   Scenario Outline: amending conditions - who can do it and when
     Once a provider makes a conditional offer, they can amend these conditions,
@@ -48,15 +49,16 @@ Feature: Managing conditions on offers
       | provider code | Application status   | Can amend conditions? | Notes                           |
       | 10M           | application complete | N                     | Application in the wrong status |
       | U80           | meeting conditions   | N                     | Application in the wrong status |
-      | S13           | offer made           | N                     | Wrong provider                  |
-      | U80           | offer made           | Y                     |                                 |
-      | 10M           | offer made           | Y                     |                                 |
+      | U80           | unconditional offer  | N                     | Application in the wrong status |
+      | S13           | conditional offer    | N                     | Wrong provider                  |
+      | U80           | conditional offer    | Y                     |                                 |
+      | 10M           | conditional offer    | Y                     |                                 |
 
   Scenario: amending condition changes the offer's expiry time
     The expiry time on the offer is reset when conditions are successfully amended.
 
     Given an application has been made to a course X123
-    And the application in "offer made" state
+    And the application in "conditional offer" state
     And the expiry time on the offer is "12 June 2019 12:00:00 PM"
     When the provider with code "U80" amends a condition at 8:00 AM on 13 June 2019
     And the new expiry time on the offer is "<expected DBD time>"
