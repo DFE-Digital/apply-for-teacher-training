@@ -43,7 +43,7 @@ Feature: successful application states
       | original state        | actor     | action                   | new state                |
       | unsubmitted           | candidate | submit                   | references pending       |
       | references pending    | referee   | submit reference         | application complete     |
-      | application complete  | provider  | make unconditional offer | conditional offer        |
+      | application complete  | provider  | make conditional offer   | conditional offer        |
       | application complete  | provider  | make unconditional offer | unconditional offer      |
       | conditional offer     | candidate | accept offer             | meeting conditions       |
       | meeting conditions    | provider  | confirm conditions met   | recruited                |
