@@ -12,4 +12,7 @@ Feature: rejections by the provider
       | application complete | provider | reject  | rejected  | failed the sift/failed interview |
       | offer made           | provider | reject  | rejected  | course is full                   |
       | meeting conditions   | provider | reject  | rejected  | if conditions not met in time    |
-      | recruited            | provider | reject  | recruited | not possible                     |
+
+  Scenario: A provider cannot reject applications when the candidate is recruited
+    Given an application in "recruited" state
+    When a provider cannot reject
