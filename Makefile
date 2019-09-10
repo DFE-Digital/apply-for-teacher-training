@@ -26,7 +26,7 @@ serve: ## Run the service
 	
 .PHONY: ci.lint-ruby
 ci.lint-ruby: ## Run Rubocop with results formatted for CI
-	docker-compose run --rm web /bin/sh -c "bundle exec rubocop --format clang"
+	docker-compose run --rm web /bin/sh -c "bundle exec rubocop --format clang --parallel"
 
 .PHONY: ci.lint-erb
 ci.lint-erb: ## Run the ERB linter
