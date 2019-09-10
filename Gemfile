@@ -30,7 +30,6 @@ end
 group :test do
   gem 'capybara', '>= 3.24'
   gem 'shoulda-matchers', '~> 4.1'
-  gem 'selenium-webdriver', '~> 3.142'
   gem 'rspec_junit_formatter'
   gem 'capybara-email'
   gem 'climate_control'
