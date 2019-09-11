@@ -3,6 +3,9 @@ GEM
   specs:
     aasm (5.0.5)
       concurrent-ruby (~> 1.0)
+    aasm-diagram (0.1.2)
+      aasm (~> 5.0, >= 4.12)
+      ruby-graphviz (~> 1.2)
     actioncable (5.2.3)
       actionpack (= 5.2.3)
       nio4r (~> 2.0)
@@ -237,6 +240,7 @@ GEM
       rubocop (>= 0.72.0)
     rubocop-rspec (1.35.0)
       rubocop (>= 0.60.0)
+    ruby-graphviz (1.2.4)
     ruby-progressbar (1.10.1)
     ruby_dep (1.5.0)
     rubyzip (1.2.3)
@@ -287,6 +291,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm
+  aasm-diagram
   business_time
   capybara (>= 3.24)
   capybara-email
