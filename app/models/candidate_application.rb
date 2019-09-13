@@ -51,7 +51,11 @@ class CandidateApplication < ApplicationRecord
       transitions from: %i[references_pending application_complete conditional_offer unconditional_offer meeting_conditions], to: :rejected
     end
 
-    event :add_conditions, if: %i[done_by_provider? can_add_conditions?] do
+    event :add_conditions, if: %i[done_by_provider? can_update_conditions?] do
+      transitions from: :conditional_offer, to: :conditional_offer
+    end
+
+    event :amend_conditions, if: %i[done_by_provider? can_update_conditions?] do
       transitions from: :conditional_offer, to: :conditional_offer
     end
   end
@@ -94,7 +98,7 @@ class CandidateApplication < ApplicationRecord
     end
   end
 
-  def can_add_conditions?(_, provider_code)
+  def can_update_conditions?(_, provider_code)
     provider_code.in?([self.course.provider.code, self.course.accredited_body.code])
   end
 end
