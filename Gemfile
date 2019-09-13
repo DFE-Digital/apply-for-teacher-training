@@ -26,6 +26,9 @@ gem 'aasm'
 gem 'business_time'
 gem 'holidays'
 
+# Authorisation
+gem 'pundit'
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
