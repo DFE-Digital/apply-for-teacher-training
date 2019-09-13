@@ -36,13 +36,14 @@ When('the automatic process for rejecting applications is run at {string}') do |
   end
 end
 
-Then('a provider with code {string} is able to add conditions: {string}') do |provider_code, can_add_conditions|
-  if can_add_conditions == 'Y'
-    @application.add_conditions('provider', provider_code)
+Then(/a provider with code "(.*)" is able to (add conditions|amend conditions): "(.*)"/) do |provider_code, event_string, yes_or_no|
+  event = event_string.gsub(" ", "_").to_sym
+  if yes_or_no == 'Y'
+    @application.aasm.fire!(event, 'provider', provider_code)
     expect(@application.state).to eq('conditional_offer')
   else
     expect {
-      @application.add_conditions('provider', provider_code)
+      @application.aasm.fire!(event, 'provider', provider_code)
     }.to raise_error(AASM::InvalidTransition)
   end
 end
