@@ -53,18 +53,20 @@ class CandidateApplication < ApplicationRecord
       transitions from: %i[references_pending application_complete conditional_offer unconditional_offer meeting_conditions], to: :rejected
     end
 
-    event :add_conditions, if: :can_update_conditions? do
+    event :add_conditions do
       transitions from: :conditional_offer, to: :conditional_offer
     end
 
-    event :amend_conditions, if: :can_update_conditions? do
+    event :amend_conditions do
       transitions from: :conditional_offer, to: :conditional_offer
     end
   end
   # rubocop:enable Metrics/BlockLength
 
-  def authorize(user, *args)
-    Pundit.authorize(user, self, "#{aasm.current_event.to_s.gsub("!", "")}?".to_sym)
+  def authorize(user, *_args)
+    Pundit.authorize(user, self, "#{aasm.current_event.to_s.gsub('!', '')}?".to_sym)
+  rescue Pundit::NotAuthorizedError
+    raise AASM::InvalidTransition.new(self, aasm.current_event, :default)
   end
 
   def actions_for(actor)
@@ -90,9 +92,5 @@ class CandidateApplication < ApplicationRecord
     self.with_rbd_times_in_the_past.pre_offer.each do |application|
       application.reject!('provider')
     end
-  end
-
-  def can_update_conditions?(_, provider_code)
-    provider_code.in?([self.course.provider.code, self.course.accredited_body.code])
   end
 end
