@@ -7,11 +7,11 @@ Given(/(an|the) application in "(.*)" state/) do |_, orginal_application_state|
 end
 
 When(/^a (\w+) (cannot)?([\w\s]+)$/) do |actor, nil_or_cannot, action|
-  event_name = action.gsub(' ', '_').to_sym
+  command_name = (action.gsub(' ', '_') + "!").to_sym
   if nil_or_cannot == 'cannot'
-    expect { @application.aasm.fire!(event_name, actor) }.to raise_error(Exception)
+    expect { @application.send(command_name, actor) }.to raise_error(Exception)
   else
-    @application.aasm.fire!(event_name, actor)
+    @application.send(command_name, actor)
   end
 end
 
@@ -37,13 +37,13 @@ When('the automatic process for rejecting applications is run at {string}') do |
 end
 
 Then(/a provider with code "(.*)" is able to (add conditions|amend conditions): "(.*)"/) do |provider_code, event_string, yes_or_no|
-  event = event_string.gsub(" ", "_").to_sym
+  command_name = (event_string.gsub(" ", "_") + "!").to_sym
   if yes_or_no == 'Y'
-    @application.aasm.fire!(event, 'provider', provider_code)
+    @application.send(command_name, 'provider', provider_code)
     expect(@application.state).to eq('conditional_offer')
   else
     expect {
-      @application.aasm.fire!(event, 'provider', provider_code)
+      @application.send(command_name, 'provider', provider_code)
     }.to raise_error(AASM::InvalidTransition)
   end
 end
