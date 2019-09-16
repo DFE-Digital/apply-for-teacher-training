@@ -65,3 +65,15 @@ Given(/the candidate has made (.*) (Apply \d) applications in the current recrui
   _number_of_previous_applications = no_or_number == 'no' ? 0 : no_number
   pending # Write code here that turns the phrase above into concrete actions
 end
+
+Given("the expiry time on the offer is {string}") do |_offer_expiry_timestamp|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When(/the provider with code "(.*)" amends a condition at (.*)/) do |_provider_code, _timestamp|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When("the new expiry time on the offer is {string}") do |_new_offer_expiry_timestamp|
+  pending # Write code here that turns the phrase above into concrete actions
+end
