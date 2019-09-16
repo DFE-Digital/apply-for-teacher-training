@@ -19,6 +19,7 @@ class CandidateApplication < ApplicationRecord
     state :recruited
     state :enrolled
     state :rejected
+    state :declined
 
     event :submit do
       transitions from: :unsubmitted, to: :references_pending
@@ -39,6 +40,11 @@ class CandidateApplication < ApplicationRecord
     event :accept_offer do
       transitions from: :conditional_offer, to: :meeting_conditions
       transitions from: :unconditional_offer, to: :recruited
+    end
+
+    event :decline_offer do
+      transitions from: :conditional_offer, to: :declined
+      transitions from: :unconditional_offer, to: :declined
     end
 
     event :confirm_conditions_met do
