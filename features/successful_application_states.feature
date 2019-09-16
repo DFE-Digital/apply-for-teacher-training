@@ -16,7 +16,7 @@ Feature: successful application states
   Unconditional offers
   ====================
   A provider makes an unconditional offer to the candidate. Once the candidate
-  accepts this offer, the application is then goes into 'recruited' status.
+  accepts this offer, the application then goes into 'recruited' status.
 
   Recruited
   =========
