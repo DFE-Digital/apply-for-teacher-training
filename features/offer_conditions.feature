@@ -7,7 +7,7 @@ Feature: Managing conditions on offers
   still needs to sit exams in order to obtain necessary qualifications or
   undergo the required criminal record checks to provide evidence of suitability
   to teach. The provider isn't allowed to make a successful interview a condition
-  (i.e. an interview should happen before and offer is made, not after).
+  (i.e. an interview should happen before an offer is made, not after).
 
   Background:
     Given the following providers:
