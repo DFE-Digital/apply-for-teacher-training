@@ -40,5 +40,4 @@ Feature: Apply 1
   Examples:
     | # of previous applications |
     | 1                          |
-    | 2                          |
     | 3                          |
