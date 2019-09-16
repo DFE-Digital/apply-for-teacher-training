@@ -39,13 +39,13 @@ Feature: Managing conditions on offers
     Then a provider with code "<Provider code>" is able to add conditions: "<Can add conditions?>"
 
     Examples:
-      | Provider code | Application status   | Can add conditions? | Notes                           |
-      | 10M           | application complete | N                   | Application in the wrong status |
-      | U80           | meeting conditions   | N                   | Application in the wrong status |
-      | U80           | unconditional offer  | N                   | Application in the wrong status |
-      | S13           | conditional offer    | N                   | Wrong provider                  |
-      | U80           | conditional offer    | Y                   |                                 |
-      | 10M           | conditional offer    | Y                   |                                 |
+      | Provider code | Application status   | Can add conditions? | Notes                          |
+      | 10M           | application complete | N                   | Application in the wrong state |
+      | U80           | meeting conditions   | N                   | Application in the wrong state |
+      | U80           | unconditional offer  | N                   | Application in the wrong state |
+      | S13           | conditional offer    | N                   | Wrong provider                 |
+      | U80           | conditional offer    | Y                   |                                |
+      | 10M           | conditional offer    | Y                   |                                |
 
   Scenario Outline: amending conditions - who can do it and when
     Once a provider makes a conditional offer, they can amend these conditions,
@@ -56,13 +56,13 @@ Feature: Managing conditions on offers
     Then a provider with code "<provider code>" is able to amend conditions: "<Can amend conditions?>"
 
     Examples:
-      | provider code | Application status   | Can amend conditions? | Notes                           |
-      | 10M           | application complete | N                     | Application in the wrong status |
-      | U80           | meeting conditions   | N                     | Application in the wrong status |
-      | U80           | unconditional offer  | N                     | Application in the wrong status |
-      | S13           | conditional offer    | N                     | Wrong provider                  |
-      | U80           | conditional offer    | Y                     |                                 |
-      | 10M           | conditional offer    | Y                     |                                 |
+      | provider code | Application status   | Can amend conditions? | Notes                          |
+      | 10M           | application complete | N                     | Application in the wrong state |
+      | U80           | meeting conditions   | N                     | Application in the wrong state |
+      | U80           | unconditional offer  | N                     | Application in the wrong state |
+      | S13           | conditional offer    | N                     | Wrong provider                 |
+      | U80           | conditional offer    | Y                     |                                |
+      | 10M           | conditional offer    | Y                     |                                |
 
   Scenario: amending condition changes the offer's expiry time
     The expiry time on the offer is reset when conditions are successfully amended.
