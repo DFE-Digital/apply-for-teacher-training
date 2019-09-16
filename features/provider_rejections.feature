@@ -16,4 +16,4 @@ Feature: rejections by the provider
 
   Scenario: A provider cannot reject applications when the candidate is recruited
     Given an application in "recruited" state
-    When a provider cannot reject
+    Then a provider cannot reject
