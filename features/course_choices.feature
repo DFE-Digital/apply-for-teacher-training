@@ -14,6 +14,9 @@ Feature: same & different course choices
     And the following courses:
       | provider code | course code | course training locations |
       | U80           | X100        | A, B                      |
+      | U80           | A123        | A                         |
+      | S13           | 372B        | A                         |
+      | S13           | X100        | A                         |
 
   Scenario Outline: same & different courses
     Then <course choice A> and <course choice B> are treated as the same choice: <same?>
