@@ -18,6 +18,7 @@ class CandidateApplicationPolicy
 
   alias_method :submit?, :done_by_candidate?
   alias_method :accept_offer?, :done_by_candidate?
+  alias_method :decline_offer?, :done_by_candidate?
 
   alias_method :submit_reference?, :done_by_referee?
 
