@@ -37,6 +37,7 @@ Feature: Reject by default
       | Mon 2 Sept 2019 11:00:00 PM BST | Fri 6 Sept 2019 0:00:00 AM BST | app submitted out of hours     |
       | Fri 30 Aug 2019 9:00:00 AM BST  | Thu 5 Sept 2019 0:00:00 AM BST | across the weekend             |
       | Mon 4 Feb 2019 11:00:00 PM GMT  | Fri 8 Feb 2019 0:00:00 AM GMT  | submissions in GMT             |
+      | Fri 29 Mar 2019 9:00:00 AM GMT  | Thu 4 Apr 2019 0:00:00 AM BST  | daylight savings weekend       |
 
   Scenario Outline: the 'reject by default' (RBD) decision time can change at different parts of the recruitment cycle
     Given the following rules around “reject by default” decision timeframes:
