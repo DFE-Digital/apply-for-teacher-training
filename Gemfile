@@ -3,12 +3,12 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.3'
 
-gem 'rails', '~> 5.2.2', '>= 5.2.2.1'
+gem 'rails', '~> 6.0.0'
 gem 'puma', '~> 4.1'
 gem 'pg', '~> 1.1.4'
 
 gem 'webpacker'
-gem 'govuk_design_system_formbuilder', '0.9.2'
+gem 'govuk_design_system_formbuilder', '0.9.3'
 
 # GovUK Notify
 gem 'mail-notify'
