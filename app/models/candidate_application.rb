@@ -81,10 +81,10 @@ class CandidateApplication < ApplicationRecord
     days_until_rejection = RejectByDefaultTimeframe
                              .applicable_at(Time.now)
                              .number_of_working_days_until_rejection
-    self.rejected_by_default_at = days_until_rejection
+    self.rejected_by_default_at = (days_until_rejection + 1)
                                     .business_days
                                     .after(Time.now.in_time_zone('London'))
-                                    .end_of_day
+                                    .beginning_of_day
   end
 
   # this method is going to be run by a background process
