@@ -3,7 +3,7 @@ Feature: rejections by the provider
 
   Scenario Outline: A provider can reject applications at various stages
     Given an application in "<original state>" state
-    When a <actor> <action>
+    When the <actor> takes action "<action>"
     Then the new application state is "<new state>"
 
     Examples:
@@ -16,4 +16,4 @@ Feature: rejections by the provider
 
   Scenario: A provider cannot reject applications when the candidate is recruited
     Given an application in "recruited" state
-    Then a provider cannot reject
+    Then the provider cannot take action "reject"
