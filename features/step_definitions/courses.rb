@@ -34,8 +34,11 @@ Given('the following courses:') do |table|
   end
 end
 
-When(/an application has been made to a course (.*)/) do |course_code|
-  course = Course.find_by!(course_code: course_code)
+When(/an application has been made to course (.*)\/(.*)/) do |provider_code, course_code|
+  course = Provider
+             .find_by!(code: provider_code)
+             .courses
+             .find_by!(course_code: course_code)
 
   @application = CandidateApplication.create!(course: course)
 end
