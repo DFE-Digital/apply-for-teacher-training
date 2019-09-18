@@ -65,7 +65,8 @@ Feature: Managing conditions on offers
       | 10M           | conditional offer    | Y                     |                                |
 
   Scenario: amending condition changes the offer's expiry time
-    The expiry time on the offer is reset when conditions are successfully amended.
+    The decline by default (DBD) time is when the offer to the candidate expires.
+    The DBD time is reset when conditions are successfully amended.
 
     Given an application has been made to a course X123
     And the application in "conditional offer" state
