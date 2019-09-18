@@ -6,9 +6,9 @@ Given(/(an|the) application in "(.*)" state/) do |_, orginal_application_state|
   end
 end
 
-When(/^a (\w+) (cannot)?([\w\s]+)$/) do |actor, nil_or_cannot, action|
+When(/^the (\w+) (cannot take|takes) action "([\w\s]+)"$/) do |actor, nil_or_cannot, action|
   command_name = (action.gsub(' ', '_') + '!').to_sym
-  if nil_or_cannot == 'cannot'
+  if nil_or_cannot == 'cannot take'
     expect { @application.send(command_name, actor) }.to raise_error(Exception)
   else
     @application.send(command_name, actor)
