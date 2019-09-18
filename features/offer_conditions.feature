@@ -34,7 +34,7 @@ Feature: Managing conditions on offers
     or when the application has the 'conditional offer' status. Both the accredited body
     and the non-accredited body can add conditions.
 
-    When an application has been made to a course X123
+    When an application has been made to course 10M/X123
     And the application in "<Application status>" state
     Then a provider with code "<Provider code>" is able to add conditions: "<Can add conditions?>"
 
@@ -51,7 +51,7 @@ Feature: Managing conditions on offers
     Once a provider makes a conditional offer, they can amend these conditions,
     but only if the candidate has not accepted their offer.
 
-    Given an application has been made to a course X123
+    Given an application has been made to course 10M/X123
     And the application in "<Application status>" state
     Then a provider with code "<provider code>" is able to amend conditions: "<Can amend conditions?>"
 
@@ -68,7 +68,7 @@ Feature: Managing conditions on offers
     The decline by default (DBD) time is when the offer to the candidate expires.
     The DBD time is reset when conditions are successfully amended.
 
-    Given an application has been made to a course X123
+    Given an application has been made to course 10M/X123
     And the application in "conditional offer" state
     And the expiry time on the offer is "12 June 2019 12:00:00 PM"
     When the provider with code "U80" amends a condition at 8:00 AM on 13 June 2019
