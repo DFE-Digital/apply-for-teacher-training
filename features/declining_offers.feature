@@ -6,7 +6,7 @@ Feature: Declining offers
 
   Scenario Outline: A candidate can decline an application with an offer
     Given an application in "<original state>" state
-    When a <actor> <action>
+    When the <actor> takes action "<action>"
     Then the new application state is "<new state>"
 
     Examples:
