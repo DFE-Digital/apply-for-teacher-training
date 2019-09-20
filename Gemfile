@@ -21,10 +21,21 @@ gem 'erb_lint', require: false
 
 gem 'devise'
 
+# State machine
+gem 'aasm'
+
+# Calculate working days
+gem 'business_time'
+gem 'holidays'
+
+# Authorisation
+gem 'pundit'
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'pry'
+  gem 'aasm-diagram'
 end
 
 group :test do
@@ -33,6 +44,9 @@ group :test do
   gem 'rspec_junit_formatter'
   gem 'capybara-email'
   gem 'climate_control'
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner'
+  gem 'timecop'
 end
 
 group :development, :test do

@@ -9,4 +9,4 @@ task lint_ruby: ['lint:ruby']
 
 task(:default).clear
 
-task default: %i[lint_erb lint_ruby spec]
+task default: %i[lint_erb lint_ruby spec cucumber]

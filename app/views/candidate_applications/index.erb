@@ -1,0 +1,53 @@
+<h1 class="govuk-heading-xl"><%= @actor.capitalize %> view</h1>
+
+<% if @applications.present? %>
+  <table class="govuk-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Applications</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Rejected by default after</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Status</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% @applications.each do |application| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <% if application.submitted_at.present? %>
+              Submitted on <%= application.submitted_at.strftime("%e %b %Y") %> at <%= application.submitted_at.strftime("%H:%M") %>
+            <% else %>
+              Created on <%= application.created_at.strftime("%e %b %Y") %> at <%= application.created_at.strftime("%H:%M") %>
+            <% end %>
+          </td>
+          <td class="govuk-table__cell">
+            <% if application.rejected_by_default_at.present? %>
+              <%= application.rejected_by_default_at.strftime("%e %b %Y") %>
+            <% end %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= application.state.gsub("_", " ") %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= render partial: 'application_actions', locals: { application: application, actor: @actor } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<% if @actor == 'candidate' %>
+  <%= form_with url: create_tt_application_path do |form| %>
+    <%= form.submit 'Start new application', class: 'govuk-button' %>
+  <% end %>
+<% end %>
+
+<% content_for :footer_links do %>
+  <h2 class="govuk-visually-hidden">Support links</h2>
+  <ul class="govuk-footer__inline-list">
+    <li class="govuk-footer__inline-list-item">
+      <%= link_to "Delete all applications", delete_all_tt_applications_path, method: :delete, class: 'govuk-footer__link' %>
+    </li>
+  </ul>
+<% end %>
