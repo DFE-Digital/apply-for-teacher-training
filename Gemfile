@@ -28,6 +28,7 @@ group :development do
 end
 
 group :test do
+  gem 'selenium-webdriver'
   gem 'capybara', '>= 3.24'
   gem 'shoulda-matchers', '~> 4.1'
   gem 'rspec_junit_formatter'
