@@ -32,11 +32,12 @@ Feature: Reject by default
     Then the application's RBD time is "<RBD time>"
 
     Examples:
-      | submission time                 | RBD time                                  | notes                          |
-      | Mon 2 Sept 2019 9:00:00 AM BST  | Thu 5 Sept 2019 11:59:59.999999999 PM BST | app submitted during work time |
-      | Mon 2 Sept 2019 11:00:00 PM BST | Thu 5 Sept 2019 11:59:59.999999999 PM BST | app submitted out of hours     |
-      | Fri 30 Aug 2019 9:00:00 AM BST  | Wed 4 Sept 2019 11:59:59.999999999 PM BST | across the weekend             |
-      | Mon 4 Feb 2019 11:00:00 PM GMT  | Thu 7 Feb 2019 11:59:59.999999999 PM GMT  | submissions in GMT             |
+      | submission time                 | RBD time                       | notes                          |
+      | Mon 2 Sept 2019 9:00:00 AM BST  | Fri 6 Sept 2019 0:00:00 AM BST | app submitted during work time |
+      | Mon 2 Sept 2019 11:00:00 PM BST | Fri 6 Sept 2019 0:00:00 AM BST | app submitted out of hours     |
+      | Fri 30 Aug 2019 9:00:00 AM BST  | Thu 5 Sept 2019 0:00:00 AM BST | across the weekend             |
+      | Mon 4 Feb 2019 11:00:00 PM GMT  | Fri 8 Feb 2019 0:00:00 AM GMT  | submissions in GMT             |
+      | Fri 29 Mar 2019 9:00:00 AM GMT  | Thu 4 Apr 2019 0:00:00 AM BST  | daylight savings weekend       |
 
   Scenario Outline: the 'reject by default' (RBD) decision time can change at different parts of the recruitment cycle
     Given the following rules around “reject by default” decision timeframes:
@@ -47,10 +48,10 @@ Feature: Reject by default
     Then the application's RBD time is "<RBD time>"
 
     Examples:
-      | submission time                 | RBD time                                  | notes                          |
-      | Mon 20 May 2019 9:00:00 AM BST  | Thu 23 May 2019 11:59:59.999999999 PM BST | submitted in timeframe 1       |
-      | Mon 3 June 2019 9:00:00 AM BST  | Tue 4 June 2019 11:59:59.999999999 PM BST | submitted in timeframe 2       |
-      | Fri 31 May 2019 9:00:00 AM BST  | Wed 5 June 2019 11:59:59.999999999 PM BST | across the boundary            |
+      | submission time                 | RBD time                       | notes                          |
+      | Mon 20 May 2019 9:00:00 AM BST  | Fri 24 May 2019 0:00:00 AM BST | submitted in timeframe 1       |
+      | Mon 3 June 2019 9:00:00 AM BST  | Wed 5 June 2019 0:00:00 AM BST | submitted in timeframe 2       |
+      | Fri 31 May 2019 9:00:00 AM BST  | Thu 6 June 2019 0:00:00 AM BST | across the boundary            |
 
   Scenario Outline: applications that without offers are rejected automatically when their RBD time has elapsed
     Given an application in "<application state>" state
