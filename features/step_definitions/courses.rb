@@ -40,9 +40,20 @@ When(/an application has been made to course (.*)\/(.*)/) do |provider_code, cou
              .courses
              .find_by!(course_code: course_code)
 
-  @application = CandidateApplication.create!(course: course)
+  course_choice = CourseChoice.new(course: course, training_location: course.training_locations.sample)
+
+  @application = CandidateApplication.create!(course_choice: course_choice)
 end
 
-Then(/(.*) and (.*) are treated as the same choice: (.*)/) do |_course_a, _course_b, _yes_or_no|
-  pending
+Then(/(.*) and (.*) are treated as the same choice: (.*)/) do |choice_a_string, choice_b_string, yes_or_no|
+  choice_a_key = choice_a_string.scan(/(.*)\/(.*) \(location: (.*)\)/)[0]
+  choice_b_key = choice_b_string.scan(/(.*)\/(.*) \(location: (.*)\)/)[0]
+  choice_a = CourseChoice.find_matching(*choice_a_key)
+  choice_b = CourseChoice.find_matching(*choice_b_key)
+
+  if yes_or_no == 'Y'
+    expect(choice_a).to be_same_choice_as(choice_b)
+  else
+    expect(choice_a).to_not be_same_choice_as(choice_b)
+  end
 end
