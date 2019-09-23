@@ -5,6 +5,9 @@ describe 'A candidate adding a Degree' do
 
   context 'who successfully enters their details' do
     before do
+      candidate = FactoryBot.create(:candidate)
+      login_as(candidate, scope: :candidate)
+
       visit '/degrees/new'
 
       fill_in_degree_details
@@ -32,6 +35,9 @@ describe 'A candidate adding a Degree' do
 
   context 'who leaves out a required field' do
     before do
+      candidate = FactoryBot.create(:candidate)
+      login_as(candidate, scope: :candidate)
+
       visit '/degrees/new'
     end
 
@@ -43,6 +49,11 @@ describe 'A candidate adding a Degree' do
   end
 
   context 'who wants to add another degree' do
+    before do
+      candidate = FactoryBot.create(:candidate)
+      login_as(candidate, scope: :candidate)
+    end
+
     it 'navigates to the page Add degree' do
       visit '/check-your-answers'
 

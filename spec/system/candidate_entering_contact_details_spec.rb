@@ -5,6 +5,9 @@ describe 'A candidate entering contact details' do
 
   context 'when details are correct' do
     before do
+      candidate = FactoryBot.create(:candidate)
+      login_as(candidate, scope: :candidate)
+
       visit '/contact-details/new'
 
       fill_in_contact_details
@@ -31,6 +34,9 @@ describe 'A candidate entering contact details' do
 
   context 'who leaves out a required field' do
     before do
+      candidate = FactoryBot.create(:candidate)
+      login_as(candidate, scope: :candidate)
+
       visit '/contact-details/new'
       click_on t('application_form.save_and_continue')
     end

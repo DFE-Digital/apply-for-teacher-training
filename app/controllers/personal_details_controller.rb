@@ -1,4 +1,6 @@
 class PersonalDetailsController < ApplicationController
+  before_action :authenticate_candidate!
+
   def new
     @personal_details = PersonalDetails.new
   end
