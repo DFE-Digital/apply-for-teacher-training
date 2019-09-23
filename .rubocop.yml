@@ -11,8 +11,6 @@ AllCops:
     - 'config/application.rb'
     - 'config/puma.rb'
     - 'config/environments/*'
-    - 'lib/tasks/cucumber.rake'
-    - 'features/support/env.rb'
 
 Style/StringLiterals:
   Enabled: true

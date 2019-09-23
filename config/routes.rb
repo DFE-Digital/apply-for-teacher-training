@@ -17,9 +17,4 @@ Rails.application.routes.draw do
   get 'check-your-answers', to: 'check_your_answers#show'
   get 'application', to: 'tt_applications#show', as: :tt_application
   post 'application/submit', to: 'tt_application_submissions#create', as: :tt_application_submission
-
-  get ':actor/applications', constraints: { actor: /candidate|provider|referee/ }, controller: 'candidate_applications', action: :index, as: :tt_applications
-  post 'candidate/applications', controller: 'candidate_applications', action: :create, as: :create_tt_application
-  get ':actor/applications/clear', constraints: { actor: /candidate|provider|referee/ }, controller: 'candidate_applications', action: :destroy, as: :delete_all_tt_applications
-  post ':actor/applications/:id', constraints: { actor: /candidate|provider|referee/ }, controller: 'candidate_applications', action: :update, as: :tt_application_update
 end
