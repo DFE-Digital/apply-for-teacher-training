@@ -2,6 +2,3 @@ version: '3.6'
 services:
   web:
     image: ${dockerHubUsername}/${dockerHubImageName}:latest
-    environment:
-      - GOVUK_NOTIFY_API_KEY=${GOVUK_NOTIFY_API_KEY}
-      - DEFAULT_PROVIDER_EMAIL=${DEFAULT_PROVIDER_EMAIL}

@@ -10,7 +10,6 @@ build: ## Create a new image
 setup: build ## Set up a clean database and node_modules folder for running the app or the specs in docker
 	docker-compose down -v
 	docker-compose run --rm web bundle exec rake db:setup
-	docker-compose run --rm web yarn install
 
 .PHONY: test
 test: ## Run the linters and specs
@@ -34,5 +33,5 @@ ci.lint-erb: ## Run the ERB linter
 
 .PHONY: ci.test
 ci.test: ## Run the tests with results formatted for CI
-	docker-compose run --rm web /bin/sh -c 'bundle exec rspec --format RspecJunitFormatter' > rspec-results.xml
+	docker-compose run --rm web /bin/sh -c 'bundle exec --verbose rspec --format RspecJunitFormatter' > rspec-results.xml
 
