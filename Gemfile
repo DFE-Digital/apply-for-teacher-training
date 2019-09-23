@@ -19,7 +19,6 @@ gem 'rubocop-rspec'
 gem 'govuk-lint'
 gem 'erb_lint', require: false
 
-<<<<<<< HEAD
 # State machine
 gem 'aasm'
 
@@ -29,9 +28,7 @@ gem 'holidays'
 
 # Authorisation
 gem 'pundit'
-=======
 gem 'devise'
->>>>>>> master
 
 group :development do
   gem 'web-console', '>= 3.3.0'
