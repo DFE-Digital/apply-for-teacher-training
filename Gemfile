@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.3'
 
-gem 'rails', '~> 5.2.2', '>= 5.2.2.1'
+gem 'rails', '~> 6.0'
 gem 'puma', '~> 4.1'
 gem 'pg', '~> 1.1.4'
 
@@ -28,6 +28,7 @@ group :development do
 end
 
 group :test do
+  gem 'selenium-webdriver'
   gem 'capybara', '>= 3.24'
   gem 'shoulda-matchers', '~> 4.1'
   gem 'rspec_junit_formatter'
