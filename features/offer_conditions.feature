@@ -34,7 +34,7 @@ Feature: Managing conditions on offers
     or when the application has the 'conditional offer' status. Both the accredited body
     and the non-accredited body can add conditions.
 
-    When an application has been made to a course X123
+    When an application has been made to course 10M/X123
     And the application in "<Application status>" state
     Then a provider with code "<Provider code>" is able to add conditions: "<Can add conditions?>"
 
@@ -51,7 +51,7 @@ Feature: Managing conditions on offers
     Once a provider makes a conditional offer, they can amend these conditions,
     but only if the candidate has not accepted their offer.
 
-    Given an application has been made to a course X123
+    Given an application has been made to course 10M/X123
     And the application in "<Application status>" state
     Then a provider with code "<provider code>" is able to amend conditions: "<Can amend conditions?>"
 
@@ -65,10 +65,14 @@ Feature: Managing conditions on offers
       | 10M           | conditional offer    | Y                     |                                |
 
   Scenario: amending condition changes the offer's expiry time
-    The expiry time on the offer is reset when conditions are successfully amended.
+    The decline by default (DBD) time is when the offer to the candidate expires.
+    The DBD time is reset when conditions are successfully amended.
 
-    Given an application has been made to a course X123
-    And the application in "conditional offer" state
-    And the expiry time on the offer is "12 June 2019 12:00:00 PM"
-    When the provider with code "U80" amends a condition at 8:00 AM on 13 June 2019
-    And the new expiry time on the offer is "<expected DBD time>"
+    Given the following decision timeframes:
+      | application submitted after | application submitted before | type               | # of working days |
+      | 1 Oct 2018 0:00:00          | 15 Sept 2019 23:59:59        | decline by default | 3                 |
+    And the following application exists:
+      | submitted at           | status            | offer expiry time        | choice   |
+      | 8:00 AM on 1 June 2019 | conditional offer | 12:00 PM on 15 June 2019 | 10M/X123 |
+    When the provider with code "U80" amends a condition at 10:00 AM on 10 June 2019
+    Then the new expiry time on the offer is "14 June 2019 0:00 AM"

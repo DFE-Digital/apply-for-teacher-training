@@ -19,6 +19,7 @@ class CandidateApplication < ApplicationRecord
     state :recruited
     state :enrolled
     state :rejected
+    state :declined
 
     event :submit do
       transitions from: :unsubmitted, to: :references_pending
@@ -39,6 +40,11 @@ class CandidateApplication < ApplicationRecord
     event :accept_offer do
       transitions from: :conditional_offer, to: :meeting_conditions
       transitions from: :unconditional_offer, to: :recruited
+    end
+
+    event :decline_offer do
+      transitions from: :conditional_offer, to: :declined
+      transitions from: :unconditional_offer, to: :declined
     end
 
     event :confirm_conditions_met do
@@ -81,10 +87,10 @@ class CandidateApplication < ApplicationRecord
     days_until_rejection = RejectByDefaultTimeframe
                              .applicable_at(Time.now)
                              .number_of_working_days_until_rejection
-    self.rejected_by_default_at = days_until_rejection
+    self.rejected_by_default_at = (days_until_rejection + 1)
                                     .business_days
                                     .after(Time.now.in_time_zone('London'))
-                                    .end_of_day
+                                    .beginning_of_day
   end
 
   # this method is going to be run by a background process
