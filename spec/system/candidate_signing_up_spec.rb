@@ -35,7 +35,7 @@ describe 'A candidate signing up' do
 
   context 'who clicks a link with an invalid token' do
     it 'sees the start page' do
-      visit '/personal-details/new?token=meow'
+      visit '/welcome?token=meow'
 
       expect(page.current_url).to eq(root_url)
     end

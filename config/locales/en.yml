@@ -32,13 +32,7 @@
 en:
   page_titles:
     application: 'Apply for postgraduate teacher training - GOV.UK'
-    personal_details: 'Personal details'
-    edit_personal_details: 'Edit personal details'
-    contact_details: 'Contact details'
-    edit_contact_details: 'Edit contact details'
-    degrees: 'Add degree'
-    edit_degrees: 'Edit degree'
-    check_your_answers: 'Check your answers before submitting your application'
+    welcome: 'Welcome'
   activerecord:
     errors:
       models:
@@ -48,57 +42,3 @@ en:
               blank: 'Enter your email address'
               taken: 'Email address is already in use'
               too_long: 'Email address must be %{count} characters or fewer'
-        personal_details:
-          attributes:
-            title:
-              blank: 'Enter your title'
-              too_long: 'Title must be %{count} characters or fewer'
-            first_name:
-              blank: 'Enter your first name'
-              too_long: 'First name must be %{count} characters or fewer'
-            last_name:
-              blank: 'Enter your last name'
-              too_long: 'Last name must be %{count} characters or fewer'
-            preferred_name:
-              blank: 'Enter your preferred name'
-              too_long: 'Preferred name must be %{count} characters or fewer'
-            nationality:
-              blank: 'Enter your nationality'
-        contact_details:
-          attributes:
-            phone_number:
-              blank: 'Enter your phone number'
-              too_long: 'Phone number must be %{count} characters or fewer'
-            email_address:
-              blank: 'Enter your email address'
-              too_long: 'Email address must be %{count} characters or fewer'
-            address:
-              blank: 'Enter your postal address'
-              too_long: 'Address must be %{count} characters or fewer'
-        degree:
-          attributes:
-            type_of_degree:
-              blank: 'Enter the type of your degree'
-            subject:
-              blank: 'Enter the subject(s) you studied'
-            institution:
-              blank: 'Enter the institution at which you studied'
-            class_of_degree:
-              blank: 'Enter the class of your degree'
-            year:
-              blank: 'Enter the year you were awarded your degree'
-              not_a_number:  'The year you were awarded your degree must be a number'
-              greater_than: 'The year you were awarded your degree must be after %{count}'
-              less_than_or_equal_to: 'The year you were awarded your degree must be before %{count}'
-        qualification:
-          attributes:
-            type_of_qualification:
-              blank: 'Enter the type of your qualification'
-            subject:
-              blank: 'Enter the subject(s) you studied'
-            institution:
-              blank: 'Enter the institution at which you studied'
-            grade:
-              blank: 'Enter the grade of your qualification'
-            year:
-              blank: 'Enter the year you were awarded your qualification'
