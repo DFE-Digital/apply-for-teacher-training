@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    aasm (5.0.5)
+    aasm (5.0.6)
       concurrent-ruby (~> 1.0)
     aasm-diagram (0.1.2)
       aasm (~> 5.0, >= 4.12)
