@@ -1,0 +1,12 @@
+version: '3.6'
+services:
+  web:
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    environment:
+      - RAILS_ENV
+      - DEFAULT_PROVIDER_EMAIL
+      - SECRET_KEY_BASE
+volumes:
+  node_modules:
