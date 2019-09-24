@@ -6,6 +6,25 @@ Given(/(an|the) application in "(.*)" state/) do |_, orginal_application_state|
   end
 end
 
+Given('the following application exists:') do |table|
+  table.hashes.each do |row|
+    attributes = {}
+    attributes[:submitted_at] = DateTime.parse(row['submitted at']) if row['submitted at'].present?
+    attributes[:state] = row['status'].gsub(' ', '_') if row['status'].present?
+
+    if row['choice'].present?
+      provider_code, course_code = row['choice'].split('/')
+      attributes[:course] = Provider
+                              .find_by!(code: provider_code)
+                              .courses
+                              .find_by!(course_code: course_code)
+    end
+
+    @application = CandidateApplication.create!(attributes)
+  end
+  pending('Need to deal with offer expiry time assignments')
+end
+
 Given('the application stages are set up as follows:') do |_table|
   # table is a Cucumber::MultilineArgument::DataTable
   pending # Write code here that turns the phrase above into concrete actions
