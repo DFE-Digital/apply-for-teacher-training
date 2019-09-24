@@ -1,6 +1,7 @@
 FROM ruby:2.6.3-alpine
 
 ENV APP_HOME /app
+ENV GOVUK_NOTIFY_API_KEY=TestKey
 
 RUN apk add --update build-base postgresql-dev git tzdata nodejs yarn && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime && \

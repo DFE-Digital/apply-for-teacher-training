@@ -55,7 +55,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :notify
   config.action_mailer.notify_settings = {
-    api_key: ENV['GOVUK_NOTIFY_API_KEY']
+    api_key: ENV.fetch('GOVUK_NOTIFY_API_KEY')
   }
 
   # Ignore bad email addresses and do not raise email delivery errors.

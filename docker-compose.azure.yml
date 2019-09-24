@@ -5,4 +5,5 @@ services:
     environment:
       - RAILS_ENV
       - DEFAULT_PROVIDER_EMAIL
+      - GOVUK_NOTIFY_API_KEY
       - SECRET_KEY_BASE=${railsSecretKeyBase}
