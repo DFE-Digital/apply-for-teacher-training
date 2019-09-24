@@ -15,12 +15,13 @@ Given('the following dates are holidays:') do |table|
   BusinessTime::Config.holidays.replace(holiday_dates)
 end
 
-Given('the following rules around “reject by default” decision timeframes:') do |table|
+Given('the following decision timeframes:') do |table|
   table.hashes.each do |row|
-    RejectByDefaultTimeframe.create!(
+    timeframe_class = (row['type'] + ' timeframe').gsub(' ', '_').classify.constantize
+    timeframe_class.create!(
       from_time: DateTime.parse(row['application submitted after']),
       to_time: DateTime.parse(row['application submitted before']),
-      number_of_working_days_until_rejection: row['# of working days until rejection']
+      number_of_working_days: row['# of working days']
     )
   end
 end

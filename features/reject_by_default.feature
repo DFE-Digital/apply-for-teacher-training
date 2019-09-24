@@ -25,9 +25,9 @@ Feature: Reject by default
     Given there are no holidays
 
   Scenario Outline: the 'reject by default' (RBD) date on an application
-    Given the following rules around “reject by default” decision timeframes:
-      | application submitted after | application submitted before | # of working days until rejection |
-      | 1 Oct 2018 0:00:00          | 15 Sept 2019 23:59:59        | 3                                 |
+    Given the following decision timeframes:
+      | application submitted after | application submitted before | type              | # of working days |
+      | 1 Oct 2018 0:00:00          | 15 Sept 2019 23:59:59        | reject by default | 3                 |
     When an application is submitted at "<submission time>"
     Then the application's RBD time is "<RBD time>"
 
@@ -40,10 +40,10 @@ Feature: Reject by default
       | Fri 29 Mar 2019 9:00:00 AM GMT  | Thu 4 Apr 2019 0:00:00 AM BST  | daylight savings weekend       |
 
   Scenario Outline: the 'reject by default' (RBD) decision time can change at different parts of the recruitment cycle
-    Given the following rules around “reject by default” decision timeframes:
-      | application submitted after | application submitted before | # of working days until rejection |
-      | 1 Oct 2018 0:00:00          | 31 May 2019 23:59:59         | 3                                 |
-      | 1 Jun 2019 0:00:00          | 15 Sept 2019 23:59:59        | 1                                 |
+    Given the following decision timeframes:
+      | application submitted after | application submitted before | type              | # of working days |
+      | 1 Oct 2018 0:00:00          | 31 May 2019 23:59:59         | reject by default | 3                 |
+      | 1 Jun 2019 0:00:00          | 15 Sept 2019 23:59:59        | reject by default | 1                 |
     When an application is submitted at "<submission time>"
     Then the application's RBD time is "<RBD time>"
 

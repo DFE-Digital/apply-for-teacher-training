@@ -92,12 +92,13 @@ ActiveRecord::Schema.define(version: 2019_09_20_152810) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "reject_by_default_timeframes", force: :cascade do |t|
+  create_table "timeframes", force: :cascade do |t|
     t.datetime "from_time", null: false
     t.datetime "to_time", null: false
-    t.integer "number_of_working_days_until_rejection", null: false
+    t.integer "number_of_working_days", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "type"
   end
 
   create_table "training_locations", force: :cascade do |t|

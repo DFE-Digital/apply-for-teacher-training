@@ -1,0 +1,2 @@
+class DeclineByDefaultTimeframe < Timeframe
+end

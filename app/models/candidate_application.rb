@@ -86,7 +86,7 @@ class CandidateApplication < ApplicationRecord
   def assign_rejected_by_default_at
     days_until_rejection = RejectByDefaultTimeframe
                              .applicable_at(Time.now)
-                             .number_of_working_days_until_rejection
+                             .number_of_working_days
     self.rejected_by_default_at = (days_until_rejection + 1)
                                     .business_days
                                     .after(Time.now.in_time_zone('London'))
