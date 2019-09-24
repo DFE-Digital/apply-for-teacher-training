@@ -126,8 +126,7 @@ stages:
 - stage: deploy_dev
   displayName: 'Deploy - Development'
   dependsOn: build_test_release
-  #condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  condition: succeeded('build_test_release')
+  condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
   - template: azure-pipelines-deploy-template.yml
     parameters:
