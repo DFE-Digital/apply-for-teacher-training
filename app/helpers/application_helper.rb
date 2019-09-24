@@ -8,10 +8,4 @@ module ApplicationHelper
       t('page_titles.application')
     end
   end
-
-  def page_heading(action, resource)
-    actions = { new: 'Add', edit: 'Edit' }
-
-    "#{actions.fetch(action)} #{resource}"
-  end
 end
