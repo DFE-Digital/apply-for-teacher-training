@@ -2,3 +2,7 @@ version: '3.6'
 services:
   web:
     image: ${dockerHubUsername}/${dockerHubImageName}:latest
+    environment:
+      - RAILS_ENV
+      - DEFAULT_PROVIDER_EMAIL
+      - SECRET_KEY_BASE=${railsSecretKeyBase}

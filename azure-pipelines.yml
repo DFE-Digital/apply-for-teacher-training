@@ -43,40 +43,44 @@ stages:
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
-        RAILS_ENV: development
-        #DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
-        #GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
-        #SECRET_KEY_BASE: $(railsSecretKeyBase)
+        railsSecretKeyBase: $(railsSecretKeyBase)
+        RAILS_ENV: production
+        DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
+        GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
 
     - script: make ci.lint-ruby
       displayName: 'Rubocop'
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
-        RAILS_ENV: development
-        #DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
-        #GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
-        #SECRET_KEY_BASE: $(railsSecretKeyBase)
+        railsSecretKeyBase: $(railsSecretKeyBase)
+        RAILS_ENV: production
+        DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
+        GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
 
     - script: make ci.lint-erb
       displayName: 'ERB lint'
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
-        RAILS_ENV: development
-        #DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
-        #GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
-        #SECRET_KEY_BASE: $(railsSecretKeyBase)
+        railsSecretKeyBase: $(railsSecretKeyBase)
+        RAILS_ENV: production
+        DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
+        GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
 
-    - script: make ci.test
+    - script: |
+        docker-compose run --rm web bundle exec rake db:setup
+        make ci.test
+        test_result=$?
+        if [ "$test_result" == "0" ]; then true; else cat rspec-results.xml; false; fi
       displayName: 'Execute tests'
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
+        railsSecretKeyBase: $(railsSecretKeyBase)
         RAILS_ENV: test
         DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
-        #GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
-        #SECRET_KEY_BASE: $(railsSecretKeyBase)
+        GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
 
     - task: Docker@1
       displayName: Tag image with current build number $(Build.BuildNumber)

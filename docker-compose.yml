@@ -17,8 +17,6 @@ services:
     depends_on:
       - db
     environment:
-      - RAILS_ENV
-      - DEFAULT_PROVIDER_EMAIL
       - DB_HOSTNAME=db
       - DB_USERNAME=postgres
       - DB_PASSWORD=developmentpassword
