@@ -1,7 +1,7 @@
 class CandidateApplication < ApplicationRecord
   include AASM
 
-  belongs_to :course, optional: true
+  belongs_to :course_choice, optional: true
 
   scope :with_rbd_times_in_the_past, -> { where('rejected_by_default_at < ?', Time.now) }
   scope :pre_offer, -> { where(state: %i[unsubmitted references_pending application_complete]) }
@@ -98,5 +98,9 @@ class CandidateApplication < ApplicationRecord
     self.with_rbd_times_in_the_past.pre_offer.each do |application|
       application.reject!('provider')
     end
+  end
+
+  def course
+    course_choice&.course
   end
 end

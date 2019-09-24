@@ -14,10 +14,14 @@ Given('the following application exists:') do |table|
 
     if row['choice'].present?
       provider_code, course_code = row['choice'].split('/')
-      attributes[:course] = Provider
-                              .find_by!(code: provider_code)
-                              .courses
-                              .find_by!(course_code: course_code)
+      course = Provider
+                 .find_by!(code: provider_code)
+                 .courses
+                 .find_by!(course_code: course_code)
+      attributes[:course_choice] = CourseChoice.new(
+        course: course,
+        training_location: course.training_locations.sample
+      )
     end
 
     @application = CandidateApplication.create!(attributes)

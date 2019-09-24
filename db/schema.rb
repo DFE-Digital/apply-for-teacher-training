@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_20_152810) do
+ActiveRecord::Schema.define(version: 2019_09_22_164923) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2019_09_20_152810) do
     t.string "state"
     t.datetime "submitted_at"
     t.datetime "rejected_by_default_at"
-    t.integer "course_id"
+    t.integer "course_choice_id"
   end
 
   create_table "candidates", force: :cascade do |t|
@@ -43,17 +43,17 @@ ActiveRecord::Schema.define(version: 2019_09_20_152810) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "course_choices", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.bigint "training_location_id", null: false
+  end
+
   create_table "courses", force: :cascade do |t|
     t.string "course_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "provider_id"
     t.integer "accredited_body_provider_id"
-  end
-
-  create_table "courses_training_locations", id: false, force: :cascade do |t|
-    t.bigint "course_id", null: false
-    t.bigint "training_location_id", null: false
   end
 
   create_table "degrees", force: :cascade do |t|
