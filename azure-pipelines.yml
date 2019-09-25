@@ -45,7 +45,6 @@ stages:
         dockerHubImageName: $(imageName)
         railsSecretKeyBase: $(railsSecretKeyBase)
         RAILS_ENV: test
-        DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
 
@@ -55,7 +54,6 @@ stages:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
         RAILS_ENV: test
-        DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
 
@@ -65,7 +63,6 @@ stages:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
         RAILS_ENV: test
-        DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
 
@@ -78,7 +75,6 @@ stages:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
         RAILS_ENV: test
-        DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
 
