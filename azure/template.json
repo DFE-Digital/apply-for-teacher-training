@@ -227,10 +227,6 @@
                             {
                                 "name": "GOVUK_NOTIFY_API_KEY",
                                 "value": "[parameters('govukNotifyAPIKey')]"
-                            },
-                            {
-                                "name": "DEFAULT_PROVIDER_EMAIL",
-                                "value": "[parameters('defaultProviderEmail')]"
                             }
                         ]
                     }
