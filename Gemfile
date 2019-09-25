@@ -35,6 +35,8 @@ group :test do
   gem 'rspec_junit_formatter'
   gem 'capybara-email'
   gem 'climate_control'
+  gem 'launchy'
+  gem 'timecop'
 end
 
 group :development, :test do
