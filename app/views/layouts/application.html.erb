@@ -43,9 +43,11 @@
         </div>
         <div class="govuk-header__content">
           <a href="/" class="govuk-header__link govuk-header__link--service-name">
-            Apply for postgraduate teacher training
+            Apply for teacher training
           </a>
-          <p><%= current_candidate.email_address unless current_candidate.nil? %></p>
+          <% if candidate_signed_in? %>
+            <p class="govuk-body"><%= current_candidate.email_address %></p>
+          <% end %>
         </div>
       </div>
     </header>
