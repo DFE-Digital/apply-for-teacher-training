@@ -21,7 +21,7 @@ Given('the following decision timeframes:') do |table|
     timeframe_class.create!(
       from_time: DateTime.parse(row['application submitted after']),
       to_time: DateTime.parse(row['application submitted before']),
-      number_of_working_days: row['# of working days']
+      number_of_working_days: row['# of working days'],
     )
   end
 end

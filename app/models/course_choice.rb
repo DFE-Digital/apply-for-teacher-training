@@ -6,7 +6,7 @@ class CourseChoice < ActiveRecord::Base
     provider = Provider.find_by!(code: provider_code)
     find_by!(
       course: provider.courses.find_by!(course_code: course_code),
-      training_location: provider.training_locations.find_by!(code: training_location_code)
+      training_location: provider.training_locations.find_by!(code: training_location_code),
     )
   end
 

@@ -20,7 +20,7 @@ Given('the following application exists:') do |table|
                  .find_by!(course_code: course_code)
       attributes[:course_choice] = CourseChoice.new(
         course: course,
-        training_location: course.training_locations.sample
+        training_location: course.training_locations.sample,
       )
     end
 
