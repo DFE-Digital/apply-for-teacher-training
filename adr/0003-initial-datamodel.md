@@ -25,7 +25,7 @@ There will be some other models that hold references, work histories and qualifi
 
 The eventual table structure will look something like this:
 
-![data model](003-initial-datamodel.png)
+![data model](0003-initial-datamodel.png)
 
 ## Consequences
 
