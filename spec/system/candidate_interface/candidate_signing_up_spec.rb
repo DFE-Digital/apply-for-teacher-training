@@ -14,11 +14,25 @@ describe 'A candidate signing up' do
       expect(page).to have_content t('authentication.check_your_email')
     end
 
-    it 'receives an email with a valid magic link' do
-      open_email('april@pawnee.com')
-      current_email.find_css('a').first.click
+    context 'receives an email with a valid magic link' do
+      let(:sign_in_link) { current_email.find_css('a').first }
 
-      expect(page).to have_content 'april@pawnee.com'
+      before do
+        open_email('april@pawnee.com')
+      end
+
+      it 'does sign the user in' do
+        sign_in_link.click
+        expect(page).to have_content 'april@pawnee.com'
+      end
+
+      it 'does not sign the user in when the token expiration time has passed' do
+        Timecop.travel(Time.now + 1.hour + 1.second) do
+          sign_in_link.click
+
+          expect(page).not_to have_content 'april@pawnee.com'
+        end
+      end
     end
   end
 
