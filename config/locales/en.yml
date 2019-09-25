@@ -31,7 +31,7 @@
 
 en:
   page_titles:
-    application: 'Apply for postgraduate teacher training - GOV.UK'
+    application: 'Apply for teacher training - GOV.UK'
     welcome: 'Welcome'
   activerecord:
     errors:
