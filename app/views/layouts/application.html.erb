@@ -43,7 +43,7 @@
         </div>
         <div class="govuk-header__content">
           <a href="/" class="govuk-header__link govuk-header__link--service-name">
-            Apply for teacher training
+            <%= t('layout.service_name') %>
           </a>
           <% if candidate_signed_in? %>
             <p class="govuk-body"><%= current_candidate.email_address %></p>
@@ -57,7 +57,7 @@
           prototype
         </strong>
         <span class="govuk-phase-banner__text">
-          This is a prototype of a new service. Some parts may not work yet.
+          <%= t('layout.phase_banner_text') %>
         </span>
         </p>
       </div>

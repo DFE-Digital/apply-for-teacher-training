@@ -33,6 +33,9 @@ en:
   page_titles:
     application: "Apply for teacher training - GOV.UK"
     welcome: "Welcome"
+  layout:
+    service_name: Apply for teacher training
+    phase_banner_text: This is a prototype of a new service. Some parts may not work yet.
   activerecord:
     errors:
       models:
