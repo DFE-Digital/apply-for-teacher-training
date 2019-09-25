@@ -24,9 +24,9 @@ describe 'A candidate signing up' do
 
   context 'who tries to sign up twice' do
     it 'sees the form error summary' do
-      visit '/sign-up'
+      visit candidate_interface_sign_up_path
       fill_in_sign_up
-      visit '/sign-up'
+      visit candidate_interface_sign_up_path
       fill_in_sign_up
 
       expect(page).to have_content 'There is a problem'
@@ -35,9 +35,9 @@ describe 'A candidate signing up' do
 
   context 'who clicks a link with an invalid token' do
     it 'sees the start page' do
-      visit '/welcome?token=meow'
+      visit candidate_interface_welcome_path(token: 'meow')
 
-      expect(page.current_url).to eq(root_url)
+      expect(page.current_url).to eq(candidate_interface_start_url)
     end
   end
 end

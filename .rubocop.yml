@@ -33,7 +33,7 @@ RSpec/MultipleExpectations:
 
 RSpec/DescribeClass:
   Exclude:
-    - 'spec/system/**'
+    - 'spec/system/**/*'
 
 RSpec/ContextWording:
   Enabled: false

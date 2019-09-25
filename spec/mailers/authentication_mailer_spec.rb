@@ -22,7 +22,7 @@ RSpec.describe AuthenticationMailer, type: :mailer do
     end
 
     it 'sends an email with a magic link' do
-      expect(mail.body.encoded).to include("http://localhost:3000/welcome/?token=#{token}")
+      expect(mail.body.encoded).to include("http://localhost:3000/candidate/welcome/?token=#{token}")
     end
   end
 end
