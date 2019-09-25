@@ -10,7 +10,7 @@ parameters:
   databaseUsername:
   databasePassword:
   dockerhubUsername:
-  securityKeyBase:
+  railsSecretKeyBase:
   containerStartTimeLimit: '600'
   warmupPingPath: '/sign-up'
   warmupPingStatus: '200'
@@ -56,7 +56,7 @@ jobs:
                 -databaseUsername "${{parameters.databaseUsername}}" 
                 -databasePassword "${{parameters.databasePassword}}" 
                 -securityAlertEmail "${{parameters.securityAlertEmail}}" 
-                -secretKeyBase "${{parameters.secretKeyBase}}"
+                -secretKeyBase "${{parameters.railsSecretKeyBase}}"
                 -containerStartTimeLimit "${{parameters.containerStartTimeLimit}}"
                 -warmupPingPath "${{parameters.warmupPingPath}}"
                 -warmupPingStatus "${{parameters.warmupPingStatus}}"

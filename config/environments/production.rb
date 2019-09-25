@@ -57,6 +57,9 @@ Rails.application.configure do
   config.action_mailer.notify_settings = {
     api_key: ENV.fetch('GOVUK_NOTIFY_API_KEY')
   }
+  config.action_mailer.default_url_options = {
+    host: ENV.fetch('DOMAIN')
+  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -105,4 +108,7 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+
+  # Whitelist the production domain for HostAuthorization
+  config.hosts << ENV.fetch('DOMAIN')
 end
