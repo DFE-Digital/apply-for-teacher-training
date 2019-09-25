@@ -1,7 +1,10 @@
 FROM ruby:2.6.3-alpine
 
 ENV APP_HOME /app
+
+# These variables are required for running Rails processes like assets:precompile
 ENV GOVUK_NOTIFY_API_KEY=TestKey
+ENV DOMAIN=dummy.build.domain
 
 RUN apk add --update build-base postgresql-dev git tzdata nodejs yarn && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
