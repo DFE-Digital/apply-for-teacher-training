@@ -44,13 +44,11 @@ stages:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
         railsSecretKeyBase: $(railsSecretKeyBase)
-        RAILS_ENV: production
+        RAILS_ENV: test
         DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
 
-    - script: |
-        docker-compose run --rm web bundle exec rake db:setup
-        make ci.lint-ruby
+    - script: make ci.lint-ruby
       displayName: 'Rubocop'
       env:
         dockerHubUsername: $(dockerHubUsername)
