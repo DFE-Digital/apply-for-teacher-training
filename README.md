@@ -11,6 +11,7 @@ training.
 - NodeJS 8.11.x
 - Yarn 1.12.x
 - PostgreSQL 9.6
+- Graphviz 2.22+ (`brew install graphviz`) to generate the [domain model diagram](#domain-model)
 
 ## Prerequisites for development
 
@@ -60,3 +61,16 @@ check` before proceeding to debug using `bin/webpack`.
 **If assets work in dev but not in tests**, first confirm that you can compile
 by invoking `bin/webpack`. If all is well, there is a chance that
 `public/packs-test` contains stale output. Delete it and re-run the suite.
+
+## Documentation
+
+### Nomenclature
+
+- **Course** consists of a UCAS provider code and a UCAS course code. In our system, this is represented by the `ucas_provider_code` and `ucas_course_code` on the `ApplicationChoice` model
+- **Course Choice** is the course plus a training location code, in our system represented by `ucas_provider_code`, `ucas_course_code`, `ucas_location_code`
+
+### Domain model
+
+![The domain model for this application](docs/domain-model.png)
+
+Regenerate this diagram with `bundle exec erd`.

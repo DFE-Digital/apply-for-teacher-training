@@ -8,6 +8,7 @@ pr: none
 
 variables:
 - group: Docker Shared variables
+- group: APPLY - Production Secrets
 - name: imageName
   value: 'apply-for-postgraduate-teacher-training'
 - name: defaultProviderEmail
@@ -25,7 +26,6 @@ stages:
       vmImage: 'Ubuntu-16.04'
 
     variables:
-    - group: APPLY - Development Secrets
     - name: system.debug
       value: $(debug)
 
@@ -38,41 +38,45 @@ stages:
         echo "##vso[task.setvariable variable=docker_path;]$docker_path"
       displayName: 'Set version number'
 
-    - script: |
-        make setup
+    - script: make setup
       displayName: 'Build & setup'
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
+        railsSecretKeyBase: $(railsSecretKeyBase)
+        RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
-        DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
+        DOMAIN: $(domain)
 
-    - script: |
-        make ci.lint-ruby
+    - script: make ci.lint-ruby
       displayName: 'Rubocop'
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
+        RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
-        DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
+        DOMAIN: $(domain)
 
-    - script: |
-        make ci.lint-erb
+    - script: make ci.lint-erb
       displayName: 'ERB lint'
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
+        RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
-        DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
+        DOMAIN: $(domain)
 
     - script: |
         make ci.test
+        test_result=$?
+        if [ "$test_result" == "0" ]; then true; else cat rspec-results.xml; false; fi
       displayName: 'Execute tests'
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
+        RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
-        DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
+        DOMAIN: $(domain)
 
     - task: Docker@1
       displayName: Tag image with current build number $(Build.BuildNumber)
@@ -119,8 +123,6 @@ stages:
   displayName: 'Deploy - Development'
   dependsOn: build_test_release
   condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  variables:
-  - group: APPLY - Development Secrets
   jobs:
   - template: azure-pipelines-deploy-template.yml
     parameters:
@@ -135,16 +137,15 @@ stages:
       databaseUsername: 'applyadm512'
       databasePassword: '$(databasePassword)'
       dockerhubUsername: '$(dockerHubUsername)'
-      securityKeyBase: '$(secretKeyBase)'
-      railsEnv: 'development'
+      railsSecretKeyBase: '$(railsSecretKeyBase)'
+      railsEnv: 'production'
+      domain: '$(domain)'
 
 
 - stage: deploy_test
   displayName: 'Deploy - Test'
   dependsOn: build_test_release
   condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  variables:
-  - group: APPLY - Production Secrets
   jobs:
   - template: azure-pipelines-deploy-template.yml
     parameters:
@@ -159,8 +160,9 @@ stages:
       databaseUsername: 'applyadm512'
       databasePassword: '$(databasePassword)'
       dockerhubUsername: '$(dockerHubUsername)'
-      securityKeyBase: '$(secretKeyBase)'
-      railsEnv: 'development'
+      railsSecretKeyBase: '$(railsSecretKeyBase)'
+      railsEnv: 'production'
+      domain: '$(domain)'
 
 
 # - stage: deploy_production
@@ -168,8 +170,6 @@ stages:
 #   dependsOn: build_test_release
 #   condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 #   variables:
-#   - group: APPLY - Production Secrets
-#   - name: govukNotifyDefaultProviderEmail
 #     value: 'email@example.com'
 #   jobs:
 #   - template: azure-pipelines-deploy-template.yml
@@ -185,5 +185,5 @@ stages:
 #       databaseUsername: 'applyadm512'
 #       databasePassword: '$(databasePassword)'
 #       dockerhubUsername: '$(dockerHubUsername)'
-#       securityKeyBase: '$(secretKeyBase)'
+#       railsSecretKeyBase: '$(railsSecretKeyBase)'
 #       railsEnv: 'development'

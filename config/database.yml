@@ -10,7 +10,11 @@ default: &default
 
 development:
   <<: *default
+  database: 'bat_apply_development'
 
 test:
   <<: *default
   database: 'bat_apply_test'
+
+production:
+  <<: *default

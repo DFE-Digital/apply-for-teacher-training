@@ -1,0 +1,7 @@
+# This YAML file configures the domain model diagram.
+# Full options: https://voormedia.github.io/rails-erd/customise.html
+#
+# You can regenerate the diagram using `bundle exec erd`
+filename: docs/domain-model
+filetype: png
+title: Apply for postgraduate teacher training domain model

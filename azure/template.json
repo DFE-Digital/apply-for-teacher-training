@@ -217,16 +217,16 @@
                                 "value": "[parameters('warmupPingStatus')]"
                             },
                             {
+                                "name": "WEBSITE_SLOT_POLL_WORKER_FOR_CHANGE_NOTIFICATION",
+                                "value": "0"
+                            },
+                            {
                                 "name": "RAILS_SERVE_STATIC_FILES",
                                 "value": "[parameters('railsServeStaticFiles')]"
                             },
                             {
                                 "name": "GOVUK_NOTIFY_API_KEY",
                                 "value": "[parameters('govukNotifyAPIKey')]"
-                            },
-                            {
-                                "name": "DEFAULT_PROVIDER_EMAIL",
-                                "value": "[parameters('defaultProviderEmail')]"
                             }
                         ]
                     }

@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.3'
 
 gem 'rails', '~> 6.0'
-gem 'puma', '~> 4.1'
+gem 'puma', '~> 4.2'
 gem 'pg', '~> 1.1.4'
 
 gem 'webpacker'
@@ -33,8 +33,8 @@ gem 'devise'
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
-  gem 'pry'
   gem 'aasm-diagram'
+  gem 'rails-erd'
 end
 
 group :test do
@@ -46,6 +46,7 @@ group :test do
   gem 'climate_control'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
+  gem 'launchy'
   gem 'timecop'
 end
 
@@ -53,4 +54,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'dotenv-rails'
   gem 'factory_bot_rails'
+  gem 'pry'
+  gem 'pry-byebug'
+  gem 'pry-rails'
 end

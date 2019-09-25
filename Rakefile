@@ -10,3 +10,7 @@ task lint_ruby: ['lint:ruby']
 task(:default).clear
 
 task default: %i[lint_erb lint_ruby spec cucumber]
+
+Rake::Task['db:migrate'].enhance do
+  sh 'bundle exec erd'
+end

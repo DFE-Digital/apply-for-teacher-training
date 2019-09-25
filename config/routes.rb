@@ -4,19 +4,22 @@ Rails.application.routes.draw do
   # Custom views are used, see app/views/magic_link/sign_up/
   devise_for :candidates, skip: :all
 
-  root to: 'start_page#show'
+  root to: redirect('/candidate')
 
-  resources :personal_details, only: %i[new create edit update], path: 'personal-details'
-  resources :contact_details, only: %i[new create edit update], path: 'contact-details'
-  resources :degrees, only: %i[new create edit update]
-  resources :qualifications, only: %i[new create edit update]
+  namespace :candidate_interface, path: '/candidate' do
+    get '/' => 'start_page#show', as: :start
+    get '/welcome', to: 'welcome#show'
+    get '/sign-up', to: 'sign_up#new', as: :sign_up
+    post '/sign-up', to: 'sign_up#create'
+  end
 
-  get 'sign-up', to: 'magic_link/sign_up#new', as: :new_sign_up
-  post 'sign-up', to: 'magic_link/sign_up#create', as: :sign_up
+  namespace :vendor_api, path: 'api/v1' do
+    get '/ping', to: 'ping#ping'
+  end
 
-  get 'check-your-answers', to: 'check_your_answers#show'
-  get 'application', to: 'tt_applications#show', as: :tt_application
-  post 'application/submit', to: 'tt_application_submissions#create', as: :tt_application_submission
+  namespace :provider, path: '/provider' do
+    get '/' => 'home#index'
+  end
 
   get ':actor/applications', constraints: { actor: /candidate|provider|referee/ }, controller: 'candidate_applications', action: :index, as: :tt_applications
   post 'candidate/applications', controller: 'candidate_applications', action: :create, as: :create_tt_application
