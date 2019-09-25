@@ -7,3 +7,4 @@ services:
       - DEFAULT_PROVIDER_EMAIL
       - GOVUK_NOTIFY_API_KEY
       - SECRET_KEY_BASE=${railsSecretKeyBase}
+      - DOMAIN=${domain}

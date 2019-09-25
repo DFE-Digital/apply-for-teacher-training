@@ -47,6 +47,7 @@ stages:
         RAILS_ENV: test
         DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
+        DOMAIN: $(domain)
 
     - script: make ci.lint-ruby
       displayName: 'Rubocop'
@@ -56,6 +57,7 @@ stages:
         RAILS_ENV: test
         DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
+        DOMAIN: $(domain)
 
     - script: make ci.lint-erb
       displayName: 'ERB lint'
@@ -65,6 +67,7 @@ stages:
         RAILS_ENV: test
         DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
+        DOMAIN: $(domain)
 
     - script: |
         make ci.test
@@ -77,6 +80,7 @@ stages:
         RAILS_ENV: test
         DEFAULT_PROVIDER_EMAIL: $(defaultProviderEmail)
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
+        DOMAIN: $(domain)
 
     - task: Docker@1
       displayName: Tag image with current build number $(Build.BuildNumber)
@@ -139,6 +143,7 @@ stages:
       dockerhubUsername: '$(dockerHubUsername)'
       railsSecretKeyBase: '$(railsSecretKeyBase)'
       railsEnv: 'production'
+      domain: '$(domain)'
 
 
 - stage: deploy_test
@@ -161,6 +166,7 @@ stages:
       dockerhubUsername: '$(dockerHubUsername)'
       railsSecretKeyBase: '$(railsSecretKeyBase)'
       railsEnv: 'production'
+      domain: '$(domain)'
 
 
 # - stage: deploy_production
