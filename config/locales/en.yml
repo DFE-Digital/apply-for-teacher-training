@@ -31,14 +31,17 @@
 
 en:
   page_titles:
-    application: 'Apply for postgraduate teacher training - GOV.UK'
-    welcome: 'Welcome'
+    application: Apply for teacher training - GOV.UK
+    welcome: Welcome
+  layout:
+    service_name: Apply for teacher training
+    phase_banner_text: This is a prototype of a new service. Some parts may not work yet.
   activerecord:
     errors:
       models:
         candidate:
           attributes:
             email_address:
-              blank: 'Enter your email address'
-              taken: 'Email address is already in use'
-              too_long: 'Email address must be %{count} characters or fewer'
+              blank: Enter your email address
+              taken: Email address is already in use
+              too_long: Email address must be %{count} characters or fewer

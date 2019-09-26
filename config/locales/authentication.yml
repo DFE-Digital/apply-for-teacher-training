@@ -1,7 +1,7 @@
 en:
   authentication:
     sign_up:
-      heading:  Before you begin
+      heading: Before you begin
       button: Continue
       email_address:
         label: Email address
