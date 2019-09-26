@@ -15,6 +15,9 @@ Rails.application.routes.draw do
     get '/welcome', to: 'welcome#show'
     get '/sign-up', to: 'sign_up#new', as: :sign_up
     post '/sign-up', to: 'sign_up#create'
+
+    get '/sign-in', to: 'sign_in#new', as: :sign_in
+    post '/sign-in', to: 'sign_in#create'
   end
 
   namespace :vendor_api, path: 'api/v1' do
