@@ -46,7 +46,8 @@
             <%= t('layout.service_name') %>
           </a>
           <% if candidate_signed_in? %>
-            <p class="govuk-body"><%= current_candidate.email_address %></p>
+            <p class="govuk-header__body"><%= current_candidate.email_address %></p>
+            <%= link_to 'Sign out', candidate_interface_sign_out_path, class: 'govuk-header__link' %>
           <% end %>
         </div>
       </div>
