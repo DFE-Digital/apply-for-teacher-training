@@ -12,9 +12,11 @@ parameters:
   dockerhubUsername:
   railsSecretKeyBase:
   containerStartTimeLimit: '600'
-  warmupPingPath: '/sign-up'
+  warmupPingPath: 'candidate/sign-up'
   warmupPingStatus: '200'
   railsEnv: 'production'
+  domain:
+  staging_domain:
   securityAlertEmail: 'apprenticeshipsdevops@education.gov.uk'
   
 jobs:
@@ -61,7 +63,8 @@ jobs:
                 -warmupPingPath "${{parameters.warmupPingPath}}"
                 -warmupPingStatus "${{parameters.warmupPingStatus}}"
                 -govukNotifyAPIKey "$(govukNotifyAPIKey)"
-                -defaultProviderEmail "$(defaultProviderEmail)"'
+                -domain "${{parameters.domain}}"
+                -staging_domain "${{parameters.staging_domain}}"'
               deploymentOutputs: DeploymentOutput
 
           - task: RasmusWatjen.ARMOutputParserExtension.ARMOutputConverter.ARMOutputParserExtension@1

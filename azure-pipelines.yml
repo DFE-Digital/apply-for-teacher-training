@@ -47,6 +47,7 @@ stages:
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
+        STAGING_DOMAIN: $(domain)
 
     - script: make ci.lint-ruby
       displayName: 'Rubocop'
@@ -56,6 +57,7 @@ stages:
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
+        STAGING_DOMAIN: $(domain)
 
     - script: make ci.lint-erb
       displayName: 'ERB lint'
@@ -65,6 +67,7 @@ stages:
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
+        STAGING_DOMAIN: $(domain)
 
     - script: |
         make ci.test
@@ -77,6 +80,7 @@ stages:
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
+        STAGING_DOMAIN: $(domain)
 
     - task: Docker@1
       displayName: Tag image with current build number $(Build.BuildNumber)
@@ -140,12 +144,15 @@ stages:
       railsSecretKeyBase: '$(railsSecretKeyBase)'
       railsEnv: 'production'
       domain: '$(domain)'
+      staging_domain: '$(staging_domain)'
 
 
 - stage: deploy_test
   displayName: 'Deploy - Test'
   dependsOn: build_test_release
   condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  variables:
+  - group: APPLY - Development Secrets
   jobs:
   - template: azure-pipelines-deploy-template.yml
     parameters:
@@ -163,6 +170,7 @@ stages:
       railsSecretKeyBase: '$(railsSecretKeyBase)'
       railsEnv: 'production'
       domain: '$(domain)'
+      staging_domain: '$(staging_domain)'
 
 
 # - stage: deploy_production
@@ -186,4 +194,6 @@ stages:
 #       databasePassword: '$(databasePassword)'
 #       dockerhubUsername: '$(dockerHubUsername)'
 #       railsSecretKeyBase: '$(railsSecretKeyBase)'
-#       railsEnv: 'development'
+#       railsEnv: 'production'
+#       domain: '$(domain)'
+#       staging_domain: '$(staging_domain)'

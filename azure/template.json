@@ -87,10 +87,16 @@
                 "description": "GOV UK Notify service API key."
             }
         },
-        "defaultProviderEmail": {
+        "domain": {
             "type": "string",
             "metadata": {
-                "description": "Notify service Default provider email address."
+                "description": "Site domain name for use in GOV UK Notify and Rails security features."
+            }
+        },
+        "staging_domain": {
+            "type": "string",
+            "metadata": {
+                "description": "Site domain name for use in GOV UK Notify and Rails security features. Used during swap slots only."
             }
         },
         "railsServeStaticFiles": {
@@ -227,6 +233,14 @@
                             {
                                 "name": "GOVUK_NOTIFY_API_KEY",
                                 "value": "[parameters('govukNotifyAPIKey')]"
+                            },
+                            {
+                                "name": "DOMAIN",
+                                "value": "[parameters('domain')]"
+                            },
+                            {
+                                "name": "STAGING_DOMAIN",
+                                "value": "[parameters('staging_domain')]"
                             }
                         ]
                     }

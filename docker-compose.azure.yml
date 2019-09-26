@@ -7,3 +7,4 @@ services:
       - GOVUK_NOTIFY_API_KEY
       - SECRET_KEY_BASE=${railsSecretKeyBase}
       - DOMAIN=${domain}
+      - STAGING_DOMAIN=${staging_domain}
