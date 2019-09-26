@@ -36,6 +36,7 @@ group :test do
   gem 'climate_control'
   gem 'launchy'
   gem 'timecop'
+  gem 'guard-rspec'
 end
 
 group :development, :test do
