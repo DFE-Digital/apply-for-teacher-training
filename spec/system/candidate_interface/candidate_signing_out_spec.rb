@@ -9,12 +9,12 @@ describe 'A candidate signing out' do
       visit candidate_interface_welcome_path
     end
 
-    it 'can see a sign out button' do
+    it 'displays a sign out button' do
       expect(page).to have_selector :link_or_button, 'Sign out'
     end
 
-    context 'when the sign out button is clicked' do
-      it 'sends the candidate to the start page' do
+    describe 'click the sign out button' do
+      it 'displays the start page' do
         click_link 'Sign out'
 
         expect(page).to have_current_path(candidate_interface_start_path)
