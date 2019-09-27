@@ -111,4 +111,5 @@ Rails.application.configure do
 
   # Whitelist the production domain for HostAuthorization
   config.hosts << ENV.fetch('DOMAIN')
+  config.hosts << ENV.fetch('STAGING_DOMAIN') # Domain used in Azure pipelines for deploying to the second slot
 end

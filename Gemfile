@@ -48,6 +48,7 @@ group :test do
   gem 'database_cleaner'
   gem 'launchy'
   gem 'timecop'
+  gem 'guard-rspec'
 end
 
 group :development, :test do
