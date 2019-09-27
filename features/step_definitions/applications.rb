@@ -29,14 +29,22 @@ Given('the following application exists:') do |table|
   pending('Need to deal with offer expiry time assignments')
 end
 
-Given('the application stages are set up as follows:') do |_table|
-  # table is a Cucumber::MultilineArgument::DataTable
-  pending # Write code here that turns the phrase above into concrete actions
+Given('the application stages are set up as follows:') do |table|
+  table.hashes.each do |row|
+    stage_class = (row['type'] + ' stage').gsub(' ', '_').classify.constantize
+    stage_class.create!(
+      simultaneous_applications_limit: row['simultaneous applications limit'],
+      from_time: DateTime.parse(row['start time']),
+      to_time: DateTime.parse(row['end time']),
+    )
+  end
 end
 
 Given(/the candidate has made (.*) (Apply \d) applications in the current recruitment cycle/) do |no_or_number, _stage|
-  _number_of_previous_applications = no_or_number == 'no' ? 0 : no_number
-  pending # Write code here that turns the phrase above into concrete actions
+  number_of_previous_applications = no_or_number == 'no' ? 0 : no_or_number.to_i
+  number_of_previous_applications.times do
+    pending # Write code here that turns the phrase above into concrete actions
+  end
 end
 
 Given('the expiry time on the offer is {string}') do |_offer_expiry_timestamp|
@@ -97,6 +105,6 @@ Then(/a provider with code "(.*)" is able to (add conditions|amend conditions): 
   end
 end
 
-Then(/the candidate's (.*) batch to course[s]? (.*) at (.*) is (.*)/) do |_stage, _courses, _time, _valid_or_invalid|
+Then(/the candidate's submission of (.*) applications to course[s]? (.*) at (.*) is (.*)/) do |_stage, _courses, _time, _valid_or_invalid|
   pending # Write code here that turns the phrase above into concrete actions
 end

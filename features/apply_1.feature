@@ -28,7 +28,7 @@ Feature: Apply 1
 
   Scenario Outline: at Apply 1, a candidate can submit up to 3 applications simultaneously to distinct, open courses
     Given the candidate has made no Apply 1 applications in the current recruitment cycle
-    Then the candidate's Apply 1 batch to courses <courses> at <submission time> is <valid or not?>
+    Then the candidate's submission of Apply 1 applications to courses <courses> at <submission time> is <valid or not?>
 
   Examples:
     | courses                    | submission time | valid or not? | notes                         |
@@ -42,7 +42,7 @@ Feature: Apply 1
 
   Scenario Outline: a candidate can only make one Apply 1 batch submission per recruitment cycle
     Given the candidate has made <# of previous applications> Apply 1 applications in the current recruitment cycle
-    Then the candidate's Apply 1 batch to course P1/C1 at 12:00 PM, 1 Aug 2019 is invalid
+    Then the candidate's submission of Apply 1 applications to course P1/C1 at 12:00 PM, 1 Aug 2019 is invalid
 
   Examples:
     | # of previous applications |
