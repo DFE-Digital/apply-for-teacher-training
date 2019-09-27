@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_24_100800) do
+ActiveRecord::Schema.define(version: 2019_09_27_200230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -34,6 +34,15 @@ ActiveRecord::Schema.define(version: 2019_09_24_100800) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
+  end
+
+  create_table "application_stages", force: :cascade do |t|
+    t.integer "simultaneous_applications_limit", null: false
+    t.datetime "from_time", null: false
+    t.datetime "to_time", null: false
+    t.string "type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "candidate_applications", force: :cascade do |t|

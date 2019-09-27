@@ -1,0 +1,2 @@
+class ApplicationStage < ApplicationRecord
+end
