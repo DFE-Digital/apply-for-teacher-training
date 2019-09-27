@@ -12,6 +12,14 @@ AllCops:
     - 'config/puma.rb'
     - 'config/environments/*'
 
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+  EnforcedStyle: double_quotes
+
+Layout/AccessModifierIndentation:
+  Enabled: true
+  EnforcedStyle: indent
+
 Bundler/OrderedGems:
   Enabled: false
 
