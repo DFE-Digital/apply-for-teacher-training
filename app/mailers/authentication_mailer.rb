@@ -12,6 +12,6 @@ class AuthenticationMailer < ApplicationMailer
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: to,
-              subject: 'Sign in')
+              subject: t('authentication.sign_in.email.subject'))
   end
 end

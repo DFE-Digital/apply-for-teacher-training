@@ -19,8 +19,8 @@ describe 'A candidate signing in' do
       fill_in t('authentication.sign_in.email_address.label'), with: 'non_existent_candidate@example.com'
       click_on t('authentication.sign_up.button')
 
-      # It redirect to the home
       expect(page).to have_content 'Check your email'
+      expect(page.current_url).to eq(candidate_interface_sign_in_url)
     end
   end
 
@@ -30,6 +30,7 @@ describe 'A candidate signing in' do
       click_on t('authentication.sign_up.button')
 
       expect(page).to have_content 'Check your email'
+      expect(page.current_url).to eq(candidate_interface_sign_in_url)
     end
 
     it 'receives the email' do
@@ -42,7 +43,11 @@ describe 'A candidate signing in' do
 
       open_email('april@pawnee.com')
 
-      expect(current_email.body).to have_content 'Click the link below to sign in to the Apply'
+      sign_in_link = current_email.find_css('a').first
+      sign_in_link.click
+
+      # TODO: this will be changed to the application page of candidate
+      expect(page).to have_content('Welcome')
     end
   end
 end
