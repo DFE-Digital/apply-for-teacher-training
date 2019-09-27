@@ -4,6 +4,7 @@ help: ## Show this help
 
 .PHONY: build
 build: ## Create a new image
+	touch .env ## Create an empty .env file if it doesn't exist
 	docker-compose build
 
 .PHONY: setup
@@ -22,7 +23,7 @@ shell: ## Open a shell on the app container
 .PHONY: serve
 serve: ## Run the service
 	docker-compose up --build
-	
+
 .PHONY: ci.lint-ruby
 ci.lint-ruby: ## Run Rubocop with results formatted for CI
 	docker-compose run --rm web /bin/sh -c "bundle exec rubocop --format clang --parallel"
@@ -34,4 +35,3 @@ ci.lint-erb: ## Run the ERB linter
 .PHONY: ci.test
 ci.test: ## Run the tests with results formatted for CI
 	docker-compose run --rm web /bin/sh -c 'bundle exec --verbose rspec --format RspecJunitFormatter' > rspec-results.xml
-
