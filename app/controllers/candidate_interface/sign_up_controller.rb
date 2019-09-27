@@ -17,7 +17,7 @@ module CandidateInterface
 
     def show; end
 
-  private
+    private
 
     def candidate_params
       params.require(:candidate).permit(:email_address)

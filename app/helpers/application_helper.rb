@@ -3,7 +3,7 @@ module ApplicationHelper
     page_title_translation_key = "page_titles.#{page}"
 
     if I18n.exists?(page_title_translation_key)
-      "#{t(page_title_translation_key)} - #{t('page_titles.application')}"
+      "#{t(page_title_translation_key)} - #{t("page_titles.application")}"
     else
       t("page_titles.application")
     end

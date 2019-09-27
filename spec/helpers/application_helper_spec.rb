@@ -14,7 +14,7 @@ describe ApplicationHelper do
       it "returns the page name with the application title" do
         page_title = helper.page_title(:welcome)
 
-        expect(page_title).to eq("#{t('page_titles.welcome')} - #{t('page_titles.application')}")
+        expect(page_title).to eq("#{t("page_titles.welcome")} - #{t("page_titles.application")}")
       end
     end
   end

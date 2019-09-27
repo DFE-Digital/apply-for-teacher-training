@@ -15,7 +15,7 @@ class MagicLinkStrategy < Warden::Strategies::Base
     end
   end
 
-private
+  private
 
   def token_not_expired?(candidate)
     Time.now < (candidate.magic_link_token_sent_at + MAX_TOKEN_DURATION)
