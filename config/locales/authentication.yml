@@ -15,3 +15,5 @@ en:
       heading: Sign in
       email_address:
         label: Email address
+      email:
+        body: Click the link below to sign in to the Apply for postgraduate teacher training service.
