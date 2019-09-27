@@ -12,10 +12,6 @@ AllCops:
     - 'config/puma.rb'
     - 'config/environments/*'
 
-Style/StringLiterals:
-  Enabled: true
-  EnforcedStyle: single_quotes
-
 Bundler/OrderedGems:
   Enabled: false
 
