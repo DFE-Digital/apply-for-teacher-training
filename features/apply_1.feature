@@ -11,6 +11,13 @@ Feature: Apply 1
     Given the application stages are set up as follows:
       | type    | simultaneous applications limit | start time | end time    |
       | Apply 1 | 3                               | 1 Oct 2018 | 6 Sept 2019 |
+    And the following providers:
+      | provider code |
+      | P1            |
+      | P2            |
+      | P3            |
+      | P4            |
+      | P5            |
     And the following courses:
       | provider code | course code | open? |
       | P1            | C1          | Y     |
