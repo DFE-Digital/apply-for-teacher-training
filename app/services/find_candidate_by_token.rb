@@ -1,4 +1,4 @@
-require_relative 'lib/magic_link_token'
+require_relative "lib/magic_link_token"
 
 class FindCandidateByToken
   def self.call(raw_token:)

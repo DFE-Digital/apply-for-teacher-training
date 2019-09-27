@@ -1,4 +1,4 @@
-require_relative 'lib/magic_link_token'
+require_relative "lib/magic_link_token"
 
 class MagicLinkSignUp
   def self.call(candidate:)

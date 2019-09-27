@@ -1,5 +1,5 @@
 module CandidateInterface
   class CandidateInterfaceController < ActionController::Base
-    layout 'application'
+    layout "application"
   end
 end

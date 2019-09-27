@@ -1,5 +1,5 @@
 module ProviderInterface
   class ProviderInterfaceController < ActionController::Base
-    layout 'application'
+    layout "application"
   end
 end

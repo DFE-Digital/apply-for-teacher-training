@@ -1,1 +1,1 @@
-require 'capybara/email/rspec'
+require "capybara/email/rspec"

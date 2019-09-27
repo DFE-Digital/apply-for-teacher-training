@@ -5,26 +5,26 @@ Rails.application.routes.draw do
   devise_for :candidates, skip: :all
 
   devise_scope :candidate do
-    get '/candidate/sign-out', to: 'devise/sessions#destroy', as: :candidate_interface_sign_out
+    get "/candidate/sign-out", to: "devise/sessions#destroy", as: :candidate_interface_sign_out
   end
 
-  root to: redirect('/candidate')
+  root to: redirect("/candidate")
 
-  namespace :candidate_interface, path: '/candidate' do
-    get '/' => 'start_page#show', as: :start
-    get '/welcome', to: 'welcome#show'
-    get '/sign-up', to: 'sign_up#new', as: :sign_up
-    post '/sign-up', to: 'sign_up#create'
+  namespace :candidate_interface, path: "/candidate" do
+    get "/" => "start_page#show", as: :start
+    get "/welcome", to: "welcome#show"
+    get "/sign-up", to: "sign_up#new", as: :sign_up
+    post "/sign-up", to: "sign_up#create"
 
-    get '/sign-in', to: 'sign_in#new', as: :sign_in
-    post '/sign-in', to: 'sign_in#create'
+    get "/sign-in", to: "sign_in#new", as: :sign_in
+    post "/sign-in", to: "sign_in#create"
   end
 
-  namespace :vendor_api, path: 'api/v1' do
-    get '/ping', to: 'ping#ping'
+  namespace :vendor_api, path: "api/v1" do
+    get "/ping", to: "ping#ping"
   end
 
-  namespace :provider, path: '/provider' do
-    get '/' => 'home#index'
+  namespace :provider, path: "/provider" do
+    get "/" => "home#index"
   end
 end

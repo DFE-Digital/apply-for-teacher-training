@@ -1,7 +1,7 @@
-require 'rails_helper'
+require "rails_helper"
 
-describe 'Candidate session expires' do
-  it 'expires the current candidate session' do
+describe "Candidate session expires" do
+  it "expires the current candidate session" do
     candidate = FactoryBot.create(:candidate)
     login_as(candidate)
 

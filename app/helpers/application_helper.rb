@@ -5,7 +5,7 @@ module ApplicationHelper
     if I18n.exists?(page_title_translation_key)
       "#{t(page_title_translation_key)} - #{t('page_titles.application')}"
     else
-      t('page_titles.application')
+      t("page_titles.application")
     end
   end
 end

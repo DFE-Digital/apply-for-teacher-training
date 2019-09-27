@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Candidate, type: :model do
   subject { FactoryBot.create(:candidate) }
@@ -7,8 +7,8 @@ RSpec.describe Candidate, type: :model do
   it { is_expected.to validate_length_of(:email_address).is_at_most(250) }
   it { is_expected.to validate_uniqueness_of :email_address }
 
-  describe '#delete' do
-    it 'deletes all dependent records through cascading deletes in the database' do
+  describe "#delete" do
+    it "deletes all dependent records through cascading deletes in the database" do
       candidate = FactoryBot.create(:candidate)
       application_form = FactoryBot.create(:application_form, candidate: candidate)
       application_choice = FactoryBot.create(:application_choice, application_form: application_form)
