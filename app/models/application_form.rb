@@ -7,7 +7,7 @@ class ApplicationForm < ApplicationRecord
 
   before_validation :initialize_application_stage
 
-  scope :most_recently_created, -> { order("created_at DESC").first }
+  scope :most_recently_created, -> { order('created_at DESC').first }
 
 private
 

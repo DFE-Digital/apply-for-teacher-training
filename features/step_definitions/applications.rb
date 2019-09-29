@@ -44,12 +44,12 @@ Given('the expiry time on the offer is {string}') do |_offer_expiry_timestamp|
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-Given("the candidate has submitted application forms with the following choices:") do |table|
+Given('the candidate has submitted application forms with the following choices:') do |_table|
   # table is a Cucumber::MultilineArgument::DataTable
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-Given("a candidate with no submitted application forms in the current recruitment cycle") do
+Given('a candidate with no submitted application forms in the current recruitment cycle') do
   @candidate = FactoryBot.create(:candidate)
 end
 
@@ -117,6 +117,6 @@ Then(/the most recent application form is at stage (.*)/) do |stage|
   expect(@candidate.application_forms.most_recently_created.application_stage.to_s).to eq(stage)
 end
 
-Then(/the candidate's application to courses (.*?) at (.*) is (.*)/) do |courses, application_time, valid_or_not|
+Then(/the candidate's application to courses (.*?) at (.*) is (.*)/) do |_courses, _application_time, _valid_or_not|
   pending # Write code here that turns the phrase above into concrete actions
 end
