@@ -40,15 +40,17 @@ Given('the application stages are set up as follows:') do |table|
   end
 end
 
-Given(/the candidate has made (.*) (Apply \d) applications in the current recruitment cycle/) do |no_or_number, _stage|
-  number_of_previous_applications = no_or_number == 'no' ? 0 : no_or_number.to_i
-  number_of_previous_applications.times do
-    pending # Write code here that turns the phrase above into concrete actions
-  end
-end
-
 Given('the expiry time on the offer is {string}') do |_offer_expiry_timestamp|
   pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given("the candidate has submitted application forms with the following choices:") do |table|
+  # table is a Cucumber::MultilineArgument::DataTable
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given("a candidate with no submitted application forms in the current recruitment cycle") do
+  @candidate = FactoryBot.create(:candidate)
 end
 
 When(/^the (\w+) (cannot take|takes) action "([\w\s]+)"$/) do |actor, nil_or_cannot, action|
@@ -85,6 +87,12 @@ When('the new expiry time on the offer is {string}') do |_new_offer_expiry_times
   pending # Write code here that turns the phrase above into concrete actions
 end
 
+When(/the candidate creates a new application form on (.*)/) do |date_string|
+  Timecop.freeze(Date.parse(date_string)) do
+    @candidate.application_forms.create!
+  end
+end
+
 Then('the new application state is {string}') do |new_application_state|
   expect(@application.reload.state).to eq(new_application_state.gsub(' ', '_'))
 end
@@ -105,6 +113,10 @@ Then(/a provider with code "(.*)" is able to (add conditions|amend conditions): 
   end
 end
 
-Then(/the candidate's submission of (.*) applications to course[s]? (.*) at (.*) is (.*)/) do |_stage, _courses, _time, _valid_or_invalid|
+Then(/the most recent application form is at stage (.*)/) do |stage|
+  expect(@candidate.application_forms.most_recently_created.application_stage.to_s).to eq(stage)
+end
+
+Then(/the candidate's application to courses (.*?) at (.*) is (.*)/) do |courses, application_time, valid_or_not|
   pending # Write code here that turns the phrase above into concrete actions
 end

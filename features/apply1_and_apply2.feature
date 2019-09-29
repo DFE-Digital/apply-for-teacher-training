@@ -26,9 +26,14 @@ Feature: Apply 1
       | P4            | C4          | Y     |
       | P5            | C5          | N     |
 
-  Scenario Outline: at Apply 1, a candidate can submit up to 3 applications simultaneously to distinct, open courses
-    Given the candidate has made no Apply 1 applications in the current recruitment cycle
-    Then the candidate's submission of Apply 1 applications to courses <courses> at <submission time> is <valid or not?>
+  Scenario Outline: applications at Apply 1
+    At Apply 1, a candidate can submit concurrent applications to distinct, open courses up to the limit. In this spec,
+    the limit has been configured to be 3.
+
+    Given a candidate with no submitted application forms in the current recruitment cycle
+    When the candidate creates a new application form on 31 July 2019
+    Then the most recent application form is at stage Apply 1
+    And the candidate's application to courses <courses> at <submission time> is <valid or not?>
 
   Examples:
     | courses                    | submission time | valid or not? | notes                         |
@@ -40,11 +45,16 @@ Feature: Apply 1
     | P1/C1, P2/C2, P3/C3        | 8 Sept 2019     | invalid       | too late - Apply 1 has closed |
     | P5/C5                      | 1 Aug 2019      | invalid       | the course is not open        |
 
-  Scenario Outline: a candidate can only make one Apply 1 batch submission per recruitment cycle
-    Given the candidate has made <# of previous applications> Apply 1 applications in the current recruitment cycle
-    Then the candidate's submission of Apply 1 applications to course P1/C1 at 12:00 PM, 1 Aug 2019 is invalid
+  Scenario: Apply 2 comes after Apply 1
+    Given the candidate has submitted application forms with the following choices:
+      | P1/C1, P2/C2, P3/C3 |
+    When the candidate creates a new application form on 31 July 2019
+    Then the most recent application form is at stage Apply 2
 
-  Examples:
-    | # of previous applications |
-    | 1                          |
-    | 3                          |
+  Scenario: Apply 2 repeats after Apply 2
+    Given the candidate has submitted application forms with the following choices:
+      | P1/C1, P2/C2, P3/C3 |
+      | P4/C4               |
+      | P5/C5               |
+    When the candidate creates a new application form on 31 July 2019
+    Then the most recent application form is at stage Apply 2
