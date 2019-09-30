@@ -4,8 +4,10 @@ FactoryBot.define do
   end
 
   factory :application_form do
+    candidate
   end
 
   factory :application_choice do
+    application_form
   end
 end
