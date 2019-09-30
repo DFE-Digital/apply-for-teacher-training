@@ -1,0 +1,726 @@
+openapi: 3.0.0
+info:
+  version: 0.4.0
+  title: Apply API
+  contact:
+    name: DfE
+    email: becomingateacher@digital.education.gov.uk
+  description: API for DfE's Apply for postgraduate teacher training service
+paths:
+  /applications:
+    get:
+      summary: Get many applications
+      description: Applications are returned in the order they were changed or created.
+      parameters:
+        - name: since
+          description: Include only applications changed or created on or since a date and time. Times should be in ISO 8601 format.
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: provider_ucas_code
+          description: UCAS Provider Code to uniquely identify a provider
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: An array of applications
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MultipleApplicationsResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "422":
+          $ref: "#/components/responses/ParameterMissing"
+  "/applications/{application_id}":
+    get:
+      summary: Get a single application
+      parameters:
+        - $ref: "#/components/parameters/application_id"
+      responses:
+        "200":
+          description: An application
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleApplicationResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  "/applications/{application_id}/offer":
+    post:
+      summary: Make an offer
+      description: Make an unconditional or conditional offer
+      parameters:
+        - $ref: '#/components/parameters/application_id'
+      requestBody:
+        description: |
+          The conditions of the offer
+
+          Providing a request body with an array of conditions is equivalent to making a **conditional** offer. For an **unconditional** offer, provide an empty request body.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: "#/components/schemas/Offer"
+                meta:
+                  $ref: '#/components/schemas/TimestampAndAttribution'
+      responses:
+        "200":
+          description: An application
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleApplicationResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  "/applications/{application_id}/confirm-enrolment":
+    post:
+      summary: Confirm enrolment
+      description: Confirm that the candidate has enrolled
+      parameters:
+        - $ref: '#/components/parameters/application_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                meta:
+                  $ref: '#/components/schemas/TimestampAndAttribution'
+      responses:
+        "200":
+          description: An application
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleApplicationResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  "/applications/{application_id}/confirm-conditions-met":
+    post:
+      summary: Confirm offer conditions
+      description: Confirm that the candidate has met all the conditions set out in the offer
+      parameters:
+        - $ref: '#/components/parameters/application_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                meta:
+                  $ref: '#/components/schemas/TimestampAndAttribution'
+      responses:
+        "200":
+          description: An application
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleApplicationResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  "/applications/{application_id}/reject":
+    post:
+      summary: Reject application
+      description: Reject the candidate's application with a reason
+      parameters:
+        - $ref: '#/components/parameters/application_id'
+      requestBody:
+        description: The reason for rejection
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    reason:
+                      type: string
+                      example: Does not meet minimum GCSE requirements
+                meta:
+                  $ref: '#/components/schemas/TimestampAndAttribution'
+      responses:
+        "200":
+          description: An application
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Application"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+components:
+  responses:
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/NotFoundResponse"
+
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UnauthorizedResponse"
+    ParameterMissing:
+      description: A required URL parameter was empty or missing
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ParameterMissingResponse"
+  schemas:
+    MultipleApplicationsResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Application"
+    SingleApplicationResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/Application"
+    Application:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id:
+          type: string
+          description: The unique ID of this application
+          maxLength: 10
+          example: 11fc0d3b2f
+        type:
+          type: string
+          enum:
+            - application
+          example: application
+        attributes:
+          $ref: "#/components/schemas/ApplicationAttributes"
+    ApplicationAttributes:
+      type: object
+      additionalProperties: false
+      required:
+        - candidate
+        - contact_details
+        - course
+        # - offer
+        - personal_statement
+        - qualifications
+        - references
+        # - rejection
+        - status
+        - submitted_at
+        - updated_at
+        # - withdrawal
+        - work_experiences
+        - hesa_itt_data
+      properties:
+        status:
+          type: string
+          description: The status of this application
+          enum:
+            - application_complete
+            - conditional_offer
+            - unconditional_offer
+            - meeting_conditions
+            - recruited
+            - enrolled
+            - rejected
+            - declined
+          example: conditional_offer
+        submitted_at:
+          type: string
+          format: date-time
+          description: ISO 8601 date of submission, with time and timezone
+          example: "2019-06-13T10:44:31Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO 8601 date of last change, with time and timezone
+          example: "2019-06-13T10:44:31Z"
+        personal_statement:
+          type: string
+          description: The candidate’s personal statement
+          example: "Since retiring from the Police Service in 2007..."
+        candidate:
+          $ref: "#/components/schemas/Candidate"
+        contact_details:
+          $ref: "#/components/schemas/ContactDetails"
+        course:
+          $ref: "#/components/schemas/Course"
+        qualifications:
+          type: array
+          items:
+            $ref: "#/components/schemas/Qualification"
+        work_experiences:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkExperience"
+        references:
+          type: array
+          items:
+            $ref: "#/components/schemas/Reference"
+        offer:
+          $ref: "#/components/schemas/Offer"
+        withdrawal:
+          $ref: "#/components/schemas/Withdrawal"
+        rejection:
+          $ref: "#/components/schemas/Rejection"
+        hesa_itt_data:
+          $ref: "#/components/schemas/HESAITTData"
+    Candidate:
+      type: object
+      additionalProperties: false
+      required:
+        - first_name
+        - last_name
+        - date_of_birth
+        - nationality
+        - uk_residency_status
+      properties:
+        first_name:
+          type: string
+          description: The candidate’s first name
+          maxLength: 60
+          example: Boris
+        last_name:
+          type: string
+          description: The candidate’s last name
+          example: Brown
+          maxLength: 60
+        date_of_birth:
+          type: string
+          format: date
+          description: The candidate’s date of birth
+          example: "1985-02-02"
+        nationality:
+          type: array
+          items:
+            type: string
+            pattern: "^[A-Z]{2}$"
+            example: NL
+          maxItems: 2
+          description: One or more ISO 3166 country codes
+        uk_residency_status:
+          type: string
+          description: "The candidate’s UK residency status, e.g. Citizen"
+          example: UK Citizen
+    ContactDetails:
+      type: object
+      additionalProperties: false
+      required:
+        - address_line1
+        - address_line2
+        - address_line3
+        - address_line4
+        - postcode
+        - country
+        - email
+        - phone_number
+      properties:
+        address_line1:
+          type: string
+          description: The candidate’s address line 1
+          maxLength: 50
+          example: "45"
+        address_line2:
+          type: string
+          description: The candidate’s address line 2
+          maxLength: 50
+          example: Dialstone Lane
+        address_line3:
+          type: string
+          description: The candidate’s address line 3
+          maxLength: 50
+          example: Stockport
+        address_line4:
+          type: string
+          description: The candidate’s address line 4
+          maxLength: 50
+          example: England
+        postcode:
+          type: string
+          description: The candidate’s postcode
+          maxLength: 8
+          example: SK2 6AA
+        country:
+          type: string
+          description: The candidate’s country - ISO 3166 country code
+          pattern: "^[A-Z]{2}$"
+          example: GB
+        email:
+          type: string
+          description: The candidate’s email address
+          maxLength: 100
+          example: boris.brown@example.com
+        phone_number:
+          type: string
+          description: The candidate’s phone number
+          maxLength: 18
+          example: "07944386555"
+    Course:
+      type: object
+      additionalProperties: false
+      required:
+        - start_date
+        - provider_ucas_code
+        - course_ucas_code
+        - location_ucas_code
+      properties:
+        start_date:
+          type: string
+          format: date
+          description: The course’s start date
+          example: "2020-09-10"
+        provider_ucas_code:
+          type: string
+          description: The provider’s UCAS code
+          example: 2FR
+        course_ucas_code:
+          type: string
+          description: The course’s UCAS code
+          example: 3CVK
+        location_ucas_code:
+          type: string
+          description: The location’s UCAS code
+          example: K
+    Offer:
+      type: object
+      additionalProperties: false
+      required:
+        - conditions
+      properties:
+        conditions:
+          type: array
+          items:
+            type: string
+            maxLength: 255
+          description: The conditions of the offer
+          maxItems: 20
+          example:
+            - Completion of subject knowledge enhancement
+            - Completion of professional skills test
+    Qualification:
+      type: object
+      additionalProperties: false
+      required:
+        - qualification_type
+        - subject
+        - result
+        - award_year
+        - place_of_study
+        - awarding_body_country
+        - awarding_body_name
+        - equivalency_details
+      properties:
+        qualification_type:
+          type: string
+          description: The qualification awarded
+          example: BA
+        subject:
+          type: string
+          description: The subject studied
+          maxLength: 255
+          example: History and Politics
+        result:
+          type: string
+          description: The grade awarded
+          example: "2:1"
+        award_year:
+          type: string
+          description: The year the award was made
+          example: "1992"
+        place_of_study:
+          type: string
+          description: The place of study
+          maxLength: 255
+          example: University of Huddersfield
+        awarding_body_name:
+          type: string
+          description: "The awarding body’s name, e.g. AQA"
+          maxLength: 255
+        awarding_body_country:
+          type: string
+          description: "The awarding body’s country as an ISO 3166 country code"
+          example: GB
+        equivalency_details:
+          type: string
+          description: "Details of equivalency, if this qualification was awarded overseas"
+          maxLength: 255
+    Reference:
+      type: object
+      additionalProperties: false
+      required:
+        - reference_type
+        - email
+        - relationship
+        - content
+        - name
+        - reason_for_character_reference
+      properties:
+        reference_type:
+          type: string
+          description: The type of the reference
+          maxLength: 255
+          enum:
+            - academic
+            - professional
+            - school_senior_leadership
+            - character
+          example: school_senior_leadership
+        reason_for_character_reference:
+          type: string
+          description: "If this is a character reference, this field will contain the reason the candidate gave for not providing one of the other types"
+          maxLength: 255
+        email:
+          type: string
+          description: The referee’s email
+          maxLength: 100
+          example: julia@example.com
+        name:
+          type: string
+          description: The referee’s name
+          maxLength: 255
+          example: Julia Wild
+        relationship:
+          type: string
+          description: The referee’s relationship to the candidate
+          maxLength: 255
+          example: Julia was my mentor at Cheadle Hulme High
+        content:
+          type: string
+          description: "Optional. The reference content provided by the referee, once it is available"
+          example: Boris is committed to the profession of teaching...
+    Rejection:
+      type: object
+      additionalProperties: false
+      required:
+        - reason
+        - date
+      properties:
+        reason:
+          type: string
+          description: The reason for rejection
+          maxLength: 255
+          example: Does not meet minimum GCSE requirements
+        date:
+          type: string
+          format: date-time
+          description: The date on which the rejection was issued
+          example: "2019-09-18T15:33:49.216Z"
+    Withdrawal:
+      type: object
+      additionalProperties: false
+      required:
+        - reason
+        - date
+      properties:
+        reason:
+          type: string
+          description: Optional. The candidate’s reason for withdrawing
+          maxLength: 255
+          example: Candidate is unwell
+        date:
+          type: string
+          format: date-time
+          description: The date on which the withdrawal was received
+          example: "2019-09-18T15:33:49.216Z"
+    WorkExperience:
+      type: object
+      additionalProperties: false
+      required:
+        - organisation_name
+        - start_date
+        - end_date
+        - role
+        - description
+      properties:
+        organisation_name:
+          type: string
+          description: The name of the employer (company or individual)
+          maxLength: 255
+          example: Cheadle Hulme High School
+        start_date:
+          type: string
+          format: date
+          description: The date employment began
+          example: "2020-09-10"
+        end_date:
+          type: string
+          format: date
+          description: "The date employment finished, if appropriate"
+          example: "2019-04-01"
+        role:
+          type: string
+          description: The position held by the candidate
+          maxLength: 255
+          example: Whole School Literacy Specialist
+        description:
+          type: string
+          description: A brief written description of the work involved
+          maxLength: 255
+          example: "I lead, develop and enhance the literacy teaching practice of others..."
+    HESAITTData:
+      type: object
+      additionalProperties: false
+      description: |
+        Information required by HESA for the Initial Teacher Training data
+        return. This information will only be returned once the application
+        status is `enrolled`.
+      required:
+        - sex
+        - disability
+        - ethnicity
+      properties:
+        sex:
+          type: string
+          nullable: true
+          description: The candidate’s sex as a one-digit HESA code (https://www.hesa.ac.uk/collection/c19053/e/sexid)
+          example: "1"
+        disability:
+          type: string
+          nullable: true
+          description: The candidate’s disability as a two-digit HESA code (https://www.hesa.ac.uk/collection/c19053/e/disable)
+          example: "00"
+        ethnicity:
+          type: string
+          description: The candidate’s ethnicity as a two-digit HESA code (https://www.hesa.ac.uk/collection/c19053/e/ethnic)
+          example: "10"
+    Attribution:
+      type: object
+      additionalProperties: false
+      required:
+        - full_name
+        - email
+        - user_id
+      properties:
+        full_name:
+          type: string
+          description: The full name of the user who made this update
+          example: "Jane Smith"
+        email:
+          type: string
+          description: The email address of the user who made this update
+          example: "jane.smith@example.com"
+        user_id:
+          type: string
+          description: The ID of the user in the Student Record System, used for disambiguation
+          example: "12345"
+    TimestampAndAttribution:
+      type: object
+      description: Required under a "meta" key in the body of every POST or PUT request
+      additionalProperties: false
+      required:
+        - attribution
+        - timestamp
+      properties:
+        attribution:
+          $ref: '#/components/schemas/Attribution'
+        timestamp:
+          type: string
+          description: The time this update was made, formatted as an ISO 8601 timestamp with time zone
+          format: date-time
+          example: "2019-03-01T15:33:49.216Z"
+    Error:
+      type: object
+      additionalProperties: false
+      properties:
+        error:
+          type: string
+          description: Name of the current error
+          maxLength: 255
+          example: "Unauthorized"
+        message:
+          type: string
+          description: Description of the current error
+          maxLength: 255
+          example: Please provide a valid authentication token
+      required:
+        - error
+        - message
+    NotFoundResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: "#/components/schemas/Error"
+          example:
+            - error: NotFound
+              message: Unable to find Application(s)
+    NotFoundResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: "#/components/schemas/Error"
+          example:
+            - error: NotFound
+              message: Unable to find Application(s)
+    UnauthorizedResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: "#/components/schemas/Error"
+          example:
+            - error: Unauthorized
+              message: Please provide a valid authentication token
+    ParameterMissingResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: "#/components/schemas/Error"
+          example:
+            - error: ParameterMissing
+              message: "param is missing or the value is empty: parameter_name"
+
+  parameters:
+    application_id:
+      name: application_id
+      in: path
+      required: true
+      description: The unique ID of this application
+      schema:
+        type: string
+        maxLength: 10
+  securitySchemes:
+    tokenAuth:
+      type: http
+      scheme: bearer
+security:
+  - tokenAuth: []
