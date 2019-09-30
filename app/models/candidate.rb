@@ -5,4 +5,8 @@ class Candidate < ApplicationRecord
   validates :email_address, presence: true, uniqueness: true, length: { maximum: 250 }
 
   has_many :application_forms
+
+  def most_recent_form
+    application_forms.most_recently_created
+  end
 end

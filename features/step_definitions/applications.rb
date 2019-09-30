@@ -114,9 +114,25 @@ Then(/a provider with code "(.*)" is able to (add conditions|amend conditions): 
 end
 
 Then(/the most recent application form is at stage (.*)/) do |stage|
-  expect(@candidate.application_forms.most_recently_created.application_stage.to_s).to eq(stage)
+  expect(@candidate.most_recent_form.application_stage.to_s).to eq(stage)
 end
 
-Then(/the candidate's application to courses (.*?) at (.*) is (.*)/) do |_courses, _application_time, _valid_or_not|
-  pending # Write code here that turns the phrase above into concrete actions
+Then(/the candidate's application to courses (.*?) at (.*) is (.*)/) do |comma_separated_courses, application_time, valid_or_not|
+  form = @candidate.most_recent_form
+
+  comma_separated_courses.split(", ").each do |course_string|
+    provider_code, course_code = course_string.split('/')
+    provider = Provider.find_by!(code: provider_code)
+    course = Course.find_by!(provider: provider, course_code: course_code)
+    form.add_course_choice(
+      CourseChoice.where(
+        course: course,
+        training_location: course.training_locations.sample,
+      ).first_or_create!
+    )
+  end
+
+  Timecop.freeze(DateTime.parse(application_time)) do
+    expect(form.submit).to (valid_or_not == 'valid' ? be_truthy : be_falsey)
+  end
 end

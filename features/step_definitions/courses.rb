@@ -30,6 +30,10 @@ Given('the following courses:') do |table|
       course_training_location_codes.each do |training_location_code|
         course.training_locations << course.provider.training_locations.find_by!(code: training_location_code)
       end
+
+      if row['open?'] == 'Y'
+        course.course_choices.map { |cc| cc.update(open: true) }
+      end
     end
   end
 end

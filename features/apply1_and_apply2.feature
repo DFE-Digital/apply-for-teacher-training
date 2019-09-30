@@ -12,19 +12,19 @@ Feature: Apply 1
       | type    | simultaneous applications limit | start time | end time    |
       | Apply 1 | 3                               | 1 Oct 2018 | 6 Sept 2019 |
     And the following providers:
-      | provider code |
-      | P1            |
-      | P2            |
-      | P3            |
-      | P4            |
-      | P5            |
+      | provider code | provider training locations |
+      | P1            | A, B                        |
+      | P2            | A, B                        |
+      | P3            | A, B                        |
+      | P4            | A, B                        |
+      | P5            | A, B                        |
     And the following courses:
-      | provider code | course code | open? |
-      | P1            | C1          | Y     |
-      | P2            | C2          | Y     |
-      | P3            | C3          | Y     |
-      | P4            | C4          | Y     |
-      | P5            | C5          | N     |
+      | provider code | course code | course training locations | open? |
+      | P1            | C1          | A, B                      | Y     |
+      | P2            | C2          | A, B                      | Y     |
+      | P3            | C3          | A, B                      | Y     |
+      | P4            | C4          | A, B                      | Y     |
+      | P5            | C5          | A, B                      | N     |
 
   Scenario Outline: applications at Apply 1
     At Apply 1, a candidate can submit concurrent applications to distinct, open courses up to the limit. In this spec,
