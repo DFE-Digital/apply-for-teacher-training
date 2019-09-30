@@ -45,16 +45,16 @@
           <a href="/" class="govuk-header__link govuk-header__link--service-name">
             <%= t('layout.service_name') %>
           </a>
-          <ul id="navigation" class="govuk-header__navigation " aria-label="Top Level Navigation">
-            <% if candidate_signed_in? %>
+          <% if candidate_signed_in? %>
+            <ul id="navigation" class="govuk-header__navigation " aria-label="Top Level Navigation">
               <li class="govuk-header__navigation-item">
                 <b><%= current_candidate.email_address %></b>
               </li>
               <li class="govuk-header__navigation-item">
                 <%= link_to 'Sign out', candidate_interface_sign_out_path, class: 'govuk-header__link' %>
               </li>
-            <% end %>
-          </ul>
+            </ul>
+          <% end %>
         </div>
       </div>
     </header>
