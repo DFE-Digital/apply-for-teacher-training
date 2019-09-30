@@ -12,7 +12,7 @@ parameters:
   dockerhubUsername:
   railsSecretKeyBase:
   containerStartTimeLimit: '600'
-  warmupPingPath: 'candidate/sign-up'
+  warmupPingPath: '/candidate/sign-up'
   warmupPingStatus: '200'
   railsEnv: 'production'
   domain:
@@ -67,9 +67,27 @@ jobs:
                 -staging_domain "${{parameters.staging_domain}}"'
               deploymentOutputs: DeploymentOutput
 
+
           - task: RasmusWatjen.ARMOutputParserExtension.ARMOutputConverter.ARMOutputParserExtension@1
             displayName: 'Parse ARM Deployment Outputs into variables'
             condition: succeeded()
+
+
+          - task: AzurePowerShell@3
+            displayName: 'Azure PowerShell Script - Tag resource group: $(resourceGroupName)'
+            condition: succeeded()
+            inputs:
+              azureSubscription: '${{parameters.subscriptionName}}'
+              ScriptType: InlineScript
+              azurePowerShellVersion: LatestVersion
+              Inline: |
+                Param(
+                  [string] $resourceGroupName = "$(resourceGroupName)",
+                  [string] $environment = "${{parameters.environment}}"
+                )
+
+                Set-AzureRmResourceGroup -Name $resourceGroupName -Tag @{ Environment= "$environment" }
+
 
           - task: AzureAppServiceManage@0
             displayName: 'Start Azure App Service: $(appServiceName)'
@@ -81,6 +99,7 @@ jobs:
               SpecifySlotOrASE: true
               ResourceGroupName: '$(resourceGroupName)'
               Slot: staging
+
 
           - task: AzurePowerShell@3
             displayName: 'Azure PowerShell Script - Web App Warmup: $(appServiceName)'
@@ -117,7 +136,7 @@ jobs:
                     $request = $null 
                     ## Request the URI, and measure how long the response took. 
                     $result1 = Measure-Command { $request = Invoke-WebRequest -Uri "https://$uri" -MaximumRedirection 0 -ErrorAction Ignore } 
-                    write-output **Time took to invoke web request: $result1.TotalMilliseconds **
+                    write-output **Time taken to invoke web request: $result1.TotalMilliseconds **
                     $request
                   }  
                   catch { 
@@ -176,6 +195,7 @@ jobs:
                   }
                 }
 
+
           - task: AzureAppServiceManage@0
             displayName: 'Swap Slots: $(appServiceName)'
             inputs:
@@ -184,6 +204,7 @@ jobs:
               ResourceGroupName: '$(resourceGroupName)'
               SourceSlot: staging
             condition: succeeded()
+
 
           - task: AzureAppServiceManage@0
             displayName: 'Stop Azure App Service: $(appServiceName)'
