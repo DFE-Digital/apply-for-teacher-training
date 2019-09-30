@@ -37,3 +37,8 @@ RSpec/DescribeClass:
 
 RSpec/ContextWording:
   Enabled: false
+
+Naming/UncommunicativeMethodParamName:
+  AllowedNames:
+    - e
+    - to
