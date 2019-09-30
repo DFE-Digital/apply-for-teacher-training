@@ -3,6 +3,9 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">
+      <% if @course.name.present? %>
+        <span class="govuk-caption-xl"><%= @course.name %> (<%= @course.course_code %>)</span>
+      <% end %>
       <%= t('apply.heading') %>
     </h1>
     <p class="govuk-body">
@@ -22,13 +25,13 @@
         <li class="govuk-!-margin-bottom-2">
           Training provider code:
           <span class="govuk-!-display-block govuk-!-font-size-36 govuk-!-font-weight-bold">
-            <%= @provider_code %>
+            <%= @course.provider_code %>
           </span>
         </li>
         <li>
           Training programme code:
           <span class="govuk-!-display-block govuk-!-font-size-36 govuk-!-font-weight-bold">
-            <%= @course_code %>
+            <%= @course.course_code %>
           </span>
         </li>
       </ul>
