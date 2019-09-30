@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   end
 
   namespace :vendor_api, path: 'api/v1' do
+    get '/applications' => 'applications#index'
+    get '/applications/:application_id' => 'applications#show'
     get '/ping', to: 'ping#ping'
   end
 

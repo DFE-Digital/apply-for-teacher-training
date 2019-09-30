@@ -142,6 +142,8 @@ GEM
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.3)
+    json-schema (2.8.1)
+      addressable (>= 2.4)
     jwt (2.2.1)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -334,6 +336,7 @@ DEPENDENCIES
   govuk-lint
   govuk_design_system_formbuilder (= 0.9.4)
   guard-rspec
+  json-schema
   launchy
   listen (>= 3.0.5, < 3.2)
   mail-notify
