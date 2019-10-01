@@ -4,5 +4,7 @@ class Candidate < ApplicationRecord
   devise :timeoutable
   validates :email_address, presence: true, uniqueness: true, length: { maximum: 250 }
 
+  validates :email_address, format: { with: /@/ }
+
   has_many :application_forms
 end
