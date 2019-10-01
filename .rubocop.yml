@@ -42,3 +42,8 @@ Naming/UncommunicativeMethodParamName:
   AllowedNames:
     - e
     - to
+
+Capybara/FeatureMethods:
+  EnabledMethods:
+    - feature
+    - scenario
