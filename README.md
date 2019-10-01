@@ -123,15 +123,15 @@ These steps describe the process for making environment variables available to t
 
 1. Declare the desired variable in the appropriate "variable group" in the Library section of the Azure DevOps site (https://dfe-ssp.visualstudio.com/Become-A-Teacher/_library?itemType=VariableGroups). All variable groups related to apply are suffixed as such and there is a variable group per deployment environment.
 1. In the [azure-pipelines.yml](./azure-pipelines.yml) file there are several changes to be made:
-   1. For each "make" command script step, add your environment variable to the *env* section in the format `ENV_VAR_NAME: $(var_name)` where **ENV_VAR_NAME** is the environment variable name as it should appear in the docker container and **var_name** is the name of the variable defined in the Azure DevOps variable group.
-   1. For each 'deployment stage' you must add your variable to the template *parameters* section in the format `var_name: '$(var_name)'`.
+   1. For each "make" command script step, add your environment variable to the *env* section in the format `ENV_VAR_NAME: $(varName)` where **ENV_VAR_NAME** is the environment variable name as it should appear in the docker container and **varName** is the name of the variable defined in the Azure DevOps variable group.
+   1. For each 'deployment stage' you must add your variable to the template *parameters* section in the format `varName: '$(varName)'`.
 1. In the [azure-pipelines-deploy-template.yaml](./azure-pipelines-deploy-template.yml) file you need to make the following additions:
    1. Add your variable to the *parameters* section at the start of the file using the name of the variable as it appears in the variable group.
-   1. In the Azure Resource Group deployment task *overrideParameters* section add your variable in the format `-var_name: "${{parameters.var_name}}"`
+   1. In the Azure Resource Group deployment task *overrideParameters* section add your variable in the format `-varName: "${{parameters.varName}}"`
 1. In the [azure/template.json](./azure/template.json) file you need to make the following additions:
    1. Duplicate this block of code for your new variable in the *parameters* section at the start of the file.
       ```
-	  "var_name": {
+	  "varName": {
        "type": "string",
         "metadata": {
           "description": "Describe your variable here."
@@ -142,6 +142,6 @@ These steps describe the process for making environment variables available to t
       ```
 	  {
         "name": "ENV_VAR_NAME",
-        "value": "[parameters('var_name')]"
+        "value": "[parameters('varName')]"
       }
       ```
