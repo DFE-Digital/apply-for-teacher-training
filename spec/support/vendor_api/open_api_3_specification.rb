@@ -24,21 +24,22 @@ class OpenApi3Specification
 private
 
   def transform_openapi_schema_to_json_schema(schema)
-    properties = schema['properties']
-    schema['properties'] = properties.reduce({}) do |new_props, (prop, value)|
-      new_props[prop] = if value['nullable'] == 'true'
-                          {
-                            'oneOf' => [
-                              value.except('nullable'),
-                              { 'type' => 'null' },
-                            ],
-                          }
-                        else
-                          value
-                        end
-      new_props
+    new_props = {}
+
+    nullable_properties(schema['properties']).each do |prop, value|
+      new_props[prop] = {
+                          'oneOf' => [
+                            value.except('nullable'),
+                            { 'type' => 'null' },
+                          ],
+                        }
     end
 
+    schema['properties'].merge!(new_props)
     schema
+  end
+
+  def nullable_properties(props)
+    props.select { |_prop, value| value['nullable'] == 'true' }
   end
 end
