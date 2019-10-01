@@ -173,6 +173,32 @@ stages:
       staging_domain: '$(staging_domain)'
 
 
+- stage: deploy_vendor_staging
+  displayName: 'Deploy - Vendor Staging'
+  dependsOn: build_test_release
+  condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  variables:
+  - group: APPLY - ENV - Vendor Staging
+  jobs:
+  - template: azure-pipelines-deploy-template.yml
+    parameters:
+      debug: $(debug)
+      subscriptionPrefix: 's106'
+      subscriptionName: 'Apply (106) - Test'
+      environment: 'vendor-staging'
+      resourceEnvironmentName: 't02'
+      serviceName: 'apply'
+      containerImageReference: '$(imageName):$(build.buildNumber)'
+      databaseName: 'apply'
+      databaseUsername: 'applyadm512'
+      databasePassword: '$(databasePassword)'
+      dockerhubUsername: '$(dockerHubUsername)'
+      railsSecretKeyBase: '$(railsSecretKeyBase)'
+      railsEnv: 'production'
+      domain: '$(domain)'
+      staging_domain: '$(staging_domain)'
+
+
 # - stage: deploy_production
 #   displayName: 'Deploy - Production'
 #   dependsOn: build_test_release
