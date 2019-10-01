@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'View helpers', type: :helper do
+RSpec.describe ViewHelper, type: :helper do
   describe '#govuk_link_to' do
     it 'returns an anchor tag with the govuk-link class' do
       anchor_tag = helper.govuk_link_to('Woof', 'https://localhost:0103/dog/woof')

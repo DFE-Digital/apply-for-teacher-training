@@ -9,7 +9,7 @@
       Apply for teacher training is a new GOV.UK service being trialled with a small number of training providers.
     </p>
     <div class="govuk-inset-text">
-      Learn more about teacher training in <a href="https://www.discoverteaching.wales/routes-into-teaching/">Wales</a>, <a href="https://teachinscotland.scot/">Scotland</a> and <a href="https://www.education-ni.gov.uk/articles/initial-teacher-education-courses-northern-ireland">Northern Ireland</a>
+      Learn more about teacher training in <%= govuk_link_to('Wales', 'https://www.discoverteaching.wales/routes-into-teaching/', target: :_blank) %>, <%= govuk_link_to('Scotland', 'https://teachinscotland.scot/', target: :_blank) %> and <%= govuk_link_to('Northern Ireland', 'https://www.education-ni.gov.uk/articles/initial-teacher-education-courses-northern-ireland', target: :_blank) %>
     </div>
     <h2 class="govuk-heading-m">What you’ll need</h2>
     <p class="govuk-body">
@@ -26,7 +26,7 @@
     <h2 class="govuk-heading-m">If you don’t have a degree</h2>
     <p class="govuk-body">
       You can teach in further education (age 14 to adult), or study for a degree leading to qualified teacher status.
-      <a href="https://getintoteaching.education.gov.uk/eligibility-for-teacher-training">Learn more</a>.
+      <%= govuk_link_to('Learn more', 'https://getintoteaching.education.gov.uk/eligibility-for-teacher-training', target: :_blank) %>.
     </p>
     <%= link_to candidate_interface_sign_up_path, role: 'button', class: 'govuk-button govuk-!-margin-top-4 govuk-!-margin-bottom-3 govuk-button--start', 'data-module': 'govuk-button' do %>
       <%= t('application_form.begin_button') %>
@@ -34,6 +34,6 @@
         <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
       </svg>
     <% end %>
-    <p class="govuk-body">If you have teacher training applications in progress, please <%= link_to 'sign in', candidate_interface_sign_in_path %></p>
+    <p class="govuk-body">If you have teacher training applications in progress, please <%= govuk_link_to 'sign in', candidate_interface_sign_in_path %></p>
   </div>
 </div>
