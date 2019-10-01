@@ -105,6 +105,12 @@
             "metadata": {
                 "description": "Serve static files."
             }
+        },
+        "sentryDSN": {
+            "type": "string",
+            "metadata": {
+                "description": "Sentry client key."
+            }
         }
     },
     "variables": {
@@ -241,6 +247,10 @@
                             {
                                 "name": "STAGING_DOMAIN",
                                 "value": "[parameters('staging_domain')]"
+                            },
+                            {
+                                "name": "SENTRY_DSN",
+                                "value": "[parameters('sentryDSN')]"
                             }
                         ]
                     }

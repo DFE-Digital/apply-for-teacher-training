@@ -48,6 +48,7 @@ stages:
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
         STAGING_DOMAIN: $(domain)
+        SENTRY_DSN: $(sentryDSN)
 
     - script: make ci.lint-ruby
       displayName: 'Rubocop'
@@ -58,6 +59,7 @@ stages:
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
         STAGING_DOMAIN: $(domain)
+        SENTRY_DSN: $(sentryDSN)
 
     - script: make ci.lint-erb
       displayName: 'ERB lint'
@@ -68,6 +70,7 @@ stages:
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
         STAGING_DOMAIN: $(domain)
+        SENTRY_DSN: $(sentryDSN)
 
     - script: |
         make ci.test
@@ -81,6 +84,7 @@ stages:
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
         STAGING_DOMAIN: $(domain)
+        SENTRY_DSN: $(sentryDSN)
 
     - task: Docker@1
       displayName: Tag image with current build number $(Build.BuildNumber)
@@ -145,6 +149,7 @@ stages:
       railsEnv: 'production'
       domain: '$(domain)'
       staging_domain: '$(staging_domain)'
+      sentryDSN: '$(sentryDSN)'
 
 
 - stage: deploy_test
@@ -171,7 +176,7 @@ stages:
       railsEnv: 'production'
       domain: '$(domain)'
       staging_domain: '$(staging_domain)'
-
+      sentryDSN: '$(sentryDSN)'
 
 - stage: deploy_vendor_staging
   displayName: 'Deploy - Vendor Staging'
@@ -223,3 +228,5 @@ stages:
 #       railsEnv: 'production'
 #       domain: '$(domain)'
 #       staging_domain: '$(staging_domain)'
+#       sentryDSN: '$(sentryDSN)'
+
