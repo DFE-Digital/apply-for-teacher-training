@@ -118,8 +118,8 @@ The [.env.example](./.env.example) file contains the essential environment varia
 For docker compose to make the necessary environment variables available in the container at run time they must be declared in the relevant docker-compose.yaml file, of which there are three.
 
 * [docker-compose.yml](./docker-compose.yml) - Variables that are required for local dev and the docker image build phase in azure only should be defined the *environment* section in this file. This will in general only be for the database.
-* [docker-compose.override.yml](./docker-compose.override.yml) - This file is used exclusively for local development and imports variables from the .env file so no further changes are required here.
-* [docker-compose.azure.yml](./docker-compose.azure.yml) - This file is exclusively used in the Azure devops pipeline. Any environment variables required in the Azure build/deployment need to be delcared in the *environment* section of this file. **You should only declare the environment variable here, not its value.** The only exception to this is where we need to map variables due to the use of protected variable names, e.g. Rails SECRET_KEY_BASE.
+* [docker-compose.override.yml](./docker-compose.override.yml) - This file is used exclusively for local development. No further changes are required here.
+* [docker-compose.azure.yml](./docker-compose.azure.yml) - This file is exclusively used in the Azure devops pipeline. Any environment variables required in the Azure build/deployment need to be declared in the *environment* section of this file. **You should only declare the environment variable here, not its value.** The only exception to this is where we need to map variables due to the use of protected variable names, e.g. Rails SECRET_KEY_BASE.
 
 #### <a name="documentation-env-vars-azure-devops"></a>Azure Hosting (DevOps pipeline)
 
@@ -129,9 +129,9 @@ These steps describe the process for making environment variables available to t
 1. In the [azure-pipelines.yml](./azure-pipelines.yml) file there are several changes to be made:
    1. For each "make" command script step, add your environment variable to the *env* section in the format `ENV_VAR_NAME: $(var_name)` where **ENV_VAR_NAME** is the environment variable name as it should appear in the docker container and **var_name** is the name of the variable defined in the Azure DevOps variable group.
    1. For each 'deployment stage' you must add your variable to the template *parameters* section in the format `var_name: '$(var_name)'`.
-1. In the [azure-pipelines-deploy-template.yaml](./azure-pipelines-deploy-template.yaml) file you need to make the following additions:
+1. In the [azure-pipelines-deploy-template.yaml](./azure-pipelines-deploy-template.yml) file you need to make the following additions:
    1. Add your variable to the *parameters* section at the start of the file using the name of the variable as it appears in the variable group.
-   1. In the Azure Resource Group deployment task *overrideParameters* section (around line 50) add your variable in the format `-var_name: "${{parameters.var_name}}"`
+   1. In the Azure Resource Group deployment task *overrideParameters* section add your variable in the format `-var_name: "${{parameters.var_name}}"`
 1. In the [azure/template.json](./azure/template.json) file you need to make the following additions:
    1. Duplicate this block of code for your new variable in the *parameters* section at the start of the file.
       ```"var_name": {
@@ -141,7 +141,7 @@ These steps describe the process for making environment variables available to t
         }
       }
       ```
-   1. Around line 180 duplicate this block of into the *appSericeAppSettings* section.
+   1. Around line 180 duplicate this block of into the *appServiceAppSettings* section.
       ```{
         "name": "ENV_VAR_NAME",
         "value": "[parameters('var_name')]"
