@@ -14,10 +14,9 @@ module VendorApiSpecHelpers
   def parse_openapi_json_schema(spec, schema_name)
     # Pull up the schema that we want to validate against into the top-level,
     # so that json-schema understands it.
-    schema = spec['components']['schemas'].delete(schema_name)
-    raise "Can't find #{schema_name}, maybe you made a typo?" unless schema
-
-    spec.merge(schema)
+    spec['$schema'] = 'http://json-schema.org/draft-04/schema#'
+    spec['$ref'] = "#/components/schemas/#{schema_name}"
+    spec
   end
 
   RSpec::Matchers.define :be_valid_against_openapi_schema do |schema_name|
