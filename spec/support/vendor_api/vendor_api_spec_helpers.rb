@@ -7,9 +7,11 @@ module VendorApiSpecHelpers
     parsed_response['errors'].first
   end
 
-  def load_openapi_json_schema(schema_name)
-    spec = YAML.load_file("#{Rails.root}/config/vendor-api-0.4.0.yml")
+  def load_openapi_spec(path)
+    YAML.load_file(path)
+  end
 
+  def parse_openapi_json_schema(spec, schema_name)
     # Pull up the schema that we want to validate against into the top-level,
     # so that json-schema understands it.
     schema = spec['components']['schemas'].delete(schema_name)
@@ -20,8 +22,13 @@ module VendorApiSpecHelpers
 
   RSpec::Matchers.define :be_valid_against_openapi_schema do |schema_name|
     match do |item|
+      schema = parse_openapi_json_schema(
+        load_openapi_spec("#{Rails.root}/config/vendor-api-0.4.0.yml"),
+        schema_name,
+      )
+
       JSONSchemaValidator.new(
-        load_openapi_json_schema(schema_name),
+        schema,
         item,
       ).valid?
     end
