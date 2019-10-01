@@ -17,10 +17,6 @@ training.
   * [Nomenclature](#documentation-nomenclature)
   * [Domain Model](#documentation-domain-model)
   * [Environment Variables](#documentation-env-vars)
-    * [Dockerfile](#documentation-env-vars-dockerfile)
-    * [Local Development](#documentation-env-vars-local-dev)
-    * [Docker Compose](#documentation-env-vars-docker-compose)
-    * [Azure DevOps Pipeline](#documentation-env-vars-azure-devops)
 
 ## <a name="dependencies"></a>Dependencies
 
@@ -134,7 +130,8 @@ These steps describe the process for making environment variables available to t
    1. In the Azure Resource Group deployment task *overrideParameters* section add your variable in the format `-var_name: "${{parameters.var_name}}"`
 1. In the [azure/template.json](./azure/template.json) file you need to make the following additions:
    1. Duplicate this block of code for your new variable in the *parameters* section at the start of the file.
-      ```"var_name": {
+      ```
+	  "var_name": {
        "type": "string",
         "metadata": {
           "description": "Describe your variable here."
@@ -142,7 +139,8 @@ These steps describe the process for making environment variables available to t
       }
       ```
    1. Around line 180 duplicate this block of into the *appServiceAppSettings* section.
-      ```{
+      ```
+	  {
         "name": "ENV_VAR_NAME",
         "value": "[parameters('var_name')]"
       }
