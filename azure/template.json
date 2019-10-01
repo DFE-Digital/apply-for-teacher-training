@@ -111,6 +111,12 @@
             "metadata": {
                 "description": "Sentry client key."
             }
+        },
+        "findBaseUrl": {
+            "type": "string",
+            "metadata": {
+                "description": "The base URL to manage-courses-backend, Find's backend."
+            }
         }
     },
     "variables": {
@@ -251,6 +257,10 @@
                             {
                                 "name": "SENTRY_DSN",
                                 "value": "[parameters('sentryDSN')]"
+                            },
+                            {
+                                "name": "FIND_BASE_URL",
+                                "value": "[parameters('findBaseUrl')]"
                             }
                         ]
                     }
