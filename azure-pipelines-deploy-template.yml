@@ -18,7 +18,8 @@ parameters:
   domain:
   staging_domain:
   securityAlertEmail: 'apprenticeshipsdevops@education.gov.uk'
-  
+  sentryDSN:
+
 jobs:
   - deployment: deploy_${{parameters.resourceEnvironmentName}}
     displayName: 'Deploy App to ${{parameters.subscriptionName}} Subscription'
@@ -49,22 +50,23 @@ jobs:
               resourceGroupName: '$(resourceGroupName)'
               location: 'West Europe'
               csmFile: '$(Pipeline.Workspace)\arm_template\template.json'
-              overrideParameters: '-resourceEnvironmentName "${{parameters.resourceEnvironmentName}}" 
-                -serviceName "${{parameters.serviceName}}" 
-                -dockerHubUsername "${{parameters.dockerHubUsername}}" 
-                -containerImageReference "${{parameters.containerImageReference}}" 
-                -railsEnv "${{parameters.railsEnv}}" 
-                -databaseName "${{parameters.databaseName}}" 
-                -databaseUsername "${{parameters.databaseUsername}}" 
-                -databasePassword "${{parameters.databasePassword}}" 
-                -securityAlertEmail "${{parameters.securityAlertEmail}}" 
+              overrideParameters: '-resourceEnvironmentName "${{parameters.resourceEnvironmentName}}"
+                -serviceName "${{parameters.serviceName}}"
+                -dockerHubUsername "${{parameters.dockerHubUsername}}"
+                -containerImageReference "${{parameters.containerImageReference}}"
+                -railsEnv "${{parameters.railsEnv}}"
+                -databaseName "${{parameters.databaseName}}"
+                -databaseUsername "${{parameters.databaseUsername}}"
+                -databasePassword "${{parameters.databasePassword}}"
+                -securityAlertEmail "${{parameters.securityAlertEmail}}"
                 -secretKeyBase "${{parameters.railsSecretKeyBase}}"
                 -containerStartTimeLimit "${{parameters.containerStartTimeLimit}}"
                 -warmupPingPath "${{parameters.warmupPingPath}}"
                 -warmupPingStatus "${{parameters.warmupPingStatus}}"
                 -govukNotifyAPIKey "$(govukNotifyAPIKey)"
                 -domain "${{parameters.domain}}"
-                -staging_domain "${{parameters.staging_domain}}"'
+                -staging_domain "${{parameters.staging_domain}}"
+                -sentryDSN "${{parameters.sentryDSN}}"'
               deploymentOutputs: DeploymentOutput
 
 
@@ -116,44 +118,44 @@ jobs:
                   [int]$timeoutInMinutes = 5,
                   [int]$sleepDelaySeconds = 10
                 )
-                
-                $result = @() 
+
+                $result = @()
                 $restartCount = 1
 
                 #Get current date and time for timeout properties
                 $startTime = (get-date).ToString()
-                
+
                 #Timer starts now
                 write-output "Elapsed:00:00:00"
                 $continue = $true
 
                 $uri = ("{0}-staging.azurewebsites.net{1}" -f $appservicename, $path)
-                
+
                 While ( $continue )
                 {
-                  $webrequest = try { 
-                  
-                    $request = $null 
-                    ## Request the URI, and measure how long the response took. 
-                    $result1 = Measure-Command { $request = Invoke-WebRequest -Uri "https://$uri" -MaximumRedirection 0 -ErrorAction Ignore } 
+                  $webrequest = try {
+
+                    $request = $null
+                    ## Request the URI, and measure how long the response took.
+                    $result1 = Measure-Command { $request = Invoke-WebRequest -Uri "https://$uri" -MaximumRedirection 0 -ErrorAction Ignore }
                     write-output **Time taken to invoke web request: $result1.TotalMilliseconds **
                     $request
-                  }  
-                  catch { 
-                    $request = $_.Exception.Response 
-                    $time = -1 
-                  }   
-                
-                  $result = [PSCustomObject] @{ 
-                    Time = Get-Date; 
-                    Uri = $uri; 
-                    StatusCode = [int] $request.StatusCode; 
-                    StatusDescription = $request.StatusDescription; 
-                    ResponseLength = $request.RawContentLength; 
-                    TimeTaken =  $time.TotalMilliseconds;
-                    WebRequest = $webrequest 
                   }
-                        
+                  catch {
+                    $request = $_.Exception.Response
+                    $time = -1
+                  }
+
+                  $result = [PSCustomObject] @{
+                    Time = Get-Date;
+                    Uri = $uri;
+                    StatusCode = [int] $request.StatusCode;
+                    StatusDescription = $request.StatusDescription;
+                    ResponseLength = $request.RawContentLength;
+                    TimeTaken =  $time.TotalMilliseconds;
+                    WebRequest = $webrequest
+                  }
+
                   $sleeprequired = $false
                   $outputstatuscode=$result.StatusCode
                   $outputuri=($result.uri).ToString()
@@ -165,18 +167,18 @@ jobs:
                     Write-Output "$outputuri is up and running. Redirection is in place. Status code = $outputstatuscode "
                     Write-Output "$outputuri is redirected to $outputwebrequest "
                   }
-                  else { 
+                  else {
                     Write-Output "$outputuri site is currently down or unreachable"
                     $sleeprequired = $true
                     # Remove comment to display extra info # write-output $result | fl
                     #reseting previous result
-                    $result = @() 
+                    $result = @()
                   }
-                
+
                   $currenttime = (get-date).ToString()
                   $elapsedTime = new-timespan $startTime $currenttime
-                  write-output "Elapsed:$($elapsedTime.ToString("hh\:mm\:ss"))"  
-                
+                  write-output "Elapsed:$($elapsedTime.ToString("hh\:mm\:ss"))"
+
                   #Handle event
                   if ( $elapsedTime.Minutes -ge $timeoutInMinutes ) {
                     if ( $restartCount -gt 0 ) {
@@ -187,7 +189,7 @@ jobs:
                     } else {
                       exit(1)
                     }
-                  } elseif ( $sleeprequired -eq $false) { 
+                  } elseif ( $sleeprequired -eq $false) {
                     exit(0)
                   } else {
                     write-output ("Sleeping for {0}s..." -f $sleepDelaySeconds)
