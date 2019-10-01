@@ -16,6 +16,23 @@ module VendorApiSpecHelpers
     # so that json-schema understands it.
     spec['$schema'] = 'http://json-schema.org/draft-04/schema#'
     spec['$ref'] = "#/components/schemas/#{schema_name}"
+    properties = spec['components']['schemas'][schema_name]['properties']
+
+    new_props = properties.reduce({}) do |memo, (key, value)|
+      memo[key] = if value['nullable'] == 'true'
+                    {
+                      'oneOf' => [
+                        value.except('nullable'),
+                        { 'type' => 'null' },
+                      ],
+                    }
+                  else
+                    value
+                  end
+
+      memo
+    end
+    spec['components']['schemas'][schema_name]['properties'] = new_props
     spec
   end
 
