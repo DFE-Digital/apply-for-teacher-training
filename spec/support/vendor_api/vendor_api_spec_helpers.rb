@@ -11,28 +11,38 @@ module VendorApiSpecHelpers
     YAML.load_file(path)
   end
 
+  def transform_openapi_schema_to_json_schema(schema)
+    properties = schema['properties']
+    schema['properties'] = properties.reduce({}) do |new_props, (prop, value)|
+      new_props[prop] = if value['nullable'] == 'true'
+                          {
+                            'oneOf' => [
+                              value.except('nullable'),
+                              { 'type' => 'null' },
+                            ],
+                          }
+                        else
+                          value
+                        end
+      new_props
+    end
+
+    schema
+  end
+
   def parse_openapi_json_schema(spec, schema_name)
     # Pull up the schema that we want to validate against into the top-level,
     # so that json-schema understands it.
     spec['$schema'] = 'http://json-schema.org/draft-04/schema#'
     spec['$ref'] = "#/components/schemas/#{schema_name}"
-    properties = spec['components']['schemas'][schema_name]['properties']
 
-    new_props = properties.reduce({}) do |memo, (key, value)|
-      memo[key] = if value['nullable'] == 'true'
-                    {
-                      'oneOf' => [
-                        value.except('nullable'),
-                        { 'type' => 'null' },
-                      ],
-                    }
-                  else
-                    value
-                  end
-
-      memo
+    schemas = spec['components']['schemas']
+    transformed_schemas = schemas.reduce({}) do |new_schemas, (name, definition)|
+      new_schemas[name] = transform_openapi_schema_to_json_schema(definition)
+      new_schemas
     end
-    spec['components']['schemas'][schema_name]['properties'] = new_props
+
+    spec['components']['schemas'] = transformed_schemas
     spec
   end
 
@@ -50,6 +60,11 @@ module VendorApiSpecHelpers
     end
 
     failure_message do |item|
+      schema = parse_openapi_json_schema(
+        load_openapi_spec("#{Rails.root}/config/vendor-api-0.4.0.yml"),
+        schema_name,
+      )
+
       JSONSchemaValidator.new(schema, item).failure_message
     end
   end

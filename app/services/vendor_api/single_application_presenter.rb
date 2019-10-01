@@ -41,9 +41,9 @@ module VendorApi
           qualifications: [],
           references: [],
           work_experiences: [],
-          # offer: nil,
-          # rejection: nil,
-          # withdrawal: nil,
+          offer: nil,
+          rejection: nil,
+          withdrawal: nil,
           hesa_itt_data: {
             sex: '',
             disability: '',
