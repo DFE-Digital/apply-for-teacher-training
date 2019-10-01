@@ -12,6 +12,10 @@ en:
         body: Click the link below to sign in to the Apply for postgraduate teacher training service.
     check_your_email: Check your email
     sign_in:
-      heading: Sign in
+      heading: Sign In
+      email:
+        subject: Sign In
+        heading: Please confirm you want to Sign In
+        body: Click the link below to sign in to the Apply for postgraduate teacher training service.
       email_address:
         label: Email address

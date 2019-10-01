@@ -5,7 +5,19 @@ module CandidateInterface
     end
 
     def create
+      @candidate = Candidate.find_by(email_address: candidate_params[:email_address])
+
+      if @candidate.present?
+        MagicLinkSignIn.call(candidate: @candidate)
+      end
+
       render :show
+    end
+
+  private
+
+    def candidate_params
+      params.require(:candidate).permit(:email_address)
     end
   end
 end
