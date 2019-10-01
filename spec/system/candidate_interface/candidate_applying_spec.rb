@@ -24,12 +24,11 @@ describe 'A candidate applying from Find' do
   end
 
   context 'when Find is available' do
-    before do
-      stub_find_is_up
-    end
-
     context 'when a valid request is made' do
+      let(:find_api_request) { stub_200_from_find(provider_code, course_code) }
+
       before do
+        find_api_request
         visit candidate_interface_apply_path providerCode: provider_code, courseCode: course_code
       end
 
@@ -38,19 +37,30 @@ describe 'A candidate applying from Find' do
       it 'sees additional course information' do
         expect(page).to have_content "#{course_name} (#{course_code})"
       end
+
+      it 'requests data from find' do
+        expect(find_api_request).to have_been_made
+      end
     end
 
     context 'when an invalid request is made' do
+      let(:find_api_request) { stub_404_from_find('BAD', 'CODE') }
+
       before do
+        find_api_request
         visit candidate_interface_apply_path providerCode: 'BAD', courseCode: 'CODE'
       end
 
       it 'sees an error page' do
         expect(page).to have_content t('applying.heading_not_found')
       end
+
+      it 'requests data from find' do
+        expect(find_api_request).to have_been_made
+      end
     end
 
-    context "when query parameters are missing" do
+    context 'when query parameters are missing' do
       before do
         visit candidate_interface_apply_path
       end
@@ -62,8 +72,10 @@ describe 'A candidate applying from Find' do
   end
 
   context 'when Find is unavailable' do
+    let(:find_api_request) { stub_503_from_find(provider_code, course_code) }
+
     before do
-      stub_find_is_down
+      find_api_request
       visit candidate_interface_apply_path providerCode: provider_code, courseCode: course_code
     end
 
@@ -72,39 +84,45 @@ describe 'A candidate applying from Find' do
     it 'does not see additional course information' do
       expect(page).not_to have_content "#{course_name} (#{course_code})"
     end
+
+    it 'requests data from find' do
+      expect(find_api_request).to have_been_made
+    end
   end
 
   def stub_api_find_course(provider_code, course_code)
-    stub_request(:get, 'https://bat-qa-mcbe-as.azurewebsites.net/api/v3' \
-      '/recruitment_cycles/2020' \
+    stub_request(:get, ENV.fetch('FIND_BASE_URL') +
+      'recruitment_cycles/2020' \
       "/providers/#{provider_code}" \
       "/courses/#{course_code}")
   end
 
-  def stub_find_is_up
+  def stub_200_from_find(provider_code, course_code)
     stub_api_find_course(provider_code, course_code)
-    .to_return(
-      status: 200,
-      headers: { 'Content-Type': 'application/vnd.api+json' },
-      body: {
-        'data' => {
-          'id' => '1',
-          'type' => 'courses',
-          'attributes' => {
-            'course_code' => course_code,
-            'name' => course_name,
-            'provider_code' => provider_code,
+      .to_return(
+        status: 200,
+        headers: { 'Content-Type': 'application/vnd.api+json' },
+        body: {
+          'data' => {
+            'id' => '1',
+            'type' => 'courses',
+            'attributes' => {
+              'course_code' => course_code,
+              'name' => course_name,
+              'provider_code' => provider_code,
+            },
           },
-        },
-        'jsonapi' => { 'version' => '1.0' },
-      }.to_json,
-    )
+          'jsonapi' => { 'version' => '1.0' },
+        }.to_json,
+      )
+  end
 
-    stub_api_find_course('BAD', 'CODE')
+  def stub_404_from_find(provider_code, course_code)
+    stub_api_find_course(provider_code, course_code)
       .to_return(status: 404)
   end
 
-  def stub_find_is_down
+  def stub_503_from_find(provider_code, course_code)
     stub_api_find_course(provider_code, course_code)
       .to_return(status: 503)
   end
