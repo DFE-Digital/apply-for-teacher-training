@@ -7,21 +7,35 @@ module VendorApiSpecHelpers
     parsed_response['errors'].first
   end
 
+  def load_openapi_json_schema(schema_name)
+    spec = YAML.load_file("#{Rails.root}/config/vendor-api-0.4.0.yml")
+
+    # Pull up the schema that we want to validate against into the top-level,
+    # so that json-schema understands it.
+    schema = spec['components']['schemas'].delete(schema_name)
+    raise "Can't find #{schema_name}, maybe you made a typo?" unless schema
+
+    spec.merge(schema)
+  end
+
   RSpec::Matchers.define :be_valid_against_openapi_schema do |schema_name|
     match do |item|
-      OpenApiSchemaValidator.new(schema_name, item).valid?
+      JSONSchemaValidator.new(
+        load_openapi_json_schema(schema_name),
+        item,
+      ).valid?
     end
 
     failure_message do |item|
-      OpenApiSchemaValidator.new(schema_name, item).failure_message
+      JSONSchemaValidator.new(schema, item).failure_message
     end
   end
 
-  class OpenApiSchemaValidator
-    attr_reader :schema_name, :item
+  class JSONSchemaValidator
+    attr_reader :schema, :item
 
-    def initialize(schema_name, item)
-      @schema_name = schema_name
+    def initialize(schema, item)
+      @schema = schema
       @item = item
     end
 
@@ -30,8 +44,9 @@ module VendorApiSpecHelpers
     end
 
     def failure_message
+      # @TODO fix this error message so it names the schema
       <<~ERROR
-        Expected the item to be valid against the '#{schema_name}' schema:
+        Expected the item to be valid against schema:
 
         #{formatted_item}
 
@@ -46,17 +61,6 @@ module VendorApiSpecHelpers
     def formatted_validation_errors
       validator = JSON::Validator.fully_validate(schema, item)
       validator.map { |message| '- ' + humanized_error(message) }.join("\n")
-    end
-
-    def schema
-      spec = YAML.load_file("#{Rails.root}/config/vendor-api-0.4.0.yml")
-
-      # Pull up the schema that we want to validate against into the top-level,
-      # so that json-schema understands it.
-      schema = spec['components']['schemas'].delete(schema_name)
-      raise "Can't find #{schema_name}, maybe you made a typo?" unless schema
-
-      spec.merge(schema)
     end
 
     def formatted_item
