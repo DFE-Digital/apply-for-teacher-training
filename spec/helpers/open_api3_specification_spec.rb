@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe OpenApi3Specification do
-  subject(:spec) { OpenApi3Specification.new(spec_definition) }
+  subject(:spec) { described_class.new(spec_definition) }
 
   describe '#as_json_schema' do
     context 'when the schema is an object and has a nullable property' do

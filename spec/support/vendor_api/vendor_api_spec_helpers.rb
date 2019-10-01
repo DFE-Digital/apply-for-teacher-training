@@ -22,7 +22,7 @@ module VendorApiSpecHelpers
 
       JSONSchemaValidator.new(
         spec.as_json_schema(schema_name),
-        item
+        item,
       ).failure_message
     end
   end
