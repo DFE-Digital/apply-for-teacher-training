@@ -5,7 +5,24 @@
 This service enables postgraduate candidates to apply for initial teacher
 training.
 
-## Dependencies
+## Table of Contents
+
+* [Dependencies](#dependencies)
+* [Prerequisites for development](#dev-prerequisites)
+* [Setting up the development environment](#dev-env-setup)
+* [Docker workflow](#docker-workflow)
+* [Webpacker](#webpacker)
+  * [Debugging Webpacker](#webpacker-debug)
+* [Documentation](#documentation)
+  * [Nomenclature](#documentation-nomenclature)
+  * [Domain Model](#documentation-domain-model)
+  * [Environment Variables](#documentation-env-vars)
+    * [Dockerfile](#documentation-env-vars-dockerfile)
+    * [Local Development](#documentation-env-vars-local-dev)
+    * [Docker Compose](#documentation-env-vars-docker-compose)
+    * [Azure DevOps Pipeline](#documentation-env-vars-azure-devops)
+
+## <a name="dependencies"></a>Dependencies
 
 - Ruby 2.6.3
 - NodeJS 8.11.x
@@ -13,11 +30,11 @@ training.
 - PostgreSQL 9.6
 - Graphviz 2.22+ (`brew install graphviz`) to generate the [domain model diagram](#domain-model)
 
-## Prerequisites for development
+## <a name="dev-prerequisites"></a>Prerequisites for development
 
 `docker` and `docker-compose`
 
-## Setting up the development environment
+## <a name="dev-env-setup"></a>Setting up the development environment
 
 1. Copy `.env.example` to `.env` and fill in the secrets
 1. Run `make setup`
@@ -25,7 +42,7 @@ training.
 
 See `Makefile` for the steps involved in building and running the app.
 
-## Docker workflow
+## <a name="docker-workflow"></a>Docker Workflow
 
 Under `docker-compose`, the database uses a Docker volume to persist
 storage across `docker-compose up`s and `docker-compose down`s. For
@@ -37,13 +54,13 @@ Running `make setup` will blow away and recreate those volumes,
 destroying any data you have created in development. It is necessary
 to run it at least once before the app will boot in Docker.
 
-## Webpacker
+## <a name="webpacker"></a>Webpacker
 
 We do not use the Rails asset pipeline. We use the Rails webpack wrapper
 [Webpacker](https://github.com/rails/webpacker) to compile our CSS, images, fonts
 and JavaScript.
 
-### Debugging Webpacker
+### <a name="webpacker-debug"></a>Debugging Webpacker
 
 Webpacker sometimes doesn't give clear indications of what's wrong when it
 doesn't work.
@@ -62,15 +79,71 @@ check` before proceeding to debug using `bin/webpack`.
 by invoking `bin/webpack`. If all is well, there is a chance that
 `public/packs-test` contains stale output. Delete it and re-run the suite.
 
-## Documentation
+## <a name="documentation"></a>Documentation
 
-### Nomenclature
-
+### <a name="documentation-nomenclature"></a>Nomenclature
 - **Course** consists of a UCAS provider code and a UCAS course code. In our system, this is represented by the `ucas_provider_code` and `ucas_course_code` on the `ApplicationChoice` model
 - **Course Choice** is the course plus a training location code, in our system represented by `ucas_provider_code`, `ucas_course_code`, `ucas_location_code`
 
-### Domain model
+### <a name="documentation-domain-model"></a>Domain Model
 
 ![The domain model for this application](docs/domain-model.png)
 
 Regenerate this diagram with `bundle exec erd`.
+
+### <a name="documentation-env-vars"></a>Environment Variables
+
+**NOTE: Environment variables should not start with *endpoint*, *input*, *secret*, or *securefile* (irrespective of capitalisation) due to them being protected variable names within the Azure DevOps environment.** If this cannot be avoided variable mapping will have to be used, but wherever possible it is simpler not to use these protected names.
+
+Environment variables have to be defined in several places depending upon where they are required, some are common to both local development and the Azure hosted deployment, while others are specific to the envirionments they relate, all of which are described below
+
+#### <a name="documentation-env-vars-dockerfile"></a>Dockerfile
+
+If an environment variable is required during the Docker image build, like for example in the Rails asset compilation process, these should be defined in the Dockerfile in the following format.
+
+`ENV VARIABLE_NAME=Value`
+
+When defining variables in the Dockerfile use dummy values for security reasons since they will be committed to Git and they will ultimately be overriden by docker-compose when you launch a container using the image.
+
+#### <a name="documentation-env-vars-local-dev"></a>Local Development
+
+If an environment variable is required for use in the local development environment it should be declared in the .env file in the following format 
+
+`VARIABLE_NAME=Value`
+
+The [.env.example](./.env.example) file contains the essential environment variables that must exist for local development builds to succeed.
+
+#### <a name="documentation-env-vars-docker-compose"></a>Docker Compose
+
+For docker compose to make the necessary environment variables available in the container at run time they must be declared in the relevant docker-compose.yaml file, of which there are three.
+
+* [docker-compose.yml](./docker-compose.yml) - Variables that are required for local dev and the docker image build phase in azure only should be defined the *environment* section in this file. This will in general only be for the database.
+* [docker-compose.override.yml](./docker-compose.override.yml) - This file is used exclusively for local development and imports variables from the .env file so no further changes are required here.
+* [docker-compose.azure.yml](./docker-compose.azure.yml) - This file is exclusively used in the Azure devops pipeline. Any environment variables required in the Azure build/deployment need to be delcared in the *environment* section of this file. **You should only declare the environment variable here, not its value.** The only exception to this is where we need to map variables due to the use of protected variable names, e.g. Rails SECRET_KEY_BASE.
+
+#### <a name="documentation-env-vars-azure-devops"></a>Azure Hosting (DevOps pipeline)
+
+These steps describe the process for making environment variables available to the the Azure DevOps pipeline.
+
+1. Declare the desired variable in the appropriate "variable group" in the Library section of the Azure DevOps site (https://dfe-ssp.visualstudio.com/Become-A-Teacher/_library?itemType=VariableGroups). All variable groups related to apply are suffixed as such and there is a variable group per deployment environment.
+1. In the [azure-pipelines.yml](./azure-pipelines.yml) file there are several changes to be made:
+   1. For each "make" command script step, add your environment variable to the *env* section in the format `ENV_VAR_NAME: $(var_name)` where **ENV_VAR_NAME** is the environment variable name as it should appear in the docker container and **var_name** is the name of the variable defined in the Azure DevOps variable group.
+   1. For each 'deployment stage' you must add your variable to the template *parameters* section in the format `var_name: '$(var_name)'`.
+1. In the [azure-pipelines-deploy-template.yaml](./azure-pipelines-deploy-template.yaml) file you need to make the following additions:
+   1. Add your variable to the *parameters* section at the start of the file using the name of the variable as it appears in the variable group.
+   1. In the Azure Resource Group deployment task *overrideParameters* section (around line 50) add your variable in the format `-var_name: "${{parameters.var_name}}"`
+1. In the [azure/template.json](./azure/template.json) file you need to make the following additions:
+   1. Duplicate this block of code for your new variable in the *parameters* section at the start of the file.
+      ```"var_name": {
+       "type": "string",
+        "metadata": {
+          "description": "Describe your variable here."
+        }
+      }
+      ```
+   1. Around line 180 duplicate this block of into the *appSericeAppSettings* section.
+      ```{
+        "name": "ENV_VAR_NAME",
+        "value": "[parameters('var_name')]"
+      }
+      ```
