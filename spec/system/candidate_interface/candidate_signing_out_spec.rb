@@ -1,40 +1,28 @@
 require 'rails_helper'
 
-describe 'A candidate signing out' do
-  context 'when a candidate is signed in' do
-    before do
-      candidate = FactoryBot.create(:candidate)
-      login_as(candidate)
-
-      visit candidate_interface_welcome_path
-    end
-
-    it 'displays a sign out button' do
-      expect(page).to have_selector :link_or_button, 'Sign out'
-    end
-
-    describe 'click the sign out button' do
-      it 'displays the start page' do
-        click_link 'Sign out'
-
-        expect(page).to have_current_path(candidate_interface_start_path)
-      end
-
-      it 'can only access start page' do
-        click_link 'Sign out'
-
-        visit candidate_interface_welcome_path
-
-        expect(page).to have_current_path(candidate_interface_start_path)
-      end
-    end
+RSpec.feature 'Signing out' do
+  scenario 'Logged in candidate signs out' do
+    given_i_am_signed_in
+    and_i_visit_the_site
+    when_i_click_the_sign_out_button
+    then_i_should_be_signed_out
   end
 
-  context 'when a candidate is not signed in' do
-    it 'does not display a sign out button' do
-      visit candidate_interface_start_path
+  def given_i_am_signed_in
+    candidate = FactoryBot.create(:candidate)
+    login_as(candidate)
+  end
 
-      expect(page).not_to have_selector :link_or_button, 'Sign out'
-    end
+  def and_i_visit_the_site
+    visit candidate_interface_welcome_path
+  end
+
+  def when_i_click_the_sign_out_button
+    click_link 'Sign out'
+  end
+
+  def then_i_should_be_signed_out
+    expect(page).not_to have_selector :link_or_button, 'Sign out'
+    expect(page).to have_current_path(candidate_interface_start_path)
   end
 end
