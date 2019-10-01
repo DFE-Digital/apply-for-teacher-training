@@ -88,6 +88,8 @@ GEM
     climate_control (0.2.0)
     coderay (1.1.2)
     concurrent-ruby (1.1.5)
+    crack (0.4.3)
+      safe_yaml (~> 1.0.0)
     crass (1.0.4)
     devise (4.7.1)
       bcrypt (~> 3.0)
@@ -115,6 +117,8 @@ GEM
       railties (>= 4.2.0)
     faraday (0.16.2)
       multipart-post (>= 1.2, < 3)
+    faraday_middleware (0.13.1)
+      faraday (>= 0.7.4, < 1.0)
     ffi (1.11.1)
     formatador (0.2.5)
     globalid (0.4.2)
@@ -142,12 +146,20 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
+    hashdiff (1.0.0)
     html_tokenizer (0.0.7)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.3)
     json-schema (2.8.1)
       addressable (>= 2.4)
+    json_api_client (1.16.0)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      addressable (~> 2.2)
+      faraday (~> 0.15, >= 0.15.2)
+      faraday_middleware (~> 0.9)
+      rack (>= 0.2)
     jwt (2.2.1)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -281,6 +293,7 @@ GEM
     ruby-progressbar (1.10.1)
     ruby_dep (1.5.0)
     rubyzip (1.3.0)
+    safe_yaml (1.0.5)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -318,6 +331,10 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
+    webmock (3.7.6)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
     webpacker (4.0.7)
       activesupport (>= 4.2)
       rack-proxy (>= 0.6.1)
@@ -344,6 +361,7 @@ DEPENDENCIES
   govuk_design_system_formbuilder (= 0.9.5)
   guard-rspec
   json-schema
+  json_api_client
   launchy
   listen (>= 3.0.5, < 3.2)
   mail-notify
@@ -362,6 +380,7 @@ DEPENDENCIES
   shoulda-matchers (~> 4.1)
   timecop
   web-console (>= 3.3.0)
+  webmock
   webpacker
 
 RUBY VERSION

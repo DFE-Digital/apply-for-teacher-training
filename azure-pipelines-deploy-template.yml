@@ -19,6 +19,7 @@ parameters:
   staging_domain:
   securityAlertEmail: 'apprenticeshipsdevops@education.gov.uk'
   sentryDSN:
+  findBaseUrl:
 
 jobs:
   - deployment: deploy_${{parameters.resourceEnvironmentName}}
@@ -66,7 +67,8 @@ jobs:
                 -govukNotifyAPIKey "$(govukNotifyAPIKey)"
                 -domain "${{parameters.domain}}"
                 -staging_domain "${{parameters.staging_domain}}"
-                -sentryDSN "${{parameters.sentryDSN}}"'
+                -sentryDSN "${{parameters.sentryDSN}}"
+                -findBaseUrl "${{parameters.findBaseUrl}}"'
               deploymentOutputs: DeploymentOutput
 
 

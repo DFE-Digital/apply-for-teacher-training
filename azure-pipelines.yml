@@ -48,6 +48,7 @@ stages:
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
         STAGING_DOMAIN: $(domain)
+        FIND_BASE_URL: $(findBaseUrl)
 
     - script: make ci.lint-ruby
       displayName: 'Rubocop'
@@ -58,6 +59,7 @@ stages:
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
         STAGING_DOMAIN: $(domain)
+        FIND_BASE_URL: $(findBaseUrl)
 
     - script: make ci.lint-erb
       displayName: 'ERB lint'
@@ -68,6 +70,7 @@ stages:
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
         STAGING_DOMAIN: $(domain)
+        FIND_BASE_URL: $(findBaseUrl)
 
     - script: |
         make ci.test
@@ -81,6 +84,7 @@ stages:
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
         STAGING_DOMAIN: $(domain)
+        FIND_BASE_URL: $(findBaseUrl)
 
     - task: Docker@1
       displayName: Tag image with current build number $(Build.BuildNumber)
@@ -146,6 +150,7 @@ stages:
       domain: '$(domain)'
       staging_domain: '$(staging_domain)'
       sentryDSN: '$(sentryDSN)'
+      findBaseUrl: '$(findBaseUrl)'
 
 
 - stage: deploy_test
@@ -173,6 +178,7 @@ stages:
       domain: '$(domain)'
       staging_domain: '$(staging_domain)'
       sentryDSN: '$(sentryDSN)'
+      findBaseUrl: '$(findBaseUrl)'
 
 - stage: deploy_vendor_staging
   displayName: 'Deploy - Vendor Staging'
@@ -225,4 +231,4 @@ stages:
 #       domain: '$(domain)'
 #       staging_domain: '$(staging_domain)'
 #       sentryDSN: '$(sentryDSN)'
-
+#       findBaseUrl: '$(findBaseUrl)'

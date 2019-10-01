@@ -21,6 +21,7 @@ gem 'erb_lint', require: false
 gem 'devise'
 
 gem 'json-schema'
+gem 'json_api_client'
 
 gem 'sentry-raven'
 
@@ -40,6 +41,7 @@ group :test do
   gem 'launchy'
   gem 'timecop'
   gem 'guard-rspec'
+  gem 'webmock'
 end
 
 group :development, :test do
