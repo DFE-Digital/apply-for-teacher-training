@@ -7,7 +7,7 @@ describe 'A candidate applying from Find' do
 
   shared_examples 'displays basic course information' do
     it 'sees the apply page' do
-      expect(page).to have_content t('apply.heading')
+      expect(page).to have_content t('applying.heading')
     end
 
     it 'sees their provider code' do
@@ -19,7 +19,7 @@ describe 'A candidate applying from Find' do
     end
 
     it 'can apply through UCAS' do
-      expect(page).to have_content t('apply.apply_button')
+      expect(page).to have_content t('applying.apply_button')
     end
   end
 
@@ -46,7 +46,7 @@ describe 'A candidate applying from Find' do
       end
 
       it 'sees an error page' do
-        expect(page).to have_content t('apply.heading_not_found')
+        expect(page).to have_content t('applying.heading_not_found')
       end
     end
 

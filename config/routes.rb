@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     get '/sign-in', to: 'sign_in#new', as: :sign_in
     post '/sign-in', to: 'sign_in#create'
 
-    get '/apply', to: 'apply#show'
+    get '/apply', to: 'applying#show'
   end
 
   namespace :vendor_api, path: 'api/v1' do

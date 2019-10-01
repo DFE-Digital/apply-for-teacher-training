@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ApplyController < CandidateInterfaceController
+  class ApplyingController < CandidateInterfaceController
     rescue_from ActionController::ParameterMissing, with: :render_not_found
 
     def show
