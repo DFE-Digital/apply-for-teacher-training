@@ -4,7 +4,7 @@
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">
       <% if @course.name.present? %>
-        <span class="govuk-caption-xl"><%= @course.name %> (<%= @course.course_code %>)</span>
+        <span class="govuk-caption-xl"><%= @course.name_and_code %></span>
       <% end %>
       <%= t('applying.heading') %>
     </h1>

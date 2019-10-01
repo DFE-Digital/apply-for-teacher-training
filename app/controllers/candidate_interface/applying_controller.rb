@@ -6,9 +6,13 @@ module CandidateInterface
       provider_code = params.fetch(:providerCode)
       course_code = params.fetch(:courseCode)
 
-      @course = FindAPI::Course.fetch(provider_code, course_code)
+      course = FindAPI::Course.fetch(provider_code, course_code)
 
-      render_not_found if @course.nil?
+      if course.nil?
+        render_not_found
+      else
+        @course = CoursePresenter.new course
+      end
     end
 
   private
