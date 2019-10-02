@@ -26,9 +26,5 @@ module VendorApi
     def parameter_missing(e)
       render json: { errors: [{ error: 'ParameterMissing', message: e }] }, status: 422
     end
-
-    def application_not_found(_e)
-      render json: { errors: [{ error: 'NotFound', message: "Could not find an application with ID #{params[:application_id]}" }] }, status: 404
-    end
   end
 end
