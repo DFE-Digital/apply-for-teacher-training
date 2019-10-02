@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'A candidate signing up' do
   include TestHelpers::SignUp
 
-  context 'who successfully signs up' do
+  context 'who does not have an account' do
     before do
       visit '/'
       click_on t('application_form.begin_button')
@@ -14,6 +14,12 @@ describe 'A candidate signing up' do
 
     it 'sees the check your email page' do
       expect(page).to have_content t('authentication.check_your_email')
+    end
+
+    it 'receives the sign up email' do
+      open_email('april@pawnee.com')
+
+      expect(current_email.subject).to have_content t('authentication.sign_up.email.subject')
     end
 
     context 'receives an email with a valid magic link' do
@@ -38,14 +44,33 @@ describe 'A candidate signing up' do
     end
   end
 
-  context 'who tries to sign up twice' do
-    it 'sees the form error summary' do
+  context 'who already has an account' do
+    before do
       visit candidate_interface_sign_up_path
       fill_in_sign_up
-      visit candidate_interface_sign_up_path
-      fill_in_sign_up
+      open_email('april@pawnee.com')
+      current_email.find_css('a').first.click
+      click_link 'Sign out'
 
-      expect(page).to have_content 'There is a problem'
+      visit candidate_interface_sign_up_path
+      fill_in_sign_up
+    end
+
+    it 'receives the sign in email' do
+      open_email('april@pawnee.com')
+
+      expect(current_email.subject).to have_content t('authentication.sign_in.email.subject')
+    end
+
+    it 'sees the check your email page' do
+      expect(page).to have_content t('authentication.check_your_email')
+    end
+
+    it 'does sign the user in' do
+      open_email('april@pawnee.com')
+      current_email.find_css('a').first.click
+
+      expect(page).to have_content 'april@pawnee.com'
     end
   end
 

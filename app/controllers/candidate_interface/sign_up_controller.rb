@@ -5,9 +5,12 @@ module CandidateInterface
     end
 
     def create
-      @candidate = Candidate.new(candidate_params)
+      @candidate = Candidate.find_or_initialize_by(candidate_params)
 
-      if @candidate.save
+      if @candidate.persisted?
+        MagicLinkSignIn.call(candidate: @candidate)
+        render 'candidate_interface/sign_in/show'
+      elsif @candidate.save
         MagicLinkSignUp.call(candidate: @candidate)
         render :show
       else
