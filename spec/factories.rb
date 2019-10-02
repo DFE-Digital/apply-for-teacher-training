@@ -8,6 +8,7 @@ FactoryBot.define do
   end
 
   factory :application_choice do
+    provider_ucas_code { Faker::Alphanumeric.alphanumeric(number: 3).upcase }
     application_form
     status { :application_complete }
   end

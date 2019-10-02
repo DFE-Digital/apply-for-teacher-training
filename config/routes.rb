@@ -27,6 +27,8 @@ Rails.application.routes.draw do
     get '/applications/:application_id' => 'applications#show'
     post '/applications/:application_id/offer' => 'offers#create'
 
+    post 'applications/:application_id/confirm-enrolment' => 'confirm_candidate_enrolment#confirm'
+
     post '/test-data/regenerate' => 'test_data#regenerate'
 
     get '/ping', to: 'ping#ping'
