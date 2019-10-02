@@ -18,6 +18,8 @@ servers:
 paths:
   /applications:
     get:
+      tags:
+        - Application management
       summary: Get many applications
       description: Applications are returned in the order they were changed or created.
       parameters:
@@ -47,6 +49,8 @@ paths:
           $ref: "#/components/responses/ParameterMissing"
   "/applications/{application_id}":
     get:
+      tags:
+        - Application management
       summary: Get a single application
       parameters:
         - $ref: "#/components/parameters/application_id"
@@ -63,6 +67,8 @@ paths:
           $ref: "#/components/responses/NotFound"
   "/applications/{application_id}/offer":
     post:
+      tags:
+        - Application management
       summary: Make an offer
       description: Make an unconditional or conditional offer
       parameters:
@@ -94,6 +100,8 @@ paths:
           $ref: "#/components/responses/NotFound"
   "/applications/{application_id}/confirm-enrolment":
     post:
+      tags:
+        - Application management
       summary: Confirm enrolment
       description: Confirm that the candidate has enrolled
       parameters:
@@ -119,6 +127,8 @@ paths:
           $ref: "#/components/responses/NotFound"
   "/applications/{application_id}/confirm-conditions-met":
     post:
+      tags:
+        - Application management
       summary: Confirm offer conditions
       description: Confirm that the candidate has met all the conditions set out in the offer
       parameters:
@@ -144,6 +154,8 @@ paths:
           $ref: "#/components/responses/NotFound"
   "/applications/{application_id}/reject":
     post:
+      tags:
+        - Application management
       summary: Reject application
       description: Reject the candidate's application with a reason
       parameters:
