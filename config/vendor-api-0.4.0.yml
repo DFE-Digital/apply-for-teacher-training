@@ -233,15 +233,15 @@ components:
         - candidate
         - contact_details
         - course
-        # - offer
+        - offer
         - personal_statement
         - qualifications
         - references
-        # - rejection
+        - rejection
         - status
         - submitted_at
         - updated_at
-        # - withdrawal
+        - withdrawal
         - work_experiences
         - hesa_itt_data
       properties:
@@ -291,11 +291,17 @@ components:
           items:
             $ref: "#/components/schemas/Reference"
         offer:
-          $ref: "#/components/schemas/Offer"
+          anyOf:
+            - $ref: "#/components/schemas/Offer"
+          nullable: 'true'
         withdrawal:
-          $ref: "#/components/schemas/Withdrawal"
+          anyOf:
+            - $ref: "#/components/schemas/Withdrawal"
+          nullable: 'true'
         rejection:
-          $ref: "#/components/schemas/Rejection"
+          anyOf:
+            - $ref: "#/components/schemas/Rejection"
+          nullable: 'true'
         hesa_itt_data:
           $ref: "#/components/schemas/HESAITTData"
     Candidate:
