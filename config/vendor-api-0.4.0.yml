@@ -189,8 +189,33 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "404":
           $ref: "#/components/responses/NotFound"
+  "/test-data/regenerate":
+    post:
+      tags:
+        - Testing
+      summary: Regenerate test data
+      description: Deletes all applications and generates 100 new applications
+      parameters:
+        - name: count
+          description: How many items to generate (max 100)
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/OK"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
 components:
   responses:
+    OK:
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OkResponse"
+
     NotFound:
       description: Not found
       content:
@@ -725,6 +750,19 @@ components:
           example:
             - error: ParameterMissing
               message: "param is missing or the value is empty: parameter_name"
+    OkResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          required:
+            - message
+          properties:
+            message:
+              type: string
+              example: "OK"
 
   parameters:
     application_id:
