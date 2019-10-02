@@ -73,9 +73,7 @@ describe 'A candidate applying from Find' do
     end
   end
 
-  context 'when Find is unavailable' do
-    let(:find_api_request) { stub_503_from_find(provider_code, course_code) }
-
+  shared_examples 'falls back to basic version' do
     before do
       find_api_request
       visit candidate_interface_apply_path providerCode: provider_code, courseCode: course_code
@@ -90,6 +88,18 @@ describe 'A candidate applying from Find' do
     it 'requests data from find' do
       expect(find_api_request).to have_been_made
     end
+  end
+
+  context 'when Find is returning server errors' do
+    let(:find_api_request) { stub_503_from_find(provider_code, course_code) }
+
+    include_examples 'falls back to basic version'
+  end
+
+  context 'when Find is timing out' do
+    let(:find_api_request) { stub_timeout_from_find(provider_code, course_code) }
+
+    include_examples 'falls back to basic version'
   end
 
   def stub_api_find_course(provider_code, course_code)
@@ -127,5 +137,10 @@ describe 'A candidate applying from Find' do
   def stub_503_from_find(provider_code, course_code)
     stub_api_find_course(provider_code, course_code)
       .to_return(status: 503)
+  end
+
+  def stub_timeout_from_find(provider_code, course_code)
+    stub_api_find_course(provider_code, course_code)
+      .to_timeout
   end
 end
