@@ -6,9 +6,20 @@ info:
     name: DfE
     email: becomingateacher@digital.education.gov.uk
   description: API for DfE's Apply for postgraduate teacher training service
+servers:
+  - description: Local development environment
+    url: http://localhost:3000/api/v1
+  - description: DfE development environment
+    url: https://s106d01-apply-as.azurewebsites.net/api/v1
+  - description: DfE test environment
+    url: https://s106t01-apply-as.azurewebsites.net/api/v1
+  - description: Vendor sandbox
+    url: https://s106t02-apply-as.azurewebsites.net/api/v1
 paths:
   /applications:
     get:
+      tags:
+        - Application management
       summary: Get many applications
       description: Applications are returned in the order they were changed or created.
       parameters:
@@ -38,6 +49,8 @@ paths:
           $ref: "#/components/responses/ParameterMissing"
   "/applications/{application_id}":
     get:
+      tags:
+        - Application management
       summary: Get a single application
       parameters:
         - $ref: "#/components/parameters/application_id"
@@ -54,6 +67,8 @@ paths:
           $ref: "#/components/responses/NotFound"
   "/applications/{application_id}/offer":
     post:
+      tags:
+        - Application management
       summary: Make an offer
       description: Make an unconditional or conditional offer
       parameters:
@@ -85,6 +100,8 @@ paths:
           $ref: "#/components/responses/NotFound"
   "/applications/{application_id}/confirm-enrolment":
     post:
+      tags:
+        - Application management
       summary: Confirm enrolment
       description: Confirm that the candidate has enrolled
       parameters:
@@ -110,6 +127,8 @@ paths:
           $ref: "#/components/responses/NotFound"
   "/applications/{application_id}/confirm-conditions-met":
     post:
+      tags:
+        - Application management
       summary: Confirm offer conditions
       description: Confirm that the candidate has met all the conditions set out in the offer
       parameters:
@@ -135,6 +154,8 @@ paths:
           $ref: "#/components/responses/NotFound"
   "/applications/{application_id}/reject":
     post:
+      tags:
+        - Application management
       summary: Reject application
       description: Reject the candidate's application with a reason
       parameters:
@@ -168,8 +189,33 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "404":
           $ref: "#/components/responses/NotFound"
+  "/test-data/regenerate":
+    post:
+      tags:
+        - Testing
+      summary: Regenerate test data
+      description: Deletes all applications and generates 100 new applications
+      parameters:
+        - name: count
+          description: How many items to generate (max 100)
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/OK"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
 components:
   responses:
+    OK:
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OkResponse"
+
     NotFound:
       description: Not found
       content:
@@ -684,16 +730,6 @@ components:
           example:
             - error: NotFound
               message: Unable to find Application(s)
-    NotFoundResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: "#/components/schemas/Error"
-          example:
-            - error: NotFound
-              message: Unable to find Application(s)
     UnauthorizedResponse:
       type: object
       properties:
@@ -714,6 +750,19 @@ components:
           example:
             - error: ParameterMissing
               message: "param is missing or the value is empty: parameter_name"
+    OkResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          required:
+            - message
+          properties:
+            message:
+              type: string
+              example: "OK"
 
   parameters:
     application_id:
