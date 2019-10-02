@@ -33,11 +33,7 @@ RSpec.describe AuthenticationMailer, type: :mailer do
     end
 
     it 'sends an email with the correct heading' do
-      expect(mail.body.encoded).to include(t('authentication.sign_in.email.heading'))
-    end
-
-    it 'sends an email with the correct body' do
-      expect(mail.body.encoded).to include(t('authentication.sign_in.email.body'))
+      expect(mail.body.encoded).to include(t('authentication.sign_in.email.subject'))
     end
 
     it 'sends an email with a magic link' do
