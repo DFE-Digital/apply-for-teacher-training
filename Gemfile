@@ -14,6 +14,7 @@ gem 'govuk_design_system_formbuilder', '0.9.5'
 gem 'mail-notify'
 
 # Linting
+gem 'rubocop', '< 0.75.0'
 gem 'rubocop-rspec'
 gem 'govuk-lint'
 gem 'erb_lint', require: false
