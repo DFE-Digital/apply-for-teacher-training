@@ -35,6 +35,7 @@ en:
     welcome: Welcome
     sign_up: Before you begin
     sign_in: Sign in
+    check_your_email: Check your email
   layout:
     service_name: Apply for teacher training
     phase_banner_text: This is a prototype of a new service. Some parts may not work yet.
