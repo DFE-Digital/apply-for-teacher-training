@@ -6,6 +6,15 @@ info:
     name: DfE
     email: becomingateacher@digital.education.gov.uk
   description: API for DfE's Apply for postgraduate teacher training service
+servers:
+  - description: Local development environment
+    url: http://localhost:3000/api/v1
+  - description: DfE development environment
+    url: https://s106d01-apply-as.azurewebsites.net/api/v1
+  - description: DfE test environment
+    url: https://s106t01-apply-as.azurewebsites.net/api/v1
+  - description: Vendor sandbox
+    url: https://s106t02-apply-as.azurewebsites.net/api/v1
 paths:
   /applications:
     get:
