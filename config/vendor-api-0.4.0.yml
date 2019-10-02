@@ -684,16 +684,6 @@ components:
           example:
             - error: NotFound
               message: Unable to find Application(s)
-    NotFoundResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: "#/components/schemas/Error"
-          example:
-            - error: NotFound
-              message: Unable to find Application(s)
     UnauthorizedResponse:
       type: object
       properties:
