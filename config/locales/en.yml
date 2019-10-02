@@ -34,6 +34,7 @@ en:
     application: Apply for teacher training - GOV.UK
     welcome: Welcome
     sign_up: Before you begin
+    sign_in: Sign in
   layout:
     service_name: Apply for teacher training
     phase_banner_text: This is a prototype of a new service. Some parts may not work yet.
