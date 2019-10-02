@@ -11,7 +11,7 @@ module VendorApi
         id: SecureRandom.hex[0..9],
         type: 'application',
         attributes: {
-          status: 'application_complete',
+          status: application_choice.status || 'application_complete',
           updated_at: application_choice.updated_at,
           submitted_at: Time.now,
           personal_statement: 'hello',
