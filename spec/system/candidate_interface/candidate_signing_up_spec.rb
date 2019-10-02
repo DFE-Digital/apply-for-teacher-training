@@ -16,6 +16,12 @@ describe 'A candidate signing up' do
       expect(page).to have_content t('authentication.check_your_email')
     end
 
+    it 'receives the sign up email' do
+      open_email('april@pawnee.com')
+
+      expect(current_email.subject).to have_content t('authentication.sign_up.email.subject')
+    end
+
     context 'receives an email with a valid magic link' do
       let(:sign_in_link) { current_email.find_css('a').first }
 
