@@ -115,6 +115,8 @@ GEM
     factory_bot_rails (5.1.0)
       factory_bot (~> 5.1.0)
       railties (>= 4.2.0)
+    faker (2.4.0)
+      i18n (~> 1.6.0)
     faraday (0.16.2)
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.13.1)
@@ -355,6 +357,7 @@ DEPENDENCIES
   dotenv-rails
   erb_lint
   factory_bot_rails
+  faker
   govuk-lint
   govuk_design_system_formbuilder (= 0.9.5)
   guard-rspec

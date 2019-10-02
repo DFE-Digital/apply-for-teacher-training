@@ -26,6 +26,9 @@ gem 'json_api_client'
 
 gem 'sentry-raven'
 
+gem 'factory_bot_rails'
+gem 'faker'
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.3'
@@ -48,7 +51,6 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'dotenv-rails'
-  gem 'factory_bot_rails'
   gem 'pry'
   gem 'pry-byebug'
   gem 'pry-rails'
