@@ -44,9 +44,29 @@ Given('the expiry time on the offer is {string}') do |_offer_expiry_timestamp|
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-Given('the candidate has submitted application forms with the following choices:') do |_table|
-  # table is a Cucumber::MultilineArgument::DataTable
-  pending # Write code here that turns the phrase above into concrete actions
+Given('the candidate has submitted application forms with the following choices:') do |table|
+  @candidate = FactoryBot.create(:candidate)
+  table.hashes.each do |row|
+    courses = row['courses'].split(', ').map do |course|
+      Provider
+        .find_by!(code: course.split('/')[0])
+        .courses
+        .find_by!(course_code: course.split('/')[1])
+    end
+
+    Timecop.freeze(DateTime.parse(row['submission time'])) do
+      form = @candidate.application_forms.create!
+      courses.each do |course|
+        form.add_course_choice(
+          CourseChoice.where(
+            course: course,
+            training_location: course.training_locations.sample,
+          ).first_or_create!
+        )
+      end
+      form.submit
+    end
+  end
 end
 
 Given('a candidate with no submitted application forms in the current recruitment cycle') do

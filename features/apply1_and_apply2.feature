@@ -9,8 +9,9 @@ Feature: Apply 1
 
   Background:
     Given the application stages are set up as follows:
-      | type    | simultaneous applications limit | start time | end time    |
-      | Apply 1 | 3                               | 1 Oct 2018 | 6 Sept 2019 |
+      | type    | simultaneous applications limit | start time | end time     |
+      | Apply 1 | 3                               | 1 Oct 2018 | 6 Sept 2019  |
+      | Apply 2 | 1                               | 1 Oct 2018 | 15 Sept 2019 |
     And the following providers:
       | provider code | provider training locations |
       | P1            | A, B                        |
@@ -47,14 +48,16 @@ Feature: Apply 1
 
   Scenario: Apply 2 comes after Apply 1
     Given the candidate has submitted application forms with the following choices:
-      | P1/C1, P2/C2, P3/C3 |
-    When the candidate creates a new application form on 31 July 2019
+      | courses             | submission time |
+      | P1/C1, P2/C2, P3/C3 | 1 Aug 2019      |
+    When the candidate creates a new application form on 29 August 2019
     Then the most recent application form is at stage Apply 2
 
   Scenario: Apply 2 repeats after Apply 2
     Given the candidate has submitted application forms with the following choices:
-      | P1/C1, P2/C2, P3/C3 |
-      | P4/C4               |
-      | P5/C5               |
+      | courses             | submission time |
+      | P1/C1, P2/C2, P3/C3 | 1 July 2019     |
+      | P4/C4               | 15 July 2019    |
+      | P5/C5               | 25 July 2019    |
     When the candidate creates a new application form on 31 July 2019
     Then the most recent application form is at stage Apply 2

@@ -27,7 +27,8 @@ class ApplicationForm < ApplicationRecord
 private
 
   def initialize_application_stage
-    self.application_stage ||= Apply1Stage.applicable_at(Time.now)
+    stage = candidate.application_forms.any? ? Apply2Stage : Apply1Stage
+    self.application_stage ||= stage.applicable_at(Time.now)
   end
 
   def application_choices_does_not_exceed_limit
