@@ -9,5 +9,6 @@ FactoryBot.define do
 
   factory :application_choice do
     application_form
+    status { :application_complete }
   end
 end

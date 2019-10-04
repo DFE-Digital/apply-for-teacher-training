@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   namespace :vendor_api, path: 'api/v1' do
     get '/applications' => 'applications#index'
     get '/applications/:application_id' => 'applications#show'
+    post '/applications/:application_id/offer' => 'offers#create'
 
     post '/test-data/regenerate' => 'test_data#regenerate'
 
