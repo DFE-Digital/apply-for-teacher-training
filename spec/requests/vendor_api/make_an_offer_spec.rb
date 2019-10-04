@@ -62,8 +62,10 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:id/offer', type: :reques
                       },
                     }
 
-    post '/api/v1/applications/123/offer', params: request_body
+    post '/api/v1/applications/non-existent-id/offer', params: request_body
 
+    expect(response).to have_http_status(404)
     expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
+    expect(error_response['message']).to eql('Could not find an application with ID non-existent-id')
   end
 end
