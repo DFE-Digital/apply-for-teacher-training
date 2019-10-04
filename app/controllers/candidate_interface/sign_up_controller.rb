@@ -9,10 +9,10 @@ module CandidateInterface
 
       if @candidate.persisted?
         MagicLinkSignIn.call(candidate: @candidate)
-        render 'candidate_interface/sign_in/show'
+        render 'candidate_interface/shared/check_your_email'
       elsif @candidate.save
         MagicLinkSignUp.call(candidate: @candidate)
-        render :show
+        render 'candidate_interface/shared/check_your_email'
       else
         render :new
       end

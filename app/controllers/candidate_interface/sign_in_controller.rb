@@ -11,7 +11,7 @@ module CandidateInterface
         MagicLinkSignIn.call(candidate: @candidate)
       end
 
-      render :show
+      render 'candidate_interface/shared/check_your_email'
     end
 
   private
