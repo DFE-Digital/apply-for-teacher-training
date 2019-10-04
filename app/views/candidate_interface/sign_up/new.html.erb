@@ -1,4 +1,5 @@
-<% content_for :title, t('authentication.sign_up.heading') %>
+<% content_for :title, page_title('sign_up') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_start_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -11,7 +12,7 @@
     <%= form_with model: @candidate, url: candidate_interface_sign_up_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder, html: { novalidate: true } do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_text_field :email_address, label: { text: t('authentication.sign_up.email_address.label') }, hint_text: t('authentication.sign_up.email_address.hint_label'), type: :email %>
+      <%= f.govuk_text_field :email_address, label: { text: t('authentication.sign_up.email_address.label'), size: 'm' }, hint_text: t('authentication.sign_up.email_address.hint_label'), type: :email %>
 
       <%= f.submit t('authentication.sign_up.button'), class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
     <% end %>

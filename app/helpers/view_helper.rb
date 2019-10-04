@@ -8,4 +8,8 @@ module ViewHelper
 
     link_to(body, url, html_options)
   end
+
+  def govuk_back_link_to(url)
+    link_to('Back', url, class: 'govuk-back-link')
+  end
 end
