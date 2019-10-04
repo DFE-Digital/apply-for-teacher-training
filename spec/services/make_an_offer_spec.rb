@@ -3,6 +3,7 @@ require 'rails_helper'
 describe MakeAnOffer do
   context 'when a conditional offer is make successfully' do
     let(:application_choice) { create(:application_choice, provider_ucas_code: 'ABC') }
+    let(:make_an_offer) { MakeAnOffer.new(application_choice: application_choice, offer_conditions: conditions) }
     let(:conditions) do
       {
         "conditions": [
@@ -11,7 +12,6 @@ describe MakeAnOffer do
         ],
       }
     end
-    let(:make_an_offer) { MakeAnOffer.new(application_choice: application_choice, offer_conditions: conditions) }
 
     it 'returns a success' do
       response = make_an_offer.call

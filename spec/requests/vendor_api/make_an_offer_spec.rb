@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Vendor API - POST /api/v1/applications/:id/offer', type: :request do
   include VendorApiSpecHelpers
 
-  context 'successfully made a conditional offer' do
+  context 'when a conditional offer is make successfully' do
     let(:application_choice) { create(:application_choice, provider_ucas_code: 'ABC') }
     let(:request_body) do
       {
@@ -33,11 +33,10 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:id/offer', type: :reques
     end
   end
 
-  context 'successfully made an unconditional offer' do
+  context 'when an unconditional offer is make successfully' do
     let(:application_choice) { create(:application_choice, provider_ucas_code: 'ABC') }
-    let(:request_body) do
-      {}
-    end
+    let(:request_body) { {} }
+
 
     before { post "/api/v1/applications/#{application_choice.id}/offer", params: request_body }
 
