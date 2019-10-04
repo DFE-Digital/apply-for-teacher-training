@@ -78,7 +78,15 @@ describe 'A candidate signing up' do
     it 'sees the start page' do
       visit candidate_interface_welcome_path(token: 'meow')
 
-      expect(page.current_url).to eq(candidate_interface_start_url)
+      expect(page).to have_current_path(candidate_interface_start_path)
     end
+  end
+
+  it 'takes the user back to the start page' do
+    visit candidate_interface_sign_up_path
+
+    click_link 'Back'
+
+    expect(page).to have_current_path(candidate_interface_start_path)
   end
 end
