@@ -22,7 +22,7 @@ describe 'A candidate signing in' do
       click_on t('authentication.sign_up.button')
 
       expect(page).to have_content 'Check your email'
-      expect(page.current_url).to eq(candidate_interface_sign_in_url)
+      expect(page).to have_current_path(candidate_interface_sign_in_path)
     end
   end
 
@@ -32,7 +32,7 @@ describe 'A candidate signing in' do
       click_on t('authentication.sign_up.button')
 
       expect(page).to have_content 'Check your email'
-      expect(page.current_url).to eq(candidate_interface_sign_in_url)
+      expect(page).to have_current_path(candidate_interface_sign_in_path)
     end
 
     it 'receives the email' do
@@ -51,5 +51,13 @@ describe 'A candidate signing in' do
       # TODO: this will be changed to the application page of candidate
       expect(page).to have_content('Welcome')
     end
+  end
+
+  it 'takes the user back to the start page' do
+    visit candidate_interface_sign_in_path
+
+    click_link 'Back'
+
+    expect(page).to have_current_path(candidate_interface_start_path)
   end
 end
