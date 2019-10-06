@@ -37,6 +37,7 @@ en:
     sign_in: Sign in
     check_your_email: Check your email
     not_found: Page not found
+    internal_server_error: Sorry, there is a problem with the service
   layout:
     service_name: Apply for teacher training
     phase_banner_text: This is a prototype of a new service. Some parts may not work yet.
