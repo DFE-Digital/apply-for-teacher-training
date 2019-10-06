@@ -37,4 +37,7 @@ Rails.application.routes.draw do
   namespace :provider, path: '/provider' do
     get '/' => 'home#index'
   end
+
+  get '/404', to: 'errors#not_found'
+  get '*path', to: 'errors#not_found'
 end
