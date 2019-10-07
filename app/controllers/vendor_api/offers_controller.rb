@@ -8,8 +8,6 @@ module VendorApi
       make_an_offer = MakeAnOffer.new(application_choice: application_choice, offer_conditions: params[:data]).call
       if make_an_offer.successful?
         render json: { data: SingleApplicationPresenter.new(make_an_offer.application_choice).as_json }
-      else
-        raise NotImplementedError
       end
     end
 

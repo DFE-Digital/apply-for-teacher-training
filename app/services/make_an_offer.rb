@@ -7,8 +7,14 @@ class MakeAnOffer
   end
 
   def call
-    @application_choice.status = @offer_conditions.present? ? :conditional_offer : :unconditional_offer
-    @application_choice.offer = @offer_conditions.present? ? @offer_conditions : { 'conditions' => [] }
+    if @offer_conditions.present?
+      @application_choice.status = :conditional_offer
+      @application_choice.offer = @offer_conditions
+    else
+      @application_choice.status = :unconditional_offer
+      @application_choice.offer = { 'conditions' => [] }
+    end
+
     @application_choice.save
     Response.new(true, @application_choice)
   end
