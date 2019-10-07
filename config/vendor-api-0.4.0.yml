@@ -125,6 +125,8 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "404":
           $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/BadRequestBody"
   "/applications/{application_id}/confirm-conditions-met":
     post:
       tags:
@@ -235,6 +237,13 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ParameterMissingResponse"
+    BadRequestBody:
+      description: Returned when the request body was missing data or contained invalid data
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BadRequestBodyResponse"
+
   schemas:
     MultipleApplicationsResponse:
       type: object
@@ -759,6 +768,19 @@ components:
           example:
             - error: ParameterMissing
               message: "param is missing or the value is empty: parameter_name"
+    BadRequestBodyResponse:
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/Error"
+          example:
+            - error: BadRequestBody
+              message: "A 'meta' key was not included on the request body"
     OkResponse:
       type: object
       required:
