@@ -722,9 +722,12 @@ components:
         - message
     NotFoundResponse:
       type: object
+      required:
+        - errors
       properties:
         errors:
           type: array
+          minItems: 1
           items:
             $ref: "#/components/schemas/Error"
           example:
@@ -732,9 +735,12 @@ components:
               message: Unable to find Application(s)
     UnauthorizedResponse:
       type: object
+      required:
+        - errors
       properties:
         errors:
           type: array
+          minItems: 1
           items:
             $ref: "#/components/schemas/Error"
           example:
@@ -742,9 +748,12 @@ components:
               message: Please provide a valid authentication token
     ParameterMissingResponse:
       type: object
+      required:
+        - errors
       properties:
         errors:
           type: array
+          minItems: 1
           items:
             $ref: "#/components/schemas/Error"
           example:
