@@ -1,0 +1,11 @@
+<%= content_for :title, page_title('internal_server_error') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl"><%= t('page_titles.internal_server_error') %></h1>
+    <p class="govuk-body">Try again later.</p>
+    <p class="govuk-body">
+      If you continue to see this error contact the Becoming a Teacher team: <%= bat_contact_mail_to %>.
+    </p>
+  </div>
+</div>

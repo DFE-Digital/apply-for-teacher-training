@@ -1,0 +1,13 @@
+<%= content_for :title, page_title('not_found') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl"><%= t('page_titles.not_found') %></h1>
+    <p class="govuk-body">
+      If you entered a web address please check it was correct.
+    </p>
+    <p class="govuk-body">
+      <%= bat_contact_mail_to('Contact the Becoming a Teacher team') %> if you believe you are seeing this message in error.
+    </p>
+  </div>
+</div>
