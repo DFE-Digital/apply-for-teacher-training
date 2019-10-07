@@ -4,12 +4,9 @@ module VendorApi
     rescue_from ActiveRecord::RecordNotFound, with: :application_not_found
 
     def index
-      application_choices = ApplicationChoice.where(
-        provider_ucas_code: params.fetch(:provider),
-      )
-      .joins(:application_form)
-      .where(
-        'application_forms.updated_at > ?', params.fetch(:since).to_datetime
+      application_choices = get_application_choices_for_provider_since(
+        provider: params.fetch(:provider),
+        since: params.fetch(:since),
       )
 
       render json: { data: MultipleApplicationsPresenter.new(application_choices).as_json }
@@ -22,6 +19,13 @@ module VendorApi
     end
 
   private
+
+    def get_application_choices_for_provider_since(provider:, since:)
+      ApplicationChoice
+        .where(provider_ucas_code: provider)
+        .joins(:application_form)
+        .where('application_forms.updated_at > ?', since.to_datetime)
+    end
 
     def parameter_missing(e)
       render json: { errors: [{ error: 'ParameterMissing', message: e }] }, status: 422
