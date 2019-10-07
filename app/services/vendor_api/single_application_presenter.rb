@@ -41,7 +41,7 @@ module VendorApi
           qualifications: [],
           references: [],
           work_experiences: [],
-          offer: nil,
+          offer: application_choice.offer,
           rejection: nil,
           withdrawal: nil,
           hesa_itt_data: {

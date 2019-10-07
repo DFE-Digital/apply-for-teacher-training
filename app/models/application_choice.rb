@@ -4,5 +4,6 @@ class ApplicationChoice < ApplicationRecord
   enum status: {
     application_complete: 'application_complete',
     conditional_offer: 'conditional_offer',
+    unconditional_offer: 'unconditional_offer',
   }
 end
