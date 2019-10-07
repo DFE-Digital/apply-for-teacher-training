@@ -10,11 +10,5 @@ module VendorApi
         render json: { data: SingleApplicationPresenter.new(make_an_offer.application_choice).as_json }
       end
     end
-
-  private
-
-    def application_not_found(_e)
-      render json: { errors: [{ error: 'NotFound', message: "Could not find an application with ID #{params[:application_id]}" }] }, status: 404
-    end
   end
 end
