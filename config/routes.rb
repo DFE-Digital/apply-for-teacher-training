@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     get '/applications' => 'applications#index'
     get '/applications/:application_id' => 'applications#show'
     post '/applications/:application_id/offer' => 'offers#create'
+    post '/applications/:application_id/confirm-conditions-met' => 'offers#confirm_met'
 
     post 'applications/:application_id/confirm-enrolment' => 'confirm_candidate_enrolment#confirm'
 

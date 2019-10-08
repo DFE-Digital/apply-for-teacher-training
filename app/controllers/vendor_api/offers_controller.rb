@@ -10,5 +10,15 @@ module VendorApi
         render json: { data: SingleApplicationPresenter.new(make_an_offer.application_choice).as_json }
       end
     end
+
+    def confirm_met
+      application_choice = ApplicationChoice.find(params[:application_id])
+
+      confirm = ConfirmOfferConditions.new(application_choice: application_choice).call
+
+      if confirm.successful?
+        render json: { data: SingleApplicationPresenter.new(application_choice).as_json }
+      end
+    end
   end
 end
