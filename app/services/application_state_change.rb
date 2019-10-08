@@ -18,7 +18,9 @@ class ApplicationStateChange
       event :reject_application, transitions_to: :rejected
     end
 
-    state :conditional_offer
+    state :conditional_offer do
+      event :confirm_conditions_met, transitions_to: :recruited
+    end
 
     state :unconditional_offer
 
