@@ -3,11 +3,23 @@ require 'rails_helper'
 RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-enrolment', type: :request do
   include VendorApiSpecHelpers
 
+  let(:valid_metadata) {
+    {
+      attribution: {
+        full_name: 'Jane Smith',
+        email: 'jane@example.com',
+        user_id: '12345',
+      },
+      timestamp: Time.now.iso8601,
+    }
+  }
+
   describe 'successfully confirming enrolment' do
     it 'returns updated application' do
       application_choice = create(:application_choice, status: 'recruited')
 
-      post "/api/v1/applications/#{application_choice.id}/confirm-enrolment"
+      post "/api/v1/applications/#{application_choice.id}/confirm-enrolment",
+           params: { meta: valid_metadata }
 
       expect(response).to have_http_status(200)
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
@@ -15,8 +27,30 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-enrolmen
     end
   end
 
+  it 'returns an error when Metadata is not provided' do
+    application_choice = create(:application_choice)
+
+    post "/api/v1/applications/#{application_choice.id}/confirm-enrolment"
+
+    expect(response).to have_http_status(422)
+    expect(parsed_response).to be_valid_against_openapi_schema('BadRequestBodyResponse')
+  end
+
+  it 'returns an error when Metadata is invalid' do
+    application_choice = create(:application_choice)
+
+    invalid_metadata = { invalid: :metadata }
+
+    post "/api/v1/applications/#{application_choice.id}/confirm-enrolment",
+         params: { meta: invalid_metadata }
+
+    expect(response).to have_http_status(422)
+    expect(parsed_response).to be_valid_against_openapi_schema('BadRequestBodyResponse')
+  end
+
   it 'returns not found error when the application was not found' do
-    post '/api/v1/applications/non-existent-id/confirm-enrolment'
+    post '/api/v1/applications/non-existent-id/confirm-enrolment',
+         params: { meta: valid_metadata }
 
     expect(response).to have_http_status(404)
     expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
