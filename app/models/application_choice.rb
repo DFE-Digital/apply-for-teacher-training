@@ -7,5 +7,6 @@ class ApplicationChoice < ApplicationRecord
     unconditional_offer: 'unconditional_offer',
     recruited: 'recruited',
     enrolled: 'enrolled',
+    rejected: 'rejected',
   }
 end

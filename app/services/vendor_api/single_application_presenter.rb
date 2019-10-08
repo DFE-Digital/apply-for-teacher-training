@@ -42,7 +42,7 @@ module VendorApi
           references: [],
           work_experiences: [],
           offer: application_choice.offer,
-          rejection: nil,
+          rejection: get_rejection,
           withdrawal: nil,
           hesa_itt_data: {
             sex: '',
@@ -51,6 +51,15 @@ module VendorApi
           },
         },
       }
+    end
+
+    def get_rejection
+      if application_choice.rejection_reason?
+        {
+          reason: application_choice.rejection_reason,
+          date: application_choice.rejected_at,
+        }
+      end
     end
   end
 end
