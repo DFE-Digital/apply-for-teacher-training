@@ -31,6 +31,8 @@ Rails.application.routes.draw do
 
     post '/test-data/regenerate' => 'test_data#regenerate'
 
+    post 'applications/:application_id/reject' => 'rejections#create'
+
     get '/ping', to: 'ping#ping'
   end
 
