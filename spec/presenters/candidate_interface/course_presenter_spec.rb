@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe CandidateInterface::CoursePresenter do
+RSpec.describe CandidateInterface::CoursePresenter do
   let(:provider_code) { '2AT' }
   let(:course_code) { '1234' }
   let(:name) { 'Biology' }
