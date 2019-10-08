@@ -7,7 +7,7 @@ class RejectApplication
   end
 
   def call
-    @application_choice.status = :rejected
+    ApplicationStateChange.new(@application_choice).reject_application!
     @application_choice.rejection_reason = @rejection[:reason]
     @application_choice.rejected_at = @rejection[:timestamp]
 
