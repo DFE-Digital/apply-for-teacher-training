@@ -25,4 +25,19 @@ RSpec.describe Candidate, type: :model do
       expect { application_choice.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
+
+  describe '#current_application' do
+    it 'returns an existing application' do
+      candidate = FactoryBot.create(:candidate)
+      application_form = FactoryBot.create(:application_form, candidate: candidate)
+
+      expect(candidate.current_application).to eq(application_form)
+    end
+
+    it 'creates an application if there are none' do
+      candidate = FactoryBot.create(:candidate)
+
+      expect { candidate.current_application }.to change { candidate.application_forms.count }.from(0).to(1)
+    end
+  end
 end
