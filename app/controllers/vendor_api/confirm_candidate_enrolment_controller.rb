@@ -6,7 +6,7 @@ module VendorApi
     rescue_from InvalidMetadata, with: :invalid_metadata
 
     def confirm
-      check_metadata!
+      raise InvalidMetadata unless Metadata.new(params[:meta]).valid?
 
       application_choice = ApplicationChoice.find(params[:application_id])
       result = ConfirmEnrolment.new(application_choice: application_choice).call
@@ -19,17 +19,6 @@ module VendorApi
     end
 
   private
-
-    def check_metadata!
-      meta = params[:meta]
-
-      unless meta.present? &&
-          meta.keys.include?('attribution') &&
-          meta.keys.include?('timestamp')
-
-        raise InvalidMetadata
-      end
-    end
 
     def invalid_metadata(_e)
       render json: {
