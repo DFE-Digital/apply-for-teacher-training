@@ -5,7 +5,7 @@ module VendorApi
 
     def index
       application_choices = get_application_choices_for_provider_since(
-        provider: params.fetch(:provider),
+        provider: params.fetch(:provider_ucas_code),
         since: params.fetch(:since),
       )
 
