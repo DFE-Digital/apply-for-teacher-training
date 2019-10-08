@@ -6,7 +6,7 @@ class ConfirmEnrolment
   end
 
   def call
-    @application_choice.update_attribute(:status, :enrolled)
+    ApplicationStateChange.new(@application_choice).confirm_enrolment!
 
     Response.new(true, @application_choice)
   end

@@ -5,6 +5,7 @@ class ApplicationChoice < ApplicationRecord
     application_complete: 'application_complete',
     conditional_offer: 'conditional_offer',
     unconditional_offer: 'unconditional_offer',
+    recruited: 'recruited',
     enrolled: 'enrolled',
   }
 end

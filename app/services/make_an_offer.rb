@@ -8,10 +8,10 @@ class MakeAnOffer
 
   def call
     if @offer_conditions.present?
-      @application_choice.status = :conditional_offer
+      ApplicationStateChange.new(@application_choice).make_conditional_offer!
       @application_choice.offer = @offer_conditions
     else
-      @application_choice.status = :unconditional_offer
+      ApplicationStateChange.new(@application_choice).make_unconditional_offer!
       @application_choice.offer = { 'conditions' => [] }
     end
 

@@ -5,7 +5,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-enrolmen
 
   describe 'successfully confirming enrolment' do
     it 'returns updated application' do
-      application_choice = create(:application_choice)
+      application_choice = create(:application_choice, status: 'recruited')
 
       post "/api/v1/applications/#{application_choice.id}/confirm-enrolment"
 
