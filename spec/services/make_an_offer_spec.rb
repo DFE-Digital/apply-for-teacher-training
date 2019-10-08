@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe MakeAnOffer do
+RSpec.describe MakeAnOffer do
   context 'when a conditional offer is make successfully' do
     let(:application_choice) { create(:application_choice, provider_ucas_code: 'ABC') }
     let(:response) { MakeAnOffer.new(application_choice: application_choice, offer_conditions: conditions).call }

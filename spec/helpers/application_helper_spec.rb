@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ApplicationHelper do
+RSpec.describe ApplicationHelper do
   describe '#page_title' do
     context 'given a page is not defined in the translation file' do
       it 'returns the application title' do

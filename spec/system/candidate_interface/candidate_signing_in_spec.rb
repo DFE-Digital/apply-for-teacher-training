@@ -2,7 +2,7 @@ require 'rails_helper'
 
 # TODO: This test needs to be rewritten to use the new acceptance-test style
 # specs - https://github.com/DFE-Digital/apply-for-postgraduate-teacher-training/pull/246
-describe 'A candidate signing in' do
+RSpec.describe 'A candidate signing in' do
   include TestHelpers::SignUp
 
   before do
