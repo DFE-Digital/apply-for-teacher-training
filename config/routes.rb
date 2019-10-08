@@ -34,7 +34,7 @@ Rails.application.routes.draw do
     get '/ping', to: 'ping#ping'
   end
 
-  namespace :provider, path: '/provider' do
+  namespace :provider_interface, path: '/provider' do
     get '/' => 'home#index'
   end
 
