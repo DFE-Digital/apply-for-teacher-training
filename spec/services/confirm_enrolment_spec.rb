@@ -5,7 +5,7 @@ RSpec.describe ConfirmEnrolment do
     context 'when the update is valid' do
       subject(:result) do
         ConfirmEnrolment.new(
-          application_choice: create(:application_choice),
+          application_choice: create(:application_choice, status: 'recruited'),
         ).call
       end
 

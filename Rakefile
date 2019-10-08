@@ -9,7 +9,7 @@ task lint_ruby: ['lint:ruby']
 
 task(:default).clear
 
-task default: %i[lint_erb lint_ruby spec]
+task default: %i[lint_erb lint_ruby spec generate_state_diagram]
 
 Rake::Task['db:migrate'].enhance do
   sh 'bundle exec erd'

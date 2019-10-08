@@ -16,6 +16,7 @@ training.
 * [Documentation](#documentation)
   * [Nomenclature](#documentation-nomenclature)
   * [Domain Model](#documentation-domain-model)
+  * [Application States](#documentation-application-states)
   * [Environment Variables](#documentation-env-vars)
 
 ## <a name="dependencies"></a>Dependencies
@@ -87,6 +88,12 @@ by invoking `bin/webpack`. If all is well, there is a chance that
 
 Regenerate this diagram with `bundle exec erd`.
 
+### <a name="documentation-application-states"></a>Application states
+
+![All of the states and transitions in the app](docs/states.png)
+
+Regenerate this diagram with `bundle exec rake generate_state_diagram`.
+
 ### <a name="documentation-env-vars"></a>Environment Variables
 
 **NOTE: Environment variables should not start with *endpoint*, *input*, *secret*, or *securefile* (irrespective of capitalisation) due to them being protected variable names within the Azure DevOps environment.** If this cannot be avoided variable mapping will have to be used, but wherever possible it is simpler not to use these protected names.
@@ -103,7 +110,7 @@ When defining variables in the Dockerfile use dummy values for security reasons 
 
 #### <a name="documentation-env-vars-local-dev"></a>Local Development
 
-If an environment variable is required for use in the local development environment it should be declared in the .env file in the following format 
+If an environment variable is required for use in the local development environment it should be declared in the .env file in the following format
 
 `VARIABLE_NAME=Value`
 
