@@ -48,4 +48,18 @@ RSpec.describe ViewHelper, type: :helper do
       expect(anchor_tag).to eq('<a class="govuk-link govuk-link--no-visited-state" href="mailto:becomingateacher@digital.education.gov.uk?subject=Support%20and%20guidance">becomingateacher@digital.education.gov.uk</a>')
     end
   end
+
+  describe '#govuk_button_link_to' do
+    it 'returns an anchor tag with the govuk-button class, button role and data-module="govuk-button"' do
+      anchor_tag = helper.govuk_button_link_to('Hoot', 'https://localhost:0103/owl/hoot')
+
+      expect(anchor_tag).to eq('<a role="button" class="govuk-button" data-module="govuk-button" draggable="false" href="https://localhost:0103/owl/hoot">Hoot</a>')
+    end
+
+    it 'returns an anchor tag with additional HTML options' do
+      anchor_tag = helper.govuk_button_link_to('Cluck', 'https://localhost:0103/chicken/cluck', class: 'govuk-button--start')
+
+      expect(anchor_tag).to eq('<a role="button" class="govuk-button govuk-button--start" data-module="govuk-button" draggable="false" href="https://localhost:0103/chicken/cluck">Cluck</a>')
+    end
+  end
 end
