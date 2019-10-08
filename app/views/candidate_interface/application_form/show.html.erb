@@ -5,5 +5,76 @@
     <h1 class="govuk-heading-xl">
       <%= t('page_titles.application_form') %>
     </h1>
+
+    <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">
+      Courses
+    </h2>
+    <% if @application_form.application_choices.empty? %>
+      <p class="govuk-body"><%= t('application_form.courses') %></p>
+    <% end %>
+    <%= govuk_button_link_to 'TODO: Add course', '#' %>
+
+    <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-4">
+      About you
+    </h2>
+    <ol class="app-task-list govuk-!-margin-bottom-8">
+      <li class="app-task-list__item">
+        <%= govuk_link_to 'TODO: Personal details', '#', class: 'app-task-list__task-name' %>
+      </li>
+      <li class="app-task-list__item">
+        <%= govuk_link_to 'TODO: Contact details', '#', class: 'app-task-list__task-name' %>
+      </li>
+      <li class="app-task-list__item">
+        <%= govuk_link_to 'TODO: Work history', '#', class: 'app-task-list__task-name' %>
+      </li>
+      <li class="app-task-list__item">
+        <%= govuk_link_to 'TODO: School experience and volunteering', '#', class: 'app-task-list__task-name' %>
+      </li>
+    </ol>
+
+    <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">
+      Qualifications
+    </h2>
+    <ol class="app-task-list govuk-!-margin-bottom-8">
+      <li class="app-task-list__item">
+        <%= govuk_link_to 'TODO: Degree', '#', class: 'app-task-list__task-name' %>
+      </li>
+      <li class="app-task-list__item">
+        <%= govuk_link_to 'TODO: Maths GCSE or equivalent', '#', class: 'app-task-list__task-name' %>
+      </li>
+      <li class="app-task-list__item">
+        <%= govuk_link_to 'TODO: English GCSE or equivalent', '#', class: 'app-task-list__task-name' %>
+      </li>
+      <li class="app-task-list__item">
+        <%= govuk_link_to 'TODO: Other relevant academic and non-academic qualifications', '#', class: 'app-task-list__task-name' %>
+      </li>
+    </ol>
+
+    <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">
+      Personal statement and interview
+    </h2>
+    <p class="govuk-body">
+      You can tailor your personal statement to suit different providers and
+      courses
+    </p>
+    <ol class="app-task-list govuk-!-margin-bottom-8">
+      <li class="app-task-list__item govuk-hint">
+        <span class="app-task-list__task-name">Choose a course before adding a personal statement</span>
+      </li>
+    </ol>
+
+    <h2 class="govuk-heading-m govuk-!-font-size-27">References</h2>
+    <ol class="app-task-list govuk-!-margin-bottom-8">
+      <li class="app-task-list__item">
+        <%= govuk_link_to 'TODO: Referees', '#', class: 'app-task-list__task-name' %>
+      </li>
+    </ol>
+
+    <h2 class="govuk-heading-m govuk-!-font-size-27">Review and submit</h2>
+    <ol class="app-task-list govuk-!-margin-bottom-8">
+      <li class="app-task-list__item">
+        <%= govuk_link_to 'TODO: Check your answers before submitting', '#', class: 'app-task-list__task-name' %>
+      </li>
+    </ol>
   </div>
 </div>
