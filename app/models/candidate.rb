@@ -11,4 +11,8 @@ class Candidate < ApplicationRecord
   validates :email_address, format: { with: NOTIFY_EMAIL_REGEXP }
 
   has_many :application_forms
+
+  def current_application
+    application_forms.first_or_create
+  end
 end
