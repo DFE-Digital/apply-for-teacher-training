@@ -14,6 +14,8 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-enrolmen
     }
   }
 
+  it_behaves_like 'an endpoint that requires metadata', '/confirm-enrolment'
+
   describe 'successfully confirming enrolment' do
     it 'returns updated application' do
       application_choice = create(:application_choice, status: 'recruited')
@@ -25,27 +27,6 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-enrolmen
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
       expect(parsed_response['data']['attributes']['status']).to eq 'enrolled'
     end
-  end
-
-  it 'returns an error when Metadata is not provided' do
-    application_choice = create(:application_choice)
-
-    post_api_request "/api/v1/applications/#{application_choice.id}/confirm-enrolment"
-
-    expect(response).to have_http_status(422)
-    expect(parsed_response).to be_valid_against_openapi_schema('BadRequestBodyResponse')
-  end
-
-  it 'returns an error when Metadata is invalid' do
-    application_choice = create(:application_choice)
-
-    invalid_metadata = { invalid: :metadata }
-
-    post_api_request "/api/v1/applications/#{application_choice.id}/confirm-enrolment",
-                     params: { meta: invalid_metadata }
-
-    expect(response).to have_http_status(422)
-    expect(parsed_response).to be_valid_against_openapi_schema('BadRequestBodyResponse')
   end
 
   it 'returns not found error when the application was not found' do

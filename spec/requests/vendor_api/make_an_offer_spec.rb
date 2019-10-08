@@ -3,6 +3,19 @@ require 'rails_helper'
 RSpec.describe 'Vendor API - POST /api/v1/applications/:id/offer', type: :request do
   include VendorApiSpecHelpers
 
+  let(:valid_metadata) {
+    {
+      attribution: {
+        full_name: 'Jane Smith',
+        email: 'jane@example.com',
+        user_id: '12345',
+      },
+      timestamp: Time.now.iso8601,
+    }
+  }
+
+  it_behaves_like 'an endpoint that requires metadata', '/offer'
+
   describe 'making a conditional offer' do
     it 'returns the updated application' do
       application_choice = create(:application_choice, provider_ucas_code: 'ABC')
@@ -13,7 +26,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:id/offer', type: :reques
             'Completion of professional skills test',
           ],
         },
-      }
+      }.merge(meta: valid_metadata)
 
       post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
 
@@ -31,9 +44,8 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:id/offer', type: :reques
   describe 'making an unconditional offer' do
     it 'returns the updated application' do
       application_choice = create(:application_choice, provider_ucas_code: 'ABC')
-      request_body = {}
 
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
+      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {}
 
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
       expect(parsed_response['data']['attributes']['status']).to eq('unconditional_offer')
@@ -60,7 +72,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:id/offer', type: :reques
                                   'Completion of professional skills test',
                         ],
                       },
-                    }
+                    }.merge(meta: valid_metadata)
 
     post_api_request '/api/v1/applications/non-existent-id/offer', params: request_body
 

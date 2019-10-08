@@ -3,6 +3,20 @@ require 'rails_helper'
 RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-conditions-met', type: :request do
   include VendorApiSpecHelpers
 
+  let(:valid_metadata) {
+    {
+      attribution: {
+        full_name: 'Jane Smith',
+        email: 'jane@example.com',
+        user_id: '12345',
+      },
+      timestamp: Time.now.iso8601,
+    }
+  }
+
+  it_behaves_like 'an endpoint that requires metadata', '/confirm-conditions-met'
+
+
   it 'confirms the conditions have been met' do
     application_choice = create(:application_choice, status: 'conditional_offer')
 
