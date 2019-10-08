@@ -15,6 +15,7 @@ class ApplicationStateChange
     state :application_complete do
       event :make_conditional_offer, transitions_to: :conditional_offer
       event :make_unconditional_offer, transitions_to: :unconditional_offer
+      event :reject_application, transitions_to: :rejected
     end
 
     state :conditional_offer
@@ -26,6 +27,8 @@ class ApplicationStateChange
     end
 
     state :enrolled
+
+    state :rejected
   end
 
   def load_workflow_state
