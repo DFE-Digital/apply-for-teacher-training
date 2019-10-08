@@ -1,6 +1,6 @@
 class AuthenticationMailer < ApplicationMailer
   def sign_up_email(to:, token:)
-    @magic_link = "#{candidate_interface_welcome_url}/?token=#{token}"
+    @magic_link = "#{candidate_interface_application_form_url}?token=#{token}"
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: to,
@@ -8,7 +8,7 @@ class AuthenticationMailer < ApplicationMailer
   end
 
   def sign_in_email(to:, token:)
-    @magic_link = "#{candidate_interface_welcome_url}/?token=#{token}"
+    @magic_link = "#{candidate_interface_application_form_url}?token=#{token}"
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: to,

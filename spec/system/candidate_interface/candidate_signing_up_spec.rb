@@ -76,7 +76,7 @@ describe 'A candidate signing up' do
 
   context 'who clicks a link with an invalid token' do
     it 'sees the start page' do
-      visit candidate_interface_welcome_path(token: 'meow')
+      visit candidate_interface_application_form_path(token: 'meow')
 
       expect(page).to have_current_path(candidate_interface_start_path)
     end

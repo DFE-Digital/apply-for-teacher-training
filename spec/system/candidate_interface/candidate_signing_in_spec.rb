@@ -48,8 +48,7 @@ describe 'A candidate signing in' do
       sign_in_link = current_email.find_css('a').first
       sign_in_link.click
 
-      # TODO: this will be changed to the application page of candidate
-      expect(page).to have_content('Welcome')
+      expect(page).to have_content(t('page_titles.application_form'))
     end
   end
 

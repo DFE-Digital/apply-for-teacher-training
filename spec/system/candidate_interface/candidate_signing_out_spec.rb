@@ -14,7 +14,7 @@ RSpec.feature 'Signing out' do
   end
 
   def and_i_visit_the_site
-    visit candidate_interface_welcome_path
+    visit candidate_interface_application_form_path
   end
 
   def when_i_click_the_sign_out_button
