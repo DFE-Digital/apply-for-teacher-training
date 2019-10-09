@@ -50,6 +50,7 @@ group :test do
 end
 
 group :development, :test do
+  gem 'brakeman'
   gem 'rspec-rails'
   gem 'dotenv-rails'
   gem 'pry'

@@ -69,6 +69,7 @@ GEM
       parser (>= 2.4)
       smart_properties
     bindex (0.8.1)
+    brakeman (4.6.1)
     builder (3.2.3)
     byebug (11.0.1)
     capybara (3.29.0)
@@ -350,6 +351,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  brakeman
   capybara (>= 3.24)
   capybara-email
   climate_control

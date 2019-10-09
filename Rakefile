@@ -9,7 +9,12 @@ task lint_ruby: ['lint:ruby']
 
 task(:default).clear
 
-task default: %i[lint_erb lint_ruby spec generate_state_diagram]
+task :brakeman do
+  require 'brakeman'
+  Brakeman.run(app_path: '.', print_report: true)
+end
+
+task default: %i[lint_erb lint_ruby spec generate_state_diagram brakeman]
 
 Rake::Task['db:migrate'].enhance do
   sh 'bundle exec erd'
