@@ -41,7 +41,7 @@ module VendorApi
           qualifications: [],
           references: [],
           work_experiences: [],
-          offer: application_choice.offer,
+          offer: get_offer,
           rejection: get_rejection,
           withdrawal: nil,
           hesa_itt_data: {
@@ -60,6 +60,12 @@ module VendorApi
           date: application_choice.rejected_at,
         }
       end
+    end
+
+    def get_offer
+      {
+        conditions: application_choice.offer_conditions
+      }
     end
   end
 end
