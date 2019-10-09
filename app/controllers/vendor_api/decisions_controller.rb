@@ -6,50 +6,46 @@ module VendorApi
     rescue_from InvalidMetadata, with: :invalid_metadata
 
     def make_offer
-      application_choice = ApplicationChoice.find(params[:application_id])
+      decision = MakeAnOffer.new(
+        application_choice: application_choice,
+        offer_conditions: params[:data],
+      )
 
-      make_an_offer = MakeAnOffer.new(application_choice: application_choice, offer_conditions: params[:data]).call
-      if make_an_offer.successful?
-        render json: { data: SingleApplicationPresenter.new(make_an_offer.application_choice).as_json }
-      end
+      repond_to_decision(decision)
     end
 
     def confirm_conditions_met
-      application_choice = ApplicationChoice.find(params[:application_id])
+      decision = ConfirmOfferConditions.new(
+        application_choice: application_choice,
+      )
 
-      confirm = ConfirmOfferConditions.new(application_choice: application_choice).call
-
-      if confirm.successful?
-        render json: { data: SingleApplicationPresenter.new(application_choice).as_json }
-      end
+      repond_to_decision(decision)
     end
 
     def reject
-      application_choice = ApplicationChoice.find(params[:application_id])
+      decision = RejectApplication.new(
+        application_choice: application_choice,
+        rejection: params[:data],
+      )
 
-      result = RejectApplication.new(application_choice: application_choice, rejection: params[:data]).call
-
-      if result.successful?
-        render json: {
-          data: SingleApplicationPresenter.new(result.application_choice).as_json,
-        }
-      end
+      repond_to_decision(decision)
     end
 
     def confirm_enrolment
       raise InvalidMetadata unless Metadata.new(params[:meta]).valid?
 
-      application_choice = ApplicationChoice.find(params[:application_id])
-      result = ConfirmEnrolment.new(application_choice: application_choice).call
+      decision = ConfirmEnrolment.new(
+        application_choice: application_choice,
+      )
 
-      if result.successful?
-        render json: {
-          data: SingleApplicationPresenter.new(result.application_choice).as_json,
-        }
-      end
+      repond_to_decision(decision)
     end
 
   private
+
+    def application_choice
+      @application_choice ||= ApplicationChoice.find(params[:application_id])
+    end
 
     def invalid_metadata(_e)
       render json: {
@@ -58,6 +54,21 @@ module VendorApi
                    message: 'A valid meta key, containing timestamp and attribution, was not included on the request body',
                  }],
       }, status: 422
+    end
+
+    def repond_to_decision(decision)
+      if decision.save
+        render json: { data: SingleApplicationPresenter.new(application_choice).as_json }
+      else
+        render_bad_request(decision.errors)
+      end
+    end
+
+    # Takes a object with ActiveModel::Validations and render the `errors`
+    # as API response.
+    def render_bad_request(errors)
+      error_responses = errors.map { |_key, message| { error: 'BadRequest', message: message } }
+      render status: 422, json: { errors: error_responses }
     end
   end
 end
