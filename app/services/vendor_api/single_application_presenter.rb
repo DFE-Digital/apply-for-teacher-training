@@ -63,9 +63,11 @@ module VendorApi
     end
 
     def get_offer
-      {
-        conditions: application_choice.offer_conditions,
-      }
+      if application_choice.conditional_offer? || application_choice.unconditional_offer?
+        {
+          conditions: application_choice.offer_conditions,
+        }
+      end
     end
   end
 end
