@@ -8,7 +8,7 @@ module VendorApi
     def make_offer
       application_choice = ApplicationChoice.find(params[:application_id])
 
-      make_an_offer = MakeAnOffer.new(application_choice: application_choice, offer_conditions: params[:data]).call
+      make_an_offer = MakeAnOffer.new(application_choice: application_choice, offer_conditions: params.fetch(:data, {})[:conditions]).call
       if make_an_offer.successful?
         render json: { data: SingleApplicationPresenter.new(make_an_offer.application_choice).as_json }
       end

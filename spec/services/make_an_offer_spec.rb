@@ -5,12 +5,10 @@ RSpec.describe MakeAnOffer do
     let(:application_choice) { create(:application_choice, provider_ucas_code: 'ABC') }
     let(:response) { MakeAnOffer.new(application_choice: application_choice, offer_conditions: conditions).call }
     let(:conditions) do
-      {
-        "conditions": [
-          'Completion of subject knowledge enhancement',
-          'Completion of professional skills test',
-        ],
-      }
+      [
+        'Completion of subject knowledge enhancement',
+        'Completion of professional skills test',
+      ]
     end
 
     it 'returns a success' do
@@ -19,8 +17,8 @@ RSpec.describe MakeAnOffer do
 
     it 'returns the updated application choice' do
       expect(response.application_choice.status).to eq('conditional_offer')
-      expect(response.application_choice.offer).to eq(
-        'conditions' => [
+      expect(response.application_choice.offer_conditions).to eq(
+        [
           'Completion of subject knowledge enhancement',
           'Completion of professional skills test',
         ],
@@ -43,9 +41,7 @@ RSpec.describe MakeAnOffer do
       response = make_an_offer.call
 
       expect(response.application_choice.status).to eq('unconditional_offer')
-      expect(response.application_choice.offer).to eq(
-        'conditions' => [],
-      )
+      expect(response.application_choice.offer_conditions).to eq([])
     end
   end
 end

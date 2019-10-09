@@ -64,7 +64,7 @@ module VendorApi
 
     def get_offer
       {
-        conditions: application_choice.offer_conditions
+        conditions: application_choice.offer_conditions,
       }
     end
   end
