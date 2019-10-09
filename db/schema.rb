@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_09_082204) do
+ActiveRecord::Schema.define(version: 2019_10_09_103229) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -25,7 +25,6 @@ ActiveRecord::Schema.define(version: 2019_10_09_082204) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status"
-    t.json "offer"
     t.datetime "rejected_at"
     t.string "rejection_reason"
     t.string "offer_conditions", default: [], array: true
