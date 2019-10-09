@@ -14,6 +14,10 @@ en:
         hint_text: For example, 31 3 1980
       nationality:
         label: Nationality
+      second_nationality:
+        label: Second nationality
       english_main_language:
         label: Is English your main language?
+        yes_label: If you are bilingual or very familiar with languages other than English, you can tell us about them here.
+        no_label: Please tell us about your English language qualifications (including grades or scores), and give details of other languages you are fluent in.
       complete_form_button: Continue

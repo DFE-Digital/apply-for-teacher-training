@@ -19,9 +19,28 @@
 
         <%= f.govuk_date_field :date_of_birth, date_of_birth: true, legend: { text: t('application_form.personal_details.date_of_birth.label'), tag: 'span' }, hint_text: t('application_form.personal_details.date_of_birth.hint_text') %>
 
-        <%= f.govuk_text_field :nationality, label: { text: t('application_form.personal_details.nationality.label'), size: 'm' } %>
+        <%= f.govuk_text_field 'nationalities', label: { text: t('application_form.personal_details.nationality.label'), size: 'm' }, multiple: true %>
 
-        <%= f.govuk_collection_radio_buttons :english_main_language, @personal_details_form.english_main_language_options, :id, :name, legend: { text: t('application_form.personal_details.english_main_language.label') } %>
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              Add another nationality
+            </span>
+          </summary>
+          <div class="govuk-details__text">
+            <%= f.govuk_text_field 'nationalities', label: { text: t('application_form.personal_details.second_nationality.label') }, multiple: true %>
+          </div>
+        </details>
+
+        <%= f.govuk_radio_buttons_fieldset :english_main_language, legend: { size: 'm', text: t('application_form.personal_details.english_main_language.label') } do %>
+          <%= f.govuk_radio_button :english_main_language, 'yes', label: { text: 'Yes' } do %>
+            <%= f.govuk_text_area :english_language_details, label: { text: t('application_form.personal_details.english_main_language.yes_label') }, max_words: 200 %>
+          <% end %>
+
+          <%= f.govuk_radio_button :english_main_language, 'no', label: { text: 'No' } do %>
+            <%= f.govuk_text_area :other_language_details, label: { text: t('application_form.personal_details.english_main_language.no_label') }, max_words: 200 %>
+          <% end %>
+        <% end %>
 
         <%= f.govuk_submit 'Continue' %>
       <% end %>

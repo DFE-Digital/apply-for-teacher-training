@@ -46,9 +46,14 @@ RSpec.feature 'Entering their personal details' do
     fill_in 'Month', with: '4'
     fill_in 'Year', with: '1937'
 
-    fill_in t('application_form.personal_details.nationality.label'), with: 'English'
+    fill_in t('application_form.personal_details.nationality.label'), with: 'British'
+    find('details').click
+    within('details') do
+      fill_in t('application_form.personal_details.second_nationality.label'), with: 'American'
+    end
 
     choose 'Yes'
+    fill_in t('application_form.personal_details.english_main_language.yes_label'), with: "I'm great at Galactic Basic so English is a piece of cake", match: :prefer_exact
 
     click_button t('application_form.personal_details.complete_form_button')
   end
