@@ -21,7 +21,7 @@
 
         <%= f.govuk_text_field :nationality, label: { text: t('application_form.personal_details.nationality.label'), size: 'm' } %>
 
-        <%= f.govuk_collection_radio_buttons :english_main, @personal_details_form.main_language_english_options, :id, :name, legend: { text: t('application_form.personal_details.main_language_english.label') } %>
+        <%= f.govuk_collection_radio_buttons :english_main_language, @personal_details_form.english_main_language_options, :id, :name, legend: { text: t('application_form.personal_details.english_main_language.label') } %>
 
         <%= f.govuk_submit 'Continue' %>
       <% end %>

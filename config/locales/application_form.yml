@@ -14,6 +14,6 @@ en:
         hint_text: For example, 31 3 1980
       nationality:
         label: Nationality
-      main_language_english:
+      english_main_language:
         label: Is English your main language?
       complete_form_button: Continue
