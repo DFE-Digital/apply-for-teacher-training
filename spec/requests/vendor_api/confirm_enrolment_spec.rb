@@ -56,4 +56,14 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-enrolmen
     expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
     expect(error_response['message']).to eql('Could not find an application with ID non-existent-id')
   end
+
+  it 'returns an error when trying to transition to an invalid state' do
+    application_choice = create(:application_choice, status: 'rejected')
+
+    post "/api/v1/applications/#{application_choice.id}/confirm-enrolment",
+         params: { meta: valid_metadata }
+
+    expect(response).to have_http_status(422)
+    expect(parsed_response).to be_valid_against_openapi_schema('BadRequestBodyResponse')
+  end
 end
