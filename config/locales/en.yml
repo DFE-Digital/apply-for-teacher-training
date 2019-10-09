@@ -38,6 +38,7 @@ en:
     check_your_email: Check your email
     not_found: Page not found
     internal_server_error: Sorry, there is a problem with the service
+    personal_details: Personal details
   layout:
     service_name: Apply for teacher training
     phase_banner_text: This is a development version of a new service. The data is not real and parts may not work yet.
