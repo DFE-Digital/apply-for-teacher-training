@@ -26,7 +26,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
   end
 
   it 'returns not found error when the application was not found' do
-    post '/api/v1/applications/non-existent-id/confirm-enrolment'
+    post '/api/v1/applications/non-existent-id/reject'
 
     expect(response).to have_http_status(404)
     expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
