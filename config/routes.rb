@@ -25,14 +25,13 @@ Rails.application.routes.draw do
   namespace :vendor_api, path: 'api/v1' do
     get '/applications' => 'applications#index'
     get '/applications/:application_id' => 'applications#show'
-    post '/applications/:application_id/offer' => 'offers#create'
-    post '/applications/:application_id/confirm-conditions-met' => 'offers#confirm_met'
 
-    post 'applications/:application_id/confirm-enrolment' => 'confirm_candidate_enrolment#confirm'
+    post '/applications/:application_id/offer' => 'decisions#make_offer'
+    post '/applications/:application_id/confirm-conditions-met' => 'decisions#confirm_conditions_met'
+    post 'applications/:application_id/reject' => 'decisions#reject'
+    post '/applications/:application_id/confirm-enrolment' => 'decisions#confirm_enrolment'
 
     post '/test-data/regenerate' => 'test_data#regenerate'
-
-    post 'applications/:application_id/reject' => 'rejections#create'
 
     get '/ping', to: 'ping#ping'
   end
