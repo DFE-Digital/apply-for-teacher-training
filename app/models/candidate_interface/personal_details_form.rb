@@ -42,5 +42,9 @@ module CandidateInterface
     def date_of_birth_not_in_future
       errors.add(:date_of_birth, :future) if date_of_birth.present? && date_of_birth > Date.today
     end
+
+    def english_main_language?
+      english_main_language == 'yes'
+    end
   end
 end
