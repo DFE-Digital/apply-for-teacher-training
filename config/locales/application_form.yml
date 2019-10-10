@@ -2,3 +2,18 @@ en:
   application_form:
     begin_button: Start now
     courses: You can apply for up to 3 courses.
+    personal_details:
+      first_name:
+        label: First name
+        hint_text: Or given names
+      last_name:
+        label: Last name
+        hint_text: Or family name
+      date_of_birth:
+        label: Date of birth
+        hint_text: For example, 31 3 1980
+      nationality:
+        label: Nationality
+      english_main_language:
+        label: Is English your main language?
+      complete_form_button: Continue

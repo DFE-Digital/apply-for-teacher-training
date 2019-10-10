@@ -5,8 +5,8 @@ module ViewHelper
     link_to(body, url, html_options)
   end
 
-  def govuk_back_link_to(url)
-    link_to('Back', url, class: 'govuk-back-link')
+  def govuk_back_link_to(url, body = 'Back')
+    link_to(body, url, class: 'govuk-back-link')
   end
 
   def bat_contact_mail_to(name = nil, html_options: {})

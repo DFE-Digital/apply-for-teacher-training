@@ -1,0 +1,79 @@
+.app-summary-card {
+  border: 1px solid $govuk-border-colour;
+
+  .app-summary-card__header {
+    align-items: center;
+    background-color: govuk-colour("light-grey");
+    padding: govuk-spacing(3);
+
+    @include govuk-media-query($from: desktop) {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+    }
+  }
+
+  .app-summary-card__title {
+    @include govuk-font($size: 19);
+    margin-top: 0;
+    margin-bottom: govuk-spacing(2);
+
+    @include govuk-media-query($from: desktop) {
+      margin: 0;
+    }
+  }
+
+  .app-summary-card__meta {
+    @include govuk-font($size: 16);
+    display: block;
+    margin: 0;
+  }
+
+  .app-summary-card__actions {
+    @include govuk-font($size: 19);
+  }
+
+  .app-summary-card__actions-list {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .app-summary-card__actions-list-item {
+    display: block;
+    white-space: nowrap;
+
+    @include govuk-media-query($from: desktop) {
+      text-align: right;
+    }
+  }
+
+  .app-summary-card__actions-list-item:last-child {
+    margin-right: 0;
+    padding-right: 0;
+  }
+
+  .app-summary-card__body {
+    @include govuk-font($size: 19);
+    padding: govuk-spacing(2) govuk-spacing(3);
+  }
+
+  // Summary list component overrides
+  .govuk-summary-list {
+    margin-bottom: 0;
+  }
+
+  .govuk-summary-list__row:last-child > * {
+    border-bottom: 0;
+  }
+}
+
+@media print {
+  .app-summary-card__header {
+    break-inside: avoid;
+  }
+
+  .app-summary-card__actions {
+    display: none;
+  }
+}
