@@ -8,4 +8,14 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
       expect(personal_details.name).to eq('Bruce Wayne')
     end
   end
+
+  describe "validations" do
+    it { should validate_presence_of(:first_name) }
+    it { should validate_presence_of(:last_name) }
+    it { should validate_presence_of(:first_nationality) }
+    it { should validate_presence_of(:english_main_language) }
+
+    it { should validate_length_of(:first_name).is_at_most(100) }
+    it { should validate_length_of(:last_name).is_at_most(100) }
+  end
 end
