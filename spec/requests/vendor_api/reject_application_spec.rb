@@ -31,7 +31,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
     post_api_request "/api/v1/applications/#{application_choice.id}/reject", params: {}
 
     expect(response).to have_http_status(422)
-    expect(parsed_response).to be_valid_against_openapi_schema('BadRequestBodyResponse')
+    expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
   end
 
   it 'returns not found error when the application was not found' do

@@ -64,6 +64,6 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-enrolmen
                      params: { meta: valid_metadata }
 
     expect(response).to have_http_status(422)
-    expect(parsed_response).to be_valid_against_openapi_schema('BadRequestBodyResponse')
+    expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
   end
 end
