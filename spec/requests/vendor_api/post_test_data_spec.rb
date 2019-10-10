@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API - GET /api/v1/test-data/regenerate', type: :request do
+RSpec.describe 'Vendor API - POST /api/v1/test-data/regenerate', type: :request do
   include VendorApiSpecHelpers
 
   it 'generates test data' do
