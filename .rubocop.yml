@@ -56,3 +56,6 @@ RSpec/DescribedClass:
 # of `expect().to change { Candidate.count }`, which doesn't seem better.
 RSpec/ExpectChange:
   Enabled: false
+
+RSpec/LeadingSubject:
+  Enabled: false
