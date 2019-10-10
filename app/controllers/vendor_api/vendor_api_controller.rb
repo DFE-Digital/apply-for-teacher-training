@@ -1,5 +1,7 @@
 module VendorApi
   class VendorApiController < ActionController::API
+    include ActionController::HttpAuthentication::Token::ControllerMethods
+
     rescue_from ActiveRecord::RecordNotFound, with: :application_not_found
     rescue_from ActionController::ParameterMissing, with: :parameter_missing
 
@@ -38,10 +40,9 @@ module VendorApi
     end
 
     def valid_api_token?
-      return unless request.headers['Authorization']
-
-      unhashed_token = request.headers['Authorization'].split(' ').last
-      VendorApiToken.find_by_unhashed_token(unhashed_token)
+      authenticate_with_http_token do |unhashed_token|
+        VendorApiToken.find_by_unhashed_token(unhashed_token)
+      end
     end
   end
 end
