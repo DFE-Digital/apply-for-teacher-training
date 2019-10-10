@@ -1,10 +1,19 @@
 module VendorApiSpecHelpers
+  VALID_METADATA = {
+    attribution: {
+      full_name: 'Jane Smith',
+      email: 'jane@example.com',
+      user_id: '12345',
+    },
+    timestamp: Time.now.iso8601,
+  }.freeze
+
   def get_api_request(url, options = {})
     get url, options
   end
 
   def post_api_request(url, options = {})
-    post url, options
+    post url, { params: { meta: VALID_METADATA } }.deep_merge(options)
   end
 
   def parsed_response

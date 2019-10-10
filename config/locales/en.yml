@@ -42,6 +42,15 @@ en:
   layout:
     service_name: Apply for teacher training
     phase_banner_text: This is a development version of a new service. The data is not real and parts may not work yet.
+  activemodel:
+    attributes:
+      vendor_api/metadata:
+        timestamp: "timestamp"
+        attribution: "attribution"
+      vendor_api/attribution_meta:
+        user_id: "user_id"
+        email: "email"
+        full_name: "full_name"
   activerecord:
     errors:
       models:

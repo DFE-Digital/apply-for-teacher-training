@@ -1,9 +1,6 @@
 module VendorApi
-  class InvalidMetadata < StandardError; end
-
   class DecisionsController < VendorApiController
-    rescue_from ActiveRecord::RecordNotFound, with: :application_not_found
-    rescue_from InvalidMetadata, with: :invalid_metadata
+    before_action :validate_metadata!
 
     def make_offer
       decision = MakeAnOffer.new(
@@ -11,7 +8,7 @@ module VendorApi
         offer_conditions: params[:data],
       )
 
-      repond_to_decision(decision)
+      respond_to_decision(decision)
     end
 
     def confirm_conditions_met
@@ -19,7 +16,7 @@ module VendorApi
         application_choice: application_choice,
       )
 
-      repond_to_decision(decision)
+      respond_to_decision(decision)
     end
 
     def reject
@@ -28,17 +25,15 @@ module VendorApi
         rejection: params[:data],
       )
 
-      repond_to_decision(decision)
+      respond_to_decision(decision)
     end
 
     def confirm_enrolment
-      raise InvalidMetadata unless Metadata.new(params[:meta]).valid?
-
       decision = ConfirmEnrolment.new(
         application_choice: application_choice,
       )
 
-      repond_to_decision(decision)
+      respond_to_decision(decision)
     end
 
   private
@@ -47,28 +42,26 @@ module VendorApi
       @application_choice ||= ApplicationChoice.find(params[:application_id])
     end
 
-    def invalid_metadata(_e)
-      render json: {
-        errors: [{
-                   error: 'MetadataMissing',
-                   message: 'A valid meta key, containing timestamp and attribution, was not included on the request body',
-                 }],
-      }, status: 422
-    end
-
-    def repond_to_decision(decision)
+    def respond_to_decision(decision)
       if decision.save
         render json: { data: SingleApplicationPresenter.new(application_choice).as_json }
       else
-        render_bad_request(decision.errors)
+        render_validation_errors(decision.errors)
       end
     end
 
-    # Takes a object with ActiveModel::Validations and render the `errors`
-    # as API response.
-    def render_bad_request(errors)
-      error_responses = errors.map { |_key, message| { error: 'BadRequest', message: message } }
+    # Takes errors from ActiveModel::Validations and render them in the API response
+    def render_validation_errors(errors)
+      error_responses = errors.full_messages.map { |message| { error: 'ValidationError', message: message } }
       render status: 422, json: { errors: error_responses }
+    end
+
+    def validate_metadata!
+      metadata = Metadata.new(params[:meta])
+
+      if metadata.invalid?
+        render_validation_errors(metadata.errors)
+      end
     end
   end
 end

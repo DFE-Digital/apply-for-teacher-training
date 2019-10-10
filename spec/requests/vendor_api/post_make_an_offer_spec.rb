@@ -1,7 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API - POST /api/v1/applications/:id/offer', type: :request do
+RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', type: :request do
   include VendorApiSpecHelpers
+
+  it_behaves_like 'an endpoint that requires metadata', '/offer'
 
   describe 'making a conditional offer' do
     it 'returns the updated application' do
@@ -31,9 +33,8 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:id/offer', type: :reques
   describe 'making an unconditional offer' do
     it 'returns the updated application' do
       application_choice = create(:application_choice, provider_ucas_code: 'ABC')
-      request_body = {}
 
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
+      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {}
 
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
       expect(parsed_response['data']['attributes']['status']).to eq('unconditional_offer')
@@ -49,7 +50,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:id/offer', type: :reques
     post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {}
 
     expect(response).to have_http_status(422)
-    expect(parsed_response).to be_valid_against_openapi_schema('BadRequestBodyResponse')
+    expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
   end
 
   it 'returns a not found error if the application can\'t be found' do
@@ -60,7 +61,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:id/offer', type: :reques
                                   'Completion of professional skills test',
                         ],
                       },
-                    }
+                   }
 
     post_api_request '/api/v1/applications/non-existent-id/offer', params: request_body
 
