@@ -12,7 +12,6 @@ class RejectApplication
 
       @application_choice.update!(
         rejection_reason: @rejection[:reason],
-        rejected_at: @rejection[:timestamp],
       )
     end
   rescue Workflow::NoTransitionAllowed => e

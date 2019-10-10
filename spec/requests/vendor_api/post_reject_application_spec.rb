@@ -11,7 +11,6 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
       request_body = {
         "data": {
           "reason": 'Does not meet minimum GCSE requirements',
-          "timestamp": '2019-03-01T15:33:49.216Z',
         },
       }
 
@@ -20,10 +19,10 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
       expect(response).to have_http_status(200)
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
       expect(parsed_response['data']['attributes']['status']).to eq 'rejected'
-      expect(parsed_response['data']['attributes']['rejection']).to eq(
+      expect(parsed_response['data']['attributes']['rejection']).to match a_hash_including({
         'reason' => 'Does not meet minimum GCSE requirements',
-        'date' => '2019-03-01T15:33:49.216Z',
-      )
+        'date' => anything, # This is not implemented yet
+      })
     end
   end
 
