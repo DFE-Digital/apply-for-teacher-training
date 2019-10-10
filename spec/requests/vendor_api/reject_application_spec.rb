@@ -13,7 +13,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
         },
       }
 
-      post "/api/v1/applications/#{application_choice.id}/reject", params: request_body
+      post_api_request "/api/v1/applications/#{application_choice.id}/reject", params: request_body
 
       expect(response).to have_http_status(200)
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
@@ -28,14 +28,14 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
   it 'returns an error when trying to transition to an invalid state' do
     application_choice = create(:application_choice, status: 'rejected')
 
-    post "/api/v1/applications/#{application_choice.id}/reject", params: {}
+    post_api_request "/api/v1/applications/#{application_choice.id}/reject", params: {}
 
     expect(response).to have_http_status(422)
     expect(parsed_response).to be_valid_against_openapi_schema('BadRequestBodyResponse')
   end
 
   it 'returns not found error when the application was not found' do
-    post '/api/v1/applications/non-existent-id/reject'
+    post_api_request '/api/v1/applications/non-existent-id/reject'
 
     expect(response).to have_http_status(404)
     expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')

@@ -15,7 +15,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:id/offer', type: :reques
         },
       }
 
-      post "/api/v1/applications/#{application_choice.id}/offer", params: request_body
+      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
 
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
       expect(parsed_response['data']['attributes']['status']).to eq('conditional_offer')
@@ -33,7 +33,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:id/offer', type: :reques
       application_choice = create(:application_choice, provider_ucas_code: 'ABC')
       request_body = {}
 
-      post "/api/v1/applications/#{application_choice.id}/offer", params: request_body
+      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
 
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
       expect(parsed_response['data']['attributes']['status']).to eq('unconditional_offer')
@@ -46,7 +46,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:id/offer', type: :reques
   it 'returns an error when trying to transition to an invalid state' do
     application_choice = create(:application_choice, status: 'rejected')
 
-    post "/api/v1/applications/#{application_choice.id}/offer", params: {}
+    post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {}
 
     expect(response).to have_http_status(422)
     expect(parsed_response).to be_valid_against_openapi_schema('BadRequestBodyResponse')
@@ -62,7 +62,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:id/offer', type: :reques
                       },
                     }
 
-    post '/api/v1/applications/non-existent-id/offer', params: request_body
+    post_api_request '/api/v1/applications/non-existent-id/offer', params: request_body
 
     expect(response).to have_http_status(404)
     expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')

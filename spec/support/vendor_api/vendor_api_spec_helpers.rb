@@ -1,4 +1,12 @@
 module VendorApiSpecHelpers
+  def get_api_request(url, options = {})
+    get url, options
+  end
+
+  def post_api_request(url, options = {})
+    post url, options
+  end
+
   def parsed_response
     JSON.parse(response.body)
   end
