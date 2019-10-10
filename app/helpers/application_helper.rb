@@ -15,6 +15,8 @@ module ApplicationHelper
       'Manage teacher training applications'
     when 'candidate_interface'
       'Apply for teacher training'
+    when 'support_interface'
+      'Support'
     end
   end
 
@@ -24,6 +26,8 @@ module ApplicationHelper
       provider_interface_path
     when 'candidate_interface'
       candidate_interface_start_path
+    when 'support_interface'
+      support_interface_path
     end
   end
 

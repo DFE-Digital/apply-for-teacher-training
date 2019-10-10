@@ -1,0 +1,24 @@
+<% content_for :title, 'API tokens' %>
+<h1 class='govuk-heading-xl'>API tokens</h1>
+
+<%= form_with url: support_interface_api_tokens_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+  <%= f.govuk_submit 'Create new token' %>
+<% end %>
+
+<table class='govuk-table'>
+  <thead class='govuk-table__head'>
+    <tr class='govuk-table__row'>
+      <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Token ID</th>
+      <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Created at</th>
+    </tr>
+  </thead>
+
+  <tbody class='govuk-table__body'>
+    <% @api_tokens.each do |token| %>
+    <tr class='govuk-table__row'>
+      <td class='govuk-table__cell'><%= token.id %></td>
+      <td class='govuk-table__cell'><%= token.created_at.to_s(:long) %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
