@@ -9,7 +9,7 @@ class MakeAnOffer
   def save
     if @offer_conditions.present?
       ApplicationStateChange.new(@application_choice).make_conditional_offer!
-      @application_choice.offer = @offer_conditions
+      @application_choice.offer = { 'conditions' => @offer_conditions }
     else
       ApplicationStateChange.new(@application_choice).make_unconditional_offer!
       @application_choice.offer = { 'conditions' => [] }

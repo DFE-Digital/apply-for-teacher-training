@@ -5,7 +5,7 @@ module VendorApi
     def make_offer
       decision = MakeAnOffer.new(
         application_choice: application_choice,
-        offer_conditions: params[:data],
+        offer_conditions: params.dig(:data, :conditions),
       )
 
       respond_to_decision(decision)
