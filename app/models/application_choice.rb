@@ -1,4 +1,5 @@
 class ApplicationChoice < ApplicationRecord
+  before_create :set_id
   belongs_to :application_form, touch: true
 
   enum status: {
@@ -9,4 +10,10 @@ class ApplicationChoice < ApplicationRecord
     enrolled: 'enrolled',
     rejected: 'rejected',
   }
+
+private
+
+  def set_id
+    self.id = SecureRandom.hex(5)
+  end
 end
