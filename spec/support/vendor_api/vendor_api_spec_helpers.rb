@@ -9,11 +9,16 @@ module VendorApiSpecHelpers
   }.freeze
 
   def get_api_request(url, options = {})
-    get url, options
+    get url, auth_headers.deep_merge(options)
   end
 
   def post_api_request(url, options = {})
-    post url, { params: { meta: VALID_METADATA } }.deep_merge(options)
+    post url, { params: { meta: VALID_METADATA } }.merge(auth_headers).deep_merge(options)
+  end
+
+  def auth_headers
+    unhashed_token = VendorApiToken.create_with_random_token!
+    { headers: { 'Authorization' => "Bearer #{unhashed_token}" } }
   end
 
   def parsed_response
