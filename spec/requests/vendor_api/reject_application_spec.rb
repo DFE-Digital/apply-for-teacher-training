@@ -3,17 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :request do
   include VendorApiSpecHelpers
 
-  let(:valid_metadata) {
-    {
-      attribution: {
-        full_name: 'Jane Smith',
-        email: 'jane@example.com',
-        user_id: '12345',
-      },
-      timestamp: Time.now.iso8601,
-    }
-  }
-
   it_behaves_like 'an endpoint that requires metadata', '/reject'
 
   describe 'successfully rejecting an application' do
@@ -24,7 +13,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
           "reason": 'Does not meet minimum GCSE requirements',
           "timestamp": '2019-03-01T15:33:49.216Z',
         },
-      }.merge(meta: valid_metadata)
+      }
 
       post_api_request "/api/v1/applications/#{application_choice.id}/reject", params: request_body
 

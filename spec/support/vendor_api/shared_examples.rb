@@ -15,14 +15,17 @@ RSpec.shared_examples 'an endpoint that requires metadata' do |action|
 
     post "/api/v1/applications/#{application_choice.id}/#{action}", params: { meta: invalid_metadata }
 
-    error = parsed_response['errors'].first['error']
-    error_message = parsed_response['errors'].first['message']
-
     expect(response).to have_http_status(422)
     expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
 
-    expect(error).to eq('BadRequestBody')
-    expect(error_message).to include("Timestamp can't be blank")
-    expect(error_message).to include("Full name can't be blank, Email can't be blank, and User 'user_id' can't be blank")
+    errors = parsed_response['errors']
+
+    expect(errors.count).to eq(2)
+
+    expect(errors.map { |e| e['error'] }).to all(eq 'ValidationError')
+    expect(errors.map { |e| e['message'] }).to include(
+      "timestamp can't be blank",
+      "attribution is invalid: full_name can't be blank, email can't be blank, and user_id can't be blank",
+    )
   end
 end
