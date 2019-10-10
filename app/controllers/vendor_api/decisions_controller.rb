@@ -22,7 +22,7 @@ module VendorApi
     def reject
       decision = RejectApplication.new(
         application_choice: application_choice,
-        rejection: params[:data],
+        rejection_reason: params.dig(:data, :reason),
       )
 
       respond_to_decision(decision)
