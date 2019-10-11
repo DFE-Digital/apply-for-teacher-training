@@ -23,8 +23,6 @@ module CandidateInterface
     validates :english_language_details, :other_language_details,
               word_count: { maximum: 200 }
 
-    # TODO: Better validation content
-
     def name
       "#{first_name} #{last_name}"
     end
@@ -38,9 +36,9 @@ module CandidateInterface
     def date_of_birth_cannot_be_in_the_future
       raise 'Invalid date' if [year, month, day].any?(&:blank?)
 
-      errors.add(:date_of_birth, 'Enter a date of birth that is in the past, for example 13 1 1993') if date_of_birth > Date.today
+      errors.add(:date_of_birth, :future) if date_of_birth > Date.today
     rescue RuntimeError, NoMethodError
-      errors.add(:date_of_birth, 'Enter a date of birth in the correct format, for example 13 1 1993')
+      errors.add(:date_of_birth, :invalid)
     end
   end
 end

@@ -7,7 +7,11 @@ module CandidateInterface
     def update
       @personal_details_form = PersonalDetailsForm.new(personal_details_params)
 
-      render :show
+      if @personal_details_form.valid?
+        render :show
+      else
+        render :edit
+      end
     end
 
   private
