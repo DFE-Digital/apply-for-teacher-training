@@ -21,3 +21,24 @@ en:
         yes_label: If you are bilingual or very familiar with languages other than English, you can tell us about them here.
         no_label: Please tell us about your English language qualifications (including grades or scores), and give details of other languages you are fluent in.
       complete_form_button: Continue
+  activemodel:
+    errors:
+      models:
+        candidate_interface/personal_details_form:
+          attributes:
+            first_name:
+              blank: Enter your first name or given names
+              too_long: First name must be 100 characters or fewer
+            last_name:
+              blank: Enter your last name or family name
+              too_long: Last name must be 100 characters or fewer
+            first_nationality:
+              blank: Choose your nationality from the list
+              inclusion: Choose your nationality from the list
+            second_nationality:
+              inclusion: Choose your nationality from the list
+            english_main_language:
+              blank: Choose if English is your main language
+            date_of_birth:
+              invalid: Enter a date of birth in the correct format, for example 13 1 1993
+              future: Enter a date of birth that is in the past, for example 13 1 1993
