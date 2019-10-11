@@ -20,7 +20,9 @@ module CandidateInterface
     validates :first_nationality, :second_nationality,
               inclusion: { in: NATIONALITIES, allow_blank: true }
 
-    # TODO: Word count validation for english_language_details, other_language_details
+    validates :english_language_details, :other_language_details,
+              word_count: { maximum: 200 }
+
     # TODO: Better validation content
 
     def name
