@@ -17,7 +17,9 @@ module CandidateInterface
 
     validate :date_of_birth_cannot_be_in_the_future
 
-    # TODO: Nationality matches existing nationalities array
+    validates :first_nationality, :second_nationality,
+              inclusion: { in: NATIONALITIES, allow_blank: true }
+
     # TODO: Word count validation for english_language_details, other_language_details
     # TODO: Better validation content
 
