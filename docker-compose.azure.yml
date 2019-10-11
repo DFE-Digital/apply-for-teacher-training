@@ -1,11 +1,16 @@
 version: "3.6"
 services:
   web:
+    build:
+      target: prod-build
+      args:
+        railsEnv: 'production'
+        bundleWithout: 'development'
     image: ${dockerHubUsername}/${dockerHubImageName}:latest
     environment:
       - RAILS_ENV
       - GOVUK_NOTIFY_API_KEY
       - SECRET_KEY_BASE=${railsSecretKeyBase}
-      - DOMAIN=${domain}
-      - STAGING_DOMAIN=${staging_domain}
+      - DOMAIN
+      - STAGING_DOMAIN
       - SENTRY_DSN
