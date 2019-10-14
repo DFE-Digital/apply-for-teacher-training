@@ -11,7 +11,6 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
       request_body = {
         "data": {
           "reason": 'Does not meet minimum GCSE requirements',
-          "timestamp": '2019-03-01T15:33:49.216Z',
         },
       }
 
@@ -20,9 +19,9 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
       expect(response).to have_http_status(200)
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
       expect(parsed_response['data']['attributes']['status']).to eq 'rejected'
-      expect(parsed_response['data']['attributes']['rejection']).to eq(
+      expect(parsed_response['data']['attributes']['rejection']).to match a_hash_including(
         'reason' => 'Does not meet minimum GCSE requirements',
-        'date' => '2019-03-01T15:33:49.216Z',
+        'date' => anything, # This is not implemented yet
       )
     end
   end
@@ -35,6 +34,21 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
     expect(response).to have_http_status(422)
     expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
   end
+
+  it 'returns an error when a proper reason is not provided' do
+    application_choice = create(:application_choice, status: 'application_complete')
+
+    post_api_request "/api/v1/applications/#{application_choice.id}/reject", params: {
+      data: {
+        reason: '',
+      },
+    }
+
+    expect(response).to have_http_status(422)
+    expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+    expect(error_response['message']).to eql "Rejection reason can't be blank"
+  end
+
 
   it 'returns not found error when the application was not found' do
     post_api_request '/api/v1/applications/non-existent-id/reject'
