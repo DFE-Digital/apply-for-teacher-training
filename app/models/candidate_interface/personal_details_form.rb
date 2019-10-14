@@ -24,18 +24,19 @@ module CandidateInterface
     validates :english_language_details, :other_language_details,
               word_count: { maximum: 200 }
 
-    def self.load(form)
+    def self.load(application_form)
       new(
-        first_name: form.first_name,
-        last_name: form.last_name,
-        first_nationality: form.first_nationality,
-        second_nationality: form.second_nationality,
-        english_main_language: form.english_main_language,
-        english_language_details: form.english_language_details,
-        other_language_details: form.other_language_details,
-        day: form.date_of_birth&.day,
-        month: form.date_of_birth&.month,
-        year: form.date_of_birth&.year,
+        application_form: application_form,
+        first_name: application_form.first_name,
+        last_name: application_form.last_name,
+        first_nationality: application_form.first_nationality,
+        second_nationality: application_form.second_nationality,
+        english_main_language: application_form.english_main_language ? 'yes' : 'no',
+        english_language_details: application_form.english_language_details,
+        other_language_details: application_form.other_language_details,
+        day: application_form.date_of_birth&.day,
+        month: application_form.date_of_birth&.month,
+        year: application_form.date_of_birth&.year,
       )
     end
 
@@ -47,7 +48,7 @@ module CandidateInterface
         last_name: last_name,
         first_nationality: first_nationality,
         second_nationality: second_nationality,
-        english_main_language: english_main_language,
+        english_main_language: english_main_language == 'yes',
         english_language_details: english_language_details,
         other_language_details: other_language_details,
         date_of_birth: date_of_birth,

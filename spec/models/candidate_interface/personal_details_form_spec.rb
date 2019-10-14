@@ -8,7 +8,7 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
       date_of_birth: Faker::Date.birthday,
       first_nationality: NATIONALITIES.sample,
       second_nationality: NATIONALITIES.sample,
-      english_main_language: %w[yes no].sample,
+      english_main_language: [true, false].sample,
       english_language_details: Faker::Lorem.paragraph_by_chars(number: 200),
       other_language_details: Faker::Lorem.paragraph_by_chars(number: 200),
     }
@@ -23,7 +23,7 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
       year: data[:date_of_birth].year,
       first_nationality: data[:first_nationality],
       second_nationality: data[:second_nationality],
-      english_main_language: data[:english_main_language],
+      english_main_language: data[:english_main_language] ? 'yes' : 'no',
       english_language_details: data[:english_language_details],
       other_language_details: data[:other_language_details],
     }
