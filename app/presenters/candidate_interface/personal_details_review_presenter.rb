@@ -10,7 +10,7 @@ module CandidateInterface
         date_of_birth_row,
         nationality_row,
         english_main_language_row,
-        language_details_row
+        language_details_row,
       ].compact
     end
 
@@ -51,8 +51,8 @@ module CandidateInterface
     def language_details_row
       if @form.english_main_language?
         english_main_language_details_row if @form.english_language_details.present?
-      else
-        other_language_details_row if @form.other_language_details.present?
+      elsif @form.other_language_details.present?
+        other_language_details_row
       end
     end
 
