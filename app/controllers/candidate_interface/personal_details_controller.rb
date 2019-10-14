@@ -6,6 +6,7 @@ module CandidateInterface
 
     def update
       @personal_details_form = PersonalDetailsForm.new(personal_details_params)
+      @personal_details_review = PersonalDetailsReviewPresenter.new(@personal_details_form)
 
       if @personal_details_form.valid?
         render :show

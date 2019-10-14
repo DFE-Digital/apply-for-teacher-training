@@ -8,20 +8,22 @@
 <section class="app-summary-card govuk-!-margin-bottom-6">
   <div class="app-summary-card__body">
     <dl class="govuk-summary-list">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Name
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <%= @personal_details_form.name %>
-        </dd>
+      <% @personal_details_review.present.each do |row| %>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            <%= row[:key] %>
+          </dt>
+          <dd class="govuk-summary-list__value">
+            <%= row[:value] %>
+          </dd>
 
-        <dd class="govuk-summary-list__actions">
-          <%= link_to candidate_interface_personal_details_edit_path, class: 'govuk-link' do %>
-            Change<span class="govuk-visually-hidden"> name</span>
-          <% end %>
-        </dd>
-      </div>
+          <dd class="govuk-summary-list__actions">
+            <%= link_to candidate_interface_personal_details_edit_path, class: 'govuk-link' do %>
+              Change<span class="govuk-visually-hidden"> <%= row[:action] %></span>
+            <% end %>
+          </dd>
+        </div>
+      <% end %>
     </dl>
   </div>
 </section>

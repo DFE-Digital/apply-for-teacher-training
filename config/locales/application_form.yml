@@ -9,17 +9,29 @@ en:
       last_name:
         label: Last name
         hint_text: Or family name
+      name:
+        label: Name
+        change_action: name
       date_of_birth:
         label: Date of birth
         hint_text: For example, 31 3 1980
+        change_action: date of birth
       nationality:
         label: Nationality
+        change_action: nationality
       second_nationality:
         label: Second nationality
       english_main_language:
         label: Is English your main language?
         yes_label: If you are bilingual or very familiar with languages other than English, you can tell us about them here.
         no_label: Please tell us about your English language qualifications (including grades or scores), and give details of other languages you are fluent in.
+        change_action: if English is your main language
+      english_main_language_details:
+        label: Other languages spoken
+        change_action: other languages
+      other_language_details:
+        label: English language qualifications and other languages spoken
+        change_action: english languages qualifications
       complete_form_button: Continue
   activemodel:
     errors:

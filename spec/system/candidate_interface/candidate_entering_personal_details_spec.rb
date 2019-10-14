@@ -81,7 +81,18 @@ RSpec.feature 'Entering their personal details' do
   def then_i_can_check_my_answers
     expect(page).to have_content 'Name'
     expect(page).to have_content 'Lando Calrissian'
-    expect(page).to have_content 'Change'
+
+    expect(page).to have_content t('application_form.personal_details.date_of_birth.label')
+    expect(page).to have_content '6 April 1937'
+
+    expect(page).to have_content t('application_form.personal_details.nationality.label')
+    expect(page).to have_content 'British and American'
+
+    expect(page).to have_content t('application_form.personal_details.english_main_language.label')
+    expect(page).to have_content 'Yes'
+
+    expect(page).to have_content t('application_form.personal_details.english_main_language_details.label')
+    expect(page).to have_content "I'm great at Galactic Basic so English is a piece of cake"
   end
 
   def then_i_can_see_my_application
