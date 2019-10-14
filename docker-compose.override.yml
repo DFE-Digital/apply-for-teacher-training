@@ -3,8 +3,6 @@ services:
   web:
     build:
       target: dev-build
-      args:
-        railsEnv: 'development'
     volumes:
       - .:/app
       - node_modules:/app/node_modules

@@ -33,8 +33,7 @@ RUN bundle install && \
 
 FROM common-build-env AS dev-build
 ARG APP_HOME=/app
-ARG railsEnv="development"
-ENV RAILS_ENV=${railsEnv}
+ENV RAILS_ENV=development
 
 WORKDIR $APP_HOME
 
@@ -48,9 +47,8 @@ CMD bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0
 FROM common-build-env AS prod-minify
 
 ARG APP_HOME=/app
-ARG railsEnv="production"
 
-ENV RAILS_ENV=${railsEnv}
+ENV RAILS_ENV=production
 # These variables are required for running Rails processes like assets:precompile
 ENV GOVUK_NOTIFY_API_KEY=TestKey
 ENV DOMAIN=dummy.build.domain
@@ -74,12 +72,11 @@ RUN rm -rf tmp/cache app/assets lib/assets vendor/assets node_modules
 #### Production image builds from scratch and copies the build app components from the prod minify stage ####
 
 FROM ruby:2.6.3-alpine AS prod-build
-ARG railsEnv="production"
 ARG bundleWithout=""
 ARG APP_HOME=/app
 ARG PACKAGES="tzdata postgresql-client"
 
-ENV RAILS_ENV=${railsEnv}
+ENV RAILS_ENV=production
 ENV BUNDLE_WITHOUT=${bundleWithout}
 ENV BUNDLE_PATH="/gems"
 ENV BUNDLER_VERSION="2.0.2"

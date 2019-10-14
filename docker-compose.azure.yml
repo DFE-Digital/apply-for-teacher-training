@@ -4,7 +4,6 @@ services:
     build:
       target: prod-build
       args:
-        railsEnv: 'production'
         bundleWithout: 'development'
     image: ${dockerHubUsername}/${dockerHubImageName}:latest
     environment:
