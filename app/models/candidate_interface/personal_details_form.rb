@@ -15,7 +15,8 @@ module CandidateInterface
     validates :first_name, :last_name,
               length: { maximum: 100 }
 
-    validate :date_of_birth_cannot_be_in_the_future
+    validate :date_of_birth_valid
+    validate :date_of_birth_not_in_future
 
     validates :first_nationality, :second_nationality,
               inclusion: { in: NATIONALITIES, allow_blank: true }
@@ -31,17 +32,15 @@ module CandidateInterface
       date_args = [year, month, day].map(&:to_i)
       if Date.valid_date?(*date_args)
         Date.new(*date_args)
-      else
-        nil
       end
     end
 
-    def date_of_birth_cannot_be_in_the_future
-      raise 'Invalid date' if [year, month, day].any?(&:blank?)
+    def date_of_birth_valid
+      errors.add(:date_of_birth, :invalid) if date_of_birth.nil?
+    end
 
-      errors.add(:date_of_birth, :future) if date_of_birth > Date.today
-    rescue RuntimeError, NoMethodError
-      errors.add(:date_of_birth, :invalid)
+    def date_of_birth_not_in_future
+      errors.add(:date_of_birth, :future) if date_of_birth.present? && date_of_birth > Date.today
     end
   end
 end
