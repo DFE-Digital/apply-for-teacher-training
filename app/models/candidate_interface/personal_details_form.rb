@@ -26,7 +26,6 @@ module CandidateInterface
 
     def self.load(application_form)
       new(
-        application_form: application_form,
         first_name: application_form.first_name,
         last_name: application_form.last_name,
         first_nationality: application_form.first_nationality,

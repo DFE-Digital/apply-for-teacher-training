@@ -1,14 +1,14 @@
 module CandidateInterface
   class PersonalDetailsController < CandidateInterfaceController
     def edit
-      @personal_details_form = PersonalDetailsForm.new
+      @personal_details_form = PersonalDetailsForm.load(current_candidate.current_application)
     end
 
     def update
       @personal_details_form = PersonalDetailsForm.new(personal_details_params)
       @personal_details_review = PersonalDetailsReviewPresenter.new(@personal_details_form)
 
-      if @personal_details_form.valid?
+      if @personal_details_form.save(current_candidate.current_application)
         render :show
       else
         render :edit
