@@ -1,0 +1,11 @@
+<% content_for :title, 'Token created' %>
+<% content_for :before_content, govuk_back_link_to(support_interface_api_tokens_path) %>
+
+<div class="govuk-panel govuk-panel--confirmation">
+  <h1 class="govuk-panel__title">
+    ⚡️New API token generated
+  </h1>
+  <div class="govuk-panel__body">
+    Your token is<br> <code><%= @unhashed_token %></code>
+  </div>
+</div>

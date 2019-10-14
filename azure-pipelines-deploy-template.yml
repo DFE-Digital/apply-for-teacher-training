@@ -65,6 +65,8 @@ jobs:
                 -warmupPingPath "${{parameters.warmupPingPath}}"
                 -warmupPingStatus "${{parameters.warmupPingStatus}}"
                 -govukNotifyAPIKey "$(govukNotifyAPIKey)"
+                -supportUsername "$(supportUsername)"
+                -supportPassword "$(supportPassword)"
                 -domain "${{parameters.domain}}"
                 -staging_domain "${{parameters.staging_domain}}"
                 -sentryDSN "${{parameters.sentryDSN}}"

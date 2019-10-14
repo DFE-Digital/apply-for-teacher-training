@@ -50,6 +50,13 @@ ActiveRecord::Schema.define(version: 2019_10_08_122541) do
     t.index ["magic_link_token"], name: "index_candidates_on_magic_link_token", unique: true
   end
 
+  create_table "vendor_api_tokens", force: :cascade do |t|
+    t.string "hashed_token", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["hashed_token"], name: "index_vendor_api_tokens_on_hashed_token", unique: true
+  end
+
   add_foreign_key "application_choices", "application_forms", on_delete: :cascade
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
 end

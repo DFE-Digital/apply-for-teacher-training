@@ -84,7 +84,19 @@
         "govukNotifyAPIKey": {
             "type": "string",
             "metadata": {
-                "description": "GOV UK Notify service API key."
+                "description": "GOV.UK Notify service API key."
+            }
+        },
+        "supportUsername": {
+            "type": "string",
+            "metadata": {
+                "description": "Username for the support section of the site"
+            }
+        },
+        "supportPassword": {
+            "type": "string",
+            "metadata": {
+                "description": "Password for the support section of the site"
             }
         },
         "domain": {
@@ -245,6 +257,14 @@
                             {
                                 "name": "GOVUK_NOTIFY_API_KEY",
                                 "value": "[parameters('govukNotifyAPIKey')]"
+                            },
+                            {
+                                "name": "SUPPORT_USERNAME",
+                                "value": "[parameters('supportUsername')]"
+                            },
+                            {
+                                "name": "SUPPORT_PASSWORD",
+                                "value": "[parameters('supportPassword')]"
                             },
                             {
                                 "name": "DOMAIN",

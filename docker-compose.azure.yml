@@ -5,6 +5,8 @@ services:
     environment:
       - RAILS_ENV
       - GOVUK_NOTIFY_API_KEY
+      - SUPPORT_USERNAME
+      - SUPPORT_PASSWORD
       - SECRET_KEY_BASE=${railsSecretKeyBase}
       - DOMAIN=${domain}
       - STAGING_DOMAIN=${staging_domain}

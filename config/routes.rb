@@ -50,6 +50,13 @@ Rails.application.routes.draw do
     get '/' => 'home#index'
   end
 
+  namespace :support_interface, path: '/support' do
+    get '/' => redirect('/support/tokens')
+
+    get '/tokens' => 'api_tokens#index', as: :api_tokens
+    post '/tokens' => 'api_tokens#create'
+  end
+
   get '/404', to: 'errors#not_found'
   get '/500', to: 'errors#internal_server_error'
   get '*path', to: 'errors#not_found'
