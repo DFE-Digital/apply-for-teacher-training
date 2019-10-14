@@ -13,7 +13,16 @@ class ApplicationChoice < ApplicationRecord
 
 private
 
+  def generate_alphanumeric_id
+    SecureRandom.hex(5)
+  end
+
   def set_id
-    self.id = SecureRandom.hex(5)
+    alphanumeric_id = ''
+    loop do
+      alphanumeric_id = generate_alphanumeric_id
+      break unless ApplicationChoice.exists?(id: alphanumeric_id)
+    end
+    self.id = alphanumeric_id
   end
 end
