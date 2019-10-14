@@ -16,7 +16,7 @@ RSpec.describe OpenApi3Specification do
                     'anyOf' => [
                       { 'type' => 'string' },
                     ],
-                    'nullable' => 'true',
+                    'nullable' => true,
                   },
                 },
               },
@@ -74,7 +74,7 @@ RSpec.describe OpenApi3Specification do
                     'anyOf' => [
                       { 'type' => 'string' },
                     ],
-                    'nullable' => 'true',
+                    'nullable' => true,
                   },
                 },
               },

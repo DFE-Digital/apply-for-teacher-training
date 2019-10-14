@@ -40,6 +40,6 @@ private
   end
 
   def nullable_properties(props)
-    props.select { |_prop, value| value['nullable'] == 'true' }
+    props.select { |_prop, value| value['nullable'] == true }
   end
 end

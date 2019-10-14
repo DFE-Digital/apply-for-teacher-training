@@ -348,15 +348,15 @@ components:
         offer:
           anyOf:
             - $ref: "#/components/schemas/Offer"
-          nullable: 'true'
+          nullable: true
         withdrawal:
           anyOf:
             - $ref: "#/components/schemas/Withdrawal"
-          nullable: 'true'
+          nullable: true
         rejection:
           anyOf:
             - $ref: "#/components/schemas/Rejection"
-          nullable: 'true'
+          nullable: true
         hesa_itt_data:
           $ref: "#/components/schemas/HESAITTData"
     Candidate:
