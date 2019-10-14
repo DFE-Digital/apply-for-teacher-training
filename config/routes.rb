@@ -47,11 +47,17 @@ Rails.application.routes.draw do
   end
 
   namespace :provider_interface, path: '/provider' do
-    get '/' => 'home#index'
+    get '/' => redirect('/provider/applications')
+
+    get '/applications' => 'application_choices#index'
+    get '/applications/:application_choice_id' => 'application_choices#show', as: :application_choice
   end
 
   namespace :support_interface, path: '/support' do
-    get '/' => redirect('/support/tokens')
+    get '/' => redirect('/support/applications')
+
+    get '/applications' => 'application_forms#index'
+    get '/applications/:application_form_id' => 'application_forms#show', as: :application_form
 
     get '/tokens' => 'api_tokens#index', as: :api_tokens
     post '/tokens' => 'api_tokens#create'
