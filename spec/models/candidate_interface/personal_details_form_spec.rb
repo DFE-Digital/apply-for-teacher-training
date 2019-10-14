@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
   describe '#name' do
-    it 'concatenates the first name and last name ' do
+    it 'concatenates the first name and last name' do
       personal_details = CandidateInterface::PersonalDetailsForm.new(first_name: 'Bruce', last_name: 'Wayne')
 
       expect(personal_details.name).to eq('Bruce Wayne')
@@ -74,6 +74,20 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
           ['Date of birth Enter a date of birth that is in the past, for example 13 1 1993'],
         )
       end
+    end
+  end
+
+  describe '#english_main_language?' do
+    it 'returns true if "yes"' do
+      personal_details = CandidateInterface::PersonalDetailsForm.new(english_main_language: 'yes')
+
+      expect(personal_details).to be_english_main_language
+    end
+
+    it 'returns false if "no"' do
+      personal_details = CandidateInterface::PersonalDetailsForm.new(english_main_language: 'no')
+
+      expect(personal_details).not_to be_english_main_language
     end
   end
 end
