@@ -1,39 +1,35 @@
 require 'rails_helper'
 
 RSpec.feature 'Entering their personal details' do
-  scenario 'Logged in candidate with no personal details' do
+  scenario 'Candidate submits their personal details' do
     given_i_am_signed_in
     and_i_visit_the_site
+
     when_i_click_on_personal_details
-    then_i_can_edit_my_personal_details
-  end
-
-  scenario 'Candidate fills in personal details' do
-    given_i_am_on_the_personal_details_page
-    when_i_fill_in_the_form
-    then_i_can_check_my_answers
-  end
-
-  scenario 'Candidate goes back to their application' do
-    given_i_am_on_the_personal_details_page
-    when_i_click_on_back_to_application
-    then_i_can_see_my_application
-  end
-
-  scenario 'Candidate triggers validation errors' do
-    given_i_am_on_the_personal_details_page
-    when_i_submit_the_form
+    and_i_fill_in_some_details_but_omit_some_required_details
+    and_i_submit_the_form
     then_i_should_see_validation_errors
+
+    when_i_fill_in_the_rest_of_my_details
+    and_i_submit_the_form
+    then_i_can_check_my_answers
+
+    # when_i_click_to_change_my_answer
+    # and_i_fill_in_a_different_answer
+    # and_i_submit_the_form
+    # then_i_can_check_my_revised_answers
+    #
+    # when_i_submit_my_details
+    # then_i_should_see_the_form
+    # and_that_the_section_is_completed
+    #
+    # when_i_click_on_personal_details
+    # then_i_can_check_my_revised_answers
   end
 
   def given_i_am_signed_in
     candidate = FactoryBot.create(:candidate)
     login_as(candidate)
-  end
-
-  def given_i_am_on_the_personal_details_page
-    given_i_am_signed_in
-    visit candidate_interface_personal_details_edit_path
   end
 
   def and_i_visit_the_site
@@ -44,66 +40,65 @@ RSpec.feature 'Entering their personal details' do
     click_link t('page_titles.personal_details')
   end
 
-  def when_i_fill_in_the_form
-    fill_in t('application_form.personal_details.first_name.label'), with: 'Lando'
-    fill_in t('application_form.personal_details.last_name.label'), with: 'Calrissian'
+  def and_i_fill_in_some_details_but_omit_some_required_details
+    scope = 'application_form.personal_details'
+    fill_in t('first_name.label', scope: scope), with: 'Lando'
+    fill_in t('last_name.label', scope: scope), with: 'Calrissian'
+  end
 
+  def then_i_should_see_validation_errors
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/personal_details_form.attributes.date_of_birth.invalid')
+  end
+
+  def when_i_fill_in_the_rest_of_my_details
+    scope = 'application_form.personal_details'
     fill_in 'Day', with: '6'
     fill_in 'Month', with: '4'
     fill_in 'Year', with: '1937'
 
-    fill_in t('application_form.personal_details.nationality.label'), with: 'British'
+    fill_in t('nationality.label', scope: scope), with: 'British'
     find('details').click
     within('details') do
-      fill_in t('application_form.personal_details.second_nationality.label'), with: 'American'
+      fill_in t('second_nationality.label', scope: scope), with: 'American'
     end
 
     choose 'Yes'
-    fill_in t('application_form.personal_details.english_main_language.yes_label'), with: "I'm great at Galactic Basic so English is a piece of cake", match: :prefer_exact
-
-    when_i_submit_the_form
+    fill_in t('english_main_language.yes_label', scope: scope), with: "I'm great at Galactic Basic so English is a piece of cake", match: :prefer_exact
   end
 
-  def when_i_submit_the_form
+  def and_i_submit_the_form
     click_button t('application_form.personal_details.complete_form_button')
-  end
-
-  def when_i_click_on_back_to_application
-    click_link 'Back to application'
-  end
-
-  def then_i_can_edit_my_personal_details
-    expect(page).to have_content t('page_titles.personal_details')
-    expect(page).to have_content t('application_form.personal_details.first_name.label')
-    expect(page).to have_content t('application_form.personal_details.last_name.label')
   end
 
   def then_i_can_check_my_answers
     expect(page).to have_content 'Name'
     expect(page).to have_content 'Lando Calrissian'
-
-    expect(page).to have_content t('application_form.personal_details.date_of_birth.label')
-    expect(page).to have_content '6 April 1937'
-
-    expect(page).to have_content t('application_form.personal_details.nationality.label')
-    expect(page).to have_content 'British and American'
-
-    expect(page).to have_content t('application_form.personal_details.english_main_language.label')
-    expect(page).to have_content 'Yes'
-
-    expect(page).to have_content t('application_form.personal_details.english_main_language_details.label')
-    expect(page).to have_content "I'm great at Galactic Basic so English is a piece of cake"
   end
 
-  def then_i_can_see_my_application
-    expect(page).to have_content t('page_titles.application_form')
+  def when_i_click_to_change_my_answer
+    first('.govuk-summary-list__actions').click_link 'Change'
   end
 
-  def then_i_should_see_validation_errors
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/personal_details_form.attributes.first_name.blank')
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/personal_details_form.attributes.last_name.blank')
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/personal_details_form.attributes.date_of_birth.invalid')
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/personal_details_form.attributes.first_nationality.blank')
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/personal_details_form.attributes.english_main_language.blank')
+  def and_i_fill_in_a_different_answer
+    scope = 'application_form.personal_details'
+    fill_in t('first_name.label', scope: scope), with: 'Billy Dee'
+    fill_in t('last_name.label', scope: scope), with: 'Williams'
+  end
+
+  def then_i_can_check_my_revised_answers
+    expect(page).to have_content 'Name'
+    expect(page).to have_content 'Billy Dee Williams'
+  end
+
+  def when_i_submit_my_details
+    click_link 'Continue'
+  end
+
+  def then_i_should_see_the_form
+    expect(page).to have_content(t('page_titles.personal_details'))
+  end
+
+  def and_that_the_section_is_completed
+    expect(page).to have_css('#personal-details-completed', 'Completed')
   end
 end
