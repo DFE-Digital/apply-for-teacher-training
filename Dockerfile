@@ -61,6 +61,7 @@ WORKDIR $APP_HOME
 
 RUN rm -rf $BUNDLE_PATH/cache/*.gem && \
     find $BUNDLE_PATH/gems/ -name "*.c" -delete && \
+    find $BUNDLE_PATH/gems/ -name "*.h" -delete && \
     find $BUNDLE_PATH/gems/ -name "*.o" -delete
 
 COPY . .
