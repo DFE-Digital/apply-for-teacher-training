@@ -34,4 +34,6 @@ ci.lint-erb: ## Run the ERB linter
 
 .PHONY: ci.test
 ci.test: ## Run the tests with results formatted for CI
-	docker-compose run --rm web /bin/sh -c 'bundle exec --verbose rspec --format RspecJunitFormatter' > rspec-results.xml
+	docker-compose run --rm web /bin/sh -c 'apk add nodejs yarn && \
+		bundle exec rails assets:precompile && \
+		bundle exec --verbose rspec --format RspecJunitFormatter' > rspec-results.xml
