@@ -28,9 +28,12 @@ module CandidateInterface
     end
 
     def date_of_birth
-      Date.new(*[year, month, day].map(&:to_i))
-    rescue ArgumentError, NoMethodError
-      nil
+      date_args = [year, month, day].map(&:to_i)
+      if Date.valid_date?(*date_args)
+        Date.new(*date_args)
+      else
+        nil
+      end
     end
 
     def date_of_birth_cannot_be_in_the_future

@@ -9,6 +9,26 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
     end
   end
 
+  describe '#date_of_birth' do
+    it "returns nil for nil day/month/year" do
+      personal_details = CandidateInterface::PersonalDetailsForm.new(day: nil, month: nil, year: nil)
+
+      expect(personal_details.date_of_birth).to eq(nil)
+    end
+
+    it "returns nil for invalid day/month/year" do
+      personal_details = CandidateInterface::PersonalDetailsForm.new(day: 99, month: 99, year: 99)
+
+      expect(personal_details.date_of_birth).to eq(nil)
+    end
+
+    it "returns a date for a valid day/month/year" do
+      personal_details = CandidateInterface::PersonalDetailsForm.new(day: '2', month: '8', year: '802701')
+
+      expect(personal_details.date_of_birth).to eq(Date.new(802701, 8, 2))
+    end
+  end
+
   describe 'validations' do
     it { is_expected.to validate_presence_of(:first_name) }
     it { is_expected.to validate_presence_of(:last_name) }
