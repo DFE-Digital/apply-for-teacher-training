@@ -8,7 +8,7 @@ module VendorApi
 
     def as_json
       {
-        id: SecureRandom.hex[0..9],
+        id: application_choice.id,
         type: 'application',
         attributes: {
           status: application_choice.status || 'application_complete',

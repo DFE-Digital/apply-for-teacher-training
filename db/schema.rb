@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2019_10_10_160606) do
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "application_choices", force: :cascade do |t|
+  create_table "application_choices", id: :string, limit: 10, force: :cascade do |t|
     t.bigint "application_form_id", null: false
     t.text "personal_statement"
     t.string "provider_ucas_code"
