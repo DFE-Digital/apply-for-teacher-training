@@ -9,6 +9,36 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
     end
   end
 
+  describe '.load' do
+    it 'creates an object based on the provided ApplicationForm' do
+      data = {
+        first_name: Faker::Name.first_name,
+        last_name: Faker::Name.last_name,
+        date_of_birth: Faker::Date.birthday,
+        first_nationality: Faker::Nation.nationality,
+        second_nationality: Faker::Nation.nationality,
+        english_main_language: %w[yes no].sample,
+        english_language_details: Faker::Lorem.paragraph_by_chars(number: 200),
+        other_language_details: Faker::Lorem.paragraph_by_chars(number: 200),
+      }
+      application_form = ApplicationForm.new(data)
+      personal_details = CandidateInterface::PersonalDetailsForm.load(application_form)
+
+      expect(personal_details).to have_attributes(
+        first_name: data[:first_name],
+        last_name: data[:last_name],
+        day: data[:date_of_birth].day,
+        month: data[:date_of_birth].month,
+        year: data[:date_of_birth].year,
+        first_nationality: data[:first_nationality],
+        second_nationality: data[:second_nationality],
+        english_main_language: data[:english_main_language],
+        english_language_details: data[:english_language_details],
+        other_language_details: data[:other_language_details],
+      )
+    end
+  end
+
   describe '#date_of_birth' do
     it 'returns nil for nil day/month/year' do
       personal_details = CandidateInterface::PersonalDetailsForm.new(day: nil, month: nil, year: nil)
