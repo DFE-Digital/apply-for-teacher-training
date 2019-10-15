@@ -53,7 +53,7 @@ Create local copies of `Provider`, `Course` and `Site` that can be populated wit
 ## Consequences
 
 - Local models for `Provider`, `Course` and `Site` will need to be created.
-- `ApplicationChoice` needs to be linked to a unique `Course` in some way. 
+- `ApplicationChoice` needs to be linked to a unique `Course`/`Site` combination in some way. 
 - A system for retrieving data from the Find API and creating or updating local models need to be created.
 
 
