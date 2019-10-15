@@ -68,4 +68,13 @@ RSpec.describe ViewHelper, type: :helper do
       expect(anchor_tag).to eq('<a role="button" class="govuk-button govuk-button--start" data-module="govuk-button" draggable="false" href="https://localhost:0103/chicken/cluck">Cluck</a>')
     end
   end
+
+  describe '#select_nationality_options' do
+    it 'returns a list of nationalities' do
+      random_nationality = NATIONALITIES.sample
+
+      expect(select_nationality_options).to include(OpenStruct.new(id: '', name: t('application_form.personal_details.nationality.default_option')))
+      expect(select_nationality_options).to include(OpenStruct.new(id: random_nationality, name: random_nationality))
+    end
+  end
 end

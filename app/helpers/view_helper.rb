@@ -21,6 +21,12 @@ module ViewHelper
     link_to(body, url, role: 'button', class: html_options[:class], 'data-module': 'govuk-button', draggable: false)
   end
 
+  def select_nationality_options
+    [
+      OpenStruct.new(id: '', name: t('application_form.personal_details.nationality.default_option')),
+    ] + NATIONALITIES.map { |nationality| OpenStruct.new(id: nationality, name: nationality) }
+  end
+
 private
 
   def prepend_css_class(css_class, current_class)
