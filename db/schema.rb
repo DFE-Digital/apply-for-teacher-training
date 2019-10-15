@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2019_10_15_153328) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -19,9 +18,6 @@ ActiveRecord::Schema.define(version: 2019_10_15_153328) do
   create_table "application_choices", id: :string, limit: 10, force: :cascade do |t|
     t.bigint "application_form_id", null: false
     t.text "personal_statement"
-    t.string "provider_ucas_code"
-    t.string "course_ucas_code"
-    t.string "location_ucas_code"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status", null: false
