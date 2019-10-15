@@ -14,8 +14,7 @@ class GenerateTestData
       [1, 1, 1, 1, 1, 1, 1, 2, 3].sample.times do
         FactoryBot.create(
           :application_choice,
-          provider_ucas_code: random_ucas_org,
-          course_ucas_code: course_ucas_code,
+          course: random_course,
           application_form: application_form,
           personal_statement: Faker::Lorem.paragraph(sentence_count: 5),
         )
@@ -25,13 +24,17 @@ class GenerateTestData
 
 private
 
-  def random_ucas_org
-    # Make 90% of the applications belong to the ABC org, so that we can
-    # test the API with a known `provider_ucas_code`
-    rand(100) > 10 ? 'ABC' : SecureRandom.hex(2).upcase
+  def random_course
+    FactoryBot.create(
+      :course,
+      provider: provider,
+    )
   end
 
-  def course_ucas_code
-    SecureRandom.hex(2).upcase
+  def provider
+    Provider.find_or_create_by(
+      name: 'Example Training Provider',
+      code: 'ABC',
+    )
   end
 end

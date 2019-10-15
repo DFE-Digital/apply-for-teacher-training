@@ -8,5 +8,12 @@ RSpec.describe GenerateTestData do
         .and change { ApplicationForm.count }.by(2)
         .and change { ApplicationChoice.count }.by_at_least(2)
     end
+
+    it 'assigns all application choices to a single provider' do
+      GenerateTestData.new.generate(2)
+      ApplicationChoice.all.each do |application_choice|
+        expect(application_choice.provider.code).to eq 'ABC'
+      end
+    end
   end
 end
