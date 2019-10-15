@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate Interface - GET /candidate/application', type: :request do
   before do
-    candidate = FactoryBot.create(:candidate)
+    candidate = create(:candidate)
     login_as(candidate)
   end
 

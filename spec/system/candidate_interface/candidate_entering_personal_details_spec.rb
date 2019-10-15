@@ -27,7 +27,7 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def given_i_am_signed_in
-    candidate = FactoryBot.create(:candidate)
+    candidate = create(:candidate)
     login_as(candidate)
   end
 
