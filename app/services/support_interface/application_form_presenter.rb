@@ -12,6 +12,10 @@ module SupportInterface
       application_form.updated_at
     end
 
+    def date_of_birth
+      application_form.date_of_birth
+    end
+
     def to_param
       application_form.id.to_s
     end
