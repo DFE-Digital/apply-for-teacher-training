@@ -4,7 +4,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications/:application_id', type: :r
   include VendorApiSpecHelpers
 
   it 'returns a response that is valid according to the OpenAPI schema' do
-    application_choice = create(:application_choice, provider_ucas_code: 'ABC')
+    application_choice = create(:application_choice)
 
     get_api_request "/api/v1/applications/#{application_choice.id}"
 

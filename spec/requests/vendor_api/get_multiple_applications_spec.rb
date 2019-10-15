@@ -4,32 +4,44 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
   include VendorApiSpecHelpers
 
   it 'returns applications scoped by `provider`' do
-    create(:application_choice, provider_ucas_code: 'ABC')
-    create(:application_choice, provider_ucas_code: 'ABC')
-    create(:application_choice, provider_ucas_code: 'DEF')
+    ucl         = create(:provider, code: 'UCL')
+    strathclyde = create(:provider, code: 'STR')
 
-    get_api_request "/api/v1/applications?provider_ucas_code=ABC&since=#{(Time.now - 1.days).iso8601}"
+    create_list(
+      :application_choice, 2,
+      course: create(:course, provider: ucl)
+    )
+
+    create_list(
+      :application_choice, 1,
+      course: create(:course, provider: strathclyde)
+    )
+
+    get_api_request "/api/v1/applications?provider_ucas_code=UCL&since=#{(Time.now - 1.days).iso8601}"
 
     expect(parsed_response['data'].size).to be(2)
   end
 
   it 'returns applications filtered with `since`' do
+    ucl = create(:provider, code: 'UCL')
+
     Timecop.travel(Time.now - 2.days) do
-      create(:application_choice, provider_ucas_code: 'ABC')
+      create(:application_choice, course: create(:course, provider: ucl))
     end
 
-    create(:application_choice, provider_ucas_code: 'ABC')
+    create(:application_choice, course: create(:course, provider: ucl))
 
-    get_api_request "/api/v1/applications?provider_ucas_code=ABC&since=#{(Time.now - 1.days).iso8601}"
+    get_api_request "/api/v1/applications?provider_ucas_code=UCL&since=#{(Time.now - 1.days).iso8601}"
 
     expect(parsed_response['data'].size).to be(1)
   end
 
   it 'returns a response that is valid according to the OpenAPI schema' do
-    create(:application_choice, provider_ucas_code: 'ABC')
-    create(:application_choice, provider_ucas_code: 'DEF')
+    ucl = create(:provider, code: 'UCL')
 
-    get_api_request "/api/v1/applications?provider_ucas_code=ABC&since=#{(Time.now - 1.days).iso8601}"
+    create(:application_choice, course: create(:course, provider: ucl))
+
+    get_api_request "/api/v1/applications?provider_ucas_code=UCL&since=#{(Time.now - 1.days).iso8601}"
 
     expect(parsed_response).to be_valid_against_openapi_schema('MultipleApplicationsResponse')
   end

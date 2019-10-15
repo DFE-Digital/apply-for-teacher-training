@@ -5,6 +5,10 @@ class ApplicationChoice < ApplicationRecord
   belongs_to :course
   has_one :provider, through: :course
 
+  scope :for_provider, ->(provider_code) {
+    includes(:course, :provider).where(providers: { code: provider_code })
+  }
+
   enum status: {
     unsubmitted: 'unsubmitted',
     application_complete: 'application_complete',
