@@ -25,31 +25,41 @@ The main areas where the Apply Service needs data from the Find Service are:
 
 From an initial discussion and planning session we have decided on two main methods from retrieving data from the Find Service:
 
-`Ask the Find API for all information.`
+
+### Ask the Find API for all information.
 
 Keeping all information in the Find Service and contacting the `Find API` every time the Apply Service needs information for `Provider`, `Course` and `Site`.
+#### Pros
 
 - This reduces the need to store information within the Apply Service.
 - The data from Find is always the latest up-to-date data.
+
+#### Cons
+
 - This can be slow if making many requests to the `Find API`. 
 - Apply Service is dependent on the Find Service to function. 
 
 
-`Create a local copy from Find data`
+### Create a local copy from Find data
 
-Create local models for `Provider`, `Course` and `Site`. Populating these models from information from the `Find API` which is called periodically.
+Create local models for `Provider`, `Course` and `Site`. Populate these models from information from the `Find API` which is called periodically.
+
+#### Pros
 
 - Apply Service is not dependent on the Find Service to function. 
-- Faster to lookup local copy that make API request.
+- Faster to lookup local copy than make API request.
 - We have more control of local models and only need to request and save data that the Apply Service requires.
 - Easier to test local models.
+
+
+#### Cons
+
 - Requires method to retrieve data from Find and create and update local models.
 - Local models can drift from information stored in find if not updated frequently.
 - Newly created courses on Find may not be created on the Apply Service until they are retrieved. 
 (Will need to check Find service often for new data.)
 - Data deleted from the Find service will need to be reflected in the Apply Service somehow. 
 (Possibly deleting and rebuilding Apply models from  Find Data Periodically).
-
 
 ## Decision
 
