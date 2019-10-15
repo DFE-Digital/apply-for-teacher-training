@@ -38,3 +38,6 @@ yarn-debug.log*
 
 # dotenv
 .env
+
+# Mac OS thumbnail DBs
+.DS_Store
