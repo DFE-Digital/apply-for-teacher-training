@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_15_090226) do
+ActiveRecord::Schema.define(version: 2019_10_15_090847) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -54,6 +54,16 @@ ActiveRecord::Schema.define(version: 2019_10_15_090226) do
     t.index ["magic_link_token"], name: "index_candidates_on_magic_link_token", unique: true
   end
 
+  create_table "courses", force: :cascade do |t|
+    t.bigint "provider_id", null: false
+    t.string "name"
+    t.string "code"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["code"], name: "index_courses_on_code", unique: true
+    t.index ["provider_id"], name: "index_courses_on_provider_id"
+  end
+
   create_table "providers", force: :cascade do |t|
     t.string "name"
     t.string "code"
@@ -71,4 +81,5 @@ ActiveRecord::Schema.define(version: 2019_10_15_090226) do
 
   add_foreign_key "application_choices", "application_forms", on_delete: :cascade
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
+  add_foreign_key "courses", "providers"
 end
