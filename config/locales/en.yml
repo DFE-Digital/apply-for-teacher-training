@@ -61,3 +61,11 @@ en:
               taken: Email address is already in use
               too_long: Email address must be %{count} characters or fewer
               invalid: Enter an email address in the correct format, like name@example.com
+  application_choice:
+    status_name:
+      application_complete: 'Application completed'
+      conditional_offer: 'Conditional offer'
+      unconditional_offer: 'Unconditional offer'
+      recruited: 'Candidate recruited'
+      enrolled: 'Candidate  enrolled'
+      rejected: 'Candidate rejected'
