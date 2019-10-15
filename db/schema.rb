@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_15_090847) do
+ActiveRecord::Schema.define(version: 2019_10_15_153328) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -26,7 +27,9 @@ ActiveRecord::Schema.define(version: 2019_10_15_090847) do
     t.string "status", null: false
     t.json "offer"
     t.string "rejection_reason"
+    t.bigint "course_id", null: false
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
+    t.index ["course_id"], name: "index_application_choices_on_course_id"
   end
 
   create_table "application_forms", force: :cascade do |t|
@@ -80,6 +83,7 @@ ActiveRecord::Schema.define(version: 2019_10_15_090847) do
   end
 
   add_foreign_key "application_choices", "application_forms", on_delete: :cascade
+  add_foreign_key "application_choices", "courses"
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
   add_foreign_key "courses", "providers"
 end

@@ -2,6 +2,8 @@ class ApplicationChoice < ApplicationRecord
   before_create :set_id
   before_create :set_initial_status
   belongs_to :application_form, touch: true
+  belongs_to :course
+  has_one :provider, through: :course
 
   enum status: {
     unsubmitted: 'unsubmitted',

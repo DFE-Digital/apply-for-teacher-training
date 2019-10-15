@@ -31,12 +31,7 @@ module VendorApi
             country: 'NL',
             email: '',
           },
-          course: {
-            start_date: 'ad',
-            provider_ucas_code: application_choice.provider_ucas_code,
-            location_ucas_code: 'x',
-            course_ucas_code: 'x',
-          },
+          course: course_json,
           qualifications: [],
           references: [],
           work_experiences: [],
@@ -52,6 +47,10 @@ module VendorApi
       }
     end
 
+  private
+
+    attr_reader :application_choice, :application_form
+
     def get_rejection
       if application_choice.rejection_reason?
         {
@@ -61,8 +60,13 @@ module VendorApi
       end
     end
 
-  private
-
-    attr_reader :application_choice, :application_form
+    def course_json
+      {
+        start_date: Time.now,
+        provider_ucas_code: application_choice.provider.code,
+        location_ucas_code: 'x',
+        course_ucas_code: application_choice.course.code,
+      }
+    end
   end
 end
