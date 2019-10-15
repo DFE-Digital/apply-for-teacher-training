@@ -14,7 +14,7 @@ We are currently working towards meeting these two main user needs:
 In order to do this the Apply service needs to retrieve data for `Training Providers`, 
 `Courses` and `Sites` from the Find service.
 
-The main areas where the Apply Service need data from the Find Service are: 
+The main areas where the Apply Service needs data from the Find Service are: 
 -   The Apply Service Start Page.
 -   The Add a course to Application Page.
 -   The Application requirements require the Course type (`Secondary` or `Primary`).
@@ -39,7 +39,7 @@ Create local models for `Provider`, `Course` and `Site`. Populating these models
 
 - Apply Service is not dependent on the Find Service to function. 
 - Faster to lookup local copy that make API request.
-- We have more control or local models and only need to request and save data that the Apply Service requires.
+- We have more control of local models and only need to request and save data that the Apply Service requires.
 - Easier to test local models.
 - Requires method to retrieve data from Find and create and update local models.
 - Local models can drift from information stored in find if not updated frequently.
@@ -54,7 +54,7 @@ Create local copies of `Provider`, `Course` and `Site` that can be populated wit
 
 - Local models for `Provider`, `Course` and `Site` will need to be created.
 - `ApplicationChoice` needs to be linked to a unique `Course`/`Site` combination in some way. 
-- A system for retrieving data from the Find API and creating or updating local models need to be created.
+- A system for retrieving data from the Find API and creating or updating local models needs to be created.
 
 
 
