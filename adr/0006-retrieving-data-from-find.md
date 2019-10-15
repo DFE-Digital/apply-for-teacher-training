@@ -45,6 +45,10 @@ Create local models for `Provider`, `Course` and `Site`. Populating these models
 - Easier to test local models.
 - Requires method to retrieve data from Find and create and update local models.
 - Local models can drift from information stored in find if not updated frequently.
+- Newly created courses on Find may not be created on the Apply Service until they are retrieved. 
+(Will need to check Find service often for new data.)
+- Data deleted from the Find service will need to be reflected in the Apply Service somehow. 
+(Possibly deleting and rebuilding Apply models from  Find Data Periodically).
 
 
 ## Decision
