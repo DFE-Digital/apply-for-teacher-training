@@ -1,9 +1,8 @@
 module VendorApi
   class SingleApplicationPresenter
-    attr_reader :application_choice
-
     def initialize(application_choice)
       @application_choice = application_choice
+      @application_form = application_choice.application_form
     end
 
     def as_json
@@ -16,9 +15,9 @@ module VendorApi
           submitted_at: Time.now,
           personal_statement: 'hello',
           candidate: {
-            first_name: '',
-            last_name: '',
-            date_of_birth: '2019-01-01',
+            first_name: application_form.first_name,
+            last_name: application_form.last_name,
+            date_of_birth: application_form.date_of_birth,
             nationality: %w[NL],
             uk_residency_status: '',
           },
@@ -61,5 +60,9 @@ module VendorApi
         }
       end
     end
+
+  private
+
+    attr_reader :application_choice, :application_form
   end
 end
