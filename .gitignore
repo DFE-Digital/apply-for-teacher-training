@@ -36,5 +36,8 @@
 yarn-debug.log*
 .yarn-integrity
 
+# ignore code coverage reports
+coverage/*
+
 # dotenv
 .env
