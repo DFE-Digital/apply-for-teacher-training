@@ -47,6 +47,7 @@ group :test do
   gem 'timecop'
   gem 'guard-rspec'
   gem 'webmock'
+  gem 'simplecov', require: false, group: :test
 end
 
 group :development, :test do
