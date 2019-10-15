@@ -1,7 +1,9 @@
 module CandidateInterface
   class PersonalDetailsController < CandidateInterfaceController
     def edit
-      @personal_details_form = PersonalDetailsForm.load(current_candidate.current_application)
+      @personal_details_form = PersonalDetailsForm.build_from_application(
+        current_candidate.current_application,
+      )
     end
 
     def update

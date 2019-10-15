@@ -24,7 +24,7 @@ module CandidateInterface
     validates :english_language_details, :other_language_details,
               word_count: { maximum: 200 }
 
-    def self.load(application_form)
+    def self.build_from_application(application_form)
       new(
         first_name: application_form.first_name,
         last_name: application_form.last_name,

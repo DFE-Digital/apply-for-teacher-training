@@ -37,10 +37,12 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
     end
   end
 
-  describe '.load' do
+  describe '.build_from_application' do
     it 'creates an object based on the provided ApplicationForm' do
       application_form = ApplicationForm.new(data)
-      personal_details = CandidateInterface::PersonalDetailsForm.load(application_form)
+      personal_details = CandidateInterface::PersonalDetailsForm.build_from_application(
+        application_form,
+      )
 
       expect(personal_details).to have_attributes(form_data)
     end
