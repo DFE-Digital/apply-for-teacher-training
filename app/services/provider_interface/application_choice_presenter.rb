@@ -10,7 +10,7 @@ module ProviderInterface
     end
 
     def course_name
-      "Course #{application_choice.course_ucas_code}"
+      "Course #{application_choice.course.name}"
     end
 
     def status_name

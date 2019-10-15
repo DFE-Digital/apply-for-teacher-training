@@ -17,9 +17,11 @@ RSpec.feature 'See applications' do
   end
 
   def and_my_organisation_has_applications
-    create(:application_choice, provider_ucas_code: 'ABC', application_form: create(:application_form, first_name: 'Alice', last_name: 'Wunder'))
-    create(:application_choice, provider_ucas_code: 'ABC', application_form: create(:application_form, first_name: 'Bob'))
-    create(:application_choice, provider_ucas_code: 'ANOTHER_ORG', application_form: create(:application_form, first_name: 'Charlie'))
+    my_course = create(:course, provider: create(:provider, code: 'ABC'))
+    other_course = create(:course, provider: create(:provider, code: 'ANOTHER_ORG'))
+    create(:application_choice, course: my_course, application_form: create(:application_form, first_name: 'Alice', last_name: 'Wunder'))
+    create(:application_choice, course: my_course, application_form: create(:application_form, first_name: 'Bob'))
+    create(:application_choice, course: other_course, application_form: create(:application_form, first_name: 'Charlie'))
   end
 
   def and_i_visit_the_provider_page
