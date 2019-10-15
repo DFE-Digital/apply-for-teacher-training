@@ -16,7 +16,9 @@ In order to do this the Apply service needs to retrieve data for `Training Provi
 
 The main areas where the Apply Service needs data from the Find Service are: 
 -   The Apply Service Start Page.
+    - Users arrive with a course course code as a URL parameter and the corresponding course needs to be retrieved.
 -   The Add a course to Application Page.
+    - All current courses need to be retrieved to populate a autocomplete field.
 -   The Application requirements require the Course type (`Secondary` or `Primary`).
 -   The Provider UI needs to know information about the currently signed in Provider.
 - The Applications to a certain Provider's courses need to be scoped for the currently signed in Provider.
