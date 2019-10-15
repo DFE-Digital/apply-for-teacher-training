@@ -4,7 +4,7 @@ require 'rails_helper'
 # specs - https://github.com/DFE-Digital/apply-for-postgraduate-teacher-training/pull/246
 RSpec.describe 'Candidate session expires' do
   it 'expires the current candidate session' do
-    candidate = FactoryBot.create(:candidate)
+    candidate = create(:candidate)
     login_as(candidate)
 
     visit candidate_interface_application_form_path

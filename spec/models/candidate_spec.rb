@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Candidate, type: :model do
-  subject { FactoryBot.create(:candidate) }
+  subject { create(:candidate) }
 
   describe 'a valid candidate' do
     it { is_expected.to validate_presence_of :email_address }
@@ -14,9 +14,9 @@ RSpec.describe Candidate, type: :model do
 
   describe '#delete' do
     it 'deletes all dependent records through cascading deletes in the database' do
-      candidate = FactoryBot.create(:candidate)
-      application_form = FactoryBot.create(:application_form, candidate: candidate)
-      application_choice = FactoryBot.create(:application_choice, application_form: application_form)
+      candidate = create(:candidate)
+      application_form = create(:application_form, candidate: candidate)
+      application_choice = create(:application_choice, application_form: application_form)
 
       candidate.delete
 
@@ -28,14 +28,14 @@ RSpec.describe Candidate, type: :model do
 
   describe '#current_application' do
     it 'returns an existing application' do
-      candidate = FactoryBot.create(:candidate)
-      application_form = FactoryBot.create(:application_form, candidate: candidate)
+      candidate = create(:candidate)
+      application_form = create(:application_form, candidate: candidate)
 
       expect(candidate.current_application).to eq(application_form)
     end
 
     it 'creates an application if there are none' do
-      candidate = FactoryBot.create(:candidate)
+      candidate = create(:candidate)
 
       expect { candidate.current_application }.to change { candidate.application_forms.count }.from(0).to(1)
     end

@@ -22,6 +22,7 @@ Rails.application.routes.draw do
 
     scope :application do
       get '/' => 'application_form#show', as: :application_form
+      get 'review' => 'application_review#show', as: :application_review
 
       scope :personal_details, path: '/personal-details' do
         get '/' => 'personal_details#edit', as: :personal_details_edit

@@ -20,7 +20,7 @@ end
 RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
   describe '#present' do
     it 'includes hashes for the name and date of birth' do
-      personal_details_form = FactoryBot.build(
+      personal_details_form = build(
         :personal_details_form,
         first_name: 'Max',
         last_name: 'Caulfield',
@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
 
     context 'when presenting nationality' do
       it 'includes a hash for a single nationality' do
-        personal_details_form = FactoryBot.build(
+        personal_details_form = build(
           :personal_details_form,
           first_nationality: 'British',
           second_nationality: nil,
@@ -49,7 +49,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       end
 
       it 'includes a hash for dual nationalities' do
-        personal_details_form = FactoryBot.build(
+        personal_details_form = build(
           :personal_details_form,
           first_nationality: 'British',
           second_nationality: 'Spanish',
@@ -63,7 +63,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
 
     context 'when presenting English as the main language' do
       it 'includes a hash with "Yes"' do
-        personal_details_form = FactoryBot.build(
+        personal_details_form = build(
           :personal_details_form,
           english_main_language: 'yes',
           english_language_details: '',
@@ -76,7 +76,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       end
 
       it 'excludes a hash for English language details if blank' do
-        personal_details_form = FactoryBot.build(
+        personal_details_form = build(
           :personal_details_form,
           english_main_language: 'yes',
           english_language_details: '',
@@ -89,7 +89,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       end
 
       it 'excludes a hash for other language details if given' do
-        personal_details_form = FactoryBot.build(
+        personal_details_form = build(
           :personal_details_form,
           english_main_language: 'yes',
           english_language_details: '',
@@ -102,7 +102,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       end
 
       it 'includes a hash for English language details if given' do
-        personal_details_form = FactoryBot.build(
+        personal_details_form = build(
           :personal_details_form,
           english_main_language: 'yes',
           english_language_details: 'Mi nombre es Max.',
@@ -117,7 +117,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
 
     context 'when presenting English not as the main language' do
       it 'includes a hash with "No"' do
-        personal_details_form = FactoryBot.build(
+        personal_details_form = build(
           :personal_details_form,
           english_main_language: 'no',
           english_language_details: '',
@@ -130,7 +130,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       end
 
       it 'excludes a hash for other language details if blank' do
-        personal_details_form = FactoryBot.build(
+        personal_details_form = build(
           :personal_details_form,
           english_main_language: 'no',
           english_language_details: '',
@@ -143,7 +143,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       end
 
       it 'excludes a hash for English language details if given' do
-        personal_details_form = FactoryBot.build(
+        personal_details_form = build(
           :personal_details_form,
           english_main_language: 'no',
           english_language_details: 'Mi nombre es Max.',
@@ -156,7 +156,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       end
 
       it 'includes a hash for other language details if given' do
-        personal_details_form = FactoryBot.build(
+        personal_details_form = build(
           :personal_details_form,
           english_main_language: 'no',
           english_language_details: '',

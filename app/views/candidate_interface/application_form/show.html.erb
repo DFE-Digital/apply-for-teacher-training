@@ -73,7 +73,9 @@
     <h2 class="govuk-heading-m govuk-!-font-size-27">Review and submit</h2>
     <ol class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">
-        <%= govuk_link_to 'TODO: Check your answers before submitting', '#', class: 'app-task-list__task-name' %>
+        <%= govuk_link_to 'Check your answers before submitting',
+                          candidate_interface_application_review_path,
+                          class: 'app-task-list__task-name' %>
       </li>
     </ol>
   </div>
