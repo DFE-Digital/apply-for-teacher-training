@@ -14,11 +14,11 @@ RSpec.feature 'Entering their personal details' do
     and_i_submit_the_form
     then_i_can_check_my_answers
 
-    # when_i_click_to_change_my_answer
-    # and_i_fill_in_a_different_answer
-    # and_i_submit_the_form
-    # then_i_can_check_my_revised_answers
-    #
+    when_i_click_to_change_my_answer
+    and_i_fill_in_a_different_answer
+    and_i_submit_the_form
+    then_i_can_check_my_revised_answers
+
     # when_i_submit_my_details
     # then_i_should_see_the_form
     # and_that_the_section_is_completed

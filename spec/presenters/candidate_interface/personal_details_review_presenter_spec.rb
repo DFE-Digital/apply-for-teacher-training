@@ -9,8 +9,8 @@ FactoryBot.define do
     day { date_of_birth.day }
     month { date_of_birth.month }
     year { date_of_birth.year }
-    first_nationality { Faker::Nation.nationality }
-    second_nationality { Faker::Nation.nationality }
+    first_nationality { NATIONALITIES.sample }
+    second_nationality { NATIONALITIES.sample }
     english_main_language { %w[yes no].sample }
     english_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
     other_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
