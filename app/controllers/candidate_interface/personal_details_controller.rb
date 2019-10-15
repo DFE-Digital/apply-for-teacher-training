@@ -17,6 +17,13 @@ module CandidateInterface
       end
     end
 
+    def show
+      personal_details_form = PersonalDetailsForm.build_from_application(
+        current_candidate.current_application,
+      )
+      @personal_details_review = PersonalDetailsReviewPresenter.new(personal_details_form)
+    end
+
   private
 
     def personal_details_params

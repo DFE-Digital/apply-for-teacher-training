@@ -23,8 +23,8 @@ RSpec.feature 'Entering their personal details' do
     then_i_should_see_the_form
     and_that_the_section_is_completed
 
-    # when_i_click_on_personal_details
-    # then_i_can_check_my_revised_answers
+    when_i_click_on_personal_details
+    then_i_can_check_my_revised_answers
   end
 
   def given_i_am_signed_in
