@@ -2,6 +2,7 @@ module ProviderInterface
   class ApplicationChoicePresenter
     def initialize(application_choice)
       @application_choice = application_choice
+      @application_form = application_choice.application_form
     end
 
     def full_name
@@ -24,8 +25,12 @@ module ProviderInterface
       application_choice.id
     end
 
+    def date_of_birth
+      application_form.date_of_birth
+    end
+
   private
 
-    attr_reader :application_choice
+    attr_reader :application_choice, :application_form
   end
 end
