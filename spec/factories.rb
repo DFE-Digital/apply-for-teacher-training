@@ -29,7 +29,7 @@ FactoryBot.define do
   end
 
   factory :application_choice do
-    application_form
+    association :application_form, factory: :completed_application_form
     status { ApplicationStateChange.valid_states.sample }
 
     provider_ucas_code { Faker::Alphanumeric.alphanumeric(number: 3).upcase }
