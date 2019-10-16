@@ -3,6 +3,7 @@ module ProviderInterface
     def index
       application_choices = ApplicationChoice
         .includes(:application_form)
+        .order(updated_at: :desc)
         .where(provider_ucas_code: current_user.provider_ucas_code)
 
       @application_choices = application_choices.map do |application_choice|
