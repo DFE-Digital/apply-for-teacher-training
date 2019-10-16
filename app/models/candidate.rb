@@ -13,6 +13,9 @@ class Candidate < ApplicationRecord
   has_many :application_forms
 
   def current_application
-    application_forms.first_or_create
+    application_form = application_forms.first_or_create
+    # TODO: this is a temporary thing until candidates can choose their course
+    application_form.application_choices.first_or_create(provider_ucas_code: 'ABC')
+    application_form
   end
 end
