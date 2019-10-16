@@ -19,7 +19,7 @@ module VendorApi
 
     def get_application_choices_for_provider_since(provider:, since:)
       ApplicationChoice
-        .where(provider_ucas_code: provider)
+        .for_provider(provider)
         .joins(:application_form)
         .where('application_forms.updated_at > ?', since.to_datetime)
     end

@@ -4,7 +4,7 @@ module ProviderInterface
       application_choices = ApplicationChoice
         .includes(:application_form)
         .order(updated_at: :desc)
-        .where(provider_ucas_code: current_user.provider_ucas_code)
+        .for_provider(current_user.provider.code)
 
       @application_choices = application_choices.map do |application_choice|
         ApplicationChoicePresenter.new(application_choice)
@@ -14,7 +14,7 @@ module ProviderInterface
     def show
       application_choice = ApplicationChoice
         .includes(:application_form)
-        .where(provider_ucas_code: current_user.provider_ucas_code)
+        .for_provider(current_user.provider.code)
         .find(params[:application_choice_id])
 
       @application_choice = ApplicationChoicePresenter.new(application_choice)
@@ -25,8 +25,9 @@ module ProviderInterface
     # Stub out the current user and their organisation. Will be replaced
     # by a proper ProviderUser when implementing Signin.
     def current_user
-      fake_user_class = Struct.new(:provider_ucas_code)
-      fake_user_class.new('ABC')
+      fake_user_class = Struct.new(:provider)
+      fake_provider_class = Struct.new(:code)
+      fake_user_class.new(fake_provider_class.new('ABC'))
     end
   end
 end

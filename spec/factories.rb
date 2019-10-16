@@ -28,10 +28,21 @@ FactoryBot.define do
     end
   end
 
+  factory :course do
+    provider
+
+    code { Faker::Alphanumeric.alphanumeric(number: 3).upcase }
+    name { Faker::Educator.subject }
+  end
+
+  factory :provider do
+    code { Faker::Alphanumeric.alphanumeric(number: 3).upcase }
+    name { Faker::Educator.university }
+  end
+
   factory :application_choice do
     association :application_form, factory: :completed_application_form
+    course
     status { ApplicationStateChange.valid_states.sample }
-
-    provider_ucas_code { Faker::Alphanumeric.alphanumeric(number: 3).upcase }
   end
 end

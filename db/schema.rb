@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2019_10_15_153328) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -19,15 +18,14 @@ ActiveRecord::Schema.define(version: 2019_10_15_153328) do
   create_table "application_choices", id: :string, limit: 10, force: :cascade do |t|
     t.bigint "application_form_id", null: false
     t.text "personal_statement"
-    t.string "provider_ucas_code"
-    t.string "course_ucas_code"
-    t.string "location_ucas_code"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status", null: false
     t.json "offer"
     t.string "rejection_reason"
+    t.bigint "course_id", null: false
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
+    t.index ["course_id"], name: "index_application_choices_on_course_id"
   end
 
   create_table "application_forms", force: :cascade do |t|
@@ -55,6 +53,24 @@ ActiveRecord::Schema.define(version: 2019_10_15_153328) do
     t.index ["magic_link_token"], name: "index_candidates_on_magic_link_token", unique: true
   end
 
+  create_table "courses", force: :cascade do |t|
+    t.bigint "provider_id", null: false
+    t.string "name"
+    t.string "code"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["code"], name: "index_courses_on_code", unique: true
+    t.index ["provider_id"], name: "index_courses_on_provider_id"
+  end
+
+  create_table "providers", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["code"], name: "index_providers_on_code", unique: true
+  end
+
   create_table "vendor_api_tokens", force: :cascade do |t|
     t.string "hashed_token", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -63,5 +79,7 @@ ActiveRecord::Schema.define(version: 2019_10_15_153328) do
   end
 
   add_foreign_key "application_choices", "application_forms", on_delete: :cascade
+  add_foreign_key "application_choices", "courses"
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
+  add_foreign_key "courses", "providers"
 end
