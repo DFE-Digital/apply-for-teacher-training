@@ -14,10 +14,16 @@ RSpec.describe ApplicationChoice, type: :model do
   end
 
   describe '#create' do
-    it 'starts in the "unsubmitted" state' do
+    it 'starts in the "unsubmitted" status' do
       application_choice = ApplicationChoice.create!(application_form: create(:application_form))
 
       expect(application_choice).to be_unsubmitted
+    end
+
+    it 'allows a different status to be set' do
+      application_choice = ApplicationChoice.create!(status: 'application_complete', application_form: create(:application_form))
+
+      expect(application_choice).to be_application_complete
     end
   end
 end
