@@ -304,6 +304,7 @@ components:
           type: string
           description: The status of this application
           enum:
+            - unsubmitted
             - application_complete
             - conditional_offer
             - unconditional_offer
