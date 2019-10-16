@@ -7,14 +7,19 @@ RSpec.feature 'Candidate submit the application' do
   scenario 'Candidate with personal details' do
     given_i_am_signed_in
     and_i_filled_in_personal_details_and_review_my_application
-
     and_i_confirm_my_application
 
-    then_i_can_see_the_submit_application_page
+    then_i_can_submit_the_application
+
+    and_i_can_see_my_application_has_been_successfully_submitted
   end
 
-  def then_i_can_see_the_submit_application_page
-    expect(page).to have_content 'Submit application'
+  def and_i_can_see_my_application_has_been_successfully_submitted
+    expect(page).to have_content 'Application successfully submitted'
+  end
+
+  def then_i_can_submit_the_application
+    click_button'Submit application'
   end
 
   def and_i_confirm_my_application
@@ -31,7 +36,7 @@ RSpec.feature 'Candidate submit the application' do
     expect(page).to have_content 'Review your application'
   end
 
-  def then_i_can_see_the_personal_my_details
+  def then_i_can_see_my_personal_details
     expect(page).to have_content 'Lando Calrissian'
     expect(page).to have_content '6 April 1937'
     expect(page).to have_content 'British and American'

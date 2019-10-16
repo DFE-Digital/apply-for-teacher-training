@@ -11,14 +11,14 @@ RSpec.feature 'Candidate reviews the answers' do
 
     when_i_click_on_check_your_answers
 
-    then_i_can_see_the_personal_my_details
+    then_i_can_see_my_personal_details
   end
 
   def then_i_can_review_my_application
     expect(page).to have_content 'Review your application'
   end
 
-  def then_i_can_see_the_personal_my_details
+  def then_i_can_see_my_personal_details
     expect(page).to have_content 'Lando Calrissian'
     expect(page).to have_content '6 April 1937'
     expect(page).to have_content 'British and American'

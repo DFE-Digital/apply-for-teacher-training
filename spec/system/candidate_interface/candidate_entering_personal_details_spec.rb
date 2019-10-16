@@ -34,6 +34,16 @@ RSpec.feature 'Entering their personal details' do
     then_i_can_check_my_revised_answers
   end
 
+  def given_i_am_not_signed_in; end
+
+  def and_i_visit_the_personal_details_page
+    visit candidate_interface_personal_details_edit_path
+  end
+
+  def then_i_should_see_the_homepage
+    expect(page).to have_current_path(candidate_interface_start_path)
+  end
+
   def and_i_visit_the_site
     visit candidate_interface_application_form_path
   end
