@@ -10,6 +10,14 @@ RSpec.describe 'Candidate Interface - Errors', type: :request do
         expect(response.header['Content-Type']).to include 'text/html'
         expect(response.body).to include(t('page_titles.not_found'))
       end
+
+      it 'returns the HTML not found page for other formats too' do
+        get '/404.css'
+
+        expect(response).to have_http_status(:not_found)
+        expect(response.header['Content-Type']).to include 'text/html'
+        expect(response.body).to include(t('page_titles.not_found'))
+      end
     end
 
     context 'GET non-existent page' do
