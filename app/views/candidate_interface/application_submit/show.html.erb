@@ -1,0 +1,45 @@
+<% content_for :title, page_title('Submit application') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_review_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <fieldset class="govuk-fieldset">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+        <h1 class="govuk-fieldset__heading">
+          Submit application
+        </h1>
+      </legend>
+
+      <p class="govuk-body">
+        I understand I will have to undergo an enhanced
+        <%= govuk_link_to 'Disclosure and Barring Check', 'https://www.gov.uk/government/organisations/disclosure-and-barring-service' %>
+        as part of my application.
+      </p>
+      <div class="govuk-inset-text">
+        <p class="govuk-body">
+          As prospective teachers, all candidates must consent to an enhanced DBS
+          check. This will show up any past criminal convictions, both spent and
+          unspent. Some convictions, even if they are spent, will disbar you from
+          teaching.
+        </p>
+        However, not all past convictions prevent you from training to be a teacher.
+        Talk to your provider about their policy on criminal convictions.
+        <p></p>
+        <p class="govuk-body">
+          <%= govuk_link_to 'Learn more about telling an employer about your conviction', 'https://www.gov.uk/exoffenders-and-employment' %>.
+        </p>
+      </div>
+
+      <p class="govuk-body">
+        By submitting, I confirm that the information given is true, complete and
+        accurate.
+      </p>
+
+      <%= form_with model: @application_form, url: candidate_interface_application_submit_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder, method: :post do |f| %>
+        <%= f.govuk_error_summary %>
+
+        <%= f.govuk_submit 'Submit application' %>
+      <% end %>
+    </fieldset>
+  </div>
+</div>
