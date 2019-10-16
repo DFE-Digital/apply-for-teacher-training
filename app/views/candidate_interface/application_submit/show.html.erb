@@ -35,9 +35,11 @@
         accurate.
       </p>
 
-      <button class="govuk-button" data-module="govuk-button">
-        Submit application
-      </button>
+      <%= form_with model: @application_form, url: candidate_interface_application_submit_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder, method: :post do |f| %>
+        <%= f.govuk_error_summary %>
+
+        <%= f.govuk_submit 'Submit application' %>
+      <% end %>
     </fieldset>
   </div>
 </div>
