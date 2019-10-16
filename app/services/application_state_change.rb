@@ -12,6 +12,10 @@ class ApplicationStateChange
   #   bundle exec rake generate_state_diagram
   #
   workflow do
+    state :unsubmitted do
+      event :submit, transitions_to: :application_complete
+    end
+
     state :application_complete do
       event :make_conditional_offer, transitions_to: :conditional_offer
       event :make_unconditional_offer, transitions_to: :unconditional_offer
@@ -39,5 +43,9 @@ class ApplicationStateChange
 
   def persist_workflow_state(new_state)
     application_choice.update!(status: new_state)
+  end
+
+  def self.valid_states
+    workflow_spec.states.keys
   end
 end

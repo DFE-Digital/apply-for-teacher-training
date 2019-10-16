@@ -1,8 +1,10 @@
 class ApplicationChoice < ApplicationRecord
   before_create :set_id
+  before_create :set_initial_status
   belongs_to :application_form, touch: true
 
   enum status: {
+    unsubmitted: 'unsubmitted',
     application_complete: 'application_complete',
     conditional_offer: 'conditional_offer',
     unconditional_offer: 'unconditional_offer',
@@ -15,6 +17,10 @@ private
 
   def generate_alphanumeric_id
     SecureRandom.hex(5)
+  end
+
+  def set_initial_status
+    self.status ||= 'unsubmitted'
   end
 
   def set_id
