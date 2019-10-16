@@ -46,6 +46,15 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
 
       expect(personal_details).to have_attributes(form_data)
     end
+
+    it "initialises english_main_language to nil when it's nil in the application form" do
+      application_form = ApplicationForm.new(english_main_language: nil)
+      personal_details = CandidateInterface::PersonalDetailsForm.build_from_application(
+        application_form,
+      )
+
+      expect(personal_details).to have_attributes(english_main_language: nil)
+    end
   end
 
   describe '#save' do

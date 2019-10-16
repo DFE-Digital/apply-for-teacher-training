@@ -30,13 +30,19 @@ module CandidateInterface
         last_name: application_form.last_name,
         first_nationality: application_form.first_nationality,
         second_nationality: application_form.second_nationality,
-        english_main_language: application_form.english_main_language ? 'yes' : 'no',
+        english_main_language: boolean_to_word(application_form.english_main_language),
         english_language_details: application_form.english_language_details,
         other_language_details: application_form.other_language_details,
         day: application_form.date_of_birth&.day,
         month: application_form.date_of_birth&.month,
         year: application_form.date_of_birth&.year,
       )
+    end
+
+    def self.boolean_to_word(boolean)
+      return nil if boolean.nil?
+
+      boolean ? 'yes' : 'no'
     end
 
     def save(application_form)
