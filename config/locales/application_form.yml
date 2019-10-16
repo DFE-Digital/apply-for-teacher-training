@@ -19,6 +19,7 @@ en:
       nationality:
         label: Nationality
         change_action: nationality
+        default_option: Select a nationality
       second_nationality:
         label: Second nationality
       english_main_language:

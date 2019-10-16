@@ -56,10 +56,10 @@ RSpec.feature 'Entering their personal details' do
     fill_in 'Month', with: '4'
     fill_in 'Year', with: '1937'
 
-    fill_in t('nationality.label', scope: scope), with: 'British'
+    select('British', from: t('nationality.label', scope: scope))
     find('details').click
     within('details') do
-      fill_in t('second_nationality.label', scope: scope), with: 'American'
+      select('American', from: t('second_nationality.label', scope: scope))
     end
 
     choose 'Yes'
