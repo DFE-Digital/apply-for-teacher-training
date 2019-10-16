@@ -7,7 +7,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
 
   describe 'successfully rejecting an application' do
     it 'returns rejected application' do
-      application_choice = create(:application_choice)
+      application_choice = create(:application_choice, status: 'application_complete')
       request_body = {
         "data": {
           "reason": 'Does not meet minimum GCSE requirements',

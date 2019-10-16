@@ -44,4 +44,8 @@ class ApplicationStateChange
   def persist_workflow_state(new_state)
     application_choice.update!(status: new_state)
   end
+
+  def self.valid_states
+    workflow_spec.states.keys
+  end
 end
