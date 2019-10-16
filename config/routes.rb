@@ -27,8 +27,7 @@ Rails.application.routes.draw do
       scope :personal_details, path: '/personal-details' do
         get '/' => 'personal_details#edit', as: :personal_details_edit
         post '/review' => 'personal_details#update', as: :personal_details_update
-        # get '/review' => 'personal_details#show', as: :personal_details_show
-        # post '/submit' => 'personal_details#create', as: :personal_details_create
+        get '/review' => 'personal_details#show', as: :personal_details_show
       end
     end
   end
