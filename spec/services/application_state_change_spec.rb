@@ -7,7 +7,7 @@ RSpec.describe ApplicationStateChange do
         .to eql(I18n.t('application_choice.status_name').keys)
     end
 
-    it 'corresponding enum entries' do
+    it 'has corresponding entries in the ApplicationChoice#status enum' do
       expect(ApplicationStateChange.valid_states)
         .to eql(ApplicationChoice.statuses.keys.map(&:to_sym))
     end
