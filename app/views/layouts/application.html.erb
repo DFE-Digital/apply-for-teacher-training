@@ -60,7 +60,7 @@
         <div class="govuk-header__content">
           <%= link_to service_name, service_link, class: 'govuk-header__link govuk-header__link--service-name' %>
 
-          <% if candidate_signed_in? %>
+          <% if current_namespace == 'candidate_interface' && candidate_signed_in? %>
             <ul id="navigation" class="govuk-header__navigation " aria-label="Top Level Navigation">
               <li class="govuk-header__navigation-item">
                 <b><%= current_candidate.email_address %></b>

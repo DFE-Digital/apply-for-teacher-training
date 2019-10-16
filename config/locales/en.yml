@@ -64,7 +64,7 @@ en:
               invalid: Enter an email address in the correct format, like name@example.com
   application_choice:
     status_name:
-      application_complete: 'Application completed'
+      application_complete: 'New'
       conditional_offer: 'Conditional offer'
       unconditional_offer: 'Unconditional offer'
       recruited: 'Candidate recruited'
