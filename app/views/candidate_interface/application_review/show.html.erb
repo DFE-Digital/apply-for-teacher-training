@@ -1,75 +1,9 @@
 <% content_for :title, page_title(:application_form) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path) %>
 
-<h1 class="govuk-heading-xl">
-  <%= t('page_titles.review_application') %>
-</h1>
-
-<h2 class="govuk-heading-m govuk-!-font-size-27">Courses</h2>
-
-<%= govuk_button_link_to 'TODO: Add a course', '#', class: 'govuk-button--secondary govuk-!-font-size-16 govuk-!-padding-top-1 govuk-!-padding-bottom-1' %>
-
-<h3 class="govuk-heading-m">Personal details</h3>
-
-<section class="app-summary-card govuk-!-margin-bottom-6">
-  <div class="app-summary-card__body">
-    <dl class="govuk-summary-list">
-      <% @personal_details_review.present.each do |row| %>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            <%= row[:key] %>
-          </dt>
-          <dd class="govuk-summary-list__value">
-            <%= row[:value] %>
-          </dd>
-
-          <dd class="govuk-summary-list__actions">
-            <%= link_to candidate_interface_personal_details_edit_path, class: 'govuk-link' do %>
-              Change<span class="govuk-visually-hidden"> <%= row[:action] %></span>
-            <% end %>
-          </dd>
-        </div>
-      <% end %>
-    </dl>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.review_application') %>
+    </h1>
   </div>
-</section>
-
-<h3 class="govuk-heading-m">Contact details</h3>
-
-<p class="govuk-body">No contact details entered.</p>
-
-<h2 class="govuk-heading-m govuk-!-font-size-27">Work history</h2>
-
-<p class="govuk-body">No work history entered.</p>
-
-<h2 class="govuk-heading-m govuk-!-font-size-27">Volunteering with children and young people</h2>
-
-<p class="govuk-body">No school experiences entered.</p>
-
-<h2 class="govuk-heading-m govuk-!-font-size-27">Qualifications</h2>
-
-<h3 class="govuk-heading-m">Degree(s)</h3>
-
-<p class="govuk-body">No degrees entered.</p>
-
-<h3 class="govuk-heading-m">Maths GCSE or equivalent</h3>
-
-<p class="govuk-body">Not entered.</p>
-
-<h3 class="govuk-heading-m">English GCSE or equivalent</h3>
-
-<p class="govuk-body">Not entered.</p>
-
-<h3 class="govuk-heading-m">Other relevant qualifications</h3>
-
-<p class="govuk-body">No other qualifications entered.</p>
-
-<h2 class="govuk-heading-m govuk-!-font-size-27">Personal statement and interview</h2>
-
-<p class="govuk-body">No personal statements entered.</p>
-
-<h2 class="govuk-heading-m govuk-!-font-size-27">References</h2>
-
-<p class="govuk-body">No references entered.</p>
-
-<%= govuk_button_link_to 'Continue', candidate_interface_application_submit_show_path %>
+</div>
