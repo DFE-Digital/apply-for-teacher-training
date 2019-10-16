@@ -19,7 +19,12 @@
     </h2>
     <ol class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">
-        <%= govuk_link_to t('page_titles.personal_details'), candidate_interface_personal_details_edit_path, class: 'app-task-list__task-name' %>
+        <% if @application_form_presenter.personal_details_completed? %>
+          <%= govuk_link_to t('page_titles.personal_details'), candidate_interface_personal_details_show_path, class: 'app-task-list__task-name', 'aria-describedby': 'personal-details-completed' %>
+          <strong class="govuk-tag app-task-list__task-completed" id="personal-details-completed">Completed</strong>
+        <% else %>
+          <%= govuk_link_to t('page_titles.personal_details'), candidate_interface_personal_details_edit_path, class: 'app-task-list__task-name' %>
+        <% end %>
       </li>
       <li class="app-task-list__item">
         <%= govuk_link_to 'TODO: Contact details', '#', class: 'app-task-list__task-name' %>
