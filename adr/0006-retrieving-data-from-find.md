@@ -36,7 +36,7 @@ Keeping all information in the Find Service and contacting the `Find API` every 
 
 #### Cons
 
-- This can be slow if making many requests to the `Find API`. 
+- This can be slow if making many requests to the `Find API`. (Caching could be a solution to this.)
 - Apply Service is dependent on the Find Service to function. 
 
 
