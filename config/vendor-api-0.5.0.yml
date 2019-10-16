@@ -312,7 +312,6 @@ components:
             - recruited
             - enrolled
             - rejected
-            - declined
           example: conditional_offer
         submitted_at:
           type: string
