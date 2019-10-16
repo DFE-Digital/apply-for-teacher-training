@@ -12,6 +12,10 @@ class ApplicationStateChange
   #   bundle exec rake generate_state_diagram
   #
   workflow do
+    state :unsubmitted do
+      event :submit, transitions_to: :application_complete
+    end
+
     state :application_complete do
       event :make_conditional_offer, transitions_to: :conditional_offer
       event :make_unconditional_offer, transitions_to: :unconditional_offer

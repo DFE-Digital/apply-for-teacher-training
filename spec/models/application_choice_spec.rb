@@ -12,4 +12,12 @@ RSpec.describe ApplicationChoice, type: :model do
       expect(application_form.updated_at).not_to eql(original_time)
     end
   end
+
+  describe '#create' do
+    it 'starts in the "unsubmitted" state' do
+      application_choice = ApplicationChoice.create!(application_form: create(:application_form))
+
+      expect(application_choice).to be_unsubmitted
+    end
+  end
 end
