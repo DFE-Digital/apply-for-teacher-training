@@ -64,7 +64,7 @@ module VendorApi
       {
         start_date: Time.now,
         provider_ucas_code: application_choice.provider.code,
-        site_ucas_code: 'x',
+        site_ucas_code: application_choice.site.code,
         course_ucas_code: application_choice.course.code,
       }
     end

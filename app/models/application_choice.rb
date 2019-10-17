@@ -4,6 +4,7 @@ class ApplicationChoice < ApplicationRecord
   belongs_to :application_form, touch: true
   belongs_to :course_option
   has_one :course, through: :course_option
+  has_one :site, through: :course_option
   has_one :provider, through: :course
 
   scope :for_provider, ->(provider_code) {
