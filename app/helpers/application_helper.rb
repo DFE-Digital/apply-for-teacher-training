@@ -27,7 +27,11 @@ module ApplicationHelper
     when 'provider_interface'
       provider_interface_path
     when 'candidate_interface'
-      candidate_interface_start_path
+      if candidate_signed_in?
+        candidate_interface_application_form_path
+      else
+        candidate_interface_start_path
+      end
     when 'support_interface'
       support_interface_path
     else
