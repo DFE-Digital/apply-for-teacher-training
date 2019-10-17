@@ -17,7 +17,7 @@ module VendorApiSpecHelpers
   end
 
   def auth_headers
-    unhashed_token = VendorApiToken.create_with_random_token!
+    unhashed_token = VendorApiToken.create_with_random_token!(provider: currently_authenticated_provider)
     { headers: { 'Authorization' => "Bearer #{unhashed_token}" } }
   end
 
