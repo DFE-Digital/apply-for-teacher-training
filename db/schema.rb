@@ -55,6 +55,17 @@ ActiveRecord::Schema.define(version: 2019_10_21_122607) do
     t.index ["magic_link_token"], name: "index_candidates_on_magic_link_token", unique: true
   end
 
+  create_table "course_options", force: :cascade do |t|
+    t.bigint "site_id", null: false
+    t.bigint "course_id", null: false
+    t.string "vacancy_status", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_course_options_on_course_id"
+    t.index ["site_id", "course_id"], name: "index_course_options_on_site_id_and_course_id", unique: true
+    t.index ["site_id"], name: "index_course_options_on_site_id"
+  end
+
   create_table "courses", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.string "name"
@@ -95,6 +106,8 @@ ActiveRecord::Schema.define(version: 2019_10_21_122607) do
   add_foreign_key "application_choices", "application_forms", on_delete: :cascade
   add_foreign_key "application_choices", "courses"
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
+  add_foreign_key "course_options", "courses", on_delete: :cascade
+  add_foreign_key "course_options", "sites", on_delete: :cascade
   add_foreign_key "courses", "providers"
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
   add_foreign_key "sites", "providers"
