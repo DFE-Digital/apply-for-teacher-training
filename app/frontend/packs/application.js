@@ -21,8 +21,11 @@ try {
     nationalitySelect.querySelector("[value='']").innerHTML = "";
 
     accessibleAutocomplete.enhanceSelectElement({
-      selectElement: nationalitySelect
+      selectElement: nationalitySelect,
+      name: nationalitySelect.name
     });
+
+    nationalitySelect.name = "";
   });
 } catch (err) {
   console.error("Could not enhance nationality select:", err);
