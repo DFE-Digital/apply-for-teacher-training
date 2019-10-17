@@ -23,9 +23,9 @@ ActiveRecord::Schema.define(version: 2019_10_21_122607) do
     t.string "status", null: false
     t.json "offer"
     t.string "rejection_reason"
-    t.bigint "course_id", null: false
+    t.bigint "course_option_id", null: false
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
-    t.index ["course_id"], name: "index_application_choices_on_course_id"
+    t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
   end
 
   create_table "application_forms", force: :cascade do |t|
@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 2019_10_21_122607) do
   end
 
   add_foreign_key "application_choices", "application_forms", on_delete: :cascade
-  add_foreign_key "application_choices", "courses"
+  add_foreign_key "application_choices", "course_options"
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
   add_foreign_key "course_options", "courses", on_delete: :cascade
   add_foreign_key "course_options", "sites", on_delete: :cascade
