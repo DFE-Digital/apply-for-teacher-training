@@ -1,5 +1,7 @@
 module CandidateInterface
   class ApplyingController < CandidateInterfaceController
+    skip_before_action :authenticate_candidate!
+
     rescue_from ActionController::ParameterMissing, with: :render_not_found
 
     def show

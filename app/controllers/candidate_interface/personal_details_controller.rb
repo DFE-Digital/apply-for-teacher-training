@@ -1,7 +1,5 @@
 module CandidateInterface
   class PersonalDetailsController < CandidateInterfaceController
-    before_action :authenticate_candidate!
-
     def edit
       @personal_details_form = PersonalDetailsForm.build_from_application(
         current_candidate.current_application,

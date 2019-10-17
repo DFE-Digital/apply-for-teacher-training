@@ -1,5 +1,7 @@
 module CandidateInterface
   class SignUpController < CandidateInterfaceController
+    skip_before_action :authenticate_candidate!
+
     def new
       @candidate = Candidate.new
     end
