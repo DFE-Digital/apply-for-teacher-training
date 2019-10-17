@@ -37,6 +37,13 @@ FactoryBot.define do
     name { Faker::Educator.secondary_school }
   end
 
+  factory :course_option do
+    course
+    site
+
+    vacancy_status { 'B' }
+  end
+
   factory :course do
     provider
 
