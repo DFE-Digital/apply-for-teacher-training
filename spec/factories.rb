@@ -39,7 +39,9 @@ FactoryBot.define do
 
   factory :course_option do
     course
-    site
+    site do
+      create(:site, provider: course.provider)
+    end
 
     vacancy_status { 'B' }
   end
