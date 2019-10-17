@@ -1,5 +1,3 @@
-require_relative 'lib/magic_link_token'
-
 class MagicLinkSignIn
   def self.call(candidate:)
     magic_link_token = MagicLinkToken.new
