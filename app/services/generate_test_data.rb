@@ -1,7 +1,7 @@
 class GenerateTestData
   def initialize(number_of_candidates, provider = nil)
     @number_of_candidates = number_of_candidates
-    @provider = provider || random_provider
+    @provider = provider || fake_provider
   end
 
   def generate
@@ -39,7 +39,7 @@ private
     )
   end
 
-  def random_provider
+  def fake_provider
     Provider.find_or_create_by(
       name: 'Example Training Provider',
       code: 'ABC',
