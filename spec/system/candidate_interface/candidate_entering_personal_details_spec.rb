@@ -1,5 +1,4 @@
 require 'rails_helper'
-require_relative 'helpers/candidate_helper'
 
 RSpec.feature 'Entering their personal details' do
   include CandidateHelper
@@ -35,6 +34,10 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def given_i_am_not_signed_in; end
+
+  def given_i_am_signed_in
+    create_and_sign_in_candidate
+  end
 
   def and_i_visit_the_personal_details_page
     visit candidate_interface_personal_details_edit_path

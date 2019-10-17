@@ -1,5 +1,4 @@
 require 'rails_helper'
-require_relative 'helpers/candidate_helper'
 
 RSpec.feature 'Signing out' do
   include CandidateHelper
@@ -9,6 +8,10 @@ RSpec.feature 'Signing out' do
     and_i_visit_the_site
     when_i_click_the_sign_out_button
     then_i_should_be_signed_out
+  end
+
+  def given_i_am_signed_in
+    create_and_sign_in_candidate
   end
 
   def and_i_visit_the_site
