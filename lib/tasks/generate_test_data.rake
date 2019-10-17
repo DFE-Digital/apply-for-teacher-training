@@ -1,3 +1,3 @@
 task generate_test_data: :environment do
-  GenerateTestData.new.generate
+  GenerateTestData.new(100).generate
 end

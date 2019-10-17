@@ -4,7 +4,7 @@ RSpec.describe 'API Authentication', type: :request do
   include VendorApiSpecHelpers
 
   it 'returns succesfully if the user has a valid token' do
-    unhashed_token = VendorApiToken.create_with_random_token!
+    unhashed_token = VendorApiToken.create_with_random_token!(provider: create(:provider))
 
     get '/api/v1/ping', headers: { 'Authorization' => "Bearer #{unhashed_token}" }
 

@@ -1,6 +1,12 @@
 class GenerateTestData
-  def generate(number_of_candidates = 100)
-    Candidate.delete_all
+  def initialize(number_of_candidates, provider = nil)
+    @number_of_candidates = number_of_candidates
+    @provider = provider || fake_provider
+  end
+
+  def generate
+    # delete_all doesn't work on `through` associations
+    provider.application_choices.map(&:delete)
 
     number_of_candidates.times do
       application_form = FactoryBot.create(
@@ -9,7 +15,7 @@ class GenerateTestData
         last_name: Faker::Name.last_name,
       )
 
-      # Most of the time generate a application with a single course choice,
+      # Most of the time generate an application with a single course choice,
       # and sometimes 2 or 3.
       [1, 1, 1, 1, 1, 1, 1, 2, 3].sample.times do
         FactoryBot.create(
@@ -24,6 +30,8 @@ class GenerateTestData
 
 private
 
+  attr_reader :provider, :number_of_candidates
+
   def random_course
     FactoryBot.create(
       :course,
@@ -31,7 +39,7 @@ private
     )
   end
 
-  def provider
+  def fake_provider
     Provider.find_or_create_by(
       name: 'Example Training Provider',
       code: 'ABC',

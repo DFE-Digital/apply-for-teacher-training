@@ -39,7 +39,7 @@ module VendorApi
   private
 
     def application_choice
-      @application_choice ||= ApplicationChoice.find(params[:application_id])
+      @application_choice ||= current_provider.visible_applications.find(params[:application_id])
     end
 
     def respond_to_decision(decision)

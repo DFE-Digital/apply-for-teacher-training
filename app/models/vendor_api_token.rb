@@ -1,7 +1,9 @@
 class VendorApiToken < ApplicationRecord
-  def self.create_with_random_token!
+  belongs_to :provider
+
+  def self.create_with_random_token!(provider:)
     unhashed_token, hashed_token = Devise.token_generator.generate(VendorApiToken, :hashed_token)
-    create!(hashed_token: hashed_token)
+    create!(hashed_token: hashed_token, provider: provider)
     unhashed_token
   end
 

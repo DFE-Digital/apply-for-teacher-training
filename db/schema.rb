@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_15_153328) do
+ActiveRecord::Schema.define(version: 2019_10_16_153741) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -75,11 +76,14 @@ ActiveRecord::Schema.define(version: 2019_10_15_153328) do
     t.string "hashed_token", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "provider_id", null: false
     t.index ["hashed_token"], name: "index_vendor_api_tokens_on_hashed_token", unique: true
+    t.index ["provider_id"], name: "index_vendor_api_tokens_on_provider_id"
   end
 
   add_foreign_key "application_choices", "application_forms", on_delete: :cascade
   add_foreign_key "application_choices", "courses"
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
   add_foreign_key "courses", "providers"
+  add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
 end

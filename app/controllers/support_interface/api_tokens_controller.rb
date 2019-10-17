@@ -5,7 +5,8 @@ module SupportInterface
     end
 
     def create
-      @unhashed_token = VendorApiToken.create_with_random_token!
+      provider = Provider.find(params[:vendor_api_token][:provider_id])
+      @unhashed_token = VendorApiToken.create_with_random_token!(provider: provider)
     end
   end
 end
