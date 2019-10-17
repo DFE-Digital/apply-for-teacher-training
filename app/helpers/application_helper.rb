@@ -17,6 +17,8 @@ module ApplicationHelper
       'Apply for teacher training'
     when 'support_interface'
       'Support'
+    else
+      'Apply for teacher training'
     end
   end
 
@@ -28,6 +30,8 @@ module ApplicationHelper
       candidate_interface_start_path
     when 'support_interface'
       support_interface_path
+    else
+      root_path
     end
   end
 
