@@ -11,6 +11,7 @@ AllCops:
     - 'config/application.rb'
     - 'config/puma.rb'
     - 'config/environments/*'
+    - 'config/initializers/nationalities.rb'
 
 Style/StringLiterals:
   Enabled: true

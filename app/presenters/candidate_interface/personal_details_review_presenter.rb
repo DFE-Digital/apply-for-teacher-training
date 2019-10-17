@@ -35,7 +35,7 @@ module CandidateInterface
     def nationality_row
       {
         key: I18n.t('application_form.personal_details.nationality.label'),
-        value: [@form.first_nationality, @form.second_nationality].reject(&:blank?).to_sentence,
+        value: formatted_nationalities,
         action: 'nationality',
       }
     end
@@ -70,6 +70,15 @@ module CandidateInterface
         value: @form.other_language_details,
         action: 'english languages qualifications',
       }
+    end
+
+    def formatted_nationalities
+      [
+        @form.first_nationality,
+        @form.second_nationality,
+      ]
+        .reject(&:blank?)
+        .to_sentence
     end
   end
 end

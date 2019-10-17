@@ -24,7 +24,7 @@ module ViewHelper
   def select_nationality_options
     [
       OpenStruct.new(id: '', name: t('application_form.personal_details.nationality.default_option')),
-    ] + NATIONALITIES.map { |nationality| OpenStruct.new(id: nationality, name: nationality) }
+    ] + NATIONALITIES.map { |_, nationality| OpenStruct.new(id: nationality, name: nationality) }
   end
 
 private

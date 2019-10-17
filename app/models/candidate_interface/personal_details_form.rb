@@ -19,7 +19,7 @@ module CandidateInterface
     validate :date_of_birth_not_in_future
 
     validates :first_nationality, :second_nationality,
-              inclusion: { in: NATIONALITIES, allow_blank: true }
+              inclusion: { in: NATIONALITY_DEMONYMS, allow_blank: true }
 
     validates :english_language_details, :other_language_details,
               word_count: { maximum: 200 }
