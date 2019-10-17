@@ -6,8 +6,8 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
       first_name: Faker::Name.first_name,
       last_name: Faker::Name.last_name,
       date_of_birth: Faker::Date.birthday,
-      first_nationality: NATIONALITIES.sample,
-      second_nationality: NATIONALITIES.sample,
+      first_nationality: NATIONALITY_DEMONYMS.sample,
+      second_nationality: NATIONALITY_DEMONYMS.sample,
       english_main_language: [true, false].sample,
       english_language_details: Faker::Lorem.paragraph_by_chars(number: 200),
       other_language_details: Faker::Lorem.paragraph_by_chars(number: 200),
@@ -93,8 +93,8 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
     it { is_expected.to validate_length_of(:first_name).is_at_most(100) }
     it { is_expected.to validate_length_of(:last_name).is_at_most(100) }
 
-    it { is_expected.to validate_inclusion_of(:first_nationality).in_array(NATIONALITIES) }
-    it { is_expected.to validate_inclusion_of(:second_nationality).in_array(NATIONALITIES) }
+    it { is_expected.to validate_inclusion_of(:first_nationality).in_array(NATIONALITY_DEMONYMS) }
+    it { is_expected.to validate_inclusion_of(:second_nationality).in_array(NATIONALITY_DEMONYMS) }
 
     okay_text = Faker::Lorem.sentence(word_count: 200)
     long_text = Faker::Lorem.sentence(word_count: 201)
