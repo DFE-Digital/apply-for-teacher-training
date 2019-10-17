@@ -30,6 +30,13 @@ FactoryBot.define do
     end
   end
 
+  factory :site do
+    provider
+
+    code { Faker::Alphanumeric.alphanumeric(number: 3).upcase }
+    name { Faker::Educator.secondary_school }
+  end
+
   factory :course do
     provider
 
