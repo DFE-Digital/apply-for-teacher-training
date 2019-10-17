@@ -30,12 +30,6 @@ paths:
           schema:
             type: string
             format: date-time
-        - name: provider_ucas_code
-          description: UCAS Provider Code to uniquely identify a provider
-          in: query
-          required: true
-          schema:
-            type: string
       responses:
         "200":
           description: An array of applications
