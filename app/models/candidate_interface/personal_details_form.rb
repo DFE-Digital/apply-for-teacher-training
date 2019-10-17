@@ -53,9 +53,9 @@ module CandidateInterface
         last_name: last_name,
         first_nationality: first_nationality,
         second_nationality: second_nationality,
-        english_main_language: english_main_language == 'yes',
-        english_language_details: english_language_details,
-        other_language_details: other_language_details,
+        english_main_language: english_main_language?,
+        english_language_details: english_main_language? ? english_language_details : '',
+        other_language_details: english_main_language? ? '' : other_language_details,
         date_of_birth: date_of_birth,
       )
     end
