@@ -1,4 +1,3 @@
-require_relative '../../../app/services/lib/magic_link_token'
 require 'rails_helper'
 
 RSpec.describe 'Authentication for candidates', type: :request do
