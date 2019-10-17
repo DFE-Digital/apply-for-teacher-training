@@ -2,12 +2,17 @@ require 'rails_helper'
 
 RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-enrolment', type: :request do
   include VendorApiSpecHelpers
+  include FactoryHelpers
 
   it_behaves_like 'an endpoint that requires metadata', '/confirm-enrolment'
 
   describe 'successfully confirming enrolment' do
     it 'returns updated application' do
-      application_choice = create(:application_choice, status: 'recruited', provider: currently_authenticated_provider)
+      application_choice = create(
+        :application_choice,
+        status: 'recruited',
+        course_option: course_option_for_provider(provider: currently_authenticated_provider),
+      )
 
       post_api_request "/api/v1/applications/#{application_choice.id}/confirm-enrolment"
 
@@ -26,7 +31,11 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-enrolmen
   end
 
   it 'returns an error when trying to transition to an invalid state' do
-    application_choice = create(:application_choice, status: 'rejected', provider: currently_authenticated_provider)
+    application_choice = create(
+      :application_choice,
+      status: 'rejected',
+      course_option: course_option_for_provider(provider: currently_authenticated_provider),
+    )
 
     post_api_request "/api/v1/applications/#{application_choice.id}/confirm-enrolment"
 

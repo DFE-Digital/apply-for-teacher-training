@@ -40,7 +40,7 @@ FactoryBot.define do
   factory :course_option do
     course
     site do
-      create(:site, provider: course.provider)
+      association(:site, provider: course.provider)
     end
 
     vacancy_status { 'B' }
@@ -54,6 +54,7 @@ FactoryBot.define do
   end
 
   factory :provider do
+    initialize_with { Provider.find_or_create_by code: code }
     code { Faker::Alphanumeric.alphanumeric(number: 3).upcase }
     name { Faker::Educator.university }
   end

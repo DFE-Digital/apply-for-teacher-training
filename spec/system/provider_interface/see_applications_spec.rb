@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'See applications' do
+  include FactoryHelpers
+
   scenario 'Provider visits application page' do
     given_i_am_a_provider_user
     and_my_organisation_has_applications
@@ -17,11 +19,12 @@ RSpec.feature 'See applications' do
   end
 
   def and_my_organisation_has_applications
-    my_course = create(:course, provider: create(:provider, code: 'ABC'))
-    other_course = create(:course, provider: create(:provider, code: 'ANOTHER_ORG'))
-    create(:application_choice, course: my_course, application_form: create(:application_form, first_name: 'Alice', last_name: 'Wunder'))
-    create(:application_choice, course: my_course, application_form: create(:application_form, first_name: 'Bob'))
-    create(:application_choice, course: other_course, application_form: create(:application_form, first_name: 'Charlie'))
+    course_option = course_option_for_provider_code(provider_code: 'ABC')
+    other_course_option = course_option_for_provider_code(provider_code: 'ANOTHER_ORG')
+
+    create(:application_choice, course_option: course_option, application_form: create(:application_form, first_name: 'Alice', last_name: 'Wunder'))
+    create(:application_choice, course_option: course_option, application_form: create(:application_form, first_name: 'Bob'))
+    create(:application_choice, course_option: other_course_option, application_form: create(:application_form, first_name: 'Charlie'))
   end
 
   def and_i_visit_the_provider_page

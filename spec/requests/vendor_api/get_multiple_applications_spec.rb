@@ -2,26 +2,37 @@ require 'rails_helper'
 
 RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
   include VendorApiSpecHelpers
+  include FactoryHelpers
 
-  it 'returns applications of the authenticating provider' do
+  it 'returns applications scoped by `provider`' do
     create_list(
-      :application_choice, 2,
-      course: create(:course, provider: currently_authenticated_provider)
+      :application_choice,
+      2,
+      course_option: course_option_for_provider(provider: currently_authenticated_provider),
     )
 
-    create(:application_choice)
+    create_list(
+      :application_choice,
+      1,
+      course_option: course_option_for_provider(provider: alternate_provider),
+    )
 
-    get_api_request "/api/v1/applications?since=#{(Time.now - 1.days).iso8601}"
-
+    get_api_request "/api/v1/applications?provider_ucas_code=UCL&since=#{(Time.now - 1.days).iso8601}"
     expect(parsed_response['data'].size).to be(2)
   end
 
   it 'returns applications filtered with `since`' do
     Timecop.travel(Time.now - 2.days) do
-      create(:application_choice, course: create(:course, provider: currently_authenticated_provider))
+      create(
+        :application_choice,
+        course_option: course_option_for_provider(provider: currently_authenticated_provider),
+      )
     end
 
-    create(:application_choice, course: create(:course, provider: currently_authenticated_provider))
+    create(
+      :application_choice,
+      course_option: course_option_for_provider(provider: currently_authenticated_provider),
+    )
 
     get_api_request "/api/v1/applications?since=#{(Time.now - 1.days).iso8601}"
 

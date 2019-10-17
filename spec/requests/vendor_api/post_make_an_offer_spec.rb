@@ -2,12 +2,17 @@ require 'rails_helper'
 
 RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', type: :request do
   include VendorApiSpecHelpers
+  include FactoryHelpers
 
   it_behaves_like 'an endpoint that requires metadata', '/offer'
 
   describe 'making a conditional offer' do
     it 'returns the updated application' do
-      application_choice = create(:application_choice, status: 'application_complete', provider: currently_authenticated_provider)
+      application_choice = create(
+        :application_choice,
+        status: 'application_complete',
+        course_option: course_option_for_provider(provider: currently_authenticated_provider),
+      )
       request_body = {
         "data": {
           "conditions": [
@@ -32,7 +37,11 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
   describe 'making an unconditional offer' do
     it 'returns the updated application' do
-      application_choice = create(:application_choice, status: 'application_complete', provider: currently_authenticated_provider)
+      application_choice = create(
+        :application_choice,
+        status: 'application_complete',
+        course_option: course_option_for_provider(provider: currently_authenticated_provider),
+      )
 
       post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {}
 
@@ -45,7 +54,11 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
   end
 
   it 'returns an error when trying to transition to an invalid state' do
-    application_choice = create(:application_choice, status: 'rejected', provider: currently_authenticated_provider)
+    application_choice = create(
+      :application_choice,
+      status: 'rejected',
+      course_option: course_option_for_provider(provider: currently_authenticated_provider),
+    )
 
     post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {}
 
@@ -54,7 +67,11 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
   end
 
   it 'returns an error when given invalid conditions' do
-    application_choice = create(:application_choice, status: 'application_complete', provider: currently_authenticated_provider)
+    application_choice = create(
+      :application_choice,
+      status: 'application_complete',
+      course_option: course_option_for_provider(provider: currently_authenticated_provider),
+    )
 
     post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
       data: {

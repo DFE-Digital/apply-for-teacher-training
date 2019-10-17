@@ -1,6 +1,7 @@
 class CourseOption < ApplicationRecord
   belongs_to :course
   belongs_to :site
+  has_many :application_choices
 
   validates :vacancy_status, presence: true
   validate :validate_providers, if: -> { site.present? && course.present? }
