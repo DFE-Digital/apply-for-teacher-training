@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2019_10_21_122607) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -74,6 +73,16 @@ ActiveRecord::Schema.define(version: 2019_10_21_122607) do
     t.index ["code"], name: "index_providers_on_code", unique: true
   end
 
+  create_table "sites", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "name", null: false
+    t.bigint "provider_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["code", "provider_id"], name: "index_sites_on_code_and_provider_id", unique: true
+    t.index ["provider_id"], name: "index_sites_on_provider_id"
+  end
+
   create_table "vendor_api_tokens", force: :cascade do |t|
     t.string "hashed_token", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -88,4 +97,5 @@ ActiveRecord::Schema.define(version: 2019_10_21_122607) do
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
   add_foreign_key "courses", "providers"
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
+  add_foreign_key "sites", "providers"
 end
