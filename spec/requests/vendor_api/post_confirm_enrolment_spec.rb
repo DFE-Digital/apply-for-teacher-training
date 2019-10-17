@@ -7,7 +7,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-enrolmen
 
   describe 'successfully confirming enrolment' do
     it 'returns updated application' do
-      application_choice = create(:application_choice, status: 'recruited')
+      application_choice = create(:application_choice, status: 'recruited', provider: currently_authenticated_provider)
 
       post_api_request "/api/v1/applications/#{application_choice.id}/confirm-enrolment"
 
@@ -26,7 +26,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-enrolmen
   end
 
   it 'returns an error when trying to transition to an invalid state' do
-    application_choice = create(:application_choice, status: 'rejected')
+    application_choice = create(:application_choice, status: 'rejected', provider: currently_authenticated_provider)
 
     post_api_request "/api/v1/applications/#{application_choice.id}/confirm-enrolment"
 

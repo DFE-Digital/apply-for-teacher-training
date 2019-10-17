@@ -7,7 +7,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
 
   describe 'successfully rejecting an application' do
     it 'returns rejected application' do
-      application_choice = create(:application_choice, status: 'application_complete')
+      application_choice = create(:application_choice, status: 'application_complete', provider: currently_authenticated_provider)
       request_body = {
         "data": {
           "reason": 'Does not meet minimum GCSE requirements',
@@ -27,7 +27,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
   end
 
   it 'returns an error when trying to transition to an invalid state' do
-    application_choice = create(:application_choice, status: 'rejected')
+    application_choice = create(:application_choice, status: 'rejected', provider: currently_authenticated_provider)
 
     post_api_request "/api/v1/applications/#{application_choice.id}/reject", params: {}
 
@@ -36,7 +36,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
   end
 
   it 'returns an error when a proper reason is not provided' do
-    application_choice = create(:application_choice, status: 'application_complete')
+    application_choice = create(:application_choice, status: 'application_complete', provider: currently_authenticated_provider)
 
     post_api_request "/api/v1/applications/#{application_choice.id}/reject", params: {
       data: {
