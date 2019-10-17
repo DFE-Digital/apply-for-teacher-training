@@ -23,10 +23,16 @@ class ApplicationStateChange
     end
 
     state :conditional_offer do
-      event :confirm_conditions_met, transitions_to: :recruited
+      event :accept, transitions_to: :meeting_conditions
     end
 
-    state :unconditional_offer
+    state :unconditional_offer do
+      event :accept, transitions_to: :recruited
+    end
+
+    state :meeting_conditions do
+      event :confirm_conditions_met, transitions_to: :recruited
+    end
 
     state :recruited do
       event :confirm_enrolment, transitions_to: :enrolled

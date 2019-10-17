@@ -6,7 +6,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-conditio
   it_behaves_like 'an endpoint that requires metadata', '/confirm-conditions-met'
 
   it 'confirms the conditions have been met' do
-    application_choice = create(:application_choice, status: 'conditional_offer')
+    application_choice = create(:application_choice, status: 'meeting_conditions')
 
     post_api_request "/api/v1/applications/#{application_choice.id}/confirm-conditions-met"
 
