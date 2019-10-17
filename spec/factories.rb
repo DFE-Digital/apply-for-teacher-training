@@ -58,7 +58,7 @@ FactoryBot.define do
 
   factory :application_choice do
     association :application_form, factory: :completed_application_form
-    course
+    course_option
     status { ApplicationStateChange.valid_states.sample }
   end
 end
