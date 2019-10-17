@@ -19,15 +19,11 @@ module CandidateInterface
     def submit
       @application_form = current_candidate.current_application
 
-      # TODO: improve and move this into a service
-      application_not_submitted = @application_form.application_choices.first.status != 'application_complete'
-      if application_not_submitted
-        @application_form.application_choices.each do |application_choice|
-          ApplicationStateChange.new(application_choice).submit!
-        end
-      end
+      SubmitApplication.new(@application_form.application_choices).call
 
-      render :success
+      redirect_to candidate_interface_application_submit_success_path
     end
+
+    def submit_success; end
   end
 end
