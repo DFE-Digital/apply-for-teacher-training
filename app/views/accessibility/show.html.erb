@@ -1,0 +1,94 @@
+<%= content_for :title, page_title(:accessibility) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl"><%= t('page_titles.accessibility') %></h1>
+
+    <p class="govuk-body">
+      Apply for teacher training is a pilot service run by the
+      Department for Education. It allows people to apply to some teacher
+      training programmes in the UK.
+    </p>
+    <p class="govuk-body">
+      This service is designed to be used by as many people as possible.
+      We have built this service in line with the <%= govuk_link_to 'accessible design principles used across GOV.UK', 'https://design-system.service.gov.uk/accessibility/', target: '_blank' %>.
+    </p>
+    <p class="govuk-body">
+      The service is being piloted with a limited number of users. We have tested
+      the prototype with users with accessibility needs, for instance, users who
+      require screen readers.
+    </p>
+    <p class="govuk-body">
+      We will carry out a full accessibility audit after or during the pilot.
+    </p>
+    <p class="govuk-body">
+      <%= govuk_link_to 'AbilityNet', 'https://mcmw.abilitynet.org.uk/', target: '_blank' %>
+      has advice on making your device easier to use if you have a disability.
+    </p>
+
+    <h2 class="govuk-heading-l">
+      What to do if you cannot access parts of this website
+    </h2>
+    <p class="govuk-body">
+      If you need information on this website in a different format like accessible
+      PDF, large print, easy read, audio recording or braille:
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>email <%= bat_contact_mail_to %></li>
+    </ul>
+    <p class="govuk-body">
+      We will get back to you within 5 working days.
+    </p>
+
+    <h2 class="govuk-heading-l">
+      Reporting accessibility problems with this website
+    </h2>
+    <p class="govuk-body">
+      We’re looking to improve the accessibility of this service. If you find any
+      problems or think we’re not meeting accessibility requirements, contact us:
+      <%= bat_contact_mail_to %>.
+    </p>
+
+    <h2 class="govuk-heading-l">
+      Enforcement procedure
+    </h2>
+    <p class="govuk-body">
+      The Equality and Human Rights Commission (EHRC) is responsible for enforcing
+      the Public Sector Bodies (Websites and Mobile Applications) (No. 2)
+      Accessibility Regulations 2018 (the ‘accessibility regulations’).
+      If you’re not happy with how we respond to your complaint,
+      <%= govuk_link_to 'contact the quality Advisory and Support Service (EASS)', 'https://www.equalityadvisoryservice.com/', target: '_blank' %>.
+    </p>
+
+    <h2 class="govuk-heading-l">
+      Technical information about this website’s accessibility
+    </h2>
+    <p class="govuk-body">
+      The Department for Education is committed to making its website services
+      accessible, in accordance with the Public Sector Bodies (Websites and
+      Mobile Applications) (No. 2) Accessibility Regulations 2018.
+    </p>
+    <p class="govuk-body">
+      This website is partially compliant with the
+      <%= govuk_link_to 'Web Content Accessibility Guidelines version 2.1', 'https://www.w3.org/TR/WCAG21/', target: '_blank' %>
+      AA standard, due to the non-compliances listed below.
+    </p>
+
+    <h2 class="govuk-heading-l">
+      Non accessible content
+    </h2>
+    <p class="govuk-body">
+      We will list any non accessible content as soon as possible. Please get in
+      touch with us if you come across any accessibility requirements:
+      <%= bat_contact_mail_to %>.
+    </p>
+
+    <h2 class="govuk-heading-l">
+      What we’re doing to improve accessibility
+    </h2>
+    <p class="govuk-body">
+      We will carry out a full accessibility audit after or during the pilot of
+      this service.
+    </p>
+  </div>
+</div>

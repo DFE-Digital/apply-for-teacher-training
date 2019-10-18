@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   root to: redirect('/candidate')
 
+  get '/accessibility', to: 'accessibility#show'
+
   namespace :candidate_interface, path: '/candidate' do
     get '/' => 'start_page#show', as: :start
     get '/sign-up', to: 'sign_up#new', as: :sign_up
