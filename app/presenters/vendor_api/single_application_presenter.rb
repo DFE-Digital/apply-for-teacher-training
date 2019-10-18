@@ -66,6 +66,7 @@ module VendorApi
         provider_ucas_code: application_choice.provider.code,
         site_ucas_code: application_choice.site.code,
         course_ucas_code: application_choice.course.code,
+        level: application_choice.course.level,
       }
     end
   end

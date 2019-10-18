@@ -451,6 +451,7 @@ components:
         - provider_ucas_code
         - course_ucas_code
         - site_ucas_code
+        - level
       properties:
         start_date:
           type: string
@@ -469,6 +470,14 @@ components:
           type: string
           description: The site’s UCAS code
           example: K
+        level:
+          type: string
+          description: The course's level
+          enum:
+            - primary
+            - secondary
+            - further_education
+          example: primary
     Offer:
       type: object
       additionalProperties: false
