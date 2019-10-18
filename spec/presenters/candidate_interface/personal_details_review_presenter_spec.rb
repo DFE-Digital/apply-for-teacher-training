@@ -181,6 +181,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       key: t("application_form.personal_details.#{key}.label"),
       value: value,
       action: t("application_form.personal_details.#{key}.change_action"),
+      change_path: Rails.application.routes.url_helpers.candidate_interface_personal_details_edit_path,
     }
   end
 end
