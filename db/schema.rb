@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 2019_10_21_122607) do
     t.string "code"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "level"
     t.index ["code"], name: "index_courses_on_code", unique: true
     t.index ["provider_id"], name: "index_courses_on_provider_id"
   end
