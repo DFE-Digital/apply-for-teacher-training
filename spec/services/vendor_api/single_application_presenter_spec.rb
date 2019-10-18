@@ -26,10 +26,7 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
         first_name: application_choice.application_form.first_name,
         last_name: application_choice.application_form.last_name,
         date_of_birth: application_choice.application_form.date_of_birth,
-        nationality: [
-          application_choice.application_form.first_nationality,
-          application_choice.application_form.second_nationality,
-        ].compact,
+        nationality: %w[NL],
         uk_residency_status: '',
       }
     end

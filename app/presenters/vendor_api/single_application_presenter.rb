@@ -18,10 +18,7 @@ module VendorApi
             first_name: application_form.first_name,
             last_name: application_form.last_name,
             date_of_birth: application_form.date_of_birth,
-            nationality: [
-              application_form.first_nationality,
-              application_form.second_nationality,
-            ].compact,
+            nationality: %w[NL],
             uk_residency_status: '',
           },
           contact_details: {

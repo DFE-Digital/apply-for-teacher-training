@@ -15,7 +15,7 @@ class Candidate < ApplicationRecord
   def current_application
     choice = ApplicationChoice.first_or_create do |ac|
       provider = Provider.find_or_create_by(code: 'ABC') { |p| p.name = 'Example provider' }
-      course = Course.find_or_create_by(name: 'English Primary', code: '123', provider: provider)
+      course = Course.find_or_create_by(name: 'English Primary', code: '123', provider: provider, level: 'primary')
       site = Site.find_or_create_by(code: 'A', name: 'Example School', provider: provider)
       ac.course_option = CourseOption.find_or_create_by(course: course, site: site, vacancy_status: 'B')
     end
