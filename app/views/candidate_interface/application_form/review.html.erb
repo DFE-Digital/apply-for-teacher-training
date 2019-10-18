@@ -1,8 +1,8 @@
-<% content_for :title, page_title(:application_form) %>
+<% content_for :title, page_title(t('review_application.title')) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path) %>
 
 <h1 class="govuk-heading-xl">
-  <%= t('page_titles.review_application') %>
+  <%= t('review_application.heading') %>
 </h1>
 
 <h2 class="govuk-heading-m govuk-!-font-size-27">Courses</h2>
@@ -72,4 +72,4 @@
 
 <p class="govuk-body">No references entered.</p>
 
-<%= govuk_button_link_to 'Continue', candidate_interface_application_submit_show_path %>
+<%= govuk_button_link_to t('review_application.button_continue'), candidate_interface_application_submit_show_path %>
