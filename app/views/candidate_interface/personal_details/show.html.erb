@@ -5,27 +5,6 @@
   Personal details
 </h1>
 
-<section class="app-summary-card govuk-!-margin-bottom-6">
-  <div class="app-summary-card__body">
-    <dl class="govuk-summary-list">
-      <% @personal_details_review.present.each do |row| %>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            <%= row[:key] %>
-          </dt>
-          <dd class="govuk-summary-list__value">
-            <%= row[:value] %>
-          </dd>
-
-          <dd class="govuk-summary-list__actions">
-            <%= link_to candidate_interface_personal_details_edit_path, class: 'govuk-link' do %>
-              Change<span class="govuk-visually-hidden"> <%= row[:action] %></span>
-            <% end %>
-          </dd>
-        </div>
-      <% end %>
-    </dl>
-  </div>
-</section>
+<%= render(SummaryCardComponent, rows: @personal_details_review.present) %>
 
 <%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>
