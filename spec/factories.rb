@@ -51,6 +51,7 @@ FactoryBot.define do
 
     code { Faker::Alphanumeric.alphanumeric(number: 3).upcase }
     name { Faker::Educator.subject }
+    level { 'primary' }
   end
 
   factory :provider do
