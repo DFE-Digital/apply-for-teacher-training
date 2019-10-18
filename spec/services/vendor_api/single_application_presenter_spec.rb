@@ -21,9 +21,25 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
         course_ucas_code: application_choice.course.code,
       }
     end
+    let(:expected_candidate_attributes) do
+      {
+        first_name: application_choice.application_form.first_name,
+        last_name: application_choice.application_form.last_name,
+        date_of_birth: application_choice.application_form.date_of_birth,
+        nationality: [
+          application_choice.application_form.first_nationality,
+          application_choice.application_form.second_nationality,
+        ].compact,
+        uk_residency_status: '',
+      }
+    end
 
     it 'returns correct course attributes' do
       expect(json.dig(:attributes, :course)).to eq expected_course_attributes
+    end
+
+    it 'returns correct candidate attributes' do
+      expect(json.dig(:attributes, :candidate)).to eq expected_candidate_attributes
     end
   end
 end
