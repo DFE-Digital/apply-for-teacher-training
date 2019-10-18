@@ -30,6 +30,8 @@ gem 'sentry-raven'
 gem 'factory_bot_rails'
 gem 'faker'
 
+gem 'actionview-component'
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.3'

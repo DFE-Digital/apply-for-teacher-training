@@ -37,6 +37,7 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
+    actionview-component (1.3.5)
     activejob (6.0.0)
       activesupport (= 6.0.0)
       globalid (>= 0.3.6)
@@ -358,6 +359,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  actionview-component
   brakeman
   capybara (>= 3.24)
   capybara-email
