@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'Viewing their new application' do
+  include CandidateHelper
+
   scenario 'Logged in candidate with no application choices' do
     given_i_am_signed_in
     when_i_visit_the_site
@@ -8,8 +10,7 @@ RSpec.feature 'Viewing their new application' do
   end
 
   def given_i_am_signed_in
-    candidate = create(:candidate)
-    login_as(candidate)
+    create_and_sign_in_candidate
   end
 
   def when_i_visit_the_site

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'Entering their personal details' do
+  include CandidateHelper
+
   scenario 'Candidate submits their personal details' do
     given_i_am_not_signed_in
     and_i_visit_the_personal_details_page
@@ -33,17 +35,16 @@ RSpec.feature 'Entering their personal details' do
 
   def given_i_am_not_signed_in; end
 
+  def given_i_am_signed_in
+    create_and_sign_in_candidate
+  end
+
   def and_i_visit_the_personal_details_page
     visit candidate_interface_personal_details_edit_path
   end
 
   def then_i_should_see_the_homepage
     expect(page).to have_current_path(candidate_interface_start_path)
-  end
-
-  def given_i_am_signed_in
-    candidate = create(:candidate)
-    login_as(candidate)
   end
 
   def and_i_visit_the_site

@@ -2,7 +2,7 @@ en:
   authentication:
     sign_up:
       heading: Before you begin
-      button: Continue
+      button_continue: Continue
       email_address:
         label: Email address
         hint_label: Don’t use a work or university email address you might lose access to
