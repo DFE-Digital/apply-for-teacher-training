@@ -49,15 +49,4 @@ RSpec.feature 'Candidate submit the application' do
   def and_i_can_see_my_application_has_been_successfully_submitted
     expect(page).to have_content 'Application successfully submitted'
   end
-
-  def then_i_can_review_my_application
-    expect(page).to have_content 'Review your application'
-  end
-
-  def then_i_can_see_my_personal_details
-    expect(page).to have_content 'Lando Calrissian'
-    expect(page).to have_content '6 April 1937'
-    expect(page).to have_content 'British and American'
-    expect(page).to have_content "I'm great at Galactic Basic so English is a piece of cake"
-  end
 end
