@@ -4,6 +4,8 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
   include VendorApiSpecHelpers
   include CourseOptionHelpers
 
+  let(:alternate_provider) { create(:provider, code: 'STR') }
+
   it 'returns applications of the authenticated provider' do
     create_list(
       :application_choice,

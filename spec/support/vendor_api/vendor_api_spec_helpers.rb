@@ -25,10 +25,6 @@ module VendorApiSpecHelpers
     @currently_authenticated_provider ||= create(:provider, code: code)
   end
 
-  def alternate_provider(code: 'STR')
-    @alternate_provider ||= create(:provider, code: code)
-  end
-
   def parsed_response
     JSON.parse(response.body)
   end
