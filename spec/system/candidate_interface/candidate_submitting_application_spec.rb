@@ -15,6 +15,7 @@ RSpec.feature 'Candidate submit the application' do
     and_i_can_submit_the_application
 
     then_i_can_see_my_application_has_been_successfully_submitted
+    and_i_receive_an_email_with_a_application_ref
   end
 
   def given_i_am_signed_in
@@ -65,5 +66,10 @@ RSpec.feature 'Candidate submit the application' do
 
   def then_i_can_see_my_application_has_been_successfully_submitted
     expect(page).to have_content 'Application successfully submitted'
+  end
+
+  def and_i_receive_an_email_with_a_application_ref
+    open_email(current_candidate.email_address)
+    expect(current_email).to have_content 'Thank you for completing your teacher training application'
   end
 end
