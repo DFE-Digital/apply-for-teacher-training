@@ -11,7 +11,9 @@ module CandidateInterface
         nationality_row,
         english_main_language_row,
         language_details_row,
-      ].compact
+      ]
+        .compact
+        .map { |row| add_change_path(row) }
     end
 
   private
@@ -79,6 +81,11 @@ module CandidateInterface
       ]
         .reject(&:blank?)
         .to_sentence
+    end
+
+    def add_change_path(row)
+      row[:change_path] = Rails.application.routes.url_helpers.candidate_interface_personal_details_edit_path
+      row
     end
   end
 end
