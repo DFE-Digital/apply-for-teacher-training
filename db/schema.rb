@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_16_153741) do
+ActiveRecord::Schema.define(version: 2019_10_21_122607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -41,6 +41,8 @@ ActiveRecord::Schema.define(version: 2019_10_16_153741) do
     t.text "english_language_details"
     t.text "other_language_details"
     t.date "date_of_birth"
+    t.boolean "further_information"
+    t.text "further_information_details"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
   end
 
