@@ -11,11 +11,7 @@
 
 <h3 class="govuk-heading-m">Personal details</h3>
 
-<% if @application_form_presenter.personal_details_completed? %>
-  <%= render(SummaryCardComponent, rows: @personal_details_review.present) %>
-<% else %>
-  <p class="govuk-body">No contact details entered.</p>
-<% end %>
+<%= render(PersonalDetailsReviewComponent, application_form: @application_form) %>
 
 <h3 class="govuk-heading-m">Contact details</h3>
 
