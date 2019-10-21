@@ -20,14 +20,14 @@ Rails.application.routes.draw do
 
     get '/apply', to: 'applying#show'
 
-    scope :application do
+    scope '/application' do
       get '/' => 'application_form#show', as: :application_form
-      get 'review' => 'application_form#review', as: :application_review
-      get 'submit' => 'application_form#submit_show', as: :application_submit_show
-      post 'submit' => 'application_form#submit', as: :application_submit
-      get 'submit-success' => 'application_form#submit_success', as: :application_submit_success
+      get '/review' => 'application_form#review', as: :application_review
+      get '/submit' => 'application_form#submit_show', as: :application_submit_show
+      post '/submit' => 'application_form#submit', as: :application_submit
+      get '/submit-success' => 'application_form#submit_success', as: :application_submit_success
 
-      scope :personal_details, path: '/personal-details' do
+      scope '/personal-details' do
         get '/' => 'personal_details#edit', as: :personal_details_edit
         post '/review' => 'personal_details#update', as: :personal_details_update
         get '/review' => 'personal_details#show', as: :personal_details_show
