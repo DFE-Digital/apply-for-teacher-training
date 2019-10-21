@@ -34,6 +34,11 @@ en:
         label: English language qualifications and other languages spoken
         change_action: english languages qualifications
       complete_form_button: Continue
+    further_information:
+      further_information:
+        label: Is there anything else you would like to tell us about your application?
+      further_information_details:
+        label: Enter further information
   activemodel:
     errors:
       models:
@@ -55,3 +60,10 @@ en:
             date_of_birth:
               invalid: Enter a date of birth in the correct format, for example 13 1 1993
               future: Enter a date of birth that is in the past, for example 13 1 1993
+        candidate_interface/further_information_form:
+          attributes:
+            further_information:
+              blank: Choose if you would like to add anything else to your application
+            further_information_details:
+              blank: Enter further information
+              too_long: Further information must be 300 characters or fewer

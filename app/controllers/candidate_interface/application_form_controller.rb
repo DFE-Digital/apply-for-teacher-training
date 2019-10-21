@@ -13,17 +13,32 @@ module CandidateInterface
     end
 
     def submit_show
-      @application_form = current_candidate.current_application
+      @further_information_form = FurtherInformationForm.new
     end
 
     def submit
-      @application_form = current_candidate.current_application
+      @further_information_form = FurtherInformationForm.new(further_information_params)
+      application_form = current_candidate.current_application
 
-      SubmitApplication.new(@application_form.application_choices).call
+      if @further_information_form.save(application_form)
 
-      redirect_to candidate_interface_application_submit_success_path
+        SubmitApplication.new(application_form.application_choices).call
+
+        redirect_to candidate_interface_application_submit_success_path
+      else
+        render :submit_show
+      end
     end
 
     def submit_success; end
+
+  private
+
+    def further_information_params
+      params.require(:candidate_interface_further_information_form).permit(
+        :further_information,
+        :further_information_details,
+      )
+    end
   end
 end
