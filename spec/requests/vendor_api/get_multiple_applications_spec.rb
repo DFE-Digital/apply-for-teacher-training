@@ -25,16 +25,10 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
 
   it 'returns applications filtered with `since`' do
     Timecop.travel(Time.now - 2.days) do
-      create(
-        :application_choice,
-        course_option: course_option_for_provider(provider: currently_authenticated_provider),
-      )
+      create_application_choice_for_currently_authenticated_provider
     end
 
-    create(
-      :application_choice,
-      course_option: course_option_for_provider(provider: currently_authenticated_provider),
-    )
+    create_application_choice_for_currently_authenticated_provider
 
     get_api_request "/api/v1/applications?since=#{(Time.now - 1.days).iso8601}"
 
@@ -42,7 +36,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
   end
 
   it 'returns a response that is valid according to the OpenAPI schema' do
-    create(:application_choice, course: create(:course, provider: currently_authenticated_provider))
+    create_application_choice_for_currently_authenticated_provider
 
     get_api_request "/api/v1/applications?since=#{(Time.now - 1.days).iso8601}"
 
