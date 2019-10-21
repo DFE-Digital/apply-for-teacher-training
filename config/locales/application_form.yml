@@ -46,10 +46,10 @@ en:
           attributes:
             first_name:
               blank: Enter your first name or given names
-              too_long: First name must be 100 characters or fewer
+              too_long: First name must be %{count} characters or fewer
             last_name:
               blank: Enter your last name or family name
-              too_long: Last name must be 100 characters or fewer
+              too_long: Last name must be %{count} characters or fewer
             first_nationality:
               blank: Choose your nationality from the list
               inclusion: Choose your nationality from the list
@@ -66,4 +66,3 @@ en:
               blank: Choose if you would like to add anything else to your application
             further_information_details:
               blank: Enter further information
-              too_long: Further information must be 300 characters or fewer
