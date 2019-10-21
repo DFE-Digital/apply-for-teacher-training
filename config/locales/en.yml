@@ -45,8 +45,8 @@ en:
   activemodel:
     attributes:
       vendor_api/metadata:
-        timestamp: "timestamp"
-        attribution: "attribution"
+        timestamp: "meta.timestamp"
+        attribution: "meta.attribution"
       vendor_api/attribution_meta:
         user_id: "user_id"
         email: "email"

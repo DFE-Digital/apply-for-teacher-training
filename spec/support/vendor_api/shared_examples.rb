@@ -24,8 +24,8 @@ RSpec.shared_examples 'an endpoint that requires metadata' do |action|
 
     expect(errors.map { |e| e['error'] }).to all(eq 'ValidationError')
     expect(errors.map { |e| e['message'] }).to include(
-      "timestamp can't be blank",
-      "attribution is invalid: full_name can't be blank, email can't be blank, and user_id can't be blank",
+      "meta.timestamp can't be blank",
+      "meta.attribution is invalid: full_name can't be blank, email can't be blank, and user_id can't be blank",
     )
   end
 end
