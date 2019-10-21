@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
   include VendorApiSpecHelpers
-  include FactoryHelpers
+  include CourseOptionHelpers
 
   it 'returns applications scoped by `provider`' do
     create_list(

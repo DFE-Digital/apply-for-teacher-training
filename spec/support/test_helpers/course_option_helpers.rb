@@ -1,4 +1,4 @@
-module FactoryHelpers
+module CourseOptionHelpers
   def course_option_for_provider(provider:)
     course = create(:course, provider: provider)
     site = create(:site, provider: provider)

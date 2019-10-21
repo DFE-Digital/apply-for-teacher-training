@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'See applications' do
-  include FactoryHelpers
+  include CourseOptionHelpers
 
   scenario 'Provider visits application page' do
     given_i_am_a_provider_user
