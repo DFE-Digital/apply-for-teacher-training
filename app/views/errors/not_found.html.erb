@@ -4,10 +4,15 @@
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl"><%= t('page_titles.not_found') %></h1>
     <p class="govuk-body">
-      If you entered a web address please check it was correct.
+      If you entered a web address, check it is correct.
     </p>
     <p class="govuk-body">
-      <%= bat_contact_mail_to('Contact the Becoming a Teacher team') %> if you believe you are seeing this message in error.
+      If you pasted the web address, check you copied the entire address.
+    </p>
+    <p class="govuk-body">
+      If the web address is correct or you selected a link or button and you
+      need to speak to someone about this problem, contact the Becoming a Teacher team:
+      <%= bat_contact_mail_to %>.
     </p>
   </div>
 </div>
