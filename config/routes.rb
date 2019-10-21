@@ -27,7 +27,7 @@ Rails.application.routes.draw do
       post 'submit' => 'application_form#submit', as: :application_submit
       get 'submit-success' => 'application_form#submit_success', as: :application_submit_success
 
-      scope :personal_details, path: '/personal-details' do
+      scope '/personal-details' do
         get '/' => 'personal_details#edit', as: :personal_details_edit
         post '/review' => 'personal_details#update', as: :personal_details_update
         get '/review' => 'personal_details#show', as: :personal_details_show
