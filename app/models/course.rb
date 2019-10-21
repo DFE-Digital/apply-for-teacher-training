@@ -5,6 +5,7 @@ class Course < ApplicationRecord
 
   validates :level, presence: true
 
+  # This enum is copied verbatim from Find to maintain consistency
   enum level: {
     primary: 'Primary',
     secondary: 'Secondary',
