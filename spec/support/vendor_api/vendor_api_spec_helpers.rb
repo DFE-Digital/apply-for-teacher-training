@@ -21,8 +21,8 @@ module VendorApiSpecHelpers
     { headers: { 'Authorization' => "Bearer #{unhashed_token}" } }
   end
 
-  def currently_authenticated_provider(code: 'UCL')
-    @currently_authenticated_provider ||= create(:provider, code: code)
+  def currently_authenticated_provider
+    @currently_authenticated_provider ||= create(:provider)
   end
 
   def parsed_response
