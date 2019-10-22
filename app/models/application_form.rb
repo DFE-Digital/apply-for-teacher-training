@@ -3,4 +3,8 @@
 class ApplicationForm < ApplicationRecord
   belongs_to :candidate
   has_many :application_choices
+
+  def complete?
+    application_choices.any? && application_choices.first.application_complete?
+  end
 end
