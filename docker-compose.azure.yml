@@ -9,6 +9,8 @@ services:
     environment:
       - RAILS_ENV
       - GOVUK_NOTIFY_API_KEY
+      - BASIC_AUTH_USERNAME
+      - BASIC_AUTH_PASSWORD
       - SUPPORT_USERNAME
       - SUPPORT_PASSWORD
       - SECRET_KEY_BASE=${railsSecretKeyBase}
