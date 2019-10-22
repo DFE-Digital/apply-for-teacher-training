@@ -1,8 +1,6 @@
 module CandidateHelper
   def create_and_sign_in_candidate
-    candidate = create(:candidate)
-
-    login_as(candidate)
+    login_as(current_candidate)
   end
 
   def candidate_fills_in_personal_details(scope:)
@@ -21,5 +19,9 @@ module CandidateHelper
 
     choose 'Yes'
     fill_in t('english_main_language.yes_label', scope: scope), with: "I'm great at Galactic Basic so English is a piece of cake", match: :prefer_exact
+  end
+
+  def current_candidate
+    @current_candidate ||= create(:candidate)
   end
 end

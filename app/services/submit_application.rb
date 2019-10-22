@@ -1,8 +1,9 @@
 class SubmitApplication
-  attr_reader :application_choices
+  attr_reader :application_choices, :candidate_email
 
-  def initialize(application_choices)
-    @application_choices = application_choices
+  def initialize(application_form)
+    @application_choices = application_form.application_choices
+    @candidate_email = application_form.candidate.email_address
   end
 
   def call
@@ -12,6 +13,7 @@ class SubmitApplication
       end
     end
 
-    # TODO: send the email "Thank you for completing your teacher training application"
+    CandidateMailer.submit_application_email(to: candidate_email,
+                                             application_ref: '1234567890').deliver!
   end
 end

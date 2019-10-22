@@ -18,8 +18,7 @@ module CandidateInterface
       application_form = current_candidate.current_application
 
       if @further_information_form.save(application_form)
-
-        SubmitApplication.new(application_form.application_choices).call
+        SubmitApplication.new(application_form).call
 
         redirect_to candidate_interface_application_submit_success_path
       else
