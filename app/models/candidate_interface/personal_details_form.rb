@@ -60,10 +60,6 @@ module CandidateInterface
       )
     end
 
-    def name
-      "#{first_name} #{last_name}"
-    end
-
     def date_of_birth
       date_args = [year, month, day].map(&:to_i)
       if Date.valid_date?(*date_args)

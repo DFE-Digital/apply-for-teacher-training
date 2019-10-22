@@ -13,6 +13,11 @@ class GenerateTestData
         :application_form,
         first_name: Faker::Name.first_name,
         last_name: Faker::Name.last_name,
+        first_nationality: NATIONALITIES.sample.last,
+        second_nationality: NATIONALITIES.sample.last,
+        english_main_language: true,
+        date_of_birth: Faker::Date.birthday,
+        further_information_details: Faker::Lorem.paragraph(sentence_count: 5),
       )
 
       # Most of the time generate an application with a single course choice,

@@ -3,4 +3,8 @@
 class ApplicationForm < ApplicationRecord
   belongs_to :candidate
   has_many :application_choices
+
+  def name
+    "#{first_name} #{last_name}"
+  end
 end

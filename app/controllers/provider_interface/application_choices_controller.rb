@@ -12,12 +12,10 @@ module ProviderInterface
     end
 
     def show
-      application_choice = ApplicationChoice
+      @application_choice = ApplicationChoice
         .includes(:application_form)
         .for_provider(current_user.provider.code)
         .find(params[:application_choice_id])
-
-      @application_choice = ApplicationChoicePresenter.new(application_choice)
     end
 
   private

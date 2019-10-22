@@ -1,21 +1,3 @@
-<h1 class='govuk-heading-xl'><%= @application_choice.full_name %>'s application</h1>
+<h1 class='govuk-heading-xl'><%= @application_choice.application_form.first_name %>'s application</h1>
 
-<dl class="govuk-summary-list">
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Name
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= @application_choice.full_name %>
-    </dd>
-  </div>
-
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Date of birth
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= @application_choice.date_of_birth %>
-    </dd>
-  </div>
-</dl>
+<%= render(SummaryCardComponent, rows: PersonalDetailsReviewPresenter.new(@application_choice.application_form).rows) %>
