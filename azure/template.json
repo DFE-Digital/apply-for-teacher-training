@@ -51,6 +51,18 @@
                 "description": "The password used to connect to the database."
             }
         },
+        "databaseStorageAutoGrow": {
+            "type": "string",
+            "metadata": {
+                "description": "Used to enable or disable autogrow on the database storage."
+            }
+        },
+        "databaseBackupRetentionDays": {
+            "type": "int",
+            "metadata": {
+                "description": "Used to configure the number of days the database backups will be retained for."
+            }
+        },
         "securityAlertEmail": {
             "type": "string",
             "metadata": {
@@ -364,7 +376,13 @@
                     },
                     "storageAccountName": {
                         "value": "[variables('storageAccountName')]"
-                    }
+                    },
+		    "storageAutoGrow": {
+			"value": "[parameters('databaseStorageAutoGrow')]"
+	            },
+		    "backupRetentionDays": {
+			"value": "[parameters('databaseBackupRetentionDays')]"
+	            }
                 }
             },
             "dependsOn": [
