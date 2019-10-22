@@ -39,7 +39,7 @@ private
     alphanumeric_id = ''
     loop do
       alphanumeric_id = generate_alphanumeric_id
-      break unless ApplicationChoice.exists?(id: alphanumeric_id)
+      break unless ApplicationChoice.unscoped.exists?(vendor_id: alphanumeric_id)
     end
     self.vendor_id = alphanumeric_id
   end
