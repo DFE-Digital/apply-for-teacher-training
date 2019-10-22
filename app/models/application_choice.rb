@@ -1,5 +1,4 @@
 class ApplicationChoice < ApplicationRecord
-  before_validation :set_vendor_id, on: :create
   before_create :set_initial_status
 
   belongs_to :application_form, touch: true
@@ -7,8 +6,6 @@ class ApplicationChoice < ApplicationRecord
   has_one :course, through: :course_option
   has_one :site, through: :course_option
   has_one :provider, through: :course
-
-  validates :vendor_id, presence: true
 
   scope :for_provider, ->(provider_code) {
     includes(:course, :provider).where(providers: { code: provider_code })
@@ -33,14 +30,5 @@ private
 
   def set_initial_status
     self.status ||= 'unsubmitted'
-  end
-
-  def set_vendor_id
-    alphanumeric_id = ''
-    loop do
-      alphanumeric_id = generate_alphanumeric_id
-      break unless ApplicationChoice.unscoped.exists?(vendor_id: alphanumeric_id)
-    end
-    self.vendor_id = alphanumeric_id
   end
 end

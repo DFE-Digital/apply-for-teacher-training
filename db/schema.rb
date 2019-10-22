@@ -17,7 +17,6 @@ ActiveRecord::Schema.define(version: 2019_10_23_151050) do
   enable_extension "plpgsql"
 
   create_table "application_choices", force: :cascade do |t|
-    t.string "vendor_id", limit: 10, null: false
     t.bigint "application_form_id", null: false
     t.text "personal_statement"
     t.datetime "created_at", precision: 6, null: false
