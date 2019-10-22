@@ -71,7 +71,7 @@ paths:
         description: |
           The conditions of the offer
 
-          Providing a request body with an array of conditions is equivalent to making a **conditional** offer. For an **unconditional** offer, provide an empty request body.
+          Providing a request body with an array of conditions is equivalent to making a **conditional** offer. For an **unconditional** offer, provide an empty array.
         content:
           application/json:
             schema:
