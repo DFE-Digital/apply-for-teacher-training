@@ -12,7 +12,7 @@ This process assumes that the build and test stage has completed without error a
 
 ## Instructions
 
-**NOTE: Before following the steps below you will need to require a PIM rights elevation if working on an app hosted in the test or production subscriptions.**
+**NOTE: Before following the steps below you will need to request an elevation of your rights to the 'contributor' role through PIM in the Azure Portal if working on an app hosted in the test or production subscriptions. This is not required in the development subscription.**
 
 1. Launch the Azure DevOps pages at https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build?definitionId=49&_a=summary.
 1. Locate the desired run from that has failed deployment from the list and select it.
