@@ -4,7 +4,7 @@ module CandidateInterface
       @form = form
     end
 
-    def present
+    def rows
       [
         name_row,
         date_of_birth_row,

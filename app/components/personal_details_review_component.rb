@@ -11,7 +11,7 @@ class PersonalDetailsReviewComponent < ActionView::Component::Base
   def rows
     CandidateInterface::PersonalDetailsReviewPresenter
       .new(@personal_details_form)
-      .present
+      .rows
   end
 
 private
