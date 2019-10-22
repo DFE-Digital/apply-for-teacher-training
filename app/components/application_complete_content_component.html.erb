@@ -1,0 +1,17 @@
+<p class="govuk-body">
+  You submitted your application on <%= submitted_at_date %>. Training providers must
+  respond to you by <%= respond_by_date %>.
+</p>
+
+<% if days_remaining_to_edit >= 1 %>
+  <div class="govuk-inset-text">
+    <p class="govuk-body">
+      You have <%= formatted_days_remaining %> (until <%= edit_by_date %>) to withdraw your application and
+      resubmit it to a different course or provider. You’ll be able to edit
+      your application before you resubmit.
+    </p>
+    <p class="govuk-body">You can only resubmit each application once.</p>
+
+    <%= govuk_button_link_to "TODO: Edit your application", "#" %>
+  </div>
+<% end %>
