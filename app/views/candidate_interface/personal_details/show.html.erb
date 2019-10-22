@@ -5,6 +5,6 @@
   Personal details
 </h1>
 
-<%= render(SummaryCardComponent, rows: @personal_details_review.present) %>
+<%= render(SummaryCardComponent, rows: @personal_details_review.rows) %>
 
 <%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>

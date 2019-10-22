@@ -6,10 +6,7 @@ module CandidateInterface
     end
 
     def review
-      personal_details_form = PersonalDetailsForm.build_from_application(
-        current_candidate.current_application,
-        )
-      @personal_details_review = PersonalDetailsReviewPresenter.new(personal_details_form)
+      @application_form = current_candidate.current_application
     end
 
     def submit_show
