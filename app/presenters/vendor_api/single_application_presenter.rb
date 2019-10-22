@@ -7,7 +7,7 @@ module VendorApi
 
     def as_json
       {
-        id: application_choice.id,
+        id: application_choice.vendor_id,
         type: 'application',
         attributes: {
           status: application_choice.status,

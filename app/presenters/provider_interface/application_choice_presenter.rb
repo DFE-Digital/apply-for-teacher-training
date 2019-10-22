@@ -22,7 +22,7 @@ module ProviderInterface
     end
 
     def to_param
-      application_choice.id
+      application_choice.to_param
     end
 
     def date_of_birth
