@@ -12,9 +12,11 @@ FactoryBot.define do
       date_of_birth { Faker::Date.birthday }
       first_nationality { NATIONALITY_DEMONYMS.sample }
       second_nationality { NATIONALITY_DEMONYMS.sample }
-      english_main_language { %w[yes no].sample }
+      english_main_language { %w[true false].sample }
       english_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
       other_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
+      further_information { %w[true false].sample }
+      further_information_details { Faker::Lorem.paragraph_by_chars(number: 300) }
 
       transient do
         application_choices_count { 3 }

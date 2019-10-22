@@ -8,25 +8,17 @@ RSpec.feature 'Candidate submit the application' do
     and_i_filled_in_personal_details_and_review_my_application
     and_i_confirm_my_application
 
-    then_i_can_submit_the_application
+    when_i_choose_to_add_further_information_but_omit_adding_details
+    then_i_should_see_validation_errors
 
-    and_i_can_see_my_application_has_been_successfully_submitted
+    when_i_fill_in_further_information
+    and_i_can_submit_the_application
+
+    then_i_can_see_my_application_has_been_successfully_submitted
   end
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_i_can_see_my_application_has_been_successfully_submitted
-    expect(page).to have_content 'Application successfully submitted'
-  end
-
-  def then_i_can_submit_the_application
-    click_button'Submit application'
-  end
-
-  def and_i_confirm_my_application
-    click_link 'Continue'
   end
 
   def and_i_filled_in_personal_details_and_review_my_application
@@ -35,29 +27,43 @@ RSpec.feature 'Candidate submit the application' do
     when_i_click_on_check_your_answers
   end
 
+  def and_i_filled_in_personal_details
+    visit candidate_interface_personal_details_edit_path
+    candidate_fills_in_personal_details(scope: 'application_form.personal_details')
+
+    click_button t('complete_form_button', scope: 'application_form.personal_details')
+  end
+
   def and_i_visit_the_application_form_page
     visit candidate_interface_application_form_path
-  end
-
-  def then_i_can_review_my_application
-    expect(page).to have_content 'Review your application'
-  end
-
-  def then_i_can_see_my_personal_details
-    expect(page).to have_content 'Lando Calrissian'
-    expect(page).to have_content '6 April 1937'
-    expect(page).to have_content 'British and American'
-    expect(page).to have_content "I'm great at Galactic Basic so English is a piece of cake"
   end
 
   def when_i_click_on_check_your_answers
     click_link 'Check your answers before submitting'
   end
 
-  def and_i_filled_in_personal_details
-    visit candidate_interface_personal_details_edit_path
-    candidate_fills_in_personal_details(scope: 'application_form.personal_details')
+  def and_i_confirm_my_application
+    click_link 'Continue'
+  end
 
-    click_button t('complete_form_button', scope: 'application_form.personal_details')
+  def when_i_choose_to_add_further_information_but_omit_adding_details
+    choose 'Yes'
+  end
+
+  def then_i_should_see_validation_errors
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/further_information_form.attributes.further_information_details.blank')
+  end
+
+  def when_i_fill_in_further_information
+    scope = 'application_form.further_information'
+    fill_in t('further_information_details.label', scope: scope), with: "How you doin', ya old pirate? So good to see ya!", match: :prefer_exact
+  end
+
+  def and_i_can_submit_the_application
+    click_button 'Submit application'
+  end
+
+  def then_i_can_see_my_application_has_been_successfully_submitted
+    expect(page).to have_content 'Application successfully submitted'
   end
 end
