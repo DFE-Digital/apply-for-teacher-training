@@ -2,7 +2,7 @@ RSpec.shared_examples 'an endpoint that requires metadata' do |action|
   it 'returns an error when Metadata is not provided' do
     application_choice = create(:application_choice)
 
-    post "/api/v1/applications/#{application_choice.id}/#{action}", auth_headers
+    post_api_request "/api/v1/applications/#{application_choice.id}/#{action}", params: { 'meta' => nil }
 
     expect(response).to have_http_status(422)
     expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
@@ -13,7 +13,7 @@ RSpec.shared_examples 'an endpoint that requires metadata' do |action|
 
     invalid_metadata = { invalid: :metadata }
 
-    post "/api/v1/applications/#{application_choice.id}/#{action}", auth_headers.merge(params: { meta: invalid_metadata })
+    post_api_request "/api/v1/applications/#{application_choice.id}/#{action}", params: { 'meta' => invalid_metadata }
 
     expect(response).to have_http_status(422)
     expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
