@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe VendorApi::SingleApplicationPresenter do
   subject(:presenter) { described_class.new(application_choice) }
 
-  let(:application_choice) { create :application_choice }
-
   around do |example|
     Timecop.freeze do
       example.run
@@ -14,6 +12,10 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
   describe '#as_json' do
     def json
       @json ||= presenter.as_json.deep_symbolize_keys
+    end
+
+    def application_choice
+      @application_choice ||= create(:application_choice)
     end
 
     def expected_attributes
