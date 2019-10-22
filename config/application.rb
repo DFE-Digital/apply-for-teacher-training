@@ -31,5 +31,7 @@ module ApplyForPostgraduateTeacherTraining
     config.generators.system_tests = nil
 
     config.exceptions_app = self.routes
+
+    config.action_mailer.preview_path = "#{Rails.root}/app/mailers/previews"
   end
 end
