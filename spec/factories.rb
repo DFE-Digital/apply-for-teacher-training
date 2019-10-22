@@ -18,6 +18,14 @@ FactoryBot.define do
       further_information { %w[true false].sample }
       further_information_details { Faker::Lorem.paragraph_by_chars(number: 300) }
 
+      phone_number { Faker::PhoneNumber.cell_phone }
+      address_line1 { Faker::Address.street_name }
+      address_line2 { Faker::Address.street_address }
+      address_line3 { Faker::Address.city }
+      address_line4 { Faker::Address.country }
+      country { Faker::Address.country_code }
+      postcode { Faker::Address.postcode }
+
       transient do
         application_choices_count { 3 }
       end

@@ -43,6 +43,13 @@ ActiveRecord::Schema.define(version: 2019_10_23_151050) do
     t.date "date_of_birth"
     t.boolean "further_information"
     t.text "further_information_details"
+    t.string "phone_number"
+    t.string "address_line1"
+    t.string "address_line2"
+    t.string "address_line3"
+    t.string "address_line4"
+    t.string "country"
+    t.string "postcode"
     t.datetime "submitted_at"
     t.string "support_reference", limit: 10
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
