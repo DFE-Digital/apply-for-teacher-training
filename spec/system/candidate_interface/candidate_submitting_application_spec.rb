@@ -69,6 +69,7 @@ RSpec.feature 'Candidate submit the application' do
 
   def then_i_can_see_my_application_has_been_successfully_submitted
     expect(page).to have_content 'Application successfully submitted'
+
   end
 
   def and_i_receive_an_email_with_a_application_ref

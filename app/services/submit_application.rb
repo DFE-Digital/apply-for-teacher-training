@@ -1,5 +1,5 @@
 class SubmitApplication
-  attr_reader :application_choices, :candidate_email
+  attr_reader :application_form
 
   def initialize(application_form)
     @application_form = application_form
@@ -14,9 +14,21 @@ class SubmitApplication
       end
     end
 
-    @application_form.update!(submitted_at: Time.now)
+    application_form.update!(submitted_at: Time.now)
 
-    CandidateMailer.submit_application_email(to: candidate_email,
-                                             application_ref: '1234567890').deliver_now
+    application_form.update_attribute(:reference, new_application_reference)
+
+    CandidateMailer
+      .submit_application_email(to: candidate_email, application_ref: application_form.reference)
+      .deliver_now
+  end
+
+private
+  def new_application_reference
+    reference_length = 6
+    letters = ('A'..'Z').to_a
+    digits = ('0'..'9').to_a
+
+    (1..reference_length).map { (letters + digits).sample }.join
   end
 end

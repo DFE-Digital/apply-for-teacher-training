@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_22_142107) do
+ActiveRecord::Schema.define(version: 2019_10_23_151050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -44,6 +44,8 @@ ActiveRecord::Schema.define(version: 2019_10_22_142107) do
     t.boolean "further_information"
     t.text "further_information_details"
     t.datetime "submitted_at"
+    t.string "support_reference", limit: 10
+    t.string "reference", limit: 10
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
   end
 

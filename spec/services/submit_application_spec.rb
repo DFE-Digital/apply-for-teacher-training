@@ -13,6 +13,7 @@ RSpec.describe SubmitApplication do
         expect(application_form.submitted_at.utc).to eq Time.now.utc
         expect(application_form.application_choices[0].status).to eq 'application_complete'
         expect(application_form.application_choices[1].status).to eq 'application_complete'
+        expect(application_form.reference).not_to be_empty
       end
     end
   end
