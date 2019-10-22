@@ -30,21 +30,41 @@ FactoryBot.define do
     end
   end
 
+  factory :site do
+    provider
+
+    code { Faker::Alphanumeric.alphanumeric(number: 3).upcase }
+    name { Faker::Educator.secondary_school }
+  end
+
+  factory :course_option do
+    course
+    site do
+      association(:site, provider: course.provider)
+    end
+
+    vacancy_status { 'B' }
+  end
+
   factory :course do
     provider
 
     code { Faker::Alphanumeric.alphanumeric(number: 3).upcase }
     name { Faker::Educator.subject }
+    level { 'primary' }
+    start_date { Date.new(2020, 9, 1) }
   end
 
   factory :provider do
+    initialize_with { Provider.find_or_create_by code: code }
     code { Faker::Alphanumeric.alphanumeric(number: 3).upcase }
     name { Faker::Educator.university }
   end
 
   factory :application_choice do
     association :application_form, factory: :completed_application_form
-    course
+    course_option
     status { ApplicationStateChange.valid_states.sample }
+    personal_statement { 'hello' }
   end
 end

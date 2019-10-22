@@ -13,7 +13,7 @@ module VendorApi
           status: application_choice.status,
           updated_at: application_choice.updated_at,
           submitted_at: Time.now,
-          personal_statement: 'hello',
+          personal_statement: application_choice.personal_statement,
           candidate: {
             first_name: application_form.first_name,
             last_name: application_form.last_name,
@@ -62,9 +62,9 @@ module VendorApi
 
     def course_json
       {
-        start_date: Time.now,
+        start_date: application_choice.course.start_date,
         provider_ucas_code: application_choice.provider.code,
-        location_ucas_code: 'x',
+        site_ucas_code: application_choice.site.code,
         course_ucas_code: application_choice.course.code,
       }
     end

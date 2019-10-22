@@ -2,12 +2,13 @@ require 'rails_helper'
 
 RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :request do
   include VendorApiSpecHelpers
+  include CourseOptionHelpers
 
   it_behaves_like 'an endpoint that requires metadata', '/reject'
 
   describe 'successfully rejecting an application' do
     it 'returns rejected application' do
-      application_choice = create(:application_choice, status: 'application_complete', provider: currently_authenticated_provider)
+      application_choice = create_application_choice_for_currently_authenticated_provider(status: 'application_complete')
       request_body = {
         "data": {
           "reason": 'Does not meet minimum GCSE requirements',
@@ -27,7 +28,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
   end
 
   it 'returns an error when trying to transition to an invalid state' do
-    application_choice = create(:application_choice, status: 'rejected', provider: currently_authenticated_provider)
+    application_choice = create_application_choice_for_currently_authenticated_provider(status: 'rejected')
 
     post_api_request "/api/v1/applications/#{application_choice.id}/reject", params: {}
 
@@ -36,7 +37,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
   end
 
   it 'returns an error when a proper reason is not provided' do
-    application_choice = create(:application_choice, status: 'application_complete', provider: currently_authenticated_provider)
+    application_choice = create_application_choice_for_currently_authenticated_provider(status: 'application_complete')
 
     post_api_request "/api/v1/applications/#{application_choice.id}/reject", params: {
       data: {

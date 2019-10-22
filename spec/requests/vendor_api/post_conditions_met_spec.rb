@@ -2,11 +2,12 @@ require 'rails_helper'
 
 RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-conditions-met', type: :request do
   include VendorApiSpecHelpers
+  include CourseOptionHelpers
 
   it_behaves_like 'an endpoint that requires metadata', '/confirm-conditions-met'
 
   it 'confirms the conditions have been met' do
-    application_choice = create(:application_choice, status: 'meeting_conditions', provider: currently_authenticated_provider)
+    application_choice = create_application_choice_for_currently_authenticated_provider(status: 'meeting_conditions')
 
     post_api_request "/api/v1/applications/#{application_choice.id}/confirm-conditions-met"
 
@@ -16,7 +17,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-conditio
   end
 
   it 'returns an error when trying to transition to an invalid state' do
-    application_choice = create(:application_choice, status: 'rejected', provider: currently_authenticated_provider)
+    application_choice = create_application_choice_for_currently_authenticated_provider(status: 'rejected')
 
     post_api_request "/api/v1/applications/#{application_choice.id}/confirm-conditions-met", params: {}
 

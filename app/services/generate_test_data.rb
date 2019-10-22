@@ -20,7 +20,7 @@ class GenerateTestData
       [1, 1, 1, 1, 1, 1, 1, 2, 3].sample.times do
         FactoryBot.create(
           :application_choice,
-          course: random_course,
+          course_option: course_option,
           application_form: application_form,
           personal_statement: Faker::Lorem.paragraph(sentence_count: 5),
         )
@@ -32,9 +32,24 @@ private
 
   attr_reader :provider, :number_of_candidates
 
+  def course_option
+    FactoryBot.create(
+      :course_option,
+      course: random_course,
+      site: random_site,
+    )
+  end
+
   def random_course
     FactoryBot.create(
       :course,
+      provider: provider,
+    )
+  end
+
+  def random_site
+    FactoryBot.create(
+      :site,
       provider: provider,
     )
   end

@@ -450,7 +450,7 @@ components:
         - start_date
         - provider_ucas_code
         - course_ucas_code
-        - location_ucas_code
+        - site_ucas_code
       properties:
         start_date:
           type: string
@@ -465,9 +465,9 @@ components:
           type: string
           description: The course’s UCAS code
           example: 3CVK
-        location_ucas_code:
+        site_ucas_code:
           type: string
-          description: The location’s UCAS code
+          description: The site’s UCAS code
           example: K
     Offer:
       type: object

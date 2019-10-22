@@ -41,6 +41,13 @@ module VendorApiSpecHelpers
     @currently_authenticated_provider ||= create(:provider)
   end
 
+  def create_application_choice_for_currently_authenticated_provider(attributes = {})
+    create(
+      :application_choice,
+      { course_option: course_option_for_provider(provider: currently_authenticated_provider) }.merge(attributes),
+    )
+  end
+
   def parsed_response
     JSON.parse(response.body)
   end
