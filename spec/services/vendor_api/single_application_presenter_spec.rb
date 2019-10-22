@@ -36,7 +36,7 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
           email: '',
         },
         course: {
-          start_date: Time.now,
+          start_date: application_choice.course.start_date,
           provider_ucas_code: application_choice.provider.code,
           site_ucas_code: application_choice.course_option.site.code,
           course_ucas_code: application_choice.course.code,

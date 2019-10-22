@@ -52,6 +52,7 @@ FactoryBot.define do
     code { Faker::Alphanumeric.alphanumeric(number: 3).upcase }
     name { Faker::Educator.subject }
     level { 'primary' }
+    start_date { Date.civil(2020, 9, 1) }
   end
 
   factory :provider do

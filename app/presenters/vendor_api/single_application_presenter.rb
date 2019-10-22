@@ -62,7 +62,7 @@ module VendorApi
 
     def course_json
       {
-        start_date: Time.now,
+        start_date: application_choice.course.start_date,
         provider_ucas_code: application_choice.provider.code,
         site_ucas_code: application_choice.site.code,
         course_ucas_code: application_choice.course.code,
