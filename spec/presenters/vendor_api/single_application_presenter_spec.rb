@@ -55,7 +55,7 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
         rejection: nil,
         status: application_choice.status,
         submitted_at: Time.now,
-        updated_at: Time.now,
+        updated_at: application_choice.updated_at,
         withdrawal: nil,
         work_experiences: [],
       }
