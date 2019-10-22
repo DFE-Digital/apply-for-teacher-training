@@ -5,3 +5,20 @@
     <%= t('submit_application_success.heading') %>
   </h1>
 </div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m">What happens next</h2>
+    <p class="govuk-body">You will receive an email from the Apply for postgraduate teacher training service to confirm the successful submission of your application.</p>
+
+    <h2 class="govuk-heading-m">References</h2>
+    <p class="govuk-body"> We will also contact your referees to ask for your references. When we receive them, we will send them to your training provider. Your provider then has 10 working days to respond to your application.</p>
+
+    <h2 class="govuk-heading-m">Interview</h2>
+    <p class="govuk-body">If your training provider decides to offer you an interview, they will get in touch directly via email to organise a date and give you all the information you need.</p>
+
+    <p class="govuk-body">
+      <%= govuk_link_to t('submit_application_success.track_your_application'), candidate_interface_application_form_path %>.
+    </p>
+  </div>
+</div>

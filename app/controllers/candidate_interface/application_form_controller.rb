@@ -1,8 +1,17 @@
 module CandidateInterface
   class ApplicationFormController < CandidateInterfaceController
     def show
-      redirect_to candidate_interface_application_form_path if params[:token]
-      @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_candidate.current_application)
+      return redirect_to candidate_interface_application_form_path if params[:token]
+
+      if current_candidate.current_application.complete?
+        @application_form = current_candidate.current_application
+
+        render :complete
+      else
+        @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_candidate.current_application)
+
+        render :show
+      end
     end
 
     def review

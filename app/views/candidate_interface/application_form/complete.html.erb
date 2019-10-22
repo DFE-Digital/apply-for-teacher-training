@@ -1,0 +1,21 @@
+<% content_for :title, page_title(:application_form) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.application_form') %>
+    </h1>
+
+    <%= render(ApplicationCompleteContentComponent, submitted_at: @application_form.submitted_at) %>
+
+    <hr class="govuk-section-break govuk-section-break--l">
+
+    <h2 class="govuk-heading-l">Courses you’ve applied to</h2>
+
+    <hr class="govuk-section-break govuk-section-break--m">
+
+    <h2 class="govuk-heading-l">Your references</h2>
+
+    <p class="govuk-body">We’ve contacted your references.</p>
+  </div>
+</div>
