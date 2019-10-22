@@ -12,31 +12,55 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
   end
 
   describe '#as_json' do
-    let(:json) { presenter.as_json.deep_symbolize_keys }
-    let(:expected_course_attributes) do
-      {
-        start_date: Time.now,
-        provider_ucas_code: application_choice.provider.code,
-        site_ucas_code: application_choice.course_option.site.code,
-        course_ucas_code: application_choice.course.code,
-      }
+    def json
+      @json ||= presenter.as_json.deep_symbolize_keys
     end
-    let(:expected_candidate_attributes) do
+
+    def expected_attributes
       {
-        first_name: application_choice.application_form.first_name,
-        last_name: application_choice.application_form.last_name,
-        date_of_birth: application_choice.application_form.date_of_birth,
-        nationality: %w[NL],
-        uk_residency_status: '',
+        personal_statement: application_choice.personal_statement,
+        hesa_itt_data: {
+          disability: '',
+          ethnicity: '',
+          sex: '',
+        },
+        offer: nil,
+        contact_details: {
+          address_line1: '',
+          address_line2: '',
+          address_line3: '',
+          address_line4: '',
+          postcode: '',
+          country: 'NL',
+          phone_number: '',
+          email: '',
+        },
+        course: {
+          start_date: Time.now,
+          provider_ucas_code: application_choice.provider.code,
+          site_ucas_code: application_choice.course_option.site.code,
+          course_ucas_code: application_choice.course.code,
+        },
+        candidate: {
+          first_name: application_choice.application_form.first_name,
+          last_name: application_choice.application_form.last_name,
+          date_of_birth: application_choice.application_form.date_of_birth,
+          nationality: %w[NL],
+          uk_residency_status: '',
+        },
+        qualifications: [],
+        references: [],
+        rejection: nil,
+        status: application_choice.status,
+        submitted_at: Time.now,
+        updated_at: Time.now,
+        withdrawal: nil,
+        work_experiences: [],
       }
     end
 
     it 'returns correct course attributes' do
-      expect(json.dig(:attributes, :course)).to eq expected_course_attributes
-    end
-
-    it 'returns correct candidate attributes' do
-      expect(json.dig(:attributes, :candidate)).to eq expected_candidate_attributes
+      expect(json.dig(:attributes)).to eq expected_attributes
     end
   end
 end
