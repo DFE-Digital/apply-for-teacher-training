@@ -362,6 +362,9 @@ components:
         - date_of_birth
         - nationality
         - uk_residency_status
+        - english_main_language
+        - english_language_qualifications
+        - other_languages
       properties:
         first_name:
           type: string
@@ -390,6 +393,20 @@ components:
           type: string
           description: "The candidate’s UK residency status, e.g. Citizen"
           example: UK Citizen
+        english_main_language:
+          type: boolean
+          description: Does this candidate have English as a main language?
+          example: true
+        english_language_qualifications:
+          type: string
+          nullable: true
+          description: About this candidate's English language qualifications, if English is not their main language
+          example: "I have a degree in English Language and Literature from the University of Munich"
+        other_languages:
+          type: string
+          nullable: true
+          description: Details of the candidate's fluency in other languages
+          example: "I am bilingual in Finnish and English"
     ContactDetails:
       type: object
       additionalProperties: false
