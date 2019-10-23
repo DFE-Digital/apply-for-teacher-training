@@ -3,11 +3,26 @@ require 'rails_helper'
 RSpec.describe 'Require basic authentication', type: :request do
   include TestHelpers::BasicAuthHelper
 
-  before do
-    stub_const('FEATURES', FEATURES.merge(basic_auth: { enabled: true, username: 'basic', password: 'auth' }))
+  context 'without the relevant environment vars' do
+    before do
+      stub_const(
+        'BASIC_AUTH',
+        BASIC_AUTH.merge(ui_auth: { enabled: true, username: '', password: '' }),
+      )
+    end
+
+    it 'candidate requests ' do
+      expect { get candidate_interface_start_url }.to raise_error(RuntimeError)
+    end
+
+    it 'provider requests get 500' do
+      expect { get provider_interface_applications_url }.to raise_error(RuntimeError)
+    end
   end
 
   context 'candidate_interface' do
+    before { require_and_config_basic_auth }
+
     it 'requests without basic auth get 401' do
       get candidate_interface_start_url
 
@@ -28,6 +43,8 @@ RSpec.describe 'Require basic authentication', type: :request do
   end
 
   context 'provider_interface' do
+    before { require_and_config_basic_auth }
+
     it 'requests without basic auth get 401' do
       get provider_interface_applications_url
 
@@ -48,6 +65,8 @@ RSpec.describe 'Require basic authentication', type: :request do
   end
 
   context 'support_interface' do
+    before { require_and_config_basic_auth }
+
     it 'requests with valid basic auth get 401' do
       get support_interface_api_tokens_url, headers: basic_auth_headers('basic', 'auth')
 
@@ -60,5 +79,24 @@ RSpec.describe 'Require basic authentication', type: :request do
 
       expect(response).to have_http_status(200)
     end
+  end
+
+  context 'vendor_api' do
+    before { require_and_config_basic_auth }
+
+    it 'does not require basic auth even when elsewhere enabled' do
+      unhashed_token = VendorApiToken.create_with_random_token!(provider: create(:provider))
+
+      get '/api/v1/ping', headers: { 'Authorization' => "Bearer #{unhashed_token}" }
+
+      expect(response).to have_http_status(200)
+    end
+  end
+
+  def require_and_config_basic_auth
+    stub_const(
+      'BASIC_AUTH',
+      BASIC_AUTH.merge(ui_auth: { enabled: true, username: 'basic', password: 'auth' }),
+    )
   end
 end
