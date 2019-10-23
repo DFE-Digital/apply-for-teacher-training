@@ -48,5 +48,13 @@ RSpec.describe ApplicationChoice, type: :model do
       application_choice = create :application_choice
       expect(application_choice.audits.last.associated).to eq application_choice.application_form
     end
+
+    it 'audit record can be attributed to a candidate' do
+      candidate = create :candidate
+      application_choice = Audited.audit_class.as_user(candidate) do
+        create :application_choice
+      end
+      expect(application_choice.audits.last.user).to eq candidate
+    end
   end
 end
