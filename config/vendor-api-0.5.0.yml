@@ -293,6 +293,7 @@ components:
         - withdrawal
         - work_experiences
         - hesa_itt_data
+        - further_information
       properties:
         status:
           type: string
@@ -353,6 +354,11 @@ components:
           nullable: true
         hesa_itt_data:
           $ref: "#/components/schemas/HESAITTData"
+        further_information:
+          type: string
+          nullable: true
+          description: "Other personal or professional issues relevant to the application which are not covered in the form"
+          example: "I am expecting to be called for jury service in the next 12 months"
     Candidate:
       type: object
       additionalProperties: false

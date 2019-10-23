@@ -46,6 +46,7 @@ module VendorApi
             disability: '',
             ethnicity: '',
           },
+          further_information: '',
         },
       }
     end
