@@ -44,7 +44,7 @@ This process assumes that the build and test stage has completed without error a
 1. Once you have confirmed that the changes have taken effect return the Azure portal window you previously had open and stop the app running in the staging slot. This now contains the image that was previously running in the production slot.
 ![Manual Deployment - Diagram 9](manual_deployment_dia09.png)
 
-##PIM Rights Elevation
+## PIM Rights Elevation
 
 1. Launch the Azure portal at https://portal.azure.com
 1. Ensure you are using the "DfE Platform Identity" directory (see step 5 above if not)
