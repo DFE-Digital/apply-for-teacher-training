@@ -9,6 +9,8 @@ parameters:
   databaseName:
   databaseUsername:
   databasePassword:
+  databaseStorageAutoGrow:
+  databaseBackupRetentionDays:
   dockerhubUsername:
   railsSecretKeyBase:
   containerStartTimeLimit: '600'
@@ -34,10 +36,7 @@ jobs:
       system.debug: ${{parameters.debug}}
 
     pool:
-      name: Hosted VS2017
-      #demands:
-      #- 'PowerShell'
-      #- 'AzurepPS'
+      vmImage: vs2017-win2016
 
     strategy:
       runOnce:
@@ -59,6 +58,8 @@ jobs:
                 -databaseName "${{parameters.databaseName}}"
                 -databaseUsername "${{parameters.databaseUsername}}"
                 -databasePassword "${{parameters.databasePassword}}"
+                -databaseStorageAutoGrow "${{parameters.databaseStorageAutoGrow}}"
+                -databaseBackupRetentionDays "${{parameters.databaseBackupRetentionDays}}"
                 -securityAlertEmail "${{parameters.securityAlertEmail}}"
                 -secretKeyBase "${{parameters.railsSecretKeyBase}}"
                 -containerStartTimeLimit "${{parameters.containerStartTimeLimit}}"
@@ -72,11 +73,6 @@ jobs:
                 -sentryDSN "${{parameters.sentryDSN}}"
                 -findBaseUrl "${{parameters.findBaseUrl}}"'
               deploymentOutputs: DeploymentOutput
-
-
-          - task: RasmusWatjen.ARMOutputParserExtension.ARMOutputConverter.ARMOutputParserExtension@1
-            displayName: 'Parse ARM Deployment Outputs into variables'
-            condition: succeeded()
 
 
           - task: AzurePowerShell@3
