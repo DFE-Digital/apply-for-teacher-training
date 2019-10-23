@@ -13,6 +13,8 @@ gem 'govuk_design_system_formbuilder', '0.9.7'
 # GovUK Notify
 gem 'mail-notify'
 
+gem 'redcarpet'
+
 # Linting
 gem 'rubocop', '< 0.76.0'
 gem 'rubocop-rspec'

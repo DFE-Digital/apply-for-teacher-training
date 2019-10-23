@@ -1,0 +1,13 @@
+.app-styled-content {
+  a {
+    @extend %govuk-link;
+  }
+
+  p {
+    @extend %govuk-body-m;
+  }
+
+  h2 {
+    @extend %govuk-heading-m;
+  }
+}
