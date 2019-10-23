@@ -1,5 +1,5 @@
 class SubmitApplication
-  attr_reader :application_choices, :candidate_email
+  attr_reader :application_form, :application_choices, :candidate_email
 
   def initialize(application_form)
     @application_form = application_form
@@ -8,15 +8,23 @@ class SubmitApplication
   end
 
   def call
+    submit_application
+
+    application_form.update!(support_reference: GenerateSupportRef.call,
+                             submitted_at: Time.now)
+
+    CandidateMailer
+      .submit_application_email(to: candidate_email, support_reference: application_form.support_reference)
+      .deliver_now
+  end
+
+private
+
+  def submit_application
     ActiveRecord::Base.transaction do
       application_choices.each do |application_choice|
         ApplicationStateChange.new(application_choice).submit!
       end
     end
-
-    @application_form.update!(submitted_at: Time.now)
-
-    CandidateMailer.submit_application_email(to: candidate_email,
-                                             application_ref: '1234567890').deliver_now
   end
 end
