@@ -6,13 +6,13 @@ This document describes the process of manually deploying a new Docker image int
 
 ### When should this process be used?
 
-In the event that code changes are mde to the app but the Azure pipelines fail to complete the deployment stages this process should be followed to deploy the Docker image to the Azure App Service manually. It is anticpated that this process would only be following in response to bug fixes when the deployment pipeline is failing.
+In the event that code changes are mde to the app but the Azure pipelines fail to complete the deployment stages this process should be followed to deploy the Docker image to the Azure App Service manually. It is anticipated that this process would only be following in response to bug fixes when the deployment pipeline is failing.
 
 This process assumes that the build and test stage has completed without error and a Docker image has been uploaded to Dockerhub successfully. This process also assumes that no changes are expected to be made to the configuration of the underlying Azure infrastructure hosting the application.
 
 ## Instructions
 
-**NOTE: Before following the steps below you will need to request an elevation of your rights to the 'contributor' role through PIM in the Azure Portal if working on an app hosted in the test or production subscriptions. This is not required in the development subscription.**
+**NOTE: Before following the steps below you will need to request an elevation of your rights to the 'contributor' role through PIM in the Azure Portal if working on an app hosted in the test or production subscriptions. Guidance on PIM can be found at the end of this document. PIM is not required in the development subscription.**
 
 1. Launch the Azure DevOps pages at https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build?definitionId=49&_a=summary.
 1. Locate the desired run from that has failed deployment from the list and select it.
@@ -35,11 +35,21 @@ This process assumes that the build and test stage has completed without error a
 ![Manual Deployment - Diagram 5](manual_deployment_dia05.png)
 1. Click on the URL link in the block just below the start button launch the app in a new webpage. You must now wait for the app to start and the website to respond before continuing. This will take a couple of minutes and may require you to refresh the page.
 ![Manual Deployment - Diagram 6](manual_deployment_dia06.png)
-1. Once the website is responding you can close the webpage that was launched in the previous step to return the the Azure Portal whcih you can click the "Swap" button at the top of the page.
+1. Once the website is responding you can close the webpage that was launched in the previous step to return the the Azure Portal which you can click the "Swap" button at the top of the page.
 ![Manual Deployment - Diagram 7](manual_deployment_dia07.png)
 1. This will open the Swap configuration menu, no changes need to be made here, simply click the "Swap" button at the bottom of the menu. The menu will grey out while the swap process runs; it will take about 30 seconds to complete.
 ![Manual Deployment - Diagram 8](manual_deployment_dia08.png)
 1. Click the "Close" button on the Swap menu.
 1. Open a new tab in your web browser and verify that the website updates have taken effect on the production slot.
-1. Once you have confirmed that the changes have taken effect return the Azure portal window you previously had open and stop the app running in the staging slot. This now contains the image that was previous running in the production slot.
+1. Once you have confirmed that the changes have taken effect return the Azure portal window you previously had open and stop the app running in the staging slot. This now contains the image that was previously running in the production slot.
 ![Manual Deployment - Diagram 9](manual_deployment_dia09.png)
+
+##PIM Rights Elevation
+
+1. Launch the Azure portal at https://portal.azure.com
+1. Ensure you are using the "DfE Platform Identity" directory (see step 5 above if not)
+1. In the search bar at the top of the portal type in "PIM" and select "Azure AD Privileged Identity Management" from the search results.
+1. In the new blade that opens selete "My roles" from the tasks section of the menu bar on the left.
+1. Under "Activate" select "Azure Resources"
+1. Chose the subscription you want to elevate your rights on and click "Activate". This will launch a new panel where you can specify duration and reason which must be completed before you can click Activate.
+1. A request will be sent to the approving users, currently Tom/Riz and they will approve your request for elevated rights.
