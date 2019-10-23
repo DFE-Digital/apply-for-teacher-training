@@ -92,11 +92,4 @@ RSpec.describe 'Require basic authentication', type: :request do
       expect(response).to have_http_status(200)
     end
   end
-
-  def require_and_config_basic_auth
-    stub_const(
-      'BASIC_AUTH',
-      BASIC_AUTH.merge(ui_auth: { enabled: true, username: 'basic', password: 'auth' }),
-    )
-  end
 end
