@@ -11,11 +11,11 @@ RSpec.describe 'Require basic authentication', type: :request do
       )
     end
 
-    it 'candidate requests ' do
+    it 'candidate requests raise RuntimeError' do
       expect { get candidate_interface_start_url }.to raise_error(RuntimeError)
     end
 
-    it 'provider requests get 500' do
+    it 'provider requests raise RuntimeError' do
       expect { get provider_interface_applications_url }.to raise_error(RuntimeError)
     end
   end
