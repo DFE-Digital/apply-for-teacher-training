@@ -1,6 +1,6 @@
 class CandidateMailer < ApplicationMailer
-  def submit_application_email(to:, application_ref:)
-    @application_ref = application_ref
+  def submit_application_email(to:, support_reference:)
+    @support_reference = support_reference
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: to,

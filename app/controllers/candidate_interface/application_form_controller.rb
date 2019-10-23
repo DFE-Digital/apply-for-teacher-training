@@ -35,7 +35,9 @@ module CandidateInterface
       end
     end
 
-    def submit_success; end
+    def submit_success
+      @support_reference = current_candidate.current_application.support_reference
+    end
 
   private
 

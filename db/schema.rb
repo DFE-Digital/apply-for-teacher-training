@@ -45,7 +45,6 @@ ActiveRecord::Schema.define(version: 2019_10_23_151050) do
     t.text "further_information_details"
     t.datetime "submitted_at"
     t.string "support_reference", limit: 10
-    t.string "reference", limit: 10
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
   end
 
