@@ -377,12 +377,12 @@
                     "storageAccountName": {
                         "value": "[variables('storageAccountName')]"
                     },
-		    "storageAutoGrow": {
-			"value": "[parameters('databaseStorageAutoGrow')]"
-	            },
-		    "backupRetentionDays": {
-			"value": "[parameters('databaseBackupRetentionDays')]"
-	            }
+                    "storageAutoGrow": {
+                        "value": "[parameters('databaseStorageAutoGrow')]"
+                    },
+                    "backupRetentionDays": {
+                        "value": "[parameters('databaseBackupRetentionDays')]"
+                    }
                 }
             },
             "dependsOn": [
