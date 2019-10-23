@@ -12,6 +12,7 @@ $govuk-image-url-function: frontend-image-url;
 @import "~govuk-frontend/govuk/all";
 @import "_task-list";
 @import "_summary-card";
+@import "_styled-content";
 
 .autocomplete__wrapper, .autocomplete__input, .autocomplete__hint {
   font-family: $govuk-font-family;
