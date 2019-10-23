@@ -144,6 +144,8 @@ stages:
       databaseName: 'apply'
       databaseUsername: 'applyadm512'
       databasePassword: '$(databasePassword)'
+      databaseStorageAutoGrow: 'disabled'
+      databaseBackupRetentionDays: 7
       dockerhubUsername: '$(dockerHubUsername)'
       railsSecretKeyBase: '$(railsSecretKeyBase)'
       railsEnv: 'production'
@@ -172,6 +174,8 @@ stages:
       databaseName: 'apply'
       databaseUsername: 'applyadm512'
       databasePassword: '$(databasePassword)'
+      databaseStorageAutoGrow: 'disabled'
+      databaseBackupRetentionDays: 7
       dockerhubUsername: '$(dockerHubUsername)'
       railsSecretKeyBase: '$(railsSecretKeyBase)'
       railsEnv: 'production'
@@ -199,6 +203,8 @@ stages:
       databaseName: 'apply'
       databaseUsername: 'applyadm512'
       databasePassword: '$(databasePassword)'
+      databaseStorageAutoGrow: 'disabled'
+      databaseBackupRetentionDays: 7
       dockerhubUsername: '$(dockerHubUsername)'
       railsSecretKeyBase: '$(railsSecretKeyBase)'
       railsEnv: 'production'
@@ -225,6 +231,8 @@ stages:
 #       databaseName: 'apply'
 #       databaseUsername: 'applyadm512'
 #       databasePassword: '$(databasePassword)'
+#       databaseStorageAutoGrow: 'enabled'
+#       databaseBackupRetentionDays: 35
 #       dockerhubUsername: '$(dockerHubUsername)'
 #       railsSecretKeyBase: '$(railsSecretKeyBase)'
 #       railsEnv: 'production'

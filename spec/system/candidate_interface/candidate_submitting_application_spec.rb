@@ -16,6 +16,9 @@ RSpec.feature 'Candidate submit the application' do
 
     then_i_can_see_my_application_has_been_successfully_submitted
     and_i_receive_an_email_with_a_application_ref
+
+    when_i_click_on_track_your_application
+    then_i_can_see_my_submitted_application
   end
 
   def given_i_am_signed_in
@@ -71,5 +74,14 @@ RSpec.feature 'Candidate submit the application' do
   def and_i_receive_an_email_with_a_application_ref
     open_email(current_candidate.email_address)
     expect(current_email).to have_content 'Thank you for completing your teacher training application'
+  end
+
+  def when_i_click_on_track_your_application
+    click_link t('submit_application_success.track_your_application')
+  end
+
+  def then_i_can_see_my_submitted_application
+    this_day = Time.now.strftime('%e %B %Y')
+    expect(page).to have_content "You submitted your application on #{this_day}"
   end
 end
