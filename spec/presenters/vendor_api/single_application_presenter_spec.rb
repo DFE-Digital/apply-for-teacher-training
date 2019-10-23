@@ -61,6 +61,7 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
         updated_at: application_choice.updated_at,
         withdrawal: nil,
         work_experiences: [],
+        further_information: '',
       }
     end
 
