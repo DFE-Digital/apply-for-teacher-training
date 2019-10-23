@@ -9,15 +9,36 @@ RSpec.describe CandidateInterface::FurtherInformationForm, type: :model do
     end
 
     it 'updates the provided ApplicationForm if valid' do
+      form_data = {
+        further_information: 'true',
+        further_information_details: 'Much wow.',
+      }
       data = {
         further_information: true,
         further_information_details: 'Much wow.',
       }
       application_form = FactoryBot.create(:application_form)
-      further_information = CandidateInterface::FurtherInformationForm.new(data)
+      further_information = CandidateInterface::FurtherInformationForm.new(form_data)
 
       expect(further_information.save(application_form)).to eq(true)
       expect(application_form).to have_attributes(data)
+    end
+
+    it 'saves the further information details only if adding further information is true' do
+      form_data = {
+        further_information: 'false',
+        further_information_details: 'Much wow.',
+      }
+      data = {
+        further_information: false,
+        further_information_details: '',
+      }
+      application_form = FactoryBot.create(:application_form)
+      further_information = CandidateInterface::FurtherInformationForm.new(form_data)
+
+      further_information.save(application_form)
+
+      expect(application_form.further_information_details).to eq(data[:further_information_details])
     end
   end
 
@@ -25,7 +46,7 @@ RSpec.describe CandidateInterface::FurtherInformationForm, type: :model do
     it { is_expected.to validate_presence_of(:further_information) }
 
     it 'validates further information details if chosen to add further information' do
-      further_information = CandidateInterface::FurtherInformationForm.new(further_information: true)
+      further_information = CandidateInterface::FurtherInformationForm.new(further_information: 'true')
       error_message = t('activemodel.errors.models.candidate_interface/further_information_form.attributes.further_information_details.blank')
 
       further_information.validate
