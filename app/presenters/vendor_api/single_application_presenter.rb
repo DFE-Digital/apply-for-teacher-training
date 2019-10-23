@@ -37,7 +37,7 @@ module VendorApi
           course: course_json,
           qualifications: [],
           references: [],
-          work_experiences: [],
+          work_experiences: work_experiences,
           offer: application_choice.offer,
           rejection: get_rejection,
           withdrawal: nil,
@@ -71,6 +71,19 @@ module VendorApi
         site_ucas_code: application_choice.site.code,
         course_ucas_code: application_choice.course.code,
       }
+    end
+
+    def work_experiences
+      [
+        {
+          job_title: '',
+          organisation_name: '',
+          full_or_part_time: 'full_time',
+          start_date: Date.today - 600.days,
+          end_date: Date.today - 100.days,
+          experience_gained: '',
+        }
+      ]
     end
   end
 end

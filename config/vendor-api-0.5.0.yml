@@ -640,8 +640,9 @@ components:
         - organisation_name
         - start_date
         - end_date
-        - role
-        - description
+        - job_title
+        - experience_gained
+        - full_or_part_time
       properties:
         organisation_name:
           type: string
@@ -658,15 +659,21 @@ components:
           format: date
           description: "The date employment finished, if appropriate"
           example: "2019-04-01"
-        role:
+        job_title:
           type: string
           description: The position held by the candidate
           maxLength: 255
           example: Whole School Literacy Specialist
-        description:
+        full_or_part_time:
+          type: enum
+          enum:
+            - full_time
+            - part_time
+          description: Whether the employment was full or part-time
+          example: full_time
+        experience_gained:
           type: string
-          description: A brief written description of the work involved
-          maxLength: 255
+          description: Skills and experience relevant to teaching gained in the role
           example: "I lead, develop and enhance the literacy teaching practice of others..."
     HESAITTData:
       type: object

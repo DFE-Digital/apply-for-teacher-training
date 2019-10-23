@@ -60,7 +60,16 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
         submitted_at: Time.now,
         updated_at: application_choice.updated_at,
         withdrawal: nil,
-        work_experiences: [],
+        work_experiences: [
+          {
+            job_title: '',
+            organisation_name: '',
+            full_or_part_time: 'full_time',
+            start_date: Date.today - 600.days,
+            end_date: Date.today - 100.days,
+            experience_gained: '',
+          }
+        ],
         further_information: '',
       }
     end
