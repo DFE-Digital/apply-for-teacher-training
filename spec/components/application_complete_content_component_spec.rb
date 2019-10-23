@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationCompleteContentComponent do
-  let(:submitted_at) { Time.new(2019, 10, 22) }
+  let(:submitted_at) { Date.new(2019, 10, 22) }
 
   def render_result
-    render_inline(ApplicationCompleteContentComponent, submitted_at: submitted_at)
+    application_form = create(:application_form, submitted_at: submitted_at)
+    render_inline(ApplicationCompleteContentComponent, application_form: application_form)
   end
 
   it 'renders with correct submission date' do

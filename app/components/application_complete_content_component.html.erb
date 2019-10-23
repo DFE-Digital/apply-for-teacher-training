@@ -3,7 +3,7 @@
   respond to you by <%= respond_by_date %>.
 </p>
 
-<% if days_remaining_to_edit >= 1 %>
+<% if @dates.form_open_to_editing? %>
   <div class="govuk-inset-text">
     <p class="govuk-body">
       You have <%= formatted_days_remaining %> (until <%= edit_by_date %>) to withdraw your application and
