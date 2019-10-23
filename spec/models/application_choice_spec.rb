@@ -35,4 +35,18 @@ RSpec.describe ApplicationChoice, type: :model do
       expect(application_choice).to be_application_complete
     end
   end
+
+  describe 'auditing' do
+    it 'creates audit entries' do
+      application_choice = create :application_choice
+      expect(application_choice.audits.count).to eq 1
+      application_choice.update!(personal_statement: 'hello again')
+      expect(application_choice.audits.count).to eq 2
+    end
+
+    it 'creates an associated object in each audit record' do
+      application_choice = create :application_choice
+      expect(application_choice.audits.last.associated).to eq application_choice.application_form
+    end
+  end
 end

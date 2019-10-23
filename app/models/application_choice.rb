@@ -7,6 +7,8 @@ class ApplicationChoice < ApplicationRecord
   has_one :site, through: :course_option
   has_one :provider, through: :course
 
+  audited associated_with: :application_form
+
   scope :for_provider, ->(provider_code) {
     includes(:course, :provider).where(providers: { code: provider_code })
   }
