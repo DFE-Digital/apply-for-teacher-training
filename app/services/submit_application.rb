@@ -17,6 +17,6 @@ class SubmitApplication
     @application_form.update!(submitted_at: Time.now)
 
     CandidateMailer.submit_application_email(to: candidate_email,
-                                             application_ref: '1234567890').deliver!
+                                             application_ref: '1234567890').deliver_now
   end
 end
