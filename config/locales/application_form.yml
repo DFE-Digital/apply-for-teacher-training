@@ -95,6 +95,7 @@ en:
           attributes:
             phone_number:
               blank: Enter your phone number
+              invalid: Enter a phone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192
             address_line1:
               blank: Enter your building and street
               too_long: Building and street must be %{count} characters or fewer
