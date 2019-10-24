@@ -18,8 +18,8 @@ RSpec.feature 'Entering their contact details' do
 
     when_i_fill_in_my_phone_number
     and_i_submit_the_form
-    # and_i_fill_in_my_address
-    # and_i_submit_the_form
+    and_i_fill_in_my_address
+    and_i_submit_the_form
     then_i_can_check_my_answers
 
     # when_i_submit_my_details
@@ -33,7 +33,7 @@ RSpec.feature 'Entering their contact details' do
   def given_i_am_not_signed_in; end
 
   def and_i_visit_the_contact_details_page
-    visit candidate_interface_contact_details_edit_path
+    visit candidate_interface_contact_details_edit_base_path
   end
 
   def then_i_should_see_the_homepage
@@ -67,5 +67,11 @@ RSpec.feature 'Entering their contact details' do
   def then_i_can_check_my_answers
     expect(page).to have_content t('application_form.contact_details.phone_number.label')
     expect(page).to have_content '07700 900 982'
+  end
+
+  def and_i_fill_in_my_address
+    fill_in t('application_form.contact_details.address_line1.label'), with: '42 Much Wow Street'
+    fill_in t('application_form.contact_details.address_line3.label'), with: 'London'
+    fill_in t('application_form.contact_details.postcode.label'), with: 'SW1P 3BT'
   end
 end
