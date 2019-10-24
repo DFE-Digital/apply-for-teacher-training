@@ -39,6 +39,22 @@ en:
         label: Is there anything else you would like to tell us about your application?
       further_information_details:
         label: Enter further information
+    contact_details:
+      phone_number:
+        label: Phone number
+        hint_text: For non-UK numbers, include the country code
+        change_action: phone number
+      address_line1:
+        label: Building and street
+      address_line2:
+        label: Building and street line 2 of 2
+      address_line3:
+        label: Town or city
+      address_line4:
+        label: County
+      postcode:
+        label: Postal code
+      complete_form_button: Continue
   activemodel:
     errors:
       models:
@@ -66,3 +82,7 @@ en:
               blank: Choose if you would like to add anything else to your application
             further_information_details:
               blank: Enter further information
+        candidate_interface/contact_details_form:
+          attributes:
+            phone_number:
+              blank: Enter your phone number

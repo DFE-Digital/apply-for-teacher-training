@@ -1,0 +1,10 @@
+<% content_for :title, page_title('contact_details') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_contact_details_edit_path) %>
+
+<h1 class="govuk-heading-xl">
+  <%= t('page_titles.contact_details') %>
+</h1>
+
+<%= render(ContactDetailsComponent, contact_details_form: @contact_details_form) %>
+
+<%= govuk_button_link_to t('application_form.contact_details.complete_form_button'), candidate_interface_application_form_path %>
