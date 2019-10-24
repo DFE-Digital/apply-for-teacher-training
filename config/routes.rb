@@ -39,6 +39,9 @@ Rails.application.routes.draw do
         get '/' => 'contact_details/base#edit', as: :contact_details_edit_base
         post '/' => 'contact_details/base#update', as: :contact_details_update_base
 
+        get '/address' => 'contact_details/address#edit', as: :contact_details_edit_address
+        post '/address' => 'contact_details/address#update', as: :contact_details_update_address
+
         get '/review' => 'contact_details/review#show', as: :contact_details_review
       end
     end

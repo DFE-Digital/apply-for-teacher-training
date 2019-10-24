@@ -7,7 +7,7 @@
             <%= row[:key] %>
           </dt>
           <dd class="govuk-summary-list__value">
-            <%= row[:value] %>
+            <%= render inline: row[:value] %>
           </dd>
 
           <dd class="govuk-summary-list__actions">

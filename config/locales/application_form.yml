@@ -44,6 +44,9 @@ en:
         label: Phone number
         hint_text: For non-UK numbers, include the country code
         change_action: phone number
+      full_address:
+        label: Address
+        change_action: address
       address_line1:
         label: Building and street
       address_line2:
@@ -54,7 +57,7 @@ en:
         label: County
       postcode:
         label: Postal code
-      complete_form_button: Continue
+      complete_form_button: Save and continue
   activemodel:
     errors:
       models:
