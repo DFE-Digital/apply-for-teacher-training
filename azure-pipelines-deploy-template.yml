@@ -66,6 +66,8 @@ jobs:
                 -warmupPingPath "${{parameters.warmupPingPath}}"
                 -warmupPingStatus "${{parameters.warmupPingStatus}}"
                 -govukNotifyAPIKey "$(govukNotifyAPIKey)"
+                -basicAuthUsername "$(basicAuthUsername)"
+                -basicAuthPassword "$(basicAuthPassword)"
                 -supportUsername "$(supportUsername)"
                 -supportPassword "$(supportPassword)"
                 -domain "${{parameters.domain}}"
