@@ -75,4 +75,16 @@ FactoryBot.define do
     status { ApplicationStateChange.valid_states.sample }
     personal_statement { 'hello' }
   end
+
+  factory :vendor_api_user do
+    association :vendor_api_token
+    full_name { 'Bob' }
+    email { 'bob@example.com' }
+    user_id { '123' }
+  end
+
+  factory :vendor_api_token do
+    association :provider
+    hashed_token { '1234567890' }
+  end
 end
