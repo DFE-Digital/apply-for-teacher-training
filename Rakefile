@@ -14,7 +14,16 @@ task :brakeman do
   Brakeman.run(app_path: '.', print_report: true)
 end
 
-task default: %i[lint_erb lint_ruby spec generate_state_diagram brakeman]
+begin
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec_with_profile) do |t|
+    t.rspec_opts = '--profile'
+  end
+rescue LoadError
+  nil
+end
+
+task default: %i[lint_erb lint_ruby spec_with_profile generate_state_diagram brakeman]
 
 Rake::Task['db:migrate'].enhance do
   sh 'bundle exec erd' if Rails.env.development?
