@@ -12,9 +12,9 @@ RSpec.feature 'Entering their contact details' do
     and_i_visit_the_site
 
     when_i_click_on_contact_details
-    # and_i_incorrectly_fill_in_my_phone_number
-    # and_i_submit_my_phone_number
-    # then_i_should_see_validation_errors_for_my_phone_number
+    and_i_incorrectly_fill_in_my_phone_number
+    and_i_submit_my_phone_number
+    then_i_should_see_validation_errors_for_my_phone_number
 
     when_i_fill_in_my_phone_number
     and_i_submit_my_phone_number
@@ -57,15 +57,19 @@ RSpec.feature 'Entering their contact details' do
   end
 
   def and_i_incorrectly_fill_in_my_phone_number
-    fill_in t('application_form.contact_details.phone_number.label'), with: 'A phone number'
-  end
-
-  def when_i_fill_in_my_phone_number
-    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 900 982'
+    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 CAT DOG'
   end
 
   def and_i_submit_my_phone_number
     click_button t('application_form.contact_details.base.button')
+  end
+
+  def then_i_should_see_validation_errors_for_my_phone_number
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.phone_number.invalid')
+  end
+
+  def when_i_fill_in_my_phone_number
+    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 900 982'
   end
 
   def and_i_incorrectly_fill_in_my_address
