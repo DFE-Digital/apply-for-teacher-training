@@ -47,7 +47,8 @@ stages:
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
-        STAGING_DOMAIN: $(staging_domain)
+        STAGING_DOMAIN: $(domain)
+        GOVUK_DOMAIN: $(domain)
         FIND_BASE_URL: $(findBaseUrl)
 
     - script: make ci.lint-ruby
@@ -58,7 +59,8 @@ stages:
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
-        STAGING_DOMAIN: $(staging_domain)
+        STAGING_DOMAIN: $(domain)
+        GOVUK_DOMAIN: $(domain)
         FIND_BASE_URL: $(findBaseUrl)
 
     - script: make ci.lint-erb
@@ -69,7 +71,8 @@ stages:
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
-        STAGING_DOMAIN: $(staging_domain)
+        STAGING_DOMAIN: $(domain)
+        GOVUK_DOMAIN: $(domain)
         FIND_BASE_URL: $(findBaseUrl)
 
     - script: |
@@ -83,7 +86,8 @@ stages:
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         DOMAIN: $(domain)
-        STAGING_DOMAIN: $(staging_domain)
+        STAGING_DOMAIN: $(domain)
+        GOVUK_DOMAIN: $(domain)
         FIND_BASE_URL: $(findBaseUrl)
 
     - task: Docker@1
@@ -143,6 +147,9 @@ stages:
       resourceEnvironmentName: 'd01'
       serviceName: 'apply'
       containerImageReference: '$(imageName):$(build.buildNumber)'
+      keyVaultName: 's106d01-shared-kv-01'
+      keyVaultResourceGroup: 's106d01-shared-rg'
+      certificateName: '$(certificateName)'
       databaseName: 'apply'
       databaseUsername: 'applyadm512'
       databasePassword: '$(databasePassword)'
@@ -153,6 +160,8 @@ stages:
       railsEnv: 'production'
       domain: '$(domain)'
       staging_domain: '$(staging_domain)'
+      publicDomain: '$(publicDomain)'
+      publicSubdomain: '$(publicSubdomain)'
       sentryDSN: '$(sentryDSN)'
       findBaseUrl: '$(findBaseUrl)'
 
@@ -183,6 +192,8 @@ stages:
       railsEnv: 'production'
       domain: '$(domain)'
       staging_domain: '$(staging_domain)'
+      publicDomain: '$(publicDomain)'
+      publicSubdomain: '$(publicSubdomain)'
       sentryDSN: '$(sentryDSN)'
       findBaseUrl: '$(findBaseUrl)'
 
@@ -213,6 +224,8 @@ stages:
       railsEnv: 'production'
       domain: '$(domain)'
       staging_domain: '$(staging_domain)'
+      publicDomain: '$(publicDomain)'
+      publicSubdomain: '$(publicSubdomain)'
       sentryDSN: '$(sentryDSN)'
       findBaseUrl: '$(findBaseUrl)'
 
@@ -243,5 +256,7 @@ stages:
       railsEnv: 'production'
       domain: '$(domain)'
       staging_domain: '$(staging_domain)'
+      publicDomain: '$(publicDomain)'
+      publicSubdomain: '$(publicSubdomain)'
       sentryDSN: '$(sentryDSN)'
       findBaseUrl: '$(findBaseUrl)'

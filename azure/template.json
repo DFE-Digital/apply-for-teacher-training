@@ -123,6 +123,24 @@
                 "description": "Password for the support section of the site"
             }
         },
+        "keyVaultName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the key vault."
+            }
+        },
+        "keyVaultResourceGroup": {
+            "type": "string",
+            "metadata": {
+                "description": "The resource group for the key vault."
+            }
+        },
+        "certificateName": {
+            "type": "string",
+                "metadata": {
+                "description": "The name of the certificate in key vault."
+            }
+        },
         "domain": {
             "type": "string",
             "metadata": {
@@ -133,6 +151,18 @@
             "type": "string",
             "metadata": {
                 "description": "Site domain name for use in GOV UK Notify and Rails security features. Used during swap slots only."
+            }
+        },
+        "publicDomain": {
+            "type": "string",
+            "metadata": {
+                "description": "The top level common domain for the service, e.g. apply-for-teacher-training.education.gov.uk."
+            }
+        },
+        "publicSubdomain": {
+            "type": "string",
+            "metadata": {
+                "description": "The subdomain to be prependend to the publicDomain parameter for the specific deployed environment."
             }
         },
         "railsServeStaticFiles": {
@@ -162,7 +192,9 @@
         "appServiceName": "[concat(variables('resourceNamePrefix'), '-as')]",
         "appServicePlanName": "[concat(variables('resourceNamePrefix'), '-asp')]",
         "storageAccountName": "[replace(concat(variables('resourceNamePrefix'), 'str'), '-', '')]",
-        "databaseServerName": "[concat(variables('resourceNamePrefix'), '-psql')]"
+        "databaseServerName": "[concat(variables('resourceNamePrefix'), '-psql')]",
+        "customHostName": "[concat(parameters('publicSubdomain'), '.', parameters('publicDomain'))]",
+	"keyvaultCertificateName": "[if(greater(length(parameters('certificateName')),0), parameters('certificateName'), replace(variables('customHostName'), '.', '-'))]"
     },
     "resources": [
         {
@@ -206,6 +238,30 @@
             }
         },
         {
+            "name": "app-service-certificate",
+            "type": "Microsoft.Resources/deployments",
+            "condition": "[greater(length(parameters('certificateName')), 0)]",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'), 'app-service-certificate.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "keyVaultCertificateName": {
+                        "value": "[variables('keyVaultCertificateName')]"
+                    },
+                    "keyVaultName": {
+                        "value": "[parameters('keyVaultName')]"
+                    },
+                    "keyVaultResourceGroup": {
+                        "value": "[parameters('keyVaultResourceGroup')]"
+                    }
+                }
+            }
+        },
+        {
             "name": "app-service",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2017-05-10",
@@ -224,6 +280,12 @@
                     },
                     "appServicePlanName": {
                         "value": "[variables('appServicePlanName')]"
+                    },
+                    "customHostName": {
+                        "value": "[variables('customHostName')]"
+                    },
+		    "certificateThumbprint": {
+                        "value": "[if(greater(length(variables('customHostName')), 0), reference('app-service-certificate', '2018-11-01').outputs.certificateThumbprint.value, '')]"
                     },
                     "runtimeStack": {
                         "value": "[variables('appServiceRuntimeStack')]"
@@ -307,6 +369,10 @@
                                 "value": "[parameters('staging_domain')]"
                             },
                             {
+                                "name": "GOVUK_DOMAIN",
+                                "value": "[variables('customHostName')]"
+                            },
+                            {
                                 "name": "SENTRY_DSN",
                                 "value": "[parameters('sentryDSN')]"
                             },
@@ -319,7 +385,8 @@
                 }
             },
             "dependsOn": [
-                "app-service-plan"
+                "app-service-plan",
+		"app-service-certificate"
             ]
         },
         {

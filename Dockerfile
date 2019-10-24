@@ -53,6 +53,7 @@ ENV RAILS_ENV=production
 ENV GOVUK_NOTIFY_API_KEY=TestKey
 ENV DOMAIN=dummy.build.domain
 ENV STAGING_DOMAIN=dummy.build.domain
+ENV GOVUK_DOMAIN=dummy.build.domain
 ENV SECRET_KEY_BASE=TestKey
 
 WORKDIR $APP_HOME

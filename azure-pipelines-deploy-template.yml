@@ -6,6 +6,9 @@ parameters:
   resourceEnvironmentName:
   serviceName:
   containerImageReference:
+  keyVaultName:
+  keyVaultResourceGroup:
+  certificateName:
   databaseName:
   databaseUsername:
   databasePassword:
@@ -17,6 +20,8 @@ parameters:
   warmupPingPath: '/check'
   warmupPingStatus: '200'
   railsEnv: 'production'
+  publicDomain:
+  publicSubdomain:
   domain:
   staging_domain:
   securityAlertEmail: 'apprenticeshipsdevops@education.gov.uk'
@@ -55,6 +60,9 @@ jobs:
                 -dockerHubUsername "${{parameters.dockerHubUsername}}"
                 -containerImageReference "${{parameters.containerImageReference}}"
                 -railsEnv "${{parameters.railsEnv}}"
+                -keyVaultName "${{parameters.keyVaultName}}"
+                -keyVaultResourceGroup "${{parameters.keyVaultResourceGroup}}"
+                -certificateName "${{parameters.certificateName}}"
                 -databaseName "${{parameters.databaseName}}"
                 -databaseUsername "${{parameters.databaseUsername}}"
                 -databasePassword "${{parameters.databasePassword}}"
@@ -72,6 +80,8 @@ jobs:
                 -supportPassword "$(supportPassword)"
                 -domain "${{parameters.domain}}"
                 -staging_domain "${{parameters.staging_domain}}"
+                -publicDomain "${{parameters.publicDomain}}"
+                -publicSubdomain "${{parameters.publicSubdomain}}"
                 -sentryDSN "${{parameters.sentryDSN}}"
                 -findBaseUrl "${{parameters.findBaseUrl}}"'
               deploymentOutputs: DeploymentOutput

@@ -16,4 +16,5 @@ services:
       - SECRET_KEY_BASE=${railsSecretKeyBase}
       - DOMAIN
       - STAGING_DOMAIN
+      - GOVUK_DOMAIN
       - SENTRY_DSN
