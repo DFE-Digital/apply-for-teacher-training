@@ -8,10 +8,10 @@ module VendorApi
     before_action :set_cors_headers
     before_action :require_valid_api_token!
 
-    def current_user
+    def audit_user
       return nil unless @metadata.present?
 
-      @current_user ||= VendorApiUser.find_or_create_by(
+      @audit_user ||= VendorApiUser.find_or_create_by(
         email: @metadata.attribution.email,
         full_name: @metadata.attribution.full_name,
         user_id: @metadata.attribution.user_id,

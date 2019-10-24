@@ -5,6 +5,6 @@ module CandidateInterface
     before_action :authenticate_candidate!
     layout 'application'
 
-    alias :current_user :current_candidate
+    alias :audit_user :current_candidate
   end
 end
