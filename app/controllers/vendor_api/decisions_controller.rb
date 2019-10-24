@@ -55,13 +55,5 @@ module VendorApi
       error_responses = errors.full_messages.map { |message| { error: 'ValidationError', message: message } }
       render status: 422, json: { errors: error_responses }
     end
-
-    def validate_metadata!
-      metadata = Metadata.new(params[:meta])
-
-      if metadata.invalid?
-        render_validation_errors(metadata.errors)
-      end
-    end
   end
 end

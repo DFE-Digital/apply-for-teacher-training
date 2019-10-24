@@ -37,8 +37,8 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
       expect {
         post_api_request "/api/v1/applications/#{application_choice.id}/reject", params: request_body
       }.to(change { application_choice.audits.count })
-      pending 'we do not have a mechanism to store metadata attribution in the audit record'
       expect(application_choice.audits.last.user).to be_present
+      expect(application_choice.audits.last.user.full_name).to eq VendorApiSpecHelpers::VALID_METADATA[:attribution][:full_name]
     end
   end
 

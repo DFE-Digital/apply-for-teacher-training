@@ -8,6 +8,17 @@ module VendorApi
     before_action :set_cors_headers
     before_action :require_valid_api_token!
 
+    def current_user
+      return nil unless @metadata.present?
+
+      @current_user ||= VendorApiUser.find_or_create_by(
+        email: @metadata.attribution.email,
+        full_name: @metadata.attribution.full_name,
+        user_id: @metadata.attribution.user_id,
+        vendor_api_token_id: @current_vendor_api_token.id,
+      )
+    end
+
   private
 
     def application_not_found(_e)
@@ -47,6 +58,14 @@ module VendorApi
 
     def current_provider
       @current_provider ||= @current_vendor_api_token.provider
+    end
+
+    def validate_metadata!
+      @metadata = Metadata.new(params[:meta])
+
+      if @metadata.invalid?
+        render_validation_errors(@metadata.errors)
+      end
     end
   end
 end
