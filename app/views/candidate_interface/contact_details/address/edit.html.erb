@@ -3,18 +3,18 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-        <span class="govuk-caption-xl">
-          <%= t('page_titles.contact_details') %>
-        </span>
-        <h1 class="govuk-fieldset__heading">
-          <%= t('page_titles.address') %>
-        </h1>
-      </legend>
+    <%= form_with model: @contact_details_form, url: candidate_interface_contact_details_update_address_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+      <%= f.govuk_error_summary %>
 
-      <%= form_with model: @contact_details_form, url: candidate_interface_contact_details_update_address_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
-        <%= f.govuk_error_summary %>
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+          <span class="govuk-caption-xl">
+            <%= t('page_titles.contact_details') %>
+          </span>
+          <h1 class="govuk-fieldset__heading">
+            <%= t('page_titles.address') %>
+          </h1>
+        </legend>
 
         <%= f.govuk_text_field :address_line1, label: { text: t('application_form.contact_details.address_line1.label') } %>
         <%= f.govuk_text_field :address_line2, label: { text: t('application_form.contact_details.address_line2.label'), hidden: true } %>
@@ -23,7 +23,7 @@
         <%= f.govuk_text_field :postcode, label: { text: t('application_form.contact_details.postcode.label') }, width: 10 %>
 
         <%= f.govuk_submit t('application_form.contact_details.address.button') %>
-      <% end %>
-    </fieldset>
+      </fieldset>
+    <% end %>
   </div>
 </div>
