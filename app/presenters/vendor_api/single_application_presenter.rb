@@ -23,6 +23,7 @@ module VendorApi
             english_main_language: true,
             english_language_qualifications: '',
             other_languages: '',
+            disability_disclosure: '',
           },
           contact_details: {
             phone_number: '',

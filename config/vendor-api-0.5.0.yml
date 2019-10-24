@@ -371,6 +371,7 @@ components:
         - english_main_language
         - english_language_qualifications
         - other_languages
+        - disability_disclosure
       properties:
         first_name:
           type: string
@@ -413,6 +414,11 @@ components:
           nullable: true
           description: Details of the candidate's fluency in other languages
           example: "I am bilingual in Finnish and English"
+        disability_disclosure:
+          type: string
+          nullable: true
+          description: Voluntary disclosure of disabliity or SEN so providers can provide appropriate support
+          example: "I am dyslexic"
     ContactDetails:
       type: object
       additionalProperties: false
