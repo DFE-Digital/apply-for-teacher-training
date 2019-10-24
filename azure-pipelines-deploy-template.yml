@@ -14,7 +14,7 @@ parameters:
   dockerhubUsername:
   railsSecretKeyBase:
   containerStartTimeLimit: '600'
-  warmupPingPath: '/candidate/sign-up'
+  warmupPingPath: '/check'
   warmupPingStatus: '200'
   railsEnv: 'production'
   domain:
