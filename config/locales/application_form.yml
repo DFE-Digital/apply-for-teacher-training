@@ -58,6 +58,12 @@ en:
       postcode:
         label: Postal code
       complete_form_button: Save and continue
+      base:
+        button: Save and continue
+      address:
+        button: Save and continue
+      review:
+        button: Continue
   activemodel:
     errors:
       models:
