@@ -329,9 +329,25 @@ components:
         course:
           $ref: "#/components/schemas/Course"
         qualifications:
-          type: array
-          items:
-            $ref: "#/components/schemas/Qualification"
+          type: object
+          additionalProperties: false
+          required:
+            - gcses
+            - degrees
+            - other_qualifications
+          properties:
+            gcses:
+              type: array
+              items:
+                $ref: "#/components/schemas/Qualification"
+            degrees:
+              type: array
+              items:
+                $ref: "#/components/schemas/Qualification"
+            other_qualifications:
+              type: array
+              items:
+                $ref: "#/components/schemas/Qualification"
         work_experiences:
           type: array
           items:
@@ -520,11 +536,9 @@ components:
       required:
         - qualification_type
         - subject
-        - result
+        - grade
         - award_year
-        - place_of_study
-        - awarding_body_country
-        - awarding_body_name
+        - institution_details
         - equivalency_details
       properties:
         qualification_type:
@@ -536,7 +550,7 @@ components:
           description: The subject studied
           maxLength: 255
           example: History and Politics
-        result:
+        grade:
           type: string
           description: The grade awarded
           example: "2:1"
@@ -544,19 +558,11 @@ components:
           type: string
           description: The year the award was made
           example: "1992"
-        place_of_study:
+        institution_details:
           type: string
-          description: The place of study
+          description: Details about the institution and awarding body
           maxLength: 255
           example: University of Huddersfield
-        awarding_body_name:
-          type: string
-          description: "The awarding body’s name, e.g. AQA"
-          maxLength: 255
-        awarding_body_country:
-          type: string
-          description: "The awarding body’s country as an ISO 3166 country code"
-          example: GB
         equivalency_details:
           type: string
           description: "Details of equivalency, if this qualification was awarded overseas"
@@ -817,7 +823,6 @@ components:
             message:
               type: string
               example: "OK"
-
   parameters:
     application_id:
       name: application_id

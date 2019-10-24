@@ -57,7 +57,38 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
             other_languages: '',
             disability_disclosure: '',
           },
-          qualifications: [],
+          qualifications: {
+            gcses: [
+              {
+                qualification_type: "",
+                subject: "",
+                grade: "",
+                award_year: "",
+                equivalency_details: "",
+                institution_details: "",
+              }
+            ],
+            degrees: [
+              {
+                qualification_type: "",
+                subject: "",
+                grade: "",
+                award_year: "",
+                equivalency_details: "",
+                institution_details: "",
+              }
+            ],
+            other_qualifications: [
+              {
+                qualification_type: "",
+                subject: "",
+                grade: "",
+                award_year: "",
+                equivalency_details: "",
+                institution_details: "",
+              }
+            ]
+          },
           references: [],
           rejection: nil,
           status: application_choice.status,

@@ -36,7 +36,38 @@ module VendorApi
             email: '',
           },
           course: course_json,
-          qualifications: [],
+          qualifications: {
+            gcses: [
+              {
+                qualification_type: '',
+                subject: '',
+                grade: '',
+                award_year: '',
+                equivalency_details: '',
+                institution_details: '',
+              },
+            ],
+            degrees: [
+              {
+                qualification_type: "",
+                subject: "",
+                grade: "",
+                award_year: "",
+                equivalency_details: "",
+                institution_details: "",
+              }
+            ],
+            other_qualifications: [
+              {
+                qualification_type: "",
+                subject: "",
+                grade: "",
+                award_year: "",
+                equivalency_details: "",
+                institution_details: "",
+              }
+            ]
+          },
           references: [],
           work_experiences: [],
           offer: application_choice.offer,
