@@ -15,8 +15,7 @@ FactoryBot.define do
       english_main_language { %w[true false].sample }
       english_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
       other_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
-      further_information { %w[true false].sample }
-      further_information_details { Faker::Lorem.paragraph_by_chars(number: 300) }
+      further_information { Faker::Lorem.paragraph_by_chars(number: 300) }
 
       phone_number { Faker::PhoneNumber.cell_phone }
       address_line1 { Faker::Address.street_name }

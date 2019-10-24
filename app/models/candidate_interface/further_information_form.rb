@@ -13,8 +13,7 @@ module CandidateInterface
       return false unless valid?
 
       application_form.update(
-        further_information: further_information?,
-        further_information_details: further_information? ? further_information_details : '',
+        further_information: further_information? ? further_information_details : '',
       )
     end
 
