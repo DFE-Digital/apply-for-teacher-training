@@ -332,6 +332,7 @@ GEM
     timecop (0.9.1)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
+    uk_postcode (2.1.5)
     unicode-display_width (1.6.0)
     warden (1.2.8)
       rack (>= 2.0.6)
@@ -395,6 +396,7 @@ DEPENDENCIES
   shoulda-matchers (~> 4.1)
   simplecov
   timecop
+  uk_postcode
   web-console (>= 3.3.0)
   webmock
   webpacker
