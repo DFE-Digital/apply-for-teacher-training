@@ -34,6 +34,12 @@ Rails.application.routes.draw do
         post '/review' => 'personal_details#update', as: :personal_details_update
         get '/review' => 'personal_details#show', as: :personal_details_show
       end
+
+      scope '/contact-details' do
+        get '/' => 'contact_details#edit', as: :contact_details_edit
+        post '/review' => 'contact_details#update', as: :contact_details_update
+        get '/review' => 'contact_details#show', as: :contact_details_show
+      end
     end
   end
 

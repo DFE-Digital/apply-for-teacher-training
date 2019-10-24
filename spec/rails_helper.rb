@@ -32,6 +32,8 @@ end
 
 Timecop.safe_mode = true
 
+Faker::Config.locale = 'en-GB'
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

@@ -15,7 +15,9 @@ RSpec.feature 'Candidate submit the application' do
     and_i_can_submit_the_application
 
     then_i_can_see_my_application_has_been_successfully_submitted
-    and_i_receive_an_email_with_a_application_ref
+
+    and_i_can_see_my_support_ref
+    and_i_receive_an_email_with_my_support_ref
 
     when_i_click_on_track_your_application
     then_i_can_see_my_submitted_application
@@ -71,7 +73,12 @@ RSpec.feature 'Candidate submit the application' do
     expect(page).to have_content 'Application successfully submitted'
   end
 
-  def and_i_receive_an_email_with_a_application_ref
+  def and_i_can_see_my_support_ref
+    support_ref = page.find('span#application-ref').text
+    expect(support_ref).not_to be_empty
+  end
+
+  def and_i_receive_an_email_with_my_support_ref
     open_email(current_candidate.email_address)
     expect(current_email).to have_content 'Thank you for completing your teacher training application'
   end
