@@ -7,16 +7,16 @@ RSpec.describe 'Require basic authentication', type: :request do
     before do
       stub_const(
         'BASIC_AUTH',
-        BASIC_AUTH.merge(ui_auth: { enabled: true, username: '', password: '' }),
+        BASIC_AUTH.merge(ui_auth: { enabled: true, username: nil, password: nil }),
       )
     end
 
-    it 'candidate requests raise RuntimeError' do
-      expect { get candidate_interface_start_url }.to raise_error(RuntimeError)
+    it 'candidate requests raise KeyError' do
+      expect { get candidate_interface_start_url }.to raise_error(KeyError)
     end
 
-    it 'provider requests raise RuntimeError' do
-      expect { get provider_interface_applications_url }.to raise_error(RuntimeError)
+    it 'provider requests raise KeyError' do
+      expect { get provider_interface_applications_url }.to raise_error(KeyError)
     end
   end
 

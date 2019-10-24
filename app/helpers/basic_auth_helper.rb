@@ -6,7 +6,7 @@ module BasicAuthHelper
       support_user = BasicAuth.get(:support, :username)
       support_pass = BasicAuth.get(:support, :password)
 
-      raise 'missing BASIC_AUTH_USERNAME/BASIC_AUTH_PASSWORD' if
+      raise KeyError.new, 'basic auth env vars cannot be blank' if
         ui_user.blank? || ui_pass.blank? || support_user.blank? || support_pass.blank?
 
       authenticate_or_request_with_http_basic do |username, password|
