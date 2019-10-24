@@ -1,0 +1,61 @@
+<% content_for :title, page_title('work_history') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @work_details_form, url: candidate_interface_work_history_length_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.work_history') %>
+      </h1>
+
+      <p class="govuk-body">
+        Training providers need a complete picture of the last 5 years of your
+        work history, including time out of the workplace, to safeguard
+        children.
+      </p>
+
+      <p class="govuk-body">
+        Breaks in work history won’t impact your application if you have a
+        reasonable explanation for them (for example, parenting
+        responsibilities, redundancy, illness or personal reasons such as
+        study or travel).
+      </p>
+
+      <div class="govuk-!-margin-top-6">
+        <%= f.govuk_radio_buttons_fieldset :work_history, legend: { size: 'm', text: 'How long have you been working?', tag: 'h2' } do %>
+          <%= f.govuk_radio_button :work_history, :less_than_5, label: { text: t('application_form.work_history.less_than_5') } do %>
+            <p class="govuk-body">
+              Give us as much of your work history as you can. For example, if
+              you are a recent graduate, tell us about your employment before,
+              during and since leaving university.
+            </p>
+          <% end %>
+
+          <%= f.govuk_radio_button :work_history, :more_than_5, label: { text: t('application_form.work_history.more_than_5') } do %>
+            <p class="govuk-body">
+              You can list your complete work history – or just the roles you
+              think are relevant – going back further than 5 years if you wish.
+            </p>
+          <% end %>
+
+          <%= f.govuk_radio_button :work_history, :more_than_5_with_breaks, label: { text: t('application_form.work_history.more_than_5_with_breaks') } do %>
+            <p class="govuk-body">
+              You’ll be able to give details once you’ve entered your employment
+              history. Please explain any break longer than a month.
+            </p>
+          <% end %>
+
+          <%= f.govuk_radio_button :work_history, :missing, label: { text: t('application_form.work_history.missing') } do %>
+            <p class="govuk-body">
+              You’ll be able to explain why you’ve been out of the workplace.
+            </p>
+          <% end %>
+        <% end %>
+
+        <%= f.govuk_submit 'Continue' %>
+      </div>
+    <% end %>
+  </div>
+</div>
