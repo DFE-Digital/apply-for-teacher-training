@@ -99,6 +99,18 @@
                 "description": "GOV.UK Notify service API key."
             }
         },
+        "basicAuthUsername": {
+            "type": "string",
+            "metadata": {
+                "description": "Basic Auth Username for the entire site except API routes"
+            }
+        },
+        "basicAuthPassword": {
+            "type": "string",
+            "metadata": {
+                "description": "Basic Auth Password for the entire site except API routes"
+            }
+        },
         "supportUsername": {
             "type": "string",
             "metadata": {
@@ -269,6 +281,14 @@
                             {
                                 "name": "GOVUK_NOTIFY_API_KEY",
                                 "value": "[parameters('govukNotifyAPIKey')]"
+                            },
+                            {
+                                "name": "BASIC_AUTH_USERNAME",
+                                "value": "[parameters('basicAuthUsername')]"
+                            },
+                            {
+                                "name": "BASIC_AUTH_PASSWORD",
+                                "value": "[parameters('basicAuthPassword')]"
                             },
                             {
                                 "name": "SUPPORT_USERNAME",
