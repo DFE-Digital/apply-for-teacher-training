@@ -36,9 +36,10 @@ Rails.application.routes.draw do
       end
 
       scope '/contact-details' do
-        get '/' => 'contact_details#edit', as: :contact_details_edit
-        post '/review' => 'contact_details#update', as: :contact_details_update
-        get '/review' => 'contact_details#show', as: :contact_details_show
+        get '/' => 'contact_details/base#edit', as: :contact_details_edit_base
+        post '/' => 'contact_details/base#update', as: :contact_details_update_base
+
+        get '/review' => 'contact_details/review#show', as: :contact_details_review
       end
     end
   end
