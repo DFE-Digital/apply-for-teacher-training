@@ -14,11 +14,15 @@ RSpec.feature 'Entering their contact details' do
     when_i_click_on_contact_details
     # and_i_incorrectly_fill_in_my_phone_number
     # and_i_submit_my_phone_number
-    # then_i_should_see_validation_errors
+    # then_i_should_see_validation_errors_for_my_phone_number
 
     when_i_fill_in_my_phone_number
     and_i_submit_my_phone_number
-    and_i_fill_in_my_address
+    and_i_incorrectly_fill_in_my_address
+    and_i_submit_my_address
+    then_i_should_see_validation_errors_for_my_address
+
+    when_i_fill_in_my_address
     and_i_submit_my_address
     then_i_can_check_my_answers
 
@@ -64,7 +68,17 @@ RSpec.feature 'Entering their contact details' do
     click_button t('application_form.contact_details.base.button')
   end
 
-  def and_i_fill_in_my_address
+  def and_i_incorrectly_fill_in_my_address
+    fill_in t('application_form.contact_details.address_line3.label'), with: 'London'
+    fill_in t('application_form.contact_details.postcode.label'), with: 'MUCH W0W'
+  end
+
+  def then_i_should_see_validation_errors_for_my_address
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_line1.blank')
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.postcode.invalid')
+  end
+
+  def when_i_fill_in_my_address
     fill_in t('application_form.contact_details.address_line1.label'), with: '42 Much Wow Street'
     fill_in t('application_form.contact_details.address_line3.label'), with: 'London'
     fill_in t('application_form.contact_details.postcode.label'), with: 'SW1P 3BT'

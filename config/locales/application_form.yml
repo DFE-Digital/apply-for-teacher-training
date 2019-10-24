@@ -95,3 +95,16 @@ en:
           attributes:
             phone_number:
               blank: Enter your phone number
+            address_line1:
+              blank: Enter your building and street
+              too_long: Building and street must be %{count} characters or fewer
+            address_line2:
+              too_long: Building and street must be %{count} characters or fewer
+            address_line3:
+              blank: Enter your town or city
+              too_long: Town or city must be %{count} characters or fewer
+            address_line4:
+              too_long: County must be %{count} characters or fewer
+            postcode:
+              blank: Enter a postal code
+              invalid: Enter a real postal code (for example, BN1 1AA)

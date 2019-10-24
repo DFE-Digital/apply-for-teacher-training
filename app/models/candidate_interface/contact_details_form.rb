@@ -5,6 +5,13 @@ module CandidateInterface
     attr_accessor :phone_number, :address_line1, :address_line2, :address_line3,
                   :address_line4, :postcode
 
+    validates :address_line1, :address_line3, :postcode, presence: true
+
+    validates :address_line1, :address_line2, :address_line3, :address_line4,
+              length: { maximum: 50 }, on: :address
+
+    validates :postcode, postcode: true
+
     def self.build_from_application(application_form)
       new(
         phone_number: application_form.phone_number,
@@ -21,6 +28,8 @@ module CandidateInterface
     end
 
     def save_address(application_form)
+      return false unless valid?
+
       application_form.update(
         address_line1: address_line1,
         address_line2: address_line2,

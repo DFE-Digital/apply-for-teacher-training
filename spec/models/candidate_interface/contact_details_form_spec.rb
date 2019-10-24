@@ -57,4 +57,18 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
       expect(application_form).to have_attributes(form_data)
     end
   end
+
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:address_line1) }
+    it { is_expected.to validate_presence_of(:address_line3) }
+    it { is_expected.to validate_presence_of(:postcode) }
+
+    it { is_expected.to validate_length_of(:address_line1).is_at_most(50).on(:address) }
+    it { is_expected.to validate_length_of(:address_line2).is_at_most(50).on(:address) }
+    it { is_expected.to validate_length_of(:address_line3).is_at_most(50).on(:address) }
+    it { is_expected.to validate_length_of(:address_line4).is_at_most(50).on(:address) }
+
+    it { is_expected.to allow_value('SW1P 3BT').for(:postcode) }
+    it { is_expected.not_to allow_value('MUCH WOW').for(:postcode) }
+  end
 end
