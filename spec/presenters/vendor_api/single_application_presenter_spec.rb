@@ -51,7 +51,7 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
             last_name: application_choice.application_form.last_name,
             date_of_birth: application_choice.application_form.date_of_birth,
             nationality: %w[NL],
-            uk_residency_status: '',
+            uk_residency_status: application_choice.application_form.uk_residency_status,
             english_main_language: true,
             english_language_qualifications: '',
             other_languages: '',
