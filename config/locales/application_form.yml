@@ -64,6 +64,11 @@ en:
         button: Save and continue
       review:
         button: Continue
+    work_history:
+      less_than_5: Less than 5 years
+      more_than_5: More than 5 years
+      more_than_5_with_breaks: More than 5 years, but with breaks
+      missing: I have not worked in the last 5 years
   activemodel:
     errors:
       models:
@@ -109,3 +114,7 @@ en:
             postcode:
               blank: Enter a postal code
               invalid: Enter a real postal code (for example, BN1 1AA)
+        candidate_interface/work_history_form:
+          attributes:
+            work_history:
+              blank: Choose how long you’ve been working for

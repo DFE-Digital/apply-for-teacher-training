@@ -43,6 +43,7 @@ en:
     accessibility: Accessibility statement for Apply for teacher training
     contact_details: Contact details
     address: What is your address?
+    work_history: Work history
   layout:
     service_name: Apply for teacher training
     phase_banner_text: This is a development version of a new service. The data is not real and parts may not work yet.

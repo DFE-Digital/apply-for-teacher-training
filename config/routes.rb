@@ -44,6 +44,11 @@ Rails.application.routes.draw do
 
         get '/review' => 'contact_details/review#show', as: :contact_details_review
       end
+
+      scope '/work-history' do
+        get '/length' => 'work_history#length', as: :work_history_length
+        post '/length' => 'work_history#submit_length'
+      end
     end
   end
 
