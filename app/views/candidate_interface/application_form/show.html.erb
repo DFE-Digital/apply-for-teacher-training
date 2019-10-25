@@ -28,7 +28,7 @@
       </li>
       <li class="app-task-list__item">
         <% if @application_form_presenter.contact_details_completed? %>
-          <%= govuk_link_to t('page_titles.contact_details'), candidate_interface_contact_details_edit_base_path, class: 'app-task-list__task-name', 'aria-describedby': 'contact-details-completed' %>
+          <%= govuk_link_to t('page_titles.contact_details'), candidate_interface_contact_details_review_path, class: 'app-task-list__task-name', 'aria-describedby': 'contact-details-completed' %>
           <strong class="govuk-tag app-task-list__task-completed" id="contact-details-completed">Completed</strong>
         <% else %>
           <%= govuk_link_to t('page_titles.contact_details'), candidate_interface_contact_details_edit_base_path, class: 'app-task-list__task-name' %>

@@ -44,8 +44,8 @@ RSpec.feature 'Entering their contact details' do
     then_i_should_see_the_form
     and_that_the_section_is_completed
 
-    # when_i_click_on_contact_details
-    # then_i_can_check_my_revised_answers
+    when_i_click_on_contact_details
+    then_i_can_check_my_revised_answers
   end
 
   def given_i_am_not_signed_in; end
@@ -159,5 +159,10 @@ RSpec.feature 'Entering their contact details' do
 
   def and_that_the_section_is_completed
     expect(page).to have_css('#contact-details-completed', text: 'Completed')
+  end
+
+  def then_i_can_check_my_revised_answers
+    then_i_can_check_my_revised_phone_number
+    then_i_can_check_my_revised_address
   end
 end
