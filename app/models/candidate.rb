@@ -13,15 +13,16 @@ class Candidate < ApplicationRecord
   has_many :application_forms
 
   def current_application
-    choice = ApplicationChoice.first_or_create do |ac|
+    application_form = application_forms.first_or_create!
+
+    # TODO: this is a temporary thing until candidates can choose their course
+    application_form.application_choices.first_or_create! do |ac|
       provider = Provider.find_or_create_by(code: 'ABC') { |p| p.name = 'Example provider' }
       course = Course.find_or_create_by(name: 'English Primary', code: '123', provider: provider, level: 'primary')
       site = Site.find_or_create_by(code: 'A', name: 'Example School', provider: provider)
       ac.course_option = CourseOption.find_or_create_by(course: course, site: site, vacancy_status: 'B')
     end
 
-    ApplicationForm.find_or_create_by(candidate: self) do |form|
-      form.application_choices = [choice]
-    end
+    application_form
   end
 end
