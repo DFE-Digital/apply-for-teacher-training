@@ -5,6 +5,6 @@
   <%= t('page_titles.contact_details') %>
 </h1>
 
-<%= render(ContactDetailsComponent, contact_details_form: @contact_details_form) %>
+<%= render(ContactDetailsReviewComponent, application_form: @application_form) %>
 
 <%= govuk_button_link_to t('application_form.contact_details.review.button'), candidate_interface_application_form_path %>
