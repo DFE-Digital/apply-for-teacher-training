@@ -29,5 +29,13 @@ RSpec.describe GenerateTestData do
         expect(application_choice.status).to eq 'application_complete'
       end
     end
+
+    it 'works when duplicate course codes are generated' do
+      provider = create(:provider, code: 'DEF')
+      Faker::Config.random = Random.new(42)
+      GenerateTestData.new(1, provider).generate
+      Faker::Config.random = Random.new(42)
+      GenerateTestData.new(1, provider).generate
+    end
   end
 end
