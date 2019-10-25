@@ -58,6 +58,12 @@ en:
       postcode:
         label: Postal code
       complete_form_button: Save and continue
+      base:
+        button: Save and continue
+      address:
+        button: Save and continue
+      review:
+        button: Continue
   activemodel:
     errors:
       models:
@@ -89,3 +95,17 @@ en:
           attributes:
             phone_number:
               blank: Enter your phone number
+              invalid: Enter a phone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192
+            address_line1:
+              blank: Enter your building and street
+              too_long: Building and street must be %{count} characters or fewer
+            address_line2:
+              too_long: Building and street must be %{count} characters or fewer
+            address_line3:
+              blank: Enter your town or city
+              too_long: Town or city must be %{count} characters or fewer
+            address_line4:
+              too_long: County must be %{count} characters or fewer
+            postcode:
+              blank: Enter a postal code
+              invalid: Enter a real postal code (for example, BN1 1AA)

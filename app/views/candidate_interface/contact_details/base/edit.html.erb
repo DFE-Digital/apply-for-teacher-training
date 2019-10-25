@@ -3,20 +3,20 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-        <h1 class="govuk-fieldset__heading">
-          <%= t('page_titles.contact_details') %>
-        </h1>
-      </legend>
+    <%= form_with model: @contact_details_form, url: candidate_interface_contact_details_update_base_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+      <%= f.govuk_error_summary %>
 
-      <%= form_with model: @contact_details_form, url: candidate_interface_contact_details_update_base_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
-        <%= f.govuk_error_summary %>
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+          <h1 class="govuk-fieldset__heading">
+            <%= t('page_titles.contact_details') %>
+          </h1>
+        </legend>
 
         <%= f.govuk_phone_field :phone_number, label: { text: t('application_form.contact_details.phone_number.label'), size: 'm' }, hint_text: t('application_form.contact_details.phone_number.hint_text'), width: 20 %>
 
-        <%= f.govuk_submit t('application_form.contact_details.complete_form_button') %>
-      <% end %>
-    </fieldset>
+        <%= f.govuk_submit t('application_form.contact_details.base.button') %>
+      </fieldset>
+    <% end %>
   </div>
 </div>

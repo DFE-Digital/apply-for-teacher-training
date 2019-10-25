@@ -3,15 +3,15 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-        <h1 class="govuk-fieldset__heading">
-          <%= t('page_titles.personal_details') %>
-        </h1>
-      </legend>
+    <%= form_with model: @personal_details_form, url: candidate_interface_personal_details_update_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+      <%= f.govuk_error_summary %>
 
-      <%= form_with model: @personal_details_form, url: candidate_interface_personal_details_update_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
-        <%= f.govuk_error_summary %>
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+          <h1 class="govuk-fieldset__heading">
+            <%= t('page_titles.personal_details') %>
+          </h1>
+        </legend>
 
         <%= f.govuk_text_field :first_name, label: { text: t('application_form.personal_details.first_name.label'), size: 'm' }, hint_text: t('application_form.personal_details.first_name.hint_text') %>
 
@@ -42,7 +42,7 @@
         <% end %>
 
         <%= f.govuk_submit 'Continue' %>
-      <% end %>
-    </fieldset>
+      </fieldset>
+    <% end %>
   </div>
 </div>
