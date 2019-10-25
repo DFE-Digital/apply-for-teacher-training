@@ -3,9 +3,11 @@ require 'rails_helper'
 RSpec.feature 'Candidate submit the application' do
   include CandidateHelper
 
-  scenario 'Candidate with personal details' do
+  scenario 'Candidate with personal details and contact details' do
     given_i_am_signed_in
-    and_i_filled_in_personal_details_and_review_my_application
+    and_i_filled_in_personal_details
+    and_i_filled_in_contact_details
+    and_reviewed_my_application
     and_i_confirm_my_application
 
     when_i_choose_to_add_further_information_but_omit_adding_details
@@ -27,17 +29,23 @@ RSpec.feature 'Candidate submit the application' do
     create_and_sign_in_candidate
   end
 
-  def and_i_filled_in_personal_details_and_review_my_application
-    and_i_filled_in_personal_details
-    and_i_visit_the_application_form_page
-    when_i_click_on_check_your_answers
-  end
-
   def and_i_filled_in_personal_details
     visit candidate_interface_personal_details_edit_path
     candidate_fills_in_personal_details(scope: 'application_form.personal_details')
 
     click_button t('complete_form_button', scope: 'application_form.personal_details')
+  end
+
+  def and_i_filled_in_contact_details
+    visit candidate_interface_contact_details_edit_base_path
+    candidate_fills_in_contact_details
+
+    click_button t('application_form.contact_details.address.button')
+  end
+
+  def and_reviewed_my_application
+    and_i_visit_the_application_form_page
+    when_i_click_on_check_your_answers
   end
 
   def and_i_visit_the_application_form_page
