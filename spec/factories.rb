@@ -79,7 +79,7 @@ FactoryBot.define do
   factory :vendor_api_user do
     association :vendor_api_token
     full_name { 'Bob' }
-    email { 'bob@example.com' }
+    email_address { 'bob@example.com' }
     user_id { '123' }
   end
 

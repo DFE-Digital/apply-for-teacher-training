@@ -38,11 +38,15 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
         post_api_request "/api/v1/applications/#{application_choice.id}/reject", params: request_body
       }.to(change { application_choice.audits.count })
       expect(application_choice.audits.last.user).to be_present
-      %i[full_name email user_id].each do |attribute|
-        expect(application_choice.audits.last.user.send(attribute)).to eq(
-          VendorApiSpecHelpers::VALID_METADATA[:attribution][attribute],
-        )
-      end
+      expect(application_choice.audits.last.user.full_name).to eq(
+        VendorApiSpecHelpers::VALID_METADATA[:attribution][:full_name],
+      )
+      expect(application_choice.audits.last.user.email_address).to eq(
+        VendorApiSpecHelpers::VALID_METADATA[:attribution][:email],
+      )
+      expect(application_choice.audits.last.user.user_id).to eq(
+        VendorApiSpecHelpers::VALID_METADATA[:attribution][:user_id],
+      )
     end
   end
 
