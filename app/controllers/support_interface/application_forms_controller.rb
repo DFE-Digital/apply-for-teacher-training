@@ -15,5 +15,13 @@ module SupportInterface
 
       @application_form = ApplicationFormPresenter.new(application_form)
     end
+
+    def audit
+      application_form = ApplicationForm
+        .includes(:application_choices)
+        .find(params[:application_form_id])
+
+      @application_form = ApplicationFormAuditPresenter.new(application_form)
+    end
   end
 end

@@ -93,6 +93,7 @@ Rails.application.routes.draw do
 
     get '/applications' => 'application_forms#index'
     get '/applications/:application_form_id' => 'application_forms#show', as: :application_form
+    get '/applications/:application_form_id/audit' => 'application_forms#audit', as: :application_form_audit
 
     get '/tokens' => 'api_tokens#index', as: :api_tokens
     post '/tokens' => 'api_tokens#create'
