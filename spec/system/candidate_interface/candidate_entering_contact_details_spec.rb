@@ -26,12 +26,12 @@ RSpec.feature 'Entering their contact details' do
     and_i_submit_my_address
     then_i_can_check_my_answers
 
-    # when_i_click_to_change_my_phone_number
-    # then_i_can_see_my_phone_number
+    when_i_click_to_change_my_phone_number
+    then_i_can_see_my_phone_number
 
-    # when_i_fill_in_a_different_phone_number
-    # and_i_submit_my_phone_number
-    # then_i_can_check_my_revised_phone_number
+    when_i_fill_in_a_different_phone_number
+    and_i_submit_my_phone_number
+    then_i_can_check_my_revised_phone_number
 
     # when_i_click_to_change_my_address
     # then_i_can_see_my_phone_number
