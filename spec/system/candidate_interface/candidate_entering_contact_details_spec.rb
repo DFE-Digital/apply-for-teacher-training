@@ -40,9 +40,9 @@ RSpec.feature 'Entering their contact details' do
     and_i_submit_my_address
     then_i_can_check_my_revised_address
 
-    # when_i_submit_my_details
-    # then_i_should_see_the_form
-    # and_that_the_section_is_completed
+    when_i_submit_my_details
+    then_i_should_see_the_form
+    and_that_the_section_is_completed
 
     # when_i_click_on_contact_details
     # then_i_can_check_my_revised_answers
@@ -147,5 +147,17 @@ RSpec.feature 'Entering their contact details' do
     expect(page).to have_content t('application_form.contact_details.full_address.label')
     expect(page).to have_content '99'
     expect(page).to have_content 'Problems Street'
+  end
+
+  def when_i_submit_my_details
+    click_link t('application_form.contact_details.review.button')
+  end
+
+  def then_i_should_see_the_form
+    expect(page).to have_content(t('page_titles.application_form'))
+  end
+
+  def and_that_the_section_is_completed
+    expect(page).to have_css('#contact-details-completed', text: 'Completed')
   end
 end

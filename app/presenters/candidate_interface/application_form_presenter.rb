@@ -11,5 +11,11 @@ module CandidateInterface
     def personal_details_completed?
       CandidateInterface::PersonalDetailsForm.build_from_application(@application_form).valid?
     end
+
+    def contact_details_completed?
+      contact_details = CandidateInterface::ContactDetailsForm.build_from_application(@application_form)
+
+      contact_details.valid?(:base) && contact_details.valid?(:address)
+    end
   end
 end
