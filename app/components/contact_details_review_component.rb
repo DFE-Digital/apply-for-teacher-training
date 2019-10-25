@@ -1,4 +1,4 @@
-class ContactDetailsComponent < ActionView::Component::Base
+class ContactDetailsReviewComponent < ActionView::Component::Base
   validates :contact_details_form, presence: true
 
   def initialize(contact_details_form:)
