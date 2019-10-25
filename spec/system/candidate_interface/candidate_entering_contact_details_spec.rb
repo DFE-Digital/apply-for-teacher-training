@@ -26,6 +26,20 @@ RSpec.feature 'Entering their contact details' do
     and_i_submit_my_address
     then_i_can_check_my_answers
 
+    # when_i_click_to_change_my_phone_number
+    # then_i_can_see_my_phone_number
+
+    # when_i_fill_in_a_different_phone_number
+    # and_i_submit_my_phone_number
+    # then_i_can_check_my_revised_phone_number
+
+    # when_i_click_to_change_my_address
+    # then_i_can_see_my_phone_number
+
+    # when_i_fill_in_a_different_address
+    # and_i_submit_my_address
+    # then_i_can_check_my_revised_address
+
     # when_i_submit_my_details
     # then_i_should_see_the_form
     # and_that_the_section_is_completed
@@ -95,5 +109,22 @@ RSpec.feature 'Entering their contact details' do
   def then_i_can_check_my_answers
     expect(page).to have_content t('application_form.contact_details.phone_number.label')
     expect(page).to have_content '07700 900 982'
+  end
+
+  def when_i_click_to_change_my_phone_number
+    first('.govuk-summary-list__actions').click_link 'Change'
+  end
+
+  def then_i_can_see_my_phone_number
+    expect(page).to have_selector("input[value='07700 900 982']")
+  end
+
+  def when_i_fill_in_a_different_phone_number
+    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 424 242'
+  end
+
+  def then_i_can_check_my_revised_phone_number
+    expect(page).to have_content t('application_form.contact_details.phone_number.label')
+    expect(page).to have_content '07700 424 242'
   end
 end
