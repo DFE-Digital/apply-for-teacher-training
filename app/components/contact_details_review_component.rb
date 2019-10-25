@@ -1,8 +1,11 @@
-class ContactDetailsComponent < ActionView::Component::Base
-  validates :contact_details_form, presence: true
+class ContactDetailsReviewComponent < ActionView::Component::Base
+  validates :application_form, presence: true
 
-  def initialize(contact_details_form:)
-    @contact_details_form = contact_details_form
+  def initialize(application_form:)
+    @application_form = application_form
+    @contact_details_form = CandidateInterface::ContactDetailsForm.build_from_application(
+      @application_form,
+    )
   end
 
   def contact_details_form_rows
@@ -11,7 +14,7 @@ class ContactDetailsComponent < ActionView::Component::Base
 
 private
 
-  attr_reader :contact_details_form
+  attr_reader :application_form
 
   def phone_number_row
     {

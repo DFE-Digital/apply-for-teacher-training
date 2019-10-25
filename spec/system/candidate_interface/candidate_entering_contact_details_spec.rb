@@ -26,12 +26,26 @@ RSpec.feature 'Entering their contact details' do
     and_i_submit_my_address
     then_i_can_check_my_answers
 
-    # when_i_submit_my_details
-    # then_i_should_see_the_form
-    # and_that_the_section_is_completed
+    when_i_click_to_change_my_phone_number
+    then_i_can_see_my_phone_number
 
-    # when_i_click_on_contact_details
-    # then_i_can_check_my_revised_answers
+    when_i_fill_in_a_different_phone_number
+    and_i_submit_my_phone_number
+    then_i_can_check_my_revised_phone_number
+
+    when_i_click_to_change_my_address
+    then_i_can_see_my_address
+
+    when_i_fill_in_a_different_address
+    and_i_submit_my_address
+    then_i_can_check_my_revised_address
+
+    when_i_submit_my_details
+    then_i_should_see_the_form
+    and_that_the_section_is_completed
+
+    when_i_click_on_contact_details
+    then_i_can_check_my_revised_answers
   end
 
   def given_i_am_not_signed_in; end
@@ -95,5 +109,60 @@ RSpec.feature 'Entering their contact details' do
   def then_i_can_check_my_answers
     expect(page).to have_content t('application_form.contact_details.phone_number.label')
     expect(page).to have_content '07700 900 982'
+  end
+
+  def when_i_click_to_change_my_phone_number
+    find_link('Change', href: candidate_interface_contact_details_edit_base_path).click
+  end
+
+  def then_i_can_see_my_phone_number
+    expect(page).to have_selector("input[value='07700 900 982']")
+  end
+
+  def when_i_fill_in_a_different_phone_number
+    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 424 242'
+  end
+
+  def then_i_can_check_my_revised_phone_number
+    expect(page).to have_content t('application_form.contact_details.phone_number.label')
+    expect(page).to have_content '07700 424 242'
+  end
+
+  def when_i_click_to_change_my_address
+    find_link('Change', href: candidate_interface_contact_details_edit_address_path).click
+  end
+
+  def then_i_can_see_my_address
+    expect(page).to have_selector("input[value='42 Much Wow Street']")
+    expect(page).to have_selector("input[value='London']")
+    expect(page).to have_selector("input[value='SW1P 3BT']")
+  end
+
+  def when_i_fill_in_a_different_address
+    fill_in t('application_form.contact_details.address_line1.label'), with: '99'
+    fill_in t('application_form.contact_details.address_line2.label'), with: 'Problems Street'
+  end
+
+  def then_i_can_check_my_revised_address
+    expect(page).to have_content t('application_form.contact_details.full_address.label')
+    expect(page).to have_content '99'
+    expect(page).to have_content 'Problems Street'
+  end
+
+  def when_i_submit_my_details
+    click_link t('application_form.contact_details.review.button')
+  end
+
+  def then_i_should_see_the_form
+    expect(page).to have_content(t('page_titles.application_form'))
+  end
+
+  def and_that_the_section_is_completed
+    expect(page).to have_css('#contact-details-completed', text: 'Completed')
+  end
+
+  def then_i_can_check_my_revised_answers
+    then_i_can_check_my_revised_phone_number
+    then_i_can_check_my_revised_address
   end
 end

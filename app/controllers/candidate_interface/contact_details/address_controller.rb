@@ -1,7 +1,9 @@
 module CandidateInterface
   class ContactDetails::AddressController < CandidateInterfaceController
     def edit
-      @contact_details_form = ContactDetailsForm.new
+      @contact_details_form = ContactDetailsForm.build_from_application(
+        current_candidate.current_application,
+      )
     end
 
     def update
