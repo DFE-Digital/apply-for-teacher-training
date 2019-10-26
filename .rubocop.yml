@@ -12,6 +12,8 @@ AllCops:
     - 'config/puma.rb'
     - 'config/environments/*'
     - 'config/initializers/nationalities.rb'
+    - 'lib/tasks/cucumber.rake'
+    - 'features/support/env.rb'
 
 Style/StringLiterals:
   Enabled: true
@@ -61,6 +63,6 @@ RSpec/ExpectChange:
 RSpec/LeadingSubject:
   Enabled: false
 
-# In acceptance tests it's often handy to user instance variables to keep track of state 
+# In acceptance tests it's often handy to user instance variables to keep track of state
 RSpec/InstanceVariable:
   Enabled: false
