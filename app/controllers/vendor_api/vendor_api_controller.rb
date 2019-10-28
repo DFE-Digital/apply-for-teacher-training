@@ -70,7 +70,7 @@ module VendorApi
     def append_info_to_payload(payload)
       super
       payload[:vendor_api_token_id] = @current_vendor_api_token.try(:id)
-      payload[:provider_id] = @current_provider.try(:id)
+      payload[:provider_id] = current_provider.try(:id) if @current_vendor_api_token
     end
 
     def validate_metadata!
