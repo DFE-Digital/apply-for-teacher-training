@@ -219,6 +219,39 @@ stages:
       findBaseUrl: '$(findBaseUrl)'
 
 
+- stage: deploy_pentest
+  displayName: 'Deploy - Pentest'
+  dependsOn: build_test_release
+  #condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded('build_test_release'), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranchName'], variables.devDeployBranchNameOverride)))
+  variables:
+  - group: APPLY - ENV - Pentest
+  jobs:
+  - template: azure-pipelines-deploy-template.yml
+    parameters:
+      debug: $(debug)
+      subscriptionPrefix: 's106'
+      subscriptionName: 'Apply (106) - Test'
+      environment: 'sandbox'
+      resourceEnvironmentName: 't03'
+      serviceName: 'apply'
+      containerImageReference: '$(imageName):$(build.buildNumber)'
+      keyVaultName: 's106t01-shared-kv-01'
+      keyVaultResourceGroup: 's106t01-shared-rg'
+      customHostName: '$(govukHostname)'
+      databaseName: 'apply'
+      databaseUsername: 'applyadm512'
+      databasePassword: '$(databasePassword)'
+      databaseStorageAutoGrow: 'disabled'
+      databaseBackupRetentionDays: 7
+      dockerhubUsername: '$(dockerHubUsername)'
+      railsSecretKeyBase: '$(railsSecretKeyBase)'
+      railsEnv: 'production'
+      authorisedHosts: '$(authorisedHosts)'
+      sentryDSN: '$(sentryDSN)'
+      findBaseUrl: '$(findBaseUrl)'
+
+
 - stage: deploy_production
   displayName: 'Deploy - Production'
   dependsOn: build_test_release
