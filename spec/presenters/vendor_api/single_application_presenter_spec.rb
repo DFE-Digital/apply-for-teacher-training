@@ -114,7 +114,7 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
                 working_with_children: application_choice.application_form.application_work_experiences.first.working_with_children,
                 commitment: application_choice.application_form.application_work_experiences.first.commitment,
                 description: application_choice.application_form.application_work_experiences.first.details,
-              }
+              },
             ],
             volunteering: [
               {
