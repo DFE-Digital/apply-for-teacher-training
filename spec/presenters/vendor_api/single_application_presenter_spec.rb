@@ -96,7 +96,7 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
           updated_at: application_choice.updated_at,
           withdrawal: nil,
           work_experiences: [],
-          further_information: '',
+          further_information: application_choice.application_form.further_information,
         },
       }
     end
