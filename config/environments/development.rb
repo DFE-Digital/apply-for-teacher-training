@@ -66,4 +66,10 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  # Logging configuration
+  config.log_level = :debug
+
+  require './lib/logging'
+  Logging.set(config) if ENV['LOGSTASH_ENABLE'] == 'true'
 end

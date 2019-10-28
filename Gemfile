@@ -34,6 +34,10 @@ gem 'faker'
 
 gem 'actionview-component'
 
+# Logging
+gem 'lograge'
+gem 'logstash-logger'
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.3'

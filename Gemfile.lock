@@ -171,6 +171,14 @@ GEM
     listen (3.2.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
+    lograge (0.11.2)
+      actionpack (>= 4)
+      activesupport (>= 4)
+      railties (>= 4)
+      request_store (~> 1.0)
+    logstash-event (1.2.02)
+    logstash-logger (0.26.1)
+      logstash-event (~> 1.2)
     loofah (2.3.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -256,6 +264,8 @@ GEM
       ffi (~> 1.0)
     redcarpet (3.5.0)
     regexp_parser (1.6.0)
+    request_store (1.4.1)
+      rack (>= 1.4)
     responders (3.0.0)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -377,6 +387,8 @@ DEPENDENCIES
   json_api_client
   launchy
   listen (>= 3.0.5, < 3.3)
+  lograge
+  logstash-logger
   mail-notify
   pg (~> 1.1.4)
   pry
