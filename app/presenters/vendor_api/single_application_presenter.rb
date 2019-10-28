@@ -20,9 +20,9 @@ module VendorApi
             date_of_birth: application_form.date_of_birth,
             nationality: %w[NL],
             uk_residency_status: application_form.uk_residency_status,
-            english_main_language: true,
-            english_language_qualifications: '',
-            other_languages: '',
+            english_main_language: application_form.english_main_language,
+            english_language_qualifications: application_form.english_language_details,
+            other_languages: application_form.other_language_details,
             disability_disclosure: '',
           },
           contact_details: {
