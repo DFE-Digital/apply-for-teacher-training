@@ -148,6 +148,30 @@
                 "description": "Sentry client key."
             }
         },
+        "logstashEnable": {
+            "type": "string",
+            "metadata": {
+                "description": "Set this to 'true' to ship app logs to Logstash/Logit."
+            }
+        },
+        "logstashHost": {
+            "type": "string",
+            "metadata": {
+                "description": "Logstash/Logit Host to send logs to."
+            }
+        },
+        "logstashPort": {
+            "type": "string",
+            "metadata": {
+                "description": "Logstash/Logit Port to send logs to."
+            }
+        },
+        "logstashSsl": {
+            "type": "string",
+            "metadata": {
+                "description": "Set this to 'true' to use SSL when shipping logs."
+            }
+        },
         "findBaseUrl": {
             "type": "string",
             "metadata": {
@@ -309,6 +333,22 @@
                             {
                                 "name": "SENTRY_DSN",
                                 "value": "[parameters('sentryDSN')]"
+                            },
+                            {
+                                "name": "LOGSTASH_ENABLE",
+                                "value": "[parameters('logstashEnable')]"
+                            },
+                            {
+                                "name": "LOGSTASH_HOST",
+                                "value": "[parameters('logstashHost')]"
+                            },
+                            {
+                                "name": "LOGSTASH_PORT",
+                                "value": "[parameters('logstashPort')]"
+                            },
+                            {
+                                "name": "LOGSTASH_SSL",
+                                "value": "[parameters('logstashSsl')]"
                             },
                             {
                                 "name": "FIND_BASE_URL",

@@ -66,8 +66,17 @@ Rails.application.configure do
   config.active_support.deprecation = :notify
 
   # Logging configuration
-  require './lib/logging'
-  Logging.set(config)
+  if ENV['LOGSTASH_ENABLE'] == 'true'
+    require './lib/logging'
+    Logging.set(config)
+  else
+    # log to STDOUT using standard verbose format + request_id + timestamp
+    config.log_tags = [ :request_id ] # prepend these to log lines
+    config.log_formatter = ::Logger::Formatter.new # preserves timestamp, PID
+    logger = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter = config.log_formatter
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
+  end
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
