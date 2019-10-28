@@ -17,6 +17,7 @@ FactoryBot.define do
       other_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
       further_information { Faker::Lorem.paragraph_by_chars(number: 300) }
       uk_residency_status { 'I have the right to study and/or work in the UK' }
+      disability_disclosure { Faker::Lorem.paragraph_by_chars(number: 300) }
       submitted_at { Time.now }
       phone_number { Faker::PhoneNumber.cell_phone }
       address_line1 { Faker::Address.street_name }

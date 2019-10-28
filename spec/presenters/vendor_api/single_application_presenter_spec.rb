@@ -55,7 +55,7 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
             english_main_language: application_choice.application_form.english_main_language,
             english_language_qualifications: application_choice.application_form.english_language_details,
             other_languages: application_choice.application_form.other_language_details,
-            disability_disclosure: '',
+            disability_disclosure: application_choice.application_form.disability_disclosure,
           },
           qualifications: {
             gcses: [
