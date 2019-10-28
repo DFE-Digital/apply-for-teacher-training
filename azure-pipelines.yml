@@ -8,17 +8,17 @@ pr: none
 
 variables:
 - group: Docker Shared variables
-- group: APPLY - Production Secrets
+- group: APPLY - Shared Variables
 - name: imageName
   value: 'apply-for-postgraduate-teacher-training'
-- name: defaultProviderEmail
-  value: 'email@example.com'
 - name: debug
   value: true
 
 stages:
 - stage: build_test_release
   displayName: 'Build, Test & Release'
+  variables:
+  - group: APPLY - ENV - QA
   jobs:
   - job: build_and_test_docker_image
     displayName: 'Build & Test Docker Image'
@@ -46,8 +46,7 @@ stages:
         railsSecretKeyBase: $(railsSecretKeyBase)
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
-        DOMAIN: $(domain)
-        STAGING_DOMAIN: $(domain)
+        AUTHORISED_HOSTS: $(authorisedHosts)
         FIND_BASE_URL: $(findBaseUrl)
 
     - script: make ci.lint-ruby
@@ -57,8 +56,7 @@ stages:
         dockerHubImageName: $(imageName)
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
-        DOMAIN: $(domain)
-        STAGING_DOMAIN: $(domain)
+        AUTHORISED_HOSTS: $(authorisedHosts)
         FIND_BASE_URL: $(findBaseUrl)
 
     - script: make ci.lint-erb
@@ -68,8 +66,7 @@ stages:
         dockerHubImageName: $(imageName)
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
-        DOMAIN: $(domain)
-        STAGING_DOMAIN: $(domain)
+        AUTHORISED_HOSTS: $(authorisedHosts)
         FIND_BASE_URL: $(findBaseUrl)
 
     - script: |
@@ -82,8 +79,7 @@ stages:
         dockerHubImageName: $(imageName)
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
-        DOMAIN: $(domain)
-        STAGING_DOMAIN: $(domain)
+        AUTHORISED_HOSTS: $(authorisedHosts)
         FIND_BASE_URL: $(findBaseUrl)
 
     - task: Docker@1
@@ -127,20 +123,25 @@ stages:
         testResultsFiles: 'rspec-results.xml'
 
 
-- stage: deploy_dev
-  displayName: 'Deploy - Development'
+- stage: deploy_qa
+  displayName: 'Deploy - QA'
   dependsOn: build_test_release
-  condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded('build_test_release'), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranchName'], variables.devDeployBranchNameOverride)))
+  variables:
+  - group: APPLY - ENV - QA
   jobs:
   - template: azure-pipelines-deploy-template.yml
     parameters:
       debug: $(debug)
       subscriptionPrefix: 's106'
       subscriptionName: 'Apply (106) - Dev'
-      environment: 'development'
+      environment: 'qa'
       resourceEnvironmentName: 'd01'
       serviceName: 'apply'
       containerImageReference: '$(imageName):$(build.buildNumber)'
+      keyVaultName: 's106d01-shared-kv-01'
+      keyVaultResourceGroup: 's106d01-shared-rg'
+      customHostName: '$(govukHostname)'
       databaseName: 'apply'
       databaseUsername: 'applyadm512'
       databasePassword: '$(databasePassword)'
@@ -149,28 +150,30 @@ stages:
       dockerhubUsername: '$(dockerHubUsername)'
       railsSecretKeyBase: '$(railsSecretKeyBase)'
       railsEnv: 'production'
-      domain: '$(domain)'
-      staging_domain: '$(staging_domain)'
+      authorisedHosts: '$(authorisedHosts)'
       sentryDSN: '$(sentryDSN)'
       findBaseUrl: '$(findBaseUrl)'
 
 
-- stage: deploy_test
-  displayName: 'Deploy - Test'
+- stage: deploy_staging
+  displayName: 'Deploy - Staging'
   dependsOn: build_test_release
   condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   variables:
-  - group: APPLY - Development Secrets
+  - group: APPLY - ENV - Staging
   jobs:
   - template: azure-pipelines-deploy-template.yml
     parameters:
       debug: $(debug)
       subscriptionPrefix: 's106'
       subscriptionName: 'Apply (106) - Test'
-      environment: 'test'
+      environment: 'staging'
       resourceEnvironmentName: 't01'
       serviceName: 'apply'
       containerImageReference: '$(imageName):$(build.buildNumber)'
+      keyVaultName: 's106t01-shared-kv-01'
+      keyVaultResourceGroup: 's106t01-shared-rg'
+      customHostName: '$(govukHostname)'
       databaseName: 'apply'
       databaseUsername: 'applyadm512'
       databasePassword: '$(databasePassword)'
@@ -179,27 +182,30 @@ stages:
       dockerhubUsername: '$(dockerHubUsername)'
       railsSecretKeyBase: '$(railsSecretKeyBase)'
       railsEnv: 'production'
-      domain: '$(domain)'
-      staging_domain: '$(staging_domain)'
+      authorisedHosts: '$(authorisedHosts)'
       sentryDSN: '$(sentryDSN)'
       findBaseUrl: '$(findBaseUrl)'
 
-- stage: deploy_vendor_staging
-  displayName: 'Deploy - Vendor Staging'
+
+- stage: deploy_sandbox
+  displayName: 'Deploy - Sandbox'
   dependsOn: build_test_release
   condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   variables:
-  - group: APPLY - ENV - Vendor Staging
+  - group: APPLY - ENV - Sandbox
   jobs:
   - template: azure-pipelines-deploy-template.yml
     parameters:
       debug: $(debug)
       subscriptionPrefix: 's106'
       subscriptionName: 'Apply (106) - Test'
-      environment: 'vendor-staging'
+      environment: 'sandbox'
       resourceEnvironmentName: 't02'
       serviceName: 'apply'
       containerImageReference: '$(imageName):$(build.buildNumber)'
+      keyVaultName: 's106t01-shared-kv-01'
+      keyVaultResourceGroup: 's106t01-shared-rg'
+      customHostName: '$(govukHostname)'
       databaseName: 'apply'
       databaseUsername: 'applyadm512'
       databasePassword: '$(databasePassword)'
@@ -208,35 +214,68 @@ stages:
       dockerhubUsername: '$(dockerHubUsername)'
       railsSecretKeyBase: '$(railsSecretKeyBase)'
       railsEnv: 'production'
-      domain: '$(domain)'
-      staging_domain: '$(staging_domain)'
+      authorisedHosts: '$(authorisedHosts)'
+      sentryDSN: '$(sentryDSN)'
+      findBaseUrl: '$(findBaseUrl)'
 
 
-# - stage: deploy_production
-#   displayName: 'Deploy - Production'
-#   dependsOn: build_test_release
-#   condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-#   variables:
-#     value: 'email@example.com'
-#   jobs:
-#   - template: azure-pipelines-deploy-template.yml
-#     parameters:
-#       debug: $(debug)
-#       subscriptionPrefix: 's106'
-#       subscriptionName: 'Apply (106) - Production'
-#       environment: 'production'
-#       resourceEnvironmentName: 'p01'
-#       serviceName: 'apply'
-#       containerImageReference: '$(imageName):$(build.buildNumber)'
-#       databaseName: 'apply'
-#       databaseUsername: 'applyadm512'
-#       databasePassword: '$(databasePassword)'
-#       databaseStorageAutoGrow: 'enabled'
-#       databaseBackupRetentionDays: 35
-#       dockerhubUsername: '$(dockerHubUsername)'
-#       railsSecretKeyBase: '$(railsSecretKeyBase)'
-#       railsEnv: 'production'
-#       domain: '$(domain)'
-#       staging_domain: '$(staging_domain)'
-#       sentryDSN: '$(sentryDSN)'
-#       findBaseUrl: '$(findBaseUrl)'
+- stage: deploy_pentest
+  displayName: 'Deploy - Pentest'
+  dependsOn: build_test_release
+  condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  variables:
+  - group: APPLY - ENV - Pentest
+  jobs:
+  - template: azure-pipelines-deploy-template.yml
+    parameters:
+      debug: $(debug)
+      subscriptionPrefix: 's106'
+      subscriptionName: 'Apply (106) - Test'
+      environment: 'pentest'
+      resourceEnvironmentName: 't03'
+      serviceName: 'apply'
+      containerImageReference: '$(imageName):$(build.buildNumber)'
+      keyVaultName: 's106t01-shared-kv-01'
+      keyVaultResourceGroup: 's106t01-shared-rg'
+      databaseName: 'apply'
+      databaseUsername: 'applyadm512'
+      databasePassword: '$(databasePassword)'
+      databaseStorageAutoGrow: 'disabled'
+      databaseBackupRetentionDays: 7
+      dockerhubUsername: '$(dockerHubUsername)'
+      railsSecretKeyBase: '$(railsSecretKeyBase)'
+      railsEnv: 'production'
+      authorisedHosts: '$(authorisedHosts)'
+      sentryDSN: '$(sentryDSN)'
+      findBaseUrl: '$(findBaseUrl)'
+
+
+- stage: deploy_production
+  displayName: 'Deploy - Production'
+  dependsOn: build_test_release
+  condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  variables:
+  - group: APPLY - ENV - Production
+  jobs:
+  - template: azure-pipelines-deploy-template.yml
+    parameters:
+      debug: $(debug)
+      subscriptionPrefix: 's106'
+      subscriptionName: 'Apply (106) - Production'
+      environment: 'production'
+      resourceEnvironmentName: 'p01'
+      serviceName: 'apply'
+      containerImageReference: '$(imageName):$(build.buildNumber)'
+      keyVaultName: 's106p01-shared-kv-01'
+      keyVaultResourceGroup: 's106p01-shared-rg'
+      databaseName: 'apply'
+      databaseUsername: 'applyadm512'
+      databasePassword: '$(databasePassword)'
+      databaseStorageAutoGrow: 'enabled'
+      databaseBackupRetentionDays: 35
+      dockerhubUsername: '$(dockerHubUsername)'
+      railsSecretKeyBase: '$(railsSecretKeyBase)'
+      railsEnv: 'production'
+      authorisedHosts: '$(authorisedHosts)'
+      sentryDSN: '$(sentryDSN)'
+      findBaseUrl: '$(findBaseUrl)'

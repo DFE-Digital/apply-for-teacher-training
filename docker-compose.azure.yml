@@ -14,6 +14,5 @@ services:
       - SUPPORT_USERNAME
       - SUPPORT_PASSWORD
       - SECRET_KEY_BASE=${railsSecretKeyBase}
-      - DOMAIN
-      - STAGING_DOMAIN
+      - AUTHORISED_HOSTS
       - SENTRY_DSN
