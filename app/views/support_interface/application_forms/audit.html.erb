@@ -4,9 +4,7 @@
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Time</th>
-      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Component</th>
-      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Action</th>
-      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">User</th>
+      <th scope="col" class="govuk-table__header govuk-!-width-three-quarter">Event</th>
     </tr>
   </thead>
 
@@ -14,26 +12,26 @@
     <% @application_form.audits.each do |audit| %>
       <tr class="govuk-table__row gov uk-accordion__section">
         <td class="govuk-table__cell"><%= audit.created_at.to_s(:db) %></td>
-        <td class="govuk-table__cell"><%= audit.auditable_type %></td>
-        <td class="govuk-table__cell"><%= audit.action %></td>
-        <td class="govuk-table__cell"><%= audit.user&.email_address || 'bob@example.com <br/> (Vendor API)'.html_safe %></td>
-      </tr>
-      <tr class="govuk-table__row" style="display: none;">
-        <td class="govuk-table__cell" colspan="4">
-          <dl class="govuk-summary-list--no-border">
-            <% audit.audited_changes.each do |attr, values| %>
-              <% if values.present? %>
-                <div class="govuk-summary-list__row">
-                  <dt class="govuk-summary-list__key">
-                    <%= attr %>
-                  </dt>
-                  <dd class="govuk-summary-list__value">
-                    <%= values %>
-                  </dd>
-                </div>
-              <% end %>
-            <% end %>
-          </dl>
+        <td class="govuk-table__cell">
+          <details class="govuk-details govuk-!-margin-0" data-module="govuk-details" open="">
+            <summary class="govuk-details__summary">
+              <%= "#{audit.action.capitalize} #{audit.auditable_type.titlecase} - #{audit.user&.email_address || 'bob@example.com'} (Vendor API)".html_safe %>
+            </summary>
+            <div class="govuk-details__text">
+              <dl class="govuk-summary-list--no-border">
+                <% audit.audited_changes.select { |_, values| values.present? }.each do |attr, values| %>
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      <%= attr %>
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <%= values %>
+                    </dd>
+                  </div>
+                <% end %>
+              </dl>
+            </div>
+          </details>
         </td>
       </tr>
     <% end %>
