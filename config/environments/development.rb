@@ -70,6 +70,6 @@ Rails.application.configure do
   # Logging configuration
   config.log_level = :debug
 
-  require './lib/logging'
-  Logging.set(config) if ENV['LOGSTASH_ENABLE'] == 'true'
+  require './lib/logstash_logging'
+  LogstashLogging.enable(config) if ENV['LOGSTASH_ENABLE'] == 'true'
 end

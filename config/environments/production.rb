@@ -67,8 +67,8 @@ Rails.application.configure do
 
   # Logging configuration
   if ENV['LOGSTASH_ENABLE'] == 'true'
-    require './lib/logging'
-    Logging.set(config)
+    require './lib/logstash_logging'
+    LogstashLogging.enable(config)
   else
     # log to STDOUT using standard verbose format + request_id + timestamp
     config.log_tags = [ :request_id ] # prepend these to log lines

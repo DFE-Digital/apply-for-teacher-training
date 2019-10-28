@@ -388,6 +388,7 @@ DEPENDENCIES
   launchy
   listen (>= 3.0.5, < 3.3)
   lograge
+  logstash-event
   logstash-logger
   mail-notify
   pg (~> 1.1.4)

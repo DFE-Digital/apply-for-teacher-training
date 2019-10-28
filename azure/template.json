@@ -151,7 +151,13 @@
         "logstashEnable": {
             "type": "string",
             "metadata": {
-                "description": "Set this to 'true' to ship app logs to Logstash/Logit."
+                "description": "Set this to 'true' to log to STDOUT in logstash format."
+            }
+        },
+        "logstashRemote": {
+            "type": "string",
+            "metadata": {
+                "description": "Set this to 'true' to ship logstash logs to remote server. Requires LOGSTASH_ENABLED == 'true'."
             }
         },
         "logstashHost": {
@@ -337,6 +343,10 @@
                             {
                                 "name": "LOGSTASH_ENABLE",
                                 "value": "[parameters('logstashEnable')]"
+                            },
+                            {
+                                "name": "LOGSTASH_REMOTE",
+                                "value": "[parameters('logstashRemote')]"
                             },
                             {
                                 "name": "LOGSTASH_HOST",

@@ -48,5 +48,12 @@ module VendorApi
     def current_provider
       @current_provider ||= @current_vendor_api_token.provider
     end
+
+    # contoller-specific additional info to included in lograge/logstash logs
+    def append_info_to_payload(payload)
+      super
+      payload[:vendor_api_token_id] = @current_vendor_api_token.try(:id)
+      payload[:provider_id] = @current_provider.try(:id)
+    end
   end
 end

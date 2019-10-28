@@ -18,6 +18,7 @@ services:
       - STAGING_DOMAIN
       - SENTRY_DSN
       - LOGSTASH_ENABLE
+      - LOGSTASH_REMOTE
       - LOGSTASH_HOST
       - LOGSTASH_PORT
       - LOGSTASH_SSL

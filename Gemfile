@@ -37,6 +37,7 @@ gem 'actionview-component'
 # Logging
 gem 'lograge'
 gem 'logstash-logger'
+gem 'logstash-event'
 
 group :development do
   gem 'web-console', '>= 3.3.0'
@@ -66,4 +67,3 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'pry-rails'
 end
-
