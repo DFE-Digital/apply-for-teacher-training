@@ -12,7 +12,7 @@ module VendorApi
         attributes: {
           status: application_choice.status,
           updated_at: application_choice.updated_at,
-          submitted_at: Time.now,
+          submitted_at: application_form.submitted_at,
           personal_statement: application_choice.personal_statement,
           candidate: {
             first_name: application_form.first_name,

@@ -92,7 +92,7 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
           references: [],
           rejection: nil,
           status: application_choice.status,
-          submitted_at: Time.now,
+          submitted_at: application_choice.application_form.submitted_at,
           updated_at: application_choice.updated_at,
           withdrawal: nil,
           work_experiences: [],
