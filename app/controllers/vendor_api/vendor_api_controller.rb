@@ -11,15 +11,21 @@ module VendorApi
     def audit_user
       return nil unless @metadata.present?
 
-      @audit_user ||= VendorApiUser.find_or_create_by(
-        email_address: @metadata.attribution.email,
-        full_name: @metadata.attribution.full_name,
-        vendor_user_id: @metadata.attribution.user_id,
-        vendor_api_token_id: @current_vendor_api_token.id,
-      )
+      @audit_user ||= find_or_create_audit_user
     end
 
   private
+
+    def find_or_create_audit_user
+      vendor_api_user = VendorApiUser.find_or_initialize_by(
+        vendor_user_id: @metadata.attribution.user_id,
+        vendor_api_token_id: @current_vendor_api_token.id,
+      )
+      vendor_api_user.email_address = @metadata.attribution.email
+      vendor_api_user.full_name = @metadata.attribution.full_name
+      vendor_api_user.save!
+      vendor_api_user
+    end
 
     def application_not_found(_e)
       render json: {
