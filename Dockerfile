@@ -51,9 +51,7 @@ ARG APP_HOME=/app
 ENV RAILS_ENV=production
 # These variables are required for running Rails processes like assets:precompile
 ENV GOVUK_NOTIFY_API_KEY=TestKey
-ENV DOMAIN=dummy.build.domain
-ENV STAGING_DOMAIN=dummy.build.domain
-ENV GOVUK_DOMAIN=dummy.build.domain
+ENV AUTHORISED_HOSTS=dummy.build.domain
 ENV SECRET_KEY_BASE=TestKey
 
 WORKDIR $APP_HOME

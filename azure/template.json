@@ -135,34 +135,16 @@
                 "description": "The resource group for the key vault."
             }
         },
-        "certificateName": {
-            "type": "string",
-                "metadata": {
-                "description": "The name of the certificate in key vault."
-            }
-        },
-        "domain": {
+        "authorisedHosts": {
             "type": "string",
             "metadata": {
-                "description": "Site domain name for use in GOV UK Notify and Rails security features."
+                "description": "Comma seperated list of FQDNs authorised to access the app."
             }
         },
-        "staging_domain": {
-            "type": "string",
-            "metadata": {
-                "description": "Site domain name for use in GOV UK Notify and Rails security features. Used during swap slots only."
-            }
-        },
-        "publicDomain": {
+        "customHostName": {
             "type": "string",
             "metadata": {
                 "description": "The top level common domain for the service, e.g. apply-for-teacher-training.education.gov.uk."
-            }
-        },
-        "publicSubdomain": {
-            "type": "string",
-            "metadata": {
-                "description": "The subdomain to be prependend to the publicDomain parameter for the specific deployed environment."
             }
         },
         "railsServeStaticFiles": {
@@ -193,8 +175,8 @@
         "appServicePlanName": "[concat(variables('resourceNamePrefix'), '-asp')]",
         "storageAccountName": "[replace(concat(variables('resourceNamePrefix'), 'str'), '-', '')]",
         "databaseServerName": "[concat(variables('resourceNamePrefix'), '-psql')]",
-        "customHostName": "[concat(parameters('publicSubdomain'), '.', parameters('publicDomain'))]",
-	"keyvaultCertificateName": "[if(greater(length(parameters('certificateName')),0), parameters('certificateName'), replace(variables('customHostName'), '.', '-'))]"
+	"keyVaultCertificateName": "[replace(parameters('customHostName'), '.', '-')]",
+	"rubyAuthHosts": "[if(greater(length(parameters('customHostName')), 0), concat(parameters('authorisedHosts'), ',', parameters('customHostName')), parameters('authorisedHosts'))]"
     },
     "resources": [
         {
@@ -240,7 +222,7 @@
         {
             "name": "app-service-certificate",
             "type": "Microsoft.Resources/deployments",
-            "condition": "[greater(length(parameters('certificateName')), 0)]",
+            "condition": "[greater(length(parameters('customHostName')), 0)]",
             "apiVersion": "2017-05-10",
             "properties": {
                 "mode": "Incremental",
@@ -282,10 +264,10 @@
                         "value": "[variables('appServicePlanName')]"
                     },
                     "customHostName": {
-                        "value": "[variables('customHostName')]"
+                        "value": "[parameters('customHostName')]"
                     },
 		    "certificateThumbprint": {
-                        "value": "[if(greater(length(variables('customHostName')), 0), reference('app-service-certificate', '2018-11-01').outputs.certificateThumbprint.value, '')]"
+                        "value": "[if(greater(length(parameters('customHostName')), 0), reference('app-service-certificate', '2018-11-01').outputs.certificateThumbprint.value, '')]"
                     },
                     "runtimeStack": {
                         "value": "[variables('appServiceRuntimeStack')]"
@@ -361,16 +343,8 @@
                                 "value": "[parameters('supportPassword')]"
                             },
                             {
-                                "name": "DOMAIN",
-                                "value": "[parameters('domain')]"
-                            },
-                            {
-                                "name": "STAGING_DOMAIN",
-                                "value": "[parameters('staging_domain')]"
-                            },
-                            {
-                                "name": "GOVUK_DOMAIN",
-                                "value": "[variables('customHostName')]"
+                                "name": "AUTHORISED_HOSTS",
+                                "value": "[variables('rubyAuthHosts')]"
                             },
                             {
                                 "name": "SENTRY_DSN",
