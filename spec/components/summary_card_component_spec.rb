@@ -16,7 +16,7 @@ RSpec.describe SummaryCardComponent do
     expect(result.css('.govuk-summary-list__actions').text).to include('Change Name')
   end
 
-  it "renders dangerous HTML content when passed in" do
+  it 'renders dangerous HTML content when passed in' do
     rows = [
       key: 'Address:',
       DANGEROUS_html_value: 'Whoa Drive,<br>Wewvile<br>London',
