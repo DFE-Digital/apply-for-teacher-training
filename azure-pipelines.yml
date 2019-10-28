@@ -231,7 +231,7 @@ stages:
       debug: $(debug)
       subscriptionPrefix: 's106'
       subscriptionName: 'Apply (106) - Test'
-      environment: 'sandbox'
+      environment: 'pentest'
       resourceEnvironmentName: 't03'
       serviceName: 'apply'
       containerImageReference: '$(imageName):$(build.buildNumber)'
