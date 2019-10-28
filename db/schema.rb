@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_25_141802) do
+ActiveRecord::Schema.define(version: 2019_10_28_105220) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -154,11 +155,11 @@ ActiveRecord::Schema.define(version: 2019_10_25_141802) do
   create_table "vendor_api_users", force: :cascade do |t|
     t.string "full_name", null: false
     t.string "email_address", null: false
-    t.string "user_id", null: false
+    t.string "vendor_user_id", null: false
     t.bigint "vendor_api_token_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["full_name", "email_address", "user_id", "vendor_api_token_id"], name: "index_vendor_api_users_on_name_email_userid_token", unique: true
+    t.index ["full_name", "email_address", "vendor_user_id", "vendor_api_token_id"], name: "index_vendor_api_users_on_name_email_userid_token", unique: true
     t.index ["vendor_api_token_id"], name: "index_vendor_api_users_on_vendor_api_token_id"
   end
 

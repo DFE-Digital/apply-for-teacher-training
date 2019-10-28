@@ -22,7 +22,7 @@ RSpec.describe 'Vendor API - audit trail', type: :request do
     expect(application_choice.audits.last.user.email_address).to eq(
       VendorApiSpecHelpers::VALID_METADATA[:attribution][:email],
     )
-    expect(application_choice.audits.last.user.user_id).to eq(
+    expect(application_choice.audits.last.user.vendor_user_id).to eq(
       VendorApiSpecHelpers::VALID_METADATA[:attribution][:user_id],
     )
   end

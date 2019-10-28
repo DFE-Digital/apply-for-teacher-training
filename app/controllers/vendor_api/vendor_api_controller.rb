@@ -14,7 +14,7 @@ module VendorApi
       @audit_user ||= VendorApiUser.find_or_create_by(
         email_address: @metadata.attribution.email,
         full_name: @metadata.attribution.full_name,
-        user_id: @metadata.attribution.user_id,
+        vendor_user_id: @metadata.attribution.user_id,
         vendor_api_token_id: @current_vendor_api_token.id,
       )
     end
