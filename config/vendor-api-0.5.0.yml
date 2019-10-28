@@ -563,10 +563,12 @@ components:
           description: Details about the institution and awarding body
           maxLength: 255
           example: University of Huddersfield
+          nullable: true
         equivalency_details:
           type: string
           description: "Details of equivalency, if this qualification was awarded overseas"
           maxLength: 255
+          nullable: true
     Reference:
       type: object
       additionalProperties: false
