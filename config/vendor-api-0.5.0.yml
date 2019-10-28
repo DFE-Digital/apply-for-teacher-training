@@ -291,9 +291,9 @@ components:
         - submitted_at
         - updated_at
         - withdrawal
-        - work_experiences
         - hesa_itt_data
         - further_information
+        - work_experience
       properties:
         status:
           type: string
@@ -348,10 +348,23 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/Qualification"
-        work_experiences:
-          type: array
-          items:
-            $ref: "#/components/schemas/WorkExperience"
+        work_experience:
+          type: object
+          additionalProperties: false
+          required:
+            - jobs
+            - volunteering
+          properties:
+            jobs:
+              type: array
+              description: The candidate’s professional experience
+              items:
+                $ref: "#/components/schemas/WorkExperience"
+            volunteering:
+              type: array
+              description: The candidate’s experience as a volunteer
+              items:
+                $ref: "#/components/schemas/WorkExperience"
         references:
           type: array
           items:
@@ -656,21 +669,24 @@ components:
         - end_date
         - role
         - description
+        - working_with_children
+        - commitment
       properties:
         organisation_name:
           type: string
-          description: The name of the employer (company or individual)
+          description: The organisation worked for
           maxLength: 255
           example: Cheadle Hulme High School
         start_date:
           type: string
           format: date
-          description: The date employment began
+          description: The date the position began
           example: "2020-09-10"
         end_date:
           type: string
           format: date
-          description: "The date employment finished, if appropriate"
+          nullable: true
+          description: The date the position finished, if applicable
           example: "2019-04-01"
         role:
           type: string
@@ -679,9 +695,18 @@ components:
           example: Whole School Literacy Specialist
         description:
           type: string
-          description: A brief written description of the work involved
-          maxLength: 255
+          description: A written description of the work involved
+          maxLength: 4096
           example: "I lead, develop and enhance the literacy teaching practice of others..."
+        working_with_children:
+          type: boolean
+          description: Did this position involve working in a school or with children?
+          example: true
+        commitment:
+          nullable: true
+          type: enum
+            - full_time
+            - part_time
     HESAITTData:
       type: object
       additionalProperties: false

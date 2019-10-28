@@ -77,7 +77,10 @@ module VendorApi
             ],
           },
           references: [],
-          work_experiences: [],
+          work_experience: {
+            jobs: work_experience_jobs,
+            volunteering: work_experience_volunteering,
+          },
           offer: application_choice.offer,
           rejection: get_rejection,
           withdrawal: nil,
@@ -119,6 +122,30 @@ module VendorApi
         provider_ucas_code: application_choice.provider.code,
         site_ucas_code: application_choice.site.code,
         course_ucas_code: application_choice.course.code,
+      }
+    end
+
+    def work_experience_jobs
+      application_form.application_work_experiences.map do |experience|
+        experience_to_hash(experience)
+      end
+    end
+
+    def work_experience_volunteering
+      application_form.application_volunteering_experiences.map do |experience|
+        experience_to_hash(experience)
+      end
+    end
+
+    def experience_to_hash(experience)
+      {
+        start_date: experience.start_date.to_date,
+        end_date: experience.end_date&.to_date,
+        role: experience.role,
+        organisation_name: experience.organisation,
+        working_with_children: experience.working_with_children,
+        commitment: experience.commitment,
+        description: experience.details,
       }
     end
   end

@@ -29,15 +29,32 @@ FactoryBot.define do
 
       transient do
         application_choices_count { 3 }
+        work_experiences_count { 1 }
+        volunteering_experiences_count { 1 }
       end
     end
 
     factory :completed_application_form, traits: [:completed_application_form] do
       after(:build) do |application_form, evaluator|
         create_list(:application_choice, evaluator.application_choices_count, application_form: application_form)
+        create_list(:application_work_experience, evaluator.work_experiences_count, application_form: application_form)
+        create_list(:application_volunteering_experience, evaluator.volunteering_experiences_count, application_form: application_form)
       end
     end
   end
+
+  factory :application_experience do
+    role { ['Teacher', 'Teaching Assistant'].sample }
+    organisation { Faker::Educator.secondary_school }
+    details { Faker::Lorem.paragraph_by_chars(number: 300) }
+    working_with_children { [true, true, true, false].sample }
+    start_date { Faker::Date.between(from: 20.years.ago, to: 5.years.ago) }
+    end_date { [Faker::Date.between(from: 4.years.ago, to: Date.today), nil].sample }
+    commitment { %w[full_time part_time].sample }
+  end
+
+  factory :application_volunteering_experience, parent: :application_experience, class: 'ApplicationVolunteeringExperience'
+  factory :application_work_experience, parent: :application_experience, class: 'ApplicationWorkExperience'
 
   factory :site do
     provider

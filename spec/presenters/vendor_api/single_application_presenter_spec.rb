@@ -103,8 +103,31 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
           submitted_at: application_choice.application_form.submitted_at,
           updated_at: application_choice.updated_at,
           withdrawal: nil,
-          work_experiences: [],
           further_information: application_choice.application_form.further_information,
+          work_experience: {
+            jobs: [
+              {
+                start_date: application_choice.application_form.application_work_experiences.first.start_date.to_date,
+                end_date: application_choice.application_form.application_work_experiences.first.end_date&.to_date,
+                role: application_choice.application_form.application_work_experiences.first.role,
+                organisation_name: application_choice.application_form.application_work_experiences.first.organisation,
+                working_with_children: application_choice.application_form.application_work_experiences.first.working_with_children,
+                commitment: application_choice.application_form.application_work_experiences.first.commitment,
+                description: application_choice.application_form.application_work_experiences.first.details,
+              }
+            ],
+            volunteering: [
+              {
+                start_date: application_choice.application_form.application_volunteering_experiences.first.start_date.to_date,
+                end_date: application_choice.application_form.application_volunteering_experiences.first.end_date&.to_date,
+                role: application_choice.application_form.application_volunteering_experiences.first.role,
+                organisation_name: application_choice.application_form.application_volunteering_experiences.first.organisation,
+                working_with_children: application_choice.application_form.application_volunteering_experiences.first.working_with_children,
+                commitment: application_choice.application_form.application_volunteering_experiences.first.commitment,
+                description: application_choice.application_form.application_volunteering_experiences.first.details,
+              },
+            ],
+          },
         },
       }
     end
