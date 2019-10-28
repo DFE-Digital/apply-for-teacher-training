@@ -1,4 +1,8 @@
 Rails.application.configure do
+  def authorised_hosts
+    ENV.fetch("AUTHORISED_HOSTS").split(",").map(&:strip)
+  end
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -58,7 +62,7 @@ Rails.application.configure do
     api_key: ENV.fetch('GOVUK_NOTIFY_API_KEY')
   }
   config.action_mailer.default_url_options = {
-    host: ENV.fetch('AUTHORISED_HOSTS').split(",")[0]
+    host: ENV.fetch("CUSTOM_HOST_NAME", authorised_hosts.first)
   }
 
   # Ignore bad email addresses and do not raise email delivery errors.

@@ -20,7 +20,7 @@ parameters:
   warmupPingPath: '/check'
   warmupPingStatus: '200'
   railsEnv: 'production'
-  authorizedHosts:
+  authorisedHosts:
   securityAlertEmail: 'apprenticeshipsdevops@education.gov.uk'
   sentryDSN:
   findBaseUrl:
