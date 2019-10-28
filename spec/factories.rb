@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :candidate do
-    email_address { "#{SecureRandom.hex}@example.com" }
+    email_address { "#{SecureRandom.hex(5)}@example.com" }
   end
 
   factory :application_form do
@@ -11,7 +11,7 @@ FactoryBot.define do
       last_name { Faker::Name.last_name }
       date_of_birth { Faker::Date.birthday }
       first_nationality { NATIONALITY_DEMONYMS.sample }
-      second_nationality { NATIONALITY_DEMONYMS.sample }
+      second_nationality { [nil, NATIONALITY_DEMONYMS.sample].sample }
       english_main_language { %w[true false].sample }
       english_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
       other_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
@@ -20,11 +20,11 @@ FactoryBot.define do
       disability_disclosure { Faker::Lorem.paragraph_by_chars(number: 300) }
       submitted_at { Faker::Time.backward(days: 7, period: :day) }
       phone_number { Faker::PhoneNumber.cell_phone }
-      address_line1 { Faker::Address.street_name }
-      address_line2 { Faker::Address.street_address }
-      address_line3 { Faker::Address.city }
-      address_line4 { Faker::Address.country }
-      country { Faker::Address.country_code }
+      address_line1 { Faker::Address.street_address }
+      address_line2 { Faker::Address.city }
+      address_line3 { Faker::Address.county }
+      address_line4 { '' }
+      country { 'UK' }
       postcode { Faker::Address.postcode }
 
       transient do

@@ -32,10 +32,10 @@ module VendorApi
             address_line3: application_form.address_line3,
             address_line4: application_form.address_line4,
             postcode: application_form.postcode,
-            country: 'NL',
+            country: application_form.country,
             email: application_form.candidate.email_address,
           },
-          course: course_json,
+          course: course,
           qualifications: {
             gcses: [
               {
@@ -67,7 +67,7 @@ module VendorApi
             ],
             other_qualifications: [
               {
-                qualification_type: '	A Level',
+                qualification_type: 'A Level',
                 subject: 'Chemistry',
                 grade: 'B',
                 award_year: '2004',
@@ -104,7 +104,16 @@ module VendorApi
       end
     end
 
-    def course_json
+    def nationalities
+      [
+        application_form.first_nationality,
+        application_form.second_nationality,
+      ].map { |n|
+        NATIONALITIES.to_h.invert[n]
+      }.compact
+    end
+
+    def course
       {
         start_date: application_choice.course.start_date,
         provider_ucas_code: application_choice.provider.code,

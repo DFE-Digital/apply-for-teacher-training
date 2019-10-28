@@ -37,7 +37,7 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
             address_line3: application_choice.application_form.address_line3,
             address_line4: application_choice.application_form.address_line4,
             postcode: application_choice.application_form.postcode,
-            country: 'NL',
+            country: 'UK',
             email: application_choice.application_form.candidate.email_address,
           },
           course: {
@@ -88,7 +88,7 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
             ],
             other_qualifications: [
               {
-                qualification_type: '	A Level',
+                qualification_type: 'A Level',
                 subject: 'Chemistry',
                 grade: 'B',
                 award_year: '2004',
