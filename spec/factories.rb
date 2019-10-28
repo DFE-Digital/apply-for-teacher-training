@@ -18,7 +18,7 @@ FactoryBot.define do
       further_information { Faker::Lorem.paragraph_by_chars(number: 300) }
       uk_residency_status { 'I have the right to study and/or work in the UK' }
       disability_disclosure { Faker::Lorem.paragraph_by_chars(number: 300) }
-      submitted_at { Time.now }
+      submitted_at { Faker::Time.backward(days: 7, period: :day) }
       phone_number { Faker::PhoneNumber.cell_phone }
       address_line1 { Faker::Address.street_name }
       address_line2 { Faker::Address.street_address }
