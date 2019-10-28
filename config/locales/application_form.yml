@@ -44,6 +44,9 @@ en:
         label: Phone number
         hint_text: For non-UK numbers, include the country code
         change_action: phone number
+      full_address:
+        label: Address
+        change_action: address
       address_line1:
         label: Building and street
       address_line2:
@@ -54,7 +57,18 @@ en:
         label: County
       postcode:
         label: Postal code
-      complete_form_button: Continue
+      complete_form_button: Save and continue
+      base:
+        button: Save and continue
+      address:
+        button: Save and continue
+      review:
+        button: Continue
+    work_history:
+      less_than_5: Less than 5 years
+      more_than_5: More than 5 years
+      more_than_5_with_breaks: More than 5 years, but with breaks
+      missing: I have not worked in the last 5 years
   activemodel:
     errors:
       models:
@@ -86,3 +100,21 @@ en:
           attributes:
             phone_number:
               blank: Enter your phone number
+              invalid: Enter a phone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192
+            address_line1:
+              blank: Enter your building and street
+              too_long: Building and street must be %{count} characters or fewer
+            address_line2:
+              too_long: Building and street must be %{count} characters or fewer
+            address_line3:
+              blank: Enter your town or city
+              too_long: Town or city must be %{count} characters or fewer
+            address_line4:
+              too_long: County must be %{count} characters or fewer
+            postcode:
+              blank: Enter a postal code
+              invalid: Enter a real postal code (for example, BN1 1AA)
+        candidate_interface/work_history_form:
+          attributes:
+            work_history:
+              blank: Choose how long you’ve been working for

@@ -1,11 +1,13 @@
 class ApplicationChoice < ApplicationRecord
-  before_create :set_id
   before_create :set_initial_status
+
   belongs_to :application_form, touch: true
   belongs_to :course_option
   has_one :course, through: :course_option
   has_one :site, through: :course_option
   has_one :provider, through: :course
+
+  audited associated_with: :application_form
 
   scope :for_provider, ->(provider_code) {
     includes(:course, :provider).where(providers: { code: provider_code })
@@ -30,14 +32,5 @@ private
 
   def set_initial_status
     self.status ||= 'unsubmitted'
-  end
-
-  def set_id
-    alphanumeric_id = ''
-    loop do
-      alphanumeric_id = generate_alphanumeric_id
-      break unless ApplicationChoice.exists?(id: alphanumeric_id)
-    end
-    self.id = alphanumeric_id
   end
 end

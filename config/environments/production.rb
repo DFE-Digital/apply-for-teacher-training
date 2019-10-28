@@ -1,4 +1,8 @@
 Rails.application.configure do
+  def authorised_hosts
+    ENV.fetch("AUTHORISED_HOSTS").split(",").map(&:strip)
+  end
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -51,7 +55,7 @@ Rails.application.configure do
     api_key: ENV.fetch('GOVUK_NOTIFY_API_KEY')
   }
   config.action_mailer.default_url_options = {
-    host: ENV.fetch('DOMAIN')
+    host: ENV.fetch("CUSTOM_HOST_NAME", authorised_hosts.first)
   }
 
   # Ignore bad email addresses and do not raise email delivery errors.
@@ -102,7 +106,8 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
-  # Whitelist the production domain for HostAuthorization
-  config.hosts << ENV.fetch('DOMAIN')
-  config.hosts << ENV.fetch('STAGING_DOMAIN') # Domain used in Azure pipelines for deploying to the second slot
+  # Whitelist the production domains for HostAuthorization
+  ENV.fetch("AUTHORISED_HOSTS").split(",").each do |domain|
+      config.hosts << domain
+  end
 end

@@ -23,6 +23,7 @@ gem 'erb_lint', require: false
 
 gem 'devise'
 gem 'workflow'
+gem 'audited'
 
 gem 'json-schema'
 gem 'json_api_client'
@@ -33,6 +34,8 @@ gem 'factory_bot_rails'
 gem 'faker'
 
 gem 'actionview-component'
+
+gem 'uk_postcode'
 
 # Logging
 gem 'lograge'
@@ -56,7 +59,7 @@ group :test do
   gem 'timecop'
   gem 'guard-rspec'
   gem 'webmock'
-  gem 'simplecov', require: false, group: :test
+  gem 'simplecov', require: false
 end
 
 group :development, :test do

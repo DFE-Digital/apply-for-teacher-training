@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_23_151050) do
+ActiveRecord::Schema.define(version: 2019_10_28_105220) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "application_choices", id: :string, limit: 10, force: :cascade do |t|
+  create_table "application_choices", force: :cascade do |t|
     t.bigint "application_form_id", null: false
     t.text "personal_statement"
     t.datetime "created_at", precision: 6, null: false
@@ -27,6 +27,21 @@ ActiveRecord::Schema.define(version: 2019_10_23_151050) do
     t.bigint "course_option_id", null: false
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
+  end
+
+  create_table "application_experiences", force: :cascade do |t|
+    t.bigint "application_form_id", null: false
+    t.string "type", null: false
+    t.string "role", null: false
+    t.string "organisation", null: false
+    t.text "details", null: false
+    t.boolean "working_with_children", null: false
+    t.datetime "start_date", null: false
+    t.datetime "end_date"
+    t.string "commitment"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["application_form_id"], name: "index_application_experiences_on_application_form_id"
   end
 
   create_table "application_forms", force: :cascade do |t|
@@ -43,6 +58,7 @@ ActiveRecord::Schema.define(version: 2019_10_23_151050) do
     t.date "date_of_birth"
     t.boolean "further_information"
     t.text "further_information_details"
+    t.datetime "submitted_at"
     t.string "phone_number"
     t.string "address_line1"
     t.string "address_line2"
@@ -50,9 +66,30 @@ ActiveRecord::Schema.define(version: 2019_10_23_151050) do
     t.string "address_line4"
     t.string "country"
     t.string "postcode"
-    t.datetime "submitted_at"
     t.string "support_reference", limit: 10
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
+  end
+
+  create_table "audits", force: :cascade do |t|
+    t.integer "auditable_id"
+    t.string "auditable_type"
+    t.integer "associated_id"
+    t.string "associated_type"
+    t.integer "user_id"
+    t.string "user_type"
+    t.string "username"
+    t.string "action"
+    t.jsonb "audited_changes"
+    t.integer "version", default: 0
+    t.string "comment"
+    t.string "remote_address"
+    t.string "request_uuid"
+    t.datetime "created_at"
+    t.index ["associated_type", "associated_id"], name: "associated_index"
+    t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
+    t.index ["created_at"], name: "index_audits_on_created_at"
+    t.index ["request_uuid"], name: "index_audits_on_request_uuid"
+    t.index ["user_id", "user_type"], name: "user_index"
   end
 
   create_table "candidates", force: :cascade do |t|
@@ -115,8 +152,20 @@ ActiveRecord::Schema.define(version: 2019_10_23_151050) do
     t.index ["provider_id"], name: "index_vendor_api_tokens_on_provider_id"
   end
 
+  create_table "vendor_api_users", force: :cascade do |t|
+    t.string "full_name", null: false
+    t.string "email_address", null: false
+    t.string "vendor_user_id", null: false
+    t.bigint "vendor_api_token_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["full_name", "email_address", "vendor_user_id", "vendor_api_token_id"], name: "index_vendor_api_users_on_name_email_userid_token", unique: true
+    t.index ["vendor_api_token_id"], name: "index_vendor_api_users_on_vendor_api_token_id"
+  end
+
   add_foreign_key "application_choices", "application_forms", on_delete: :cascade
   add_foreign_key "application_choices", "course_options"
+  add_foreign_key "application_experiences", "application_forms", on_delete: :cascade
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
   add_foreign_key "course_options", "courses", on_delete: :cascade
   add_foreign_key "course_options", "sites", on_delete: :cascade

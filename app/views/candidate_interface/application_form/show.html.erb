@@ -27,10 +27,15 @@
         <% end %>
       </li>
       <li class="app-task-list__item">
-        <%= govuk_link_to t('page_titles.contact_details'), candidate_interface_contact_details_edit_path, class: 'app-task-list__task-name' %>
+        <% if @application_form_presenter.contact_details_completed? %>
+          <%= govuk_link_to t('page_titles.contact_details'), candidate_interface_contact_details_review_path, class: 'app-task-list__task-name', 'aria-describedby': 'contact-details-completed' %>
+          <strong class="govuk-tag app-task-list__task-completed" id="contact-details-completed">Completed</strong>
+        <% else %>
+          <%= govuk_link_to t('page_titles.contact_details'), candidate_interface_contact_details_edit_base_path, class: 'app-task-list__task-name' %>
+        <% end %>
       </li>
       <li class="app-task-list__item">
-        <%= govuk_link_to 'TODO: Work history', '#', class: 'app-task-list__task-name' %>
+        <%= govuk_link_to t('page_titles.work_history'), candidate_interface_work_history_length_path, class: 'app-task-list__task-name' %>
       </li>
       <li class="app-task-list__item">
         <%= govuk_link_to 'TODO: School experience and volunteering', '#', class: 'app-task-list__task-name' %>

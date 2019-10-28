@@ -21,6 +21,15 @@ module CandidateHelper
     fill_in t('english_main_language.yes_label', scope: scope), with: "I'm great at Galactic Basic so English is a piece of cake", match: :prefer_exact
   end
 
+  def candidate_fills_in_contact_details
+    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 900 982'
+    click_button t('application_form.contact_details.base.button')
+
+    fill_in t('application_form.contact_details.address_line1.label'), with: '42 Much Wow Street'
+    fill_in t('application_form.contact_details.address_line3.label'), with: 'London'
+    fill_in t('application_form.contact_details.postcode.label'), with: 'SW1P 3BT'
+  end
+
   def current_candidate
     @current_candidate ||= create(:candidate)
   end

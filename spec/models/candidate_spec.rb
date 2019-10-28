@@ -27,17 +27,29 @@ RSpec.describe Candidate, type: :model do
   end
 
   describe '#current_application' do
-    it 'returns an existing application' do
+    it 'returns an existing application_form' do
       candidate = create(:candidate)
       application_form = create(:application_form, candidate: candidate)
 
       expect(candidate.current_application).to eq(application_form)
     end
 
-    it 'creates an application if there are none' do
+    it 'creates an application_form if there are none' do
       candidate = create(:candidate)
 
       expect { candidate.current_application }.to change { candidate.application_forms.count }.from(0).to(1)
+    end
+
+    describe 'with an existing application_form' do
+      let!(:other_application_form) { create(:completed_application_form) }
+
+      it 'creates a new application_choice for the current application' do
+        candidate = create(:candidate)
+
+        expect(other_application_form.application_choices.map(&:id)).not_to include(
+          candidate.current_application.application_choices.first.id,
+        )
+      end
     end
   end
 end

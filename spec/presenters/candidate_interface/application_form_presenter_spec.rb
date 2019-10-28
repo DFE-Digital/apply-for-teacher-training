@@ -17,6 +17,22 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
+  describe '#contact_details_completed?' do
+    it 'returns true if contact details section is completed' do
+      application_form = FactoryBot.build(:completed_application_form)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_contact_details_completed
+    end
+
+    it 'returns false if contact details section is incomplete' do
+      application_form = FactoryBot.build(:application_form)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_contact_details_completed
+    end
+  end
+
   describe '#application_choices_added?' do
     it 'returns true if application choices are added' do
       application_form = FactoryBot.build(:completed_application_form)

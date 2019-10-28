@@ -33,8 +33,11 @@ module VendorApiSpecHelpers
   end
 
   def auth_header
-    unhashed_token = VendorApiToken.create_with_random_token!(provider: currently_authenticated_provider)
-    "Bearer #{unhashed_token}"
+    "Bearer #{api_token}"
+  end
+
+  def api_token
+    @api_token ||= VendorApiToken.create_with_random_token!(provider: currently_authenticated_provider)
   end
 
   def currently_authenticated_provider

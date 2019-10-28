@@ -36,9 +36,18 @@ Rails.application.routes.draw do
       end
 
       scope '/contact-details' do
-        get '/' => 'contact_details#edit', as: :contact_details_edit
-        post '/review' => 'contact_details#update', as: :contact_details_update
-        get '/review' => 'contact_details#show', as: :contact_details_show
+        get '/' => 'contact_details/base#edit', as: :contact_details_edit_base
+        post '/' => 'contact_details/base#update', as: :contact_details_update_base
+
+        get '/address' => 'contact_details/address#edit', as: :contact_details_edit_address
+        post '/address' => 'contact_details/address#update', as: :contact_details_update_address
+
+        get '/review' => 'contact_details/review#show', as: :contact_details_review
+      end
+
+      scope '/work-history' do
+        get '/length' => 'work_history#length', as: :work_history_length
+        post '/length' => 'work_history#submit_length'
       end
     end
   end
@@ -74,6 +83,7 @@ Rails.application.routes.draw do
     post '/tokens' => 'api_tokens#create'
   end
 
+  get '/check', to: 'healthcheck#show'
   get '/404', to: 'errors#not_found'
   get '/500', to: 'errors#internal_server_error'
   get '*path', to: 'errors#not_found'

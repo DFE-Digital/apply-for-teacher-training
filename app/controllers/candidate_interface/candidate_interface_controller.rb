@@ -4,6 +4,7 @@ module CandidateInterface
     before_action :require_basic_auth_for_ui
     before_action :authenticate_candidate!
     layout 'application'
+    alias :audit_user :current_candidate
 
   private
 

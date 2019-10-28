@@ -124,8 +124,26 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
     it { is_expected.to validate_length_of(:first_name).is_at_most(100) }
     it { is_expected.to validate_length_of(:last_name).is_at_most(100) }
 
-    it { is_expected.to validate_inclusion_of(:first_nationality).in_array(NATIONALITY_DEMONYMS) }
-    it { is_expected.to validate_inclusion_of(:second_nationality).in_array(NATIONALITY_DEMONYMS) }
+    it 'validates nationalities against the NATIONALITY_DEMONYMS list' do
+      details_with_invalid_nationality = CandidateInterface::PersonalDetailsForm.new(
+        first_nationality: 'Tralfamadorian',
+        second_nationality: 'Czechoslovakian',
+      )
+
+      details_with_valid_nationality = CandidateInterface::PersonalDetailsForm.new(
+        first_nationality: NATIONALITY_DEMONYMS.sample,
+        second_nationality: NATIONALITY_DEMONYMS.sample,
+      )
+
+      details_with_valid_nationality.validate
+      details_with_invalid_nationality.validate
+
+      expect(details_with_valid_nationality.errors.keys).not_to include :first_nationality
+      expect(details_with_valid_nationality.errors.keys).not_to include :second_nationality
+
+      expect(details_with_invalid_nationality.errors.keys).to include :first_nationality
+      expect(details_with_invalid_nationality.errors.keys).to include :second_nationality
+    end
 
     okay_text = Faker::Lorem.sentence(word_count: 200)
     long_text = Faker::Lorem.sentence(word_count: 201)
