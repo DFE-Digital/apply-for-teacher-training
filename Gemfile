@@ -23,6 +23,7 @@ gem 'erb_lint', require: false
 
 gem 'devise'
 gem 'workflow'
+gem 'audited'
 
 gem 'json-schema'
 gem 'json_api_client'

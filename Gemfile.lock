@@ -60,6 +60,8 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.0)
+    audited (4.9.0)
+      activerecord (>= 4.2, < 6.1)
     bcrypt (3.1.13)
     better_html (1.0.14)
       actionview (>= 4.0)
@@ -362,6 +364,7 @@ PLATFORMS
 
 DEPENDENCIES
   actionview-component
+  audited
   brakeman
   capybara (>= 3.24)
   capybara-email

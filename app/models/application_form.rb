@@ -9,4 +9,6 @@ class ApplicationForm < ApplicationRecord
   def complete?
     application_choices.any? && application_choices.first.application_complete?
   end
+
+  audited
 end
