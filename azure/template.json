@@ -175,8 +175,8 @@
         "appServicePlanName": "[concat(variables('resourceNamePrefix'), '-asp')]",
         "storageAccountName": "[replace(concat(variables('resourceNamePrefix'), 'str'), '-', '')]",
         "databaseServerName": "[concat(variables('resourceNamePrefix'), '-psql')]",
-	"keyVaultCertificateName": "[replace(parameters('customHostName'), '.', '-')]",
-	"rubyAuthHosts": "[if(greater(length(parameters('customHostName')), 0), concat(parameters('authorisedHosts'), ',', parameters('customHostName')), parameters('authorisedHosts'))]"
+        "keyVaultCertificateName": "[replace(parameters('customHostName'), '.', '-')]",
+        "rubyAuthHosts": "[if(greater(length(parameters('customHostName')), 0), concat(parameters('authorisedHosts'), ',', parameters('customHostName')), parameters('authorisedHosts'))]"
     },
     "resources": [
         {
@@ -266,7 +266,7 @@
                     "customHostName": {
                         "value": "[parameters('customHostName')]"
                     },
-		    "certificateThumbprint": {
+                    "certificateThumbprint": {
                         "value": "[if(greater(length(parameters('customHostName')), 0), reference('app-service-certificate', '2018-11-01').outputs.certificateThumbprint.value, '')]"
                     },
                     "runtimeStack": {
@@ -360,7 +360,7 @@
             },
             "dependsOn": [
                 "app-service-plan",
-		"app-service-certificate"
+                "app-service-certificate"
             ]
         },
         {

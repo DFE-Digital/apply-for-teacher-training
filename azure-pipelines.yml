@@ -222,8 +222,7 @@ stages:
 - stage: deploy_pentest
   displayName: 'Deploy - Pentest'
   dependsOn: build_test_release
-  #condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  condition: and(succeeded('build_test_release'), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranchName'], variables.devDeployBranchNameOverride)))
+  condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   variables:
   - group: APPLY - ENV - Pentest
   jobs:
