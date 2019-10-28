@@ -49,24 +49,24 @@ module VendorApi
             ],
             degrees: [
               {
-                qualification_type: "",
-                subject: "",
-                grade: "",
-                award_year: "",
-                equivalency_details: "",
-                institution_details: "",
-              }
+                qualification_type: '',
+                subject: '',
+                grade: '',
+                award_year: '',
+                equivalency_details: '',
+                institution_details: '',
+              },
             ],
             other_qualifications: [
               {
-                qualification_type: "",
-                subject: "",
-                grade: "",
-                award_year: "",
-                equivalency_details: "",
-                institution_details: "",
-              }
-            ]
+                qualification_type: '',
+                subject: '',
+                grade: '',
+                award_year: '',
+                equivalency_details: '',
+                institution_details: '',
+              },
+            ],
           },
           references: [],
           work_experiences: [],

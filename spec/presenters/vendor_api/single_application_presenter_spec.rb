@@ -60,34 +60,34 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
           qualifications: {
             gcses: [
               {
-                qualification_type: "",
-                subject: "",
-                grade: "",
-                award_year: "",
-                equivalency_details: "",
-                institution_details: "",
-              }
+                qualification_type: '',
+                subject: '',
+                grade: '',
+                award_year: '',
+                equivalency_details: '',
+                institution_details: '',
+              },
             ],
             degrees: [
               {
-                qualification_type: "",
-                subject: "",
-                grade: "",
-                award_year: "",
-                equivalency_details: "",
-                institution_details: "",
-              }
+                qualification_type: '',
+                subject: '',
+                grade: '',
+                award_year: '',
+                equivalency_details: '',
+                institution_details: '',
+              },
             ],
             other_qualifications: [
               {
-                qualification_type: "",
-                subject: "",
-                grade: "",
-                award_year: "",
-                equivalency_details: "",
-                institution_details: "",
-              }
-            ]
+                qualification_type: '',
+                subject: '',
+                grade: '',
+                award_year: '',
+                equivalency_details: '',
+                institution_details: '',
+              },
+            ],
           },
           references: [],
           rejection: nil,
@@ -97,7 +97,7 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
           withdrawal: nil,
           work_experiences: [],
           further_information: '',
-        }
+        },
       }
     end
 
