@@ -50,7 +50,7 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
             first_name: application_choice.application_form.first_name,
             last_name: application_choice.application_form.last_name,
             date_of_birth: application_choice.application_form.date_of_birth,
-            nationality: %w[NL],
+            nationality: nationalities(application_choice.application_form),
             uk_residency_status: application_choice.application_form.uk_residency_status,
             english_main_language: application_choice.application_form.english_main_language,
             english_language_qualifications: application_choice.application_form.english_language_details,
@@ -111,6 +111,15 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
 
     it 'returns correct application attributes' do
       expect(json).to eq expected_attributes
+    end
+
+    def nationalities(application_form)
+      [
+        application_form.first_nationality,
+        application_form.second_nationality,
+      ].map { |n|
+        NATIONALITIES.to_h.invert[n]
+      }.compact
     end
   end
 end
