@@ -15,6 +15,17 @@ class WorkHistoryReviewComponent < ActionView::Component::Base
       .compact
   end
 
+  def no_work_experience_rows
+    [
+      {
+        key: 'Explanation of why you’ve been out of the workplace',
+        value: 'Not entered',
+        action: 'explanation',
+        change_path: '#'
+      }
+    ]
+  end
+
 private
 
   attr_reader :application_form

@@ -32,6 +32,20 @@ module CandidateInterface
       @application_form = current_candidate.current_application
     end
 
+    def confirm_destroy
+      @work_experience = current_candidate.current_application
+        .application_work_experiences.find(destroy_params[:id])
+    end
+
+    def destroy
+      current_candidate.current_application
+        .application_work_experiences
+        .find(destroy_params[:id])
+        .destroy!
+
+      redirect_to candidate_interface_work_history_show_path
+    end
+
   private
 
     def work_history_params
@@ -52,6 +66,10 @@ module CandidateInterface
           .transform_keys { |key| start_date_field_to_attribute(key) }
           .transform_keys { |key| end_date_field_to_attribute(key) }
           .transform_keys(&:strip)
+    end
+
+    def destroy_params
+      params.permit(:id)
     end
 
     def start_date_field_to_attribute(key)
