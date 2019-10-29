@@ -6,7 +6,7 @@ module SupportInterface
 
     def create
       GenerateVendorProviders.call
-      redirect_back(fallback_location: root_path)
+      redirect_to action: 'index'
     end
   end
 end
