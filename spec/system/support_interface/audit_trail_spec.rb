@@ -56,10 +56,14 @@ RSpec.feature 'See applications' do
     within('tbody tr:eq(1)') do
       expect(page).to have_content '2019-10-01 12:00:01'
       expect(page).to have_content 'Create Application Choice - alice@example.com (Candidate)'
+      expect(page).to have_content "status #{@application_choice.status}"
+      expect(page).to have_content 'personal_statement hello'
     end
     within('tbody tr:eq(2)') do
       expect(page).to have_content '2019-10-01 12:00:00'
       expect(page).to have_content 'Create Application Form - alice@example.com (Candidate)'
+      expect(page).to have_content 'first_name Alice'
+      expect(page).to have_content 'last_name Wunder'
     end
   end
 end
