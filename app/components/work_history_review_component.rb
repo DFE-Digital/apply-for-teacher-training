@@ -21,8 +21,8 @@ class WorkHistoryReviewComponent < ActionView::Component::Base
         key: 'Explanation of why you’ve been out of the workplace',
         value: 'Not entered',
         action: 'explanation',
-        change_path: '#'
-      }
+        change_path: '#',
+      },
     ]
   end
 
@@ -37,7 +37,7 @@ private
         .map { |field| sanitize(field, tags: []) }
         .join('<br>'),
       action: 'job',
-      change_path: '#',
+      change_path: candidate_interface_work_history_edit_path(work.id),
     }
   end
 
@@ -46,7 +46,7 @@ private
       key: 'Type',
       value: work.commitment.dasherize.humanize,
       action: 'type',
-      change_path: '#',
+      change_path: candidate_interface_work_history_edit_path(work.id),
     }
   end
 
@@ -55,7 +55,7 @@ private
       key: 'Description',
       value: work.details,
       action: 'description',
-      change_path: '#',
+      change_path: candidate_interface_work_history_edit_path(work.id),
     }
   end
 
@@ -64,7 +64,7 @@ private
       key: 'Dates',
       value: "#{formatted_start_date(work)} - #{formatted_end_date(work)}",
       action: 'description',
-      change_path: '#',
+      change_path: candidate_interface_work_history_edit_path(work.id),
     }
   end
 
