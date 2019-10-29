@@ -5,7 +5,7 @@ module SupportViewHelper
 
   def format_audit_value(value)
     if value.is_a? Array
-      "#{value[0] || 'nil'} &rarr; #{value[1] || 'nil'}"
+      "#{value[0] || 'nil'} → #{value[1] || 'nil'}"
     else
       value.to_s
     end

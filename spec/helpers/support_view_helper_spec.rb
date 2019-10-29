@@ -31,7 +31,7 @@ RSpec.describe SupportViewHelper, type: :helper do
 
     it 'returns the a serialized change if the value is a 2-part array (before and after values)' do
       value = %w[Bob Alice]
-      expect(format_audit_value(value)).to eq('Bob &rarr; Alice')
+      expect(format_audit_value(value)).to eq('Bob → Alice')
     end
   end
 
