@@ -1,0 +1,36 @@
+<p class="govuk-body">
+  Please include all your paid work in school (for example as a teaching
+  assistant) in this section.
+</p>
+
+<p class="govuk-body">
+  Don’t include voluntary or unpaid experience – we’ll ask you about this in
+  ‘Volunteering with children and young people’.
+</p>
+
+<%= f.govuk_text_field :role, label: { text: t('application_form.work_history.role.label'), size: 'm' } %>
+
+<%= f.govuk_text_field :organisation, label: { text: t('application_form.work_history.organisation.label'), size: 'm' } %>
+
+<%= f.govuk_radio_buttons_fieldset :commitment, legend: { text: 'Was this job full-time or part-time?', tag: 'span' } do %>
+  <%= f.govuk_radio_button :commitment, 'full_time', label: { text: 'Full-time' } %>
+
+  <%= f.govuk_radio_button :commitment, 'part_time', label: { text: 'Part-time' } %>
+<% end %>
+
+<div class="app-work-experience__start-date" data-qa="start-date">
+  <%= f.govuk_date_field :start_date, legend: { text: 'Start date', size: 'm', tag: 'span' }, hint_text: 'For example, 5 2018' %>
+</div>
+
+<div class="app-work-experience__end-date" data-qa="end-date">
+  <%= f.govuk_date_field :end_date, legend: { text: 'End date (leave blank if this is your current role)', size: 'm', tag: 'span' }, hint_text: 'For example, 5 2019' %>
+</div>
+
+<%= f.govuk_text_area :details, label: { text: t('application_form.work_history.details.label'), size: 'm' }, hint_text: 'Give a brief overview of your role and explain how you developed transferable skills like communication, creativity and organisation', max_words: 150 %>
+
+<%= f.govuk_radio_buttons_fieldset :working_with_children, legend: { text: 'Did this job involve working in a school or with children?', tag: 'span' }, inline: true do %>
+  <%= f.govuk_radio_button :working_with_children, true, label: { text: 'Yes' } %>
+  <%= f.govuk_radio_button :working_with_children, false, label: { text: 'No' } %>
+<% end %>
+
+<%= f.govuk_submit t('application_form.work_history.complete_form_button') %>

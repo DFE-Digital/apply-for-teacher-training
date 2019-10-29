@@ -56,6 +56,9 @@ Rails.application.routes.draw do
 
         get '/delete/:id' => 'work_history#confirm_destroy', as: :work_history_destroy
         delete '/delete/:id' => 'work_history#destroy'
+
+        get '/edit/:id' => 'work_history#edit', as: :work_history_edit
+        post '/edit/:id' => 'work_history#update'
       end
 
       scope '/degree' do
