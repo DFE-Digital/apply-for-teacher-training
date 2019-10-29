@@ -9,7 +9,7 @@ RSpec.describe WorkHistoryReviewComponent do
     application_form.application_work_experiences.each do |work|
       expect(result.text).to include(work.role)
       expect(result.text).to include(work.start_date.strftime('%B %Y'))
-      if (work.working_with_children)
+      if work.working_with_children
         expect(result.text).to include(t('application_form.work_history.working_with_children'))
       end
     end

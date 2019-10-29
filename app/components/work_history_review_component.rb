@@ -62,7 +62,7 @@ private
   end
 
   def formatted_end_date(work)
-    return "Present" if work.end_date.nil?
+    return 'Present' if work.end_date.nil?
 
     work.end_date.strftime('%B %Y')
   end
