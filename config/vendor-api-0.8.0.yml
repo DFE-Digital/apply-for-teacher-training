@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 0.5.0
+  version: 0.8.0
   title: Apply API
   contact:
     name: DfE
@@ -10,11 +10,9 @@ servers:
   - description: Local development environment
     url: http://localhost:3000/api/v1
   - description: DfE development environment
-    url: https://s106d01-apply-as.azurewebsites.net/api/v1
-  - description: DfE test environment
-    url: https://s106t01-apply-as.azurewebsites.net/api/v1
+    url: https://qa.apply-for-teacher-training.education.gov.uk/api/v1
   - description: Vendor sandbox
-    url: https://s106t02-apply-as.azurewebsites.net/api/v1
+    url: https://sandbox.apply-for-teacher-training.education.gov.uk/api/v1
 paths:
   /applications:
     get:
@@ -59,6 +57,8 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "404":
           $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
   "/applications/{application_id}/offer":
     post:
       tags:
@@ -92,6 +92,8 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "404":
           $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
   "/applications/{application_id}/confirm-enrolment":
     post:
       tags:
@@ -148,6 +150,8 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "404":
           $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
   "/applications/{application_id}/reject":
     post:
       tags:
@@ -185,6 +189,8 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "404":
           $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
   "/test-data/regenerate":
     post:
       tags:
@@ -704,7 +710,8 @@ components:
           example: true
         commitment:
           nullable: true
-          type: enum
+          type: string
+          enum:
             - full_time
             - part_time
     HESAITTData:
