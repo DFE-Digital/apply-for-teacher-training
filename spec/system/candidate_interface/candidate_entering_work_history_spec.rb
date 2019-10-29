@@ -19,6 +19,10 @@ RSpec.feature 'Entering their work history' do
 
     when_i_fill_in_the_job_form
     then_i_should_see_my_completed_job
+
+    when_i_click_on_add_another_job
+    and_i_fill_in_the_second_job_form
+    then_i_should_see_my_second_completed_job
   end
 
   def given_i_am_not_signed_in; end
@@ -57,6 +61,27 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_fill_in_the_job_form
+    fill_in_the_job_form
+    click_button t('application_form.work_history.complete_form_button')
+  end
+
+  def and_i_fill_in_the_second_job_form
+    fill_in_the_job_form
+
+    fill_in t('application_form.work_history.role.label'), with: 'Chief Executive Officer'
+
+    click_button t('application_form.work_history.complete_form_button')
+  end
+
+  def then_i_should_see_my_completed_job
+    expect(page).to have_content('Chief Terraforming Officer')
+  end
+
+  def then_i_should_see_my_second_completed_job
+    expect(page).to have_content('Chief Executive Officer')
+  end
+
+  def fill_in_the_job_form
     scope = 'application_form.work_history'
     fill_in t('role.label', scope: scope), with: 'Chief Terraforming Officer'
     fill_in t('organisation.label', scope: scope), with: 'Weyland-Yutani'
@@ -76,11 +101,9 @@ RSpec.feature 'Entering their work history' do
     fill_in t('details.label', scope: scope), with: 'I gained exposure to breakthrough technologies and questionable business ethics'
 
     choose 'No'
-
-    click_button t('complete_form_button', scope: scope)
   end
 
-  def then_i_should_see_my_completed_job
-    expect(page).to have_content('Chief Terraforming Officer')
+  def when_i_click_on_add_another_job
+    click_link 'Add another job'
   end
 end

@@ -7,4 +7,8 @@
 
 <%= render(WorkHistoryReviewComponent, application_form: @application_form) %>
 
+<%= govuk_button_link_to 'Add another job', candidate_interface_work_history_new_path, class: 'govuk-button--secondary' %>
+
+<div class='govuk-form-group'></div>
+
 <%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>
