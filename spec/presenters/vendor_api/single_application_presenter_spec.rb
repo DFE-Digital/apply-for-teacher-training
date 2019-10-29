@@ -93,11 +93,52 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
                 grade: 'B',
                 award_year: '2004',
                 equivalency_details: nil,
-                institution_details: 'Harris Westminster Sixth Form	',
+                institution_details: 'Harris Westminster Sixth Form',
               },
             ],
           },
-          references: [],
+          references: [
+            {
+              name: 'John Smith',
+              email: 'johnsmith@example.com',
+              phone_number: '07999 111111',
+              relationship: 'BA Geography course director at Imperial College. I tutored the candidate for one academic year.',
+              confirms_safe_to_work_with_children: true,
+              reference: <<~HEREDOC,
+                Fantastic personality. Great with people. Strong communicator .  Excellent character. Passionate about teaching . Great potential.  A charismatic talented able young person who is far better than her official degree result. An exceptional person.
+
+                Passion for their subject	7 / 10
+                Knowledge about their subject	10 / 10
+                General academic performance	9 / 10
+                Ability to meet deadlines and organise their time	7 / 10
+                Ability to think critically	10 / 10
+                Ability to work collaboratively	Don’t know
+                Mental and emotional resilience	8 / 10
+                Literacy	9 / 10
+                Numeracy	7 / 10
+              HEREDOC
+            },
+            {
+              name: 'Jane Brown',
+              email: 'janebrown@example.com',
+              phone_number: '07111 999999',
+              relationship: 'Headmistress at Harris Westminster Sixth Form',
+              confirms_safe_to_work_with_children: true,
+              reference: <<~HEREDOC,
+                An ideal teacher. Brisk and lively communicator. Intelligent and self-aware. Good with children. Led education outreach workshops.
+
+                Passion for their subject	7 / 10
+                Knowledge about their subject	10 / 10
+                General academic performance	9 / 10
+                Ability to meet deadlines and organise their time	7 / 10
+                Ability to think critically	10 / 10
+                Ability to work collaboratively	Don’t know
+                Mental and emotional resilience	8 / 10
+                Literacy	9 / 10
+                Numeracy	7 / 10
+              HEREDOC
+            },
+          ],
           rejection: nil,
           status: application_choice.status,
           submitted_at: application_choice.application_form.submitted_at,

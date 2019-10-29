@@ -313,7 +313,7 @@ components:
             - recruited
             - enrolled
             - rejected
-          example: conditional_offer
+          example: application_complete
         submitted_at:
           type: string
           format: date-time
@@ -592,43 +592,38 @@ components:
       type: object
       additionalProperties: false
       required:
-        - reference_type
-        - email
-        - relationship
-        - content
         - name
-        - reason_for_character_reference
+        - email
+        - phone_number
+        - relationship
+        - confirms_safe_to_work_with_children
+        - reference
       properties:
-        reference_type:
-          type: string
-          description: The type of the reference
-          maxLength: 255
-          enum:
-            - academic
-            - professional
-            - school_senior_leadership
-            - character
-          example: school_senior_leadership
-        reason_for_character_reference:
-          type: string
-          description: "If this is a character reference, this field will contain the reason the candidate gave for not providing one of the other types"
-          maxLength: 255
-        email:
-          type: string
-          description: The referee’s email
-          maxLength: 100
-          example: julia@example.com
         name:
           type: string
           description: The referee’s name
           maxLength: 255
           example: Julia Wild
+        email:
+          type: string
+          description: The referee’s email
+          maxLength: 100
+          example: julia@example.com
+        phone_number:
+          type: string
+          description: The referee’s phone number
+          maxLength: 100
+          example: '07890 123456'
         relationship:
           type: string
           description: The referee’s relationship to the candidate
           maxLength: 255
           example: Julia was my mentor at Cheadle Hulme High
-        content:
+        confirms_safe_to_work_with_children:
+          type: boolean
+          description: Does the referee confirm the candidate is safe to work with children
+          example: true
+        reference:
           type: string
           description: "Optional. The reference content provided by the referee, once it is available"
           example: Boris is committed to the profession of teaching...
