@@ -35,7 +35,7 @@ RSpec.describe ContactDetailsReviewComponent do
     application_form = build(
       :application_form,
       phone_number: '07700 900 982',
-      address_line1: '42 Much Wow Street',
+      address_line1: '42 <script>Much</script> Wow Street',
       address_line2: '',
       address_line3: 'London',
       address_line4: 'England',
