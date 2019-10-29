@@ -37,5 +37,12 @@ RSpec.describe GenerateTestData do
       Faker::Config.random = Random.new(42)
       expect { GenerateTestData.new(1, provider).generate }.to change { ApplicationForm.count }.by(1)
     end
+
+    it 'associates application forms to candidates with matching email addresses' do
+      GenerateTestData.new(1, create(:provider, code: 'DEF')).generate
+      application_form = ApplicationForm.first
+      expect(application_form.candidate.email_address).to match application_form.first_name.downcase
+      expect(application_form.candidate.email_address).to match application_form.last_name.downcase
+    end
   end
 end

@@ -9,21 +9,34 @@ class GenerateTestData
     provider.application_choices.map(&:delete)
 
     number_of_candidates.times do
-      application_form = FactoryBot.create(
-        :completed_application_form,
-        application_choices_count: 0,
+      first_name = Faker::Name.first_name
+      last_name = Faker::Name.last_name
+      candidate = FactoryBot.create(
+        :candidate,
+        email_address: "#{first_name.downcase}.#{last_name.downcase}@example.com",
       )
 
       # Most of the time generate an application with a single course choice,
-      # and sometimes 2 or 3.
-      [1, 1, 1, 1, 1, 1, 1, 2, 3].sample.times do
-        FactoryBot.create(
-          :application_choice,
-          course_option: course_option,
-          application_form: application_form,
-          personal_statement: Faker::Lorem.paragraph(sentence_count: 5),
-          status: 'application_complete',
+      Audited.audit_class.as_user(candidate) do
+        application_form = FactoryBot.create(
+          :completed_application_form,
+          application_choices_count: 0,
+          candidate: candidate,
+          first_name: first_name,
+          last_name: last_name,
         )
+
+        # Most of the time generate an application with a single course choice,
+        # and sometimes 2 or 3.
+        [1, 1, 1, 1, 1, 1, 1, 2, 3].sample.times do
+          FactoryBot.create(
+            :application_choice,
+            course_option: course_option,
+            application_form: application_form,
+            personal_statement: Faker::Lorem.paragraph(sentence_count: 5),
+            status: 'application_complete',
+          )
+        end
       end
     end
   end
