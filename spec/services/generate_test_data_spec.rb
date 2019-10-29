@@ -22,5 +22,12 @@ RSpec.describe GenerateTestData do
         expect(application_choice.provider.code).to eq 'DEF'
       end
     end
+
+    it 'assigns all application choices to the application_complete state' do
+      GenerateTestData.new(2).generate
+      ApplicationChoice.all.each do |application_choice|
+        expect(application_choice.status).to eq 'application_complete'
+      end
+    end
   end
 end
