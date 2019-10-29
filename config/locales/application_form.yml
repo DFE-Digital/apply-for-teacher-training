@@ -77,6 +77,9 @@ en:
         label: Skills and experience relevant to teaching you gained in this role
       complete_form_button: Save and continue
       working_with_children: This role involved working with children
+      delete_entry: Delete entry
+      add_job: Add job
+      sure_delete_entry: Yes I’m sure - delete this entry
     degree:
       qualification_type:
         label: Type of degree

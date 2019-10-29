@@ -13,8 +13,12 @@
         <% end %>
       </h3>
       <div class="app-summary-card__actions">
-        <%= link_to 'Delete entry', '#', class: 'govuk-link' %>
+        <%= link_to t('application_form.work_history.delete_entry'), candidate_interface_work_history_destroy_path(work.id), class: 'govuk-link' %>
       </div>
     </header>
   <% end %>
+<% end %>
+
+<% if @application_form.application_work_experiences.empty? %>
+  <%= render(SummaryCardComponent, rows: no_work_experience_rows) %>
 <% end %>

@@ -20,9 +20,13 @@ RSpec.feature 'Entering their work history' do
     when_i_fill_in_the_job_form
     then_i_should_see_my_completed_job
 
-    when_i_click_on_add_another_job
-    and_i_fill_in_the_second_job_form
-    then_i_should_see_my_second_completed_job
+    when_i_click_on_delete_entry
+    and_i_confirm
+    then_i_should_be_asked_for_an_explanation
+
+    when_i_click_on_add_job
+    and_i_fill_in_the_job_form
+    then_i_should_see_my_completed_job
   end
 
   def given_i_am_not_signed_in; end
@@ -62,23 +66,14 @@ RSpec.feature 'Entering their work history' do
 
   def when_i_fill_in_the_job_form
     fill_in_the_job_form
-    click_button t('application_form.work_history.complete_form_button')
   end
 
-  def and_i_fill_in_the_second_job_form
+  def and_i_fill_in_the_job_form
     fill_in_the_job_form
-
-    fill_in t('application_form.work_history.role.label'), with: 'Chief Executive Officer'
-
-    click_button t('application_form.work_history.complete_form_button')
   end
 
   def then_i_should_see_my_completed_job
     expect(page).to have_content('Chief Terraforming Officer')
-  end
-
-  def then_i_should_see_my_second_completed_job
-    expect(page).to have_content('Chief Executive Officer')
   end
 
   def fill_in_the_job_form
@@ -101,9 +96,23 @@ RSpec.feature 'Entering their work history' do
     fill_in t('details.label', scope: scope), with: 'I gained exposure to breakthrough technologies and questionable business ethics'
 
     choose 'No'
+
+    click_button t('application_form.work_history.complete_form_button')
   end
 
-  def when_i_click_on_add_another_job
-    click_link 'Add another job'
+  def when_i_click_on_delete_entry
+    click_link t('application_form.work_history.delete_entry')
+  end
+
+  def and_i_confirm
+    click_button t('application_form.work_history.sure_delete_entry')
+  end
+
+  def then_i_should_be_asked_for_an_explanation
+    expect(page).to have_content('Explanation of why you’ve been out of the workplace')
+  end
+
+  def when_i_click_on_add_job
+    click_link t('application_form.work_history.add_job')
   end
 end
