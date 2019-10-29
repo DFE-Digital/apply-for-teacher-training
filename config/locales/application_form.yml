@@ -76,6 +76,17 @@ en:
       details:
         label: Skills and experience relevant to teaching you gained in this role
       complete_form_button: Save and continue
+    degree:
+      qualification_type:
+        label: Type of degree
+        hint_text:
+          new: For example, BA, BSc or other (please specify)
+      subject:
+        label: Subject of degree
+      institution_name:
+        label: Institution where you studied
+      base:
+        button: Save and continue
   activemodel:
     errors:
       models:
