@@ -10,6 +10,7 @@ class WorkHistoryReviewComponent < ActionView::Component::Base
       job_row(work),
       type_row(work),
       description_row(work),
+      dates_row(work),
     ]
       .compact
   end
@@ -45,5 +46,24 @@ private
       action: 'description',
       change_path: '#',
     }
+  end
+
+  def dates_row(work)
+    {
+      key: 'Dates',
+      value: "#{formatted_start_date(work)} - #{formatted_end_date(work)}",
+      action: 'description',
+      change_path: '#',
+    }
+  end
+
+  def formatted_start_date(work)
+    work.start_date.strftime('%B %Y')
+  end
+
+  def formatted_end_date(work)
+    return "Present" if work.end_date.nil?
+
+    work.end_date.strftime('%B %Y')
   end
 end
