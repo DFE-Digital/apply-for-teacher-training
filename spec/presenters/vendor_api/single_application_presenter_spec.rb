@@ -93,7 +93,7 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
                 grade: 'B',
                 award_year: '2004',
                 equivalency_details: nil,
-                institution_details: 'Harris Westminster Sixth Form	',
+                institution_details: 'Harris Westminster Sixth Form',
               },
             ],
           },
