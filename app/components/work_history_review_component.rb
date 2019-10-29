@@ -25,7 +25,7 @@ private
         .map { |field| sanitize(field, tags: []) }
         .join('<br>'),
       action: 'job',
-      change_path: '#'
+      change_path: '#',
     }
   end
 
@@ -34,7 +34,7 @@ private
       key: 'Type',
       value: work.commitment.dasherize.humanize,
       action: 'type',
-      change_path: '#'
+      change_path: '#',
     }
   end
 
@@ -43,7 +43,7 @@ private
       key: 'Description',
       value: work.details,
       action: 'description',
-      change_path: '#'
+      change_path: '#',
     }
   end
 end
