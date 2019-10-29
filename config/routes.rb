@@ -81,6 +81,9 @@ Rails.application.routes.draw do
 
     get '/tokens' => 'api_tokens#index', as: :api_tokens
     post '/tokens' => 'api_tokens#create'
+
+    get '/vendors' => 'manage_vendors#index'
+    post '/vendors' => 'manage_vendors#create'
   end
 
   get '/check', to: 'healthcheck#show'
