@@ -147,3 +147,21 @@ en:
             institution_name:
               blank: Enter the institution where you studied
               too_long: The institution where you studied must be %{count} characters or fewer
+        candidate_interface/work_experience_form:
+          attributes:
+            role:
+              blank: Enter the job title
+              too_long: Job title must be %{count} characters or fewer
+            organisation:
+              blank: Enter the name of the employer
+              too_long: Name of the employer must be %{count} characters or fewer
+            details:
+              blank: Enter the relevant experience you gained in this role
+              too_long: Skills and experience must be %{count} characters or fewer
+            working_with_children:
+              blank: Choose if this job involves working in a school or with children
+            commitment:
+              blank: Choose if this job is full-time or part-time
+            start_date:
+              invalid: Enter a start date in the correct format, for example 5 2018
+              before: Enter a start date that is before the end date
