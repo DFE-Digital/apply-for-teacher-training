@@ -17,5 +17,9 @@ module CandidateInterface
 
       contact_details.valid?(:base) && contact_details.valid?(:address)
     end
+
+    def work_experience_added?
+      @application_form.application_work_experiences.any?
+    end
   end
 end
