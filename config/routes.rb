@@ -48,6 +48,11 @@ Rails.application.routes.draw do
       scope '/work-history' do
         get '/length' => 'work_history#length', as: :work_history_length
         post '/length' => 'work_history#submit_length'
+
+        get '/new' => 'work_history#new', as: :work_history_new
+        post '/create' => 'work_history#create', as: :work_history_create
+
+        get '/review' => 'work_history#show', as: :work_history_show
       end
     end
   end

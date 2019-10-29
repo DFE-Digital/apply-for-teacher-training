@@ -69,6 +69,13 @@ en:
       more_than_5: More than 5 years
       more_than_5_with_breaks: More than 5 years, but with breaks
       missing: I have not worked in the last 5 years
+      role:
+        label: Job title
+      organisation:
+        label: Name of employer
+      details:
+        label: Skills and experience relevant to teaching you gained in this role
+      complete_form_button: Save and continue
   activemodel:
     errors:
       models:

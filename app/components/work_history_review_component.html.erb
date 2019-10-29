@@ -1,0 +1,3 @@
+<% @application_form.application_work_experiences.each do |work| %>
+  <%= render(SummaryCardComponent, rows: work_experience_rows(work)) %>
+<% end %>

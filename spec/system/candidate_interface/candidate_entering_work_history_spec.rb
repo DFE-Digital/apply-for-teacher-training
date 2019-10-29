@@ -15,7 +15,10 @@ RSpec.feature 'Entering their work history' do
     then_i_should_see_a_list_of_work_lengths
 
     when_i_choose_more_than_5_years
-    # then_i_should_see_the_job_form
+    then_i_should_see_the_job_form
+
+    when_i_fill_in_the_job_form
+    then_i_should_see_my_completed_job
   end
 
   def given_i_am_not_signed_in; end
@@ -46,9 +49,38 @@ RSpec.feature 'Entering their work history' do
 
   def when_i_choose_more_than_5_years
     choose t('application_form.work_history.more_than_5')
+    click_button 'Continue'
   end
 
   def then_i_should_see_the_job_form
-    expect(page).to have_content('Add job')
+    expect(page).to have_content(t('page_titles.add_job'))
+  end
+
+  def when_i_fill_in_the_job_form
+    scope = 'application_form.work_history'
+    fill_in t('role.label', scope: scope), with: 'Chief Terraforming Officer'
+    fill_in t('organisation.label', scope: scope), with: 'Weyland-Yutani'
+
+    choose 'Full-time'
+
+    within('[data-qa="start-date"]') do
+      fill_in 'Month', with: '5'
+      fill_in 'Year', with: '2119'
+    end
+
+    within('[data-qa="end-date"]') do
+      fill_in 'Month', with: '1'
+      fill_in 'Year', with: '2129'
+    end
+
+    fill_in t('details.label', scope: scope), with: 'I gained exposure to breakthrough technologies and questionable business ethics'
+
+    choose 'No'
+
+    click_button t('complete_form_button', scope: scope)
+  end
+
+  def then_i_should_see_my_completed_job
+    expect(page).to have_content('Chief Terraforming Officer')
   end
 end
