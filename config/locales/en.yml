@@ -45,6 +45,8 @@ en:
     address: What is your address?
     work_history: Work history
     add_job: Add job
+    degree: Degree
+    add_undergraduate_degree: Add undergraduate degree
   layout:
     service_name: Apply for teacher training
     phase_banner_text: This is a development version of a new service. The data is not real and parts may not work yet.
