@@ -3,11 +3,19 @@ module SupportViewHelper
     "#{audit_entry_event_label(audit)} - #{audit_entry_user_label(audit)}"
   end
 
-  def audit_attribute_value(value)
+  def format_audit_value(value)
     if value.is_a? Array
-      "#{value[0]} &rarr; #{value[1]}"
+      "#{value[0] || 'nil'} &rarr; #{value[1] || 'nil'}"
     else
       value.to_s
+    end
+  end
+
+  def audit_value_present?(value)
+    if value.is_a? Array
+      value.any?(&:present?)
+    else
+      value.present?
     end
   end
 

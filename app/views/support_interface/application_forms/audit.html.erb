@@ -19,13 +19,13 @@
             </summary>
             <div class="govuk-details__text">
               <dl class="govuk-summary-list--no-border">
-                <% audit.audited_changes.select { |_, values| values.present? }.each do |attr, values| %>
+                <% audit.audited_changes.select { |_, values| audit_value_present?(values) }.each do |attr, values| %>
                   <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">
                       <%= attr %>
                     </dt>
                     <dd class="govuk-summary-list__value">
-                      <%= audit_attribute_value(values).html_safe %>
+                      <%= format_audit_value(values).html_safe %>
                     </dd>
                   </div>
                 <% end %>
