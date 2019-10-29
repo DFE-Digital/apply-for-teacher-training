@@ -10,6 +10,7 @@ RSpec.feature 'See applications' do
   scenario 'Support user visits application audit page' do
     given_i_am_a_support_user
     and_there_is_an_application_in_the_system_logged_by_a_candidate
+    and_a_vendor_updates_the_application_status
     and_i_visit_the_support_page
 
     when_i_click_on_an_application_history
@@ -35,7 +36,18 @@ RSpec.feature 'See applications' do
         @application_choice = create(
           :application_choice,
           application_form: application_form,
+          status: 'application_complete',
         )
+      end
+    end
+  end
+
+  def and_a_vendor_updates_the_application_status
+    vendor_api_user = create :vendor_api_user, email_address: 'bob@example.com'
+
+    Timecop.freeze(Time.zone.local(2019, 10, 2, 12, 0, 0)) do
+      Audited.audit_class.as_user(vendor_api_user) do
+        @application_choice.update(status: 'rejected')
       end
     end
   end
@@ -54,12 +66,17 @@ RSpec.feature 'See applications' do
 
   def then_i_should_be_able_to_see_history_events
     within('tbody tr:eq(1)') do
-      expect(page).to have_content '2019-10-01 12:00:01'
-      expect(page).to have_content 'Create Application Choice - alice@example.com (Candidate)'
-      expect(page).to have_content "status #{@application_choice.status}"
-      expect(page).to have_content 'personal_statement hello'
+      expect(page).to have_content '2019-10-02 12:00:00'
+      expect(page).to have_content 'Update Application Choice - bob@example.com (Vendor API)'
+      expect(page).to have_content 'status application_complete rejected'
     end
     within('tbody tr:eq(2)') do
+      expect(page).to have_content '2019-10-01 12:00:01'
+      expect(page).to have_content 'Create Application Choice - alice@example.com (Candidate)'
+      expect(page).to have_content 'status application_complete'
+      expect(page).to have_content 'personal_statement hello'
+    end
+    within('tbody tr:eq(3)') do
       expect(page).to have_content '2019-10-01 12:00:00'
       expect(page).to have_content 'Create Application Form - alice@example.com (Candidate)'
       expect(page).to have_content 'first_name Alice'
