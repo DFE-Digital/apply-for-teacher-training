@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_28_115549) do
+ActiveRecord::Schema.define(version: 2019_10_29_145309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -74,11 +74,11 @@ ActiveRecord::Schema.define(version: 2019_10_28_115549) do
   create_table "application_qualifications", force: :cascade do |t|
     t.bigint "application_form_id", null: false
     t.string "level", null: false
-    t.string "qualification_type", null: false
-    t.string "subject", null: false
-    t.string "grade", null: false
-    t.boolean "predicted_grade", null: false
-    t.string "award_year", null: false
+    t.string "qualification_type"
+    t.string "subject"
+    t.string "grade"
+    t.boolean "predicted_grade"
+    t.string "award_year"
     t.string "institution_name"
     t.string "institution_country"
     t.string "awarding_body"
