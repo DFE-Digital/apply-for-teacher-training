@@ -291,8 +291,9 @@ components:
         - submitted_at
         - updated_at
         - withdrawal
-        - work_experiences
         - hesa_itt_data
+        - further_information
+        - work_experience
       properties:
         status:
           type: string
@@ -328,13 +329,42 @@ components:
         course:
           $ref: "#/components/schemas/Course"
         qualifications:
-          type: array
-          items:
-            $ref: "#/components/schemas/Qualification"
-        work_experiences:
-          type: array
-          items:
-            $ref: "#/components/schemas/WorkExperience"
+          type: object
+          additionalProperties: false
+          required:
+            - gcses
+            - degrees
+            - other_qualifications
+          properties:
+            gcses:
+              type: array
+              items:
+                $ref: "#/components/schemas/Qualification"
+            degrees:
+              type: array
+              items:
+                $ref: "#/components/schemas/Qualification"
+            other_qualifications:
+              type: array
+              items:
+                $ref: "#/components/schemas/Qualification"
+        work_experience:
+          type: object
+          additionalProperties: false
+          required:
+            - jobs
+            - volunteering
+          properties:
+            jobs:
+              type: array
+              description: The candidate’s professional experience
+              items:
+                $ref: "#/components/schemas/WorkExperience"
+            volunteering:
+              type: array
+              description: The candidate’s experience as a volunteer
+              items:
+                $ref: "#/components/schemas/WorkExperience"
         references:
           type: array
           items:
@@ -353,6 +383,11 @@ components:
           nullable: true
         hesa_itt_data:
           $ref: "#/components/schemas/HESAITTData"
+        further_information:
+          type: string
+          nullable: true
+          description: "Other personal or professional issues relevant to the application which are not covered in the form"
+          example: "I am expecting to be called for jury service in the next 12 months"
     Candidate:
       type: object
       additionalProperties: false
@@ -362,6 +397,10 @@ components:
         - date_of_birth
         - nationality
         - uk_residency_status
+        - english_main_language
+        - english_language_qualifications
+        - other_languages
+        - disability_disclosure
       properties:
         first_name:
           type: string
@@ -390,6 +429,25 @@ components:
           type: string
           description: "The candidate’s UK residency status, e.g. Citizen"
           example: UK Citizen
+        english_main_language:
+          type: boolean
+          description: Does this candidate have English as a main language?
+          example: true
+        english_language_qualifications:
+          type: string
+          nullable: true
+          description: About this candidate's English language qualifications, if English is not their main language
+          example: "I have a degree in English Language and Literature from the University of Munich"
+        other_languages:
+          type: string
+          nullable: true
+          description: Details of the candidate's fluency in other languages
+          example: "I am bilingual in Finnish and English"
+        disability_disclosure:
+          type: string
+          nullable: true
+          description: Voluntary disclosure of disabliity or SEN so providers can provide appropriate support
+          example: "I am dyslexic"
     ContactDetails:
       type: object
       additionalProperties: false
@@ -491,11 +549,9 @@ components:
       required:
         - qualification_type
         - subject
-        - result
+        - grade
         - award_year
-        - place_of_study
-        - awarding_body_country
-        - awarding_body_name
+        - institution_details
         - equivalency_details
       properties:
         qualification_type:
@@ -507,7 +563,7 @@ components:
           description: The subject studied
           maxLength: 255
           example: History and Politics
-        result:
+        grade:
           type: string
           description: The grade awarded
           example: "2:1"
@@ -515,23 +571,17 @@ components:
           type: string
           description: The year the award was made
           example: "1992"
-        place_of_study:
+        institution_details:
           type: string
-          description: The place of study
+          description: Details about the institution and awarding body
           maxLength: 255
           example: University of Huddersfield
-        awarding_body_name:
-          type: string
-          description: "The awarding body’s name, e.g. AQA"
-          maxLength: 255
-        awarding_body_country:
-          type: string
-          description: "The awarding body’s country as an ISO 3166 country code"
-          example: GB
+          nullable: true
         equivalency_details:
           type: string
           description: "Details of equivalency, if this qualification was awarded overseas"
           maxLength: 255
+          nullable: true
     Reference:
       type: object
       additionalProperties: false
@@ -619,21 +669,24 @@ components:
         - end_date
         - role
         - description
+        - working_with_children
+        - commitment
       properties:
         organisation_name:
           type: string
-          description: The name of the employer (company or individual)
+          description: The organisation worked for
           maxLength: 255
           example: Cheadle Hulme High School
         start_date:
           type: string
           format: date
-          description: The date employment began
+          description: The date the position began
           example: "2020-09-10"
         end_date:
           type: string
           format: date
-          description: "The date employment finished, if appropriate"
+          nullable: true
+          description: The date the position finished, if applicable
           example: "2019-04-01"
         role:
           type: string
@@ -642,9 +695,18 @@ components:
           example: Whole School Literacy Specialist
         description:
           type: string
-          description: A brief written description of the work involved
-          maxLength: 255
+          description: A written description of the work involved
+          maxLength: 4096
           example: "I lead, develop and enhance the literacy teaching practice of others..."
+        working_with_children:
+          type: boolean
+          description: Did this position involve working in a school or with children?
+          example: true
+        commitment:
+          nullable: true
+          type: enum
+            - full_time
+            - part_time
     HESAITTData:
       type: object
       additionalProperties: false
@@ -788,7 +850,6 @@ components:
             message:
               type: string
               example: "OK"
-
   parameters:
     application_id:
       name: application_id

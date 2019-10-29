@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :candidate do
-    email_address { "#{SecureRandom.hex}@example.com" }
+    email_address { "#{SecureRandom.hex(5)}@example.com" }
   end
 
   factory :application_form do
@@ -11,32 +11,50 @@ FactoryBot.define do
       last_name { Faker::Name.last_name }
       date_of_birth { Faker::Date.birthday }
       first_nationality { NATIONALITY_DEMONYMS.sample }
-      second_nationality { NATIONALITY_DEMONYMS.sample }
+      second_nationality { [nil, NATIONALITY_DEMONYMS.sample].sample }
       english_main_language { %w[true false].sample }
       english_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
       other_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
-      further_information { %w[true false].sample }
-      further_information_details { Faker::Lorem.paragraph_by_chars(number: 300) }
-
+      further_information { Faker::Lorem.paragraph_by_chars(number: 300) }
+      uk_residency_status { 'I have the right to study and/or work in the UK' }
+      disability_disclosure { Faker::Lorem.paragraph_by_chars(number: 300) }
+      submitted_at { Faker::Time.backward(days: 7, period: :day) }
       phone_number { Faker::PhoneNumber.cell_phone }
-      address_line1 { Faker::Address.street_name }
-      address_line2 { Faker::Address.street_address }
-      address_line3 { Faker::Address.city }
-      address_line4 { Faker::Address.country }
-      country { Faker::Address.country_code }
+      address_line1 { Faker::Address.street_address }
+      address_line2 { Faker::Address.city }
+      address_line3 { Faker::Address.county }
+      address_line4 { '' }
+      country { 'UK' }
       postcode { Faker::Address.postcode }
 
       transient do
         application_choices_count { 3 }
+        work_experiences_count { 1 }
+        volunteering_experiences_count { 1 }
       end
     end
 
     factory :completed_application_form, traits: [:completed_application_form] do
       after(:build) do |application_form, evaluator|
         create_list(:application_choice, evaluator.application_choices_count, application_form: application_form)
+        create_list(:application_work_experience, evaluator.work_experiences_count, application_form: application_form)
+        create_list(:application_volunteering_experience, evaluator.volunteering_experiences_count, application_form: application_form)
       end
     end
   end
+
+  factory :application_experience do
+    role { ['Teacher', 'Teaching Assistant'].sample }
+    organisation { Faker::Educator.secondary_school }
+    details { Faker::Lorem.paragraph_by_chars(number: 300) }
+    working_with_children { [true, true, true, false].sample }
+    start_date { Faker::Date.between(from: 20.years.ago, to: 5.years.ago) }
+    end_date { [Faker::Date.between(from: 4.years.ago, to: Date.today), nil].sample }
+    commitment { %w[full_time part_time].sample }
+  end
+
+  factory :application_volunteering_experience, parent: :application_experience, class: 'ApplicationVolunteeringExperience'
+  factory :application_work_experience, parent: :application_experience, class: 'ApplicationWorkExperience'
 
   factory :site do
     provider

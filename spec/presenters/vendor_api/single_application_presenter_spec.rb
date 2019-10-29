@@ -31,14 +31,14 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
           },
           offer: nil,
           contact_details: {
-            address_line1: '',
-            address_line2: '',
-            address_line3: '',
-            address_line4: '',
-            postcode: '',
-            country: 'NL',
-            phone_number: '',
-            email: '',
+            phone_number: application_choice.application_form.phone_number,
+            address_line1: application_choice.application_form.address_line1,
+            address_line2: application_choice.application_form.address_line2,
+            address_line3: application_choice.application_form.address_line3,
+            address_line4: application_choice.application_form.address_line4,
+            postcode: application_choice.application_form.postcode,
+            country: 'UK',
+            email: application_choice.application_form.candidate.email_address,
           },
           course: {
             start_date: application_choice.course.start_date,
@@ -50,23 +50,99 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
             first_name: application_choice.application_form.first_name,
             last_name: application_choice.application_form.last_name,
             date_of_birth: application_choice.application_form.date_of_birth,
-            nationality: %w[NL],
-            uk_residency_status: '',
+            nationality: nationalities(application_choice.application_form),
+            uk_residency_status: application_choice.application_form.uk_residency_status,
+            english_main_language: application_choice.application_form.english_main_language,
+            english_language_qualifications: application_choice.application_form.english_language_details,
+            other_languages: application_choice.application_form.other_language_details,
+            disability_disclosure: application_choice.application_form.disability_disclosure,
           },
-          qualifications: [],
+          qualifications: {
+            gcses: [
+              {
+                qualification_type: 'GCSE',
+                subject: 'Maths',
+                grade: 'A',
+                award_year: '2001',
+                equivalency_details: nil,
+                institution_details: nil,
+              },
+              {
+                qualification_type: 'GCSE',
+                subject: 'English',
+                grade: 'A',
+                award_year: '2001',
+                equivalency_details: nil,
+                institution_details: nil,
+              },
+            ],
+            degrees: [
+              {
+                qualification_type: 'BA',
+                subject: 'Geography',
+                grade: '2.1',
+                award_year: '2007',
+                equivalency_details: nil,
+                institution_details: 'Imperial College London',
+              },
+            ],
+            other_qualifications: [
+              {
+                qualification_type: 'A Level',
+                subject: 'Chemistry',
+                grade: 'B',
+                award_year: '2004',
+                equivalency_details: nil,
+                institution_details: 'Harris Westminster Sixth Form	',
+              },
+            ],
+          },
           references: [],
           rejection: nil,
           status: application_choice.status,
-          submitted_at: Time.now,
+          submitted_at: application_choice.application_form.submitted_at,
           updated_at: application_choice.updated_at,
           withdrawal: nil,
-          work_experiences: [],
+          further_information: application_choice.application_form.further_information,
+          work_experience: {
+            jobs: [
+              {
+                start_date: application_choice.application_form.application_work_experiences.first.start_date.to_date,
+                end_date: application_choice.application_form.application_work_experiences.first.end_date&.to_date,
+                role: application_choice.application_form.application_work_experiences.first.role,
+                organisation_name: application_choice.application_form.application_work_experiences.first.organisation,
+                working_with_children: application_choice.application_form.application_work_experiences.first.working_with_children,
+                commitment: application_choice.application_form.application_work_experiences.first.commitment,
+                description: application_choice.application_form.application_work_experiences.first.details,
+              },
+            ],
+            volunteering: [
+              {
+                start_date: application_choice.application_form.application_volunteering_experiences.first.start_date.to_date,
+                end_date: application_choice.application_form.application_volunteering_experiences.first.end_date&.to_date,
+                role: application_choice.application_form.application_volunteering_experiences.first.role,
+                organisation_name: application_choice.application_form.application_volunteering_experiences.first.organisation,
+                working_with_children: application_choice.application_form.application_volunteering_experiences.first.working_with_children,
+                commitment: application_choice.application_form.application_volunteering_experiences.first.commitment,
+                description: application_choice.application_form.application_volunteering_experiences.first.details,
+              },
+            ],
+          },
         },
       }
     end
 
     it 'returns correct application attributes' do
       expect(json).to eq expected_attributes
+    end
+
+    def nationalities(application_form)
+      [
+        application_form.first_nationality,
+        application_form.second_nationality,
+      ].map { |n|
+        NATIONALITIES.to_h.invert[n]
+      }.compact
     end
   end
 end
