@@ -17,3 +17,17 @@ $govuk-image-url-function: frontend-image-url;
 .autocomplete__wrapper, .autocomplete__input, .autocomplete__hint {
   font-family: $govuk-font-family;
 }
+
+// Hack: hide the day field for the start date and end dates for work experience.
+// Because candidates might not remember which day they started a particular job
+// on, we shouldn't ask them for this information. However, govuk_design_system_formbuilder
+// doesn't support this particular edge-case, so we need to work around it.
+// By setting display: none; this field becomes invisible to screen readers.
+// It doesn't need to be filled in, because it will be initialised with 1.
+.app-work-experience {
+  &__start-date, &__end-date {
+    .govuk-date-input__item:first-of-type {
+      display: none;
+    }
+  }
+}

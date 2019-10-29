@@ -34,60 +34,12 @@
           <%= f.govuk_radio_button :commitment, 'part_time', label: { text: 'Part-time' } %>
         <% end %>
 
-        <div class="govuk-form-group" data-qa="start-date">
-          <fieldset class="govuk-fieldset" role="group" aria-describedby="start-date-hint">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-              Start date
-            </legend>
-
-            <span id="start-date-hint" class="govuk-hint">
-              For example, 5 2018
-            </span>
-
-            <div class="govuk-date-input">
-              <div class="govuk-date-input__item">
-                <div class="govuk-form-group">
-                  <%= f.label :start_date_month, 'Month', class: 'govuk-label govuk-date-input__label' %>
-                  <%= f.text_field :start_date_month, type: 'number', pattern: '[0-9]*', class: 'govuk-input govuk-date-input__input govuk-input--width-2' %>
-                </div>
-              </div>
-
-              <div class="govuk-date-input__item">
-                <div class="govuk-form-group">
-                  <%= f.label :start_date_year, 'Year', class: 'govuk-label govuk-date-input__label' %>
-                  <%= f.text_field :start_date_year, type: 'number', pattern: '[0-9]*', class: 'govuk-input govuk-date-input__input govuk-input--width-4' %>
-                </div>
-              </div>
-            </div>
-          </fieldset>
+        <div class="app-work-experience__start-date" data-qa="start-date">
+          <%= f.govuk_date_field :start_date, legend: { text: 'Start date', size: 'm', tag: 'span' }, hint_text: 'For example, 5 2018' %>
         </div>
 
-        <div class="govuk-form-group" data-qa="end-date">
-          <fieldset class="govuk-fieldset" role="group" aria-describedby="end-date-hint">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-              End date (leave blank if this is your current role)
-            </legend>
-
-            <span id="end-date-hint" class="govuk-hint">
-              For example, 5 2019
-            </span>
-
-            <div class="govuk-date-input">
-              <div class="govuk-date-input__item">
-                <div class="govuk-form-group">
-                  <%= f.label :end_date_month, 'Month', class: 'govuk-label govuk-date-input__label' %>
-                  <%= f.text_field :end_date_month, type: 'number', pattern: '[0-9]*', class: 'govuk-input govuk-date-input__input govuk-input--width-2' %>
-                </div>
-              </div>
-
-              <div class="govuk-date-input__item">
-                <div class="govuk-form-group">
-                  <%= f.label :end_date_year, 'Year', class: 'govuk-label govuk-date-input__label' %>
-                  <%= f.text_field :end_date_year, type: 'number', pattern: '[0-9]*', class: 'govuk-input govuk-date-input__input govuk-input--width-4' %>
-                </div>
-              </div>
-            </div>
-          </fieldset>
+        <div class="app-work-experience__end-date" data-qa="end-date">
+          <%= f.govuk_date_field :end_date, legend: { text: 'End date (leave blank if this is your current role)', size: 'm', tag: 'span' }, hint_text: 'For example, 5 2019' %>
         </div>
 
         <%= f.govuk_text_area :details, label: { text: t('application_form.work_history.details.label'), size: 'm' }, hint_text: 'Give a brief overview of your role and explain how you developed transferable skills like communication, creativity and organisation', max_words: 150 %>
