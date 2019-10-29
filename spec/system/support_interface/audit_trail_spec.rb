@@ -3,21 +3,26 @@ require 'rails_helper'
 RSpec.feature 'See applications' do
   scenario 'Support user visits application audit page' do
     given_i_am_a_support_user
-    and_there_are_applications_in_the_system
+    and_there_is_an_application_in_the_system_logged_by_a_candidate
     and_i_visit_the_support_page
 
     when_i_click_on_an_application_history
     then_i_should_be_on_the_application_history_page
+    then_i_should_be_able_to_see_history_events
   end
 
   def given_i_am_a_support_user
     page.driver.browser.authorize('test', 'test')
   end
 
-  def and_there_are_applications_in_the_system
-    @application_choice = create(:application_choice, application_form: create(:application_form, first_name: 'Alice', last_name: 'Wunder'))
-    create(:application_choice, application_form: create(:application_form, first_name: 'Bob'))
-    create(:application_choice, application_form: create(:application_form, first_name: 'Charlie'))
+  def and_there_is_an_application_in_the_system_logged_by_a_candidate
+    candidate = create :candidate, email_address: 'alice@example.com'
+    Audited.audit_class.as_user(candidate) do
+      @application_choice = create(
+        :application_choice,
+        application_form: create(:application_form, first_name: 'Alice', last_name: 'Wunder'),
+      )
+    end
   end
 
   def and_i_visit_the_support_page
@@ -25,10 +30,15 @@ RSpec.feature 'See applications' do
   end
 
   def when_i_click_on_an_application_history
-    find("a[href='#{support_interface_application_form_audit_path(@application_choice.application_form.id)}']").click
+    click_on 'History'
   end
 
   def then_i_should_be_on_the_application_history_page
     expect(page).to have_content 'Application History - Alice Wunder'
+  end
+
+  def then_i_should_be_able_to_see_history_events
+    expect(page).to have_content 'Create Application Choice - alice@example.com (Candidate)'
+    expect(page).to have_content 'Create Application Form - alice@example.com (Candidate)'
   end
 end
