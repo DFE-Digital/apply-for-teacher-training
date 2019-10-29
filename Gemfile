@@ -16,7 +16,7 @@ gem 'mail-notify'
 gem 'redcarpet'
 
 # Linting
-gem 'rubocop', '< 0.76.0'
+gem 'rubocop', '< 0.77.0'
 gem 'rubocop-rspec'
 gem 'govuk-lint'
 gem 'erb_lint', require: false
