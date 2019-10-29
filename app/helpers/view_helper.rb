@@ -27,6 +27,17 @@ module ViewHelper
     ] + NATIONALITIES.map { |_, nationality| OpenStruct.new(id: nationality, name: nationality) }
   end
 
+  def select_gcse_qualification_type_options
+    option = Struct.new(:id, :label)
+    [
+      [:gcse, 'GCSE'],
+      [:gce_o_level, 'GCE O Level'],
+      [:scottish_higher, 'Scottish Higher'],
+      [:other_uk, 'Other UK qualification'],
+      [:other_non_uk, 'Non-UK qualification'],
+    ].map { |id, label| option.new(id, label) }
+  end
+
 private
 
   def prepend_css_class(css_class, current_class)

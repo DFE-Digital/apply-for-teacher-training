@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 2019_10_29_145309) do
     t.date "date_of_birth"
     t.text "further_information"
     t.datetime "submitted_at"
+    t.string "support_reference", limit: 10
     t.string "phone_number"
     t.string "address_line1"
     t.string "address_line2"

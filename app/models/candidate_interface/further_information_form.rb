@@ -12,7 +12,7 @@ module CandidateInterface
     def save(application_form)
       return false unless valid?
 
-      application_form.update(
+      application_form.show(
         further_information: further_information? ? further_information_details : '',
       )
     end
