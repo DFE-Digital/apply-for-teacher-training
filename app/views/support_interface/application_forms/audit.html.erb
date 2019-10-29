@@ -15,7 +15,7 @@
         <td class="govuk-table__cell">
           <details class="govuk-details govuk-!-margin-0" data-module="govuk-details" open="">
             <summary class="govuk-details__summary">
-              <%= "#{audit.action.capitalize} #{audit.auditable_type.titlecase} - #{audit.user&.email_address || 'bob@example.com'} (Vendor API)".html_safe %>
+              <%= audit_entry_label(audit) %>
             </summary>
             <div class="govuk-details__text">
               <dl class="govuk-summary-list--no-border">
