@@ -76,6 +76,7 @@ en:
       details:
         label: Skills and experience relevant to teaching you gained in this role
       complete_form_button: Save and continue
+      working_with_children: This role involved working with children
     degree:
       qualification_type:
         label: Type of degree
