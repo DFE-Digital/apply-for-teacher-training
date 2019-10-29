@@ -3,6 +3,12 @@ require 'rails_helper'
 RSpec.describe ApplicationCompleteContentComponent do
   let(:submitted_at) { Date.new(2019, 10, 22) }
 
+  around do |example|
+    Timecop.freeze(submitted_at) do
+      example.run
+    end
+  end
+
   def render_result
     application_form = create(:application_form, submitted_at: submitted_at)
     render_inline(ApplicationCompleteContentComponent, application_form: application_form)
