@@ -68,7 +68,7 @@ RSpec.feature 'See applications' do
     within('tbody tr:eq(1)') do
       expect(page).to have_content '2019-10-02 12:00:00'
       expect(page).to have_content 'Update Application Choice - bob@example.com (Vendor API)'
-      expect(page).to have_content 'status application_complete rejected'
+      expect(page).to have_content 'status application_complete → rejected'
     end
     within('tbody tr:eq(2)') do
       expect(page).to have_content '2019-10-01 12:00:01'

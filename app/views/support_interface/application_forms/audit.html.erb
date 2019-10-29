@@ -25,7 +25,7 @@
                       <%= attr %>
                     </dt>
                     <dd class="govuk-summary-list__value">
-                      <%= values %>
+                      <%= audit_attribute_value(values).html_safe %>
                     </dd>
                   </div>
                 <% end %>

@@ -3,6 +3,14 @@ module SupportViewHelper
     "#{audit_entry_event_label(audit)} - #{audit_entry_user_label(audit)}"
   end
 
+  def audit_attribute_value(value)
+    if value.is_a? Array
+      "#{value[0]} &rarr; #{value[1]}"
+    else
+      value.to_s
+    end
+  end
+
 private
 
   def audit_entry_event_label(audit)
