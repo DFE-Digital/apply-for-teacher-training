@@ -1,28 +1,28 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering their contact details' do
+RSpec.feature 'Candidate entering GCSE details' do
   include CandidateHelper
 
   scenario 'Candidate submits their maths GCSE details' do
     given_i_am_signed_in
     and_i_visit_the_candidate_application_page
-    and_i_click_on_the_maths_GCSE_link
+    and_i_click_on_the_maths_gcse_link
 
-    then_i_see_the_add_GCSE_maths_page
+    then_i_see_the_add_gcse_maths_page
 
-    when_i_select_GCSE_option
-    then_i_see_the_summary_for_maths_GCSE
+    when_i_select_gcse_option
+    then_i_see_the_summary_for_maths_gcse
   end
 
   scenario 'Candidate submits their english GCSE details' do
     given_i_am_signed_in
     and_i_visit_the_candidate_application_page
-    and_i_click_on_the_english_GCSE_link
+    and_i_click_on_the_english_gcse_link
 
-    then_i_see_the_add_GCSE_english_page
+    then_i_see_the_add_gcse_english_page
 
-    when_i_select_GCSE_option
-    then_i_see_the_summary_for_english_GCSE
+    when_i_select_gcse_option
+    then_i_see_the_summary_for_english_gcse
   end
 
   def given_i_am_signed_in

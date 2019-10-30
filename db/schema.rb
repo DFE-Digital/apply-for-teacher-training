@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 2019_10_29_145309) do
     t.text "further_information"
     t.datetime "submitted_at"
     t.string "support_reference", limit: 10
+    t.string "reference", limit: 10
     t.string "phone_number"
     t.string "address_line1"
     t.string "address_line2"
@@ -66,7 +67,6 @@ ActiveRecord::Schema.define(version: 2019_10_29_145309) do
     t.string "address_line4"
     t.string "country"
     t.string "postcode"
-    t.string "support_reference", limit: 10
     t.string "disability_disclosure"
     t.string "uk_residency_status"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
