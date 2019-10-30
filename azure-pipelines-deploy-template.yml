@@ -20,9 +20,19 @@ parameters:
   warmupPingPath: '/check'
   warmupPingStatus: '200'
   railsEnv: 'production'
+  basicAuthUsername:
+  basicAuthPassword:
+  supportUsername:
+  supportPassword:
   authorisedHosts:
   securityAlertEmail: 'apprenticeshipsdevops@education.gov.uk'
   sentryDSN:
+  logstashEnable:
+  logstashRemote:
+  logstashHost:
+  logstashPort:
+  logstashSsl:
+  govukNotifyAPIKey:
   findBaseUrl:
 
 jobs:
@@ -70,16 +80,20 @@ jobs:
                 -containerStartTimeLimit "${{parameters.containerStartTimeLimit}}"
                 -warmupPingPath "${{parameters.warmupPingPath}}"
                 -warmupPingStatus "${{parameters.warmupPingStatus}}"
-                -govukNotifyAPIKey "$(govukNotifyAPIKey)"
-                -basicAuthUsername "$(basicAuthUsername)"
-                -basicAuthPassword "$(basicAuthPassword)"
-                -supportUsername "$(supportUsername)"
-                -supportPassword "$(supportPassword)"
+                -govukNotifyAPIKey "${{parameters.govukNotifyAPIKey}}"
+                -basicAuthUsername "${{parameters.basicAuthUsername}}"
+                -basicAuthPassword "${{parameters.basicAuthPassword}}"
+                -supportUsername "${{parameters.supportUsername}}"
+                -supportPassword "${{parameters.supportPassword}}"
                 -authorisedHosts "${{parameters.authorisedHosts}}"
                 -sentryDSN "${{parameters.sentryDSN}}"
+                -logstashEnable "${{parameters.logstashEnable}}"
+                -logstashRemote "${{parameters.logstashRemote}}"
+                -logstashHost "${{parameters.logstashHost}}"
+                -logstashPort "${{parameters.logstashPort}}"
+                -logstashSsl "${{parameters.logstashSsl}}"
                 -findBaseUrl "${{parameters.findBaseUrl}}"'
               deploymentOutputs: DeploymentOutput
-
 
           - task: AzurePowerShell@3
             displayName: 'Azure PowerShell Script - Tag resource group: $(resourceGroupName)'
