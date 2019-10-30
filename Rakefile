@@ -23,7 +23,7 @@ rescue LoadError
   nil
 end
 
-task default: %i[lint_erb lint_ruby spec_with_profile generate_state_diagram brakeman]
+task default: %i[lint_erb lint_ruby spec_with_profile cucumber generate_state_diagram brakeman]
 
 Rake::Task['db:migrate'].enhance do
   sh 'bundle exec erd' if Rails.env.development?

@@ -82,6 +82,16 @@ stages:
         AUTHORISED_HOSTS: $(authorisedHosts)
         FIND_BASE_URL: $(findBaseUrl)
 
+    - script: make ci.cucumber
+      displayName: 'Cucumber specs'
+      env:
+        dockerHubUsername: $(dockerHubUsername)
+        dockerHubImageName: $(imageName)
+        RAILS_ENV: test
+        GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
+        AUTHORISED_HOSTS: $(authorisedHosts)
+        FIND_BASE_URL: $(findBaseUrl)
+
     - task: Docker@1
       displayName: Tag image with current build number $(Build.BuildNumber)
       inputs:

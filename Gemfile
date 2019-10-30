@@ -54,6 +54,8 @@ group :test do
   gem 'guard-rspec'
   gem 'webmock'
   gem 'simplecov', require: false
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner'
 end
 
 group :development, :test do
