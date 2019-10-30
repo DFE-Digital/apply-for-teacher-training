@@ -25,7 +25,7 @@ class LogstashLogging
     config.lograge.custom_options = lambda do |event|
       ignore_params = %w(candidate authenticity_token)
       {
-        domain: ENV['DOMAIN'],
+        domain: AzureEnvironment.hostname,
         params: event.payload[:params].except(*ignore_params),
         candidate_id: event.payload[:candidate_id],
         vendor_api_token_id: event.payload[:vendor_api_token_id],
