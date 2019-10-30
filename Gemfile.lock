@@ -392,7 +392,6 @@ DEPENDENCIES
   redcarpet
   rspec-rails
   rspec_junit_formatter
-  rubocop (< 0.76.0)
   rubocop-rspec
   selenium-webdriver
   sentry-raven
