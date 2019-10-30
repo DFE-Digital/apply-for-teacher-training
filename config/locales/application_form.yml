@@ -85,6 +85,28 @@ en:
         label: Subject of degree
       institution_name:
         label: Institution where you studied
+      grade:
+        label: What class is your degree?
+        first:
+          label: First
+        upper_second:
+          label: Upper second (2:1)
+        lower_second:
+          label: Lower second (2:2)
+        third:
+          label: Third
+        other:
+          label: Other
+          conditional:
+            label: Enter your degree grade
+        predicted:
+          label: I am still studying for my degree
+          conditional:
+            label: Please give details of your predicted grade.
+            hint_text: Predicted grades must be validated by an academic referee in the ‘References' section.
+      award_year:
+        label: Graduation year
+        hint_text: You must have successfully graduated by the time you start your course.
       base:
         button: Save and continue
   activemodel:
@@ -147,6 +169,15 @@ en:
             institution_name:
               blank: Enter the institution where you studied
               too_long: The institution where you studied must be %{count} characters or fewer
+            grade:
+              blank: Enter the class of your degree
+            other_grade:
+              blank: Enter your degree grade
+            predicted_grade:
+              blank: Enter your predicted grade
+            award_year:
+              blank: Enter your graduation year
+              invalid: Enter a real graduation year
         candidate_interface/work_experience_form:
           attributes:
             role:

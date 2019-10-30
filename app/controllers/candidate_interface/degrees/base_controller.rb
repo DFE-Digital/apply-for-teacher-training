@@ -15,7 +15,8 @@ module CandidateInterface
 
     def degrees_params
       params.require(:candidate_interface_degrees_form).permit(
-        :qualification_type, :subject, :institution_name
+        :qualification_type, :subject, :institution_name, :grade, :other_grade,
+        :predicted_grade, :award_year
       )
     end
   end
