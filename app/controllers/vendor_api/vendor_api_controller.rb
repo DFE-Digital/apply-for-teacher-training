@@ -66,7 +66,7 @@ module VendorApi
       @current_provider ||= @current_vendor_api_token.provider
     end
 
-    # contoller-specific additional info to included in lograge/logstash logs
+    # controller-specific additional info to included in lograge/logstash logs
     def append_info_to_payload(payload)
       super
       payload[:vendor_api_token_id] = @current_vendor_api_token.try(:id)

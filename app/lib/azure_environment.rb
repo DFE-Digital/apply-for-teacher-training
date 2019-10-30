@@ -4,8 +4,6 @@ module AzureEnvironment
   end
 
   def self.hostname
-    hostname = authorised_hosts.first rescue nil
-    hostname ||= Socket.gethostname
-    ENV.fetch('CUSTOM_HOST_NAME', hostname)
+    ENV.fetch('CUSTOM_HOSTNAME', authorised_hosts.first)
   end
 end

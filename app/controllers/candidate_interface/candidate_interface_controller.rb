@@ -8,7 +8,7 @@ module CandidateInterface
 
   private
 
-    # contoller-specific additional info to included in lograge/logstash logs
+    # controller-specific additional info to included in lograge/logstash logs
     def append_info_to_payload(payload)
       super
       payload[:candidate_id] = current_candidate.id if current_candidate

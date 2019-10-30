@@ -21,11 +21,13 @@ class LogstashLogging
     ]
     config.lograge.formatter = Lograge::Formatters::Logstash.new
 
+    @@domain_for_logs = Rails.env.production? ? AzureEnvironment.hostname : Socket.gethostname
+
     # Add query params to the log format - lograge usually ignores them
     config.lograge.custom_options = lambda do |event|
       ignore_params = %w(candidate authenticity_token)
       {
-        domain: AzureEnvironment.hostname,
+        domain: @@domain_for_logs,
         params: event.payload[:params].except(*ignore_params),
         candidate_id: event.payload[:candidate_id],
         vendor_api_token_id: event.payload[:vendor_api_token_id],
