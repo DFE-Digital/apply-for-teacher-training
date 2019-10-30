@@ -377,6 +377,10 @@
                                 "value": "[variables('rubyAuthHosts')]"
                             },
                             {
+                                "name": "CUSTOM_HOSTNAME",
+                                "value": "[parameters('customHostName')]"
+                            },
+                            {
                                 "name": "SENTRY_DSN",
                                 "value": "[parameters('sentryDSN')]"
                             },
