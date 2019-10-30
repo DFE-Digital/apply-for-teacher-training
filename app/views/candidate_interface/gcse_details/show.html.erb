@@ -1,0 +1,63 @@
+<% content_for :title, page_title('contact_details') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+     <h1 class="govuk-heading-xl"><%= heading_for_gcse_show(@application_qualification.subject) %></h1>
+
+      <section class="app-summary-card govuk-!-margin-bottom-6">
+        <header class="app-summary-card__header">
+          <h3 class="app-summary-card__title">
+            GCSE
+          </h3>
+        </header>
+        <div class="app-summary-card__body">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Qualification
+              </dt>
+              <dd class="govuk-summary-list__value">
+                GCSE
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/application/RIHJY/gcse/undefined?referrer=/application/RIHJY/gcse/maths/review">
+                  Change<span class="govuk-visually-hidden"> year</span>
+                </a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Year awarded
+              </dt>
+              <dd class="govuk-summary-list__value">
+                Not entered
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/application/RIHJY/gcse/undefined/year?referrer=/application/RIHJY/gcse/maths/review">
+                  Change<span class="govuk-visually-hidden"> year</span>
+                </a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Grade
+              </dt>
+              <dd class="govuk-summary-list__value">
+                Not entered
+              </dd>
+
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/application/RIHJY/gcse/undefined/grade?referrer=/application/RIHJY/gcse/maths/review">
+                  Change<span class="govuk-visually-hidden"> grade</span>
+                </a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+      <a href="/application/RIHJY" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+        Continue
+      </a>
+  </div>
+</div>

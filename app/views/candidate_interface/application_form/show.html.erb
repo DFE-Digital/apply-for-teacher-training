@@ -50,10 +50,13 @@
         <%= govuk_link_to t('page_titles.degree'), candidate_interface_degrees_new_base_path, class: 'app-task-list__task-name' %>
       </li>
       <li class="app-task-list__item">
-        <%= govuk_link_to 'TODO: Maths GCSE or equivalent', '#', class: 'app-task-list__task-name' %>
+        <%= govuk_link_to 'Maths GCSE or equivalent', candidate_interface_gcse_details_edit_path(subject: :maths), class: 'app-task-list__task-name' %>
       </li>
       <li class="app-task-list__item">
-        <%= govuk_link_to 'TODO: English GCSE or equivalent', '#', class: 'app-task-list__task-name' %>
+        <%= govuk_link_to 'English GCSE or equivalent', candidate_interface_gcse_details_edit_path(subject: :english), class: 'app-task-list__task-name' %>
+      </li>
+      <li class="app-task-list__item">
+        <%= govuk_link_to 'Science GCSE or equivalent', candidate_interface_gcse_details_edit_path(subject: :science), class: 'app-task-list__task-name' %>
       </li>
       <li class="app-task-list__item">
         <%= govuk_link_to 'TODO: Other relevant academic and non-academic qualifications', '#', class: 'app-task-list__task-name' %>
