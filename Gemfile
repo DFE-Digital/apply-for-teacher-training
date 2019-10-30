@@ -36,6 +36,11 @@ gem 'actionview-component'
 
 gem 'uk_postcode'
 
+# Logging
+gem 'lograge'
+gem 'logstash-logger'
+gem 'logstash-event'
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.3'

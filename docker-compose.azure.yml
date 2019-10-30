@@ -16,3 +16,8 @@ services:
       - SECRET_KEY_BASE=${railsSecretKeyBase}
       - AUTHORISED_HOSTS
       - SENTRY_DSN
+      - LOGSTASH_ENABLE
+      - LOGSTASH_REMOTE
+      - LOGSTASH_HOST
+      - LOGSTASH_PORT
+      - LOGSTASH_SSL
