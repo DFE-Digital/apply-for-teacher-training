@@ -48,7 +48,7 @@ module CandidateInterface
     def save(application_form)
       return false unless valid?
 
-      application_form.show(
+      application_form.update(
         first_name: first_name,
         last_name: last_name,
         first_nationality: first_nationality,

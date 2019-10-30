@@ -3,9 +3,9 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @application_qualifications, url: candidate_interface_gcse_details_update_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+    <%= form_with model: @application_qualification, url: candidate_interface_gcse_details_update_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-        <h1 class="govuk-fieldset__heading"><%= @heading %></h1>
+        <h1 class="govuk-fieldset__heading"><%= heading_for_gcse_edit(@application_qualification.subject) %></h1>
       </legend>
 
       <%= f.govuk_error_summary %>

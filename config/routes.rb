@@ -47,7 +47,7 @@ Rails.application.routes.draw do
 
       scope '/gcse/:subject' do
         get '/' => 'gcse_details#edit', as: :gcse_details_edit
-        post '/' => 'gcse_details#update', as: :gcse_details_update
+        patch '/' => 'gcse_details#update', as: :gcse_details_update
       end
 
       scope '/work-history' do

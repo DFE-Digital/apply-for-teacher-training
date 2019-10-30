@@ -28,13 +28,13 @@ module CandidateInterface
     def save_base(application_form)
       return false unless valid?(:base)
 
-      application_form.show(phone_number: phone_number)
+      application_form.update(phone_number: phone_number)
     end
 
     def save_address(application_form)
       return false unless valid?(:address)
 
-      application_form.show(
+      application_form.update(
         address_line1: address_line1,
         address_line2: address_line2,
         address_line3: address_line3,
