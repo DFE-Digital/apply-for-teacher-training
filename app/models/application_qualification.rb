@@ -6,10 +6,4 @@ class ApplicationQualification < ApplicationRecord
     gcse: 'gcse',
     other: 'other',
   }
-
-  enum subject: {
-    maths: 'maths',
-    english: 'english',
-    science: 'science',
-  }
 end
