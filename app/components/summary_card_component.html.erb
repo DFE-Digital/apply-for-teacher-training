@@ -7,7 +7,11 @@
             <%= row[:key] %>
           </dt>
           <dd class="govuk-summary-list__value">
-            <%= render inline: row[:value] %>
+            <% if row[:DANGEROUS_html_value].nil? %>
+              <%= row[:value] %>
+            <% else %>
+              <%= render inline: row[:DANGEROUS_html_value] %>
+            <% end %>
           </dd>
 
           <dd class="govuk-summary-list__actions">

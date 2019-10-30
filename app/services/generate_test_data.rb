@@ -10,9 +10,8 @@ class GenerateTestData
 
     number_of_candidates.times do
       application_form = FactoryBot.create(
-        :application_form,
-        first_name: Faker::Name.first_name,
-        last_name: Faker::Name.last_name,
+        :completed_application_form,
+        application_choices_count: 0,
       )
 
       # Most of the time generate an application with a single course choice,
@@ -23,6 +22,7 @@ class GenerateTestData
           course_option: course_option,
           application_form: application_form,
           personal_statement: Faker::Lorem.paragraph(sentence_count: 5),
+          status: 'application_complete',
         )
       end
     end

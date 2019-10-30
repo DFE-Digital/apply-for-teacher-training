@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 0.5.0
+  version: 0.8.0
   title: Apply API
   contact:
     name: DfE
@@ -10,11 +10,9 @@ servers:
   - description: Local development environment
     url: http://localhost:3000/api/v1
   - description: DfE development environment
-    url: https://s106d01-apply-as.azurewebsites.net/api/v1
-  - description: DfE test environment
-    url: https://s106t01-apply-as.azurewebsites.net/api/v1
+    url: https://qa.apply-for-teacher-training.education.gov.uk/api/v1
   - description: Vendor sandbox
-    url: https://s106t02-apply-as.azurewebsites.net/api/v1
+    url: https://sandbox.apply-for-teacher-training.education.gov.uk/api/v1
 paths:
   /applications:
     get:
@@ -59,6 +57,8 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "404":
           $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
   "/applications/{application_id}/offer":
     post:
       tags:
@@ -92,6 +92,8 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "404":
           $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
   "/applications/{application_id}/confirm-enrolment":
     post:
       tags:
@@ -148,6 +150,8 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "404":
           $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
   "/applications/{application_id}/reject":
     post:
       tags:
@@ -185,6 +189,8 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "404":
           $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
   "/test-data/regenerate":
     post:
       tags:
@@ -291,8 +297,9 @@ components:
         - submitted_at
         - updated_at
         - withdrawal
-        - work_experiences
         - hesa_itt_data
+        - further_information
+        - work_experience
       properties:
         status:
           type: string
@@ -306,7 +313,7 @@ components:
             - recruited
             - enrolled
             - rejected
-          example: conditional_offer
+          example: application_complete
         submitted_at:
           type: string
           format: date-time
@@ -328,13 +335,42 @@ components:
         course:
           $ref: "#/components/schemas/Course"
         qualifications:
-          type: array
-          items:
-            $ref: "#/components/schemas/Qualification"
-        work_experiences:
-          type: array
-          items:
-            $ref: "#/components/schemas/WorkExperience"
+          type: object
+          additionalProperties: false
+          required:
+            - gcses
+            - degrees
+            - other_qualifications
+          properties:
+            gcses:
+              type: array
+              items:
+                $ref: "#/components/schemas/Qualification"
+            degrees:
+              type: array
+              items:
+                $ref: "#/components/schemas/Qualification"
+            other_qualifications:
+              type: array
+              items:
+                $ref: "#/components/schemas/Qualification"
+        work_experience:
+          type: object
+          additionalProperties: false
+          required:
+            - jobs
+            - volunteering
+          properties:
+            jobs:
+              type: array
+              description: The candidate’s professional experience
+              items:
+                $ref: "#/components/schemas/WorkExperience"
+            volunteering:
+              type: array
+              description: The candidate’s experience as a volunteer
+              items:
+                $ref: "#/components/schemas/WorkExperience"
         references:
           type: array
           items:
@@ -353,6 +389,11 @@ components:
           nullable: true
         hesa_itt_data:
           $ref: "#/components/schemas/HESAITTData"
+        further_information:
+          type: string
+          nullable: true
+          description: "Other personal or professional issues relevant to the application which are not covered in the form"
+          example: "I am expecting to be called for jury service in the next 12 months"
     Candidate:
       type: object
       additionalProperties: false
@@ -362,6 +403,10 @@ components:
         - date_of_birth
         - nationality
         - uk_residency_status
+        - english_main_language
+        - english_language_qualifications
+        - other_languages
+        - disability_disclosure
       properties:
         first_name:
           type: string
@@ -390,6 +435,25 @@ components:
           type: string
           description: "The candidate’s UK residency status, e.g. Citizen"
           example: UK Citizen
+        english_main_language:
+          type: boolean
+          description: Does this candidate have English as a main language?
+          example: true
+        english_language_qualifications:
+          type: string
+          nullable: true
+          description: About this candidate's English language qualifications, if English is not their main language
+          example: "I have a degree in English Language and Literature from the University of Munich"
+        other_languages:
+          type: string
+          nullable: true
+          description: Details of the candidate's fluency in other languages
+          example: "I am bilingual in Finnish and English"
+        disability_disclosure:
+          type: string
+          nullable: true
+          description: Voluntary disclosure of disabliity or SEN so providers can provide appropriate support
+          example: "I am dyslexic"
     ContactDetails:
       type: object
       additionalProperties: false
@@ -491,11 +555,9 @@ components:
       required:
         - qualification_type
         - subject
-        - result
+        - grade
         - award_year
-        - place_of_study
-        - awarding_body_country
-        - awarding_body_name
+        - institution_details
         - equivalency_details
       properties:
         qualification_type:
@@ -507,7 +569,7 @@ components:
           description: The subject studied
           maxLength: 255
           example: History and Politics
-        result:
+        grade:
           type: string
           description: The grade awarded
           example: "2:1"
@@ -515,64 +577,53 @@ components:
           type: string
           description: The year the award was made
           example: "1992"
-        place_of_study:
+        institution_details:
           type: string
-          description: The place of study
+          description: Details about the institution and awarding body
           maxLength: 255
           example: University of Huddersfield
-        awarding_body_name:
-          type: string
-          description: "The awarding body’s name, e.g. AQA"
-          maxLength: 255
-        awarding_body_country:
-          type: string
-          description: "The awarding body’s country as an ISO 3166 country code"
-          example: GB
+          nullable: true
         equivalency_details:
           type: string
           description: "Details of equivalency, if this qualification was awarded overseas"
           maxLength: 255
+          nullable: true
     Reference:
       type: object
       additionalProperties: false
       required:
-        - reference_type
-        - email
-        - relationship
-        - content
         - name
-        - reason_for_character_reference
+        - email
+        - phone_number
+        - relationship
+        - confirms_safe_to_work_with_children
+        - reference
       properties:
-        reference_type:
-          type: string
-          description: The type of the reference
-          maxLength: 255
-          enum:
-            - academic
-            - professional
-            - school_senior_leadership
-            - character
-          example: school_senior_leadership
-        reason_for_character_reference:
-          type: string
-          description: "If this is a character reference, this field will contain the reason the candidate gave for not providing one of the other types"
-          maxLength: 255
-        email:
-          type: string
-          description: The referee’s email
-          maxLength: 100
-          example: julia@example.com
         name:
           type: string
           description: The referee’s name
           maxLength: 255
           example: Julia Wild
+        email:
+          type: string
+          description: The referee’s email
+          maxLength: 100
+          example: julia@example.com
+        phone_number:
+          type: string
+          description: The referee’s phone number
+          maxLength: 100
+          example: '07890 123456'
         relationship:
           type: string
           description: The referee’s relationship to the candidate
           maxLength: 255
           example: Julia was my mentor at Cheadle Hulme High
-        content:
+        confirms_safe_to_work_with_children:
+          type: boolean
+          description: Does the referee confirm the candidate is safe to work with children
+          example: true
+        reference:
           type: string
           description: "Optional. The reference content provided by the referee, once it is available"
           example: Boris is committed to the profession of teaching...
@@ -619,21 +670,24 @@ components:
         - end_date
         - role
         - description
+        - working_with_children
+        - commitment
       properties:
         organisation_name:
           type: string
-          description: The name of the employer (company or individual)
+          description: The organisation worked for
           maxLength: 255
           example: Cheadle Hulme High School
         start_date:
           type: string
           format: date
-          description: The date employment began
+          description: The date the position began
           example: "2020-09-10"
         end_date:
           type: string
           format: date
-          description: "The date employment finished, if appropriate"
+          nullable: true
+          description: The date the position finished, if applicable
           example: "2019-04-01"
         role:
           type: string
@@ -642,9 +696,19 @@ components:
           example: Whole School Literacy Specialist
         description:
           type: string
-          description: A brief written description of the work involved
-          maxLength: 255
+          description: A written description of the work involved
+          maxLength: 4096
           example: "I lead, develop and enhance the literacy teaching practice of others..."
+        working_with_children:
+          type: boolean
+          description: Did this position involve working in a school or with children?
+          example: true
+        commitment:
+          nullable: true
+          type: string
+          enum:
+            - full_time
+            - part_time
     HESAITTData:
       type: object
       additionalProperties: false
@@ -788,7 +852,6 @@ components:
             message:
               type: string
               example: "OK"
-
   parameters:
     application_id:
       name: application_id

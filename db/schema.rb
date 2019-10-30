@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_28_105220) do
+ActiveRecord::Schema.define(version: 2019_10_29_145309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -56,9 +56,7 @@ ActiveRecord::Schema.define(version: 2019_10_28_105220) do
     t.text "english_language_details"
     t.text "other_language_details"
     t.date "date_of_birth"
-    t.boolean "further_information"
-    t.text "further_information_details"
-    t.datetime "submitted_at"
+    t.text "further_information"
     t.string "phone_number"
     t.string "address_line1"
     t.string "address_line2"
@@ -66,8 +64,28 @@ ActiveRecord::Schema.define(version: 2019_10_28_105220) do
     t.string "address_line4"
     t.string "country"
     t.string "postcode"
+    t.datetime "submitted_at"
     t.string "support_reference", limit: 10
+    t.string "disability_disclosure"
+    t.string "uk_residency_status"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
+  end
+
+  create_table "application_qualifications", force: :cascade do |t|
+    t.bigint "application_form_id", null: false
+    t.string "level", null: false
+    t.string "qualification_type"
+    t.string "subject"
+    t.string "grade"
+    t.boolean "predicted_grade"
+    t.string "award_year"
+    t.string "institution_name"
+    t.string "institution_country"
+    t.string "awarding_body"
+    t.string "equivalency_details"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["application_form_id"], name: "index_application_qualifications_on_application_form_id"
   end
 
   create_table "audits", force: :cascade do |t|
@@ -167,6 +185,7 @@ ActiveRecord::Schema.define(version: 2019_10_28_105220) do
   add_foreign_key "application_choices", "course_options"
   add_foreign_key "application_experiences", "application_forms", on_delete: :cascade
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
+  add_foreign_key "application_qualifications", "application_forms", on_delete: :cascade
   add_foreign_key "course_options", "courses", on_delete: :cascade
   add_foreign_key "course_options", "sites", on_delete: :cascade
   add_foreign_key "courses", "providers"

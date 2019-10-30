@@ -13,7 +13,7 @@ RSpec.describe ApplicationStateChange do
     end
 
     it 'has corresponding entries in the OpenAPI spec' do
-      valid_states_in_openapi = YAML.load_file('config/vendor-api-0.5.0.yml')['components']['schemas']['ApplicationAttributes']['properties']['status']['enum']
+      valid_states_in_openapi = YAML.load_file('config/vendor-api-0.8.0.yml')['components']['schemas']['ApplicationAttributes']['properties']['status']['enum']
 
       expect(ApplicationStateChange.valid_states)
         .to match_array(valid_states_in_openapi.map(&:to_sym))

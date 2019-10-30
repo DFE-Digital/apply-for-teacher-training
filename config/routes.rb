@@ -48,6 +48,16 @@ Rails.application.routes.draw do
       scope '/work-history' do
         get '/length' => 'work_history#length', as: :work_history_length
         post '/length' => 'work_history#submit_length'
+
+        get '/new' => 'work_history#new', as: :work_history_new
+        post '/create' => 'work_history#create', as: :work_history_create
+
+        get '/review' => 'work_history#show', as: :work_history_show
+      end
+
+      scope '/degree' do
+        get '/' => 'degrees/base#new', as: :degrees_new_base
+        post '/' => 'degrees/base#create', as: :degrees_create_base
       end
     end
   end
@@ -81,6 +91,9 @@ Rails.application.routes.draw do
 
     get '/tokens' => 'api_tokens#index', as: :api_tokens
     post '/tokens' => 'api_tokens#create'
+
+    get '/vendors' => 'manage_vendors#index'
+    post '/vendors' => 'manage_vendors#create'
   end
 
   get '/check', to: 'healthcheck#show'

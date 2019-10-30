@@ -14,8 +14,7 @@ RSpec.describe CandidateInterface::FurtherInformationForm, type: :model do
         further_information_details: 'Much wow.',
       }
       data = {
-        further_information: true,
-        further_information_details: 'Much wow.',
+        further_information: 'Much wow.',
       }
       application_form = FactoryBot.create(:application_form)
       further_information = CandidateInterface::FurtherInformationForm.new(form_data)
@@ -30,15 +29,14 @@ RSpec.describe CandidateInterface::FurtherInformationForm, type: :model do
         further_information_details: 'Much wow.',
       }
       data = {
-        further_information: false,
-        further_information_details: '',
+        further_information: '',
       }
       application_form = FactoryBot.create(:application_form)
       further_information = CandidateInterface::FurtherInformationForm.new(form_data)
 
       further_information.save(application_form)
 
-      expect(application_form.further_information_details).to eq(data[:further_information_details])
+      expect(application_form.further_information).to eq(data[:further_information])
     end
   end
 
