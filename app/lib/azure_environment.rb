@@ -4,6 +4,6 @@ module AzureEnvironment
   end
 
   def self.hostname
-    ENV.fetch('CUSTOM_HOST_NAME', authorised_hosts.first)
+    ENV.fetch('CUSTOM_HOSTNAME', authorised_hosts.first)
   end
 end
