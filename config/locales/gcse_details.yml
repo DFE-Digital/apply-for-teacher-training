@@ -1,12 +1,12 @@
 en:
   gcse_details:
     heading:
-      math: Add maths GCSE grade 4 (C) or above, or equivalent
+      maths: Add maths GCSE grade 4 (C) or above, or equivalent
       english: Add English GCSE grade 4 (C) or above, or equivalent
       science: Add science GCSE grade 4 (C) or above, or equivalent
   gcse_summary:
     heading:
-      math: Maths GCSE or equivalent
+      maths: Maths GCSE or equivalent
       english: English GCSE or equivalent
       science: Science GCSE or equivalent
 

@@ -21,7 +21,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
     it 'updates the provided ApplicationForm if valid' do
       form_data = {
         qualification_type: 'BA',
-        subject: 'Doge',
+        subject: 'maths',
         institution_name: 'University of Much Wow',
       }
       application_form = create(:application_form)
