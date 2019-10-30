@@ -63,11 +63,9 @@ private
     )
   end
 
-  RETRY_COUNT_TIMES = 20
-
   def random_code(klass, provider)
-    RETRY_COUNT_TIMES.times do
-      code = Faker::Alphanumeric.alphanumeric(number: 3).upcase
+    loop do
+      code = Faker::Alphanumeric.alphanumeric(number: Course::CODE_LENGTH).upcase
       return code if klass.find_by(code: code, provider: provider).nil?
     end
   end
