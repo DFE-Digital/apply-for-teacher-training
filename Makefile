@@ -32,6 +32,10 @@ ci.lint-ruby: ## Run Rubocop with results formatted for CI
 ci.lint-erb: ## Run the ERB linter
 	docker-compose run --rm web /bin/sh -c "bundle exec rake lint_erb"
 
+.PHONY: ci.cucumber
+ci.cucumber: ## Run the Cucumber specs
+	docker-compose run --rm web /bin/sh -c "bundle exec cucumber"
+
 .PHONY: ci.test
 ci.test: ## Run the tests with results formatted for CI
 	docker-compose run --rm web /bin/sh -c 'apk add nodejs yarn && \
