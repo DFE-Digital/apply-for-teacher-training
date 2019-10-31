@@ -50,6 +50,7 @@ en:
     work_history_destroy: Are you sure you want to delete this entry?
     edit_job: Add job
     add_another_degree: Add another degree
+    out_of_work: Tell us why you’ve been out of the workplace
   layout:
     service_name: Apply for teacher training
     phase_banner_text: This is a development version of a new service. The data is not real and parts may not work yet.
