@@ -1,6 +1,32 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
+  let(:data) do
+    {
+      role: ['Teacher', 'Teaching Assistant'].sample,
+      organisation: Faker::Educator.secondary_school,
+      details: Faker::Lorem.paragraph_by_chars(number: 300),
+      commitment: %w[full_time part_time].sample,
+      working_with_children: [true, true, true, false].sample,
+      start_date: Date.new(2018, 5),
+      end_date: Date.new(2019, 5),
+    }
+  end
+
+  let(:form_data) do
+    {
+      role: data[:role],
+      organisation: data[:organisation],
+      details: data[:details],
+      commitment: data[:commitment],
+      working_with_children: data[:working_with_children].to_s,
+      start_date_month: data[:start_date].month,
+      start_date_year: data[:start_date].year,
+      end_date_month: data[:end_date].month,
+      end_date_year: data[:end_date].year,
+    }
+  end
+
   describe 'validations' do
     it { is_expected.to validate_presence_of(:role) }
     it { is_expected.to validate_presence_of(:organisation) }
@@ -47,32 +73,6 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
   end
 
   describe '#save' do
-    let(:data) do
-      {
-        role: ['Teacher', 'Teaching Assistant'].sample,
-        organisation: Faker::Educator.secondary_school,
-        details: Faker::Lorem.paragraph_by_chars(number: 300),
-        commitment: %w[full_time part_time].sample,
-        working_with_children: [true, true, true, false].sample,
-        start_date: Date.new(2018, 5),
-        end_date: Date.new(2019, 5),
-      }
-    end
-
-    let(:form_data) do
-      {
-        role: data[:role],
-        organisation: data[:organisation],
-        details: data[:details],
-        commitment: data[:commitment],
-        working_with_children: data[:working_with_children].to_s,
-        start_date_month: data[:start_date].month,
-        start_date_year: data[:start_date].year,
-        end_date_month: data[:end_date].month,
-        end_date_year: data[:end_date].year,
-      }
-    end
-
     it 'returns false if not valid' do
       work_experience = CandidateInterface::WorkExperienceForm.new
 
@@ -85,6 +85,36 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
 
       saved_work_experience = work_experience.save(application_form)
       expect(saved_work_experience).to have_attributes(data)
+    end
+  end
+
+  describe '#update' do
+    it 'returns false if not valid' do
+      work_experience = CandidateInterface::WorkExperienceForm.new
+
+      expect(work_experience.update(ApplicationWorkExperience.new)).to eq(false)
+    end
+
+    it 'updates an existing work experience if valid' do
+      application_form = FactoryBot.create(:application_form)
+      work_experience = CandidateInterface::WorkExperienceForm.new(form_data)
+
+      saved_work_experience = work_experience.save(application_form)
+
+      work_experience.role = 'Something else'
+      work_experience.update(saved_work_experience)
+      expect(saved_work_experience.reload).to have_attributes(role: 'Something else')
+    end
+  end
+
+  describe '.build_from_experience' do
+    it 'creates an object based on the provided experience' do
+      application_work_experience = ApplicationWorkExperience.new(data)
+      work_experience_form = CandidateInterface::WorkExperienceForm.build_from_experience(
+        application_work_experience,
+      )
+
+      expect(work_experience_form).to have_attributes(form_data)
     end
   end
 end

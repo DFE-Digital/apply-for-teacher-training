@@ -28,7 +28,7 @@ module CandidateInterface
         organisation: work_experience.organisation,
         details: work_experience.details,
         commitment: work_experience.commitment,
-        working_with_children: work_experience.working_with_children,
+        working_with_children: work_experience.working_with_children.to_s,
         start_date_day: work_experience.start_date.day,
         start_date_month: work_experience.start_date.month,
         start_date_year: work_experience.start_date.year,
