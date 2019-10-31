@@ -22,6 +22,36 @@ module CandidateInterface
     validates :details,
               word_count: { maximum: 150 }
 
+    def self.build_from_experience(work_experience)
+      new(
+        role: work_experience.role,
+        organisation: work_experience.organisation,
+        details: work_experience.details,
+        commitment: work_experience.commitment,
+        working_with_children: work_experience.working_with_children.to_s,
+        start_date_day: work_experience.start_date.day,
+        start_date_month: work_experience.start_date.month,
+        start_date_year: work_experience.start_date.year,
+        end_date_day: work_experience.end_date.day,
+        end_date_month: work_experience.end_date.month,
+        end_date_year: work_experience.end_date.year,
+      )
+    end
+
+    def update(work_experience)
+      return false unless valid?
+
+      work_experience.update!(
+        role: role,
+        organisation: organisation,
+        details: details,
+        commitment: commitment,
+        working_with_children: ActiveModel::Type::Boolean.new.cast(working_with_children),
+        start_date: start_date,
+        end_date: end_date,
+      )
+    end
+
     def save(application_form)
       return false unless valid?
 

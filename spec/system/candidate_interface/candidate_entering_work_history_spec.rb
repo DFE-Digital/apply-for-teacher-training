@@ -19,6 +19,18 @@ RSpec.feature 'Entering their work history' do
 
     when_i_fill_in_the_job_form
     then_i_should_see_my_completed_job
+
+    when_i_click_on_delete_entry
+    and_i_confirm
+    then_i_should_be_asked_for_an_explanation
+
+    when_i_click_on_add_job
+    and_i_fill_in_the_job_form
+    then_i_should_see_my_completed_job
+
+    when_i_click_on_change
+    and_i_change_the_job_title
+    then_i_should_see_my_updated_job
   end
 
   def given_i_am_not_signed_in; end
@@ -57,6 +69,18 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_fill_in_the_job_form
+    fill_in_the_job_form
+  end
+
+  def and_i_fill_in_the_job_form
+    fill_in_the_job_form
+  end
+
+  def then_i_should_see_my_completed_job
+    expect(page).to have_content('Chief Terraforming Officer')
+  end
+
+  def fill_in_the_job_form
     scope = 'application_form.work_history'
     fill_in t('role.label', scope: scope), with: 'Chief Terraforming Officer'
     fill_in t('organisation.label', scope: scope), with: 'Weyland-Yutani'
@@ -77,10 +101,35 @@ RSpec.feature 'Entering their work history' do
 
     choose 'No'
 
-    click_button t('complete_form_button', scope: scope)
+    click_button t('application_form.work_history.complete_form_button')
   end
 
-  def then_i_should_see_my_completed_job
-    expect(page).to have_content('Chief Terraforming Officer')
+  def when_i_click_on_delete_entry
+    click_link t('application_form.work_history.delete_entry')
+  end
+
+  def and_i_confirm
+    click_button t('application_form.work_history.sure_delete_entry')
+  end
+
+  def then_i_should_be_asked_for_an_explanation
+    expect(page).to have_content('Explanation of why you’ve been out of the workplace')
+  end
+
+  def when_i_click_on_add_job
+    click_link t('application_form.work_history.add_job')
+  end
+
+  def when_i_click_on_change
+    first('.govuk-summary-list__actions').click_link 'Change'
+  end
+
+  def and_i_change_the_job_title
+    fill_in t('application_form.work_history.role.label'), with: 'Chief Executive Officer'
+    click_button t('application_form.work_history.complete_form_button')
+  end
+
+  def then_i_should_see_my_updated_job
+    expect(page).to have_content('Chief Executive Officer')
   end
 end

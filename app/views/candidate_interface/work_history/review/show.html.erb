@@ -1,0 +1,18 @@
+<% content_for :title, page_title('work_history') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<h1 class="govuk-heading-xl">
+  <%= page_title('work_history') %>
+</h1>
+
+<%= render(WorkHistoryReviewComponent, application_form: @application_form) %>
+
+<% if @application_form.application_work_experiences.any? %>
+  <%= govuk_button_link_to 'Add another job', candidate_interface_work_history_new_path, class: 'govuk-button--secondary' %>
+<% else %>
+  <%= govuk_button_link_to t('application_form.work_history.add_job'), candidate_interface_work_history_new_path, class: 'govuk-button--secondary' %>
+<% end %>
+
+<div class='govuk-form-group'></div>
+
+<%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>

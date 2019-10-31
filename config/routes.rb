@@ -51,13 +51,18 @@ Rails.application.routes.draw do
       end
 
       scope '/work-history' do
-        get '/length' => 'work_history#length', as: :work_history_length
-        post '/length' => 'work_history#submit_length'
+        get '/length' => 'work_history/length#show', as: :work_history_length
+        post '/length' => 'work_history/length#submit'
 
-        get '/new' => 'work_history#new', as: :work_history_new
-        post '/create' => 'work_history#create', as: :work_history_create
+        get '/new' => 'work_history/edit#new', as: :work_history_new
+        post '/create' => 'work_history/edit#create', as: :work_history_create
+        get '/edit/:id' => 'work_history/edit#edit', as: :work_history_edit
+        post '/edit/:id' => 'work_history/edit#update'
 
-        get '/review' => 'work_history#show', as: :work_history_show
+        get '/review' => 'work_history/review#show', as: :work_history_show
+
+        get '/delete/:id' => 'work_history/destroy#confirm_destroy', as: :work_history_destroy
+        delete '/delete/:id' => 'work_history/destroy#destroy'
       end
 
       scope '/degrees' do
