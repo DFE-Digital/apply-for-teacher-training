@@ -7,34 +7,8 @@
   </thead>
 
   <tbody class="govuk-table__body">
-    <% @application_form.audits.each do |audit| %>
-      <tr class="govuk-table__row gov uk-accordion__section">
-        <td class="govuk-table__cell" title="<%= l(audit.created_at, format: :long_with_seconds) %>">
-          <%= l(audit.created_at, format: :long) %>
-        </td>
-        <td class="govuk-table__cell">
-          <div class="govuk-!-margin-0">
-            <div class="govuk-heading-m">
-              <%= audit_entry_event_label(audit) %>
-              <span class="govuk-caption-m"><%= audit_entry_user_label(audit) %></span>
-            </div>
-            <dl class="govuk-summary-list govuk-!-margin-bottom-0 govuk-!-font-size-16">
-              <% changes = audit.audited_changes.select { |_, values| audit_value_present?(values) } %>
-              <% changes.each_with_index do |(attr, values), index| %>
-                <% border_style = index + 1 == changes.size ? 'border: none' : ''  %>
-                <div class="govuk-summary-list__row govuk-!-margin-bottom-0">
-                  <dt class="govuk-summary-list__key" style="<%= border_style %>">
-                    <%= attr %>
-                  </dt>
-                  <dd class="govuk-summary-list__value" style="<%= border_style %>">
-                    <%= format_audit_value(values) %>
-                  </dd>
-                </div>
-              <% end %>
-            </dl>
-          </div>
-        </td>
-      </tr>
+    <% audits.each do |audit| %>
+      <%= render SupportInterface::AuditTrailItemComponent, audit: audit %>
     <% end %>
   </tbody>
 </table>
