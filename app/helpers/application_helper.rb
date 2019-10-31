@@ -43,8 +43,12 @@ module ApplicationHelper
     params[:controller].split('/').first
   end
 
-  def heading_for_gcse_edit(subject)
-    t("gcse_details.heading.#{subject}")
+  def heading_for_gcse_edit_type(subject)
+    t("gcse_edit_type.heading.#{subject}")
+  end
+
+  def heading_for_gcse_edit_details(subject)
+    t("gcse_edit_details.heading.#{subject}")
   end
 
   def heading_for_gcse_show(subject)
