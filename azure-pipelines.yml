@@ -72,7 +72,7 @@ stages:
     - script: |
         make ci.test
         test_result=$?
-        if [ "$test_result" == "0" ]; then true; else cat rspec-results.xml; false; fi
+        if [ "$test_result" == "0" ]; then true; else cat results/rspec-results.xml; false; fi
       displayName: 'Execute tests'
       env:
         dockerHubUsername: $(dockerHubUsername)
@@ -130,7 +130,7 @@ stages:
       condition: succeededOrFailed()
       inputs:
         testRunner: JUnit
-        testResultsFiles: 'rspec-results.xml'
+        testResultsFiles: 'results/*.xml'
 
 
 - stage: deploy_qa
