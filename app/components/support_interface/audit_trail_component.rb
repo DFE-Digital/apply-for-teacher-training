@@ -28,8 +28,6 @@ module SupportInterface
       end
     end
 
-  private
-
     def audit_entry_event_label(audit)
       "#{audit.action.capitalize} #{audit.auditable_type.titlecase}"
     end

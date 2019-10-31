@@ -82,4 +82,5 @@ en:
       meeting_conditions: 'Meeting conditions'
   time:
     formats:
-      long_with_seconds: "%B %d, %Y %H:%M:%S"
+      long: "%d %B %Y %H:%M"
+      long_with_seconds: "%d %B %Y %H:%M:%S"
