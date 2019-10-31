@@ -11,10 +11,10 @@
       <tr class="govuk-table__row gov uk-accordion__section">
         <td class="govuk-table__cell"><%= l(audit.created_at, format: :long_with_seconds) %></td>
         <td class="govuk-table__cell">
-          <details class="govuk-details govuk-!-margin-0" data-module="govuk-details">
-            <summary class="govuk-details__summary">
+          <div class="govuk-!-margin-0">
+            <div class="govuk-heading-s">
               <%= audit_entry_label(audit) %>
-            </summary>
+            </div>
             <div class="govuk-details__text">
               <dl class="govuk-summary-list--no-border">
                 <% audit.audited_changes.select { |_, values| audit_value_present?(values) }.each do |attr, values| %>
@@ -29,7 +29,7 @@
                 <% end %>
               </dl>
             </div>
-          </details>
+          </div>
         </td>
       </tr>
     <% end %>
