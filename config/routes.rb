@@ -46,7 +46,7 @@ Rails.application.routes.draw do
       end
 
       scope '/gcse/:subject' do
-        get '/' => 'gcse_details#edit', as: :gcse_details_edit
+        get '/' => 'gcse_details#edit_type', as: :gcse_details_edit_type
         patch '/' => 'gcse_details#update', as: :gcse_details_update
       end
 
