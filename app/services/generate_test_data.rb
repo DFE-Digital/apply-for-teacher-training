@@ -9,7 +9,7 @@ class GenerateTestData
     provider.application_choices.map(&:delete)
 
     number_of_candidates.times do
-      first_name = Faker::Name.first_name
+      first_name = Faker::Name.unique.first_name
       last_name = Faker::Name.unique.last_name
       candidate = FactoryBot.create(
         :candidate,
