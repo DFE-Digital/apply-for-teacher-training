@@ -68,8 +68,9 @@ ActiveRecord::Schema.define(version: 2019_11_01_092654) do
     t.string "support_reference", limit: 10
     t.string "disability_disclosure"
     t.string "uk_residency_status"
-    t.boolean "degrees_completed", default: false, null: false
     t.boolean "work_history_completed", default: false, null: false
+    t.text "work_history_explanation"
+    t.boolean "degrees_completed", default: false, null: false
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
   end
 
