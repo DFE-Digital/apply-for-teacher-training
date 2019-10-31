@@ -60,9 +60,11 @@ Rails.application.routes.draw do
         get '/review' => 'work_history#show', as: :work_history_show
       end
 
-      scope '/degree' do
+      scope '/degrees' do
         get '/' => 'degrees/base#new', as: :degrees_new_base
         post '/' => 'degrees/base#create', as: :degrees_create_base
+
+        get '/review' => 'degrees/base#index', as: :degrees
       end
     end
   end

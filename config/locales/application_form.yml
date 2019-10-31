@@ -78,6 +78,9 @@ en:
       complete_form_button: Save and continue
       working_with_children: This role involved working with children
     degree:
+      qualification:
+        label: Qualification
+        change_action: qualification
       qualification_type:
         label: Type of degree
         hint_text:
@@ -88,6 +91,8 @@ en:
         label: Institution where you studied
       grade:
         label: What class is your degree?
+        review_label: Grade
+        change_action: grade
         first:
           label: First
         upper_second:
@@ -108,8 +113,12 @@ en:
       award_year:
         label: Graduation year
         hint_text: You must have successfully graduated by the time you start your course.
+        review_label: Year awarded
+        change_action: year
       base:
         button: Save and continue
+      review:
+        button: Continue
   activemodel:
     errors:
       models:
