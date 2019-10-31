@@ -26,7 +26,7 @@ RSpec.describe SupportInterface::AuditTrailComponent do
   end
 
   it 'renders a create application form audit record' do
-    expect(render_result.text).to include('2019-10-01 12:00:00')
+    expect(render_result.text).to include('October 01, 2019 12:00:00')
     expect(render_result.text).to include('Create Application Form - bob@example.com (Candidate)')
     expect(render_result.text).to match(/candidate_id\s*#{candidate.id}/m)
   end
@@ -37,7 +37,7 @@ RSpec.describe SupportInterface::AuditTrailComponent do
         application_form.update(first_name: 'Bob')
       end
     end
-    expect(render_result.text).to include('2019-10-01 12:10:00')
+    expect(render_result.text).to include('October 01, 2019 12:10:00')
     expect(render_result.text).to include('Update Application Form - bob@example.com (Candidate)')
     expect(render_result.text).to match(/first_name\s*Robert → Bob/m)
   end
@@ -48,7 +48,7 @@ RSpec.describe SupportInterface::AuditTrailComponent do
         application_form.update(last_name: 'Roberts')
       end
     end
-    expect(render_result.text).to include('2019-10-01 12:10:00')
+    expect(render_result.text).to include('October 01, 2019 12:10:00')
     expect(render_result.text).to include('Update Application Form - alice@example.com (Vendor API)')
     expect(render_result.text).to match(/last_name\s*nil → Roberts/m)
   end
