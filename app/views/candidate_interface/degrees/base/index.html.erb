@@ -7,4 +7,6 @@
 
 <%= render(DegreesReviewComponent, application_form: @application_form) %>
 
+<%= govuk_button_link_to t('application_form.degree.another.button'), candidate_interface_degrees_new_base_path, class: 'govuk-button--secondary' %>
+<br>
 <%= govuk_button_link_to t('application_form.degree.review.button'), candidate_interface_application_form_path %>

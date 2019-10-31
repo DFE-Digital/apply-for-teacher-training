@@ -6,6 +6,8 @@ module CandidateInterface
 
     def new
       @degree = DegreesForm.new
+
+      render_new
     end
 
     def create
@@ -15,7 +17,7 @@ module CandidateInterface
       if @degree.save_base(application_form)
         redirect_to candidate_interface_degrees_path
       else
-        render :new
+        render_new
       end
     end
 
@@ -26,6 +28,16 @@ module CandidateInterface
         :qualification_type, :subject, :institution_name, :grade, :other_grade,
         :predicted_grade, :award_year
       )
+    end
+
+    def render_new
+      degrees = DegreesForm.build_from_application(current_candidate.current_application)
+
+      if degrees.count.zero?
+        render :new_undergraduate
+      else
+        render :new_another
+      end
     end
   end
 end

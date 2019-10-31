@@ -1,0 +1,21 @@
+<% content_for :title, page_title(:add_another_degree) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @degree, url: candidate_interface_degrees_create_base_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+          <h1 class="govuk-fieldset__heading">
+            <%= t('page_titles.add_another_degree') %>
+          </h1>
+        </legend>
+
+        <%= f.govuk_text_field :qualification_type, label: { text: t('application_form.degree.qualification_type.label'), size: 'm' }, hint_text: t('application_form.degree.qualification_type.hint_text.another') %>
+        <%= render 'form', f: f %>
+      </fieldset>
+    <% end %>
+  </div>
+</div>
