@@ -35,7 +35,11 @@
         <% end %>
       </li>
       <li class="app-task-list__item">
-        <%= govuk_link_to t('page_titles.work_history'), candidate_interface_work_history_length_path, class: 'app-task-list__task-name' %>
+        <% if @application_form_presenter.work_experience_added? %>
+          <%= govuk_link_to t('page_titles.work_history'), candidate_interface_work_history_show_path, class: 'app-task-list__task-name' %>
+        <% else %>
+          <%= govuk_link_to t('page_titles.work_history'), candidate_interface_work_history_length_path, class: 'app-task-list__task-name' %>
+        <% end %>
       </li>
       <li class="app-task-list__item">
         <%= govuk_link_to 'TODO: School experience and volunteering', '#', class: 'app-task-list__task-name' %>
