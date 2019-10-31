@@ -18,12 +18,12 @@ module CandidateInterface
       contact_details.valid?(:base) && contact_details.valid?(:address)
     end
 
-    def work_experience_added?
-      @application_form.application_work_experiences.any?
-    end
-
     def work_experience_completed?
       @application_form.work_history_completed
+    end
+
+    def work_experience_path
+      @application_form.application_work_experiences.any? ? Rails.application.routes.url_helpers.candidate_interface_work_history_show_path : Rails.application.routes.url_helpers.candidate_interface_work_history_length_path
     end
   end
 end

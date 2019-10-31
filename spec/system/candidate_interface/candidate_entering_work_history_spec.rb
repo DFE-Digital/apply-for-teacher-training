@@ -139,7 +139,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_mark_this_section_as_completed
-    check t('application_form.work_history.review.i_have_completed')
+    check t('application_form.work_history.review.completed_checkbox')
   end
 
   def and_i_click_on_continue
@@ -147,7 +147,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def then_i_should_see_the_form
-    expect(page).to have_content(t('page_titles.personal_details'))
+    expect(page).to have_content(t('page_titles.application_form'))
   end
 
   def and_that_the_section_is_completed
