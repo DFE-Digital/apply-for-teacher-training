@@ -23,21 +23,20 @@ class ApplicationStateChange
                                 unless: :references_complete?
     end
 
+    state :awaiting_references do
+      event :receive_references, transitions_to: :application_complete
+    end
+
     state :application_complete do
-      event :make_conditional_offer, transitions_to: :conditional_offer
-      event :make_unconditional_offer, transitions_to: :unconditional_offer
+      event :make_offer, transitions_to: :offer
       event :reject_application, transitions_to: :rejected
     end
 
-    state :conditional_offer do
-      event :accept, transitions_to: :meeting_conditions
+    state :offer do
+      event :accept, transitions_to: :awaiting_conditions
     end
 
-    state :unconditional_offer do
-      event :accept, transitions_to: :recruited
-    end
-
-    state :meeting_conditions do
+    state :awaiting_conditions do
       event :confirm_conditions_met, transitions_to: :recruited
     end
 
