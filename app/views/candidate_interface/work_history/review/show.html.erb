@@ -2,7 +2,7 @@
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
 <h1 class="govuk-heading-xl">
-  Work history
+  <%= page_title('work_history') %>
 </h1>
 
 <%= render(WorkHistoryReviewComponent, application_form: @application_form) %>
