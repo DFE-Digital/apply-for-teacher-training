@@ -33,6 +33,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
     it { is_expected.to validate_length_of(:qualification_type).is_at_most(255) }
     it { is_expected.to validate_length_of(:subject).is_at_most(255) }
     it { is_expected.to validate_length_of(:institution_name).is_at_most(255) }
+    it { is_expected.to validate_length_of(:grade).is_at_most(255) }
     it { is_expected.to validate_length_of(:other_grade).is_at_most(255) }
     it { is_expected.to validate_length_of(:predicted_grade).is_at_most(255) }
 

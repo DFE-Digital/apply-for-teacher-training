@@ -10,7 +10,7 @@ module CandidateInterface
     validates :predicted_grade, presence: true, if: :predicted_grade?
     validates :award_year, presence: true
 
-    validates :qualification_type, :subject, :institution_name, length: { maximum: 255 }
+    validates :qualification_type, :subject, :institution_name, :grade, length: { maximum: 255 }
     validates :other_grade, :predicted_grade, length: { maximum: 255 }
 
     validate :award_year_is_date, if: :award_year

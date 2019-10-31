@@ -172,10 +172,13 @@ en:
               too_long: The institution where you studied must be %{count} characters or fewer
             grade:
               blank: Enter the class of your degree
+              too_long: The class of your degree must be %{count} characters or fewer
             other_grade:
               blank: Enter your degree grade
+              too_long: Your degree grade must be %{count} characters or fewer
             predicted_grade:
               blank: Enter your predicted grade
+              too_long: Your predicted grade must be %{count} characters or fewer
             award_year:
               blank: Enter your graduation year
               invalid: Enter a real graduation year
