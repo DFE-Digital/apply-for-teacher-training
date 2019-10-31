@@ -60,6 +60,7 @@ Rails.application.routes.draw do
         post '/edit/:id' => 'work_history/edit#update'
 
         get '/review' => 'work_history/review#show', as: :work_history_show
+        patch '/review' => 'work_history/review#complete', as: :work_history_complete
 
         get '/delete/:id' => 'work_history/destroy#confirm_destroy', as: :work_history_destroy
         delete '/delete/:id' => 'work_history/destroy#destroy'

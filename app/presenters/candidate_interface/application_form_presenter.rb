@@ -21,5 +21,9 @@ module CandidateInterface
     def work_experience_added?
       @application_form.application_work_experiences.any?
     end
+
+    def work_experience_completed?
+      @application_form.work_history_completed
+    end
   end
 end

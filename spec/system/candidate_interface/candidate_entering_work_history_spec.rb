@@ -31,6 +31,11 @@ RSpec.feature 'Entering their work history' do
     when_i_click_on_change
     and_i_change_the_job_title
     then_i_should_see_my_updated_job
+
+    when_i_mark_this_section_as_completed
+    and_i_click_on_continue
+    then_i_should_see_the_form
+    and_that_the_section_is_completed
   end
 
   def given_i_am_not_signed_in; end
@@ -131,5 +136,21 @@ RSpec.feature 'Entering their work history' do
 
   def then_i_should_see_my_updated_job
     expect(page).to have_content('Chief Executive Officer')
+  end
+
+  def when_i_mark_this_section_as_completed
+    check t('application_form.work_history.review.i_have_completed')
+  end
+
+  def and_i_click_on_continue
+    click_button t('application_form.work_history.review.button')
+  end
+
+  def then_i_should_see_the_form
+    expect(page).to have_content(t('page_titles.personal_details'))
+  end
+
+  def and_that_the_section_is_completed
+    expect(page).to have_css('#work-history-completed', text: 'Completed')
   end
 end

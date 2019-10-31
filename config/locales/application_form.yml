@@ -80,6 +80,9 @@ en:
       delete_entry: Delete entry
       add_job: Add job
       sure_delete_entry: Yes I’m sure - delete this entry
+      review:
+        i_have_completed: I have completed this section
+        button: Continue
     degree:
       qualification:
         label: Qualification
