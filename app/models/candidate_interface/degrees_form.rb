@@ -22,6 +22,7 @@ module CandidateInterface
           subject: degree.subject,
           institution_name: degree.institution_name,
           grade: degree.grade,
+          predicted_grade: degree.predicted_grade,
           award_year: degree.award_year,
         )
       end
@@ -35,7 +36,8 @@ module CandidateInterface
         qualification_type: qualification_type,
         subject: subject,
         institution_name: institution_name,
-        grade: grade,
+        grade: determine_grade,
+        predicted_grade: predicted_grade? ? true : false,
         award_year: award_year,
       )
 
@@ -55,6 +57,17 @@ module CandidateInterface
     def award_year_is_date
       valid_award_year = award_year.match(/^[1-9]\d{3}$/)
       errors.add(:award_year, :invalid) unless valid_award_year
+    end
+
+    def determine_grade
+      case grade
+      when 'other'
+        other_grade
+      when 'predicted'
+        predicted_grade
+      else
+        grade
+      end
     end
   end
 end
