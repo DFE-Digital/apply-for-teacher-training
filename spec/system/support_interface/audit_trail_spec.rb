@@ -66,19 +66,22 @@ RSpec.feature 'See applications' do
 
   def then_i_should_be_able_to_see_history_events
     within('tbody tr:eq(1)') do
-      expect(page).to have_content 'October 02, 2019 12:00:00'
-      expect(page).to have_content 'Update Application Choice - bob@example.com (Vendor API)'
+      expect(page).to have_content '02 October 2019 12:00'
+      expect(page).to have_content 'Update Application Choice'
+      expect(page).to have_content 'bob@example.com (Vendor API)'
       expect(page).to have_content 'status application_complete → rejected'
     end
     within('tbody tr:eq(2)') do
-      expect(page).to have_content 'October 01, 2019 12:00:01'
-      expect(page).to have_content 'Create Application Choice - alice@example.com (Candidate)'
+      expect(page).to have_content '01 October 2019 12:00'
+      expect(page).to have_content 'Create Application Choice'
+      expect(page).to have_content 'alice@example.com (Candidate)'
       expect(page).to have_content 'status application_complete'
       expect(page).to have_content 'personal_statement hello'
     end
     within('tbody tr:eq(3)') do
-      expect(page).to have_content 'October 01, 2019 12:00:00'
-      expect(page).to have_content 'Create Application Form - alice@example.com (Candidate)'
+      expect(page).to have_content '01 October 2019 12:00'
+      expect(page).to have_content 'Create Application Form'
+      expect(page).to have_content 'alice@example.com (Candidate)'
       expect(page).to have_content 'first_name Alice'
       expect(page).to have_content 'last_name Wunder'
     end
