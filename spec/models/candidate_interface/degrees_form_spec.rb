@@ -64,6 +64,81 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
     end
   end
 
+  describe '.build_from_application' do
+    it 'creates an array of objects based on the provided ApplicationForm' do
+      application_form = create(:application_form) do |form|
+        form.application_qualifications.create(
+          level: 'degree',
+          qualification_type: 'BA',
+          subject: 'Woof',
+          institution_name: 'University of Doge',
+          grade: 'first',
+          award_year: '2008',
+        )
+        form.application_qualifications.create(
+          level: 'degree',
+          qualification_type: 'BA',
+          subject: 'Meow',
+          institution_name: 'University of Cate',
+          grade: 'upper_second',
+          award_year: '2010',
+        )
+      end
+
+      degrees = CandidateInterface::DegreesForm.build_from_application(application_form)
+
+      expect(degrees).to match_array([
+        have_attributes(
+          qualification_type: 'BA',
+          subject: 'Woof',
+          institution_name: 'University of Doge',
+          grade: 'first',
+          award_year: '2008',
+        ),
+        have_attributes(
+          qualification_type: 'BA',
+          subject: 'Meow',
+          institution_name: 'University of Cate',
+          grade: 'upper_second',
+          award_year: '2010',
+        ),
+      ])
+    end
+
+    it 'only includes degrees and not other qualifications' do
+      application_form = create(:application_form) do |form|
+        form.application_qualifications.create(
+          level: 'degree',
+          qualification_type: 'BA',
+          subject: 'Ssss',
+          institution_name: 'University of Snek',
+          grade: 'third',
+          award_year: '2010',
+        )
+        form.application_qualifications.create(
+          level: 'gcse',
+          qualification_type: 'GCSE',
+          subject: 'Hoot',
+          institution_name: 'School of Owls',
+          grade: 'A',
+          award_year: '2005',
+        )
+      end
+
+      degrees = CandidateInterface::DegreesForm.build_from_application(application_form)
+
+      expect(degrees).to match_array([
+        have_attributes(
+          qualification_type: 'BA',
+          subject: 'Ssss',
+          institution_name: 'University of Snek',
+          grade: 'third',
+          award_year: '2010',
+        ),
+      ])
+    end
+  end
+
   describe '#save_base' do
     it 'returns false if not valid' do
       degree = CandidateInterface::DegreesForm.new
@@ -74,7 +149,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
     it 'updates the provided ApplicationForm if valid' do
       form_data = {
         qualification_type: 'BA',
-        subject: 'maths',
+        subject: 'Doge',
         institution_name: 'University of Much Wow',
         grade: 'first',
         award_year: '2008',

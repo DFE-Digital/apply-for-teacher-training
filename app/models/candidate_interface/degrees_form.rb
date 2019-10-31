@@ -15,6 +15,18 @@ module CandidateInterface
 
     validate :award_year_is_date, if: :award_year
 
+    def self.build_from_application(application_form)
+      application_form.application_qualifications.degrees.map do |degree|
+        new(
+          qualification_type: degree.qualification_type,
+          subject: degree.subject,
+          institution_name: degree.institution_name,
+          grade: degree.grade,
+          award_year: degree.award_year,
+        )
+      end
+    end
+
     def save_base(application_form)
       return false unless valid?
 

@@ -31,6 +31,7 @@ FactoryBot.define do
         application_choices_count { 3 }
         work_experiences_count { 1 }
         volunteering_experiences_count { 1 }
+        qualifications_count { 4 }
       end
     end
 
@@ -39,6 +40,7 @@ FactoryBot.define do
         create_list(:application_choice, evaluator.application_choices_count, application_form: application_form)
         create_list(:application_work_experience, evaluator.work_experiences_count, application_form: application_form)
         create_list(:application_volunteering_experience, evaluator.volunteering_experiences_count, application_form: application_form)
+        create_list(:application_qualification, evaluator.qualifications_count, application_form: application_form)
       end
     end
   end
@@ -55,6 +57,20 @@ FactoryBot.define do
 
   factory :application_volunteering_experience, parent: :application_experience, class: 'ApplicationVolunteeringExperience'
   factory :application_work_experience, parent: :application_experience, class: 'ApplicationWorkExperience'
+
+  factory :application_qualification do
+    level { %w[degree gcse other].sample }
+    qualification_type { %w[BA Masters A-Level GCSE].sample }
+    subject { Faker::Educator.subject }
+
+    grade { %w[first upper_second A B].sample }
+    predicted_grade { %w[true false].sample }
+    award_year { Faker::Date.between(from: 60.years.ago, to: 3.years.from_now).year }
+    institution_name { Faker::Educator.university }
+    institution_country { Faker::Address.country_code }
+    awarding_body { Faker::Educator.university }
+    equivalency_details { Faker::Lorem.paragraph_by_chars(number: 200) }
+  end
 
   factory :site do
     provider
