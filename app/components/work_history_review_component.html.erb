@@ -13,7 +13,7 @@
         <% end %>
       </h3>
       <div class="app-summary-card__actions">
-        <%= govuk_link_to t('application_form.work_history.delete_entry'), candidate_interface_work_history_destroy_path(work.id) %>
+        <%= link_to t('application_form.work_history.delete_entry'), candidate_interface_work_history_destroy_path(work.id), class: 'govuk-link' %>
       </div>
     </header>
   <% end %>
