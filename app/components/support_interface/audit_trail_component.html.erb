@@ -9,7 +9,7 @@
   <tbody class="govuk-table__body">
     <% @application_form.audits.each do |audit| %>
       <tr class="govuk-table__row gov uk-accordion__section">
-        <td class="govuk-table__cell"><%= audit.created_at.to_s(:db) %></td>
+        <td class="govuk-table__cell"><%= l(audit.created_at, format: :long_with_seconds) %></td>
         <td class="govuk-table__cell">
           <details class="govuk-details govuk-!-margin-0" data-module="govuk-details">
             <summary class="govuk-details__summary">
