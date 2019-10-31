@@ -1,5 +1,9 @@
 module CandidateInterface
   class Degrees::BaseController < CandidateInterfaceController
+    def index
+      @application_form = current_candidate.current_application
+    end
+
     def new
       @degree = DegreesForm.new
     end
@@ -8,7 +12,11 @@ module CandidateInterface
       @degree = DegreesForm.new(degrees_params)
       application_form = current_candidate.current_application
 
-      render :new unless @degree.save_base(application_form)
+      if @degree.save_base(application_form)
+        redirect_to candidate_interface_degrees_path
+      else
+        render :new
+      end
     end
 
   private

@@ -10,10 +10,23 @@ module CandidateInterface
     validates :predicted_grade, presence: true, if: :predicted_grade?
     validates :award_year, presence: true
 
-    validates :qualification_type, :subject, :institution_name, length: { maximum: 255 }
+    validates :qualification_type, :subject, :institution_name, :grade, length: { maximum: 255 }
     validates :other_grade, :predicted_grade, length: { maximum: 255 }
 
     validate :award_year_is_date, if: :award_year
+
+    def self.build_from_application(application_form)
+      application_form.application_qualifications.degrees.map do |degree|
+        new(
+          qualification_type: degree.qualification_type,
+          subject: degree.subject,
+          institution_name: degree.institution_name,
+          grade: degree.grade,
+          predicted_grade: degree.predicted_grade,
+          award_year: degree.award_year,
+        )
+      end
+    end
 
     def save_base(application_form)
       return false unless valid?
@@ -23,7 +36,8 @@ module CandidateInterface
         qualification_type: qualification_type,
         subject: subject,
         institution_name: institution_name,
-        grade: grade,
+        grade: determine_grade,
+        predicted_grade: predicted_grade? ? true : false,
         award_year: award_year,
       )
 
@@ -43,6 +57,17 @@ module CandidateInterface
     def award_year_is_date
       valid_award_year = award_year.match(/^[1-9]\d{3}$/)
       errors.add(:award_year, :invalid) unless valid_award_year
+    end
+
+    def determine_grade
+      case grade
+      when 'other'
+        other_grade
+      when 'predicted'
+        predicted_grade
+      else
+        grade
+      end
     end
   end
 end

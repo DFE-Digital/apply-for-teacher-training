@@ -1,0 +1,9 @@
+<% @degrees_form.each do |degree_form| %>
+  <%= render(SummaryCardComponent, rows: degree_form_rows(degree_form)) do %>
+    <header class="app-summary-card__header">
+      <h3 class="app-summary-card__title">
+        <%= formatted_degree_title(degree_form.qualification_type, degree_form.subject) %>
+      </h3>
+    </header>
+  <% end %>
+<% end %>

@@ -33,6 +33,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
     it { is_expected.to validate_length_of(:qualification_type).is_at_most(255) }
     it { is_expected.to validate_length_of(:subject).is_at_most(255) }
     it { is_expected.to validate_length_of(:institution_name).is_at_most(255) }
+    it { is_expected.to validate_length_of(:grade).is_at_most(255) }
     it { is_expected.to validate_length_of(:other_grade).is_at_most(255) }
     it { is_expected.to validate_length_of(:predicted_grade).is_at_most(255) }
 
@@ -63,7 +64,94 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
     end
   end
 
+  describe '.build_from_application' do
+    it 'creates an array of objects based on the provided ApplicationForm' do
+      application_form = create(:application_form) do |form|
+        form.application_qualifications.create(
+          level: 'degree',
+          qualification_type: 'BA',
+          subject: 'Woof',
+          institution_name: 'University of Doge',
+          grade: 'first',
+          predicted_grade: false,
+          award_year: '2008',
+        )
+        form.application_qualifications.create(
+          level: 'degree',
+          qualification_type: 'BA',
+          subject: 'Meow',
+          institution_name: 'University of Cate',
+          grade: 'upper_second',
+          predicted_grade: true,
+          award_year: '2010',
+        )
+      end
+
+      degrees = CandidateInterface::DegreesForm.build_from_application(application_form)
+
+      expect(degrees).to match_array([
+        have_attributes(
+          qualification_type: 'BA',
+          subject: 'Woof',
+          institution_name: 'University of Doge',
+          grade: 'first',
+          award_year: '2008',
+        ),
+        have_attributes(
+          qualification_type: 'BA',
+          subject: 'Meow',
+          institution_name: 'University of Cate',
+          grade: 'upper_second',
+          award_year: '2010',
+        ),
+      ])
+    end
+
+    it 'only includes degrees and not other qualifications' do
+      application_form = create(:application_form) do |form|
+        form.application_qualifications.create(
+          level: 'degree',
+          qualification_type: 'BA',
+          subject: 'Ssss',
+          institution_name: 'University of Snek',
+          grade: 'third',
+          award_year: '2010',
+        )
+        form.application_qualifications.create(
+          level: 'gcse',
+          qualification_type: 'GCSE',
+          subject: 'Hoot',
+          institution_name: 'School of Owls',
+          grade: 'A',
+          award_year: '2005',
+        )
+      end
+
+      degrees = CandidateInterface::DegreesForm.build_from_application(application_form)
+
+      expect(degrees).to match_array([
+        have_attributes(
+          qualification_type: 'BA',
+          subject: 'Ssss',
+          institution_name: 'University of Snek',
+          grade: 'third',
+          award_year: '2010',
+        ),
+      ])
+    end
+  end
+
   describe '#save_base' do
+    let(:form_data) do
+      {
+        qualification_type: 'BA',
+        subject: 'Doge',
+        institution_name: 'University of Much Wow',
+        grade: 'first',
+        award_year: '2008',
+      }
+    end
+
     it 'returns false if not valid' do
       degree = CandidateInterface::DegreesForm.new
 
@@ -71,19 +159,34 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
     end
 
     it 'updates the provided ApplicationForm if valid' do
-      form_data = {
-        qualification_type: 'BA',
-        subject: 'maths',
-        institution_name: 'University of Much Wow',
-        grade: 'first',
-        award_year: '2008',
-      }
       application_form = create(:application_form)
       degree = CandidateInterface::DegreesForm.new(form_data)
 
       expect(degree.save_base(application_form)).to eq(true)
       expect(application_form.application_qualifications.degree.first)
         .to have_attributes(form_data)
+    end
+
+    it 'updates grade for the provided ApplicationForm if other grade is given' do
+      form_data[:grade] = 'other'
+      form_data[:other_grade] = 'Distinction'
+      application_form = create(:application_form)
+      degree = CandidateInterface::DegreesForm.new(form_data)
+
+      expect(degree.save_base(application_form)).to eq(true)
+      expect(application_form.application_qualifications.degree.first)
+        .to have_attributes(grade: 'Distinction')
+    end
+
+    it 'updates grade and predicted grade for the provided ApplicationForm if predicted grade is given' do
+      form_data[:grade] = 'predicted'
+      form_data[:predicted_grade] = 'First'
+      application_form = create(:application_form)
+      degree = CandidateInterface::DegreesForm.new(form_data)
+
+      expect(degree.save_base(application_form)).to eq(true)
+      expect(application_form.application_qualifications.degree.first)
+        .to have_attributes(grade: 'First', predicted_grade: true)
     end
   end
 end
