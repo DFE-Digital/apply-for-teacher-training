@@ -10,7 +10,7 @@ class GenerateTestData
 
     number_of_candidates.times do
       first_name = Faker::Name.first_name
-      last_name = Faker::Name.last_name
+      last_name = Faker::Name.unique.last_name
       candidate = FactoryBot.create(
         :candidate,
         email_address: "#{first_name.downcase}.#{last_name.downcase}@example.com",
