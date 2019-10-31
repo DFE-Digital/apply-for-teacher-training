@@ -87,7 +87,8 @@ en:
       qualification_type:
         label: Type of degree
         hint_text:
-          new: For example, BA, BSc or other (please specify)
+          undergraduate: For example, BA, BSc or other (please specify)
+          another: For example, Masters, PhD, or other (please specify)
       subject:
         label: Subject of degree
       institution_name:
@@ -122,6 +123,8 @@ en:
         button: Save and continue
       review:
         button: Continue
+      another:
+        button: Add another degree
   activemodel:
     errors:
       models:
