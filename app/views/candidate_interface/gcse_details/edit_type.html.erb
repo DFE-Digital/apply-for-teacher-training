@@ -12,7 +12,7 @@
 
       <%= f.govuk_radio_buttons_fieldset :qualification_type, legend: { size: 'm', text: 'Type of qualification' } do %>
         <% select_gcse_qualification_type_options.each do |option| %>
-          <%= f.govuk_radio_button :level, option.id, label: { text: option.label } %>
+          <%= f.govuk_radio_button :qualification_type, option.id, label: { text: option.label } %>
         <% end %>
 
       <% end %>

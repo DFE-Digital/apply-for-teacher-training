@@ -3,15 +3,24 @@ module CandidateInterface
     def edit_type
       subject = params[:subject]
 
-      @application_qualification = ApplicationQualification.new(subject: subject)
-
-
+      @application_qualification = GcseQualificationTypeForm .new(qualification_type: '',  subject: subject,  level: 'gcse')
     end
 
     def update_type
-      @application_qualification = ApplicationQualification.create(subject: params[:subject], application_form: current_candidate.current_application, level: 'gcse')
+      subject = params[:subject]
 
-      redirect_to candidate_interface_gcse_details_edit_details_path
+      @application_qualification = GcseQualificationTypeForm
+                                     .new(qualification_type: (params[:candidate_interface_gcse_qualification_type_form] || {}).fetch(:qualification_type, ''),
+                                          subject: subject,
+                                          level: 'gcse')
+
+      application_form = current_candidate.current_application
+
+      if @application_qualification.save_base(application_form)
+        redirect_to candidate_interface_gcse_details_edit_details_path
+      else
+        render :edit_type
+      end
     end
 
     def edit_details
@@ -27,7 +36,6 @@ module CandidateInterface
     end
 
     def review
-
       @application_qualification = ApplicationQualification.last
 
       render :review

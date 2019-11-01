@@ -12,14 +12,32 @@ RSpec.feature 'Candidate entering GCSE details' do
 
     when_i_select_gcse_option
 
+    and_i_click_save_and_continue
 
-    then_i_see_the_edit_details_page
+    then_i_see_add_grade_and_year_page
 
-    when_i_fill_in_grade_and_year
+    # then_i_see_the_edit_details_page
 
-
-    then_i_see_the_review_for_maths_gcse
+    # when_i_fill_in_grade_and_year
+    #
+    # then_i_see_the_review_for_maths_gcse
+    # and_i_see_correct_grade_and_awarded_year
   end
+
+  scenario 'Candidate does not provide a qualification level' do
+    given_i_am_signed_in
+    and_i_visit_the_candidate_application_page
+    and_i_click_on_the_maths_gcse_link
+
+    then_i_see_the_add_gcse_maths_page
+
+    and_i_do_not_select_any_gcse_option
+
+    and_i_click_save_and_continue
+
+    expect(page).to have_content "can't be blank"
+  end
+
 
   xscenario 'Candidate submits their english GCSE details' do
     given_i_am_signed_in
@@ -51,6 +69,12 @@ RSpec.feature 'Candidate entering GCSE details' do
     click_button 'Save and continue'
   end
 
+  def and_i_click_save_and_continue
+    click_button 'Save and continue'
+  end
+
+  def and_i_do_not_select_any_gcse_option; end
+
   def then_i_see_the_review_for_maths_gcse
     expect(page).to have_content 'Maths GCSE or equivalent'
   end
@@ -73,6 +97,16 @@ RSpec.feature 'Candidate entering GCSE details' do
 
   def then_i_see_the_edit_details_page
     expect(page).to have_content t('gcse_edit_details.heading.maths')
+  end
+
+
+  def and_i_see_correct_grade_and_awarded_year
+    expect(page).to have_content 'AB'
+    expect(page).to have_content '1990'
+  end
+
+  def then_i_see_add_grade_and_year_page
+    expect(page).to have_content 'Add grade and year of your maths qualification'
   end
 
   def when_i_fill_in_grade_and_year
