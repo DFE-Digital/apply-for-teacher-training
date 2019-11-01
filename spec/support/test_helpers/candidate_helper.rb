@@ -30,6 +30,16 @@ module CandidateHelper
     fill_in t('application_form.contact_details.postcode.label'), with: 'SW1P 3BT'
   end
 
+  def candidate_fills_in_their_degree
+    fill_in t('application_form.degree.qualification_type.label'), with: 'BA'
+    fill_in t('application_form.degree.subject.label'), with: 'Doge'
+    fill_in t('application_form.degree.institution_name.label'), with: 'University of Much Wow'
+
+    choose t('application_form.degree.grade.first.label')
+
+    fill_in t('application_form.degree.award_year.label'), with: '2009'
+  end
+
   def current_candidate
     @current_candidate ||= create(:candidate)
   end
