@@ -19,9 +19,9 @@ class WorkHistoryReviewComponent < ActionView::Component::Base
     [
       {
         key: 'Explanation of why you’ve been out of the workplace',
-        value: 'Not entered',
+        value: @application_form.work_history_explanation,
         action: 'explanation',
-        change_path: '#',
+        change_path: candidate_interface_work_history_explanation_path,
       },
     ]
   end

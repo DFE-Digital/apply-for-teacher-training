@@ -8,7 +8,11 @@ module CandidateInterface
       @work_details_form = WorkHistoryForm.new(work_history_form_params)
 
       if @work_details_form.valid?
-        redirect_to candidate_interface_work_history_new_path
+        if @work_details_form.work_history == 'missing'
+          redirect_to candidate_interface_work_history_explanation_path
+        else
+          redirect_to candidate_interface_work_history_new_path
+        end
       else
         render :length
       end

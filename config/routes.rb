@@ -54,6 +54,9 @@ Rails.application.routes.draw do
         get '/length' => 'work_history/length#show', as: :work_history_length
         post '/length' => 'work_history/length#submit'
 
+        get '/missing' => 'work_history/explanation#show', as: :work_history_explanation
+        post '/missing' => 'work_history/explanation#submit'
+
         get '/new' => 'work_history/edit#new', as: :work_history_new
         post '/create' => 'work_history/edit#create', as: :work_history_create
         get '/edit/:id' => 'work_history/edit#edit', as: :work_history_edit
