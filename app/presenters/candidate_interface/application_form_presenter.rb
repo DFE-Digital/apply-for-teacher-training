@@ -25,5 +25,13 @@ module CandidateInterface
     def work_experience_path
       @application_form.application_work_experiences.any? ? Rails.application.routes.url_helpers.candidate_interface_work_history_show_path : Rails.application.routes.url_helpers.candidate_interface_work_history_length_path
     end
+
+    def degrees_completed?
+      @application_form.degrees_completed
+    end
+
+    def degrees_added?
+      @application_form.application_qualifications.degrees.any?
+    end
   end
 end
