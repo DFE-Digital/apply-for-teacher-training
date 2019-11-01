@@ -7,6 +7,7 @@ RSpec.feature 'Candidate reviews the answers' do
     given_i_am_signed_in
     and_i_filled_in_personal_details
     and_i_filled_in_contact_details
+    and_i_filled_in_degrees
     and_i_visit_the_application_form_page
 
     when_i_click_on_check_your_answers
@@ -14,6 +15,7 @@ RSpec.feature 'Candidate reviews the answers' do
     then_i_can_review_my_application
     and_i_can_see_my_personal_details
     and_i_can_see_my_contact_details
+    and_i_can_see_my_degree
   end
 
   def given_i_am_signed_in
@@ -32,6 +34,13 @@ RSpec.feature 'Candidate reviews the answers' do
     candidate_fills_in_contact_details
 
     click_button t('application_form.contact_details.address.button')
+  end
+
+  def and_i_filled_in_degrees
+    visit candidate_interface_degrees_new_base_path
+    candidate_fills_in_their_degree
+
+    click_button t('application_form.degree.base.button')
   end
 
   def and_i_visit_the_application_form_page
@@ -58,5 +67,12 @@ RSpec.feature 'Candidate reviews the answers' do
     expect(page).to have_content '42 Much Wow Street'
     expect(page).to have_content 'London'
     expect(page).to have_content 'SW1P 3BT'
+  end
+
+  def and_i_can_see_my_degree
+    expect(page).to have_content 'BA Doge'
+    expect(page).to have_content 'University of Much Wow'
+    expect(page).to have_content 'First'
+    expect(page).to have_content '2009'
   end
 end

@@ -52,7 +52,14 @@
     </h2>
     <ol class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">
-        <%= govuk_link_to t('page_titles.degree'), candidate_interface_degrees_new_base_path, class: 'app-task-list__task-name' %>
+        <% if @application_form_presenter.degrees_completed? %>
+          <%= govuk_link_to t('page_titles.degree'), candidate_interface_degrees_review_path, class: 'app-task-list__task-name', 'aria-describedby': 'contact-details-completed' %>
+          <strong class="govuk-tag app-task-list__task-completed" id="degrees-completed">Completed</strong>
+        <% elsif @application_form_presenter.degrees_added? %>
+          <%= govuk_link_to t('page_titles.degree'), candidate_interface_degrees_review_path, class: 'app-task-list__task-name' %>
+        <% else %>
+          <%= govuk_link_to t('page_titles.degree'), candidate_interface_degrees_new_base_path, class: 'app-task-list__task-name' %>
+        <% end %>
       </li>
       <li class="app-task-list__item">
         <%= govuk_link_to 'Maths GCSE or equivalent', candidate_interface_gcse_details_edit_path(subject: :maths), class: 'app-task-list__task-name' %>

@@ -70,7 +70,8 @@ Rails.application.routes.draw do
         get '/' => 'degrees/base#new', as: :degrees_new_base
         post '/' => 'degrees/base#create', as: :degrees_create_base
 
-        get '/review' => 'degrees/base#index', as: :degrees
+        get '/review' => 'degrees/review#show', as: :degrees_review
+        patch '/review' => 'degrees/review#complete', as: :degrees_complete
       end
     end
   end

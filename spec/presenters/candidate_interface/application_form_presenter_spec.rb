@@ -33,6 +33,48 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
+  describe '#degrees_completed?' do
+    it 'returns true if degrees section is completed' do
+      application_form = FactoryBot.build(:application_form, degrees_completed: true)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_degrees_completed
+    end
+
+    it 'returns false if degrees section is incomplete' do
+      application_form = FactoryBot.build(:application_form, degrees_completed: false)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_degrees_completed
+    end
+  end
+
+  describe '#degrees_added?' do
+    it 'returns true if degrees have been added' do
+      application_form = create(:application_form) do |form|
+        form.application_qualifications.create(
+          level: 'degree',
+          qualification_type: 'BA',
+          subject: 'Woof',
+          institution_name: 'University of Doge',
+          grade: 'first',
+          predicted_grade: false,
+          award_year: '2008',
+        )
+      end
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_degrees_added
+    end
+
+    it 'returns false if no degrees are added' do
+      application_form = FactoryBot.create(:application_form)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_degrees_added
+    end
+  end
+
   describe '#application_choices_added?' do
     it 'returns true if application choices are added' do
       application_form = FactoryBot.build(:completed_application_form)
