@@ -8,5 +8,12 @@
 <%= render(DegreesReviewComponent, application_form: @application_form) %>
 
 <%= govuk_button_link_to t('application_form.degree.another.button'), candidate_interface_degrees_new_base_path, class: 'govuk-button--secondary' %>
-<br>
-<%= govuk_button_link_to t('application_form.degree.review.button'), candidate_interface_application_form_path %>
+
+<%= form_with model: @application_form, url: candidate_interface_degrees_complete_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+  <div class='govuk-form-group'>
+    <%= f.hidden_field :degrees_completed, value: false %>
+    <%= f.govuk_check_box :degrees_completed, true, multiple: false, label: { text: t('application_form.degree.review.completed_checkbox') } %>
+  </div>
+
+  <%= f.govuk_submit t('application_form.degree.review.button') %>
+<% end %>

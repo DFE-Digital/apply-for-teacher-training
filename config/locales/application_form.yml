@@ -125,6 +125,7 @@ en:
       base:
         button: Save and continue
       review:
+        completed_checkbox: I have completed this section
         button: Continue
       another:
         button: Add another degree

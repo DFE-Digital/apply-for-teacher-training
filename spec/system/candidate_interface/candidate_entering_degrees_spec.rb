@@ -22,12 +22,25 @@ RSpec.feature 'Entering their degrees' do
     and_i_submit_the_undergraduate_degree_form
     then_i_can_check_my_undergraduate_degree
 
+    when_i_click_on_continue
+    then_i_should_see_the_form_and_the_section_is_not_completed
+    when_i_click_on_degree
+    then_i_can_check_my_undergraduate_degree
+
     when_i_click_on_add_another_degree
     then_i_see_the_add_another_degree_form
 
     when_i_fill_in_my_additional_degree
     and_i_submit_the_add_another_degree_form
     then_i_can_check_my_additional_degree
+
+    when_i_mark_this_section_as_completed
+    and_i_click_on_continue
+    then_i_should_see_the_form
+    and_that_the_section_is_completed
+
+    when_i_click_on_degree
+    then_i_can_check_my_answers
   end
 
   def given_i_am_not_signed_in; end
@@ -84,6 +97,15 @@ RSpec.feature 'Entering their degrees' do
     expect(page).to have_content 'BA Doge'
   end
 
+  def when_i_click_on_continue
+    click_button t('application_form.degree.review.button')
+  end
+
+  def then_i_should_see_the_form_and_the_section_is_not_completed
+    expect(page).to have_content(t('page_titles.application_form'))
+    expect(page).not_to have_css('#degrees-completed', text: 'Completed')
+  end
+
   def when_i_click_on_add_another_degree
     click_link t('application_form.degree.another.button')
   end
@@ -108,5 +130,26 @@ RSpec.feature 'Entering their degrees' do
 
   def then_i_can_check_my_additional_degree
     expect(page).to have_content 'Masters Cate'
+  end
+
+  def when_i_mark_this_section_as_completed
+    check t('application_form.degree.review.completed_checkbox')
+  end
+
+  def and_i_click_on_continue
+    when_i_click_on_continue
+  end
+
+  def then_i_should_see_the_form
+    expect(page).to have_content(t('page_titles.application_form'))
+  end
+
+  def and_that_the_section_is_completed
+    expect(page).to have_css('#degrees-completed', text: 'Completed')
+  end
+
+  def then_i_can_check_my_answers
+    then_i_can_check_my_undergraduate_degree
+    then_i_can_check_my_additional_degree
   end
 end

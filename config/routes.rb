@@ -71,6 +71,7 @@ Rails.application.routes.draw do
         post '/' => 'degrees/base#create', as: :degrees_create_base
 
         get '/review' => 'degrees/review#show', as: :degrees_review
+        patch '/review' => 'degrees/review#complete', as: :degrees_complete
       end
     end
   end
