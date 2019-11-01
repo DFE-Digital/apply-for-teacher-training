@@ -1,0 +1,14 @@
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Time</th>
+      <th scope="col" class="govuk-table__header govuk-!-width-three-quarter">Event</th>
+    </tr>
+  </thead>
+
+  <tbody class="govuk-table__body">
+    <% audits.each do |audit| %>
+      <%= render SupportInterface::AuditTrailItemComponent, audit: audit %>
+    <% end %>
+  </tbody>
+</table>

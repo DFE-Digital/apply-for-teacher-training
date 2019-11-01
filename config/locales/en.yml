@@ -84,3 +84,11 @@ en:
       enrolled: 'Candidate  enrolled'
       rejected: 'Candidate rejected'
       meeting_conditions: 'Meeting conditions'
+  date:
+    formats:
+      long: "%e %B %Y"
+  time:
+    formats:
+      long: "%e %B %Y %H:%M"
+      long_with_seconds: "%e %B %Y %H:%M:%S"
+      time: "%H:%M"
