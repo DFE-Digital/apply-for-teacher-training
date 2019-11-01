@@ -52,7 +52,7 @@ RSpec.feature 'See providers' do
   def stub_find_api_provider(provider_code)
     stub_request(:get, ENV.fetch('FIND_BASE_URL') +
       'recruitment_cycles/2020' \
-      "/providers/#{provider_code}?include=courses,sites")
+      "/providers/#{provider_code}?include=sites,courses.sites")
   end
 
   def stub_200_from_find(provider_code, name)
@@ -98,6 +98,13 @@ RSpec.feature 'See providers' do
                 'level': 'primary',
                 'start_date': 'September 2019',
               },
+              'relationships': {
+                'sites': {
+                  'data': [
+                    { 'id': '1', 'type': 'sites' },
+                  ],
+                },
+              }
             },
           ],
           'jsonapi': { 'version': '1.0' },

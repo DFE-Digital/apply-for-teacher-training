@@ -8,7 +8,7 @@ class SyncProvidersFromFind
     providers.each do |provider_code|
       find_provider = FindAPI::Provider
         .current_cycle
-        .includes(:courses, :sites)
+        .includes(:sites, courses: [:sites])
         .find(provider_code)
         .first
       find_courses = find_provider.courses
@@ -18,18 +18,27 @@ class SyncProvidersFromFind
       provider.name = find_provider.provider_name
       provider.save
 
+      sites = find_sites.map do |find_site|
+        site = provider.sites.find_or_create_by(code: find_site.location_name)
+        site.name = find_site.location_name
+        site.save
+        site
+      end
+
       find_courses.each do |find_course|
         course = provider.courses.find_or_create_by(code: find_course.course_code)
         course.name = find_course.name
         course.level = find_course.level
         course.start_date = Date.parse(find_course.start_date)
         course.save
-      end
 
-      find_sites.each do |find_site|
-        site = provider.sites.find_or_create_by(code: find_site.location_name)
-        site.name = find_site.location_name
-        site.save
+        find_course.sites.each do |find_course_site|
+          course_option = CourseOption.find_or_create_by(
+            site_id: sites.find { |s| s.name == find_course_site.location_name }.id,
+            course_id: course.id,
+            vacancy_status: 'B', # TODO: Should this be reflected by `find_course.has_vacancies?`
+          )
+        end
       end
     end
   end
