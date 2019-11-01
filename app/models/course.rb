@@ -4,6 +4,7 @@ class Course < ApplicationRecord
   has_many :application_choices, through: :course_options
 
   validates :level, presence: true
+  validates :code, uniqueness: { scope: :provider_id }
 
   CODE_LENGTH = 4
 

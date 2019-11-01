@@ -5,5 +5,6 @@ RSpec.describe Course, type: :model do
 
   describe 'a valid course' do
     it { is_expected.to validate_presence_of :level }
+    it { is_expected.to validate_uniqueness_of(:code).scoped_to(:provider_id) }
   end
 end
