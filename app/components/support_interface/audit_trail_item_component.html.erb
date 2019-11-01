@@ -1,6 +1,6 @@
 <tr class="govuk-table__row gov uk-accordion__section">
   <td class="govuk-table__cell" title="<%= l(audit.created_at, format: :long_with_seconds) %>">
-    <%= l(audit.created_at, format: :long) %>
+    <%= l(audit.created_at.to_date, format: :long) %> <br/><%= l(audit.created_at, format: :time) %>
   </td>
   <td class="govuk-table__cell">
     <div class="govuk-!-margin-0">
