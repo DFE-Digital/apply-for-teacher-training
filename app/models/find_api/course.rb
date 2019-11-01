@@ -1,7 +1,6 @@
 module FindAPI
-  class Course < JsonApiClient::Resource
+  class Course < FindAPI::Resource
     RECRUITMENT_CYCLE_YEAR = ENV.fetch('RECRUITMENT_CYCLE_YEAR') { 2020 }
-    self.site = ENV.fetch('FIND_BASE_URL')
 
     belongs_to :recruitment_cycle, through: :provider, param: :recruitment_cycle_year
     belongs_to :provider, param: :provider_code
