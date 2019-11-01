@@ -72,7 +72,19 @@ stages:
     - script: |
         make ci.test
         test_result=$?
-        if [ "$test_result" == "0" ]; then true; else cat results/rspec-results.xml; false; fi
+        if [ "$test_result" == "0" ]
+        then
+          true;
+        else
+          echo "ci.test failed"
+          if [ -f results/rspec-results.xml ]
+          then
+            cat results/rspec-results.xml
+          else
+            echo "Unable to read results/rpsec-results.xml. The file was either not created or the copy from the container failed."
+          fi
+          false
+        fi
       displayName: 'Execute tests'
       env:
         dockerHubUsername: $(dockerHubUsername)
