@@ -6,6 +6,7 @@ class ApplicationForm < ApplicationRecord
   has_many :application_work_experiences
   has_many :application_volunteering_experiences
   has_many :application_qualifications
+  has_many :references
 
   def complete?
     application_choices.any? && application_choices.first.application_complete?

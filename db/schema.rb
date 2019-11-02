@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_01_143550) do
+ActiveRecord::Schema.define(version: 2019_11_02_150647) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -155,6 +155,16 @@ ActiveRecord::Schema.define(version: 2019_11_01_143550) do
     t.index ["code"], name: "index_providers_on_code", unique: true
   end
 
+  create_table "references", force: :cascade do |t|
+    t.string "email_address", null: false
+    t.string "feedback"
+    t.bigint "application_form_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["application_form_id", "email_address"], name: "index_references_on_application_form_id_and_email_address", unique: true
+    t.index ["application_form_id"], name: "index_references_on_application_form_id"
+  end
+
   create_table "sites", force: :cascade do |t|
     t.string "code", null: false
     t.string "name", null: false
@@ -193,6 +203,7 @@ ActiveRecord::Schema.define(version: 2019_11_01_143550) do
   add_foreign_key "course_options", "courses", on_delete: :cascade
   add_foreign_key "course_options", "sites", on_delete: :cascade
   add_foreign_key "courses", "providers"
+  add_foreign_key "references", "application_forms"
   add_foreign_key "sites", "providers"
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
 end

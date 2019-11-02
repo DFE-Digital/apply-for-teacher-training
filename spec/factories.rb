@@ -122,4 +122,8 @@ FactoryBot.define do
     association :provider
     hashed_token { '1234567890' }
   end
+
+  factory :reference do
+    email_address { "#{SecureRandom.hex(5)}@example.com" }
+  end
 end
