@@ -127,5 +127,9 @@ FactoryBot.define do
 
   factory :reference do
     email_address { "#{SecureRandom.hex(5)}@example.com" }
+
+    trait :unsubmitted do
+      reference { nil }
+    end
   end
 end
