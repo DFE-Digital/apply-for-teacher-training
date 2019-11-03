@@ -33,6 +33,7 @@ FactoryBot.define do
         work_experiences_count { 1 }
         volunteering_experiences_count { 1 }
         qualifications_count { 4 }
+        references_count { 2 }
       end
     end
 
@@ -42,6 +43,7 @@ FactoryBot.define do
         create_list(:application_work_experience, evaluator.work_experiences_count, application_form: application_form)
         create_list(:application_volunteering_experience, evaluator.volunteering_experiences_count, application_form: application_form)
         create_list(:application_qualification, evaluator.qualifications_count, application_form: application_form)
+        create_list(:reference, evaluator.references_count, application_form: application_form)
       end
     end
   end
