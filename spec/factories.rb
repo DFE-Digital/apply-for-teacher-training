@@ -111,6 +111,10 @@ FactoryBot.define do
     course_option
     status { ApplicationStateChange.valid_states.sample }
     personal_statement { 'hello' }
+
+    trait :single do
+      association :application_form, factory: :completed_application_form, application_choices_count: 0
+    end
   end
 
   factory :vendor_api_user do

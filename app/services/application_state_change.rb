@@ -13,7 +13,7 @@ class ApplicationStateChange
   #
   workflow do
     state :unsubmitted do
-      event :submit, transitions_to: :application_complete
+      event :submit, transitions_to: :awaiting_references
     end
 
     state :awaiting_references do
