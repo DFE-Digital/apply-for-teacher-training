@@ -16,7 +16,12 @@ class ApplicationStateChange
       event :submit, transitions_to: :application_complete
     end
 
-    state :awaiting_references
+    state :awaiting_references do
+      event :receive_reference, transitions_to: :application_complete,
+                                if: :references_complete?
+      event :receive_reference, transitions_to: :awaiting_references,
+                                unless: :references_complete?
+    end
 
     state :application_complete do
       event :make_conditional_offer, transitions_to: :conditional_offer
@@ -55,5 +60,9 @@ class ApplicationStateChange
 
   def self.valid_states
     workflow_spec.states.keys
+  end
+
+  def references_complete?
+    application_choice.application_form.references_complete?
   end
 end

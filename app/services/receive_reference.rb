@@ -16,10 +16,19 @@ class ReceiveReference
   def save
     return unless valid?
 
-    @application_form
-    .references
-    .find_by!(email_address: @referee_email)
-    .update(reference: @reference)
+    ActiveRecord::Base.transaction do
+      @application_form
+        .references
+        .find_by!(email_address: @referee_email)
+        .update!(reference: @reference)
+
+      @application_form.application_choices.each do |application_choice|
+        ApplicationStateChange.new(application_choice).receive_reference!
+      end
+    end
+  rescue Workflow::NoTransitionAllowed => e
+    errors.add(:state, e.message)
+    false
   end
 
 private

@@ -131,5 +131,9 @@ FactoryBot.define do
     trait :unsubmitted do
       reference { nil }
     end
+
+    trait :complete do
+      reference { Faker::Lorem.paragraphs(number: 2) }
+    end
   end
 end
