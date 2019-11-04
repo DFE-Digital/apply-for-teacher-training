@@ -16,10 +16,6 @@ class DegreesReviewComponent < ActionView::Component::Base
     ]
   end
 
-  def formatted_degree_title(qualification_type, subject)
-    "#{qualification_type} #{subject}"
-  end
-
 private
 
   attr_reader :application_form
@@ -27,7 +23,7 @@ private
   def qualification_row(degree_form)
     {
       key: t('application_form.degree.qualification.label'),
-      DANGEROUS_html_value: formatted_qualification(degree_form.qualification_type, degree_form.subject, degree_form.institution_name),
+      DANGEROUS_html_value: formatted_qualification(degree_form),
       action: t('application_form.degree.qualification.change_action'),
       change_path: '#',
     }
@@ -51,8 +47,8 @@ private
     }
   end
 
-  def formatted_qualification(qualification_type, subject, institution_name)
-    [formatted_degree_title(qualification_type, subject), institution_name]
+  def formatted_qualification(degree_form)
+    [degree_form.title, degree_form.institution_name]
       .map { |line| sanitize(line, tags: []) }
       .join('<br>')
   end
