@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'See providers' do
+  include FindAPIHelper
+
   scenario 'User visits providers page' do
     given_providers_are_configured_to_be_synced do
       given_i_am_a_support_user
@@ -35,9 +37,9 @@ RSpec.feature 'See providers' do
   end
 
   def and_i_click_the_sync_button
-    @request_1 = stub_200_from_find('ABC', 'Royal Academy of Dance')
-    @request_2 = stub_200_from_find('DEF', 'Gorse SCITT')
-    @request_3 = stub_200_from_find('GHI', 'Somerset SCITT Consortium')
+    @request_1 = stub_200_from_find(provider_code: 'ABC', provider_name: 'Royal Academy of Dance')
+    @request_2 = stub_200_from_find(provider_code: 'DEF', provider_name: 'Gorse SCITT')
+    @request_3 = stub_200_from_find(provider_code: 'GHI', provider_name: 'Somerset SCITT Consortium')
     click_button 'Sync Providers from Find'
   end
 
@@ -51,68 +53,5 @@ RSpec.feature 'See providers' do
     expect(page).to have_content('Royal Academy of Dance')
     expect(page).to have_content('Gorse SCITT')
     expect(page).to have_content('Somerset SCITT Consortium')
-  end
-
-  def stub_find_api_provider(provider_code)
-    stub_request(:get, ENV.fetch('FIND_BASE_URL') +
-      'recruitment_cycles/2020' \
-      "/providers/#{provider_code}?include=sites,courses.sites")
-  end
-
-  def stub_200_from_find(provider_code, name)
-    stub_find_api_provider(provider_code)
-      .to_return(
-        status: 200,
-        headers: { 'Content-Type': 'application/vnd.api+json' },
-        body: {
-          'data': {
-            'id': '1',
-            'type': 'providers',
-            'attributes': {
-              'provider_name': name,
-            },
-            'relationships': {
-              'sites': {
-                'data': [
-                  { 'id': '1', 'type': 'sites' },
-                ],
-              },
-              'courses': {
-                'data': [
-                  { 'id': '1', 'type': 'courses' },
-                ],
-              },
-            },
-          },
-          'included': [
-            {
-              'id': '1',
-              'type': 'sites',
-              'attributes': {
-                'location_name': '-',
-                'name': 'Main Site',
-              },
-            },
-            {
-              'id': '1',
-              'type': 'courses',
-              'attributes': {
-                'course_code': 'X130',
-                'name': 'Primary',
-                'level': 'primary',
-                'start_date': 'September 2019',
-              },
-              'relationships': {
-                'sites': {
-                  'data': [
-                    { 'id': '1', 'type': 'sites' },
-                  ],
-                },
-              },
-            },
-          ],
-          'jsonapi': { 'version': '1.0' },
-        }.to_json,
-      )
   end
 end
