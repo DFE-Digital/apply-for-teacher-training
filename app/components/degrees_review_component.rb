@@ -25,7 +25,7 @@ private
       key: t('application_form.degree.qualification.label'),
       DANGEROUS_html_value: formatted_qualification(degree_form),
       action: t('application_form.degree.qualification.change_action'),
-      change_path: '#',
+      change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree_form.id),
     }
   end
 
@@ -34,7 +34,7 @@ private
       key: t('application_form.degree.award_year.review_label'),
       value: degree_form.award_year,
       action: t('application_form.degree.award_year.change_action'),
-      change_path: '#',
+      change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree_form.id),
     }
   end
 
@@ -43,7 +43,7 @@ private
       key: t('application_form.degree.grade.review_label'),
       value: formatted_grade(degree_form.grade, degree_form.predicted_grade),
       action: t('application_form.degree.grade.change_action'),
-      change_path: '#',
+      change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree_form.id),
     }
   end
 

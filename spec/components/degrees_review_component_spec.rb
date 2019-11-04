@@ -32,7 +32,9 @@ RSpec.describe DegreesReviewComponent do
     expect(result.css('.app-summary-card__title').text).to include('BA Woof')
     expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.qualification.label'))
     expect(result.css('.govuk-summary-list__value').to_html).to include('BA Woof<br>University of Doge')
-    expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include('#')
+    expect(result.css('.govuk-summary-list__actions a')[3].attr('href')).to include(
+      Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(1),
+    )
     expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.degree.qualification.change_action')}")
   end
 
