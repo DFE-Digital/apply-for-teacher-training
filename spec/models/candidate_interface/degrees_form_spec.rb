@@ -68,6 +68,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
     it 'creates an array of objects based on the provided ApplicationForm' do
       application_form = create(:application_form) do |form|
         form.application_qualifications.create(
+          id: 1,
           level: 'degree',
           qualification_type: 'BA',
           subject: 'Woof',
@@ -77,6 +78,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
           award_year: '2008',
         )
         form.application_qualifications.create(
+          id: 2,
           level: 'degree',
           qualification_type: 'BA',
           subject: 'Meow',
@@ -91,6 +93,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
 
       expect(degrees).to match_array([
         have_attributes(
+          id: 1,
           qualification_type: 'BA',
           subject: 'Woof',
           institution_name: 'University of Doge',
@@ -98,6 +101,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
           award_year: '2008',
         ),
         have_attributes(
+          id: 2,
           qualification_type: 'BA',
           subject: 'Meow',
           institution_name: 'University of Cate',

@@ -2,7 +2,7 @@ module CandidateInterface
   class DegreesForm
     include ActiveModel::Model
 
-    attr_accessor :qualification_type, :subject, :institution_name, :grade,
+    attr_accessor :id, :qualification_type, :subject, :institution_name, :grade,
                   :other_grade, :predicted_grade, :award_year
 
     validates :qualification_type, :subject, :institution_name, :grade, presence: true
@@ -18,6 +18,7 @@ module CandidateInterface
     def self.build_from_application(application_form)
       application_form.application_qualifications.degrees.map do |degree|
         new(
+          id: degree.id,
           qualification_type: degree.qualification_type,
           subject: degree.subject,
           institution_name: degree.institution_name,
