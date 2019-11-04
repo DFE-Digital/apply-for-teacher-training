@@ -10,14 +10,14 @@ RSpec.describe ReceiveReference do
     action = ReceiveReference.new(
       application_form: application_form,
       referee_email: 'xy@z.com',
-      reference: "A reference",
+      reference: 'A reference',
     )
 
     expect(action).to be_valid
     expect(action.save).to be_truthy
 
-    expect(application_form.references.find_by!(email_address: 'xy@z.com').reference).to eq('A reference')
-    expect(application_form.references.find_by!(email_address: 'ab@c.com').reference).to be_nil
+    expect(application_form.references.find_by!(email_address: 'xy@z.com').feedback).to eq('A reference')
+    expect(application_form.references.find_by!(email_address: 'ab@c.com').feedback).to be_nil
   end
 
   it 'progresses the application choices to the "application complete" status once all references have been received' do
@@ -29,12 +29,12 @@ RSpec.describe ReceiveReference do
     action = ReceiveReference.new(
       application_form: application_form,
       referee_email: 'ab@c.com',
-      reference: "A reference",
+      reference: 'A reference',
     )
     action.save
 
-    expect(application_form.references_complete?).to be_truthy
-    expect(application_form).to be_complete
+    expect(application_form).to be_references_complete
+    expect(application_form.application_choices).to all(be_application_complete)
   end
 
   describe 'validation' do
@@ -42,7 +42,7 @@ RSpec.describe ReceiveReference do
       action = ReceiveReference.new(
         application_form: build_stubbed(:application_form),
         referee_email: nil,
-        reference: "A reference",
+        reference: 'A reference',
       )
 
       expect(action).not_to be_valid
@@ -52,7 +52,7 @@ RSpec.describe ReceiveReference do
       action = ReceiveReference.new(
         application_form: build_stubbed(:application_form),
         referee_email: 'madeupemail@example.com',
-        reference: "A reference",
+        reference: 'A reference',
       )
 
       expect(action).not_to be_valid

@@ -10,11 +10,11 @@ RSpec.describe Reference, type: :model do
 
   describe '#complete?' do
     it 'is complete when there is a reference' do
-      expect(build(:reference, reference: 'abc')).to be_complete
+      expect(build(:reference, feedback: 'abc')).to be_complete
     end
 
     it 'is incomplete when there is no reference' do
-      expect(build(:reference, reference: nil)).not_to be_complete
+      expect(build(:reference, feedback: nil)).not_to be_complete
     end
   end
 end

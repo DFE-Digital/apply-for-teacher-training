@@ -133,11 +133,11 @@ FactoryBot.define do
     email_address { "#{SecureRandom.hex(5)}@example.com" }
 
     trait :unsubmitted do
-      reference { nil }
+      feedback { nil }
     end
 
     trait :complete do
-      reference { Faker::Lorem.paragraphs(number: 2) }
+      feedback { Faker::Lorem.paragraphs(number: 2) }
     end
   end
 end

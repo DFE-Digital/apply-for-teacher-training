@@ -3,6 +3,6 @@ class Reference < ApplicationRecord
   belongs_to :application_form
 
   def complete?
-    reference.present?
+    feedback.present?
   end
 end

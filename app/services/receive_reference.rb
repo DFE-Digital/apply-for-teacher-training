@@ -20,7 +20,7 @@ class ReceiveReference
       @application_form
         .references
         .find_by!(email_address: @referee_email)
-        .update!(reference: @reference)
+        .update!(feedback: @reference)
 
       @application_form.application_choices.each do |application_choice|
         ApplicationStateChange.new(application_choice).receive_reference!

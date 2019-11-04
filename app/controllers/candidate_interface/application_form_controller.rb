@@ -3,7 +3,7 @@ module CandidateInterface
     def show
       return redirect_to candidate_interface_application_form_path if params[:token]
 
-      if current_candidate.current_application.complete?
+      if current_candidate.current_application.submitted?
         @application_form = current_candidate.current_application
 
         render :complete

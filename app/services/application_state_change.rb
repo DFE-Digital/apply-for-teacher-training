@@ -11,7 +11,7 @@ class ApplicationStateChange
   #
   #   bundle exec rake generate_state_diagram
   #
-  workflow do
+  workflow do # rubocop:disable Metrics/BlockLength
     state :unsubmitted do
       event :submit, transitions_to: :awaiting_references
     end
