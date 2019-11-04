@@ -9,10 +9,12 @@ class ApplicationChoice < ApplicationRecord
 
   audited associated_with: :application_form
 
-  viewable_states = %i[application_complete conditional_offer unconditional_offer meeting_conditions recruited enrolled rejected]
+  non_viewable_states = %i[unsubmitted awaiting_references]
+  viewable_states = ApplicationStateChange.valid_states - non_viewable_states
 
   scope :for_provider, ->(provider_code) {
-    includes(:course, :provider).where(providers: { code: provider_code })
+    includes(:course, :provider)
+    .where(providers: { code: provider_code })
   }
 
   scope :viewable, -> {
