@@ -14,7 +14,9 @@ module CandidateInterface
     validates :working_with_children, inclusion: { in: %w(true false) }
 
     validate :start_date_valid
-    validate :start_date_after_end_date
+    validate :end_date_valid, if: :end_date_given?
+    validate :end_date_year_before_current_year, if: :end_date_valid?
+    validate :start_date_after_end_date, if: :start_date_and_end_date_valid?
 
     validates :role, :organisation,
               length: { maximum: 60 }
@@ -80,12 +82,34 @@ module CandidateInterface
       end
     end
 
+  private
+
     def start_date_valid
-      errors.add(:start_date, :invalid) if start_date.nil?
+      errors.add(:start_date, :invalid) unless start_date
+    end
+
+    def end_date_valid
+      errors.add(:end_date, :invalid) if end_date.nil?
     end
 
     def start_date_after_end_date
-      errors.add(:start_date, :before) if end_date.present? && start_date > end_date
+      errors.add(:start_date, :before) if start_date > end_date
+    end
+
+    def end_date_year_before_current_year
+      errors.add(:end_date, :year_after) if end_date.year > Date.today.year
+    end
+
+    def start_date_and_end_date_valid?
+      end_date_given? && !errors.include?(:start_date) && !errors.include?(:end_date)
+    end
+
+    def end_date_valid?
+      end_date_given? && !errors.include?(:end_date)
+    end
+
+    def end_date_given?
+      end_date_year.present? && end_date_month.present?
     end
   end
 end

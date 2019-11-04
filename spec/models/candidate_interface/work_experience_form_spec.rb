@@ -70,6 +70,34 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
         )
       end
     end
+
+    describe 'end date' do
+      it 'is invalid if not well-formed' do
+        work_experience = CandidateInterface::WorkExperienceForm.new(
+          end_date_month: '99', end_date_year: '2019',
+        )
+
+        work_experience.validate
+
+        expect(work_experience.errors.full_messages_for(:end_date)).to eq(
+          ["End date #{t('activemodel.errors.models.candidate_interface/work_experience_form.attributes.end_date.invalid')}"],
+        )
+      end
+
+      it 'is invalid if year is beyond the current year' do
+        Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
+          work_experience = CandidateInterface::WorkExperienceForm.new(
+            end_date_month: '1', end_date_year: '2029',
+          )
+
+          work_experience.validate
+
+          expect(work_experience.errors.full_messages_for(:end_date)).to eq(
+            ["End date #{t('activemodel.errors.models.candidate_interface/work_experience_form.attributes.end_date.year_after')}"],
+          )
+        end
+      end
+    end
   end
 
   describe '#save' do
