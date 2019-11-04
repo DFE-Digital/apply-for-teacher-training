@@ -193,4 +193,12 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
         .to have_attributes(grade: 'First', predicted_grade: true)
     end
   end
+
+  describe '#title' do
+    it 'concatenates the qualification type and subject' do
+      degree = CandidateInterface::DegreesForm.new(qualification_type: 'BA', subject: 'Doge')
+
+      expect(degree.title).to eq('BA Doge')
+    end
+  end
 end

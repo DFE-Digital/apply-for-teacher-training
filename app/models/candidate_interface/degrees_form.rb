@@ -45,6 +45,10 @@ module CandidateInterface
       true
     end
 
+    def title
+      "#{qualification_type} #{subject}"
+    end
+
   private
 
     def other_grade?
