@@ -94,6 +94,7 @@ en:
         hint_text:
           undergraduate: For example, BA, BSc or other (please specify)
           another: For example, Masters, PhD, or other (please specify)
+          all: For example, BA, BSc, Masters, PhD, or other (please specify)
       subject:
         label: Subject of degree
       institution_name:
