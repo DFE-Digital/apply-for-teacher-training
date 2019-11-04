@@ -15,17 +15,50 @@ module CandidateInterface
 
     validate :award_year_is_date, if: :award_year
 
-    def self.build_from_application(application_form)
-      application_form.application_qualifications.degrees.map do |degree|
+    class << self
+      def build_from_application(application_form)
+        application_form.application_qualifications.degrees.map do |degree|
+          new(
+            id: degree.id,
+            qualification_type: degree.qualification_type,
+            subject: degree.subject,
+            institution_name: degree.institution_name,
+            grade: degree.grade,
+            predicted_grade: degree.predicted_grade,
+            award_year: degree.award_year,
+          )
+        end
+      end
+
+      def find_by_application(application_form, degree_id)
+        degree = application_form.application_qualifications.find(degree_id)
+        grade = determine_application_grade(degree.grade, degree.predicted_grade)
+
         new(
           id: degree.id,
           qualification_type: degree.qualification_type,
           subject: degree.subject,
           institution_name: degree.institution_name,
-          grade: degree.grade,
-          predicted_grade: degree.predicted_grade,
+          grade: grade,
+          other_grade: grade == 'other' ? degree.grade : '',
+          predicted_grade: degree.predicted_grade ? degree.grade : '',
           award_year: degree.award_year,
         )
+      end
+
+    private
+
+      def determine_application_grade(grade, predicted_grade)
+        case grade
+        when 'first', 'upper_second', 'lower_second', 'third'
+          grade
+        else
+          if predicted_grade
+            'predicted'
+          else
+            'other'
+          end
+        end
       end
     end
 

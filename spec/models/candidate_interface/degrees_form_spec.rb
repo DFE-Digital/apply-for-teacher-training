@@ -145,6 +145,58 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
     end
   end
 
+  describe '.find_by_application' do
+    it 'returns a new DegreesForm object using the id' do
+      application_form = create(:application_form) do |form|
+        form.application_qualifications.create(
+          id: 1,
+          level: 'degree',
+          qualification_type: 'BA',
+          subject: 'Woof',
+        )
+        form.application_qualifications.create(
+          id: 2,
+          level: 'degree',
+          qualification_type: 'BA',
+          subject: 'Meow',
+        )
+      end
+
+      degree = CandidateInterface::DegreesForm.find_by_application(application_form, 2)
+
+      expect(degree).to have_attributes(qualification_type: 'BA', subject: 'Meow')
+    end
+
+    it 'returns grade and other grade if grade is not known' do
+      application_form = create(:application_form) do |form|
+        form.application_qualifications.create(
+          id: 1,
+          level: 'degree',
+          grade: 'Distinction',
+        )
+      end
+
+      degree = CandidateInterface::DegreesForm.find_by_application(application_form, 1)
+
+      expect(degree).to have_attributes(grade: 'other', other_grade: 'Distinction')
+    end
+
+    it 'returns grade and predicted if predicted grade is true' do
+      application_form = create(:application_form) do |form|
+        form.application_qualifications.create(
+          id: 1,
+          level: 'degree',
+          grade: 'First',
+          predicted_grade: true,
+        )
+      end
+
+      degree = CandidateInterface::DegreesForm.find_by_application(application_form, 1)
+
+      expect(degree).to have_attributes(grade: 'predicted', predicted_grade: 'First')
+    end
+  end
+
   describe '#save_base' do
     let(:form_data) do
       {
