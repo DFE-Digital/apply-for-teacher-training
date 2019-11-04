@@ -168,11 +168,7 @@ paths:
               type: object
               properties:
                 data:
-                  type: object
-                  properties:
-                    reason:
-                      type: string
-                      example: Does not meet minimum GCSE requirements
+                  $ref: '#/components/schemas/Rejection'
                 meta:
                   $ref: '#/components/schemas/TimestampAndAttribution'
       responses:
