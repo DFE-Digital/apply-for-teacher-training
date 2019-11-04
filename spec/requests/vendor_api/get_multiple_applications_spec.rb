@@ -53,4 +53,24 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
 
     expect(error_response['message']).to eql('param is missing or the value is empty: since')
   end
+
+  it 'returns applications that are in a viewable state' do
+    create_list(
+      :application_choice,
+      2,
+      course_option: course_option_for_provider(provider: currently_authenticated_provider),
+      status: :application_complete,
+    )
+
+    create_list(
+      :application_choice,
+      3,
+      course_option: course_option_for_provider(provider: currently_authenticated_provider),
+      status: :unsubmitted,
+    )
+
+    get_api_request "/api/v1/applications?since=#{(Time.now - 1.days).iso8601}"
+
+    expect(parsed_response['data'].size).to be(2)
+  end
 end

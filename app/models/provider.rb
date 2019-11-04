@@ -5,6 +5,6 @@ class Provider < ApplicationRecord
 
   def visible_applications
     # TODO: include `.where('status != ?', 'unsubmitted')` here
-    application_choices
+    application_choices.viewable
   end
 end
