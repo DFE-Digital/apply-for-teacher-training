@@ -159,7 +159,7 @@ GEM
       rubocop-rails (~> 2)
       rubocop-rspec (~> 1.28)
       scss_lint
-    govuk_design_system_formbuilder (0.9.7)
+    govuk_design_system_formbuilder (0.9.8)
       actionview (>= 5.2)
       activemodel (>= 5.2)
       activesupport (>= 5.2)
@@ -416,7 +416,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   govuk-lint
-  govuk_design_system_formbuilder (= 0.9.7)
+  govuk_design_system_formbuilder (= 0.9.8)
   guard-rspec
   json-schema
   json_api_client
