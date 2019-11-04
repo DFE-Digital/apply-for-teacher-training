@@ -37,16 +37,16 @@ RSpec.feature 'See providers' do
   end
 
   def and_i_click_the_sync_button
-    @request_1 = stub_200_from_find(provider_code: 'ABC', provider_name: 'Royal Academy of Dance')
-    @request_2 = stub_200_from_find(provider_code: 'DEF', provider_name: 'Gorse SCITT')
-    @request_3 = stub_200_from_find(provider_code: 'GHI', provider_name: 'Somerset SCITT Consortium')
+    @request1 = stub_200_from_find(provider_code: 'ABC', provider_name: 'Royal Academy of Dance')
+    @request2 = stub_200_from_find(provider_code: 'DEF', provider_name: 'Gorse SCITT')
+    @request3 = stub_200_from_find(provider_code: 'GHI', provider_name: 'Somerset SCITT Consortium')
     click_button 'Sync Providers from Find'
   end
 
   def then_requests_to_find_should_be_made
-    expect(@request_1).to have_been_made
-    expect(@request_2).to have_been_made
-    expect(@request_3).to have_been_made
+    expect(@request1).to have_been_made
+    expect(@request2).to have_been_made
+    expect(@request3).to have_been_made
   end
 
   def and_i_should_see_the_updated_list_of_providers

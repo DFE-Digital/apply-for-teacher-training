@@ -27,7 +27,7 @@ class SyncProviderFromFind
       course.save
 
       find_course.sites.each do |find_course_site|
-        course_option = CourseOption.find_or_create_by(
+        CourseOption.find_or_create_by(
           site_id: sites.find { |s| s.name == find_course_site.location_name }.id,
           course_id: course.id,
           vacancy_status: 'B', # TODO: Should this be reflected by `find_course.has_vacancies?`
