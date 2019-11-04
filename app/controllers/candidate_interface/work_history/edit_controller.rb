@@ -24,9 +24,9 @@ module CandidateInterface
       work_experience = current_candidate.current_application
         .application_work_experiences
         .find(work_experience_params[:id])
-      work_experience_form = WorkExperienceForm.new(work_experience_form_params)
+      @work_experience_form = WorkExperienceForm.new(work_experience_form_params)
 
-      if work_experience_form.update(work_experience)
+      if @work_experience_form.update(work_experience)
         redirect_to candidate_interface_work_history_show_path
       else
         render :edit
