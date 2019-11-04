@@ -1,5 +1,5 @@
 module FindAPIHelper
-  def stub_200_from_find(provider_code:, provider_name:)
+  def stub_200_from_find(provider_code:, provider_name: 'Dummy Provider', course_code: 'X130', site_code: 'X')
     stub_find_api_provider(provider_code)
       .to_return(
         status: 200,
@@ -29,7 +29,7 @@ module FindAPIHelper
               'id': '1',
               'type': 'sites',
               'attributes': {
-                'location_name': '-',
+                'location_name': site_code,
                 'name': 'Main Site',
               },
             },
@@ -37,7 +37,7 @@ module FindAPIHelper
               'id': '1',
               'type': 'courses',
               'attributes': {
-                'course_code': 'X130',
+                'course_code': course_code,
                 'name': 'Primary',
                 'level': 'primary',
                 'start_date': 'September 2019',
