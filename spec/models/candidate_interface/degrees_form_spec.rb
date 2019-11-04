@@ -207,18 +207,18 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
     end
   end
 
-  describe '#save_base' do
+  describe '#save' do
     it 'returns false if not valid' do
       degree = CandidateInterface::DegreesForm.new
 
-      expect(degree.save_base(ApplicationForm.new)).to eq(false)
+      expect(degree.save(ApplicationForm.new)).to eq(false)
     end
 
     it 'saves the provided ApplicationForm if valid' do
       application_form = create(:application_form)
       degree = CandidateInterface::DegreesForm.new(form_data)
 
-      expect(degree.save_base(application_form)).to eq(true)
+      expect(degree.save(application_form)).to eq(true)
       expect(application_form.application_qualifications.degree.first)
         .to have_attributes(form_data)
     end
@@ -229,7 +229,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
       application_form = create(:application_form)
       degree = CandidateInterface::DegreesForm.new(form_data)
 
-      expect(degree.save_base(application_form)).to eq(true)
+      expect(degree.save(application_form)).to eq(true)
       expect(application_form.application_qualifications.degree.first)
         .to have_attributes(grade: 'Distinction')
     end
@@ -240,7 +240,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
       application_form = create(:application_form)
       degree = CandidateInterface::DegreesForm.new(form_data)
 
-      expect(degree.save_base(application_form)).to eq(true)
+      expect(degree.save(application_form)).to eq(true)
       expect(application_form.application_qualifications.degree.first)
         .to have_attributes(grade: 'First', predicted_grade: true)
     end

@@ -10,7 +10,7 @@ module CandidateInterface
       @degree = DegreesForm.new(degrees_params)
       application_form = current_candidate.current_application
 
-      if @degree.save_base(application_form)
+      if @degree.save(application_form)
         redirect_to candidate_interface_degrees_review_path
       else
         render_new

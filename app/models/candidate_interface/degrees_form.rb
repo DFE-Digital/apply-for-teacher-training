@@ -64,7 +64,7 @@ module CandidateInterface
       end
     end
 
-    def save_base(application_form)
+    def save(application_form)
       return false unless valid?
 
       application_form.application_qualifications.create!(
