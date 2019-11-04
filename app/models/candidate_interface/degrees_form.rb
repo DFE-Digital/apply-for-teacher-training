@@ -80,6 +80,21 @@ module CandidateInterface
       true
     end
 
+    def update(application_form, degree_id)
+      return false unless valid?
+
+      degree = application_form.application_qualifications.find(degree_id)
+
+      degree.update!(
+        qualification_type: qualification_type,
+        subject: subject,
+        institution_name: institution_name,
+        grade: determine_grade,
+        predicted_grade: predicted_grade? ? true : false,
+        award_year: award_year,
+      )
+    end
+
     def title
       "#{qualification_type} #{subject}"
     end
