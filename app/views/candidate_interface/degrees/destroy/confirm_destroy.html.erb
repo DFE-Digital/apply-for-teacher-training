@@ -1,0 +1,23 @@
+<% content_for :title, page_title('destroy_degree') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_degrees_review_path, 'Back') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @degree, url: candidate_interface_degrees_destroy_path(@degree.id), method: :delete do |f| %>
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+          <h1 class="govuk-fieldset__heading">
+            <span class="govuk-caption-xl"><%= @degree.title %></span>
+            <%= t('page_titles.destroy_degree') %>
+          </h1>
+        </legend>
+
+        <%= f.submit t('application_form.degree.confirm_delete'), class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
+
+        <p class="govuk-body">
+          <%= govuk_link_to 'Cancel', candidate_interface_degrees_review_path %>
+        </p>
+      </fieldset>
+    <% end %>
+  </div>
+</div>
