@@ -628,18 +628,12 @@ components:
       additionalProperties: false
       required:
         - reason
-        - date
       properties:
         reason:
           type: string
           description: The reason for rejection
           maxLength: 255
           example: Does not meet minimum GCSE requirements
-        date:
-          type: string
-          format: date-time
-          description: The date on which the rejection was issued
-          example: "2019-09-18T15:33:49.216Z"
     Withdrawal:
       type: object
       additionalProperties: false

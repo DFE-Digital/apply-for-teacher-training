@@ -22,7 +22,6 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
       expect(parsed_response['data']['attributes']['status']).to eq 'rejected'
       expect(parsed_response['data']['attributes']['rejection']).to match a_hash_including(
         'reason' => 'Does not meet minimum GCSE requirements',
-        'date' => anything, # This is not implemented yet
       )
     end
   end

@@ -143,7 +143,6 @@ module VendorApi
       if application_choice.rejection_reason?
         {
           reason: application_choice.rejection_reason,
-          date: Time.now,
         }
       end
     end
