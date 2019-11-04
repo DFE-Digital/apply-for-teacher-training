@@ -43,7 +43,7 @@ Feature: successful application statuses
 
     Examples:
       | original status       | actor     | action                   | new status               |
-      | unsubmitted           | candidate | submit                   | application complete     |
+      | unsubmitted           | candidate | submit                   | awaiting references      |
       | application complete  | provider  | make conditional offer   | conditional offer        |
       | application complete  | provider  | make unconditional offer | unconditional offer      |
       | conditional offer     | candidate | accept                   | meeting conditions       |

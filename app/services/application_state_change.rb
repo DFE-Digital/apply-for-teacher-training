@@ -11,9 +11,16 @@ class ApplicationStateChange
   #
   #   bundle exec rake generate_state_diagram
   #
-  workflow do
+  workflow do # rubocop:disable Metrics/BlockLength
     state :unsubmitted do
-      event :submit, transitions_to: :application_complete
+      event :submit, transitions_to: :awaiting_references
+    end
+
+    state :awaiting_references do
+      event :receive_reference, transitions_to: :application_complete,
+                                if: :references_complete?
+      event :receive_reference, transitions_to: :awaiting_references,
+                                unless: :references_complete?
     end
 
     state :application_complete do
@@ -53,5 +60,9 @@ class ApplicationStateChange
 
   def self.valid_states
     workflow_spec.states.keys
+  end
+
+  def references_complete?
+    application_choice.application_form.references_complete?
   end
 end

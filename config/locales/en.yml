@@ -77,6 +77,7 @@ en:
   application_choice:
     status_name:
       unsubmitted: 'Not submitted yet'
+      awaiting_references: 'Awaiting references'
       application_complete: 'New'
       conditional_offer: 'Conditional offer'
       unconditional_offer: 'Unconditional offer'
