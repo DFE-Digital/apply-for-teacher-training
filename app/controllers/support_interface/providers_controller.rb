@@ -5,12 +5,10 @@ module SupportInterface
     end
 
     def sync
-      # TODO: We're launching the pilot with these 3 providers, but at some point
-      # we'll want to expand to others and we will need a better mechanism to
-      # manage these.
-      providers = %w[R55 1N1 S31]
+      Rails.configuration.providers_to_sync[:codes].each do |code|
+        SyncProviderFromFind.call(provider_code: code)
+      end
 
-      providers.each { |p| SyncProviderFromFind.call(provider_code: p) }
       redirect_to action: 'index'
     end
   end

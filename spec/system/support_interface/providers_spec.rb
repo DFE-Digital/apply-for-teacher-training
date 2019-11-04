@@ -2,38 +2,42 @@ require 'rails_helper'
 
 RSpec.feature 'See providers' do
   scenario 'User visits providers page' do
-    given_i_am_a_support_user
-    and_there_are_providers_in_the_system
-    and_i_visit_the_providers_page
-    then_i_should_see_the_providers
-
-    when_i_click_the_sync_button
-    then_requests_to_find_should_be_made
-    and_i_should_see_the_updated_list_of_providers
+    given_providers_are_configured_to_be_synced do
+      given_i_am_a_support_user
+      when_i_visit_the_providers_page
+      and_i_click_the_sync_button
+      then_requests_to_find_should_be_made
+      and_i_should_see_the_updated_list_of_providers
+    end
   end
 
   def given_i_am_a_support_user
     page.driver.browser.authorize('test', 'test')
   end
 
-  def and_there_are_providers_in_the_system
-    create(:provider, name: 'Royal Academy of Dance')
+  def when_i_visit_the_providers_page
+    visit support_interface_providers_path
   end
 
-  def and_i_visit_the_providers_page
-    visit support_interface_providers_path
+  def given_providers_are_configured_to_be_synced
+    former_provider_list = Rails.application.config.providers_to_sync
+    new_provider_list = { codes: %w[ABC DEF GHI] }
+
+    Rails.application.config.providers_to_sync = new_provider_list
+    yield
+    Rails.application.config.providers_to_sync = former_provider_list
   end
 
   def then_i_should_see_the_providers
     expect(page).to have_content('Royal Academy of Dance')
-    expect(page).to_not have_content('Gorse SCITT')
-    expect(page).to_not have_content('Somerset SCITT Consortium')
+    expect(page).not_to have_content('Gorse SCITT')
+    expect(page).not_to have_content('Somerset SCITT Consortium')
   end
 
-  def when_i_click_the_sync_button
-    @request_1 = stub_200_from_find('R55', 'Royal Academy of Dance')
-    @request_2 = stub_200_from_find('1N1', 'Gorse SCITT')
-    @request_3 = stub_200_from_find('S31', 'Somerset SCITT Consortium')
+  def and_i_click_the_sync_button
+    @request_1 = stub_200_from_find('ABC', 'Royal Academy of Dance')
+    @request_2 = stub_200_from_find('DEF', 'Gorse SCITT')
+    @request_3 = stub_200_from_find('GHI', 'Somerset SCITT Consortium')
     click_button 'Sync Providers from Find'
   end
 
@@ -78,7 +82,7 @@ RSpec.feature 'See providers' do
                   { 'id': '1', 'type': 'courses' },
                 ],
               },
-            }
+            },
           },
           'included': [
             {
@@ -104,7 +108,7 @@ RSpec.feature 'See providers' do
                     { 'id': '1', 'type': 'sites' },
                   ],
                 },
-              }
+              },
             },
           ],
           'jsonapi': { 'version': '1.0' },
