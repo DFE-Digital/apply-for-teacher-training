@@ -10,9 +10,9 @@ module CandidateInterface
 
       application_form.application_qualifications.create!(
         level: level,
-        subject: subject
+        subject: subject,
+        qualification_type: qualification_type,
         )
-
       true
     end
   end

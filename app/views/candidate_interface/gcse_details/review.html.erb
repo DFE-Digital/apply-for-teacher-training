@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-     <h1 class="govuk-heading-xl"><%= heading_for_gcse_show(@application_qualification.subject) %></h1>
+     <h1 class="govuk-heading-xl"><%= heading_for_gcse_show(@subject) %></h1>
 
       <section class="app-summary-card govuk-!-margin-bottom-6">
         <header class="app-summary-card__header">
@@ -18,12 +18,10 @@
                 Qualification
               </dt>
               <dd class="govuk-summary-list__value">
-                GCSE
+                <%= @application_qualification.qualification_type.upcase  %>
               </dd>
               <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="/application/RIHJY/gcse/undefined?referrer=/application/RIHJY/gcse/maths/review">
-                  Change<span class="govuk-visually-hidden"> year</span>
-                </a>
+                <%= govuk_link_to 'Change', 'edit_qualification_path' %>
               </dd>
             </div>
             <div class="govuk-summary-list__row">
@@ -31,12 +29,10 @@
                 Year awarded
               </dt>
               <dd class="govuk-summary-list__value">
-                Not entered
+                <%= @application_qualification.award_year %>
               </dd>
               <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="/application/RIHJY/gcse/undefined/year?referrer=/application/RIHJY/gcse/maths/review">
-                  Change<span class="govuk-visually-hidden"> year</span>
-                </a>
+                <%= govuk_link_to 'Change', 'edit_qualification_path' %>
               </dd>
             </div>
             <div class="govuk-summary-list__row">
@@ -44,12 +40,12 @@
                 Grade
               </dt>
               <dd class="govuk-summary-list__value">
-                Not entered
+                <%= @application_qualification.grade %>
               </dd>
 
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="/application/RIHJY/gcse/undefined/grade?referrer=/application/RIHJY/gcse/maths/review">
-                  Change<span class="govuk-visually-hidden"> grade</span>
+                  <%= govuk_link_to 'Change', 'edit_details_path' %>
                 </a>
               </dd>
             </div>

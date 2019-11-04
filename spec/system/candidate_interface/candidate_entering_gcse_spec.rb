@@ -7,19 +7,21 @@ RSpec.feature 'Candidate entering GCSE details' do
     given_i_am_signed_in
     and_i_visit_the_candidate_application_page
     and_i_click_on_the_maths_gcse_link
-
     then_i_see_the_add_gcse_maths_page
 
     when_i_select_gcse_option
-
     and_i_click_save_and_continue
-
     then_i_see_add_grade_and_year_page
 
-    # then_i_see_the_edit_details_page
+    when_i_fill_in_grade_and_year
+    and_i_click_save_and_continue
 
+    then_i_see_the_review_for_maths_gcse
+    and_i_see_correct_grade_and_awarded_year
+
+    # then_i_see_the_edit_details_page
     # when_i_fill_in_grade_and_year
-    #
+
     # then_i_see_the_review_for_maths_gcse
     # and_i_see_correct_grade_and_awarded_year
   end
@@ -35,19 +37,7 @@ RSpec.feature 'Candidate entering GCSE details' do
 
     and_i_click_save_and_continue
 
-    expect(page).to have_content "can't be blank"
-  end
-
-
-  xscenario 'Candidate submits their english GCSE details' do
-    given_i_am_signed_in
-    and_i_visit_the_candidate_application_page
-    and_i_click_on_the_english_gcse_link
-
-    then_i_see_the_add_gcse_english_page
-
-    when_i_select_gcse_option
-    then_i_see_the_review_for_english_gcse
+    then_i_see_the_qualification_type_error
   end
 
   def given_i_am_signed_in
@@ -66,7 +56,6 @@ RSpec.feature 'Candidate entering GCSE details' do
 
   def when_i_select_gcse_option
     choose('GCSE')
-    click_button 'Save and continue'
   end
 
   def and_i_click_save_and_continue
@@ -99,7 +88,6 @@ RSpec.feature 'Candidate entering GCSE details' do
     expect(page).to have_content t('gcse_edit_details.heading.maths')
   end
 
-
   def and_i_see_correct_grade_and_awarded_year
     expect(page).to have_content 'AB'
     expect(page).to have_content '1990'
@@ -112,7 +100,9 @@ RSpec.feature 'Candidate entering GCSE details' do
   def when_i_fill_in_grade_and_year
     fill_in 'Please specify your grade', with: 'AB'
     fill_in 'Enter year', with: '1990'
+  end
 
-    click_button 'Save and continue'
+  def then_i_see_the_qualification_type_error
+    expect(page).to have_content 'Enter the type of qualification'
   end
 end

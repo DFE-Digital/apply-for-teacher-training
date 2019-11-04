@@ -226,3 +226,16 @@ en:
             end_date:
               invalid: Enter an end date in the correct format, for example 5 2019
               in_the_future: Enter an end date that is not in the future
+        candidate_interface/gcse_qualification_details_form:
+          attributes:
+            grade:
+              blank: Enter the grade
+            award_year:
+              blank: Enter the year you gained your qualification
+        candidate_interface/gcse_qualification_type_form:
+          attributes:
+            qualification_type:
+              blank: Enter the type of qualification
+            level:
+              blank: Enter your level
+

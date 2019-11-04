@@ -5,7 +5,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @application_qualification, url: candidate_interface_gcse_details_update_type_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder, method: :post do |f| %>
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-        <h1 class="govuk-fieldset__heading"><%= heading_for_gcse_edit_type(@application_qualification.subject) %></h1>
+        <h1 class="govuk-fieldset__heading"><%= heading_for_gcse_edit_type(@subject) %></h1>
       </legend>
 
       <%= f.govuk_error_summary %>
