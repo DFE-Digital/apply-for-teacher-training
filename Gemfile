@@ -37,7 +37,7 @@ gem 'actionview-component'
 gem 'uk_postcode'
 
 gem 'business_time'
-gem 'history'
+gem 'holidays'
 
 # Logging
 gem 'lograge'

@@ -181,7 +181,7 @@ GEM
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
     hashdiff (1.0.0)
-    history (0.3.0)
+    holidays (8.0.0)
     html_tokenizer (0.0.7)
     i18n (1.7.0)
       concurrent-ruby (~> 1.0)
@@ -423,7 +423,7 @@ DEPENDENCIES
   govuk-lint
   govuk_design_system_formbuilder (= 0.9.8)
   guard-rspec
-  history
+  holidays
   json-schema
   json_api_client
   launchy

@@ -16,23 +16,23 @@ RSpec.describe ApplicationDates, type: :model do
 
   describe '#respond_by' do
     it 'returns date that providers will respond by' do
-      expect(application_dates.respond_by.to_date).to eql(Date.new(2019, 2, 26))
+      expect(application_dates.respond_by.to_date).to eql(Date.new(2019, 2, 27))
     end
   end
 
   describe '#edit_by' do
     it 'returns date that the candidate can edit by' do
-      expect(application_dates.edit_by.to_date).to eql(Date.new(2019, 1, 10))
+      expect(application_dates.edit_by.to_date).to eql(Date.new(2019, 1, 11))
     end
   end
 
   describe '#days_remaining_to_edit' do
     it 'returns number of days remaining that a candidate can edit by' do
       Timecop.travel(submitted_at) do
-        expect(application_dates.days_remaining_to_edit).to eq(9)
+        expect(application_dates.days_remaining_to_edit).to eq(10)
       end
 
-      Timecop.travel(submitted_at + 2.days) do
+      Timecop.travel(submitted_at + 3.days) do
         expect(application_dates.days_remaining_to_edit).to eq(7)
       end
     end
