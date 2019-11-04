@@ -27,5 +27,5 @@ When('{string} provides a reference') do |referee_email|
 end
 
 Then('the new application choice status is {string}') do |new_application_status|
-  expect(@application_choice.reload.status).to eq(new_application_status.gsub(' ', '_'))
+  expect(@application_choice.reload.status).to eq(new_application_status.parameterize(separator: '_'))
 end
