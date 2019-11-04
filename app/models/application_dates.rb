@@ -16,7 +16,7 @@ class ApplicationDates
   end
 
   def days_remaining_to_edit
-    (edit_by - Time.now.to_date).to_i
+    (edit_by.to_date - Time.now.to_date).to_i
   end
 
   def form_open_to_editing?

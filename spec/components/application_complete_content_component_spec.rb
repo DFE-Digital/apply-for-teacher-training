@@ -19,29 +19,29 @@ RSpec.describe ApplicationCompleteContentComponent do
   end
 
   it 'renders with correct respond by date' do
-    expect(render_result.text).to include('1 December 2019')
+    expect(render_result.text).to include('17 December 2019')
   end
 
   it 'renders with correct edit by date' do
-    expect(render_result.text).to include('29 October 2019')
+    expect(render_result.text).to include('31 October 2019')
   end
 
   it 'renders with correct days remaining after time has passed' do
     Timecop.travel(submitted_at) do
-      expect(render_result.text).to include('7 days')
+      expect(render_result.text).to include('9 days')
     end
 
     Timecop.travel(submitted_at + 2.days) do
-      expect(render_result.text).to include('5 days')
+      expect(render_result.text).to include('7 days')
     end
 
     Timecop.travel(submitted_at + 6.days) do
-      expect(render_result.text).to include('1 day')
+      expect(render_result.text).to include('3 day')
     end
   end
 
   it 'renders without edit content after lots of time has passed' do
-    Timecop.travel(submitted_at + 7.days) do
+    Timecop.travel(submitted_at + 10.days) do
       expect(render_result.text).not_to include('Edit your application')
     end
   end
