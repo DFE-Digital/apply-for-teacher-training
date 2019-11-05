@@ -16,7 +16,7 @@ module CandidateInterface
     validate :start_date_valid
     validate :end_date_valid, if: :end_date_given?
     validate :end_date_year_before_current_year, if: :end_date_valid?
-    validate :start_date_after_end_date, if: :start_date_and_end_date_valid?
+    validate :start_date_before_end_date, if: :start_date_and_end_date_valid?
 
     validates :role, :organisation,
               length: { maximum: 60 }
@@ -92,8 +92,8 @@ module CandidateInterface
       errors.add(:end_date, :invalid) if end_date.nil?
     end
 
-    def start_date_after_end_date
-      errors.add(:start_date, :before) if start_date > end_date
+    def start_date_before_end_date
+      errors.add(:start_date, :before) unless start_date < end_date
     end
 
     def end_date_year_before_current_year
