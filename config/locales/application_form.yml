@@ -231,7 +231,7 @@ en:
             grade:
               blank: Enter the grade
             award_year:
-              blank: Enter the year you gained your qualification
+              blank: Enter the year
         candidate_interface/gcse_qualification_type_form:
           attributes:
             qualification_type:

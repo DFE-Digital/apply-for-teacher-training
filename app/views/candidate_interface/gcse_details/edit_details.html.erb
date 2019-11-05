@@ -10,8 +10,8 @@
 
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_text_field :grade, label: { text: 'Please specify your grade', size: 'm' } %>
-      <%= f.govuk_text_field :award_year, label: { text: 'Enter year', size: 'm' } %>
+      <%= f.govuk_text_field :grade, label: { text: 'Enter your qualification grade', size: 'm' } %>
+      <%= f.govuk_text_field :award_year, label: { text: 'Enter the year you gained your qualification', size: 'm' } %>
 
       <%= f.submit 'Save and continue', class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
   <% end %>

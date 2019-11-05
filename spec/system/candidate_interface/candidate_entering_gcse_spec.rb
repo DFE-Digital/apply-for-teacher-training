@@ -18,12 +18,6 @@ RSpec.feature 'Candidate entering GCSE details' do
 
     then_i_see_the_review_for_maths_gcse
     and_i_see_correct_grade_and_awarded_year
-
-    # then_i_see_the_edit_details_page
-    # when_i_fill_in_grade_and_year
-
-    # then_i_see_the_review_for_maths_gcse
-    # and_i_see_correct_grade_and_awarded_year
   end
 
   scenario 'Candidate does not provide a qualification level' do
@@ -94,12 +88,12 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def then_i_see_add_grade_and_year_page
-    expect(page).to have_content 'Add grade and year of your maths qualification'
+    expect(page).to have_content 'Maths qualification grade and year'
   end
 
   def when_i_fill_in_grade_and_year
-    fill_in 'Please specify your grade', with: 'AB'
-    fill_in 'Enter year', with: '1990'
+    fill_in 'Enter your qualification grade', with: 'AB'
+    fill_in 'Enter the year you gained your qualification', with: '1990'
   end
 
   def then_i_see_the_qualification_type_error
