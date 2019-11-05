@@ -23,10 +23,10 @@ RSpec.describe GenerateTestData do
       end
     end
 
-    it 'assigns all application choices to the application_complete state' do
+    it 'assigns all application choices to the awaiting_provider_decision state' do
       GenerateTestData.new(2).generate
       ApplicationChoice.all.each do |application_choice|
-        expect(application_choice.status).to eq 'application_complete'
+        expect(application_choice.status).to eq 'awaiting_provider_decision'
       end
     end
 
