@@ -5,7 +5,7 @@
         <%= degree_form.title %>
       </h3>
       <div class="app-summary-card__actions">
-        <%= link_to t('application_form.degree.delete'), candidate_interface_degrees_destroy_path(degree_form.id), class: 'govuk-link' %>
+        <%= link_to t('application_form.degree.delete'), candidate_interface_confirm_degrees_destroy_path(degree_form.id), class: 'govuk-link' %>
       </div>
     </header>
   <% end %>

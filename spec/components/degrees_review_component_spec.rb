@@ -73,7 +73,7 @@ RSpec.describe DegreesReviewComponent do
 
     expect(result.css('.app-summary-card__actions').text).to include(t('application_form.degree.delete'))
     expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
-      Rails.application.routes.url_helpers.candidate_interface_degrees_destroy_path(2),
+      Rails.application.routes.url_helpers.candidate_interface_confirm_degrees_destroy_path(2),
     )
   end
 end
