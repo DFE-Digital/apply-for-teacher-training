@@ -78,17 +78,17 @@ module CandidateInterface
 
   private
 
+    def valid_date_or_nil(year, month)
+      date_args = [year, month, 1].map(&:to_i)
+      Date.new(*date_args) if year.present? && Date.valid_date?(*date_args)
+    end
+
     def end_date_blank?
       end_date_year.blank? && end_date_month.blank?
     end
 
     def end_date_valid
       errors.add(:end_date, :invalid) unless end_date
-    end
-
-    def valid_date_or_nil(year, month)
-      date_args = [year, month, 1].map(&:to_i)
-      Date.new(*date_args) if year.present? && Date.valid_date?(*date_args)
     end
 
     def start_date_valid
