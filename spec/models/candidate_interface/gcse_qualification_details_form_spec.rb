@@ -23,8 +23,8 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
 
       details_form.save_base(qualification)
 
-      expect(qualification.reload.grade).to eq('AB')
-      expect(qualification.reload.award_year).to eq('1990')
+      expect(qualification.grade).to eq('AB')
+      expect(qualification.award_year).to eq('1990')
     end
   end
 end
