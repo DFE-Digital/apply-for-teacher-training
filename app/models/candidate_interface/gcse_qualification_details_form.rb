@@ -9,7 +9,6 @@ module CandidateInterface
       return false unless valid?
 
       qualification.update!(grade: grade, award_year: award_year)
-      qualification
     end
   end
 end

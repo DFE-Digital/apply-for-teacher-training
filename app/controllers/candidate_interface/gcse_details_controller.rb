@@ -1,22 +1,21 @@
 module CandidateInterface
   class GcseDetailsController < CandidateInterfaceController
+    before_action do
+      @subject = subject_param
+    end
+
     # 1th step - Edit qualification type
     def edit_type
-      @subject = subject_param
-
       @application_qualification = GcseQualificationTypeForm.new(
-        qualification_type: '',
         subject: subject_param,
-        level: 'gcse',
+        level: ApplicationQualification.levels[:gcse],
       )
     end
 
     def update_type
-      @subject = subject_param
-      @application_qualification = GcseQualificationTypeForm
-                                     .new(qualification_type: (params[:candidate_interface_gcse_qualification_type_form] || {}).fetch(:qualification_type, ''),
-                                          subject: subject_param,
-                                          level: 'gcse')
+      @application_qualification = GcseQualificationTypeForm.new(qualification_type: qualification_type_param,
+                                                                 subject: subject_param,
+                                                                 level: ApplicationQualification.levels[:gcse])
 
       application_form = current_candidate.current_application
 
@@ -29,22 +28,20 @@ module CandidateInterface
 
     # 2nd step - Edit grade and award year
     def edit_details
-      @subject = subject_param
       application_qualification = ApplicationQualification.last
 
-      @application_qualification = gcse_qualification_details_form(
+      @application_qualification = GcseQualificationDetailsForm.new(
         grade: application_qualification.grade,
         award_year: application_qualification.award_year,
-)
+      )
 
       render :edit_details
     end
 
     def update_details
-      @subject = subject_param
       current_application_qualification = ApplicationQualification.last
 
-      details_form = gcse_qualification_details_form(
+      details_form = GcseQualificationDetailsForm.new(
         grade: params[:candidate_interface_gcse_qualification_details_form][:grade],
         award_year: params[:candidate_interface_gcse_qualification_details_form][:award_year],
       )
@@ -61,23 +58,18 @@ module CandidateInterface
     end
 
     def review
-      @subject = subject_param
       @application_qualification = ApplicationQualification.last
 
       render :review
     end
 
   private
-
-    def gcse_qualification_details_form(grade:, award_year:)
-      GcseQualificationDetailsForm.new(
-        grade: grade,
-        award_year: award_year,
-      )
+    def subject_param
+      params.require(:subject)
     end
 
-    def subject_param
-      params[:subject]
+    def qualification_type_param
+      (params[:candidate_interface_gcse_qualification_type_form] || {}).fetch(:qualification_type, '')
     end
   end
 end
