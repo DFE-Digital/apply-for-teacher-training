@@ -52,7 +52,7 @@ module CandidateInterface
 
       def determine_application_grade(grade, predicted_grade)
         case grade
-        when CLASSES
+        when *CLASSES
           grade
         else
           if predicted_grade
