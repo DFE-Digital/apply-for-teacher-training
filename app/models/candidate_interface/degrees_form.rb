@@ -2,7 +2,9 @@ module CandidateInterface
   class DegreesForm
     include ActiveModel::Model
 
-    attr_accessor :qualification_type, :subject, :institution_name, :grade,
+    CLASSES = %w[first upper_second lower_second third].freeze
+
+    attr_accessor :id, :qualification_type, :subject, :institution_name, :grade,
                   :other_grade, :predicted_grade, :award_year
 
     validates :qualification_type, :subject, :institution_name, :grade, presence: true
@@ -15,16 +17,50 @@ module CandidateInterface
 
     validate :award_year_is_date, if: :award_year
 
-    def self.build_from_application(application_form)
-      application_form.application_qualifications.degrees.map do |degree|
+    class << self
+      def build_from_application(application_form)
+        application_form.application_qualifications.degrees.map do |degree|
+          new(
+            id: degree.id,
+            qualification_type: degree.qualification_type,
+            subject: degree.subject,
+            institution_name: degree.institution_name,
+            grade: degree.grade,
+            predicted_grade: degree.predicted_grade,
+            award_year: degree.award_year,
+          )
+        end
+      end
+
+      def find_by_application(application_form, degree_id)
+        degree = application_form.application_qualifications.find(degree_id)
+        grade = determine_application_grade(degree.grade, degree.predicted_grade)
+
         new(
+          id: degree.id,
           qualification_type: degree.qualification_type,
           subject: degree.subject,
           institution_name: degree.institution_name,
-          grade: degree.grade,
-          predicted_grade: degree.predicted_grade,
+          grade: grade,
+          other_grade: grade == 'other' ? degree.grade : '',
+          predicted_grade: degree.predicted_grade ? degree.grade : '',
           award_year: degree.award_year,
         )
+      end
+
+    private
+
+      def determine_application_grade(grade, predicted_grade)
+        case grade
+        when CLASSES
+          grade
+        else
+          if predicted_grade
+            'predicted'
+          else
+            'other'
+          end
+        end
       end
     end
 
@@ -42,6 +78,10 @@ module CandidateInterface
       )
 
       true
+    end
+
+    def title
+      "#{qualification_type} #{subject}"
     end
 
   private

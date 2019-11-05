@@ -68,6 +68,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
     it 'creates an array of objects based on the provided ApplicationForm' do
       application_form = create(:application_form) do |form|
         form.application_qualifications.create(
+          id: 1,
           level: 'degree',
           qualification_type: 'BA',
           subject: 'Woof',
@@ -77,6 +78,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
           award_year: '2008',
         )
         form.application_qualifications.create(
+          id: 2,
           level: 'degree',
           qualification_type: 'BA',
           subject: 'Meow',
@@ -91,6 +93,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
 
       expect(degrees).to match_array([
         have_attributes(
+          id: 1,
           qualification_type: 'BA',
           subject: 'Woof',
           institution_name: 'University of Doge',
@@ -98,6 +101,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
           award_year: '2008',
         ),
         have_attributes(
+          id: 2,
           qualification_type: 'BA',
           subject: 'Meow',
           institution_name: 'University of Cate',
@@ -138,6 +142,58 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
           award_year: '2010',
         ),
       ])
+    end
+  end
+
+  describe '.find_by_application' do
+    it 'returns a new DegreesForm object using the id' do
+      application_form = create(:application_form) do |form|
+        form.application_qualifications.create(
+          id: 1,
+          level: 'degree',
+          qualification_type: 'BA',
+          subject: 'Woof',
+        )
+        form.application_qualifications.create(
+          id: 2,
+          level: 'degree',
+          qualification_type: 'BA',
+          subject: 'Meow',
+        )
+      end
+
+      degree = CandidateInterface::DegreesForm.find_by_application(application_form, 2)
+
+      expect(degree).to have_attributes(qualification_type: 'BA', subject: 'Meow')
+    end
+
+    it 'returns grade and other grade if grade is not known' do
+      application_form = create(:application_form) do |form|
+        form.application_qualifications.create(
+          id: 1,
+          level: 'degree',
+          grade: 'Distinction',
+        )
+      end
+
+      degree = CandidateInterface::DegreesForm.find_by_application(application_form, 1)
+
+      expect(degree).to have_attributes(grade: 'other', other_grade: 'Distinction')
+    end
+
+    it 'returns grade and predicted if predicted grade is true' do
+      application_form = create(:application_form) do |form|
+        form.application_qualifications.create(
+          id: 1,
+          level: 'degree',
+          grade: 'First',
+          predicted_grade: true,
+        )
+      end
+
+      degree = CandidateInterface::DegreesForm.find_by_application(application_form, 1)
+
+      expect(degree).to have_attributes(grade: 'predicted', predicted_grade: 'First')
     end
   end
 
@@ -187,6 +243,14 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
       expect(degree.save_base(application_form)).to eq(true)
       expect(application_form.application_qualifications.degree.first)
         .to have_attributes(grade: 'First', predicted_grade: true)
+    end
+  end
+
+  describe '#title' do
+    it 'concatenates the qualification type and subject' do
+      degree = CandidateInterface::DegreesForm.new(qualification_type: 'BA', subject: 'Doge')
+
+      expect(degree.title).to eq('BA Doge')
     end
   end
 end

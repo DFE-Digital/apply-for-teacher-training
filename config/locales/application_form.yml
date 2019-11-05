@@ -131,6 +131,8 @@ en:
         button: Continue
       another:
         button: Add another degree
+      delete: Delete degree
+      confirm_delete: Yes I’m sure - delete this degree
   activemodel:
     errors:
       models:

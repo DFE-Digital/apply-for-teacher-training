@@ -4,6 +4,7 @@ RSpec.describe DegreesReviewComponent do
   let(:application_form) do
     create(:application_form) do |form|
       form.application_qualifications.create(
+        id: 1,
         level: 'degree',
         qualification_type: 'BA',
         subject: 'Woof',
@@ -13,6 +14,7 @@ RSpec.describe DegreesReviewComponent do
         award_year: '2008',
       )
       form.application_qualifications.create(
+        id: 2,
         level: 'degree',
         qualification_type: 'BA',
         subject: 'Meow',
@@ -64,5 +66,14 @@ RSpec.describe DegreesReviewComponent do
 
     expect(result.css('.app-summary-card__title').text).to include('BA Woof')
     expect(result.css('.app-summary-card__title').text).to include('BA Meow')
+  end
+
+  it 'renders component along with a delete link for each degree' do
+    result = render_inline(DegreesReviewComponent, application_form: application_form)
+
+    expect(result.css('.app-summary-card__actions').text).to include(t('application_form.degree.delete'))
+    expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
+      Rails.application.routes.url_helpers.candidate_interface_confirm_degrees_destroy_path(2),
+    )
   end
 end

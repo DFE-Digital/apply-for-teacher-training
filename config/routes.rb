@@ -75,6 +75,9 @@ Rails.application.routes.draw do
 
         get '/review' => 'degrees/review#show', as: :degrees_review
         patch '/review' => 'degrees/review#complete', as: :degrees_complete
+
+        get '/delete/:id' => 'degrees/destroy#confirm_destroy', as: :confirm_degrees_destroy
+        delete '/delete/:id' => 'degrees/destroy#destroy'
       end
     end
   end
