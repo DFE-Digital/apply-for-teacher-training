@@ -3,57 +3,8 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-     <h1 class="govuk-heading-xl"><%= heading_for_gcse_show(@subject) %></h1>
+    <h1 class="govuk-heading-xl"><%= heading_for_gcse_show(@subject) %></h1>
 
-      <section class="app-summary-card govuk-!-margin-bottom-6">
-        <header class="app-summary-card__header">
-          <h3 class="app-summary-card__title">
-            GCSE
-          </h3>
-        </header>
-        <div class="app-summary-card__body">
-          <dl class="govuk-summary-list">
-            <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-                Qualification
-              </dt>
-              <dd class="govuk-summary-list__value">
-                <%= @application_qualification.qualification_type.upcase %>
-              </dd>
-              <dd class="govuk-summary-list__actions">
-                <%= govuk_link_to 'Change', 'edit_qualification_path' %>
-              </dd>
-            </div>
-            <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-                Year awarded
-              </dt>
-              <dd class="govuk-summary-list__value">
-                <%= @application_qualification.award_year %>
-              </dd>
-              <dd class="govuk-summary-list__actions">
-                <%= govuk_link_to 'Change', 'edit_qualification_path' %>
-              </dd>
-            </div>
-            <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-                Grade
-              </dt>
-              <dd class="govuk-summary-list__value">
-                <%= @application_qualification.grade %>
-              </dd>
-
-              <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="/application/RIHJY/gcse/undefined/grade?referrer=/application/RIHJY/gcse/maths/review">
-                  <%= govuk_link_to 'Change', 'edit_details_path' %>
-                </a>
-              </dd>
-            </div>
-          </dl>
-        </div>
-      </section>
-
-    <%= govuk_button_link_to t('review_application.button_continue'), candidate_interface_application_form_path %>
-
+    <%= render(ReviewGcseQualificationComponent, application_qualification: @application_qualification) %>
   </div>
 </div>

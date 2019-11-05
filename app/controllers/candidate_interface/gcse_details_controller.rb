@@ -64,6 +64,7 @@ module CandidateInterface
     end
 
   private
+
     def subject_param
       params.require(:subject)
     end
