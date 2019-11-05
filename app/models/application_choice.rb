@@ -9,16 +9,9 @@ class ApplicationChoice < ApplicationRecord
 
   audited associated_with: :application_form
 
-  states_not_visible_to_provider = %i[unsubmitted awaiting_references]
-  states_visible_to_provider = ApplicationStateChange.valid_states - states_not_visible_to_provider
-
   scope :for_provider, ->(provider_code) {
     includes(:course, :provider)
     .where(providers: { code: provider_code })
-  }
-
-  scope :visible_to_provider, -> {
-    where(status: states_visible_to_provider)
   }
 
   enum status: {
