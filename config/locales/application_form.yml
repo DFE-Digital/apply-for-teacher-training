@@ -236,6 +236,3 @@ en:
           attributes:
             qualification_type:
               blank: Enter the type of qualification
-            level:
-              blank: Enter your level
-
