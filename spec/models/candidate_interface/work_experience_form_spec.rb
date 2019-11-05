@@ -144,5 +144,19 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
 
       expect(work_experience_form).to have_attributes(form_data)
     end
+
+    it 'returns an empty string if end date is nil' do
+      data[:end_date] = nil
+      application_work_experience = ApplicationWorkExperience.new(data)
+      work_experience_form = CandidateInterface::WorkExperienceForm.build_from_experience(
+        application_work_experience,
+      )
+
+      expect(work_experience_form).to have_attributes(
+        end_date_day: '',
+        end_date_month: '',
+        end_date_year: '',
+      )
+    end
   end
 end

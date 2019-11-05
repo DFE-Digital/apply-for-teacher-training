@@ -34,9 +34,9 @@ module CandidateInterface
         start_date_day: work_experience.start_date.day,
         start_date_month: work_experience.start_date.month,
         start_date_year: work_experience.start_date.year,
-        end_date_day: work_experience.end_date.day,
-        end_date_month: work_experience.end_date.month,
-        end_date_year: work_experience.end_date.year,
+        end_date_day: work_experience.end_date&.day || '',
+        end_date_month: work_experience.end_date&.month || '',
+        end_date_year: work_experience.end_date&.year || '',
       )
     end
 
