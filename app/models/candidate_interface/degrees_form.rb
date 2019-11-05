@@ -2,6 +2,8 @@ module CandidateInterface
   class DegreesForm
     include ActiveModel::Model
 
+    CLASSES = %w[first upper_second lower_second third].freeze
+
     attr_accessor :id, :qualification_type, :subject, :institution_name, :grade,
                   :other_grade, :predicted_grade, :award_year
 
@@ -50,7 +52,7 @@ module CandidateInterface
 
       def determine_application_grade(grade, predicted_grade)
         case grade
-        when 'first', 'upper_second', 'lower_second', 'third'
+        when CLASSES
           grade
         else
           if predicted_grade
