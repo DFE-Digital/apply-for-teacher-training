@@ -32,7 +32,7 @@ module CandidateInterface
         end
       end
 
-      def find_by_application(application_form, degree_id)
+      def build_from_application(application_form, degree_id)
         degree = application_form.application_qualifications.find(degree_id)
         grade = determine_application_grade(degree.grade, degree.predicted_grade)
 

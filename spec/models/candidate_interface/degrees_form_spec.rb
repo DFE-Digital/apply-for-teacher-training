@@ -155,7 +155,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
     end
   end
 
-  describe '.find_by_application' do
+  describe '.build_from_application' do
     it 'returns a new DegreesForm object using the id' do
       application_form = create(:application_form) do |form|
         form.application_qualifications.create(
@@ -172,7 +172,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
         )
       end
 
-      degree = CandidateInterface::DegreesForm.find_by_application(application_form, 2)
+      degree = CandidateInterface::DegreesForm.build_from_application(application_form, 2)
 
       expect(degree).to have_attributes(qualification_type: 'BA', subject: 'Meow')
     end
@@ -186,7 +186,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
         )
       end
 
-      degree = CandidateInterface::DegreesForm.find_by_application(application_form, 1)
+      degree = CandidateInterface::DegreesForm.build_from_application(application_form, 1)
 
       expect(degree).to have_attributes(grade: 'other', other_grade: 'Distinction')
     end
@@ -201,7 +201,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
         )
       end
 
-      degree = CandidateInterface::DegreesForm.find_by_application(application_form, 1)
+      degree = CandidateInterface::DegreesForm.build_from_application(application_form, 1)
 
       expect(degree).to have_attributes(grade: 'predicted', predicted_grade: 'First')
     end
