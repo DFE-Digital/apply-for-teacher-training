@@ -95,12 +95,6 @@ module CandidateInterface
       errors.add(:start_date, :invalid) unless start_date
     end
 
-    def end_date_valid_or_blank
-      if end_date_year.blank? && end_date_month.blank?
-        errors.add(:end_date, :invalid) if end_date.nil?
-      end
-    end
-
     def start_date_before_end_date
       errors.add(:start_date, :before) unless start_date < end_date
     end
