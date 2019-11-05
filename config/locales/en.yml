@@ -79,12 +79,14 @@ en:
       unsubmitted: 'Not submitted yet'
       awaiting_references: 'Awaiting references'
       application_complete: 'New'
-      conditional_offer: 'Conditional offer'
-      unconditional_offer: 'Unconditional offer'
+      awaiting_provider_decision: 'Awaiting provider decision'
+      offer: 'Offer'
+      pending_conditions: 'New'
       recruited: 'Candidate recruited'
       enrolled: 'Candidate  enrolled'
-      rejected: 'Candidate rejected'
-      meeting_conditions: 'Meeting conditions'
+      rejected: 'Provider rejected'
+      withdrawn: 'Candidate withdrawn'
+      declined: 'Candidate declined'
   date:
     formats:
       long: "%e %B %Y"

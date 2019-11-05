@@ -17,12 +17,14 @@ class ApplicationChoice < ApplicationRecord
     unsubmitted: 'unsubmitted',
     awaiting_references: 'awaiting_references',
     application_complete: 'application_complete',
-    conditional_offer: 'conditional_offer',
-    unconditional_offer: 'unconditional_offer',
-    meeting_conditions: 'meeting_conditions',
+    awaiting_provider_decision: 'awaiting_provider_decision',
+    offer: 'offer',
+    pending_conditions: 'pending_conditions',
     recruited: 'recruited',
     enrolled: 'enrolled',
     rejected: 'rejected',
+    declined: 'declined',
+    withdrawn: 'withdrawn',
   }
 
 private

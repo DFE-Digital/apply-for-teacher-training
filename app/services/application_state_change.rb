@@ -11,7 +11,8 @@ class ApplicationStateChange
   #
   #   bundle exec rake generate_state_diagram
   #
-  workflow do # rubocop:disable Metrics/BlockLength
+  # rubocop:disable Metrics/BlockLength
+  workflow do
     state :unsubmitted do
       event :submit, transitions_to: :awaiting_references
     end
@@ -21,33 +22,44 @@ class ApplicationStateChange
                                 if: :references_complete?
       event :receive_reference, transitions_to: :awaiting_references,
                                 unless: :references_complete?
-    end
-
-    state :awaiting_references do
-      event :receive_references, transitions_to: :application_complete
+      event :withdraw, transitions_to: :withdrawn
     end
 
     state :application_complete do
+      event :send_to_provider, transitions_to: :awaiting_provider_decision
+      event :withdraw, transitions_to: :withdrawn
+    end
+
+    state :awaiting_provider_decision do
       event :make_offer, transitions_to: :offer
       event :reject_application, transitions_to: :rejected
+      event :withdraw, transitions_to: :withdrawn
     end
 
     state :offer do
-      event :accept, transitions_to: :awaiting_conditions
+      event :accept, transitions_to: :pending_conditions
+      event :decline, transitions_to: :declined
     end
 
-    state :awaiting_conditions do
+    state :pending_conditions do
       event :confirm_conditions_met, transitions_to: :recruited
+      event :withdraw, transitions_to: :withdrawn
     end
 
     state :recruited do
       event :confirm_enrolment, transitions_to: :enrolled
+      event :withdraw, transitions_to: :withdrawn
     end
 
     state :enrolled
 
     state :rejected
+
+    state :declined
+
+    state :withdrawn
   end
+  # rubocop:enable Metrics/BlockLength
 
   def load_workflow_state
     application_choice.status

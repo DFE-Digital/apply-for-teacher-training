@@ -16,5 +16,9 @@ class ApplicationForm < ApplicationRecord
     references.any? && references.all?(&:complete?)
   end
 
+  def complete?
+    application_choices.any? && application_choices.first.application_complete?
+  end
+
   audited
 end
