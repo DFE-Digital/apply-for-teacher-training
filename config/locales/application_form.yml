@@ -223,4 +223,4 @@ en:
               before: Enter a start date that is before the end date
             end_date:
               invalid: Enter a end date in the correct format, for example 5 2019
-              year_after: Enter a end date year that is the current year or in the past
+              in_the_future: Enter an end date that is not in the future

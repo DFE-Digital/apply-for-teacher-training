@@ -14,8 +14,8 @@ module CandidateInterface
     validates :working_with_children, inclusion: { in: %w(true false) }
 
     validate :start_date_valid
-    validate :end_date_valid, if: :end_date_given?
-    validate :end_date_year_before_current_year, if: :end_date_valid?
+    validate :end_date_valid, unless: :end_date_blank?
+    validate :end_date_before_current_year_and_month, if: :end_date_valid?
     validate :start_date_before_end_date, if: :start_date_and_end_date_valid?
 
     validates :role, :organisation,
@@ -78,37 +78,46 @@ module CandidateInterface
 
   private
 
+    def end_date_blank?
+      end_date_year.blank? && end_date_month.blank?
+    end
+
+    def end_date_valid
+      errors.add(:end_date, :invalid) unless end_date
+    end
+
     def valid_date_or_nil(year, month)
       date_args = [year, month, 1].map(&:to_i)
-      Date.new(*date_args) if Date.valid_date?(*date_args)
+      Date.new(*date_args) if year.present? && Date.valid_date?(*date_args)
     end
 
     def start_date_valid
       errors.add(:start_date, :invalid) unless start_date
     end
 
-    def end_date_valid
-      errors.add(:end_date, :invalid) if end_date.nil?
+    def end_date_valid_or_blank
+      if end_date_year.blank? && end_date_month.blank?
+        errors.add(:end_date, :invalid) if end_date.nil?
+      end
     end
 
     def start_date_before_end_date
       errors.add(:start_date, :before) unless start_date < end_date
     end
 
-    def end_date_year_before_current_year
-      errors.add(:end_date, :year_after) if end_date.year > Date.today.year
+    def end_date_before_current_year_and_month
+      if end_date.year > Date.today.year || \
+        end_date.year == Date.today.year && end_date.month > Date.today.month
+        errors.add(:end_date, :in_the_future)
+      end
     end
 
     def start_date_and_end_date_valid?
-      end_date_given? && !errors.include?(:start_date) && !errors.include?(:end_date)
+      end_date && !errors.include?(:start_date) && !errors.include?(:end_date)
     end
 
     def end_date_valid?
-      end_date_given? && !errors.include?(:end_date)
-    end
-
-    def end_date_given?
-      end_date_year.present? && end_date_month.present?
+      end_date && !errors.include?(:end_date)
     end
   end
 end
