@@ -1,7 +1,5 @@
 module FindAPI
   class Provider < FindAPI::Resource
-    RECRUITMENT_CYCLE_YEAR = ENV.fetch('RECRUITMENT_CYCLE_YEAR') { 2020 }
-
     belongs_to :recruitment_cycle, param: :recruitment_cycle_year
     has_many :courses
     has_many :sites
