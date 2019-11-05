@@ -74,7 +74,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
     end
   end
 
-  describe '.build_from_application' do
+  describe '.build_all_from_application' do
     it 'creates an array of objects based on the provided ApplicationForm' do
       application_form = create(:application_form) do |form|
         form.application_qualifications.create(
@@ -99,7 +99,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
         )
       end
 
-      degrees = CandidateInterface::DegreesForm.build_from_application(application_form)
+      degrees = CandidateInterface::DegreesForm.build_all_from_application(application_form)
 
       expect(degrees).to match_array([
         have_attributes(
@@ -141,7 +141,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
         )
       end
 
-      degrees = CandidateInterface::DegreesForm.build_from_application(application_form)
+      degrees = CandidateInterface::DegreesForm.build_all_from_application(application_form)
 
       expect(degrees).to match_array([
         have_attributes(

@@ -47,7 +47,7 @@ module CandidateInterface
     end
 
     def render_new
-      degrees = DegreesForm.build_from_application(current_candidate.current_application)
+      degrees = DegreesForm.build_all_from_application(current_candidate.current_application)
 
       if degrees.count.zero?
         render :new_undergraduate

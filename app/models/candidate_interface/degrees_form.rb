@@ -18,7 +18,7 @@ module CandidateInterface
     validate :award_year_is_date, if: :award_year
 
     class << self
-      def build_from_application(application_form)
+      def build_all_from_application(application_form)
         application_form.application_qualifications.degrees.map do |degree|
           new(
             id: degree.id,

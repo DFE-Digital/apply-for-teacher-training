@@ -3,7 +3,7 @@ class DegreesReviewComponent < ActionView::Component::Base
 
   def initialize(application_form:)
     @application_form = application_form
-    @degrees_form = CandidateInterface::DegreesForm.build_from_application(
+    @degrees_form = CandidateInterface::DegreesForm.build_all_from_application(
       @application_form,
     )
   end
