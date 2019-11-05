@@ -1,7 +1,7 @@
 module SupportInterface
   class ProvidersController < SupportInterfaceController
     def index
-      @providers = Provider.all
+      @providers = Provider.includes(:sites, :courses).all
     end
 
     def sync
