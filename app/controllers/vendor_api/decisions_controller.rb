@@ -39,9 +39,7 @@ module VendorApi
   private
 
     def application_choice
-      @application_choice ||= ApplicationChoice
-        .for_provider(current_provider.code)
-        .visible_to_provider
+      @application_choice ||= GetApplicationChoicesForProvider.call(provider: current_provider)
         .find(params[:application_id])
     end
 
