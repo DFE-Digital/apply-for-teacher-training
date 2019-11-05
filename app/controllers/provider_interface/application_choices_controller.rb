@@ -2,9 +2,9 @@ module ProviderInterface
   class ApplicationChoicesController < ProviderInterfaceController
     def index
       application_choices = ApplicationChoice
-        .includes(:application_form)
-        .order(updated_at: :desc)
         .for_provider(current_user.provider.code)
+        .visible_to_provider
+        .order(updated_at: :desc)
 
       @application_choices = application_choices.map do |application_choice|
         ApplicationChoicePresenter.new(application_choice)
@@ -13,8 +13,8 @@ module ProviderInterface
 
     def show
       application_choice = ApplicationChoice
-        .includes(:application_form)
         .for_provider(current_user.provider.code)
+        .visible_to_provider
         .find(params[:application_choice_id])
 
       @application_choice = ApplicationChoicePresenter.new(application_choice)
