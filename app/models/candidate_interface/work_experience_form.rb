@@ -107,17 +107,17 @@ module CandidateInterface
 
     def end_date_before_current_year_and_month
       if end_date.year > Date.today.year || \
-        end_date.year == Date.today.year && end_date.month > Date.today.month
+          end_date.year == Date.today.year && end_date.month > Date.today.month
         errors.add(:end_date, :in_the_future)
       end
     end
 
     def start_date_and_end_date_valid?
-      end_date && !errors.include?(:start_date) && !errors.include?(:end_date)
+      end_date && start_date
     end
 
     def end_date_valid?
-      end_date && !errors.include?(:end_date)
+      end_date
     end
   end
 end
