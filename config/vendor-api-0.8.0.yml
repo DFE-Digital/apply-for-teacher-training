@@ -64,7 +64,7 @@ paths:
       tags:
         - Application management
       summary: Make an offer
-      description: Make an unconditional or conditional offer
+      description: Make an offer
       parameters:
         - $ref: '#/components/parameters/application_id'
       requestBody:

@@ -81,7 +81,7 @@ en:
       application_complete: 'New'
       awaiting_provider_decision: 'Awaiting provider decision'
       offer: 'Offer'
-      pending_conditions: 'New'
+      pending_conditions: 'Pending conditions'
       recruited: 'Candidate recruited'
       enrolled: 'Candidate  enrolled'
       rejected: 'Provider rejected'
