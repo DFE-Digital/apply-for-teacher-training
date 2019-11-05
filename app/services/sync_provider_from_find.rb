@@ -5,34 +5,43 @@ class SyncProviderFromFind
       .includes(:sites, courses: [:sites])
       .find(provider_code)
       .first
-    find_courses = find_provider.courses
-    find_sites = find_provider.sites
 
-    provider = Provider.find_or_create_by(code: provider_code)
+    provider = create_provider(find_provider)
+
+    find_provider.courses.each do |find_course|
+      create_course(find_course, provider)
+    end
+  end
+
+  def self.create_provider(find_provider)
+    provider = Provider.find_or_create_by(code: find_provider.provider_code)
     provider.name = find_provider.provider_name
     provider.save
 
-    sites = find_sites.map do |find_site|
-      site = provider.sites.find_or_create_by(code: find_site.location_name)
+    provider
+  end
+
+  def self.create_course(find_course, provider)
+    course = provider.courses.find_or_create_by(code: find_course.course_code)
+    course.name = find_course.name
+    course.level = find_course.level
+    course.start_date = Date.parse(find_course.start_date)
+    course.save
+
+    find_course.sites.each do |find_site|
+      site = provider.sites.find_or_create_by(code: find_site.code)
       site.name = find_site.location_name
       site.save
-      site
+
+      CourseOption.find_or_create_by(
+        site: site,
+        course_id: course.id,
+        vacancy_status: 'B', # TODO: Should this be reflected by `find_course.has_vacancies?`
+      )
     end
 
-    find_courses.each do |find_course|
-      course = provider.courses.find_or_create_by(code: find_course.course_code)
-      course.name = find_course.name
-      course.level = find_course.level
-      course.start_date = Date.parse(find_course.start_date)
-      course.save
-
-      find_course.sites.each do |find_course_site|
-        CourseOption.find_or_create_by(
-          site_id: sites.find { |s| s.name == find_course_site.location_name }.id,
-          course_id: course.id,
-          vacancy_status: 'B', # TODO: Should this be reflected by `find_course.has_vacancies?`
-        )
-      end
-    end
+    course
   end
+
+  private_class_method :create_provider, :create_course
 end

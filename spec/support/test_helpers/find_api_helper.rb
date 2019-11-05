@@ -10,6 +10,7 @@ module FindAPIHelper
             'type': 'providers',
             'attributes': {
               'provider_name': provider_name,
+              'provider_code': provider_code,
             },
             'relationships': {
               'sites': {
@@ -29,8 +30,8 @@ module FindAPIHelper
               'id': '1',
               'type': 'sites',
               'attributes': {
-                'location_name': site_code,
-                'name': 'Main Site',
+                'code': site_code,
+                'location_name': 'Main Site',
               },
             },
             {
