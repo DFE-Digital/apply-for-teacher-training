@@ -3,18 +3,18 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @application_qualification, url: candidate_interface_gcse_details_update_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+    <%= form_with model: @application_qualification, url: candidate_interface_gcse_details_update_type_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder, method: :post do |f| %>
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-        <h1 class="govuk-fieldset__heading"><%= heading_for_gcse_edit(@application_qualification.subject) %></h1>
+        <h1 class="govuk-fieldset__heading"><%= heading_for_gcse_edit_type(@subject) %></h1>
       </legend>
 
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset :qualification_type, legend: { size: 'm', text: 'Type of qualification' } do %>
-
         <% select_gcse_qualification_type_options.each do |option| %>
-          <%= f.govuk_radio_button :govuk_radio_buttons_fieldset, option.id, label: { text: option.label } %>
+          <%= f.govuk_radio_button :qualification_type, option.id, label: { text: option.label } %>
         <% end %>
+
       <% end %>
 
       <%= f.submit 'Save and continue', class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
