@@ -38,7 +38,9 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
   end
 
   it 'returns an error when a proper reason is not provided' do
-    application_choice = create_application_choice_for_currently_authenticated_provider(status: 'application_complete')
+    application_choice = create_application_choice_for_currently_authenticated_provider(
+      status: 'awaiting_provider_decision',
+    )
 
     post_api_request "/api/v1/applications/#{application_choice.id}/reject", params: {
       data: {
