@@ -14,4 +14,22 @@ RSpec.describe ApplicationForm do
       expect(application_form.own_and_associated_audits.count).to eq 5
     end
   end
+
+  describe '#update' do
+    it 'updates the application_choices updated_at as well' do
+      original_time = Time.now - 1.day
+      application_form = create(:application_form)
+      application_choices = create_list(
+        :application_choice,
+        2,
+        application_form: application_form,
+        updated_at: original_time,
+      )
+
+      application_form.update!(first_name: 'Something else')
+      application_choices.each(&:reload)
+
+      expect(application_choices.map(&:updated_at)).not_to include(original_time)
+    end
+  end
 end
