@@ -1,0 +1,9 @@
+<% @qualifications.each do |qualification| %>
+  <%= render(SummaryCardComponent, rows: other_qualifications_rows(qualification)) do %>
+    <header class="app-summary-card__header">
+      <h3 class="app-summary-card__title">
+        <%= qualification.title %>
+      </h3>
+    </header>
+  <% end %>
+<% end %>

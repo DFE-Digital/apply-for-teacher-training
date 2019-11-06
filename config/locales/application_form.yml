@@ -134,6 +134,26 @@ en:
         button: Add another degree
       delete: Delete degree
       confirm_delete: Yes I’m sure - delete this degree
+    other_qualification:
+      qualification:
+        label: Qualification
+        change_action: qualification
+      qualification_type:
+        label: Type of qualification
+        hint_text: For example, GCSE, A level, BTEC, NVQ or non-UK other, please specify
+      subject:
+        label: Subject
+      institution_name:
+        label: Institution where you studied
+      grade:
+        label: Grade
+        change_action: grade
+      award_year:
+        label: Year qualification was awarded
+        review_label: Year awarded
+        change_action: year
+      base:
+        button: Save and continue
   activemodel:
     errors:
       models:
