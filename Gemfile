@@ -36,6 +36,10 @@ gem 'actionview-component'
 
 gem 'uk_postcode'
 
+# Background processing
+gem 'sidekiq'
+gem 'clockwork'
+
 # Logging
 gem 'lograge'
 gem 'logstash-logger'

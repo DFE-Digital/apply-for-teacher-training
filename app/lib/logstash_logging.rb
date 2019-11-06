@@ -1,5 +1,6 @@
 class LogstashLogging
   DOMAIN_FOR_LOGS = Rails.env.production? ? AzureEnvironment.hostname : Socket.gethostname
+  SERVICE_NAME = ENV['SERVICE_NAME'] # e.g. web, worker or clock
 
   def self.enable(config)
     config.log_level = :info # :debug does not make sense with lograge + logstash
@@ -28,6 +29,7 @@ class LogstashLogging
       ignore_params = %w(candidate authenticity_token)
       {
         domain: DOMAIN_FOR_LOGS,
+        service: SERVICE_NAME,
         params: event.payload[:params].except(*ignore_params),
         candidate_id: event.payload[:candidate_id],
         vendor_api_token_id: event.payload[:vendor_api_token_id],

@@ -6,21 +6,61 @@ services:
       - db_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=developmentpassword
+  redis:
+    image: redis
   web:
     build: .
+    image: apply-for-postgraduate-teacher-training
     working_dir: /app
     ports:
       - "3000:3000"
     depends_on:
       - db
+      - redis
     environment:
+      - SERVICE_NAME=web
       - DB_HOSTNAME=db
       - DB_USERNAME=postgres
       - DB_PASSWORD=developmentpassword
       - DB_DATABASE=bat_apply_dev
       - DB_PORT=5432
+      - REDIS_URL=redis://redis:6379/1
     env_file:
       - .env
     command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails server -b 0.0.0.0"
+  worker:
+    image: apply-for-postgraduate-teacher-training
+    working_dir: /app
+    depends_on:
+      - db
+      - redis
+    environment:
+      - SERVICE_NAME=worker
+      - DB_HOSTNAME=db
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=developmentpassword
+      - DB_DATABASE=bat_apply_dev
+      - DB_PORT=5432
+      - REDIS_URL=redis://redis:6379/1
+    env_file:
+      - .env
+    command: /bin/sh -c "bundle exec sidekiq -c 5"
+  clock:
+    image: apply-for-postgraduate-teacher-training
+    working_dir: /app
+    depends_on:
+      - db
+      - redis
+    environment:
+      - SERVICE_NAME=clock
+      - DB_HOSTNAME=db
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=developmentpassword
+      - DB_DATABASE=bat_apply_dev
+      - DB_PORT=5432
+      - REDIS_URL=redis://redis:6379/1
+    env_file:
+      - .env
+    command: /bin/sh -c "bundle exec clockwork config/clock.rb"
 volumes:
   db_data:
