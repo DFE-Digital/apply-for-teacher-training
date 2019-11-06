@@ -11,6 +11,22 @@ module CandidateInterface
 
     validate :award_year_is_date_and_before_current_year, if: :award_year
 
+    def save(application_form)
+      return false unless valid?
+
+      application_form.application_qualifications.create!(
+        level: ApplicationQualification.levels[:other],
+        qualification_type: qualification_type,
+        subject: subject,
+        institution_name: institution_name,
+        grade: grade,
+        predicted_grade: false,
+        award_year: award_year,
+      )
+
+      true
+    end
+
   private
 
     def award_year_is_date_and_before_current_year

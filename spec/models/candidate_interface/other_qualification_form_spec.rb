@@ -53,4 +53,28 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
       end
     end
   end
+
+  describe '#save' do
+    it 'returns false if not valid' do
+      qualification = CandidateInterface::OtherQualificationForm.new
+
+      expect(qualification.save(ApplicationForm.new)).to eq(false)
+    end
+
+    it 'saves the provided ApplicationForm if valid' do
+      form_data = {
+        qualification_type: 'BTEC',
+        subject: 'Being a Superhero',
+        institution_name: 'School of Heroes',
+        grade: 'Distinction',
+        award_year: '2012',
+      }
+      application_form = create(:application_form)
+      qualification = CandidateInterface::OtherQualificationForm.new(form_data)
+
+      expect(qualification.save(application_form)).to eq(true)
+      expect(application_form.application_qualifications.other.first)
+        .to have_attributes(form_data)
+    end
+  end
 end
