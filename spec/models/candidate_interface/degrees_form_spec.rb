@@ -153,6 +153,35 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
         ),
       ])
     end
+
+    it 'returns grade and other grade if grade is not known' do
+      application_form = create(:application_form) do |form|
+        form.application_qualifications.create(
+          id: 1,
+          level: 'degree',
+          grade: 'Distinction',
+        )
+      end
+
+      degree = CandidateInterface::DegreesForm.build_all_from_application(application_form)
+
+      expect(degree.first).to have_attributes(grade: 'other', other_grade: 'Distinction')
+    end
+
+    it 'returns grade and predicted if predicted grade is true' do
+      application_form = create(:application_form) do |form|
+        form.application_qualifications.create(
+          id: 1,
+          level: 'degree',
+          grade: 'First',
+          predicted_grade: true,
+        )
+      end
+
+      degree = CandidateInterface::DegreesForm.build_all_from_application(application_form)
+
+      expect(degree.first).to have_attributes(grade: 'predicted', predicted_grade: 'First')
+    end
   end
 
   describe '.build_from_application' do

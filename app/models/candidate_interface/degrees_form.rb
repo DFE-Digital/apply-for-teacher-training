@@ -20,20 +20,19 @@ module CandidateInterface
     class << self
       def build_all_from_application(application_form)
         application_form.application_qualifications.degrees.map do |degree|
-          new(
-            id: degree.id,
-            qualification_type: degree.qualification_type,
-            subject: degree.subject,
-            institution_name: degree.institution_name,
-            grade: degree.grade,
-            predicted_grade: degree.predicted_grade,
-            award_year: degree.award_year,
-          )
+          new_degrees_form(degree)
         end
       end
 
       def build_from_application(application_form, degree_id)
         degree = application_form.application_qualifications.find(degree_id)
+
+        new_degrees_form(degree)
+      end
+
+    private
+
+      def new_degrees_form(degree)
         grade = determine_application_grade(degree.grade, degree.predicted_grade)
 
         new(
@@ -47,8 +46,6 @@ module CandidateInterface
           award_year: degree.award_year,
         )
       end
-
-    private
 
       def determine_application_grade(grade, predicted_grade)
         case grade
