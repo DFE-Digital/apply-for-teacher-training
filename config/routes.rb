@@ -87,6 +87,13 @@ Rails.application.routes.draw do
         get '/delete/:id' => 'degrees/destroy#confirm_destroy', as: :confirm_degrees_destroy
         delete '/delete/:id' => 'degrees/destroy#destroy'
       end
+
+      scope '/other-qualifications' do
+        get '/' => 'other_qualifications/base#new', as: :new_other_qualification
+        post '/' => 'other_qualifications/base#create', as: :create_other_qualification
+
+        get '/review' => 'other_qualifications/review#show', as: :review_other_qualifications
+      end
     end
   end
 
