@@ -19,7 +19,7 @@ module CandidateInterface
 
     def edit
       application_form = current_candidate.current_application
-      @degree = DegreeForm.build_from_application(application_form, degree_id_params)
+      @degree = DegreeForm.build_from_application(application_form, current_degree_id)
     end
 
     def update
@@ -35,7 +35,7 @@ module CandidateInterface
 
   private
 
-    def degree_id_params
+    def current_degree_id
       params.permit(:id)[:id]
     end
 
