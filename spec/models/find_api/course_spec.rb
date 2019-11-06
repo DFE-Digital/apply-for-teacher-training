@@ -25,18 +25,16 @@ RSpec.describe FindAPI::Course do
     context 'when Find returns a 503 error' do
       before { stub_find_api_course_503('ABC', 'X123') }
 
-      it 'returns a skeleton course with no information added' do
-        expect(fetch_course.provider_code).to eq 'ABC'
-        expect(fetch_course.name).to be_nil
+      it 'returns nil' do
+        expect(fetch_course).to be_nil
       end
     end
 
     context 'when Find is timing out' do
       before { stub_find_api_course_timeout('ABC', 'X123') }
 
-      it 'returns a skeleton course with no information added' do
-        expect(fetch_course.provider_code).to eq 'ABC'
-        expect(fetch_course.name).to be_nil
+      it 'returns nil' do
+        expect(fetch_course).to be_nil
       end
     end
   end
