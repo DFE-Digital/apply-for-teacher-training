@@ -9,10 +9,6 @@ class ApplicationChoice < ApplicationRecord
 
   audited associated_with: :application_form
 
-  scope :for_provider, ->(provider_code) {
-    includes(:course, :provider).where(providers: { code: provider_code })
-  }
-
   enum status: {
     unsubmitted: 'unsubmitted',
     awaiting_references: 'awaiting_references',
