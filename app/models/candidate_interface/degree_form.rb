@@ -1,5 +1,5 @@
 module CandidateInterface
-  class DegreesForm
+  class DegreeForm
     include ActiveModel::Model
 
     CLASSES = %w[first upper_second lower_second third].freeze
@@ -20,19 +20,19 @@ module CandidateInterface
     class << self
       def build_all_from_application(application_form)
         application_form.application_qualifications.degrees.map do |degree|
-          new_degrees_form(degree)
+          new_degree_form(degree)
         end
       end
 
       def build_from_application(application_form, degree_id)
         degree = application_form.application_qualifications.find(degree_id)
 
-        new_degrees_form(degree)
+        new_degree_form(degree)
       end
 
     private
 
-      def new_degrees_form(degree)
+      def new_degree_form(degree)
         grade = determine_application_grade(degree.grade, degree.predicted_grade)
 
         new(

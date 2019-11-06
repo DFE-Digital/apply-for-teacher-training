@@ -2,7 +2,7 @@
 <%= f.govuk_text_field :institution_name, label: { text: t('application_form.degree.institution_name.label'), size: 'm' } %>
 <%= f.govuk_radio_buttons_fieldset :grade, legend: { text: t('application_form.degree.grade.label'), tag: 'span' } do %>
 
-  <% CandidateInterface::DegreesForm::CLASSES.each do |degree_class| %>
+  <% CandidateInterface::DegreeForm::CLASSES.each do |degree_class| %>
     <%= f.govuk_radio_button :grade, degree_class, label: { text: t("application_form.degree.grade.#{degree_class}.label") } %>
   <% end %>
 

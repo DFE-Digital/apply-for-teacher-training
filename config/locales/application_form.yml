@@ -183,7 +183,7 @@ en:
           attributes:
             work_history:
               blank: Choose how long you’ve been working for
-        candidate_interface/degrees_form:
+        candidate_interface/degree_form:
           attributes:
             qualification_type:
               blank: Enter the type of your degree

@@ -1,13 +1,13 @@
 module CandidateInterface
   class Degrees::BaseController < CandidateInterfaceController
     def new
-      @degree = DegreesForm.new
+      @degree = DegreeForm.new
 
       render_new
     end
 
     def create
-      @degree = DegreesForm.new(degree_params)
+      @degree = DegreeForm.new(degree_params)
       application_form = current_candidate.current_application
 
       if @degree.save(application_form)
@@ -19,11 +19,11 @@ module CandidateInterface
 
     def edit
       application_form = current_candidate.current_application
-      @degree = DegreesForm.build_from_application(application_form, degree_id_params)
+      @degree = DegreeForm.build_from_application(application_form, degree_id_params)
     end
 
     def update
-      @degree = DegreesForm.new(degree_params)
+      @degree = DegreeForm.new(degree_params)
       application_form = current_candidate.current_application
 
       if @degree.update(application_form)
@@ -40,14 +40,14 @@ module CandidateInterface
     end
 
     def degree_params
-      params.require(:candidate_interface_degrees_form).permit(
+      params.require(:candidate_interface_degree_form).permit(
         :id, :qualification_type, :subject, :institution_name, :grade, :other_grade,
         :predicted_grade, :award_year
       )
     end
 
     def render_new
-      degrees = DegreesForm.build_all_from_application(current_candidate.current_application)
+      degrees = DegreeForm.build_all_from_application(current_candidate.current_application)
 
       if degrees.count.zero?
         render :new_undergraduate

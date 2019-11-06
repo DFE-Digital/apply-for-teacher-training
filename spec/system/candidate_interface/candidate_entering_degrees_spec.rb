@@ -90,7 +90,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_see_validation_errors_for_my_undergraduate_degree
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/degrees_form.attributes.institution_name.blank')
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/degree_form.attributes.institution_name.blank')
   end
 
   def when_i_fill_in_my_undergraduate_degree
