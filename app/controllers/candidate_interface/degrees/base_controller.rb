@@ -7,7 +7,7 @@ module CandidateInterface
     end
 
     def create
-      @degree = DegreesForm.new(degrees_params)
+      @degree = DegreesForm.new(degree_params)
       application_form = current_candidate.current_application
 
       if @degree.save(application_form)
@@ -19,11 +19,11 @@ module CandidateInterface
 
     def edit
       application_form = current_candidate.current_application
-      @degree = DegreesForm.build_from_application(application_form, degree_params[:id])
+      @degree = DegreesForm.build_from_application(application_form, degree_id_params)
     end
 
     def update
-      @degree = DegreesForm.new(degrees_params)
+      @degree = DegreesForm.new(degree_params)
       application_form = current_candidate.current_application
 
       if @degree.update(application_form)
@@ -35,11 +35,11 @@ module CandidateInterface
 
   private
 
-    def degree_params
-      params.permit(:id)
+    def degree_id_params
+      params.permit(:id)[:id]
     end
 
-    def degrees_params
+    def degree_params
       params.require(:candidate_interface_degrees_form).permit(
         :id, :qualification_type, :subject, :institution_name, :grade, :other_grade,
         :predicted_grade, :award_year

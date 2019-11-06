@@ -2,13 +2,13 @@ module CandidateInterface
   class Degrees::DestroyController < CandidateInterfaceController
     def confirm_destroy
       application_form = current_candidate.current_application
-      @degree = DegreesForm.build_from_application(application_form, degrees_params[:id])
+      @degree = DegreesForm.build_from_application(application_form, degree_id_params)
     end
 
     def destroy
       current_candidate.current_application
         .application_qualifications
-        .find(degrees_params[:id])
+        .find(degree_id_params)
         .destroy!
 
       redirect_to candidate_interface_degrees_review_path
@@ -16,8 +16,8 @@ module CandidateInterface
 
   private
 
-    def degrees_params
-      params.permit(:id)
+    def degree_id_params
+      params.permit(:id)[:id]
     end
   end
 end
