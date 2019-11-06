@@ -1,4 +1,4 @@
-class ReviewGcseQualificationComponent < ActionView::Component::Base
+class GcseQualificationReviewComponent < ActionView::Component::Base
   def initialize(application_qualification:)
     @application_qualification = application_qualification
   end

@@ -1,8 +1,6 @@
 module CandidateInterface
   class GcseDetailsController < CandidateInterfaceController
-    before_action do
-      @subject = subject_param
-    end
+    before_action :set_subject
 
     # 1th step - Edit qualification type
     def edit_type
@@ -64,6 +62,10 @@ module CandidateInterface
     end
 
   private
+
+    def set_subject
+      @subject = subject_param
+    end
 
     def subject_param
       params.require(:subject)
