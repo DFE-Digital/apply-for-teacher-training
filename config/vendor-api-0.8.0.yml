@@ -64,7 +64,7 @@ paths:
       tags:
         - Application management
       summary: Make an offer
-      description: Make an unconditional or conditional offer
+      description: Make an offer
       parameters:
         - $ref: '#/components/parameters/application_id'
       requestBody:
@@ -304,12 +304,14 @@ components:
             - unsubmitted
             - awaiting_references
             - application_complete
-            - conditional_offer
-            - unconditional_offer
-            - meeting_conditions
+            - awaiting_provider_decision
+            - offer
+            - pending_conditions
             - recruited
             - enrolled
             - rejected
+            - declined
+            - withdrawn
           example: application_complete
         submitted_at:
           type: string

@@ -5,7 +5,9 @@ RSpec.describe 'Vendor API - audit trail', type: :request do
   include CourseOptionHelpers
 
   it 'updates the audit trail with the correct attribution when successfully rejecting an application' do
-    application_choice = create_application_choice_for_currently_authenticated_provider(status: 'application_complete')
+    application_choice = create_application_choice_for_currently_authenticated_provider(
+      status: 'awaiting_provider_decision',
+    )
     request_body = {
       "data": {
         "reason": 'Does not meet minimum GCSE requirements',
@@ -28,7 +30,9 @@ RSpec.describe 'Vendor API - audit trail', type: :request do
   end
 
   it 'updates the audit trail but reuses a VendorApiUser with same vendor_user_id when rejecting an application' do
-    application_choice = create_application_choice_for_currently_authenticated_provider(status: 'application_complete')
+    application_choice = create_application_choice_for_currently_authenticated_provider(
+      status: 'awaiting_provider_decision',
+    )
     create(
       :vendor_api_user,
       full_name: VendorApiSpecHelpers::VALID_METADATA[:attribution][:full_name],

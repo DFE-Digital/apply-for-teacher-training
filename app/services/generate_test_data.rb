@@ -34,7 +34,7 @@ class GenerateTestData
             course_option: course_option,
             application_form: application_form,
             personal_statement: Faker::Lorem.paragraph(sentence_count: 5),
-            status: 'application_complete',
+            status: 'awaiting_provider_decision',
           )
         end
       end
