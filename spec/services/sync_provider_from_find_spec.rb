@@ -5,7 +5,7 @@ RSpec.describe SyncProviderFromFind do
 
   describe 'ingesting provider, courses, sites and course_options for a provider_code' do
     before do
-      stub_200_from_find(
+      stub_find_api_provider_200(
         provider_code: 'ABC',
         course_code: '9CBA',
         site_code: 'G',

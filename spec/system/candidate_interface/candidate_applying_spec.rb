@@ -27,7 +27,7 @@ RSpec.describe 'A candidate applying from Find' do
 
   context 'when Find is available' do
     context 'when a valid request is made' do
-      let(:find_api_request) { stub_200_from_find(provider_code, course_code) }
+      let(:find_api_request) { stub_provider_200_from_find(provider_code, course_code) }
 
       before do
         find_api_request
@@ -109,7 +109,7 @@ RSpec.describe 'A candidate applying from Find' do
       "/courses/#{course_code}")
   end
 
-  def stub_200_from_find(provider_code, course_code)
+  def stub_provider_200_from_find(provider_code, course_code)
     stub_api_find_course(provider_code, course_code)
       .to_return(
         status: 200,
