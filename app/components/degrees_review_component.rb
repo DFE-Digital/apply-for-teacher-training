@@ -41,7 +41,7 @@ private
   def grade_row(degree_form)
     {
       key: t('application_form.degree.grade.review_label'),
-      value: formatted_grade(degree_form.grade, degree_form.predicted_grade),
+      value: formatted_grade(degree_form),
       action: t('application_form.degree.grade.change_action'),
       change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree_form.id),
     }
@@ -53,12 +53,13 @@ private
       .join('<br>')
   end
 
-  def formatted_grade(grade, predicted_grade)
-    case grade
-    when 'first', 'upper_second', 'lower_second', 'third'
-      t("application_form.degree.grade.#{grade}.label")
+  def formatted_grade(degree_form)
+    if degree_form.predicted_grade.present?
+      "#{degree_form.predicted_grade} (Predicted)"
+    elsif degree_form.other_grade.present?
+      degree_form.other_grade
     else
-      predicted_grade ? "#{grade} (Predicted)" : grade
+      t("application_form.degree.grade.#{degree_form.grade}.label")
     end
   end
 end
