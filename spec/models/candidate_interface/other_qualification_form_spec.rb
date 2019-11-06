@@ -117,4 +117,12 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
         .to have_attributes(form_data)
     end
   end
+
+  describe '#title' do
+    it 'concatenates the qualification type and subject' do
+      qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'BTEC', subject: 'Being a Supervillain')
+
+      expect(qualification.title).to eq('BTEC Being a Supervillain')
+    end
+  end
 end

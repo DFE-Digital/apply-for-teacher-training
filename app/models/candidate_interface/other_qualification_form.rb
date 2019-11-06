@@ -42,6 +42,10 @@ module CandidateInterface
       true
     end
 
+    def title
+      "#{qualification_type} #{subject}"
+    end
+
   private
 
     def award_year_is_date_and_before_current_year
