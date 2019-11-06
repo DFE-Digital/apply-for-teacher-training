@@ -1,5 +1,5 @@
 module CandidateInterface
-  class DegreesForm
+  class DegreeForm
     include ActiveModel::Model
 
     CLASSES = %w[first upper_second lower_second third].freeze
@@ -18,22 +18,21 @@ module CandidateInterface
     validate :award_year_is_date, if: :award_year
 
     class << self
-      def build_from_application(application_form)
+      def build_all_from_application(application_form)
         application_form.application_qualifications.degrees.map do |degree|
-          new(
-            id: degree.id,
-            qualification_type: degree.qualification_type,
-            subject: degree.subject,
-            institution_name: degree.institution_name,
-            grade: degree.grade,
-            predicted_grade: degree.predicted_grade,
-            award_year: degree.award_year,
-          )
+          new_degree_form(degree)
         end
       end
 
-      def find_by_application(application_form, degree_id)
+      def build_from_application(application_form, degree_id)
         degree = application_form.application_qualifications.find(degree_id)
+
+        new_degree_form(degree)
+      end
+
+    private
+
+      def new_degree_form(degree)
         grade = determine_application_grade(degree.grade, degree.predicted_grade)
 
         new(
@@ -48,11 +47,9 @@ module CandidateInterface
         )
       end
 
-    private
-
       def determine_application_grade(grade, predicted_grade)
         case grade
-        when CLASSES
+        when *CLASSES
           grade
         else
           if predicted_grade
@@ -64,7 +61,7 @@ module CandidateInterface
       end
     end
 
-    def save_base(application_form)
+    def save(application_form)
       return false unless valid?
 
       application_form.application_qualifications.create!(
@@ -78,6 +75,21 @@ module CandidateInterface
       )
 
       true
+    end
+
+    def update(application_form)
+      return false unless valid?
+
+      degree = application_form.application_qualifications.find(id)
+
+      degree.update!(
+        qualification_type: qualification_type,
+        subject: subject,
+        institution_name: institution_name,
+        grade: determine_grade,
+        predicted_grade: predicted_grade? ? true : false,
+        award_year: award_year,
+      )
     end
 
     def title
