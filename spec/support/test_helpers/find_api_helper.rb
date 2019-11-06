@@ -1,5 +1,5 @@
 module FindAPIHelper
-  def stub_find_api_course_200(provider_code, course_code)
+  def stub_find_api_course_200(provider_code, course_code, course_name)
     stub_find_api_course(provider_code, course_code)
       .to_return(
         status: 200,
