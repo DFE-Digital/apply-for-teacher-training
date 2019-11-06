@@ -44,6 +44,7 @@ gem 'clockwork'
 gem 'lograge'
 gem 'logstash-logger'
 gem 'logstash-event'
+gem 'request_store_rails'
 
 group :development do
   gem 'web-console', '>= 3.3.0'
@@ -65,6 +66,8 @@ group :test do
   gem 'simplecov', require: false
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
+  gem 'rspec-sidekiq'
+  gem 'clockwork-test'
 end
 
 group :development, :test do

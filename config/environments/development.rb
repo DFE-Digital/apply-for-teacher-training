@@ -68,6 +68,6 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # Logging configuration
-  config.log_level = :debug # LogstashLogging overrides this if enabled
+  config.log_level = :debug
   LogstashLogging.enable(config) if ENV['LOGSTASH_ENABLE'] == 'true'
 end
