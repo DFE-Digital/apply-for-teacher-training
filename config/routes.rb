@@ -119,6 +119,9 @@ Rails.application.routes.draw do
 
     get '/vendors' => 'manage_vendors#index'
     post '/vendors' => 'manage_vendors#create'
+
+    get '/providers' => 'providers#index', as: :providers
+    post '/providers/sync' => 'providers#sync'
   end
 
   get '/check', to: 'healthcheck#show'

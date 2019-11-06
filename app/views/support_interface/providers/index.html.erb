@@ -1,0 +1,30 @@
+<% content_for :title, 'Providers' %>
+<h1 class='govuk-heading-xl'>Providers</h1>
+
+<%= form_tag support_interface_providers_sync_path, method: :post do %>
+  <%= submit_tag('Sync Providers from Find', class: 'govuk-button') %>
+<% end %>
+
+<p class="govuk-body">
+  Course options: <%= CourseOption.all.size %>
+</p>
+
+<table class='govuk-table'>
+  <thead class='govuk-table__head'>
+    <tr class='govuk-table__row'>
+      <th scope='col' class='govuk-table__header govuk-!-width-one-half'>Provider Name</th>
+      <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Courses</th>
+      <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Sites</th>
+    </tr>
+  </thead>
+
+  <tbody class='govuk-table__body'>
+    <% @providers.each do |provider| %>
+      <tr class='govuk-table__row'>
+        <td class='govuk-table__cell'><%= provider.name %> (<%= provider.code %>)</td>
+        <td class='govuk-table__cell'><%= provider.courses.size %></td>
+        <td class='govuk-table__cell'><%= provider.sites.size %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

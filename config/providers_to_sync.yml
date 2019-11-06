@@ -1,0 +1,8 @@
+development: &default
+  codes:
+    - R55
+    - 1N1
+    - S31
+
+production:
+  <<: *default
