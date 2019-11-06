@@ -26,7 +26,7 @@ module CandidateInterface
       @degree = DegreesForm.new(degrees_params)
       application_form = current_candidate.current_application
 
-      if @degree.update(application_form, degree_params[:id])
+      if @degree.update(application_form)
         redirect_to candidate_interface_degrees_review_path
       else
         render_new
@@ -41,7 +41,7 @@ module CandidateInterface
 
     def degrees_params
       params.require(:candidate_interface_degrees_form).permit(
-        :qualification_type, :subject, :institution_name, :grade, :other_grade,
+        :id, :qualification_type, :subject, :institution_name, :grade, :other_grade,
         :predicted_grade, :award_year
       )
     end

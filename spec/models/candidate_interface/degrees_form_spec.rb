@@ -276,6 +276,7 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
   end
 
   describe '#update' do
+    let(:degrees_form) { CandidateInterface::DegreesForm.new(id: 1) }
     let(:application_form) do
       create(:application_form) do |form|
         form.application_qualifications.create(
@@ -292,17 +293,15 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
     end
 
     it 'returns false if not valid' do
-      degree = CandidateInterface::DegreesForm.new
-
-      expect(degree.update(ApplicationForm.new, 1)).to eq(false)
+      expect(degrees_form.update(ApplicationForm.new)).to eq(false)
     end
 
     it 'updates the provided ApplicationForm if valid' do
       form_data[:qualification_type] = 'Masters'
       form_data[:subject] = 'Awoo'
-      degree = CandidateInterface::DegreesForm.new(form_data)
+      degrees_form.assign_attributes(form_data)
 
-      expect(degree.update(application_form, 1)).to eq(true)
+      expect(degrees_form.update(application_form)).to eq(true)
       expect(application_form.application_qualifications.degree.first)
         .to have_attributes(form_data)
     end
@@ -310,9 +309,9 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
     it 'updates grade for the provided ApplicationForm if other grade is given' do
       form_data[:grade] = 'other'
       form_data[:other_grade] = 'Distinction'
-      degree = CandidateInterface::DegreesForm.new(form_data)
+      degrees_form.assign_attributes(form_data)
 
-      expect(degree.update(application_form, 1)).to eq(true)
+      expect(degrees_form.update(application_form)).to eq(true)
       expect(application_form.application_qualifications.degree.first)
         .to have_attributes(grade: 'Distinction')
     end
@@ -320,9 +319,9 @@ RSpec.describe CandidateInterface::DegreesForm, type: :model do
     it 'updates grade and predicted grade for the provided ApplicationForm if predicted grade is given' do
       form_data[:grade] = 'predicted'
       form_data[:predicted_grade] = 'First'
-      degree = CandidateInterface::DegreesForm.new(form_data)
+      degrees_form.assign_attributes(form_data)
 
-      expect(degree.update(application_form, 1)).to eq(true)
+      expect(degrees_form.update(application_form)).to eq(true)
       expect(application_form.application_qualifications.degree.first)
         .to have_attributes(grade: 'First', predicted_grade: true)
     end

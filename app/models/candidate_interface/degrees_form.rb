@@ -77,10 +77,10 @@ module CandidateInterface
       true
     end
 
-    def update(application_form, degree_id)
+    def update(application_form)
       return false unless valid?
 
-      degree = application_form.application_qualifications.find(degree_id)
+      degree = application_form.application_qualifications.find(id)
 
       degree.update!(
         qualification_type: qualification_type,
