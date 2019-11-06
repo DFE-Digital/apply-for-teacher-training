@@ -54,6 +54,46 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
     end
   end
 
+  describe '.build_all_from_application' do
+    let(:application_form) do
+      create(:application_form) do |form|
+        form.application_qualifications.create(
+          id: 1,
+          level: 'other',
+          qualification_type: 'BTEC',
+          subject: 'Being a Superhero',
+          institution_name: 'School of Heroes',
+          grade: 'Distinction',
+          predicted_grade: false,
+          award_year: '2012',
+        )
+        form.application_qualifications.create(level: 'degree')
+        form.application_qualifications.create(level: 'gcse')
+      end
+    end
+
+    it 'creates an array of objects based on the provided ApplicationForm' do
+      qualifications = CandidateInterface::OtherQualificationForm.build_all_from_application(application_form)
+
+      expect(qualifications).to match_array([
+        have_attributes(
+          id: 1,
+          qualification_type: 'BTEC',
+          subject: 'Being a Superhero',
+          institution_name: 'School of Heroes',
+          grade: 'Distinction',
+          award_year: '2012',
+        ),
+      ])
+    end
+
+    it 'only includes other qualifications and not degrees or GCSEs' do
+      qualifications = CandidateInterface::OtherQualificationForm.build_all_from_application(application_form)
+
+      expect(qualifications.count).to eq(1)
+    end
+  end
+
   describe '#save' do
     it 'returns false if not valid' do
       qualification = CandidateInterface::OtherQualificationForm.new

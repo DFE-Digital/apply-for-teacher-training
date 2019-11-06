@@ -11,6 +11,21 @@ module CandidateInterface
 
     validate :award_year_is_date_and_before_current_year, if: :award_year
 
+    class << self
+      def build_all_from_application(application_form)
+        application_form.application_qualifications.other.map do |qualification|
+          new(
+            id: qualification.id,
+            qualification_type: qualification.qualification_type,
+            subject: qualification.subject,
+            institution_name: qualification.institution_name,
+            grade: qualification.grade,
+            award_year: qualification.award_year,
+          )
+        end
+      end
+    end
+
     def save(application_form)
       return false unless valid?
 
