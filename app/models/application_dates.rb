@@ -12,7 +12,7 @@ class ApplicationDates
   end
 
   def edit_by
-    7.business_days.after(submitted_at)
+    5.business_days.after(submitted_at)
   end
 
   def days_remaining_to_edit

@@ -22,18 +22,18 @@ RSpec.describe ApplicationDates, type: :model do
 
   describe '#edit_by' do
     it 'returns date that the candidate can edit by' do
-      expect(application_dates.edit_by.to_date).to eql(Date.new(2019, 1, 11))
+      expect(application_dates.edit_by.to_date).to eql(Date.new(2019, 1, 9))
     end
   end
 
   describe '#days_remaining_to_edit' do
     it 'returns number of days remaining that a candidate can edit by' do
       Timecop.travel(submitted_at) do
-        expect(application_dates.days_remaining_to_edit).to eq(10)
+        expect(application_dates.days_remaining_to_edit).to eq(8)
       end
 
       Timecop.travel(submitted_at + 3.days) do
-        expect(application_dates.days_remaining_to_edit).to eq(7)
+        expect(application_dates.days_remaining_to_edit).to eq(5)
       end
     end
   end

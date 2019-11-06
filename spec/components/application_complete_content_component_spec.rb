@@ -23,20 +23,20 @@ RSpec.describe ApplicationCompleteContentComponent do
   end
 
   it 'renders with correct edit by date' do
-    expect(render_result.text).to include('31 October 2019')
+    expect(render_result.text).to include('29 October 2019')
   end
 
   it 'renders with correct days remaining after time has passed' do
     Timecop.travel(submitted_at) do
-      expect(render_result.text).to include('9 days')
-    end
-
-    Timecop.travel(submitted_at + 2.days) do
       expect(render_result.text).to include('7 days')
     end
 
+    Timecop.travel(submitted_at + 2.days) do
+      expect(render_result.text).to include('5 days')
+    end
+
     Timecop.travel(submitted_at + 6.days) do
-      expect(render_result.text).to include('3 day')
+      expect(render_result.text).to include('1 day')
     end
   end
 
