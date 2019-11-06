@@ -10,7 +10,10 @@ module FindAPI
         .where(provider_code: provider_code)
         .find(course_code)
         .first
-    rescue JsonApiClient::Errors::ServerError, JsonApiClient::Errors::ConnectionError, JsonApiClient::Errors::NotFound
+    rescue JsonApiClient::Errors::ServerError, JsonApiClient::Errors::ConnectionError => e
+      Raven.capture_exception(e)
+      nil
+    rescue JsonApiClient::Errors::NotFound
       nil
     end
   end

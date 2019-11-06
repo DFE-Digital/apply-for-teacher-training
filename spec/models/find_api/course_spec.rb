@@ -28,6 +28,14 @@ RSpec.describe FindAPI::Course do
       it 'returns nil' do
         expect(fetch_course).to be_nil
       end
+
+      it 'reports the error to Sentry' do
+        allow(Raven).to receive(:capture_exception)
+
+        fetch_course
+
+        expect(Raven).to have_received(:capture_exception)
+      end
     end
 
     context 'when Find is timing out' do
@@ -35,6 +43,14 @@ RSpec.describe FindAPI::Course do
 
       it 'returns nil' do
         expect(fetch_course).to be_nil
+      end
+
+      it 'reports the error to Sentry' do
+        allow(Raven).to receive(:capture_exception)
+
+        fetch_course
+
+        expect(Raven).to have_received(:capture_exception)
       end
     end
   end
