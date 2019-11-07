@@ -45,6 +45,8 @@ jobs:
     variables:
       resourceGroupName: '${{parameters.subscriptionPrefix}}${{parameters.resourceEnvironmentName}}-${{parameters.serviceName}}'
       appServiceName: '${{parameters.subscriptionPrefix}}${{parameters.resourceEnvironmentName}}-${{parameters.serviceName}}-as'
+      redisCacheName: '${{parameters.subscriptionPrefix}}${{parameters.resourceEnvironmentName}}-${{parameters.serviceName}}-redis'
+      containerInstanceNamePrefix: '${{parameters.subscriptionPrefix}}${{parameters.resourceEnvironmentName}}-${{parameters.serviceName}}-ci'
       system.debug: ${{parameters.debug}}
 
     pool:
@@ -92,7 +94,9 @@ jobs:
                 -logstashHost "${{parameters.logstashHost}}"
                 -logstashPort "${{parameters.logstashPort}}"
                 -logstashSsl "${{parameters.logstashSsl}}"
-                -findBaseUrl "${{parameters.findBaseUrl}}"'
+                -findBaseUrl "${{parameters.findBaseUrl}}"
+                -redisCacheName "$(redisCacheName)"
+                -containerInstanceNamePrefix "$(containerInstanceNamePrefix)"'
               deploymentOutputs: DeploymentOutput
 
           - task: AzurePowerShell@3
