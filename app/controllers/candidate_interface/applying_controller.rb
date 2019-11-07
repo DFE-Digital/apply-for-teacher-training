@@ -1,6 +1,7 @@
 module CandidateInterface
   class ApplyingController < CandidateInterfaceController
     skip_before_action :authenticate_candidate!
+    skip_before_action :require_basic_auth_for_ui, if: -> { ENV['DISABLE_BASIC_AUTH_FOR_LANDING_PAGE'] }
 
     rescue_from ActionController::ParameterMissing, with: :render_not_found
 
