@@ -8,8 +8,8 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
       details: Faker::Lorem.paragraph_by_chars(number: 300),
       commitment: %w[full_time part_time].sample,
       working_with_children: [true, true, true, false].sample,
-      start_date: Date.new(2018, 5),
-      end_date: Date.new(2019, 5),
+      start_date: Time.zone.local(2018, 5, 1),
+      end_date: Time.zone.local(2019, 5, 1),
     }
   end
 

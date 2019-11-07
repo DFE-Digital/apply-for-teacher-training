@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationCompleteContentComponent do
-  let(:submitted_at) { Date.new(2019, 10, 22) }
+  let(:submitted_at) { Time.zone.local(2019, 10, 22, 12, 0, 0) }
 
   around do |example|
     Timecop.freeze(submitted_at) do
