@@ -18,7 +18,7 @@ class LogstashLogging
   end
 
   def self.add_sidekiq_fields(event)
-    tid = Thread.current["sidekiq_tid"]
+    tid = Thread.current['sidekiq_tid']
     if !tid.blank?
       ctx = Sidekiq::Context.current
       event['tid'] = tid
