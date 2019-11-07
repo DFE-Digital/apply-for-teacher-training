@@ -33,5 +33,13 @@ module CandidateInterface
     def degrees_added?
       @application_form.application_qualifications.degrees.any?
     end
+
+    def other_qualifications_completed?
+      @application_form.other_qualifications_completed
+    end
+
+    def other_qualifications_added?
+      @application_form.application_qualifications.other.any?
+    end
   end
 end
