@@ -195,6 +195,7 @@ stages:
       logstashSsl: '$(logstashSsl)'
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
       findBaseUrl: '$(findBaseUrl)'
+      disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'
 
 
 - stage: deploy_staging
@@ -237,6 +238,7 @@ stages:
       logstashSsl: '$(logstashSsl)'
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
       findBaseUrl: '$(findBaseUrl)'
+      disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'
 
 
 - stage: deploy_sandbox
@@ -279,6 +281,7 @@ stages:
       logstashSsl: '$(logstashSsl)'
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
       findBaseUrl: '$(findBaseUrl)'
+      disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'
 
 
 - stage: deploy_pentest
@@ -320,6 +323,7 @@ stages:
       logstashSsl: '$(logstashSsl)'
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
       findBaseUrl: '$(findBaseUrl)'
+      disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'
 
 
 - stage: deploy_production
@@ -362,3 +366,4 @@ stages:
       logstashSsl: '$(logstashSsl)'
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
       findBaseUrl: '$(findBaseUrl)'
+      disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'

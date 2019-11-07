@@ -37,9 +37,9 @@ RSpec.feature 'See providers' do
   end
 
   def and_i_click_the_sync_button
-    @request1 = stub_200_from_find(provider_code: 'ABC', provider_name: 'Royal Academy of Dance')
-    @request2 = stub_200_from_find(provider_code: 'DEF', provider_name: 'Gorse SCITT')
-    @request3 = stub_200_from_find(provider_code: 'GHI', provider_name: 'Somerset SCITT Consortium')
+    @request1 = stub_find_api_provider_200(provider_code: 'ABC', provider_name: 'Royal Academy of Dance')
+    @request2 = stub_find_api_provider_200(provider_code: 'DEF', provider_name: 'Gorse SCITT')
+    @request3 = stub_find_api_provider_200(provider_code: 'GHI', provider_name: 'Somerset SCITT Consortium')
     click_button 'Sync Providers from Find'
   end
 

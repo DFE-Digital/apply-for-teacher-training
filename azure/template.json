@@ -195,6 +195,12 @@
             "metadata": {
                 "description": "The base URL to manage-courses-backend, Find's backend."
             }
+        },
+        "disableBasicAuthForLandingPage": {
+            "type": "string",
+            "metadata": {
+                "description": "Should basic auth be disabled for the /candidate/apply landing page linked from Find?"
+            }
         }
     },
     "variables": {
@@ -407,6 +413,10 @@
                             {
                                 "name": "FIND_BASE_URL",
                                 "value": "[parameters('findBaseUrl')]"
+                            },
+                            {
+                                "name": "DISABLE_BASIC_AUTH_FOR_LANDING_PAGE",
+                                "value": "[parameters('disableBasicAuthForLandingPage')]"
                             }
                         ]
                     }
