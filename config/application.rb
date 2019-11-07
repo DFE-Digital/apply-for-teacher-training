@@ -35,6 +35,5 @@ module ApplyForPostgraduateTeacherTraining
     config.providers_to_sync = config_for(:providers_to_sync)
 
     config.time_zone = 'London'
-    config.active_record.default_timezone = :local
   end
 end
