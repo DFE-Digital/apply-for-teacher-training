@@ -157,6 +157,7 @@ GEM
     faraday_middleware (0.13.1)
       faraday (>= 0.7.4, < 1.0)
     ffi (1.11.1)
+    foreman (0.86.0)
     formatador (0.2.5)
     gherkin (5.1.0)
     globalid (0.4.2)
@@ -437,6 +438,7 @@ DEPENDENCIES
   erb_lint
   factory_bot_rails
   faker
+  foreman
   govuk-lint
   govuk_design_system_formbuilder (= 0.9.7)
   guard-rspec
