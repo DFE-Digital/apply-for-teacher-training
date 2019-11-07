@@ -26,6 +26,11 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
       it 'returns false' do
         expect(subject.save_base(candidate))
       end
+
+      it 'does not update the candidate model' do
+        expect(candidate).to_not receive(:update!)
+        subject.save_base(candidate)
+      end
     end
 
     context 'when email_address is valid' do
@@ -36,6 +41,11 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
 
         it 'returns false' do
           expect(subject.save_base(candidate)).to eq(false)
+        end
+
+        it 'does not update the candidate model' do
+          expect(candidate).to_not receive(:update!)
+          subject.save_base(candidate)
         end
       end
 
