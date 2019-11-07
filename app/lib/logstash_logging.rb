@@ -4,25 +4,39 @@ class LogstashLogging
   DOMAIN_FOR_LOGS = Rails.env.production? ? AzureEnvironment.hostname : Socket.gethostname
   SERVICE_NAME = ENV['SERVICE_NAME'] # e.g. web, worker or clock
 
+  def self.add_web_fields(event)
+    params = RequestLocals.fetch(:params) { nil }
+    if params
+      event['params'] = params
+    end
+    candidate_id = RequestLocals.fetch(:candidate_id) { nil }
+    if candidate_id
+      event['candidate_id'] = candidate_id
+    end
+    vendor_api_token_id = RequestLocals.fetch(:vendor_api_token_id) { nil }
+    if vendor_api_token_id
+      event['vendor_api_token_id'] = vendor_api_token_id
+      event['provider_id'] = RequestLocals.fetch(:provider_id) { nil }
+    end
+  end
+
+  def self.add_sidekiq_fields(event)
+    tid = Thread.current["sidekiq_tid"]
+    if !tid.blank?
+      ctx = Sidekiq::Context.current
+      event['tid'] = tid
+      event['ctx'] = ctx
+    end
+  end
+
   def self.enable(rails_config)
     # Add domain, params etc. to the logs
     LogStashLogger.configure do |logstash_config|
       logstash_config.customize_event do |event|
         event['domain'] = DOMAIN_FOR_LOGS
         event['service'] = SERVICE_NAME
-        params = RequestLocals.fetch(:params) { nil }
-        if params
-          event['params'] = params
-        end
-        candidate_id = RequestLocals.fetch(:candidate_id) { nil }
-        if candidate_id
-          event['candidate_id'] = candidate_id
-        end
-        vendor_api_token_id = RequestLocals.fetch(:vendor_api_token_id) { nil }
-        if vendor_api_token_id
-          event['vendor_api_token_id'] = vendor_api_token_id
-          event['provider_id'] = RequestLocals.fetch(:provider_id) { nil }
-        end
+        add_web_fields(event)
+        add_sidekiq_fields(event)
       end
     end
 
