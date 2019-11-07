@@ -9,7 +9,7 @@ RSpec.describe BusinessTime do
     Date.new(2019, 11, 7),
     Date.new(2019, 11, 8),
   ].each do |date|
-    it "#{date} is a working day" do
+    it "#{date} is a working day (Monday-Friday)" do
       expect(date.workday?).to eq true
     end
   end
@@ -18,7 +18,7 @@ RSpec.describe BusinessTime do
     Date.new(2019, 11, 9),
     Date.new(2019, 11, 10),
   ].each do |date|
-    it "#{date} is a non-working day" do
+    it "#{date} is a non-working (weekend) day" do
       expect(date.workday?).to eq false
     end
   end
