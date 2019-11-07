@@ -56,4 +56,13 @@ RSpec.describe OtherQualificationsReviewComponent do
     expect(result.css('.app-summary-card__title').text).to include('A-Level Making Doggo Sounds')
     expect(result.css('.app-summary-card__title').text).to include('A-Level Making Cat Sounds')
   end
+
+  it 'renders component along with a delete link for each degree' do
+    result = render_inline(OtherQualificationsReviewComponent, application_form: application_form)
+
+    expect(result.css('.app-summary-card__actions').text).to include(t('application_form.other_qualification.delete'))
+    expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
+      Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_other_qualification_path(2),
+    )
+  end
 end

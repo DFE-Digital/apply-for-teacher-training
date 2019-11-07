@@ -93,6 +93,9 @@ Rails.application.routes.draw do
         post '/' => 'other_qualifications/base#create', as: :create_other_qualification
 
         get '/review' => 'other_qualifications/review#show', as: :review_other_qualifications
+
+        get '/delete/:id' => 'other_qualifications/destroy#confirm_destroy', as: :confirm_destroy_other_qualification
+        delete '/delete/:id' => 'other_qualifications/destroy#destroy'
       end
     end
   end
