@@ -140,6 +140,42 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
     end
   end
 
+  describe '#update' do
+    it 'returns false if not valid' do
+      qualification = CandidateInterface::OtherQualificationForm.new
+
+      expect(qualification.update(ApplicationForm.new)).to eq(false)
+    end
+
+    it 'updates the provided ApplicationForm if valid' do
+      form_data = {
+        id: 1,
+        qualification_type: 'BTEC',
+        subject: 'Being a Everyday Hero',
+        institution_name: 'School of Humans',
+        grade: 'Distinction',
+        award_year: '2011',
+      }
+      qualification = CandidateInterface::OtherQualificationForm.new(form_data)
+      application_form = create(:application_form) do |form|
+        form.application_qualifications.create(
+          id: 1,
+          level: 'other',
+          qualification_type: 'BTEC',
+          subject: 'Being a Everyday Hero',
+          institution_name: 'School of Hoomans',
+          grade: 'Pass',
+          predicted_grade: false,
+          award_year: '2011',
+        )
+      end
+
+      expect(qualification.update(application_form)).to eq(true)
+      expect(application_form.application_qualifications.other.first)
+        .to have_attributes(form_data)
+    end
+  end
+
   describe '#title' do
     it 'concatenates the qualification type and subject' do
       qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'BTEC', subject: 'Being a Supervillain')

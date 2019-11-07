@@ -25,7 +25,7 @@ private
       key: t('application_form.other_qualification.qualification.label'),
       value: [qualification.title, qualification.institution_name],
       action: t('application_form.other_qualification.qualification.change_action'),
-      change_path: '#',
+      change_path: Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_path(qualification.id),
     }
   end
 
@@ -34,7 +34,7 @@ private
       key: t('application_form.other_qualification.award_year.review_label'),
       value: qualification.award_year,
       action: t('application_form.other_qualification.award_year.change_action'),
-      change_path: '#',
+      change_path: Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_path(qualification.id),
     }
   end
 
@@ -43,7 +43,7 @@ private
       key: t('application_form.other_qualification.grade.label'),
       value: qualification.grade,
       action: t('application_form.other_qualification.grade.change_action'),
-      change_path: '#',
+      change_path: Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_path(qualification.id),
     }
   end
 end

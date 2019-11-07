@@ -32,6 +32,13 @@ RSpec.feature 'Entering their other qualifications' do
     when_i_click_on_delete_my_additional_qualification
     and_i_confirm_that_i_want_to_delete_my_additional_qualification
     then_i_can_only_see_my_qualification
+
+    when_i_click_to_change_my_qualification
+    then_i_see_my_qualification_filled_in
+
+    when_i_change_my_qualification
+    and_i_submit_the_other_qualification_form
+    then_i_can_check_my_revised_qualification
   end
 
   def given_i_am_not_signed_in; end
@@ -122,5 +129,25 @@ RSpec.feature 'Entering their other qualifications' do
   def then_i_can_only_see_my_qualification
     then_i_can_check_my_qualification
     expect(page).not_to have_content 'A-Level Losing to Yugi'
+  end
+
+  def when_i_click_to_change_my_qualification
+    first('.govuk-summary-list__actions').click_link 'Change'
+  end
+
+  def then_i_see_my_qualification_filled_in
+    expect(page).to have_selector("input[value='A-Level']")
+    expect(page).to have_selector("input[value='Believing in the Heart of the Cards']")
+    expect(page).to have_selector("input[value='Yugi College']")
+    expect(page).to have_selector("input[value='A']")
+    expect(page).to have_selector("input[value='2015']")
+  end
+
+  def when_i_change_my_qualification
+    fill_in t('application_form.other_qualification.subject.label'), with: 'How to Win Against Kaiba'
+  end
+
+  def then_i_can_check_my_revised_qualification
+    expect(page).to have_content 'A-Level How to Win Against Kaiba'
   end
 end
