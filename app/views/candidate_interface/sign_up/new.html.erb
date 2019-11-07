@@ -9,7 +9,7 @@
 
     <p class="govuk-body-l">Please give us your email address so that you can save and return to your application.</p>
 
-    <%= form_with model: @candidate, url: candidate_interface_sign_up_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder, html: { novalidate: true } do |f| %>
+    <%= form_with model: @candidate, url: candidate_interface_sign_up_path, html: { novalidate: true } do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_text_field :email_address, label: { text: t('authentication.sign_up.email_address.label'), size: 'm' }, hint_text: t('authentication.sign_up.email_address.hint_label'), type: :email, width: 'two-thirds' %>

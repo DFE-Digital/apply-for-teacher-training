@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @qualification, url: candidate_interface_edit_other_qualification_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+    <%= form_with model: @qualification, url: candidate_interface_edit_other_qualification_path do |f| %>
       <%= f.govuk_error_summary %>
 
       <fieldset class="govuk-fieldset">
