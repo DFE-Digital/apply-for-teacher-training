@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationDates, type: :model do
-  let(:submitted_at) { Time.new(2019, 1, 1) }
+  let(:submitted_at) { Time.zone.local(2019, 5, 1, 12, 0, 0) }
 
   def application_dates
     application_form = create(:application_form, submitted_at: submitted_at)
@@ -16,13 +16,13 @@ RSpec.describe ApplicationDates, type: :model do
 
   describe '#respond_by' do
     it 'returns date that providers will respond by' do
-      expect(application_dates.respond_by.to_date).to eql(Date.new(2019, 2, 27))
+      expect(application_dates.respond_by).to eql(Time.zone.local(2019, 6, 28).end_of_day)
     end
   end
 
   describe '#edit_by' do
     it 'returns date that the candidate can edit by' do
-      expect(application_dates.edit_by.to_date).to eql(Date.new(2019, 1, 9))
+      expect(application_dates.edit_by).to eql(Time.zone.local(2019, 5, 9).end_of_day)
     end
   end
 

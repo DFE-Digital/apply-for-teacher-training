@@ -8,15 +8,15 @@ class ApplicationDates
   end
 
   def respond_by
-    40.business_days.after(submitted_at)
+    40.business_days.after(submitted_at).end_of_day
   end
 
   def edit_by
-    5.business_days.after(submitted_at)
+    5.business_days.after(submitted_at).end_of_day
   end
 
   def days_remaining_to_edit
-    (edit_by.to_date - Time.now.to_date).to_i
+    ((edit_by - Time.zone.now) / 1.day).floor
   end
 
   def form_open_to_editing?
