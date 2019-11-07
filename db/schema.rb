@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_02_150647) do
+ActiveRecord::Schema.define(version: 2019_11_07_161840) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -68,9 +68,10 @@ ActiveRecord::Schema.define(version: 2019_11_02_150647) do
     t.string "support_reference", limit: 10
     t.string "disability_disclosure"
     t.string "uk_residency_status"
+    t.boolean "degrees_completed", default: false, null: false
     t.boolean "work_history_completed", default: false, null: false
     t.text "work_history_explanation"
-    t.boolean "degrees_completed", default: false, null: false
+    t.boolean "other_qualifications_completed", default: false, null: false
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
   end
 
