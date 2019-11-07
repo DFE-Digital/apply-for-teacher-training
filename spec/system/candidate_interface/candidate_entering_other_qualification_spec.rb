@@ -21,6 +21,13 @@ RSpec.feature 'Entering their other qualifications' do
     when_i_fill_in_my_qualification
     and_i_submit_the_other_qualification_form
     then_i_can_check_my_qualification
+
+    when_i_click_on_add_another_qualification
+    then_i_see_the_other_qualifications_form
+
+    when_i_fill_in_another_qualification
+    and_i_submit_the_other_qualification_form
+    then_i_can_check_additional_qualification
   end
 
   def given_i_am_not_signed_in; end
@@ -73,5 +80,30 @@ RSpec.feature 'Entering their other qualifications' do
   def then_i_can_check_my_qualification
     expect(page).to have_content t('application_form.other_qualification.qualification.label')
     expect(page).to have_content 'A-Level Believing in the Heart of the Cards'
+  end
+
+  def when_i_click_on_add_another_qualification
+    click_link t('application_form.other_qualification.another.button')
+  end
+
+  def then_i_see_the_other_qualifications_form_with_some_details_of_my_last_autofilled
+    then_i_see_the_other_qualifications_form
+
+    expect(page).to have_selector("input[value='A-Level']")
+    expect(page).to have_selector("input[value='Yugi College']")
+    expect(page).to have_selector("input[value='2015']")
+  end
+
+  def when_i_fill_in_another_qualification
+    fill_in t('application_form.other_qualification.qualification_type.label'), with: 'A-Level'
+    fill_in t('application_form.other_qualification.subject.label'), with: 'Losing to Yugi'
+    fill_in t('application_form.other_qualification.institution_name.label'), with: 'Kaiba College'
+    fill_in t('application_form.other_qualification.grade.label'), with: 'C'
+    fill_in t('application_form.other_qualification.award_year.label'), with: '2016'
+  end
+
+  def then_i_can_check_additional_qualification
+    expect(page).to have_content t('application_form.other_qualification.qualification.label')
+    expect(page).to have_content 'A-Level Losing to Yugi'
   end
 end

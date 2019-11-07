@@ -154,6 +154,8 @@ en:
         change_action: year
       base:
         button: Save and continue
+      another:
+        button: Add another qualification
   activemodel:
     errors:
       models:
