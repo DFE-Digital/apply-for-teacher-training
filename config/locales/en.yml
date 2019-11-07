@@ -63,6 +63,7 @@ en:
     add_other_qualification: Other relevant qualifications
     edit_other_qualification: Other relevant qualifications
     destroy_other_qualification: Are you sure you want to delete this qualification?
+    becoming_a_teacher: Why do you want to be a teacher?
   layout:
     service_name: Apply for teacher training
     accessibility: Accessibility

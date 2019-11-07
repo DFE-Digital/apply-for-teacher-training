@@ -161,6 +161,11 @@ en:
         completed_checkbox: I have completed this section
       delete: Delete qualification
       confirm_delete: Yes I’m sure - delete this qualification
+    personal_statement:
+      becoming_a_teacher:
+        change_action: tell us why you want to be a teacher
+        label: Tell us why you want to be a teacher
+        complete_form_button: Continue
   activemodel:
     errors:
       models:
@@ -182,6 +187,11 @@ en:
             date_of_birth:
               invalid: Enter a date of birth in the correct format, for example 13 1 1993
               future: Enter a date of birth that is in the past, for example 13 1 1993
+        candidate_interface/becoming_a_teacher_form:
+          attributes:
+            becoming_a_teacher:
+              blank: Tell us why you want to be a teacher
+              too_long: Tell us why you want to be a teacher must be %{count} words or fewer
         candidate_interface/further_information_form:
           attributes:
             further_information:

@@ -96,7 +96,12 @@
     </p>
     <ol class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item govuk-hint">
-        <span class="app-task-list__task-name">Choose a course before adding a personal statement</span>
+        <% if @application_form_presenter.becoming_a_teacher_completed? %>
+          <%= govuk_link_to t('page_titles.becoming_a_teacher'), candidate_interface_becoming_a_teacher_show_path, class: 'app-task-list__task-name', 'aria-describedby': 'becoming-a-teacher-completed' %>
+          <strong class="govuk-tag app-task-list__task-completed" id="becoming-a-teacher-completed">Completed</strong>
+        <% else %>
+          <%= govuk_link_to t('page_titles.becoming_a_teacher'), candidate_interface_becoming_a_teacher_edit_path, class: 'app-task-list__task-name' %>
+        <% end %>
       </li>
     </ol>
 
