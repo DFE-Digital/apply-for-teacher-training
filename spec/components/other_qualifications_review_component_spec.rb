@@ -61,6 +61,8 @@ RSpec.describe OtherQualificationsReviewComponent do
     result = render_inline(OtherQualificationsReviewComponent, application_form: application_form)
 
     expect(result.css('.app-summary-card__actions').text).to include(t('application_form.other_qualification.delete'))
-    expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include('#')
+    expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
+      Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_other_qualification_path(2),
+    )
   end
 end

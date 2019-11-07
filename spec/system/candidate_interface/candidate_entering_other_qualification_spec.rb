@@ -28,6 +28,10 @@ RSpec.feature 'Entering their other qualifications' do
     when_i_fill_in_another_qualification
     and_i_submit_the_other_qualification_form
     then_i_can_check_additional_qualification
+
+    when_i_click_on_delete_my_additional_qualification
+    and_i_confirm_that_i_want_to_delete_my_additional_qualification
+    then_i_can_only_see_my_qualification
   end
 
   def given_i_am_not_signed_in; end
@@ -105,5 +109,18 @@ RSpec.feature 'Entering their other qualifications' do
   def then_i_can_check_additional_qualification
     expect(page).to have_content t('application_form.other_qualification.qualification.label')
     expect(page).to have_content 'A-Level Losing to Yugi'
+  end
+
+  def when_i_click_on_delete_my_additional_qualification
+    click_link(t('application_form.other_qualification.delete'), match: :first)
+  end
+
+  def and_i_confirm_that_i_want_to_delete_my_additional_qualification
+    click_button t('application_form.other_qualification.confirm_delete')
+  end
+
+  def then_i_can_only_see_my_qualification
+    then_i_can_check_my_qualification
+    expect(page).not_to have_content 'A-Level Losing to Yugi'
   end
 end

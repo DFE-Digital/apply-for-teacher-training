@@ -156,6 +156,8 @@ en:
         button: Save and continue
       another:
         button: Add another qualification
+      delete: Delete qualification
+      confirm_delete: Yes I’m sure - delete this qualification
   activemodel:
     errors:
       models:
