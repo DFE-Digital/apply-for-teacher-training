@@ -3,18 +3,22 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::SignUpForm, type: :model do
   let(:valid_email) { Faker::Internet.email }
   let(:invalid_email) { 'invalid_email' }
+  let(:given_email) { valid_email }
+  let(:candidate) { build_stubbed(:candidate, email_address: given_email) }
 
   describe '.build_from_candidate' do
-    let(:candidate) { build_stubbed(:candidate, valid_email) }
     it 'creates an object based on the provided Candidate' do
-      form = CandidateInterface::SignUpForm.build_from_candidate(candidate)
+      form = described_class.build_from_candidate(candidate)
       expect(form).to have_attributes(email_address: valid_email)
     end
   end
 
   describe '#save_base' do
-    let(:candidate) { build_stubbed(:candidate, given_email) }
-    subject{ build(:sign_up_form, accept_ts_and_cs: accept_ts_and_cs) }
+    let(:accept_ts_and_cs) { true }
+    subject do
+      described_class.new(  email_address: given_email,
+                            accept_ts_and_cs: accept_ts_and_cs )
+    end
 
     context 'when email_address is invalid' do
       let(:given_email) { invalid_email }
@@ -37,6 +41,15 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
 
       context 'and accept_ts_and_cs is present' do
         let(:accept_ts_and_cs) { true }
+        before do
+          allow(candidate).to receive(:update!)
+                              .and_return true
+        end
+
+        it 'updates the candidate model with the given email address' do
+          expect(candidate).to receive(:update!).with(email_address: given_email)
+          subject.save_base(candidate)
+        end
 
         it 'returns true' do
           expect(subject.save_base(candidate)).to eq(true)
@@ -44,7 +57,6 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
       end
     end
   end
-
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:accept_ts_and_cs) }
