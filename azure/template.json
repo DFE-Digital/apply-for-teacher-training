@@ -498,6 +498,34 @@
                                 "value": "[concat(parameters('databaseUsername'), '@', variables('databaseServerName'))]"
                             },
                             {
+                                "name": "AUTHORISED_HOSTS",
+                                "value": "[variables('rubyAuthHosts')]"
+                            },
+                            {
+                                "name": "SENTRY_DSN",
+                                "value": "[parameters('sentryDSN')]"
+                            },
+                            {
+                                "name": "LOGSTASH_ENABLE",
+                                "value": "[parameters('logstashEnable')]"
+                            },
+                            {
+                                "name": "LOGSTASH_REMOTE",
+                                "value": "[parameters('logstashRemote')]"
+                            },
+                            {
+                                "name": "LOGSTASH_HOST",
+                                "value": "[parameters('logstashHost')]"
+                            },
+                            {
+                                "name": "LOGSTASH_PORT",
+                                "value": "[parameters('logstashPort')]"
+                            },
+                            {
+                                "name": "LOGSTASH_SSL",
+                                "value": "[parameters('logstashSsl')]"
+                            },
+                            {
                                 "name": "SERVICE_NAME",
                                 "value": "[concat(parameters('containerInstanceNamePrefix'), '-wkr')]"
                             },
@@ -558,6 +586,34 @@
                             {
                                 "name": "DB_USERNAME",
                                 "value": "[concat(parameters('databaseUsername'), '@', variables('databaseServerName'))]"
+                            },
+                            {
+                                "name": "AUTHORISED_HOSTS",
+                                "value": "[variables('rubyAuthHosts')]"
+                            },
+                            {
+                                "name": "SENTRY_DSN",
+                                "value": "[parameters('sentryDSN')]"
+                            },
+                            {
+                                "name": "LOGSTASH_ENABLE",
+                                "value": "[parameters('logstashEnable')]"
+                            },
+                            {
+                                "name": "LOGSTASH_REMOTE",
+                                "value": "[parameters('logstashRemote')]"
+                            },
+                            {
+                                "name": "LOGSTASH_HOST",
+                                "value": "[parameters('logstashHost')]"
+                            },
+                            {
+                                "name": "LOGSTASH_PORT",
+                                "value": "[parameters('logstashPort')]"
+                            },
+                            {
+                                "name": "LOGSTASH_SSL",
+                                "value": "[parameters('logstashSsl')]"
                             },
                             {
                                 "name": "SERVICE_NAME",
