@@ -94,6 +94,28 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
     end
   end
 
+  describe '.build_from_application' do
+    it 'returns a new OtherQualificationForm object using the id' do
+      application_form = create(:application_form) do |form|
+        form.application_qualifications.create(
+          id: 1,
+          level: 'other',
+          qualification_type: 'BTEC',
+          subject: 'Being a Sidekick',
+          institution_name: 'School of Sidekicks',
+          grade: 'Merit',
+          predicted_grade: false,
+          award_year: '2010',
+        )
+        form.application_qualifications.create(id: 2, level: 'other')
+      end
+
+      qualification = CandidateInterface::OtherQualificationForm.build_from_application(application_form, 1)
+
+      expect(qualification).to have_attributes(qualification_type: 'BTEC', subject: 'Being a Sidekick')
+    end
+  end
+
   describe '#save' do
     it 'returns false if not valid' do
       qualification = CandidateInterface::OtherQualificationForm.new

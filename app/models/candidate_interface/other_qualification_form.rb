@@ -14,15 +14,27 @@ module CandidateInterface
     class << self
       def build_all_from_application(application_form)
         application_form.application_qualifications.other.map do |qualification|
-          new(
-            id: qualification.id,
-            qualification_type: qualification.qualification_type,
-            subject: qualification.subject,
-            institution_name: qualification.institution_name,
-            grade: qualification.grade,
-            award_year: qualification.award_year,
-          )
+          new_other_qualification_form(qualification)
         end
+      end
+
+      def build_from_application(application_form, qualification_id)
+        qualification = application_form.application_qualifications.find(qualification_id)
+
+        new_other_qualification_form(qualification)
+      end
+
+    private
+
+      def new_other_qualification_form(qualification)
+        new(
+          id: qualification.id,
+          qualification_type: qualification.qualification_type,
+          subject: qualification.subject,
+          institution_name: qualification.institution_name,
+          grade: qualification.grade,
+          award_year: qualification.award_year,
+        )
       end
     end
 
