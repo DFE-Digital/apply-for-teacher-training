@@ -16,7 +16,7 @@ module ApplicationHelper
     when 'candidate_interface'
       'Apply for teacher training'
     when 'support_interface'
-      'Support'
+      'Support for Apply'
     else
       'Apply for teacher training'
     end
