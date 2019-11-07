@@ -8,6 +8,7 @@ services:
     image: ${dockerHubUsername}/${dockerHubImageName}:latest
     environment:
       - RAILS_ENV
+      - SERVICE_NAME
       - GOVUK_NOTIFY_API_KEY
       - BASIC_AUTH_USERNAME
       - BASIC_AUTH_PASSWORD
