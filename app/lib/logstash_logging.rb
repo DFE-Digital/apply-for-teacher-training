@@ -1,5 +1,5 @@
 class LogstashLogging
-  DOMAIN_FOR_LOGS = Rails.env.production? ? AzureEnvironment.hostname : Socket.gethostname
+  DOMAIN_FOR_LOGS = Rails.env.production? ? HostingEnvironment.hostname : Socket.gethostname
 
   def self.enable(config)
     config.log_level = :info # :debug does not make sense with lograge + logstash

@@ -45,7 +45,7 @@ Rails.application.configure do
     api_key: ENV.fetch('GOVUK_NOTIFY_API_KEY')
   }
   config.action_mailer.default_url_options = {
-    host: AzureEnvironment.hostname
+    host: HostingEnvironment.hostname
   }
 
   # Ignore bad email addresses and do not raise email delivery errors.
@@ -96,7 +96,7 @@ Rails.application.configure do
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
   # Whitelist the production domains for HostAuthorization
-  AzureEnvironment.authorised_hosts.each do |host|
+  HostingEnvironment.authorised_hosts.each do |host|
     config.hosts << host
   end
 end
