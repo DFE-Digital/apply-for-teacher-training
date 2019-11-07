@@ -9,9 +9,9 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
   describe '#save_base' do
     it 'return false if not valid' do
       qualification = ApplicationQualification.new
+      form = CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
 
-      form = CandidateInterface::GcseQualificationDetailsForm.new({})
-      expect(form.save_base(qualification)).to eq(false)
+      expect(form.save_base).to eq(false)
     end
 
     it 'updates qualification details if valid' do

@@ -15,11 +15,17 @@ module CandidateInterface
     end
 
     def update
-      @application_qualification = GcseQualificationTypeForm.new(qualification_type: qualification_type_param,
-                                                                 subject: subject_param,
-                                                                 level: ApplicationQualification.levels[:gcse])
+      if current_qualification
+        @application_qualification = GcseQualificationTypeForm.build_from_qualification(current_qualification)
+      else
+        @application_qualification ||= GcseQualificationTypeForm.new(subject: subject_param, level: ApplicationQualification.levels[:gcse])
+      end
 
-      if @application_qualification.save_base(current_application)
+      @application_qualification.qualification_type = qualification_type_param
+
+      application_form = current_candidate.current_application
+
+      if @application_qualification.save_base(application_form)
         redirect_to candidate_interface_gcse_details_edit_details_path
       else
         render :edit
@@ -44,7 +50,8 @@ module CandidateInterface
       current_candidate
         .current_application
         .application_qualifications
-        .find_by(level: ApplicationQualification.levels[:gcse], subject: subject_param)
+        .where(level: ApplicationQualification.levels[:gcse], subject: subject_param)
+        .first
     end
   end
 end
