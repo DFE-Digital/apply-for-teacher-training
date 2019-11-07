@@ -4,8 +4,8 @@ module CandidateInterface
 
     attr_accessor :email_address, :accept_ts_and_cs
     validates :email_address, :accept_ts_and_cs, presence: true
-    NOTIFY_EMAIL_REGEXP = %r{\A[a-zA-Z0-9.!#$%&'*+=?^_`{|}~\\-]+@([^.@][^@\\s]+)\z}.freeze
-    validates :email_address, format: { with: NOTIFY_EMAIL_REGEXP }
+    validates :email_address, length: { maximum: 250 },
+                              format: { with: Candidate::NOTIFY_EMAIL_REGEXP }
 
 
     def save_base(candidate)
