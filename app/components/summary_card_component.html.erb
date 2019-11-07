@@ -8,10 +8,10 @@
             <%= row[:key] %>
           </dt>
           <dd class="govuk-summary-list__value">
-            <% if row[:DANGEROUS_html_value].nil? %>
-              <%= row[:value] %>
+            <% if row[:value].is_a?(Array) %>
+              <% row[:value].each do |value| %><%= value %><br><% end %>
             <% else %>
-              <%= render inline: row[:DANGEROUS_html_value] %>
+              <%= row[:value] %>
             <% end %>
           </dd>
 

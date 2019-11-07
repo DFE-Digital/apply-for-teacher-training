@@ -16,15 +16,15 @@ RSpec.describe SummaryCardComponent do
     expect(result.css('.govuk-summary-list__actions').text).to include('Change Name')
   end
 
-  it 'renders dangerous HTML content when passed in' do
+  it 'renders arrays content when passed in' do
     rows = [
       key: 'Address:',
-      DANGEROUS_html_value: 'Whoa Drive,<br>Wewvile<br>London',
+      value: ['Whoa Drive', 'Wewvile', 'London'],
       action: 'Name',
       change_path: '/some/url',
     ]
     result = render_inline(SummaryCardComponent, rows: rows)
 
-    expect(result.css('.govuk-summary-list__value').to_html).to include('Whoa Drive,<br>Wewvile<br>London')
+    expect(result.css('.govuk-summary-list__value').to_html).to include('Whoa Drive<br>Wewvile<br>London')
   end
 end

@@ -44,6 +44,6 @@ RSpec.describe ContactDetailsReviewComponent do
 
     result = render_inline(ContactDetailsReviewComponent, application_form: application_form)
 
-    expect(result.css('.govuk-summary-list__value').to_html).to include('42 Much Wow Street<br>London<br>England<br>SW1P 3BT')
+    expect(result.css('.govuk-summary-list__value').to_html).to include('42 &lt;script&gt;Much&lt;/script&gt; Wow Street<br>London<br>England<br>SW1P 3BT')
   end
 end
