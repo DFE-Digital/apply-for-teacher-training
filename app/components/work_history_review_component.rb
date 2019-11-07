@@ -33,9 +33,7 @@ private
   def job_row(work)
     {
       key: 'Job',
-      DANGEROUS_html_value: [work.role, work.organisation]
-        .map { |field| sanitize(field, tags: []) }
-        .join('<br>'),
+      value: [work.role, work.organisation],
       action: 'job',
       change_path: candidate_interface_work_history_edit_path(work.id),
     }

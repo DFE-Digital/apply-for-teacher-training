@@ -23,7 +23,7 @@ private
   def qualification_row(qualification)
     {
       key: t('application_form.other_qualification.qualification.label'),
-      DANGEROUS_html_value: formatted_qualification(qualification),
+      value: [qualification.title, qualification.institution_name],
       action: t('application_form.other_qualification.qualification.change_action'),
       change_path: '#',
     }
@@ -45,11 +45,5 @@ private
       action: t('application_form.other_qualification.grade.change_action'),
       change_path: '#',
     }
-  end
-
-  def formatted_qualification(qualification)
-    [qualification.title, qualification.institution_name]
-      .map { |line| sanitize(line, tags: []) }
-      .join('<br>')
   end
 end

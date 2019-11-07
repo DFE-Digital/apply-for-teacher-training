@@ -23,7 +23,7 @@ private
   def qualification_row(degree)
     {
       key: t('application_form.degree.qualification.label'),
-      DANGEROUS_html_value: formatted_qualification(degree),
+      value: formatted_qualification(degree),
       action: t('application_form.degree.qualification.change_action'),
       change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id),
     }
@@ -49,8 +49,6 @@ private
 
   def formatted_qualification(degree)
     [degree.title, degree.institution_name]
-      .map { |line| sanitize(line, tags: []) }
-      .join('<br>')
   end
 
   def formatted_grade(degree)
