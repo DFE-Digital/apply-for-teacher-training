@@ -39,6 +39,18 @@ RSpec.feature 'Entering their other qualifications' do
     when_i_change_my_qualification
     and_i_submit_the_other_qualification_form
     then_i_can_check_my_revised_qualification
+
+    when_i_click_on_continue
+    then_i_should_see_the_form
+    and_the_section_is_not_completed
+
+    when_i_click_on_other_qualifications
+    then_i_can_check_my_answers
+
+    when_i_mark_this_section_as_completed
+    and_i_click_on_continue
+    then_i_should_see_the_form
+    and_that_the_section_is_completed
   end
 
   def given_i_am_not_signed_in; end
@@ -149,5 +161,33 @@ RSpec.feature 'Entering their other qualifications' do
 
   def then_i_can_check_my_revised_qualification
     expect(page).to have_content 'A-Level How to Win Against Kaiba'
+  end
+
+  def when_i_click_on_continue
+    click_button t('application_form.other_qualification.review.button')
+  end
+
+  def and_the_section_is_not_completed
+    expect(page).not_to have_css('#other-qualifications-completed', text: 'Completed')
+  end
+
+  def then_i_can_check_my_answers
+    then_i_can_check_my_revised_qualification
+  end
+
+  def when_i_mark_this_section_as_completed
+    check t('application_form.other_qualification.review.completed_checkbox')
+  end
+
+  def and_i_click_on_continue
+    when_i_click_on_continue
+  end
+
+  def then_i_should_see_the_form
+    expect(page).to have_content(t('page_titles.application_form'))
+  end
+
+  def and_that_the_section_is_completed
+    expect(page).to have_css('#other-qualifications-completed', text: 'Completed')
   end
 end
