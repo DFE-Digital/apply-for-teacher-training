@@ -1,4 +1,4 @@
-Holidays.between(Date.civil(2017, 1, 1), 2.years.from_now, :gb_eng, :observed).map do |holiday|
+Holidays.between(Date.civil(2019, 1, 1), 2.years.from_now, :gb_eng, :observed).map do |holiday|
   BusinessTime::Config.holidays << holiday[:date]
 end
 
