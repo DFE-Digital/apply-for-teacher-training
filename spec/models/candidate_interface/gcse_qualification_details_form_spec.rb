@@ -14,14 +14,16 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
       expect(form.save_base(qualification)).to eq(false)
     end
 
-    it 'save qualification details if valid' do
+    it 'updates qualification details if valid' do
       application_form = create(:application_form)
-
       qualification = ApplicationQualification.create(level: 'gcse', application_form: application_form)
+      details_form = CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
 
-      details_form = CandidateInterface::GcseQualificationDetailsForm.new(grade: 'AB', award_year: '1990')
+      details_form.grade = 'AB'
+      details_form.award_year = '1990'
 
-      details_form.save_base(qualification)
+      details_form.save_base
+      qualification.reload
 
       expect(qualification.grade).to eq('AB')
       expect(qualification.award_year).to eq('1990')

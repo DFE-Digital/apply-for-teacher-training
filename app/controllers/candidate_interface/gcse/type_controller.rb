@@ -4,10 +4,14 @@ module CandidateInterface
 
     # 1th step - Edit qualification type
     def edit
-      @application_qualification = GcseQualificationTypeForm.new(
-        subject: subject_param,
-        level: ApplicationQualification.levels[:gcse],
-      )
+      @application_qualification = if current_qualification
+                                     GcseQualificationTypeForm.build_from_qualification(current_qualification)
+                                   else
+                                     GcseQualificationTypeForm.new(
+                                       subject: subject_param,
+                                       level: ApplicationQualification.levels[:gcse],
+                                       )
+                                   end
     end
 
     def update
@@ -34,6 +38,13 @@ module CandidateInterface
 
     def qualification_type_param
       (params[:candidate_interface_gcse_qualification_type_form] || {}).fetch(:qualification_type, '')
+    end
+
+    def current_qualification
+      current_candidate
+        .current_application
+        .application_qualifications
+        .find_by(level: ApplicationQualification.levels[:gcse], subject: subject_param)
     end
   end
 end

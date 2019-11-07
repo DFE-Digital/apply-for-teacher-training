@@ -20,6 +20,20 @@ RSpec.feature 'Candidate entering GCSE details' do
     and_i_see_correct_grade_and_awarded_year
   end
 
+  scenario 'Candidate submits their type and then try to edit it' do
+    given_i_am_signed_in
+    and_i_visit_the_candidate_application_page
+    and_i_click_on_the_maths_gcse_link
+    then_i_see_the_add_gcse_maths_page
+
+    when_i_select_gcse_option
+    and_i_click_save_and_continue
+    then_i_see_add_grade_and_year_page
+
+    when_i_click_the_back_link
+    i_see_the_gcse_option_selected
+  end
+
   scenario 'Candidate does not provide a qualification level' do
     given_i_am_signed_in
     and_i_visit_the_candidate_application_page
@@ -98,5 +112,13 @@ RSpec.feature 'Candidate entering GCSE details' do
 
   def then_i_see_the_qualification_type_error
     expect(page).to have_content 'Enter the type of qualification'
+  end
+
+  def when_i_click_the_back_link
+    click_link 'Back'
+  end
+
+  def i_see_the_gcse_option_selected
+    expect(find_field('GCSE')).to be_checked
   end
 end
