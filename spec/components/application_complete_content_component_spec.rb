@@ -22,7 +22,7 @@ RSpec.describe ApplicationCompleteContentComponent do
   end
 
   def render_result
-    application_form = build(:application_form)
+    application_form = instance_double(ApplicationForm)
     render_inline(ApplicationCompleteContentComponent, application_form: application_form)
   end
 
