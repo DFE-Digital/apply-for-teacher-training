@@ -1,12 +1,11 @@
 module VendorApi
   class VendorApiController < ActionController::API
     include ActionController::HttpAuthentication::Token::ControllerMethods
-    include ParamsLogging
+    include LogRequestParams
 
     rescue_from ActiveRecord::RecordNotFound, with: :application_not_found
     rescue_from ActionController::ParameterMissing, with: :parameter_missing
 
-    before_action :add_params_to_request_store
     before_action :set_cors_headers
     before_action :require_valid_api_token!
     before_action :add_api_key_and_provider_ids_to_log

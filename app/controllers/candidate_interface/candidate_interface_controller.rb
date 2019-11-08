@@ -1,8 +1,7 @@
 module CandidateInterface
   class CandidateInterfaceController < ActionController::Base
     include BasicAuthHelper
-    include ParamsLogging
-    before_action :add_params_to_request_store
+    include LogRequestParams
     before_action :require_basic_auth_for_ui
     before_action :authenticate_candidate!
     before_action :add_candidate_id_to_log

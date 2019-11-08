@@ -8,7 +8,7 @@ Accepted
 
 ## Context
 
-This service will need to process applications automatically and periodically in order to enforce time-dependent business rules and modify application status/state. Therefore, we need a way to run domain logic code outside the context of web requests, reliably and in a proactive/scheduled way.
+This service will need to process applications automatically and periodically in order to enforce time-dependent business rules and modify application state. Therefore, we need a way to run domain logic code outside the context of web requests, reliably and in a proactive/scheduled way.
 
 ### Findings
 

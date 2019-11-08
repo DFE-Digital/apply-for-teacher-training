@@ -67,7 +67,6 @@ group :test do
   gem 'simplecov', require: false
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
-  gem 'rspec-sidekiq'
   gem 'clockwork-test'
 end
 

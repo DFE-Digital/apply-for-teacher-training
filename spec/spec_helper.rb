@@ -16,6 +16,7 @@
 require 'simplecov'
 SimpleCov.start 'rails'
 
+require 'sidekiq/testing'
 require 'clockwork/test'
 ENV['SERVICE_NAME'] = 'test' # this is used for logging
 
