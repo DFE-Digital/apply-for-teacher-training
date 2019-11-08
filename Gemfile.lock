@@ -75,6 +75,9 @@ GEM
     bindex (0.8.1)
     brakeman (4.7.1)
     builder (3.2.3)
+    business_time (0.9.3)
+      activesupport (>= 3.2.0)
+      tzinfo
     byebug (11.0.1)
     capybara (3.29.0)
       addressable
@@ -178,6 +181,7 @@ GEM
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
     hashdiff (1.0.0)
+    holidays (8.0.0)
     html_tokenizer (0.0.7)
     i18n (1.7.0)
       concurrent-ruby (~> 1.0)
@@ -405,6 +409,7 @@ DEPENDENCIES
   actionview-component
   audited
   brakeman
+  business_time
   capybara (>= 3.24)
   capybara-email
   climate_control
@@ -418,6 +423,7 @@ DEPENDENCIES
   govuk-lint
   govuk_design_system_formbuilder (= 0.9.8)
   guard-rspec
+  holidays
   json-schema
   json_api_client
   launchy

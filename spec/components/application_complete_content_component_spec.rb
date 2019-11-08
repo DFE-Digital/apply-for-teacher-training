@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationCompleteContentComponent do
-  let(:submitted_at) { Date.new(2019, 10, 22) }
+  let(:submitted_at) { Time.zone.local(2019, 10, 22, 12, 0, 0) }
 
   around do |example|
     Timecop.freeze(submitted_at) do
@@ -9,8 +9,20 @@ RSpec.describe ApplicationCompleteContentComponent do
     end
   end
 
+  before do
+    @application_dates = instance_double(
+      ApplicationDates,
+      submitted_at: Time.zone.local(2019, 10, 22, 12, 0, 0),
+      respond_by: Time.zone.local(2019, 12, 17, 12, 0, 0),
+      edit_by: Time.zone.local(2019, 10, 29, 12, 0, 0),
+      days_remaining_to_edit: 7,
+      form_open_to_editing?: true,
+    )
+    allow(ApplicationDates).to receive(:new).and_return(@application_dates)
+  end
+
   def render_result
-    application_form = create(:application_form, submitted_at: submitted_at)
+    application_form = instance_double(ApplicationForm)
     render_inline(ApplicationCompleteContentComponent, application_form: application_form)
   end
 
@@ -19,30 +31,25 @@ RSpec.describe ApplicationCompleteContentComponent do
   end
 
   it 'renders with correct respond by date' do
-    expect(render_result.text).to include('1 December 2019')
+    expect(render_result.text).to include('17 December 2019')
   end
 
   it 'renders with correct edit by date' do
     expect(render_result.text).to include('29 October 2019')
   end
 
-  it 'renders with correct days remaining after time has passed' do
-    Timecop.travel(submitted_at) do
-      expect(render_result.text).to include('7 days')
-    end
-
-    Timecop.travel(submitted_at + 2.days) do
-      expect(render_result.text).to include('5 days')
-    end
-
-    Timecop.travel(submitted_at + 6.days) do
-      expect(render_result.text).to include('1 day')
-    end
+  it 'renders link to Edit your application' do
+    expect(render_result.text).to include('Edit your application')
   end
 
-  it 'renders without edit content after lots of time has passed' do
-    Timecop.travel(submitted_at + 7.days) do
-      expect(render_result.text).not_to include('Edit your application')
-    end
+  it 'renders with correct days remaining 2 days after submission' do
+    allow(@application_dates).to receive(:days_remaining_to_edit).and_return(5)
+    expect(render_result.text).to include('5 days')
+  end
+
+  it 'renders without edit content after we have passed the expires_at date' do
+    allow(@application_dates).to receive(:days_remaining_to_edit).and_return(0)
+    allow(@application_dates).to receive(:form_open_to_editing?).and_return(false)
+    expect(render_result.text).not_to include('Edit your application')
   end
 end

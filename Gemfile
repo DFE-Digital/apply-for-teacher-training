@@ -36,6 +36,9 @@ gem 'actionview-component'
 
 gem 'uk_postcode'
 
+gem 'business_time'
+gem 'holidays'
+
 # Logging
 gem 'lograge'
 gem 'logstash-logger'
