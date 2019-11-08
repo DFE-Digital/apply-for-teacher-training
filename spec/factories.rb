@@ -27,6 +27,7 @@ FactoryBot.define do
       country { 'UK' }
       postcode { Faker::Address.postcode }
       degrees_completed { [true, false].sample }
+      other_qualifications_completed { [true, false].sample }
 
       transient do
         application_choices_count { 3 }

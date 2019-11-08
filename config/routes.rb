@@ -109,6 +109,7 @@ Rails.application.routes.draw do
         post '/' => 'other_qualifications/base#create', as: :create_other_qualification
 
         get '/review' => 'other_qualifications/review#show', as: :review_other_qualifications
+        patch '/review' => 'other_qualifications/review#complete', as: :complete_other_qualifications
 
         get '/edit/:id' => 'other_qualifications/base#edit', as: :edit_other_qualification
         post '/edit/:id' => 'other_qualifications/base#update'
