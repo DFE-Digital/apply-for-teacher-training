@@ -7,9 +7,6 @@ RSpec.describe Candidate, type: :model do
     it { is_expected.to validate_presence_of :email_address }
     it { is_expected.to validate_length_of(:email_address).is_at_most(250) }
     it { is_expected.to validate_uniqueness_of :email_address }
-
-    it { is_expected.to allow_value('candidate@example.com').for(:email_address) }
-    it { is_expected.not_to allow_value('candidate.com').for(:email_address) }
   end
 
   describe '#delete' do
