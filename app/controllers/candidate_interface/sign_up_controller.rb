@@ -3,16 +3,17 @@ module CandidateInterface
     skip_before_action :authenticate_candidate!
 
     def new
-      @candidate = Candidate.new
+      @sign_up_form = CandidateInterface::SignUpForm.build_from_candidate(Candidate.new)
     end
 
     def create
-      @candidate = Candidate.find_or_initialize_by(candidate_params)
+      @sign_up_form = CandidateInterface::SignUpForm.new(candidate_sign_up_form_params)
+      @candidate = Candidate.find_or_initialize_by(email_address: @sign_up_form.email_address)
 
       if @candidate.persisted?
         MagicLinkSignIn.call(candidate: @candidate)
         render 'candidate_interface/shared/check_your_email'
-      elsif @candidate.save
+      elsif @sign_up_form.save_base(@candidate)
         MagicLinkSignUp.call(candidate: @candidate)
         render 'candidate_interface/shared/check_your_email'
       else
@@ -24,8 +25,8 @@ module CandidateInterface
 
   private
 
-    def candidate_params
-      params.require(:candidate).permit(:email_address)
+    def candidate_sign_up_form_params
+      params.require(:candidate_interface_sign_up_form).permit(:email_address, :accept_ts_and_cs)
     end
   end
 end

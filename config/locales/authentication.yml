@@ -1,10 +1,18 @@
 en:
+  activemodel:
+    errors:
+      models:
+        candidate_interface/sign_up_form:
+          attributes:
+            accept_ts_and_cs:
+              blank: You must agree to the Terms and Conditions
   authentication:
     sign_up:
-      heading: Before you begin
+      heading: Create an Apply for teacher training account
+      accept_ts_and_cs_checkbox: I agree to the terms and conditions
       button_continue: Continue
       email_address:
-        label: Email address
+        label: Enter your email address
         hint_label: Don’t use a work or university email address you might lose access to
       email:
         subject: Please confirm your email address
