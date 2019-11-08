@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::SignUpForm, type: :model do
   let(:valid_email) { Faker::Internet.email }
-  let(:invalid_email) { 'invalid_email' }
+  let(:invalid_email) { Faker::Lorem.characters(number: 251) }
   let(:given_email) { valid_email }
   let(:candidate) { build_stubbed(:candidate, email_address: given_email) }
 
@@ -76,6 +76,6 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
     it { is_expected.to validate_presence_of(:email_address) }
 
     it { is_expected.to allow_value('test@example.com').for(:email_address) }
-    it { is_expected.not_to allow_value('someone').for(:email_address) }
+    it { is_expected.not_to allow_value(invalid_email).for(:email_address) }
   end
 end
