@@ -9,11 +9,11 @@ module CandidateInterface
       return false unless valid?
 
       if new_record?
-        application_form.application_qualifications.create!(
+        application_form.application_qualifications.create(
           level: level,
           subject: subject,
           qualification_type: qualification_type,
-          )
+        )
       else
         qualification = ApplicationQualification.find(qualification_id)
 
@@ -23,8 +23,6 @@ module CandidateInterface
           qualification_type: qualification_type,
         )
       end
-
-      true
     end
 
     def self.build_from_qualification(qualification)

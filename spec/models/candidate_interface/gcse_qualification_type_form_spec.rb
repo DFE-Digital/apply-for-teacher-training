@@ -18,10 +18,14 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
     it 'creates a new qualification if valid' do
       application_form = create(:application_form)
 
-      gcse_qualification_type = CandidateInterface::GcseQualificationTypeForm
-                                  .new(subject: 'maths', level: 'gcse', qualification_type: 'gsce')
+      form = CandidateInterface::GcseQualificationTypeForm
+                                  .new(subject: 'maths', level: 'gcse', qualification_type: 'gcse')
 
-      expect(gcse_qualification_type.save_base(application_form)).to eq(true)
+      form.save_base(application_form)
+
+      expect(form.subject).to eq('maths')
+      expect(form.level).to eq('gcse')
+      expect(form.qualification_type).to eq('gcse')
     end
 
     it 'builds the Form from the qualification model' do

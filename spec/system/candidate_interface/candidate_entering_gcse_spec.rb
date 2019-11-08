@@ -18,7 +18,6 @@ RSpec.feature 'Candidate entering GCSE details' do
 
     then_i_see_the_review_page_with_correct_details
 
-    # Sub-scenario: Edit Type of Qualification
     when_i_click_to_change_qualification_type
     then_i_see_the_gcse_option_selected
 

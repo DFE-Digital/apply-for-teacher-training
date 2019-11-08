@@ -3,7 +3,7 @@ module CandidateInterface
     before_action :set_subject
 
     def show
-      @application_qualification = current_qualification
+      @application_qualification = current_application.qualification_in_subject(:gcse, subject_param)
     end
 
   private
@@ -14,14 +14,6 @@ module CandidateInterface
 
     def subject_param
       params.require(:subject)
-    end
-
-    def current_qualification
-      current_candidate
-        .current_application
-        .application_qualifications
-        .where(level: ApplicationQualification.levels[:gcse], subject: subject_param)
-        .first
     end
   end
 end
