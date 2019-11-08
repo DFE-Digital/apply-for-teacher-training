@@ -57,7 +57,6 @@ ActiveRecord::Schema.define(version: 2019_11_07_161840) do
     t.text "other_language_details"
     t.date "date_of_birth"
     t.text "further_information"
-    t.datetime "submitted_at"
     t.string "phone_number"
     t.string "address_line1"
     t.string "address_line2"
@@ -65,12 +64,13 @@ ActiveRecord::Schema.define(version: 2019_11_07_161840) do
     t.string "address_line4"
     t.string "country"
     t.string "postcode"
+    t.datetime "submitted_at"
     t.string "support_reference", limit: 10
     t.string "disability_disclosure"
     t.string "uk_residency_status"
-    t.boolean "degrees_completed", default: false, null: false
     t.boolean "work_history_completed", default: false, null: false
     t.text "work_history_explanation"
+    t.boolean "degrees_completed", default: false, null: false
     t.boolean "other_qualifications_completed", default: false, null: false
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
   end
