@@ -3,46 +3,57 @@ Department for Education.
 
 Using Apply for teacher training means you agree to these terms of use.
 
-## How to apply for teacher training courses through Apply for teacher training
+## How to apply for teacher training courses
 
 ### Stage one: submitting your initial application(s)
 
 You can apply for up to three courses through Apply for teacher training at this
-stage. You can also apply to three courses through UCAS if you want to. You can
-only accept one offer, even if you use both services.
+stage. You can also apply to three courses through UCAS if you want to.
 
-### Stage two: trying again through UCAS if you’re unsuccessful
+**You can only accept one offer**, even if you use both services.
+
+### Stage two: trying again if your application wasn’t successful
 
 You can apply for more courses at this stage if:
 
-* you’re rejected by all of your choices
-* you decline all the offers you receive
-* you withdraw your application from all of your choices
+* you’re rejected by your choices
+* you decline the offers you receive
+* you withdraw your application from your choices
 
-[Get Into Teaching](https://getintoteaching.education.gov.uk/get-help-and-support) can guide you through the process of applying for more
-courses. Contact them on Freephone 0800 389 2500, or [chat to an adviser using
-the online chat service](https://getintoteaching.education.gov.uk/lp/live-chat).
+[Get Into Teaching](https://getintoteaching.education.gov.uk/get-help-and-support)
+can guide you through the process of applying for more courses. Contact them on
+Freephone 0800 389 2500, or [chat to an adviser using the online chat
+service](https://getintoteaching.education.gov.uk/lp/live-chat).
 
 ### Making changes to your application
 
-You have five working days to make any changes after submitting your
-application. You can sign back in to do this only once. You may want to add more
-courses if you haven’t already reached your limit of three, or amend your course
-choices.
+Get in touch with us within five working days of submitting your application if
+you need to make any amends. For example, you can add more courses (if you
+haven’t reached your limit of three) or change your course choices. Once we’ve
+processed your request, we won’t be able to make any more changes for you.
 
-You can sign back in to change your name or contact details at any point, up
-until enrolment. We’ll pass this information on to the training provider(s).
+However, you can ask us to amend your name or contact details at any point up
+until enrolment.
+
+Contact us at <becomingateacher@digital.education.gov.uk> if you need to make
+changes.
+
+We’ll let your training provider(s) know about any amends.
 
 ### Withdrawing your application
 
-You can withdraw your application to course(s) at any point, even after you’ve
-accepted an offer. Sign into your account and click ‘withdraw’ next to the
-course(s) you want to withdraw. We’ll let your training provider(s) know.
+You can withdraw your application to your course(s) at any point, even after
+you’ve accepted an offer.
+
+Contact us at <becomingateacher@digital.education.gov.uk> if you need to do
+this.
+
+We’ll let your training provider(s) know.
 
 ### Declaring that what you’ve said is true
 
-Before you submit your application we’ll ask you to confirm that the information
-you’ve given is true, complete and accurate.
+Before you submit your application, we’ll ask you to confirm that the
+information you’ve given is true, complete and accurate.
 
 ## How we check your suitability for working with children
 
@@ -55,19 +66,10 @@ their policy on criminal convictions](https://www.gov.uk/exoffenders-and-employm
 Your name will also be checked against a DBS list of people who have been barred
 from working with children.
 
-## How we use your personal data
-
-If you apply for teacher training through our service we will collect personal
-data to process your application, build a better teacher training application
-process and get insight to help us improve government policy.
-
-See our [privacy notice](/privacy-policy) to find out how we use and share your data.
-
 ## How you can contact us
 
-You can get in touch with us by:
-
-* email: <becomingateacher@digital.education.gov.uk>
+Contact [Get Into Teaching](https://getintoteaching.education.gov.uk/get-help-and-support) on Freephone 0800 389 2500, or [chat to an adviser using the online
+chat service](https://getintoteaching.education.gov.uk/lp/live-chat).
 
 We typically respond within one working day for urgent queries. It can take up
 to five working days for less urgent queries. Unfortunately, we can’t provide
