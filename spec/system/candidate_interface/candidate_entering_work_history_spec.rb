@@ -29,7 +29,10 @@ RSpec.feature 'Entering their work history' do
     then_i_should_see_my_completed_job
 
     when_i_click_on_change
-    and_i_change_the_job_title
+    and_i_change_the_job_title_to_be_blank
+    then_i_should_see_validation_errors
+
+    when_i_change_the_job_title
     then_i_should_see_my_updated_job
 
     when_i_mark_this_section_as_completed
@@ -94,12 +97,12 @@ RSpec.feature 'Entering their work history' do
 
     within('[data-qa="start-date"]') do
       fill_in 'Month', with: '5'
-      fill_in 'Year', with: '2119'
+      fill_in 'Year', with: '2014'
     end
 
     within('[data-qa="end-date"]') do
       fill_in 'Month', with: '1'
-      fill_in 'Year', with: '2129'
+      fill_in 'Year', with: '2019'
     end
 
     fill_in t('details.label', scope: scope), with: 'I gained exposure to breakthrough technologies and questionable business ethics'
@@ -129,7 +132,16 @@ RSpec.feature 'Entering their work history' do
     first('.govuk-summary-list__actions').click_link 'Change'
   end
 
-  def and_i_change_the_job_title
+  def and_i_change_the_job_title_to_be_blank
+    fill_in t('application_form.work_history.role.label'), with: ''
+    click_button t('application_form.work_history.complete_form_button')
+  end
+
+  def then_i_should_see_validation_errors
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/work_experience_form.attributes.role.blank')
+  end
+
+  def when_i_change_the_job_title
     fill_in t('application_form.work_history.role.label'), with: 'Chief Executive Officer'
     click_button t('application_form.work_history.complete_form_button')
   end

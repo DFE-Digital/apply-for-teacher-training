@@ -34,6 +34,17 @@ RSpec.feature 'Entering their degrees' do
     and_i_submit_the_add_another_degree_form
     then_i_can_check_my_additional_degree
 
+    when_i_click_on_delete_degree
+    and_i_confirm_that_i_want_to_delete_my_additional_degree
+    then_i_can_only_see_my_undergraduate_degree
+
+    when_i_click_to_change_my_undergraduate_degree
+    then_i_see_my_undergraduate_degree_filled_in
+
+    when_i_change_my_undergraduate_degree
+    and_i_submit_the_undergraduate_degree_form
+    then_i_can_check_my_revised_undergraduate_degree
+
     when_i_mark_this_section_as_completed
     and_i_click_on_continue
     then_i_should_see_the_form
@@ -79,7 +90,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_see_validation_errors_for_my_undergraduate_degree
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/degrees_form.attributes.institution_name.blank')
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/degree_form.attributes.institution_name.blank')
   end
 
   def when_i_fill_in_my_undergraduate_degree
@@ -132,6 +143,41 @@ RSpec.feature 'Entering their degrees' do
     expect(page).to have_content 'Masters Cate'
   end
 
+  def when_i_click_on_delete_degree
+    click_link(t('application_form.degree.delete'), match: :first)
+  end
+
+  def and_i_confirm_that_i_want_to_delete_my_additional_degree
+    click_button t('application_form.degree.confirm_delete')
+  end
+
+  def then_i_can_only_see_my_undergraduate_degree
+    then_i_can_check_my_undergraduate_degree
+    expect(page).not_to have_content 'Masters Cate'
+  end
+
+  def when_i_click_to_change_my_undergraduate_degree
+    first('.govuk-summary-list__actions').click_link 'Change'
+  end
+
+  def then_i_see_my_undergraduate_degree_filled_in
+    expect(page).to have_selector("input[value='BA']")
+    expect(page).to have_selector("input[value='Doge']")
+    expect(page).to have_selector("input[value='University of Much Wow']")
+    expect(page).to have_selector("input[value='first']")
+    expect(page).to have_selector("input[value='2009']")
+  end
+
+  def when_i_change_my_undergraduate_degree
+    fill_in t('application_form.degree.subject.label'), with: 'Wolf'
+    fill_in t('application_form.degree.institution_name.label'), with: 'University of Moon Moon'
+  end
+
+  def then_i_can_check_my_revised_undergraduate_degree
+    expect(page).to have_content 'BA Wolf'
+    expect(page).to have_content 'University of Moon Moon'
+  end
+
   def when_i_mark_this_section_as_completed
     check t('application_form.degree.review.completed_checkbox')
   end
@@ -149,7 +195,6 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_can_check_my_answers
-    then_i_can_check_my_undergraduate_degree
-    then_i_can_check_my_additional_degree
+    then_i_can_check_my_revised_undergraduate_degree
   end
 end

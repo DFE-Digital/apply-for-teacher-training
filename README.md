@@ -5,6 +5,15 @@
 This service enables postgraduate candidates to apply for initial teacher
 training.
 
+## Environments
+
+| Name | URL | Description |
+| -- | -- | -- |
+| Production | [www.apply-for-teacher-training.education.gov.uk](https://www.apply-for-teacher-training.education.gov.uk/candidate) | Public site |
+| Staging | [staging.apply-for-teacher-training.education.gov.uk](https://staging.apply-for-teacher-training.education.gov.uk) | For internal use by DfE to test deploys |
+| Sandbox | [sandbox.apply-for-teacher-training.education.gov.uk](https://sandbox.apply-for-teacher-training.education.gov.uk) | Demo environment for software vendors who integrate with our API |
+| QA | [qa.apply-for-teacher-training.education.gov.uk](https://qa.apply-for-teacher-training.education.gov.uk) | For internal use by DfE for testing. Automatically deployed from master |
+
 ## Table of Contents
 
 * [Dependencies](#dependencies)
@@ -98,7 +107,7 @@ Regenerate this diagram with `bundle exec rake generate_state_diagram`.
 
 **NOTE: Environment variables should not start with *endpoint*, *input*, *secret*, or *securefile* (irrespective of capitalisation) due to them being protected variable names within the Azure DevOps environment.** If this cannot be avoided variable mapping will have to be used, but wherever possible it is simpler not to use these protected names.
 
-Environment variables have to be defined in several places depending upon where they are required, some are common to both local development and the Azure hosted deployment, while others are specific to the envirionments they relate, all of which are described below
+Environment variables have to be defined in several places depending upon where they are required, some are common to both local development and the Azure hosted deployment, while others are specific to the environments they relate, all of which are described below
 
 #### <a name="documentation-env-vars-dockerfile"></a>Dockerfile
 

@@ -22,12 +22,6 @@ Rails.application.configure do
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
-  # Compress CSS using a preprocessor.
-  # config.assets.css_compressor = :sass
-
-  # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = false
-
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = 'http://assets.example.com'
 
@@ -51,7 +45,7 @@ Rails.application.configure do
     api_key: ENV.fetch('GOVUK_NOTIFY_API_KEY')
   }
   config.action_mailer.default_url_options = {
-    host: AzureEnvironment.hostname
+    host: HostingEnvironment.hostname
   }
 
   # Ignore bad email addresses and do not raise email delivery errors.
@@ -102,7 +96,7 @@ Rails.application.configure do
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
   # Whitelist the production domains for HostAuthorization
-  AzureEnvironment.authorised_hosts.each do |host|
+  HostingEnvironment.authorised_hosts.each do |host|
     config.hosts << host
   end
 end

@@ -1,7 +1,7 @@
 require 'request_store_rails'
 
 class LogstashLogging
-  DOMAIN_FOR_LOGS = Rails.env.production? ? AzureEnvironment.hostname : Socket.gethostname
+  DOMAIN_FOR_LOGS = Rails.env.production? ? HostingEnvironment.hostname : Socket.gethostname
   SERVICE_NAME = ENV['SERVICE_NAME'] # e.g. web, worker or clock
 
   def self.add_id_fields(event)

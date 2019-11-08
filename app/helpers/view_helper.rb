@@ -34,7 +34,6 @@ module ViewHelper
       [:gce_o_level, 'GCE O Level'],
       [:scottish_higher, 'Scottish Higher'],
       [:other_uk, 'Other UK qualification'],
-      [:other_non_uk, 'Non-UK qualification'],
     ].map { |id, label| option.new(id, label) }
   end
 

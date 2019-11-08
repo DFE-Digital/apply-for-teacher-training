@@ -1,9 +1,12 @@
-<% @degrees_form.each do |degree_form| %>
-  <%= render(SummaryCardComponent, rows: degree_form_rows(degree_form)) do %>
+<% @degrees.each do |degree| %>
+  <%= render(SummaryCardComponent, rows: degree_rows(degree)) do %>
     <header class="app-summary-card__header">
       <h3 class="app-summary-card__title">
-        <%= formatted_degree_title(degree_form.qualification_type, degree_form.subject) %>
+        <%= degree.title %>
       </h3>
+      <div class="app-summary-card__actions">
+        <%= link_to t('application_form.degree.delete'), candidate_interface_confirm_degrees_destroy_path(degree.id), class: 'govuk-link' %>
+      </div>
     </header>
   <% end %>
 <% end %>

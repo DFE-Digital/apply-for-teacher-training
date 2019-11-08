@@ -6,6 +6,11 @@ RSpec.feature 'Candidate account' do
 
     when_i_visit_the_signup_page
     and_i_submit_my_email_address
+    then_i_should_see_validation_errors_for_the_terms_and_conditions
+
+    when_i_visit_the_signup_page
+    and_i_accept_the_ts_and_cs
+    and_i_submit_my_email_address
     then_i_receive_an_email_with_a_signup_link
     when_i_click_on_the_link_in_my_email
     then_i_am_signed_in
@@ -41,8 +46,16 @@ RSpec.feature 'Candidate account' do
     click_on t('application_form.begin_button')
   end
 
+  def then_i_should_see_validation_errors_for_the_terms_and_conditions
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/sign_up_form.attributes.accept_ts_and_cs.blank')
+  end
+
+  def and_i_accept_the_ts_and_cs
+    check t('authentication.sign_up.accept_ts_and_cs_checkbox')
+  end
+
   def and_i_submit_my_email_address
-    fill_in 'Email', with: @email
+    fill_in t('authentication.sign_up.email_address.label'), with: @email
     click_on t('authentication.sign_up.button_continue')
   end
 

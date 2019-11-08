@@ -27,12 +27,14 @@ FactoryBot.define do
       country { 'UK' }
       postcode { Faker::Address.postcode }
       degrees_completed { [true, false].sample }
+      other_qualifications_completed { [true, false].sample }
 
       transient do
         application_choices_count { 3 }
         work_experiences_count { 1 }
         volunteering_experiences_count { 1 }
         qualifications_count { 4 }
+        references_count { 2 }
       end
     end
 
@@ -42,6 +44,7 @@ FactoryBot.define do
         create_list(:application_work_experience, evaluator.work_experiences_count, application_form: application_form)
         create_list(:application_volunteering_experience, evaluator.volunteering_experiences_count, application_form: application_form)
         create_list(:application_qualification, evaluator.qualifications_count, application_form: application_form)
+        create_list(:reference, evaluator.references_count, application_form: application_form)
       end
     end
   end
@@ -109,6 +112,10 @@ FactoryBot.define do
     course_option
     status { ApplicationStateChange.valid_states.sample }
     personal_statement { 'hello' }
+
+    trait :single do
+      association :application_form, factory: :completed_application_form, application_choices_count: 0
+    end
   end
 
   factory :vendor_api_user do
@@ -121,5 +128,22 @@ FactoryBot.define do
   factory :vendor_api_token do
     association :provider
     hashed_token { '1234567890' }
+  end
+
+  factory :reference do
+    email_address { "#{SecureRandom.hex(5)}@example.com" }
+
+    trait :unsubmitted do
+      feedback { nil }
+    end
+
+    trait :complete do
+      feedback { Faker::Lorem.paragraphs(number: 2) }
+    end
+  end
+
+  factory :sign_up_form do
+    email_address { "#{SecureRandom.hex(5)}@example.com" }
+    accept_ts_and_cs { true }
   end
 end

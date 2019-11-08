@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_01_143550) do
+ActiveRecord::Schema.define(version: 2019_11_07_161840) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -57,7 +57,6 @@ ActiveRecord::Schema.define(version: 2019_11_01_143550) do
     t.text "other_language_details"
     t.date "date_of_birth"
     t.text "further_information"
-    t.datetime "submitted_at"
     t.string "phone_number"
     t.string "address_line1"
     t.string "address_line2"
@@ -65,12 +64,14 @@ ActiveRecord::Schema.define(version: 2019_11_01_143550) do
     t.string "address_line4"
     t.string "country"
     t.string "postcode"
+    t.datetime "submitted_at"
     t.string "support_reference", limit: 10
     t.string "disability_disclosure"
     t.string "uk_residency_status"
     t.boolean "work_history_completed", default: false, null: false
     t.text "work_history_explanation"
     t.boolean "degrees_completed", default: false, null: false
+    t.boolean "other_qualifications_completed", default: false, null: false
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
   end
 
@@ -155,6 +156,16 @@ ActiveRecord::Schema.define(version: 2019_11_01_143550) do
     t.index ["code"], name: "index_providers_on_code", unique: true
   end
 
+  create_table "references", force: :cascade do |t|
+    t.string "email_address", null: false
+    t.string "feedback"
+    t.bigint "application_form_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["application_form_id", "email_address"], name: "index_references_on_application_form_id_and_email_address", unique: true
+    t.index ["application_form_id"], name: "index_references_on_application_form_id"
+  end
+
   create_table "sites", force: :cascade do |t|
     t.string "code", null: false
     t.string "name", null: false
@@ -193,6 +204,7 @@ ActiveRecord::Schema.define(version: 2019_11_01_143550) do
   add_foreign_key "course_options", "courses", on_delete: :cascade
   add_foreign_key "course_options", "sites", on_delete: :cascade
   add_foreign_key "courses", "providers"
+  add_foreign_key "references", "application_forms"
   add_foreign_key "sites", "providers"
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
 end

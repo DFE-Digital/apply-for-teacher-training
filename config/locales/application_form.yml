@@ -94,6 +94,7 @@ en:
         hint_text:
           undergraduate: For example, BA, BSc or other (please specify)
           another: For example, Masters, PhD, or other (please specify)
+          all: For example, BA, BSc, Masters, PhD, or other (please specify)
       subject:
         label: Subject of degree
       institution_name:
@@ -131,6 +132,35 @@ en:
         button: Continue
       another:
         button: Add another degree
+      delete: Delete degree
+      confirm_delete: Yes I’m sure - delete this degree
+    other_qualification:
+      qualification:
+        label: Qualification
+        change_action: qualification
+      qualification_type:
+        label: Type of qualification
+        hint_text: For example, GCSE, A level, BTEC, NVQ or non-UK other, please specify
+      subject:
+        label: Subject
+      institution_name:
+        label: Institution where you studied
+      grade:
+        label: Grade
+        change_action: grade
+      award_year:
+        label: Year qualification was awarded
+        review_label: Year awarded
+        change_action: year
+      base:
+        button: Save and continue
+      another:
+        button: Add another qualification
+      review:
+        button: Continue
+        completed_checkbox: I have completed this section
+      delete: Delete qualification
+      confirm_delete: Yes I’m sure - delete this qualification
   activemodel:
     errors:
       models:
@@ -180,7 +210,7 @@ en:
           attributes:
             work_history:
               blank: Choose how long you’ve been working for
-        candidate_interface/degrees_form:
+        candidate_interface/degree_form:
           attributes:
             qualification_type:
               blank: Enter the type of your degree
@@ -203,6 +233,24 @@ en:
             award_year:
               blank: Enter your graduation year
               invalid: Enter a real graduation year
+        candidate_interface/other_qualification_form:
+          attributes:
+            qualification_type:
+              blank: Enter the type of qualification
+              too_long: Type of qualification must be %{count} characters or fewer
+            subject:
+              blank: Enter the subject
+              too_long: Subject must be %{count} characters or fewer
+            institution_name:
+              blank: Enter the institution where you studied
+              too_long: The institution where you studied must be %{count} characters or fewer
+            grade:
+              blank: Enter the grade
+              too_long: The grade must be %{count} characters or fewer
+            award_year:
+              blank: Enter the year the qualification was awarded
+              invalid: Enter a real year
+              in_the_future: Enter a year that is not in the future
         candidate_interface/work_experience_form:
           attributes:
             role:
@@ -221,3 +269,16 @@ en:
             start_date:
               invalid: Enter a start date in the correct format, for example 5 2018
               before: Enter a start date that is before the end date
+            end_date:
+              invalid: Enter an end date in the correct format, for example 5 2019
+              in_the_future: Enter an end date that is not in the future
+        candidate_interface/gcse_qualification_details_form:
+          attributes:
+            grade:
+              blank: Enter the grade
+            award_year:
+              blank: Enter the year
+        candidate_interface/gcse_qualification_type_form:
+          attributes:
+            qualification_type:
+              blank: Enter the type of qualification

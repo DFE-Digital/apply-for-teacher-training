@@ -1,0 +1,19 @@
+<% content_for :title, t('page_titles.application') %>
+<% content_for :service_link, candidate_interface_apply_from_find_path(providerCode: @course.provider_code, courseCode: @course.course_code) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <%= t('layout.service_name') %>
+    </h1>
+
+    <p class="govuk-body">
+      We couldn’t find the course you’re looking for – there may be a problem with the training provider and/or course code(s).
+      You can still <%= link_to 'proceed to the UCAS application form', UCAS.apply_url %>.
+    </p>
+
+    <p class="govuk-body">
+      Alternatively, go back to <%= govuk_link_to 'Find postgraduate teacher training', 'https://find-postgraduate-teacher-training.education.gov.uk' %> and try selecting your course again, or choose a different course.
+    </p>
+  </div>
+</div>

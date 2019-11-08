@@ -3,66 +3,61 @@ class DegreesReviewComponent < ActionView::Component::Base
 
   def initialize(application_form:)
     @application_form = application_form
-    @degrees_form = CandidateInterface::DegreesForm.build_from_application(
+    @degrees = CandidateInterface::DegreeForm.build_all_from_application(
       @application_form,
     )
   end
 
-  def degree_form_rows(degree_form)
+  def degree_rows(degree)
     [
-      qualification_row(degree_form),
-      award_year_row(degree_form),
-      grade_row(degree_form),
+      qualification_row(degree),
+      award_year_row(degree),
+      grade_row(degree),
     ]
-  end
-
-  def formatted_degree_title(qualification_type, subject)
-    "#{qualification_type} #{subject}"
   end
 
 private
 
   attr_reader :application_form
 
-  def qualification_row(degree_form)
+  def qualification_row(degree)
     {
       key: t('application_form.degree.qualification.label'),
-      DANGEROUS_html_value: formatted_qualification(degree_form.qualification_type, degree_form.subject, degree_form.institution_name),
+      value: formatted_qualification(degree),
       action: t('application_form.degree.qualification.change_action'),
-      change_path: '#',
+      change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id),
     }
   end
 
-  def award_year_row(degree_form)
+  def award_year_row(degree)
     {
       key: t('application_form.degree.award_year.review_label'),
-      value: degree_form.award_year,
+      value: degree.award_year,
       action: t('application_form.degree.award_year.change_action'),
-      change_path: '#',
+      change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id),
     }
   end
 
-  def grade_row(degree_form)
+  def grade_row(degree)
     {
       key: t('application_form.degree.grade.review_label'),
-      value: formatted_grade(degree_form.grade, degree_form.predicted_grade),
+      value: formatted_grade(degree),
       action: t('application_form.degree.grade.change_action'),
-      change_path: '#',
+      change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id),
     }
   end
 
-  def formatted_qualification(qualification_type, subject, institution_name)
-    [formatted_degree_title(qualification_type, subject), institution_name]
-      .map { |line| sanitize(line, tags: []) }
-      .join('<br>')
+  def formatted_qualification(degree)
+    [degree.title, degree.institution_name]
   end
 
-  def formatted_grade(grade, predicted_grade)
-    case grade
-    when 'first', 'upper_second', 'lower_second', 'third'
-      t("application_form.degree.grade.#{grade}.label")
+  def formatted_grade(degree)
+    if degree.predicted_grade.present?
+      "#{degree.predicted_grade} (Predicted)"
+    elsif degree.other_grade.present?
+      degree.other_grade
     else
-      predicted_grade ? "#{grade} (Predicted)" : grade
+      t("application_form.degree.grade.#{degree.grade}.label")
     end
   end
 end

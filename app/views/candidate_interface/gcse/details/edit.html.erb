@@ -1,0 +1,19 @@
+<% content_for :title, page_title('Grade and award year') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_gcse_details_edit_type_path, 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @application_qualification, url: candidate_interface_gcse_details_update_details_path, method: :patch do |f| %>
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+        <h1 class="govuk-fieldset__heading"><%= heading_for_gcse_edit_details(@subject) %></h1>
+      </legend>
+
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_text_field :grade, label: { text: 'Enter your qualification grade', size: 'm' }, width: 10 %>
+      <%= f.govuk_text_field :award_year, label: { text: 'Enter the year you gained your qualification', size: 'm' }, width: 4 %>
+
+      <%= f.submit 'Save and continue', class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
+  <% end %>
+  </div>
+</div>

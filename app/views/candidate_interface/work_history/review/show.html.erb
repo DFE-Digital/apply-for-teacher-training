@@ -13,7 +13,7 @@
   <%= govuk_button_link_to t('application_form.work_history.add_job'), candidate_interface_work_history_new_path, class: 'govuk-button--secondary' %>
 <% end %>
 
-<%= form_with model: @application_form, url: candidate_interface_work_history_complete_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+<%= form_with model: @application_form, url: candidate_interface_work_history_complete_path do |f| %>
   <div class='govuk-form-group'>
     <%= f.hidden_field :work_history_completed, value: false %>
     <%= f.govuk_check_box :work_history_completed, true, multiple: false, label: { text: t('application_form.work_history.review.completed_checkbox') } %>

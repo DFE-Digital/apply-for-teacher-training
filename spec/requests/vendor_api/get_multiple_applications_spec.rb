@@ -10,6 +10,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
       :application_choice,
       2,
       course_option: course_option_for_provider(provider: currently_authenticated_provider),
+      status: 'awaiting_provider_decision',
     )
 
     alternate_provider = create(:provider, code: 'DIFFERENT')
@@ -18,6 +19,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
       :application_choice,
       1,
       course_option: course_option_for_provider(provider: alternate_provider),
+      status: 'awaiting_provider_decision',
     )
 
     get_api_request "/api/v1/applications?since=#{(Time.now - 1.days).iso8601}"
@@ -26,10 +28,14 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
 
   it 'returns applications filtered with `since`' do
     Timecop.travel(Time.now - 2.days) do
-      create_application_choice_for_currently_authenticated_provider
+      create_application_choice_for_currently_authenticated_provider(
+        status: 'awaiting_provider_decision',
+      )
     end
 
-    create_application_choice_for_currently_authenticated_provider
+    create_application_choice_for_currently_authenticated_provider(
+      status: 'awaiting_provider_decision',
+    )
 
     get_api_request "/api/v1/applications?since=#{(Time.now - 1.days).iso8601}"
 
@@ -37,7 +43,9 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
   end
 
   it 'returns a response that is valid according to the OpenAPI schema' do
-    create_application_choice_for_currently_authenticated_provider
+    create_application_choice_for_currently_authenticated_provider(
+      status: 'awaiting_provider_decision',
+    )
 
     get_api_request "/api/v1/applications?since=#{(Time.now - 1.days).iso8601}"
 
@@ -52,5 +60,25 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
     expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse')
 
     expect(error_response['message']).to eql('param is missing or the value is empty: since')
+  end
+
+  it 'returns applications that are in a viewable state' do
+    create_list(
+      :application_choice,
+      2,
+      course_option: course_option_for_provider(provider: currently_authenticated_provider),
+      status: :awaiting_provider_decision,
+    )
+
+    create_list(
+      :application_choice,
+      3,
+      course_option: course_option_for_provider(provider: currently_authenticated_provider),
+      status: :unsubmitted,
+    )
+
+    get_api_request "/api/v1/applications?since=#{(Time.now - 1.days).iso8601}"
+
+    expect(parsed_response['data'].size).to be(2)
   end
 end

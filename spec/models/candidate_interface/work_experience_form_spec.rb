@@ -8,8 +8,8 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
       details: Faker::Lorem.paragraph_by_chars(number: 300),
       commitment: %w[full_time part_time].sample,
       working_with_children: [true, true, true, false].sample,
-      start_date: Date.new(2018, 5),
-      end_date: Date.new(2019, 5),
+      start_date: Time.zone.local(2018, 5, 1),
+      end_date: Time.zone.local(2019, 5, 1),
     }
   end
 
@@ -70,6 +70,93 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
         )
       end
     end
+
+    describe 'end date' do
+      it 'is valid if left completely blank' do
+        work_experience = CandidateInterface::WorkExperienceForm.new(
+          end_date_month: '', end_date_year: '',
+        )
+
+        work_experience.validate
+
+        expect(work_experience.errors.full_messages_for(:end_date)).to be_empty
+      end
+
+      it 'is invalid if month left blank' do
+        work_experience = CandidateInterface::WorkExperienceForm.new(
+          end_date_month: '', end_date_year: '2019',
+        )
+
+        work_experience.validate
+
+        expect(work_experience.errors.full_messages_for(:end_date)).to eq(
+          ["End date #{t('activemodel.errors.models.candidate_interface/work_experience_form.attributes.end_date.invalid')}"],
+        )
+      end
+
+      it 'is invalid if year left blank' do
+        work_experience = CandidateInterface::WorkExperienceForm.new(
+          end_date_month: '5', end_date_year: '',
+        )
+
+        work_experience.validate
+
+        expect(work_experience.errors.full_messages_for(:end_date)).to eq(
+          ["End date #{t('activemodel.errors.models.candidate_interface/work_experience_form.attributes.end_date.invalid')}"],
+        )
+      end
+
+      it 'is invalid if not well-formed' do
+        work_experience = CandidateInterface::WorkExperienceForm.new(
+          end_date_month: '99', end_date_year: '2019',
+        )
+
+        work_experience.validate
+
+        expect(work_experience.errors.full_messages_for(:end_date)).to eq(
+          ["End date #{t('activemodel.errors.models.candidate_interface/work_experience_form.attributes.end_date.invalid')}"],
+        )
+      end
+
+      it 'is invalid if year is beyond the current year' do
+        Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
+          work_experience = CandidateInterface::WorkExperienceForm.new(
+            end_date_month: '1', end_date_year: '2029',
+          )
+
+          work_experience.validate
+
+          expect(work_experience.errors.full_messages_for(:end_date)).to eq(
+            ["End date #{t('activemodel.errors.models.candidate_interface/work_experience_form.attributes.end_date.in_the_future')}"],
+          )
+        end
+      end
+
+      it 'is invalid if year is the current year but month is after the current month' do
+        Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
+          work_experience = CandidateInterface::WorkExperienceForm.new(
+            end_date_month: '11', end_date_year: '2019',
+          )
+
+          work_experience.validate
+
+          expect(work_experience.errors.full_messages_for(:end_date)).to eq(
+            ["End date #{t('activemodel.errors.models.candidate_interface/work_experience_form.attributes.end_date.in_the_future')}"],
+          )
+        end
+      end
+
+      it 'is valid if year and month are before the current year and month' do
+        Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
+          work_experience = CandidateInterface::WorkExperienceForm.new(
+            end_date_month: '9', end_date_year: '2019',
+          )
+
+          work_experience.validate
+          expect(work_experience.errors.full_messages_for(:end_date)).to be_empty
+        end
+      end
+    end
   end
 
   describe '#save' do
@@ -115,6 +202,20 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
       )
 
       expect(work_experience_form).to have_attributes(form_data)
+    end
+
+    it 'returns an empty string if end date is nil' do
+      data[:end_date] = nil
+      application_work_experience = ApplicationWorkExperience.new(data)
+      work_experience_form = CandidateInterface::WorkExperienceForm.build_from_experience(
+        application_work_experience,
+      )
+
+      expect(work_experience_form).to have_attributes(
+        end_date_day: '',
+        end_date_month: '',
+        end_date_year: '',
+      )
     end
   end
 end

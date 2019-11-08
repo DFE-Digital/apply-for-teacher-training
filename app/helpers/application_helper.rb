@@ -16,13 +16,16 @@ module ApplicationHelper
     when 'candidate_interface'
       'Apply for teacher training'
     when 'support_interface'
-      'Support'
+      'Support for Apply'
     else
       'Apply for teacher training'
     end
   end
 
   def service_link
+    custom_link = content_for(:service_link)
+    return custom_link if custom_link
+
     case current_namespace
     when 'provider_interface'
       provider_interface_path
@@ -43,8 +46,12 @@ module ApplicationHelper
     params[:controller].split('/').first
   end
 
-  def heading_for_gcse_edit(subject)
-    t("gcse_details.heading.#{subject}")
+  def heading_for_gcse_edit_type(subject)
+    t("gcse_edit_type.heading.#{subject}")
+  end
+
+  def heading_for_gcse_edit_details(subject)
+    t("gcse_edit_details.heading.#{subject}")
   end
 
   def heading_for_gcse_show(subject)

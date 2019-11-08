@@ -34,6 +34,7 @@ parameters:
   logstashSsl:
   govukNotifyAPIKey:
   findBaseUrl:
+  disableBasicAuthForLandingPage:
 
 jobs:
   - deployment: deploy_${{parameters.resourceEnvironmentName}}
@@ -97,6 +98,7 @@ jobs:
                 -findBaseUrl "${{parameters.findBaseUrl}}"
                 -redisCacheName "$(redisCacheName)"
                 -containerInstanceNamePrefix "$(containerInstanceNamePrefix)"'
+                -disableBasicAuthForLandingPage "${{parameters.disableBasicAuthForLandingPage}}"'
               deploymentOutputs: DeploymentOutput
 
           - task: AzurePowerShell@3

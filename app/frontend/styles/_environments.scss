@@ -1,0 +1,45 @@
+$app-colour-production: govuk-colour("red", $legacy: "bright-red");
+$app-colour-qa: govuk-colour("orange");
+$app-colour-sandbox: govuk-colour("bright-purple");
+$app-colour-staging: govuk-colour("red");
+$app-colour-development: govuk-colour("dark-grey", $legacy: "grey-1");
+
+.app-header--production .govuk-header__container {
+  border-bottom-color: $app-colour-production;
+}
+
+.app-header--qa .govuk-header__container {
+  border-bottom-color: $app-colour-qa;
+}
+
+.app-header--staging .govuk-header__container {
+  border-bottom-color: $app-colour-staging;
+}
+
+.app-header--sandbox .govuk-header__container {
+  border-bottom-color: $app-colour-sandbox;
+}
+
+.app-header--development .govuk-header__container {
+  border-bottom-color: $app-colour-development;
+}
+
+.app-environment-tag--production {
+  background-color: $app-colour-production;
+}
+
+.app-environment-tag--qa {
+  background-color: $app-colour-qa;
+}
+
+.app-environment-tag--staging {
+  background-color: $app-colour-staging;
+}
+
+.app-environment-tag--sandbox {
+  background-color: $app-colour-sandbox;
+}
+
+.app-environment-tag--development {
+  background-color: $app-colour-development;
+}

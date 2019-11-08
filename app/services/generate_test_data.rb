@@ -34,7 +34,7 @@ class GenerateTestData
             course_option: course_option,
             application_form: application_form,
             personal_statement: Faker::Lorem.paragraph(sentence_count: 5),
-            status: 'application_complete',
+            status: 'awaiting_provider_decision',
           )
         end
       end
@@ -70,10 +70,9 @@ private
   end
 
   def fake_provider
-    Provider.find_or_create_by(
-      name: 'Example Training Provider',
-      code: 'ABC',
-    )
+    Provider.find_or_create_by(code: 'ABC') do |provider|
+      provider.name = 'Example Training Provider'
+    end
   end
 
   def random_code(klass, provider)

@@ -2,17 +2,16 @@ module CandidateInterface
   class ContactDetails::BaseController < CandidateInterfaceController
     def edit
       @contact_details_form = ContactDetailsForm.build_from_application(
-        current_candidate.current_application,
+        current_application,
       )
     end
 
     def update
       @contact_details_form = ContactDetailsForm.new(contact_details_params)
-      application_form = current_candidate.current_application
 
-      if @contact_details_form.save_base(application_form)
+      if @contact_details_form.save_base(current_application)
         updated_contact_details_form = ContactDetailsForm.build_from_application(
-          application_form,
+          current_application,
         )
 
         if updated_contact_details_form.valid?(:address)

@@ -8,7 +8,7 @@
 
     <p class="govuk-body-l">Enter the email address you used to register with, and we will send you a link to sign in.</p>
 
-    <%= form_with model: @candidate, url: candidate_interface_sign_in_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder, html: { novalidate: true } do |f| %>
+    <%= form_with model: @candidate, url: candidate_interface_sign_in_path, html: { novalidate: true } do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_text_field :email_address, label: { text: t('authentication.sign_up.email_address.label'), size: 'm' }, type: :email, width: 'two-thirds' %>

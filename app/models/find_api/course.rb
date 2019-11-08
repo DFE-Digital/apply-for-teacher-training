@@ -1,8 +1,5 @@
 module FindAPI
-  class Course < JsonApiClient::Resource
-    RECRUITMENT_CYCLE_YEAR = ENV.fetch('RECRUITMENT_CYCLE_YEAR') { 2020 }
-    self.site = ENV.fetch('FIND_BASE_URL')
-
+  class Course < FindAPI::Resource
     belongs_to :recruitment_cycle, through: :provider, param: :recruitment_cycle_year
     belongs_to :provider, param: :provider_code
 
@@ -13,10 +10,11 @@ module FindAPI
         .where(provider_code: provider_code)
         .find(course_code)
         .first
+    rescue JsonApiClient::Errors::ServerError, JsonApiClient::Errors::ConnectionError => e
+      Raven.capture_exception(e)
+      nil
     rescue JsonApiClient::Errors::NotFound
       nil
-    rescue JsonApiClient::Errors::ServerError, JsonApiClient::Errors::ConnectionError
-      new provider_code: provider_code, course_code: course_code
     end
   end
 end

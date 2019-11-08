@@ -22,9 +22,9 @@ RSpec.feature 'See applications' do
     course_option = course_option_for_provider_code(provider_code: 'ABC')
     other_course_option = course_option_for_provider_code(provider_code: 'ANOTHER_ORG')
 
-    create(:application_choice, course_option: course_option, application_form: create(:application_form, first_name: 'Alice', last_name: 'Wunder'))
-    create(:application_choice, course_option: course_option, application_form: create(:application_form, first_name: 'Bob'))
-    create(:application_choice, course_option: other_course_option, application_form: create(:application_form, first_name: 'Charlie'))
+    create(:application_choice, status: 'awaiting_provider_decision', course_option: course_option, application_form: create(:application_form, first_name: 'Alice', last_name: 'Wunder'))
+    create(:application_choice, status: 'awaiting_provider_decision', course_option: course_option, application_form: create(:application_form, first_name: 'Bob'))
+    create(:application_choice, status: 'awaiting_provider_decision', course_option: other_course_option, application_form: create(:application_form, first_name: 'Charlie'))
   end
 
   def and_i_visit_the_provider_page

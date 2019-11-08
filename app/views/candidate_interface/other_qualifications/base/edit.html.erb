@@ -1,0 +1,21 @@
+<% content_for :title, page_title(:edit_other_qualification) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_review_other_qualifications_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @qualification, url: candidate_interface_edit_other_qualification_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+          <h1 class="govuk-fieldset__heading">
+            <%= t('page_titles.edit_other_qualification') %>
+          </h1>
+        </legend>
+
+        <%= f.hidden_field :id, value: @qualification.id %>
+        <%= render 'form', f: f %>
+      </fieldset>
+    <% end %>
+  </div>
+</div>

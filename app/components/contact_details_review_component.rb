@@ -28,7 +28,7 @@ private
   def address_row
     {
       key: t('application_form.contact_details.full_address.label'),
-      DANGEROUS_html_value: full_address,
+      value: full_address,
       action: t('application_form.contact_details.full_address.change_action'),
       change_path: Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_path,
     }
@@ -42,8 +42,6 @@ private
       @contact_details_form.address_line4,
       @contact_details_form.postcode,
     ]
-      .map { |line| sanitize(line, tags: []) }
       .reject(&:blank?)
-      .join('<br>')
   end
 end

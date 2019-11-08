@@ -4,11 +4,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.3'
 
 gem 'rails', '~> 6.0'
-gem 'puma', '~> 4.2'
+gem 'puma', '~> 4.3'
 gem 'pg', '~> 1.1.4'
 
 gem 'webpacker'
-gem 'govuk_design_system_formbuilder', '0.9.7'
+gem 'govuk_design_system_formbuilder', '0.9.8'
 
 # GovUK Notify
 gem 'mail-notify'
@@ -36,15 +36,18 @@ gem 'actionview-component'
 
 gem 'uk_postcode'
 
-# Background processing
-gem 'sidekiq'
-gem 'clockwork'
+gem 'business_time'
+gem 'holidays'
 
 # Logging
 gem 'lograge'
 gem 'logstash-logger'
 gem 'logstash-event'
 gem 'request_store_rails'
+
+# Background processing
+gem 'sidekiq'
+gem 'clockwork'
 
 group :development do
   gem 'web-console', '>= 3.3.0'

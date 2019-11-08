@@ -23,10 +23,10 @@ RSpec.describe GenerateTestData do
       end
     end
 
-    it 'assigns all application choices to the application_complete state' do
+    it 'assigns all application choices to the awaiting_provider_decision state' do
       GenerateTestData.new(2).generate
       ApplicationChoice.all.each do |application_choice|
-        expect(application_choice.status).to eq 'application_complete'
+        expect(application_choice.status).to eq 'awaiting_provider_decision'
       end
     end
 
@@ -39,6 +39,11 @@ RSpec.describe GenerateTestData do
       expect { GenerateTestData.new(1, provider).generate }.to change { ApplicationForm.count }.by(1)
       Faker::Config.random = Random.new(42)
       expect { GenerateTestData.new(1, provider).generate }.to change { ApplicationForm.count }.by(1)
+    end
+
+    it 'does not throw an error and creates an application when there is a duplicate provider code' do
+      create(:provider, code: 'ABC', name: 'Some other name')
+      expect { GenerateTestData.new(1).generate }.to change { ApplicationForm.count }.by(1)
     end
 
     it 'associates application forms to candidates with matching email addresses' do

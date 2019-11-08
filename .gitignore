@@ -44,3 +44,6 @@ coverage/*
 
 # Mac OS thumbnail DBs
 .DS_Store
+
+# Byebug history files
+.byebug_history

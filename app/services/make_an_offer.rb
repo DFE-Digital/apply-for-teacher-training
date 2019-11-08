@@ -14,13 +14,8 @@ class MakeAnOffer
   def save
     return unless valid?
 
-    if @offer_conditions.present?
-      ApplicationStateChange.new(@application_choice).make_conditional_offer!
-      @application_choice.offer = { 'conditions' => @offer_conditions }
-    else
-      ApplicationStateChange.new(@application_choice).make_unconditional_offer!
-      @application_choice.offer = { 'conditions' => [] }
-    end
+    ApplicationStateChange.new(@application_choice).make_offer!
+    @application_choice.offer = { 'conditions' => (@offer_conditions || []) }
 
     @application_choice.save
   rescue Workflow::NoTransitionAllowed => e

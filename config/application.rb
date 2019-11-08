@@ -8,8 +8,6 @@ require "active_record/railtie"
 require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_view/railtie"
-require "sprockets/railtie"
-# require "rails/test_unit/railtie"
 
 require "action_view/component/base"
 
@@ -33,5 +31,11 @@ module ApplyForPostgraduateTeacherTraining
     config.exceptions_app = self.routes
 
     config.action_mailer.preview_path = "#{Rails.root}/app/mailers/previews"
+
+    config.providers_to_sync = config_for(:providers_to_sync)
+
+    config.time_zone = 'London'
+
+    config.action_view.default_form_builder = GOVUKDesignSystemFormBuilder::FormBuilder
   end
 end

@@ -14,5 +14,9 @@ module CandidateInterface
     def add_candidate_id_to_log
       RequestLocals.store[:candidate_id] = current_candidate.id if current_candidate
     end
+
+    def current_application
+      @current_application ||= current_candidate.current_application
+    end
   end
 end

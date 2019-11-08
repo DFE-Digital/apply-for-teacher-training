@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     get '/sign-in', to: 'sign_in#new', as: :sign_in
     post '/sign-in', to: 'sign_in#create'
 
-    get '/apply', to: 'applying#show'
+    get '/apply', to: 'apply_from_find#show', as: :apply_from_find
 
     scope '/application' do
       get '/' => 'application_form#show', as: :application_form
@@ -46,8 +46,13 @@ Rails.application.routes.draw do
       end
 
       scope '/gcse/:subject' do
-        get '/' => 'gcse_details#edit', as: :gcse_details_edit
-        patch '/' => 'gcse_details#update', as: :gcse_details_update
+        get '/' => 'gcse/type#edit', as: :gcse_details_edit_type
+        post '/' => 'gcse/type#update', as: :gcse_details_update_type
+
+        get '/details' => 'gcse/details#edit', as: :gcse_details_edit_details
+        patch '/details' => 'gcse/details#update', as: :gcse_details_update_details
+
+        get '/review' => 'gcse/review#show', as: :gcse_review
       end
 
       scope '/work-history' do
@@ -75,6 +80,42 @@ Rails.application.routes.draw do
 
         get '/review' => 'degrees/review#show', as: :degrees_review
         patch '/review' => 'degrees/review#complete', as: :degrees_complete
+
+        get '/edit/:id' => 'degrees/base#edit', as: :degrees_edit
+        post '/edit/:id' => 'degrees/base#update'
+
+        get '/delete/:id' => 'degrees/destroy#confirm_destroy', as: :confirm_degrees_destroy
+        delete '/delete/:id' => 'degrees/destroy#destroy'
+      end
+
+      scope '/courses' do
+        get '/' => 'course_choices#index', as: :course_choices_index
+
+        get '/choose' => 'course_choices#have_you_chosen', as: :course_choices_choose
+        post '/choose' => 'course_choices#make_choice'
+
+        get '/provider' => 'course_choices#options_for_provider', as: :course_choices_provider
+        post '/provider' => 'course_choices#pick_provider'
+
+        get '/provider/:provider_code/courses' => 'course_choices#options_for_course', as: :course_choices_course
+        post '/provider/:provider_code/courses' => 'course_choices#pick_course'
+
+        get '/provider/:provider_code/courses/:course_code' => 'course_choices#options_for_site', as: :course_choices_site
+        post '/provider/:provider_code/courses/:course_code' => 'course_choices#pick_site'
+      end
+
+      scope '/other-qualifications' do
+        get '/' => 'other_qualifications/base#new', as: :new_other_qualification
+        post '/' => 'other_qualifications/base#create', as: :create_other_qualification
+
+        get '/review' => 'other_qualifications/review#show', as: :review_other_qualifications
+        patch '/review' => 'other_qualifications/review#complete', as: :complete_other_qualifications
+
+        get '/edit/:id' => 'other_qualifications/base#edit', as: :edit_other_qualification
+        post '/edit/:id' => 'other_qualifications/base#update'
+
+        get '/delete/:id' => 'other_qualifications/destroy#confirm_destroy', as: :confirm_destroy_other_qualification
+        delete '/delete/:id' => 'other_qualifications/destroy#destroy'
       end
     end
   end
@@ -112,6 +153,9 @@ Rails.application.routes.draw do
 
     get '/vendors' => 'manage_vendors#index'
     post '/vendors' => 'manage_vendors#create'
+
+    get '/providers' => 'providers#index', as: :providers
+    post '/providers/sync' => 'providers#sync'
   end
 
   get '/check', to: 'healthcheck#show'

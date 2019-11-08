@@ -33,7 +33,7 @@ en:
   page_titles:
     application: Apply for teacher training - GOV.UK
     application_form: Your application
-    sign_up: Before you begin
+    sign_up: Create an account
     sign_in: Sign in
     check_your_email: Check your email
     not_found: Page not found
@@ -48,12 +48,22 @@ en:
     degree: Degree
     add_undergraduate_degree: Add undergraduate degree
     work_history_destroy: Are you sure you want to delete this entry?
-    edit_job: Add job
+    edit_job: Edit job
     add_another_degree: Add another degree
     out_of_work: Tell us why you’ve been out of the workplace
+    destroy_degree: Are you sure you want to delete this degree?
+    course_choices: Course choices
+    have_you_chosen: Have you chosen a course to apply to?
+    which_provider: Which training provider are you applying to?
+    which_course: Which course are you applying to?
+    which_location: Which location are you applying to?
+    edit_degree: Edit degree
+    other_qualification: Other relevant academic and non-academic qualifications
+    add_other_qualification: Other relevant qualifications
+    edit_other_qualification: Other relevant qualifications
+    destroy_other_qualification: Are you sure you want to delete this qualification?
   layout:
     service_name: Apply for teacher training
-    phase_banner_text: This is a development version of a new service. The data is not real and parts may not work yet.
     accessibility: Accessibility
   activemodel:
     attributes:
@@ -77,13 +87,16 @@ en:
   application_choice:
     status_name:
       unsubmitted: 'Not submitted yet'
+      awaiting_references: 'Awaiting references'
       application_complete: 'New'
-      conditional_offer: 'Conditional offer'
-      unconditional_offer: 'Unconditional offer'
+      awaiting_provider_decision: 'Awaiting provider decision'
+      offer: 'Offer'
+      pending_conditions: 'Pending conditions'
       recruited: 'Candidate recruited'
       enrolled: 'Candidate  enrolled'
-      rejected: 'Candidate rejected'
-      meeting_conditions: 'Meeting conditions'
+      rejected: 'Provider rejected'
+      withdrawn: 'Candidate withdrawn'
+      declined: 'Candidate declined'
   date:
     formats:
       long: "%e %B %Y"

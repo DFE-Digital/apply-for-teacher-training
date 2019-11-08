@@ -2,14 +2,14 @@ module CandidateInterface
   class WorkHistory::ExplanationController < CandidateInterfaceController
     def show
       @work_explanation_form = WorkExplanationForm.build_from_application(
-        current_candidate.current_application,
+        current_application,
       )
     end
 
     def submit
       @work_explanation_form = WorkExplanationForm.new(work_explanation_form_params)
 
-      if @work_explanation_form.save(current_candidate.current_application)
+      if @work_explanation_form.save(current_application)
         redirect_to candidate_interface_work_history_show_path
       else
         render :show

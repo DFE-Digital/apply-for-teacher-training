@@ -42,7 +42,7 @@
 
     <a href="#main-content" class="govuk-skip-link">Skip to main content</a>
 
-    <header class="govuk-header " role="banner" data-module="header">
+    <header class="govuk-header app-header--<%= HostingEnvironment.environment_name %>" role="banner" data-module="header">
       <div class="govuk-header__container govuk-width-container">
         <div class="govuk-header__logo">
           <%= link_to service_link, class: 'govuk-header__link govuk-header__link--homepage' do %>
@@ -75,11 +75,11 @@
     </header>
     <div class="govuk-width-container">
       <div class="govuk-phase-banner">
-        <p class="govuk-phase-banner__content"><strong class="govuk-tag govuk-phase-banner__content__tag ">
-          work in progress
+        <p class="govuk-phase-banner__content"><strong class="govuk-tag govuk-phase-banner__content__tag app-environment-tag app-environment-tag--<%= HostingEnvironment.environment_name %>">
+          <%= HostingEnvironment.phase %>
         </strong>
         <span class="govuk-phase-banner__text">
-          <%= t('layout.phase_banner_text') %>
+          <%= HostingEnvironment.phase_banner_text %>
         </span>
         </p>
       </div>

@@ -12,7 +12,12 @@
     <% unless @application_form_presenter.application_choices_added? %>
       <p class="govuk-body"><%= t('application_form.courses') %></p>
     <% end %>
-    <%= govuk_button_link_to 'TODO: Add course', '#' %>
+
+    <ol class="app-task-list govuk-!-margin-bottom-8">
+      <li class="app-task-list__item">
+        <%= govuk_link_to 'Course choices', candidate_interface_course_choices_index_path %>
+      </li>
+    </ol>
 
     <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-4">
       About you
@@ -53,7 +58,7 @@
     <ol class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">
         <% if @application_form_presenter.degrees_completed? %>
-          <%= govuk_link_to t('page_titles.degree'), candidate_interface_degrees_review_path, class: 'app-task-list__task-name', 'aria-describedby': 'contact-details-completed' %>
+          <%= govuk_link_to t('page_titles.degree'), candidate_interface_degrees_review_path, class: 'app-task-list__task-name', 'aria-describedby': 'degrees-completed' %>
           <strong class="govuk-tag app-task-list__task-completed" id="degrees-completed">Completed</strong>
         <% elsif @application_form_presenter.degrees_added? %>
           <%= govuk_link_to t('page_titles.degree'), candidate_interface_degrees_review_path, class: 'app-task-list__task-name' %>
@@ -62,16 +67,23 @@
         <% end %>
       </li>
       <li class="app-task-list__item">
-        <%= govuk_link_to 'Maths GCSE or equivalent', candidate_interface_gcse_details_edit_path(subject: :maths), class: 'app-task-list__task-name' %>
+        <%= govuk_link_to 'Maths GCSE or equivalent', candidate_interface_gcse_details_edit_type_path(subject: :maths), class: 'app-task-list__task-name' %>
       </li>
       <li class="app-task-list__item">
-        <%= govuk_link_to 'English GCSE or equivalent', candidate_interface_gcse_details_edit_path(subject: :english), class: 'app-task-list__task-name' %>
+        <%= govuk_link_to 'English GCSE or equivalent', candidate_interface_gcse_details_edit_type_path(subject: :english), class: 'app-task-list__task-name' %>
       </li>
       <li class="app-task-list__item">
-        <%= govuk_link_to 'Science GCSE or equivalent', candidate_interface_gcse_details_edit_path(subject: :science), class: 'app-task-list__task-name' %>
+        <%= govuk_link_to 'Science GCSE or equivalent', candidate_interface_gcse_details_edit_type_path(subject: :science), class: 'app-task-list__task-name' %>
       </li>
       <li class="app-task-list__item">
-        <%= govuk_link_to 'TODO: Other relevant academic and non-academic qualifications', '#', class: 'app-task-list__task-name' %>
+        <% if @application_form_presenter.other_qualifications_completed? %>
+          <%= govuk_link_to t('page_titles.other_qualification'), candidate_interface_review_other_qualifications_path, class: 'app-task-list__task-name', 'aria-describedby': 'other-qualifications-completed' %>
+          <strong class="govuk-tag app-task-list__task-completed" id="other-qualifications-completed">Completed</strong>
+        <% elsif @application_form_presenter.other_qualifications_added? %>
+          <%= govuk_link_to t('page_titles.other_qualification'), candidate_interface_review_other_qualifications_path, class: 'app-task-list__task-name' %>
+        <% else %>
+          <%= govuk_link_to t('page_titles.other_qualification'), candidate_interface_new_other_qualification_path, class: 'app-task-list__task-name' %>
+        <% end %>
       </li>
     </ol>
 

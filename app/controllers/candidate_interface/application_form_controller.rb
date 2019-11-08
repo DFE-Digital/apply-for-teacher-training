@@ -3,19 +3,19 @@ module CandidateInterface
     def show
       return redirect_to candidate_interface_application_form_path if params[:token]
 
-      if current_candidate.current_application.complete?
-        @application_form = current_candidate.current_application
+      if current_application.submitted?
+        @application_form = current_application
 
         render :complete
       else
-        @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_candidate.current_application)
+        @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
 
         render :show
       end
     end
 
     def review
-      @application_form = current_candidate.current_application
+      @application_form = current_application
     end
 
     def submit_show
@@ -24,10 +24,9 @@ module CandidateInterface
 
     def submit
       @further_information_form = FurtherInformationForm.new(further_information_params)
-      application_form = current_candidate.current_application
 
-      if @further_information_form.save(application_form)
-        SubmitApplication.new(application_form).call
+      if @further_information_form.save(current_application)
+        SubmitApplication.new(current_application).call
 
         redirect_to candidate_interface_application_submit_success_path
       else
@@ -36,7 +35,7 @@ module CandidateInterface
     end
 
     def submit_success
-      @support_reference = current_candidate.current_application.support_reference
+      @support_reference = current_application.support_reference
     end
 
   private

@@ -6,9 +6,11 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
   it_behaves_like 'an endpoint that requires metadata', '/offer'
 
-  describe 'making a conditional offer' do
+  describe 'making an offer with specified conditions' do
     it 'returns the updated application' do
-      application_choice = create_application_choice_for_currently_authenticated_provider(status: 'application_complete')
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'awaiting_provider_decision',
+      )
       request_body = {
         "data": {
           "conditions": [
@@ -21,7 +23,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
 
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
-      expect(parsed_response['data']['attributes']['status']).to eq('conditional_offer')
+      expect(parsed_response['data']['attributes']['status']).to eq('offer')
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [
           'Completion of subject knowledge enhancement',
@@ -31,10 +33,11 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
     end
   end
 
-  describe 'making an unconditional offer' do
+  describe 'making an offer without specified conditions' do
     it 'returns the updated application' do
-      application_choice = create_application_choice_for_currently_authenticated_provider(status: 'application_complete')
-
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'awaiting_provider_decision',
+      )
       post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
         "data": {
           "conditions": [],
@@ -42,7 +45,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       }
 
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
-      expect(parsed_response['data']['attributes']['status']).to eq('unconditional_offer')
+      expect(parsed_response['data']['attributes']['status']).to eq('offer')
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [],
       )
@@ -50,7 +53,9 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
   end
 
   it 'returns an error when trying to transition to an invalid state' do
-    application_choice = create_application_choice_for_currently_authenticated_provider(status: 'rejected')
+    application_choice = create_application_choice_for_currently_authenticated_provider(
+      status: 'rejected',
+    )
 
     post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {}
 
@@ -59,7 +64,9 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
   end
 
   it 'returns an error when given invalid conditions' do
-    application_choice = create_application_choice_for_currently_authenticated_provider(status: 'application_complete')
+    application_choice = create_application_choice_for_currently_authenticated_provider(
+      status: 'awaiting_provider_decision',
+    )
 
     post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
       data: {

@@ -14,7 +14,9 @@ module CandidateInterface
     validates :working_with_children, inclusion: { in: %w(true false) }
 
     validate :start_date_valid
-    validate :start_date_after_end_date
+    validate :end_date_valid, unless: :end_date_blank?
+    validate :end_date_before_current_year_and_month, if: :end_date_valid?
+    validate :start_date_before_end_date, if: :start_date_and_end_date_valid?
 
     validates :role, :organisation,
               length: { maximum: 60 }
@@ -32,9 +34,9 @@ module CandidateInterface
         start_date_day: work_experience.start_date.day,
         start_date_month: work_experience.start_date.month,
         start_date_year: work_experience.start_date.year,
-        end_date_day: work_experience.end_date.day,
-        end_date_month: work_experience.end_date.month,
-        end_date_year: work_experience.end_date.year,
+        end_date_day: work_experience.end_date&.day || '',
+        end_date_month: work_experience.end_date&.month || '',
+        end_date_year: work_experience.end_date&.year || '',
       )
     end
 
@@ -67,25 +69,49 @@ module CandidateInterface
     end
 
     def start_date
-      date_args = [start_date_year, start_date_month, 1].map(&:to_i)
-      if Date.valid_date?(*date_args)
-        Date.new(*date_args)
-      end
+      valid_date_or_nil(start_date_year, start_date_month)
     end
 
     def end_date
-      date_args = [end_date_year, end_date_month, 1].map(&:to_i)
-      if Date.valid_date?(*date_args)
-        Date.new(*date_args)
-      end
+      valid_date_or_nil(end_date_year, end_date_month)
+    end
+
+  private
+
+    def valid_date_or_nil(year, month)
+      date_args = [year, month, 1].map(&:to_i)
+      Date.new(*date_args) if year.present? && Date.valid_date?(*date_args)
+    end
+
+    def end_date_blank?
+      end_date_year.blank? && end_date_month.blank?
+    end
+
+    def end_date_valid
+      errors.add(:end_date, :invalid) unless end_date
     end
 
     def start_date_valid
-      errors.add(:start_date, :invalid) if start_date.nil?
+      errors.add(:start_date, :invalid) unless start_date
     end
 
-    def start_date_after_end_date
-      errors.add(:start_date, :before) if end_date.present? && start_date > end_date
+    def start_date_before_end_date
+      errors.add(:start_date, :before) unless start_date < end_date
+    end
+
+    def end_date_before_current_year_and_month
+      if end_date.year > Date.today.year || \
+          end_date.year == Date.today.year && end_date.month > Date.today.month
+        errors.add(:end_date, :in_the_future)
+      end
+    end
+
+    def start_date_and_end_date_valid?
+      end_date && start_date
+    end
+
+    def end_date_valid?
+      end_date
     end
   end
 end
