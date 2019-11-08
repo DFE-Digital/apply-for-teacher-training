@@ -18,8 +18,6 @@ RSpec.feature 'Viewing their new application' do
   end
 
   def then_i_should_see_that_i_have_made_no_choices
-    # TODO: disabled because we're creating a application_choice for all
-    # new applications.
-    # expect(page).to have_content(t('application_form.courses'))
+    expect(page).to have_content(t('application_form.courses'))
   end
 end

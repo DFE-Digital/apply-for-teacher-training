@@ -52,6 +52,11 @@ en:
     add_another_degree: Add another degree
     out_of_work: Tell us why you’ve been out of the workplace
     destroy_degree: Are you sure you want to delete this degree?
+    course_choices: Course choices
+    have_you_chosen: Have you chosen a course to apply to?
+    which_provider: Which training provider are you applying to?
+    which_course: Which course are you applying to?
+    which_location: Which location are you applying to?
     edit_degree: Edit degree
     other_qualification: Other relevant academic and non-academic qualifications
     add_other_qualification: Other relevant qualifications
