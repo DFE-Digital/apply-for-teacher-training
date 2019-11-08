@@ -1,5 +1,3 @@
-if Rails.env.production?
-  Raven.tags_context(
-    azure_host: HostingEnvironment.hostname,
-  )
+Raven.configure do |config|
+  config.tags = { hosting_environment: HostingEnvironment.environment_name }
 end
