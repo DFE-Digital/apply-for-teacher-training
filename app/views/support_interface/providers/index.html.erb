@@ -32,7 +32,7 @@
             <div class='govuk-details__text'>
               <ul class='govuk-list'>
               <% provider.courses.each do |course| %>
-                <li><%= govuk_link_to course.name, candidate_interface_apply_path(providerCode: course.provider.code, courseCode: course.code) %></li>
+                <li><%= govuk_link_to course.name, candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code) %></li>
               <% end %>
               </ul>
             </div>
