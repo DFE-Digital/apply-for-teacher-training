@@ -8,7 +8,7 @@ Accepted
 
 ## Context
 
-With the first alpha version of our API released and the first vendor integrations on the the horizon, we need a plan around minor and major revisions to our API. Our API baseurl is already versioned ('/api/v1') but it was suggested we should explore 'extension' mechanisms to the API so that we are able to release previews of API changes to vendors or supply custom fields to specific vendors, if needed, without creating problems for everyone else.
+With the first alpha version of our API released and the first vendor integrations on the the horizon, we need a plan around minor and major revisions to our API. Our API baseurl is already versioned ('/api/v1') but it was suggested we should explore 'extension' mechanisms to the API so that we are able to release previews of API changes to vendors or supply custom fields to specific vendors, if needed, without creating problems for everyone else. There is some concern that the tools or libraries vendors may use to integrate with our API break when they encounter a new/unknown attribute, instead of just ignoring it.
 
 The main idea explored was giving vendors the ability to request optional fields as URL query parameters (e.g. ```/?extensions=key1,key2```), which would ensure:
 
@@ -39,7 +39,7 @@ This would work fine for vendors not specifying ```/?fields=``` but would result
 
 We could, in theory, use ```/?include=``` to specify groups of attributes to be included in a separate part of the response (JSON:API provides an ```included:``` section), but strictly speaking these extra fields are not really additional resources. There would also be some complexity around mapping data between the main attributes block and the ```included:``` section, even more for one-to-many associations/lists, especially in the absence of ids.
 
-If we wanted to proceed with either ```/?fields```= or ```/?include=```, we would probably need consider changing the presentation of resources to make use of the ```relationships:``` and ```included:``` blocks, as is good JSON:API practice. This, in effect, would mean we start advertising our API as a JSON:API one, as parsing relationships and associations properly would then require the use of JSON:API consumer library, for practical purposes. JSON:API libraries exist in many languages and ecosystems, but their level of maturity varies.
+If we wanted to proceed with either ```/?fields```= or ```/?include=```, we would probably need to consider changing the presentation of resources to make use of the ```relationships:``` and ```included:``` blocks, as is good JSON:API practice. This, in effect, would mean we start advertising our API as a JSON:API one, as parsing relationships and associations properly would then require the use of JSON:API consumer library, for practical purposes. JSON:API libraries exist in many languages and ecosystems, but their level of maturity varies.
 
 #### Pros
 
@@ -50,14 +50,15 @@ If we wanted to proceed with either ```/?fields```= or ```/?include=```, we woul
 #### Cons
 
 - it is unclear what the best approach for adding this extensions mechanism is (```/?fields=``` vs ```/?include=``` vs ```/?fieldset=```, plus do we merge fields in main attributes block or do we add to the ```included:``` section)
-- implementing such an 'extensions' mechanism may be overkill for a small number of minor revisions a year
+- if we were to follow JSON:API recommendations and put associations in ```relationships:``` and ```included:``` blocks, it would be easier to add ```/?fields=``` and ```/?included=``` support, but this would make our responses hard to parse by vendors that do not have JSON:API libraries.
+- implementing such an 'extensions' mechanism may be overkill for a small number of vendors and minor API revisions a year
 - an 'extensions' mechanism could, actually, be introduced as part of a minor release at any point, does not need to be implemented now
-
 
 ## Decision
 
-We have decided to not to implement an 'extensions' mechanism at this point. If additional fields need to be released, we shall take the traditional route of a minor version release, ensuring no breaking changes are included in the release.
+We have decided to not to implement an 'extensions' mechanism at this point because there is no immediate need and we are likely to make a better choice of implementation when and if such a need does arise. If additional fields need to be released, we shall take the traditional route of a minor version release, ensuring no breaking changes are included in the release. The current advertised API versioning strategy can be found here: [https://apply-for-postgraduate-teacher-training-tech-docs.cloudapps.digital/#versioning](https://apply-for-postgraduate-teacher-training-tech-docs.cloudapps.digital/#versioning)
 
 ## Consequences
 
-None, unless the rate of minor releases becomes too frequent, at which point we should reconsider an 'extensions' mechanism.
+None, unless the rate of minor releases becomes too frequent, at which time we will be in a better position to decide on how to implement that extension mechanism - fields, include or something else.
+
