@@ -26,6 +26,10 @@ When('{string} provides a reference') do |referee_email|
   expect(action.save).to be_truthy
 end
 
+When('the date is {string}') do |date|
+  Timecop.freeze(date)
+end
+
 Then('the new application choice status is {string}') do |new_application_status|
   expect(@application_choice.reload.status).to eq(new_application_status.parameterize(separator: '_'))
 end
