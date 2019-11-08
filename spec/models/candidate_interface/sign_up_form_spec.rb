@@ -15,55 +15,58 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
 
   describe '#save_base' do
     let(:accept_ts_and_cs) { true }
-    subject do
-      described_class.new(  email_address: given_email,
-                            accept_ts_and_cs: accept_ts_and_cs )
+    let(:the_form) do
+      described_class.new(email_address: given_email,
+                          accept_ts_and_cs: accept_ts_and_cs)
+    end
+    
+    before do
+      allow(candidate).to receive(:update!)
     end
 
     context 'when email_address is invalid' do
       let(:given_email) { invalid_email }
 
       it 'returns false' do
-        expect(subject.save_base(candidate))
+        expect(the_form.save_base(candidate)).to eq(false)
       end
 
       it 'does not update the candidate model' do
-        expect(candidate).to_not receive(:update!)
-        subject.save_base(candidate)
+        the_form.save_base(candidate)
+        expect(candidate).not_to have_received(:update!)
       end
     end
 
-    context 'when email_address is valid' do
-      let(:given_email){ valid_email }
+    context 'when email_address is valid and accept_ts_and_cs is not present' do
+      let(:given_email) { valid_email }
+      let(:accept_ts_and_cs) { nil }
 
-      context 'and accept_ts_and_cs is not present' do
-        let(:accept_ts_and_cs) { nil }
-
-        it 'returns false' do
-          expect(subject.save_base(candidate)).to eq(false)
-        end
-
-        it 'does not update the candidate model' do
-          expect(candidate).to_not receive(:update!)
-          subject.save_base(candidate)
-        end
+      it 'returns false' do
+        expect(the_form.save_base(candidate)).to eq(false)
       end
 
-      context 'and accept_ts_and_cs is present' do
-        let(:accept_ts_and_cs) { true }
-        before do
-          allow(candidate).to receive(:update!)
-                              .and_return true
-        end
+      it 'does not update the candidate model' do
+        the_form.save_base(candidate)
+        expect(candidate).not_to have_received(:update!)
+      end
+    end
 
-        it 'updates the candidate model with the given email address' do
-          expect(candidate).to receive(:update!).with(email_address: given_email)
-          subject.save_base(candidate)
-        end
+    context 'when email_address is valid and accept_ts_and_cs is present' do
+      let(:given_email) { valid_email }
+      let(:accept_ts_and_cs) { true }
 
-        it 'returns true' do
-          expect(subject.save_base(candidate)).to eq(true)
-        end
+      before do
+        allow(candidate).to receive(:update!)
+                            .and_return true
+      end
+
+      it 'updates the candidate model with the given email address' do
+        the_form.save_base(candidate)
+        expect(candidate).to have_received(:update!).with(email_address: given_email)
+      end
+
+      it 'returns true' do
+        expect(the_form.save_base(candidate)).to eq(true)
       end
     end
   end
