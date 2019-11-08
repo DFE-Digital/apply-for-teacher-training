@@ -55,7 +55,7 @@ RSpec.feature 'Candidate account' do
   end
 
   def and_i_submit_my_email_address
-    fill_in 'Enter your email address', with: @email
+    fill_in t('authentication.sign_up.email_address.label'), with: @email
     click_on t('authentication.sign_up.button_continue')
   end
 

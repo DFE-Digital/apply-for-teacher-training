@@ -13,7 +13,7 @@ module CandidateInterface
       if @candidate.persisted?
         MagicLinkSignIn.call(candidate: @candidate)
         render 'candidate_interface/shared/check_your_email'
-      elsif @sign_up_form.save_base(@candidate)
+      elsif @sign_up_form.save(@candidate)
         MagicLinkSignUp.call(candidate: @candidate)
         render 'candidate_interface/shared/check_your_email'
       else

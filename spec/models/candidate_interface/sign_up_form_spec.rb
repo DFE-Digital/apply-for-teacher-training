@@ -13,13 +13,13 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
     end
   end
 
-  describe '#save_base' do
+  describe '#save' do
     let(:accept_ts_and_cs) { true }
     let(:the_form) do
       described_class.new(email_address: given_email,
                           accept_ts_and_cs: accept_ts_and_cs)
     end
-    
+
     before do
       allow(candidate).to receive(:update!)
     end
@@ -28,11 +28,11 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
       let(:given_email) { invalid_email }
 
       it 'returns false' do
-        expect(the_form.save_base(candidate)).to eq(false)
+        expect(the_form.save(candidate)).to eq(false)
       end
 
       it 'does not update the candidate model' do
-        the_form.save_base(candidate)
+        the_form.save(candidate)
         expect(candidate).not_to have_received(:update!)
       end
     end
@@ -42,11 +42,11 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
       let(:accept_ts_and_cs) { nil }
 
       it 'returns false' do
-        expect(the_form.save_base(candidate)).to eq(false)
+        expect(the_form.save(candidate)).to eq(false)
       end
 
       it 'does not update the candidate model' do
-        the_form.save_base(candidate)
+        the_form.save(candidate)
         expect(candidate).not_to have_received(:update!)
       end
     end
@@ -61,12 +61,12 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
       end
 
       it 'updates the candidate model with the given email address' do
-        the_form.save_base(candidate)
+        the_form.save(candidate)
         expect(candidate).to have_received(:update!).with(email_address: given_email)
       end
 
       it 'returns true' do
-        expect(the_form.save_base(candidate)).to eq(true)
+        expect(the_form.save(candidate)).to eq(true)
       end
     end
   end

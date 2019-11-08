@@ -8,7 +8,7 @@ module CandidateInterface
                               format: { with: Candidate::NOTIFY_EMAIL_REGEXP }
 
 
-    def save_base(candidate)
+    def save(candidate)
       unless candidate.valid?
         candidate.errors[:email_address].each do |error|
           errors.add(:email_address, error)
