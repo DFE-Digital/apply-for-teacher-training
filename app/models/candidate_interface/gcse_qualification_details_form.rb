@@ -28,5 +28,12 @@ module CandidateInterface
       valid_award_year = award_year.match(/^[1-9]\d{3}$/)
       errors.add(:award_year, :invalid) unless valid_award_year
     end
+
+  private
+
+    def award_year_is_date
+      valid_award_year = award_year.match(/^[1-9]\d{3}$/)
+      errors.add(:award_year, :invalid) unless valid_award_year
+    end
   end
 end
