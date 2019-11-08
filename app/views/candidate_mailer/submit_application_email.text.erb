@@ -1,17 +1,34 @@
-# Thank you for completing your teacher training application
+Dear <%= @application_form.first_name %>,
 
-You have submitted an application to:
+# Application submitted
 
-You can track the progress of your application here:
+You have successfully submitted an application for:
+
+<% @application_form.application_choices.each do |application_choice| %>
+* <%= application_choice.provider.name %> - <%= application_choice.course.name %> (<%= application_choice.course.code %>)
+<% end %>
+
+Your application reference is <%= @application_form.support_reference %>.
+
+You can track the progress of your <%= 'application'.pluralize(@application_form.application_choices.count) %> here:
+
 <%= candidate_interface_application_form_url %>
 
-Your application reference is <%= @application_form.support_reference %>
+# Making changes to your application
 
-# Next steps
+You have 5 working days to edit your application or change your choice of provider, course or training location.
+
+To make changes, [sign back in to your account](<%= candidate_interface_sign_in_url %>).
+
+You can sign back in to change your name or contact details at any point up until enrolment. We’ll pass this information on to the training <%= 'provider'.pluralize(@application_form.application_choices.count) %>.
+
+# Withdrawing your application
+
+You can withdraw your application to <%= 'course'.pluralize(@application_form.application_choices.count) %> at any point, even after you've accepted an offer. [Sign in to your account](<%= candidate_interface_sign_in_url %>) and click ‘withdraw’ next to the <%= 'course'.pluralize(@application_form.application_choices.count) %> you want to withdraw. We'll let your training <%= 'provider'.pluralize(@application_form.application_choices.count) %> know.
 
 # References
 
-The Apply for teacher training service will now contact your referees to ask them for references.
+The Apply for teacher training service will contact your referees to ask them for references.
 
 Your referees will be given a short questionnaire about you and a free text box to describe you in their own words. They will not be given access to your completed application form.
 
@@ -23,4 +40,14 @@ Most training providers don’t reach a decision about your interview until they
 
 # Application decision
 
-Your training provider will respond to your application within 40 working days via email. If they decide to progress your application, they will communicate with you directly to organise an interview date and give you all the information you need.
+If a training provider decides to progress your application, they will communicate with you directly to organise an interview date and give you all the information you need.
+
+Your training provider will aim to make a decision on whether to make an offer within 40 working days of receiving your application.
+
+# Need help with your teacher training application?
+
+Call [Get into Teaching](https://getintoteaching.education.gov.uk/) on Freephone 0800 389 2500 or chat to an adviser using their [online chat service](https://getintoteaching.education.gov.uk/lp/live-chat) between 8am and 8pm, Monday to Friday.
+
+# Give feedback or report a problem
+
+Please contact the team on [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)

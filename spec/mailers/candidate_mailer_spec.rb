@@ -13,7 +13,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
 
     it 'sends an email with the correct heading' do
-      expect(mail.body.encoded).to include('Thank you for completing your teacher training application')
+      expect(mail.body.encoded).to include('Application submitted')
     end
 
     it 'sends an email containing the support reference' do

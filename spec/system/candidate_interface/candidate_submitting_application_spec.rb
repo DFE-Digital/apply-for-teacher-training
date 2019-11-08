@@ -109,7 +109,7 @@ RSpec.feature 'Candidate submit the application' do
 
   def and_i_receive_an_email_with_my_support_ref
     open_email(current_candidate.email_address)
-    expect(current_email).to have_content 'Thank you for completing your teacher training application'
+    expect(current_email).to have_content 'Application submitted'
   end
 
   def when_i_click_on_track_your_application
