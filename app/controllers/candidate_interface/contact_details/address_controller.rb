@@ -2,14 +2,14 @@ module CandidateInterface
   class ContactDetails::AddressController < CandidateInterfaceController
     def edit
       @contact_details_form = ContactDetailsForm.build_from_application(
-        current_candidate.current_application,
+        current_application,
       )
     end
 
     def update
       @contact_details_form = ContactDetailsForm.new(contact_details_params)
 
-      if @contact_details_form.save_address(current_candidate.current_application)
+      if @contact_details_form.save_address(current_application)
         redirect_to candidate_interface_contact_details_review_path
       else
         render :edit

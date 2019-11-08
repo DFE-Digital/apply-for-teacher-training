@@ -15,9 +15,7 @@ module CandidateInterface
                                                                  subject: subject_param,
                                                                  level: ApplicationQualification.levels[:gcse])
 
-      application_form = current_candidate.current_application
-
-      if @application_qualification.save_base(application_form)
+      if @application_qualification.save_base(current_application)
         redirect_to candidate_interface_gcse_details_edit_details_path
       else
         render :edit

@@ -1,12 +1,11 @@
 module CandidateInterface
   class Degrees::DestroyController < CandidateInterfaceController
     def confirm_destroy
-      application_form = current_candidate.current_application
-      @degree = DegreeForm.build_from_application(application_form, current_degree_id)
+      @degree = DegreeForm.build_from_application(current_application, current_degree_id)
     end
 
     def destroy
-      current_candidate.current_application
+      current_application
         .application_qualifications
         .find(current_degree_id)
         .destroy!

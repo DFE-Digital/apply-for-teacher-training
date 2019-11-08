@@ -8,9 +8,8 @@ module CandidateInterface
 
     def create
       @degree = DegreeForm.new(degree_params)
-      application_form = current_candidate.current_application
 
-      if @degree.save(application_form)
+      if @degree.save(current_application)
         redirect_to candidate_interface_degrees_review_path
       else
         render_new
@@ -18,15 +17,13 @@ module CandidateInterface
     end
 
     def edit
-      application_form = current_candidate.current_application
-      @degree = DegreeForm.build_from_application(application_form, current_degree_id)
+      @degree = DegreeForm.build_from_application(current_application, current_degree_id)
     end
 
     def update
       @degree = DegreeForm.new(degree_params)
-      application_form = current_candidate.current_application
 
-      if @degree.update(application_form)
+      if @degree.update(current_application)
         redirect_to candidate_interface_degrees_review_path
       else
         render_new
@@ -47,7 +44,7 @@ module CandidateInterface
     end
 
     def render_new
-      degrees = DegreeForm.build_all_from_application(current_candidate.current_application)
+      degrees = DegreeForm.build_all_from_application(current_application)
 
       if degrees.count.zero?
         render :new_undergraduate
