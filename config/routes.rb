@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     get '/sign-in', to: 'sign_in#new', as: :sign_in
     post '/sign-in', to: 'sign_in#create'
 
-    get '/apply', to: 'applying#show'
+    get '/apply', to: 'apply_from_find#show', as: :apply_from_find
 
     scope '/application' do
       get '/' => 'application_form#show', as: :application_form

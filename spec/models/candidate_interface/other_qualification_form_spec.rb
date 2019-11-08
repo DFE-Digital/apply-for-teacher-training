@@ -58,6 +58,10 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
     let(:application_form) do
       create(:application_form) do |form|
         form.application_qualifications.create(
+          level: 'other',
+          created_at: DateTime.new(2019, 1, 1, 1, 9, 0, 0),
+        )
+        form.application_qualifications.create(
           id: 1,
           level: 'other',
           qualification_type: 'BTEC',
@@ -66,6 +70,7 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
           grade: 'Distinction',
           predicted_grade: false,
           award_year: '2012',
+          created_at: DateTime.new(2019, 1, 1, 21, 0, 0),
         )
         form.application_qualifications.create(level: 'degree')
         form.application_qualifications.create(level: 'gcse')
@@ -75,7 +80,7 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
     it 'creates an array of objects based on the provided ApplicationForm' do
       qualifications = CandidateInterface::OtherQualificationForm.build_all_from_application(application_form)
 
-      expect(qualifications).to match_array([
+      expect(qualifications).to include(
         have_attributes(
           id: 1,
           qualification_type: 'BTEC',
@@ -84,13 +89,22 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
           grade: 'Distinction',
           award_year: '2012',
         ),
-      ])
+      )
     end
 
     it 'only includes other qualifications and not degrees or GCSEs' do
       qualifications = CandidateInterface::OtherQualificationForm.build_all_from_application(application_form)
 
-      expect(qualifications.count).to eq(1)
+      expect(qualifications.count).to eq(2)
+    end
+
+    it 'orders other qualifications by created at' do
+      qualifications = CandidateInterface::OtherQualificationForm.build_all_from_application(application_form)
+
+      expect(qualifications.last).to have_attributes(
+        qualification_type: 'BTEC',
+        subject: 'Being a Superhero',
+      )
     end
   end
 
