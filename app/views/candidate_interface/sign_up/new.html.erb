@@ -17,7 +17,7 @@
       <p class="govuk-body">Instead, you’ll sign in using your email address. Each time you sign in, we'll send you a link so you can return to your application.</p>
 
       <h2 class="govuk-heading-m">Terms and conditions</h2>
-      <p class="govuk-body">Our <%= govuk_link_to 'terms and conditions', '/terms-conditions' %> contain important information about:</p>
+      <p class="govuk-body">Our <%= govuk_link_to 'terms of use', '/candidate/terms-of-use' %> contain important information about:</p>
       <ul class="govuk-list govuk-list--bullet">
         <li>the application process</li>
         <li>contacting us</li>
@@ -27,7 +27,7 @@
 
       <div class='govuk-form-group'>
         <%= f.govuk_check_boxes_fieldset :accept_ts_and_cs do %>
-          <%= f.govuk_check_box :accept_ts_and_cs, true, multiple: false, link_errors: true, label: { text: t('authentication.sign_up.accept_ts_and_cs_checkbox') } %>
+          <%= f.govuk_check_box :accept_ts_and_cs, true, multiple: false, link_errors: true, label: { text: t('authentication.sign_up.accept_terms_checkbox') } %>
         <%- end %>
       </div>
       <%= f.govuk_submit t('authentication.sign_up.button_continue') %>

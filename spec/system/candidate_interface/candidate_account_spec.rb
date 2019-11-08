@@ -51,7 +51,7 @@ RSpec.feature 'Candidate account' do
   end
 
   def and_i_accept_the_ts_and_cs
-    check t('authentication.sign_up.accept_ts_and_cs_checkbox')
+    check t('authentication.sign_up.accept_terms_checkbox')
   end
 
   def and_i_submit_my_email_address
