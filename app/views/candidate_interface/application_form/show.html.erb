@@ -50,6 +50,14 @@
       <li class="app-task-list__item">
         <%= govuk_link_to 'TODO: School experience and volunteering', '#', class: 'app-task-list__task-name' %>
       </li>
+      <li class="app-task-list__item">
+        <% if @application_form_presenter.training_with_a_disability_completed? %>
+          <%= govuk_link_to t('page_titles.training_with_a_disability'), candidate_interface_training_with_a_disability_path, class: 'app-task-list__task-name', 'aria-describedby': 'training-with-a-disability-completed' %>
+          <strong class="govuk-tag app-task-list__task-completed" id="training-with-a-disability-completed">Completed</strong>
+        <% else %>
+          <%= govuk_link_to t('page_titles.training_with_a_disability'), candidate_interface_training_with_a_disability_edit_path, class: 'app-task-list__task-name' %>
+        <% end %>
+      </li>
     </ol>
 
     <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">

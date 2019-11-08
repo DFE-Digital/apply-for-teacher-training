@@ -18,6 +18,7 @@ RSpec.feature 'Candidate reviews the answers' do
     and_i_can_see_my_contact_details
     and_i_can_see_my_degree
     and_i_can_see_my_other_qualification
+    and_i_can_see_my_disability_info
   end
 
   def given_i_am_signed_in
@@ -90,5 +91,9 @@ RSpec.feature 'Candidate reviews the answers' do
     expect(page).to have_content 'Yugi College'
     expect(page).to have_content 'A'
     expect(page).to have_content '2015'
+  end
+
+  def and_i_can_see_my_disability_info
+    expect(page).to have_content 'I have difficulty climbing stairs'
   end
 end
