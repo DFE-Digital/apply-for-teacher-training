@@ -41,6 +41,11 @@ RSpec.describe GenerateTestData do
       expect { GenerateTestData.new(1, provider).generate }.to change { ApplicationForm.count }.by(1)
     end
 
+    it 'does not throw an error and creates an application when there is a duplicate provider code' do
+      create(:provider, code: 'ABC', name: 'Some other name')
+      expect { GenerateTestData.new(1).generate }.to change { ApplicationForm.count }.by(1)
+    end
+
     it 'associates application forms to candidates with matching email addresses' do
       GenerateTestData.new(1, create(:provider, code: 'DEF')).generate
       application_form = ApplicationForm.first

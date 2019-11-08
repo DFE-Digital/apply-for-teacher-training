@@ -70,10 +70,9 @@ private
   end
 
   def fake_provider
-    Provider.find_or_create_by(
-      name: 'Example Training Provider',
-      code: 'ABC',
-    )
+    Provider.find_or_create_by(code: 'ABC') do |provider|
+      provider.name = 'Example Training Provider'
+    end
   end
 
   def random_code(klass, provider)
