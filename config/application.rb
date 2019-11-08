@@ -35,5 +35,7 @@ module ApplyForPostgraduateTeacherTraining
     config.providers_to_sync = config_for(:providers_to_sync)
 
     config.time_zone = 'London'
+
+    config.action_view.default_form_builder = GOVUKDesignSystemFormBuilder::FormBuilder
   end
 end
