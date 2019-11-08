@@ -19,7 +19,7 @@ and develop it.
 
 If you need information on this website in a different format, for example
 accessible PDF, large print, easy read, audio recording or braille, please
-email us on [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
+email us on <becomingateacher@digital.education.gov.uk>.
 
 We’ll consider your request and respond to you within 5 working days.
 
@@ -29,7 +29,7 @@ has advice on making your device easier to use if you have a disability.
 ## Reporting accessibility problems with this website
 
 If you have any problems accessing the service or want to give us
-feedback, please email us on [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
+feedback, please email us on <becomingateacher@digital.education.gov.uk>.
 
 ## Enforcement procedure
 
