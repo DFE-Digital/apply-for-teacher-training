@@ -1,0 +1,19 @@
+<% content_for :title, page_title('have_you_chosen') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_course_choices_index_path, 'Back') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @choice, url: candidate_interface_course_choices_choose_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <div class="govuk-!-margin-top-6">
+        <%= f.govuk_radio_buttons_fieldset :choice, legend: { size: 'xl', text: t('page_titles.have_you_chosen') } do %>
+          <%= f.govuk_radio_button :choice, :yes, label: { text: 'Yes, I know where I want to apply' } %>
+          <%= f.govuk_radio_button :choice, :no, label: { text: 'No, I need to find a course' } %>
+        <% end %>
+
+        <%= f.govuk_submit 'Continue' %>
+      </div>
+    <% end %>
+  </div>
+</div>

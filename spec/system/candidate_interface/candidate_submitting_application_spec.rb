@@ -5,6 +5,7 @@ RSpec.feature 'Candidate submit the application' do
 
   scenario 'Candidate with personal details and contact details' do
     given_i_am_signed_in
+    and_i_have_chosen_a_course
     and_i_filled_in_personal_details
     and_i_filled_in_contact_details
     and_reviewed_my_application
@@ -27,6 +28,26 @@ RSpec.feature 'Candidate submit the application' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
+  end
+
+  def and_i_have_chosen_a_course
+    provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
+    site = create(:site, name: 'Main site', code: '-', provider: provider)
+    course = create(:course, name: 'Primary', code: '2XT2', provider: provider)
+    create(:course_option, site: site, course: course, vacancy_status: 'B')
+
+    visit candidate_interface_application_form_path
+
+    click_link 'Course choices'
+    click_link 'Add course'
+    choose 'Yes, I know where I want to apply'
+    click_button 'Continue'
+    select 'Gorse SCITT (1N1)'
+    click_button 'Continue'
+    select 'Primary (2XT2)'
+    click_button 'Continue'
+    choose 'Main site'
+    click_button 'Continue'
   end
 
   def and_i_filled_in_personal_details

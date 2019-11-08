@@ -88,6 +88,22 @@ Rails.application.routes.draw do
         delete '/delete/:id' => 'degrees/destroy#destroy'
       end
 
+      scope '/courses' do
+        get '/' => 'course_choices#index', as: :course_choices_index
+
+        get '/choose' => 'course_choices#have_you_chosen', as: :course_choices_choose
+        post '/choose' => 'course_choices#make_choice'
+
+        get '/provider' => 'course_choices#options_for_provider', as: :course_choices_provider
+        post '/provider' => 'course_choices#pick_provider'
+
+        get '/provider/:provider_code/courses' => 'course_choices#options_for_course', as: :course_choices_course
+        post '/provider/:provider_code/courses' => 'course_choices#pick_course'
+
+        get '/provider/:provider_code/courses/:course_code' => 'course_choices#options_for_site', as: :course_choices_site
+        post '/provider/:provider_code/courses/:course_code' => 'course_choices#pick_site'
+      end
+
       scope '/other-qualifications' do
         get '/' => 'other_qualifications/base#new', as: :new_other_qualification
         post '/' => 'other_qualifications/base#create', as: :create_other_qualification
