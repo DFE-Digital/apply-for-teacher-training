@@ -8,7 +8,7 @@ module VendorApi
 
     before_action :set_cors_headers
     before_action :require_valid_api_token!
-    before_action :add_api_key_and_provider_ids_to_log
+    before_action :add_identity_to_log
 
     def audit_user
       return nil unless @metadata.present?
@@ -69,9 +69,11 @@ module VendorApi
     end
 
     # controller-specific additional info to include in logstash logs
-    def add_api_key_and_provider_ids_to_log
-      RequestLocals.store[:vendor_api_token_id] = @current_vendor_api_token.try(:id)
-      RequestLocals.store[:provider_id] = current_provider.try(:id) if @current_vendor_api_token
+    def add_identity_to_log
+      RequestLocals.store[:identity] = {
+        vendor_api_token_id: @current_vendor_api_token&.id,
+        provider_id: current_provider&.id,
+      }
     end
 
     def validate_metadata!

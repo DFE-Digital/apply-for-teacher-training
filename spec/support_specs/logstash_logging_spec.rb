@@ -60,12 +60,12 @@ RSpec.describe LogstashLogging do
           LogstashLogging.enable(@rails_config)
         end
         @logger = @rails_config.logger
-        RequestLocals.store[:candidate_id] = 15
+        RequestLocals.store[:identity] = { candidate_id: 15 }
         @logger.info 'test'
         @log = JSON.parse(@stdout_output.string) rescue nil
       }
 
-      it 'adds candidate_id to the log if it is available' do
+      it 'adds candidate_id to the log if it is defined' do
         expect(@log['candidate_id']).to eq 15
       end
     end
