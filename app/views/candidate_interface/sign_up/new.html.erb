@@ -30,7 +30,7 @@
           <%= f.govuk_check_box :accept_ts_and_cs, true, multiple: false, link_errors: true, label: { text: t('authentication.sign_up.accept_ts_and_cs_checkbox') } %>
         <%- end %>
       </div>
-      <%= f.submit t('authentication.sign_up.button_continue'), class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
+      <%= f.govuk_submit t('authentication.sign_up.button_continue') %>
     <% end %>
   </div>
 </div>
