@@ -9,6 +9,7 @@ class GenerateVendorProviders
       { name: 'Capita Provider', code: 'CAPI' },
       { name: 'Technology One Provider', code: 'TECH' },
       { name: 'Gordon Associates Provider', code: 'GORD' },
+      { name: 'University of Newcastle Upon Tyne', code: 'N21' },
     ]
 
     providers.each do |provider|
