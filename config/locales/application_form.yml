@@ -166,6 +166,11 @@ en:
         change_action: tell us why you want to be a teacher
         label: Tell us why you want to be a teacher
         complete_form_button: Continue
+      subject_knowledge:
+        key: Your knowledge about the subject you want to teach
+        change_action:  evidence of subject knowledge
+        label: Enter your subject knowledge
+        complete_form_button: Continue
   activemodel:
     errors:
       models:
@@ -192,6 +197,11 @@ en:
             becoming_a_teacher:
               blank: Tell us why you want to be a teacher
               too_long: Tell us why you want to be a teacher must be %{count} words or fewer
+        candidate_interface/subject_knowledge_form:
+          attributes:
+            subject_knowledge:
+              blank: Enter your subject knowledge
+              too_long: Your subject knowledge must be %{count} words or fewer
         candidate_interface/further_information_form:
           attributes:
             further_information:

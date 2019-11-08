@@ -103,6 +103,14 @@
           <%= govuk_link_to t('page_titles.becoming_a_teacher'), candidate_interface_becoming_a_teacher_edit_path, class: 'app-task-list__task-name' %>
         <% end %>
       </li>
+      <li class="app-task-list__item govuk-hint">
+        <% if @application_form_presenter.subject_knowledge_completed? %>
+          <%= govuk_link_to t('page_titles.subject_knowledge'), candidate_interface_subject_knowledge_show_path, class: 'app-task-list__task-name', 'aria-describedby': 'subject-knowledge-completed' %>
+          <strong class="govuk-tag app-task-list__task-completed" id="subject-knowledge-completed">Completed</strong>
+        <% else %>
+          <%= govuk_link_to t('page_titles.subject_knowledge'), candidate_interface_subject_knowledge_edit_path, class: 'app-task-list__task-name' %>
+        <% end %>
+      </li>
     </ol>
 
     <h2 class="govuk-heading-m govuk-!-font-size-27">References</h2>

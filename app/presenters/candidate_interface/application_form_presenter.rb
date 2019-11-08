@@ -45,5 +45,9 @@ module CandidateInterface
     def becoming_a_teacher_completed?
       CandidateInterface::BecomingATeacherForm.build_from_application(@application_form).valid?
     end
+
+    def subject_knowledge_completed?
+      CandidateInterface::SubjectKnowledgeForm.build_from_application(@application_form).valid?
+    end
   end
 end
