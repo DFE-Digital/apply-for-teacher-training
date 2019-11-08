@@ -13,7 +13,7 @@ module CandidateInterface
 
     class << self
       def build_all_from_application(application_form)
-        application_form.application_qualifications.other.map do |qualification|
+        application_form.application_qualifications.other.order(:created_at).map do |qualification|
           new_other_qualification_form(qualification)
         end
       end
