@@ -23,6 +23,9 @@ module ApplicationHelper
   end
 
   def service_link
+    custom_link = content_for(:service_link)
+    return custom_link if custom_link
+
     case current_namespace
     when 'provider_interface'
       provider_interface_path
