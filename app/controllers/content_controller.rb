@@ -3,6 +3,10 @@ class ContentController < ApplicationController
     render_content_page :accessibility
   end
 
+  def terms_conditions
+    render_content_page :terms_conditions
+  end
+
 private
 
   def render_content_page(page_name)

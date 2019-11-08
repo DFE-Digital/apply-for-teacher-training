@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   root to: redirect('/candidate')
 
   get '/accessibility', to: 'content#accessibility'
+  get '/terms-conditions', to: 'content#terms_conditions'
 
   namespace :candidate_interface, path: '/candidate' do
     get '/' => 'start_page#show', as: :start
