@@ -1,13 +1,44 @@
 .app-styled-content {
+  h2 {
+    @extend %govuk-heading-l;
+  }
+
+  h3 {
+    @extend %govuk-heading-m;
+  }
+
+  h4 {
+    @extend %govuk-heading-s;
+  }
+
+  p,
+  dl {
+    @extend %govuk-body-m;
+  }
+
+  ol {
+    @extend %govuk-list;
+    @extend %govuk-list--number;
+  }
+
+  ul {
+    @extend %govuk-list;
+    @extend %govuk-list--bullet;
+  }
+
+  strong,
+  b,
+  dt {
+    @include govuk-typography-weight-bold;
+  }
+
   a {
     @extend %govuk-link;
   }
 
-  p {
-    @extend %govuk-body-m;
-  }
-
-  h2 {
-    @extend %govuk-heading-m;
+  hr {
+    @extend %govuk-section-break;
+    @extend %govuk-section-break--visible;
+    @extend %govuk-section-break--xl;
   }
 }
