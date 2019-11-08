@@ -23,7 +23,7 @@ RSpec.feature 'Entering their other qualifications' do
     then_i_can_check_my_qualification
 
     when_i_click_on_add_another_qualification
-    then_i_see_the_other_qualifications_form
+    then_i_see_the_other_qualifications_form_with_some_details_of_my_last_autofilled
 
     when_i_fill_in_another_qualification
     and_i_submit_the_other_qualification_form
@@ -131,7 +131,9 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def when_i_click_on_delete_my_additional_qualification
-    click_link(t('application_form.other_qualification.delete'), match: :first)
+    within(all('.app-summary-card')[1]) do
+      click_link(t('application_form.other_qualification.delete'))
+    end
   end
 
   def and_i_confirm_that_i_want_to_delete_my_additional_qualification

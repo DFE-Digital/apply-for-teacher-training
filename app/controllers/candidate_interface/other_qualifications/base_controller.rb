@@ -1,7 +1,17 @@
 module CandidateInterface
   class OtherQualifications::BaseController < CandidateInterfaceController
     def new
-      @qualification = OtherQualificationForm.new
+      qualifications = OtherQualificationForm.build_all_from_application(current_application)
+
+      @qualification = if qualifications.any?
+                         OtherQualificationForm.new(
+                           qualification_type: qualifications.last.qualification_type,
+                           institution_name: qualifications.last.institution_name,
+                           award_year: qualifications.last.award_year,
+                         )
+                       else
+                         OtherQualificationForm.new
+                       end
     end
 
     def create

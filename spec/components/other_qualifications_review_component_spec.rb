@@ -28,7 +28,7 @@ RSpec.describe OtherQualificationsReviewComponent do
     expect(result.css('.app-summary-card__title').text).to include('A-Level Making Doggo Sounds')
     expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.qualification.label'))
     expect(result.css('.govuk-summary-list__value').to_html).to include('A-Level Making Doggo Sounds<br>Doggo Sounds College')
-    expect(result.css('.govuk-summary-list__actions a')[3].attr('href')).to include(
+    expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
       Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_path(1),
     )
     expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.other_qualification.qualification.change_action')}")
@@ -63,7 +63,7 @@ RSpec.describe OtherQualificationsReviewComponent do
     result = render_inline(OtherQualificationsReviewComponent, application_form: application_form)
 
     expect(result.css('.app-summary-card__actions').text).to include(t('application_form.other_qualification.delete'))
-    expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
+    expect(result.css('.app-summary-card__actions a')[1].attr('href')).to include(
       Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_other_qualification_path(2),
     )
   end
