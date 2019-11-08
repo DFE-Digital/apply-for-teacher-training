@@ -49,5 +49,9 @@ module CandidateInterface
     def subject_knowledge_completed?
       CandidateInterface::SubjectKnowledgeForm.build_from_application(@application_form).valid?
     end
+
+    def interview_preferences_completed?
+      CandidateInterface::InterviewPreferencesForm.build_from_application(@application_form).valid?
+    end
   end
 end

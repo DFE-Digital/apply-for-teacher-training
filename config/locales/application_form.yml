@@ -171,6 +171,11 @@ en:
         change_action:  evidence of subject knowledge
         label: Enter your subject knowledge
         complete_form_button: Continue
+      interview_preferences:
+        key: Interview preferences
+        change_action: interview preferences
+        label: Interview preferences
+        complete_form_button: Continue
   activemodel:
     errors:
       models:
@@ -202,6 +207,11 @@ en:
             subject_knowledge:
               blank: Enter your subject knowledge
               too_long: Your subject knowledge must be %{count} words or fewer
+        candidate_interface/interview_preferences_form:
+          attributes:
+            interview_preferences:
+              blank: Enter your interview preferences
+              too_long: Your interview preferences must be %{count} words or fewer
         candidate_interface/further_information_form:
           attributes:
             further_information:

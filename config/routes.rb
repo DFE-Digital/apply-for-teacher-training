@@ -45,6 +45,10 @@ Rails.application.routes.draw do
         get '/subject-knowledge' => 'personal_statement/subject_knowledge#edit', as: :subject_knowledge_edit
         post '/subject-knowledge/review' => 'personal_statement/subject_knowledge#update', as: :subject_knowledge_update
         get '/subject-knowledge/review' => 'personal_statement/subject_knowledge#show', as: :subject_knowledge_show
+
+        get '/interview-preferences' => 'personal_statement/interview_preferences#edit', as: :interview_preferences_edit
+        post '/interview-preferences/review' => 'personal_statement/interview_preferences#update', as: :interview_preferences_update
+        get '/interview-preferences/review' => 'personal_statement/interview_preferences#show', as: :interview_preferences_show
       end
 
       scope '/contact-details' do
