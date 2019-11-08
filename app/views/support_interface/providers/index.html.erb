@@ -22,7 +22,23 @@
     <% @providers.each do |provider| %>
       <tr class='govuk-table__row'>
         <td class='govuk-table__cell'><%= provider.name %> (<%= provider.code %>)</td>
-        <td class='govuk-table__cell'><%= provider.courses.size %></td>
+        <td class='govuk-table__cell'>
+          <details class='govuk-details' data-module='govuk-details'>
+            <summary class='govuk-details__summary'>
+              <span class='govuk-details__summary-text'>
+                <%= pluralize provider.courses.size, 'course' %>
+              </span>
+            </summary>
+            <div class='govuk-details__text'>
+              <ul class='govuk-list'>
+              <% provider.courses.each do |course| %>
+                <li><%= govuk_link_to course.name, candidate_interface_apply_path(providerCode: course.provider.code, courseCode: course.code) %></li>
+              <% end %>
+              </ul>
+            </div>
+          </details>
+
+        </td>
         <td class='govuk-table__cell'><%= provider.sites.size %></td>
       </tr>
     <% end %>
