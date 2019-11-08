@@ -2,7 +2,7 @@ module CandidateInterface
   class PersonalDetailsController < CandidateInterfaceController
     def edit
       @personal_details_form = PersonalDetailsForm.build_from_application(
-        current_candidate.current_application,
+        current_application,
       )
     end
 
@@ -10,7 +10,7 @@ module CandidateInterface
       @personal_details_form = PersonalDetailsForm.new(personal_details_params)
       @personal_details_review = PersonalDetailsReviewPresenter.new(@personal_details_form)
 
-      if @personal_details_form.save(current_candidate.current_application)
+      if @personal_details_form.save(current_application)
         render :show
       else
         render :edit
@@ -19,7 +19,7 @@ module CandidateInterface
 
     def show
       personal_details_form = PersonalDetailsForm.build_from_application(
-        current_candidate.current_application,
+        current_application,
       )
       @personal_details_review = PersonalDetailsReviewPresenter.new(personal_details_form)
     end

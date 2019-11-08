@@ -6,9 +6,8 @@ module CandidateInterface
 
     def create
       @qualification = OtherQualificationForm.new(other_qualification_params)
-      application_form = current_candidate.current_application
 
-      if @qualification.save(application_form)
+      if @qualification.save(current_application)
         redirect_to candidate_interface_review_other_qualifications_path
       else
         render :new
@@ -16,15 +15,13 @@ module CandidateInterface
     end
 
     def edit
-      application_form = current_candidate.current_application
-      @qualification = OtherQualificationForm.build_from_application(application_form, current_other_qualification_id)
+      @qualification = OtherQualificationForm.build_from_application(current_application, current_other_qualification_id)
     end
 
     def update
       @qualification = OtherQualificationForm.new(other_qualification_params)
-      application_form = current_candidate.current_application
 
-      if @qualification.update(application_form)
+      if @qualification.update(current_application)
         redirect_to candidate_interface_review_other_qualifications_path
       else
         render :edit

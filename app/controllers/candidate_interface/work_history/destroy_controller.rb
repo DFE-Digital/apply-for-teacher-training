@@ -1,12 +1,12 @@
 module CandidateInterface
   class WorkHistory::DestroyController < CandidateInterfaceController
     def confirm_destroy
-      @work_experience = current_candidate.current_application
+      @work_experience = current_application
         .application_work_experiences.find(work_experience_params[:id])
     end
 
     def destroy
-      current_candidate.current_application
+      current_application
         .application_work_experiences
         .find(work_experience_params[:id])
         .destroy!
