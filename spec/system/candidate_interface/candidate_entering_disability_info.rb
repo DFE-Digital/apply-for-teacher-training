@@ -4,10 +4,6 @@ RSpec.feature 'Entering their disability information' do
   include CandidateHelper
 
   scenario 'Candidate submits their disability information' do
-    given_i_am_not_signed_in
-    and_i_visit_the_training_with_a_disability_page
-    then_i_should_see_the_homepage
-
     given_i_am_signed_in
     and_i_visit_the_site
 
@@ -29,18 +25,8 @@ RSpec.feature 'Entering their disability information' do
     then_i_can_check_my_revised_answers
   end
 
-  def given_i_am_not_signed_in; end
-
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_i_visit_the_training_with_a_disability_page
-    visit candidate_interface_training_with_a_disability_edit_path
-  end
-
-  def then_i_should_see_the_homepage
-    expect(page).to have_current_path(candidate_interface_start_path)
   end
 
   def and_i_visit_the_site
