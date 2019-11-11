@@ -512,6 +512,10 @@
                                 "value": "[variables('rubyAuthHosts')]"
                             },
                             {
+                                "name": "SECRET_KEY_BASE",
+                                "value": "[parameters('secretKeyBase')]"
+                            },
+                            {
                                 "name": "SENTRY_DSN",
                                 "value": "[parameters('sentryDSN')]"
                             },
@@ -604,6 +608,10 @@
                             {
                                 "name": "AUTHORISED_HOSTS",
                                 "value": "[variables('rubyAuthHosts')]"
+                            },
+                            {
+                                "name": "SECRET_KEY_BASE",
+                                "value": "[parameters('secretKeyBase')]"
                             },
                             {
                                 "name": "SENTRY_DSN",
