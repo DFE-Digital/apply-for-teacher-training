@@ -8,9 +8,9 @@ module CandidateInterface
 
     def update
       @training_with_a_disability_form = TrainingWithADisabilityForm.new(training_with_a_disability_params)
-      @training_with_a_disability_review = TrainingWithADisabilityReviewPresenter.new(@training_with_a_disability_form)
 
       if @training_with_a_disability_form.save(current_application)
+        @application_form = current_application
         render :show
       else
         render :edit
@@ -18,10 +18,10 @@ module CandidateInterface
     end
 
     def show
-      training_with_a_disability_form = TrainingWithADisabilityForm.build_from_application(
+      @application_form = current_application
+      @training_with_a_disability_form = TrainingWithADisabilityForm.build_from_application(
         current_application,
       )
-      @training_with_a_disability_review = TrainingWithADisabilityReviewPresenter.new(training_with_a_disability_form)
     end
 
   private

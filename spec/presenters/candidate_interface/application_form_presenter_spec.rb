@@ -132,40 +132,44 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     let(:presenter) do
       CandidateInterface::ApplicationFormPresenter.new(application_form)
     end
+
     context 'when the candidate has not selected Yes or No to the disclosure question' do
       before do
         application_form.disclose_disability = nil
       end
+
       it 'returns false' do
         expect(presenter.training_with_a_disability_completed?).to eq(false)
       end
     end
 
-    context 'when the candidate has selected Yes to the disclosure question' do
+    context 'when the candidate says Yes to disclosure but has not filled in the text field' do
       before do
         application_form.disclose_disability = true
+        application_form.disability_disclosure = ''
       end
-      context 'but not filled in the disability_disclosure field' do
-        before do
-          application_form.disability_disclosure = ''
-        end
-        it 'returns false' do
-          expect(presenter.training_with_a_disability_completed?).to eq(false)
-        end
-      end
-      context 'and has filled in the disability_disclosure field' do
-        before do
-          application_form.disability_disclosure = 'I have difficulty climbing stairs'
-        end
-        it 'returns true' do
-          expect(presenter.training_with_a_disability_completed?).to eq(true)
-        end
+
+      it 'returns false' do
+        expect(presenter.training_with_a_disability_completed?).to eq(false)
       end
     end
+
+    context 'when the candidate says Yes to disclosure and has filled in the text field' do
+      before do
+        application_form.disclose_disability = true
+        application_form.disability_disclosure = 'I have difficulty climbing stairs'
+      end
+
+      it 'returns true' do
+        expect(presenter.training_with_a_disability_completed?).to eq(true)
+      end
+    end
+
     context 'when the candidate has selected No to the disclosure question' do
       before do
         application_form.disclose_disability = false
       end
+
       it 'returns true' do
         expect(presenter.training_with_a_disability_completed?).to eq(true)
       end
