@@ -50,7 +50,7 @@ Rails.application.routes.draw do
         post '/interview-preferences/review' => 'personal_statement/interview_preferences#update', as: :interview_preferences_update
         get '/interview-preferences/review' => 'personal_statement/interview_preferences#show', as: :interview_preferences_show
       end
-      
+
       scope '/training-with-a-disability' do
         get '/' => 'training_with_a_disability#edit', as: :training_with_a_disability_edit
         post '/review' => 'training_with_a_disability#update', as: :training_with_a_disability_update
