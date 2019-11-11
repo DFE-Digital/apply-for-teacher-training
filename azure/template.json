@@ -448,6 +448,10 @@
                                 "value": "[parameters('findBaseUrl')]"
                             },
                             {
+                                "name": "SERVICE_TYPE",
+                                "value": "Web"
+                            },
+                            {
                                 "name": "DISABLE_BASIC_AUTH_FOR_LANDING_PAGE",
                                 "value": "[parameters('disableBasicAuthForLandingPage')]"
                             }
@@ -557,11 +561,11 @@
                             },
                             {
                                 "name": "SERVICE_TYPE",
-                                "value": "[concat(parameters('containerInstanceNamePrefix'), '-wkr')]"
+                                "value": "Worker"
                             },
                             {
                                 "name": "REDIS_URL",
-                                "secureValue": "[concat('rediss://:', reference('redis-cache').outputs.PrimaryKey.value, '@', parameters('redisCacheName'), '.redis.cache.windows.net:6380')]"
+                                "secureValue": "[concat('rediss://:', listKeys(resourceId('Microsoft.Cache/Redis', parameters('redisCacheName')), '2018-03-01').primaryKey, '@', parameters('redisCacheName'), '.redis.cache.windows.net:6380')]"
                             }
                         ]
                     }
@@ -667,11 +671,11 @@
                             },
                             {
                                 "name": "SERVICE_TYPE",
-                                "value": "[concat(parameters('containerInstanceNamePrefix'), '-clk')]"
+                                "value": "Clock"
                             },
                             {
                                 "name": "REDIS_URL",
-                                "secureValue": "[concat('rediss://:', reference('redis-cache').outputs.PrimaryKey.value, '@', parameters('redisCacheName'), '.redis.cache.windows.net:6380')]"
+                                "secureValue": "[concat('rediss://:', listKeys(resourceId('Microsoft.Cache/Redis', parameters('redisCacheName')), '2018-03-01').primaryKey, '@', parameters('redisCacheName'), '.redis.cache.windows.net:6380')]"
                             }
                         ]
                     }
