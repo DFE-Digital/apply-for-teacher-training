@@ -196,6 +196,18 @@
                 "description": "The base URL to manage-courses-backend, Find's backend."
             }
         },
+        "redisCacheName": {
+            "type": "string",
+            "metadata": {
+                "description": "Redis URL prefix name."
+            }
+        },
+        "containerInstanceNamePrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "The name prefix for the background worker container instances."
+            }
+        },
         "disableBasicAuthForLandingPage": {
             "type": "string",
             "metadata": {
@@ -206,6 +218,7 @@
     "variables": {
         "deploymentUrlBase": "https://raw.githubusercontent.com/DFE-Digital/bat-platform-building-blocks/master/templates/",
         "appServiceRuntimeStack": "[concat('DOCKER|', parameters('dockerHubUsername'), '/', parameters('containerImageReference'))]",
+        "containerImageName": "[concat(parameters('dockerHubUsername'), '/', parameters('containerImageReference'))]",
         "resourceNamePrefix": "[toLower(concat('s106', parameters('resourceEnvironmentName'),'-', parameters('serviceName')))]",
         "appServiceName": "[concat(variables('resourceNamePrefix'), '-as')]",
         "appServicePlanName": "[concat(variables('resourceNamePrefix'), '-asp')]",
@@ -228,6 +241,26 @@
                 "parameters": {
                     "storageAccountName": {
                         "value": "[variables('storageAccountName')]"
+                    }
+                }
+            }
+        },
+	{
+            "name": "redis-cache",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'), 'redis.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "redisCacheName": {
+                        "value": "[parameters('redisCacheName')]"
+                    },
+                    "enableNonSslPort": {
+                        "value": true
                     }
                 }
             }
@@ -415,6 +448,10 @@
                                 "value": "[parameters('findBaseUrl')]"
                             },
                             {
+                                "name": "SERVICE_TYPE",
+                                "value": "web"
+                            },
+                            {
                                 "name": "DISABLE_BASIC_AUTH_FOR_LANDING_PAGE",
                                 "value": "[parameters('disableBasicAuthForLandingPage')]"
                             }
@@ -424,7 +461,229 @@
             },
             "dependsOn": [
                 "app-service-plan",
-                "app-service-certificate"
+                "app-service-certificate",
+                "redis-cache",
+		"postgresql-database"
+            ]
+        },
+        {
+            "name": "container-instances-worker",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'), 'container-instances.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "containerInstanceName": {
+                        "value": "[concat(parameters('containerInstanceNamePrefix'), '-wkr')]"
+                    },
+                    "containerName": {
+                        "value": "[concat(parameters('containerInstanceNamePrefix'), '-wkr')]"
+                    },
+                    "imageName": {
+                        "value": "[variables('containerImageName')]"
+                    },
+		    "command": {
+		        "value": ["/bin/sh",  "-c", "bundle exec sidekiq -c 5"]
+		    },
+                    "environmentVariables": {
+                        "value": [
+                            {
+                                "name": "RAILS_ENV",
+                                "value": "[parameters('railsEnv')]"
+                            },
+                            {
+                                "name": "DB_DATABASE",
+                                "value": "[parameters('databaseName')]"
+                            },
+                            {
+                                "name": "DB_HOSTNAME",
+                                "value": "[reference('postgresql-server').outputs.fullyQualifiedDomainName.value]"
+                            },
+                            {
+                                "name": "DB_PASSWORD",
+                                "secureValue": "[parameters('databasePassword')]"
+                            },
+                            {
+                                "name": "DB_USERNAME",
+                                "value": "[concat(parameters('databaseUsername'), '@', variables('databaseServerName'))]"
+                            },
+                            {
+                                "name": "AUTHORISED_HOSTS",
+                                "value": "[variables('rubyAuthHosts')]"
+                            },
+                            {
+                                "name": "SECRET_KEY_BASE",
+                                "secureValue": "[parameters('secretKeyBase')]"
+                            },
+                            {
+                                "name": "SENTRY_DSN",
+                                "value": "[parameters('sentryDSN')]"
+                            },
+                            {
+                                "name": "SUPPORT_USERNAME",
+                                "value": "[parameters('supportUsername')]"
+                            },
+                            {
+                                "name": "SUPPORT_PASSWORD",
+                                "secureValue": "[parameters('supportPassword')]"
+                            },
+                            {
+                                "name": "GOVUK_NOTIFY_API_KEY",
+                                "secureValue": "[parameters('govukNotifyAPIKey')]"
+                            },
+                            {
+                                "name": "LOGSTASH_ENABLE",
+                                "value": "[parameters('logstashEnable')]"
+                            },
+                            {
+                                "name": "LOGSTASH_REMOTE",
+                                "value": "[parameters('logstashRemote')]"
+                            },
+                            {
+                                "name": "LOGSTASH_HOST",
+                                "value": "[parameters('logstashHost')]"
+                            },
+                            {
+                                "name": "LOGSTASH_PORT",
+                                "value": "[parameters('logstashPort')]"
+                            },
+                            {
+                                "name": "LOGSTASH_SSL",
+                                "value": "[parameters('logstashSsl')]"
+                            },
+                            {
+                                "name": "FIND_BASE_URL",
+                                "value": "[parameters('findBaseUrl')]"
+                            },
+                            {
+                                "name": "SERVICE_TYPE",
+                                "value": "worker"
+                            },
+                            {
+                                "name": "REDIS_URL",
+                                "secureValue": "[concat('rediss://:', listKeys(resourceId('Microsoft.Cache/Redis', parameters('redisCacheName')), '2018-03-01').primaryKey, '@', parameters('redisCacheName'), '.redis.cache.windows.net:6380')]"
+                            }
+                        ]
+                    }
+                }
+            },
+            "dependsOn": [
+                "redis-cache",
+		"postgresql-database"
+            ]
+        },
+        {
+            "name": "container-instances-clock",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'), 'container-instances.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "containerInstanceName": {
+                        "value": "[concat(parameters('containerInstanceNamePrefix'), '-clk')]"
+                    },
+                    "containerName": {
+                        "value": "[concat(parameters('containerInstanceNamePrefix'), '-clk')]"
+                    },
+                    "imageName": {
+                        "value": "[variables('containerImageName')]"
+                    },
+		    "command": {
+		        "value": ["/bin/sh", "-c", "bundle exec clockwork config/clock.rb"]
+		    },
+                    "environmentVariables": {
+                        "value": [
+                            {
+                                "name": "RAILS_ENV",
+                                "value": "[parameters('railsEnv')]"
+                            },
+                            {
+                                "name": "DB_DATABASE",
+                                "value": "[parameters('databaseName')]"
+                            },
+                            {
+                                "name": "DB_HOSTNAME",
+                                "value": "[reference('postgresql-server').outputs.fullyQualifiedDomainName.value]"
+                            },
+                            {
+                                "name": "DB_PASSWORD",
+                                "secureValue": "[parameters('databasePassword')]"
+                            },
+                            {
+                                "name": "DB_USERNAME",
+                                "value": "[concat(parameters('databaseUsername'), '@', variables('databaseServerName'))]"
+                            },
+                            {
+                                "name": "AUTHORISED_HOSTS",
+                                "value": "[variables('rubyAuthHosts')]"
+                            },
+                            {
+                                "name": "SECRET_KEY_BASE",
+                                "secureValue": "[parameters('secretKeyBase')]"
+                            },
+                            {
+                                "name": "SENTRY_DSN",
+                                "value": "[parameters('sentryDSN')]"
+                            },
+                            {
+                                "name": "SUPPORT_USERNAME",
+                                "value": "[parameters('supportUsername')]"
+                            },
+                            {
+                                "name": "SUPPORT_PASSWORD",
+                                "secureValue": "[parameters('supportPassword')]"
+                            },
+                            {
+                                "name": "GOVUK_NOTIFY_API_KEY",
+                                "secureValue": "[parameters('govukNotifyAPIKey')]"
+                            },
+                            {
+                                "name": "LOGSTASH_ENABLE",
+                                "value": "[parameters('logstashEnable')]"
+                            },
+                            {
+                                "name": "LOGSTASH_REMOTE",
+                                "value": "[parameters('logstashRemote')]"
+                            },
+                            {
+                                "name": "LOGSTASH_HOST",
+                                "value": "[parameters('logstashHost')]"
+                            },
+                            {
+                                "name": "LOGSTASH_PORT",
+                                "value": "[parameters('logstashPort')]"
+                            },
+                            {
+                                "name": "LOGSTASH_SSL",
+                                "value": "[parameters('logstashSsl')]"
+                            },
+                            {
+                                "name": "FIND_BASE_URL",
+                                "value": "[parameters('findBaseUrl')]"
+                            },
+                            {
+                                "name": "SERVICE_TYPE",
+                                "value": "clock"
+                            },
+                            {
+                                "name": "REDIS_URL",
+                                "secureValue": "[concat('rediss://:', listKeys(resourceId('Microsoft.Cache/Redis', parameters('redisCacheName')), '2018-03-01').primaryKey, '@', parameters('redisCacheName'), '.redis.cache.windows.net:6380')]"
+                            }
+                        ]
+                    }
+                }
+            },
+            "dependsOn": [
+                "redis-cache",
+		"postgresql-database"
             ]
         },
         {

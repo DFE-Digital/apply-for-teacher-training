@@ -93,8 +93,15 @@ GEM
     childprocess (3.0.0)
     choice (0.2.0)
     climate_control (0.2.0)
+    clockwork (2.0.4)
+      activesupport
+      tzinfo
+    clockwork-test (0.3.0)
+      clockwork
+      timecop
     coderay (1.1.2)
     concurrent-ruby (1.1.5)
+    connection_pool (2.2.2)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.5)
@@ -153,6 +160,7 @@ GEM
     faraday_middleware (0.13.1)
       faraday (>= 0.7.4, < 1.0)
     ffi (1.11.1)
+    foreman (0.86.0)
     formatador (0.2.5)
     gherkin (5.1.0)
     globalid (0.4.2)
@@ -258,6 +266,8 @@ GEM
     puma (4.3.0)
       nio4r (~> 2.0)
     rack (2.0.7)
+    rack-protection (2.0.7)
+      rack
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
@@ -299,9 +309,12 @@ GEM
     rb-inotify (0.10.0)
       ffi (~> 1.0)
     redcarpet (3.5.0)
+    redis (4.1.3)
     regexp_parser (1.6.0)
     request_store (1.4.1)
       rack (>= 1.4)
+    request_store_rails (2.0.0)
+      concurrent-ruby (~> 1.0)
     responders (3.0.0)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -359,6 +372,11 @@ GEM
     shellany (0.0.1)
     shoulda-matchers (4.1.2)
       activesupport (>= 4.2.0)
+    sidekiq (6.0.3)
+      connection_pool (>= 2.2.2)
+      rack (>= 2.0.0)
+      rack-protection (>= 2.0.0)
+      redis (>= 4.1.0)
     simplecov (0.17.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -413,6 +431,8 @@ DEPENDENCIES
   capybara (>= 3.24)
   capybara-email
   climate_control
+  clockwork
+  clockwork-test
   cucumber-rails
   database_cleaner
   devise
@@ -420,6 +440,7 @@ DEPENDENCIES
   erb_lint
   factory_bot_rails
   faker
+  foreman
   govuk-lint
   govuk_design_system_formbuilder (= 0.9.8)
   guard-rspec
@@ -440,12 +461,14 @@ DEPENDENCIES
   rails (~> 6.0)
   rails-erd
   redcarpet
+  request_store_rails
   rspec-rails
   rspec_junit_formatter
   rubocop-rspec
   selenium-webdriver
   sentry-raven
   shoulda-matchers (~> 4.1)
+  sidekiq
   simplecov
   timecop
   uk_postcode

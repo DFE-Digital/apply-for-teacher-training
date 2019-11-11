@@ -43,11 +43,17 @@ gem 'holidays'
 gem 'lograge'
 gem 'logstash-logger'
 gem 'logstash-event'
+gem 'request_store_rails'
+
+# Background processing
+gem 'sidekiq'
+gem 'clockwork'
 
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.3'
   gem 'rails-erd'
+  gem 'foreman'
 end
 
 group :test do
@@ -64,6 +70,7 @@ group :test do
   gem 'simplecov', require: false
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
+  gem 'clockwork-test'
 end
 
 group :development, :test do

@@ -66,3 +66,7 @@ RSpec/LeadingSubject:
 # In acceptance tests it's often handy to user instance variables to keep track of state
 RSpec/InstanceVariable:
   Enabled: false
+
+RSpec/PredicateMatcher:
+  Exclude:
+    - 'spec/support_specs/clockwork_spec.rb'

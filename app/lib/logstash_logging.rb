@@ -1,49 +1,76 @@
+require 'request_store_rails'
+
 class LogstashLogging
   DOMAIN_FOR_LOGS = Rails.env.production? ? HostingEnvironment.hostname : Socket.gethostname
+  SERVICE_TYPE = ENV['SERVICE_TYPE'] # e.g. web, worker or clock
 
-  def self.enable(config)
-    config.log_level = :info # :debug does not make sense with lograge + logstash
+  def self.enable(rails_config)
+    # Add custom attributes to the log (domain, params etc.)
+    LogStashLogger.configure do |logstash_config|
+      logstash_config.customize_event do |event|
+        event['domain'] = DOMAIN_FOR_LOGS
+        event['service'] = SERVICE_TYPE
+        params = RequestLocals.fetch(:params) {} # block is required
+        if params
+          event['params'] = params # add query params to the logs, if available
+        end
+        add_identity_fields(event)
+        add_sidekiq_fields(event)
+      end
+    end
 
-    # Use default logging formatter so that PID and timestamp are not suppressed.
-    config.log_formatter = ::Logger::Formatter.new
+    # Use lograge to force Rails use one log line per request, in Logstash json format
+    lograge_config(rails_config)
 
-    # Prepend all STDOUT log lines with the following tags
-    config.log_tags = [:request_id]
+    # Log destination: log to STDOUT, plus to a remote Logstash server, if required
+    logstash_logger = \
+      if ENV['LOGSTASH_REMOTE'] == 'true'
+        LogStashLogger.new(
+          type: :multi_delegator,
+          outputs: [
+            { type: :stdout }, # good practice for Docker containers
+            {
+              type: :tcp,
+              host: ENV.fetch('LOGSTASH_HOST'),
+              port: ENV.fetch('LOGSTASH_PORT'),
+              ssl_enable: ENV.fetch('LOGSTASH_SSL') == 'true',
+            },
+          ],
+        )
+      else
+        LogStashLogger.new(type: :stdout)
+      end
 
-    # Make stdout_logger the standard Rails logger
-    stdout_logger = ActiveSupport::Logger.new(STDOUT)
-    stdout_logger.formatter = config.log_formatter
-    config.logger = ActiveSupport::TaggedLogging.new(stdout_logger)
+    # Make logstash_logger the default logger for Rails, Sidekiq and clockwork
+    rails_config.logger = logstash_logger
+    Sidekiq.logger = logstash_logger
+    Clockwork.configure { |config| config[:logger] = logstash_logger }
+  end
 
-    # Use lograge for one log line per request, in json format for Logstash
-    config.lograge.enabled = true # lograge uses one log line per request
-    config.lograge.base_controller_class = [
+  def self.lograge_config(rails_config)
+    rails_config.lograge.enabled = true # lograge uses one log line per request
+    rails_config.lograge.base_controller_class = [
       'ActionController::Base',
       'ActionController::API', # API controllers inherit from ActionController::API
     ]
-    config.lograge.formatter = Lograge::Formatters::Logstash.new
-
-    # Add query params to the log format - lograge usually ignores them
-    config.lograge.custom_options = lambda do |event|
-      ignore_params = %w(candidate authenticity_token)
-      {
-        domain: DOMAIN_FOR_LOGS,
-        params: event.payload[:params].except(*ignore_params),
-        candidate_id: event.payload[:candidate_id],
-        vendor_api_token_id: event.payload[:vendor_api_token_id],
-        provider_id: event.payload[:provider_id],
-        exception: event.payload[:exception], # ["ExceptionClass", "the message"]
-      }
+    # Add exception to the lograge log format
+    rails_config.lograge.custom_options = lambda do |event|
+      { exception: event.payload[:exception] } # ["ExceptionClass", "the message"]
     end
+    rails_config.lograge.formatter = Lograge::Formatters::Logstash.new
+  end
 
-    if ENV['LOGSTASH_REMOTE'] == 'true'
-      tcp_logger = LogStashLogger.new(type: :tcp,
-                                      host: ENV.fetch('LOGSTASH_HOST'),
-                                      port: ENV.fetch('LOGSTASH_PORT'),
-                                      ssl_enable: ENV.fetch('LOGSTASH_SSL') == 'true')
+  def self.add_identity_fields(event)
+    identity_hash = RequestLocals.fetch(:identity) {} # block is required
+    identity_hash.each { |key, val| event[key] = val } if identity_hash
+  end
 
-      # tell Rails logger to broadcast logs to additional location
-      config.logger.extend(ActiveSupport::Logger.broadcast(tcp_logger))
+  def self.add_sidekiq_fields(event)
+    tid = Thread.current['sidekiq_tid']
+    if !tid.blank?
+      ctx = Sidekiq::Context.current
+      event['tid'] = tid
+      event['ctx'] = ctx
     end
   end
 end

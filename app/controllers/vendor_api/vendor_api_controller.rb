@@ -1,12 +1,14 @@
 module VendorApi
   class VendorApiController < ActionController::API
     include ActionController::HttpAuthentication::Token::ControllerMethods
+    include LogRequestParams
 
     rescue_from ActiveRecord::RecordNotFound, with: :application_not_found
     rescue_from ActionController::ParameterMissing, with: :parameter_missing
 
     before_action :set_cors_headers
     before_action :require_valid_api_token!
+    before_action :add_identity_to_log
 
     def audit_user
       return nil unless @metadata.present?
@@ -66,11 +68,12 @@ module VendorApi
       @current_provider ||= @current_vendor_api_token.provider
     end
 
-    # controller-specific additional info to included in lograge/logstash logs
-    def append_info_to_payload(payload)
-      super
-      payload[:vendor_api_token_id] = @current_vendor_api_token.try(:id)
-      payload[:provider_id] = current_provider.try(:id) if @current_vendor_api_token
+    # controller-specific additional info to include in logstash logs
+    def add_identity_to_log
+      RequestLocals.store[:identity] = {
+        vendor_api_token_id: @current_vendor_api_token&.id,
+        provider_id: current_provider&.id,
+      }
     end
 
     def validate_metadata!
