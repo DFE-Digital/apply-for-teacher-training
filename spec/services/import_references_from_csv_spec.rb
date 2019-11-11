@@ -16,9 +16,10 @@ RSpec.describe ImportReferencesFromCsv do
   describe 'processing a reference row from CSV' do
     it 'imports valid records from a CSV' do
       outcome = ImportReferencesFromCsv.process_row(csv_row)
-      expect(outcome[:reference_id]).to eq(first_reference.id)
-      expect(outcome[:updated]).to eq(true)
-      expect(outcome[:errors]).to eq(nil)
+      expect(outcome[:referee_email]).to eq(first_reference.email_address)
+      expect(outcome[:application_form]).to eq(application_form)
+      expect(outcome[:updated]).to be true
+      expect(outcome[:errors]).to be_nil
 
       expect(application_form.references.find_by!(email_address: 'ab@c.com').feedback).to eq('Feedback')
       application_form.application_choices.each { |choice| expect(choice.status).to eq('awaiting_references') }
@@ -41,7 +42,9 @@ RSpec.describe ImportReferencesFromCsv do
 
       csv_row[4] = 'Edited feedback'
       outcome = ImportReferencesFromCsv.process_row(csv_row)
-      expect(outcome[:updated]).to eq(false)
+      expect(outcome[:referee_email]).to eq(csv_row[1])
+      expect(outcome[:application_form]).to eq(application_form)
+      expect(outcome[:updated]).to be false
       expect(outcome[:errors]).to eq(['Reference already has feedback'])
 
       expect(application_form.references.find_by!(email_address: 'ab@c.com').feedback).to eq('Feedback')
@@ -51,8 +54,9 @@ RSpec.describe ImportReferencesFromCsv do
       csv_row[6] = 'not_an_id'
       outcome = ImportReferencesFromCsv.process_row(csv_row)
 
-      expect(outcome[:reference_id]).to eq('not_an_id')
-      expect(outcome[:updated]).to eq(false)
+      expect(outcome[:referee_email]).to eq(csv_row[1])
+      expect(outcome[:application_form]).to be_nil
+      expect(outcome[:updated]).to be false
       expect(outcome[:errors]).to eq(["No application found for reference with ID 'not_an_id'"])
     end
 
@@ -60,6 +64,8 @@ RSpec.describe ImportReferencesFromCsv do
       csv_row[1] = 'not_a_valid_email@email.com'
       outcome = ImportReferencesFromCsv.process_row(csv_row)
 
+      expect(outcome[:referee_email]).to eq(csv_row[1])
+      expect(outcome[:application_form]).to eq(application_form)
       expect(outcome[:updated]).to eq(false)
       expect(outcome[:errors]).to eq(['Referee email does not match any of the provided referees'])
     end

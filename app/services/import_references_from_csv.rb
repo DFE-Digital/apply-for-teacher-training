@@ -1,9 +1,9 @@
 require 'csv'
 
 class ImportReferencesFromCsv
-  def self.call
+  def self.call(csv_file:)
     outcomes = []
-    CSV.foreach('references.csv') do |row|
+    CSV.foreach(csv_file) do |row|
       # First column in the headers row of an exported Google Form is always Timestamp
       next if row[0] == 'Timestamp'
 
@@ -23,22 +23,24 @@ class ImportReferencesFromCsv
 
     if reference.feedback?
       {
-        reference_id: reference_id,
+        referee_email: referee_email,
+        application_form: application_form,
         updated: false,
         errors: ['Reference already has feedback'],
       }
     else
-      import_reference(application_form, referee_email, referee_feedback, reference_id)
+      import_reference(application_form, referee_email, referee_feedback)
     end
   rescue ActiveRecord::RecordNotFound
     {
-      reference_id: reference_id,
+      referee_email: referee_email,
+      application_form: nil,
       updated: false,
       errors: ["No application found for reference with ID '#{reference_id}'"],
     }
   end
 
-  def self.import_reference(application_form, referee_email, referee_feedback, reference_id)
+  def self.import_reference(application_form, referee_email, referee_feedback)
     reference = ReceiveReference.new(
       application_form: application_form,
       referee_email: referee_email,
@@ -48,7 +50,8 @@ class ImportReferencesFromCsv
     updated = !!reference.save
 
     {
-      reference_id: reference_id,
+      referee_email: referee_email,
+      application_form: application_form,
       updated: updated,
       errors: updated ? nil : reference.errors.full_messages,
     }

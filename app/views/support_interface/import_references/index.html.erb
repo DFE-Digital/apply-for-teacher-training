@@ -1,0 +1,19 @@
+<% content_for :title, 'Import references' %>
+<% content_for :before_content, govuk_back_link_to(support_interface_applications_path) %>
+
+<h1 class='govuk-heading-xl'>Import references</h1>
+
+<%= form_tag support_interface_import_references_path, method: :post, multipart: true do %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <p class="govuk-body">
+        You’ll need to <a href="https://docs.google.com/spreadsheets/d/18Lr1SWD20o_sPbyj7gsTwkaJO9jwL-YZTTdQfQOuIiw/export?format=csv" class="govuk-link" rel="download">download a CSV of the latest reference responses</a> from Google Docs before you can upload it here.</p>
+
+      <div class="govuk-form-group">
+        <%= label_tag 'csv_file', 'CSV file', class: 'govuk-label govuk-label--m' %>
+        <%= file_field_tag 'csv_file', class: 'govuk-file-upload' %>
+      </div>
+      <%= submit_tag('Import references', class: 'govuk-button') %>
+    </div>
+  </div>
+<% end %>

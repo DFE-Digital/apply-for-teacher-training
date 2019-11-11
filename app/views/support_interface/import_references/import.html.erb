@@ -1,0 +1,49 @@
+<% content_for :title, 'Import complete' %>
+
+<div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-9">
+  <h1 class="govuk-panel__title">
+    References imported
+  </h1>
+  <div class="govuk-panel__body">
+    <%= @successes.count %> updated, <%= @errors.count %> failed
+  </div>
+</div>
+
+<h2 class="govuk-heading-l">Import results</h2>
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header">Application</th>
+      <th class="govuk-table__header">Referee</th>
+      <th class="govuk-table__header">Updated?</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% @output.each do |result| %>
+      <tr class="govuk-table__row">
+
+        <td class="govuk-table__cell">
+          <%= govuk_link_to result[:application_form].full_name, support_interface_application_form_path(result[:application_form]) %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= result[:referee_email] %>
+        </td>
+        <td class="govuk-table__cell">
+          <% if result[:updated] %>
+            Yes
+          <% else %>
+            <span class="govuk-error-message">
+              No – <%= result[:errors].join('<br />') %>
+            <span>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= govuk_button_link_to 'Continue', support_interface_applications_path %>
+
+<p class="govuk-body">
+  <%= govuk_link_to 'Try again', support_interface_import_references_path %>
+</p>
