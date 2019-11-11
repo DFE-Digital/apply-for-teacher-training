@@ -16,44 +16,39 @@ class ImportReferencesFromCsv
   def self.process_row(row)
     referee_email    = row[1]
     referee_feedback = row[4]
-    application_id   = row[6]
+    reference_id     = row[6]
 
-    # TODO: Use support_reference rather than ID?
-    application_form = ApplicationForm.find(application_id)
+    reference = Reference.find(reference_id)
+    application_form = ApplicationForm.includes(:references).where(references: { id: reference_id }).first
 
-    if reference_has_feedback_already?(application_form, referee_email)
+    if reference.feedback?
       {
-        application_id: application_id,
+        reference_id: reference_id,
         updated: false,
         errors: ['Reference already has feedback'],
       }
     else
-      import_reference(application_form, referee_email, referee_feedback)
+      import_reference(application_form, referee_email, referee_feedback, reference_id)
     end
   rescue ActiveRecord::RecordNotFound
     {
-      application_id: application_id,
+      reference_id: reference_id,
       updated: false,
-      errors: ["No application found with ID '#{application_id}'"],
+      errors: ["No application found for reference with ID '#{reference_id}'"],
     }
   end
 
-  def self.reference_has_feedback_already?(application_form, referee_email)
-    reference = application_form.references.find_by(email_address: referee_email)
-    reference && reference.feedback
-  end
-
-  def self.import_reference(application_form, referee_email, feedback)
+  def self.import_reference(application_form, referee_email, referee_feedback, reference_id)
     reference = ReceiveReference.new(
       application_form: application_form,
       referee_email: referee_email,
-      reference: feedback,
+      reference: referee_feedback,
     )
 
     updated = !!reference.save
 
     {
-      application_id: application_form.id,
+      reference_id: reference_id,
       updated: updated,
       errors: updated ? nil : reference.errors.full_messages,
     }
