@@ -68,20 +68,20 @@ RSpec.describe GetApplicationChoicesForProvider do
       :application_choice,
       course_option: course_option_for_provider(provider: current_provider),
       status: 'awaiting_provider_decision',
-      application_form: create(:application_form, first_name: 'Aaron')
+      application_form: create(:application_form, first_name: 'Aaron'),
     )
 
     create(
       :application_choice,
       course_option: course_option_for_provider(provider: current_provider),
       status: 'awaiting_provider_decision',
-      application_form: create(:application_form, first_name: 'Jim')
+      application_form: create(:application_form, first_name: 'Jim'),
     )
     create(
       :application_choice,
       course_option: course_option_for_accrediting_provider(provider: alternate_provider, accrediting_provider: current_provider),
       status: 'awaiting_provider_decision',
-      application_form: create(:application_form, first_name: 'Harry')
+      application_form: create(:application_form, first_name: 'Harry'),
     )
 
     create_list(
@@ -93,6 +93,5 @@ RSpec.describe GetApplicationChoicesForProvider do
 
     returned_applications = GetApplicationChoicesForProvider.call(provider: current_provider)
     expect(returned_applications.size).to be(3)
-
   end
 end
