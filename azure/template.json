@@ -513,15 +513,23 @@
                             },
                             {
                                 "name": "SECRET_KEY_BASE",
-                                "value": "[parameters('secretKeyBase')]"
+                                "secureValue": "[parameters('secretKeyBase')]"
                             },
                             {
                                 "name": "SENTRY_DSN",
                                 "value": "[parameters('sentryDSN')]"
                             },
                             {
+                                "name": "SUPPORT_USERNAME",
+                                "value": "[parameters('supportUsername')]"
+                            },
+                            {
+                                "name": "SUPPORT_PASSWORD",
+                                "secureValue": "[parameters('supportPassword')]"
+                            },
+                            {
                                 "name": "GOVUK_NOTIFY_API_KEY",
-                                "value": "[parameters('govukNotifyAPIKey')]"
+                                "secureValue": "[parameters('govukNotifyAPIKey')]"
                             },
                             {
                                 "name": "LOGSTASH_ENABLE",
@@ -611,15 +619,23 @@
                             },
                             {
                                 "name": "SECRET_KEY_BASE",
-                                "value": "[parameters('secretKeyBase')]"
+                                "secureValue": "[parameters('secretKeyBase')]"
                             },
                             {
                                 "name": "SENTRY_DSN",
                                 "value": "[parameters('sentryDSN')]"
                             },
                             {
+                                "name": "SUPPORT_USERNAME",
+                                "value": "[parameters('supportUsername')]"
+                            },
+                            {
+                                "name": "SUPPORT_PASSWORD",
+                                "secureValue": "[parameters('supportPassword')]"
+                            },
+                            {
                                 "name": "GOVUK_NOTIFY_API_KEY",
-                                "value": "[parameters('govukNotifyAPIKey')]"
+                                "secureValue": "[parameters('govukNotifyAPIKey')]"
                             },
                             {
                                 "name": "LOGSTASH_ENABLE",
