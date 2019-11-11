@@ -18,10 +18,49 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
     it 'creates a new qualification if valid' do
       application_form = create(:application_form)
 
-      gcse_qualification_type = CandidateInterface::GcseQualificationTypeForm
-                                  .new(subject: 'maths', level: 'gcse', qualification_type: 'gsce')
+      form = CandidateInterface::GcseQualificationTypeForm
+                                  .new(subject: 'maths', level: 'gcse', qualification_type: 'gcse')
 
-      expect(gcse_qualification_type.save_base(application_form)).to eq(true)
+      form.save_base(application_form)
+
+      expect(form.subject).to eq('maths')
+      expect(form.level).to eq('gcse')
+      expect(form.qualification_type).to eq('gcse')
+    end
+
+    it 'builds the Form from the qualification model' do
+      application_form = create(:application_form)
+      qualification = application_form.application_qualifications.create!(
+        level: 'gcse',
+        subject: 'maths',
+        qualification_type: 'gcse',
+        )
+
+      form = CandidateInterface::GcseQualificationTypeForm.build_from_qualification(qualification)
+
+      expect(qualification.level).to eq 'gcse'
+      expect(qualification.subject).to eq 'maths'
+      expect(qualification.qualification_type).to eq 'gcse'
+      expect(qualification.id).to eq qualification.id
+      expect(form.new_record?).to be false
+    end
+
+
+    it 'update the existing qualification model' do
+      application_form = create(:application_form)
+      qualification = application_form.application_qualifications.create!(
+        level: 'gcse',
+        subject: 'maths',
+        qualification_type: 'gcse',
+        )
+
+      form = CandidateInterface::GcseQualificationTypeForm.build_from_qualification(qualification)
+
+      form.qualification_type = 'gce_o_level'
+
+      form.save_base(application_form)
+
+      expect(qualification.reload.qualification_type).to eq 'gce_o_level'
     end
   end
 end

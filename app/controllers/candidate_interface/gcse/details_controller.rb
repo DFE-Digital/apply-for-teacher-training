@@ -4,37 +4,28 @@ module CandidateInterface
 
     # 2nd step - Edit grade and award year
     def edit
-      application_qualification = ApplicationQualification.last
-
-      @application_qualification = GcseQualificationDetailsForm.new(
-        grade: application_qualification.grade,
-        award_year: application_qualification.award_year,
+      @application_qualification = GcseQualificationDetailsForm.build_from_qualification(
+        current_application.qualification_in_subject(:gcse, subject_param),
       )
     end
 
     def update
-      current_application_qualification = ApplicationQualification.last
-
-      details_form = GcseQualificationDetailsForm.new(
-        grade: params[:candidate_interface_gcse_qualification_details_form][:grade],
-        award_year: params[:candidate_interface_gcse_qualification_details_form][:award_year],
+      details_form = GcseQualificationDetailsForm.build_from_qualification(
+        current_application.qualification_in_subject(:gcse, subject_param),
       )
 
-      @application_qualification = details_form.save_base(current_application_qualification)
+      details_form.grade = details_params[:grade]
+      details_form.award_year = details_params[:award_year]
+
+      @application_qualification = details_form.save_base
 
       if @application_qualification
         redirect_to candidate_interface_gcse_review_path
       else
         @application_qualification = details_form
 
-        render :edit_details
+        render :edit
       end
-    end
-
-    def review
-      @application_qualification = ApplicationQualification.last
-
-      render :review
     end
 
   private
@@ -45,6 +36,10 @@ module CandidateInterface
 
     def subject_param
       params.require(:subject)
+    end
+
+    def details_params
+      params.require(:candidate_interface_gcse_qualification_details_form).permit(%i[grade award_year])
     end
   end
 end

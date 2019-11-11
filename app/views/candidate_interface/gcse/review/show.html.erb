@@ -4,5 +4,5 @@
 <div class="govuk-grid-row">
   <h1 class="govuk-heading-xl"><%= heading_for_gcse_show(@subject) %></h1>
 
-  <%= render(GcseQualificationReviewComponent, application_qualification: @application_qualification) %>
+  <%= render(GcseQualificationReviewComponent, application_qualification: @application_qualification, subject: @subject) %>
 </div>

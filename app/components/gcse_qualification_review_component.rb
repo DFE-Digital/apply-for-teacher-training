@@ -1,6 +1,7 @@
 class GcseQualificationReviewComponent < ActionView::Component::Base
-  def initialize(application_qualification:)
+  def initialize(application_qualification:, subject:)
     @application_qualification = application_qualification
+    @subject = subject
   end
 
   def gcse_qualification_rows
@@ -13,13 +14,13 @@ class GcseQualificationReviewComponent < ActionView::Component::Base
 
 private
 
-  attr_reader :application_qualification
+  attr_reader :application_qualification, :subject
 
   def qualification_row
     {
       key: t('application_form.degree.qualification.label'),
-      value: application_qualification.qualification_type.upcase,
-      change_path: 'edit_qualification_details_path',
+      value: gcse_qualification_types[application_qualification.qualification_type.to_sym],
+      change_path: candidate_interface_gcse_details_edit_type_path(subject: subject),
     }
   end
 
@@ -27,7 +28,7 @@ private
     {
       key: 'Year awarded',
       value: application_qualification.award_year,
-      change_path: 'edit_qualification_details_path',
+      change_path: candidate_interface_gcse_details_edit_details_path(subject: subject),
     }
   end
 
@@ -35,7 +36,16 @@ private
     {
       key: 'Grade',
       value: application_qualification.grade,
-      change_path: 'edit_qualification_details_path',
+      change_path: candidate_interface_gcse_details_edit_details_path(subject: subject),
+    }
+  end
+
+  def gcse_qualification_types
+    {
+      gcse: 'GCSE',
+      gce_o_level: 'GCE O Level',
+      scottish_higher: 'Scottish Higher',
+      other_uk: 'Other UK qualification',
     }
   end
 end

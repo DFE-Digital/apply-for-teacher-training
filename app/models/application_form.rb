@@ -16,5 +16,12 @@ class ApplicationForm < ApplicationRecord
     references.any? && references.all?(&:complete?)
   end
 
+  def qualification_in_subject(level, subject)
+    application_qualifications
+      .where(level: level, subject: subject)
+      .order(created_at: 'asc')
+      .first
+  end
+
   audited
 end

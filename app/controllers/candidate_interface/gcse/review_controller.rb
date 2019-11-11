@@ -3,7 +3,7 @@ module CandidateInterface
     before_action :set_subject
 
     def show
-      @application_qualification = ApplicationQualification.last
+      @application_qualification = current_application.qualification_in_subject(:gcse, subject_param)
     end
 
   private
