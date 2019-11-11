@@ -10,7 +10,10 @@ RSpec.describe CandidateInterface::TrainingWithADisabilityForm, type: :model do
       application_form = build_stubbed(:application_form, data)
       disability_form = CandidateInterface::TrainingWithADisabilityForm.build_from_application(application_form)
 
-      expect(disability_form).to have_attributes(data)
+      expect(disability_form).to have_attributes(
+        disclose_disability: 'yes',
+        disability_disclosure: 'I have difficulty climbing stairs',
+      )
     end
   end
 
@@ -33,21 +36,24 @@ RSpec.describe CandidateInterface::TrainingWithADisabilityForm, type: :model do
     context 'when valid and the user wants to disclose a disability' do
       let(:form_data) do
         {
-          disclose_disability: true,
+          disclose_disability: 'yes',
           disability_disclosure: 'I have a hearing impairment',
         }
       end
 
       it 'updates the provided ApplicationForm' do
         expect(disability_form.save(application_form)).to eq(true)
-        expect(application_form).to have_attributes(form_data)
+        expect(application_form).to have_attributes(
+          disclose_disability: true,
+          disability_disclosure: 'I have a hearing impairment',
+        )
       end
     end
 
     context 'when valid and the user does not want to disclose a disability' do
       let(:form_data) do
         {
-          disclose_disability: false,
+          disclose_disability: 'no',
           disability_disclosure: 'I have a hearing impairment',
         }
       end
@@ -68,6 +74,6 @@ RSpec.describe CandidateInterface::TrainingWithADisabilityForm, type: :model do
   end
 
   describe 'validations' do
-    it { is_expected.to validate_inclusion_of(:disclose_disability).in_array([true, false]) }
+    it { is_expected.to validate_inclusion_of(:disclose_disability).in_array %w[yes no] }
   end
 end

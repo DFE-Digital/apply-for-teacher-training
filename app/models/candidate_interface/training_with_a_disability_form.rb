@@ -4,11 +4,11 @@ module CandidateInterface
 
     attr_accessor :disclose_disability, :disability_disclosure
 
-    validates_inclusion_of :disclose_disability, in: [true, false, 'true', 'false']
+    validates_inclusion_of :disclose_disability, in: %w[yes no]
 
     def self.build_from_application(application_form)
       new(
-        disclose_disability: application_form.disclose_disability,
+        disclose_disability: boolean_to_word(application_form.disclose_disability),
         disability_disclosure: application_form.disability_disclosure,
       )
     end
@@ -18,15 +18,30 @@ module CandidateInterface
 
       # explicitly null-out the text field if the user said 'No'
       # so that we don't need to add the boolean field to the API:
-      # it just returns null if they said No
-      # Note also that we can't just test for == false, due to how Ruby / Rails
-      # manage string parameters & implicit type conversions
-      self.disability_disclosure = nil if self.disclose_disability.to_s == 'false'
+      # it just returns null for the text field if they said No
+      self.disability_disclosure = nil if self.disclose_disability.to_s == 'no'
 
       application_form.update!(
-        disclose_disability: self.disclose_disability,
+        disclose_disability: yes_no_to_boolean(self.disclose_disability),
         disability_disclosure: self.disability_disclosure,
       )
+    end
+
+    def self.boolean_to_word(boolean)
+      return nil if boolean.nil?
+
+      boolean ? 'yes' : 'no'
+    end
+
+  private
+
+    def yes_no_to_boolean(value)
+      if value == 'yes'
+        true
+      elsif value == 'no'
+        false
+      end
+      # nil by default
     end
   end
 end

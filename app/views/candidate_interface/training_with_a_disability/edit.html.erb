@@ -18,11 +18,11 @@
           <p class="govuk-body"><%= govuk_link_to 'The Equality Act 2010', 'https://www.gov.uk/guidance/equality-act-2010-guidance' %> and Special Educational Needs and Disability Act 2001, require teacher training providers to ensure they are not discriminating against applicants with disabilities or special educational needs (SEN).</p>
 
         <%= f.govuk_radio_buttons_fieldset :disclose_disability, legend: { size: 'm', text: t('application_form.training_with_a_disability.disclose_disability.label') } do %>
-          <%= f.govuk_radio_button :disclose_disability, true, label: { text: t('application_form.training_with_a_disability.disclose_disability.yes') } do %>
+          <%= f.govuk_radio_button :disclose_disability, 'yes', label: { text: t('application_form.training_with_a_disability.disclose_disability.yes') } do %>
             <%= f.govuk_text_area :disability_disclosure, rows: 24, label: { text: t('application_form.training_with_a_disability.disability_disclosure.label') }, max_words: 400 %>
           <% end %>
 
-          <%= f.govuk_radio_button :disclose_disability, false, label: { text: t('application_form.training_with_a_disability.disclose_disability.no') } %>
+          <%= f.govuk_radio_button :disclose_disability, 'no', label: { text: t('application_form.training_with_a_disability.disclose_disability.no') } %>
 
         <% end %>
 
