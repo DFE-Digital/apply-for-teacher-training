@@ -53,6 +53,35 @@ module CandidateHelper
     fill_in t('application_form.training_with_a_disability.disability_disclosure.label'), with: 'I have difficulty climbing stairs'
   end
 
+  def candidate_fills_in_work_experience
+    with_options scope: 'application_form.work_history' do |locale|
+      fill_in locale.t('role.label'), with: 'Teacher'
+      fill_in locale.t('organisation.label'), with: 'Oakleaf Primary School'
+      choose 'Full-time'
+
+      within('[data-qa="start-date"]') do
+        fill_in 'Month', with: '5'
+        fill_in 'Year', with: '2014'
+      end
+
+      within('[data-qa="end-date"]') do
+        fill_in 'Month', with: '1'
+        fill_in 'Year', with: '2019'
+      end
+
+      fill_in locale.t('details.label'), with: 'I learned a lot about teaching'
+
+      choose 'No'
+    end
+  end
+
+  def candidate_fills_in_a_gcse
+    choose('GCSE')
+    click_button 'Save and continue'
+    fill_in 'Enter your qualification grade', with: 'B'
+    fill_in 'Enter the year you gained your qualification', with: '1990'
+  end
+
   def current_candidate
     @current_candidate ||= create(:candidate)
   end
