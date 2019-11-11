@@ -29,4 +29,5 @@ Feature: references
     When the date is "2019-11-11"
     Then the new application choice status is "application_complete"
     When the date is "2019-11-12"
+    And the daily application cron job has run
     Then the new application choice status is "awaiting_provider_decision"

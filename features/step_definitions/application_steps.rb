@@ -21,7 +21,7 @@ When('{string} provides a reference') do |referee_email|
   action = ReceiveReference.new(
     application_form: @application_choice.application_form,
     referee_email: referee_email,
-    reference: Faker::Lorem.paragraphs(number: 2),
+    feedback: Faker::Lorem.paragraphs(number: 2),
 )
   expect(action.save).to be_truthy
 end
@@ -32,4 +32,8 @@ end
 
 Then('the new application choice status is {string}') do |new_application_status|
   expect(@application_choice.reload.status).to eq(new_application_status.parameterize(separator: '_'))
+end
+
+When('the daily application cron job has run') do
+  # TODO:
 end
