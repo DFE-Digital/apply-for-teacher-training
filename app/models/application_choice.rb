@@ -13,11 +13,15 @@ class ApplicationChoice < ApplicationRecord
     joins(application_form: :references)
       .where('feedback is not null')
       .where('edit_by < ?', Time.zone.now)
-      .where(state: :application_complete)
+      .where(status: :application_complete)
       .group('application_choices.id')
       .having('count("references"."feedback") >= 2')
   }
 
+  # ApplicationChoice.joins(application_form: :references).where('feedback is not null').where('edit_by < ?', Time.zone.now)
+  #     .where(status: :application_complete)
+  #     .group('application_choices.id')
+  #     .having('count("references"."feedback") >= 2')
   enum status: {
     unsubmitted: 'unsubmitted',
     awaiting_references: 'awaiting_references',
