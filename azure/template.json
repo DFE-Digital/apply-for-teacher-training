@@ -449,7 +449,7 @@
                             },
                             {
                                 "name": "SERVICE_TYPE",
-                                "value": "Web"
+                                "value": "web"
                             },
                             {
                                 "name": "DISABLE_BASIC_AUTH_FOR_LANDING_PAGE",
@@ -561,7 +561,7 @@
                             },
                             {
                                 "name": "SERVICE_TYPE",
-                                "value": "Worker"
+                                "value": "worker"
                             },
                             {
                                 "name": "REDIS_URL",
@@ -671,7 +671,7 @@
                             },
                             {
                                 "name": "SERVICE_TYPE",
-                                "value": "Clock"
+                                "value": "clock"
                             },
                             {
                                 "name": "REDIS_URL",
