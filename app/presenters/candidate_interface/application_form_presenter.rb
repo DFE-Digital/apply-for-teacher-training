@@ -41,5 +41,17 @@ module CandidateInterface
     def other_qualifications_added?
       @application_form.application_qualifications.other.any?
     end
+
+    def becoming_a_teacher_completed?
+      CandidateInterface::BecomingATeacherForm.build_from_application(@application_form).valid?
+    end
+
+    def subject_knowledge_completed?
+      CandidateInterface::SubjectKnowledgeForm.build_from_application(@application_form).valid?
+    end
+
+    def interview_preferences_completed?
+      CandidateInterface::InterviewPreferencesForm.build_from_application(@application_form).valid?
+    end
   end
 end

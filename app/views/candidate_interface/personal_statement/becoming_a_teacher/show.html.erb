@@ -1,0 +1,17 @@
+<% content_for :title, page_title('becoming_a_teacher') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<h1 class="govuk-heading-xl">
+  <%= t('page_titles.becoming_a_teacher') %>
+</h1>
+
+<p class="govuk-body govuk-!-font-weight-bold">Before you submit your application:</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li>proofread your answer carefully for spelling and grammar</li>
+  <li>ask someone you trust for their opinion</li>
+  <li>ensure this piece of writing is all your own work – plagiarism will be penalised</li>
+</ul>
+
+<%= render(BecomingATeacherReviewComponent, application_form: @becoming_a_teacher_form) %>
+
+<%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>

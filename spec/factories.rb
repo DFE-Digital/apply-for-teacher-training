@@ -28,6 +28,9 @@ FactoryBot.define do
       postcode { Faker::Address.postcode }
       degrees_completed { [true, false].sample }
       other_qualifications_completed { [true, false].sample }
+      becoming_a_teacher { Faker::Lorem.paragraph_by_chars(number: 500) }
+      subject_knowledge { Faker::Lorem.paragraph_by_chars(number: 300) }
+      interview_preferences { Faker::Lorem.paragraph_by_chars(number: 100) }
 
       transient do
         application_choices_count { 3 }

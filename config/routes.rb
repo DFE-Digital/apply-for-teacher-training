@@ -37,6 +37,20 @@ Rails.application.routes.draw do
         get '/review' => 'personal_details#show', as: :personal_details_show
       end
 
+      scope '/personal-statement' do
+        get '/becoming-a-teacher' => 'personal_statement/becoming_a_teacher#edit', as: :becoming_a_teacher_edit
+        post '/becoming-a-teacher/review' => 'personal_statement/becoming_a_teacher#update', as: :becoming_a_teacher_update
+        get '/becoming-a-teacher/review' => 'personal_statement/becoming_a_teacher#show', as: :becoming_a_teacher_show
+
+        get '/subject-knowledge' => 'personal_statement/subject_knowledge#edit', as: :subject_knowledge_edit
+        post '/subject-knowledge/review' => 'personal_statement/subject_knowledge#update', as: :subject_knowledge_update
+        get '/subject-knowledge/review' => 'personal_statement/subject_knowledge#show', as: :subject_knowledge_show
+
+        get '/interview-preferences' => 'personal_statement/interview_preferences#edit', as: :interview_preferences_edit
+        post '/interview-preferences/review' => 'personal_statement/interview_preferences#update', as: :interview_preferences_update
+        get '/interview-preferences/review' => 'personal_statement/interview_preferences#show', as: :interview_preferences_show
+      end
+
       scope '/contact-details' do
         get '/' => 'contact_details/base#edit', as: :contact_details_edit_base
         post '/' => 'contact_details/base#update', as: :contact_details_update_base
