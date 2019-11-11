@@ -12,9 +12,18 @@
 
       <%= f.govuk_radio_buttons_fieldset :qualification_type, legend: { size: 'm', text: 'Type of qualification' } do %>
         <% select_gcse_qualification_type_options.each do |option| %>
-          <%= f.govuk_radio_button :qualification_type, option.id, label: { text: option.label } %>
-        <% end %>
+          <% puts option.inspect %>
+          <% if conditional_radios[option.id] %>
+            <% puts '>>>> '%>
+            <% puts conditional_radios[option.id] %>
 
+            <%= f.govuk_radio_button :qualification_type, option.id, label: { text: option.label } do %>
+              <% f.govuk_text_field :other_uk_qualification_type, label: { text: 'Enter type of qualification' } %>
+            <% end %>
+          <% else %>
+            <%= f.govuk_radio_button :qualification_type, option.id, label: { text: option.label } %>
+          <% end %>
+        <% end %>
       <% end %>
 
       <%= f.submit 'Save and continue', class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
