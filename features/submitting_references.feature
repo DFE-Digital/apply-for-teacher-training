@@ -11,7 +11,7 @@ Feature: references
   Scenario: an application isn't complete until it's received two references
     Given an application choice has "unsubmitted" status
     And the candidate has specified "j.moriarty@uni.ac.uk" and 's.skinner@springfield-elementary.edu' as referees
-    And the candidate takes action "submit"
+    And the candidate submits the application
     Then the new application choice status is "awaiting_references"
     When "j.moriarty@uni.ac.uk" provides a reference
     Then the new application choice status is "awaiting_references"
@@ -22,7 +22,7 @@ Feature: references
     Given an application choice has "unsubmitted" status
     And the candidate has specified "j.moriarty@uni.ac.uk" and 's.skinner@springfield-elementary.edu' as referees
     And the date is "2019-11-04"
-    And the candidate takes action "submit"
+    And the candidate submits the application
     And "j.moriarty@uni.ac.uk" provides a reference
     And "s.skinner@springfield-elementary.edu" provides a reference
     Then the new application choice status is "application_complete"
