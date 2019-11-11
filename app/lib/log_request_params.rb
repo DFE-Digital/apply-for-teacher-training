@@ -1,5 +1,5 @@
 module LogRequestParams
-  IGNORE_PARAMS = %w(candidate authenticity_token).freeze
+  IGNORE_PARAMS = %w(authenticity_token).freeze
 
   def self.included(base)
     base.class_eval do
