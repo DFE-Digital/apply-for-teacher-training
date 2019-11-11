@@ -59,4 +59,40 @@ RSpec.describe GetApplicationChoicesForProvider do
     valid_states = ApplicationStateChange.valid_states
     expect(valid_states).to include(*GetApplicationChoicesForProvider::STATES_NOT_VISIBLE_TO_PROVIDER)
   end
+
+  it 'returns application_choice that the provider is the accrediting body for' do
+    current_provider = create(:provider, code: 'BAT')
+    alternate_provider = create(:provider, code: 'DIFFERENT')
+
+    create(
+      :application_choice,
+      course_option: course_option_for_provider(provider: current_provider),
+      status: 'awaiting_provider_decision',
+      application_form: create(:application_form, first_name: 'Aaron')
+    )
+
+    create(
+      :application_choice,
+      course_option: course_option_for_provider(provider: current_provider),
+      status: 'awaiting_provider_decision',
+      application_form: create(:application_form, first_name: 'Jim')
+    )
+    create(
+      :application_choice,
+      course_option: course_option_for_accrediting_provider(provider: alternate_provider, accrediting_provider: current_provider),
+      status: 'awaiting_provider_decision',
+      application_form: create(:application_form, first_name: 'Harry')
+    )
+
+    create_list(
+      :application_choice,
+      4,
+      course_option: course_option_for_provider(provider: alternate_provider),
+      status: 'awaiting_provider_decision',
+    )
+
+    returned_applications = GetApplicationChoicesForProvider.call(provider: current_provider)
+    expect(returned_applications.size).to be(3)
+
+  end
 end
