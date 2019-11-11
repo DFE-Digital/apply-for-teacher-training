@@ -318,6 +318,11 @@ en:
             end_date:
               invalid: Enter an end date in the correct format, for example 5 2019
               in_the_future: Enter an end date that is not in the future
+        candidate_interface/work_breaks_form:
+          attributes:
+            work_history_breaks:
+              blank: Please explain any breaks in your work history
+              too_long: Explanation of any breaks in your work history must be %{count} characters or fewer
         candidate_interface/gcse_qualification_details_form:
           attributes:
             grade:
