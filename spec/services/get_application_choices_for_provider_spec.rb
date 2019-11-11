@@ -91,7 +91,17 @@ RSpec.describe GetApplicationChoicesForProvider do
       status: 'awaiting_provider_decision',
     )
 
+    create(
+      :application_choice,
+      course_option: course_option_for_provider(provider: alternate_provider),
+      status: 'awaiting_provider_decision',
+      application_form: create(:application_form, first_name: 'Alex'),
+    )
+
     returned_applications = GetApplicationChoicesForProvider.call(provider: current_provider)
-    expect(returned_applications.size).to be(3)
+    returned_application_names = returned_applications.map { |a| a.application_form.first_name }
+
+    expect(returned_application_names).to include('Aaron', 'Jim', 'Harry')
+    expect(returned_application_names).not_to include('Alex')
   end
 end
