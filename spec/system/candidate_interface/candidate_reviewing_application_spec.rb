@@ -9,6 +9,7 @@ RSpec.feature 'Candidate reviews the answers' do
     and_i_filled_in_contact_details
     and_i_filled_in_degrees
     and_i_filled_in_other_qualifications
+    and_i_filled_in_disability_info
     and_i_visit_the_application_form_page
 
     when_i_click_on_check_your_answers
@@ -18,6 +19,7 @@ RSpec.feature 'Candidate reviews the answers' do
     and_i_can_see_my_contact_details
     and_i_can_see_my_degree
     and_i_can_see_my_other_qualification
+    and_i_can_see_my_disability_info
   end
 
   def given_i_am_signed_in
@@ -50,6 +52,13 @@ RSpec.feature 'Candidate reviews the answers' do
     candidate_fills_in_their_other_qualifications
 
     click_button t('application_form.other_qualification.base.button')
+  end
+
+  def and_i_filled_in_disability_info
+    visit candidate_interface_training_with_a_disability_edit_path
+    candidate_fills_in_disability_info
+
+    click_button t('application_form.training_with_a_disability.complete_form_button')
   end
 
   def and_i_visit_the_application_form_page
@@ -90,5 +99,9 @@ RSpec.feature 'Candidate reviews the answers' do
     expect(page).to have_content 'Yugi College'
     expect(page).to have_content 'A'
     expect(page).to have_content '2015'
+  end
+
+  def and_i_can_see_my_disability_info
+    expect(page).to have_content 'I have difficulty climbing stairs'
   end
 end

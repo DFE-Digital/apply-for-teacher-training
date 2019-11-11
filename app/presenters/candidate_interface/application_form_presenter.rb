@@ -53,5 +53,11 @@ module CandidateInterface
     def interview_preferences_completed?
       CandidateInterface::InterviewPreferencesForm.build_from_application(@application_form).valid?
     end
+
+    def training_with_a_disability_completed?
+      @application_form.disclose_disability == false || \
+        (@application_form.disclose_disability == true && \
+          @application_form.disability_disclosure.present?)
+    end
   end
 end

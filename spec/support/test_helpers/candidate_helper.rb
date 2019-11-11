@@ -48,6 +48,11 @@ module CandidateHelper
     fill_in t('application_form.other_qualification.award_year.label'), with: '2015'
   end
 
+  def candidate_fills_in_disability_info
+    choose t('application_form.training_with_a_disability.disclose_disability.yes')
+    fill_in t('application_form.training_with_a_disability.disability_disclosure.label'), with: 'I have difficulty climbing stairs'
+  end
+
   def current_candidate
     @current_candidate ||= create(:candidate)
   end
