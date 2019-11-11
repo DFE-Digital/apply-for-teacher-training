@@ -84,6 +84,9 @@ Rails.application.routes.draw do
         get '/missing' => 'work_history/explanation#show', as: :work_history_explanation
         post '/missing' => 'work_history/explanation#submit'
 
+        get '/explain-breaks' => 'work_history/breaks#edit', as: :work_history_breaks
+        post '/explain-breaks' => 'work_history/breaks#update'
+
         get '/new' => 'work_history/edit#new', as: :work_history_new
         post '/create' => 'work_history/edit#create', as: :work_history_create
         get '/edit/:id' => 'work_history/edit#edit', as: :work_history_edit

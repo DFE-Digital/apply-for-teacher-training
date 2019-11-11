@@ -50,13 +50,17 @@ RSpec.describe WorkHistoryReviewComponent do
           data[:start_date] = Time.zone.local(2019, 8, 1)
           data[:end_date] = Time.zone.local(2019, 9, 1)
           form.application_work_experiences.create(data)
+
+          form.work_history_breaks = 'WE WERE ON A BREAK!'
         end
 
         result = render_inline(WorkHistoryReviewComponent, application_form: application_form)
 
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.work_history.break.label'))
-        expect(result.css('.govuk-summary-list__value').to_html).to include('')
-        expect(result.css('.govuk-summary-list__actions a')[4].attr('href')).to include('#')
+        expect(result.css('.govuk-summary-list__value').to_html).to include('WE WERE ON A BREAK!')
+        expect(result.css('.govuk-summary-list__actions a')[4].attr('href')).to include(
+          Rails.application.routes.url_helpers.candidate_interface_work_history_breaks_path,
+        )
         expect(result.css('.govuk-summary-list__actions').text).to include(t('application_form.work_history.break.enter_label'))
       end
     end
