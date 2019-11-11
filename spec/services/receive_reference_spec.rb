@@ -10,7 +10,7 @@ RSpec.describe ReceiveReference do
     action = ReceiveReference.new(
       application_form: application_form,
       referee_email: 'xy@z.com',
-      reference: 'A reference',
+      feedback: 'A reference',
     )
 
     expect(action).to be_valid
@@ -29,7 +29,7 @@ RSpec.describe ReceiveReference do
     action = ReceiveReference.new(
       application_form: application_form,
       referee_email: 'ab@c.com',
-      reference: 'A reference',
+      feedback: 'A reference',
     )
     action.save
 
@@ -42,7 +42,7 @@ RSpec.describe ReceiveReference do
       action = ReceiveReference.new(
         application_form: build_stubbed(:application_form),
         referee_email: nil,
-        reference: 'A reference',
+        feedback: 'A reference',
       )
 
       expect(action).not_to be_valid
@@ -52,7 +52,7 @@ RSpec.describe ReceiveReference do
       action = ReceiveReference.new(
         application_form: build_stubbed(:application_form),
         referee_email: 'madeupemail@example.com',
-        reference: 'A reference',
+        feedback: 'A reference',
       )
 
       expect(action).not_to be_valid
