@@ -49,7 +49,7 @@ RSpec.describe LogstashLogging do
     end
 
     it 'including the service name' do
-      expect(@log['service']).to eq 'test' # ENV['SERVICE_NAME'] is set in spec_helper.rb
+      expect(@log['service']).to eq 'test' # ENV['SERVICE_TYPE'] is set in spec_helper.rb
     end
   end
 

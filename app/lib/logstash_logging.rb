@@ -2,14 +2,14 @@ require 'request_store_rails'
 
 class LogstashLogging
   DOMAIN_FOR_LOGS = Rails.env.production? ? HostingEnvironment.hostname : Socket.gethostname
-  SERVICE_NAME = ENV['SERVICE_NAME'] # e.g. web, worker or clock
+  SERVICE_TYPE = ENV['SERVICE_TYPE'] # e.g. web, worker or clock
 
   def self.enable(rails_config)
     # Add custom attributes to the log (domain, params etc.)
     LogStashLogger.configure do |logstash_config|
       logstash_config.customize_event do |event|
         event['domain'] = DOMAIN_FOR_LOGS
-        event['service'] = SERVICE_NAME
+        event['service'] = SERVICE_TYPE
         params = RequestLocals.fetch(:params) { nil }
         if params
           event['params'] = params # add query params to the logs, if available

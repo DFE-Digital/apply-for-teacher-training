@@ -544,7 +544,7 @@
                                 "value": "[parameters('logstashSsl')]"
                             },
                             {
-                                "name": "SERVICE_NAME",
+                                "name": "SERVICE_TYPE",
                                 "value": "[concat(parameters('containerInstanceNamePrefix'), '-wkr')]"
                             },
                             {
@@ -642,7 +642,7 @@
                                 "value": "[parameters('logstashSsl')]"
                             },
                             {
-                                "name": "SERVICE_NAME",
+                                "name": "SERVICE_TYPE",
                                 "value": "[concat(parameters('containerInstanceNamePrefix'), '-clk')]"
                             },
                             {

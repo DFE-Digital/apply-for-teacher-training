@@ -18,7 +18,7 @@ services:
       - db
       - redis
     environment:
-      - SERVICE_NAME=web
+      - SERVICE_TYPE=web
       - DB_HOSTNAME=db
       - DB_USERNAME=postgres
       - DB_PASSWORD=developmentpassword
@@ -35,7 +35,7 @@ services:
       - db
       - redis
     environment:
-      - SERVICE_NAME=worker
+      - SERVICE_TYPE=worker
       - DB_HOSTNAME=db
       - DB_USERNAME=postgres
       - DB_PASSWORD=developmentpassword
@@ -52,7 +52,7 @@ services:
       - db
       - redis
     environment:
-      - SERVICE_NAME=clock
+      - SERVICE_TYPE=clock
       - DB_HOSTNAME=db
       - DB_USERNAME=postgres
       - DB_PASSWORD=developmentpassword

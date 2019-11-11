@@ -18,7 +18,7 @@ SimpleCov.start 'rails'
 
 require 'sidekiq/testing'
 require 'clockwork/test'
-ENV['SERVICE_NAME'] = 'test' # this is used for logging
+ENV['SERVICE_TYPE'] = 'test' # this is used for logging
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
