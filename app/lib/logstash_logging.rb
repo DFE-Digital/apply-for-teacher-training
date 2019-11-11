@@ -10,7 +10,7 @@ class LogstashLogging
       logstash_config.customize_event do |event|
         event['domain'] = DOMAIN_FOR_LOGS
         event['service'] = SERVICE_TYPE
-        params = RequestLocals.fetch(:params) { nil }
+        params = RequestLocals.fetch(:params) {} # block is required
         if params
           event['params'] = params # add query params to the logs, if available
         end
@@ -61,7 +61,7 @@ class LogstashLogging
   end
 
   def self.add_identity_fields(event)
-    identity_hash = RequestLocals.fetch(:identity) { nil }
+    identity_hash = RequestLocals.fetch(:identity) {} # block is required
     identity_hash.each { |key, val| event[key] = val } if identity_hash
   end
 
