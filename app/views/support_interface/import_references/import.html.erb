@@ -23,7 +23,11 @@
       <tr class="govuk-table__row">
 
         <td class="govuk-table__cell">
-          <%= govuk_link_to result[:application_form].full_name, support_interface_application_form_path(result[:application_form]) %>
+          <% if result[:application_form] %>
+            <%= govuk_link_to result[:application_form].full_name, support_interface_application_form_path(result[:application_form]) %>
+          <% else %>
+            Unknown
+          <% end %>
         </td>
         <td class="govuk-table__cell">
           <%= result[:referee_email] %>
