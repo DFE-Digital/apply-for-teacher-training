@@ -14,7 +14,7 @@ RSpec.describe ReceiveReference do
     )
 
     expect(action).to be_valid
-    expect(action.save).to be_truthy
+    expect(action.save).to be_falsey
 
     expect(application_form.references.find_by!(email_address: 'xy@z.com').feedback).to eq('A reference')
     expect(application_form.references.find_by!(email_address: 'ab@c.com').feedback).to be_nil

@@ -22,8 +22,10 @@ class ReceiveReference
         .find { |reference| reference.email_address == @referee_email }
         .update!(feedback: @feedback)
 
-      @application_form.application_choices.each do |application_choice|
-        ApplicationStateChange.new(application_choice).receive_reference!
+      if @application_form.references_complete?
+        @application_form.application_choices.each do |application_choice|
+          ApplicationStateChange.new(application_choice).references_complete!
+        end
       end
     end
   rescue Workflow::NoTransitionAllowed => e
