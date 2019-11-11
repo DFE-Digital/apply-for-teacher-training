@@ -28,6 +28,7 @@ class ReceiveReference
         end
       end
     end
+    true
   rescue Workflow::NoTransitionAllowed => e
     errors.add(:state, e.message)
     false

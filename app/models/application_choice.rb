@@ -9,15 +9,6 @@ class ApplicationChoice < ApplicationRecord
 
   audited associated_with: :application_form
 
-  scope :ready_to_send_to_provider, -> {
-    joins(application_form: :references)
-      .where('feedback is not null')
-      .where('edit_by < ?', Time.zone.now)
-      .where(status: :application_complete)
-      .group('application_choices.id')
-      .having('count("references"."feedback") >= 2')
-  }
-
   enum status: {
     unsubmitted: 'unsubmitted',
     awaiting_references: 'awaiting_references',

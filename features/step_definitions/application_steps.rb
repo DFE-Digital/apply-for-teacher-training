@@ -32,8 +32,8 @@ When('{string} provides a reference') do |referee_email|
     application_form: @application_choice.application_form.reload,
     referee_email: referee_email,
     feedback: Faker::Lorem.paragraphs(number: 2),
-)
-  expect(action.save).to be_truthy
+  )
+  expect(action.save).to be true
 end
 
 When('the date is {string}') do |date|
