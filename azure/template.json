@@ -552,6 +552,10 @@
                                 "value": "[parameters('logstashSsl')]"
                             },
                             {
+                                "name": "FIND_BASE_URL",
+                                "value": "[parameters('findBaseUrl')]"
+                            },
+                            {
                                 "name": "SERVICE_TYPE",
                                 "value": "[concat(parameters('containerInstanceNamePrefix'), '-wkr')]"
                             },
@@ -656,6 +660,10 @@
                             {
                                 "name": "LOGSTASH_SSL",
                                 "value": "[parameters('logstashSsl')]"
+                            },
+                            {
+                                "name": "FIND_BASE_URL",
+                                "value": "[parameters('findBaseUrl')]"
                             },
                             {
                                 "name": "SERVICE_TYPE",
