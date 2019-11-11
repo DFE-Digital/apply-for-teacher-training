@@ -22,8 +22,8 @@ module ProviderInterface
     # by a proper ProviderUser when implementing Signin.
     def current_user
       fake_user_class = Struct.new(:provider)
-      fake_provider_class = Struct.new(:code)
-      fake_user_class.new(fake_provider_class.new('ABC'))
+      fake_provider = Provider.find_or_create_by(code: 'ABC')
+      fake_user_class.new(fake_provider)
     end
   end
 end
