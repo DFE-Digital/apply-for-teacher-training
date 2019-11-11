@@ -41,4 +41,24 @@ RSpec.describe WorkHistoryReviewComponent do
       end
     end
   end
+
+  context 'when there are breaks in the work history' do
+    it 'renders summary card for breaks in the work history' do
+      Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
+        application_form = create(:application_form) do |form|
+          data[:id] = 1
+          data[:start_date] = Time.zone.local(2019, 8, 1)
+          data[:end_date] = Time.zone.local(2019, 9, 1)
+          form.application_work_experiences.create(data)
+        end
+
+        result = render_inline(WorkHistoryReviewComponent, application_form: application_form)
+
+        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.work_history.break.label'))
+        expect(result.css('.govuk-summary-list__value').to_html).to include('')
+        expect(result.css('.govuk-summary-list__actions a')[4].attr('href')).to include('#')
+        expect(result.css('.govuk-summary-list__actions').text).to include(t('application_form.work_history.break.enter_label'))
+      end
+    end
+  end
 end

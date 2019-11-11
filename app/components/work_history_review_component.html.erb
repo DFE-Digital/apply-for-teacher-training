@@ -22,3 +22,7 @@
 <% if @application_form.application_work_experiences.empty? %>
   <%= render(SummaryCardComponent, rows: no_work_experience_rows) %>
 <% end %>
+
+<% if breaks_in_work_history? %>
+  <%= render(SummaryCardComponent, rows: break_in_work_history_rows) %>
+<% end %>

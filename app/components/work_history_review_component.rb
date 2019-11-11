@@ -26,6 +26,21 @@ class WorkHistoryReviewComponent < ActionView::Component::Base
     ]
   end
 
+  def break_in_work_history_rows
+    [
+      {
+        key: t('application_form.work_history.break.label'),
+        value: @application_form.work_history_breaks,
+        action: t('application_form.work_history.break.enter_label'),
+        action_path: '#',
+      },
+    ]
+  end
+
+  def breaks_in_work_history?
+    CheckBreaksInWorkHistory.call(@application_form)
+  end
+
 private
 
   attr_reader :application_form
