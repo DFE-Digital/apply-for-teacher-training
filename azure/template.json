@@ -561,7 +561,7 @@
                             },
                             {
                                 "name": "REDIS_URL",
-                                "value": "[concat('rediss://', parameters('redisCacheName'), '.redis.cache.windows.net:6380')]"
+                                "secureValue": "[concat('rediss://:', reference('redis-cache').outputs.PrimaryKey.value, '@', parameters('redisCacheName'), '.redis.cache.windows.net:6380')]"
                             }
                         ]
                     }
@@ -671,7 +671,7 @@
                             },
                             {
                                 "name": "REDIS_URL",
-                                "value": "[concat('rediss://', parameters('redisCacheName'), '.redis.cache.windows.net:6380')]"
+                                "secureValue": "[concat('rediss://:', reference('redis-cache').outputs.PrimaryKey.value, '@', parameters('redisCacheName'), '.redis.cache.windows.net:6380')]"
                             }
                         ]
                     }
