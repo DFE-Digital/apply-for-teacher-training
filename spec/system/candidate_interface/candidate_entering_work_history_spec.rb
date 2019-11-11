@@ -25,8 +25,8 @@ RSpec.feature 'Entering their work history' do
     then_i_should_be_asked_for_an_explanation
 
     when_i_click_on_add_job
-    and_i_fill_in_the_job_form
-    then_i_should_see_my_completed_job
+    and_i_fill_in_the_job_form_with_another_job
+    then_i_should_see_my_second_job
 
     when_i_click_on_change
     and_i_change_the_job_title_to_be_blank
@@ -77,18 +77,6 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_fill_in_the_job_form
-    fill_in_the_job_form
-  end
-
-  def and_i_fill_in_the_job_form
-    fill_in_the_job_form
-  end
-
-  def then_i_should_see_my_completed_job
-    expect(page).to have_content('Chief Terraforming Officer')
-  end
-
-  def fill_in_the_job_form
     scope = 'application_form.work_history'
     fill_in t('role.label', scope: scope), with: 'Chief Terraforming Officer'
     fill_in t('organisation.label', scope: scope), with: 'Weyland-Yutani'
@@ -110,6 +98,33 @@ RSpec.feature 'Entering their work history' do
     choose 'No'
 
     click_button t('application_form.work_history.complete_form_button')
+  end
+
+  def then_i_should_see_my_completed_job
+    expect(page).to have_content('Chief Terraforming Officer')
+  end
+
+  def and_i_fill_in_the_job_form_with_another_job
+    scope = 'application_form.work_history'
+    fill_in t('role.label', scope: scope), with: 'Chief of Xenomorph Procurement and Research'
+    fill_in t('organisation.label', scope: scope), with: 'Weyland-Yutani'
+
+    choose 'Full-time'
+
+    within('[data-qa="start-date"]') do
+      fill_in 'Month', with: '2'
+      fill_in 'Year', with: '2019'
+    end
+
+    fill_in t('details.label', scope: scope), with: 'Gimme Xenomorphs.'
+
+    choose 'No'
+
+    click_button t('application_form.work_history.complete_form_button')
+  end
+
+  def then_i_should_see_my_second_job
+    expect(page).to have_content('Chief of Xenomorph Procurement and Research')
   end
 
   def when_i_click_on_delete_entry
