@@ -97,7 +97,7 @@ jobs:
                 -logstashSsl "${{parameters.logstashSsl}}"
                 -findBaseUrl "${{parameters.findBaseUrl}}"
                 -redisCacheName "$(redisCacheName)"
-                -containerInstanceNamePrefix "$(containerInstanceNamePrefix)"'
+                -containerInstanceNamePrefix "$(containerInstanceNamePrefix)"
                 -disableBasicAuthForLandingPage "${{parameters.disableBasicAuthForLandingPage}}"'
               deploymentOutputs: DeploymentOutput
 
