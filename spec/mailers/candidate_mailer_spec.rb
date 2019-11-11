@@ -4,7 +4,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   subject(:mailer) { described_class }
 
   describe 'Send submit application email' do
-    let(:mail) { mailer.submit_application_email(to: 'test@example.com', support_reference: 'SUPPORT-REFERENCE') }
+    let(:mail) { mailer.submit_application_email(build_stubbed(:application_form, support_reference: 'SUPPORT-REFERENCE')) }
 
     before { mail.deliver_now }
 
@@ -13,7 +13,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
 
     it 'sends an email with the correct heading' do
-      expect(mail.body.encoded).to include('Thank you for completing your teacher training application')
+      expect(mail.body.encoded).to include('Application submitted')
     end
 
     it 'sends an email containing the support reference' do
