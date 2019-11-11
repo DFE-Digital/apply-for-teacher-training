@@ -104,6 +104,22 @@ RSpec.feature 'Entering their work history' do
     expect(page).to have_content('Chief Terraforming Officer')
   end
 
+  def when_i_click_on_delete_entry
+    click_link t('application_form.work_history.delete_entry')
+  end
+
+  def and_i_confirm
+    click_button t('application_form.work_history.sure_delete_entry')
+  end
+
+  def then_i_should_be_asked_for_an_explanation
+    expect(page).to have_content('Explanation of why you’ve been out of the workplace')
+  end
+
+  def when_i_click_on_add_job
+    click_link t('application_form.work_history.add_job')
+  end
+
   def and_i_fill_in_the_job_form_with_another_job
     scope = 'application_form.work_history'
     fill_in t('role.label', scope: scope), with: 'Chief of Xenomorph Procurement and Research'
@@ -125,22 +141,6 @@ RSpec.feature 'Entering their work history' do
 
   def then_i_should_see_my_second_job
     expect(page).to have_content('Chief of Xenomorph Procurement and Research')
-  end
-
-  def when_i_click_on_delete_entry
-    click_link t('application_form.work_history.delete_entry')
-  end
-
-  def and_i_confirm
-    click_button t('application_form.work_history.sure_delete_entry')
-  end
-
-  def then_i_should_be_asked_for_an_explanation
-    expect(page).to have_content('Explanation of why you’ve been out of the workplace')
-  end
-
-  def when_i_click_on_add_job
-    click_link t('application_form.work_history.add_job')
   end
 
   def when_i_click_on_change
