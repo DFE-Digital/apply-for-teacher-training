@@ -1,0 +1,41 @@
+<% content_for :title, page_title('volunteering.long') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.volunteering.long') %>
+    </h1>
+  </div>
+
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @volunteering_experience_form, url: candidate_interface_volunteering_experience_path do |f| %>
+      <%= f.govuk_error_summary %>
+      <p class="govuk-body">
+        Use this section to tell us about any unpaid experience you’ve gained in
+        school or volunteering roles you've had in the wider community.
+        You can include:
+      </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>one-off observations in school</li>
+        <li>volunteering with children or young people in a school setting</li>
+        <li>volunteering with children or young people outside school</li>
+        <li>general involvement with school (for example as a parent governor)</li>
+      </ul>
+
+      <p class="govuk-body">
+        You can also tell us about volunteering with other age groups in your community.
+      </p>
+
+      <div class="govuk-!-margin-top-6">
+        <%= f.govuk_radio_buttons_fieldset :experience, legend: { size: 'm', text: t('application_form.volunteering.experience.label') } do %>
+          <%= f.govuk_radio_button :experience, :yes, label: { text: 'Yes' } %>
+          <%= f.govuk_radio_button :experience, :no, label: { text: 'No' } %>
+        <% end %>
+
+        <%= f.govuk_submit t('application_form.volunteering.experience.button') %>
+      </div>
+    <% end %>
+  </div>
+</div>

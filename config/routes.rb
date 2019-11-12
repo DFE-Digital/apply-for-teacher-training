@@ -96,6 +96,13 @@ Rails.application.routes.draw do
         delete '/delete/:id' => 'work_history/destroy#destroy'
       end
 
+      scope '/school-experience' do
+        get '/' => 'volunteering/experience#show', as: :volunteering_experience
+        post '/' => 'volunteering/experience#submit'
+
+        get '/review' => 'volunteering/review#show', as: :review_volunteering_experience
+      end
+
       scope '/degrees' do
         get '/' => 'degrees/base#new', as: :degrees_new_base
         post '/' => 'degrees/base#create', as: :degrees_create_base
