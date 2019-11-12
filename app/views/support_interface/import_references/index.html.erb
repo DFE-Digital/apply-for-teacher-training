@@ -24,6 +24,13 @@
       <p class="govuk-body">
         You’ll need to <a href="https://docs.google.com/spreadsheets/d/18Lr1SWD20o_sPbyj7gsTwkaJO9jwL-YZTTdQfQOuIiw/export?format=csv" class="govuk-link" rel="download">download a CSV of the latest reference responses</a> from Google Docs before you can upload it here.</p>
 
+      <p class="govuk-body">Importing references will:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>copy each reference to the correct application</li>
+        <li>update the application’s status</li>
+        <li>report which references were successfully imported</li>
+      </ul>
+
       <div class="govuk-form-group <% if @error %>govuk-form-group--error<% end %>">
         <%= label_tag 'csv_file', 'CSV file', class: 'govuk-label govuk-label--m' %>
         <% if @error %>
