@@ -1,0 +1,11 @@
+<% if candidate_signed_in? %>
+  <ul id="navigation" class="govuk-header__navigation " aria-label="Top Level Navigation">
+    <li class="govuk-header__navigation-item">
+      <b><%= current_candidate.email_address %></b>
+    </li>
+
+    <li class="govuk-header__navigation-item">
+      <%= link_to 'Sign out', candidate_interface_sign_out_path, class: 'govuk-header__link' %>
+    </li>
+  </ul>
+<% end %>

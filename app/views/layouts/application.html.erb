@@ -60,15 +60,13 @@
         <div class="govuk-header__content">
           <%= link_to service_name, service_link, class: 'govuk-header__link govuk-header__link--service-name' %>
 
-          <% if current_namespace == 'candidate_interface' && candidate_signed_in? %>
-            <ul id="navigation" class="govuk-header__navigation " aria-label="Top Level Navigation">
-              <li class="govuk-header__navigation-item">
-                <b><%= current_candidate.email_address %></b>
-              </li>
-              <li class="govuk-header__navigation-item">
-                <%= link_to 'Sign out', candidate_interface_sign_out_path, class: 'govuk-header__link' %>
-              </li>
-            </ul>
+          <% case current_namespace %>
+          <% when 'candidate_interface' %>
+            <%= render 'layouts/candidate_header' %>
+          <% when 'support_interface' %>
+            <%= render 'layouts/support_header' %>
+          <% when 'provider_interface' %>
+            <%= render 'layouts/provider_header' %>
           <% end %>
         </div>
       </div>
