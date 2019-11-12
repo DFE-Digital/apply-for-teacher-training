@@ -14,6 +14,9 @@ class ApplicationForm < ApplicationRecord
     application_choices.update_all(updated_at: Time.zone.now)
   }
 
+  attr_accessor :course_choices_present
+  validates :course_choices_completed, acceptance: true, if: -> { course_choices_present }
+
   def submitted?
     application_choices.any? && !application_choices.first.unsubmitted?
   end

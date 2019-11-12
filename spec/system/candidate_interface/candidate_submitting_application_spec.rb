@@ -39,7 +39,7 @@ RSpec.feature 'Candidate submit the application' do
     visit candidate_interface_application_form_path
 
     click_link 'Course choices'
-    click_link 'Add course'
+    click_link 'Add another course'
     choose 'Yes, I know where I want to apply'
     click_button 'Continue'
     select 'Gorse SCITT (1N1)'
