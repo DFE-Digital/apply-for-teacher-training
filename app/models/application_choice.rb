@@ -23,6 +23,10 @@ class ApplicationChoice < ApplicationRecord
     withdrawn: 'withdrawn',
   }
 
+  def edit_by_expired?
+    edit_by.present? && edit_by < Time.zone.now
+  end
+
 private
 
   def generate_alphanumeric_id

@@ -14,7 +14,7 @@ class ReceiveReference
   end
 
   def save
-    return unless valid?
+    return false unless valid?
 
     ActiveRecord::Base.transaction do
       @application_form
@@ -24,7 +24,11 @@ class ReceiveReference
 
       if @application_form.references_complete?
         @application_form.application_choices.each do |application_choice|
-          ApplicationStateChange.new(application_choice).references_complete!
+          if application_choice.edit_by_expired?
+            ApplicationStateChange.new(application_choice).send_to_provider!
+          else
+            ApplicationStateChange.new(application_choice).references_complete!
+          end
         end
       end
     end

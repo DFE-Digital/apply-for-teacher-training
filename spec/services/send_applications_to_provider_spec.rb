@@ -1,12 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe SendApplicationsToProvider do
-  def create_application_with_references(days_ago: 6)
+  def create_application_with_references
     application_form = create :application_form
     create :application_choice, application_form: application_form, status: 'unsubmitted'
-    Timecop.travel(days_ago.business_days.ago) do
-      SubmitApplication.new(application_form.reload).call
-    end
+    SubmitApplication.new(application_form.reload).call
     create_list :reference, 2, :unsubmitted, application_form: application_form
     application_form
   end
@@ -24,13 +22,17 @@ RSpec.describe SendApplicationsToProvider do
     application_form.references.each do |reference|
       complete_reference(reference)
     end
-    SendApplicationsToProvider.new.call
+    Timecop.travel(6.business_days.from_now) do
+      SendApplicationsToProvider.new.call
+    end
     expect(application_form.application_choices.first.reload.status).to eq 'awaiting_provider_decision'
   end
 
   it 'DOES NOT send an application submitted 6 working days ago with no references' do
     application_form = create_application_with_references
-    SendApplicationsToProvider.new.call
+    Timecop.travel(6.business_days.from_now) do
+      SendApplicationsToProvider.new.call
+    end
     expect(application_form.application_choices.first.reload.status).to eq 'awaiting_references'
   end
 end
