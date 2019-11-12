@@ -9,4 +9,14 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data/regenerate', type: :request 
     expect(Candidate.count).to be(3)
     expect(parsed_response).to be_valid_against_openapi_schema('OkResponse')
   end
+
+  it 'does not generate test data in production' do
+    ClimateControl.modify CUSTOM_HOSTNAME: 'www.apply-for-teacher-training.education.gov.uk' do
+      post_api_request '/api/v1/test-data/regenerate?count=3'
+    end
+
+    expect(Candidate.count).to be(0)
+    expect(response.code).to eql '400'
+    expect(parsed_response).to be_valid_against_openapi_schema('OkResponse')
+  end
 end

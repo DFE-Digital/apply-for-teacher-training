@@ -190,7 +190,9 @@ paths:
       tags:
         - Testing
       summary: Regenerate test data
-      description: Deletes all applications and generates 100 new applications
+      description: |
+        Deletes all applications and generates 100 new applications. Only
+        available on sandbox.apply-for-teacher-training.education.gov.uk.
       parameters:
         - name: count
           description: How many items to generate (max 100)
