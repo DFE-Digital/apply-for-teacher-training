@@ -139,6 +139,8 @@ FactoryBot.define do
 
   factory :reference do
     email_address { "#{SecureRandom.hex(5)}@example.com" }
+    name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
+    relationship { Faker::Lorem.words(number: 10) }
 
     trait :unsubmitted do
       feedback { nil }

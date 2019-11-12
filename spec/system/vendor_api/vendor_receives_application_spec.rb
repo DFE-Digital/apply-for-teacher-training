@@ -21,20 +21,12 @@ RSpec.feature 'Vendor receives the application' do
   end
 
   def and_references_have_been_received
-    create(:reference,
-           application_form: @application,
-           email_address: 'FIRST_REF@example.com')
-
-    create(:reference,
-           application_form: @application,
-           email_address: 'SECOND_REF@example.com')
-
     ReceiveReference.new(application_form: @application,
-                         referee_email: 'FIRST_REF@example.com',
+                         referee_email: @application.references.first.email_address,
                          feedback: 'My ideal person').save
 
     ReceiveReference.new(application_form: @application,
-                         referee_email: 'SECOND_REF@example.com',
+                         referee_email: @application.references.last.email_address,
                          feedback: 'Lovable').save
   end
 

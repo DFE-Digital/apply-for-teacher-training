@@ -164,6 +164,21 @@ Rails.application.routes.draw do
         get '/delete/:id' => 'other_qualifications/destroy#confirm_destroy', as: :confirm_destroy_other_qualification
         delete '/delete/:id' => 'other_qualifications/destroy#destroy'
       end
+
+      scope '/referees' do
+        get '/' => 'referees#index', as: :referees
+        get '/new' => 'referees#new', as: :new_referee
+        post '/' => 'referees#create'
+
+        get '/review' => 'referees#review', as: :review_referees
+        patch '/review' => 'referees#complete', as: :complete_referees
+
+        get '/edit/:id' => 'referees#edit', as: :edit_referee
+        patch '/update/:id' => 'referees#update', as: :update_referee
+
+        get '/delete/:id' => 'referees#confirm_destroy', as: :confirm_destroy_referee
+        delete '/delete/:id' => 'referees#destroy', as: :destroy_referee
+      end
     end
   end
 

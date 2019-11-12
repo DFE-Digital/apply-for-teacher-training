@@ -18,10 +18,15 @@ RSpec.feature 'Candidate reviews the answers' do
     and_i_can_see_my_becoming_a_teacher_info
     and_i_can_see_my_subject_knowlegde_info
     and_i_can_see_my_interview_preferences
+    and_i_can_see_my_referees
   end
 
   def given_i_have_completed_my_application
     candidate_completes_application_form
+  end
+
+  def and_i_visit_the_application_form_page
+    visit candidate_interface_application_form_path
   end
 
   def when_i_click_on_check_your_answers
@@ -80,5 +85,15 @@ RSpec.feature 'Candidate reviews the answers' do
 
   def and_i_can_see_my_interview_preferences
     expect(page).to have_content 'NOT WEDNESDAY'
+  end
+
+  def and_i_can_see_my_referees
+    expect(page).to have_content 'Terri Tudor'
+    expect(page).to have_content 'terri@example.com'
+    expect(page).to have_content 'Tutor'
+
+    expect(page).to have_content 'Anne Other'
+    expect(page).to have_content 'anne@other.com'
+    expect(page).to have_content 'First boss'
   end
 end

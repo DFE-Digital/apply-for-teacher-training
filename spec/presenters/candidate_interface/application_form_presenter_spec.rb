@@ -207,4 +207,43 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       expect(presenter).not_to be_volunteering_added
     end
   end
+
+  describe '#all_referees_provided_by_candidate?' do
+    let(:application_form) do
+      FactoryBot.create(:application_form)
+    end
+    let(:presenter) do
+      CandidateInterface::ApplicationFormPresenter.new(application_form)
+    end
+
+    context 'when there are no referees' do
+      before do
+        application_form.references.delete_all
+      end
+
+      it 'returns false' do
+        expect(presenter.all_referees_provided_by_candidate?).to eq(false)
+      end
+    end
+
+    context 'when there is one referee' do
+      before do
+        create(:reference, application_form: application_form)
+      end
+
+      it 'returns false' do
+        expect(presenter.all_referees_provided_by_candidate?).to eq(false)
+      end
+    end
+
+    context 'when there are two referees' do
+      before do
+        create_list(:reference, 2, application_form: application_form)
+      end
+
+      it 'returns true' do
+        expect(presenter.all_referees_provided_by_candidate?).to eq(true)
+      end
+    end
+  end
 end

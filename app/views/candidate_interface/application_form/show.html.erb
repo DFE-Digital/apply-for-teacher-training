@@ -144,7 +144,12 @@
     <h2 class="govuk-heading-m govuk-!-font-size-27">References</h2>
     <ol class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">
-        <%= govuk_link_to 'TODO: Referees', '#', class: 'app-task-list__task-name' %>
+        <% if @application_form_presenter.all_referees_provided_by_candidate? %>
+          <%= govuk_link_to 'Referees', candidate_interface_referees_path, class: 'app-task-list__task-name', 'aria-describedby': 'interview-preferences-completed' %>
+          <strong class="govuk-tag app-task-list__task-completed" id="referees-completed">Completed</strong>
+        <% else %>
+          <%= govuk_link_to 'Referees', candidate_interface_referees_path, class: 'app-task-list__task-name' %>
+        <% end %>
       </li>
     </ol>
 

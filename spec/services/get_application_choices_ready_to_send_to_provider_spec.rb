@@ -6,7 +6,7 @@ RSpec.describe GetApplicationChoicesReadyToSendToProvider do
     create :application_choice, application_form: application_form, status: 'unsubmitted'
     SubmitApplication.new(application_form.reload).call
     create_list :reference, 2, :unsubmitted, application_form: application_form
-    application_form
+    application_form.reload
   end
 
   def complete_reference(application_form, email_address)
