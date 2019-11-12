@@ -19,7 +19,7 @@ module CandidateInterface
 
     class << self
       def build_all_from_application(application_form)
-        application_form.application_qualifications.degrees.map do |degree|
+        application_form.application_qualifications.degrees.order(created_at: :desc).map do |degree|
           new_degree_form(degree)
         end
       end
