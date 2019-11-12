@@ -394,6 +394,7 @@ en:
           attributes:
             grade:
               blank: Enter the grade
+              invalid: Enter a real graduation grade
             award_year:
               blank: Enter your graduation year
               invalid: Enter a real graduation year

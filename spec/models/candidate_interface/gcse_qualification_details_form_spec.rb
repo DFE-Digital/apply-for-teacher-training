@@ -4,6 +4,30 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:grade) }
     it { is_expected.to validate_presence_of(:award_year) }
+
+    describe 'grade format' do
+      let(:form) do
+        qualification = ApplicationQualification.create(qualification_type: 'gcse', level: 'gcse',
+                                                        application_form: create(:application_form))
+        CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
+      end
+
+      it 'return validation error if grade is invalid' do
+        form.grade = 'aaz'
+
+        form.save_base
+        expect(form.errors[:grade]).to include('Enter a real graduation grade')
+      end
+
+      it 'returns no errors if grade is valid' do
+        %w[aaa a*a*a* AB 123].each do |grade|
+          form.grade = grade
+          form.save_base
+
+          expect(form.errors[:grade]).to be_empty
+        end
+      end
+    end
   end
 
   describe '#save_base' do

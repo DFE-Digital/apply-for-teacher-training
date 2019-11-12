@@ -35,7 +35,7 @@ private
   def grade_row
     {
       key: 'Grade',
-      value: application_qualification.grade,
+      value: application_qualification.grade.upcase,
       change_path: candidate_interface_gcse_details_edit_details_path(subject: subject),
     }
   end
