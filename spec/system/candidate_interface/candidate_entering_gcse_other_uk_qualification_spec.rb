@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate entering GCSE details' do
   include CandidateHelper
 
-  scenario 'Candidate submits their maths GCSE details and then update them' do
+  scenario 'Candidate specifies GCSE maths with "Other UK qualification" type' do
     given_i_am_signed_in
     and_i_visit_the_candidate_application_page
     and_i_click_on_the_maths_gcse_link
