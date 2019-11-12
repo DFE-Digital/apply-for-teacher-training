@@ -1,0 +1,45 @@
+<% content_for :title, @provider.name_and_code %>
+
+<h2 class='govuk-heading-l'>Courses (<%= @provider.courses.size %>)</h2>
+
+<table class='govuk-table'>
+  <thead class='govuk-table__head'>
+    <tr class='govuk-table__row'>
+      <th scope='col' class='govuk-table__header'>Course</th>
+      <th scope='col' class='govuk-table__header'>Level</th>
+      <th scope='col' class='govuk-table__header'>Start date</th>
+      <th scope='col' class='govuk-table__header'>Apply from Find</th>
+      <th scope='col' class='govuk-table__header'>Page on Find</th>
+    </tr>
+  </thead>
+
+  <tbody class='govuk-table__body'>
+    <% @provider.courses.each do |course| %>
+      <tr class='govuk-table__row'>
+        <td class='govuk-table__cell'><%= course.name_and_code %></td>
+        <td class='govuk-table__cell'><%= course.level %></td>
+        <td class='govuk-table__cell'><%= course.start_date %></td>
+        <td class='govuk-table__cell'><%= govuk_link_to 'Apply from Find page', candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code) %></td>
+        <td class='govuk-table__cell'><%= govuk_link_to 'Find course page', "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{course.provider.code}/#{course.code}" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2 class='govuk-heading-l'>Sites (<%= @provider.sites.size %>)</h2>
+
+<table class='govuk-table'>
+  <thead class='govuk-table__head'>
+    <tr class='govuk-table__row'>
+      <th scope='col' class='govuk-table__header'>Name</th>
+    </tr>
+  </thead>
+
+  <tbody class='govuk-table__body'>
+    <% @provider.sites.each do |site| %>
+      <tr class='govuk-table__row'>
+        <td class='govuk-table__cell'><%= site.name_and_code %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

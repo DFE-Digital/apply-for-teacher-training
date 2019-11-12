@@ -3,4 +3,8 @@ class Site < ApplicationRecord
 
   validates :code, presence: true
   validates :name, presence: true
+
+  def name_and_code
+    "#{name} (#{code})"
+  end
 end

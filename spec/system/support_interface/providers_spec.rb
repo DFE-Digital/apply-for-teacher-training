@@ -10,6 +10,9 @@ RSpec.feature 'See providers' do
       and_i_click_the_sync_button
       then_requests_to_find_should_be_made
       and_i_should_see_the_updated_list_of_providers
+
+      when_i_click_on_a_provider
+      then_i_see_the_providers_courses_and_sites
     end
   end
 
@@ -37,7 +40,7 @@ RSpec.feature 'See providers' do
   end
 
   def and_i_click_the_sync_button
-    @request1 = stub_find_api_provider_200(provider_code: 'ABC', provider_name: 'Royal Academy of Dance')
+    @request1 = stub_find_api_provider_200(provider_code: 'ABC', provider_name: 'Royal Academy of Dance', course_code: 'ABC-1')
     @request2 = stub_find_api_provider_200(provider_code: 'DEF', provider_name: 'Gorse SCITT')
     @request3 = stub_find_api_provider_200(provider_code: 'GHI', provider_name: 'Somerset SCITT Consortium')
     click_button 'Sync Providers from Find'
@@ -53,5 +56,13 @@ RSpec.feature 'See providers' do
     expect(page).to have_content('Royal Academy of Dance')
     expect(page).to have_content('Gorse SCITT')
     expect(page).to have_content('Somerset SCITT Consortium')
+  end
+
+  def when_i_click_on_a_provider
+    click_link 'Royal Academy of Dance'
+  end
+
+  def then_i_see_the_providers_courses_and_sites
+    expect(page).to have_content 'ABC-1'
   end
 end
