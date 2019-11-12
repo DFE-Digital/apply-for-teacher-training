@@ -44,10 +44,8 @@ class ImportReferencesFromCsv
     reference = ReceiveReference.new(
       application_form: application_form,
       referee_email: referee_email,
-      reference: referee_feedback,
+      feedback: referee_feedback,
     )
-
-    updated = !!reference.save
 
     {
       referee_email: referee_email,
