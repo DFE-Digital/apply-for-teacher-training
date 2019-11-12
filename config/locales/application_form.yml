@@ -189,6 +189,12 @@ en:
         change_action: what you want to tell us about your disability
       review:
         button: Continue
+    volunteering:
+      experience:
+        label: Do you have experience volunteering with young people or in school?
+        button: Save and continue
+      no_experience:
+        summary_card_title: "Children and young people: no volunteering or experience in school roles entered"
   activemodel:
     errors:
       models:
@@ -326,3 +332,7 @@ en:
           attributes:
             qualification_type:
               blank: Enter the type of qualification
+        candidate_interface/volunteering_experience_form:
+          attributes:
+            experience:
+              blank: Choose whether or not you have experience volunteering with young people or in school
