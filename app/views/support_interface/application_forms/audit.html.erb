@@ -1,2 +1,3 @@
-<h1 class='govuk-heading-xl'><%= @application_form.full_name %> Application History</h1>
+<% content_for :title, "#{@application_form.full_name}'s application history" %>
+
 <%= render SupportInterface::AuditTrailComponent, application_form: @application_form %>

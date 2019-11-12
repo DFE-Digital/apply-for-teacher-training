@@ -2,7 +2,7 @@
 <html lang="en" class="govuk-template">
   <head>
     <meta charset="utf-8">
-    <title><%= yield(:title) %></title>
+    <title><%= yield(:title) %> - <%= service_name %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -83,7 +83,7 @@
       </div>
       <%= yield(:before_content) %>
       <main class="govuk-main-wrapper " id="main-content" role="main">
-        <%= yield %>
+        <%= content_for?(:content) ? yield(:content) : yield %>
       </main>
     </div>
     <footer class="govuk-footer " role="contentinfo">

@@ -1,0 +1,6 @@
+<% content_for :content do %>
+  <h1 class='govuk-heading-xl'><%= yield :title %></h1>
+  <%= yield %>
+<% end %>
+
+<%= render template: 'layouts/application' %>

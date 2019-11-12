@@ -1,5 +1,4 @@
 <% content_for :title, 'API tokens' %>
-<h1 class='govuk-heading-xl'>API tokens</h1>
 
 <%= form_with model: VendorApiToken.new, url: support_interface_api_tokens_path do |f| %>
   <%= f.govuk_collection_select :provider_id, Provider.all, :id, :name, label: { text: 'Provider' } %>
