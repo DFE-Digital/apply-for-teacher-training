@@ -54,10 +54,6 @@ RSpec.feature 'Candidate entering GCSE details' do
     click_on 'Maths GCSE or equivalent'
   end
 
-  def and_i_click_on_the_english_gcse_link
-    click_on 'English GCSE or equivalent'
-  end
-
   def when_i_select_gcse_option
     choose('GCSE')
   end
@@ -72,20 +68,12 @@ RSpec.feature 'Candidate entering GCSE details' do
 
   def and_i_do_not_select_any_gcse_option; end
 
-  def then_i_see_the_review_for_english_gcse
-    expect(page).to have_content 'English GCSE or equivalent'
-  end
-
   def and_i_visit_the_candidate_application_page
     visit '/candidate/application'
   end
 
   def then_i_see_the_add_gcse_maths_page
     expect(page).to have_content 'Add maths GCSE grade 4 (C) or above, or equivalent'
-  end
-
-  def then_i_see_the_add_gcse_english_page
-    expect(page).to have_content 'Add English GCSE grade 4 (C) or above, or equivalent'
   end
 
   def then_i_see_the_edit_details_page
