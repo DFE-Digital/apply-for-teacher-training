@@ -1,0 +1,29 @@
+<% content_for :title, page_title(:work_history_breaks) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_work_history_show_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @work_breaks_form, url: candidate_interface_work_history_breaks_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl">Work history</span>
+        <%= t('page_titles.work_history_breaks') %>
+      </h1>
+
+      <p class="govuk-label">
+        For example, reasons for a break in employment might include parenting
+        or caring responsibilities, study, travel, unemployment, a career break
+        or health.
+      </p>
+
+      <p class="govuk-label">
+        For safeguarding reasons, you should explain any break longer than a month.
+      </p>
+
+      <%= f.govuk_text_area :work_history_breaks, label: { text: t('application_form.work_history.break.label'), hidden: true }, max_words: 400, rows: 10 %>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>

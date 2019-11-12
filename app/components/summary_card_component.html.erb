@@ -16,11 +16,15 @@
           </dd>
 
           <% if row[:change_path] %>
-          <dd class="govuk-summary-list__actions">
-            <%= link_to row[:change_path], class: 'govuk-link' do %>
-              Change<span class="govuk-visually-hidden"> <%= row[:action] %></span>
-            <% end %>
-          </dd>
+            <dd class="govuk-summary-list__actions">
+              <%= link_to row[:change_path], class: 'govuk-link' do %>
+                Change<span class="govuk-visually-hidden"> <%= row[:action] %></span>
+              <% end %>
+            </dd>
+          <% elsif row[:action_path] %>
+            <dd class="govuk-summary-list__actions">
+              <%= link_to row[:action], row[:action_path], class: 'govuk-link' %>
+            </dd>
           <% end %>
         </div>
       <% end %>

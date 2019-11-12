@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_08_162019) do
+ActiveRecord::Schema.define(version: 2019_11_11_115654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 2019_11_08_162019) do
     t.text "other_language_details"
     t.date "date_of_birth"
     t.text "further_information"
+    t.datetime "submitted_at"
     t.string "phone_number"
     t.string "address_line1"
     t.string "address_line2"
@@ -64,18 +65,18 @@ ActiveRecord::Schema.define(version: 2019_11_08_162019) do
     t.string "address_line4"
     t.string "country"
     t.string "postcode"
-    t.datetime "submitted_at"
     t.string "support_reference", limit: 10
     t.string "disability_disclosure"
     t.string "uk_residency_status"
+    t.boolean "degrees_completed", default: false, null: false
     t.boolean "work_history_completed", default: false, null: false
     t.text "work_history_explanation"
-    t.boolean "degrees_completed", default: false, null: false
     t.boolean "other_qualifications_completed", default: false, null: false
-    t.boolean "disclose_disability"
     t.text "becoming_a_teacher"
     t.text "subject_knowledge"
     t.text "interview_preferences"
+    t.text "work_history_breaks"
+    t.boolean "disclose_disability"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
   end
 

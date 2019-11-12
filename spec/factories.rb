@@ -32,6 +32,8 @@ FactoryBot.define do
       becoming_a_teacher { Faker::Lorem.paragraph_by_chars(number: 500) }
       subject_knowledge { Faker::Lorem.paragraph_by_chars(number: 300) }
       interview_preferences { Faker::Lorem.paragraph_by_chars(number: 100) }
+      work_history_explanation { Faker::Lorem.paragraph_by_chars(number: 600) }
+      work_history_breaks { Faker::Lorem.paragraph_by_chars(number: 400) }
 
       transient do
         application_choices_count { 3 }

@@ -79,7 +79,12 @@ en:
       working_with_children: This role involved working with children
       delete_entry: Delete entry
       add_job: Add job
+      add_another_job: Add another job
       sure_delete_entry: Yes I’m sure - delete this entry
+      break:
+        label: Please explain any breaks in your work history
+        enter_label: Enter explanation
+        button: Continue
       review:
         completed_checkbox: I have completed this section
         button: Continue
@@ -315,6 +320,11 @@ en:
             end_date:
               invalid: Enter an end date in the correct format, for example 5 2019
               in_the_future: Enter an end date that is not in the future
+        candidate_interface/work_breaks_form:
+          attributes:
+            work_history_breaks:
+              blank: Please explain any breaks in your work history
+              too_long: Explanation of any breaks in your work history must be %{count} characters or fewer
         candidate_interface/gcse_qualification_details_form:
           attributes:
             grade:
