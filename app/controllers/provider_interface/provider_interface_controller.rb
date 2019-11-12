@@ -1,7 +1,7 @@
 module ProviderInterface
   class ProviderInterfaceController < ActionController::Base
     include BasicAuthHelper
-    before_action :require_basic_auth_for_ui
+    before_action :authenticate_provider_user!
     layout 'application'
 
     helper_method :current_provider_user
