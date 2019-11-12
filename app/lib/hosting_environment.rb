@@ -8,8 +8,7 @@ module HostingEnvironment
   end
 
   def self.phase
-    case environment_name
-    when 'www'
+    if production?
       'beta'
     else
       environment_name
@@ -38,5 +37,9 @@ module HostingEnvironment
     else
       'development'
     end
+  end
+
+  def self.production?
+    environment_name == 'www'
   end
 end

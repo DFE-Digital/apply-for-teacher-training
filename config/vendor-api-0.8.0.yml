@@ -7,12 +7,10 @@ info:
     email: becomingateacher@digital.education.gov.uk
   description: API for DfE's Apply for postgraduate teacher training service
 servers:
-  - description: Local development environment
-    url: http://localhost:3000/api/v1
-  - description: DfE development environment
-    url: https://qa.apply-for-teacher-training.education.gov.uk/api/v1
-  - description: Vendor sandbox
+  - description: Sandbox (test environment for vendors)
     url: https://sandbox.apply-for-teacher-training.education.gov.uk/api/v1
+  - description: Production
+    url: https://www.apply-for-teacher-training.education.gov.uk/api/v1
 paths:
   /applications:
     get:
@@ -192,7 +190,9 @@ paths:
       tags:
         - Testing
       summary: Regenerate test data
-      description: Deletes all applications and generates 100 new applications
+      description: |
+        Deletes all applications and generates 100 new applications. Only
+        available on sandbox.apply-for-teacher-training.education.gov.uk.
       parameters:
         - name: count
           description: How many items to generate (max 100)

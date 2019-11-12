@@ -5,6 +5,8 @@ class GenerateTestData
   end
 
   def generate
+    raise 'You can\'t generate test data in production' if HostingEnvironment.production?
+
     # delete_all doesn't work on `through` associations
     provider.application_choices.map(&:delete)
 
