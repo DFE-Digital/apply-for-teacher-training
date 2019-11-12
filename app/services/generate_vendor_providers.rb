@@ -1,5 +1,7 @@
 class GenerateVendorProviders
   def self.call
+    raise 'You can\'t generate test data in production' if HostingEnvironment.production?
+
     providers = [
       { name: 'Tribal Provider', code: 'TRIB' },
       { name: 'Ellucian Provider', code: 'ELLU' },
