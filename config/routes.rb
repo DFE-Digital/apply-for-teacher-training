@@ -179,6 +179,9 @@ Rails.application.routes.draw do
     get '/providers' => 'providers#index', as: :providers
     post '/providers/sync' => 'providers#sync'
     get '/providers/:provider_id' => 'providers#show', as: :provider
+
+    get '/import-references' => 'import_references#index'
+    post '/import-references' => 'import_references#import'
   end
 
   get '/check', to: 'healthcheck#show'
