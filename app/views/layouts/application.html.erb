@@ -2,7 +2,7 @@
 <html lang="en" class="govuk-template">
   <head>
     <meta charset="utf-8">
-    <title><%= yield(:title) %></title>
+    <title><%= yield(:title) %> - <%= service_name %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -60,15 +60,13 @@
         <div class="govuk-header__content">
           <%= link_to service_name, service_link, class: 'govuk-header__link govuk-header__link--service-name' %>
 
-          <% if current_namespace == 'candidate_interface' && candidate_signed_in? %>
-            <ul id="navigation" class="govuk-header__navigation " aria-label="Top Level Navigation">
-              <li class="govuk-header__navigation-item">
-                <b><%= current_candidate.email_address %></b>
-              </li>
-              <li class="govuk-header__navigation-item">
-                <%= link_to 'Sign out', candidate_interface_sign_out_path, class: 'govuk-header__link' %>
-              </li>
-            </ul>
+          <% case current_namespace %>
+          <% when 'candidate_interface' %>
+            <%= render 'layouts/candidate_header' %>
+          <% when 'support_interface' %>
+            <%= render 'layouts/support_header' %>
+          <% when 'provider_interface' %>
+            <%= render 'layouts/provider_header' %>
           <% end %>
         </div>
       </div>
@@ -85,7 +83,7 @@
       </div>
       <%= yield(:before_content) %>
       <main class="govuk-main-wrapper " id="main-content" role="main">
-        <%= yield %>
+        <%= content_for?(:content) ? yield(:content) : yield %>
       </main>
     </div>
     <footer class="govuk-footer " role="contentinfo">

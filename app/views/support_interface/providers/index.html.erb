@@ -1,5 +1,4 @@
 <% content_for :title, 'Providers' %>
-<h1 class='govuk-heading-xl'>Providers</h1>
 
 <%= form_tag support_interface_providers_sync_path, method: :post do %>
   <%= submit_tag('Sync Providers from Find', class: 'govuk-button') %>
@@ -21,25 +20,15 @@
   <tbody class='govuk-table__body'>
     <% @providers.each do |provider| %>
       <tr class='govuk-table__row'>
-        <td class='govuk-table__cell'><%= provider.name %> (<%= provider.code %>)</td>
         <td class='govuk-table__cell'>
-          <details class='govuk-details' data-module='govuk-details'>
-            <summary class='govuk-details__summary'>
-              <span class='govuk-details__summary-text'>
-                <%= pluralize provider.courses.size, 'course' %>
-              </span>
-            </summary>
-            <div class='govuk-details__text'>
-              <ul class='govuk-list'>
-              <% provider.courses.each do |course| %>
-                <li><%= govuk_link_to course.name, candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code) %></li>
-              <% end %>
-              </ul>
-            </div>
-          </details>
-
+          <%= govuk_link_to provider.name_and_code, support_interface_provider_path(provider) %>
         </td>
-        <td class='govuk-table__cell'><%= provider.sites.size %></td>
+        <td class='govuk-table__cell'>
+          <%= pluralize provider.courses.size, 'course' %>
+        </td>
+        <td class='govuk-table__cell'>
+          <%= provider.sites.size %>
+        </td>
       </tr>
     <% end %>
   </tbody>

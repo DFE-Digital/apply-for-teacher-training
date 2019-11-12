@@ -1,6 +1,6 @@
 module SupportInterface
   class SupportInterfaceController < ActionController::Base
-    layout 'application'
+    layout 'support_layout'
 
     http_basic_authenticate_with(
       name: ENV.fetch('SUPPORT_USERNAME'),

@@ -14,4 +14,9 @@ class Course < ApplicationRecord
     secondary: 'Secondary',
     further_education: 'Further education',
   }, _suffix: :course
+
+
+  def name_and_code
+    "#{name} (#{code})"
+  end
 end

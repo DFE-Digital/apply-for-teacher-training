@@ -173,11 +173,12 @@ Rails.application.routes.draw do
     get '/tokens' => 'api_tokens#index', as: :api_tokens
     post '/tokens' => 'api_tokens#create'
 
-    get '/vendors' => 'manage_vendors#index'
+    get '/vendors' => 'manage_vendors#index', as: :manage_vendors
     post '/vendors' => 'manage_vendors#create'
 
     get '/providers' => 'providers#index', as: :providers
     post '/providers/sync' => 'providers#sync'
+    get '/providers/:provider_id' => 'providers#show', as: :provider
   end
 
   get '/check', to: 'healthcheck#show'

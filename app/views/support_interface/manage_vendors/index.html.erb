@@ -1,24 +1,5 @@
 <% content_for :title, 'Manage vendors' %>
-<h1 class='govuk-heading-xl'>Manage vendors</h1>
 
 <%= form_tag support_interface_vendors_path, method: :post do %>
   <%= submit_tag('Generate Vendor Providers', class: 'govuk-button govuk-button--secondary') %>
 <% end %>
-
-<table class='govuk-table'>
-  <thead class='govuk-table__head'>
-    <tr class='govuk-table__row'>
-      <th scope='col' class='govuk-table__header govuk-!-width-one-half'>Vendor Account</th>
-      <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Created at</th>
-    </tr>
-  </thead>
-
-  <tbody class='govuk-table__body'>
-    <% @providers.each do |provider| %>
-    <tr class='govuk-table__row'>
-      <td class='govuk-table__cell'><%= provider.name %></td>
-      <td class='govuk-table__cell'><%= provider.created_at.to_s(:lonProvg) %></td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
