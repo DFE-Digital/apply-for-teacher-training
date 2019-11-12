@@ -11,8 +11,8 @@ module VendorApi
         type: 'application',
         attributes: {
           status: application_choice.status,
-          updated_at: application_choice.updated_at,
-          submitted_at: application_form.submitted_at,
+          updated_at: application_choice.updated_at.iso8601,
+          submitted_at: application_form.submitted_at.iso8601,
           personal_statement: application_choice.personal_statement,
           candidate: {
             first_name: application_form.first_name,

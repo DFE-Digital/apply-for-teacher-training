@@ -4,13 +4,7 @@ RSpec.feature 'Candidate reviews the answers' do
   include CandidateHelper
 
   scenario 'Candidate with personal details and contact details' do
-    given_i_am_signed_in
-    and_i_filled_in_personal_details
-    and_i_filled_in_contact_details
-    and_i_filled_in_degrees
-    and_i_filled_in_other_qualifications
-    and_i_filled_in_disability_info
-    and_i_visit_the_application_form_page
+    given_i_have_completed_my_application
 
     when_i_click_on_check_your_answers
 
@@ -22,47 +16,8 @@ RSpec.feature 'Candidate reviews the answers' do
     and_i_can_see_my_disability_info
   end
 
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
-  end
-
-  def and_i_filled_in_personal_details
-    visit candidate_interface_personal_details_edit_path
-    candidate_fills_in_personal_details(scope: 'application_form.personal_details')
-
-    click_button t('complete_form_button', scope: 'application_form.personal_details')
-  end
-
-  def and_i_filled_in_contact_details
-    visit candidate_interface_contact_details_edit_base_path
-    candidate_fills_in_contact_details
-
-    click_button t('application_form.contact_details.address.button')
-  end
-
-  def and_i_filled_in_degrees
-    visit candidate_interface_degrees_new_base_path
-    candidate_fills_in_their_degree
-
-    click_button t('application_form.degree.base.button')
-  end
-
-  def and_i_filled_in_other_qualifications
-    visit candidate_interface_new_other_qualification_path
-    candidate_fills_in_their_other_qualifications
-
-    click_button t('application_form.other_qualification.base.button')
-  end
-
-  def and_i_filled_in_disability_info
-    visit candidate_interface_training_with_a_disability_edit_path
-    candidate_fills_in_disability_info
-
-    click_button t('application_form.training_with_a_disability.complete_form_button')
-  end
-
-  def and_i_visit_the_application_form_page
-    visit candidate_interface_application_form_path
+  def given_i_have_completed_my_application
+    candidate_completes_application_form
   end
 
   def when_i_click_on_check_your_answers
