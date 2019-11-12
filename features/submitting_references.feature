@@ -27,6 +27,7 @@ Feature: references
     And "s.skinner@springfield-elementary.edu" provides a reference
     Then the new application choice status is "application_complete"
     When the date is "2019-11-11"
+    And the daily application cron job has run
     Then the new application choice status is "application_complete"
     When the date is "2019-11-12"
     And the daily application cron job has run
