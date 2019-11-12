@@ -25,6 +25,38 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
     }
   end
 
+  describe '.build_all_from_application' do
+    it 'creates an array of objects based on the provided ApplicationForm' do
+      application_form = create(:application_form) do |form|
+        form.application_volunteering_experiences.create(data)
+        form.application_volunteering_experiences.create(
+          role: 'School Experience Intern',
+          organisation: 'A Noice School',
+          details: 'I interned.',
+          working_with_children: true,
+          start_date: Time.zone.local(2018, 8, 1),
+          end_date: Time.zone.local(2019, 10, 1),
+        )
+      end
+
+      volunteering_roles = CandidateInterface::VolunteeringRoleForm.build_all_from_application(application_form)
+
+      expect(volunteering_roles).to match_array([
+        have_attributes(form_data),
+        have_attributes(
+          role: 'School Experience Intern',
+          organisation: 'A Noice School',
+          details: 'I interned.',
+          working_with_children: 'true',
+          start_date_month: 8,
+          start_date_year: 2018,
+          end_date_month: 10,
+          end_date_year: 2019,
+        ),
+      ])
+    end
+  end
+
   describe '#save' do
     it 'returns false if not valid' do
       volunteering_role = CandidateInterface::VolunteeringRoleForm.new

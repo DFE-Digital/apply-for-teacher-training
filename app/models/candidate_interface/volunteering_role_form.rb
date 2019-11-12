@@ -20,6 +20,23 @@ module CandidateInterface
     validate :end_date_before_current_year_and_month, if: :end_date_valid?
     validate :start_date_before_end_date, if: :start_date_and_end_date_valid?
 
+    class << self
+      def build_all_from_application(application_form)
+        application_form.application_volunteering_experiences.order(created_at: :desc).map do |volunteering_role|
+          new(
+            role: volunteering_role.role,
+            organisation: volunteering_role.organisation,
+            details: volunteering_role.details,
+            working_with_children: volunteering_role.working_with_children.to_s,
+            start_date_month: volunteering_role.start_date.month,
+            start_date_year: volunteering_role.start_date.year,
+            end_date_month: volunteering_role.end_date&.month || '',
+            end_date_year: volunteering_role.end_date&.year || '',
+          )
+        end
+      end
+    end
+
     def save(application_form)
       return false unless valid?
 
