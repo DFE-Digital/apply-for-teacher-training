@@ -41,19 +41,19 @@ class ImportReferencesFromCsv
   end
 
   def self.import_reference(application_form, referee_email, referee_feedback)
-    reference = ReceiveReference.new(
+    receive_reference = ReceiveReference.new(
       application_form: application_form,
       referee_email: referee_email,
-      reference: referee_feedback,
+      feedback: referee_feedback,
     )
 
-    updated = !!reference.save
+    updated = receive_reference.save
 
     {
       referee_email: referee_email,
       application_form: application_form,
       updated: updated,
-      errors: updated ? nil : reference.errors.full_messages,
+      errors: updated ? nil : receive_reference.errors.full_messages,
     }
   end
 end

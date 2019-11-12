@@ -10,11 +10,11 @@ RSpec.describe ReceiveReference do
     action = ReceiveReference.new(
       application_form: application_form,
       referee_email: 'xy@z.com',
-      reference: 'A reference',
+      feedback: 'A reference',
     )
 
     expect(action).to be_valid
-    expect(action.save).to be_truthy
+    expect(action.save).to be true
 
     expect(application_form.references.find_by!(email_address: 'xy@z.com').feedback).to eq('A reference')
     expect(application_form.references.find_by!(email_address: 'ab@c.com').feedback).to be_nil
@@ -22,14 +22,14 @@ RSpec.describe ReceiveReference do
 
   it 'progresses the application choices to the "application complete" status once all references have been received' do
     application_form = FactoryBot.create(:completed_application_form, references_count: 0)
-    application_form.application_choices.each { |choice| choice.update(status: 'awaiting_references') }
+    application_form.application_choices.each { |choice| choice.update(status: 'awaiting_references', edit_by: 1.day.from_now) }
     create(:reference, :unsubmitted, email_address: 'ab@c.com', application_form: application_form)
     create(:reference, :complete, application_form: application_form)
 
     action = ReceiveReference.new(
       application_form: application_form,
       referee_email: 'ab@c.com',
-      reference: 'A reference',
+      feedback: 'A reference',
     )
     action.save
 
@@ -37,12 +37,45 @@ RSpec.describe ReceiveReference do
     expect(application_form.application_choices).to all(be_application_complete)
   end
 
+  it 'progresses the application choices to the "awaiting provider decision" status once all references have been received if edit_by date is in past' do
+    application_form = FactoryBot.create(:completed_application_form, references_count: 0)
+    application_form.application_choices.each { |choice| choice.update(status: 'awaiting_references', edit_by: 1.day.ago) }
+    create(:reference, :unsubmitted, email_address: 'ab@c.com', application_form: application_form)
+    create(:reference, :complete, application_form: application_form)
+
+    action = ReceiveReference.new(
+      application_form: application_form,
+      referee_email: 'ab@c.com',
+      feedback: 'A reference',
+    )
+    action.save
+
+    expect(application_form).to be_references_complete
+    expect(application_form.application_choices).to all(be_awaiting_provider_decision)
+  end
+
+  it 'does not progress the application choices to the "application complete" status without minimum number of references' do
+    application_form = FactoryBot.create(:completed_application_form, references_count: 0)
+    application_form.application_choices.each { |choice| choice.update(status: 'awaiting_references') }
+    create(:reference, :unsubmitted, email_address: 'ab@c.com', application_form: application_form)
+
+    action = ReceiveReference.new(
+      application_form: application_form,
+      referee_email: 'ab@c.com',
+      feedback: 'A reference',
+    )
+    action.save
+
+    expect(application_form).not_to be_references_complete
+    expect(application_form.application_choices).to all(be_awaiting_references)
+  end
+
   describe 'validation' do
     it 'validates the presence of referee email' do
       action = ReceiveReference.new(
         application_form: build_stubbed(:application_form),
         referee_email: nil,
-        reference: 'A reference',
+        feedback: 'A reference',
       )
 
       expect(action).not_to be_valid
@@ -52,7 +85,7 @@ RSpec.describe ReceiveReference do
       action = ReceiveReference.new(
         application_form: build_stubbed(:application_form),
         referee_email: 'madeupemail@example.com',
-        reference: 'A reference',
+        feedback: 'A reference',
       )
 
       expect(action).not_to be_valid

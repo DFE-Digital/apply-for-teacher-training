@@ -18,10 +18,8 @@ class ApplicationStateChange
     end
 
     state :awaiting_references do
-      event :receive_reference, transitions_to: :application_complete,
-                                if: :references_complete?
-      event :receive_reference, transitions_to: :awaiting_references,
-                                unless: :references_complete?
+      event :references_complete, transitions_to: :application_complete
+      event :send_to_provider, transitions_to: :awaiting_provider_decision
       event :withdraw, transitions_to: :withdrawn
     end
 
@@ -71,9 +69,5 @@ class ApplicationStateChange
 
   def self.valid_states
     workflow_spec.states.keys
-  end
-
-  def references_complete?
-    application_choice.application_form.references_complete?
   end
 end

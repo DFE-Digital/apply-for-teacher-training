@@ -1,31 +1,38 @@
 class ReceiveReference
   attr_reader :referee_email
-  attr_reader :reference
+  attr_reader :feedback
 
   include ActiveModel::Validations
 
   validates_presence_of :referee_email
   validate :referee_must_exist_on_application_form
 
-  def initialize(application_form:, referee_email:, reference:)
+  def initialize(application_form:, referee_email:, feedback:)
     @application_form = application_form
     @referee_email = referee_email
-    @reference = reference
+    @feedback = feedback
   end
 
   def save
-    return unless valid?
+    return false unless valid?
 
     ActiveRecord::Base.transaction do
       @application_form
         .references
-        .find_by!(email_address: @referee_email)
-        .update!(feedback: @reference)
+        .find { |reference| reference.email_address == @referee_email }
+        .update!(feedback: @feedback)
 
-      @application_form.application_choices.each do |application_choice|
-        ApplicationStateChange.new(application_choice).receive_reference!
+      if @application_form.references_complete?
+        @application_form.application_choices.each do |application_choice|
+          if application_choice.edit_by_expired?
+            ApplicationStateChange.new(application_choice).send_to_provider!
+          else
+            ApplicationStateChange.new(application_choice).references_complete!
+          end
+        end
       end
     end
+    true
   rescue Workflow::NoTransitionAllowed => e
     errors.add(:state, e.message)
     false
