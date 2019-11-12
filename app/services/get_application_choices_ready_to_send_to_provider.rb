@@ -16,6 +16,6 @@ class GetApplicationChoicesReadyToSendToProvider
       .joins(application_form: :references)
       .where('feedback is not null')
       .group('application_choices.id')
-      .having('count("references"."feedback") >= 2')
+      .having('count("references"."feedback") >= ?', ApplicationForm::MINIMUM_REFERENCES)
   end
 end

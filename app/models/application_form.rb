@@ -8,12 +8,14 @@ class ApplicationForm < ApplicationRecord
   has_many :application_qualifications
   has_many :references
 
+  MINIMUM_REFERENCES = 2
+
   def submitted?
     application_choices.any? && !application_choices.first.unsubmitted?
   end
 
   def references_complete?
-    references.any? && references.all?(&:complete?)
+    references.select(&:complete?).count >= MINIMUM_REFERENCES
   end
 
   def qualification_in_subject(level, subject)
