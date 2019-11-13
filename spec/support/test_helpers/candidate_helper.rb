@@ -47,6 +47,14 @@ module CandidateHelper
     check t('application_form.work_history.review.completed_checkbox')
     click_button t('application_form.work_history.review.button')
 
+    click_link t('page_titles.volunteering.short')
+    choose 'Yes' # "Do you have experience volunteering with young people or in school?"
+    click_button t('application_form.volunteering.experience.button')
+    candidate_fills_in_volunteering_role
+    click_button t('application_form.volunteering.complete_form_button')
+    check t('application_form.volunteering.review.completed_checkbox')
+    click_button t('application_form.volunteering.review.button')
+
     click_link t('page_titles.training_with_a_disability')
     candidate_fills_in_disability_info
     click_button t('application_form.training_with_a_disability.complete_form_button')
@@ -175,6 +183,27 @@ module CandidateHelper
       fill_in locale.t('details.label'), with: 'I learned a lot about teaching'
 
       choose 'No'
+    end
+  end
+
+  def candidate_fills_in_volunteering_role
+    with_options scope: 'application_form.volunteering' do |locale|
+      fill_in locale.t('role.label'), with: 'Classroom Volunteer'
+      fill_in locale.t('organisation.label'), with: 'A Noice School'
+
+      choose 'Yes'
+
+      within('[data-qa="start-date"]') do
+        fill_in 'Month', with: '5'
+        fill_in 'Year', with: '2018'
+      end
+
+      within('[data-qa="end-date"]') do
+        fill_in 'Month', with: '1'
+        fill_in 'Year', with: '2019'
+      end
+
+      fill_in locale.t('details.label'), with: 'I volunteered.'
     end
   end
 
