@@ -48,7 +48,7 @@
         <% end %>
       </li>
       <li class="app-task-list__item">
-        <%= govuk_link_to 'TODO: School experience and volunteering', '#', class: 'app-task-list__task-name' %>
+        <%= govuk_link_to t('page_titles.volunteering.short'), candidate_interface_volunteering_experience_path, class: 'app-task-list__task-name' %>
       </li>
       <li class="app-task-list__item">
         <% if @application_form_presenter.training_with_a_disability_completed? %>

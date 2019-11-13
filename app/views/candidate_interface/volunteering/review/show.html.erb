@@ -1,0 +1,12 @@
+<% content_for :title, page_title('volunteering.short') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.volunteering.short') %>
+    </h1>
+
+    <%= render(VolunteeringReviewComponent, application_form: @application_form) %>
+  </div>
+</div>
