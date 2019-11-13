@@ -228,6 +228,8 @@ en:
         review_label: Tell us how long you’ve been in this role and what it involves
         change_action: dates and details
       complete_form_button: Save and continue
+      delete: Delete role
+      confirm_delete: Yes I'm sure - delete this role
   activemodel:
     errors:
       models:

@@ -5,7 +5,7 @@ module CandidateInterface
   class VolunteeringRoleForm
     include ActiveModel::Model
 
-    attr_accessor :role, :organisation, :details, :working_with_children,
+    attr_accessor :id, :role, :organisation, :details, :working_with_children,
                   :start_date_day, :start_date_month, :start_date_year,
                   :end_date_day, :end_date_month, :end_date_year
 
@@ -23,17 +23,30 @@ module CandidateInterface
     class << self
       def build_all_from_application(application_form)
         application_form.application_volunteering_experiences.order(created_at: :desc).map do |volunteering_role|
-          new(
-            role: volunteering_role.role,
-            organisation: volunteering_role.organisation,
-            details: volunteering_role.details,
-            working_with_children: volunteering_role.working_with_children.to_s,
-            start_date_month: volunteering_role.start_date.month,
-            start_date_year: volunteering_role.start_date.year,
-            end_date_month: volunteering_role.end_date&.month || '',
-            end_date_year: volunteering_role.end_date&.year || '',
-          )
+          new_volunteering_role_form(volunteering_role)
         end
+      end
+
+      def build_from_application(application_form, volunteering_role_id)
+        volunteering_role = application_form.application_volunteering_experiences.find(volunteering_role_id)
+
+        new_volunteering_role_form(volunteering_role)
+      end
+
+    private
+
+      def new_volunteering_role_form(volunteering_role)
+        new(
+          id: volunteering_role.id,
+          role: volunteering_role.role,
+          organisation: volunteering_role.organisation,
+          details: volunteering_role.details,
+          working_with_children: volunteering_role.working_with_children.to_s,
+          start_date_month: volunteering_role.start_date.month,
+          start_date_year: volunteering_role.start_date.year,
+          end_date_month: volunteering_role.end_date&.month || '',
+          end_date_year: volunteering_role.end_date&.year || '',
+        )
       end
     end
 

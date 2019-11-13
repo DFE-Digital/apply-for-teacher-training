@@ -85,5 +85,14 @@ RSpec.describe VolunteeringReviewComponent do
       expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include('#')
       expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.volunteering.length_and_details.change_action')}")
     end
+
+    it 'renders component along with a delete link for each role' do
+      result = render_inline(VolunteeringReviewComponent, application_form: application_form)
+
+      expect(result.css('.app-summary-card__actions').text).to include(t('application_form.volunteering.delete'))
+      expect(result.css('.app-summary-card__actions a').attr('href').value).to include(
+        Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_volunteering_role_path(2),
+      )
+    end
   end
 end

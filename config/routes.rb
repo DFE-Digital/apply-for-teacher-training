@@ -107,6 +107,9 @@ Rails.application.routes.draw do
         post '/new' => 'volunteering/base#create', as: :create_volunteering_role
 
         get '/review' => 'volunteering/review#show', as: :review_volunteering
+
+        get '/delete/:id' => 'volunteering/destroy#confirm_destroy', as: :confirm_destroy_volunteering_role
+        delete '/delete/:id' => 'volunteering/destroy#destroy'
       end
 
       scope '/degrees' do
