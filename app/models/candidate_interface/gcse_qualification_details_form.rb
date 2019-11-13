@@ -4,7 +4,7 @@ module CandidateInterface
 
     attr_accessor :grade, :award_year, :qualification_id
     validates :grade, :award_year, :qualification_id, presence: true
-    validate :validate_award_year_is_date, if: :award_year
+    validate :validate_award_year, if: :award_year
 
     def self.build_from_qualification(qualification)
       new(
@@ -24,7 +24,7 @@ module CandidateInterface
 
   private
 
-    def validate_award_year_is_date
+    def validate_award_year
       valid_award_year = award_year.match(/^[1-9]\d{3}$/)
       errors.add(:award_year, :invalid) unless valid_award_year
     end

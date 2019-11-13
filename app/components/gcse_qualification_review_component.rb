@@ -45,7 +45,7 @@ private
       gcse: 'GCSE',
       gce_o_level: 'GCE O Level',
       scottish_higher: 'Scottish Higher',
-      other_uk: 'Other UK qualification',
+      other_uk: application_qualification.other_uk_qualification_type,
     }
   end
 end

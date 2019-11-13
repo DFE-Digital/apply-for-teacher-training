@@ -37,6 +37,10 @@ module ViewHelper
     ].map { |id, label| option.new(id, label) }
   end
 
+  def conditional_radios
+    { other_uk: [other_uk_qualification_type: 'Enter type of qualification'] }
+  end
+
 private
 
   def prepend_css_class(css_class, current_class)
