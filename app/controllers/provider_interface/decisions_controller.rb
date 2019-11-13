@@ -12,12 +12,12 @@ module ProviderInterface
       elsif decision == 'reject'
         redirect_to action: :new_reject
       else
-        redirect_to action: :respond # FIXME: should not happen, can we flash?
+        raise 'Unexpected application_choice decision'
       end
     end
 
     def new_offer
-      redirect_to action: :respond # Not yet implemented FIXME: can we flash?
+      raise 'Not yet implemented'
     end
 
     def new_reject; end
