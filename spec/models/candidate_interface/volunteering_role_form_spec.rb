@@ -59,6 +59,18 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
     end
   end
 
+  describe '.build_from_application' do
+    it 'returns a new VolunteeringRoleForm object using the id' do
+      application_form = create(:application_form) do |form|
+        form.application_volunteering_experiences.create(id: 1, attributes: data)
+      end
+
+      volunteering_roles = CandidateInterface::VolunteeringRoleForm.build_from_application(application_form, 1)
+
+      expect(volunteering_roles).to have_attributes(form_data)
+    end
+  end
+
   describe '#save' do
     it 'returns false if not valid' do
       volunteering_role = CandidateInterface::VolunteeringRoleForm.new
