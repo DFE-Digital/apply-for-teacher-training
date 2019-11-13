@@ -1,0 +1,88 @@
+<%= form_tag provider_interface_application_choice_new_confirm_reject_path, method: :get do %>
+  
+  <fieldset class="govuk-fieldset">
+  
+  <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+  
+    <h1 class="govuk-fieldset__heading">
+      
+    <span class="govuk-caption-xl">Application for Upper Primary with Modern Foreign Languages (XR9C)</span>
+    Reject application
+  
+    </h1>
+  
+  </legend>
+ 
+<dl class="govuk-summary-list govuk-!-margin-bottom-8">
+   
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Full name
+        </dt>
+        <dd class="govuk-summary-list__value">
+          Kelly Jane Spears
+        </dd>
+        
+      </div>
+    
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Course
+        </dt>
+        <dd class="govuk-summary-list__value">
+          Upper Primary with Modern Foreign Languages (XR9C)<br>PGCE with QTS full time
+        </dd>
+        
+      </div>
+    
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Starting
+        </dt>
+        <dd class="govuk-summary-list__value">
+          September 2020
+        </dd>
+        
+      </div>
+    
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Preferred location
+        </dt>
+        <dd class="govuk-summary-list__value">
+          Alliance Academy<br>Edgeware, Road Name, SW1 1AA
+        </dd>
+        
+      </div>
+</dl>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      
+
+<div class="govuk-form-group">
+  <label class="govuk-label govuk-label--m" for="comments">
+    Please explain why this application was rejected
+  </label>
+
+  
+  
+  <span id="comments-hint" class="govuk-hint">
+    We will forward your feedback to the candidate
+  </span>
+
+
+  <textarea class="govuk-textarea" id="comments" name="comments" rows="5" aria-describedby="comments-hint"></textarea>
+</div>
+
+
+<button class="govuk-button" data-module="govuk-button">
+  Continue
+</button>
+
+      <p class="govuk-body"><a href="/application/202">Cancel</a></p>
+    </div>
+  </div>
+
+  </fieldset>
+<% end %>

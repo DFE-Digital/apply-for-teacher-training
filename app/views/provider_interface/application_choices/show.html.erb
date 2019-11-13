@@ -1,21 +1,46 @@
 <h1 class='govuk-heading-xl'><%= @application_choice.full_name %>'s application</h1>
 
-<dl class="govuk-summary-list">
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Name
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= @application_choice.full_name %>
-    </dd>
-  </div>
+<div class="govuk-grid-column-two-thirds">
+  <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Name
+      </dt>
+      <dd class="govuk-summary-list__value">
+        <%= @application_choice.full_name %>
+      </dd>
+    </div>
 
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Date of birth
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= @application_choice.date_of_birth %>
-    </dd>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Date of birth
+      </dt>
+      <dd class="govuk-summary-list__value">
+        <%= @application_choice.date_of_birth %>
+      </dd>
+    </div>
+  </dl>
+</div>
+
+<div class="govuk-grid-column-one-third">
+  <div class="app-card">
+    <h2 class="govuk-heading-m">Status</h2>
+     <strong class="govuk-tag app-tag--new govuk-!-margin-bottom-4">
+       New
+     </strong>
+      <dl class="app-definition-list">
+        <dt>Application submitted</dt><dt>
+        </dt><dd>10 Oct 2019</dd>
+
+        <dt>Respond to the applicant by</dt><dt>
+        </dt><dd>19 Nov 2019</dd>
+
+      </dl>
+      <a href="<%= provider_interface_application_choice_respond_path %>" role="button" draggable="false" class="govuk-button govuk-!-margin-bottom-4" data-module="govuk-button">
+        Respond to application
+      </a>
+      <p class="govuk-body govuk-!-margin-bottom-0">
+        <a href="#" download="">Download application (CSV)</a>
+      </p>
   </div>
-</dl>
+</div>

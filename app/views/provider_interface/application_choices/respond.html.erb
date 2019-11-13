@@ -1,0 +1,48 @@
+<%= form_tag provider_interface_application_choice_new_reject_path, method: :get do %>
+  
+  <fieldset class="govuk-fieldset">
+  
+  <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+  
+    <h1 class="govuk-fieldset__heading">
+      
+    <span class="govuk-caption-xl">Application for Upper Primary with Modern Foreign Languages (XR9C)</span>
+    Respond to application
+  
+    </h1>
+  
+  </legend>
+  
+<div class="govuk-form-group">
+
+  <div class="govuk-radios govuk-!-margin-top-2">
+       
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="status" name="decision" type="radio" value="offer">
+          <label class="govuk-label govuk-radios__label" for="status">
+        Make an offer (including any conditions or recommendations)
+      </label>
+          
+        </div>
+       
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="status-2" name="decision" type="radio" value="reject">
+          <label class="govuk-label govuk-radios__label" for="status-2">
+        Reject application
+      </label>
+          
+        </div>
+    
+  </div>
+
+</div>
+
+<button class="govuk-button" data-module="govuk-button">
+  Continue
+</button>
+
+  <p class="govuk-body"><a href="/application/202">Cancel</a></p>
+
+  </fieldset>
+
+<% end %>

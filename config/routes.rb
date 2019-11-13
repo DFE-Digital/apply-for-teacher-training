@@ -164,6 +164,10 @@ Rails.application.routes.draw do
 
     get '/applications' => 'application_choices#index'
     get '/applications/:application_choice_id' => 'application_choices#show', as: :application_choice
+    get '/applications/:application_choice_id/respond' => 'application_choices#respond', as: :application_choice_respond
+    get '/applications/:application_choice_id/reject' => 'application_choices#new_reject', as: :application_choice_new_reject
+    get '/applications/:application_choice_id/reject/confirm' => 'application_choices#new_confirm_reject', as: :application_choice_new_confirm_reject
+    post '/applications/:application_choice_id/reject' => 'application_choices#create_reject', as: :application_choice_create_reject
   end
 
   namespace :support_interface, path: '/support' do
