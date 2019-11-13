@@ -15,8 +15,6 @@ class Course < ApplicationRecord
     further_education: 'Further education',
   }, _suffix: :course
 
-  scope :that_candidates_can_apply_to, -> { where(exposed_in_find: true) }
-
   def name_and_code
     "#{name} (#{code})"
   end
