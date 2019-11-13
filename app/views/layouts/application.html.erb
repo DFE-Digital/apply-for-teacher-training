@@ -2,7 +2,7 @@
 <html lang="en" class="govuk-template">
   <head>
     <meta charset="utf-8">
-    <title><%= yield(:title) %> - <%= service_name %></title>
+    <title><%= yield(:browser_title).presence || yield(:title) %> - <%= service_name %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
