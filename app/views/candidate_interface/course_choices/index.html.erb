@@ -15,7 +15,7 @@
         <%= course_choice.provider.name %>
       </h3>
       <div class="app-summary-card__actions">
-        <%= link_to 'Delete choice', '#TODO', class: 'govuk-link' %>
+        <%= link_to t('application_form.courses.delete'), candidate_interface_confirm_destroy_course_choice_path(course_choice.id), class: 'govuk-link' %>
       </div>
     </header>
   <% end %>

@@ -15,6 +15,10 @@ RSpec.feature 'Selecting a course' do
     and_i_choose_a_course
     and_i_choose_a_location
     then_i_see_my_completed_course_choice
+
+    when_i_delete_my_course_choice
+    and_i_confirm
+    then_i_no_longer_see_my_course_choice
   end
 
   def given_i_am_signed_in
@@ -64,5 +68,17 @@ RSpec.feature 'Selecting a course' do
     expect(page).to have_content('Gorse SCITT')
     expect(page).to have_content('Primary (2XT2)')
     expect(page).to have_content('Main site')
+  end
+
+  def when_i_delete_my_course_choice
+    click_link t('application_form.courses.delete')
+  end
+
+  def and_i_confirm
+    click_button t('application_form.courses.confirm_delete')
+  end
+
+  def then_i_no_longer_see_my_course_choice
+    expect(page).not_to have_content('Primary (2XT2)')
   end
 end
