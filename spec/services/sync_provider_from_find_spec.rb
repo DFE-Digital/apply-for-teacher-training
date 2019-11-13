@@ -4,7 +4,6 @@ RSpec.describe SyncProviderFromFind do
   include FindAPIHelper
 
   describe 'ingesting provider, courses, sites and course_options for a provider_code' do
-
     it 'correctly creates all the entities' do
       stub_find_api_provider_200(
         provider_code: 'ABC',
@@ -32,12 +31,12 @@ RSpec.describe SyncProviderFromFind do
         accrediting_provider_name: 'Test Accrediting Provider',
       )
 
-        SyncProviderFromFind.call(provider_code: 'ABC')
+      SyncProviderFromFind.call(provider_code: 'ABC')
 
-        course_option = CourseOption.last
+      course_option = CourseOption.last
 
-        expect(course_option.course.accrediting_provider.code).to eq 'DEF'
-        expect(course_option.course.accrediting_provider.name).to eq 'Test Accrediting Provider'
+      expect(course_option.course.accrediting_provider.code).to eq 'DEF'
+      expect(course_option.course.accrediting_provider.name).to eq 'Test Accrediting Provider'
     end
   end
 end
