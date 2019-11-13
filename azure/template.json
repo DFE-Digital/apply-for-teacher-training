@@ -213,6 +213,24 @@
             "metadata": {
                 "description": "Should basic auth be disabled for the /candidate/apply landing page linked from Find?"
             }
+        },
+        "dfeSignInClientId": {
+            "type": "string",
+            "metadata": {
+                "description": "The DfE Sign-in client ID, obtained from the DfE Sign in management interface"
+            }
+        },
+        "dfeSignInSecret": {
+            "type": "string",
+            "metadata": {
+                "description": "The DfE Sign-in secret, obtained from the DfE sign-in management interface"
+            }
+        },
+        "dfeSignInIssuer": {
+            "type": "string",
+            "metadata": {
+                "description": "The URL of the DfE Sign-in OIDC interface (differs for test, pre-prod and prod)"
+            }
         }
     },
     "variables": {
@@ -454,6 +472,18 @@
                             {
                                 "name": "DISABLE_BASIC_AUTH_FOR_LANDING_PAGE",
                                 "value": "[parameters('disableBasicAuthForLandingPage')]"
+                            },
+                            {
+                                "name": "DFE_SIGN_IN_CLIENT_ID",
+                                "value": "[parameters('dfeSignInClientId')]"
+                            },
+                            {
+                                "name": "DFE_SIGN_IN_SECRET",
+                                "value": "[parameters('dfeSignInSecret')]"
+                            },
+                            {
+                                "name": "DFE_SIGN_IN_ISSUER",
+                                "value": "[parameters('dfeSignInIssuer')]"
                             }
                         ]
                     }

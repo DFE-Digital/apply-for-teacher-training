@@ -181,7 +181,9 @@ stages:
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
       findBaseUrl: '$(findBaseUrl)'
       disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'
-
+      dfeSignInClientId: '$(dfeSignInClientId)'
+      dfeSignInSecret: '$(dfeSignInSecret)'
+      dfeSignInIssuer: '$(dfeSignInIssuer)'
 
 - stage: deploy_staging
   displayName: 'Deploy - Staging'
@@ -224,6 +226,9 @@ stages:
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
       findBaseUrl: '$(findBaseUrl)'
       disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'
+      dfeSignInClientId: '$(dfeSignInClientId)'
+      dfeSignInSecret: '$(dfeSignInSecret)'
+      dfeSignInIssuer: '$(dfeSignInIssuer)'
 
 
 - stage: deploy_sandbox
@@ -267,6 +272,9 @@ stages:
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
       findBaseUrl: '$(findBaseUrl)'
       disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'
+      dfeSignInClientId: '$(dfeSignInClientId)'
+      dfeSignInSecret: '$(dfeSignInSecret)'
+      dfeSignInIssuer: '$(dfeSignInIssuer)'
 
 
 - stage: deploy_pentest
@@ -309,6 +317,9 @@ stages:
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
       findBaseUrl: '$(findBaseUrl)'
       disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'
+      dfeSignInClientId: '$(dfeSignInClientId)'
+      dfeSignInSecret: '$(dfeSignInSecret)'
+      dfeSignInIssuer: '$(dfeSignInIssuer)'
 
 
 - stage: deploy_production
@@ -352,3 +363,6 @@ stages:
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
       findBaseUrl: '$(findBaseUrl)'
       disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'
+      dfeSignInClientId: '$(dfeSignInClientId)'
+      dfeSignInSecret: '$(dfeSignInSecret)'
+      dfeSignInIssuer: '$(dfeSignInIssuer)'

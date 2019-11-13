@@ -35,6 +35,9 @@ parameters:
   govukNotifyAPIKey:
   findBaseUrl:
   disableBasicAuthForLandingPage:
+  dfeSignInClientId:
+  dfeSignInSecret:
+  dfeSignInIssuer:
 
 jobs:
   - deployment: deploy_${{parameters.resourceEnvironmentName}}
@@ -98,7 +101,10 @@ jobs:
                 -findBaseUrl "${{parameters.findBaseUrl}}"
                 -redisCacheName "$(redisCacheName)"
                 -containerInstanceNamePrefix "$(containerInstanceNamePrefix)"
-                -disableBasicAuthForLandingPage "${{parameters.disableBasicAuthForLandingPage}}"'
+                -disableBasicAuthForLandingPage "${{parameters.disableBasicAuthForLandingPage}}"
+                -dfeSignInClientId "${{parameters.dfeSignInClientId}}"
+                -dfeSignInSecret: "${{parameters.dfeSignInSecret}}"
+                -dfeSignInIssuer: "${{parameters.dfeSignInIssuer}}"'
               deploymentOutputs: DeploymentOutput
 
           - task: AzurePowerShell@3
