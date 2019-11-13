@@ -20,7 +20,7 @@ module HostingEnvironment
     when 'www'
       'This is a new service - <a href="mailto:becomingateacher@digital.education.gov.uk?subject=Apply+feedback" class="govuk-link">give feedback or report a problem</a>'.html_safe
     when 'qa'
-      'This the QA version of the Apply service'
+      'This is the QA version of the Apply service'
     when 'sandbox'
       'This is a demo environment for software vendors who integrate with our API'
     when 'staging'
