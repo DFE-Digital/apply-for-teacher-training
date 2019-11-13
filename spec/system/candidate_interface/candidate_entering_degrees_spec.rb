@@ -4,10 +4,6 @@ RSpec.feature 'Entering their degrees' do
   include CandidateHelper
 
   scenario 'Candidate submits their degrees' do
-    given_i_am_not_signed_in
-    and_i_visit_the_degrees_page
-    then_i_see_the_homepage
-
     given_i_am_signed_in
     and_i_visit_the_site
 
@@ -52,16 +48,6 @@ RSpec.feature 'Entering their degrees' do
 
     when_i_click_on_degree
     then_i_can_check_my_answers
-  end
-
-  def given_i_am_not_signed_in; end
-
-  def and_i_visit_the_degrees_page
-    visit candidate_interface_degrees_new_base_path
-  end
-
-  def then_i_see_the_homepage
-    expect(page).to have_current_path(candidate_interface_start_path)
   end
 
   def given_i_am_signed_in

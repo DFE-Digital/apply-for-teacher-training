@@ -4,10 +4,6 @@ RSpec.feature 'Entering their other qualifications' do
   include CandidateHelper
 
   scenario 'Candidate submits their other qualifications' do
-    given_i_am_not_signed_in
-    and_i_visit_the_other_qualifications_page
-    then_i_see_the_homepage
-
     given_i_am_signed_in
     and_i_visit_the_site
 
@@ -51,16 +47,6 @@ RSpec.feature 'Entering their other qualifications' do
     and_i_click_on_continue
     then_i_should_see_the_form
     and_that_the_section_is_completed
-  end
-
-  def given_i_am_not_signed_in; end
-
-  def and_i_visit_the_other_qualifications_page
-    visit candidate_interface_new_other_qualification_path
-  end
-
-  def then_i_see_the_homepage
-    expect(page).to have_current_path(candidate_interface_start_path)
   end
 
   def given_i_am_signed_in
