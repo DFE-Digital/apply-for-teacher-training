@@ -8,5 +8,7 @@
     </h1>
 
     <%= render(VolunteeringReviewComponent, application_form: @application_form) %>
+
+    <%= govuk_button_link_to t('application_form.volunteering.another.button'), candidate_interface_new_volunteering_role_path, class: 'govuk-button--secondary' %>
   </div>
 </div>
