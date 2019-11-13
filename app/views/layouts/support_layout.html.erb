@@ -1,5 +1,7 @@
 <% content_for :content do %>
-  <h1 class='govuk-heading-xl'><%= yield :title %></h1>
+  <% if yield(:title).present? %>
+    <h1 class='govuk-heading-xl'><%= yield :title %></h1>
+  <% end %>
   <%= yield %>
 <% end %>
 
