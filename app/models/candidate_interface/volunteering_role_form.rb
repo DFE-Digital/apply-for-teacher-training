@@ -5,7 +5,7 @@ module CandidateInterface
   class VolunteeringRoleForm
     include ActiveModel::Model
 
-    attr_accessor :role, :organisation, :details, :working_with_children,
+    attr_accessor :id, :role, :organisation, :details, :working_with_children,
                   :start_date_day, :start_date_month, :start_date_year,
                   :end_date_day, :end_date_month, :end_date_year
 
@@ -24,6 +24,7 @@ module CandidateInterface
       def build_all_from_application(application_form)
         application_form.application_volunteering_experiences.order(created_at: :desc).map do |volunteering_role|
           new(
+            id: volunteering_role.id,
             role: volunteering_role.role,
             organisation: volunteering_role.organisation,
             details: volunteering_role.details,

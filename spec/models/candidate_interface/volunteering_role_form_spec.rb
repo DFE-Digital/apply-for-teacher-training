@@ -28,8 +28,9 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
   describe '.build_all_from_application' do
     it 'creates an array of objects based on the provided ApplicationForm' do
       application_form = create(:application_form) do |form|
-        form.application_volunteering_experiences.create(data)
+        form.application_volunteering_experiences.create(id: 1, attributes: data)
         form.application_volunteering_experiences.create(
+          id: 2,
           role: 'School Experience Intern',
           organisation: 'A Noice School',
           details: 'I interned.',
@@ -44,6 +45,7 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
       expect(volunteering_roles).to match_array([
         have_attributes(form_data),
         have_attributes(
+          id: 2,
           role: 'School Experience Intern',
           organisation: 'A Noice School',
           details: 'I interned.',
