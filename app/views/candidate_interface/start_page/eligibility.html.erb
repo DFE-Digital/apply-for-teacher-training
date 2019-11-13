@@ -1,0 +1,41 @@
+<% content_for :title, t('page_titles.application') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_start_path) %>
+
+<h1 class="govuk-heading-xl">
+  First, check you can use the new GOV.UK service
+</h1>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: CandidateInterface::EligibilityForm.new, url: candidate_interface_eligibility_path, method: :post do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_radio_buttons_fieldset :eligible_citizen, inline: true, legend: { size: 'm', text: 'Are you a citizen of the UK, EU or EEA?' } do %>
+        <%= f.govuk_radio_button :eligible_citizen, 'yes', label: { text: 'Yes' } %>
+        <%= f.govuk_radio_button :eligible_citizen, 'no', label: { text: 'No' } %>
+      <% end %>
+
+      <%= f.govuk_radio_buttons_fieldset :eligible_qualifications, inline: true, legend: { size: 'm', text: 'Did you gain all your qualifications at institutions based in the UK?' } do %>
+        <%= f.govuk_radio_button :eligible_qualifications, 'yes', label: { text: 'Yes' } %>
+        <%= f.govuk_radio_button :eligible_qualifications, 'no', label: { text: 'No' } %>
+      <% end %>
+
+      <% fieldset_label = capture do %>
+        Are you applying to one of the following training providers?
+
+        <ul class='govuk-list govuk-list--bullet govuk-!-margin-top-2 govuk-hint'>
+          <li>The Royal Academy of Dance</li>
+          <li>Gorse SCITT</li>
+          <li>Somerset SCITT Consortium</li>
+        </ul>
+      <% end %>
+
+      <%= f.govuk_radio_buttons_fieldset :eligible_providers, inline: true, legend: { size: 'm', text: fieldset_label } do %>
+        <%= f.govuk_radio_button :eligible_providers, 'yes', label: { text: 'Yes' } %>
+        <%= f.govuk_radio_button :eligible_providers, 'no', label: { text: 'No' } %>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>

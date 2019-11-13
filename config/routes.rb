@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   namespace :candidate_interface, path: '/candidate' do
     get '/' => 'start_page#show', as: :start
 
+    get '/eligibility' => 'start_page#eligibility', as: :eligibility
+    post '/eligibility' => 'start_page#determine_eligibility'
+
     get '/sign-up', to: 'sign_up#new', as: :sign_up
     post '/sign-up', to: 'sign_up#create'
 
