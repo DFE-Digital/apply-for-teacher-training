@@ -71,6 +71,8 @@ en:
     volunteering:
       short: Volunteering with children and young people
       long: "Children and young people: volunteering and experience in school"
+      caption: Children and young people
+    add_volunteering_role: Add role
   layout:
     service_name: Apply for teacher training
     accessibility: Accessibility

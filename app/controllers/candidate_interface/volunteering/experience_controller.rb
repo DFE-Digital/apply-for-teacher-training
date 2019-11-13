@@ -9,9 +9,9 @@ module CandidateInterface
 
       if @volunteering_experience_form.valid?
         if @volunteering_experience_form.experience == 'no'
-          redirect_to candidate_interface_review_volunteering_experience_path
+          redirect_to candidate_interface_review_volunteering_path
         else
-          render :show
+          redirect_to candidate_interface_new_volunteering_role_path
         end
       else
         render :show

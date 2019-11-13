@@ -103,7 +103,10 @@ Rails.application.routes.draw do
         get '/' => 'volunteering/experience#show', as: :volunteering_experience
         post '/' => 'volunteering/experience#submit'
 
-        get '/review' => 'volunteering/review#show', as: :review_volunteering_experience
+        get '/new' => 'volunteering/base#new', as: :new_volunteering_role
+        post '/new' => 'volunteering/base#create', as: :create_volunteering_role
+
+        get '/review' => 'volunteering/review#show', as: :review_volunteering
       end
 
       scope '/degrees' do

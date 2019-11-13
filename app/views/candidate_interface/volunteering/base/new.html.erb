@@ -1,0 +1,44 @@
+<% content_for :title, page_title(:add_volunteering_role) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @volunteering_role, url: candidate_interface_create_volunteering_role_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+          <h1 class="govuk-fieldset__heading">
+            <span class="govuk-caption-xl"><%= t('page_titles.volunteering.caption') %></span>
+            <%= t('page_titles.add_volunteering_role') %>
+          </h1>
+        </legend>
+
+        <p class="govuk-body">Don’t include paid work in a school – enter these roles in ‘Work history’.</p>
+
+        <%= f.govuk_text_field :role, label: { text: t('application_form.volunteering.role.label'), size: 'm' } %>
+
+        <%= f.govuk_text_field :organisation, label: { text: t('application_form.volunteering.organisation.label'), size: 'm' } %>
+
+        <%= f.govuk_radio_buttons_fieldset :working_with_children, legend: { text: t('application_form.volunteering.working_with_children.label'), tag: 'span' }, inline: true do %>
+          <%= f.govuk_radio_button :working_with_children, true, label: { text: 'Yes' } %>
+          <%= f.govuk_radio_button :working_with_children, false, label: { text: 'No' } %>
+        <% end %>
+
+        <h2 class="govuk-heading-m">How long have you been in this role and what does it involve?</h2>
+
+        <div class="app-work-experience__start-date" data-qa="start-date">
+          <%= f.govuk_date_field :start_date, omit_day: true, legend: { text: t('application_form.volunteering.start_date.label'), size: 's', tag: 'span' }, hint_text: t('application_form.volunteering.start_date.hint_text') %>
+        </div>
+
+        <div class="app-work-experience__end-date" data-qa="end-date">
+          <%= f.govuk_date_field :end_date, omit_day: true, legend: { text: t('application_form.volunteering.end_date.label'), size: 's', tag: 'span' }, hint_text: t('application_form.volunteering.end_date.hint_text') %>
+        </div>
+
+        <%= f.govuk_text_area :details, label: { text: t('application_form.volunteering.details.label'), size: 'm' }, hint_text: t('application_form.volunteering.details.hint_text'), max_words: 150 %>
+
+        <%= f.govuk_submit t('application_form.volunteering.complete_form_button') %>
+      </fieldset>
+    <% end %>
+  </div>
+</div>
