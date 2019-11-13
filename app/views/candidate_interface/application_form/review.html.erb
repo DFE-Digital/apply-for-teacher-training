@@ -49,7 +49,9 @@
 
 <h2 class="govuk-heading-m govuk-!-font-size-27">Personal statement and interview</h2>
 
-<p class="govuk-body">No personal statements entered.</p>
+<%= render(BecomingATeacherReviewComponent, application_form: @application_form) %>
+<%= render(SubjectKnowledgeReviewComponent, application_form: @application_form) %>
+<%= render(InterviewPreferencesReviewComponent, application_form: @application_form) %>
 
 <h2 class="govuk-heading-m govuk-!-font-size-27">References</h2>
 
