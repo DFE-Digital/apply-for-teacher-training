@@ -1,23 +1,21 @@
 Dear ((name of referee)),
 
-# Please provide a reference for ((Candidate name))
+# Please provide a reference for <%= @candidate_name %>
 
-We’re contacting you from the Department for Education as ((Candidate name)) has asked you to provide a reference to support their teacher training application.
-
-((Candidate name)) has applied to:
-((list course names))
+We’re contacting you from the Department for Education as <%= @candidate_name %> has asked you to provide a reference to support their teacher training application.
 
 We would be grateful if you could provide a reference as soon as possible.
 
-Please use this form to complete your reference [link].
+Please use this form to complete your reference:
+<%= @google_form_url %>
 
 We’ll send you a reminder in a few days time.
 
-If we don’t receive your reference within 10 working days from the date of this email, we’ll ask ((Candidate name)) to suggest another referee.
+If we don’t receive your reference within 10 working days from the date of this email, we’ll ask <%= @candidate_name %> to suggest another referee.
 
 # Privacy notice
 
-((Candidate name)) out us in touch with you so that you can provide a reference for them.
+<%= @candidate_name %> put us in touch with you so that you can provide a reference for them.
 
 The Department for Education and the teacher training provider(s) the candidate has applied to have a ‘legitimate interest’ under data protection legislation to hold your data for the period needed to process the candidate’s application.
 
