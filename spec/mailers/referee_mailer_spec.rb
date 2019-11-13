@@ -16,7 +16,7 @@ RSpec.describe RefereeMailer, type: :mailer do
     end
 
     it 'sends an email with the correct heading' do
-      expect(mail.body.encoded).to include("provide a reference for #{candidate_name}")
+      expect(mail.body.encoded).to include("give a reference for #{candidate_name}")
     end
 
     it 'sends an email with a link to a prefilled Google form' do
