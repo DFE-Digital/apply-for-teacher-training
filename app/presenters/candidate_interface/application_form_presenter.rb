@@ -63,5 +63,13 @@ module CandidateInterface
     def course_choices_completed?
       @application_form.course_choices_completed
     end
+
+    def volunteering_completed?
+      @application_form.volunteering_completed
+    end
+
+    def volunteering_added?
+      @application_form.application_volunteering_experiences.any?
+    end
   end
 end
