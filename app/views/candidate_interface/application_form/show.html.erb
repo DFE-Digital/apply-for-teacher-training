@@ -53,7 +53,14 @@
         <% end %>
       </li>
       <li class="app-task-list__item">
-        <%= govuk_link_to t('page_titles.volunteering.short'), candidate_interface_volunteering_experience_path, class: 'app-task-list__task-name' %>
+        <% if @application_form_presenter.volunteering_completed? %>
+          <%= govuk_link_to t('page_titles.volunteering.short'), candidate_interface_review_volunteering_path, class: 'app-task-list__task-name', 'aria-describedby': 'volunteering-completed' %>
+          <strong class="govuk-tag app-task-list__task-completed" id="volunteering-completed">Completed</strong>
+        <% elsif @application_form_presenter.volunteering_added? %>
+          <%= govuk_link_to t('page_titles.volunteering.short'), candidate_interface_review_volunteering_path, class: 'app-task-list__task-name' %>
+        <% else %>
+          <%= govuk_link_to t('page_titles.volunteering.short'), candidate_interface_volunteering_experience_path, class: 'app-task-list__task-name' %>
+        <% end %>
       </li>
       <li class="app-task-list__item">
         <% if @application_form_presenter.training_with_a_disability_completed? %>
