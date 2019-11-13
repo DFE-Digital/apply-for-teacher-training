@@ -23,7 +23,7 @@ RSpec.describe SendApplicationsToProvider do
       complete_reference(reference)
     end
     Timecop.travel(6.business_days.from_now) do
-      SendApplicationsToProvider.new.perform
+      SendApplicationsToProvider.new.call
     end
     expect(application_form.application_choices.first.reload.status).to eq 'awaiting_provider_decision'
   end
@@ -31,7 +31,7 @@ RSpec.describe SendApplicationsToProvider do
   it 'DOES NOT send an application submitted 6 working days ago with no references' do
     application_form = create_application_with_references
     Timecop.travel(6.business_days.from_now) do
-      SendApplicationsToProvider.new.perform
+      SendApplicationsToProvider.new.call
     end
     expect(application_form.application_choices.first.reload.status).to eq 'awaiting_references'
   end
