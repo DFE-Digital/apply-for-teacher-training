@@ -31,6 +31,13 @@ class SyncProviderFromFind
     course.level = find_course.level
     course.start_date = Date.parse(find_course.start_date)
     course.exposed_in_find = find_course.findable?
+    if find_course[:accrediting_provider].present?
+      accrediting_provider = Provider.find_or_create_by(code: find_course[:accrediting_provider][:provider_code]) do |accredit_provider|
+        accredit_provider.name = find_course[:accrediting_provider][:provider_name]
+        accredit_provider.save
+      end
+      course.accrediting_provider = accrediting_provider
+    end
     course.save
 
     find_course.sites.each do |find_site|
