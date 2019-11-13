@@ -4,14 +4,26 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
   include FindAPIHelper
 
   scenario 'seeing their course information on the landing page' do
-    given_i_have_arrived_from_find_with_valid_course_parameters
+    when_i_have_arrive_from_find_with_invalid_course_parameters
+    then_i_should_see_an_error_page
+
+    when_i_have_arrived_from_find_with_valid_course_parameters
     then_i_should_see_the_landing_page
     and_i_should_see_the_provider_and_course_codes
     and_i_should_see_the_course_name_fetched_from_find
     and_i_should_be_able_to_apply_through_ucas
   end
 
-  def given_i_have_arrived_from_find_with_valid_course_parameters
+  def when_i_have_arrive_from_find_with_invalid_course_parameters
+    stub_find_api_course_404('NOT', 'REAL')
+    visit candidate_interface_apply_from_find_path providerCode: 'NOT', courseCode: 'REAL'
+  end
+
+  def then_i_should_see_an_error_page
+    expect(page).to have_content 'We couldn’t find the course you’re looking for'
+  end
+
+  def when_i_have_arrived_from_find_with_valid_course_parameters
     stub_find_api_course_200('ABC', 'XYZ1', 'Biology')
     visit candidate_interface_apply_from_find_path providerCode: 'ABC', courseCode: 'XYZ1'
   end
