@@ -33,7 +33,7 @@ RSpec.feature 'Candidate submit the application' do
   def and_i_have_chosen_a_course
     provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
     site = create(:site, name: 'Main site', code: '-', provider: provider)
-    course = create(:course, name: 'Primary', code: '2XT2', provider: provider)
+    course = create(:course, name: 'Primary', code: '2XT2', provider: provider, exposed_in_find: true)
     create(:course_option, site: site, course: course, vacancy_status: 'B')
 
     visit candidate_interface_application_form_path

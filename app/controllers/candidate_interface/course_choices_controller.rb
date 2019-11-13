@@ -28,6 +28,7 @@ module CandidateInterface
       @courses = Provider
         .find_by(code: params[:provider_code])
         .courses
+        .that_candidates_can_apply_to
     end
 
     def pick_course
