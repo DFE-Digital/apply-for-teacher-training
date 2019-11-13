@@ -7,6 +7,8 @@ RSpec.feature 'Vendor receives the application' do
     Timecop.freeze do # simplify date assertions in the response
       given_a_candidate_has_submitted_their_application
       and_references_have_been_received
+      and_the_edit_by_date_has_passed
+      and_the_daily_application_cron_job_has_run
 
       when_i_retrieve_the_application_over_the_api
       then_it_should_include_the_data_from_the_application_form
@@ -19,7 +21,6 @@ RSpec.feature 'Vendor receives the application' do
   end
 
   def and_references_have_been_received
-    # TODO Replace with the service object from https://github.com/DFE-Digital/apply-for-postgraduate-teacher-training/pull/471
     create(:reference,
            application_form: @application,
            email_address: 'FIRST_REF@example.com')
@@ -30,15 +31,20 @@ RSpec.feature 'Vendor receives the application' do
 
     ReceiveReference.new(application_form: @application,
                          referee_email: 'FIRST_REF@example.com',
-                         reference: 'My ideal person').save
-
-    @application.reload # workaround for bug fixed in above PR
+                         feedback: 'My ideal person').save
 
     ReceiveReference.new(application_form: @application,
                          referee_email: 'SECOND_REF@example.com',
-                         reference: 'Lovable').save
+                         feedback: 'Lovable').save
+  end
 
-    ApplicationStateChange.new(@application.application_choices.first).send_to_provider!
+  def and_the_edit_by_date_has_passed
+    @application.application_choices.first.update(edit_by: 1.minute.ago)
+  end
+
+  def and_the_daily_application_cron_job_has_run
+    # TODO: Replace with a call to the outermost cron job, once it exists
+    SendApplicationsToProvider.new.call
   end
 
   def when_i_retrieve_the_application_over_the_api
