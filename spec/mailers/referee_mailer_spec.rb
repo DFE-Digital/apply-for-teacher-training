@@ -30,5 +30,13 @@ RSpec.describe RefereeMailer, type: :mailer do
     it 'encodes spaces as %20 rather than + in the Google form parameters for correct prefilling' do
       expect(mail.body.encoded).to include("=#{candidate_name.gsub(' ', '%20')}")
     end
+
+    context 'an email containing a +' do
+      let(:reference) { build(:reference, email_address: 'email+email@email.com') }
+
+      it 'does not strip the plus from the email address' do
+        expect(mail.body.encoded).to include("=#{CGI.escape('email+email@email.com')}")
+      end
+    end
   end
 end
