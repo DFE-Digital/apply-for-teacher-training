@@ -10,6 +10,10 @@ class ApplicationForm < ApplicationRecord
 
   MINIMUM_COMPLETE_REFERENCES = 2
 
+  after_save -> {
+    application_choices.update_all(updated_at: Time.zone.now)
+  }
+
   def submitted?
     application_choices.any? && !application_choices.first.unsubmitted?
   end
