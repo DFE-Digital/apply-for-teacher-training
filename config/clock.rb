@@ -7,5 +7,5 @@ class Clock
   include Clockwork
 
   every(5.minutes, 'ClockworkCheck') { ClockworkCheck.perform_async }
-  every(1.day, 'SendApplicationsToProvider', at: ['01:00', '03:00', '05:00']) { SendApplicationsToProvider.perform_async }
+  every(1.hour, 'SendApplicationsToProvider', at: '**:05') { SendApplicationsToProviderWorker.perform_async }
 end
