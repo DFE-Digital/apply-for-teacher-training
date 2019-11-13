@@ -4,10 +4,6 @@ RSpec.feature 'Selecting a course' do
   include CandidateHelper
 
   scenario 'Candidate selects a course choice' do
-    given_i_am_not_signed_in
-    and_i_visit_the_contact_details_page
-    then_i_should_see_the_homepage
-
     given_i_am_signed_in
     and_i_visit_the_site
 
@@ -19,16 +15,6 @@ RSpec.feature 'Selecting a course' do
     and_i_choose_a_course
     and_i_choose_a_location
     then_i_see_my_completed_course_choice
-  end
-
-  def given_i_am_not_signed_in; end
-
-  def and_i_visit_the_contact_details_page
-    visit candidate_interface_contact_details_edit_base_path
-  end
-
-  def then_i_should_see_the_homepage
-    expect(page).to have_current_path(candidate_interface_start_path)
   end
 
   def given_i_am_signed_in

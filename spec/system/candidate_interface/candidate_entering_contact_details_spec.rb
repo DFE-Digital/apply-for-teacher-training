@@ -4,10 +4,6 @@ RSpec.feature 'Entering their contact details' do
   include CandidateHelper
 
   scenario 'Candidate submits their contact details' do
-    given_i_am_not_signed_in
-    and_i_visit_the_contact_details_page
-    then_i_should_see_the_homepage
-
     given_i_am_signed_in
     and_i_visit_the_site
 
@@ -46,16 +42,6 @@ RSpec.feature 'Entering their contact details' do
 
     when_i_click_on_contact_details
     then_i_can_check_my_revised_answers
-  end
-
-  def given_i_am_not_signed_in; end
-
-  def and_i_visit_the_contact_details_page
-    visit candidate_interface_contact_details_edit_base_path
-  end
-
-  def then_i_should_see_the_homepage
-    expect(page).to have_current_path(candidate_interface_start_path)
   end
 
   def given_i_am_signed_in
