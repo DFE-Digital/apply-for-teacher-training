@@ -1,5 +1,9 @@
 class SyncProviderFromFind
   def self.call(provider_code:)
+    # Request all providers, courses and sites.
+    #
+    # For the full response, see:
+    # https://api2.publish-teacher-training-courses.service.gov.uk/api/v3/recruitment_cycles/2020/providers/1N1/?include=sites,courses.sites
     find_provider = FindAPI::Provider
       .current_cycle
       .includes(:sites, courses: [:sites])
@@ -26,6 +30,7 @@ class SyncProviderFromFind
     course.name = find_course.name
     course.level = find_course.level
     course.start_date = Date.parse(find_course.start_date)
+    course.exposed_in_find = find_course.findable?
     course.save
 
     find_course.sites.each do |find_site|

@@ -34,7 +34,7 @@ module FindAPIHelper
       .to_return(status: 503)
   end
 
-  def stub_find_api_provider_200(provider_code: 'ABC', provider_name: 'Dummy Provider', course_code: 'X130', site_code: 'X')
+  def stub_find_api_provider_200(provider_code: 'ABC', provider_name: 'Dummy Provider', course_code: 'X130', site_code: 'X', findable: true)
     stub_find_api_provider(provider_code)
       .to_return(
         status: 200,
@@ -77,6 +77,7 @@ module FindAPIHelper
                 'name': 'Primary',
                 'level': 'primary',
                 'start_date': 'September 2019',
+                'findable?': findable,
               },
               'relationships': {
                 'sites': {
