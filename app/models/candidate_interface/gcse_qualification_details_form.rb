@@ -4,8 +4,8 @@ module CandidateInterface
 
 
     attr_accessor :grade, :award_year, :qualification
-    validates :grade, :award_yearpresence: true
-    validate :validate_award_year, if: :award_year
+    validates :grade, :award_year, presence: true
+    validate :award_year_is_date, if: :award_year
 
     validate :validate_grade_format
 
@@ -24,7 +24,8 @@ module CandidateInterface
     end
 
   private
-    def validate_award_year
+
+    def award_year_is_date
       valid_award_year = award_year.match(/^[1-9]\d{3}$/)
       errors.add(:award_year, :invalid) unless valid_award_year
     end
@@ -43,7 +44,7 @@ module CandidateInterface
       {
         gcse: /[^1-9A-GU\*\s\-]/i,
         gce_o_level: /[^A-EU\s\-]/i,
-        scottish_higher: /[^A-D1-7\s\-]/i,
+        scottish_national_5: /[^A-D1-7\s\-]/i,
       }
     end
 

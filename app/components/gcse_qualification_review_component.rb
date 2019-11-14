@@ -27,7 +27,7 @@ private
   def award_year_row
     {
       key: 'Year awarded',
-      value: application_qualification.award_year,
+      value: application_qualification.award_year || t('gcse_summary.not_specified'),
       change_path: candidate_interface_gcse_details_edit_details_path(subject: subject),
     }
   end
@@ -35,7 +35,7 @@ private
   def grade_row
     {
       key: 'Grade',
-      value: application_qualification.grade.upcase,
+      value: application_qualification.grade ? application_qualification.grade.upcase : t('gcse_summary.not_specified'),
       change_path: candidate_interface_gcse_details_edit_details_path(subject: subject),
     }
   end

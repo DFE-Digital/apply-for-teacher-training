@@ -60,7 +60,7 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
 
     context 'when qualification type is Scottish National 5' do
       let(:form) { CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification) }
-      let(:qualification) { FactoryBot.build_stubbed(:application_qualification, qualification_type: 'scottish_higher', level: 'gcse') }
+      let(:qualification) { FactoryBot.build_stubbed(:application_qualification, qualification_type: 'scottish_national_5', level: 'gcse') }
 
       it 'returns no errors if grade is valid' do
         valid_grades = ['AAA', 'AAB', '765', 'CBD', 'aaa', 'C B D', 'C-B-D']
