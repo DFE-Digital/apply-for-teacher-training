@@ -64,7 +64,9 @@ RSpec.describe VolunteeringReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.volunteering.role.review_label'))
       expect(result.css('.govuk-summary-list__value').to_html).to include('School Experience Intern')
-      expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include('#')
+      expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include(
+        Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(2),
+      )
       expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.volunteering.role.change_action')}")
     end
 
@@ -73,7 +75,9 @@ RSpec.describe VolunteeringReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.volunteering.organisation.review_label'))
       expect(result.css('.govuk-summary-list__value').to_html).to include('A Noice School')
-      expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include('#')
+      expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include(
+        Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(2),
+      )
       expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.volunteering.organisation.change_action')}")
     end
 
@@ -82,7 +86,9 @@ RSpec.describe VolunteeringReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.volunteering.length_and_details.review_label'))
       expect(result.css('.govuk-summary-list__value').to_html).to include('August 2019 - Present<br><p>I interned.</p>')
-      expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include('#')
+      expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include(
+        Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(2),
+      )
       expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.volunteering.length_and_details.change_action')}")
     end
 
