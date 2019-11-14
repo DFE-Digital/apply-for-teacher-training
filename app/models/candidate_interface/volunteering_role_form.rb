@@ -53,16 +53,17 @@ module CandidateInterface
     def save(application_form)
       return false unless valid?
 
-      application_form.application_volunteering_experiences.create!(
-        role: role,
-        organisation: organisation,
-        details: details,
-        working_with_children: ActiveModel::Type::Boolean.new.cast(working_with_children),
-        start_date: start_date,
-        end_date: end_date,
-      )
+      application_form.application_volunteering_experiences.create!(map_attributes)
 
       true
+    end
+
+    def update(application_form)
+      return false unless valid?
+
+      volunteering_role = application_form.application_volunteering_experiences.find(id)
+
+      volunteering_role.update!(map_attributes)
     end
 
     def start_date
@@ -109,6 +110,17 @@ module CandidateInterface
 
     def end_date_valid?
       end_date
+    end
+
+    def map_attributes
+      {
+        role: role,
+        organisation: organisation,
+        details: details,
+        working_with_children: ActiveModel::Type::Boolean.new.cast(working_with_children),
+        start_date: start_date,
+        end_date: end_date,
+      }
     end
   end
 end
