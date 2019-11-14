@@ -195,7 +195,17 @@ RSpec.feature 'Vendor receives the application' do
               description: 'I learned a lot about teaching',
             },
           ],
-          volunteering: [],
+          volunteering: [
+            {
+              start_date: '2018-05-01',
+              end_date: '2019-01-01',
+              role: 'Classroom Volunteer',
+              organisation_name: 'A Noice School',
+              working_with_children: true,
+              commitment: nil,
+              description: 'I volunteered.',
+            },
+          ],
         },
       },
     }
