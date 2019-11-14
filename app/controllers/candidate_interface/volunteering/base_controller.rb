@@ -14,12 +14,30 @@ module CandidateInterface
       end
     end
 
+    def edit
+      @volunteering_role = VolunteeringRoleForm.build_from_application(current_application, current_volunteering_role_id)
+    end
+
+    def update
+      @volunteering_role = VolunteeringRoleForm.new(volunteering_role_params)
+
+      if @volunteering_role.update(current_application)
+        redirect_to candidate_interface_review_volunteering_path
+      else
+        render :edit
+      end
+    end
+
   private
+
+    def current_volunteering_role_id
+      params.permit(:id)[:id]
+    end
 
     def volunteering_role_params
       params.require(:candidate_interface_volunteering_role_form)
         .permit(
-          :role, :organisation, :details, :working_with_children,
+          :id, :role, :organisation, :details, :working_with_children,
           :"start_date(3i)", :"start_date(2i)", :"start_date(1i)",
           :"end_date(3i)", :"end_date(2i)", :"end_date(1i)"
         )

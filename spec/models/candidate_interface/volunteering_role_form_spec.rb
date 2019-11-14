@@ -88,6 +88,36 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
     end
   end
 
+  describe '#update' do
+    let(:volunteering_role) { CandidateInterface::VolunteeringRoleForm.new(id: 1) }
+    let(:application_form) do
+      create(:application_form) do |form|
+        form.application_volunteering_experiences.create(id: 1, attributes: data)
+      end
+    end
+
+    it 'returns false if not valid' do
+      expect(volunteering_role.update(ApplicationForm.new)).to eq(false)
+    end
+
+    it 'updates the provided ApplicationForm if valid' do
+      form_data[:role] = 'Classroom Volunteer'
+      form_data[:organisation] = 'Some Other School'
+      volunteering_role.assign_attributes(form_data)
+
+      expect(volunteering_role.update(application_form)).to eq(true)
+      expect(application_form.application_volunteering_experiences.first)
+        .to have_attributes(
+          role: 'Classroom Volunteer',
+          organisation: 'Some Other School',
+          details: data[:details],
+          working_with_children: data[:working_with_children],
+          start_date: data[:start_date],
+          end_date: data[:end_date],
+        )
+    end
+  end
+
   describe 'validations' do
     it { is_expected.to validate_presence_of(:role) }
     it { is_expected.to validate_presence_of(:organisation) }

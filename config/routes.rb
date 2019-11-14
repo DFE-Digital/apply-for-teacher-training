@@ -92,6 +92,7 @@ Rails.application.routes.draw do
 
         get '/new' => 'work_history/edit#new', as: :work_history_new
         post '/create' => 'work_history/edit#create', as: :work_history_create
+
         get '/edit/:id' => 'work_history/edit#edit', as: :work_history_edit
         post '/edit/:id' => 'work_history/edit#update'
 
@@ -108,6 +109,9 @@ Rails.application.routes.draw do
 
         get '/new' => 'volunteering/base#new', as: :new_volunteering_role
         post '/new' => 'volunteering/base#create', as: :create_volunteering_role
+
+        get '/edit/:id' => 'volunteering/base#edit', as: :edit_volunteering_role
+        post '/edit/:id' => 'volunteering/base#update'
 
         get '/review' => 'volunteering/review#show', as: :review_volunteering
         patch '/review' => 'volunteering/review#complete', as: :complete_volunteering

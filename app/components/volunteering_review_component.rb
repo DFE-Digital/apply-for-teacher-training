@@ -25,7 +25,7 @@ private
       key: t('application_form.volunteering.role.review_label'),
       value: volunteering_role.role,
       action: t('application_form.volunteering.role.change_action'),
-      change_path: '#',
+      change_path: Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(volunteering_role.id),
     }
   end
 
@@ -34,7 +34,7 @@ private
       key: t('application_form.volunteering.organisation.review_label'),
       value: volunteering_role.organisation,
       action: t('application_form.volunteering.organisation.change_action'),
-      change_path: '#',
+      change_path: Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(volunteering_role.id),
     }
   end
 
@@ -43,7 +43,7 @@ private
       key: t('application_form.volunteering.length_and_details.review_label'),
       value: formatted_length_and_details(volunteering_role),
       action: t('application_form.volunteering.length_and_details.change_action'),
-      change_path: '#',
+      change_path: Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(volunteering_role.id),
     }
   end
 
