@@ -14,10 +14,6 @@ RSpec.describe 'Require basic authentication', type: :request do
     it 'candidate requests raise KeyError' do
       expect { get candidate_interface_start_url }.to raise_error(KeyError)
     end
-
-    it 'provider requests raise KeyError' do
-      expect { get provider_interface_applications_url }.to raise_error(KeyError)
-    end
   end
 
   context 'candidate_interface' do
@@ -37,28 +33,6 @@ RSpec.describe 'Require basic authentication', type: :request do
 
     it 'requests with valid basic auth get 200' do
       get candidate_interface_start_url, headers: basic_auth_headers('basic', 'auth')
-
-      expect(response).to have_http_status(200)
-    end
-  end
-
-  context 'provider_interface' do
-    before { require_and_config_basic_auth }
-
-    it 'requests without basic auth get 401' do
-      get provider_interface_applications_url
-
-      expect(response).to have_http_status(401)
-    end
-
-    it 'requests with invalid basic auth get 401' do
-      get provider_interface_applications_url, headers: basic_auth_headers('wrong', 'auth')
-
-      expect(response).to have_http_status(401)
-    end
-
-    it 'requests with valid basic auth get 200' do
-      get provider_interface_applications_url, headers: basic_auth_headers('basic', 'auth')
 
       expect(response).to have_http_status(200)
     end

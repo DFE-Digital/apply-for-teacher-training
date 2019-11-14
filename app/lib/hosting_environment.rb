@@ -1,4 +1,12 @@
 module HostingEnvironment
+  def self.application_url
+    if Rails.env.production?
+      "https://#{hostname}"
+    else
+      'http://localhost:3000'
+    end
+  end
+
   def self.authorised_hosts
     ENV.fetch('AUTHORISED_HOSTS').split(',').map(&:strip)
   end

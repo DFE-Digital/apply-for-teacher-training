@@ -21,6 +21,9 @@ gem 'govuk-lint'
 gem 'erb_lint', require: false
 
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth_openid_connect'
+
 gem 'workflow'
 gem 'audited'
 

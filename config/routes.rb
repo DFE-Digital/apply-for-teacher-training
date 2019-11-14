@@ -200,7 +200,11 @@ Rails.application.routes.draw do
 
     get '/applications' => 'application_choices#index'
     get '/applications/:application_choice_id' => 'application_choices#show', as: :application_choice
+
+    get '/sign-in' => 'sessions#new'
   end
+
+  get '/auth/dfe/callback' => 'provider_interface/sessions#callback'
 
   namespace :support_interface, path: '/support' do
     get '/' => redirect('/support/applications')
