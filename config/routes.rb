@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   get '/accessibility', to: 'content#accessibility'
   get '/candidate/terms-of-use', to: 'content#terms_candidate', as: :terms_candidate
+  get '/candidate/privacy-policy', to: 'content#privacy_candidate', as: :privacy_candidate
 
   namespace :candidate_interface, path: '/candidate' do
     get '/' => 'start_page#show', as: :start

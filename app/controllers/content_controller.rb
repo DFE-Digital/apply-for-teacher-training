@@ -7,6 +7,10 @@ class ContentController < ApplicationController
     render_content_page :terms_candidate
   end
 
+  def privacy_candidate
+    render_content_page :privacy_candidate
+  end
+
 private
 
   def render_content_page(page_name)

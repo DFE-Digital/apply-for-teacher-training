@@ -42,6 +42,7 @@ en:
     review_application: Review your application
     accessibility: Accessibility statement for Apply for teacher training
     terms_candidate: Terms of use
+    privacy_candidate: Privacy policy
     contact_details: Contact details
     address: What is your address?
     work_history: Work history
@@ -87,6 +88,7 @@ en:
     service_name: Apply for teacher training
     accessibility: Accessibility
     terms_of_use: Terms of use
+    privacy_policy: Privacy policy
   activemodel:
     attributes:
       vendor_api/metadata:
