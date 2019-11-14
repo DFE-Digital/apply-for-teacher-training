@@ -4,6 +4,34 @@ module CandidateInterface
       @application_form = application_form
     end
 
+    def ready_to_submit?
+      [
+        # "Courses" section
+        course_choices_completed?,
+
+        # "About you" section
+        personal_details_completed?,
+        contact_details_completed?,
+        work_experience_completed?,
+        volunteering_completed?,
+
+        # "Qualifications" section
+        degrees_completed?,
+        maths_gcse_completed?,
+        english_gcse_completed?,
+        science_gcse_completed?,
+        # "Other qualifications" is intentionally omitted, since it's optional
+
+        # "Personal statement and interview" section
+        becoming_a_teacher_completed?,
+        subject_knowledge_completed?,
+        interview_preferences_completed?,
+
+        # "References" section
+        all_referees_provided_by_candidate?,
+      ].all?
+    end
+
     def application_choices_added?
       @application_form.application_choices.present?
     end
