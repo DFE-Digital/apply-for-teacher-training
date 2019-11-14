@@ -7,9 +7,11 @@
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset :id, legend: { size: 'xl', text: t('page_titles.which_location') } do %>
-        <% @options.each do |option| %>
-          <%= f.govuk_radio_button :id, option.id, label: { text: option.site.name } %>
-        <% end %>
+        <div class="govuk-!-margin-top-6">
+          <% @options.each do |option| %>
+            <%= f.govuk_radio_button :id, option.id, label: { text: option.site.name } %>
+          <% end %>
+        </div>
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>
