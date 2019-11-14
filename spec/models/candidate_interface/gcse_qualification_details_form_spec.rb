@@ -7,22 +7,23 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
 
     describe 'grade format' do
       let(:form) do
-        qualification = ApplicationQualification.create(qualification_type: 'gcse', level: 'gcse',
-                                                        application_form: create(:application_form))
+        qualification = FactoryBot.build_stubbed(:application_qualification, qualification_type: 'gcse', level: 'gcse')
         CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
       end
 
       it 'return validation error if grade is invalid' do
         form.grade = 'aaz'
 
-        form.save_base
+        form.validate
+
         expect(form.errors[:grade]).to include('Enter a real graduation grade')
       end
 
       it 'returns no errors if grade is valid' do
         %w[aaa a*a*a* AB 123].each do |grade|
           form.grade = grade
-          form.save_base
+
+          form.validate
 
           expect(form.errors[:grade]).to be_empty
         end
