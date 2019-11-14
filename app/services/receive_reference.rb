@@ -19,7 +19,6 @@ class ReceiveReference
     ActiveRecord::Base.transaction do
       @application_form
         .references
-        .reload
         .find { |reference| reference.email_address == @referee_email }
         .update!(feedback: @feedback)
 
