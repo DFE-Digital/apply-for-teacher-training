@@ -51,7 +51,24 @@ module CandidateInterface
       redirect_to candidate_interface_course_choices_index_path
     end
 
+    def confirm_destroy
+      @course_choice = current_candidate.current_application.application_choices.find(params[:id])
+    end
+
+    def destroy
+      current_application
+        .application_choices
+        .find(current_course_choice_id)
+        .destroy!
+
+      redirect_to candidate_interface_course_choices_index_path
+    end
+
   private
+
+    def current_course_choice_id
+      params.permit(:id)[:id]
+    end
 
     def application_choice_params
       params.require(:application_choice).permit(:choice)
