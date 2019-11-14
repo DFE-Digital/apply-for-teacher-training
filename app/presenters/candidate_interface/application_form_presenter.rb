@@ -34,6 +34,18 @@ module CandidateInterface
       @application_form.application_qualifications.degrees.any?
     end
 
+    def maths_gcse_completed?
+      @application_form.qualification_in_subject(:gcse, :maths).present?
+    end
+
+    def english_gcse_completed?
+      @application_form.qualification_in_subject(:gcse, :english).present?
+    end
+
+    def science_gcse_completed?
+      @application_form.qualification_in_subject(:gcse, :science).present?
+    end
+
     def other_qualifications_completed?
       @application_form.other_qualifications_completed
     end
