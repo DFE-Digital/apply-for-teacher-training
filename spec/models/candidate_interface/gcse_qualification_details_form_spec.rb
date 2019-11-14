@@ -4,6 +4,7 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:grade) }
     it { is_expected.to validate_presence_of(:award_year) }
+    it { is_expected.to validate_length_of(:grade).is_at_most(6) }
 
     context 'when qualification type is GCSE' do
       let(:form) { CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification) }

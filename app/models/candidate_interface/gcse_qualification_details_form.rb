@@ -2,9 +2,9 @@ module CandidateInterface
   class GcseQualificationDetailsForm
     include ActiveModel::Model
 
-
     attr_accessor :grade, :award_year, :qualification
     validates :grade, :award_year, presence: true
+    validates :grade, length: { maximum: 6 }
     validate :award_year_is_date, if: :award_year
 
     validate :validate_grade_format
