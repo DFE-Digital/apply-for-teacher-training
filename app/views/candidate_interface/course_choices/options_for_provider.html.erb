@@ -9,8 +9,12 @@
       <%= f.govuk_radio_buttons_fieldset :code, legend: { size: 'xl', text: t('page_titles.which_provider') } do %>
         <div class="govuk-!-margin-top-6">
           <% @providers.map do |provider| %>
-            <%= f.govuk_radio_button :code, provider.code, label: { text: "#{provider.name} (#{provider.code})", size: 'm' } %>
+            <%= f.govuk_radio_button :code, provider.code, label: { text: "#{provider.name} (#{provider.code})" } %>
           <% end %>
+
+          <%= f.govuk_radio_divider %>
+
+          <%= f.govuk_radio_button :code, :other, label: { text: 'Another provider' } %>
         </div>
       <% end %>
 
