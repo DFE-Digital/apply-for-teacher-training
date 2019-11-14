@@ -24,7 +24,7 @@ private
       '&' +
       {
         t('reference_request.candidate_name_entry') => candidate_name,
-        t('reference_request.referee_name_entry') => 'TODO: Referee name',
+        t('reference_request.referee_name_entry') => reference.name,
       }.to_query.gsub('+', '%20')
   end
 end

@@ -24,11 +24,11 @@ RSpec.describe RefereeMailer, type: :mailer do
       expect(body).to include(t('reference_request.google_form_url'))
       expect(body).to include("=#{reference.id}")
       expect(body).to include("=#{CGI.escape(reference.email_address)}")
-      # TODO: Referee name
     end
 
     it 'encodes spaces as %20 rather than + in the Google form parameters for correct prefilling' do
       expect(mail.body.encoded).to include("=#{candidate_name.gsub(' ', '%20')}")
+      expect(mail.body.encoded).to include("=#{reference.name.gsub(' ', '%20')}")
     end
 
     context 'an email containing a +' do
