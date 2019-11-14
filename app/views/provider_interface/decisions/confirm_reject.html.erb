@@ -1,6 +1,8 @@
 <% content_for :title, t('page_titles.application') %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_new_reject_path(@application_choice.id)) %>
 
+<%= render(FlashMessageComponent, flash: flash) %>
+
 <span class="govuk-caption-xl">
   Application for <%= @presenter.course_name_and_code %>
 </span>
@@ -9,13 +11,13 @@
   Confirm rejection
 </h1>
 
-<%= form_with model: @application_choice, url: provider_interface_application_choice_create_reject_path(@application_choice.id), method: :post do |f| %>
+<%= form_with model: @reject_application, url: provider_interface_application_choice_create_reject_path(@application_choice.id), method: :post do |f| %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <%= f.govuk_error_summary %>
 
       <%= render(SummaryCardComponent, rows: [
-        { key: 'Reasons for rejection', value: @rejection_comments },
+        { key: 'Reasons for rejection', value: @reject_application.rejection_reason },
       ], border: false) %>
     </div>
   </div>
@@ -27,7 +29,7 @@
         You can’t undo this action once you confirm.
       </p>
 
-      <%= f.hidden_field :comments, value: @rejection_comments %>
+      <%= f.hidden_field :rejection_reason %>
       <%= f.govuk_submit 'Confirm rejection' %>
 
       <p class="govuk-body"><a href="<%= provider_interface_application_choice_path(@application_choice.id) %>">Cancel</a></p>

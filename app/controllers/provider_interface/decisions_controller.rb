@@ -20,23 +20,31 @@ module ProviderInterface
       raise 'Not yet implemented'
     end
 
-    def new_reject; end
+    def new_reject
+      @reject_application = RejectApplication.new(application_choice: @application_choice)
+    end
 
     def confirm_reject
-      @rejection_comments = params[:application_choice][:comments] if params[:application_choice]
-      if @rejection_comments.blank?
-        flash[:errors] = [
-          { link_to: '#comments', message: 'Please provide feedback for the candidate' },
-        ]
-        redirect_to action: :new_reject
-      end
+      @reject_application = RejectApplication.new(
+        application_choice: @application_choice,
+        rejection_reason: params.dig(:reject_application, :rejection_reason)
+      )
+      render action: :new_reject if !@reject_application.valid?
     end
 
     def create_reject
-      flash[:success] = 'Application status changed to \'Rejected\''
-      redirect_to provider_interface_application_choice_path(
-        application_choice_id: @application_choice.id,
+      @reject_application = RejectApplication.new(
+        application_choice: @application_choice,
+        rejection_reason: params.dig(:reject_application, :rejection_reason)
       )
+      if @reject_application.save
+        flash[:success] = 'Application status changed to \'Rejected\''
+        redirect_to provider_interface_application_choice_path(
+          application_choice_id: @application_choice.id,
+        )
+      else
+        render action: :new_reject
+      end
     end
 
   private

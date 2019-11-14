@@ -5,16 +5,39 @@
   padding: 10px;
 
   &.app-banner--success {
-    border-color: #00703c;
-    color: #00703c;
+    border-color: govuk-colour("green");
+    color: govuk-colour("green");
 
     span {
-      color: black;
+      color: $govuk-text-colour;
 
       &:before {
         content:'✔';
-        color: #00703c;
+        color: govuk-colour("green");
         font-size: 1.9em;
+        display:inline-block;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 1em;
+        width: 1em;
+        height:1em;
+        margin-right: 0.3em;
+      }
+    }
+  }
+
+  &.app-banner--error {
+    border-color: $govuk-error-colour;
+    color: $govuk-error-colour;
+
+    span {
+      color: $govuk-text-colour;
+
+      &:before {
+        content: 'ǃ';
+        color: $govuk-error-colour;
+        font-size: 1.9em;
+        font-weight: bold;
         display:inline-block;
         text-align: center;
         vertical-align: middle;

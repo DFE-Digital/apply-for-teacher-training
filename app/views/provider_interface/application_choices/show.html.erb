@@ -1,51 +1,62 @@
 <% content_for :title, t('page_titles.application') %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_applications_path) %>
 
-<%= render(FlashMessageComponent, flash: flash) if !flash.empty? %>
+<%= render(FlashMessageComponent, flash: flash) %>
 
 <h1 class='govuk-heading-xl'><%= @application_choice.full_name %>'s application</h1>
 
-<div class="govuk-grid-column-two-thirds">
-  <dl class="govuk-summary-list">
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">
-        Name
-      </dt>
-      <dd class="govuk-summary-list__value">
-        <%= @application_choice.full_name %>
-      </dd>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Full name
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <%= @application_choice.full_name %>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Date of birth
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <%= @application_choice.date_of_birth %>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Phone number
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <%= @application_choice.phone_number %>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Email address
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <%= @application_choice.email_address %>
+        </dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <div class="app-status-box">
+      <h2 class="govuk-heading-m">Status</h2>
+        <strong class="govuk-tag <%= @application_choice.status_tag_class %> govuk-!-margin-bottom-4">
+          <%= @application_choice.status_tag_text %>
+        </strong>
+      <div class="actions">
+        <a href="<%= provider_interface_application_choice_respond_path(@application_choice.id) %>" role="button" draggable="false" class="govuk-button govuk-!-margin-bottom-4" data-module="govuk-button">
+          Respond to application
+        </a>
+      </div>
     </div>
-
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">
-        Date of birth
-      </dt>
-      <dd class="govuk-summary-list__value">
-        <%= @application_choice.date_of_birth %>
-      </dd>
-    </div>
-  </dl>
-</div>
-
-<div class="govuk-grid-column-one-third">
-  <div class="app-card">
-    <h2 class="govuk-heading-m">Status</h2>
-     <strong class="govuk-tag app-tag--new govuk-!-margin-bottom-4">
-       New
-     </strong>
-      <dl class="app-definition-list">
-        <dt>Application submitted</dt><dt>
-        </dt><dd>10 Oct 2019</dd>
-
-        <dt>Respond to the applicant by</dt><dt>
-        </dt><dd>19 Nov 2019</dd>
-
-      </dl>
-      <a href="<%= provider_interface_application_choice_respond_path %>" role="button" draggable="false" class="govuk-button govuk-!-margin-bottom-4" data-module="govuk-button">
-        Respond to application
-      </a>
-      <p class="govuk-body govuk-!-margin-bottom-0">
-        <a href="#" download="">Download application (CSV)</a>
-      </p>
   </div>
 </div>

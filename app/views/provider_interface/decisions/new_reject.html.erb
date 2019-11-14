@@ -1,7 +1,7 @@
 <% content_for :title, t('page_titles.application') %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_respond_path(@application_choice.id)) %>
 
-<%= render(FlashMessageComponent, flash: flash) if !flash.empty? %>
+<%= render(FlashMessageComponent, flash: flash) %>
 
 <span class="govuk-caption-xl">
   Application for <%= @presenter.course_name_and_code %>
@@ -11,7 +11,7 @@
   Reject application
 </h1>
 
-<%= form_with model: @application_choice, url: provider_interface_application_choice_confirm_reject_path(@application_choice.id), method: :post do |f| %>
+<%= form_with model: @reject_application, url: provider_interface_application_choice_confirm_reject_path(@application_choice.id), method: :post do |f| %>
 
   <div class="govuk-grid-row">
     <%= f.govuk_error_summary %>
@@ -36,7 +36,7 @@
           We will forward your feedback to the candidate
         </span>
 
-        <%= f.govuk_text_area :comments, label: { text: 'Please explain why this application was rejected', hidden: true }, rows: 5, id: 'comments', 'aria-describedby': 'comments-hint' %>
+        <%= f.govuk_text_area :rejection_reason, label: { text: 'Please explain why this application was rejected', hidden: true }, rows: 5, id: 'comments', 'aria-describedby': 'comments-hint' %>
       </div>
 
       <%= f.govuk_submit 'Continue' %>

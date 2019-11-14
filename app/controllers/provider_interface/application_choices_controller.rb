@@ -1,6 +1,5 @@
 module ProviderInterface
   class ApplicationChoicesController < ProviderInterfaceController
-
     def index
       application_choices = GetApplicationChoicesForProvider.call(provider: current_user.provider)
         .order(updated_at: :desc)
