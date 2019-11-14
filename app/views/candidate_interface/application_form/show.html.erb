@@ -15,7 +15,12 @@
 
     <ol class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">
-        <%= govuk_link_to 'Course choices', candidate_interface_course_choices_index_path %>
+        <% if @application_form_presenter.course_choices_completed? %>
+          <%= govuk_link_to t('page_titles.course_choices'), candidate_interface_course_choices_index_path, class: 'app-task-list__task-name', 'aria-describedby': 'courses-choices-completed' %>
+          <strong class="govuk-tag app-task-list__task-completed" id="course-choices-completed">Completed</strong>
+        <% else %>
+          <%= govuk_link_to t('page_titles.course_choices'), candidate_interface_course_choices_index_path, class: 'app-task-list__task-name' %>
+        <% end %>
       </li>
     </ol>
 

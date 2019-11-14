@@ -59,5 +59,9 @@ module CandidateInterface
         (@application_form.disclose_disability == true && \
           @application_form.disability_disclosure.present?)
     end
+
+    def course_choices_completed?
+      @application_form.course_choices_completed
+    end
   end
 end
