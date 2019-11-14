@@ -6,6 +6,7 @@ class ApplicationChoice < ApplicationRecord
   has_one :course, through: :course_option
   has_one :site, through: :course_option
   has_one :provider, through: :course
+  has_one :accrediting_provider, through: :course, class_name: 'Provider'
 
   audited associated_with: :application_form
 

@@ -11,4 +11,10 @@ module CourseOptionHelpers
     site = create(:site, provider: provider)
     create(:course_option, course: course, site: site)
   end
+
+  def course_option_for_accrediting_provider(provider:, accrediting_provider:)
+    course = create(:course, provider: provider, accrediting_provider: accrediting_provider)
+    site = create(:site, provider: provider)
+    create(:course_option, course: course, site: site)
+  end
 end

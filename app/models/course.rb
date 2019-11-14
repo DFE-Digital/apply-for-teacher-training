@@ -2,6 +2,7 @@ class Course < ApplicationRecord
   belongs_to :provider
   has_many :course_options
   has_many :application_choices, through: :course_options
+  belongs_to :accrediting_provider, class_name: 'Provider', optional: true
 
   validates :level, presence: true
   validates :code, uniqueness: { scope: :provider_id }
