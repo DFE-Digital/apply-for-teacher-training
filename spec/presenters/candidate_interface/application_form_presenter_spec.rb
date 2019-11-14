@@ -175,4 +175,36 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       end
     end
   end
+
+  describe '#volunteering_completed?' do
+    it 'returns true if volunteering section is completed' do
+      application_form = build(:application_form, volunteering_completed: true)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_volunteering_completed
+    end
+
+    it 'returns false if volunteering section is incomplete' do
+      application_form = build(:application_form, volunteering_completed: false)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_volunteering_completed
+    end
+  end
+
+  describe '#volunteering_added?' do
+    it 'returns true if volunteering have been added' do
+      application_form = build(:completed_application_form, volunteering_experiences_count: 1)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_volunteering_added
+    end
+
+    it 'returns false if no volunteering are added' do
+      application_form = build(:completed_application_form, volunteering_experiences_count: 0)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_volunteering_added
+    end
+  end
 end

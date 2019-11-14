@@ -25,6 +25,21 @@ RSpec.feature 'Entering volunteering and school experience' do
     when_i_delete_my_volunteering_role
     and_i_confirm
     then_i_no_longer_see_my_volunteering_role
+
+    when_i_click_add_another_role
+    then_i_see_the_add_volunteering_role_form
+
+    when_i_fill_in_another_volunteering_role
+    and_i_submit_the_volunteering_role_form
+    then_i_check_my_volunteering_role
+
+    when_i_mark_this_section_as_completed
+    and_i_click_on_continue
+    then_i_should_see_the_form
+    and_that_the_section_is_completed
+
+    when_i_click_on_volunteering_with_children_and_young_people
+    then_i_can_check_my_answers
   end
 
   def given_i_am_signed_in
@@ -101,5 +116,33 @@ RSpec.feature 'Entering volunteering and school experience' do
 
   def then_i_no_longer_see_my_volunteering_role
     expect(page).not_to have_content('Classroom Volunteer')
+  end
+
+  def when_i_click_add_another_role
+    click_link t('application_form.volunteering.another.button')
+  end
+
+  def when_i_fill_in_another_volunteering_role
+    when_i_fill_in_my_volunteering_role
+  end
+
+  def when_i_mark_this_section_as_completed
+    check t('application_form.volunteering.review.completed_checkbox')
+  end
+
+  def and_i_click_on_continue
+    click_button t('application_form.volunteering.review.button')
+  end
+
+  def then_i_should_see_the_form
+    expect(page).to have_content(t('page_titles.application_form'))
+  end
+
+  def and_that_the_section_is_completed
+    expect(page).to have_css('#volunteering-completed', text: 'Completed')
+  end
+
+  def then_i_can_check_my_answers
+    then_i_check_my_volunteering_role
   end
 end

@@ -236,6 +236,11 @@ en:
       complete_form_button: Save and continue
       delete: Delete role
       confirm_delete: Yes I'm sure - delete this role
+      another:
+        button: Add another role
+      review:
+        button: Continue
+        completed_checkbox: I have completed this section
   activemodel:
     errors:
       models:

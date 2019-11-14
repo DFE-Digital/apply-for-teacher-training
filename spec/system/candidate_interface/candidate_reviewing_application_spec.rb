@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate reviews the answers' do
   include CandidateHelper
 
-  scenario 'Candidate with personal details and contact details' do
+  scenario 'Candidate with all sections filled in' do
     given_i_have_completed_my_application
 
     when_i_click_on_check_your_answers
@@ -11,6 +11,7 @@ RSpec.feature 'Candidate reviews the answers' do
     then_i_can_review_my_application
     and_i_can_see_my_personal_details
     and_i_can_see_my_contact_details
+    and_i_can_see_my_volunteering_roles
     and_i_can_see_my_degree
     and_i_can_see_my_other_qualification
     and_i_can_see_my_disability_info
@@ -43,6 +44,12 @@ RSpec.feature 'Candidate reviews the answers' do
     expect(page).to have_content '42 Much Wow Street'
     expect(page).to have_content 'London'
     expect(page).to have_content 'SW1P 3BT'
+  end
+
+  def and_i_can_see_my_volunteering_roles
+    expect(page).to have_content 'Classroom Volunteer'
+    expect(page).to have_content 'A Noice School'
+    expect(page).to have_content 'I volunteered.'
   end
 
   def and_i_can_see_my_degree

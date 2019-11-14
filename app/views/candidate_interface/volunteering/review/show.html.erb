@@ -8,5 +8,16 @@
     </h1>
 
     <%= render(VolunteeringReviewComponent, application_form: @application_form) %>
+
+    <%= govuk_button_link_to t('application_form.volunteering.another.button'), candidate_interface_new_volunteering_role_path, class: 'govuk-button--secondary' %>
+
+    <%= form_with model: @application_form, url: candidate_interface_complete_volunteering_path do |f| %>
+      <div class='govuk-form-group'>
+        <%= f.hidden_field :volunteering_completed, value: false %>
+        <%= f.govuk_check_box :volunteering_completed, true, multiple: false, label: { text: t('application_form.volunteering.review.completed_checkbox') } %>
+      </div>
+
+      <%= f.govuk_submit t('application_form.volunteering.review.button') %>
+    <% end %>
   </div>
 </div>
