@@ -2,7 +2,7 @@
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice.id)) %>
 
 <span class="govuk-caption-xl">
-Application for <%= @application_choice.course.name_and_code %>
+  Application for <%= @application_choice.course.name_and_code %>
 </span>
 
 <h1 class="govuk-heading-xl">
@@ -22,7 +22,7 @@ Application for <%= @application_choice.course.name_and_code %>
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>
-      <%= govuk_link_to 'Cancel', govuk_back_link_to(provider_interface_application_choice_path(@application_choice.id)) %>
+      <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id) %>
     <% end %>
   </div>
 </div>

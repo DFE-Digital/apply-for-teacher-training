@@ -1,0 +1,5 @@
+<% if flash[:errors] %>
+  <%= render(ErrorSummaryComponent, messages: flash[:errors]) %>
+<% elsif flash[:success] %>
+  <%= render(SuccessSummaryComponent, summary: flash[:success]) %>
+<% end %>

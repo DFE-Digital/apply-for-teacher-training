@@ -1,3 +1,8 @@
+<% content_for :title, t('page_titles.application') %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_applications_path) %>
+
+<%= render(FlashMessageComponent, flash: flash) if !flash.empty? %>
+
 <h1 class='govuk-heading-xl'><%= @application_choice.full_name %>'s application</h1>
 
 <div class="govuk-grid-column-two-thirds">

@@ -13,6 +13,18 @@ module ProviderInterface
       "Course #{application_choice.course.name}"
     end
 
+    def course_name_and_code
+      application_choice.course.name_and_code
+    end
+
+    def course_start_date
+      application_choice.course.start_date
+    end
+
+    def course_preferred_location
+      application_choice.course.course_options.first.site.name
+    end
+
     def status_name
       I18n.t!("application_choice.status_name.#{application_choice.status}")
     end

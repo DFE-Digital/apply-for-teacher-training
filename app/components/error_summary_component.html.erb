@@ -1,0 +1,21 @@
+<% # see https://design-system.service.gov.uk/components/error-summary/ %>
+<% content_for :title, flush: true do %>
+  Error: <%= content_for(:title) %>
+<% end %>
+
+<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+    There is a problem
+  </h2>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list">
+      <% messages.each do |error| %>
+        <li>
+          <a href="<%= error['link_to'] %>">
+            <%= error['message'] %>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

@@ -1,88 +1,47 @@
-<%= form_tag provider_interface_application_choice_confirm_reject_path, method: :post do %>
-  
-  <fieldset class="govuk-fieldset">
-  
-  <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-  
-    <h1 class="govuk-fieldset__heading">
-      
-    <span class="govuk-caption-xl">Application for Upper Primary with Modern Foreign Languages (XR9C)</span>
-    Reject application
-  
-    </h1>
-  
-  </legend>
- 
-<dl class="govuk-summary-list govuk-!-margin-bottom-8">
-   
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Full name
-        </dt>
-        <dd class="govuk-summary-list__value">
-          Kelly Jane Spears
-        </dd>
-        
-      </div>
-    
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Course
-        </dt>
-        <dd class="govuk-summary-list__value">
-          Upper Primary with Modern Foreign Languages (XR9C)<br>PGCE with QTS full time
-        </dd>
-        
-      </div>
-    
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Starting
-        </dt>
-        <dd class="govuk-summary-list__value">
-          September 2020
-        </dd>
-        
-      </div>
-    
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Preferred location
-        </dt>
-        <dd class="govuk-summary-list__value">
-          Alliance Academy<br>Edgeware, Road Name, SW1 1AA
-        </dd>
-        
-      </div>
-</dl>
+<% content_for :title, t('page_titles.application') %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_respond_path(@application_choice.id)) %>
+
+<%= render(FlashMessageComponent, flash: flash) if !flash.empty? %>
+
+<span class="govuk-caption-xl">
+  Application for <%= @presenter.course_name_and_code %>
+</span>
+
+<h1 class="govuk-heading-xl">
+  Reject application
+</h1>
+
+<%= form_with model: @application_choice, url: provider_interface_application_choice_confirm_reject_path(@application_choice.id), method: :post do |f| %>
+
+  <div class="govuk-grid-row">
+    <%= f.govuk_error_summary %>
+
+    <%= render(SummaryCardComponent, rows: [
+      { key: 'Full name', value: @presenter.full_name },
+      { key: 'Course', value: @presenter.course_name_and_code },
+      { key: 'Starting', value: @presenter.course_start_date.strftime("%B %Y") },
+      { key: 'Preferred location', value: @presenter.course_preferred_location },
+    ], border: false) %>
+  </div>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      
 
-<div class="govuk-form-group">
-  <label class="govuk-label govuk-label--m" for="comments">
-    Please explain why this application was rejected
-  </label>
+      <div class="govuk-form-group">
+        <label class="govuk-label govuk-label--m" for="comments">
+          Please explain why this application was rejected
+        </label>
 
-  
-  
-  <span id="comments-hint" class="govuk-hint">
-    We will forward your feedback to the candidate
-  </span>
+        <span id="comments-hint" class="govuk-hint">
+          We will forward your feedback to the candidate
+        </span>
 
+        <%= f.govuk_text_area :comments, label: { text: 'Please explain why this application was rejected', hidden: true }, rows: 5, id: 'comments', 'aria-describedby': 'comments-hint' %>
+      </div>
 
-  <textarea class="govuk-textarea" id="comments" name="rejection_reason" rows="5" aria-describedby="comments-hint"></textarea>
-</div>
+      <%= f.govuk_submit 'Continue' %>
 
-
-<button class="govuk-button" data-module="govuk-button">
-  Continue
-</button>
-
-      <p class="govuk-body"><a href="/application/202">Cancel</a></p>
+      <p class="govuk-body"><a href="<%= provider_interface_application_choice_path(@application_choice.id) %>">Cancel</a></p>
     </div>
   </div>
-
-  </fieldset>
 <% end %>

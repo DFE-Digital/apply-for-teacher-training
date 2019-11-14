@@ -1,6 +1,5 @@
 module ProviderInterface
   class ApplicationChoicesController < ProviderInterfaceController
-    before_action :set_application_choice
 
     def index
       application_choices = GetApplicationChoicesForProvider.call(provider: current_user.provider)
@@ -11,13 +10,11 @@ module ProviderInterface
       end
     end
 
-    def show; end
-
-  private
-
-    def set_application_choice
-      @application_choice = GetApplicationChoicesForProvider.call(provider: current_user.provider)
+    def show
+      application_choice = GetApplicationChoicesForProvider.call(provider: current_user.provider)
         .find(params[:application_choice_id])
+
+      @application_choice = ApplicationChoicePresenter.new(application_choice)
     end
   end
 end

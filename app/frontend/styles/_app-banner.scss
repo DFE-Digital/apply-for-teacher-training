@@ -1,0 +1,28 @@
+.app-banner {
+  border: 5px solid #1d70b8;
+  color: #1d70b8;
+  margin-bottom: 30px;
+  padding: 10px;
+
+  &.app-banner--success {
+    border-color: #00703c;
+    color: #00703c;
+
+    span {
+      color: black;
+
+      &:before {
+        content:'✔';
+        color: #00703c;
+        font-size: 1.9em;
+        display:inline-block;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 1em;
+        width: 1em;
+        height:1em;
+        margin-right: 0.3em;
+      }
+    }
+  }
+}

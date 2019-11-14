@@ -1,70 +1,37 @@
-<%= form_tag provider_interface_application_choice_create_reject_path, method: :post do %>
-  
-  <fieldset class="govuk-fieldset">
-  
-  <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-  
-    <h1 class="govuk-fieldset__heading">
-      
-    <span class="govuk-caption-xl">Application for Upper Primary with Modern Foreign Languages (XR9C)</span>
-    Confirm rejection
-  
-    </h1>
-  
-  </legend>
-  
+<% content_for :title, t('page_titles.application') %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_new_reject_path(@application_choice.id)) %>
 
-    
-  
+<span class="govuk-caption-xl">
+  Application for <%= @presenter.course_name_and_code %>
+</span>
 
-  
+<h1 class="govuk-heading-xl">
+  Confirm rejection
+</h1>
 
-  
-
+<%= form_with model: @application_choice, url: provider_interface_application_choice_create_reject_path(@application_choice.id), method: :post do |f| %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      
-        
+      <%= f.govuk_error_summary %>
 
-
-  
-
-  
-<dl class="govuk-summary-list">
-  
-    
-  
-    
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Reasons for rejection
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <%= @rejection_reason %>
-        </dd>
-        
-      </div>
-    
-  
-</dl>
-
-        <p class="govuk-body">Are you sure you want to reject this application? You can’t undo this action once you confirm.</p>
-      
-
-      
-
-  
-    
-  
-
-<button class="govuk-button" data-module="govuk-button">
-  Confirm rejection
-</button>
-
-      <p class="govuk-body"><a href="/application/202">Cancel</a></p>
+      <%= render(SummaryCardComponent, rows: [
+        { key: 'Reasons for rejection', value: @rejection_comments },
+      ], border: false) %>
     </div>
   </div>
 
-  </fieldset>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <p class="govuk-body">
+        Are you sure you want to reject this application?
+        You can’t undo this action once you confirm.
+      </p>
 
+      <%= f.hidden_field :comments, value: @rejection_comments %>
+      <%= f.govuk_submit 'Confirm rejection' %>
+
+      <p class="govuk-body"><a href="<%= provider_interface_application_choice_path(@application_choice.id) %>">Cancel</a></p>
+    </div>
+  </div>
 <% end %>
+
