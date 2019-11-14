@@ -14,6 +14,7 @@ RSpec.feature 'Candidate reviews the answers' do
     and_i_can_see_my_contact_details
     and_i_can_see_my_volunteering_roles
     and_i_can_see_my_degree
+    and_i_can_see_my_gcses
     and_i_can_see_my_other_qualification
     and_i_can_see_my_becoming_a_teacher_info
     and_i_can_see_my_subject_knowlegde_info
@@ -67,6 +68,10 @@ RSpec.feature 'Candidate reviews the answers' do
     expect(page).to have_content 'University of Much Wow'
     expect(page).to have_content 'First'
     expect(page).to have_content '2009'
+  end
+
+  def and_i_can_see_my_gcses
+    expect(page).to have_content '1990'
   end
 
   def and_i_can_see_my_other_qualification

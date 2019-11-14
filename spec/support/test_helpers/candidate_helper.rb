@@ -72,6 +72,11 @@ module CandidateHelper
     click_button 'Save and continue'
     click_link 'Back to application'
 
+    click_link 'Science GCSE or equivalent'
+    candidate_fills_in_a_gcse
+    click_button 'Save and continue'
+    click_link 'Back to application'
+
     click_link 'Other relevant academic and non-academic qualifications'
     candidate_fills_in_their_other_qualifications
     click_button t('application_form.other_qualification.base.button')
