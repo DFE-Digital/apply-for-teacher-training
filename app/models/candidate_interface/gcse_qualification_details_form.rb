@@ -2,17 +2,19 @@ module CandidateInterface
   class GcseQualificationDetailsForm
     include ActiveModel::Model
 
-    attr_accessor :grade, :award_year, :qualification_id
-    validates :grade, :award_year, :qualification_id, presence: true
+
+    attr_accessor :grade, :award_year, :qualification
+    validates :grade, :award_yearpresence: true
     validate :validate_award_year, if: :award_year
+
     validate :validate_grade_format
 
     def self.build_from_qualification(qualification)
       new(
         grade: qualification.grade,
         award_year: qualification.award_year,
-        qualification_id: qualification.id,
-        )
+        qualification: qualification,
+      )
     end
 
     def save_base
@@ -37,10 +39,6 @@ module CandidateInterface
       end
     end
 
-    def qualification
-      @qualification ||= ApplicationQualification.find(qualification_id)
-    end
-
     def invalid_grades
       {
         gcse: /[^1-9A-GU\*]/i,
@@ -50,7 +48,7 @@ module CandidateInterface
     end
 
     def new_record?
-      qualification_id.nil?
+      qualification.nil?
     end
   end
 end
