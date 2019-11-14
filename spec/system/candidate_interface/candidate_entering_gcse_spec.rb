@@ -89,7 +89,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def then_i_see_the_review_page_with_updated_details
-    expect(page).to have_content 'Scottish Higher'
+    expect(page).to have_content 'Scottish National 5'
     expect(page).to have_content 'BB'
     expect(page).to have_content '2000'
   end
@@ -112,7 +112,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def when_i_select_a_different_qualification_type
-    choose('Scottish Higher')
+    choose('Scottish National 5')
   end
 
   def when_i_click_to_change_qualification_type

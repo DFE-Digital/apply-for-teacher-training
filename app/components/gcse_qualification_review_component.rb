@@ -44,7 +44,7 @@ private
     {
       gcse: 'GCSE',
       gce_o_level: 'GCE O Level',
-      scottish_higher: 'Scottish Higher',
+      scottish_national_5: 'Scottish National 5',
       other_uk: application_qualification.other_uk_qualification_type,
     }
   end
