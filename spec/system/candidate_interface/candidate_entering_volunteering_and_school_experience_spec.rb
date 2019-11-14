@@ -33,6 +33,13 @@ RSpec.feature 'Entering volunteering and school experience' do
     and_i_submit_the_volunteering_role_form
     then_i_check_my_volunteering_role
 
+    when_i_click_to_change_my_volunteering_role
+    then_i_see_my_volunteering_role_filled_in
+
+    when_i_change_my_volunteering_role
+    and_i_submit_the_volunteering_role_form
+    then_i_can_check_my_revised_volunteering_role
+
     when_i_mark_this_section_as_completed
     and_i_click_on_continue
     then_i_should_see_the_form
@@ -124,6 +131,28 @@ RSpec.feature 'Entering volunteering and school experience' do
 
   def when_i_fill_in_another_volunteering_role
     when_i_fill_in_my_volunteering_role
+  end
+
+  def when_i_click_to_change_my_volunteering_role
+    first('.govuk-summary-list__actions').click_link 'Change'
+  end
+
+  def then_i_see_my_volunteering_role_filled_in
+    expect(page).to have_selector("input[value='Classroom Volunteer']")
+    expect(page).to have_selector("input[value='A Noice School']")
+    expect(page).to have_selector("input[value='true']")
+    expect(page).to have_selector("input[value='5']")
+    expect(page).to have_selector("input[value='2018']")
+    expect(page).to have_selector("input[value='1']")
+    expect(page).to have_selector("input[value='2019']")
+  end
+
+  def when_i_change_my_volunteering_role
+    fill_in t('application_form.volunteering.organisation.label'), with: 'Much Wow School'
+  end
+
+  def then_i_can_check_my_revised_volunteering_role
+    expect(page).to have_content 'Much Wow School'
   end
 
   def when_i_mark_this_section_as_completed
