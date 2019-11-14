@@ -27,7 +27,7 @@ module ProviderInterface
     def confirm_reject
       @reject_application = RejectApplication.new(
         application_choice: @application_choice,
-        rejection_reason: params.dig(:reject_application, :rejection_reason)
+        rejection_reason: params.dig(:reject_application, :rejection_reason),
       )
       render action: :new_reject if !@reject_application.valid?
     end
@@ -35,7 +35,7 @@ module ProviderInterface
     def create_reject
       @reject_application = RejectApplication.new(
         application_choice: @application_choice,
-        rejection_reason: params.dig(:reject_application, :rejection_reason)
+        rejection_reason: params.dig(:reject_application, :rejection_reason),
       )
       if @reject_application.save
         flash[:success] = 'Application status changed to \'Rejected\''
