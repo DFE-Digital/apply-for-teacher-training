@@ -14,6 +14,9 @@ RSpec.feature 'Candidate reviews the answers' do
     and_i_can_see_my_degree
     and_i_can_see_my_other_qualification
     and_i_can_see_my_disability_info
+    and_i_can_see_my_becoming_a_teacher_info
+    and_i_can_see_my_subject_knowlegde_info
+    and_i_can_see_my_interview_preferences
   end
 
   def given_i_have_completed_my_application
@@ -58,5 +61,17 @@ RSpec.feature 'Candidate reviews the answers' do
 
   def and_i_can_see_my_disability_info
     expect(page).to have_content 'I have difficulty climbing stairs'
+  end
+
+  def and_i_can_see_my_becoming_a_teacher_info
+    expect(page).to have_content 'I WANT I WANT I WANT I WANT'
+  end
+
+  def and_i_can_see_my_subject_knowlegde_info
+    expect(page).to have_content 'Everything'
+  end
+
+  def and_i_can_see_my_interview_preferences
+    expect(page).to have_content 'NOT WEDNESDAY'
   end
 end
