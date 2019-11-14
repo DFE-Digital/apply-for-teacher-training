@@ -1,9 +1,10 @@
 class SectionMissingBannerComponent < ActionView::Component::Base
-  validates :text, presence: true
+  validates :text, :section, presence: true
 
-  def initialize(text:)
+  def initialize(text:, section:)
     @text = text
+    @section = section
   end
 
-  attr_reader :text
+  attr_reader :text, :section
 end

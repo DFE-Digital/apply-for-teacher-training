@@ -17,7 +17,7 @@
 <% end %>
 
 <% if show_missing_banner? %>
-  <%= render(SectionMissingBannerComponent, text: t('review_application.references.incomplete', minimum_references: minimum_references)) do %>
+  <%= render(SectionMissingBannerComponent, section: :references, text: t('review_application.references.incomplete', minimum_references: minimum_references)) do %>
      <%= link_to candidate_interface_referees_path, class: 'govuk-link' do %>
        <%= t('review_application.references.link_html') %>
      <% end %>

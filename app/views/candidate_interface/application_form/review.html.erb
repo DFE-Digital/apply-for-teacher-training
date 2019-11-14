@@ -1,5 +1,22 @@
-<% content_for :title, t('review_application.title') %>
+<% content_for :title, @errors.nil? ? t('review_application.title') : t('review_application.error_title') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path) %>
+
+<% unless @errors.nil? %>
+  <div class="govuk-error-summary" tabindex="-1" role="alert" data-module="govuk-error-summary" aria-labelledby="error-summary-title">
+    <h2 id="error-summary-title" class="govuk-error-summary__title">
+      There is a problem
+    </h2>
+    <div class="govuk-error-summary__body">
+      <ul class="govuk-list govuk-error-summary__list">
+        <% @errors.each do |section| %>
+          <li>
+            <a href="<%= "#missing-#{section}-error" %>"><%= t("review_application.#{section}.incomplete", minimum_references: ApplicationForm::MINIMUM_COMPLETE_REFERENCES) %></a>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
 
 <h1 class="govuk-heading-xl">
   <%= t('review_application.heading') %>

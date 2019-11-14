@@ -1,6 +1,7 @@
 en:
   review_application:
     title: Review your application
+    error_title: Error - Review your application
     heading: Review your application
     button_continue: Continue
     becoming_a_teacher:
@@ -28,7 +29,7 @@ en:
       link: Complete English GCSE section
       link_html: Complete <span class="govuk-visually-hidden">English GCSE</span> section
     science_gcse:
-      incomplete: Science GCSE not entered"
+      incomplete: Science GCSE not entered
       link: Complete Science GCSE section
       link_html: Complete <span class="govuk-visually-hidden">Science GCSE</span> section
     interview_preferences:

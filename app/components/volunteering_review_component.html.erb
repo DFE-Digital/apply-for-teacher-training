@@ -26,7 +26,7 @@
 <% end %>
 
 <% if show_missing_banner? %>
-  <%= render(SectionMissingBannerComponent, text: t('review_application.volunteering.incomplete')) do %>
+  <%= render(SectionMissingBannerComponent, section: :volunteering, text: t('review_application.volunteering.incomplete')) do %>
      <%= link_to candidate_interface_volunteering_experience_path, class: 'govuk-link' do %>
        <%= t('review_application.volunteering.link_html') %>
      <% end %>
