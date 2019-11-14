@@ -11,7 +11,7 @@ module ProviderInterface
     # Stub out the current user and their organisation. Will be replaced
     # by a proper ProviderUser when implementing Signin.
     def current_provider_user
-      if session[:provider_user]
+      if session['provider_user']
         fake_user_class = Struct.new(:provider, :email_address)
         fake_provider = Provider.find_by(code: 'ABC')
 
