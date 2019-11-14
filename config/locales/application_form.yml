@@ -187,19 +187,6 @@ en:
         change_action: interview preferences
         label: Interview preferences
         complete_form_button: Continue
-    training_with_a_disability:
-      complete_form_button: Continue
-      disclose_disability:
-        change_action: whether you want to disclose a disability
-        label: Do you want to disclose a disability?
-        'yes': "Yes"
-        'no': "No"
-        not_specified: Not entered
-      disability_disclosure:
-        label: Tell us about your disability
-        change_action: what you want to tell us about your disability
-      review:
-        button: Continue
     volunteering:
       experience:
         label: Do you have experience volunteering with young people or in school?

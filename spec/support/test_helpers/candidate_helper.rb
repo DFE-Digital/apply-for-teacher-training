@@ -55,11 +55,6 @@ module CandidateHelper
     check t('application_form.volunteering.review.completed_checkbox')
     click_button t('application_form.volunteering.review.button')
 
-    click_link t('page_titles.training_with_a_disability')
-    candidate_fills_in_disability_info
-    click_button t('application_form.training_with_a_disability.complete_form_button')
-    click_link t('application_form.training_with_a_disability.review.button')
-
     click_link t('page_titles.degree')
     visit candidate_interface_degrees_new_base_path
     candidate_fills_in_their_degree
@@ -157,11 +152,6 @@ module CandidateHelper
     fill_in t('application_form.other_qualification.institution_name.label'), with: 'Yugi College'
     fill_in t('application_form.other_qualification.grade.label'), with: 'A'
     fill_in t('application_form.other_qualification.award_year.label'), with: '2015'
-  end
-
-  def candidate_fills_in_disability_info
-    choose t('application_form.training_with_a_disability.disclose_disability.yes')
-    fill_in t('application_form.training_with_a_disability.disability_disclosure.label'), with: 'I have difficulty climbing stairs'
   end
 
   def candidate_fills_in_work_experience
