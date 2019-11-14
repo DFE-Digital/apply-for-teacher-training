@@ -19,13 +19,13 @@ RSpec.feature 'See applications' do
 
   def and_my_organisation_has_accredited_courses_with_applications
     current_provider = create(:provider, code: 'ABC')
-    other_provier = create(:provider, code: 'ANOTHER_ORG')
+    other_provider = create(:provider, code: 'ANOTHER_ORG')
     course_option = course_option_for_provider(provider: current_provider)
-    accredited_course_option_where_current_provider_is_accrediting = course_option_for_accrediting_provider(provider: other_provier, accrediting_provider: current_provider)
-    accredited_course_option_where_current_provider_is_main_provider = course_option_for_accrediting_provider(provider: current_provider, accrediting_provider: other_provier)
+    accredited_course_option_where_current_provider_is_accrediting = course_option_for_accrediting_provider(provider: other_provider, accrediting_provider: current_provider)
+    accredited_course_option_where_current_provider_is_main_provider = course_option_for_accrediting_provider(provider: current_provider, accrediting_provider: other_provider)
 
 
-    other_course_option = course_option_for_provider(provider: other_provier)
+    other_course_option = course_option_for_provider(provider: other_provider)
 
     create(:application_choice, status: 'awaiting_provider_decision', course_option: course_option, application_form: create(:application_form, first_name: 'Jim', last_name: 'Jones'))
     create(:application_choice, status: 'awaiting_provider_decision', course_option: accredited_course_option_where_current_provider_is_accrediting, application_form: create(:application_form, first_name: 'Clancy'))
