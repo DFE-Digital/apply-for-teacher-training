@@ -76,6 +76,13 @@ en:
     add_volunteering_role: Add role
     edit_volunteering_role: Edit role
     destroy_volunteering_role: Are you sure you want to delete this role?
+    referees: Choosing your referees
+    referee_destroy: Are you sure you want to delete this referee?
+    add_referee: Details of referee
+    nth_referee:
+      - (should never appear)
+      - First referee
+      - Second referee
   layout:
     service_name: Apply for teacher training
     accessibility: Accessibility
@@ -99,6 +106,18 @@ en:
               taken: Email address is already in use
               too_long: Email address must be %{count} characters or fewer
               invalid: Enter an email address in the correct format, like name@example.com
+        reference:
+          attributes:
+            email_address:
+              blank: Enter the referee’s email address
+              too_long: Email address must be %{count} characters or fewer
+              invalid: Enter an email address in the correct format, like name@example.com
+            name:
+              blank: Enter the referee’s full name
+              too_long: Full name must be %{count} characters or fewer
+            relationship:
+              blank: Enter the referee’s relationship to you
+              too_long: Relationship must be %{count} characters or fewer
   application_choice:
     status_name:
       unsubmitted: 'Not submitted yet'

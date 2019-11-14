@@ -71,5 +71,9 @@ module CandidateInterface
     def volunteering_added?
       @application_form.application_volunteering_experiences.any?
     end
+
+    def all_referees_provided_by_candidate?
+      @application_form.references.count == ApplicationForm::MINIMUM_COMPLETE_REFERENCES
+    end
   end
 end

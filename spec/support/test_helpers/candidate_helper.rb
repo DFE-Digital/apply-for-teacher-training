@@ -101,7 +101,7 @@ module CandidateHelper
     # Confirmation page
     click_link t('application_form.personal_statement.interview_preferences.complete_form_button')
 
-    # TODO: Referees
+    candidate_provides_two_referees
   end
 
   def candidate_submits_application
@@ -205,6 +205,27 @@ module CandidateHelper
 
       fill_in locale.t('details.label'), with: 'I volunteered.'
     end
+  end
+
+  def candidate_fills_in_referee(params = {})
+    fill_in t('application_form.referees.name.label'), with: params[:name] || 'Terri Tudor'
+    fill_in t('application_form.referees.email_address.label'), with: params[:email_address] || 'terri@example.com'
+    fill_in t('application_form.referees.relationship.label'), with: params[:relationship] || 'Tutor'
+  end
+
+  def candidate_provides_two_referees
+    visit candidate_interface_referees_path
+    click_link 'Continue'
+    candidate_fills_in_referee
+    click_button 'Save and continue'
+    click_link 'Add a second referee'
+    candidate_fills_in_referee(
+      name: 'Anne Other',
+      email_address: 'anne@other.com',
+      relationship: 'First boss',
+    )
+    click_button 'Save and continue'
+    click_link 'Continue'
   end
 
   def candidate_fills_in_a_gcse

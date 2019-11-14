@@ -34,7 +34,7 @@ RSpec.describe ImportReferencesFromCsv do
 
       expect(application_form.references.find_by!(email_address: 'ab@c.com').feedback).to eq('Feedback')
       expect(application_form.references.find_by!(email_address: 'xy@z.com').feedback).to eq('More feedback')
-      expect(application_form).to be_references_complete
+      expect(application_form.reload).to be_references_complete
     end
 
     it 'does not change existing feedback' do

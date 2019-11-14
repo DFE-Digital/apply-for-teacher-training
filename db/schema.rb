@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_13_164237) do
+ActiveRecord::Schema.define(version: 2019_11_14_103407) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -58,7 +58,6 @@ ActiveRecord::Schema.define(version: 2019_11_13_164237) do
     t.text "other_language_details"
     t.date "date_of_birth"
     t.text "further_information"
-    t.datetime "submitted_at"
     t.string "phone_number"
     t.string "address_line1"
     t.string "address_line2"
@@ -66,6 +65,7 @@ ActiveRecord::Schema.define(version: 2019_11_13_164237) do
     t.string "address_line4"
     t.string "country"
     t.string "postcode"
+    t.datetime "submitted_at"
     t.string "support_reference", limit: 10
     t.string "disability_disclosure"
     t.string "uk_residency_status"
@@ -172,6 +172,8 @@ ActiveRecord::Schema.define(version: 2019_11_13_164237) do
     t.bigint "application_form_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "name"
+    t.string "relationship"
     t.index ["application_form_id", "email_address"], name: "index_references_on_application_form_id_and_email_address", unique: true
     t.index ["application_form_id"], name: "index_references_on_application_form_id"
   end

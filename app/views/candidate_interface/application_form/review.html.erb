@@ -55,6 +55,6 @@
 
 <h2 class="govuk-heading-m govuk-!-font-size-27">References</h2>
 
-<p class="govuk-body">No references entered.</p>
+<%= render(RefereesReviewComponent, application_form: @application_form) %>
 
 <%= govuk_button_link_to t('review_application.button_continue'), candidate_interface_application_submit_show_path %>
