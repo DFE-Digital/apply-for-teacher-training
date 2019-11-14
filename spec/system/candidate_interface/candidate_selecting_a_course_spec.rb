@@ -63,7 +63,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def and_i_choose_a_provider
-    select 'Gorse SCITT (1N1)'
+    choose 'Gorse SCITT (1N1)'
     click_button 'Continue'
   end
 

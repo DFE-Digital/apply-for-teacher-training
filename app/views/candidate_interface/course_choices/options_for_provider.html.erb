@@ -6,11 +6,13 @@
     <%= form_with model: Provider.new, url: candidate_interface_course_choices_provider_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-xl">
-        <%= t('page_titles.which_provider') %>
-      </h1>
-
-      <%= f.govuk_collection_select :code, @providers.map { |provider| OpenStruct.new(code: provider.code, name: "#{provider.name} (#{provider.code})") }, :code, :name, label: { text: 'Enter training provider name' } %>
+      <%= f.govuk_radio_buttons_fieldset :code, legend: { size: 'xl', text: t('page_titles.which_provider') } do %>
+        <div class="govuk-!-margin-top-6">
+          <% @providers.map do |provider| %>
+            <%= f.govuk_radio_button :code, provider.code, label: { text: "#{provider.name} (#{provider.code})", size: 'm' } %>
+          <% end %>
+        </div>
+      <% end %>
 
       <%= f.govuk_submit 'Continue' %>
     <% end %>
