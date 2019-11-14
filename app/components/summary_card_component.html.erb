@@ -11,7 +11,7 @@
             <% if row[:value].is_a?(Array) %>
               <% row[:value].each do |value| %><%= value %><br><% end %>
             <% else %>
-              <%= row[:value] %>
+              <%= simple_format row[:value], { class: 'govuk-body' } %>
             <% end %>
           </dd>
 
