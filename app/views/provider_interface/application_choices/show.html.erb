@@ -1,4 +1,21 @@
-<h1 class='govuk-heading-xl'><%= @application_choice.full_name %>'s application</h1>
+<% content_for :title, "#{@application_choice.full_name} – #{@application_choice.course_name_and_code}" %>
+<% content_for :before_content do %>
+  <div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to 'Applications', provider_interface_applications_path, class: 'govuk-breadcrumbs__link' %>
+      </li>
+      <li class="govuk-breadcrumbs__list-item" aria-current="page">
+        <%= @application_choice.full_name %>
+      </li>
+    </ol>
+  </div>
+<% end %>
+
+<h1 class="govuk-heading-xl">
+  <span class="govuk-caption-xl">Application for <%= @application_choice.course_name_and_code %></span>
+  <%= @application_choice.full_name %>
+</h1>
 
 <dl class="govuk-summary-list">
   <div class="govuk-summary-list__row">

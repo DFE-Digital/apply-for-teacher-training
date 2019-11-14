@@ -1,4 +1,6 @@
-<h1 class="govuk-heading-xl">Your applications</h1>
+<% content_for :title, 'Applications' %>
+
+<h1 class="govuk-heading-xl">Applications</h1>
 
 <table class="govuk-table">
   <thead class="govuk-table__head">
@@ -6,7 +8,7 @@
       <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Name</th>
       <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Course</th>
       <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Status</th>
-      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Last update</th>
+      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Last updated</th>
     </tr>
   </thead>
 
@@ -14,8 +16,8 @@
     <% @application_choices.each do |application_choice| %>
     <tr class="govuk-table__row">
       <td class="govuk-table__cell"><%= govuk_link_to application_choice.full_name, provider_interface_application_choice_path(application_choice) %></td>
-      <td class="govuk-table__cell"><%= application_choice.course_name %></td>
-      <td class="govuk-table__cell"><%= tag.strong application_choice.status_name, class: "govuk-tag" %></td>
+      <td class="govuk-table__cell"><%= application_choice.course_name_and_code %></td>
+      <td class="govuk-table__cell"><%= tag.strong application_choice.status_name, class: 'govuk-tag' %></td>
       <td class="govuk-table__cell"><%= application_choice.updated_at %></td>
     </tr>
     <% end %>
