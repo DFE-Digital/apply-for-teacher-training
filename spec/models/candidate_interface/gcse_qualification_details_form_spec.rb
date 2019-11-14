@@ -5,27 +5,82 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
     it { is_expected.to validate_presence_of(:grade) }
     it { is_expected.to validate_presence_of(:award_year) }
 
-    describe 'grade format' do
-      let(:form) do
-        qualification = FactoryBot.build_stubbed(:application_qualification, qualification_type: 'gcse', level: 'gcse')
-        CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
-      end
-
-      it 'return validation error if grade is invalid' do
-        form.grade = 'aaz'
-
-        form.validate
-
-        expect(form.errors[:grade]).to include('Enter a real graduation grade')
-      end
+    context 'when qualification type is GCSE' do
+      let(:form) { CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification) }
+      let(:qualification) { FactoryBot.build_stubbed(:application_qualification, qualification_type: 'gcse', level: 'gcse') }
 
       it 'returns no errors if grade is valid' do
-        %w[aaa a*a*a* AB 123].each do |grade|
-          form.grade = grade
+        valid_grades = ['A*A*A*', 'ABC', 'AA', '863', 'a*a*a*', 'A B C', 'A-B-C']
 
+        valid_grades.each do |grade|
+          form.grade = grade
           form.validate
 
           expect(form.errors[:grade]).to be_empty
+        end
+      end
+
+      it 'return validation error if grade is invalid' do
+        invalid_grades = %w[012 XYZ]
+
+        invalid_grades.each do |grade|
+          form.grade = grade
+          form.validate
+          expect(form.errors[:grade]).to include('Enter a real graduation grade')
+        end
+      end
+    end
+
+    context 'when qualification type is GCE O LEVEL' do
+      let(:form) { CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification) }
+      let(:qualification) { FactoryBot.build_stubbed(:application_qualification, qualification_type: 'gce_o_level', level: 'gcse') }
+
+      it 'returns no errors if grade is valid' do
+        valid_grades = ['ABC', 'AB', 'AA', 'abc', 'A B C', 'A-B-C']
+
+        valid_grades.each do |grade|
+          form.grade = grade
+          form.validate
+
+          expect(form.errors[:grade]).to be_empty
+        end
+      end
+
+      it 'return validation error if grade is invalid' do
+        invalid_grades = %w[123 A* XYZ]
+
+        invalid_grades.each do |grade|
+          form.grade = grade
+          form.validate
+
+          expect(form.errors[:grade]).to include('Enter a real graduation grade')
+        end
+      end
+    end
+
+    context 'when qualification type is Scottish National 5' do
+      let(:form) { CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification) }
+      let(:qualification) { FactoryBot.build_stubbed(:application_qualification, qualification_type: 'scottish_higher', level: 'gcse') }
+
+      it 'returns no errors if grade is valid' do
+        valid_grades = ['AAA', 'AAB', '765', 'CBD', 'aaa', 'C B D', 'C-B-D']
+
+        valid_grades.each do |grade|
+          form.grade = grade
+          form.validate
+
+          expect(form.errors[:grade]).to be_empty
+        end
+      end
+
+      it 'return validation error if grade is invalid' do
+        invalid_grades = %w[89 AE A*]
+
+        invalid_grades.each do |grade|
+          form.grade = grade
+          form.validate
+
+          expect(form.errors[:grade]).to include('Enter a real graduation grade')
         end
       end
     end
