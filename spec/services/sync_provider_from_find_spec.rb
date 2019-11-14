@@ -9,6 +9,7 @@ RSpec.describe SyncProviderFromFind do
         provider_code: 'ABC',
         course_code: '9CBA',
         site_code: 'G',
+        findable: true,
       )
     end
 
@@ -19,6 +20,7 @@ RSpec.describe SyncProviderFromFind do
 
       expect(course_option.course.provider.code).to eq 'ABC'
       expect(course_option.course.code).to eq '9CBA'
+      expect(course_option.course.exposed_in_find).to be true
       expect(course_option.site.code).to eq 'G'
     end
   end
