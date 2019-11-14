@@ -14,7 +14,6 @@ RSpec.feature 'Candidate reviews the answers' do
     and_i_can_see_my_volunteering_roles
     and_i_can_see_my_degree
     and_i_can_see_my_other_qualification
-    and_i_can_see_my_disability_info
     and_i_can_see_my_becoming_a_teacher_info
     and_i_can_see_my_subject_knowlegde_info
     and_i_can_see_my_interview_preferences
@@ -69,10 +68,6 @@ RSpec.feature 'Candidate reviews the answers' do
     expect(page).to have_content 'Yugi College'
     expect(page).to have_content 'A'
     expect(page).to have_content '2015'
-  end
-
-  def and_i_can_see_my_disability_info
-    expect(page).to have_content 'I have difficulty climbing stairs'
   end
 
   def and_i_can_see_my_becoming_a_teacher_info
