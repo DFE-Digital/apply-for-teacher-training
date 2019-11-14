@@ -5,7 +5,7 @@ RSpec.feature 'Candidate entering GCSE details' do
 
   scenario 'Candidate submits their maths GCSE details and then update them' do
     given_i_am_signed_in
-    and_i_visit_the_candidate_application_page
+    when_i_visit_the_candidate_application_page
     and_i_click_on_the_maths_gcse_link
     then_i_see_the_add_gcse_maths_page
 
@@ -28,11 +28,14 @@ RSpec.feature 'Candidate entering GCSE details' do
     and_i_click_save_and_continue
 
     then_i_see_the_review_page_with_updated_details
+
+    when_i_visit_the_candidate_application_page
+    i_see_the_maths_gcse_is_completed
   end
 
   scenario 'Candidate does not provide a qualification level' do
     given_i_am_signed_in
-    and_i_visit_the_candidate_application_page
+    when_i_visit_the_candidate_application_page
     and_i_click_on_the_maths_gcse_link
 
     then_i_see_the_add_gcse_maths_page
@@ -68,7 +71,7 @@ RSpec.feature 'Candidate entering GCSE details' do
 
   def and_i_do_not_select_any_gcse_option; end
 
-  def and_i_visit_the_candidate_application_page
+  def when_i_visit_the_candidate_application_page
     visit '/candidate/application'
   end
 
@@ -122,5 +125,9 @@ RSpec.feature 'Candidate entering GCSE details' do
   def and_i_edit_my_details
     fill_in 'Enter your qualification grade', with: 'BB'
     fill_in 'Enter the year you gained your qualification', with: '2000'
+  end
+
+  def i_see_the_maths_gcse_is_completed
+    expect(page).to have_css('#maths-qualifications-completed', text: 'Completed')
   end
 end

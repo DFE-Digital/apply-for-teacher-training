@@ -79,14 +79,32 @@
         <% end %>
       </li>
       <li class="app-task-list__item">
-        <%= govuk_link_to 'Maths GCSE or equivalent', candidate_interface_gcse_details_edit_type_path(subject: :maths), class: 'app-task-list__task-name' %>
+        <% if @application_form_presenter.maths_gcse_completed? %>
+          <%= govuk_link_to 'Maths GCSE or equivalent', candidate_interface_gcse_review_path(subject: :maths), class: 'app-task-list__task-name', 'aria-describedby': 'maths-qualifications-completed' %>
+          <strong class="govuk-tag app-task-list__task-completed" id="maths-qualifications-completed">Completed</strong>
+        <% else %>
+          <%= govuk_link_to 'Maths GCSE or equivalent', candidate_interface_gcse_details_edit_type_path(subject: :maths), class: 'app-task-list__task-name' %>
+        <% end %>
       </li>
+
       <li class="app-task-list__item">
-        <%= govuk_link_to 'English GCSE or equivalent', candidate_interface_gcse_details_edit_type_path(subject: :english), class: 'app-task-list__task-name' %>
+        <% if @application_form_presenter.english_gcse_completed? %>
+          <%= govuk_link_to 'English GCSE or equivalent', candidate_interface_gcse_review_path(subject: :english), class: 'app-task-list__task-name', 'aria-describedby': 'english-qualifications-completed' %>
+          <strong class="govuk-tag app-task-list__task-completed" id="english-qualifications-completed">Completed</strong>
+        <% else %>
+          <%= govuk_link_to 'English GCSE or equivalent', candidate_interface_gcse_details_edit_type_path(subject: :english), class: 'app-task-list__task-name' %>
+        <% end %>
       </li>
+
       <li class="app-task-list__item">
-        <%= govuk_link_to 'Science GCSE or equivalent', candidate_interface_gcse_details_edit_type_path(subject: :science), class: 'app-task-list__task-name' %>
+        <% if @application_form_presenter.science_gcse_completed? %>
+          <%= govuk_link_to 'Science GCSE or equivalent', candidate_interface_gcse_review_path(subject: :science), class: 'app-task-list__task-name', 'aria-describedby': 'science-qualifications-completed' %>
+          <strong class="govuk-tag app-task-list__task-completed" id="science-qualifications-completed">Completed</strong>
+        <% else %>
+          <%= govuk_link_to 'Science GCSE or equivalent', candidate_interface_gcse_details_edit_type_path(subject: :science), class: 'app-task-list__task-name' %>
+        <% end %>
       </li>
+
       <li class="app-task-list__item">
         <% if @application_form_presenter.other_qualifications_completed? %>
           <%= govuk_link_to t('page_titles.other_qualification'), candidate_interface_review_other_qualifications_path, class: 'app-task-list__task-name', 'aria-describedby': 'other-qualifications-completed' %>
