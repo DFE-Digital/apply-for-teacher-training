@@ -32,7 +32,7 @@ module ViewHelper
     [
       [:gcse, 'GCSE'],
       [:gce_o_level, 'GCE O Level'],
-      [:scottish_higher, 'Scottish Higher'],
+      [:scottish_national_5, 'Scottish National 5'],
       [:other_uk, 'Other UK qualification'],
     ].map { |id, label| option.new(id, label) }
   end
