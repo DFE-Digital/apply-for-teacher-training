@@ -35,15 +35,15 @@ module CandidateInterface
     end
 
     def maths_gcse_completed?
-      @application_form.qualification_in_subject(:gcse, :maths).present?
+      @application_form.maths_gcse.present?
     end
 
     def english_gcse_completed?
-      @application_form.qualification_in_subject(:gcse, :english).present?
+      @application_form.english_gcse.present?
     end
 
     def science_gcse_completed?
-      @application_form.qualification_in_subject(:gcse, :science).present?
+      @application_form.science_gcse.present?
     end
 
     def other_qualifications_completed?

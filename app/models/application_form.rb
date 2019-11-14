@@ -35,5 +35,17 @@ class ApplicationForm < ApplicationRecord
       .first
   end
 
+  def maths_gcse
+    qualification_in_subject(:gcse, :maths)
+  end
+
+  def english_gcse
+    qualification_in_subject(:gcse, :english)
+  end
+
+  def science_gcse
+    qualification_in_subject(:gcse, :science)
+  end
+
   audited
 end
