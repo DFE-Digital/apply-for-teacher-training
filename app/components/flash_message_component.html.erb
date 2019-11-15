@@ -1,5 +1,19 @@
 <% if !flash.empty? %>
-  <% if flash[:success] %>
-    <%= render(SuccessFlashComponent, message: flash[:success]) %>
+  <% if flash[:warning] %>
+    <div class="app-banner app-banner--warning" aria-labelledby="warning-message">
+      <div class="app-banner__message">
+        <h2 class="govuk-heading-m" id="warning-message">
+          <%= flash[:warning] %>
+        </h2>
+      </div>
+    </div>
+  <% elsif flash[:success] %>
+    <div class="app-banner app-banner--success" aria-labelledby="success-message">
+      <div class="app-banner__message">
+        <h2 class="govuk-heading-m" id="success-message">
+          <%= flash[:success] %>
+        </h2>
+      </div>
+    </div>
   <% end %>
 <% end %>
