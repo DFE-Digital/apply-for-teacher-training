@@ -14,7 +14,8 @@
   <tbody class="govuk-table__body">
     <% @application_forms.each do |application_form| %>
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell"><%= govuk_link_to application_form.full_name, support_interface_application_form_path(application_form) %></td>
+      <td class="govuk-table__cell">
+        <%= govuk_link_to application_form.name_and_support_reference, support_interface_application_form_path(application_form) %></td>
       <td class="govuk-table__cell"><%= application_form.updated_at.to_s(:long) %></td>
       <td class="govuk-table__cell"><%= govuk_link_to 'History', support_interface_application_form_audit_path(application_form) %></td>
     </tr>

@@ -16,6 +16,14 @@ module SupportInterface
       application_form.date_of_birth
     end
 
+    def name_and_support_reference
+      if application_form.support_reference
+        "#{full_name} (#{application_form.support_reference})"
+      else
+        full_name
+      end
+    end
+
     def to_param
       application_form.id.to_s
     end
