@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'Provider rejects application' do
   include CourseOptionHelpers
+  include DfeSignInHelpers
 
   let(:course_option) { course_option_for_provider_code(provider_code: 'ABC') }
   let(:application_awaiting_provider_decision) {
@@ -9,7 +10,7 @@ RSpec.feature 'Provider rejects application' do
   }
 
   scenario 'Provider rejects application' do
-    given_i_am_a_provider_user
+    given_i_am_a_provider_user_authenticated_with_dfe_sign_in
     when_i_respond_to_an_application
     and_i_choose_to_reject_it
     then_i_see_some_application_info
@@ -21,8 +22,9 @@ RSpec.feature 'Provider rejects application' do
     and_i_can_see_the_application_has_just_been_rejected
   end
 
-  def given_i_am_a_provider_user
-    # This is stubbed out for now in the controller.
+  def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
+    provider_exists_in_dfe_sign_in
+    provider_signs_in_using_dfe_sign_in
   end
 
   def when_i_respond_to_an_application
@@ -74,6 +76,6 @@ RSpec.feature 'Provider rejects application' do
   end
 
   def and_i_can_see_the_application_has_just_been_rejected
-    expect(page).to have_content 'Application status changed to \'Rejected\''
+    expect(page).to have_content 'Application status changed to ‘Rejected’'
   end
 end

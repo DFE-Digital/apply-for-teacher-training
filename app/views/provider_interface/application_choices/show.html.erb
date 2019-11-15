@@ -1,12 +1,5 @@
-<<<<<<< HEAD
-<% content_for :title, t('page_titles.application') %>
-<% content_for :before_content, govuk_back_link_to(provider_interface_applications_path) %>
-
-<%= render(FlashMessageComponent, flash: flash) %>
-
-<h1 class='govuk-heading-xl'><%= @application_choice.full_name %>'s application</h1>
-=======
 <% content_for :title, "#{@application_choice.full_name} – #{@application_choice.course_name_and_code}" %>
+
 <% content_for :before_content do %>
   <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
@@ -20,11 +13,14 @@
   </div>
 <% end %>
 
+<% content_for :before_content, govuk_back_link_to(provider_interface_applications_path) %>
+
+<%= render(FlashMessageComponent, flash: flash) %>
+
 <h1 class="govuk-heading-xl">
   <span class="govuk-caption-xl">Application for <%= @application_choice.course_name_and_code %></span>
   <%= @application_choice.full_name %>
 </h1>
->>>>>>> master
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

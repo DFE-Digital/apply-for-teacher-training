@@ -33,10 +33,6 @@ module ProviderInterface
     end
 
     def course_name_and_code
-      "#{application_choice.course.name} (#{application_choice.course.code})"
-    end
-
-    def course_name_and_code
       application_choice.course.name_and_code
     end
 
