@@ -51,6 +51,14 @@ FactoryBot.define do
         create_list(:application_volunteering_experience, evaluator.volunteering_experiences_count, application_form: application_form)
         create_list(:application_qualification, evaluator.qualifications_count, application_form: application_form)
         create_list(:reference, evaluator.references_count, application_form: application_form)
+        # The application_form validates the length of this collection when
+        # it is created, which is BEFORE we create the references here.
+        # This then *caches* the association on the  application_form, and means
+        # you have to explicitly reload it to pick up the created references.
+        # We do this here, so we only have to do it in one place, rather than
+        # everywhere we refer to application_form.references in tests.
+        # See https://github.com/thoughtbot/factory_bot/issues/549 for details.
+        application_form.references.reload
       end
     end
   end
@@ -101,7 +109,7 @@ FactoryBot.define do
   factory :course do
     provider
 
-    code { Faker::Alphanumeric.alphanumeric(number: 4).upcase }
+    code { Faker::Alphanumeric.alphanumeric(number: 4, min_alpha: 1).upcase }
     name { Faker::Educator.subject }
     level { 'primary' }
     start_date { Date.new(2020, 9, 1) }
