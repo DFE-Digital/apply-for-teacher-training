@@ -5,6 +5,7 @@ RSpec.describe Reference, type: :model do
 
   describe 'a valid reference' do
     let(:application_form) { build(:application_form) }
+
     subject { build(:reference, application_form: application_form) }
 
     it { is_expected.to validate_presence_of :email_address }
