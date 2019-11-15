@@ -44,7 +44,7 @@ RSpec.feature 'Candidate submit the application' do
     click_button 'Continue'
     choose 'Gorse SCITT (1N1)'
     click_button 'Continue'
-    select 'Primary (2XT2)'
+    choose 'Primary (2XT2)'
     click_button 'Continue'
     choose 'Main site'
     click_button 'Continue'

@@ -68,7 +68,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def and_i_choose_a_course
-    select 'Primary (2XT2)'
+    choose 'Primary (2XT2)'
     click_button 'Continue'
   end
 
