@@ -53,8 +53,10 @@
           <%= @application_choice.status_tag_text %>
         </strong>
       <div class="actions">
-        <a href="<%= provider_interface_application_choice_respond_path(@application_choice.id) %>" role="button" draggable="false" class="govuk-button govuk-!-margin-bottom-4" data-module="govuk-button">
+        <% if @application_choice.status == 'awaiting_provider_decision' %>
+          <a href="<%= provider_interface_application_choice_respond_path(@application_choice.id) %>" role="button" draggable="false" class="govuk-button govuk-!-margin-bottom-4" data-module="govuk-button">
           Respond to application
+        <% end %>
         </a>
       </div>
     </div>

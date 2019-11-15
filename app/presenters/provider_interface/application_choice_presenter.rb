@@ -9,15 +9,12 @@ module ProviderInterface
       application_choice.id
     end
 
+    def status
+      application_choice.status
+    end
+
     def status_tag_text
-      case application_choice.status
-      when 'offer'
-        'Offered'
-      when 'rejected'
-        'Rejected'
-      else
-        'New'
-      end
+      application_choice.status.humanize.titleize
     end
 
     def status_tag_class

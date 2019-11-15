@@ -3,10 +3,15 @@ require 'rails_helper'
 RSpec.feature 'See applications' do
   include CourseOptionHelpers
 
-  scenario 'Provider rejects application' do
+  scenario 'Provider responds to application' do
     given_i_am_a_provider_user
     and_my_organisation_has_applications
-    and_i_visit_the_provider_application_page
+    when_i_visit_a_application_with_status_awaiting_provider_decision
+    then_i_can_see_its_status
+    and_i_can_respond_to_the_application
+  end
+
+    then_i_should_be_on_the_application_view_page
 
     #when_i_click_on_an_application
     #then_i_should_be_on_the_application_view_page
