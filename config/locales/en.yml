@@ -83,6 +83,7 @@ en:
       - (should never appear)
       - First referee
       - Second referee
+    apply_on_ucas: We’re sorry, but we’re not ready for you yet
   layout:
     service_name: Apply for teacher training
     accessibility: Accessibility

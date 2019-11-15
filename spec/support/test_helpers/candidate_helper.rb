@@ -17,10 +17,10 @@ module CandidateHelper
     choose 'Yes, I know where I want to apply'
     click_button 'Continue'
 
-    select 'Gorse SCITT (1N1)'
+    choose 'Gorse SCITT (1N1)'
     click_button 'Continue'
 
-    select 'Primary (2XT2)'
+    choose 'Primary (2XT2)'
     click_button 'Continue'
 
     choose 'Main site'
