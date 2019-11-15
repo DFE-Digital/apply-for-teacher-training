@@ -18,8 +18,10 @@ Given('the candidate has specified {string} and {string} as referees') do |refer
                     application_form: @application_choice.application_form)
 end
 
-Given('a {int} working day time limit on {string}') do |_limit, _rule|
-  #TODO: Populate a lookup table with this rule
+Given('a {int} working day time limit on {string}') do |limit, rule|
+  time_limit = TimeLimit.find_or_initialize_by(rule: rule)
+  time_limit.limit = limit
+  time_limit.save!
 end
 
 When(/^the candidate submits the application$/) do
