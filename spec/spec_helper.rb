@@ -18,6 +18,7 @@ SimpleCov.start 'rails'
 
 require 'sidekiq/testing'
 require 'clockwork/test'
+require 'audited-rspec'
 ENV['SERVICE_TYPE'] = 'test' # this is used for logging
 
 RSpec.configure do |config|
