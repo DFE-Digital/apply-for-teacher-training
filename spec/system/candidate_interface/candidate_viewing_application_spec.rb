@@ -18,6 +18,6 @@ RSpec.feature 'Viewing their new application' do
   end
 
   def then_i_should_see_that_i_have_made_no_choices
-    expect(page).to have_content(t('application_form.courses'))
+    expect(page).to have_content(t('application_form.courses.intro'))
   end
 end

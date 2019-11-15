@@ -96,13 +96,6 @@ stages:
           true;
         else
           echo "ci.test failed"
-          if [ -f results/rspec-results.xml ]
-          then
-            echo "ERROR: Tests failed. results/rpsec-results.xml output:"
-            cat results/rspec-results.xml
-          else
-            echo "ERROR: Tests failed. Unable to read results/rpsec-results.xml. The file was either not created or the copy from the container failed."
-          fi
           false
         fi
       displayName: 'Execute tests'
@@ -147,14 +140,6 @@ stages:
         path: '$(System.DefaultWorkingDirectory)/azure/'
         artifactName: 'arm_template'
 
-    - task: PublishTestResults@2
-      displayName: 'Publish Test Results'
-      condition: succeededOrFailed()
-      inputs:
-        testRunner: JUnit
-        testResultsFiles: 'results/*.xml'
-
-
 - stage: deploy_qa
   displayName: 'Deploy - QA'
   dependsOn: build_test_release
@@ -196,7 +181,9 @@ stages:
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
       findBaseUrl: '$(findBaseUrl)'
       disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'
-
+      dfeSignInClientId: '$(dfeSignInClientId)'
+      dfeSignInSecret: '$(dfeSignInSecret)'
+      dfeSignInIssuer: '$(dfeSignInIssuer)'
 
 - stage: deploy_staging
   displayName: 'Deploy - Staging'
@@ -239,6 +226,9 @@ stages:
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
       findBaseUrl: '$(findBaseUrl)'
       disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'
+      dfeSignInClientId: '$(dfeSignInClientId)'
+      dfeSignInSecret: '$(dfeSignInSecret)'
+      dfeSignInIssuer: '$(dfeSignInIssuer)'
 
 
 - stage: deploy_sandbox
@@ -282,6 +272,9 @@ stages:
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
       findBaseUrl: '$(findBaseUrl)'
       disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'
+      dfeSignInClientId: '$(dfeSignInClientId)'
+      dfeSignInSecret: '$(dfeSignInSecret)'
+      dfeSignInIssuer: '$(dfeSignInIssuer)'
 
 
 - stage: deploy_pentest
@@ -324,6 +317,9 @@ stages:
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
       findBaseUrl: '$(findBaseUrl)'
       disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'
+      dfeSignInClientId: '$(dfeSignInClientId)'
+      dfeSignInSecret: '$(dfeSignInSecret)'
+      dfeSignInIssuer: '$(dfeSignInIssuer)'
 
 
 - stage: deploy_production
@@ -367,3 +363,6 @@ stages:
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
       findBaseUrl: '$(findBaseUrl)'
       disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'
+      dfeSignInClientId: '$(dfeSignInClientId)'
+      dfeSignInSecret: '$(dfeSignInSecret)'
+      dfeSignInIssuer: '$(dfeSignInIssuer)'

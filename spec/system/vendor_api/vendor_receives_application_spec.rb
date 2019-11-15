@@ -7,6 +7,8 @@ RSpec.feature 'Vendor receives the application' do
     Timecop.freeze do # simplify date assertions in the response
       given_a_candidate_has_submitted_their_application
       and_references_have_been_received
+      and_the_edit_by_date_has_passed
+      and_the_daily_application_cron_job_has_run
 
       when_i_retrieve_the_application_over_the_api
       then_it_should_include_the_data_from_the_application_form
@@ -19,26 +21,22 @@ RSpec.feature 'Vendor receives the application' do
   end
 
   def and_references_have_been_received
-    # TODO Replace with the service object from https://github.com/DFE-Digital/apply-for-postgraduate-teacher-training/pull/471
-    create(:reference,
-           application_form: @application,
-           email_address: 'FIRST_REF@example.com')
-
-    create(:reference,
-           application_form: @application,
-           email_address: 'SECOND_REF@example.com')
+    ReceiveReference.new(application_form: @application,
+                         referee_email: @application.references.first.email_address,
+                         feedback: 'My ideal person').save
 
     ReceiveReference.new(application_form: @application,
-                         referee_email: 'FIRST_REF@example.com',
-                         reference: 'My ideal person').save
+                         referee_email: @application.references.last.email_address,
+                         feedback: 'Lovable').save
+  end
 
-    @application.reload # workaround for bug fixed in above PR
+  def and_the_edit_by_date_has_passed
+    @application.application_choices.first.update(edit_by: 1.minute.ago)
+  end
 
-    ReceiveReference.new(application_form: @application,
-                         referee_email: 'SECOND_REF@example.com',
-                         reference: 'Lovable').save
-
-    ApplicationStateChange.new(@application.application_choices.first).send_to_provider!
+  def and_the_daily_application_cron_job_has_run
+    # TODO: Replace with a call to the outermost cron job, once it exists
+    SendApplicationsToProvider.new.call
   end
 
   def when_i_retrieve_the_application_over_the_api
@@ -189,7 +187,17 @@ RSpec.feature 'Vendor receives the application' do
               description: 'I learned a lot about teaching',
             },
           ],
-          volunteering: [],
+          volunteering: [
+            {
+              start_date: '2018-05-01',
+              end_date: '2019-01-01',
+              role: 'Classroom Volunteer',
+              organisation_name: 'A Noice School',
+              working_with_children: true,
+              commitment: nil,
+              description: 'I volunteered.',
+            },
+          ],
         },
       },
     }

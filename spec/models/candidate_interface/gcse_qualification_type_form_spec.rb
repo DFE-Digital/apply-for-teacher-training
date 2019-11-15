@@ -45,6 +45,21 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
       expect(form.new_record?).to be false
     end
 
+    context 'the type of qualification is other_uk' do
+      it 'gets error if other_uk_qualification_type is empty' do
+        application_form = create(:application_form)
+        qualification = application_form.application_qualifications.create!(
+          level: 'gcse',
+          subject: 'maths',
+          qualification_type: 'other_uk',
+          )
+
+        form = CandidateInterface::GcseQualificationTypeForm.build_from_qualification(qualification)
+
+        expect(form.valid?).to eq false
+        expect(form.errors[:other_uk_qualification_type]).to include('Enter the type of your degree')
+      end
+    end
 
     it 'update the existing qualification model' do
       application_form = create(:application_form)
@@ -60,6 +75,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
 
       form.save_base(application_form)
 
+      expect(form.errors).to be_empty
       expect(qualification.reload.qualification_type).to eq 'gce_o_level'
     end
   end

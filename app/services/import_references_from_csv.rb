@@ -14,9 +14,9 @@ class ImportReferencesFromCsv
   end
 
   def self.process_row(row)
-    referee_email    = row[1]
-    referee_feedback = row[4]
-    reference_id     = row[6]
+    referee_email    = row[2]
+    referee_feedback = row[5]
+    reference_id     = row[1]
 
     reference = Reference.find(reference_id)
     application_form = ApplicationForm.includes(:references).where(references: { id: reference_id }).first
@@ -41,19 +41,19 @@ class ImportReferencesFromCsv
   end
 
   def self.import_reference(application_form, referee_email, referee_feedback)
-    reference = ReceiveReference.new(
+    receive_reference = ReceiveReference.new(
       application_form: application_form,
       referee_email: referee_email,
-      reference: referee_feedback,
+      feedback: referee_feedback,
     )
 
-    updated = !!reference.save
+    updated = receive_reference.save
 
     {
       referee_email: referee_email,
       application_form: application_form,
       updated: updated,
-      errors: updated ? nil : reference.errors.full_messages,
+      errors: updated ? nil : receive_reference.errors.full_messages,
     }
   end
 end

@@ -12,6 +12,7 @@ class GenerateVendorProviders
       { name: 'Technology One Provider', code: 'TECH' },
       { name: 'Gordon Associates Provider', code: 'GORD' },
       { name: 'University of Newcastle Upon Tyne', code: 'N21' },
+      { name: 'University College Birmingham', code: 'B35' },
     ]
 
     providers.each do |provider|

@@ -125,53 +125,73 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
-  describe '#training_with_a_disability_completed?' do
+  describe '#volunteering_completed?' do
+    it 'returns true if volunteering section is completed' do
+      application_form = build(:application_form, volunteering_completed: true)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_volunteering_completed
+    end
+
+    it 'returns false if volunteering section is incomplete' do
+      application_form = build(:application_form, volunteering_completed: false)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_volunteering_completed
+    end
+  end
+
+  describe '#volunteering_added?' do
+    it 'returns true if volunteering have been added' do
+      application_form = build(:completed_application_form, volunteering_experiences_count: 1)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_volunteering_added
+    end
+
+    it 'returns false if no volunteering are added' do
+      application_form = build(:completed_application_form, volunteering_experiences_count: 0)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_volunteering_added
+    end
+  end
+
+  describe '#all_referees_provided_by_candidate?' do
     let(:application_form) do
-      FactoryBot.build(:completed_application_form)
+      FactoryBot.create(:application_form)
     end
     let(:presenter) do
       CandidateInterface::ApplicationFormPresenter.new(application_form)
     end
 
-    context 'when the candidate has not selected Yes or No to the disclosure question' do
+    context 'when there are no referees' do
       before do
-        application_form.disclose_disability = nil
+        application_form.references.delete_all
       end
 
       it 'returns false' do
-        expect(presenter.training_with_a_disability_completed?).to eq(false)
+        expect(presenter.all_referees_provided_by_candidate?).to eq(false)
       end
     end
 
-    context 'when the candidate says Yes to disclosure but has not filled in the text field' do
+    context 'when there is one referee' do
       before do
-        application_form.disclose_disability = true
-        application_form.disability_disclosure = ''
+        create(:reference, application_form: application_form)
       end
 
       it 'returns false' do
-        expect(presenter.training_with_a_disability_completed?).to eq(false)
+        expect(presenter.all_referees_provided_by_candidate?).to eq(false)
       end
     end
 
-    context 'when the candidate says Yes to disclosure and has filled in the text field' do
+    context 'when there are two referees' do
       before do
-        application_form.disclose_disability = true
-        application_form.disability_disclosure = 'I have difficulty climbing stairs'
+        create_list(:reference, 2, application_form: application_form)
       end
 
       it 'returns true' do
-        expect(presenter.training_with_a_disability_completed?).to eq(true)
-      end
-    end
-
-    context 'when the candidate has selected No to the disclosure question' do
-      before do
-        application_form.disclose_disability = false
-      end
-
-      it 'returns true' do
-        expect(presenter.training_with_a_disability_completed?).to eq(true)
+        expect(presenter.all_referees_provided_by_candidate?).to eq(true)
       end
     end
   end

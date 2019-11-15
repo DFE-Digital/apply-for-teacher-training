@@ -4,10 +4,6 @@ RSpec.feature 'Entering their work history' do
   include CandidateHelper
 
   scenario 'Candidate submits their work history' do
-    given_i_am_not_signed_in
-    and_i_visit_the_work_history_page
-    then_i_should_see_the_homepage
-
     given_i_am_signed_in
     and_i_visit_the_site
 
@@ -52,18 +48,8 @@ RSpec.feature 'Entering their work history' do
     and_that_the_section_is_completed
   end
 
-  def given_i_am_not_signed_in; end
-
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_i_visit_the_work_history_page
-    visit candidate_interface_work_history_length_path
-  end
-
-  def then_i_should_see_the_homepage
-    expect(page).to have_current_path(candidate_interface_start_path)
   end
 
   def and_i_visit_the_site

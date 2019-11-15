@@ -52,6 +52,6 @@ ci.test: ## Run the tests with results formatted for CI
 	docker-compose run web /bin/sh -c 'mkdir $(RESULTS_PATH) && \
 		apk add nodejs yarn && \
 		bundle exec rails assets:precompile && \
-		bundle exec --verbose rspec --format RspecJunitFormatter --out $(RESULTS_PATH)/rspec-results.xml'
+		bundle exec --verbose rspec'
 	$(call copy_test_results)
 	docker-compose rm -f -v web

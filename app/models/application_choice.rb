@@ -1,11 +1,12 @@
 class ApplicationChoice < ApplicationRecord
   before_create :set_initial_status
 
-  belongs_to :application_form, touch: true
+  belongs_to :application_form
   belongs_to :course_option
   has_one :course, through: :course_option
   has_one :site, through: :course_option
   has_one :provider, through: :course
+  has_one :accrediting_provider, through: :course, class_name: 'Provider'
 
   audited associated_with: :application_form
 
@@ -22,6 +23,10 @@ class ApplicationChoice < ApplicationRecord
     declined: 'declined',
     withdrawn: 'withdrawn',
   }
+
+  def edit_by_expired?
+    edit_by.present? && edit_by < Time.zone.now
+  end
 
 private
 

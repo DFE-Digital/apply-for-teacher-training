@@ -1,7 +1,11 @@
-<%= render(SummaryCardComponent, rows: gcse_qualification_rows) do %>
-  <header class="app-summary-card__header">
-    <h3 class="app-summary-card__title">
-      GCSE
-    </h3>
-  </header>
+<% if @application_qualification %>
+  <%= render(SummaryCardComponent, rows: gcse_qualification_rows) do %>
+    <header class="app-summary-card__header">
+      <h3 class="app-summary-card__title">
+        GCSE
+      </h3>
+    </header>
+  <% end %>
+<% else %>
+  <p class="govuk-body">No GCSE entered.</p>
 <% end %>

@@ -1,0 +1,22 @@
+<% content_for :title, page_title('referees') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<h1 class="govuk-heading-xl">
+  <%= t('page_titles.referees') %>
+</h1>
+
+<%= render(RefereesReviewComponent, application_form: @application_form) %>
+
+<%- if @referees.count < ApplicationForm::MINIMUM_COMPLETE_REFERENCES %>
+<p>
+  <% if @referees.any? %>
+    <%= govuk_button_link_to 'Add a second referee', candidate_interface_new_referee_path, class: 'govuk-button--secondary' %>
+  <% else %>
+    <%= govuk_button_link_to t('application_form.referees.add_referee'), candidate_interface_new_referee_path, class: 'govuk-button--secondary' %>
+  <% end %>
+</p>
+<%- end %>
+
+<p>
+  <%= govuk_button_link_to t('application_form.referees.review.button'), candidate_interface_application_form_path %>
+</p>

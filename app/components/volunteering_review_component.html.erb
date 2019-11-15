@@ -1,0 +1,37 @@
+<% @volunteering_roles.each do |volunteering_role| %>
+  <%= render(SummaryCardComponent, rows: volunteering_role_rows(volunteering_role)) do %>
+    <header class="app-summary-card__header">
+      <h3 class="app-summary-card__title">
+        <%= volunteering_role.role %>
+
+        <% if volunteering_role.working_with_children == 'true' %>
+          <span class="app-summary-card__meta">
+            <svg class="app-icon govuk-!-margin-right-1" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 200 200" focusable="false" fill="currentColor" aria-hidden="true">
+              <path d="M100 200a100 100 0 1 1 0-200 100 100 0 0 1 0 200zm-60-85l40 40 80-80-20-20-60 60-20-20-20 20z"></path>
+            </svg>
+            <%= t('application_form.volunteering.working_with_children.review_text') %>
+          </span>
+        <% end %>
+      </h3>
+      <div class="app-summary-card__actions">
+        <%= link_to t('application_form.volunteering.delete'), candidate_interface_confirm_destroy_volunteering_role_path(volunteering_role.id), class: 'govuk-link' %>
+      </div>
+    </header>
+  <% end %>
+<% end %>
+
+<% if @application_form.application_volunteering_experiences.empty? %>
+  <section class="app-summary-card govuk-!-margin-bottom-6">
+    <header class="app-summary-card__header">
+      <h3 class="app-summary-card__title">
+        <%= t('application_form.volunteering.no_experience.summary_card_title') %>
+      </h3>
+    </header>
+
+    <div class="app-summary-card__body">
+      The Department for Education have made it easier for teacher training
+      applicants to gain experience in school. Learn more at
+      <%= link_to 'Get school experience', 'https://schoolexperience.education.gov.uk/', class: 'govuk-link', target: :_blank %>.
+    </div>
+  </section>
+<% end %>

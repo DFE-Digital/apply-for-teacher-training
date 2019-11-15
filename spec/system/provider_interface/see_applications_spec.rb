@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.feature 'See applications' do
   include CourseOptionHelpers
+  include DfeSignInHelpers
 
   scenario 'Provider visits application page' do
-    given_i_am_a_provider_user
+    given_i_am_a_provider_user_authenticated_with_dfe_sign_in
     and_my_organisation_has_applications
     and_i_visit_the_provider_page
     then_i_should_see_the_applications_from_my_organisation
@@ -14,8 +15,9 @@ RSpec.feature 'See applications' do
     then_i_should_be_on_the_application_view_page
   end
 
-  def given_i_am_a_provider_user
-    # This is stubbed out for now in the controller.
+  def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
+    provider_exists_in_dfe_sign_in
+    provider_signs_in_using_dfe_sign_in
   end
 
   def and_my_organisation_has_applications
@@ -45,6 +47,7 @@ RSpec.feature 'See applications' do
   end
 
   def then_i_should_be_on_the_application_view_page
-    expect(page).to have_content "Alice Wunder's application"
+    expect(page).to have_content 'Application for'
+    expect(page).to have_content 'Alice Wunder'
   end
 end

@@ -1,7 +1,13 @@
 en:
   application_form:
     begin_button: Start now
-    courses: You can apply for up to 3 courses.
+    courses:
+      intro: You can apply for up to 3 courses.
+      delete: Delete choice
+      confirm_delete: Yes I'm sure - delete this choice
+      complete:
+        completed_checkbox: I have completed this section
+        button: Continue
     personal_details:
       first_name:
         label: First name
@@ -181,19 +187,65 @@ en:
         change_action: interview preferences
         label: Interview preferences
         complete_form_button: Continue
-    training_with_a_disability:
-      complete_form_button: Continue
-      disclose_disability:
-        change_action: whether you want to disclose a disability
-        label: Do you want to disclose a disability?
-        'yes': "Yes"
-        'no': "No"
-        not_specified: Not entered
-      disability_disclosure:
-        label: Tell us about your disability
-        change_action: what you want to tell us about your disability
+    volunteering:
+      experience:
+        label: Do you have experience volunteering with young people or in school?
+        button: Save and continue
+      no_experience:
+        summary_card_title: "Children and young people: no volunteering or experience in school roles entered"
+      role:
+        label: Your role
+        review_label: Role
+        change_action: role
+      organisation:
+        label: Organisation where you gained experience or volunteered
+        review_label: Organisation
+        change_action: organisation
+      working_with_children:
+        label: Did this job involve working in a school or with children?
+        review_text: This role involved working with children
+      length:
+        label: How long have you been in this role and what does it involve?
+      start_date:
+        label: Start date
+        hint_text: For example, 5 2018
+      end_date:
+        label: End date (leave blank if this is your current role)
+        hint_text: For example, 5 2019
+      details:
+        label: Enter details of your time commitment and responsibilities
+        hint_text: For example, ‘I volunteer in the classroom every Friday morning’
+          or ‘I spent 1 day observing in this school’ or ‘I am a Scout Leader involved
+          in activities throughout the year’
+      length_and_details:
+        review_label: Tell us how long you’ve been in this role and what it involves
+        change_action: dates and details
+      complete_form_button: Save and continue
+      delete: Delete role
+      confirm_delete: Yes I'm sure - delete this role
+      another:
+        button: Add another role
       review:
         button: Continue
+        completed_checkbox: I have completed this section
+    referees:
+      complete_form_button: Save and continue
+      delete: Delete referee
+      email_address:
+        label: Email address
+        hint_text: We won’t contact your referees until you submit your application
+      name:
+        label: Full name
+      relationship:
+        label: What is your relationship to this referee and how long have you known them?
+        hint_text: For example, ‘They were the headteacher at my secondary school between 2003 and 2005’
+      review:
+        button: Continue
+      sure_delete_entry: Yes I’m sure - delete this referee
+      nth_referee:
+        - (should never appear)
+        - First referee
+        - Second referee
   activemodel:
     errors:
       models:
@@ -329,6 +381,7 @@ en:
           attributes:
             grade:
               blank: Enter the grade
+              invalid: Enter a real graduation grade
             award_year:
               blank: Enter your graduation year
               invalid: Enter a real graduation year
@@ -336,3 +389,29 @@ en:
           attributes:
             qualification_type:
               blank: Enter the type of qualification
+            other_uk_qualification_type:
+              blank: Enter the type of your degree
+              too_long: Type of degree must be %{count} characters or fewer
+        candidate_interface/volunteering_experience_form:
+          attributes:
+            experience:
+              blank: Choose whether or not you have experience volunteering with young people or in school
+        candidate_interface/volunteering_role_form:
+          attributes:
+            role:
+              blank: Enter the role
+              too_long: Role must be %{count} characters or fewer
+            organisation:
+              blank: Enter the organisation where you gained experience or volunteered
+              too_long: The organisation must be %{count} characters or fewer
+            details:
+              blank: Enter details of your time commitment and responsibilities
+              too_long: Skills and experience must be %{count} characters or fewer
+            working_with_children:
+              blank: Choose if this role involves working in a school or with children
+            start_date:
+              invalid: Enter a start date in the correct format, for example 5 2018
+              before: Enter a start date that is before the end date
+            end_date:
+              invalid: Enter an end date in the correct format, for example 5 2019
+              in_the_future: Enter an end date that is not in the future

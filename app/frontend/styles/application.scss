@@ -20,3 +20,8 @@ $govuk-image-url-function: frontend-image-url;
 .autocomplete__wrapper, .autocomplete__input, .autocomplete__hint {
   font-family: $govuk-font-family;
 }
+
+.app-related {
+  border-top: 2px solid $govuk-brand-colour;
+  padding-top: govuk-spacing(3);
+}

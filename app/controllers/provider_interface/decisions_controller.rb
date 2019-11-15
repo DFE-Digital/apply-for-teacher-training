@@ -47,7 +47,7 @@ module ProviderInterface
   private
 
     def set_application_choice_and_presenter
-      @application_choice = GetApplicationChoicesForProvider.call(provider: current_user.provider)
+      @application_choice = GetApplicationChoicesForProvider.call(provider: current_provider_user.provider)
         .find(params[:application_choice_id])
 
       @presenter = ApplicationChoicePresenter.new(@application_choice)

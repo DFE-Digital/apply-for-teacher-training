@@ -1,0 +1,7 @@
+<% if current_provider_user %>
+  <ul id="navigation" class="govuk-header__navigation " aria-label="Top Level Navigation">
+    <li class="govuk-header__navigation-item">
+      <b><%= current_provider_user.email_address %></b>
+    </li>
+  </ul>
+<% end %>

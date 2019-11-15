@@ -4,6 +4,11 @@ en:
       maths: Add maths GCSE grade 4 (C) or above, or equivalent
       english: Add English GCSE grade 4 (C) or above, or equivalent
       science: Add science GCSE grade 4 (C) or above, or equivalent
+    types:
+      gcse: GCSE
+      gce_o_level: GCE O Level
+      scottish_national_5: Scottish National 5
+      other_uk: Other UK qualification
   gcse_edit_details:
     heading:
       maths: Maths qualification grade and year
@@ -14,3 +19,4 @@ en:
       maths: Maths GCSE or equivalent
       english: English GCSE or equivalent
       science: Science GCSE or equivalent
+    not_specified: Not entered

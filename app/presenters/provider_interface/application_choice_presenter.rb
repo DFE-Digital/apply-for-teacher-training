@@ -32,8 +32,8 @@ module ProviderInterface
       "#{application_choice.application_form.first_name} #{application_choice.application_form.last_name}"
     end
 
-    def course_name
-      "Course #{application_choice.course.name}"
+    def course_name_and_code
+      "#{application_choice.course.name} (#{application_choice.course.code})"
     end
 
     def course_name_and_code
@@ -53,7 +53,7 @@ module ProviderInterface
     end
 
     def updated_at
-      application_choice.updated_at.to_s(:short)
+      application_choice.updated_at.strftime('%e %b %Y %l:%M%P')
     end
 
     def to_param

@@ -3,21 +3,31 @@ require 'rails_helper'
 RSpec.feature 'Candidate reviews the answers' do
   include CandidateHelper
 
-  scenario 'Candidate with personal details and contact details' do
+  scenario 'Candidate with all sections filled in' do
     given_i_have_completed_my_application
 
     when_i_click_on_check_your_answers
 
     then_i_can_review_my_application
+    then_i_can_see_my_course_choices
     and_i_can_see_my_personal_details
     and_i_can_see_my_contact_details
+    and_i_can_see_my_volunteering_roles
     and_i_can_see_my_degree
+    and_i_can_see_my_gcses
     and_i_can_see_my_other_qualification
-    and_i_can_see_my_disability_info
+    and_i_can_see_my_becoming_a_teacher_info
+    and_i_can_see_my_subject_knowlegde_info
+    and_i_can_see_my_interview_preferences
+    and_i_can_see_my_referees
   end
 
   def given_i_have_completed_my_application
     candidate_completes_application_form
+  end
+
+  def and_i_visit_the_application_form_page
+    visit candidate_interface_application_form_path
   end
 
   def when_i_click_on_check_your_answers
@@ -26,6 +36,11 @@ RSpec.feature 'Candidate reviews the answers' do
 
   def then_i_can_review_my_application
     expect(page).to have_content 'Review your application'
+  end
+
+  def then_i_can_see_my_course_choices
+    expect(page).to have_content 'Gorse SCITT'
+    expect(page).to have_content 'Primary (2XT2)'
   end
 
   def and_i_can_see_my_personal_details
@@ -42,11 +57,21 @@ RSpec.feature 'Candidate reviews the answers' do
     expect(page).to have_content 'SW1P 3BT'
   end
 
+  def and_i_can_see_my_volunteering_roles
+    expect(page).to have_content 'Classroom Volunteer'
+    expect(page).to have_content 'A Noice School'
+    expect(page).to have_content 'I volunteered.'
+  end
+
   def and_i_can_see_my_degree
     expect(page).to have_content 'BA Doge'
     expect(page).to have_content 'University of Much Wow'
     expect(page).to have_content 'First'
     expect(page).to have_content '2009'
+  end
+
+  def and_i_can_see_my_gcses
+    expect(page).to have_content '1990'
   end
 
   def and_i_can_see_my_other_qualification
@@ -56,7 +81,25 @@ RSpec.feature 'Candidate reviews the answers' do
     expect(page).to have_content '2015'
   end
 
-  def and_i_can_see_my_disability_info
-    expect(page).to have_content 'I have difficulty climbing stairs'
+  def and_i_can_see_my_becoming_a_teacher_info
+    expect(page).to have_content 'I WANT I WANT I WANT I WANT'
+  end
+
+  def and_i_can_see_my_subject_knowlegde_info
+    expect(page).to have_content 'Everything'
+  end
+
+  def and_i_can_see_my_interview_preferences
+    expect(page).to have_content 'NOT WEDNESDAY'
+  end
+
+  def and_i_can_see_my_referees
+    expect(page).to have_content 'Terri Tudor'
+    expect(page).to have_content 'terri@example.com'
+    expect(page).to have_content 'Tutor'
+
+    expect(page).to have_content 'Anne Other'
+    expect(page).to have_content 'anne@other.com'
+    expect(page).to have_content 'First boss'
   end
 end

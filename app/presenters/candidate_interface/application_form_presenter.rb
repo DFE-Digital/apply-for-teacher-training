@@ -4,6 +4,10 @@ module CandidateInterface
       @application_form = application_form
     end
 
+    def updated_at
+      "Last saved on #{@application_form.updated_at.strftime('%d %B %Y')} at #{@application_form.updated_at.strftime('%H:%M %p')}"
+    end
+
     def application_choices_added?
       @application_form.application_choices.present?
     end
@@ -34,6 +38,18 @@ module CandidateInterface
       @application_form.application_qualifications.degrees.any?
     end
 
+    def maths_gcse_completed?
+      @application_form.maths_gcse.present?
+    end
+
+    def english_gcse_completed?
+      @application_form.english_gcse.present?
+    end
+
+    def science_gcse_completed?
+      @application_form.science_gcse.present?
+    end
+
     def other_qualifications_completed?
       @application_form.other_qualifications_completed
     end
@@ -54,10 +70,20 @@ module CandidateInterface
       CandidateInterface::InterviewPreferencesForm.build_from_application(@application_form).valid?
     end
 
-    def training_with_a_disability_completed?
-      @application_form.disclose_disability == false || \
-        (@application_form.disclose_disability == true && \
-          @application_form.disability_disclosure.present?)
+    def course_choices_completed?
+      @application_form.course_choices_completed
+    end
+
+    def volunteering_completed?
+      @application_form.volunteering_completed
+    end
+
+    def volunteering_added?
+      @application_form.application_volunteering_experiences.any?
+    end
+
+    def all_referees_provided_by_candidate?
+      @application_form.references.count == ApplicationForm::MINIMUM_COMPLETE_REFERENCES
     end
   end
 end

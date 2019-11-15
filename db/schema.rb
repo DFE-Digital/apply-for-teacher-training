@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_11_115654) do
+ActiveRecord::Schema.define(version: 2019_11_14_103407) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2019_11_11_115654) do
     t.json "offer"
     t.string "rejection_reason"
     t.bigint "course_option_id", null: false
+    t.datetime "edit_by"
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
   end
@@ -57,7 +58,6 @@ ActiveRecord::Schema.define(version: 2019_11_11_115654) do
     t.text "other_language_details"
     t.date "date_of_birth"
     t.text "further_information"
-    t.datetime "submitted_at"
     t.string "phone_number"
     t.string "address_line1"
     t.string "address_line2"
@@ -65,18 +65,21 @@ ActiveRecord::Schema.define(version: 2019_11_11_115654) do
     t.string "address_line4"
     t.string "country"
     t.string "postcode"
+    t.datetime "submitted_at"
     t.string "support_reference", limit: 10
     t.string "disability_disclosure"
     t.string "uk_residency_status"
-    t.boolean "degrees_completed", default: false, null: false
     t.boolean "work_history_completed", default: false, null: false
     t.text "work_history_explanation"
-    t.boolean "other_qualifications_completed", default: false, null: false
+    t.boolean "degrees_completed", default: false, null: false
     t.text "becoming_a_teacher"
     t.text "subject_knowledge"
     t.text "interview_preferences"
-    t.text "work_history_breaks"
+    t.boolean "other_qualifications_completed", default: false, null: false
     t.boolean "disclose_disability"
+    t.boolean "volunteering_completed", default: false, null: false
+    t.boolean "course_choices_completed", default: false, null: false
+    t.text "work_history_breaks"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
   end
 
@@ -94,6 +97,7 @@ ActiveRecord::Schema.define(version: 2019_11_11_115654) do
     t.string "equivalency_details"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "other_uk_qualification_type", limit: 100
     t.index ["application_form_id"], name: "index_application_qualifications_on_application_form_id"
   end
 
@@ -148,6 +152,8 @@ ActiveRecord::Schema.define(version: 2019_11_11_115654) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "level"
     t.date "start_date"
+    t.boolean "exposed_in_find"
+    t.integer "accrediting_provider_id"
     t.index ["code"], name: "index_courses_on_code"
     t.index ["provider_id", "code"], name: "index_courses_on_provider_id_and_code", unique: true
     t.index ["provider_id"], name: "index_courses_on_provider_id"
@@ -167,6 +173,8 @@ ActiveRecord::Schema.define(version: 2019_11_11_115654) do
     t.bigint "application_form_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "name"
+    t.string "relationship"
     t.index ["application_form_id", "email_address"], name: "index_references_on_application_form_id_and_email_address", unique: true
     t.index ["application_form_id"], name: "index_references_on_application_form_id"
   end

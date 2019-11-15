@@ -2,7 +2,7 @@
 <html lang="en" class="govuk-template">
   <head>
     <meta charset="utf-8">
-    <title><%= yield(:title) %> - <%= service_name %></title>
+    <title><%= yield(:browser_title).presence || yield(:title) %> - <%= service_name %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -86,16 +86,23 @@
         <%= content_for?(:content) ? yield(:content) : yield %>
       </main>
     </div>
-    <footer class="govuk-footer " role="contentinfo">
-      <div class="govuk-width-container ">
+    <footer class="govuk-footer" role="contentinfo">
+      <div class="govuk-width-container">
         <div class="govuk-footer__meta">
           <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
+            <h2 class="govuk-heading-m">Need help?</h2>
+            <div class="govuk-footer__meta-custom">
+              Call <%= link_to 'Get into Teaching', 'https://getintoteaching.education.gov.uk', class: 'govuk-footer__link' %> on Freephone 0800 389 2500 or chat to an adviser using their <%= link_to 'online chat service', 'https://getintoteaching.education.gov.uk/lp/live-chat', class: 'govuk-footer__link' %> between 8am and 8pm, Monday to Friday
+            </div>
             <ul class="govuk-footer__inline-list">
               <li class="govuk-footer__inline-list-item">
                 <%= link_to t('layout.accessibility'), accessibility_path, class: 'govuk-footer__link' %>
               </li>
               <li class="govuk-footer__inline-list-item">
                 <%= link_to t('layout.terms_of_use'), terms_candidate_path, class: 'govuk-footer__link' %>
+              </li>
+              <li class="govuk-footer__inline-list-item">
+                <%= link_to t('layout.privacy_policy'), privacy_candidate_path, class: 'govuk-footer__link' %>
               </li>
             </ul>
             <svg role="presentation" focusable="false" class="govuk-footer__licence-logo" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 483.2 195.7" height="17" width="41">

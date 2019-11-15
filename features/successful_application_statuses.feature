@@ -61,16 +61,19 @@ Feature: successful application statuses
     Then the new application choice status is "<new status>"
 
     Examples:
-      | original status            | actor     | action                 | new status          |
-      | unsubmitted                | candidate | submit                 | awaiting references |
-      | awaiting_references        | candidate | withdraw               | withdrawn           |
-      | application complete       | candidate | withdraw               | withdrawn           |
-      | awaiting provider decision | provider  | make offer             | offer               |
-      | awaiting provider decision | provider  | reject application     | rejected            |
-      | awaiting provider decision | candidate | withdraw               | withdrawn           |
-      | offer                      | candidate | accept                 | pending conditions  |
-      | offer                      | candidate | decline                | declined            |
-      | pending conditions         | provider  | confirm conditions met | recruited           |
-      | pending conditions         | candidate | withdraw               | withdrawn           |
-      | recruited                  | provider  | confirm enrolment      | enrolled            |
-      | recruited                  | candidate | withdraw               | withdrawn           |
+      | original status            | actor     | action                 | new status                 |
+      | unsubmitted                | candidate | submit                 | awaiting references        |
+      | awaiting_references        | candidate | withdraw               | withdrawn                  |
+      | awaiting_references        | candidate | references_complete    | application_complete       |
+      | awaiting_references        | candidate | send_to_provider       | awaiting_provider_decision |
+      | application complete       | candidate | withdraw               | withdrawn                  |
+      | application complete       | candidate | send_to_provider       | awaiting_provider_decision |
+      | awaiting provider decision | provider  | make offer             | offer                      |
+      | awaiting provider decision | provider  | reject application     | rejected                   |
+      | awaiting provider decision | candidate | withdraw               | withdrawn                  |
+      | offer                      | candidate | accept                 | pending conditions         |
+      | offer                      | candidate | decline                | declined                   |
+      | pending conditions         | provider  | confirm conditions met | recruited                  |
+      | pending conditions         | candidate | withdraw               | withdrawn                  |
+      | recruited                  | provider  | confirm enrolment      | enrolled                   |
+      | recruited                  | candidate | withdraw               | withdrawn                  |

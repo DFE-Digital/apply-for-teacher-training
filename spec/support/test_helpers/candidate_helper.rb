@@ -6,14 +6,14 @@ module CandidateHelper
   def candidate_completes_application_form
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
     site = create(:site, name: 'Main site', code: '-', provider: @provider)
-    course = create(:course, name: 'Primary', code: '2XT2', provider: @provider)
+    course = create(:course, exposed_in_find: true, name: 'Primary', code: '2XT2', provider: @provider)
     create(:course_option, site: site, course: course, vacancy_status: 'B')
 
     create_and_sign_in_candidate
     visit candidate_interface_application_form_path
 
     click_link 'Course choices'
-    click_link 'Add course'
+    click_link 'Add another course'
     choose 'Yes, I know where I want to apply'
     click_button 'Continue'
 
@@ -47,10 +47,13 @@ module CandidateHelper
     check t('application_form.work_history.review.completed_checkbox')
     click_button t('application_form.work_history.review.button')
 
-    click_link t('page_titles.training_with_a_disability')
-    candidate_fills_in_disability_info
-    click_button t('application_form.training_with_a_disability.complete_form_button')
-    click_link t('application_form.training_with_a_disability.review.button')
+    click_link t('page_titles.volunteering.short')
+    choose 'Yes' # "Do you have experience volunteering with young people or in school?"
+    click_button t('application_form.volunteering.experience.button')
+    candidate_fills_in_volunteering_role
+    click_button t('application_form.volunteering.complete_form_button')
+    check t('application_form.volunteering.review.completed_checkbox')
+    click_button t('application_form.volunteering.review.button')
 
     click_link t('page_titles.degree')
     visit candidate_interface_degrees_new_base_path
@@ -65,6 +68,11 @@ module CandidateHelper
     click_link 'Back to application'
 
     click_link 'English GCSE or equivalent'
+    candidate_fills_in_a_gcse
+    click_button 'Save and continue'
+    click_link 'Back to application'
+
+    click_link 'Science GCSE or equivalent'
     candidate_fills_in_a_gcse
     click_button 'Save and continue'
     click_link 'Back to application'
@@ -93,7 +101,7 @@ module CandidateHelper
     # Confirmation page
     click_link t('application_form.personal_statement.interview_preferences.complete_form_button')
 
-    # TODO: Referees
+    candidate_provides_two_referees
   end
 
   def candidate_submits_application
@@ -151,11 +159,6 @@ module CandidateHelper
     fill_in t('application_form.other_qualification.award_year.label'), with: '2015'
   end
 
-  def candidate_fills_in_disability_info
-    choose t('application_form.training_with_a_disability.disclose_disability.yes')
-    fill_in t('application_form.training_with_a_disability.disability_disclosure.label'), with: 'I have difficulty climbing stairs'
-  end
-
   def candidate_fills_in_work_experience
     with_options scope: 'application_form.work_history' do |locale|
       fill_in locale.t('role.label'), with: 'Teacher'
@@ -176,6 +179,48 @@ module CandidateHelper
 
       choose 'No'
     end
+  end
+
+  def candidate_fills_in_volunteering_role
+    with_options scope: 'application_form.volunteering' do |locale|
+      fill_in locale.t('role.label'), with: 'Classroom Volunteer'
+      fill_in locale.t('organisation.label'), with: 'A Noice School'
+
+      choose 'Yes'
+
+      within('[data-qa="start-date"]') do
+        fill_in 'Month', with: '5'
+        fill_in 'Year', with: '2018'
+      end
+
+      within('[data-qa="end-date"]') do
+        fill_in 'Month', with: '1'
+        fill_in 'Year', with: '2019'
+      end
+
+      fill_in locale.t('details.label'), with: 'I volunteered.'
+    end
+  end
+
+  def candidate_fills_in_referee(params = {})
+    fill_in t('application_form.referees.name.label'), with: params[:name] || 'Terri Tudor'
+    fill_in t('application_form.referees.email_address.label'), with: params[:email_address] || 'terri@example.com'
+    fill_in t('application_form.referees.relationship.label'), with: params[:relationship] || 'Tutor'
+  end
+
+  def candidate_provides_two_referees
+    visit candidate_interface_referees_path
+    click_link 'Continue'
+    candidate_fills_in_referee
+    click_button 'Save and continue'
+    click_link 'Add a second referee'
+    candidate_fills_in_referee(
+      name: 'Anne Other',
+      email_address: 'anne@other.com',
+      relationship: 'First boss',
+    )
+    click_button 'Save and continue'
+    click_link 'Continue'
   end
 
   def candidate_fills_in_a_gcse

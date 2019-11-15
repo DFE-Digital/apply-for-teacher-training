@@ -1,0 +1,9 @@
+en:
+  reference_request:
+    email:
+      subject: Please give a reference to support the teacher training application of %{candidate_name}
+    google_form_url: https://docs.google.com/forms/d/e/1FAIpQLSeLHV9XVqckn8XUjyAS3n7dzKU5OF-BLm5dYn51JcT6qa9pGg/viewform
+    email_entry: entry.409316871
+    reference_id_entry: entry.1515340886
+    candidate_name_entry: entry.1696393181
+    referee_name_entry: entry.994572146

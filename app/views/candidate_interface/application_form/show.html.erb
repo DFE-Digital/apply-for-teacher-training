@@ -1,21 +1,27 @@
 <% content_for :title, page_title(:application_form) %>
 
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+  <%= t('page_titles.application_form') %>
+</h1>
+<p class="govuk-hint govuk-!-margin-bottom-8 govuk-!-margin-top-2"><%= @application_form_presenter.updated_at %></p>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">
-      <%= t('page_titles.application_form') %>
-    </h1>
-
     <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">
-      Courses
+      <%= t('page_titles.course_choices') %>
     </h2>
     <% unless @application_form_presenter.application_choices_added? %>
-      <p class="govuk-body"><%= t('application_form.courses') %></p>
+      <p class="govuk-body"><%= t('application_form.courses.intro') %></p>
     <% end %>
 
     <ol class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">
-        <%= govuk_link_to 'Course choices', candidate_interface_course_choices_index_path %>
+        <% if @application_form_presenter.course_choices_completed? %>
+          <%= govuk_link_to t('page_titles.course_choices'), candidate_interface_course_choices_index_path, class: 'app-task-list__task-name', 'aria-describedby': 'courses-choices-completed' %>
+          <strong class="govuk-tag app-task-list__task-completed" id="course-choices-completed">Completed</strong>
+        <% else %>
+          <%= govuk_link_to t('page_titles.course_choices'), candidate_interface_course_choices_index_path, class: 'app-task-list__task-name' %>
+        <% end %>
       </li>
     </ol>
 
@@ -48,14 +54,13 @@
         <% end %>
       </li>
       <li class="app-task-list__item">
-        <%= govuk_link_to 'TODO: School experience and volunteering', '#', class: 'app-task-list__task-name' %>
-      </li>
-      <li class="app-task-list__item">
-        <% if @application_form_presenter.training_with_a_disability_completed? %>
-          <%= govuk_link_to t('page_titles.training_with_a_disability'), candidate_interface_training_with_a_disability_show_path, class: 'app-task-list__task-name', 'aria-describedby': 'training-with-a-disability-completed' %>
-          <strong class="govuk-tag app-task-list__task-completed" id="training-with-a-disability-completed">Completed</strong>
+        <% if @application_form_presenter.volunteering_completed? %>
+          <%= govuk_link_to t('page_titles.volunteering.short'), candidate_interface_review_volunteering_path, class: 'app-task-list__task-name', 'aria-describedby': 'volunteering-completed' %>
+          <strong class="govuk-tag app-task-list__task-completed" id="volunteering-completed">Completed</strong>
+        <% elsif @application_form_presenter.volunteering_added? %>
+          <%= govuk_link_to t('page_titles.volunteering.short'), candidate_interface_review_volunteering_path, class: 'app-task-list__task-name' %>
         <% else %>
-          <%= govuk_link_to t('page_titles.training_with_a_disability'), candidate_interface_training_with_a_disability_edit_path, class: 'app-task-list__task-name' %>
+          <%= govuk_link_to t('page_titles.volunteering.short'), candidate_interface_volunteering_experience_path, class: 'app-task-list__task-name' %>
         <% end %>
       </li>
     </ol>
@@ -75,14 +80,32 @@
         <% end %>
       </li>
       <li class="app-task-list__item">
-        <%= govuk_link_to 'Maths GCSE or equivalent', candidate_interface_gcse_details_edit_type_path(subject: :maths), class: 'app-task-list__task-name' %>
+        <% if @application_form_presenter.maths_gcse_completed? %>
+          <%= govuk_link_to 'Maths GCSE or equivalent', candidate_interface_gcse_review_path(subject: :maths), class: 'app-task-list__task-name', 'aria-describedby': 'maths-qualifications-completed' %>
+          <strong class="govuk-tag app-task-list__task-completed" id="maths-qualifications-completed">Completed</strong>
+        <% else %>
+          <%= govuk_link_to 'Maths GCSE or equivalent', candidate_interface_gcse_details_edit_type_path(subject: :maths), class: 'app-task-list__task-name' %>
+        <% end %>
       </li>
+
       <li class="app-task-list__item">
-        <%= govuk_link_to 'English GCSE or equivalent', candidate_interface_gcse_details_edit_type_path(subject: :english), class: 'app-task-list__task-name' %>
+        <% if @application_form_presenter.english_gcse_completed? %>
+          <%= govuk_link_to 'English GCSE or equivalent', candidate_interface_gcse_review_path(subject: :english), class: 'app-task-list__task-name', 'aria-describedby': 'english-qualifications-completed' %>
+          <strong class="govuk-tag app-task-list__task-completed" id="english-qualifications-completed">Completed</strong>
+        <% else %>
+          <%= govuk_link_to 'English GCSE or equivalent', candidate_interface_gcse_details_edit_type_path(subject: :english), class: 'app-task-list__task-name' %>
+        <% end %>
       </li>
+
       <li class="app-task-list__item">
-        <%= govuk_link_to 'Science GCSE or equivalent', candidate_interface_gcse_details_edit_type_path(subject: :science), class: 'app-task-list__task-name' %>
+        <% if @application_form_presenter.science_gcse_completed? %>
+          <%= govuk_link_to 'Science GCSE or equivalent', candidate_interface_gcse_review_path(subject: :science), class: 'app-task-list__task-name', 'aria-describedby': 'science-qualifications-completed' %>
+          <strong class="govuk-tag app-task-list__task-completed" id="science-qualifications-completed">Completed</strong>
+        <% else %>
+          <%= govuk_link_to 'Science GCSE or equivalent', candidate_interface_gcse_details_edit_type_path(subject: :science), class: 'app-task-list__task-name' %>
+        <% end %>
       </li>
+
       <li class="app-task-list__item">
         <% if @application_form_presenter.other_qualifications_completed? %>
           <%= govuk_link_to t('page_titles.other_qualification'), candidate_interface_review_other_qualifications_path, class: 'app-task-list__task-name', 'aria-describedby': 'other-qualifications-completed' %>
@@ -132,7 +155,12 @@
     <h2 class="govuk-heading-m govuk-!-font-size-27">References</h2>
     <ol class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">
-        <%= govuk_link_to 'TODO: Referees', '#', class: 'app-task-list__task-name' %>
+        <% if @application_form_presenter.all_referees_provided_by_candidate? %>
+          <%= govuk_link_to 'Referees', candidate_interface_referees_path, class: 'app-task-list__task-name', 'aria-describedby': 'interview-preferences-completed' %>
+          <strong class="govuk-tag app-task-list__task-completed" id="referees-completed">Completed</strong>
+        <% else %>
+          <%= govuk_link_to 'Referees', candidate_interface_referees_path, class: 'app-task-list__task-name' %>
+        <% end %>
       </li>
     </ol>
 
@@ -145,4 +173,15 @@
       </li>
     </ol>
   </div>
+
+  <div class="govuk-grid-column-one-third">
+    <aside class="app-related" role="complementary">
+      <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="help-title">Need help?</h2>
+
+      <p class="govuk-body-s">
+        Call <%= govuk_link_to 'Get into Teaching', 'https://getintoteaching.education.gov.uk' %> on Freephone 0800 389 2500 or chat to an adviser using their <%= govuk_link_to 'online chat service', 'https://getintoteaching.education.gov.uk/lp/live-chat' %> between 8am and 8pm, Monday to Friday
+      </p>
+    </aside>
+  </div>
+
 </div>

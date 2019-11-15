@@ -1,0 +1,33 @@
+<p class="govuk-body">You must give contact details for <%= ApplicationForm::MINIMUM_COMPLETE_REFERENCES %> referees.</p>
+<p class="govuk-body">Choose referees who will endorse your:</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li>teaching passion and potential</li>
+  <li>suitability to work with children</li>
+  <li>academic abilities</li>
+  <li>reliability and professionalism</li>
+</ul>
+<p class="govuk-body">Suitable referees include:</p>
+
+<ul class="govuk-list govuk-list--bullet">
+  <li>your current line manager at work</li>
+  <li>previous employers</li>
+  <li>if you work or volunteer in a school, the head of that school</li>
+  <li>your university tutor or supervisor</li>
+  <li>a responsible member of your community who knows you well</li>
+</ul>
+
+<p class="govuk-body">Referees should not be family members, partners or friends.</p>
+
+<div class="govuk-warning-text govuk-!-margin-bottom-4">
+  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+  <strong class="govuk-warning-text__text">
+    <span class="govuk-warning-text__assistive">Warning</span>
+    We won’t contact your referees until you submit your application
+  </strong>
+</div>
+
+<p class="govuk-body">If your referees don’t respond, we’ll get back in touch with you to ask for a replacement.</p>
+
+<a href="<%= candidate_interface_new_referee_path %>" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+  Continue
+</a>

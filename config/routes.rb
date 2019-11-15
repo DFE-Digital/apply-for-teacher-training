@@ -12,9 +12,13 @@ Rails.application.routes.draw do
 
   get '/accessibility', to: 'content#accessibility'
   get '/candidate/terms-of-use', to: 'content#terms_candidate', as: :terms_candidate
+  get '/candidate/privacy-policy', to: 'content#privacy_candidate', as: :privacy_candidate
 
   namespace :candidate_interface, path: '/candidate' do
     get '/' => 'start_page#show', as: :start
+
+    get '/eligibility' => 'start_page#eligibility', as: :eligibility
+    post '/eligibility' => 'start_page#determine_eligibility'
 
     get '/sign-up', to: 'sign_up#new', as: :sign_up
     post '/sign-up', to: 'sign_up#create'
@@ -51,12 +55,6 @@ Rails.application.routes.draw do
         get '/interview-preferences/review' => 'personal_statement/interview_preferences#show', as: :interview_preferences_show
       end
 
-      scope '/training-with-a-disability' do
-        get '/' => 'training_with_a_disability#edit', as: :training_with_a_disability_edit
-        post '/review' => 'training_with_a_disability#update', as: :training_with_a_disability_update
-        get '/review' => 'training_with_a_disability#show', as: :training_with_a_disability_show
-      end
-
       scope '/contact-details' do
         get '/' => 'contact_details/base#edit', as: :contact_details_edit_base
         post '/' => 'contact_details/base#update', as: :contact_details_update_base
@@ -89,6 +87,7 @@ Rails.application.routes.draw do
 
         get '/new' => 'work_history/edit#new', as: :work_history_new
         post '/create' => 'work_history/edit#create', as: :work_history_create
+
         get '/edit/:id' => 'work_history/edit#edit', as: :work_history_edit
         post '/edit/:id' => 'work_history/edit#update'
 
@@ -97,6 +96,23 @@ Rails.application.routes.draw do
 
         get '/delete/:id' => 'work_history/destroy#confirm_destroy', as: :work_history_destroy
         delete '/delete/:id' => 'work_history/destroy#destroy'
+      end
+
+      scope '/school-experience' do
+        get '/' => 'volunteering/experience#show', as: :volunteering_experience
+        post '/' => 'volunteering/experience#submit'
+
+        get '/new' => 'volunteering/base#new', as: :new_volunteering_role
+        post '/new' => 'volunteering/base#create', as: :create_volunteering_role
+
+        get '/edit/:id' => 'volunteering/base#edit', as: :edit_volunteering_role
+        post '/edit/:id' => 'volunteering/base#update'
+
+        get '/review' => 'volunteering/review#show', as: :review_volunteering
+        patch '/review' => 'volunteering/review#complete', as: :complete_volunteering
+
+        get '/delete/:id' => 'volunteering/destroy#confirm_destroy', as: :confirm_destroy_volunteering_role
+        delete '/delete/:id' => 'volunteering/destroy#destroy'
       end
 
       scope '/degrees' do
@@ -119,6 +135,9 @@ Rails.application.routes.draw do
         get '/choose' => 'course_choices#have_you_chosen', as: :course_choices_choose
         post '/choose' => 'course_choices#make_choice'
 
+        get '/delete/:id' => 'course_choices#confirm_destroy', as: :confirm_destroy_course_choice
+        delete '/delete/:id' => 'course_choices#destroy'
+
         get '/provider' => 'course_choices#options_for_provider', as: :course_choices_provider
         post '/provider' => 'course_choices#pick_provider'
 
@@ -127,6 +146,8 @@ Rails.application.routes.draw do
 
         get '/provider/:provider_code/courses/:course_code' => 'course_choices#options_for_site', as: :course_choices_site
         post '/provider/:provider_code/courses/:course_code' => 'course_choices#pick_site'
+
+        patch '/complete' => 'course_choices#complete', as: :course_choices_complete
       end
 
       scope '/other-qualifications' do
@@ -141,6 +162,21 @@ Rails.application.routes.draw do
 
         get '/delete/:id' => 'other_qualifications/destroy#confirm_destroy', as: :confirm_destroy_other_qualification
         delete '/delete/:id' => 'other_qualifications/destroy#destroy'
+      end
+
+      scope '/referees' do
+        get '/' => 'referees#index', as: :referees
+        get '/new' => 'referees#new', as: :new_referee
+        post '/' => 'referees#create'
+
+        get '/review' => 'referees#review', as: :review_referees
+        patch '/review' => 'referees#complete', as: :complete_referees
+
+        get '/edit/:id' => 'referees#edit', as: :edit_referee
+        patch '/update/:id' => 'referees#update', as: :update_referee
+
+        get '/delete/:id' => 'referees#confirm_destroy', as: :confirm_destroy_referee
+        delete '/delete/:id' => 'referees#destroy', as: :destroy_referee
       end
     end
   end
@@ -170,7 +206,11 @@ Rails.application.routes.draw do
     get '/applications/:application_choice_id/reject' => 'decisions#new_reject', as: :application_choice_new_reject
     post '/applications/:application_choice_id/reject/confirm' => 'decisions#confirm_reject', as: :application_choice_confirm_reject
     post '/applications/:application_choice_id/reject' => 'decisions#create_reject', as: :application_choice_create_reject
+
+    get '/sign-in' => 'sessions#new'
   end
+
+  get '/auth/dfe/callback' => 'provider_interface/sessions#callback'
 
   namespace :support_interface, path: '/support' do
     get '/' => redirect('/support/applications')
