@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'See applications' do
+RSpec.feature 'Provider responds to application' do
   include CourseOptionHelpers
 
   let(:course_option) { course_option_for_provider_code(provider_code: 'ABC') }
@@ -25,19 +25,27 @@ RSpec.feature 'See applications' do
     and_i_cannot_respond_to_the_application
   end
 
+  scenario 'Provider is given two options when responding to an application' do
+    given_i_am_a_provider_user
+    when_i_visit_a_application_with_status_awaiting_provider_decision
+    and_i_click_to_respond_to_the_application
+    then_i_am_given_the_option_to_make_an_offer
+    and_i_am_given_the_option_to_reject_the_application
+  end
+
   def given_i_am_a_provider_user
     # This is stubbed out for now in the controller.
   end
 
   def when_i_visit_a_application_with_status_awaiting_provider_decision
     visit provider_interface_application_choice_path(
-      application_awaiting_provider_decision.id
+      application_awaiting_provider_decision.id,
     )
   end
 
   def when_i_visit_a_application_with_status_rejected
     visit provider_interface_application_choice_path(
-      application_rejected.id
+      application_rejected.id,
     )
   end
 
@@ -55,5 +63,17 @@ RSpec.feature 'See applications' do
 
   def and_i_cannot_respond_to_the_application
     expect(page).not_to have_content 'Respond to application'
+  end
+
+  def and_i_click_to_respond_to_the_application
+    click_on 'Respond to application'
+  end
+
+  def then_i_am_given_the_option_to_make_an_offer
+    expect(page).to have_content 'Make an offer'
+  end
+
+  def and_i_am_given_the_option_to_reject_the_application
+    expect(page).to have_content 'Reject application'
   end
 end

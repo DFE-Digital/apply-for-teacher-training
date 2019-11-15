@@ -5,14 +5,11 @@ module ProviderInterface
     def respond; end
 
     def submit_response
-      Rails.logger.warn params.inspect
       decision = params[:application_choice][:decision] if params[:application_choice]
       if decision == 'offer'
         redirect_to action: :new_offer
       elsif decision == 'reject'
         redirect_to action: :new_reject
-      else
-        raise 'Unexpected application_choice decision'
       end
     end
 
