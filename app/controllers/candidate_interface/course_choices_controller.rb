@@ -46,11 +46,19 @@ module CandidateInterface
       # TODO: add better validation
       redirect_back(fallback_location: root_path) && return unless params[:course_option]
 
-      current_candidate.current_application.application_choices.create!(
-        course_option: CourseOption.find(course_option_params[:id]),
-      )
+      @application_form = current_application
+      @course_choices = @application_form.application_choices
+      selected_courses = @course_choices.map(&:course)
 
-      redirect_to candidate_interface_course_choices_index_path
+      if selected_courses.include?(Course.find_by(code: params[:course_code]))
+        @application_form.errors[:base] << 'You have already selected this course'
+        render :index
+      else
+        @course_choices.create!(
+          course_option: CourseOption.find(course_option_params[:id]),
+        )
+        redirect_to candidate_interface_course_choices_index_path
+      end
     end
 
     def confirm_destroy
