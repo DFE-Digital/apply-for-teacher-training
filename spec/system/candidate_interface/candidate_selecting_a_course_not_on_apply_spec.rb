@@ -13,6 +13,11 @@ RSpec.feature 'Selecting a course not on Apply' do
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_another_provider
     then_i_see_that_i_should_apply_on_ucas
+
+    when_i_click_on_back
+    and_i_choose_a_provider
+    and_i_choose_another_course
+    then_i_see_that_i_should_apply_on_ucas
   end
 
   def given_i_am_not_signed_in; end
@@ -52,5 +57,19 @@ RSpec.feature 'Selecting a course not on Apply' do
 
   def then_i_see_that_i_should_apply_on_ucas
     expect(page).to have_content(t('page_titles.apply_on_ucas'))
+  end
+
+  def when_i_click_on_back
+    click_link 'Back'
+  end
+
+  def and_i_choose_a_provider
+    choose 'Gorse SCITT (1N1)'
+    click_button 'Continue'
+  end
+
+  def and_i_choose_another_course
+    choose 'Another course'
+    click_button 'Continue'
   end
 end

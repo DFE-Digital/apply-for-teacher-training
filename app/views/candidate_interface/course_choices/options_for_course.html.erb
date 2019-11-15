@@ -9,8 +9,12 @@
       <%= f.govuk_radio_buttons_fieldset :code, legend: { size: 'xl', text: t('page_titles.which_course') } do %>
         <div class="govuk-!-margin-top-6">
           <% @courses.map do |course| %>
-            <%= f.govuk_radio_button :code, course.code, label: { text: "#{course.name} (#{course.code})", size: 'm' } %>
+            <%= f.govuk_radio_button :code, course.code, label: { text: "#{course.name} (#{course.code})" } %>
           <% end %>
+
+          <%= f.govuk_radio_divider %>
+
+          <%= f.govuk_radio_button :code, :other, label: { text: 'Another course' } %>
         </div>
       <% end %>
 

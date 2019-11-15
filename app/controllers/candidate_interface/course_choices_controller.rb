@@ -39,7 +39,11 @@ module CandidateInterface
     end
 
     def pick_course
-      redirect_to candidate_interface_course_choices_site_path(provider_code: params[:provider_code], course_code: course_params[:code])
+      if course_params[:code] == 'other'
+        redirect_to candidate_interface_course_choices_on_ucas_path
+      else
+        redirect_to candidate_interface_course_choices_site_path(provider_code: params[:provider_code], course_code: course_params[:code])
+      end
     end
 
     def options_for_site

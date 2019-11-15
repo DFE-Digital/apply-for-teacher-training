@@ -20,7 +20,7 @@ module CandidateHelper
     choose 'Gorse SCITT (1N1)'
     click_button 'Continue'
 
-    select 'Primary (2XT2)'
+    choose 'Primary (2XT2)'
     click_button 'Continue'
 
     choose 'Main site'
