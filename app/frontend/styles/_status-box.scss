@@ -1,0 +1,9 @@
+.app-status-box {
+  background: govuk-colour("light-grey");
+  padding: 20px;
+}
+
+.app-tag--rejected {
+  background-color: govuk-colour("red");
+  color: govuk-colour("white");
+}

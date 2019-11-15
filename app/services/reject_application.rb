@@ -1,12 +1,12 @@
 class RejectApplication
-  attr_reader :rejection_reason
+  attr_accessor :rejection_reason
 
   include ActiveModel::Validations
 
   validates_presence_of :rejection_reason
   validates_length_of :rejection_reason, maximum: 255
 
-  def initialize(application_choice:, rejection_reason:)
+  def initialize(application_choice:, rejection_reason: nil)
     @application_choice = application_choice
     @rejection_reason = rejection_reason
   end

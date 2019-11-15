@@ -12,6 +12,8 @@ $govuk-image-url-function: frontend-image-url;
 @import "~govuk-frontend/govuk/all";
 @import "_task-list";
 @import "_summary-card";
+@import "_app-banner";
+@import "_status-box";
 @import "_styled-content";
 @import "_environments";
 

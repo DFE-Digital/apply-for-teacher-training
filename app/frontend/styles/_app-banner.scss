@@ -1,0 +1,24 @@
+.app-banner {
+  @include govuk-text-colour;
+  @include govuk-responsive-padding(4);
+  @include govuk-responsive-margin(8, "bottom");
+  border: $govuk-border-width solid govuk-colour("blue");
+}
+
+.app-banner--success {
+  border-color: govuk-colour("green");
+}
+
+.app-banner--warning {
+  border-color: govuk-colour("red");
+}
+
+.app-banner__message {
+  @include govuk-font($size: 19);
+  display: block;
+  overflow: hidden;
+}
+
+.app-banner__message *:last-child {
+  margin-bottom: 0;
+}

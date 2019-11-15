@@ -202,6 +202,12 @@ Rails.application.routes.draw do
 
     get '/applications' => 'application_choices#index'
     get '/applications/:application_choice_id' => 'application_choices#show', as: :application_choice
+    get '/applications/:application_choice_id/respond' => 'decisions#respond', as: :application_choice_respond
+    post '/applications/:application_choice_id/respond' => 'decisions#submit_response', as: :application_choice_submit_response
+    get '/applications/:application_choice_id/offer' => 'decisions#new_offer', as: :application_choice_new_offer
+    get '/applications/:application_choice_id/reject' => 'decisions#new_reject', as: :application_choice_new_reject
+    post '/applications/:application_choice_id/reject/confirm' => 'decisions#confirm_reject', as: :application_choice_confirm_reject
+    post '/applications/:application_choice_id/reject' => 'decisions#create_reject', as: :application_choice_create_reject
 
     get '/sign-in' => 'sessions#new'
   end

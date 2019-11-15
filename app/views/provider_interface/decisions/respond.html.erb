@@ -1,0 +1,28 @@
+<% content_for :title, t('page_titles.application') %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice.id)) %>
+
+<span class="govuk-caption-xl">
+  Application for <%= @application_choice.course.name_and_code %>
+</span>
+
+<h1 class="govuk-heading-xl">
+  Respond to application
+</h1>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @application_choice, url: provider_interface_application_choice_submit_response_path(@application_choice.id), method: :post do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%- offer_text = 'Make an offer (including any conditions or recommendations)' %>
+      <%- reject_text = 'Reject application' %>
+      <%= f.govuk_radio_buttons_fieldset :decision, inline: true, legend: { size: 'm', text: '' } do %>
+        <%= f.govuk_radio_button :decision, 'offer', label: { text: offer_text } %>
+        <%= f.govuk_radio_button :decision, 'reject', label: { text: reject_text } %>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
+      <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id) %>
+    <% end %>
+  </div>
+</div>
