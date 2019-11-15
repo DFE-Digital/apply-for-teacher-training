@@ -56,17 +56,13 @@ RSpec.describe Reference, type: :model do
   # be 1, so that we can still use that to describe 'First referee' etc in the
   # interface
   describe 'after deleting a reference' do
-    let!(:application_form) { create(:application_form) }
-
-    before do
-      create_list(:reference, 2, application_form: application_form)
-    end
+    let!(:application_form) { create(:completed_application_form, references_count: 2) }
 
     describe 'the ordinal of the remaining references' do
       let(:ordinals) { application_form.references.map(&:ordinal) }
 
       it 'still starts at 1' do
-        application_form.references.reload.first.destroy
+        application_form.references.first.destroy
         expect(ordinals.first).to eq(1)
       end
     end
