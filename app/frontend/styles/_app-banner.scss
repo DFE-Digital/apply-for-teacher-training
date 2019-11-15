@@ -1,24 +1,24 @@
 .app-banner {
-  border: 5px solid #1d70b8;
-  color: #1d70b8;
-  margin-bottom: 30px;
-  padding: 10px;
+  @include govuk-text-colour;
+  @include govuk-responsive-padding(4);
+  @include govuk-responsive-margin(8, "bottom");
+  border: $govuk-border-width solid govuk-colour("blue");
+}
 
-  &.app-banner--success {
-    border-color: govuk-colour("green");
-    color: govuk-colour("green");
+.app-banner--success {
+  border-color: govuk-colour("green");
+}
 
-    span {
-      color: $govuk-text-colour;
-    }
-  }
+.app-banner--warning {
+  border-color: govuk-colour("red");
+}
 
-  &.app-banner--error {
-    border-color: $govuk-error-colour;
-    color: $govuk-error-colour;
+.app-banner__message {
+  @include govuk-font($size: 19);
+  display: block;
+  overflow: hidden;
+}
 
-    span {
-      color: $govuk-text-colour;
-    }
-  }
+.app-banner__message *:last-child {
+  margin-bottom: 0;
 }

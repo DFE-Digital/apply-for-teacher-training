@@ -35,7 +35,7 @@ module ProviderInterface
         rejection_reason: params.dig(:reject_application, :rejection_reason),
       )
       if @reject_application.save
-        flash[:success] = 'Application status changed to \'Rejected\''
+        flash[:success] = 'Application status changed to ‘Rejected’'
         redirect_to provider_interface_application_choice_path(
           application_choice_id: @application_choice.id,
         )
