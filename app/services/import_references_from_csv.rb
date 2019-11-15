@@ -14,9 +14,9 @@ class ImportReferencesFromCsv
   end
 
   def self.process_row(row)
-    referee_email    = row[1]
-    referee_feedback = row[4]
-    reference_id     = row[6]
+    referee_email    = row[2]
+    referee_feedback = row[5]
+    reference_id     = row[1]
 
     reference = Reference.find(reference_id)
     application_form = ApplicationForm.includes(:references).where(references: { id: reference_id }).first
