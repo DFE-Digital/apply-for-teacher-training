@@ -1,7 +1,5 @@
 <% if !flash.empty? %>
-  <% if flash[:error] %>
-    <%= render(ErrorFlashComponent, message: flash[:error]) %>
-  <% elsif flash[:success] %>
+  <% if flash[:success] %>
     <%= render(SuccessFlashComponent, message: flash[:success]) %>
   <% end %>
 <% end %>
