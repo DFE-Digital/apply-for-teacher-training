@@ -109,7 +109,7 @@ FactoryBot.define do
   factory :course do
     provider
 
-    code { Faker::Alphanumeric.alphanumeric(number: 4).upcase }
+    code { Faker::Alphanumeric.alphanumeric(number: 4, min_alpha: 1).upcase }
     name { Faker::Educator.subject }
     level { 'primary' }
     start_date { Date.new(2020, 9, 1) }
