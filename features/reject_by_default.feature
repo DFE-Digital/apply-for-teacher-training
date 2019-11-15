@@ -1,6 +1,6 @@
 @provider @reject
 Feature: Reject by default
-  An application is rejected by default (RBD) if a provider doesn't make an offer within a certain number of working days after the application is submitted.
+  An application is rejected by default (RBD) if a provider doesn't make an offer within a certain number of working days after the application has been sent to the provider.
 
   The provider gets full working days so if the application was submitted in work hours, that day wouldn't count towards the number of decision days. Each application has an RBD time, which is set once the provider has received the application.
   The RBD time of an application expires just before midnight on the last allowed working day. The calculation of midnight should take GMT/BST into account.
@@ -17,6 +17,6 @@ Feature: Reject by default
     And the daily application cron job has run
     Then the new application choice status is "awaiting_provider_decision"
     And the reject by default date is "2019-07-12"
-    When the date is "2019-07-13"
+    When the date is "2019-07-14"
     And the daily application cron job has run
     Then the new application choice status is "rejected"

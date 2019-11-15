@@ -29,7 +29,7 @@ When(/^the candidate submits the application$/) do
 end
 
 When(/^the reject by default date is "([-\d]+)"$/) do |date|
-  expect(@application_choice.reject_by_default_at).to eq Time.zone.parse(date).end_of_day
+  expect(@application_choice.reject_by_default_at&.round).to eq Time.zone.parse(date).end_of_day.round
 end
 
 When(/^the (\w+) takes action "([\w\s]+)"$/) do |_actor, action|
