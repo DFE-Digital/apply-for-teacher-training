@@ -67,4 +67,28 @@ RSpec.describe Reference, type: :model do
       end
     end
   end
+
+  describe 'auditing' do
+    let(:application_form) { create(:application_form) }
+
+    it 'creates audit entries' do
+      reference = create :reference, application_form: application_form
+      expect(reference.audits.count).to eq 1
+      reference.update!(feedback: 'hello again')
+      expect(reference.audits.count).to eq 2
+    end
+
+    it 'creates an associated object in each audit record' do
+      reference = create :reference, application_form: application_form
+      expect(reference.audits.last.associated).to eq reference.application_form
+    end
+
+    it 'audit record can be attributed to a candidate' do
+      candidate = create :candidate
+      reference = Audited.audit_class.as_user(candidate) do
+        create :reference, application_form: application_form
+      end
+      expect(reference.audits.last.user).to eq candidate
+    end
+  end
 end

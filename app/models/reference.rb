@@ -6,6 +6,8 @@ class Reference < ApplicationRecord
 
   belongs_to :application_form
 
+  audited associated_with: :application_form
+
   def complete?
     feedback.present?
   end
