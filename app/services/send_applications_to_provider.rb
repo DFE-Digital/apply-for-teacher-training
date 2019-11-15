@@ -2,7 +2,7 @@
 class SendApplicationsToProvider
   def call
     GetApplicationChoicesReadyToSendToProvider.call.each do |application_choice|
-      ApplicationStateChange.new(application_choice).send_to_provider!
+      SendApplicationToProvider.new(application_choice: application_choice).call
     end
   end
 end
