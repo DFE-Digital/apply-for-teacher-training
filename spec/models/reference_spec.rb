@@ -4,8 +4,12 @@ RSpec.describe Reference, type: :model do
   subject { build(:reference) }
 
   describe 'a valid reference' do
+    let(:application_form) { build(:application_form) }
+    subject { build(:reference, application_form: application_form) }
+
     it { is_expected.to validate_presence_of :email_address }
     it { is_expected.to validate_length_of(:email_address).is_at_most(100) }
+    it { is_expected.to validate_uniqueness_of(:email_address).scoped_to(:application_form_id).ignoring_case_sensitivity }
 
     it { is_expected.to validate_presence_of :name }
     it { is_expected.to validate_length_of(:name).is_at_most(200) }

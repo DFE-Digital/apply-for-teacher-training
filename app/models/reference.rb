@@ -1,6 +1,8 @@
 class Reference < ApplicationRecord
   validates :name, presence: true, length: { minimum: 2, maximum: 200 }
-  validates :email_address, presence: true, length: { maximum: 100 }
+  validates :email_address, presence: true,
+                            length: { maximum: 100 },
+                            uniqueness: { scope: :application_form_id }
   validates :relationship, presence: true, length: { minimum: 2, maximum: 500 }
   validates_presence_of :application_form_id
 
