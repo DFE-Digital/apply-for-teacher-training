@@ -7,27 +7,37 @@ class TimeLimitCalculator
   end
 
   def call
-    time_limits_for_rule = TimeLimit.where(rule: rule)
-    time_limits_for_rule.each do |time_limit|
-      if time_limit.from_date &&
-          time_limit.to_date &&
-          effective_date <= time_limit.to_date &&
-          effective_date >= time_limit.from_date
-        return time_limit.limit
-      end
+    to_and_from_time_limits.each do |time_limit|
+      return time_limit.limit if effective_date <= time_limit.to_date && effective_date >= time_limit.from_date
     end
-    time_limits_for_rule.each do |time_limit|
-      if time_limit.from_date &&
-          effective_date >= time_limit.from_date
-        return time_limit.limit
-      end
+    from_time_limits.each do |time_limit|
+      return time_limit.limit if effective_date >= time_limit.from_date
     end
-    time_limits_for_rule.each do |time_limit|
-      if time_limit.to_date &&
-          effective_date <= time_limit.to_date
-        return time_limit.limit
-      end
+    to_time_limits.each do |time_limit|
+      return time_limit.limit if effective_date <= time_limit.to_date
     end
-    time_limits_for_rule.find { |time_limit| time_limit.from_date.nil? && time_limit.to_date.nil? }&.limit
+    default_time_limit&.limit
+  end
+
+private
+
+  def time_limits_for_rule
+    @time_limits_for_rule ||= TimeLimit.where(rule: rule)
+  end
+
+  def to_and_from_time_limits
+    time_limits_for_rule.select { |time_limit| time_limit.to_date && time_limit.from_date }
+  end
+
+  def from_time_limits
+    time_limits_for_rule.select { |time_limit| time_limit.to_date.nil? && time_limit.from_date }
+  end
+
+  def to_time_limits
+    time_limits_for_rule.select { |time_limit| time_limit.to_date && time_limit.from_date.nil? }
+  end
+
+  def default_time_limit
+    time_limits_for_rule.find { |time_limit| time_limit.to_date.nil? && time_limit.from_date.nil? }
   end
 end

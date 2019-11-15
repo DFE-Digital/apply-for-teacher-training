@@ -46,4 +46,14 @@ RSpec.describe TimeLimitCalculator do
     )
     expect(calculator.call).to eq 5
   end
+
+  it 'returns nil when there is no rule for the given effective date' do
+    create :time_limit, rule: :reject_by_default, limit: 5, from_date: 5.days.ago, to_date: 5.days.from_now
+    create :time_limit, rule: :reject_by_default, limit: 10, from_date: 10.days.ago
+    calculator = TimeLimitCalculator.new(
+      rule: :reject_by_default,
+      effective_date: 20.days.ago,
+    )
+    expect(calculator.call).to eq nil
+  end
 end
