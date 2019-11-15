@@ -4,8 +4,8 @@ RSpec.describe GetApplicationChoicesReadyToSendToProvider do
   def create_application_with_references
     application_form = create :application_form
     create :application_choice, application_form: application_form, status: 'unsubmitted'
-    SubmitApplication.new(application_form.reload).call
     create_list :reference, 2, :unsubmitted, application_form: application_form
+    SubmitApplication.new(application_form.reload).call
     application_form.reload
   end
 

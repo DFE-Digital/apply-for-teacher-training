@@ -8,6 +8,7 @@ RSpec.feature 'Candidate submit the application' do
     and_i_have_chosen_a_course
     and_i_filled_in_personal_details
     and_i_filled_in_contact_details
+    and_i_gave_two_referees
     and_reviewed_my_application
     and_i_confirm_my_application
 
@@ -21,6 +22,7 @@ RSpec.feature 'Candidate submit the application' do
 
     and_i_can_see_my_support_ref
     and_i_receive_an_email_with_my_support_ref
+    and_my_referees_receive_a_request_for_a_reference_by_email
 
     when_i_click_on_track_your_application
     then_i_can_see_my_submitted_application
@@ -62,6 +64,10 @@ RSpec.feature 'Candidate submit the application' do
     candidate_fills_in_contact_details
 
     click_button t('application_form.contact_details.address.button')
+  end
+
+  def and_i_gave_two_referees
+    candidate_provides_two_referees
   end
 
   def and_reviewed_my_application
@@ -110,6 +116,15 @@ RSpec.feature 'Candidate submit the application' do
   def and_i_receive_an_email_with_my_support_ref
     open_email(current_candidate.email_address)
     expect(current_email).to have_content 'Application submitted'
+  end
+
+  def and_my_referees_receive_a_request_for_a_reference_by_email
+    current_application = current_candidate.current_application
+    current_application.references.each do |reference|
+      open_email(reference.email_address)
+      expect(current_email).to have_content "Please give a reference for #{current_application.first_name}"
+      expect(current_email).to have_content reference.name
+    end
   end
 
   def when_i_click_on_track_your_application

@@ -14,9 +14,16 @@ class SubmitApplication
     end
 
     CandidateMailer.submit_application_email(application_form).deliver_now
+    send_reference_request_email_to_referees(application_form)
   end
 
 private
+
+  def send_reference_request_email_to_referees(application_form)
+    application_form.references.each do |reference|
+      RefereeMailer.reference_request_email(application_form, reference).deliver_now
+    end
+  end
 
   def submit_application
     application_choices.each do |application_choice|
