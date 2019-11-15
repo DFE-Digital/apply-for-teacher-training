@@ -5,19 +5,24 @@
 <table class='govuk-table'>
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Name</th>
-      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Last update</th>
-      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter"></th>
+      <th scope="col" class="govuk-table__header">Application</th>
+      <th scope="col" class="govuk-table__header">Reference 1</th>
+      <th scope="col" class="govuk-table__header">Reference 2</th>
+      <th scope="col" class="govuk-table__header">History</th>
+      <th scope="col" class="govuk-table__header">Last updated</th>
     </tr>
   </thead>
 
   <tbody class="govuk-table__body">
     <% @application_forms.each do |application_form| %>
-    <tr class="govuk-table__row">
+    <tr class="govuk-table__row" data-qa="application-form-<%= application_form.to_param %>">
       <td class="govuk-table__cell">
-        <%= govuk_link_to application_form.name_and_support_reference, support_interface_application_form_path(application_form) %></td>
-      <td class="govuk-table__cell"><%= application_form.updated_at.to_s(:long) %></td>
+        <%= govuk_link_to application_form.email_and_support_reference, support_interface_application_form_path(application_form) %>
+      </td>
+      <td class="govuk-table__cell"><%= application_form.first_reference_status %></td>
+      <td class="govuk-table__cell"><%= application_form.second_reference_status %></td>
       <td class="govuk-table__cell"><%= govuk_link_to 'History', support_interface_application_form_audit_path(application_form) %></td>
+      <td class="govuk-table__cell"><%= application_form.updated_at %></td>
     </tr>
     <% end %>
   </tbody>

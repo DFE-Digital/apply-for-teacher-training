@@ -1,7 +1,7 @@
 module SupportInterface
   class ApplicationFormsController < SupportInterfaceController
     def index
-      application_forms = ApplicationForm.includes(:application_choices)
+      application_forms = ApplicationForm.includes(:application_choices).sort_by(&:updated_at).reverse
 
       @application_forms = application_forms.map do |application_choice|
         ApplicationFormPresenter.new(application_choice)
