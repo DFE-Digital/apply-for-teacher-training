@@ -71,8 +71,8 @@ RSpec.describe Reference, type: :model do
   describe 'auditing' do
     let(:application_form) { create(:application_form) }
 
-    it { should be_audited.associated_with :application_form }
-    
+    it { is_expected.to be_audited.associated_with :application_form }
+
     it 'creates an associated object in each audit record' do
       reference = create :reference, application_form: application_form
       expect(reference.audits.last.associated).to eq reference.application_form
