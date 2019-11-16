@@ -52,6 +52,7 @@ end
 
 When('the daily application cron job has run') do
   SendApplicationsToProvider.new.call
+  RejectApplicationsByDefault.new.call
 end
 
 Then('the new application choice status is {string}') do |new_application_status|
