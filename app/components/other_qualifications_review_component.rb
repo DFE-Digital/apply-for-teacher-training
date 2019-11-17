@@ -11,6 +11,7 @@ class OtherQualificationsReviewComponent < ActionView::Component::Base
   def other_qualifications_rows(qualification)
     [
       qualification_row(qualification),
+      institution_row(qualification),
       award_year_row(qualification),
       grade_row(qualification),
     ]
@@ -23,8 +24,17 @@ private
   def qualification_row(qualification)
     {
       key: t('application_form.other_qualification.qualification.label'),
-      value: [qualification.title, qualification.institution_name],
+      value: qualification.title,
       action: t('application_form.other_qualification.qualification.change_action'),
+      change_path: Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_path(qualification.id),
+    }
+  end
+
+  def institution_row(qualification)
+    {
+      key: t('application_form.other_qualification.institution.label'),
+      value: qualification.institution_name,
+      action: t('application_form.other_qualification.institution.change_action'),
       change_path: Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_path(qualification.id),
     }
   end

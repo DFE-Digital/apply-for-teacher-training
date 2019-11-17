@@ -156,6 +156,9 @@ en:
         label: Subject
       institution_name:
         label: Institution where you studied
+      institution:
+        label: Institution
+        change_action: institution
       grade:
         label: Grade
         change_action: grade

@@ -27,11 +27,13 @@ RSpec.describe OtherQualificationsReviewComponent do
 
     expect(result.css('.app-summary-card__title').text).to include('A-Level Making Doggo Sounds')
     expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.qualification.label'))
-    expect(result.css('.govuk-summary-list__value').to_html).to include('A-Level Making Doggo Sounds<br>Doggo Sounds College')
+    expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.institution.label'))
+    expect(result.css('.govuk-summary-list__value').to_html).to include('A-Level Making Doggo Sounds')
+    expect(result.css('.govuk-summary-list__value').to_html).to include('Doggo Sounds College')
     expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
       Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_path(1),
     )
-    expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.other_qualification.qualification.change_action')}")
+    expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.other_qualification.institution.change_action')}")
   end
 
   it 'renders component with correct values for an award year' do
