@@ -7,6 +7,10 @@ RSpec.describe TimeLimitCalculator do
     end
   end
 
+  before do
+    TimeLimit.destroy_all
+  end
+
   it 'returns default value with just a default time limit' do
     create :time_limit, rule: :reject_by_default, limit: 20
     calculator = TimeLimitCalculator.new(
