@@ -14,7 +14,7 @@ module CandidateInterface
           redirect_to candidate_interface_work_history_new_path
         end
       else
-        render :length
+        render :show
       end
     end
 
