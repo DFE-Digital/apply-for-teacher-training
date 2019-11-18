@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_14_103407) do
+ActiveRecord::Schema.define(version: 2019_11_18_120759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 2019_11_14_103407) do
     t.bigint "course_option_id", null: false
     t.datetime "edit_by"
     t.datetime "reject_by_default_at"
+    t.boolean "rejected_by_default", default: false, null: false
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
   end
