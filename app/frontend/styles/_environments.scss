@@ -20,7 +20,8 @@ $app-colour-development: govuk-colour("dark-grey", $legacy: "grey-1");
   border-bottom-color: $app-colour-sandbox;
 }
 
-.app-header--development .govuk-header__container {
+.app-header--development .govuk-header__container,
+.app-header--unknown-environment .govuk-header__container {
   border-bottom-color: $app-colour-development;
 }
 
@@ -40,6 +41,7 @@ $app-colour-development: govuk-colour("dark-grey", $legacy: "grey-1");
   background-color: $app-colour-sandbox;
 }
 
-.app-environment-tag--development {
+.app-environment-tag--development,
+.app-environment-tag--unknown-environment {
   background-color: $app-colour-development;
 }

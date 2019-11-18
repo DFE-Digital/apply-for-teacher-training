@@ -442,6 +442,10 @@
                                 "value": "[parameters('sentryDSN')]"
                             },
                             {
+                                "name": "HOSTING_ENVIRONMENT_NAME",
+                                "value": "[parameters('environment')]"
+                            },
+                            {
                                 "name": "LOGSTASH_ENABLE",
                                 "value": "[parameters('logstashEnable')]"
                             },
@@ -554,6 +558,10 @@
                                 "value": "[parameters('sentryDSN')]"
                             },
                             {
+                                "name": "HOSTING_ENVIRONMENT_NAME",
+                                "value": "[parameters('environment')]"
+                            },
+                            {
                                 "name": "SUPPORT_USERNAME",
                                 "value": "[parameters('supportUsername')]"
                             },
@@ -662,6 +670,10 @@
                             {
                                 "name": "SENTRY_DSN",
                                 "value": "[parameters('sentryDSN')]"
+                            },
+                            {
+                                "name": "HOSTING_ENVIRONMENT_NAME",
+                                "value": "[parameters('environment')]"
                             },
                             {
                                 "name": "SUPPORT_USERNAME",

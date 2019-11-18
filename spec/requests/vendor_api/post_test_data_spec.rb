@@ -11,7 +11,7 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data/regenerate', type: :request 
   end
 
   it 'does not generate test data in production' do
-    ClimateControl.modify CUSTOM_HOSTNAME: 'www.apply-for-teacher-training.education.gov.uk' do
+    ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
       post_api_request '/api/v1/test-data/regenerate?count=3'
     end
 
