@@ -8,7 +8,7 @@ class ApplicationDates
   end
 
   def respond_by
-    40.business_days.after(submitted_at).end_of_day
+    @application_form.application_choices.first&.reject_by_default_at
   end
 
   def edit_by
