@@ -13,7 +13,7 @@ module CandidateHelper
     visit candidate_interface_application_form_path
 
     click_link 'Course choices'
-    click_link 'Add another course'
+    click_link 'Continue'
     choose 'Yes, I know where I want to apply'
     click_button 'Continue'
 
