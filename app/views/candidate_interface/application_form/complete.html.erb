@@ -1,21 +1,42 @@
-<% content_for :title, page_title(:application_form) %>
+<% content_for :title, page_title(:application_dashboard) %>
+
+<h1 class="govuk-heading-xl govuk-heading-xl govuk-!-margin-bottom-2">
+  <%= t('page_titles.application_dashboard') %>
+</h1>
+<p class="govuk-body govuk-hint govuk-!-margin-bottom-8">
+  Application submitted on <%= render(ApplicationDateComponent, application_form: @application_form, type: :submitted_at).squish %>.
+</p>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">
-      <%= t('page_titles.application_form') %>
-    </h1>
+    <h2 class="govuk-heading-m govuk-!-font-size-27">Courses you’ve applied to</h2>
 
     <%= render(ApplicationCompleteContentComponent, application_form: @application_form) %>
 
-    <hr class="govuk-section-break govuk-section-break--l">
+    <p class="govuk-body">
+      Training providers must respond by <%= render(ApplicationDateComponent, application_form: @application_form, type: :respond_by).squish %>.
+    </p>
 
-    <h2 class="govuk-heading-l">Courses you’ve applied to</h2>
+    <%= render(SubmittedCourseChoicesComponent, application_form: @application_form) %>
 
     <hr class="govuk-section-break govuk-section-break--m">
 
-    <h2 class="govuk-heading-l">Your references</h2>
+    <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-4">References</h2>
 
-    <p class="govuk-body">We’ve contacted your references.</p>
+    <p class="govuk-body">We’ve contacted the referees you provided below. We’ll let you know if they don’t supply a reference.</p>
+
+    <%= render(SubmittedRefereesComponent, application_form: @application_form) %>
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <%= render '/candidate_interface/shared/need_help' %>
+
+    <aside class="app-related" role="complementary">
+      <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Updating your contact details</h2>
+
+      <div class="govuk-body-s">
+        You can update your contact details at any point during the application process. To do this, email us at <a class="govuk-link" href="mailto:becomingateacher@digital.education.gov.uk">becomingateacher<wbr>@digital.education.gov.uk</a>.
+      </div>
+    </aside>
   </div>
 </div>
