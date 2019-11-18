@@ -7,6 +7,14 @@
         </h2>
       </div>
     </div>
+  <% elsif flash[:info] %>
+    <div class="app-banner app-banner--info" aria-labelledby="info-message">
+      <div class="app-banner__message">
+        <h2 class="govuk-heading-m" id="info-message">
+          <%= flash[:info] %>
+        </h2>
+      </div>
+    </div>
   <% elsif flash[:success] %>
     <div class="app-banner app-banner--success" aria-labelledby="success-message">
       <div class="app-banner__message">

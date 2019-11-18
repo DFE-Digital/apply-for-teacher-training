@@ -82,6 +82,7 @@
         </p>
       </div>
       <%= yield(:before_content) %>
+      <%= render(FlashMessageComponent, flash: flash) %>
       <main class="govuk-main-wrapper " id="main-content" role="main">
         <%= content_for?(:content) ? yield(:content) : yield %>
       </main>
