@@ -1,0 +1,220 @@
+trigger: none
+
+variables:
+- group: Docker Shared variables
+- group: APPLY - Shared Variables
+- name: imageName
+  value: 'apply-for-postgraduate-teacher-training'
+- name: debug
+  value: true
+
+stages:
+- stage: publish_arm_template
+  displayName: 'Publish ARM Template'
+  jobs:
+  - job: publish_artifacts
+    displayName: 'Publish Pipeline Artifact'
+    pool:
+      vmImage: 'Ubuntu-16.04'
+
+    variables:
+    - name: system.debug
+      value: $(debug)
+
+    steps:
+    - script: |
+        GIT_SHORT_SHA=$(echo $(Build.SourceVersion) | cut -c 1-7)
+        docker_path=$(dockerHubUsername)/$(imageName)
+        echo '##vso[task.setvariable variable=compose_file]docker-compose.yml:docker-compose.azure.yml'
+        echo "##vso[build.updatebuildnumber]$GIT_SHORT_SHA"
+        echo "##vso[task.setvariable variable=docker_path;]$docker_path"
+      displayName: 'Set version number'
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Pipeline Artifacts'
+      inputs:
+        path: '$(System.DefaultWorkingDirectory)/azure/'
+        artifactName: 'arm_template'
+
+
+- stage: deploy_staging
+  displayName: 'Deploy - Staging'
+  dependsOn: publish_arm_template
+  condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables.deploy_staging, true))
+  variables:
+  - group: APPLY - ENV - Staging
+  jobs:
+  - template: azure-pipelines-deploy-template.yml
+    parameters:
+      debug: $(debug)
+      subscriptionPrefix: 's106'
+      subscriptionName: 'Apply (106) - Test'
+      environment: 'staging'
+      resourceEnvironmentName: 't01'
+      serviceName: 'apply'
+      containerImageReference: '$(imageName):$(build.buildNumber)'
+      keyVaultName: 's106t01-shared-kv-01'
+      keyVaultResourceGroup: 's106t01-shared-rg'
+      customHostName: '$(govukHostname)'
+      databaseName: 'apply'
+      databaseUsername: 'applyadm512'
+      databasePassword: '$(databasePassword)'
+      databaseStorageAutoGrow: 'disabled'
+      databaseBackupRetentionDays: 7
+      dockerhubUsername: '$(dockerHubUsername)'
+      railsSecretKeyBase: '$(railsSecretKeyBase)'
+      railsEnv: 'production'
+      basicAuthUsername: '$(basicAuthUsername)'
+      basicAuthPassword: '$(basicAuthPassword)'
+      supportUsername: '$(supportUsername)'
+      supportPassword: '$(supportPassword)'
+      authorisedHosts: '$(authorisedHosts)'
+      sentryDSN: '$(sentryDSN)'
+      logstashEnable: '$(logstashEnable)'
+      logstashRemote: '$(logstashRemote)'
+      logstashHost: '$(logstashHost)'
+      logstashPort: '$(logstashPort)'
+      logstashSsl: '$(logstashSsl)'
+      govukNotifyAPIKey: '$(govukNotifyAPIKey)'
+      findBaseUrl: '$(findBaseUrl)'
+      disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'
+      dfeSignInClientId: '$(dfeSignInClientId)'
+      dfeSignInSecret: '$(dfeSignInSecret)'
+      dfeSignInIssuer: '$(dfeSignInIssuer)'
+
+
+- stage: deploy_sandbox
+  displayName: 'Deploy - Sandbox'
+  dependsOn: publish_arm_template
+  condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables.deploy_sandbox, true))
+  variables:
+  - group: APPLY - ENV - Sandbox
+  jobs:
+  - template: azure-pipelines-deploy-template.yml
+    parameters:
+      debug: $(debug)
+      subscriptionPrefix: 's106'
+      subscriptionName: 'Apply (106) - Test'
+      environment: 'sandbox'
+      resourceEnvironmentName: 't02'
+      serviceName: 'apply'
+      containerImageReference: '$(imageName):$(build.buildNumber)'
+      keyVaultName: 's106t01-shared-kv-01'
+      keyVaultResourceGroup: 's106t01-shared-rg'
+      customHostName: '$(govukHostname)'
+      databaseName: 'apply'
+      databaseUsername: 'applyadm512'
+      databasePassword: '$(databasePassword)'
+      databaseStorageAutoGrow: 'disabled'
+      databaseBackupRetentionDays: 7
+      dockerhubUsername: '$(dockerHubUsername)'
+      railsSecretKeyBase: '$(railsSecretKeyBase)'
+      railsEnv: 'production'
+      basicAuthUsername: '$(basicAuthUsername)'
+      basicAuthPassword: '$(basicAuthPassword)'
+      supportUsername: '$(supportUsername)'
+      supportPassword: '$(supportPassword)'
+      authorisedHosts: '$(authorisedHosts)'
+      sentryDSN: '$(sentryDSN)'
+      logstashEnable: '$(logstashEnable)'
+      logstashRemote: '$(logstashRemote)'
+      logstashHost: '$(logstashHost)'
+      logstashPort: '$(logstashPort)'
+      logstashSsl: '$(logstashSsl)'
+      govukNotifyAPIKey: '$(govukNotifyAPIKey)'
+      findBaseUrl: '$(findBaseUrl)'
+      disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'
+      dfeSignInClientId: '$(dfeSignInClientId)'
+      dfeSignInSecret: '$(dfeSignInSecret)'
+      dfeSignInIssuer: '$(dfeSignInIssuer)'
+
+
+- stage: deploy_pentest
+  displayName: 'Deploy - Pentest'
+  dependsOn: publish_arm_template
+  condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables.deploy_pentest, true))
+  variables:
+  - group: APPLY - ENV - Pentest
+  jobs:
+  - template: azure-pipelines-deploy-template.yml
+    parameters:
+      debug: $(debug)
+      subscriptionPrefix: 's106'
+      subscriptionName: 'Apply (106) - Test'
+      environment: 'pentest'
+      resourceEnvironmentName: 't03'
+      serviceName: 'apply'
+      containerImageReference: '$(imageName):$(build.buildNumber)'
+      keyVaultName: 's106t01-shared-kv-01'
+      keyVaultResourceGroup: 's106t01-shared-rg'
+      databaseName: 'apply'
+      databaseUsername: 'applyadm512'
+      databasePassword: '$(databasePassword)'
+      databaseStorageAutoGrow: 'disabled'
+      databaseBackupRetentionDays: 7
+      dockerhubUsername: '$(dockerHubUsername)'
+      railsSecretKeyBase: '$(railsSecretKeyBase)'
+      railsEnv: 'production'
+      basicAuthUsername: '$(basicAuthUsername)'
+      basicAuthPassword: '$(basicAuthPassword)'
+      supportUsername: '$(supportUsername)'
+      supportPassword: '$(supportPassword)'
+      authorisedHosts: '$(authorisedHosts)'
+      sentryDSN: '$(sentryDSN)'
+      logstashEnable: '$(logstashEnable)'
+      logstashRemote: '$(logstashRemote)'
+      logstashHost: '$(logstashHost)'
+      logstashPort: '$(logstashPort)'
+      logstashSsl: '$(logstashSsl)'
+      govukNotifyAPIKey: '$(govukNotifyAPIKey)'
+      findBaseUrl: '$(findBaseUrl)'
+      disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'
+      dfeSignInClientId: '$(dfeSignInClientId)'
+      dfeSignInSecret: '$(dfeSignInSecret)'
+      dfeSignInIssuer: '$(dfeSignInIssuer)'
+
+
+- stage: deploy_production
+  displayName: 'Deploy - Production'
+  dependsOn: publish_arm_template
+  condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables.deploy_production, true))
+  variables:
+  - group: APPLY - ENV - Production
+  jobs:
+  - template: azure-pipelines-deploy-template.yml
+    parameters:
+      debug: $(debug)
+      subscriptionPrefix: 's106'
+      subscriptionName: 'Apply (106) - Production'
+      environment: 'production'
+      resourceEnvironmentName: 'p01'
+      serviceName: 'apply'
+      containerImageReference: '$(imageName):$(build.buildNumber)'
+      keyVaultName: 's106p01-shared-kv-01'
+      keyVaultResourceGroup: 's106p01-shared-rg'
+      customHostName: '$(govukHostname)'
+      databaseName: 'apply'
+      databaseUsername: 'applyadm512'
+      databasePassword: '$(databasePassword)'
+      databaseStorageAutoGrow: 'enabled'
+      databaseBackupRetentionDays: 35
+      dockerhubUsername: '$(dockerHubUsername)'
+      railsSecretKeyBase: '$(railsSecretKeyBase)'
+      railsEnv: 'production'
+      basicAuthUsername: '$(basicAuthUsername)'
+      basicAuthPassword: '$(basicAuthPassword)'
+      supportUsername: '$(supportUsername)'
+      supportPassword: '$(supportPassword)'
+      authorisedHosts: '$(authorisedHosts)'
+      sentryDSN: '$(sentryDSN)'
+      logstashEnable: '$(logstashEnable)'
+      logstashRemote: '$(logstashRemote)'
+      logstashHost: '$(logstashHost)'
+      logstashPort: '$(logstashPort)'
+      logstashSsl: '$(logstashSsl)'
+      govukNotifyAPIKey: '$(govukNotifyAPIKey)'
+      findBaseUrl: '$(findBaseUrl)'
+      disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'
+      dfeSignInClientId: '$(dfeSignInClientId)'
+      dfeSignInSecret: '$(dfeSignInSecret)'
+      dfeSignInIssuer: '$(dfeSignInIssuer)'
