@@ -30,6 +30,17 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
           expect(form.errors[:grade]).to include('Enter a real graduation grade')
         end
       end
+
+      it 'logs validation errors if grade is invalid' do
+        allow(Rails.logger).to receive(:info)
+        form.grade = 'XYZ'
+
+        form.save_base
+
+        expect(Rails.logger).to have_received(:info).with(
+          'Validation error: {:field=>"grade", :error_messages=>"Enter a real graduation grade", :value=>"XYZ"}',
+        )
+      end
     end
 
     context 'when qualification type is GCE O LEVEL' do
