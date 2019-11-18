@@ -23,7 +23,7 @@ module ProviderInterface
       complete_conditions_array = [standard_conditions_array, further_conditions_array].compact.reduce([], :|)
       @application_offer = MakeAnOffer.new(
         application_choice: @application_choice,
-        offer_conditions: complete_conditions_array
+        offer_conditions: complete_conditions_array,
       )
       render action: :new_offer if !@application_offer.valid?
     end
@@ -33,7 +33,7 @@ module ProviderInterface
 
       @application_offer = MakeAnOffer.new(
         application_choice: @application_choice,
-        offer_conditions: offer_conditions_array
+        offer_conditions: offer_conditions_array,
       )
 
       if @application_offer.save
