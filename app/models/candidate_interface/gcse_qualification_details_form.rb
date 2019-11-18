@@ -18,7 +18,10 @@ module CandidateInterface
     end
 
     def save_base
-      return false unless valid?
+      if !valid?
+        log_validation_errors(:grade)
+        return false
+      end
 
       qualification.update(grade: grade, award_year: award_year)
     end
@@ -50,6 +53,16 @@ module CandidateInterface
 
     def new_record?
       qualification.nil?
+    end
+
+    def log_validation_errors(field)
+      error_message = {
+        field: field.to_s,
+        error_messages: errors[field].join(' - '),
+        value: instance_values[field.to_s],
+      }
+
+      Rails.logger.info("Validation error: #{error_message.inspect}")
     end
   end
 end
