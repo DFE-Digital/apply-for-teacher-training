@@ -15,8 +15,6 @@
 
 <% content_for :before_content, govuk_back_link_to(provider_interface_applications_path) %>
 
-<%= render(FlashMessageComponent, flash: flash) %>
-
 <h1 class="govuk-heading-xl">
   <span class="govuk-caption-xl">Application for <%= @application_choice.course_name_and_code %></span>
   <%= @application_choice.full_name %>
