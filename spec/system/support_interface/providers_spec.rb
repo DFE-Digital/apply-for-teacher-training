@@ -61,7 +61,9 @@ RSpec.feature 'See providers' do
       site_code: 'C',
     )
 
-    click_button 'Sync Providers from Find'
+    Sidekiq::Testing.inline! do
+      click_button 'Sync Providers from Find'
+    end
   end
 
   def then_requests_to_find_should_be_made
