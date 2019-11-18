@@ -10,6 +10,14 @@ class ApplicationChoice < ApplicationRecord
 
   audited associated_with: :application_form
 
+  delegate :application_qualifications,
+           :first_name,
+           :last_name,
+           :date_of_birth,
+           :phone_number,
+           :candidate,
+           to: :application_form
+
   enum status: {
     unsubmitted: 'unsubmitted',
     awaiting_references: 'awaiting_references',
