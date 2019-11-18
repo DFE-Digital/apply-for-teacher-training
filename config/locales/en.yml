@@ -125,17 +125,17 @@ en:
               too_long: Relationship must be %{count} characters or fewer
   application_choice:
     status_name:
-      unsubmitted: 'Not submitted yet'
-      awaiting_references: 'Awaiting references'
-      application_complete: 'New'
-      awaiting_provider_decision: 'Awaiting provider decision'
-      offer: 'Offer'
-      pending_conditions: 'Pending conditions'
-      recruited: 'Candidate recruited'
-      enrolled: 'Candidate  enrolled'
-      rejected: 'Provider rejected'
-      withdrawn: 'Candidate withdrawn'
-      declined: 'Candidate declined'
+      unsubmitted: Not submitted yet
+      awaiting_references: Awaiting references
+      application_complete: New
+      awaiting_provider_decision: Awaiting provider decision
+      offer: Offer
+      pending_conditions: Pending conditions
+      recruited: Candidate recruited
+      enrolled: Candidate  enrolled
+      rejected: Provider rejected
+      withdrawn: Candidate withdrawn
+      declined: Candidate declined
   date:
     formats:
       long: "%e %B %Y"

@@ -62,6 +62,6 @@ RSpec.feature 'See applications' do
   end
 
   def then_i_should_be_on_the_application_view_page
-    expect(page).to have_content "#{@completed_application.last_name}'s application"
+    expect(page).to have_content "#{@completed_application.last_name}’s application"
   end
 end
