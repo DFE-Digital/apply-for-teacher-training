@@ -2,7 +2,7 @@
 class SendApplicationsToProviderWorker
   include Sidekiq::Worker
 
-  def perform(*)
+  def perform
     SendApplicationsToProvider.new.call
   end
 end
