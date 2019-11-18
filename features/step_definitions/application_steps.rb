@@ -1,3 +1,5 @@
+require 'cucumber/rspec/doubles'
+
 Given(/an application choice has "(.*)" status/) do |original_application_status|
   application_form = FactoryBot.create(:application_form)
   @application_choice = FactoryBot.create(
@@ -19,9 +21,11 @@ Given('the candidate has specified {string} and {string} as referees') do |refer
 end
 
 Given('a {int} working day time limit on {string}') do |limit, rule|
-  time_limit = TimeLimit.find_or_initialize_by(rule: rule)
-  time_limit.limit = limit
-  time_limit.save!
+  allow(TimeLimitConfig).to receive(:limits_for).with(rule.to_sym).and_return(
+    [
+      TimeLimitConfig::Rule.new(nil, nil, limit),
+    ],
+  )
 end
 
 When(/^the candidate submits the application$/) do
