@@ -76,22 +76,6 @@
           'aria-describedby': 'further_condition' %>
       </div>
 
-      <div class="govuk-form-group">
-        <label class="govuk-label govuk-label--m" for="recomendations">
-          Recommendations (optional)
-        </label>
-
-        <span id="recomendations-hint" class="govuk-hint">
-          Outline any recommendations (for example, organising school experience).
-        </span>
-
-        <%= f.govuk_text_area :recomendation,
-          label: { text: 'First condition', hidden: true },
-          rows: 3,
-          id: 'recomendation',
-          'aria-describedby': 'recomendation' %>
-      </div>
-
       <%= f.govuk_submit 'Continue' %>
 
       <p class="govuk-body"><a href="<%= provider_interface_application_choice_path(@application_choice.id) %>">Cancel</a></p>
