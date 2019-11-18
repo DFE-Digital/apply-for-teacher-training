@@ -488,6 +488,10 @@
                             {
                                 "name": "DFE_SIGN_IN_ISSUER",
                                 "value": "[parameters('dfeSignInIssuer')]"
+                            },
+                            {
+                                "name": "REDIS_URL",
+                                "secureValue": "[concat('rediss://:', listKeys(resourceId('Microsoft.Cache/Redis', parameters('redisCacheName')), '2018-03-01').primaryKey, '@', parameters('redisCacheName'), '.redis.cache.windows.net:6380')]"
                             }
                         ]
                     }
