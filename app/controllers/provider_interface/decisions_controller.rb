@@ -14,7 +14,36 @@ module ProviderInterface
     end
 
     def new_offer
-      raise 'Not yet implemented'
+      @application_offer = MakeAnOffer.new(application_choice: @application_choice)
+    end
+
+    def confirm_offer
+      standard_conditions_array = params.dig(:make_an_offer, :standard_conditions)
+      further_conditions_array = [params.dig(:make_an_offer, :first_condition), params.dig(:make_an_offer, :second_condition), params.dig(:make_an_offer, :third_condition), params.dig(:make_an_offer, :further_condition)].reject(&:blank?)
+      complete_conditions_array = [standard_conditions_array, further_conditions_array].compact.reduce([], :|)
+      @application_offer = MakeAnOffer.new(
+        application_choice: @application_choice,
+        offer_conditions: complete_conditions_array
+      )
+      render action: :new_offer if !@application_offer.valid?
+    end
+
+    def create_offer
+      offer_conditions_array = JSON.parse(params.dig(:offer_conditions))
+
+      @application_offer = MakeAnOffer.new(
+        application_choice: @application_choice,
+        offer_conditions: offer_conditions_array
+      )
+
+      if @application_offer.save
+        flash[:success] = 'Application status changed to ‘Offer made’'
+        redirect_to provider_interface_application_choice_path(
+          application_choice_id: @application_choice.id,
+        )
+      else
+        render action: :new_offer
+      end
     end
 
     def new_reject

@@ -49,12 +49,11 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def when_i_select_standard_reasons
-    choose 'Fitness to teach check'
-    choose 'Payment of fees'
+    page.check 'Payment of fees', allow_label_click: true
   end
 
   def and_i_add_optional_further_conditions
-    fill_in('First condition', with: 'A further condition')
+    fill_in('first_condition', with: 'A further condition')
   end
 
   def and_i_click_to_continue
@@ -63,7 +62,7 @@ RSpec.feature 'Provider makes an offer' do
 
   def then_i_am_asked_to_confirm_the_offer
     expect(page).to have_current_path(
-      provider_interface_application_choice_confirm_reject_path(
+      provider_interface_application_choice_confirm_offer_path(
         application_awaiting_provider_decision.id,
       ),
     )

@@ -1,0 +1,100 @@
+<% content_for :title, t('page_titles.application') %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_respond_path(@application_choice.id)) %>
+
+<%= render(FlashMessageComponent, flash: flash) %>
+
+<span class="govuk-caption-xl">
+  Application for <%= @presenter.course_name_and_code %>
+</span>
+
+<h1 class="govuk-heading-xl">
+  Conditions of offer
+
+</h1>
+
+<%= form_with model: @application_offer, url: provider_interface_application_choice_confirm_offer_path(@application_choice.id), method: :post do |f| %>
+
+  <div class="govuk-grid-row">
+    <%= f.govuk_error_summary %>
+
+    <%= render(SummaryCardComponent, rows: [
+      { key: 'Full name', value: @presenter.full_name },
+      { key: 'Course', value: @presenter.course_name_and_code },
+      { key: 'Starting', value: @presenter.course_start_date.strftime('%B %Y') },
+      { key: 'Preferred location', value: @presenter.course_preferred_location },
+    ], border: false) %>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <%= f.govuk_check_boxes_fieldset :standard_conditions, small: true, legend: { text: "Standard conditions", size: "m" } do %>
+          <%= f.govuk_check_box :standard_conditions,
+            'Fitness to teach check',
+            label: { text: "Fitness to teach check" } %>
+
+          <%= f.govuk_check_box :standard_conditions,
+            'Disclosure and barring service check',
+            label: { text: "Disclosure and barring service check" } %>
+
+          <%= f.govuk_check_box :standard_conditions,
+            'Payment of fees',
+            label: { text: "Payment of fees" } %>
+      <% end %>
+
+      <div class="govuk-form-group">
+        <label class="govuk-label govuk-label--m" for="further_conditions">
+          Further conditions (optional)
+        </label>
+
+        <span id="further_conditions-hint" class="govuk-hint">
+          Outline any further conditions (for example, studying a subject knowledge enhancement course) and give deadlines for completing them.
+        </span>
+
+        <%= f.govuk_text_area :first_condition,
+          label: { text: 'First condition', size: "s" },
+          rows: 3,
+          id: 'first_condition',
+          'aria-describedby': 'first_condition' %>
+
+        <%= f.govuk_text_area :second_condition,
+          label: { text: 'Second condition', size: "s" },
+          rows: 3,
+          id: 'second_condition',
+          'aria-describedby': 'second_condition' %>
+
+        <%= f.govuk_text_area :third_condition,
+          label: { text: 'Third condition', size: "s" },
+          rows: 3,
+          id: 'third_condition',
+          'aria-describedby': 'third_condition' %>
+
+        <%= f.govuk_text_area :further_condition,
+          label: { text: 'Further condition', size: "s" },
+          rows: 3,
+          id: 'further_condition',
+          'aria-describedby': 'further_condition' %>
+      </div>
+
+      <div class="govuk-form-group">
+        <label class="govuk-label govuk-label--m" for="recomendations">
+          Recommendations (optional)
+        </label>
+
+        <span id="recomendations-hint" class="govuk-hint">
+          Outline any recommendations (for example, organising school experience).
+        </span>
+
+        <%= f.govuk_text_area :recomendation,
+          label: { text: 'First condition', hidden: true },
+          rows: 3,
+          id: 'recomendation',
+          'aria-describedby': 'recomendation' %>
+      </div>
+
+      <%= f.govuk_submit 'Continue' %>
+
+      <p class="govuk-body"><a href="<%= provider_interface_application_choice_path(@application_choice.id) %>">Cancel</a></p>
+    </div>
+  </div>
+<% end %>
