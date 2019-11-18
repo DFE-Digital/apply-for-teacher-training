@@ -20,7 +20,7 @@ private
   def course_row(course_choice)
     {
       key: 'Course',
-      value: "#{course_choice.course.name} (#{course_choice.course.code})",
+      value: course_choice.course.name_and_code,
     }
   end
 
