@@ -22,7 +22,7 @@ class TimeLimitCalculator
 private
 
   def time_limits_for_rule
-    @time_limits_for_rule ||= TimeLimit.where(rule: rule)
+    @time_limits_for_rule ||= TimeLimitConfig.limits_for(rule)
   end
 
   def to_and_from_time_limits

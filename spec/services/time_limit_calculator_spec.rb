@@ -7,12 +7,12 @@ RSpec.describe TimeLimitCalculator do
     end
   end
 
-  before do
-    TimeLimit.destroy_all
-  end
-
   it 'returns default value with just a default time limit' do
-    create :time_limit, rule: :reject_by_default, limit: 20
+    allow(TimeLimitConfig).to receive(:limits_for).and_return(
+      [
+        TimeLimitConfig::Rule.new(nil, nil, 20),
+      ],
+    )
     calculator = TimeLimitCalculator.new(
       rule: :reject_by_default,
       effective_date: Time.zone.now,
@@ -21,8 +21,12 @@ RSpec.describe TimeLimitCalculator do
   end
 
   it 'returns value for rule with `from_date` when effective date matches rule' do
-    create :time_limit, rule: :reject_by_default, limit: 10, from_date: 10.days.ago
-    create :time_limit, rule: :reject_by_default, limit: 20
+    allow(TimeLimitConfig).to receive(:limits_for).and_return(
+      [
+        TimeLimitConfig::Rule.new(nil, nil, 20),
+        TimeLimitConfig::Rule.new(10.days.ago, nil, 10),
+      ],
+    )
     calculator = TimeLimitCalculator.new(
       rule: :reject_by_default,
       effective_date: Time.zone.now,
@@ -31,8 +35,12 @@ RSpec.describe TimeLimitCalculator do
   end
 
   it 'returns value for default rule rather than one with `from_date` when effective date does not match rule' do
-    create :time_limit, rule: :reject_by_default, limit: 10, from_date: 10.days.from_now
-    create :time_limit, rule: :reject_by_default, limit: 20
+    allow(TimeLimitConfig).to receive(:limits_for).and_return(
+      [
+        TimeLimitConfig::Rule.new(nil, nil, 20),
+        TimeLimitConfig::Rule.new(10.days.from_now, nil, 10),
+      ],
+    )
     calculator = TimeLimitCalculator.new(
       rule: :reject_by_default,
       effective_date: Time.zone.now,
@@ -41,9 +49,13 @@ RSpec.describe TimeLimitCalculator do
   end
 
   it 'returns value for rule with `to_date` and `from_date` when effective date matches rule' do
-    create :time_limit, rule: :reject_by_default, limit: 5, from_date: 5.days.ago, to_date: 5.days.from_now
-    create :time_limit, rule: :reject_by_default, limit: 10, from_date: 10.days.ago
-    create :time_limit, rule: :reject_by_default, limit: 20
+    allow(TimeLimitConfig).to receive(:limits_for).and_return(
+      [
+        TimeLimitConfig::Rule.new(nil, nil, 20),
+        TimeLimitConfig::Rule.new(10.days.ago, nil, 10),
+        TimeLimitConfig::Rule.new(5.days.ago, 5.days.from_now, 5),
+      ],
+    )
     calculator = TimeLimitCalculator.new(
       rule: :reject_by_default,
       effective_date: Time.zone.now,
@@ -52,8 +64,7 @@ RSpec.describe TimeLimitCalculator do
   end
 
   it 'returns nil when there is no rule for the given effective date' do
-    create :time_limit, rule: :reject_by_default, limit: 5, from_date: 5.days.ago, to_date: 5.days.from_now
-    create :time_limit, rule: :reject_by_default, limit: 10, from_date: 10.days.ago
+    allow(TimeLimitConfig).to receive(:limits_for).and_return([])
     calculator = TimeLimitCalculator.new(
       rule: :reject_by_default,
       effective_date: 20.days.ago,
