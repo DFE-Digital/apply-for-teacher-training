@@ -9,10 +9,7 @@ module SupportInterface
     end
 
     def sync
-      Rails.configuration.providers_to_sync[:codes].each do |code|
-        SyncProviderFromFind.call(provider_code: code)
-      end
-
+      SyncFromFind.perform_async
       redirect_to action: 'index'
     end
   end
