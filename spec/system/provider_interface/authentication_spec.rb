@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'A provider authenticates via DfE Sign-in' do
-  include DfeSignInHelpers
+  include DfESignInHelpers
 
   scenario 'signing in successfully' do
     given_i_have_a_dfe_sign_in_account
