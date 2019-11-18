@@ -18,7 +18,8 @@ module CandidateInterface
     end
 
     def options_for_provider
-      @providers = Provider.all
+      # TODO: Remove when the QA environment no longer has the "Example provider" stored
+      @providers = Provider.where.not(name: 'Example provider')
     end
 
     def pick_provider
