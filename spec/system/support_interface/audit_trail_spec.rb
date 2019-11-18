@@ -61,7 +61,7 @@ RSpec.feature 'See applications' do
   end
 
   def then_i_should_be_on_the_application_history_page
-    expect(page).to have_content "Alice Wunder's application history"
+    expect(page).to have_content 'Alice Wunder’s application history'
   end
 
   def then_i_should_be_able_to_see_history_events
