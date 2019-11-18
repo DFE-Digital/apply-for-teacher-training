@@ -214,6 +214,7 @@ Rails.application.routes.draw do
   end
 
   get '/auth/dfe/callback' => 'provider_interface/sessions#callback'
+  post '/auth/developer/callback' => 'provider_interface/sessions#bypass_callback'
 
   namespace :support_interface, path: '/support' do
     get '/' => redirect('/support/applications')
