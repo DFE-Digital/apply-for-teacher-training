@@ -17,9 +17,9 @@ RSpec.describe ApplicationDates, type: :model do
     end
   end
 
-  describe '#respond_by' do
+  describe '#reject_by_default_at' do
     it 'return nil when the reject_by_default_at is not set' do
-      expect(application_dates.respond_by).to be_nil
+      expect(application_dates.reject_by_default_at).to be_nil
     end
 
     it 'returns date that providers will respond by when reject_by_default_at is set' do
@@ -27,7 +27,7 @@ RSpec.describe ApplicationDates, type: :model do
       application_form.application_choices.each do |application_choice|
         application_choice.update(reject_by_default_at: reject_by_default_at)
       end
-      expect(application_dates.respond_by).to eql reject_by_default_at
+      expect(application_dates.reject_by_default_at).to eql reject_by_default_at
     end
   end
 

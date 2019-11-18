@@ -7,7 +7,7 @@ class ApplicationDates
     @application_form.submitted_at
   end
 
-  def respond_by
+  def reject_by_default_at
     @application_form.application_choices.first&.reject_by_default_at
   end
 
