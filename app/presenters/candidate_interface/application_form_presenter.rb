@@ -75,7 +75,7 @@ module CandidateInterface
     end
 
     def course_choices_completed?
-      @application_form.course_choices_completed
+      @application_form.application_choices.count >= 1
     end
 
     def volunteering_completed?

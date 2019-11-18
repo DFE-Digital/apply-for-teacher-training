@@ -1,7 +1,6 @@
 module CandidateInterface
   class CourseChoicesController < CandidateInterfaceController
     def index
-      @application_form = current_application
       @course_choices = current_candidate.current_application.application_choices
     end
 
@@ -77,26 +76,10 @@ module CandidateInterface
       redirect_to candidate_interface_course_choices_index_path
     end
 
-    def complete
-      @application_form = current_application
-      @application_form.course_choices_present = true
-
-      if @application_form.update(application_form_params)
-        redirect_to candidate_interface_application_form_path
-      else
-        @course_choices = current_candidate.current_application.application_choices
-        render :index
-      end
-    end
-
   private
 
     def current_course_choice_id
       params.permit(:id)[:id]
-    end
-
-    def application_form_params
-      params.require(:application_form).permit(:course_choices_completed)
     end
 
     def application_choice_params

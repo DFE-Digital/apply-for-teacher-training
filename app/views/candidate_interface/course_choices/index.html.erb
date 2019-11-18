@@ -5,53 +5,38 @@
   <%= t('page_titles.course_choices') %>
 </h1>
 
-<%= form_with model: @application_form, url: candidate_interface_course_choices_complete_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
-  <%= f.govuk_error_summary %>
-
-  <% @course_choices.map.each do |course_choice| %>
-    <%= render(SummaryCardComponent, rows: [
-      { key: 'Course', value: "#{course_choice.course.name} (#{course_choice.course.code})" },
-      { key: 'Location', value: course_choice.site.name },
-    ]) do %>
-      <header class='app-summary-card__header'>
-        <h3 class='app-summary-card__title'>
-          <%= course_choice.provider.name %>
-        </h3>
-        <div class='app-summary-card__actions'>
-          <%= link_to t('application_form.courses.delete'), candidate_interface_confirm_destroy_course_choice_path(course_choice.id), class: 'govuk-link' %>
-        </div>
-      </header>
-    <% end %>
-  <% end %>
-
-  <% if @course_choices.count.between?(1, 2) %>
-    <div class='govuk-grid-row'>
-      <div class='govuk-grid-column-two-thirds'>
-        <h2 class='govuk-heading-m'>Do you want to add another course?</h2>
-        <p class='govuk-body'>You can apply to up to 3 courses at this stage of your application.</p>
-        <p class='govuk-body'>Not all courses and training providers are signed up to Apply for teacher training. If you choose a course that isn’t signed up to the service, you’ll be directed to UCAS to continue your application.</p>
-        <p class='govuk-body'>You can preview <%= govuk_link_to 'courses currently available', '/apply/providers' %> on Apply for teacher training.</p>
-        <p class='govuk-body'>Get support by emailing <%= govuk_link_to 'becomingateacher@digital.education.gov.uk', 'mailto:becomingateacher@digital.education.gov.uk' %>.</p>
+<% @course_choices.map.each do |course_choice| %>
+  <%= render(SummaryCardComponent, rows: [
+    { key: 'Course', value: "#{course_choice.course.name} (#{course_choice.course.code})" },
+    { key: 'Location', value: course_choice.site.name },
+  ]) do %>
+    <header class='app-summary-card__header'>
+      <h3 class='app-summary-card__title'>
+        <%= course_choice.provider.name %>
+      </h3>
+      <div class='app-summary-card__actions'>
+        <%= link_to t('application_form.courses.delete'), candidate_interface_confirm_destroy_course_choice_path(course_choice.id), class: 'govuk-link' %>
       </div>
-    </div>
-  <% end %>
-
-  <% if @course_choices.count < 3 %>
-    <%= link_to 'Add another course', candidate_interface_course_choices_choose_path, class: 'govuk-button govuk-button--secondary govuk-!-margin-bottom-9' %>
-  <% end %>
-
-  <% if @course_choices.count >= 1 %>
-    <%= f.govuk_check_boxes_fieldset :course_choices_completed, legend: {} do %>
-      <%= f.hidden_field :course_choices_completed, value: false %>
-      <%= f.govuk_check_box :course_choices_completed,
-                            true,
-                            multiple: false,
-                            link_errors: true,
-                            label: {
-                              text: t('application_form.courses.complete.completed_checkbox'),
-                            } %>
-    <% end %>
-
-    <%= f.govuk_submit 'Continue' %>
+    </header>
   <% end %>
 <% end %>
+
+<% if @course_choices.count.between?(1, 2) %>
+  <div class='govuk-grid-row'>
+    <div class='govuk-grid-column-two-thirds'>
+      <h2 class='govuk-heading-m'>Do you want to add another course?</h2>
+      <p class='govuk-body'>You can apply to up to 3 courses at this stage of your application.</p>
+      <p class='govuk-body'>Not all courses and training providers are signed up to Apply for teacher training. If you choose a course that isn’t signed up to the service, you’ll be directed to UCAS to continue your application.</p>
+      <p class='govuk-body'>You can preview <%= govuk_link_to 'courses currently available', '/apply/providers' %> on Apply for teacher training.</p>
+      <p class='govuk-body'>Get support by emailing <%= govuk_link_to 'becomingateacher@digital.education.gov.uk', 'mailto:becomingateacher@digital.education.gov.uk' %>.</p>
+    </div>
+  </div>
+<% end %>
+
+<% if @course_choices.count < 3 %>
+  <%= link_to 'Add another course', candidate_interface_course_choices_choose_path, class: 'govuk-button govuk-button--secondary govuk-!-margin-bottom-9' %>
+<% end %>
+
+<p class='govuk-body'>
+  <%= link_to 'Continue', candidate_interface_application_form_path, class: 'govuk-button' %>
+</p>

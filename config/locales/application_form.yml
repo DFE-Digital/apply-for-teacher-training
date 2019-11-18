@@ -6,7 +6,6 @@ en:
       delete: Delete choice
       confirm_delete: Yes I'm sure - delete this choice
       complete:
-        completed_checkbox: I have completed this section
         button: Continue
     personal_details:
       first_name:
