@@ -1,0 +1,9 @@
+<% @course_choices.each do |course_choice| %>
+  <%= render(SummaryCardComponent, rows: course_choice_rows(course_choice)) do %>
+    <header class="app-summary-card__header">
+      <h3 class="app-summary-card__title">
+        <%= course_choice.provider.name %>
+      </h3>
+    </header>
+  <% end %>
+<% end %>
