@@ -20,6 +20,7 @@ private
     ).call
     return unless days
 
+    application_choice.reject_by_default_days = days
     application_choice.reject_by_default_at = days.business_days.from_now.end_of_day
   end
 end

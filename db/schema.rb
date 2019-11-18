@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_18_120759) do
+ActiveRecord::Schema.define(version: 2019_11_18_161155) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2019_11_18_120759) do
     t.datetime "edit_by"
     t.datetime "reject_by_default_at"
     t.boolean "rejected_by_default", default: false, null: false
+    t.integer "reject_by_default_days"
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
   end
@@ -189,6 +190,16 @@ ActiveRecord::Schema.define(version: 2019_11_18_120759) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["code", "provider_id"], name: "index_sites_on_code_and_provider_id", unique: true
     t.index ["provider_id"], name: "index_sites_on_provider_id"
+  end
+
+  create_table "time_limits", force: :cascade do |t|
+    t.string "rule", null: false
+    t.integer "limit", null: false
+    t.date "from_date"
+    t.date "to_date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["rule"], name: "index_time_limits_on_rule"
   end
 
   create_table "vendor_api_tokens", force: :cascade do |t|
