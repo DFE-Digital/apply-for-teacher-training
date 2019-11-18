@@ -1,39 +1,34 @@
 module VendorApi
-  class SingleApplicationPresenter
-    def initialize(application_choice)
-      @application_choice = application_choice
-      @application_form = application_choice.application_form
-    end
-
+  class SingleApplicationPresenter < SimpleDelegator
     def as_json
       {
-        id: application_choice.id.to_s,
+        id: id.to_s,
         type: 'application',
         attributes: {
-          status: application_choice.status,
-          updated_at: application_choice.updated_at.iso8601,
-          submitted_at: application_form.submitted_at.iso8601,
-          personal_statement: application_choice.personal_statement,
+          status: status,
+          updated_at: updated_at.iso8601,
+          submitted_at: submitted_at.iso8601,
+          personal_statement: personal_statement,
           candidate: {
-            first_name: application_form.first_name,
-            last_name: application_form.last_name,
-            date_of_birth: application_form.date_of_birth,
+            first_name: first_name,
+            last_name: last_name,
+            date_of_birth: date_of_birth,
             nationality: nationalities,
-            uk_residency_status: application_form.uk_residency_status,
-            english_main_language: application_form.english_main_language,
-            english_language_qualifications: application_form.english_language_details,
-            other_languages: application_form.other_language_details,
+            uk_residency_status: uk_residency_status,
+            english_main_language: english_main_language,
+            english_language_qualifications: english_language_details,
+            other_languages: other_language_details,
             disability_disclosure: 'I have difficulty climbing stairs',
           },
           contact_details: {
-            phone_number: application_form.phone_number,
-            address_line1: application_form.address_line1,
-            address_line2: application_form.address_line2,
-            address_line3: application_form.address_line3,
-            address_line4: application_form.address_line4,
-            postcode: application_form.postcode,
-            country: application_form.country,
-            email: application_form.candidate.email_address,
+            phone_number: phone_number,
+            address_line1: address_line1,
+            address_line2: address_line2,
+            address_line3: address_line3,
+            address_line4: address_line4,
+            postcode: postcode,
+            country: country,
+            email: candidate.email_address,
           },
           course: course,
           qualifications: {
@@ -122,7 +117,7 @@ module VendorApi
             jobs: work_experience_jobs,
             volunteering: work_experience_volunteering,
           },
-          offer: application_choice.offer,
+          offer: offer,
           rejection: get_rejection,
           withdrawal: nil,
           hesa_itt_data: {
@@ -130,27 +125,25 @@ module VendorApi
             disability: '',
             ethnicity: '',
           },
-          further_information: application_form.further_information,
+          further_information: further_information,
         },
       }
     end
 
   private
 
-    attr_reader :application_choice, :application_form
-
     def get_rejection
-      if application_choice.rejection_reason?
+      if rejection_reason?
         {
-          reason: application_choice.rejection_reason,
+          reason: rejection_reason,
         }
       end
     end
 
     def nationalities
       [
-        application_form.first_nationality,
-        application_form.second_nationality,
+        first_nationality,
+        second_nationality,
       ].map { |n|
         NATIONALITIES.to_h.invert[n]
       }.compact
@@ -158,21 +151,21 @@ module VendorApi
 
     def course
       {
-        start_date: application_choice.course.start_date,
-        provider_ucas_code: application_choice.provider.code,
-        site_ucas_code: application_choice.site.code,
-        course_ucas_code: application_choice.course.code,
+        start_date: super.start_date,
+        provider_ucas_code: provider.code,
+        site_ucas_code: site.code,
+        course_ucas_code: super.code,
       }
     end
 
     def work_experience_jobs
-      application_form.application_work_experiences.map do |experience|
+      application_work_experiences.map do |experience|
         experience_to_hash(experience)
       end
     end
 
     def work_experience_volunteering
-      application_form.application_volunteering_experiences.map do |experience|
+      application_volunteering_experiences.map do |experience|
         experience_to_hash(experience)
       end
     end

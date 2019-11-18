@@ -11,11 +11,27 @@ class ApplicationChoice < ApplicationRecord
   audited associated_with: :application_form
 
   delegate :application_qualifications,
+           :application_work_experiences,
+           :application_volunteering_experiences,
            :first_name,
            :last_name,
            :date_of_birth,
            :phone_number,
+           :first_nationality,
+           :second_nationality,
            :candidate,
+           :submitted_at,
+           :uk_residency_status,
+           :english_main_language,
+           :english_language_details,
+           :other_language_details,
+           :address_line1,
+           :address_line2,
+           :address_line3,
+           :address_line4,
+           :postcode,
+           :country,
+           :further_information,
            to: :application_form
 
   enum status: {
