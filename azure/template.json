@@ -14,6 +14,12 @@
                 "description": "The abbreviation of the service name to be used when naming a resource."
             }
         },
+        "environment": {
+            "type": "string",
+            "metadata": {
+                "description": "The hosting environment (qa, production, sandbox, etc)"
+            }
+        },
         "dockerHubUsername": {
             "type": "string",
             "metadata": {

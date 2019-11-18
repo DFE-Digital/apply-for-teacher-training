@@ -81,6 +81,7 @@ jobs:
                 -databasePassword "${{parameters.databasePassword}}"
                 -databaseStorageAutoGrow "${{parameters.databaseStorageAutoGrow}}"
                 -databaseBackupRetentionDays "${{parameters.databaseBackupRetentionDays}}"
+                -environment "${{parameters.environment}}"
                 -securityAlertEmail "${{parameters.securityAlertEmail}}"
                 -secretKeyBase "${{parameters.railsSecretKeyBase}}"
                 -containerStartTimeLimit "${{parameters.containerStartTimeLimit}}"
