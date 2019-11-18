@@ -45,16 +45,4 @@ module ApplicationHelper
   def current_namespace
     params[:controller].split('/').first
   end
-
-  def heading_for_gcse_edit_type(subject)
-    t("gcse_edit_type.heading.#{subject}")
-  end
-
-  def heading_for_gcse_edit_details(subject)
-    t("gcse_edit_details.heading.#{subject}")
-  end
-
-  def heading_for_gcse_show(subject)
-    t("gcse_summary.heading.#{subject}")
-  end
 end
