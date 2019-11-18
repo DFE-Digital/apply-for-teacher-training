@@ -550,6 +550,10 @@
                                 "secureValue": "[parameters('secretKeyBase')]"
                             },
                             {
+                                "name": "CUSTOM_HOSTNAME",
+                                "value": "[parameters('customHostName')]"
+                            },
+                            {
                                 "name": "SENTRY_DSN",
                                 "value": "[parameters('sentryDSN')]"
                             },
@@ -658,6 +662,10 @@
                             {
                                 "name": "SECRET_KEY_BASE",
                                 "secureValue": "[parameters('secretKeyBase')]"
+                            },
+                            {
+                                "name": "CUSTOM_HOSTNAME",
+                                "value": "[parameters('customHostName')]"
                             },
                             {
                                 "name": "SENTRY_DSN",
