@@ -841,7 +841,7 @@
                         "value": "AZURE_IP-"
                     },
                     "ipAddresses": {
-                        "value": "[reference('app-service').outputs.possibleOutboundIpAddresses.value]"
+                        "value": "[concat(reference('app-service').outputs.possibleOutboundIpAddresses.value, array(reference('container-instances-worker').outputs.containerIPv4Address.value))]"
                     },
                     "serverName": {
                         "value": "[variables('databaseServerName')]"
