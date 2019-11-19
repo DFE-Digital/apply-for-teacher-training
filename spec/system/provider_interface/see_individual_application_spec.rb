@@ -16,6 +16,7 @@ RSpec.describe 'A Provider viewing an individual application' do
 
     and_i_should_see_the_candidates_personal_statement
     and_i_should_see_the_candidates_language_skills
+    and_i_should_see_the_candidates_references
   end
 
   def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
@@ -36,6 +37,20 @@ RSpec.describe 'A Provider viewing an individual application' do
     create_list(:application_qualification, 1, application_form: application_form, level: :degree)
     create_list(:application_qualification, 2, application_form: application_form, level: :gcse)
     create_list(:application_qualification, 3, application_form: application_form, level: :other)
+
+    create(:reference,
+           application_form: application_form,
+           name: 'R2D2',
+           email_address: 'r2d2@rebellion.org',
+           relationship: 'Astromech droid',
+           feedback: 'beep boop beep')
+
+    create(:reference,
+           application_form: application_form,
+           name: 'C3PO',
+           email_address: 'c3p0@rebellion.org',
+           relationship: 'Companion droid',
+           feedback: 'The possibility of successfully navigating training is approximately three thousand seven hundred and twenty to one')
 
     @application_choice = create(:application_choice,
                                  status: 'awaiting_provider_decision',
@@ -71,5 +86,19 @@ RSpec.describe 'A Provider viewing an individual application' do
       expect(page).to have_content 'Yes'
       expect(page).to have_content 'I also speak Spanish and German'
     end
+  end
+
+  def and_i_should_see_the_candidates_references
+    expect(page).to have_selector('[data-qa="reference"]', count: 2)
+
+    expect(page).to have_content 'R2D2'
+    expect(page).to have_content 'r2d2@rebellion.org'
+    expect(page).to have_content 'Astromech droid'
+    expect(page).to have_content 'beep boop beep'
+
+    expect(page).to have_content 'C3PO'
+    expect(page).to have_content 'c3p0@rebellion.org'
+    expect(page).to have_content 'Companion droid'
+    expect(page).to have_content 'The possibility of successfully'
   end
 end
