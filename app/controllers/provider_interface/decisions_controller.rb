@@ -37,7 +37,7 @@ module ProviderInterface
       )
 
       if @application_offer.save
-        flash[:success] = 'Application status changed to ‘Offer made’'
+        flash[:success] = 'Application status changed to ‘Offer’'
         redirect_to provider_interface_application_choice_path(
           application_choice_id: @application_choice.id,
         )

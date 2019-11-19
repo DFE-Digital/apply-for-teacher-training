@@ -11,17 +11,20 @@ RSpec.feature 'Provider makes an offer' do
 
   scenario 'Provider makes an offer' do
     given_i_am_a_provider_user_authenticated_with_dfe_sign_in
+
     when_i_respond_to_an_application
     and_i_choose_to_make_an_offer
     then_i_see_some_application_info
+
     when_i_select_standard_reasons
     and_i_add_optional_further_conditions
     and_i_click_to_continue
     then_i_am_asked_to_confirm_the_offer
     and_i_see_the_correct_offer_conditions
+
     when_i_confirm_the_offer
     then_i_am_back_to_the_application_page
-    and_i_can_see_the_application_has_has_offer_made
+    and_i_can_see_the_application_has_an_offer_made
   end
 
   def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
@@ -67,6 +70,7 @@ RSpec.feature 'Provider makes an offer' do
         application_awaiting_provider_decision.id,
       ),
     )
+    expect(page).to have_content 'Confirm offer'
   end
 
   def and_i_see_the_correct_offer_conditions
@@ -86,7 +90,7 @@ RSpec.feature 'Provider makes an offer' do
     )
   end
 
-  def and_i_can_see_the_application_has_has_offer_made
-    expect(page).to have_content 'Application status changed to ‘Offer made’'
+  def and_i_can_see_the_application_has_an_offer_made
+    expect(page).to have_content 'Application status changed to ‘Offer’'
   end
 end
