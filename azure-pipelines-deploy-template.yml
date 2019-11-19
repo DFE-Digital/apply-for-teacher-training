@@ -5,7 +5,14 @@ parameters:
   environment:
   resourceEnvironmentName:
   serviceName:
+  redisCacheSKU: 'Basic'
+  redisCacheFamily: 'C'
+  redisCacheCapacity: 1
   containerImageReference:
+  ciClockCpus: '1'
+  ciClockMemory: '1.5'
+  ciWorkerCpus: '1'
+  ciWorkerMemory: '1.5'
   keyVaultName:
   keyVaultResourceGroup:
   customHostName:
@@ -76,6 +83,13 @@ jobs:
                 -keyVaultName "${{parameters.keyVaultName}}"
                 -keyVaultResourceGroup "${{parameters.keyVaultResourceGroup}}"
                 -customHostName "${{parameters.customHostName}}"
+                -redisCacheSKU ${{parameters.redisCacheSKU}}
+                -redisCacheFamily ${{parameters.redisCacheFamily}}
+                -redisCacheCapacity ${{parameters.redisCacheCapacity}}
+                -ciClockCpus ${{parameters.ciClockCpus}}
+                -ciClockMemory ${{parameters.ciClockMemory}}
+                -ciWorkerCpus ${{parameters.ciWorkerCpus}}
+                -ciWorkerMemory ${{parameters.ciWorkerMemory}}
                 -databaseName "${{parameters.databaseName}}"
                 -databaseUsername "${{parameters.databaseUsername}}"
                 -databasePassword "${{parameters.databasePassword}}"
@@ -121,7 +135,10 @@ jobs:
                   [string] $environment = "${{parameters.environment}}"
                 )
 
-                Set-AzureRmResourceGroup -Name $resourceGroupName -Tag @{ Environment= "$environment" }
+                Set-AzureRmResourceGroup -Name $resourceGroupName -Tag @{ 
+                  Version = "$(Build.SourceVersion)";
+                  Environment = "$environment"
+                }
 
 
           - task: AzureAppServiceManage@0

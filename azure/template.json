@@ -39,6 +39,59 @@
                 "description": "Environment for the rails app."
             }
         },
+        "redisCacheSKU": {
+            "type": "string",
+            "metadata": {
+                "description": "Redis Cache service tier."
+            },
+            "allowedValues": [
+              "Basic",
+              "Standard",
+              "Premium"
+            ]
+        },
+        "redisCacheFamily": {
+            "type": "string",
+            "metadata": {
+                "description": "Redis Cache family, C for basic/standard and P for premium."
+            },
+            "allowedValues": [
+              "C",
+              "P"
+            ]
+        },
+        "redisCacheCapacity": {
+            "type": "int",
+            "metadata": {
+                "description": "Redis Cache capacity, the larger the number the more performant the cache. For premium this value can only be from 1-5."
+            },
+            "minValue": 0,
+            "maxValue": 6 
+        },
+        "ciClockCpus": {
+            "type": "string",
+            "metadata": {
+                "description": "The number of CPU cores allocated to the Clock service container instance."
+            }
+        },
+        "ciClockMemory": {
+            "type": "string",
+            "metadata": {
+                "description": "The amount of memory (in GB) allocated to the Clock service container instance."
+            }
+        },
+        "ciWorkerCpus": {
+            "type": "string",
+            "metadata": {
+                "description": "The number of CPU cores allocated to the Worker service container instance."
+            }
+        },
+        "ciWorkerMemory": {
+            "type": "string",
+            "metadata": {
+                "description": "The amount of memory (in GB) allocated to the Worker service container instance."
+            }
+        },
         "databaseName": {
             "type": "string",
             "metadata": {
@@ -282,6 +335,15 @@
                 "parameters": {
                     "redisCacheName": {
                         "value": "[parameters('redisCacheName')]"
+                    },
+                    "redisCacheSKU": {
+                        "value": "[parameters('redisCacheSKU')]"
+                    },
+                    "redisCacheFamily": {
+                        "value": "[parameters('redisCacheFamily')]"
+                    },
+                    "redisCacheCapacity": {
+                        "value": "[parameters('redisCacheCapacity')]"
                     },
                     "enableNonSslPort": {
                         "value": true
@@ -530,6 +592,12 @@
                     "imageName": {
                         "value": "[variables('containerImageName')]"
                     },
+                    "numberCpuCores": {
+                        "value": "[parameters('ciWorkerCpus')]"
+                    },
+                    "memory": {
+                        "value": "[parameters('ciWorkerMemory')]"
+                    },
 		    "command": {
 		        "value": ["/bin/sh",  "-c", "bundle exec sidekiq -c 5"]
 		    },
@@ -643,6 +711,12 @@
                     },
                     "imageName": {
                         "value": "[variables('containerImageName')]"
+                    },
+                    "numberCpuCores": {
+                        "value": "[parameters('ciClockCpus')]"
+                    },
+                    "memory": {
+                        "value": "[parameters('ciClockMemory')]"
                     },
 		    "command": {
 		        "value": ["/bin/sh", "-c", "bundle exec clockwork config/clock.rb"]
