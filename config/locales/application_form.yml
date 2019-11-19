@@ -383,11 +383,12 @@ en:
         candidate_interface/gcse_qualification_details_form:
           attributes:
             grade:
-              blank: Enter the grade
-              invalid: Enter a real graduation grade
+              blank: Enter your qualification grade
+              invalid: Enter a real qualification grade
+              too_long: Qualification grade must be %{count} characters or fewer
             award_year:
-              blank: Enter your graduation year
-              invalid: Enter a real graduation year
+              blank: Enter the year you gained your qualification
+              invalid: Enter a real year
         candidate_interface/gcse_qualification_type_form:
           attributes:
             qualification_type:

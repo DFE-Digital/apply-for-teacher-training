@@ -7,7 +7,7 @@ module CandidateInterface
     validates :grade, length: { maximum: 6 }
     validate :award_year_is_date, if: :award_year
 
-    validate :validate_grade_format
+    validate :validate_grade_format, unless: :new_record?
 
     def self.build_from_qualification(qualification)
       new(
@@ -34,7 +34,7 @@ module CandidateInterface
     end
 
     def validate_grade_format
-      return if new_record? || qualification.qualification_type.nil?
+      return if qualification.qualification_type.nil? || qualification.qualification_type == 'other_uk'
 
       qualification_rexp = invalid_grades[qualification.qualification_type.to_sym]
 
@@ -56,6 +56,8 @@ module CandidateInterface
     end
 
     def log_validation_errors(field)
+      return unless errors.key?(field)
+
       error_message = {
         field: field.to_s,
         error_messages: errors[field].join(' - '),

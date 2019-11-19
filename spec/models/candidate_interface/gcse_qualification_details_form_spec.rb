@@ -27,7 +27,7 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
         invalid_grades.each do |grade|
           form.grade = grade
           form.validate
-          expect(form.errors[:grade]).to include('Enter a real graduation grade')
+          expect(form.errors[:grade]).to include('Enter a real qualification grade')
         end
       end
 
@@ -38,7 +38,7 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
         form.save_base
 
         expect(Rails.logger).to have_received(:info).with(
-          'Validation error: {:field=>"grade", :error_messages=>"Enter a real graduation grade", :value=>"XYZ"}',
+          'Validation error: {:field=>"grade", :error_messages=>"Enter a real qualification grade", :value=>"XYZ"}',
         )
       end
     end
@@ -65,7 +65,7 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
           form.grade = grade
           form.validate
 
-          expect(form.errors[:grade]).to include('Enter a real graduation grade')
+          expect(form.errors[:grade]).to include('Enter a real qualification grade')
         end
       end
     end
@@ -92,7 +92,7 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
           form.grade = grade
           form.validate
 
-          expect(form.errors[:grade]).to include('Enter a real graduation grade')
+          expect(form.errors[:grade]).to include('Enter a real qualification grade')
         end
       end
     end
