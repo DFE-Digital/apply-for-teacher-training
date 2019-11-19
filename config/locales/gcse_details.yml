@@ -14,6 +14,23 @@ en:
       maths: Maths qualification grade and year
       english: English qualification grade and year
       science: Science qualification grade and year
+    guidance:
+      english:
+        gcse: Enter your grade for English Language GCSE. If you have a GCSE in English Literature only, enter this grade – but be aware that providers may want further evidence of your abilities in English.
+        gce_o_level: Enter your grade for English Language O level. If you have an O level in English Literature only, enter this grade – but be aware that providers may want further evidence of your abilities in English.
+      science:
+        gcse: If you have a single, double (also known as combined) or triple GCSE in science, enter your total grade.
+        gce_o_level: If you have a single, double or triple O Level in science, enter your total grade.
+        scottish_national_5: If you studied three science subjects separately or took a general science qualification, enter your total grade.
+    hint:
+      science:
+        gcse: For example, ‘A*A*A*’, ‘AA’, ‘B’, ‘999’, ‘88’, ‘7’
+        gce_o_level: For example, ‘ABC’, ‘AA’, ‘B’
+        scottish_national_5: For example, ‘A*A*A*’, ‘ABC’, ‘A’, ‘777’, ‘654’, ‘6’
+      other:
+        gcse: For example, ‘C’ or ‘4’
+        gce_o_level: For example, ‘C’
+        scottish_national_5: For example, ‘C’ or ‘4’
   gcse_summary:
     heading:
       maths: Maths GCSE or equivalent
