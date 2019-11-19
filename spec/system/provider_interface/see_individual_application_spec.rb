@@ -13,6 +13,8 @@ RSpec.describe 'A Provider viewing an individual application' do
     then_i_should_see_the_candidates_degrees
     and_i_should_see_the_candidates_gcses
     and_i_should_see_the_candidates_other_qualifications
+
+    and_i_should_see_the_candidates_personal_statement
   end
 
   def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
@@ -22,7 +24,11 @@ RSpec.describe 'A Provider viewing an individual application' do
 
   def and_my_organisation_has_received_an_application
     course_option = course_option_for_provider_code(provider_code: 'ABC')
-    application_form = create(:application_form)
+    application_form = create(:application_form,
+                              becoming_a_teacher: 'This is my personal statement',
+                              subject_knowledge: 'This is my subject knowledge',
+                              interview_preferences: 'Any date is fine',
+                              further_information: 'Nothing further to add')
 
     create_list(:application_qualification, 1, application_form: application_form, level: :degree)
     create_list(:application_qualification, 2, application_form: application_form, level: :gcse)
@@ -48,5 +54,12 @@ RSpec.describe 'A Provider viewing an individual application' do
 
   def and_i_should_see_the_candidates_other_qualifications
     expect(page).to have_selector('[data-qa="qualifications-table-other-qualification"] tbody tr', count: 3)
+  end
+
+  def and_i_should_see_the_candidates_personal_statement
+    expect(page).to have_content 'This is my personal statement'
+    expect(page).to have_content 'This is my subject knowledge'
+    expect(page).to have_content 'Any date is fine'
+    expect(page).to have_content 'Nothing further to add'
   end
 end
