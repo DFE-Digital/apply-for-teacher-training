@@ -133,6 +133,9 @@ RSpec.feature 'Candidate submit the application' do
 
   def then_i_can_see_my_submitted_application
     this_day = Time.now.strftime('%-e %B %Y')
-    expect(page).to have_content "You submitted your application on #{this_day}"
+    expect(page).to have_content t('page_titles.application_dashboard')
+    expect(page).to have_content "Application submitted on #{this_day}"
+    expect(page).to have_content 'Gorse SCITT'
+    expect(page).to have_content current_candidate.current_application.references.first.name
   end
 end

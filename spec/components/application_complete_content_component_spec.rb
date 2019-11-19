@@ -26,27 +26,6 @@ RSpec.describe ApplicationCompleteContentComponent do
     render_inline(ApplicationCompleteContentComponent, application_form: application_form)
   end
 
-  it 'renders with correct submission date' do
-    expect(render_result.text).to include('22 October 2019')
-  end
-
-  it 'renders with correct respond by date' do
-    expect(render_result.text).to include('17 December 2019')
-  end
-
-  it 'renders with correct edit by date' do
-    expect(render_result.text).to include('29 October 2019')
-  end
-
-  it 'renders link to Edit your application' do
-    expect(render_result.text).to include('Edit your application')
-  end
-
-  it 'renders with correct days remaining 2 days after submission' do
-    allow(@application_dates).to receive(:days_remaining_to_edit).and_return(5)
-    expect(render_result.text).to include('5 days')
-  end
-
   it 'renders without edit content after we have passed the expires_at date' do
     allow(@application_dates).to receive(:days_remaining_to_edit).and_return(0)
     allow(@application_dates).to receive(:form_open_to_editing?).and_return(false)

@@ -175,13 +175,6 @@
   </div>
 
   <div class="govuk-grid-column-one-third">
-    <aside class="app-related" role="complementary">
-      <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="help-title">Need help?</h2>
-
-      <p class="govuk-body-s">
-        Call <%= govuk_link_to 'Get into Teaching', 'https://getintoteaching.education.gov.uk' %> on Freephone 0800 389 2500 or chat to an adviser using their <%= govuk_link_to 'online chat service', 'https://getintoteaching.education.gov.uk/lp/live-chat' %> between 8am and 8pm, Monday to Friday
-      </p>
-    </aside>
+    <%= render '/candidate_interface/shared/need_help' %>
   </div>
-
 </div>
