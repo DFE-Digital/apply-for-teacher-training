@@ -67,7 +67,7 @@ RSpec.feature 'Vendor receives the application' do
           address_line3: 'London',
           address_line4: '',
           postcode: 'SW1P 3BT',
-          country: nil,
+          country: 'UK',
           email: @current_candidate.email_address,
         },
         course: {
