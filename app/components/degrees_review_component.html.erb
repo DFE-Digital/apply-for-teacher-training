@@ -4,9 +4,11 @@
       <h3 class="app-summary-card__title">
         <%= degree.title %>
       </h3>
-      <div class="app-summary-card__actions">
-        <%= link_to t('application_form.degree.delete'), candidate_interface_confirm_degrees_destroy_path(degree.id), class: 'govuk-link' %>
-      </div>
+      <% if @deletable %>
+        <div class="app-summary-card__actions">
+          <%= link_to t('application_form.degree.delete'), candidate_interface_confirm_degrees_destroy_path(degree.id), class: 'govuk-link' %>
+        </div>
+      <% end %>
     </header>
   <% end %>
 <% end %>

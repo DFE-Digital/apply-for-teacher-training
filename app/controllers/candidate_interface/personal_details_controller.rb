@@ -8,7 +8,7 @@ module CandidateInterface
 
     def update
       @personal_details_form = PersonalDetailsForm.new(personal_details_params)
-      @personal_details_review = PersonalDetailsReviewPresenter.new(@personal_details_form)
+      @personal_details_review = PersonalDetailsReviewPresenter.new(form: @personal_details_form)
 
       if @personal_details_form.save(current_application)
         render :show
@@ -21,7 +21,7 @@ module CandidateInterface
       personal_details_form = PersonalDetailsForm.build_from_application(
         current_application,
       )
-      @personal_details_review = PersonalDetailsReviewPresenter.new(personal_details_form)
+      @personal_details_review = PersonalDetailsReviewPresenter.new(form: personal_details_form)
     end
 
   private

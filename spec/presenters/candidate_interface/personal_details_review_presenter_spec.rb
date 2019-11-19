@@ -18,7 +18,7 @@ FactoryBot.define do
 end
 
 RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
-  describe '#present' do
+  context 'when personal details are editable' do
     it 'includes hashes for the name and date of birth' do
       personal_details_form = build(
         :personal_details_form,
@@ -170,9 +170,19 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
     end
   end
 
+  context 'when personal details are not editable' do
+    it 'does not include an edit link' do
+      rows = CandidateInterface::PersonalDetailsReviewPresenter
+        .new(form: build(:personal_details_form), editable: false)
+        .rows
+
+      expect(rows.first.has_key?(:change_path)).to eq(false)
+    end
+  end
+
   def rows(form)
     CandidateInterface::PersonalDetailsReviewPresenter
-      .new(form)
+      .new(form: form)
       .rows
   end
 
