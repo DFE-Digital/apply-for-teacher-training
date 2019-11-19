@@ -31,13 +31,4 @@ RSpec.describe SendApplicationToProvider do
     expect(application_choice.reload.reject_by_default_at.round).to eq 20.business_days.from_now.end_of_day.round
     expect(application_choice.reject_by_default_days).to eq 20
   end
-
-  it 'leaves the `reject_by_default_at` date blank if no rule is specified' do
-    time_limit_calculator = instance_double(TimeLimitCalculator, call: nil)
-    allow(TimeLimitCalculator).to receive(:new).and_return(time_limit_calculator)
-    application_choice = create_application
-    SendApplicationToProvider.new(application_choice: application_choice).call
-    expect(application_choice.reload.reject_by_default_at).to be_nil
-    expect(application_choice.reject_by_default_days).to be_nil
-  end
 end
