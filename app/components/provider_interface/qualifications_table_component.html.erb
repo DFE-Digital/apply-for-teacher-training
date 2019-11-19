@@ -1,0 +1,16 @@
+<% if qualifications.any? %>
+  <table class="govuk-table" data-qa="qualifications-table-<%= type_label.parameterize %>">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-half"><%= type_label %></th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Awarded</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Grade</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% qualifications.each do |qualification| %>
+        <%= render ProviderInterface::QualificationRowComponent, qualification: qualification %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

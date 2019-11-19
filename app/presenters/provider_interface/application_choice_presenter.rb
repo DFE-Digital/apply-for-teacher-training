@@ -1,5 +1,7 @@
 module ProviderInterface
   class ApplicationChoicePresenter
+    delegate :application_qualifications, to: :application_form
+
     def initialize(application_choice)
       @application_choice = application_choice
       @application_form = application_choice.application_form
@@ -66,6 +68,18 @@ module ProviderInterface
 
     def email_address
       application_form.candidate.email_address
+    end
+
+    def degrees
+      application_qualifications.degrees
+    end
+
+    def gcses_or_equivalent
+      application_qualifications.gcses
+    end
+
+    def other_qualifications
+      application_qualifications.other
     end
 
   private
