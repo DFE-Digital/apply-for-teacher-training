@@ -15,6 +15,7 @@ RSpec.describe 'A Provider viewing an individual application' do
     and_i_should_see_the_candidates_other_qualifications
 
     and_i_should_see_the_candidates_personal_statement
+    and_i_should_see_the_candidates_language_skills
   end
 
   def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
@@ -28,7 +29,9 @@ RSpec.describe 'A Provider viewing an individual application' do
                               becoming_a_teacher: 'This is my personal statement',
                               subject_knowledge: 'This is my subject knowledge',
                               interview_preferences: 'Any date is fine',
-                              further_information: 'Nothing further to add')
+                              further_information: 'Nothing further to add',
+                              english_main_language: true,
+                              english_language_details: 'I also speak Spanish and German')
 
     create_list(:application_qualification, 1, application_form: application_form, level: :degree)
     create_list(:application_qualification, 2, application_form: application_form, level: :gcse)
@@ -61,5 +64,12 @@ RSpec.describe 'A Provider viewing an individual application' do
     expect(page).to have_content 'This is my subject knowledge'
     expect(page).to have_content 'Any date is fine'
     expect(page).to have_content 'Nothing further to add'
+  end
+
+  def and_i_should_see_the_candidates_language_skills
+    within '[data-qa="language-skills"]' do
+      expect(page).to have_content 'Yes'
+      expect(page).to have_content 'I also speak Spanish and German'
+    end
   end
 end
