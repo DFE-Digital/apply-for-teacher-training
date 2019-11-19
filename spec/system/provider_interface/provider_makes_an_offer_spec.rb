@@ -72,7 +72,6 @@ RSpec.feature 'Provider makes an offer' do
   def and_i_see_the_correct_offer_conditions
     expect(page).to have_content 'Payment of fees'
     expect(page).to have_content 'A further condition'
-
   end
 
   def when_i_confirm_the_offer
