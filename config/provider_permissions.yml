@@ -1,0 +1,5 @@
+development: &default
+  ABC:
+    - 'ABC' # Set this as the UID when bypassing DfE Sign-in to see applications for provider code ABC
+
+production:

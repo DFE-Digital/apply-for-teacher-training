@@ -1,7 +1,7 @@
 module DfESignInHelpers
-  def provider_exists_in_dfe_sign_in(email_address: 'email@provider.ac.uk')
+  def provider_exists_in_dfe_sign_in(email_address: 'email@provider.ac.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
     OmniAuth.config.mock_auth[:dfe] = OmniAuth::AuthHash.new(
-      fake_dfe_sign_in_auth_hash(email_address: email_address),
+      fake_dfe_sign_in_auth_hash(email_address: email_address, dfe_sign_in_uid: dfe_sign_in_uid),
     )
   end
 
@@ -10,10 +10,10 @@ module DfESignInHelpers
     click_link 'Sign in using DfE Sign-in'
   end
 
-  def fake_dfe_sign_in_auth_hash(email_address:)
+  def fake_dfe_sign_in_auth_hash(email_address:, dfe_sign_in_uid:)
     {
       'provider' => 'dfe',
-      'uid' => 'DFE_SIGN_IN_UID',
+      'uid' => dfe_sign_in_uid,
       'info' => {
         'name' => 'Firstname Lastname',
         'email' => email_address,
@@ -35,7 +35,7 @@ module DfESignInHelpers
       'extra' => {
         'raw_info' => {
           'email' => email_address,
-          'sub' => 'DFE_SIGN_IN_UID',
+          'sub' => dfe_sign_in_uid,
         },
       },
     }

@@ -1,5 +1,5 @@
 class ProviderUser
-  attr_reader :email_address
+  attr_reader :email_address, :dfe_sign_in_uid
 
   def self.begin_session!(session, dfe_sign_in_session)
     session['provider_user'] = {
@@ -23,6 +23,11 @@ class ProviderUser
   end
 
   def provider
-    Provider.find_by(code: 'ABC')
+    provider_code = Rails.application.config.provider_permissions
+      .select { |_code, permitted_uids| permitted_uids.include? dfe_sign_in_uid }
+      .keys
+      .first
+
+    Provider.find_by(code: provider_code)
   end
 end
