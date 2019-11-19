@@ -191,6 +191,8 @@ stages:
       environment: 'production'
       resourceEnvironmentName: 'p01'
       serviceName: 'apply'
+      redisCacheSKU: 'Premium'
+      redisCacheFamily: 'P'
       containerImageReference: '$(imageName):$(build.buildNumber)'
       keyVaultName: 's106p01-shared-kv-01'
       keyVaultResourceGroup: 's106p01-shared-rg'
