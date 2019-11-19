@@ -42,4 +42,24 @@ RSpec.describe SummaryListComponent do
     expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include('/cat/sounds')
     expect(result.css('.govuk-summary-list__actions').text).to include('Enter cat sounds')
   end
+
+  it 'renders HTML in values when safe' do
+    rows = [
+      key: 'Safe',
+      value: '<span class="safe-html">This is safe</span>'.html_safe,
+    ]
+
+    result = render_inline(SummaryListComponent, rows: rows)
+    expect(result.css('.govuk-summary-list__value > .safe-html').text).to include('This is safe')
+  end
+
+  it 'uses simple_format to safely render unsafe HTML' do
+    rows = [
+      key: 'Unsafe',
+      value: '<span class="unsafe-html"><script>Unsafe</script></span>',
+    ]
+
+    result = render_inline(SummaryListComponent, rows: rows)
+    expect(result.css('.unsafe-html').to_html).to eq('<span class="unsafe-html">Unsafe</span>')
+  end
 end
