@@ -151,9 +151,7 @@ module VendorApi
       [
         application_form.first_nationality,
         application_form.second_nationality,
-      ].map { |n|
-        NATIONALITIES.to_h.invert[n]
-      }.compact
+      ].map { |n| NATIONALITIES_BY_NAME[n] }.compact
     end
 
     def course

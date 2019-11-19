@@ -80,7 +80,7 @@ RSpec.feature 'Vendor receives the application' do
           first_name: 'Lando',
           last_name: 'Calrissian',
           date_of_birth: '1937-04-06',
-          nationality: %w[US], # TODO: BROKEN, should be [UK, US]
+          nationality: %w[GB US],
           uk_residency_status: nil,
           english_main_language: true,
           english_language_qualifications:  "I'm great at Galactic Basic so English is a piece of cake",

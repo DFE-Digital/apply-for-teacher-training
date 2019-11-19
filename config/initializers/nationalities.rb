@@ -225,4 +225,5 @@ NATIONALITIES = [
   ['ZW', 'Zimbabwean'],
 ].freeze
 
+NATIONALITIES_BY_NAME = NATIONALITIES.map(&:reverse).to_h
 NATIONALITY_DEMONYMS = NATIONALITIES.map(&:second)
