@@ -28,18 +28,12 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      <%= f.govuk_check_boxes_fieldset :standard_conditions, small: true, legend: { text: "Standard conditions", size: "m" } do %>
-          <%= f.govuk_check_box :standard_conditions,
-            'Fitness to teach check',
-            label: { text: "Fitness to teach check" } %>
+      <%= f.govuk_check_boxes_fieldset :standard_conditions, small: true, legend: { text: 'Standard conditions', size: 'm' } do %>
+          <%= f.govuk_check_box :standard_conditions, 'Fitness to teach check', label: { text: 'Fitness to teach check' } %>
 
-          <%= f.govuk_check_box :standard_conditions,
-            'Disclosure and barring service check',
-            label: { text: "Disclosure and barring service check" } %>
+          <%= f.govuk_check_box :standard_conditions, 'Disclosure and barring service check', label: { text: 'Disclosure and barring service check' } %>
 
-          <%= f.govuk_check_box :standard_conditions,
-            'Payment of fees',
-            label: { text: "Payment of fees" } %>
+          <%= f.govuk_check_box :standard_conditions, 'Payment of fees', label: { text: 'Payment of fees' } %>
       <% end %>
 
       <div class="govuk-form-group">
@@ -51,29 +45,13 @@
           Outline any further conditions (for example, studying a subject knowledge enhancement course) and give deadlines for completing them.
         </span>
 
-        <%= f.govuk_text_area :first_condition,
-          label: { text: 'First condition', size: "s" },
-          rows: 3,
-          id: 'first_condition',
-          'aria-describedby': 'first_condition' %>
+        <%= f.govuk_text_area :first_condition, label: { text: 'First condition', size: 's' }, rows: 3, id: 'first_condition', 'aria-describedby': 'first_condition' %>
 
-        <%= f.govuk_text_area :second_condition,
-          label: { text: 'Second condition', size: "s" },
-          rows: 3,
-          id: 'second_condition',
-          'aria-describedby': 'second_condition' %>
+        <%= f.govuk_text_area :second_condition, label: { text: 'Second condition', size: 's' }, rows: 3, id: 'second_condition', 'aria-describedby': 'second_condition' %>
 
-        <%= f.govuk_text_area :third_condition,
-          label: { text: 'Third condition', size: "s" },
-          rows: 3,
-          id: 'third_condition',
-          'aria-describedby': 'third_condition' %>
+        <%= f.govuk_text_area :third_condition, label: { text: 'Third condition', size: 's' }, rows: 3, id: 'third_condition', 'aria-describedby': 'third_condition' %>
 
-        <%= f.govuk_text_area :further_condition,
-          label: { text: 'Further condition', size: "s" },
-          rows: 3,
-          id: 'further_condition',
-          'aria-describedby': 'further_condition' %>
+        <%= f.govuk_text_area :further_condition, label: { text: 'Further condition', size: 's' }, rows: 3, id: 'further_condition', 'aria-describedby': 'further_condition' %>
       </div>
 
       <%= f.govuk_submit 'Continue' %>

@@ -16,11 +16,7 @@
     <div class="govuk-grid-column-two-thirds">
       <%= f.govuk_error_summary %>
 
-      <%= render(
-        SummaryCardComponent, rows: [ { key: 'Conditions', value: @application_offer.offer_conditions },],
-        border: false,
-        bullet: true
-      ) %>
+      <%= render(SummaryCardComponent, rows: [{ key: 'Conditions', value: @application_offer.offer_conditions }], border: false, bullet: true) %>
       <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
     </div>
   </div>
