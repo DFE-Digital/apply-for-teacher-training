@@ -17,7 +17,7 @@
       Training providers must respond by <%= respond_by_date %>.
     </p>
 
-    <%= render(SubmittedCourseChoicesComponent, application_form: @application_form) %>
+    <%= render(CourseChoicesReviewComponent, application_form: @application_form, deletable: false) %>
 
     <hr class="govuk-section-break govuk-section-break--m">
 
@@ -25,7 +25,7 @@
 
     <p class="govuk-body">We’ve contacted the referees you provided below. We’ll let you know if they don’t supply a reference.</p>
 
-    <%= render(SubmittedRefereesComponent, application_form: @application_form) %>
+    <%= render(RefereesReviewComponent, application_form: @application_form, editable: false, deletable: false) %>
   </div>
 
   <div class="govuk-grid-column-one-third">

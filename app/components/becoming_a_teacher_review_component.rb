@@ -1,11 +1,12 @@
 class BecomingATeacherReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:)
+  def initialize(application_form:, editable: true)
     @application_form = application_form
     @becoming_a_teacher_form = CandidateInterface::BecomingATeacherForm.build_from_application(
       @application_form,
     )
+    @editable = editable
   end
 
   def becoming_a_teacher_form_rows
@@ -20,8 +21,8 @@ private
     {
       key: t('application_form.personal_statement.becoming_a_teacher.label'),
       value: @becoming_a_teacher_form.becoming_a_teacher,
-      action: t('application_form.personal_statement.becoming_a_teacher.change_action'),
-      change_path: Rails.application.routes.url_helpers.candidate_interface_becoming_a_teacher_edit_path,
+      action: (t('application_form.personal_statement.becoming_a_teacher.change_action') if @editable),
+      change_path: (Rails.application.routes.url_helpers.candidate_interface_becoming_a_teacher_edit_path if @editable),
     }
   end
 end

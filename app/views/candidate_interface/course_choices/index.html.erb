@@ -8,21 +8,7 @@
 <%= form_with model: @application_form, url: candidate_interface_course_choices_complete_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
   <%= f.govuk_error_summary %>
 
-  <% @course_choices.map.each do |course_choice| %>
-    <%= render(SummaryCardComponent, rows: [
-      { key: 'Course', value: "#{course_choice.course.name} (#{course_choice.course.code})" },
-      { key: 'Location', value: course_choice.site.name },
-    ]) do %>
-      <header class="app-summary-card__header">
-        <h3 class="app-summary-card__title">
-          <%= course_choice.provider.name %>
-        </h3>
-        <div class="app-summary-card__actions">
-          <%= link_to t('application_form.courses.delete'), candidate_interface_confirm_destroy_course_choice_path(course_choice.id), class: 'govuk-link' %>
-        </div>
-      </header>
-    <% end %>
-  <% end %>
+  <%= render(CourseChoicesReviewComponent, application_form: @application_form) %>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">

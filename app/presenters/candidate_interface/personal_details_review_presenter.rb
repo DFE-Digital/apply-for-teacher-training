@@ -1,7 +1,8 @@
 module CandidateInterface
   class PersonalDetailsReviewPresenter
-    def initialize(form)
+    def initialize(form:, editable: true)
       @form = form
+      @editable = editable
     end
 
     def rows
@@ -22,7 +23,7 @@ module CandidateInterface
       {
         key: I18n.t('application_form.personal_details.name.label'),
         value: @form.name,
-        action: 'name',
+        action: ('name' if @editable),
       }
     end
 
@@ -30,7 +31,7 @@ module CandidateInterface
       {
         key: I18n.t('application_form.personal_details.date_of_birth.label'),
         value: @form.date_of_birth.strftime('%e %B %Y'),
-        action: 'date of birth',
+        action: ('date of birth' if @editable),
       }
     end
 
@@ -38,7 +39,7 @@ module CandidateInterface
       {
         key: I18n.t('application_form.personal_details.nationality.label'),
         value: formatted_nationalities,
-        action: 'nationality',
+        action: ('nationality' if @editable),
       }
     end
 
@@ -46,7 +47,7 @@ module CandidateInterface
       {
         key: I18n.t('application_form.personal_details.english_main_language.label'),
         value: @form.english_main_language.titleize,
-        action: 'if English is your main language',
+        action: ('if English is your main language' if @editable),
       }
     end
 
@@ -62,7 +63,7 @@ module CandidateInterface
       {
         key: I18n.t('application_form.personal_details.english_main_language_details.label'),
         value: @form.english_language_details,
-        action: 'other languages',
+        action: ('other languages' if @editable),
       }
     end
 
@@ -70,7 +71,7 @@ module CandidateInterface
       {
         key: I18n.t('application_form.personal_details.other_language_details.label'),
         value: @form.other_language_details,
-        action: 'english languages qualifications',
+        action: ('english languages qualifications' if @editable),
       }
     end
 
@@ -84,7 +85,8 @@ module CandidateInterface
     end
 
     def add_change_path(row)
-      row[:change_path] = Rails.application.routes.url_helpers.candidate_interface_personal_details_edit_path
+      edit_path = Rails.application.routes.url_helpers.candidate_interface_personal_details_edit_path
+      row[:change_path] = edit_path if @editable
       row
     end
   end

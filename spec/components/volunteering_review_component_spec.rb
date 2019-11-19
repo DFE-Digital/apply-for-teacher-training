@@ -100,5 +100,21 @@ RSpec.describe VolunteeringReviewComponent do
         Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_volunteering_role_path(2),
       )
     end
+
+    context 'when volunteering experiences are not editable' do
+      it 'renders component without an edit link' do
+        result = render_inline(VolunteeringReviewComponent, application_form: application_form, editable: false)
+
+        expect(result.css('.app-summary-list__actions').text).not_to include('Change')
+      end
+    end
+
+    context 'when volunteering experiences are not deletable' do
+      it 'renders component without a delete link' do
+        result = render_inline(VolunteeringReviewComponent, application_form: application_form, deletable: false)
+
+        expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.volunteering.delete'))
+      end
+    end
   end
 end

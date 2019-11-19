@@ -1,8 +1,10 @@
 class WorkHistoryReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:)
+  def initialize(application_form:, editable: true, deletable: true)
     @application_form = application_form
+    @editable = editable
+    @deletable = deletable
   end
 
   def work_experience_rows(work)
@@ -20,8 +22,8 @@ class WorkHistoryReviewComponent < ActionView::Component::Base
       {
         key: 'Explanation of why you’ve been out of the workplace',
         value: @application_form.work_history_explanation,
-        action: 'explanation',
-        change_path: candidate_interface_work_history_explanation_path,
+        action: ('explanation' if @editable),
+        change_path: (candidate_interface_work_history_explanation_path if @editable),
       },
     ]
   end
@@ -31,8 +33,8 @@ class WorkHistoryReviewComponent < ActionView::Component::Base
       {
         key: t('application_form.work_history.break.label'),
         value: @application_form.work_history_breaks,
-        action: t('application_form.work_history.break.enter_label'),
-        action_path: Rails.application.routes.url_helpers.candidate_interface_work_history_breaks_path,
+        action: (t('application_form.work_history.break.enter_label') if @editable),
+        action_path: (Rails.application.routes.url_helpers.candidate_interface_work_history_breaks_path if @editable),
       },
     ]
   end
@@ -49,8 +51,8 @@ private
     {
       key: 'Job',
       value: [work.role, work.organisation],
-      action: 'job',
-      change_path: candidate_interface_work_history_edit_path(work.id),
+      action: ('job' if @editable),
+      change_path: (candidate_interface_work_history_edit_path(work.id) if @editable),
     }
   end
 
@@ -58,8 +60,8 @@ private
     {
       key: 'Type',
       value: work.commitment.dasherize.humanize,
-      action: 'type',
-      change_path: candidate_interface_work_history_edit_path(work.id),
+      action: ('type' if @editable),
+      change_path: (candidate_interface_work_history_edit_path(work.id) if @editable),
     }
   end
 
@@ -67,8 +69,8 @@ private
     {
       key: 'Description',
       value: work.details,
-      action: 'description',
-      change_path: candidate_interface_work_history_edit_path(work.id),
+      action: ('description' if @editable),
+      change_path: (candidate_interface_work_history_edit_path(work.id) if @editable),
     }
   end
 
@@ -76,8 +78,8 @@ private
     {
       key: 'Dates',
       value: "#{formatted_start_date(work)} - #{formatted_end_date(work)}",
-      action: 'description',
-      change_path: candidate_interface_work_history_edit_path(work.id),
+      action: ('description' if @editable),
+      change_path: (candidate_interface_work_history_edit_path(work.id) if @editable),
     }
   end
 

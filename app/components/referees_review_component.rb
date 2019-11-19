@@ -1,8 +1,10 @@
 class RefereesReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:)
+  def initialize(application_form:, editable: true, deletable: true)
     @application_form = application_form
+    @editable = editable
+    @deletable = deletable
   end
 
   def referee_rows(work)
@@ -22,8 +24,8 @@ private
     {
       key: 'Name',
       value: referee.name,
-      action: 'job',
-      change_path: candidate_interface_edit_referee_path(referee.id),
+      action: ('job' if @editable),
+      change_path: (candidate_interface_edit_referee_path(referee.id) if @editable),
     }
   end
 
@@ -31,8 +33,8 @@ private
     {
       key: 'Email address',
       value: referee.email_address,
-      action: 'email_address',
-      change_path: candidate_interface_edit_referee_path(referee.id),
+      action: ('email_address' if @editable),
+      change_path: (candidate_interface_edit_referee_path(referee.id) if @editable),
     }
   end
 
@@ -40,8 +42,8 @@ private
     {
       key: 'Relationship',
       value: referee.relationship,
-      action: 'relationship',
-      change_path: candidate_interface_edit_referee_path(referee.id),
+      action: ('relationship' if @editable),
+      change_path: (candidate_interface_edit_referee_path(referee.id) if @editable),
     }
   end
 end

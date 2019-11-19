@@ -13,9 +13,11 @@
           </span>
         <% end %>
       </h3>
-      <div class="app-summary-card__actions">
-        <%= link_to t('application_form.volunteering.delete'), candidate_interface_confirm_destroy_volunteering_role_path(volunteering_role.id), class: 'govuk-link' %>
-      </div>
+      <% if @deletable %>
+        <div class="app-summary-card__actions">
+          <%= link_to t('application_form.volunteering.delete'), candidate_interface_confirm_destroy_volunteering_role_path(volunteering_role.id), class: 'govuk-link' %>
+        </div>
+      <% end %>
     </header>
   <% end %>
 <% end %>
