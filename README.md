@@ -1,9 +1,10 @@
-[![Build Status](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_apis/build/status/Apply/apply-for-postgraduate-teacher-training?branchName=master)](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build/latest?definitionId=49&branchName=master)
+**BUILD:**     [![Build Status](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_apis/build/status/Apply/apply-for-postgraduate-teacher-training?branchName=master)](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build/latest?definitionId=49&branchName=master)
+
+**DEPLOY:** [![Build Status](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_apis/build/status/Apply/apply-for-postgraduate-teacher-training-releases?branchName=master)](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build/latest?definitionId=325&branchName=master)
 
 # Apply for postgraduate teacher training
 
-This service enables postgraduate candidates to apply for initial teacher
-training.
+This service enables postgraduate candidates to apply for initial teacher training.
 
 ## Environments
 
@@ -20,6 +21,7 @@ training.
 * [Prerequisites for development](#dev-prerequisites)
 * [Setting up the development environment](#dev-env-setup)
 * [Docker workflow](#docker-workflow)
+* [Releases](#releases)
 * [Webpacker](#webpacker)
   * [Debugging Webpacker](#webpacker-debug)
 * [Documentation](#documentation)
@@ -59,6 +61,23 @@ volume.
 Running `make setup` will blow away and recreate those volumes,
 destroying any data you have created in development. It is necessary
 to run it at least once before the app will boot in Docker.
+
+## <a name="releases"></a>Releases
+
+The apply build and release process is split into two separate Azure DevOps pipelines.
+- [apply-for-postgraduate-teacher-training](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build?definitionId=49&_a=summary): This is the main development CI pipeline which will automatically trigger a build from a commit to any branch within the Apply GitHub code repository. When commits are made to the master branch, this pipeline will also deploy the application to the QA infrastructure environment in Azure automatically.
+- [apply-for-postgraduate-teacher-training-releases](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build?definitionId=325&_a=summary): This is the main release pipeline that is used to deploy to all other Azure environments except QA. Releases are triggered manually and the target environments can be chosen prior to deployment.
+
+### <a name="releases-triggering"></a>Triggering Releases
+
+All members of the Apply development team are able to access the release pipeline and trigger deployments into any of the environments.
+
+1. Load the [apply-for-postgraduate-teacher-training-releases](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build?definitionId=325&_a=summary) page in Azure DevOps.
+1. Click the blue "Run pipeline" button at the top right of the page which will open the run pipeline menu.
+1. Ensure the branch is set to "master".
+1. Leave the commit box blank if you want to deploy the latest commit, otherwise enter the full commit hash that you want to deploy.
+1. Under the Variables section set the `deploy_` variables to "true" for each environment you want to deploy to. The default configuration is staging only.
+1. Click the Run button to start the deployment.
 
 ## <a name="webpacker"></a>Webpacker
 
@@ -138,8 +157,8 @@ For docker compose to make the necessary environment variables available in the 
 These steps describe the process for making environment variables available to the the Azure DevOps pipeline.
 
 1. Declare the desired variable in the appropriate "variable group" in the Library section of the Azure DevOps site (https://dfe-ssp.visualstudio.com/Become-A-Teacher/_library?itemType=VariableGroups). All variable groups related to apply are suffixed as such and there is a variable group per deployment environment.
-1. In the [azure-pipelines.yml](./azure-pipelines.yml) file there are several changes to be made:
-   1. For each "make" command script step, add your environment variable to the *env* section in the format `ENV_VAR_NAME: $(varName)` where **ENV_VAR_NAME** is the environment variable name as it should appear in the docker container and **varName** is the name of the variable defined in the Azure DevOps variable group.
+1. In the [azure-pipelines.yml](./azure-pipelines.yml) and [azure-pipelines-release.yml](./azure-pipelines-release.yml) file there are several changes to be made:
+   1. (Applies to [azure-pipelines.yml](./azure-pipelines.yml) only) For each "make" command script step, add your environment variable to the *env* section in the format `ENV_VAR_NAME: $(varName)` where **ENV_VAR_NAME** is the environment variable name as it should appear in the docker container and **varName** is the name of the variable defined in the Azure DevOps variable group.
    1. For each 'deployment stage' you must add your variable to the template *parameters* section in the format `varName: '$(varName)'`.
 1. In the [azure-pipelines-deploy-template.yaml](./azure-pipelines-deploy-template.yml) file you need to make the following additions:
    1. Add your variable to the *parameters* section at the start of the file using the name of the variable as it appears in the variable group.
