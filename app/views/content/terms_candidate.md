@@ -1,18 +1,18 @@
-Thank you for using Apply for teacher training, a digital service run by the
+Thank you for using Apply for teacher training, a service run by the
 Department for Education.
 
 Using Apply for teacher training means you agree to these terms of use.
 
 ## How to apply for teacher training courses
 
-### Stage one: submitting your initial application(s)
+### Stage 1: submitting your initial application(s)
 
-You can apply for up to three courses through Apply for teacher training at this
-stage. You can also apply to three courses through UCAS if you want to.
+You can apply for up to 3 courses through Apply for teacher training at this
+stage. You can also apply to 3 courses through UCAS if you want to.
 
-**You can only accept one offer**, even if you use both services.
+**You can only accept 1 offer**, even if you use both services.
 
-### Stage two: trying again if your application wasn’t successful
+### Stage 2: trying again if your application wasn’t successful
 
 You can apply for more courses at this stage if:
 
@@ -27,9 +27,9 @@ service](https://getintoteaching.education.gov.uk/lp/live-chat).
 
 ### Making changes to your application
 
-Get in touch with us within five working days of submitting your application if
+Get in touch with us within 5 working days of submitting your application if
 you need to make any amends. For example, you can add more courses (if you
-haven’t reached your limit of three) or change your course choices. Once we’ve
+haven’t reached your limit of 3) or change your course choices. Once we’ve
 processed your request, we won’t be able to make any more changes for you.
 
 However, you can ask us to amend your name or contact details at any point up
