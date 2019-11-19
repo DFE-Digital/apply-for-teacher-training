@@ -6,11 +6,8 @@ module ProviderInterface
     def new; end
 
     def callback
-      auth_hash = request.env['omniauth.auth']
-
-      session['provider_user'] = {
-        'email_address' => auth_hash['info']['email'],
-      }
+      dfe_sign_in_session = DfESignIn.parse_auth_hash(request.env['omniauth.auth'])
+      ProviderUser.begin_session!(session, dfe_sign_in_session)
 
       redirect_to provider_interface_path
     end

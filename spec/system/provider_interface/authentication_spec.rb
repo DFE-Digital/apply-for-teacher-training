@@ -14,7 +14,7 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
   end
 
   def given_i_have_a_dfe_sign_in_account
-    provider_exists_in_dfe_sign_in(email: 'user@provider.com')
+    provider_exists_in_dfe_sign_in(email_address: 'user@provider.com')
   end
 
   def when_i_visit_the_provider_interface
