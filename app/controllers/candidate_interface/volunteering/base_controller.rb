@@ -1,5 +1,7 @@
 module CandidateInterface
   class Volunteering::BaseController < CandidateInterfaceController
+    before_action :redirect_to_dashboard_if_submitted
+
     def new
       @volunteering_role = VolunteeringRoleForm.new
     end

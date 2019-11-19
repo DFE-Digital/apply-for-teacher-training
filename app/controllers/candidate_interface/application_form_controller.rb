@@ -1,20 +1,18 @@
 module CandidateInterface
   class ApplicationFormController < CandidateInterfaceController
+    before_action :redirect_to_dashboard_if_submitted, only: %i[show review]
+
     def show
       return redirect_to candidate_interface_application_form_path if params[:token]
 
-      if current_application.submitted?
-        @application_form = current_application
-
-        render :complete
-      else
-        @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
-
-        render :show
-      end
+      @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
     end
 
     def review
+      @application_form = current_application
+    end
+
+    def complete
       @application_form = current_application
     end
 

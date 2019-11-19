@@ -27,6 +27,12 @@ RSpec.feature 'Candidate submit the application' do
 
     when_i_click_view_application
     then_i_can_see_my_submitted_application
+
+    when_i_attempt_to_edit_my_personal_details
+    then_i_can_see_my_application_dashboard
+
+    when_i_attempt_to_edit_my_contact_details
+    then_i_can_see_my_application_dashboard
   end
 
   def given_i_am_signed_in
@@ -62,6 +68,14 @@ RSpec.feature 'Candidate submit the application' do
     candidate_fills_in_personal_details(scope: 'application_form.personal_details')
 
     click_button t('complete_form_button', scope: 'application_form.personal_details')
+  end
+
+  def when_i_attempt_to_edit_my_personal_details
+    visit candidate_interface_personal_details_edit_path
+  end
+
+  def when_i_attempt_to_edit_my_contact_details
+    visit candidate_interface_contact_details_edit_base_path
   end
 
   def and_i_filled_in_contact_details

@@ -1,5 +1,7 @@
 module CandidateInterface
   class Volunteering::DestroyController < CandidateInterfaceController
+    before_action :redirect_to_dashboard_if_submitted
+
     def confirm_destroy
       @volunteering_role = VolunteeringRoleForm.build_from_application(current_application, current_volunteering_role_id)
     end

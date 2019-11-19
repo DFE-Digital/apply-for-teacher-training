@@ -1,5 +1,6 @@
 module CandidateInterface
   class RefereesController < CandidateInterfaceController
+    before_action :redirect_to_dashboard_if_submitted
     before_action :set_referee, only: %i[edit update confirm_destroy destroy]
     before_action :set_referees, only: %i[index review]
 

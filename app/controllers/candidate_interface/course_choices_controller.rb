@@ -1,5 +1,7 @@
 module CandidateInterface
   class CourseChoicesController < CandidateInterfaceController
+    before_action :redirect_to_dashboard_if_submitted
+
     def index
       @application_form = current_application
       @course_choices = current_candidate.current_application.application_choices

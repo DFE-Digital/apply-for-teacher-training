@@ -10,6 +10,10 @@ module CandidateInterface
 
   private
 
+    def redirect_to_dashboard_if_submitted
+      redirect_to candidate_interface_application_complete_path if current_application.submitted?
+    end
+
     # controller-specific additional info to include in logstash logs
     def add_identity_to_log
       RequestLocals.store[:identity] = { candidate_id: current_candidate&.id }

@@ -18,7 +18,7 @@ class ApplicationForm < ApplicationRecord
   }
 
   def submitted?
-    application_choices.any? && !application_choices.first.unsubmitted?
+    submitted_at.present?
   end
 
   def references_complete?

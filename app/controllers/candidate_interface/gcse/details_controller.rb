@@ -1,5 +1,7 @@
 module CandidateInterface
   class Gcse::DetailsController < CandidateInterfaceController
+    before_action :redirect_to_dashboard_if_submitted
+
     before_action :set_subject
 
     # 2nd step - Edit grade and award year
