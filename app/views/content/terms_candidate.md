@@ -7,8 +7,7 @@ Using Apply for teacher training means you agree to these terms of use.
 
 ### Stage 1: submitting your initial application(s)
 
-You can apply for up to 3 courses through Apply for teacher training at this
-stage. You can also apply to 3 courses through UCAS if you want to.
+During the first round of your application, you should apply to no more than three courses in total, whether you use Apply for teacher training, UCAS Teacher Training, or a combination of the two.
 
 **You can only accept 1 offer**, even if you use both services.
 
