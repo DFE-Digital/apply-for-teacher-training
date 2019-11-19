@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'A Provider viewing an individual application' do
   include CourseOptionHelpers
-  include DfeSignInHelpers
+  include DfESignInHelpers
 
   scenario 'the application data is visible' do
     given_i_am_a_provider_user_authenticated_with_dfe_sign_in
