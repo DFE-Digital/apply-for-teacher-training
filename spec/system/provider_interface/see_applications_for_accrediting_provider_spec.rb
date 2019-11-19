@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'See applications' do
   include CourseOptionHelpers
-  include DfeSignInHelpers
+  include DfESignInHelpers
 
   scenario 'Provider visits application page' do
     given_i_am_a_provider_user_authenticated_with_dfe_sign_in

@@ -1,6 +1,7 @@
 module ProviderInterface
   class SessionsController < ProviderInterfaceController
     skip_before_action :authenticate_provider_user!
+    protect_from_forgery except: :bypass_callback
 
     def new; end
 
@@ -13,5 +14,7 @@ module ProviderInterface
 
       redirect_to provider_interface_path
     end
+
+    alias :bypass_callback :callback
   end
 end

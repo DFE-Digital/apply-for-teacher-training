@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'Provider responds to application' do
   include CourseOptionHelpers
-  include DfeSignInHelpers
+  include DfESignInHelpers
 
   let(:course_option) { course_option_for_provider_code(provider_code: 'ABC') }
   let(:application_awaiting_provider_decision) {

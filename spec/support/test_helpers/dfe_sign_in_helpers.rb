@@ -1,4 +1,4 @@
-module DfeSignInHelpers
+module DfESignInHelpers
   def provider_exists_in_dfe_sign_in(email: 'email@example.com')
     OmniAuth.config.mock_auth[:dfe] = OmniAuth::AuthHash.new(
       info: { email: email },

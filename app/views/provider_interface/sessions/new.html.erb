@@ -1,1 +1,5 @@
-<%= link_to 'Sign in using DfE Sign-in', '/auth/dfe', class: 'govuk-button' %>
+<% if DfESignIn.bypass? %>
+  <%= link_to 'Sign in using DfE Sign-in (bypass)', '/auth/developer', class: 'govuk-button' %>
+<% else %>
+  <%= link_to 'Sign in using DfE Sign-in', '/auth/dfe', class: 'govuk-button' %>
+<% end %>
