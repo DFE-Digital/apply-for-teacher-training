@@ -4,7 +4,7 @@
   <%= t('page_titles.application_dashboard') %>
 </h1>
 <p class="govuk-body govuk-hint govuk-!-margin-bottom-8">
-  Application submitted on <%= submitted_at_date %>.
+  Application submitted on <%= submitted_at_date %>. <%= govuk_link_to 'View application', candidate_interface_application_review_submitted_path %>
 </p>
 
 <div class="govuk-grid-row">

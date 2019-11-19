@@ -5,10 +5,8 @@ RSpec.feature 'Candidate submit the application' do
 
   scenario 'Candidate with personal details and contact details' do
     given_i_am_signed_in
-    and_i_have_chosen_a_course
-    and_i_filled_in_personal_details
-    and_i_filled_in_contact_details
-    and_i_gave_two_referees
+    and_i_have_completed_my_application
+
     and_reviewed_my_application
     and_i_confirm_my_application
 
@@ -25,11 +23,18 @@ RSpec.feature 'Candidate submit the application' do
     and_my_referees_receive_a_request_for_a_reference_by_email
 
     when_i_click_on_track_your_application
+    then_i_can_see_my_application_dashboard
+
+    when_i_click_view_application
     then_i_can_see_my_submitted_application
   end
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
+  end
+
+  def and_i_have_completed_my_application
+    candidate_completes_application_form
   end
 
   def and_i_have_chosen_a_course
@@ -131,11 +136,30 @@ RSpec.feature 'Candidate submit the application' do
     click_link t('submit_application_success.track_your_application')
   end
 
-  def then_i_can_see_my_submitted_application
+  def then_i_can_see_my_application_dashboard
     this_day = Time.now.strftime('%-e %B %Y')
     expect(page).to have_content t('page_titles.application_dashboard')
     expect(page).to have_content "Application submitted on #{this_day}"
     expect(page).to have_content 'Gorse SCITT'
     expect(page).to have_content current_candidate.current_application.references.first.name
+  end
+
+  def when_i_click_view_application
+    click_link 'View application'
+  end
+
+  def then_i_can_see_my_submitted_application
+    expect(page).to have_content t('page_titles.submitted_application')
+    expect(page).to have_content Time.now.strftime('%-e %B %Y')
+    expect(page).to have_content 'Gorse SCITT'
+    expect(page).to have_content 'Lando Calrissian'
+    expect(page).to have_content '07700 900 982'
+    expect(page).to have_content 'Classroom Volunteer'
+    expect(page).to have_content 'BA Doge'
+    expect(page).to have_content 'A-Level Believing in the Heart of the Cards'
+    expect(page).to have_content 'I WANT I WANT I WANT I WANT'
+    expect(page).to have_content 'Everything'
+    expect(page).to have_content 'NOT WEDNESDAY'
+    expect(page).to have_content 'Terri Tudor'
   end
 end

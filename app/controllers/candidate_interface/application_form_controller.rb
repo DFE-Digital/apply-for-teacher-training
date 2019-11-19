@@ -38,6 +38,10 @@ module CandidateInterface
       @support_reference = current_application.support_reference
     end
 
+    def review_submitted
+      @application_form = current_application
+    end
+
   private
 
     def further_information_params

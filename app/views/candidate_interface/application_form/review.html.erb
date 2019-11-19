@@ -5,58 +5,6 @@
   <%= t('review_application.heading') %>
 </h1>
 
-<h2 class="govuk-heading-m govuk-!-font-size-27">Courses</h2>
-
-<%= render(CourseChoicesReviewComponent, application_form: @application_form) %>
-
-<h2 class="govuk-heading-m govuk-!-font-size-27">About you</h2>
-
-<h3 class="govuk-heading-m">Personal details</h3>
-
-<%= render(PersonalDetailsReviewComponent, application_form: @application_form) %>
-
-<h3 class="govuk-heading-m">Contact details</h3>
-
-<%= render(ContactDetailsReviewComponent, application_form: @application_form) %>
-
-<h2 class="govuk-heading-m govuk-!-font-size-27">Work history</h2>
-
-<%= render(WorkHistoryReviewComponent, application_form: @application_form) %>
-
-<h2 class="govuk-heading-m govuk-!-font-size-27">Volunteering with children and young people</h2>
-
-<%= render(VolunteeringReviewComponent, application_form: @application_form) %>
-
-<h2 class="govuk-heading-m govuk-!-font-size-27">Qualifications</h2>
-
-<h3 class="govuk-heading-m">Degree(s)</h3>
-
-<%= render(DegreesReviewComponent, application_form: @application_form) %>
-
-<h3 class="govuk-heading-m">Maths GCSE or equivalent</h3>
-
-<%= render(GcseQualificationReviewComponent, application_qualification: @application_form.maths_gcse, subject: 'maths') %>
-
-<h3 class="govuk-heading-m">English GCSE or equivalent</h3>
-
-<%= render(GcseQualificationReviewComponent, application_qualification: @application_form.english_gcse, subject: 'english') %>
-
-<h3 class="govuk-heading-m">Science GCSE or equivalent</h3>
-
-<%= render(GcseQualificationReviewComponent, application_qualification: @application_form.science_gcse, subject: 'science') %>
-
-<h3 class="govuk-heading-m">Other relevant qualifications</h3>
-
-<%= render(OtherQualificationsReviewComponent, application_form: @application_form) %>
-
-<h2 class="govuk-heading-m govuk-!-font-size-27">Personal statement and interview</h2>
-
-<%= render(BecomingATeacherReviewComponent, application_form: @application_form) %>
-<%= render(SubjectKnowledgeReviewComponent, application_form: @application_form) %>
-<%= render(InterviewPreferencesReviewComponent, application_form: @application_form) %>
-
-<h2 class="govuk-heading-m govuk-!-font-size-27">References</h2>
-
-<%= render(RefereesReviewComponent, application_form: @application_form) %>
+<%= render 'review', application_form: @application_form, editable: true %>
 
 <%= govuk_button_link_to t('review_application.button_continue'), candidate_interface_application_submit_show_path %>
