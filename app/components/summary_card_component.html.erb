@@ -1,33 +1,6 @@
 <section class="app-summary-card govuk-!-margin-bottom-6 <%= border_css_class %>">
   <%= content %>
   <div class="app-summary-card__body">
-    <dl class="govuk-summary-list">
-      <% rows.each do |row| %>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            <%= row[:key] %>
-          </dt>
-          <dd class="govuk-summary-list__value">
-            <% if row[:value].is_a?(Array) %>
-              <% row[:value].each do |value| %><%= value %><br><% end %>
-            <% else %>
-              <%= simple_format row[:value], { class: 'govuk-body' } %>
-            <% end %>
-          </dd>
-
-          <% if row[:change_path] %>
-            <dd class="govuk-summary-list__actions">
-              <%= link_to row[:change_path], class: 'govuk-link' do %>
-                Change<span class="govuk-visually-hidden"> <%= row[:action] %></span>
-              <% end %>
-            </dd>
-          <% elsif row[:action_path] %>
-            <dd class="govuk-summary-list__actions">
-              <%= link_to row[:action], row[:action_path], class: 'govuk-link' %>
-            </dd>
-          <% end %>
-        </div>
-      <% end %>
-    </dl>
+    <%= render SummaryListComponent, rows: rows %>
   </div>
 </section>
