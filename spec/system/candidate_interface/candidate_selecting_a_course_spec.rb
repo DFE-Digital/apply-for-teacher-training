@@ -17,7 +17,7 @@ RSpec.feature 'Selecting a course' do
     then_i_see_my_completed_course_choice
 
     # attempt to add the same course
-    and_i_click_on_add_course
+    and_i_click_on_add_another_course
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
     and_i_choose_a_course
@@ -70,6 +70,10 @@ RSpec.feature 'Selecting a course' do
 
   def and_i_click_on_add_course
     click_link 'Continue'
+  end
+
+  def and_i_click_on_add_another_course
+    click_link 'Add another course'
   end
 
   def and_i_choose_that_i_know_where_i_want_to_apply
