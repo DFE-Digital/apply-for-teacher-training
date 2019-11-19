@@ -148,11 +148,10 @@ module VendorApi
     end
 
     def nationalities
-      nationalities_by_name = NATIONALITIES.map(&:reverse)
       [
         application_form.first_nationality,
         application_form.second_nationality,
-      ].map { |n| nationalities_by_name.to_h[n] }.compact
+      ].map { |n| NATIONALITIES_BY_NAME[n] }.compact
     end
 
     def course
