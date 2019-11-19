@@ -22,6 +22,7 @@ A service for candidates to apply for initial teacher training.
 * [Setting up the development environment](#dev-env-setup)
 * [Docker workflow](#docker-workflow)
 * [Releases](#releases)
+* [DfE Sign-in](#dfe-sign-in)
 * [Webpacker](#webpacker)
   * [Debugging Webpacker](#webpacker-debug)
 * [Documentation](#documentation)
@@ -78,6 +79,17 @@ All members of the Apply development team are able to access the release pipelin
 1. Leave the commit box blank if you want to deploy the latest commit, otherwise enter the full commit hash that you want to deploy.
 1. Under the Variables section set the `deploy_` variables to "true" for each environment you want to deploy to. The default configuration is staging only.
 1. Click the Run button to start the deployment.
+
+
+## <a name="dfe-sign-in"></a>DfE Sign-in
+
+The Provider interface at `/provider` is protected by DfE's SSO provider DfE
+Sign-in. Logging in requires a network connection and a user account on DfE
+Sign-in.
+
+In development you can eliminate this dependency by setting
+`BYPASS_DFE_SIGN_IN=true` in your `.env` file. This replaces the login flow
+with a dialog allowing you to specify a DfE Sign-in user to masquerade as.
 
 ## <a name="webpacker"></a>Webpacker
 
