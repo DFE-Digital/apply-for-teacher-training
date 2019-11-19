@@ -14,7 +14,7 @@
     <%= form_with model: @application_choice, url: provider_interface_application_choice_submit_response_path(@application_choice.id), method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%- offer_text = 'Make an offer (including any conditions or recommendations)' %>
+      <%- offer_text = 'Make an offer (including any conditions)' %>
       <%- reject_text = 'Reject application' %>
       <%= f.govuk_radio_buttons_fieldset :decision, inline: true, legend: { size: 'm', text: '' } do %>
         <%= f.govuk_radio_button :decision, 'offer', label: { text: offer_text } %>
