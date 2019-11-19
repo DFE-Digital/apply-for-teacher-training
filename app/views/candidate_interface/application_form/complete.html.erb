@@ -13,9 +13,11 @@
 
     <%= render(ApplicationCompleteContentComponent, application_form: @application_form) %>
 
-    <p class="govuk-body">
-      Training providers must respond by <%= respond_by_date %>.
-    </p>
+    <% if respond_by_date %>
+      <p class="govuk-body">
+        Training providers must respond by <%= respond_by_date %>.
+      </p>
+    <% end %>
 
     <%= render(CourseChoicesReviewComponent, application_form: @application_form, deletable: false) %>
 

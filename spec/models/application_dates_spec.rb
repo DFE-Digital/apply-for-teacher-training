@@ -3,8 +3,11 @@ require 'rails_helper'
 RSpec.describe ApplicationDates, type: :model do
   let(:submitted_at) { Time.zone.local(2019, 5, 1, 12, 0, 0) }
 
+  def application_form
+    @application_form ||= create(:completed_application_form, submitted_at: submitted_at)
+  end
+
   def application_dates
-    application_form = create(:application_form, submitted_at: submitted_at)
     described_class.new(application_form)
   end
 
@@ -14,9 +17,17 @@ RSpec.describe ApplicationDates, type: :model do
     end
   end
 
-  describe '#respond_by' do
-    it 'returns date that providers will respond by' do
-      expect(application_dates.respond_by).to eql(Time.zone.local(2019, 6, 28).end_of_day)
+  describe '#reject_by_default_at' do
+    it 'return nil when the reject_by_default_at is not set' do
+      expect(application_dates.reject_by_default_at).to be_nil
+    end
+
+    it 'returns date that providers will respond by when reject_by_default_at is set' do
+      reject_by_default_at = Time.zone.local(2019, 6, 28, 23, 59, 59)
+      application_form.application_choices.each do |application_choice|
+        application_choice.update(reject_by_default_at: reject_by_default_at)
+      end
+      expect(application_dates.reject_by_default_at).to eql reject_by_default_at
     end
   end
 

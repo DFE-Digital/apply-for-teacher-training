@@ -1,3 +1,5 @@
+require 'cucumber/rspec/doubles'
+
 Given(/an application choice has "(.*)" status/) do |original_application_status|
   application_form = FactoryBot.create(:application_form)
   @application_choice = FactoryBot.create(
@@ -18,8 +20,20 @@ Given('the candidate has specified {string} and {string} as referees') do |refer
                     application_form: @application_choice.application_form)
 end
 
+Given('a {int} working day time limit on {string}') do |limit, rule|
+  allow(TimeLimitConfig).to receive(:limits_for).with(rule.to_sym).and_return(
+    [
+      TimeLimitConfig::Rule.new(nil, nil, limit),
+    ],
+  )
+end
+
 When(/^the candidate submits the application$/) do
   SubmitApplication.new(@application_choice.application_form).call
+end
+
+When(/^the reject by default date is "([-\d]+)"$/) do |date|
+  expect(@application_choice.reject_by_default_at&.round).to eq Time.zone.parse(date).end_of_day.round
 end
 
 When(/^the (\w+) takes action "([\w\s]+)"$/) do |_actor, action|
@@ -42,8 +56,19 @@ end
 
 When('the daily application cron job has run') do
   SendApplicationsToProvider.new.call
+  RejectApplicationsByDefault.new.call
 end
 
 Then('the new application choice status is {string}') do |new_application_status|
   expect(@application_choice.reload.status).to eq(new_application_status.parameterize(separator: '_'))
+end
+
+When(/^the candidate submits a complete application with reference feedback$/) do
+  steps %{
+    When an application choice has "unsubmitted" status
+    And the candidate has specified "bob@example.com" and "alice@example.com" as referees
+    And the candidate submits the application
+    And "bob@example.com" provides a reference
+    And "alice@example.com" provides a reference
+  }
 end

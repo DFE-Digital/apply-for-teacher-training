@@ -1,8 +1,8 @@
 # This worker will be scheduled to run nightly
-class SendApplicationsToProviderWorker
+class RejectApplicationsByDefaultWorker
   include Sidekiq::Worker
 
   def perform
-    SendApplicationsToProvider.new.call
+    RejectApplicationsByDefault.new.call
   end
 end

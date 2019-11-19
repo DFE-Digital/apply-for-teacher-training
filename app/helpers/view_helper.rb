@@ -34,7 +34,7 @@ module ViewHelper
 
   def respond_by_date
     dates = ApplicationDates.new(@application_form)
-    dates.respond_by.strftime('%e %B %Y')
+    dates.reject_by_default_at&.strftime('%e %B %Y')
   end
 
   def edit_by_date

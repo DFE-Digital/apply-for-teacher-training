@@ -17,7 +17,8 @@ FactoryBot.define do
       other_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
       further_information { Faker::Lorem.paragraph_by_chars(number: 300) }
       uk_residency_status { 'I have the right to study and/or work in the UK' }
-      disability_disclosure { 'I have difficulty climbing stairs' }
+      disclose_disability { %w[true false].sample }
+      disability_disclosure { Faker::Lorem.paragraph_by_chars(number: 300) }
       submitted_at { Faker::Time.backward(days: 7, period: :day) }
       phone_number { Faker::PhoneNumber.cell_phone }
       address_line1 { Faker::Address.street_address }
@@ -28,7 +29,6 @@ FactoryBot.define do
       postcode { Faker::Address.postcode }
       degrees_completed { [true, false].sample }
       other_qualifications_completed { [true, false].sample }
-      volunteering_completed { [true, false].sample }
       becoming_a_teacher { Faker::Lorem.paragraph_by_chars(number: 500) }
       subject_knowledge { Faker::Lorem.paragraph_by_chars(number: 300) }
       interview_preferences { Faker::Lorem.paragraph_by_chars(number: 100) }

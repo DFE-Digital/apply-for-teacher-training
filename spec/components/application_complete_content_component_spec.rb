@@ -13,7 +13,7 @@ RSpec.describe ApplicationCompleteContentComponent do
     @application_dates = instance_double(
       ApplicationDates,
       submitted_at: Time.zone.local(2019, 10, 22, 12, 0, 0),
-      respond_by: Time.zone.local(2019, 12, 17, 12, 0, 0),
+      reject_by_default_at: Time.zone.local(2019, 12, 17, 12, 0, 0),
       edit_by: Time.zone.local(2019, 10, 29, 12, 0, 0),
       days_remaining_to_edit: 7,
       form_open_to_editing?: true,
