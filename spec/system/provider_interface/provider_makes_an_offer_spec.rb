@@ -88,6 +88,8 @@ RSpec.feature 'Provider makes an offer' do
         application_awaiting_provider_decision.id,
       ),
     )
+    expect(page).to have_content application_awaiting_provider_decision.application_form.first_name
+    expect(page).to have_content application_awaiting_provider_decision.application_form.last_name
   end
 
   def and_i_can_see_the_application_has_an_offer_made
