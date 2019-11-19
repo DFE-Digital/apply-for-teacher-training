@@ -4,7 +4,7 @@
   <%= t('page_titles.application_dashboard') %>
 </h1>
 <p class="govuk-body govuk-hint govuk-!-margin-bottom-8">
-  Application submitted on <%= render(ApplicationDateComponent, application_form: @application_form, type: :submitted_at).squish %>.
+  Application submitted on <%= submitted_at_date %>.
 </p>
 
 <div class="govuk-grid-row">
@@ -14,7 +14,7 @@
     <%= render(ApplicationCompleteContentComponent, application_form: @application_form) %>
 
     <p class="govuk-body">
-      Training providers must respond by <%= render(ApplicationDateComponent, application_form: @application_form, type: :respond_by).squish %>.
+      Training providers must respond by <%= respond_by_date %>.
     </p>
 
     <%= render(SubmittedCourseChoicesComponent, application_form: @application_form) %>

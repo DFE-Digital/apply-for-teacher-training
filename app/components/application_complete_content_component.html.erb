@@ -1,8 +1,8 @@
 <% if @dates.form_open_to_editing? %>
   <div class="govuk-inset-text">
     <p class="govuk-body">
-      You have <%= render(ApplicationDateComponent, application_form: @application_form, type: :days_remaining).squish %>
-      (until <%= render(ApplicationDateComponent, application_form: @application_form, type: :edit_by).squish %>)
+      You have <%= formatted_days_remaining %>
+      (until <%= edit_by_date %>)
       to edit your application or change your choice of provider, course or
       training location.
     </p>

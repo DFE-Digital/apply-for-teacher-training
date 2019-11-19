@@ -27,6 +27,26 @@ module ViewHelper
     ] + NATIONALITIES.map { |_, nationality| OpenStruct.new(id: nationality, name: nationality) }
   end
 
+  def submitted_at_date
+    dates = ApplicationDates.new(@application_form)
+    dates.submitted_at.strftime('%e %B %Y')
+  end
+
+  def respond_by_date
+    dates = ApplicationDates.new(@application_form)
+    dates.respond_by.strftime('%e %B %Y')
+  end
+
+  def edit_by_date
+    dates = ApplicationDates.new(@application_form)
+    dates.edit_by.strftime('%e %B %Y')
+  end
+
+  def formatted_days_remaining
+    dates = ApplicationDates.new(@application_form)
+    pluralize(dates.days_remaining_to_edit, 'day')
+  end
+
 private
 
   def prepend_css_class(css_class, current_class)
