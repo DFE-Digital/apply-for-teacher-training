@@ -92,7 +92,6 @@ module CandidateInterface
 
     def complete
       @application_form = current_application
-      @application_form.course_choices_present = true
 
       if @application_form.update(application_form_params)
         redirect_to candidate_interface_application_form_path
