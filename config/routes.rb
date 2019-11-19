@@ -237,7 +237,11 @@ Rails.application.routes.draw do
   end
 
   get '/check', to: 'healthcheck#show'
-  get '/404', to: 'errors#not_found'
-  get '/500', to: 'errors#internal_server_error'
+
+  scope via: :all do
+    match '/404', to: 'errors#not_found'
+    match '/500', to: 'errors#internal_server_error'
+  end
+
   get '*path', to: 'errors#not_found'
 end
