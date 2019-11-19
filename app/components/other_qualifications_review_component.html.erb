@@ -1,5 +1,5 @@
 <% @qualifications.each do |qualification| %>
-  <%= render(SummaryCardComponent, rows: other_qualifications_rows(qualification)) do %>
+  <%= render(SummaryCardComponent, rows: other_qualifications_rows(qualification), editable: @editable) do %>
     <header class="app-summary-card__header">
       <h3 class="app-summary-card__title">
         <%= qualification.title %>

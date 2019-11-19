@@ -1,5 +1,5 @@
 <% @application_form.references.each do |referee| %>
-  <%= render(SummaryCardComponent, rows: referee_rows(referee)) do %>
+  <%= render(SummaryCardComponent, rows: referee_rows(referee), editable: @editable) do %>
     <header class="app-summary-card__header">
       <h3 class="app-summary-card__title">
         <%= t('application_form.referees.nth_referee')[referee.ordinal] %>

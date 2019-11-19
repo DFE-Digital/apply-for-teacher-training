@@ -170,16 +170,6 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
     end
   end
 
-  context 'when personal details are not editable' do
-    it 'does not include an edit link' do
-      rows = CandidateInterface::PersonalDetailsReviewPresenter
-        .new(form: build(:personal_details_form), editable: false)
-        .rows
-
-      expect(rows.first.has_key?(:change_path)).to eq(false)
-    end
-  end
-
   def rows(form)
     CandidateInterface::PersonalDetailsReviewPresenter
       .new(form: form)

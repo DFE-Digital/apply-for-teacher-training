@@ -26,8 +26,8 @@ private
     {
       key: t('application_form.volunteering.role.review_label'),
       value: volunteering_role.role,
-      action: (t('application_form.volunteering.role.change_action') if @editable),
-      change_path: (edit_path(volunteering_role) if @editable),
+      action: t('application_form.volunteering.role.change_action'),
+      change_path: edit_path(volunteering_role),
     }
   end
 
@@ -35,8 +35,8 @@ private
     {
       key: t('application_form.volunteering.organisation.review_label'),
       value: volunteering_role.organisation,
-      action: (t('application_form.volunteering.organisation.change_action') if @editable),
-      change_path: (edit_path(volunteering_role) if @editable),
+      action: t('application_form.volunteering.organisation.change_action'),
+      change_path: edit_path(volunteering_role),
     }
   end
 
@@ -44,8 +44,8 @@ private
     {
       key: t('application_form.volunteering.length_and_details.review_label'),
       value: formatted_length_and_details(volunteering_role),
-      action: (t('application_form.volunteering.length_and_details.change_action') if @editable),
-      change_path: (edit_path(volunteering_role) if @editable),
+      action: t('application_form.volunteering.length_and_details.change_action'),
+      change_path: edit_path(volunteering_role),
     }
   end
 

@@ -1,5 +1,5 @@
 <% @degrees.each do |degree| %>
-  <%= render(SummaryCardComponent, rows: degree_rows(degree)) do %>
+  <%= render(SummaryCardComponent, rows: degree_rows(degree), editable: @editable) do %>
     <header class="app-summary-card__header">
       <h3 class="app-summary-card__title">
         <%= degree.title %>

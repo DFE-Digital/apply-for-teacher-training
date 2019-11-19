@@ -21,8 +21,8 @@ private
     {
       key: t('application_form.contact_details.phone_number.label'),
       value: @contact_details_form.phone_number,
-      action: (t('application_form.contact_details.phone_number.change_action') if @editable),
-      change_path: (Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_base_path if @editable),
+      action: t('application_form.contact_details.phone_number.change_action'),
+      change_path: Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_base_path,
     }
   end
 
@@ -30,8 +30,8 @@ private
     {
       key: t('application_form.contact_details.full_address.label'),
       value: full_address,
-      action: (t('application_form.contact_details.full_address.change_action') if @editable),
-      change_path: (Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_path if @editable),
+      action: t('application_form.contact_details.full_address.change_action'),
+      change_path: Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_path,
     }
   end
 

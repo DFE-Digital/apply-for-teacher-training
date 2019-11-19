@@ -1,5 +1,5 @@
 <% @application_form.application_work_experiences.each do |work| %>
-  <%= render(SummaryCardComponent, rows: work_experience_rows(work)) do %>
+  <%= render(SummaryCardComponent, rows: work_experience_rows(work), editable: @editable) do %>
     <header class="app-summary-card__header">
       <h3 class="app-summary-card__title">
         <%= work.role %>
@@ -22,9 +22,9 @@
 <% end %>
 
 <% if @application_form.application_work_experiences.empty? %>
-  <%= render(SummaryCardComponent, rows: no_work_experience_rows) %>
+  <%= render(SummaryCardComponent, rows: no_work_experience_rows, editable: @editable) %>
 <% end %>
 
 <% if breaks_in_work_history? %>
-  <%= render(SummaryCardComponent, rows: break_in_work_history_rows) %>
+  <%= render(SummaryCardComponent, rows: break_in_work_history_rows, editable: @editable) %>
 <% end %>

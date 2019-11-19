@@ -1,5 +1,5 @@
 <% @volunteering_roles.each do |volunteering_role| %>
-  <%= render(SummaryCardComponent, rows: volunteering_role_rows(volunteering_role)) do %>
+  <%= render(SummaryCardComponent, rows: volunteering_role_rows(volunteering_role), editable: @editable) do %>
     <header class="app-summary-card__header">
       <h3 class="app-summary-card__title">
         <%= volunteering_role.role %>

@@ -1,5 +1,5 @@
 <% if @application_qualification %>
-  <%= render(SummaryCardComponent, rows: gcse_qualification_rows) do %>
+  <%= render(SummaryCardComponent, rows: gcse_qualification_rows, editable: @editable) do %>
     <header class="app-summary-card__header">
       <h3 class="app-summary-card__title">
         GCSE
