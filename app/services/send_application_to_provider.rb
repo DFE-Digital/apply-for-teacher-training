@@ -7,8 +7,10 @@ class SendApplicationToProvider
   end
 
   def call
-    set_reject_by_default
-    ApplicationStateChange.new(application_choice).send_to_provider!
+    ActiveRecord::Base.transaction do
+      set_reject_by_default
+      ApplicationStateChange.new(application_choice).send_to_provider!
+    end
   end
 
 private
@@ -18,9 +20,9 @@ private
       rule: :reject_by_default,
       effective_date: Time.zone.now,
     ).call
-    return unless days
 
     application_choice.reject_by_default_days = days
     application_choice.reject_by_default_at = days.business_days.from_now.end_of_day
+    application_choice.save!
   end
 end
