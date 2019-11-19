@@ -234,6 +234,16 @@ Rails.application.routes.draw do
 
     get '/import-references' => 'import_references#index'
     post '/import-references' => 'import_references#import'
+
+    # https://github.com/mperham/sidekiq/wiki/Monitoring#rails-http-basic-auth-from-routes
+    require 'sidekiq/web'
+
+    Sidekiq::Web.use Rack::Auth::Basic do |username, password|
+      ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(username), ::Digest::SHA256.hexdigest(BasicAuth.get(:support, :username))) &
+        ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(password), ::Digest::SHA256.hexdigest(BasicAuth.get(:support, :password)))
+    end
+
+    mount Sidekiq::Web, at: 'sidekiq'
   end
 
   get '/check', to: 'healthcheck#show'
