@@ -4,7 +4,7 @@ RSpec.describe RefereeMailer, type: :mailer do
   subject(:mailer) { described_class }
 
   describe 'Send request reference email' do
-    let(:application_form) { create(:completed_application_form) }
+    let(:application_form) { create(:completed_application_form, first_name: 'Harry', last_name: 'Potter') }
     let(:reference) { application_form.references.first }
     let(:candidate_name) { "#{application_form.first_name} #{application_form.last_name}" }
     let(:mail) { mailer.reference_request_email(application_form, reference) }
