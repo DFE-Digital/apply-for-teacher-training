@@ -7,7 +7,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: CandidateInterface::EligibilityForm.new, url: candidate_interface_eligibility_path, method: :post do |f| %>
+    <%= form_with model: @eligibility_form, url: candidate_interface_eligibility_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset :eligible_citizen, inline: true, legend: { size: 'm', text: 'Are you a citizen of the UK, EU or EEA?' } do %>
@@ -28,11 +28,6 @@
           <li>Gorse SCITT</li>
           <li>Somerset SCITT Consortium</li>
         </ul>
-      <% end %>
-
-      <%= f.govuk_radio_buttons_fieldset :eligible_providers, inline: true, legend: { size: 'm', text: fieldset_label } do %>
-        <%= f.govuk_radio_button :eligible_providers, 'yes', label: { text: 'Yes' } %>
-        <%= f.govuk_radio_button :eligible_providers, 'no', label: { text: 'No' } %>
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>

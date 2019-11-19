@@ -47,7 +47,6 @@ RSpec.feature 'Candidate account' do
 
     find('#candidate-interface-eligibility-form-eligible-citizen-yes-field').click
     find('#candidate-interface-eligibility-form-eligible-qualifications-yes-field').click
-    find('#candidate-interface-eligibility-form-eligible-providers-yes-field').click
 
     click_on 'Continue'
   end
