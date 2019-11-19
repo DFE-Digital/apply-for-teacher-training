@@ -18,6 +18,7 @@ RSpec.feature 'Provider makes an offer' do
     and_i_add_optional_further_conditions
     and_i_click_to_continue
     then_i_am_asked_to_confirm_the_offer
+    and_i_see_the_correct_offer_conditions
     when_i_confirm_the_offer
     then_i_am_back_to_the_application_page
     and_i_can_see_the_application_has_has_offer_made
@@ -66,6 +67,12 @@ RSpec.feature 'Provider makes an offer' do
         application_awaiting_provider_decision.id,
       ),
     )
+  end
+
+  def and_i_see_the_correct_offer_conditions
+    expect(page).to have_content 'Payment of fees'
+    expect(page).to have_content 'A further condition'
+
   end
 
   def when_i_confirm_the_offer
