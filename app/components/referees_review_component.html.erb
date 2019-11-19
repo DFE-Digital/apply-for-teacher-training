@@ -4,9 +4,11 @@
       <h3 class="app-summary-card__title">
         <%= t('application_form.referees.nth_referee')[referee.ordinal] %>
       </h3>
-      <div class="app-summary-card__actions">
-        <%= link_to t('application_form.referees.delete'), candidate_interface_destroy_referee_path(referee.id), class: 'govuk-link' %>
-      </div>
+      <% if @deletable %>
+        <div class="app-summary-card__actions">
+          <%= link_to t('application_form.referees.delete'), candidate_interface_destroy_referee_path(referee.id), class: 'govuk-link' %>
+        </div>
+      <% end %>
     </header>
   <% end %>
 <% end %>
