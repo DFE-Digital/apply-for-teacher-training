@@ -86,6 +86,6 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#becoming-a-teacher-completed', text: 'Completed')
+    expect(page).to have_css('#why-do-you-want-to-be-a-teacher-badge-id', text: 'Completed')
   end
 end

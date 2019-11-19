@@ -100,6 +100,6 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#personal-details-completed', text: 'Completed')
+    expect(page).to have_css('#personal-details-badge-id', text: 'Completed')
   end
 end

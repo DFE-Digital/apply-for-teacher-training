@@ -85,11 +85,11 @@ RSpec.feature 'Candidate adding referees' do
   end
 
   def i_see_referees_is_complete
-    expect(page).to have_css('#referees-completed', text: 'Completed')
+    expect(page).to have_css('#referees-badge-id', text: 'Completed')
   end
 
   def i_see_referees_is_not_complete
-    expect(page).not_to have_css('#referees-completed', text: 'Completed')
+    expect(page).not_to have_css('#referees-badge-id', text: 'Completed')
   end
 
   def and_i_click_on_add_second_referee
