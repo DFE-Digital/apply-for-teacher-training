@@ -10,7 +10,10 @@ module CandidateInterface
 
     def determine_eligibility
       @eligibility_form = EligibilityForm.new(eligibility_params)
-      if @eligibility_form.eligible_to_use_dfe_apply?
+
+      if !@eligibility_form.valid?
+        render :eligibility
+      elsif @eligibility_form.eligible_to_use_dfe_apply?
         redirect_to candidate_interface_sign_up_path
       else
         render :not_eligible
@@ -18,7 +21,7 @@ module CandidateInterface
     end
 
     def eligibility_params
-      params.require(:candidate_interface_eligibility_form).permit(:eligible_citizen, :eligible_qualifications)
+      params.fetch(:candidate_interface_eligibility_form, {}).permit(:eligible_citizen, :eligible_qualifications)
     end
   end
 end

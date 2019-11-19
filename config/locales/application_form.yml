@@ -252,6 +252,12 @@ en:
   activemodel:
     errors:
       models:
+        candidate_interface/eligibility_form:
+          attributes:
+            eligible_citizen:
+              blank: Choose if you are a citizen of the UK, EU or EEA
+            eligible_qualifications:
+              blank: Choose if you gained all your qualifications at institutions based in the UK
         candidate_interface/personal_details_form:
           attributes:
             first_name:
