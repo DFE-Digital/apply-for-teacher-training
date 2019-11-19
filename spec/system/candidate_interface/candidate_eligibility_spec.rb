@@ -19,7 +19,6 @@ RSpec.feature 'Candidate eligibility' do
   def and_i_answer_no_to_some_questions
     find('#candidate-interface-eligibility-form-eligible-citizen-no-field').click
     find('#candidate-interface-eligibility-form-eligible-qualifications-yes-field').click
-    find('#candidate-interface-eligibility-form-eligible-providers-yes-field').click
     click_on 'Continue'
   end
 
@@ -30,7 +29,6 @@ RSpec.feature 'Candidate eligibility' do
   def when_i_answer_yes_to_all_questions
     find('#candidate-interface-eligibility-form-eligible-citizen-yes-field').click
     find('#candidate-interface-eligibility-form-eligible-qualifications-yes-field').click
-    find('#candidate-interface-eligibility-form-eligible-providers-yes-field').click
     click_on 'Continue'
   end
 

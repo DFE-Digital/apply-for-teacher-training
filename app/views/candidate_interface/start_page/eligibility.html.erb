@@ -30,11 +30,6 @@
         </ul>
       <% end %>
 
-      <%= f.govuk_radio_buttons_fieldset :eligible_providers, inline: true, legend: { size: 'm', text: fieldset_label } do %>
-        <%= f.govuk_radio_button :eligible_providers, 'yes', label: { text: 'Yes' } %>
-        <%= f.govuk_radio_button :eligible_providers, 'no', label: { text: 'No' } %>
-      <% end %>
-
       <%= f.govuk_submit 'Continue' %>
     <% end %>
   </div>

@@ -18,7 +18,7 @@ module CandidateInterface
     end
 
     def eligibility_params
-      params.require(:candidate_interface_eligibility_form).permit(:eligible_citizen, :eligible_qualifications, :eligible_providers)
+      params.require(:candidate_interface_eligibility_form).permit(:eligible_citizen, :eligible_qualifications)
     end
   end
 end
