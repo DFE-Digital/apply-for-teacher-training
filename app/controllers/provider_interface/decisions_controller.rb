@@ -20,7 +20,7 @@ module ProviderInterface
     def confirm_offer
       offer_conditions = [
         make_an_offer_params[:standard_conditions],
-        make_an_offer_params[:further_conditions]
+        make_an_offer_params[:further_conditions],
       ].flatten.reject(&:blank?)
       @application_offer = MakeAnOffer.new(
         application_choice: @application_choice,
