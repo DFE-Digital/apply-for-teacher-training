@@ -213,6 +213,7 @@ Rails.application.routes.draw do
 
     get '/sign-in' => 'sessions#new'
     get '/sign-out' => 'sessions#destroy'
+    delete '/sign-out' => 'sessions#destroy'
   end
 
   get '/auth/dfe/callback' => 'provider_interface/sessions#callback'
