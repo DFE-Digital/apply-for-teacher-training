@@ -20,3 +20,4 @@ Feature: Reject by default
     When the date is "2019-07-14"
     And the daily application cron job has run
     Then the new application choice status is "rejected"
+    And the application choice is flagged as rejected by default

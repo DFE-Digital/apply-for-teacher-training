@@ -22,4 +22,10 @@ RSpec.describe RejectApplicationByDefault do
     described_class.new(application_choice: application_choice).call
     expect(application_choice.reload.status).to eq 'rejected'
   end
+
+  it 'sets `rejected_by_default` to `true`' do
+    application_choice = create_application
+    described_class.new(application_choice: application_choice).call
+    expect(application_choice.reload.rejected_by_default).to be true
+  end
 end
