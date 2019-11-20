@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Viewing accessibility statement' do
-  scenario 'User views the accessibility statement' do
+  scenario 'Candidate views the accessibility statement' do
     given_i_am_on_the_start_page
     when_i_can_click_on_accessibility
     then_i_can_see_the_accessibility_statement
