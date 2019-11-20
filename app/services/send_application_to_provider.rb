@@ -1,6 +1,5 @@
 # This worker will be scheduled to run nightly
 class SendApplicationToProvider
-  include Rails.application.routes.url_helpers
   attr_accessor :application_choice
 
   def initialize(application_choice:)
