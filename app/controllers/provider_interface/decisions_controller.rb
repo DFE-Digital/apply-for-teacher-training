@@ -14,7 +14,37 @@ module ProviderInterface
     end
 
     def new_offer
-      raise 'Not yet implemented'
+      @application_offer = MakeAnOffer.new(application_choice: @application_choice)
+    end
+
+    def confirm_offer
+      offer_conditions = [
+        make_an_offer_params[:standard_conditions],
+        make_an_offer_params[:further_conditions],
+      ].flatten.reject(&:blank?)
+      @application_offer = MakeAnOffer.new(
+        application_choice: @application_choice,
+        offer_conditions: offer_conditions,
+      )
+      render action: :new_offer if !@application_offer.valid?
+    end
+
+    def create_offer
+      offer_conditions_array = JSON.parse(params.dig(:offer_conditions))
+
+      @application_offer = MakeAnOffer.new(
+        application_choice: @application_choice,
+        offer_conditions: offer_conditions_array,
+      )
+
+      if @application_offer.save
+        flash[:success] = 'Application status changed to ‘Offer Made’'
+        redirect_to provider_interface_application_choice_path(
+          application_choice_id: @application_choice.id,
+        )
+      else
+        render action: :new_offer
+      end
     end
 
     def new_reject
@@ -51,6 +81,10 @@ module ProviderInterface
         .find(params[:application_choice_id])
 
       @presenter = ApplicationChoicePresenter.new(@application_choice)
+    end
+
+    def make_an_offer_params
+      params.require(:make_an_offer)
     end
   end
 end

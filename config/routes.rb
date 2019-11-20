@@ -215,6 +215,9 @@ Rails.application.routes.draw do
     get '/applications/:application_choice_id/reject' => 'decisions#new_reject', as: :application_choice_new_reject
     post '/applications/:application_choice_id/reject/confirm' => 'decisions#confirm_reject', as: :application_choice_confirm_reject
     post '/applications/:application_choice_id/reject' => 'decisions#create_reject', as: :application_choice_create_reject
+    post '/applications/:application_choice_id/offer/confirm' => 'decisions#confirm_offer', as: :application_choice_confirm_offer
+    post '/applications/:application_choice_id/offer' => 'decisions#create_offer', as: :application_choice_create_offer
+
 
     get '/sign-in' => 'sessions#new'
     get '/sign-out' => 'sessions#destroy'

@@ -1,4 +1,6 @@
 class MakeAnOffer
+  attr_accessor :offer_conditions
+
   include ActiveModel::Validations
 
   MAX_CONDITIONS_COUNT = 20
@@ -6,7 +8,7 @@ class MakeAnOffer
 
   validate :validate_offer_conditions
 
-  def initialize(application_choice:, offer_conditions:)
+  def initialize(application_choice:, offer_conditions: nil)
     @application_choice = application_choice
     @offer_conditions = offer_conditions
   end
