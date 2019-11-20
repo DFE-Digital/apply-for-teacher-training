@@ -15,8 +15,11 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <%= f.govuk_error_summary %>
-
-      <%= render(SummaryCardComponent, rows: [{ key: 'Conditions', value: @application_offer.offer_conditions }], border: false, bullet: true) %>
+      <% if @application_offer.offer_conditions.empty? %>
+        <%= render(SummaryCardComponent, rows: [{ key: 'Conditions', value: 'Unconditional Offer' }], border: false) %>
+      <% else %>
+        <%= render(SummaryCardComponent, rows: [{ key: 'Conditions', value: @application_offer.offer_conditions }], border: false, bullet: true) %>
+      <% end %>
       <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
     </div>
   </div>
