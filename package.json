@@ -4,7 +4,7 @@
   "dependencies": {
     "@rails/webpacker": "^4.0.7",
     "accessible-autocomplete": "^2.0.1",
-    "govuk-frontend": "^3.3.0"
+    "govuk-frontend": "^3.4.0"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.9.0"
