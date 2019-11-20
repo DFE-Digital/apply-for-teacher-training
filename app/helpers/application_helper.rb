@@ -1,14 +1,4 @@
 module ApplicationHelper
-  def page_title(page)
-    page_title_translation_key = "page_titles.#{page}"
-
-    if I18n.exists?(page_title_translation_key)
-      "#{t(page_title_translation_key)} - #{t('page_titles.application')}"
-    else
-      t('page_titles.application')
-    end
-  end
-
   def browser_title
     page_browser_title = content_for(:browser_title).presence || content_for(:title)
     [page_browser_title, service_name, 'GOV.UK'].select(&:present?).join(' - ')

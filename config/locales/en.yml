@@ -4,6 +4,7 @@ en:
     application_form: Your application
     application_dashboard: Application dashboard
     eligibility: First, check you can use the new GOV.UK service
+    not_eligible_yet: We’re sorry, but we’re not ready for you yet
     sign_up: Create an account
     sign_in: Sign in
     check_your_email: Check your email

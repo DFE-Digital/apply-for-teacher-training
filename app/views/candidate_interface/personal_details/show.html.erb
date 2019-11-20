@@ -1,8 +1,8 @@
-<% content_for :title, page_title('personal_details') %>
+<% content_for :title, t('page_titles.personal_details') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_personal_details_edit_path) %>
 
 <h1 class="govuk-heading-xl">
-  Personal details
+  <%= t('page_titles.personal_details') %>
 </h1>
 
 <%= render(SummaryCardComponent, rows: @personal_details_review.rows) %>
