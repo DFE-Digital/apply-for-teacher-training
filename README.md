@@ -2,9 +2,9 @@
 
 **DEPLOY:** [![Build Status](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_apis/build/status/Apply/apply-for-postgraduate-teacher-training-releases?branchName=master)](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build/latest?definitionId=325&branchName=master)
 
-# Apply for postgraduate teacher training
+# Apply for teacher training
 
-This service enables postgraduate candidates to apply for initial teacher training.
+A service for candidates to apply for initial teacher training.
 
 ## Environments
 
