@@ -144,7 +144,7 @@ stages:
 - stage: deploy_qa
   displayName: 'Deploy - QA'
   dependsOn: build_test_release
-  condition: and(succeeded('build_test_release'), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranchName'], variables.devDeployBranchNameOverride)))
+  condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   variables:
   - group: APPLY - ENV - QA
   jobs:
@@ -160,6 +160,51 @@ stages:
       keyVaultName: 's106d01-shared-kv-01'
       keyVaultResourceGroup: 's106d01-shared-rg'
       customHostName: '$(govukHostname)'
+      databaseName: 'apply'
+      databaseUsername: 'applyadm512'
+      databasePassword: '$(databasePassword)'
+      databaseStorageAutoGrow: 'disabled'
+      databaseBackupRetentionDays: 7
+      dockerhubUsername: '$(dockerHubUsername)'
+      railsSecretKeyBase: '$(railsSecretKeyBase)'
+      railsEnv: 'production'
+      basicAuthUsername: '$(basicAuthUsername)'
+      basicAuthPassword: '$(basicAuthPassword)'
+      supportUsername: '$(supportUsername)'
+      supportPassword: '$(supportPassword)'
+      authorisedHosts: '$(authorisedHosts)'
+      sentryDSN: '$(sentryDSN)'
+      logstashEnable: '$(logstashEnable)'
+      logstashRemote: '$(logstashRemote)'
+      logstashHost: '$(logstashHost)'
+      logstashPort: '$(logstashPort)'
+      logstashSsl: '$(logstashSsl)'
+      govukNotifyAPIKey: '$(govukNotifyAPIKey)'
+      findBaseUrl: '$(findBaseUrl)'
+      disableBasicAuthForLandingPage: '$(disableBasicAuthForLandingPage)'
+      dfeSignInClientId: '$(dfeSignInClientId)'
+      dfeSignInSecret: '$(dfeSignInSecret)'
+      dfeSignInIssuer: '$(dfeSignInIssuer)'
+
+
+- stage: deploy_devops
+  displayName: 'Deploy - DevOps'
+  dependsOn: build_test_release
+  condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranchName'], variables.devDeployBranchNameOverride))
+  variables:
+  - group: APPLY - ENV - DevOps
+  jobs:
+  - template: azure-pipelines-deploy-template.yml
+    parameters:
+      debug: $(debug)
+      subscriptionPrefix: 's106'
+      subscriptionName: 'Apply (106) - Dev'
+      environment: 'devops'
+      resourceEnvironmentName: 'd02'
+      serviceName: 'apply'
+      containerImageReference: '$(imageName):$(build.buildNumber)'
+      keyVaultName: 's106d01-shared-kv-01'
+      keyVaultResourceGroup: 's106d01-shared-rg'
       databaseName: 'apply'
       databaseUsername: 'applyadm512'
       databasePassword: '$(databasePassword)'
