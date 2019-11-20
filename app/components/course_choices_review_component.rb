@@ -31,4 +31,27 @@ private
       value: course_choice.site.name,
     }
   end
+
+  def status_row(course_choice)
+    type =  case course_choice.status
+            when 'awaiting_references', 'application_complete'
+              :secondary
+            when 'awaiting_provider_decision'
+              :primary
+            when 'offer'
+              :info_unfilled
+            when 'rejected'
+              :danger
+            when 'pending_conditions'
+              :info
+            when 'declined'
+              :warning
+            else
+              ''
+            end
+    {
+      key: 'Status',
+      value: render(TagComponent, text: t("application_states.#{course_choice.status}"), type: type),
+    }
+  end
 end
