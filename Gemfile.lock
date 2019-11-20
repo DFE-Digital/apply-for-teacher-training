@@ -173,7 +173,7 @@ GEM
       rubocop-rails (~> 2)
       rubocop-rspec (~> 1.28)
       scss_lint
-    govuk_design_system_formbuilder (0.9.8)
+    govuk_design_system_formbuilder (1.0.0)
       actionview (>= 5.2)
       activemodel (>= 5.2)
       activesupport (>= 5.2)
@@ -487,7 +487,7 @@ DEPENDENCIES
   faker
   foreman
   govuk-lint
-  govuk_design_system_formbuilder (= 0.9.8)
+  govuk_design_system_formbuilder (= 1.0.0)
   guard-rspec
   holidays
   json-schema
