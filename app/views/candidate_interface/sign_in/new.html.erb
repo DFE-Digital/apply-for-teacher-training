@@ -1,10 +1,12 @@
-<% content_for :title, page_title('sign_in') %>
+<% content_for :title, t('page_titles.sign_in') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_start_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <h1 class="govuk-heading-xl">Sign in</h1>
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.sign_in') %>
+    </h1>
 
     <p class="govuk-body-l">Enter the email address you used to register with, and we will send you a link to sign in.</p>
 

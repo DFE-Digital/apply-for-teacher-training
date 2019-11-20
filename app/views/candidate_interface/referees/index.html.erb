@@ -1,15 +1,15 @@
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
-<%- if @referees.empty? %>
-  <% content_for :title, page_title('referees') %>
+<% if @referees.empty? %>
+  <% content_for :title, t('page_titles.referees') %>
   <h1 class="govuk-heading-xl">
     <%= t('page_titles.referees') %>
   </h1>
   <%= render partial: 'intro' %>
-<%- else %>
-
+<% else %>
   <%= render(RefereesReviewComponent, application_form: @application_form) %>
-  <% content_for :title, page_title('review_referees') %>
+
+  <% content_for :title, t('page_titles.review_referees') %>
   <h1 class="govuk-heading-xl">
     <%= t('page_titles.review_referees') %>
   </h1>

@@ -37,5 +37,7 @@ module ApplyForPostgraduateTeacherTraining
     config.time_zone = 'London'
 
     config.action_view.default_form_builder = GOVUKDesignSystemFormBuilder::FormBuilder
+
+    config.action_view.raise_on_missing_translations = true
   end
 end
