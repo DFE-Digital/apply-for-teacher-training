@@ -21,8 +21,8 @@ private
     {
       key: t('application_form.personal_statement.interview_preferences.key'),
       value: @interview_preferences_form.interview_preferences,
-      action: (t('application_form.personal_statement.interview_preferences.change_action') if @editable),
-      change_path: (Rails.application.routes.url_helpers.candidate_interface_interview_preferences_edit_path if @editable),
+      action: t('application_form.personal_statement.interview_preferences.change_action'),
+      change_path: Rails.application.routes.url_helpers.candidate_interface_interview_preferences_edit_path,
     }
   end
 end

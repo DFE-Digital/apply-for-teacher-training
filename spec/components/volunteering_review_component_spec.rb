@@ -106,13 +106,6 @@ RSpec.describe VolunteeringReviewComponent do
         result = render_inline(VolunteeringReviewComponent, application_form: application_form, editable: false)
 
         expect(result.css('.app-summary-list__actions').text).not_to include('Change')
-      end
-    end
-
-    context 'when volunteering experiences are not deletable' do
-      it 'renders component without a delete link' do
-        result = render_inline(VolunteeringReviewComponent, application_form: application_form, deletable: false)
-
         expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.volunteering.delete'))
       end
     end

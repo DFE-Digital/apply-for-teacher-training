@@ -21,8 +21,8 @@ private
     {
       key: t('application_form.personal_statement.becoming_a_teacher.label'),
       value: @becoming_a_teacher_form.becoming_a_teacher,
-      action: (t('application_form.personal_statement.becoming_a_teacher.change_action') if @editable),
-      change_path: (Rails.application.routes.url_helpers.candidate_interface_becoming_a_teacher_edit_path if @editable),
+      action: t('application_form.personal_statement.becoming_a_teacher.change_action'),
+      change_path: Rails.application.routes.url_helpers.candidate_interface_becoming_a_teacher_edit_path,
     }
   end
 end

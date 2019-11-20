@@ -1,13 +1,12 @@
 class OtherQualificationsReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:, editable: true, deletable: true)
+  def initialize(application_form:, editable: true)
     @application_form = application_form
     @qualifications = CandidateInterface::OtherQualificationForm.build_all_from_application(
       @application_form,
     )
     @editable = editable
-    @deletable = deletable
   end
 
   def other_qualifications_rows(qualification)
@@ -27,8 +26,8 @@ private
     {
       key: t('application_form.other_qualification.qualification.label'),
       value: qualification.title,
-      action: (t('application_form.other_qualification.qualification.change_action') if @editable),
-      change_path: (edit_other_qualification_path(qualification) if @editable),
+      action: t('application_form.other_qualification.qualification.change_action'),
+      change_path: edit_other_qualification_path(qualification),
     }
   end
 
@@ -36,8 +35,8 @@ private
     {
       key: t('application_form.other_qualification.institution.label'),
       value: qualification.institution_name,
-      action: (t('application_form.other_qualification.institution.change_action') if @editable),
-      change_path: (edit_other_qualification_path(qualification) if @editable),
+      action: t('application_form.other_qualification.institution.change_action'),
+      change_path: edit_other_qualification_path(qualification),
     }
   end
 
@@ -45,8 +44,8 @@ private
     {
       key: t('application_form.other_qualification.award_year.review_label'),
       value: qualification.award_year,
-      action: (t('application_form.other_qualification.award_year.change_action') if @editable),
-      change_path: (edit_other_qualification_path(qualification) if @editable),
+      action: t('application_form.other_qualification.award_year.change_action'),
+      change_path: edit_other_qualification_path(qualification),
     }
   end
 
@@ -54,8 +53,8 @@ private
     {
       key: t('application_form.other_qualification.grade.label'),
       value: qualification.grade,
-      action: (t('application_form.other_qualification.grade.change_action') if @editable),
-      change_path: (edit_other_qualification_path(qualification) if @editable),
+      action: t('application_form.other_qualification.grade.change_action'),
+      change_path: edit_other_qualification_path(qualification),
     }
   end
 

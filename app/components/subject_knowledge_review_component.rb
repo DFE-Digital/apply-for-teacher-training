@@ -21,8 +21,8 @@ private
     {
       key: t('application_form.personal_statement.subject_knowledge.key'),
       value: @subject_knowledge_form.subject_knowledge,
-      action: (t('application_form.personal_statement.subject_knowledge.change_action') if @editable),
-      change_path: (Rails.application.routes.url_helpers.candidate_interface_subject_knowledge_edit_path if @editable),
+      action: t('application_form.personal_statement.subject_knowledge.change_action'),
+      change_path: Rails.application.routes.url_helpers.candidate_interface_subject_knowledge_edit_path,
     }
   end
 end

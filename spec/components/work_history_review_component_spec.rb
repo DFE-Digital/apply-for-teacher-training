@@ -31,7 +31,7 @@ RSpec.describe WorkHistoryReviewComponent do
       end
     end
 
-    context 'when jobs are editable and deletable' do
+    context 'when jobs are editable' do
       it 'renders component with correct structure' do
         result = render_inline(WorkHistoryReviewComponent, application_form: application_form)
 
@@ -51,13 +51,6 @@ RSpec.describe WorkHistoryReviewComponent do
         result = render_inline(WorkHistoryReviewComponent, application_form: application_form, editable: false)
 
         expect(result.css('.app-summary-list__actions').text).not_to include('Change')
-      end
-    end
-
-    context 'when jobs are not deletable' do
-      it 'renders component without a delete link' do
-        result = render_inline(WorkHistoryReviewComponent, application_form: application_form, deletable: false)
-
         expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.volunteering.delete'))
       end
     end

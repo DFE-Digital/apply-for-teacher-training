@@ -1,5 +1,5 @@
 <% @volunteering_roles.each do |volunteering_role| %>
-  <%= render(SummaryCardComponent, rows: volunteering_role_rows(volunteering_role)) do %>
+  <%= render(SummaryCardComponent, rows: volunteering_role_rows(volunteering_role), editable: @editable) do %>
     <header class="app-summary-card__header">
       <h3 class="app-summary-card__title">
         <%= volunteering_role.role %>
@@ -13,7 +13,7 @@
           </span>
         <% end %>
       </h3>
-      <% if @deletable %>
+      <% if @editable %>
         <div class="app-summary-card__actions">
           <%= link_to t('application_form.volunteering.delete'), candidate_interface_confirm_destroy_volunteering_role_path(volunteering_role.id), class: 'govuk-link' %>
         </div>

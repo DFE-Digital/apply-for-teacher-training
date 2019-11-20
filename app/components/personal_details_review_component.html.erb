@@ -1,5 +1,5 @@
 <% if @personal_details_form.valid? %>
-  <%= render(SummaryCardComponent, rows: rows) %>
+  <%= render(SummaryCardComponent, rows: rows, editable: @editable) %>
 <% else %>
   <p class="govuk-body">No personal details entered.</p>
 <% end %>

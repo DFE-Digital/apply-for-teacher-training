@@ -22,7 +22,7 @@ RSpec.describe OtherQualificationsReviewComponent do
     end
   end
 
-  context 'when other qualifications are editable and deletable' do
+  context 'when other qualifications are editable' do
     it 'renders component with correct values for a qualification' do
       result = render_inline(OtherQualificationsReviewComponent, application_form: application_form)
 
@@ -77,13 +77,6 @@ RSpec.describe OtherQualificationsReviewComponent do
       result = render_inline(OtherQualificationsReviewComponent, application_form: application_form, editable: false)
 
       expect(result.css('.app-summary-list__actions').text).not_to include('Change')
-    end
-  end
-
-  context 'when other qualifications are not deletable' do
-    it 'renders component without a delete link' do
-      result = render_inline(OtherQualificationsReviewComponent, application_form: application_form, deletable: false)
-
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.other_qualification.delete'))
     end
   end

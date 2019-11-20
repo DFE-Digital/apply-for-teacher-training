@@ -1,13 +1,12 @@
 class DegreesReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:, editable: true, deletable: true)
+  def initialize(application_form:, editable: true)
     @application_form = application_form
     @degrees = CandidateInterface::DegreeForm.build_all_from_application(
       @application_form,
     )
     @editable = editable
-    @deletable = deletable
   end
 
   def degree_rows(degree)
@@ -26,8 +25,8 @@ private
     {
       key: t('application_form.degree.qualification.label'),
       value: formatted_qualification(degree),
-      action: (t('application_form.degree.qualification.change_action') if @editable),
-      change_path: (Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id) if @editable),
+      action: t('application_form.degree.qualification.change_action'),
+      change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id),
     }
   end
 
@@ -35,8 +34,8 @@ private
     {
       key: t('application_form.degree.award_year.review_label'),
       value: degree.award_year,
-      action: (t('application_form.degree.award_year.change_action') if @editable),
-      change_path: (Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id) if @editable),
+      action: t('application_form.degree.award_year.change_action'),
+      change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id),
     }
   end
 
@@ -44,8 +43,8 @@ private
     {
       key: t('application_form.degree.grade.review_label'),
       value: formatted_grade(degree),
-      action: (t('application_form.degree.grade.change_action') if @editable),
-      change_path: (Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id) if @editable),
+      action: t('application_form.degree.grade.change_action'),
+      change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id),
     }
   end
 

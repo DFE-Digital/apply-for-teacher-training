@@ -19,7 +19,7 @@
       </p>
     <% end %>
 
-    <%= render(CourseChoicesReviewComponent, application_form: @application_form, deletable: false) %>
+    <%= render(CourseChoicesReviewComponent, application_form: @application_form, editable: false) %>
 
     <hr class="govuk-section-break govuk-section-break--m">
 
@@ -27,7 +27,7 @@
 
     <p class="govuk-body">We’ve contacted the referees you provided below. We’ll let you know if they don’t supply a reference.</p>
 
-    <%= render(RefereesReviewComponent, application_form: @application_form, editable: false, deletable: false) %>
+    <%= render(RefereesReviewComponent, application_form: @application_form, editable: false) %>
   </div>
 
   <div class="govuk-grid-column-one-third">

@@ -5,7 +5,7 @@ RSpec.describe RefereesReviewComponent do
     create(:completed_application_form, references_count: 2)
   end
 
-  context 'when referees are editable and deletable' do
+  context 'when referees are editable' do
     it "renders component with correct values for a referee's name" do
       first_referee = application_form.references.first
       result = render_inline(RefereesReviewComponent, application_form: application_form)
@@ -39,13 +39,6 @@ RSpec.describe RefereesReviewComponent do
       result = render_inline(RefereesReviewComponent, application_form: application_form, editable: false)
 
       expect(result.css('.app-summary-list__actions').text).not_to include('Change')
-    end
-  end
-
-  context 'when referees are not deletable' do
-    it 'renders component without a delete link' do
-      result = render_inline(RefereesReviewComponent, application_form: application_form, deletable: false)
-
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.referees.delete'))
     end
   end

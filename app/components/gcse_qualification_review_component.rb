@@ -1,7 +1,8 @@
 class GcseQualificationReviewComponent < ActionView::Component::Base
-  def initialize(application_qualification:, subject:)
+  def initialize(application_qualification:, subject:, editable: true)
     @application_qualification = application_qualification
     @subject = subject
+    @editable = editable
   end
 
   def gcse_qualification_rows
