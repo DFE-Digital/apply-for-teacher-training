@@ -8,6 +8,7 @@ RSpec.describe CheckBreaksInWorkHistory do
     let(:february2019) { Time.zone.local(2019, 2, 1) }
     let(:march2019) { Time.zone.local(2019, 3, 1) }
     let(:june2019) { Time.zone.local(2019, 6, 1) }
+    let(:july2019) { Time.zone.local(2019, 7, 1) }
     let(:august2019) { Time.zone.local(2019, 8, 1) }
     let(:september2019) { Time.zone.local(2019, 9, 1) }
     let(:october2019) { Time.zone.local(2019, 10, 1) }
@@ -242,6 +243,62 @@ RSpec.describe CheckBreaksInWorkHistory do
         breaks_in_work_history = CheckBreaksInWorkHistory.call(application_form)
 
         expect(breaks_in_work_history).to eq(true)
+      end
+
+      it 'returns false if there are breaks in work history covered by current job' do
+        application_form = create(:application_form) do |form|
+          form.application_work_experiences.create(
+            start_date: november2018,
+            end_date: january2019,
+          )
+
+          form.application_work_experiences.create(
+            start_date: january2019,
+            end_date: nil,
+          )
+
+          form.application_work_experiences.create(
+            start_date: june2019,
+            end_date: july2019,
+          )
+
+          form.application_work_experiences.create(
+            start_date: september2019,
+            end_date: november2019,
+          )
+        end
+
+        breaks_in_work_history = CheckBreaksInWorkHistory.call(application_form)
+
+        expect(breaks_in_work_history).to eq(false)
+      end
+
+      it 'returns false if there are breaks in work history overlapped by an earlier job' do
+        application_form = create(:application_form) do |form|
+          form.application_work_experiences.create(
+            start_date: november2018,
+            end_date: january2019,
+          )
+
+          form.application_work_experiences.create(
+            start_date: january2019,
+            end_date: october2019,
+          )
+
+          form.application_work_experiences.create(
+            start_date: june2019,
+            end_date: july2019,
+          )
+
+          form.application_work_experiences.create(
+            start_date: september2019,
+            end_date: november2019,
+          )
+        end
+
+        breaks_in_work_history = CheckBreaksInWorkHistory.call(application_form)
+
+        expect(breaks_in_work_history).to eq(false)
       end
     end
   end
