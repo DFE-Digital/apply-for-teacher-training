@@ -3,34 +3,29 @@ class CheckBreaksInWorkHistory
     def call(application_form)
       jobs = application_form.application_work_experiences.sort_by(&:start_date)
 
-      return false if jobs.empty?
-      return break_between_only_job_and_current_date?(jobs.first) if jobs.one?
+      latest_end_date = nil
+      jobs.each do |job|
+        return true if month_or_more_break_between_dates?(latest_end_date, job.start_date)
 
-      jobs.each_cons(2).any? do |first_job, next_job|
-        month_or_more_break_between?(first_job, next_job)
+        return false if less_than_month_to_current_date?(job.end_date)
+
+        latest_end_date = [latest_end_date, job.end_date].compact.max
       end
+      month_or_more_break_between_end_date_and_current_date?(latest_end_date)
     end
 
   private
 
-    def break_between_only_job_and_current_date?(job)
-      if current_role?(job)
-        false
-      else
-        month_or_more_break_between_end_date_and_current_date?(job)
-      end
+    def month_or_more_break_between_end_date_and_current_date?(end_date)
+      month_or_more_break_between_dates?(end_date, Time.zone.now)
     end
 
-    def current_role?(job)
-      job.end_date.nil?
+    def month_or_more_break_between_dates?(end_date, next_date)
+      end_date.present? && end_date.next_month <= next_date
     end
 
-    def month_or_more_break_between_end_date_and_current_date?(job)
-      job.end_date.next_month <= DateTime.now
-    end
-
-    def month_or_more_break_between?(first_job, next_job)
-      first_job.end_date.next_month <= next_job.start_date
+    def less_than_month_to_current_date?(end_date)
+      end_date.nil? || end_date.next_month > Time.zone.now
     end
   end
 end
