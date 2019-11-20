@@ -22,6 +22,7 @@ A service for candidates to apply for initial teacher training.
 * [Setting up the development environment](#dev-env-setup)
 * [Docker workflow](#docker-workflow)
 * [Releases](#releases)
+* [DfE Sign-in](#dfe-sign-in)
 * [Webpacker](#webpacker)
   * [Debugging Webpacker](#webpacker-debug)
 * [Documentation](#documentation)
@@ -71,6 +72,17 @@ The apply build and release process is split into two separate Azure DevOps pipe
 ### <a name="releases-triggering"></a>Deploying
 
 👉 [See the deployment guide](/docs/deployment.md)
+
+
+## <a name="dfe-sign-in"></a>DfE Sign-in
+
+The Provider interface at `/provider` is protected by DfE's SSO provider DfE
+Sign-in. Logging in requires a network connection and a user account on DfE
+Sign-in.
+
+In development you can eliminate this dependency by setting
+`BYPASS_DFE_SIGN_IN=true` in your `.env` file. This replaces the login flow
+with a dialog allowing you to specify a DfE Sign-in user to masquerade as.
 
 ## <a name="webpacker"></a>Webpacker
 
