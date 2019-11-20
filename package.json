@@ -2,7 +2,6 @@
   "name": "apply-for-postgraduate-teacher-training",
   "private": true,
   "dependencies": {
-    "@rails/ujs": "^6.0.1",
     "@rails/webpacker": "^4.0.7",
     "accessible-autocomplete": "^2.0.1",
     "govuk-frontend": "^3.4.0"
