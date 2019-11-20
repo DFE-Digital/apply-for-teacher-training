@@ -126,6 +126,42 @@ RSpec.describe CheckBreaksInWorkHistory do
         expect(breaks_in_work_history).to eq(true)
       end
 
+      it 'returns true if the second job ended more than a month ago' do
+        application_form = create(:application_form) do |form|
+          form.application_work_experiences.create(
+            start_date: november2018,
+            end_date: december2018,
+          )
+
+          form.application_work_experiences.create(
+            start_date: december2018,
+            end_date: febuary2019,
+          )
+        end
+
+        breaks_in_work_history = CheckBreaksInWorkHistory.call(application_form)
+
+        expect(breaks_in_work_history).to eq(true)
+      end
+
+      it 'returns false if the second job ended more than a month ago but the first job is current' do
+        application_form = create(:application_form) do |form|
+          form.application_work_experiences.create(
+            start_date: november2018,
+            end_date: nil,
+          )
+
+          form.application_work_experiences.create(
+            start_date: december2018,
+            end_date: febuary2019,
+          )
+        end
+
+        breaks_in_work_history = CheckBreaksInWorkHistory.call(application_form)
+
+        expect(breaks_in_work_history).to eq(false)
+      end
+
       it 'returns true if there is a break regardless of creation order' do
         application_form = create(:application_form) do |form|
           form.application_work_experiences.create(
