@@ -7,7 +7,7 @@ Using Apply for teacher training means you agree to these terms of use.
 
 ### Stage 1: submitting your initial application(s)
 
-During the first round of your application, you should apply to no more than three courses in total, whether you use Apply for teacher training, UCAS Teacher Training, or a combination of the two.
+During the first round of your application, you should apply to no more than 3 courses in total, whether you use Apply for teacher training, UCAS Teacher Training, or a combination of the two.
 
 **You can only accept 1 offer**, even if you use both services.
 
@@ -71,5 +71,5 @@ Contact [Get Into Teaching](https://getintoteaching.education.gov.uk/get-help-an
 chat service](https://getintoteaching.education.gov.uk/lp/live-chat).
 
 We typically respond within one working day for urgent queries. It can take up
-to five working days for less urgent queries. Unfortunately, we can’t provide
+to 5 working days for less urgent queries. Unfortunately, we can’t provide
 support over the weekend.
