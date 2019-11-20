@@ -1,17 +1,20 @@
 class CourseChoicesReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:, editable: true)
+  def initialize(application_form:, editable: true, show_status: false)
     @application_form = application_form
     @course_choices = @application_form.application_choices
     @editable = editable
+    @show_status = show_status
   end
 
   def course_choice_rows(course_choice)
     [
       course_row(course_choice),
       location_row(course_choice),
-    ]
+    ].tap do |r|
+      r << status_row(course_choice) if @show_status
+    end
   end
 
 private
@@ -51,7 +54,7 @@ private
             end
     {
       key: 'Status',
-      value: render(TagComponent, text: t("application_states.#{course_choice.status}"), type: type),
+      value: render(TagComponent, text: t("candidate_application_states.#{course_choice.status}"), type: type),
     }
   end
 end

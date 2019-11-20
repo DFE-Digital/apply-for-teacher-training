@@ -13,13 +13,7 @@
 
     <%= render(ApplicationCompleteContentComponent, application_form: @application_form) %>
 
-    <% if respond_by_date %>
-      <p class="govuk-body">
-        Training providers must respond by <%= respond_by_date %>.
-      </p>
-    <% end %>
-
-    <%= render(CourseChoicesReviewComponent, application_form: @application_form, editable: false) %>
+    <%= render(CourseChoicesReviewComponent, application_form: @application_form, editable: false, show_status: true) %>
 
     <hr class="govuk-section-break govuk-section-break--m">
 
