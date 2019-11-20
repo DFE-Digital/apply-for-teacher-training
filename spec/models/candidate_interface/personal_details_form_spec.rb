@@ -9,8 +9,8 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
       first_nationality: NATIONALITY_DEMONYMS.sample,
       second_nationality: NATIONALITY_DEMONYMS.sample,
       english_main_language: true,
-      english_language_details: Faker::Lorem.paragraph_by_chars(number: 200),
-      other_language_details: '',
+      english_language_details: '',
+      other_language_details: Faker::Lorem.paragraph_by_chars(number: 200),
     }
   end
 
@@ -72,8 +72,9 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
       expect(application_form).to have_attributes(data)
     end
 
-    it 'saves the English language details only if English is the main language' do
+    it 'saves the English language details only if English is not the main language' do
       application_form = FactoryBot.create(:application_form)
+      data[:english_main_language] = false
       personal_details = CandidateInterface::PersonalDetailsForm.new(form_data)
 
       personal_details.save(application_form)
@@ -82,9 +83,8 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
       expect(application_form.other_language_details).to eq('')
     end
 
-    it 'saves the other language details only if English is not the main language' do
+    it 'saves the other language details only if English is the main language' do
       application_form = FactoryBot.create(:application_form)
-      data[:english_main_language] = false
       data[:other_language_details] = Faker::Lorem.paragraph_by_chars(number: 200)
       personal_details = CandidateInterface::PersonalDetailsForm.new(form_data)
 
