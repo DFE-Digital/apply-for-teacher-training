@@ -9,8 +9,6 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m govuk-!-font-size-27">Courses you’ve applied to</h2>
-
     <%= render(ApplicationCompleteContentComponent, application_form: @application_form) %>
 
     <%= render(CourseChoicesReviewComponent, application_form: @application_form, editable: false, show_status: true) %>
