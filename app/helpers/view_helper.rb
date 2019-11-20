@@ -29,17 +29,17 @@ module ViewHelper
 
   def submitted_at_date
     dates = ApplicationDates.new(@application_form)
-    dates.submitted_at.strftime('%e %B %Y')
+    dates.submitted_at.strftime('%e %B %Y').strip
   end
 
   def respond_by_date
     dates = ApplicationDates.new(@application_form)
-    dates.reject_by_default_at&.strftime('%e %B %Y')
+    dates.reject_by_default_at.strftime('%e %B %Y').strip if dates.reject_by_default_at
   end
 
   def edit_by_date
     dates = ApplicationDates.new(@application_form)
-    dates.edit_by.strftime('%e %B %Y')
+    dates.edit_by.strftime('%e %B %Y').strip
   end
 
   def formatted_days_remaining
