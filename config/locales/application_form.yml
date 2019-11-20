@@ -48,7 +48,7 @@ en:
     contact_details:
       phone_number:
         label: Phone number
-        hint_text: For non-UK numbers, include the country code
+        hint_text: Enter a landline or mobile. For non-UK numbers, include the country code
         change_action: phone number
       full_address:
         label: Address
