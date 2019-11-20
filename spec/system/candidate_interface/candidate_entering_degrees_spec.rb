@@ -86,7 +86,8 @@ RSpec.feature 'Entering their degrees' do
 
     choose t('application_form.degree.grade.first.label')
 
-    fill_in t('application_form.degree.award_year.label'), with: '2009'
+    year_with_preceding_space = ' 2009'
+    fill_in t('application_form.degree.award_year.label'), with: year_with_preceding_space
   end
 
   def then_i_can_check_my_undergraduate_degree
