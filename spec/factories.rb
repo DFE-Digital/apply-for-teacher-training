@@ -6,7 +6,7 @@ FactoryBot.define do
   factory :application_form do
     candidate
 
-    trait :completed_application_form do
+    factory :completed_application_form do
       first_name { Faker::Name.first_name }
       last_name { Faker::Name.last_name }
       date_of_birth { Faker::Date.birthday }
@@ -42,9 +42,7 @@ FactoryBot.define do
         qualifications_count { 4 }
         references_count { 2 }
       end
-    end
 
-    factory :completed_application_form, traits: [:completed_application_form] do
       after(:build) do |application_form, evaluator|
         create_list(:application_choice, evaluator.application_choices_count, application_form: application_form)
         create_list(:application_work_experience, evaluator.work_experiences_count, application_form: application_form)

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe InterviewPreferencesReviewComponent do
-  let(:application_form) { create(:application_form, :completed_application_form) }
+  let(:application_form) { create(:completed_application_form) }
 
   context 'when interview preferences is editable' do
     it 'renders SummaryCardComponent with valid becoming a teacher' do

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe BecomingATeacherReviewComponent do
-  let(:application_form) { create(:application_form, :completed_application_form) }
+  let(:application_form) { create(:completed_application_form) }
 
   context 'when becoming a teacher is editable' do
     it 'renders SummaryCardComponent with valid becoming a teacher' do
