@@ -5,13 +5,19 @@ RSpec.describe CheckBreaksInWorkHistory do
     let(:november2018) { Time.zone.local(2018, 11, 1) }
     let(:december2018) { Time.zone.local(2018, 12, 1) }
     let(:january2019) { Time.zone.local(2019, 1, 1) }
-    let(:febuary2019) { Time.zone.local(2019, 2, 1) }
+    let(:february2019) { Time.zone.local(2019, 2, 1) }
     let(:march2019) { Time.zone.local(2019, 3, 1) }
     let(:june2019) { Time.zone.local(2019, 6, 1) }
     let(:august2019) { Time.zone.local(2019, 8, 1) }
     let(:september2019) { Time.zone.local(2019, 9, 1) }
     let(:october2019) { Time.zone.local(2019, 10, 1) }
     let(:november2019) { Time.zone.local(2019, 11, 1) }
+
+    around do |example|
+      Timecop.freeze(Time.zone.local(2019, 11, 15)) do
+        example.run
+      end
+    end
 
     context 'when there are no jobs' do
       it 'returns false' do
@@ -99,7 +105,7 @@ RSpec.describe CheckBreaksInWorkHistory do
 
           form.application_work_experiences.create(
             start_date: january2019,
-            end_date: febuary2019,
+            end_date: february2019,
           )
         end
 
@@ -116,7 +122,7 @@ RSpec.describe CheckBreaksInWorkHistory do
           )
 
           form.application_work_experiences.create(
-            start_date: febuary2019,
+            start_date: february2019,
             end_date: march2019,
           )
         end
@@ -135,7 +141,7 @@ RSpec.describe CheckBreaksInWorkHistory do
 
           form.application_work_experiences.create(
             start_date: december2018,
-            end_date: febuary2019,
+            end_date: february2019,
           )
         end
 
@@ -153,7 +159,7 @@ RSpec.describe CheckBreaksInWorkHistory do
 
           form.application_work_experiences.create(
             start_date: december2018,
-            end_date: febuary2019,
+            end_date: february2019,
           )
         end
 
@@ -165,7 +171,7 @@ RSpec.describe CheckBreaksInWorkHistory do
       it 'returns true if there is a break regardless of creation order' do
         application_form = create(:application_form) do |form|
           form.application_work_experiences.create(
-            start_date: febuary2019,
+            start_date: february2019,
             end_date: march2019,
           )
 
@@ -196,7 +202,7 @@ RSpec.describe CheckBreaksInWorkHistory do
 
           form.application_work_experiences.create(
             start_date: august2019,
-            end_date: october2019,
+            end_date: november2019,
           )
         end
 
