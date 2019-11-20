@@ -10,12 +10,13 @@ $govuk-font-url-function: frontend-font-url;
 $govuk-image-url-function: frontend-image-url;
 
 @import "~govuk-frontend/govuk/all";
-@import "_task-list";
-@import "_summary-card";
 @import "_banner";
-@import "_status-box";
-@import "_styled-content";
 @import "_environments";
+@import "_footer";
+@import "_status-box";
+@import "_task-list";
+@import "_styled-content";
+@import "_summary-card";
 
 .autocomplete__wrapper, .autocomplete__input, .autocomplete__hint {
   font-family: $govuk-font-family;
