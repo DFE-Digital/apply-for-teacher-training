@@ -5,7 +5,7 @@ module CandidateInterface
     end
 
     def updated_at
-      "Last saved on #{@application_form.updated_at.strftime('%d %B %Y')} at #{@application_form.updated_at.strftime('%H:%M %p')}"
+      "Last saved on #{@application_form.updated_at.strftime('%d %B %Y')} at #{@application_form.updated_at.strftime('%l:%M%P')}"
     end
 
     def application_choices_added?
