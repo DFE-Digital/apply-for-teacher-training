@@ -57,7 +57,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
         form = CandidateInterface::GcseQualificationTypeForm.build_from_qualification(qualification)
 
         expect(form.valid?).to eq false
-        expect(form.errors[:other_uk_qualification_type]).to include('Enter the type of your degree')
+        expect(form.errors[:other_uk_qualification_type]).to include('Enter the type of qualification')
       end
     end
 
