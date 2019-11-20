@@ -30,8 +30,8 @@ RSpec.describe StateChangeNotifier do
     describe ':submit_application' do
       before { StateChangeNotifier.call(:submit_application, application_choice: application_choice) }
 
-      it 'mentions applicant\'s first name, course name and provider name' do
-        arg1 = "#{applicant} applied for #{course_name} with #{provider_name}"
+      it 'mentions applicant\'s first name' do
+        arg1 = "#{applicant} has just submitted an application"
         expect(SlackNotificationWorker).to have_received(:perform_async).with(arg1, anything)
       end
 

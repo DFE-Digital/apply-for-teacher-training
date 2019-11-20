@@ -69,6 +69,3 @@ RSpec/PredicateMatcher:
 
 RSpec/DescribeClass:
   Enabled: false
-
-RSpec/MessageSpies:
-  Enabled: false

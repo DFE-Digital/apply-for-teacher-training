@@ -28,8 +28,9 @@ RSpec.describe SubmitApplication do
     end
 
     it 'sends Slack notifications' do
-      expect(SlackNotificationWorker).to receive(:perform_async).twice # two application choices
+      allow(SlackNotificationWorker).to receive(:perform_async)
       SubmitApplication.new(application_form).call
+      expect(SlackNotificationWorker).to have_received(:perform_async).once # per application_form, not application_choices
     end
   end
 end

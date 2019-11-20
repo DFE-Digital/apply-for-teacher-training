@@ -15,6 +15,7 @@ class SubmitApplication
 
     CandidateMailer.submit_application_email(application_form).deliver_now
     send_reference_request_email_to_referees(application_form)
+    StateChangeNotifier.call(:submit_application, application_choice: application_choices.first)
   end
 
 private
@@ -29,16 +30,6 @@ private
     application_choices.each do |application_choice|
       application_choice.edit_by = ApplicationDates.new(application_form).edit_by
       ApplicationStateChange.new(application_choice).submit!
-      StateChangeNotifier.call(:submit_application, application_choice: application_choice)
     end
-  end
-
-  def notify_slack
-    course_name = @application_choice&.course&.name_and_code
-    applicant = @application_choice&.application_form&.first_name
-    application_form_id = @application_choice&.application_form&.id
-    text = "#{applicant}'s application for #{course_name} has just been submitted"
-    url = support_interface_application_form_url(application_form_id) rescue nil
-    SlackNotificationWorker.perform_async(text, url)
   end
 end

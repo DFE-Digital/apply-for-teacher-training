@@ -5,9 +5,9 @@ RSpec.describe MagicLinkSignUp do
     let(:candidate) { create(:candidate) }
 
     it 'sends a Slack notification' do
-      expect(SlackNotificationWorker).to receive(:perform_async)
-
+      allow(SlackNotificationWorker).to receive(:perform_async)
       MagicLinkSignUp.call(candidate: candidate)
+      expect(SlackNotificationWorker).to have_received(:perform_async)
     end
   end
 end
