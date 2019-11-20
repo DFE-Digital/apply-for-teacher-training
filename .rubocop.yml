@@ -34,10 +34,6 @@ RSpec/ExampleLength:
 RSpec/MultipleExpectations:
   Enabled: false
 
-RSpec/DescribeClass:
-  Exclude:
-    - 'spec/system/**/*'
-
 RSpec/ContextWording:
   Enabled: false
 
