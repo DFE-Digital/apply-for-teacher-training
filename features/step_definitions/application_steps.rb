@@ -63,6 +63,10 @@ Then('the new application choice status is {string}') do |new_application_status
   expect(@application_choice.reload.status).to eq(new_application_status.parameterize(separator: '_'))
 end
 
+Then('the application choice is flagged as rejected by default') do
+  expect(@application_choice.reload.rejected_by_default).to be true
+end
+
 When(/^the candidate submits a complete application with reference feedback$/) do
   steps %{
     When an application choice has "unsubmitted" status
