@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::SignUpForm, type: :model do
   let(:valid_email) { Faker::Internet.email }
-  let(:invalid_email) { Faker::Lorem.characters(number: 251) }
+  let(:too_long_email) { Faker::Lorem.characters(number: 251) }
+  let(:wrong_format_email) { 'abc' }
   let(:given_email) { valid_email }
   let(:candidate) { build_stubbed(:candidate, email_address: given_email) }
 
@@ -24,8 +25,8 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
       allow(candidate).to receive(:update!)
     end
 
-    context 'when email_address is invalid' do
-      let(:given_email) { invalid_email }
+    context 'when email_address is too long' do
+      let(:given_email) { too_long_email }
 
       it 'returns false' do
         expect(the_form.save(candidate)).to eq(false)
@@ -76,6 +77,7 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
     it { is_expected.to validate_presence_of(:email_address) }
 
     it { is_expected.to allow_value('test@example.com').for(:email_address) }
-    it { is_expected.not_to allow_value(invalid_email).for(:email_address) }
+    it { is_expected.not_to allow_value(too_long_email).for(:email_address) }
+    it { is_expected.not_to allow_value(wrong_format_email).for(:email_address) }
   end
 end
