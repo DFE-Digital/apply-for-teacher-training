@@ -12,9 +12,24 @@
 
       <%= f.govuk_radio_buttons_fieldset :qualification_type, legend: { size: 'm', text: 'Type of qualification' } do %>
         <% select_gcse_qualification_type_options.each do |option| %>
-          <% if conditional_radios_for_gcse_qualifications[option.id] %>
+          <% if option.id == :other_uk %>
+
             <%= f.govuk_radio_button :qualification_type, option.id, label: { text: option.label } do %>
               <% f.govuk_text_field :other_uk_qualification_type, label: { text: 'Enter type of qualification' } %>
+            <% end %>
+
+          <% elsif option.id == :missing %>
+            <%= f.govuk_radio_button :qualification_type, option.id, label: { text: option.label } do %>
+              <div class="govuk-form-group">
+                <%= f.govuk_text_area :missing_explanation,
+                                      label: { text: 'If you are already on your way to gaining this qualification, give us details.' },
+                                      rows: 12,
+                                      max_words: 200 do %>
+                  <span id="gcse-undefined-missing-hint" class="govuk-hint">
+                    You can still apply for teacher training if you are missing this qualification or its equivalent. However, it will need to be in place by the start of your course. For advice, contact your chosen training provider or <a href="https://getintoteaching.education.gov.uk/get-help-and-support/">Get into teaching</a>.
+                  </span>
+                <% end %>
+              </div>
             <% end %>
           <% else %>
             <%= f.govuk_radio_button :qualification_type, option.id, label: { text: option.label } %>

@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(version: 2019_11_18_161155) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "other_uk_qualification_type", limit: 100
     t.index ["application_form_id"], name: "index_application_qualifications_on_application_form_id"
+    t.text "missing_explanation"
   end
 
   create_table "audits", force: :cascade do |t|

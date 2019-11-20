@@ -10,4 +10,8 @@ class ApplicationQualification < ApplicationRecord
     gcse: 'gcse',
     other: 'other',
   }
+
+  def missing_qualification?
+    qualification_type == 'missing'
+  end
 end

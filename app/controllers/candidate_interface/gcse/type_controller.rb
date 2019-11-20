@@ -9,11 +9,11 @@ module CandidateInterface
 
     def update
       @application_qualification = find_or_build_qualification_form
-      @application_qualification.qualification_type = qualification_params[:qualification_type]
-      @application_qualification.other_uk_qualification_type = qualification_params[:other_uk_qualification_type]
+
+      @application_qualification.set_attributes(qualification_params)
 
       if @application_qualification.save_base(current_candidate.current_application)
-        redirect_to candidate_interface_gcse_details_edit_details_path
+        redirect_to next_gcse_path
       else
         render :edit
       end
@@ -42,9 +42,17 @@ module CandidateInterface
       params.require(:subject)
     end
 
+    def next_gcse_path
+      if @application_qualification.missing_qualification?
+        candidate_interface_gcse_review_path
+      else
+        candidate_interface_gcse_details_edit_details_path
+      end
+    end
+
     def qualification_params
       params.require(:candidate_interface_gcse_qualification_type_form)
-            .permit(:qualification_type, :other_uk_qualification_type)
+        .permit(:qualification_type, :other_uk_qualification_type, :missing_explanation)
     end
   end
 end
