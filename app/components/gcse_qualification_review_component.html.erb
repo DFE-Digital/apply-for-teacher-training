@@ -2,7 +2,12 @@
   <%= render(SummaryCardComponent, rows: gcse_qualification_rows, editable: @editable) do %>
     <header class="app-summary-card__header">
       <h3 class="app-summary-card__title">
-        GCSE
+        <%= if @application_qualification.missing_qualification?
+              t('gcse_edit_type.types.missing')
+            else
+              t('gcse_edit_type.types.gcse')
+            end
+        %>
       </h3>
     </header>
   <% end %>

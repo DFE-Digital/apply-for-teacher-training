@@ -402,6 +402,9 @@ en:
             other_uk_qualification_type:
               blank: Enter the type of qualification
               too_long: Type of degree must be %{count} characters or fewer
+            missing_explanation:
+              blank: Give us some details
+
         candidate_interface/volunteering_experience_form:
           attributes:
             experience:

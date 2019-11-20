@@ -101,6 +101,7 @@ ActiveRecord::Schema.define(version: 2019_11_18_161155) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "other_uk_qualification_type", limit: 100
+    t.text "missing_explanation"
     t.index ["application_form_id"], name: "index_application_qualifications_on_application_form_id"
   end
 

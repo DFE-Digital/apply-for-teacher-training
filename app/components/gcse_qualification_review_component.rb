@@ -6,11 +6,15 @@ class GcseQualificationReviewComponent < ActionView::Component::Base
   end
 
   def gcse_qualification_rows
-    [
-      qualification_row,
-      award_year_row,
-      grade_row,
-    ]
+    if application_qualification.missing_qualification?
+      [missing_qualification_row]
+    else
+      [
+        qualification_row,
+        award_year_row,
+        grade_row,
+      ]
+    end
   end
 
 private
@@ -38,6 +42,14 @@ private
       key: 'Grade',
       value: application_qualification.grade ? application_qualification.grade.upcase : t('gcse_summary.not_specified'),
       change_path: candidate_interface_gcse_details_edit_details_path(subject: subject),
+    }
+  end
+
+  def missing_qualification_row
+    {
+      key: 'How I expect to gain this qualification',
+      value: application_qualification.missing_explanation.present? ? application_qualification.missing_explanation : t('gcse_summary.not_specified'),
+      change_path: candidate_interface_gcse_details_edit_type_path(subject: subject),
     }
   end
 
