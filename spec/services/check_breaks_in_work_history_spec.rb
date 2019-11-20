@@ -106,7 +106,7 @@ RSpec.describe CheckBreaksInWorkHistory do
 
           form.application_work_experiences.create(
             start_date: january2019,
-            end_date: february2019,
+            end_date: november2019,
           )
         end
 

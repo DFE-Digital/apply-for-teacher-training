@@ -5,35 +5,31 @@ class CheckBreaksInWorkHistory
 
       previous_end_date = nil
       jobs.each do |job|
-        return true if previous_end_date && previous_end_date.next_month <= job.start_date
+        return true if month_or_more_break_between_dates?(previous_end_date, job.start_date)
 
-        return false if job.end_date.nil? || job.end_date.next_month > Time.zone.now
+        return false if less_than_month_to_current_date?(job.end_date)
 
         previous_end_date = [previous_end_date, job.end_date].compact.max
       end
-      previous_end_date.present? && previous_end_date.next_month <= Time.zone.now
+      month_or_more_break_between_end_date_and_current_date?(previous_end_date)
     end
 
   private
-
-    def break_between_job_and_current_date?(job)
-      if current_role?(job)
-        false
-      else
-        month_or_more_break_between_end_date_and_current_date?(job)
-      end
-    end
 
     def current_role?(job)
       job.end_date.nil?
     end
 
-    def month_or_more_break_between_end_date_and_current_date?(job)
-      job.end_date && job.end_date.next_month <= Time.zone.now
+    def month_or_more_break_between_end_date_and_current_date?(end_date)
+      month_or_more_break_between_dates?(end_date, Time.zone.now)
     end
 
-    def month_or_more_break_between?(first_job, next_job)
-      first_job.end_date && first_job.end_date.next_month <= next_job.start_date
+    def month_or_more_break_between_dates?(end_date, next_date)
+      end_date.present? && end_date.next_month <= next_date
+    end
+
+    def less_than_month_to_current_date?(end_date)
+      end_date.nil? || end_date.next_month > Time.zone.now
     end
   end
 end
