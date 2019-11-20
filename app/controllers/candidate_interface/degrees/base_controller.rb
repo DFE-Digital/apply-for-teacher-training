@@ -41,6 +41,7 @@ module CandidateInterface
         :id, :qualification_type, :subject, :institution_name, :grade, :other_grade,
         :predicted_grade, :award_year
       )
+        .transform_values(&:strip)
     end
 
     def render_new
