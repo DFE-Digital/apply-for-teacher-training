@@ -33,6 +33,7 @@ module ApplyForPostgraduateTeacherTraining
     config.action_mailer.preview_path = "#{Rails.root}/app/mailers/previews"
 
     config.providers_to_sync = config_for(:providers_to_sync)
+    config.provider_permissions = config_for(:provider_permissions)
 
     config.time_zone = 'London'
 

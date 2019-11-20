@@ -4,16 +4,15 @@ RSpec.feature 'See providers' do
   include FindAPIHelper
 
   scenario 'User visits providers page' do
-    given_providers_are_configured_to_be_synced do
-      given_i_am_a_support_user
-      when_i_visit_the_providers_page
-      and_i_click_the_sync_button
-      then_requests_to_find_should_be_made
-      and_i_should_see_the_updated_list_of_providers
+    given_i_am_a_support_user
+    and_providers_are_configured_to_be_synced
+    when_i_visit_the_providers_page
+    and_i_click_the_sync_button
+    then_requests_to_find_should_be_made
+    and_i_should_see_the_updated_list_of_providers
 
-      when_i_click_on_a_provider
-      then_i_see_the_providers_courses_and_sites
-    end
+    when_i_click_on_a_provider
+    then_i_see_the_providers_courses_and_sites
   end
 
   def given_i_am_a_support_user
@@ -24,13 +23,9 @@ RSpec.feature 'See providers' do
     visit support_interface_providers_path
   end
 
-  def given_providers_are_configured_to_be_synced
-    former_provider_list = Rails.application.config.providers_to_sync
-    new_provider_list = { codes: %w[ABC DEF GHI] }
-
-    Rails.application.config.providers_to_sync = new_provider_list
-    yield
-    Rails.application.config.providers_to_sync = former_provider_list
+  def and_providers_are_configured_to_be_synced
+    allow(Rails.application.config).to receive(:providers_to_sync)
+      .and_return(codes: %w[ABC DEF GHI])
   end
 
   def then_i_should_see_the_providers

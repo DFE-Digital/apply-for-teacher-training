@@ -7,7 +7,9 @@ RSpec.feature 'See applications' do
   scenario 'Provider visits application page' do
     given_i_am_a_provider_user_authenticated_with_dfe_sign_in
     and_my_organisation_has_applications
-    and_i_visit_the_provider_page
+    and_i_am_permitted_to_see_applications_for_my_provider
+
+    when_i_visit_the_provider_page
     then_i_should_see_the_applications_from_my_organisation
     but_not_the_applications_from_other_providers
 
@@ -16,8 +18,15 @@ RSpec.feature 'See applications' do
   end
 
   def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
-    provider_exists_in_dfe_sign_in
+    @dfe_sign_in_uid = 'MY_SIGN_IN_UID'
+
+    provider_exists_in_dfe_sign_in(dfe_sign_in_uid: @dfe_sign_in_uid)
     provider_signs_in_using_dfe_sign_in
+  end
+
+  def and_i_am_permitted_to_see_applications_for_my_provider
+    allow(Rails.application.config).to receive(:provider_permissions)
+      .and_return(ABC: [@dfe_sign_in_uid])
   end
 
   def and_my_organisation_has_applications
@@ -29,7 +38,7 @@ RSpec.feature 'See applications' do
     create(:application_choice, status: 'awaiting_provider_decision', course_option: other_course_option, application_form: create(:completed_application_form, first_name: 'Charlie'))
   end
 
-  def and_i_visit_the_provider_page
+  def when_i_visit_the_provider_page
     visit provider_interface_path
   end
 
