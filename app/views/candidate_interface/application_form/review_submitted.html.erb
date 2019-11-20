@@ -1,0 +1,19 @@
+<% content_for :title, t('page_titles.submitted_application') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application dashboard') %>
+
+<h1 class="govuk-heading-xl">
+  <%= t('page_titles.submitted_application') %>
+</h1>
+
+<dl class="govuk-summary-list app-summary">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Date submitted
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= submitted_at_date %>
+    </dd>
+  </div>
+</dl>
+
+<%= render 'review', application_form: @application_form, editable: false %>
