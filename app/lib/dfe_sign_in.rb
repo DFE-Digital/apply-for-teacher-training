@@ -4,7 +4,7 @@ module DfESignIn
   def self.parse_auth_hash(openid_auth_hash)
     DfESignInSession.new(
       openid_auth_hash['info']['email'],
-      openid_auth_hash['uid']
+      openid_auth_hash['uid'],
     )
   end
 
