@@ -13,7 +13,8 @@ RSpec.describe 'A Provider viewing an individual application' do
     then_i_should_see_the_candidates_degrees
     and_i_should_see_the_candidates_gcses
     and_i_should_see_the_candidates_other_qualifications
-
+    and_i_should_see_the_candidates_work_history
+    and_i_should_see_the_candidates_volunteering_history
     and_i_should_see_the_candidates_personal_statement
     and_i_should_see_the_candidates_language_skills
     and_i_should_see_the_candidates_references
@@ -37,6 +38,20 @@ RSpec.describe 'A Provider viewing an individual application' do
     create_list(:application_qualification, 1, application_form: application_form, level: :degree)
     create_list(:application_qualification, 2, application_form: application_form, level: :gcse)
     create_list(:application_qualification, 3, application_form: application_form, level: :other)
+
+    create(:application_work_experience,
+           application_form: application_form,
+           role: 'Smuggler',
+           organisation: 'The Empire',
+           details: 'I used to work for The Empire',
+           working_with_children: false)
+
+    create(:application_volunteering_experience,
+           application_form: application_form,
+           role: 'Defence co-ordinator',
+           organisation: 'Rebel Alliance',
+           details: 'Worked with children to help them survive clone attacks',
+           working_with_children: true)
 
     create(:reference,
            application_form: application_form,
@@ -72,6 +87,32 @@ RSpec.describe 'A Provider viewing an individual application' do
 
   def and_i_should_see_the_candidates_other_qualifications
     expect(page).to have_selector('[data-qa="qualifications-table-other-qualification"] tbody tr', count: 3)
+  end
+
+  def and_i_should_see_the_candidates_work_history
+    within '[data-qa="work-history"]' do
+      expect(page).to have_content 'Smuggler'
+      expect(page).to have_content 'The Empire'
+      expect(page).to have_content 'I used to work for'
+      expect(page).not_to have_content 'This role involved working with children'
+
+      # Work history is not editable
+      expect(page).not_to have_content 'Change'
+      expect(page).not_to have_content 'Delete'
+    end
+  end
+
+  def and_i_should_see_the_candidates_volunteering_history
+    within '[data-qa="volunteering"]' do
+      expect(page).to have_content 'Defence co-ordinator'
+      expect(page).to have_content 'Rebel Alliance'
+      expect(page).to have_content 'survive clone attacks'
+      expect(page).to have_content 'This role involved working with children'
+
+      # Volunteering is not editable
+      expect(page).not_to have_content 'Change'
+      expect(page).not_to have_content 'Delete'
+    end
   end
 
   def and_i_should_see_the_candidates_personal_statement
