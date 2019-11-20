@@ -68,16 +68,9 @@ The apply build and release process is split into two separate Azure DevOps pipe
 - [apply-for-postgraduate-teacher-training](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build?definitionId=49&_a=summary): This is the main development CI pipeline which will automatically trigger a build from a commit to any branch within the Apply GitHub code repository. When commits are made to the master branch, this pipeline will also deploy the application to the QA infrastructure environment in Azure automatically.
 - [apply-for-postgraduate-teacher-training-releases](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build?definitionId=325&_a=summary): This is the main release pipeline that is used to deploy to all other Azure environments except QA. Releases are triggered manually and the target environments can be chosen prior to deployment.
 
-### <a name="releases-triggering"></a>Triggering Releases
+### <a name="releases-triggering"></a>Deploying
 
-All members of the Apply development team are able to access the release pipeline and trigger deployments into any of the environments.
-
-1. Load the [apply-for-postgraduate-teacher-training-releases](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build?definitionId=325&_a=summary) page in Azure DevOps.
-1. Click the blue "Run pipeline" button at the top right of the page which will open the run pipeline menu.
-1. Ensure the branch is set to "master".
-1. Leave the commit box blank if you want to deploy the latest commit, otherwise enter the full commit hash that you want to deploy.
-1. Under the Variables section set the `deploy_` variables to "true" for each environment you want to deploy to. The default configuration is staging only.
-1. Click the Run button to start the deployment.
+👉 [See the deployment guide](/docs/deployment.md)
 
 ## <a name="webpacker"></a>Webpacker
 
