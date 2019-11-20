@@ -6,6 +6,9 @@ class RejectApplicationByDefault
   end
 
   def call
-    ApplicationStateChange.new(application_choice).reject_application!
+    ActiveRecord::Base.transaction do
+      application_choice.update(rejected_by_default: true)
+      ApplicationStateChange.new(application_choice).reject_application!
+    end
   end
 end
