@@ -941,6 +941,9 @@
                     },
                     "serverName": {
                         "value": "[variables('databaseServerName')]"
+                    },
+                    "allowAzureServicesAccess": {
+                        "value": true
                     }
                 }
             },
