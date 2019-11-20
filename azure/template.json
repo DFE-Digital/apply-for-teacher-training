@@ -290,6 +290,12 @@
             "metadata": {
                 "description": "The URL of the DfE Sign-in OIDC interface (differs for test, pre-prod and prod)"
             }
+        },
+        "stateChangeSlackUrl": {
+            "type": "string",
+            "metadata": {
+                "description": "Set this to a Slack incoming webhook url for application state change notifications"
+            }
         }
     },
     "variables": {
@@ -538,6 +544,10 @@
                                 "value": "[parameters('findBaseUrl')]"
                             },
                             {
+                                "name": "STATE_CHANGE_SLACK_URL",
+                                "value": "[parameters('stateChangeSlackUrl')]"
+                            },
+                            {
                                 "name": "SERVICE_TYPE",
                                 "value": "web"
                             },
@@ -676,6 +686,10 @@
                                 "value": "[parameters('findBaseUrl')]"
                             },
                             {
+                                "name": "STATE_CHANGE_SLACK_URL",
+                                "value": "[parameters('stateChangeSlackUrl')]"
+                            },
+                            {
                                 "name": "SERVICE_TYPE",
                                 "value": "worker"
                             },
@@ -794,6 +808,10 @@
                             {
                                 "name": "FIND_BASE_URL",
                                 "value": "[parameters('findBaseUrl')]"
+                            },
+                            {
+                                "name": "STATE_CHANGE_SLACK_URL",
+                                "value": "[parameters('stateChangeSlackUrl')]"
                             },
                             {
                                 "name": "SERVICE_TYPE",

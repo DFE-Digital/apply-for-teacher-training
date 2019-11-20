@@ -1,5 +1,6 @@
 # This worker will be scheduled to run nightly
 class SendApplicationToProvider
+  include Rails.application.routes.url_helpers
   attr_accessor :application_choice
 
   def initialize(application_choice:)
@@ -10,6 +11,7 @@ class SendApplicationToProvider
     ActiveRecord::Base.transaction do
       set_reject_by_default
       ApplicationStateChange.new(application_choice).send_to_provider!
+      StateChangeNotifier.call(:send_application_to_provider, application_choice: application_choice)
     end
   end
 

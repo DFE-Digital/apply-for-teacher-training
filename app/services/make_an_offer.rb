@@ -18,6 +18,7 @@ class MakeAnOffer
     @application_choice.offer = { 'conditions' => (@offer_conditions || []) }
 
     @application_choice.save
+    StateChangeNotifier.call(:make_an_offer, application_choice: @application_choice)
   rescue Workflow::NoTransitionAllowed => e
     errors.add(:state, e.message)
     false

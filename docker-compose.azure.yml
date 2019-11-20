@@ -22,3 +22,4 @@ services:
       - LOGSTASH_HOST
       - LOGSTASH_PORT
       - LOGSTASH_SSL
+      - STATE_CHANGE_SLACK_URL

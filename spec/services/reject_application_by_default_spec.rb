@@ -28,4 +28,10 @@ RSpec.describe RejectApplicationByDefault do
     described_class.new(application_choice: application_choice).call
     expect(application_choice.reload.rejected_by_default).to be true
   end
+
+  it 'sends a Slack notification' do
+    expect(SlackNotificationWorker).to receive(:perform_async)
+    application_choice = create_application
+    described_class.new(application_choice: application_choice).call
+  end
 end
