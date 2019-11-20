@@ -212,6 +212,7 @@ Rails.application.routes.draw do
     post '/applications/:application_choice_id/reject' => 'decisions#create_reject', as: :application_choice_create_reject
 
     get '/sign-in' => 'sessions#new'
+    get '/sign-out' => 'sessions#destroy'
   end
 
   get '/auth/dfe/callback' => 'provider_interface/sessions#callback'

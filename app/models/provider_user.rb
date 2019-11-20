@@ -17,6 +17,10 @@ class ProviderUser
     end
   end
 
+  def self.end_session!(session)
+    session.delete('provider_user')
+  end
+
   def initialize(email_address:, dfe_sign_in_uid:)
     @email_address = email_address
     @dfe_sign_in_uid = dfe_sign_in_uid
