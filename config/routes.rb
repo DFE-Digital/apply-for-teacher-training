@@ -10,13 +10,13 @@ Rails.application.routes.draw do
 
   root to: redirect('/candidate')
 
-  get '/accessibility', to: 'content#accessibility'
-  get '/candidate/terms-of-use', to: 'content#terms_candidate', as: :terms_candidate
-  get '/candidate/privacy-policy', to: 'content#privacy_candidate', as: :privacy_candidate
-  get '/candidate/cookies', to: 'content#cookies_candidate', as: :cookies_candidate
-
   namespace :candidate_interface, path: '/candidate' do
     get '/' => 'start_page#show', as: :start
+
+    get '/accessibility', to: 'content#accessibility'
+    get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
+    get '/cookies', to: 'content#cookies_candidate', as: :cookies
+    get '/terms-of-use', to: 'content#terms_candidate', as: :terms
 
     get '/eligibility' => 'start_page#eligibility', as: :eligibility
     post '/eligibility' => 'start_page#determine_eligibility'
@@ -201,6 +201,11 @@ Rails.application.routes.draw do
 
   namespace :provider_interface, path: '/provider' do
     get '/' => redirect('/provider/applications')
+
+    get '/accessibility', to: 'content#accessibility'
+    get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
+    get '/cookies', to: 'content#cookies_provider', as: :cookies
+    get '/terms-of-use', to: 'content#terms_provider', as: :terms
 
     get '/applications' => 'application_choices#index'
     get '/applications/:application_choice_id' => 'application_choices#show', as: :application_choice

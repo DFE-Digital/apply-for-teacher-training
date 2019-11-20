@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Viewing cookie policy' do
-  scenario 'User views the cookie policy' do
+  scenario 'Candidate views the cookie policy' do
     given_i_am_on_the_start_page
     when_i_can_click_on_cookie_policy
     then_i_can_see_the_cookie_policy

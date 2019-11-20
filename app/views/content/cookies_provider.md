@@ -1,11 +1,11 @@
-Apply for teacher training puts small files (known as ‘cookies’) onto your computer to collect information about how you use the site.
+Manage teacher training applications puts small files (known as ‘cookies’) onto your computer to collect information about how you use the site.
 
 Cookies are used to:
 
 * measure how you use the this service so it can be updated and improved based on your needs
 * remember the notifications you’ve seen so that we don’t show them to you again
 * remember who you are when you have logged in so we can show you your information and information relevant to you
-* Apply for teacher training cookies aren’t used to identify you personally.
+* Manage teacher training applications cookies aren’t used to identify you personally.
 
 Find out more about [how to manage cookies](http://www.aboutcookies.org/).
 
@@ -13,11 +13,11 @@ Find out more about [how to manage cookies](http://www.aboutcookies.org/).
 
 ### Measuring website usage (Google Analytics)
 
-We use Google Analytics software to collect information about how you use Apply for teacher training. We do this to help make sure the site is meeting the needs of its users and to help us make improvements.
+We use Google Analytics software to collect information about how you use Manage teacher training applications. We do this to help make sure the site is meeting the needs of its users and to help us make improvements.
 
 Google Analytics stores information about:
 
-* the pages you visit on Apply for teacher training
+* the pages you visit on Manage teacher training applications
 * how long you spend on each page
 * how you got to the site
 * what you click on while you’re visiting the site
@@ -36,7 +36,7 @@ You can opt out of [Google Analytics](https://tools.google.com/dlpage/gaoptout).
 
 ### Our introductory message
 
-You may see a pop-up welcome message when you first visit Apply for teacher training. We’ll store a cookie so that your computer knows you’ve seen it and knows not to show it again.
+You may see a pop-up welcome message when you first visit Manage teacher training applications. We’ll store a cookie so that your computer knows you’ve seen it and knows not to show it again.
 
 | Name                  | Purpose                                        | Expires  |
 | :-------------------  | :--------------------------------------------- | :------- |
@@ -44,7 +44,7 @@ You may see a pop-up welcome message when you first visit Apply for teacher trai
 
 ### Other cookies
 
-Other Apply for teacher training cookies may include:
+Other Manage teacher training applications cookies may include:
 
 | Name                                                   | Purpose                                        | Expires  |
 | :------------------------------------------------      | :--------------------------------------------- | :------- |

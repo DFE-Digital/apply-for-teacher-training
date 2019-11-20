@@ -14,9 +14,11 @@ en:
     personal_details: Personal details
     review_application: Review your application
     accessibility: Accessibility statement for Apply for teacher training
-    terms_candidate: Terms of use
-    privacy_candidate: Privacy policy
+    privacy_policy: How we look after your personal data
+    terms_candidate: Terms of use for candidates
+    terms_provider: Terms of use for teacher training providers
     cookies_candidate: Cookies
+    cookies_provider: Cookies
     contact_details: Contact details
     address: What is your address?
     work_history: Work history
