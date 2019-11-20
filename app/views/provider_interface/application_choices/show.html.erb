@@ -65,7 +65,7 @@
     <div class="app-status-box">
       <h2 class="govuk-heading-m">Status</h2>
         <strong class="govuk-tag <%= @application_choice.status_tag_class %> govuk-!-margin-bottom-4">
-          <%= @application_choice.status_tag_text %>
+          <%= @application_choice.status_name %>
         </strong>
       <div class="actions">
         <% if @application_choice.status == 'awaiting_provider_decision' %>
