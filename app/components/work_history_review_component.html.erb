@@ -12,7 +12,7 @@
           </span>
         <% end %>
       </h3>
-      <% if @deletable %>
+      <% if @editable %>
         <div class="app-summary-card__actions">
           <%= link_to t('application_form.work_history.delete_entry'), candidate_interface_work_history_destroy_path(work.id), class: 'govuk-link' %>
         </div>

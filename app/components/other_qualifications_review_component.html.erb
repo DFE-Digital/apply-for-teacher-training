@@ -4,7 +4,7 @@
       <h3 class="app-summary-card__title">
         <%= qualification.title %>
       </h3>
-      <% if @deletable %>
+      <% if @editable %>
         <div class="app-summary-card__actions">
           <%= link_to t('application_form.other_qualification.delete'), candidate_interface_confirm_destroy_other_qualification_path(qualification.id), class: 'govuk-link' %>
         </div>

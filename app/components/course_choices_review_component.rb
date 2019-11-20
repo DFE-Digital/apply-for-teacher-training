@@ -1,10 +1,10 @@
 class CourseChoicesReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:, deletable: true)
+  def initialize(application_form:, editable: true)
     @application_form = application_form
     @course_choices = @application_form.application_choices
-    @deletable = deletable
+    @editable = editable
   end
 
   def course_choice_rows(course_choice)

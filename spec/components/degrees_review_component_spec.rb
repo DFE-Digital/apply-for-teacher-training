@@ -36,7 +36,7 @@ RSpec.describe DegreesReviewComponent do
     end
   end
 
-  context 'when degrees are editable and deletable' do
+  context 'when degrees are editable' do
     it 'renders component with correct values for a qualification' do
       result = render_inline(DegreesReviewComponent, application_form: application_form)
 
@@ -103,13 +103,6 @@ RSpec.describe DegreesReviewComponent do
       result = render_inline(DegreesReviewComponent, application_form: application_form, editable: false)
 
       expect(result.css('.app-summary-list__actions').text).not_to include('Change')
-    end
-  end
-
-  context 'when degrees are not deletable' do
-    it 'renders component without a delete link' do
-      result = render_inline(DegreesReviewComponent, application_form: application_form, deletable: false)
-
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.degree.delete'))
     end
   end

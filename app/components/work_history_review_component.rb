@@ -1,10 +1,9 @@
 class WorkHistoryReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:, editable: true, deletable: true)
+  def initialize(application_form:, editable: true)
     @application_form = application_form
     @editable = editable
-    @deletable = deletable
   end
 
   def work_experience_rows(work)

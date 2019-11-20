@@ -5,7 +5,7 @@ RSpec.describe CourseChoicesReviewComponent do
     create(:completed_application_form, application_choices_count: 2)
   end
 
-  context 'when course choices are deletable' do
+  context 'when course choices are editable' do
     it 'renders component with correct values for a course' do
       course_choice = application_form.application_choices.first
       result = render_inline(CourseChoicesReviewComponent, application_form: application_form)
@@ -42,9 +42,9 @@ RSpec.describe CourseChoicesReviewComponent do
     end
   end
 
-  context 'when course choices are not deletable' do
+  context 'when course choices are not editable' do
     it 'renders component without a delete link' do
-      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, deletable: false)
+      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false)
 
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.courses.delete'))
     end
