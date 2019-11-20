@@ -45,13 +45,14 @@
           Outline any further conditions (for example, studying a subject knowledge enhancement course) and give deadlines for completing them.
         </span>
 
-        <%= f.govuk_text_area :first_condition, label: { text: 'First condition', size: 's' }, rows: 3, id: 'first_condition', 'aria-describedby': 'first_condition' %>
+        <%= f.govuk_text_area :further_conditions, label: { text: 'First condition', size: 's' }, id: 'first_condition', rows: 3, multiple: true %>
 
-        <%= f.govuk_text_area :second_condition, label: { text: 'Second condition', size: 's' }, rows: 3, id: 'second_condition', 'aria-describedby': 'second_condition' %>
+        <%= f.govuk_text_area :further_conditions, label: { text: 'Second condition', size: 's' }, id: 'second_condition', rows: 3, multiple: true %>
 
-        <%= f.govuk_text_area :third_condition, label: { text: 'Third condition', size: 's' }, rows: 3, id: 'third_condition', 'aria-describedby': 'third_condition' %>
+        <%= f.govuk_text_area :further_conditions, label: { text: 'Third condition', size: 's' }, id: 'third_condition', rows: 3, multiple: true %>
 
-        <%= f.govuk_text_area :further_condition, label: { text: 'Further condition', size: 's' }, rows: 3, id: 'further_condition', 'aria-describedby': 'further_condition' %>
+        <%= f.govuk_text_area :further_conditions, label: { text: 'Further condition', size: 's' }, id: 'further_condition', rows: 3, multiple: true %>
+
       </div>
 
       <%= f.govuk_submit 'Continue' %>

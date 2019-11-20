@@ -18,12 +18,13 @@ module ProviderInterface
     end
 
     def confirm_offer
-      standard_conditions_array = params.dig(:make_an_offer, :standard_conditions)
-      further_conditions_array = [params.dig(:make_an_offer, :first_condition), params.dig(:make_an_offer, :second_condition), params.dig(:make_an_offer, :third_condition), params.dig(:make_an_offer, :further_condition)].reject(&:blank?)
-      complete_conditions_array = [standard_conditions_array, further_conditions_array].compact.reduce([], :|)
+      offer_conditions = [
+        make_an_offer_params[:standard_conditions],
+        make_an_offer_params[:further_conditions]
+      ].flatten.reject(&:blank?)
       @application_offer = MakeAnOffer.new(
         application_choice: @application_choice,
-        offer_conditions: complete_conditions_array,
+        offer_conditions: offer_conditions,
       )
       render action: :new_offer if !@application_offer.valid?
     end
@@ -80,6 +81,10 @@ module ProviderInterface
         .find(params[:application_choice_id])
 
       @presenter = ApplicationChoicePresenter.new(@application_choice)
+    end
+
+    def make_an_offer_params
+      params.require(:make_an_offer)
     end
   end
 end
