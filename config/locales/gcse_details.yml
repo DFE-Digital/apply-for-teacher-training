@@ -10,6 +10,9 @@ en:
       scottish_national_5: Scottish National 5
       other_uk: Other UK qualification
       missing: I don’t have this qualification yet
+    label:
+      other_uk: Enter type of qualification
+      missing_explanation: If you are already on your way to gaining this qualification, give us details.
   gcse_edit_details:
     heading:
       maths: Maths qualification grade and year
