@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       get '/' => 'application_form#show', as: :application_form
       get '/review' => 'application_form#review', as: :application_review
       get '/review/submitted' => 'application_form#review_submitted', as: :application_review_submitted
+      get '/complete' => 'application_form#complete', as: :application_complete
       get '/submit' => 'application_form#submit_show', as: :application_submit_show
       post '/submit' => 'application_form#submit', as: :application_submit
       get '/submit-success' => 'application_form#submit_success', as: :application_submit_success

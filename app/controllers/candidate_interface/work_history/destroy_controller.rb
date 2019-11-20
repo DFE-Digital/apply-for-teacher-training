@@ -1,5 +1,7 @@
 module CandidateInterface
   class WorkHistory::DestroyController < CandidateInterfaceController
+    before_action :redirect_to_dashboard_if_submitted
+
     def confirm_destroy
       @work_experience = current_application
         .application_work_experiences.find(work_experience_params[:id])

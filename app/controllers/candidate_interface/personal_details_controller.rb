@@ -1,5 +1,7 @@
 module CandidateInterface
   class PersonalDetailsController < CandidateInterfaceController
+    before_action :redirect_to_dashboard_if_submitted
+
     def edit
       @personal_details_form = PersonalDetailsForm.build_from_application(
         current_application,
