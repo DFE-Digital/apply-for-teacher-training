@@ -9,6 +9,11 @@ module ApplicationHelper
     end
   end
 
+  def browser_title
+    page_browser_title = content_for(:browser_title).presence || content_for(:title)
+    [page_browser_title, service_name, 'GOV.UK'].select(&:present?).join(' - ')
+  end
+
   def service_name
     case current_namespace
     when 'provider_interface'
