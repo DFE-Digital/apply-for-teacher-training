@@ -12,6 +12,12 @@ module ProviderInterface
       redirect_to provider_interface_path
     end
 
+    def destroy
+      ProviderUser.end_session!(session)
+
+      redirect_to action: :new
+    end
+
     alias :bypass_callback :callback
   end
 end
