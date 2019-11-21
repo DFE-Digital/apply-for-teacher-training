@@ -87,43 +87,56 @@ RSpec.feature 'Vendor receives the application' do
           english_language_qualifications: '',
           disability_disclosure: 'I have difficulty climbing stairs',
         },
-        qualifications: { # TODO: This section is hardcoded in the presenter
+        qualifications: {
           gcses: [
             {
-              qualification_type: 'GCSE',
-              subject: 'Maths',
-              grade: 'A',
-              award_year: '2001',
-              equivalency_details: nil,
-              institution_details: nil,
-            },
-            {
-              qualification_type: 'GCSE',
-              subject: 'English',
-              grade: 'A',
-              award_year: '2001',
-              equivalency_details: nil,
-              institution_details: nil,
-            },
-          ],
-          degrees: [
-            {
-              qualification_type: 'BA',
-              subject: 'Geography',
-              grade: '2.1',
-              award_year: '2007',
-              equivalency_details: nil,
-              institution_details: 'Imperial College London',
-            },
-          ],
-          other_qualifications: [
-            {
-              qualification_type: 'A Level',
-              subject: 'Chemistry',
+              qualification_type: 'gcse',
+              subject: 'science',
               grade: 'B',
-              award_year: '2004',
+              award_year: '1990',
+              institution_details: nil,
+              awarding_body: nil,
               equivalency_details: nil,
-              institution_details: 'Harris Westminster Sixth Form',
+            },
+            {
+              qualification_type: 'gcse',
+              subject: 'english',
+              grade: 'B',
+              award_year: '1990',
+              institution_details: nil,
+              awarding_body: nil,
+              equivalency_details: nil,
+            },
+            {
+              qualification_type: 'gcse',
+              subject: 'maths',
+              grade: 'B',
+              award_year: '1990',
+              institution_details: nil,
+              awarding_body: nil,
+              equivalency_details: nil,
+              },
+            ],
+         degrees: [
+           {
+              qualification_type: 'BA',
+              subject: 'Doge',
+              grade: 'first',
+              award_year: '2009',
+              institution_details: 'University of Much Wow',
+              awarding_body: nil,
+              equivalency_details: nil,
+            },
+          ],
+         other_qualifications: [
+           {
+              qualification_type: 'A-Level',
+              subject: 'Believing in the Heart of the Cards',
+              grade: 'A',
+              award_year: '2015',
+              institution_details: 'Yugi College',
+              awarding_body: nil,
+              equivalency_details: nil,
             },
           ],
         },
@@ -173,7 +186,6 @@ RSpec.feature 'Vendor receives the application' do
         },
       },
     }
-
     expect(@api_response['data'].first.deep_symbolize_keys).to eq expected_attributes
   end
 end

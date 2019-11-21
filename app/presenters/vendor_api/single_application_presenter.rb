@@ -126,23 +126,26 @@ module VendorApi
       {
         gcses: application_form.application_qualifications.gcses.map do |gcse| qualification_to_hash(gcse) end,
         degrees: application_form.application_qualifications.degrees.map do |degree| qualification_to_hash(degree) end,
-        other_qualifications: application_form.application_qualifications.other.map do |other| qualification_to_hash(other) end
+        other_qualifications: application_form.application_qualifications.other.map do |other| qualification_to_hash(other) end,
       }
     end
 
     def qualification_to_hash(qualification)
       {
-        level: qualification.level,
         qualification_type: qualification.qualification_type,
         subject: qualification.subject,
-        grade: qualification.grade,
-        predicted_grade: qualification.predicted_grade,
+        grade: "#{qualification.grade}#{' (Predicted)' if qualification.predicted_grade}",
         award_year: qualification.award_year,
-        institution_name: qualification.institution_name,
-        institution_country: qualification.institution_country,
+        institution_details: institution_details(qualification),
         awarding_body: qualification.awarding_body,
-        equivalency_details: qualification.equivalency_details
+        equivalency_details: qualification.equivalency_details,
       }
+    end
+
+    def institution_details(qualification)
+      if qualification.institution_name || qualification.institution_country
+        "#{qualification.institution_name}#{' ,' if qualification.institution_country}#{qualification.institution_country}"
+      end
     end
   end
 end
