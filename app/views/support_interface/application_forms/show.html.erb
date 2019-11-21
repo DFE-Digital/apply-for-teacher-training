@@ -1,4 +1,17 @@
-<% content_for :title, "#{@application_form.full_name}’s application" %>
+<% content_for :title, "#{@application_form.email_and_support_reference}" %>
+
+<% content_for :before_content do %>
+  <div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to 'Applications', support_interface_applications_path, class: 'govuk-breadcrumbs__link' %>
+      </li>
+      <li class="govuk-breadcrumbs__list-item" aria-current="page">
+        <%= @application_form.email_and_support_reference %>
+      </li>
+    </ol>
+  </div>
+<% end %>
 
 <dl class="govuk-summary-list">
   <div class="govuk-summary-list__row">
