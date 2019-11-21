@@ -4,10 +4,11 @@ en:
       models:
         candidate_interface/sign_up_form:
           attributes:
-            email:
-              blank: Enter an email address in the correct format, like name@example.com
+            email_address:
+              blank: Enter your email address
+              invalid: Enter an email address in the correct format, like name@example.com
             accept_ts_and_cs:
-              blank: You must agree to the Terms and Conditions
+              blank: You must agree to the terms of use
   authentication:
     sign_up:
       heading: Create an Apply for teacher training account

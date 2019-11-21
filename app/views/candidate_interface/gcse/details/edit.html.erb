@@ -12,8 +12,8 @@
 
       <%= guidance_for_gcse_edit_details(@subject, @qualification_type) %>
 
-      <%= f.govuk_text_field :grade, label: { text: 'Enter your qualification grade', size: 'm' }, hint_text: hint_for_gcse_edit_details(@subject, @qualification_type), width: 10 %>
-      <%= f.govuk_text_field :award_year, label: { text: 'Enter the year you gained your qualification', size: 'm' }, width: 4 %>
+      <%= f.govuk_text_field :grade, label: { text: 'What was your grade?', size: 'm' }, hint_text: hint_for_gcse_edit_details(@subject, @qualification_type), width: 10 %>
+      <%= f.govuk_text_field :award_year, label: { text: 'When did you get your qualification?', size: 'm' }, width: 4 %>
 
       <%= f.submit 'Save and continue', class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
   <% end %>

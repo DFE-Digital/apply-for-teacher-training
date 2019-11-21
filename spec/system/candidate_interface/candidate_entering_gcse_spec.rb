@@ -102,8 +102,8 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def when_i_fill_in_grade_and_year
-    fill_in 'Enter your qualification grade', with: 'AA'
-    fill_in 'Enter the year you gained your qualification', with: '1990'
+    fill_in 'What was your grade?', with: 'AA'
+    fill_in 'When did you get your qualification?', with: '1990'
   end
 
   def then_i_see_the_qualification_type_error
@@ -123,8 +123,8 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def and_i_edit_my_details
-    fill_in 'Enter your qualification grade', with: 'BB'
-    fill_in 'Enter the year you gained your qualification', with: '2000'
+    fill_in 'What was your grade?', with: 'BB'
+    fill_in 'When did you get your qualification?', with: '2000'
   end
 
   def i_see_the_maths_gcse_is_completed

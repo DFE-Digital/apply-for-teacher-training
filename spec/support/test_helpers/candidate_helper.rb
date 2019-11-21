@@ -226,8 +226,8 @@ module CandidateHelper
   def candidate_fills_in_a_gcse
     choose('GCSE')
     click_button 'Save and continue'
-    fill_in 'Enter your qualification grade', with: 'B'
-    fill_in 'Enter the year you gained your qualification', with: '1990'
+    fill_in 'What was your grade?', with: 'B'
+    fill_in 'When did you get your qualification?', with: '1990'
   end
 
   def current_candidate

@@ -163,7 +163,7 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
         personal_details.validate
 
         expect(personal_details.errors.full_messages_for(:date_of_birth)).to eq(
-          ['Date of birth Enter a date of birth in the correct format, for example 13 1 1993'],
+          ['Date of birth Enter a date of birth in the correct format'],
         )
       end
 
@@ -175,7 +175,7 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
         personal_details.validate
 
         expect(personal_details.errors.full_messages_for(:date_of_birth)).to eq(
-          ['Date of birth Enter a date of birth that is in the past, for example 13 1 1993'],
+          ['Date of birth Enter a date of birth that is in the past, for example 31 3 1980'],
         )
       end
     end

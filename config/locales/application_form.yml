@@ -63,7 +63,7 @@ en:
       address_line4:
         label: County
       postcode:
-        label: Postal code
+        label: Postcode
       complete_form_button: Save and continue
       base:
         button: Save and continue
@@ -256,9 +256,9 @@ en:
         candidate_interface/eligibility_form:
           attributes:
             eligible_citizen:
-              blank: Choose if you are a citizen of the UK, EU or EEA
+              blank: Select if you are a citizen of the UK, EU or EEA
             eligible_qualifications:
-              blank: Choose if you gained all your qualifications at institutions based in the UK
+              blank: Select if you gained all your qualifications at institutions based in the UK
         candidate_interface/personal_details_form:
           attributes:
             first_name:
@@ -268,15 +268,15 @@ en:
               blank: Enter your last name or family name
               too_long: Last name must be %{count} characters or fewer
             first_nationality:
-              blank: Choose your nationality from the list
-              inclusion: Choose your nationality from the list
+              blank: Select your nationality from the list
+              inclusion: Select your nationality from the list
             second_nationality:
-              inclusion: Choose your nationality from the list
+              inclusion: Select your second nationality from the list
             english_main_language:
-              blank: Choose if English is your main language
+              blank: Select if English is your main language
             date_of_birth:
-              invalid: Enter a date of birth in the correct format, for example 13 1 1993
-              future: Enter a date of birth that is in the past, for example 13 1 1993
+              invalid: Enter a date of birth in the correct format
+              future: Enter a date of birth that is in the past, for example 31 3 1980
         candidate_interface/becoming_a_teacher_form:
           attributes:
             becoming_a_teacher:
@@ -295,14 +295,14 @@ en:
         candidate_interface/further_information_form:
           attributes:
             further_information:
-              blank: Choose if you would like to add anything else to your application
+              blank: Select if you would like to add anything else to your application
             further_information_details:
               blank: Enter further information
         candidate_interface/contact_details_form:
           attributes:
             phone_number:
               blank: Enter your phone number
-              invalid: Enter a phone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192
+              invalid: Enter a real phone number
             address_line1:
               blank: Enter your building and street
               too_long: Building and street must be %{count} characters or fewer
@@ -314,25 +314,25 @@ en:
             address_line4:
               too_long: County must be %{count} characters or fewer
             postcode:
-              blank: Enter a postal code
-              invalid: Enter a real postal code (for example, BN1 1AA)
+              blank: Enter a postcode
+              invalid: Enter a real postcode (for example, BN1 1AA)
         candidate_interface/work_history_form:
           attributes:
             work_history:
-              blank: Choose how long you’ve been working for
+              blank: Select how long you’ve been working for
         candidate_interface/degree_form:
           attributes:
             qualification_type:
-              blank: Enter the type of your degree
+              blank: Enter your degree type
               too_long: Type of degree must be %{count} characters or fewer
             subject:
-              blank: Enter the subject of your degree
+              blank: Enter your degree subject
               too_long: Subject of degree must be %{count} characters or fewer
             institution_name:
               blank: Enter the institution where you studied
               too_long: The institution where you studied must be %{count} characters or fewer
             grade:
-              blank: Enter the class of your degree
+              blank: Enter your degree class
               too_long: The class of your degree must be %{count} characters or fewer
             other_grade:
               blank: Enter your degree grade
@@ -355,7 +355,7 @@ en:
               blank: Enter the institution where you studied
               too_long: The institution where you studied must be %{count} characters or fewer
             grade:
-              blank: Enter the grade
+              blank: Enter your grade
               too_long: The grade must be %{count} characters or fewer
             award_year:
               blank: Enter the year the qualification was awarded
@@ -364,23 +364,23 @@ en:
         candidate_interface/work_experience_form:
           attributes:
             role:
-              blank: Enter the job title
+              blank: Enter your job title
               too_long: Job title must be %{count} characters or fewer
             organisation:
-              blank: Enter the name of the employer
+              blank: Enter the name of your employer
               too_long: Name of the employer must be %{count} characters or fewer
             details:
               blank: Enter the relevant experience you gained in this role
               too_long: Skills and experience must be %{count} characters or fewer
             working_with_children:
-              blank: Choose if this job involves working in a school or with children
+              blank: Select if this job involves working in a school or with children
             commitment:
-              blank: Choose if this job is full-time or part-time
+              blank: Select if this job is full-time or part-time
             start_date:
-              invalid: Enter a start date in the correct format, for example 5 2018
+              invalid: Enter a start date in the correct format
               before: Enter a start date that is before the end date
             end_date:
-              invalid: Enter an end date in the correct format, for example 5 2019
+              invalid: Enter an end date in the correct format
               in_the_future: Enter an end date that is not in the future
         candidate_interface/work_breaks_form:
           attributes:
@@ -390,9 +390,9 @@ en:
         candidate_interface/gcse_qualification_details_form:
           attributes:
             grade:
-              blank: Enter your qualification grade
-              invalid: Enter a real qualification grade
-              too_long: Qualification grade must be %{count} characters or fewer
+              blank: Enter your grade
+              invalid: Enter a real grade
+              too_long: Grade must be %{count} characters or fewer
             award_year:
               blank: Enter the year you gained your qualification
               invalid: Enter a real year
@@ -409,11 +409,11 @@ en:
         candidate_interface/volunteering_experience_form:
           attributes:
             experience:
-              blank: Choose whether or not you have experience volunteering with young people or in school
+              blank: Select whether or not you have experience volunteering with young people or in school
         candidate_interface/volunteering_role_form:
           attributes:
             role:
-              blank: Enter the role
+              blank: Enter your role
               too_long: Role must be %{count} characters or fewer
             organisation:
               blank: Enter the organisation where you gained experience or volunteered
@@ -422,9 +422,9 @@ en:
               blank: Enter details of your time commitment and responsibilities
               too_long: Skills and experience must be %{count} characters or fewer
             working_with_children:
-              blank: Choose if this role involves working in a school or with children
+              blank: Select if this role involves working in a school or with children
             start_date:
-              invalid: Enter a start date in the correct format, for example 5 2018
+              invalid: Enter a start date in the correct format
               before: Enter a start date that is before the end date
             end_date:
               invalid: Enter an end date in the correct format, for example 5 2019
