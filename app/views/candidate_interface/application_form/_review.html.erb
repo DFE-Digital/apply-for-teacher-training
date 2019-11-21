@@ -1,6 +1,6 @@
 <h2 class="govuk-heading-m govuk-!-font-size-27">Courses</h2>
 
-<%= render(CourseChoicesReviewComponent, application_form: application_form, editable: editable) %>
+<%= render(CourseChoicesReviewComponent, application_form: application_form, editable: editable, show_incomplete: !application_form.course_choices_completed && editable) %>
 
 <h2 class="govuk-heading-m govuk-!-font-size-27">About you</h2>
 
