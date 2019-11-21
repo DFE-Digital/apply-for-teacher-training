@@ -13,14 +13,21 @@ module CandidateInterface
     end
 
     def have_you_chosen
-      @choice = current_candidate.current_application.application_choices.new
+      @choice_form = CandidateInterface::CourseChosenForm.new
     end
 
     def make_choice
-      if application_choice_params[:choice] == 'yes'
-        redirect_to candidate_interface_course_choices_provider_path
+      @choice_form = CandidateInterface::CourseChosenForm.new
+      @choice_form.choice = application_choice_params[:choice]
+
+      if @choice_form.valid?
+        if @choice_form.choice == 'yes'
+          redirect_to candidate_interface_course_choices_provider_path
+        else
+          redirect_to 'https://find-postgraduate-teacher-training.education.gov.uk'
+        end
       else
-        redirect_to 'https://find-postgraduate-teacher-training.education.gov.uk'
+        render :have_you_chosen
       end
     end
 
@@ -114,7 +121,8 @@ module CandidateInterface
     end
 
     def application_choice_params
-      params.require(:application_choice).permit(:choice)
+      params.fetch(:candidate_interface_course_chosen_form, {}).permit(:choice)
+      # params.require(:application_choice).permit(:choice)
     end
 
     def provider_params
