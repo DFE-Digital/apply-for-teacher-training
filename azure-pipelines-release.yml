@@ -85,7 +85,7 @@ stages:
       dfeSignInClientId: '$(dfeSignInClientId)'
       dfeSignInSecret: '$(dfeSignInSecret)'
       dfeSignInIssuer: '$(dfeSignInIssuer)'
-
+      stateChangeSlackUrl: '$(stateChangeSlackUrl)'
 
 - stage: deploy_sandbox
   displayName: 'Deploy - Sandbox'
@@ -131,6 +131,7 @@ stages:
       dfeSignInClientId: '$(dfeSignInClientId)'
       dfeSignInSecret: '$(dfeSignInSecret)'
       dfeSignInIssuer: '$(dfeSignInIssuer)'
+      stateChangeSlackUrl: '$(stateChangeSlackUrl)'
 
 
 - stage: deploy_pentest
@@ -176,6 +177,7 @@ stages:
       dfeSignInClientId: '$(dfeSignInClientId)'
       dfeSignInSecret: '$(dfeSignInSecret)'
       dfeSignInIssuer: '$(dfeSignInIssuer)'
+      stateChangeSlackUrl: '$(stateChangeSlackUrl)'
 
 
 - stage: deploy_production
@@ -224,3 +226,4 @@ stages:
       dfeSignInClientId: '$(dfeSignInClientId)'
       dfeSignInSecret: '$(dfeSignInSecret)'
       dfeSignInIssuer: '$(dfeSignInIssuer)'
+      stateChangeSlackUrl: '$(stateChangeSlackUrl)'

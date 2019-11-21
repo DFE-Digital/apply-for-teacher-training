@@ -45,6 +45,7 @@ parameters:
   dfeSignInClientId:
   dfeSignInSecret:
   dfeSignInIssuer:
+  stateChangeSlackUrl:
 
 jobs:
   - deployment: deploy_${{parameters.resourceEnvironmentName}}
@@ -118,6 +119,7 @@ jobs:
                 -containerInstanceNamePrefix "$(containerInstanceNamePrefix)"
                 -disableBasicAuthForLandingPage "${{parameters.disableBasicAuthForLandingPage}}"
                 -dfeSignInClientId "${{parameters.dfeSignInClientId}}"
+                -stateChangeSlackUrl "${{parameters.stateChangeSlackUrl}}"
                 -dfeSignInSecret "${{parameters.dfeSignInSecret}}"
                 -dfeSignInIssuer "${{parameters.dfeSignInIssuer}}"'
               deploymentOutputs: DeploymentOutput
@@ -135,7 +137,7 @@ jobs:
                   [string] $environment = "${{parameters.environment}}"
                 )
 
-                Set-AzureRmResourceGroup -Name $resourceGroupName -Tag @{ 
+                Set-AzureRmResourceGroup -Name $resourceGroupName -Tag @{
                   Version = "$(Build.SourceVersion)";
                   Environment = "$environment"
                 }

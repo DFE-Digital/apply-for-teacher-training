@@ -185,6 +185,7 @@ stages:
       dfeSignInClientId: '$(dfeSignInClientId)'
       dfeSignInSecret: '$(dfeSignInSecret)'
       dfeSignInIssuer: '$(dfeSignInIssuer)'
+      stateChangeSlackUrl: '$(stateChangeSlackUrl)'
 
 
 - stage: deploy_devops
@@ -230,3 +231,4 @@ stages:
       dfeSignInClientId: '$(dfeSignInClientId)'
       dfeSignInSecret: '$(dfeSignInSecret)'
       dfeSignInIssuer: '$(dfeSignInIssuer)'
+      stateChangeSlackUrl: '$(stateChangeSlackUrl)'
