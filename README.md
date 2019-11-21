@@ -73,6 +73,26 @@ The apply build and release process is split into two separate Azure DevOps pipe
 
 👉 [See the deployment guide](/docs/deployment.md)
 
+## <a name="dummy-data"></a>Dummy data
+
+We have a service `GenerateTestData` which generates `ApplicationChoice`s in
+the database. You can specify how many `ApplicationChoice`s are created and to
+which provider they are applying.
+
+If you don't specify a provider, the `ApplicationChoice`s will be for courses
+at provider code `ABC`.
+
+**Generate 10 applications for the default provider (ABC)**
+
+```
+GenerateTestData.new(10).generate
+```
+
+**Generate 10 applications for a specific provider**
+
+```
+GenerateTestData.new(10, Provider.find_by(code: '1N1')).generate
+```
 
 ## <a name="dfe-sign-in"></a>DfE Sign-in
 
@@ -95,7 +115,19 @@ Production | Prod (https://oidc.signin.education.gov.uk) [Manage](https://manage
 Logging in to the Provider interface requires a network connection and a user
 account on DfE Sign-in. In development you can eliminate this dependency by
 setting `BYPASS_DFE_SIGN_IN=true` in your `.env` file. This replaces the login
-flow with a dialog allowing you to specify a DfE Sign-in user to masquerade as.
+flow with a dialog allowing you to specify a DfE Sign-in UID and Email address
+for your current session.
+
+### Provider permissions
+
+We decide what to show providers based on their DfE Sign-in UID.
+
+A mapping between DfE Sign-in UIDs and provider codes lives at `config/provider_permissions.yml`.
+
+A default mapping is provided for development, where the DfE Sign-in UID `ABC`
+maps to provider code `ABC`. This means that if you have generated [dummy data](#dummy-data)
+then you can enter the Uid `ABC` in the development dialog to see all the generated
+applications.
 
 ## <a name="webpacker"></a>Webpacker
 
