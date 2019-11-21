@@ -16,6 +16,9 @@ RSpec.feature 'See providers' do
 
     when_i_click_on_a_course
     then_i_see_the_course_information
+
+    when_i_choose_to_open_the_course_on_apply
+    then_it_should_be_open_on_apply
   end
 
   def given_i_am_a_support_user
@@ -90,5 +93,15 @@ RSpec.feature 'See providers' do
 
   def then_i_see_the_course_information
     expect(page).to have_title 'Primary (ABC-1)'
+  end
+
+  def when_i_choose_to_open_the_course_on_apply
+    expect(page).to have_content 'Open on Apply No'
+    choose 'Yes, this course is available on Apply and UCAS'
+    click_button 'Save'
+  end
+
+  def then_it_should_be_open_on_apply
+    expect(page).to have_content 'Open on Apply Yes'
   end
 end
