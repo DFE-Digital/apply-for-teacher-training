@@ -17,8 +17,7 @@ module CandidateInterface
     end
 
     def make_choice
-      @choice_form = CandidateInterface::CourseChosenForm.new
-      @choice_form.choice = application_choice_params[:choice]
+      @choice_form = CandidateInterface::CourseChosenForm.new(application_choice_params)
 
       if @choice_form.valid?
         if @choice_form.choice == 'yes'
@@ -122,7 +121,6 @@ module CandidateInterface
 
     def application_choice_params
       params.fetch(:candidate_interface_course_chosen_form, {}).permit(:choice)
-      # params.require(:application_choice).permit(:choice)
     end
 
     def provider_params

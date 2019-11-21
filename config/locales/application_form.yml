@@ -428,3 +428,7 @@ en:
             end_date:
               invalid: Enter an end date in the correct format, for example 5 2019
               in_the_future: Enter an end date that is not in the future
+        candidate_interface/course_chosen_form:
+          attributes:
+            choice:
+              blank: Select if you have chosen a course or not.
