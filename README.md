@@ -77,12 +77,25 @@ The apply build and release process is split into two separate Azure DevOps pipe
 ## <a name="dfe-sign-in"></a>DfE Sign-in
 
 The Provider interface at `/provider` is protected by DfE's SSO provider DfE
-Sign-in. Logging in requires a network connection and a user account on DfE
 Sign-in.
 
-In development you can eliminate this dependency by setting
-`BYPASS_DFE_SIGN_IN=true` in your `.env` file. This replaces the login flow
-with a dialog allowing you to specify a DfE Sign-in user to masquerade as.
+### Environments
+
+Apply environment | DfE Sign-in environment
+---- | ------
+Development | Test (https://signin-test-oidc-as.azurewebsites.net) [Manage](https://signin-test-mng-as.azurewebsites.net/)
+QA | Test (as above)
+Pentest | Test (as above)
+Staging | Pre-prod (https://pp-oidc.signin.education.gov.uk) [Manage](https://signin-pp-mng-as.azurewebsites.net)
+Sandbox | Pre-prod (as above)
+Production | Prod (https://oidc.signin.education.gov.uk) [Manage](https://manage.signin.education.gov.uk)
+
+### Local development
+
+Logging in to the Provider interface requires a network connection and a user
+account on DfE Sign-in. In development you can eliminate this dependency by
+setting `BYPASS_DFE_SIGN_IN=true` in your `.env` file. This replaces the login
+flow with a dialog allowing you to specify a DfE Sign-in user to masquerade as.
 
 ## <a name="webpacker"></a>Webpacker
 
