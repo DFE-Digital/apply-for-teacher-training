@@ -36,6 +36,10 @@ RSpec.feature 'Candidate submit the application' do
 
     when_i_click_the_edit_application_link
     then_i_see_edit_information_page
+
+    when_i_visit_my_application_dashboard
+    and_i_click_withdraw_course
+    then_i_see_the_withdraw_information_page
   end
 
   def given_i_am_signed_in
@@ -187,5 +191,17 @@ RSpec.feature 'Candidate submit the application' do
 
   def then_i_see_edit_information_page
     expect(page).to have_content t('page_titles.application_edit')
+  end
+
+  def when_i_visit_my_application_dashboard
+    visit candidate_interface_application_complete_path
+  end
+
+  def and_i_click_withdraw_course
+    click_link 'Withdraw'
+  end
+
+  def then_i_see_the_withdraw_information_page
+    expect(page).to have_content t('page_titles.withdraw_course_choice')
   end
 end

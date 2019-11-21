@@ -1,6 +1,6 @@
 module CandidateInterface
   class CourseChoicesController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_submitted
+    before_action :redirect_to_dashboard_if_submitted, except: :withdraw
 
     def index
       @application_form = current_application
@@ -107,6 +107,10 @@ module CandidateInterface
         @course_choices = current_candidate.current_application.application_choices
         render :index
       end
+    end
+
+    def withdraw
+      @course_choice = current_candidate.current_application.application_choices.find(params[:id])
     end
 
   private
