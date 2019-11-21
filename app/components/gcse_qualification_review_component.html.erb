@@ -3,9 +3,9 @@
     <header class="app-summary-card__header">
       <h3 class="app-summary-card__title">
         <%= if @application_qualification.missing_qualification?
-              t('gcse_edit_type.types.missing')
+              t('application_form.gcse.qualification_types.missing')
             else
-              t('gcse_edit_type.types.gcse')
+              t('application_form.gcse.qualification_types.gcse')
             end
         %>
       </h3>

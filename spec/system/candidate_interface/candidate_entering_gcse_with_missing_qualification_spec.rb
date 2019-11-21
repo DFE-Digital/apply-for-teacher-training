@@ -30,7 +30,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def and_i_enter_the_missing_explanation
-    fill_in t('gcse_edit_type.label.missing_explanation'),
+    fill_in t('application_form.gcse.missing_explanation.label'),
             with: "I'm expecting to complete my Biology course on next July"
   end
 

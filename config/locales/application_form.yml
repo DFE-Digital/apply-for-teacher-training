@@ -146,6 +146,24 @@ en:
         button: Add another degree
       delete: Delete degree
       confirm_delete: Yes I’m sure - delete this degree
+    gcse:
+      qualification_type:
+        label: Type of qualification
+      qualification_types:
+        gcse: GCSE
+        gce_o_level: GCE O Level
+        scottish_national_5: Scottish National 5
+        other_uk: Other UK qualification
+        missing: I don’t have this qualification yet
+      other_uk:
+        label: Enter type of qualification
+      missing_explanation:
+        label: If you are working towards this qualification, give us details (optional)
+      grade:
+        label: What was your grade?
+      award_year:
+        label: When did you get your qualification?
+      complete_form_button: Save and continue
     other_qualification:
       qualification:
         label: Qualification

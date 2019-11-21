@@ -2,7 +2,7 @@ module GcseQualificationHelper
   def select_gcse_qualification_type_options
     option = Struct.new(:id, :label)
 
-    t('gcse_edit_type.types').map { |id, label| option.new(id, label) }
+    t('application_form.gcse.qualification_types').map { |id, label| option.new(id, label) }
   end
 
   def guidance_for_gcse_edit_details(subject, qualification_type)
@@ -12,7 +12,7 @@ module GcseQualificationHelper
   end
 
   def heading_for_gcse_edit_type(subject)
-    t("gcse_edit_type.heading.#{subject}")
+    t("gcse_edit_type.page_titles.#{subject}")
   end
 
   def hint_for_gcse_edit_details(subject, qualification_type)
