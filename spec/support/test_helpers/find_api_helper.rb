@@ -31,7 +31,7 @@ module FindAPIHelper
               'type': 'sites',
               'attributes': {
                 'code': site_code,
-                'location_name': 'Main Site',
+                'location_name': 'Main site',
               },
             },
             {
@@ -91,7 +91,7 @@ module FindAPIHelper
               'type': 'sites',
               'attributes': {
                 'code': site_code,
-                'location_name': 'Main Site',
+                'location_name': 'Main site',
               },
             },
             {

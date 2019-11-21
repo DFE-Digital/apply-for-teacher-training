@@ -12,7 +12,7 @@ Thank you for taking part in trialling Manage teacher training applications. Her
 
 2. ### Assistance for candidates
 
-    Our advisors will be on hand to guide candidates through the application process and help with any technical issues they have when using the service.
+    Our advisers will be on hand to guide candidates through the application process and help with any technical issues they have when using the service.
 
 3. ### Keeping to ‘decline by default’ time frames
 
