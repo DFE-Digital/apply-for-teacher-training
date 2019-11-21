@@ -49,4 +49,72 @@ RSpec.describe CourseChoicesReviewComponent do
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.courses.delete'))
     end
   end
+
+  context 'when course choices are submitted' do
+    it 'renders component with the status as submitted when awaiting references' do
+      application_form = create_application_form_with_course_choice(status: 'awaiting_references')
+
+      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Submitted')
+    end
+
+    it 'renders component with the status as submitted when application is complete' do
+      application_form = create_application_form_with_course_choice(status: 'application_complete')
+
+      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Submitted')
+    end
+
+    it 'renders component with the status as pending when awaiting provider decision' do
+      application_form = create_application_form_with_course_choice(status: 'awaiting_provider_decision')
+
+      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Pending')
+    end
+
+    it 'renders component with the status as offer when an offer has been made' do
+      application_form = create_application_form_with_course_choice(status: 'offer')
+
+      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Offer')
+    end
+
+    it 'renders component with the status as accepted when the candidate has accepted an offer' do
+      application_form = create_application_form_with_course_choice(status: 'pending_conditions')
+
+      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Accepted')
+    end
+
+    it 'renders component with the status as accepted when the candidate has declined an offer' do
+      application_form = create_application_form_with_course_choice(status: 'declined')
+
+      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Declined')
+    end
+  end
+
+  def create_application_form_with_course_choice(status:)
+    application_form = create(:application_form)
+
+    create(
+      :application_choice,
+      application_form: application_form,
+      status: status,
+    )
+
+    application_form
+  end
 end

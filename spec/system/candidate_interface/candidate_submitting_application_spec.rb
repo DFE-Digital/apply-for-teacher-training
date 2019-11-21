@@ -159,6 +159,7 @@ RSpec.feature 'Candidate submit the application' do
     expect(page).to have_content "Application submitted on #{this_day}"
     expect(page).to have_content 'Gorse SCITT'
     expect(page).to have_content current_candidate.current_application.references.first.name
+    expect(page).to have_content 'Submitted'
   end
 
   def when_i_click_view_application

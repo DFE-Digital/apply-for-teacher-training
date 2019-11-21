@@ -8,6 +8,18 @@ class ApplicationCompleteContentComponent < ActionView::Component::Base
     @dates = ApplicationDates.new(@application_form)
   end
 
+  def any_awaiting_provider_decision?
+    @application_form.application_choices.map.any?(&:awaiting_provider_decision?)
+  end
+
+  def any_offers?
+    @application_form.application_choices.map.any?(&:offer?)
+  end
+
+  def editable?
+    @dates.form_open_to_editing?
+  end
+
 private
 
   attr_reader :application_form

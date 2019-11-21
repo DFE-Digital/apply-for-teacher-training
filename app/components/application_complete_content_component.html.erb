@@ -1,4 +1,24 @@
-<% if @dates.form_open_to_editing? %>
+<% if any_offers? %>
+  <h2 class="govuk-heading-m govuk-!-font-size-27">
+    Some of your training providers haven’t reached a decision yet
+  </h2>
+
+  <p class="govuk-body">
+    Training providers must respond by <%= respond_by_date %>.
+  </p>
+
+  <p class="govuk-body">
+    If you accept an offer now, your remaining applications will be withdrawn.
+  </p>
+<% elsif any_awaiting_provider_decision? %>
+  <h2 class="govuk-heading-m govuk-!-font-size-27">Courses you’ve applied to</h2>
+
+  <p class="govuk-body">
+    Training providers must respond by <%= respond_by_date %>.
+  </p>
+<% elsif editable? %>
+  <h2 class="govuk-heading-m govuk-!-font-size-27">Courses you’ve applied to</h2>
+
   <div class="govuk-inset-text">
     <p class="govuk-body">
       You have <%= formatted_days_remaining %>
