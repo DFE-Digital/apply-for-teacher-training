@@ -13,6 +13,9 @@ RSpec.feature 'See providers' do
 
     when_i_click_on_a_provider
     then_i_see_the_providers_courses_and_sites
+
+    when_i_click_on_a_course
+    then_i_see_the_course_information
   end
 
   def given_i_am_a_support_user
@@ -79,5 +82,13 @@ RSpec.feature 'See providers' do
 
   def then_i_see_the_providers_courses_and_sites
     expect(page).to have_content 'ABC-1'
+  end
+
+  def when_i_click_on_a_course
+    click_link 'ABC-1'
+  end
+
+  def then_i_see_the_course_information
+    expect(page).to have_title 'Primary (ABC-1)'
   end
 end
