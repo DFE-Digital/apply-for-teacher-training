@@ -12,6 +12,8 @@ module CandidateInterface
       @application_form = current_application
     end
 
+    def edit; end
+
     def complete
       @application_form = current_application
     end

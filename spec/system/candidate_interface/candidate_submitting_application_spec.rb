@@ -33,6 +33,9 @@ RSpec.feature 'Candidate submit the application' do
 
     when_i_attempt_to_edit_my_contact_details
     then_i_can_see_my_application_dashboard
+
+    when_i_click_the_edit_application_link
+    then_i_see_edit_information_page
   end
 
   def given_i_am_signed_in
@@ -175,5 +178,13 @@ RSpec.feature 'Candidate submit the application' do
     expect(page).to have_content 'Everything'
     expect(page).to have_content 'NOT WEDNESDAY'
     expect(page).to have_content 'Terri Tudor'
+  end
+
+  def when_i_click_the_edit_application_link
+    click_link 'Edit your application'
+  end
+
+  def then_i_see_edit_information_page
+    expect(page).to have_content t('page_titles.application_edit')
   end
 end

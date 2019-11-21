@@ -31,6 +31,7 @@ Rails.application.routes.draw do
 
     scope '/application' do
       get '/' => 'application_form#show', as: :application_form
+      get '/edit' => 'application_form#edit', as: :application_edit
       get '/review' => 'application_form#review', as: :application_review
       get '/review/submitted' => 'application_form#review_submitted', as: :application_review_submitted
       get '/complete' => 'application_form#complete', as: :application_complete
