@@ -21,6 +21,20 @@
   @include govuk-font($size: 19);
   display: block;
   overflow: hidden;
+
+  &--missing-section {
+    @include govuk-media-query($from: desktop) {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+    }
+
+    p {
+      @include govuk-typography-weight-bold;
+      color: govuk-colour("blue");
+      margin: 0;
+    }
+  }
 }
 
 .app-banner__message *:last-child {
