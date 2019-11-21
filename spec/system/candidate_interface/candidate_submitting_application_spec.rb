@@ -150,7 +150,7 @@ RSpec.feature 'Candidate submit the application' do
   end
 
   def when_i_click_on_track_your_application
-    click_link t('submit_application_success.track_your_application')
+    click_link t('page_titles.application_dashboard')
   end
 
   def then_i_can_see_my_application_dashboard

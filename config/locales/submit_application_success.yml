@@ -2,6 +2,5 @@ en:
   submit_application_success:
     title: Application submitted
     heading: Application successfully submitted
-    track_your_application: Track the progress of your application
     email:
       subject: Thank you for completing your teacher training application
