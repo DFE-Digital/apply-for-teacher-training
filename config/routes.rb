@@ -246,6 +246,7 @@ Rails.application.routes.draw do
     get '/providers/:provider_id' => 'providers#show', as: :provider
 
     get '/courses/:course_id' => 'courses#show', as: :course
+    post '/courses/:course_id' => 'courses#update'
 
     get '/import-references' => 'import_references#index'
     post '/import-references' => 'import_references#import'
