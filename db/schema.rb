@@ -80,9 +80,9 @@ ActiveRecord::Schema.define(version: 2019_11_19_160946) do
     t.text "interview_preferences"
     t.boolean "other_qualifications_completed", default: false, null: false
     t.boolean "disclose_disability"
-    t.boolean "volunteering_completed", default: false, null: false
-    t.boolean "course_choices_completed", default: false, null: false
     t.text "work_history_breaks"
+    t.boolean "course_choices_completed", default: false, null: false
+    t.boolean "volunteering_completed", default: false, null: false
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
   end
 
@@ -156,8 +156,8 @@ ActiveRecord::Schema.define(version: 2019_11_19_160946) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "level"
     t.date "start_date"
-    t.boolean "exposed_in_find"
     t.integer "accrediting_provider_id"
+    t.boolean "exposed_in_find"
     t.index ["code"], name: "index_courses_on_code"
     t.index ["provider_id", "code"], name: "index_courses_on_provider_id_and_code", unique: true
     t.index ["provider_id"], name: "index_courses_on_provider_id"
@@ -191,16 +191,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_160946) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["code", "provider_id"], name: "index_sites_on_code_and_provider_id", unique: true
     t.index ["provider_id"], name: "index_sites_on_provider_id"
-  end
-
-  create_table "time_limits", force: :cascade do |t|
-    t.string "rule", null: false
-    t.integer "limit", null: false
-    t.date "from_date"
-    t.date "to_date"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["rule"], name: "index_time_limits_on_rule"
   end
 
   create_table "vendor_api_tokens", force: :cascade do |t|
