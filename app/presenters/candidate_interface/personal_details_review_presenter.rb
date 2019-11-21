@@ -61,7 +61,7 @@ module CandidateInterface
 
     def english_main_language_details_row
       {
-        key: I18n.t('application_form.personal_details.other_language_details.label'),
+        key: I18n.t('application_form.personal_details.english_main_language_details.label'),
         value: @form.other_language_details,
         action: ('other languages' if @editable),
       }
@@ -69,7 +69,7 @@ module CandidateInterface
 
     def other_language_details_row
       {
-        key: I18n.t('application_form.personal_details.english_main_language_details.label'),
+        key: I18n.t('application_form.personal_details.other_language_details.label'),
         value: @form.english_language_details,
         action: ('english languages qualifications' if @editable),
       }

@@ -105,12 +105,12 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
         personal_details_form = build(
           :personal_details_form,
           english_main_language: 'yes',
-          english_language_details: 'Mi nombre es Max.',
-          other_language_details: '',
+          english_language_details: '',
+          other_language_details: 'I speak French',
         )
 
         expect(rows(personal_details_form)).to include(
-          row_for(:english_main_language_details, 'Mi nombre es Max.'),
+          row_for(:english_main_language_details, 'I speak French'),
         )
       end
     end
@@ -159,8 +159,8 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
         personal_details_form = build(
           :personal_details_form,
           english_main_language: 'no',
-          english_language_details: '',
-          other_language_details: 'Broken? Oh man, are you cereal?',
+          english_language_details: 'Broken? Oh man, are you cereal?',
+          other_language_details: '',
         )
 
         expect(rows(personal_details_form)).to include(
