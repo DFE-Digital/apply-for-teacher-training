@@ -71,12 +71,12 @@ en:
   activemodel:
     attributes:
       vendor_api/metadata:
-        timestamp: "meta.timestamp"
-        attribution: "meta.attribution"
+        timestamp: meta.timestamp
+        attribution: meta.attribution
       vendor_api/attribution_meta:
-        user_id: "user_id"
-        email: "email"
-        full_name: "full_name"
+        user_id: user_id
+        email: email
+        full_name: full_name
   activerecord:
     errors:
       models:
@@ -98,7 +98,7 @@ en:
               blank: Enter the referee’s full name
               too_long: Full name must be %{count} characters or fewer
             relationship:
-              blank: Enter the referee’s relationship to you
+              blank: Tell us about the referee’s relationship to you and how long they’ve known you
               too_long: Relationship must be %{count} characters or fewer
   application_choice:
     status_name:

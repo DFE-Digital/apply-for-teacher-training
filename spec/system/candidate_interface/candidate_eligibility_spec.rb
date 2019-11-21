@@ -23,7 +23,7 @@ RSpec.feature 'Candidate eligibility' do
   end
 
   def then_i_see_validation_errors
-    expect(page).to have_content 'Choose if you are a citizen of the UK, EU or EEA'
+    expect(page).to have_content 'Select if you are a citizen of the UK, EU or EEA'
   end
 
   def and_i_answer_no_to_some_questions
