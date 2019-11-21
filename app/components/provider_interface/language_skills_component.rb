@@ -33,7 +33,7 @@ module ProviderInterface
 
     def english_main_language_details_row
       {
-        key: t('application_form.personal_details.other_language_details.label'),
+        key: t('application_form.personal_details.english_main_language_details.label'),
         value: other_language_details.present? ? other_language_details : 'No details given',
       }
     end

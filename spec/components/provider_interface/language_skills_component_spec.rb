@@ -13,7 +13,7 @@ RSpec.describe ProviderInterface::LanguageSkillsComponent do
     expect(result.css('.govuk-summary-list__key').text).to include('Is English your main language?')
     expect(result.css('.govuk-summary-list__value').text).to include('Yes')
 
-    expect(result.css('.govuk-summary-list__key').text).to include('other languages spoken')
+    expect(result.css('.govuk-summary-list__key').text).to include('Other languages spoken')
     expect(result.css('.govuk-summary-list__value').text).to include('Details about other languages spoken')
   end
 
