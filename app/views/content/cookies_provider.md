@@ -7,8 +7,6 @@ Cookies are used to:
 * remember who you are when you have logged in so we can show you your information and information relevant to you
 * Manage teacher training applications cookies aren’t used to identify you personally.
 
-Find out more about [how to manage cookies](http://www.aboutcookies.org/).
-
 ## How we use cookies
 
 ### Measuring website usage (Google Analytics)
