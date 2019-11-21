@@ -34,6 +34,22 @@ module CandidateInterface
       end
     end
 
+    def degrees_path
+      if degrees_completed? || degrees_added?
+        Rails.application.routes.url_helpers.candidate_interface_degrees_review_path
+      else
+        Rails.application.routes.url_helpers.candidate_interface_degrees_new_base_path
+      end
+    end
+
+    def other_qualification_path
+      if other_qualifications_completed? || other_qualifications_added?
+        Rails.application.routes.url_helpers.candidate_interface_review_other_qualifications_path
+      else
+        Rails.application.routes.url_helpers.candidate_interface_new_other_qualification_path
+      end
+    end
+
     def degrees_completed?
       @application_form.degrees_completed
     end

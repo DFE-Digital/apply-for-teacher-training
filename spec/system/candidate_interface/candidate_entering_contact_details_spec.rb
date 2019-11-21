@@ -144,7 +144,7 @@ RSpec.feature 'Entering their contact details' do
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#contact-details-completed', text: 'Completed')
+    expect(page).to have_css('#contact-details-badge-id', text: 'Completed')
   end
 
   def then_i_can_check_my_revised_answers

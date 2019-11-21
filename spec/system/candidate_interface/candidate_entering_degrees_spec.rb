@@ -101,7 +101,7 @@ RSpec.feature 'Entering their degrees' do
 
   def then_i_should_see_the_form_and_the_section_is_not_completed
     expect(page).to have_content(t('page_titles.application_form'))
-    expect(page).not_to have_css('#degrees-completed', text: 'Completed')
+    expect(page).not_to have_css('#degree-badge-id', text: 'Completed')
   end
 
   def when_i_click_on_add_another_degree
@@ -178,7 +178,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#degrees-completed', text: 'Completed')
+    expect(page).to have_css('#degree-badge-id', text: 'Completed')
   end
 
   def then_i_can_check_my_answers

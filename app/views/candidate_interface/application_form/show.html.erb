@@ -16,12 +16,7 @@
 
     <ol class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">
-        <% if @application_form_presenter.course_choices_completed? %>
-          <%= govuk_link_to t('page_titles.course_choices'), candidate_interface_course_choices_index_path, class: 'app-task-list__task-name', 'aria-describedby': 'courses-choices-completed' %>
-          <strong class="govuk-tag app-task-list__task-completed" id="course-choices-completed">Completed</strong>
-        <% else %>
-          <%= govuk_link_to t('page_titles.course_choices'), candidate_interface_course_choices_index_path, class: 'app-task-list__task-name' %>
-        <% end %>
+        <%= render(TaskListItemComponent, text: t('page_titles.course_choices'), completed: @application_form_presenter.course_choices_completed?, path: candidate_interface_course_choices_index_path) %>
       </li>
     </ol>
 
@@ -30,38 +25,16 @@
     </h2>
     <ol class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">
-        <% if @application_form_presenter.personal_details_completed? %>
-          <%= govuk_link_to t('page_titles.personal_details'), candidate_interface_personal_details_show_path, class: 'app-task-list__task-name', 'aria-describedby': 'personal-details-completed' %>
-          <strong class="govuk-tag app-task-list__task-completed" id="personal-details-completed">Completed</strong>
-        <% else %>
-          <%= govuk_link_to t('page_titles.personal_details'), candidate_interface_personal_details_edit_path, class: 'app-task-list__task-name' %>
-        <% end %>
+        <%= render(TaskListItemComponent, text: t('page_titles.personal_details'), completed: @application_form_presenter.personal_details_completed?, path: @application_form_presenter.personal_details_completed? ? candidate_interface_personal_details_show_path : candidate_interface_personal_details_edit_path) %>
       </li>
       <li class="app-task-list__item">
-        <% if @application_form_presenter.contact_details_completed? %>
-          <%= govuk_link_to t('page_titles.contact_details'), candidate_interface_contact_details_review_path, class: 'app-task-list__task-name', 'aria-describedby': 'contact-details-completed' %>
-          <strong class="govuk-tag app-task-list__task-completed" id="contact-details-completed">Completed</strong>
-        <% else %>
-          <%= govuk_link_to t('page_titles.contact_details'), candidate_interface_contact_details_edit_base_path, class: 'app-task-list__task-name' %>
-        <% end %>
+        <%= render(TaskListItemComponent, text: t('page_titles.contact_details'), completed: @application_form_presenter.contact_details_completed?, path: @application_form_presenter.contact_details_completed? ? candidate_interface_contact_details_review_path : candidate_interface_contact_details_edit_base_path) %>
       </li>
       <li class="app-task-list__item">
-        <% if @application_form_presenter.work_experience_completed? %>
-          <%= govuk_link_to t('page_titles.work_history'), @application_form_presenter.work_experience_path, class: 'app-task-list__task-name', 'aria-describedby': 'work-history-completed' %>
-          <strong class="govuk-tag app-task-list__task-completed" id="work-history-completed">Completed</strong>
-        <% else %>
-          <%= govuk_link_to t('page_titles.work_history'), @application_form_presenter.work_experience_path, class: 'app-task-list__task-name' %>
-        <% end %>
+        <%= render(TaskListItemComponent, text: t('page_titles.work_history'), completed: @application_form_presenter.work_experience_completed?, path: @application_form_presenter.work_experience_path) %>
       </li>
       <li class="app-task-list__item">
-        <% if @application_form_presenter.volunteering_completed? %>
-          <%= govuk_link_to t('page_titles.volunteering.short'), candidate_interface_review_volunteering_path, class: 'app-task-list__task-name', 'aria-describedby': 'volunteering-completed' %>
-          <strong class="govuk-tag app-task-list__task-completed" id="volunteering-completed">Completed</strong>
-        <% elsif @application_form_presenter.volunteering_added? %>
-          <%= govuk_link_to t('page_titles.volunteering.short'), candidate_interface_review_volunteering_path, class: 'app-task-list__task-name' %>
-        <% else %>
-          <%= govuk_link_to t('page_titles.volunteering.short'), candidate_interface_volunteering_experience_path, class: 'app-task-list__task-name' %>
-        <% end %>
+        <%= render(TaskListItemComponent, text: t('page_titles.volunteering.short'), completed: @application_form_presenter.volunteering_completed?, path: @application_form_presenter.volunteering_completed? ? candidate_interface_review_volunteering_path : candidate_interface_volunteering_experience_path) %>
       </li>
     </ol>
 
@@ -70,51 +43,22 @@
     </h2>
     <ol class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">
-        <% if @application_form_presenter.degrees_completed? %>
-          <%= govuk_link_to t('page_titles.degree'), candidate_interface_degrees_review_path, class: 'app-task-list__task-name', 'aria-describedby': 'degrees-completed' %>
-          <strong class="govuk-tag app-task-list__task-completed" id="degrees-completed">Completed</strong>
-        <% elsif @application_form_presenter.degrees_added? %>
-          <%= govuk_link_to t('page_titles.degree'), candidate_interface_degrees_review_path, class: 'app-task-list__task-name' %>
-        <% else %>
-          <%= govuk_link_to t('page_titles.degree'), candidate_interface_degrees_new_base_path, class: 'app-task-list__task-name' %>
-        <% end %>
+        <%= render(TaskListItemComponent, text: t('page_titles.degree'), completed: @application_form_presenter.degrees_completed?, path: @application_form_presenter.degrees_path) %>
       </li>
       <li class="app-task-list__item">
-        <% if @application_form_presenter.maths_gcse_completed? %>
-          <%= govuk_link_to 'Maths GCSE or equivalent', candidate_interface_gcse_review_path(subject: :maths), class: 'app-task-list__task-name', 'aria-describedby': 'maths-qualifications-completed' %>
-          <strong class="govuk-tag app-task-list__task-completed" id="maths-qualifications-completed">Completed</strong>
-        <% else %>
-          <%= govuk_link_to 'Maths GCSE or equivalent', candidate_interface_gcse_details_edit_type_path(subject: :maths), class: 'app-task-list__task-name' %>
-        <% end %>
+        <%= render(TaskListItemComponent, text: 'Maths GCSE or equivalent', completed: @application_form_presenter.maths_gcse_completed?, path: @application_form_presenter.maths_gcse_completed? ? candidate_interface_gcse_review_path(subject: :maths) : candidate_interface_gcse_details_edit_type_path(subject: :maths)) %>
       </li>
 
       <li class="app-task-list__item">
-        <% if @application_form_presenter.english_gcse_completed? %>
-          <%= govuk_link_to 'English GCSE or equivalent', candidate_interface_gcse_review_path(subject: :english), class: 'app-task-list__task-name', 'aria-describedby': 'english-qualifications-completed' %>
-          <strong class="govuk-tag app-task-list__task-completed" id="english-qualifications-completed">Completed</strong>
-        <% else %>
-          <%= govuk_link_to 'English GCSE or equivalent', candidate_interface_gcse_details_edit_type_path(subject: :english), class: 'app-task-list__task-name' %>
-        <% end %>
+        <%= render(TaskListItemComponent, text: 'English GCSE or equivalent', completed: @application_form_presenter.english_gcse_completed?, path: @application_form_presenter.english_gcse_completed? ? candidate_interface_gcse_review_path(subject: :english) : candidate_interface_gcse_details_edit_type_path(subject: :english)) %>
       </li>
 
       <li class="app-task-list__item">
-        <% if @application_form_presenter.science_gcse_completed? %>
-          <%= govuk_link_to 'Science GCSE or equivalent', candidate_interface_gcse_review_path(subject: :science), class: 'app-task-list__task-name', 'aria-describedby': 'science-qualifications-completed' %>
-          <strong class="govuk-tag app-task-list__task-completed" id="science-qualifications-completed">Completed</strong>
-        <% else %>
-          <%= govuk_link_to 'Science GCSE or equivalent', candidate_interface_gcse_details_edit_type_path(subject: :science), class: 'app-task-list__task-name' %>
-        <% end %>
+        <%= render(TaskListItemComponent, text: 'Science GCSE or equivalent', completed: @application_form_presenter.science_gcse_completed?, path: @application_form_presenter.science_gcse_completed? ? candidate_interface_gcse_review_path(subject: :science) : candidate_interface_gcse_details_edit_type_path(subject: :science)) %>
       </li>
 
       <li class="app-task-list__item">
-        <% if @application_form_presenter.other_qualifications_completed? %>
-          <%= govuk_link_to t('page_titles.other_qualification'), candidate_interface_review_other_qualifications_path, class: 'app-task-list__task-name', 'aria-describedby': 'other-qualifications-completed' %>
-          <strong class="govuk-tag app-task-list__task-completed" id="other-qualifications-completed">Completed</strong>
-        <% elsif @application_form_presenter.other_qualifications_added? %>
-          <%= govuk_link_to t('page_titles.other_qualification'), candidate_interface_review_other_qualifications_path, class: 'app-task-list__task-name' %>
-        <% else %>
-          <%= govuk_link_to t('page_titles.other_qualification'), candidate_interface_new_other_qualification_path, class: 'app-task-list__task-name' %>
-        <% end %>
+        <%= render(TaskListItemComponent, text: t('page_titles.other_qualification'), completed: @application_form_presenter.other_qualifications_completed?, path: @application_form_presenter.other_qualification_path) %>
       </li>
     </ol>
 
@@ -127,40 +71,20 @@
     </p>
     <ol class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item govuk-hint">
-        <% if @application_form_presenter.becoming_a_teacher_completed? %>
-          <%= govuk_link_to t('page_titles.becoming_a_teacher'), candidate_interface_becoming_a_teacher_show_path, class: 'app-task-list__task-name', 'aria-describedby': 'becoming-a-teacher-completed' %>
-          <strong class="govuk-tag app-task-list__task-completed" id="becoming-a-teacher-completed">Completed</strong>
-        <% else %>
-          <%= govuk_link_to t('page_titles.becoming_a_teacher'), candidate_interface_becoming_a_teacher_edit_path, class: 'app-task-list__task-name' %>
-        <% end %>
+        <%= render(TaskListItemComponent, text: t('page_titles.becoming_a_teacher'), completed: @application_form_presenter.becoming_a_teacher_completed?, path: @application_form_presenter.becoming_a_teacher_completed? ? candidate_interface_becoming_a_teacher_show_path : candidate_interface_becoming_a_teacher_edit_path) %>
       </li>
       <li class="app-task-list__item govuk-hint">
-        <% if @application_form_presenter.subject_knowledge_completed? %>
-          <%= govuk_link_to t('page_titles.subject_knowledge'), candidate_interface_subject_knowledge_show_path, class: 'app-task-list__task-name', 'aria-describedby': 'subject-knowledge-completed' %>
-          <strong class="govuk-tag app-task-list__task-completed" id="subject-knowledge-completed">Completed</strong>
-        <% else %>
-          <%= govuk_link_to t('page_titles.subject_knowledge'), candidate_interface_subject_knowledge_edit_path, class: 'app-task-list__task-name' %>
-        <% end %>
+        <%= render(TaskListItemComponent, text: t('page_titles.subject_knowledge'), completed: @application_form_presenter.subject_knowledge_completed?, path: @application_form_presenter.subject_knowledge_completed? ? candidate_interface_subject_knowledge_show_path : candidate_interface_subject_knowledge_edit_path) %>
       </li>
       <li class="app-task-list__item govuk-hint">
-        <% if @application_form_presenter.interview_preferences_completed? %>
-          <%= govuk_link_to t('page_titles.interview_preferences'), candidate_interface_interview_preferences_show_path, class: 'app-task-list__task-name', 'aria-describedby': 'interview-preferences-completed' %>
-          <strong class="govuk-tag app-task-list__task-completed" id="interview-preferences-completed">Completed</strong>
-        <% else %>
-          <%= govuk_link_to t('page_titles.interview_preferences'), candidate_interface_interview_preferences_edit_path, class: 'app-task-list__task-name' %>
-        <% end %>
+        <%= render(TaskListItemComponent, text: t('page_titles.interview_preferences'), completed: @application_form_presenter.interview_preferences_completed?, path: @application_form_presenter.interview_preferences_completed? ? candidate_interface_interview_preferences_show_path : candidate_interface_interview_preferences_edit_path) %>
       </li>
     </ol>
 
     <h2 class="govuk-heading-m govuk-!-font-size-27">References</h2>
     <ol class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">
-        <% if @application_form_presenter.all_referees_provided_by_candidate? %>
-          <%= govuk_link_to 'Referees', candidate_interface_referees_path, class: 'app-task-list__task-name', 'aria-describedby': 'interview-preferences-completed' %>
-          <strong class="govuk-tag app-task-list__task-completed" id="referees-completed">Completed</strong>
-        <% else %>
-          <%= govuk_link_to 'Referees', candidate_interface_referees_path, class: 'app-task-list__task-name' %>
-        <% end %>
+        <%= render(TaskListItemComponent, text: 'Referees', completed: @application_form_presenter.all_referees_provided_by_candidate?, path: candidate_interface_referees_path) %>
       </li>
     </ol>
 

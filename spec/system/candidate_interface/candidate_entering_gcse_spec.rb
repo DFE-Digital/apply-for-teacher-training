@@ -128,6 +128,6 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def i_see_the_maths_gcse_is_completed
-    expect(page).to have_css('#maths-qualifications-completed', text: 'Completed')
+    expect(page).to have_css('#maths-gcse-or-equivalent-badge-id', text: 'Completed')
   end
 end

@@ -42,6 +42,12 @@
   }
 }
 
+.app-govuk-tag--incomplete {
+  background: white;
+  border: 3px solid govuk-colour("blue");
+  color: govuk-colour("blue");
+}
+
 @media print {
   .app-task-list__task-name::after {
     display: none;

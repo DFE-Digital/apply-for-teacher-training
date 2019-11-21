@@ -123,7 +123,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#course-choices-completed', text: 'Completed')
+    expect(page).to have_css('#course-choices-badge-id', text: 'Completed')
   end
 
   def then_i_see_an_error_message

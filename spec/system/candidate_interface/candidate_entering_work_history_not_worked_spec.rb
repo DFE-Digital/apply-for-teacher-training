@@ -83,6 +83,6 @@ RSpec.feature 'Entering their work history' do
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#work-history-completed', text: 'Completed')
+    expect(page).to have_css('#work-history-badge-id', text: 'Completed')
   end
 end
