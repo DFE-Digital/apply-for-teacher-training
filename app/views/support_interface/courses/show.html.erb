@@ -1,0 +1,57 @@
+<% content_for :title, @course.name_and_code %>
+
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Provider
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= @course.provider.name_and_code %>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Name
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= @course.name_and_code %>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Level
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= @course.level %>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Start date
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= @course.start_date %>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Exposed in Find
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= @course.exposed_in_find? ? 'Yes' : 'No' %>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Open on Apply
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= @course.open_on_apply? ? 'Yes' : 'No' %>
+    </dd>
+  </div>
+</dl>
