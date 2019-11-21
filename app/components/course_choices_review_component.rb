@@ -21,6 +21,12 @@ class CourseChoicesReviewComponent < ActionView::Component::Base
     course_choice.awaiting_provider_decision? || course_choice.pending_conditions?
   end
 
+  def any_withdrawable?
+    @application_form.application_choices.any? do |course_choice|
+      withdrawable?(course_choice)
+    end
+  end
+
 private
 
   attr_reader :application_form

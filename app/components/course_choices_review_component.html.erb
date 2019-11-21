@@ -21,3 +21,7 @@
     </header>
   <% end %>
 <% end %>
+
+<% if any_withdrawable? %>
+  <p class="govuk-body"><%= t('application_form.courses.withdrawal_information') %></p>
+<% end %>

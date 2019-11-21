@@ -109,8 +109,9 @@ RSpec.describe CourseChoicesReviewComponent do
   end
 
   context 'when a course choice is awaiting provider decision' do
+    let(:application_form) { create_application_form_with_course_choices(statuses: %w[awaiting_provider_decision]) }
+
     it 'renders component with a withdraw link' do
-      application_form = create_application_form_with_course_choices(statuses: %w[awaiting_provider_decision])
       course_id = application_form.application_choices.first.id
 
       result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
@@ -119,6 +120,12 @@ RSpec.describe CourseChoicesReviewComponent do
       expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
         Rails.application.routes.url_helpers.candidate_interface_course_choice_withdraw_path(course_id),
       )
+    end
+
+    it 'renders component with a withdrawal content' do
+      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
+
+      expect(result.text).to include(t('application_form.courses.withdrawal_information'))
     end
   end
 
@@ -135,8 +142,9 @@ RSpec.describe CourseChoicesReviewComponent do
   end
 
   context 'when an offer has been accepted i.e. pending conditions' do
+    let(:application_form) { create_application_form_with_course_choices(statuses: %w[pending_conditions]) }
+
     it 'renders component with a withdraw link' do
-      application_form = create_application_form_with_course_choices(statuses: %w[pending_conditions])
       course_id = application_form.application_choices.first.id
 
       result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
@@ -145,6 +153,12 @@ RSpec.describe CourseChoicesReviewComponent do
       expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
         Rails.application.routes.url_helpers.candidate_interface_course_choice_withdraw_path(course_id),
       )
+    end
+
+    it 'renders component with a withdrawal content' do
+      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
+
+      expect(result.text).to include(t('application_form.courses.withdrawal_information'))
     end
   end
 
