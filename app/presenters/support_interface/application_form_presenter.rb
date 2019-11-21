@@ -1,5 +1,7 @@
 module SupportInterface
   class ApplicationFormPresenter
+    delegate :references, to: :application_form
+
     def initialize(application_form)
       @application_form = application_form
     end
@@ -36,11 +38,11 @@ module SupportInterface
       reference_status(application_form.references[1])
     end
 
-  private
-
     def submitted?
       application_form.submitted_at.present?
     end
+
+  private
 
     def reference_status(reference)
       return 'Not applicable' unless reference && submitted?

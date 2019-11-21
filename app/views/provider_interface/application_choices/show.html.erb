@@ -104,8 +104,8 @@
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8" id="first-reference">First reference</h2>
 
-<%= render ProviderInterface::ReferenceComponent, reference: @application_choice.first_reference %>
+<%= render ReferenceWithFeedbackComponent, reference: @application_choice.first_reference %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8" id="second-reference">Second reference</h2>
 
-<%= render ProviderInterface::ReferenceComponent, reference: @application_choice.second_reference %>
+<%= render ReferenceWithFeedbackComponent, reference: @application_choice.second_reference %>
