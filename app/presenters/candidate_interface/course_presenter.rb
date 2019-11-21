@@ -5,11 +5,11 @@ module CandidateInterface
     end
 
     def provider_code
-      @course.provider_code
+      @course.provider.code
     end
 
     def course_code
-      @course.course_code
+      @course.code
     end
 
     def name

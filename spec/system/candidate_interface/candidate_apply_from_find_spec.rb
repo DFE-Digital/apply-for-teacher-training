@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'A candidate arriving from Find with a course and provider code' do
-  include FindAPIHelper
-
   scenario 'seeing their course information on the landing page' do
     when_i_have_arrive_from_find_with_invalid_course_parameters
     then_i_should_see_an_error_page
@@ -15,7 +13,6 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
   end
 
   def when_i_have_arrive_from_find_with_invalid_course_parameters
-    stub_find_api_course_404('NOT', 'REAL')
     visit candidate_interface_apply_from_find_path providerCode: 'NOT', courseCode: 'REAL'
   end
 
@@ -24,7 +21,7 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
   end
 
   def when_i_have_arrived_from_find_with_valid_course_parameters
-    stub_find_api_course_200('ABC', 'XYZ1', 'Biology')
+    create(:course, exposed_in_find: true, code: 'XYZ1', name: 'Biology', provider: create(:provider, code: 'ABC'))
     visit candidate_interface_apply_from_find_path providerCode: 'ABC', courseCode: 'XYZ1'
   end
 
