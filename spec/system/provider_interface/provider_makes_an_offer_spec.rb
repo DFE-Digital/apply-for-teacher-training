@@ -6,7 +6,7 @@ RSpec.feature 'Provider makes an offer' do
 
   let(:course_option) { course_option_for_provider_code(provider_code: 'ABC') }
   let(:application_awaiting_provider_decision) {
-    create(:application_choice, status: 'awaiting_provider_decision', course_option: course_option, application_form: create(:application_form, first_name: 'Alice', last_name: 'Wunder'))
+    create(:application_choice, status: 'awaiting_provider_decision', course_option: course_option, application_form: create(:completed_application_form, first_name: 'Alice', last_name: 'Wunder'))
   }
 
   scenario 'Provider makes an offer' do
