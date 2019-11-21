@@ -9,6 +9,7 @@ en:
       complete:
         completed_checkbox: I have completed this section
         button: Continue
+      view_and_respond_to_offer: View and respond to offer
     personal_details:
       first_name:
         label: First name

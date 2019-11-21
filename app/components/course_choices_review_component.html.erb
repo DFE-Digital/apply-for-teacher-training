@@ -5,13 +5,17 @@
         <%= course_choice.provider.name %>
       </h3>
 
-      <% if @editable %>
+      <% if course_choice.offer? %>
         <div class='app-summary-card__actions'>
-          <%= link_to t('application_form.courses.delete'), candidate_interface_confirm_destroy_course_choice_path(course_choice.id), class: 'govuk-link' %>
+          <%= link_to t('application_form.courses.view_and_respond_to_offer'), '#', class: 'govuk-link' %>
         </div>
-      <% else %>
+      <% elsif withdrawable?(course_choice) %>
         <div class='app-summary-card__actions'>
           <%= link_to t('application_form.courses.withdraw'), candidate_interface_course_choice_withdraw_path(course_choice.id), class: 'govuk-link' %>
+        </div>
+      <% elsif @editable %>
+        <div class='app-summary-card__actions'>
+          <%= link_to t('application_form.courses.delete'), candidate_interface_confirm_destroy_course_choice_path(course_choice.id), class: 'govuk-link' %>
         </div>
       <% end %>
     </header>
