@@ -31,4 +31,11 @@ RSpec.describe SendApplicationToProvider do
     expect(application_choice.reload.reject_by_default_at.round).to eq 20.business_days.from_now.end_of_day.round
     expect(application_choice.reject_by_default_days).to eq 20
   end
+
+  it 'sends a Slack notification' do
+    allow(SlackNotificationWorker).to receive(:perform_async)
+    application_choice = create_application
+    SendApplicationToProvider.new(application_choice: application_choice).call
+    expect(SlackNotificationWorker).to have_received(:perform_async)
+  end
 end

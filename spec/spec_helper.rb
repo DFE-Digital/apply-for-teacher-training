@@ -20,6 +20,7 @@ require 'sidekiq/testing'
 require 'clockwork/test'
 require 'audited-rspec'
 ENV['SERVICE_TYPE'] = 'test' # this is used for logging
+ENV['STATE_CHANGE_SLACK_URL'] = nil # ensure tests send no Slack notifications
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
