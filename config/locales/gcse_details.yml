@@ -12,7 +12,7 @@ en:
       missing: I don’t have this qualification yet
     label:
       other_uk: Enter type of qualification
-      missing_explanation: If you are already on your way to gaining this qualification, give us details.
+      missing_explanation: If you are working towards this qualification, give us details (optional)
   gcse_edit_details:
     heading:
       maths: Maths qualification grade and year
