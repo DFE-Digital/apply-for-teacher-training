@@ -158,7 +158,9 @@ ActiveRecord::Schema.define(version: 2019_11_19_160946) do
     t.date "start_date"
     t.integer "accrediting_provider_id"
     t.boolean "exposed_in_find"
+    t.boolean "open_on_apply", default: true, null: false
     t.index ["code"], name: "index_courses_on_code"
+    t.index ["exposed_in_find", "open_on_apply"], name: "index_courses_on_exposed_in_find_and_open_on_apply"
     t.index ["provider_id", "code"], name: "index_courses_on_provider_id_and_code", unique: true
     t.index ["provider_id"], name: "index_courses_on_provider_id"
   end
