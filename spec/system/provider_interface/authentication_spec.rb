@@ -25,7 +25,7 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
   end
 
   def and_i_sign_in_via_dfe_sign_in
-    click_link 'Sign in using DfE Sign-in'
+    click_button 'Sign in using DfE Sign-in'
   end
 
   def then_i_should_be_redirected_to_the_provider_dashboard; end
@@ -39,6 +39,6 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
   end
 
   def then_i_should_see_the_login_page_again
-    expect(page).to have_content('Sign in using DfE Sign-in')
+    expect(page).to have_button('Sign in using DfE Sign-in')
   end
 end

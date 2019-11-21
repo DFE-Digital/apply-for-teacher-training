@@ -23,6 +23,7 @@ gem 'erb_lint', require: false
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth_openid_connect'
+gem 'omniauth-rails_csrf_protection'
 
 gem 'workflow'
 gem 'audited'

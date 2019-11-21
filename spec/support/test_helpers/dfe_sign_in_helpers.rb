@@ -7,7 +7,7 @@ module DfESignInHelpers
 
   def provider_signs_in_using_dfe_sign_in
     visit provider_interface_path
-    click_link 'Sign in using DfE Sign-in'
+    click_button 'Sign in using DfE Sign-in'
   end
 
   def fake_dfe_sign_in_auth_hash(email_address:, dfe_sign_in_uid:)
