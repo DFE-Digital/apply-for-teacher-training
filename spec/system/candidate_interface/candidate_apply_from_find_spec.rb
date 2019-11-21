@@ -10,6 +10,9 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
     and_i_should_see_the_provider_and_course_codes
     and_i_should_see_the_course_name_fetched_from_find
     and_i_should_be_able_to_apply_through_ucas
+
+    when_i_visit_the_available_courses_page
+    i_should_see_the_available_providers_and_courses
   end
 
   def when_i_have_arrive_from_find_with_invalid_course_parameters
@@ -21,7 +24,7 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
   end
 
   def when_i_have_arrived_from_find_with_valid_course_parameters
-    create(:course, exposed_in_find: true, code: 'XYZ1', name: 'Biology', provider: create(:provider, code: 'ABC'))
+    create(:course, exposed_in_find: true, open_on_apply: true, code: 'XYZ1', name: 'Biology', provider: create(:provider, code: 'ABC'))
     visit candidate_interface_apply_from_find_path providerCode: 'ABC', courseCode: 'XYZ1'
   end
 
@@ -41,5 +44,13 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
 
   def and_i_should_be_able_to_apply_through_ucas
     expect(page).to have_content t('apply_from_find.apply_button')
+  end
+
+  def when_i_visit_the_available_courses_page
+    visit candidate_interface_providers_path
+  end
+
+  def i_should_see_the_available_providers_and_courses
+    expect(page).to have_content 'Biology'
   end
 end

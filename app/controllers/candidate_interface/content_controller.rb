@@ -17,5 +17,12 @@ module CandidateInterface
     def terms_candidate
       render_content_page :terms_candidate
     end
+
+    def providers
+      @courses_by_provider = Course
+        .visible_to_candidates
+        .includes(:provider)
+        .group_by { |c| c.provider.name }
+    end
   end
 end

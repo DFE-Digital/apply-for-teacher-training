@@ -1,0 +1,22 @@
+<% content_for :title, t('page_titles.providers') %>
+
+<h1 class='govuk-heading-xl'>
+  <%= t('page_titles.providers') %>
+</h1>
+
+<div class='govuk-grid-row'>
+  <div class='govuk-grid-column-two-thirds'>
+    <div class='govuk-body'>
+      You can apply to the following training providers and courses using <%= govuk_link_to 'Apply for teacher training', candidate_interface_start_path %>.
+    </div>
+
+    <% @courses_by_provider.each do |provider_name, courses| %>
+      <h2 class='govuk-heading-m govuk-!-margin-bottom-2'><%= provider_name %></h2>
+      <ul class='govuk-list govuk-list--bullet'>
+        <% courses.sort_by(&:name).each do |course| %>
+          <li><%= govuk_link_to course.name_and_code, candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code) %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+</div>

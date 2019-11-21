@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
     get '/cookies', to: 'content#cookies_candidate', as: :cookies
     get '/terms-of-use', to: 'content#terms_candidate', as: :terms
+    get '/providers', to: 'content#providers', as: :providers
 
     get '/eligibility' => 'start_page#eligibility', as: :eligibility
     post '/eligibility' => 'start_page#determine_eligibility'
