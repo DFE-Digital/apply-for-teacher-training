@@ -16,6 +16,7 @@ module CandidateInterface
       details_form = GcseQualificationDetailsForm.build_from_qualification(
         current_application.qualification_in_subject(:gcse, subject_param),
       )
+      @qualification_type = details_form.qualification.qualification_type
 
       details_form.grade = details_params[:grade]
       details_form.award_year = details_params[:award_year]
