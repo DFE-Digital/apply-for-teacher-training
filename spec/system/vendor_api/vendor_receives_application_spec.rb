@@ -127,21 +127,17 @@ RSpec.feature 'Vendor receives the application' do
             },
           ],
         },
-        references: [ # TODO: Do we still include phone_number and confirms_safe_to_work_with_children?
+        references: [
           {
             name: 'Terri Tudor',
             email: 'terri@example.com',
-            # phone_number: '07999 111111',
             relationship: 'Tutor',
-            # confirms_safe_to_work_with_children: true,
             reference: 'My ideal person',
           },
           {
             name: 'Anne Other',
             email: 'anne@other.com',
-            # phone_number: '07111 999999',
             relationship: 'First boss',
-            # confirms_safe_to_work_with_children: true,
             reference: 'Lovable',
           },
         ],

@@ -156,9 +156,7 @@ module VendorApi
       {
         name: reference.name,
         email: reference.email_address,
-        # phone_number: '07999 111111',
         relationship: reference.relationship,
-        # confirms_safe_to_work_with_children: true,
         reference: reference.feedback,
       }
     end
