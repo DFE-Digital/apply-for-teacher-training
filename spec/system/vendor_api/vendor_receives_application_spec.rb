@@ -83,8 +83,8 @@ RSpec.feature 'Vendor receives the application' do
           nationality: %w[GB US],
           uk_residency_status: nil,
           english_main_language: true,
-          english_language_qualifications:  "I'm great at Galactic Basic so English is a piece of cake",
-          other_languages: '',
+          other_languages:  "I'm great at Galactic Basic so English is a piece of cake",
+          english_language_qualifications: '',
           disability_disclosure: 'I have difficulty climbing stairs',
         },
         qualifications: { # TODO: This section is hardcoded in the presenter

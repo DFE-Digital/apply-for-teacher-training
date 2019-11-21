@@ -33,7 +33,7 @@ RSpec.describe 'A Provider viewing an individual application' do
                               interview_preferences: 'Any date is fine',
                               further_information: 'Nothing further to add',
                               english_main_language: true,
-                              english_language_details: 'I also speak Spanish and German')
+                              other_language_details: 'I also speak Spanish and German')
 
     create_list(:application_qualification, 1, application_form: application_form, level: :degree)
     create_list(:application_qualification, 2, application_form: application_form, level: :gcse)
