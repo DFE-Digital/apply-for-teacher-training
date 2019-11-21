@@ -5,6 +5,7 @@ en:
       intro: You can apply for up to 3 courses.
       delete: Delete choice
       confirm_delete: Yes I’m sure - delete this choice
+      withdraw: Withdraw
       complete:
         completed_checkbox: I have completed this section
         button: Continue

@@ -34,6 +34,7 @@ en:
     destroy_degree: Are you sure you want to delete this degree?
     choosing_courses: Choosing courses
     course_choices: Course choices
+    withdraw_course_choice: Withdrawal
     destroy_course_choice: Are you sure you want to delete this choice?
     have_you_chosen: Have you chosen a course to apply to?
     which_provider: Which training provider are you applying to?

@@ -9,6 +9,10 @@
         <div class='app-summary-card__actions'>
           <%= link_to t('application_form.courses.delete'), candidate_interface_confirm_destroy_course_choice_path(course_choice.id), class: 'govuk-link' %>
         </div>
+      <% else %>
+        <div class='app-summary-card__actions'>
+          <%= link_to t('application_form.courses.withdraw'), candidate_interface_course_choice_withdraw_path(course_choice.id), class: 'govuk-link' %>
+        </div>
       <% end %>
     </header>
   <% end %>

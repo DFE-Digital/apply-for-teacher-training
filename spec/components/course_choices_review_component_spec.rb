@@ -43,10 +43,11 @@ RSpec.describe CourseChoicesReviewComponent do
   end
 
   context 'when course choices are not editable' do
-    it 'renders component without a delete link' do
+    it 'renders component without a delete link and with a withdraw link' do
       result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false)
 
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.courses.delete'))
+      expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.withdraw'))
     end
   end
 end
