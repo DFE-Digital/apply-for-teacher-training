@@ -1,0 +1,42 @@
+<% content_for :title, 'You can apply for this course using a new GOV.UK service' %>
+<% content_for :service_link, candidate_interface_apply_from_find_path(providerCode: @course.provider_code, courseCode: @course.course_code) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <span class="govuk-caption-xl"><%= @course.name_and_code %></span>
+       You can apply for this course using a new GOV.UK service
+    </h1>
+    <p class="govuk-body">
+      Apply for teacher training is a streamlined new GOV.UK service which is
+      designed to make application easier. It comes with personalised support
+      for candidates.
+    </p>
+
+    <a class="govuk-link" href="https://getintoteaching.education.gov.uk/the-way-you-apply-for-teacher-training-is-changing">
+      Learn more about changes to teacher training applications
+    </a>
+
+    <h2 class="govuk-heading-l">Is this new service right for you?</h2>
+
+    <p class="govuk-body">Apply for teacher training is still in development. The service will eventually replace UCAS as the way candidates apply for teacher training. However, for now, it is limited to just a few courses.</p>
+
+    <p class='govuk-body'>
+      You can <%= govuk_link_to 'preview a list of training providers and courses', candidate_interface_providers_path %> currently available on Apply for teacher training.
+    </p>
+
+    <p class="govuk-body">For most courses, you’ll still need to apply through UCAS.</p>
+
+    <p class="govuk-body">Additionally, the service isn’t ready yet for international candidates or candidates who’ve studied outside the UK.</p>
+
+    <a href="<%= candidate_interface_sign_up_path %>" class="govuk-button govuk-!-margin-top-4 govuk-!-margin-bottom-3">
+      Apply through the new service
+    </a>
+
+    <p class='govuk-body'>or</p>
+
+    <p class='govuk-body'>
+      <%= govuk_link_to 'Apply on UCAS', UCAS.apply_url %>
+    </p>
+  </div>
+</div>
