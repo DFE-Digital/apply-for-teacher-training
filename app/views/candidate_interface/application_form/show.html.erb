@@ -58,7 +58,7 @@
       </li>
 
       <li class="app-task-list__item">
-        <%= render(TaskListItemComponent, text: t('page_titles.other_qualification'), completed: @application_form_presenter.other_qualifications_completed?, path: @application_form_presenter.other_qualification_path) %>
+        <%= render(TaskListItemComponent, text: t('page_titles.other_qualification'), completed: @application_form_presenter.other_qualifications_completed?, path: @application_form_presenter.other_qualification_path, show_incomplete: false) %>
       </li>
     </ol>
 
