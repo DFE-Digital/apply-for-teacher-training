@@ -1,7 +1,8 @@
 en:
   reference_request:
-    email:
-      subject: Please give a reference to support the teacher training application of %{candidate_name}
+    subject:
+      initial: Give a reference to support the teacher training application of %{candidate_name}
+      chaser: "Reminder: %{candidate_name} still needs a reference for their teacher training application"
     google_form_url: https://docs.google.com/forms/d/e/1FAIpQLSeLHV9XVqckn8XUjyAS3n7dzKU5OF-BLm5dYn51JcT6qa9pGg/viewform
     email_entry: entry.409316871
     reference_id_entry: entry.1515340886

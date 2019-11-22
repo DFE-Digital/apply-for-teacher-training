@@ -144,7 +144,7 @@ RSpec.feature 'Candidate submit the application' do
     current_application = current_candidate.current_application
     current_application.references.each do |reference|
       open_email(reference.email_address)
-      expect(current_email).to have_content "Please give a reference for #{current_application.first_name}"
+      expect(current_email).to have_content "Give a reference for #{current_application.first_name}"
       expect(current_email).to have_content reference.name
     end
   end
