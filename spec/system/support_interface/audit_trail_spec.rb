@@ -13,6 +13,7 @@ RSpec.feature 'See applications' do
     and_a_vendor_updates_the_application_status
     and_i_visit_the_support_page
 
+    when_i_click_on_an_application
     when_i_click_on_an_application_history
     then_i_should_be_on_the_application_history_page
     then_i_should_be_able_to_see_history_events
@@ -56,12 +57,17 @@ RSpec.feature 'See applications' do
     visit support_interface_path
   end
 
+  def when_i_click_on_an_application
+    click_on 'alice@example.com'
+  end
+
   def when_i_click_on_an_application_history
     click_on 'History'
   end
 
   def then_i_should_be_on_the_application_history_page
-    expect(page).to have_content 'Alice Wunder’s application history'
+    expect(page).to have_content 'Application history'
+    expect(page).to have_content 'alice@example.com'
   end
 
   def then_i_should_be_able_to_see_history_events

@@ -53,7 +53,7 @@ RSpec.feature 'See applications' do
     end
 
     within "[data-qa='application-form-#{@unsubmitted_application.id}']" do
-      expect(page).to have_content('Not applicable', count: 2)
+      expect(page).to have_content('Not submitted', count: 2)
     end
   end
 
@@ -62,6 +62,6 @@ RSpec.feature 'See applications' do
   end
 
   def then_i_should_be_on_the_application_view_page
-    expect(page).to have_content "#{@completed_application.last_name}’s application"
+    expect(page).to have_content @completed_application.candidate.email_address
   end
 end
