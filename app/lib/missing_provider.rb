@@ -1,0 +1,1 @@
+class MissingProvider < RuntimeError; end
