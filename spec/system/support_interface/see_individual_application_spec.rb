@@ -1,0 +1,113 @@
+require 'rails_helper'
+
+RSpec.feature 'See an application' do
+  scenario 'Support agent visits application page' do
+    given_i_am_a_support_user
+    and_there_are_applications_in_the_system
+    and_an_application_has_received_a_reference
+    and_i_visit_the_support_page
+
+    when_i_click_on_a_completed_application
+
+    then_i_should_be_on_the_application_view_page
+    and_i_should_see_a_summary_of_the_completed_application
+    and_i_should_see_their_referees
+
+    when_i_return_to_the_support_page
+    and_i_click_on_an_unsubmitted_application
+    then_i_should_see_a_summary_of_the_unsubmitted_application
+
+    when_i_return_to_the_support_page
+    and_i_click_on_an_application_with_a_reference
+    then_i_should_see_that_reference
+  end
+
+  def given_i_am_a_support_user
+    page.driver.browser.authorize('test', 'test')
+  end
+
+  def and_there_are_applications_in_the_system
+    @completed_application = create(:completed_application_form)
+    @unsubmitted_application = create(:application_form)
+    @application_with_reference = create(:completed_application_form)
+  end
+
+  def and_an_application_has_received_a_reference
+    action = ReceiveReference.new(
+      application_form: @application_with_reference,
+      referee_email: @application_with_reference.reload.references.first.email_address,
+      feedback: 'This is my feedback',
+    )
+    action.save
+  end
+
+  def and_i_visit_the_support_page
+    visit support_interface_path
+  end
+
+  def when_i_click_on_a_completed_application
+    click_on @completed_application.candidate.email_address
+  end
+
+  def then_i_should_be_on_the_application_view_page
+    expect(page).to have_content @completed_application.candidate.email_address
+  end
+
+  def and_i_should_see_a_summary_of_the_completed_application
+    within '[data-qa="application-summary"]' do
+      [
+        @completed_application.candidate.email_address,
+        @completed_application.first_name,
+        @completed_application.last_name,
+        @completed_application.phone_number,
+        @completed_application.support_reference,
+        'Submitted',
+        'Last updated',
+      ].each do |content|
+        expect(page).to have_content content
+      end
+    end
+  end
+
+  def and_i_should_see_their_referees
+    expect(page).to have_selector('[data-qa="reference"]', count: 2)
+  end
+
+  def when_i_return_to_the_support_page
+    within '.govuk-breadcrumbs' do
+      click_on 'Applications'
+    end
+  end
+
+  def and_i_click_on_an_unsubmitted_application
+    click_on @unsubmitted_application.candidate.email_address
+  end
+
+  def then_i_should_see_a_summary_of_the_unsubmitted_application
+    within '[data-qa="application-summary"]' do
+      [
+        @unsubmitted_application.candidate.email_address,
+        'Last updated',
+      ].each do |content|
+        expect(page).to have_content content
+      end
+
+      [
+        'Phone number',
+        'Name',
+        'Support reference',
+        'Submitted',
+      ].each do |content|
+        expect(page).not_to have_content content
+      end
+    end
+  end
+
+  def and_i_click_on_an_application_with_a_reference
+    click_on @application_with_reference.candidate.email_address
+  end
+
+  def then_i_should_see_that_reference
+    expect(page).to have_content('This is my feedback')
+  end
+end

@@ -17,7 +17,7 @@ class ReferenceWithFeedbackComponent < ActionView::Component::Base
       email_address_row,
       relationship_row,
       feedback_row,
-    ]
+    ].compact
   end
 
 private
@@ -44,10 +44,12 @@ private
   end
 
   def feedback_row
-    {
-      key: 'Reference',
-      value: feedback,
-    }
+    if feedback
+      {
+        key: 'Reference',
+        value: feedback,
+      }
+    end
   end
 
   attr_reader :reference

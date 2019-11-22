@@ -1,16 +1,13 @@
 require 'rails_helper'
 
 RSpec.feature 'See applications' do
-  scenario 'Provider visits application page' do
+  scenario 'Support agent visits the list of applications' do
     given_i_am_a_support_user
     and_there_are_applications_in_the_system
     and_an_application_has_received_a_reference
     and_i_visit_the_support_page
     then_i_should_see_the_applications
     and_i_should_see_their_reference_statuses
-
-    when_i_click_on_an_application
-    then_i_should_be_on_the_application_view_page
   end
 
   def given_i_am_a_support_user
@@ -55,13 +52,5 @@ RSpec.feature 'See applications' do
     within "[data-qa='application-form-#{@unsubmitted_application.id}']" do
       expect(page).to have_content('Not submitted', count: 2)
     end
-  end
-
-  def when_i_click_on_an_application
-    click_on @completed_application.candidate.email_address
-  end
-
-  def then_i_should_be_on_the_application_view_page
-    expect(page).to have_content @completed_application.candidate.email_address
   end
 end
