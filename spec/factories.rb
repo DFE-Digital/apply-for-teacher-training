@@ -42,6 +42,13 @@ FactoryBot.define do
         volunteering_experiences_count { 1 }
         qualifications_count { 4 }
         references_count { 2 }
+        references_state { :unsubmitted }
+      end
+
+      trait :with_completed_references do
+        transient do
+          references_state { :complete }
+        end
       end
 
       trait :without_application_choices do
@@ -53,7 +60,7 @@ FactoryBot.define do
         create_list(:application_work_experience, evaluator.work_experiences_count, application_form: application_form)
         create_list(:application_volunteering_experience, evaluator.volunteering_experiences_count, application_form: application_form)
         create_list(:application_qualification, evaluator.qualifications_count, application_form: application_form)
-        create_list(:reference, evaluator.references_count, application_form: application_form)
+        create_list(:reference, evaluator.references_count, evaluator.references_state, application_form: application_form)
         # The application_form validates the length of this collection when
         # it is created, which is BEFORE we create the references here.
         # This then *caches* the association on the  application_form, and means
@@ -132,6 +139,11 @@ FactoryBot.define do
     course_option
     status { ApplicationStateChange.valid_states.sample }
     personal_statement { 'hello' }
+
+    trait :awaiting_provider_decision do
+      association :application_form, factory: %i[completed_application_form without_application_choices with_completed_references]
+      status { :awaiting_provider_decision }
+    end
   end
 
   factory :vendor_api_user do
@@ -156,7 +168,7 @@ FactoryBot.define do
     end
 
     trait :complete do
-      feedback { Faker::Lorem.paragraphs(number: 2) }
+      feedback { Faker::Lorem.paragraph(sentence_count: 10) }
     end
   end
 
