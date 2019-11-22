@@ -32,7 +32,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def and_i_fill_in_the_type_of_qualification
-    fill_in t('gcse_edit_type.label.other_uk'), with: 'Scottish Baccalaureate'
+    fill_in t('application_form.gcse.other_uk.label'), with: 'Scottish Baccalaureate'
   end
 
   def and_i_click_save_and_continue

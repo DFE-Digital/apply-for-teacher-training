@@ -1,28 +1,28 @@
-<% content_for :title, t("gcse_edit_type.heading.#{@subject}") %>
+<% content_for :title, t("gcse_edit_type.page_titles.#{@subject}") %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @application_qualification, url: candidate_interface_gcse_details_update_type_path, method: :post do |f| %>
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-        <h1 class="govuk-fieldset__heading"><%= t("gcse_edit_type.heading.#{@subject}") %></h1>
+        <h1 class="govuk-fieldset__heading"><%= t("gcse_edit_type.page_titles.#{@subject}") %></h1>
       </legend>
 
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :qualification_type, legend: { size: 'm', text: 'Type of qualification' } do %>
+      <%= f.govuk_radio_buttons_fieldset :qualification_type, legend: { size: 'm', text: t('application_form.gcse.qualification_type.label') } do %>
         <% select_gcse_qualification_type_options.each do |option| %>
           <% if option.id == :other_uk %>
 
             <%= f.govuk_radio_button :qualification_type, option.id, label: { text: option.label } do %>
-              <% f.govuk_text_field :other_uk_qualification_type, label: { text: t('gcse_edit_type.label.other_uk'), size: 's' } %>
+              <% f.govuk_text_field :other_uk_qualification_type, label: { text: t('application_form.gcse.other_uk.label'), size: 's' } %>
             <% end %>
 
           <% elsif option.id == :missing %>
             <%= f.govuk_radio_button :qualification_type, option.id, label: { text: option.label } do %>
               <p class="govuk-hint">You can still apply for teacher training if you are missing this qualification or its equivalent. However, it will need to be in place by the start of your course.</p>
               <p class="govuk-hint">For advice, contact your chosen training provider or <%= govuk_link_to 'Get into teaching', 'https://getintoteaching.education.gov.uk/get-help-and-support/' %>.</p>
-              <%= f.govuk_text_area :missing_explanation, label: { text: t('gcse_edit_type.label.missing_explanation'), size: 's' }, rows: 12, max_words: 200 do %>
+              <%= f.govuk_text_area :missing_explanation, label: { text: t('application_form.gcse.missing_explanation.label'), size: 's' }, rows: 12, max_words: 200 do %>
               <% end %>
             <% end %>
           <% else %>
@@ -31,7 +31,7 @@
         <% end %>
       <% end %>
 
-      <%= f.submit 'Save and continue', class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
+      <%= f.submit t('application_form.gcse.complete_form_button'), class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
   <% end %>
   </div>
 </div>

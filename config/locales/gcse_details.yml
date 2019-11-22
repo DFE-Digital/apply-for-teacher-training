@@ -1,20 +1,11 @@
 en:
   gcse_edit_type:
-    heading:
+    page_titles:
       maths: Add maths GCSE grade 4 (C) or above, or equivalent
       english: Add English GCSE grade 4 (C) or above, or equivalent
       science: Add science GCSE grade 4 (C) or above, or equivalent
-    types:
-      gcse: GCSE
-      gce_o_level: GCE O Level
-      scottish_national_5: Scottish National 5
-      other_uk: Other UK qualification
-      missing: I don’t have this qualification yet
-    label:
-      other_uk: Enter type of qualification
-      missing_explanation: If you are working towards this qualification, give us details (optional)
   gcse_edit_details:
-    heading:
+    page_titles:
       maths: Maths qualification grade and year
       english: English qualification grade and year
       science: Science qualification grade and year
@@ -36,7 +27,7 @@ en:
         gce_o_level: For example, ‘C’
         scottish_national_5: For example, ‘C’ or ‘4’
   gcse_summary:
-    heading:
+    page_titles:
       maths: Maths GCSE or equivalent
       english: English GCSE or equivalent
       science: Science GCSE or equivalent

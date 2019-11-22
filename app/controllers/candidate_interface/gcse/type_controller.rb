@@ -3,7 +3,7 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_submitted
     before_action :set_subject
 
-    # 1th step - Edit qualification type
+    # 1st step - Edit qualification type
     def edit
       @application_qualification = find_or_build_qualification_form
     end

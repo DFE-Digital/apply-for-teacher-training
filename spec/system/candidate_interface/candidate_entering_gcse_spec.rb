@@ -80,7 +80,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def then_i_see_the_edit_details_page
-    expect(page).to have_content t('gcse_edit_details.heading.maths')
+    expect(page).to have_content t('gcse_edit_details.page_titles.maths')
   end
 
   def then_i_see_the_review_page_with_correct_details
@@ -98,7 +98,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def then_i_see_add_grade_and_year_page
-    expect(page).to have_content t('gcse_edit_details.heading.maths')
+    expect(page).to have_content t('gcse_edit_details.page_titles.maths')
   end
 
   def when_i_fill_in_grade_and_year

@@ -1,21 +1,21 @@
-<% content_for :title, t("gcse_edit_details.heading.#{@subject}") %>
+<% content_for :title, t("gcse_edit_details.page_titles.#{@subject}") %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_gcse_details_edit_type_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @application_qualification, url: candidate_interface_gcse_details_update_details_path, method: :patch do |f| %>
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-        <h1 class="govuk-fieldset__heading"><%= t("gcse_edit_details.heading.#{@subject}") %></h1>
+        <h1 class="govuk-fieldset__heading"><%= t("gcse_edit_details.page_titles.#{@subject}") %></h1>
       </legend>
 
       <%= f.govuk_error_summary %>
 
       <%= guidance_for_gcse_edit_details(@subject, @qualification_type) %>
 
-      <%= f.govuk_text_field :grade, label: { text: 'What was your grade?', size: 'm' }, hint_text: hint_for_gcse_edit_details(@subject, @qualification_type), width: 10 %>
-      <%= f.govuk_text_field :award_year, label: { text: 'When did you get your qualification?', size: 'm' }, width: 4 %>
+      <%= f.govuk_text_field :grade, label: { text: t('application_form.gcse.grade.label'), size: 'm' }, hint_text: hint_for_gcse_edit_details(@subject, @qualification_type), width: 10 %>
+      <%= f.govuk_text_field :award_year, label: { text: t('application_form.gcse.award_year.label'), size: 'm' }, width: 4 %>
 
-      <%= f.submit 'Save and continue', class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
+      <%= f.submit t('application_form.gcse.complete_form_button'), class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
   <% end %>
   </div>
 </div>
