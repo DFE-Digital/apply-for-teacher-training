@@ -44,6 +44,10 @@ FactoryBot.define do
         references_count { 2 }
       end
 
+      trait :without_application_choices do
+        application_choices_count { 0 }
+      end
+
       after(:build) do |application_form, evaluator|
         create_list(:application_choice, evaluator.application_choices_count, application_form: application_form)
         create_list(:application_work_experience, evaluator.work_experiences_count, application_form: application_form)
@@ -121,14 +125,13 @@ FactoryBot.define do
   end
 
   factory :application_choice do
-    association :application_form, factory: :completed_application_form
+    # application_forms come with 3 application_choices out of the box. if we're making
+    # an application_choice on its own, suppress these to avoid surprises
+    association :application_form, factory: %i[completed_application_form without_application_choices]
+
     course_option
     status { ApplicationStateChange.valid_states.sample }
     personal_statement { 'hello' }
-
-    trait :single do
-      association :application_form, factory: :completed_application_form, application_choices_count: 0
-    end
   end
 
   factory :vendor_api_user do

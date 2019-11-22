@@ -4,7 +4,6 @@ Given(/an application choice has "(.*)" status/) do |original_application_status
   application_form = FactoryBot.create(:application_form)
   @application_choice = FactoryBot.create(
     :application_choice,
-    :single,
     application_form: application_form,
     status: original_application_status.gsub(' ', '_'),
   )

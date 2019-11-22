@@ -11,6 +11,7 @@ RSpec.feature 'Provider makes an offer' do
 
   scenario 'Provider makes an offer' do
     given_i_am_a_provider_user_authenticated_with_dfe_sign_in
+    and_i_am_permitted_to_see_applications_for_my_provider
 
     when_i_respond_to_an_application
     and_i_choose_to_make_an_offer
@@ -30,6 +31,10 @@ RSpec.feature 'Provider makes an offer' do
   def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
     provider_exists_in_dfe_sign_in
     provider_signs_in_using_dfe_sign_in
+  end
+
+  def and_i_am_permitted_to_see_applications_for_my_provider
+    dfe_sign_in_uid_has_permission_to_view_applications_for_provider
   end
 
   def when_i_respond_to_an_application

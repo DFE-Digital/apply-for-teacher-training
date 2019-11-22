@@ -3,6 +3,12 @@ require 'rails_helper'
 RSpec.describe GetApplicationChoicesForProvider do
   include CourseOptionHelpers
 
+  it 'raises an exception when the provider is nil' do
+    expect {
+      GetApplicationChoicesForProvider.call(provider: nil)
+    }.to raise_error(MissingProvider)
+  end
+
   it 'returns the application for the given provider' do
     current_provider = create(:provider, code: 'BAT')
 

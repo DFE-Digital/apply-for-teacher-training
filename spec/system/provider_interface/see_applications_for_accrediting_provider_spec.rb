@@ -15,15 +15,12 @@ RSpec.feature 'See applications' do
   end
 
   def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
-    @dfe_sign_in_uid = 'MY_SIGN_IN_UID'
-
-    provider_exists_in_dfe_sign_in(dfe_sign_in_uid: @dfe_sign_in_uid)
+    provider_exists_in_dfe_sign_in
     provider_signs_in_using_dfe_sign_in
   end
 
   def and_i_am_permitted_to_see_applications_for_my_provider
-    allow(Rails.application.config).to receive(:provider_permissions)
-      .and_return(ABC: [@dfe_sign_in_uid])
+    dfe_sign_in_uid_has_permission_to_view_applications_for_provider
   end
 
   def and_my_organisation_has_accredited_courses_with_applications
