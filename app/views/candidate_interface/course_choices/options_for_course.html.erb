@@ -8,8 +8,8 @@
 
       <%= f.govuk_radio_buttons_fieldset :code, legend: { size: 'xl', text: t('page_titles.which_course') } do %>
         <div class="govuk-!-margin-top-6">
-          <% @pick_course.available_courses.map do |course| %>
-            <%= f.govuk_radio_button :code, course.code, label: { text: "#{course.name} (#{course.code})" } %>
+          <% @pick_course.available_courses.each_with_index do |course, i| %>
+            <%= f.govuk_radio_button :code, course.code, label: { text: "#{course.name} (#{course.code})" }, link_errors: i.zero? %>
           <% end %>
 
           <%= f.govuk_radio_divider %>

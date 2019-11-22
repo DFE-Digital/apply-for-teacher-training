@@ -17,7 +17,7 @@
       <%- offer_text = 'Make an offer (including any conditions)' %>
       <%- reject_text = 'Reject application' %>
       <%= f.govuk_radio_buttons_fieldset :decision, inline: true, legend: { size: 'm', text: '' } do %>
-        <%= f.govuk_radio_button :decision, 'offer', label: { text: offer_text } %>
+        <%= f.govuk_radio_button :decision, 'offer', label: { text: offer_text }, link_errors: true %>
         <%= f.govuk_radio_button :decision, 'reject', label: { text: reject_text } %>
       <% end %>
 

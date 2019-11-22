@@ -34,7 +34,7 @@
         </div>
 
         <%= f.govuk_radio_buttons_fieldset :further_information, legend: { size: 'm', text: t('application_form.further_information.further_information.label') } do %>
-          <%= f.govuk_radio_button :further_information, true, label: { text: 'Yes' } do %>
+          <%= f.govuk_radio_button :further_information, true, label: { text: 'Yes' }, link_errors: true do %>
             <%= f.govuk_text_area :further_information_details, label: { text: t('application_form.further_information.further_information_details.label') }, max_words: 300 %>
           <% end %>
 

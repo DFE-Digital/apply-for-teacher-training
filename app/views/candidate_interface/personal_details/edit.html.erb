@@ -32,7 +32,7 @@
         </details>
 
         <%= f.govuk_radio_buttons_fieldset :english_main_language, legend: { size: 'm', text: t('application_form.personal_details.english_main_language.label') } do %>
-          <%= f.govuk_radio_button :english_main_language, 'yes', label: { text: 'Yes' } do %>
+          <%= f.govuk_radio_button :english_main_language, 'yes', label: { text: 'Yes' }, link_errors: true do %>
             <%= f.govuk_text_area :other_language_details, label: { text: t('application_form.personal_details.english_main_language.yes_label') }, max_words: 200 %>
           <% end %>
 

@@ -5,7 +5,7 @@
 <%= f.govuk_text_field :organisation, label: { text: t('application_form.volunteering.organisation.label'), size: 'm' } %>
 
 <%= f.govuk_radio_buttons_fieldset :working_with_children, legend: { text: t('application_form.volunteering.working_with_children.label'), tag: 'span' }, inline: true do %>
-  <%= f.govuk_radio_button :working_with_children, true, label: { text: 'Yes' } %>
+  <%= f.govuk_radio_button :working_with_children, true, label: { text: 'Yes' }, link_errors: true %>
   <%= f.govuk_radio_button :working_with_children, false, label: { text: 'No' } %>
 <% end %>
 
