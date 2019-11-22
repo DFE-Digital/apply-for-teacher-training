@@ -40,7 +40,7 @@ module CandidateHelper
     click_link t('application_form.contact_details.review.button')
 
     click_link t('page_titles.work_history')
-    choose t('application_form.work_history.more_than_5')
+    choose t('application_form.work_history.more_than_5.label')
     click_button 'Continue'
     candidate_fills_in_work_experience
     click_button t('application_form.work_history.complete_form_button')

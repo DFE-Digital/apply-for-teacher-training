@@ -64,7 +64,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def then_i_should_see_a_list_of_work_lengths
-    expect(page).to have_content(t('application_form.work_history.more_than_5'))
+    expect(page).to have_content(t('application_form.work_history.more_than_5.label'))
   end
 
   def when_i_omit_choosing_from_the_list_of_work_lengths
@@ -76,7 +76,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_choose_more_than_5_years
-    choose t('application_form.work_history.more_than_5')
+    choose t('application_form.work_history.more_than_5.label')
     click_button 'Continue'
   end
 

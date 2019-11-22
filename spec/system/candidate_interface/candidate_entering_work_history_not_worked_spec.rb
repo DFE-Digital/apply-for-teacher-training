@@ -40,7 +40,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_choose_not_worked
-    choose t('application_form.work_history.missing')
+    choose t('application_form.work_history.missing.label')
     click_button 'Continue'
   end
 

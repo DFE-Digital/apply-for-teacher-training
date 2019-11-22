@@ -25,33 +25,15 @@
 
       <div class="govuk-!-margin-top-6">
         <%= f.govuk_radio_buttons_fieldset :work_history, legend: { size: 'm', text: 'How long have you been working?', tag: 'h2' } do %>
-          <%= f.govuk_radio_button :work_history, :less_than_5, label: { text: t('application_form.work_history.less_than_5') } do %>
-            <p class="govuk-body">
-              Give us as much of your work history as you can. For example, if
-              you are a recent graduate, tell us about your employment before,
-              during and since leaving university.
-            </p>
-          <% end %>
+          <%= f.govuk_radio_button :work_history, :less_than_5, label: { text: t('application_form.work_history.less_than_5.label'), size: 's' }, hint_text: t('application_form.work_history.less_than_5.hint') %>
 
-          <%= f.govuk_radio_button :work_history, :more_than_5, label: { text: t('application_form.work_history.more_than_5') } do %>
-            <p class="govuk-body">
-              You can list your complete work history – or just the roles you
-              think are relevant – going back further than 5 years if you wish.
-            </p>
-          <% end %>
+          <%= f.govuk_radio_button :work_history, :more_than_5, label: { text: t('application_form.work_history.more_than_5.label'), size: 's' }, hint_text: t('application_form.work_history.more_than_5.hint') %>
 
-          <%= f.govuk_radio_button :work_history, :more_than_5_with_breaks, label: { text: t('application_form.work_history.more_than_5_with_breaks') } do %>
-            <p class="govuk-body">
-              You’ll be able to give details once you’ve entered your employment
-              history. Please explain any break longer than a month.
-            </p>
-          <% end %>
+          <%= f.govuk_radio_button :work_history, :more_than_5_with_breaks, label: { text: t('application_form.work_history.more_than_5_with_breaks.label'), size: 's' }, hint_text: t('application_form.work_history.more_than_5_with_breaks.hint') %>
 
-          <%= f.govuk_radio_button :work_history, :missing, label: { text: t('application_form.work_history.missing') } do %>
-            <p class="govuk-body">
-              You’ll be able to explain why you’ve been out of the workplace.
-            </p>
-          <% end %>
+          <%= f.govuk_radio_divider %>
+
+          <%= f.govuk_radio_button :work_history, :missing, label: { text: t('application_form.work_history.missing.label'), size: 's' }, hint_text: t('application_form.work_history.missing.hint') %>
         <% end %>
 
         <%= f.govuk_submit 'Continue' %>
