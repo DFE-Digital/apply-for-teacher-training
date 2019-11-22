@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submit the application' do
+RSpec.feature 'Candidate submits the application' do
   include CandidateHelper
 
-  scenario 'Candidate with personal details and contact details' do
+  scenario 'Candidate with a completed application' do
     given_i_am_signed_in
     and_i_have_completed_my_application
 
-    and_reviewed_my_application
+    and_i_review_my_application
     and_i_confirm_my_application
 
     when_i_choose_to_add_further_information_but_omit_adding_details
@@ -92,7 +92,7 @@ RSpec.feature 'Candidate submit the application' do
     candidate_provides_two_referees
   end
 
-  def and_reviewed_my_application
+  def and_i_review_my_application
     and_i_visit_the_application_form_page
     when_i_click_on_check_your_answers
   end
