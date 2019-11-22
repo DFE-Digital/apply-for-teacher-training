@@ -22,6 +22,7 @@ class GenerateTestData
       Audited.audit_class.as_user(candidate) do
         application_form = FactoryBot.create(
           :completed_application_form,
+          :with_completed_references,
           application_choices_count: 0,
           candidate: candidate,
           first_name: first_name,
@@ -33,10 +34,10 @@ class GenerateTestData
         [1, 1, 1, 1, 1, 1, 1, 2, 3].sample.times do
           FactoryBot.create(
             :application_choice,
+            :awaiting_provider_decision,
             course_option: course_option,
             application_form: application_form,
             personal_statement: Faker::Lorem.paragraph(sentence_count: 5),
-            status: 'awaiting_provider_decision',
           )
         end
       end
