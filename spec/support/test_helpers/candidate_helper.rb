@@ -4,102 +4,49 @@ module CandidateHelper
   end
 
   def candidate_completes_application_form
-    @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
-    site = create(:site, name: 'Main site', code: '-', provider: @provider)
-    course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Primary', code: '2XT2', provider: @provider)
-    create(:course_option, site: site, course: course, vacancy_status: 'B')
-
+    given_courses_exist
     create_and_sign_in_candidate
     visit candidate_interface_application_form_path
 
     click_link 'Course choices'
-    click_link 'Continue'
-    choose 'Yes, I know where I want to apply'
-    click_button 'Continue'
-
-    choose 'Gorse SCITT (1N1)'
-    click_button 'Continue'
-
-    choose 'Primary (2XT2)'
-    click_button 'Continue'
-
-    choose 'Main site'
-    click_button 'Continue'
-
-    click_link 'Back to application'
+    candidate_fills_in_course_choices
 
     click_link t('page_titles.personal_details')
-    candidate_fills_in_personal_details(scope: 'application_form.personal_details')
-    click_button t('complete_form_button', scope: 'application_form.personal_details')
-    click_link t('complete_form_button', scope: 'application_form.personal_details')
+    candidate_fills_in_personal_details
 
     click_link t('page_titles.contact_details')
     visit candidate_interface_contact_details_edit_base_path
     candidate_fills_in_contact_details
-    click_button t('application_form.contact_details.address.button')
-    click_link t('application_form.contact_details.review.button')
 
     click_link t('page_titles.work_history')
-    choose t('application_form.work_history.more_than_5.label')
-    click_button 'Continue'
     candidate_fills_in_work_experience
-    click_button t('application_form.work_history.complete_form_button')
-    check t('application_form.work_history.review.completed_checkbox')
-    click_button t('application_form.work_history.review.button')
 
     click_link t('page_titles.volunteering.short')
-    choose 'Yes' # "Do you have experience volunteering with young people or in school?"
-    click_button t('application_form.volunteering.experience.button')
     candidate_fills_in_volunteering_role
-    click_button t('application_form.volunteering.complete_form_button')
-    check t('application_form.volunteering.review.completed_checkbox')
-    click_button t('application_form.volunteering.review.button')
 
     click_link t('page_titles.degree')
-    visit candidate_interface_degrees_new_base_path
     candidate_fills_in_their_degree
-    click_button t('application_form.degree.base.button')
-    check t('application_form.degree.review.completed_checkbox')
-    click_button t('application_form.degree.review.button')
 
     click_link 'Maths GCSE or equivalent'
     candidate_fills_in_a_gcse
-    click_button 'Save and continue'
-    click_link 'Back to application'
 
     click_link 'English GCSE or equivalent'
     candidate_fills_in_a_gcse
-    click_button 'Save and continue'
-    click_link 'Back to application'
 
     click_link 'Science GCSE or equivalent'
     candidate_fills_in_a_gcse
-    click_button 'Save and continue'
-    click_link 'Back to application'
 
     click_link 'Other relevant academic and non-academic qualifications'
     candidate_fills_in_their_other_qualifications
-    click_button t('application_form.other_qualification.base.button')
-    check t('application_form.other_qualification.review.completed_checkbox')
-    click_button t('application_form.other_qualification.review.button')
 
     click_link 'Why do you want to be a teacher?'
-    fill_in t('application_form.personal_statement.becoming_a_teacher.label'), with: 'I WANT I WANT I WANT I WANT'
-    click_button t('application_form.personal_statement.becoming_a_teacher.complete_form_button')
-    # Confirmation page
-    click_link t('application_form.personal_statement.becoming_a_teacher.complete_form_button')
+    candidate_fills_in_becoming_a_teacher
 
     click_link 'What do you know about the subject you want to teach?'
-    fill_in t('application_form.personal_statement.subject_knowledge.label'), with: 'Everything'
-    click_button t('application_form.personal_statement.subject_knowledge.complete_form_button')
-    # Confirmation page
-    click_link t('application_form.personal_statement.subject_knowledge.complete_form_button')
+    candidate_fills_in_subject_knowledge
 
     click_link 'Interview preferences'
-    fill_in t('application_form.personal_statement.interview_preferences.label'), with: 'NOT WEDNESDAY'
-    click_button t('application_form.personal_statement.interview_preferences.complete_form_button')
-    # Confirmation page
-    click_link t('application_form.personal_statement.interview_preferences.complete_form_button')
+    candidate_fills_in_interview_preferences
 
     candidate_provides_two_referees
   end
@@ -114,7 +61,33 @@ module CandidateHelper
     @application = ApplicationForm.last
   end
 
-  def candidate_fills_in_personal_details(scope:)
+  def given_courses_exist
+    @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
+    site = create(:site, name: 'Main site', code: '-', provider: @provider)
+    course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Primary', code: '2XT2', provider: @provider)
+    create(:course_option, site: site, course: course, vacancy_status: 'B')
+  end
+
+  def candidate_fills_in_course_choices
+    click_link 'Continue'
+    choose 'Yes, I know where I want to apply'
+    click_button 'Continue'
+
+    choose 'Gorse SCITT (1N1)'
+    click_button 'Continue'
+
+    choose 'Primary (2XT2)'
+    click_button 'Continue'
+
+    choose 'Main site'
+    click_button 'Continue'
+
+    check t('application_form.courses.complete.completed_checkbox')
+    click_button 'Continue'
+  end
+
+  def candidate_fills_in_personal_details
+    scope = 'application_form.personal_details'
     fill_in t('first_name.label', scope: scope), with: 'Lando'
     fill_in t('last_name.label', scope: scope), with: 'Calrissian'
 
@@ -130,6 +103,9 @@ module CandidateHelper
 
     choose 'Yes'
     fill_in t('english_main_language.yes_label', scope: scope), with: "I'm great at Galactic Basic so English is a piece of cake", match: :prefer_exact
+
+    click_button t('complete_form_button', scope: scope)
+    click_link t('complete_form_button', scope: scope)
   end
 
   def candidate_fills_in_contact_details
@@ -139,9 +115,13 @@ module CandidateHelper
     fill_in t('application_form.contact_details.address_line1.label'), with: '42 Much Wow Street'
     fill_in t('application_form.contact_details.address_line3.label'), with: 'London'
     fill_in t('application_form.contact_details.postcode.label'), with: 'SW1P 3BT'
+    click_button t('application_form.contact_details.address.button')
+    click_link t('application_form.contact_details.review.button')
   end
 
   def candidate_fills_in_their_degree
+    visit candidate_interface_degrees_new_base_path
+
     fill_in t('application_form.degree.qualification_type.label'), with: 'BA'
     fill_in t('application_form.degree.subject.label'), with: 'Doge'
     fill_in t('application_form.degree.institution_name.label'), with: 'University of Much Wow'
@@ -149,6 +129,10 @@ module CandidateHelper
     choose t('application_form.degree.grade.first.label')
 
     fill_in t('application_form.degree.award_year.label'), with: '2009'
+
+    click_button t('application_form.degree.base.button')
+    check t('application_form.degree.review.completed_checkbox')
+    click_button t('application_form.degree.review.button')
   end
 
   def candidate_fills_in_their_other_qualifications
@@ -157,9 +141,16 @@ module CandidateHelper
     fill_in t('application_form.other_qualification.institution_name.label'), with: 'Yugi College'
     fill_in t('application_form.other_qualification.grade.label'), with: 'A'
     fill_in t('application_form.other_qualification.award_year.label'), with: '2015'
+
+    click_button t('application_form.other_qualification.base.button')
+    check t('application_form.other_qualification.review.completed_checkbox')
+    click_button t('application_form.other_qualification.review.button')
   end
 
   def candidate_fills_in_work_experience
+    choose t('application_form.work_history.more_than_5.label')
+    click_button 'Continue'
+
     with_options scope: 'application_form.work_history' do |locale|
       fill_in locale.t('role.label'), with: 'Teacher'
       fill_in locale.t('organisation.label'), with: 'Oakleaf Primary School'
@@ -179,9 +170,16 @@ module CandidateHelper
 
       choose 'No'
     end
+
+    click_button t('application_form.work_history.complete_form_button')
+    check t('application_form.work_history.review.completed_checkbox')
+    click_button t('application_form.work_history.review.button')
   end
 
   def candidate_fills_in_volunteering_role
+    choose 'Yes' # "Do you have experience volunteering with young people or in school?"
+    click_button t('application_form.volunteering.experience.button')
+
     with_options scope: 'application_form.volunteering' do |locale|
       fill_in locale.t('role.label'), with: 'Classroom Volunteer'
       fill_in locale.t('organisation.label'), with: 'A Noice School'
@@ -200,6 +198,10 @@ module CandidateHelper
 
       fill_in locale.t('details.label'), with: 'I volunteered.'
     end
+
+    click_button t('application_form.volunteering.complete_form_button')
+    check t('application_form.volunteering.review.completed_checkbox')
+    click_button t('application_form.volunteering.review.button')
   end
 
   def candidate_fills_in_referee(params = {})
@@ -228,6 +230,29 @@ module CandidateHelper
     click_button 'Save and continue'
     fill_in 'What was your grade?', with: 'B'
     fill_in 'When did you get your qualification?', with: '1990'
+    click_button 'Save and continue'
+    click_link 'Back to application'
+  end
+
+  def candidate_fills_in_becoming_a_teacher
+    fill_in t('application_form.personal_statement.becoming_a_teacher.label'), with: 'I WANT I WANT I WANT I WANT'
+    click_button t('application_form.personal_statement.becoming_a_teacher.complete_form_button')
+    # Confirmation page
+    click_link t('application_form.personal_statement.becoming_a_teacher.complete_form_button')
+  end
+
+  def candidate_fills_in_subject_knowledge
+    fill_in t('application_form.personal_statement.subject_knowledge.label'), with: 'Everything'
+    click_button t('application_form.personal_statement.subject_knowledge.complete_form_button')
+    # Confirmation page
+    click_link t('application_form.personal_statement.subject_knowledge.complete_form_button')
+  end
+
+  def candidate_fills_in_interview_preferences
+    fill_in t('application_form.personal_statement.interview_preferences.label'), with: 'NOT WEDNESDAY'
+    click_button t('application_form.personal_statement.interview_preferences.complete_form_button')
+    # Confirmation page
+    click_link t('application_form.personal_statement.interview_preferences.complete_form_button')
   end
 
   def current_candidate
