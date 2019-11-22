@@ -1,21 +1,26 @@
-<% content_for :title, "#{@application_form.full_name}’s application" %>
+<% content_for :title, @application_form.candidate.email_address %>
 
-<dl class="govuk-summary-list">
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Name
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= @application_form.full_name %>
-    </dd>
+<% content_for :before_content do %>
+  <div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to 'Applications', support_interface_applications_path, class: 'govuk-breadcrumbs__link' %>
+      </li>
+      <li class="govuk-breadcrumbs__list-item" aria-current="page">
+        <%= @application_form.candidate.email_address %>
+      </li>
+    </ol>
   </div>
+<% end %>
 
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Date of birth
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= @application_form.date_of_birth %>
-    </dd>
-  </div>
-</dl>
+<%= render SupportInterface::ApplicationSummaryComponent, application_form: @application_form %>
+
+<% if @application_form.submitted? %>
+  <h2 class="govuk-heading-l govuk-!-margin-top-8" id="first-reference">First reference</h2>
+
+  <%= render ReferenceWithFeedbackComponent, reference: @application_form.references.first %>
+
+  <h2 class="govuk-heading-l govuk-!-margin-top-8" id="second-reference">Second reference</h2>
+
+  <%= render ReferenceWithFeedbackComponent, reference: @application_form.references.second %>
+<% end %>

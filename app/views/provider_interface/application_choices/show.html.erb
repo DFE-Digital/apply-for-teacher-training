@@ -13,8 +13,6 @@
   </div>
 <% end %>
 
-<% content_for :before_content, govuk_back_link_to(provider_interface_applications_path) %>
-
 <h1 class="govuk-heading-xl">
   <span class="govuk-caption-xl">Application for <%= @application_choice.course_name_and_code %></span>
   <%= @application_choice.full_name %>
@@ -106,8 +104,8 @@
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8" id="first-reference">First reference</h2>
 
-<%= render ProviderInterface::ReferenceComponent, reference: @application_choice.first_reference %>
+<%= render ReferenceWithFeedbackComponent, reference: @application_choice.first_reference %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8" id="second-reference">Second reference</h2>
 
-<%= render ProviderInterface::ReferenceComponent, reference: @application_choice.second_reference %>
+<%= render ReferenceWithFeedbackComponent, reference: @application_choice.second_reference %>

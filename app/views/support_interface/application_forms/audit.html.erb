@@ -1,3 +1,23 @@
-<% content_for :title, "#{@application_form.full_name}’s application history" %>
+<% content_for :browser_title, "Application history for #{@application_form.candidate.email_address}" %>
+<% content_for :before_content do %>
+  <div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to 'Applications', support_interface_applications_path, class: 'govuk-breadcrumbs__link' %>
+      </li>
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to @application_form.candidate.email_address, support_interface_application_form_path(@application_form), class: 'govuk-breadcrumbs__link' %>
+      </li>
+      <li class="govuk-breadcrumbs__list-item" aria-current="page">
+        Application history
+      </li>
+    </ol>
+  </div>
+<% end %>
+
+<h1 class="govuk-heading-xl">
+  <span class="govuk-caption-xl"><%= @application_form.candidate.email_address %></span>
+  Application history
+</h1>
 
 <%= render SupportInterface::AuditTrailComponent, application_form: @application_form %>
