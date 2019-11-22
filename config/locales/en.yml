@@ -64,6 +64,7 @@ en:
       - Second referee
     apply_on_ucas: We’re sorry, but we’re not ready for you yet
     providers: Training providers available through Apply for teacher training
+    view_and_respond_to_offer: Details of offer
   layout:
     service_name: Apply for teacher training
     accessibility: Accessibility
