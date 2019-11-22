@@ -6,10 +6,14 @@ RSpec.feature 'See applications' do
 
   scenario 'Provider visits application page' do
     given_i_am_a_provider_user_authenticated_with_dfe_sign_in
+    and_my_training_provider_exists
     and_my_organisation_has_applications
-    and_i_am_permitted_to_see_applications_for_my_provider
+    and_i_have_not_been_assigned_to_my_training_provider # this is a manual process for now
+    and_i_visit_the_provider_page
+    then_i_should_see_the_account_creation_in_progress_page
 
-    when_i_visit_the_provider_page
+    when_i_have_been_assigned_to_my_training_provider
+    and_i_visit_the_provider_page
     then_i_should_see_the_applications_from_my_organisation
     but_not_the_applications_from_other_providers
 
@@ -17,16 +21,23 @@ RSpec.feature 'See applications' do
     then_i_should_be_on_the_application_view_page
   end
 
-  def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
-    @dfe_sign_in_uid = 'MY_SIGN_IN_UID'
+  def and_my_training_provider_exists
+    create(:provider, code: 'ABC')
+  end
 
-    provider_exists_in_dfe_sign_in(dfe_sign_in_uid: @dfe_sign_in_uid)
+  def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
+    provider_exists_in_dfe_sign_in
     provider_signs_in_using_dfe_sign_in
   end
 
-  def and_i_am_permitted_to_see_applications_for_my_provider
-    allow(Rails.application.config).to receive(:provider_permissions)
-      .and_return(ABC: [@dfe_sign_in_uid])
+  def and_i_have_not_been_assigned_to_my_training_provider; end
+
+  def then_i_should_see_the_account_creation_in_progress_page
+    expect(page).to have_content('Account creation in progress')
+  end
+
+  def when_i_have_been_assigned_to_my_training_provider
+    dfe_sign_in_uid_has_permission_to_view_applications_for_provider
   end
 
   def and_my_organisation_has_applications
@@ -38,7 +49,7 @@ RSpec.feature 'See applications' do
     @other_provider_choice = create(:application_choice, status: 'awaiting_provider_decision', course_option: other_course_option)
   end
 
-  def when_i_visit_the_provider_page
+  def and_i_visit_the_provider_page
     visit provider_interface_path
   end
 

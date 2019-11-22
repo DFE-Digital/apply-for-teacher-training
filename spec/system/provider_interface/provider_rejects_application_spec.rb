@@ -11,12 +11,16 @@ RSpec.feature 'Provider rejects application' do
 
   scenario 'Provider rejects application' do
     given_i_am_a_provider_user_authenticated_with_dfe_sign_in
+    and_i_am_permitted_to_see_applications_for_my_provider
+
     when_i_respond_to_an_application
     and_i_choose_to_reject_it
     then_i_see_some_application_info
+
     when_i_add_a_rejection_reason
     and_i_click_to_continue
     then_i_am_asked_to_confirm_the_rejection
+
     when_i_confirm_the_rejection
     then_i_am_back_to_the_application_page
     and_i_can_see_the_application_has_just_been_rejected
@@ -25,6 +29,10 @@ RSpec.feature 'Provider rejects application' do
   def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
     provider_exists_in_dfe_sign_in
     provider_signs_in_using_dfe_sign_in
+  end
+
+  def and_i_am_permitted_to_see_applications_for_my_provider
+    dfe_sign_in_uid_has_permission_to_view_applications_for_provider
   end
 
   def when_i_respond_to_an_application
