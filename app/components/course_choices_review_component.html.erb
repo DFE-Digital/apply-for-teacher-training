@@ -36,9 +36,9 @@
 <% end %>
 
 <% if show_missing_banner? %>
-  <%= render(SectionMissingBannerComponent, text: t('review_application.courses.incomplete')) do %>
+  <%= render(SectionMissingBannerComponent, text: t('review_application.course_choices.incomplete')) do %>
     <%= link_to candidate_interface_course_choices_index_path, class: 'govuk-link' do %>
-      <%= t('review_application.courses.link_html') %>
+      <%= t('review_application.course_choices.link_html') %>
     <% end %>
   <% end %>
 <% end %>

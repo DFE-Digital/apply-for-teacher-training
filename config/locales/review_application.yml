@@ -11,7 +11,7 @@ en:
       incomplete: Contact details not entered
       link: Complete contact details section
       link_html: Complete <span class="govuk-visually-hidden">contact details</span> section
-    courses:
+    course_choices:
       incomplete: Course choices are not marked as completed
       link: Complete course choices section
       link_html: Complete <span class="govuk-visually-hidden">course choices</span> section
@@ -19,11 +19,19 @@ en:
       incomplete: Degree history is not marked as completed
       link: Complete degrees section
       link_html: Complete <span class="govuk-visually-hidden">degrees</span> section
-    gcse:
-      incomplete: "%{subject} GCSE not entered"
-      link: Complete %{subject} GCSE section
-      link_html: Complete <span class="govuk-visually-hidden">%{subject} GCSE</span> section
-    interview:
+    maths_gcse:
+      incomplete: Maths GCSE not entered
+      link: Complete Maths GCSE section
+      link_html: Complete <span class="govuk-visually-hidden">Maths GCSE</span> section
+    english_gcse:
+      incomplete: English GCSE not entered
+      link: Complete English GCSE section
+      link_html: Complete <span class="govuk-visually-hidden">English GCSE</span> section
+    science_gcse:
+      incomplete: Science GCSE not entered"
+      link: Complete Science GCSE section
+      link_html: Complete <span class="govuk-visually-hidden">Science GCSE</span> section
+    interview_preferences:
       incomplete: Tell us your interview preferences
       link: Complete interview preferences section
       link_html: Complete <span class="govuk-visually-hidden">interview preferences</span> section
@@ -31,7 +39,7 @@ en:
       incomplete: Personal details not entered
       link: Complete personal details section
       link_html: Complete <span class="govuk-visually-hidden">personal details</span> section
-    referees:
+    references:
       incomplete: Add %{minimum_references} referees to your application
       link: Complete references section
       link_html: Complete <span class="govuk-visually-hidden">references</span> section
@@ -43,7 +51,7 @@ en:
       incomplete: Volunteering history is not marked as completed
       link: Complete volunteering history section
       link_html: Complete <span class="govuk-visually-hidden">volunteering history</span> section
-    work:
+    work_experience:
       incomplete: Work history is not marked as completed
       link: Complete work history section
       link_html: Complete <span class="govuk-visually-hidden">work history</span> section

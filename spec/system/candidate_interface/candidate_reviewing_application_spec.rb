@@ -8,23 +8,20 @@ RSpec.feature 'Candidate reviews the answers' do
     given_i_am_signed_in
 
     %i[
-      courses
+      course_choices
       personal_details
       contact_details
-      work
+      work_experience
       volunteering
       degrees
+      maths_gcse
+      english_gcse
+      science_gcse
       becoming_a_teacher
       subject_knowledge
-      interview
-      referees
+      interview_preferences
+      references
     ].map { |section| check_and_fill_in_section_for(section) }
-
-    %i[
-      maths
-      english
-      science
-    ].map { |section| check_and_fill_in_section_for(:gcse, subject: section) }
 
     and_i_fill_in_other_qualifications
 
@@ -136,38 +133,38 @@ RSpec.feature 'Candidate reviews the answers' do
     expect(page).to have_content 'First boss'
   end
 
-  def check_and_fill_in_section_for(section, options = {})
+  def check_and_fill_in_section_for(section)
     when_i_review_my_application
-    then_i_should_see_an_incomplete_banner_for(section, options)
+    then_i_should_see_an_incomplete_banner_for(section)
 
-    when_i_click_to_complete_section_for(section, options)
+    when_i_click_to_complete_section_for(section)
     then_i_should_be_able_to_complete_section_for(section)
 
     when_i_review_my_application
-    then_i_should_not_see_an_incomplete_banner_for(section, options)
+    then_i_should_not_see_an_incomplete_banner_for(section)
   end
 
-  def then_i_should_see_an_incomplete_banner_for(section, options)
-    expect(page).to have_content t("review_application.#{section}.link", options)
+  def then_i_should_see_an_incomplete_banner_for(section)
+    expect(page).to have_content t("review_application.#{section}.link")
   end
 
-  def when_i_click_to_complete_section_for(section, options)
-    click_link t("review_application.#{section}.link", options)
+  def when_i_click_to_complete_section_for(section)
+    click_link t("review_application.#{section}.link")
   end
 
-  def then_i_should_not_see_an_incomplete_banner_for(section, options)
-    expect(page).not_to have_content t("review_application.#{section}.link", options)
+  def then_i_should_not_see_an_incomplete_banner_for(section)
+    expect(page).not_to have_content t("review_application.#{section}.link")
   end
 
   def then_i_should_be_able_to_complete_section_for(section)
     case section
-    when :courses
+    when :course_choices
       candidate_fills_in_course_choices
     when :personal_details
       candidate_fills_in_personal_details
     when :contact_details
       candidate_fills_in_contact_details
-    when :work
+    when :work_experience
       candidate_fills_in_work_experience
     when :volunteering
       candidate_fills_in_volunteering_role
@@ -177,14 +174,18 @@ RSpec.feature 'Candidate reviews the answers' do
       candidate_fills_in_becoming_a_teacher
     when :subject_knowledge
       candidate_fills_in_subject_knowledge
-    when :interview
+    when :interview_preferences
       candidate_fills_in_interview_preferences
-    when :referees
+    when :references
       candidate_provides_two_referees
-    when :gcse
+    when :maths_gcse
+      candidate_fills_in_a_gcse
+    when :english_gcse
+      candidate_fills_in_a_gcse
+    when :science_gcse
       candidate_fills_in_a_gcse
     else
-      raise 'Unimplemented section'
+      raise "Unimplemented section #{section}"
     end
   end
 end

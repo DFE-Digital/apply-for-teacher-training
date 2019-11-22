@@ -33,9 +33,9 @@
 <% end %>
 
 <% if show_missing_banner? %>
-  <%= render(SectionMissingBannerComponent, text: t('review_application.work.incomplete')) do %>
+  <%= render(SectionMissingBannerComponent, text: t('review_application.work_experience.incomplete')) do %>
      <%= link_to candidate_interface_work_history_length_path, class: 'govuk-link' do %>
-       <%= t('review_application.work.link_html') %>
+       <%= t('review_application.work_experience.link_html') %>
      <% end %>
    <% end %>
 <% end %>
