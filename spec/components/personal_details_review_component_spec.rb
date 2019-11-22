@@ -15,7 +15,7 @@ RSpec.describe PersonalDetailsReviewComponent do
       application_form = build_stubbed(:application_form)
       result = render_inline(PersonalDetailsReviewComponent, application_form: application_form)
 
-      expect(result.text).to include('No personal details entered')
+      expect(result.text).to include('Personal details not entered')
     end
   end
 

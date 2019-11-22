@@ -1,9 +1,10 @@
 class RefereesReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:, editable: true)
+  def initialize(application_form:, editable: true, show_incomplete: false)
     @application_form = application_form
     @editable = editable
+    @show_incomplete = show_incomplete
   end
 
   def referee_rows(work)
@@ -13,6 +14,14 @@ class RefereesReviewComponent < ActionView::Component::Base
       relationship_row(work),
     ]
       .compact
+  end
+
+  def minimum_references
+    ApplicationForm::MINIMUM_COMPLETE_REFERENCES
+  end
+
+  def show_missing_banner?
+    @show_incomplete && @application_form.references.count < minimum_references && @editable
   end
 
 private

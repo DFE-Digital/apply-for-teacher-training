@@ -13,6 +13,10 @@ class SubjectKnowledgeReviewComponent < ActionView::Component::Base
     [subject_knowledge_form_row]
   end
 
+  def show_missing_banner?
+    !@subject_knowledge_form.valid? && @editable
+  end
+
 private
 
   attr_reader :application_form

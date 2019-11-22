@@ -1,12 +1,13 @@
 class VolunteeringReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:, editable: true)
+  def initialize(application_form:, editable: true, show_incomplete: false)
     @application_form = application_form
     @volunteering_roles = CandidateInterface::VolunteeringRoleForm.build_all_from_application(
       @application_form,
     )
     @editable = editable
+    @show_incomplete = show_incomplete
   end
 
   def volunteering_role_rows(volunteering_role)
@@ -16,6 +17,10 @@ class VolunteeringReviewComponent < ActionView::Component::Base
       length_row(volunteering_role),
       details_row(volunteering_role),
     ]
+  end
+
+  def show_missing_banner?
+    @show_incomplete && !@application_form.volunteering_completed && @editable
   end
 
 private

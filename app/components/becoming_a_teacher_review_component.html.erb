@@ -1,1 +1,9 @@
-<%= render(SummaryCardComponent, rows: becoming_a_teacher_form_rows, editable: @editable) %>
+<% if show_missing_banner? %>
+  <%= render(SectionMissingBannerComponent, text: t('review_application.becoming_a_teacher.incomplete')) do %>
+    <%= link_to candidate_interface_becoming_a_teacher_edit_path, class: 'govuk-link' do %>
+      <%= t('review_application.becoming_a_teacher.link_html') %>
+    <% end %>
+  <% end %>
+<% else %>
+  <%= render(SummaryCardComponent, rows: becoming_a_teacher_form_rows, editable: @editable) %>
+<% end %>

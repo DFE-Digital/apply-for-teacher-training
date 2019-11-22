@@ -15,3 +15,11 @@
     </header>
   <% end %>
 <% end %>
+
+<% if show_missing_banner? %>
+  <%= render(SectionMissingBannerComponent, text: t('review_application.referees.incomplete', minimum_references: minimum_references)) do %>
+     <%= link_to candidate_interface_referees_path, class: 'govuk-link' do %>
+       <%= t('review_application.referees.link_html') %>
+     <% end %>
+   <% end %>
+<% end %>

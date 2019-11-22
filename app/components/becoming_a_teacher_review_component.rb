@@ -13,6 +13,10 @@ class BecomingATeacherReviewComponent < ActionView::Component::Base
     [becoming_a_teacher_form_row]
   end
 
+  def show_missing_banner?
+    !@becoming_a_teacher_form.valid? && @editable
+  end
+
 private
 
   attr_reader :application_form

@@ -24,10 +24,18 @@
   <% end %>
 <% end %>
 
-<% if @application_form.application_work_experiences.empty? %>
+<% if !show_missing_banner? && @application_form.application_work_experiences.empty? %>
   <%= render(SummaryCardComponent, rows: no_work_experience_rows, editable: @editable) %>
 <% end %>
 
 <% if breaks_in_work_history? %>
   <%= render(SummaryCardComponent, rows: break_in_work_history_rows, editable: @editable) %>
+<% end %>
+
+<% if show_missing_banner? %>
+  <%= render(SectionMissingBannerComponent, text: t('review_application.work.incomplete')) do %>
+     <%= link_to candidate_interface_work_history_length_path, class: 'govuk-link' do %>
+       <%= t('review_application.work.link_html') %>
+     <% end %>
+   <% end %>
 <% end %>

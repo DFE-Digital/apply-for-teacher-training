@@ -1,12 +1,13 @@
 class DegreesReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:, editable: true)
+  def initialize(application_form:, editable: true, show_incomplete: false)
     @application_form = application_form
     @degrees = CandidateInterface::DegreeForm.build_all_from_application(
       @application_form,
     )
     @editable = editable
+    @show_incomplete = show_incomplete
   end
 
   def degree_rows(degree)
@@ -15,6 +16,10 @@ class DegreesReviewComponent < ActionView::Component::Base
       award_year_row(degree),
       grade_row(degree),
     ]
+  end
+
+  def show_missing_banner?
+    @show_incomplete && !@application_form.degrees_completed && @editable
   end
 
 private

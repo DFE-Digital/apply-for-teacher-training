@@ -3,3 +3,47 @@ en:
     title: Review your application
     heading: Review your application
     button_continue: Continue
+    becoming_a_teacher:
+      incomplete: Tell us why you want to be a teacher
+      link: Complete becoming a teacher section
+      link_html: Complete <span class="govuk-visually-hidden">becoming a teacher</span> section
+    contact_details:
+      incomplete: Contact details not entered
+      link: Complete contact details section
+      link_html: Complete <span class="govuk-visually-hidden">contact details</span> section
+    courses:
+      incomplete: Course choices are not marked as completed
+      link: Complete course choices section
+      link_html: Complete <span class="govuk-visually-hidden">course choices</span> section
+    degrees:
+      incomplete: Degree history is not marked as completed
+      link: Complete degrees section
+      link_html: Complete <span class="govuk-visually-hidden">degrees</span> section
+    gcse:
+      incomplete: "%{subject} GCSE not entered"
+      link: Complete %{subject} GCSE section
+      link_html: Complete <span class="govuk-visually-hidden">%{subject} GCSE</span> section
+    interview:
+      incomplete: Tell us your interview preferences
+      link: Complete interview preferences section
+      link_html: Complete <span class="govuk-visually-hidden">interview preferences</span> section
+    personal_details:
+      incomplete: Personal details not entered
+      link: Complete personal details section
+      link_html: Complete <span class="govuk-visually-hidden">personal details</span> section
+    referees:
+      incomplete: Add %{minimum_references} referees to your application
+      link: Complete references section
+      link_html: Complete <span class="govuk-visually-hidden">references</span> section
+    subject_knowledge:
+      incomplete: Tell us about your knowledge about the subject you want to teach
+      link: Complete subject knowledge section
+      link_html: Complete <span class="govuk-visually-hidden">subject knowledge</span> section
+    volunteering:
+      incomplete: Volunteering history is not marked as completed
+      link: Complete volunteering history section
+      link_html: Complete <span class="govuk-visually-hidden">volunteering history</span> section
+    work:
+      incomplete: Work history is not marked as completed
+      link: Complete work history section
+      link_html: Complete <span class="govuk-visually-hidden">work history</span> section

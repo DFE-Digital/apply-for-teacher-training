@@ -11,6 +11,12 @@
       </h2>
     </header>
   <% end %>
+<% elsif @editable %>
+  <%= render(SectionMissingBannerComponent, text: t('review_application.gcse.incomplete', subject: subject.capitalize)) do %>
+    <%= link_to candidate_interface_gcse_details_edit_type_path(subject: subject.to_sym), class: 'govuk-link' do %>
+      <%= t('review_application.gcse.link_html', subject: subject) %>
+    <% end %>
+  <% end %>
 <% else %>
   <p class="govuk-body">No GCSE entered.</p>
 <% end %>

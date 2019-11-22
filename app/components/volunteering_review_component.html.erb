@@ -25,7 +25,13 @@
   <% end %>
 <% end %>
 
-<% if @application_form.application_volunteering_experiences.empty? %>
+<% if show_missing_banner? %>
+  <%= render(SectionMissingBannerComponent, text: t('review_application.volunteering.incomplete')) do %>
+     <%= link_to candidate_interface_volunteering_experience_path, class: 'govuk-link' do %>
+       <%= t('review_application.volunteering.link_html') %>
+     <% end %>
+   <% end %>
+<% elsif @application_form.application_volunteering_experiences.empty? %>
   <section class="app-summary-card govuk-!-margin-bottom-6">
     <header class="app-summary-card__header">
       <h3 class="app-summary-card__title">
