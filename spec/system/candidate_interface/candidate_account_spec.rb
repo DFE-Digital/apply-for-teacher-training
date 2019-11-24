@@ -87,7 +87,6 @@ RSpec.feature 'Candidate account' do
   def then_i_am_signed_in
     within 'header' do
       expect(page).to have_content @email
-      expect(page).to have_link(href: candidate_interface_application_form_path)
     end
   end
 
