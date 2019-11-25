@@ -7,4 +7,6 @@ task setup_local_dev_data: :environment do
 
   puts 'Making all the courses open on Apply...'
   Course.update_all(open_on_apply: true)
+
+  FeatureFlag.activate('pilot_open')
 end
