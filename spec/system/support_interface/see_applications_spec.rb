@@ -50,7 +50,7 @@ RSpec.feature 'See applications' do
     end
 
     within "[data-qa='application-form-#{@unsubmitted_application.id}']" do
-      expect(page).to have_content('Not submitted', count: 2)
+      expect(page).to have_content('Not requested yet', count: 2)
     end
   end
 end
