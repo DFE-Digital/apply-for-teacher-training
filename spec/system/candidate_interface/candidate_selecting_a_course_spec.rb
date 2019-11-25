@@ -12,6 +12,10 @@ RSpec.feature 'Selecting a course' do
     and_i_click_on_add_course
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
+
+    when_submit_without_choosing_a_course
+    then_i_should_see_an_error
+
     and_i_choose_a_course
     and_i_choose_a_location
     then_i_see_my_completed_course_choice
@@ -64,6 +68,14 @@ RSpec.feature 'Selecting a course' do
   def and_i_choose_a_provider
     choose 'Gorse SCITT (1N1)'
     click_button 'Continue'
+  end
+
+  def when_submit_without_choosing_a_course
+    click_button 'Continue'
+  end
+
+  def then_i_should_see_an_error
+    expect(page).to have_content 'Select a course'
   end
 
   def and_i_choose_a_course
