@@ -1,5 +1,7 @@
 module SupportInterface
   class SupportInterfaceController < ActionController::Base
+    include LogRequestParams
+
     layout 'support_layout'
 
     http_basic_authenticate_with(
