@@ -34,11 +34,3 @@
 <% if any_withdrawable? %>
   <p class="govuk-body"><%= t('application_form.courses.withdrawal_information') %></p>
 <% end %>
-
-<% if show_missing_banner? %>
-  <%= render(SectionMissingBannerComponent, text: 'Course choices are not marked as completed') do %>
-    <%= link_to candidate_interface_course_choices_index_path, class: 'govuk-link' do %>
-      Complete <span class="govuk-visually-hidden">course choices</span> section
-    <% end %>
-  <% end %>
-<% end %>

@@ -1,9 +1,1 @@
-<% if show_missing_section? %>
-  <%= render(SectionMissingBannerComponent, text: 'Contact details not entered') do %>
-    <%= link_to candidate_interface_contact_details_edit_base_path, class: 'govuk-link' do %>
-      Complete <span class="govuk-visually-hidden">contact details</span> section
-    <% end %>
-  <% end %>
-<% else %>
-  <%= render(SummaryCardComponent, rows: contact_details_form_rows, editable: @editable) %>
-<% end %>
+<%= render(SummaryCardComponent, rows: contact_details_form_rows, editable: @editable) %>
