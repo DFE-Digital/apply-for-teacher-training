@@ -8,7 +8,7 @@
        You can apply for this course using a new GOV.UK service
     </h1>
     <p class="govuk-body">
-      Apply for teacher training is a streamlined new GOV.UK service which is
+      <%= service_name %> is a streamlined new GOV.UK service which is
       designed to make application easier. It comes with personalised support
       for candidates.
     </p>
@@ -19,10 +19,10 @@
 
     <h2 class="govuk-heading-l">Is this new service right for you?</h2>
 
-    <p class="govuk-body">Apply for teacher training is still in development. The service will eventually replace UCAS as the way candidates apply for teacher training. However, for now, it is limited to just a few courses.</p>
+    <p class="govuk-body"><%= service_name %> is still in development. The service will eventually replace UCAS as the way candidates apply for teacher training. However, for now, it is limited to just a few courses.</p>
 
     <p class='govuk-body'>
-      You can <%= govuk_link_to 'preview a list of training providers and courses', candidate_interface_providers_path %> currently available on Apply for teacher training.
+      You can <%= govuk_link_to 'preview a list of training providers and courses', candidate_interface_providers_path %> currently available on <%= service_name %>.
     </p>
 
     <p class="govuk-body">For most courses, you’ll still need to apply through UCAS.</p>

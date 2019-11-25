@@ -6,14 +6,14 @@ module ApplicationHelper
 
   def service_name
     case current_namespace
-    when 'provider_interface'
-      'Manage teacher training applications'
     when 'candidate_interface'
-      'Apply for teacher training'
+      t('service_name.apply')
+    when 'provider_interface'
+      t('service_name.manage')
     when 'support_interface'
-      'Support for Apply'
+      t('service_name.support')
     else
-      'Apply for teacher training'
+      t('service_name.apply')
     end
   end
 
