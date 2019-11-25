@@ -337,7 +337,7 @@
             },
             {
                 "name": "alertRecipients",
-                "count": "[length(parameters('alertRecipientEmails'))]",
+                "count": "[if(greater(length(parameters('alertRecipientEmails'), 0), length(parameters('alertRecipientEmails'), 1))]",
                 "input": {
                     "displayName": "[split(parameters('alertRecipientEmails')[copyIndex('alertRecipients')], ':')[0]]",
                     "emailAddress": "[split(parameters('alertRecipientEmails')[copyIndex('alertRecipients')], ':')[1]]"
