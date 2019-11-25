@@ -11,7 +11,7 @@ module CandidateInterface
 
     def available_courses
       Provider
-        .find_by(code: provider_code)
+        .find_by!(code: provider_code)
         .courses
         .where(exposed_in_find: true)
     end

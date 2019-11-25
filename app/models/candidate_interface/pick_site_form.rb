@@ -23,8 +23,8 @@ module CandidateInterface
     end
 
     def course
-      provider = Provider.find_by(code: provider_code)
-      provider.courses.find_by(code: course_code)
+      provider = Provider.find_by!(code: provider_code)
+      provider.courses.find_by!(code: course_code)
     end
 
     def user_cant_apply_to_same_course_twice
