@@ -13,7 +13,7 @@ RSpec.describe PersonalDetailsReviewComponent do
 
     it 'renders fallback text with invalid personal details' do
       application_form = build_stubbed(:application_form)
-      result = render_inline(PersonalDetailsReviewComponent, application_form: application_form, editable: false)
+      result = render_inline(PersonalDetailsReviewComponent, application_form: application_form)
 
       expect(result.text).to include('No personal details entered')
     end

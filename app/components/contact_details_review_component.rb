@@ -13,10 +13,6 @@ class ContactDetailsReviewComponent < ActionView::Component::Base
     [phone_number_row, address_row]
   end
 
-  def show_missing_section?
-    !@contact_details_form.valid?(:base) && !@contact_details_form.valid?(:address) && @editable
-  end
-
 private
 
   attr_reader :application_form
