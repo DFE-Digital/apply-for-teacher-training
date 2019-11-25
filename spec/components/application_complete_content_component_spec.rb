@@ -85,6 +85,17 @@ RSpec.describe ApplicationCompleteContentComponent do
     end
   end
 
+  context 'when the application has accepted an offer' do
+    it 'renders with accepted offer content' do
+      stub_application_dates_with_form_uneditable
+      application_form = create_application_form_with_course_choices(statuses: %w[pending_conditions declined])
+
+      render_result = render_inline(ApplicationCompleteContentComponent, application_form: application_form)
+
+      expect(render_result.text).to include('You have accepted an offer')
+    end
+  end
+
   def stub_application_dates_with_form_uneditable
     application_dates = instance_double(
       ApplicationDates,
