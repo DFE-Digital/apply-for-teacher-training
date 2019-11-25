@@ -30,6 +30,7 @@ module CandidateInterface
 
     def candidate_can_only_apply_to_3_courses
       return if application_form.application_choices.count <= 2
+
       errors[:base] << 'You can only apply for up to 3 courses'
     end
   end
