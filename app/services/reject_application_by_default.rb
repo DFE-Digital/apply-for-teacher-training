@@ -7,8 +7,9 @@ class RejectApplicationByDefault
 
   def call
     ActiveRecord::Base.transaction do
-      application_choice.update(rejected_by_default: true)
+      application_choice.update(rejected_by_default: true, rejected_at: Time.now)
       ApplicationStateChange.new(application_choice).reject_application!
+      SetDeclineByDefault.new(application_form: application_choice.application_form).call
       StateChangeNotifier.call(:reject_application_by_default, application_choice: application_choice)
     end
   end

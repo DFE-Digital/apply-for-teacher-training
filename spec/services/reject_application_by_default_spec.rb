@@ -29,6 +29,22 @@ RSpec.describe RejectApplicationByDefault do
     expect(application_choice.reload.rejected_by_default).to be true
   end
 
+  it 'sets `rejected_at`' do
+    application_choice = create_application
+    described_class.new(application_choice: application_choice).call
+    expect(application_choice.reload.rejected_at).not_to be_nil
+  end
+
+  it 'calls SetDeclineByDefault service' do
+    service_double = instance_double(SetDeclineByDefault)
+    allow(service_double).to receive(:call)
+    allow(SetDeclineByDefault).to receive(:new).and_return(service_double)
+
+    application_choice = create_application
+    described_class.new(application_choice: application_choice).call
+    expect(service_double).to have_received(:call)
+  end
+
   it 'sends a Slack notification' do
     allow(SlackNotificationWorker).to receive(:perform_async)
     application_choice = create_application

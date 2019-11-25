@@ -29,6 +29,10 @@ ActiveRecord::Schema.define(version: 2019_11_27_105827) do
     t.datetime "reject_by_default_at"
     t.boolean "rejected_by_default", default: false, null: false
     t.integer "reject_by_default_days"
+    t.datetime "decline_by_default_at"
+    t.integer "decline_by_default_days"
+    t.datetime "offered_at"
+    t.datetime "rejected_at"
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
   end
