@@ -13,7 +13,8 @@ class VolunteeringReviewComponent < ActionView::Component::Base
     [
       role_row(volunteering_role),
       organisation_row(volunteering_role),
-      length_and_details_row(volunteering_role),
+      length_row(volunteering_role),
+      details_row(volunteering_role),
     ]
   end
 
@@ -39,20 +40,30 @@ private
     }
   end
 
-  def length_and_details_row(volunteering_role)
+  def length_row(volunteering_role)
     {
-      key: t('application_form.volunteering.length_and_details.review_label'),
-      value: formatted_length_and_details(volunteering_role),
-      action: t('application_form.volunteering.length_and_details.change_action'),
+      key: t('application_form.volunteering.review_length.review_label'),
+      value: formatted_length(volunteering_role),
+      action: t('application_form.volunteering.review_length.change_action'),
       change_path: edit_path(volunteering_role),
     }
   end
 
-  def formatted_length_and_details(volunteering_role)
-    [
-      "#{formatted_start_date(volunteering_role)} - #{formatted_end_date(volunteering_role)}",
-      simple_format(volunteering_role.details),
-    ]
+  def details_row(volunteering_role)
+    {
+      key: t('application_form.volunteering.review_details.review_label'),
+      value: formatted_details(volunteering_role),
+      action: t('application_form.volunteering.review_details.change_action'),
+      change_path: edit_path(volunteering_role),
+    }
+  end
+
+  def formatted_length(volunteering_role)
+    "#{formatted_start_date(volunteering_role)} - #{formatted_end_date(volunteering_role)}"
+  end
+
+  def formatted_details(volunteering_role)
+    simple_format(volunteering_role.details)
   end
 
   def formatted_start_date(volunteering_role)
