@@ -1,40 +1,32 @@
-<% content_for :title, t('page_titles.application') %>
+<% content_for :browser_title, 'Reject application' %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_respond_path(@application_choice.id)) %>
 
-<span class="govuk-caption-xl">
-  Application for <%= @presenter.course_name_and_code %>
-</span>
+<%= form_with model: @reject_application,
+      url: provider_interface_application_choice_confirm_reject_path(@application_choice.id),
+      method: :post do |f| %>
+  <%= f.govuk_error_summary %>
 
-<h1 class="govuk-heading-xl">
-  Reject application
-</h1>
+  <h1 class="govuk-heading-xl">
+    <span class="govuk-caption-xl">
+      Application for <%= @presenter.course_name_and_code %>
+    </span>
+    Reject application
+  </h1>
 
-<%= form_with model: @reject_application, url: provider_interface_application_choice_confirm_reject_path(@application_choice.id), method: :post do |f| %>
-
-  <div class="govuk-grid-row">
-    <%= f.govuk_error_summary %>
-
-    <%= render(SummaryCardComponent, rows: [
-      { key: 'Full name', value: @presenter.full_name },
-      { key: 'Course', value: @presenter.course_name_and_code },
-      { key: 'Starting', value: @presenter.course_start_date.strftime('%B %Y') },
-      { key: 'Preferred location', value: @presenter.course_preferred_location },
-    ], border: false) %>
-  </div>
+  <%= render SummaryListComponent, rows: [
+    { key: 'Full name', value: @presenter.full_name },
+    { key: 'Course', value: @presenter.course_name_and_code },
+    { key: 'Starting', value: @presenter.course_start_date.strftime('%B %Y') },
+    { key: 'Preferred location', value: @presenter.course_preferred_location },
+  ] %>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-
       <div class="govuk-form-group">
-        <label class="govuk-label govuk-label--m" for="comments">
-          Please explain why this application was rejected
-        </label>
-
-        <span id="comments-hint" class="govuk-hint">
-          We will forward your feedback to the candidate
-        </span>
-
-        <%= f.govuk_text_area :rejection_reason, label: { text: 'Please explain why this application was rejected', hidden: true }, rows: 5, id: 'comments', 'aria-describedby': 'comments-hint' %>
+        <%= f.govuk_text_area :rejection_reason,
+                              label: { text: 'Please explain why this application was rejected', size: 'm' },
+                              hint_text: 'We will forward your feedback to the candidate',
+                              rows: 5 %>
       </div>
 
       <%= f.govuk_submit 'Continue' %>
