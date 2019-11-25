@@ -77,7 +77,7 @@ RSpec.feature 'Add comments to the application history' do
   end
 
   def then_i_should_see_my_comment_in_application_history
-    within('tbody tr:eq(2)') do
+    within('tbody tr:eq(1)') do
       expect(page).to have_content '1 October 2019'
       expect(page).to have_content '12:00'
       expect(page).to have_content 'Comment on Application Form'
