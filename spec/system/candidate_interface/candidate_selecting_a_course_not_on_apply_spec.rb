@@ -5,10 +5,10 @@ RSpec.feature 'Selecting a course not on Apply' do
 
   scenario 'Candidate selects a course choice that is not on Apply' do
     given_i_am_signed_in
-    and_i_visit_the_site
+    and_there_are_course_options
 
-    given_data_from_find_exists
-    when_i_click_on_course_choices
+    when_i_visit_the_site
+    and_i_click_on_course_choices
     and_i_click_on_add_course
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_another_provider
@@ -26,18 +26,18 @@ RSpec.feature 'Selecting a course not on Apply' do
     create_and_sign_in_candidate
   end
 
-  def and_i_visit_the_site
+  def when_i_visit_the_site
     visit candidate_interface_application_form_path
   end
 
-  def given_data_from_find_exists
+  def and_there_are_course_options
     provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
     site = create(:site, name: 'Main site', code: '-', provider: provider)
-    course = create(:course, name: 'Primary', code: '2XT2', provider: provider, exposed_in_find: true)
+    course = create(:course, name: 'Primary', code: '2XT2', provider: provider, exposed_in_find: true, open_on_apply: true)
     create(:course_option, site: site, course: course, vacancy_status: 'B')
   end
 
-  def when_i_click_on_course_choices
+  def and_i_click_on_course_choices
     click_link 'Course choices'
   end
 

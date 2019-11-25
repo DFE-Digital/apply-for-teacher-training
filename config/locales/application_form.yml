@@ -284,6 +284,22 @@ en:
   activemodel:
     errors:
       models:
+        candidate_interface/course_chosen_form:
+          attributes:
+            choice:
+              blank: Select if you have chosen a course or not
+        candidate_interface/pick_provider_form:
+          attributes:
+            code:
+              blank: Select a course provider
+        candidate_interface/pick_course_form:
+          attributes:
+            code:
+              blank: Select a course
+        candidate_interface/pick_site_form:
+          attributes:
+            course_option_id:
+              blank: Select a site
         candidate_interface/eligibility_form:
           attributes:
             eligible_citizen:
@@ -460,11 +476,3 @@ en:
             end_date:
               invalid: Enter an end date in the correct format, for example 5 2019
               in_the_future: Enter an end date that is not in the future
-        candidate_interface/course_chosen_form:
-          attributes:
-            choice:
-              blank: Select yes if you have chosen a course to apply to
-        candidate_interface/choose_training_provider_form:
-          attributes:
-            code:
-              blank: Select which training provider you are applying to

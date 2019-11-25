@@ -40,13 +40,6 @@ RSpec.feature 'Candidate adding referees' do
     visit candidate_interface_application_form_path
   end
 
-  def given_data_from_find_exists
-    provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
-    site = create(:site, name: 'Main site', code: '-', provider: provider)
-    course = create(:course, name: 'Primary', code: '2XT2', provider: provider)
-    create(:course_option, site: site, course: course, vacancy_status: 'B')
-  end
-
   def when_i_click_on_referees
     click_link 'Referees'
   end
