@@ -5,7 +5,7 @@ RSpec.describe ImportReferencesFromCsv do
   let(:first_reference) { FactoryBot.create(:reference, :unsubmitted, email_address: 'ab@c.com', application_form: application_form) }
   let(:second_reference) { FactoryBot.create(:reference, :unsubmitted, email_address: 'xy@z.com', application_form: application_form) }
 
-  # Timestamp, Email Address, Your name, Name of the person, Feedback, Confirm, Application ID
+  # Timestamp, Reference ID, Email Address, Your name, Name of the person, Feedback, Confirm
   let(:csv_row) { ['2019', 'id', 'ab@c.com', 'My name', 'Their name', 'Feedback', 'I confirm'] }
 
   before do
