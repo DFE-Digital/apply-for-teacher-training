@@ -1,5 +1,11 @@
 <% if @personal_details_form.valid? %>
   <%= render(SummaryCardComponent, rows: rows, editable: @editable) %>
+<% elsif @editable %>
+  <%= render(SectionMissingBannerComponent, text: 'Personal details not entered') do %>
+    <%= link_to candidate_interface_personal_details_edit_path, class: 'govuk-link' do %>
+      Complete <span class="govuk-visually-hidden">personal details</span> section
+    <% end %>
+  <% end %>
 <% else %>
   <p class="govuk-body">No personal details entered.</p>
 <% end %>
