@@ -20,7 +20,7 @@ class SyncProviderFromFind
   def self.create_provider(find_provider)
     provider = Provider.find_or_create_by(code: find_provider.provider_code)
     provider.name = find_provider.provider_name
-    provider.save
+    provider.save!
 
     provider
   end
@@ -38,12 +38,12 @@ class SyncProviderFromFind
       end
       course.accrediting_provider = accrediting_provider
     end
-    course.save
+    course.save!
 
     find_course.sites.each do |find_site|
       site = provider.sites.find_or_create_by(code: find_site.code)
       site.name = find_site.location_name
-      site.save
+      site.save!
 
       CourseOption.find_or_create_by(
         site: site,
