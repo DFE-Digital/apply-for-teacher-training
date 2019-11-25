@@ -57,7 +57,9 @@
 
       <%= f.govuk_submit 'Continue' %>
 
-      <p class="govuk-body"><a href="<%= provider_interface_application_choice_path(@application_choice.id) %>">Cancel</a></p>
+      <p class="govuk-body">
+        <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
+      </p>
     </div>
   </div>
 <% end %>
