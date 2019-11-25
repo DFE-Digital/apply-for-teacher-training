@@ -61,6 +61,30 @@ RSpec.describe ApplicationCompleteContentComponent do
     end
   end
 
+  context 'when the application has all decisions from providers' do
+    it 'renders with all providers have made a decision content if all offers' do
+      stub_application_dates_with_form_uneditable
+      application_form = create_application_form_with_course_choices(statuses: %w[offer offer])
+
+      render_result = render_inline(ApplicationCompleteContentComponent, application_form: application_form)
+
+      expect(render_result.text).to include('All your training providers have now reached a decision')
+      # TODO: Update hardcoded date with decline by default date
+      expect(render_result.text).to include('You have 12 days (until 7 December 2019) to respond to any offers.')
+    end
+
+    it 'renders with all providers have made a decision content if an offer and rejected' do
+      stub_application_dates_with_form_uneditable
+      application_form = create_application_form_with_course_choices(statuses: %w[offer rejected])
+
+      render_result = render_inline(ApplicationCompleteContentComponent, application_form: application_form)
+
+      # TODO: Update hardcoded date with decline by default date
+      expect(render_result.text).to include('All your training providers have now reached a decision')
+      expect(render_result.text).to include('You have 12 days (until 7 December 2019) to respond to any offers.')
+    end
+  end
+
   def stub_application_dates_with_form_uneditable
     application_dates = instance_double(
       ApplicationDates,
