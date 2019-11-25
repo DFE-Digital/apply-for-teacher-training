@@ -25,7 +25,7 @@
 
       <div class="govuk-!-margin-top-6">
         <%= f.govuk_radio_buttons_fieldset :work_history, legend: { size: 'm', text: 'How long have you been working?', tag: 'h2' } do %>
-          <%= f.govuk_radio_button :work_history, :less_than_5, label: { text: t('application_form.work_history.less_than_5.label'), size: 's' }, hint_text: t('application_form.work_history.less_than_5.hint') %>
+          <%= f.govuk_radio_button :work_history, :less_than_5, label: { text: t('application_form.work_history.less_than_5.label'), size: 's' }, hint_text: t('application_form.work_history.less_than_5.hint'), link_errors: true %>
 
           <%= f.govuk_radio_button :work_history, :more_than_5, label: { text: t('application_form.work_history.more_than_5.label'), size: 's' }, hint_text: t('application_form.work_history.more_than_5.hint') %>
 

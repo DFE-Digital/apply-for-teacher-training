@@ -60,7 +60,7 @@
   <%= f.govuk_error_summary %>
 
   <%= f.govuk_radio_buttons_fieldset :open_on_apply, legend: { size: 'm', text: 'Can candidates use Apply?' } do %>
-    <%= f.govuk_radio_button :open_on_apply, true, label: { text: 'Yes, this course is available on Apply and UCAS' } %>
+    <%= f.govuk_radio_button :open_on_apply, true, label: { text: 'Yes, this course is available on Apply and UCAS' }, link_errors: true %>
     <%= f.govuk_radio_button :open_on_apply, false, label: { text: 'No, this course is only available on UCAS' } %>
   <% end %>
 

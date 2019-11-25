@@ -13,7 +13,7 @@
 <%= f.govuk_text_field :organisation, label: { text: t('application_form.work_history.organisation.label'), size: 'm' } %>
 
 <%= f.govuk_radio_buttons_fieldset :commitment, legend: { text: 'Was this job full-time or part-time?', tag: 'span' } do %>
-  <%= f.govuk_radio_button :commitment, 'full_time', label: { text: 'Full-time' } %>
+  <%= f.govuk_radio_button :commitment, 'full_time', label: { text: 'Full-time' }, link_errors: true %>
 
   <%= f.govuk_radio_button :commitment, 'part_time', label: { text: 'Part-time' } %>
 <% end %>
@@ -29,7 +29,7 @@
 <%= f.govuk_text_area :details, label: { text: t('application_form.work_history.details.label'), size: 'm' }, hint_text: 'Give a brief overview of your role and explain how you developed transferable skills like communication, creativity and organisation', max_words: 150 %>
 
 <%= f.govuk_radio_buttons_fieldset :working_with_children, legend: { text: 'Did this job involve working in a school or with children?', tag: 'span' }, inline: true do %>
-  <%= f.govuk_radio_button :working_with_children, true, label: { text: 'Yes' } %>
+  <%= f.govuk_radio_button :working_with_children, true, label: { text: 'Yes' }, link_errors: true %>
   <%= f.govuk_radio_button :working_with_children, false, label: { text: 'No' } %>
 <% end %>
 

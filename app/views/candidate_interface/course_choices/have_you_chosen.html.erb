@@ -8,7 +8,7 @@
 
       <%= f.govuk_radio_buttons_fieldset :choice, legend: { size: 'xl', text: t('page_titles.have_you_chosen') } do %>
         <div class="govuk-!-margin-top-6">
-          <%= f.govuk_radio_button :choice, :yes, label: { text: 'Yes, I know where I want to apply' } %>
+          <%= f.govuk_radio_button :choice, :yes, label: { text: 'Yes, I know where I want to apply' }, link_errors: true %>
           <%= f.govuk_radio_button :choice, :no, label: { text: 'No, I need to find a course' } %>
         </div>
       <% end %>
