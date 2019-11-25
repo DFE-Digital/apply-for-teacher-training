@@ -7,7 +7,7 @@ class GetApplicationFormsReadyToSendToProviders
       .group(:id)
 
     forms.select do |f|
-      f.application_choices.all? { |ac| ac.status == 'application_complete' }
+      f.application_choices.all? { |application_choice| application_choice.status == 'application_complete' }
     end
   end
 end
