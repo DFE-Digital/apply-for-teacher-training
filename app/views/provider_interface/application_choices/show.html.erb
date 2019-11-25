@@ -31,13 +31,13 @@
     <div class="app-status-box">
       <h2 class="govuk-heading-m">Status</h2>
       <%= render ProviderInterface::ApplicationStatusTagComponent, application_choice: @application_choice %>
-      <div class="govuk-!-margin-top-6">
-        <% if @application_choice.status == 'awaiting_provider_decision' %>
+      <% if @application_choice.status == 'awaiting_provider_decision' %>
+        <div class="govuk-!-margin-top-6">
           <a href="<%= provider_interface_application_choice_respond_path(@application_choice.id) %>" role="button" draggable="false" class="govuk-button govuk-!-margin-bottom-0" data-module="govuk-button">
-          Respond to application
-        <% end %>
-        </a>
-      </div>
+            Respond to application
+          </a>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
