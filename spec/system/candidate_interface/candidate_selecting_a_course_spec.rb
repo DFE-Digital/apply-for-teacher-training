@@ -5,7 +5,7 @@ RSpec.feature 'Selecting a course' do
 
   scenario 'Candidate selects a course choice' do
     given_i_am_signed_in
-    and_data_from_find_exists
+    and_there_are_course_options
 
     when_i_visit_the_site
     and_i_click_on_course_choices
@@ -37,7 +37,7 @@ RSpec.feature 'Selecting a course' do
     create_and_sign_in_candidate
   end
 
-  def and_data_from_find_exists
+  def and_there_are_course_options
     provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
     site = create(:site, name: 'Main site', code: '-', provider: provider)
     course = create(:course, name: 'Primary', code: '2XT2', provider: provider, exposed_in_find: true, open_on_apply: true)
