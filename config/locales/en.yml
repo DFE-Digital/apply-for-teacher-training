@@ -1,4 +1,8 @@
 en:
+  service_name:
+    apply: Apply for teacher training
+    manage: Manage teacher training applications
+    support: Support for Apply
   page_titles:
     application: ''
     application_form: Your application
@@ -65,7 +69,6 @@ en:
     apply_on_ucas: We’re sorry, but we’re not ready for you yet
     providers: Training providers available through Apply for teacher training
   layout:
-    service_name: Apply for teacher training
     accessibility: Accessibility
     terms_of_use: Terms of use
     privacy_policy: Privacy policy
