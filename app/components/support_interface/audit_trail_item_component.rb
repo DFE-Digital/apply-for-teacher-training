@@ -9,7 +9,11 @@ module SupportInterface
     end
 
     def audit_entry_event_label
-      "#{audit.action.capitalize} #{audit.auditable_type.titlecase}"
+      if audit.comment.present? && audit.audited_changes.empty?
+        "Comment on #{audit.auditable_type.titlecase}"
+      else
+        "#{audit.action.capitalize} #{audit.auditable_type.titlecase}"
+      end
     end
 
     def audit_entry_user_label
@@ -25,7 +29,11 @@ module SupportInterface
     end
 
     def changes
-      audit.audited_changes.select { |_, values| audit_value_present?(values) }
+      audit.audited_changes.merge(comment_change).select { |_, values| audit_value_present?(values) }
+    end
+
+    def comment_change
+      { 'comment' => audit.comment }
     end
 
     def audit_value_present?(value)
