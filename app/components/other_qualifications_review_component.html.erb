@@ -1,12 +1,15 @@
 <% @qualifications.each do |qualification| %>
   <%= render(SummaryCardComponent, rows: other_qualifications_rows(qualification), editable: @editable) do %>
     <header class="app-summary-card__header">
-      <h3 class="app-summary-card__title">
+      <h2 class="app-summary-card__title">
         <%= qualification.title %>
-      </h3>
+      </h2>
       <% if @editable %>
         <div class="app-summary-card__actions">
-          <%= link_to t('application_form.other_qualification.delete'), candidate_interface_confirm_destroy_other_qualification_path(qualification.id), class: 'govuk-link' %>
+          <%= link_to candidate_interface_confirm_destroy_other_qualification_path(qualification.id), class: 'govuk-link' do %>
+            <%= t('application_form.other_qualification.delete') %>
+            <span class="govuk-visually-hidden"> <%= qualification.subject %></span>
+          <% end %>
         </div>
       <% end %>
     </header>
