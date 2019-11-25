@@ -1,10 +1,11 @@
 class CourseChoicesReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:, editable: true, show_status: false, show_incomplete: false)
+  def initialize(application_form:, editable: true, heading_level: 2, show_status: false, show_incomplete: false)
     @application_form = application_form
     @course_choices = @application_form.application_choices
     @editable = editable
+    @heading_level = heading_level
     @show_status = show_status
     @show_incomplete = show_incomplete
   end

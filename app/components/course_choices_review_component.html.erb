@@ -1,9 +1,9 @@
 <% @course_choices.each do |course_choice| %>
   <%= render(SummaryCardComponent, rows: course_choice_rows(course_choice), editable: @editable) do %>
     <header class="app-summary-card__header">
-      <h2 class="app-summary-card__title">
+      <h<%= @heading_level %> class="app-summary-card__title">
         <%= course_choice.provider.name %>
-      </h2>
+      </h<%= @heading_level %>>
 
       <% if course_choice.offer? %>
         <div class='app-summary-card__actions'>

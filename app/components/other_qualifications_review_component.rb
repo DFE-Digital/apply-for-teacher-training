@@ -1,12 +1,13 @@
 class OtherQualificationsReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:, editable: true)
+  def initialize(application_form:, editable: true, heading_level: 2)
     @application_form = application_form
     @qualifications = CandidateInterface::OtherQualificationForm.build_all_from_application(
       @application_form,
     )
     @editable = editable
+    @heading_level = heading_level
   end
 
   def other_qualifications_rows(qualification)
