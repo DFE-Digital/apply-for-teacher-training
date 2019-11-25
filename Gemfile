@@ -43,6 +43,9 @@ gem 'uk_postcode'
 gem 'business_time'
 gem 'holidays'
 
+# feature flags
+gem 'rollout'
+
 # Logging
 gem 'lograge'
 gem 'logstash-logger'
