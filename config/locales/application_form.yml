@@ -463,4 +463,8 @@ en:
         candidate_interface/course_chosen_form:
           attributes:
             choice:
-              blank: Select if you have chosen a course or not.
+              blank: Select yes if you have chosen a course to apply to
+        candidate_interface/choose_training_provider_form:
+          attributes:
+            code:
+              blank: Select which training provider you are applying to
