@@ -51,6 +51,10 @@ A service for candidates to apply for initial teacher training.
 
 See `Makefile` for the steps involved in building and running the app.
 
+The course and training provider data in the `Apply` service comes from its
+sister service `Find`. To populate your local database with course data from
+`Find`, run `bundle exec rake setup_local_dev_data`.
+
 ## <a name="docker-workflow"></a>Docker Workflow
 
 Under `docker-compose`, the database uses a Docker volume to persist
