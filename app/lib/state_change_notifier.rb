@@ -1,5 +1,5 @@
 class StateChangeNotifier
-  def self.call(event, candidate: nil, application_choice: nil)
+  def self.call(event, candidate: nil, application_choice: nil, application_form: nil)
     helpers = Rails.application.routes.url_helpers
 
     if application_choice
@@ -13,8 +13,8 @@ class StateChangeNotifier
       text = "New sign-up [candidate_id: #{candidate.id}]"
       url = helpers.support_interface_applications_url
     when :submit_application
-      text = "#{applicant} has just submitted an application"
-      url = helpers.support_interface_application_form_url(application_form_id)
+      text = "#{application_form.first_name} has just submitted their application"
+      url = helpers.support_interface_application_form_url(application_form)
     when :send_application_to_provider
       text = "#{applicant}'s application is ready to be reviewed by #{provider_name}"
       url = helpers.support_interface_application_form_url(application_form_id)

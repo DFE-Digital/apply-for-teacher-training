@@ -15,7 +15,7 @@ class SubmitApplication
 
     CandidateMailer.submit_application_email(application_form).deliver_now
     send_reference_request_email_to_referees(application_form)
-    StateChangeNotifier.call(:submit_application, application_choice: application_choices.first)
+    StateChangeNotifier.call(:submit_application, application_form: application_form)
   end
 
 private

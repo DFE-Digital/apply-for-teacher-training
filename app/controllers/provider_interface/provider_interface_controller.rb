@@ -1,6 +1,7 @@
 module ProviderInterface
   class ProviderInterfaceController < ActionController::Base
     include BasicAuthHelper
+    include LogRequestParams
     before_action :authenticate_provider_user!
     layout 'application'
 
