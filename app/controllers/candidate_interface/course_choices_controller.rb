@@ -31,15 +31,18 @@ module CandidateInterface
     end
 
     def options_for_provider
-      # TODO: Remove when the QA environment no longer has the "Example provider" stored
-      @providers = Provider.where.not(name: 'Example provider')
+      @pick_provider = PickProviderForm.new
     end
 
     def pick_provider
-      if provider_params[:code] == 'other'
+      @pick_provider = PickProviderForm.new(code: params.dig(:candidate_interface_pick_provider_form, :code))
+
+      if !@pick_provider.valid?
+        render :options_for_provider
+      elsif @pick_provider.other?
         redirect_to candidate_interface_course_choices_on_ucas_path
       else
-        redirect_to candidate_interface_course_choices_course_path(provider_code: provider_params[:code])
+        redirect_to candidate_interface_course_choices_course_path(provider_code: @pick_provider.code)
       end
     end
 
@@ -125,10 +128,6 @@ module CandidateInterface
 
     def application_choice_params
       params.fetch(:candidate_interface_course_chosen_form, {}).permit(:choice)
-    end
-
-    def provider_params
-      params.require(:provider).permit(:code)
     end
 
     def course_params
