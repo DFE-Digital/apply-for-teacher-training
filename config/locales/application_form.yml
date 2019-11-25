@@ -370,6 +370,10 @@ en:
           attributes:
             work_history:
               blank: Select how long you’ve been working for
+        candidate_interface/work_explanation_form:
+          attributes:
+            work_history_explanation:
+              blank: Tell us why you have been out of the workplace
         candidate_interface/degree_form:
           attributes:
             qualification_type:
