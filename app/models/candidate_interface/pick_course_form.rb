@@ -11,14 +11,16 @@ module CandidateInterface
     end
 
     def available_courses
-      Provider
-        .find_by!(code: provider_code)
-        .courses
-        .where(exposed_in_find: true)
-        .order(:name)
+      @available_courses ||= begin
+        provider.courses.visible_to_candidates.order(:name)
+      end
     end
 
   private
+
+    def provider
+      @provider ||= Provider.find_by!(code: provider_code)
+    end
 
     def user_cant_apply_to_same_course_twice
       if application_form.application_choices.any? { |application_choice| application_choice.course == course }

@@ -40,7 +40,7 @@ RSpec.feature 'Selecting a course' do
   def and_data_from_find_exists
     provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
     site = create(:site, name: 'Main site', code: '-', provider: provider)
-    course = create(:course, name: 'Primary', code: '2XT2', provider: provider, exposed_in_find: true)
+    course = create(:course, name: 'Primary', code: '2XT2', provider: provider, exposed_in_find: true, open_on_apply: true)
     create(:course_option, site: site, course: course, vacancy_status: 'B')
   end
 
