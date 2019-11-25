@@ -1,0 +1,27 @@
+en:
+  candidate_application_states:
+    awaiting_references: Submitted
+    application_complete: Submitted
+    awaiting_provider_decision: Pending
+    offer: Offer
+    rejected: Rejected
+    pending_conditions: Accepted
+    declined: Declined
+  provider_application_states:
+    awaiting_provider_decision: New
+    offer: Offer
+    rejected: Rejected
+    pending_conditions: Accepted
+    declined: Declined
+  support_application_states:
+    unsubmitted: Not submitted yet
+    awaiting_references: Awaiting references
+    application_complete: New
+    awaiting_provider_decision: Awaiting provider decision
+    offer: Offer made
+    pending_conditions: Pending conditions
+    recruited: Candidate recruited
+    enrolled: Candidate enrolled
+    rejected: Provider rejected
+    withdrawn: Candidate withdrawn
+    declined: Candidate declined

@@ -48,7 +48,7 @@ module ProviderInterface
     end
 
     def status_name
-      I18n.t!("application_choice.status_name.#{application_choice.status}")
+      I18n.t!("provider_application_states.#{application_choice.status}")
     end
 
     def updated_at

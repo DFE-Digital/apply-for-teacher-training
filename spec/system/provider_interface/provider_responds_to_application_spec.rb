@@ -57,9 +57,9 @@ RSpec.feature 'Provider responds to application' do
 
   def then_i_can_see_its_status(application)
     if application.status == 'awaiting_provider_decision'
-      expect(page).to have_content 'Awaiting provider decision'
+      expect(page).to have_content 'New'
     elsif application.status == 'rejected'
-      expect(page).to have_content 'Provider rejected'
+      expect(page).to have_content 'Rejected'
     end
   end
 
