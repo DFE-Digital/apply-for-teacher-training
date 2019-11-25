@@ -234,7 +234,7 @@ These steps describe the process for making environment variables available to t
 
 ### <a name="documentation-pipeline-vars"></a>Pipeline Variables
 
-### <a name="documentation-pipeline-vars-availability"></a>Pipeline Variables - Availability Monitoring
+#### <a name="documentation-pipeline-vars-availability"></a>Availability Monitoring
 
 By default the `/check` path of the azurewebsites.net URL is automatically monitored in each environment, as is the same path on the education.gov.uk domain, if configured. To add extra URLs for monitoring ensure the following format is used in the `customAvailabilityMonitors` pipeline variable for each URL you wish to monitor.
 
