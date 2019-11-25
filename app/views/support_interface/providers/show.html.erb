@@ -14,7 +14,7 @@
   </thead>
 
   <tbody class='govuk-table__body'>
-    <% @provider.courses.each do |course| %>
+    <% @provider.courses.order(:name).each do |course| %>
       <tr class='govuk-table__row'>
         <td class='govuk-table__cell'><%= govuk_link_to course.name_and_code, support_interface_course_path(course) %></td>
         <td class='govuk-table__cell'><%= course.level %></td>
