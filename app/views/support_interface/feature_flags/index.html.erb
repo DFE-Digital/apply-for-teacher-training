@@ -22,9 +22,9 @@
 
         <td class="govuk-table__cell">
           <% if FeatureFlag.active?(feature_name) %>
-            <%= button_to "Deactivate #{feature_name.humanize}", support_interface_deactivate_feature_flag_path(feature_name), class: 'govuk-button' %>
+            <%= button_to "Deactivate ‘#{feature_name.humanize}’", support_interface_deactivate_feature_flag_path(feature_name), class: 'govuk-button' %>
           <% else %>
-            <%= button_to "Activate #{feature_name.humanize}", support_interface_activate_feature_flag_path(feature_name), class: 'govuk-button' %>
+            <%= button_to "Activate ‘#{feature_name.humanize}’", support_interface_activate_feature_flag_path(feature_name), class: 'govuk-button' %>
           <% end %>
         </td>
       </tr>

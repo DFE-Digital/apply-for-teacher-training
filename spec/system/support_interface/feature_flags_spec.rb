@@ -32,7 +32,7 @@ RSpec.feature 'Feature flags' do
   end
 
   def when_i_activate_the_feature
-    click_button 'Activate Pilot open'
+    click_button 'Activate ‘Pilot open’'
   end
 
   def then_the_feature_is_activated
@@ -41,7 +41,7 @@ RSpec.feature 'Feature flags' do
   end
 
   def when_i_deactivate_the_feature
-    click_button 'Deactivate Pilot open'
+    click_button 'Deactivate ‘Pilot open’'
   end
 
   def then_the_feature_is_deactivated
