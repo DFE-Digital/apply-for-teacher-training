@@ -7,7 +7,7 @@
 
       <% if course_choice.offer? %>
         <div class='app-summary-card__actions'>
-          <%= link_to t('application_form.courses.view_and_respond_to_offer'), '#', class: 'govuk-link' %>
+          <%= link_to t('application_form.courses.view_and_respond_to_offer'), candidate_interface_course_choice_offer_path(course_choice.id), class: 'govuk-link' %>
         </div>
       <% elsif withdrawable?(course_choice) %>
         <div class='app-summary-card__actions'>

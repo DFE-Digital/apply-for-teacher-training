@@ -114,12 +114,15 @@ RSpec.describe CourseChoicesReviewComponent do
 
     it 'renders component with view and respond to offer link' do
       application_form = create_application_form_with_course_choices(statuses: %w[offer])
+      course_id = application_form.application_choices.first.id
 
       result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
 
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.courses.withdraw'))
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.view_and_respond_to_offer'))
-      expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include('#')
+      expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
+        Rails.application.routes.url_helpers.candidate_interface_course_choice_offer_path(course_id),
+      )
     end
   end
 

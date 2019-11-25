@@ -1,0 +1,9 @@
+<ul class="govuk-list govuk-list--bullet">
+  <% @conditions.each do |condition| %>
+    <li><%= condition %></li>
+  <% end %>
+</ul>
+
+<p class="govuk-body">
+  For help understanding or meeting your conditions, contact <%= @provider %> directly.
+</p>

@@ -143,6 +143,8 @@ Rails.application.routes.draw do
         get '/delete/:id' => 'course_choices#confirm_destroy', as: :confirm_destroy_course_choice
         delete '/delete/:id' => 'course_choices#destroy'
 
+        get '/offer/:id' => 'course_choices#offer', as: :course_choice_offer
+
         get '/withdraw/:id' => 'course_choices#withdraw', as: :course_choice_withdraw
 
         get '/provider' => 'course_choices#options_for_provider', as: :course_choices_provider
