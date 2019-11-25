@@ -1,5 +1,8 @@
 module LogRequestParams
-  IGNORE_PARAMS = %w(authenticity_token).freeze
+  IGNORE_PARAMS = [
+    /^authenticity_token$/,
+    /^candidate_interface_.+_form$/,
+  ].freeze
 
   def self.included(base)
     base.class_eval do
@@ -8,6 +11,7 @@ module LogRequestParams
   end
 
   def add_params_to_request_store
-    RequestLocals.store[:params] = params.except(*IGNORE_PARAMS)
+    keys_to_ignore = IGNORE_PARAMS.map { |regexp| params.keys.grep(regexp) }.flatten.uniq
+    RequestLocals.store[:params] = params.except(*keys_to_ignore)
   end
 end
