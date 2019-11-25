@@ -27,8 +27,14 @@ RSpec.feature 'Candidate eligibility' do
   end
 
   def and_i_answer_no_to_some_questions
-    find('#candidate-interface-eligibility-form-eligible-citizen-no-field').click
-    find('#candidate-interface-eligibility-form-eligible-qualifications-yes-field').click
+    within_fieldset('Are you a citizen of the UK, EU or EEA?') do
+      choose 'No'
+    end
+
+    within_fieldset('Did you gain all your qualifications at institutions based in the UK?') do
+      choose 'Yes'
+    end
+
     click_on 'Continue'
   end
 
@@ -37,8 +43,14 @@ RSpec.feature 'Candidate eligibility' do
   end
 
   def when_i_answer_yes_to_all_questions
-    find('#candidate-interface-eligibility-form-eligible-citizen-yes-field').click
-    find('#candidate-interface-eligibility-form-eligible-qualifications-yes-field').click
+    within_fieldset('Are you a citizen of the UK, EU or EEA?') do
+      choose 'Yes'
+    end
+
+    within_fieldset('Did you gain all your qualifications at institutions based in the UK?') do
+      choose 'Yes'
+    end
+
     click_on 'Continue'
   end
 
