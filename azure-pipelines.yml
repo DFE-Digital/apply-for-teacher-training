@@ -13,8 +13,6 @@ variables:
   value: 'apply-for-postgraduate-teacher-training'
 - name: debug
   value: true
-- name: deployOnly
-  value: false
 
 stages:
 - stage: build_test_release
@@ -43,7 +41,6 @@ stages:
 
     - script: make setup
       displayName: 'Build & setup'
-      condition: not(variables['deployOnly'])
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
@@ -55,7 +52,6 @@ stages:
 
     - script: make ci.lint-ruby
       displayName: 'Rubocop'
-      condition: not(variables['deployOnly'])
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
@@ -66,7 +62,6 @@ stages:
 
     - script: make ci.lint-erb
       displayName: 'ERB lint'
-      condition: not(variables['deployOnly'])
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
@@ -86,7 +81,6 @@ stages:
           false
         fi
       displayName: 'Cucumber specs'
-      condition: not(variables['deployOnly'])
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
@@ -106,7 +100,6 @@ stages:
           false
         fi
       displayName: 'Execute tests'
-      condition: not(variables['deployOnly'])
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
@@ -117,7 +110,6 @@ stages:
 
     - task: Docker@1
       displayName: Tag image with current build number $(Build.BuildNumber)
-      condition: not(variables['deployOnly'])
       inputs:
         command: Tag image
         imageName: "$(docker_path):latest"
@@ -125,7 +117,6 @@ stages:
 
     - task: Docker@1
       displayName: Docker Hub login
-      condition: not(variables['deployOnly'])
       inputs:
         command: "login"
         containerregistrytype: Container Registry
@@ -133,7 +124,6 @@ stages:
 
     - task: Docker@1
       displayName: Push tagged image
-      condition: not(variables['deployOnly'])
       inputs:
         command: Push an image
         imageName: "$(docker_path):$(Build.BuildNumber)"
