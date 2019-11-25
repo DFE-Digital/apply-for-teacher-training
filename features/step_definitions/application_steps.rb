@@ -5,7 +5,7 @@ Given(/an application choice has "(.*)" status/) do |original_application_status
   @application_choice = FactoryBot.create(
     :application_choice,
     application_form: application_form,
-    status: original_application_status.gsub(' ', '_'),
+    status: original_application_status.parameterize(separator: '_'),
   )
 end
 
@@ -27,12 +27,16 @@ Given('a {int} working day time limit on {string}') do |limit, rule|
   )
 end
 
+Given('its RBD time is set to {string}') do |time_string|
+  @application_choice.update(reject_by_default_at: DateTime.parse(time_string))
+end
+
 When(/^the candidate submits the application$/) do
   SubmitApplication.new(@application_choice.application_form).call
 end
 
-When(/^the reject by default date is "([-\d]+)"$/) do |date|
-  expect(@application_choice.reject_by_default_at&.round).to eq Time.zone.parse(date).end_of_day.round
+Then(/^the reject by default time is "(.*?)"$/) do |time|
+  expect(@application_choice.reload.reject_by_default_at&.round).to eq Time.zone.parse(time).round
 end
 
 When(/^the (\w+) takes action "([\w\s]+)"$/) do |_actor, action|
@@ -49,8 +53,8 @@ When('{string} provides a reference') do |referee_email|
   expect(action.save).to be true
 end
 
-When('the date is {string}') do |date|
-  Timecop.freeze(date)
+When(/the (date|time) is "(.*)"/) do |_, date_or_time|
+  Timecop.freeze(date_or_time)
 end
 
 When('the daily application cron job has run') do
@@ -62,8 +66,8 @@ Then('the new application choice status is {string}') do |new_application_status
   expect(@application_choice.reload.status).to eq(new_application_status.parameterize(separator: '_'))
 end
 
-Then('the application choice is flagged as rejected by default') do
-  expect(@application_choice.reload.rejected_by_default).to be true
+Then(/the application choice is (flagged|not flagged) as rejected by default/) do |flagged_or_not_flagged|
+  expect(@application_choice.reload.rejected_by_default).to be(flagged_or_not_flagged == 'flagged')
 end
 
 When(/^the candidate submits a complete application with reference feedback$/) do
