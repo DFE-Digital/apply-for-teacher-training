@@ -6,6 +6,7 @@ module CandidateInterface
       @subject_knowledge_form = SubjectKnowledgeForm.build_from_application(
         current_application,
       )
+      @course_names = chosen_course_names
     end
 
     def update
@@ -14,6 +15,7 @@ module CandidateInterface
       if @subject_knowledge_form.save(current_application)
         render :show
       else
+        @course_names = chosen_course_names
         render :edit
       end
     end
@@ -28,6 +30,10 @@ module CandidateInterface
       params.require(:candidate_interface_subject_knowledge_form).permit(
         :subject_knowledge,
       )
+    end
+
+    def chosen_course_names
+      current_application.application_choices.map(&:course).map(&:name_and_code)
     end
   end
 end
