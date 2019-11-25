@@ -38,12 +38,8 @@ RSpec.feature 'Add comments to the application history' do
   end
 
   def and_a_vendor_updates_the_application_status
-    vendor_api_user = create :vendor_api_user, email_address: 'bob@example.com'
-
     Timecop.freeze(Time.zone.local(2019, 10, 2, 12, 0, 0)) do
-      Audited.audit_class.as_user(vendor_api_user) do
-        @application_choice.update(status: 'rejected')
-      end
+      @application_choice.update(status: 'rejected')
     end
   end
 
@@ -81,7 +77,6 @@ RSpec.feature 'Add comments to the application history' do
       expect(page).to have_content '1 October 2019'
       expect(page).to have_content '12:00'
       expect(page).to have_content 'Comment on Application Form'
-      expect(page).to have_content 'bob@example.com (Support)'
       expect(page).to have_content 'I did a thing to this application'
     end
   end
