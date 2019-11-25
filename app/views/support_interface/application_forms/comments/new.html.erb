@@ -16,7 +16,7 @@
   </div>
 <% end %>
 
-<%= form_with model: Audited::Audit.new, url: support_interface_application_form_comments_path, method: :post do |f| %>
+<%= form_with model: @form_model, url: support_interface_application_form_comments_path, method: :post do |f| %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <div class="govuk-form-group <% if @error %>govuk-form-group--error<% end %>">
