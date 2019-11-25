@@ -15,6 +15,7 @@ module CandidateInterface
         .find_by!(code: provider_code)
         .courses
         .where(exposed_in_find: true)
+        .order(:name)
     end
 
   private
