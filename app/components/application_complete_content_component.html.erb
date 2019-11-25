@@ -1,4 +1,13 @@
-<% if all_provider_decisions_made? %>
+<% if any_accepted_offer? %>
+  <h2 class="govuk-heading-m govuk-!-font-size-27">
+    You have accepted an offer
+  </h2>
+
+  <p class="govuk-body">
+    We've sent you an email to confirm this. Your training provider will be in
+    touch with you direct to explain what happens next.
+  </p>
+<% elsif all_provider_decisions_made? %>
   <h2 class="govuk-heading-m govuk-!-font-size-27">
     All your training providers have now reached a decision
   </h2>

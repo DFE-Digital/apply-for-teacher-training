@@ -8,6 +8,10 @@ class ApplicationCompleteContentComponent < ActionView::Component::Base
     @dates = ApplicationDates.new(@application_form)
   end
 
+  def any_accepted_offer?
+    @application_form.application_choices.map.any?(&:pending_conditions?)
+  end
+
   def all_provider_decisions_made?
     # TODO: Update with correct logic when decline by default is added
     @application_form.application_choices.map.all? do |course_choice|
