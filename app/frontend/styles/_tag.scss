@@ -6,10 +6,8 @@
     color: govuk-colour("white");
   } @else {
     background-color: govuk-colour("white");
-    border: 3px solid govuk-colour($color);
+    outline: 3px solid govuk-colour($color);
     color: govuk-colour($color);
-    margin-top: -3px;
-    margin-bottom: -3px;
   }
 }
 
@@ -35,6 +33,10 @@
 
 .app-tag--info-unfilled {
   @include tag("turquoise", $filled: false);
+}
+
+.app-tag--incomplete {
+  @include tag("blue", $filled: false);
 }
 
 .app-tag--warning {
