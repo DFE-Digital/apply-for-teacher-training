@@ -1,5 +1,8 @@
 <% content_for :browser_title, "Application ##{@application_form.id}" %>
-<% content_for :title, "Application ##{@application_form.id} - #{@application_form.first_name} #{@application_form.last_name}" %>
+<% content_for :title do %>
+  <span class="govuk-caption-xl">Application #<%= @application_form.id %></span>
+  <%= @application_form.candidate.email_address %>
+<% end %>
 
 <% content_for :before_content do %>
   <div class="govuk-breadcrumbs">

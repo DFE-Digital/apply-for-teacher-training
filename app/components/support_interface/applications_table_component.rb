@@ -26,7 +26,7 @@ module SupportInterface
     attr_reader :application_forms
 
     def reference_status(reference, submitted)
-      return 'Not submitted' unless reference && submitted
+      return 'Not requested yet' unless reference && submitted
 
       reference.complete? ? 'Received' : 'Awaiting response'
     end
