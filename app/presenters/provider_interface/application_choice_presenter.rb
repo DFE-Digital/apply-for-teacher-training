@@ -47,10 +47,6 @@ module ProviderInterface
       application_choice.course.course_options.first.site.name
     end
 
-    def status_name
-      I18n.t!("provider_application_states.#{application_choice.status}")
-    end
-
     def updated_at
       application_choice.updated_at.strftime('%e %b %Y %l:%M%P')
     end
