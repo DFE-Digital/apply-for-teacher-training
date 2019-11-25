@@ -21,7 +21,6 @@ RSpec.feature 'Selecting a course' do
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
     and_i_choose_a_course
-    and_i_choose_a_location
     then_i_see_a_message_that_ive_already_chosen_the_course
 
     when_i_mark_this_section_as_completed

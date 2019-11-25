@@ -48,13 +48,17 @@ module CandidateInterface
     def ucas; end
 
     def options_for_course
-      @pick_course = PickCourseForm.new(provider_code: params.fetch(:provider_code))
+      @pick_course = PickCourseForm.new(
+        provider_code: params.fetch(:provider_code),
+        application_form: current_application,
+      )
     end
 
     def pick_course
       @pick_course = PickCourseForm.new(
         provider_code: params.fetch(:provider_code),
         code: params.dig(:candidate_interface_pick_course_form, :code),
+        application_form: current_application,
       )
 
       if !@pick_course.valid?
