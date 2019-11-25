@@ -4,6 +4,7 @@ module CandidateInterface
 
     attr_accessor :application_form, :provider_code, :course_code, :course_option_id
     validates :course_option_id, presence: true
+    validate :candidate_can_only_apply_to_3_courses
 
     def available_sites
       CourseOption.where(course_id: course.id)
@@ -17,13 +18,19 @@ module CandidateInterface
       )
     end
 
+  private
+
     def course_option
       CourseOption.find(course_option_id)
     end
 
     def course
-      provider = Provider.find_by!(code: provider_code)
-      provider.courses.find_by!(code: course_code)
+      @course ||= Course.find_by!(code: course_code)
+    end
+
+    def candidate_can_only_apply_to_3_courses
+      return if application_form.application_choices.count <= 2
+      errors[:base] << 'You can only apply for up to 3 courses'
     end
   end
 end
