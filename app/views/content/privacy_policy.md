@@ -5,7 +5,12 @@ Any information we collect when you use our services will be used and looked aft
 * the Department for Education, and/or
 * the teacher training providers the candidate applies to
 
-This means we’re both data controllers (defined by data protection law) for your information.
+This means we’re joint data controllers, as well as data processors, for your information (defined by data protection law).
+
+Apply for teacher training and Manage teacher training applications are new services.
+We’re confident that they’ve met our security standards, but we’ll continue to run
+security tests as we improve the service. Like with any digital service, there’s
+always a chance of data breaches happening.
 
 ## What personal data we collect
 
@@ -21,8 +26,7 @@ If you’re a candidate using Apply for teacher training, we may collect the fol
 * phone number
 * email address
 * references
-
-any other personal data you choose to include in your application form – for example, you might disclose a disability or long-term health condition
+* any other personal data you choose to include in your application form – for example, you might disclose a disability or long-term health condition
 
 ### What data we collect if you’re a referee
 
@@ -32,7 +36,10 @@ If you’re a referee, we got your information from a teacher training candidate
 * email address
 * how you know the candidate
 
-We may also collect any personal data you include in your reference, or any information you give us if you ask to be contacted for research purposes.
+We may also collect:
+
+* any personal data you include in your reference
+* any information you give us if you consent to be contacted for user research
 
 ### What data we collect if you work for a training provider
 
@@ -60,9 +67,12 @@ Processing applications includes the following:
 ### Building a better teacher training application process
 
 We’ll use your data to help us build a better teacher training application process.
+
 For example, we’ll look at any feedback you give us about our services so we can improve them.
 
-If you’re a referee, you can also opt in to being contacted for user research.
+If you’re a candidate or you work at a teacher training provider, we may contact you to carry out user research.
+
+If you’re a referee, we’ll ask you to consent before contacting you for user research.
 
 ### Getting insight to make government policy better
 
@@ -74,7 +84,7 @@ We need to use personal data for the purposes mentioned above. Most of these pur
 
 However, if we contacted you asking for a reference, this was in our legitimate interests (defined in data protection law) because we need references to process applications.
 
-If you give a reference, we use your data to meet our public task to process applications, build a better service and improve policy. To help us do this, we’ll ask for your consent (defined in data protection law) to be contacted by us.
+If you give a reference, we use your data to meet our public task (processing applications, building a better service and improving policy). To help us do this, we’ll ask for your consent (defined in data protection law) to be contacted for user research.
 
 If you’re a candidate or a referee, we’ll also ask for your consent before using cookies to get statistics from Google Analytics.
 
@@ -82,13 +92,15 @@ If you’re a candidate or a referee, we’ll also ask for your consent before u
 
 We need to share personal data for the purposes mentioned above.
 
+We do so under section 132 of the Education Act 2002, together with regulation 5 of the Education (School Teachers’ Qualifications) (England) Regulations 2003.
+
 ### Sharing data with teacher training providers
 
-We share teacher training applicant data, including references, with the teacher training providers the candidate applies to.
+We share teacher training applicant and referee data with the teacher training providers the candidate applies to.
 
 We have a data sharing agreement with providers so they can only use your data to:
-process applications, which may include contacting candidates
 
+* process applications, which may include contacting candidates
 * get statistics for internal use
 * get in touch with you if there’s a security issue concerning your data
 
@@ -102,7 +114,9 @@ We may need to share a bit more information to help the referee identify the can
 
 We’ll share candidate data with UCAS.
 
-This is so UCAS can check applications across UCAS and Apply for teaching training. For example, UCAS may tell us if a candidate accepts offers on both services. We may contact the candidate if this is the case.
+This is so UCAS can check applications across UCAS and Apply for teaching training.
+
+For example, UCAS will tell us if a candidate accepts offers on both services and we will contact the candidate if this is the case.
 
 ### External organisations who process data
 
@@ -110,7 +124,7 @@ This is so UCAS can check applications across UCAS and Apply for teaching traini
 
 We use a customer service management system to process some personal data, such as feedback you send us.
 
-Zendesk are currently our preferred customer service management system because [they use various safeguards to look after your data](https://www.zendesk.co.uk/company/customers-partners/master-subscription-agreement/?cta=msa#confidentiality).
+[Zendesk are currently our preferred customer service management system](https://www.zendesk.co.uk/company/customers-partners/master-subscription-agreement/?cta=msa#confidentiality) because they use various safeguards to look after your data.
 
 #### Google
 
@@ -127,6 +141,7 @@ We host our services on Microsoft Azure Cloud, which encrypts your data to preve
 ## How long we keep your data
 
 We only keep your data for as long as needed for the uses listed above.
+
 We will delete your data after 7 years.
 
 ## Your rights
@@ -159,4 +174,4 @@ For further information or to raise a concern, visit the [Information Commission
 
 We might need to update this privacy policy occasionally. Please review the policy now and then.
 
-This version was last updated on 20 November 2019.
+This version was last updated on 25 November 2019.
