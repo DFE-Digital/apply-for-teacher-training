@@ -49,17 +49,21 @@ module CandidateInterface
     def ucas; end
 
     def options_for_course
-      @courses = Provider
-        .find_by(code: params[:provider_code])
-        .courses
-        .where(exposed_in_find: true)
+      @pick_course = PickCourseForm.new(provider_code: params.fetch(:provider_code))
     end
 
     def pick_course
-      if course_params[:code] == 'other'
+      @pick_course = PickCourseForm.new(
+        provider_code: params.fetch(:provider_code),
+        code: params.dig(:candidate_interface_pick_course_form, :code),
+      )
+
+      if !@pick_course.valid?
+        render :options_for_course
+      elsif @pick_course.other?
         redirect_to candidate_interface_course_choices_on_ucas_path
       else
-        redirect_to candidate_interface_course_choices_site_path(provider_code: params[:provider_code], course_code: course_params[:code])
+        redirect_to candidate_interface_course_choices_site_path(provider_code: @pick_course.provider_code, course_code: @pick_course.code)
       end
     end
 
@@ -128,10 +132,6 @@ module CandidateInterface
 
     def application_choice_params
       params.fetch(:candidate_interface_course_chosen_form, {}).permit(:choice)
-    end
-
-    def course_params
-      params.require(:course).permit(:code)
     end
 
     def course_option_params

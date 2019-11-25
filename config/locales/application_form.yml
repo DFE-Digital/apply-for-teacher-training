@@ -288,6 +288,10 @@ en:
           attributes:
             code:
               blank: Select a course provider
+        candidate_interface/pick_course_form:
+          attributes:
+            code:
+              blank: Select a course
         candidate_interface/eligibility_form:
           attributes:
             eligible_citizen:
