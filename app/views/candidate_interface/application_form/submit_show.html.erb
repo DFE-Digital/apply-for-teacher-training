@@ -20,20 +20,28 @@
         </p>
         <div class="govuk-inset-text">
           <p class="govuk-body">
-            As prospective teachers, all candidates must consent to an enhanced DBS
-            check. This will show up any past criminal convictions, both spent and
-            unspent. Some convictions, even if they are spent, will disbar you from
-            teaching.
+            As prospective teachers, all candidates must consent to an enhanced
+            DBS check. This will show up any past criminal convictions, both
+            spent and unspent. Some convictions, even if they are spent, will
+            disbar you from teaching.
           </p>
-          However, not all past convictions prevent you from training to be a teacher.
-          Talk to your provider about their policy on criminal convictions.
-          <p></p>
+          <p class="govuk-body">
+            However, not all past convictions prevent you from training to be a
+            teacher. Talk to your provider about their policy on criminal
+            convictions.
+          </p>
           <p class="govuk-body">
             <%= govuk_link_to t('submit_application.conviction_link'), 'https://www.gov.uk/exoffenders-and-employment' %>.
           </p>
         </div>
 
         <%= f.govuk_radio_buttons_fieldset :further_information, legend: { size: 'm', text: t('application_form.further_information.further_information.label') } do %>
+          <p class="govuk-body">
+            Examples of further information include any disability, health or
+            other personal or professional issue you feel is relevant to your
+            application.
+          </p>
+
           <%= f.govuk_radio_button :further_information, true, label: { text: 'Yes' }, link_errors: true do %>
             <%= f.govuk_text_area :further_information_details, label: { text: t('application_form.further_information.further_information_details.label') }, max_words: 300 %>
           <% end %>
@@ -42,8 +50,8 @@
         <% end %>
 
         <p class="govuk-body">
-          By submitting, I confirm that the information given is true, complete and
-          accurate.
+          By submitting, I confirm that the information given is true, complete
+          and accurate.
         </p>
 
         <%= f.govuk_submit t('submit_application.submit_button') %>
