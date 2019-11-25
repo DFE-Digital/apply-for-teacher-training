@@ -15,12 +15,8 @@
 
 <%= render SupportInterface::ApplicationSummaryComponent, application_form: @application_form %>
 
-<% if @application_form.submitted? %>
-  <h2 class="govuk-heading-l govuk-!-margin-top-8" id="first-reference">First reference</h2>
+<% @application_form.references.each_with_index do |reference, i| %>
+  <h2 class="govuk-heading-l govuk-!-margin-top-8"><%= (i + 1).ordinalize %> reference</h2>
 
-  <%= render ReferenceWithFeedbackComponent, reference: @application_form.references.first %>
-
-  <h2 class="govuk-heading-l govuk-!-margin-top-8" id="second-reference">Second reference</h2>
-
-  <%= render ReferenceWithFeedbackComponent, reference: @application_form.references.second %>
+  <%= render ReferenceWithFeedbackComponent, reference: reference %>
 <% end %>
