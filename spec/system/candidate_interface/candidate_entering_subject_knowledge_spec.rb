@@ -4,10 +4,14 @@ RSpec.feature 'Entering subject knowledge' do
   include CandidateHelper
 
   scenario 'Candidate submits their subject knowledge' do
+    given_courses_exist
+
     given_i_am_signed_in
     and_i_visit_the_site
+    and_i_have_chosen_a_course
 
     when_i_click_on_subject_knowledge
+    then_i_should_see_my_course_choices
     and_i_submit_the_form
     then_i_should_see_validation_errors
 
@@ -34,6 +38,15 @@ RSpec.feature 'Entering subject knowledge' do
 
   def and_i_visit_the_site
     visit candidate_interface_application_form_path
+  end
+
+  def and_i_have_chosen_a_course
+    click_link 'Course choices'
+    candidate_fills_in_course_choices
+  end
+
+  def then_i_should_see_my_course_choices
+    expect(page).to have_content('Primary (2XT2)')
   end
 
   def when_i_click_on_subject_knowledge

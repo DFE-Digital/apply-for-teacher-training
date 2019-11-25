@@ -7,7 +7,18 @@
       <%= t('page_titles.subject_knowledge') %>
     </h1>
 
-    <p class="govuk-body">Give us detailed evidence for the knowledge and interest you bring to.</p>
+    <% if @course_names.any? %>
+      <p class="govuk-body">
+        Give us detailed evidence for the knowledge and interest you bring to:
+      </p>
+      <ul class="govuk-list govuk-list--bullet">
+        <% @course_names.each do |course_name| %>
+          <li><%= course_name %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="govuk-body">Give us detailed evidence for the knowledge and interest you bring to the subject(s) you’d like to teach.</p>
+    <% end %>
     <p class="govuk-body">Evidence can include:</p>
     <ul class="govuk-list govuk-list--bullet">
       <li>the subject of your undergraduate degree</li>
