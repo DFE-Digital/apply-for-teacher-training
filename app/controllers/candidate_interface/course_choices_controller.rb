@@ -68,27 +68,24 @@ module CandidateInterface
     end
 
     def options_for_site
-      provider = Provider.find_by(code: params[:provider_code])
-      course = provider.courses.find_by(code: params[:course_code])
-      @options = CourseOption.where(course_id: course.id)
+      @pick_site = PickSiteForm.new(
+        provider_code: params.fetch(:provider_code),
+        course_code: params.fetch(:course_code),
+      )
     end
 
     def pick_site
-      # TODO: add better validation
-      redirect_back(fallback_location: root_path) && return unless params[:course_option]
+      @pick_site = PickSiteForm.new(
+        application_form: current_application,
+        provider_code: params.fetch(:provider_code),
+        course_code: params.fetch(:course_code),
+        course_option_id: params.dig(:candidate_interface_pick_site_form, :course_option_id),
+      )
 
-      @application_form = current_application
-      @course_choices = @application_form.application_choices
-      selected_courses = @course_choices.map(&:course)
-
-      if selected_courses.include?(Course.find_by(code: params[:course_code]))
-        @application_form.errors[:base] << 'You have already selected this course'
-        render :index
-      else
-        @course_choices.create!(
-          course_option: CourseOption.find(course_option_params[:id]),
-        )
+      if @pick_site.save
         redirect_to candidate_interface_course_choices_index_path
+      else
+        render :options_for_site
       end
     end
 
@@ -132,10 +129,6 @@ module CandidateInterface
 
     def application_choice_params
       params.fetch(:candidate_interface_course_chosen_form, {}).permit(:choice)
-    end
-
-    def course_option_params
-      params.require(:course_option).permit(:id)
     end
   end
 end

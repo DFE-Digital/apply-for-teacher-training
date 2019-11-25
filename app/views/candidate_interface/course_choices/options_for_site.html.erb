@@ -3,13 +3,13 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: CourseOption.new, url: candidate_interface_course_choices_site_path(provider_code: params[:provider_code], course_code: params[:course_code]), builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+    <%= form_with model: @pick_site, url: candidate_interface_course_choices_site_path(provider_code: params[:provider_code], course_code: params[:course_code]), builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :id, legend: { size: 'xl', text: t('page_titles.which_location') } do %>
+      <%= f.govuk_radio_buttons_fieldset :course_option_id, legend: { size: 'xl', text: t('page_titles.which_location') } do %>
         <div class="govuk-!-margin-top-6">
-          <% @options.each do |option| %>
-            <%= f.govuk_radio_button :id, option.id, label: { text: option.site.name } %>
+          <% @pick_site.available_sites.each do |option| %>
+            <%= f.govuk_radio_button :course_option_id, option.id, label: { text: option.site.name } %>
           <% end %>
         </div>
       <% end %>
