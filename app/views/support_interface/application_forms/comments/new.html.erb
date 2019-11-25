@@ -1,4 +1,4 @@
-<% content_for :title, 'Add comment' %>
+<% content_for :title, 'Add application comment' %>
 <% content_for :before_content, govuk_back_link_to(support_interface_applications_path) %>
 
 <% if @error %>
@@ -16,11 +16,11 @@
   </div>
 <% end %>
 
-<%= form_with model: {}, url: support_interface_application_form_comments_path, method: :post do |f| %>
+<%= form_with model: Audited::Audit.new, url: support_interface_application_form_comments_path, method: :post do |f| %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <div class="govuk-form-group <% if @error %>govuk-form-group--error<% end %>">
-        <%= f.govuk_text_field :comment, label: { text: t('application_form.personal_details.last_name.label'), size: 'l' }, hint_text: t('application_form.personal_details.last_name.hint_text') %>
+        <%= f.govuk_text_area :comment, label: { text: 'Comment', size: 'm' }, hint_text: 'Comments will appear in the support interface application history but are hidden from other users' %>
       </div>
       <%= submit_tag('Add comment', class: 'govuk-button') %>
     </div>
