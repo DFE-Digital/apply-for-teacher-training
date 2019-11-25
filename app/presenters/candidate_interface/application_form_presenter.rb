@@ -8,6 +8,44 @@ module CandidateInterface
       "Last saved on #{@application_form.updated_at.strftime('%d %B %Y')} at #{@application_form.updated_at.strftime('%l:%M%P')}"
     end
 
+    def sections_with_completion
+      [
+        # "Courses" section
+        [:course_choices, course_choices_completed?],
+
+        # "About you" section
+        [:personal_details, personal_details_completed?],
+        [:contact_details, contact_details_completed?],
+        [:work_experience, work_experience_completed?],
+        [:volunteering, volunteering_completed?],
+
+        # "Qualifications" section
+        [:degrees, degrees_completed?],
+        [:maths_gcse, maths_gcse_completed?],
+        [:english_gcse, english_gcse_completed?],
+        [:science_gcse, science_gcse_completed?],
+        # "Other qualifications" is intentionally omitted, since it's optional
+
+        # "Personal statement and interview" section
+        [:becoming_a_teacher, becoming_a_teacher_completed?],
+        [:subject_knowledge, subject_knowledge_completed?],
+        [:interview_preferences, interview_preferences_completed?],
+
+        # "References" section
+        [:references, all_referees_provided_by_candidate?],
+      ]
+    end
+
+    def section_errors
+      sections_with_completion
+        .reject(&:second)
+        .map(&:first)
+    end
+
+    def ready_to_submit?
+      sections_with_completion.map(&:second).all?
+    end
+
     def application_choices_added?
       @application_form.application_choices.present?
     end

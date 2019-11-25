@@ -1,11 +1,12 @@
 class CourseChoicesReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:, editable: true, show_status: false)
+  def initialize(application_form:, editable: true, show_status: false, show_incomplete: false)
     @application_form = application_form
     @course_choices = @application_form.application_choices
     @editable = editable
     @show_status = show_status
+    @show_incomplete = show_incomplete
   end
 
   def course_choice_rows(course_choice)
@@ -25,6 +26,10 @@ class CourseChoicesReviewComponent < ActionView::Component::Base
     @application_form.application_choices.any? do |course_choice|
       withdrawable?(course_choice)
     end
+  end
+
+  def show_missing_banner?
+    @show_incomplete && !@application_form.course_choices_completed && @editable
   end
 
 private

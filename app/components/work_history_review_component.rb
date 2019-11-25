@@ -1,9 +1,10 @@
 class WorkHistoryReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:, editable: true)
+  def initialize(application_form:, editable: true, show_incomplete: false)
     @application_form = application_form
     @editable = editable
+    @show_incomplete = show_incomplete
   end
 
   def work_experience_rows(work)
@@ -40,6 +41,10 @@ class WorkHistoryReviewComponent < ActionView::Component::Base
 
   def breaks_in_work_history?
     CheckBreaksInWorkHistory.call(@application_form)
+  end
+
+  def show_missing_banner?
+    @show_incomplete
   end
 
 private

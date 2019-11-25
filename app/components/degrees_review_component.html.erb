@@ -15,3 +15,11 @@
     </header>
   <% end %>
 <% end %>
+
+<% if show_missing_banner? %>
+  <%= render(SectionMissingBannerComponent, section: :degrees, text: t('review_application.degrees.incomplete')) do %>
+     <%= link_to candidate_interface_degrees_new_base_path, class: 'govuk-link' do %>
+       <%= t('review_application.degrees.link_html') %>
+     <% end %>
+   <% end %>
+<% end %>

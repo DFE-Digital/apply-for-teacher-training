@@ -1,1 +1,9 @@
-<%= render(SummaryCardComponent, rows: contact_details_form_rows, editable: @editable) %>
+<% if show_missing_banner? %>
+  <%= render(SectionMissingBannerComponent, section: :contact_details, text: t('review_application.contact_details.incomplete')) do %>
+    <%= link_to candidate_interface_contact_details_edit_base_path, class: 'govuk-link' do %>
+      <%= t('review_application.contact_details.link_html') %>
+    <% end %>
+  <% end %>
+<% else %>
+  <%= render(SummaryCardComponent, rows: contact_details_form_rows, editable: @editable) %>
+<% end %>

@@ -4,9 +4,28 @@ RSpec.feature 'Candidate reviews the answers' do
   include CandidateHelper
 
   scenario 'Candidate with all sections filled in' do
-    given_i_have_completed_my_application
+    given_courses_exist
+    given_i_am_signed_in
 
-    when_i_click_on_check_your_answers
+    %i[
+      course_choices
+      personal_details
+      contact_details
+      work_experience
+      volunteering
+      degrees
+      maths_gcse
+      english_gcse
+      science_gcse
+      becoming_a_teacher
+      subject_knowledge
+      interview_preferences
+      references
+    ].map { |section| check_and_fill_in_section_for(section) }
+
+    and_i_fill_in_other_qualifications
+
+    when_i_review_my_application
 
     then_i_can_review_my_application
     then_i_can_see_my_course_choices
@@ -22,8 +41,19 @@ RSpec.feature 'Candidate reviews the answers' do
     and_i_can_see_my_referees
   end
 
-  def given_i_have_completed_my_application
-    candidate_completes_application_form
+  def given_i_am_signed_in
+    create_and_sign_in_candidate
+  end
+
+  def when_i_review_my_application
+    and_i_visit_the_application_form_page
+    when_i_click_on_check_your_answers
+  end
+
+  def and_i_fill_in_other_qualifications
+    and_i_visit_the_application_form_page
+    click_link 'Other relevant academic and non-academic qualifications'
+    candidate_fills_in_their_other_qualifications
   end
 
   def and_i_visit_the_application_form_page
@@ -101,5 +131,61 @@ RSpec.feature 'Candidate reviews the answers' do
     expect(page).to have_content 'Anne Other'
     expect(page).to have_content 'anne@other.com'
     expect(page).to have_content 'First boss'
+  end
+
+  def check_and_fill_in_section_for(section)
+    when_i_review_my_application
+    then_i_should_see_an_incomplete_banner_for(section)
+
+    when_i_click_to_complete_section_for(section)
+    then_i_should_be_able_to_complete_section_for(section)
+
+    when_i_review_my_application
+    then_i_should_not_see_an_incomplete_banner_for(section)
+  end
+
+  def then_i_should_see_an_incomplete_banner_for(section)
+    expect(page).to have_content t("review_application.#{section}.link")
+  end
+
+  def when_i_click_to_complete_section_for(section)
+    click_link t("review_application.#{section}.link")
+  end
+
+  def then_i_should_not_see_an_incomplete_banner_for(section)
+    expect(page).not_to have_content t("review_application.#{section}.link")
+  end
+
+  def then_i_should_be_able_to_complete_section_for(section)
+    case section
+    when :course_choices
+      candidate_fills_in_course_choices
+    when :personal_details
+      candidate_fills_in_personal_details
+    when :contact_details
+      candidate_fills_in_contact_details
+    when :work_experience
+      candidate_fills_in_work_experience
+    when :volunteering
+      candidate_fills_in_volunteering_role
+    when :degrees
+      candidate_fills_in_their_degree
+    when :becoming_a_teacher
+      candidate_fills_in_becoming_a_teacher
+    when :subject_knowledge
+      candidate_fills_in_subject_knowledge
+    when :interview_preferences
+      candidate_fills_in_interview_preferences
+    when :references
+      candidate_provides_two_referees
+    when :maths_gcse
+      candidate_fills_in_a_gcse
+    when :english_gcse
+      candidate_fills_in_a_gcse
+    when :science_gcse
+      candidate_fills_in_a_gcse
+    else
+      raise "Unimplemented section #{section}"
+    end
   end
 end

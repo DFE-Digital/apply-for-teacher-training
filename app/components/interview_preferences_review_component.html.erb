@@ -1,1 +1,9 @@
-<%= render(SummaryCardComponent, rows: interview_preferences_form_rows, editable: @editable) %>
+<% if show_missing_banner? %>
+  <%= render(SectionMissingBannerComponent, section: :interview_preferences, text: t('review_application.interview_preferences.incomplete')) do %>
+    <%= link_to candidate_interface_interview_preferences_edit_path, class: 'govuk-link' do %>
+      <%= t('review_application.interview_preferences.link_html') %>
+    <% end %>
+  <% end %>
+<% else %>
+  <%= render(SummaryCardComponent, rows: interview_preferences_form_rows, editable: @editable) %>
+<% end %>

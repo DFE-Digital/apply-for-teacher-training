@@ -1,13 +1,18 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submit the application' do
+RSpec.feature 'Candidate submits the application' do
   include CandidateHelper
 
-  scenario 'Candidate with personal details and contact details' do
+  scenario 'Candidate with a completed application' do
     given_i_am_signed_in
+
+    and_i_review_my_application
+    and_i_confirm_my_application
+    then_i_should_see_an_error_that_i_have_not_completed_everything
+
     and_i_have_completed_my_application
 
-    and_reviewed_my_application
+    and_i_review_my_application
     and_i_confirm_my_application
 
     when_i_choose_to_add_further_information_but_omit_adding_details
@@ -46,31 +51,9 @@ RSpec.feature 'Candidate submit the application' do
     candidate_completes_application_form
   end
 
-  def and_i_have_chosen_a_course
-    provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
-    site = create(:site, name: 'Main site', code: '-', provider: provider)
-    course = create(:course, name: 'Primary', code: '2XT2', provider: provider, exposed_in_find: true)
-    create(:course_option, site: site, course: course, vacancy_status: 'B')
-
-    visit candidate_interface_application_form_path
-
-    click_link 'Course choices'
-    click_link 'Continue'
-    choose 'Yes, I know where I want to apply'
-    click_button 'Continue'
-    choose 'Gorse SCITT (1N1)'
-    click_button 'Continue'
-    choose 'Primary (2XT2)'
-    click_button 'Continue'
-    choose 'Main site'
-    click_button 'Continue'
-  end
-
-  def and_i_filled_in_personal_details
-    visit candidate_interface_personal_details_edit_path
-    candidate_fills_in_personal_details(scope: 'application_form.personal_details')
-
-    click_button t('complete_form_button', scope: 'application_form.personal_details')
+  def then_i_should_see_an_error_that_i_have_not_completed_everything
+    expect(page).to have_content t('page_titles.review_application')
+    expect(page).to have_content 'There is a problem'
   end
 
   def when_i_attempt_to_edit_my_personal_details
@@ -81,18 +64,7 @@ RSpec.feature 'Candidate submit the application' do
     visit candidate_interface_contact_details_edit_base_path
   end
 
-  def and_i_filled_in_contact_details
-    visit candidate_interface_contact_details_edit_base_path
-    candidate_fills_in_contact_details
-
-    click_button t('application_form.contact_details.address.button')
-  end
-
-  def and_i_gave_two_referees
-    candidate_provides_two_referees
-  end
-
-  def and_reviewed_my_application
+  def and_i_review_my_application
     and_i_visit_the_application_form_page
     when_i_click_on_check_your_answers
   end

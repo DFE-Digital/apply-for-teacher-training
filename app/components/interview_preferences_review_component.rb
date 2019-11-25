@@ -13,6 +13,10 @@ class InterviewPreferencesReviewComponent < ActionView::Component::Base
     [interview_preferences_form_row]
   end
 
+  def show_missing_banner?
+    !@interview_preferences_form.valid? && @editable
+  end
+
 private
 
   attr_reader :application_form
