@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @course_form, url: candidate_interface_course_choices_provider_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+    <%= form_with model: Provider.new, url: candidate_interface_course_choices_provider_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset :code, legend: { size: 'xl', text: t('page_titles.which_provider') } do %>
