@@ -12,7 +12,7 @@ module CandidateInterface
       course = provider.courses.where(exposed_in_find: true).find_by!(code: params.fetch(:courseCode))
       @course = CoursePresenter.new(course)
 
-      if course.open_on_apply?
+      if course.open_on_apply? && FeatureFlag.active?('pilot_open')
         render :apply_on_ucas_or_apply
       else
         render :apply_on_ucas_only

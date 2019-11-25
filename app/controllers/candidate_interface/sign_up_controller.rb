@@ -1,6 +1,7 @@
 module CandidateInterface
   class SignUpController < CandidateInterfaceController
     skip_before_action :authenticate_candidate!
+    before_action :show_pilot_holding_page_if_not_open
 
     def new
       @sign_up_form = CandidateInterface::SignUpForm.build_from_candidate(Candidate.new)

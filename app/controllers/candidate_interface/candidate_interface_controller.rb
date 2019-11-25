@@ -14,6 +14,12 @@ module CandidateInterface
       redirect_to candidate_interface_application_complete_path if current_application.submitted?
     end
 
+    def show_pilot_holding_page_if_not_open
+      return if FeatureFlag.active?('pilot_open')
+
+      render 'candidate_interface/shared/pilot_holding_page'
+    end
+
     # controller-specific additional info to include in logstash logs
     def add_identity_to_log
       RequestLocals.store[:identity] = { candidate_id: current_candidate&.id }

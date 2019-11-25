@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'A candidate arriving from Find with a course and provider code' do
   scenario 'seeing their course information on the landing page' do
+    given_the_pilot_is_open
+
     when_i_have_arrive_from_find_with_invalid_course_parameters
     then_i_should_see_an_error_page
 
@@ -9,13 +11,25 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
     then_i_should_see_the_landing_page
     and_i_should_see_the_provider_and_course_codes
     and_i_should_see_the_course_name
-    and_i_should_be_able_to_apply_through_ucas
+    and_i_should_be_able_to_apply_through_ucas_only
 
     when_i_arrive_from_find_to_a_course_that_is_open_on_apply
     and_i_should_be_able_to_apply_through_apply
 
     when_i_visit_the_available_courses_page
     i_should_see_the_available_providers_and_courses
+
+    given_the_pilot_is_not_open
+    when_i_arrive_from_find_to_a_course_that_is_open_on_apply
+    and_i_should_be_able_to_apply_through_ucas_only
+  end
+
+  def given_the_pilot_is_not_open
+    FeatureFlag.deactivate('pilot_open')
+  end
+
+  def given_the_pilot_is_open
+    FeatureFlag.activate('pilot_open')
   end
 
   def when_i_have_arrive_from_find_with_invalid_course_parameters
@@ -32,8 +46,8 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
   end
 
   def when_i_arrive_from_find_to_a_course_that_is_open_on_apply
-    course = create(:course, exposed_in_find: true, open_on_apply: true, code: 'YFZ1', name: 'Potions')
-    visit candidate_interface_apply_from_find_path providerCode: course.provider.code, courseCode: 'YFZ1'
+    course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Potions')
+    visit candidate_interface_apply_from_find_path providerCode: course.provider.code, courseCode: course.code
   end
 
   def then_i_should_see_the_landing_page
@@ -50,8 +64,8 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
     expect(page).to have_content 'Biology (XYZ1)'
   end
 
-  def and_i_should_be_able_to_apply_through_ucas
-    expect(page).to have_content t('apply_from_find.apply_button')
+  def and_i_should_be_able_to_apply_through_ucas_only
+    expect(page).to have_content 'You must apply for this course on UCAS'
   end
 
   def and_i_should_be_able_to_apply_through_apply
