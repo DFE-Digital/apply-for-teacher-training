@@ -3,7 +3,7 @@ development: &default
     - 'ABC' # Set this as the UID when bypassing DfE Sign-in to see applications for provider code ABC
 
 production:
-  'R55':
-    - '784A82E0-DB9A-45B7-B6E9-C3478D5703FB'  # pen test account 1
-  'ABC':
-    - 'A8BD3905-B55E-4837-8A8B-E07A5057FD87'  # pen test account 2
+  1N1:
+    - '5A992CD2-DEE2-4A8A-9EC3-82BE6E22B161' # SF (test)
+    - '85802F1B-3E84-4D1A-9920-3751CD150B60' # JA (test)
+    - 'BF009778-B687-4224-B1E9-2909B77FA4DA' # ML (test)
