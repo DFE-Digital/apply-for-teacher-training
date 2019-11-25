@@ -56,7 +56,7 @@ RSpec.describe VolunteeringReviewComponent do
     it 'renders component with working with children in the summary card title' do
       result = render_inline(VolunteeringReviewComponent, application_form: application_form)
 
-      expect(result.css('.app-summary-card__title')[0].text).to include(t('application_form.volunteering.working_with_children.review_text'))
+      expect(result.css('.app-summary-card__title')[0].text).to include(t('application_form.review.role_involved_working_with_children'))
     end
 
     it 'renders component with correct values for role' do

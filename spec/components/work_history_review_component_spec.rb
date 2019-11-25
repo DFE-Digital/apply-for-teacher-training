@@ -40,7 +40,7 @@ RSpec.describe WorkHistoryReviewComponent do
           expect(result.text).to include(work.start_date.strftime('%B %Y'))
           expect(result.css('.govuk-summary-list__actions').text).to include('Change')
           if work.working_with_children
-            expect(result.text).to include(t('application_form.work_history.working_with_children'))
+            expect(result.text).to include(t('application_form.review.role_involved_working_with_children'))
           end
         end
       end

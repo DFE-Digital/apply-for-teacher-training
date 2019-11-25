@@ -1,6 +1,8 @@
 en:
   application_form:
     begin_button: Start now
+    review:
+      role_involved_working_with_children: This role involved working with children
     courses:
       intro: You can apply for up to 3 courses.
       delete: Delete choice
@@ -96,7 +98,6 @@ en:
       details:
         label: Skills and experience relevant to teaching you gained in this role
       complete_form_button: Save and continue
-      working_with_children: This role involved working with children
       delete_entry: Delete entry
       add_job: Add job
       add_another_job: Add another job
@@ -238,7 +239,6 @@ en:
         change_action: organisation
       working_with_children:
         label: Did this job involve working in a school or with children?
-        review_text: This role involved working with children
       length:
         label: How long have you been in this role and what does it involve?
       start_date:

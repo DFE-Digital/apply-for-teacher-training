@@ -1,0 +1,14 @@
+<header class="app-summary-card__header">
+  <h<%= @heading_level %> class="app-summary-card__title">
+    <%= @title %>
+    <% if @check_icon %>
+      <span class="app-summary-card__meta">
+        <svg class="app-icon govuk-!-margin-right-1" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 200 200" focusable="false" fill="currentColor" aria-hidden="true">
+          <path d="M100 200a100 100 0 1 1 0-200 100 100 0 0 1 0 200zm-60-85l40 40 80-80-20-20-60 60-20-20-20 20z"></path>
+        </svg>
+        <%= t('application_form.review.role_involved_working_with_children') %>
+      </span>
+    <% end %>
+  </h<%= @heading_level %>>
+  <%= content %>
+</header>
