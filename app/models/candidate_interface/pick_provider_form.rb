@@ -11,7 +11,7 @@ module CandidateInterface
 
     def available_providers
       # TODO: Remove when the QA environment no longer has the "Example provider" stored
-      Provider.where.not(name: 'Example provider')
+      Provider.where.not(name: 'Example provider').order(:name)
     end
   end
 end
