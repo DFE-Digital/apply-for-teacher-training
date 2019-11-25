@@ -70,7 +70,7 @@ Rails.application.routes.draw do
         get '/review' => 'contact_details/review#show', as: :contact_details_review
       end
 
-      scope '/gcse/:subject' do
+      scope '/gcse/:subject', constraints: { subject: /(maths|english|science)/ } do
         get '/' => 'gcse/type#edit', as: :gcse_details_edit_type
         post '/' => 'gcse/type#update', as: :gcse_details_update_type
 
