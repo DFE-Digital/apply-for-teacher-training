@@ -296,6 +296,20 @@
             "metadata": {
                 "description": "Set this to a Slack incoming webhook url for application state change notifications"
             }
+        },
+        "customAvailabilityMonitors": {
+            "type": "array",
+            "defaultValue": [],
+            "metadata": {
+                "description": "Array of paths to perform monitoring on. In form TEST_NAME:HOST where HOST is the complete URL minus the http(s):// prefix."
+            }
+        },
+        "alertRecipientEmails": {
+            "type": "array",
+            "defaultValue": [],
+            "metadata": {
+                "description": "Array of recipients to receive availability email alerts. In form NAME:EMAIL_ADDRESS."
+            }
         }
     },
     "variables": {
@@ -308,7 +322,28 @@
         "storageAccountName": "[replace(concat(variables('resourceNamePrefix'), 'str'), '-', '')]",
         "databaseServerName": "[concat(variables('resourceNamePrefix'), '-psql')]",
         "keyVaultCertificateName": "[replace(parameters('customHostName'), '.', '-')]",
-        "rubyAuthHosts": "[if(greater(length(parameters('customHostName')), 0), concat(parameters('authorisedHosts'), ',', parameters('customHostName')), parameters('authorisedHosts'))]"
+        "rubyAuthHosts": "[if(greater(length(parameters('customHostName')), 0), concat(parameters('authorisedHosts'), ',', parameters('customHostName')), parameters('authorisedHosts'))]",
+        "defaultAvailabilityCheckHosts": "[if(greater(length(parameters('customHostName')), 0), createArray(concat('azcheck:', variables('appServiceName'), '.azurewebsites.net/check'), concat('check:', parameters('customHostName'), '/check')), createArray(concat('azcheck:', variables('appServiceName'), '.azurewebsites.net/check')))]",
+        "availabilityCheckHosts": "[if(greater(length(parameters('customAvailabilityMonitors')), 0), concat(variables('defaultAvailabilityCheckHosts'), parameters('customAvailabilityMonitors')), variables('defaultAvailabilityCheckHosts'))]",
+        "copy": [
+            {
+                "name": "availabilityTests",
+                "count": "[length(variables('availabilityCheckHosts'))]",
+                "input": {
+                    "nameSuffix": "[split(variables('availabilityCheckHosts')[copyIndex('availabilityTests')], ':')[0]]",
+                    "url": "[concat('https://', split(variables('availabilityCheckHosts')[copyIndex('availabilityTests')], ':')[1])]",
+                    "guid": "[guid(variables('availabilityCheckHosts')[copyIndex('availabilityTests')])]"
+                }
+            },
+            {
+                "name": "alertRecipients",
+                "count": "[length(parameters('alertRecipientEmails'))]",
+                "input": {
+                    "displayName": "[split(parameters('alertRecipientEmails')[copyIndex('alertRecipients')], ':')[0]]",
+                    "emailAddress": "[split(parameters('alertRecipientEmails')[copyIndex('alertRecipients')], ':')[1]]"
+                }
+            }
+        ]
     },
     "resources": [
         {
@@ -875,6 +910,9 @@
                     },
                     "attachedService": {
                         "value": "[variables('appServiceName')]"
+                    },
+                    "availabilityTests": {
+                        "value": "[variables('availabilityTests')]"
                     }
                 }
             }
