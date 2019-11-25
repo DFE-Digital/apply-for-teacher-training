@@ -23,7 +23,7 @@ private
     {
       key: 'Name',
       value: referee.name,
-      action: 'job',
+      action: 'name',
       change_path: candidate_interface_edit_referee_path(referee.id),
     }
   end
@@ -32,7 +32,7 @@ private
     {
       key: 'Email address',
       value: referee.email_address,
-      action: 'email_address',
+      action: 'email address',
       change_path: candidate_interface_edit_referee_path(referee.id),
     }
   end

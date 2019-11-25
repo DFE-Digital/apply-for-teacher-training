@@ -81,15 +81,26 @@ RSpec.describe VolunteeringReviewComponent do
       expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.volunteering.organisation.change_action')}")
     end
 
-    it 'renders component with correct values for length and details of experience' do
+    it 'renders component with correct values for length' do
       result = render_inline(VolunteeringReviewComponent, application_form: application_form)
 
-      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.volunteering.length_and_details.review_label'))
-      expect(result.css('.govuk-summary-list__value').to_html).to include('August 2019 - Present<br><p>I interned.</p>')
+      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.volunteering.review_length.review_label'))
+      expect(result.css('.govuk-summary-list__value').to_html).to include('August 2019 - Present')
       expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include(
         Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(2),
       )
-      expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.volunteering.length_and_details.change_action')}")
+      expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.volunteering.review_length.change_action')}")
+    end
+
+    it 'renders component with correct values for details of experience' do
+      result = render_inline(VolunteeringReviewComponent, application_form: application_form)
+
+      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.volunteering.review_details.review_label'))
+      expect(result.css('.govuk-summary-list__value').to_html).to include('<p>I interned.</p>')
+      expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include(
+        Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(2),
+      )
+      expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.volunteering.review_details.change_action')}")
     end
 
     it 'renders component along with a delete link for each role' do

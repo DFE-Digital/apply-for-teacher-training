@@ -252,9 +252,12 @@ en:
         hint_text: For example, ‘I volunteer in the classroom every Friday morning’
           or ‘I spent 1 day observing in this school’ or ‘I am a Scout Leader involved
           in activities throughout the year’
-      length_and_details:
-        review_label: Tell us how long you’ve been in this role and what it involves
-        change_action: dates and details
+      review_length:
+        review_label: Tell us how long you’ve been in this role
+        change_action: dates
+      review_details:
+        review_label: Tell us what it involves
+        change_action: details
       complete_form_button: Save and continue
       delete: Delete role
       confirm_delete: Yes I’m sure - delete this role

@@ -25,6 +25,7 @@ private
     {
       key: t('application_form.degree.qualification.label'),
       value: gcse_qualification_types[application_qualification.qualification_type.to_sym],
+      action: 'qualification',
       change_path: candidate_interface_gcse_details_edit_type_path(subject: subject),
     }
   end
@@ -33,6 +34,7 @@ private
     {
       key: 'Year awarded',
       value: application_qualification.award_year || t('gcse_summary.not_specified'),
+      action: 'year awarded',
       change_path: candidate_interface_gcse_details_edit_details_path(subject: subject),
     }
   end
@@ -41,6 +43,7 @@ private
     {
       key: 'Grade',
       value: application_qualification.grade ? application_qualification.grade.upcase : t('gcse_summary.not_specified'),
+      action: 'grade',
       change_path: candidate_interface_gcse_details_edit_details_path(subject: subject),
     }
   end

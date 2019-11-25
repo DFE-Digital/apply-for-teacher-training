@@ -1,12 +1,15 @@
 <% @degrees.each do |degree| %>
   <%= render(SummaryCardComponent, rows: degree_rows(degree), editable: @editable) do %>
     <header class="app-summary-card__header">
-      <h3 class="app-summary-card__title">
+      <h2 class="app-summary-card__title">
         <%= degree.title %>
-      </h3>
+      </h2>
       <% if @editable %>
         <div class="app-summary-card__actions">
-          <%= link_to t('application_form.degree.delete'), candidate_interface_confirm_degrees_destroy_path(degree.id), class: 'govuk-link' %>
+          <%= link_to candidate_interface_confirm_degrees_destroy_path(degree.id), class: 'govuk-link' do %>
+            <%= t('application_form.degree.delete') %>
+            <span class="govuk-visually-hidden"> <%= degree.subject %></span>
+          <% end %>
         </div>
       <% end %>
     </header>

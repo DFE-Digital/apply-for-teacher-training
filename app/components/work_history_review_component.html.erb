@@ -1,7 +1,7 @@
 <% @application_form.application_work_experiences.each do |work| %>
   <%= render(SummaryCardComponent, rows: work_experience_rows(work), editable: @editable) do %>
     <header class="app-summary-card__header">
-      <h3 class="app-summary-card__title">
+      <h2 class="app-summary-card__title">
         <%= work.role %>
         <% if work.working_with_children %>
           <span class="app-summary-card__meta">
@@ -11,10 +11,13 @@
             <%= t('application_form.work_history.working_with_children') %>
           </span>
         <% end %>
-      </h3>
+      </h2>
       <% if @editable %>
         <div class="app-summary-card__actions">
-          <%= link_to t('application_form.work_history.delete_entry'), candidate_interface_work_history_destroy_path(work.id), class: 'govuk-link' %>
+          <%= link_to candidate_interface_work_history_destroy_path(work.id), class: 'govuk-link' do %>
+            <%= t('application_form.work_history.delete_entry') %>
+            <span class="govuk-visually-hidden"> <%= work.role %></span>
+          <% end %>
         </div>
       <% end %>
     </header>

@@ -1,12 +1,15 @@
 <% @application_form.references.each do |referee| %>
   <%= render(SummaryCardComponent, rows: referee_rows(referee), editable: @editable) do %>
     <header class="app-summary-card__header">
-      <h3 class="app-summary-card__title">
+      <h2 class="app-summary-card__title">
         <%= t('application_form.referees.nth_referee')[referee.ordinal] %>
-      </h3>
+      </h2>
       <% if @editable %>
         <div class="app-summary-card__actions">
-          <%= link_to t('application_form.referees.delete'), candidate_interface_destroy_referee_path(referee.id), class: 'govuk-link' %>
+          <%= link_to candidate_interface_destroy_referee_path(referee.id), class: 'govuk-link' do %>
+            <%= t('application_form.referees.delete') %>
+            <span class="govuk-visually-hidden"> <%= referee.name %></span>
+          <% end %>
         </div>
       <% end %>
     </header>
