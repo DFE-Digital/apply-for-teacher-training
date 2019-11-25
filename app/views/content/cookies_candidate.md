@@ -5,7 +5,8 @@ Cookies are used to:
 * measure how you use the this service so it can be updated and improved based on your needs
 * remember the notifications you’ve seen so that we don’t show them to you again
 * remember who you are when you have logged in so we can show you your information and information relevant to you
-* Apply for teacher training cookies aren’t used to identify you personally.
+
+Apply for teacher training cookies aren’t used to identify you personally.
 
 ## How we use cookies
 

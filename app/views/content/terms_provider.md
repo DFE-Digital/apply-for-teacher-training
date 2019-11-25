@@ -4,9 +4,7 @@ Thank you for taking part in trialling Manage teacher training applications. Her
 
 1. ### Designated support
 
-    We will have designated support to answer your queries. You can contact us by:
-    * phone: INSERT TELEPHONE NUMBER
-    * email: <becomingateacher@digital.education.gov.uk>
+    We will have designated support to answer your queries. You can contact us at <becomingateacher@digital.education.gov.uk>.
 
     Unfortunately, we can’t offer support over the weekend.
 
