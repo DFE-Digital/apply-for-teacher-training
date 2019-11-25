@@ -66,7 +66,7 @@
                 "description": "Redis Cache capacity, the larger the number the more performant the cache. For premium this value can only be from 1-5."
             },
             "minValue": 0,
-            "maxValue": 6 
+            "maxValue": 6
         },
         "ciClockCpus": {
             "type": "string",
@@ -265,12 +265,6 @@
             "type": "string",
             "metadata": {
                 "description": "The name prefix for the background worker container instances."
-            }
-        },
-        "disableBasicAuthForLandingPage": {
-            "type": "string",
-            "metadata": {
-                "description": "Should basic auth be disabled for the /candidate/apply landing page linked from Find?"
             }
         },
         "dfeSignInClientId": {
@@ -550,10 +544,6 @@
                             {
                                 "name": "SERVICE_TYPE",
                                 "value": "web"
-                            },
-                            {
-                                "name": "DISABLE_BASIC_AUTH_FOR_LANDING_PAGE",
-                                "value": "[parameters('disableBasicAuthForLandingPage')]"
                             },
                             {
                                 "name": "DFE_SIGN_IN_CLIENT_ID",

@@ -41,7 +41,6 @@ parameters:
   logstashSsl:
   govukNotifyAPIKey:
   findBaseUrl:
-  disableBasicAuthForLandingPage:
   dfeSignInClientId:
   dfeSignInSecret:
   dfeSignInIssuer:
@@ -117,7 +116,6 @@ jobs:
                 -findBaseUrl "${{parameters.findBaseUrl}}"
                 -redisCacheName "$(redisCacheName)"
                 -containerInstanceNamePrefix "$(containerInstanceNamePrefix)"
-                -disableBasicAuthForLandingPage "${{parameters.disableBasicAuthForLandingPage}}"
                 -dfeSignInClientId "${{parameters.dfeSignInClientId}}"
                 -stateChangeSlackUrl "${{parameters.stateChangeSlackUrl}}"
                 -dfeSignInSecret "${{parameters.dfeSignInSecret}}"
