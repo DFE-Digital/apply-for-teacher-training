@@ -24,11 +24,7 @@ class ReceiveReference
 
       if @application_form.references_complete?
         @application_form.application_choices.each do |application_choice|
-          if application_choice.edit_by_expired?
-            ApplicationStateChange.new(application_choice).send_to_provider!
-          else
-            ApplicationStateChange.new(application_choice).references_complete!
-          end
+          ApplicationStateChange.new(application_choice).references_complete!
         end
       end
     end

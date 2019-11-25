@@ -65,7 +65,6 @@ Feature: successful application statuses
       | unsubmitted                | candidate | submit                 | awaiting references        |
       | awaiting_references        | candidate | withdraw               | withdrawn                  |
       | awaiting_references        | candidate | references_complete    | application_complete       |
-      | awaiting_references        | candidate | send_to_provider       | awaiting_provider_decision |
       | application complete       | candidate | withdraw               | withdrawn                  |
       | application complete       | candidate | send_to_provider       | awaiting_provider_decision |
       | awaiting provider decision | provider  | make offer             | offer                      |
