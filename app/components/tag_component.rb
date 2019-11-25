@@ -20,6 +20,8 @@ private
                       'app-tag--info-unfilled'
                     when :warning
                       'app-tag--warning'
+                    when :primary_unfilled
+                      'app-tag--primary-unfilled'
                     else
                       'app-tag--primary'
                     end

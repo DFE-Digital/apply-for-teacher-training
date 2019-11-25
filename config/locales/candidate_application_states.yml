@@ -1,9 +1,0 @@
-en:
-  candidate_application_states:
-    awaiting_references: Submitted
-    application_complete: Submitted
-    awaiting_provider_decision: Pending
-    offer: Offer
-    rejected: Rejected
-    pending_conditions: Accepted
-    declined: Declined

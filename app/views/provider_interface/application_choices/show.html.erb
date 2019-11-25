@@ -62,12 +62,10 @@
   <div class="govuk-grid-column-one-third">
     <div class="app-status-box">
       <h2 class="govuk-heading-m">Status</h2>
-        <strong class="govuk-tag <%= @application_choice.status_tag_class %> govuk-!-margin-bottom-4">
-          <%= @application_choice.status_name %>
-        </strong>
-      <div class="actions">
+      <%= render ProviderInterface::ApplicationStatusTagComponent, application_choice: @application_choice %>
+      <div class="govuk-!-margin-top-6">
         <% if @application_choice.status == 'awaiting_provider_decision' %>
-          <a href="<%= provider_interface_application_choice_respond_path(@application_choice.id) %>" role="button" draggable="false" class="govuk-button govuk-!-margin-bottom-4" data-module="govuk-button">
+          <a href="<%= provider_interface_application_choice_respond_path(@application_choice.id) %>" role="button" draggable="false" class="govuk-button govuk-!-margin-bottom-0" data-module="govuk-button">
           Respond to application
         <% end %>
         </a>

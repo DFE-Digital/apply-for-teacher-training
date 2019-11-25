@@ -21,6 +21,10 @@
   @include tag("blue");
 }
 
+.app-tag--primary-unfilled {
+  @include tag("blue", $filled: false);
+}
+
 .app-tag--secondary {
   @include tag("dark-grey");
 }
