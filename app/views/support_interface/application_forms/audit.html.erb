@@ -1,4 +1,9 @@
 <% content_for :browser_title, "Application history – Application ##{@application_form.id}" %>
+<% content_for :title do %>
+  <span class="govuk-caption-xl"><%= @application_form.candidate.email_address %></span>
+  Application history
+<% end %>
+
 <% content_for :before_content do %>
   <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
@@ -14,10 +19,5 @@
     </ol>
   </div>
 <% end %>
-
-<h1 class="govuk-heading-xl">
-  <span class="govuk-caption-xl"><%= @application_form.candidate.email_address %></span>
-  Application history
-</h1>
 
 <%= render SupportInterface::AuditTrailComponent, application_form: @application_form %>
