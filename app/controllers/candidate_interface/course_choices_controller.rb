@@ -6,9 +6,9 @@ module CandidateInterface
       @application_form = current_application
       @course_choices = current_candidate.current_application.application_choices
       @page_title = if @course_choices.count < 1
-                      t('page_titles.choosing_courses')
+                      I18n.t!('page_titles.choosing_courses')
                     else
-                      t('page_titles.course_choices')
+                      I18n.t!('page_titles.course_choices')
                     end
     end
 
