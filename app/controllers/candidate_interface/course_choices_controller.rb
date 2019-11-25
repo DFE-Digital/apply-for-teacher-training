@@ -20,14 +20,12 @@ module CandidateInterface
     def make_choice
       @choice_form = CandidateInterface::CourseChosenForm.new(application_choice_params)
 
-      if @choice_form.valid?
-        if @choice_form.choice == 'yes'
-          redirect_to candidate_interface_course_choices_provider_path
-        else
-          redirect_to 'https://find-postgraduate-teacher-training.education.gov.uk'
-        end
-      else
+      if !@choice_form.valid?
         render :have_you_chosen
+      elsif @choice_form.chosen_a_course?
+        redirect_to candidate_interface_course_choices_provider_path
+      else
+        redirect_to 'https://find-postgraduate-teacher-training.education.gov.uk'
       end
     end
 
