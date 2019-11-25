@@ -13,17 +13,16 @@
     <% unless @application_form_presenter.application_choices_added? %>
       <p class="govuk-body"><%= t('application_form.courses.intro') %></p>
     <% end %>
-
-    <ol class="app-task-list govuk-!-margin-bottom-8">
+    <ul class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">
         <%= render(TaskListItemComponent, text: t('page_titles.course_choices'), completed: @application_form_presenter.course_choices_completed?, path: candidate_interface_course_choices_index_path) %>
       </li>
-    </ol>
+    </ul>
 
     <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-4">
       About you
     </h2>
-    <ol class="app-task-list govuk-!-margin-bottom-8">
+    <ul class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">
         <%= render(TaskListItemComponent, text: t('page_titles.personal_details'), completed: @application_form_presenter.personal_details_completed?, path: @application_form_presenter.personal_details_completed? ? candidate_interface_personal_details_show_path : candidate_interface_personal_details_edit_path) %>
       </li>
@@ -36,37 +35,33 @@
       <li class="app-task-list__item">
         <%= render(TaskListItemComponent, text: t('page_titles.volunteering.short'), completed: @application_form_presenter.volunteering_completed?, path: @application_form_presenter.volunteering_completed? ? candidate_interface_review_volunteering_path : candidate_interface_volunteering_experience_path) %>
       </li>
-    </ol>
+    </ul>
 
     <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">
       Qualifications
     </h2>
-    <ol class="app-task-list govuk-!-margin-bottom-8">
+    <ul class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">
         <%= render(TaskListItemComponent, text: t('page_titles.degree'), completed: @application_form_presenter.degrees_completed?, path: @application_form_presenter.degrees_path) %>
       </li>
       <li class="app-task-list__item">
         <%= render(TaskListItemComponent, text: 'Maths GCSE or equivalent', completed: @application_form_presenter.maths_gcse_completed?, path: @application_form_presenter.maths_gcse_completed? ? candidate_interface_gcse_review_path(subject: :maths) : candidate_interface_gcse_details_edit_type_path(subject: :maths)) %>
       </li>
-
       <li class="app-task-list__item">
         <%= render(TaskListItemComponent, text: 'English GCSE or equivalent', completed: @application_form_presenter.english_gcse_completed?, path: @application_form_presenter.english_gcse_completed? ? candidate_interface_gcse_review_path(subject: :english) : candidate_interface_gcse_details_edit_type_path(subject: :english)) %>
       </li>
-
       <li class="app-task-list__item">
         <%= render(TaskListItemComponent, text: 'Science GCSE or equivalent', completed: @application_form_presenter.science_gcse_completed?, path: @application_form_presenter.science_gcse_completed? ? candidate_interface_gcse_review_path(subject: :science) : candidate_interface_gcse_details_edit_type_path(subject: :science)) %>
       </li>
-
       <li class="app-task-list__item">
         <%= render(TaskListItemComponent, text: t('page_titles.other_qualification'), completed: @application_form_presenter.other_qualifications_completed?, path: @application_form_presenter.other_qualification_path, show_incomplete: false) %>
       </li>
-    </ol>
+    </ul>
 
     <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">
       Personal statement and interview
     </h2>
-
-    <ol class="app-task-list govuk-!-margin-bottom-8">
+    <ul class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item govuk-hint">
         <%= render(TaskListItemComponent, text: t('page_titles.becoming_a_teacher'), completed: @application_form_presenter.becoming_a_teacher_completed?, path: @application_form_presenter.becoming_a_teacher_completed? ? candidate_interface_becoming_a_teacher_show_path : candidate_interface_becoming_a_teacher_edit_path) %>
       </li>
@@ -76,24 +71,23 @@
       <li class="app-task-list__item govuk-hint">
         <%= render(TaskListItemComponent, text: t('page_titles.interview_preferences'), completed: @application_form_presenter.interview_preferences_completed?, path: @application_form_presenter.interview_preferences_completed? ? candidate_interface_interview_preferences_show_path : candidate_interface_interview_preferences_edit_path) %>
       </li>
-    </ol>
+    </ul>
 
     <h2 class="govuk-heading-m govuk-!-font-size-27">References</h2>
-    <ol class="app-task-list govuk-!-margin-bottom-8">
+    <ul class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">
         <%= render(TaskListItemComponent, text: 'Referees', completed: @application_form_presenter.all_referees_provided_by_candidate?, path: candidate_interface_referees_path) %>
       </li>
-    </ol>
+    </ul>
 
     <h2 class="govuk-heading-m govuk-!-font-size-27">Review and submit</h2>
-
-    <ol class="app-task-list govuk-!-margin-bottom-8">
+    <ul class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">
         <%= govuk_link_to 'Check your answers before submitting',
                           candidate_interface_application_review_path,
                           class: 'app-task-list__task-name' %>
       </li>
-    </ol>
+    </ul>
   </div>
 
   <div class="govuk-grid-column-one-third">
