@@ -1,5 +1,4 @@
 <% content_for :browser_title, "Application ##{@application_form.id}" %>
-<% content_for :title, "Application ##{@application_form.id} - #{@application_form.first_name} #{@application_form.last_name}" %>
 
 <% content_for :before_content do %>
   <div class="govuk-breadcrumbs">
@@ -13,6 +12,11 @@
     </ol>
   </div>
 <% end %>
+
+<h1 class="govuk-heading-xl">
+  <span class="govuk-caption-xl">Application #<%= @application_form.id %></span>
+  <%= @application_form.candidate.email_address %>
+</h1>
 
 <%= render SupportInterface::ApplicationSummaryComponent, application_form: @application_form %>
 
