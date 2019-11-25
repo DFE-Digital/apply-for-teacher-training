@@ -2,7 +2,7 @@ module SupportInterface
   module ApplicationForms
     class CommentsController < SupportInterfaceController
       def new
-        @form_model = ApplicationCommentForm.new
+        @application_comment = ApplicationCommentForm.new
       end
 
       def create
@@ -11,7 +11,7 @@ module SupportInterface
         if @application_comment.save(application_form)
           redirect_to support_interface_application_form_audit_path(application_form)
         else
-          render :edit
+          render :new
         end
       end
 
