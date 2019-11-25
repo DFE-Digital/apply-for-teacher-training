@@ -1,4 +1,14 @@
-<% if any_offers? %>
+<% if all_provider_decisions_made? %>
+  <h2 class="govuk-heading-m govuk-!-font-size-27">
+    All your training providers have now reached a decision
+  </h2>
+
+  <p class="govuk-body">
+  <!-- TODO: Update hardcoded date with decline by default date -->
+    You have 12 days (until 7 December 2019) to respond to any offers. If you
+    don’t respond, your applications will be automatically withdrawn.
+  </p>
+<% elsif any_offers? %>
   <h2 class="govuk-heading-m govuk-!-font-size-27">
     Some of your training providers haven’t reached a decision yet
   </h2>
