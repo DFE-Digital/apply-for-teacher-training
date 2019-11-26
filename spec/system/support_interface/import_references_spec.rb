@@ -21,6 +21,7 @@ RSpec.feature 'Import references' do
 
     when_i_click_on_an_application
     then_i_should_see_the_imported_references
+    and_the_applications_have_progressed_to_application_complete
   end
 
   def given_i_am_a_support_user
@@ -86,5 +87,10 @@ RSpec.feature 'Import references' do
 
   def then_i_should_see_the_imported_references
     expect(page).to have_content 'Imported feedback', count: 2
+  end
+
+  def and_the_applications_have_progressed_to_application_complete
+    statuses = @completed_applications.flat_map(&:application_choices).map(&:status)
+    expect(statuses.uniq).to eql(%w[application_complete])
   end
 end
