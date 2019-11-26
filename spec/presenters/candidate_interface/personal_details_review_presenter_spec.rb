@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 FactoryBot.define do
-  factory :personal_details_form, class: CandidateInterface::PersonalDetailsForm do
+  factory :personal_details_form, class: 'CandidateInterface::PersonalDetailsForm' do
     date_of_birth = Faker::Date.birthday
 
     first_name { Faker::Name.first_name }
