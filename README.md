@@ -30,6 +30,7 @@ A service for candidates to apply for initial teacher training.
   * [Domain Model](#documentation-domain-model)
   * [Application States](#documentation-application-states)
   * [Environment Variables](#documentation-env-vars)
+  * [Pipeline Variables](#documentation-pipeline-vars)
 
 ## <a name="dependencies"></a>Dependencies
 
@@ -234,3 +235,13 @@ These steps describe the process for making environment variables available to t
         "value": "[parameters('varName')]"
       }
       ```
+
+### <a name="documentation-pipeline-vars"></a>Pipeline Variables
+
+#### <a name="documentation-pipeline-vars-availability"></a>Availability Monitoring
+
+By default the `/check` path of the azurewebsites.net URL is automatically monitored in each environment, as is the same path on the education.gov.uk domain, if configured. To add extra URLs for monitoring ensure the following format is used in the `customAvailabilityMonitors` pipeline variable for each URL you wish to monitor.
+
+`["TEST-NAME1:DOMAIN1","TEST-NAME2:DOMAIN2"]`
+
+The `TEST-NAMEn` should be short, unique and descriptive and contain no spaces. The `DOMAINn` should be the complete domain without the protocol specified (i.e drop the "http(s)://").

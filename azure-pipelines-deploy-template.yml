@@ -45,6 +45,8 @@ parameters:
   dfeSignInSecret:
   dfeSignInIssuer:
   stateChangeSlackUrl:
+  customAvailabilityMonitors: []
+  alertRecipientEmails: []
 
 jobs:
   - deployment: deploy_${{parameters.resourceEnvironmentName}}
@@ -119,7 +121,9 @@ jobs:
                 -dfeSignInClientId "${{parameters.dfeSignInClientId}}"
                 -stateChangeSlackUrl "${{parameters.stateChangeSlackUrl}}"
                 -dfeSignInSecret "${{parameters.dfeSignInSecret}}"
-                -dfeSignInIssuer "${{parameters.dfeSignInIssuer}}"'
+                -dfeSignInIssuer "${{parameters.dfeSignInIssuer}}"
+                -customAvailabilityMonitors "${{parameters.customAvailabilityMonitors}}"
+                -alertRecipientEmails "${{parameters.alertRecipientEmails}}"'
               deploymentOutputs: DeploymentOutput
 
           - task: AzurePowerShell@3

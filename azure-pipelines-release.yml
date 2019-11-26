@@ -85,6 +85,9 @@ stages:
       dfeSignInSecret: '$(dfeSignInSecret)'
       dfeSignInIssuer: '$(dfeSignInIssuer)'
       stateChangeSlackUrl: '$(stateChangeSlackUrl)'
+      customAvailabilityMonitors: '$(customAvailabilityMonitors)'
+      alertRecipientEmails: '$(alertRecipientEmails)'
+
 
 - stage: deploy_sandbox
   displayName: 'Deploy - Sandbox'
@@ -130,6 +133,8 @@ stages:
       dfeSignInSecret: '$(dfeSignInSecret)'
       dfeSignInIssuer: '$(dfeSignInIssuer)'
       stateChangeSlackUrl: '$(stateChangeSlackUrl)'
+      customAvailabilityMonitors: '$(customAvailabilityMonitors)'
+      alertRecipientEmails: '$(alertRecipientEmails)'
 
 
 - stage: deploy_pentest
@@ -175,6 +180,8 @@ stages:
       dfeSignInSecret: '$(dfeSignInSecret)'
       dfeSignInIssuer: '$(dfeSignInIssuer)'
       stateChangeSlackUrl: '$(stateChangeSlackUrl)'
+      customAvailabilityMonitors: '$(customAvailabilityMonitors)'
+      alertRecipientEmails: '$(alertRecipientEmails)'
 
 
 - stage: deploy_production
@@ -223,3 +230,5 @@ stages:
       dfeSignInSecret: '$(dfeSignInSecret)'
       dfeSignInIssuer: '$(dfeSignInIssuer)'
       stateChangeSlackUrl: '$(stateChangeSlackUrl)'
+      customAvailabilityMonitors: '$(customAvailabilityMonitors)'
+      alertRecipientEmails: '$(alertRecipientEmails)'

@@ -185,6 +185,8 @@ stages:
       dfeSignInSecret: '$(dfeSignInSecret)'
       dfeSignInIssuer: '$(dfeSignInIssuer)'
       stateChangeSlackUrl: '$(stateChangeSlackUrl)'
+      customAvailabilityMonitors: '$(customAvailabilityMonitors)'
+      alertRecipientEmails: '$(alertRecipientEmails)'
 
 
 - stage: deploy_devops
@@ -230,3 +232,5 @@ stages:
       dfeSignInSecret: '$(dfeSignInSecret)'
       dfeSignInIssuer: '$(dfeSignInIssuer)'
       stateChangeSlackUrl: '$(stateChangeSlackUrl)'
+      customAvailabilityMonitors: '$(customAvailabilityMonitors)'
+      alertRecipientEmails: '$(alertRecipientEmails)'
