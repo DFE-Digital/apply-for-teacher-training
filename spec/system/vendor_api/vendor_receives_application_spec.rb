@@ -53,7 +53,7 @@ RSpec.feature 'Vendor receives the application' do
       id: @provider.application_choices.first.id.to_s,
       type: 'application',
       attributes: {
-        personal_statement: nil,
+        personal_statement: 'Why do you want to become a teacher?: I WANT I WANT I WANT I WANT What is your subject knowledge?: Everything',
         hesa_itt_data: {
           disability: '',
           ethnicity: '',

@@ -13,7 +13,7 @@ module VendorApi
           status: application_choice.status,
           updated_at: application_choice.updated_at.iso8601,
           submitted_at: application_form.submitted_at.iso8601,
-          personal_statement: application_choice.personal_statement,
+          personal_statement: personal_statement,
           candidate: {
             first_name: application_form.first_name,
             last_name: application_form.last_name,
@@ -146,6 +146,10 @@ module VendorApi
       if qualification.institution_name
         [qualification.institution_name, qualification.institution_country].compact.join(', ')
       end
+    end
+
+    def personal_statement
+      "Why do you want to become a teacher?: #{application_form.becoming_a_teacher} What is your subject knowledge?: #{application_form.subject_knowledge}"
     end
   end
 end
