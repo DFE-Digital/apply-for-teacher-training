@@ -76,7 +76,7 @@ GEM
       smart_properties
     bindata (2.4.4)
     bindex (0.8.1)
-    brakeman (4.7.1)
+    brakeman (4.7.2)
     builder (3.2.3)
     business_time (0.9.3)
       activesupport (>= 3.2.0)
