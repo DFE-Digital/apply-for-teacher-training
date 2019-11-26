@@ -1,15 +1,12 @@
 <% if @application_qualification %>
   <%= render(SummaryCardComponent, rows: gcse_qualification_rows, editable: @editable) do %>
-    <header class="app-summary-card__header">
-      <h2 class="app-summary-card__title">
-        <%= if @application_qualification.missing_qualification?
-              t('application_form.gcse.qualification_types.missing')
-            else
-              t('application_form.gcse.qualification_types.gcse')
-            end
-        %>
-      </h2>
-    </header>
+    <% title = if @application_qualification.missing_qualification?
+                t('application_form.gcse.qualification_types.missing')
+              else
+                t('application_form.gcse.qualification_types.gcse')
+              end
+    %>
+    <%= render(SummaryCardHeaderComponent, title: title, heading_level: @heading_level) %>
   <% end %>
 <% elsif @editable %>
   <%= render(SectionMissingBannerComponent, section: "#{subject}_gcse", text: t("review_application.#{subject}_gcse.incomplete")) do %>

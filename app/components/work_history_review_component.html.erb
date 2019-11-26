@@ -1,17 +1,6 @@
 <% @application_form.application_work_experiences.each do |work| %>
   <%= render(SummaryCardComponent, rows: work_experience_rows(work), editable: @editable) do %>
-    <header class="app-summary-card__header">
-      <h2 class="app-summary-card__title">
-        <%= work.role %>
-        <% if work.working_with_children %>
-          <span class="app-summary-card__meta">
-            <svg class="app-icon govuk-!-margin-right-1" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 200 200" focusable="false" fill="currentColor" aria-hidden="true">
-              <path d="M100 200a100 100 0 1 1 0-200 100 100 0 0 1 0 200zm-60-85l40 40 80-80-20-20-60 60-20-20-20 20z"></path>
-            </svg>
-            <%= t('application_form.work_history.working_with_children') %>
-          </span>
-        <% end %>
-      </h2>
+    <%= render(SummaryCardHeaderComponent, title: work.role, heading_level: @heading_level, check_icon: work.working_with_children) do %>
       <% if @editable %>
         <div class="app-summary-card__actions">
           <%= link_to candidate_interface_work_history_destroy_path(work.id), class: 'govuk-link' do %>
@@ -20,7 +9,7 @@
           <% end %>
         </div>
       <% end %>
-    </header>
+    <% end %>
   <% end %>
 <% end %>
 

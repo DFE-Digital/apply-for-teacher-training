@@ -1,12 +1,13 @@
 class VolunteeringReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:, editable: true, show_incomplete: false)
+  def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false)
     @application_form = application_form
     @volunteering_roles = CandidateInterface::VolunteeringRoleForm.build_all_from_application(
       @application_form,
     )
     @editable = editable
+    @heading_level = heading_level
     @show_incomplete = show_incomplete
   end
 
