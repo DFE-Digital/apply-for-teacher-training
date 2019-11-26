@@ -68,6 +68,7 @@ NATIONALITIES = [
   ['EC', 'Ecuadorean'],
   ['EG', 'Egyptian'],
   ['AE', 'Emirati'],
+  ['GB', 'English'],
   ['GQ', 'Equatorial Guinean'],
   ['ER', 'Eritrean'],
   ['EE', 'Estonian'],
