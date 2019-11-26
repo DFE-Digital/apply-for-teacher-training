@@ -46,7 +46,7 @@ module CandidateInterface
         )
           .transform_keys { |key| start_date_field_to_attribute(key) }
           .transform_keys { |key| end_date_field_to_attribute(key) }
-          .transform_keys(&:strip)
+          .transform_values(&:strip)
     end
 
     def work_experience_params

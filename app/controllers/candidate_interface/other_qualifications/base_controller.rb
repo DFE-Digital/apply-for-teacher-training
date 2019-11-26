@@ -50,6 +50,7 @@ module CandidateInterface
       params.require(:candidate_interface_other_qualification_form).permit(
         :id, :qualification_type, :subject, :institution_name, :grade, :award_year
       )
+        .transform_values(&:strip)
     end
   end
 end

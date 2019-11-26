@@ -28,6 +28,7 @@ module CandidateInterface
       params.require(:candidate_interface_volunteering_experience_form).permit(
         :experience,
       )
+        .transform_values(&:strip)
     end
   end
 end

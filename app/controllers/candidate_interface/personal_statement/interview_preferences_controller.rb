@@ -28,6 +28,7 @@ module CandidateInterface
       params.require(:candidate_interface_interview_preferences_form).permit(
         :interview_preferences,
       )
+        .transform_values(&:strip)
     end
   end
 end

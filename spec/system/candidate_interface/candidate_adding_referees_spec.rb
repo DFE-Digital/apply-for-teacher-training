@@ -90,7 +90,8 @@ RSpec.feature 'Candidate adding referees' do
   end
 
   def and_i_fill_in_all_required_fields
-    fill_in('Full name', with: 'Bill Lumbergh')
+    full_name_with_trailing_space = 'Bill Lumbergh '
+    fill_in('Full name', with: full_name_with_trailing_space)
     fill_in('Email address', with: 'lumbergh@example.com')
     fill_in(t('application_form.referees.relationship.label'), with: 'manager for several years')
   end
@@ -100,7 +101,8 @@ RSpec.feature 'Candidate adding referees' do
     expect(page).to have_content('ajptaylor@example.com')
     expect(page).to have_content('Thats my tutor, that is')
 
-    expect(page).to have_content('Bill Lumbergh')
+    full_name_without_trailing_space = "Bill Lumbergh\n"
+    expect(page).to have_content(full_name_without_trailing_space)
     expect(page).to have_content('lumbergh@example.com')
     expect(page).to have_content('manager for several years')
   end

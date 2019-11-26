@@ -37,7 +37,7 @@ module CandidateInterface
         :english_language_details, :other_language_details
       )
         .transform_keys { |key| dob_field_to_attribute(key) }
-        .transform_keys(&:strip)
+        .transform_values(&:strip)
     end
 
     def dob_field_to_attribute(key)

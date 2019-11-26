@@ -26,6 +26,7 @@ module CandidateInterface
       params.require(:candidate_interface_work_explanation_form).permit(
         :work_history_explanation,
       )
+        .transform_values(&:strip)
     end
   end
 end

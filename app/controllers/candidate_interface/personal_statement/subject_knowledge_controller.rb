@@ -30,6 +30,7 @@ module CandidateInterface
       params.require(:candidate_interface_subject_knowledge_form).permit(
         :subject_knowledge,
       )
+        .transform_values(&:strip)
     end
 
     def chosen_course_names

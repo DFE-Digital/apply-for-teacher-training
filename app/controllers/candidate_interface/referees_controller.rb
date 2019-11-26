@@ -65,6 +65,7 @@ module CandidateInterface
         :email_address,
         :relationship,
       )
+        .transform_values(&:strip)
     end
   end
 end

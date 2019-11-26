@@ -18,6 +18,7 @@ module CandidateInterface
 
     def application_form_params
       params.require(:application_form).permit(:other_qualifications_completed)
+        .transform_values(&:strip)
     end
   end
 end
