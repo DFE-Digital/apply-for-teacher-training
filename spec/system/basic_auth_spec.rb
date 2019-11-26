@@ -3,65 +3,61 @@ require 'rails_helper'
 RSpec.describe 'Require basic authentication', type: :request do
   include TestHelpers::BasicAuthHelper
 
-  context 'without the relevant environment vars' do
-    before do
-      stub_const(
-        'BASIC_AUTH',
-        BASIC_AUTH.merge(ui_auth: { enabled: true, username: nil, password: nil }),
-      )
-    end
-
-    it 'candidate requests raise KeyError' do
-      expect { get candidate_interface_start_url }.to raise_error(KeyError)
-    end
-  end
-
   context 'candidate_interface' do
-    before { require_and_config_basic_auth }
+    it 'requests when basic auth is disabled are let through' do
+      ClimateControl.modify BASIC_AUTH_ENABLED: nil do
+        get candidate_interface_start_url
+      end
+
+      expect(response).to have_http_status(200)
+    end
 
     it 'requests without basic auth get 401' do
-      get candidate_interface_start_url
+      ClimateControl.modify BASIC_AUTH_ENABLED: '1', BASIC_AUTH_USERNAME: 'foo', BASIC_AUTH_PASSWORD: 'bar' do
+        get candidate_interface_start_url
+      end
 
       expect(response).to have_http_status(401)
     end
 
     it 'requests with invalid basic auth get 401' do
-      get candidate_interface_start_url, headers: basic_auth_headers('wrong', 'auth')
+      ClimateControl.modify BASIC_AUTH_ENABLED: '1', BASIC_AUTH_USERNAME: 'foo', BASIC_AUTH_PASSWORD: 'bar' do
+        get candidate_interface_start_url, headers: basic_auth_headers('wrong', 'auth')
+      end
 
       expect(response).to have_http_status(401)
     end
 
     it 'requests with valid basic auth get 200' do
-      get candidate_interface_start_url, headers: basic_auth_headers('basic', 'auth')
+      ClimateControl.modify BASIC_AUTH_ENABLED: '1', BASIC_AUTH_USERNAME: 'foo', BASIC_AUTH_PASSWORD: 'bar' do
+        get candidate_interface_start_url, headers: basic_auth_headers('foo', 'bar')
+      end
 
       expect(response).to have_http_status(200)
     end
   end
 
   context 'support_interface' do
-    before { require_and_config_basic_auth }
-
-    it 'requests with valid basic auth get 401' do
-      get support_interface_api_tokens_url, headers: basic_auth_headers('basic', 'auth')
+    it 'requests without basic auth get 401' do
+      ClimateControl.modify SUPPORT_USERNAME: 'foo', SUPPORT_PASSWORD: 'bar' do
+        get support_interface_applications_path
+      end
 
       expect(response).to have_http_status(401)
     end
 
-    it 'requests with valid support auth get 200' do
-      headers = basic_auth_headers ENV.fetch('SUPPORT_USERNAME'), ENV.fetch('SUPPORT_PASSWORD')
-      get support_interface_api_tokens_url, headers: headers
+    it 'requests with invalid basic auth get 401' do
+      ClimateControl.modify SUPPORT_USERNAME: 'foo', SUPPORT_PASSWORD: 'bar' do
+        get support_interface_applications_path, headers: basic_auth_headers('wrong', 'auth')
+      end
 
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(401)
     end
-  end
 
-  context 'vendor_api' do
-    before { require_and_config_basic_auth }
-
-    it 'does not require basic auth even when elsewhere enabled' do
-      unhashed_token = VendorApiToken.create_with_random_token!(provider: create(:provider))
-
-      get '/api/v1/ping', headers: { 'Authorization' => "Bearer #{unhashed_token}" }
+    it 'requests with valid basic auth get 200' do
+      ClimateControl.modify SUPPORT_USERNAME: 'foo', SUPPORT_PASSWORD: 'bar' do
+        get support_interface_applications_path, headers: basic_auth_headers('foo', 'bar')
+      end
 
       expect(response).to have_http_status(200)
     end
