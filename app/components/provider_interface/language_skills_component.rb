@@ -28,19 +28,19 @@ module ProviderInterface
     end
 
     def language_details_row
-      english_main_language ? english_main_language_details_row : other_language_details_row
-    end
-
-    def english_main_language_details_row
-      {
-        key: t('application_form.personal_details.english_main_language_details.label'),
-        value: other_language_details.present? ? other_language_details : 'No details given',
-      }
+      english_main_language ? other_language_details_row : english_language_details_row
     end
 
     def other_language_details_row
       {
         key: t('application_form.personal_details.other_language_details.label'),
+        value: other_language_details.present? ? other_language_details : 'No details given',
+      }
+    end
+
+    def english_language_details_row
+      {
+        key: t('application_form.personal_details.english_language_details.label'),
         value: english_language_details.present? ? english_language_details : 'No details given',
       }
     end

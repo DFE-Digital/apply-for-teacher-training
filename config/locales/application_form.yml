@@ -41,12 +41,12 @@ en:
         yes_label: If you are bilingual or very familiar with languages other than English, you can tell us about them here.
         no_label: Please tell us about your English language qualifications (including grades or scores), and give details of other languages you are fluent in.
         change_action: if English is your main language
-      english_main_language_details:
+      english_language_details:
+        label: English language qualifications and other languages spoken
+        change_action: English language qualifications
+      other_language_details:
         label: Other languages spoken
         change_action: other languages
-      other_language_details:
-        label: English language qualifications and other languages spoken
-        change_action: english languages qualifications
       complete_form_button: Continue
     further_information:
       further_information:
