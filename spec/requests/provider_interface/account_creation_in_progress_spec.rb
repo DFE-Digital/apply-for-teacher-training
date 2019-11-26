@@ -18,7 +18,7 @@ RSpec.describe 'GET /provider/applications' do
       get '/provider/applications'
 
       expect(response).to have_http_status 403
-      expect(response.body).to include('Account creation in progress')
+      expect(response.body).to include('Your account is not ready yet')
     end
 
     it 'reports the error to Sentry, appending the Sign-in UID' do

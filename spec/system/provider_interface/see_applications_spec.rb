@@ -45,7 +45,7 @@ RSpec.feature 'See applications' do
   def and_i_have_not_been_assigned_to_my_training_provider; end
 
   def then_i_should_see_the_account_creation_in_progress_page
-    expect(page).to have_content('Account creation in progress')
+    expect(page).to have_content('Your account is not ready yet')
   end
 
   def when_i_have_been_assigned_to_my_training_provider
