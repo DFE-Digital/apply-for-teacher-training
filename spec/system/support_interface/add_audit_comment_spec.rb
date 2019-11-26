@@ -73,7 +73,7 @@ RSpec.feature 'Add comments to the application history' do
   end
 
   def when_i_click_on_add_comment
-    click_on 'Add Comment'
+    click_on 'Add comment'
   end
 
   def and_i_fill_and_submit_the_comment_form
