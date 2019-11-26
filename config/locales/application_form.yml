@@ -373,7 +373,7 @@ en:
         candidate_interface/work_explanation_form:
           attributes:
             work_history_explanation:
-              blank: Tell us why you have been out of the workplace
+              blank: Please explain why you’ve been out of the workplace
         candidate_interface/degree_form:
           attributes:
             qualification_type:

@@ -34,7 +34,7 @@ en:
     work_history_destroy: Are you sure you want to delete this entry?
     edit_job: Edit job
     add_another_degree: Add another degree
-    out_of_work: Tell us why you’ve been out of the workplace
+    work_history_explanation: Tell us why you’ve been out of the workplace
     destroy_degree: Are you sure you want to delete this degree?
     choosing_courses: Choosing your courses
     course_choices: Course choices
