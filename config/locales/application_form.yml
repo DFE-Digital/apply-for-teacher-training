@@ -302,7 +302,7 @@ en:
         candidate_interface/pick_site_form:
           attributes:
             course_option_id:
-              blank: Select a site
+              blank: Select which location you're applying to
         candidate_interface/eligibility_form:
           attributes:
             eligible_citizen:
