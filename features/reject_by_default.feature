@@ -27,7 +27,7 @@ Feature: Reject by default
       | Mon 4 Feb 2019 11:00:00 PM GMT  | Fri 8 Feb 2019 0:00:00 AM GMT  | submissions in GMT             |
       | Fri 29 Mar 2019 9:00:00 AM GMT  | Thu 4 Apr 2019 0:00:00 AM BST  | daylight savings weekend       |
 
-  Scenario Outline: applications that without offers are rejected automatically when their RBD time has elapsed
+  Scenario Outline: applications without offers are rejected automatically when their RBD time has elapsed
     Given an application choice has "awaiting provider decision" status
     And its RBD time is set to "<RBD time>"
     When the time is "<current time>"
