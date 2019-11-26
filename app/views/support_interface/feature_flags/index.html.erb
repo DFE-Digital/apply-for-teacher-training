@@ -1,0 +1,33 @@
+<% content_for :title, 'Feature flags' %>
+
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header">Feature</th>
+      <th class="govuk-table__header">Activated</th>
+      <th class="govuk-table__header">Action</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% FeatureFlag::FEATURES.each do |feature_name| %>
+      <tr class="govuk-table__row">
+
+        <td class="govuk-table__cell">
+          <%= feature_name.humanize %>
+        </td>
+
+        <td class="govuk-table__cell">
+          <%= FeatureFlag.active?(feature_name) ? 'Yes' : 'No' %>
+        </td>
+
+        <td class="govuk-table__cell">
+          <% if FeatureFlag.active?(feature_name) %>
+            <%= button_to "Deactivate ‘#{feature_name.humanize}’", support_interface_deactivate_feature_flag_path(feature_name), class: 'govuk-button' %>
+          <% else %>
+            <%= button_to "Activate ‘#{feature_name.humanize}’", support_interface_activate_feature_flag_path(feature_name), class: 'govuk-button' %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

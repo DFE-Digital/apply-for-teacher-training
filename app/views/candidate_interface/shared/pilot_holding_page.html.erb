@@ -1,0 +1,27 @@
+<% content_for :title, service_name %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <%= service_name %>
+    </h1>
+
+    <p class="govuk-body-l"><%= service_name %> is a new GOV.UK service being trialled with a small number of training providers in England.</p>
+
+    <div class="govuk-inset-text">
+        Learn more about teacher training in <a href="https://www.discoverteaching.wales/routes-into-teaching/" class="govuk-link">Wales</a>,
+        <a href="https://teachinscotland.scot/" class="govuk-link">Scotland</a> and
+        <a href="https://www.education-ni.gov.uk/articles/initial-teacher-education-courses-northern-ireland" class="govuk-link">Northern Ireland</a>
+    </div>
+
+    <h2 class="govuk-heading-m">Already have a <%= service_name %> account with us?</h2>
+    <p class="govuk-body">Please <%= govuk_link_to 'sign in and continue your application', candidate_interface_sign_in_path %>.</p>
+
+    <h2 class="govuk-heading-m">First visit to Apply for teacher training?</h2>
+
+    <p class="govuk-body">We’re sorry, but this service isn’t ready for any more new candidates at the moment.</p>
+    <p class="govuk-body">You can still apply to all teacher training courses and training providers through UCAS.</p>
+
+    <%= govuk_button_link_to 'Apply through UCAS', UCAS.apply_url %>
+  </div>
+</div>

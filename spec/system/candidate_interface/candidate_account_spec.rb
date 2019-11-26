@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.feature 'Candidate account' do
   scenario 'Candidate signs up, out, and in again' do
+    given_the_pilot_is_open
+
     given_i_am_a_candidate_without_an_account
 
     when_i_visit_the_signup_page
@@ -34,6 +36,10 @@ RSpec.feature 'Candidate account' do
 
     when_i_signed_in_more_than_a_week_ago
     then_i_should_be_signed_out
+  end
+
+  def given_the_pilot_is_open
+    FeatureFlag.activate('pilot_open')
   end
 
   def given_i_am_a_candidate_without_an_account

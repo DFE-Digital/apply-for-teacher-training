@@ -3,7 +3,6 @@ module CandidateInterface
   # Find postgraduate teacher training (https://find-postgraduate-teacher-training.education.gov.uk/)
   class ApplyFromFindController < CandidateInterfaceController
     skip_before_action :authenticate_candidate!
-    skip_before_action :require_basic_auth_for_ui, if: -> { ENV['DISABLE_BASIC_AUTH_FOR_LANDING_PAGE'] }
 
     rescue_from ActionController::ParameterMissing, with: :render_not_found
     rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
@@ -13,7 +12,7 @@ module CandidateInterface
       course = provider.courses.where(exposed_in_find: true).find_by!(code: params.fetch(:courseCode))
       @course = CoursePresenter.new(course)
 
-      if course.open_on_apply?
+      if course.open_on_apply? && FeatureFlag.active?('pilot_open')
         render :apply_on_ucas_or_apply
       else
         render :apply_on_ucas_only

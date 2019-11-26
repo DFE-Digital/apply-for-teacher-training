@@ -368,6 +368,8 @@ GEM
     responders (3.0.0)
       actionpack (>= 5.0)
       railties (>= 5.0)
+    rollout (2.4.5)
+      redis (~> 4.0)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
@@ -532,6 +534,7 @@ DEPENDENCIES
   rails-erd
   redcarpet
   request_store_rails
+  rollout
   rspec-rails
   rspec_junit_formatter
   rubocop-rspec

@@ -1,5 +1,6 @@
 module CandidateInterface
   class StartPageController < CandidateInterfaceController
+    before_action :show_pilot_holding_page_if_not_open
     skip_before_action :authenticate_candidate!
 
     def show; end

@@ -1,6 +1,8 @@
 options = {
   ui_auth: {
-    enabled:  Rails.env.production? || ENV['BASIC_AUTH_ENABLE'] == 'true',
+    # The UI only has basic auth enabled if the environment variables
+    # are set. This allows us to disable auth on production.
+    enabled:  ENV['BASIC_AUTH_USERNAME'] && ENV['BASIC_AUTH_PASSWORD'],
     username: ENV['BASIC_AUTH_USERNAME'],
     password: ENV['BASIC_AUTH_PASSWORD'],
   },

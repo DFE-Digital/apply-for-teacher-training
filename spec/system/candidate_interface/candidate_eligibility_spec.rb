@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.feature 'Candidate eligibility' do
   scenario 'Candidate confirms that they are eligible' do
+    given_the_pilot_is_open
+
     when_i_click_start_on_the_start_page
     and_i_press_continue
     then_i_see_validation_errors
@@ -11,6 +13,10 @@ RSpec.feature 'Candidate eligibility' do
     when_i_click_start_on_the_start_page
     when_i_answer_yes_to_all_questions
     then_should_be_redirected_to_the_signup_page
+  end
+
+  def given_the_pilot_is_open
+    FeatureFlag.activate('pilot_open')
   end
 
   def when_i_click_start_on_the_start_page
