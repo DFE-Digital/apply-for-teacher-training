@@ -56,7 +56,7 @@ FactoryBot.define do
       end
 
       after(:build) do |application_form, evaluator|
-        create_list(:application_choice, evaluator.application_choices_count, application_form: application_form)
+        create_list(:application_choice, evaluator.application_choices_count, application_form: application_form, status: 'awaiting_references')
         create_list(:application_work_experience, evaluator.work_experiences_count, application_form: application_form)
         create_list(:application_volunteering_experience, evaluator.volunteering_experiences_count, application_form: application_form)
         create_list(:application_qualification, evaluator.qualifications_count, application_form: application_form)

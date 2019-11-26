@@ -22,7 +22,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def references_complete?
-    references.select(&:complete?).count == MINIMUM_COMPLETE_REFERENCES
+    references.completed.count == MINIMUM_COMPLETE_REFERENCES
   end
 
   def qualification_in_subject(level, subject)

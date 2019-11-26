@@ -11,6 +11,8 @@ class Reference < ApplicationRecord
 
   audited associated_with: :application_form
 
+  scope :completed, -> { where('feedback IS NOT NULL') }
+
   def complete?
     feedback.present?
   end
