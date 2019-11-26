@@ -16,7 +16,7 @@ class DetectInvariants
       message = <<~MSG
         One or more application choices in `awaiting_references` state, but all feedback is collected:
 
-        #{choices_in_wrong_state.map(&:id).join('\n')}
+        #{choices_in_wrong_state.map(&:id).join("\n")}
       MSG
 
       Raven.capture_exception(WeirdSituationDetected.new(message))
