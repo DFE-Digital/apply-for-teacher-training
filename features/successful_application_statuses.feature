@@ -63,10 +63,10 @@ Feature: successful application statuses
     Examples:
       | original status            | actor     | action                 | new status                 |
       | unsubmitted                | candidate | submit                 | awaiting references        |
-      | awaiting_references        | candidate | withdraw               | withdrawn                  |
-      | awaiting_references        | candidate | references_complete    | application_complete       |
+      | awaiting references        | candidate | withdraw               | withdrawn                  |
+      | awaiting references        | candidate | references complete    | application complete       |
       | application complete       | candidate | withdraw               | withdrawn                  |
-      | application complete       | candidate | send_to_provider       | awaiting_provider_decision |
+      | application complete       | candidate | send to provider       | awaiting provider decision |
       | awaiting provider decision | provider  | make offer             | offer                      |
       | awaiting provider decision | provider  | reject application     | rejected                   |
       | awaiting provider decision | candidate | withdraw               | withdrawn                  |
