@@ -31,6 +31,7 @@ A service for candidates to apply for initial teacher training.
   * [Application States](#documentation-application-states)
   * [Environment Variables](#documentation-env-vars)
   * [Pipeline Variables](#documentation-pipeline-vars)
+  * [Database Restore](#documentation-db-restore)
 
 ## <a name="dependencies"></a>Dependencies
 
@@ -245,3 +246,7 @@ By default the `/check` path of the azurewebsites.net URL is automatically monit
 `["TEST-NAME1:DOMAIN1","TEST-NAME2:DOMAIN2"]`
 
 The `TEST-NAMEn` should be short, unique and descriptive and contain no spaces. The `DOMAINn` should be the complete domain without the protocol specified (i.e drop the "http(s)://").
+
+### <a name="documentation-db-restore"></a>Database Restore
+
+👉 [See the database restore guide](/docs/database-restore.md)
