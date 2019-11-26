@@ -1,15 +1,22 @@
-<% content_for :title, 'Add application comment' %>
 <% content_for :before_content, govuk_back_link_to(support_interface_applications_path) %>
 
-<%= form_with model: @application_comment, url: support_interface_application_form_comments_path, method: :post do |f| %>
-  <%= f.govuk_error_summary %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @application_comment, url: support_interface_application_form_comments_path, method: :post do |f| %>
+      <%= f.govuk_error_summary %>
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <div class="govuk-form-group <% if @error %>govuk-form-group--error<% end %>">
-        <%= f.govuk_text_area :comment, label: { text: 'Comment', size: 'm' }, hint_text: 'Comments will appear in the support interface application history but are hidden from other users' %>
-      </div>
-      <%= submit_tag('Add comment', class: 'govuk-button') %>
-    </div>
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+          <h1 class="govuk-fieldset__heading">
+            <%= 'Add application comment' %>
+          </h1>
+        </legend>
+
+        <div class="govuk-form-group <% if @error %>govuk-form-group--error<% end %>">
+          <%= f.govuk_text_area :comment, label: { text: 'Comment', size: 'm' }, hint_text: 'Comments will appear in the support interface application history but are hidden from other users' %>
+        </div>
+        <%= f.govuk_submit 'Add comment' %>
+      </fieldset>
+    <% end %>
   </div>
-<% end %>
+</div>
