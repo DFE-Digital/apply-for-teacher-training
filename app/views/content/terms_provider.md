@@ -10,7 +10,7 @@ Thank you for taking part in trialling Manage teacher training applications. Her
 
 2. ### Assistance for candidates
 
-    Our advisers will be on hand to guide candidates through the application process and help with any technical issues they have when using the service.
+    Our advisors will be on hand to guide candidates through the application process and help with any technical issues they have when using the service.
 
 3. ### Keeping to ‘decline by default’ time frames
 
@@ -43,14 +43,13 @@ Thank you for taking part in trialling Manage teacher training applications. Her
     We will reject the application by default if you don’t communicate a decision within this timeframe.
 
 2. ### Make an offer according to our policies
-
     Make offers and include any conditions through Manage teacher training applications. This information will be sent to the candidate.
 
     Once a candidate has accepted an offer, you can’t change the terms of the offer without the candidate’s permission. If necessary, you can change conditions up until this point.
 
-    Don’t pressure candidates into making a decision or withdraw an offer if the applicant has told you that they’re waiting to hear back from other providers.
+    Don't pressure candidates into making a decision or withdraw an offer if the applicant has told you that they’re waiting to hear back from other providers.
 
-    Contact us at <becomingateacher@digital.education.gov.uk> as soon as possible if you need to withdraw an offer - for example, if a candidate has given information that isn’t true or if you’re not running a course anymore.
+    Get in touch with us as soon as possible at <becomingateacher@digital.education.gov.uk> if you need to withdraw an offer - for example, if a candidate has given information that isn’t true or if you’re not running a course anymore.
 
 3. ### Give feedback when rejecting a candidate
 
@@ -58,7 +57,9 @@ Thank you for taking part in trialling Manage teacher training applications. Her
 
 4. ### Let us know when a candidate meets their conditions
 
-    Please let us know as soon as possible when a candidate has met their conditions. If they didn’t meet the conditions, please contact us at <becomingateacher@digital.education.gov.uk>. This will help us get insight into teacher recruitment to inform our future policy.
+    Please let us know as soon as possible when a candidate has met their conditions. If they didn’t meet the conditions, please let us know why by contacting us at <becomingateacher@digital.education.gov.uk>.
+
+    This will help us get insight into teacher recruitment to inform our future policy.
 
 5. ### Follow up with our user researchers
 
@@ -68,4 +69,4 @@ Thank you for taking part in trialling Manage teacher training applications. Her
     * after you’ve made several offers or rejections
     * after several candidates have met their conditions
 
-    Please contact us at <becomingateacher@digital.education.gov.uk> to let us know how you prefer to be contacted.
+    Please get in touch at <becomingateacher@digital.education.gov.uk> to let us know how you prefer to be contacted.
