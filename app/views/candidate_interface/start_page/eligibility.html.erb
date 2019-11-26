@@ -10,12 +10,12 @@
     <%= form_with model: @eligibility_form, url: candidate_interface_eligibility_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :eligible_citizen, inline: true, legend: { size: 'm', text: 'Are you a citizen of the UK, EU or EEA?' } do %>
+      <%= f.govuk_radio_buttons_fieldset :eligible_citizen, inline: true, legend: { size: 'm', text: 'Are you a citizen of the UK, EU or EEA?', tag: 'span' } do %>
         <%= f.govuk_radio_button :eligible_citizen, 'yes', label: { text: 'Yes' }, link_errors: true %>
         <%= f.govuk_radio_button :eligible_citizen, 'no', label: { text: 'No' } %>
       <% end %>
 
-      <%= f.govuk_radio_buttons_fieldset :eligible_qualifications, inline: true, legend: { size: 'm', text: 'Did you gain all your qualifications at institutions based in the UK?' } do %>
+      <%= f.govuk_radio_buttons_fieldset :eligible_qualifications, inline: true, legend: { size: 'm', text: 'Did you gain all your qualifications at institutions based in the UK?', tag: 'span' } do %>
         <%= f.govuk_radio_button :eligible_qualifications, 'yes', label: { text: 'Yes' }, link_errors: true %>
         <%= f.govuk_radio_button :eligible_qualifications, 'no', label: { text: 'No' } %>
       <% end %>
