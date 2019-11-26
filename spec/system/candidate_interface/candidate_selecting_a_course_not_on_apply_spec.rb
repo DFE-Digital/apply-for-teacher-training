@@ -56,7 +56,7 @@ RSpec.feature 'Selecting a course not on Apply' do
   end
 
   def then_i_see_that_i_should_apply_on_ucas
-    expect(page).to have_content(t('page_titles.apply_on_ucas'))
+    expect(page).to have_content(t('page_titles.not_eligible_yet'))
   end
 
   def when_i_click_on_back
