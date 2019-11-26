@@ -9,9 +9,9 @@ RSpec.feature 'Entering their work history' do
 
     when_i_click_on_work_history
     when_i_choose_not_worked
-    then_i_should_see_the_out_of_work_form
+    then_i_should_see_the_work_history_explanation_form
 
-    when_i_fill_in_the_out_of_work_form
+    when_i_fill_in_the_work_history_explanation_form
     then_i_should_see_my_explanation
 
     when_i_click_on_change
@@ -44,11 +44,11 @@ RSpec.feature 'Entering their work history' do
     click_button 'Continue'
   end
 
-  def then_i_should_see_the_out_of_work_form
-    expect(page).to have_content(t('page_titles.out_of_work'))
+  def then_i_should_see_the_work_history_explanation_form
+    expect(page).to have_content(t('page_titles.work_history_explanation'))
   end
 
-  def when_i_fill_in_the_out_of_work_form
+  def when_i_fill_in_the_work_history_explanation_form
     fill_in t('application_form.work_history.explanation.label'), with: 'I was not working'
     click_button 'Continue'
   end

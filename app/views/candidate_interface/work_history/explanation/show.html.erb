@@ -1,4 +1,4 @@
-<% content_for :title, t('page_titles.out_of_work') %>
+<% content_for :title, t('page_titles.work_history_explanation') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
 <div class="govuk-grid-row">
@@ -6,24 +6,18 @@
     <%= form_with model: @work_explanation_form, url: candidate_interface_work_history_explanation_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-xl">
-        <span class="govuk-caption-xl">Work history</span>
-        <%= t('page_titles.out_of_work') %>
-      </h1>
-
-      <p class="govuk-label">
-        If you are returning to work for the first time in 5 or more years,
-        please give details. For example, explain your parental or caring
-        responsibilities (or any other reason why you haven’t been employed).
-      </p>
-
-      <p class="govuk-label">
-        You can also include relevant work history from
-        more than 5 years ago. Providers will be interested in skills and
-        experience you could transfer to a school setting.
-      </p>
-
-      <%= f.govuk_text_area :work_history_explanation, label: { text: t('application_form.work_history.explanation.label'), hidden: true }, max_words: 600, rows: 20 %>
+      <%= f.govuk_text_area :work_history_explanation, label: { text: t('application_form.work_history.explanation.label'), tag: 'h1', size: 'xl' }, max_words: 600, rows: 20 do %>
+        <p class="govuk-body">
+          If you are returning to work for the first time in 5 or more years,
+          please give details. For example, explain your parental or caring
+          responsibilities (or any other reason why you haven’t been employed).
+        </p>
+        <p class="govuk-body">
+          You can also include relevant work history from more than 5 years ago.
+          Providers will be interested in skills and experience you could
+          transfer to a school setting.
+        </p>
+      <% end %>
 
       <%= f.govuk_submit 'Continue' %>
     <% end %>

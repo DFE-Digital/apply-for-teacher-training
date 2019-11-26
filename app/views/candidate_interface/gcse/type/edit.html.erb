@@ -10,7 +10,7 @@
 
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :qualification_type, legend: { size: 'm', text: t('application_form.gcse.qualification_type.label') } do %>
+      <%= f.govuk_radio_buttons_fieldset :qualification_type, legend: { size: 'm', text: t('application_form.gcse.qualification_type.label'), tag: 'span' } do %>
         <% select_gcse_qualification_type_options.each_with_index do |option, i| %>
           <% if option.id == :other_uk %>
 
