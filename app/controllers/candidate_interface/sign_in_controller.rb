@@ -1,6 +1,7 @@
 module CandidateInterface
   class SignInController < CandidateInterfaceController
     skip_before_action :authenticate_candidate!
+    before_action :redirect_to_application_if_signed_in
 
     def new
       @candidate = Candidate.new

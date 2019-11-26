@@ -14,6 +14,10 @@ module CandidateInterface
       redirect_to candidate_interface_application_complete_path if current_application.submitted?
     end
 
+    def redirect_to_application_if_signed_in
+      redirect_to candidate_interface_application_form_path if candidate_signed_in?
+    end
+
     def show_pilot_holding_page_if_not_open
       return if FeatureFlag.active?('pilot_open')
 
