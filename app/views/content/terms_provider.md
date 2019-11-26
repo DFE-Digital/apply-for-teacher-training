@@ -47,7 +47,7 @@ Thank you for taking part in trialling Manage teacher training applications. Her
 
     Once a candidate has accepted an offer, you can’t change the terms of the offer without the candidate’s permission. If necessary, you can change conditions up until this point.
 
-    Don't pressure candidates into making a decision or withdraw an offer if the applicant has told you that they’re waiting to hear back from other providers.
+    Don’t pressure candidates into making a decision or withdraw an offer if the applicant has told you that they’re waiting to hear back from other providers.
 
     Get in touch with us as soon as possible at <becomingateacher@digital.education.gov.uk> if you need to withdraw an offer - for example, if a candidate has given information that isn’t true or if you’re not running a course anymore.
 
