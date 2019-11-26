@@ -1,8 +1,7 @@
 module CandidateInterface
   class CandidateInterfaceController < ActionController::Base
-    include BasicAuthHelper
     include LogRequestParams
-    before_action :require_basic_auth_for_ui
+    before_action :protect_with_basic_auth
     before_action :authenticate_candidate!
     before_action :add_identity_to_log
     layout 'application'
@@ -35,6 +34,15 @@ module CandidateInterface
 
     def render_404
       render 'errors/not_found', status: :not_found
+    end
+
+    def protect_with_basic_auth
+      # On production this won't be enabled
+      return unless ENV['BASIC_AUTH_ENABLED'] == '1'
+
+      authenticate_or_request_with_http_basic do |username, password|
+        (username == ENV.fetch('BASIC_AUTH_USERNAME')) && (password == ENV.fetch('BASIC_AUTH_PASSWORD'))
+      end
     end
   end
 end

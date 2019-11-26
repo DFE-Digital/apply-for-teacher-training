@@ -158,6 +158,12 @@
                 "description": "GOV.UK Notify service API key."
             }
         },
+        "basicAuthEnabled": {
+            "type": "string",
+            "metadata": {
+                "description": "If basic auth is enabled. '1' for enabled, anything else for not."
+            }
+        },
         "basicAuthUsername": {
             "type": "string",
             "metadata": {

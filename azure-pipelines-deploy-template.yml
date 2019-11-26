@@ -27,6 +27,7 @@ parameters:
   warmupPingPath: '/check'
   warmupPingStatus: '200'
   railsEnv: 'production'
+  basicAuthEnabled:
   basicAuthUsername:
   basicAuthPassword:
   supportUsername:
@@ -104,6 +105,7 @@ jobs:
                 -warmupPingPath "${{parameters.warmupPingPath}}"
                 -warmupPingStatus "${{parameters.warmupPingStatus}}"
                 -govukNotifyAPIKey "${{parameters.govukNotifyAPIKey}}"
+                -basicAuthEnabled "${{parameters.basicAuthEnabled}}"
                 -basicAuthUsername "${{parameters.basicAuthUsername}}"
                 -basicAuthPassword "${{parameters.basicAuthPassword}}"
                 -supportUsername "${{parameters.supportUsername}}"
