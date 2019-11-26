@@ -1,10 +1,10 @@
 <%= govuk_link_to text, path, class: 'app-task-list__task-name', 'aria-describedby': tag_id %>
 <% if completed %>
-  <strong class="govuk-tag app-task-list__task-completed" id=<%= tag_id %>>
+  <strong class="govuk-tag app-tag app-tag--complete" id=<%= tag_id %>>
     Completed
   </strong>
 <% elsif show_incomplete %>
-  <strong class="govuk-tag app-task-list__task-completed app-govuk-tag--incomplete" id=<%= tag_id %>>
+  <strong class="govuk-tag app-tag app-tag--incomplete" id=<%= tag_id %>>
     Incomplete
   </strong>
 <% end %>
