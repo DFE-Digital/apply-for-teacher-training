@@ -30,6 +30,7 @@ module CandidateInterface
 
     def contact_details_params
       params.require(:candidate_interface_contact_details_form).permit(:phone_number)
+        .transform_values(&:strip)
     end
   end
 end

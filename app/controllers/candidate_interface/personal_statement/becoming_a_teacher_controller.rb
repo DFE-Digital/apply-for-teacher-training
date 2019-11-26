@@ -28,6 +28,7 @@ module CandidateInterface
       params.require(:candidate_interface_becoming_a_teacher_form).permit(
         :becoming_a_teacher,
       )
+        .transform_values(&:strip)
     end
   end
 end

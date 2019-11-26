@@ -23,6 +23,7 @@ module CandidateInterface
 
     def eligibility_params
       params.fetch(:candidate_interface_eligibility_form, {}).permit(:eligible_citizen, :eligible_qualifications)
+        .transform_values(&:strip)
     end
   end
 end

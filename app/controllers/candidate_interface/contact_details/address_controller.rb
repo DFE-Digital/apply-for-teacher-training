@@ -24,6 +24,7 @@ module CandidateInterface
       params.require(:candidate_interface_contact_details_form).permit(
         :address_line1, :address_line2, :address_line3, :address_line4, :postcode
       )
+        .transform_values(&:strip)
     end
   end
 end

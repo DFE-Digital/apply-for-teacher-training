@@ -58,6 +58,7 @@ module CandidateInterface
         :further_information,
         :further_information_details,
       )
+        .transform_values(&:strip)
     end
   end
 end
