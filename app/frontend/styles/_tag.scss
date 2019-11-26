@@ -19,7 +19,8 @@
   @include tag("blue");
 }
 
-.app-tag--primary-unfilled {
+.app-tag--primary-unfilled,
+.app-tag--incomplete {
   @include tag("blue", $filled: false);
 }
 
@@ -33,10 +34,6 @@
 
 .app-tag--info-unfilled {
   @include tag("turquoise", $filled: false);
-}
-
-.app-tag--incomplete {
-  @include tag("blue", $filled: false);
 }
 
 .app-tag--warning {
