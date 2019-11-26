@@ -19,7 +19,6 @@ class ApplicationStateChange
 
     state :awaiting_references do
       event :references_complete, transitions_to: :application_complete
-      event :send_to_provider, transitions_to: :awaiting_provider_decision
       event :withdraw, transitions_to: :withdrawn
     end
 
