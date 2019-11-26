@@ -84,7 +84,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
         )
 
         expect(rows(personal_details_form)).not_to include(
-          row_for(:english_main_language_details, ''),
+          row_for(:other_language_details, ''),
         )
       end
 
@@ -97,7 +97,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
         )
 
         expect(rows(personal_details_form)).not_to include(
-          row_for(:other_language_details, 'Broken? Oh man, are you cereal?'),
+          row_for(:english_language_details, 'Broken? Oh man, are you cereal?'),
         )
       end
 
@@ -110,7 +110,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
         )
 
         expect(rows(personal_details_form)).to include(
-          row_for(:english_main_language_details, 'I speak French'),
+          row_for(:other_language_details, 'I speak French'),
         )
       end
     end
@@ -138,7 +138,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
         )
 
         expect(rows(personal_details_form)).not_to include(
-          row_for(:other_language_details, ''),
+          row_for(:english_language_details, ''),
         )
       end
 
@@ -151,7 +151,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
         )
 
         expect(rows(personal_details_form)).not_to include(
-          row_for(:english_main_language_details, 'Mi nombre es Max.'),
+          row_for(:other_language_details, 'Mi nombre es Max.'),
         )
       end
 
@@ -164,7 +164,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
         )
 
         expect(rows(personal_details_form)).to include(
-          row_for(:other_language_details, 'Broken? Oh man, are you cereal?'),
+          row_for(:english_language_details, 'Broken? Oh man, are you cereal?'),
         )
       end
     end

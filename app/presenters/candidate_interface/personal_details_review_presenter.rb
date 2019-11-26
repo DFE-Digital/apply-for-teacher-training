@@ -53,25 +53,25 @@ module CandidateInterface
 
     def language_details_row
       if @form.english_main_language?
-        english_main_language_details_row if @form.other_language_details.present?
+        other_language_details_row if @form.other_language_details.present?
       elsif @form.english_language_details.present?
-        other_language_details_row
+        english_language_details_row
       end
-    end
-
-    def english_main_language_details_row
-      {
-        key: I18n.t('application_form.personal_details.english_main_language_details.label'),
-        value: @form.other_language_details,
-        action: ('other languages' if @editable),
-      }
     end
 
     def other_language_details_row
       {
         key: I18n.t('application_form.personal_details.other_language_details.label'),
+        value: @form.other_language_details,
+        action: ('other languages' if @editable),
+      }
+    end
+
+    def english_language_details_row
+      {
+        key: I18n.t('application_form.personal_details.english_language_details.label'),
         value: @form.english_language_details,
-        action: ('english languages qualifications' if @editable),
+        action: ('English language qualifications' if @editable),
       }
     end
 
