@@ -22,7 +22,10 @@
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>
-      <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id) %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
+      </p>
     <% end %>
   </div>
 </div>

@@ -20,56 +20,22 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <dl class="govuk-summary-list">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Full name
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <%= @application_choice.full_name %>
-        </dd>
-      </div>
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Date of birth
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <%= @application_choice.date_of_birth %>
-        </dd>
-      </div>
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Phone number
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <%= @application_choice.phone_number %>
-        </dd>
-      </div>
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Email address
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <%= @application_choice.email_address %>
-        </dd>
-      </div>
-    </dl>
+    <%= render SummaryListComponent, rows: [
+      { key: 'Full name', value: @application_choice.full_name },
+      { key: 'Phone number', value: @application_choice.phone_number },
+      { key: 'Email address', value: @application_choice.email_address },
+    ] %>
   </div>
 
   <div class="govuk-grid-column-one-third">
     <div class="app-status-box">
       <h2 class="govuk-heading-m">Status</h2>
       <%= render ProviderInterface::ApplicationStatusTagComponent, application_choice: @application_choice %>
-      <div class="govuk-!-margin-top-6">
-        <% if @application_choice.status == 'awaiting_provider_decision' %>
-          <a href="<%= provider_interface_application_choice_respond_path(@application_choice.id) %>" role="button" draggable="false" class="govuk-button govuk-!-margin-bottom-0" data-module="govuk-button">
-          Respond to application
-        <% end %>
-        </a>
-      </div>
+      <% if @application_choice.status == 'awaiting_provider_decision' %>
+        <div class="govuk-!-margin-top-6">
+          <%= govuk_button_link_to 'Respond to application', provider_interface_application_choice_respond_path(@application_choice.id), class: 'govuk-!-margin-bottom-0' %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
