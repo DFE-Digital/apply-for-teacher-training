@@ -143,8 +143,8 @@ module VendorApi
     end
 
     def institution_details(qualification)
-      if qualification.institution_name || qualification.institution_country
-        "#{qualification.institution_name}#{' ,' if qualification.institution_country}#{qualification.institution_country}"
+      if qualification.institution_name
+        [qualification.institution_name, qualification.institution_country].compact.join(', ')
       end
     end
   end
