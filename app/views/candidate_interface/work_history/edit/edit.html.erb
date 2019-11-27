@@ -4,18 +4,14 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @work_experience_form, url: candidate_interface_work_history_edit_path do |f| %>
-      <fieldset class="govuk-fieldset">
-        <%= f.govuk_error_summary %>
+      <%= f.govuk_error_summary %>
 
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-          <h1 class="govuk-fieldset__heading">
-            <span class="govuk-caption-xl"><%= t('page_titles.work_history') %></span>
-            <%= t('page_titles.edit_job') %>
-          </h1>
-        </legend>
+      <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl"><%= t('page_titles.work_history') %></span>
+        <%= t('page_titles.edit_job') %>
+      </h1>
 
-        <%= render 'form', f: f %>
-      </fieldset>
+      <%= render 'form', f: f %>
     <% end %>
   </div>
 </div>
