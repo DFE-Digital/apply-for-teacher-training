@@ -211,7 +211,7 @@ en:
     personal_statement:
       becoming_a_teacher:
         change_action: tell us why you want to be a teacher
-        label: Tell us why you want to be a teacher
+        label: Why do you want to be a teacher?
         complete_form_button: Continue
       subject_knowledge:
         key: Your knowledge about the subject you want to teach
