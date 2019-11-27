@@ -22,9 +22,5 @@
 <% end %>
 
 <% if show_missing_banner? %>
-  <%= render(SectionMissingBannerComponent, section: :work_experience, text: t('review_application.work_experience.incomplete')) do %>
-     <%= link_to candidate_interface_work_history_length_path, class: 'govuk-link' do %>
-       <%= t('review_application.work_experience.link_html') %>
-     <% end %>
-   <% end %>
+  <%= render(SectionMissingBannerComponent, section: :work_experience, section_path: candidate_interface_work_history_length_path) %>
 <% end %>

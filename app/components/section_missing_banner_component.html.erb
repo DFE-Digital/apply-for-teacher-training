@@ -1,8 +1,8 @@
 <div class="app-banner app-banner--info app-banner--missing-section" id="<%= "missing-#{section}-error" %>">
   <div class="app-banner__message">
     <p class="govuk-body"><%= @text %></p>
-    <% if content.present? %>
-      <%= content %>
+    <%= link_to @section_path, class: 'govuk-link' do %>
+      Complete <span class="govuk-visually-hidden"><%= t("review_application.#{section}.complete_section_visually_hidden") %></span> section
     <% end %>
   </div>
 </div>
