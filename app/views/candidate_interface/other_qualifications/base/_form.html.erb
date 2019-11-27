@@ -10,6 +10,6 @@
 <%= f.govuk_text_field :subject, label: { text: t('application_form.other_qualification.subject.label'), size: 'm' } %>
 <%= f.govuk_text_field :institution_name, label: { text: t('application_form.other_qualification.institution_name.label'), size: 'm' } %>
 <%= f.govuk_text_field :grade, label: { text: t('application_form.other_qualification.grade.label'), size: 'm' }, width: 10 %>
-<%= f.govuk_text_field :award_year, label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' }, width: 4 %>
+<%= f.govuk_text_field :award_year, label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' }, hint_text: t('application_form.other_qualification.award_year.hint_text'), width: 4 %>
 
 <%= f.govuk_submit t('application_form.other_qualification.base.button') %>
