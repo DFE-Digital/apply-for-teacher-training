@@ -1,7 +1,9 @@
 class PhoneNumberValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
-    if value.blank? || is_invalid_phone_number_format?(value)
-      record.errors[attribute] << I18n.t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.phone_number.invalid')
+    if value.blank?
+      record.errors.add(attribute, :blank)
+    elsif is_invalid_phone_number_format?(value)
+      record.errors.add(attribute, :invalid)
     end
   end
 
