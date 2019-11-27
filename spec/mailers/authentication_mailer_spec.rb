@@ -40,4 +40,20 @@ RSpec.describe AuthenticationMailer, type: :mailer do
       expect(mail.body.encoded).to include("http://localhost:3000/candidate/application?token=#{token}")
     end
   end
+
+  describe 'the candidate recieves an email when they try to sign in without an existing account' do
+    let(:mail) { mailer.sign_in_without_account_email(to: 'test@example.com') }
+
+    it 'sends an email with the correct subject' do
+      expect(mail.subject).to include(t('authentication.sign_in_without_account.email.subject'))
+    end
+
+    it 'sends an email with the correct heading' do
+      expect(mail.body.encoded).to include(t('authentication.sign_in_without_account.email.subject'))
+    end
+
+    it 'sends an email with a link to sign up' do
+      expect(mail.body.encoded).to include(candidate_interface_sign_up_url)
+    end
+  end
 end

@@ -14,4 +14,10 @@ class AuthenticationMailer < ApplicationMailer
               to: to,
               subject: t('authentication.sign_in.email.subject'))
   end
+
+  def sign_in_without_account_email(to:)
+    view_mail(GENERIC_NOTIFY_TEMPLATE,
+              to: to,
+              subject: t('authentication.sign_in_without_account.email.subject'))
+  end
 end

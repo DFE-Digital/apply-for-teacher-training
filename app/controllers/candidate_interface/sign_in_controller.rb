@@ -14,7 +14,7 @@ module CandidateInterface
         MagicLinkSignIn.call(candidate: @candidate)
         render 'candidate_interface/shared/check_your_email'
       elsif @candidate.valid?
-        #Valid Email but no account exists
+        AuthenticationMailer.sign_in_without_account_email(to: @candidate.email_address).deliver_now
         render 'candidate_interface/shared/check_your_email'
       else
         render :new
