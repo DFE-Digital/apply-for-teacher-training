@@ -13,7 +13,7 @@
     <%= form_with model: @candidate, url: candidate_interface_sign_in_path, html: { novalidate: true } do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_text_field :email_address, label: { text: t('authentication.sign_up.email_address.label'), size: 'm' }, type: :email, width: 'two-thirds' %>
+      <%= f.govuk_text_field :email_address, label: { text: t('authentication.sign_up.email_address.label'), size: 'm' }, type: :email, width: 'two-thirds', autocomplete: 'email' %>
 
       <%= f.submit t('authentication.sign_up.button_continue'), class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
     <% end %>

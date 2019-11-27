@@ -13,9 +13,9 @@
           </h1>
         </legend>
 
-        <%= f.govuk_text_field :first_name, label: { text: t('application_form.personal_details.first_name.label'), size: 'm' }, hint_text: t('application_form.personal_details.first_name.hint_text') %>
+        <%= f.govuk_text_field :first_name, label: { text: t('application_form.personal_details.first_name.label'), size: 'm' }, hint_text: t('application_form.personal_details.first_name.hint_text'), autocomplete: 'given-name' %>
 
-        <%= f.govuk_text_field :last_name, label: { text: t('application_form.personal_details.last_name.label'), size: 'm' }, hint_text: t('application_form.personal_details.last_name.hint_text') %>
+        <%= f.govuk_text_field :last_name, label: { text: t('application_form.personal_details.last_name.label'), size: 'm' }, hint_text: t('application_form.personal_details.last_name.hint_text'), autocomplete: 'family-name' %>
 
         <%= f.govuk_date_field :date_of_birth, date_of_birth: true, legend: { text: t('application_form.personal_details.date_of_birth.label'), tag: 'span' }, hint_text: t('application_form.personal_details.date_of_birth.hint_text') %>
 

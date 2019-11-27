@@ -16,11 +16,11 @@
           </h1>
         </legend>
 
-        <%= f.govuk_text_field :address_line1, label: { text: t('application_form.contact_details.address_line1.label') } %>
-        <%= f.govuk_text_field :address_line2, label: { text: t('application_form.contact_details.address_line2.label'), hidden: true } %>
-        <%= f.govuk_text_field :address_line3, label: { text: t('application_form.contact_details.address_line3.label') }, width: 'two-thirds' %>
-        <%= f.govuk_text_field :address_line4, label: { text: t('application_form.contact_details.address_line4.label') }, width: 'two-thirds' %>
-        <%= f.govuk_text_field :postcode, label: { text: t('application_form.contact_details.postcode.label') }, width: 10 %>
+        <%= f.govuk_text_field :address_line1, label: { text: t('application_form.contact_details.address_line1.label') }, autocomplete: 'address-line1' %>
+        <%= f.govuk_text_field :address_line2, label: { text: t('application_form.contact_details.address_line2.label'), hidden: true }, autocomplete: 'address-line2' %>
+        <%= f.govuk_text_field :address_line3, label: { text: t('application_form.contact_details.address_line3.label') }, width: 'two-thirds', autocomplete: 'address-level2' %>
+        <%= f.govuk_text_field :address_line4, label: { text: t('application_form.contact_details.address_line4.label') }, width: 'two-thirds', autocomplete: 'address-level1' %>
+        <%= f.govuk_text_field :postcode, label: { text: t('application_form.contact_details.postcode.label') }, width: 10, autocomplete: 'postal-code' %>
 
         <%= f.govuk_submit t('application_form.contact_details.address.button') %>
       </fieldset>
