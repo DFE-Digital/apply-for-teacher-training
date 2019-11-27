@@ -4,11 +4,11 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @application_qualification, url: candidate_interface_gcse_details_update_type_path, method: :post do |f| %>
+      <%= f.govuk_error_summary %>
+
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
         <h1 class="govuk-fieldset__heading"><%= t("gcse_edit_type.page_titles.#{@subject}") %></h1>
       </legend>
-
-      <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset :qualification_type, legend: { size: 'm', text: t('application_form.gcse.qualification_type.label'), tag: 'span' } do %>
         <% select_gcse_qualification_type_options.each_with_index do |option, i| %>
