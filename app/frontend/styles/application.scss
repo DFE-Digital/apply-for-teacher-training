@@ -10,25 +10,14 @@ $govuk-font-url-function: frontend-font-url;
 $govuk-image-url-function: frontend-image-url;
 
 @import "~govuk-frontend/govuk/all";
+@import "_autocomplete";
 @import "_banner";
+@import "_cookie-banner";
 @import "_environments";
 @import "_footer";
+@import "_related";
 @import "_status-box";
 @import "_styled-content";
 @import "_summary-card";
 @import "_tag";
 @import "_task-list";
-@import "_cookie-banner";
-
-.autocomplete__wrapper, .autocomplete__input, .autocomplete__hint {
-  font-family: $govuk-font-family;
-}
-
-.app-related {
-  border-top: 2px solid $govuk-brand-colour;
-  padding-top: govuk-spacing(3);
-}
-
-.app-related + .app-related {
-  border-top-color: transparent;
-}
