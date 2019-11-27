@@ -331,17 +331,17 @@ en:
           attributes:
             becoming_a_teacher:
               blank: Tell us why you want to be a teacher
-              too_long: Tell us why you want to be a teacher must be %{count} words or fewer
+              too_many_words: Tell us why you want to be a teacher must be %{count} words or fewer
         candidate_interface/subject_knowledge_form:
           attributes:
             subject_knowledge:
               blank: Enter your subject knowledge
-              too_long: Your subject knowledge must be %{count} words or fewer
+              too_many_words: Your subject knowledge must be %{count} words or fewer
         candidate_interface/interview_preferences_form:
           attributes:
             interview_preferences:
               blank: Enter your interview preferences. If you do not have any, enter 'none'
-              too_long: Your interview preferences must be %{count} words or fewer
+              too_many_words: Your interview preferences must be %{count} words or fewer
         candidate_interface/further_information_form:
           attributes:
             further_information:
@@ -458,7 +458,6 @@ en:
               too_long: Type of degree must be %{count} characters or fewer
             missing_explanation:
               blank: Give us some details
-
         candidate_interface/volunteering_experience_form:
           attributes:
             experience:
