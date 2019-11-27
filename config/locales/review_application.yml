@@ -4,55 +4,43 @@ en:
     error_title: Error - Review your application
     heading: Review your application
     button_continue: Continue
+    link: Complete section
     becoming_a_teacher:
       incomplete: Tell us why you want to be a teacher
-      link: Complete becoming a teacher section
-      link_html: Complete <span class="govuk-visually-hidden">becoming a teacher</span> section
+      complete_section_visually_hidden: tell us why you want to be a teacher
     contact_details:
       incomplete: Contact details not entered
-      link: Complete contact details section
-      link_html: Complete <span class="govuk-visually-hidden">contact details</span> section
+      complete_section_visually_hidden: contact details
     course_choices:
       incomplete: Course choices are not marked as completed
-      link: Complete course choices section
-      link_html: Complete <span class="govuk-visually-hidden">course choices</span> section
+      complete_section_visually_hidden: course choices
     degrees:
-      incomplete: Degree history is not marked as completed
-      link: Complete degrees section
-      link_html: Complete <span class="govuk-visually-hidden">degrees</span> section
+      incomplete: Degree(s) are not marked as completed
+      complete_section_visually_hidden: degree(s)
     maths_gcse:
-      incomplete: Maths GCSE not entered
-      link: Complete Maths GCSE section
-      link_html: Complete <span class="govuk-visually-hidden">Maths GCSE</span> section
+      incomplete: Maths GCSE or equivalent not entered
+      complete_section_visually_hidden: Maths GCSE or equivalent
     english_gcse:
-      incomplete: English GCSE not entered
-      link: Complete English GCSE section
-      link_html: Complete <span class="govuk-visually-hidden">English GCSE</span> section
+      incomplete: English GCSE or equivalent not entered
+      complete_section_visually_hidden: English GCSE or equivalent
     science_gcse:
-      incomplete: Science GCSE not entered
-      link: Complete Science GCSE section
-      link_html: Complete <span class="govuk-visually-hidden">Science GCSE</span> section
+      incomplete: Science GCSE or equivalent not entered
+      complete_section_visually_hidden: Science GCSE or equivalent
     interview_preferences:
       incomplete: Tell us your interview preferences
-      link: Complete interview preferences section
-      link_html: Complete <span class="govuk-visually-hidden">interview preferences</span> section
+      complete_section_visually_hidden: interview preferences
     personal_details:
       incomplete: Personal details not entered
-      link: Complete personal details section
-      link_html: Complete <span class="govuk-visually-hidden">personal details</span> section
+      complete_section_visually_hidden: personal details
     references:
       incomplete: Add %{minimum_references} referees to your application
-      link: Complete references section
-      link_html: Complete <span class="govuk-visually-hidden">references</span> section
+      complete_section_visually_hidden: references
     subject_knowledge:
       incomplete: Tell us about your knowledge about the subject you want to teach
-      link: Complete subject knowledge section
-      link_html: Complete <span class="govuk-visually-hidden">subject knowledge</span> section
+      complete_section_visually_hidden: subject knowledge
     volunteering:
-      incomplete: Volunteering history is not marked as completed
-      link: Complete volunteering history section
-      link_html: Complete <span class="govuk-visually-hidden">volunteering history</span> section
+      incomplete: Volunteering with children and young people is not marked as completed
+      complete_section_visually_hidden: volunteering with children and young people
     work_experience:
       incomplete: Work history is not marked as completed
-      link: Complete work history section
-      link_html: Complete <span class="govuk-visually-hidden">work history</span> section
+      complete_section_visually_hidden: work history
