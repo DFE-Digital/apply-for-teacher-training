@@ -22,6 +22,12 @@ RSpec.feature 'Entering volunteering and school experience' do
     and_i_submit_the_volunteering_role_form
     then_i_check_my_volunteering_role
 
+    when_i_click_on_continue
+    then_i_should_see_the_form
+
+    when_i_click_on_volunteering_with_children_and_young_people
+    then_i_can_check_my_answers
+
     when_i_delete_my_volunteering_role
     and_i_confirm
     then_i_no_longer_see_my_volunteering_role
@@ -111,6 +117,10 @@ RSpec.feature 'Entering volunteering and school experience' do
 
   def then_i_check_my_volunteering_role
     expect(page).to have_content('Classroom Volunteer')
+  end
+
+  def when_i_click_on_continue
+    click_button t('application_form.volunteering.review.button')
   end
 
   def when_i_delete_my_volunteering_role

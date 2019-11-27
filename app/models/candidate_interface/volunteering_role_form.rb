@@ -54,6 +54,7 @@ module CandidateInterface
       return false unless valid?
 
       application_form.application_volunteering_experiences.create!(map_attributes)
+      application_form.update!(volunteering_experience: true)
 
       true
     end

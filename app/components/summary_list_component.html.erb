@@ -10,7 +10,7 @@
         <% elsif row[:value].html_safe? %>
           <%= row[:value] %>
         <% else %>
-          <%= simple_format row[:value], { class: 'govuk-body' } %>
+          <%= simple_format row[:value], class: 'govuk-body' %>
         <% end %>
       </dd>
 

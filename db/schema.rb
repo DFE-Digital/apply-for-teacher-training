@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_21_134801) do
+ActiveRecord::Schema.define(version: 2019_11_27_105827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 2019_11_21_134801) do
     t.text "work_history_breaks"
     t.boolean "course_choices_completed", default: false, null: false
     t.boolean "volunteering_completed", default: false, null: false
+    t.boolean "volunteering_experience"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
   end
 
