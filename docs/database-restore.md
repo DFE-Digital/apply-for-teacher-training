@@ -41,7 +41,7 @@ These instructions assume that you are working on the production environment, bu
    1. Select the `s106p01-apply-as` App Service from the list of resources.
    1. Select "Configuration" from the Settings section of the App service blade menu that appears.
    1. Find `DB_PASSWORD` in the list of variables and click on the "Hidden value" link to reveal the password.
-1. Restore the database to the original instance using the command `pg_restore -v --no-owner -h s106p01-apply-psql.postgres.database.azure.com -p 5432 -U applyadm512@s106p01-apply-psql -W -d apply <input_filenme>.dump`
+1. Restore the database to the original instance using the command `pg_restore -v --clean --no-owner -h s106p01-apply-psql.postgres.database.azure.com -p 5432 -U applyadm512@s106p01-apply-psql -W -d apply <input_filenme>.dump`
 1. Verify that the database restore has been successful.
 
 
