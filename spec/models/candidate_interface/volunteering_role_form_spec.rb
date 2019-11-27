@@ -78,13 +78,21 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
       expect(volunteering_role.save(ApplicationForm.new)).to eq(false)
     end
 
-    it 'creates a new work experience if valid' do
-      application_form = create(:application_form)
-      volunteering_role = CandidateInterface::VolunteeringRoleForm.new(form_data)
+    context 'when a valid volunteering role' do
+      let(:application_form) { create(:application_form, volunteering_experience: false) }
+      let(:volunteering_role) { CandidateInterface::VolunteeringRoleForm.new(form_data) }
 
-      expect(volunteering_role.save(application_form)).to eq(true)
-      expect(application_form.application_volunteering_experiences.first)
-        .to have_attributes(data)
+      it 'creates a new work experience if valid' do
+        expect(volunteering_role.save(application_form)).to eq(true)
+        expect(application_form.application_volunteering_experiences.first)
+          .to have_attributes(data)
+      end
+
+      it 'updates volunteering experience if valid' do
+        volunteering_role.save(application_form)
+
+        expect(application_form.volunteering_experience).to eq(true)
+      end
     end
   end
 
