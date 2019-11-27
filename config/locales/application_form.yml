@@ -177,7 +177,7 @@ en:
         label: What was your grade?
       award_year:
         label: When did you get your qualification?
-        hint_text: For example, 1996.
+        hint_text: For example, 1996
       complete_form_button: Save and continue
     other_qualification:
       qualification:
@@ -198,7 +198,7 @@ en:
         change_action: grade
       award_year:
         label: Year qualification was awarded
-        hint_text: For example, 1998.
+        hint_text: For example, 1998
         review_label: Year awarded
         change_action: year
       base:
