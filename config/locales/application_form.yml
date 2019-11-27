@@ -324,6 +324,10 @@ en:
               inclusion: Select your second nationality from the list
             english_main_language:
               blank: Select if English is your main language
+            english_language_details:
+              too_many_words: English language qualifications and other languages spoken must be %{count} words or fewer
+            other_language_details:
+              too_many_words: Other languages spoken must be %{count} words or fewer
             date_of_birth:
               invalid: Enter a date of birth in the correct format
               future: Enter a date of birth that is in the past, for example 31 3 1980
@@ -331,23 +335,24 @@ en:
           attributes:
             becoming_a_teacher:
               blank: Tell us why you want to be a teacher
-              too_long: Tell us why you want to be a teacher must be %{count} words or fewer
+              too_many_words: Tell us why you want to be a teacher must be %{count} words or fewer
         candidate_interface/subject_knowledge_form:
           attributes:
             subject_knowledge:
               blank: Enter your subject knowledge
-              too_long: Your subject knowledge must be %{count} words or fewer
+              too_many_words: Your subject knowledge must be %{count} words or fewer
         candidate_interface/interview_preferences_form:
           attributes:
             interview_preferences:
               blank: Enter your interview preferences. If you do not have any, enter 'none'
-              too_long: Your interview preferences must be %{count} words or fewer
+              too_many_words: Your interview preferences must be %{count} words or fewer
         candidate_interface/further_information_form:
           attributes:
             further_information:
               blank: Select if you would like to add anything else to your application
             further_information_details:
               blank: Enter further information
+              too_many_words: Further information must be %{count} words or fewer
         candidate_interface/contact_details_form:
           attributes:
             phone_number:
@@ -374,10 +379,12 @@ en:
           attributes:
             work_history_breaks:
               blank: Please explain any breaks in your work history
+              too_many_words: Explanation for breaks in your work history must be %{count} words or fewer
         candidate_interface/work_explanation_form:
           attributes:
             work_history_explanation:
               blank: Please explain why you’ve been out of the workplace
+              too_many_words: Explanation for why you’ve been out of the workplace must be %{count} words or fewer
         candidate_interface/degree_form:
           attributes:
             qualification_type:
@@ -429,7 +436,7 @@ en:
               too_long: Name of the employer must be %{count} characters or fewer
             details:
               blank: Enter the relevant experience you gained in this role
-              too_long: Skills and experience must be %{count} characters or fewer
+              too_many_words: Skills and experience must be %{count} words or fewer
             working_with_children:
               blank: Select if this job involves working in a school or with children
             commitment:
@@ -458,7 +465,7 @@ en:
               too_long: Type of degree must be %{count} characters or fewer
             missing_explanation:
               blank: Give us some details
-
+              too_many_words: Details must be %{count} words or fewer
         candidate_interface/volunteering_experience_form:
           attributes:
             experience:
@@ -473,7 +480,7 @@ en:
               too_long: The organisation must be %{count} characters or fewer
             details:
               blank: Enter details of your time commitment and responsibilities
-              too_long: Skills and experience must be %{count} characters or fewer
+              too_many_words: Skills and experience must be %{count} words or fewer
             working_with_children:
               blank: Select if this role involves working in a school or with children
             start_date:

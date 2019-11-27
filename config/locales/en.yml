@@ -104,7 +104,10 @@ en:
               too_long: Full name must be %{count} characters or fewer
             relationship:
               blank: Tell us about the referee’s relationship to you and how long they’ve known you
-              too_long: Relationship must be %{count} characters or fewer
+              too_many_words: Relationship to referee must be %{count} words or fewer
+  errors:
+    messages:
+      too_many_words: Must be %{count} words or fewer
   date:
     formats:
       long: "%e %B %Y"

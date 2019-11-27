@@ -15,8 +15,11 @@ RSpec.describe Reference, type: :model do
     it { is_expected.to validate_presence_of :name }
     it { is_expected.to validate_length_of(:name).is_at_most(200) }
 
-    it { is_expected.to validate_presence_of :relationship }
-    it { is_expected.to validate_length_of(:relationship).is_at_most(500) }
+    valid_text = Faker::Lorem.sentence(word_count: 50)
+    invalid_text = Faker::Lorem.sentence(word_count: 51)
+
+    it { is_expected.to allow_value(valid_text).for(:relationship) }
+    it { is_expected.not_to allow_value(invalid_text).for(:relationship) }
   end
 
   describe '#complete?' do

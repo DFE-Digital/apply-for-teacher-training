@@ -15,7 +15,7 @@ RSpec.describe WordCountValidator do
     Validatable.new.tap { |model| model.some_words = some_words_field }
   }
 
-  let(:expected_errors) { ['Reduce the word count for some words'] }
+  let(:expected_errors) { ["Must be #{maximum} words or fewer"] }
 
   subject! {
     model.valid?
