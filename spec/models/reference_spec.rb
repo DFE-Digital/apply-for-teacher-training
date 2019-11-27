@@ -4,13 +4,25 @@ RSpec.describe Reference, type: :model do
   subject { build(:reference) }
 
   describe 'a valid reference' do
-    let(:application_form) { build(:application_form) }
+    let(:candidate) { build(:candidate) }
+    let(:application_form) { build(:application_form, candidate: candidate) }
 
     subject { build(:reference, application_form: application_form) }
 
     it { is_expected.to validate_presence_of :email_address }
     it { is_expected.to validate_length_of(:email_address).is_at_most(100) }
     it { is_expected.to validate_uniqueness_of(:email_address).scoped_to(:application_form_id).ignoring_case_sensitivity }
+
+    context 'when a candidate uses their own email address' do
+      it 'adds an error' do
+        reference = build(:reference, application_form: application_form, email_address: candidate.email_address)
+
+        expect(reference.valid?).to eq(false)
+        expect(reference.errors.full_messages_for(:email_address)).to eq(
+          ["Email address #{t('activerecord.errors.models.reference.attributes.email_address.own')}"],
+        )
+      end
+    end
 
     it { is_expected.to validate_presence_of :name }
     it { is_expected.to validate_length_of(:name).is_at_most(200) }
