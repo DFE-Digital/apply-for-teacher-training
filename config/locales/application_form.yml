@@ -216,7 +216,7 @@ en:
       subject_knowledge:
         key: Your knowledge about the subject you want to teach
         change_action:  evidence of subject knowledge
-        label: Enter your subject knowledge
+        label: What do you know about the subject you want to teach?
         complete_form_button: Continue
       interview_preferences:
         key: Interview preferences
@@ -339,7 +339,7 @@ en:
         candidate_interface/subject_knowledge_form:
           attributes:
             subject_knowledge:
-              blank: Enter your subject knowledge
+              blank: Please enter your subject knowledge
               too_many_words: Your subject knowledge must be %{count} words or fewer
         candidate_interface/interview_preferences_form:
           attributes:
