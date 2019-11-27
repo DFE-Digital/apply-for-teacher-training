@@ -21,7 +21,7 @@
 
         <%= f.govuk_collection_select :first_nationality, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label'), size: 'm' } %>
 
-        <details class="govuk-details" data-module="govuk-details" <%= "open" if @personal_details_form.second_nationality.present? %>>
+        <details class="govuk-details" data-module="govuk-details" <%= 'open' if @personal_details_form.second_nationality.present? %>>
           <summary class="govuk-details__summary">
             <span class="govuk-details__summary-text">
               Add another nationality
