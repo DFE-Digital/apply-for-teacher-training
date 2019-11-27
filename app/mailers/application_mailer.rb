@@ -11,8 +11,6 @@ class ApplicationMailer < Mail::Notify::Mailer
                   NotifyOtherBadRequestError.new(e.message)
                 end
 
-    Raven.capture_exception(exception)
-
     raise exception
   end
 

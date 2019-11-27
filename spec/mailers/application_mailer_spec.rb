@@ -22,14 +22,6 @@ RSpec.describe ApplicationMailer do
           'BadRequestError: Can’t send to this recipient using a team-only API key',
         )
       end
-
-      it 'rescues the exception and reports it to sentry' do
-        allow(Raven).to receive(:capture_exception)
-
-        expect { fake_mailer.notify_error.deliver_now }.to raise_error(ApplicationMailer::NotifyTeamOnlyAPIKeyError) do
-          expect(Raven).to have_received(:capture_exception)
-        end
-      end
     end
 
     context 'when Notify returns any other error' do
@@ -51,14 +43,6 @@ RSpec.describe ApplicationMailer do
           ApplicationMailer::NotifyOtherBadRequestError,
           'BadRequestError: Document didn’t pass the virus scan',
         )
-      end
-
-      it 'rescues the exception and reports it to sentry' do
-        allow(Raven).to receive(:capture_exception)
-
-        expect { fake_mailer.notify_error.deliver_now }.to raise_error(ApplicationMailer::NotifyOtherBadRequestError) do
-          expect(Raven).to have_received(:capture_exception)
-        end
       end
     end
   end
