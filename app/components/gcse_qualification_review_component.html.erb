@@ -9,7 +9,7 @@
     <%= render(SummaryCardHeaderComponent, title: title, heading_level: @heading_level) %>
   <% end %>
 <% elsif @editable %>
-  <%= render(SectionMissingBannerComponent, section: "#{subject}_gcse", section_path: candidate_interface_gcse_details_edit_type_path(subject: subject.to_sym), text: t("review_application.#{subject}_gcse.incomplete")) %>
+  <%= render(SectionMissingBannerComponent, section: "#{subject}_gcse", section_path: candidate_interface_gcse_details_edit_type_path(subject: subject.to_sym)) %>
 <% else %>
   <p class="govuk-body">No GCSE entered.</p>
 <% end %>

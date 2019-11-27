@@ -14,7 +14,7 @@
 <% end %>
 
 <% if show_missing_banner? %>
-  <%= render(SectionMissingBannerComponent, section: :volunteering, section_path: candidate_interface_volunteering_experience_path, text: t('review_application.volunteering.incomplete')) %>
+  <%= render(SectionMissingBannerComponent, section: :volunteering, section_path: candidate_interface_volunteering_experience_path) %>
 <% elsif @application_form.application_volunteering_experiences.empty? %>
   <section class="app-summary-card govuk-!-margin-bottom-6">
     <%= render(SummaryCardHeaderComponent, title: t('application_form.volunteering.no_experience.summary_card_title')) %>

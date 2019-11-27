@@ -32,5 +32,5 @@
 <% end %>
 
 <% if show_missing_banner? %>
-  <%= render(SectionMissingBannerComponent, section: :course_choices, section_path: candidate_interface_course_choices_index_path, text: t('review_application.course_choices.incomplete')) %>
+  <%= render(SectionMissingBannerComponent, section: :course_choices, section_path: candidate_interface_course_choices_index_path) %>
 <% end %>

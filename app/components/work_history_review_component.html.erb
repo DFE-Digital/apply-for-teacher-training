@@ -22,5 +22,5 @@
 <% end %>
 
 <% if show_missing_banner? %>
-  <%= render(SectionMissingBannerComponent, section: :work_experience, section_path: candidate_interface_work_history_length_path, text: t('review_application.work_experience.incomplete')) %>
+  <%= render(SectionMissingBannerComponent, section: :work_experience, section_path: candidate_interface_work_history_length_path) %>
 <% end %>
