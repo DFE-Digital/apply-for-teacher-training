@@ -6,56 +6,53 @@
     <%= form_with model: @further_information_form, url: candidate_interface_application_submit_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-          <h1 class="govuk-fieldset__heading">
-            <%= t('submit_application.heading') %>
-          </h1>
-        </legend>
+      <h1 class="govuk-heading-xl">
+        <%= t('submit_application.heading') %>
+      </h1>
 
+      <p class="govuk-body">
+        I understand I will have to undergo an enhanced
+        <%= govuk_link_to t('submit_application.disclosure_link'), 'https://www.gov.uk/government/organisations/disclosure-and-barring-service' %>
+        as part of my application.
+      </p>
+
+      <div class="govuk-inset-text">
         <p class="govuk-body">
-          I understand I will have to undergo an enhanced
-          <%= govuk_link_to t('submit_application.disclosure_link'), 'https://www.gov.uk/government/organisations/disclosure-and-barring-service' %>
-          as part of my application.
+          As prospective teachers, all candidates must consent to an enhanced
+          DBS check. This will show up any past criminal convictions, both
+          spent and unspent. Some convictions, even if they are spent, will
+          disbar you from teaching.
         </p>
-        <div class="govuk-inset-text">
-          <p class="govuk-body">
-            As prospective teachers, all candidates must consent to an enhanced
-            DBS check. This will show up any past criminal convictions, both
-            spent and unspent. Some convictions, even if they are spent, will
-            disbar you from teaching.
-          </p>
-          <p class="govuk-body">
-            However, not all past convictions prevent you from training to be a
-            teacher. Talk to your provider about their policy on criminal
-            convictions.
-          </p>
-          <p class="govuk-body">
-            <%= govuk_link_to t('submit_application.conviction_link'), 'https://www.gov.uk/exoffenders-and-employment' %>.
-          </p>
-        </div>
+        <p class="govuk-body">
+          However, not all past convictions prevent you from training to be a
+          teacher. Talk to your provider about their policy on criminal
+          convictions.
+        </p>
+        <p class="govuk-body">
+          <%= govuk_link_to t('submit_application.conviction_link'), 'https://www.gov.uk/exoffenders-and-employment' %>.
+        </p>
+      </div>
 
-        <%= f.govuk_radio_buttons_fieldset :further_information, legend: { size: 'm', text: t('application_form.further_information.further_information.label') } do %>
-          <p class="govuk-body">
-            Examples of further information include any disability, health or
-            other personal or professional issue you feel is relevant to your
-            application.
-          </p>
+      <%= f.govuk_radio_buttons_fieldset :further_information, legend: { size: 'm', text: t('application_form.further_information.further_information.label') } do %>
+        <p class="govuk-body">
+          Examples of further information include any disability, health or
+          other personal or professional issue you feel is relevant to your
+          application.
+        </p>
 
-          <%= f.govuk_radio_button :further_information, true, label: { text: 'Yes' }, link_errors: true do %>
-            <%= f.govuk_text_area :further_information_details, label: { text: t('application_form.further_information.further_information_details.label') }, max_words: 300 %>
-          <% end %>
-
-          <%= f.govuk_radio_button :further_information, false, label: { text: 'No' } %>
+        <%= f.govuk_radio_button :further_information, true, label: { text: 'Yes' }, link_errors: true do %>
+          <%= f.govuk_text_area :further_information_details, label: { text: t('application_form.further_information.further_information_details.label') }, max_words: 300 %>
         <% end %>
 
-        <p class="govuk-body">
-          By submitting, I confirm that the information given is true, complete
-          and accurate.
-        </p>
+        <%= f.govuk_radio_button :further_information, false, label: { text: 'No' } %>
+      <% end %>
 
-        <%= f.govuk_submit t('submit_application.submit_button') %>
-      </fieldset>
+      <p class="govuk-body">
+        By submitting, I confirm that the information given is true, complete
+        and accurate.
+      </p>
+
+      <%= f.govuk_submit t('submit_application.submit_button') %>
     <% end %>
   </div>
 </div>

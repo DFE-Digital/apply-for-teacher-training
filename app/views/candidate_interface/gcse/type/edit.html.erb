@@ -6,9 +6,9 @@
     <%= form_with model: @application_qualification, url: candidate_interface_gcse_details_update_type_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-        <h1 class="govuk-fieldset__heading"><%= t("gcse_edit_type.page_titles.#{@subject}") %></h1>
-      </legend>
+      <h1 class="govuk-heading-xl">
+        <%= t("gcse_edit_type.page_titles.#{@subject}") %>
+      </h1>
 
       <%= f.govuk_radio_buttons_fieldset :qualification_type, legend: { size: 'm', text: t('application_form.gcse.qualification_type.label'), tag: 'span' } do %>
         <% select_gcse_qualification_type_options.each_with_index do |option, i| %>
@@ -32,6 +32,6 @@
       <% end %>
 
       <%= f.submit t('application_form.gcse.complete_form_button'), class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
-  <% end %>
+    <% end %>
   </div>
 </div>

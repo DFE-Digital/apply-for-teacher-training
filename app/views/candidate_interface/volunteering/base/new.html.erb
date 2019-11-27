@@ -6,16 +6,12 @@
     <%= form_with model: @volunteering_role, url: candidate_interface_create_volunteering_role_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-          <h1 class="govuk-fieldset__heading">
-            <span class="govuk-caption-xl"><%= t('page_titles.volunteering.caption') %></span>
-            <%= t('page_titles.add_volunteering_role') %>
-          </h1>
-        </legend>
+      <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl"><%= t('page_titles.volunteering.caption') %></span>
+        <%= t('page_titles.add_volunteering_role') %>
+      </h1>
 
-        <%= render 'form', f: f %>
-      </fieldset>
+      <%= render 'form', f: f %>
     <% end %>
   </div>
 </div>

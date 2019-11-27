@@ -1,14 +1,14 @@
 <% content_for :title, t('page_titles.eligibility') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_start_path) %>
 
-<h1 class="govuk-heading-xl">
-  <%= t('page_titles.eligibility') %>
-</h1>
-
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @eligibility_form, url: candidate_interface_eligibility_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.eligibility') %>
+      </h1>
 
       <%= f.govuk_radio_buttons_fieldset :eligible_citizen, inline: true, legend: { size: 'm', text: 'Are you a citizen of the UK, EU or EEA?', tag: 'span' } do %>
         <%= f.govuk_radio_button :eligible_citizen, 'yes', label: { text: 'Yes' }, link_errors: true %>

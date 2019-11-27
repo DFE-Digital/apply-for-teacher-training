@@ -6,44 +6,40 @@
     <%= form_with model: @personal_details_form, url: candidate_interface_personal_details_update_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-          <h1 class="govuk-fieldset__heading">
-            <%= t('page_titles.personal_details') %>
-          </h1>
-        </legend>
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.personal_details') %>
+      </h1>
 
-        <%= f.govuk_text_field :first_name, label: { text: t('application_form.personal_details.first_name.label'), size: 'm' }, hint_text: t('application_form.personal_details.first_name.hint_text'), autocomplete: 'given-name' %>
+      <%= f.govuk_text_field :first_name, label: { text: t('application_form.personal_details.first_name.label'), size: 'm' }, hint_text: t('application_form.personal_details.first_name.hint_text'), autocomplete: 'given-name' %>
 
-        <%= f.govuk_text_field :last_name, label: { text: t('application_form.personal_details.last_name.label'), size: 'm' }, hint_text: t('application_form.personal_details.last_name.hint_text'), autocomplete: 'family-name' %>
+      <%= f.govuk_text_field :last_name, label: { text: t('application_form.personal_details.last_name.label'), size: 'm' }, hint_text: t('application_form.personal_details.last_name.hint_text'), autocomplete: 'family-name' %>
 
-        <%= f.govuk_date_field :date_of_birth, date_of_birth: true, legend: { text: t('application_form.personal_details.date_of_birth.label'), tag: 'span' }, hint_text: t('application_form.personal_details.date_of_birth.hint_text') %>
+      <%= f.govuk_date_field :date_of_birth, date_of_birth: true, legend: { text: t('application_form.personal_details.date_of_birth.label'), tag: 'span' }, hint_text: t('application_form.personal_details.date_of_birth.hint_text') %>
 
-        <%= f.govuk_collection_select :first_nationality, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label'), size: 'm' } %>
+      <%= f.govuk_collection_select :first_nationality, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label'), size: 'm' } %>
 
-        <details class="govuk-details" data-module="govuk-details" <%= 'open' if @personal_details_form.second_nationality.present? %>>
-          <summary class="govuk-details__summary">
-            <span class="govuk-details__summary-text">
-              Add another nationality
-            </span>
-          </summary>
-          <div class="govuk-details__text">
-            <%= f.govuk_collection_select :second_nationality, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.second_nationality.label') } %>
-          </div>
-        </details>
+      <details class="govuk-details" data-module="govuk-details" <%= 'open' if @personal_details_form.second_nationality.present? %>>
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Add another nationality
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          <%= f.govuk_collection_select :second_nationality, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.second_nationality.label') } %>
+        </div>
+      </details>
 
-        <%= f.govuk_radio_buttons_fieldset :english_main_language, legend: { size: 'm', text: t('application_form.personal_details.english_main_language.label'), tag: 'span' } do %>
-          <%= f.govuk_radio_button :english_main_language, 'yes', label: { text: 'Yes' }, link_errors: true do %>
-            <%= f.govuk_text_area :other_language_details, label: { text: t('application_form.personal_details.english_main_language.yes_label') }, max_words: 200 %>
-          <% end %>
-
-          <%= f.govuk_radio_button :english_main_language, 'no', label: { text: 'No' } do %>
-            <%= f.govuk_text_area :english_language_details, label: { text: t('application_form.personal_details.english_main_language.no_label') }, max_words: 200 %>
-          <% end %>
+      <%= f.govuk_radio_buttons_fieldset :english_main_language, legend: { size: 'm', text: t('application_form.personal_details.english_main_language.label'), tag: 'span' } do %>
+        <%= f.govuk_radio_button :english_main_language, 'yes', label: { text: 'Yes' }, link_errors: true do %>
+          <%= f.govuk_text_area :other_language_details, label: { text: t('application_form.personal_details.english_main_language.yes_label') }, max_words: 200 %>
         <% end %>
 
-        <%= f.govuk_submit 'Continue' %>
-      </fieldset>
+        <%= f.govuk_radio_button :english_main_language, 'no', label: { text: 'No' } do %>
+          <%= f.govuk_text_area :english_language_details, label: { text: t('application_form.personal_details.english_main_language.no_label') }, max_words: 200 %>
+        <% end %>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
     <% end %>
   </div>
 </div>

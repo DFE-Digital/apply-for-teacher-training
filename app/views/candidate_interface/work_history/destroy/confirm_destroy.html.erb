@@ -4,20 +4,16 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @work_experience, url: candidate_interface_work_history_destroy_path(@work_experience.id), method: :delete do |f| %>
-      <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-          <h1 class="govuk-fieldset__heading">
-            <span class="govuk-caption-xl"><%= @work_experience.role %></span>
-            <%= t('page_titles.work_history_destroy') %>
-          </h1>
-        </legend>
+      <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl"><%= @work_experience.role %></span>
+        <%= t('page_titles.work_history_destroy') %>
+      </h1>
 
-        <%= f.submit t('application_form.work_history.sure_delete_entry'), class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
+      <%= f.submit t('application_form.work_history.sure_delete_entry'), class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
 
-        <p class="govuk-body">
-          <%= govuk_link_to 'Cancel', candidate_interface_work_history_show_path %>
-        </p>
-      </fieldset>
+      <p class="govuk-body">
+        <%= govuk_link_to 'Cancel', candidate_interface_work_history_show_path %>
+      </p>
     <% end %>
   </div>
 </div>

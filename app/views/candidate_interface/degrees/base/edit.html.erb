@@ -6,17 +6,13 @@
     <%= form_with model: @degree, url: candidate_interface_degrees_edit_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-          <h1 class="govuk-fieldset__heading">
-            <%= t('page_titles.edit_degree') %>
-          </h1>
-        </legend>
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.edit_degree') %>
+      </h1>
 
-        <%= f.hidden_field :id, value: @degree.id %>
-        <%= f.govuk_text_field :qualification_type, label: { text: t('application_form.degree.qualification_type.label'), size: 'm' }, hint_text: t('application_form.degree.qualification_type.hint_text.all') %>
-        <%= render 'form', f: f %>
-      </fieldset>
+      <%= f.hidden_field :id, value: @degree.id %>
+      <%= f.govuk_text_field :qualification_type, label: { text: t('application_form.degree.qualification_type.label'), size: 'm' }, hint_text: t('application_form.degree.qualification_type.hint_text.all') %>
+      <%= render 'form', f: f %>
     <% end %>
   </div>
 </div>
