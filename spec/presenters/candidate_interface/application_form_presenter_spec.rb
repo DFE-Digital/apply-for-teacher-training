@@ -224,4 +224,44 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       )
     end
   end
+
+  describe '#volunteering_path' do
+    it 'returns the experience path if volunteering experience is not set' do
+      application_form = build(:completed_application_form, volunteering_experience: nil, volunteering_experiences_count: 0)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter.volunteering_path).to eq(
+        Rails.application.routes.url_helpers.candidate_interface_volunteering_experience_path,
+      )
+    end
+
+    it 'returns the review path if no volunteering experience' do
+      application_form = build(:completed_application_form, volunteering_experience: false, volunteering_experiences_count: 0)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter.volunteering_path).to eq(
+        Rails.application.routes.url_helpers.candidate_interface_review_volunteering_path,
+      )
+    end
+
+    it 'returns the review path if volunteering experience' do
+      application_form = build(:completed_application_form, volunteering_experience: true, volunteering_experiences_count: 1)
+
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter.volunteering_path).to eq(
+        Rails.application.routes.url_helpers.candidate_interface_review_volunteering_path,
+      )
+    end
+
+    it 'returns the review path if volunteering section is completed' do
+      application_form = build(:completed_application_form, volunteering_completed: true, volunteering_experiences_count: 1)
+
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter.volunteering_path).to eq(
+        Rails.application.routes.url_helpers.candidate_interface_review_volunteering_path,
+      )
+    end
+  end
 end

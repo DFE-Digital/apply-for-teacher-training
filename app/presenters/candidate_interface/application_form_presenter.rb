@@ -88,6 +88,14 @@ module CandidateInterface
       end
     end
 
+    def volunteering_path
+      if show_review_volunteering?
+        Rails.application.routes.url_helpers.candidate_interface_review_volunteering_path
+      else
+        Rails.application.routes.url_helpers.candidate_interface_volunteering_experience_path
+      end
+    end
+
     def degrees_completed?
       @application_form.degrees_completed
     end
@@ -142,6 +150,14 @@ module CandidateInterface
 
     def all_referees_provided_by_candidate?
       @application_form.references.count == ApplicationForm::MINIMUM_COMPLETE_REFERENCES
+    end
+
+  private
+
+    def show_review_volunteering?
+      volunteering_experience_is_set = [true, false].include?(@application_form.volunteering_experience)
+
+      volunteering_completed? || volunteering_added? || volunteering_experience_is_set
     end
   end
 end
