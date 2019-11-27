@@ -39,6 +39,16 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
     expect(render_result.text).to include('alice@example.com (Vendor API)')
   end
 
+  it 'renders comment-only update on application form audit record with a Vendor API user' do
+    audit.user = vendor_api_user
+    audit.action = 'update'
+    audit.comment = 'some comment'
+    expect(render_result.text).to include('1 October 2019 12:10')
+    expect(render_result.text).to include('Comment on Application Form')
+    expect(render_result.text).to include('some comment')
+    expect(render_result.text).to include('alice@example.com (Vendor API)')
+  end
+
   it 'renders an update application form audit record with the "System" user' do
     audit.user = nil
     audit.username = 'SYSTEM'

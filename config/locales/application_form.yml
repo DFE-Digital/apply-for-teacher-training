@@ -489,3 +489,7 @@ en:
             end_date:
               invalid: Enter an end date in the correct format, for example 5 2019
               in_the_future: Enter an end date that is not in the future
+        support_interface/application_comment_form:
+          attributes:
+            comment:
+              blank: Enter a comment
