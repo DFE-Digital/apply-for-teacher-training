@@ -1001,10 +1001,10 @@
             "type": "Microsoft.DBforPostgreSQL/servers/providers/locks",
             "properties": {
                 "level": "CanNotDelete",
-		"notes": "Prevents accidental deletion of the Postgres database and its backups."
+                "notes": "Prevents accidental deletion of the Postgres database and its backups."
             },
             "dependsOn": [
-		"postgresql-database",
+                "postgresql-database",
                 "postgresql-server-firewall-rules"
             ]
         }
