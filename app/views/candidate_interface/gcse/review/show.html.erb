@@ -1,10 +1,8 @@
 <% content_for :title, t("gcse_summary.page_titles.#{@subject}") %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
-<div class="govuk-grid-row">
-  <h1 class="govuk-heading-xl"><%= t("gcse_summary.page_titles.#{@subject}") %></h1>
+<h1 class="govuk-heading-xl"><%= t("gcse_summary.page_titles.#{@subject}") %></h1>
 
-  <%= render(GcseQualificationReviewComponent, application_qualification: @application_qualification, subject: @subject) %>
-</div>
+<%= render(GcseQualificationReviewComponent, application_qualification: @application_qualification, subject: @subject) %>
 
 <%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>
