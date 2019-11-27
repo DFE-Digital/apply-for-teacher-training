@@ -10,7 +10,7 @@ module CandidateInterface
       @volunteering_experience_form = VolunteeringExperienceForm.new(volunteering_experience_form_params)
 
       if @volunteering_experience_form.valid?
-        if @volunteering_experience_form.experience == 'no'
+        if @volunteering_experience_form.experience == 'false'
           redirect_to candidate_interface_review_volunteering_path
         else
           redirect_to candidate_interface_new_volunteering_role_path
