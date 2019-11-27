@@ -74,7 +74,7 @@ module SupportInterface
     def last_updated_row
       {
         key: 'Last updated',
-        value: "#{updated_at.strftime('%e %b %Y at %l:%M%P')} (#{govuk_link_to('History', support_interface_application_form_audit_path(application_form))})",
+        value: "#{updated_at.strftime('%e %b %Y at %l:%M%P')} (#{govuk_link_to('History', support_interface_application_form_audit_path(application_form))})".html_safe,
       }
     end
 

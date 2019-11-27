@@ -53,13 +53,13 @@ RSpec.describe SummaryListComponent do
     expect(result.css('.govuk-summary-list__value > .safe-html').text).to include('This is safe')
   end
 
-  it 'uses simple_format to safely render unsafe HTML' do
+  it 'uses simple_format to convert line breaks and strip HTML' do
     rows = [
       key: 'Unsafe',
       value: '<span class="unsafe-html"><script>Unsafe</script></span>',
     ]
 
     result = render_inline(SummaryListComponent, rows: rows)
-    expect(result.css('.unsafe-html').to_html).to eq('<span class="unsafe-html">Unsafe</span>')
+    expect(result.css('.govuk-summary-list__value p').to_html).to eq('<p class="govuk-body">Unsafe</p>')
   end
 end
