@@ -12,7 +12,7 @@ This process assumes that the build and test stage has completed without error a
 
 ## Instructions
 
-**NOTE: Before following the steps below you will need to request an elevation of your rights to the 'contributor' role through PIM in the Azure Portal if working on an app hosted in the test or production subscriptions. Guidance on PIM can be found at the end of this document. PIM is not required in the development subscription.**
+**NOTE: Before following the steps below you will need to request an elevation of your rights to the 'contributor' role through PIM in the Azure Portal if working on an app hosted in the test or production subscriptions. Guidance on PIM can be found in the [PIM Guide](pim-guide.md) document. PIM is not required in the development subscription.**
 
 1. Launch the Azure DevOps pages at https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build?definitionId=49&_a=summary.
 1. Locate the desired run from that has failed deployment from the list and select it.
@@ -43,13 +43,3 @@ This process assumes that the build and test stage has completed without error a
 1. Open a new tab in your web browser and verify that the website updates have taken effect on the production slot.
 1. Once you have confirmed that the changes have taken effect return the Azure portal window you previously had open and stop the app running in the staging slot. This now contains the image that was previously running in the production slot.
 ![Manual Deployment - Diagram 9](manual_deployment_dia09.png)
-
-## PIM Rights Elevation
-
-1. Launch the Azure portal at https://portal.azure.com.
-1. Ensure you are using the "DfE Platform Identity" directory (see step 5 above if not).
-1. In the search bar at the top of the portal type in "PIM" and select "Azure AD Privileged Identity Management" from the search results.
-1. In the new blade that opens select "My roles" from the tasks section of the menu bar on the left.
-1. Under the "Activate" section of the menu select "Azure Resources".
-1. Chose the subscription you want to elevate your rights on and click "Activate". This will launch a new panel where you can specify duration and reason which must be completed before you can click Activate.
-1. A request will be sent to the approving users, currently Tom/Riz and they will approve your request for elevated rights.

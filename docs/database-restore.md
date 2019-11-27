@@ -15,7 +15,7 @@ To carry out a production database restore routine you will be required to have 
 
 ## Instructions
 
-**NOTE: Before following the steps below you will need to request an elevation of your rights to the 'contributor' role through PIM in the Azure Portal if working on an app hosted in the test or production subscriptions. Guidance on PIM can be found at the end of this document. PIM is not required in the development subscription.**
+**NOTE: Before following the steps below you will need to request an elevation of your rights to the 'contributor' role through PIM in the Azure Portal if working on an app hosted in the test or production subscriptions. Guidance on PIM can be found in the [PIM Guide](pim-guide.md) document. PIM is not required in the development subscription.**
 
 These instructions assume that you are working on the production environment, but they apply equally to the other environments by substitution of the resource names prefix for the chosen environment.
 
@@ -36,14 +36,3 @@ These instructions assume that you are working on the production environment, bu
 1. Verify that the database restore has been successful.
 1. Return to the `s106p01-apply` resource group page and select checkbox alongside the restored database instance `s106p01-apply-psql-restored` and click the "Delete" button from the ribbon at the top of the resource group blade. In the popup menu that appears confirm the delete operation as directed.
 1. Finally, select the `s106p01-apply-psql` from the resource list and go to "Connection Security" and remove the IP address you added earlier to ensure the server is fully secure again.
-
-
-## PIM Rights Elevation
-
-1. Launch the Azure portal at https://portal.azure.com.
-1. Ensure you are using the "DfE Platform Identity" directory (see step 5 above if not).
-1. In the search bar at the top of the portal type in "PIM" and select "Azure AD Privileged Identity Management" from the search results.
-1. In the new blade that opens select "My roles" from the tasks section of the menu bar on the left.
-1. Under the "Activate" section of the menu select "Azure Resources".
-1. Choose the subscription you want to elevate your rights on and click "Activate". This will launch a new panel where you can specify duration and reason which must be completed before you can click Activate.
-1. A request will be sent to the approving users, currently Tom/Riz and they will approve your request for elevated rights.
