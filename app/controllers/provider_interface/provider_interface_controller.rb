@@ -18,6 +18,7 @@ module ProviderInterface
     def current_provider_user
       ProviderUser.load_from_session(session)
     end
+    alias :audit_user :current_provider_user
 
     def authenticate_provider_user!
       redirect_to provider_interface_sign_in_path unless current_provider_user
