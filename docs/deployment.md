@@ -47,3 +47,32 @@ before declaring the deploy finished.
 ## 7. Move deploy cards to done
 
 Tell your team mates that their work has gone out, and move over all of the cards in "Ready to deploy" to done on the [Candidate board](https://trello.com/b/aRIgjf0y/candidate-team-board) and [ProVendor board](https://trello.com/b/5IiPW0Ok/team-board-apply).
+
+## Rolling back
+
+*Note that this advice does not apply if you are deploying changes to the Azure
+templates. If you deploy breaking Azure template changes, the only way to roll
+back is to run a full redeploy.*
+
+Because we operate blue/green deployments, the previous version of the app is
+always available in the staging slot. To roll back to it, follow these
+instructions.
+
+To roll back to an earlier version, see the [Manual Deployment guide](manual-deployment.md).
+
+1. [Obtain elevated permissions using Azure PIM](pim-guide.md)
+1. Visit the "staging" slot of the application service by searching
+for it in the Azure portal. e.g. for production, type s106p01-apply-as/staging into the search bar at the top of the screen.
+1. Start the staging container by clicking "start", identified by a triangular "play" icon at the top of the main pane
+1. Wait for the service to start, checking it by visiting the slot URL, which is displayed at the top right of the main pane
+1. Once the staging app is running, you can swap the slots so that the old (staging) version becomes the live version. To do this, click "swap" at the top of the main pane, identified by a pair of arrows pointing in opposite directions
+1. Confirm using the dialog that appears that you would like to swap the slots
+
+Once the swap is complete, the old version of the app will be running at the live URL.
+
+You should then shut down the staging slot, which now contains the faulty
+version of the code. Do this by repeating the above process to find the staging
+slot resource, and — after double checking that it is the *staging* slot
+— clicking "stop".
+
+
