@@ -148,7 +148,7 @@ en:
             hint_text: Predicted grades must be validated by an academic referee in the ‘References’ section.
       award_year:
         label: Graduation year
-        hint_text: You must have successfully graduated by the time you start your course.
+        hint_text: For example, 2002. You must have successfully graduated by the time you start your course.
         review_label: Year awarded
         change_action: year
       base:
@@ -177,6 +177,7 @@ en:
         label: What was your grade?
       award_year:
         label: When did you get your qualification?
+        hint_text: For example, 1996
       complete_form_button: Save and continue
     other_qualification:
       qualification:
@@ -197,6 +198,7 @@ en:
         change_action: grade
       award_year:
         label: Year qualification was awarded
+        hint_text: For example, 1998
         review_label: Year awarded
         change_action: year
       base:
