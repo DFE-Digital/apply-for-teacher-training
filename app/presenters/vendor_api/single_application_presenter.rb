@@ -36,47 +36,8 @@ module VendorApi
             email: application_form.candidate.email_address,
           },
           course: course,
-          qualifications: {
-            gcses: [
-              {
-                qualification_type: 'GCSE',
-                subject: 'Maths',
-                grade: 'A',
-                award_year: '2001',
-                equivalency_details: nil,
-                institution_details: nil,
-              },
-              {
-                qualification_type: 'GCSE',
-                subject: 'English',
-                grade: 'A',
-                award_year: '2001',
-                equivalency_details: nil,
-                institution_details: nil,
-              },
-            ],
-            degrees: [
-              {
-                qualification_type: 'BA',
-                subject: 'Geography',
-                grade: '2.1',
-                award_year: '2007',
-                equivalency_details: nil,
-                institution_details: 'Imperial College London',
-              },
-            ],
-            other_qualifications: [
-              {
-                qualification_type: 'A Level',
-                subject: 'Chemistry',
-                grade: 'B',
-                award_year: '2004',
-                equivalency_details: nil,
-                institution_details: 'Harris Westminster Sixth Form',
-              },
-            ],
-          },
           references: references,
+          qualifications: qualifications,
           work_experience: {
             jobs: work_experience_jobs,
             volunteering: work_experience_volunteering,
@@ -159,6 +120,32 @@ module VendorApi
         relationship: reference.relationship,
         reference: reference.feedback,
       }
+    end
+
+    def qualifications
+      {
+        gcses: application_form.application_qualifications.gcses.map do |gcse| qualification_to_hash(gcse) end,
+        degrees: application_form.application_qualifications.degrees.map do |degree| qualification_to_hash(degree) end,
+        other_qualifications: application_form.application_qualifications.other.map do |other| qualification_to_hash(other) end,
+      }
+    end
+
+    def qualification_to_hash(qualification)
+      {
+        qualification_type: qualification.qualification_type,
+        subject: qualification.subject,
+        grade: "#{qualification.grade}#{' (Predicted)' if qualification.predicted_grade}",
+        award_year: qualification.award_year,
+        institution_details: institution_details(qualification),
+        awarding_body: qualification.awarding_body,
+        equivalency_details: qualification.equivalency_details,
+      }
+    end
+
+    def institution_details(qualification)
+      if qualification.institution_name
+        [qualification.institution_name, qualification.institution_country].compact.join(', ')
+      end
     end
   end
 end

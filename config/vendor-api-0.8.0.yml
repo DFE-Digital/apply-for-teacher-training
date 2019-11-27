@@ -558,6 +558,7 @@ components:
         - award_year
         - institution_details
         - equivalency_details
+        - awarding_body
       properties:
         qualification_type:
           type: string
@@ -585,6 +586,11 @@ components:
         equivalency_details:
           type: string
           description: "Details of equivalency, if this qualification was awarded overseas"
+          maxLength: 255
+          nullable: true
+        awarding_body:
+          type: string
+          description: "Details about the qualification awarding body"
           maxLength: 255
           nullable: true
     Reference:
