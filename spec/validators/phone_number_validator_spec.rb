@@ -20,10 +20,6 @@ RSpec.describe PhoneNumberValidator do
     it 'returns invalid' do
       expect(model).not_to be_valid
     end
-
-    it 'returns the correct error message' do
-      expect(model.errors[:phone_number]).to include(t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.phone_number.invalid'))
-    end
   end
 
   context 'when empty phone number' do
@@ -36,10 +32,6 @@ RSpec.describe PhoneNumberValidator do
 
     it 'returns invalid' do
       expect(model.valid?(:no_context)).to be false
-    end
-
-    it 'returns the correct error message' do
-      expect(model.errors[:phone_number]).to include(t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.phone_number.invalid'))
     end
   end
 
