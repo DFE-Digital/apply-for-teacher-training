@@ -4,7 +4,7 @@ class Reference < ApplicationRecord
                             email_address: true,
                             length: { maximum: 100 },
                             uniqueness: { scope: :application_form_id }
-  validates :relationship, presence: true, length: { minimum: 2, maximum: 500 }
+  validates :relationship, presence: true, word_count: { maximum: 50 }
   validates_presence_of :application_form_id
 
   belongs_to :application_form
