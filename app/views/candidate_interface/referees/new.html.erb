@@ -6,18 +6,14 @@
     <%= form_with model: @referee, url: candidate_interface_referees_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-          <h1 class="govuk-fieldset__heading">
-            <span class="govuk-caption-xl">
-              <%= t('page_titles.nth_referee')[@referee.ordinal] %>
-            </span>
-            <%= t('page_titles.add_referee') %>
-          </h1>
-        </legend>
+      <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl">
+          <%= t('page_titles.nth_referee')[@referee.ordinal] %>
+        </span>
+        <%= t('page_titles.add_referee') %>
+      </h1>
 
-        <%= render 'form', f: f %>
-      </fieldset>
+      <%= render 'form', f: f %>
     <% end %>
   </div>
 </div>

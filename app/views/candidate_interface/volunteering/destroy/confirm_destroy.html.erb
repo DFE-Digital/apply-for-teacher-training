@@ -4,20 +4,16 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @volunteering_role, url: candidate_interface_confirm_destroy_volunteering_role_path(@volunteering_role.id), method: :delete do |f| %>
-      <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-          <h1 class="govuk-fieldset__heading">
-            <span class="govuk-caption-xl"><%= @volunteering_role.role %></span>
-            <%= t('page_titles.destroy_volunteering_role') %>
-          </h1>
-        </legend>
+      <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl"><%= @volunteering_role.role %></span>
+        <%= t('page_titles.destroy_volunteering_role') %>
+      </h1>
 
-        <%= f.submit t('application_form.volunteering.confirm_delete'), class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
+      <%= f.submit t('application_form.volunteering.confirm_delete'), class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
 
-        <p class="govuk-body">
-          <%= govuk_link_to 'Cancel', candidate_interface_review_volunteering_path %>
-        </p>
-      </fieldset>
+      <p class="govuk-body">
+        <%= govuk_link_to 'Cancel', candidate_interface_review_volunteering_path %>
+      </p>
     <% end %>
   </div>
 </div>
