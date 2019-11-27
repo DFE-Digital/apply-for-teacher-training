@@ -9,6 +9,7 @@ en:
     application_dashboard: Application dashboard
     application_edit: Editing your application
     eligibility: First, check you can use this service
+    error_prefix: 'Error: '
     not_eligible_yet: We’re sorry, but we’re not ready for you yet
     submitted_application: Your submitted application
     sign_up: Create an account

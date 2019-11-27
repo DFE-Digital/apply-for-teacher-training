@@ -47,6 +47,10 @@ module ViewHelper
     pluralize(dates.days_remaining_to_edit, 'day')
   end
 
+  def title_with_error_prefix(title, error)
+    "#{t('page_titles.error_prefix') if error}#{title}"
+  end
+
 private
 
   def prepend_css_class(css_class, current_class)

@@ -1,4 +1,4 @@
-<% content_for :title, t('page_titles.edit_other_qualification') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.edit_other_qualification'), @qualification.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_review_other_qualifications_path) %>
 
 <div class="govuk-grid-row">

@@ -1,4 +1,4 @@
-<% content_for :title, @errors.nil? ? t('review_application.title') : t('review_application.error_title') %>
+<% content_for :title, title_with_error_prefix(t('review_application.title'), @errors && @errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path) %>
 
 <% unless @errors.nil? %>
