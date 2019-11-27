@@ -1,4 +1,4 @@
-<% content_for :title, t("gcse_edit_details.page_titles.#{@subject}") %>
+<% content_for :title, title_with_error_prefix(t("gcse_edit_details.page_titles.#{@subject}"), @application_qualification.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_gcse_details_edit_type_path) %>
 
 <div class="govuk-grid-row">

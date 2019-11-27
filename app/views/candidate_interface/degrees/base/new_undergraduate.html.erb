@@ -1,4 +1,4 @@
-<% content_for :title, t('page_titles.add_undergraduate_degree') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.add_undergraduate_degree'), @degree.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
 <div class="govuk-grid-row">

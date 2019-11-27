@@ -1,4 +1,4 @@
-<% content_for :title, t('page_titles.which_location') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.which_location'), @pick_site.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_course_choices_course_path(provider_code: params[:provider_code])) %>
 
 <div class="govuk-grid-row">

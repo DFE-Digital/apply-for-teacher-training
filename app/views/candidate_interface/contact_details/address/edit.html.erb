@@ -1,4 +1,4 @@
-<% content_for :title, t('page_titles.address') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.address'), @contact_details_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_contact_details_edit_base_path) %>
 
 <div class="govuk-grid-row">
