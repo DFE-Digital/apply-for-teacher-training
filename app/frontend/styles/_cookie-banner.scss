@@ -1,0 +1,20 @@
+.app-cookie-banner {
+  @include govuk-font(16);
+  @include govuk-text-colour;
+  background-color: lighten(desaturate(govuk-colour("light-blue"), 8.46), 42.55);
+  box-sizing: border-box;
+  display: none;
+  padding: govuk-spacing(3);
+  width: 100%;
+
+  &__message {
+    @include govuk-width-container;
+    margin: 0;
+  }
+}
+
+@include govuk-media-query($media-type: print) {
+  .app-cookie-banner {
+    display: none !important;
+  }
+}
