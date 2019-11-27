@@ -1,0 +1,18 @@
+.autocomplete__wrapper,
+.autocomplete__input,
+.autocomplete__hint {
+  font-family: $govuk-font-family;
+}
+
+.govuk-form-group--error {
+  .autocomplete__input--default {
+    border: $govuk-border-width-form-element-error solid $govuk-error-colour;
+  }
+
+  .autocomplete__input--focused {
+    border-color: $govuk-input-border-colour;
+    // Remove `box-shadow` inherited from `:focus` as
+    // `autocomplete__input--default` already has the thicker border.
+    box-shadow: none;
+  }
+}
