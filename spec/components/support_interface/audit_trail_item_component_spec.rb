@@ -61,7 +61,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
     expect(render_result.text).to include('jim@example.com (Provider)')
   end
 
-  it 'renders an update application form audit record with the "System" user' do
+  it 'renders an update application form audit record with the username (rather than a persistent model)' do
     audit.user = nil
     audit.username = 'SYSTEM'
     audit.action = 'update'
