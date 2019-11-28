@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submits the application' do
+RSpec.feature 'Candidate submits the application', sidekiq: true do
   include CandidateHelper
 
   scenario 'Candidate with a completed application' do
@@ -26,6 +26,7 @@ RSpec.feature 'Candidate submits the application' do
     and_i_can_see_my_support_ref
     and_i_receive_an_email_with_my_support_ref
     and_my_referees_receive_a_request_for_a_reference_by_email
+    and_a_slack_notification_is_sent
 
     when_i_click_on_track_your_application
     then_i_can_see_my_application_dashboard
@@ -119,6 +120,10 @@ RSpec.feature 'Candidate submits the application' do
       expect(current_email).to have_content "Give a reference for #{current_application.first_name}"
       expect(current_email).to have_content reference.name
     end
+  end
+
+  def and_a_slack_notification_is_sent
+    expect_slack_message_with_text 'Lando has just submitted their application'
   end
 
   def when_i_click_on_track_your_application
