@@ -1,0 +1,37 @@
+<% content_for :title, t('page_titles.view_and_respond_to_offer') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_complete_path, 'Back to application dashboard') %>
+
+<h1 class="govuk-heading-xl govuk-heading-xl">
+  <span class="govuk-caption-xl"><%= @application_choice.provider.name %> - <%= @application_choice.course_option.course.name %> (<%= @application_choice.course_option.course.code %>)</span>
+  <%= t('page_titles.view_and_respond_to_offer') %>
+</h1>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render(OfferReviewComponent, course_choice: @application_choice) %>
+
+    <p class="govuk-body">Remember:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>you are under no obligation to accept or decline an offer at this stage</li>
+      <li>you can only accept one offer, across both <%= service_name %> and UCAS Teacher Training</li>
+    </ul>
+
+    <h2 class="govuk-heading-xl govuk-heading-m">
+      Do you want to respond to your offer to study
+      <%= @application_choice.course.name_and_code %>
+      at <%= @application_choice.provider.name %> now?
+    </h2>
+
+    <%= form_with model: @respond_to_offer, url: candidate_interface_respond_to_offer_path(@application_choice), method: :post do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_radio_buttons_fieldset :response, legend: { size: 'm', text: 'How do you want to respond?', tag: 'span' } do %>
+        <%= f.govuk_radio_button :response, 'accept', label: { text: 'Accept offer and conditions' }, link_errors: true %>
+        <%= f.govuk_radio_button :response, 'decline', label: { text: 'Decline offer' } %>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>

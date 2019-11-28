@@ -143,10 +143,6 @@ Rails.application.routes.draw do
         get '/delete/:id' => 'course_choices#confirm_destroy', as: :confirm_destroy_course_choice
         delete '/delete/:id' => 'course_choices#destroy'
 
-        get '/offer/:id' => 'course_choices#offer', as: :course_choice_offer
-
-        get '/withdraw/:id' => 'course_choices#withdraw', as: :course_choice_withdraw
-
         get '/provider' => 'course_choices#options_for_provider', as: :course_choices_provider
         post '/provider' => 'course_choices#pick_provider'
 
@@ -159,6 +155,19 @@ Rails.application.routes.draw do
         post '/provider/:provider_code/courses/:course_code' => 'course_choices#pick_site'
 
         patch '/complete' => 'course_choices#complete', as: :course_choices_complete
+      end
+
+      scope '/choice/:id' do
+        get '/offer' => 'decisions#offer', as: :offer
+        post '/offer/respond' => 'decisions#respond_to_offer', as: :respond_to_offer
+
+        get '/offer/confirm-decline' => 'decisions#confirm_decline', as: :decline_offer
+        post '/offer/confirm-decline' => 'decisions#actually_decline'
+
+        get '/offer/confirm-accept' => 'decisions#confirm_accept', as: :accept_offer
+        post '/offer/confirm-accept' => 'decisions#actually_accept'
+
+        get '/withdraw' => 'decisions#withdraw', as: :withdraw
       end
 
       scope '/other-qualifications' do
