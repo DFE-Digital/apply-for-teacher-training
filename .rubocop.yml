@@ -69,3 +69,7 @@ RSpec/PredicateMatcher:
 
 RSpec/DescribeClass:
   Enabled: false
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - 'spec/support/slack_notifications.rb'
