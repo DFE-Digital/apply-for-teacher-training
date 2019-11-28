@@ -16,17 +16,22 @@ class MakeAnOffer
   def save
     return unless valid?
 
-    ApplicationStateChange.new(@application_choice).make_offer!
-    @application_choice.offer = { 'conditions' => (@offer_conditions || []) }
+    ApplicationStateChange.new(application_choice).make_offer!
+    application_choice.offer = { 'conditions' => (@offer_conditions || []) }
 
-    @application_choice.save!
-    StateChangeNotifier.call(:make_an_offer, application_choice: @application_choice)
+    application_choice.offered_at = Time.now
+    application_choice.save!
+
+    SetDeclineByDefault.new(application_form: application_choice.application_form).call
+    StateChangeNotifier.call(:make_an_offer, application_choice: application_choice)
   rescue Workflow::NoTransitionAllowed => e
     errors.add(:state, e.message)
     false
   end
 
 private
+
+  attr_reader :application_choice
 
   def validate_offer_conditions
     return if @offer_conditions.blank?

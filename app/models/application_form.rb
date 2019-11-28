@@ -25,6 +25,10 @@ class ApplicationForm < ApplicationRecord
     references.completed.count == MINIMUM_COMPLETE_REFERENCES
   end
 
+  def awaiting_provider_decisions?
+    application_choices.where(status: :awaiting_provider_decision).any?
+  end
+
   def qualification_in_subject(level, subject)
     application_qualifications
       .where(level: level, subject: subject)

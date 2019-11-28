@@ -18,7 +18,9 @@ class RejectApplication
       ApplicationStateChange.new(@application_choice).reject_application!
       @application_choice.update!(
         rejection_reason: @rejection_reason,
+        rejected_at: Time.zone.now,
       )
+      SetDeclineByDefault.new(application_form: @application_choice.application_form).call
       StateChangeNotifier.call(:reject_application, application_choice: @application_choice)
     end
   rescue Workflow::NoTransitionAllowed => e
