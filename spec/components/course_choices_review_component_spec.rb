@@ -91,7 +91,7 @@ RSpec.describe CourseChoicesReviewComponent do
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.withdraw'))
       expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_course_choice_withdraw_path(course_id),
+        Rails.application.routes.url_helpers.candidate_interface_withdraw_path(course_id),
       )
     end
 
@@ -121,7 +121,7 @@ RSpec.describe CourseChoicesReviewComponent do
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.courses.withdraw'))
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.view_and_respond_to_offer'))
       expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_course_choice_offer_path(course_id),
+        Rails.application.routes.url_helpers.candidate_interface_offer_path(course_id),
       )
     end
   end
@@ -143,7 +143,7 @@ RSpec.describe CourseChoicesReviewComponent do
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.withdraw'))
       expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_course_choice_withdraw_path(course_id),
+        Rails.application.routes.url_helpers.candidate_interface_withdraw_path(course_id),
       )
     end
 
