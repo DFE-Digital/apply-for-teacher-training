@@ -3,14 +3,14 @@
     <%= render(SummaryCardHeaderComponent, title: course_choice.provider.name, heading_level: @heading_level) do %>
       <% if course_choice.offer? %>
         <div class='app-summary-card__actions'>
-          <%= link_to candidate_interface_course_choice_offer_path(course_choice.id), class: 'govuk-link' do %>
+          <%= link_to candidate_interface_offer_path(course_choice.id), class: 'govuk-link' do %>
             <%= t('application_form.courses.view_and_respond_to_offer') %>
             <span class="govuk-visually-hidden"> <%= course_choice.course.name_and_code %></span>
           <% end %>
         </div>
       <% elsif withdrawable?(course_choice) %>
         <div class='app-summary-card__actions'>
-          <%= link_to candidate_interface_course_choice_withdraw_path(course_choice.id), class: 'govuk-link' do %>
+          <%= link_to candidate_interface_withdraw_path(course_choice.id), class: 'govuk-link' do %>
             <%= t('application_form.courses.withdraw') %>
             <span class="govuk-visually-hidden"> <%= course_choice.course.name_and_code %></span>
           <% end %>

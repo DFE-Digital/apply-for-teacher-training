@@ -2,13 +2,13 @@
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_complete_path, 'Back to application dashboard') %>
 
 <h1 class="govuk-heading-xl govuk-heading-xl">
-  <span class="govuk-caption-xl"><%= @course_choice.provider.name %> - <%= @course_choice.course_option.course.name %> (<%= @course_choice.course_option.course.code %>)</span>
+  <span class="govuk-caption-xl"><%= @application_choice.provider.name %> - <%= @application_choice.course_option.course.name %> (<%= @application_choice.course_option.course.code %>)</span>
   <%= t('page_titles.view_and_respond_to_offer') %>
 </h1>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render(OfferReviewComponent, course_choice: @course_choice) %>
+    <%= render(OfferReviewComponent, course_choice: @application_choice) %>
 
     <p class="govuk-body">Remember:</p>
 
@@ -19,8 +19,8 @@
 
     <h2 class="govuk-heading-xl govuk-heading-m">
       Do you want to respond to your offer to study
-      <%= @course_choice.course.name_and_code %>
-      at <%= @course_choice.provider.name %> now?
+      <%= @application_choice.course.name_and_code %>
+      at <%= @application_choice.provider.name %> now?
     </h2>
 
     <p class="govuk-body">
