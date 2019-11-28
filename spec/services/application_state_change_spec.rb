@@ -5,6 +5,12 @@ RSpec.describe ApplicationStateChange do
     it 'has human readable translations' do
       expect(ApplicationStateChange.valid_states)
         .to match_array(I18n.t('support_application_states').keys)
+
+      expect(ApplicationStateChange.valid_states)
+        .to match_array(I18n.t('candidate_application_states').keys)
+
+      expect(ApplicationStateChange.valid_states)
+        .to match_array(I18n.t('provider_application_states').keys)
     end
 
     it 'has corresponding entries in the ApplicationChoice#status enum' do
