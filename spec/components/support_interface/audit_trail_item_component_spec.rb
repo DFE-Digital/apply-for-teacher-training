@@ -9,6 +9,10 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
     @vendor_api_user ||= build :vendor_api_user, email_address: 'alice@example.com'
   end
 
+  def provider_user
+    @provider_user ||= ProviderUser.new(email_address: 'jim@example.com', dfe_sign_in_uid: 'abc')
+  end
+
   def audit
     @audit ||= Audited::Audit.new(
       user: candidate,
@@ -49,7 +53,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
     expect(render_result.text).to include('alice@example.com (Vendor API)')
   end
 
-  it 'renders an update application form audit record with the "System" user' do
+  it 'renders an update application form audit record with the username (rather than a persistent model)' do
     audit.user = nil
     audit.username = 'SYSTEM'
     audit.action = 'update'

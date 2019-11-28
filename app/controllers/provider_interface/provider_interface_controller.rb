@@ -2,6 +2,7 @@ module ProviderInterface
   class ProviderInterfaceController < ActionController::Base
     include LogRequestParams
     before_action :authenticate_provider_user!
+    around_action :set_audit_username
     layout 'application'
 
     rescue_from MissingProvider, with: ->(e) {
@@ -14,6 +15,16 @@ module ProviderInterface
     helper_method :current_provider_user
 
   private
+
+    def set_audit_username
+      Audited.audit_class.as_user(audit_username) do
+        yield
+      end
+    end
+
+    def audit_username
+      current_provider_user ? "#{current_provider_user.email_address} (Provider)" : nil
+    end
 
     def current_provider_user
       ProviderUser.load_from_session(session)
