@@ -10,7 +10,7 @@
 <%- if @referees.count < ApplicationForm::MINIMUM_COMPLETE_REFERENCES %>
 <p>
   <% if @referees.any? %>
-    <%= govuk_button_link_to 'Add a second referee', candidate_interface_new_referee_path, class: 'govuk-button--secondary' %>
+    <%= govuk_button_link_to t('application_form.referees.add_second_referee'), candidate_interface_new_referee_path, class: 'govuk-button--secondary' %>
   <% else %>
     <%= govuk_button_link_to t('application_form.referees.add_referee'), candidate_interface_new_referee_path, class: 'govuk-button--secondary' %>
   <% end %>
