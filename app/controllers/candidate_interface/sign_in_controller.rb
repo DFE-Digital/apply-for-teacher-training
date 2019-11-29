@@ -1,7 +1,7 @@
 module CandidateInterface
   class SignInController < CandidateInterfaceController
     skip_before_action :authenticate_candidate!
-    before_action :redirect_to_application_if_signed_in
+    before_action :redirect_to_application_if_signed_in, except: :authenticate
 
     def new
       @candidate = Candidate.new
@@ -18,6 +18,16 @@ module CandidateInterface
         render 'candidate_interface/shared/check_your_email'
       else
         render :new
+      end
+    end
+
+    def authenticate
+      user = FindCandidateByToken.call(raw_token: params[:token])
+      if user
+        sign_in(user, scope: :candidate)
+        redirect_to candidate_interface_application_form_path
+      else
+        redirect_to action: :new
       end
     end
 
