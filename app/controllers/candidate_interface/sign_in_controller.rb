@@ -8,13 +8,17 @@ module CandidateInterface
     end
 
     def create
-      @candidate = Candidate.find_by(email_address: candidate_params[:email_address])
+      @candidate = Candidate.find_or_initialize_by(email_address: candidate_params[:email_address])
 
-      if @candidate.present?
+      if @candidate.persisted?
         MagicLinkSignIn.call(candidate: @candidate)
+        render 'candidate_interface/shared/check_your_email'
+      elsif @candidate.valid?
+        AuthenticationMailer.sign_in_without_account_email(to: @candidate.email_address).deliver_now
+        render 'candidate_interface/shared/check_your_email'
+      else
+        render :new
       end
-
-      render 'candidate_interface/shared/check_your_email'
     end
 
   private

@@ -26,3 +26,6 @@ en:
         subject: Sign in to Apply for teacher training
       email_address:
         label: Email address
+    sign_in_without_account:
+      email:
+        subject: Sign up to Apply for teacher training
