@@ -124,7 +124,7 @@ module VendorApi
 
     def qualifications
       {
-        gcses: application_form.application_qualifications.gcses.map do |gcse| qualification_to_hash(gcse) end,
+        gcses: application_form.application_qualifications.gcses.order(:subject).map do |gcse| qualification_to_hash(gcse) end,
         degrees: application_form.application_qualifications.degrees.map do |degree| qualification_to_hash(degree) end,
         other_qualifications: application_form.application_qualifications.other.map do |other| qualification_to_hash(other) end,
       }

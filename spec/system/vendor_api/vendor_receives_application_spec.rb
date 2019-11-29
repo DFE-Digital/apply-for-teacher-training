@@ -91,15 +91,6 @@ RSpec.feature 'Vendor receives the application' do
           gcses: [
             {
               qualification_type: 'gcse',
-              subject: 'science',
-              grade: 'B',
-              award_year: '1990',
-              institution_details: nil,
-              awarding_body: nil,
-              equivalency_details: nil,
-            },
-            {
-              qualification_type: 'gcse',
               subject: 'english',
               grade: 'B',
               award_year: '1990',
@@ -115,8 +106,17 @@ RSpec.feature 'Vendor receives the application' do
               institution_details: nil,
               awarding_body: nil,
               equivalency_details: nil,
-              },
-            ],
+            },
+            {
+              qualification_type: 'gcse',
+              subject: 'science',
+              grade: 'B',
+              award_year: '1990',
+              institution_details: nil,
+              awarding_body: nil,
+              equivalency_details: nil,
+            },
+          ],
          degrees: [
            {
               qualification_type: 'BA',
