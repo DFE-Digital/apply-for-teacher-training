@@ -4,13 +4,12 @@ module CandidateInterface
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
     def index
-      @application_form = current_application
       @course_choices = current_candidate.current_application.application_choices
-      @page_title = if @course_choices.count < 1
-                      I18n.t!('page_titles.choosing_courses')
-                    else
-                      I18n.t!('page_titles.course_choices')
-                    end
+      if @course_choices.count < 1
+        render :index
+      else
+        redirect_to candidate_interface_course_choices_review_path
+      end
     end
 
     def have_you_chosen
@@ -92,6 +91,11 @@ module CandidateInterface
       end
     end
 
+    def review
+      @application_form = current_application
+      @course_choices = current_candidate.current_application.application_choices
+    end
+
     def confirm_destroy
       @course_choice = current_candidate.current_application.application_choices.find(params[:id])
     end
@@ -112,7 +116,7 @@ module CandidateInterface
         redirect_to candidate_interface_application_form_path
       else
         @course_choices = current_candidate.current_application.application_choices
-        render :index
+        render :review
       end
     end
 
