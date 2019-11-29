@@ -7,7 +7,7 @@ RSpec.describe AuthenticationMailer, type: :mailer do
     let(:token) { 'blub' }
     let(:mail) { mailer.sign_up_email(to: 'test@example.com', token: token) }
 
-    before { mail.deliver_now }
+    before { mail.deliver_later }
 
     it 'sends an email with the correct subject' do
       expect(mail.subject).to include(t('authentication.sign_up.email.subject'))
@@ -26,7 +26,7 @@ RSpec.describe AuthenticationMailer, type: :mailer do
     let(:token) { 'blub' }
     let(:mail) { mailer.sign_in_email(to: 'test@example.com', token: token) }
 
-    before { mail.deliver_now }
+    before { mail.deliver_later }
 
     it 'sends an email with the correct subject' do
       expect(mail.subject).to include(t('authentication.sign_in.email.subject'))

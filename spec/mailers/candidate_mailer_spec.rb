@@ -6,7 +6,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   describe 'Send submit application email' do
     let(:mail) { mailer.submit_application_email(build_stubbed(:application_form, support_reference: 'SUPPORT-REFERENCE')) }
 
-    before { mail.deliver_now }
+    before { mail.deliver_later }
 
     it 'sends an email with the correct subject' do
       expect(mail.subject).to include(t('submit_application_success.email.subject'))

@@ -13,7 +13,7 @@ class SubmitApplication
       submit_application
     end
 
-    CandidateMailer.submit_application_email(application_form).deliver_now
+    CandidateMailer.submit_application_email(application_form).deliver_later
     send_reference_request_email_to_referees(application_form)
     StateChangeNotifier.call(:submit_application, application_form: application_form)
   end
@@ -22,7 +22,7 @@ private
 
   def send_reference_request_email_to_referees(application_form)
     application_form.references.each do |reference|
-      RefereeMailer.reference_request_email(application_form, reference).deliver_now
+      RefereeMailer.reference_request_email(application_form, reference).deliver_later
     end
   end
 
