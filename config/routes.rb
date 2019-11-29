@@ -154,7 +154,8 @@ Rails.application.routes.draw do
         get '/provider/:provider_code/courses/:course_code' => 'course_choices#options_for_site', as: :course_choices_site
         post '/provider/:provider_code/courses/:course_code' => 'course_choices#pick_site'
 
-        patch '/complete' => 'course_choices#complete', as: :course_choices_complete
+        get '/review' => 'course_choices#review', as: :course_choices_review
+        patch '/review' => 'course_choices#complete', as: :course_choices_complete
       end
 
       scope '/choice/:id' do
