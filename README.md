@@ -40,12 +40,15 @@ A service for candidates to apply for initial teacher training.
 - Yarn 1.12.x
 - PostgreSQL 9.6
 - Graphviz 2.22+ (`brew install graphviz`) to generate the [domain model diagram](#domain-model)
+- Redis 5.0.x
 
 ## <a name="dev-prerequisites"></a>Prerequisites for development
 
 `docker` and `docker-compose`
 
 ## <a name="dev-env-setup"></a>Setting up the development environment
+
+If you are not planning to run the server processes in docker:
 
 1. Copy `.env.example` to `.env` and fill in the secrets
 1. Run `make setup`
@@ -56,6 +59,16 @@ See `Makefile` for the steps involved in building and running the app.
 The course and training provider data in the `Apply` service comes from its
 sister service `Find`. To populate your local database with course data from
 `Find`, run `bundle exec rake setup_local_dev_data`.
+
+### Background processing
+
+Certain features depend on Sidekiq running. e.g. Mailers and some of the
+business rules that set time-dependent state on applications. In order
+to run a local version of you need to make sure Redis is installed and
+running and then run Sidekiq. The simplest way to do that is with
+`docker-compose` (see below) or `foreman`. e.g.
+
+    $ foreman start
 
 ## <a name="docker-workflow"></a>Docker Workflow
 
