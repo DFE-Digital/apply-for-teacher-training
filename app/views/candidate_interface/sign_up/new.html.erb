@@ -19,21 +19,18 @@
       <h2 class="govuk-heading-m">How we look after your data</h2>
       <p class="govuk-body">Your data will be looked after by the Department for Education and the training providers you apply to.</p>
       <p class="govuk-body">We use it to process your application, build a better service and improve teacher recruitment and retention.</p>
-      <p class="govuk-body">Take a look at our <%= govuk_link_to 'privacy policy', candidate_interface_privacy_policy_path %> before starting your application to check you understand how we use your data.</p>
+      <p class="govuk-body govuk-!-margin-bottom-6">Take a look at our <%= govuk_link_to 'privacy policy', candidate_interface_privacy_policy_path %> before starting your application to check you understand how we use your data.</p>
 
-      <h2 class="govuk-heading-m">Guidance and terms of use</h2>
-      <p class="govuk-body">Our <%= govuk_link_to 'Guidance and terms of use', candidate_interface_terms_path %> contain useful information about:</p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li>how the application process works</li>
-        <li>contacting us if you need help</li>
-        <li>how we check you’re safe to work with children</li>
-      </ul>
+      <%= f.govuk_check_boxes_fieldset :accept_ts_and_cs, legend: { text: 'Guidance and terms of use' } do %>
+        <p class="govuk-body">Our <%= govuk_link_to 'Guidance and terms of use', candidate_interface_terms_path %> contain useful information about:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>how the application process works</li>
+          <li>contacting us if you need help</li>
+          <li>how we check you’re safe to work with children</li>
+        </ul>
 
-      <div class='govuk-form-group'>
-        <%= f.govuk_check_boxes_fieldset :accept_ts_and_cs do %>
-          <%= f.govuk_check_box :accept_ts_and_cs, true, multiple: false, link_errors: true, label: { text: t('authentication.sign_up.accept_terms_checkbox') } %>
-        <%- end %>
-      </div>
+        <%= f.govuk_check_box :accept_ts_and_cs, true, multiple: false, link_errors: true, label: { text: t('authentication.sign_up.accept_terms_checkbox') } %>
+      <% end %>
       <%= f.govuk_submit t('authentication.sign_up.button_continue') %>
     <% end %>
   </div>
