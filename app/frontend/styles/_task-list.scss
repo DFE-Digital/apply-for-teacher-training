@@ -8,16 +8,15 @@
 .app-task-list__item {
   border-bottom: 1px solid $govuk-border-colour;
   margin-bottom: 0 !important;
-  padding-top: govuk-spacing(2);
-  padding-bottom: govuk-spacing(2);
+  padding-top: govuk-spacing(1);
+  padding-bottom: govuk-spacing(1);
   @include govuk-clearfix;
 
   .govuk-tag {
-    @include govuk-media-query($until: 450px) {
-      margin-top: govuk-spacing(2);
-    }
+    margin-top: govuk-spacing(1);
+    margin-bottom: govuk-spacing(1);
 
-    @include govuk-media-query($from: 450px) {
+    @include govuk-media-query($from: tablet) {
       float: right;
     }
   }
@@ -29,7 +28,11 @@
 
 .app-task-list__task-name {
   display: block;
-  @include govuk-media-query($from: 450px) {
+  padding: govuk-spacing(1);
+  padding-left: 0;
+  padding-right: govuk-spacing(2);
+
+  @include govuk-media-query($from: tablet) {
     float: left;
   }
 }
