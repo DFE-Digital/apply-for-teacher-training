@@ -269,6 +269,8 @@ en:
         button: Continue
         completed_checkbox: I have completed this section
     referees:
+      add_referee: Add referee
+      add_second_referee: Add a second referee
       complete_form_button: Save and continue
       delete: Delete referee
       email_address:

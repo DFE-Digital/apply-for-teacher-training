@@ -2,5 +2,6 @@ en:
   apply_from_find:
     heading: Apply for this course
     ucas_apply_button: Apply through UCAS
+    apply_button: Apply through the new service
     find_button: Find postgraduate teacher training
     heading_not_found: We couldn’t find the course you’re looking for
