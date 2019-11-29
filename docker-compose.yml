@@ -44,7 +44,7 @@ services:
       - REDIS_URL=redis://redis:6379/1
     env_file:
       - .env
-    command: /bin/sh -c "bundle exec sidekiq -c 5"
+    command: /bin/sh -c "bundle exec sidekiq -c 5 -C config/sidekiq.yml"
   clock:
     image: apply-for-postgraduate-teacher-training
     working_dir: /app
