@@ -60,7 +60,8 @@ en:
     add_volunteering_role: Add role
     edit_volunteering_role: Edit role
     destroy_volunteering_role: Are you sure you want to delete this role?
-    referees: Choosing your referees
+    referees: Referees
+    referees_choosing: Choosing your referees
     referee_destroy: Are you sure you want to delete this referee?
     add_referee: Details of referee
     nth_referee:
