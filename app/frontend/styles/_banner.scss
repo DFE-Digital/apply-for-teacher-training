@@ -33,6 +33,12 @@
 
 .app-banner--warning {
   border-color: govuk-colour("red");
+
+  &.app-banner--missing-section {
+    .app-banner__message p {
+      color: govuk-colour("red");
+    }
+  }
 }
 
 .app-banner__message {

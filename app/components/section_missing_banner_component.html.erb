@@ -1,4 +1,4 @@
-<div class="app-banner app-banner--info app-banner--missing-section" id="<%= "missing-#{section}-error" %>">
+<div class="app-banner<% if @error %> app-banner--warning<% end %> app-banner--missing-section" id="<%= "missing-#{section}-error" %>">
   <div class="app-banner__message">
     <p class="govuk-body"><%= @text %></p>
     <%= link_to @section_path, class: 'govuk-link' do %>
