@@ -1,0 +1,40 @@
+<% content_for :title, 'Service performance' %>
+
+<table class="govuk-table govuk-!-width-one-half">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">Total sign ups<br>(excluding DfE users)</th>
+      <th scope="row" class="govuk-table__header" id="total-sign-ups">
+        <%= @statistics[:total_non_dfe_sign_ups] %>
+      </th>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">Users who signed up but have not signed in</th>
+      <td class="govuk-table__cell">
+        <%= @statistics[:candidates_signed_up_but_not_signed_in] %>
+      </td>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">Users who have signed in but not entered data</th>
+      <td class="govuk-table__cell">
+        <%= @statistics[:candidates_signed_in_but_not_entered_data] %>
+      </td>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">Users with unsubmitted forms</th>
+      <td class="govuk-table__cell">
+        <%= @statistics[:candidates_with_unsubmitted_forms] %>
+      </td>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">Users with submitted forms</th>
+      <td class="govuk-table__cell">
+        <%= @statistics[:candidates_with_submitted_forms] %>
+      </td>
+    </tr>
+  </tbody>
+</table>

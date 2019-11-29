@@ -264,6 +264,8 @@ Rails.application.routes.draw do
     post '/feature-flags/:feature_name/activate' => 'feature_flags#activate', as: :activate_feature_flag
     post '/feature-flags/:feature_name/deactivate' => 'feature_flags#deactivate', as: :deactivate_feature_flag
 
+    get '/performance' => 'performance#index', as: :performance
+
     # https://github.com/mperham/sidekiq/wiki/Monitoring#rails-http-basic-auth-from-routes
     require 'sidekiq/web'
 
