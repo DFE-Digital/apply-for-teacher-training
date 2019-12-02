@@ -186,6 +186,12 @@ RSpec.feature 'Vendor receives the application' do
         },
       },
     }
-    expect(@api_response['data'].first.deep_symbolize_keys).to eq expected_attributes
+    received_attributes = @api_response['data'].first.deep_symbolize_keys
+
+    # The order of these is non-deterministic which makes this test flakey
+    expected_attributes[:attributes][:qualifications][:gcses].sort_by! { |gcse| gcse[:subject] }
+    received_attributes[:attributes][:qualifications][:gcses].sort_by! { |gcse| gcse[:subject] }
+
+    expect(received_attributes).to eq expected_attributes
   end
 end
