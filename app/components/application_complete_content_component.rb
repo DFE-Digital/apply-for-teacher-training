@@ -8,22 +8,11 @@ class ApplicationCompleteContentComponent < ActionView::Component::Base
     @dates = ApplicationDates.new(@application_form)
   end
 
-  def any_accepted_offer?
-    @application_form.application_choices.map.any?(&:pending_conditions?)
-  end
+  delegate :any_accepted_offer?,
+           :all_provider_decisions_made?,
+           :any_awaiting_provider_decision?,
+           :any_offers?, to: :application_form
 
-  def all_provider_decisions_made?
-    @application_form.application_choices.any? &&
-      @application_form.application_choices.where(status: %w[awaiting_references application_complete awaiting_provider_decision]).empty?
-  end
-
-  def any_awaiting_provider_decision?
-    @application_form.application_choices.map.any?(&:awaiting_provider_decision?)
-  end
-
-  def any_offers?
-    @application_form.application_choices.map.any?(&:offer?)
-  end
 
   def editable?
     @dates.form_open_to_editing?
