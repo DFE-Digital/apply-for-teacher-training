@@ -36,6 +36,12 @@ class ApplicationForm < ApplicationRecord
       .first
   end
 
+  def first_not_declined_application_choice
+    application_choices
+      .where.not(decline_by_default_at: nil)
+      .first
+  end
+
   def maths_gcse
     qualification_in_subject(:gcse, :maths)
   end

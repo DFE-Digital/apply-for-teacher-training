@@ -14,6 +14,7 @@ RSpec.feature 'Candidate views an offer' do
       offer: { 'conditions' => ['Fitness to Teach check', 'Be cool'] },
       course_option: course_option,
       application_form: application_form,
+      decline_by_default_at: application_form.submitted_at + 10.days,
     )
   end
 

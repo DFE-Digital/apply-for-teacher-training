@@ -13,8 +13,7 @@
   </h2>
 
   <p class="govuk-body">
-  <!-- TODO: Update hardcoded date with decline by default date -->
-    You have 12 days (until 7 December 2019) to respond to any offers. If you
+    You have <%= decline_by_default_remaining_days %> days (until <%= decline_by_default_date %>) to respond to any offers. If you
     don’t respond, your applications will be automatically withdrawn.
   </p>
 <% elsif any_offers? %>

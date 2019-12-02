@@ -13,10 +13,8 @@ class ApplicationCompleteContentComponent < ActionView::Component::Base
   end
 
   def all_provider_decisions_made?
-    # TODO: Update with correct logic when decline by default is added
-    @application_form.application_choices.map.all? do |course_choice|
-      course_choice.offer? || course_choice.rejected?
-    end
+    @application_form.application_choices.any? &&
+      @application_form.application_choices.where(status: %w[awaiting_references application_complete awaiting_provider_decision]).empty?
   end
 
   def any_awaiting_provider_decision?
@@ -29,6 +27,16 @@ class ApplicationCompleteContentComponent < ActionView::Component::Base
 
   def editable?
     @dates.form_open_to_editing?
+  end
+
+  def decline_by_default_remaining_days
+    distance_in_days = (@dates.decline_by_default_at.to_date - Date.current).to_i
+
+    [0, distance_in_days].max
+  end
+
+  def decline_by_default_date
+    @dates.decline_by_default_at.strftime('%-e %B %Y')
   end
 
 private
