@@ -6,4 +6,13 @@
   <%= nav_link 'Performance', support_interface_performance_path, active: 'performance' %>
   <%= nav_link 'Tasks', support_interface_tasks_path, active: 'tasks' %>
   <%= nav_link 'Users', support_interface_support_users_path, active: 'users' %>
+  <% if current_support_user %>
+    <li class="govuk-header__navigation-item">
+      <b><%= current_support_user.email_address %></b>
+    </li>
+
+    <li class="govuk-header__navigation-item">
+      <%= link_to 'Sign out', support_interface_sign_out_path, class: 'govuk-header__link' %>
+    </li>
+  <% end %>
 </ul>
