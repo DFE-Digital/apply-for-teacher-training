@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'Manage API tokens' do
+  include DfESignInHelpers
+
   scenario 'Support creates a token' do
     given_i_am_signed_in
     and_providers_exist
@@ -13,7 +15,9 @@ RSpec.feature 'Manage API tokens' do
   end
 
   def given_i_am_signed_in
-    page.driver.browser.authorize('test', 'test')
+    user_exists_in_dfe_sign_in(email_address: 'user@apply-support.com')
+    visit support_interface_path
+    click_button 'Sign in using DfE Sign-in'
   end
 
   def when_i_visit_the_tokens_page

@@ -2,6 +2,8 @@ require 'rails_helper'
 require 'csv'
 
 RSpec.feature 'Import references' do
+  include DfESignInHelpers
+
   scenario 'Support agent imports a CSV' do
     given_i_am_a_support_user
     and_there_are_applications_in_the_system
@@ -25,7 +27,9 @@ RSpec.feature 'Import references' do
   end
 
   def given_i_am_a_support_user
-    page.driver.browser.authorize('test', 'test')
+    user_exists_in_dfe_sign_in(email_address: 'user@apply-support.com')
+    visit support_interface_path
+    click_button 'Sign in using DfE Sign-in'
   end
 
   def and_there_are_applications_in_the_system

@@ -12,8 +12,8 @@ RSpec.feature 'Service performance' do
   end
 
   def given_i_am_a_support_user
-    provider_exists_in_dfe_sign_in(email_address: 'user@provider.com')
-    visit provider_interface_path
+    user_exists_in_dfe_sign_in(email_address: 'user@apply-support.com')
+    visit support_interface_path
     click_button 'Sign in using DfE Sign-in'
   end
 

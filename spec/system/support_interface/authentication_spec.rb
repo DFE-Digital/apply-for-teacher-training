@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'A provider authenticates via DfE Sign-in' do
+RSpec.describe 'A support user authenticates via DfE Sign-in' do
   include DfESignInHelpers
 
   scenario 'signing in successfully' do
@@ -17,7 +17,7 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
   end
 
   def given_i_have_a_dfe_sign_in_account
-    support_user_exists_in_dfe_sign_in(email_address: 'user@apply-support.com')
+    user_exists_in_dfe_sign_in(email_address: 'user@apply-support.com')
   end
 
   def when_i_visit_the_support_interface

@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'See providers' do
+  include DfESignInHelpers
   include FindAPIHelper
 
   scenario 'User visits providers page' do
@@ -22,7 +23,9 @@ RSpec.feature 'See providers' do
   end
 
   def given_i_am_a_support_user
-    page.driver.browser.authorize('test', 'test')
+    user_exists_in_dfe_sign_in(email_address: 'user@apply-support.com')
+    visit support_interface_path
+    click_button 'Sign in using DfE Sign-in'
   end
 
   def when_i_visit_the_providers_page
