@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'Service performance' do
+  include DfESignInHelpers
+
   scenario 'View service statistics' do
     given_i_am_a_support_user
     and_there_are_candidates_in_the_system
@@ -10,7 +12,9 @@ RSpec.feature 'Service performance' do
   end
 
   def given_i_am_a_support_user
-    page.driver.browser.authorize('test', 'test')
+    provider_exists_in_dfe_sign_in(email_address: 'user@provider.com')
+    visit provider_interface_path
+    click_button 'Sign in using DfE Sign-in'
   end
 
   def and_there_are_candidates_in_the_system
