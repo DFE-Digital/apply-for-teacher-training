@@ -193,6 +193,12 @@ RSpec.feature 'Vendor receives the application' do
     expected_attributes[:attributes][:qualifications][:gcses].sort_by! { |gcse| gcse[:subject] }
     received_attributes[:attributes][:qualifications][:gcses].sort_by! { |gcse| gcse[:subject] }
 
-    expect(received_attributes).to eq expected_attributes
+    expected_attributes[:attributes][:references].sort_by! { |ref| ref[:email] }
+    received_attributes[:attributes][:references].sort_by! { |ref| ref[:email] }
+
+    received_attributes.keys.each do |k|
+      expect(received_attributes[k]).to eq expected_attributes[k]
+    end
+    # expect(received_attributes).to eq expected_attributes
   end
 end

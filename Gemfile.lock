@@ -78,6 +78,9 @@ GEM
     bindex (0.8.1)
     brakeman (4.7.2)
     builder (3.2.3)
+    bullet (6.0.2)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11)
     business_time (0.9.3)
       activesupport (>= 3.2.0)
       tzinfo
@@ -456,6 +459,7 @@ GEM
       unf_ext
     unf_ext (0.0.7.6)
     unicode-display_width (1.6.0)
+    uniform_notifier (1.13.0)
     validate_email (0.1.6)
       activemodel (>= 3.0)
       mail (>= 2.2.5)
@@ -495,6 +499,7 @@ DEPENDENCIES
   actionview-component
   audited
   brakeman
+  bullet
   business_time
   capybara (>= 3.24)
   capybara-email

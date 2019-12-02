@@ -51,12 +51,14 @@ module CandidateInterface
     def set_referee
       @referee = current_candidate.current_application
                                     .references
+                                    .includes(:application_form)
                                     .find(params[:id])
     end
 
     def set_referees
       @referees = current_candidate.current_application
                                     .references
+                                    .includes(:application_form)
     end
 
     def referee_params

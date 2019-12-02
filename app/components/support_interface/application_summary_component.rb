@@ -10,7 +10,6 @@ module SupportInterface
              :submitted?,
              :updated_at,
              :candidate,
-             :application_choices,
              to: :application_form
 
     delegate :email_address, to: :candidate
@@ -94,6 +93,10 @@ module SupportInterface
           value: support_reference,
         }
       end
+    end
+
+    def application_choices
+      application_form.application_choices.includes(:course, :provider)
     end
 
     attr_reader :application_form

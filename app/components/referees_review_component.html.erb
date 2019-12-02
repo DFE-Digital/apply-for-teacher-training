@@ -1,4 +1,4 @@
-<% @application_form.references.each do |referee| %>
+<% @application_form.references.includes(:application_form).each do |referee| %>
   <%= render(SummaryCardComponent, rows: referee_rows(referee), editable: @editable) do %>
     <%= render(SummaryCardHeaderComponent, title: t('application_form.referees.nth_referee')[referee.ordinal], heading_level: @heading_level) do %>
       <% if @editable %>

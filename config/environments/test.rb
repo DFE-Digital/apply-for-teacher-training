@@ -16,7 +16,7 @@ Rails.application.configure do
   # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true
   config.public_file_server.headers = {
-    'Cache-Control' => "public, max-age=#{1.hour.to_i}"
+    'Cache-Control' => "public, max-age=#{1.hour.to_i}",
   }
 
   # Show full error reports and disable caching.
@@ -37,7 +37,7 @@ Rails.application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
   config.action_mailer.default_options = {
-    from: 'mail@example.com'
+    from: 'mail@example.com',
   }
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
@@ -46,4 +46,13 @@ Rails.application.configure do
 
   # Forces jobs that are normally queued to Sidekiq to run immediately
   config.active_job.queue_adapter = :inline
+
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.unused_eager_loading_enable = false
+    Bullet.counter_cache_enable = false
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'Audited::Audit', association: :user
+
+    Bullet.raise = true # raise an error if n+1 query occurs
+  end
 end
