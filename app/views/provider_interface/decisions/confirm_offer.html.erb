@@ -24,7 +24,7 @@
           </dt>
           <dd class="govuk-summary-list__value">
             <% if @application_offer.offer_conditions.empty? %>
-              Unconditional Offer
+              Unconditional offer
             <% else %>
               <ul class="govuk-list govuk-list--bullet">
                 <% @application_offer.offer_conditions.each do |value| %>
@@ -42,13 +42,13 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <p class="govuk-body govuk-!-font-weight-bold">
-        Please make a note of the conditions you have set.
+        Make a note of the conditions you have set.
       </p>
       <p class="govuk-body">
-        When you confirm this offer, you guarantee this candidate a place on their chosen course, if they meet the conditions you have set out.
+        When you confirm this offer, you’ll guarantee this candidate a place on their chosen course, providing they meet the conditions given.
       </p>
       <p class="govuk-body">
-          You can only change the conditions of this offer with the candidate’s permission.
+        You can only change the conditions of this offer with the candidate’s permission.
       </p>
 
       <%= hidden_field_tag :offer_conditions, @application_offer.offer_conditions.to_json %>
