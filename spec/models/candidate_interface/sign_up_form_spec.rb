@@ -2,82 +2,51 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::SignUpForm, type: :model do
   let(:valid_email) { Faker::Internet.email }
-  let(:too_long_email) { Faker::Lorem.characters(number: 251) }
-  let(:wrong_format_email) { 'abc' }
-  let(:given_email) { valid_email }
-  let(:candidate) { build_stubbed(:candidate, email_address: given_email) }
+  let(:new_email) { valid_email }
+  let(:existing_candidate) { create(:candidate) }
+  let(:existing_email) { existing_candidate.email_address }
 
-  describe '.build_from_candidate' do
-    it 'creates an object based on the provided Candidate' do
-      form = described_class.build_from_candidate(candidate)
-      expect(form).to have_attributes(email_address: valid_email)
-    end
+  def new_form(email:, accept_ts_and_cs:)
+    described_class.new(email_address: email, accept_ts_and_cs: accept_ts_and_cs)
   end
 
   describe '#save' do
-    let(:accept_ts_and_cs) { true }
-    let(:the_form) do
-      described_class.new(email_address: given_email,
-                          accept_ts_and_cs: accept_ts_and_cs)
+    it 'returns true if it creates a new candidate' do
+      form = new_form(email: new_email, accept_ts_and_cs: true)
+      expect(form.existing_candidate?).to eq(false)
+      expect(form.save).to eq(true)
+      expect(form.existing_candidate?).to eq(true)
     end
 
-    before do
-      allow(candidate).to receive(:update!)
+    it 'returns false if it :accept_ts_and_cs is not true' do
+      form = new_form(email: new_email, accept_ts_and_cs: false)
+      expect(form.existing_candidate?).to eq(false)
+      expect(form.save).to eq(false)
+      expect(form.existing_candidate?).to eq(false)
     end
 
-    context 'when email_address is too long' do
-      let(:given_email) { too_long_email }
-
-      it 'returns false' do
-        expect(the_form.save(candidate)).to eq(false)
-      end
-
-      it 'does not update the candidate model' do
-        the_form.save(candidate)
-        expect(candidate).not_to have_received(:update!)
-      end
+    it 'returns false if it candidate email_address validations fail' do
+      form = new_form(email: 'foo', accept_ts_and_cs: false)
+      expect(form.existing_candidate?).to eq(false)
+      expect(form.save).to eq(false)
+      expect(form.errors[:email_address]).not_to be_empty
     end
 
-    context 'when email_address is valid and accept_ts_and_cs is not present' do
-      let(:given_email) { valid_email }
-      let(:accept_ts_and_cs) { nil }
-
-      it 'returns false' do
-        expect(the_form.save(candidate)).to eq(false)
-      end
-
-      it 'does not update the candidate model' do
-        the_form.save(candidate)
-        expect(candidate).not_to have_received(:update!)
-      end
+    it 'returns false if email_address belongs to existing candidate' do
+      form = new_form(email: existing_email, accept_ts_and_cs: true)
+      expect(form.existing_candidate?).to eq(true)
+      expect(form.save).to eq(false)
     end
 
-    context 'when email_address is valid and accept_ts_and_cs is present' do
-      let(:given_email) { valid_email }
-      let(:accept_ts_and_cs) { true }
-
-      before do
-        allow(candidate).to receive(:update!)
-                            .and_return true
-      end
-
-      it 'updates the candidate model with the given email address' do
-        the_form.save(candidate)
-        expect(candidate).to have_received(:update!).with(email_address: given_email)
-      end
-
-      it 'returns true' do
-        expect(the_form.save(candidate)).to eq(true)
-      end
+    it 'returns false if email_address is upcased version of one that exists' do
+      form = new_form(email: existing_email.upcase, accept_ts_and_cs: true)
+      expect(form.existing_candidate?).to eq(true)
+      expect(form.save).to eq(false)
     end
   end
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:accept_ts_and_cs) }
     it { is_expected.to validate_presence_of(:email_address) }
-
-    it { is_expected.to allow_value('test@example.com').for(:email_address) }
-    it { is_expected.not_to allow_value(too_long_email).for(:email_address) }
-    it { is_expected.not_to allow_value(wrong_format_email).for(:email_address) }
   end
 end

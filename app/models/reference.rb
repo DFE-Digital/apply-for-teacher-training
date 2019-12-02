@@ -3,7 +3,7 @@ class Reference < ApplicationRecord
   validates :email_address, presence: true,
                             email_address: true,
                             length: { maximum: 100 },
-                            uniqueness: { scope: :application_form_id }
+                            uniqueness: { case_sensitive: false, scope: :application_form_id }
   validate :email_address_not_own
   validates :relationship, presence: true, word_count: { maximum: 50 }
   validates_presence_of :application_form_id

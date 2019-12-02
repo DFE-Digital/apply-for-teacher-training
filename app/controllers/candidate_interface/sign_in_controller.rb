@@ -8,7 +8,7 @@ module CandidateInterface
     end
 
     def create
-      @candidate = Candidate.find_or_initialize_by(email_address: candidate_params[:email_address])
+      @candidate = Candidate.for_email candidate_params[:email_address]
 
       if @candidate.persisted?
         MagicLinkSignIn.call(candidate: @candidate)

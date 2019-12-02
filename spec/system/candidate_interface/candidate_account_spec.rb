@@ -40,6 +40,14 @@ RSpec.feature 'Candidate account' do
 
     when_i_signed_in_more_than_a_week_ago
     then_i_should_be_signed_out
+
+    when_i_click_the_signin_link
+    and_i_submit_my_email_address_in_uppercase
+    then_i_receive_an_email_with_a_signin_link
+
+    when_i_visit_the_signup_page
+    and_i_submit_my_email_address_in_uppercase
+    then_i_receive_an_email_with_a_signin_link
   end
 
   def given_the_pilot_is_open
@@ -69,9 +77,13 @@ RSpec.feature 'Candidate account' do
     check t('authentication.sign_up.accept_terms_checkbox')
   end
 
-  def and_i_submit_my_email_address
-    fill_in t('authentication.sign_up.email_address.label'), with: @email
+  def and_i_submit_my_email_address(email = @email)
+    fill_in t('authentication.sign_up.email_address.label'), with: email
     click_on t('authentication.sign_up.button_continue')
+  end
+
+  def and_i_submit_my_email_address_in_uppercase
+    and_i_submit_my_email_address(@email.upcase)
   end
 
   def then_i_receive_an_email_with_a_signup_link
