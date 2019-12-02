@@ -112,7 +112,7 @@ RSpec.feature 'Candidate reviews the answers' do
   end
 
   def and_i_can_see_my_becoming_a_teacher_info
-    expect(page).to have_content 'I WANT I WANT I WANT I WANT'
+    expect(page).to have_content 'I believe I would be a first-rate teacher'
   end
 
   def and_i_can_see_my_subject_knowlegde_info
@@ -120,7 +120,7 @@ RSpec.feature 'Candidate reviews the answers' do
   end
 
   def and_i_can_see_my_interview_preferences
-    expect(page).to have_content 'NOT WEDNESDAY'
+    expect(page).to have_content 'Not on a Wednesday'
   end
 
   def and_i_can_see_my_referees
