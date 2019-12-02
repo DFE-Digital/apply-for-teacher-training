@@ -48,8 +48,6 @@ A service for candidates to apply for initial teacher training.
 
 ## <a name="dev-env-setup"></a>Setting up the development environment
 
-If you are not planning to run the server processes in docker:
-
 1. Copy `.env.example` to `.env` and fill in the secrets
 1. Run `make setup`
 1. Run `make serve` to launch the app on https://localhost:3000
