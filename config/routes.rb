@@ -289,6 +289,9 @@ Rails.application.routes.draw do
 
     post '/impersonate-candidate/:candidate_id' => 'impersonation#impersonate_candidate', as: :impersonate_candidate
 
+    get '/sign-in' => 'sessions#new'
+    get '/sign-out' => 'sessions#destroy'
+
     # https://github.com/mperham/sidekiq/wiki/Monitoring#rails-http-basic-auth-from-routes
     require 'sidekiq/web'
 

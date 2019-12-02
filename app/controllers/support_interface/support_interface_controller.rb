@@ -3,7 +3,9 @@ module SupportInterface
     include LogQueryParams
 
     layout 'support_layout'
-    before_action :protect_with_basic_auth
+    before_action :authenticate_support_user!
+
+    helper_method :current_support_user
 
   private
 
@@ -15,6 +17,14 @@ module SupportInterface
 
     def render_404
       render 'errors/not_found', status: :not_found
+    end
+
+    def current_support_user
+      SupportUser.load_from_session(session)
+    end
+
+    def authenticate_support_user!
+      redirect_to support_interface_sign_in_path unless current_support_user
     end
   end
 end
