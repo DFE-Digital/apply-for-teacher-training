@@ -632,7 +632,7 @@
                         "value": "[parameters('ciWorkerMemory')]"
                     },
 		    "command": {
-		        "value": ["/bin/sh",  "-c", "bundle exec sidekiq -c 5"]
+		        "value": ["/bin/sh",  "-c", "bundle exec sidekiq -c 5 -C config/sidekiq.yml"]
 		    },
                     "environmentVariables": {
                         "value": [

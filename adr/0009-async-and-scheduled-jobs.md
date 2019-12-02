@@ -60,7 +60,7 @@ While it is technically possible to perform any kind of processing within the 'c
 
 #### Background processing
 
-We will use the ```sidekiq``` gem, which is the current standard for Rails background processing. This also needs to be run as a separate process (e.g. ```bundle exec sidekiq -c 5```, where 5 is a concurrency setting), but it also introduces an infrastructure requirement for Redis.
+We will use the ```sidekiq``` gem, which is the current standard for Rails background processing. This also needs to be run as a separate process (e.g. ```bundle exec sidekiq -c 5 -C sidekiq.yml```, where 5 is a concurrency setting), but it also introduces an infrastructure requirement for Redis.
 
 Workers are usually placed within ```app/workers``` and can call any other classes within the Rails app, such as service objects to achieve their goals.
 

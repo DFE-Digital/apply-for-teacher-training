@@ -43,4 +43,7 @@ Rails.application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+
+  # Forces jobs that are normally queued to Sidekiq to run immediately
+  config.active_job.queue_adapter = :inline
 end
