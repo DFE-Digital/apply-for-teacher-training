@@ -14,41 +14,33 @@
 <%= form_with model: @application_offer, url: provider_interface_application_choice_create_offer_path(@application_choice.id), method: :post do |f| %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-       <%= f.govuk_error_summary %>
-      <section class="app-summary-card govuk-!-margin-bottom-6 no-border">
-        <div class="app-summary-card__body">
-        <dl class="govuk-summary-list">
-         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-              Conditions
-          </dt>
-          <dd class="govuk-summary-list__value">
-            <% if @application_offer.offer_conditions.empty? %>
-              Unconditional Offer
-            <% else %>
-              <ul class="govuk-list govuk-list--bullet">
-                <% @application_offer.offer_conditions.each do |value| %>
-                  <li><%= value %></li>
-                <% end %>
-              </ul>
-            <% end %>
-          </dd>
-        </div>
-      </section>
-      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-    </div>
-  </div>
+      <%= f.govuk_error_summary %>
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+      <% conditions = capture do %>
+        <% if @application_offer.offer_conditions.empty? %>
+          Unconditional offer
+        <% else %>
+          <ul class="govuk-list govuk-list--bullet">
+            <% @application_offer.offer_conditions.each do |value| %>
+              <li><%= value %></li>
+            <% end %>
+          </ul>
+        <% end %>
+      <% end %>
+
+      <%= render SummaryListComponent, rows: [
+        key: 'Conditions',
+        value: conditions,
+      ] %>
+
       <p class="govuk-body govuk-!-font-weight-bold">
-        Please make a note of the conditions you have set.
+        Make a note of the conditions you have set.
       </p>
       <p class="govuk-body">
-        When you confirm this offer, you guarantee this candidate a place on their chosen course, if they meet the conditions you have set out.
+        When you confirm this offer, you’ll guarantee this candidate a place on their chosen course, providing they meet the conditions given.
       </p>
       <p class="govuk-body">
-          You can only change the conditions of this offer with the candidate’s permission.
+        You can only change the conditions of this offer with the candidate’s permission.
       </p>
 
       <%= hidden_field_tag :offer_conditions, @application_offer.offer_conditions.to_json %>

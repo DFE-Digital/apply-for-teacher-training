@@ -58,7 +58,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def when_i_select_standard_reasons
-    page.check 'Fitness to teach check', allow_label_click: true
+    page.check 'Fitness to Teach check', allow_label_click: true
   end
 
   def and_i_add_optional_further_conditions
@@ -79,7 +79,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_see_the_correct_offer_conditions
-    expect(page).to have_content 'Fitness to teach check'
+    expect(page).to have_content 'Fitness to Teach check'
     expect(page).to have_content 'A further condition'
   end
 

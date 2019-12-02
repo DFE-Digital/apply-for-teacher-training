@@ -11,7 +11,7 @@ RSpec.feature 'Candidate views an offer' do
     create(
       :application_choice,
       status: 'offer',
-      offer: { 'conditions' => ['Fitness to teach check', 'Be cool'] },
+      offer: { 'conditions' => ['Fitness to Teach check', 'Be cool'] },
       course_option: course_option,
       application_form: application_form,
     )
