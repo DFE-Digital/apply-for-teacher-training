@@ -1,7 +1,7 @@
 class DegreesReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false)
+  def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false)
     @application_form = application_form
     @degrees = CandidateInterface::DegreeForm.build_all_from_application(
       @application_form,
@@ -9,6 +9,7 @@ class DegreesReviewComponent < ActionView::Component::Base
     @editable = editable
     @heading_level = heading_level
     @show_incomplete = show_incomplete
+    @missing_error = missing_error
   end
 
   def degree_rows(degree)

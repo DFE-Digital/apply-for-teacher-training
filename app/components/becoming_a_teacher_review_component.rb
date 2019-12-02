@@ -1,12 +1,13 @@
 class BecomingATeacherReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:, editable: true)
+  def initialize(application_form:, editable: true, missing_error: false)
     @application_form = application_form
     @becoming_a_teacher_form = CandidateInterface::BecomingATeacherForm.build_from_application(
       @application_form,
     )
     @editable = editable
+    @missing_error = missing_error
   end
 
   def becoming_a_teacher_form_rows

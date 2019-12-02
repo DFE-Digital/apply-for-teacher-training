@@ -1,5 +1,5 @@
 <% if show_missing_banner? %>
-  <%= render(SectionMissingBannerComponent, section: :becoming_a_teacher, section_path: candidate_interface_becoming_a_teacher_edit_path) %>
+  <%= render(SectionMissingBannerComponent, section: :becoming_a_teacher, section_path: candidate_interface_becoming_a_teacher_edit_path, error: @missing_error) %>
 <% else %>
   <%= render(SummaryCardComponent, rows: becoming_a_teacher_form_rows, editable: @editable) %>
 <% end %>

@@ -1,5 +1,5 @@
 <% if show_missing_banner? %>
-  <%= render(SectionMissingBannerComponent, section: :contact_details, section_path: candidate_interface_contact_details_edit_base_path) %>
+  <%= render(SectionMissingBannerComponent, section: :contact_details, section_path: candidate_interface_contact_details_edit_base_path, error: @missing_error) %>
 <% else %>
   <%= render(SummaryCardComponent, rows: contact_details_form_rows, editable: @editable) %>
 <% end %>
