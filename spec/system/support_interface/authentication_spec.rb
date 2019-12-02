@@ -21,14 +21,16 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
   end
 
   def when_i_visit_the_support_interface
-    visit support_interface_path
+    visit support_interface_applications_path
   end
 
   def and_i_sign_in_via_dfe_sign_in
     click_button 'Sign in using DfE Sign-in'
   end
 
-  def then_i_should_be_redirected_to_the_support_home_page; end
+  def then_i_should_be_redirected_to_the_support_home_page
+    expect(page).to have_current_path support_interface_applications_path
+  end
 
   def and_i_should_see_my_email_address
     expect(page).to have_content('user@apply-support.com')

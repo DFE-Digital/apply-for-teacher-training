@@ -7,13 +7,15 @@ module ProviderInterface
 
     def callback
       dfe_sign_in_session = DfESignIn.parse_auth_hash(request.env['omniauth.auth'])
-      ProviderUser.begin_session!(session, dfe_sign_in_session)
+      DfESignInUser.begin_session!(session, dfe_sign_in_session)
 
-      redirect_to provider_interface_path
+      # TODO: What if the given user doesn't have permission to visit
+      # the provider interface?
+      redirect_to session['post_dfe_sign_in_path'] || provider_interface_path
     end
 
     def destroy
-      ProviderUser.end_session!(session)
+      DfESignInUser.end_session!(session)
 
       redirect_to action: :new
     end
