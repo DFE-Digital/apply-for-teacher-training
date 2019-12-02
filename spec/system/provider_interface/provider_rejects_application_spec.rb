@@ -56,7 +56,7 @@ RSpec.feature 'Provider rejects application' do
   end
 
   def when_i_add_a_rejection_reason
-    fill_in('Please explain why this application was rejected', with: 'A rejection reason')
+    fill_in('Tell the candidate why their application was rejected', with: 'A rejection reason')
   end
 
   def and_i_click_to_continue
