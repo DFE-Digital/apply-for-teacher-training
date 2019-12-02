@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ApplicationCompleteContentComponent do
   let(:submitted_at) { Time.zone.local(2019, 10, 22, 12, 0, 0) }
-  let(:first_january2019) { Time.zone.local(2020, 1, 1, 12, 0, 0) }
+  let(:first_january_2020) { Time.zone.local(2020, 1, 1, 12, 0, 0) }
 
   around do |example|
     Timecop.freeze(submitted_at) do
@@ -70,7 +70,7 @@ RSpec.describe ApplicationCompleteContentComponent do
 
       expect(render_result.text).to include('All your training providers have now reached a decision')
       # TODO: Update hardcoded date with decline by default date
-      expect(render_result.text).to include('You have 12 days (until 7 December 2019) to respond to any offers.')
+      expect(render_result.text).to include('You have 14 days (until 5 November 2019) to respond to any offers.')
     end
 
     it 'renders with all providers have made a decision content if an offer and rejected' do
@@ -81,7 +81,7 @@ RSpec.describe ApplicationCompleteContentComponent do
 
       # TODO: Update hardcoded date with decline by default date
       expect(render_result.text).to include('All your training providers have now reached a decision')
-      expect(render_result.text).to include('You have 12 days (until 7 December 2019) to respond to any offers.')
+      expect(render_result.text).to include('You have 14 days (until 5 November 2019) to respond to any offers.')
     end
   end
 
@@ -100,7 +100,8 @@ RSpec.describe ApplicationCompleteContentComponent do
     application_dates = instance_double(
       ApplicationDates,
       form_open_to_editing?: false,
-      reject_by_default_at: first_january2019,
+      reject_by_default_at: first_january_2020,
+      decline_by_default_at: 10.business_days.after(submitted_at),
     )
     allow(ApplicationDates).to receive(:new).and_return(application_dates)
   end
@@ -112,7 +113,7 @@ RSpec.describe ApplicationCompleteContentComponent do
       days_remaining_to_edit: 5,
       edit_by: Time.zone.local(2019, 10, 29, 12, 0, 0),
       submitted_at: Time.zone.local(2019, 10, 22, 12, 0, 0),
-      reject_by_default_at: first_january2019,
+      reject_by_default_at: first_january_2020,
     )
     allow(ApplicationDates).to receive(:new).and_return(application_dates)
   end
@@ -125,7 +126,7 @@ RSpec.describe ApplicationCompleteContentComponent do
         :application_choice,
         application_form: application_form,
         status: status,
-        reject_by_default_at: first_january2019,
+        reject_by_default_at: first_january_2020,
       )
     end
 

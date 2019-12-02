@@ -36,6 +36,12 @@ class ApplicationForm < ApplicationRecord
       .first
   end
 
+  def first_not_declined_application_choice
+    application_choices
+      .where.not(decline_by_default_at: nil)
+      .first
+  end
+
   def maths_gcse
     qualification_in_subject(:gcse, :maths)
   end
@@ -46,6 +52,22 @@ class ApplicationForm < ApplicationRecord
 
   def science_gcse
     qualification_in_subject(:gcse, :science)
+  end
+
+  def any_accepted_offer?
+    application_choices.map.any?(&:pending_conditions?)
+  end
+
+  def all_provider_decisions_made?
+    application_choices.any? && application_choices.where(status: %w[awaiting_references application_complete awaiting_provider_decision]).empty?
+  end
+
+  def any_awaiting_provider_decision?
+    application_choices.map.any?(&:awaiting_provider_decision?)
+  end
+
+  def any_offers?
+    application_choices.map.any?(&:offer?)
   end
 
   audited

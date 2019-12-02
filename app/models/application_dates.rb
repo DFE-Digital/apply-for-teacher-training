@@ -11,6 +11,10 @@ class ApplicationDates
     @application_form.application_choices.first&.reject_by_default_at
   end
 
+  def decline_by_default_at
+    @application_form.first_not_declined_application_choice.decline_by_default_at
+  end
+
   def edit_by
     5.business_days.after(submitted_at).end_of_day
   end
