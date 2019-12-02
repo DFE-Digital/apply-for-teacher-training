@@ -9,7 +9,7 @@ RSpec.describe OfferReviewComponent do
     create(
       :application_choice,
       status: 'offer',
-      offer: { 'conditions' => ['Fitness to teach check', 'Be cool'] },
+      offer: { 'conditions' => ['Fitness to Teach check', 'Be cool'] },
       course_option: course_option,
       application_form: application_form,
     )
@@ -41,7 +41,7 @@ RSpec.describe OfferReviewComponent do
     result = render_inline(OfferReviewComponent, course_choice: application_choice)
 
     expect(result.css('.govuk-summary-list__key').text).to include('Conditions')
-    expect(result.css('.govuk-summary-list__value').text).to include('Fitness to teach')
+    expect(result.css('.govuk-summary-list__value').text).to include('Fitness to Teach')
     expect(result.css('.govuk-summary-list__value').text).to include('Be cool')
   end
 end
