@@ -286,6 +286,7 @@ components:
         - course
         - offer
         - personal_statement
+        - interview_preferences
         - qualifications
         - references
         - rejection
@@ -327,6 +328,10 @@ components:
           type: string
           description: The candidate’s personal statement
           example: "Since retiring from the Police Service in 2007..."
+        interview_preferences:
+          type: string
+          description: The candidate’s interview preferences
+          example: "I can’t come to interview on Thursdays"
         candidate:
           $ref: "#/components/schemas/Candidate"
         contact_details:
