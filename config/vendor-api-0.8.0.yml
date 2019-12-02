@@ -326,7 +326,7 @@ components:
           example: "2019-06-13T10:44:31Z"
         personal_statement:
           type: string
-          description: The candidate’s personal statement
+          description: The candidate’s personal statement, combined from the "Becoming a Teacher" and "Subject Knowledge" fields in the application form
           example: "Since retiring from the Police Service in 2007..."
         interview_preferences:
           type: string
