@@ -83,6 +83,27 @@ RSpec.describe ApplicationCompleteContentComponent do
       expect(render_result.text).to include('All your training providers have now reached a decision')
       expect(render_result.text).to include('You have 14 days (until 5 November 2019) to respond to any offers.')
     end
+
+    it 'renders when all offers have been withdrawn' do
+      application_form = create(:completed_application_form, :without_application_choices)
+
+      create(:application_choice, application_form: application_form, status: :withdrawn)
+
+      render_result = render_inline(ApplicationCompleteContentComponent, application_form: application_form)
+
+      expect(render_result.text).to include('You have withdrawn all your choices')
+    end
+
+    it 'renders when one offer has been withdrawn and one offered' do
+      application_form = create(:completed_application_form, :without_application_choices)
+
+      create(:application_choice, application_form: application_form, status: :withdrawn)
+      create(:application_choice, application_form: application_form, status: :offer, decline_by_default_at: 1.day.from_now)
+
+      render_result = render_inline(ApplicationCompleteContentComponent, application_form: application_form)
+
+      expect(render_result.text).to include('All your training providers have now reached a decision')
+    end
   end
 
   context 'when the application has accepted an offer' do

@@ -11,8 +11,8 @@ class ApplicationCompleteContentComponent < ActionView::Component::Base
   delegate :any_accepted_offer?,
            :all_provider_decisions_made?,
            :any_awaiting_provider_decision?,
+           :all_choices_withdrawn?,
            :any_offers?, to: :application_form
-
 
   def editable?
     @dates.form_open_to_editing?
