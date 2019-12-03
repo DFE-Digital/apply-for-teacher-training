@@ -208,6 +208,13 @@ ActiveRecord::Schema.define(version: 2019_12_04_101615) do
     t.index ["provider_id"], name: "index_sites_on_provider_id"
   end
 
+  create_table "support_users", force: :cascade do |t|
+    t.string "dfe_sign_in_uid", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["dfe_sign_in_uid"], name: "index_support_users_on_dfe_sign_in_uid", unique: true
+  end
+
   create_table "vendor_api_tokens", force: :cascade do |t|
     t.string "hashed_token", null: false
     t.datetime "created_at", precision: 6, null: false
