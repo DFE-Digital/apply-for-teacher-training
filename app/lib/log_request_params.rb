@@ -1,6 +1,7 @@
 module LogRequestParams
   IGNORE_PARAMS = [
     /^authenticity_token$/,
+    /^candidate$/,
     /^candidate_interface_.+_form$/,
   ].freeze
 
