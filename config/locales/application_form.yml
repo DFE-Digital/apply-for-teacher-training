@@ -313,6 +313,10 @@ en:
               blank: Select if you are a citizen of the UK, EU or EEA
             eligible_qualifications:
               blank: Select if you gained all your qualifications at institutions based in the UK
+        candidate_interface/respond_to_offer_form:
+          attributes:
+            response:
+              blank: Select if you want to accept or decline the offer
         candidate_interface/personal_details_form:
           attributes:
             first_name:

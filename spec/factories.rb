@@ -154,6 +154,13 @@ FactoryBot.define do
       association :application_form, factory: %i[completed_application_form without_application_choices with_completed_references]
       status { :awaiting_provider_decision }
     end
+
+    trait :with_offer do
+      status { 'offer' }
+      decline_by_default_at { Time.now + 10.days }
+      decline_by_default_days { 10 }
+      offer { { 'conditions' => ['Be cool'] } }
+    end
   end
 
   factory :vendor_api_user do

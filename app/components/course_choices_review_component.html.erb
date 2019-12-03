@@ -1,4 +1,5 @@
 <% @course_choices.each do |course_choice| %>
+  <div class='qa-application-choice-<%= course_choice.id %>'>
   <%= render(SummaryCardComponent, rows: course_choice_rows(course_choice), editable: @editable) do %>
     <%= render(SummaryCardHeaderComponent, title: course_choice.provider.name, heading_level: @heading_level) do %>
       <% if course_choice.offer? %>
@@ -25,6 +26,7 @@
       <% end %>
     <% end %>
   <% end %>
+  </div>
 <% end %>
 
 <% if any_withdrawable? %>

@@ -70,7 +70,7 @@ private
       # Now the providers need to make a decision
 
       # First one gets an offer
-      MakeAnOffer.new(application_choice: application_form.application_choices[0], offer_conditions: []).save
+      MakeAnOffer.new(application_choice: application_form.application_choices[0], offer_conditions: ['Complete DBS']).save
 
       return if application_index > 50
 

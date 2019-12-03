@@ -1,40 +1,32 @@
 <% content_for :title, t('page_titles.view_and_respond_to_offer') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_complete_path, 'Back to application dashboard') %>
 
-<h1 class="govuk-heading-xl govuk-heading-xl">
-  <span class="govuk-caption-xl"><%= @application_choice.provider.name %> - <%= @application_choice.course_option.course.name %> (<%= @application_choice.course_option.course.code %>)</span>
-  <%= t('page_titles.view_and_respond_to_offer') %>
-</h1>
+<%= form_with model: @respond_to_offer, url: candidate_interface_respond_to_offer_path(@application_choice) do |f| %>
+  <%= f.govuk_error_summary %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render(OfferReviewComponent, course_choice: @application_choice) %>
+  <h1 class="govuk-heading-xl govuk-heading-xl">
+    <span class="govuk-caption-xl"><%= @application_choice.provider.name %> - <%= @application_choice.course_option.course.name %> (<%= @application_choice.course_option.course.code %>)</span>
+    <%= t('page_titles.view_and_respond_to_offer') %>
+  </h1>
 
-    <p class="govuk-body">Remember:</p>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= render(OfferReviewComponent, course_choice: @application_choice) %>
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li>you are under no obligation to accept or decline an offer at this stage</li>
-      <li>you can only accept one offer, across both <%= service_name %> and UCAS Teacher Training</li>
-    </ul>
+      <p class="govuk-body">Remember:</p>
 
-    <h2 class="govuk-heading-xl govuk-heading-m">
-      Do you want to respond to your offer to study
-      <%= @application_choice.course.name_and_code %>
-      at <%= @application_choice.provider.name %> now?
-    </h2>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>you can only accept one offer, across both Apply for teacher training and UCAS teacher training</li>
+        <li>if you fail to respond, or you decline all your offers, you can still apply to other courses this year through <%= govuk_link_to 'UCAS Teacher Training', UCAS.apply_url %></li>
+        <li>you can register with <%= govuk_link_to 'Get into Teaching', 'https://getintoteaching.education.gov.uk' %> to get help from a teacher training advisor</li>
+      </ul>
 
-    <p class="govuk-body">
-      Please email us at <%= bat_contact_mail_to %> with your decision to:
-    </p>
+      <%= f.govuk_radio_buttons_fieldset :response, legend: { size: 'm', text: 'How do you want to respond to this offer?', tag: 'span' } do %>
+        <%= f.govuk_radio_button :response, 'accept', label: { text: 'Accept offer and conditions' }, link_errors: true %>
+        <%= f.govuk_radio_button :response, 'decline', label: { text: 'Decline offer' } %>
+      <% end %>
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li>accept this offer and conditions</li>
-      <li>decline this offer</li>
-    </ul>
-
-    <p class="govuk-body">
-      We’ll notify your training provider and update your application to this
-      course on your application dashboard.
-    </p>
+      <%= f.govuk_submit 'Continue' %>
+    </div>
   </div>
-</div>
+<% end %>
