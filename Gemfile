@@ -81,6 +81,7 @@ group :test do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'clockwork-test'
+  gem 'deepsort'
 end
 
 group :development, :test do
