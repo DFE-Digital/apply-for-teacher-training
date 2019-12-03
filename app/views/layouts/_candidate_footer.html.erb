@@ -1,7 +1,7 @@
 <h2 class="govuk-heading-m">Need help?</h2>
-<div class="govuk-footer__meta-custom">
-  Call <%= link_to 'Get into Teaching', 'https://getintoteaching.education.gov.uk', class: 'govuk-footer__link' %> on Freephone 0800 389 2500 or chat to an adviser using their <%= link_to 'online chat service', 'https://getintoteaching.education.gov.uk/lp/live-chat', class: 'govuk-footer__link' %> between 8am and 8pm, Monday to Friday
-</div>
+<p class="govuk-footer__meta-custom">
+  Email us on <%= bat_contact_mail_to(html_options: { class: 'govuk-footer__link' }) %> and we can give you personalised&nbsp;support.
+</p>
 <ul class="govuk-footer__inline-list">
   <li class="govuk-footer__inline-list-item">
     <%= link_to t('layout.accessibility'), candidate_interface_accessibility_path, class: 'govuk-footer__link' %>
