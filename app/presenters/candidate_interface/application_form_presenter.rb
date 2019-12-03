@@ -23,7 +23,7 @@ module CandidateInterface
         [:degrees, degrees_completed?],
         [:maths_gcse, maths_gcse_completed?],
         [:english_gcse, english_gcse_completed?],
-        [:science_gcse, science_gcse_completed?],
+        ([:science_gcse, science_gcse_completed?] if @application_form.science_gcse_needed?),
         # "Other qualifications" is intentionally omitted, since it's optional
 
         # "Personal statement and interview" section
@@ -33,7 +33,7 @@ module CandidateInterface
 
         # "References" section
         [:references, all_referees_provided_by_candidate?],
-      ]
+      ].compact
     end
 
     def section_errors
