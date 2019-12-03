@@ -12,5 +12,9 @@ module SupportInterface
         (username == ENV.fetch('SUPPORT_USERNAME')) && (password == ENV.fetch('SUPPORT_PASSWORD'))
       end
     end
+
+    def render_404
+      render 'errors/not_found', status: :not_found
+    end
   end
 end
