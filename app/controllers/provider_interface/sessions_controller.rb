@@ -11,7 +11,7 @@ module ProviderInterface
 
       # TODO: What if the given user doesn't have permission to visit
       # the provider interface?
-      redirect_to session['post_dfe_sign_in_path'] || provider_interface_path
+      redirect_to session.delete('post_dfe_sign_in_path') || provider_interface_path
     end
 
     def destroy

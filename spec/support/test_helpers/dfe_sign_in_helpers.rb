@@ -1,5 +1,5 @@
 module DfESignInHelpers
-  def user_exists_in_dfe_sign_in(email_address: 'email@apply-support.ac.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+  def user_exists_in_dfe_sign_in(email_address: 'email@provider.ac.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
     OmniAuth.config.mock_auth[:dfe] = OmniAuth::AuthHash.new(
       fake_dfe_sign_in_auth_hash(email_address: email_address, dfe_sign_in_uid: dfe_sign_in_uid),
     )
