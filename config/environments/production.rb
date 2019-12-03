@@ -60,6 +60,8 @@ Rails.application.configure do
   config.active_support.deprecation = :notify
 
   # Logging configuration
+  config.log_level = :info
+
   if ENV['LOGSTASH_ENABLE'] == 'true'
     LogstashLogging.enable(config)
   else
