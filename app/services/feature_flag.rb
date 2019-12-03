@@ -3,6 +3,7 @@ class FeatureFlag
     pilot_open
     accept_and_decline_via_ui
     conditional_science_gcse
+    candidate_withdrawals
   ].freeze
 
   def self.activate(feature_name)

@@ -171,6 +171,7 @@ Rails.application.routes.draw do
         post '/offer/accept' => 'decisions#confirm_accept'
 
         get '/withdraw' => 'decisions#withdraw', as: :withdraw
+        post '/withdraw' => 'decisions#confirm_withdraw'
       end
 
       scope '/other-qualifications' do
