@@ -268,6 +268,8 @@ Rails.application.routes.draw do
 
     get '/performance' => 'performance#index', as: :performance
 
+    post '/impersonate-candidate/:candidate_id' => 'impersonation#impersonate_candidate', as: :impersonate_candidate
+
     # https://github.com/mperham/sidekiq/wiki/Monitoring#rails-http-basic-auth-from-routes
     require 'sidekiq/web'
 
