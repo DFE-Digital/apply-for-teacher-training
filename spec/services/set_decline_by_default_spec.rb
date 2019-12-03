@@ -111,6 +111,22 @@ RSpec.describe SetDeclineByDefault do
       end
     end
 
+    context 'when one application choice has been offered and another withdrawn at a later date' do
+      it 'the DBD is set for the offered application using the withdrawal date' do
+        withdrawal_date = 1.business_day.before(now)
+
+        choices[0].update(status: :offer, offered_at: 10.business_days.before(now))
+        choices[1].update(status: :withdrawn, withdrawn_at: withdrawal_date)
+
+        call_service
+
+        dbd_for_offered_choice = choices[0].reload.decline_by_default_at
+        expected_dbd_date = 10.business_days.after(withdrawal_date).end_of_day
+
+        expect_timestamps_to_match_excluding_milliseconds(dbd_for_offered_choice, expected_dbd_date)
+      end
+    end
+
     context 'when the service is run twice' do
       it 'the DBD is not set again on choices which already have a DBD' do
         old_dbd_date = 8.business_days.after(now).end_of_day

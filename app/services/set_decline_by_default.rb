@@ -9,6 +9,7 @@ class SetDeclineByDefault
     most_recent_decision_date = [
       application_choices.maximum(:offered_at),
       application_choices.maximum(:rejected_at),
+      application_choices.maximum(:withdrawn_at),
     ].compact.max
 
     dbd_days = TimeLimitCalculator.new(
