@@ -21,7 +21,7 @@ class CourseChoicesReviewComponent < ActionView::Component::Base
   end
 
   def withdrawable?(course_choice)
-    course_choice.awaiting_provider_decision? || course_choice.pending_conditions?
+    ApplicationStateChange.new(course_choice).can_withdraw?
   end
 
   def any_withdrawable?
