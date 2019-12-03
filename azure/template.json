@@ -1007,6 +1007,55 @@
                 "postgresql-database",
                 "postgresql-server-firewall-rules"
             ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "infrastructure-dashboard",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'dashboard.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "resourceGroupName": {
+                        "value": "[variables('resourceNamePrefix')]"
+                    },
+                    "serviceName": {
+                        "value": "[parameters('serviceName')]"
+                    },
+                    "environment": {
+                        "value": "[parameters('environment')]"
+                    },
+                    "appServicePlanName": {
+                        "value": "[variables('appServicePlanName')]"
+                    },
+                    "appServiceName": {
+                        "value": "[variables('appServiceName')]"
+                    },
+                    "databaseServerName": {
+                        "value": "[variables('databaseServerName')]"
+                    },
+                    "redisCacheName": {
+                        "value": "[parameters('redisCacheName')]"
+                    },
+                    "containerInstances": {
+                        "value": [
+                            "[concat(parameters('containerInstanceNamePrefix'), '-clk')]",
+                            "[concat(parameters('containerInstanceNamePrefix'), '-wkr')]"
+                        ]
+                    }
+                }
+            },
+            "dependsOn": [
+                "redis-cache",
+                "app-service",
+                "container-instances-worker",
+                "container-instances-clock",
+                "app-insights",
+                "postgresql-server"
+            ]
         }
     ],
     "outputs": {
