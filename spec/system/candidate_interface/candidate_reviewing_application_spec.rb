@@ -150,7 +150,7 @@ RSpec.feature 'Candidate reviews the answers' do
 
   def when_i_click_to_complete_section_for(section)
     within "#missing-#{section}-error" do
-      click_link "Complete section"
+      click_link 'Complete section'
     end
   end
 
