@@ -227,7 +227,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
   describe '#volunteering_path' do
     it 'returns the experience path if volunteering experience is not set' do
-      application_form = build(:completed_application_form, volunteering_experience: nil, volunteering_experiences_count: 0)
+      application_form = build(:completed_application_form, volunteering_completed: false, volunteering_experience: nil, volunteering_experiences_count: 0)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter.volunteering_path).to eq(
@@ -236,7 +236,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
 
     it 'returns the review path if no volunteering experience' do
-      application_form = build(:completed_application_form, volunteering_experience: false, volunteering_experiences_count: 0)
+      application_form = build(:completed_application_form, volunteering_completed: false, volunteering_experience: false, volunteering_experiences_count: 0)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter.volunteering_path).to eq(
@@ -245,7 +245,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
 
     it 'returns the review path if volunteering experience' do
-      application_form = build(:completed_application_form, volunteering_experience: true, volunteering_experiences_count: 1)
+      application_form = build(:completed_application_form, volunteering_completed: false, volunteering_experience: true, volunteering_experiences_count: 1)
 
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 

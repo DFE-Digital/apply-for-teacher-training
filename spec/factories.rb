@@ -28,14 +28,19 @@ FactoryBot.define do
       address_line4 { '' }
       country { 'UK' }
       postcode { Faker::Address.postcode }
-      degrees_completed { [true, false].sample }
-      other_qualifications_completed { [true, false].sample }
       becoming_a_teacher { Faker::Lorem.paragraph_by_chars(number: 500) }
       subject_knowledge { Faker::Lorem.paragraph_by_chars(number: 300) }
       interview_preferences { Faker::Lorem.paragraph_by_chars(number: 100) }
       work_history_explanation { Faker::Lorem.paragraph_by_chars(number: 600) }
       work_history_breaks { Faker::Lorem.paragraph_by_chars(number: 400) }
       volunteering_experience { [true, false, nil].sample }
+
+      # Checkboxes to mark a section as complete
+      course_choices_completed { true }
+      degrees_completed { true }
+      other_qualifications_completed { true }
+      volunteering_completed { true }
+      work_history_completed { true }
 
       transient do
         application_choices_count { 3 }
@@ -57,10 +62,14 @@ FactoryBot.define do
       end
 
       after(:build) do |application_form, evaluator|
+        create(:application_qualification, application_form: application_form, subject: 'maths', level: 'gcse', qualification_type: 'GCSE')
+        create(:application_qualification, application_form: application_form, subject: 'english', level: 'gcse', qualification_type: 'GCSE')
+        create(:application_qualification, application_form: application_form, subject: 'science', level: 'gcse', qualification_type: 'GCSE')
+
+
         create_list(:application_choice, evaluator.application_choices_count, application_form: application_form, status: 'awaiting_references')
         create_list(:application_work_experience, evaluator.work_experiences_count, application_form: application_form)
         create_list(:application_volunteering_experience, evaluator.volunteering_experiences_count, application_form: application_form)
-        create_list(:application_qualification, evaluator.qualifications_count, application_form: application_form)
         create_list(:reference, evaluator.references_count, evaluator.references_state, application_form: application_form)
         # The application_form validates the length of this collection when
         # it is created, which is BEFORE we create the references here.
