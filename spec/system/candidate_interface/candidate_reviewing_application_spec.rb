@@ -145,15 +145,17 @@ RSpec.feature 'Candidate reviews the answers' do
   end
 
   def then_i_should_see_an_incomplete_banner_for(section)
-    expect(page).to have_content "Complete #{t("review_application.#{section}.complete_section_visually_hidden")} section"
+    expect(page).to have_selector "[aria-describedby='missing-#{section}']"
   end
 
   def when_i_click_to_complete_section_for(section)
-    click_link "Complete #{t("review_application.#{section}.complete_section_visually_hidden")} section"
+    within "#missing-#{section}-error" do
+      click_link 'Complete section'
+    end
   end
 
   def then_i_should_not_see_an_incomplete_banner_for(section)
-    expect(page).not_to have_content "Complete #{t("review_application.#{section}.complete_section_visually_hidden")} section"
+    expect(page).not_to have_selector "[aria-describedby='missing-#{section}']"
   end
 
   def then_i_should_be_able_to_complete_section_for(section)

@@ -1,8 +1,6 @@
 <div class="app-banner<% if @error %> app-banner--warning<% end %> app-banner--missing-section" id="<%= "missing-#{section}-error" %>">
   <div class="app-banner__message">
-    <p class="govuk-body"><%= @text %></p>
-    <%= link_to @section_path, class: 'govuk-link' do %>
-      Complete <span class="govuk-visually-hidden"><%= t("review_application.#{section}.complete_section_visually_hidden") %></span> section
-    <% end %>
+    <p class="govuk-body" id="<%= "missing-#{section}" %>"><%= @text %></p>
+    <%= link_to t('review_application.complete_section'), @section_path, class: 'govuk-link', aria: { describedby: "missing-#{section}" } %>
   </div>
 </div>
