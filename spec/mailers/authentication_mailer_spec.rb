@@ -3,9 +3,11 @@ require 'rails_helper'
 RSpec.describe AuthenticationMailer, type: :mailer do
   subject(:mailer) { described_class }
 
+  let(:candidate) { create(:candidate, email_address: 'test@example.com') }
+
   describe '.sign_up_email' do
     let(:token) { 'blub' }
-    let(:mail) { mailer.sign_up_email(to: 'test@example.com', token: token) }
+    let(:mail) { mailer.sign_up_email(candidate: candidate, token: token) }
 
     before { mail.deliver_later }
 
@@ -24,7 +26,7 @@ RSpec.describe AuthenticationMailer, type: :mailer do
 
   describe 'the candidate receives the sign in email containing the magic link' do
     let(:token) { 'blub' }
-    let(:mail) { mailer.sign_in_email(to: 'test@example.com', token: token) }
+    let(:mail) { mailer.sign_in_email(candidate: candidate, token: token) }
 
     before { mail.deliver_later }
 
