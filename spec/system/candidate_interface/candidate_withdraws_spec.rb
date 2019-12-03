@@ -11,7 +11,7 @@ RSpec.feature 'A candidate withdraws her application' do
     FeatureFlag.activate('candidate_withdrawals')
   end
 
-  scenario 'successful withdrawal' do
+  scenario 'successful withdrawal', sidekiq: true do
     given_i_am_signed_in_as_a_candidate
     and_i_have_an_application_choice_awaiting_provider_decision
 
@@ -21,6 +21,7 @@ RSpec.feature 'A candidate withdraws her application' do
 
     when_i_click_to_confirm_withdrawal
     then_my_application_should_be_withdrawn
+    and_a_slack_notification_is_sent
   end
 
   def given_i_am_signed_in_as_a_candidate
@@ -50,5 +51,9 @@ RSpec.feature 'A candidate withdraws her application' do
 
   def then_my_application_should_be_withdrawn
     expect(page).to have_content('Your application has been withdrawn')
+  end
+
+  def and_a_slack_notification_is_sent
+    expect_slack_message_with_text 'has withdrawn their application'
   end
 end
