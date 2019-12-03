@@ -1,6 +1,7 @@
 class FeatureFlag
   FEATURES = %w[
     pilot_open
+    conditional_science_gcse
   ].freeze
 
   def self.activate(feature_name)
