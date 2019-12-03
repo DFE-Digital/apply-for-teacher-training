@@ -7,7 +7,9 @@ RSpec.describe 'A support user authenticates via DfE Sign-in' do
     given_i_have_a_dfe_sign_in_account
 
     when_i_visit_the_support_interface
-    and_i_sign_in_via_dfe_sign_in
+    then_i_should_be_redirected_to_login_page
+
+    when_i_sign_in_via_dfe_sign_in
 
     then_i_should_be_redirected_to_the_support_home_page
     and_i_should_see_my_email_address
@@ -24,7 +26,14 @@ RSpec.describe 'A support user authenticates via DfE Sign-in' do
     visit support_interface_applications_path
   end
 
-  def and_i_sign_in_via_dfe_sign_in
+  def then_i_should_be_redirected_to_login_page
+    expect(page).to have_current_path support_interface_sign_in_path
+    expect(page).not_to have_link 'Applications'
+    expect(page).not_to have_link 'APITokens'
+    expect(page).not_to have_link 'Vendors'
+  end
+
+  def when_i_sign_in_via_dfe_sign_in
     click_button 'Sign in using DfE Sign-in'
   end
 
