@@ -27,6 +27,12 @@ class StateChangeNotifier
     when :reject_application_by_default
       text = "#{applicant}'s application has just been rejected by default"
       url = helpers.support_interface_application_form_url(application_form_id)
+    when :offer_accepted
+      text = ":ok: #{applicant} has accepted #{provider_name}'s offer"
+      url = helpers.support_interface_application_form_url(application_form_id)
+    when :offer_declined
+      text = ":no_good: #{applicant} has declined #{provider_name}'s offer"
+      url = helpers.support_interface_application_form_url(application_form_id)
     else
       raise 'StateChangeNotifier: unsupported state transition event'
     end

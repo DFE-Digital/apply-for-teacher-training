@@ -162,6 +162,14 @@ Rails.application.routes.draw do
 
       scope '/choice/:id' do
         get '/offer' => 'decisions#offer', as: :offer
+        post '/offer/respond' => 'decisions#respond_to_offer', as: :respond_to_offer
+
+        get '/offer/decline' => 'decisions#decline', as: :decline_offer
+        post '/offer/decline' => 'decisions#confirm_decline'
+
+        get '/offer/accept' => 'decisions#accept', as: :accept_offer
+        post '/offer/accept' => 'decisions#confirm_accept'
+
         get '/withdraw' => 'decisions#withdraw', as: :withdraw
       end
 

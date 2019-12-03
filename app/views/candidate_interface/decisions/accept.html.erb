@@ -1,0 +1,23 @@
+<% content_for :title, 'Are you sure you want to accept this offer?' %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_offer_path(@application_choice), 'Back to application dashboard') %>
+
+<h1 class="govuk-heading-xl govuk-heading-xl">
+  Are you sure you want to accept this offer?
+</h1>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render(OfferReviewComponent, course_choice: @application_choice) %>
+
+    <p class="govuk-body">By accepting this offer, you confirm that:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>you understand any other applications made through Apply for teacher training will be automatically withdrawn</li>
+      <li>you have not accepted any other offers of teacher training places (for example through UCAS Teacher Training)</li>
+    </ul>
+
+    <%= form_with model: @respond_to_offer, url: candidate_interface_accept_offer_path(@application_choice) do |f| %>
+      <%= f.govuk_submit 'Accept offer' %>
+    <% end %>
+  </div>
+</div>
