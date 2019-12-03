@@ -36,9 +36,11 @@
 
 <%= render(GcseQualificationReviewComponent, application_qualification: @application_form.english_gcse, subject: 'english', editable: editable, heading_level: 4, missing_error: missing_error) %>
 
-<h3 class="govuk-heading-m">Science GCSE or equivalent</h3>
+<% if @application_form.science_gcse_needed? %>
+  <h3 class="govuk-heading-m">Science GCSE or equivalent</h3>
 
-<%= render(GcseQualificationReviewComponent, application_qualification: @application_form.science_gcse, subject: 'science', editable: editable, heading_level: 4, missing_error: missing_error) %>
+  <%= render(GcseQualificationReviewComponent, application_qualification: @application_form.science_gcse, subject: 'science', editable: editable, heading_level: 4, missing_error: missing_error) %>
+<% end %>
 
 <h3 class="govuk-heading-m">Other relevant qualifications</h3>
 
