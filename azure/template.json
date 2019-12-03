@@ -665,6 +665,10 @@
                                 "secureValue": "[parameters('secretKeyBase')]"
                             },
                             {
+                                "name": "CUSTOM_HOSTNAME",
+                                "value": "[parameters('customHostName')]"
+                            },
+                            {
                                 "name": "SENTRY_DSN",
                                 "value": "[parameters('sentryDSN')]"
                             },
@@ -715,6 +719,18 @@
                             {
                                 "name": "SERVICE_TYPE",
                                 "value": "worker"
+                            },
+                            {
+                                "name": "DFE_SIGN_IN_CLIENT_ID",
+                                "value": "[parameters('dfeSignInClientId')]"
+                            },
+                            {
+                                "name": "DFE_SIGN_IN_SECRET",
+                                "value": "[parameters('dfeSignInSecret')]"
+                            },
+                            {
+                                "name": "DFE_SIGN_IN_ISSUER",
+                                "value": "[parameters('dfeSignInIssuer')]"
                             },
                             {
                                 "name": "REDIS_URL",
@@ -789,6 +805,10 @@
                                 "secureValue": "[parameters('secretKeyBase')]"
                             },
                             {
+                                "name": "CUSTOM_HOSTNAME",
+                                "value": "[parameters('customHostName')]"
+                            },
+                            {
                                 "name": "SENTRY_DSN",
                                 "value": "[parameters('sentryDSN')]"
                             },
@@ -839,6 +859,18 @@
                             {
                                 "name": "SERVICE_TYPE",
                                 "value": "clock"
+                            },
+                            {
+                                "name": "DFE_SIGN_IN_CLIENT_ID",
+                                "value": "[parameters('dfeSignInClientId')]"
+                            },
+                            {
+                                "name": "DFE_SIGN_IN_SECRET",
+                                "value": "[parameters('dfeSignInSecret')]"
+                            },
+                            {
+                                "name": "DFE_SIGN_IN_ISSUER",
+                                "value": "[parameters('dfeSignInIssuer')]"
                             },
                             {
                                 "name": "REDIS_URL",
