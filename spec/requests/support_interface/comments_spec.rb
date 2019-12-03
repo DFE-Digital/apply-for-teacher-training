@@ -5,14 +5,16 @@ RSpec.describe 'Support interface - Application Comments', type: :request, with_
     create :application_form
   end
 
-  def set_provider_permission
-    allow(SupportUser).to receive(:load_from_session)
-      .and_return(
-        SupportUser.new(
-          email_address: 'alice@example.com',
-          dfe_sign_in_uid: 'ABC',
-        ),
+  def support_user
+    @support_user ||= SupportUser.new(
+      email_address: 'alice@example.com',
+      dfe_sign_in_uid: 'ABC',
     )
+  end
+
+  def set_provider_permission
+    allow(SupportUser).to receive(:load_from_session).and_return(support_user)
+    allow(support_user).to receive(:authorized?).and_return(true)
   end
 
   before do

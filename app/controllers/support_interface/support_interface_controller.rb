@@ -24,7 +24,15 @@ module SupportInterface
     end
 
     def authenticate_support_user!
-      return if current_support_user
+      return if current_support_user&.authorized?
+
+      if current_support_user && !current_support_user.authorized?
+        render(
+          template: 'support_interface/unauthorized',
+          status: 403,
+        )
+        return
+      end
 
       session['post_dfe_sign_in_path'] = request.path
       redirect_to support_interface_sign_in_path
