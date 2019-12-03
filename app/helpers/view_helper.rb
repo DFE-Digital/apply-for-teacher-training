@@ -9,10 +9,10 @@ module ViewHelper
     link_to(body, url, class: 'govuk-back-link')
   end
 
-  def bat_contact_mail_to(name = nil, html_options: {})
+  def bat_contact_mail_to(name = 'becomingateacher<wbr>@digital.education.gov.uk', html_options: {})
     html_options[:class] = prepend_css_class('govuk-link', html_options[:class])
 
-    mail_to('becomingateacher@digital.education.gov.uk', name, html_options)
+    mail_to('becomingateacher@digital.education.gov.uk', name.html_safe, html_options)
   end
 
   def govuk_button_link_to(body, url, html_options = {})
