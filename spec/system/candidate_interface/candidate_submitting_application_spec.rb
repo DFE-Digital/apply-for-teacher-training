@@ -152,9 +152,9 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
     expect(page).to have_content 'Classroom Volunteer'
     expect(page).to have_content 'BA Doge'
     expect(page).to have_content 'A-Level Believing in the Heart of the Cards'
-    expect(page).to have_content 'I WANT I WANT I WANT I WANT'
+    expect(page).to have_content 'I believe I would be a first-rate teacher'
     expect(page).to have_content 'Everything'
-    expect(page).to have_content 'NOT WEDNESDAY'
+    expect(page).to have_content 'Not on a Wednesday'
     expect(page).to have_content 'Terri Tudor'
   end
 

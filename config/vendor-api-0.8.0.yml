@@ -286,6 +286,7 @@ components:
         - course
         - offer
         - personal_statement
+        - interview_preferences
         - qualifications
         - references
         - rejection
@@ -325,8 +326,12 @@ components:
           example: "2019-06-13T10:44:31Z"
         personal_statement:
           type: string
-          description: The candidate’s personal statement
+          description: The candidate’s personal statement, combined from the "Becoming a Teacher" and "Subject Knowledge" fields in the application form
           example: "Since retiring from the Police Service in 2007..."
+        interview_preferences:
+          type: string
+          description: The candidate’s interview preferences
+          example: "I can’t come to interview on Thursdays"
         candidate:
           $ref: "#/components/schemas/Candidate"
         contact_details:

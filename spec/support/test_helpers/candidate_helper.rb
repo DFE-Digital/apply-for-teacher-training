@@ -235,7 +235,7 @@ module CandidateHelper
   end
 
   def candidate_fills_in_becoming_a_teacher
-    fill_in t('application_form.personal_statement.becoming_a_teacher.label'), with: 'I WANT I WANT I WANT I WANT'
+    fill_in t('application_form.personal_statement.becoming_a_teacher.label'), with: 'I believe I would be a first-rate teacher'
     click_button t('application_form.personal_statement.becoming_a_teacher.complete_form_button')
     # Confirmation page
     click_link t('application_form.personal_statement.becoming_a_teacher.complete_form_button')
@@ -249,7 +249,7 @@ module CandidateHelper
   end
 
   def candidate_fills_in_interview_preferences
-    fill_in t('application_form.personal_statement.interview_preferences.label'), with: 'NOT WEDNESDAY'
+    fill_in t('application_form.personal_statement.interview_preferences.label'), with: 'Not on a Wednesday'
     click_button t('application_form.personal_statement.interview_preferences.complete_form_button')
     # Confirmation page
     click_link t('application_form.personal_statement.interview_preferences.complete_form_button')
