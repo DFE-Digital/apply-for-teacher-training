@@ -3,8 +3,6 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_submitted, only: %i[show review]
 
     def show
-      return redirect_to candidate_interface_application_form_path if params[:token]
-
       @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
       @application_form = current_application
     end
