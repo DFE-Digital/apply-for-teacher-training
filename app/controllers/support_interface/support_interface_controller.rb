@@ -7,6 +7,16 @@ module SupportInterface
 
     helper_method :current_support_user, :dfe_sign_in_user
 
+    def current_support_user
+      SupportUser.load_from_session(session)
+    end
+
+    def dfe_sign_in_user
+      DfESignInUser.load_from_session(session)
+    end
+
+    alias :audit_user :current_support_user
+
   private
 
     def protect_with_basic_auth
@@ -17,14 +27,6 @@ module SupportInterface
 
     def render_404
       render 'errors/not_found', status: :not_found
-    end
-
-    def current_support_user
-      @current_support_user ||= SupportUser.load_from_session(session)
-    end
-
-    def dfe_sign_in_user
-      DfESignInUser.load_from_session(session)
     end
 
     def authenticate_support_user!
