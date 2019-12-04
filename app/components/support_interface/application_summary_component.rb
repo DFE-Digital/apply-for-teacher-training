@@ -24,7 +24,6 @@ module SupportInterface
         support_reference_row,
         email_row,
         phone_number_row,
-        choices_row,
         submitted_row,
         last_updated_row,
       ].compact
@@ -53,19 +52,6 @@ module SupportInterface
         {
           key: 'Phone number',
           value: phone_number,
-        }
-      end
-    end
-
-    def choices_row
-      if application_choices.any?
-        {
-          key: 'Course choices',
-          value: application_choices.map do |a|
-            href = "https://find-postgraduate-teacher-training.education.gov.uk/course/#{a.course.provider.code}/#{a.course.code}"
-            text = "#{a.course.name_and_code} at #{a.course.provider.name_and_code}"
-            govuk_link_to(text, href)
-          end,
         }
       end
     end

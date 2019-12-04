@@ -24,8 +24,8 @@ en:
     unsubmitted: Not submitted yet
     withdrawn: Candidate withdrawn
   support_application_states:
-    application_complete: New
-    awaiting_provider_decision: Awaiting provider decision
+    application_complete: Waiting to be sent
+    awaiting_provider_decision: Awaiting decision
     awaiting_references: Awaiting references
     declined: Candidate declined
     enrolled: Candidate enrolled
