@@ -20,7 +20,7 @@ RSpec.describe CourseChoicesReviewComponent do
       result = render_inline(CourseChoicesReviewComponent, application_form: application_form)
 
       expect(result.css('.govuk-summary-list__key').text).to include('Location')
-      expect(result.css('.govuk-summary-list__value').to_html).to include(course_choice.site.name)
+      expect(result.css('.govuk-summary-list__value').text).to include("#{course_choice.site.name}\n#{course_choice.site.full_address}")
     end
 
     it 'renders component along with a delete link for each course' do

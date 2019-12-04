@@ -7,4 +7,10 @@ class Site < ApplicationRecord
   def name_and_code
     "#{name} (#{code})"
   end
+
+  def full_address
+    [address_line1, address_line2, address_line3, address_line4, postcode]
+      .reject(&:blank?)
+      .join(', ')
+  end
 end

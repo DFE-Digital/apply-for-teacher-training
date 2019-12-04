@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_27_105827) do
+ActiveRecord::Schema.define(version: 2019_12_04_101615) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -196,6 +196,11 @@ ActiveRecord::Schema.define(version: 2019_11_27_105827) do
     t.bigint "provider_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "address_line1"
+    t.string "address_line2"
+    t.string "address_line3"
+    t.string "address_line4"
+    t.string "postcode"
     t.index ["code", "provider_id"], name: "index_sites_on_code_and_provider_id", unique: true
     t.index ["provider_id"], name: "index_sites_on_provider_id"
   end

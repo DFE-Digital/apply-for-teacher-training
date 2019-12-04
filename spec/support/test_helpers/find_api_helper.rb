@@ -32,6 +32,11 @@ module FindAPIHelper
               'attributes': {
                 'code': site_code,
                 'location_name': 'Main site',
+                'address1': 'Gorse SCITT ',
+                'address2': 'C/O The Bruntcliffe Academy',
+                'address3': 'Bruntcliffe Lane',
+                'address4': 'MORLEY, lEEDS',
+                'postcode': 'LS27 0LZ',
               },
             },
             {
@@ -92,6 +97,11 @@ module FindAPIHelper
               'attributes': {
                 'code': site_code,
                 'location_name': 'Main site',
+                'address1': 'Gorse SCITT',
+                'address2': 'C/O The Bruntcliffe Academy',
+                'address3': 'Bruntcliffe Lane',
+                'address4': 'MORLEY, lEEDS',
+                'postcode': 'LS27 0LZ',
               },
             },
             {

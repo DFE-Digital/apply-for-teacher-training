@@ -48,7 +48,7 @@ private
   def location_row(course_choice)
     {
       key: 'Location',
-      value: course_choice.site.name,
+      value: "#{course_choice.site.name}\n#{course_choice.site.full_address}",
     }
   end
 

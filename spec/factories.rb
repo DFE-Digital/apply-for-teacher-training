@@ -115,6 +115,11 @@ FactoryBot.define do
 
     code { Faker::Alphanumeric.alphanumeric(number: 3).upcase }
     name { Faker::Educator.secondary_school }
+    address_line1 { Faker::Address.street_address }
+    address_line2 { Faker::Address.city }
+    address_line3 { Faker::Address.county }
+    address_line4 { '' }
+    postcode { Faker::Address.postcode }
   end
 
   factory :course_option do
