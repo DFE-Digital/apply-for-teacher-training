@@ -3,7 +3,7 @@ class CourseChoicesReviewComponent < ActionView::Component::Base
 
   def initialize(application_form:, editable: true, heading_level: 2, show_status: false, show_incomplete: false, missing_error: false)
     @application_form = application_form
-    @course_choices = @application_form.application_choices
+    @course_choices = @application_form.application_choices.includes(:course, :site, :provider)
     @editable = editable
     @heading_level = heading_level
     @show_status = show_status
