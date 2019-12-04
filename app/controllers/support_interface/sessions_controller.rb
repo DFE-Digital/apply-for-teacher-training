@@ -2,7 +2,9 @@ module SupportInterface
   class SessionsController < SupportInterfaceController
     skip_before_action :authenticate_support_user!
 
-    def new; end
+    def new
+      session['post_dfe_sign_in_path'] ||= support_interface_path
+    end
 
     def destroy
       SupportUser.end_session!(session)
