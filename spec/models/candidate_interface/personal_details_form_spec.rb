@@ -167,7 +167,7 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
         )
       end
 
-      it 'is invalid if the date is in the past' do
+      it 'is invalid if the date is in the future' do
         personal_details = CandidateInterface::PersonalDetailsForm.new(
           day: '2', month: '8', year: '2999',
         )
