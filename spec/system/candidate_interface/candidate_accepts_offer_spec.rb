@@ -23,7 +23,7 @@ RSpec.feature 'Candidate accepts an offer', sidekiq: true do
   end
 
   def given_the_accept_and_decline_feature_is_on
-    FeatureFlag.activate('accept_and_withdraw_via_ui')
+    FeatureFlag.activate('accept_and_decline_via_ui')
   end
 
   def given_i_am_signed_in
