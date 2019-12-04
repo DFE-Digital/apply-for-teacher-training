@@ -1,6 +1,7 @@
 module CandidateInterface
   class OtherQualificationForm
     include ActiveModel::Model
+    include ValidationUtils
 
     attr_accessor :id, :qualification_type, :subject, :institution_name, :grade,
                   :award_year
@@ -76,9 +77,7 @@ module CandidateInterface
   private
 
     def award_year_is_date_and_before_current_year
-      valid_award_year = award_year.match?(/^[1-9]\d{3}$/)
-
-      if !valid_award_year
+      if !valid_year?(award_year)
         errors.add(:award_year, :invalid)
       elsif Date.new(award_year.to_i, 1, 1).year > Date.today.year
         errors.add(:award_year, :in_the_future)
