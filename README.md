@@ -148,6 +148,21 @@ maps to provider code `ABC`. This means that if you have generated [dummy data](
 then you can enter the Uid `ABC` in the development dialog to see all the generated
 applications.
 
+### Support permissions
+
+There is a `support_users` database table that lists all the DfE Sign-in
+accounts that have access to the Support interface based on their DfE
+Sign-in UID. There is only one privilege level, either you have access
+to everything or nothing.
+
+You can add a new support user using the `create_support_user` rake
+task. You need to supply a DfE Sign-in UID and an email address, e.g.
+
+    $ bundle exec rails "create_support_user[alice, alice@example.com]"
+
+Note that only the UID is used for lookup. The email address serves only
+as a label.
+
 ## <a name="webpacker"></a>Webpacker
 
 We do not use the Rails asset pipeline. We use the Rails webpack wrapper
