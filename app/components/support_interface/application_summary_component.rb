@@ -27,6 +27,7 @@ module SupportInterface
         choices_row,
         submitted_row,
         last_updated_row,
+        state_row,
       ].compact
     end
 
@@ -93,6 +94,20 @@ module SupportInterface
           value: support_reference,
         }
       end
+    end
+
+    def state_row
+      {
+        key: 'State',
+        value: formatted_status,
+      }
+    end
+
+    def formatted_status
+      process_state = ProcessState.new(application_form).state
+      name = I18n.t!("process_states.#{process_state}.name")
+      desc = I18n.t!("process_states.#{process_state}.description")
+      "#{name} - #{desc}"
     end
 
     def application_choices
