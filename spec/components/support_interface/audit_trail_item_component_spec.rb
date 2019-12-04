@@ -13,6 +13,10 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
     @provider_user ||= ProviderUser.new(email_address: 'jim@example.com', dfe_sign_in_uid: 'abc')
   end
 
+  def support_user
+    @support_user ||= SupportUser.new(email_address: 'alice@support.com', dfe_sign_in_uid: 'alice')
+  end
+
   def audit
     @audit ||= Audited::Audit.new(
       user: candidate,
@@ -51,6 +55,14 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
     expect(render_result.text).to include('Comment on Application Form')
     expect(render_result.text).to include('some comment')
     expect(render_result.text).to include('alice@example.com (Vendor API)')
+  end
+
+  it 'renders an update on application form audit record with a Support User' do
+    audit.user = support_user
+    audit.action = 'update'
+    expect(render_result.text).to include('1 October 2019 12:10')
+    expect(render_result.text).to include('Update Application Form')
+    expect(render_result.text).to include('alice@support.com (Support User)')
   end
 
   it 'renders an update application form audit record with the username (rather than a persistent model)' do
