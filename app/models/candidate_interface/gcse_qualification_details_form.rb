@@ -1,6 +1,7 @@
 module CandidateInterface
   class GcseQualificationDetailsForm
     include ActiveModel::Model
+    include ValidationUtils
 
     attr_accessor :grade, :award_year, :qualification
     validates :grade, :award_year, presence: true
@@ -29,7 +30,7 @@ module CandidateInterface
   private
 
     def award_year_is_date
-      valid_award_year = award_year.match(/^[1-9]\d{3}$/)
+      valid_award_year = valid_year?(award_year)
       errors.add(:award_year, :invalid) unless valid_award_year
     end
 

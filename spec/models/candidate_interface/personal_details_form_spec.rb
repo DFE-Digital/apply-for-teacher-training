@@ -109,9 +109,9 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
     end
 
     it 'returns a date for a valid day/month/year' do
-      personal_details = CandidateInterface::PersonalDetailsForm.new(day: '2', month: '8', year: '802701')
+      personal_details = CandidateInterface::PersonalDetailsForm.new(day: '2', month: '8', year: '1990')
 
-      expect(personal_details.date_of_birth).to eq(Date.new(802701, 8, 2))
+      expect(personal_details.date_of_birth).to eq(Date.new(1990, 8, 2))
     end
   end
 
@@ -167,9 +167,9 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
         )
       end
 
-      it 'is invalid if the date is in the past' do
+      it 'is invalid if the date is in the future' do
         personal_details = CandidateInterface::PersonalDetailsForm.new(
-          day: '2', month: '8', year: '802701',
+          day: '2', month: '8', year: '2999',
         )
 
         personal_details.validate
