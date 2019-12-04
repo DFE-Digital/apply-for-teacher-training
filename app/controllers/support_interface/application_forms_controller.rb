@@ -1,7 +1,7 @@
 module SupportInterface
   class ApplicationFormsController < SupportInterfaceController
     def index
-      @application_forms = ApplicationForm.includes(:candidate, :references).sort_by(&:updated_at).reverse
+      @application_forms = ApplicationForm.includes(:candidate, :references, :application_choices).sort_by(&:updated_at).reverse
     end
 
     def show

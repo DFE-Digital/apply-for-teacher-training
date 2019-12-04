@@ -1,4 +1,35 @@
 en:
+  process_states:
+    unsubmitted:
+      name: Unsubmitted
+      description: Candidate hasn’t submitted the form yet
+    awaiting_references:
+      name: Awaiting references
+      description: Candidate has submitted the form. We’ve asked their references for feedback, and are still waiting on one or more of those.
+    waiting_to_be_sent:
+      name: Waiting to be sent
+      description: All of the references have come in, but we haven’t sent the applications to the provider yet
+    awaiting_provider_decisions:
+      name: Awaiting decisions from providers
+      description: We’ve sent the applications to the providers, but we haven’t heard back from all of them
+    awaiting_candidate_response:
+      name: Awaiting decision from candidate
+      description: All providers have responded and it’s now up to the candidate to make a decision
+    pending_conditions:
+      name: Pending conditions
+      description: The candidate has accepted an offer. The provider now has to confirm to us that the candidate has met the conditions in the offer.
+    recruited:
+      name: Recruited
+      description: The candidate has been recruited, but hasn’t enrolled yet.
+    enrolled:
+      name: Enrolled
+      description: The candidate has enrolled in the course.
+    ended_without_success:
+      name: Ended without success
+      description: All of the candidate’s applications have been withdrawn, rejected or declined.
+    unknown_state:
+      name: 'Unknown!'
+      description: This application is a state that we don’t recognise. Please report this to a developer.
   candidate_application_states:
     application_complete: Submitted
     awaiting_provider_decision: Pending
