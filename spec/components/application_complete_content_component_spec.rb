@@ -104,6 +104,16 @@ RSpec.describe ApplicationCompleteContentComponent do
 
       expect(render_result.text).to include('All your training providers have now reached a decision')
     end
+
+    it 'renders when the only offer has been rejected' do
+      application_form = create(:completed_application_form, :without_application_choices)
+
+      create(:application_choice, application_form: application_form, status: :rejected)
+
+      render_result = render_inline(ApplicationCompleteContentComponent, application_form: application_form)
+
+      expect(render_result.text).to include('All your training providers have now reached a decision')
+    end
   end
 
   context 'when the application has accepted an offer' do
