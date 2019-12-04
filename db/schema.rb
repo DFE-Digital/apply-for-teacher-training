@@ -212,6 +212,7 @@ ActiveRecord::Schema.define(version: 2019_12_04_101615) do
     t.string "dfe_sign_in_uid", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "email_address", null: false
     t.index ["dfe_sign_in_uid"], name: "index_support_users_on_dfe_sign_in_uid", unique: true
   end
 
