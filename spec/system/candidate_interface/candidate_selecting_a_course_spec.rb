@@ -17,6 +17,7 @@ RSpec.feature 'Selecting a course' do
     then_i_should_see_an_error
 
     and_i_choose_a_course
+    then_i_see_the_address
     and_i_choose_a_location
     then_i_see_my_completed_course_choice
 
@@ -43,7 +44,16 @@ RSpec.feature 'Selecting a course' do
 
   def and_there_are_course_options
     provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
-    site = create(:site, name: 'Main site', code: '-', provider: provider)
+    site = create(
+      :site, name: 'Main site',
+      code: '-',
+      provider: provider,
+      address_line1: 'Gorse SCITT',
+      address_line2: 'C/O The Bruntcliffe Academy',
+      address_line3: 'Bruntcliffe Lane',
+      address_line4: 'MORLEY, lEEDS',
+      postcode: 'LS27 0LZ'
+    )
     course = create(:course, name: 'Primary', code: '2XT2', provider: provider, exposed_in_find: true, open_on_apply: true)
     create(:course_option, site: site, course: course, vacancy_status: 'B')
   end
@@ -81,6 +91,10 @@ RSpec.feature 'Selecting a course' do
   def and_i_choose_a_course
     choose 'Primary (2XT2)'
     click_button 'Continue'
+  end
+
+  def then_i_see_the_address
+    expect(page).to have_content('Gorse SCITT, C/O The Bruntcliffe Academy, Bruntcliffe Lane, MORLEY, lEEDS, LS27 0LZ')
   end
 
   def and_i_choose_a_location
