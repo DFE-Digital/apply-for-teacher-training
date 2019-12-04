@@ -23,7 +23,7 @@ class ReceiveReference
         .update!(feedback: @feedback)
 
       if @application_form.references_complete?
-        @application_form.application_choices.each do |application_choice|
+        @application_form.application_choices.includes(:course_option).each do |application_choice|
           ApplicationStateChange.new(application_choice).references_complete!
         end
       end

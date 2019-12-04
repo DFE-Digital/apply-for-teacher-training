@@ -33,7 +33,7 @@ RSpec.describe ReceiveReference do
     )
     action.save
 
-    expect(application_form).to be_references_complete
+    expect(application_form.reload).to be_references_complete
     expect(application_form.application_choices).to all(be_application_complete)
   end
 
