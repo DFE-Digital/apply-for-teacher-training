@@ -1,7 +1,7 @@
 class FeatureFlag
   FEATURES = %w[
     pilot_open
-    accept_and_withdraw_via_ui
+    accept_and_decline_via_ui
     conditional_science_gcse
   ].freeze
 

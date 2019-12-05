@@ -19,7 +19,12 @@ RSpec.describe SyncProviderFromFind do
       expect(course_option.course.provider.code).to eq 'ABC'
       expect(course_option.course.code).to eq '9CBA'
       expect(course_option.course.exposed_in_find).to be true
-      expect(course_option.site.code).to eq 'G'
+      expect(course_option.site.name).to eq 'Main site'
+      expect(course_option.site.address_line1).to eq 'Gorse SCITT'
+      expect(course_option.site.address_line2).to eq 'C/O The Bruntcliffe Academy'
+      expect(course_option.site.address_line3).to eq 'Bruntcliffe Lane'
+      expect(course_option.site.address_line4).to eq 'MORLEY, lEEDS'
+      expect(course_option.site.postcode).to eq 'LS27 0LZ'
     end
 
     it 'correctly handles accrediting providers' do

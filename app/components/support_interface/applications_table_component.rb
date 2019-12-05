@@ -17,6 +17,7 @@ module SupportInterface
           first_reference_status: reference_status(application_form.references[0], submitted),
           second_reference_status: reference_status(application_form.references[1], submitted),
           updated_at: application_form.updated_at.strftime('%e %b %Y at %l:%M%P'),
+          process_state: ProcessState.new(application_form).state,
         }
       end
     end

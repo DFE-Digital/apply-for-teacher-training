@@ -23,6 +23,17 @@
   <%= button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@application_form.candidate), class: 'govuk-button' %>
 <% end %>
 
+<% @application_form.application_choices.includes(:course, :provider, :site).each do |application_choice| %>
+  <h2 class="govuk-heading-l govuk-!-margin-top-8"><%= application_choice.course.name_and_code %></h2>
+  <%= render SummaryListComponent, rows: [
+    { key: 'Course', value: application_choice.course.name_and_code },
+    { key: 'Provider', value: application_choice.provider.name_and_code },
+    { key: 'Location', value: application_choice.site.name_and_code },
+    { key: 'Status', value: render(SupportInterface::ApplicationStatusTagComponent, application_choice: application_choice) },
+    { key: 'Reject by default at', value: application_choice.reject_by_default_at.to_s },
+  ] %>
+<% end %>
+
 <% @application_form.references.each_with_index do |reference, i| %>
   <h2 class="govuk-heading-l govuk-!-margin-top-8"><%= (i + 1).ordinalize %> reference</h2>
 

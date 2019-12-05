@@ -1,0 +1,15 @@
+Dear <%= @application.candidate_name %>,
+
+# Your application is being considered
+
+Your application is now with your teacher training <%= 'provider'.pluralize(@application.choice_count) %>.
+
+We’ve asked them to make a final decision before <%= @application.rbd_date.strftime('%-e %B %Y') %> (<%= @application.rbd_days %> working days).
+
+They’ll be in touch with you sooner if they want to arrange an interview.
+
+You can review your application by signing in to Apply for teacher training:
+
+[<%= candidate_interface_sign_in_url %>](<%= candidate_interface_sign_in_url %>)
+
+You’ll be able to see the outcome of your application when a decision has been made.

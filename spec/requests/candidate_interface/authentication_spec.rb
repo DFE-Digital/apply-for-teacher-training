@@ -24,13 +24,4 @@ RSpec.describe 'Authentication for candidates', type: :request do
     # TODO: add a better check once we have implemented error messages
     expect(response).to have_http_status(302)
   end
-
-  it 'authenticates and redirects to itself to remove the token from URL' do
-    magic_link_token = MagicLinkToken.new
-    create(:candidate, magic_link_token: magic_link_token.encrypted, magic_link_token_sent_at: Time.now)
-
-    get candidate_interface_application_form_url(token: magic_link_token.raw)
-
-    expect(response).to redirect_to(candidate_interface_application_form_path)
-  end
 end
