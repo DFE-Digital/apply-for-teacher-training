@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API - audit trail', type: :request do
+RSpec.describe 'Vendor API - audit trail', type: :request, with_audited: true do
   include VendorApiSpecHelpers
   include CourseOptionHelpers
 

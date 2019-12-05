@@ -24,7 +24,7 @@ RSpec.describe ApplicationChoice, type: :model do
     end
   end
 
-  describe 'auditing' do
+  describe 'auditing', with_audited: true do
     it 'creates audit entries' do
       application_choice = create :application_choice
       expect(application_choice.audits.count).to eq 1
