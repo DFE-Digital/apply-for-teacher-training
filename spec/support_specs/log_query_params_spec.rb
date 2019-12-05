@@ -1,12 +1,14 @@
 require 'rails_helper'
 
 class DummyController < ApplicationController
-  include LogRequestParams
+  include LogQueryParams
   attr_accessor :request
-  def initialize; @request = Struct.new(:get?).new(true); end
+  def initialize
+    @request = Struct.new(:query_parameters, :path_parameters).new({}, {})
+  end
 end
 
-RSpec.describe LogRequestParams do
+RSpec.describe LogQueryParams do
   context 'module inclusion' do
     it 'adds #add_params_to_request_store to the class' do
       expect(DummyController.new).to respond_to(:add_params_to_request_store)
@@ -22,42 +24,40 @@ RSpec.describe LogRequestParams do
     let(:controller) { DummyController.new }
     let(:logged_params) { RequestLocals.fetch(:params) { nil } }
 
-    it 'excludes authenticity_token from the logs' do
-      allow(controller).to receive(:params).and_return(
+    it 'excludes the sign_in token from the logs' do
+      allow(controller.request).to receive(:query_parameters).and_return(
         non_excluded: 'true',
-        authenticity_token: 'xyz',
+        token: 'xyz',
       )
 
       controller.add_params_to_request_store
+
       expect(logged_params[:non_excluded]).not_to be_nil
-      expect(logged_params[:authenticity_token]).to be_nil
+      expect(logged_params[:token]).to be_nil
     end
 
-    it 'excludes any candidate_interface form from the logs' do
-      allow(controller).to receive(:params).and_return(
-        non_excluded: 'true',
-        candidate_interface_sign_up_form: {
-          email_address: 'somebody@somewhere.com',
-          accept_ts_and_cs: 'true',
-        },
+    it 'excludes email addresses passed as query_parameters from the logs' do
+      allow(controller.request).to receive(:query_parameters).and_return(
+        email: 'user@example.com',
+        email_address: 'user@example.com',
       )
 
       controller.add_params_to_request_store
-      expect(logged_params[:non_excluded]).not_to be_nil
-      expect(logged_params[:candidate_interface_sign_up_form]).to be_nil
+
+      expect(logged_params[:email]).to be_nil
+      expect(logged_params[:email_address]).to be_nil
     end
 
-    it 'only includes controller and action params for non-GET requests' do
-      allow(controller).to receive(:params).and_return(
-        other_param: 'true',
+    it 'includes path_parameters in the logs' do
+      allow(controller.request).to receive(:path_parameters).and_return(
+        application_id: 15,
         controller: 'DummyController',
         action: 'index',
       )
 
-      controller.request = Struct.new(:get?).new(false)
       controller.add_params_to_request_store
 
-      expect(logged_params[:other_param]).to be_nil
+      expect(logged_params[:application_id]).to eq(15)
       expect(logged_params[:controller]).to eq('DummyController')
       expect(logged_params[:action]).to eq('index')
     end

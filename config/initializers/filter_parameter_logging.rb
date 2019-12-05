@@ -2,6 +2,7 @@
 
 # Configure sensitive parameters which will be filtered from the log file.
 SANITIZED_REQUEST_PARAMS = %i[
+  token
   address_line1
   address_line2
   address_line3
