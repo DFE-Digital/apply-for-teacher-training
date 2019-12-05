@@ -4,12 +4,20 @@ class GenerateTestApplications
   def perform
     raise 'You can\'t generate test data in production' if HostingEnvironment.production?
 
-    (1..11).each do |i|
-      create_an_application(i)
+    without_slack_message_sending do
+      (1..11).each do |i|
+        create_an_application(i)
+      end
     end
   end
 
 private
+
+  def without_slack_message_sending
+    RequestStore.store[:disable_slack_messages] = true
+    yield
+    RequestStore.store[:disable_slack_messages] = false
+  end
 
   def create_an_application(application_index)
     first_name = Faker::Name.unique.first_name
