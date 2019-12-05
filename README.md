@@ -56,7 +56,9 @@ See `Makefile` for the steps involved in building and running the app.
 
 The course and training provider data in the `Apply` service comes from its
 sister service `Find`. To populate your local database with course data from
-`Find`, run `bundle exec rake setup_local_dev_data`.
+`Find`, run `bundle exec rake setup_local_dev_data`. This task also
+creates a support user with DfE Sign-in UID `dev-support` that you can
+use to log into the Support interface in your development environment.
 
 ### Background processing
 

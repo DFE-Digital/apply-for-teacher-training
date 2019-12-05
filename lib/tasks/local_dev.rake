@@ -9,4 +9,7 @@ task setup_local_dev_data: :environment do
   Course.update_all(open_on_apply: true)
 
   FeatureFlag.activate('pilot_open')
+
+  puts 'Create a support user with DfE Sign-in UID `dev-support` and email `support@example.com`...'
+  SupportUser.find_or_create_by!(dfe_sign_in_uid: 'dev-support', email_address: 'support@example.com')
 end
