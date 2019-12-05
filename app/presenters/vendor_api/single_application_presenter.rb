@@ -125,10 +125,19 @@ module VendorApi
 
     def qualifications
       {
-        gcses: application_form.application_qualifications.gcses.map do |gcse| qualification_to_hash(gcse) end,
-        degrees: application_form.application_qualifications.degrees.map do |degree| qualification_to_hash(degree) end,
-        other_qualifications: application_form.application_qualifications.other.map do |other| qualification_to_hash(other) end,
+        gcses: qualifications_of_level('gcse').map { |q| qualification_to_hash(q) },
+        degrees: qualifications_of_level('degree').map { |q| qualification_to_hash(q) },
+        other_qualifications: qualifications_of_level('other').map { |q| qualification_to_hash(q) },
       }
+    end
+
+    def qualifications_of_level(level)
+      # NOTE: we do it this way so that it uses the already-included relation
+      # rather than triggering separate queries, as it does if we use the scopes
+      # .gcses .degrees etc
+      application_form.application_qualifications.select do |q|
+        q.level == level
+      end
     end
 
     def qualification_to_hash(qualification)

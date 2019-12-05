@@ -19,6 +19,8 @@ SimpleCov.start 'rails'
 require 'sidekiq/testing'
 require 'clockwork/test'
 require 'audited-rspec'
+require 'rspec-benchmark'
+
 ENV['SERVICE_TYPE'] = 'test' # this is used for logging
 ENV['STATE_CHANGE_SLACK_URL'] = nil # ensure tests send no Slack notifications
 
@@ -103,4 +105,6 @@ RSpec.configure do |config|
   # end of the spec run, to help surface which specs are running
   # particularly slow.
   # config.profile_examples = 10
+  config.include RSpec::Benchmark::Matchers
+
 end
