@@ -11,7 +11,7 @@ RSpec.describe RefereeMailer, type: :mailer do
       create(
         :completed_application_form,
         first_name: 'Harry',
-        last_name: 'Potter',
+        last_name: "O'Potter",
         application_choices_count: 0,
         application_choices: [
           first_application_choice,
@@ -48,8 +48,7 @@ RSpec.describe RefereeMailer, type: :mailer do
     end
 
     it 'encodes spaces as %20 rather than + in the Google form parameters for correct prefilling' do
-      expect(mail.body.encoded).to include("=#{candidate_name.gsub(' ', '%20')}")
-      expect(mail.body.encoded).to include("=#{reference.name.gsub(' ', '%20')}")
+      expect(mail.body.encoded).to include('Harry%20O%27Potter')
     end
 
     context 'an email containing a +' do
