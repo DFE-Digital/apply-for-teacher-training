@@ -62,6 +62,8 @@ private
               :info_unfilled
             when 'rejected'
               :danger
+            when 'withdrawn'
+              :danger
             when 'pending_conditions'
               :info
             when 'declined'

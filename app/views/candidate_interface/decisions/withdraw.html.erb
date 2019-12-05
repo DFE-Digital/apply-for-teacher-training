@@ -10,7 +10,7 @@
     <p class="govuk-body">Confirm you would like to withdraw your application to study:</p>
     <p class="govuk-body"><strong><%= @application_choice.course.name_and_code %> at <%= @application_choice.provider.name %></strong></p>
     <% if FeatureFlag.active?('candidate_withdrawals') %>
-      <%= button_to 'Withdraw my application', candidate_interface_withdraw_path, class: 'govuk-button' %>
+      <%= button_to 'Withdraw my application', candidate_interface_withdraw_path, class: 'govuk-button govuk-button--warning' %>
     <% else %>
       <p class="govuk-body">by emailing us at <%= govuk_link_to 'becomingateacher@digital.education.gov.uk', 'mailto:becomingateacher@digital.education.gov.uk' %>.</p>
       <p class="govuk-body">We’ll contact your training provider and send you an email confirming that your application has been withdrawn.</p>
