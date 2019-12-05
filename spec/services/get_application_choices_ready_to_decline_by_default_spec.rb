@@ -19,38 +19,38 @@ RSpec.describe GetApplicationChoicesReadyToDeclineByDefault do
   end
 
   it 'returns application choices with decline_by_default_at in the past' do
-    create_application(
+    application1 = create_application(
       status: 'offer',
       decline_by_default_at: 1.business_days.ago,
     )
-    create_application(
+    application2 = create_application(
       status: 'offer',
       decline_by_default_at: 2.business_days.from_now,
     )
-    create_application(
+    application3 = create_application(
       status: 'offer',
       decline_by_default_at: 3.business_days.ago,
     )
     Timecop.travel(1.business_days.from_now) do
       choices = described_class.call
-      expect(choices).to include application_form.application_choices.first
-      expect(choices).not_to include application_form.application_choices.second
-      expect(choices).to include application_form.application_choices.third
+      expect(choices).to include application1
+      expect(choices).not_to include application2
+      expect(choices).to include application3
     end
   end
 
   it 'does not return application choices unless they are in :offer state' do
-    create_application(
+    application1 = create_application(
       status: 'offer',
       decline_by_default_at: 1.business_days.ago,
     )
-    create_application(
+    application2 = create_application(
       status: 'awaiting_provider_decision',
       decline_by_default_at: 1.business_days.ago,
     )
     Timecop.travel(1.business_days.from_now) do
-      expect(described_class.call).to include application_form.application_choices.first
-      expect(described_class.call).not_to include application_form.application_choices.second
+      expect(described_class.call).to include application1
+      expect(described_class.call).not_to include application2
     end
   end
 end

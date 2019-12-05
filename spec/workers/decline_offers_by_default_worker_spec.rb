@@ -12,17 +12,6 @@ RSpec.describe DeclineOffersByDefaultWorker do
   end
 
   describe 'processes all application_choices' do
-    it 'processes all application choices returned by the query service' do
-      decline_instance = instance_double(decline_service)
-      allow(decline_instance).to receive(:call)
-      allow(decline_service).to receive(:new).and_return(decline_instance)
-      invoke_worker
-      choices.each do |choice|
-        expect(decline_service).to have_received(:new).with(application_choice: choice)
-      end
-      expect(decline_instance).to have_received(:call).exactly(3).times
-    end
-
     it 'declines all application choices returned by the query service' do
       invoke_worker
       choices.each do |choice|
