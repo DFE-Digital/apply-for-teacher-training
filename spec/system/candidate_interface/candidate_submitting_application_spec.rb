@@ -6,15 +6,11 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
   scenario 'Candidate with a completed application' do
     given_i_am_signed_in
 
-    and_i_review_my_application
-    and_i_confirm_my_application
-    then_i_should_see_an_error_that_i_have_not_completed_everything
-
-    and_i_have_completed_my_application
-
+    when_i_have_completed_my_application
     and_i_review_my_application
 
-    then_i_can_see_my_course_choices
+    then_i_should_see_all_sections_are_complete
+    and_i_can_see_my_course_choices
     and_i_can_see_my_personal_details
     and_i_can_see_my_contact_details
     and_i_can_see_my_volunteering_roles
@@ -61,13 +57,8 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
     create_and_sign_in_candidate
   end
 
-  def and_i_have_completed_my_application
+  def when_i_have_completed_my_application
     candidate_completes_application_form
-  end
-
-  def then_i_should_see_an_error_that_i_have_not_completed_everything
-    expect(page).to have_content t('page_titles.review_application')
-    expect(page).to have_content 'There is a problem'
   end
 
   def when_i_attempt_to_edit_my_personal_details
@@ -83,7 +74,13 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
     when_i_click_on_check_your_answers
   end
 
-  def then_i_can_see_my_course_choices
+  def then_i_should_see_all_sections_are_complete
+    CandidateHelper::APPLICATION_FORM_SECTIONS.each do |section|
+      expect(page).not_to have_selector "[aria-describedby='missing-#{section}']"
+    end
+  end
+
+  def and_i_can_see_my_course_choices
     expect(page).to have_content 'Gorse SCITT'
     expect(page).to have_content 'Primary (2XT2)'
   end
@@ -147,7 +144,6 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
     expect(page).to have_content 'anne@other.com'
     expect(page).to have_content 'First boss'
   end
-
 
   def and_i_visit_the_application_form_page
     visit candidate_interface_application_form_path
