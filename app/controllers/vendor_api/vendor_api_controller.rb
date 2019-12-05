@@ -1,7 +1,7 @@
 module VendorApi
   class VendorApiController < ActionController::API
     include ActionController::HttpAuthentication::Token::ControllerMethods
-    include LogRequestParams
+    include LogQueryParams
 
     rescue_from ActiveRecord::RecordNotFound, with: :application_not_found
     rescue_from ActionController::ParameterMissing, with: :parameter_missing

@@ -1,6 +1,6 @@
 module CandidateInterface
   class CandidateInterfaceController < ActionController::Base
-    include LogRequestParams
+    include LogQueryParams
     before_action :protect_with_basic_auth
     before_action :authenticate_candidate!
     before_action :add_identity_to_log
@@ -24,8 +24,8 @@ module CandidateInterface
     end
 
     # controller-specific additional info to include in logstash logs
-    def add_identity_to_log
-      RequestLocals.store[:identity] = { candidate_id: current_candidate&.id }
+    def add_identity_to_log(candidate_id = current_candidate&.id)
+      RequestLocals.store[:identity] = { candidate_id: candidate_id }
     end
 
     def current_application

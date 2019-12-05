@@ -1,6 +1,6 @@
 module SupportInterface
   class SupportInterfaceController < ActionController::Base
-    include LogRequestParams
+    include LogQueryParams
 
     layout 'support_layout'
     before_action :protect_with_basic_auth

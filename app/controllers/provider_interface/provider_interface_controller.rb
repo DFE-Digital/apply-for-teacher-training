@@ -1,6 +1,6 @@
 module ProviderInterface
   class ProviderInterfaceController < ActionController::Base
-    include LogRequestParams
+    include LogQueryParams
     before_action :authenticate_provider_user!
     around_action :set_audit_username
     layout 'application'
