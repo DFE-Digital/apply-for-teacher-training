@@ -8,6 +8,7 @@ RSpec.describe 'A support user authenticates via DfE Sign-in' do
 
     when_i_visit_the_support_interface
     then_i_should_be_redirected_to_login_page
+    and_i_should_not_see_support_menu
 
     when_i_sign_in_via_dfe_sign_in
 
@@ -28,6 +29,9 @@ RSpec.describe 'A support user authenticates via DfE Sign-in' do
 
   def then_i_should_be_redirected_to_login_page
     expect(page).to have_current_path support_interface_sign_in_path
+  end
+
+  def and_i_should_not_see_support_menu
     expect(page).not_to have_link 'Applications'
     expect(page).not_to have_link 'APITokens'
     expect(page).not_to have_link 'Vendors'

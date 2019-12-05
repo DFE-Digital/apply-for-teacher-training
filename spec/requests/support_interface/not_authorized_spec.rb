@@ -11,7 +11,7 @@ RSpec.describe 'GET /support/applications' do
           ),
       )
 
-      # do not grant the user permission to view a provider's applications
+      # do not grant the DfE Sign-in user permission to view the support interface
     end
 
     it 'returns 403 with the account-creation-in-progress page' do
