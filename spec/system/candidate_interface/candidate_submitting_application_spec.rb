@@ -13,6 +13,19 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
     and_i_have_completed_my_application
 
     and_i_review_my_application
+
+    then_i_can_see_my_course_choices
+    and_i_can_see_my_personal_details
+    and_i_can_see_my_contact_details
+    and_i_can_see_my_volunteering_roles
+    and_i_can_see_my_degree
+    and_i_can_see_my_gcses
+    and_i_can_see_my_other_qualification
+    and_i_can_see_my_becoming_a_teacher_info
+    and_i_can_see_my_subject_knowlegde_info
+    and_i_can_see_my_interview_preferences
+    and_i_can_see_my_referees
+
     and_i_confirm_my_application
 
     when_i_choose_to_add_further_information_but_omit_adding_details
@@ -69,6 +82,72 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
     and_i_visit_the_application_form_page
     when_i_click_on_check_your_answers
   end
+
+  def then_i_can_see_my_course_choices
+    expect(page).to have_content 'Gorse SCITT'
+    expect(page).to have_content 'Primary (2XT2)'
+  end
+
+  def and_i_can_see_my_personal_details
+    expect(page).to have_content 'Lando Calrissian'
+    expect(page).to have_content '6 April 1937'
+    expect(page).to have_content 'British and American'
+    expect(page).to have_content "I'm great at Galactic Basic so English is a piece of cake"
+  end
+
+  def and_i_can_see_my_contact_details
+    expect(page).to have_content '07700 900 982'
+    expect(page).to have_content '42 Much Wow Street'
+    expect(page).to have_content 'London'
+    expect(page).to have_content 'SW1P 3BT'
+  end
+
+  def and_i_can_see_my_volunteering_roles
+    expect(page).to have_content 'Classroom Volunteer'
+    expect(page).to have_content 'A Noice School'
+    expect(page).to have_content 'I volunteered.'
+  end
+
+  def and_i_can_see_my_degree
+    expect(page).to have_content 'BA Doge'
+    expect(page).to have_content 'University of Much Wow'
+    expect(page).to have_content 'First'
+    expect(page).to have_content '2009'
+  end
+
+  def and_i_can_see_my_gcses
+    expect(page).to have_content '1990'
+  end
+
+  def and_i_can_see_my_other_qualification
+    expect(page).to have_content 'A-Level Believing in the Heart of the Cards'
+    expect(page).to have_content 'Yugi College'
+    expect(page).to have_content 'A'
+    expect(page).to have_content '2015'
+  end
+
+  def and_i_can_see_my_becoming_a_teacher_info
+    expect(page).to have_content 'I believe I would be a first-rate teacher'
+  end
+
+  def and_i_can_see_my_subject_knowlegde_info
+    expect(page).to have_content 'Everything'
+  end
+
+  def and_i_can_see_my_interview_preferences
+    expect(page).to have_content 'Not on a Wednesday'
+  end
+
+  def and_i_can_see_my_referees
+    expect(page).to have_content 'Terri Tudor'
+    expect(page).to have_content 'terri@example.com'
+    expect(page).to have_content 'Tutor'
+
+    expect(page).to have_content 'Anne Other'
+    expect(page).to have_content 'anne@other.com'
+    expect(page).to have_content 'First boss'
+  end
+
 
   def and_i_visit_the_application_form_page
     visit candidate_interface_application_form_path
