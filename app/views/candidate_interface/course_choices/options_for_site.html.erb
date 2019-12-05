@@ -9,7 +9,7 @@
       <%= f.govuk_radio_buttons_fieldset :course_option_id, legend: { size: 'xl', text: t('page_titles.which_location') } do %>
         <div class="govuk-!-margin-top-6">
           <% @pick_site.available_sites.each_with_index do |option, i| %>
-            <%= f.govuk_radio_button :course_option_id, option.id, label: { text: option.site.name }, link_errors: i.zero? %>
+            <%= f.govuk_radio_button :course_option_id, option.id, label: { text: option.site.name }, link_errors: i.zero?, hint_text: option.site.full_address %>
           <% end %>
         </div>
       <% end %>

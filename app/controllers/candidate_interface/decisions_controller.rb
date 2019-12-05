@@ -3,7 +3,7 @@ module CandidateInterface
     before_action :set_application_choice
 
     def offer
-      if FeatureFlag.active?('accept_and_withdraw_via_ui')
+      if FeatureFlag.active?('accept_and_decline_via_ui')
         @respond_to_offer = CandidateInterface::RespondToOfferForm.new
       else
         render :offer_via_support

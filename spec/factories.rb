@@ -115,6 +115,11 @@ FactoryBot.define do
 
     code { Faker::Alphanumeric.alphanumeric(number: 3).upcase }
     name { Faker::Educator.secondary_school }
+    address_line1 { Faker::Address.street_address }
+    address_line2 { Faker::Address.city }
+    address_line3 { Faker::Address.county }
+    address_line4 { '' }
+    postcode { Faker::Address.postcode }
   end
 
   factory :course_option do
@@ -153,6 +158,14 @@ FactoryBot.define do
     trait :awaiting_provider_decision do
       association :application_form, factory: %i[completed_application_form without_application_choices with_completed_references]
       status { :awaiting_provider_decision }
+
+      reject_by_default_days { 40 }
+      reject_by_default_at { 40.business_days.from_now }
+    end
+
+    trait :ready_to_send_to_provider do
+      status { :application_complete }
+      edit_by { 1.day.ago }
     end
 
     trait :with_offer do

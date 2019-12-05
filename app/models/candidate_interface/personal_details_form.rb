@@ -1,6 +1,7 @@
 module CandidateInterface
   class PersonalDetailsForm
     include ActiveModel::Model
+    include ValidationUtils
 
     attr_accessor :first_name, :last_name,
                   :day, :month, :year,
@@ -66,7 +67,8 @@ module CandidateInterface
 
     def date_of_birth
       date_args = [year, month, day].map(&:to_i)
-      if Date.valid_date?(*date_args)
+
+      if valid_year?(year) && Date.valid_date?(*date_args)
         Date.new(*date_args)
       end
     end
