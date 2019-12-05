@@ -7,10 +7,12 @@ RSpec.feature 'Provider responds to application' do
   let(:course_option) { course_option_for_provider_code(provider_code: 'ABC') }
 
   let(:application_awaiting_provider_decision) do
-    create(:application_choice, status: 'awaiting_provider_decision', course_option: course_option)
+    create(:submitted_application_choice, status: 'awaiting_provider_decision', course_option: course_option)
   end
 
-  let(:application_rejected) { create(:application_choice, status: 'rejected', course_option: course_option) }
+  let(:application_rejected) do
+    create(:submitted_application_choice, status: 'rejected', course_option: course_option)
+  end
 
   scenario 'Provider can respond to an application currently awaiting_provider_decision' do
     given_i_am_a_provider_user_authenticated_with_dfe_sign_in

@@ -7,7 +7,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
 
   it 'returns applications of the authenticated provider' do
     create_list(
-      :application_choice,
+      :submitted_application_choice,
       2,
       course_option: course_option_for_provider(provider: currently_authenticated_provider),
       status: 'awaiting_provider_decision',
@@ -16,7 +16,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
     alternate_provider = create(:provider, code: 'DIFFERENT')
 
     create_list(
-      :application_choice,
+      :submitted_application_choice,
       1,
       course_option: course_option_for_provider(provider: alternate_provider),
       status: 'awaiting_provider_decision',
@@ -64,14 +64,14 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
 
   it 'returns applications that are in a viewable state' do
     create_list(
-      :application_choice,
+      :submitted_application_choice,
       2,
       course_option: course_option_for_provider(provider: currently_authenticated_provider),
       status: :awaiting_provider_decision,
     )
 
     create_list(
-      :application_choice,
+      :submitted_application_choice,
       3,
       course_option: course_option_for_provider(provider: currently_authenticated_provider),
       status: :unsubmitted,

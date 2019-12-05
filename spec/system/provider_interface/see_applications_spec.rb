@@ -55,14 +55,14 @@ RSpec.feature 'See applications' do
   def and_my_organisation_has_applications
     course_option = course_option_for_provider_code(provider_code: 'ABC')
 
-    @my_provider_choice1  = create(:application_choice, status: 'awaiting_provider_decision', course_option: course_option)
-    @my_provider_choice2  = create(:application_choice, status: 'awaiting_provider_decision', course_option: course_option)
+    @my_provider_choice1  = create(:submitted_application_choice, status: 'awaiting_provider_decision', course_option: course_option)
+    @my_provider_choice2  = create(:submitted_application_choice, status: 'awaiting_provider_decision', course_option: course_option)
   end
 
   def and_another_organisation_has_applications
     other_course_option = course_option_for_provider_code(provider_code: 'ANOTHER_ORG')
 
-    @other_provider_choice = create(:application_choice, status: 'awaiting_provider_decision', course_option: other_course_option)
+    @other_provider_choice = create(:submitted_application_choice, status: 'awaiting_provider_decision', course_option: other_course_option)
   end
 
   def and_i_visit_the_provider_page
