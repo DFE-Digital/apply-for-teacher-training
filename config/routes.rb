@@ -251,8 +251,8 @@ Rails.application.routes.draw do
     get '/sign-out' => 'sessions#destroy'
   end
 
-  get '/auth/dfe/callback' => 'provider_interface/sessions#callback'
-  post '/auth/developer/callback' => 'provider_interface/sessions#bypass_callback'
+  get '/auth/dfe/callback' => 'dfe_sign_in#callback'
+  post '/auth/developer/callback' => 'dfe_sign_in#bypass_callback'
 
   namespace :support_interface, path: '/support' do
     get '/' => redirect('/support/applications')
