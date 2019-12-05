@@ -1,5 +1,7 @@
 class GenerateTestApplications
-  def generate
+  include Sidekiq::Worker
+
+  def perform
     raise 'You can\'t generate test data in production' if HostingEnvironment.production?
 
     (1..11).each do |i|
