@@ -12,7 +12,12 @@ module LogRequestParams
   end
 
   def add_params_to_request_store
-    keys_to_ignore = IGNORE_PARAMS.map { |regexp| params.keys.grep(regexp) }.flatten.uniq
-    RequestLocals.store[:params] = params.except(*keys_to_ignore)
+    if request.get?
+      keys_to_ignore = IGNORE_PARAMS.map { |regexp| params.keys.grep(regexp) }.flatten.uniq
+      RequestLocals.store[:params] = params.except(*keys_to_ignore)
+    else # suppress params logging for form submissions
+      minimal_params = { controller: params[:controller], action: params[:action] }
+      RequestLocals.store[:params] = minimal_params
+    end
   end
 end

@@ -2,6 +2,8 @@ require 'rails_helper'
 
 class DummyController < ApplicationController
   include LogRequestParams
+  attr_accessor :request
+  def initialize; @request = Struct.new(:get?).new(true); end
 end
 
 RSpec.describe LogRequestParams do
@@ -43,6 +45,21 @@ RSpec.describe LogRequestParams do
       controller.add_params_to_request_store
       expect(logged_params[:non_excluded]).not_to be_nil
       expect(logged_params[:candidate_interface_sign_up_form]).to be_nil
+    end
+
+    it 'only includes controller and action params for non-GET requests' do
+      allow(controller).to receive(:params).and_return(
+        other_param: 'true',
+        controller: 'DummyController',
+        action: 'index',
+      )
+
+      controller.request = Struct.new(:get?).new(false)
+      controller.add_params_to_request_store
+
+      expect(logged_params[:other_param]).to be_nil
+      expect(logged_params[:controller]).to eq('DummyController')
+      expect(logged_params[:action]).to eq('index')
     end
   end
 end
