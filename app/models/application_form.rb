@@ -62,6 +62,11 @@ class ApplicationForm < ApplicationRecord
     application_choices.any? && application_choices.where(status: %w[awaiting_references application_complete awaiting_provider_decision]).empty?
   end
 
+  def all_choices_withdrawn?
+    application_choices.any? &&
+      application_choices.all? { |application_choice| application_choice.status == 'withdrawn' }
+  end
+
   def any_awaiting_provider_decision?
     application_choices.map.any?(&:awaiting_provider_decision?)
   end

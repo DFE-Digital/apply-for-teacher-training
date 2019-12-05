@@ -4,6 +4,7 @@ class StateChangeNotifier
 
     if application_choice
       provider_name = application_choice.course.provider.name
+      course_name = application_choice.course.name_and_code
       applicant = application_choice.application_form.first_name
       application_form_id = application_choice.application_form.id
     end
@@ -32,6 +33,8 @@ class StateChangeNotifier
       url = helpers.support_interface_application_form_url(application_form_id)
     when :offer_declined
       text = ":no_good: #{applicant} has declined #{provider_name}'s offer"
+    when :withdraw
+      text = ":runner: #{applicant} has withdrawn their application for #{course_name} at #{provider_name}"
       url = helpers.support_interface_application_form_url(application_form_id)
     else
       raise 'StateChangeNotifier: unsupported state transition event'

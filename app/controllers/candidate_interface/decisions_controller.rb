@@ -42,6 +42,16 @@ module CandidateInterface
 
     def withdraw; end
 
+    def confirm_withdraw
+      raise unless FeatureFlag.active?('candidate_withdrawals')
+
+      withdrawal = WithdrawApplication.new(application_choice: @application_choice)
+      withdrawal.save!
+
+      flash[:success] = 'Your application has been withdrawn'
+      redirect_to candidate_interface_application_form_path
+    end
+
   private
 
     def set_application_choice

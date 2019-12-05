@@ -24,13 +24,12 @@ RSpec.describe CourseChoicesReviewComponent do
     end
 
     it 'renders component along with a delete link for each course' do
-      course_id = application_form.application_choices.first.id
+      application_form = create_application_form_with_course_choices(statuses: %w[unsubmitted])
+
       result = render_inline(CourseChoicesReviewComponent, application_form: application_form)
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.delete'))
-      expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_course_choice_path(course_id),
-      )
+      expect(result.css('.app-summary-card__actions a[data-action=delete]')).to be_present
     end
 
     it 'renders component with correct values for multiple courses' do
@@ -85,14 +84,10 @@ RSpec.describe CourseChoicesReviewComponent do
     end
 
     it 'renders component with a withdraw link' do
-      course_id = application_form.application_choices.first.id
-
       result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.withdraw'))
-      expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_withdraw_path(course_id),
-      )
+      expect(result.css('.app-summary-card__actions a[data-action=withdraw]')).to be_present
     end
 
     it 'renders component with a withdrawal content' do
@@ -114,15 +109,12 @@ RSpec.describe CourseChoicesReviewComponent do
 
     it 'renders component with view and respond to offer link' do
       application_form = create_application_form_with_course_choices(statuses: %w[offer])
-      course_id = application_form.application_choices.first.id
 
       result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
 
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.courses.withdraw'))
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.view_and_respond_to_offer'))
-      expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_offer_path(course_id),
-      )
+      expect(result.css('.app-summary-card__actions a[data-action=respond]')).to be_present
     end
   end
 
