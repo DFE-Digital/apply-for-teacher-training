@@ -147,13 +147,14 @@ FactoryBot.define do
   end
 
   factory :application_choice do
-    # application_forms come with 3 application_choices out of the box. if we're making
-    # an application_choice on its own, suppress these to avoid surprises
-    association :application_form, factory: %i[completed_application_form without_application_choices]
-
+    application_form
     course_option
     status { ApplicationStateChange.valid_states.sample }
     personal_statement { 'hello' }
+
+    factory :submitted_application_choice do
+      association :application_form, factory: %i[completed_application_form without_application_choices with_completed_references]
+    end
 
     trait :awaiting_provider_decision do
       association :application_form, factory: %i[completed_application_form without_application_choices with_completed_references]
