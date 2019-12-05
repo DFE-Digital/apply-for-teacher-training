@@ -43,10 +43,9 @@ FactoryBot.define do
       work_history_completed { true }
 
       transient do
-        application_choices_count { 3 }
+        application_choices_count { 1 }
         work_experiences_count { 1 }
         volunteering_experiences_count { 1 }
-        qualifications_count { 4 }
         references_count { 2 }
         references_state { :unsubmitted }
       end
@@ -65,7 +64,6 @@ FactoryBot.define do
         create(:application_qualification, application_form: application_form, subject: 'maths', level: 'gcse', qualification_type: 'GCSE')
         create(:application_qualification, application_form: application_form, subject: 'english', level: 'gcse', qualification_type: 'GCSE')
         create(:application_qualification, application_form: application_form, subject: 'science', level: 'gcse', qualification_type: 'GCSE')
-
 
         create_list(:application_choice, evaluator.application_choices_count, application_form: application_form, status: 'awaiting_references')
         create_list(:application_work_experience, evaluator.work_experiences_count, application_form: application_form)
