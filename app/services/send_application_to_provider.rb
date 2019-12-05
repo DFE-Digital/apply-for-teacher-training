@@ -3,7 +3,7 @@ class SendApplicationToProvider
   attr_accessor :application_choice
 
   def initialize(application_choice:)
-    self.application_choice = application_choice
+    self.application_choice = application_choice.reload
   end
 
   def call
