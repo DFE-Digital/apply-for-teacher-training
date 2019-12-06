@@ -4,7 +4,7 @@ Feature: references
 
   Swapping out referees
   =====================
-  If a referee don't provide a reference within a certain period of time, a candidate is allowed to swap out that referee for another one. Candidates can't remove or swap out references once they've been submitted by the referees.
+   If a referee doesn't provide a reference within a certain period of time, a candidate is allowed to swap out that referee for another one. Candidates can't remove or swap out references once they've been submitted by the referees.
 
   Cooling-off period
   ==================
