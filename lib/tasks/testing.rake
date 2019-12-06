@@ -11,13 +11,16 @@ begin
   end
 
   integration_test_pattern = 'spec/{system,requests}/**/*_spec.rb'
-
   RSpec::Core::RakeTask.new(:rspec_acceptance_tests) do |t|
     t.rspec_opts = "--pattern #{integration_test_pattern}"
   end
 
   RSpec::Core::RakeTask.new(:unit_tests) do |t|
-    t.rspec_opts = "--exclude-pattern #{integration_test_pattern} --exclude-pattern #{performance_test_pattern}"
+    t.rspec_opts = "--exclude-pattern '#{integration_test_pattern},#{performance_test_pattern}'"
+  end
+
+  RSpec::Core::RakeTask.new(:performance_tests) do |t|
+    t.rspec_opts = "--profile --pattern #{performance_test_pattern}"
   end
 rescue LoadError
   nil
