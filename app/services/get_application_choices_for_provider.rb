@@ -9,7 +9,7 @@ class GetApplicationChoicesForProvider
       :application_form,
       :provider,
       :site,
-      application_form: %i[candidate references application_work_experiences application_volunteering_experiences],
+      application_form: %i[candidate references application_work_experiences application_volunteering_experiences application_qualifications],
     ]
 
     ApplicationChoice.includes(*includes)

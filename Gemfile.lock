@@ -66,6 +66,9 @@ GEM
       activerecord (>= 4.2, < 6.1)
     backports (3.15.0)
     bcrypt (3.1.13)
+    benchmark-malloc (0.1.0)
+    benchmark-perf (0.5.0)
+    benchmark-trend (0.3.0)
     better_html (1.0.14)
       actionview (>= 4.0)
       activesupport (>= 4.0)
@@ -134,6 +137,9 @@ GEM
     cucumber-tag_expressions (1.1.1)
     cucumber-wire (0.0.1)
     database_cleaner (1.7.0)
+    db-query-matchers (0.10.0)
+      activesupport (>= 4.0, < 7)
+      rspec (~> 3.0)
     deepsort (0.4.2)
     devise (4.7.1)
       bcrypt (~> 3.0)
@@ -381,6 +387,11 @@ GEM
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
       rspec-mocks (~> 3.9.0)
+    rspec-benchmark (0.5.1)
+      benchmark-malloc (~> 0.1.0)
+      benchmark-perf (~> 0.5.0)
+      benchmark-trend (~> 0.3.0)
+      rspec (>= 3.0.0, < 4.0.0)
     rspec-core (3.9.0)
       rspec-support (~> 3.9.0)
     rspec-expectations (3.9.0)
@@ -512,6 +523,7 @@ DEPENDENCIES
   clockwork-test
   cucumber-rails
   database_cleaner
+  db-query-matchers
   deepsort
   devise
   dotenv-rails
@@ -546,6 +558,7 @@ DEPENDENCIES
   request_store-sidekiq
   request_store_rails
   rollout
+  rspec-benchmark
   rspec-rails
   rspec_junit_formatter
   rubocop-rspec

@@ -83,11 +83,13 @@ group :test do
   gem 'database_cleaner'
   gem 'clockwork-test'
   gem 'deepsort'
+  gem 'rspec-benchmark'
 end
 
 group :development, :test do
   gem 'brakeman'
   gem 'rspec-rails'
+  gem 'db-query-matchers'
   gem 'dotenv-rails'
   gem 'pry'
   gem 'pry-byebug'
