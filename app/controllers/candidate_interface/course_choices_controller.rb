@@ -54,9 +54,10 @@ module CandidateInterface
     end
 
     def pick_course
+      course_code = params.dig(:candidate_interface_pick_course_form, :code)
       @pick_course = PickCourseForm.new(
         provider_code: params.fetch(:provider_code),
-        code: params.dig(:candidate_interface_pick_course_form, :code),
+        code: course_code,
         application_form: current_application,
       )
 
@@ -64,6 +65,11 @@ module CandidateInterface
         render :options_for_course
       elsif @pick_course.other?
         redirect_to candidate_interface_course_choices_on_ucas_path
+      elsif @pick_course.single_site?
+        course_id = Course.find_by(code: course_code)
+        course_option = CourseOption.where(course_id: course_id).first
+
+        pick_site_for_course(course_code, course_option.id)
       else
         redirect_to candidate_interface_course_choices_site_path(provider_code: @pick_course.provider_code, course_code: @pick_course.code)
       end
@@ -77,18 +83,10 @@ module CandidateInterface
     end
 
     def pick_site
-      @pick_site = PickSiteForm.new(
-        application_form: current_application,
-        provider_code: params.fetch(:provider_code),
-        course_code: params.fetch(:course_code),
-        course_option_id: params.dig(:candidate_interface_pick_site_form, :course_option_id),
-      )
+      course_code = params.fetch(:course_code)
+      course_option_id = params.dig(:candidate_interface_pick_site_form, :course_option_id)
 
-      if @pick_site.save
-        redirect_to candidate_interface_course_choices_index_path
-      else
-        render :options_for_site
-      end
+      pick_site_for_course(course_code, course_option_id)
     end
 
     def review
@@ -132,6 +130,21 @@ module CandidateInterface
 
     def application_choice_params
       params.fetch(:candidate_interface_course_chosen_form, {}).permit(:choice)
+    end
+
+    def pick_site_for_course(course_code, course_option_id)
+      @pick_site = PickSiteForm.new(
+        application_form: current_application,
+        provider_code: params.fetch(:provider_code),
+        course_code: course_code,
+        course_option_id: course_option_id,
+      )
+
+      if @pick_site.save
+        redirect_to candidate_interface_course_choices_index_path
+      else
+        render :options_for_site
+      end
     end
   end
 end
