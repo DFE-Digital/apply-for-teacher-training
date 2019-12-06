@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Add comments to the application history' do
+RSpec.feature 'Add comments to the application history', with_audited: true do
   around do |example|
     Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
       example.run

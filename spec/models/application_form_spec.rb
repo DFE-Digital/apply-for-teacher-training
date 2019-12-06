@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationForm do
-  describe 'auditing' do
+  describe 'auditing', with_audited: true do
     it 'records an audit entry when creating a new ApplicationForm' do
       application_form = create :application_form
       expect(application_form.audits.count).to eq 1

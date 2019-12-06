@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::ApplicationCommentForm, type: :model do
+RSpec.describe SupportInterface::ApplicationCommentForm, type: :model, with_audited: true do
   let(:form_data) do
     {
       comment: Faker::Lorem.paragraph_by_chars(number: 200),

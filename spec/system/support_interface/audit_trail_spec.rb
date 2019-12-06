@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'See application history' do
+RSpec.feature 'See application history', with_audited: true do
   around do |example|
     Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
       example.run

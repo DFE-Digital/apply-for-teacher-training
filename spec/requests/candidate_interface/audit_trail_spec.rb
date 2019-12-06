@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate interface - audit trail', type: :request do
+RSpec.describe 'Candidate interface - audit trail', type: :request, with_audited: true do
   def create_candidate(magic_link_token)
     create(
       :candidate,

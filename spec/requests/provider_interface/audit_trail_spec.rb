@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Provider interface - audit trail', type: :request do
+RSpec.describe 'Provider interface - audit trail', type: :request, with_audited: true do
   def create_application
     create(
       :application_choice,

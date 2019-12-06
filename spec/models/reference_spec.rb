@@ -88,7 +88,7 @@ RSpec.describe Reference, type: :model do
     end
   end
 
-  describe 'auditing' do
+  describe 'auditing', with_audited: true do
     let(:application_form) { create(:application_form) }
 
     it { is_expected.to be_audited.associated_with :application_form }
