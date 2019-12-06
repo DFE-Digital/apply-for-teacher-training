@@ -31,8 +31,28 @@ Given('its RBD time is set to {string}') do |time_string|
   @application_choice.update(reject_by_default_at: DateTime.parse(time_string))
 end
 
+Given("the time is {int} working days after the form's submission") do |number_of_working_days|
+  new_time = number_of_working_days.business_days.since(@application_choice.application_form.submitted_at)
+  Timecop.freeze(new_time)
+end
+
+Given('the candidate submits a complete application') do
+  steps %{
+    When an application choice has "unsubmitted" status
+    And the candidate has specified "bob@example.com" and "alice@example.com" as referees
+    And the candidate submits the application
+  }
+end
+
 When(/^the candidate submits the application$/) do
   SubmitApplication.new(@application_choice.application_form).call
+end
+
+When('{int} referees complete the references') do |number_of_complete_references|
+  references = @application_choice.application_form.reload.references.first(number_of_complete_references)
+  references.each do |reference|
+    steps %{When "#{reference.email_address}" provides a reference}
+  end
 end
 
 Then(/^the reject by default time is "(.*?)"$/) do |time|
