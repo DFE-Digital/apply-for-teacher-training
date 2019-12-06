@@ -65,6 +65,8 @@ private
   end
 
   def random_site
+    return Site.where(provider: provider).sample if Site.where(provider: provider).count > 10
+
     FactoryBot.create(
       :site,
       provider: provider,
