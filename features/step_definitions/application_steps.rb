@@ -49,7 +49,7 @@ When(/^the candidate submits the application$/) do
 end
 
 When('{int} referees complete the references') do |number_of_complete_references|
-  references = @application_choice.application_form.reload.references[0...number_of_complete_references.to_i]
+  references = @application_choice.application_form.reload.references.first(number_of_complete_references)
   references.each do |reference|
     steps %{When "#{reference.email_address}" provides a reference}
   end
