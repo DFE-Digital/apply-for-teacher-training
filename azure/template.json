@@ -536,7 +536,7 @@
                             },
                             {
                                 "name": "CUSTOM_HOSTNAME",
-                                "value": "[parameters('customHostName')]"
+                                "value": "[if(greater(length(parameters('customHostName')), 0), parameters('customHostName'), split(parameters('authorisedHosts'), ',')[0])]"
                             },
                             {
                                 "name": "SENTRY_DSN",
@@ -666,7 +666,7 @@
                             },
                             {
                                 "name": "CUSTOM_HOSTNAME",
-                                "value": "[parameters('customHostName')]"
+                                "value": "[if(greater(length(parameters('customHostName')), 0), parameters('customHostName'), split(parameters('authorisedHosts'), ',')[0])]"
                             },
                             {
                                 "name": "SENTRY_DSN",
@@ -806,7 +806,7 @@
                             },
                             {
                                 "name": "CUSTOM_HOSTNAME",
-                                "value": "[parameters('customHostName')]"
+                                "value": "[if(greater(length(parameters('customHostName')), 0), parameters('customHostName'), split(parameters('authorisedHosts'), ',')[0])]"
                             },
                             {
                                 "name": "SENTRY_DSN",
