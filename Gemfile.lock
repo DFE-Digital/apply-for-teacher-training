@@ -168,7 +168,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.13.1)
       faraday (>= 0.7.4, < 1.0)
-    ffi (1.11.2)
+    ffi (1.11.3)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
@@ -235,7 +235,7 @@ GEM
     jwt (2.2.1)
     launchy (2.4.3)
       addressable (~> 2.3)
-    listen (3.2.0)
+    listen (3.2.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     lograge (0.11.2)
