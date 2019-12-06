@@ -31,6 +31,44 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         ],
       )
     end
+
+    it 'allows amending of offers' do
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'awaiting_provider_decision',
+      )
+      request_body = {
+        "data": {
+          "conditions": [
+            'Completion of subject knowledge enhancement',
+            'Completion of professional skills test',
+          ],
+        },
+      }
+
+      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
+
+      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
+
+      request_body = {
+        "data": {
+          "conditions": [
+            'Completion of subject knowledge enhancement',
+            'Completion of professional skills test',
+            'DBS Check',
+          ],
+        },
+      }
+
+      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
+
+      expect(parsed_response['data']['attributes']['offer']).to eq(
+        'conditions' => [
+          'Completion of subject knowledge enhancement',
+          'Completion of professional skills test',
+          'DBS Check',
+        ],
+      )
+    end
   end
 
   describe 'making an offer without specified conditions' do

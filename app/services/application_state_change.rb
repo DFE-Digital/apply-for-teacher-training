@@ -34,6 +34,7 @@ class ApplicationStateChange
     end
 
     state :offer do
+      event :make_offer, transitions_to: :offer
       event :accept, transitions_to: :pending_conditions
       event :decline, transitions_to: :declined
     end
