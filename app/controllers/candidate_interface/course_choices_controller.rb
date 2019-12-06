@@ -61,10 +61,10 @@ module CandidateInterface
         application_form: current_application,
       )
 
-      if !@pick_course.valid?
-        render :options_for_course
-      elsif @pick_course.other?
+      if @pick_course.other?
         redirect_to candidate_interface_course_choices_on_ucas_path
+      elsif !@pick_course.valid?
+        render :options_for_course
       elsif @pick_course.single_site?
         course_id = Course.find_by(code: course_code)
         course_option = CourseOption.where(course_id: course_id).first
