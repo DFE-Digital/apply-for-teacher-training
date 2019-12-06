@@ -95,9 +95,6 @@ module CandidateHelper
     choose 'Primary (2XT2)'
     click_button 'Continue'
 
-    choose 'Main site'
-    click_button 'Continue'
-
     check t('application_form.courses.complete.completed_checkbox')
     click_button 'Continue'
   end

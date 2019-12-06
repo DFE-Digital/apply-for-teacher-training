@@ -14,4 +14,24 @@ RSpec.describe CandidateInterface::PickCourseForm do
       expect(form.available_courses.map(&:name)).to eql(['Course you can apply to'])
     end
   end
+
+  describe '#single_site?' do
+    let(:provider) { create(:provider, name: 'Royal Academy of Dance', code: 'R55') }
+    let(:course) { create(:course, provider: provider, exposed_in_find: true, open_on_apply: true) }
+    let(:site) { create(:site, provider: provider) }
+    let(:pick_course_form) { CandidateInterface::PickCourseForm.new(provider_code: provider.code, code: course.code) }
+
+    before { create(:course_option, site: site, course: course) }
+
+    it 'returns true when there is one site for a course' do
+      expect(pick_course_form).to be_single_site
+    end
+
+    it 'returns false when there are more than one site for a course' do
+      another_site = create(:site, provider: provider)
+      create(:course_option, site: another_site, course: course)
+
+      expect(pick_course_form).not_to be_single_site
+    end
+  end
 end
