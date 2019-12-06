@@ -16,6 +16,11 @@ module CandidateInterface
       end
     end
 
+    def single_site?
+      course_id = Course.find_by(code: code)
+      CourseOption.where(course_id: course_id).one?
+    end
+
   private
 
     def provider
