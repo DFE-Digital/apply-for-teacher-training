@@ -71,6 +71,12 @@ en:
       - Second referee
     providers: Training providers available through Apply for teacher training
     view_and_respond_to_offer: Details of offer
+    api_docs:
+      home:  Apply for teacher training
+      usage: Usage scenarios
+      reference: API reference
+      help: Get help
+      release_notes: Release notes
   layout:
     accessibility: Accessibility
     terms_of_use: Terms of use

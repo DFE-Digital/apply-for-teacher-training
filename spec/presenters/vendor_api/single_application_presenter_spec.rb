@@ -8,7 +8,7 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
     end
   end
   let(:application_choice) do
-    create(:application_choice, application_form: application_form)
+    create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
   end
 
   describe '#candidate' do

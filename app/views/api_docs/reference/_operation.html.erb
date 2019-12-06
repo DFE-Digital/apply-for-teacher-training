@@ -1,0 +1,86 @@
+<h3 class='govuk-heading-l'><code><%= operation.http_verb %> <%= operation.path_name %></code></h3>
+
+<div class="govuk-body-l">
+  <%= operation.summary %>
+</div>
+
+<div class="govuk-body">
+  <%= operation.description %>
+</div>
+
+<% if operation.parameters.any? %>
+  <h4 class='govuk-heading-s'>Parameters</h4>
+
+  <table class='govuk-table'>
+    <thead class='govuk-table__head'>
+      <tr class='govuk-table__row'>
+        <th scope='col' class='govuk-table__header'>Parameter</th>
+        <th scope='col' class='govuk-table__header'>In</th>
+        <th scope='col' class='govuk-table__header'>Type</th>
+        <th scope='col' class='govuk-table__header'>Required</th>
+        <th scope='col' class='govuk-table__header'>Description</th>
+      </tr>
+    </thead>
+    <tbody class='govuk-table__body'>
+      <% operation.parameters.each do |parameter| %>
+        <tr class='govuk-table__row'>
+          <td scope='row' class='govuk-table__header'><%= parameter.name %></td>
+          <td class='govuk-table__cell'><%= parameter.in %></td>
+          <td class='govuk-table__cell'><%= parameter.schema.type %></td>
+          <td class='govuk-table__cell'><%= parameter.required? %></td>
+          <td class='govuk-table__cell'><p><%= parameter.description %></p>
+            <% if parameter.schema.enum %>
+              <p>Allowed items:</p>
+
+              <ul>
+                <% parameter.schema.enum.each do |item| %>
+                  <li><%= item %></li>
+                <% end %>
+              </ul>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<% unless operation.request_body.nil? %>
+  <h4 class='govuk-heading-s'>Request body</h4>
+
+  <div class="govuk-body">
+    <%= operation.request_body.description %>
+  </div>
+
+  <details class="govuk-details" data-module="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        Example request body
+      </span>
+    </summary>
+    <div class="govuk-details__text">
+      <%= json_code_sample(operation.request_body.example) %>
+    </div>
+  </details>
+<% end %>
+
+<% if operation.responses.any? %>
+  <h4 class='govuk-heading-s'>Possible reponses</h4>
+
+  <% operation.responses.each do |response| %>
+    <details class="govuk-details" data-module="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+          HTTP <%= response.code %> - <%= response.description %>
+        </span>
+      </summary>
+      <div class="govuk-details__text">
+        This request will return a <%= govuk_link_to response.schema_name, "#schema-#{response.schema_name.parameterize}" %> object.
+
+        <% if response.example %>
+          <%= json_code_sample(response.example) %>
+        <% end %>
+      </div>
+    </details>
+  <% end %>
+<% end %>

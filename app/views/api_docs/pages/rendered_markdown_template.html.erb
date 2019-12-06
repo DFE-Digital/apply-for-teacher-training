@@ -1,0 +1,11 @@
+<%= content_for :title, t("page_titles.api_docs.#{@page_name}") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl"><%= t("page_titles.api_docs.#{@page_name}") %></h1>
+
+    <div class="app-styled-content">
+      <%= @converted_markdown %>
+    </div>
+  </div>
+</div>
