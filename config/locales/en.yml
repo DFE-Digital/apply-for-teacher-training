@@ -17,7 +17,7 @@ en:
     check_your_email: Check your email
     not_found: Page not found
     internal_server_error: Sorry, there is a problem with the service
-    unprocessable_entity: Sorry, an invalid request was made
+    unprocessable_entity: Sorry, there is a problem with the service
     personal_details: Personal details
     review_application: Review your application
     accessibility: Accessibility statement
