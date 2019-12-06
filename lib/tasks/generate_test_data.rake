@@ -5,5 +5,5 @@ end
 
 desc 'Generate test applications for existing providers'
 task generate_test_applications: :environment do
-  GenerateTestApplications.new.generate
+  GenerateTestApplications.new.perform
 end

@@ -25,7 +25,7 @@ class ProcessState
       :recruited
     elsif any_state_is?('pending_conditions')
       :pending_conditions
-    elsif all_states_are?('withdrawn', 'rejected', 'declined')
+    elsif (states.uniq - %w[withdrawn rejected declined]).empty?
       :ended_without_success
     else
       :unknown_state

@@ -1,0 +1,11 @@
+<% content_for :title, 'Tasks' %>
+
+<% unless HostingEnvironment.production? %>
+  <div>
+    <h2 class='govuk-heading-m'>Test applications</h2>
+    <div class='govuk-body'>
+      This will generate ~10 mostly-random test applications in all of the states.
+    </div>
+    <%= button_to 'Generate test applications', support_interface_run_task_path('generate_test_applications'), class: 'govuk-button' %>
+  </div>
+<% end %>

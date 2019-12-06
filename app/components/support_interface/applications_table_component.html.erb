@@ -2,8 +2,6 @@
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header">Application</th>
-      <th scope="col" class="govuk-table__header">Reference 1</th>
-      <th scope="col" class="govuk-table__header">Reference 2</th>
       <th scope="col" class="govuk-table__header">Status</th>
       <th scope="col" class="govuk-table__header">Last updated</th>
     </tr>
@@ -15,8 +13,6 @@
         <td class="govuk-table__cell">
           <%= table_row[:application_link] %>
         </td>
-        <td class="govuk-table__cell"><%= table_row[:first_reference_status] %></td>
-        <td class="govuk-table__cell"><%= table_row[:second_reference_status] %></td>
         <td class="govuk-table__cell"><%= t "process_states.#{table_row[:process_state]}.name" %></td>
         <td class="govuk-table__cell"><%= table_row[:updated_at] %></td>
       </tr>

@@ -277,6 +277,9 @@ Rails.application.routes.draw do
 
     get '/performance' => 'performance#index', as: :performance
 
+    get '/tasks' => 'tasks#index', as: :tasks
+    post '/tasks/:task' => 'tasks#run', as: :run_task
+
     post '/impersonate-candidate/:candidate_id' => 'impersonation#impersonate_candidate', as: :impersonate_candidate
 
     # https://github.com/mperham/sidekiq/wiki/Monitoring#rails-http-basic-auth-from-routes

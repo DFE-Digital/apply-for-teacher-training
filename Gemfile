@@ -51,6 +51,7 @@ gem 'lograge'
 gem 'logstash-logger'
 gem 'logstash-event'
 gem 'request_store_rails'
+gem 'request_store-sidekiq'
 
 # Background processing
 gem 'sidekiq'

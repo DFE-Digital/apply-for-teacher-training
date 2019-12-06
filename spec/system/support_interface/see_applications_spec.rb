@@ -4,10 +4,8 @@ RSpec.feature 'See applications' do
   scenario 'Support agent visits the list of applications' do
     given_i_am_a_support_user
     and_there_are_applications_in_the_system
-    and_an_application_has_received_a_reference
     and_i_visit_the_support_page
     then_i_should_see_the_applications
-    and_i_should_see_their_reference_statuses
   end
 
   def given_i_am_a_support_user
@@ -20,15 +18,6 @@ RSpec.feature 'See applications' do
     @application_with_reference = create(:completed_application_form)
   end
 
-  def and_an_application_has_received_a_reference
-    action = ReceiveReference.new(
-      application_form: @application_with_reference,
-      referee_email: @application_with_reference.reload.references.first.email_address,
-      feedback: Faker::Lorem.paragraphs(number: 2),
-    )
-    action.save
-  end
-
   def and_i_visit_the_support_page
     visit support_interface_path
   end
@@ -37,20 +26,5 @@ RSpec.feature 'See applications' do
     expect(page).to have_content @completed_application.candidate.email_address
     expect(page).to have_content @application_with_reference.candidate.email_address
     expect(page).to have_content @unsubmitted_application.candidate.email_address
-  end
-
-  def and_i_should_see_their_reference_statuses
-    within "[data-qa='application-form-#{@application_with_reference.id}']" do
-      expect(page).to have_content 'Received'
-      expect(page).to have_content 'Awaiting response'
-    end
-
-    within "[data-qa='application-form-#{@completed_application.id}']" do
-      expect(page).to have_content('Awaiting response', count: 2)
-    end
-
-    within "[data-qa='application-form-#{@unsubmitted_application.id}']" do
-      expect(page).to have_content('Not requested yet', count: 2)
-    end
   end
 end

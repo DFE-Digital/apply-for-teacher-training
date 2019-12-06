@@ -1,17 +1,23 @@
 class GenerateTestApplications
-  def generate
+  include Sidekiq::Worker
+
+  def perform
     raise 'You can\'t generate test data in production' if HostingEnvironment.production?
 
-    Reference.delete_all
-    ApplicationChoice.delete_all
-    ApplicationForm.delete_all
-
-    100.times do |i|
-      create_an_application(i)
+    without_slack_message_sending do
+      (1..11).each do |i|
+        create_an_application(i)
+      end
     end
   end
 
 private
+
+  def without_slack_message_sending
+    RequestStore.store[:disable_slack_messages] = true
+    yield
+    RequestStore.store[:disable_slack_messages] = false
+  end
 
   def create_an_application(application_index)
     first_name = Faker::Name.unique.first_name
@@ -41,12 +47,12 @@ private
         )
       end
 
-      return if application_index > 90
+      return if application_index == 1
 
       # The application is submitted by the candidate
       SubmitApplication.new(application_form).call
 
-      return if application_index > 80
+      return if application_index == 2
 
       # References come in
       application_form.references.each do |reference|
@@ -57,7 +63,9 @@ private
         ).save
       end
 
-      return if application_index > 70
+      return if application_index == 3
+
+      application_form.reload
 
       application_form.application_choices.each do |application_choice|
         # This is only supposed to happen after 7 days, but SendApplicationToProvider
@@ -65,26 +73,45 @@ private
         SendApplicationToProvider.new(application_choice: application_choice).call
       end
 
-      return if application_index > 60
+      return if application_index == 4
 
-      # Now the providers need to make a decision
+      main_application_choice = application_form.application_choices[0]
 
       # First one gets an offer
-      MakeAnOffer.new(application_choice: application_form.application_choices[0], offer_conditions: ['Complete DBS']).save
+      MakeAnOffer.new(application_choice: main_application_choice, offer_conditions: ['Complete DBS']).save
 
-      return if application_index > 50
+      return if application_index == 5
 
       if (second = application_form.application_choices[1])
         RejectApplication.new(application_choice: second, rejection_reason: 'Some').save
       end
 
-      return if application_index > 40
+      return if application_index == 6
 
       if (third = application_form.application_choices[2])
         RejectApplication.new(application_choice: third, rejection_reason: 'Some').save
       end
 
-      # TODO: accept/decline/withdraw
+      if application_index == 7
+        DeclineOffer.new(application_choice: main_application_choice).save!
+        return
+      end
+
+      AcceptOffer.new(application_choice: main_application_choice).save!
+
+      return if application_index == 9
+
+      ConfirmOfferConditions.new(application_choice: main_application_choice).save
+
+      if application_index == 10
+        ConfirmEnrolment.new(application_choice: main_application_choice).save
+        return
+      end
+
+      if application_index == 11
+        # TODO replace after https://github.com/DFE-Digital/apply-for-postgraduate-teacher-training/pull/784 is merged
+        ApplicationStateChange.new(main_application_choice).withdraw!
+      end
     end
   end
 end

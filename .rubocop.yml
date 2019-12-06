@@ -27,7 +27,7 @@ Metrics/BlockLength:
   Exclude:
     - 'config/routes.rb'
     - 'spec/**/*'
-    - app/services/generate_test_applications.rb
+    - app/workers/generate_test_applications.rb
 
 RSpec/ExampleLength:
   Enabled: false

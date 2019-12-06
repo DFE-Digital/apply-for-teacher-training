@@ -80,10 +80,19 @@ RSpec.describe ProcessState do
       expect(state).to be(:enrolled)
     end
 
-    it 'is all_withdrawn when the candidate has withdrawn from all' do
+    it 'is "ended without success" when the candidate has no succesfull applications' do
       application_form = create(:application_form)
       create(:application_choice, application_form: application_form, status: 'withdrawn')
       create(:application_choice, application_form: application_form, status: 'rejected')
+      create(:application_choice, application_form: application_form, status: 'declined')
+
+      state = ProcessState.new(application_form).state
+
+      expect(state).to be(:ended_without_success)
+    end
+
+    it 'is "ended without success" when the candidate has no succesful applications' do
+      application_form = create(:application_form)
       create(:application_choice, application_form: application_form, status: 'declined')
 
       state = ProcessState.new(application_form).state

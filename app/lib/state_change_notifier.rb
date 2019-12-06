@@ -39,6 +39,12 @@ class StateChangeNotifier
     else
       raise 'StateChangeNotifier: unsupported state transition event'
     end
+
+    if RequestStore.store[:disable_slack_messages]
+      Rails.logger.info "Sending Slack messages disabled (message: `#{text}`)"
+      return
+    end
+
     SlackNotificationWorker.perform_async(text, url)
   end
 end
