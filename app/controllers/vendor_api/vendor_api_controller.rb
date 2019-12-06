@@ -65,7 +65,7 @@ module VendorApi
     end
 
     def current_provider
-      @current_provider ||= @current_vendor_api_token.provider
+      @current_provider ||= @current_vendor_api_token&.provider
     end
 
     # controller-specific additional info to include in logstash logs

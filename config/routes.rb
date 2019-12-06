@@ -216,6 +216,8 @@ Rails.application.routes.draw do
 
     post '/test-data/regenerate' => 'test_data#regenerate'
 
+    get '/spec.yml' => 'openapi#spec', as: :spec
+
     get '/ping', to: 'ping#ping'
   end
 
