@@ -23,9 +23,7 @@ RSpec.feature 'See providers' do
   end
 
   def given_i_am_a_support_user
-    support_user_exists_in_dfe_sign_in(email_address: 'user@apply-support.com', dfe_sign_in_uid: 'abc')
-    visit support_interface_path
-    click_button 'Sign in using DfE Sign-in'
+    sign_in_as_support_user
   end
 
   def when_i_visit_the_providers_page

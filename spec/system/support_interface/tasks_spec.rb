@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'Tasks' do
+  include DfESignInHelpers
+
   scenario 'Support user performs a task' do
     given_i_am_a_support_user
 
@@ -10,7 +12,7 @@ RSpec.feature 'Tasks' do
   end
 
   def given_i_am_a_support_user
-    page.driver.browser.authorize('test', 'test')
+    sign_in_as_support_user
   end
 
   def when_i_visit_the_support_tasks_page

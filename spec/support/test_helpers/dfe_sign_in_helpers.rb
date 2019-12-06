@@ -17,6 +17,11 @@ module DfESignInHelpers
     click_button 'Sign in using DfE Sign-in'
   end
 
+  def sign_in_as_support_user
+    support_user_exists_in_dfe_sign_in(email_address: 'user@apply-support.com', dfe_sign_in_uid: 'abc')
+    support_user_signs_in_using_dfe_sign_in
+  end
+
   def dfe_sign_in_uid_has_permission_to_view_applications_for_provider(dfe_sign_in_uid = 'DFE_SIGN_IN_UID', code = 'ABC')
     allow(Rails.application.config).to receive(:provider_permissions)
       .and_return(code => [dfe_sign_in_uid])

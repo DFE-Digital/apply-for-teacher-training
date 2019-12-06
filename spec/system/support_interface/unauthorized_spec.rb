@@ -14,9 +14,6 @@ RSpec.describe 'A support user authenticates via DfE Sign-in but is not authoriz
     then_i_should_be_see_the_not_authorized_page
     and_i_should_see_my_email_address
     and_i_should_not_see_support_menu
-
-    when_i_click_sign_out
-    then_i_should_see_the_login_page_again
   end
 
   def given_i_have_a_dfe_sign_in_account
@@ -47,13 +44,5 @@ RSpec.describe 'A support user authenticates via DfE Sign-in but is not authoriz
 
   def and_i_should_see_my_email_address
     expect(page).to have_content('user@apply-support.com')
-  end
-
-  def when_i_click_sign_out
-    click_link 'Sign out'
-  end
-
-  def then_i_should_see_the_login_page_again
-    expect(page).to have_button('Sign in using DfE Sign-in')
   end
 end
