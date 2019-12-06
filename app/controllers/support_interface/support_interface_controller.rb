@@ -24,7 +24,7 @@ module SupportInterface
     end
 
     def dfe_sign_in_user
-      ProviderUser.load_from_session(session)
+      DfESignInUser.load_from_session(session)
     end
 
     def authenticate_support_user!

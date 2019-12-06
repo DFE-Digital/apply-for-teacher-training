@@ -4,7 +4,7 @@ RSpec.describe 'GET /support/applications' do
   context 'when the DfE Sign-in account is not authorized' do
     before do
       allow(SupportUser).to receive(:load_from_session).and_return(nil)
-      allow(ProviderUser).to receive(:load_from_session)
+      allow(DfESignInUser).to receive(:load_from_session)
         .and_return(
           ProviderUser.new(
             email_address: 'email@example.com',

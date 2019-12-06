@@ -14,6 +14,8 @@ class DfESignInUser
   end
 
   def self.load_from_session(session)
+    return nil unless session['dfe_sign_in_user']
+
     if session['dfe_sign_in_user']
       new(
         email_address: session['dfe_sign_in_user']['email_address'],
