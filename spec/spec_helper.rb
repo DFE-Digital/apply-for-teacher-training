@@ -106,5 +106,4 @@ RSpec.configure do |config|
   # particularly slow.
   # config.profile_examples = 10
   config.include RSpec::Benchmark::Matchers
-
 end
