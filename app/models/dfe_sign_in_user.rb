@@ -14,10 +14,10 @@ class DfESignInUser
   end
 
   def self.load_from_session(session)
-    if session['dfe_user']
+    if session['dfe_sign_in_user']
       new(
-        email_address: session['dfe_user']['email_address'],
-        dfe_sign_in_uid: session['dfe_user']['dfe_sign_in_uid'],
+        email_address: session['dfe_sign_in_user']['email_address'],
+        dfe_sign_in_uid: session['dfe_sign_in_user']['dfe_sign_in_uid'],
       )
     end
   end

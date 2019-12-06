@@ -1,17 +1,17 @@
 <ul id="navigation" class="govuk-header__navigation " aria-label="Top Level Navigation">
   <% if current_support_user %>
-    <% if current_support_user.authorized? %>
-      <%= nav_link 'Applications', support_interface_applications_path, active: %w[application_forms import_references] %>
-      <%= nav_link 'API Tokens', support_interface_tokens_path, active: 'api_tokens' %>
-      <%= nav_link 'Providers', support_interface_providers_path, active: 'providers' %>
-      <%= nav_link 'Features', support_interface_feature_flags_path, active: 'feature_flags' %>
-      <%= nav_link 'Performance', support_interface_performance_path, active: 'performance' %>
-      <%= nav_link 'Tasks', support_interface_tasks_path, active: 'tasks' %>
-      <%= nav_link 'Users', support_interface_support_users_path, active: 'users' %>
-    <% end %>
+    <%= nav_link 'Applications', support_interface_applications_path, active: %w[application_forms import_references] %>
+    <%= nav_link 'API Tokens', support_interface_tokens_path, active: 'api_tokens' %>
+    <%= nav_link 'Providers', support_interface_providers_path, active: 'providers' %>
+    <%= nav_link 'Features', support_interface_feature_flags_path, active: 'feature_flags' %>
+    <%= nav_link 'Performance', support_interface_performance_path, active: 'performance' %>
+    <%= nav_link 'Tasks', support_interface_tasks_path, active: 'tasks' %>
+    <%= nav_link 'Users', support_interface_support_users_path, active: 'users' %>
+  <% end %>
 
+  <% if dfe_sign_in_user %>
     <li class="govuk-header__navigation-item">
-      <b><%= current_support_user.email_address %></b>
+      <b><%= dfe_sign_in_user.email_address %></b>
     </li>
 
     <li class="govuk-header__navigation-item">

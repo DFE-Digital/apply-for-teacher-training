@@ -21,6 +21,6 @@ private
   end
 
   def authorized_for_support_interface?
-    SupportUser.load_from_session(session)&.authorized?
+    SupportUser.load_from_session(session)
   end
 end

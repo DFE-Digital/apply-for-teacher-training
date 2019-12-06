@@ -55,10 +55,13 @@ module DfESignInHelpers
 
   def support_user_exists_in_dfe_sign_in(email_address: 'email@apply-support.ac.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
     user_exists_in_dfe_sign_in(email_address: email_address, dfe_sign_in_uid: dfe_sign_in_uid)
-    user_is_a_support_user(dfe_sign_in_uid: dfe_sign_in_uid)
+    user_is_a_support_user(email_address: email_address, dfe_sign_in_uid: dfe_sign_in_uid)
   end
 
-  def user_is_a_support_user(dfe_sign_in_uid:)
-    SupportUser.find_or_create_by!(dfe_sign_in_uid: dfe_sign_in_uid)
+  def user_is_a_support_user(email_address:, dfe_sign_in_uid:)
+    SupportUser.find_or_create_by!(
+      dfe_sign_in_uid: dfe_sign_in_uid,
+      email_address:  email_address,
+    )
   end
 end
