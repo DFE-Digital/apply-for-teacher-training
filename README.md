@@ -56,7 +56,9 @@ See `Makefile` for the steps involved in building and running the app.
 
 The course and training provider data in the `Apply` service comes from its
 sister service `Find`. To populate your local database with course data from
-`Find`, run `bundle exec rake setup_local_dev_data`.
+`Find`, run `bundle exec rake setup_local_dev_data`. This task also
+creates a support user with DfE Sign-in UID `dev-support` that you can
+use to log into the Support interface in your development environment.
 
 ### Background processing
 
@@ -145,6 +147,21 @@ A default mapping is provided for development, where the DfE Sign-in UID `ABC`
 maps to provider code `ABC`. This means that if you have generated [dummy data](#dummy-data)
 then you can enter the Uid `ABC` in the development dialog to see all the generated
 applications.
+
+### Support permissions
+
+There is a `support_users` database table that lists all the DfE Sign-in
+accounts that have access to the Support interface based on their DfE
+Sign-in UID. There is only one privilege level, either you have access
+to everything or nothing.
+
+You can add a new support user using the `create_support_user` rake
+task. You need to supply a DfE Sign-in UID and an email address, e.g.
+
+    $ bundle exec rails "create_support_user[alice, alice@example.com]"
+
+Note that only the UID is used for lookup. The email address serves only
+as a label.
 
 ## <a name="webpacker"></a>Webpacker
 
