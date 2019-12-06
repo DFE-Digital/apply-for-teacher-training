@@ -295,6 +295,14 @@ Rails.application.routes.draw do
     mount Sidekiq::Web, at: 'sidekiq'
   end
 
+  namespace :api_docs, path: '/api-docs' do
+    get '/' => 'pages#home', as: :home
+    get '/usage-scenarios' => 'pages#usage', as: :usage
+    get '/reference' => 'reference#reference', as: :reference
+    get '/release-notes' => 'pages#release_notes', as: :release_notes
+    get '/help' => 'pages#help', as: :help
+  end
+
   get '/check', to: 'healthcheck#show'
 
   scope via: :all do

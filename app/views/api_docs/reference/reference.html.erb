@@ -1,0 +1,42 @@
+<h1 class="govuk-heading-xl"><%= t("page_titles.api_docs.reference") %></h1>
+
+<h2 class='govuk-heading-l'>Developing on the API</h2>
+
+<p class='govuk-body'>
+  Our API is described using the <%= govuk_link_to 'OpenAPI specification', 'https://swagger.io/docs/specification/about' %>, so you can use the <%= govuk_link_to 'Swagger Editor', 'https://swagger.io/tools/swagger-editor' %> to experiment with the API.
+</p>
+
+<div class="govuk-form-group">
+  <label class="govuk-label" for="open-api-url">
+    Copy the specification URL:
+  </label>
+
+  <input class="govuk-input" id="open-api-url" readonly="readonly" name="open-api-url" type="text" value="<%= vendor_api_spec_url %>">
+</div>
+
+<p class="govuk-body">
+  You can use the following servers:
+</p>
+
+<ul class='govuk-list govuk-list--bullet'>
+  <% @document.servers.each do |server| %>
+    <li><%= server.description %>: <%= govuk_link_to server.url, server.url %></li>
+  <% end %>
+</ul>
+
+<h2 class='govuk-heading-l'>Endpoints</h2>
+
+<% @document.paths.each do |path_name, path| %>
+  <% %w[get put post delete patch].map do |http_verb| %>
+    <% operation = path.node_data[http_verb]
+    next unless operation
+    %>
+    <%= render 'operation', operation: ApiDocs::ApiOperation.new(http_verb: http_verb, path_name: path_name, operation: operation) %>
+  <% end %>
+<% end %>
+
+<h2 class='govuk-heading-l'>Schemas</h2>
+
+<% @document.components.schemas.each do |schema_name, schema| %>
+  <%= render 'schema', schema: ApiDocs::Schema.new(name: schema_name, schema: schema) %>
+<% end %>

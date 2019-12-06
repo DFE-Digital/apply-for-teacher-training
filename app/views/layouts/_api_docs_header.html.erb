@@ -1,0 +1,7 @@
+<ul id="navigation" class="govuk-header__navigation " aria-label="Top Level Navigation">
+  <%= nav_link 'Home', api_docs_home_path, active_action: %w[home] %>
+  <%= nav_link t('page_titles.api_docs.usage'), api_docs_usage_path, active_action: %w[usage] %>
+  <%= nav_link t('page_titles.api_docs.reference'), api_docs_reference_path, active_action: %w[reference] %>
+  <%= nav_link t('page_titles.api_docs.release_notes'), api_docs_release_notes_path, active_action: %w[release_notes] %>
+  <%= nav_link t('page_titles.api_docs.help'), api_docs_help_path, active_action: %w[help] %>
+</ul>
