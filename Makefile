@@ -38,7 +38,7 @@ ci.lint-ruby: ## Run Rubocop with results formatted for CI
 
 .PHONY: ci.lint-erb
 ci.lint-erb: ## Run the ERB linter
-	docker-compose run --rm web /bin/sh -c "bundle exec rake lint_erb"
+	docker-compose run --rm web /bin/sh -c "bundle exec rake erblint"
 
 .PHONY: ci.cucumber
 ci.cucumber: ## Run the Cucumber specs
