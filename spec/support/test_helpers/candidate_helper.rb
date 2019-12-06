@@ -1,4 +1,20 @@
 module CandidateHelper
+  APPLICATION_FORM_SECTIONS = %i[
+    course_choices
+    personal_details
+    contact_details
+    work_experience
+    volunteering
+    degrees
+    maths_gcse
+    english_gcse
+    science_gcse
+    becoming_a_teacher
+    subject_knowledge
+    interview_preferences
+    references
+  ].freeze
+
   def create_and_sign_in_candidate
     login_as(current_candidate)
   end
