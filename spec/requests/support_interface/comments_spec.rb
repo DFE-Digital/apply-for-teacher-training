@@ -14,7 +14,6 @@ RSpec.describe 'Support interface - Application Comments', type: :request, with_
 
   def set_support_user_permission
     allow(SupportUser).to receive(:load_from_session).and_return(support_user)
-    allow(support_user).to receive(:authorized?).and_return(true)
   end
 
   before do
