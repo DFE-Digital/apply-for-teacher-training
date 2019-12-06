@@ -7,7 +7,7 @@ module SupportInterface
     end
 
     def destroy
-      SupportUser.end_session!(session)
+      DfESignInUser.end_session!(session)
 
       redirect_to action: :new
     end
