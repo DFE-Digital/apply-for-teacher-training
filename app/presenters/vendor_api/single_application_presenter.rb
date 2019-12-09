@@ -47,9 +47,9 @@ module VendorApi
           rejection: get_rejection,
           withdrawal: nil,
           hesa_itt_data: {
-            sex: '',
-            disability: '',
-            ethnicity: '',
+            sex: '2',
+            disability: '00',
+            ethnicity: '10',
           },
           further_information: application_form.further_information,
         },

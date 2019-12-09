@@ -715,17 +715,51 @@ components:
         sex:
           type: string
           nullable: true
-          description: The candidate’s sex as a one-digit HESA code (https://www.hesa.ac.uk/collection/c19053/e/sexid)
+          description: The candidate’s sex as a [1-digit HESA code for Sex](https://www.hesa.ac.uk/collection/c19053/e/sexid)
           example: "1"
+          enum:
+            - "1"
+            - "2"
+            - "3"
         disability:
           type: string
           nullable: true
-          description: The candidate’s disability as a two-digit HESA code (https://www.hesa.ac.uk/collection/c19053/e/disable)
+          description: The candidate’s disability as [a 2-digit HESA code for Disability](https://www.hesa.ac.uk/collection/c19053/e/disable)
           example: "00"
+          enum:
+            - "00"
+            - "08"
+            - "51"
+            - "53"
+            - "54"
+            - "55"
+            - "56"
+            - "57"
+            - "58"
+            - "96"
         ethnicity:
           type: string
-          description: The candidate’s ethnicity as a two-digit HESA code (https://www.hesa.ac.uk/collection/c19053/e/ethnic)
+          description: The candidate’s ethnicity as [a 2-digit HESA code for Ethnicity](https://www.hesa.ac.uk/collection/c19053/e/ethnic)
           example: "10"
+          enum:
+            - "10"
+            - "15"
+            - "21"
+            - "22"
+            - "29"
+            - "31"
+            - "32"
+            - "33"
+            - "34"
+            - "39"
+            - "41"
+            - "42"
+            - "43"
+            - "49"
+            - "50"
+            - "80"
+            - "90"
+            - "98"
     Attribution:
       type: object
       additionalProperties: false
