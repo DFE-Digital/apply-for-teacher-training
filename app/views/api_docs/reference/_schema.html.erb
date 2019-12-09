@@ -19,7 +19,10 @@
       <% schema.properties.each do |property| %>
         <tr class='govuk-table__row'>
           <td scope='row' class='govuk-table__header'>
-            <%= property.name %><%= property.required? ? '<abbr title=\'This field will always be present in the response\'>*</abbr>'.html_safe : '' %>
+            <%= property.name %>
+            <% if property.required? %>
+              <abbr title="This field will always be present in the response">*</abbr>
+            <% end %>
           </td>
 
           <td class='govuk-table__cell'>
