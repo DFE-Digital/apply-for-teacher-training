@@ -72,6 +72,9 @@ Feature: successful application statuses
       | awaiting provider decision | candidate | withdraw               | withdrawn                  |
       | offer                      | candidate | accept                 | pending conditions         |
       | offer                      | candidate | decline                | declined                   |
+      | offer                      | provider  | make offer             | offer                      |
+      | offer                      | provider  | reject application     | rejected                   |
+      | rejected                   | provider  | make offer             | offer                      |
       | pending conditions         | provider  | confirm conditions met | recruited                  |
       | pending conditions         | candidate | withdraw               | withdrawn                  |
       | recruited                  | provider  | confirm enrolment      | enrolled                   |
