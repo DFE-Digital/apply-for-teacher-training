@@ -1,8 +1,14 @@
 development: &default
   codes:
-    - R55
-    - 1N1
-    - S31
+    - 1HQ  # Alliance of Leading Learning
+    - 24L  # Ashton on Mersey SCITT
+    - 1N1  # Gorse SCITT
+    - 254  # Nottinghamshire Torch SCITT
+    - 2LR  # Oriel High School
+    - R55  # Royal Academy of Dance
+    - L06  # Shotton Hall SCITT
+    - S31  # Somerset SCITT Consortium
+    - 12K  # Trent Valley Teaching School Alliance
 
 production:
   <<: *default
