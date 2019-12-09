@@ -105,6 +105,7 @@ en:
       break:
         label: Tell us about any breaks in your work history
         enter_label: Enter explanation
+        change_label: Change explanation
         button: Continue
       review:
         completed_checkbox: I have completed this section

@@ -80,7 +80,7 @@ RSpec.describe WorkHistoryReviewComponent do
           expect(result.css('.govuk-summary-list__actions a')[4].attr('href')).to include(
             Rails.application.routes.url_helpers.candidate_interface_work_history_breaks_path,
           )
-          expect(result.css('.govuk-summary-list__actions').text).to include(t('application_form.work_history.break.enter_label'))
+          expect(result.css('.govuk-summary-list__actions').text).to include(t('application_form.work_history.break.change_label'))
         end
       end
     end

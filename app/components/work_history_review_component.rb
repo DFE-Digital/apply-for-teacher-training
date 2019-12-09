@@ -31,11 +31,13 @@ class WorkHistoryReviewComponent < ActionView::Component::Base
   end
 
   def break_in_work_history_rows
+    action_label = t("application_form.work_history.break.#{@application_form.work_history_breaks ? 'change' : 'enter'}_label")
+
     [
       {
         key: t('application_form.work_history.break.label'),
         value: @application_form.work_history_breaks,
-        action: t('application_form.work_history.break.enter_label'),
+        action: action_label,
         action_path: Rails.application.routes.url_helpers.candidate_interface_work_history_breaks_path,
       },
     ]
