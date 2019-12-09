@@ -29,7 +29,7 @@
 <% @document.paths.each do |path_name, path| %>
   <% %w[get put post delete patch].map do |http_verb| %>
     <% operation = path.node_data[http_verb]
-    next unless operation
+    next unless operation && !operation.kind_of?(Openapi3Parser::Node::Placeholder)
     %>
     <%= render 'operation', operation: ApiDocs::ApiOperation.new(http_verb: http_verb, path_name: path_name, operation: operation) %>
   <% end %>
