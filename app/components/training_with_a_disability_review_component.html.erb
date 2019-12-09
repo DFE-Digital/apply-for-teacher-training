@@ -1,1 +1,5 @@
-<%= render(SummaryCardComponent, rows: training_with_a_disability_form_rows, editable: @editable) %>
+<% if show_missing_banner? %>
+  <%= render(SectionMissingBannerComponent, section: :training_with_a_disability, section_path: candidate_interface_training_with_a_disability_edit_path, error: @missing_error) %>
+<% else %>
+  <%= render(SummaryCardComponent, rows: training_with_a_disability_form_rows, editable: @editable) %>
+<% end %>

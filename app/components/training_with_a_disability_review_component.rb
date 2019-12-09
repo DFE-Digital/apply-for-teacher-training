@@ -1,12 +1,13 @@
 class TrainingWithADisabilityReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:, editable: true)
+  def initialize(application_form:, editable: true, missing_error: false)
     @application_form = application_form
     @training_with_a_disability_form = CandidateInterface::TrainingWithADisabilityForm.build_from_application(
       @application_form,
     )
     @editable = editable
+    @missing_error = missing_error
   end
 
   def training_with_a_disability_form_rows
@@ -14,6 +15,10 @@ class TrainingWithADisabilityReviewComponent < ActionView::Component::Base
       disclose_disability_row,
       (disability_disclosure_row if @training_with_a_disability_form.disclose_disability == 'yes'),
     ].compact
+  end
+
+  def show_missing_banner?
+    !@training_with_a_disability_form.valid? && @editable
   end
 
 private
