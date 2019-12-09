@@ -32,6 +32,10 @@ RSpec.feature 'Selecting a course' do
     when_i_click_on_add_another_course
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_another_provider
+    and_i_choose_another_course
+    then_i_see_the_not_ready_for_you_yet_page
+
+    when_i_click_back
     and_i_choose_another_course_with_only_one_site
     then_i_review_my_second_course_choice
 
@@ -125,6 +129,11 @@ RSpec.feature 'Selecting a course' do
     click_button 'Continue'
   end
 
+  def and_i_choose_another_course
+    choose 'Another course'
+    click_button 'Continue'
+  end
+
   def then_i_see_the_address
     expect(page).to have_content('Gorse SCITT, C/O The Bruntcliffe Academy, Bruntcliffe Lane, MORLEY, lEEDS, LS27 0LZ')
   end
@@ -183,6 +192,13 @@ RSpec.feature 'Selecting a course' do
     click_button 'Continue'
   end
 
+  def when_i_click_back
+    # TODO: the back link goes back to the '/candidate/application/courses/provider' instead of going back to the specific provider.
+    # Fix this and use click_link 'Back'
+
+    visit '/candidate/application/courses/provider/R55/courses'
+  end
+
   def and_i_delete_one_of_my_course_choice
     first(:link, t('application_form.courses.delete')).click
   end
@@ -193,5 +209,9 @@ RSpec.feature 'Selecting a course' do
 
   def then_i_no_longer_see_my_course_choice
     expect(page).not_to have_content('Primary (2XT2)')
+  end
+
+  def then_i_see_the_not_ready_for_you_yet_page
+    expect(page).to have_content('We’re sorry, but we’re not ready for you yet')
   end
 end
