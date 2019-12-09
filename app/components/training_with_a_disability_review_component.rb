@@ -37,7 +37,7 @@ private
   def boolean_display_value(value)
     key = if value.nil?
             'not_specified'
-          elsif value
+          elsif value == 'yes'
             'yes'
           else
             'no'
