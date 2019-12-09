@@ -366,6 +366,7 @@ en:
             phone_number:
               blank: Enter your phone number
               invalid: Enter a real phone number
+              too_long: Phone number must be %{count} characters or fewer
             address_line1:
               blank: Enter your building and street
               too_long: Building and street must be %{count} characters or fewer
