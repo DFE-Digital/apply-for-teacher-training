@@ -22,7 +22,7 @@ module SupportInterface
       elsif audit.user_type == 'VendorApiUser'
         "#{audit.user.email_address} (Vendor API)"
       elsif audit.user_type == 'SupportUser'
-        "#{audit.user.email_address} (Support User)"
+        "#{audit.user.email_address} (Support user)"
       elsif audit.username.present?
         audit.username
       else
