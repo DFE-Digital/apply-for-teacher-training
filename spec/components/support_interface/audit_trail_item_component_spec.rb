@@ -62,7 +62,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
     audit.action = 'update'
     expect(render_result.text).to include('1 October 2019 12:10')
     expect(render_result.text).to include('Update Application Form')
-    expect(render_result.text).to include('alice@support.com (Support User)')
+    expect(render_result.text).to include('alice@support.com (Support user)')
   end
 
   it 'renders an update application form audit record with the username (rather than a persistent model)' do
