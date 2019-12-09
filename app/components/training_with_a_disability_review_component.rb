@@ -1,11 +1,12 @@
 class TrainingWithADisabilityReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 
-  def initialize(application_form:)
+  def initialize(application_form:, editable: true)
     @application_form = application_form
     @training_with_a_disability_form = CandidateInterface::TrainingWithADisabilityForm.build_from_application(
       @application_form,
     )
+    @editable = editable
   end
 
   def training_with_a_disability_form_rows

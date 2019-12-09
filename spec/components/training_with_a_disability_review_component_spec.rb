@@ -50,4 +50,20 @@ RSpec.describe TrainingWithADisabilityReviewComponent do
       expect(result.css('.govuk-summary-list__key').text).not_to include(t('application_form.training_with_a_disability.disability_disclosure.label'))
     end
   end
+
+  context 'when disability disclosure is not editable' do
+    let(:application_form) do
+      build_stubbed(
+        :application_form,
+        disclose_disability: false,
+        disability_disclosure: nil,
+      )
+    end
+
+    it 'renders component without an edit link' do
+      result = render_inline(TrainingWithADisabilityReviewComponent, application_form: application_form, editable: false)
+
+      expect(result.css('.app-summary-list__actions').text).not_to include('Change')
+    end
+  end
 end
