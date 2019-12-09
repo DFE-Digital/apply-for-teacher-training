@@ -23,8 +23,7 @@ module VendorApi
     end
 
     def since_param
-      since = params.fetch(:since)
-      Time.iso8601(since)
+      params.fetch(:since).to_datetime
     rescue ArgumentError
       raise InvalidParameter.new('Parameter is invalid (should be ISO8601): since')
     end
