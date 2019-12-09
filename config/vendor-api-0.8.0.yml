@@ -440,17 +440,17 @@ components:
           type: string
           description: The candidate’s address line 1
           maxLength: 50
-          example: "45"
+          example: "45 Dialstone Lane"
         address_line2:
           type: string
           description: The candidate’s address line 2
           maxLength: 50
-          example: Dialstone Lane
+          example: Stockport
         address_line3:
           type: string
           description: The candidate’s address line 3
           maxLength: 50
-          example: Stockport
+          example: Cheshire
         address_line4:
           type: string
           description: The candidate’s address line 4
