@@ -30,11 +30,17 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
 
   it 'returns an error when trying to transition to an invalid state' do
     application_choice = create_application_choice_for_currently_authenticated_provider(status: 'rejected')
+    request_body = {
+      "data": {
+        "reason": 'Does not meet minimum GCSE requirements',
+      },
+    }
 
-    post_api_request "/api/v1/applications/#{application_choice.id}/reject", params: {}
+    post_api_request "/api/v1/applications/#{application_choice.id}/reject", params: request_body
 
     expect(response).to have_http_status(422)
     expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+    expect(error_response['message']).to eq 'The application is not ready for that action'
   end
 
   it 'returns an error when a proper reason is not provided' do

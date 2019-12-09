@@ -23,6 +23,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-conditio
 
     expect(response).to have_http_status(422)
     expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+    expect(error_response['message']).to eq 'The application is not ready for that action'
   end
 
   it 'returns not found error when the application was not found' do

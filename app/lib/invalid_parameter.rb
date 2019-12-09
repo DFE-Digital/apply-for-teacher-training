@@ -1,2 +1,1 @@
 class InvalidParameter < RuntimeError; end
-

@@ -23,8 +23,11 @@ class RejectApplication
       SetDeclineByDefault.new(application_form: @application_choice.application_form).call
       StateChangeNotifier.call(:reject_application, application_choice: @application_choice)
     end
-  rescue Workflow::NoTransitionAllowed => e
-    errors.add(:state, e.message)
+  rescue Workflow::NoTransitionAllowed
+    errors.add(
+      :base,
+      I18n.t('activerecord.errors.models.application_choice.attributes.status.invalid_transition'),
+    )
     false
   end
 end

@@ -99,6 +99,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
     expect(response).to have_http_status(422)
     expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+    expect(error_response['message']).to eq 'The application is not ready for that action'
   end
 
   it 'returns an error when given invalid conditions' do
