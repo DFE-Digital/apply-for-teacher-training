@@ -4,6 +4,7 @@ class FeatureFlag
     accept_and_decline_via_ui
     conditional_science_gcse
     candidate_withdrawals
+    training_with_a_disability
   ].freeze
 
   def self.activate(feature_name)

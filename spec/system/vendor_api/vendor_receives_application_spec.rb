@@ -16,6 +16,7 @@ RSpec.feature 'Vendor receives the application' do
   end
 
   def given_a_candidate_has_submitted_their_application
+    FeatureFlag.activate('training_with_a_disability')
     candidate_completes_application_form
     candidate_submits_application
   end

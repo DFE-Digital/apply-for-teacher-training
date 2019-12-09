@@ -3,6 +3,7 @@ module CandidateHelper
     course_choices
     personal_details
     contact_details
+    training_with_a_disability
     work_experience
     volunteering
     degrees

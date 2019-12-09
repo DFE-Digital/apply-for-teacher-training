@@ -6,7 +6,28 @@ RSpec.feature 'Entering their disability information' do
   scenario 'Candidate submits their disability information' do
     given_i_am_signed_in
     and_i_visit_the_site
+    and_the_training_with_a_disability_feature_flag_is_off
+    then_i_dont_see_training_with_a_disability
 
+    when_i_click_on_check_your_answers
+    then_i_dont_see_training_with_a_disability_is_missing_below_the_section
+
+    when_i_submit_my_application
+    then_i_dont_see_a_training_with_a_disability_validation_error
+
+    when_i_visit_training_with_a_disability_section
+    then_i_see_the_application_form
+
+    given_training_with_a_disability_feature_flag_is_on
+    and_i_visit_the_site
+
+    when_i_click_on_check_your_answers
+    then_i_see_training_with_a_disability_is_missing_below_the_section
+
+    when_i_submit_my_application
+    then_i_see_a_training_with_a_disability_validation_error
+
+    when_i_visit_the_site
     when_i_click_on_training_with_a_disability
     and_i_fill_in_my_disability_information
     and_i_submit_the_form
@@ -31,6 +52,60 @@ RSpec.feature 'Entering their disability information' do
 
   def and_i_visit_the_site
     visit candidate_interface_application_form_path
+  end
+
+  def and_the_training_with_a_disability_feature_flag_is_off
+    FeatureFlag.deactivate('training_with_a_disability')
+  end
+
+  def then_i_dont_see_training_with_a_disability
+    expect(page).not_to have_content(t('page_titles.training_with_a_disability'))
+  end
+
+  def when_i_click_on_check_your_answers
+    click_link 'Check your answers before submitting'
+  end
+
+  def then_i_dont_see_training_with_a_disability_is_missing_below_the_section
+    expect(page).not_to have_content(t('review_application.training_with_a_disability.incomplete'))
+  end
+
+  def when_i_submit_my_application
+    click_link 'Continue'
+  end
+
+  def then_i_dont_see_a_training_with_a_disability_validation_error
+    within('.govuk-error-summary') do
+      expect(page).not_to have_content(t('review_application.training_with_a_disability.incomplete'))
+    end
+  end
+
+  def when_i_visit_training_with_a_disability_section
+    visit candidate_interface_training_with_a_disability_show_path
+  end
+
+  def then_i_see_the_application_form
+    expect(page).to have_content(t('page_titles.application_form'))
+  end
+
+  def given_training_with_a_disability_feature_flag_is_on
+    FeatureFlag.activate('training_with_a_disability')
+  end
+
+  def then_i_see_training_with_a_disability_is_missing_below_the_section
+    within('#missing-training_with_a_disability-error') do
+      expect(page).to have_content(t('review_application.training_with_a_disability.incomplete'))
+    end
+  end
+
+  def then_i_see_a_training_with_a_disability_validation_error
+    within('.govuk-error-summary') do
+      expect(page).to have_content(t('review_application.training_with_a_disability.incomplete'))
+    end
+  end
+
+  def when_i_visit_the_site
+    and_i_visit_the_site
   end
 
   def when_i_click_on_training_with_a_disability
@@ -75,6 +150,6 @@ RSpec.feature 'Entering their disability information' do
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#training-with-a-disability-completed', text: 'Completed')
+    expect(page).to have_css('#training-with-a-disability-badge-id', text: 'Completed')
   end
 end

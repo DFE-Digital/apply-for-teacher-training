@@ -5,6 +5,7 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
 
   scenario 'Candidate with a completed application' do
     given_i_am_signed_in
+    and_the_training_with_a_disability_feature_flag_is_on
 
     when_i_have_completed_my_application
     and_i_review_my_application
@@ -13,6 +14,7 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
     and_i_can_see_my_course_choices
     and_i_can_see_my_personal_details
     and_i_can_see_my_contact_details
+    and_i_can_see_my_disability_disclosure
     and_i_can_see_my_volunteering_roles
     and_i_can_see_my_degree
     and_i_can_see_my_gcses
@@ -57,6 +59,10 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
     create_and_sign_in_candidate
   end
 
+  def and_the_training_with_a_disability_feature_flag_is_on
+    FeatureFlag.activate('training_with_a_disability')
+  end
+
   def when_i_have_completed_my_application
     candidate_completes_application_form
   end
@@ -97,6 +103,11 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
     expect(page).to have_content '42 Much Wow Street'
     expect(page).to have_content 'London'
     expect(page).to have_content 'SW1P 3BT'
+  end
+
+  def and_i_can_see_my_disability_disclosure
+    expect(page).to have_content 'Yes'
+    expect(page).to have_content 'I have difficulty climbing stairs'
   end
 
   def and_i_can_see_my_volunteering_roles

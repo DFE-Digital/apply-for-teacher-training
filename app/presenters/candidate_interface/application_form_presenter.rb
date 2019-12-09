@@ -16,6 +16,7 @@ module CandidateInterface
         # "About you" section
         [:personal_details, personal_details_completed?],
         [:contact_details, contact_details_completed?],
+        ([:training_with_a_disability, training_with_a_disability_completed?] if FeatureFlag.active?('training_with_a_disability')),
         [:work_experience, work_experience_completed?],
         [:volunteering, volunteering_completed?],
 
