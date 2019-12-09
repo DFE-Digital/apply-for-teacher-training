@@ -15,11 +15,15 @@ A service for candidates to apply for initial teacher training.
 | Sandbox | [sandbox.apply-for-teacher-training.education.gov.uk](https://sandbox.apply-for-teacher-training.education.gov.uk) | Demo environment for software vendors who integrate with our API |
 | QA | [qa.apply-for-teacher-training.education.gov.uk](https://qa.apply-for-teacher-training.education.gov.uk) | For internal use by DfE for testing. Automatically deployed from master |
 
+When setting up a new environment, check you have followed [the instructions
+for doing so](#deploy-env-setup).
+
 ## Table of Contents
 
 * [Dependencies](#dependencies)
 * [Prerequisites for development](#dev-prerequisites)
 * [Setting up the development environment](#dev-env-setup)
+* [Setting up new deployment environments](#deploy-env-setup)
 * [Docker workflow](#docker-workflow)
 * [Releases](#releases)
 * [DfE Sign-in](#dfe-sign-in)
@@ -32,6 +36,7 @@ A service for candidates to apply for initial teacher training.
   * [Environment Variables](#documentation-env-vars)
   * [Pipeline Variables](#documentation-pipeline-vars)
   * [Database Restore](#documentation-db-restore)
+  * [Connecting to live databases](#documentation-db-connect)
 
 ## <a name="dependencies"></a>Dependencies
 
@@ -69,6 +74,28 @@ running and then run Sidekiq. The simplest way to do that is with
 `docker-compose` (see below) or `foreman`. e.g.
 
     $ foreman start
+
+
+
+## <a name="deploy-env-setup"></a>Setting up new deployment environments
+
+New deployment environments are configured by Azure specialists via the Azure YAML and JSON files.
+
+Once a fresh environment is deployed, it is necessary to enable feature flags
+and perhaps grant access to support and provider users.
+
+To do this it's necessary to have a Support user set up, but support users are
+created via the support UI, which is only accessible to Support users!
+
+It is possible to grant access directly by updating the database of the environment
+in question.
+
+1. Connect to the database following the [instructions for connecting to a production database]('/docs/connecting-to-databases.md')
+2. Issue the following query, which writes your email address (EMAIL) and DfE Sign-in uid (UID) into the support_users table.
+
+```
+INSERT INTO support_users (email_address, dfe_sign_in_uid, created_at, updated_at) VALUES ('EMAIL', 'UID', current_timestamp, current_timestamp);
+```
 
 ## <a name="docker-workflow"></a>Docker Workflow
 
@@ -278,3 +305,7 @@ The `TEST-NAMEn` should be short, unique and descriptive and contain no spaces. 
 ### <a name="documentation-db-restore"></a>Database Restore
 
 👉 [See the database restore guide](/docs/database-restore.md)
+
+### <a name="documentation-db-connect"></a>Connecting to live databases
+
+👉 [See instructions for connection to production database](/docs/connecting-to-databases.md)
