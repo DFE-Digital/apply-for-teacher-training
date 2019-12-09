@@ -60,7 +60,7 @@ gem 'clockwork'
 # For outgoing http requests
 gem 'http'
 
-gem 'openapi3_parser', '0.5.2'
+gem 'openapi3_parser', '0.7.0'
 gem 'rouge'
 
 group :development do

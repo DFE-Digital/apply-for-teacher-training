@@ -48,7 +48,7 @@ module ApiDocs
           linked_schema = attributes['items']
         end
 
-        return unless linked_schema.node_context.referenced_by.to_s.include?('#/components/schemas') &&
+        return unless linked_schema.node_context &&
           !linked_schema.node_context.source_location.to_s.include?('/properties/')
 
         location = linked_schema.node_context.source_location.to_s

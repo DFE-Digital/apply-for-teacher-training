@@ -295,7 +295,7 @@ GEM
       addressable (~> 2.5)
       omniauth (~> 1.9)
       openid_connect (~> 1.1)
-    openapi3_parser (0.5.2)
+    openapi3_parser (0.7.0)
       commonmarker (~> 0.17)
     openid_connect (1.1.8)
       activemodel
@@ -554,7 +554,7 @@ DEPENDENCIES
   omniauth
   omniauth-rails_csrf_protection
   omniauth_openid_connect
-  openapi3_parser (= 0.5.2)
+  openapi3_parser (= 0.7.0)
   pg (~> 1.1.4)
   pry
   pry-byebug
