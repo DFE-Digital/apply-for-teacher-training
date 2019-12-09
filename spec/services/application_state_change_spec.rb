@@ -28,9 +28,9 @@ RSpec.describe ApplicationStateChange do
     end
   end
 
-  describe '.states_not_visible_to_provider' do
+  describe '::STATES_NOT_VISIBLE_TO_PROVIDER' do
     it 'contains the correct states to filter by' do
-      expect(ApplicationStateChange.valid_states).to include(*ApplicationStateChange.states_not_visible_to_provider)
+      expect(ApplicationStateChange.valid_states).to include(*ApplicationStateChange::STATES_NOT_VISIBLE_TO_PROVIDER)
     end
   end
 end

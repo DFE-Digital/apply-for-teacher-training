@@ -14,6 +14,6 @@ class GetApplicationChoicesForProvider
       .where('courses.provider_id' => provider)
       .or(ApplicationChoice.includes(*includes)
         .where('courses.accrediting_provider_id' => provider))
-      .where('status NOT IN (?)', ApplicationStateChange.states_not_visible_to_provider)
+      .where('status IN (?)', ApplicationStateChange.states_visible_to_provider)
   end
 end

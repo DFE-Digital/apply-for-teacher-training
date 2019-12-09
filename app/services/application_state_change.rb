@@ -76,8 +76,4 @@ class ApplicationStateChange
   def self.states_visible_to_provider
     valid_states - STATES_NOT_VISIBLE_TO_PROVIDER
   end
-
-  def self.states_not_visible_to_provider
-    STATES_NOT_VISIBLE_TO_PROVIDER
-  end
 end
