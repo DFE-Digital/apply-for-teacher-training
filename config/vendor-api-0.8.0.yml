@@ -302,9 +302,6 @@ components:
           type: string
           description: The status of this application
           enum:
-            - unsubmitted
-            - awaiting_references
-            - application_complete
             - awaiting_provider_decision
             - offer
             - pending_conditions

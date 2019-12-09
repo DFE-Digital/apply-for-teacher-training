@@ -60,12 +60,6 @@ RSpec.describe GetApplicationChoicesForProvider do
     expect(returned_applications.size).to be(3)
   end
 
-
-  it 'contians the correct states to filter by' do
-    valid_states = ApplicationStateChange.valid_states
-    expect(valid_states).to include(*GetApplicationChoicesForProvider::STATES_NOT_VISIBLE_TO_PROVIDER)
-  end
-
   it 'returns application_choice that the provider is the accrediting body for' do
     current_provider = create(:provider, code: 'BAT')
     alternate_provider = create(:provider, code: 'DIFFERENT')
