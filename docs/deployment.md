@@ -41,7 +41,7 @@ Do whatever it takes to test what you've just deployed. Be sure to keep an eye o
 Wait until the deploy finishes and, if necessary, test on production.
 
 [Check the production monitoring dashboard in
-Azure](https://portal.azure.com/#@platform.education.gov.uk/dashboard/arm/subscriptions/67722207-6a10-4c7d-b4bc-c72caa76ef12/resourcegroups/s106p01-apply/providers/microsoft.portal/dashboards/a38bba8f-4bdc-4c57-801c-0fd018f72b82-dashboard)
+Azure](https://portal.azure.com/#@platform.education.gov.uk/dashboard/arm/subscriptions/67722207-6a10-4c7d-b4bc-c72caa76ef12/resourceGroups/s106p01-apply/providers/Microsoft.Portal/dashboards/s106p01-apply-dashboard)
 before declaring the deploy finished.
 
 ## 7. Move deploy cards to done
@@ -74,5 +74,3 @@ You should then shut down the staging slot, which now contains the faulty
 version of the code. Do this by repeating the above process to find the staging
 slot resource, and — after double checking that it is the *staging* slot
 — clicking "stop".
-
-
