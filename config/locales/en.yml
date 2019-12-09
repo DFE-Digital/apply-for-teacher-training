@@ -115,6 +115,12 @@ en:
             relationship:
               blank: Tell us about the referee’s relationship to you and how long they’ve known you
               too_many_words: Relationship to referee must be %{count} words or fewer
+        support_user:
+          attributes:
+            email_address:
+              blank: Email address can’t be blank
+            dfe_sign_in_uid:
+              blank: DfE Sign-in UID can’t be blank
   errors:
     messages:
       too_many_words: Must be %{count} words or fewer
