@@ -73,5 +73,6 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
 
     it { is_expected.to allow_value('07700 900 982').for(:phone_number).on(:base) }
     it { is_expected.not_to allow_value('07700 WUT WUT').for(:phone_number).on(:base) }
+    it { is_expected.to validate_length_of(:phone_number).is_at_most(50).on(:base) }
   end
 end

@@ -474,7 +474,7 @@ components:
         phone_number:
           type: string
           description: The candidate’s phone number
-          maxLength: 18
+          maxLength: 50
           example: "07944386555"
     Course:
       type: object
