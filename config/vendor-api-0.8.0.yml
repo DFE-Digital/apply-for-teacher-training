@@ -78,7 +78,7 @@ paths:
                 data:
                   $ref: "#/components/schemas/Offer"
                 meta:
-                  $ref: '#/components/schemas/TimestampAndAttribution'
+                  $ref: '#/components/schemas/MetaData'
       responses:
         "200":
           description: An application
@@ -107,7 +107,7 @@ paths:
               type: object
               properties:
                 meta:
-                  $ref: '#/components/schemas/TimestampAndAttribution'
+                  $ref: '#/components/schemas/MetaData'
       responses:
         "200":
           description: An application
@@ -136,7 +136,7 @@ paths:
               type: object
               properties:
                 meta:
-                  $ref: '#/components/schemas/TimestampAndAttribution'
+                  $ref: '#/components/schemas/MetaData'
       responses:
         "200":
           description: An application
@@ -168,7 +168,7 @@ paths:
                 data:
                   $ref: '#/components/schemas/Rejection'
                 meta:
-                  $ref: '#/components/schemas/TimestampAndAttribution'
+                  $ref: '#/components/schemas/MetaData'
       responses:
         "200":
           description: An application
@@ -272,6 +272,7 @@ components:
           example: 11fc0d3b2f
         type:
           type: string
+          description: Type of the object, always "application"
           enum:
             - application
           example: application
@@ -302,9 +303,6 @@ components:
           type: string
           description: The status of this application
           enum:
-            - unsubmitted
-            - awaiting_references
-            - application_complete
             - awaiting_provider_decision
             - offer
             - pending_conditions
@@ -339,42 +337,9 @@ components:
         course:
           $ref: "#/components/schemas/Course"
         qualifications:
-          type: object
-          additionalProperties: false
-          required:
-            - gcses
-            - degrees
-            - other_qualifications
-          properties:
-            gcses:
-              type: array
-              items:
-                $ref: "#/components/schemas/Qualification"
-            degrees:
-              type: array
-              items:
-                $ref: "#/components/schemas/Qualification"
-            other_qualifications:
-              type: array
-              items:
-                $ref: "#/components/schemas/Qualification"
+          $ref: "#/components/schemas/Qualifications"
         work_experience:
-          type: object
-          additionalProperties: false
-          required:
-            - jobs
-            - volunteering
-          properties:
-            jobs:
-              type: array
-              description: The candidate’s professional experience
-              items:
-                $ref: "#/components/schemas/WorkExperience"
-            volunteering:
-              type: array
-              description: The candidate’s experience as a volunteer
-              items:
-                $ref: "#/components/schemas/WorkExperience"
+          $ref: '#/components/schemas/WorkExperiences'
         references:
           type: array
           items:
@@ -591,11 +556,13 @@ components:
         equivalency_details:
           type: string
           description: "Details of equivalency, if this qualification was awarded overseas"
+          example: Equivalent to GCSE C
           maxLength: 255
           nullable: true
         awarding_body:
           type: string
           description: "Details about the qualification awarding body"
+          example: University of Amsterdam
           maxLength: 255
           nullable: true
     Reference:
@@ -655,6 +622,45 @@ components:
           format: date-time
           description: The date on which the withdrawal was received
           example: "2019-09-18T15:33:49.216Z"
+    Qualifications:
+      type: object
+      additionalProperties: false
+      required:
+        - gcses
+        - degrees
+        - other_qualifications
+      properties:
+        gcses:
+          type: array
+          items:
+            $ref: "#/components/schemas/Qualification"
+        degrees:
+          type: array
+          items:
+            $ref: "#/components/schemas/Qualification"
+        other_qualifications:
+          type: array
+          items:
+            $ref: "#/components/schemas/Qualification"
+
+    WorkExperiences:
+      type: object
+      additionalProperties: false
+      required:
+        - jobs
+        - volunteering
+      properties:
+        jobs:
+          type: array
+          description: The candidate’s professional experience
+          items:
+            $ref: "#/components/schemas/WorkExperience"
+        volunteering:
+          type: array
+          description: The candidate’s experience as a volunteer
+          items:
+            $ref: "#/components/schemas/WorkExperience"
+
     WorkExperience:
       type: object
       additionalProperties: false
@@ -699,7 +705,9 @@ components:
           example: true
         commitment:
           nullable: true
+          description: Whether the work was full time or part time
           type: string
+          example: full_time
           enum:
             - full_time
             - part_time
@@ -718,17 +726,51 @@ components:
         sex:
           type: string
           nullable: true
-          description: The candidate’s sex as a one-digit HESA code (https://www.hesa.ac.uk/collection/c19053/e/sexid)
+          description: The candidate’s sex as a [1-digit HESA code for Sex](https://www.hesa.ac.uk/collection/c19053/e/sexid)
           example: "1"
+          enum:
+            - "1"
+            - "2"
+            - "3"
         disability:
           type: string
           nullable: true
-          description: The candidate’s disability as a two-digit HESA code (https://www.hesa.ac.uk/collection/c19053/e/disable)
+          description: The candidate’s disability as [a 2-digit HESA code for Disability](https://www.hesa.ac.uk/collection/c19053/e/disable)
           example: "00"
+          enum:
+            - "00"
+            - "08"
+            - "51"
+            - "53"
+            - "54"
+            - "55"
+            - "56"
+            - "57"
+            - "58"
+            - "96"
         ethnicity:
           type: string
-          description: The candidate’s ethnicity as a two-digit HESA code (https://www.hesa.ac.uk/collection/c19053/e/ethnic)
+          description: The candidate’s ethnicity as [a 2-digit HESA code for Ethnicity](https://www.hesa.ac.uk/collection/c19053/e/ethnic)
           example: "10"
+          enum:
+            - "10"
+            - "15"
+            - "21"
+            - "22"
+            - "29"
+            - "31"
+            - "32"
+            - "33"
+            - "34"
+            - "39"
+            - "41"
+            - "42"
+            - "43"
+            - "49"
+            - "50"
+            - "80"
+            - "90"
+            - "98"
     Attribution:
       type: object
       additionalProperties: false
@@ -749,7 +791,7 @@ components:
           type: string
           description: The ID of the user in the Student Record System, used for disambiguation
           example: "12345"
-    TimestampAndAttribution:
+    MetaData:
       type: object
       description: Required under a "meta" key in the body of every POST or PUT request
       additionalProperties: false

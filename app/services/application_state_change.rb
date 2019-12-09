@@ -1,6 +1,8 @@
 class ApplicationStateChange
   include Workflow
 
+  STATES_NOT_VISIBLE_TO_PROVIDER = %i[unsubmitted awaiting_references application_complete].freeze
+
   attr_reader :application_choice
 
   def initialize(application_choice)
@@ -69,5 +71,9 @@ class ApplicationStateChange
 
   def self.valid_states
     workflow_spec.states.keys
+  end
+
+  def self.states_visible_to_provider
+    valid_states - STATES_NOT_VISIBLE_TO_PROVIDER
   end
 end
