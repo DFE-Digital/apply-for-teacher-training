@@ -78,7 +78,7 @@ paths:
                 data:
                   $ref: "#/components/schemas/Offer"
                 meta:
-                  $ref: '#/components/schemas/TimestampAndAttribution'
+                  $ref: '#/components/schemas/MetaData'
       responses:
         "200":
           description: An application
@@ -107,7 +107,7 @@ paths:
               type: object
               properties:
                 meta:
-                  $ref: '#/components/schemas/TimestampAndAttribution'
+                  $ref: '#/components/schemas/MetaData'
       responses:
         "200":
           description: An application
@@ -136,7 +136,7 @@ paths:
               type: object
               properties:
                 meta:
-                  $ref: '#/components/schemas/TimestampAndAttribution'
+                  $ref: '#/components/schemas/MetaData'
       responses:
         "200":
           description: An application
@@ -168,7 +168,7 @@ paths:
                 data:
                   $ref: '#/components/schemas/Rejection'
                 meta:
-                  $ref: '#/components/schemas/TimestampAndAttribution'
+                  $ref: '#/components/schemas/MetaData'
       responses:
         "200":
           description: An application
@@ -336,42 +336,9 @@ components:
         course:
           $ref: "#/components/schemas/Course"
         qualifications:
-          type: object
-          additionalProperties: false
-          required:
-            - gcses
-            - degrees
-            - other_qualifications
-          properties:
-            gcses:
-              type: array
-              items:
-                $ref: "#/components/schemas/Qualification"
-            degrees:
-              type: array
-              items:
-                $ref: "#/components/schemas/Qualification"
-            other_qualifications:
-              type: array
-              items:
-                $ref: "#/components/schemas/Qualification"
+          $ref: "#/components/schemas/Qualifications"
         work_experience:
-          type: object
-          additionalProperties: false
-          required:
-            - jobs
-            - volunteering
-          properties:
-            jobs:
-              type: array
-              description: The candidate’s professional experience
-              items:
-                $ref: "#/components/schemas/WorkExperience"
-            volunteering:
-              type: array
-              description: The candidate’s experience as a volunteer
-              items:
-                $ref: "#/components/schemas/WorkExperience"
+          $ref: '#/components/schemas/WorkExperiences'
         references:
           type: array
           items:
@@ -652,6 +619,45 @@ components:
           format: date-time
           description: The date on which the withdrawal was received
           example: "2019-09-18T15:33:49.216Z"
+    Qualifications:
+      type: object
+      additionalProperties: false
+      required:
+        - gcses
+        - degrees
+        - other_qualifications
+      properties:
+        gcses:
+          type: array
+          items:
+            $ref: "#/components/schemas/Qualification"
+        degrees:
+          type: array
+          items:
+            $ref: "#/components/schemas/Qualification"
+        other_qualifications:
+          type: array
+          items:
+            $ref: "#/components/schemas/Qualification"
+
+    WorkExperiences:
+      type: object
+      additionalProperties: false
+      required:
+        - jobs
+        - volunteering
+      properties:
+        jobs:
+          type: array
+          description: The candidate’s professional experience
+          items:
+            $ref: "#/components/schemas/WorkExperience"
+        volunteering:
+          type: array
+          description: The candidate’s experience as a volunteer
+          items:
+            $ref: "#/components/schemas/WorkExperience"
+
     WorkExperience:
       type: object
       additionalProperties: false
@@ -780,7 +786,7 @@ components:
           type: string
           description: The ID of the user in the Student Record System, used for disambiguation
           example: "12345"
-    TimestampAndAttribution:
+    MetaData:
       type: object
       description: Required under a "meta" key in the body of every POST or PUT request
       additionalProperties: false
