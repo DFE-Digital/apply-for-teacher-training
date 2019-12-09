@@ -23,6 +23,7 @@ paths:
           description: Include only applications changed or created on or since a date and time. Times should be in ISO 8601 format.
           in: query
           required: true
+          example: "2019-12-06T12:00:00Z"
           schema:
             type: string
             format: date-time
