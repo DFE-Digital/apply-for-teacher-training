@@ -40,7 +40,13 @@ module CandidateInterface
       redirect_to candidate_interface_application_complete_path
     end
 
-    def withdraw; end
+    def withdraw
+      if ApplicationStateChange.new(@application_choice).can_withdraw? 
+        render :withdraw
+      else
+        redirect_to candidate_interface_application_form_path 
+      end
+    end
 
     def confirm_withdraw
       raise unless FeatureFlag.active?('candidate_withdrawals')
