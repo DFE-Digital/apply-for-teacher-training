@@ -495,14 +495,17 @@ components:
           type: string
           description: The provider’s UCAS code
           example: 2FR
+          maxLength: 3
         course_ucas_code:
           type: string
           description: The course’s UCAS code
           example: 3CVK
+          maxLength: 4
         site_ucas_code:
           type: string
           description: The site’s UCAS code
           example: K
+          maxLength: 1
     Offer:
       type: object
       additionalProperties: false
