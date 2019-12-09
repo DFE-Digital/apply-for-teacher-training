@@ -40,6 +40,11 @@ module CandidateHelper
     click_link t('page_titles.volunteering.short')
     candidate_fills_in_volunteering_role
 
+    click_link t('page_titles.training_with_a_disability')
+    candidate_fills_in_disability_info
+    click_button t('application_form.training_with_a_disability.complete_form_button')
+    click_link t('application_form.training_with_a_disability.review.button')
+
     click_link t('page_titles.degree')
     candidate_fills_in_their_degree
 
@@ -158,6 +163,11 @@ module CandidateHelper
     click_button t('application_form.other_qualification.base.button')
     check t('application_form.other_qualification.review.completed_checkbox')
     click_button t('application_form.other_qualification.review.button')
+  end
+
+  def candidate_fills_in_disability_info
+    choose t('application_form.training_with_a_disability.disclose_disability.yes')
+    fill_in t('application_form.training_with_a_disability.disability_disclosure.label'), with: 'I have difficulty climbing stairs'
   end
 
   def candidate_fills_in_work_experience

@@ -62,6 +62,12 @@ Rails.application.routes.draw do
         get '/interview-preferences/review' => 'personal_statement/interview_preferences#show', as: :interview_preferences_show
       end
 
+      scope '/training-with-a-disability' do
+        get '/' => 'training_with_a_disability#edit', as: :training_with_a_disability_edit
+        post '/review' => 'training_with_a_disability#update', as: :training_with_a_disability_update
+        get '/review' => 'training_with_a_disability#show', as: :training_with_a_disability_show
+      end
+
       scope '/contact-details' do
         get '/' => 'contact_details/base#edit', as: :contact_details_edit_base
         post '/' => 'contact_details/base#update', as: :contact_details_update_base
