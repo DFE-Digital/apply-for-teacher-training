@@ -43,5 +43,11 @@ RSpec.describe TrainingWithADisabilityReviewComponent do
 
       expect(result.css('.govuk-summary-list__value').text).to include('No')
     end
+
+    it 'renders component without disability disclosure' do
+      result = render_inline(TrainingWithADisabilityReviewComponent, application_form: application_form)
+
+      expect(result.css('.govuk-summary-list__key').text).not_to include(t('application_form.training_with_a_disability.disability_disclosure.label'))
+    end
   end
 end

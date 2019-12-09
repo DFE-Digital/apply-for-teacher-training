@@ -9,7 +9,10 @@ class TrainingWithADisabilityReviewComponent < ActionView::Component::Base
   end
 
   def training_with_a_disability_form_rows
-    [disclose_disability_row, disability_disclosure_row]
+    [
+      disclose_disability_row,
+      (disability_disclosure_row if @training_with_a_disability_form.disclose_disability == 'yes'),
+    ].compact
   end
 
 private
