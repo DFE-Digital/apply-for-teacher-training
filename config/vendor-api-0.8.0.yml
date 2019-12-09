@@ -272,6 +272,7 @@ components:
           example: 11fc0d3b2f
         type:
           type: string
+          description: Type of the object, always "application"
           enum:
             - application
           example: application
@@ -555,11 +556,13 @@ components:
         equivalency_details:
           type: string
           description: "Details of equivalency, if this qualification was awarded overseas"
+          example: Equivalent to GCSE C
           maxLength: 255
           nullable: true
         awarding_body:
           type: string
           description: "Details about the qualification awarding body"
+          example: University of Amsterdam
           maxLength: 255
           nullable: true
     Reference:
@@ -702,7 +705,9 @@ components:
           example: true
         commitment:
           nullable: true
+          description: Whether the work was full time or part time
           type: string
+          example: full_time
           enum:
             - full_time
             - part_time
