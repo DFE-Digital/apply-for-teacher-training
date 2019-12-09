@@ -28,6 +28,34 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
     end
   end
 
+  describe 'rejecting an application with a decision' do
+    let(:request_body) { { 'data': { 'reason': 'Course is over-subscribed' } } }
+
+    it 'can reject an already offered application' do
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'offer',
+      )
+
+      post_api_request "/api/v1/applications/#{application_choice.id}/reject", params: request_body
+
+      expect(response).to have_http_status(200)
+      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
+      expect(parsed_response['data']['attributes']['status']).to eq 'rejected'
+    end
+
+    it 'cannot reject application if already rejected' do
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'rejected',
+      )
+
+      post_api_request "/api/v1/applications/#{application_choice.id}/reject", params: request_body
+
+      expect(response).to have_http_status(422)
+      expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+      expect(error_response['message']).to eql 'State There is no event reject_application defined for the rejected state'
+    end
+  end
+
   it 'returns an error when trying to transition to an invalid state' do
     application_choice = create_application_choice_for_currently_authenticated_provider(status: 'rejected')
     request_body = {
@@ -58,7 +86,6 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
     expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
     expect(error_response['message']).to eql "Rejection reason can't be blank"
   end
-
 
   it 'returns not found error when the application was not found' do
     post_api_request '/api/v1/applications/non-existent-id/reject'
