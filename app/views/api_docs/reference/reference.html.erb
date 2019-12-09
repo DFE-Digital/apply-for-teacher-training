@@ -1,4 +1,4 @@
-<h1 class="govuk-heading-xl"><%= t("page_titles.api_docs.reference") %></h1>
+<h1 class='govuk-heading-xl'><%= t('page_titles.api_docs.reference') %></h1>
 
 <h2 class='govuk-heading-l'>Developing on the API</h2>
 
@@ -29,8 +29,7 @@
 <% @document.paths.each do |path_name, path| %>
   <% %w[get put post delete patch].map do |http_verb| %>
     <% operation = path.node_data[http_verb]
-    next unless operation && !operation.kind_of?(Openapi3Parser::Node::Placeholder)
-    %>
+       next unless operation && !operation.is_a?(Openapi3Parser::Node::Placeholder) %>
     <%= render 'operation', operation: ApiDocs::ApiOperation.new(http_verb: http_verb, path_name: path_name, operation: operation) %>
   <% end %>
 <% end %>
