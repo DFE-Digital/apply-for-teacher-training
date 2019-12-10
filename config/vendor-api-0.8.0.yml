@@ -370,6 +370,7 @@ components:
       type: object
       additionalProperties: false
       required:
+        - id
         - first_name
         - last_name
         - date_of_birth
@@ -380,6 +381,11 @@ components:
         - other_languages
         - disability_disclosure
       properties:
+        id:
+          type: string
+          description: The candidate’s ID in the Apply system
+          maxLength: 20
+          example: "C5432"
         first_name:
           type: string
           description: The candidate’s first name
