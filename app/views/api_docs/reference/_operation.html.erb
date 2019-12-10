@@ -1,11 +1,11 @@
-<h3 class='govuk-heading-l'><code><%= operation.http_verb %> <%= operation.path_name %></code></h3>
+<h3 class='govuk-heading-l' id='<%= operation.anchor %>'><code><%= operation.name %></code></h3>
 
 <div class="govuk-body-l">
   <%= operation.summary %>
 </div>
 
-<div class="govuk-body">
-  <%= operation.description %>
+<div class="app-styled-content">
+  <%= markdown_to_html operation.description %>
 </div>
 
 <% if operation.parameters.any? %>
@@ -28,7 +28,10 @@
           <td class='govuk-table__cell'><%= parameter.in %></td>
           <td class='govuk-table__cell'><%= parameter.schema.type %></td>
           <td class='govuk-table__cell'><%= parameter.required? %></td>
-          <td class='govuk-table__cell'><p><%= parameter.description %></p>
+          <td class='govuk-table__cell'>
+            <p class='govuk-body'>
+              <%= parameter.description %>
+            </p>
             <% if parameter.schema.enum %>
               <p>Allowed items:</p>
 
@@ -48,9 +51,11 @@
 <% unless operation.request_body.nil? %>
   <h4 class='govuk-heading-s'>Request body</h4>
 
-  <div class="govuk-body">
-    <%= operation.request_body.description %>
+  <div class="app-styled-content">
+    <%= markdown_to_html operation.request_body.description %>
   </div>
+
+  <%= render 'properties_list', properties: operation.request_body.schema.properties %>
 
   <details class="govuk-details" data-module="govuk-details">
     <summary class="govuk-details__summary">
@@ -75,7 +80,7 @@
         </span>
       </summary>
       <div class="govuk-details__text">
-        This request will return a <%= govuk_link_to response.schema_name, "#schema-#{response.schema_name.parameterize}" %> object.
+        This request will return a <%= govuk_link_to response.schema_name, "##{response.schema_name.parameterize}-object" %> object.
 
         <% if response.example %>
           <%= json_code_sample(response.example) %>

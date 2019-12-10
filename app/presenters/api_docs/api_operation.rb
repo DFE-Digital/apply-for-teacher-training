@@ -8,8 +8,12 @@ module ApiDocs
       @operation = operation
     end
 
-    def http_verb
-      @http_verb.upcase
+    def name
+      "#{@http_verb.upcase} #{path_name}"
+    end
+
+    def anchor
+      name.parameterize
     end
 
     def request_body
@@ -41,7 +45,7 @@ module ApiDocs
     def example
       return unless response.content['application/json']
 
-      response.content['application/json']['example'] || ApiDocs::SchemaExample.new(schema).as_json
+      response.content['application/json']['example'] || SchemaExample.new(schema).as_json
     end
 
     def schema
@@ -62,9 +66,13 @@ module ApiDocs
       @request_body = request_body
     end
 
+    def schema
+      ApiSchema.new(name: nil, schema: request_body.content['application/json'].schema)
+    end
+
     def example
       request_body.content['application/json']['example'] ||
-        ApiDocs::SchemaExample.new(request_body.content['application/json'].schema).as_json
+        SchemaExample.new(request_body.content['application/json'].schema).as_json
     end
   end
 end

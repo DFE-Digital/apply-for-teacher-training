@@ -1,50 +1,9 @@
-<h3 class='govuk-heading-m' id='schema-<%= schema.name.parameterize %>'><%= schema.name %></h3>
+<h3 class='govuk-heading-m' id='<%= schema.anchor %>'>
+  The <%= schema.name %> object
+</h3>
 
-<p class='govuk-body'>
-  <%= schema.description %>
-</p>
+<div class='app-styled-content'>
+  <%= markdown_to_html schema.description %>
+</div>
 
-<% if schema.properties.any? %>
-  <table class='govuk-body' style='width:100%'>
-    <thead class='govuk-table__head'>
-      <tr class='govuk-table__row'>
-        <th scope='col' class='govuk-table__header'>Name</th>
-        <th scope='col' class='govuk-table__header'>Type</th>
-        <th scope='col' class='govuk-table__header'>Example</th>
-        <th scope='col' class='govuk-table__header'>Description</th>
-      </tr>
-    </thead>
-
-    <tbody class='govuk-table__body'>
-      <% schema.properties.each do |property| %>
-        <tr class='govuk-table__row'>
-          <td scope='row' class='govuk-table__header'>
-            <%= property.name %>
-            <% if property.required? %>
-              <abbr title="This field will always be present in the response">*</abbr>
-            <% end %>
-          </td>
-
-          <td class='govuk-table__cell'>
-            <%= property.type %>
-            <%= property.subschema ? govuk_link_to("(#{property.subschema})", "#schema-#{property.subschema.parameterize}") : nil %>
-          </td>
-
-          <td class='govuk-table__cell'>
-            <%= property.example %>
-          </td>
-
-          <td class='govuk-table__cell'>
-            <%= property.attributes.description %>
-
-            <% if property.type == 'string' && property.attributes.max_length.present? %>
-              <p>(limited to <%= property.attributes.max_length %> characters)</p>
-            <% elsif property.type == 'array' && property.attributes.max_items.present? %>
-              <p>(limited to <%= property.attributes.max_items %> elements)</p>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% end %>
+<%= render 'properties_list', properties: schema.properties %>

@@ -22,6 +22,10 @@ $code-0F: #C92424; /* Deprecated, Opening/Closing Embedded Language Tags e.g. <?
 $code-insert-bg: #DEF8CA;
 $code-delete-bg: #FADDDD;
 
+.app-data-type {
+  color:  $govuk-secondary-text-colour;
+}
+
 .app-json-code-sample {
   background: $code-00;
   color: $code-05;

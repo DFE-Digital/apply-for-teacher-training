@@ -1,0 +1,89 @@
+// Originally taken from the GOV.UK "Contents list" component
+//
+// https://components.publishing.service.gov.uk/component-guide/contents_list
+// https://github.com/alphagov/govuk_publishing_components/blob/master/app/assets/stylesheets/govuk_publishing_components/components/_contents-list.scss
+.app-contents-list {
+  // Always render the contents list above a
+  // back to contents link
+  position: relative;
+  margin: 0 0 govuk-spacing(4) 0;
+  z-index: 1;
+  background: govuk-colour("white");
+  box-shadow: 0 20px 15px -10px govuk-colour("white");
+}
+
+.app-contents-list--font-size-19 .app-contents-list__title,
+.app-contents-list--font-size-19 .app-contents-list__list {
+  @include govuk-font($size: 19, $line-height: 1.5);
+}
+
+.app-contents-list--font-size-24 .app-contents-list__title,
+.app-contents-list--font-size-24 .app-contents-list__list {
+  @include govuk-font($size: 24, $line-height: 1.5);
+}
+
+.app-contents-list__title {
+  @include govuk-text-colour;
+  @include govuk-font($size: 16, $weight: regular, $line-height: 1.5);
+  margin: 0;
+}
+
+.app-contents-list__list,
+.app-contents-list__nested-list {
+  @include govuk-text-colour;
+  @include govuk-font($size: 16);
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.app-contents-list__link {
+  text-decoration: none;
+
+  .app-contents-list__list-item--parent > & {
+    font-weight: bold;
+  }
+
+  &:hover,
+  &:active {
+    text-decoration: underline;
+  }
+}
+
+.app-contents-list__list-item {
+  padding-top: govuk-spacing(2);
+  line-height: 1.3;
+  list-style-type: none;
+}
+
+.app-contents-list__list-item--dashed {
+  $contents-spacing: govuk-spacing(5);
+  position: relative;
+  padding-left: $contents-spacing;
+  padding-right: $contents-spacing;
+
+  &:before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    width: govuk-spacing(4);
+    overflow: hidden;
+
+    .direction-rtl & {
+      left: auto;
+      right: 0;
+    }
+  }
+
+  // Focus styles on IE8 and older include the
+  // left margin, creating an odd white box with
+  // orange border around the em dash.
+  // Use inline-block and vertical alignment to
+  // fix focus styles
+  //
+  // https://github.com/alphagov/government-frontend/pull/420#issuecomment-320632386
+  .lte-ie8 & .app-contents-list__link {
+    display: inline-block;
+    vertical-align: top;
+  }
+}
