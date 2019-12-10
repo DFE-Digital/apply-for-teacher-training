@@ -482,28 +482,28 @@ components:
       additionalProperties: false
       required:
         - start_date
-        - provider_ucas_code
-        - course_ucas_code
-        - site_ucas_code
+        - provider_code
+        - course_code
+        - site_code
       properties:
         start_date:
           type: string
           format: date
           description: The course’s start date
           example: "2020-09-10"
-        provider_ucas_code:
+        provider_code:
           type: string
-          description: The provider’s UCAS code
+          description: The provider’s code
           example: 2FR
           maxLength: 3
-        course_ucas_code:
+        course_code:
           type: string
-          description: The course’s UCAS code
+          description: The course’s code
           example: 3CVK
           maxLength: 4
-        site_ucas_code:
+        site_code:
           type: string
-          description: The site’s UCAS code
+          description: The site’s code
           example: K
           maxLength: 1
     Offer:

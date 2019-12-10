@@ -78,9 +78,9 @@ module VendorApi
     def course
       {
         start_date: application_choice.course.start_date,
-        provider_ucas_code: application_choice.provider.code,
-        site_ucas_code: application_choice.site.code,
-        course_ucas_code: application_choice.course.code,
+        provider_code: application_choice.provider.code,
+        site_code: application_choice.site.code,
+        course_code: application_choice.course.code,
       }
     end
 
