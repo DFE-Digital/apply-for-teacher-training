@@ -1,13 +1,25 @@
 module DfESignInHelpers
-  def provider_exists_in_dfe_sign_in(email_address: 'email@provider.ac.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+  def user_exists_in_dfe_sign_in(email_address: 'email@provider.ac.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
     OmniAuth.config.mock_auth[:dfe] = OmniAuth::AuthHash.new(
       fake_dfe_sign_in_auth_hash(email_address: email_address, dfe_sign_in_uid: dfe_sign_in_uid),
     )
   end
 
+  alias :provider_exists_in_dfe_sign_in :user_exists_in_dfe_sign_in
+
   def provider_signs_in_using_dfe_sign_in
     visit provider_interface_path
     click_button 'Sign in using DfE Sign-in'
+  end
+
+  def support_user_signs_in_using_dfe_sign_in
+    visit support_interface_path
+    click_button 'Sign in using DfE Sign-in'
+  end
+
+  def sign_in_as_support_user
+    support_user_exists_in_dfe_sign_in(email_address: 'user@apply-support.com', dfe_sign_in_uid: 'abc')
+    support_user_signs_in_using_dfe_sign_in
   end
 
   def dfe_sign_in_uid_has_permission_to_view_applications_for_provider(dfe_sign_in_uid = 'DFE_SIGN_IN_UID', code = 'ABC')
@@ -44,5 +56,17 @@ module DfESignInHelpers
         },
       },
     }
+  end
+
+  def support_user_exists_in_dfe_sign_in(email_address: 'email@apply-support.ac.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+    user_exists_in_dfe_sign_in(email_address: email_address, dfe_sign_in_uid: dfe_sign_in_uid)
+    user_is_a_support_user(email_address: email_address, dfe_sign_in_uid: dfe_sign_in_uid)
+  end
+
+  def user_is_a_support_user(email_address:, dfe_sign_in_uid:)
+    SupportUser.find_or_create_by!(
+      dfe_sign_in_uid: dfe_sign_in_uid,
+      email_address:  email_address,
+    )
   end
 end

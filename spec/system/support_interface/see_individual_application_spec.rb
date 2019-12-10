@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'See an application' do
+  include DfESignInHelpers
+
   scenario 'Support agent visits application page' do
     given_i_am_a_support_user
     and_there_are_applications_in_the_system
@@ -23,7 +25,7 @@ RSpec.feature 'See an application' do
   end
 
   def given_i_am_a_support_user
-    page.driver.browser.authorize('test', 'test')
+    sign_in_as_support_user
   end
 
   def and_there_are_applications_in_the_system

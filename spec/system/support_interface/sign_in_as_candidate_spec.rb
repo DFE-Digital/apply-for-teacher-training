@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'Sign in as candidate' do
+  include DfESignInHelpers
+
   scenario 'Support user signs in as a candidate' do
     given_i_am_a_support_user
     and_there_is_an_application
@@ -10,7 +12,7 @@ RSpec.feature 'Sign in as candidate' do
   end
 
   def given_i_am_a_support_user
-    page.driver.browser.authorize('test', 'test')
+    sign_in_as_support_user
   end
 
   def and_there_is_an_application

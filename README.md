@@ -142,8 +142,8 @@ GenerateTestData.new(10, Provider.find_by(code: '1N1')).generate
 
 ## <a name="dfe-sign-in"></a>DfE Sign-in
 
-The Provider interface at `/provider` is protected by DfE's SSO provider DfE
-Sign-in.
+The Provider interface at `/provider` and Support interface at
+`/support` are both protected by DfE's SSO provider DfE Sign-in.
 
 ### Environments
 

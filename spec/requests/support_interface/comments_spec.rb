@@ -5,14 +5,19 @@ RSpec.describe 'Support interface - Application Comments', type: :request, with_
     create :application_form
   end
 
-  def auth_header
-    {
-      'HTTP_AUTHORIZATION' =>
-        ActionController::HttpAuthentication::Basic.encode_credentials(
-          ENV.fetch('SUPPORT_USERNAME'),
-          ENV.fetch('SUPPORT_PASSWORD'),
-        ),
-    }
+  def support_user
+    @support_user ||= SupportUser.new(
+      email_address: 'alice@example.com',
+      dfe_sign_in_uid: 'ABC',
+    )
+  end
+
+  def set_support_user_permission
+    allow(SupportUser).to receive(:load_from_session).and_return(support_user)
+  end
+
+  before do
+    set_support_user_permission
   end
 
   it 'creates application comments in the audit trail' do
@@ -22,7 +27,6 @@ RSpec.describe 'Support interface - Application Comments', type: :request, with_
       post(
         support_interface_application_form_comments_path(application_form_id: application_form.id),
         params: { support_interface_application_comment_form: { comment: 'foo' } },
-        headers: auth_header,
       )
     }.to(change { application_form.reload.audits.count }.by(1))
   end
@@ -34,7 +38,6 @@ RSpec.describe 'Support interface - Application Comments', type: :request, with_
       post(
         support_interface_application_form_comments_path(application_form_id: application_form.id),
         params: { support_interface_application_comment_form: { comment: '' } },
-        headers: auth_header,
       )
     }.not_to(change { application_form.reload.audits.count })
   end

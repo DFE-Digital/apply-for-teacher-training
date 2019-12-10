@@ -1,0 +1,19 @@
+<% content_for :title, t('page_titles.application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      Your account is not authorized
+    </h1>
+    <p class="govuk-body">
+      You’re seeing this page because you’ve signed in
+      to the <%= t('service_name.apply') %> service but your account
+      is not authorized to view this page
+    </p>
+
+    <p class="govuk-body">
+      If you work with us and you think your account should be authorized,
+      contact <%= bat_contact_mail_to %>.
+    </p>
+  </div>
+</div>

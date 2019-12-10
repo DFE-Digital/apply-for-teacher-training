@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'See providers' do
+  include DfESignInHelpers
   include FindAPIHelper
 
   scenario 'User visits providers page' do
@@ -22,7 +23,7 @@ RSpec.feature 'See providers' do
   end
 
   def given_i_am_a_support_user
-    page.driver.browser.authorize('test', 'test')
+    sign_in_as_support_user
   end
 
   def when_i_visit_the_providers_page

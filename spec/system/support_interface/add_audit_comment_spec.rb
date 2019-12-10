@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'Add comments to the application history', with_audited: true do
+  include DfESignInHelpers
+
   around do |example|
     Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
       example.run
@@ -21,7 +23,7 @@ RSpec.feature 'Add comments to the application history', with_audited: true do
   end
 
   def given_i_am_a_support_user
-    page.driver.browser.authorize('test', 'test')
+    sign_in_as_support_user
   end
 
   def and_there_is_an_application_in_the_system_logged_by_a_candidate
