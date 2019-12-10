@@ -23,6 +23,7 @@ paths:
           description: Include only applications changed or created on or since a date and time. Times should be in ISO 8601 format.
           in: query
           required: true
+          example: "2019-12-06T12:00:00Z"
           schema:
             type: string
             format: date-time
@@ -440,17 +441,17 @@ components:
           type: string
           description: The candidate’s address line 1
           maxLength: 50
-          example: "45"
+          example: "45 Dialstone Lane"
         address_line2:
           type: string
           description: The candidate’s address line 2
           maxLength: 50
-          example: Dialstone Lane
+          example: Stockport
         address_line3:
           type: string
           description: The candidate’s address line 3
           maxLength: 50
-          example: Stockport
+          example: Greater Manchester
         address_line4:
           type: string
           description: The candidate’s address line 4
@@ -494,14 +495,17 @@ components:
           type: string
           description: The provider’s UCAS code
           example: 2FR
+          maxLength: 3
         course_ucas_code:
           type: string
           description: The course’s UCAS code
           example: 3CVK
+          maxLength: 4
         site_ucas_code:
           type: string
           description: The site’s UCAS code
           example: K
+          maxLength: 1
     Offer:
       type: object
       additionalProperties: false

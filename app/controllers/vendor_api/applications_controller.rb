@@ -2,7 +2,7 @@ module VendorApi
   class ApplicationsController < VendorApiController
     def index
       application_choices = get_application_choices_for_provider_since(
-        since: params.fetch(:since),
+        since: since_param,
       )
 
       render json: { data: MultipleApplicationsPresenter.new(application_choices).as_json }
@@ -19,7 +19,13 @@ module VendorApi
 
     def get_application_choices_for_provider_since(since:)
       GetApplicationChoicesForProvider.call(provider: current_provider)
-        .where('application_choices.updated_at > ?', since.to_datetime)
+        .where('application_choices.updated_at > ?', since)
+    end
+
+    def since_param
+      params.fetch(:since).to_datetime
+    rescue ArgumentError
+      raise ParameterInvalid.new('Parameter is invalid (should be ISO8601): since')
     end
   end
 end

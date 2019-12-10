@@ -7,8 +7,11 @@ class ConfirmEnrolment
 
   def save
     ApplicationStateChange.new(@application_choice).confirm_enrolment!
-  rescue Workflow::NoTransitionAllowed => e
-    errors.add(:state, e.message)
+  rescue Workflow::NoTransitionAllowed
+    errors.add(
+      :base,
+      I18n.t('activerecord.errors.models.application_choice.attributes.status.invalid_transition'),
+    )
     false
   end
 end

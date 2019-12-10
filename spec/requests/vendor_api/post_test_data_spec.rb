@@ -10,6 +10,15 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data/regenerate', type: :request 
     expect(parsed_response).to be_valid_against_openapi_schema('OkResponse')
   end
 
+  it 'generates test data with default count of 100' do
+    generate_test_data = instance_double(GenerateTestData, generate: nil)
+    allow(GenerateTestData).to receive(:new).and_return(generate_test_data)
+    post_api_request '/api/v1/test-data/regenerate'
+
+    expect(GenerateTestData).to have_received(:new).with(100, anything)
+    expect(parsed_response).to be_valid_against_openapi_schema('OkResponse')
+  end
+
   it 'does not generate test data in production' do
     ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
       post_api_request '/api/v1/test-data/regenerate?count=3'

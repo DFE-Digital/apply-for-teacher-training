@@ -4,6 +4,8 @@ class Site < ApplicationRecord
   validates :code, presence: true
   validates :name, presence: true
 
+  CODE_LENGTH = 1
+
   def name_and_code
     "#{name} (#{code})"
   end

@@ -60,15 +60,17 @@ private
     FactoryBot.create(
       :course,
       provider: provider,
-      code: random_code(Course, provider),
+      code: random_code(Course, provider, Course::CODE_LENGTH),
     )
   end
 
   def random_site
+    return Site.where(provider: provider).sample if Site.where(provider: provider).count > 10
+
     FactoryBot.create(
       :site,
       provider: provider,
-      code: random_code(Site, provider),
+      code: random_code(Site, provider, Site::CODE_LENGTH),
     )
   end
 
@@ -78,9 +80,9 @@ private
     end
   end
 
-  def random_code(klass, provider)
+  def random_code(klass, provider, code_length)
     loop do
-      code = Faker::Alphanumeric.alphanumeric(number: Course::CODE_LENGTH).upcase
+      code = Faker::Alphanumeric.alphanumeric(number: code_length).upcase
       return code if klass.find_by(code: code, provider: provider).nil?
     end
   end

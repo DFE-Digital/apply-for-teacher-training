@@ -122,6 +122,10 @@ en:
               blank: Email address can’t be blank
             dfe_sign_in_uid:
               blank: DfE Sign-in UID can’t be blank
+        application_choice:
+          attributes:
+            status:
+              invalid_transition: The application is not ready for that action
   errors:
     messages:
       too_many_words: Must be %{count} words or fewer
