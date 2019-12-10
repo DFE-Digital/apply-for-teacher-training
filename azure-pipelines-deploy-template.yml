@@ -5,6 +5,9 @@ parameters:
   environment:
   resourceEnvironmentName:
   serviceName:
+  appServicePlanTier: 'Standard'
+  appServicePlanSize: '2'
+  appServicePlanInstances: 1
   redisCacheSKU: 'Basic'
   redisCacheFamily: 'C'
   redisCacheCapacity: 1
@@ -86,6 +89,9 @@ jobs:
                 -keyVaultName "${{parameters.keyVaultName}}"
                 -keyVaultResourceGroup "${{parameters.keyVaultResourceGroup}}"
                 -customHostName "${{parameters.customHostName}}"
+                -appServicePlanTier "${{parameters.appServicePlanTier}}"
+                -appServicePlanSize "${{parameters.appServicePlanSize}}"
+                -appServicePlanInstances "${{parameters.appServicePlanInstances}}"
                 -redisCacheSKU ${{parameters.redisCacheSKU}}
                 -redisCacheFamily ${{parameters.redisCacheFamily}}
                 -redisCacheCapacity ${{parameters.redisCacheCapacity}}
