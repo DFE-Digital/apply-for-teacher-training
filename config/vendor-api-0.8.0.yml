@@ -505,7 +505,7 @@ components:
           type: string
           description: The site’s code
           example: K
-          maxLength: 1
+          maxLength: 5
     Offer:
       type: object
       additionalProperties: false
