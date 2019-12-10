@@ -1,0 +1,1 @@
+class ParameterInvalid < RuntimeError; end

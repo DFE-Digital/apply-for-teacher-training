@@ -5,7 +5,7 @@ module VendorApi
 
     rescue_from ActiveRecord::RecordNotFound, with: :application_not_found
     rescue_from ActionController::ParameterMissing, with: :parameter_missing
-    rescue_from InvalidParameter, with: :invalid_parameter
+    rescue_from ParameterInvalid, with: :parameter_invalid
 
     before_action :set_cors_headers
     before_action :require_valid_api_token!
@@ -40,8 +40,8 @@ module VendorApi
       render json: { errors: [{ error: 'ParameterMissing', message: e }] }, status: 422
     end
 
-    def invalid_parameter(e)
-      render json: { errors: [{ error: 'InvalidParameter', message: e }] }, status: 422
+    def parameter_invalid(e)
+      render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: 422
     end
 
     def set_cors_headers

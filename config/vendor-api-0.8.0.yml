@@ -451,7 +451,7 @@ components:
           type: string
           description: The candidate’s address line 3
           maxLength: 50
-          example: Cheshire
+          example: Greater Manchester
         address_line4:
           type: string
           description: The candidate’s address line 4
