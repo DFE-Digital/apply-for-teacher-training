@@ -27,7 +27,7 @@ RSpec.feature 'Managing support users' do
   end
 
   def and_i_click_the_manange_support_users_link
-    click_link 'Support users'
+    click_link 'Users'
   end
 
   def and_i_enter_the_users_email_and_dsi_uid
