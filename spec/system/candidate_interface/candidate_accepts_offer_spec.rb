@@ -22,7 +22,13 @@ RSpec.feature 'Candidate accepts an offer', sidekiq: true do
     and_i_see_that_i_declined_the_other_offer
 
     when_i_visit_the_offer_page_of_the_declined_offer
-    then_i_see_the_applcation_dashboard
+    then_i_see_the_page_not_found
+
+    when_i_visit_the_accept_page_of_the_declined_offer
+    then_i_see_the_page_not_found
+
+    when_i_visit_the_decline_page_of_the_accepted_offer
+    then_i_see_the_page_not_found
   end
 
   def given_the_accept_and_decline_feature_is_on
@@ -105,10 +111,18 @@ RSpec.feature 'Candidate accepts an offer', sidekiq: true do
   end
 
   def when_i_visit_the_offer_page_of_the_declined_offer
-    visit candidate_interface_offer_path(id: @other_application_choice.id)
+    visit candidate_interface_offer_path(@other_application_choice.id)
   end
 
-  def then_i_see_the_applcation_dashboard
-    expect(page).to have_content('Application dashboard')
+  def when_i_visit_the_accept_page_of_the_declined_offer
+    visit candidate_interface_accept_offer_path(@other_application_choice.id)
+  end
+
+  def then_i_see_the_page_not_found
+    expect(page).to have_content('Page not found')
+  end
+
+  def when_i_visit_the_decline_page_of_the_accepted_offer
+    visit candidate_interface_decline_offer_path(@application_choice.id)
   end
 end
