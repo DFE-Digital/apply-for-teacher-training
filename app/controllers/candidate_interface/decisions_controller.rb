@@ -3,6 +3,8 @@ module CandidateInterface
     before_action :set_application_choice
 
     def offer
+      redirect_to candidate_interface_application_form_path unless @application_choice.offer?
+
       if FeatureFlag.active?('accept_and_decline_via_ui')
         @respond_to_offer = CandidateInterface::RespondToOfferForm.new
       else
@@ -41,10 +43,10 @@ module CandidateInterface
     end
 
     def withdraw
-      if ApplicationStateChange.new(@application_choice).can_withdraw? 
+      if ApplicationStateChange.new(@application_choice).can_withdraw?
         render :withdraw
       else
-        redirect_to candidate_interface_application_form_path 
+        redirect_to candidate_interface_application_form_path
       end
     end
 

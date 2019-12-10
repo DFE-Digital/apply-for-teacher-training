@@ -20,6 +20,10 @@ RSpec.feature 'Candidate accepts an offer', sidekiq: true do
     then_a_slack_notification_is_sent
     and_i_see_that_i_accepted_the_offer
     and_i_see_that_i_declined_the_other_offer
+
+    when_i_have_another_application_without_offer
+    and_i_visit_the_offer_page
+    then_i_see_the_applcation_dashboard
   end
 
   def given_the_accept_and_decline_feature_is_on
@@ -99,5 +103,22 @@ RSpec.feature 'Candidate accepts an offer', sidekiq: true do
     within ".qa-application-choice-#{@other_application_choice.id}" do
       expect(page).to have_content 'Declined'
     end
+  end
+
+  def when_i_have_another_application_without_offer
+    @application_choice_without_offer = create(
+      :application_choice,
+      :awaiting_provider_decision,
+      course_option: @course_option,
+      application_form: @application_form,
+    )
+  end
+
+  def and_i_visit_the_offer_page
+    visit candidate_interface_offer_path(id: @application_choice_without_offer.id)
+  end
+
+  def then_i_see_the_applcation_dashboard
+    expect(page).to have_content('Application dashboard')
   end
 end
