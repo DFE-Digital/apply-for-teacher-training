@@ -94,7 +94,6 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       expect(response).to have_http_status(422)
       expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-      expect(error_response['message']).to eql('State There is no event make_offer defined for the pending_conditions state')
     end
 
     it 'cannot update an offer once it has been declined by the candidate' do
@@ -107,7 +106,6 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       expect(response).to have_http_status(422)
       expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-      expect(error_response['message']).to eql('State There is no event make_offer defined for the declined state')
     end
   end
 

@@ -52,7 +52,6 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
 
       expect(response).to have_http_status(422)
       expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-      expect(error_response['message']).to eql 'State There is no event reject_application defined for the rejected state'
     end
 
     it 'cannot reject an application that a candidate has already accepted' do
@@ -64,7 +63,6 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
 
       expect(response).to have_http_status(422)
       expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-      expect(error_response['message']).to eql 'State There is no event reject_application defined for the pending_conditions state'
     end
   end
 
