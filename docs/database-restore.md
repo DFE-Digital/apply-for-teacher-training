@@ -1,4 +1,4 @@
-# Apply for Postgraduate Teacher Training - Manual Deployment
+# Apply for Postgraduate Teacher Training - Database restoration
 
 ## Purpose
 

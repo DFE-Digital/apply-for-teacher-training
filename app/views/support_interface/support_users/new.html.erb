@@ -1,0 +1,14 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @support_user, url: support_interface_support_users_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class='govuk-heading-xl'>Add support user</h1>
+
+      <%= f.govuk_text_field :email_address, label: { text: 'Email address' } %>
+      <%= f.govuk_text_field :dfe_sign_in_uid, label: { text: 'DfE Sign-in UID' } %>
+
+      <%= f.govuk_submit 'Add support user' %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<% content_for :title, 'Support users' %>
+
+<%= link_to 'Add support user', new_support_interface_support_user_path, class: 'govuk-button' %>
+
+<table class='govuk-table'>
+  <thead class='govuk-table__head'>
+    <tr class='govuk-table__row'>
+      <th scope='col' class='govuk-table__header govuk-!-width-one-half'>Email</th>
+      <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>DfE Sign-in UID</th>
+    </tr>
+  </thead>
+
+  <tbody class='govuk-table__body'>
+    <% @support_users.each do |support_user| %>
+      <tr class='govuk-table__row'>
+        <td class='govuk-table__cell'>
+          <%= support_user.email_address %>
+        </td>
+        <td class='govuk-table__cell'>
+          <%= support_user.dfe_sign_in_uid %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
