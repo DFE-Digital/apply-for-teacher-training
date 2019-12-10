@@ -603,7 +603,7 @@ components:
           example: Julia was my mentor at Cheadle Hulme High
         reference:
           type: string
-          description: "Optional. The reference content provided by the referee, once it is available"
+          description: "Required to send the application to the provider. The reference content provided by the referee, once it is available"
           example: Boris is committed to the profession of teaching...
           nullable: true
     Rejection:
