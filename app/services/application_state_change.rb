@@ -37,6 +37,7 @@ class ApplicationStateChange
 
     state :offer do
       event :make_offer, transitions_to: :offer
+      event :reject_application, transitions_to: :rejected
       event :accept, transitions_to: :pending_conditions
       event :decline, transitions_to: :declined
     end
@@ -53,7 +54,9 @@ class ApplicationStateChange
 
     state :enrolled
 
-    state :rejected
+    state :rejected do
+      event :make_offer, transitions_to: :offer
+    end
 
     state :declined
 

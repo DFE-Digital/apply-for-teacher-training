@@ -19,7 +19,7 @@ class SetDeclineByDefault
 
     dbd_date = dbd_days.business_days.after(most_recent_decision_date).end_of_day
 
-    application_choices.where('status = \'offer\' AND decline_by_default_at IS NULL').update_all(
+    application_choices.where(status: 'offer').update_all(
       decline_by_default_at: dbd_date,
       decline_by_default_days: dbd_days,
     )
