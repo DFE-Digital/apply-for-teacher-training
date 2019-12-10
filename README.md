@@ -218,8 +218,8 @@ by invoking `bin/webpack`. If all is well, there is a chance that
 ## <a name="documentation"></a>Documentation
 
 ### <a name="documentation-nomenclature"></a>Nomenclature
-- **Course** consists of a UCAS provider code and a UCAS course code. In our system, this is represented by the `ucas_provider_code` and `ucas_course_code` on the `ApplicationChoice` model
-- **Course Choice** is the course plus a training location code, in our system represented by `ucas_provider_code`, `ucas_course_code`, `ucas_location_code`
+- **Course** consists of a UCAS provider code and a UCAS course code. In our system, this is represented by the `provider_code` and `course_code` on the `ApplicationChoice` model
+- **Course Choice** is the course plus a training location code, in our system represented by `provider_code`, `course_code`, `location_code`
 
 ### <a name="documentation-domain-model"></a>Domain Model
 

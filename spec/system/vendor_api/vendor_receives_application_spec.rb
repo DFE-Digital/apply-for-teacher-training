@@ -74,9 +74,9 @@ RSpec.feature 'Vendor receives the application' do
         },
         course: {
           start_date: '2020-09-01', # TODO: Necessary?
-          provider_ucas_code: '1N1',
-          site_ucas_code: '-',
-          course_ucas_code: '2XT2',
+          provider_code: '1N1',
+          site_code: '-',
+          course_code: '2XT2',
         },
         candidate: {
           first_name: 'Lando',
