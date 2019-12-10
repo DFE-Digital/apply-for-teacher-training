@@ -1,8 +1,11 @@
 module CandidateInterface
   class DecisionsController < CandidateInterfaceController
     before_action :set_application_choice
+    before_action :check_that_candidate_can_decline, only: %i[decline confirm_decline]
 
     def offer
+      redirect_to candidate_interface_application_form_path unless @application_choice.offer?
+
       if FeatureFlag.active?('accept_and_decline_via_ui')
         @respond_to_offer = CandidateInterface::RespondToOfferForm.new
       else
@@ -40,7 +43,13 @@ module CandidateInterface
       redirect_to candidate_interface_application_complete_path
     end
 
-    def withdraw; end
+    def withdraw
+      if ApplicationStateChange.new(@application_choice).can_withdraw?
+        render :withdraw
+      else
+        redirect_to candidate_interface_application_form_path
+      end
+    end
 
     def confirm_withdraw
       raise unless FeatureFlag.active?('candidate_withdrawals')
@@ -56,6 +65,12 @@ module CandidateInterface
 
     def set_application_choice
       @application_choice = current_candidate.current_application.application_choices.find(params[:id])
+    end
+
+    def check_that_candidate_can_decline
+      unless ApplicationStateChange.new(@application_choice).can_decline?
+        render_404
+      end
     end
   end
 end
