@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'Managing support users' do
+  include DfESignInHelpers
+
   scenario 'creating a new support user' do
     given_i_am_a_support_user
 
@@ -15,7 +17,7 @@ RSpec.feature 'Managing support users' do
   end
 
   def given_i_am_a_support_user
-    page.driver.browser.authorize('test', 'test')
+    sign_in_as_support_user
   end
 
   def and_a_support_user_exists_in_the_database
