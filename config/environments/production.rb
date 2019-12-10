@@ -29,8 +29,19 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
-  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  # https://edgeapi.rubyonrails.org/classes/ActionDispatch/SSL.html
+  config.force_ssl = true
+  config.ssl_options = {
+    # `force_ssl` by default does a redirect of non-https domains to https. That doesn't work
+    # in our case, because SSL is terminated at the Azure layer.
+    redirect: false,
+
+    # Cookies won't be sent over http
+    secure_cookies: true,
+
+    # HSTS: tell the browser to never load HTTP version of the site
+    hsts: true,
+  }
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
