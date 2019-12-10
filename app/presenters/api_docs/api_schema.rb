@@ -1,5 +1,5 @@
 module ApiDocs
-  class Schema
+  class ApiSchema
     attr_reader :name, :schema
     delegate :description, :required, to: :schema
 
@@ -26,9 +26,13 @@ module ApiDocs
       props.map { |property_name, property_attributes| Property.new(self, property_name, property_attributes) }
     end
 
+    def anchor
+      "#{name.parameterize}-object"
+    end
+
     class Property
-      attr_reader :schema, :name, :example, :attributes
-      delegate :type, to: :attributes
+      attr_reader :schema, :name, :attributes
+      delegate :type, :enum, :example, to: :attributes
 
       def initialize(schema, name, attributes)
         @schema = schema
@@ -40,7 +44,8 @@ module ApiDocs
         name.in?(schema.required.to_a)
       end
 
-      def subschema
+      # If the type of the attribute references a schema this returns the name
+      def object_schema_name
         linked_schema = attributes
 
         # If property is an array, check the items property for a reference.
@@ -48,10 +53,14 @@ module ApiDocs
           linked_schema = attributes['items']
         end
 
-        return unless linked_schema.node_context &&
-          !linked_schema.node_context.source_location.to_s.include?('/properties/')
+        if attributes['anyOf']
+          linked_schema = attributes['anyOf'].first
+        end
 
         location = linked_schema.node_context.source_location.to_s
+
+        return if location.match?('/properties')
+
         location.gsub(/#\/components\/schemas\//, '')
       end
     end

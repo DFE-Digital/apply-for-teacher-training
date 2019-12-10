@@ -1,41 +1,111 @@
 <h1 class='govuk-heading-xl'><%= t('page_titles.api_docs.reference') %></h1>
 
-<h2 class='govuk-heading-l'>Developing on the API</h2>
+<h2 class='app-contents-list__title'>Contents</h2>
+
+<ol class='app-contents-list__list'>
+  <li class='app-contents-list__list-item app-contents-list__list-item--parent'><%= govuk_link_to 'Developing on the API', '#developing', class: 'app-contents-list__link' %></li>
+  <li class='app-contents-list__list-item app-contents-list__list-item--parent'>
+    <%= govuk_link_to 'Endpoints', '#endpoints', class: 'app-contents-list__link' %>
+
+    <ol class='app-contents-list__nested-list'>
+    <% @api_reference.operations.each do |operation| %>
+      <li class='app-contents-list__list-item app-contents-list__list-item--dashed'>
+        <%= govuk_link_to operation.name, "##{operation.anchor}", class: 'app-contents-list__link' %>
+      </li>
+    <% end %>
+    </ol>
+  </li>
+  <li class='app-contents-list__list-item app-contents-list__list-item--parent'>
+    <%= govuk_link_to 'Objects', '#objects', class: 'app-contents-list__link' %>
+
+    <ol class='app-contents-list__nested-list'>
+      <% @api_reference.schemas.each do |schema| %>
+        <li class='app-contents-list__list-item app-contents-list__list-item--dashed'>
+          <%= govuk_link_to schema.name, "##{schema.anchor}", class: 'app-contents-list__link' %>
+        </li>
+      <% end %>
+    </ol>
+  </li>
+</ol>
+
+<hr class='govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6' />
+
+<h2 class='govuk-heading-l' id='developing'>Developing on the API</h2>
 
 <p class='govuk-body'>
-  Our API is described using the <%= govuk_link_to 'OpenAPI specification', 'https://swagger.io/docs/specification/about' %>, so you can use the <%= govuk_link_to 'Swagger Editor', 'https://swagger.io/tools/swagger-editor' %> to experiment with the API.
+  The OpenAPI spec from which this documentation is generated is <%= govuk_link_to 'available in YAML format', vendor_api_spec_url %>.
 </p>
 
-<div class="govuk-form-group">
-  <label class="govuk-label" for="open-api-url">
-    Copy the specification URL:
-  </label>
+<h3 class='govuk-heading-m'>Environments</h3>
 
-  <input class="govuk-input" id="open-api-url" readonly="readonly" name="open-api-url" type="text" value="<%= vendor_api_spec_url %>">
-</div>
-
-<p class="govuk-body">
-  You can use the following servers:
+<p class='govuk-body'>
+  We have a production environment and a sandbox environment.
 </p>
 
-<ul class='govuk-list govuk-list--bullet'>
-  <% @document.servers.each do |server| %>
-    <li><%= server.description %>: <%= govuk_link_to server.url, server.url %></li>
-  <% end %>
-</ul>
+<p class='govuk-body'>
+  The <strong>Vendor sandbox</strong> is for testing your integration. When we
+  set you up with an API key, we'll create a test provider as well. You can
+  generate test applications in this test provider using the
+  <%= govuk_link_to 'test data endpoint', '#post-test-data-regenerate' %>.
+</p>
 
-<h2 class='govuk-heading-l'>Endpoints</h2>
+<p class='govuk-body'>
+  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.education.gov.uk/api/v1', 'https://sandbox.apply-for-teacher-training.education.gov.uk/api/v1' %>
+</p>
 
-<% @document.paths.each do |path_name, path| %>
-  <% %w[get put post delete patch].map do |http_verb| %>
-    <% operation = path.node_data[http_verb]
-       next unless operation && !operation.is_a?(Openapi3Parser::Node::Placeholder) %>
-    <%= render 'operation', operation: ApiDocs::ApiOperation.new(http_verb: http_verb, path_name: path_name, operation: operation) %>
-  <% end %>
+<p class='govuk-body'>
+  The <strong>Production</strong> environment is the real environment. Do not
+  perform testing here.
+</p>
+
+<p class='govuk-body'>
+  <%= govuk_link_to 'https://www.apply-for-teacher-training.education.gov.uk/api/v1', 'https://www.apply-for-teacher-training.education.gov.uk/api/v1' %>
+</p>
+
+<h3 class='govuk-heading-m'>Rate limits</h3>
+
+<p class='govuk-body'>
+  You are limited to 120 requests per minute.
+</p>
+
+<p class='govuk-body'>
+  This limit is calculated on a rolling basis, per API key.
+  If you exceed the limit, you will see <code>429</code> HTTP status codes.
+</p>
+
+<h3 class='govuk-heading-m'>Authentication</h3>
+
+<p class='govuk-body'>
+  All requests must be accompanied by an <code>Authorization</code> header in the following format:
+
+  <pre><code>
+  Authorization: Bearer {token}
+  </code></pre>
+
+  Unauthenticated requests will receive an <%= govuk_link_to 'UnauthorizedResponse', '#unauthorizedresponse-object' %>
+  with a <code>401</code> status code.
+</p>
+
+<h3 class='govuk-heading-m'>Metadata</h3>
+
+<p class='govuk-body'>
+  Every API call on POST or PUT methods must include a <code>meta</code> key in the JSON body, containing the timestamp and some attribution
+  metadata showing who performed the action.
+</p>
+
+<p class='govuk-body'>
+  The schema for this metadata object can be found under <%= link_to 'MetaData', '#metadata-object' %>, below. If this data is not
+  present the API will return <code>422</code> with an appropriate error message.
+</p>
+
+<h2 class='govuk-heading-l' id='endpoints'>Endpoints</h2>
+
+<% @api_reference.operations.each do |operation| %>
+  <%= render 'operation', operation: operation %>
 <% end %>
 
-<h2 class='govuk-heading-l'>Schemas</h2>
+<h2 class='govuk-heading-l' id='objects'>Objects</h2>
 
-<% @document.components.schemas.each do |schema_name, schema| %>
-  <%= render 'schema', schema: ApiDocs::Schema.new(name: schema_name, schema: schema) %>
+<% @api_reference.schemas.each do |schema| %>
+  <%= render 'schema', schema: schema %>
 <% end %>

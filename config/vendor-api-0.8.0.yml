@@ -17,7 +17,12 @@ paths:
       tags:
         - Application management
       summary: Get many applications
-      description: Applications are returned in the order they were changed or created.
+      description: |
+        This endpoint can be used to retrieve applications for the authenticating
+        provider. Applications are returned with the most recently updated ones first.
+
+        Use the `since` parameter to limit the number of results. This is intended
+        to make it possible to check for new or updated applications regularly.
       parameters:
         - name: since
           description: Include only applications changed or created on or since a date and time. Times should be in ISO 8601 format.
@@ -176,10 +181,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    $ref: "#/components/schemas/Application"
+                $ref: "#/components/schemas/SingleApplicationResponse"
         "401":
           $ref: "#/components/responses/Unauthorized"
         "404":
@@ -193,7 +195,7 @@ paths:
       summary: Regenerate test data
       description: |
         Deletes all applications and generates 100 new applications. Only
-        available on sandbox.apply-for-teacher-training.education.gov.uk.
+        available on the Sandbox.
       parameters:
         - name: count
           description: How many items to generate (max 100)
@@ -835,6 +837,7 @@ components:
         errors:
           type: array
           minItems: 1
+          description: Error objects describing the problem
           items:
             $ref: "#/components/schemas/Error"
           example:
@@ -848,6 +851,7 @@ components:
         errors:
           type: array
           minItems: 1
+          description: Error objects describing the problem
           items:
             $ref: "#/components/schemas/Error"
           example:
@@ -861,6 +865,7 @@ components:
         errors:
           type: array
           minItems: 1
+          description: Error objects describing the problem
           items:
             $ref: "#/components/schemas/Error"
           example:
@@ -873,6 +878,7 @@ components:
       properties:
         errors:
           type: array
+          description: Error objects describing the problem
           minItems: 1
           items:
             $ref: "#/components/schemas/Error"

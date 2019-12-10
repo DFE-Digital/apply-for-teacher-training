@@ -16,10 +16,10 @@ application will become available over the API.
 
 Providers can then use the API for:
 
-- [Retrieving applications](/reference/#get-applications)
-- [Making an offer to a candidate](/reference/#post-applications-application-id-offer)
-- Confirming a candidate [has met conditions](/reference/#post-applications-application-id-confirm-conditions-met), or [has been enrolled](/reference/#post-applications-application-id-confirm-enrolment)
-- [Rejecting unsuccessful applications](/reference/#post-applications-application-id-reject)
+- [Retrieving applications](/api-docs/reference/#get-applications)
+- [Making an offer to a candidate](/api-docs/reference/#post-applications-application_id-offer)
+- Confirming a candidate [has met conditions](/api-docs/reference/#post-applications-application_id-confirm-conditions-met), or [has been enrolled](/api-docs/reference/#post-applications-application_id-confirm-enrolment)
+- [Rejecting unsuccessful applications](/api-docs/reference/#post-applications-application_id-reject)
 
 To get an idea of how the API works, we recommend you [review the example usage scenarios](/usage-scenarios).
 
@@ -70,9 +70,8 @@ When a new version, for example `/api/v2`, is published, both the previous **v1*
 
 We, however, only support one version back, so if the **v3** is published, the **v1** will be discontinued.
 
-When non-breaking changes are made to the API, this will not result in a version bump.
+When non-breaking changes are made to the API, this will not result in a version bump. An example of a non-breaking change could be the introduction of a new field without removing an existing field.
 
-Information about deprecations (for instance attributes/endpoints that will be modified/removed) will be included in the API
-response through a "Warning" header.
+Information about deprecations (for instance attributes/endpoints that will be modified/removed) will be included in the API response through a "Warning" header.
 
-We will update our [release notes](/release-notes) with all breaking and non-breaking changes.
+We will update our [release notes](/api-docs/release-notes) with all breaking and non-breaking changes.
