@@ -147,14 +147,23 @@ The Provider interface at `/provider` and Support interface at
 
 ### Environments
 
-Apply environment | DfE Sign-in environment
----- | ------
-Development | Test (https://signin-test-oidc-as.azurewebsites.net) [Manage](https://signin-test-mng-as.azurewebsites.net/)
-QA | Test (as above)
-Pentest | Test (as above)
-Staging | Pre-prod (https://pp-oidc.signin.education.gov.uk) [Manage](https://signin-pp-mng-as.azurewebsites.net)
-Sandbox | Pre-prod (as above)
-Production | Prod (https://oidc.signin.education.gov.uk) [Manage](https://manage.signin.education.gov.uk)
+In development, QA, and pentest we use the **Test** environment of DfE Signin:
+
+[Manage console (test)](https://signin-test-mng-as.azurewebsites.net/)
+
+```sh
+# .env
+DFE_SIGN_IN_ISSUER=https://signin-test-oidc-as.azurewebsites.net
+```
+
+In staging, production and sandbox we use the **Production** environment of DfE Signin:
+
+[Manage console (production)](https://manage.signin.education.gov.uk)
+
+```sh
+# .env
+DFE_SIGN_IN_ISSUER=https://oidc.signin.education.gov.uk
+```
 
 ### Local development
 
