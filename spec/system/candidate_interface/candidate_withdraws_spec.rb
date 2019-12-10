@@ -24,8 +24,7 @@ RSpec.feature 'A candidate withdraws her application' do
     and_a_slack_notification_is_sent
 
     when_i_try_to_visit_the_withdraw_page
-    then_i_can_not_see_the_withdaw_page
-    and_i_am_redirected_to_the_applcation_dashboard
+    then_i_see_the_page_not_found
   end
 
   def given_i_am_signed_in_as_a_candidate
@@ -65,11 +64,7 @@ RSpec.feature 'A candidate withdraws her application' do
     visit candidate_interface_withdraw_path(id: @application_choice.id)
   end
 
-  def then_i_can_not_see_the_withdaw_page
-    expect(page).not_to have_content('Confirm you would like to withdraw your application to study')
-  end
-
-  def and_i_am_redirected_to_the_applcation_dashboard
-    expect(page).to have_content('Application dashboard')
+  def then_i_see_the_page_not_found
+    expect(page).to have_content('Page not found')
   end
 end
