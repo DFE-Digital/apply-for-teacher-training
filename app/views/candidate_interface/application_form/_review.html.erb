@@ -14,6 +14,12 @@
 
 <%= render(ContactDetailsReviewComponent, application_form: application_form, editable: editable, missing_error: missing_error) %>
 
+<% if FeatureFlag.active?('training_with_a_disability') %>
+  <h3 class="govuk-heading-m">Training with a disability</h3>
+
+  <%= render(TrainingWithADisabilityReviewComponent, application_form: @application_form, editable: editable, missing_error: missing_error) %>
+<% end %>
+
 <h2 class="govuk-heading-m govuk-!-font-size-27">Work history</h2>
 
 <%= render(WorkHistoryReviewComponent, application_form: application_form, editable: editable, heading_level: 3, show_incomplete: !application_form.work_history_completed && editable, missing_error: missing_error) %>

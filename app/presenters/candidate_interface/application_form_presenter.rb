@@ -16,6 +16,7 @@ module CandidateInterface
         # "About you" section
         [:personal_details, personal_details_completed?],
         [:contact_details, contact_details_completed?],
+        ([:training_with_a_disability, training_with_a_disability_completed?] if FeatureFlag.active?('training_with_a_disability')),
         [:work_experience, work_experience_completed?],
         [:volunteering, volunteering_completed?],
 
@@ -134,6 +135,12 @@ module CandidateInterface
 
     def interview_preferences_completed?
       CandidateInterface::InterviewPreferencesForm.build_from_application(@application_form).valid?
+    end
+
+    def training_with_a_disability_completed?
+      @application_form.disclose_disability == false || \
+        (@application_form.disclose_disability == true && \
+          @application_form.disability_disclosure.present?)
     end
 
     def course_choices_completed?
