@@ -42,28 +42,6 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
       expect(parsed_response['data']['attributes']['status']).to eq 'rejected'
     end
-
-    it 'cannot reject application if already rejected' do
-      application_choice = create_application_choice_for_currently_authenticated_provider(
-        status: 'rejected',
-      )
-
-      post_api_request "/api/v1/applications/#{application_choice.id}/reject", params: request_body
-
-      expect(response).to have_http_status(422)
-      expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-    end
-
-    it 'cannot reject an application that a candidate has already accepted' do
-      application_choice = create_application_choice_for_currently_authenticated_provider(
-        status: 'pending_conditions',
-      )
-
-      post_api_request "/api/v1/applications/#{application_choice.id}/reject", params: request_body
-
-      expect(response).to have_http_status(422)
-      expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-    end
   end
 
   it 'returns an error when trying to transition to an invalid state' do

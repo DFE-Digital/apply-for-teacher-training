@@ -83,30 +83,6 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
       expect(parsed_response['data']['attributes']['status']).to eq('offer')
     end
-
-    it 'cannot update an offer once it has been accepted by the candidate' do
-      application_choice = create_application_choice_for_currently_authenticated_provider(
-        status: 'pending_conditions',
-      )
-
-      request_body = { "data": { "conditions": ['New condition'] } }
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
-
-      expect(response).to have_http_status(422)
-      expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-    end
-
-    it 'cannot update an offer once it has been declined by the candidate' do
-      application_choice = create_application_choice_for_currently_authenticated_provider(
-        status: 'declined',
-      )
-
-      request_body = { "data": { "conditions": ['New condition'] } }
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
-
-      expect(response).to have_http_status(422)
-      expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-    end
   end
 
   describe 'making an offer without specified conditions' do
