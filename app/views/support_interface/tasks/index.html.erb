@@ -8,4 +8,12 @@
     </div>
     <%= button_to 'Generate test applications', support_interface_run_task_path('generate_test_applications'), class: 'govuk-button' %>
   </div>
+
+  <div>
+    <h2 class='govuk-heading-m'>Vendor providers</h2>
+    <div class='govuk-body'>
+      This will generate providers for providers to test with.
+    </div>
+    <%= button_to 'Generate providers for vendors', support_interface_run_task_path('create_vendor_providers'), class: 'govuk-button' %>
+  </div>
 <% end %>
