@@ -21,8 +21,7 @@ RSpec.feature 'Candidate accepts an offer', sidekiq: true do
     and_i_see_that_i_accepted_the_offer
     and_i_see_that_i_declined_the_other_offer
 
-    when_i_have_another_application_without_offer
-    and_i_visit_the_offer_page
+    when_i_visit_the_offer_page_of_the_declined_offer
     then_i_see_the_applcation_dashboard
   end
 
@@ -105,17 +104,8 @@ RSpec.feature 'Candidate accepts an offer', sidekiq: true do
     end
   end
 
-  def when_i_have_another_application_without_offer
-    @application_choice_without_offer = create(
-      :application_choice,
-      :awaiting_provider_decision,
-      course_option: @course_option,
-      application_form: @application_form,
-    )
-  end
-
-  def and_i_visit_the_offer_page
-    visit candidate_interface_offer_path(id: @application_choice_without_offer.id)
+  def when_i_visit_the_offer_page_of_the_declined_offer
+    visit candidate_interface_offer_path(id: @other_application_choice.id)
   end
 
   def then_i_see_the_applcation_dashboard

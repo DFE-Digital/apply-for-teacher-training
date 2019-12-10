@@ -23,8 +23,7 @@ RSpec.feature 'A candidate withdraws her application' do
     then_my_application_should_be_withdrawn
     and_a_slack_notification_is_sent
 
-    given_i_have_an_application_with_offer
-    when_i_visit_the_withdraw_page
+    when_i_try_to_visit_the_withdraw_page
     then_i_can_not_see_the_withdaw_page
     and_i_am_redirected_to_the_applcation_dashboard
   end
@@ -62,11 +61,7 @@ RSpec.feature 'A candidate withdraws her application' do
     expect_slack_message_with_text 'has withdrawn their application'
   end
 
-  def given_i_have_an_application_with_offer
-    MakeAnOffer.new(application_choice: @application_choice).save
-  end
-
-  def when_i_visit_the_withdraw_page
+  def when_i_try_to_visit_the_withdraw_page
     visit candidate_interface_withdraw_path(id: @application_choice.id)
   end
 
