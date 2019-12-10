@@ -16,6 +16,7 @@ module VendorApi
           personal_statement: personal_statement,
           interview_preferences: application_form.interview_preferences,
           candidate: {
+            id: "C#{application_form.candidate.id}",
             first_name: application_form.first_name,
             last_name: application_form.last_name,
             date_of_birth: application_form.date_of_birth,

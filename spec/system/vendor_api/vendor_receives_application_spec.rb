@@ -79,6 +79,7 @@ RSpec.feature 'Vendor receives the application' do
           course_code: '2XT2',
         },
         candidate: {
+          id: "C#{@current_candidate.id}",
           first_name: 'Lando',
           last_name: 'Calrissian',
           date_of_birth: '1937-04-06',
