@@ -16,6 +16,10 @@ module ApiDocs
       render_content_page :release_notes
     end
 
+    def alpha_release_notes
+      render_content_page :alpha_release_notes
+    end
+
   private
 
     def render_content_page(page_name)

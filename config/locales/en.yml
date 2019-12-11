@@ -78,6 +78,7 @@ en:
       reference: API reference
       help: Get help
       release_notes: Release notes
+      alpha_release_notes: Alpha release notes
   layout:
     accessibility: Accessibility
     terms_of_use: Terms of use
