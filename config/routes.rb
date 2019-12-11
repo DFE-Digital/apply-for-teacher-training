@@ -312,6 +312,7 @@ Rails.application.routes.draw do
 
   scope via: :all do
     match '/404', to: 'errors#not_found'
+    match '/406', to: 'errors#not_acceptable'
     match '/422', to: 'errors#unprocessable_entity'
     match '/500', to: 'errors#internal_server_error'
   end
