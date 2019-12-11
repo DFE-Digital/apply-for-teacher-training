@@ -23,6 +23,7 @@ module CandidateInterface
         .visible_to_candidates
         .includes(:provider)
         .group_by { |c| c.provider.name }
+        .sort_by { |provider_name, _| provider_name }
     end
   end
 end
