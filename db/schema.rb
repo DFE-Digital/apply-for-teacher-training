@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_04_101615) do
+ActiveRecord::Schema.define(version: 2019_12_11_120822) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -167,6 +167,7 @@ ActiveRecord::Schema.define(version: 2019_12_04_101615) do
     t.integer "accrediting_provider_id"
     t.boolean "exposed_in_find"
     t.boolean "open_on_apply", default: false, null: false
+    t.integer "recruitment_cycle_year", null: false
     t.index ["code"], name: "index_courses_on_code"
     t.index ["exposed_in_find", "open_on_apply"], name: "index_courses_on_exposed_in_find_and_open_on_apply"
     t.index ["provider_id", "code"], name: "index_courses_on_provider_id_and_code", unique: true
