@@ -327,10 +327,12 @@ components:
           example: "2019-06-13T10:44:31Z"
         personal_statement:
           type: string
+          maxLength: 6144  # 600 words
           description: The candidate’s personal statement, combined from the "Becoming a Teacher" and "Subject Knowledge" fields in the application form
           example: "Since retiring from the Police Service in 2007..."
         interview_preferences:
           type: string
+          maxLength: 2048  # 200 words
           description: The candidate’s interview preferences
           example: "I can’t come to interview on Thursdays"
         candidate:
@@ -363,6 +365,7 @@ components:
           $ref: "#/components/schemas/HESAITTData"
         further_information:
           type: string
+          maxLength: 3072  # 300 words
           nullable: true
           description: "Other personal or professional issues relevant to the application which are not covered in the form"
           example: "I am expecting to be called for jury service in the next 12 months"
@@ -411,6 +414,7 @@ components:
           description: One or more ISO 3166 country codes
         uk_residency_status:
           type: string
+          maxLength: 256
           description: "The candidate’s UK residency status, e.g. Citizen"
           example: UK Citizen
         english_main_language:
@@ -419,16 +423,19 @@ components:
           example: true
         english_language_qualifications:
           type: string
+          maxLength: 2048  # 200 words
           nullable: true
           description: About this candidate's English language qualifications, if English is not their main language
           example: "I have a degree in English Language and Literature from the University of Munich"
         other_languages:
           type: string
+          maxLength: 2048  # 200 words
           nullable: true
           description: Details of the candidate's fluency in other languages
           example: "I am bilingual in Finnish and English"
         disability_disclosure:
           type: string
+          maxLength: 4096  # 400 words
           nullable: true
           description: Voluntary disclosure of disabliity or SEN so providers can provide appropriate support
           example: "I am dyslexic"
@@ -472,6 +479,7 @@ components:
           example: SK2 6AA
         country:
           type: string
+          maxLength: 2
           description: The candidate’s country - ISO 3166 country code
           pattern: "^[A-Z]{2}$"
           example: GB
@@ -549,6 +557,7 @@ components:
       properties:
         qualification_type:
           type: string
+          maxLength: 255
           description: The qualification awarded
           example: BA
         subject:
@@ -558,10 +567,12 @@ components:
           example: History and Politics
         grade:
           type: string
+          maxLength: 255
           description: The grade awarded
           example: "2:1"
         award_year:
           type: string
+          maxLength: 4
           description: The year the award was made
           example: "1992"
         institution_details:
@@ -594,7 +605,7 @@ components:
         name:
           type: string
           description: The referee’s name
-          maxLength: 255
+          maxLength: 200
           example: Julia Wild
         email:
           type: string
@@ -604,11 +615,12 @@ components:
         relationship:
           type: string
           description: The referee’s relationship to the candidate
-          maxLength: 255
+          maxLength: 512  # 0.5k — 50 words
           example: Julia was my mentor at Cheadle Hulme High
         reference:
           type: string
           description: "The reference content provided by the referee."
+          maxLength: 3072  # 3k — 300 words
           example: Boris is committed to the profession of teaching...
     Rejection:
       type: object
@@ -692,7 +704,7 @@ components:
         organisation_name:
           type: string
           description: The organisation worked for
-          maxLength: 255
+          maxLength: 60
           example: Cheadle Hulme High School
         start_date:
           type: string
@@ -708,12 +720,12 @@ components:
         role:
           type: string
           description: The position held by the candidate
-          maxLength: 255
+          maxLength: 60
           example: Whole School Literacy Specialist
         description:
           type: string
           description: A written description of the work involved
-          maxLength: 4096
+          maxLength: 1536  # 1.5k — 150 words
           example: "I lead, develop and enhance the literacy teaching practice of others..."
         working_with_children:
           type: boolean
@@ -798,14 +810,17 @@ components:
         full_name:
           type: string
           description: The full name of the user who made this update
+          maxLength: 120
           example: "Jane Smith"
         email:
           type: string
           description: The email address of the user who made this update
+          maxLength: 100
           example: "jane.smith@example.com"
         user_id:
           type: string
           description: The ID of the user in the Student Record System, used for disambiguation
+          maxLength: 100
           example: "12345"
     MetaData:
       type: object
@@ -829,12 +844,10 @@ components:
         error:
           type: string
           description: Name of the current error
-          maxLength: 255
           example: "Unauthorized"
         message:
           type: string
           description: Description of the current error
-          maxLength: 255
           example: Please provide a valid authentication token
       required:
         - error

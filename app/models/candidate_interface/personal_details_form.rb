@@ -14,7 +14,7 @@ module CandidateInterface
               presence: true
 
     validates :first_name, :last_name,
-              length: { maximum: 100 }
+              length: { maximum: 60 }
 
     validate :date_of_birth_valid
     validate :date_of_birth_not_in_future

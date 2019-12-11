@@ -6,6 +6,10 @@ module CandidateInterface
 
     validates_inclusion_of :disclose_disability, in: %w[yes no]
 
+    validates :disability_disclosure,
+              word_count: { maximum: 400 },
+              allow_blank: true
+
     def self.build_from_application(application_form)
       new(
         disclose_disability: boolean_to_word(application_form.disclose_disability),

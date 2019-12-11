@@ -121,8 +121,8 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
     it { is_expected.to validate_presence_of(:first_nationality) }
     it { is_expected.to validate_presence_of(:english_main_language) }
 
-    it { is_expected.to validate_length_of(:first_name).is_at_most(100) }
-    it { is_expected.to validate_length_of(:last_name).is_at_most(100) }
+    it { is_expected.to validate_length_of(:first_name).is_at_most(60) }
+    it { is_expected.to validate_length_of(:last_name).is_at_most(60) }
 
     it 'validates nationalities against the NATIONALITY_DEMONYMS list' do
       details_with_invalid_nationality = CandidateInterface::PersonalDetailsForm.new(

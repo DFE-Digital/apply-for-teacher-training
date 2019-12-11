@@ -11,9 +11,12 @@ module CandidateInterface
     validates :subject, :level, :qualification_type, presence: true
 
     validates :other_uk_qualification_type, presence: true, if: -> { qualification_type == OTHER_UK_QUALIFICATION_TYPE }
-    validates :other_uk_qualification_type, length: { maximum: 100 }
+    validates :qualification_type, length: { maximum: 255 }
+    validates :other_uk_qualification_type, length: { maximum: 255 }
 
     validates :missing_explanation, word_count: { maximum: 200 }
+
+    validates :subject, length: { maximum: 255 }
 
     def save_base(application_form)
       return false unless valid?
