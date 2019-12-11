@@ -77,6 +77,7 @@ RSpec.feature 'Vendor receives the application' do
           provider_code: '1N1',
           site_code: '-',
           course_code: '2XT2',
+          study_mode: 'full_time',
         },
         candidate: {
           id: "C#{@current_candidate.id}",
