@@ -46,7 +46,7 @@ module VendorApi
             jobs: work_experience_jobs,
             volunteering: work_experience_volunteering,
           },
-          offer: application_choice.offer,
+          offer: offer,
           rejection: get_rejection,
           withdrawal: withdrawal,
           hesa_itt_data: {
@@ -173,6 +173,25 @@ module VendorApi
 
     def personal_statement
       "Why do you want to become a teacher?: #{application_form.becoming_a_teacher} \n What is your subject knowledge?: #{application_form.subject_knowledge}"
+    end
+
+    def offered_course
+      offered_option = application_choice.offered_course_option
+      return {} if offered_option.nil?
+
+      {
+        course: {
+           provider_code: offered_option.course.provider.code,
+           course_code: offered_option.course.code,
+           site_code: offered_option.site.code,
+        },
+      }
+    end
+
+    def offer
+      return nil if application_choice.offer.nil?
+
+      application_choice.offer.merge(offered_course)
     end
   end
 end
