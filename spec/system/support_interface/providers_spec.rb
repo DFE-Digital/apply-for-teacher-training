@@ -20,6 +20,10 @@ RSpec.feature 'See providers' do
 
     when_i_choose_to_open_the_course_on_apply
     then_it_should_be_open_on_apply
+
+    when_i_visit_the_providers_page
+    when_i_click_on_a_provider
+    then_i_see_the_updated_providers_courses_and_sites
   end
 
   def given_i_am_a_support_user
@@ -86,6 +90,7 @@ RSpec.feature 'See providers' do
 
   def then_i_see_the_providers_courses_and_sites
     expect(page).to have_content 'ABC-1'
+    expect(page).to have_content '1 course (0 on DfE Apply)'
   end
 
   def when_i_click_on_a_course
@@ -104,5 +109,10 @@ RSpec.feature 'See providers' do
 
   def then_it_should_be_open_on_apply
     expect(page).to have_content 'Open on Apply Yes'
+  end
+
+  def then_i_see_the_updated_providers_courses_and_sites
+    expect(page).to have_content 'ABC-1'
+    expect(page).to have_content '1 course (1 on DfE Apply)'
   end
 end

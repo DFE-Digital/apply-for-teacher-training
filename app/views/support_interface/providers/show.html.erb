@@ -1,6 +1,6 @@
 <% content_for :title, @provider.name_and_code %>
 
-<h2 class='govuk-heading-l'>Courses (<%= @provider.courses.size %>)</h2>
+<h2 class='govuk-heading-l'><%= pluralize(@provider.courses.size, 'course') %> (<%= @provider.courses.visible_to_candidates.size %> on DfE Apply)</h2>
 
 <table class='govuk-table'>
   <thead class='govuk-table__head'>
