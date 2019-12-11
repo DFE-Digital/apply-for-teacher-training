@@ -31,5 +31,11 @@ private
       application_choice.edit_by = ApplicationDates.new(application_form).edit_by
       ApplicationStateChange.new(application_choice).submit!
     end
+
+    @application_form.reload.references.each do |reference|
+      _raw_token, encrypted_token = Devise.token_generator.generate(Reference, :token)
+
+      reference.update(token: encrypted_token)
+    end
   end
 end

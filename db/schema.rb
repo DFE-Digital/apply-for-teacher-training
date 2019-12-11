@@ -193,6 +193,7 @@ ActiveRecord::Schema.define(version: 2019_12_16_104559) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "name"
     t.string "relationship"
+    t.string "token"
     t.index ["application_form_id", "email_address"], name: "index_references_on_application_form_id_and_email_address", unique: true
     t.index ["application_form_id"], name: "index_references_on_application_form_id"
   end

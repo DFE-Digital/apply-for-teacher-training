@@ -32,5 +32,19 @@ RSpec.describe SubmitApplication do
       SubmitApplication.new(application_form).call
       expect(SlackNotificationWorker).to have_received(:perform_async).once # per application_form, not application_choices
     end
+
+    context 'when application has references' do
+      before do
+        create(:reference, application_form: application_form)
+        create(:reference, application_form: application_form)
+      end
+
+      it 'generates a magic link token for the referee' do
+        SubmitApplication.new(application_form).call
+
+        expect(application_form.reload.references.first.token).not_to be_empty
+        expect(application_form.reload.references.second.token).not_to be_empty
+      end
+    end
   end
 end
