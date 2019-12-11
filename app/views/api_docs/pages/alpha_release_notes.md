@@ -14,6 +14,7 @@ Changes to the docs:
 New attributes:
 
 - `Candidate` now has an `id`. This is a version of our internal identifier, and could be used to match previous candidate records.
+- `Course` now has a `study_mode` attribute that shows whether the candidate wants to study full time or part time. 
 
 Removed attributes:
 
