@@ -21,7 +21,7 @@
         <td class='govuk-table__cell'><%= course.start_date %></td>
         <td class='govuk-table__cell'>
           <% if course.exposed_in_find? && course.open_on_apply? %>
-            <%= govuk_link_to 'Apply from Find (Apply & UCAS)', candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code) %>
+            <%= govuk_link_to 'Apply from Find (DfE & UCAS)', candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code) %>
           <% elsif course.exposed_in_find? %>
             <%= govuk_link_to 'Apply from Find (UCAS only)', candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code) %>
           <% else %>
