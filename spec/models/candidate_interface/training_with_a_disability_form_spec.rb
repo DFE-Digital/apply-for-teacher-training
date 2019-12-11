@@ -75,5 +75,11 @@ RSpec.describe CandidateInterface::TrainingWithADisabilityForm, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_inclusion_of(:disclose_disability).in_array %w[yes no] }
+
+    valid_text = Faker::Lorem.sentence(word_count: 400)
+    invalid_text = Faker::Lorem.sentence(word_count: 401)
+
+    it { is_expected.to allow_value(valid_text).for(:disability_disclosure) }
+    it { is_expected.not_to allow_value(invalid_text).for(:disability_disclosure) }
   end
 end
