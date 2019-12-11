@@ -48,5 +48,6 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:accept_ts_and_cs) }
     it { is_expected.to validate_presence_of(:email_address) }
+    it { is_expected.to validate_length_of(:email_address).is_at_most(100) }
   end
 end

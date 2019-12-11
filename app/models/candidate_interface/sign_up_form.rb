@@ -4,6 +4,8 @@ module CandidateInterface
     attr_accessor :email_address, :accept_ts_and_cs, :candidate
 
     validates :email_address, :accept_ts_and_cs, presence: true
+    validates :email_address, length: { maximum: 100 }
+
     validate :candidate_email_address_is_valid
 
     def initialize(params = {})
