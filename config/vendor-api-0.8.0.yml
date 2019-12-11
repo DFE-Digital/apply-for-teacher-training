@@ -515,6 +515,10 @@ components:
           description: The site’s code
           example: K
           maxLength: 5
+        study_mode:
+          type: string
+          description: Can be 'full_time' or 'part_time'
+          example: full_time
     Offer:
       type: object
       additionalProperties: false
