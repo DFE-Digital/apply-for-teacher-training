@@ -6,6 +6,7 @@ module VendorApi
       decision = MakeAnOffer.new(
         application_choice: application_choice,
         offer_conditions: params.dig(:data, :conditions),
+        offered_course_option: offered_course_option,
       )
 
       respond_to_decision(decision)
@@ -57,6 +58,17 @@ module VendorApi
       else
         render_validation_errors(decision.errors)
       end
+    end
+
+    def offered_course_option
+      course_data = params.dig(:data, :course)
+      return nil if course_data.nil?
+
+      provider = Provider.find_by(code: course_data[:provider_code])
+      course = provider.courses.find_by(code: course_data[:course_code])
+      site = provider.sites.find_by(code: course_data[:site_code])
+
+      CourseOption.find_by(course: course, site: site)
     end
 
     # Takes errors from ActiveModel::Validations and render them in the API response
