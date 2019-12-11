@@ -4,7 +4,7 @@ module ApiDocs
     delegate :servers, to: :document
 
     def initialize
-      @document = Openapi3Parser.load_file('config/vendor-api-0.8.0.yml')
+      @document = Openapi3Parser.load_file('config/vendor-api-v1.yml')
     end
 
     def operations
