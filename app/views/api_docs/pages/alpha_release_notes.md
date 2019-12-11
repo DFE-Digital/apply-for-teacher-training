@@ -8,7 +8,6 @@ once v1 is live.
 Changes to the docs:
 
 - We've added more examples and descriptions to the attributes
-- The OpenAPI spec is now accessible via the API itself
 - Move the documentation to https://www.apply-for-teacher-training.education.gov.uk/api-docs
 
 New attributes:
