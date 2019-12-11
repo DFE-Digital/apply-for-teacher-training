@@ -75,3 +75,13 @@ When non-breaking changes are made to the API, this will not result in a version
 Information about deprecations (for instance attributes/endpoints that will be modified/removed) will be included in the API response through a "Warning" header.
 
 We will update our [release notes](/api-docs/release-notes) with all breaking and non-breaking changes.
+
+## Application Lifecycle
+
+The following diagram gives an overview of the states in the application
+lifecycle:
+
+![Application lifecycle](/api_docs/states.png)
+
+Note that applications are visible to providers only after they reach
+the `awaiting_provider_decision` state.
