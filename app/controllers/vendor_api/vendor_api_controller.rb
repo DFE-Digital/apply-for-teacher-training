@@ -75,10 +75,13 @@ module VendorApi
 
     # controller-specific additional info to include in logstash logs
     def add_identity_to_log
-      RequestLocals.store[:identity] = {
+      user_info = {
         vendor_api_token_id: @current_vendor_api_token&.id,
         provider_id: current_provider&.id,
       }
+
+      RequestLocals.store[:identity] = user_info
+      Raven.user_context(user_info)
     end
 
     def validate_metadata!

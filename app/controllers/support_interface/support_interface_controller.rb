@@ -4,6 +4,7 @@ module SupportInterface
 
     layout 'support_layout'
     before_action :authenticate_support_user!
+    before_action :add_identity_to_log
 
     helper_method :current_support_user, :dfe_sign_in_user
 
@@ -44,6 +45,13 @@ module SupportInterface
 
       session['post_dfe_sign_in_path'] = request.path
       redirect_to support_interface_sign_in_path
+    end
+
+    def add_identity_to_log
+      return unless current_support_user
+
+      RequestLocals.store[:identity] = { support_user_id: current_support_user.id }
+      Raven.user_context(support_user_id: current_support_user.id)
     end
   end
 end
