@@ -34,12 +34,12 @@ end
 
 desc 'Run rubocop'
 task :rubocop do
-  system 'bundle exec rubocop --parallel'
+  sh 'bundle exec rubocop --parallel'
 end
 
 desc 'Lint all *.erb* files in app/views using erblint'
 task :erblint do
-  system 'erblint app/views'
+  sh 'erblint app/views'
 end
 
 desc 'Run all the linters'
