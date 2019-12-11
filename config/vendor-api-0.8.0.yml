@@ -493,6 +493,7 @@ components:
         - provider_code
         - course_code
         - site_code
+        - study_mode
       properties:
         start_date:
           type: string
