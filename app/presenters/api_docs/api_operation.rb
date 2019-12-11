@@ -49,6 +49,8 @@ module ApiDocs
     end
 
     def schema
+      return unless response.content['application/json']
+
       response.content['application/json'].schema
     end
 
