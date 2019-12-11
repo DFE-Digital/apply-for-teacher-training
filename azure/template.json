@@ -39,6 +39,24 @@
                 "description": "Environment for the rails app."
             }
         },
+        "appServicePlanTier": {
+            "type": "string",
+            "metadata": {
+                "description": "The App Service Plan tier."
+            }
+        },
+        "appServicePlanSize": {
+            "type": "string",
+            "metadata": {
+                "description": "The App Serivce Plan instance size."
+            }
+        },
+        "appServicePlanInstances": {
+            "type": "int",
+            "metadata": {
+                "description": "The number of instance of the web app Docker image to run in parallel."
+            }
+        },
         "redisCacheSKU": {
             "type": "string",
             "metadata": {
@@ -399,10 +417,13 @@
                         "value": "[variables('appServicePlanName')]"
                     },
                     "appServicePlanTier": {
-                        "value": "Standard"
+                        "value": "[parameters('appServicePlanTier')]"
                     },
                     "appServicePlanSize": {
-                        "value": "2"
+                        "value": "[parameters('appServicePlanSize')]"
+                    },
+                    "appServicePlanInstances": {
+                        "value": "[parameters('appServicePlanInstances')]"
                     }
                 }
             }

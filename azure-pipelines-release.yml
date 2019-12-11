@@ -54,6 +54,8 @@ stages:
       environment: 'staging'
       resourceEnvironmentName: 't01'
       serviceName: 'apply'
+      appServicePlanTier: 'PremiumV2'
+      appServicePlanInstances: 2
       redisCacheSKU: 'Premium'
       redisCacheFamily: 'P'
       containerImageReference: '$(imageName):$(build.buildNumber)'
@@ -202,6 +204,8 @@ stages:
       environment: 'production'
       resourceEnvironmentName: 'p01'
       serviceName: 'apply'
+      appServicePlanTier: 'PremiumV2'
+      appServicePlanInstances: 2
       redisCacheSKU: 'Premium'
       redisCacheFamily: 'P'
       containerImageReference: '$(imageName):$(build.buildNumber)'
