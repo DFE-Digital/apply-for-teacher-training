@@ -1,5 +1,5 @@
 module FindAPIHelper
-  def stub_find_api_provider_200(provider_code: 'ABC', provider_name: 'Dummy Provider', course_code: 'X130', site_code: 'X', findable: true)
+  def stub_find_api_provider_200(provider_code: 'ABC', provider_name: 'Dummy Provider', course_code: 'X130', site_code: 'X', findable: true, study_mode: 'full_time')
     stub_find_api_provider(provider_code)
       .to_return(
         status: 200,
@@ -46,6 +46,7 @@ module FindAPIHelper
                 'course_code': course_code,
                 'name': 'Primary',
                 'level': 'primary',
+                'study_mode': study_mode,
                 'recruitment_cycle_year': '2020',
                 'findable?': findable,
                 'accrediting_provider': nil,
@@ -64,7 +65,7 @@ module FindAPIHelper
       )
   end
 
-  def stub_find_api_provider_200_with_accrediting_provider(provider_code: 'ABC', provider_name: 'Dummy Provider', course_code: 'X130', site_code: 'X', accrediting_provider_code: 'XYZ', accrediting_provider_name: 'Dummy Accrediting Provider', findable: true)
+  def stub_find_api_provider_200_with_accrediting_provider(provider_code: 'ABC', provider_name: 'Dummy Provider', course_code: 'X130', site_code: 'X', accrediting_provider_code: 'XYZ', accrediting_provider_name: 'Dummy Accrediting Provider', findable: true, study_mode: 'full_time')
     stub_find_api_provider(provider_code)
       .to_return(
         status: 200,
@@ -111,6 +112,7 @@ module FindAPIHelper
                 'course_code': course_code,
                 'name': 'Primary',
                 'level': 'primary',
+                'study_mode': study_mode,
                 'recruitment_cycle_year': '2020',
                 'findable?': findable,
                 'accrediting_provider': {

@@ -29,6 +29,7 @@ class SyncProviderFromFind
     course = provider.courses.find_or_create_by(code: find_course.course_code)
     course.name = find_course.name
     course.level = find_course.level
+    course.study_mode = find_course.study_mode
     course.recruitment_cycle_year = find_course.recruitment_cycle_year
     course.exposed_in_find = find_course.findable?
     if find_course[:accrediting_provider].present?
@@ -51,11 +52,21 @@ class SyncProviderFromFind
       site.postcode = find_site.postcode.strip
       site.save!
 
-      CourseOption.find_or_create_by(
-        site: site,
-        course_id: course.id,
-        vacancy_status: 'B', # TODO: Should this be reflected by `find_course.has_vacancies?`
-      )
+      study_modes = \
+        if course.study_mode == 'full_time_or_part_time'
+          %i[full_time part_time]
+        else
+          [course.study_mode]
+        end
+
+      study_modes.each do |mode|
+        CourseOption.find_or_create_by(
+          site: site,
+          course_id: course.id,
+          study_mode: mode,
+          vacancy_status: 'B', #TODO: Should this be reflected by `find_course.has_vacancies?`
+        )
+      end
     end
 
     course

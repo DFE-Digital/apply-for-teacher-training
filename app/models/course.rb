@@ -18,6 +18,13 @@ class Course < ApplicationRecord
     further_education: 'Further education',
   }, _suffix: :course
 
+  # also copied from Find
+  enum study_mode: {
+    full_time: 'F',
+    part_time: 'P',
+    full_time_or_part_time: 'B',
+  }
+
   def name_and_code
     "#{name} (#{code})"
   end

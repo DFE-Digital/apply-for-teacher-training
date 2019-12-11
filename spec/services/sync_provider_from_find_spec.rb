@@ -33,6 +33,7 @@ RSpec.describe SyncProviderFromFind do
         provider_code: 'ABC',
         course_code: '9CBA',
         site_code: 'G',
+        study_mode: 'full_time',
         accrediting_provider_code: 'DEF',
         accrediting_provider_name: 'Test Accrediting Provider',
       )
