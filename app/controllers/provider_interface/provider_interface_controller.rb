@@ -3,10 +3,11 @@ module ProviderInterface
     include LogQueryParams
     before_action :authenticate_provider_user!
     around_action :set_audit_username
+    before_action :add_identity_to_log
+
     layout 'application'
 
     rescue_from MissingProvider, with: ->(e) {
-      Raven.extra_context dfe_sign_in_uid: current_provider_user.dfe_sign_in_uid
       Raven.capture_exception(e)
 
       render template: 'provider_interface/account_creation_in_progress', status: 403
@@ -35,6 +36,13 @@ module ProviderInterface
 
       session['post_dfe_sign_in_path'] = request.path
       redirect_to provider_interface_sign_in_path
+    end
+
+    def add_identity_to_log
+      return unless current_provider_user
+
+      RequestLocals.store[:identity] = { dfe_sign_in_uid: current_provider_user.dfe_sign_in_uid }
+      Raven.user_context(dfe_sign_in_uid: current_provider_user.dfe_sign_in_uid)
     end
   end
 end

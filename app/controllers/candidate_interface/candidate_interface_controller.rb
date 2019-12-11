@@ -23,9 +23,9 @@ module CandidateInterface
       render 'candidate_interface/shared/pilot_holding_page'
     end
 
-    # controller-specific additional info to include in logstash logs
     def add_identity_to_log(candidate_id = current_candidate&.id)
       RequestLocals.store[:identity] = { candidate_id: candidate_id }
+      Raven.user_context(candidate_id: candidate_id)
     end
 
     def current_application
