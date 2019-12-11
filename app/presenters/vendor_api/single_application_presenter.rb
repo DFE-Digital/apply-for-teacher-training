@@ -82,6 +82,7 @@ module VendorApi
         provider_code: application_choice.provider.code,
         site_code: application_choice.site.code,
         course_code: application_choice.course.code,
+        study_mode: 'full_time',
       }
     end
 

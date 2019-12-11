@@ -19,6 +19,17 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
     end
   end
 
+  describe '#course' do
+    let(:single_application_presenter) {
+      VendorApi::SingleApplicationPresenter.new(application_choice)
+    }
+    let(:course) { single_application_presenter.as_json[:attributes][:course] }
+
+    it 'includes study_mode' do
+      expect(course[:study_mode]).not_to be_nil
+    end
+  end
+
   describe '#as_json' do
     context 'given a relation that includes application_qualifications' do
       let(:given_relation) { GetApplicationChoicesForProvider.call(provider: application_choice.provider) }
