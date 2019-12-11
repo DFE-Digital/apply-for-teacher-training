@@ -14,7 +14,7 @@ Changes to the docs:
 New attributes:
 
 - `Candidate` now has an `id`. This is a version of our internal identifier, and could be used to match previous candidate records.
-- `Course` now has a `study_mode` attribute that shows whether the candidate wants to study full time or part time. 
+- `Course` now has a `study_mode` attribute that shows whether the candidate wants to study full time or part time.
 
 Removed attributes:
 
@@ -151,7 +151,7 @@ Additional changes:
 
 - Clarify that strings have a 255 character limit, unless otherwise specified
 - Clarify that only candidates can withdraw an application
-- Clarify that we're using [ISO 3166 for country codes](/#codes-and-reference-data), not ISO 3611
+- Clarify that we're using [ISO 3166 for country codes](/api-docs/#codes-and-reference-data), not ISO 3611
 - Clarify how to make an unconditional and conditional offer
 - Clarify that offer conditions are optional
 
