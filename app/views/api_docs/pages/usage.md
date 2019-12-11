@@ -11,7 +11,8 @@ The provider has authenticated to your system and begins their work by retrievin
 GET /applications?since=2018-10-01T10:00:00Z&provider_code=2FR
 ```
 
-This returns a list of [Application](/reference/#application)s.
+This returns a list of
+[Application](/api-docs/reference/#application-object)s.
 
 The following examples all refer to a single application id, `11fc0d3b2f`, which
 we assume belongs to one of the applications in that list.
@@ -26,9 +27,9 @@ Get the application data.
 GET /applications/11fc0d3b2f
 ```
 
-This returns an [application](/reference/#application).
+This returns an [application](/api-docs/reference/#application-object).
 
-_See [retrieve an application](/reference/#get-applications-application-id) endpoint._
+_See [retrieve an application](/api-docs/reference/#get-applications-application_id) endpoint._
 
 ### 2. The provider makes an offer
 
@@ -38,11 +39,11 @@ The provider would like to offer the candidate a conditional place.
 POST /applications/11fc0d3b2f/offer
 ```
 
-With a [request body containing conditions](/reference/#request-body).
+With a [request body containing conditions](/api-docs/reference/#post-applications-application_id-offer).
 
-This returns an [application](/reference/#application) with an updated `status`.
+This returns an [application](/api-docs/reference/#application-object) with an updated `status`.
 
-_See [make an offer](/reference/#post-applications-application-id-offer) endpoint._
+_See [make an offer](/api-docs/reference/#post-applications-application_id-offer) endpoint._
 
 ### 3. Confirm that the conditions are met
 
@@ -54,9 +55,9 @@ Once you know the conditions are met, make the following request.
 POST /applications/11fc0d3b2f/confirm-conditions-met
 ```
 
-This returns an [application](/reference/#application) with an updated `status`.
+This returns an [application](/api-docs/reference/#application-object) with an updated `status`.
 
-_See [confirm offer conditions are met](/reference/#post-applications-application-id-confirm-conditions-met) endpoint._
+_See [confirm offer conditions are met](/api-docs/reference/#post-applications-application_id-confirm-conditions-met) endpoint._
 
 ### 4. Confirm candidate enrolment
 
@@ -66,9 +67,9 @@ Once the candidate has enrolled, make the following request.
 POST /applications/11fc0d3b2f/confirm-enrolment
 ```
 
-This returns an [application](/reference/#application) with an updated `status`.
+This returns an [application](/api-docs/reference/#application-object) with an updated `status`.
 
-_See [confirm candidate enrolment](/reference/#post-applications-application-id-confirm-enrolment) endpoint._
+_See [confirm candidate enrolment](/api-docs/reference/#post-applications-application_id-confirm-enrolment) endpoint._
 
 ## Rejecting an application
 
@@ -78,8 +79,8 @@ _See [confirm candidate enrolment](/reference/#post-applications-application-id-
 POST /applications/11fc0d3b2f/reject
 ```
 
-With a [request body containing a reason](/reference/#post-applications-application-id-reject-request-body).
+With a [request body containing a reason](/api-docs/reference/#post-applications-application_id-reject).
 
-This returns an [application](/reference/#application) with an updated `status`.
+This returns an [application](/api-docs/reference/#application-object) with an updated `status`.
 
-_See [reject an application](/reference/#post-applications-application-id-reject) endpoint._
+_See [reject an application](/api-docs/reference/#post-applications-application_id-reject) endpoint._
