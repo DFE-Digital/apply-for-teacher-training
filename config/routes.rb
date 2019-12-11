@@ -294,13 +294,10 @@ Rails.application.routes.draw do
 
     # https://github.com/mperham/sidekiq/wiki/Monitoring#rails-http-basic-auth-from-routes
     require 'sidekiq/web'
+    require 'support_user_constraint'
 
-    Sidekiq::Web.use Rack::Auth::Basic do |username, password|
-      ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(username), ::Digest::SHA256.hexdigest(ENV.fetch('SUPPORT_USERNAME'))) &
-        ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(password), ::Digest::SHA256.hexdigest(ENV.fetch('SUPPORT_PASSWORD')))
-    end
-
-    mount Sidekiq::Web, at: 'sidekiq'
+    mount Sidekiq::Web => '/sidekiq', constraints: SupportUserConstraint.new
+    get '/sidekiq', to: redirect('/support/sign-in'), status: 302
   end
 
   namespace :api_docs, path: '/api-docs' do
