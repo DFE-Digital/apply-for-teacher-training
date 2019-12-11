@@ -5,6 +5,10 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
     it { is_expected.to validate_presence_of(:level) }
     it { is_expected.to validate_presence_of(:subject) }
     it { is_expected.to validate_presence_of(:qualification_type) }
+
+    it { is_expected.to validate_length_of(:other_uk_qualification_type).is_at_most(255) }
+    it { is_expected.to validate_length_of(:qualification_type).is_at_most(255) }
+    it { is_expected.to validate_length_of(:subject).is_at_most(255) }
   end
 
   describe '#save_base' do
