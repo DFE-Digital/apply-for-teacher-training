@@ -43,6 +43,10 @@ module ProviderInterface
       application_choice.course.course_options.first.site.name
     end
 
+    def recruitment_cycle_year
+      application_choice.course.recruitment_cycle_year
+    end
+
     def updated_at
       application_choice.updated_at.strftime('%e %b %Y %l:%M%P')
     end
