@@ -3,6 +3,18 @@ These are the release notes for the API while still in alpha.
 See the [current release notes](/api-docs/release-notes) for the release notes
 once v1 is live.
 
+### Alpha release - 13 December 2019
+
+New attributes:
+
+- `Course` now has a `recruitment_cycle_year` integer attribute to
+    indicate which recruitment year the Course belongs to, e.g. 2020.
+
+Removed attributes:
+
+- `Course` `start_date` has been removed, it is replaced by
+    `recruitment_cycle_year` (above).
+
 ### Alpha release - 11 December 2019
 
 Changes to the docs:
