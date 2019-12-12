@@ -1,4 +1,4 @@
-This is API documentation for the Department for Education (DfE)’s new "Apply for teacher training" service.
+This is API documentation for the Department for Education (DfE)’s new Apply for teacher training service.
 
 Apply will replace the online UCAS application form for postgraduate
 teacher training. All vendors of student record systems (SRS) and some
@@ -72,7 +72,7 @@ We, however, only support one version back, so if the **v3** is published, the *
 
 When non-breaking changes are made to the API, this will not result in a version bump. An example of a non-breaking change could be the introduction of a new field without removing an existing field.
 
-Information about deprecations (for instance attributes/endpoints that will be modified/removed) will be included in the API response through a "Warning" header.
+Information about deprecations (for instance attributes/endpoints that will be modified/removed) will be included in the API response through a ‘Warning’ header.
 
 We will update our [release notes](/api-docs/release-notes) with all breaking and non-breaking changes.
 
