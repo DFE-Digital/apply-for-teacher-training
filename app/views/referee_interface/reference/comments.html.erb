@@ -1,0 +1,62 @@
+<% content_for :title, t('page_titles.application') %>
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+<form action="/reference/confirmation" method="post">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">Tell us about <%= @application.first_name + ' ' + @application.last_name%></h1>
+
+        <p class="govuk-body">Try to cover the following, but don’t worry if there are areas you can’t comment on:</p>
+        <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
+          <li>
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-1">Teaching potential</h2>
+            <p class="govuk-body">For example, does the candidate care about the wellbeing of children? Are they emotionally resilient and do they work well with others?</p>
+          </li>
+          <li>
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-1">Subject knowledge</h2>
+            <p class="govuk-body">Is the candidate passionate and informed about their teaching subject?</p>
+          </li>
+          <li>
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-1">Academic abilities</h2>
+            <p class="govuk-body">For example, does the candidate think critically and have good numeracy and literacy skills?</p>
+          </li>
+          <li>
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-1">Reliability and professionalism</h2>
+            <p class="govuk-body">What abilities would the candidate bring to teaching, for example, communication, creativity, project management?</p>
+          </li>
+          <li>
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-1">Transferable skills</h2>
+            <p class="govuk-body">For example, can the candidate meet deadlines and manage their time?</p>
+          </li>
+        </ul>
+
+
+
+        <div class="govuk-character-count" data-module="govuk-character-count" data-maxwords="300">
+
+
+          <div class="govuk-form-group">
+            <label class="govuk-label govuk-label--m govuk-!-margin-top-6" for="reference-comments">
+              Your reference
+            </label>
+
+
+            <textarea class="govuk-textarea govuk-js-character-count" id="reference-comments" name="reference[comments]" rows="15" aria-describedby="reference-comments-info"></textarea><span id="reference-comments-info" class="govuk-hint govuk-character-count__message" aria-live="polite">You have 300 words remaining</span>
+          </div>
+
+
+        </div>
+
+        <button class="govuk-button" data-module="govuk-button">
+          Submit reference
+        </button>
+
+
+      </div>
+
+    </div>
+  </form>
+
+</main>

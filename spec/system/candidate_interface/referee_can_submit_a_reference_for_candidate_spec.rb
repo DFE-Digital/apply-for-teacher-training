@@ -7,9 +7,14 @@ RSpec.feature 'Referee submits a reference for a candidate', sidekiq: true do
     FeatureFlag.activate('training_with_a_disability')
 
     given_a_candidate_completed_an_application
-    # and_selected_me_as_a_referee
     when_the_candidate_submits_the_application
     then_i_receive_an_email_with_a_magic_link
+
+    when_i_try_to_access_the_reference_page_with_invalid_token
+    then_i_see_page_not_found
+
+    when_i_click_on_the_link_within_the_email
+    then_i_see_the_reference_comment_page
   end
 
   def given_a_candidate_completed_an_application
@@ -22,7 +27,28 @@ RSpec.feature 'Referee submits a reference for a candidate', sidekiq: true do
 
   def then_i_receive_an_email_with_a_magic_link
     open_email('terri@example.com')
+    expect(current_email).to have_content(referee_interface_reference_comments_url(token: referee_token))
+  end
 
-    current_email.click_link candidate_interface_reference_comments_url(token: '1234567890')
+  def when_i_try_to_access_the_reference_page_with_invalid_token
+    visit referee_interface_reference_comments_url(token: 'invalid-token')
+  end
+
+  def then_i_see_page_not_found
+    expect(page).to have_content('Page not found')
+  end
+
+  def when_i_click_on_the_link_within_the_email
+    current_email.click_link referee_interface_reference_comments_url(token: referee_token)
+  end
+
+  def then_i_see_the_reference_comment_page
+    expect(page).to have_content("Tell us about #{@application.first_name} #{@application.last_name}")
+  end
+
+private
+
+  def referee_token
+    @referee_token ||= Reference.find_by(email_address: 'terri@example.com').token
   end
 end

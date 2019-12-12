@@ -33,8 +33,8 @@ private
     end
 
     application_form.references.includes(:application_form).each do |ref|
-      _raw_token, encrypted_token = Devise.token_generator.generate(Reference, :token)
-      ref.update(token: encrypted_token)
+      raw_token, _encrypted_token = Devise.token_generator.generate(Reference, :token)
+      ref.update(token: raw_token)
     end
   end
 end
