@@ -210,4 +210,9 @@ FactoryBot.define do
     dfe_sign_in_uid { SecureRandom.hex(5) }
     email_address { "#{Faker::Name.first_name}@example.com" }
   end
+
+  factory :provider_user do
+    dfe_sign_in_uid { SecureRandom.hex(5) }
+    email_address { "#{Faker::Name.first_name}@example.com" }
+  end
 end
