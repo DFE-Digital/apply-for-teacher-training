@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_11_120822) do
+ActiveRecord::Schema.define(version: 2019_12_12_114235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -33,9 +33,9 @@ ActiveRecord::Schema.define(version: 2019_12_11_120822) do
     t.integer "decline_by_default_days"
     t.datetime "offered_at"
     t.datetime "rejected_at"
+    t.datetime "withdrawn_at"
     t.datetime "declined_at"
     t.boolean "declined_by_default", default: false, null: false
-    t.datetime "withdrawn_at"
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
   end
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 2019_12_11_120822) do
     t.boolean "course_choices_completed", default: false, null: false
     t.boolean "volunteering_completed", default: false, null: false
     t.boolean "volunteering_experience"
+    t.string "phase", default: "apply_1", null: false
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
   end
 

@@ -13,6 +13,11 @@ class ApplicationForm < ApplicationRecord
   MINIMUM_COMPLETE_REFERENCES = 2
   validates_length_of :references, maximum: MINIMUM_COMPLETE_REFERENCES
 
+  enum phase: {
+    apply_1: 'apply_1',
+    apply_2: 'apply_2',
+  }
+
   after_save -> {
     application_choices.update_all(updated_at: Time.zone.now)
   }
