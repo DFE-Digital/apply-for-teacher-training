@@ -32,10 +32,9 @@ private
       ApplicationStateChange.new(application_choice).submit!
     end
 
-    @application_form.reload.references.each do |reference|
+    application_form.references.includes(:application_form).each do |ref|
       _raw_token, encrypted_token = Devise.token_generator.generate(Reference, :token)
-
-      reference.update(token: encrypted_token)
+      ref.update(token: encrypted_token)
     end
   end
 end

@@ -208,6 +208,8 @@ Rails.application.routes.draw do
         get '/delete/:id' => 'referees#confirm_destroy', as: :confirm_destroy_referee
         delete '/delete/:id' => 'referees#destroy', as: :destroy_referee
       end
+
+      get 'reference/:token' => 'reference#comments', as: :reference_comments
     end
   end
 

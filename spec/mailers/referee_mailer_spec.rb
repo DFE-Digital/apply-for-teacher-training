@@ -40,23 +40,9 @@ RSpec.describe RefereeMailer, type: :mailer do
       expect(mail.body.encoded).to include("#{third_application_choice.provider.name} - #{third_application_choice.course.name}")
     end
 
-    it 'sends an email with a link to a prefilled Google form' do
+    it 'sends an email with a link to the reference page' do
       body = mail.body.encoded
-      expect(body).to include(t('reference_request.google_form_url'))
-      expect(body).to include("=#{reference.id}")
-      expect(body).to include("=#{CGI.escape(reference.email_address)}")
-    end
-
-    it 'encodes spaces as %20 rather than + in the Google form parameters for correct prefilling' do
-      expect(mail.body.encoded).to include('Harry%20O%27Potter')
-    end
-
-    context 'an email containing a +' do
-      let(:reference) { build(:reference, email_address: 'email+email@email.com') }
-
-      it 'does not strip the plus from the email address' do
-        expect(mail.body.encoded).to include("=#{CGI.escape('email+email@email.com')}")
-      end
+      expect(body).to include(candidate_interface_reference_comments_url(token: '1234567890'))
     end
   end
 

@@ -3,7 +3,11 @@ class RefereeMailer < ApplicationMailer
     @application_form = application_form
     @reference = reference
     @candidate_name = "#{application_form.first_name} #{application_form.last_name}"
-    @google_form_url = google_form_url_for(@candidate_name, @reference)
+
+    @reference_link = candidate_interface_reference_comments_url(token: '1234567890')
+
+    # TODO: add feature flag to switch between reference_link and google_form_link
+    # google_form_url_for(@candidate_name, @reference)
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: reference.email_address,
