@@ -1,19 +1,21 @@
-### Context
+## Context
 
-Why are you making this change? What might surprise someone about it?
+<!-- Why are you making this change? What might surprise someone about it? -->
 
-### Changes proposed in this pull request
+## Changes proposed in this pull request
 
-If there are UI changes, please include Before and After screenshots.
+<!-- If there are UI changes, please include Before and After screenshots. -->
 
-### Guidance to review
+## Guidance to review
 
-How could someone else check this work? Which parts do you want more feedback on?
+<!-- How could someone else check this work? Which parts do you want more feedback on? -->
 
-### Link to Trello card
+## Link to Trello card
 
-[123 - Example Trello card](http://trello.com/123-example-card)
+<!-- http://trello.com/123-example-card -->
 
-### Env vars
+## Things to check
 
-- [ ] If this PR introduces new environment variables, they have been added to all necessary parts of the Azure config based on the [documentation in the README](https://github.com/DFE-Digital/apply-for-postgraduate-teacher-training#azure-hosting-devops-pipeline)
+- [ ] This code doesn't rely on migrations in the same Pull Request
+- [ ] API release notes have been updated if necessary
+- [ ] New environment variables have been [added to the Azure config](https://github.com/DFE-Digital/apply-for-postgraduate-teacher-training#azure-hosting-devops-pipeline)
