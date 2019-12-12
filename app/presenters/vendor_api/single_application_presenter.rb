@@ -39,7 +39,7 @@ module VendorApi
             country: application_form.country,
             email: application_form.candidate.email_address,
           },
-          course: course,
+          course: course_info_for(application_choice.course_option),
           references: references,
           qualifications: qualifications,
           work_experience: {
@@ -87,13 +87,13 @@ module VendorApi
       ].map { |n| NATIONALITIES_BY_NAME[n] }.compact
     end
 
-    def course
+    def course_info_for(course_option)
       {
-        recruitment_cycle_year: application_choice.course.recruitment_cycle_year,
-        provider_code: application_choice.provider.code,
-        site_code: application_choice.site.code,
-        course_code: application_choice.course.code,
-        study_mode: application_choice.course_option.study_mode,
+        recruitment_cycle_year: course_option.course.recruitment_cycle_year,
+        provider_code: course_option.course.provider.code,
+        site_code: course_option.site.code,
+        course_code: course_option.course.code,
+        study_mode: course_option.course.study_mode,
       }
     end
 
@@ -180,11 +180,7 @@ module VendorApi
       return {} if offered_option.nil?
 
       {
-        course: {
-           provider_code: offered_option.course.provider.code,
-           course_code: offered_option.course.code,
-           site_code: offered_option.site.code,
-        },
+        course: course_info_for(offered_option),
       }
     end
 
