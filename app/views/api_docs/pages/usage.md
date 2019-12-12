@@ -1,7 +1,4 @@
-The scenarios on this page show example request URLs and payloads clients can
-use to take actions via this API. The examples are only concerned with business
-logic and are missing details necessary for real-world usage. For example,
-authentication is completely left out.
+The scenarios on this page show example request URLs and payloads clients can use to take actions via this API. The examples are only concerned with business logic and are missing details necessary for real-world usage. For example, authentication is completely left out.
 
 At the beginning of each scenario, a candidate has completed an application for initial teacher training via the Apply service and that application is available via the API.
 
@@ -14,8 +11,7 @@ GET /applications?since=2018-10-01T10:00:00Z&provider_code=2FR
 This returns a list of
 [Application](/api-docs/reference/#application-object)s.
 
-The following examples all refer to a single application id, `11fc0d3b2f`, which
-we assume belongs to one of the applications in that list.
+The following examples all refer to a single application id, `11fc0d3b2f`, which we assume belongs to one of the applications in that list.
 
 ## A successful application
 

@@ -20,7 +20,7 @@ Removed attributes:
 Changes to the docs:
 
 - We’ve added more examples and descriptions to the attributes
-- Move the documentation to https://www.apply-for-teacher-training.education.gov.uk/api-docs
+- Move the documentation to <https://www.apply-for-teacher-training.education.gov.uk/api-docs>
 
 New attributes:
 
