@@ -7,7 +7,7 @@
     <tr class='govuk-table__row'>
       <th scope='col' class='govuk-table__header'>Course</th>
       <th scope='col' class='govuk-table__header'>Level</th>
-      <th scope='col' class='govuk-table__header'>Start date</th>
+      <th scope='col' class='govuk-table__header'>Recruitment Cycle</th>
       <th scope='col' class='govuk-table__header'>Apply from Find</th>
       <th scope='col' class='govuk-table__header'>Page on Find</th>
     </tr>
@@ -18,7 +18,7 @@
       <tr class='govuk-table__row'>
         <td class='govuk-table__cell'><%= govuk_link_to course.name_and_code, support_interface_course_path(course) %></td>
         <td class='govuk-table__cell'><%= course.level %></td>
-        <td class='govuk-table__cell'><%= course.start_date %></td>
+        <td class='govuk-table__cell'><%= course.recruitment_cycle_year %></td>
         <td class='govuk-table__cell'>
           <% if course.open_on_apply? %>
             <%= govuk_link_to 'Apply from Find (Apply & UCAS)', candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code) %>

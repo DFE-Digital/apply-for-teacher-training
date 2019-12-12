@@ -46,7 +46,6 @@ module FindAPIHelper
                 'course_code': course_code,
                 'name': 'Primary',
                 'level': 'primary',
-                'start_date': 'September 2020',
                 'recruitment_cycle_year': '2020',
                 'findable?': findable,
                 'accrediting_provider': nil,
@@ -112,7 +111,6 @@ module FindAPIHelper
                 'course_code': course_code,
                 'name': 'Primary',
                 'level': 'primary',
-                'start_date': 'September 2020',
                 'recruitment_cycle_year': '2020',
                 'findable?': findable,
                 'accrediting_provider': {

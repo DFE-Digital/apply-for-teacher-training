@@ -29,7 +29,6 @@ class SyncProviderFromFind
     course = provider.courses.find_or_create_by(code: find_course.course_code)
     course.name = find_course.name
     course.level = find_course.level
-    course.start_date = Date.parse(find_course.start_date)
     course.recruitment_cycle_year = find_course.recruitment_cycle_year
     course.exposed_in_find = find_course.findable?
     if find_course[:accrediting_provider].present?
