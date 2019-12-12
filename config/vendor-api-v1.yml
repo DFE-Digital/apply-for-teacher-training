@@ -286,6 +286,7 @@ components:
       additionalProperties: false
       required:
         - candidate
+        - phase
         - contact_details
         - course
         - offer
@@ -315,6 +316,17 @@ components:
             - declined
             - withdrawn
           example: application_complete
+        phase:
+          type: string
+          description: |
+            The phase of this application. In the first phase, "Apply 1", the
+            candidate can choose up to 3 courses. If all of those choices are rejected,
+            declined, or withdrawn, the user can go into "Apply 2". This means
+            they can choose 1 course at a time. 
+          enum:
+            - apply_1
+            - apply_2
+          example: apply_1
         submitted_at:
           type: string
           format: date-time

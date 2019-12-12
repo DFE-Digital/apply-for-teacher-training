@@ -160,6 +160,7 @@ RSpec.feature 'Vendor receives the application' do
         ],
         rejection: nil,
         status: 'awaiting_provider_decision',
+        phase: 'apply_1',
         submitted_at: @application.submitted_at.iso8601,
         updated_at: @application.application_choices.first.updated_at.iso8601,
         withdrawal: nil,

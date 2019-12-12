@@ -11,6 +11,7 @@ module VendorApi
         type: 'application',
         attributes: {
           status: application_choice.status,
+          phase: application_form.phase,
           updated_at: application_choice.updated_at.iso8601,
           submitted_at: application_form.submitted_at.iso8601,
           personal_statement: personal_statement,
