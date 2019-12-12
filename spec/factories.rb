@@ -136,6 +136,7 @@ FactoryBot.define do
     name { Faker::Educator.subject }
     level { 'primary' }
     start_date { Date.new(2020, 9, 1) }
+    recruitment_cycle_year { 2020 }
   end
 
   factory :provider do

@@ -74,6 +74,7 @@ RSpec.feature 'Vendor receives the application' do
         },
         course: {
           start_date: '2020-09-01', # TODO: Necessary?
+          recruitment_cycle_year: 2020,
           provider_code: '1N1',
           site_code: '-',
           course_code: '2XT2',
