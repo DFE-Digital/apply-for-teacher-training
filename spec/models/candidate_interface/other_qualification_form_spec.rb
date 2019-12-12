@@ -82,7 +82,6 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
 
       expect(qualifications).to include(
         have_attributes(
-          id: 1,
           qualification_type: 'BTEC',
           subject: 'Being a Superhero',
           institution_name: 'School of Heroes',
