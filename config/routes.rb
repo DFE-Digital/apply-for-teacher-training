@@ -257,6 +257,8 @@ Rails.application.routes.draw do
 
     get '/applications' => 'application_forms#index'
     get '/applications/:application_form_id' => 'application_forms#show', as: :application_form
+    post '/applications/:application_form_id/hide' => 'application_forms#hide_in_reporting', as: :hide_candidate
+    post '/applications/:application_form_id/show' => 'application_forms#show_in_reporting', as: :show_candidate
     get '/applications/:application_form_id/audit' => 'application_forms#audit', as: :application_form_audit
     get '/applications/:application_form_id/comments/new' => 'application_forms/comments#new', as: :application_form_new_comment
     post '/applications/:application_form_id/comments' => 'application_forms/comments#create', as: :application_form_comments

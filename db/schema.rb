@@ -142,6 +142,7 @@ ActiveRecord::Schema.define(version: 2019_12_12_114235) do
     t.datetime "updated_at", null: false
     t.string "magic_link_token"
     t.datetime "magic_link_token_sent_at"
+    t.boolean "hide_in_reporting", default: false, null: false
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true
     t.index ["magic_link_token"], name: "index_candidates_on_magic_link_token", unique: true
   end

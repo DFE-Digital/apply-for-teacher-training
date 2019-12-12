@@ -1,10 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe PerformanceStatistics, type: :model do
-  it 'excludes candidates with DfE addresses (as they are unlikely to be actually applying)' do
-    create(:candidate, email_address: 'ab@c.com')
-    create(:candidate, email_address: 'a.person@education.gov.uk')
-    create(:candidate, email_address: 'another.person@digitial.education.gov.uk')
+  it 'excludes candidates marked as hidden from reporting' do
+    create(:candidate, hide_in_reporting: true)
+    create(:candidate, hide_in_reporting: false)
 
     stats = PerformanceStatistics.new
 
