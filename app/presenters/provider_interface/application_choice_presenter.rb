@@ -39,12 +39,12 @@ module ProviderInterface
       application_choice.course.name_and_code
     end
 
-    def course_start_date
-      application_choice.course.start_date
-    end
-
     def course_preferred_location
       application_choice.course.course_options.first.site.name
+    end
+
+    def recruitment_cycle_year
+      application_choice.course.recruitment_cycle_year
     end
 
     def updated_at

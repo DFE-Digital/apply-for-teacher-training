@@ -497,17 +497,16 @@ components:
       type: object
       additionalProperties: false
       required:
-        - start_date
+        - recruitment_cycle_year
         - provider_code
         - course_code
         - site_code
         - study_mode
       properties:
-        start_date:
-          type: string
-          format: date
-          description: The course’s start date
-          example: "2020-09-10"
+        recruitment_cycle_year:
+          type: integer
+          description: The course’s recruitment cycle year
+          example: 2020
         provider_code:
           type: string
           description: The provider’s code
