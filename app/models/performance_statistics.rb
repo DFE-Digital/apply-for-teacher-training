@@ -10,7 +10,7 @@ class PerformanceStatistics
       LEFT JOIN
           application_forms f ON f.candidate_id = c.id
       WHERE
-          c.email_address NOT LIKE '%education.gov.uk%'
+          NOT c.hide_in_reporting
       GROUP BY
           c.id
   )
