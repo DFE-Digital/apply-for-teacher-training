@@ -11,9 +11,9 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
       and_i_have_a_dfe_sign_in_account
 
       when_i_visit_the_provider_interface
-      expect {
-        and_i_sign_in_via_dfe_sign_in
-      }.to raise_error 'Tried to load provider permissions from database, but that feature isn’t implemented yet'
+      and_i_sign_in_via_dfe_sign_in
+
+      then_i_should_see_my_email_address
     end
   end
 
@@ -33,11 +33,11 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
   end
 
   def given_i_am_registered_as_a_provider_user
-    provider_user_exists_in_apply_database
+    create(:provider_user, email_address: 'provider@example.com', dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
   end
 
   def and_i_have_a_dfe_sign_in_account
-    provider_exists_in_dfe_sign_in(email_address: 'user@provider.com')
+    provider_exists_in_dfe_sign_in(email_address: 'provider@example.com', dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
   end
 
   alias :given_i_have_a_dfe_sign_in_account :and_i_have_a_dfe_sign_in_account
@@ -53,8 +53,10 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
   def then_i_should_be_redirected_to_the_provider_dashboard; end
 
   def and_i_should_see_my_email_address
-    expect(page).to have_content('user@provider.com')
+    expect(page).to have_content('provider@example.com')
   end
+
+  alias :then_i_should_see_my_email_address :and_i_should_see_my_email_address
 
   def when_i_click_sign_out
     click_link 'Sign out'

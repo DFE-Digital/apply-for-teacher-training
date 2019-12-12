@@ -12,7 +12,8 @@ RSpec.describe 'Provider interface - audit trail', type: :request, with_audited:
     provider_code = application_choice.course.provider.code
     allow(ProviderUser).to receive(:load_from_session)
       .and_return(
-        ProviderUser.new(
+        # TODO User a proper ProviderUser when we've switched over
+        LegacyProviderUser.new(
           email_address: 'alice@example.com',
           dfe_sign_in_uid: provider_code,
         ),
