@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'See applications' do
+RSpec.feature 'See applications for accrediting provider' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
