@@ -36,8 +36,9 @@ RSpec.describe ApplicationQualification, type: :model do
       application_form = create :application_form
       application_qualification = create :application_qualification, application_form: application_form
       expect(application_qualification.audits.count).to eq 1
-      application_qualification.update!(subject: 'Rocket Surgery')
-      expect(application_qualification.audits.count).to eq 2
+      expect {
+        application_qualification.update!(subject: 'Rocket Surgery')
+      }.to change { application_qualification.audits.count }.by(1)
     end
 
     it 'creates an associated object in each audit record' do
