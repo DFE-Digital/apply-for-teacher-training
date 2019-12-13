@@ -29,4 +29,9 @@ class Reference < ApplicationRecord
 
     errors.add(:email_address, :own) if email_address == candidate_email_address
   end
+
+  def update_token
+    raw_token, _encrypted_token = Devise.token_generator.generate(Reference, :token)
+    update(token: raw_token)
+  end
 end

@@ -24,25 +24,28 @@ RSpec.describe RefereeMailer, type: :mailer do
     let(:candidate_name) { "#{application_form.first_name} #{application_form.last_name}" }
     let(:mail) { mailer.reference_request_email(application_form, reference) }
 
-    before { mail.deliver_now }
+    before do
+      FeatureFlag.activate('reference_form')
+      mail.deliver_now
+    end
 
     it 'sends an email with the correct subject' do
       expect(mail.subject).to include(t('reference_request.subject.initial', candidate_name: candidate_name))
     end
 
     it 'sends an email with the correct heading' do
-      expect(mail.body.encoded).to include("Give a reference for #{candidate_name}")
+      expect(mail.body.encoded).to include("Dear #{reference.name}")
     end
 
-    it 'sends an email with the correct courses listed' do
-      expect(mail.body.encoded).to include("#{first_application_choice.provider.name} - #{first_application_choice.course.name}")
-      expect(mail.body.encoded).to include("#{second_application_choice.provider.name} - #{second_application_choice.course.name}")
-      expect(mail.body.encoded).to include("#{third_application_choice.provider.name} - #{third_application_choice.course.name}")
-    end
+    # it 'sends an email with the correct courses listed' do
+    #   expect(mail.body.encoded).to include("#{first_application_choice.provider.name} - #{first_application_choice.course.name}")
+    #   expect(mail.body.encoded).to include("#{second_application_choice.provider.name} - #{second_application_choice.course.name}")
+    #   expect(mail.body.encoded).to include("#{third_application_choice.provider.name} - #{third_application_choice.course.name}")
+    # end
 
     it 'sends an email with a link to the reference page' do
       body = mail.body.encoded
-      expect(body).to include(candidate_interface_reference_comments_url(token: '1234567890'))
+      expect(body).to include(referee_interface_reference_comments_url(token: reference.token))
     end
   end
 

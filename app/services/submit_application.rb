@@ -21,7 +21,9 @@ class SubmitApplication
 private
 
   def send_reference_request_email_to_referees(application_form)
-    application_form.references.each do |reference|
+    application_form.references.includes(:application_form).each do |reference|
+      reference.update_token
+
       RefereeMailer.reference_request_email(application_form, reference).deliver_later
     end
   end
@@ -30,11 +32,6 @@ private
     application_choices.each do |application_choice|
       application_choice.edit_by = ApplicationDates.new(application_form).edit_by
       ApplicationStateChange.new(application_choice).submit!
-    end
-
-    application_form.references.includes(:application_form).each do |ref|
-      raw_token, _encrypted_token = Devise.token_generator.generate(Reference, :token)
-      ref.update(token: raw_token)
     end
   end
 end

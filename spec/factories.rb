@@ -191,6 +191,7 @@ FactoryBot.define do
     email_address { "#{SecureRandom.hex(5)}@example.com" }
     name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
     relationship { Faker::Lorem.paragraph(sentence_count: 3) }
+    token { SecureRandom.hex(8) }
 
     trait :unsubmitted do
       feedback { nil }

@@ -5,6 +5,7 @@ RSpec.feature 'Referee submits a reference for a candidate', sidekiq: true do
 
   scenario 'Candidate with a completed application' do
     FeatureFlag.activate('training_with_a_disability')
+    FeatureFlag.activate('reference_form')
 
     given_a_candidate_completed_an_application
     when_the_candidate_submits_the_application

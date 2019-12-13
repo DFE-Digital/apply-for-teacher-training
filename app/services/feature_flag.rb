@@ -5,6 +5,7 @@ class FeatureFlag
     conditional_science_gcse
     candidate_withdrawals
     training_with_a_disability
+    reference_form
   ].freeze
 
   def self.activate(feature_name)

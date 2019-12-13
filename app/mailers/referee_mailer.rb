@@ -4,14 +4,19 @@ class RefereeMailer < ApplicationMailer
     @reference = reference
     @candidate_name = "#{application_form.first_name} #{application_form.last_name}"
 
-    @reference_link = referee_interface_reference_comments_url(token: reference.token)
-
-    # TODO: add feature flag to switch between reference_link and google_form_link
-    # google_form_url_for(@candidate_name, @reference)
+    if FeatureFlag.active?('reference_form')
+      # reference.token.nil? ? reference.token = '1234567890' : reference.token
+      @reference_link = referee_interface_reference_comments_url(token: reference.token)
+      template_name = :reference_request_email
+    else
+      @reference_link = google_form_url_for(@candidate_name, @reference)
+      template_name = :reference_request_by_google_form_email
+    end
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: reference.email_address,
-              subject: t('reference_request.subject.initial', candidate_name: @candidate_name))
+              subject: t('reference_request.subject.initial', candidate_name: @candidate_name),
+              template_name: template_name)
   end
 
   def reference_request_chaser_email(application_form, reference)
