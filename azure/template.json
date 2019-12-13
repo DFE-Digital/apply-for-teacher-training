@@ -492,6 +492,9 @@
                     "customHostName": {
                         "value": "[parameters('customHostName')]"
                     },
+                    "certificateThumbprint": {
+                        "value": "[if(greater(length(parameters('customHostName')), 0), reference('app-service-certificate', '2018-11-01').outputs.certificateThumbprint.value, '')]"
+                    },
                     "containerInstanceNamePrefix": {
                         "value": "[parameters('containerInstanceNamePrefix')]"
                     },

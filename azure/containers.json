@@ -58,8 +58,16 @@
         },
         "customHostName": {
             "type": "string",
+            "defaultValue": "",
             "metadata": {
                 "description": "The top level common domain for the service, e.g. apply-for-teacher-training.education.gov.uk."
+            }
+        },
+        "certificateThumbprint": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "SSL certificate thumbprint value."
             }
         },
         "containerInstanceNamePrefix": {
@@ -117,7 +125,7 @@
                         "value": "[parameters('customHostName')]"
                     },
                     "certificateThumbprint": {
-                        "value": "[if(greater(length(parameters('customHostName')), 0), reference('app-service-certificate', '2018-11-01').outputs.certificateThumbprint.value, '')]"
+                        "value": "[parameters('certificateThumbprint')]"
                     },
                     "runtimeStack": {
                         "value": "[variables('appServiceRuntimeStack')]"
