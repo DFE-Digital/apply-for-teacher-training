@@ -22,8 +22,8 @@ Removed attributes:
 
 Changes to the docs:
 
-- We've added more examples and descriptions to the attributes
-- Move the documentation to https://www.apply-for-teacher-training.education.gov.uk/api-docs
+- We’ve added more examples and descriptions to the attributes
+- Move the documentation to <https://www.apply-for-teacher-training.education.gov.uk/api-docs>
 
 New attributes:
 
@@ -33,12 +33,12 @@ New attributes:
 Removed attributes:
 
 - Referee `phone_number` and `confirms_safe_to_work_with_children` have been removed
-- We've removed the `date` from `Rejection` object
+- We’ve removed the `date` from `Rejection` object
 
 Updated attributes:
 
 - Updated the application `status` enum to contain all statuses that could appear
-- We've renamed `provider_ucas_code` to `provider_code`, `course_ucas_code` to `course_code` and `site_ucas_code` to `site_code`. The `site_code` will also be able to have more characters.
+- We’ve renamed `provider_ucas_code` to `provider_code`, `course_ucas_code` to `course_code` and `site_ucas_code` to `site_code`. The `site_code` will also be able to have more characters.
 
 ### Alpha release - 29 October 2019
 
@@ -156,8 +156,8 @@ Changes to the data:
 - Update Contact Details resource to split address into separate fields
 - Applications now have a 10 character identifier
 - The `course` attribute of an application now refers to a single course instead of multiple
-- References have a "content" attribute containing the referee's contribution
-- Qualifications have an "equivalency_details" attribute for overseas awards
+- References have a `content` attribute containing the referee’s contribution
+- Qualifications have an `equivalency_details` attribute for overseas awards
 - Withdrawals and Rejections now have timestamps instead of dates
 - Withdrawal reason has become optional
 
@@ -165,7 +165,7 @@ Additional changes:
 
 - Clarify that strings have a 255 character limit, unless otherwise specified
 - Clarify that only candidates can withdraw an application
-- Clarify that we're using [ISO 3166 for country codes](/api-docs/#codes-and-reference-data), not ISO 3611
+- Clarify that we’re using [ISO 3166 for country codes](/api-docs/#codes-and-reference-data), not ISO 3611
 - Clarify how to make an unconditional and conditional offer
 - Clarify that offer conditions are optional
 

@@ -1,26 +1,26 @@
-<h1 class='govuk-heading-xl'><%= t('page_titles.api_docs.reference') %></h1>
+<h1 class="govuk-heading-xl"><%= t('page_titles.api_docs.reference') %></h1>
 
-<h2 class='app-contents-list__title'>Contents</h2>
+<h2 class="app-contents-list__title">Contents</h2>
 
-<ol class='app-contents-list__list'>
-  <li class='app-contents-list__list-item app-contents-list__list-item--parent'><%= govuk_link_to 'Developing on the API', '#developing', class: 'app-contents-list__link' %></li>
-  <li class='app-contents-list__list-item app-contents-list__list-item--parent'>
+<ol class="app-contents-list__list">
+  <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'Developing on the API', '#developing', class: 'app-contents-list__link' %></li>
+  <li class="app-contents-list__list-item app-contents-list__list-item--parent">
     <%= govuk_link_to 'Endpoints', '#endpoints', class: 'app-contents-list__link' %>
 
-    <ol class='app-contents-list__nested-list'>
+    <ol class="app-contents-list__nested-list">
     <% @api_reference.operations.each do |operation| %>
-      <li class='app-contents-list__list-item app-contents-list__list-item--dashed'>
+      <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
         <%= govuk_link_to operation.name, "##{operation.anchor}", class: 'app-contents-list__link' %>
       </li>
     <% end %>
     </ol>
   </li>
-  <li class='app-contents-list__list-item app-contents-list__list-item--parent'>
+  <li class="app-contents-list__list-item app-contents-list__list-item--parent">
     <%= govuk_link_to 'Objects', '#objects', class: 'app-contents-list__link' %>
 
-    <ol class='app-contents-list__nested-list'>
+    <ol class="app-contents-list__nested-list">
       <% @api_reference.schemas.each do |schema| %>
-        <li class='app-contents-list__list-item app-contents-list__list-item--dashed'>
+        <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
           <%= govuk_link_to schema.name, "##{schema.anchor}", class: 'app-contents-list__link' %>
         </li>
       <% end %>
@@ -28,87 +28,87 @@
   </li>
 </ol>
 
-<hr class='govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6'>
+<hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
 
-<h2 class='govuk-heading-l' id='developing'>Developing on the API</h2>
+<h2 class="govuk-heading-l" id="developing">Developing on the API</h2>
 
-<p class='govuk-body'>
+<p class="govuk-body">
   The OpenAPI spec from which this documentation is generated is <%= govuk_link_to 'available in YAML format', api_docs_spec_url %>.
 </p>
 
-<h3 class='govuk-heading-m'>Environments</h3>
+<h3 class="govuk-heading-m">Environments</h3>
 
-<p class='govuk-body'>
+<p class="govuk-body">
   We have a production environment and a sandbox environment.
 </p>
 
-<p class='govuk-body'>
+<p class="govuk-body">
   The <strong>Vendor sandbox</strong> is for testing your integration. When we
-  set you up with an API key, we'll create a test provider as well. You can
+  set you up with an API key, we’ll create a test provider as well. You can
   generate test applications in this test provider using the
   <%= govuk_link_to 'test data endpoint', '#post-test-data-regenerate' %>.
 </p>
 
-<p class='govuk-body'>
+<p class="govuk-body">
   <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.education.gov.uk/api/v1', 'https://sandbox.apply-for-teacher-training.education.gov.uk/api/v1' %>
 </p>
 
-<p class='govuk-body'>
+<p class="govuk-body">
   The <strong>Production</strong> environment is the real environment. Do not
   perform testing here.
 </p>
 
-<p class='govuk-body'>
+<p class="govuk-body">
   <%= govuk_link_to 'https://www.apply-for-teacher-training.education.gov.uk/api/v1', 'https://www.apply-for-teacher-training.education.gov.uk/api/v1' %>
 </p>
 
-<h3 class='govuk-heading-m'>Rate limits</h3>
+<h3 class="govuk-heading-m">Rate limits</h3>
 
-<p class='govuk-body'>
+<p class="govuk-body">
   You are limited to 120 requests per minute.
 </p>
 
-<p class='govuk-body'>
+<p class="govuk-body">
   This limit is calculated on a rolling basis, per API key.
   If you exceed the limit, you will see <code>429</code> HTTP status codes.
 </p>
 
-<h3 class='govuk-heading-m'>Authentication</h3>
+<h3 class="govuk-heading-m">Authentication</h3>
 
-<p class='govuk-body'>
+<p class="govuk-body">
   All requests must be accompanied by an <code>Authorization</code> request header (not as part of the URL) in the following format:
 </p>
 
-<p class='govuk-body'>
+<p class="govuk-body">
   <pre><code>
     Authorization: Bearer {token}
   </code></pre>
 </p>
 
-<p class='govuk-body'>
+<p class="govuk-body">
   Unauthenticated requests will receive an <%= govuk_link_to 'UnauthorizedResponse', '#unauthorizedresponse-object' %>
   with a <code>401</code> status code.
 </p>
 
-<h3 class='govuk-heading-m'>Metadata</h3>
+<h3 class="govuk-heading-m">Metadata</h3>
 
-<p class='govuk-body'>
+<p class="govuk-body">
   Every API call on POST or PUT methods must include a <code>meta</code> key in the JSON body, containing the timestamp and some attribution
   metadata showing who performed the action.
 </p>
 
-<p class='govuk-body'>
+<p class="govuk-body">
   The schema for this metadata object can be found under <%= link_to 'MetaData', '#metadata-object' %>, below. If this data is not
   present the API will return <code>422</code> with an appropriate error message.
 </p>
 
-<h2 class='govuk-heading-l' id='endpoints'>Endpoints</h2>
+<h2 class="govuk-heading-l" id="endpoints">Endpoints</h2>
 
 <% @api_reference.operations.each do |operation| %>
   <%= render 'operation', operation: operation %>
 <% end %>
 
-<h2 class='govuk-heading-l' id='objects'>Objects</h2>
+<h2 class="govuk-heading-l" id="objects">Objects</h2>
 
 <% @api_reference.schemas.each do |schema| %>
   <%= render 'schema', schema: schema %>

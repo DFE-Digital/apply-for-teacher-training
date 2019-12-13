@@ -1,18 +1,14 @@
-This is API documentation for the Department for Education (DfE)’s new "Apply for teacher training" service.
+This is API documentation for the Department for Education (DfE)’s new Apply for teacher training service.
 
-Apply will replace the online UCAS application form for postgraduate
-teacher training. All vendors of student record systems (SRS) and some
-training providers will need to make changes to integrate with Apply.
+Apply will replace the online UCAS application form for postgraduate teacher training. All vendors of student record systems (SRS) and some training providers will need to make changes to integrate with Apply.
 
 The API is a work in progress. We are publishing draft documentation so that:
 
-- providers and vendors have all the information they need to plan a transition to the new service
-- the Apply team can better understand providers’ and vendors’ needs for the API
+- providers and vendors have all the information they need to plan a transition to the new service - the Apply team can better understand providers’ and vendors’ needs for the API
 
 ## What this API is for
 
-Once a candidate has submitted their application via the Apply service, the
-application will become available over the API.
+Once a candidate has submitted their application via the Apply service, the application will become available over the API.
 
 Providers can then use the API for:
 
@@ -39,26 +35,11 @@ Codes appear in three contexts:
 
 ### Authentication and authorisation
 
-The data held by the Apply service is confidential and only available
-to candidates themselves and staff from the training provider to
-which applications are made. Therefore authentication will be required
-for all API interactions.
+The data held by the Apply service is confidential and only available to candidates themselves and staff from the training provider to which applications are made. Therefore authentication will be required for all API interactions.
 
-To set up an authenticated connection between the student record
-system and DfE Apply, users will need to provide an API key to
-the SRS. To get an API key, the user will need to sign in to the DfE
-Apply web interface using DfE Sign-in, the Single Sign-on provider
-used on the existing _Publish teacher training courses_ service, part
-of [Find postgraduate teacher training](https://find-postgraduate-teacher-training.education.gov.uk). For each
-provider supported by your SRS, one user needs to generate this
-key. It is up to SRS vendors to provide a way for users to add the API
-key to their SRS system.
+To set up an authenticated connection between the student record system and DfE Apply, users will need to provide an API key to the SRS. To get an API key, the user will need to sign in to the DfE Apply web interface using DfE Sign-in, the Single Sign-on provider used on the existing _Publish teacher training courses_ service, part of [Find postgraduate teacher training](https://find-postgraduate-teacher-training.education.gov.uk). For each provider supported by your SRS, one user needs to generate this key. It is up to SRS vendors to provide a way for users to add the API key to their SRS system.
 
-The API key will expire after 6 months. One month in advance of
-expiry, DfE Apply will email the user who generated the key so that
-they know to come back and generate a new one. To prevent a hard
-cut-over between keys, once a new key is created the old key will
-continue to work until it expires.
+The API key will expire after 6 months. One month in advance of expiry, DfE Apply will email the user who generated the key so that they know to come back and generate a new one. To prevent a hard cut-over between keys, once a new key is created the old key will continue to work until it expires.
 
 ### Versioning
 
@@ -72,16 +53,14 @@ We, however, only support one version back, so if the **v3** is published, the *
 
 When non-breaking changes are made to the API, this will not result in a version bump. An example of a non-breaking change could be the introduction of a new field without removing an existing field.
 
-Information about deprecations (for instance attributes/endpoints that will be modified/removed) will be included in the API response through a "Warning" header.
+Information about deprecations (for instance attributes/endpoints that will be modified/removed) will be included in the API response through a ‘Warning’ header.
 
 We will update our [release notes](/api-docs/release-notes) with all breaking and non-breaking changes.
 
 ## Application Lifecycle
 
-The following diagram gives an overview of the states in the application
-lifecycle:
+The following diagram gives an overview of the states in the application lifecycle:
 
 ![Application lifecycle](/api_docs/states.png)
 
-Note that applications are visible to providers only after they reach
-the `awaiting_provider_decision` state.
+Note that applications are visible to providers only after they reach the `awaiting_provider_decision` state.

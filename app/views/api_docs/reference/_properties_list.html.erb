@@ -1,11 +1,11 @@
-<dl class='govuk-summary-list'>
+<dl class="govuk-summary-list">
   <% properties.each do |property| %>
-    <div class='govuk-summary-list__row'>
-      <dt class='govuk-summary-list__key'>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
         <code><%= property.name %></code>
       </dt>
-      <dd class='govuk-summary-list__value'>
-        <div class='app-data-type'>
+      <dd class="govuk-summary-list__value">
+        <div class="app-data-type">
           <% if !property.object_schema_name %>
             <%= property.type %>
             <% if property.type == 'string' && property.attributes.max_length.present? %>
@@ -21,23 +21,23 @@
         </div>
 
         <% if property.attributes.description %>
-          <div class='app-styled-content govuk-!-margin-top-4'>
+          <div class="app-styled-content govuk-!-margin-top-4">
             <%= markdown_to_html property.attributes.description %>
           </div>
         <% end %>
 
         <% if property.example %>
-          <p class='govuk-body'>
+          <p class="govuk-body">
             Example: <code><%= property.example.is_a?(Array) ? json_code_sample(property.example) : property.example.inspect %></code>
           </p>
         <% end %>
 
         <% if property.enum %>
-          <p class='govuk-body'>
+          <p class="govuk-body">
             Possible values:
           </p>
 
-          <ul class='govuk-list govuk-list--bullet'>
+          <ul class="govuk-list govuk-list--bullet">
             <% property.enum.each do |item| %>
               <li><code><%= item.inspect %></code></li>
             <% end %>
