@@ -52,6 +52,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         },
       }
 
+      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [],
         'course' => {
