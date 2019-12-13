@@ -45,9 +45,11 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         'data' => {
           'conditions' => [],
           'course' => {
+            'recruitment_cycle_year' => other_course_option.course.recruitment_cycle_year,
             'provider_code' => other_course_option.course.provider.code,
             'course_code' => other_course_option.course.code,
             'site_code' => other_course_option.site.code,
+            'study_mode' => other_course_option.course.study_mode,
           },
         },
       }
@@ -60,7 +62,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
           'provider_code' => other_course_option.course.provider.code,
           'course_code' => other_course_option.course.code,
           'site_code' => other_course_option.site.code,
-          'study_mode' => 'full_time',
+          'study_mode' => other_course_option.course.study_mode,
         },
       )
     end
@@ -76,9 +78,11 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         'data' => {
           'conditions' => [],
           'course' => {
+            'recruitment_cycle_year' => other_course_option.course.recruitment_cycle_year,
             'provider_code' => other_course_option.course.provider.code,
             'course_code' => other_course_option.course.code,
             'site_code' => other_course_option.site.code,
+            'study_mode' => other_course_option.course.study_mode,
           },
         },
       }
@@ -86,6 +90,29 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       expect(response).to have_http_status(422)
       expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
       expect(error_response['message']).to match 'Offered course does not belong to provider'
+    end
+
+    it 'returns an error when specifying a course that does not exist' do
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'awaiting_provider_decision',
+      )
+
+      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+        'data' => {
+          'conditions' => [],
+          'course' => {
+            'recruitment_cycle_year' => 2030,
+            'provider_code' => 'ABC',
+            'course_code' => 'X100',
+            'site_code' => 'E',
+            'study_mode' => 'full_time',
+          },
+        },
+      }
+
+      expect(response).to have_http_status(422)
+      expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+      expect(error_response['message']).to match 'Offered course provider ABC does not exist'
     end
   end
 
