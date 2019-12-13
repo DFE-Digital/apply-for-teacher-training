@@ -195,7 +195,7 @@ module FindAPIHelper
               'name': 'Primary',
               'level': 'primary',
               'study_mode': study_mode,
-              'start_date': 'September 2019',
+              'recruitment_cycle_year': '2020',
               'findable?': findable,
               'accrediting_provider': nil,
             },
