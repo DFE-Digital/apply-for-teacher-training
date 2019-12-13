@@ -30,4 +30,20 @@ RSpec.describe ApplicationQualification, type: :model do
         .to raise_error ArgumentError, "'invalid_level' is not a valid level"
     end
   end
+
+  describe 'auditing', with_audited: true do
+    it 'creates audit entries' do
+      application_form = create :application_form
+      application_qualification = create :application_qualification, application_form: application_form
+      expect(application_qualification.audits.count).to eq 1
+      application_qualification.update!(subject: 'Rocket Surgery')
+      expect(application_qualification.audits.count).to eq 2
+    end
+
+    it 'creates an associated object in each audit record' do
+      application_form = create :application_form
+      application_qualification = create :application_qualification, application_form: application_form
+      expect(application_qualification.audits.last.associated).to eq application_qualification.application_form
+    end
+  end
 end
