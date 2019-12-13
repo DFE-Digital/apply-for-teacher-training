@@ -55,7 +55,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [],
         'course' => {
-          'start_date' => other_course_option.course.start_date.iso8601,
+          'recruitment_cycle_year' => other_course_option.course.recruitment_cycle_year,
           'provider_code' => other_course_option.course.provider.code,
           'course_code' => other_course_option.course.code,
           'site_code' => other_course_option.site.code,
