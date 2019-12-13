@@ -298,6 +298,7 @@ components:
         - status
         - submitted_at
         - updated_at
+        - reject_by_default_at
         - withdrawal
         - hesa_itt_data
         - further_information
@@ -337,6 +338,12 @@ components:
           format: date-time
           description: ISO 8601 date of last change, with time and timezone
           example: "2019-06-13T10:44:31Z"
+        reject_by_default_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: ISO 8601 date when the application is due to be rejected by default
+          example: "2019-06-13T23:59:59Z"
         personal_statement:
           type: string
           maxLength: 6144  # 600 words

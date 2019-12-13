@@ -163,6 +163,7 @@ RSpec.feature 'Vendor receives the application' do
         phase: 'apply_1',
         submitted_at: @application.submitted_at.iso8601,
         updated_at: @application.application_choices.first.updated_at.iso8601,
+        reject_by_default_at: @application.application_choices.first.reject_by_default_at.iso8601,
         withdrawal: nil,
         further_information: '',
         work_experience: {

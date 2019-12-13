@@ -9,6 +9,9 @@ New attributes:
 
 - `Course` now has a `recruitment_cycle_year` integer attribute to
     indicate which recruitment year the Course belongs to, e.g. 2020.
+- `Application` now has a `reject_by_default_at` string attribute to
+    indicate when an application is (or was) due to be rejected by
+    default, e.g. "2019-06-13T23:59:59Z"
 
 Removed attributes:
 
