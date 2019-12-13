@@ -134,6 +134,87 @@ module FindAPIHelper
       )
   end
 
+  def stub_find_api_provider_200_with_multiple_sites(provider_code: 'ABC', provider_name: 'Dummy Provider', course_code: 'X130', findable: true, study_mode: 'full_time_or_part_time')
+    response_hash = {
+      status: 200,
+      headers: { 'Content-Type': 'application/vnd.api+json' },
+      body: {
+        'data': {
+          'id': '1',
+          'type': 'providers',
+          'attributes': {
+            'provider_name': provider_name,
+            'provider_code': provider_code,
+          },
+          'relationships': {
+            'sites': {
+              'data': [
+                { 'id': '1', 'type': 'sites' },
+                { 'id': '2', 'type': 'sites' },
+              ],
+            },
+            'courses': {
+              'data': [
+                { 'id': '1', 'type': 'courses' },
+              ],
+            },
+          },
+        },
+        'included': [
+          {
+            'id': '1',
+            'type': 'sites',
+            'attributes': {
+              'code': 'X',
+              'location_name': 'Main site',
+              'address1': 'Gorse SCITT ',
+              'address2': 'C/O The Bruntcliffe Academy',
+              'address3': 'Bruntcliffe Lane',
+              'address4': 'MORLEY, Leeds',
+              'postcode': 'LS27 0LZ',
+            },
+          },
+          {
+            'id': '2',
+            'type': 'sites',
+            'attributes': {
+              'code': 'Y',
+              'location_name': 'Secondary site',
+              'address1': 'Gorse SCITT ',
+              'address2': 'C/O The Bruntcliffe Academy',
+              'address3': 'Another Lane',
+              'address4': 'MORLEY, Leeds',
+              'postcode': 'LS27 5HT',
+            },
+          },
+          {
+            'id': '1',
+            'type': 'courses',
+            'attributes': {
+              'course_code': course_code,
+              'name': 'Primary',
+              'level': 'primary',
+              'study_mode': study_mode,
+              'start_date': 'September 2019',
+              'findable?': findable,
+              'accrediting_provider': nil,
+            },
+            'relationships': {
+              'sites': {
+                'data': [
+                  { 'id': '1', 'type': 'sites' },
+                  { 'id': '2', 'type': 'sites' },
+                ],
+              },
+            },
+          },
+        ],
+        'jsonapi': { 'version': '1.0' },
+      }.to_json,
+    }
+    stub_find_api_provider(provider_code).to_return response_hash
+  end
+
 private
 
   def stub_find_api_provider(provider_code)
