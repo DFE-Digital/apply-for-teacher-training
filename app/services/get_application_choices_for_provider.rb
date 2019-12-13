@@ -4,6 +4,7 @@ class GetApplicationChoicesForProvider
 
     includes = [
       :course,
+      :course_option,
       :application_form,
       :provider,
       :site,

@@ -6,6 +6,8 @@ class CourseOption < ApplicationRecord
   validates :vacancy_status, presence: true
   validate :validate_providers
 
+  enum study_mode: %i[full_time part_time]
+
   def validate_providers
     return unless site.present? && course.present?
 
