@@ -15,6 +15,7 @@ module VendorApi
           submitted_at: application_form.submitted_at.iso8601,
           personal_statement: personal_statement,
           interview_preferences: application_form.interview_preferences,
+          reject_by_default_at: application_choice.reject_by_default_at&.iso8601,
           candidate: {
             id: "C#{application_form.candidate.id}",
             first_name: application_form.first_name,
