@@ -15,6 +15,9 @@ RSpec.feature 'Candidate account' do
 
     when_i_click_the_link_in_the_email_for(@second_email)
     then_i_am_signed_in_with(@second_email)
+
+    when_i_click_the_link_in_the_email_after_an_hour_for(@first_email)
+    then_i_am_signed_in_with(@second_email)
   end
 
   def then_i_can_sign_up_and_sign_out(email)
@@ -76,6 +79,12 @@ RSpec.feature 'Candidate account' do
 
   def when_i_click_the_link_in_the_email_for(email)
     @email_link_for[email].click
+  end
+
+  def when_i_click_the_link_in_the_email_after_an_hour_for(email)
+    Timecop.travel(Time.now + 1.hour + 1.second) do
+      @email_link_for[email].click
+    end
   end
 
   def then_i_am_signed_in_with(email)

@@ -23,10 +23,11 @@ module CandidateInterface
     end
 
     def authenticate
-      user = FindCandidateByToken.call(raw_token: params[:token])
-      if user
-        sign_in(user, scope: :candidate)
-        add_identity_to_log user.id
+      candidate = FindCandidateByToken.call(raw_token: params[:token])
+
+      if candidate
+        sign_in(candidate, scope: :candidate)
+        add_identity_to_log candidate.id
         redirect_to candidate_interface_application_form_path
       else
         redirect_to action: :new
