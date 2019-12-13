@@ -48,7 +48,7 @@
         "appServicePlanSize": {
             "type": "string",
             "metadata": {
-                "description": "The App Serivce Plan instance size."
+                "description": "The App Service Plan instance size."
             }
         },
         "appServicePlanInstances": {
@@ -332,8 +332,7 @@
     },
     "variables": {
         "deploymentUrlBase": "https://raw.githubusercontent.com/DFE-Digital/bat-platform-building-blocks/master/templates/",
-        "appServiceRuntimeStack": "[concat('DOCKER|', parameters('dockerHubUsername'), '/', parameters('containerImageReference'))]",
-        "containerImageName": "[concat(parameters('dockerHubUsername'), '/', parameters('containerImageReference'))]",
+        "deploymentUrlBaseLocal": "https://raw.githubusercontent.com/DFE-Digital/apply-for-postgraduate-teacher-training/master/azure/",
         "resourceNamePrefix": "[toLower(concat('s106', parameters('resourceEnvironmentName'),'-', parameters('serviceName')))]",
         "appServiceName": "[concat(variables('resourceNamePrefix'), '-as')]",
         "appServicePlanName": "[concat(variables('resourceNamePrefix'), '-asp')]",
@@ -353,7 +352,7 @@
                     "guid": "[guid(variables('availabilityCheckHosts')[copyIndex('availabilityTests')])]"
                 }
             }
-        ]
+	]
     },
     "resources": [
         {
@@ -453,35 +452,56 @@
             }
         },
         {
-            "name": "app-service",
+            "name": "app-service-and-containers",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2017-05-10",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('deploymentUrlBase'), 'app-service-linux.json')]",
+                    "uri": "[concat(variables('deploymentUrlBaseLocal'), 'containers.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "appServiceName": {
-                        "value": "[variables('appServiceName')]"
+                    "deploymentUrlBase": {
+                        "value": "[variables('deploymentUrlBase')]"
                     },
-                    "appServicePlanResourceGroup": {
-                        "value": "[resourceGroup().name]"
+                    "serviceName": {
+                        "value": "[parameters('serviceName')]"
                     },
-                    "appServicePlanName": {
-                        "value": "[variables('appServicePlanName')]"
+                    "dockerHubUsername": {
+                        "value": "[parameters('dockerHubUsername')]"
+                    },
+                    "containerImageReference": {
+                        "value": "[parameters('containerImageReference')]"
+                    },
+                    "ciClockCpus": {
+                        "value": "[parameters('ciWorkerCpus')]"
+                    },
+                    "ciClockMemory": {
+                        "value": "[parameters('ciWorkerMemory')]"
+                    },
+                    "ciWorkerCpus": {
+                        "value": "[parameters('ciClockCpus')]"
+                    },
+                    "ciWorkerMemory": {
+                        "value": "[parameters('ciClockMemory')]"
+                    },
+                    "authorisedHosts": {
+                        "value": "[variables('rubyAuthHosts')]"
                     },
                     "customHostName": {
                         "value": "[parameters('customHostName')]"
                     },
-                    "certificateThumbprint": {
-                        "value": "[if(greater(length(parameters('customHostName')), 0), reference('app-service-certificate', '2018-11-01').outputs.certificateThumbprint.value, '')]"
+                    "containerInstanceNamePrefix": {
+                        "value": "[parameters('containerInstanceNamePrefix')]"
                     },
-                    "runtimeStack": {
-                        "value": "[variables('appServiceRuntimeStack')]"
+                    "appServiceName": {
+                        "value": "[variables('appServiceName')]"
                     },
-                    "appServiceAppSettings": {
+                    "appServicePlanName": {
+                        "value": "[variables('appServicePlanName')]"
+                    },
+                    "appEnvironmentVariables": {
                         "value": [
                             {
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
@@ -501,7 +521,7 @@
                             },
                             {
                                 "name": "DB_PASSWORD",
-                                "value": "[parameters('databasePassword')]"
+                                "secureValue": "[parameters('databasePassword')]"
                             },
                             {
                                 "name": "DB_DATABASE",
@@ -509,7 +529,7 @@
                             },
                             {
                                 "name": "SECRET_KEY_BASE",
-                                "value": "[parameters('secretKeyBase')]"
+                                "secureValue": "[parameters('secretKeyBase')]"
                             },
                             {
                                 "name": "WEBSITES_CONTAINER_START_TIME_LIMIT",
@@ -533,7 +553,7 @@
                             },
                             {
                                 "name": "GOVUK_NOTIFY_API_KEY",
-                                "value": "[parameters('govukNotifyAPIKey')]"
+                                "secureValue": "[parameters('govukNotifyAPIKey')]"
                             },
                             {
                                 "name": "BASIC_AUTH_USERNAME",
@@ -549,7 +569,7 @@
                             },
                             {
                                 "name": "SUPPORT_PASSWORD",
-                                "value": "[parameters('supportPassword')]"
+                                "secureValue": "[parameters('supportPassword')]"
                             },
                             {
                                 "name": "AUTHORISED_HOSTS",
@@ -613,295 +633,15 @@
                             },
                             {
                                 "name": "REDIS_URL",
-                                "value": "[concat('rediss://:', listKeys(resourceId('Microsoft.Cache/Redis', parameters('redisCacheName')), '2018-03-01').primaryKey, '@', parameters('redisCacheName'), '.redis.cache.windows.net:6380')]"
+                                "secureValue": "[concat('rediss://:', listKeys(resourceId('Microsoft.Cache/Redis', parameters('redisCacheName')), '2018-03-01').primaryKey, '@', parameters('redisCacheName'), '.redis.cache.windows.net:6380')]"
                             }
-                        ]
+			]
                     }
                 }
             },
             "dependsOn": [
                 "app-service-plan",
                 "app-service-certificate",
-                "redis-cache",
-		"postgresql-database"
-            ]
-        },
-        {
-            "name": "container-instances-worker",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2017-05-10",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('deploymentUrlBase'), 'container-instances.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "containerInstanceName": {
-                        "value": "[concat(parameters('containerInstanceNamePrefix'), '-wkr')]"
-                    },
-                    "containerName": {
-                        "value": "[concat(parameters('containerInstanceNamePrefix'), '-wkr')]"
-                    },
-                    "imageName": {
-                        "value": "[variables('containerImageName')]"
-                    },
-                    "numberCpuCores": {
-                        "value": "[parameters('ciWorkerCpus')]"
-                    },
-                    "memory": {
-                        "value": "[parameters('ciWorkerMemory')]"
-                    },
-		    "command": {
-		        "value": ["/bin/sh",  "-c", "bundle exec sidekiq -c 5 -C config/sidekiq.yml"]
-		    },
-                    "environmentVariables": {
-                        "value": [
-                            {
-                                "name": "RAILS_ENV",
-                                "value": "[parameters('railsEnv')]"
-                            },
-                            {
-                                "name": "DB_DATABASE",
-                                "value": "[parameters('databaseName')]"
-                            },
-                            {
-                                "name": "DB_HOSTNAME",
-                                "value": "[reference('postgresql-server').outputs.fullyQualifiedDomainName.value]"
-                            },
-                            {
-                                "name": "DB_PASSWORD",
-                                "secureValue": "[parameters('databasePassword')]"
-                            },
-                            {
-                                "name": "DB_USERNAME",
-                                "value": "[concat(parameters('databaseUsername'), '@', variables('databaseServerName'))]"
-                            },
-                            {
-                                "name": "AUTHORISED_HOSTS",
-                                "value": "[variables('rubyAuthHosts')]"
-                            },
-                            {
-                                "name": "SECRET_KEY_BASE",
-                                "secureValue": "[parameters('secretKeyBase')]"
-                            },
-                            {
-                                "name": "CUSTOM_HOSTNAME",
-                                "value": "[if(greater(length(parameters('customHostName')), 0), parameters('customHostName'), split(parameters('authorisedHosts'), ',')[0])]"
-                            },
-                            {
-                                "name": "SENTRY_DSN",
-                                "value": "[parameters('sentryDSN')]"
-                            },
-                            {
-                                "name": "HOSTING_ENVIRONMENT_NAME",
-                                "value": "[parameters('environment')]"
-                            },
-                            {
-                                "name": "SUPPORT_USERNAME",
-                                "value": "[parameters('supportUsername')]"
-                            },
-                            {
-                                "name": "SUPPORT_PASSWORD",
-                                "secureValue": "[parameters('supportPassword')]"
-                            },
-                            {
-                                "name": "GOVUK_NOTIFY_API_KEY",
-                                "secureValue": "[parameters('govukNotifyAPIKey')]"
-                            },
-                            {
-                                "name": "LOGSTASH_ENABLE",
-                                "value": "[parameters('logstashEnable')]"
-                            },
-                            {
-                                "name": "LOGSTASH_REMOTE",
-                                "value": "[parameters('logstashRemote')]"
-                            },
-                            {
-                                "name": "LOGSTASH_HOST",
-                                "value": "[parameters('logstashHost')]"
-                            },
-                            {
-                                "name": "LOGSTASH_PORT",
-                                "value": "[parameters('logstashPort')]"
-                            },
-                            {
-                                "name": "LOGSTASH_SSL",
-                                "value": "[parameters('logstashSsl')]"
-                            },
-                            {
-                                "name": "FIND_BASE_URL",
-                                "value": "[parameters('findBaseUrl')]"
-                            },
-                            {
-                                "name": "STATE_CHANGE_SLACK_URL",
-                                "value": "[parameters('stateChangeSlackUrl')]"
-                            },
-                            {
-                                "name": "SERVICE_TYPE",
-                                "value": "worker"
-                            },
-                            {
-                                "name": "DFE_SIGN_IN_CLIENT_ID",
-                                "value": "[parameters('dfeSignInClientId')]"
-                            },
-                            {
-                                "name": "DFE_SIGN_IN_SECRET",
-                                "value": "[parameters('dfeSignInSecret')]"
-                            },
-                            {
-                                "name": "DFE_SIGN_IN_ISSUER",
-                                "value": "[parameters('dfeSignInIssuer')]"
-                            },
-                            {
-                                "name": "REDIS_URL",
-                                "secureValue": "[concat('rediss://:', listKeys(resourceId('Microsoft.Cache/Redis', parameters('redisCacheName')), '2018-03-01').primaryKey, '@', parameters('redisCacheName'), '.redis.cache.windows.net:6380')]"
-                            }
-                        ]
-                    }
-                }
-            },
-            "dependsOn": [
-                "redis-cache",
-		"postgresql-database"
-            ]
-        },
-        {
-            "name": "container-instances-clock",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2017-05-10",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('deploymentUrlBase'), 'container-instances.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "containerInstanceName": {
-                        "value": "[concat(parameters('containerInstanceNamePrefix'), '-clk')]"
-                    },
-                    "containerName": {
-                        "value": "[concat(parameters('containerInstanceNamePrefix'), '-clk')]"
-                    },
-                    "imageName": {
-                        "value": "[variables('containerImageName')]"
-                    },
-                    "numberCpuCores": {
-                        "value": "[parameters('ciClockCpus')]"
-                    },
-                    "memory": {
-                        "value": "[parameters('ciClockMemory')]"
-                    },
-		    "command": {
-		        "value": ["/bin/sh", "-c", "bundle exec clockwork config/clock.rb"]
-		    },
-                    "environmentVariables": {
-                        "value": [
-                            {
-                                "name": "RAILS_ENV",
-                                "value": "[parameters('railsEnv')]"
-                            },
-                            {
-                                "name": "DB_DATABASE",
-                                "value": "[parameters('databaseName')]"
-                            },
-                            {
-                                "name": "DB_HOSTNAME",
-                                "value": "[reference('postgresql-server').outputs.fullyQualifiedDomainName.value]"
-                            },
-                            {
-                                "name": "DB_PASSWORD",
-                                "secureValue": "[parameters('databasePassword')]"
-                            },
-                            {
-                                "name": "DB_USERNAME",
-                                "value": "[concat(parameters('databaseUsername'), '@', variables('databaseServerName'))]"
-                            },
-                            {
-                                "name": "AUTHORISED_HOSTS",
-                                "value": "[variables('rubyAuthHosts')]"
-                            },
-                            {
-                                "name": "SECRET_KEY_BASE",
-                                "secureValue": "[parameters('secretKeyBase')]"
-                            },
-                            {
-                                "name": "CUSTOM_HOSTNAME",
-                                "value": "[if(greater(length(parameters('customHostName')), 0), parameters('customHostName'), split(parameters('authorisedHosts'), ',')[0])]"
-                            },
-                            {
-                                "name": "SENTRY_DSN",
-                                "value": "[parameters('sentryDSN')]"
-                            },
-                            {
-                                "name": "HOSTING_ENVIRONMENT_NAME",
-                                "value": "[parameters('environment')]"
-                            },
-                            {
-                                "name": "SUPPORT_USERNAME",
-                                "value": "[parameters('supportUsername')]"
-                            },
-                            {
-                                "name": "SUPPORT_PASSWORD",
-                                "secureValue": "[parameters('supportPassword')]"
-                            },
-                            {
-                                "name": "GOVUK_NOTIFY_API_KEY",
-                                "secureValue": "[parameters('govukNotifyAPIKey')]"
-                            },
-                            {
-                                "name": "LOGSTASH_ENABLE",
-                                "value": "[parameters('logstashEnable')]"
-                            },
-                            {
-                                "name": "LOGSTASH_REMOTE",
-                                "value": "[parameters('logstashRemote')]"
-                            },
-                            {
-                                "name": "LOGSTASH_HOST",
-                                "value": "[parameters('logstashHost')]"
-                            },
-                            {
-                                "name": "LOGSTASH_PORT",
-                                "value": "[parameters('logstashPort')]"
-                            },
-                            {
-                                "name": "LOGSTASH_SSL",
-                                "value": "[parameters('logstashSsl')]"
-                            },
-                            {
-                                "name": "FIND_BASE_URL",
-                                "value": "[parameters('findBaseUrl')]"
-                            },
-                            {
-                                "name": "STATE_CHANGE_SLACK_URL",
-                                "value": "[parameters('stateChangeSlackUrl')]"
-                            },
-                            {
-                                "name": "SERVICE_TYPE",
-                                "value": "clock"
-                            },
-                            {
-                                "name": "DFE_SIGN_IN_CLIENT_ID",
-                                "value": "[parameters('dfeSignInClientId')]"
-                            },
-                            {
-                                "name": "DFE_SIGN_IN_SECRET",
-                                "value": "[parameters('dfeSignInSecret')]"
-                            },
-                            {
-                                "name": "DFE_SIGN_IN_ISSUER",
-                                "value": "[parameters('dfeSignInIssuer')]"
-                            },
-                            {
-                                "name": "REDIS_URL",
-                                "secureValue": "[concat('rediss://:', listKeys(resourceId('Microsoft.Cache/Redis', parameters('redisCacheName')), '2018-03-01').primaryKey, '@', parameters('redisCacheName'), '.redis.cache.windows.net:6380')]"
-                            }
-                        ]
-                    }
-                }
-            },
-            "dependsOn": [
                 "redis-cache",
 		"postgresql-database"
             ]
@@ -932,7 +672,7 @@
                 }
             },
             "dependsOn": [
-                "app-service"
+                "app-service-and-containers"
             ]
         },
         {
@@ -1034,7 +774,7 @@
                         "value": "AZURE_IP-"
                     },
                     "ipAddresses": {
-                        "value": "[reference('app-service').outputs.possibleOutboundIpAddresses.value]"
+                        "value": "[reference('app-service-and-containers').outputs.appServiceIpAddresses.value]"
                     },
                     "serverName": {
                         "value": "[variables('databaseServerName')]"
@@ -1103,11 +843,9 @@
             },
             "dependsOn": [
                 "redis-cache",
-                "app-service",
-                "container-instances-worker",
-                "container-instances-clock",
                 "app-insights",
-                "postgresql-server"
+                "postgresql-server",
+		"app-service-and-containers"
             ]
         }
     ],

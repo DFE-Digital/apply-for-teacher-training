@@ -1,0 +1,216 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "deploymentUrlBase": {
+            "type": "string",
+            "metadata": {
+                "description": "BAT building block URL."
+            }
+        },
+        "serviceName": {
+            "type": "string",
+            "metadata": {
+                "description": "The abbreviation of the service name to be used when naming a resource."
+            }
+        },
+        "dockerHubUsername": {
+            "type": "string",
+            "metadata": {
+                "description": "the username associated with the dockerhub account"
+            }
+        },
+        "containerImageReference": {
+            "type": "string",
+            "metadata": {
+                "description": "The container image to pull from the server. Should be in image:tag format."
+            }
+        },
+        "ciClockCpus": {
+            "type": "string",
+            "metadata": {
+                "description": "The number of CPU cores allocated to the Clock service container instance."
+            }
+        },
+        "ciClockMemory": {
+            "type": "string",
+            "metadata": {
+                "description": "The amount of memory (in GB) allocated to the Clock service container instance."
+            }
+        },
+        "ciWorkerCpus": {
+            "type": "string",
+            "metadata": {
+                "description": "The number of CPU cores allocated to the Worker service container instance."
+            }
+        },
+        "ciWorkerMemory": {
+            "type": "string",
+            "metadata": {
+                "description": "The amount of memory (in GB) allocated to the Worker service container instance."
+            }
+        },
+        "authorisedHosts": {
+            "type": "string",
+            "metadata": {
+                "description": "Comma seperated list of FQDNs authorised to access the app."
+            }
+        },
+        "customHostName": {
+            "type": "string",
+            "metadata": {
+                "description": "The top level common domain for the service, e.g. apply-for-teacher-training.education.gov.uk."
+            }
+        },
+        "containerInstanceNamePrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "The name prefix for the background worker container instances."
+            }
+        },
+        "appServiceName": {
+            "type": "string",
+            "metadata": {
+                "description": "Azure App Service resource name."
+            }
+        },
+        "appServicePlanName": {
+            "type": "string",
+            "metadata": {
+                "description": "Azure App Serivce Plan resource name."
+            }
+        },
+        "appEnvironmentVariables": {
+            "type": "array",
+            "metadata": {
+                 "description": "Array of name/value objects for each environment variable required by the application"
+            }
+        }
+    },
+    "variables": {
+        "containerImageName": "[concat(parameters('dockerHubUsername'), '/', parameters('containerImageReference'))]",
+        "appServiceRuntimeStack": "[concat('DOCKER|', parameters('dockerHubUsername'), '/', parameters('containerImageReference'))]",
+        "rubyAuthHosts": "[if(greater(length(parameters('customHostName')), 0), concat(parameters('authorisedHosts'), ',', parameters('customHostName')), parameters('authorisedHosts'))]"
+    },
+    "resources": [
+        {
+            "name": "app-service",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(parameters('deploymentUrlBase'), 'app-service-linux.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServiceName": {
+                        "value": "[parameters('appServiceName')]"
+                    },
+                    "appServicePlanResourceGroup": {
+                        "value": "[resourceGroup().name]"
+                    },
+                    "appServicePlanName": {
+                        "value": "[parameters('appServicePlanName')]"
+                    },
+                    "customHostName": {
+                        "value": "[parameters('customHostName')]"
+                    },
+                    "certificateThumbprint": {
+                        "value": "[if(greater(length(parameters('customHostName')), 0), reference('app-service-certificate', '2018-11-01').outputs.certificateThumbprint.value, '')]"
+                    },
+                    "runtimeStack": {
+                        "value": "[variables('appServiceRuntimeStack')]"
+                    },
+                    "appServiceAppSettings": {
+                        "value": "[json(replace(string(parameters('appEnvironmentVariables')), 'secureValue', 'value'))]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "container-instances-worker",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(parameters('deploymentUrlBase'), 'container-instances.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "containerInstanceName": {
+                        "value": "[concat(parameters('containerInstanceNamePrefix'), '-wkr')]"
+                    },
+                    "containerName": {
+                        "value": "[concat(parameters('containerInstanceNamePrefix'), '-wkr')]"
+                    },
+                    "imageName": {
+                        "value": "[variables('containerImageName')]"
+                    },
+                    "numberCpuCores": {
+                        "value": "[parameters('ciWorkerCpus')]"
+                    },
+                    "memory": {
+                        "value": "[parameters('ciWorkerMemory')]"
+                    },
+                    "command": {
+                        "value": ["/bin/sh",  "-c", "bundle exec sidekiq -c 5 -C config/sidekiq.yml"]
+                    },
+                    "environmentVariables": {
+                        "value": "[parameters('appEnvironmentVariables')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "container-instances-clock",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(parameters('deploymentUrlBase'), 'container-instances.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "containerInstanceName": {
+                        "value": "[concat(parameters('containerInstanceNamePrefix'), '-clk')]"
+                    },
+                    "containerName": {
+                        "value": "[concat(parameters('containerInstanceNamePrefix'), '-clk')]"
+                    },
+                    "imageName": {
+                        "value": "[variables('containerImageName')]"
+                    },
+                    "numberCpuCores": {
+                        "value": "[parameters('ciClockCpus')]"
+                    },
+                    "memory": {
+                        "value": "[parameters('ciClockMemory')]"
+                    },
+                    "command": {
+                        "value": ["/bin/sh", "-c", "bundle exec clockwork config/clock.rb"]
+                    },
+                    "environmentVariables": {
+                        "value": "[parameters('appEnvironmentVariables')]"
+                    }
+                }
+            }
+        }
+    ],
+    "outputs": {
+        "appServiceIpAddresses": {
+            "type": "array",
+            "value": "[reference('app-service').outputs.possibleOutboundIpAddresses.value]"
+        },
+        "envVarsAsProvided": {
+            "type": "array",
+            "value": "[parameters('appEnvironmentVariables')]"
+        },
+        "envVarsAsChanged": {
+            "type": "array",
+            "value": "[json(replace(string(parameters('appEnvironmentVariables')), 'secureValue', 'value'))]"
+        }
+    }
+}

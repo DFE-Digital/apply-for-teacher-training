@@ -286,16 +286,16 @@ These steps describe the process for making environment variables available to t
 1. In the [azure/template.json](./azure/template.json) file you need to make the following additions:
    1. Duplicate this block of code for your new variable in the *parameters* section at the start of the file.
       ```
-	  "varName": {
-       "type": "string",
+      "varName": {
+        "type": "string",
         "metadata": {
           "description": "Describe your variable here."
         }
       }
       ```
-   1. Around line 180 duplicate this block of into the *appServiceAppSettings* section.
+   1. Around line 505 duplicate this block of code in the *appEnvironmentVariables* parameter of the `app-service-and-containers` resource and configure it to match your new environment varaible. If the environment variable in question contains a secret, change `value` to `secureValue`.
       ```
-	  {
+      {
         "name": "ENV_VAR_NAME",
         "value": "[parameters('varName')]"
       }
