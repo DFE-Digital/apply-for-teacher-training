@@ -200,7 +200,7 @@
         }
     ],
     "outputs": {
-        "appSerivceIpAddresses": {
+        "appServiceIpAddresses": {
             "type": "array",
             "value": "[reference('app-service').outputs.possibleOutboundIpAddresses.value]"
         },

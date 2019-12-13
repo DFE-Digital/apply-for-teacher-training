@@ -48,7 +48,7 @@
         "appServicePlanSize": {
             "type": "string",
             "metadata": {
-                "description": "The App Serivce Plan instance size."
+                "description": "The App Service Plan instance size."
             }
         },
         "appServicePlanInstances": {
@@ -774,7 +774,7 @@
                         "value": "AZURE_IP-"
                     },
                     "ipAddresses": {
-                        "value": "[reference('app-service-and-containers').outputs.appSerivceIpAddresses.value]"
+                        "value": "[reference('app-service-and-containers').outputs.appServiceIpAddresses.value]"
                     },
                     "serverName": {
                         "value": "[variables('databaseServerName')]"
