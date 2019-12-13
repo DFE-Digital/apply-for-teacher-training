@@ -11,6 +11,8 @@ class ApplicationQualification < ApplicationRecord
     other: 'other',
   }
 
+  audited associated_with: :application_form
+
   def missing_qualification?
     qualification_type == 'missing'
   end
