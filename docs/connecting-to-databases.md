@@ -9,6 +9,32 @@ This document describes how to connect to databases in Microsoft Azure, includin
 To get the database password for a production environment you will need [elevated PIM permissions](/docs/pim-guide.md).
 For development and test environments no elevation is necessary.
 
+## Do you need access to the Postgres database?
+
+You can connect to a Rails console to do most of the same operations.
+
+To do so, you can use the Azure CLI (change subscription, resource group, name, container name accordingly):
+
+```bash
+$ az login
+$ az account set --subscription s106-applyforpostgraduateteachertraining-development
+$ az container exec -g s106d01-apply --name s106d01-apply-ci-wkr --container-name s106d01-apply-ci-wkr --exec-command "/bin/sh"
+$ bundle exec rails console
+```
+
+Or through the Azure interface:
+
+1. Access a container instance for one of the Sidekiq workers, such as `s106d01-apply-ci-wkr`
+1. Click on "Containers" in the left sidebar
+1. Click on the "Connect" tab
+1. Select `/bin/sh`
+1. `$ bundle exec rails console`
+
+Gotchas:
+
+- Only works with container instances, not with the app service
+- Does not work on DfE hardware or through the DfE VPN, one of the two
+
 ## Instructions
 
 ### Get a connection string
