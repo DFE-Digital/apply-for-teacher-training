@@ -582,10 +582,9 @@ components:
             - part_time
     Offer:
       type: object
-      additionalProperties: false
+      additionalProperties: true
       required:
         - conditions
-        - course
       properties:
         conditions:
           type: array
