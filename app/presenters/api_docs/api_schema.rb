@@ -44,6 +44,20 @@ module ApiDocs
         name.in?(schema.required.to_a)
       end
 
+      def type_description
+        desc = [type]
+        desc << ', ISO 8601 date with time and timezone' if attributes.format == 'date-time'
+        desc << ', date YYYY-MM-DD' if attributes.format == 'date'
+
+        if type == 'string' && attributes.max_length.present?
+          desc << " (limited to #{attributes.max_length} characters)"
+        elsif type == 'array' && attributes.max_items.present?
+          desc << " (limited to #{attributes.max_length} elements)"
+        end
+
+        desc.join
+      end
+
       # If the type of the attribute references a schema this returns the name
       def object_schema_name
         linked_schema = attributes

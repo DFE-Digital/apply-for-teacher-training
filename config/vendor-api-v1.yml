@@ -323,7 +323,7 @@ components:
             The phase of this application. In the first phase, "Apply 1", the
             candidate can choose up to 3 courses. If all of those choices are rejected,
             declined, or withdrawn, the user can go into "Apply 2". This means
-            they can choose 1 course at a time. 
+            they can choose 1 course at a time.
           enum:
             - apply_1
             - apply_2
@@ -331,18 +331,18 @@ components:
         submitted_at:
           type: string
           format: date-time
-          description: ISO 8601 date of submission, with time and timezone
+          description: Time of submission
           example: "2019-06-13T10:44:31Z"
         updated_at:
           type: string
           format: date-time
-          description: ISO 8601 date of last change, with time and timezone
+          description: Time of last change
           example: "2019-06-13T10:44:31Z"
         reject_by_default_at:
           type: string
           format: date-time
           nullable: true
-          description: ISO 8601 date when the application is due to be rejected by default
+          description: Time when the application is due to be rejected by default
           example: "2019-06-13T23:59:59Z"
         personal_statement:
           type: string
@@ -666,7 +666,7 @@ components:
         date:
           type: string
           format: date-time
-          description: The date on which the withdrawal was received
+          description: Time of the withdrawal
           example: "2019-09-18T15:33:49.216Z"
     Qualifications:
       type: object
@@ -852,7 +852,7 @@ components:
           $ref: '#/components/schemas/Attribution'
         timestamp:
           type: string
-          description: The time this update was made, formatted as an ISO 8601 timestamp with time zone
+          description: The time this update was made
           format: date-time
           example: "2019-03-01T15:33:49.216Z"
     Error:

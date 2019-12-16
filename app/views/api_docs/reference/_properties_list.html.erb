@@ -7,12 +7,7 @@
       <dd class="govuk-summary-list__value">
         <div class="app-data-type">
           <% if !property.object_schema_name %>
-            <%= property.type %>
-            <% if property.type == 'string' && property.attributes.max_length.present? %>
-              (limited to <%= property.attributes.max_length %> characters)
-            <% elsif property.type == 'array' && property.attributes.max_items.present? %>
-              (limited to <%= property.attributes.max_items %> elements)
-            <% end %>
+            <%= property.type_description %>
           <% elsif property.type == 'array' %>
             Array of <%= govuk_link_to property.object_schema_name, "##{property.object_schema_name.parameterize}-object" %> objects
           <% else %>
