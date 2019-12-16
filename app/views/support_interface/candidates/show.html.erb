@@ -1,0 +1,15 @@
+<% content_for :browser_title, "Candidate ##{@candidate.id}" %>
+<% content_for :title do %>
+  <span class="govuk-caption-xl">Candidate #<%= @candidate.id %></span>
+  <%= @candidate.email_address %>
+<% end %>
+
+<% unless HostingEnvironment.production? %>
+  <%= button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@candidate), class: 'govuk-button' %>
+<% end %>
+
+<% if @candidate.hide_in_reporting? %>
+  <%= button_to 'Show in reporting', support_interface_show_candidate_path(@candidate), class: 'govuk-button govuk-button--secondary' %>
+<% else %>
+  <%= button_to 'Hide in reporting', support_interface_hide_candidate_path(@candidate), class: 'govuk-button govuk-button--secondary' %>
+<% end %>

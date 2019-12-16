@@ -24,9 +24,9 @@
 <% end %>
 
 <% if @application_form.candidate.hide_in_reporting? %>
-  <%= button_to 'Show in reporting', support_interface_show_candidate_path(@application_form), class: 'govuk-button govuk-button--secondary' %>
+  <%= button_to 'Show in reporting', support_interface_show_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button govuk-button--secondary' %>
 <% else %>
-  <%= button_to 'Hide in reporting', support_interface_hide_candidate_path(@application_form), class: 'govuk-button govuk-button--secondary' %>
+  <%= button_to 'Hide in reporting', support_interface_hide_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button govuk-button--secondary' %>
 <% end %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8">Course choices</h2>

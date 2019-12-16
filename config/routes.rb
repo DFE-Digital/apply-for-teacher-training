@@ -258,11 +258,15 @@ Rails.application.routes.draw do
 
     get '/applications' => 'application_forms#index'
     get '/applications/:application_form_id' => 'application_forms#show', as: :application_form
-    post '/applications/:application_form_id/hide' => 'application_forms#hide_in_reporting', as: :hide_candidate
-    post '/applications/:application_form_id/show' => 'application_forms#show_in_reporting', as: :show_candidate
     get '/applications/:application_form_id/audit' => 'application_forms#audit', as: :application_form_audit
     get '/applications/:application_form_id/comments/new' => 'application_forms/comments#new', as: :application_form_new_comment
     post '/applications/:application_form_id/comments' => 'application_forms/comments#create', as: :application_form_comments
+
+    get '/candidates' => 'candidates#index'
+    get '/candidates/:candidate_id' => 'candidates#show', as: :candidate
+    post '/candidates/:candidate_id/hide' => 'candidates#hide_in_reporting', as: :hide_candidate
+    post '/candidates/:candidate_id/show' => 'candidates#show_in_reporting', as: :show_candidate
+    post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
 
     get '/tokens' => 'api_tokens#index', as: :api_tokens
     post '/tokens' => 'api_tokens#create'
@@ -288,8 +292,6 @@ Rails.application.routes.draw do
     post '/tasks/:task' => 'tasks#run', as: :run_task
 
     resources :support_users, only: %i[index new create]
-
-    post '/impersonate-candidate/:candidate_id' => 'impersonation#impersonate_candidate', as: :impersonate_candidate
 
     get '/sign-in' => 'sessions#new'
     get '/sign-out' => 'sessions#destroy'
