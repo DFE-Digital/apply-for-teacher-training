@@ -6,6 +6,7 @@ class FeatureFlag
     candidate_withdrawals
     training_with_a_disability
     provider_permissions_in_database
+    edit_application
   ].freeze
 
   def self.activate(feature_name)
