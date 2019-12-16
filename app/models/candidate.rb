@@ -20,6 +20,10 @@ class Candidate < ApplicationRecord
     application_form
   end
 
+  def last_updated_application
+    application_forms.max_by(&:updated_at)
+  end
+
 private
 
   def downcase_email

@@ -1,5 +1,8 @@
 en:
   process_states:
+    never_signed_in:
+      name: Never signed in
+      description: Candidate has signed up but never signed into the service
     unsubmitted:
       name: Unsubmitted
       description: Candidate hasn’t submitted the form yet

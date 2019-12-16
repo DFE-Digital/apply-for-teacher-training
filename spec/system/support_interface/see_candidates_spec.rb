@@ -27,7 +27,10 @@ RSpec.feature 'See candidates' do
   end
 
   def then_i_should_see_the_candidates
-    expect(page).to have_content @candidate_who_has_signed_up_but_not_signed_in.email_address
+    within("[data-qa='candidate-#{@candidate_who_has_signed_up_but_not_signed_in.id}']") do
+      expect(page).to have_content @candidate_who_has_signed_up_but_not_signed_in.email_address
+      expect(page).to have_content('Never signed in')
+    end
     expect(page).to have_content @candidate_with_a_submitted_application.email_address
   end
 

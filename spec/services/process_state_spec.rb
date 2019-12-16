@@ -2,6 +2,12 @@ require 'rails_helper'
 
 RSpec.describe ProcessState do
   describe '#state' do
+    it 'returns never_signed_in without an application' do
+      state = ProcessState.new(nil).state
+
+      expect(state).to be(:never_signed_in)
+    end
+
     it 'returns unsubmitted without choices' do
       application_form = build_stubbed(:application_form)
 

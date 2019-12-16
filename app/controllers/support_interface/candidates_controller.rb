@@ -4,8 +4,9 @@ module SupportInterface
 
     def index
       @candidates = Candidate
-        .includes(:application_forms)
-        .order('candidates.updated_at desc')
+        .includes(application_forms: :application_choices)
+        .sort_by { |candidate| (candidate.application_forms.collect(&:updated_at) + [candidate.updated_at]).max }
+        .reverse
     end
 
     def show

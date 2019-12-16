@@ -6,7 +6,9 @@ class ProcessState
   end
 
   def state
-    if application_choices.empty?
+    if application_form.nil?
+      :never_signed_in
+    elsif application_choices.empty?
       :unsubmitted
     elsif all_states_are?('unsubmitted')
       :unsubmitted
