@@ -7,6 +7,7 @@ RSpec.feature 'Managing support users' do
     given_i_am_a_support_user
 
     when_i_visit_the_support_console
+    and_i_click_the_users_link
     and_i_click_the_manange_support_users_link
     and_i_click_the_add_user_link
     and_i_enter_the_users_email_and_dsi_uid
@@ -28,8 +29,12 @@ RSpec.feature 'Managing support users' do
     visit support_interface_path
   end
 
-  def and_i_click_the_manange_support_users_link
+  def and_i_click_the_users_link
     click_link 'Users'
+  end
+
+  def and_i_click_the_manange_support_users_link
+    click_link 'Manage support users'
   end
 
   def and_i_enter_the_users_email_and_dsi_uid
