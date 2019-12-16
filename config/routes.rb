@@ -265,6 +265,7 @@ Rails.application.routes.draw do
     get '/candidates/:candidate_id' => 'candidates#show', as: :candidate
     post '/candidates/:candidate_id/hide' => 'candidates#hide_in_reporting', as: :hide_candidate
     post '/candidates/:candidate_id/show' => 'candidates#show_in_reporting', as: :show_candidate
+    post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
 
     get '/tokens' => 'api_tokens#index', as: :api_tokens
     post '/tokens' => 'api_tokens#create'
@@ -289,8 +290,6 @@ Rails.application.routes.draw do
     post '/tasks/:task' => 'tasks#run', as: :run_task
 
     resources :support_users, only: %i[index new create]
-
-    post '/impersonate-candidate/:candidate_id' => 'impersonation#impersonate_candidate', as: :impersonate_candidate
 
     get '/sign-in' => 'sessions#new'
     get '/sign-out' => 'sessions#destroy'
