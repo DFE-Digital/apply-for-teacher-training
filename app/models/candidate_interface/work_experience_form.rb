@@ -96,7 +96,7 @@ module CandidateInterface
     end
 
     def start_date_before_end_date
-      errors.add(:start_date, :before) unless start_date < end_date
+      errors.add(:start_date, :before) unless start_date <= end_date
     end
 
     def end_date_before_current_year_and_month

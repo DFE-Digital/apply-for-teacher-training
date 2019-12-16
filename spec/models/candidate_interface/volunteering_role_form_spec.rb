@@ -166,6 +166,17 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
           ["Start date #{t('activemodel.errors.models.candidate_interface/volunteering_role_form.attributes.start_date.before')}"],
         )
       end
+
+      it 'is valid if the date is equal to the end date' do
+        volunteering_role = CandidateInterface::VolunteeringRoleForm.new(
+          start_date_month: '5', start_date_year: '2017',
+          end_date_month: '5', end_date_year: '2017'
+        )
+
+        volunteering_role.validate
+
+        expect(volunteering_role.errors.full_messages_for(:start_date)).to be_empty
+      end
     end
 
     describe 'end date' do
