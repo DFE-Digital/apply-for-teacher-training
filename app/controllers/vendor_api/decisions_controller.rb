@@ -19,6 +19,14 @@ module VendorApi
       respond_to_decision(decision)
     end
 
+    def conditions_not_met
+      decision = ConditionsNotMet.new(
+        application_choice: application_choice,
+      )
+
+      respond_to_decision(decision)
+    end
+
     def reject
       decision = RejectApplication.new(
         application_choice: application_choice,
