@@ -1,0 +1,19 @@
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Candidate</th>
+      <th scope="col" class="govuk-table__header">Last updated</th>
+    </tr>
+  </thead>
+
+  <tbody class="govuk-table__body">
+    <% table_rows.each do |table_row| %>
+      <tr class="govuk-table__row" data-qa="candidate-<%= table_row[:candidate_id] %>">
+        <td class="govuk-table__cell">
+          <%= table_row[:candidate_link] %>
+        </td>
+        <td class="govuk-table__cell"><%= table_row[:updated_at] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
