@@ -582,9 +582,10 @@ components:
             - part_time
     Offer:
       type: object
-      additionalProperties: true
+      additionalProperties: false
       required:
         - conditions
+        - course
       properties:
         conditions:
           type: array
@@ -597,7 +598,7 @@ components:
             - Completion of subject knowledge enhancement
             - Completion of professional skills test
         course:
-          $ref: '#/components/schemas/Course'
+          $ref: "#/components/schemas/Course"
     Qualification:
       type: object
       additionalProperties: false

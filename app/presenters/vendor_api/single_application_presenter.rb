@@ -176,8 +176,7 @@ module VendorApi
     end
 
     def offered_course
-      offered_option = application_choice.offered_course_option
-      return {} if offered_option.nil?
+      offered_option = application_choice.offered_course_option || application_choice.course_option
 
       {
         course: course_info_for(offered_option),

@@ -22,6 +22,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
 
+      course_option = application_choice.course_option
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
       expect(parsed_response['data']['attributes']['status']).to eq('offer')
       expect(parsed_response['data']['attributes']['offer']).to eq(
@@ -29,6 +30,13 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
           'Completion of subject knowledge enhancement',
           'Completion of professional skills test',
         ],
+        'course' => {
+          'recruitment_cycle_year' => course_option.course.recruitment_cycle_year,
+          'provider_code' => course_option.course.provider.code,
+          'course_code' => course_option.course.code,
+          'site_code' => course_option.site.code,
+          'study_mode' => course_option.course.study_mode,
+        },
       )
     end
   end
@@ -146,12 +154,20 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
 
+      course_option = application_choice.course_option
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [
           'Completion of subject knowledge enhancement',
           'Completion of professional skills test',
           'DBS Check',
         ],
+        'course' => {
+          'recruitment_cycle_year' => course_option.course.recruitment_cycle_year,
+          'provider_code' => course_option.course.provider.code,
+          'course_code' => course_option.course.code,
+          'site_code' => course_option.site.code,
+          'study_mode' => course_option.course.study_mode,
+        },
       )
     end
 
@@ -179,10 +195,18 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         },
       }
 
+      course_option = application_choice.course_option
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
       expect(parsed_response['data']['attributes']['status']).to eq('offer')
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [],
+        'course' => {
+          'recruitment_cycle_year' => course_option.course.recruitment_cycle_year,
+          'provider_code' => course_option.course.provider.code,
+          'course_code' => course_option.course.code,
+          'site_code' => course_option.site.code,
+          'study_mode' => course_option.course.study_mode,
+        },
       )
     end
   end
