@@ -69,6 +69,17 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
           ["Start date #{t('activemodel.errors.models.candidate_interface/work_experience_form.attributes.start_date.before')}"],
         )
       end
+
+      it 'is valid if the date is equal to the end date' do
+        work_experience = CandidateInterface::WorkExperienceForm.new(
+          start_date_month: '5', start_date_year: '2018',
+          end_date_month: '5', end_date_year: '2018'
+        )
+
+        work_experience.validate
+
+        expect(work_experience.errors.full_messages_for(:start_date)).to be_empty
+      end
     end
 
     describe 'end date' do
