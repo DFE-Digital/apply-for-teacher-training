@@ -3,6 +3,10 @@ These are the release notes for the API while still in alpha.
 See the [current release notes](/api-docs/release-notes) for the release notes
 once v1 is live.
 
+### Alpha release - 18 December 2019
+
+- Clarify that when an appliction is withdrawn, the `reason` can be null.
+
 ### Alpha release - 13 December 2019
 
 New attributes:

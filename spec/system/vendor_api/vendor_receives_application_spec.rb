@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+# This is an end-to-end test for the API response. To test complex logic in
+# the presenter, see spec/presenters/vendor_api/single_application_presenter_spec.rb.
 RSpec.feature 'Vendor receives the application' do
   include CandidateHelper
 
