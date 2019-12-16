@@ -25,8 +25,9 @@ Changes to the docs:
 - We’ve added more examples and descriptions to the attributes
 - Move the documentation to <https://www.apply-for-teacher-training.education.gov.uk/api-docs>
 
-New attributes:
+New:
 
+- New [/conditions-not-met endpoint](/api-docs/reference#post-conditions-not-met)
 - `Candidate` now has an `id`. This is a version of our internal identifier, and could be used to match previous candidate records.
 - `Course` now has a `study_mode` attribute that shows whether the candidate wants to study full time or part time.
 

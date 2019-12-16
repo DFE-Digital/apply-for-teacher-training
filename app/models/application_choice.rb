@@ -22,6 +22,7 @@ class ApplicationChoice < ApplicationRecord
     rejected: 'rejected',
     declined: 'declined',
     withdrawn: 'withdrawn',
+    conditions_not_met: 'conditions_not_met',
   }
 
   def edit_by_expired?

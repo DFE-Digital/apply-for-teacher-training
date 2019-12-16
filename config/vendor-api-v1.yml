@@ -156,6 +156,35 @@ paths:
           $ref: "#/components/responses/NotFound"
         "422":
           $ref: "#/components/responses/UnprocessableEntity"
+  "/applications/{application_id}/conditions-not-met":
+    post:
+      tags:
+        - Application management
+      summary: Conditions not met
+      description: The candidate has not met all the conditions set out in the offer
+      parameters:
+        - $ref: '#/components/parameters/application_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                meta:
+                  $ref: '#/components/schemas/MetaData'
+      responses:
+        "200":
+          description: An application
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleApplicationResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
   "/applications/{application_id}/reject":
     post:
       tags:
@@ -309,12 +338,13 @@ components:
           description: The status of this application
           enum:
             - awaiting_provider_decision
+            - conditions_not_met
+            - declined
+            - enrolled
             - offer
             - pending_conditions
             - recruited
-            - enrolled
             - rejected
-            - declined
             - withdrawn
           example: application_complete
         phase:

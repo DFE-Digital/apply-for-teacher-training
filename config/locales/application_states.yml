@@ -42,6 +42,7 @@ en:
     rejected: Rejected
     unsubmitted: Not submitted yet
     withdrawn: Withdrawn
+    conditions_not_met: Conditions not met
   provider_application_states:
     application_complete: New
     awaiting_provider_decision: New
@@ -54,6 +55,7 @@ en:
     rejected: Rejected
     unsubmitted: Not submitted yet
     withdrawn: Candidate withdrawn
+    conditions_not_met: Conditions not met
   support_application_states:
     application_complete: Waiting to be sent
     awaiting_provider_decision: Awaiting decision
@@ -66,3 +68,4 @@ en:
     rejected: Provider rejected
     unsubmitted: Not submitted yet
     withdrawn: Candidate withdrawn
+    conditions_not_met: Conditions not met
