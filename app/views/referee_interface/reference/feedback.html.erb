@@ -2,11 +2,12 @@
 
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 
-<form action="/reference/confirmation" method="post">
-  <div class="govuk-grid-row">
+  <%= form_with model: @reference_form, url: referee_interface_submit_feedback_path, method: :patch do |f| %>
+    <%= f.govuk_error_summary %>
+    <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-    <h1 class="govuk-heading-xl">Tell us about <%= @application.first_name + ' ' + @application.last_name %></h1>
+    <h1 class="govuk-heading-xl">Tell us about <%= full_name(@application) %></h1>
 
         <p class="govuk-body">Try to cover the following, but don’t worry if there are areas you can’t comment on:</p>
         <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
@@ -41,11 +42,8 @@
           </div>
         </div>
 
-        <button class="govuk-button" data-module="govuk-button">
-          Submit reference
-        </button>
+      <%= f.govuk_submit 'Submit reference' %>
       </div>
     </div>
-  </form>
-
+  <% end %>
 </main>

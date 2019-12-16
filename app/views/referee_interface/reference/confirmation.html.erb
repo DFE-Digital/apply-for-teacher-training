@@ -1,0 +1,11 @@
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+  <%= form_with model: @reference, url: referee_interface_reference_finish_path, method: :get do |f| %>
+  <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-8">
+      <h1 class="govuk-panel__title">
+        Your reference for <%= full_name(@reference.application_form) %> has been&nbsp;submitted
+      </h1>
+    </div>
+    <%= f.govuk_submit 'Finish' %>
+  <% end %>
+</main>

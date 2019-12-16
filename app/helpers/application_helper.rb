@@ -36,4 +36,8 @@ module ApplicationHelper
   def current_namespace
     params[:controller].split('/').first
   end
+
+  def full_name(application_form)
+    "#{application_form.first_name} #{application_form.last_name}"
+  end
 end

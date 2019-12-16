@@ -5,8 +5,7 @@ class RefereeMailer < ApplicationMailer
     @candidate_name = "#{application_form.first_name} #{application_form.last_name}"
 
     if FeatureFlag.active?('reference_form')
-      # reference.token.nil? ? reference.token = '1234567890' : reference.token
-      @reference_link = referee_interface_reference_comments_url(token: reference.token)
+      @reference_link = referee_interface_reference_feedback_url(token: reference.token)
       template_name = :reference_request_email
     else
       @reference_link = google_form_url_for(@candidate_name, @reference)

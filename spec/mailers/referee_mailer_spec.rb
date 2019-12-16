@@ -45,7 +45,7 @@ RSpec.describe RefereeMailer, type: :mailer do
 
     it 'sends an email with a link to the reference page' do
       body = mail.body.encoded
-      expect(body).to include(referee_interface_reference_comments_url(token: reference.token))
+      expect(body).to include(referee_interface_reference_feedback_url(token: reference.token))
     end
   end
 

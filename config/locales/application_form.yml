@@ -520,3 +520,7 @@ en:
           attributes:
             comment:
               blank: Enter a comment
+        referee_interface/reference_form:
+          attributes:
+            feedback:
+              blank: Enter your reference

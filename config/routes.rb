@@ -211,8 +211,11 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :referee_interface, path: '/referee' do
-    get 'comments/:token' => 'reference#comments', as: :reference_comments
+  namespace :referee_interface, path: '/reference' do
+    get '/finish' => 'reference#finish', as: :reference_finish
+    get '/:token/confirmation' => 'reference#confirmation', as: :confirmation
+    get '/:token' => 'reference#feedback', as: :reference_feedback
+    patch '/:token/confirmation' => 'reference#submit_feedback', as: :submit_feedback
   end
 
   namespace :vendor_api, path: 'api/v1' do
