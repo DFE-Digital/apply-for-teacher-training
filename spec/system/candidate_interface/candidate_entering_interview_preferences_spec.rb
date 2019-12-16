@@ -11,12 +11,12 @@ RSpec.feature 'Entering interview preferences' do
     and_i_submit_the_form
     then_i_should_see_validation_errors
 
-    when_i_fill_in_an_answer
+    when_i_choose_yes_and_enter_my_preferences
     and_i_submit_the_form
     then_i_can_check_my_answers
 
     when_i_click_to_change_my_answer
-    and_i_fill_in_a_different_answer
+    and_i_choose_no
     and_i_submit_the_form
     then_i_can_check_my_revised_answers
 
@@ -48,9 +48,11 @@ RSpec.feature 'Entering interview preferences' do
     first('.govuk-summary-list__actions').click_link 'Change'
   end
 
-  def when_i_fill_in_an_answer
+  def when_i_choose_yes_and_enter_my_preferences
     scope = 'application_form.personal_statement'
-    fill_in t('interview_preferences.label', scope: scope), with: 'Hello world'
+
+    choose 'Yes'
+    fill_in t('interview_preferences.yes_label', scope: scope), with: 'Hello world'
   end
 
   def then_i_can_check_my_answers
@@ -59,17 +61,16 @@ RSpec.feature 'Entering interview preferences' do
   end
 
   def then_i_should_see_validation_errors
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/interview_preferences_form.attributes.interview_preferences.blank')
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/interview_preferences_form.attributes.any_preferences.blank')
   end
 
-  def and_i_fill_in_a_different_answer
-    scope = 'application_form.personal_statement'
-    fill_in t('interview_preferences.label', scope: scope), with: 'Hello world again'
+  def and_i_choose_no
+    choose 'No'
   end
 
   def then_i_can_check_my_revised_answers
     expect(page).to have_content t('page_titles.interview_preferences')
-    expect(page).to have_content 'Hello world again'
+    expect(page).to have_content t('application_form.personal_statement.interview_preferences.no_value')
   end
 
   def when_i_submit_my_interview_preferences

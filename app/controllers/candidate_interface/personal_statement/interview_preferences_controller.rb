@@ -12,7 +12,7 @@ module CandidateInterface
       @interview_preferences_form = InterviewPreferencesForm.new(interview_preferences_params)
 
       if @interview_preferences_form.save(current_application)
-        render :show
+        redirect_to candidate_interface_interview_preferences_show_path
       else
         render :edit
       end
@@ -26,7 +26,7 @@ module CandidateInterface
 
     def interview_preferences_params
       params.require(:candidate_interface_interview_preferences_form).permit(
-        :interview_preferences,
+        :any_preferences, :interview_preferences
       )
         .transform_values(&:strip)
     end
