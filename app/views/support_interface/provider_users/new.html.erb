@@ -1,0 +1,32 @@
+<% content_for :before_content do %>
+  <div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to 'Users', support_interface_users_path, class: 'govuk-breadcrumbs__link' %>
+      </li>
+      <li class="govuk-breadcrumbs__list-item" aria-current="page">
+        <%= link_to 'Provider users', support_interface_provider_users_path, class: 'govuk-breadcrumbs__link' %>
+      </li>
+      <li class="govuk-breadcrumbs__list-item" aria-current="page">
+        Add provider user
+      </li>
+    </ol>
+  </div>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @form, url: support_interface_provider_users_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class='govuk-heading-xl'>Add provider user</h1>
+
+      <%= f.govuk_text_field :email_address, label: { text: 'Email address' } %>
+      <%= f.govuk_text_field :dfe_sign_in_uid, label: { text: 'DfE Sign-in UID' } %>
+
+      <%= f.govuk_collection_radio_buttons :provider_ids, @form.available_providers, :id, :name, legend: { text: 'Provider' } %>
+
+      <%= f.govuk_submit 'Add provider user' %>
+    <% end %>
+  </div>
+</div>

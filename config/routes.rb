@@ -295,6 +295,7 @@ Rails.application.routes.draw do
       get '/' => 'users#index', as: :users
 
       resources :support_users, only: %i[index new create], path: :support
+      resources :provider_users, only: %i[index new create], path: :provider
     end
 
     get '/sign-in' => 'sessions#new'

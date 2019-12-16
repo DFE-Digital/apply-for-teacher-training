@@ -1,0 +1,43 @@
+<% content_for :title, 'Provider users' %>
+
+<%= link_to 'Add provider user', new_support_interface_provider_user_path, class: 'govuk-button' %>
+
+<% content_for :before_content do %>
+  <div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to 'Users', support_interface_users_path, class: 'govuk-breadcrumbs__link' %>
+      </li>
+      <li class="govuk-breadcrumbs__list-item" aria-current="page">
+        Provider users
+      </li>
+    </ol>
+  </div>
+<% end %>
+
+<table class='govuk-table'>
+  <thead class='govuk-table__head'>
+    <tr class='govuk-table__row'>
+      <th scope='col' class='govuk-table__header govuk-!-width-one-third'>Email</th>
+      <th scope='col' class='govuk-table__header govuk-!-width-one-third'>Providers</th>
+      <th scope='col' class='govuk-table__header govuk-!-width-one-third'>DfE Sign-in UID</th>
+    </tr>
+  </thead>
+
+  <tbody class='govuk-table__body'>
+    <% @provider_users.each do |provider_user| %>
+      <tr class='govuk-table__row'>
+        <td class='govuk-table__cell'>
+          <%= provider_user.email_address %>
+        </td>
+        <td class='govuk-table__cell'>
+        <% provider_user.providers.map do |p| %>
+          <%= link_to(p.name, support_interface_provider_path(p)) %>
+        <% end %>
+        <td class='govuk-table__cell'>
+          <%= provider_user.dfe_sign_in_uid %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

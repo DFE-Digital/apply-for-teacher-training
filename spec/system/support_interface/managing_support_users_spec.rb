@@ -21,10 +21,6 @@ RSpec.feature 'Managing support users' do
     sign_in_as_support_user
   end
 
-  def and_a_support_user_exists_in_the_database
-    create(:support_user, email_address: 'person@example.com')
-  end
-
   def when_i_visit_the_support_console
     visit support_interface_path
   end
