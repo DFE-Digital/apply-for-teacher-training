@@ -10,6 +10,7 @@ module SupportInterface
       @application_form = @reference.application_form
 
       RefereeMailer.reference_request_chaser_email(@application_form, @reference).deliver
+      CandidateMailer.reference_chaser_email(@application_form, @reference).deliver
 
       flash[:success] = t('application_form.referees.chase_success')
 

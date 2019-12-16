@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.feature 'Send chase email to referee' do
+RSpec.feature 'Send chase email to referee and candidate' do
   include DfESignInHelpers
 
-  scenario 'Support agent sends a chase email to a referee' do
+  scenario 'Support agent sends a chase email to a referee and candidate' do
     given_i_am_a_support_user
     and_there_is_an_application_awaiting_references
     and_i_visit_the_support_page
@@ -15,7 +15,8 @@ RSpec.feature 'Send chase email to referee' do
     then_i_see_a_confirmation_page
 
     when_i_click_to_confirm_sending_the_chase_email
-    then_i_see_the_email_is_successfully_sent
+    then_i_see_the_referee_email_is_successfully_sent
+    and_i_see_the_candidate_email_is_successfully_sent
     and_i_am_sent_back_to_the_application_form_with_a_flash
   end
 
@@ -51,11 +52,17 @@ RSpec.feature 'Send chase email to referee' do
     click_button t('application_form.referees.chase_button')
   end
 
-  def then_i_see_the_email_is_successfully_sent
+  def then_i_see_the_referee_email_is_successfully_sent
     candidate_name = "#{@application_awaiting_references.first_name} #{@application_awaiting_references.last_name}"
     open_email(@application_awaiting_references.references.first.email_address)
 
     expect(current_email.subject).to have_content(t('reference_request.subject.chaser', candidate_name: candidate_name))
+  end
+
+  def and_i_see_the_candidate_email_is_successfully_sent
+    open_email(@application_awaiting_references.candidate.email_address)
+
+    expect(current_email.subject).to have_content(t('candidate_reference.subject.chaser', referee_name: @application_awaiting_references.references.first.name))
   end
 
   def and_i_am_sent_back_to_the_application_form_with_a_flash
