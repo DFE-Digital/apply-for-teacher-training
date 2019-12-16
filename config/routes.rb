@@ -264,6 +264,7 @@ Rails.application.routes.draw do
     post '/applications/:application_form_id/comments' => 'application_forms/comments#create', as: :application_form_comments
 
     get '/candidates' => 'candidates#index'
+    get '/candidates/:candidate_id' => 'candidates#show', as: :candidate
 
     get '/tokens' => 'api_tokens#index', as: :api_tokens
     post '/tokens' => 'api_tokens#create'

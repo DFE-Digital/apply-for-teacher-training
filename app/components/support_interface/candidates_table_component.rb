@@ -10,7 +10,7 @@ module SupportInterface
       candidates.map do |candidate|
         {
           candidate_id: candidate.id,
-          candidate_link: candidate.email_address,
+          candidate_link: govuk_link_to(candidate.email_address, support_interface_candidate_path(candidate)),
           updated_at: candidate.updated_at.strftime('%e %b %Y at %l:%M%P'),
         }
       end

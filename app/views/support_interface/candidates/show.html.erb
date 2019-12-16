@@ -1,0 +1,5 @@
+<% content_for :browser_title, "Candidate ##{@candidate.id}" %>
+<% content_for :title do %>
+  <span class="govuk-caption-xl">Candidate #<%= @candidate.id %></span>
+  <%= @candidate.email_address %>
+<% end %>
