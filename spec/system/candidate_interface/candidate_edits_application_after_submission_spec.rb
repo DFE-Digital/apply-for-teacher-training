@@ -36,6 +36,6 @@ RSpec.feature 'A candidate edits their application' do
   end
 
   def then_i_see_a_button_to_edit_my_application
-    expect(page).to have_content('Edit Application')
+    expect(page).to have_link('Edit Application')
   end
 end
