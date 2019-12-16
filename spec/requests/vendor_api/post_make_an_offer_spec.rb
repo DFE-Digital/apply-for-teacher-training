@@ -19,7 +19,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
           ],
         },
       }
-      expect(request_body[:data]).to be_valid_against_openapi_schema('Offer')
+      expect(request_body[:data]).to be_valid_against_openapi_schema('MakeOffer')
 
       post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
 
