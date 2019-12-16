@@ -304,6 +304,10 @@ en:
         - (should never appear)
         - First referee
         - Second referee
+      chase: Chase referee
+      confirm_chase: Are you sure you want to send an email to chase the referee?
+      chase_button: Yes - send the email
+      chase_success: Email sent to candidate and referee
   activemodel:
     errors:
       models:

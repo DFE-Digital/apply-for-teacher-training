@@ -1,0 +1,14 @@
+<% content_for :title, t('application_form.referees.confirm_chase') %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@application_form), 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @reference, url: support_interface_chase_reference_path(@reference), method: :post do |f| %>
+      <%= f.submit t('application_form.referees.chase_button'), class: 'govuk-button', data: { module: 'govuk-button' } %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to 'Cancel', support_interface_application_form_path(@application_form) %>
+      </p>
+    <% end %>
+  </div>
+</div>
