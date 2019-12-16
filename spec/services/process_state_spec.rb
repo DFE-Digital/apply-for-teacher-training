@@ -18,8 +18,18 @@ RSpec.describe ProcessState do
       expect(state).to be(:unsubmitted)
     end
 
-    it 'returns awaiting_references when awaiting references' do
+    it 'returns awaiting_references when awaiting references for all choices' do
       application_form = build_stubbed(:application_form, application_choices: build_list(:application_choice, 2, status: 'awaiting_references'))
+
+      state = ProcessState.new(application_form).state
+
+      expect(state).to be(:awaiting_references)
+    end
+
+    it 'returns awaiting_references when awaiting references for any choice' do
+      application_form = create(:application_form)
+      create(:application_choice, application_form: application_form, status: 'awaiting_provider_decision')
+      create(:application_choice, application_form: application_form, status: 'awaiting_references')
 
       state = ProcessState.new(application_form).state
 
