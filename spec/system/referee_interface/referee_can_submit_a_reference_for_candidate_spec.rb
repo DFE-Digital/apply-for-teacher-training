@@ -14,6 +14,9 @@ RSpec.feature 'Referee submits a reference for a candidate', sidekiq: true do
     when_i_try_to_access_the_reference_page_with_invalid_token
     then_i_see_page_not_found
 
+    when_i_click_the_decline_the_link_within_the_email
+    then_i_see_the_decline_page
+
     when_i_click_on_the_link_within_the_email
     then_i_see_the_reference_comment_page
 
@@ -44,6 +47,15 @@ RSpec.feature 'Referee submits a reference for a candidate', sidekiq: true do
 
   def then_i_see_page_not_found
     expect(page).to have_content('Page not found')
+  end
+
+  def when_i_click_the_decline_the_link_within_the_email
+    current_email.click_link referee_interface_decline_feedback_url(token: referee_token)
+  end
+
+  def then_i_see_the_decline_page
+    expect(page).to have_content('You’ve declined to give a reference')
+    expect(page).to have_content("We will tell #{@application.first_name} #{@application.last_name}")
   end
 
   def when_i_click_on_the_link_within_the_email

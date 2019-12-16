@@ -214,6 +214,7 @@ Rails.application.routes.draw do
   namespace :referee_interface, path: '/reference' do
     get '/finish' => 'reference#finish', as: :reference_finish
     get '/:token/confirmation' => 'reference#confirmation', as: :confirmation
+    get '/:token/decline' => 'reference#decline', as: :decline_feedback
     get '/:token' => 'reference#feedback', as: :reference_feedback
     patch '/:token/confirmation' => 'reference#submit_feedback', as: :submit_feedback
   end

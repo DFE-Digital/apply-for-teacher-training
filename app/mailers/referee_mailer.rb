@@ -6,6 +6,7 @@ class RefereeMailer < ApplicationMailer
 
     if FeatureFlag.active?('reference_form')
       @reference_link = referee_interface_reference_feedback_url(token: reference.token)
+      @decline_reference_link = referee_interface_decline_feedback_url(token: reference.token)
       template_name = :reference_request_email
     else
       @reference_link = google_form_url_for(@candidate_name, @reference)
