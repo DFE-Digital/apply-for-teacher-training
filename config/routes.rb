@@ -269,6 +269,7 @@ Rails.application.routes.draw do
     get '/providers' => 'providers#index', as: :providers
     post '/providers/sync' => 'providers#sync'
     get '/providers/:provider_id' => 'providers#show', as: :provider
+    post '/providers/:provider_id' => 'providers#open_all_courses'
 
     get '/courses/:course_id' => 'courses#show', as: :course
     post '/courses/:course_id' => 'courses#update'

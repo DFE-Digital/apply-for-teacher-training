@@ -24,6 +24,11 @@ RSpec.feature 'See providers' do
     when_i_visit_the_providers_page
     when_i_click_on_a_provider
     then_i_see_the_updated_providers_courses_and_sites
+
+    when_i_visit_the_providers_page
+    when_i_click_on_a_different_provider
+    and_i_choose_to_open_all_courses
+    then_all_courses_should_be_open_on_apply
   end
 
   def given_i_am_a_support_user
@@ -113,6 +118,18 @@ RSpec.feature 'See providers' do
 
   def then_i_see_the_updated_providers_courses_and_sites
     expect(page).to have_content 'ABC-1'
+    expect(page).to have_content '1 course (1 on DfE Apply)'
+  end
+
+  def when_i_click_on_a_different_provider
+    click_link 'Gorse SCITT'
+  end
+
+  def and_i_choose_to_open_all_courses
+    click_button 'Open 1 course'
+  end
+
+  def then_all_courses_should_be_open_on_apply
     expect(page).to have_content '1 course (1 on DfE Apply)'
   end
 end

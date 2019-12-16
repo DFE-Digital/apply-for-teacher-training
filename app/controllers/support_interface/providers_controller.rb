@@ -12,5 +12,14 @@ module SupportInterface
       SyncFromFind.perform_async
       redirect_to action: 'index'
     end
+
+    def open_all_courses
+      @provider = Provider.find(params[:provider_id])
+
+      @provider.courses.update_all(open_on_apply: true)
+
+      flash[:success] = 'Successfully updated all courses'
+      redirect_to support_interface_provider_path(@provider)
+    end
   end
 end
