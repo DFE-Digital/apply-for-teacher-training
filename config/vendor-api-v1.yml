@@ -323,7 +323,7 @@ components:
             The phase of this application. In the first phase, "Apply 1", the
             candidate can choose up to 3 courses. If all of those choices are rejected,
             declined, or withdrawn, the user can go into "Apply 2". This means
-            they can choose 1 course at a time. 
+            they can choose 1 course at a time.
           enum:
             - apply_1
             - apply_2
@@ -662,6 +662,7 @@ components:
           type: string
           description: Optional. The candidate’s reason for withdrawing
           maxLength: 255
+          nullable: true
           example: Candidate is unwell
         date:
           type: string

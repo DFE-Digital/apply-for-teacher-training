@@ -48,7 +48,7 @@ module VendorApi
           },
           offer: application_choice.offer,
           rejection: get_rejection,
-          withdrawal: nil,
+          withdrawal: withdrawal,
           hesa_itt_data: {
             sex: '2',
             disability: '00',
@@ -69,6 +69,15 @@ module VendorApi
           reason: application_choice.rejection_reason,
         }
       end
+    end
+
+    def withdrawal
+      return unless application_choice.withdrawn?
+
+      {
+        reason: nil, # Candidates aren't able to provide a withdrawal reason yet
+        date: application_choice.withdrawn_at.iso8601,
+      }
     end
 
     def nationalities
