@@ -9,6 +9,7 @@ RSpec.describe CandidateInterface::InterviewPreferencesForm, type: :model do
 
   let(:form_data) do
     {
+      any_preferences: 'yes',
       interview_preferences: data[:interview_preferences],
     }
   end
@@ -21,6 +22,26 @@ RSpec.describe CandidateInterface::InterviewPreferencesForm, type: :model do
       )
 
       expect(interview_preferences).to have_attributes(form_data)
+    end
+
+    it 'returns no for any preferences if the default no value is used' do
+      application_form = ApplicationForm.new(
+        interview_preferences: t('application_form.personal_statement.interview_preferences.no_value'),
+      )
+      interview_preferences = CandidateInterface::InterviewPreferencesForm.build_from_application(
+        application_form,
+      )
+
+      expect(interview_preferences.any_preferences).to eq('no')
+    end
+
+    it 'returns nil for any preferences if interview preferences is nil' do
+      application_form = ApplicationForm.new(interview_preferences: nil)
+      interview_preferences = CandidateInterface::InterviewPreferencesForm.build_from_application(
+        application_form,
+      )
+
+      expect(interview_preferences.any_preferences).to eq(nil)
     end
   end
 
@@ -38,15 +59,39 @@ RSpec.describe CandidateInterface::InterviewPreferencesForm, type: :model do
       expect(interview_preferences.save(application_form)).to eq(true)
       expect(application_form).to have_attributes(data)
     end
+
+    it 'updates the provided ApplicationForm with the default no value if no is selected' do
+      application_form = create(:application_form)
+      interview_preferences = CandidateInterface::InterviewPreferencesForm.new(
+        any_preferences: 'no',
+        interview_preferences: '',
+      )
+
+      expect(interview_preferences.save(application_form)).to eq(true)
+      expect(application_form).to have_attributes(
+        interview_preferences: t('application_form.personal_statement.interview_preferences.no_value'),
+      )
+    end
   end
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:interview_preferences) }
+    it { is_expected.to validate_presence_of(:any_preferences) }
 
     valid_text = Faker::Lorem.sentence(word_count: 200)
     invalid_text = Faker::Lorem.sentence(word_count: 201)
 
     it { is_expected.to allow_value(valid_text).for(:interview_preferences) }
     it { is_expected.not_to allow_value(invalid_text).for(:interview_preferences) }
+
+    it 'validates the presence of interview preferences if chosen to add any' do
+      interview_preferences = CandidateInterface::InterviewPreferencesForm.new(any_preferences: 'yes')
+      error_message = t('activemodel.errors.models.candidate_interface/interview_preferences_form.attributes.interview_preferences.blank')
+
+      interview_preferences.validate
+
+      expect(interview_preferences.errors.full_messages_for(:interview_preferences)).to eq(
+        ["Interview preferences #{error_message}"],
+      )
+    end
   end
 end

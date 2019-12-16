@@ -6,16 +6,24 @@
     <%= form_with model: @interview_preferences_form, url: candidate_interface_interview_preferences_update_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_text_area :interview_preferences, label: { text: t('application_form.personal_statement.interview_preferences.label'), tag: 'h1', size: 'xl' }, rows: 8, max_words: 200 do %>
-        <p class="govuk-body">Your interview will usually take place over the course of a day and you will need to attend in person. Please give details of:</p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>any disability, health or personal issue you feel is relevant</li>
-          <li>special arrangements or assistance you may need</li>
-          <li>dates you are unavailable for interview</li>
-        </ul>
+      <h1 class="govuk-heading-xl"><%= t('page_titles.interview_preferences') %></h1>
+
+      <p class="govuk-body">Your interview will usually take place over the course of a day and you will need to attend in person. Please give details of:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>any disability, health or personal issue you feel is relevant</li>
+        <li>special arrangements or assistance you may need</li>
+        <li>dates you are unavailable for interview</li>
+      </ul>
+
+      <%= f.govuk_radio_buttons_fieldset :any_preferences, legend: { size: 'm', text: t('application_form.personal_statement.interview_preferences.label'), tag: 'span' } do %>
+        <%= f.govuk_radio_button :any_preferences, 'yes', label: { text: 'Yes' }, link_errors: true do %>
+          <%= f.govuk_text_area :interview_preferences, label: { text: t('application_form.personal_statement.interview_preferences.yes_label') }, rows: 8, max_words: 200 %>
+        <% end %>
+
+        <%= f.govuk_radio_button :any_preferences, 'no', label: { text: 'No' } %>
       <% end %>
 
-      <%= f.govuk_submit 'Continue' %>
+      <%= f.govuk_submit t('application_form.personal_statement.interview_preferences.complete_form_button') %>
     <% end %>
   </div>
 </div>
