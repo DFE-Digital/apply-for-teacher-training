@@ -10,9 +10,9 @@ class ProcessState
       :unsubmitted
     elsif all_states_are?('unsubmitted')
       :unsubmitted
-    elsif all_states_are?('awaiting_references')
+    elsif any_state_is?('awaiting_references')
       :awaiting_references
-    elsif all_states_are?('application_complete')
+    elsif any_state_is?('application_complete')
       :waiting_to_be_sent
     elsif any_state_is?('awaiting_provider_decision')
       :awaiting_provider_decisions
