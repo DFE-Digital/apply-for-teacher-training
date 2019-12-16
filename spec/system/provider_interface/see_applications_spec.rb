@@ -15,6 +15,30 @@ RSpec.feature 'See applications' do
     then_i_should_see_no_applications
   end
 
+  context 'when database authorisation for provider users is enabled' do
+    before { FeatureFlag.activate('provider_permissions_in_database') }
+
+    scenario 'Provider visits application page' do
+      given_i_am_a_provider_user_authenticated_with_dfe_sign_in
+      and_my_organisation_has_applications
+
+      when_i_have_been_assigned_to_my_training_provider
+      and_i_visit_the_provider_page
+      then_i_should_see_the_applications_from_my_organisation
+
+      when_i_click_on_an_application
+      then_i_should_be_on_the_application_view_page
+    end
+
+    def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
+      provider_user = provider_user_exists_in_apply_database
+      create(:provider, code: 'ABC', provider_users: [provider_user])
+
+      provider_exists_in_dfe_sign_in
+      provider_signs_in_using_dfe_sign_in
+    end
+  end
+
   scenario 'Provider visits application page' do
     given_i_am_a_provider_user_authenticated_with_dfe_sign_in
     and_my_training_provider_exists

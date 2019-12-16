@@ -27,6 +27,10 @@ module DfESignInHelpers
       .and_return(code => [dfe_sign_in_uid])
   end
 
+  def provider_user_exists_in_apply_database
+    create(:provider_user, dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+  end
+
   def fake_dfe_sign_in_auth_hash(email_address:, dfe_sign_in_uid:)
     {
       'provider' => 'dfe',

@@ -177,6 +177,19 @@ ActiveRecord::Schema.define(version: 2019_12_16_104559) do
     t.index ["provider_id"], name: "index_courses_on_provider_id"
   end
 
+  create_table "provider_users", force: :cascade do |t|
+    t.string "email_address", null: false
+    t.string "dfe_sign_in_uid", null: false
+    t.index ["dfe_sign_in_uid"], name: "index_provider_users_on_dfe_sign_in_uid", unique: true
+  end
+
+  create_table "provider_users_providers", id: false, force: :cascade do |t|
+    t.bigint "provider_id", null: false
+    t.bigint "provider_user_id", null: false
+    t.index ["provider_id"], name: "index_provider_users_providers_on_provider_id"
+    t.index ["provider_user_id"], name: "index_provider_users_providers_on_provider_user_id"
+  end
+
   create_table "providers", force: :cascade do |t|
     t.string "name"
     t.string "code"

@@ -1,19 +1,25 @@
-class ProviderUser < DfESignInUser
-  def provider
-    provider_code = Rails.application.config.provider_permissions
-      .select { |_code, permitted_uids| permitted_uids.include? dfe_sign_in_uid }
-      .keys
-      .first
+class ProviderUser < ActiveRecord::Base
+  validates :dfe_sign_in_uid, presence: true
+  validates :email_address, presence: true
 
-    Provider.find_by(code: provider_code)
+  has_and_belongs_to_many :providers
+
+  def provider
+    providers.first
   end
 
   def self.load_from_session(session)
     return nil unless session['dfe_sign_in_user']
 
-    ProviderUser.new(
-      email_address: session['dfe_sign_in_user']['email_address'],
-      dfe_sign_in_uid: session['dfe_sign_in_user']['dfe_sign_in_uid'],
-    )
+    if FeatureFlag.active?('provider_permissions_in_database')
+      ProviderUser.find_by(
+        dfe_sign_in_uid: session['dfe_sign_in_user']['dfe_sign_in_uid'],
+      )
+    else
+      LegacyProviderUser.new(
+        email_address: session['dfe_sign_in_user']['email_address'],
+        dfe_sign_in_uid: session['dfe_sign_in_user']['dfe_sign_in_uid'],
+      )
+    end
   end
 end
