@@ -585,7 +585,6 @@ components:
       additionalProperties: false
       required:
         - conditions
-        - course
       properties:
         conditions:
           type: array
