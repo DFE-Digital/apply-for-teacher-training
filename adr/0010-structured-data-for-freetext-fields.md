@@ -59,20 +59,22 @@ $ wc -l *.csv
   1053659 total
 ```
 
-Whether we can reliably match qualifications on our system with this register remains to be seen.
+However, this register does not seem to contain Higher Education institutions and qualifications, the source of truth for which is probably maintained by UCAS.
+
+Furthermore, reliably matching qualifications on our system with this or other registers will pose its own challenges.
 
 ## Decision
 
 ### Scope
 
-We have decided to provided structured data for the following areas:
+We have decided to implement our own relatively abstract categorisation for qualification types (e.g. A-level, GCSE, BA).
 
-- Institutions & Course information (do we get structured data from Find? LRS)
-- Qualification type e.g. A-level, GCSE
-- Awarding body e.g. AQA, OCR
+In terms of fields, we will not add any new fields at this stage, but turn ```qualification_type``` into a structured field, with values that can be looked up in a reference table.
 
-We will not provide any structured data for:
+We will NOT provide any structured data for:
 
+- Institutions
+- Awarding bodies e.g. AQA, OCR
 - Degree Subjects
 - Demographic information (e.g. HESA)
 - Nationalities (we use ISO codes)
@@ -80,26 +82,23 @@ We will not provide any structured data for:
 
 ### Additional fields
 
-The additional structured data will be provided as extra fields in the API responses.
+We shall not be adding any additional fields to the API responses at this point.
 
 ### Reference data
 
-A link to the Ofqual Register download page ([https://register.ofqual.gov.uk/Download](https://register.ofqual.gov.uk/Download)) should be included in our docs, so that vendors who wish to do so can cross-reference Institution and Qualifications data.
+A CSV download of all ```qualification_types``` should be provided thought the API.
 
 ## Consequences
 
 ### API documentation
 
-Our API documentation must contain examples of structured data provided alongside the relevant free-text fields. It must also explain how vendors can obtain the reference data (lookup tables).
+Our API documentation must contain an example of downloading the ```qualification_types``` reference data from our system.
 
-### Application presenter
+### Application code
 
-The presenter code must be adapted to include structured data if the relevant information is available.
-
-### Data model
-
-To expose structured data around institutions and qualification, we need a query service accessing an appropriate data source (e.g. our own database of the Ofqual register) and a method for matching qualifications on our system with the relevant Ofqual codes.
+Our code must update ```qualification_types``` with every new qualification inserted in the system.
 
 ### Data refreshes
 
-We'll also need an automated or manual process for refreshing the Ofqual data in a reasonable timeframe (TBD).
+A timestamp for the most recent update of ```qualification_types``` must be provided to vendors on request.
+
