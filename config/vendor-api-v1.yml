@@ -323,7 +323,7 @@ components:
             The phase of this application. In the first phase, "Apply 1", the
             candidate can choose up to 3 courses. If all of those choices are rejected,
             declined, or withdrawn, the user can go into "Apply 2". This means
-            they can choose 1 course at a time. 
+            they can choose 1 course at a time.
           enum:
             - apply_1
             - apply_2
@@ -545,6 +545,9 @@ components:
           type: string
           description: Can be 'full_time' or 'part_time'
           example: full_time
+          enum:
+            - full_time
+            - part_time
     Offer:
       type: object
       additionalProperties: false
