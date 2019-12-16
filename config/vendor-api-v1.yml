@@ -545,6 +545,9 @@ components:
           type: string
           description: Can be 'full_time' or 'part_time'
           example: full_time
+          enum:
+            - full_time
+            - part_time
     Offer:
       type: object
       additionalProperties: false

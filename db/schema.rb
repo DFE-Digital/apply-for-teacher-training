@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_12_140648) do
+ActiveRecord::Schema.define(version: 2019_12_16_104559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -33,9 +33,9 @@ ActiveRecord::Schema.define(version: 2019_12_12_140648) do
     t.integer "decline_by_default_days"
     t.datetime "offered_at"
     t.datetime "rejected_at"
+    t.datetime "withdrawn_at"
     t.datetime "declined_at"
     t.boolean "declined_by_default", default: false, null: false
-    t.datetime "withdrawn_at"
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
   end
@@ -153,7 +153,7 @@ ActiveRecord::Schema.define(version: 2019_12_12_140648) do
     t.string "vacancy_status", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "study_mode", default: 0, null: false
+    t.string "study_mode", default: "full_time", null: false
     t.index ["course_id"], name: "index_course_options_on_course_id"
     t.index ["site_id", "course_id", "study_mode"], name: "index_course_options_on_site_id_and_course_id_and_study_mode", unique: true
     t.index ["site_id"], name: "index_course_options_on_site_id"
@@ -169,8 +169,8 @@ ActiveRecord::Schema.define(version: 2019_12_12_140648) do
     t.integer "accrediting_provider_id"
     t.boolean "exposed_in_find"
     t.boolean "open_on_apply", default: false, null: false
-    t.string "study_mode", limit: 1, default: "F", null: false
     t.integer "recruitment_cycle_year", null: false
+    t.string "study_mode", limit: 1, default: "F", null: false
     t.index ["code"], name: "index_courses_on_code"
     t.index ["exposed_in_find", "open_on_apply"], name: "index_courses_on_exposed_in_find_and_open_on_apply"
     t.index ["provider_id", "code"], name: "index_courses_on_provider_id_and_code", unique: true
