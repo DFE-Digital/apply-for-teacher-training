@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2019_12_16_104559) do
     t.datetime "withdrawn_at"
     t.datetime "declined_at"
     t.boolean "declined_by_default", default: false, null: false
+    t.integer "offered_course_option_id"
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
   end
@@ -68,6 +69,7 @@ ActiveRecord::Schema.define(version: 2019_12_16_104559) do
     t.text "other_language_details"
     t.date "date_of_birth"
     t.text "further_information"
+    t.datetime "submitted_at"
     t.string "phone_number"
     t.string "address_line1"
     t.string "address_line2"
@@ -75,7 +77,6 @@ ActiveRecord::Schema.define(version: 2019_12_16_104559) do
     t.string "address_line4"
     t.string "country"
     t.string "postcode"
-    t.datetime "submitted_at"
     t.string "support_reference", limit: 10
     t.string "disability_disclosure"
     t.string "uk_residency_status"
@@ -255,6 +256,7 @@ ActiveRecord::Schema.define(version: 2019_12_16_104559) do
 
   add_foreign_key "application_choices", "application_forms", on_delete: :cascade
   add_foreign_key "application_choices", "course_options"
+  add_foreign_key "application_choices", "course_options", column: "offered_course_option_id"
   add_foreign_key "application_experiences", "application_forms", on_delete: :cascade
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
   add_foreign_key "application_qualifications", "application_forms", on_delete: :cascade

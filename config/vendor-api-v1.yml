@@ -76,13 +76,15 @@ paths:
           The conditions of the offer
 
           Providing a request body with an array of conditions is equivalent to making a **conditional** offer. For an **unconditional** offer, provide an empty array.
+
+          You can provide an optional `course` object if you wish to suggest a different course code, location, or year of entry.
         content:
           application/json:
             schema:
               type: object
               properties:
                 data:
-                  $ref: "#/components/schemas/Offer"
+                  $ref: "#/components/schemas/MakeOffer"
                 meta:
                   $ref: '#/components/schemas/MetaData'
       responses:
@@ -583,6 +585,7 @@ components:
       additionalProperties: false
       required:
         - conditions
+        - course
       properties:
         conditions:
           type: array
@@ -594,6 +597,28 @@ components:
           example:
             - Completion of subject knowledge enhancement
             - Completion of professional skills test
+        course:
+          $ref: "#/components/schemas/Course"
+    MakeOffer:
+      type: object
+      additionalProperties: false
+      required:
+        - conditions
+      properties:
+        conditions:
+          type: array
+          items:
+            type: string
+            maxLength: 255
+          description: The conditions of the offer
+          maxItems: 20
+          example:
+            - Completion of subject knowledge enhancement
+            - Completion of professional skills test
+        course:
+          description: An optional `course` that you wish to suggest to the candidate.
+          anyOf:
+            - $ref: "#/components/schemas/Course"
     Qualification:
       type: object
       additionalProperties: false

@@ -39,14 +39,14 @@ module VendorApi
             country: application_form.country,
             email: application_form.candidate.email_address,
           },
-          course: course,
+          course: course_info_for(application_choice.course_option),
           references: references,
           qualifications: qualifications,
           work_experience: {
             jobs: work_experience_jobs,
             volunteering: work_experience_volunteering,
           },
-          offer: application_choice.offer,
+          offer: offer,
           rejection: get_rejection,
           withdrawal: withdrawal,
           hesa_itt_data: {
@@ -87,13 +87,13 @@ module VendorApi
       ].map { |n| NATIONALITIES_BY_NAME[n] }.compact
     end
 
-    def course
+    def course_info_for(course_option)
       {
-        recruitment_cycle_year: application_choice.course.recruitment_cycle_year,
-        provider_code: application_choice.provider.code,
-        site_code: application_choice.site.code,
-        course_code: application_choice.course.code,
-        study_mode: application_choice.course_option.study_mode,
+        recruitment_cycle_year: course_option.course.recruitment_cycle_year,
+        provider_code: course_option.course.provider.code,
+        site_code: course_option.site.code,
+        course_code: course_option.course.code,
+        study_mode: course_option.course.study_mode,
       }
     end
 
@@ -173,6 +173,20 @@ module VendorApi
 
     def personal_statement
       "Why do you want to become a teacher?: #{application_form.becoming_a_teacher} \n What is your subject knowledge?: #{application_form.subject_knowledge}"
+    end
+
+    def offered_course
+      offered_option = application_choice.offered_course_option || application_choice.course_option
+
+      {
+        course: course_info_for(offered_option),
+      }
+    end
+
+    def offer
+      return nil if application_choice.offer.nil?
+
+      application_choice.offer.merge(offered_course)
     end
   end
 end
