@@ -268,6 +268,9 @@ Rails.application.routes.draw do
     post '/candidates/:candidate_id/show' => 'candidates#show_in_reporting', as: :show_candidate
     post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
 
+    get '/chase-reference/:reference_id' => 'chase_reference#show', as: :chase_reference
+    post '/chase-reference/:reference_id' => 'chase_reference#chase'
+
     get '/tokens' => 'api_tokens#index', as: :api_tokens
     post '/tokens' => 'api_tokens#create'
 

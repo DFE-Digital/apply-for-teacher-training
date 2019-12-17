@@ -19,4 +19,14 @@ class CandidateMailer < ApplicationMailer
               to: application_form.candidate.email_address,
               subject: t('application_under_consideration.email.subject'))
   end
+
+  def reference_chaser_email(application_form, reference)
+    @candidate_name = application_form.first_name
+    @referee_name = reference.name
+    @referee_email = reference.email_address
+
+    view_mail(GENERIC_NOTIFY_TEMPLATE,
+              to: application_form.candidate.email_address,
+              subject: t('candidate_reference.subject.chaser', referee_name: @referee_name))
+  end
 end

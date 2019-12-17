@@ -7,8 +7,10 @@ class ReferenceWithFeedbackComponent < ActionView::Component::Base
            :relationship,
            to: :reference
 
-  def initialize(reference:)
+  def initialize(reference:, title: '', show_chase_reference: false)
     @reference = reference
+    @title = title
+    @show_chase_reference = show_chase_reference
   end
 
   def rows
@@ -52,5 +54,5 @@ private
     end
   end
 
-  attr_reader :reference
+  attr_reader :reference, :title, :show_chase_reference
 end
