@@ -185,11 +185,6 @@ GEM
     gherkin (5.1.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    govuk-lint (4.3.0)
-      rubocop (~> 0.76)
-      rubocop-rails (~> 2)
-      rubocop-rspec (~> 1.28)
-      scss_lint
     govuk_design_system_formbuilder (1.0.1)
       actionview (>= 5.2)
       activemodel (>= 5.2)
@@ -423,7 +418,11 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 1.7)
-    rubocop-rails (2.3.2)
+    rubocop-govuk (1.0.0)
+      rubocop (~> 0.76)
+      rubocop-rails (~> 2)
+      rubocop-rspec (~> 1.28)
+    rubocop-rails (2.4.0)
       rack (>= 1.1)
       rubocop (>= 0.72.0)
     rubocop-rspec (1.37.0)
@@ -434,13 +433,6 @@ GEM
     ruby-progressbar (1.10.1)
     rubyzip (2.0.0)
     safe_yaml (1.0.5)
-    sass (3.7.4)
-      sass-listen (~> 4.0.0)
-    sass-listen (4.0.0)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
-    scss_lint (0.59.0)
-      sass (~> 3.5, >= 3.5.5)
     selenium-webdriver (3.142.6)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
@@ -538,7 +530,6 @@ DEPENDENCIES
   factory_bot_rails
   faker
   foreman
-  govuk-lint
   govuk_design_system_formbuilder (= 1.0.1)
   guard-rspec
   holidays
@@ -570,7 +561,7 @@ DEPENDENCIES
   rspec-benchmark
   rspec-rails
   rspec_junit_formatter
-  rubocop-rspec
+  rubocop-govuk
   selenium-webdriver
   sentry-raven
   shoulda-matchers (~> 4.1)

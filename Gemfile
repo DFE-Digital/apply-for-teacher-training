@@ -16,8 +16,7 @@ gem 'mail-notify'
 gem 'redcarpet'
 
 # Linting
-gem 'rubocop-rspec'
-gem 'govuk-lint'
+gem 'rubocop-govuk'
 gem 'erb_lint', require: false
 
 gem 'devise'

@@ -1,5 +1,6 @@
 inherit_gem:
-  govuk-lint: configs/rubocop/all.yml
+  rubocop-govuk:
+    - config/default.yml
 
 require: rubocop-rspec
 
