@@ -1,0 +1,21 @@
+.app-card {
+  background-color: govuk-colour("light-grey");
+  display: block;
+  padding: govuk-spacing(2);
+  text-decoration: none;
+  @include govuk-font($size: 19);
+
+  @include govuk-media-query($from: desktop) {
+    padding: govuk-spacing(4);
+  }
+}
+
+.app-card--blue {
+  background: govuk-colour("blue");
+  color: govuk-colour("white");
+}
+
+.app-card__count {
+  @include govuk-font($size: 80, $weight: bold);
+  display: block;
+}
