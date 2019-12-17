@@ -9,6 +9,6 @@ module DfESignIn
   end
 
   def self.bypass?
-    Rails.env.development? && ENV['BYPASS_DFE_SIGN_IN'] == 'true'
+    !HostingEnvironment.production? && ENV['BYPASS_DFE_SIGN_IN'] == 'true'
   end
 end
