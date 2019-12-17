@@ -1,3 +1,7 @@
 <% content_for :title, 'Candidates' %>
 
+<p class='govuk-body'>
+  You can import references from the <%= govuk_link_to 'applications list', support_interface_applications_path %>.
+</p>
+
 <%= render SupportInterface::CandidatesTableComponent, candidates: @candidates %>

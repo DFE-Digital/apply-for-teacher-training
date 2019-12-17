@@ -254,7 +254,7 @@ Rails.application.routes.draw do
   post '/auth/developer/callback' => 'dfe_sign_in#bypass_callback'
 
   namespace :support_interface, path: '/support' do
-    get '/' => redirect('/support/applications')
+    get '/' => redirect('/support/candidates')
 
     get '/applications' => 'application_forms#index'
     get '/applications/:application_form_id' => 'application_forms#show', as: :application_form

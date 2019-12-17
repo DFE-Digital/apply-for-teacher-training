@@ -8,6 +8,7 @@ RSpec.feature 'Import references' do
     given_i_am_a_support_user
     and_there_are_applications_in_the_system
     and_i_visit_the_support_page
+    and_i_follow_the_link_to_applications
 
     when_i_click_on_import_references
     then_i_should_see_an_import_references_form
@@ -36,6 +37,10 @@ RSpec.feature 'Import references' do
 
   def and_i_visit_the_support_page
     visit support_interface_path
+  end
+
+  def and_i_follow_the_link_to_applications
+    click_link 'applications list'
   end
 
   def when_i_click_on_import_references
