@@ -21,5 +21,10 @@ $govuk-image-url-function: frontend-image-url;
 @import "_summary-card";
 @import "_tag";
 @import "_task-list";
-@import "_syntax-highlighting";
 @import "_contents-list";
+
+// Support
+@import "_card";
+
+// API docs
+@import "_syntax-highlighting";
