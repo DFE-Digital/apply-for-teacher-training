@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_16_104559) do
+ActiveRecord::Schema.define(version: 2019_12_17_103510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -194,6 +194,8 @@ ActiveRecord::Schema.define(version: 2019_12_16_104559) do
     t.string "name"
     t.string "relationship"
     t.string "token"
+    t.boolean "rejected_reference_request"
+    t.boolean "allows_user_research", default: false, null: false
     t.index ["application_form_id", "email_address"], name: "index_references_on_application_form_id_and_email_address", unique: true
     t.index ["application_form_id"], name: "index_references_on_application_form_id"
   end
