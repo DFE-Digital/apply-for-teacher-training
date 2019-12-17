@@ -1,20 +1,19 @@
+<% content_for :title, 'Users' %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">
-      Users
-    </h1>
-    <h2 class="govuk-heading-l">
-      Support users
+    <h2 class="govuk-heading-m">
+      <%= govuk_link_to 'Support users', support_interface_support_users_path %>
     </h2>
     <p class="govuk-body">
-      <%= link_to 'Manage support users', support_interface_support_users_path %>
+      Manage who can use Support for Apply
     </p>
 
-    <h2 class="govuk-heading-l">
-      Provider users
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">
+      <%= govuk_link_to 'Provider users', support_interface_provider_users_path %>
     </h2>
     <p class="govuk-body">
-      <%= link_to 'Manage provider users', support_interface_provider_users_path %>
+      Manage who has access to each provider
     </p>
   </div>
 </div>
