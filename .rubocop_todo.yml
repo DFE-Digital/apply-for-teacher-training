@@ -109,13 +109,6 @@ Rails/OutputSafety:
     - 'app/helpers/markdown_helper.rb'
     - 'app/helpers/view_helper.rb'
 
-# Offense count: 3
-# Configuration parameters: Include.
-# Include: **/Rakefile, **/*.rake
-Rails/RakeEnvironment:
-  Exclude:
-    - 'lib/tasks/testing.rake'
-
 # Offense count: 2
 # Configuration parameters: Include.
 # Include: db/migrate/*.rb

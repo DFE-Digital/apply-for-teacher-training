@@ -94,3 +94,7 @@ Rails/ApplicationRecord:
 # like `VendorApiToken.find_by_unhashed_token` (which we implement ourselves)
 Rails/DynamicFindBy:
   Enabled: false
+
+# Not all rake tasks need :environment
+Rails/RakeEnvironment:
+  Enabled: false
