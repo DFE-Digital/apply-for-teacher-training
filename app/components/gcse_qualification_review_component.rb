@@ -53,7 +53,7 @@ private
   def missing_qualification_row
     {
       key: 'How I expect to gain this qualification',
-      value: application_qualification.missing_explanation.present? ? application_qualification.missing_explanation : t('gcse_summary.not_specified'),
+      value: application_qualification.missing_explanation.presence || t('gcse_summary.not_specified'),
       change_path: candidate_interface_gcse_details_edit_type_path(subject: subject),
     }
   end

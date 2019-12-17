@@ -1,6 +1,9 @@
+inherit_from: .rubocop_todo.yml
+
 inherit_gem:
   rubocop-govuk:
     - config/default.yml
+    - config/rails.yml
 
 require: rubocop-rspec
 
@@ -76,3 +79,18 @@ RSpec/DescribeClass:
 Lint/AmbiguousBlockAssociation:
   Exclude:
     - 'spec/support/slack_notifications.rb'
+
+# We don't want to subclass from ApplicationController. This enables separation
+# between the namespaces, and allows subclassing from ActionController::API in
+# the Vendor API.
+Rails/ApplicationController:
+  Enabled: false
+
+# We don't use ApplicationRecord
+Rails/ApplicationRecord:
+  Enabled: false
+
+# Rails doesn't actually allow "dynamic find_by", so this cop yields false positives
+# like `VendorApiToken.find_by_unhashed_token` (which we implement ourselves)
+Rails/DynamicFindBy:
+  Enabled: false

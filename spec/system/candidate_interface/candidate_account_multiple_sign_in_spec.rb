@@ -82,7 +82,7 @@ RSpec.feature 'Candidate account' do
   end
 
   def when_i_click_the_link_in_the_email_after_an_hour_for(email)
-    Timecop.travel(Time.now + 1.hour + 1.second) do
+    Timecop.travel(Time.zone.now + 1.hour + 1.second) do
       @email_link_for[email].click
     end
   end

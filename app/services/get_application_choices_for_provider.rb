@@ -1,6 +1,6 @@
 class GetApplicationChoicesForProvider
   def self.call(provider:)
-    raise MissingProvider unless provider.present?
+    raise MissingProvider if provider.blank?
 
     includes = [
       :course,

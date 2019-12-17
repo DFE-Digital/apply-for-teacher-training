@@ -24,11 +24,11 @@ module ProviderInterface
         },
         {
           key: t('application_form.personal_statement.interview_preferences.label'),
-          value: interview_preferences.present? ? interview_preferences : 'No preference given',
+          value: interview_preferences.presence || 'No preference given',
         },
         {
           key: 'Further information',
-          value: further_information.present? ? further_information : 'No further information given',
+          value: further_information.presence || 'No further information given',
         },
       ]
     end

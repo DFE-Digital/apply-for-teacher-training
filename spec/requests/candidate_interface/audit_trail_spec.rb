@@ -5,7 +5,7 @@ RSpec.describe 'Candidate interface - audit trail', type: :request, with_audited
     create(
       :candidate,
       magic_link_token: magic_link_token.encrypted,
-      magic_link_token_sent_at: Time.now,
+      magic_link_token_sent_at: Time.zone.now,
     )
   end
 

@@ -63,7 +63,7 @@ module VendorApi
     # Takes errors from ActiveModel::Validations and render them in the API response
     def render_validation_errors(errors)
       error_responses = errors.full_messages.map { |message| { error: 'ValidationError', message: message } }
-      render status: 422, json: { errors: error_responses }
+      render status: :unprocessable_entity, json: { errors: error_responses }
     end
   end
 end

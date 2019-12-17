@@ -18,7 +18,7 @@ RSpec.describe ApplicationForm do
 
   describe '#update' do
     it 'updates the application_choices updated_at as well' do
-      original_time = Time.now - 1.day
+      original_time = Time.zone.now - 1.day
       application_form = create(:application_form)
       application_choices = create_list(
         :application_choice,

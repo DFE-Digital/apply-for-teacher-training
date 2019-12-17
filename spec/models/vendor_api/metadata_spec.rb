@@ -10,7 +10,7 @@ RSpec.describe VendorApi::Metadata do
     it 'is invalid when the attribution is present but invalid' do
       attribution = { full_name: nil, cold: :bananas }
 
-      metadata = VendorApi::Metadata.new(attribution: attribution, timestamp: Time.now)
+      metadata = VendorApi::Metadata.new(attribution: attribution, timestamp: Time.zone.now)
 
       expect(metadata).not_to be_valid
     end

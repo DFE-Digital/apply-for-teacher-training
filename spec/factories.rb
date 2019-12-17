@@ -169,7 +169,7 @@ FactoryBot.define do
 
     trait :with_offer do
       status { 'offer' }
-      decline_by_default_at { Time.now + 10.days }
+      decline_by_default_at { Time.zone.now + 10.days }
       decline_by_default_days { 10 }
       offer { { 'conditions' => ['Be cool'] } }
     end

@@ -11,6 +11,6 @@ class FindCandidateByToken
   def self.token_not_expired?(candidate)
     return false if candidate.nil?
 
-    Time.now < (candidate.magic_link_token_sent_at + MAX_TOKEN_DURATION)
+    Time.zone.now < (candidate.magic_link_token_sent_at + MAX_TOKEN_DURATION)
   end
 end

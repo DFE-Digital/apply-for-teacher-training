@@ -6,7 +6,7 @@ class SlackNotificationWorker
   def perform(text, url)
     @webhook_url = ENV['STATE_CHANGE_SLACK_URL']
     Rails.logger.debug "State change notification: #{text}"
-    if !@webhook_url.blank?
+    if @webhook_url.present?
       message = hyperlink text, url
       post_to_slack message
     end
