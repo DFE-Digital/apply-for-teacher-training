@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_16_104559) do
+ActiveRecord::Schema.define(version: 2019_12_17_155606) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -181,6 +181,8 @@ ActiveRecord::Schema.define(version: 2019_12_16_104559) do
   create_table "provider_users", force: :cascade do |t|
     t.string "email_address", null: false
     t.string "dfe_sign_in_uid", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["dfe_sign_in_uid"], name: "index_provider_users_on_dfe_sign_in_uid", unique: true
   end
 
