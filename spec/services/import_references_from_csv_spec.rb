@@ -21,7 +21,7 @@ RSpec.describe ImportReferencesFromCsv do
       expect(outcome[:updated]).to be true
       expect(outcome[:errors]).to be_nil
 
-      expect(application_form.references.find_by!(email_address: 'ab@c.com').feedback).to eq('Feedback')
+      expect(application_form.application_references.find_by!(email_address: 'ab@c.com').feedback).to eq('Feedback')
       application_form.application_choices.each { |choice| expect(choice.status).to eq('awaiting_references') }
     end
 
@@ -32,9 +32,9 @@ RSpec.describe ImportReferencesFromCsv do
       csv_row[1] = second_reference.id
       ImportReferencesFromCsv.process_row(csv_row)
 
-      expect(application_form.references.find_by!(email_address: 'ab@c.com').feedback).to eq('Feedback')
-      expect(application_form.references.find_by!(email_address: 'xy@z.com').feedback).to eq('More feedback')
-      expect(application_form.reload).to be_references_complete
+      expect(application_form.application_references.find_by!(email_address: 'ab@c.com').feedback).to eq('Feedback')
+      expect(application_form.application_references.find_by!(email_address: 'xy@z.com').feedback).to eq('More feedback')
+      expect(application_form.reload).to be_application_references_complete
     end
 
     it 'does not change existing feedback' do
@@ -47,7 +47,7 @@ RSpec.describe ImportReferencesFromCsv do
       expect(outcome[:updated]).to be false
       expect(outcome[:errors]).to eq(['Reference already has feedback'])
 
-      expect(application_form.references.find_by!(email_address: 'ab@c.com').feedback).to eq('Feedback')
+      expect(application_form.application_references.find_by!(email_address: 'ab@c.com').feedback).to eq('Feedback')
     end
 
     it 'does not update if an application form is not found' do

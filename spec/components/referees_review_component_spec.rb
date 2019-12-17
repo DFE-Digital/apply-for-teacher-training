@@ -7,7 +7,7 @@ RSpec.describe RefereesReviewComponent do
 
   context 'when referees are editable' do
     it "renders component with correct values for a referee's name" do
-      first_referee = application_form.references.first
+      first_referee = application_form.application_references.first
       result = render_inline(RefereesReviewComponent, application_form: application_form)
 
       expect(result.css('.app-summary-card__title').text).to include('First referee')
@@ -16,7 +16,7 @@ RSpec.describe RefereesReviewComponent do
     end
 
     it "renders component with correct values for a referee's email address" do
-      first_referee = application_form.references.first
+      first_referee = application_form.application_references.first
       result = render_inline(RefereesReviewComponent, application_form: application_form)
 
       expect(result.css('.govuk-summary-list__key').text).to include('Email address')
@@ -24,7 +24,7 @@ RSpec.describe RefereesReviewComponent do
     end
 
     it 'renders component along with a delete link for each referee' do
-      referee_id = application_form.references.first.id
+      referee_id = application_form.application_references.first.id
       result = render_inline(RefereesReviewComponent, application_form: application_form)
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.referees.delete'))

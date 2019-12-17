@@ -122,7 +122,7 @@ module VendorApi
     end
 
     def references
-      application_form.references.map do |reference|
+      application_form.application_references.map do |reference|
         reference_to_hash(reference)
       end
     end

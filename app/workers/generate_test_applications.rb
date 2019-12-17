@@ -55,7 +55,7 @@ private
       return if application_index == 2
 
       # References come in
-      application_form.references.each do |reference|
+      application_form.application_references.each do |reference|
         ReceiveReference.new(
           application_form: application_form,
           referee_email: reference.email_address,

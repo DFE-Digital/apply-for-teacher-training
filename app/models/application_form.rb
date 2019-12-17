@@ -8,10 +8,10 @@ class ApplicationForm < ApplicationRecord
   has_many :application_qualifications
   # explicit default order, so that we can preserve 'First' / 'Second' in the UI
   # as we're using numerical IDs with autonumber, 'id' is fine to achieve this
-  has_many :references, -> { order('id ASC') }
+  has_many :application_references, -> { order('id ASC') }
 
   MINIMUM_COMPLETE_REFERENCES = 2
-  validates_length_of :references, maximum: MINIMUM_COMPLETE_REFERENCES
+  validates_length_of :application_references, maximum: MINIMUM_COMPLETE_REFERENCES
 
   enum phase: {
     apply_1: 'apply_1',
@@ -26,8 +26,8 @@ class ApplicationForm < ApplicationRecord
     submitted_at.present?
   end
 
-  def references_complete?
-    references.completed.count == MINIMUM_COMPLETE_REFERENCES
+  def application_references_complete?
+    application_references.completed.count == MINIMUM_COMPLETE_REFERENCES
   end
 
   def awaiting_provider_decisions?

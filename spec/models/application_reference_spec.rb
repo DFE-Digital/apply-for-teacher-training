@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Reference, type: :model do
+RSpec.describe ApplicationReference, type: :model do
   subject { build(:reference) }
 
   describe 'a valid reference' do
@@ -19,7 +19,7 @@ RSpec.describe Reference, type: :model do
 
         expect(reference.valid?).to eq(false)
         expect(reference.errors.full_messages_for(:email_address)).to eq(
-          ["Email address #{t('activerecord.errors.models.reference.attributes.email_address.own')}"],
+          ["Email address #{t('activerecord.errors.models.application_reference.attributes.email_address.own')}"],
         )
       end
     end
@@ -61,7 +61,7 @@ RSpec.describe Reference, type: :model do
 
       before do
         create(:reference, application_form: application_form)
-        application_form.references << new_reference
+        application_form.application_references << new_reference
       end
 
       it 'sets the ordinal to 2' do
@@ -79,10 +79,10 @@ RSpec.describe Reference, type: :model do
     let!(:application_form) { create(:completed_application_form, references_count: 2) }
 
     describe 'the ordinal of the remaining references' do
-      let(:ordinals) { application_form.references.map(&:ordinal) }
+      let(:ordinals) { application_form.application_references.map(&:ordinal) }
 
       it 'still starts at 1' do
-        application_form.references.first.destroy
+        application_form.application_references.first.destroy
         expect(ordinals.first).to eq(1)
       end
     end

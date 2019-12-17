@@ -1,4 +1,6 @@
-class Reference < ApplicationRecord
+class ApplicationReference < ApplicationRecord
+  self.table_name = 'references'
+
   validates :name, presence: true, length: { minimum: 2, maximum: 200 }
   validates :email_address, presence: true,
                             email_address: true,
@@ -19,7 +21,7 @@ class Reference < ApplicationRecord
   end
 
   def ordinal
-    self.application_form.references.find_index(self).to_i + 1
+    self.application_form.application_references.find_index(self).to_i + 1
   end
 
   def email_address_not_own

@@ -74,9 +74,9 @@ FactoryBot.define do
         # This then *caches* the association on the  application_form, and means
         # you have to explicitly reload it to pick up the created references.
         # We do this here, so we only have to do it in one place, rather than
-        # everywhere we refer to application_form.references in tests.
+        # everywhere we refer to application_form.application_references in tests.
         # See https://github.com/thoughtbot/factory_bot/issues/549 for details.
-        application_form.references.reload
+        application_form.application_references.reload
       end
     end
   end
@@ -187,7 +187,7 @@ FactoryBot.define do
     hashed_token { '1234567890' }
   end
 
-  factory :reference do
+  factory :reference, class: 'ApplicationReference' do
     email_address { "#{SecureRandom.hex(5)}@example.com" }
     name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
     relationship { Faker::Lorem.paragraph(sentence_count: 3) }

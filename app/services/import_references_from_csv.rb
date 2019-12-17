@@ -18,8 +18,8 @@ class ImportReferencesFromCsv
     referee_feedback = row[5]
     reference_id     = row[1]
 
-    reference = Reference.find(reference_id)
-    application_form = ApplicationForm.includes(:references).where(references: { id: reference_id }).first
+    reference = ApplicationReference.find(reference_id)
+    application_form = ApplicationForm.includes(:application_references).where(references: { id: reference_id }).first
 
     if reference.feedback?
       {

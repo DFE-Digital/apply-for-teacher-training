@@ -33,7 +33,7 @@ RSpec.feature 'Candidate adding referees' do
   end
 
   def given_i_have_no_existing_references_on_the_form
-    expect(@current_candidate.application_forms.last.references.count).to eq(0)
+    expect(@current_candidate.application_forms.last.application_references.count).to eq(0)
   end
 
   def and_i_visit_the_application_form
@@ -70,7 +70,7 @@ RSpec.feature 'Candidate adding referees' do
   end
 
   def i_see_a_validation_error_on_relationship
-    expect(page).to have_content t('activerecord.errors.models.reference.attributes.relationship.blank')
+    expect(page).to have_content t('activerecord.errors.models.application_reference.attributes.relationship.blank')
   end
 
   def when_i_enter_a_relationship

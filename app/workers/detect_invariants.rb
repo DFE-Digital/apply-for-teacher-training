@@ -9,7 +9,7 @@ class DetectInvariants
   def detect_application_choices_stuck_in_awaiting_references_state
     # Application choices with completed feedback, but still awaiting references
     choices_in_wrong_state = begin
-      ApplicationChoice.where(status: 'awaiting_references', application_form: ApplicationForm.includes(:references).select(&:references_complete?))
+      ApplicationChoice.where(status: 'awaiting_references', application_form: ApplicationForm.includes(:application_references).select(&:application_references_complete?))
     end
 
     if choices_in_wrong_state.any?

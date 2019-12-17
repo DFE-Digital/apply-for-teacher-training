@@ -23,7 +23,7 @@ class RefereesReviewComponent < ActionView::Component::Base
   end
 
   def show_missing_banner?
-    @show_incomplete && @application_form.references.count < minimum_references && @editable
+    @show_incomplete && @application_form.application_references.count < minimum_references && @editable
   end
 
 private

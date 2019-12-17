@@ -70,7 +70,7 @@ RSpec.feature 'Import references' do
     csv_file = Tempfile.new(['csv_file', '.csv'])
     CSV.open(csv_file, 'w') do |csv|
       @completed_applications.each do |application_form|
-        application_form.references.each do |reference|
+        application_form.application_references.each do |reference|
           csv << ['', reference.id, reference.email_address, reference.name, application_form.first_name, 'Imported feedback', 'I confirm']
         end
       end
