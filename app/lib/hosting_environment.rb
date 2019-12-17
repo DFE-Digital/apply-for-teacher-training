@@ -8,7 +8,8 @@ module HostingEnvironment
   end
 
   def self.authorised_hosts
-    ENV.fetch('AUTHORISED_HOSTS').split(',').map(&:strip)
+    # ENV.fetch('AUTHORISED_HOSTS').split(',').map(&:strip)
+    ["#{ENV['HEROKU_APP_NAME']}.herokuapp.com"]
   end
 
   def self.hostname
