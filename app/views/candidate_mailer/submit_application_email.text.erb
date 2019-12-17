@@ -16,11 +16,19 @@ You can track the progress of your <%= 'application'.pluralize(@application_form
 
 # Making changes to your application
 
-You have 5 working days to edit your application or change your choice of provider, course or training location.
+<% if FeatureFlag.active?('edit_application') %>
+  You have 5 working days to edit your application or change your choice of provider, course or training location.
 
-To make changes, [sign back in to your account](<%= candidate_interface_sign_in_url %>).
+  To make changes, [sign back in to your account](<%= candidate_interface_sign_in_url %>).
 
-You can sign back in to change your name or contact details at any point up until enrolment. We’ll pass this information on to the training <%= 'provider'.pluralize(@application_form.application_choices.count) %>.
+  You can sign back in to change your name or contact details at any point up until enrolment. We’ll pass this information on to the training <%= 'provider'.pluralize(@application_form.application_choices.count) %>.
+<% else %>
+  Get in touch with us within 5 working days of submitting your application if you need to make any changes. For example, you can add more courses (if you haven’t reached your limit of three) or change your course choices. Once we’ve processed your request, we won’t be able to make any more changes for you.
+
+  However, you can ask us to update your name or contact details at any point up until enrolment.
+
+  Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) if you need to make changes and we’ll let your training <%= 'provider'.pluralize(@application_form.application_choices.count) %> know.
+<% end %>
 
 # Withdrawing your application
 
