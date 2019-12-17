@@ -98,3 +98,8 @@ Rails/DynamicFindBy:
 # Not all rake tasks need :environment
 Rails/RakeEnvironment:
   Enabled: false
+
+# This cop demands a default value for not-null columns, which isn't possible
+# when dealing with references
+Rails/NotNullColumn:
+  Enabled: false
