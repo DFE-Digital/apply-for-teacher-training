@@ -36,7 +36,7 @@ RSpec.feature 'Managing provider users' do
   end
 
   def and_i_click_the_manange_provider_users_link
-    click_link 'Manage provider users'
+    click_link 'Provider users'
   end
 
   def and_i_enter_the_users_email_and_dsi_uid

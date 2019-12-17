@@ -29,22 +29,27 @@
   <%= button_to 'Hide in reporting', support_interface_hide_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button govuk-button--secondary' %>
 <% end %>
 
-<h2 class="govuk-heading-l govuk-!-margin-top-8">Course choices</h2>
-<% @application_form.application_choices.includes(:course, :provider, :site).each do |application_choice| %>
-  <h3 class="govuk-heading-m"><%= application_choice.course.name_and_code %></h3>
-  <% rows = [
-    { key: 'Course', value: application_choice.course.name_and_code },
-    { key: 'Provider', value: application_choice.provider.name_and_code },
-    { key: 'Location', value: application_choice.site.name_and_code },
-    { key: 'Status', value: render(SupportInterface::ApplicationStatusTagComponent, application_choice: application_choice) },
-  ] %>
-  <% rows << { key: 'Reject by default at', value: application_choice.reject_by_default_at.to_s } if application_choice.reject_by_default_at %>
+<% if @application_form.application_choices.any? %>
+  <h2 class="govuk-heading-l govuk-!-margin-top-8">Course choices</h2>
+  <% @application_form.application_choices.includes(:course, :provider, :site).each do |application_choice| %>
+    <% rows = [
+      { key: 'Course', value: application_choice.course.name_and_code },
+      { key: 'Provider', value: application_choice.provider.name_and_code },
+      { key: 'Location', value: application_choice.site.name_and_code },
+      { key: 'Status', value: render(SupportInterface::ApplicationStatusTagComponent, application_choice: application_choice) },
+    ] %>
+    <% rows << { key: 'Reject by default at', value: application_choice.reject_by_default_at.strftime('%e %b %Y at %l:%M%P') } if application_choice.reject_by_default_at %>
 
-  <%= render SummaryListComponent, rows: rows %>
+    <%= render SummaryCardComponent, rows: rows  do %>
+      <%= render SummaryCardHeaderComponent, title: application_choice.course.name_and_code %>
+    <% end %>
+  <% end %>
 <% end %>
 
-<h2 class="govuk-heading-l govuk-!-margin-top-8">References</h2>
+<% if @application_form.application_references.any? %>
+  <h2 class="govuk-heading-l govuk-!-margin-top-8">References</h2>
 
-<% @application_form.application_references.each_with_index do |reference, i| %>
-  <%= render ReferenceWithFeedbackComponent, reference: reference, title: "#{(i + 1).ordinalize} reference", show_chase_reference: true %>
+  <% @application_form.application_references.each_with_index do |reference, i| %>
+    <%= render ReferenceWithFeedbackComponent, reference: reference, title: "#{(i + 1).ordinalize} reference", show_chase_reference: true %>
+  <% end %>
 <% end %>
