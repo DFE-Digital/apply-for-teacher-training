@@ -32,11 +32,7 @@ We’ll let your training provider(s) know about any amends.
 
 ### Withdrawing your application
 
-You can withdraw your application to your course(s) at any point, even after you’ve accepted an offer.
-
-Contact us at <becomingateacher@digital.education.gov.uk> if you need to do this.
-
-We’ll let your training provider(s) know.
+You can withdraw your application to your course(s) at any point, even after you’ve accepted an offer. [Sign in to your account](/candidate/sign-in) and click ‘withdraw’ next to the course(s) you want to withdraw. We’ll let your training provider(s) know.
 
 ### Declaring that what you’ve said is true
 

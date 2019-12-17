@@ -24,7 +24,11 @@ You can sign back in to change your name or contact details at any point up unti
 
 # Withdrawing your application
 
-You can withdraw your application to <%= 'course'.pluralize(@application_form.application_choices.count) %> at any point, even after you've accepted an offer. [Sign in to your account](<%= candidate_interface_sign_in_url %>) and click ‘withdraw’ next to the <%= 'course'.pluralize(@application_form.application_choices.count) %> you want to withdraw. We'll let your training <%= 'provider'.pluralize(@application_form.application_choices.count) %> know.
+<% if FeatureFlag.active?('candidate_withdrawals') %>
+  You can withdraw your application to <%= 'course'.pluralize(@application_form.application_choices.count) %> at any point, even after you’ve accepted an offer. [Sign in to your account](<%= candidate_interface_sign_in_url %>) and click ‘withdraw’ next to the <%= 'course'.pluralize(@application_form.application_choices.count) %> you want to withdraw. We’ll let your training <%= 'provider'.pluralize(@application_form.application_choices.count) %> know.
+<% else %>
+  You can withdraw your application to <%= 'course'.pluralize(@application_form.application_choices.count) %> at any point, even after you’ve accepted an offer. Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) if you want to withdraw and we’ll let your training <%= 'provider'.pluralize(@application_form.application_choices.count) %> know.
+<% end %>
 
 # References
 
