@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Send chase email to referee and candidate' do
+RSpec.feature 'Send chase email to referee and candidate', with_audited: true do
   include DfESignInHelpers
 
   scenario 'Support agent sends a chase email to a referee and candidate' do
@@ -18,6 +18,9 @@ RSpec.feature 'Send chase email to referee and candidate' do
     then_i_see_the_referee_email_is_successfully_sent
     and_i_see_the_candidate_email_is_successfully_sent
     and_i_am_sent_back_to_the_application_form_with_a_flash
+
+    when_i_click_on_the_history_for_the_application
+    then_i_see_a_comment_stating_chase_emails_have_been_sent
   end
 
   def given_i_am_a_support_user
@@ -67,5 +70,19 @@ RSpec.feature 'Send chase email to referee and candidate' do
 
   def and_i_am_sent_back_to_the_application_form_with_a_flash
     expect(page).to have_content(t('application_form.referees.chase_success'))
+  end
+
+  def when_i_click_on_the_history_for_the_application
+    click_link 'History'
+  end
+
+  def then_i_see_a_comment_stating_chase_emails_have_been_sent
+    referee_email = @application_awaiting_references.references.first.email_address
+    candidate_email = @application_awaiting_references.candidate.email_address
+
+    within('tbody tr:eq(1)') do
+      expect(page).to have_content 'Comment on Application Form'
+      expect(page).to have_content t('application_form.referees.audit_comment', referee_email: referee_email, candidate_email: candidate_email)
+    end
   end
 end

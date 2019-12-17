@@ -308,6 +308,7 @@ en:
       confirm_chase: Are you sure you want to send emails to chase the referee?
       chase_button: Yes - send the email
       chase_success: Email sent to candidate and referee
+      audit_comment: "Chase emails have been sent to the referee (%{referee_email}) and candidate (%{candidate_email})."
   activemodel:
     errors:
       models:
