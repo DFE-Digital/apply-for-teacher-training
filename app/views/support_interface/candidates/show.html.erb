@@ -13,3 +13,8 @@
 <% else %>
   <%= button_to 'Hide in reporting', support_interface_hide_candidate_path(@candidate), class: 'govuk-button govuk-button--secondary' %>
 <% end %>
+
+<% unless @application_forms.empty? %>
+  <h2 class="govuk-heading-m govuk-!-font-size-27">Candidate’s applications</h2>
+  <%= render SupportInterface::ApplicationsTableComponent, application_forms: @application_forms %>
+<% end %>

@@ -9,7 +9,7 @@ RSpec.feature 'See candidates' do
     and_i_visit_the_support_candidate_page
     then_i_should_see_the_candidates
 
-    when_i_click_on_a_candidate
+    when_i_click_on_a_candidate_with_no_applications
     then_i_see_the_candidate_details
   end
 
@@ -34,7 +34,7 @@ RSpec.feature 'See candidates' do
     expect(page).to have_content @candidate_with_a_submitted_application.email_address
   end
 
-  def when_i_click_on_a_candidate
+  def when_i_click_on_a_candidate_with_no_applications
     click_link @candidate_who_has_signed_up_but_not_signed_in.email_address
   end
 
