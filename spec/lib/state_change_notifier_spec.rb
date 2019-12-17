@@ -23,7 +23,7 @@ RSpec.describe StateChangeNotifier do
       end
 
       it 'links the notification to support interface' do
-        arg2 = helpers.support_interface_applications_url
+        arg2 = helpers.support_interface_candidate_url(candidate)
         expect(SlackNotificationWorker).to have_received(:perform_async).with(anything, arg2)
       end
     end

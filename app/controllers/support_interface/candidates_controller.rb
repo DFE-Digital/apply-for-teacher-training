@@ -4,12 +4,17 @@ module SupportInterface
 
     def index
       @candidates = Candidate
-        .includes(:application_forms)
-        .order('candidates.updated_at desc')
+        .includes(application_forms: :application_choices)
+        .sort_by { |candidate| (candidate.application_forms.collect(&:updated_at) + [candidate.updated_at]).max }
+        .reverse
     end
 
     def show
       @candidate = Candidate.find(params[:candidate_id])
+      @application_forms = @candidate.application_forms.order('updated_at desc')
+      if @application_forms.size == 1
+        redirect_to support_interface_application_form_path(@application_forms.first)
+      end
     end
 
     def hide_in_reporting
