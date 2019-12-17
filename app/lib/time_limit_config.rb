@@ -8,6 +8,9 @@ class TimeLimitConfig
     decline_by_default: [
       Rule.new(nil, nil, 10),
     ],
+    edit_by: [
+      Rule.new(nil, nil, 5),
+    ],
   }.freeze
 
   def self.limits_for(rule)
