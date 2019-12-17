@@ -24,8 +24,15 @@ RSpec.feature 'Referee submits a reference for a candidate', sidekiq: true do
     and_i_click_the_submit_button
     then_i_see_the_success_page
 
-    when_i_click_finish_button
-    then_i_see_the_thank_you_page
+    when_i_allow_contact_for_research_purposes
+    and_i_click_the_finish_button
+    then_i_see_the_thank_you_page_with_research_message
+
+    # When referee declines user research
+    when_i_visit_the_confirmation_page
+    and_i_dont_allow_contact_for_research_purposes
+    and_i_click_the_finish_button
+    then_i_see_the_thank_you_page_without_research_message
   end
 
   def given_a_candidate_completed_an_application
@@ -74,16 +81,34 @@ RSpec.feature 'Referee submits a reference for a candidate', sidekiq: true do
     click_button 'Submit reference'
   end
 
-  def when_i_click_finish_button
-    click_button 'Finish'
-  end
-
   def then_i_see_the_success_page
     expect(page).to have_content("Your reference for #{@application.first_name} #{@application.last_name}")
   end
 
-  def then_i_see_the_thank_you_page
+  def when_i_allow_contact_for_research_purposes
+    choose 'Yes, you can contact me'
+  end
+
+  def and_i_click_the_finish_button
+    click_button 'Finish'
+  end
+
+  def then_i_see_the_thank_you_page_with_research_message
     expect(page).to have_content('Thank you')
+    expect(page).to have_content('Our user research team will contact you shortly')
+  end
+
+  def when_i_visit_the_confirmation_page
+    visit referee_interface_confirmation_path(token: referee_token)
+  end
+
+  def and_i_dont_allow_contact_for_research_purposes
+    choose 'No, do not contact me'
+  end
+
+  def then_i_see_the_thank_you_page_without_research_message
+    expect(page).to have_content('Thank you')
+    expect(page).not_to have_content('Our user research team will contact you shortly')
   end
 
 private

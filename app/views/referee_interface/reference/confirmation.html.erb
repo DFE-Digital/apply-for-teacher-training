@@ -6,6 +6,15 @@
         Your reference for <%= full_name(@reference.application_form) %> has been&nbsp;submitted
       </h1>
     </div>
+
+    <%= f.govuk_radio_buttons_fieldset :allows_user_research, legend: { size: 'm', text: 'Can we contact you for research purposes?' } do %>
+        <p class="govuk-body">
+          You can opt in to being contacted by the Department for Education for research purposes.
+        </p>
+        <%= f.govuk_radio_button :allows_user_research, true, label: { text: 'Yes, you can contact me' } %>
+        <%= f.govuk_radio_button :allows_user_research, false, label: { text: 'No, do not contact me' } %>
+      <% end %>
+
     <%= f.govuk_submit 'Finish' %>
   <% end %>
 </main>

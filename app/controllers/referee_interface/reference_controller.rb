@@ -24,7 +24,9 @@ module RefereeInterface
       end
     end
 
-    def finish; end
+    def finish
+      @allows_user_research = ActiveModel::Type::Boolean.new.cast(params[:reference][:allows_user_research])
+    end
 
     def confirmation
       if reference.present?
