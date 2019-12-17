@@ -39,7 +39,7 @@ module RefereeInterface
     def decline
       if reference.present?
         @application = reference.application_form
-        #TODO: add logic to record this and notify candidate
+        DeclineReferenceRequest.new(referee: reference).save!
         render :decline
       else
         render_404
