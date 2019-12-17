@@ -11,6 +11,7 @@ development: &default
     - 12K  # Trent Valley Teaching School Alliance
     - D87  # Durham SCITT
     - N83  # North West Shares SCITT
+    - 1OT  # The Academy at Shotton Hall
 
 production:
   <<: *default
