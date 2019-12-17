@@ -93,6 +93,16 @@ en:
         user_id: user_id
         email: email
         full_name: full_name
+    errors:
+      models:
+        support_interface/provider_user_form:
+          attributes:
+            email_address:
+              blank: Email address can’t be blank
+            dfe_sign_in_uid:
+              blank: DfE Sign-in UID can’t be blank
+            provider_ids:
+              blank: Please specify a provider
   activerecord:
     errors:
       models:

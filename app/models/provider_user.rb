@@ -1,7 +1,4 @@
 class ProviderUser < ActiveRecord::Base
-  validates :dfe_sign_in_uid, presence: true
-  validates :email_address, presence: true
-
   has_and_belongs_to_many :providers
 
   def provider

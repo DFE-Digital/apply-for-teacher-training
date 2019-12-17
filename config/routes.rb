@@ -294,7 +294,12 @@ Rails.application.routes.draw do
     get '/tasks' => 'tasks#index', as: :tasks
     post '/tasks/:task' => 'tasks#run', as: :run_task
 
-    resources :support_users, only: %i[index new create]
+    scope '/users' do
+      get '/' => 'users#index', as: :users
+
+      resources :support_users, only: %i[index new create], path: :support
+      resources :provider_users, only: %i[index new create], path: :provider
+    end
 
     get '/sign-in' => 'sessions#new'
     get '/sign-out' => 'sessions#destroy'

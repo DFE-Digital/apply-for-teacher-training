@@ -2,6 +2,19 @@
 
 <%= link_to 'Add support user', new_support_interface_support_user_path, class: 'govuk-button' %>
 
+<% content_for :before_content do %>
+  <div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to 'Users', support_interface_users_path, class: 'govuk-breadcrumbs__link' %>
+      </li>
+      <li class="govuk-breadcrumbs__list-item" aria-current="page">
+        Support users
+      </li>
+    </ol>
+  </div>
+<% end %>
+
 <table class='govuk-table'>
   <thead class='govuk-table__head'>
     <tr class='govuk-table__row'>
