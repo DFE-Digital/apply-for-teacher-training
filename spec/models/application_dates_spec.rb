@@ -1,13 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationDates, type: :model do
-  let(:submitted_at) { Time.zone.local(2019, 5, 1, 12, 0, 0) }
+  let(:submitted_at) { Time.zone.local(2019, 5, 1, 12, 0, 0).end_of_day }
 
-  def application_form
-    @application_form ||= create(:completed_application_form, submitted_at: submitted_at)
+  let(:application_form) do
+    create(:completed_application_form, :without_application_choices, submitted_at: submitted_at)
   end
 
-  def application_dates
+  let!(:application_choice) do
+    create(:application_choice, edit_by: submitted_at + 5.days, application_form: application_form)
+  end
+
+  subject(:application_dates) do
     described_class.new(application_form)
   end
 
@@ -33,18 +37,18 @@ RSpec.describe ApplicationDates, type: :model do
 
   describe '#edit_by' do
     it 'returns date that the candidate can edit by' do
-      expect(application_dates.edit_by).to eql(Time.zone.local(2019, 5, 9).end_of_day)
+      expect(application_dates.edit_by).to be_within(1.second).of(application_choice.edit_by)
     end
   end
 
   describe '#days_remaining_to_edit' do
     it 'returns number of days remaining that a candidate can edit by' do
       Timecop.travel(submitted_at) do
-        expect(application_dates.days_remaining_to_edit).to eq(8)
+        expect(application_dates.days_remaining_to_edit).to eq(4)
       end
 
       Timecop.travel(submitted_at + 3.days) do
-        expect(application_dates.days_remaining_to_edit).to eq(5)
+        expect(application_dates.days_remaining_to_edit).to eq(1)
       end
     end
   end
