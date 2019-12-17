@@ -9,6 +9,8 @@ development: &default
     - L06  # Shotton Hall SCITT
     - S31  # Somerset SCITT Consortium
     - 12K  # Trent Valley Teaching School Alliance
+    - D87  # Durham SCITT
+    - N83  # North West Shares SCITT
 
 production:
   <<: *default
