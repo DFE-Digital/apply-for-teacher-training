@@ -54,4 +54,4 @@ Your name will also be checked against a DBS list of people who have been barred
 
 You can contact the team at <becomingateacher@digital.education.gov.uk>.
 
-We typically respond within one working day for urgent queries. It can take up to 5 working days for less urgent queries. We don’t provide support over the weekend.
+We typically respond within one working day for urgent queries. It can take up to 5 working days for less urgent queries. We don’t provide support over the weekend or on public holidays.
