@@ -10,7 +10,7 @@ module ProviderInterface
     rescue_from MissingProvider, with: ->(e) {
       Raven.capture_exception(e)
 
-      render template: 'provider_interface/account_creation_in_progress', status: 403
+      render template: 'provider_interface/account_creation_in_progress', status: :forbidden
     }
 
     helper_method :current_provider_user

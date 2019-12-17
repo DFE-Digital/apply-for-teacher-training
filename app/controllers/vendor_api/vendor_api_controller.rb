@@ -12,7 +12,7 @@ module VendorApi
     before_action :add_identity_to_log
 
     def audit_user
-      return nil unless @metadata.present?
+      return unless @metadata
 
       @audit_user ||= find_or_create_audit_user
     end
@@ -33,15 +33,15 @@ module VendorApi
     def application_not_found(_e)
       render json: {
         errors: [{ error: 'NotFound', message: "Could not find an application with ID #{params[:application_id]}" }],
-      }, status: 404
+      }, status: :not_found
     end
 
     def parameter_missing(e)
-      render json: { errors: [{ error: 'ParameterMissing', message: e }] }, status: 422
+      render json: { errors: [{ error: 'ParameterMissing', message: e }] }, status: :unprocessable_entity
     end
 
     def parameter_invalid(e)
-      render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: 422
+      render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: :unprocessable_entity
     end
 
     def set_cors_headers
@@ -60,7 +60,7 @@ module VendorApi
         ],
       }
 
-      render json: unauthorized_response, status: 401
+      render json: unauthorized_response, status: :unauthorized
     end
 
     def valid_api_token?

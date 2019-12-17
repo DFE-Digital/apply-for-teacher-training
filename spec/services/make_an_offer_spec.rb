@@ -10,7 +10,7 @@ RSpec.describe MakeAnOffer do
       Timecop.freeze do
         MakeAnOffer.new(application_choice: application_choice).save
 
-        expect(application_choice.offered_at).to eq(Time.now)
+        expect(application_choice.offered_at).to eq(Time.zone.now)
       end
     end
   end

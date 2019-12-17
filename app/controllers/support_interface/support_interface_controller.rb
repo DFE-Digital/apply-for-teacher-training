@@ -38,7 +38,7 @@ module SupportInterface
       if !current_support_user && dfe_sign_in_user
         render(
           template: 'support_interface/unauthorized',
-          status: 403,
+          status: :forbidden,
         )
         return
       end

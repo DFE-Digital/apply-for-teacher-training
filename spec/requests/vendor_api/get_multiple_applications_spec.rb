@@ -22,12 +22,12 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
       status: 'awaiting_provider_decision',
     )
 
-    get_api_request "/api/v1/applications?since=#{CGI.escape((Time.now - 1.days).iso8601)}"
+    get_api_request "/api/v1/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
     expect(parsed_response['data'].size).to be(2)
   end
 
   it 'returns applications filtered with `since`' do
-    Timecop.travel(Time.now - 2.days) do
+    Timecop.travel(Time.zone.now - 2.days) do
       create_application_choice_for_currently_authenticated_provider(
         status: 'awaiting_provider_decision',
       )
@@ -37,7 +37,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
       status: 'awaiting_provider_decision',
     )
 
-    get_api_request "/api/v1/applications?since=#{CGI.escape((Time.now - 1.days).iso8601)}"
+    get_api_request "/api/v1/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
 
     expect(parsed_response['data'].size).to be(1)
   end
@@ -47,7 +47,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
       status: 'awaiting_provider_decision',
     )
 
-    get_api_request "/api/v1/applications?since=#{CGI.escape((Time.now - 1.days).iso8601)}"
+    get_api_request "/api/v1/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
 
     expect(parsed_response).to be_valid_against_openapi_schema('MultipleApplicationsResponse')
   end
@@ -87,7 +87,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
       status: :unsubmitted,
     )
 
-    get_api_request "/api/v1/applications?since=#{CGI.escape((Time.now - 1.days).iso8601)}"
+    get_api_request "/api/v1/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
 
     expect(parsed_response['data'].size).to be(2)
   end

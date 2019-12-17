@@ -14,7 +14,7 @@ module VendorApi
 
     def check_this_is_a_test_environment
       if HostingEnvironment.production?
-        render status: 400, json: { data: { message: 'Sorry, you can only generate test data in test environments' } }
+        render status: :bad_request, json: { data: { message: 'Sorry, you can only generate test data in test environments' } }
       end
     end
 

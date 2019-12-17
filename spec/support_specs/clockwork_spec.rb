@@ -24,8 +24,8 @@ RSpec.describe Clockwork do
     end
 
     it 'runs the job every 5 minutes over the course of an hour' do
-      start_time = Time.new(2019, 11, 7, 2, 0, 0)
-      end_time = Time.new(2019, 11, 7, 3, 0, 0)
+      start_time = Time.zone.local(2019, 11, 7, 2, 0, 0)
+      end_time = Time.zone.local(2019, 11, 7, 3, 0, 0)
       Clockwork::Test.run(
         start_time: start_time,
         end_time: end_time,
