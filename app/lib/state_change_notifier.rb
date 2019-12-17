@@ -33,6 +33,7 @@ class StateChangeNotifier
       url = helpers.support_interface_application_form_url(application_form_id)
     when :offer_declined
       text = ":no_good: #{applicant} has declined #{provider_name}'s offer"
+      url = helpers.support_interface_application_form_url(application_form_id)
     when :withdraw
       text = ":runner: #{applicant} has withdrawn their application for #{course_name} at #{provider_name}"
       url = helpers.support_interface_application_form_url(application_form_id)
