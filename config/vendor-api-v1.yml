@@ -331,7 +331,6 @@ components:
         - updated_at
         - reject_by_default_at
         - withdrawal
-        - hesa_itt_data
         - further_information
         - work_experience
       properties:

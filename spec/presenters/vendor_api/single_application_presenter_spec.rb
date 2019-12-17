@@ -28,6 +28,25 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
     end
   end
 
+  describe 'attributes.hesa_itt_data' do
+    let(:application_choice) do
+      application_form = create(:completed_application_form, :with_completed_references)
+      create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+    end
+
+    it 'is hidden by default' do
+      response = VendorApi::SingleApplicationPresenter.new(application_choice).as_json
+      expect(response.dig(:attributes, :hesa_itt_data)).to be_nil
+    end
+
+    it 'becomes available once application status is \'enrolled\'' do
+      application_choice.update(status: 'enrolled')
+      response = VendorApi::SingleApplicationPresenter.new(application_choice).as_json
+      expect(response.dig(:attributes, :hesa_itt_data)).not_to be_nil
+      expect(response.to_json).to be_valid_against_openapi_schema('Application')
+    end
+  end
+
   describe '#as_json' do
     context 'given a relation that includes application_qualifications' do
       let(:application_choice) do
