@@ -12,7 +12,7 @@ class StateChangeNotifier
     case event
     when :magic_link_sign_up
       text = "New sign-up [candidate_id: #{candidate.id}]"
-      url = helpers.support_interface_applications_url
+      url = helpers.support_interface_candidate_url(candidate)
     when :submit_application
       text = "#{application_form.first_name} has just submitted their application"
       url = helpers.support_interface_application_form_url(application_form)
