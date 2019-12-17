@@ -6,7 +6,7 @@ module VendorApi
     end
 
     def as_json
-      {
+      hash = {
         id: application_choice.id.to_s,
         type: 'application',
         attributes: {
@@ -49,14 +49,13 @@ module VendorApi
           offer: application_choice.offer,
           rejection: get_rejection,
           withdrawal: nil,
-          hesa_itt_data: {
-            sex: '2',
-            disability: '00',
-            ethnicity: '10',
-          },
           further_information: application_form.further_information,
         },
       }
+      if application_choice.status == 'enrolled'
+        hash[:attributes][:hesa_itt_data] = hesa_itt_data
+      end
+      hash
     end
 
   private
@@ -164,6 +163,14 @@ module VendorApi
 
     def personal_statement
       "Why do you want to become a teacher?: #{application_form.becoming_a_teacher} \n What is your subject knowledge?: #{application_form.subject_knowledge}"
+    end
+
+    def hesa_itt_data
+      {
+        sex: '2',
+        disability: '00',
+        ethnicity: '10',
+      }
     end
   end
 end
