@@ -11,12 +11,12 @@ module CandidateInterface
     end
 
     def new
-      @referee = current_candidate.current_application.references.build
+      @referee = current_candidate.current_application.application_references.build
     end
 
     def create
       @referee = current_candidate.current_application
-                                  .references
+                                  .application_references
                                   .build(referee_params)
       if @referee.save
         redirect_to candidate_interface_review_referees_path
@@ -50,19 +50,19 @@ module CandidateInterface
 
     def set_referee
       @referee = current_candidate.current_application
-                                    .references
+                                    .application_references
                                     .includes(:application_form)
                                     .find(params[:id])
     end
 
     def set_referees
       @referees = current_candidate.current_application
-                                    .references
+                                    .application_references
                                     .includes(:application_form)
     end
 
     def referee_params
-      params.require(:reference).permit(
+      params.require(:application_reference).permit(
         :name,
         :email_address,
         :relationship,

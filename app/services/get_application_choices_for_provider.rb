@@ -8,7 +8,7 @@ class GetApplicationChoicesForProvider
       :application_form,
       :provider,
       :site,
-      application_form: %i[candidate references application_work_experiences application_volunteering_experiences application_qualifications],
+      application_form: %i[candidate application_references application_work_experiences application_volunteering_experiences application_qualifications],
       course: %i[provider],
       course_option: [{ course: %i[provider] }, :site],
     ]

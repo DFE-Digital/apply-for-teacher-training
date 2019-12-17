@@ -21,7 +21,7 @@ class SubmitApplication
 private
 
   def send_reference_request_email_to_referees(application_form)
-    application_form.references.each do |reference|
+    application_form.application_references.each do |reference|
       RefereeMailer.reference_request_email(application_form, reference).deliver_later
     end
   end

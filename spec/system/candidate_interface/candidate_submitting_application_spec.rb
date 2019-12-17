@@ -201,7 +201,7 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
 
   def and_my_referees_receive_a_request_for_a_reference_by_email
     current_application = current_candidate.current_application
-    current_application.references.each do |reference|
+    current_application.application_references.each do |reference|
       open_email(reference.email_address)
       expect(current_email).to have_content "Give a reference for #{current_application.first_name}"
       expect(current_email).to have_content reference.name
@@ -221,7 +221,7 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
     expect(page).to have_content t('page_titles.application_dashboard')
     expect(page).to have_content "Application submitted on #{this_day}"
     expect(page).to have_content 'Gorse SCITT'
-    expect(page).to have_content current_candidate.current_application.references.first.name
+    expect(page).to have_content current_candidate.current_application.application_references.first.name
     expect(page).to have_content 'Submitted'
   end
 

@@ -218,7 +218,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
     context 'when there are no referees' do
       before do
-        application_form.references.delete_all
+        application_form.application_references.delete_all
       end
 
       it 'returns false' do

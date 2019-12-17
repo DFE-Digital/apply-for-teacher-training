@@ -10,7 +10,7 @@ Given(/an application choice has "(.*)" status/) do |original_application_status
 end
 
 Given('the candidate has specified {string} and {string} as referees') do |referee1_email, referee2_email|
-  @application_choice.application_form.references.map(&:delete)
+  @application_choice.application_form.application_references.each(&:delete)
   FactoryBot.create(:reference, :unsubmitted,
                     email_address: referee1_email,
                     application_form: @application_choice.application_form)
@@ -49,7 +49,7 @@ When(/^the candidate submits the application$/) do
 end
 
 When('{int} referees complete the references') do |number_of_complete_references|
-  references = @application_choice.application_form.reload.references.first(number_of_complete_references)
+  references = @application_choice.application_form.reload.application_references.first(number_of_complete_references)
   references.each do |reference|
     steps %{When "#{reference.email_address}" provides a reference}
   end

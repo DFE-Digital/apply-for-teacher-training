@@ -113,7 +113,7 @@ en:
               taken: Email address is already in use
               too_long: Email address must be %{count} characters or fewer
               invalid: Enter an email address in the correct format, like name@example.com
-        reference:
+        application_reference:
           attributes:
             email_address:
               blank: Enter the referee’s email address

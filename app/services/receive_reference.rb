@@ -18,11 +18,11 @@ class ReceiveReference
 
     ActiveRecord::Base.transaction do
       @application_form
-        .references
+        .application_references
         .find { |reference| reference.email_address == @referee_email }
         .update!(feedback: @feedback)
 
-      if @application_form.references_complete?
+      if @application_form.application_references_complete?
         @application_form.application_choices.includes(:course_option).each do |application_choice|
           ApplicationStateChange.new(application_choice).references_complete!
         end
@@ -40,7 +40,7 @@ class ReceiveReference
 private
 
   def referee_must_exist_on_application_form
-    if @application_form.references.where(email_address: @referee_email).empty?
+    if @application_form.application_references.where(email_address: @referee_email).empty?
       errors.add(:referee_email, 'does not match any of the provided referees')
     end
   end

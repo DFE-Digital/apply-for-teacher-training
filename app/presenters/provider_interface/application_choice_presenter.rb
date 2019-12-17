@@ -1,6 +1,6 @@
 module ProviderInterface
   class ApplicationChoicePresenter
-    delegate :application_qualifications, :references, to: :application_form
+    delegate :application_qualifications, :application_references, to: :application_form
     attr_reader :application_form
 
     def initialize(application_choice)
@@ -80,11 +80,11 @@ module ProviderInterface
     end
 
     def first_reference
-      references.first
+      application_references.first
     end
 
     def second_reference
-      references.second
+      application_references.second
     end
 
   private

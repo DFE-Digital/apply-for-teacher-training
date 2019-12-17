@@ -1,12 +1,12 @@
 module SupportInterface
   class ChaseReferenceController < SupportInterfaceController
     def show
-      @reference = Reference.find(params[:reference_id])
+      @reference = ApplicationReference.find(params[:reference_id])
       @application_form = @reference.application_form
     end
 
     def chase
-      @reference = Reference.find(params[:reference_id])
+      @reference = ApplicationReference.find(params[:reference_id])
       @application_form = @reference.application_form
 
       SendChaseEmailToRefereeAndCandidate.call(application_form: @application_form, reference: @reference)

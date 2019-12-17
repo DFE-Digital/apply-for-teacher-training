@@ -45,6 +45,6 @@
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8">References</h2>
 
-<% @application_form.references.each_with_index do |reference, i| %>
+<% @application_form.application_references.each_with_index do |reference, i| %>
   <%= render ReferenceWithFeedbackComponent, reference: reference, title: "#{(i + 1).ordinalize} reference", show_chase_reference: true %>
 <% end %>
