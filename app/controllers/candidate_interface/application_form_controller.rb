@@ -11,7 +11,13 @@ module CandidateInterface
       @application_form = current_application
     end
 
-    def edit; end
+    def edit
+      if FeatureFlag.active?('edit_application')
+        render :edit
+      else
+        render :edit_by_support
+      end
+    end
 
     def complete
       @application_form = current_application

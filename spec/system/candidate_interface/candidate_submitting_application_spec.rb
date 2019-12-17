@@ -245,7 +245,7 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
   end
 
   def when_i_click_the_edit_application_link
-    click_link 'Edit your application'
+    click_link t('application_complete.dashboard.edit_link')
   end
 
   def then_i_see_edit_information_page

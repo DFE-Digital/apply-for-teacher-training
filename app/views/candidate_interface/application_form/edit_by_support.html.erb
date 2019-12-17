@@ -1,0 +1,22 @@
+<% content_for :title, t('page_titles.application_edit') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_complete_path, 'Back to application dashboard') %>
+
+<h1 class="govuk-heading-xl govuk-heading-xl">
+  <%= t('page_titles.application_edit') %>
+</h1>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">You have 5 working days after submission to edit most sections of your application.</p>
+    <p class="govuk-body">To edit, you’ll need to email us at <%= govuk_link_to 'becomingateacher@digital.education.gov.uk', 'mailto:becomingateacher@digital.education.gov.uk' %>, explaining which changes you’d like to make.</p>
+    <p class="govuk-body">We can only edit your application once.</p>
+    <h2 class="govuk-heading-m">Course choice</h2>
+    <p class="govuk-body">We can change your choice of training provider, course or location within the 5 working day editing period.</p>
+    <p class="govuk-body">We can also delete a course choice.</p>
+    <p class="govuk-body">After this, you can email us asking to withdraw your application completely.</p>
+    <h2 class="govuk-heading-m">References</h2>
+    <p class="govuk-body">We can’t edit your choice of referees unless they refuse to give a reference. We’ll email you if this happens, so you can put forward a replacement referee.</p>
+    <h2 class="govuk-heading-m">Contact details</h2>
+    <p class="govuk-body">You can update your contact details at any point during the application process. To do this, email us at <%= govuk_link_to 'becomingateacher@digital.education.gov.uk', 'mailto:becomingateacher@digital.education.gov.uk' %>.</p>
+  </div>
+</div>

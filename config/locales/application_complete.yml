@@ -1,0 +1,6 @@
+en:
+  application_complete:
+    dashboard:
+      edit_link: Edit your application
+    edit_page:
+      edit_button: 'Edit Application'
