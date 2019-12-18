@@ -1,11 +1,11 @@
-These are the release notes for the API while still in alpha.
+**These are archived release notes for the alpha API, which has now become version 1.0.**
 
-See the [current release notes](/api-docs/release-notes) for the release notes
-once v1 is live.
+Future release notes will be published on the [Release notes page](/api-docs/release-notes).
 
 ### Alpha release - 18 December 2019
 
-- Clarify that when an appliction is withdrawn, the `reason` can be null.
+- Clarify that when an application is withdrawn, the `reason` can be null.
+- Clarify that HESA ITT data is only available once a candidate is enrolled.
 
 ### Alpha release - 13 December 2019
 
