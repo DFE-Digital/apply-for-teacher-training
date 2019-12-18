@@ -21,9 +21,15 @@ You can track the progress of your <%= 'application'.pluralize(@application_form
 
   To make changes, [sign back in to your account](<%= candidate_interface_sign_in_url %>).
 
-  You can sign back in to change your name or contact details at any point up until enrolment. We’ll pass this information on to the training <%= 'provider'.pluralize(@application_form.application_choices.count) %>.
+  You can sign back in to change your name or contact details at any point up until enrolment.
+
+  We’ll pass any changes on to the training <%= 'provider'.pluralize(@application_form.application_choices.count) %>.
 <% else %>
-  Get in touch with us within 5 working days of submitting your application if you need to make any changes. For example, you can add more courses (if you haven’t reached your limit of three) or change your course choices. Once we’ve processed your request, we won’t be able to make any more changes for you.
+  Get in touch with us as soon as possible after submitting your application if you need to make any amends, as we only have 5 working days to make changes for you.
+
+  For example, you can add more courses (if you haven’t reached your limit of 3) or change your course choices.
+
+  Once we’ve processed your request, we won’t be able to make any more changes for you.
 
   However, you can ask us to update your name or contact details at any point up until enrolment.
 
@@ -32,10 +38,12 @@ You can track the progress of your <%= 'application'.pluralize(@application_form
 
 # Withdrawing your application
 
+You can withdraw your application to your <%= 'course'.pluralize(@application_form.application_choices.count) %> at any point, even after you’ve accepted an offer.
+
 <% if FeatureFlag.active?('candidate_withdrawals') %>
-  You can withdraw your application to <%= 'course'.pluralize(@application_form.application_choices.count) %> at any point, even after you’ve accepted an offer. [Sign in to your account](<%= candidate_interface_sign_in_url %>) and click ‘withdraw’ next to the <%= 'course'.pluralize(@application_form.application_choices.count) %> you want to withdraw. We’ll let your training <%= 'provider'.pluralize(@application_form.application_choices.count) %> know.
+  [Sign in to your account](<%= candidate_interface_sign_in_url %>) and click ‘withdraw’ next to the <%= 'course'.pluralize(@application_form.application_choices.count) %> you want to withdraw and we’ll let your training <%= 'provider'.pluralize(@application_form.application_choices.count) %> know.
 <% else %>
-  You can withdraw your application to <%= 'course'.pluralize(@application_form.application_choices.count) %> at any point, even after you’ve accepted an offer. Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) if you want to withdraw and we’ll let your training <%= 'provider'.pluralize(@application_form.application_choices.count) %> know.
+  Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) if you want to withdraw and we’ll let your training <%= 'provider'.pluralize(@application_form.application_choices.count) %> know.
 <% end %>
 
 # References

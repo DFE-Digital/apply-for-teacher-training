@@ -22,17 +22,21 @@ You can apply for more courses at this stage if:
 
 ### Making changes to your application
 
-Get in touch with us within 5 working days of submitting your application if you need to make any amends. For example, you can add more courses (if you haven’t reached your limit of 3) or change your course choices. Once we’ve processed your request, we won’t be able to make any more changes for you.
+Get in touch with us as soon as possible after submitting your application if you need to make any amends, as we only have 5 working days to make changes for you.
+
+For example, you can add more courses (if you haven’t reached your limit of 3) or change your course choices.
+
+Once we’ve processed your request, we won’t be able to make any more changes for you.
 
 However, you can ask us to amend your name or contact details at any point up until enrolment.
 
-Contact us at <becomingateacher@digital.education.gov.uk> if you need to make changes.
-
-We’ll let your training provider(s) know about any amends.
+Contact us at <becomingateacher@digital.education.gov.uk> if you need to make changes and we’ll let your training provider(s) know.
 
 ### Withdrawing your application
 
-You can withdraw your application to your course(s) at any point, even after you’ve accepted an offer. [Sign in to your account](/candidate/sign-in) and click ‘withdraw’ next to the course(s) you want to withdraw. We’ll let your training provider(s) know.
+You can withdraw your application to your course(s) at any point, even after you’ve accepted an offer.
+
+[Sign in to your account](/candidate/sign-in) and click ‘withdraw’ next to the course(s) you want to withdraw and we’ll let your training provider(s) know.
 
 ### Declaring that what you’ve said is true
 
