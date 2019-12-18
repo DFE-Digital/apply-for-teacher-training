@@ -13,7 +13,7 @@ module ProviderInterface
       render template: 'provider_interface/account_creation_in_progress', status: :forbidden
     }
 
-    helper_method :current_provider_user
+    helper_method :current_provider_user, :dfe_sign_in_user
 
   private
 

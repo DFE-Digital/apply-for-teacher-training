@@ -24,6 +24,7 @@ RSpec.feature 'See applications' do
 
       when_i_visit_the_provider_page
       then_i_should_see_the_account_creation_in_progress_page
+      and_i_should_see_a_sign_out_link
 
       when_my_apply_account_has_been_created
       and_i_visit_the_provider_page
@@ -52,6 +53,7 @@ RSpec.feature 'See applications' do
     and_i_have_not_been_assigned_to_my_training_provider # this is a manual process for now
     and_i_visit_the_provider_page
     then_i_should_see_the_account_creation_in_progress_page
+    and_i_should_see_a_sign_out_link
 
     when_i_have_been_assigned_to_my_training_provider
     and_i_visit_the_provider_page
@@ -75,6 +77,10 @@ RSpec.feature 'See applications' do
 
   def then_i_should_see_the_account_creation_in_progress_page
     expect(page).to have_content('Your account is not ready yet')
+  end
+
+  def and_i_should_see_a_sign_out_link
+    expect(page).to have_link('Sign out')
   end
 
   def when_i_have_been_assigned_to_my_training_provider
