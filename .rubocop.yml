@@ -43,7 +43,7 @@ RSpec/MultipleExpectations:
 RSpec/ContextWording:
   Enabled: false
 
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   AllowedNames:
     - e
     - to
