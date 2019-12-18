@@ -22,6 +22,15 @@ RSpec.feature 'A candidate edits their application' do
     then_i_see_the_edit_application_page
     and_i_see_the_remaining_days_to_edit
     and_i_see_the_submit_button_is_changed
+    and_i_see_i_cant_change_my_references
+    and_i_see_a_submitted_label_for_referees
+
+    when_i_click_on_referees
+    then_i_can_review_my_references
+    and_i_cannot_see_the_edit_or_delete_referee_links
+
+    when_i_visit_the_new_referee_page
+    then_i_see_the_review_referees_page
 
     when_the_amend_period_has_ended_and_i_visit_the_edit_application_page
     then_i_see_the_application_dashboard
@@ -36,8 +45,8 @@ RSpec.feature 'A candidate edits their application' do
   end
 
   def and_i_have_a_completed_application
-    form = create(:completed_application_form, :with_completed_references, :without_application_choices, candidate: current_candidate, submitted_at: Time.zone.local(2019, 12, 16))
-    create(:application_choice, status: :application_complete, edit_by: Time.zone.local(2019, 12, 20), application_form: form)
+    @form = create(:completed_application_form, :with_completed_references, :without_application_choices, candidate: current_candidate, submitted_at: Time.zone.local(2019, 12, 16))
+    create(:application_choice, status: :application_complete, edit_by: Time.zone.local(2019, 12, 20), application_form: @form)
   end
 
   def when_i_visit_the_application_dashboard
@@ -70,6 +79,39 @@ RSpec.feature 'A candidate edits their application' do
     )
 
     expect(page).to have_content(remaining_days_to_edit)
+  end
+
+  def and_i_see_i_cant_change_my_references
+    expect(page).to have_content(t('application_complete.edit_page.references_uneditable'))
+  end
+
+  def and_i_see_a_submitted_label_for_referees
+    within('#referees-badge-id') { expect(page).to have_content('Submitted') }
+  end
+
+  def when_i_click_on_referees
+    click_link 'Referees'
+  end
+
+  def then_i_can_review_my_references
+    first_referee = @form.application_references.first
+    second_referee = @form.application_references.second
+
+    expect(page).to have_content(first_referee.name)
+    expect(page).to have_content(second_referee.name)
+  end
+
+  def and_i_cannot_see_the_edit_or_delete_referee_links
+    expect(page).not_to have_content('Change')
+    expect(page).not_to have_content(t('application_form.referees.delete'))
+  end
+
+  def when_i_visit_the_new_referee_page
+    visit candidate_interface_new_referee_path
+  end
+
+  def then_i_see_the_review_referees_page
+    then_i_can_review_my_references
   end
 
   def when_the_amend_period_has_ended_and_i_visit_the_edit_application_page
