@@ -7,6 +7,7 @@ class FeatureFlag
     training_with_a_disability
     provider_permissions_in_database
     edit_application
+    reference_form
   ].freeze
 
   def self.activate(feature_name)

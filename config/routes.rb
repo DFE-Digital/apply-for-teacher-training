@@ -211,6 +211,10 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :referee_interface, path: '/reference' do
+    get '/' => 'reference#feedback', as: :reference_feedback
+  end
+
   namespace :vendor_api, path: 'api/v1' do
     get '/applications' => 'applications#index'
     get '/applications/:application_id' => 'applications#show'
