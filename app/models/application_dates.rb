@@ -16,14 +16,14 @@ class ApplicationDates
   end
 
   def edit_by
-    5.business_days.after(submitted_at).end_of_day
+    @application_form.application_choices.first&.edit_by
   end
 
   def days_remaining_to_edit
-    ((edit_by - Time.zone.now) / 1.day).floor
+    edit_by.present? && ((edit_by - Time.zone.now) / 1.day).floor
   end
 
   def form_open_to_editing?
-    days_remaining_to_edit >= 1
+    edit_by.present? && days_remaining_to_edit >= 1
   end
 end

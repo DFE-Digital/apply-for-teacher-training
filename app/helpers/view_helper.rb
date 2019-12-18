@@ -37,11 +37,6 @@ module ViewHelper
     dates.reject_by_default_at.strftime('%e %B %Y').strip if dates.reject_by_default_at
   end
 
-  def edit_by_date
-    dates = ApplicationDates.new(@application_form)
-    dates.edit_by.strftime('%e %B %Y').strip
-  end
-
   def formatted_days_remaining
     dates = ApplicationDates.new(@application_form)
     pluralize(dates.days_remaining_to_edit, 'day')

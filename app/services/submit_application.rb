@@ -28,7 +28,12 @@ private
 
   def submit_application
     application_choices.each do |application_choice|
-      application_choice.edit_by = ApplicationDates.new(application_form).edit_by
+      edit_by_days = TimeLimitCalculator.new(
+        rule: :edit_by,
+        effective_date: application_form.submitted_at,
+      ).call
+
+      application_choice.edit_by = edit_by_days.business_days.after(application_form.submitted_at).end_of_day
       ApplicationStateChange.new(application_choice).submit!
     end
   end

@@ -24,7 +24,7 @@ RSpec.feature 'A candidate edits their application' do
 
   def and_i_have_a_completed_application
     form = create(:completed_application_form, :with_completed_references, :without_application_choices, candidate: current_candidate)
-    @application_choice = create(:application_choice, :ready_to_send_to_provider, application_form: form)
+    @application_choice = create(:application_choice, status: :application_complete, edit_by: 1.day.from_now.end_of_day, application_form: form)
   end
 
   def when_i_visit_the_application_dashboard
