@@ -10,12 +10,21 @@ class DfESignInUser
     session['dfe_sign_in_user'] = {
       'email_address' => omniauth_payload['info']['email'],
       'dfe_sign_in_uid' => omniauth_payload['uid'],
+      'last_active_at' => Time.zone.now,
     }
   end
 
   def self.load_from_session(session)
     dfe_sign_in_session = session['dfe_sign_in_user']
     return unless dfe_sign_in_session
+
+    # Users who signed in before session expiry was implemented will not have
+    # `last_active_at` set. In that case, force them to sign in again.
+    return unless dfe_sign_in_session['last_active_at']
+
+    return if dfe_sign_in_session.fetch('last_active_at') < 2.hours.ago
+
+    dfe_sign_in_session['last_active_at'] = Time.zone.now
 
     new(
       email_address: dfe_sign_in_session['email_address'],

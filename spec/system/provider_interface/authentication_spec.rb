@@ -14,6 +14,9 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
       and_i_sign_in_via_dfe_sign_in
 
       then_i_should_see_my_email_address
+
+      when_i_signed_in_more_than_a_2_hours_ago
+      then_i_should_see_the_login_page_again
     end
   end
 
@@ -64,5 +67,11 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
 
   def then_i_should_see_the_login_page_again
     expect(page).to have_button('Sign in using DfE Sign-in')
+  end
+
+  def when_i_signed_in_more_than_a_2_hours_ago
+    Timecop.travel(Time.zone.now + 2.hours + 1.second) do
+      visit provider_interface_path
+    end
   end
 end
