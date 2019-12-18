@@ -5,3 +5,6 @@ Sidekiq.configure_server do |config|
     chain.add Workers::AuditTrailAttributionMiddleware
   end
 end
+
+require 'sidekiq/web'
+Sidekiq::Web.set :sessions, false
