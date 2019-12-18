@@ -46,6 +46,11 @@ module ViewHelper
     "#{t('page_titles.error_prefix') if error}#{title}"
   end
 
+  def edit_by_date
+    dates = ApplicationDates.new(@application_form)
+    dates.edit_by.strftime('%e %B %Y').strip
+  end
+
 private
 
   def prepend_css_class(css_class, current_class)
