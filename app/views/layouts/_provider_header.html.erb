@@ -8,4 +8,10 @@
       <%= link_to 'Sign out', provider_interface_sign_out_path, class: 'govuk-header__link' %>
     </li>
   </ul>
+<% elsif dfe_sign_in_user %>
+  <ul id="navigation" class="govuk-header__navigation " aria-label="Top Level Navigation">
+    <li class="govuk-header__navigation-item">
+      <%= link_to 'Sign out', provider_interface_sign_out_path, class: 'govuk-header__link' %>
+    </li>
+  </ul>
 <% end %>
