@@ -1,0 +1,11 @@
+{
+  "name": "apply-for-teacher-training",
+  "scripts": {
+    "postdeploy": "bundle exec rake db:migrate && bundle exec rake setup_local_dev_data"
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    }
+  ]
+}
