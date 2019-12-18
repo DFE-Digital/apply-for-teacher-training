@@ -21,8 +21,10 @@ class SubmitApplication
 private
 
   def send_reference_request_email_to_referees(application_form)
-    application_form.application_references.each do |reference|
-      RefereeMailer.reference_request_email(application_form, reference).deliver_later
+    application_form.application_references.includes(:application_form).each do |reference|
+      unhashed_token = reference.update_token!
+
+      RefereeMailer.reference_request_email(application_form, reference, unhashed_token).deliver_later
     end
   end
 

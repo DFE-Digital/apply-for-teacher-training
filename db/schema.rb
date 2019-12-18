@@ -69,7 +69,6 @@ ActiveRecord::Schema.define(version: 2019_12_17_155606) do
     t.text "other_language_details"
     t.date "date_of_birth"
     t.text "further_information"
-    t.datetime "submitted_at"
     t.string "phone_number"
     t.string "address_line1"
     t.string "address_line2"
@@ -77,6 +76,7 @@ ActiveRecord::Schema.define(version: 2019_12_17_155606) do
     t.string "address_line4"
     t.string "country"
     t.string "postcode"
+    t.datetime "submitted_at"
     t.string "support_reference", limit: 10
     t.string "disability_disclosure"
     t.string "uk_residency_status"
@@ -209,6 +209,7 @@ ActiveRecord::Schema.define(version: 2019_12_17_155606) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "name"
     t.string "relationship"
+    t.string "hashed_sign_in_token"
     t.index ["application_form_id", "email_address"], name: "index_references_on_application_form_id_and_email_address", unique: true
     t.index ["application_form_id"], name: "index_references_on_application_form_id"
   end

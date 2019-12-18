@@ -1,19 +1,28 @@
 class RefereeMailer < ApplicationMailer
-  def reference_request_email(application_form, reference)
+  def reference_request_email(application_form, reference, unhashed_token)
     @application_form = application_form
     @reference = reference
-    @candidate_name = "#{application_form.first_name} #{application_form.last_name}"
-    @google_form_url = google_form_url_for(@candidate_name, @reference)
+    @candidate_name = application_form.full_name
+
+    if FeatureFlag.active?('reference_form')
+      @reference_link = referee_interface_reference_feedback_url(token: unhashed_token)
+      @decline_reference_link = 'link_to_decline_the_reference' #TODO: implement the flow for Referee decline to give references
+      template_name = :reference_request_email
+    else
+      @reference_link = google_form_url_for(@candidate_name, @reference)
+      template_name = :reference_request_by_google_form_email
+    end
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: reference.email_address,
-              subject: t('reference_request.subject.initial', candidate_name: @candidate_name))
+              subject: t('reference_request.subject.initial', candidate_name: @candidate_name),
+              template_name: template_name)
   end
 
   def reference_request_chaser_email(application_form, reference)
     @application_form = application_form
     @reference = reference
-    @candidate_name = "#{application_form.first_name} #{application_form.last_name}"
+    @candidate_name = application_form.full_name
     @google_form_url = google_form_url_for(@candidate_name, @reference)
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,

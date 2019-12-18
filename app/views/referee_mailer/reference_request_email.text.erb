@@ -1,21 +1,15 @@
 Dear <%= @reference.name %>,
 
-# Give a reference for <%= @candidate_name %>
+<%= @candidate_name %> put us in touch with you to get a reference for their teacher training application.
 
-<%= @candidate_name %> put us in touch with you to get a reference for their teacher training application. They applied to:
+Please use the link below to give a reference as soon as possible
 
-<% @application_form.application_choices.each do |application_choice| %>
-* <%= application_choice.provider.name %> - <%= application_choice.course.name %>
-<% end %>
+<%= @reference_link %>
 
-Please use the link below to give a complete reference as soon as possible.
+If you won’t give [Jane Doe] a reference, please let us know by clicking the link below:
 
-<%= @google_form_url %>
+<% #TODO: add the link to decline the request of reference %>
 
-If we don’t hear from you within 5 working days we’ll send you a reminder.
-
-If you won’t give <%= @candidate_name %> a reference, please let us know as soon as possible by emailing: [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
-
-# Your data
+Your data
 
 We’ll only use your data to process the candidate’s application, unless you agree to be contacted by us about your experience of giving a reference. We’ll ask about this before you submit any information.
