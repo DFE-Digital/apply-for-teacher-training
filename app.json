@@ -1,0 +1,35 @@
+{
+  "name": "apply-for-teacher-training",
+  "scripts": {
+    "postdeploy": "heroku config:set AUTHORISED_HOSTS=${HEROKU_APP_NAME}.herokuapp.com --app ${HEROKU_APP_NAME} && bundle exec rake db:schema:load && bundle exec rake setup_local_dev_data"
+  },
+  "env": {
+    "AUTHORISED_HOSTS": {
+      "description": "The comma separated list of hosts this application should run on.",
+      "value": "apply-for-teacher-training.herokuapp.com"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "hobby"
+    },
+    "clock": {
+      "quantity": 1,
+      "size": "hobby"
+    },
+    "worker": {
+      "quantity": 1,
+      "size": "hobby"
+    }
+  },
+  "addons": ["heroku-postgresql:hobby-dev", "heroku-redis:hobby-dev"],
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    },
+    {
+      "url": "heroku-community/cli"
+    }
+  ]
+}

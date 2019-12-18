@@ -173,6 +173,10 @@ setting `BYPASS_DFE_SIGN_IN=true` in your `.env` file. This replaces the login
 flow with a dialog allowing you to specify a DfE Sign-in UID and Email address
 for your current session.
 
+### Heroku
+
+When a new PR is opened, a review app is deployed via Heroku. This has a `HOSTING_ENVIRONMENT=development`, an empty database which gets seeded with local dev data, and a URL which is similar to `https://apply-for-teacher-training.herokuapp.com`. The Heroku configuration is in [`app.json`](app.json).
+
 ### Provider permissions
 
 We decide what to show providers based on their DfE Sign-in UID.
