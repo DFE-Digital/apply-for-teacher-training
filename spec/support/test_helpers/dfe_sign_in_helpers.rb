@@ -22,13 +22,9 @@ module DfESignInHelpers
     support_user_signs_in_using_dfe_sign_in
   end
 
-  def dfe_sign_in_uid_has_permission_to_view_applications_for_provider(dfe_sign_in_uid = 'DFE_SIGN_IN_UID', code = 'ABC')
-    allow(Rails.application.config).to receive(:provider_permissions)
-      .and_return(code => [dfe_sign_in_uid])
-  end
-
   def provider_user_exists_in_apply_database
-    create(:provider_user, dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+    provider = create(:provider, code: 'ABC')
+    create(:provider_user, providers: [provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
   end
 
   def fake_dfe_sign_in_auth_hash(email_address:, dfe_sign_in_uid:)

@@ -32,7 +32,7 @@ RSpec.feature 'Provider rejects application' do
   end
 
   def and_i_am_permitted_to_see_applications_for_my_provider
-    dfe_sign_in_uid_has_permission_to_view_applications_for_provider
+    provider_user_exists_in_apply_database
   end
 
   def when_i_respond_to_an_application

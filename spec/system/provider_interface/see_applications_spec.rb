@@ -15,53 +15,25 @@ RSpec.feature 'See applications' do
     then_i_should_see_no_applications
   end
 
-  context 'when database authorisation for provider users is enabled' do
-    before { FeatureFlag.activate('provider_permissions_in_database') }
-
-    scenario 'Provider visits application page' do
-      given_i_am_a_provider_user_authenticated_with_dfe_sign_in
-      and_my_organisation_has_applications
-
-      when_i_visit_the_provider_page
-      then_i_should_see_the_account_creation_in_progress_page
-      and_i_should_see_a_sign_out_link
-
-      when_my_apply_account_has_been_created
-      and_i_visit_the_provider_page
-      then_i_should_see_the_applications_from_my_organisation
-
-      when_i_click_on_an_application
-      then_i_should_be_on_the_application_view_page
-    end
-
-    def given_i_am_a_provider_user_with_a_dfe_sign_in_account_but_no_apply_account
-      provider_exists_in_dfe_sign_in
-      provider_signs_in_using_dfe_sign_in
-    end
-
-    def when_my_apply_account_has_been_created
-      provider_user = provider_user_exists_in_apply_database
-      create(:provider, code: 'ABC', provider_users: [provider_user])
-    end
-  end
-
   scenario 'Provider visits application page' do
     given_i_am_a_provider_user_authenticated_with_dfe_sign_in
-    and_my_training_provider_exists
     and_my_organisation_has_applications
-    and_another_organisation_has_applications
-    and_i_have_not_been_assigned_to_my_training_provider # this is a manual process for now
-    and_i_visit_the_provider_page
+
+    when_i_visit_the_provider_page
     then_i_should_see_the_account_creation_in_progress_page
     and_i_should_see_a_sign_out_link
 
-    when_i_have_been_assigned_to_my_training_provider
+    when_my_apply_account_has_been_created
     and_i_visit_the_provider_page
     then_i_should_see_the_applications_from_my_organisation
-    but_not_the_applications_from_other_providers
 
     when_i_click_on_an_application
     then_i_should_be_on_the_application_view_page
+  end
+
+  def when_my_apply_account_has_been_created
+    provider_user = provider_user_exists_in_apply_database
+    create(:provider, code: 'ABC', provider_users: [provider_user])
   end
 
   def and_my_training_provider_exists
@@ -73,8 +45,6 @@ RSpec.feature 'See applications' do
     provider_signs_in_using_dfe_sign_in
   end
 
-  def and_i_have_not_been_assigned_to_my_training_provider; end
-
   def then_i_should_see_the_account_creation_in_progress_page
     expect(page).to have_content('Your account is not ready yet')
   end
@@ -84,7 +54,7 @@ RSpec.feature 'See applications' do
   end
 
   def when_i_have_been_assigned_to_my_training_provider
-    dfe_sign_in_uid_has_permission_to_view_applications_for_provider
+    provider_user_exists_in_apply_database
   end
 
   def and_my_organisation_has_applications

@@ -20,7 +20,7 @@ RSpec.feature 'See applications for accrediting provider' do
   end
 
   def and_i_am_permitted_to_see_applications_for_my_provider
-    dfe_sign_in_uid_has_permission_to_view_applications_for_provider
+    provider_user_exists_in_apply_database
   end
 
   def and_my_organisation_has_accredited_courses_with_applications

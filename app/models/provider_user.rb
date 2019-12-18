@@ -9,15 +9,8 @@ class ProviderUser < ActiveRecord::Base
     dfe_sign_in_user = DfESignInUser.load_from_session(session)
     return unless dfe_sign_in_user
 
-    if FeatureFlag.active?('provider_permissions_in_database')
-      ProviderUser.find_by(
-        dfe_sign_in_uid: dfe_sign_in_user.dfe_sign_in_uid,
-      )
-    else
-      LegacyProviderUser.new(
-        email_address: dfe_sign_in_user.email_address,
-        dfe_sign_in_uid: dfe_sign_in_user.dfe_sign_in_uid,
-      )
-    end
+    ProviderUser.find_by(
+      dfe_sign_in_uid: dfe_sign_in_user.dfe_sign_in_uid,
+    )
   end
 end
