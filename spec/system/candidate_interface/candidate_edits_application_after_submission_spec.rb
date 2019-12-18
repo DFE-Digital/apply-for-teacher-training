@@ -21,6 +21,7 @@ RSpec.feature 'A candidate edits their application' do
     when_i_click_the_edit_button
     then_i_see_the_edit_application_page
     and_i_see_the_remaining_days_to_edit
+    and_i_see_the_submit_button_is_changed
 
     when_the_amend_period_has_ended_and_i_visit_the_edit_application_page
     then_i_see_the_application_dashboard
@@ -79,5 +80,10 @@ RSpec.feature 'A candidate edits their application' do
 
   def then_i_see_the_application_dashboard
     expect(page).to have_content t('page_titles.application_dashboard')
+  end
+
+  def and_i_see_the_submit_button_is_changed
+    expect(page).to have_content(t('application_complete.edit_page.resubmit_title'))
+    expect(page).to have_link(t('application_complete.edit_page.resubmit_button'))
   end
 end

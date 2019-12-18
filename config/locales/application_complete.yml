@@ -6,3 +6,5 @@ en:
       edit_button: 'Edit Application'
       warning_text: >
         You have %{remaining_days} (until %{date}) to edit your application
+      resubmit_title: 'Go back to application dashboard'
+      resubmit_button: 'Finish and go back to application dashboard'
