@@ -10,7 +10,7 @@ module CandidateInterface
   private
 
     def redirect_to_dashboard_if_submitted
-      redirect_to candidate_interface_application_complete_path if current_application.submitted?
+      redirect_to candidate_interface_application_complete_path if current_application.submitted? && FeatureFlag.active?('edit_application') == false
     end
 
     def redirect_to_application_if_signed_in
