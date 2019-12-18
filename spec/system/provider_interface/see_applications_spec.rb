@@ -22,7 +22,10 @@ RSpec.feature 'See applications' do
       given_i_am_a_provider_user_authenticated_with_dfe_sign_in
       and_my_organisation_has_applications
 
-      when_i_have_been_assigned_to_my_training_provider
+      when_i_visit_the_provider_page
+      then_i_should_see_the_account_creation_in_progress_page
+
+      when_my_apply_account_has_been_created
       and_i_visit_the_provider_page
       then_i_should_see_the_applications_from_my_organisation
 
@@ -30,12 +33,14 @@ RSpec.feature 'See applications' do
       then_i_should_be_on_the_application_view_page
     end
 
-    def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
-      provider_user = provider_user_exists_in_apply_database
-      create(:provider, code: 'ABC', provider_users: [provider_user])
-
+    def given_i_am_a_provider_user_with_a_dfe_sign_in_account_but_no_apply_account
       provider_exists_in_dfe_sign_in
       provider_signs_in_using_dfe_sign_in
+    end
+
+    def when_my_apply_account_has_been_created
+      provider_user = provider_user_exists_in_apply_database
+      create(:provider, code: 'ABC', provider_users: [provider_user])
     end
   end
 
@@ -92,6 +97,8 @@ RSpec.feature 'See applications' do
   def and_i_visit_the_provider_page
     visit provider_interface_path
   end
+
+  alias :when_i_visit_the_provider_page :and_i_visit_the_provider_page
 
   def then_i_should_see_the_applications_from_my_organisation
     expect(page).to have_content @my_provider_choice1.application_form.first_name
