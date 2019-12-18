@@ -21,6 +21,9 @@ RSpec.feature 'A candidate edits their application' do
     when_i_click_the_edit_button
     then_i_see_the_edit_application_page
     and_i_see_the_remaining_days_to_edit
+
+    when_the_amend_period_has_ended_and_i_visit_the_edit_application_page
+    then_i_see_the_application_dashboard
   end
 
   def given_the_edit_application_feature_flag_is_on
@@ -66,5 +69,15 @@ RSpec.feature 'A candidate edits their application' do
     )
 
     expect(page).to have_content(remaining_days_to_edit)
+  end
+
+  def when_the_amend_period_has_ended_and_i_visit_the_edit_application_page
+    Timecop.travel(Time.zone.local(2019, 12, 16) + 5.days) do
+      visit candidate_interface_application_form_path
+    end
+  end
+
+  def then_i_see_the_application_dashboard
+    expect(page).to have_content t('page_titles.application_dashboard')
   end
 end

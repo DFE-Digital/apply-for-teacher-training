@@ -44,15 +44,6 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
 
     when_i_click_view_application
     then_i_can_see_my_submitted_application
-
-    when_i_attempt_to_edit_my_personal_details
-    then_i_can_see_my_application_dashboard
-
-    when_i_attempt_to_edit_my_contact_details
-    then_i_can_see_my_application_dashboard
-
-    when_i_click_the_edit_application_link
-    then_i_see_edit_information_page
   end
 
   def given_i_am_signed_in
@@ -65,14 +56,6 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
 
   def when_i_have_completed_my_application
     candidate_completes_application_form
-  end
-
-  def when_i_attempt_to_edit_my_personal_details
-    visit candidate_interface_personal_details_edit_path
-  end
-
-  def when_i_attempt_to_edit_my_contact_details
-    visit candidate_interface_contact_details_edit_base_path
   end
 
   def and_i_review_my_application
@@ -242,13 +225,5 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
     expect(page).to have_content 'Everything'
     expect(page).to have_content 'Not on a Wednesday'
     expect(page).to have_content 'Terri Tudor'
-  end
-
-  def when_i_click_the_edit_application_link
-    click_link t('application_complete.dashboard.edit_link')
-  end
-
-  def then_i_see_edit_information_page
-    expect(page).to have_content t('page_titles.application_edit')
   end
 end
