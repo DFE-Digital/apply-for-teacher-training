@@ -48,6 +48,6 @@ Your name will also be checked against a DBS list of people who have been barred
 
 ## How you can contact us
 
-Contact [Get Into Teaching](https://getintoteaching.education.gov.uk/get-help-and-support) on Freephone 0800 389 2500, or [chat to an adviser using the online chat service](https://getintoteaching.education.gov.uk/lp/live-chat).
+You can contact the team at <becomingateacher@digital.education.gov.uk>.
 
-We typically respond within one working day for urgent queries. It can take up to 5 working days for less urgent queries. Unfortunately, we can’t provide support over the weekend.
+We typically respond within one working day for urgent queries. It can take up to 5 working days for less urgent queries. We don’t provide support over the weekend or on public holidays.
