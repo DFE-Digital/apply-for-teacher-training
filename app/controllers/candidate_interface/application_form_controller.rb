@@ -3,12 +3,14 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_not_amendable, only: %i[show review]
     before_action :redirect_to_application_form_unless_submitted, only: %i[review_submitted complete submit_success]
 
+
     def show
       @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
       @application_form = current_application
     end
 
     def review
+      redirect_to candidate_interface_application_complete_path if current_application.submitted?
       @application_form = current_application
     end
 
