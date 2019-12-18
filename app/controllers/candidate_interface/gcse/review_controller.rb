@@ -1,6 +1,6 @@
 module CandidateInterface
   class Gcse::ReviewController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_submitted
+    before_action :redirect_to_dashboard_if_not_amendable
 
     before_action :set_subject
 

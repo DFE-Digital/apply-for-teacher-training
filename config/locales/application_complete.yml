@@ -4,3 +4,5 @@ en:
       edit_link: Edit your application
     edit_page:
       edit_button: 'Edit Application'
+      warning_text: >
+        You have %{remaining_days} (until %{date}) to edit your application

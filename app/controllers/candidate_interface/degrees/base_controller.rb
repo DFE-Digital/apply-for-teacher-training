@@ -1,6 +1,6 @@
 module CandidateInterface
   class Degrees::BaseController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_submitted
+    before_action :redirect_to_dashboard_if_not_amendable
 
     def new
       @degree = DegreeForm.new

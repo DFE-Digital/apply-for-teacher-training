@@ -1,6 +1,6 @@
 module CandidateInterface
   class PersonalStatement::InterviewPreferencesController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_submitted
+    before_action :redirect_to_dashboard_if_not_amendable
 
     def edit
       @interview_preferences_form = InterviewPreferencesForm.build_from_application(

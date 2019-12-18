@@ -28,10 +28,6 @@ class ApplicationCompleteContentComponent < ActionView::Component::Base
     @dates.decline_by_default_at.strftime('%-e %B %Y')
   end
 
-  def edit_by_date
-    @dates.edit_by.strftime('%-e %B %Y')
-  end
-
 private
 
   attr_reader :application_form

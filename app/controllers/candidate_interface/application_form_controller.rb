@@ -1,6 +1,6 @@
 module CandidateInterface
   class ApplicationFormController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_submitted, only: %i[show review]
+    before_action :redirect_to_dashboard_if_not_amendable, only: %i[show review]
 
     def show
       @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)

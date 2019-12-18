@@ -1,6 +1,6 @@
 module CandidateInterface
   class ContactDetails::BaseController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_submitted
+    before_action :redirect_to_dashboard_if_not_amendable
 
     def edit
       @contact_details_form = ContactDetailsForm.build_from_application(

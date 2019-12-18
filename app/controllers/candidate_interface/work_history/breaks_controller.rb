@@ -1,6 +1,6 @@
 module CandidateInterface
   class WorkHistory::BreaksController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_submitted
+    before_action :redirect_to_dashboard_if_not_amendable
 
     def edit
       @work_breaks_form = WorkBreaksForm.build_from_application(

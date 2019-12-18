@@ -1,6 +1,6 @@
 module CandidateInterface
   class Gcse::TypeController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_submitted
+    before_action :redirect_to_dashboard_if_not_amendable
     before_action :set_subject
 
     # 1st step - Edit qualification type
