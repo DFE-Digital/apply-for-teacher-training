@@ -21,7 +21,7 @@ RSpec.feature 'API docs' do
     expect(page).to have_content 'Developing on the API'
 
     click_link 'Release notes'
-    expect(page).to have_content 'We are currently working towards the release of v1'
+    expect(page).to have_content 'For a log of pre-release changes, see the alpha release notes'
 
     click_link 'Get help'
     expect(page).to have_content 'If you have any questions or'
