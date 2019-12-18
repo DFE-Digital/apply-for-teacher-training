@@ -3,6 +3,7 @@
   "scripts": {
     "postdeploy": "bundle exec rake db:migrate && bundle exec rake setup_local_dev_data"
   },
+  "addons": ["heroku-postgresql:hobby-dev", "heroku-redis:hobby-dev"],
   "buildpacks": [
     {
       "url": "heroku/ruby"
