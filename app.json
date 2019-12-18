@@ -3,6 +3,20 @@
   "scripts": {
     "postdeploy": "bundle exec rake db:migrate && bundle exec rake setup_local_dev_data"
   },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "hobby"
+    },
+    "clock": {
+      "quantity": 1,
+      "size": "hobby"
+    },
+    "worker": {
+      "quantity": 1,
+      "size": "hobby"
+    }
+  },
   "addons": ["heroku-postgresql:hobby-dev", "heroku-redis:hobby-dev"],
   "buildpacks": [
     {
