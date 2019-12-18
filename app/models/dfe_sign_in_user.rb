@@ -6,22 +6,21 @@ class DfESignInUser
     @dfe_sign_in_uid = dfe_sign_in_uid
   end
 
-  def self.begin_session!(session, dfe_sign_in_session)
+  def self.begin_session!(session, omniauth_payload)
     session['dfe_sign_in_user'] = {
-      'email_address' => dfe_sign_in_session.email_address,
-      'dfe_sign_in_uid' => dfe_sign_in_session.uid,
+      'email_address' => omniauth_payload['info']['email'],
+      'dfe_sign_in_uid' => omniauth_payload['uid'],
     }
   end
 
   def self.load_from_session(session)
-    return nil unless session['dfe_sign_in_user']
+    dfe_sign_in_session = session['dfe_sign_in_user']
+    return unless dfe_sign_in_session
 
-    if session['dfe_sign_in_user']
-      new(
-        email_address: session['dfe_sign_in_user']['email_address'],
-        dfe_sign_in_uid: session['dfe_sign_in_user']['dfe_sign_in_uid'],
-      )
-    end
+    new(
+      email_address: dfe_sign_in_session['email_address'],
+      dfe_sign_in_uid: dfe_sign_in_session['dfe_sign_in_uid'],
+    )
   end
 
   def self.end_session!(session)

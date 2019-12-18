@@ -2,8 +2,7 @@ class DfESignInController < ActionController::Base
   protect_from_forgery except: :bypass_callback
 
   def callback
-    dfe_sign_in_session = DfESignIn.parse_auth_hash(request.env['omniauth.auth'])
-    DfESignInUser.begin_session!(session, dfe_sign_in_session)
+    DfESignInUser.begin_session!(session, request.env['omniauth.auth'])
 
     redirect_to session.delete('post_dfe_sign_in_path') || default_authenticated_path
   end
