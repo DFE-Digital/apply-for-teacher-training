@@ -9,11 +9,11 @@ module CandidateInterface
 
   private
 
-    def redirect_to_dashboard_if_submitted
+    def redirect_to_dashboard_if_not_amendable
       if FeatureFlag.active?('edit_application')
         redirect_to candidate_interface_application_complete_path if current_application.submitted? && current_application.within_amend_period? == false
-      else
-        redirect_to candidate_interface_application_complete_path if current_application.submitted?
+      elsif current_application.submitted?
+        redirect_to candidate_interface_application_complete_path
       end
     end
 
