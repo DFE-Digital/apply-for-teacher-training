@@ -16,6 +16,13 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
 
     when_i_click_on_the_link_within_the_email
     then_i_see_the_reference_comment_page
+
+    when_i_fill_in_the_reference_field
+    and_i_click_the_submit_button
+    then_i_see_the_success_page
+
+    when_i_click_finish_button
+    then_i_see_the_thank_you_page
   end
 
   def given_a_candidate_completed_an_application
@@ -50,6 +57,26 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
 
   def then_i_see_the_reference_comment_page
     expect(page).to have_content("Give a teacher training reference for #{@application.full_name}")
+  end
+
+  def when_i_fill_in_the_reference_field
+    fill_in 'Your reference', with: 'This is a reference for the candidate.'
+  end
+
+  def and_i_click_the_submit_button
+    click_button 'Submit reference'
+  end
+
+  def when_i_click_finish_button
+    click_button 'Finish'
+  end
+
+  def then_i_see_the_success_page
+    expect(page).to have_content("Your reference for #{@application.full_name}")
+  end
+
+  def then_i_see_the_thank_you_page
+    expect(page).to have_content('Thank you')
   end
 
 private
