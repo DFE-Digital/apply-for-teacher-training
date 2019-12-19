@@ -21,9 +21,11 @@
     <% elsif application_choice.recruited? %>
       <%# TODO once we have recruited_at %>
     <% elsif application_choice.declined? %>
-      <%# TODO once we have declined_at set every time the change %>
+      <dt>Declined at</dt>
+      <dd><%= declined_at %></dd>
     <% elsif application_choice.pending_conditions? %>
-      <%# TODO once we have accepted_at %>
+      <dt>Accepted at</dt>
+      <dd><%= accepted_at %></dd>
     <% elsif application_choice.conditions_not_met? %>
       <%# TODO once we have conditions_not_met_at %>
     <% elsif application_choice.enrolled? %>
