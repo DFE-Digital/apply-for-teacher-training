@@ -20,11 +20,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render SummaryListComponent, rows: [
-      { key: 'Full name', value: @application_choice.full_name },
-      { key: 'Phone number', value: @application_choice.phone_number },
-      { key: 'Email address', value: @application_choice.email_address },
-    ] %>
+    <%= render PersonalDetailsComponent, application_form: @application_choice.application_form %>
   </div>
 
   <div class="govuk-grid-column-one-third">
