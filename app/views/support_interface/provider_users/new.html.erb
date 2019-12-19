@@ -24,7 +24,7 @@
       <%= f.govuk_text_field :email_address, label: { text: 'Email address' } %>
       <%= f.govuk_text_field :dfe_sign_in_uid, label: { text: 'DfE Sign-in UID' } %>
 
-      <%= f.govuk_collection_radio_buttons :provider_ids, @form.available_providers, :id, :name, legend: { text: 'Provider' } %>
+      <%= f.govuk_collection_radio_buttons :provider_ids, @form.available_providers, :id, :name_and_code, legend: { text: 'Provider' } %>
 
       <%= f.govuk_submit 'Add provider user' %>
     <% end %>

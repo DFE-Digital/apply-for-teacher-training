@@ -33,7 +33,7 @@
           </td>
           <td class="govuk-table__cell">
           <% provider_user.providers.map do |p| %>
-            <%= link_to(p.name, support_interface_provider_path(p)) %>
+            <%= govuk_link_to(p.name, support_interface_provider_path(p)) %>
           <% end %>
           <td class="govuk-table__cell">
             <%= provider_user.dfe_sign_in_uid %>
