@@ -1,4 +1,6 @@
 class ApplicationSummaryComponent < ActionView::Component::Base
+  MISSING = '<em>Not provided</em>'.html_safe
+
   include ViewHelper
 
   delegate :first_name,
@@ -27,12 +29,10 @@ class ApplicationSummaryComponent < ActionView::Component::Base
 private
 
   def name_row
-    if first_name
-      {
-        key: 'Full name',
-        value: "#{first_name} #{last_name}",
-      }
-    end
+    {
+      key: 'Full name',
+      value: "#{first_name} #{last_name}",
+    }
   end
 
   def email_row
@@ -43,12 +43,10 @@ private
   end
 
   def phone_number_row
-    if phone_number
-      {
-        key: 'Phone number',
-        value: phone_number,
-      }
-    end
+    {
+      key: 'Phone number',
+      value: phone_number || MISSING,
+    }
   end
 
   def nationality_row
@@ -63,7 +61,7 @@ private
   def date_of_birth_row
     {
       key: 'Date of birth',
-      value: @application_form.date_of_birth.strftime('%e %B %Y'),
+      value: @application_form.date_of_birth ? @application_form.date_of_birth.strftime('%e %B %Y') : MISSING,
     }
   end
 
