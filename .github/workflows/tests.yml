@@ -1,8 +1,7 @@
 name: 'Apply CI'
+
 on:
-  push:
-    branches-ignore:
-      - 'master'
+  pull_request: {}
 
 jobs:
   unit_tests:
