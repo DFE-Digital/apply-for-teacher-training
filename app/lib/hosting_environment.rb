@@ -46,6 +46,10 @@ module HostingEnvironment
     ENV.fetch('HOSTING_ENVIRONMENT_NAME', 'unknown-environment')
   end
 
+  def self.review?
+    environment_name == 'review'
+  end
+
   def self.production?
     environment_name == 'production'
   end
