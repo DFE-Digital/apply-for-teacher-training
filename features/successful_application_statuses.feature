@@ -63,7 +63,6 @@ Feature: successful application statuses
     Examples:
       | original status            | actor     | action                 | new status                 |
       | unsubmitted                | candidate | submit                 | awaiting references        |
-      | awaiting references        | candidate | withdraw               | withdrawn                  |
       | awaiting references        | candidate | references complete    | application complete       |
       | application complete       | candidate | withdraw               | withdrawn                  |
       | application complete       | candidate | send to provider       | awaiting provider decision |
