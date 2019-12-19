@@ -1,0 +1,39 @@
+<div class="app-status-box">
+  <h2 class="govuk-heading-m">Status</h2>
+  <%= render ProviderInterface::ApplicationStatusTagComponent, application_choice: application_choice %>
+
+  <dl class="app-definition-list govuk-!-margin-top-4">
+    <dt>Application submitted</dt>
+    <dd><%= submitted_at %></dd>
+
+    <% if application_choice.awaiting_provider_decision? %>
+      <dt>Respond to the applicant by</dt>
+      <dd><%= respond_by %></dd>
+    <% elsif application_choice.withdrawn? %>
+      <dt>Application withdrawn</dt>
+      <dd><%= withdrawn_at %></dd>
+    <% elsif application_choice.offer? %>
+      <dt>Needs to respond by</dt>
+      <dd><%= candidate_respond_by %></dd>
+    <% elsif application_choice.rejected? %>
+      <dt>Rejected at</dt>
+      <dd><%= rejected_at %></dd>
+    <% elsif application_choice.recruited? %>
+      <%# TODO once we have recruited_at %>
+    <% elsif application_choice.declined? %>
+      <%# TODO once we have declined_at set every time the change %>
+    <% elsif application_choice.pending_conditions? %>
+      <%# TODO once we have accepted_at %>
+    <% elsif application_choice.conditions_not_met? %>
+      <%# TODO once we have conditions_not_met_at %>
+    <% elsif application_choice.enrolled? %>
+      <%# TODO once we have enrolled_at %>
+    <% end %>
+  </dl>
+
+  <% if application_choice.awaiting_provider_decision? %>
+    <div class="govuk-!-margin-top-6">
+      <%= govuk_button_link_to 'Respond to application', provider_interface_application_choice_respond_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
+    </div>
+  <% end %>
+</div>
