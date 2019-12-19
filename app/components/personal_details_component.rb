@@ -1,3 +1,4 @@
+# Used by Support Interface and Provider Interface
 class PersonalDetailsComponent < ActionView::Component::Base
   MISSING = '<em>Not provided</em>'.html_safe
 

@@ -58,13 +58,20 @@ RSpec.feature 'See an application' do
   def and_i_should_see_a_summary_of_the_completed_application
     within '[data-qa="application-summary"]' do
       [
+        @completed_application.support_reference,
+        'Submitted',
+        'Last updated',
+      ].each do |content|
+        expect(page).to have_content content
+      end
+    end
+
+    within '[data-qa="personal-details"]' do
+      [
         @completed_application.candidate.email_address,
         @completed_application.first_name,
         @completed_application.last_name,
         @completed_application.phone_number,
-        @completed_application.support_reference,
-        'Submitted',
-        'Last updated',
       ].each do |content|
         expect(page).to have_content content
       end
@@ -86,22 +93,9 @@ RSpec.feature 'See an application' do
   end
 
   def then_i_should_see_a_summary_of_the_unsubmitted_application
-    within '[data-qa="application-summary"]' do
-      [
-        @unsubmitted_application.candidate.email_address,
-        'Last updated',
-      ].each do |content|
-        expect(page).to have_content content
-      end
-
-      [
-        'Phone number',
-        'Name',
-        'Support reference',
-        'Submitted',
-      ].each do |content|
-        expect(page).not_to have_content content
-      end
+    within '[data-qa="personal-details"]' do
+      expect(page).to have_content 'Phone number Not provided'
+      expect(page).to have_content @unsubmitted_application.candidate.email_address
     end
   end
 

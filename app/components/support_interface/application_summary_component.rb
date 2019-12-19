@@ -2,17 +2,11 @@ module SupportInterface
   class ApplicationSummaryComponent < ActionView::Component::Base
     include ViewHelper
 
-    delegate :first_name,
-             :last_name,
-             :phone_number,
-             :support_reference,
+    delegate :support_reference,
              :submitted_at,
              :submitted?,
              :updated_at,
-             :candidate,
              to: :application_form
-
-    delegate :email_address, to: :candidate
 
     def initialize(application_form:)
       @application_form = application_form
@@ -20,10 +14,7 @@ module SupportInterface
 
     def rows
       [
-        name_row,
         support_reference_row,
-        email_row,
-        phone_number_row,
         submitted_row,
         last_updated_row,
         state_row,
@@ -31,31 +22,6 @@ module SupportInterface
     end
 
   private
-
-    def name_row
-      if first_name
-        {
-          key: 'Name',
-          value: "#{first_name} #{last_name}",
-        }
-      end
-    end
-
-    def email_row
-      {
-        key: 'Email address',
-        value: mail_to(email_address, email_address, class: 'govuk-link'),
-      }
-    end
-
-    def phone_number_row
-      if phone_number
-        {
-          key: 'Phone number',
-          value: phone_number,
-        }
-      end
-    end
 
     def last_updated_row
       {
@@ -94,10 +60,6 @@ module SupportInterface
       name = I18n.t!("process_states.#{process_state}.name")
       desc = I18n.t!("process_states.#{process_state}.description")
       "#{name} – #{desc}"
-    end
-
-    def application_choices
-      application_form.application_choices.includes(:course, :provider)
     end
 
     attr_reader :application_form
