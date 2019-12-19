@@ -33,6 +33,14 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
     expect(result.text).to include('Rejected at')
   end
 
+  it 'outputs a date for applications in the pending_conditions (offer accepted) state' do
+    application_choice = make_choice(status: 'pending_conditions', accepted_at: Time.zone.now)
+
+    result = render_inline(described_class, application_choice: application_choice)
+
+    expect(result.text).to include('Accepted at')
+  end
+
   def make_choice(attrs)
     application_form = create(:application_form, submitted_at: Time.zone.now)
     create(:application_choice, { application_form: application_form }.merge(attrs))
