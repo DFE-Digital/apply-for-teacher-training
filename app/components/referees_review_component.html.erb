@@ -1,3 +1,11 @@
+<p class="govuk-body">
+  <% if @application_form.submitted? %>
+    <%= t('application_form.referees.info.after_submission') %>
+  <% else %>
+    <%= t('application_form.referees.info.before_submission') %>
+  <% end %>
+</p>
+
 <% @application_form.application_references.includes(:application_form).each do |referee| %>
   <%= render(SummaryCardComponent, rows: referee_rows(referee), editable: @editable) do %>
     <%= render(SummaryCardHeaderComponent, title: t('application_form.referees.nth_referee')[referee.ordinal], heading_level: @heading_level) do %>
