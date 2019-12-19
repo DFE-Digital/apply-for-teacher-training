@@ -1,11 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe RefereesReviewComponent do
-  let(:application_form) do
-    create(:completed_application_form, references_count: 2)
-  end
-
   context 'when referees are editable' do
+    let(:application_form) { create(:completed_application_form, references_count: 2) }
+
     it "renders component with correct values for a referee's name" do
       first_referee = application_form.application_references.first
       result = render_inline(RefereesReviewComponent, application_form: application_form)
@@ -35,11 +33,33 @@ RSpec.describe RefereesReviewComponent do
   end
 
   context 'when referees are not editable' do
+    let(:application_form) { create(:completed_application_form, references_count: 1) }
+
     it 'renders component without an edit link' do
       result = render_inline(RefereesReviewComponent, application_form: application_form, editable: false)
 
       expect(result.css('.app-summary-list__actions').text).not_to include('Change')
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.referees.delete'))
+    end
+  end
+
+  context 'when the application has not been submitted' do
+    it 'renders component with content about what happens with referee details provided' do
+      application_form = build_stubbed(:application_form, submitted_at: nil)
+
+      result = render_inline(RefereesReviewComponent, application_form: application_form)
+
+      expect(result.text).to include(t('application_form.referees.info.before_submission'))
+    end
+  end
+
+  context 'when the application has been submitted' do
+    it 'renders component with content about referees being contacted' do
+      application_form = build_stubbed(:application_form, submitted_at: Time.zone.now)
+
+      result = render_inline(RefereesReviewComponent, application_form: application_form)
+
+      expect(result.text).to include(t('application_form.referees.info.after_submission'))
     end
   end
 end

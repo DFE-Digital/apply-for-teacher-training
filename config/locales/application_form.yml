@@ -309,6 +309,9 @@ en:
       chase_button: Yes - send the email
       chase_success: Email sent to candidate and referee
       audit_comment: "Chase emails have been sent to the referee (%{referee_email}) and candidate (%{candidate_email})."
+      info:
+        before_submission: We’ll contact your referees after you submit your application. We’ll let you know if they don’t supply a reference.
+        after_submission: We’ve contacted the referees you provided below. We’ll let you know if they don’t supply a reference.
   activemodel:
     errors:
       models:
