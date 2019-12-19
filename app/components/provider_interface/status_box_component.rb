@@ -44,6 +44,10 @@ module ProviderInterface
       format_date application_choice.conditions_not_met_at
     end
 
+    def enrolled_at
+      format_date application_choice.enrolled_at
+    end
+
   private
 
     def format_date(date)

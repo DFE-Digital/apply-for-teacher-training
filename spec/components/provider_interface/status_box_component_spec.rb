@@ -65,6 +65,14 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
     expect(result.text).to include('Conditions not met')
   end
 
+  it 'outputs a date for applications in the enrolled_at state' do
+    application_choice = make_choice(status: 'enrolled', enrolled_at: Time.zone.now)
+
+    result = render_inline(described_class, application_choice: application_choice)
+
+    expect(result.text).to include('Enrolled at')
+  end
+
   def make_choice(attrs)
     application_form = create(:application_form, submitted_at: Time.zone.now)
     create(:application_choice, { application_form: application_form }.merge(attrs))
