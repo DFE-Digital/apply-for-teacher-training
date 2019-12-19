@@ -19,6 +19,10 @@
 
 <%= render SupportInterface::ApplicationSummaryComponent, application_form: @application_form %>
 
+<h2 class="govuk-heading-l govuk-!-margin-top-8">Personal details</h2>
+
+<%= render PersonalDetailsComponent, application_form: @application_form %>
+
 <% unless HostingEnvironment.production? %>
   <%= button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@application_form.candidate), class: 'govuk-button' %>
 <% end %>
