@@ -1,0 +1,40 @@
+require 'rails_helper'
+
+RSpec.describe ProviderInterface::StatusBoxComponent do
+  it 'outputs a date for applications in the awaiting_provider_decision state' do
+    application_choice = make_choice(status: 'awaiting_provider_decision', reject_by_default_at: Time.zone.now)
+
+    result = render_inline(described_class, application_choice: application_choice)
+
+    expect(result.text).to include('Respond to the applicant by')
+  end
+
+  it 'outputs a date for applications in the withdrawn state' do
+    application_choice = make_choice(status: 'withdrawn', withdrawn_at: Time.zone.now)
+
+    result = render_inline(described_class, application_choice: application_choice)
+
+    expect(result.text).to include('Application withdrawn')
+  end
+
+  it 'outputs a date for applications in the offer state' do
+    application_choice = make_choice(status: 'offer', decline_by_default_at: Time.zone.now)
+
+    result = render_inline(described_class, application_choice: application_choice)
+
+    expect(result.text).to include('Needs to respond by')
+  end
+
+  it 'outputs a date for applications in the rejected state' do
+    application_choice = make_choice(status: 'rejected', rejected_at: Time.zone.now)
+
+    result = render_inline(described_class, application_choice: application_choice)
+
+    expect(result.text).to include('Rejected at')
+  end
+
+  def make_choice(attrs)
+    application_form = create(:application_form, submitted_at: Time.zone.now)
+    create(:application_choice, { application_form: application_form }.merge(attrs))
+  end
+end

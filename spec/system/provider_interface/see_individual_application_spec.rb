@@ -33,6 +33,7 @@ RSpec.describe 'A Provider viewing an individual application' do
   def and_my_organisation_has_received_an_application
     course_option = course_option_for_provider_code(provider_code: 'ABC')
     application_form = create(:application_form,
+                              submitted_at: Time.zone.now,
                               becoming_a_teacher: 'This is my personal statement',
                               subject_knowledge: 'This is my subject knowledge',
                               interview_preferences: 'Any date is fine',
@@ -72,8 +73,7 @@ RSpec.describe 'A Provider viewing an individual application' do
            relationship: 'Companion droid',
            feedback: 'The possibility of successfully navigating training is approximately three thousand seven hundred and twenty to one')
 
-    @application_choice = create(:application_choice,
-                                 status: 'awaiting_provider_decision',
+    @application_choice = create(:submitted_application_choice,
                                  course_option: course_option,
                                  application_form: application_form)
   end

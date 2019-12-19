@@ -11,7 +11,7 @@ RSpec.feature 'Provider responds to application' do
   end
 
   let(:application_rejected) do
-    create(:submitted_application_choice, status: 'rejected', course_option: course_option)
+    create(:submitted_application_choice, status: 'rejected', rejected_at: Time.zone.now, course_option: course_option)
   end
 
   scenario 'Provider can respond to an application currently awaiting_provider_decision' do
