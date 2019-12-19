@@ -32,6 +32,10 @@ module ProviderInterface
       format_date application_choice.accepted_at
     end
 
+    def declined_at
+      format_date application_choice.declined_at
+    end
+
   private
 
     def format_date(date)
