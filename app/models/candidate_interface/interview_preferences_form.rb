@@ -2,8 +2,6 @@ module CandidateInterface
   class InterviewPreferencesForm
     include ActiveModel::Model
 
-    DEFAULT_NO_VALUE = I18n.t('application_form.personal_statement.interview_preferences.no_value')
-
     attr_accessor :any_preferences, :interview_preferences
 
     validates :any_preferences, presence: true
@@ -21,7 +19,7 @@ module CandidateInterface
       def interview_preferences_to_any_preferences(preferences)
         if preferences.nil?
           nil
-        elsif preferences == DEFAULT_NO_VALUE
+        elsif preferences == ''
           'no'
         else
           'yes'
@@ -33,7 +31,7 @@ module CandidateInterface
       return false unless valid?
 
       application_form.update(
-        interview_preferences: any_preferences? ? interview_preferences : DEFAULT_NO_VALUE,
+        interview_preferences: any_preferences? ? interview_preferences : '',
       )
     end
 

@@ -1,14 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe InterviewPreferencesReviewComponent do
-  let(:application_form) { create(:completed_application_form) }
+  let(:application_form) { build_stubbed(:application_form, interview_preferences: Faker::Lorem.paragraph_by_chars(number: 100)) }
 
   context 'when interview preferences is editable' do
-    it 'renders SummaryCardComponent with valid becoming a teacher' do
+    it 'renders SummaryCardComponent with interview preferences' do
       result = render_inline(InterviewPreferencesReviewComponent, application_form: application_form)
 
       expect(result.text).to include(application_form.interview_preferences)
       expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.personal_statement.interview_preferences.change_action')}")
+    end
+
+    it 'renders with "None" if value of interview preferences is an empty string' do
+      application_form.interview_preferences = ''
+
+      result = render_inline(InterviewPreferencesReviewComponent, application_form: application_form)
+
+      expect(result.text).to include('None')
     end
   end
 
