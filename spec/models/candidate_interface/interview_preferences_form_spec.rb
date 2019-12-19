@@ -24,9 +24,9 @@ RSpec.describe CandidateInterface::InterviewPreferencesForm, type: :model do
       expect(interview_preferences).to have_attributes(form_data)
     end
 
-    it 'returns no for any preferences if the default no value is used' do
+    it 'returns no for any preferences if an empty string' do
       application_form = ApplicationForm.new(
-        interview_preferences: t('application_form.personal_statement.interview_preferences.no_value'),
+        interview_preferences: '',
       )
       interview_preferences = CandidateInterface::InterviewPreferencesForm.build_from_application(
         application_form,
@@ -60,7 +60,7 @@ RSpec.describe CandidateInterface::InterviewPreferencesForm, type: :model do
       expect(application_form).to have_attributes(data)
     end
 
-    it 'updates the provided ApplicationForm with the default no value if no is selected' do
+    it 'updates the provided ApplicationForm with an empty string if no is selected' do
       application_form = create(:application_form)
       interview_preferences = CandidateInterface::InterviewPreferencesForm.new(
         any_preferences: 'no',
@@ -69,7 +69,7 @@ RSpec.describe CandidateInterface::InterviewPreferencesForm, type: :model do
 
       expect(interview_preferences.save(application_form)).to eq(true)
       expect(application_form).to have_attributes(
-        interview_preferences: t('application_form.personal_statement.interview_preferences.no_value'),
+        interview_preferences: '',
       )
     end
   end
