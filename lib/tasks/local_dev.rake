@@ -13,7 +13,7 @@ task setup_local_dev_data: :environment do
   puts 'Generating some test applications...'
   GenerateTestApplications.new.perform
 
-  puts 'Creating a provider user with DfE Sign-in UID `ABC` and email `support@example.com`...'
+  puts 'Creating a provider user with DfE Sign-in UID `dev-support` and email `support@example.com`...'
   ProviderUser.find_or_create_by!(dfe_sign_in_uid: 'dev-support', email_address: 'support@example.com') do |u|
     u.providers = [ApplicationChoice.first.provider]
   end
