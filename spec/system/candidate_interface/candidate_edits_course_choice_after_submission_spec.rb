@@ -9,7 +9,7 @@ RSpec.feature 'A candidate edits their course choice after submission' do
     end
   end
 
-  scenario 'candidate deletes their course choice', sidekiq: true do
+  scenario 'candidate deletes their course choice and add a new one', sidekiq: true do
     given_the_edit_application_feature_flag_is_on
     and_i_am_signed_in_as_a_candidate
     and_i_have_a_completed_application
@@ -29,6 +29,10 @@ RSpec.feature 'A candidate edits their course choice after submission' do
 
     when_i_click_the_confirm_button
     then_i_see_that_the_course_choice_is_deleted
+
+    given_there_are_course_options
+    when_i_add_a_new_course_choice
+    then_i_see_the_new_course_choice
   end
 
   def given_the_edit_application_feature_flag_is_on
@@ -90,5 +94,65 @@ RSpec.feature 'A candidate edits their course choice after submission' do
     expect(page).not_to have_content(@application_choice.provider.name)
     expect(page).not_to have_content(@application_choice.course_option.course.name)
     expect(page).not_to have_content(@application_choice.course_option.site.name)
+  end
+
+  def when_i_add_a_new_course_choice
+    click_link 'Continue'
+    choose 'Yes, I know where I want to apply'
+    click_button 'Continue'
+    choose 'Gorse SCITT (1N1)'
+    click_button 'Continue'
+    choose 'Primary (2XT2)'
+    click_button 'Continue'
+    choose 'Main site'
+    click_button 'Continue'
+  end
+
+  def then_i_see_the_new_course_choice
+    expect(page).to have_content('Gorse SCITT')
+    expect(page).to have_content('Primary (2XT2)')
+    expect(page).to have_content('Main site')
+    expect(page).to have_content('Gorse SCITT, C/O The Bruntcliffe Academy, Bruntcliffe Lane, MORLEY, lEEDS, LS27 0LZ')
+  end
+
+  def given_there_are_course_options
+    provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
+    first_site = create(
+      :site, name: 'Main site',
+      code: '-',
+      provider: provider,
+      address_line1: 'Gorse SCITT',
+      address_line2: 'C/O The Bruntcliffe Academy',
+      address_line3: 'Bruntcliffe Lane',
+      address_line4: 'MORLEY, lEEDS',
+      postcode: 'LS27 0LZ'
+    )
+    second_site = create(
+      :site, name: 'Harehills Primary School',
+      code: '1',
+      provider: provider,
+      address_line1: 'Darfield Road',
+      address_line2: '',
+      address_line3: 'Leeds',
+      address_line4: 'West Yorkshire',
+      postcode: 'LS8 5DQ'
+    )
+    multi_site_course = create(:course, name: 'Primary', code: '2XT2', provider: provider, exposed_in_find: true, open_on_apply: true)
+    create(:course_option, site: first_site, course: multi_site_course, vacancy_status: 'B')
+    create(:course_option, site: second_site, course: multi_site_course, vacancy_status: 'B')
+
+    another_provider = create(:provider, name: 'Royal Academy of Dance', code: 'R55')
+    third_site = create(
+      :site, name: 'Main site',
+      code: '-',
+      provider: another_provider,
+      address_line1: 'Royal Academy of Dance',
+      address_line2: '36 Battersea Square',
+      address_line3: '',
+      address_line4: 'London',
+      postcode: 'SW11 3RA'
+    )
+    single_site_course = create(:course, name: 'Dance', code: 'W5X1', provider: another_provider, exposed_in_find: true, open_on_apply: true)
+    create(:course_option, site: third_site, course: single_site_course, vacancy_status: 'B')
   end
 end
