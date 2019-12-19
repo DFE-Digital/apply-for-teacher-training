@@ -7,6 +7,7 @@ class ConditionsNotMet
 
   def save
     ApplicationStateChange.new(@application_choice).conditions_not_met!
+    @application_choice.update!(conditions_not_met_at: Time.zone.now)
   rescue Workflow::NoTransitionAllowed
     errors.add(
       :base,

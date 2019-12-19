@@ -40,6 +40,10 @@ module ProviderInterface
       format_date application_choice.recruited_at
     end
 
+    def conditions_not_met_at
+      format_date application_choice.conditions_not_met_at
+    end
+
   private
 
     def format_date(date)

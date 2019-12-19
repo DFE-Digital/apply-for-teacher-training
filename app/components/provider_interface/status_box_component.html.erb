@@ -28,7 +28,8 @@
       <dt>Accepted at</dt>
       <dd><%= accepted_at %></dd>
     <% elsif application_choice.conditions_not_met? %>
-      <%# TODO once we have conditions_not_met_at %>
+      <dt>Conditions not met</dt>
+      <dd><%= conditions_not_met_at %></dd>
     <% elsif application_choice.enrolled? %>
       <%# TODO once we have enrolled_at %>
     <% end %>
