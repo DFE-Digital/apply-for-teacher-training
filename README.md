@@ -181,12 +181,9 @@ When a new PR is opened, a review app is deployed via Heroku. This has a `HOSTIN
 
 We decide what to show providers based on their DfE Sign-in UID.
 
-A mapping between DfE Sign-in UIDs and provider codes lives at `config/provider_permissions.yml`.
-
-A default mapping is provided for development, where the DfE Sign-in UID `ABC`
-maps to provider code `ABC`. This means that if you have generated [dummy data](#dummy-data)
-then you can enter the Uid `ABC` in the development dialog to see all the generated
-applications.
+To grant a user permission to view a provider’s applications, visit
+/support/users/providers and create a user, specifying their DfE Sign-in UID
+and the relevant provider.
 
 ### Support permissions
 

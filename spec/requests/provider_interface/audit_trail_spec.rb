@@ -14,7 +14,7 @@ RSpec.describe 'Provider interface - audit trail', type: :request, with_audited:
         ProviderUser.new(
           email_address: 'alice@example.com',
           dfe_sign_in_uid: 'ABCDEF',
-          providers: [application_choice.course.provider]
+          providers: [application_choice.course.provider],
         ),
     )
   end
