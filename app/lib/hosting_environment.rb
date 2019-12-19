@@ -35,6 +35,8 @@ module HostingEnvironment
       'This is a internal environment used by DfE to test deploys'
     when 'development'
       'This is a development version of the Apply service'
+    when 'review'
+      'This is a review environment used to test a pull request'
     when 'unknown-environment'
       'This is a unknown version of the Apply service'
     end
@@ -42,6 +44,10 @@ module HostingEnvironment
 
   def self.environment_name
     ENV.fetch('HOSTING_ENVIRONMENT_NAME', 'unknown-environment')
+  end
+
+  def self.review?
+    environment_name == 'review'
   end
 
   def self.production?
