@@ -23,9 +23,11 @@ private
   attr_reader :application_form
 
   def interview_preferences_form_row
+    preferences = @interview_preferences_form.interview_preferences.presence || t('application_form.personal_statement.interview_preferences.no_value')
+
     {
       key: t('application_form.personal_statement.interview_preferences.key'),
-      value: @interview_preferences_form.interview_preferences,
+      value: preferences,
       action: t('application_form.personal_statement.interview_preferences.change_action'),
       change_path: Rails.application.routes.url_helpers.candidate_interface_interview_preferences_edit_path,
     }
