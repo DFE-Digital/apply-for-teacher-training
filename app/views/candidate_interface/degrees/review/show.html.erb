@@ -5,7 +5,7 @@
   <%= t('page_titles.degree') %>
 </h1>
 
-<%= render(DegreesReviewComponent, application_form: @application_form) %>
+<%= render(CandidateInterface::DegreesReviewComponent, application_form: @application_form) %>
 
 <%= govuk_button_link_to t('application_form.degree.another.button'), candidate_interface_degrees_new_base_path, class: 'govuk-button--secondary' %>
 

@@ -9,15 +9,15 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render(ApplicationCompleteContentComponent, application_form: @application_form) %>
+    <%= render(CandidateInterface::ApplicationCompleteContentComponent, application_form: @application_form) %>
 
-    <%= render(CourseChoicesReviewComponent, application_form: @application_form, editable: false, show_status: true) %>
+    <%= render(CandidateInterface::CourseChoicesReviewComponent, application_form: @application_form, editable: false, show_status: true) %>
 
     <hr class="govuk-section-break govuk-section-break--m">
 
     <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">References</h2>
 
-    <%= render(RefereesReviewComponent, application_form: @application_form, editable: false) %>
+    <%= render(CandidateInterface::RefereesReviewComponent, application_form: @application_form, editable: false) %>
   </div>
 
   <div class="govuk-grid-column-one-third">

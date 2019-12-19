@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ApplicationCompleteContentComponent do
+RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
   let(:submitted_at) { Time.zone.local(2019, 10, 22, 12, 0, 0) }
   let(:first_january_2020) { Time.zone.local(2020, 1, 1, 12, 0, 0) }
 
@@ -20,7 +20,7 @@ RSpec.describe ApplicationCompleteContentComponent do
       stub_application_dates_with_form_editable
       application_form = create_application_form_with_course_choices(statuses: %w[awaiting_references])
 
-      render_result = render_inline(ApplicationCompleteContentComponent, application_form: application_form)
+      render_result = render_inline(described_class, application_form: application_form)
 
       expect(render_result.text).to include('Edit your application')
     end
@@ -31,7 +31,7 @@ RSpec.describe ApplicationCompleteContentComponent do
       stub_application_dates_with_form_uneditable
       application_form = create_application_form_with_course_choices(statuses: %w[awaiting_references])
 
-      render_result = render_inline(ApplicationCompleteContentComponent, application_form: application_form)
+      render_result = render_inline(described_class, application_form: application_form)
 
       expect(render_result.text).not_to include('Edit your application')
     end
@@ -42,7 +42,7 @@ RSpec.describe ApplicationCompleteContentComponent do
       stub_application_dates_with_form_uneditable
       application_form = create_application_form_with_course_choices(statuses: %w[awaiting_provider_decision])
 
-      render_result = render_inline(ApplicationCompleteContentComponent, application_form: application_form)
+      render_result = render_inline(described_class, application_form: application_form)
 
       expect(render_result.text).not_to include('Edit your application')
       expect(render_result.text).to include('Training providers must respond by 1 January 2020.')
@@ -54,7 +54,7 @@ RSpec.describe ApplicationCompleteContentComponent do
       stub_application_dates_with_form_uneditable
       application_form = create_application_form_with_course_choices(statuses: %w[offer awaiting_provider_decision])
 
-      render_result = render_inline(ApplicationCompleteContentComponent, application_form: application_form)
+      render_result = render_inline(described_class, application_form: application_form)
 
       expect(render_result.text).to include('Some of your training providers haven’t reached a decision yet')
       expect(render_result.text).to include('Training providers must respond by 1 January 2020.')
@@ -66,7 +66,7 @@ RSpec.describe ApplicationCompleteContentComponent do
       stub_application_dates_with_form_uneditable
       application_form = create_application_form_with_course_choices(statuses: %w[offer offer])
 
-      render_result = render_inline(ApplicationCompleteContentComponent, application_form: application_form)
+      render_result = render_inline(described_class, application_form: application_form)
 
       expect(render_result.text).to include('All your training providers have now reached a decision')
       # TODO: Update hardcoded date with decline by default date
@@ -77,7 +77,7 @@ RSpec.describe ApplicationCompleteContentComponent do
       stub_application_dates_with_form_uneditable
       application_form = create_application_form_with_course_choices(statuses: %w[offer rejected])
 
-      render_result = render_inline(ApplicationCompleteContentComponent, application_form: application_form)
+      render_result = render_inline(described_class, application_form: application_form)
 
       # TODO: Update hardcoded date with decline by default date
       expect(render_result.text).to include('All your training providers have now reached a decision')
@@ -89,7 +89,7 @@ RSpec.describe ApplicationCompleteContentComponent do
 
       create(:application_choice, application_form: application_form, status: :withdrawn)
 
-      render_result = render_inline(ApplicationCompleteContentComponent, application_form: application_form)
+      render_result = render_inline(described_class, application_form: application_form)
 
       expect(render_result.text).to include('You have withdrawn all your choices')
     end
@@ -100,7 +100,7 @@ RSpec.describe ApplicationCompleteContentComponent do
       create(:application_choice, application_form: application_form, status: :withdrawn)
       create(:application_choice, application_form: application_form, status: :offer, decline_by_default_at: 1.day.from_now)
 
-      render_result = render_inline(ApplicationCompleteContentComponent, application_form: application_form)
+      render_result = render_inline(described_class, application_form: application_form)
 
       expect(render_result.text).to include('All your training providers have now reached a decision')
     end
@@ -110,7 +110,7 @@ RSpec.describe ApplicationCompleteContentComponent do
 
       create(:application_choice, application_form: application_form, status: :rejected)
 
-      render_result = render_inline(ApplicationCompleteContentComponent, application_form: application_form)
+      render_result = render_inline(described_class, application_form: application_form)
 
       expect(render_result.text).to include('All your training providers have now reached a decision')
     end
@@ -121,7 +121,7 @@ RSpec.describe ApplicationCompleteContentComponent do
       stub_application_dates_with_form_uneditable
       application_form = create_application_form_with_course_choices(statuses: %w[pending_conditions declined])
 
-      render_result = render_inline(ApplicationCompleteContentComponent, application_form: application_form)
+      render_result = render_inline(described_class, application_form: application_form)
 
       expect(render_result.text).to include('You have accepted an offer')
     end

@@ -3,6 +3,6 @@
 
 <h1 class="govuk-heading-xl"><%= t("gcse_summary.page_titles.#{@subject}") %></h1>
 
-<%= render(GcseQualificationReviewComponent, application_qualification: @application_qualification, subject: @subject) %>
+<%= render(CandidateInterface::GcseQualificationReviewComponent, application_qualification: @application_qualification, subject: @subject) %>
 
 <%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>

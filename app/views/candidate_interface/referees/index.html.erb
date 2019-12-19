@@ -10,7 +10,7 @@
       </h1>
       <%= render partial: 'intro' %>
     <% else %>
-      <%= render(RefereesReviewComponent, application_form: @application_form) %>
+      <%= render(CandidateInterface::RefereesReviewComponent, application_form: @application_form) %>
 
       <% content_for :title, t('page_titles.referees') %>
       <h1 class="govuk-heading-xl">

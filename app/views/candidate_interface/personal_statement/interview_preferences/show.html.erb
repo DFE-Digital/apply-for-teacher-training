@@ -5,6 +5,6 @@
   <%= t('page_titles.interview_preferences') %>
 </h1>
 
-<%= render(InterviewPreferencesReviewComponent, application_form: @interview_preferences_form) %>
+<%= render(CandidateInterface::InterviewPreferencesReviewComponent, application_form: @interview_preferences_form) %>
 
 <%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CourseChoicesReviewComponent do
+RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
   context 'when course choices are editable' do
     let(:application_form) do
       create_application_form_with_course_choices(statuses: %w[application_complete])
@@ -8,7 +8,7 @@ RSpec.describe CourseChoicesReviewComponent do
 
     it 'renders component with correct values for a course' do
       course_choice = application_form.application_choices.first
-      result = render_inline(CourseChoicesReviewComponent, application_form: application_form)
+      result = render_inline(described_class, application_form: application_form)
 
       expect(result.css('.app-summary-card__title').text).to include(course_choice.provider.name)
       expect(result.css('.govuk-summary-list__key').text).to include('Course')
@@ -17,7 +17,7 @@ RSpec.describe CourseChoicesReviewComponent do
 
     it 'renders component with correct values for a location' do
       course_choice = application_form.application_choices.first
-      result = render_inline(CourseChoicesReviewComponent, application_form: application_form)
+      result = render_inline(described_class, application_form: application_form)
 
       expect(result.css('.govuk-summary-list__key').text).to include('Location')
       expect(result.css('.govuk-summary-list__value').text).to include("#{course_choice.site.name}\n#{course_choice.site.full_address}")
@@ -26,14 +26,14 @@ RSpec.describe CourseChoicesReviewComponent do
     it 'renders component along with a delete link for each course' do
       application_form = create_application_form_with_course_choices(statuses: %w[unsubmitted])
 
-      result = render_inline(CourseChoicesReviewComponent, application_form: application_form)
+      result = render_inline(described_class, application_form: application_form)
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.delete'))
       expect(result.css('.app-summary-card__actions a[data-action=delete]')).to be_present
     end
 
     it 'renders component with correct values for multiple courses' do
-      result = render_inline(CourseChoicesReviewComponent, application_form: application_form)
+      result = render_inline(described_class, application_form: application_form)
 
       application_form.application_choices.each do |course_choice|
         expect(result.css('.app-summary-card__title').text).to include(course_choice.provider.name)
@@ -45,7 +45,7 @@ RSpec.describe CourseChoicesReviewComponent do
     it 'renders component without a delete link and with a withdraw link' do
       application_form = create_application_form_with_course_choices(statuses: %w[application_complete])
 
-      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false)
+      result = render_inline(described_class, application_form: application_form, editable: false)
 
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.courses.delete'))
     end
@@ -55,7 +55,7 @@ RSpec.describe CourseChoicesReviewComponent do
     it 'renders component with the status as submitted when awaiting references' do
       application_form = create_application_form_with_course_choices(statuses: %w[awaiting_references])
 
-      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
+      result = render_inline(described_class, application_form: application_form, editable: false, show_status: true)
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Submitted')
@@ -66,7 +66,7 @@ RSpec.describe CourseChoicesReviewComponent do
     it 'renders component with the status as submitted when application is complete' do
       application_form = create_application_form_with_course_choices(statuses: %w[application_complete])
 
-      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
+      result = render_inline(described_class, application_form: application_form, editable: false, show_status: true)
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Submitted')
@@ -77,21 +77,21 @@ RSpec.describe CourseChoicesReviewComponent do
     let(:application_form) { create_application_form_with_course_choices(statuses: %w[awaiting_provider_decision]) }
 
     it 'renders component with the status as pending' do
-      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
+      result = render_inline(described_class, application_form: application_form, editable: false, show_status: true)
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Pending')
     end
 
     it 'renders component with a withdraw link' do
-      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
+      result = render_inline(described_class, application_form: application_form, editable: false, show_status: true)
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.withdraw'))
       expect(result.css('.app-summary-card__actions a[data-action=withdraw]')).to be_present
     end
 
     it 'renders component with a withdrawal content' do
-      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
+      result = render_inline(described_class, application_form: application_form, editable: false, show_status: true)
 
       expect(result.text).to include(t('application_form.courses.withdrawal_information'))
     end
@@ -101,7 +101,7 @@ RSpec.describe CourseChoicesReviewComponent do
     it 'renders component with the status as offer when an offer has been made' do
       application_form = create_application_form_with_course_choices(statuses: %w[offer])
 
-      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
+      result = render_inline(described_class, application_form: application_form, editable: false, show_status: true)
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Offer')
@@ -110,7 +110,7 @@ RSpec.describe CourseChoicesReviewComponent do
     it 'renders component with view and respond to offer link' do
       application_form = create_application_form_with_course_choices(statuses: %w[offer])
 
-      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
+      result = render_inline(described_class, application_form: application_form, editable: false, show_status: true)
 
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.courses.withdraw'))
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.view_and_respond_to_offer'))
@@ -122,7 +122,7 @@ RSpec.describe CourseChoicesReviewComponent do
     let(:application_form) { create_application_form_with_course_choices(statuses: %w[pending_conditions]) }
 
     it 'renders component with the status as accepted' do
-      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
+      result = render_inline(described_class, application_form: application_form, editable: false, show_status: true)
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Accepted')
@@ -131,7 +131,7 @@ RSpec.describe CourseChoicesReviewComponent do
     it 'renders component with a withdraw link' do
       course_id = application_form.application_choices.first.id
 
-      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
+      result = render_inline(described_class, application_form: application_form, editable: false, show_status: true)
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.withdraw'))
       expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
@@ -140,7 +140,7 @@ RSpec.describe CourseChoicesReviewComponent do
     end
 
     it 'renders component with a withdrawal content' do
-      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
+      result = render_inline(described_class, application_form: application_form, editable: false, show_status: true)
 
       expect(result.text).to include(t('application_form.courses.withdrawal_information'))
     end
@@ -150,7 +150,7 @@ RSpec.describe CourseChoicesReviewComponent do
     it 'renders component with the status as declined' do
       application_form = create_application_form_with_course_choices(statuses: %w[declined])
 
-      result = render_inline(CourseChoicesReviewComponent, application_form: application_form, editable: false, show_status: true)
+      result = render_inline(described_class, application_form: application_form, editable: false, show_status: true)
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Declined')

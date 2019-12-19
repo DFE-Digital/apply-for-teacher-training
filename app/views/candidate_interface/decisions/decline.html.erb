@@ -7,7 +7,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render(OfferReviewComponent, course_choice: @application_choice) %>
+    <%= render(CandidateInterface::OfferReviewComponent, course_choice: @application_choice) %>
 
     <p class="govuk-body">
       If you decline this offer (and all other offers on current applications) you can still apply for more courses this year through <%= govuk_link_to 'UCAS Teacher Training', UCAS.apply_url %>.
