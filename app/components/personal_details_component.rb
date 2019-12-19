@@ -1,4 +1,4 @@
-class ApplicationSummaryComponent < ActionView::Component::Base
+class PersonalDetailsComponent < ActionView::Component::Base
   MISSING = '<em>Not provided</em>'.html_safe
 
   include ViewHelper
@@ -50,7 +50,7 @@ private
   end
 
   def nationality_row
-    formatted_nationalities = [@application_form.first_nationality, @application_form.second_nationality].reject(&:blank?).to_sentence
+    formatted_nationalities = [application_form.first_nationality, application_form.second_nationality].reject(&:blank?).to_sentence
 
     {
       key: 'Nationality',
@@ -61,17 +61,17 @@ private
   def date_of_birth_row
     {
       key: 'Date of birth',
-      value: @application_form.date_of_birth ? @application_form.date_of_birth.strftime('%e %B %Y') : MISSING,
+      value: application_form.date_of_birth ? application_form.date_of_birth.strftime('%e %B %Y') : MISSING,
     }
   end
 
   def address_row
     full_address = [
-      @application_form.address_line1,
-      @application_form.address_line2,
-      @application_form.address_line3,
-      @application_form.address_line4,
-      @application_form.postcode,
+      application_form.address_line1,
+      application_form.address_line2,
+      application_form.address_line3,
+      application_form.address_line4,
+      application_form.postcode,
     ].reject(&:blank?)
 
     {
