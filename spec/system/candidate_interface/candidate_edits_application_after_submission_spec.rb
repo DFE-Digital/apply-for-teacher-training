@@ -67,7 +67,7 @@ RSpec.feature 'A candidate edits their application' do
 
   def then_i_see_the_edit_application_page
     within('.govuk-heading-xl') do
-      expect(page).to have_content(t('page_titles.edit_application_form'))
+      expect(page).to have_content('The Great Foo!')
     end
   end
 
