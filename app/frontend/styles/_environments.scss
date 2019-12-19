@@ -1,5 +1,6 @@
 $app-colour-qa: govuk-colour("orange");
 $app-colour-sandbox: govuk-colour("bright-purple");
+$app-colour-review: govuk-colour("purple");
 $app-colour-staging: govuk-colour("red");
 $app-colour-development: govuk-colour("dark-grey", $legacy: "grey-1");
 
@@ -17,6 +18,10 @@ $app-colour-development: govuk-colour("dark-grey", $legacy: "grey-1");
 
 .app-header--sandbox .govuk-header__container {
   border-bottom-color: $app-colour-sandbox;
+}
+
+.app-header--review .govuk-header__container {
+  border-bottom-color: $app-colour-review;
 }
 
 .app-header--development .govuk-header__container,
@@ -38,6 +43,10 @@ $app-colour-development: govuk-colour("dark-grey", $legacy: "grey-1");
 
 .app-environment-tag--sandbox {
   background-color: $app-colour-sandbox;
+}
+
+.app-environment-tag--review {
+  background-color: $app-colour-review;
 }
 
 .app-environment-tag--development,

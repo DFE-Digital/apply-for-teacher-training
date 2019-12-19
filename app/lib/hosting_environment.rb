@@ -35,6 +35,8 @@ module HostingEnvironment
       'This is a internal environment used by DfE to test deploys'
     when 'development'
       'This is a development version of the Apply service'
+    when 'review'
+      'This is a review environment used to test a pull request'
     when 'unknown-environment'
       'This is a unknown version of the Apply service'
     end
