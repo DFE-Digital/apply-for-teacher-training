@@ -36,6 +36,10 @@ module ProviderInterface
       format_date application_choice.declined_at
     end
 
+    def recruited_at
+      format_date application_choice.recruited_at
+    end
+
   private
 
     def format_date(date)

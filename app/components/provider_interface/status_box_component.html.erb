@@ -19,7 +19,8 @@
       <dt>Rejected at</dt>
       <dd><%= rejected_at %></dd>
     <% elsif application_choice.recruited? %>
-      <%# TODO once we have recruited_at %>
+      <dt>Recruited at</dt>
+      <dd><%= recruited_at %></dd>
     <% elsif application_choice.declined? %>
       <dt>Declined at</dt>
       <dd><%= declined_at %></dd>
