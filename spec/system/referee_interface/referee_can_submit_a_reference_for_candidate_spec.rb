@@ -23,6 +23,9 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
 
     when_i_click_finish_button
     then_i_see_the_thank_you_page
+
+    when_i_retry_to_edit_the_feedback
+    then_i_see_page_not_found
   end
 
   def given_a_candidate_completed_an_application
@@ -36,7 +39,7 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
   def then_i_receive_an_email_with_a_magic_link
     open_email('terri@example.com')
 
-    reference_feedback_url = get_reference_feedback_url(current_email.body)
+    reference_feedback_url = get_reference_feedback_url
 
     expect(reference_feedback_url).not_to be_nil
   end
@@ -50,7 +53,7 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
   end
 
   def when_i_click_on_the_link_within_the_email
-    reference_feedback_url = get_reference_feedback_url(current_email.body)
+    reference_feedback_url = get_reference_feedback_url
 
     current_email.click_link(reference_feedback_url)
   end
@@ -79,10 +82,14 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
     expect(page).to have_content('Thank you')
   end
 
+  def when_i_retry_to_edit_the_feedback
+    visit get_reference_feedback_url
+  end
+
 private
 
-  def get_reference_feedback_url(email_content)
-    matches = email_content.match(/(http:\/\/localhost:3000\/reference\?token=[\w-]{20})/)
+  def get_reference_feedback_url
+    matches = current_email.body.match(/(http:\/\/localhost:3000\/reference\?token=[\w-]{20})/)
     matches.captures.first unless matches.nil?
   end
 end

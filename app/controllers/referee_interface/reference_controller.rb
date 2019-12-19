@@ -8,8 +8,12 @@ module RefereeInterface
     layout 'application'
 
     def feedback
-      @application = reference.application_form
-      @reference_form = RefereeInterface::ReferenceForm.build_from_reference(reference)
+      if reference.feedback.blank?
+        @application = reference.application_form
+        @reference_form = RefereeInterface::ReferenceForm.build_from_reference(reference)
+      else
+        render_404
+      end
     end
 
     def submit_feedback
