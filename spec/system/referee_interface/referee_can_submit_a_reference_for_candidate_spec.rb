@@ -25,7 +25,7 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
     then_i_see_the_thank_you_page
 
     when_i_retry_to_edit_the_feedback
-    then_i_see_page_not_found
+    then_i_see_the_thank_you_page
   end
 
   def given_a_candidate_completed_an_application
@@ -71,7 +71,7 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
   end
 
   def when_i_click_finish_button
-    click_button 'Finish'
+    click_link 'Finish'
   end
 
   def then_i_see_the_success_page
@@ -80,6 +80,7 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
 
   def then_i_see_the_thank_you_page
     expect(page).to have_content('Thank you')
+    expect(page).to have_content('Our user research team will contact you shortly')
   end
 
   def when_i_retry_to_edit_the_feedback

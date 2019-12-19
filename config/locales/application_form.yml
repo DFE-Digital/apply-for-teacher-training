@@ -525,3 +525,8 @@ en:
           attributes:
             comment:
               blank: Enter a comment
+        receive_reference:
+          attributes:
+            feedback:
+              blank: Enter your reference
+              word_count: Your reference must be %{count} words or fewer

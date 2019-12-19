@@ -54,14 +54,29 @@ RSpec.describe ReceiveReference do
   end
 
   describe 'validation' do
-    it 'validates the presence of referee email' do
+    it 'validates the presence of referee email and feedback' do
       action = ReceiveReference.new(
         application_form: build_stubbed(:application_form),
         referee_email: nil,
-        feedback: 'A reference',
+        feedback: '',
       )
 
       expect(action).not_to be_valid
+
+      expect(action.errors[:feedback]).to eq(['Enter your reference'])
+      expect(action.errors[:referee_email]).not_to be_empty
+    end
+
+    it 'validates the feedback is max 300 words' do
+      action = ReceiveReference.new(
+        application_form: build_stubbed(:application_form),
+        referee_email: nil,
+        feedback: Faker::Lorem.sentence(word_count: 301),
+        )
+
+      expect(action).not_to be_valid
+
+      expect(action.errors[:feedback]).to eq(['Must be 300 words or fewer'])
     end
 
     it 'validates that the referee email matches the references on the application form' do

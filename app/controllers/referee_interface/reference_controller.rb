@@ -10,19 +10,23 @@ module RefereeInterface
     def feedback
       if reference.feedback.blank?
         @application = reference.application_form
-        @reference_form = RefereeInterface::ReferenceForm.build_from_reference(reference)
+
+        @reference_form = ReceiveReference.new(application_form: @application,
+                                               referee_email: reference.email_address,
+                                               feedback: '')
       else
-        render_404
+        render :finish
       end
     end
 
     def submit_feedback
-      reference.feedback = params[:reference][:comments]
       @application = reference.application_form
 
-      @reference_form = RefereeInterface::ReferenceForm.build_from_reference(reference)
+      @reference_form = ReceiveReference.new(application_form: @application,
+                           referee_email: reference.email_address,
+                           feedback: params[:receive_reference][:feedback])
 
-      if @reference_form.save(reference)
+      if @reference_form.save
         redirect_to referee_interface_confirmation_path(token: @token_param)
       else
         render :feedback
@@ -35,10 +39,6 @@ module RefereeInterface
 
   private
 
-    def render_404
-      render 'errors/not_found', status: :not_found
-    end
-
     def add_identity_to_log
       return if reference.blank?
 
@@ -50,12 +50,16 @@ module RefereeInterface
       @reference ||= ApplicationReference.find_by_unhashed_token(params[:token])
     end
 
+    def set_token_param
+      @token_param = params[:token]
+    end
+
     def check_referee_has_valid_token
       render_404 unless reference
     end
 
-    def set_token_param
-      @token_param = params[:token]
+    def render_404
+      render 'errors/not_found', status: :not_found
     end
   end
 end
