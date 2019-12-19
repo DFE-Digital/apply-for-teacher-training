@@ -7,6 +7,6 @@
     "govuk-frontend": "^3.4.0"
   },
   "devDependencies": {
-    "webpack-dev-server": "^3.9.0"
+    "webpack-dev-server": "^3.10.0"
   }
 }
