@@ -97,15 +97,25 @@
         <%= render(TaskListItemComponent, text: 'Referees', completed: @application_form_presenter.all_referees_provided_by_candidate?, path: candidate_interface_referees_path) %>
       </li>
     </ul>
-
-    <h2 class="govuk-heading-m govuk-!-font-size-27">Review and submit</h2>
-    <ul class="app-task-list govuk-!-margin-bottom-8">
-      <li class="app-task-list__item">
-        <%= govuk_link_to 'Check your answers before submitting',
-                          candidate_interface_application_review_path,
-                          class: 'app-task-list__task-name' %>
-      </li>
-    </ul>
+    <% if @application_form.amendable? %>
+      <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('application_complete.edit_page.resubmit_title') %></h2>
+      <ul class="app-task-list govuk-!-margin-bottom-8">
+        <li class="app-task-list__item">
+          <%= govuk_link_to t('application_complete.edit_page.resubmit_button'),
+                            candidate_interface_application_complete_path,
+                            class: 'app-task-list__task-name' %>
+        </li>
+      </ul>
+    <% else %>
+      <h2 class="govuk-heading-m govuk-!-font-size-27">Review and submit</h2>
+      <ul class="app-task-list govuk-!-margin-bottom-8">
+        <li class="app-task-list__item">
+          <%= govuk_link_to 'Check your answers before submitting',
+                            candidate_interface_application_review_path,
+                            class: 'app-task-list__task-name' %>
+        </li>
+      </ul>
+    <% end %>
   </div>
 
   <div class="govuk-grid-column-one-third">
