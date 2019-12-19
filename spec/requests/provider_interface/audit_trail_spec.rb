@@ -9,17 +9,14 @@ RSpec.describe 'Provider interface - audit trail', type: :request, with_audited:
   end
 
   def set_provider_permission(application_choice)
-    provider_code = application_choice.course.provider.code
     allow(ProviderUser).to receive(:load_from_session)
       .and_return(
-        # TODO User a proper ProviderUser when we've switched over
-        LegacyProviderUser.new(
+        ProviderUser.new(
           email_address: 'alice@example.com',
-          dfe_sign_in_uid: provider_code,
+          dfe_sign_in_uid: 'ABCDEF',
+          providers: [application_choice.course.provider],
         ),
     )
-
-    allow(Rails.application.config).to receive(:provider_permissions).and_return(provider_code => provider_code)
   end
 
   it 'creates audit records attributed to the authenticated provider' do

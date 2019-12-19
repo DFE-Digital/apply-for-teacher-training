@@ -42,7 +42,7 @@ RSpec.feature 'Provider responds to application' do
   end
 
   def and_i_am_permitted_to_see_applications_for_my_provider
-    dfe_sign_in_uid_has_permission_to_view_applications_for_provider
+    provider_user_exists_in_apply_database
   end
 
   def when_i_visit_a_application_with_status_awaiting_provider_decision

@@ -4,13 +4,9 @@ RSpec.feature 'Provider makes an offer' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  let(:course_option) { course_option_for_provider_code(provider_code: 'ABC') }
-  let(:application_awaiting_provider_decision) {
-    create(:application_choice, status: 'awaiting_provider_decision', course_option: course_option, application_form: create(:completed_application_form, first_name: 'Alice', last_name: 'Wunder'))
-  }
-
   scenario 'Provider makes an offer' do
     given_i_am_a_provider_user_authenticated_with_dfe_sign_in
+    and_application_choices_exist_for_my_provider
     and_i_am_permitted_to_see_applications_for_my_provider
 
     when_i_respond_to_an_application
@@ -33,13 +29,18 @@ RSpec.feature 'Provider makes an offer' do
     provider_signs_in_using_dfe_sign_in
   end
 
+  def and_application_choices_exist_for_my_provider
+    course_option = course_option_for_provider_code(provider_code: 'ABC')
+    @application_awaiting_provider_decision = create(:application_choice, status: 'awaiting_provider_decision', course_option: course_option, application_form: create(:completed_application_form, first_name: 'Alice', last_name: 'Wunder'))
+  end
+
   def and_i_am_permitted_to_see_applications_for_my_provider
-    dfe_sign_in_uid_has_permission_to_view_applications_for_provider
+    provider_user_exists_in_apply_database
   end
 
   def when_i_respond_to_an_application
     visit provider_interface_application_choice_respond_path(
-      application_awaiting_provider_decision.id,
+      @application_awaiting_provider_decision.id,
     )
   end
 
@@ -50,11 +51,11 @@ RSpec.feature 'Provider makes an offer' do
 
   def then_i_see_some_application_info
     expect(page).to have_content \
-      application_awaiting_provider_decision.course.name_and_code
+      @application_awaiting_provider_decision.course.name_and_code
     expect(page).to have_content \
-      application_awaiting_provider_decision.application_form.first_name
+      @application_awaiting_provider_decision.application_form.first_name
     expect(page).to have_content \
-      application_awaiting_provider_decision.application_form.last_name
+      @application_awaiting_provider_decision.application_form.last_name
   end
 
   def when_i_select_standard_reasons
@@ -72,7 +73,7 @@ RSpec.feature 'Provider makes an offer' do
   def then_i_am_asked_to_confirm_the_offer
     expect(page).to have_current_path(
       provider_interface_application_choice_confirm_offer_path(
-        application_awaiting_provider_decision.id,
+        @application_awaiting_provider_decision.id,
       ),
     )
     expect(page).to have_content 'Confirm offer'
@@ -90,11 +91,11 @@ RSpec.feature 'Provider makes an offer' do
   def then_i_am_back_to_the_application_page
     expect(page).to have_current_path(
       provider_interface_application_choice_path(
-        application_awaiting_provider_decision.id,
+        @application_awaiting_provider_decision.id,
       ),
     )
-    expect(page).to have_content application_awaiting_provider_decision.application_form.first_name
-    expect(page).to have_content application_awaiting_provider_decision.application_form.last_name
+    expect(page).to have_content @application_awaiting_provider_decision.application_form.first_name
+    expect(page).to have_content @application_awaiting_provider_decision.application_form.last_name
   end
 
   def and_i_can_see_the_application_has_an_offer_made
