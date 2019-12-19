@@ -109,8 +109,7 @@ private
       end
 
       if application_index == 11
-        # TODO replace after https://github.com/DFE-Digital/apply-for-postgraduate-teacher-training/pull/784 is merged
-        ApplicationStateChange.new(main_application_choice).withdraw!
+        WithdrawApplication.new(application_choice: main_application_choice).save!
       end
     end
   end
