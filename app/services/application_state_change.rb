@@ -21,7 +21,6 @@ class ApplicationStateChange
 
     state :awaiting_references do
       event :references_complete, transitions_to: :application_complete
-      event :withdraw, transitions_to: :withdrawn
     end
 
     state :application_complete do
