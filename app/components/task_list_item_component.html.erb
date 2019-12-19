@@ -1,5 +1,9 @@
 <%= govuk_link_to text, path, class: 'app-task-list__task-name', 'aria-describedby': tag_id %>
-<% if completed %>
+<% if submitted %>
+  <strong class="govuk-tag app-tag app-tag--secondary" id=<%= tag_id %>>
+    Submitted
+  </strong>
+<% elsif completed %>
   <strong class="govuk-tag app-tag app-tag--complete" id=<%= tag_id %>>
     Completed
   </strong>

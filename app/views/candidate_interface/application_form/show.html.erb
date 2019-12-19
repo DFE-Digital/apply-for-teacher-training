@@ -92,11 +92,16 @@
     </ul>
 
     <h2 class="govuk-heading-m govuk-!-font-size-27">References</h2>
+    <% if @application_form.amendable? %>
+      <p class="govuk-body"><%= t('application_complete.edit_page.references_uneditable') %></p>
+    <% end %>
     <ul class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">
-        <%= render(TaskListItemComponent, text: 'Referees', completed: @application_form_presenter.all_referees_provided_by_candidate?, path: candidate_interface_referees_path) %>
+        <% submitted = @application_form.amendable? ? true : false %>
+        <%= render(TaskListItemComponent, text: 'Referees', completed: @application_form_presenter.all_referees_provided_by_candidate?, path: candidate_interface_referees_path, submitted: submitted) %>
       </li>
     </ul>
+
     <% if @application_form.amendable? %>
       <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('application_complete.edit_page.resubmit_title') %></h2>
       <ul class="app-task-list govuk-!-margin-bottom-8">

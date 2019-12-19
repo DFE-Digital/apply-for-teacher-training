@@ -3,11 +3,12 @@ class TaskListItemComponent < ActionView::Component::Base
 
   validates :path, presence: true
 
-  def initialize(completed:, path:, text:, show_incomplete: true)
+  def initialize(completed:, path:, text:, show_incomplete: true, submitted: false)
     @completed = completed
     @path = path
     @text = text
     @show_incomplete = show_incomplete
+    @submitted = submitted
   end
 
   def tag_id
@@ -16,5 +17,5 @@ class TaskListItemComponent < ActionView::Component::Base
 
 private
 
-  attr_reader :completed, :path, :text, :show_incomplete
+  attr_reader :completed, :path, :text, :show_incomplete, :submitted
 end
