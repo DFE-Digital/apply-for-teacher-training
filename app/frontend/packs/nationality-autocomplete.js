@@ -17,9 +17,9 @@ const initNationalityAutocomplete = () => {
 
       accessibleAutocomplete.enhanceSelectElement({
         selectElement: nationalitySelect,
-        name: nationalitySelect.name
+        name: nationalitySelect.name,
+        showAllValues: true
       });
-
       nationalitySelect.name = "";
     });
   } catch (err) {

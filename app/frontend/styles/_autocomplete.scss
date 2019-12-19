@@ -16,3 +16,8 @@
     box-shadow: none;
   }
 }
+
+.autocomplete__dropdown-arrow-down {
+  pointer-events: none;
+  z-index: 0;
+}
