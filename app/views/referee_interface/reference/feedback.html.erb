@@ -33,14 +33,7 @@
           </li>
         </ul>
 
-        <div class="govuk-character-count" data-module="govuk-character-count" data-maxwords="300">
-          <div class="govuk-form-group">
-            <label class="govuk-label govuk-label--m govuk-!-margin-top-6" for="reference-comments">
-              Your reference
-            </label>
-            <textarea class="govuk-textarea govuk-js-character-count" id="reference-comments" name="reference[comments]" rows="15" aria-describedby="reference-comments-info"></textarea><span id="reference-comments-info" class="govuk-hint govuk-character-count__message" aria-live="polite">You have 300 words remaining</span>
-          </div>
-        </div>
+        <%= f.govuk_text_area :feedback, label: { text: 'Your reference' }, max_words: 300, rows: 15 %>
 
         <%= f.govuk_submit 'Submit reference' %>
       </div>
