@@ -24,15 +24,7 @@
   </div>
 
   <div class="govuk-grid-column-one-third">
-    <div class="app-status-box">
-      <h2 class="govuk-heading-m">Status</h2>
-      <%= render ProviderInterface::ApplicationStatusTagComponent, application_choice: @application_choice %>
-      <% if @application_choice.status == 'awaiting_provider_decision' %>
-        <div class="govuk-!-margin-top-6">
-          <%= govuk_button_link_to 'Respond to application', provider_interface_application_choice_respond_path(@application_choice.id), class: 'govuk-!-margin-bottom-0' %>
-        </div>
-      <% end %>
-    </div>
+    <%= render ProviderInterface::StatusBoxComponent, application_choice: @application_choice %>
   </div>
 </div>
 
