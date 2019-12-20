@@ -5,6 +5,6 @@
   <%= t('page_titles.subject_knowledge') %>
 </h1>
 
-<%= render(SubjectKnowledgeReviewComponent, application_form: @subject_knowledge_form) %>
+<%= render(CandidateInterface::SubjectKnowledgeReviewComponent, application_form: @subject_knowledge_form) %>
 
 <%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>

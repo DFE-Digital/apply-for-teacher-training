@@ -1,3 +1,5 @@
+# TODO: This component is used by CandidateInterface and ProviderInterface, but
+# uses classes from the CandidateInterface namespace directly.
 class VolunteeringReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 

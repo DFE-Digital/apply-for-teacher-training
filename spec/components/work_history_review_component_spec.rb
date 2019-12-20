@@ -33,7 +33,7 @@ RSpec.describe WorkHistoryReviewComponent do
 
     context 'when jobs are editable' do
       it 'renders component with correct structure' do
-        result = render_inline(WorkHistoryReviewComponent, application_form: application_form)
+        result = render_inline(described_class, application_form: application_form)
 
         application_form.application_work_experiences.each do |work|
           expect(result.text).to include(work.role)
@@ -48,7 +48,7 @@ RSpec.describe WorkHistoryReviewComponent do
 
     context 'when jobs are not editable' do
       it 'renders component without an edit link' do
-        result = render_inline(WorkHistoryReviewComponent, application_form: application_form, editable: false)
+        result = render_inline(described_class, application_form: application_form, editable: false)
 
         expect(result.css('.app-summary-list__actions').text).not_to include('Change')
         expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.volunteering.delete'))
@@ -73,7 +73,7 @@ RSpec.describe WorkHistoryReviewComponent do
     context 'when work history breaks are editable' do
       it 'renders summary card for breaks in the work history' do
         Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
-          result = render_inline(WorkHistoryReviewComponent, application_form: application_form)
+          result = render_inline(described_class, application_form: application_form)
 
           expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.work_history.break.label'))
           expect(result.css('.govuk-summary-list__value').to_html).to include('WE WERE ON A BREAK!')
@@ -88,7 +88,7 @@ RSpec.describe WorkHistoryReviewComponent do
     context 'when work history breaks are not editable' do
       it 'renders component without an edit link' do
         Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
-          result = render_inline(WorkHistoryReviewComponent, application_form: application_form, editable: false)
+          result = render_inline(described_class, application_form: application_form, editable: false)
 
           expect(result.css('.govuk-summary-list__actions').text).not_to include(t('application_form.work_history.break.enter_label'))
         end
@@ -103,7 +103,7 @@ RSpec.describe WorkHistoryReviewComponent do
 
     context 'when no work experience explanantion is editable' do
       it 'renders component asking for an explanation' do
-        result = render_inline(WorkHistoryReviewComponent, application_form: application_form)
+        result = render_inline(described_class, application_form: application_form)
 
         expect(result.css('.govuk-summary-list__key').text).to include('Explanation of why you’ve been out of the workplace')
         expect(result.css('.govuk-summary-list__value').to_html).to include('I no work.')
@@ -116,7 +116,7 @@ RSpec.describe WorkHistoryReviewComponent do
 
     context 'when no work experience explanantion is not editable' do
       it 'renders component asking for an explanation' do
-        result = render_inline(WorkHistoryReviewComponent, application_form: application_form, editable: false)
+        result = render_inline(described_class, application_form: application_form, editable: false)
 
         expect(result.css('.govuk-summary-list__actions').text).not_to include('Change explanation')
       end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DegreesReviewComponent do
+RSpec.describe CandidateInterface::DegreesReviewComponent do
   let(:application_form) do
     create(:application_form) do |form|
       form.application_qualifications.create(
@@ -38,7 +38,7 @@ RSpec.describe DegreesReviewComponent do
 
   context 'when degrees are editable' do
     it 'renders component with correct values for a qualification' do
-      result = render_inline(DegreesReviewComponent, application_form: application_form)
+      result = render_inline(described_class, application_form: application_form)
 
       expect(result.css('.app-summary-card__title').text).to include('BA Woof')
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.qualification.label'))
@@ -50,7 +50,7 @@ RSpec.describe DegreesReviewComponent do
     end
 
     it 'renders component with correct values for an award year' do
-      result = render_inline(DegreesReviewComponent, application_form: application_form)
+      result = render_inline(described_class, application_form: application_form)
 
       expect(result.css('.app-summary-card__title').text).to include('BA Woof')
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.award_year.review_label'))
@@ -59,7 +59,7 @@ RSpec.describe DegreesReviewComponent do
     end
 
     it 'renders component with correct values for a known degree grade' do
-      result = render_inline(DegreesReviewComponent, application_form: application_form)
+      result = render_inline(described_class, application_form: application_form)
 
       expect(result.css('.app-summary-card__title').text).to include('BA Woof')
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.grade.review_label'))
@@ -68,28 +68,28 @@ RSpec.describe DegreesReviewComponent do
     end
 
     it 'renders component with correct values for a predicted grade' do
-      result = render_inline(DegreesReviewComponent, application_form: application_form)
+      result = render_inline(described_class, application_form: application_form)
 
       expect(result.css('.app-summary-card__title').text).to include('BA Meow')
       expect(result.css('.govuk-summary-list__value').text).to include('First (Predicted)')
     end
 
     it 'renders component with correct values for an other grade' do
-      result = render_inline(DegreesReviewComponent, application_form: application_form)
+      result = render_inline(described_class, application_form: application_form)
 
       expect(result.css('.app-summary-card__title').text).to include('BA Hoot')
       expect(result.css('.govuk-summary-list__value').text).to include('Distinction')
     end
 
     it 'renders component with correct values for multiple degrees' do
-      result = render_inline(DegreesReviewComponent, application_form: application_form)
+      result = render_inline(described_class, application_form: application_form)
 
       expect(result.css('.app-summary-card__title').text).to include('BA Woof')
       expect(result.css('.app-summary-card__title').text).to include('BA Meow')
     end
 
     it 'renders component along with a delete link for each degree' do
-      result = render_inline(DegreesReviewComponent, application_form: application_form)
+      result = render_inline(described_class, application_form: application_form)
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.degree.delete'))
       expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
@@ -100,7 +100,7 @@ RSpec.describe DegreesReviewComponent do
 
   context 'when degrees are not editable' do
     it 'renders component without an edit link' do
-      result = render_inline(DegreesReviewComponent, application_form: application_form, editable: false)
+      result = render_inline(described_class, application_form: application_form, editable: false)
 
       expect(result.css('.app-summary-list__actions').text).not_to include('Change')
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.degree.delete'))

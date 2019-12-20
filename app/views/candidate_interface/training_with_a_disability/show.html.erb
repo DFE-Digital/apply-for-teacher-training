@@ -5,6 +5,6 @@
   <%= t('page_titles.training_with_a_disability') %>
 </h1>
 
-<%= render(TrainingWithADisabilityReviewComponent, application_form: @application_form) %>
+<%= render(CandidateInterface::TrainingWithADisabilityReviewComponent, application_form: @application_form) %>
 
 <%= govuk_button_link_to t('application_form.training_with_a_disability.review.button'), candidate_interface_application_form_path %>
