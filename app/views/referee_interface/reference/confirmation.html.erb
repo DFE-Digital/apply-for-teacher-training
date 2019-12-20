@@ -1,10 +1,7 @@
 <% content_for :title, t('page_titles.give_a_reference.confirmation') %>
-
-<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-  <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-8">
-    <h1 class="govuk-panel__title">
-      Your reference for <%= @reference.application_form.full_name %> has been&nbsp;submitted
-    </h1>
-  </div>
-  <%= govuk_button_link_to 'Finish', referee_interface_reference_finish_path(token: @token_param) %>
-</main>
+<div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-8">
+  <h1 class="govuk-panel__title">
+    Your reference for <%= @reference.application_form.full_name %> has been&nbsp;submitted
+  </h1>
+</div>
+<%= govuk_button_link_to 'Finish', referee_interface_reference_finish_path(token: @token_param) %>
