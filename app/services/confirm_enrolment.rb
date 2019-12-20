@@ -7,6 +7,7 @@ class ConfirmEnrolment
 
   def save
     ApplicationStateChange.new(@application_choice).confirm_enrolment!
+    @application_choice.update!(enrolled_at: Time.zone.now)
   rescue Workflow::NoTransitionAllowed
     errors.add(
       :base,
