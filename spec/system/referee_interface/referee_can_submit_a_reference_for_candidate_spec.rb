@@ -16,6 +16,7 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
 
     when_i_click_on_the_link_within_the_email
     then_i_see_the_reference_comment_page
+    and_i_see_the_list_of_the_courses_the_candidate_applied_to
 
     when_i_fill_in_the_reference_field
     and_i_click_the_submit_button
@@ -85,6 +86,13 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
 
   def when_i_retry_to_edit_the_feedback
     visit get_reference_feedback_url
+  end
+
+  def and_i_see_the_list_of_the_courses_the_candidate_applied_to
+    @application.application_choices.each do |application_choice|
+      expect(page).to have_content(application_choice.course.name)
+      expect(page).to have_content(application_choice.site.name)
+    end
   end
 
 private
