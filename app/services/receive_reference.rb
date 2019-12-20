@@ -4,7 +4,9 @@ class ReceiveReference
 
   include ActiveModel::Validations
 
-  validates_presence_of :referee_email
+  validates_presence_of :referee_email, :feedback
+  validates :feedback, word_count: { maximum: 300 }
+
   validate :referee_must_exist_on_application_form
 
   def initialize(application_form:, referee_email:, feedback:)

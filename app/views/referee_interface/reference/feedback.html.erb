@@ -1,5 +1,50 @@
-<% content_for :title, t('page_titles.application') %>
+<% content_for :title, "Give a teacher training reference for #{@application.full_name}" %>
 
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-  <h1 class="govuk-heading-xl">Give a teacher training reference for <%= @application.full_name %></h1>
+
+  <%= form_with model: @reference_form, url: referee_interface_submit_feedback_path(token: @token_param), method: :patch do |f| %>
+    <%= f.govuk_error_summary %>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Give a teacher training reference for <%= @application.full_name %></h1>
+
+        <p class="govuk-body"><%= @application.full_name %>applied to the following courses:</p>
+        <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
+          <% @application.application_choices.each do |application_choice| %>
+            <li>
+              <%= application_choice.course.name %> - <%= application_choice.site.name %>
+            </li>
+          <% end %>
+        </ul>
+
+        <p class="govuk-body">Try to cover the following, but don’t worry if there are areas you can’t comment on:</p>
+        <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
+          <li>
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-1">Teaching potential</h2>
+            <p class="govuk-body">For example, does the candidate care about the wellbeing of children? Are they emotionally resilient and do they work well with others?</p>
+          </li>
+          <li>
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-1">Subject knowledge</h2>
+            <p class="govuk-body">Is the candidate passionate and informed about their teaching subject?</p>
+          </li>
+          <li>
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-1">Academic abilities</h2>
+            <p class="govuk-body">For example, does the candidate think critically and have good numeracy and literacy skills?</p>
+          </li>
+          <li>
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-1">Reliability and professionalism</h2>
+            <p class="govuk-body">What abilities would the candidate bring to teaching, for example, communication, creativity, project management?</p>
+          </li>
+          <li>
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-1">Transferable skills</h2>
+            <p class="govuk-body">For example, can the candidate meet deadlines and manage their time?</p>
+          </li>
+        </ul>
+
+        <%= f.govuk_text_area :feedback, label: { text: 'Your reference' }, max_words: 300, rows: 15 %>
+
+        <%= f.govuk_submit 'Submit reference' %>
+      </div>
+    </div>
+  <% end %>
 </main>

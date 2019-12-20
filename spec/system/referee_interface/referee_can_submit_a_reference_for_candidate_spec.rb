@@ -16,6 +16,17 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
 
     when_i_click_on_the_link_within_the_email
     then_i_see_the_reference_comment_page
+    and_i_see_the_list_of_the_courses_the_candidate_applied_to
+
+    when_i_fill_in_the_reference_field
+    and_i_click_the_submit_button
+    then_i_see_the_success_page
+
+    when_i_click_finish_button
+    then_i_see_the_thank_you_page
+
+    when_i_retry_to_edit_the_feedback
+    then_i_see_the_thank_you_page
   end
 
   def given_a_candidate_completed_an_application
@@ -29,7 +40,7 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
   def then_i_receive_an_email_with_a_magic_link
     open_email('terri@example.com')
 
-    reference_feedback_url = get_reference_feedback_url(current_email.body)
+    reference_feedback_url = get_reference_feedback_url
 
     expect(reference_feedback_url).not_to be_nil
   end
@@ -43,7 +54,7 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
   end
 
   def when_i_click_on_the_link_within_the_email
-    reference_feedback_url = get_reference_feedback_url(current_email.body)
+    reference_feedback_url = get_reference_feedback_url
 
     current_email.click_link(reference_feedback_url)
   end
@@ -52,10 +63,42 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
     expect(page).to have_content("Give a teacher training reference for #{@application.full_name}")
   end
 
+  def when_i_fill_in_the_reference_field
+    fill_in 'Your reference', with: 'This is a reference for the candidate.'
+  end
+
+  def and_i_click_the_submit_button
+    click_button 'Submit reference'
+  end
+
+  def when_i_click_finish_button
+    click_link 'Finish'
+  end
+
+  def then_i_see_the_success_page
+    expect(page).to have_content("Your reference for #{@application.full_name}")
+  end
+
+  def then_i_see_the_thank_you_page
+    expect(page).to have_content('Thank you')
+    expect(page).to have_content('Our user research team will contact you shortly')
+  end
+
+  def when_i_retry_to_edit_the_feedback
+    visit get_reference_feedback_url
+  end
+
+  def and_i_see_the_list_of_the_courses_the_candidate_applied_to
+    @application.application_choices.each do |application_choice|
+      expect(page).to have_content(application_choice.course.name)
+      expect(page).to have_content(application_choice.site.name)
+    end
+  end
+
 private
 
-  def get_reference_feedback_url(email_content)
-    matches = email_content.match(/(http:\/\/localhost:3000\/reference\?token=[\w-]{20})/)
+  def get_reference_feedback_url
+    matches = current_email.body.match(/(http:\/\/localhost:3000\/reference\?token=[\w-]{20})/)
     matches.captures.first unless matches.nil?
   end
 end

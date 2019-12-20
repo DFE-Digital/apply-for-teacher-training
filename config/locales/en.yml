@@ -71,6 +71,9 @@ en:
       - (should never appear)
       - First referee
       - Second referee
+    give_a_reference:
+      confirmation: Your reference has been submitted
+      finish: Thank you
     providers: Training providers available through Apply for teacher training
     view_and_respond_to_offer: Details of offer
     api_docs:
