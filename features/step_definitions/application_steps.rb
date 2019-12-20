@@ -68,7 +68,7 @@ When('{string} provides a reference') do |referee_email|
   action = ReceiveReference.new(
     application_form: @application_choice.application_form.reload,
     referee_email: referee_email,
-    feedback: Faker::Lorem.paragraphs(number: 2),
+    feedback: Faker::Lorem.sentence(word_count: 20),
   )
   expect(action.save).to be true
 end
