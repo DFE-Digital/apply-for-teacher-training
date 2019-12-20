@@ -65,7 +65,12 @@ FactoryBot.define do
         create(:application_qualification, application_form: application_form, subject: 'english', level: 'gcse', qualification_type: 'GCSE')
         create(:application_qualification, application_form: application_form, subject: 'science', level: 'gcse', qualification_type: 'GCSE')
 
-        create_list(:application_choice, evaluator.application_choices_count, application_form: application_form, status: 'awaiting_references')
+        edit_by = if application_form.submitted_at.nil?
+                    nil
+                  else
+                    5.business_days.after application_form.submitted_at
+                  end
+        create_list(:application_choice, evaluator.application_choices_count, application_form: application_form, status: 'awaiting_references', edit_by: edit_by)
         create_list(:application_work_experience, evaluator.work_experiences_count, application_form: application_form)
         create_list(:application_volunteering_experience, evaluator.volunteering_experiences_count, application_form: application_form)
         create_list(:reference, evaluator.references_count, evaluator.references_state, application_form: application_form)
