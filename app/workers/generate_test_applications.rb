@@ -71,6 +71,9 @@ private
         # This is only supposed to happen after 7 days, but SendApplicationToProvider
         # doesn't check the `edit_by` date of the ApplicationChoice
         SendApplicationToProvider.new(application_choice: application_choice).call
+
+        # This is so the application is no longer amendable
+        application_choice.update(edit_by: Time.zone.now)
       end
 
       return if application_index == 4
