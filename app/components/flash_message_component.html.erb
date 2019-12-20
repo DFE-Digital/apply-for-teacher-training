@@ -16,7 +16,7 @@
       </div>
     </div>
   <% elsif flash[:success] %>
-    <div class="app-banner app-banner--success" aria-labelledby="success-message">
+    <div class="app-banner app-banner--success" aria-labelledby="success-message" data-module="govuk-error-summary" tabindex="-1">
       <div class="app-banner__message">
         <h2 class="govuk-heading-m" id="success-message">
           <%= flash[:success] %>
