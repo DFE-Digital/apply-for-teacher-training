@@ -8,7 +8,7 @@
       <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-xl">Give a teacher training reference for <%= @application.full_name %></h1>
 
-        <p class="govuk-body"><%= @application.full_name %>applied to the following courses:</p>
+        <p class="govuk-body"><%= @application.full_name %> applied to the following courses:</p>
         <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
           <% @application.application_choices.each do |application_choice| %>
             <li>
