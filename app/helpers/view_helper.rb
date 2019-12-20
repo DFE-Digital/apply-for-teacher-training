@@ -46,6 +46,10 @@ module ViewHelper
     "#{t('page_titles.error_prefix') if error}#{title}"
   end
 
+  def title_with_success_prefix(title, success)
+    "#{t('page_titles.success_prefix') if success}#{title}"
+  end
+
   def edit_by_date
     dates = ApplicationDates.new(@application_form)
     dates.edit_by.strftime('%e %B %Y').strip

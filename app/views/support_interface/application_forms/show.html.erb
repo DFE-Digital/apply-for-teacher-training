@@ -1,4 +1,4 @@
-<% content_for :browser_title, "Application ##{@application_form.id}" %>
+<% content_for :browser_title, title_with_success_prefix("Application ##{@application_form.id}", flash[:success].present?) %>
 <% content_for :title do %>
   <span class="govuk-caption-xl">Application #<%= @application_form.id %></span>
   <%= @application_form.candidate.email_address %>
