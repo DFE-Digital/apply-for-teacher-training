@@ -76,7 +76,7 @@ RSpec.describe ReceiveReference do
 
       expect(action).not_to be_valid
 
-      expect(action.errors[:feedback]).to eq(['Must be 300 words or fewer'])
+      expect(action.errors[:feedback]).to eq(['Your reference must be 300 words or fewer'])
     end
 
     it 'validates that the referee email matches the references on the application form' do
