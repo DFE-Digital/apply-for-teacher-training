@@ -6,6 +6,8 @@ Future release notes will be published on the [Release notes page](/api-docs/rel
 
 - Clarify that when an application is withdrawn, the `reason` can be null.
 - Clarify that HESA ITT data is only available once a candidate is enrolled.
+- Add `phase` to `ApplicationAttributes`, indicating whether the candidate is
+  in Apply 1 or Apply 2
 
 ### Alpha release - 13 December 2019
 
@@ -34,6 +36,8 @@ New:
 - New [/conditions-not-met endpoint](/api-docs/reference#post-conditions-not-met)
 - `Candidate` now has an `id`. This is a version of our internal identifier, and could be used to match previous candidate records.
 - `Course` now has a `study_mode` attribute that shows whether the candidate wants to study full time or part time.
+- Add `interview_preferences` to `ApplicationAttributes`
+- Add `awarding_body` to `Qualification`
 
 Removed attributes:
 
