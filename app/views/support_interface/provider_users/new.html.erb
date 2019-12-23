@@ -22,7 +22,8 @@
       <h1 class='govuk-heading-xl'>Add provider user</h1>
 
       <%= f.govuk_text_field :email_address, label: { text: 'Email address' } %>
-      <%= f.govuk_text_field :dfe_sign_in_uid, label: { text: 'DfE Sign-in UID' } %>
+      <% blank_uid_notice = 'If you leave this empty, it will be automatically set when this email address signs in for the first time.' %>
+      <%= f.govuk_text_field :dfe_sign_in_uid, label: { text: 'DfE Sign-in UID' }, hint_text: blank_uid_notice %>
 
       <%= f.govuk_collection_radio_buttons :provider_ids, @form.available_providers, :id, :name_and_code, legend: { text: 'Provider' } %>
 
