@@ -67,9 +67,21 @@ This returns an [application](/api-docs/reference/#application-object) with an u
 
 _See [confirm candidate enrolment](/api-docs/reference/#post-applications-application_id-confirm-enrolment) endpoint._
 
-## Rejecting an application
+## When the candidate fails to meet their offer conditions
 
-### 1. The provider reviews the form and rejects the candidate without an interview
+When the candidate has accepted an offer, the application is in the `meeting_conditions` state.
+
+If the conditions will not be met, make the following request:
+
+```
+POST /applications/11fc0d3b2f/conditions-not-met
+```
+
+This returns an [application](/api-docs/reference/#application-object) with an updated `status`.
+
+_See [confirm conditions not met](/api-docs/reference/#post-applications-application_id-conditions-not-met) endpoint._
+
+## Rejecting an application
 
 ```
 POST /applications/11fc0d3b2f/reject
