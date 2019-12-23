@@ -347,7 +347,7 @@ components:
             - recruited
             - rejected
             - withdrawn
-          example: application_complete
+          example: awaiting_provider_decision
         phase:
           type: string
           description: |
