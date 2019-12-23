@@ -1,4 +1,5 @@
 <% if current_provider_user %>
+  <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="navigation" aria-label="Show or hide Top Level Navigation">Menu</button>
   <ul id="navigation" class="govuk-header__navigation " aria-label="Top Level Navigation">
     <li class="govuk-header__navigation-item">
       <b><%= current_provider_user.email_address %></b>
@@ -9,6 +10,7 @@
     </li>
   </ul>
 <% elsif dfe_sign_in_user %>
+  <button type="button" class="govuk-header__menu-button govuk-js-header-toggle"    aria-controls="navigation" aria-label="Show or hide Top Level Navigation">Menu</button>
   <ul id="navigation" class="govuk-header__navigation " aria-label="Top Level Navigation">
     <li class="govuk-header__navigation-item">
       <%= link_to 'Sign out', provider_interface_sign_out_path, class: 'govuk-header__link' %>
