@@ -22,6 +22,8 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
     and_i_click_the_submit_button
     then_i_see_the_success_page
 
+    when_i_choose_to_be_contactable
+
     when_i_click_finish_button
     then_i_see_the_thank_you_page
 
@@ -72,7 +74,7 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
   end
 
   def when_i_click_finish_button
-    click_link 'Finish'
+    click_button 'Finish'
   end
 
   def then_i_see_the_success_page
@@ -94,6 +96,14 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
       expect(page).to have_content(application_choice.site.name)
     end
   end
+
+  def when_i_choose_to_be_contactable
+    choose 'Yes, you can contact me'
+  end
+
+  # def when_i_choose_to_not_be_contactable
+  #   choose 'No, do not contact me'
+  # end
 
 private
 
