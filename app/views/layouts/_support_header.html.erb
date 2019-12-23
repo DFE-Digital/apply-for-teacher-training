@@ -1,3 +1,4 @@
+<button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="navigation" aria-label="Show or hide Top Level Navigation">Menu</button>
 <ul id="navigation" class="govuk-header__navigation " aria-label="Top Level Navigation">
   <% if current_support_user %>
     <%= nav_link 'Candidates', support_interface_candidates_path, active: %w[candidates import_references] %>
