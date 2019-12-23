@@ -5,7 +5,7 @@ RSpec.describe Candidate, type: :model do
 
   describe 'a valid candidate' do
     it { is_expected.to validate_presence_of :email_address }
-    it { is_expected.to validate_length_of(:email_address).is_at_most(250) }
+    it { is_expected.to validate_length_of(:email_address).is_at_most(100) }
     it { is_expected.to validate_uniqueness_of(:email_address).case_insensitive }
     it { is_expected.to allow_value('user@example.com').for(:email_address) }
     it { is_expected.not_to allow_value('foo').for(:email_address) }

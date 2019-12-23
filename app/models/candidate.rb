@@ -6,7 +6,7 @@ class Candidate < ApplicationRecord
   before_validation :downcase_email
   validates :email_address, presence: true,
                             uniqueness: { case_sensitive: false },
-                            length: { maximum: 250 },
+                            length: { maximum: 100 },
                             email_address: true
 
   has_many :application_forms
