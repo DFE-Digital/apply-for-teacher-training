@@ -58,5 +58,3 @@ We will update our [release notes](/api-docs/release-notes) with all breaking an
 The following diagram gives an overview of the states in the application lifecycle:
 
 ![Application lifecycle](/api_docs/states.png)
-
-Note that applications are visible to providers only after they reach the `awaiting_provider_decision` state.
