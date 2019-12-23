@@ -437,7 +437,7 @@ components:
         id:
           type: string
           description: The candidate’s ID in the Apply system
-          maxLength: 20
+          maxLength: 10
           example: "C5432"
         first_name:
           type: string
