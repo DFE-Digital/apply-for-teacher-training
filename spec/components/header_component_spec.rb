@@ -4,7 +4,7 @@ RSpec.describe HeaderComponent do
   let(:navigation_items) { [] }
 
   subject(:rendered_component) do
-    render_inline(HeaderComponent, navigation_items: navigation_items)
+    render_inline(HeaderComponent, navigation_items: navigation_items, service_name: '', service_url: '#')
   end
 
   describe 'rendering NavigationItems' do
