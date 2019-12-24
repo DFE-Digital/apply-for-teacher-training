@@ -26,7 +26,7 @@ module CandidateInterface
     end
 
     def decline_by_default_date
-      @dates.decline_by_default_at.strftime('%-e %B %Y')
+      @dates.decline_by_default_at.to_s(:govuk_date)
     end
 
   private

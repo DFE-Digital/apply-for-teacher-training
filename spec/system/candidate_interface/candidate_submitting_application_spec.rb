@@ -200,7 +200,7 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
   end
 
   def then_i_can_see_my_application_dashboard
-    this_day = Time.zone.now.strftime('%-e %B %Y')
+    this_day = Time.zone.now.to_s(:govuk_date)
     expect(page).to have_content t('page_titles.application_dashboard')
     expect(page).to have_content "Application submitted on #{this_day}"
     expect(page).to have_content 'Gorse SCITT'
@@ -214,7 +214,7 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
 
   def then_i_can_see_my_submitted_application
     expect(page).to have_content t('page_titles.submitted_application')
-    expect(page).to have_content Time.zone.now.strftime('%-e %B %Y')
+    expect(page).to have_content Time.zone.now.to_s(:govuk_date)
     expect(page).to have_content 'Gorse SCITT'
     expect(page).to have_content 'Lando Calrissian'
     expect(page).to have_content '07700 900 982'
