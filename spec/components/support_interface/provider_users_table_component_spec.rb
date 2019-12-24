@@ -13,6 +13,7 @@ RSpec.describe SupportInterface::ProviderUsersTableComponent do
         create(:provider_user,
                email_address: 'provider@example.com',
                dfe_sign_in_uid: 'ABCDEF',
+               last_signed_in_at: DateTime.new(2019, 12, 1, 10, 45, 0),
                providers: [create(:provider, name: 'The Provider')]),
       ]
     end
@@ -21,6 +22,15 @@ RSpec.describe SupportInterface::ProviderUsersTableComponent do
       expect(rendered_component).to include('provider@example.com')
       expect(rendered_component).to include('ABCDEF')
       expect(rendered_component).to include('The Provider')
+      expect(rendered_component).to include('1 December 2019 at 10:45am')
+    end
+  end
+
+  context 'when the provider user has never signed in' do
+    let(:provider_users) { [create(:provider_user, last_signed_in_at: nil)] }
+
+    it 'shows that the user has never signed in' do
+      expect(rendered_component).to include('Never signed in')
     end
   end
 
