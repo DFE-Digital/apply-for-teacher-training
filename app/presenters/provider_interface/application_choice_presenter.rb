@@ -48,7 +48,7 @@ module ProviderInterface
     end
 
     def updated_at
-      application_choice.updated_at.strftime('%e %b %Y %l:%M%P')
+      application_choice.updated_at.to_s(:govuk_date_and_time)
     end
 
     def to_param

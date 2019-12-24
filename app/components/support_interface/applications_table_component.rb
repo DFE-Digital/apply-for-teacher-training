@@ -13,7 +13,7 @@ module SupportInterface
         {
           application_form_id: application_form.id,
           application_link: govuk_link_to(email_address, support_interface_application_form_path(application_form)),
-          updated_at: application_form.updated_at.strftime('%e %b %Y at %l:%M%P'),
+          updated_at: application_form.updated_at.to_s(:govuk_date_and_time),
           process_state: ProcessState.new(application_form).state,
         }
       end

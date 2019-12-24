@@ -26,7 +26,7 @@ module SupportInterface
     def last_updated_row
       {
         key: 'Last updated',
-        value: "#{updated_at.strftime('%e %b %Y at %l:%M%P')} (#{govuk_link_to('History', support_interface_application_form_audit_path(application_form))})".html_safe,
+        value: "#{updated_at.to_s(:govuk_date_and_time)} (#{govuk_link_to('History', support_interface_application_form_audit_path(application_form))})".html_safe,
       }
     end
 
@@ -34,7 +34,7 @@ module SupportInterface
       if submitted?
         {
           key: 'Submitted',
-          value: submitted_at.strftime('%e %b %Y at %l:%M%P'),
+          value: submitted_at.to_s(:govuk_date_and_time),
         }
       end
     end

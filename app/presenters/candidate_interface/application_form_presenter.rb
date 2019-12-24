@@ -5,7 +5,7 @@ module CandidateInterface
     end
 
     def updated_at
-      "Last saved on #{@application_form.updated_at.strftime('%d %B %Y')} at #{@application_form.updated_at.strftime('%l:%M%P')}"
+      "Last saved on #{@application_form.updated_at.to_s(:govuk_date_and_time)}"
     end
 
     def sections_with_completion
