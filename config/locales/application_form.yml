@@ -371,8 +371,8 @@ en:
         candidate_interface/subject_knowledge_form:
           attributes:
             subject_knowledge:
-              blank: Please enter your subject knowledge
-              too_many_words: Your subject knowledge must be %{count} words or fewer
+              blank: Enter what you know about the subject you want to teach
+              too_many_words: Your subject knowledge explanation must be %{count} words or fewer
         candidate_interface/interview_preferences_form:
           attributes:
             any_preferences:
