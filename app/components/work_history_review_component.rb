@@ -93,12 +93,12 @@ private
   end
 
   def formatted_start_date(work)
-    work.start_date.strftime('%B %Y')
+    work.start_date.to_s(:month_and_year)
   end
 
   def formatted_end_date(work)
     return 'Present' if work.end_date.nil?
 
-    work.end_date.strftime('%B %Y')
+    work.end_date.to_s(:month_and_year)
   end
 end

@@ -37,7 +37,7 @@ RSpec.describe WorkHistoryReviewComponent do
 
         application_form.application_work_experiences.each do |work|
           expect(result.text).to include(work.role)
-          expect(result.text).to include(work.start_date.strftime('%B %Y'))
+          expect(result.text).to include(work.start_date.to_s(:month_and_year))
           expect(result.css('.govuk-summary-list__actions').text).to include('Change')
           if work.working_with_children
             expect(result.text).to include(t('application_form.review.role_involved_working_with_children'))
