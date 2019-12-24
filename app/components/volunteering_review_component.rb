@@ -76,13 +76,13 @@ private
   end
 
   def formatted_start_date(volunteering_role)
-    volunteering_role.start_date.strftime('%B %Y')
+    volunteering_role.start_date.to_s(:month_and_year)
   end
 
   def formatted_end_date(volunteering_role)
     return 'Present' if volunteering_role.end_date.nil? || volunteering_role.end_date == DateTime.now
 
-    volunteering_role.end_date.strftime('%B %Y')
+    volunteering_role.end_date.to_s(:month_and_year)
   end
 
   def edit_path(volunteering_role)

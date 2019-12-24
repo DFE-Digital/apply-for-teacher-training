@@ -4,7 +4,7 @@ Dear <%= @application.candidate_name %>,
 
 Your application is now with your teacher training <%= 'provider'.pluralize(@application.choice_count) %>.
 
-We’ve asked them to make a final decision before <%= @application.rbd_date.strftime('%-e %B %Y') %> (<%= @application.rbd_days %> working days).
+We’ve asked them to make a final decision before <%= @application.rbd_date.to_s(:govuk_date) %> (<%= @application.rbd_days %> working days).
 
 They’ll be in touch with you sooner if they want to arrange an interview.
 

@@ -51,7 +51,7 @@ module ProviderInterface
   private
 
     def format_date(date)
-      date.strftime('%-e %B %Y')
+      date.to_s(:govuk_date)
     end
   end
 end

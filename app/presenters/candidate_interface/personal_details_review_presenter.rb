@@ -30,7 +30,7 @@ module CandidateInterface
     def date_of_birth_row
       {
         key: I18n.t('application_form.personal_details.date_of_birth.label'),
-        value: @form.date_of_birth.strftime('%e %B %Y'),
+        value: @form.date_of_birth.to_s(:govuk_date),
         action: ('date of birth' if @editable),
       }
     end
