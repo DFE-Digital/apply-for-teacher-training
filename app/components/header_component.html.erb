@@ -1,0 +1,13 @@
+<% if navigation_items.any? %>
+  <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="navigation" aria-label="Show or hide Top Level Navigation">Menu</button>
+  <ul id="navigation" class="govuk-header__navigation " aria-label="Top Level Navigation">
+    <% navigation_items.each do |nav_item| %>
+      <li class="govuk-header__navigation-item <%= nav_item.active ? 'govuk-header__navigation-item--active' : '' %>">
+      <% if nav_item.href %>
+        <%= link_to nav_item.text, nav_item.href, class: 'govuk-header__link' %>
+      <% else %>
+        <b><%= nav_item.text %></b>
+      <% end %>
+    <% end %>
+  </ul>
+<% end %>

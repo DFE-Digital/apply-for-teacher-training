@@ -68,13 +68,17 @@
 
           <% case current_namespace %>
           <% when 'candidate_interface' %>
-            <%= render 'layouts/candidate_header' %>
+            <%= render(HeaderComponent,
+                       navigation_items: NavigationItems.for_candidate_interface(current_candidate, controller)) %>
           <% when 'support_interface' %>
-            <%= render 'layouts/support_header' %>
+            <%= render(HeaderComponent,
+                       navigation_items: NavigationItems.for_support_interface(current_support_user, dfe_sign_in_user, controller)) %>
           <% when 'provider_interface' %>
-            <%= render 'layouts/provider_header' %>
+            <%= render(HeaderComponent,
+                       navigation_items: NavigationItems.for_provider_interface(current_provider_user, dfe_sign_in_user)) %>
           <% when 'api_docs' %>
-            <%= render 'layouts/api_docs_header' %>
+            <%= render(HeaderComponent,
+                       navigation_items: NavigationItems.for_api_docs(controller)) %>
           <% end %>
         </div>
       </div>
