@@ -12,6 +12,9 @@ class DfESignInUser
       'dfe_sign_in_uid' => omniauth_payload['uid'],
       'last_active_at' => Time.zone.now,
     }
+    if (associated_user = SupportUser.load_from_session(session) || ProviderUser.load_from_session(session))
+      associated_user.update!(last_signed_in_at: Time.zone.now)
+    end
   end
 
   def self.load_from_session(session)

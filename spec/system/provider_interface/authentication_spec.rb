@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe 'A provider authenticates via DfE Sign-in' do
   include DfESignInHelpers
 
+  let(:provider_user) { create(:provider_user, email_address: 'provider@example.com', dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
+
   scenario 'signing in successfully' do
     given_i_am_registered_as_a_provider_user
     and_i_have_a_dfe_sign_in_account
@@ -11,13 +13,14 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
     and_i_sign_in_via_dfe_sign_in
 
     then_i_should_see_my_email_address
+    and_the_timestamp_of_this_sign_in_is_recorded
 
     when_i_signed_in_more_than_a_2_hours_ago
     then_i_should_see_the_login_page_again
   end
 
   def given_i_am_registered_as_a_provider_user
-    create(:provider_user, email_address: 'provider@example.com', dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+    provider_user
   end
 
   def and_i_have_a_dfe_sign_in_account
@@ -52,5 +55,9 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
     Timecop.travel(Time.zone.now + 2.hours + 1.second) do
       visit provider_interface_path
     end
+  end
+
+  def and_the_timestamp_of_this_sign_in_is_recorded
+    expect(provider_user.reload.last_signed_in_at).not_to be_nil
   end
 end
