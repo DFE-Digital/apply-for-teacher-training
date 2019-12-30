@@ -23,7 +23,7 @@ class NavigationItems
           NavigationItem.new('API Tokens', support_interface_tokens_path, is_active(current_controller, 'api_tokens')),
           NavigationItem.new('Providers', support_interface_providers_path, is_active(current_controller, 'providers')),
           NavigationItem.new('Features', support_interface_feature_flags_path, is_active(current_controller, 'feature_flags')),
-          NavigationItem.new('Performance', support_interface_feature_flags_path, is_active(current_controller, 'performance')),
+          NavigationItem.new('Performance', support_interface_performance_path, is_active(current_controller, 'performance')),
           NavigationItem.new('Tasks', support_interface_tasks_path, is_active(current_controller, 'tasks')),
           NavigationItem.new('Users', support_interface_users_path, is_active(current_controller, 'users')),
           NavigationItem.new(current_support_user.email_address, nil, false),
