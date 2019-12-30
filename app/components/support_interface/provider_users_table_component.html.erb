@@ -1,0 +1,27 @@
+<% if table_rows.any? %>
+  <table class="govuk-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Email address</th>
+        <th scope="col" class="govuk-table__header">Providers</th>
+        <th scope="col" class="govuk-table__header">DfE Sign-in UID</th>
+        <th scope="col" class="govuk-table__header">Last signed in at</th>
+      </tr>
+    </thead>
+
+    <tbody class="govuk-table__body">
+      <% table_rows.each do |row| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell"><%= row[:email_address] %></td>
+          <td class="govuk-table__cell"><%= row[:links_to_providers].html_safe %></td>
+          <td class="govuk-table__cell"><%= row[:dfe_sign_in_uid] %></td>
+          <% if row[:last_signed_in_at] %>
+            <td class="govuk-table__cell"><%= row[:last_signed_in_at] %></td>
+          <% else %>
+            <td class="govuk-table__cell"><em>Never signed in</em></td>
+          <%end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
