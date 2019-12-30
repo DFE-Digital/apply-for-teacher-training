@@ -66,7 +66,17 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
   end
 
   it 'outputs a date for applications in the enrolled_at state' do
-    application_choice = make_choice(status: 'enrolled', enrolled_at: Time.zone.now)
+    now = Time.zone.now
+    application_choice = make_choice(status: 'enrolled', enrolled_at: now)
+
+    result = render_inline(described_class, application_choice: application_choice)
+
+    expect(result.text).to include('Enrolled at')
+    expect(result.text).to include(now.to_s(:govuk_date))
+  end
+
+  it 'handles nil `enrolled_at` date for applications in the enrolled_at state' do
+    application_choice = make_choice(status: 'enrolled', enrolled_at: nil)
 
     result = render_inline(described_class, application_choice: application_choice)
 

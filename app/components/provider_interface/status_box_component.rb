@@ -51,7 +51,7 @@ module ProviderInterface
   private
 
     def format_date(date)
-      date.to_s(:govuk_date)
+      date&.to_s(:govuk_date) || ''
     end
   end
 end
