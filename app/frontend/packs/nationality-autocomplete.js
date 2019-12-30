@@ -18,7 +18,8 @@ const initNationalityAutocomplete = () => {
       accessibleAutocomplete.enhanceSelectElement({
         selectElement: nationalitySelect,
         name: nationalitySelect.name,
-        showAllValues: true
+        showAllValues: true,
+        confirmOnBlur: false
       });
       nationalitySelect.name = "";
     });
