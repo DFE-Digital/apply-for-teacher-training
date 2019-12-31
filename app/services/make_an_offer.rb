@@ -12,11 +12,13 @@ class MakeAnOffer
 
   def initialize(
     application_choice:,
+    offer_conditions: nil,
     standard_conditions: nil,
     further_conditions: {},
     course_data: nil
   )
     @application_choice = application_choice
+    @offer_conditions = offer_conditions
     @standard_conditions = standard_conditions
     @course_data = course_data
     further_conditions.each { |key, value| self.send("#{key}=", value) }
@@ -43,7 +45,7 @@ class MakeAnOffer
   end
 
   def offer_conditions
-    [
+    @offer_conditions ||= [
       standard_conditions,
       further_conditions,
     ].flatten.reject(&:blank?)
@@ -106,7 +108,7 @@ private
 
     errors.add(:further_conditions, "has over #{MAX_CONDITIONS_COUNT} elements") if further_conditions.count > MAX_CONDITIONS_COUNT
     further_conditions.each_with_index do |value, index|
-      errors.add("further_conditions#{index}", "has a condition over #{MAX_CONDITION_LENGTH} chars in length") if value.length > MAX_CONDITION_LENGTH
+      errors.add("further_conditions#{index}", "has a condition over #{MAX_CONDITION_LENGTH} chars in length") if value && value.length > MAX_CONDITION_LENGTH
     end
   end
 
