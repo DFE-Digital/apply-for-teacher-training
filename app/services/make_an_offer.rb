@@ -1,5 +1,6 @@
 class MakeAnOffer
-  attr_accessor :offer_conditions
+  attr_accessor :standard_conditions
+  attr_accessor :further_conditions
 
   include ActiveModel::Validations
 
@@ -7,11 +8,12 @@ class MakeAnOffer
   MAX_CONDITION_LENGTH = 255
 
   validate :validate_course_data
-  validate :validate_offer_conditions
+  validate :validate_further_conditions
 
-  def initialize(application_choice:, offer_conditions: nil, course_data: nil)
+  def initialize(application_choice:, standard_conditions: nil, further_conditions: nil, course_data: nil)
     @application_choice = application_choice
-    @offer_conditions = offer_conditions
+    @standard_conditions = standard_conditions
+    @further_conditions = further_conditions
     @course_data = course_data
   end
 
@@ -20,7 +22,7 @@ class MakeAnOffer
 
     ApplicationStateChange.new(application_choice).make_offer!
     application_choice.offered_course_option = offered_course_option
-    application_choice.offer = { 'conditions' => (@offer_conditions || []) }
+    application_choice.offer = { 'conditions' => offer_conditions }
 
     application_choice.offered_at = Time.zone.now
     application_choice.save!
@@ -87,15 +89,22 @@ private
     errors.add(:offered_course, "does not belong to provider #{current_provider.code}, it belongs to #{provider.code}") if providers_dont_match
   end
 
-  def validate_offer_conditions
-    return if @offer_conditions.blank?
+  def validate_further_conditions
+    return if @further_conditions.blank?
 
-    unless @offer_conditions.is_a?(Array)
-      errors.add(:offer_conditions, 'must be an array')
+    unless @further_conditions.is_a?(Array)
+      errors.add(:further_conditions, 'must be an array')
       return
     end
 
-    errors.add(:offer_conditions, "has over #{MAX_CONDITIONS_COUNT} elements") if @offer_conditions.count > MAX_CONDITIONS_COUNT
-    errors.add(:offer_conditions, "has a condition over #{MAX_CONDITION_LENGTH} chars in length") if @offer_conditions.any? { |c| c.length > MAX_CONDITION_LENGTH }
+    errors.add(:further_conditions, "has over #{MAX_CONDITIONS_COUNT} elements") if @further_conditions.count > MAX_CONDITIONS_COUNT
+    errors.add(:further_conditions, "has a condition over #{MAX_CONDITION_LENGTH} chars in length") if @further_conditions.any? { |c| c.length > MAX_CONDITION_LENGTH }
+  end
+
+  def offer_conditions
+    [
+      standard_conditions,
+      further_conditions,
+    ].flatten.reject(&:blank?)
   end
 end
