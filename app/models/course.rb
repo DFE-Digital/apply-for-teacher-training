@@ -8,6 +8,7 @@ class Course < ApplicationRecord
   validates :code, uniqueness: { scope: :provider_id }
 
   scope :visible_to_candidates, -> { where(exposed_in_find: true) }
+  scope :applyable, -> { visible_to_candidates.where(open_on_apply: true) }
 
   CODE_LENGTH = 4
 

@@ -1,6 +1,6 @@
 <% content_for :title, @provider.name_and_code %>
 
-<h2 class='govuk-heading-l'><%= pluralize(@provider.courses.size, 'course') %> (<%= @provider.courses.visible_to_candidates.size %> on DfE Apply)</h2>
+<h2 class='govuk-heading-l'><%= pluralize(@provider.courses.size, 'course') %> (<%= @provider.courses.applyable.size %> on DfE Apply)</h2>
 
 <% if @provider.courses.any? %>
   <%= form_with model: @provider, url: support_interface_provider_path(@provider), method: :post do |f| %>
