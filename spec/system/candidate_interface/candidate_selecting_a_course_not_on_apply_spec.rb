@@ -33,8 +33,10 @@ RSpec.feature 'Selecting a course not on Apply' do
   def and_there_are_course_options
     provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
     site = create(:site, name: 'Main site', code: '-', provider: provider)
-    course = create(:course, name: 'Primary', code: '2XT2', provider: provider, exposed_in_find: true, open_on_apply: true)
-    create(:course_option, site: site, course: course, vacancy_status: 'B')
+    course1 = create(:course, name: 'Primary', code: '2XT2', provider: provider, exposed_in_find: true, open_on_apply: true)
+    course2 = create(:course, name: 'Secondary', code: 'X123', provider: provider, exposed_in_find: true, open_on_apply: false)
+    create(:course_option, site: site, course: course1, vacancy_status: 'B')
+    create(:course_option, site: site, course: course2, vacancy_status: 'B')
   end
 
   def and_i_click_on_course_choices
@@ -69,7 +71,7 @@ RSpec.feature 'Selecting a course not on Apply' do
   end
 
   def and_i_choose_another_course
-    choose 'Another course'
+    choose 'Secondary (X123)'
     click_button 'Continue'
   end
 end
