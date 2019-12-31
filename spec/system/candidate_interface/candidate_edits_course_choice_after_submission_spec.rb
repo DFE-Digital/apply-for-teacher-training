@@ -102,7 +102,7 @@ RSpec.feature 'A candidate edits their course choice after submission' do
     click_button 'Continue'
     choose 'Gorse SCITT (1N1)'
     click_button 'Continue'
-    choose 'Primary (2XT2)'
+    select 'Primary (2XT2)'
     click_button 'Continue'
     choose 'Main site'
     click_button 'Continue'

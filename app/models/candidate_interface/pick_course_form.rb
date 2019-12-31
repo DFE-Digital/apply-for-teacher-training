@@ -7,11 +7,7 @@ module CandidateInterface
     validate :user_cant_apply_to_same_course_twice
 
     def applyable?
-      !other? && course.open_on_apply?
-    end
-
-    def other?
-      code == 'other'
+      course.open_on_apply?
     end
 
     def available_courses
@@ -32,7 +28,7 @@ module CandidateInterface
     end
 
     def user_cant_apply_to_same_course_twice
-      return unless code
+      return if code.blank?
 
       if application_form.application_choices.any? { |application_choice| application_choice.course == course }
         errors[:base] << 'You have already selected this course'

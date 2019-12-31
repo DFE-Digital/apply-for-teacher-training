@@ -121,7 +121,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def and_i_choose_a_course
-    choose 'Primary (2XT2)'
+    select 'Primary (2XT2)'
     click_button 'Continue'
   end
 
@@ -159,7 +159,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def and_i_choose_another_course_with_only_one_site
-    choose 'Dance (W5X1)'
+    select 'Dance (W5X1)'
     click_button 'Continue'
   end
 
