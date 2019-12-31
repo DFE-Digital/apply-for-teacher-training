@@ -77,7 +77,7 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
   end
 
   def i_should_see_the_available_providers_and_courses
-    expect(page).not_to have_content 'Biology'
+    expect(page).to have_content 'Biology'
     expect(page).to have_content 'Potions'
   end
 end

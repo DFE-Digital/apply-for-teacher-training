@@ -95,7 +95,7 @@ RSpec.feature 'See providers' do
 
   def then_i_see_the_providers_courses_and_sites
     expect(page).to have_content 'ABC-1'
-    expect(page).to have_content '1 course (0 on DfE Apply)'
+    expect(page).to have_content '1 course (1 on DfE Apply)'
   end
 
   def when_i_click_on_a_course

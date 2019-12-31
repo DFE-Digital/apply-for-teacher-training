@@ -16,7 +16,7 @@ module CandidateInterface
 
     def available_courses
       @available_courses ||= begin
-        provider.courses.where(exposed_in_find: true).order(:name)
+        provider.courses.visible_to_candidates.order(:name)
       end
     end
 

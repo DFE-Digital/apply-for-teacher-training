@@ -32,8 +32,6 @@ RSpec.feature 'Selecting a course' do
     when_i_click_on_add_another_course
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_another_provider
-
-    when_i_click_back
     and_i_choose_another_course_with_only_one_site
     then_i_review_my_second_course_choice
 
