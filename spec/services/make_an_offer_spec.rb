@@ -43,10 +43,10 @@ RSpec.describe MakeAnOffer do
       expect(decision).not_to be_valid
     end
 
-    it 'limits the length of conditions to 255 characters' do
+    it 'limits the length of individual further_conditions to 255 characters' do
       decision = MakeAnOffer.new(
         application_choice: build_stubbed(:application_choice, status: :awaiting_provider_decision),
-        offer_conditions: ['a' * 256],
+        further_conditions: { further_conditions2: 'a' * 256 },
       )
 
       expect(decision).not_to be_valid

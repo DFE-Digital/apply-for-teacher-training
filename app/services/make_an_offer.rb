@@ -8,6 +8,8 @@ class MakeAnOffer
   MAX_CONDITION_LENGTH = 255
 
   validate :validate_course_data
+  validate :validate_conditions_array
+  validate :validate_conditions_max_length
   validate :validate_further_conditions
 
   def initialize(
@@ -61,6 +63,15 @@ private
     @course_option
   end
 
+  def further_conditions
+    [
+      further_conditions0,
+      further_conditions1,
+      further_conditions2,
+      further_conditions3,
+    ]
+  end
+
   def validate_course_data
     return if @course_data.nil?
 
@@ -106,18 +117,20 @@ private
   def validate_further_conditions
     return if further_conditions.blank?
 
-    errors.add(:further_conditions, "has over #{MAX_CONDITIONS_COUNT} elements") if further_conditions.count > MAX_CONDITIONS_COUNT
     further_conditions.each_with_index do |value, index|
       errors.add("further_conditions#{index}", "has a condition over #{MAX_CONDITION_LENGTH} chars in length") if value && value.length > MAX_CONDITION_LENGTH
     end
   end
 
-  def further_conditions
-    [
-      further_conditions0,
-      further_conditions1,
-      further_conditions2,
-      further_conditions3,
-    ]
+  def validate_conditions_array
+    return if offer_conditions.is_a?(Array)
+
+    errors.add(:offer_conditions, 'must be an array')
+  end
+
+  def validate_conditions_max_length
+    return if offer_conditions.is_a?(Array) && offer_conditions.count <= MAX_CONDITIONS_COUNT
+
+    errors.add(:offer_conditions, "has over #{MAX_CONDITIONS_COUNT} elements")
   end
 end
