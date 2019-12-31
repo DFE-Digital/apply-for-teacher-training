@@ -1,6 +1,6 @@
 class MakeAnOffer
   attr_accessor :standard_conditions
-  attr_accessor :further_conditions
+  attr_accessor :further_conditions0, :further_conditions1, :further_conditions2, :further_conditions3
 
   include ActiveModel::Validations
 
@@ -10,11 +10,16 @@ class MakeAnOffer
   validate :validate_course_data
   validate :validate_further_conditions
 
-  def initialize(application_choice:, standard_conditions: nil, further_conditions: nil, course_data: nil)
+  def initialize(
+    application_choice:,
+    standard_conditions: nil,
+    further_conditions: {},
+    course_data: nil
+  )
     @application_choice = application_choice
     @standard_conditions = standard_conditions
-    @further_conditions = further_conditions
     @course_data = course_data
+    further_conditions.each { |key, value| self.send("#{key}=", value) }
   end
 
   def save
@@ -35,6 +40,13 @@ class MakeAnOffer
       I18n.t('activerecord.errors.models.application_choice.attributes.status.invalid_transition'),
     )
     false
+  end
+
+  def offer_conditions
+    [
+      standard_conditions,
+      further_conditions,
+    ].flatten.reject(&:blank?)
   end
 
 private
@@ -90,21 +102,20 @@ private
   end
 
   def validate_further_conditions
-    return if @further_conditions.blank?
+    return if further_conditions.blank?
 
-    unless @further_conditions.is_a?(Array)
-      errors.add(:further_conditions, 'must be an array')
-      return
+    errors.add(:further_conditions, "has over #{MAX_CONDITIONS_COUNT} elements") if further_conditions.count > MAX_CONDITIONS_COUNT
+    further_conditions.each_with_index do |value, index|
+      errors.add("further_conditions#{index}", "has a condition over #{MAX_CONDITION_LENGTH} chars in length") if value.length > MAX_CONDITION_LENGTH
     end
-
-    errors.add(:further_conditions, "has over #{MAX_CONDITIONS_COUNT} elements") if @further_conditions.count > MAX_CONDITIONS_COUNT
-    errors.add(:further_conditions, "has a condition over #{MAX_CONDITION_LENGTH} chars in length") if @further_conditions.any? { |c| c.length > MAX_CONDITION_LENGTH }
   end
 
-  def offer_conditions
+  def further_conditions
     [
-      standard_conditions,
-      further_conditions,
-    ].flatten.reject(&:blank?)
+      further_conditions0,
+      further_conditions1,
+      further_conditions2,
+      further_conditions3,
+    ]
   end
 end

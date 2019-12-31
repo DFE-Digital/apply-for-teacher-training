@@ -21,7 +21,12 @@ module ProviderInterface
       @application_offer = MakeAnOffer.new(
         application_choice: @application_choice,
         standard_conditions: make_an_offer_params[:standard_conditions],
-        further_conditions: make_an_offer_params[:further_conditions],
+        further_conditions: make_an_offer_params.permit(
+          :further_conditions0,
+          :further_conditions1,
+          :further_conditions2,
+          :further_conditions3,
+        ).to_h,
       )
       render action: :new_offer if !@application_offer.valid?
     end
