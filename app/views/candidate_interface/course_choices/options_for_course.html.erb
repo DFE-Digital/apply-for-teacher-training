@@ -11,10 +11,6 @@
           <% @pick_course.available_courses.each_with_index do |course, i| %>
             <%= f.govuk_radio_button :code, course.code, label: { text: "#{course.name} (#{course.code})" }, link_errors: i.zero? %>
           <% end %>
-
-          <%= f.govuk_radio_divider %>
-
-          <%= f.govuk_radio_button :code, :other, label: { text: 'Another course' } %>
         </div>
       <% end %>
 
