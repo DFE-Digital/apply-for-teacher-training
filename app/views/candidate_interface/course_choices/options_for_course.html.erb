@@ -6,13 +6,11 @@
     <%= form_with model: @pick_course, url: candidate_interface_course_choices_course_path(provider_code: params[:provider_code]), builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :code, legend: { size: 'xl', text: t('page_titles.which_course') } do %>
-        <div class="govuk-!-margin-top-6">
-          <% @pick_course.available_courses.each_with_index do |course, i| %>
-            <%= f.govuk_radio_button :code, course.code, label: { text: "#{course.name} (#{course.code})" }, link_errors: i.zero? %>
-          <% end %>
-        </div>
-      <% end %>
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.which_course') %>
+      </h1>
+
+      <%= f.govuk_collection_select :code, select_course_options(@pick_course.available_courses), :id, :name, label: { text: 'Enter course name and code' } %>
 
       <%= f.govuk_submit 'Continue' %>
     <% end %>

@@ -27,6 +27,12 @@ module ViewHelper
     ] + NATIONALITIES.map { |_, nationality| OpenStruct.new(id: nationality, name: nationality) }
   end
 
+  def select_course_options(courses)
+    [
+      OpenStruct.new(id: '', name: t('activemodel.errors.models.candidate_interface/pick_course_form.attributes.code.blank')),
+    ] + courses.map { |course| OpenStruct.new(id: course.code, name: "#{course.name} (#{course.code})") }
+  end
+
   def submitted_at_date
     dates = ApplicationDates.new(@application_form)
     dates.submitted_at.to_s(:govuk_date).strip

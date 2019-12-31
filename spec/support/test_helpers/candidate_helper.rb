@@ -98,7 +98,7 @@ module CandidateHelper
     choose 'Gorse SCITT (1N1)'
     click_button 'Continue'
 
-    choose 'Primary (2XT2)'
+    select 'Primary (2XT2)'
     click_button 'Continue'
 
     check t('application_form.courses.complete.completed_checkbox')
