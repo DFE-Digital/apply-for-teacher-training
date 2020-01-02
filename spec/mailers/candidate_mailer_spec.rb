@@ -42,8 +42,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe 'Send survey email' do
-    let(:candidate) { build_stubbed(:candidate) }
-    let(:application_form) { build_stubbed(:application_form, candidate: candidate) }
+    let(:application_form) { build_stubbed(:application_form) }
 
     context 'when initial email' do
       let(:mail) { mailer.survey_email(application_form) }
@@ -56,6 +55,10 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it 'sends an email with the correct heading' do
         expect(mail.body.encoded).to include("Dear #{application_form.first_name}")
+      end
+
+      it 'sends an email with the correct thank you message' do
+        expect(mail.body.encoded).to include(t('survey_emails.thank_you.candidate'))
       end
 
       it 'sends an email with the link to the survey' do
