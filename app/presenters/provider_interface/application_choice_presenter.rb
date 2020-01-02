@@ -20,17 +20,6 @@ module ProviderInterface
       application_choice.status.humanize.titleize
     end
 
-    def status_tag_class
-      case application_choice.status
-      when 'offer'
-        'app-tag--offer'
-      when 'rejected'
-        'app-tag--rejected'
-      else
-        'app-tag--new'
-      end
-    end
-
     def full_name
       "#{application_choice.application_form.first_name} #{application_choice.application_form.last_name}"
     end
