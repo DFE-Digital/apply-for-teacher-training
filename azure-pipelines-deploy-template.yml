@@ -81,7 +81,8 @@ jobs:
               resourceGroupName: '$(resourceGroupName)'
               location: 'West Europe'
               csmFile: '$(Pipeline.Workspace)\arm_template\template.json'
-              overrideParameters: '-resourceEnvironmentName "${{parameters.resourceEnvironmentName}}"
+              overrideParameters: '-localBranchName "$(Build.SourceBranchName)"
+                -resourceEnvironmentName "${{parameters.resourceEnvironmentName}}"
                 -serviceName "${{parameters.serviceName}}"
                 -dockerHubUsername "${{parameters.dockerHubUsername}}"
                 -containerImageReference "${{parameters.containerImageReference}}"
