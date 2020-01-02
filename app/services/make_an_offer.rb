@@ -117,7 +117,16 @@ private
     return if further_conditions.blank?
 
     further_conditions.each_with_index do |value, index|
-      errors.add("further_conditions#{index}", "must be #{MAX_CONDITION_LENGTH} characters or fewer") if value && value.length > MAX_CONDITION_LENGTH
+      if value && value.length > MAX_CONDITION_LENGTH
+        errors.add(
+          "further_conditions#{index}",
+          I18n.t(
+            'activemodel.errors.models.support_interface/new_offer_form.attributes.further_conditions.too_long',
+            name: I18n.t("activemodel.attributes.support_interface/new_offer.further_conditions#{index}"),
+            limit: MAX_CONDITION_LENGTH,
+          ),
+        )
+      end
     end
   end
 
