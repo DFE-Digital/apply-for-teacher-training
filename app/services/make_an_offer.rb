@@ -118,7 +118,7 @@ private
     return if further_conditions.blank?
 
     further_conditions.each_with_index do |value, index|
-      errors.add("further_conditions#{index}", "has a condition over #{MAX_CONDITION_LENGTH} chars in length") if value && value.length > MAX_CONDITION_LENGTH
+      errors.add("further_conditions#{index}", "must be #{MAX_CONDITION_LENGTH} characters or fewer") if value && value.length > MAX_CONDITION_LENGTH
     end
   end
 
