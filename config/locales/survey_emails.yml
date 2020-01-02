@@ -1,0 +1,6 @@
+en:
+  survey_emails:
+    subject:
+      initial: Get £100 for helping us improve our service
+      chaser: We’d love to hear from you about your teacher training application
+    survey_link: https://forms.gle/QQqurrCs9YSpTfbc8
