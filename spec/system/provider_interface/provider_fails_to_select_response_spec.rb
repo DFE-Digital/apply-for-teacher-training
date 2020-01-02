@@ -44,6 +44,6 @@ RSpec.feature 'Provider makes an offer' do
         @application_awaiting_provider_decision.id,
       ),
     )
-    expect(page).to have_content 'Select which response you are making'
+    expect(page).to have_content 'Select a response to send to the candidate'
   end
 end
