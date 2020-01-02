@@ -84,6 +84,8 @@ en:
       help: Get help
       release_notes: Release notes
       alpha_release_notes: Alpha release notes
+    provider:
+      respond: Respond to application
   layout:
     accessibility: Accessibility
     terms_of_use: Terms of use
