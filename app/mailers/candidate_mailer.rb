@@ -35,6 +35,14 @@ class CandidateMailer < ApplicationMailer
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: application_form.candidate.email_address,
-              subject: t('survey_emails.subject'))
+              subject: t('survey_emails.subject.initial'))
+  end
+
+  def survey_chaser_email(application_form)
+    @candidate_name = application_form.first_name
+
+    view_mail(GENERIC_NOTIFY_TEMPLATE,
+              to: application_form.candidate.email_address,
+              subject: t('survey_emails.subject.chaser'))
   end
 end

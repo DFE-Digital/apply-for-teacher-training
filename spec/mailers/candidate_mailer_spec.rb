@@ -51,7 +51,25 @@ RSpec.describe CandidateMailer, type: :mailer do
       before { mail.deliver_later }
 
       it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(t('survey_emails.subject'))
+        expect(mail.subject).to include(t('survey_emails.subject.initial'))
+      end
+
+      it 'sends an email with the correct heading' do
+        expect(mail.body.encoded).to include("Dear #{application_form.first_name}")
+      end
+
+      it 'sends an email with the link to the survey' do
+        expect(mail.body.encoded).to include(t('survey_emails.survey_link'))
+      end
+    end
+
+    context 'when chaser email' do
+      let(:mail) { mailer.survey_chaser_email(application_form) }
+
+      before { mail.deliver_later }
+
+      it 'sends an email with the correct subject' do
+        expect(mail.subject).to include(t('survey_emails.subject.chaser'))
       end
 
       it 'sends an email with the correct heading' do
