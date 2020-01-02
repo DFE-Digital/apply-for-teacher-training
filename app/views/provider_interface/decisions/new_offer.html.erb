@@ -31,10 +31,10 @@
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Further conditions (optional)</legend>
         <p class="govuk-body">Outline any further conditions (for example, studying a subject knowledge enhancement course) and give deadlines for completing them.</p>
 
-        <%= f.govuk_text_area :further_conditions0, label: { text: 'First condition', size: 's' }, rows: 3 %>
-        <%= f.govuk_text_area :further_conditions1, label: { text: 'Second condition', size: 's' }, rows: 3 %>
-        <%= f.govuk_text_area :further_conditions2, label: { text: 'Third condition', size: 's' }, rows: 3 %>
-        <%= f.govuk_text_area :further_conditions3, label: { text: 'Further condition', size: 's' }, rows: 3 %>
+        <%= f.govuk_text_area :further_conditions0, id: :first_condition, label: { text: 'First condition', size: 's' }, rows: 3 %>
+        <%= f.govuk_text_area :further_conditions1, id: :second_condition, label: { text: 'Second condition', size: 's' }, rows: 3 %>
+        <%= f.govuk_text_area :further_conditions2, id: :third_condition, label: { text: 'Third condition', size: 's' }, rows: 3 %>
+        <%= f.govuk_text_area :further_conditions3, id: :further_condition, label: { text: 'Further condition', size: 's' }, rows: 3 %>
       </fieldset>
 
       <%= f.govuk_submit 'Continue' %>
