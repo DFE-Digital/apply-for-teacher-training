@@ -96,16 +96,20 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
   end
 
   describe '#date_of_birth' do
-    it 'returns nil for nil day/month/year' do
+    it 'return a nil for nil day/month/year' do
       personal_details = CandidateInterface::PersonalDetailsForm.new(day: nil, month: nil, year: nil)
 
-      expect(personal_details.date_of_birth).to eq(nil)
+      expect(personal_details.date_of_birth.day).to be_nil
+      expect(personal_details.date_of_birth.month).to be_nil
+      expect(personal_details.date_of_birth.year).to be_nil
     end
 
-    it 'returns nil for invalid day/month/year' do
+    it 'can return an invalid date object for invalid day/month/year' do
       personal_details = CandidateInterface::PersonalDetailsForm.new(day: 99, month: 99, year: 99)
 
-      expect(personal_details.date_of_birth).to eq(nil)
+      expect(personal_details.date_of_birth.day).to eq(99)
+      expect(personal_details.date_of_birth.month).to eq(99)
+      expect(personal_details.date_of_birth.year).to eq(99)
     end
 
     it 'returns a date for a valid day/month/year' do

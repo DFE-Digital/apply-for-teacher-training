@@ -70,15 +70,17 @@ module CandidateInterface
 
       if valid_year?(year) && Date.valid_date?(*date_args)
         Date.new(*date_args)
+      else
+        Struct.new(:day, :month, :year).new(day, month, year)
       end
     end
 
     def date_of_birth_valid
-      errors.add(:date_of_birth, :invalid) if date_of_birth.nil?
+      errors.add(:date_of_birth, :invalid) unless date_of_birth.is_a?(Date)
     end
 
     def date_of_birth_not_in_future
-      errors.add(:date_of_birth, :future) if date_of_birth.present? && date_of_birth > Date.today
+      errors.add(:date_of_birth, :future) if date_of_birth.is_a?(Date) && date_of_birth > Date.today
     end
 
     def english_main_language?

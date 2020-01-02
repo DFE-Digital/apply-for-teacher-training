@@ -11,6 +11,7 @@ RSpec.feature 'Entering their personal details' do
     and_i_fill_in_some_details_but_omit_some_required_details
     and_i_submit_the_form
     then_i_should_see_validation_errors
+    and_i_should_see_the_completed_fields
 
     when_i_fill_in_the_rest_of_my_details
     and_i_submit_the_form
@@ -45,10 +46,18 @@ RSpec.feature 'Entering their personal details' do
     scope = 'application_form.personal_details'
     fill_in t('first_name.label', scope: scope), with: 'Lando'
     fill_in t('last_name.label', scope: scope), with: 'Calrissian'
+    fill_in 'Month', with: '11'
   end
 
   def then_i_should_see_validation_errors
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/personal_details_form.attributes.date_of_birth.invalid')
+  end
+
+  def and_i_should_see_the_completed_fields
+    scope = 'application_form.personal_details'
+    expect(find_field(t('first_name.label', scope: scope)).value).to eq('Lando')
+    expect(find_field(t('last_name.label', scope: scope)).value).to eq('Calrissian')
+    expect(find_field('Month').value).to eq('11')
   end
 
   def when_i_fill_in_the_rest_of_my_details
