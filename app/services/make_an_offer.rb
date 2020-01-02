@@ -8,7 +8,6 @@ class MakeAnOffer
   MAX_CONDITION_LENGTH = 255
 
   validate :validate_course_data
-  validate :validate_conditions_array
   validate :validate_conditions_max_length
   validate :validate_further_conditions
 
@@ -120,12 +119,6 @@ private
     further_conditions.each_with_index do |value, index|
       errors.add("further_conditions#{index}", "must be #{MAX_CONDITION_LENGTH} characters or fewer") if value && value.length > MAX_CONDITION_LENGTH
     end
-  end
-
-  def validate_conditions_array
-    return if offer_conditions.is_a?(Array)
-
-    errors.add(:offer_conditions, 'must be an array')
   end
 
   def validate_conditions_max_length

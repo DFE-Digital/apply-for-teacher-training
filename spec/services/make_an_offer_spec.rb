@@ -25,15 +25,6 @@ RSpec.describe MakeAnOffer do
       expect(decision).to be_valid
     end
 
-    it 'only accepts conditions as an array' do
-      decision = MakeAnOffer.new(
-        application_choice: build_stubbed(:application_choice, status: :awaiting_provider_decision),
-        offer_conditions: 'SPLAT',
-      )
-
-      expect(decision).not_to be_valid
-    end
-
     it 'limits the number of conditions to 20' do
       decision = MakeAnOffer.new(
         application_choice: build_stubbed(:application_choice, status: :awaiting_provider_decision),
