@@ -14,11 +14,11 @@ module CandidateInterface
       if @sign_up_form.existing_candidate?
         MagicLinkSignIn.call(candidate: @sign_up_form.candidate)
         add_identity_to_log @sign_up_form.candidate.id
-        render 'candidate_interface/shared/check_your_email'
+        redirect_to candidate_interface_check_email_sign_up_path
       elsif @sign_up_form.save
         MagicLinkSignUp.call(candidate: @sign_up_form.candidate)
         add_identity_to_log @sign_up_form.candidate.id
-        render 'candidate_interface/shared/check_your_email'
+        redirect_to candidate_interface_check_email_sign_up_path
       else
         render :new
       end

@@ -13,10 +13,10 @@ module CandidateInterface
       if @candidate.persisted?
         MagicLinkSignIn.call(candidate: @candidate)
         add_identity_to_log @candidate.id
-        render 'candidate_interface/shared/check_your_email'
+        redirect_to candidate_interface_check_email_sign_in_path
       elsif @candidate.valid?
         AuthenticationMailer.sign_in_without_account_email(to: @candidate.email_address).deliver_now
-        render 'candidate_interface/shared/check_your_email'
+        redirect_to candidate_interface_check_email_sign_in_path
       else
         render :new
       end
