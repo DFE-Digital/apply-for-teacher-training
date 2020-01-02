@@ -6,3 +6,4 @@ en:
     survey_link: https://forms.gle/QQqurrCs9YSpTfbc8
     thank_you:
       candidate: Thanks for submitting your teacher training application.
+      referee: Thanks for submitting your reference for %{candidate_name}.

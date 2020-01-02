@@ -117,4 +117,42 @@ RSpec.describe RefereeMailer, type: :mailer do
       end
     end
   end
+
+  describe 'Send survey email' do
+    let(:reference) { build_stubbed(:reference) }
+    let(:application_form) do
+      build_stubbed(
+        :application_form,
+        first_name: 'Elliot',
+        last_name: 'Alderson',
+        application_references: [reference],
+      )
+    end
+
+    context 'when initial email' do
+      let(:mail) { mailer.survey_email(application_form, reference) }
+
+      before { mail.deliver_later }
+
+      it 'sends an email to the provided referee' do
+        expect(mail.to).to include(reference.email_address)
+      end
+
+      it 'sends an email with the correct subject' do
+        expect(mail.subject).to include(t('survey_emails.subject.initial'))
+      end
+
+      it 'sends an email with the correct heading' do
+        expect(mail.body.encoded).to include("Dear #{reference.name}")
+      end
+
+      it 'sends an email with the correct thank you message' do
+        expect(mail.body.encoded).to include(t('survey_emails.thank_you.referee', candidate_name: 'Elliot Alderson'))
+      end
+
+      it 'sends an email with the link to the survey' do
+        expect(mail.body.encoded).to include(t('survey_emails.survey_link'))
+      end
+    end
+  end
 end
