@@ -11,7 +11,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @application_choice, url: provider_interface_application_choice_submit_response_path(@application_choice.id), method: :post do |f| %>
+    <%= form_with model: @pick_response_form, url: provider_interface_application_choice_submit_response_path(@application_choice.id), method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
       <%- offer_text = 'Make an offer (including any conditions)' %>
