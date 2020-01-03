@@ -2,6 +2,14 @@
   <h2 class="govuk-heading-m govuk-!-font-size-27">
     <%= t('application_complete.dashboard.enrolled') %>
   </h2>
+<% elsif any_recruited? %>
+  <h2 class="govuk-heading-m govuk-!-font-size-27">
+    <%= t('application_complete.dashboard.recruited') %>
+  </h2>
+
+  <p class="govuk-body">
+    Your training provider will be in touch with you direct to explain what happens next.
+  </p>
 <% elsif any_accepted_offer? %>
   <h2 class="govuk-heading-m govuk-!-font-size-27">
     <%= t('application_complete.dashboard.accepted_offer') %>

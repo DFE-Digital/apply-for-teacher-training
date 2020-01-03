@@ -8,6 +8,7 @@ en:
       candidate_respond_by: You have %{remaining_days} days (until %{date}) to respond to any offers.
       all_withdrawn: You have withdrawn all your choices
       accepted_offer: You have accepted an offer
+      recruited: You have met your conditions and are ready to be enrolled
       enrolled: You have been enrolled on your chosen course
     edit_page:
       edit_button: 'Edit Application'
