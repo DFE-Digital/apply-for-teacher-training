@@ -124,6 +124,10 @@ en:
           attributes:
             decision:
               blank: Select if you want to make an offer or reject the application
+        reject_application:
+          attributes:
+            rejection_reason:
+              blank: Enter feedback for the candidate
   activerecord:
     errors:
       models:
