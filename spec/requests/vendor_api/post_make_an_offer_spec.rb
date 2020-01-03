@@ -237,7 +237,6 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
     expect(response).to have_http_status(422)
     expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-    expect(error_response['message']).to eql 'Offer conditions must be an array'
   end
 
   it 'returns a not found error if the application can\'t be found' do

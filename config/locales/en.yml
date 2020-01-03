@@ -101,6 +101,11 @@ en:
         user_id: user_id
         email: email
         full_name: full_name
+      support_interface/new_offer:
+        further_conditions0: First condition
+        further_conditions1: Second condition
+        further_conditions2: Third condition
+        further_conditions3: Further condition
     errors:
       models:
         support_interface/provider_user_form:
@@ -111,6 +116,10 @@ en:
               blank: DfE Sign-in UID can’t be blank
             provider_ids:
               blank: Please specify a provider
+        support_interface/new_offer_form:
+          attributes:
+            further_conditions:
+              too_long: "%{name} must be %{limit} characters or fewer"
   activerecord:
     errors:
       models:

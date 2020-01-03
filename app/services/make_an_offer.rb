@@ -1,5 +1,6 @@
 class MakeAnOffer
-  attr_accessor :offer_conditions
+  attr_accessor :standard_conditions
+  attr_accessor :further_conditions0, :further_conditions1, :further_conditions2, :further_conditions3
 
   include ActiveModel::Validations
 
@@ -7,12 +8,21 @@ class MakeAnOffer
   MAX_CONDITION_LENGTH = 255
 
   validate :validate_course_data
-  validate :validate_offer_conditions
+  validate :validate_conditions_max_length
+  validate :validate_further_conditions
 
-  def initialize(application_choice:, offer_conditions: nil, course_data: nil)
+  def initialize(
+    application_choice:,
+    offer_conditions: nil,
+    standard_conditions: nil,
+    further_conditions: {},
+    course_data: nil
+  )
     @application_choice = application_choice
     @offer_conditions = offer_conditions
+    @standard_conditions = standard_conditions
     @course_data = course_data
+    further_conditions.each { |key, value| self.send("#{key}=", value) }
   end
 
   def save
@@ -20,7 +30,7 @@ class MakeAnOffer
 
     ApplicationStateChange.new(application_choice).make_offer!
     application_choice.offered_course_option = offered_course_option
-    application_choice.offer = { 'conditions' => (@offer_conditions || []) }
+    application_choice.offer = { 'conditions' => offer_conditions }
 
     application_choice.offered_at = Time.zone.now
     application_choice.save!
@@ -35,6 +45,13 @@ class MakeAnOffer
     false
   end
 
+  def offer_conditions
+    @offer_conditions ||= [
+      standard_conditions,
+      further_conditions,
+    ].flatten.reject(&:blank?)
+  end
+
 private
 
   attr_reader :application_choice
@@ -43,6 +60,15 @@ private
     return nil if @course_data.nil?
 
     @course_option
+  end
+
+  def further_conditions
+    [
+      further_conditions0,
+      further_conditions1,
+      further_conditions2,
+      further_conditions3,
+    ]
   end
 
   def validate_course_data
@@ -87,15 +113,26 @@ private
     errors.add(:offered_course, "does not belong to provider #{current_provider.code}, it belongs to #{provider.code}") if providers_dont_match
   end
 
-  def validate_offer_conditions
-    return if @offer_conditions.blank?
+  def validate_further_conditions
+    return if further_conditions.blank?
 
-    unless @offer_conditions.is_a?(Array)
-      errors.add(:offer_conditions, 'must be an array')
-      return
+    further_conditions.each_with_index do |value, index|
+      if value && value.length > MAX_CONDITION_LENGTH
+        errors.add(
+          "further_conditions#{index}",
+          I18n.t(
+            'activemodel.errors.models.support_interface/new_offer_form.attributes.further_conditions.too_long',
+            name: I18n.t("activemodel.attributes.support_interface/new_offer.further_conditions#{index}"),
+            limit: MAX_CONDITION_LENGTH,
+          ),
+        )
+      end
     end
+  end
 
-    errors.add(:offer_conditions, "has over #{MAX_CONDITIONS_COUNT} elements") if @offer_conditions.count > MAX_CONDITIONS_COUNT
-    errors.add(:offer_conditions, "has a condition over #{MAX_CONDITION_LENGTH} chars in length") if @offer_conditions.any? { |c| c.length > MAX_CONDITION_LENGTH }
+  def validate_conditions_max_length
+    return if offer_conditions.is_a?(Array) && offer_conditions.count <= MAX_CONDITIONS_COUNT
+
+    errors.add(:offer_conditions, "has over #{MAX_CONDITIONS_COUNT} elements")
   end
 end
