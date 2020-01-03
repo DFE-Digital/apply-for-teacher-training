@@ -120,6 +120,10 @@ en:
           attributes:
             further_conditions:
               too_long: "%{name} must be %{limit} characters or fewer"
+        provider_interface/pick_response_form:
+          attributes:
+            decision:
+              blank: Select if you want to make an offer or reject the application
   activerecord:
     errors:
       models:

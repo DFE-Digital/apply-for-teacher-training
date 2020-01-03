@@ -2,13 +2,17 @@ module ProviderInterface
   class DecisionsController < ProviderInterfaceController
     before_action :set_application_choice_and_presenter
 
-    def respond; end
+    def respond
+      @pick_response_form = PickResponseForm.new
+    end
 
     def submit_response
-      decision = params[:application_choice][:decision] if params[:application_choice]
-      if decision == 'offer'
+      @pick_response_form = PickResponseForm.new(decision: params.dig(:provider_interface_pick_response_form, :decision))
+      render action: :respond if !@pick_response_form.valid?
+
+      if @pick_response_form.decision == 'offer'
         redirect_to action: :new_offer
-      elsif decision == 'reject'
+      elsif @pick_response_form.decision == 'reject'
         redirect_to action: :new_reject
       end
     end
