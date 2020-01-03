@@ -123,7 +123,7 @@ en:
         provider_interface/pick_response_form:
           attributes:
             decision:
-              blank: Select a response to send to the candidate
+              blank: Select if you want to make an offer or reject the application
   activerecord:
     errors:
       models:

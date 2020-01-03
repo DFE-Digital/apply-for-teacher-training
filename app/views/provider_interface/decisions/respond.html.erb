@@ -1,18 +1,18 @@
 <% content_for :title, t('page_titles.provider.respond') %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice.id)) %>
 
-<span class="govuk-caption-xl">
-  Application for <%= @application_choice.course.name_and_code %>
-</span>
-
-<h1 class="govuk-heading-xl">
-  Respond to application
-</h1>
-
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @pick_response_form, url: provider_interface_application_choice_submit_response_path(@application_choice.id), method: :post do |f| %>
       <%= f.govuk_error_summary %>
+
+      <span class="govuk-caption-xl">
+        Application for <%= @application_choice.course.name_and_code %>
+      </span>
+
+      <h1 class="govuk-heading-xl">
+        Respond to application
+      </h1>
 
       <%- offer_text = 'Make an offer (including any conditions)' %>
       <%- reject_text = 'Reject application' %>
