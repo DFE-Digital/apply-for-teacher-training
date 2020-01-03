@@ -21,12 +21,15 @@ Rails.application.routes.draw do
 
     get '/eligibility' => 'start_page#eligibility', as: :eligibility
     post '/eligibility' => 'start_page#determine_eligibility'
+    get '/not-eligible', to: 'start_page#not_eligible', as: :not_eligible
 
     get '/sign-up', to: 'sign_up#new', as: :sign_up
     post '/sign-up', to: 'sign_up#create'
+    get '/sign-up/check-email', to: 'sign_in#check_your_email', as: :check_email_sign_up
 
     get '/sign-in', to: 'sign_in#new', as: :sign_in
     post '/sign-in', to: 'sign_in#create'
+    get '/sign-in/check-email', to: 'sign_in#check_your_email', as: :check_email_sign_in
 
     get '/authenticate', to: 'sign_in#authenticate', as: :authenticate
 

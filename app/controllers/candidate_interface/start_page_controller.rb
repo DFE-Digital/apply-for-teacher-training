@@ -18,7 +18,7 @@ module CandidateInterface
       elsif @eligibility_form.eligible_to_use_dfe_apply?
         redirect_to candidate_interface_sign_up_path
       else
-        render :not_eligible
+        redirect_to candidate_interface_not_eligible_path
       end
     end
 
