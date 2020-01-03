@@ -1,4 +1,8 @@
-<% if any_accepted_offer? %>
+<% if any_enrolled? %>
+  <h2 class="govuk-heading-m govuk-!-font-size-27">
+    <%= t('application_complete.dashboard.enrolled') %>
+  </h2>
+<% elsif any_accepted_offer? %>
   <h2 class="govuk-heading-m govuk-!-font-size-27">
     <%= t('application_complete.dashboard.accepted_offer') %>
   </h2>
