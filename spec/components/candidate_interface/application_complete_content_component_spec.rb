@@ -69,7 +69,6 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
       render_result = render_inline(described_class, application_form: application_form)
 
       expect(render_result.text).to include('All your training providers have now reached a decision')
-      # TODO: Update hardcoded date with decline by default date
       expect(render_result.text).to include('You have 14 days (until 5 November 2019) to respond to any offers.')
     end
 
@@ -79,7 +78,6 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
       render_result = render_inline(described_class, application_form: application_form)
 
-      # TODO: Update hardcoded date with decline by default date
       expect(render_result.text).to include('All your training providers have now reached a decision')
       expect(render_result.text).to include('You have 14 days (until 5 November 2019) to respond to any offers.')
     end
