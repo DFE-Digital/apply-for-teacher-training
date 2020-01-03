@@ -63,7 +63,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_add_optional_further_conditions
-    fill_in('first_condition', with: 'A further condition')
+    fill_in('make_an_offer[further_conditions0]', with: 'A further condition')
   end
 
   def and_i_click_to_continue
