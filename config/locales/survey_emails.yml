@@ -4,3 +4,6 @@ en:
       initial: Get £100 for helping us improve our service
       chaser: We’d love to hear from you about your teacher training application
     survey_link: https://forms.gle/QQqurrCs9YSpTfbc8
+    thank_you:
+      candidate: Thanks for submitting your teacher training application.
+      referee: Thanks for submitting your reference for %{candidate_name}.

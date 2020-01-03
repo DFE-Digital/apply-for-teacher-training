@@ -31,18 +31,23 @@ class CandidateMailer < ApplicationMailer
   end
 
   def survey_email(application_form)
-    @candidate_name = application_form.first_name
+    @name = application_form.first_name
+    @thank_you_message = t('survey_emails.thank_you.candidate')
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: application_form.candidate.email_address,
-              subject: t('survey_emails.subject.initial'))
+              subject: t('survey_emails.subject.initial'),
+              template_path: 'survey_emails',
+              template_name: 'initial')
   end
 
   def survey_chaser_email(application_form)
-    @candidate_name = application_form.first_name
+    @name = application_form.first_name
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: application_form.candidate.email_address,
-              subject: t('survey_emails.subject.chaser'))
+              subject: t('survey_emails.subject.chaser'),
+              template_path: 'survey_emails',
+              template_name: 'chaser')
   end
 end

@@ -30,6 +30,27 @@ class RefereeMailer < ApplicationMailer
               subject: t('reference_request.subject.chaser', candidate_name: @candidate_name))
   end
 
+  def survey_email(application_form, reference)
+    @name = reference.name
+    @thank_you_message = t('survey_emails.thank_you.referee', candidate_name: application_form.full_name)
+
+    view_mail(GENERIC_NOTIFY_TEMPLATE,
+              to: reference.email_address,
+              subject: t('survey_emails.subject.initial'),
+              template_path: 'survey_emails',
+              template_name: 'initial')
+  end
+
+  def survey_chaser_email(reference)
+    @name = reference.name
+
+    view_mail(GENERIC_NOTIFY_TEMPLATE,
+              to: reference.email_address,
+              subject: t('survey_emails.subject.chaser'),
+              template_path: 'survey_emails',
+              template_name: 'chaser')
+  end
+
 private
 
   def google_form_url_for(candidate_name, reference)
