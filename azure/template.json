@@ -783,7 +783,7 @@
                         "value": "[concat(variables('appServiceName'), '-at-alert-', split(parameters('customAvailabilityMonitors')[copyIndex('customAlerts')], ':')[0])]"
                     },
                     "actionGroupId": {
-                        "value": "[reference('action-groups', '2019-03-01').outputs.actionGroupResourceId.value]"
+                        "value": "[if(greater(length(parameters('alertRecipientEmails')), 0), reference('action-groups', '2019-03-01').outputs.actionGroupResourceId.value, '')]"
                     },
                     "alertDescriptionText": {
                         "value": "[concat('Custom URL availability monitor alert for \"', split(parameters('customAvailabilityMonitors')[copyIndex('customAlerts')], ':')[0], '\".')]"
