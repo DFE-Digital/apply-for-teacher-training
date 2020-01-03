@@ -4,6 +4,7 @@
 module CandidateInterface
   class VolunteeringRoleForm
     include ActiveModel::Model
+    include DateValidationHelper
 
     attr_accessor :id, :role, :organisation, :details, :working_with_children,
                   :start_date_day, :start_date_month, :start_date_year,
@@ -68,50 +69,14 @@ module CandidateInterface
     end
 
     def start_date
-      valid_date_or_nil(start_date_year, start_date_month)
+      valid_or_invalid_start_date(start_date_year, start_date_month)
     end
 
     def end_date
-      valid_date_or_nil(end_date_year, end_date_month)
+      valid_end_date_or_nil(end_date_year, end_date_month)
     end
 
   private
-
-    def valid_date_or_nil(year, month)
-      date_args = [year, month, 1].map(&:to_i)
-      Date.new(*date_args) if year.present? && Date.valid_date?(*date_args)
-    end
-
-    def end_date_blank?
-      end_date_year.blank? && end_date_month.blank?
-    end
-
-    def end_date_valid
-      errors.add(:end_date, :invalid) unless end_date
-    end
-
-    def start_date_valid
-      errors.add(:start_date, :invalid) unless start_date
-    end
-
-    def start_date_before_end_date
-      errors.add(:start_date, :before) unless start_date <= end_date
-    end
-
-    def end_date_before_current_year_and_month
-      if end_date.year > Date.today.year || \
-          end_date.year == Date.today.year && end_date.month > Date.today.month
-        errors.add(:end_date, :in_the_future)
-      end
-    end
-
-    def start_date_and_end_date_valid?
-      end_date && start_date
-    end
-
-    def end_date_valid?
-      end_date
-    end
 
     def map_attributes
       {

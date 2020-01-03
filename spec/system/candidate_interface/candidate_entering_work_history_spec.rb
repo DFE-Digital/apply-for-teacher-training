@@ -16,6 +16,10 @@ RSpec.feature 'Entering their work history' do
     when_i_choose_more_than_5_years
     then_i_should_see_the_job_form
 
+    when_i_fill_in_the_job_form_with_incorrect_date_fields
+    then_i_should_see_date_validation_errors
+    and_i_should_see_the_incorrect_date_values
+
     when_i_fill_in_the_job_form
     then_i_should_see_my_completed_job
 
@@ -82,6 +86,33 @@ RSpec.feature 'Entering their work history' do
 
   def then_i_should_see_the_job_form
     expect(page).to have_content(t('page_titles.add_job'))
+  end
+
+  def when_i_fill_in_the_job_form_with_incorrect_date_fields
+    within('[data-qa="start-date"]') do
+      fill_in 'Month', with: '33'
+    end
+
+    within('[data-qa="end-date"]') do
+      fill_in 'Year', with: '9999'
+    end
+
+    click_button t('application_form.work_history.complete_form_button')
+  end
+
+  def then_i_should_see_date_validation_errors
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/work_experience_form.attributes.start_date.invalid')
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/work_experience_form.attributes.end_date.invalid')
+  end
+
+  def and_i_should_see_the_incorrect_date_values
+    within('[data-qa="start-date"]') do
+      expect(find_field('Month').value).to eq('33')
+    end
+
+    within('[data-qa="end-date"]') do
+      expect(find_field('Year').value).to eq('9999')
+    end
   end
 
   def when_i_fill_in_the_job_form
