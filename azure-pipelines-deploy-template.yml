@@ -51,6 +51,11 @@ parameters:
   stateChangeSlackUrl:
   customAvailabilityMonitors: []
   alertRecipientEmails: []
+  commonResourceTags: '{
+    "Parent Business Service": "Teacher Services",
+    "Service Offering": "Become a Teacher"
+  }'
+
 
 jobs:
   - deployment: deploy_${{parameters.resourceEnvironmentName}}
@@ -82,6 +87,7 @@ jobs:
               location: 'West Europe'
               csmFile: '$(Pipeline.Workspace)\arm_template\template.json'
               overrideParameters: '-localBranchName "$(Build.SourceBranchName)"
+                -commonResourceTags ${{parameters.commonResourceTags}}
                 -resourceEnvironmentName "${{parameters.resourceEnvironmentName}}"
                 -serviceName "${{parameters.serviceName}}"
                 -dockerHubUsername "${{parameters.dockerHubUsername}}"
@@ -145,13 +151,18 @@ jobs:
               Inline: |
                 Param(
                   [string] $resourceGroupName = "$(resourceGroupName)",
+                  [string] $commonResourceTags = '${{parameters.commonResourceTags}}',
                   [string] $environment = "${{parameters.environment}}"
                 )
 
-                Set-AzureRmResourceGroup -Name $resourceGroupName -Tag @{
+                $tags = @{
                   Version = "$(Build.SourceVersion)";
                   Environment = "$environment"
                 }
+
+                (ConvertFrom-Json $commonResourceTags).psobject.properties | Foreach { $tags[$_.Name] = $_.Value }
+
+                Set-AzureRmResourceGroup -Name $resourceGroupName -Tag $tags
 
 
           - task: AzureAppServiceManage@0
