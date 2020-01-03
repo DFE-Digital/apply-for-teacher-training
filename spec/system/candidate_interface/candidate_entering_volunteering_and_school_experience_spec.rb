@@ -17,6 +17,7 @@ RSpec.feature 'Entering volunteering and school experience' do
     when_i_fill_in_some_of_my_role_but_omit_some_required_details
     and_i_submit_the_volunteering_role_form
     then_i_see_validation_errors_for_my_volunteering_role
+    and_i_see_the_incorrect_values
 
     when_i_fill_in_my_volunteering_role
     and_i_submit_the_volunteering_role_form
@@ -86,6 +87,13 @@ RSpec.feature 'Entering volunteering and school experience' do
   def when_i_fill_in_some_of_my_role_but_omit_some_required_details
     fill_in t('application_form.volunteering.role.label'), with: 'Classroom Volunteer'
     fill_in t('application_form.volunteering.organisation.label'), with: 'A Noice School'
+    within('[data-qa="start-date"]') do
+      fill_in 'Month', with: '33'
+    end
+
+    within('[data-qa="end-date"]') do
+      fill_in 'Year', with: '9999'
+    end
   end
 
   def and_i_submit_the_volunteering_role_form
@@ -94,6 +102,16 @@ RSpec.feature 'Entering volunteering and school experience' do
 
   def then_i_see_validation_errors_for_my_volunteering_role
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/volunteering_role_form.attributes.start_date.invalid')
+  end
+
+  def and_i_see_the_incorrect_values
+    within('[data-qa="start-date"]') do
+      expect(find_field('Month').value).to eq('33')
+    end
+
+    within('[data-qa="end-date"]') do
+      expect(find_field('Year').value).to eq('9999')
+    end
   end
 
   def when_i_fill_in_my_volunteering_role
