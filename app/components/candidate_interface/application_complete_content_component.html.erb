@@ -1,6 +1,18 @@
-<% if any_accepted_offer? %>
+<% if any_enrolled? %>
   <h2 class="govuk-heading-m govuk-!-font-size-27">
-    You have accepted an offer
+    <%= t('application_complete.dashboard.enrolled') %>
+  </h2>
+<% elsif any_recruited? %>
+  <h2 class="govuk-heading-m govuk-!-font-size-27">
+    <%= t('application_complete.dashboard.recruited') %>
+  </h2>
+
+  <p class="govuk-body">
+    Your training provider will be in touch with you direct to explain what happens next.
+  </p>
+<% elsif any_accepted_offer? %>
+  <h2 class="govuk-heading-m govuk-!-font-size-27">
+    <%= t('application_complete.dashboard.accepted_offer') %>
   </h2>
 
   <p class="govuk-body">
@@ -9,11 +21,11 @@
   </p>
 <% elsif all_choices_withdrawn? %>
   <h2 class="govuk-heading-m govuk-!-font-size-27">
-    You have withdrawn all your choices
+    <%= t('application_complete.dashboard.all_withdrawn') %>
   </h2>
 <% elsif all_provider_decisions_made? %>
   <h2 class="govuk-heading-m govuk-!-font-size-27">
-    All your training providers have now reached a decision
+    <%= t('application_complete.dashboard.all_provider_decisions_made') %>
   </h2>
 
   <% if any_offers? %>
@@ -24,11 +36,11 @@
   <% end %>
 <% elsif any_offers? %>
   <h2 class="govuk-heading-m govuk-!-font-size-27">
-    Some of your training providers haven’t reached a decision yet
+    <%= t('application_complete.dashboard.some_provider_decisions_made') %>
   </h2>
 
   <p class="govuk-body">
-    Training providers must respond by <%= respond_by_date %>.
+    <%= t('application_complete.dashboard.providers_respond_by', date: respond_by_date) %>
   </p>
 
   <p class="govuk-body">
@@ -38,7 +50,7 @@
   <h2 class="govuk-heading-m govuk-!-font-size-27">Courses you’ve applied to</h2>
 
   <p class="govuk-body">
-    Training providers must respond by <%= respond_by_date %>.
+    <%= t('application_complete.dashboard.providers_respond_by', date: respond_by_date) %>
   </p>
 <% elsif editable? %>
   <h2 class="govuk-heading-m govuk-!-font-size-27">Courses you’ve applied to</h2>

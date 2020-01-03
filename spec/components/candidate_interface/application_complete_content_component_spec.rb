@@ -22,7 +22,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
       render_result = render_inline(described_class, application_form: application_form)
 
-      expect(render_result.text).to include('Edit your application')
+      expect(render_result.text).to include(t('application_complete.dashboard.edit_link'))
     end
   end
 
@@ -33,7 +33,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
       render_result = render_inline(described_class, application_form: application_form)
 
-      expect(render_result.text).not_to include('Edit your application')
+      expect(render_result.text).not_to include(t('application_complete.dashboard.edit_link'))
     end
   end
 
@@ -44,8 +44,8 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
       render_result = render_inline(described_class, application_form: application_form)
 
-      expect(render_result.text).not_to include('Edit your application')
-      expect(render_result.text).to include('Training providers must respond by 1 January 2020.')
+      expect(render_result.text).not_to include(t('application_complete.dashboard.edit_link'))
+      expect(render_result.text).to include(t('application_complete.dashboard.providers_respond_by', date: '1 January 2020'))
     end
   end
 
@@ -56,8 +56,8 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
       render_result = render_inline(described_class, application_form: application_form)
 
-      expect(render_result.text).to include('Some of your training providers haven’t reached a decision yet')
-      expect(render_result.text).to include('Training providers must respond by 1 January 2020.')
+      expect(render_result.text).to include(t('application_complete.dashboard.some_provider_decisions_made'))
+      expect(render_result.text).to include(t('application_complete.dashboard.providers_respond_by', date: '1 January 2020'))
     end
   end
 
@@ -68,9 +68,8 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
       render_result = render_inline(described_class, application_form: application_form)
 
-      expect(render_result.text).to include('All your training providers have now reached a decision')
-      # TODO: Update hardcoded date with decline by default date
-      expect(render_result.text).to include('You have 14 days (until 5 November 2019) to respond to any offers.')
+      expect(render_result.text).to include(t('application_complete.dashboard.all_provider_decisions_made'))
+      expect(render_result.text).to include(t('application_complete.dashboard.candidate_respond_by', remaining_days: '14', date: '5 November 2019'))
     end
 
     it 'renders with all providers have made a decision content if an offer and rejected' do
@@ -79,9 +78,8 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
       render_result = render_inline(described_class, application_form: application_form)
 
-      # TODO: Update hardcoded date with decline by default date
-      expect(render_result.text).to include('All your training providers have now reached a decision')
-      expect(render_result.text).to include('You have 14 days (until 5 November 2019) to respond to any offers.')
+      expect(render_result.text).to include(t('application_complete.dashboard.all_provider_decisions_made'))
+      expect(render_result.text).to include(t('application_complete.dashboard.candidate_respond_by', remaining_days: '14', date: '5 November 2019'))
     end
 
     it 'renders when all offers have been withdrawn' do
@@ -91,7 +89,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
       render_result = render_inline(described_class, application_form: application_form)
 
-      expect(render_result.text).to include('You have withdrawn all your choices')
+      expect(render_result.text).to include(t('application_complete.dashboard.all_withdrawn'))
     end
 
     it 'renders when one offer has been withdrawn and one offered' do
@@ -102,7 +100,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
       render_result = render_inline(described_class, application_form: application_form)
 
-      expect(render_result.text).to include('All your training providers have now reached a decision')
+      expect(render_result.text).to include(t('application_complete.dashboard.all_provider_decisions_made'))
     end
 
     it 'renders when the only offer has been rejected' do
@@ -112,7 +110,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
       render_result = render_inline(described_class, application_form: application_form)
 
-      expect(render_result.text).to include('All your training providers have now reached a decision')
+      expect(render_result.text).to include(t('application_complete.dashboard.all_provider_decisions_made'))
     end
   end
 
@@ -123,7 +121,29 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
       render_result = render_inline(described_class, application_form: application_form)
 
-      expect(render_result.text).to include('You have accepted an offer')
+      expect(render_result.text).to include(t('application_complete.dashboard.accepted_offer'))
+    end
+  end
+
+  context 'when the application is recruited' do
+    it 'renders with recruited content' do
+      stub_application_dates_with_form_uneditable
+      application_form = create_application_form_with_course_choices(statuses: %w[recruited declined])
+
+      render_result = render_inline(described_class, application_form: application_form)
+
+      expect(render_result.text).to include(t('application_complete.dashboard.recruited'))
+    end
+  end
+
+  context 'when the application is enrolled' do
+    it 'renders with enrolled content' do
+      stub_application_dates_with_form_uneditable
+      application_form = create_application_form_with_course_choices(statuses: %w[enrolled declined])
+
+      render_result = render_inline(described_class, application_form: application_form)
+
+      expect(render_result.text).to include(t('application_complete.dashboard.enrolled'))
     end
   end
 

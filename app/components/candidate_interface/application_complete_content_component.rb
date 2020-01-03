@@ -13,6 +13,8 @@ module CandidateInterface
              :all_provider_decisions_made?,
              :any_awaiting_provider_decision?,
              :all_choices_withdrawn?,
+             :any_enrolled?,
+             :any_recruited?,
              :any_offers?, to: :application_form
 
     def editable?

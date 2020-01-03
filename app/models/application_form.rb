@@ -59,6 +59,14 @@ class ApplicationForm < ApplicationRecord
     qualification_in_subject(:gcse, :science)
   end
 
+  def any_enrolled?
+    application_choices.map.any?(&:enrolled?)
+  end
+
+  def any_recruited?
+    application_choices.map.any?(&:recruited?)
+  end
+
   def any_accepted_offer?
     application_choices.map.any?(&:pending_conditions?)
   end
