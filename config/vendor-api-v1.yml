@@ -733,6 +733,7 @@ components:
         - gcses
         - degrees
         - other_qualifications
+        - missing_gcses_explanation
       properties:
         gcses:
           type: array
@@ -746,6 +747,12 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Qualification"
+        missing_gcses_explanation:
+          type: string
+          nullable: true
+          maxLength: 8192 # Up to 800 words
+          description: If the candidate lacks any required GCSEs, this field will contain their free-text explanation of why this is the case.
+          example: 'Maths GCSE or equivalent: I will take Maths GCSE at my local training provider on 18th August 2020'
 
     WorkExperiences:
       type: object

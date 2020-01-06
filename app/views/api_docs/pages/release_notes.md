@@ -4,8 +4,12 @@
   [`personal_statement`](/api-docs/reference#applicationattributes-object)
   field to 11624 chars
 - Introduce `work_history_break_explanation` field to
-  [`work_experience`](/api-docs/reference#workexperiences-object).  This
+  [`work_experience`](/api-docs/reference#workexperiences-object). This
   contains the candidate’s explanation for any breaks in work history.
+- Introduce `missing_gcses_explanation` field to
+  [`qualifications`](/api-docs/reference#qualifications-object). This contains
+  the candidate’s explanation for any missing GCSE (or equivalent)
+  qualifications.
 
 ### v1.0 — 18th December 2019
 
