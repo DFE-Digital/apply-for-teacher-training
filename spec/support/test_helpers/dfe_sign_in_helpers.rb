@@ -23,7 +23,7 @@ module DfESignInHelpers
   end
 
   def provider_user_exists_in_apply_database
-    provider = create(:provider, code: 'ABC')
+    provider = create(:provider, code: 'ABC', name: 'Example Provider')
     create(:provider_user, providers: [provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
   end
 

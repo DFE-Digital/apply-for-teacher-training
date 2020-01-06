@@ -5,6 +5,22 @@
 <% if @provider.courses.any? %>
   <%= form_with model: @provider, url: support_interface_provider_path(@provider), method: :post do |f| %>
     <h3 class="govuk-heading-m">
+      Data Sharing Agreement
+    </h3>
+
+    <p class="govuk-body">
+      <% if @provider_agreement %>
+        Accepted by <strong>
+        <%= @provider_agreement.provider_user.email_address %>
+        </strong>
+        on
+        <%= @provider_agreement.accepted_at.to_s(:govuk_date) %>.
+      <% else %>
+        No data sharing agreement has been accepted yet.
+      <% end %>
+    </p>
+
+    <h3 class="govuk-heading-m">
       Open all courses
     </h3>
 

@@ -22,6 +22,7 @@ en:
     unprocessable_entity: Sorry, there is a problem with the service
     personal_details: Personal details
     review_application: Review your application
+    data_sharing_agreement: Data sharing agreement
     accessibility: Accessibility statement
     privacy_policy: How we look after your personal data
     terms_candidate: Terms of use for candidates
@@ -162,6 +163,10 @@ en:
           attributes:
             status:
               invalid_transition: The application is not ready for that action
+        provider_agreement:
+          attributes:
+            accept_agreement:
+              blank: You have to agree to these terms to use this service
   errors:
     messages:
       too_many_words: Must be %{count} words or fewer
