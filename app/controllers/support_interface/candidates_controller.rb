@@ -20,7 +20,7 @@ module SupportInterface
     def hide_in_reporting
       candidate = Candidate.find(params[:candidate_id])
       candidate.update!(hide_in_reporting: true)
-      flash[:success] = 'Candidate will now be hidden in reporting'
+      flash[:success] = 'Candidate will now be excluded from service performance data'
       if params[:from_application_form_id]
         application_form_to_return_to = ApplicationForm.find(params[:from_application_form_id])
         redirect_to support_interface_application_form_path(application_form_to_return_to)
@@ -32,7 +32,7 @@ module SupportInterface
     def show_in_reporting
       candidate = Candidate.find(params[:candidate_id])
       candidate.update!(hide_in_reporting: false)
-      flash[:success] = 'Candidate will now be shown in reporting'
+      flash[:success] = 'Candidate will now be included in service performance data'
       if params[:from_application_form_id]
         application_form_to_return_to = ApplicationForm.find(params[:from_application_form_id])
         redirect_to support_interface_application_form_path(application_form_to_return_to)
