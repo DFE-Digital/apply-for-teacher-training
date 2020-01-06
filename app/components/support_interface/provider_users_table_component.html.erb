@@ -18,7 +18,11 @@
           <% if row[:last_signed_in_at] %>
             <td class="govuk-table__cell"><%= row[:last_signed_in_at] %></td>
           <% else %>
-            <td class="govuk-table__cell"><em>Never signed in</em></td>
+            <% if row[:created_at] < Date.new(2019, 12, 25) %>
+              <td class="govuk-table__cell"><em>Unknown (records began 24 December 2019)</em></td>
+            <% else %>
+              <td class="govuk-table__cell"><em>Never signed in</em></td>
+            <% end %>
           <%end %>
         </tr>
       <% end %>
