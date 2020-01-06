@@ -1,7 +1,6 @@
 module CandidateInterface
   class GcseQualificationTypeForm
     OTHER_UK_QUALIFICATION_TYPE = 'other_uk'.freeze
-    MISSING_QUALIFICATION_TYPE = 'missing'.freeze
 
     include ActiveModel::Model
 
