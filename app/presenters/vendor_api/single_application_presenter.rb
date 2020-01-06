@@ -45,6 +45,7 @@ module VendorApi
           work_experience: {
             jobs: work_experience_jobs,
             volunteering: work_experience_volunteering,
+            breaks: application_form.work_history_breaks,
           },
           offer: offer,
           rejection: get_rejection,

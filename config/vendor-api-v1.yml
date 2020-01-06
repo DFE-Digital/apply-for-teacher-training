@@ -753,6 +753,7 @@ components:
       required:
         - jobs
         - volunteering
+        - breaks
       properties:
         jobs:
           type: array
@@ -764,6 +765,12 @@ components:
           description: The candidate’s experience as a volunteer
           items:
             $ref: "#/components/schemas/WorkExperience"
+        breaks:
+          type: string
+          nullable: true
+          description: The candidate’s explanation for any breaks in work history
+          maxLength: 4096 # 400 words
+          example: 'I spent time volunteering overseas...'
 
     WorkExperience:
       type: object

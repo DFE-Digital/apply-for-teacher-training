@@ -186,6 +186,7 @@ RSpec.feature 'Vendor receives the application' do
               description: 'I volunteered.',
             },
           ],
+          breaks: 'I was unwell',
         },
       },
     }
