@@ -33,16 +33,12 @@ module RefereeInterface
       end
     end
 
-    def finish; end
-
     def confirmation; end
 
     def confirm_consent
-      consent_to_be_contacted = params[:application_reference][:consent_to_be_contacted]
+      consent_to_be_contacted = params.dig(:application_reference, :consent_to_be_contacted)
 
-      reference.update(consent_to_be_contacted: consent_to_be_contacted)
-
-      # TODO: 1) add a form 2) if invalid render confirmation page - else render finish page
+      reference.update!(consent_to_be_contacted: consent_to_be_contacted)
 
       render :finish
     end

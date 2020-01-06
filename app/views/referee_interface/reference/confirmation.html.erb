@@ -10,10 +10,10 @@
     <p class="govuk-body">
       You can opt in to being contacted by the Department for Education for research purposes.
     </p>
-    <%= f.govuk_radio_button :consent_to_be_contacted, true, label: { text: 'Yes, you can contact me' } %>
-    <%= f.govuk_radio_button :consent_to_be_contacted, false, label: { text: 'No, do not contact me' } %>
+    <%= f.govuk_radio_button :consent_to_be_contacted, true, label: { text: t('contact_form.consent_to_be_contacted') } %>
+    <%= f.govuk_radio_button :consent_to_be_contacted, false, label: { text: t('contact_form.not_consent_to_be_contacted') } %>
   <% end %>
 
-  <%= f.govuk_submit 'Finish' %>
+  <%= f.govuk_submit t('contact_form.confirm') %>
 
 <% end %>

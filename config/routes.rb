@@ -216,11 +216,10 @@ Rails.application.routes.draw do
 
   namespace :referee_interface, path: '/reference' do
     get '/' => 'reference#feedback', as: :reference_feedback
-    get '/finish' => 'reference#finish', as: :reference_finish
     get '/confirmation' => 'reference#confirmation', as: :confirmation
     patch '/confirmation' => 'reference#submit_feedback', as: :submit_feedback
 
-    patch '/confirm_consent' => 'reference#confirm_consent', as: :confirm_consent
+    patch '/confirm-consent' => 'reference#confirm_consent', as: :confirm_consent
   end
 
   namespace :vendor_api, path: 'api/v1' do

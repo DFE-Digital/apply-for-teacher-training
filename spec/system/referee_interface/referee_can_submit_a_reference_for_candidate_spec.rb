@@ -70,11 +70,11 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
   end
 
   def and_i_click_the_submit_button
-    click_button 'Submit reference'
+    click_button t('reference_form.confirm')
   end
 
   def when_i_click_finish_button
-    click_button 'Finish'
+    click_button t('contact_form.confirm')
   end
 
   def then_i_see_the_success_page
@@ -98,12 +98,8 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
   end
 
   def when_i_choose_to_be_contactable
-    choose 'Yes, you can contact me'
+    choose t('contact_form.consent_to_be_contacted')
   end
-
-  # def when_i_choose_to_not_be_contactable
-  #   choose 'No, do not contact me'
-  # end
 
 private
 
