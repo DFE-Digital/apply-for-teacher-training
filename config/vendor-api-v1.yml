@@ -377,7 +377,7 @@ components:
           example: "2019-06-13T23:59:59Z"
         personal_statement:
           type: string
-          maxLength: 6144  # 600 words
+          maxLength: 11264  # 1000 words + 100 for our introductory text
           description: The candidate’s personal statement, combined from the "Becoming a Teacher" and "Subject Knowledge" fields in the application form
           example: "Since retiring from the Police Service in 2007..."
         interview_preferences:
