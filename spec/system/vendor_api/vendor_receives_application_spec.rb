@@ -186,7 +186,7 @@ RSpec.feature 'Vendor receives the application' do
               description: 'I volunteered.',
             },
           ],
-          breaks: 'I was unwell',
+          work_history_break_explanation: 'I was unwell',
         },
       },
     }

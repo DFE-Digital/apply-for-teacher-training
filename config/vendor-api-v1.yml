@@ -753,7 +753,7 @@ components:
       required:
         - jobs
         - volunteering
-        - breaks
+        - work_history_break_explanation
       properties:
         jobs:
           type: array
@@ -765,10 +765,10 @@ components:
           description: The candidate’s experience as a volunteer
           items:
             $ref: "#/components/schemas/WorkExperience"
-        breaks:
+        work_history_break_explanation:
           type: string
           nullable: true
-          description: The candidate’s explanation for any breaks in work history
+          description: The candidate’s explanation for any breaks in work history. Will be null if there aren't any breaks in the candidate’s work history. We define a break in work history as more than a month between 2 jobs.
           maxLength: 4096 # 400 words
           example: 'I spent time volunteering overseas...'
 
