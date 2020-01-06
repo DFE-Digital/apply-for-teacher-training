@@ -73,6 +73,12 @@
                  service_name: service_name,
                  service_url: service_link,
                  navigation_items: NavigationItems.for_api_docs(controller)) %>
+    <% else %>
+      <%= render(HeaderComponent,
+                 classes: "app-header--#{HostingEnvironment.environment_name}",
+                 service_name: service_name,
+                 service_url: service_link,
+                 navigation_items: []) %>
     <% end %>
 
     <div class="govuk-width-container">
