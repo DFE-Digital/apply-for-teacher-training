@@ -4,7 +4,7 @@
       <dt class="govuk-summary-list__key">
         <%= row[:key] %>
       </dt>
-      <dd class="govuk-summary-list__value">
+      <dd <%= "id=#{row[:id]}" if row[:id] %> class="govuk-summary-list__value">
         <% if row[:value].is_a?(Array) %>
           <% row[:value].each do |value| %><%= value %><br><% end %>
         <% elsif row[:value].html_safe? %>
@@ -16,7 +16,7 @@
 
       <% if row[:change_path] %>
         <dd class="govuk-summary-list__actions">
-          <%= link_to row[:change_path], class: 'govuk-link' do %>
+          <%= link_to row[:change_path], class: 'govuk-link', aria: { 'describedby' => row[:aria_describedby] } do %>
             Change<span class="govuk-visually-hidden"> <%= row[:action] %></span>
           <% end %>
         </dd>

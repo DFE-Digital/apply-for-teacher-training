@@ -58,10 +58,12 @@ private
 
   def job_row(work)
     {
+      id: generate_id(work_id: work.id, attribute: 'job'),
       key: 'Job',
       value: [work.role, work.organisation],
       action: 'job',
       change_path: candidate_interface_work_history_edit_path(work.id),
+      aria_describedby: generate_aria_describedby(work.id),
     }
   end
 
@@ -71,6 +73,7 @@ private
       value: work.commitment.dasherize.humanize,
       action: 'type',
       change_path: candidate_interface_work_history_edit_path(work.id),
+      aria_describedby: generate_aria_describedby(work.id),
     }
   end
 
@@ -80,15 +83,18 @@ private
       value: work.details,
       action: 'description',
       change_path: candidate_interface_work_history_edit_path(work.id),
+      aria_describedby: generate_aria_describedby(work.id),
     }
   end
 
   def dates_row(work)
     {
+      id: generate_id(work_id: work.id, attribute: 'dates'),
       key: 'Dates',
       value: "#{formatted_start_date(work)} - #{formatted_end_date(work)}",
       action: 'description',
       change_path: candidate_interface_work_history_edit_path(work.id),
+      aria_describedby: generate_aria_describedby(work.id),
     }
   end
 
@@ -100,5 +106,17 @@ private
     return 'Present' if work.end_date.nil?
 
     work.end_date.to_s(:month_and_year)
+  end
+
+  def generate_id(work_id:, attribute:)
+    "work-history-#{work_id}-#{attribute}"
+  end
+
+  def generate_aria_describedby(work_id)
+    [
+      generate_id(work_id: work_id, attribute: 'job'),
+      generate_id(work_id: work_id, attribute: 'dates'),
+    ]
+      .join(' ')
   end
 end

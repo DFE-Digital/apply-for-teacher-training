@@ -44,6 +44,35 @@ RSpec.describe WorkHistoryReviewComponent do
           end
         end
       end
+
+      it 'renders component with ids for job and dates rows' do
+        result = render_inline(described_class, application_form: application_form)
+
+        work_id = application_form.application_work_experiences.first.id
+
+        job_row_value = result.css('.govuk-summary-list__value')[0]
+        dates_row_value = result.css('.govuk-summary-list__value')[3]
+
+        expect(job_row_value.attr('id')).to include("work-history-#{work_id}-job")
+        expect(dates_row_value.attr('id')).to include("work-history-#{work_id}-dates")
+      end
+
+      it 'renders component with aria-describedby for each attribute row' do
+        result = render_inline(described_class, application_form: application_form)
+
+        work_id = application_form.application_work_experiences.first.id
+
+        change_links = [
+          result.css('.govuk-summary-list__actions a')[0],
+          result.css('.govuk-summary-list__actions a')[1],
+          result.css('.govuk-summary-list__actions a')[2],
+          result.css('.govuk-summary-list__actions a')[3],
+        ]
+
+        change_links.each do |change_link|
+          expect(change_link.attr('aria-describedby')).to include("work-history-#{work_id}-job work-history-#{work_id}-dates")
+        end
+      end
     end
 
     context 'when jobs are not editable' do
