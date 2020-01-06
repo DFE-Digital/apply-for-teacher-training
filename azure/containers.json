@@ -8,6 +8,13 @@
                 "description": "BAT building block URL."
             }
         },
+        "commonResourceTags": {
+            "type": "object",
+            "defaultValue": {},
+            "metadata": {
+                "decsription": "A object containing the common tags that should be applied to all Azure resources."
+            }
+        },
         "serviceName": {
             "type": "string",
             "metadata": {
@@ -112,6 +119,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "resourceTags": {
+                        "value": "[parameters('commonResourceTags')]"
+                    },
                     "appServiceName": {
                         "value": "[parameters('appServiceName')]"
                     },
@@ -147,6 +157,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "resourceTags": {
+                        "value": "[parameters('commonResourceTags')]"
+                    },
                     "containerInstanceName": {
                         "value": "[concat(parameters('containerInstanceNamePrefix'), '-wkr')]"
                     },
@@ -182,6 +195,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "resourceTags": {
+                        "value": "[parameters('commonResourceTags')]"
+                    },
                     "containerInstanceName": {
                         "value": "[concat(parameters('containerInstanceNamePrefix'), '-clk')]"
                     },

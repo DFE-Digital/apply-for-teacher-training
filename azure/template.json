@@ -9,6 +9,13 @@
                 "description": "The name of the local branch for the code in use."
             }
         },
+        "commonResourceTags": {
+            "type": "object",
+            "defaultValue": {},
+            "metadata": {
+                "decsription": "A object containing the common tags that should be applied to all Azure resources."
+            }
+        },
         "resourceEnvironmentName": {
             "type": "string",
             "metadata": {
@@ -381,6 +388,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "resourceTags": {
+                        "value": "[parameters('commonResourceTags')]"
+                    },
                     "storageAccountName": {
                         "value": "[variables('storageAccountName')]"
                     }
@@ -398,6 +408,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "resourceTags": {
+                        "value": "[parameters('commonResourceTags')]"
+                    },
                     "redisCacheName": {
                         "value": "[parameters('redisCacheName')]"
                     },
@@ -427,6 +440,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "resourceTags": {
+                        "value": "[parameters('commonResourceTags')]"
+                    },
                     "appServicePlanName": {
                         "value": "[variables('appServicePlanName')]"
                     },
@@ -454,6 +470,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "resourceTags": {
+                        "value": "[parameters('commonResourceTags')]"
+                    },
                     "keyVaultCertificateName": {
                         "value": "[variables('keyVaultCertificateName')]"
                     },
@@ -477,6 +496,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "commonResourceTags": {
+                        "value": "[parameters('commonResourceTags')]"
+                    },
                     "deploymentUrlBase": {
                         "value": "[variables('deploymentUrlBase')]"
                     },
@@ -675,6 +697,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "resourceTags": {
+                        "value": "[parameters('commonResourceTags')]"
+                    },
                     "appServiceName": {
                         "value": "[variables('appServiceName')]"
                     },
@@ -704,6 +729,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "resourceTags": {
+                        "value": "[parameters('commonResourceTags')]"
+                    },
                     "appInsightsName": {
                         "value": "[variables('appServiceName')]"
                     },
@@ -725,6 +753,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "resourceTags": {
+                        "value": "[parameters('commonResourceTags')]"
+                    },
                     "appInsightsName": {
                         "value": "[variables('appServiceName')]"
                     },
@@ -745,6 +776,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "resourceTags": {
+                        "value": "[parameters('commonResourceTags')]"
+                    },
                     "appInsightsName": {
                         "value": "[variables('appServiceName')]"
                     },
@@ -773,6 +807,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "resourceTags": {
+                        "value": "[parameters('commonResourceTags')]"
+                    },
                     "appInsightsName": {
                         "value": "[variables('appServiceName')]"
                     },
@@ -812,6 +849,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "resourceTags": {
+                        "value": "[parameters('commonResourceTags')]"
+                    },
                     "postgresServerName": {
                         "value": "[variables('databaseServerName')]"
                     },
@@ -915,6 +955,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "resourceTags": {
+                        "value": "[parameters('commonResourceTags')]"
+                    },
                     "resourceGroupName": {
                         "value": "[variables('resourceNamePrefix')]"
                     },
