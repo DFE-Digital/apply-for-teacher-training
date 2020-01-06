@@ -57,3 +57,9 @@
     <%= render ReferenceWithFeedbackComponent, reference: reference, title: "#{(i + 1).ordinalize} reference", show_chase_reference: true %>
   <% end %>
 <% end %>
+
+<h2 class="govuk-heading-l govuk-!-margin-top-8">Request feedback</h2>
+
+<p class="govuk-body">Ask the candidate to fill out a survey.</p>
+
+<%= govuk_button_link_to t('survey_emails.send.link'), support_interface_survey_emails_path(@application_form), class: 'govuk-button--secondary' %>

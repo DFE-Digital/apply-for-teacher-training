@@ -7,3 +7,9 @@ en:
     thank_you:
       candidate: Thanks for submitting your teacher training application.
       referee: Thanks for submitting your reference for %{candidate_name}.
+    send:
+      link: Request feedback
+      confirm: Are you sure you want to send a survey email to %{candidate_name}?
+      button: Yes - send the email
+      success: Survey request sent to candidate
+      audit_comment: Survey email has been sent to candidate (%{candidate_email}).
