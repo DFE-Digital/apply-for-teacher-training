@@ -17,6 +17,9 @@ RSpec.feature 'Send survey email to candidate', with_audited: true do
     when_i_click_to_confirm_sending_the_survey_email
     then_i_see_the_survey_email_is_successfully_sent
     and_i_am_sent_back_to_the_application_form_with_a_flash
+
+    when_i_click_on_the_history_for_the_application
+    then_i_see_a_comment_stating_a_survey_emails_has_been_sent
   end
 
   def given_i_am_a_support_user
@@ -59,5 +62,18 @@ RSpec.feature 'Send survey email to candidate', with_audited: true do
 
   def and_i_am_sent_back_to_the_application_form_with_a_flash
     expect(page).to have_content(t('survey_emails.send.success'))
+  end
+
+  def when_i_click_on_the_history_for_the_application
+    click_link 'History'
+  end
+
+  def then_i_see_a_comment_stating_a_survey_emails_has_been_sent
+    candidate_email = @application.candidate.email_address
+
+    within('tbody tr:eq(1)') do
+      expect(page).to have_content 'Comment on Application Form'
+      expect(page).to have_content t('survey_emails.send.audit_comment', candidate_email: candidate_email)
+    end
   end
 end
