@@ -278,6 +278,9 @@ Rails.application.routes.draw do
     get '/chase-reference/:reference_id' => 'chase_reference#show', as: :chase_reference
     post '/chase-reference/:reference_id' => 'chase_reference#chase'
 
+    get '/send-survey-email/:application_form_id' => 'survey_emails#show', as: :survey_emails
+    post '/send-survey-email/:application_form_id' => 'survey_emails#deliver'
+
     get '/tokens' => 'api_tokens#index', as: :api_tokens
     post '/tokens' => 'api_tokens#create'
 
