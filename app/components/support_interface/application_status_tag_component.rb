@@ -15,17 +15,17 @@ module SupportInterface
     def type
       case status
       when 'awaiting_provider_decision'
-        :primary_unfilled
+        :purple
       when 'offer'
-        :info_unfilled
+        :green
       when 'rejected'
-        :danger
+        :red
       when 'pending_conditions'
-        :info
+        :turquoise
       when 'declined'
-        :warning
-      else
-        ''
+        :orange
+      when 'enrolled'
+        :blue
       end
     end
 

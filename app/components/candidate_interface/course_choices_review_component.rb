@@ -56,21 +56,19 @@ module CandidateInterface
     def status_row(course_choice)
       type =  case course_choice.status
               when 'awaiting_references', 'application_complete'
-                :secondary
+                :grey
               when 'awaiting_provider_decision'
-                :primary
+                :blue
               when 'offer'
-                :info_unfilled
+                :green
               when 'rejected'
-                :danger
+                :red
               when 'withdrawn'
-                :danger
+                :red
               when 'pending_conditions'
-                :info
+                :turquoise
               when 'declined'
-                :warning
-              else
-                ''
+                :orange
               end
       {
         key: 'Status',
