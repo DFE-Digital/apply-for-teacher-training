@@ -12,6 +12,7 @@ module SupportInterface
           email_address: provider_user.email_address,
           links_to_providers: links_to_providers(provider_user),
           dfe_sign_in_uid: provider_user.dfe_sign_in_uid,
+          created_at: provider_user.created_at,
           last_signed_in_at: last_signed_in_at(provider_user),
         }
       end

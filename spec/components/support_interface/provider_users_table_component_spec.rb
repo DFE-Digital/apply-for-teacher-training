@@ -26,10 +26,18 @@ RSpec.describe SupportInterface::ProviderUsersTableComponent do
     end
   end
 
-  context 'when the provider user has never signed in' do
-    let(:provider_users) { [create(:provider_user, last_signed_in_at: nil)] }
+  context 'when the provider user has never signed in and was created before 24/12/2019' do
+    let(:provider_users) { [create(:provider_user, last_signed_in_at: nil, created_at: Date.new(2019, 12, 23))] }
 
-    it 'shows that the user has never signed in' do
+    it 'shows that we don’t know whether they’ve signed in or not (they’ve never signed in, or they signed in before records began on 24/12/2019)' do
+      expect(rendered_component).to include('Unknown (records began 24 December 2019)')
+    end
+  end
+
+  context 'when the provider user has never signed in and was created after 24/12/2019' do
+    let(:provider_users) { [create(:provider_user, last_signed_in_at: nil, created_at: Date.new(2019, 12, 25))] }
+
+    it 'shows that we don’t know whether they’ve signed in or not (they’ve never signed in, or they signed in before records began on 24/12/2019)' do
       expect(rendered_component).to include('Never signed in')
     end
   end
