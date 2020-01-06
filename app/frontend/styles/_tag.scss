@@ -1,35 +1,34 @@
-.app-tag--danger {
+.app-tag--red {
   color: govuk-shade(govuk-colour("red"), 20);
   background: govuk-tint(govuk-colour("red"), 80);
 }
 
-.app-tag--primary {
+.app-tag--blue {
   color: govuk-shade(govuk-colour("blue"), 30);
   background: govuk-tint(govuk-colour("blue"), 80);
 }
 
-.app-tag--primary-unfilled {
+.app-tag--purple {
   color: govuk-shade(govuk-colour("purple"), 20);
   background: govuk-tint(govuk-colour("purple"), 80);
 }
 
-.app-tag--secondary,
-.app-tag--incomplete {
+.app-tag--grey {
   color: govuk-shade(govuk-colour("dark-grey"), 30);
   background: govuk-tint(govuk-colour("dark-grey"), 90);
 }
 
-.app-tag--info {
+.app-tag--turquoise {
   color: govuk-shade(govuk-colour("turquoise"), 40);
   background: govuk-tint(govuk-colour("turquoise"), 70);
 }
 
-.app-tag--info-unfilled {
+.app-tag--green {
   color: govuk-shade(govuk-colour("green"), 20);
   background: govuk-tint(govuk-colour("green"), 80);
 }
 
-.app-tag--warning {
+.app-tag--orange {
   color: govuk-shade(govuk-colour("orange"), 55);
   background: govuk-tint(govuk-colour("orange"), 70);
 }
