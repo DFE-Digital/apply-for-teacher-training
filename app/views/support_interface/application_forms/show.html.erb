@@ -70,6 +70,14 @@
 
 <%= render VolunteeringReviewComponent, application_form: @application_form, editable: false, heading_level: 3 %>
 
+<h2 class="govuk-heading-l govuk-!-margin-top-8">Language skills</h2>
+
+<%= render LanguageSkillsComponent, application_form: @application_form %>
+
+<h2 class="govuk-heading-l govuk-!-margin-top-8">Personal statement</h2>
+
+<%= render PersonalStatementComponent, application_form: @application_form %>
+
 <h2 class="govuk-heading-l govuk-!-margin-top-8">Request feedback</h2>
 
 <p class="govuk-body">Ask the candidate to fill out a survey.</p>
