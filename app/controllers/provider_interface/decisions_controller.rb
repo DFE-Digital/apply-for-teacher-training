@@ -1,6 +1,6 @@
 module ProviderInterface
   class DecisionsController < ProviderInterfaceController
-    before_action :set_application_choice_and_presenter
+    before_action :set_application_choice
 
     def respond
       @pick_response_form = PickResponseForm.new
@@ -82,11 +82,9 @@ module ProviderInterface
 
   private
 
-    def set_application_choice_and_presenter
+    def set_application_choice
       @application_choice = GetApplicationChoicesForProvider.call(provider: current_provider_user.provider)
         .find(params[:application_choice_id])
-
-      @presenter = ApplicationChoicePresenter.new(@application_choice)
     end
 
     def make_an_offer_params
