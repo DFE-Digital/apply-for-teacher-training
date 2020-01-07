@@ -15,6 +15,11 @@
   color: govuk-colour("white");
 }
 
+.app-card--green {
+  background: govuk-colour("green");
+  color: govuk-colour("white");
+}
+
 .app-card__count {
   @include govuk-font($size: 80, $weight: bold);
   display: block;
