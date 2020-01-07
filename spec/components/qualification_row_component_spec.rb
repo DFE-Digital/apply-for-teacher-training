@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::QualificationRowComponent do
+RSpec.describe QualificationRowComponent do
   it 'renders a qualification table row' do
     qualification = build_stubbed(
       :application_qualification,

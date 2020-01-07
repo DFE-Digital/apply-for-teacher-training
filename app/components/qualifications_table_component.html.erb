@@ -9,7 +9,7 @@
     </thead>
     <tbody class="govuk-table__body">
       <% qualifications.each do |qualification| %>
-        <%= render ProviderInterface::QualificationRowComponent, qualification: qualification %>
+        <%= render QualificationRowComponent, qualification: qualification %>
       <% end %>
     </tbody>
   </table>

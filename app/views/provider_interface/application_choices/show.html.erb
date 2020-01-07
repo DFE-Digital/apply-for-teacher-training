@@ -30,9 +30,9 @@
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8" id="qualifications">Qualifications</h2>
 
-<%= render ProviderInterface::QualificationsTableComponent, qualifications: @application_choice.degrees, type_label: 'Degree' %>
-<%= render ProviderInterface::QualificationsTableComponent, qualifications: @application_choice.gcses_or_equivalent, type_label: 'GCSE or equivalent' %>
-<%= render ProviderInterface::QualificationsTableComponent, qualifications: @application_choice.other_qualifications, type_label: 'Other qualification' %>
+<%= render QualificationsTableComponent, qualifications: @application_choice.degrees, type_label: 'Degree' %>
+<%= render QualificationsTableComponent, qualifications: @application_choice.gcses_or_equivalent, type_label: 'GCSE or equivalent' %>
+<%= render QualificationsTableComponent, qualifications: @application_choice.other_qualifications, type_label: 'Other qualification' %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8" id="work-history">Work history</h2>
 
