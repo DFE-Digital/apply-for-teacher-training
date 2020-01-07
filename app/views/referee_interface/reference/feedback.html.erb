@@ -7,11 +7,10 @@
       <h1 class="govuk-heading-xl">Give a teacher training reference for <%= @application.full_name %></h1>
 
       <p class="govuk-body"><%= @application.full_name %> applied to the following courses:</p>
+
       <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
         <% @application.application_choices.each do |application_choice| %>
-          <li>
-            <%= application_choice.course.name %> - <%= application_choice.site.name %>
-          </li>
+          <li><%= application_choice.course.name %> - <%= application_choice.site.name %></li>
         <% end %>
       </ul>
 
@@ -41,7 +40,7 @@
 
       <%= f.govuk_text_area :feedback, label: { text: 'Your reference', size: 'm' }, max_words: 300, rows: 15 %>
 
-      <%= f.govuk_submit 'Submit reference' %>
+      <%= f.govuk_submit t('reference_form.confirm') %>
     </div>
   </div>
 <% end %>

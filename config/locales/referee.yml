@@ -1,0 +1,7 @@
+en:
+  reference_form:
+    confirm: Submit reference
+  contact_form:
+    consent_to_be_contacted: Yes, you can contact me
+    not_consent_to_be_contacted: No, do not contact me
+    confirm: Finish

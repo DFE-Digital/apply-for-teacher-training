@@ -4,4 +4,16 @@
     Your reference for <%= @reference.application_form.full_name %> has been&nbsp;submitted
   </h1>
 </div>
-<%= govuk_button_link_to 'Finish', referee_interface_reference_finish_path(token: @token_param) %>
+
+<%= form_with model: @reference, url: referee_interface_confirm_consent_path(token: @token_param), method: :patch do |f| %>
+  <%= f.govuk_radio_buttons_fieldset :consent_to_be_contacted, legend: { size: 'm', text: 'Can we contact you for research purposes?' } do %>
+    <p class="govuk-body">
+      You can opt in to being contacted by the Department for Education for research purposes.
+    </p>
+    <%= f.govuk_radio_button :consent_to_be_contacted, true, label: { text: t('contact_form.consent_to_be_contacted') } %>
+    <%= f.govuk_radio_button :consent_to_be_contacted, false, label: { text: t('contact_form.not_consent_to_be_contacted') } %>
+  <% end %>
+
+  <%= f.govuk_submit t('contact_form.confirm') %>
+
+<% end %>
