@@ -1,5 +1,9 @@
 module CandidateInterface
   class DegreesReviewComponent < ActionView::Component::Base
+    include AriaDescribedbyHelper
+
+    SECTION = 'degrees'.freeze
+
     validates :application_form, presence: true
 
     def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false)
@@ -31,19 +35,23 @@ module CandidateInterface
 
     def qualification_row(degree)
       {
+        id: generate_id(section: SECTION, entry_id: degree.id, attribute: 'qualification'),
         key: t('application_form.degree.qualification.label'),
         value: formatted_qualification(degree),
         action: t('application_form.degree.qualification.change_action'),
         change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id),
+        aria_describedby: aria_describedby(degree.id),
       }
     end
 
     def award_year_row(degree)
       {
+        id: generate_id(section: SECTION, entry_id: degree.id, attribute: 'year'),
         key: t('application_form.degree.award_year.review_label'),
         value: degree.award_year,
         action: t('application_form.degree.award_year.change_action'),
         change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id),
+        aria_describedby: aria_describedby(degree.id),
       }
     end
 
@@ -53,6 +61,7 @@ module CandidateInterface
         value: formatted_grade(degree),
         action: t('application_form.degree.grade.change_action'),
         change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id),
+        aria_describedby: aria_describedby(degree.id),
       }
     end
 
@@ -68,6 +77,14 @@ module CandidateInterface
       else
         t("application_form.degree.grade.#{degree.grade}.label")
       end
+    end
+
+    def aria_describedby(degree_id)
+      generate_aria_describedby(
+        section: SECTION,
+        entry_id: degree_id,
+        attributes: %w[qualification year],
+      )
     end
   end
 end

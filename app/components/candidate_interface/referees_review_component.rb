@@ -1,5 +1,9 @@
 module CandidateInterface
   class RefereesReviewComponent < ActionView::Component::Base
+    include AriaDescribedbyHelper
+
+    SECTION = 'referees'.freeze
+
     validates :application_form, presence: true
 
     def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false)
@@ -33,10 +37,12 @@ module CandidateInterface
 
     def name_row(referee)
       {
+        id: generate_id(section: SECTION, entry_id: referee.id, attribute: 'name'),
         key: 'Name',
         value: referee.name,
         action: 'name',
         change_path: candidate_interface_edit_referee_path(referee.id),
+        aria_describedby: aria_describedby(referee.id),
       }
     end
 
@@ -46,6 +52,7 @@ module CandidateInterface
         value: referee.email_address,
         action: 'email address',
         change_path: candidate_interface_edit_referee_path(referee.id),
+        aria_describedby: aria_describedby(referee.id),
       }
     end
 
@@ -55,7 +62,16 @@ module CandidateInterface
         value: referee.relationship,
         action: 'relationship',
         change_path: candidate_interface_edit_referee_path(referee.id),
+        aria_describedby: aria_describedby(referee.id),
       }
+    end
+
+    def aria_describedby(referee_id)
+      generate_aria_describedby(
+        section: SECTION,
+        entry_id: referee_id,
+        attributes: %w[name],
+      )
     end
   end
 end
