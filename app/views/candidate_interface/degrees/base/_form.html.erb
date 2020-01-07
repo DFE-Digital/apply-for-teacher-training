@@ -17,6 +17,6 @@
   <% end %>
 <% end %>
 
-<%= f.govuk_text_field :award_year, label: { text: t('application_form.degree.award_year.label'), size: 'm' }, hint_text: t('application_form.degree.award_year.hint_text'), width: 4 %>
+<%= f.govuk_text_field :award_year, label: { text: t('application_form.degree.award_year.label'), size: 'm' }, type: :number, hint_text: t('application_form.degree.award_year.hint_text'), width: 4 %>
 
 <%= f.govuk_submit t('application_form.degree.base.button') %>
