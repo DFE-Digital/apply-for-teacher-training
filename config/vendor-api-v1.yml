@@ -377,7 +377,7 @@ components:
           example: "2019-06-13T23:59:59Z"
         personal_statement:
           type: string
-          maxLength: 6144  # 600 words
+          maxLength: 11264  # 1000 words + 100 for our introductory text
           description: The candidate’s personal statement, combined from the "Becoming a Teacher" and "Subject Knowledge" fields in the application form
           example: "Since retiring from the Police Service in 2007..."
         interview_preferences:
@@ -753,6 +753,7 @@ components:
       required:
         - jobs
         - volunteering
+        - work_history_break_explanation
       properties:
         jobs:
           type: array
@@ -764,6 +765,12 @@ components:
           description: The candidate’s experience as a volunteer
           items:
             $ref: "#/components/schemas/WorkExperience"
+        work_history_break_explanation:
+          type: string
+          nullable: true
+          description: The candidate’s explanation for any breaks in work history. Will be null if there aren't any breaks in the candidate’s work history. We define a break in work history as more than a month between 2 jobs.
+          maxLength: 4096 # 400 words
+          example: 'I spent time volunteering overseas...'
 
     WorkExperience:
       type: object
