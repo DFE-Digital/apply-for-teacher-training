@@ -2,7 +2,7 @@
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_new_reject_path(@application_choice.id)) %>
 
 <span class="govuk-caption-xl">
-  Application for <%= @presenter.course_name_and_code %>
+  Application for <%= @application_choice.course.name_and_code %>
 </span>
 
 <h1 class="govuk-heading-xl">

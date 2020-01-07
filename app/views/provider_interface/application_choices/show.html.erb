@@ -1,4 +1,4 @@
-<% content_for :title, "#{@application_choice.full_name} – #{@application_choice.course_name_and_code}" %>
+<% content_for :title, "#{@application_choice.application_form.full_name} – #{@application_choice.course.name_and_code}" %>
 
 <% content_for :before_content do %>
   <div class="govuk-breadcrumbs">
@@ -7,15 +7,15 @@
         <%= link_to 'Applications', provider_interface_applications_path, class: 'govuk-breadcrumbs__link' %>
       </li>
       <li class="govuk-breadcrumbs__list-item" aria-current="page">
-        <%= @application_choice.full_name %>
+        <%= @application_choice.application_form.full_name %>
       </li>
     </ol>
   </div>
 <% end %>
 
 <h1 class="govuk-heading-xl">
-  <span class="govuk-caption-xl">Application for <%= @application_choice.course_name_and_code %></span>
-  <%= @application_choice.full_name %>
+  <span class="govuk-caption-xl">Application for <%= @application_choice.course.name_and_code %></span>
+  <%= @application_choice.application_form.full_name %>
 </h1>
 
 <div class="govuk-grid-row">
@@ -24,7 +24,7 @@
   </div>
 
   <div class="govuk-grid-column-one-third">
-    <%= render ProviderInterface::StatusBoxComponent, application_choice: @application_choice.application_choice %>
+    <%= render ProviderInterface::StatusBoxComponent, application_choice: @application_choice %>
   </div>
 </div>
 
@@ -54,8 +54,8 @@
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8" id="first-reference">First reference</h2>
 
-<%= render ReferenceWithFeedbackComponent, reference: @application_choice.first_reference %>
+<%= render ReferenceWithFeedbackComponent, reference: @application_choice.application_form.application_references.first %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8" id="second-reference">Second reference</h2>
 
-<%= render ReferenceWithFeedbackComponent, reference: @application_choice.second_reference %>
+<%= render ReferenceWithFeedbackComponent, reference: @application_choice.application_form.application_references.second %>

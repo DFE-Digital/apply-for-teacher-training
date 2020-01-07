@@ -8,16 +8,16 @@
 
   <h1 class="govuk-heading-xl">
     <span class="govuk-caption-xl">
-      Application for <%= @presenter.course_name_and_code %>
+      Application for <%= @application_choice.course.name_and_code %>
     </span>
     Reject application
   </h1>
 
   <%= render SummaryListComponent, rows: [
-    { key: 'Full name', value: @presenter.full_name },
-    { key: 'Course', value: @presenter.course_name_and_code },
-    { key: 'Starting', value: @presenter.recruitment_cycle_year },
-    { key: 'Preferred location', value: @presenter.course_preferred_location },
+    { key: 'Full name', value: @application_choice.application_form.full_name },
+    { key: 'Course', value: @application_choice.course.name_and_code },
+    { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
+    { key: 'Preferred location', value: @application_choice.course.course_options.first.site.name },
   ] %>
 
   <div class="govuk-grid-row">
