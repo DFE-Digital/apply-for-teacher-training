@@ -1,8 +1,4 @@
 class WorkHistoryReviewComponent < ActionView::Component::Base
-  include AriaDescribedbyHelper
-
-  SECTION = 'work-history'.freeze
-
   validates :application_form, presence: true
 
   def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false)
@@ -61,12 +57,10 @@ private
 
   def job_row(work)
     {
-      id: generate_id(section: SECTION, entry_id: work.id, attribute: 'job'),
       key: 'Job',
       value: [work.role, work.organisation],
       action: 'job',
       change_path: candidate_interface_work_history_edit_path(work.id),
-      aria_describedby: aria_describedby(work.id),
     }
   end
 
@@ -76,7 +70,6 @@ private
       value: work.commitment.dasherize.humanize,
       action: 'type',
       change_path: candidate_interface_work_history_edit_path(work.id),
-      aria_describedby: aria_describedby(work.id),
     }
   end
 
@@ -86,18 +79,15 @@ private
       value: work.details,
       action: 'description',
       change_path: candidate_interface_work_history_edit_path(work.id),
-      aria_describedby: aria_describedby(work.id),
     }
   end
 
   def dates_row(work)
     {
-      id: generate_id(section: SECTION, entry_id: work.id, attribute: 'dates'),
       key: 'Dates',
       value: "#{formatted_start_date(work)} - #{formatted_end_date(work)}",
       action: 'description',
       change_path: candidate_interface_work_history_edit_path(work.id),
-      aria_describedby: aria_describedby(work.id),
     }
   end
 
@@ -109,13 +99,5 @@ private
     return 'Present' if work.end_date.nil?
 
     work.end_date.to_s(:month_and_year)
-  end
-
-  def aria_describedby(work_id)
-    generate_aria_describedby(
-      section: SECTION,
-      entry_id: work_id,
-      attributes: %w[job dates],
-    )
   end
 end

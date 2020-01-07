@@ -62,48 +62,13 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
       expect(result.css('.app-summary-card__title').text).to include('A-Level Making Cat Sounds')
     end
 
-    it 'renders component along with a delete link for each qualification' do
+    it 'renders component along with a delete link for each degree' do
       result = render_inline(described_class, application_form: application_form)
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.other_qualification.delete'))
       expect(result.css('.app-summary-card__actions a')[1].attr('href')).to include(
         Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_other_qualification_path(2),
       )
-    end
-
-    it 'renders component with ids for qualification, institution and year rows' do
-      result = render_inline(described_class, application_form: application_form)
-
-      qualification_id = application_form.application_qualifications.other.first.id
-
-      qualification_row_value = result.css('.govuk-summary-list__value')[0]
-      institution_row_value = result.css('.govuk-summary-list__value')[1]
-      year_row_value = result.css('.govuk-summary-list__value')[2]
-
-      expect(qualification_row_value.attr('id')).to include("other-qualifications-#{qualification_id}-qualification")
-      expect(institution_row_value.attr('id')).to include("other-qualifications-#{qualification_id}-institution")
-      expect(year_row_value.attr('id')).to include("other-qualifications-#{qualification_id}-year")
-    end
-
-    it 'renders component with aria-describedby for each attribute row' do
-      result = render_inline(described_class, application_form: application_form)
-
-      qualification_id = application_form.application_qualifications.other.first.id
-
-      change_links = [
-        result.css('.govuk-summary-list__actions a')[0],
-        result.css('.govuk-summary-list__actions a')[1],
-        result.css('.govuk-summary-list__actions a')[2],
-        result.css('.govuk-summary-list__actions a')[3],
-      ]
-
-      change_links.each do |change_link|
-        expect(change_link.attr('aria-describedby')).to include(
-          "other-qualifications-#{qualification_id}-qualification "\
-          "other-qualifications-#{qualification_id}-institution "\
-          "other-qualifications-#{qualification_id}-year",
-        )
-      end
     end
   end
 
