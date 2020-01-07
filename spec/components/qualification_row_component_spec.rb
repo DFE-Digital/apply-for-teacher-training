@@ -52,4 +52,21 @@ RSpec.describe QualificationRowComponent do
     expect(result.text).to include('2001')
     expect(result.text).to include('I did my best')
   end
+
+  it 'renders a qualification with a missing_explanation' do
+    qualification = build_stubbed(
+      :application_qualification,
+      level: :gcse,
+      qualification_type: 'missing',
+      subject: 'Maths',
+      grade: nil,
+      award_year: nil,
+      missing_explanation: 'I am taking the exam this summer',
+    )
+
+    result = render_inline(described_class, qualification: qualification)
+
+    expect(result.text).to include('GCSE Maths')
+    expect(result.text).to include('I am taking the exam this summer')
+  end
 end
