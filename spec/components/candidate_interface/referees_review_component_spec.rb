@@ -34,6 +34,30 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
         Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_referee_path(referee_id),
       )
     end
+
+    it 'renders component with an id for name row' do
+      referee_id = application_form.application_references.first.id
+      result = render_inline(described_class, application_form: application_form)
+
+      name_row_value = result.css('.govuk-summary-list__value')[0]
+
+      expect(name_row_value.attr('id')).to include("referees-#{referee_id}-name")
+    end
+
+    it 'renders component with aria-describedby for each attribute row' do
+      referee_id = application_form.application_references.first.id
+      result = render_inline(described_class, application_form: application_form)
+
+      change_links = [
+        result.css('.govuk-summary-list__actions a')[0],
+        result.css('.govuk-summary-list__actions a')[1],
+        result.css('.govuk-summary-list__actions a')[2],
+      ]
+
+      change_links.each do |change_link|
+        expect(change_link.attr('aria-describedby')).to include("referees-#{referee_id}-name")
+      end
+    end
   end
 
   context 'when referees are not editable' do
