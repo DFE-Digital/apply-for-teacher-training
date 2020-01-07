@@ -1,4 +1,4 @@
-# Used in Candidate and Provider interface
+# Used in Candidate, Support and Provider interface
 class WorkHistoryReviewComponent < ActionView::Component::Base
   validates :application_form, presence: true
 

@@ -62,6 +62,14 @@
 
 <%= render QualificationsComponent, application_form: @application_form %>
 
+<h2 class="govuk-heading-l govuk-!-margin-top-8">Work history</h2>
+
+<%= render WorkHistoryReviewComponent, application_form: @application_form, editable: false, heading_level: 3 %>
+
+<h2 class="govuk-heading-l govuk-!-margin-top-8">School experience and volunteering</h2>
+
+<%= render VolunteeringReviewComponent, application_form: @application_form, editable: false, heading_level: 3 %>
+
 <h2 class="govuk-heading-l govuk-!-margin-top-8">Request feedback</h2>
 
 <p class="govuk-body">Ask the candidate to fill out a survey.</p>
