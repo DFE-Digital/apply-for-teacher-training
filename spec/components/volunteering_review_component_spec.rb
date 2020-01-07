@@ -112,6 +112,39 @@ RSpec.describe VolunteeringReviewComponent do
       )
     end
 
+    it 'renders component with ids for role and dates rows' do
+      result = render_inline(described_class, application_form: application_form)
+
+      volunteering_id = application_form.application_volunteering_experiences.order(created_at: :desc).first.id
+
+      role_row_value = result.css('.govuk-summary-list__value')[0]
+      organisation_row_value = result.css('.govuk-summary-list__value')[1]
+      dates_row_value = result.css('.govuk-summary-list__value')[2]
+
+      expect(role_row_value.attr('id')).to include("volunteering-#{volunteering_id}-role")
+      expect(organisation_row_value.attr('id')).to include("volunteering-#{volunteering_id}-organisation")
+      expect(dates_row_value.attr('id')).to include("volunteering-#{volunteering_id}-dates")
+    end
+
+    it 'renders component with aria-describedby for each attribute row' do
+      result = render_inline(described_class, application_form: application_form)
+
+      volunteering_id = application_form.application_volunteering_experiences.order(created_at: :desc).first.id
+
+      change_links = [
+        result.css('.govuk-summary-list__actions a')[0],
+        result.css('.govuk-summary-list__actions a')[1],
+        result.css('.govuk-summary-list__actions a')[2],
+        result.css('.govuk-summary-list__actions a')[3],
+      ]
+
+      change_links.each do |change_link|
+        expect(change_link.attr('aria-describedby')).to include(
+          "volunteering-#{volunteering_id}-role volunteering-#{volunteering_id}-organisation volunteering-#{volunteering_id}-dates",
+        )
+      end
+    end
+
     context 'when volunteering experiences are not editable' do
       it 'renders component without an edit link' do
         result = render_inline(described_class, application_form: application_form, editable: false)
