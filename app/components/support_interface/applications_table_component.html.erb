@@ -4,6 +4,7 @@
       <th scope="col" class="govuk-table__header">Application</th>
       <th scope="col" class="govuk-table__header">Status</th>
       <th scope="col" class="govuk-table__header">Last updated</th>
+      <th scope="col" class="govuk-table__header">Reference</th>
     </tr>
   </thead>
 
@@ -15,6 +16,7 @@
         </td>
         <td class="govuk-table__cell"><%= t "process_states.#{table_row[:process_state]}.name" %></td>
         <td class="govuk-table__cell"><%= table_row[:updated_at] %></td>
+        <td class="govuk-table__cell"><%= table_row[:support_reference] %></td>
       </tr>
     <% end %>
   </tbody>
