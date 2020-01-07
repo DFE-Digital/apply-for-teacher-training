@@ -1,4 +1,3 @@
-# Used by the Provider and Support interfaces.
 class QualificationsComponent < ActionView::Component::Base
   attr_reader :application_form
 
