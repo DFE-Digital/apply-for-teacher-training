@@ -96,6 +96,34 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
         Rails.application.routes.url_helpers.candidate_interface_confirm_degrees_destroy_path(3),
       )
     end
+
+    it 'renders component with ids for qualification and year rows' do
+      result = render_inline(described_class, application_form: application_form)
+
+      degree_id = application_form.application_qualifications.degrees.order(created_at: :desc).first.id
+
+      qualification_row_value = result.css('.govuk-summary-list__value')[0]
+      year_row_value = result.css('.govuk-summary-list__value')[1]
+
+      expect(qualification_row_value.attr('id')).to include("degrees-#{degree_id}-qualification")
+      expect(year_row_value.attr('id')).to include("degrees-#{degree_id}-year")
+    end
+  end
+
+  it 'renders component with aria-describedby for each attribute row' do
+    result = render_inline(described_class, application_form: application_form)
+
+    degree_id = application_form.application_qualifications.degrees.order(created_at: :desc).first.id
+
+    change_links = [
+      result.css('.govuk-summary-list__actions a')[0],
+      result.css('.govuk-summary-list__actions a')[1],
+      result.css('.govuk-summary-list__actions a')[2],
+    ]
+
+    change_links.each do |change_link|
+      expect(change_link.attr('aria-describedby')).to include("degrees-#{degree_id}-qualification degrees-#{degree_id}-year")
+    end
   end
 
   context 'when degrees are not editable' do
