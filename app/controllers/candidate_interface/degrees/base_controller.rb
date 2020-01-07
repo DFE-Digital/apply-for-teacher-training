@@ -19,7 +19,8 @@ module CandidateInterface
     end
 
     def edit
-      @degree = DegreeForm.build_from_application(current_application, current_degree_id)
+      current_qualification = current_application.application_qualifications.degrees.find(current_degree_id)
+      @degree = DegreeForm.build_from_qualification(current_qualification)
     end
 
     def update
