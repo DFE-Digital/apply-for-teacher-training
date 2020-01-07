@@ -49,17 +49,7 @@ module SupportInterface
 
       flash[:success] = "You are now signed in as candidate #{candidate.email_address}"
 
-      candidate_application = candidate.application_forms.first
-
-      if FeatureFlag.active?('edit_application')
-        if candidate_application && (!candidate_application.submitted? || candidate_application.amendable?)
-          redirect_to candidate_interface_application_form_path
-        else
-          redirect_to candidate_interface_application_complete_path
-        end
-      else
-        redirect_to candidate_interface_application_form_path
-      end
+      redirect_to candidate_interface_application_form_path
     end
 
   private
