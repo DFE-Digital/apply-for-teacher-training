@@ -52,7 +52,7 @@ module SupportInterface
       candidate_application = candidate.application_forms.first
 
       if FeatureFlag.active?('edit_application')
-        if !candidate_application.submitted? || candidate_application.amendable?
+        if candidate_application && (!candidate_application.submitted? || candidate_application.amendable?)
           redirect_to candidate_interface_application_form_path
         else
           redirect_to candidate_interface_application_complete_path
