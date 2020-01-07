@@ -56,18 +56,6 @@ module ProviderInterface
       application_form.candidate.email_address
     end
 
-    def degrees
-      application_qualifications.degrees
-    end
-
-    def gcses_or_equivalent
-      application_qualifications.gcses
-    end
-
-    def other_qualifications
-      application_qualifications.other
-    end
-
     def first_reference
       application_references.first
     end

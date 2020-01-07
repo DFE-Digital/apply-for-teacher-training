@@ -30,9 +30,7 @@
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8" id="qualifications">Qualifications</h2>
 
-<%= render ProviderInterface::QualificationsTableComponent, qualifications: @application_choice.degrees, type_label: 'Degree' %>
-<%= render ProviderInterface::QualificationsTableComponent, qualifications: @application_choice.gcses_or_equivalent, type_label: 'GCSE or equivalent' %>
-<%= render ProviderInterface::QualificationsTableComponent, qualifications: @application_choice.other_qualifications, type_label: 'Other qualification' %>
+<%= render QualificationsComponent, application_form: @application_choice.application_form %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8" id="work-history">Work history</h2>
 
@@ -48,11 +46,11 @@
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8" id="language-skills">Language skills</h2>
 
-<%= render ProviderInterface::LanguageSkillsComponent, application_form: @application_choice.application_form %>
+<%= render LanguageSkillsComponent, application_form: @application_choice.application_form %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8" id="personal-statement">Personal statement</h2>
 
-<%= render ProviderInterface::PersonalStatementComponent, application_form: @application_choice.application_form %>
+<%= render PersonalStatementComponent, application_form: @application_choice.application_form %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8" id="first-reference">First reference</h2>
 

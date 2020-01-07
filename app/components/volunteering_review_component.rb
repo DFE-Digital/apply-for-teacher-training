@@ -1,4 +1,4 @@
-# TODO: This component is used by CandidateInterface and ProviderInterface, but
+# TODO: This component is used by Candidate, Support and Provider Interface, but
 # uses classes from the CandidateInterface namespace directly.
 class VolunteeringReviewComponent < ActionView::Component::Base
   include AriaDescribedbyHelper

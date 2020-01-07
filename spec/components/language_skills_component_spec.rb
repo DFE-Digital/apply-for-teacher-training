@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::LanguageSkillsComponent do
+RSpec.describe LanguageSkillsComponent do
   it 'renders other languages spoken when english is the main language' do
     application_form = build_stubbed(
       :application_form,

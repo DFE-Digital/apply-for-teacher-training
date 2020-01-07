@@ -1,4 +1,3 @@
-# Used in Candidate and Provider interface
 class WorkHistoryReviewComponent < ActionView::Component::Base
   include AriaDescribedbyHelper
 

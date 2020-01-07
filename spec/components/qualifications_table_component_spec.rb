@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::QualificationsTableComponent do
+RSpec.describe QualificationsTableComponent do
   it 'renders nothing when no qualifications present' do
     result = render_inline(described_class, qualifications: [], type_label: 'My label')
 
