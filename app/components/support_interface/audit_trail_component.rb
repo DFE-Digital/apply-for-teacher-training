@@ -9,7 +9,7 @@ module SupportInterface
     end
 
     def audits
-      application_form.own_and_associated_audits.order('id desc')
+      application_form.own_and_associated_audits.includes(:user).order('id desc')
     end
 
     attr_reader :application_form
