@@ -24,27 +24,16 @@ RSpec.describe VolunteeringReviewComponent do
   end
 
   context 'when they have experience in volunteering' do
-    let(:application_form) do
-      create(:application_form) do |form|
-        form.application_volunteering_experiences.create(
-          id: 1,
-          role: 'School Experience Intern',
-          organisation: Faker::Educator.secondary_school,
-          details: Faker::Lorem.paragraph_by_chars(number: 300),
-          working_with_children: false,
-          start_date: Time.zone.local(2018, 5, 1),
-          end_date: Time.zone.local(2019, 5, 1),
-        )
-        form.application_volunteering_experiences.create(
-          id: 2,
-          role: 'School Experience Intern',
-          organisation: 'A Noice School',
-          details: 'I interned.',
-          working_with_children: true,
-          start_date: Time.zone.local(2019, 8, 1),
-          end_date: nil,
-        )
-      end
+    let(:application_form) { create(:application_form) }
+    let!(:volunteering_role) do
+      application_form.application_volunteering_experiences.create(
+        role: 'School Experience Intern',
+        organisation: 'A Noice School',
+        details: 'I interned.',
+        working_with_children: true,
+        start_date: Time.zone.local(2019, 8, 1),
+        end_date: nil,
+      )
     end
 
     it 'renders component with the role in the summary card title' do
@@ -65,7 +54,7 @@ RSpec.describe VolunteeringReviewComponent do
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.volunteering.role.review_label'))
       expect(result.css('.govuk-summary-list__value').to_html).to include('School Experience Intern')
       expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include(
-        Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(2),
+        Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(volunteering_role),
       )
       expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.volunteering.role.change_action')}")
     end
@@ -76,7 +65,7 @@ RSpec.describe VolunteeringReviewComponent do
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.volunteering.organisation.review_label'))
       expect(result.css('.govuk-summary-list__value').to_html).to include('A Noice School')
       expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include(
-        Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(2),
+        Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(volunteering_role),
       )
       expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.volunteering.organisation.change_action')}")
     end
@@ -87,7 +76,7 @@ RSpec.describe VolunteeringReviewComponent do
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.volunteering.review_length.review_label'))
       expect(result.css('.govuk-summary-list__value').to_html).to include('August 2019 - Present')
       expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include(
-        Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(2),
+        Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(volunteering_role),
       )
       expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.volunteering.review_length.change_action')}")
     end
@@ -98,7 +87,7 @@ RSpec.describe VolunteeringReviewComponent do
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.volunteering.review_details.review_label'))
       expect(result.css('.govuk-summary-list__value').to_html).to include('<p>I interned.</p>')
       expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include(
-        Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(2),
+        Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(volunteering_role),
       )
       expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.volunteering.review_details.change_action')}")
     end
@@ -108,7 +97,7 @@ RSpec.describe VolunteeringReviewComponent do
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.volunteering.delete'))
       expect(result.css('.app-summary-card__actions a').attr('href').value).to include(
-        Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_volunteering_role_path(2),
+        Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_volunteering_role_path(volunteering_role),
       )
     end
 
