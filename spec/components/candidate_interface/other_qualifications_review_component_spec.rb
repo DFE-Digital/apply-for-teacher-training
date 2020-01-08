@@ -1,25 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
-  let(:application_form) do
-    create(:application_form) do |form|
-      form.application_qualifications.create(
-        id: 1,
-        level: 'other',
-        qualification_type: 'A-Level',
-        subject: 'Making Doggo Sounds',
-        institution_name: 'Doggo Sounds College',
-        grade: 'A',
-        predicted_grade: false,
-        award_year: '2012',
-      )
-      form.application_qualifications.create(
-        id: 2,
-        level: 'other',
-        qualification_type: 'A-Level',
-        subject: 'Making Cat Sounds',
-      )
-    end
+  let(:application_form) { create(:application_form) }
+  let!(:qualification1) do
+    application_form.application_qualifications.create(
+      level: 'other',
+      qualification_type: 'A-Level',
+      subject: 'Making Doggo Sounds',
+      institution_name: 'Doggo Sounds College',
+      grade: 'A',
+      predicted_grade: false,
+      award_year: '2012',
+    )
+  end
+  let!(:qualification2) do
+    application_form.application_qualifications.create(
+      level: 'other',
+      qualification_type: 'A-Level',
+      subject: 'Making Cat Sounds',
+    )
   end
 
   context 'when other qualifications are editable' do
@@ -32,7 +31,7 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
       expect(result.css('.govuk-summary-list__value').to_html).to include('A-Level Making Doggo Sounds')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Doggo Sounds College')
       expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_path(1),
+        Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_path(qualification1),
       )
       expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.other_qualification.institution.change_action')}")
     end
@@ -62,12 +61,15 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
       expect(result.css('.app-summary-card__title').text).to include('A-Level Making Cat Sounds')
     end
 
-    it 'renders component along with a delete link for each degree' do
+    it 'renders component along with a delete link for each qualification' do
       result = render_inline(described_class, application_form: application_form)
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.other_qualification.delete'))
+      expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
+        Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_other_qualification_path(qualification1),
+      )
       expect(result.css('.app-summary-card__actions a')[1].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_other_qualification_path(2),
+        Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_other_qualification_path(qualification2),
       )
     end
   end
