@@ -1,10 +1,6 @@
 # TODO: This component is used by Candidate, Support and Provider Interface, but
 # uses classes from the CandidateInterface namespace directly.
 class VolunteeringReviewComponent < ActionView::Component::Base
-  include AriaDescribedbyHelper
-
-  SECTION = 'volunteering'.freeze
-
   validates :application_form, presence: true
 
   def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false)
@@ -37,34 +33,28 @@ private
 
   def role_row(volunteering_role)
     {
-      id: generate_id(section: SECTION, entry_id: volunteering_role.id, attribute: 'role'),
       key: t('application_form.volunteering.role.review_label'),
       value: volunteering_role.role,
       action: t('application_form.volunteering.role.change_action'),
       change_path: edit_path(volunteering_role),
-      aria_describedby: aria_describedby(volunteering_role.id),
     }
   end
 
   def organisation_row(volunteering_role)
     {
-      id: generate_id(section: SECTION, entry_id: volunteering_role.id, attribute: 'organisation'),
       key: t('application_form.volunteering.organisation.review_label'),
       value: volunteering_role.organisation,
       action: t('application_form.volunteering.organisation.change_action'),
       change_path: edit_path(volunteering_role),
-      aria_describedby: aria_describedby(volunteering_role.id),
     }
   end
 
   def length_row(volunteering_role)
     {
-      id: generate_id(section: SECTION, entry_id: volunteering_role.id, attribute: 'dates'),
       key: t('application_form.volunteering.review_length.review_label'),
       value: formatted_length(volunteering_role),
       action: t('application_form.volunteering.review_length.change_action'),
       change_path: edit_path(volunteering_role),
-      aria_describedby: aria_describedby(volunteering_role.id),
     }
   end
 
@@ -74,7 +64,6 @@ private
       value: formatted_details(volunteering_role),
       action: t('application_form.volunteering.review_details.change_action'),
       change_path: edit_path(volunteering_role),
-      aria_describedby: aria_describedby(volunteering_role.id),
     }
   end
 
@@ -98,13 +87,5 @@ private
 
   def edit_path(volunteering_role)
     Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(volunteering_role.id)
-  end
-
-  def aria_describedby(volunteering_id)
-    generate_aria_describedby(
-      section: SECTION,
-      entry_id: volunteering_id,
-      attributes: %w[role organisation dates],
-    )
   end
 end
