@@ -59,7 +59,7 @@ private
     {
       key: 'Job',
       value: [work.role, work.organisation],
-      action: 'job',
+      action: generate_change_action(work: work, attribute: 'job title'),
       change_path: candidate_interface_work_history_edit_path(work.id),
     }
   end
@@ -68,7 +68,7 @@ private
     {
       key: 'Type',
       value: work.commitment.dasherize.humanize,
-      action: 'type',
+      action: generate_change_action(work: work, attribute: 'type'),
       change_path: candidate_interface_work_history_edit_path(work.id),
     }
   end
@@ -77,7 +77,7 @@ private
     {
       key: 'Description',
       value: work.details,
-      action: 'description',
+      action: generate_change_action(work: work, attribute: 'description'),
       change_path: candidate_interface_work_history_edit_path(work.id),
     }
   end
@@ -86,7 +86,7 @@ private
     {
       key: 'Dates',
       value: "#{formatted_start_date(work)} - #{formatted_end_date(work)}",
-      action: 'description',
+      action: generate_change_action(work: work, attribute: 'dates'),
       change_path: candidate_interface_work_history_edit_path(work.id),
     }
   end
@@ -99,5 +99,18 @@ private
     return 'Present' if work.end_date.nil?
 
     work.end_date.to_s(:month_and_year)
+  end
+
+  def generate_change_action(work:, attribute:)
+    if any_jobs_with_same_role_and_organisation?(work)
+      "#{attribute} for #{work.role}, #{work.organisation}, #{formatted_start_date(work)} to #{formatted_end_date(work)}"
+    else
+      "#{attribute} for #{work.role}, #{work.organisation}"
+    end
+  end
+
+  def any_jobs_with_same_role_and_organisation?(work)
+    jobs = @application_form.application_work_experiences.where(role: work.role, organisation: work.organisation)
+    jobs.many?
   end
 end
