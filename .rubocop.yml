@@ -79,6 +79,7 @@ RSpec/DescribeClass:
 Lint/AmbiguousBlockAssociation:
   Exclude:
     - 'spec/support/slack_notifications.rb'
+    - 'spec/requests/vendor_api/api_authentication_spec.rb'
 
 # We don't want to subclass from ApplicationController. This enables separation
 # between the namespaces, and allows subclassing from ActionController::API in
