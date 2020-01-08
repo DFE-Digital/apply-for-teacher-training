@@ -1,6 +1,6 @@
 class SyncProviderFromFind
-  def self.call(provider_name:, provider_code:)
-    provider = create_or_update_provider(provider_name, provider_code)
+  def self.call(provider_code:, provider_name: nil, sync_courses: false)
+    provider = create_or_update_provider(provider_name, provider_code, sync_courses)
 
     return unless provider.sync_courses?
 
@@ -14,17 +14,27 @@ class SyncProviderFromFind
       .find(provider_code)
       .first
 
+    update_provider(provider, find_provider.provider_name)
+
     find_provider.courses.each do |find_course|
       create_or_update_course(find_course, provider)
     end
   end
 
-  def self.create_or_update_provider(provider_name, provider_code)
+  def self.create_or_update_provider(provider_name, provider_code, sync_courses)
     provider = Provider.find_or_create_by(code: provider_code)
-    provider.name = provider_name
-    provider.save!
+    if sync_courses
+      provider.sync_courses = sync_courses
+      provider.save!
+    end
+    update_provider(provider, provider_name) if provider_name.present?
 
     provider
+  end
+
+  def self.update_provider(provider, provider_name)
+    provider.name = provider_name
+    provider.save!
   end
 
   def self.create_or_update_course(find_course, provider)
