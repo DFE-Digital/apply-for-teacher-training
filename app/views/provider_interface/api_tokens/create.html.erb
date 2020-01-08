@@ -1,0 +1,19 @@
+<% content_for :title, 'API token created' %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_api_tokens_path) %>
+
+<div class="govuk-warning-text">
+  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+  <strong class="govuk-warning-text__text">
+    <span class="govuk-warning-text__assistive">Warning</span>
+    You can only view this token once, copy it now.
+  </strong>
+</div>
+
+<div class="govuk-panel govuk-panel--confirmation">
+  <h1 class="govuk-panel__title">
+    New API token generated
+  </h1>
+  <div class="govuk-panel__body">
+    Your token is<br> <code><%= @unhashed_token %></code>
+  </div>
+</div>

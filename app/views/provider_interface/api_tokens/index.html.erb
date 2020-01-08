@@ -1,0 +1,43 @@
+<% content_for :title, 'API tokens' %>
+
+<h1 class="govuk-heading-xl">API tokens</h1>
+
+<p class="govuk-body">
+  API tokens can be used by Student Record Systems and other software to integrate
+  with this service. For more information <%= govuk_link_to 'refer to our API documentation', api_docs_home_path %>.
+</p>
+
+<h2 class="govuk-heading-m">Generate a new token</h2>
+
+<%= form_with model: VendorApiToken.new, url: provider_interface_api_tokens_path do |f| %>
+  <%= f.govuk_collection_select :provider_id, current_provider_user.providers, :id, :name, label: { text: 'Provider' } %>
+  <%= f.govuk_submit 'Create new token' %>
+<% end %>
+
+<h2 class="govuk-heading-m">Existing tokens</h2>
+
+<% if @api_tokens.empty? %>
+  <p class="govuk-body">
+    You haven't generated any tokens.
+  </p>
+<% else %>
+  <table class='govuk-table'>
+    <thead class='govuk-table__head'>
+      <tr class='govuk-table__row'>
+        <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>ID</th>
+        <th scope='col' class='govuk-table__header govuk-!-width-one-half'>Provider</th>
+        <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Created at</th>
+      </tr>
+    </thead>
+
+    <tbody class='govuk-table__body'>
+      <% @api_tokens.each do |token| %>
+      <tr class='govuk-table__row'>
+        <td class='govuk-table__cell'>#<%= token.id %></td>
+        <td class='govuk-table__cell'><%= token.provider.name %></td>
+        <td class='govuk-table__cell'><%= token.created_at.to_s(:long) %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

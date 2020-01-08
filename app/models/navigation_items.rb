@@ -39,9 +39,11 @@ class NavigationItems
       end
     end
 
-    def for_provider_interface(current_provider_user, dfe_sign_in_user)
+    def for_provider_interface(current_provider_user, dfe_sign_in_user, current_controller)
       if current_provider_user
         [
+          NavigationItem.new('Applications', provider_interface_applications_path, is_active(current_controller, %w[application_choices decision])),
+          NavigationItem.new('API tokens', provider_interface_api_tokens_path, is_active(current_controller, %w[api_tokens])),
           NavigationItem.new(current_provider_user.email_address, nil, false),
           NavigationItem.new('Sign out', provider_interface_sign_out_path, false),
         ]
