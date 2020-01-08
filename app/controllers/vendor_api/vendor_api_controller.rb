@@ -49,18 +49,22 @@ module VendorApi
     end
 
     def require_valid_api_token!
-      return if valid_api_token?
+      if valid_api_token?
+        @current_vendor_api_token.update!(
+          last_used_at: Time.zone.now,
+        )
+      else
+        unauthorized_response = {
+          errors: [
+            {
+              error: 'Unauthorized',
+              message: 'Please provide a valid authentication token',
+            },
+          ],
+        }
 
-      unauthorized_response = {
-        errors: [
-          {
-            error: 'Unauthorized',
-            message: 'Please provide a valid authentication token',
-          },
-        ],
-      }
-
-      render json: unauthorized_response, status: :unauthorized
+        render json: unauthorized_response, status: :unauthorized
+      end
     end
 
     def valid_api_token?

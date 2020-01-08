@@ -11,6 +11,16 @@ RSpec.describe 'API Authentication', type: :request do
     expect(response).to have_http_status(200)
   end
 
+  it 'remembers when a token was last used' do
+    unhashed_token = VendorApiToken.create_with_random_token!(provider: create(:provider))
+
+    expect {
+      get '/api/v1/ping', headers: { 'Authorization' => "Bearer #{unhashed_token}" }
+    }.to change {
+      VendorApiToken.find_by_unhashed_token(unhashed_token).last_used_at
+    }
+  end
+
   it 'returns an error if no Authorization header is present' do
     get '/api/v1/ping'
 
