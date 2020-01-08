@@ -96,4 +96,16 @@ RUN apk update && \
 COPY --from=prod-minify $APP_HOME $APP_HOME
 COPY --from=prod-minify $BUNDLE_PATH $BUNDLE_PATH
 
-CMD bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0
+# We migrate and ignore concurrent_migration_exceptions because we deploy to
+# multiple instances at the same time.
+#
+# Under these conditions each instance will try to run migrations. Rails uses a
+# database lock to prevent them stepping on each another. If they happen to,
+# a ConcurrentMigrationError exception is thrown, the command exits 1, and
+# the server will not start thanks to the shell &&.
+#
+# We swallow the exception and run the server anyway, because we prefer running
+# new code on an old schema (which will be updated a moment later) to running
+# old code on the new schema (which will require another deploy or other manual
+# intervention to correct).
+CMD bundle exec rails db:migrate:ignore_concurrent_migration_exceptions && bundle exec rails server -b 0.0.0.0
