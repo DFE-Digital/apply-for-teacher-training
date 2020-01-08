@@ -23,7 +23,12 @@ class RefereeMailer < ApplicationMailer
     @application_form = application_form
     @reference = reference
     @candidate_name = application_form.full_name
-    @google_form_url = google_form_url_for(@candidate_name, @reference)
+
+    @reference_link = if FeatureFlag.active?('reference_form')
+                        referee_interface_reference_feedback_url(token: reference.update_token!)
+                      else
+                        google_form_url_for(@candidate_name, @reference)
+                      end
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: reference.email_address,
