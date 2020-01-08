@@ -56,7 +56,9 @@ RSpec.describe VolunteeringReviewComponent do
       expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include(
         Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(volunteering_role),
       )
-      expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.volunteering.role.change_action')}")
+      expect(result.css('.govuk-summary-list__actions').text).to include(
+        "Change #{t('application_form.volunteering.role.change_action')} for School Experience Intern, A Noice School",
+      )
     end
 
     it 'renders component with correct values for organisation' do
@@ -67,7 +69,9 @@ RSpec.describe VolunteeringReviewComponent do
       expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include(
         Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(volunteering_role),
       )
-      expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.volunteering.organisation.change_action')}")
+      expect(result.css('.govuk-summary-list__actions').text).to include(
+        "Change #{t('application_form.volunteering.organisation.change_action')} for School Experience Intern, A Noice School",
+      )
     end
 
     it 'renders component with correct values for length' do
@@ -78,7 +82,9 @@ RSpec.describe VolunteeringReviewComponent do
       expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include(
         Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(volunteering_role),
       )
-      expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.volunteering.review_length.change_action')}")
+      expect(result.css('.govuk-summary-list__actions').text).to include(
+        "Change #{t('application_form.volunteering.review_length.change_action')} for School Experience Intern, A Noice School",
+      )
     end
 
     it 'renders component with correct values for details of experience' do
@@ -89,7 +95,9 @@ RSpec.describe VolunteeringReviewComponent do
       expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include(
         Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(volunteering_role),
       )
-      expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.volunteering.review_details.change_action')}")
+      expect(result.css('.govuk-summary-list__actions').text).to include(
+        "Change #{t('application_form.volunteering.review_details.change_action')} for School Experience Intern, A Noice School",
+      )
     end
 
     it 'renders component along with a delete link for each role' do
@@ -98,6 +106,41 @@ RSpec.describe VolunteeringReviewComponent do
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.volunteering.delete'))
       expect(result.css('.app-summary-card__actions a').attr('href').value).to include(
         Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_volunteering_role_path(volunteering_role),
+      )
+    end
+
+    it 'appends dates to "Change" links if same role at same organisation' do
+      application_form.application_volunteering_experiences.create(
+        role: 'School Experience Intern',
+        organisation: 'Gyorfi School',
+        details: 'I interned.',
+        working_with_children: true,
+        start_date: Time.zone.local(2019, 1, 1),
+        end_date: Time.zone.local(2019, 6, 1),
+      )
+      application_form.application_volunteering_experiences.create(
+        role: 'School Experience Intern',
+        organisation: 'Gyorfi School',
+        details: 'I interned again.',
+        working_with_children: true,
+        start_date: Time.zone.local(2019, 6, 1),
+        end_date: Time.zone.local(2019, 8, 1),
+      )
+
+      result = render_inline(described_class, application_form: application_form)
+
+      change_role_for_unique = result.css('.govuk-summary-list__actions')[8].text.strip
+      change_role_for_same1 = result.css('.govuk-summary-list__actions')[4].text.strip
+      change_role_for_same2 = result.css('.govuk-summary-list__actions')[0].text.strip
+
+      expect(change_role_for_unique).to eq(
+        'Change role for School Experience Intern, A Noice School',
+      )
+      expect(change_role_for_same1).to eq(
+        'Change role for School Experience Intern, Gyorfi School, January 2019 to June 2019',
+      )
+      expect(change_role_for_same2).to eq(
+        'Change role for School Experience Intern, Gyorfi School, June 2019 to August 2019',
       )
     end
 
