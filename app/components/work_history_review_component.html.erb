@@ -1,4 +1,4 @@
-<% @application_form.application_work_experiences.each do |work| %>
+<% @application_form.application_work_experiences.order(:start_date).each do |work| %>
   <%= render(SummaryCardComponent, rows: work_experience_rows(work), editable: @editable) do %>
     <%= render(SummaryCardHeaderComponent, title: work.role, heading_level: @heading_level, check_icon: work.working_with_children) do %>
       <% if @editable %>

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe WorkHistoryReviewComponent do
   let(:data) do
     {
-      role: ['Teacher', 'Teaching Assistant'].sample,
+      role: 'Teaching Assistant',
       organisation: Faker::Educator.secondary_school,
       details: Faker::Lorem.paragraph_by_chars(number: 300),
       commitment: %w[full_time part_time].sample,
@@ -15,16 +15,19 @@ RSpec.describe WorkHistoryReviewComponent do
     let(:application_form) do
       create(:application_form) do |form|
         data[:id] = 1
+        data[:organisation] = 'Vararu School'
         data[:start_date] = Time.zone.local(2019, 1, 1)
         data[:end_date] = Time.zone.local(2019, 6, 1)
         form.application_work_experiences.create(data)
 
         data[:id] = 2
+        data[:organisation] = 'Theo School'
         data[:start_date] = Time.zone.local(2019, 6, 1)
         data[:end_date] = Time.zone.local(2019, 8, 1)
         form.application_work_experiences.create(data)
 
         data[:id] = 3
+        data[:organisation] = 'Vararu School'
         data[:start_date] = Time.zone.local(2019, 8, 1)
         data[:end_date] = Time.zone.local(2019, 10, 1)
         form.application_work_experiences.create(data)
@@ -38,11 +41,50 @@ RSpec.describe WorkHistoryReviewComponent do
         application_form.application_work_experiences.each do |work|
           expect(result.text).to include(work.role)
           expect(result.text).to include(work.start_date.to_s(:month_and_year))
-          expect(result.css('.govuk-summary-list__actions').text).to include('Change')
           if work.working_with_children
             expect(result.text).to include(t('application_form.review.role_involved_working_with_children'))
           end
         end
+      end
+
+      it 'renders correct text for "Change" links in each attribute row' do
+        result = render_inline(described_class, application_form: application_form)
+
+        change_job_title = result.css('.govuk-summary-list__actions')[0].text.strip
+        change_type = result.css('.govuk-summary-list__actions')[1].text.strip
+        change_description = result.css('.govuk-summary-list__actions')[2].text.strip
+        change_dates = result.css('.govuk-summary-list__actions')[3].text.strip
+
+        expect(change_job_title).to eq(
+          'Change job title for Teaching Assistant, Vararu School, January 2019 to June 2019',
+        )
+        expect(change_type).to eq(
+          'Change type for Teaching Assistant, Vararu School, January 2019 to June 2019',
+        )
+        expect(change_description).to eq(
+          'Change description for Teaching Assistant, Vararu School, January 2019 to June 2019',
+        )
+        expect(change_dates).to eq(
+          'Change dates for Teaching Assistant, Vararu School, January 2019 to June 2019',
+        )
+      end
+
+      it 'appends dates to "Change" links if same role at same organisation' do
+        result = render_inline(described_class, application_form: application_form)
+
+        change_job_title_for_same1 = result.css('.govuk-summary-list__actions')[0].text.strip
+        change_job_title_for_unique = result.css('.govuk-summary-list__actions')[4].text.strip
+        change_job_title_for_same2 = result.css('.govuk-summary-list__actions')[8].text.strip
+
+        expect(change_job_title_for_same1).to eq(
+          'Change job title for Teaching Assistant, Vararu School, January 2019 to June 2019',
+        )
+        expect(change_job_title_for_unique).to eq(
+          'Change job title for Teaching Assistant, Theo School',
+        )
+        expect(change_job_title_for_same2).to eq(
+          'Change job title for Teaching Assistant, Vararu School, August 2019 to October 2019',
+        )
       end
     end
 
