@@ -21,7 +21,7 @@
   </div>
 
   <div class="govuk-grid-column-one-third">
-    <%= render '/candidate_interface/shared/need_help' %>
+    <%= render partial: '/candidate_interface/shared/need_help', locals: { support_reference: @application_form.support_reference } %>
 
     <aside class="app-related" role="complementary">
       <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Updating your contact details</h2>
