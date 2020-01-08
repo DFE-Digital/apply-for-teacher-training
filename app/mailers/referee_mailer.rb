@@ -1,11 +1,11 @@
 class RefereeMailer < ApplicationMailer
-  def reference_request_email(application_form, reference, unhashed_token)
+  def reference_request_email(application_form, reference)
     @application_form = application_form
     @reference = reference
     @candidate_name = application_form.full_name
 
     if FeatureFlag.active?('reference_form')
-      @reference_link = referee_interface_reference_feedback_url(token: unhashed_token)
+      @reference_link = referee_interface_reference_feedback_url(token: reference.update_token!)
       @decline_reference_link = 'link_to_decline_the_reference' #TODO: implement the flow for Referee decline to give references
       template_name = :reference_request_email
     else
