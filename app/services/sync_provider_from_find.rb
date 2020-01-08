@@ -1,6 +1,6 @@
 class SyncProviderFromFind
   def self.call(provider_name:, provider_code:)
-    provider = create_provider(provider_name, provider_code)
+    provider = create_or_update_provider(provider_name, provider_code)
 
     return unless provider.sync_courses?
 
@@ -15,11 +15,11 @@ class SyncProviderFromFind
       .first
 
     find_provider.courses.each do |find_course|
-      create_course(find_course, provider)
+      create_or_update_course(find_course, provider)
     end
   end
 
-  def self.create_provider(provider_name, provider_code)
+  def self.create_or_update_provider(provider_name, provider_code)
     provider = Provider.find_or_create_by(code: provider_code)
     provider.name = provider_name
     provider.save!
@@ -27,7 +27,7 @@ class SyncProviderFromFind
     provider
   end
 
-  def self.create_course(find_course, provider)
+  def self.create_or_update_course(find_course, provider)
     course = provider.courses.find_or_create_by(code: find_course.course_code)
     course.name = find_course.name
     course.level = find_course.level
@@ -74,5 +74,5 @@ class SyncProviderFromFind
     course
   end
 
-  private_class_method :create_provider, :create_course
+  private_class_method :create_or_update_provider, :create_or_update_course
 end
