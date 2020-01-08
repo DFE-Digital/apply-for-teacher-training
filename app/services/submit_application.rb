@@ -8,8 +8,7 @@ class SubmitApplication
 
   def call
     ActiveRecord::Base.transaction do
-      application_form.update!(support_reference: GenerateSupportRef.call,
-                               submitted_at: Time.zone.now)
+      application_form.update!(submitted_at: Time.zone.now)
       submit_application
     end
 

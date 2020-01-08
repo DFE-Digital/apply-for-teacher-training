@@ -18,6 +18,10 @@ class ApplicationForm < ApplicationRecord
     apply_2: 'apply_2',
   }
 
+  before_create -> {
+    self.support_reference ||= GenerateSupportRef.call
+  }
+
   after_save -> {
     application_choices.update_all(updated_at: Time.zone.now)
   }

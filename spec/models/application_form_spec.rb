@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationForm do
+  it 'sets a support reference upon creation' do
+    application_form = create :application_form
+    expect(application_form.support_reference).to be_present
+  end
+
   describe 'auditing', with_audited: true do
     it 'records an audit entry when creating a new ApplicationForm' do
       application_form = create :application_form
