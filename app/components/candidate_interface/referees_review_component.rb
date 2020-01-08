@@ -35,7 +35,7 @@ module CandidateInterface
       {
         key: 'Name',
         value: referee.name,
-        action: 'name',
+        action: "name for #{referee.name}",
         change_path: candidate_interface_edit_referee_path(referee.id),
       }
     end
@@ -44,7 +44,7 @@ module CandidateInterface
       {
         key: 'Email address',
         value: referee.email_address,
-        action: 'email address',
+        action: "email address for #{referee.name}",
         change_path: candidate_interface_edit_referee_path(referee.id),
       }
     end
@@ -53,7 +53,7 @@ module CandidateInterface
       {
         key: 'Relationship',
         value: referee.relationship,
-        action: 'relationship',
+        action: "relationship for #{referee.name}",
         change_path: candidate_interface_edit_referee_path(referee.id),
       }
     end
