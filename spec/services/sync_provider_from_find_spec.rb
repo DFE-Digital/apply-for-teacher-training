@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SyncProviderFromFind do
   include FindAPIHelper
 
-  describe 'ingesting provider, courses, sites and course_options for a provider_code' do
+  describe 'ingesting a new brand provider' do
     it 'correctly creates all the entities' do
       stub_find_api_provider_200(
         provider_code: 'ABC',
@@ -12,7 +12,47 @@ RSpec.describe SyncProviderFromFind do
         findable: true,
       )
 
-      SyncProviderFromFind.call(provider_code: 'ABC')
+      SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+
+      provider = Provider.find_by_code('ABC')
+      expect(provider).to be_present
+      expect(provider.courses).to be_blank
+    end
+  end
+
+  describe 'ingesting an existing provider not configured to sync courses' do
+    before do
+      @existing_provider = create :provider, code: 'ABC', name: 'DER College', sync_courses: false
+    end
+
+    it 'correctly creates all the entities' do
+      stub_find_api_provider_200(
+        provider_code: 'ABC',
+        course_code: '9CBA',
+        site_code: 'G',
+        findable: true,
+      )
+
+      SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+
+      expect(@existing_provider.reload.courses).to be_blank
+    end
+  end
+
+  describe 'ingesting an existing provider configured to sync courses, sites and course_options' do
+    before do
+      @existing_provider = create :provider, code: 'ABC', name: 'DER College', sync_courses: true
+    end
+
+    it 'correctly creates all the entities' do
+      stub_find_api_provider_200(
+        provider_code: 'ABC',
+        course_code: '9CBA',
+        site_code: 'G',
+        findable: true,
+      )
+
+      SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
 
       course_option = CourseOption.last
 
@@ -38,7 +78,7 @@ RSpec.describe SyncProviderFromFind do
         accrediting_provider_name: 'Test Accrediting Provider',
       )
 
-      SyncProviderFromFind.call(provider_code: 'ABC')
+      SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
 
       course_option = CourseOption.last
 
@@ -53,7 +93,7 @@ RSpec.describe SyncProviderFromFind do
         study_mode: 'full_time_or_part_time',
       )
 
-      SyncProviderFromFind.call(provider_code: 'ABC')
+      SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
 
       course = Provider.find_by_code('ABC').courses.find_by_code('9CBA')
       expect(course.study_mode).to eq 'full_time_or_part_time'
@@ -66,7 +106,7 @@ RSpec.describe SyncProviderFromFind do
         study_mode: 'full_time_or_part_time',
       )
 
-      SyncProviderFromFind.call(provider_code: 'ABC')
+      SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
 
       provider = Provider.find_by_code('ABC')
       course_options = provider.courses.find_by_code('9CBA').course_options
