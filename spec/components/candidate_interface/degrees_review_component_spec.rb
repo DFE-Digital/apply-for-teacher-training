@@ -1,39 +1,28 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::DegreesReviewComponent do
-  let(:application_form) do
-    create(:application_form) do |form|
-      form.application_qualifications.create(
-        id: 1,
-        level: 'degree',
-        qualification_type: 'BA',
-        subject: 'Woof',
-        institution_name: 'University of Doge',
-        grade: 'upper_second',
-        predicted_grade: false,
-        award_year: '2008',
-      )
-      form.application_qualifications.create(
-        id: 2,
-        level: 'degree',
-        qualification_type: 'BA',
-        subject: 'Meow',
-        institution_name: 'University of Cate',
-        grade: 'First',
-        predicted_grade: true,
-        award_year: '2010',
-      )
-      form.application_qualifications.create(
-        id: 3,
-        level: 'degree',
-        qualification_type: 'BA',
-        subject: 'Hoot',
-        institution_name: 'University of Owl',
-        grade: 'Distinction',
-        predicted_grade: false,
-        award_year: '2010',
-      )
-    end
+  let(:application_form) { create(:application_form) }
+  let!(:degree1) do
+    application_form.application_qualifications.create(
+      level: 'degree',
+      qualification_type: 'BA',
+      subject: 'Woof',
+      institution_name: 'University of Doge',
+      grade: 'upper_second',
+      predicted_grade: false,
+      award_year: '2008',
+    )
+  end
+  let(:degree2) do
+    {
+      level: 'degree',
+      qualification_type: 'BA',
+      subject: 'Meow',
+      institution_name: 'University of Cate',
+      grade: 'First',
+      predicted_grade: true,
+      award_year: '2010',
+    }
   end
 
   context 'when degrees are editable' do
@@ -43,8 +32,8 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       expect(result.css('.app-summary-card__title').text).to include('BA Woof')
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.qualification.label'))
       expect(result.css('.govuk-summary-list__value').to_html).to include('BA Woof<br>University of Doge')
-      expect(result.css('.govuk-summary-list__actions a')[3].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(2),
+      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
+        Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree1),
       )
       expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.degree.qualification.change_action')}")
     end
@@ -68,6 +57,8 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
     end
 
     it 'renders component with correct values for a predicted grade' do
+      application_form.application_qualifications.create(degree2)
+
       result = render_inline(described_class, application_form: application_form)
 
       expect(result.css('.app-summary-card__title').text).to include('BA Meow')
@@ -75,6 +66,16 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
     end
 
     it 'renders component with correct values for an other grade' do
+      application_form.application_qualifications.create(
+        level: 'degree',
+        qualification_type: 'BA',
+        subject: 'Hoot',
+        institution_name: 'University of Owl',
+        grade: 'Distinction',
+        predicted_grade: false,
+        award_year: '2010',
+      )
+
       result = render_inline(described_class, application_form: application_form)
 
       expect(result.css('.app-summary-card__title').text).to include('BA Hoot')
@@ -82,6 +83,8 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
     end
 
     it 'renders component with correct values for multiple degrees' do
+      application_form.application_qualifications.create(degree2)
+
       result = render_inline(described_class, application_form: application_form)
 
       expect(result.css('.app-summary-card__title').text).to include('BA Woof')
@@ -93,7 +96,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.degree.delete'))
       expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_confirm_degrees_destroy_path(3),
+        Rails.application.routes.url_helpers.candidate_interface_confirm_degrees_destroy_path(degree1),
       )
     end
   end
