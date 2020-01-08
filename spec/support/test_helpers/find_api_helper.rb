@@ -215,7 +215,45 @@ module FindAPIHelper
     stub_find_api_provider(provider_code).to_return response_hash
   end
 
+  def stub_find_api_all_providers_200(provider_data)
+    data = provider_data.each_with_index.map do |attributes, index|
+      {
+        id: index.to_s,
+        type: 'providers',
+        attributes: {
+          provider_code: attributes[:provider_code],
+          provider_name: attributes[:name],
+          recruitment_cycle_year: '2020',
+        },
+        relationships: {
+          courses: {
+            meta: {
+              count: 1,
+            },
+          },
+        },
+      }
+    end
+
+    stub_find_api_all_providers
+      .to_return(
+        status: 200,
+        headers: { 'Content-Type': 'application/vnd.api+json' },
+        body: {
+          data: data,
+          jsonapi: { version: '1.0' },
+        }.to_json,
+      )
+  end
+
 private
+
+  def stub_find_api_all_providers
+    stub_request(
+      :get,
+      "#{ENV.fetch('FIND_BASE_URL')}recruitment_cycles/2020/providers",
+    )
+  end
 
   def stub_find_api_provider(provider_code)
     stub_request(:get, ENV.fetch('FIND_BASE_URL') +

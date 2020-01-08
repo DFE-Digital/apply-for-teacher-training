@@ -1,6 +1,10 @@
 class SyncProviderFromFind
-  def self.call(provider_code:)
-    # Request all providers, courses and sites.
+  def self.call(provider_name:, provider_code:)
+    provider = create_provider(provider_name, provider_code)
+
+    return unless provider.sync_courses?
+
+    # Request provider, all courses and sites.
     #
     # For the full response, see:
     # https://api2.publish-teacher-training-courses.service.gov.uk/api/v3/recruitment_cycles/2020/providers/1N1/?include=sites,courses.sites
@@ -10,16 +14,14 @@ class SyncProviderFromFind
       .find(provider_code)
       .first
 
-    provider = create_provider(find_provider)
-
     find_provider.courses.each do |find_course|
       create_course(find_course, provider)
     end
   end
 
-  def self.create_provider(find_provider)
-    provider = Provider.find_or_create_by(code: find_provider.provider_code)
-    provider.name = find_provider.provider_name
+  def self.create_provider(provider_name, provider_code)
+    provider = Provider.find_or_create_by(code: provider_code)
+    provider.name = provider_name
     provider.save!
 
     provider
