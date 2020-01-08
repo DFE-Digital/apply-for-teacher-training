@@ -11,17 +11,33 @@ module SupportInterface
     validate :provider_user_uid_unique
 
     def save
-      @provider_user = ProviderUser.new(
+      return unless valid?
+
+      @provider_user ||= ProviderUser.new
+
+      @provider_user.update!(
         email_address: email_address,
         dfe_sign_in_uid: dfe_sign_in_uid,
         provider_ids: provider_ids,
       )
-
-      valid? && @provider_user.save!
     end
 
     def dfe_sign_in_uid
       @dfe_sign_in_uid&.strip == '' ? nil : @dfe_sign_in_uid # allow nil or non-whitespace
+    end
+
+    def persisted?
+      provider_user && provider_user.persisted?
+    end
+
+    def self.from_provider_user(provider_user)
+      new(
+        provider_user: provider_user,
+        available_providers: Provider.all,
+        email_address: provider_user.email_address,
+        provider_ids: provider_user.provider_ids,
+        dfe_sign_in_uid: provider_user.dfe_sign_in_uid,
+      )
     end
 
   private

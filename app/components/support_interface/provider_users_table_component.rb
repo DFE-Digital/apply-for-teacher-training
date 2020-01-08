@@ -9,7 +9,7 @@ module SupportInterface
     def table_rows
       provider_users.map do |provider_user|
         {
-          email_address: provider_user.email_address,
+          email_address: govuk_link_to(provider_user.email_address, edit_support_interface_provider_user_path(provider_user)),
           links_to_providers: links_to_providers(provider_user),
           dfe_sign_in_uid: provider_user.dfe_sign_in_uid,
           created_at: provider_user.created_at,
