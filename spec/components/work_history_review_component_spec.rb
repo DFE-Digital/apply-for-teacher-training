@@ -14,19 +14,16 @@ RSpec.describe WorkHistoryReviewComponent do
   context 'when there is not a break in the work history' do
     let(:application_form) do
       create(:application_form) do |form|
-        data[:id] = 1
         data[:organisation] = 'Vararu School'
         data[:start_date] = Time.zone.local(2019, 1, 1)
         data[:end_date] = Time.zone.local(2019, 6, 1)
         form.application_work_experiences.create(data)
 
-        data[:id] = 2
         data[:organisation] = 'Theo School'
         data[:start_date] = Time.zone.local(2019, 6, 1)
         data[:end_date] = Time.zone.local(2019, 8, 1)
         form.application_work_experiences.create(data)
 
-        data[:id] = 3
         data[:organisation] = 'Vararu School'
         data[:start_date] = Time.zone.local(2019, 8, 1)
         data[:end_date] = Time.zone.local(2019, 10, 1)
@@ -102,7 +99,6 @@ RSpec.describe WorkHistoryReviewComponent do
     let(:application_form) do
       Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
         create(:application_form) do |form|
-          data[:id] = 1
           data[:start_date] = Time.zone.local(2019, 8, 1)
           data[:end_date] = Time.zone.local(2019, 9, 1)
           form.application_work_experiences.create(data)

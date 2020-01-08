@@ -28,9 +28,8 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
   describe '.build_all_from_application' do
     it 'creates an array of objects based on the provided ApplicationForm' do
       application_form = create(:application_form) do |form|
-        form.application_volunteering_experiences.create(id: 1, attributes: data)
+        form.application_volunteering_experiences.create(attributes: data)
         form.application_volunteering_experiences.create(
-          id: 2,
           role: 'School Experience Intern',
           organisation: 'A Noice School',
           details: 'I interned.',
@@ -45,7 +44,6 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
       expect(volunteering_roles).to match_array([
         have_attributes(form_data),
         have_attributes(
-          id: 2,
           role: 'School Experience Intern',
           organisation: 'A Noice School',
           details: 'I interned.',
@@ -59,15 +57,13 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
     end
   end
 
-  describe '.build_from_application' do
-    it 'returns a new VolunteeringRoleForm object using the id' do
-      application_form = create(:application_form) do |form|
-        form.application_volunteering_experiences.create(id: 1, attributes: data)
-      end
+  describe '.build_from_experience' do
+    it 'returns a new VolunteeringRoleForm object using an application experience' do
+      application_experience = build_stubbed(:application_volunteering_experience, attributes: data)
 
-      volunteering_roles = CandidateInterface::VolunteeringRoleForm.build_from_application(application_form, 1)
+      volunteering_role = CandidateInterface::VolunteeringRoleForm.build_from_experience(application_experience)
 
-      expect(volunteering_roles).to have_attributes(form_data)
+      expect(volunteering_role).to have_attributes(form_data)
     end
   end
 
@@ -97,12 +93,11 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
   end
 
   describe '#update' do
-    let(:volunteering_role) { CandidateInterface::VolunteeringRoleForm.new(id: 1) }
-    let(:application_form) do
-      create(:application_form) do |form|
-        form.application_volunteering_experiences.create(id: 1, attributes: data)
-      end
+    let(:application_form) { create(:application_form) }
+    let(:existing_volunteering) do
+      application_form.application_volunteering_experiences.create(attributes: data)
     end
+    let(:volunteering_role) { CandidateInterface::VolunteeringRoleForm.new(id: existing_volunteering.id) }
 
     it 'returns false if not valid' do
       expect(volunteering_role.update(ApplicationForm.new)).to eq(false)

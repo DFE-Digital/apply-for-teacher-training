@@ -62,7 +62,6 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
           created_at: DateTime.new(2019, 1, 1, 1, 9, 0, 0),
         )
         form.application_qualifications.create(
-          id: 1,
           level: 'other',
           qualification_type: 'BTEC',
           subject: 'Being a Superhero',
@@ -107,23 +106,20 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
     end
   end
 
-  describe '.build_from_application' do
-    it 'returns a new OtherQualificationForm object using the id' do
-      application_form = create(:application_form) do |form|
-        form.application_qualifications.create(
-          id: 1,
-          level: 'other',
-          qualification_type: 'BTEC',
-          subject: 'Being a Sidekick',
-          institution_name: 'School of Sidekicks',
-          grade: 'Merit',
-          predicted_grade: false,
-          award_year: '2010',
-        )
-        form.application_qualifications.create(id: 2, level: 'other')
-      end
+  describe '.build_from_qualification' do
+    it 'returns a new OtherQualificationForm object using an application qualification' do
+      application_qualification = build_stubbed(
+        :application_qualification,
+        level: 'other',
+        qualification_type: 'BTEC',
+        subject: 'Being a Sidekick',
+        institution_name: 'School of Sidekicks',
+        grade: 'Merit',
+        predicted_grade: false,
+        award_year: '2010',
+      )
 
-      qualification = CandidateInterface::OtherQualificationForm.build_from_application(application_form, 1)
+      qualification = CandidateInterface::OtherQualificationForm.build_from_qualification(application_qualification)
 
       expect(qualification).to have_attributes(qualification_type: 'BTEC', subject: 'Being a Sidekick')
     end
@@ -161,29 +157,29 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
     end
 
     it 'updates the provided ApplicationForm if valid' do
+      application_form = create(:application_form)
+
+      existing_qualification = application_form.application_qualifications.create(
+        level: 'other',
+        qualification_type: 'BTEC',
+        subject: 'Being a Everyday Hero',
+        institution_name: 'School of Hoomans',
+        grade: 'Pass',
+        predicted_grade: false,
+        award_year: '2011',
+      )
+
       form_data = {
-        id: 1,
+        id: existing_qualification.id,
         qualification_type: 'BTEC',
         subject: 'Being a Everyday Hero',
         institution_name: 'School of Humans',
         grade: 'Distinction',
         award_year: '2011',
       }
-      qualification = CandidateInterface::OtherQualificationForm.new(form_data)
-      application_form = create(:application_form) do |form|
-        form.application_qualifications.create(
-          id: 1,
-          level: 'other',
-          qualification_type: 'BTEC',
-          subject: 'Being a Everyday Hero',
-          institution_name: 'School of Hoomans',
-          grade: 'Pass',
-          predicted_grade: false,
-          award_year: '2011',
-        )
-      end
+      qualification_form = CandidateInterface::OtherQualificationForm.new(form_data)
 
-      expect(qualification.update(application_form)).to eq(true)
+      expect(qualification_form.update(application_form)).to eq(true)
       expect(application_form.application_qualifications.other.first)
         .to have_attributes(form_data)
     end

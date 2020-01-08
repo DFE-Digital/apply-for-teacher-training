@@ -25,10 +25,8 @@ module CandidateInterface
         end
       end
 
-      def build_from_application(application_form, degree_id)
-        degree = application_form.application_qualifications.find(degree_id)
-
-        new_degree_form(degree)
+      def build_from_qualification(qualification)
+        new_degree_form(qualification)
       end
 
     private

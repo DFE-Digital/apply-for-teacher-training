@@ -27,7 +27,8 @@ module CandidateInterface
     end
 
     def edit
-      @qualification = OtherQualificationForm.build_from_application(current_application, current_other_qualification_id)
+      current_qualification = current_application.application_qualifications.other.find(current_other_qualification_id)
+      @qualification = OtherQualificationForm.build_from_qualification(current_qualification)
     end
 
     def update

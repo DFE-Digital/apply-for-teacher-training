@@ -19,9 +19,7 @@ module CandidateInterface
         end
       end
 
-      def build_from_application(application_form, qualification_id)
-        qualification = application_form.application_qualifications.find(qualification_id)
-
+      def build_from_qualification(qualification)
         new_other_qualification_form(qualification)
       end
 

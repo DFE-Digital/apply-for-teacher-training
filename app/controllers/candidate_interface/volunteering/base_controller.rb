@@ -17,7 +17,8 @@ module CandidateInterface
     end
 
     def edit
-      @volunteering_role = VolunteeringRoleForm.build_from_application(current_application, current_volunteering_role_id)
+      current_experience = current_application.application_volunteering_experiences.find(current_volunteering_role_id)
+      @volunteering_role = VolunteeringRoleForm.build_from_experience(current_experience)
     end
 
     def update

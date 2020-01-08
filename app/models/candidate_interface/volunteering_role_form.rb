@@ -28,10 +28,8 @@ module CandidateInterface
         end
       end
 
-      def build_from_application(application_form, volunteering_role_id)
-        volunteering_role = application_form.application_volunteering_experiences.find(volunteering_role_id)
-
-        new_volunteering_role_form(volunteering_role)
+      def build_from_experience(experience)
+        new_volunteering_role_form(experience)
       end
 
     private

@@ -78,7 +78,6 @@ RSpec.describe CandidateInterface::DegreeForm, type: :model do
     it 'creates an array of objects based on the provided ApplicationForm' do
       application_form = create(:application_form) do |form|
         form.application_qualifications.create(
-          id: 1,
           level: 'degree',
           qualification_type: 'BA',
           subject: 'Woof',
@@ -88,7 +87,6 @@ RSpec.describe CandidateInterface::DegreeForm, type: :model do
           award_year: '2008',
         )
         form.application_qualifications.create(
-          id: 2,
           level: 'degree',
           qualification_type: 'BA',
           subject: 'Meow',
@@ -103,7 +101,6 @@ RSpec.describe CandidateInterface::DegreeForm, type: :model do
 
       expect(degrees).to match_array([
         have_attributes(
-          id: 1,
           qualification_type: 'BA',
           subject: 'Woof',
           institution_name: 'University of Doge',
@@ -111,7 +108,6 @@ RSpec.describe CandidateInterface::DegreeForm, type: :model do
           award_year: '2008',
         ),
         have_attributes(
-          id: 2,
           qualification_type: 'BA',
           subject: 'Meow',
           institution_name: 'University of Cate',
@@ -157,7 +153,6 @@ RSpec.describe CandidateInterface::DegreeForm, type: :model do
     it 'returns grade and other grade if grade is not known' do
       application_form = create(:application_form) do |form|
         form.application_qualifications.create(
-          id: 1,
           level: 'degree',
           grade: 'Distinction',
         )
@@ -171,7 +166,6 @@ RSpec.describe CandidateInterface::DegreeForm, type: :model do
     it 'returns grade and predicted if predicted grade is true' do
       application_form = create(:application_form) do |form|
         form.application_qualifications.create(
-          id: 1,
           level: 'degree',
           grade: 'First',
           predicted_grade: true,
@@ -185,52 +179,41 @@ RSpec.describe CandidateInterface::DegreeForm, type: :model do
   end
 
   describe '.build_from_application' do
-    it 'returns a new DegreeForm object using the id' do
-      application_form = create(:application_form) do |form|
-        form.application_qualifications.create(
-          id: 1,
-          level: 'degree',
-          qualification_type: 'BA',
-          subject: 'Woof',
-        )
-        form.application_qualifications.create(
-          id: 2,
-          level: 'degree',
-          qualification_type: 'BA',
-          subject: 'Meow',
-        )
-      end
+    it 'returns a new DegreeForm object using an application qualification' do
+      application_qualification = build_stubbed(
+        :application_qualification,
+        level: 'degree',
+        qualification_type: 'BA',
+        subject: 'Meow',
+      )
 
-      degree = CandidateInterface::DegreeForm.build_from_application(application_form, 2)
+      degree = CandidateInterface::DegreeForm.build_from_qualification(application_qualification)
 
       expect(degree).to have_attributes(qualification_type: 'BA', subject: 'Meow')
     end
 
     it 'returns grade and other grade if grade is not known' do
-      application_form = create(:application_form) do |form|
-        form.application_qualifications.create(
-          id: 1,
-          level: 'degree',
-          grade: 'Distinction',
-        )
-      end
+      application_qualification = build_stubbed(
+        :application_qualification,
+        level: 'degree',
+        grade: 'Distinction',
+        predicted_grade: false,
+      )
 
-      degree = CandidateInterface::DegreeForm.build_from_application(application_form, 1)
+      degree = CandidateInterface::DegreeForm.build_from_qualification(application_qualification)
 
       expect(degree).to have_attributes(grade: 'other', other_grade: 'Distinction')
     end
 
     it 'returns grade and predicted if predicted grade is true' do
-      application_form = create(:application_form) do |form|
-        form.application_qualifications.create(
-          id: 1,
-          level: 'degree',
-          grade: 'First',
-          predicted_grade: true,
-        )
-      end
+      application_qualification = build_stubbed(
+        :application_qualification,
+        level: 'degree',
+        grade: 'First',
+        predicted_grade: true,
+      )
 
-      degree = CandidateInterface::DegreeForm.build_from_application(application_form, 1)
+      degree = CandidateInterface::DegreeForm.build_from_qualification(application_qualification)
 
       expect(degree).to have_attributes(grade: 'predicted', predicted_grade: 'First')
     end
@@ -276,21 +259,19 @@ RSpec.describe CandidateInterface::DegreeForm, type: :model do
   end
 
   describe '#update' do
-    let(:degree) { CandidateInterface::DegreeForm.new(id: 1) }
-    let(:application_form) do
-      create(:application_form) do |form|
-        form.application_qualifications.create(
-          id: 1,
-          level: 'degree',
-          qualification_type: form_data[:qualification_type],
-          subject: form_data[:subject],
-          institution_name: form_data[:institution_name],
-          grade: form_data[:grade],
-          predicted_grade: false,
-          award_year: form_data[:award_year],
-        )
-      end
+    let(:application_form) { create(:application_form) }
+    let(:existing_degree) do
+      application_form.application_qualifications.create(
+        level: 'degree',
+        qualification_type: form_data[:qualification_type],
+        subject: form_data[:subject],
+        institution_name: form_data[:institution_name],
+        grade: form_data[:grade],
+        predicted_grade: false,
+        award_year: form_data[:award_year],
+      )
     end
+    let(:degree) { CandidateInterface::DegreeForm.new(id: existing_degree.id) }
 
     it 'returns false if not valid' do
       expect(degree.update(ApplicationForm.new)).to eq(false)
