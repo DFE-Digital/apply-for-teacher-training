@@ -22,7 +22,7 @@ module SupportInterface
   private
 
     def provider_user_params
-      params.require(:support_interface_provider_user_form).permit(:email_address, :dfe_sign_in_uid, :provider_ids)
+      params.require(:support_interface_provider_user_form).permit(:email_address, :dfe_sign_in_uid, provider_ids: [])
     end
   end
 end

@@ -24,7 +24,7 @@ RSpec.feature 'Managing provider users' do
   end
 
   def and_providers_exist
-    create(:provider, name: 'Example provider')
+    create(:provider, name: 'Example provider', code: 'ABC')
   end
 
   def when_i_visit_the_support_console
@@ -45,7 +45,7 @@ RSpec.feature 'Managing provider users' do
   end
 
   def and_i_select_a_provider
-    choose 'Example provider'
+    check 'Example provider (ABC)'
   end
 
   def and_i_click_the_add_user_link
