@@ -103,7 +103,9 @@ RSpec.describe VolunteeringReviewComponent do
     it 'renders component along with a delete link for each role' do
       result = render_inline(described_class, application_form: application_form)
 
-      expect(result.css('.app-summary-card__actions').text).to include(t('application_form.volunteering.delete'))
+      expect(result.css('.app-summary-card__actions').text.strip).to include(
+        "#{t('application_form.volunteering.delete')} for School Experience Intern, A Noice School",
+      )
       expect(result.css('.app-summary-card__actions a').attr('href').value).to include(
         Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_volunteering_role_path(volunteering_role),
       )

@@ -29,7 +29,7 @@ module CandidateInterface
       {
         key: t('application_form.other_qualification.qualification.label'),
         value: qualification.title,
-        action: generate_change_action(qualification: qualification, attribute: t('application_form.other_qualification.qualification.change_action')),
+        action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.qualification.change_action')),
         change_path: edit_other_qualification_path(qualification),
       }
     end
@@ -38,7 +38,7 @@ module CandidateInterface
       {
         key: t('application_form.other_qualification.institution.label'),
         value: qualification.institution_name,
-        action: generate_change_action(qualification: qualification, attribute: t('application_form.other_qualification.institution.change_action')),
+        action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.institution.change_action')),
         change_path: edit_other_qualification_path(qualification),
       }
     end
@@ -47,7 +47,7 @@ module CandidateInterface
       {
         key: t('application_form.other_qualification.award_year.review_label'),
         value: qualification.award_year,
-        action: generate_change_action(qualification: qualification, attribute: t('application_form.other_qualification.award_year.change_action')),
+        action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.award_year.change_action')),
         change_path: edit_other_qualification_path(qualification),
       }
     end
@@ -56,7 +56,7 @@ module CandidateInterface
       {
         key: t('application_form.other_qualification.grade.label'),
         value: qualification.grade,
-        action: generate_change_action(qualification: qualification, attribute: t('application_form.other_qualification.grade.change_action')),
+        action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.grade.change_action')),
         change_path: edit_other_qualification_path(qualification),
       }
     end
@@ -65,8 +65,8 @@ module CandidateInterface
       Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_path(qualification.id)
     end
 
-    def generate_change_action(qualification:, attribute:)
-      "#{attribute} for #{qualification.qualification_type}, #{qualification.subject}, "\
+    def generate_action(qualification:, attribute: '')
+      "#{attribute.presence} for #{qualification.qualification_type}, #{qualification.subject}, "\
         "#{qualification.institution_name}, #{qualification.award_year}"
     end
   end

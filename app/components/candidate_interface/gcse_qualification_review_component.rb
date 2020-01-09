@@ -55,6 +55,7 @@ module CandidateInterface
       {
         key: 'How I expect to gain this qualification',
         value: application_qualification.missing_explanation.presence || t('gcse_summary.not_specified'),
+        action: 'how do you expect to gain this qualification',
         change_path: candidate_interface_gcse_details_edit_type_path(subject: subject),
       }
     end

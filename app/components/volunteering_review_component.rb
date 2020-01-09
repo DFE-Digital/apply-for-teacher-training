@@ -35,7 +35,7 @@ private
     {
       key: t('application_form.volunteering.role.review_label'),
       value: volunteering_role.role,
-      action: generate_change_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.role.change_action')),
+      action: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.role.change_action')),
       change_path: edit_path(volunteering_role),
     }
   end
@@ -44,7 +44,7 @@ private
     {
       key: t('application_form.volunteering.organisation.review_label'),
       value: volunteering_role.organisation,
-      action: generate_change_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.organisation.change_action')),
+      action: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.organisation.change_action')),
       change_path: edit_path(volunteering_role),
     }
   end
@@ -53,7 +53,7 @@ private
     {
       key: t('application_form.volunteering.review_length.review_label'),
       value: formatted_length(volunteering_role),
-      action: generate_change_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.review_length.change_action')),
+      action: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.review_length.change_action')),
       change_path: edit_path(volunteering_role),
     }
   end
@@ -62,7 +62,7 @@ private
     {
       key: t('application_form.volunteering.review_details.review_label'),
       value: formatted_details(volunteering_role),
-      action: generate_change_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.review_details.change_action')),
+      action: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.review_details.change_action')),
       change_path: edit_path(volunteering_role),
     }
   end
@@ -89,12 +89,12 @@ private
     Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(volunteering_role.id)
   end
 
-  def generate_change_action(volunteering_role:, attribute:)
+  def generate_action(volunteering_role:, attribute: '')
     if any_roles_with_same_role_and_organisation?(volunteering_role)
-      "#{attribute} for #{volunteering_role.role}, #{volunteering_role.organisation}"\
+      "#{attribute.presence} for #{volunteering_role.role}, #{volunteering_role.organisation}"\
         ", #{formatted_start_date(volunteering_role)} to #{formatted_end_date(volunteering_role)}"
     else
-      "#{attribute} for #{volunteering_role.role}, #{volunteering_role.organisation}"
+      "#{attribute.presence} for #{volunteering_role.role}, #{volunteering_role.organisation}"
     end
   end
 
