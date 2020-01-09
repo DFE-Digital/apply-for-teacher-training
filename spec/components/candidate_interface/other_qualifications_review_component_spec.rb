@@ -73,7 +73,9 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
     it 'renders component along with a delete link for each qualification' do
       result = render_inline(described_class, application_form: application_form)
 
-      expect(result.css('.app-summary-card__actions').text).to include(t('application_form.other_qualification.delete'))
+      expect(result.css('.app-summary-card__actions').text.strip).to include(
+        "#{t('application_form.other_qualification.delete')} for A-Level, Making Doggo Sounds, Doggo Sounds College, 2012",
+      )
       expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
         Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_other_qualification_path(qualification1),
       )
