@@ -15,11 +15,11 @@ module SupportInterface
     end
 
     def button_label
-      provider.sync_courses? ? 'Disable course syncing from Find' : 'Enable course syncing from Find'
+      provider.sync_courses? ? t('provider_sync_courses.button_label.disable') : t('provider_sync_courses.button_label.enable')
     end
 
     def status_label
-      "Course synching for this provider is switched #{provider.sync_courses? ? 'on' : 'off'}."
+      provider.sync_courses? ? t('provider_sync_courses.status_label.enabled') : t('provider_sync_courses.status_label.disabled')
     end
 
   private

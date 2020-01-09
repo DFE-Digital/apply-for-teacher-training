@@ -1,0 +1,8 @@
+en:
+  provider_sync_courses:
+    button_label:
+      enable: Enable course syncing from Find
+      disable: Disable course syncing from Find
+    status_label:
+      enabled: Course synching for this provider is switched on.
+      disabled: Course synching for this provider is switched off.
