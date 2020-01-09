@@ -2,27 +2,7 @@
 
 <h2 class='govuk-heading-l'><%= pluralize(@provider.courses.size, 'course') %> (<%= @provider.courses.applyable.size %> on DfE Apply)</h2>
 
-<%
-  if @provider.sync_courses?
-    toggle_course_syncing_path = support_interface_disable_provider_course_syncing_path(@provider)
-    toggle_course_syncing_label = 'Disable course syncing from Find'
-  else
-    toggle_course_syncing_path = support_interface_enable_provider_course_syncing_path(@provider)
-    toggle_course_syncing_label = 'Enable course syncing from Find'
-  end
-%>
-<%= form_with model: @provider,
-  url: toggle_course_syncing_path,
-  method: :post do |f|
-%>
-  <h3 class="govuk-heading-m">
-    Course syncing
-  </h3>
-
-  <p class="govuk-body">Course synching for this provider is switched <%= @provider.sync_courses? ? 'on' : 'off' %>.</p>
-
-  <%= f.govuk_submit toggle_course_syncing_label %>
-<% end %>
+<%= render(SupportInterface::ProviderSyncCoursesToggleComponent, provider: @provider) %>
 
 <% if @provider.courses.any? %>
   <%= form_with model: @provider, url: support_interface_provider_path(@provider), method: :post do |f| %>
