@@ -33,7 +33,12 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
       expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
         Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_path(qualification1),
       )
-      expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.other_qualification.institution.change_action')}")
+      expect(result.css('.govuk-summary-list__actions').text).to include(
+        "Change #{t('application_form.other_qualification.qualification.change_action')} for A-Level, Making Doggo Sounds, Doggo Sounds College, 2012",
+      )
+      expect(result.css('.govuk-summary-list__actions').text).to include(
+        "Change #{t('application_form.other_qualification.institution.change_action')} for A-Level, Making Doggo Sounds, Doggo Sounds College, 2012",
+      )
     end
 
     it 'renders component with correct values for an award year' do
@@ -42,7 +47,9 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
       expect(result.css('.app-summary-card__title').text).to include('A-Level Making Doggo Sounds')
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.award_year.review_label'))
       expect(result.css('.govuk-summary-list__value').text).to include('2012')
-      expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.other_qualification.award_year.change_action')}")
+      expect(result.css('.govuk-summary-list__actions').text).to include(
+        "Change #{t('application_form.other_qualification.award_year.change_action')} for A-Level, Making Doggo Sounds, Doggo Sounds College, 2012",
+      )
     end
 
     it 'renders component with correct values for a grade' do
@@ -51,7 +58,9 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
       expect(result.css('.app-summary-card__title').text).to include('A-Level Making Doggo Sounds')
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.grade.label'))
       expect(result.css('.govuk-summary-list__value').text).to include('A')
-      expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.other_qualification.grade.change_action')}")
+      expect(result.css('.govuk-summary-list__actions').text).to include(
+        "Change #{t('application_form.other_qualification.grade.change_action')} for A-Level, Making Doggo Sounds, Doggo Sounds College, 2012",
+      )
     end
 
     it 'renders component with correct values for multiple qualifications' do
