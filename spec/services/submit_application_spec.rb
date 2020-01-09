@@ -13,7 +13,6 @@ RSpec.describe SubmitApplication do
       SubmitApplication.new(application_form).call
       expect(application_form.application_choices[0]).to be_awaiting_references
       expect(application_form.application_choices[1]).to be_awaiting_references
-      expect(application_form.support_reference).not_to be_empty
     end
 
     it 'sets application_form.submitted_at' do

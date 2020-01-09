@@ -124,6 +124,6 @@
   </div>
 
   <div class="govuk-grid-column-one-third">
-    <%= render '/candidate_interface/shared/need_help' %>
+    <%= render partial: '/candidate_interface/shared/need_help', locals: { support_reference: @application_form.support_reference } %>
   </div>
 </div>
