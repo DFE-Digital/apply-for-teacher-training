@@ -28,7 +28,7 @@ module CandidateInterface
       {
         key: t('application_form.degree.qualification.label'),
         value: gcse_qualification_types[application_qualification.qualification_type.to_sym],
-        action: 'qualification',
+        action: "qualification for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
         change_path: candidate_interface_gcse_details_edit_type_path(subject: subject),
       }
     end
@@ -37,7 +37,7 @@ module CandidateInterface
       {
         key: 'Year awarded',
         value: application_qualification.award_year || t('gcse_summary.not_specified'),
-        action: 'year awarded',
+        action: "year awarded for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
         change_path: candidate_interface_gcse_details_edit_details_path(subject: subject),
       }
     end
@@ -46,7 +46,7 @@ module CandidateInterface
       {
         key: 'Grade',
         value: application_qualification.grade ? application_qualification.grade.upcase : t('gcse_summary.not_specified'),
-        action: 'grade',
+        action: "grade for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
         change_path: candidate_interface_gcse_details_edit_details_path(subject: subject),
       }
     end
