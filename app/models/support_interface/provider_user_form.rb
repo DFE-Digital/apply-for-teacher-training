@@ -3,7 +3,7 @@ module SupportInterface
     include ActiveModel::Model
     include ActiveModel::Validations
 
-    attr_accessor :email_address, :provider_ids, :available_providers, :provider_user
+    attr_accessor :email_address, :provider_ids, :provider_user
     attr_writer :dfe_sign_in_uid
 
     validates_presence_of :email_address
@@ -23,6 +23,10 @@ module SupportInterface
       )
     end
 
+    def available_providers
+      @available_providers ||= Provider.order(name: :asc)
+    end
+
     def dfe_sign_in_uid
       @dfe_sign_in_uid&.strip == '' ? nil : @dfe_sign_in_uid # allow nil or non-whitespace
     end
@@ -34,7 +38,6 @@ module SupportInterface
     def self.from_provider_user(provider_user)
       new(
         provider_user: provider_user,
-        available_providers: Provider.all,
         email_address: provider_user.email_address,
         provider_ids: provider_user.provider_ids,
         dfe_sign_in_uid: provider_user.dfe_sign_in_uid,

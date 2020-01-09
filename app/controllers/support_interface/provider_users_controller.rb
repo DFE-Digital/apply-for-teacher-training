@@ -5,11 +5,11 @@ module SupportInterface
     end
 
     def new
-      @form = ProviderUserForm.new(available_providers: Provider.all)
+      @form = ProviderUserForm.new
     end
 
     def create
-      @form = ProviderUserForm.new(provider_user_params.merge(available_providers: Provider.all))
+      @form = ProviderUserForm.new(provider_user_params)
 
       if @form.save
         flash[:success] = 'Provider user created'
@@ -27,7 +27,7 @@ module SupportInterface
     def update
       provider_user = ProviderUser.find(params[:id])
 
-      @form = ProviderUserForm.new(provider_user_params.merge(provider_user: provider_user, available_providers: Provider.all))
+      @form = ProviderUserForm.new(provider_user_params.merge(provider_user: provider_user))
 
       if @form.save
         flash[:success] = 'Provider user updated'
