@@ -7,7 +7,7 @@ class Clock
   include Clockwork
 
   every(5.minutes, 'ClockworkCheck') { ClockworkCheck.perform_async }
-  every(15.minutes, 'SyncFromFind') { SyncFromFind.perform_async }
+  every(15.minutes, 'SyncAllFromFind') { SyncAllFromFind.perform_async }
   every(1.hour, 'DetectInvariants') { DetectInvariants.perform_async }
   every(1.hour, 'SendApplicationsToProvider', at: '**:05') { SendApplicationsToProviderWorker.perform_async }
   every(1.hour, 'RejectApplicationsByDefault', at: '**:10') { RejectApplicationsByDefaultWorker.perform_async }
