@@ -33,7 +33,7 @@ module CandidateInterface
       {
         key: t('application_form.degree.qualification.label'),
         value: formatted_qualification(degree),
-        action: generate_change_action(degree: degree, attribute: t('application_form.degree.qualification.change_action')),
+        action: generate_action(degree: degree, attribute: t('application_form.degree.qualification.change_action')),
         change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id),
       }
     end
@@ -42,7 +42,7 @@ module CandidateInterface
       {
         key: t('application_form.degree.award_year.review_label'),
         value: degree.award_year,
-        action: generate_change_action(degree: degree, attribute: t('application_form.degree.award_year.change_action')),
+        action: generate_action(degree: degree, attribute: t('application_form.degree.award_year.change_action')),
         change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id),
       }
     end
@@ -51,7 +51,7 @@ module CandidateInterface
       {
         key: t('application_form.degree.grade.review_label'),
         value: formatted_grade(degree),
-        action: generate_change_action(degree: degree, attribute: t('application_form.degree.grade.change_action')),
+        action: generate_action(degree: degree, attribute: t('application_form.degree.grade.change_action')),
         change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id),
       }
     end
@@ -70,8 +70,8 @@ module CandidateInterface
       end
     end
 
-    def generate_change_action(degree:, attribute:)
-      "#{attribute} for #{degree.qualification_type}, #{degree.subject}, #{degree.institution_name}, #{degree.award_year}"
+    def generate_action(degree:, attribute: '')
+      "#{attribute.presence} for #{degree.qualification_type}, #{degree.subject}, #{degree.institution_name}, #{degree.award_year}"
     end
   end
 end

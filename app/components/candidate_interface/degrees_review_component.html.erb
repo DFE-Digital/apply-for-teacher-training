@@ -4,8 +4,7 @@
       <% if @editable %>
         <div class="app-summary-card__actions">
           <%= link_to candidate_interface_confirm_degrees_destroy_path(degree.id), class: 'govuk-link' do %>
-            <%= t('application_form.degree.delete') %>
-            <span class="govuk-visually-hidden"> <%= degree.subject %></span>
+            <%= t('application_form.degree.delete') %><span class="govuk-visually-hidden"><%= generate_action(degree: degree) %></span>
           <% end %>
         </div>
       <% end %>
