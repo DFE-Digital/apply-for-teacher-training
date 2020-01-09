@@ -4,8 +4,7 @@
       <% if @editable %>
         <div class="app-summary-card__actions">
           <%= link_to candidate_interface_confirm_destroy_volunteering_role_path(volunteering_role.id), class: 'govuk-link' do %>
-            <%= t('application_form.volunteering.delete') %>
-            <span class="govuk-visually-hidden"> <%= volunteering_role.role %></span>
+            <%= t('application_form.volunteering.delete') %><span class="govuk-visually-hidden"><%= generate_action(volunteering_role: volunteering_role) %></span>
           <% end %>
         </div>
       <% end %>
