@@ -10,7 +10,7 @@ module SupportInterface
     end
 
     def sync
-      SyncFromFind.perform_async
+      SyncAllFromFind.perform_async
       redirect_to action: 'index'
     end
 
