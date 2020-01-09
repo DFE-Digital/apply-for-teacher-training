@@ -148,7 +148,7 @@ RSpec.describe WorkHistoryReviewComponent do
         expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
           Rails.application.routes.url_helpers.candidate_interface_work_history_explanation_path,
         )
-        expect(result.css('.govuk-summary-list__actions').text).to include('Change explanation')
+        expect(result.css('.govuk-summary-list__actions').text).to include('Change explanation of why you’ve been out of the workplace')
       end
     end
 
