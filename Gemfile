@@ -5,7 +5,7 @@ ruby '2.6.3'
 
 gem 'rails', '~> 6.0'
 gem 'puma', '~> 4.3'
-gem 'pg', '~> 1.2.1'
+gem 'pg', '~> 1.2.2'
 
 gem 'webpacker'
 gem 'govuk_design_system_formbuilder', '1.1.1'
