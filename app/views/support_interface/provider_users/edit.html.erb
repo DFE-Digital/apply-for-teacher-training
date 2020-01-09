@@ -16,10 +16,12 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @form, url: support_interface_provider_users_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+    <%= form_with model: @form, url: support_interface_provider_user_path(@form.provider_user), builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class='govuk-heading-xl'>Add provider user</h1>
+      <h1 class='govuk-heading-xl'>
+        Edit provider user
+      </h1>
 
       <%= f.govuk_text_field :email_address, label: { text: 'Email address' } %>
       <% blank_uid_notice = 'If you leave this empty, it will be automatically set when this email address signs in for the first time.' %>
@@ -27,7 +29,7 @@
 
       <%= f.govuk_collection_check_boxes :provider_ids, @form.available_providers, :id, :name_and_code, legend: { text: 'Provider' } %>
 
-      <%= f.govuk_submit 'Add provider user' %>
+      <%= f.govuk_submit 'Update user' %>
     <% end %>
   </div>
 </div>

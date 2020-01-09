@@ -17,6 +17,14 @@ RSpec.feature 'Managing provider users' do
 
     then_i_should_see_the_list_of_provider_users
     and_i_should_see_the_user_i_created
+
+    when_i_click_on_that_user
+    and_i_add_them_to_another_organisation
+    then_i_see_an_error
+
+    when_i_remove_the_original_organisation
+    and_i_add_them_to_another_organisation
+    then_i_see_that_they_have_been_added_to_that_organisation
   end
 
   def given_i_am_a_support_user
@@ -24,7 +32,8 @@ RSpec.feature 'Managing provider users' do
   end
 
   def and_providers_exist
-    create(:provider, name: 'Example provider')
+    create(:provider, name: 'Example provider', code: 'ABC')
+    create(:provider, name: 'Another provider', code: 'DEF')
   end
 
   def when_i_visit_the_support_console
@@ -45,7 +54,7 @@ RSpec.feature 'Managing provider users' do
   end
 
   def and_i_select_a_provider
-    choose 'Example provider'
+    check 'Example provider (ABC)'
   end
 
   def and_i_click_the_add_user_link
@@ -62,5 +71,27 @@ RSpec.feature 'Managing provider users' do
 
   def and_i_should_see_the_user_i_created
     expect(page).to have_content('harrison@example.com')
+  end
+
+  def when_i_click_on_that_user
+    click_link 'harrison@example.com'
+  end
+
+  def and_i_add_them_to_another_organisation
+    check 'Another provider (DEF)'
+    click_button 'Update user'
+  end
+
+  def then_i_see_an_error
+    expect(page).to have_content 'You can only select one provider per user'
+  end
+
+  def when_i_remove_the_original_organisation
+    uncheck 'Example provider (ABC)'
+  end
+
+  def then_i_see_that_they_have_been_added_to_that_organisation
+    expect(page).not_to have_checked_field('Example provider (ABC)')
+    expect(page).to have_checked_field('Another provider (DEF)')
   end
 end
