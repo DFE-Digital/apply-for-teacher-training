@@ -315,6 +315,8 @@ Rails.application.routes.draw do
     post '/providers/sync' => 'providers#sync'
     get '/providers/:provider_id' => 'providers#show', as: :provider
     post '/providers/:provider_id' => 'providers#open_all_courses'
+    post '/providers/:provider_id/enable_course_syncing' => 'providers#enable_course_syncing', as: :enable_provider_course_syncing
+    post '/providers/:provider_id/disable_course_syncing' => 'providers#disable_course_syncing', as: :disable_provider_course_syncing
 
     get '/courses/:course_id' => 'courses#show', as: :course
     post '/courses/:course_id' => 'courses#update'

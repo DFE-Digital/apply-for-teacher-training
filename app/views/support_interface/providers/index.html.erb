@@ -24,7 +24,11 @@
           <%= govuk_link_to provider.name_and_code, support_interface_provider_path(provider) %>
         </td>
         <td class='govuk-table__cell'>
-          <%= pluralize provider.courses.size, 'course' %> (<%= provider.courses.applyable.size %> on DfE Apply)
+          <% if provider.sync_courses? %>
+            <%= pluralize provider.courses.size, 'course' %> (<%= provider.courses.applyable.size %> on DfE Apply)
+          <% else %>
+            Not synced from Find
+          <% end %>
         </td>
         <td class='govuk-table__cell'>
           <%= provider.sites.size %>

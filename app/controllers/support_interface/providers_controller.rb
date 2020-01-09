@@ -15,9 +15,23 @@ module SupportInterface
     end
 
     def open_all_courses
+      update_provider { |provider| provider.courses.update_all(open_on_apply: true) }
+    end
+
+    def enable_course_syncing
+      update_provider { |provider| provider.update!(sync_courses: true) }
+    end
+
+    def disable_course_syncing
+      update_provider { |provider| provider.update!(sync_courses: false) }
+    end
+
+    private
+
+    def update_provider
       @provider = Provider.find(params[:provider_id])
 
-      @provider.courses.update_all(open_on_apply: true)
+      yield @provider
 
       flash[:success] = 'Successfully updated all courses'
       redirect_to support_interface_provider_path(@provider)
