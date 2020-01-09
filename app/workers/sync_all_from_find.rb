@@ -1,4 +1,4 @@
-class SyncFromFind
+class SyncAllFromFind
   include Sidekiq::Worker
 
   def perform
