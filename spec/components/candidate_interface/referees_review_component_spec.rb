@@ -34,6 +34,19 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
         Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_referee_path(referee_id),
       )
     end
+
+    it 'renders correct text for "Change" links in each attribute row' do
+      first_referee = application_form.application_references.first
+      result = render_inline(described_class, application_form: application_form)
+
+      change_name = result.css('.govuk-summary-list__actions')[0].text.strip
+      change_email = result.css('.govuk-summary-list__actions')[1].text.strip
+      change_relationship = result.css('.govuk-summary-list__actions')[2].text.strip
+
+      expect(change_name).to eq("Change name for #{first_referee.name}")
+      expect(change_email).to eq("Change email address for #{first_referee.name}")
+      expect(change_relationship).to eq("Change relationship for #{first_referee.name}")
+    end
   end
 
   context 'when referees are not editable' do
