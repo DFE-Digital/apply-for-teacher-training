@@ -27,7 +27,7 @@ module SupportInterface
     def update
       provider_user = ProviderUser.find(params[:id])
 
-      @form = ProviderUserForm.new(provider_user_params.merge(provider_user: provider_user))
+      @form = ProviderUserForm.new(provider_user_params.merge(provider_user: provider_user, available_providers: Provider.all))
 
       if @form.save
         flash[:success] = 'Provider user updated'

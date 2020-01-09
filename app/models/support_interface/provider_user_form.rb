@@ -8,6 +8,7 @@ module SupportInterface
 
     validates_presence_of :email_address
     validates :provider_ids, presence: true
+    validate :temporarily_one_provider_per_user
     validate :provider_user_uid_unique
 
     def save
@@ -48,6 +49,12 @@ module SupportInterface
           errors.add(:dfe_sign_in_uid, error)
         end
       end
+    end
+
+    def temporarily_one_provider_per_user
+      return unless provider_ids.count(&:present?) > 1
+
+      errors.add(:provider_ids, 'You can only select one provider per user (temporarily)')
     end
   end
 end

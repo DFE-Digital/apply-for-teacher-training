@@ -20,6 +20,10 @@ RSpec.feature 'Managing provider users' do
 
     when_i_click_on_that_user
     and_i_add_them_to_another_organisation
+    then_i_see_an_error
+
+    when_i_remove_the_original_organisation
+    and_i_add_them_to_another_organisation
     then_i_see_that_they_have_been_added_to_that_organisation
   end
 
@@ -78,8 +82,16 @@ RSpec.feature 'Managing provider users' do
     click_button 'Update user'
   end
 
+  def then_i_see_an_error
+    expect(page).to have_content 'You can only select one provider per user'
+  end
+
+  def when_i_remove_the_original_organisation
+    uncheck 'Example provider (ABC)'
+  end
+
   def then_i_see_that_they_have_been_added_to_that_organisation
-    expect(page).to have_checked_field('Example provider (ABC)')
+    expect(page).not_to have_checked_field('Example provider (ABC)')
     expect(page).to have_checked_field('Another provider (DEF)')
   end
 end
