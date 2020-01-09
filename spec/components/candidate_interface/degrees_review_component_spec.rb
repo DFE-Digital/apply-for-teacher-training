@@ -35,7 +35,9 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
         Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree1),
       )
-      expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.degree.qualification.change_action')}")
+      expect(result.css('.govuk-summary-list__actions').text).to include(
+        "Change #{t('application_form.degree.qualification.change_action')} for BA, Woof, University of Doge, 2008",
+      )
     end
 
     it 'renders component with correct values for an award year' do
@@ -44,7 +46,9 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       expect(result.css('.app-summary-card__title').text).to include('BA Woof')
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.award_year.review_label'))
       expect(result.css('.govuk-summary-list__value').text).to include('2008')
-      expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.degree.award_year.change_action')}")
+      expect(result.css('.govuk-summary-list__actions').text).to include(
+        "Change #{t('application_form.degree.award_year.change_action')} for BA, Woof, University of Doge, 2008",
+      )
     end
 
     it 'renders component with correct values for a known degree grade' do
@@ -53,7 +57,9 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       expect(result.css('.app-summary-card__title').text).to include('BA Woof')
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.grade.review_label'))
       expect(result.css('.govuk-summary-list__value').text).to include(t('application_form.degree.grade.upper_second.label'))
-      expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.degree.grade.change_action')}")
+      expect(result.css('.govuk-summary-list__actions').text).to include(
+        "Change #{t('application_form.degree.grade.change_action')} for BA, Woof, University of Doge, 2008",
+      )
     end
 
     it 'renders component with correct values for a predicted grade' do
