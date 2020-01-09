@@ -59,7 +59,7 @@ private
     {
       key: 'Job',
       value: [work.role, work.organisation],
-      action: generate_change_action(work: work, attribute: 'job title'),
+      action: generate_action(work: work, attribute: 'job title'),
       change_path: candidate_interface_work_history_edit_path(work.id),
     }
   end
@@ -68,7 +68,7 @@ private
     {
       key: 'Type',
       value: work.commitment.dasherize.humanize,
-      action: generate_change_action(work: work, attribute: 'type'),
+      action: generate_action(work: work, attribute: 'type'),
       change_path: candidate_interface_work_history_edit_path(work.id),
     }
   end
@@ -77,7 +77,7 @@ private
     {
       key: 'Description',
       value: work.details,
-      action: generate_change_action(work: work, attribute: 'description'),
+      action: generate_action(work: work, attribute: 'description'),
       change_path: candidate_interface_work_history_edit_path(work.id),
     }
   end
@@ -86,7 +86,7 @@ private
     {
       key: 'Dates',
       value: "#{formatted_start_date(work)} - #{formatted_end_date(work)}",
-      action: generate_change_action(work: work, attribute: 'dates'),
+      action: generate_action(work: work, attribute: 'dates'),
       change_path: candidate_interface_work_history_edit_path(work.id),
     }
   end
@@ -101,11 +101,11 @@ private
     work.end_date.to_s(:month_and_year)
   end
 
-  def generate_change_action(work:, attribute:)
+  def generate_action(work:, attribute: '')
     if any_jobs_with_same_role_and_organisation?(work)
-      "#{attribute} for #{work.role}, #{work.organisation}, #{formatted_start_date(work)} to #{formatted_end_date(work)}"
+      "#{attribute.presence} for #{work.role}, #{work.organisation}, #{formatted_start_date(work)} to #{formatted_end_date(work)}"
     else
-      "#{attribute} for #{work.role}, #{work.organisation}"
+      "#{attribute.presence} for #{work.role}, #{work.organisation}"
     end
   end
 
