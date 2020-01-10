@@ -33,9 +33,9 @@ ActiveRecord::Schema.define(version: 2020_01_10_071407) do
     t.integer "decline_by_default_days"
     t.datetime "offered_at"
     t.datetime "rejected_at"
-    t.datetime "withdrawn_at"
     t.datetime "declined_at"
     t.boolean "declined_by_default", default: false, null: false
+    t.datetime "withdrawn_at"
     t.integer "offered_course_option_id"
     t.datetime "accepted_at"
     t.datetime "recruited_at"
@@ -215,6 +215,7 @@ ActiveRecord::Schema.define(version: 2020_01_10_071407) do
     t.string "code"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "sync_courses", default: false, null: false
     t.index ["code"], name: "index_providers_on_code", unique: true
   end
 
