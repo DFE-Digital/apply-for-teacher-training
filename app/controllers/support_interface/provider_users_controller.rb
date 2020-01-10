@@ -1,7 +1,7 @@
 module SupportInterface
   class ProviderUsersController < SupportInterfaceController
     def index
-      @provider_users = ProviderUser.all
+      @provider_users = ProviderUser.includes(:providers).all
     end
 
     def new

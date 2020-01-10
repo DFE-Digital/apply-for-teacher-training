@@ -11,6 +11,11 @@
     @extend %govuk-heading-s;
   }
 
+  h5 {
+    @extend %govuk-heading-s;
+    font-size: 0.99em;
+  }
+
   p,
   dl {
     @extend %govuk-body-m;

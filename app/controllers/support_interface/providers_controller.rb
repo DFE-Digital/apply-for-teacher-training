@@ -6,6 +6,7 @@ module SupportInterface
 
     def show
       @provider = Provider.includes(:courses, :sites).find(params[:provider_id])
+      @provider_agreement = ProviderAgreement.data_sharing_agreements.for_provider(@provider).last
     end
 
     def sync

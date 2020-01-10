@@ -1,6 +1,8 @@
 module ProviderInterface
   class SessionsController < ProviderInterfaceController
     skip_before_action :authenticate_provider_user!
+    skip_before_action :check_data_sharing_agreements
+
     def new; end
 
     def destroy

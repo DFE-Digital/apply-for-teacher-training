@@ -4,6 +4,7 @@ module ProviderInterface
     before_action :authenticate_provider_user!
     around_action :set_audit_username
     before_action :add_identity_to_log
+    before_action :check_data_sharing_agreements
 
     layout 'application'
 
@@ -57,6 +58,12 @@ module ProviderInterface
 
       RequestLocals.store[:identity] = { dfe_sign_in_uid: current_provider_user.dfe_sign_in_uid }
       Raven.user_context(dfe_sign_in_uid: current_provider_user.dfe_sign_in_uid)
+    end
+
+    def check_data_sharing_agreements
+      if GetPendingDataSharingAgreementsForProviderUser.call(provider_user: current_provider_user).any?
+        redirect_to provider_interface_new_data_sharing_agreement_path
+      end
     end
   end
 end
