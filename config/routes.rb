@@ -135,6 +135,14 @@ Rails.application.routes.draw do
         get '/' => 'degrees/base#new', as: :degrees_new_base
         post '/' => 'degrees/base#create', as: :degrees_create_base
 
+        get '/:id/grade' => 'degrees/grade#new', as: :degrees_grade
+        get '/:id/grade/edit' => 'degrees/grade#edit', as: :degrees_grade_edit
+        post '/:id/grade' => 'degrees/grade#update', as: :degrees_create_grade
+
+        get '/:id/year' => 'degrees/year#new', as: :degrees_year
+        get '/:id/year/edit' => 'degrees/year#edit', as: :degrees_year_edit
+        post '/:id/year' => 'degrees/year#update', as: :degrees_create_year
+
         get '/review' => 'degrees/review#show', as: :degrees_review
         patch '/review' => 'degrees/review#complete', as: :degrees_complete
 
