@@ -144,12 +144,14 @@ module CandidateHelper
     fill_in t('application_form.degree.qualification_type.label'), with: 'BA'
     fill_in t('application_form.degree.subject.label'), with: 'Doge'
     fill_in t('application_form.degree.institution_name.label'), with: 'University of Much Wow'
+    click_button t('application_form.degree.base.button')
 
     choose t('application_form.degree.grade.first.label')
+    click_button t('application_form.degree.base.button')
 
     fill_in t('application_form.degree.award_year.label'), with: '2009'
-
     click_button t('application_form.degree.base.button')
+
     check t('application_form.degree.review.completed_checkbox')
     click_button t('application_form.degree.review.button')
   end
