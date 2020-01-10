@@ -14,6 +14,7 @@ class ApplicationReference < ApplicationRecord
 
   audited associated_with: :application_form
 
+  # TODO: remove once `feedback_status` is deployed on all environments
   scope :completed, -> { where('feedback IS NOT NULL') }
 
   enum feedback_status: {
