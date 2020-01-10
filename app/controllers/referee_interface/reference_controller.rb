@@ -8,7 +8,7 @@ module RefereeInterface
     layout 'application'
 
     def feedback
-      if reference.feedback.blank?
+      if reference.feedback_requested?
         @application = reference.application_form
 
         @reference_form = ReceiveReference.new(application_form: @application,

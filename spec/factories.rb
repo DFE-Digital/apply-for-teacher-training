@@ -227,6 +227,7 @@ FactoryBot.define do
     end
 
     trait :complete do
+      feedback_status { 'feedback_provided' }
       feedback { Faker::Lorem.paragraph(sentence_count: 10) }
     end
   end

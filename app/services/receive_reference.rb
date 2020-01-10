@@ -22,7 +22,7 @@ class ReceiveReference
       @application_form
         .application_references
         .find { |reference| reference.email_address == @referee_email }
-        .update!(feedback: @feedback)
+        .update!(feedback: @feedback, feedback_status: 'feedback_provided')
 
       if @application_form.application_references_complete?
         @application_form.application_choices.includes(:course_option).each do |application_choice|

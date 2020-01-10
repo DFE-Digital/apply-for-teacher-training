@@ -34,16 +34,6 @@ RSpec.describe ApplicationReference, type: :model do
     it { is_expected.not_to allow_value(invalid_text).for(:relationship) }
   end
 
-  describe '#complete?' do
-    it 'is complete when there is a reference' do
-      expect(build(:reference, feedback: 'abc')).to be_complete
-    end
-
-    it 'is incomplete when there is no reference' do
-      expect(build(:reference, feedback: nil)).not_to be_complete
-    end
-  end
-
   describe 'saving a new reference' do
     context 'when there is no existing reference on the same application_form' do
       let!(:application_form) { create(:application_form) }
