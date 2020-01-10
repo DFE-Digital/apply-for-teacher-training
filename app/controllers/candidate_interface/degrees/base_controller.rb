@@ -10,9 +10,10 @@ module CandidateInterface
 
     def create
       @degree = DegreeForm.new(degree_params)
+      qualification = @degree.save_base(current_application)
 
-      if @degree.save(current_application)
-        redirect_to candidate_interface_degrees_review_path
+      if qualification
+        redirect_to candidate_interface_degrees_grade_path(qualification.id)
       else
         render_new
       end
@@ -26,7 +27,7 @@ module CandidateInterface
     def update
       @degree = DegreeForm.new(degree_params)
 
-      if @degree.update(current_application)
+      if @degree.update_base(current_application)
         redirect_to candidate_interface_degrees_review_path
       else
         render_new

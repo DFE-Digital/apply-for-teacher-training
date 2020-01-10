@@ -43,7 +43,7 @@ module CandidateInterface
         key: t('application_form.degree.award_year.review_label'),
         value: degree.award_year,
         action: generate_action(degree: degree, attribute: t('application_form.degree.award_year.change_action')),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id),
+        change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_year_edit_path(degree.id),
       }
     end
 
@@ -52,7 +52,7 @@ module CandidateInterface
         key: t('application_form.degree.grade.review_label'),
         value: formatted_grade(degree),
         action: generate_action(degree: degree, attribute: t('application_form.degree.grade.change_action')),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id),
+        change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_grade_edit_path(degree.id),
       }
     end
 
