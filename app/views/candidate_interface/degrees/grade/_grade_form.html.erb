@@ -1,0 +1,34 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.add_undergraduate_degree'), degree.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: degree, url: candidate_interface_degrees_create_grade_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.what_class_is_your_degree') %>
+      </h1>
+
+      <%= f.govuk_radio_buttons_fieldset :grade, legend: { tag: 'span' } do %>
+
+        <% CandidateInterface::DegreeForm::CLASSES.each_with_index do |degree_class, i| %>
+          <%= f.govuk_radio_button :grade, degree_class, label: { text: t("application_form.degree.grade.#{degree_class}.label") }, link_errors: i.zero? %>
+        <% end %>
+
+        <%= f.govuk_radio_button :grade, 'other', label: { text: t('application_form.degree.grade.other.label') } do %>
+          <%= f.govuk_text_field :other_grade, label: { text: t('application_form.degree.grade.other.conditional.label') }, width: 10 %>
+        <% end %>
+
+        <%= f.govuk_radio_divider %>
+
+        <%= f.govuk_radio_button :grade, 'predicted', label: { text: t('application_form.degree.grade.predicted.label') } do %>
+          <%= f.govuk_text_field :predicted_grade, label: { text: t('application_form.degree.grade.predicted.conditional.label') }, hint_text: t('application_form.degree.grade.predicted.conditional.hint_text'), width: 10 %>
+        <% end %>
+      <% end %>
+
+      <%= f.govuk_submit t('application_form.degree.base.button') %>
+
+    <% end %>
+  </div>
+</div>
