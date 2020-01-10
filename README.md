@@ -37,6 +37,7 @@ for doing so](#deploy-env-setup).
   * [Pipeline Variables](#documentation-pipeline-vars)
   * [Database Restore](#documentation-db-restore)
   * [Connecting to live databases](#documentation-db-connect)
+  * [Testing](#testing)
 
 ## <a name="dependencies"></a>Dependencies
 
@@ -327,3 +328,7 @@ Email alerting is not configured for the `/check` domains using this approach, i
 ### <a name="documentation-db-connect"></a>Connecting to live databases
 
 👉 [See instructions for connection to production database](/docs/connecting-to-databases.md)
+
+### <a name="testing"></a>Testing
+
+👉 [See testing styleguide](/docs/testing-styleguide.md)
