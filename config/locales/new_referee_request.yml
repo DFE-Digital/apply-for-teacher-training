@@ -1,0 +1,5 @@
+en:
+  new_referee_request:
+    not_responded:
+      subject: "Give details of a new referee: %{referee_name} hasn't responded"
+      explanation: We haven’t had a reference from %{referee_name}.

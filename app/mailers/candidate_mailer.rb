@@ -50,4 +50,13 @@ class CandidateMailer < ApplicationMailer
               template_path: 'survey_emails',
               template_name: 'chaser')
   end
+
+  def new_referee_request(application_form, reference)
+    @candidate_name = application_form.first_name
+    @referee_name = reference.name
+
+    view_mail(GENERIC_NOTIFY_TEMPLATE,
+              to: application_form.candidate.email_address,
+              subject: t('new_referee_request.not_responded.subject', referee_name: @referee_name))
+  end
 end
