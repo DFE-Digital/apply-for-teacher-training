@@ -228,8 +228,10 @@ ActiveRecord::Schema.define(version: 2020_01_10_071407) do
     t.string "relationship"
     t.string "hashed_sign_in_token"
     t.boolean "consent_to_be_contacted"
+    t.string "feedback_status", default: "not_requested_yet", null: false
     t.index ["application_form_id", "email_address"], name: "index_references_on_application_form_id_and_email_address", unique: true
     t.index ["application_form_id"], name: "index_references_on_application_form_id"
+    t.index ["feedback_status"], name: "index_references_on_feedback_status"
   end
 
   create_table "sites", force: :cascade do |t|

@@ -5,6 +5,7 @@ class ReferenceWithFeedbackComponent < ActionView::Component::Base
            :name,
            :email_address,
            :relationship,
+           :feedback_status,
            to: :reference
 
   def initialize(reference:, title: '', show_chase_reference: false)
@@ -15,6 +16,7 @@ class ReferenceWithFeedbackComponent < ActionView::Component::Base
 
   def rows
     [
+      status_row,
       name_row,
       email_address_row,
       relationship_row,
@@ -23,6 +25,13 @@ class ReferenceWithFeedbackComponent < ActionView::Component::Base
   end
 
 private
+
+  def status_row
+    {
+      key: 'Feedback status',
+      value: render(TagComponent, text: feedback_status, type: 'blue'),
+    }
+  end
 
   def name_row
     {

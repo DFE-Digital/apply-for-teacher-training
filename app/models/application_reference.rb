@@ -16,9 +16,11 @@ class ApplicationReference < ApplicationRecord
 
   scope :completed, -> { where('feedback IS NOT NULL') }
 
-  def complete?
-    feedback.present?
-  end
+  enum feedback_status: {
+    not_requested_yet: 'not_requested_yet',
+    feedback_requested: 'feedback_requested',
+    feedback_provided: 'feedback_provided',
+  }
 
   def ordinal
     self.application_form.application_references.find_index(self).to_i + 1
@@ -34,7 +36,7 @@ class ApplicationReference < ApplicationRecord
 
   def update_token!
     unhashed_token, hashed_token = Devise.token_generator.generate(ApplicationReference, :hashed_sign_in_token)
-    update!(hashed_sign_in_token: hashed_token)
+    update!(hashed_sign_in_token: hashed_token, feedback_status: 'feedback_requested')
     unhashed_token
   end
 

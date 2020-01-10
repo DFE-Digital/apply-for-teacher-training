@@ -21,7 +21,7 @@ class ImportReferencesFromCsv
     reference = ApplicationReference.find(reference_id)
     application_form = ApplicationForm.includes(:application_references).where(references: { id: reference_id }).first
 
-    if reference.feedback?
+    if reference.feedback_provided?
       {
         referee_email: referee_email,
         application_form: application_form,
