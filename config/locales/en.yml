@@ -36,6 +36,8 @@ en:
     add_job: Add job
     degree: Degree
     add_undergraduate_degree: Add undergraduate degree
+    what_class_is_your_degree: What class is your degree?
+    what_year_did_you_graduate: What year did you graduate?
     work_history_destroy: Are you sure you want to delete this entry?
     edit_job: Edit job
     add_another_degree: Add another degree
