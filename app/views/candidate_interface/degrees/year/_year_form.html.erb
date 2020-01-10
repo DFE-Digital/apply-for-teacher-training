@@ -1,0 +1,19 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.add_undergraduate_degree'), degree.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: degree, url: candidate_interface_degrees_create_year_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.what_year_did_you_graduate') %>
+      </h1>
+
+      <%= f.govuk_text_field :award_year, label: { text: t('application_form.degree.award_year.label'), size: 'm' }, type: :number, hint_text: t('application_form.degree.award_year.hint_text'), width: 4 %>
+
+      <%= f.govuk_submit t('application_form.degree.base.button') %>
+
+    <% end %>
+  </div>
+</div>
