@@ -438,7 +438,7 @@ GEM
     sentry-raven (2.13.0)
       faraday (>= 0.7.6, < 1.0)
     shellany (0.0.1)
-    shoulda-matchers (4.1.2)
+    shoulda-matchers (4.2.0)
       activesupport (>= 4.2.0)
     sidekiq (6.0.4)
       connection_pool (>= 2.2.2)
@@ -562,7 +562,7 @@ DEPENDENCIES
   rubocop-govuk
   selenium-webdriver
   sentry-raven
-  shoulda-matchers (~> 4.1)
+  shoulda-matchers (~> 4.2)
   sidekiq
   simplecov
   timecop
