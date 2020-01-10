@@ -10,10 +10,7 @@ module RefereeInterface
     def feedback
       if reference.feedback_requested?
         @application = reference.application_form
-
-        @reference_form = ReceiveReference.new(application_form: @application,
-                                               referee_email: reference.email_address,
-                                               feedback: '')
+        @reference_form = ReferenceFeedbackForm.new(reference: reference)
       else
         render :finish
       end
@@ -22,9 +19,10 @@ module RefereeInterface
     def submit_feedback
       @application = reference.application_form
 
-      @reference_form = ReceiveReference.new(application_form: @application,
-                           referee_email: reference.email_address,
-                           feedback: params[:receive_reference][:feedback])
+      @reference_form = ReferenceFeedbackForm.new(
+        reference: reference,
+        feedback: params[:referee_interface_reference_feedback_form][:feedback],
+      )
 
       if @reference_form.save
         redirect_to referee_interface_confirmation_path(token: @token_param)
