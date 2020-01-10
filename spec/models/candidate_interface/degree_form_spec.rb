@@ -6,23 +6,21 @@ RSpec.describe CandidateInterface::DegreeForm, type: :model do
       qualification_type: 'BA',
       subject: 'Doge',
       institution_name: 'University of Much Wow',
-      grade: 'first',
-      award_year: '2008',
     }
   end
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:qualification_type) }
-    it { is_expected.to validate_presence_of(:subject) }
-    it { is_expected.to validate_presence_of(:institution_name) }
-    it { is_expected.to validate_presence_of(:grade) }
-    it { is_expected.to validate_presence_of(:award_year) }
+    it { is_expected.to validate_presence_of(:qualification_type).on(:base) }
+    it { is_expected.to validate_presence_of(:subject).on(:base) }
+    it { is_expected.to validate_presence_of(:institution_name).on(:base) }
+    it { is_expected.to validate_presence_of(:grade).on(:grade) }
+    it { is_expected.to validate_presence_of(:award_year).on(:award_year) }
 
     it "validates presence of `other_grade` if chosen grade is 'other'" do
       degree = CandidateInterface::DegreeForm.new(grade: 'other')
       error_message = t('activemodel.errors.models.candidate_interface/degree_form.attributes.other_grade.blank')
 
-      degree.validate
+      degree.validate(:grade)
 
       expect(degree.errors.full_messages_for(:other_grade)).to eq(
         ["Other grade #{error_message}"],
@@ -33,19 +31,19 @@ RSpec.describe CandidateInterface::DegreeForm, type: :model do
       degree = CandidateInterface::DegreeForm.new(grade: 'predicted')
       error_message = t('activemodel.errors.models.candidate_interface/degree_form.attributes.predicted_grade.blank')
 
-      degree.validate
+      degree.validate(:grade)
 
       expect(degree.errors.full_messages_for(:predicted_grade)).to eq(
         ["Predicted grade #{error_message}"],
       )
     end
 
-    it { is_expected.to validate_length_of(:qualification_type).is_at_most(255) }
-    it { is_expected.to validate_length_of(:subject).is_at_most(255) }
-    it { is_expected.to validate_length_of(:institution_name).is_at_most(255) }
-    it { is_expected.to validate_length_of(:grade).is_at_most(255) }
-    it { is_expected.to validate_length_of(:other_grade).is_at_most(255) }
-    it { is_expected.to validate_length_of(:predicted_grade).is_at_most(255) }
+    it { is_expected.to validate_length_of(:qualification_type).is_at_most(255).on(:base) }
+    it { is_expected.to validate_length_of(:subject).is_at_most(255).on(:base) }
+    it { is_expected.to validate_length_of(:institution_name).is_at_most(255).on(:base) }
+    it { is_expected.to validate_length_of(:grade).is_at_most(255).on(:grade) }
+    it { is_expected.to validate_length_of(:other_grade).is_at_most(255).on(:grade) }
+    it { is_expected.to validate_length_of(:predicted_grade).is_at_most(255).on(:grade) }
 
     describe 'award year' do
       ['a year', '200'].each do |invalid_date|
@@ -53,7 +51,7 @@ RSpec.describe CandidateInterface::DegreeForm, type: :model do
           degree = CandidateInterface::DegreeForm.new(award_year: invalid_date)
           error_message = t('activemodel.errors.models.candidate_interface/degree_form.attributes.award_year.invalid')
 
-          degree.validate
+          degree.validate(:award_year)
 
           expect(degree.errors.full_messages_for(:award_year)).to eq(
             ["Award year #{error_message}"],
@@ -219,46 +217,24 @@ RSpec.describe CandidateInterface::DegreeForm, type: :model do
     end
   end
 
-  describe '#save' do
+  describe '#save_base' do
     it 'returns false if not valid' do
       degree = CandidateInterface::DegreeForm.new
 
-      expect(degree.save(ApplicationForm.new)).to eq(false)
+      expect(degree.save_base(ApplicationForm.new)).to eq(false)
     end
 
-    it 'saves the provided ApplicationForm if valid' do
+    it 'saves a new degree on the provided ApplicationForm if valid' do
       application_form = create(:application_form)
       degree = CandidateInterface::DegreeForm.new(form_data)
 
-      expect(degree.save(application_form)).to eq(true)
+      expect(degree.save_base(application_form)).to be_truthy
       expect(application_form.application_qualifications.degree.first)
         .to have_attributes(form_data)
     end
-
-    it 'saves grade for the provided ApplicationForm if other grade is given' do
-      form_data[:grade] = 'other'
-      form_data[:other_grade] = 'Distinction'
-      application_form = create(:application_form)
-      degree = CandidateInterface::DegreeForm.new(form_data)
-
-      expect(degree.save(application_form)).to eq(true)
-      expect(application_form.application_qualifications.degree.first)
-        .to have_attributes(grade: 'Distinction')
-    end
-
-    it 'saves grade and predicted grade for the provided ApplicationForm if predicted grade is given' do
-      form_data[:grade] = 'predicted'
-      form_data[:predicted_grade] = 'First'
-      application_form = create(:application_form)
-      degree = CandidateInterface::DegreeForm.new(form_data)
-
-      expect(degree.save(application_form)).to eq(true)
-      expect(application_form.application_qualifications.degree.first)
-        .to have_attributes(grade: 'First', predicted_grade: true)
-    end
   end
 
-  describe '#update' do
+  context 'updating degree form' do
     let(:application_form) { create(:application_form) }
     let(:existing_degree) do
       application_form.application_qualifications.create(
@@ -273,38 +249,53 @@ RSpec.describe CandidateInterface::DegreeForm, type: :model do
     end
     let(:degree) { CandidateInterface::DegreeForm.new(id: existing_degree.id) }
 
-    it 'returns false if not valid' do
-      expect(degree.update(ApplicationForm.new)).to eq(false)
+    describe '#update_base' do
+      it 'returns false if not valid' do
+        expect(degree.update_base(ApplicationForm.new)).to eq(false)
+      end
+
+      it 'updates the provided ApplicationForm if valid' do
+        form_data[:qualification_type] = 'Masters'
+        form_data[:subject] = 'Awoo'
+        degree.assign_attributes(form_data)
+
+        expect(degree.update_base(application_form)).to eq(true)
+        expect(application_form.application_qualifications.degree.first)
+          .to have_attributes(form_data)
+      end
     end
 
-    it 'updates the provided ApplicationForm if valid' do
-      form_data[:qualification_type] = 'Masters'
-      form_data[:subject] = 'Awoo'
-      degree.assign_attributes(form_data)
+    describe '#update_grade' do
+      it 'updates grade for the provided ApplicationForm if other grade is given' do
+        form_data[:grade] = 'other'
+        form_data[:other_grade] = 'Distinction'
+        degree.assign_attributes(form_data)
 
-      expect(degree.update(application_form)).to eq(true)
-      expect(application_form.application_qualifications.degree.first)
-        .to have_attributes(form_data)
+        expect(degree.update_grade(application_form)).to eq(true)
+        expect(application_form.application_qualifications.degree.first)
+          .to have_attributes(grade: 'Distinction')
+      end
+
+      it 'updates grade and predicted grade for the provided ApplicationForm if predicted grade is given' do
+        form_data[:grade] = 'predicted'
+        form_data[:predicted_grade] = 'First'
+        degree.assign_attributes(form_data)
+
+        expect(degree.update_grade(application_form)).to eq(true)
+        expect(application_form.application_qualifications.degree.first)
+          .to have_attributes(grade: 'First', predicted_grade: true)
+      end
     end
 
-    it 'updates grade for the provided ApplicationForm if other grade is given' do
-      form_data[:grade] = 'other'
-      form_data[:other_grade] = 'Distinction'
-      degree.assign_attributes(form_data)
+    describe '#update_year' do
+      it 'updates year for the provided ApplicationForm if other year is given' do
+        form_data[:award_year] = '2000'
+        degree.assign_attributes(form_data)
 
-      expect(degree.update(application_form)).to eq(true)
-      expect(application_form.application_qualifications.degree.first)
-        .to have_attributes(grade: 'Distinction')
-    end
-
-    it 'updates grade and predicted grade for the provided ApplicationForm if predicted grade is given' do
-      form_data[:grade] = 'predicted'
-      form_data[:predicted_grade] = 'First'
-      degree.assign_attributes(form_data)
-
-      expect(degree.update(application_form)).to eq(true)
-      expect(application_form.application_qualifications.degree.first)
-        .to have_attributes(grade: 'First', predicted_grade: true)
+        expect(degree.update_year(application_form)).to eq(true)
+        expect(application_form.application_qualifications.degree.first)
+          .to have_attributes(award_year: '2000')
+      end
     end
   end
 
