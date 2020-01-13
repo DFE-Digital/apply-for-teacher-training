@@ -10,7 +10,7 @@ class ApplicationReference < ApplicationRecord
   validates :relationship, presence: true, word_count: { maximum: 50 }
   validates_presence_of :application_form_id
 
-  belongs_to :application_form
+  belongs_to :application_form, touch: true
 
   audited associated_with: :application_form
 

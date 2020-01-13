@@ -1,5 +1,5 @@
 class ApplicationQualification < ApplicationRecord
-  belongs_to :application_form
+  belongs_to :application_form, touch: true
 
   scope :degrees, -> { where level: 'degree' }
   scope :gcses, -> { where level: 'gcse' }
