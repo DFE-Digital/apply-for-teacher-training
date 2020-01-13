@@ -175,7 +175,7 @@ en:
       missing_explanation:
         label: If you are working towards this qualification, give us details (optional)
       grade:
-        label: What was your grade?
+        label: Please specify your grade
       award_year:
         label: When did you get your qualification?
         hint_text: For example, 1996
