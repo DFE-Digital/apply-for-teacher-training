@@ -3,6 +3,8 @@ class ProviderUser < ActiveRecord::Base
 
   validates :dfe_sign_in_uid, presence: true, uniqueness: true, allow_nil: true
 
+  before_save :downcase_email_address
+
   def self.load_from_session(session)
     dfe_sign_in_user = DfESignInUser.load_from_session(session)
     return unless dfe_sign_in_user
@@ -17,5 +19,11 @@ class ProviderUser < ActiveRecord::Base
       provider_user.update!(dfe_sign_in_uid: dsi_user.dfe_sign_in_uid)
       provider_user
     end
+  end
+
+private
+
+  def downcase_email_address
+    self.email_address = email_address.downcase
   end
 end
