@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_10_071407) do
+ActiveRecord::Schema.define(version: 2020_01_13_140303) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -257,6 +257,7 @@ ActiveRecord::Schema.define(version: 2020_01_10_071407) do
     t.string "email_address", null: false
     t.datetime "last_signed_in_at"
     t.index ["dfe_sign_in_uid"], name: "index_support_users_on_dfe_sign_in_uid", unique: true
+    t.index ["email_address"], name: "index_support_users_on_email_address", unique: true
   end
 
   create_table "vendor_api_tokens", force: :cascade do |t|
