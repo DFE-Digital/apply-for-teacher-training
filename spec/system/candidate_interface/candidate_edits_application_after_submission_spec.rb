@@ -12,8 +12,11 @@ RSpec.feature 'A candidate edits their application' do
   scenario 'candidate selects to edit their application', sidekiq: true do
     given_the_edit_application_feature_flag_is_on
     and_i_am_signed_in_as_a_candidate
-    and_i_have_a_completed_application
 
+    when_i_visit_the_application_dashboard
+    then_i_should_see_my_unsubmitted_application
+
+    given_i_have_a_completed_application
     when_i_visit_the_application_dashboard
     and_i_click_the_edit_link
     then_i_see_a_button_to_edit_my_application
@@ -44,13 +47,18 @@ RSpec.feature 'A candidate edits their application' do
     create_and_sign_in_candidate
   end
 
-  def and_i_have_a_completed_application
+  def given_i_have_a_completed_application
+    current_candidate.current_application.destroy! # Destroy the unsubmitted one that was created earlier for simplicity.
     @form = create(:completed_application_form, :with_completed_references, :without_application_choices, candidate: current_candidate, submitted_at: Time.zone.local(2019, 12, 16))
     create(:application_choice, status: :application_complete, edit_by: Time.zone.local(2019, 12, 20), application_form: @form)
   end
 
   def when_i_visit_the_application_dashboard
     visit candidate_interface_application_complete_path
+  end
+
+  def then_i_should_see_my_unsubmitted_application
+    expect(page).to have_content(t('page_titles.application_form'))
   end
 
   def and_i_click_the_edit_link
