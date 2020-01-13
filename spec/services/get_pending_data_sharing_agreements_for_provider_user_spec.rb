@@ -34,8 +34,7 @@ RSpec.describe GetPendingDataSharingAgreementsForProviderUser do
     it 'returns provider agreements for all associated providers if no agreements exist' do
       pending_agreements = GetPendingDataSharingAgreementsForProviderUser.call provider_user: provider_user
       expect(pending_agreements.count).to eq(2)
-      expect(pending_agreements.first.provider.id).to eq(provider1.id)
-      expect(pending_agreements.second.provider.id).to eq(provider2.id)
+      expect([pending_agreements.first.provider.id, pending_agreements.second.provider.id]).to match_array([provider1.id, provider2.id])
     end
 
     it 'returns provider agreements only for providers that need one' do
