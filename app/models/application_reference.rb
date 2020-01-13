@@ -21,6 +21,7 @@ class ApplicationReference < ApplicationRecord
     not_requested_yet: 'not_requested_yet',
     feedback_requested: 'feedback_requested',
     feedback_provided: 'feedback_provided',
+    feedback_refused: 'feedback_refused',
   }
 
   def ordinal

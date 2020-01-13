@@ -228,6 +228,9 @@ Rails.application.routes.draw do
     patch '/confirmation' => 'reference#submit_feedback', as: :submit_feedback
 
     patch '/confirm-consent' => 'reference#confirm_consent', as: :confirm_consent
+
+    get '/refuse-feedback' => 'reference#refuse_feedback', as: :refuse_feedback
+    patch '/refuse-feedback' => 'reference#confirm_feedback_refusal'
   end
 
   namespace :vendor_api, path: 'api/v1' do

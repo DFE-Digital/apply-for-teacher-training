@@ -4,16 +4,13 @@ module RefereeInterface
     before_action :add_identity_to_log
     before_action :check_referee_has_valid_token
     before_action :set_token_param
+    before_action :show_finished_page_if_feedback_provided, except: %i[confirmation confirm_consent]
 
     layout 'application'
 
     def feedback
-      if reference.feedback_requested?
-        @application = reference.application_form
-        @reference_form = ReferenceFeedbackForm.new(reference: reference)
-      else
-        render :finish
-      end
+      @application = reference.application_form
+      @reference_form = ReferenceFeedbackForm.new(reference: reference)
     end
 
     def submit_feedback
@@ -41,7 +38,28 @@ module RefereeInterface
       render :finish
     end
 
+    def refuse_feedback
+      @application = reference.application_form
+      @reference = reference
+    end
+
+    def confirm_feedback_refusal
+      case params.dig(:application_reference, :refuse_to_give_feedback)
+      when 'yes'
+        reference.update!(feedback_status: 'feedback_refused')
+        redirect_to referee_interface_confirmation_path(token: @token_param)
+      when 'no'
+        redirect_to referee_interface_reference_feedback_path(token: params[:token])
+      end
+    end
+
   private
+
+    def show_finished_page_if_feedback_provided
+      return if reference.feedback_requested?
+
+      render :finish
+    end
 
     def add_identity_to_log
       return if reference.blank?

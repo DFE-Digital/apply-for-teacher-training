@@ -2,14 +2,15 @@ Dear <%= @reference.name %>,
 
 <%= @candidate_name %> put us in touch with you to get a reference for their teacher training application.
 
-Please use the link below to give a reference as soon as possible
+Please use the link below to give a reference as soon as possible.
 
 <%= @reference_link %>
 
-If you won’t give [Jane Doe] a reference, please let us know by clicking the link below:
+If you won’t give <%= @reference.name %> a reference, please let us know by clicking the link below.
 
-<% #TODO: add the link to decline the request of reference %>
+<%= @refuse_to_give_feedback_link %>
 
 Your data
 
-We’ll only use your data to process the candidate’s application, unless you agree to be contacted by us about your experience of giving a reference. We’ll ask about this before you submit any information.
+We’ll only use your data to process the candidate’s application, unless you agree to be contacted about your experience of giving a reference.
+We’ll ask about this before you submit any information.
