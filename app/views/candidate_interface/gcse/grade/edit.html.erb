@@ -1,0 +1,18 @@
+<% content_for :title, title_with_error_prefix(t("gcse_edit_grade.page_titles.#{@subject}"), @application_qualification.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_gcse_details_edit_type_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @application_qualification, url: candidate_interface_gcse_details_update_grade_path, method: :patch do |f| %>
+      <h1 class="govuk-heading-xl"><%= t("gcse_edit_grade.page_titles.#{@subject}") %></h1>
+
+      <%= f.govuk_error_summary %>
+
+      <%= guidance_for_gcse_edit_grade(@subject, @qualification_type) %>
+
+      <%= f.govuk_text_field :grade, label: { text: t('application_form.gcse.grade.label'), size: 'm' }, hint_text: hint_for_gcse_edit_grade(@subject, @qualification_type), width: 10 %>
+
+      <%= f.submit t('application_form.gcse.complete_form_button'), class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
+  <% end %>
+  </div>
+</div>

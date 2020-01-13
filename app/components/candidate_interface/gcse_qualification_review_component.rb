@@ -38,7 +38,7 @@ module CandidateInterface
         key: 'Year awarded',
         value: application_qualification.award_year || t('gcse_summary.not_specified'),
         action: "year awarded for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
-        change_path: candidate_interface_gcse_details_edit_details_path(subject: subject),
+        change_path: candidate_interface_gcse_details_edit_year_path(subject: subject),
       }
     end
 
@@ -47,7 +47,7 @@ module CandidateInterface
         key: 'Grade',
         value: application_qualification.grade ? application_qualification.grade.upcase : t('gcse_summary.not_specified'),
         action: "grade for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
-        change_path: candidate_interface_gcse_details_edit_details_path(subject: subject),
+        change_path: candidate_interface_gcse_details_edit_grade_path(subject: subject),
       }
     end
 
