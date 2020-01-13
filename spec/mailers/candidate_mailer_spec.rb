@@ -84,4 +84,33 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
     end
   end
+
+  describe 'Send request for new referee email' do
+    let(:reference) { build_stubbed(:reference, name: 'Scott Knowles') }
+    let(:application_form) do
+      build_stubbed(
+        :application_form,
+        first_name: 'Tyrell',
+        last_name: 'Wellick',
+        application_references: [reference],
+      )
+    end
+    let(:mail) { mailer.new_referee_request(application_form, reference) }
+
+    before { mail.deliver_later }
+
+    context 'when referee has not responded' do
+      it 'sends an email with the correct subject' do
+        expect(mail.subject).to include(t('new_referee_request.not_responded.subject', referee_name: 'Scott Knowles'))
+      end
+
+      it 'sends an email with the correct heading' do
+        expect(mail.body.encoded).to include('Dear Tyrell')
+      end
+
+      it 'sends an email saying referee has not responded' do
+        expect(mail.body.encoded).to include(t('new_referee_request.not_responded.explanation', referee_name: 'Scott Knowles'))
+      end
+    end
+  end
 end
