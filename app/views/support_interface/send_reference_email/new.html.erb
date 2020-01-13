@@ -1,0 +1,20 @@
+<% content_for :browser_title, title_with_error_prefix('Send email', @send_reference_email.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@reference.application_form), 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @send_reference_email, url: support_interface_send_reference_email_path(@reference), method: :post do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">
+        Send email
+      </h1>
+
+      <%= f.govuk_radio_buttons_fieldset :choice, legend: { text: 'Select the action you want to take on the reference' } do %>
+        <%= f.govuk_radio_button :choice, :chase, label: { text: t('application_form.referees.chase') } %>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>

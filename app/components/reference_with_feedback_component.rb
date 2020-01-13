@@ -8,10 +8,10 @@ class ReferenceWithFeedbackComponent < ActionView::Component::Base
            :feedback_status,
            to: :reference
 
-  def initialize(reference:, title: '', show_chase_reference: false)
+  def initialize(reference:, title: '', show_send_email: false)
     @reference = reference
     @title = title
-    @show_chase_reference = show_chase_reference
+    @show_send_email = show_send_email
   end
 
   def rows
@@ -63,5 +63,5 @@ private
     end
   end
 
-  attr_reader :reference, :title, :show_chase_reference
+  attr_reader :reference, :title, :show_send_email
 end

@@ -1,10 +1,10 @@
 <div data-qa="reference">
   <%= render SummaryCardComponent, rows: rows do %>
-    <% if @show_chase_reference %>
+    <% if @show_send_email %>
       <%= render(SummaryCardHeaderComponent, title: @title) do %>
           <div class='app-summary-card__actions'>
-            <%= link_to support_interface_chase_reference_path(@reference), class: 'govuk-link' do %>
-              <%= t('application_form.referees.chase') %>
+            <%= link_to support_interface_send_reference_email_path(@reference), class: 'govuk-link' do %>
+              <%= 'Send email' %><span class="govuk-visually-hidden"> for <%= @reference.name %></span>
             <% end %>
           </div>
       <% end %>
