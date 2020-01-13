@@ -4,7 +4,7 @@ RSpec.describe SyncProviderFromFind do
   include FindAPIHelper
 
   describe 'ingesting a new brand provider' do
-    it 'correctly creates all the entities' do
+    it 'just creates the provider without any courses' do
       stub_find_api_provider_200(
         provider_code: 'ABC',
         course_code: '9CBA',
@@ -22,10 +22,10 @@ RSpec.describe SyncProviderFromFind do
 
   describe 'ingesting an existing provider not configured to sync courses' do
     before do
-      @existing_provider = create :provider, code: 'ABC', name: 'DER College', sync_courses: false
+      @existing_provider = create :provider, code: 'ABC', sync_courses: false
     end
 
-    it 'correctly creates all the entities' do
+    it 'correctly updates the provider but does not import any courses' do
       stub_find_api_provider_200(
         provider_code: 'ABC',
         course_code: '9CBA',
@@ -36,12 +36,13 @@ RSpec.describe SyncProviderFromFind do
       SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
 
       expect(@existing_provider.reload.courses).to be_blank
+      expect(@existing_provider.reload.name).to eq 'ABC College'
     end
   end
 
   describe 'ingesting an existing provider configured to sync courses, sites and course_options' do
     before do
-      @existing_provider = create :provider, code: 'ABC', name: 'DER College', sync_courses: true
+      @existing_provider = create :provider, code: 'ABC', sync_courses: true
     end
 
     it 'correctly creates all the entities' do
