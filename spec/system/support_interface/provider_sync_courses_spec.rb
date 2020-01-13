@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'See provider course syncing' do
   include DfESignInHelpers
+  include FindAPIHelper
 
   scenario 'User switches sync courses on Provider' do
     given_i_am_a_support_user
@@ -14,6 +15,9 @@ RSpec.feature 'See provider course syncing' do
 
     when_i_click_on_the_enable_course_syncing_button
     then_i_see_that_course_syncing_is_on
+
+    when_provider_syncing_runs
+    then_i_see_that_a_course_has_been_synced
   end
 
   def given_i_am_a_support_user
@@ -37,7 +41,7 @@ RSpec.feature 'See provider course syncing' do
   end
 
   def then_i_see_that_course_syncing_is_off
-    expect(page).to have_content('Course synching for this provider is switched off')
+    expect(page).to have_content('Course syncing for this provider is switched off')
   end
 
   def when_i_click_on_the_enable_course_syncing_button
@@ -45,6 +49,34 @@ RSpec.feature 'See provider course syncing' do
   end
 
   def then_i_see_that_course_syncing_is_on
-    expect(page).to have_content('Course synching for this provider is switched on')
+    expect(page).to have_content('Course syncing for this provider is switched on')
+  end
+
+  def when_provider_syncing_runs
+    stub_find_api_all_providers_200([
+      {
+        provider_code: 'ABC',
+        name: 'ABC College',
+      },
+    ])
+
+    @request1 = stub_find_api_provider_200(
+      provider_code: 'ABC',
+      provider_name: 'ABC College',
+      course_code: 'ABC-1',
+      site_code: 'X',
+    )
+
+
+    Clockwork::Test.run(max_ticks: 1, file: './config/clock.rb')
+    Sidekiq::Testing.inline! do
+      Clockwork::Test.block_for('SyncAllFromFind').call
+    end
+
+    refresh
+  end
+
+  def then_i_see_that_a_course_has_been_synced
+    expect(page).to have_content('1 course (0 on DfE Apply)')
   end
 end
