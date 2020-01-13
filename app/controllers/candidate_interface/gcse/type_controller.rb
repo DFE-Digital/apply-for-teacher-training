@@ -44,10 +44,14 @@ module CandidateInterface
     end
 
     def next_gcse_path
-      if @application_qualification.missing_qualification?
-        candidate_interface_gcse_review_path
+      details_form = GcseQualificationDetailsForm.build_from_qualification(
+        current_application.qualification_in_subject(:gcse, subject_param),
+      )
+
+      if !@application_qualification.missing_qualification? && details_form.grade.nil?
+        candidate_interface_gcse_details_edit_grade_path
       else
-        candidate_interface_gcse_details_edit_details_path
+        candidate_interface_gcse_review_path
       end
     end
 
