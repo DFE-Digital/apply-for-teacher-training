@@ -139,8 +139,8 @@ RSpec.describe RefereeMailer, type: :mailer do
       end
 
       it 'encodes spaces as %20 rather than + in the Google form parameters for correct prefilling' do
-        expect(mail.body.encoded).to include("=#{candidate_name.gsub(' ', '%20')}")
-        expect(mail.body.encoded).to include("=#{reference.name.gsub(' ', '%20')}")
+        expect(mail.body.encoded).to include("=#{ERB::Util.url_encode(candidate_name)}")
+        expect(mail.body.encoded).to include("=#{ERB::Util.url_encode(reference.name)}")
       end
 
       context 'an email containing a +' do
