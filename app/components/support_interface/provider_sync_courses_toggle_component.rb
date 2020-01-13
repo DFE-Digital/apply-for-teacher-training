@@ -7,15 +7,11 @@ module SupportInterface
     end
 
     def toggle_path
-      if provider.sync_courses?
-        support_interface_disable_provider_course_syncing_path(provider)
-      else
-        support_interface_enable_provider_course_syncing_path(provider)
-      end
+      support_interface_enable_provider_course_syncing_path(provider)
     end
 
     def button_label
-      provider.sync_courses? ? t('provider_sync_courses.button_label.disable') : t('provider_sync_courses.button_label.enable')
+      t('provider_sync_courses.button_label.enable')
     end
 
     def status_label

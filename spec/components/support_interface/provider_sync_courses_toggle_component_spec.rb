@@ -33,11 +33,8 @@ RSpec.describe SupportInterface::ProviderSyncCoursesToggleComponent do
       expect(@rendered_component.text).to include('Course synching for this provider is switched on')
     end
 
-    it 'renders correct toggle button' do
-      expect(@rendered_component.css('input.govuk-button')[0].attr('value')).to include('Disable course syncing from Find')
-      expect(@rendered_component.css('form')[0].attr('action')).to eq(
-        Rails.application.routes.url_helpers.support_interface_disable_provider_course_syncing_path(@provider),
-      )
+    it 'does not render a toggle button' do
+      expect(@rendered_component.css('input.govuk-button')).to be_blank
     end
   end
 end
