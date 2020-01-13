@@ -9,6 +9,10 @@ RSpec.feature 'Candidate entering GCSE details' do
     and_i_click_on_the_maths_gcse_link
     then_i_see_the_add_gcse_maths_page
 
+    when_i_do_not_select_any_gcse_option
+    and_i_click_save_and_continue
+    then_i_see_the_qualification_type_error
+
     when_i_select_gcse_option
     and_i_click_save_and_continue
     then_i_see_add_grade_and_year_page
@@ -33,19 +37,19 @@ RSpec.feature 'Candidate entering GCSE details' do
     i_see_the_maths_gcse_is_completed
   end
 
-  scenario 'Candidate does not provide a qualification level' do
-    given_i_am_signed_in
-    when_i_visit_the_candidate_application_page
-    and_i_click_on_the_maths_gcse_link
+  # scenario 'Candidate does not provide a qualification level' do
+  #   given_i_am_signed_in
+  #   when_i_visit_the_candidate_application_page
+  #   and_i_click_on_the_maths_gcse_link
 
-    then_i_see_the_add_gcse_maths_page
+  #   then_i_see_the_add_gcse_maths_page
 
-    and_i_do_not_select_any_gcse_option
+  #   when_i_do_not_select_any_gcse_option
 
-    and_i_click_save_and_continue
+  #   and_i_click_save_and_continue
 
-    then_i_see_the_qualification_type_error
-  end
+  #   then_i_see_the_qualification_type_error
+  # end
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
@@ -69,7 +73,7 @@ RSpec.feature 'Candidate entering GCSE details' do
     click_button 'Save and continue'
   end
 
-  def and_i_do_not_select_any_gcse_option; end
+  def when_i_do_not_select_any_gcse_option; end
 
   def when_i_visit_the_candidate_application_page
     visit '/candidate/application'
