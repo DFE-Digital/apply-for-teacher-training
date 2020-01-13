@@ -22,10 +22,6 @@ module SupportInterface
       update_provider('Successfully updated provider') { |provider| provider.update!(sync_courses: true) }
     end
 
-    def disable_course_syncing
-      update_provider('Successfully updated provider') { |provider| provider.update!(sync_courses: false) }
-    end
-
   private
 
     def update_provider(success_message)

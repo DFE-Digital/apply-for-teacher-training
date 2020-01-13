@@ -14,9 +14,6 @@ RSpec.feature 'See provider course syncing' do
 
     when_i_click_on_the_enable_course_syncing_button
     then_i_see_that_course_syncing_is_on
-
-    when_i_click_on_the_disable_course_syncing_button
-    then_i_see_that_course_syncing_is_off
   end
 
   def given_i_am_a_support_user
@@ -49,9 +46,5 @@ RSpec.feature 'See provider course syncing' do
 
   def then_i_see_that_course_syncing_is_on
     expect(page).to have_content('Course synching for this provider is switched on')
-  end
-
-  def when_i_click_on_the_disable_course_syncing_button
-    click_button 'Disable course syncing from Find'
   end
 end
