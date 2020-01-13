@@ -7,11 +7,14 @@ RSpec.feature 'Send chase email to referee and candidate', with_audited: true do
     given_i_am_a_support_user
     and_there_is_an_application_awaiting_references
     and_i_visit_the_support_page
+    and_send_reference_email_feature_flag_is_on
 
     when_i_click_on_the_application_awaiting_references
     then_i_should_be_on_the_view_application_page
 
-    when_i_click_on_chase_reference
+    when_i_click_on_send_email
+    and_i_choose_chase_reference_emails
+    and_i_click_on_continue
     then_i_see_a_confirmation_page
 
     when_i_click_to_confirm_sending_the_chase_email
@@ -29,10 +32,15 @@ RSpec.feature 'Send chase email to referee and candidate', with_audited: true do
 
   def and_there_is_an_application_awaiting_references
     @application_awaiting_references = create(:completed_application_form)
+    @referee = @application_awaiting_references.application_references.first
   end
 
   def and_i_visit_the_support_page
     visit support_interface_path
+  end
+
+  def and_send_reference_email_feature_flag_is_on
+    FeatureFlag.activate('send_reference_email_via_support')
   end
 
   def when_i_click_on_the_application_awaiting_references
@@ -43,8 +51,16 @@ RSpec.feature 'Send chase email to referee and candidate', with_audited: true do
     expect(page).to have_content @application_awaiting_references.candidate.email_address
   end
 
-  def when_i_click_on_chase_reference
-    first(:link, t('application_form.referees.chase')).click
+  def when_i_click_on_send_email
+    click_link "Send email for #{@referee.name}"
+  end
+
+  def and_i_choose_chase_reference_emails
+    choose t('application_form.referees.chase')
+  end
+
+  def and_i_click_on_continue
+    click_on 'Continue'
   end
 
   def then_i_see_a_confirmation_page
@@ -57,7 +73,7 @@ RSpec.feature 'Send chase email to referee and candidate', with_audited: true do
 
   def then_i_see_the_referee_email_is_successfully_sent
     candidate_name = "#{@application_awaiting_references.first_name} #{@application_awaiting_references.last_name}"
-    open_email(@application_awaiting_references.application_references.first.email_address)
+    open_email(@referee.email_address)
 
     expect(current_email.subject).to have_content(t('reference_request.subject.chaser', candidate_name: candidate_name))
   end
@@ -65,7 +81,7 @@ RSpec.feature 'Send chase email to referee and candidate', with_audited: true do
   def and_i_see_the_candidate_email_is_successfully_sent
     open_email(@application_awaiting_references.candidate.email_address)
 
-    expect(current_email.subject).to have_content(t('candidate_reference.subject.chaser', referee_name: @application_awaiting_references.application_references.first.name))
+    expect(current_email.subject).to have_content(t('candidate_reference.subject.chaser', referee_name: @referee.name))
   end
 
   def and_i_am_sent_back_to_the_application_form_with_a_flash
@@ -77,7 +93,7 @@ RSpec.feature 'Send chase email to referee and candidate', with_audited: true do
   end
 
   def then_i_see_a_comment_stating_chase_emails_have_been_sent
-    referee_email = @application_awaiting_references.application_references.first.email_address
+    referee_email = @referee.email_address
     candidate_email = @application_awaiting_references.candidate.email_address
 
     within('tbody tr:eq(1)') do

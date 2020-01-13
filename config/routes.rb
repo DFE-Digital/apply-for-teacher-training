@@ -284,6 +284,9 @@ Rails.application.routes.draw do
     get '/applications/:application_form_id/comments/new' => 'application_forms/comments#new', as: :application_form_new_comment
     post '/applications/:application_form_id/comments' => 'application_forms/comments#create', as: :application_form_comments
 
+    get '/send-email/:reference_id' => 'send_reference_email#new', as: :send_reference_email
+    post '/send-email/:reference_id' => 'send_reference_email#create'
+
     get '/candidates' => 'candidates#index'
     get '/candidates/:candidate_id' => 'candidates#show', as: :candidate
     post '/candidates/:candidate_id/hide' => 'candidates#hide_in_reporting', as: :hide_candidate

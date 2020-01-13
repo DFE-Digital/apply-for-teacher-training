@@ -304,7 +304,7 @@ en:
         - (should never appear)
         - First referee
         - Second referee
-      chase: Chase referee
+      chase: Chase both referee and candidate for the reference
       confirm_chase: Are you sure you want to send emails to chase the referee?
       chase_button: Yes - send the email
       chase_success: Email sent to candidate and referee
@@ -528,6 +528,10 @@ en:
           attributes:
             comment:
               blank: Enter a comment
+        support_interface/send_reference_email_form:
+          attributes:
+            choice:
+              blank: Select the action you want to take on the reference
         receive_reference:
           attributes:
             feedback:
