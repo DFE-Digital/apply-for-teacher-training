@@ -48,14 +48,7 @@ RSpec.feature 'Candidate account' do
   end
 
   def when_i_visit_the_signup_page
-    visit '/'
-
-    click_on t('application_form.begin_button')
-
-    find('#candidate-interface-eligibility-form-eligible-citizen-yes-field').click
-    find('#candidate-interface-eligibility-form-eligible-qualifications-yes-field').click
-
-    click_on 'Continue'
+    visit candidate_interface_sign_up_path
   end
 
   def and_i_accept_the_ts_and_cs
