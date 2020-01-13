@@ -142,14 +142,6 @@ RSpec.describe RefereeMailer, type: :mailer do
         expect(mail.body.encoded).to include("=#{ERB::Util.url_encode(candidate_name)}")
         expect(mail.body.encoded).to include("=#{ERB::Util.url_encode(reference.name)}")
       end
-
-      context 'an email containing a +' do
-        let(:reference) { build(:reference, email_address: 'email+email@email.com') }
-
-        it 'does not strip the plus from the email address' do
-          expect(mail.body.encoded).to include("=#{CGI.escape('email+email@email.com')}")
-        end
-      end
     end
   end
 

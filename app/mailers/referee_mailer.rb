@@ -5,8 +5,9 @@ class RefereeMailer < ApplicationMailer
     @candidate_name = application_form.full_name
 
     if FeatureFlag.active?('reference_form')
-      @reference_link = referee_interface_reference_feedback_url(token: reference.update_token!)
-      @decline_reference_link = 'link_to_decline_the_reference' #TODO: implement the flow for Referee decline to give references
+      unhashed_token = reference.update_token!
+      @reference_link = referee_interface_reference_feedback_url(token: unhashed_token)
+      @refuse_to_give_feedback_link = referee_interface_refuse_feedback_url(token: unhashed_token)
       template_name = :reference_request_email
     else
       @reference_link = google_form_url_for(@candidate_name, @reference)
@@ -24,8 +25,9 @@ class RefereeMailer < ApplicationMailer
     @reference = reference
     @candidate_name = application_form.full_name
 
+    @token = reference.update_token!
     @reference_link = if FeatureFlag.active?('reference_form')
-                        referee_interface_reference_feedback_url(token: reference.update_token!)
+                        referee_interface_reference_feedback_url(token: @token)
                       else
                         google_form_url_for(@candidate_name, @reference)
                       end

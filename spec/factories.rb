@@ -244,6 +244,6 @@ FactoryBot.define do
 
   factory :provider_user do
     dfe_sign_in_uid { SecureRandom.uuid }
-    email_address { "#{Faker::Name.first_name}@example.com" }
+    email_address { "#{Faker::Name.first_name}-#{SecureRandom.hex}@example.com" }
   end
 end

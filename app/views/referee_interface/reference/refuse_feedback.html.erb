@@ -1,0 +1,27 @@
+<% content_for :title, "Give a teacher training reference for #{@application.full_name}" %>
+
+<%= form_with model: @reference, url: referee_interface_refuse_feedback_path(token: @token_param), method: :patch do |f| %>
+  <%= f.govuk_error_summary %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Refuse to give a reference for <%= @application.full_name %></h1>
+
+      <p class="govuk-body"><%= @application.full_name %> applied to the following courses:</p>
+
+      <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
+        <% @application.application_choices.each do |application_choice| %>
+          <li><%= application_choice.course.name %> - <%= application_choice.site.name %></li>
+        <% end %>
+      </ul>
+
+      <p class="govuk-body">
+        Are you sure you want to refuse to give <%= @application.full_name %> a reference?
+      </p>
+
+      <%= f.govuk_radio_button :refuse_to_give_feedback, 'yes', label: { text: 'I don\'t want to give a reference' } %>
+      <%= f.govuk_radio_button :refuse_to_give_feedback, 'no', label: { text: 'I\'d like to provide a reference' } %>
+
+      <%= f.govuk_submit 'Submit' %>
+    </div>
+  </div>
+<% end %>
