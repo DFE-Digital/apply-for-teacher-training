@@ -7,6 +7,7 @@ RSpec.feature 'Send chase email to referee and candidate', with_audited: true do
     given_i_am_a_support_user
     and_there_is_an_application_awaiting_references
     and_i_visit_the_support_page
+    and_send_reference_email_feature_flag_is_on
 
     when_i_click_on_the_application_awaiting_references
     then_i_should_be_on_the_view_application_page
@@ -36,6 +37,10 @@ RSpec.feature 'Send chase email to referee and candidate', with_audited: true do
 
   def and_i_visit_the_support_page
     visit support_interface_path
+  end
+
+  def and_send_reference_email_feature_flag_is_on
+    FeatureFlag.activate('send_reference_email_via_support')
   end
 
   def when_i_click_on_the_application_awaiting_references
