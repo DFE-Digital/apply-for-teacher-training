@@ -56,7 +56,7 @@ module CandidateHelper
     candidate_fills_in_a_gcse
 
     click_link 'Science GCSE or equivalent'
-    candidate_fills_in_a_gcse
+    candidate_explains_a_missing_gcse
 
     click_link 'Other relevant academic and non-academic qualifications'
     candidate_fills_in_their_other_qualifications
@@ -263,6 +263,13 @@ module CandidateHelper
     fill_in 'When did you get your qualification?', with: '1990'
     click_button 'Save and continue'
     click_link 'Back to application'
+  end
+
+  def candidate_explains_a_missing_gcse
+    choose('I don’t have this qualification yet')
+    fill_in t('application_form.gcse.missing_explanation.label'), with: 'I will sit the exam at my local college this summer.'
+    click_button 'Save and continue'
+    click_link 'Continue'
   end
 
   def candidate_fills_in_becoming_a_teacher
