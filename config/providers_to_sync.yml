@@ -20,7 +20,7 @@ development: &default
     - 1OS  # Essex School Direct
     - S17  # SCITTELS
     - C76  # Colchester Teacher Training Consortium
-    - CDB  # Colchester Teacher Training
+    - 2DB  # Colchester Teacher Training
     - M82  # Mid Essex Initial Teacher Training
     - 2B5  # Hillingdon SCITT
     - 2GU  # Claydon High School
