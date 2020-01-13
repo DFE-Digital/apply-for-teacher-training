@@ -14,7 +14,7 @@ class SyncProviderFromFind
       .find(provider_code)
       .first
 
-    update_provider(provider, find_provider.provider_name)
+    update_provider_name(provider, find_provider.provider_name)
 
     find_provider.courses.each do |find_course|
       create_or_update_course(find_course, provider)
@@ -27,12 +27,12 @@ class SyncProviderFromFind
       provider.sync_courses = sync_courses
       provider.save!
     end
-    update_provider(provider, provider_name) if provider_name.present?
+    update_provider_name(provider, provider_name) if provider_name.present?
 
     provider
   end
 
-  def self.update_provider(provider, provider_name)
+  def self.update_provider_name(provider, provider_name)
     provider.name = provider_name
     provider.save!
   end
