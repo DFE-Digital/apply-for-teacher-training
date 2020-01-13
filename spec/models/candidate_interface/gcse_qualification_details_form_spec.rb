@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:grade) }
-    it { is_expected.to validate_presence_of(:award_year) }
-    it { is_expected.to validate_length_of(:grade).is_at_most(6) }
+    it { is_expected.to validate_presence_of(:grade).on(:grade) }
+    it { is_expected.to validate_presence_of(:award_year).on(:award_year) }
+    it { is_expected.to validate_length_of(:grade).is_at_most(6).on(:grade) }
 
     context 'when qualification type is GCSE' do
       let(:form) { CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification) }
@@ -26,7 +26,7 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
 
         invalid_grades.each do |grade|
           form.grade = grade
-          form.validate
+          form.validate(:grade)
           expect(form.errors[:grade]).to include('Enter a real grade')
         end
       end
@@ -35,7 +35,7 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
         allow(Rails.logger).to receive(:info)
         form.grade = 'XYZ'
 
-        form.save_base
+        form.save_grade
 
         expect(Rails.logger).to have_received(:info).with(
           'Validation error: {:field=>"grade", :error_messages=>"Enter a real grade", :value=>"XYZ"}',
@@ -63,7 +63,7 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
 
         invalid_grades.each do |grade|
           form.grade = grade
-          form.validate
+          form.validate(:grade)
 
           expect(form.errors[:grade]).to include('Enter a real grade')
         end
@@ -90,7 +90,7 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
 
         invalid_grades.each do |grade|
           form.grade = grade
-          form.validate
+          form.validate(:grade)
 
           expect(form.errors[:grade]).to include('Enter a real grade')
         end
@@ -98,27 +98,46 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
     end
   end
 
-  describe '#save_base' do
-    it 'return false if not valid' do
-      qualification = ApplicationQualification.new
-      form = CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
+  context 'when saving qualification details' do
+    qualification = ApplicationQualification.new
+    form = CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
 
-      expect(form.save_base).to eq(false)
+    describe '#save_grade' do
+      it 'return false if not valid' do
+        expect(form.save_grade).to eq(false)
+      end
+
+      it 'updates qualification details if valid' do
+        application_form = create(:application_form)
+        qualification = ApplicationQualification.create(level: 'gcse', application_form: application_form)
+        details_form = CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
+
+        details_form.grade = 'AB'
+
+        details_form.save_grade
+        qualification.reload
+
+        expect(qualification.grade).to eq('AB')
+      end
     end
 
-    it 'updates qualification details if valid' do
-      application_form = create(:application_form)
-      qualification = ApplicationQualification.create(level: 'gcse', application_form: application_form)
-      details_form = CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
+    describe '#save_year' do
+      it 'return false if not valid' do
+        expect(form.save_year).to eq(false)
+      end
 
-      details_form.grade = 'AB'
-      details_form.award_year = '1990'
+      it 'updates qualification details if valid' do
+        application_form = create(:application_form)
+        qualification = ApplicationQualification.create(level: 'gcse', application_form: application_form)
+        details_form = CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
 
-      details_form.save_base
-      qualification.reload
+        details_form.award_year = '1990'
 
-      expect(qualification.grade).to eq('AB')
-      expect(qualification.award_year).to eq('1990')
+        details_form.save_year
+        qualification.reload
+
+        expect(qualification.award_year).to eq('1990')
+      end
     end
   end
 end

@@ -4,11 +4,12 @@ module CandidateInterface
     include ValidationUtils
 
     attr_accessor :grade, :award_year, :qualification
-    validates :grade, :award_year, presence: true
-    validates :grade, length: { maximum: 6 }
-    validate :award_year_is_date, if: :award_year
+    validates :grade, presence: true, on: :grade
+    validates :award_year, presence: true, on: :award_year
+    validates :grade, length: { maximum: 6 }, on: :grade
+    validate :award_year_is_date, if: :award_year, on: :award_year
 
-    validate :validate_grade_format, unless: :new_record?
+    validate :validate_grade_format, unless: :new_record?, on: :grade
 
     def self.build_from_qualification(qualification)
       new(
@@ -18,13 +19,22 @@ module CandidateInterface
       )
     end
 
-    def save_base
-      if !valid?
+    def save_grade
+      if !valid?(:grade)
         log_validation_errors(:grade)
         return false
       end
 
       qualification.update(grade: grade, award_year: award_year)
+    end
+
+    def save_year
+      if valid?(:award_year)
+        qualification.update(grade: grade, award_year: award_year)
+        return true
+      end
+
+      false
     end
 
   private
