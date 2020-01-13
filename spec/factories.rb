@@ -239,11 +239,11 @@ FactoryBot.define do
 
   factory :support_user do
     dfe_sign_in_uid { SecureRandom.uuid }
-    email_address { "#{Faker::Name.first_name}@example.com" }
+    email_address { "#{Faker::Name.first_name.downcase}@example.com" }
   end
 
   factory :provider_user do
     dfe_sign_in_uid { SecureRandom.uuid }
-    email_address { "#{Faker::Name.first_name}-#{SecureRandom.hex}@example.com" }
+    email_address { "#{Faker::Name.first_name.downcase}-#{SecureRandom.hex}@example.com" }
   end
 end
