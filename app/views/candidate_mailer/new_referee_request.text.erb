@@ -2,8 +2,6 @@ Dear <%= @candidate_name %>,
 
 # Give details of a new referee
 
-<%= t('new_referee_request.not_responded.explanation', referee_name: @referee_name) %>
-
-Reply to this email with the name and email address of a new referee, and tell us how you know them.
+<%= t("new_referee_request.#{@reason}.explanation", referee_name: @referee.name, referee_email: @referee.email_address) %>
 
 We can’t send your application to your teacher training providers without 2 complete references.

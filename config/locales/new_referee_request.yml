@@ -2,10 +2,29 @@ en:
   new_referee_request:
     option: Ask the candidate to supply an alternative referee
     not_responded:
-      subject: "Give details of a new referee: %{referee_name} hasn't responded"
-      explanation: We haven’t had a reference from %{referee_name}.
+      subject: "Give details of a new referee: %{referee_name} hasn’t responded"
+      explanation: |-
+        We haven’t had a reference from %{referee_name}.
+
+        Reply to this email with the name and email address of a new referee, and tell us how you know them.
       option: Explain the referee has not responded
       confirm: Are you sure you want to send a request for a new referee email to %{candidate_name}?
       confirm_button: Yes - send the email
       success: New referee request sent to candidate
       audit_comment: New referee request email has been sent to candidate (%{candidate_email}).
+    refused:
+      subject: "%{referee_name} won’t give a reference"
+      explanation: |-
+        %{referee_name} said they won’t give a reference.
+
+        Reply to this email with the name and email address of a new referee, and tell us how you know them.
+    email_bounced:
+      subject: "Our email didn’t reach %{referee_name}"
+      explanation: |-
+        Our email requesting a reference didn’t reach %{referee_name}.
+
+        We emailed the referee using this address: %{referee_email}
+
+        Please can you check you gave the right email address for %{referee_name}.
+
+        Alternatively, reply to this email with the name and email address of a new referee, and tell us how you know them.
