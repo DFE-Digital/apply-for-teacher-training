@@ -19,12 +19,9 @@ RSpec.describe GetApplicationChoicesForProviders do
       status: 'awaiting_provider_decision',
     )
 
-    alternate_provider = create(:provider, code: 'DIFFERENT')
-
-    create_list(
+    create(
       :application_choice,
-      4,
-      course_option: course_option_for_provider(provider: alternate_provider),
+      course_option: course_option_for_provider(provider: create(:provider, code: 'DIFFERENT')),
       status: 'awaiting_provider_decision',
     )
 
@@ -48,12 +45,9 @@ RSpec.describe GetApplicationChoicesForProviders do
       status: 'awaiting_provider_decision',
     )
 
-    alternate_provider = create(:provider, code: 'DIFFERENT')
-
-    create_list(
+    create(
       :application_choice,
-      1,
-      course_option: course_option_for_provider(provider: alternate_provider),
+      course_option: course_option_for_provider(provider: create(:provider, code: 'DIFFERENT')),
       status: 'awaiting_provider_decision',
     )
 
