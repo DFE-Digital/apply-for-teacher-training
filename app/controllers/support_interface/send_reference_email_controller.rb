@@ -10,7 +10,11 @@ module SupportInterface
       @send_reference_email = SupportInterface::SendReferenceEmailForm.new(send_reference_email_params)
 
       if @send_reference_email.valid?
-        redirect_to support_interface_chase_reference_path(@reference)
+        if @send_reference_email.chase?
+          redirect_to support_interface_chase_reference_path(@reference)
+        else
+          redirect_to support_interface_new_referee_request_path(@reference)
+        end
       else
         render :new
       end
@@ -23,7 +27,9 @@ module SupportInterface
     end
 
     def send_reference_email_params
-      params.fetch(:support_interface_send_reference_email_form, {}).permit(:choice)
+      params.fetch(:support_interface_send_reference_email_form, {}).permit(
+        :choice, :new_referee_email
+      )
     end
   end
 end
