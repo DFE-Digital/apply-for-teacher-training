@@ -10,7 +10,7 @@ RSpec.describe SupportInterface::ProviderSyncCoursesToggleComponent do
     end
 
     it 'renders correct status label' do
-      expect(@rendered_component.text).to include('Course synching for this provider is switched off')
+      expect(@rendered_component.text).to include('Course syncing for this provider is switched off')
     end
 
     it 'renders correct toggle button' do
@@ -30,7 +30,7 @@ RSpec.describe SupportInterface::ProviderSyncCoursesToggleComponent do
     end
 
     it 'renders correct status label' do
-      expect(@rendered_component.text).to include('Course synching for this provider is switched on')
+      expect(@rendered_component.text).to include('Course syncing for this provider is switched on')
     end
 
     it 'does not render a toggle button' do
