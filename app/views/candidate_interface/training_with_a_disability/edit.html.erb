@@ -13,13 +13,17 @@
           </h1>
         </legend>
 
-        <p class="govuk-body">It’s a personal choice if you want to inform your training provider of your disability.</p>
-        <p class="govuk-body">The advantage of disclosure is that it enables support and reasonable adjustments to be put in place. In addition, specialist equipment, extra funding and support, can help you achieve your ambition of becoming a teacher.</p>
-        <p class="govuk-body"><%= govuk_link_to 'The Equality Act 2010', 'https://www.gov.uk/guidance/equality-act-2010-guidance' %> and Special Educational Needs and Disability Act 2001, require teacher training providers to ensure they are not discriminating against applicants with disabilities or special educational needs (SEN).</p>
+        <p class="govuk-body">Training providers might be able to support you to attend the interview or do the training. For example, you might benefit from support if you’re disabled, have a health condition or educational needs.</p>
+        <p class="govuk-body">We recommend contacting your training provider before applying to discuss the support they can give you. Examples of support could be:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>organising assistive equipment, such as a hearing loop or an adapted keyboard</li>
+          <li>making sure classrooms are wheelchair accessible</li>
+          <li>providing additional support, such as a mentor or classroom assistance</li>
+        </ul>
 
         <%= f.govuk_radio_buttons_fieldset :disclose_disability, legend: { size: 'm', text: t('application_form.training_with_a_disability.disclose_disability.label') } do %>
           <%= f.govuk_radio_button :disclose_disability, 'yes', label: { text: t('application_form.training_with_a_disability.disclose_disability.yes') } do %>
-            <%= f.govuk_text_area :disability_disclosure, rows: 24, label: { text: t('application_form.training_with_a_disability.disability_disclosure.label') }, max_words: 400 %>
+            <%= f.govuk_text_area :disability_disclosure, rows: 8, label: { text: t('application_form.training_with_a_disability.disability_disclosure.label'), size: 's' }, hint_text: t('application_form.training_with_a_disability.disability_disclosure.hint'), max_words: 400 %>
           <% end %>
 
           <%= f.govuk_radio_button :disclose_disability, 'no', label: { text: t('application_form.training_with_a_disability.disclose_disability.no') } %>

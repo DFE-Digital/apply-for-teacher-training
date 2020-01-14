@@ -231,14 +231,16 @@ en:
     training_with_a_disability:
       complete_form_button: Continue
       disclose_disability:
-        change_action: whether you want to disclose a disability
-        label: Do you want to disclose a disability?
-        'yes': "Yes"
+        label: Do you want to ask for help to become a teacher?
+        'yes': "Yes, I want to share information about myself so my provider can take steps to support me"
         'no': "No"
+        change_action: whether you want to ask for help
         not_specified: Not entered
       disability_disclosure:
-        label: Tell us about your disability
-        change_action: what you want to tell us about your disability
+        label: Give any relevant information
+        review_label: Relevant information
+        hint: You can also use this space to make a note of any discussions you’ve already had with your provider about getting support.
+        change_action: what information you want to give
       review:
         button: Continue
     volunteering:

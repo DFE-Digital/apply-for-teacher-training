@@ -22,7 +22,7 @@ RSpec.describe CandidateInterface::TrainingWithADisabilityReviewComponent do
     it 'renders component with correct values for an disability_disclosure' do
       result = render_inline(described_class, application_form: application_form)
 
-      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.training_with_a_disability.disability_disclosure.label'))
+      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.training_with_a_disability.disability_disclosure.review_label'))
       expect(result.css('.govuk-summary-list__value').to_html).to include('I have difficulty climbing stairs')
       expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_training_with_a_disability_edit_path)
       expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.training_with_a_disability.disability_disclosure.change_action')}")

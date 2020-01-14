@@ -15,7 +15,7 @@
 <%= render(CandidateInterface::ContactDetailsReviewComponent, application_form: application_form, editable: editable, missing_error: missing_error) %>
 
 <% if FeatureFlag.active?('training_with_a_disability') %>
-  <h3 class="govuk-heading-m">Training with a disability</h3>
+  <h3 class="govuk-heading-m">Get extra assistance to become a teacher</h3>
 
   <%= render(CandidateInterface::TrainingWithADisabilityReviewComponent, application_form: @application_form, editable: editable, missing_error: missing_error) %>
 <% end %>

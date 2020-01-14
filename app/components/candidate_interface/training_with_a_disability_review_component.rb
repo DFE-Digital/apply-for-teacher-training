@@ -37,7 +37,7 @@ module CandidateInterface
 
     def disability_disclosure_row
       {
-        key: t('application_form.training_with_a_disability.disability_disclosure.label'),
+        key: t('application_form.training_with_a_disability.disability_disclosure.review_label'),
         value: @training_with_a_disability_form.disability_disclosure,
         action: t('application_form.training_with_a_disability.disability_disclosure.change_action'),
         change_path: Rails.application.routes.url_helpers.candidate_interface_training_with_a_disability_edit_path,
