@@ -287,6 +287,9 @@ Rails.application.routes.draw do
     get '/send-email/:reference_id' => 'send_reference_email#new', as: :send_reference_email
     post '/send-email/:reference_id' => 'send_reference_email#create'
 
+    get '/send-new-referee-request-email/:reference_id' => 'new_referee_request#show', as: :new_referee_request
+    post '/send-new-referee-request-email/:reference_id' => 'new_referee_request#deliver'
+
     get '/candidates' => 'candidates#index'
     get '/candidates/:candidate_id' => 'candidates#show', as: :candidate
     post '/candidates/:candidate_id/hide' => 'candidates#hide_in_reporting', as: :hide_candidate

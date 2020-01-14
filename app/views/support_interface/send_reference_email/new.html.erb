@@ -1,4 +1,4 @@
-<% content_for :browser_title, title_with_error_prefix('Send email', @send_reference_email.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix('Take action on this reference', @send_reference_email.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@reference.application_form), 'Back to application') %>
 
 <div class="govuk-grid-row">
@@ -6,12 +6,15 @@
     <%= form_with model: @send_reference_email, url: support_interface_send_reference_email_path(@reference), method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-xl">
-        Send email
-      </h1>
-
-      <%= f.govuk_radio_buttons_fieldset :choice, legend: { text: 'Select the action you want to take on the reference' } do %>
-        <%= f.govuk_radio_button :choice, :chase, label: { text: t('application_form.referees.chase') } %>
+      <%= f.govuk_radio_buttons_fieldset :choice, legend: { text: 'Take action on this reference', size: 'xl' } do %>
+        <div class="govuk-!-margin-top-6">
+          <%= f.govuk_radio_button :choice, :chase, label: { text: t('application_form.referees.chase') }, link_errors: true %>
+          <%= f.govuk_radio_button :choice, :new_referee, label: { text: t('new_referee_request.option') } do %>
+            <%= f.govuk_radio_buttons_fieldset :new_referee_email, legend: { text: 'Choose an email to send' } do %>
+              <%= f.govuk_radio_button :new_referee_email, :not_responded, label: { text: t('new_referee_request.not_responded.option') }, link_errors: true %>
+            <% end %>
+          <% end %>
+        </div>
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>
