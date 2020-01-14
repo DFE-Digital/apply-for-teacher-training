@@ -319,9 +319,6 @@ Rails.application.routes.draw do
     get '/courses/:course_id' => 'courses#show', as: :course
     post '/courses/:course_id' => 'courses#update'
 
-    get '/import-references' => 'import_references#index'
-    post '/import-references' => 'import_references#import'
-
     get '/feature-flags' => 'feature_flags#index', as: :feature_flags
     post '/feature-flags/:feature_name/activate' => 'feature_flags#activate', as: :activate_feature_flag
     post '/feature-flags/:feature_name/deactivate' => 'feature_flags#deactivate', as: :deactivate_feature_flag
