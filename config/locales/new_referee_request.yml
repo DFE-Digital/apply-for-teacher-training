@@ -19,6 +19,9 @@ en:
         %{referee_name} said they won’t give a reference.
 
         Reply to this email with the name and email address of a new referee, and tell us how you know them.
+      option: Explain the referee has declined to give a reference
+      audit_comment: New referee request email has been sent to candidate (%{candidate_email}) explaining refusal to provide a reference.
+      confirm_text: We will send an email to explain that their referee (%{referee_name}) has refused to provide a reference.
     email_bounced:
       subject: "Our email didn’t reach %{referee_name}"
       explanation: |-
