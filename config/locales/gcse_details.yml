@@ -5,10 +5,7 @@ en:
       english: Add English GCSE grade 4 (C) or above, or equivalent
       science: Add science GCSE grade 4 (C) or above, or equivalent
   gcse_edit_grade:
-    page_titles:
-      maths: What grade is your maths qualification?
-      english: What grade is your english qualification?
-      science: What grade is your science qualification?
+    page_title: What grade is your %{subject} qualification?
     guidance:
       english:
         gcse: Enter your grade for English Language GCSE. If you have a GCSE in English Literature only, enter this grade – but be aware that providers may want further evidence of your abilities in English.
@@ -27,10 +24,7 @@ en:
         gce_o_level: For example, ‘C’
         scottish_national_5: For example, ‘C’ or ‘4’
   gcse_edit_year:
-    page_titles:
-      maths: When was your qualification awarded?
-      english: When was your qualification awarded?
-      science: When was your qualification awarded?
+    page_title: When was your %{subject} qualification awarded?
   gcse_summary:
     page_titles:
       maths: Maths GCSE or equivalent

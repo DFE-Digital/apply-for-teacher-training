@@ -103,11 +103,11 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def then_i_see_add_grade_page
-    expect(page).to have_content t('gcse_edit_grade.page_titles.maths')
+    expect(page).to have_content t('gcse_edit_grade.page_title', subject: 'maths')
   end
 
   def then_i_see_add_year_page
-    expect(page).to have_content t('gcse_edit_year.page_titles.maths')
+    expect(page).to have_content t('gcse_edit_year.page_title', subject: 'maths')
   end
 
   def when_i_fill_in_the_grade
@@ -115,7 +115,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def when_i_fill_in_the_year
-    fill_in 'When did you get your qualification?', with: '1990'
+    fill_in 'Enter year', with: '1990'
   end
 
   def then_i_see_the_qualification_type_error
@@ -155,7 +155,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def when_i_enter_a_different_qualification_year
-    fill_in 'When did you get your qualification?', with: '2000'
+    fill_in 'Enter year', with: '2000'
   end
 
   def i_see_the_maths_gcse_is_completed
