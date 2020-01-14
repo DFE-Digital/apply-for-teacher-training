@@ -40,8 +40,6 @@ RSpec.describe ApplicationForm do
   end
 
   describe '#science_gcse_needed?' do
-    before { FeatureFlag.activate('conditional_science_gcse') }
-
     context 'when a candidate has no course choices' do
       it 'returns false' do
         application_form = build_stubbed(:application_form)

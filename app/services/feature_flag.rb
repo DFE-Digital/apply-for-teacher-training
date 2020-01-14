@@ -1,7 +1,6 @@
 class FeatureFlag
   FEATURES = %w[
     pilot_open
-    conditional_science_gcse
     candidate_withdrawals
     training_with_a_disability
     edit_application
