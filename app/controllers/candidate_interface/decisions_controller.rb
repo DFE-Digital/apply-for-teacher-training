@@ -7,11 +7,7 @@ module CandidateInterface
     before_action :check_that_candidate_has_an_offer, only: %i[offer respond_to_offer]
 
     def offer
-      if FeatureFlag.active?('accept_and_decline_via_ui')
-        @respond_to_offer = CandidateInterface::RespondToOfferForm.new
-      else
-        render :offer_via_support
-      end
+      @respond_to_offer = CandidateInterface::RespondToOfferForm.new
     end
 
     def respond_to_offer
