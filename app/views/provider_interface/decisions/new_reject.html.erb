@@ -17,7 +17,7 @@
     { key: 'Full name', value: @application_choice.application_form.full_name },
     { key: 'Course', value: @application_choice.course.name_and_code },
     { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
-    { key: 'Preferred location', value: @application_choice.course.course_options.first.site.name },
+    { key: 'Preferred location', value: @application_choice.site.name },
   ] %>
 
   <div class="govuk-grid-row">
