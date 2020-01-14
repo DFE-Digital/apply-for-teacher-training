@@ -21,24 +21,6 @@ RSpec.describe ApplicationForm do
     end
   end
 
-  describe '#update' do
-    it 'updates the application_choices updated_at as well' do
-      original_time = Time.zone.now - 1.day
-      application_form = create(:application_form)
-      application_choices = create_list(
-        :application_choice,
-        2,
-        application_form: application_form,
-        updated_at: original_time,
-      )
-
-      application_form.update!(first_name: 'Something else')
-      application_choices.each(&:reload)
-
-      expect(application_choices.map(&:updated_at)).not_to include(original_time)
-    end
-  end
-
   describe '#science_gcse_needed?' do
     before { FeatureFlag.activate('conditional_science_gcse') }
 

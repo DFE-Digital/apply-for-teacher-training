@@ -1,7 +1,7 @@
 class ApplicationChoice < ApplicationRecord
   before_create :set_initial_status
 
-  belongs_to :application_form
+  belongs_to :application_form, touch: true
   belongs_to :course_option
   belongs_to :offered_course_option, class_name: 'CourseOption', optional: true
   has_one :course, through: :course_option

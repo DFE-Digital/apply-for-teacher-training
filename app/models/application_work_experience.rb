@@ -1,5 +1,5 @@
 class ApplicationWorkExperience < ApplicationExperience
-  belongs_to :application_form
+  belongs_to :application_form, touch: true
 
   validates :commitment, presence: true
 
