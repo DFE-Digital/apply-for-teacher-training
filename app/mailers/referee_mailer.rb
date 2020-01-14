@@ -4,15 +4,10 @@ class RefereeMailer < ApplicationMailer
     @reference = reference
     @candidate_name = application_form.full_name
 
-    if FeatureFlag.active?('reference_form')
-      unhashed_token = reference.update_token!
-      @reference_link = referee_interface_reference_feedback_url(token: unhashed_token)
-      @refuse_to_give_feedback_link = referee_interface_refuse_feedback_url(token: unhashed_token)
-      template_name = :reference_request_email
-    else
-      @reference_link = google_form_url_for(@candidate_name, @reference)
-      template_name = :reference_request_by_google_form_email
-    end
+    unhashed_token = reference.update_token!
+    @reference_link = referee_interface_reference_feedback_url(token: unhashed_token)
+    @refuse_to_give_feedback_link = referee_interface_refuse_feedback_url(token: unhashed_token)
+    template_name = :reference_request_email
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: reference.email_address,
@@ -26,11 +21,8 @@ class RefereeMailer < ApplicationMailer
     @candidate_name = application_form.full_name
 
     @token = reference.update_token!
-    @reference_link = if FeatureFlag.active?('reference_form')
-                        referee_interface_reference_feedback_url(token: @token)
-                      else
-                        google_form_url_for(@candidate_name, @reference)
-                      end
+    @reference_link = referee_interface_reference_feedback_url(token: @token)
+
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: reference.email_address,

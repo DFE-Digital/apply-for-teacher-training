@@ -6,7 +6,6 @@ class FeatureFlag
     candidate_withdrawals
     training_with_a_disability
     edit_application
-    reference_form
     send_reference_email_via_support
   ].freeze
 

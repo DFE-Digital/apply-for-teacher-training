@@ -186,7 +186,7 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
     current_application = current_candidate.current_application
     current_application.application_references.each do |reference|
       open_email(reference.email_address)
-      expect(current_email).to have_content "Give a reference for #{current_application.first_name}"
+      expect(current_email).to have_content "#{current_application.first_name} #{current_application.last_name} put us in touch with you to get a reference"
       expect(current_email).to have_content reference.name
     end
   end

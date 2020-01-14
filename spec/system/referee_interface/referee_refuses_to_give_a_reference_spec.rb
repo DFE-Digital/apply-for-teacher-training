@@ -5,7 +5,6 @@ RSpec.feature 'Refusing to give a reference', sidekiq: true do
 
   scenario 'Referee refuses to give a reference' do
     FeatureFlag.activate('training_with_a_disability')
-    FeatureFlag.activate('reference_form')
 
     given_a_candidate_completed_an_application
     when_the_candidate_submits_the_application
