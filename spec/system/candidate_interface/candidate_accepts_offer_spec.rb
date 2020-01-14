@@ -4,8 +4,6 @@ RSpec.feature 'Candidate accepts an offer', sidekiq: true do
   include CourseOptionHelpers
 
   scenario 'Candidate views an offer and accepts' do
-    given_the_accept_and_decline_feature_is_on
-
     given_i_am_signed_in
     and_i_have_2_offers_on_my_choices
     and_1_withdrawn_choice
@@ -29,10 +27,6 @@ RSpec.feature 'Candidate accepts an offer', sidekiq: true do
 
     when_i_visit_the_decline_page_of_the_accepted_offer
     then_i_see_the_page_not_found
-  end
-
-  def given_the_accept_and_decline_feature_is_on
-    FeatureFlag.activate('accept_and_decline_via_ui')
   end
 
   def given_i_am_signed_in

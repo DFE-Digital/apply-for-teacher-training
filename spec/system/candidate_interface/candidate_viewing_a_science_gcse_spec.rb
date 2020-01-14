@@ -6,13 +6,6 @@ RSpec.feature 'Candidate viewing Science GCSE' do
   scenario 'Candidate views a Science GCSE only when a primary course is chosen' do
     given_i_am_signed_in
     when_i_visit_the_site
-    then_i_see_science_gcse
-
-    when_i_click_on_check_your_answers
-    then_i_see_science_gcse_is_missing_below_the_section
-
-    given_conditional_science_gcse_feature_flag_is_on
-    when_i_visit_the_site
     then_i_dont_see_science_gcse
 
     when_i_click_on_check_your_answers
@@ -53,10 +46,6 @@ RSpec.feature 'Candidate viewing Science GCSE' do
     within('#missing-science_gcse-error') do
       expect(page).to have_content(t('review_application.science_gcse.incomplete'))
     end
-  end
-
-  def given_conditional_science_gcse_feature_flag_is_on
-    FeatureFlag.activate('conditional_science_gcse')
   end
 
   def then_i_dont_see_science_gcse

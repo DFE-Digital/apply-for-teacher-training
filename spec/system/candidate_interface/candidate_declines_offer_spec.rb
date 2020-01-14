@@ -4,8 +4,6 @@ RSpec.feature 'Candidate declines an offer', sidekiq: true do
   include CourseOptionHelpers
 
   scenario 'Candidate views an offer and declines' do
-    given_the_accept_and_decline_feature_is_on
-
     given_i_am_signed_in
     and_i_have_an_offer
 
@@ -17,10 +15,6 @@ RSpec.feature 'Candidate declines an offer', sidekiq: true do
 
     then_a_slack_notification_is_sent
     and_i_see_that_i_declined_the_offer
-  end
-
-  def given_the_accept_and_decline_feature_is_on
-    FeatureFlag.activate('accept_and_decline_via_ui')
   end
 
   def given_i_am_signed_in

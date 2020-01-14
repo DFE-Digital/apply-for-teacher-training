@@ -8,7 +8,7 @@ RSpec.feature 'Candidate reviewing an incomplete application' do
     and_the_training_with_a_disability_feature_flag_is_on
 
     when_i_visit_the_review_application_page
-    then_i_should_be_able_to_click_through_and_complete_each_section
+    then_i_should_be_able_to_click_through_and_complete_each_section_but_science_gcse
 
     when_i_confirm_my_application
     then_i_should_see_an_error_that_i_have_not_completed_everything
@@ -27,8 +27,8 @@ RSpec.feature 'Candidate reviewing an incomplete application' do
     click_link 'Check your answers before submitting'
   end
 
-  def then_i_should_be_able_to_click_through_and_complete_each_section
-    CandidateHelper::APPLICATION_FORM_SECTIONS.each do |section|
+  def then_i_should_be_able_to_click_through_and_complete_each_section_but_science_gcse
+    (CandidateHelper::APPLICATION_FORM_SECTIONS - [:science_gcse]).each do |section|
       expect(page).to have_selector "[aria-describedby='missing-#{section}']"
       within "#missing-#{section}-error" do
         expect(page).to have_link('Complete section')

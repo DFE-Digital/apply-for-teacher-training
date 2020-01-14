@@ -3,14 +3,6 @@ require 'rails_helper'
 RSpec.feature 'A candidate withdraws her application' do
   include CandidateHelper
 
-  before do
-    # It would be pleasanter to use "around" here and explicitly unset the
-    # flag, but RSpec appears to run all "before" blocks after any "around"
-    # blocks, so the "before" which flushes Redis will always wipe the feature
-    # flag unless we use "before" here
-    FeatureFlag.activate('candidate_withdrawals')
-  end
-
   scenario 'successful withdrawal', sidekiq: true do
     given_i_am_signed_in_as_a_candidate
     and_i_have_an_application_choice_awaiting_provider_decision
