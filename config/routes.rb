@@ -85,8 +85,11 @@ Rails.application.routes.draw do
         get '/' => 'gcse/type#edit', as: :gcse_details_edit_type
         post '/' => 'gcse/type#update', as: :gcse_details_update_type
 
-        get '/details' => 'gcse/details#edit', as: :gcse_details_edit_details
-        patch '/details' => 'gcse/details#update', as: :gcse_details_update_details
+        get '/grade' => 'gcse/grade#edit', as: :gcse_details_edit_grade
+        patch '/grade' => 'gcse/grade#update', as: :gcse_details_update_grade
+
+        get '/year' => 'gcse/year#edit', as: :gcse_details_edit_year
+        patch '/year' => 'gcse/year#update', as: :gcse_details_update_year
 
         get '/review' => 'gcse/review#show', as: :gcse_review
       end

@@ -9,13 +9,20 @@ RSpec.feature 'Candidate entering GCSE details' do
     and_i_click_on_the_maths_gcse_link
     then_i_see_the_add_gcse_maths_page
 
+    when_i_do_not_select_any_gcse_option
+    and_i_click_save_and_continue
+    then_i_see_the_qualification_type_error
+
     when_i_select_gcse_option
     and_i_click_save_and_continue
-    then_i_see_add_grade_and_year_page
+    then_i_see_add_grade_page
 
-    when_i_fill_in_grade_and_year
+    when_i_fill_in_the_grade
     and_i_click_save_and_continue
+    then_i_see_add_year_page
 
+    when_i_fill_in_the_year
+    and_i_click_save_and_continue
     then_i_see_the_review_page_with_correct_details
 
     when_i_click_to_change_qualification_type
@@ -23,28 +30,24 @@ RSpec.feature 'Candidate entering GCSE details' do
 
     when_i_select_a_different_qualification_type
     and_i_click_save_and_continue
+    then_i_see_the_review_page_with_updated_qualification_type
 
-    and_i_edit_my_details
+    when_i_click_to_change_grade
+    then_i_see_the_gcse_grade_entered
+
+    when_i_enter_a_different_qualification_grade
     and_i_click_save_and_continue
+    then_i_see_the_review_page_with_updated_grade
 
-    then_i_see_the_review_page_with_updated_details
+    when_i_click_to_change_year
+    then_i_see_the_gcse_year_entered
+
+    when_i_enter_a_different_qualification_year
+    and_i_click_save_and_continue
+    then_i_see_the_review_page_with_updated_year
 
     when_i_visit_the_candidate_application_page
     i_see_the_maths_gcse_is_completed
-  end
-
-  scenario 'Candidate does not provide a qualification level' do
-    given_i_am_signed_in
-    when_i_visit_the_candidate_application_page
-    and_i_click_on_the_maths_gcse_link
-
-    then_i_see_the_add_gcse_maths_page
-
-    and_i_do_not_select_any_gcse_option
-
-    and_i_click_save_and_continue
-
-    then_i_see_the_qualification_type_error
   end
 
   def given_i_am_signed_in
@@ -69,7 +72,7 @@ RSpec.feature 'Candidate entering GCSE details' do
     click_button 'Save and continue'
   end
 
-  def and_i_do_not_select_any_gcse_option; end
+  def when_i_do_not_select_any_gcse_option; end
 
   def when_i_visit_the_candidate_application_page
     visit '/candidate/application'
@@ -77,10 +80,6 @@ RSpec.feature 'Candidate entering GCSE details' do
 
   def then_i_see_the_add_gcse_maths_page
     expect(page).to have_content 'Add maths GCSE grade 4 (C) or above, or equivalent'
-  end
-
-  def then_i_see_the_edit_details_page
-    expect(page).to have_content t('gcse_edit_details.page_titles.maths')
   end
 
   def then_i_see_the_review_page_with_correct_details
@@ -91,19 +90,32 @@ RSpec.feature 'Candidate entering GCSE details' do
     expect(page).to have_content '1990'
   end
 
-  def then_i_see_the_review_page_with_updated_details
+  def then_i_see_the_review_page_with_updated_qualification_type
     expect(page).to have_content 'Scottish National 5'
+  end
+
+  def then_i_see_the_review_page_with_updated_grade
     expect(page).to have_content 'BB'
+  end
+
+  def then_i_see_the_review_page_with_updated_year
     expect(page).to have_content '2000'
   end
 
-  def then_i_see_add_grade_and_year_page
-    expect(page).to have_content t('gcse_edit_details.page_titles.maths')
+  def then_i_see_add_grade_page
+    expect(page).to have_content t('gcse_edit_grade.page_title', subject: 'maths')
   end
 
-  def when_i_fill_in_grade_and_year
-    fill_in 'What was your grade?', with: 'AA'
-    fill_in 'When did you get your qualification?', with: '1990'
+  def then_i_see_add_year_page
+    expect(page).to have_content t('gcse_edit_year.page_title', subject: 'maths')
+  end
+
+  def when_i_fill_in_the_grade
+    fill_in 'Please specify your grade', with: 'AA'
+  end
+
+  def when_i_fill_in_the_year
+    fill_in 'Enter year', with: '1990'
   end
 
   def then_i_see_the_qualification_type_error
@@ -114,6 +126,14 @@ RSpec.feature 'Candidate entering GCSE details' do
     expect(find_field('GCSE')).to be_checked
   end
 
+  def then_i_see_the_gcse_grade_entered
+    expect(page).to have_selector("input[value='AA']")
+  end
+
+  def then_i_see_the_gcse_year_entered
+    expect(page).to have_selector("input[value='1990']")
+  end
+
   def when_i_select_a_different_qualification_type
     choose('Scottish National 5')
   end
@@ -122,9 +142,20 @@ RSpec.feature 'Candidate entering GCSE details' do
     find_link('Change', href: candidate_interface_gcse_details_edit_type_path(subject: 'maths')).click
   end
 
-  def and_i_edit_my_details
-    fill_in 'What was your grade?', with: 'BB'
-    fill_in 'When did you get your qualification?', with: '2000'
+  def when_i_click_to_change_year
+    page.all('.govuk-summary-list__actions').to_a.second.click_link 'Change'
+  end
+
+  def when_i_click_to_change_grade
+    page.all('.govuk-summary-list__actions').to_a.third.click_link 'Change'
+  end
+
+  def when_i_enter_a_different_qualification_grade
+    fill_in 'Please specify your grade', with: 'BB'
+  end
+
+  def when_i_enter_a_different_qualification_year
+    fill_in 'Enter year', with: '2000'
   end
 
   def i_see_the_maths_gcse_is_completed
