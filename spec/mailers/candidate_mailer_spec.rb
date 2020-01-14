@@ -95,11 +95,12 @@ RSpec.describe CandidateMailer, type: :mailer do
         application_references: [reference],
       )
     end
-    let(:mail) { mailer.new_referee_request(application_form, reference) }
-
-    before { mail.deliver_later }
 
     context 'when referee has not responded' do
+      let(:mail) { mailer.new_referee_request(application_form, reference) }
+
+      before { mail.deliver_later }
+
       it 'sends an email with the correct subject' do
         expect(mail.subject).to include(t('new_referee_request.not_responded.subject', referee_name: 'Scott Knowles'))
       end
@@ -109,7 +110,49 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
 
       it 'sends an email saying referee has not responded' do
-        expect(mail.body.encoded).to include(t('new_referee_request.not_responded.explanation', referee_name: 'Scott Knowles'))
+        explanation = mail.body.encoded.gsub("\r", '')
+
+        expect(explanation).to include(t('new_referee_request.not_responded.explanation', referee_name: 'Scott Knowles'))
+      end
+    end
+
+    context 'when referee has refused' do
+      let(:mail) { mailer.new_referee_request(application_form, reference, reason: :refused) }
+
+      before { mail.deliver_later }
+
+      it 'sends an email with the correct subject' do
+        expect(mail.subject).to include(t('new_referee_request.refused.subject', referee_name: 'Scott Knowles'))
+      end
+
+      it 'sends an email with the correct heading' do
+        expect(mail.body.encoded).to include('Dear Tyrell')
+      end
+
+      it 'sends an email saying referee has refused' do
+        explanation = mail.body.encoded.gsub("\r", '')
+
+        expect(explanation).to include(t('new_referee_request.refused.explanation', referee_name: 'Scott Knowles'))
+      end
+    end
+
+    context 'when email address of referee has bounced' do
+      let(:mail) { mailer.new_referee_request(application_form, reference, reason: :email_bounced) }
+
+      before { mail.deliver_later }
+
+      it 'sends an email with the correct subject' do
+        expect(mail.subject).to include(t('new_referee_request.email_bounced.subject', referee_name: 'Scott Knowles'))
+      end
+
+      it 'sends an email with the correct heading' do
+        expect(mail.body.encoded).to include('Dear Tyrell')
+      end
+
+      it 'sends an email saying referee email bounced' do
+        explanation = mail.body.encoded.gsub("\r", '')
+
+        expect(explanation).to include(t('new_referee_request.email_bounced.explanation', referee_name: 'Scott Knowles', referee_email: reference.email_address))
       end
     end
   end
