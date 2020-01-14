@@ -40,11 +40,7 @@ You can track the progress of your <%= 'application'.pluralize(@application_form
 
 You can withdraw your application to your <%= 'course'.pluralize(@application_form.application_choices.count) %> at any point, even after you’ve accepted an offer.
 
-<% if FeatureFlag.active?('candidate_withdrawals') %>
-  [Sign in to your account](<%= candidate_interface_sign_in_url %>) and click ‘withdraw’ next to the <%= 'course'.pluralize(@application_form.application_choices.count) %> you want to withdraw and we’ll let your training <%= 'provider'.pluralize(@application_form.application_choices.count) %> know.
-<% else %>
-  Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) if you want to withdraw and we’ll let your training <%= 'provider'.pluralize(@application_form.application_choices.count) %> know.
-<% end %>
+[Sign in to your account](<%= candidate_interface_sign_in_url %>) and click ‘withdraw’ next to the <%= 'course'.pluralize(@application_form.application_choices.count) %> you want to withdraw and we’ll let your training <%= 'provider'.pluralize(@application_form.application_choices.count) %> know.
 
 # References
 

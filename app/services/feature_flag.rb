@@ -1,7 +1,6 @@
 class FeatureFlag
   FEATURES = %w[
     pilot_open
-    candidate_withdrawals
     training_with_a_disability
     edit_application
     reference_form

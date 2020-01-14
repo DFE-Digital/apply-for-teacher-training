@@ -43,8 +43,6 @@ module CandidateInterface
     def withdraw; end
 
     def confirm_withdraw
-      raise unless FeatureFlag.active?('candidate_withdrawals')
-
       withdrawal = WithdrawApplication.new(application_choice: @application_choice)
       withdrawal.save!
 
