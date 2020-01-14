@@ -54,6 +54,10 @@
       { key: 'Study mode', value: @application_choice.course_option.study_mode.humanize },
     ]) %>
 
+    <% if FeatureFlag.active?('training_with_a_disability') %>
+      <h2 class="govuk-heading-m govuk-!-margin-top-8" id="disabilities">Disability and other needs</h2>
+    <% end %>
+
     <h2 class="govuk-heading-m govuk-!-margin-top-8" id="qualifications">Qualifications</h2>
 
     <%= render QualificationsComponent.new(application_form: @application_choice.application_form) %>
