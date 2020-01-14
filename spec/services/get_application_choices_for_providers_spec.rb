@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe GetApplicationChoicesForProvider do
+RSpec.describe GetApplicationChoicesForProviders do
   include CourseOptionHelpers
 
   it 'raises an exception when the provider is nil' do
     expect {
-      GetApplicationChoicesForProvider.call(provider: nil)
+      GetApplicationChoicesForProviders.call(providers: nil)
     }.to raise_error(MissingProvider)
   end
 
@@ -28,7 +28,7 @@ RSpec.describe GetApplicationChoicesForProvider do
       status: 'awaiting_provider_decision',
     )
 
-    returned_applications = GetApplicationChoicesForProvider.call(provider: current_provider)
+    returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider)
     expect(returned_applications.size).to be(2)
   end
 
@@ -56,7 +56,7 @@ RSpec.describe GetApplicationChoicesForProvider do
       status: 'awaiting_references',
     )
 
-    returned_applications = GetApplicationChoicesForProvider.call(provider: current_provider)
+    returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider)
     expect(returned_applications.size).to be(3)
   end
 
@@ -98,7 +98,7 @@ RSpec.describe GetApplicationChoicesForProvider do
       application_form: create(:application_form, first_name: 'Alex'),
     )
 
-    returned_applications = GetApplicationChoicesForProvider.call(provider: current_provider)
+    returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider)
     returned_application_names = returned_applications.map { |a| a.application_form.first_name }
 
     expect(returned_application_names).to include('Aaron', 'Jim', 'Harry')

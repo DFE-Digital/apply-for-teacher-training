@@ -9,7 +9,7 @@ module VendorApi
     end
 
     def show
-      application_choice = GetApplicationChoicesForProvider.call(provider: current_provider)
+      application_choice = GetApplicationChoicesForProviders.call(providers: current_provider)
         .find(params[:application_id])
 
       render json: { data: SingleApplicationPresenter.new(application_choice).as_json }
@@ -18,7 +18,7 @@ module VendorApi
   private
 
     def get_application_choices_for_provider_since(since:)
-      GetApplicationChoicesForProvider.call(provider: current_provider)
+      GetApplicationChoicesForProviders.call(providers: current_provider)
         .where('application_choices.updated_at > ?', since)
     end
 
