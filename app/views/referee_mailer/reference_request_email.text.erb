@@ -4,11 +4,11 @@ Dear <%= @reference.name %>,
 
 Please use the link below to give a reference as soon as possible.
 
-<%= @reference_link %>
+<%= referee_interface_reference_feedback_url(token: @unhashed_token) %>
 
 If you won’t give <%= @reference.name %> a reference, please let us know by clicking the link below.
 
-<%= @refuse_to_give_feedback_link %>
+<%= referee_interface_refuse_feedback_url(token: @unhashed_token) %>
 
 Your data
 

@@ -10,19 +10,11 @@ We haven’t had your reference for <%= @candidate_name %>. They put us in touch
 
 Please use the link below to give a complete reference within 5 working days.
 
-<%= @reference_link %>
-
-<% if FeatureFlag.active?('reference_form') %>
+<%= referee_interface_reference_feedback_url(token: @token) %>
 
 If you won’t give <%= @reference.name %> a reference, please let us know by clicking the link below.
 
 <%= referee_interface_refuse_feedback_url(token: @token) %>
-
-<% else %>
-
-If you won’t give <%= @candidate_name %> a reference, please let us know as soon as possible by emailing: [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
-
-<% end %>
 
 # Your data
 

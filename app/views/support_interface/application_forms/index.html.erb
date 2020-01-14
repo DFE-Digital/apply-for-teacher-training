@@ -1,5 +1,3 @@
 <% content_for :title, 'Applications' %>
 
-<%= govuk_button_link_to 'Import references', support_interface_import_references_path %>
-
 <%= render SupportInterface::ApplicationsTableComponent, application_forms: @application_forms %>
