@@ -1,5 +1,6 @@
 class SyncFromFind
   include Sidekiq::Worker
+  sidekiq_options retry: 3
 
   def perform
     Rails.configuration.providers_to_sync[:codes].each do |code|
