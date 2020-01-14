@@ -35,6 +35,20 @@ RSpec.feature 'Send new referee request to candidate', with_audited: true do
 
     when_i_click_on_the_history_for_the_application
     then_i_see_a_comment_stating_email_address_bounced_email_has_been_sent
+
+    when_i_am_on_the_application_support_page
+    and_i_click_on_send_email
+    and_i_choose_provide_alternative_referee
+    and_i_choose_referees_email_has_refused
+    and_i_click_on_continue
+    then_i_see_a_confirmation_page_for_refused_email
+
+    when_i_click_to_confirm_sending_the_new_referee_request_email
+    then_i_see_the_candidate_email_is_successfully_sent_for_refused_email
+    and_i_am_sent_back_to_the_application_form_with_a_flash
+
+    when_i_click_on_the_history_for_the_application
+    then_i_see_a_comment_stating_refused_email_has_been_sent
   end
 
   def given_i_am_a_support_user
@@ -130,6 +144,28 @@ RSpec.feature 'Send new referee request to candidate', with_audited: true do
     within('tbody tr:eq(1)') do
       expect(page).to have_content 'Comment on Application Form'
       expect(page).to have_content t('new_referee_request.email_bounced.audit_comment', candidate_email: @candidate_email)
+    end
+  end
+
+  def and_i_choose_referees_email_has_refused
+    choose t('new_referee_request.refused.option')
+  end
+
+  def then_i_see_a_confirmation_page_for_refused_email
+    expect(page).to have_content(t('new_referee_request.confirm', candidate_name: @candidate_name))
+    expect(page).to have_content(t('new_referee_request.refused.confirm_text', referee_name: @referee.name))
+  end
+
+  def then_i_see_the_candidate_email_is_successfully_sent_for_refused_email
+    open_email(@candidate_email)
+
+    expect(current_email.subject).to have_content(t('new_referee_request.refused.subject', referee_name: @referee.name))
+  end
+
+  def then_i_see_a_comment_stating_refused_email_has_been_sent
+    within('tbody tr:eq(1)') do
+      expect(page).to have_content 'Comment on Application Form'
+      expect(page).to have_content t('new_referee_request.refused.audit_comment', candidate_email: @candidate_email)
     end
   end
 end
