@@ -83,7 +83,7 @@ module ProviderInterface
   private
 
     def set_application_choice
-      @application_choice = GetApplicationChoicesForProvider.call(provider: current_provider_user.provider)
+      @application_choice = GetApplicationChoicesForProviders.call(providers: current_provider_user.providers)
         .find(params[:application_choice_id])
     end
 

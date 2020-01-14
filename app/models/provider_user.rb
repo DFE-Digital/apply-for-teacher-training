@@ -3,10 +3,6 @@ class ProviderUser < ActiveRecord::Base
 
   validates :dfe_sign_in_uid, presence: true, uniqueness: true, allow_nil: true
 
-  def provider
-    providers.first
-  end
-
   def self.load_from_session(session)
     dfe_sign_in_user = DfESignInUser.load_from_session(session)
     return unless dfe_sign_in_user

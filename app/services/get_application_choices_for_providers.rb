@@ -1,6 +1,8 @@
-class GetApplicationChoicesForProvider
-  def self.call(provider:)
-    raise MissingProvider if provider.blank?
+class GetApplicationChoicesForProviders
+  def self.call(providers:)
+    providers = Array.wrap(providers).select(&:present?)
+
+    raise MissingProvider if providers.none?
 
     includes = [
       :course,
@@ -14,9 +16,9 @@ class GetApplicationChoicesForProvider
     ]
 
     ApplicationChoice.includes(*includes)
-      .where('courses.provider_id' => provider)
+      .where('courses.provider_id' => providers)
       .or(ApplicationChoice.includes(*includes)
-        .where('courses.accrediting_provider_id' => provider))
+        .where('courses.accrediting_provider_id' => providers))
       .where('status IN (?)', ApplicationStateChange.states_visible_to_provider)
   end
 end
