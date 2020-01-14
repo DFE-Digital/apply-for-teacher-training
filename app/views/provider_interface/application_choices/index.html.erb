@@ -17,7 +17,12 @@
       <% @application_choices.each do |application_choice| %>
       <tr class="govuk-table__row">
         <th class="govuk-table__cell"><%= govuk_link_to application_choice.application_form.full_name, provider_interface_application_choice_path(application_choice) %></th>
-        <td class="govuk-table__cell"><%= application_choice.course.name_and_code %></td>
+        <td class="govuk-table__cell">
+          <% if current_provider_user.providers.size > 1 %>
+              <%= application_choice.provider.name %> -
+          <% end %>
+
+          <%= application_choice.course.name_and_code %></td>
         <td class="govuk-table__cell"><%= render ProviderInterface::ApplicationStatusTagComponent, application_choice: application_choice %></td>
         <td class="govuk-table__cell"><%= application_choice.updated_at.to_s(:govuk_date_and_time) %></td>
       </tr>
