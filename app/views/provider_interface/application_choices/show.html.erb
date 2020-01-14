@@ -14,7 +14,7 @@
 <% end %>
 
 <h1 class="govuk-heading-xl">
-  <span class="govuk-caption-xl">Application for <%= @application_choice.course.name_and_code %></span>
+  <span class="govuk-caption-xl">Application for <%= @application_choice.provider.name_and_code %> - <%= @application_choice.course.name_and_code %></span>
   <%= @application_choice.application_form.full_name %>
 </h1>
 
@@ -27,6 +27,16 @@
     <%= render ProviderInterface::StatusBoxComponent, application_choice: @application_choice %>
   </div>
 </div>
+
+<h2 class="govuk-heading-l govuk-!-margin-top-8" id="course-info">Course</h2>
+
+<%= render SummaryListComponent, rows: [
+  { key: 'Provider', value: @application_choice.provider.name_and_code },
+  { key: 'Course', value: @application_choice.course.name_and_code },
+  { key: 'Cycle', value: @application_choice.course.recruitment_cycle_year },
+  { key: 'Preferred location', value: @application_choice.site.name_and_code },
+  { key: 'Study mode', value: @application_choice.course_option.study_mode.humanize },
+] %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8" id="qualifications">Qualifications</h2>
 
