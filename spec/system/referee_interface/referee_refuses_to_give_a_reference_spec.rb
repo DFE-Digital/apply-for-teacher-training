@@ -38,8 +38,7 @@ RSpec.feature 'Refusing to give a reference', sidekiq: true do
   end
 
   def and_i_say_that_i_do_actually_want_to_give_a_reference
-    choose 'I\'d like to provide a reference'
-    click_button 'Submit'
+    click_link 'Cancel'
   end
 
   def then_i_see_the_reference_comment_page
@@ -47,8 +46,7 @@ RSpec.feature 'Refusing to give a reference', sidekiq: true do
   end
 
   def and_i_confirm_that_i_wont_give_a_reference
-    choose 'I don\'t want to give a reference'
-    click_button 'Submit'
+    click_button 'Yes - I\'m sure'
   end
 
   def when_i_choose_to_be_contactable
