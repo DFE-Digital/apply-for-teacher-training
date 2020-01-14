@@ -12,6 +12,7 @@
           <%= f.govuk_radio_button :choice, :new_referee, label: { text: t('new_referee_request.option') } do %>
             <%= f.govuk_radio_buttons_fieldset :new_referee_email, legend: { text: 'Choose an email to send' } do %>
               <%= f.govuk_radio_button :new_referee_email, :not_responded, label: { text: t('new_referee_request.not_responded.option') }, link_errors: true %>
+              <%= f.govuk_radio_button :new_referee_email, :email_bounced, label: { text: t('new_referee_request.email_bounced.option') }, link_errors: true %>
             <% end %>
           <% end %>
         </div>

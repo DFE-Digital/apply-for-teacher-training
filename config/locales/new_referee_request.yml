@@ -1,6 +1,9 @@
 en:
   new_referee_request:
     option: Ask the candidate to supply an alternative referee
+    confirm: Are you sure you want to send a request for a new referee email to %{candidate_name}?
+    confirm_button: Yes - send the email
+    success: New referee request sent to candidate
     not_responded:
       subject: "Give details of a new referee: %{referee_name} hasn’t responded"
       explanation: |-
@@ -8,10 +11,8 @@ en:
 
         Reply to this email with the name and email address of a new referee, and tell us how you know them.
       option: Explain the referee has not responded
-      confirm: Are you sure you want to send a request for a new referee email to %{candidate_name}?
-      confirm_button: Yes - send the email
-      success: New referee request sent to candidate
-      audit_comment: New referee request email has been sent to candidate (%{candidate_email}).
+      audit_comment: New referee request email has been sent to candidate (%{candidate_email}) explaining non-response.
+      confirm_text: We will send an email to explain that their referee (%{referee_name}) has not responded.
     refused:
       subject: "%{referee_name} won’t give a reference"
       explanation: |-
@@ -28,3 +29,6 @@ en:
         Please can you check you gave the right email address for %{referee_name}.
 
         Alternatively, reply to this email with the name and email address of a new referee, and tell us how you know them.
+      option: Explain the referee’s email has bounced
+      audit_comment: New referee request email has been sent to candidate (%{candidate_email}) explaining email bounce.
+      confirm_text: We will send an email to explain that their referee's email (%{referee_name}) has bounced.

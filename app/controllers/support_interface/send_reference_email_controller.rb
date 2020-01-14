@@ -13,7 +13,9 @@ module SupportInterface
         if @send_reference_email.chase?
           redirect_to support_interface_chase_reference_path(@reference)
         else
-          redirect_to support_interface_new_referee_request_path(@reference)
+          reason = @send_reference_email.new_referee_email.dasherize
+
+          redirect_to support_interface_new_referee_request_path(@reference, reason)
         end
       else
         render :new

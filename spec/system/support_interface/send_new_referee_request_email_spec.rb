@@ -13,14 +13,28 @@ RSpec.feature 'Send new referee request to candidate', with_audited: true do
     and_i_choose_provide_alternative_referee
     and_i_choose_referee_has_not_responded
     and_i_click_on_continue
-    then_i_see_a_confirmation_page
+    then_i_see_a_confirmation_page_for_not_responded_email
 
     when_i_click_to_confirm_sending_the_new_referee_request_email
     then_i_see_the_candidate_email_is_successfully_sent
     and_i_am_sent_back_to_the_application_form_with_a_flash
 
     when_i_click_on_the_history_for_the_application
-    then_i_see_a_comment_stating_new_referee_request_email_has_been_sent
+    then_i_see_a_comment_stating_not_responded_email_has_been_sent
+
+    when_i_am_on_the_application_support_page
+    and_i_click_on_send_email
+    and_i_choose_provide_alternative_referee
+    and_i_choose_referees_email_has_bounced
+    and_i_click_on_continue
+    then_i_see_a_confirmation_page_for_bounced_email
+
+    when_i_click_to_confirm_sending_the_new_referee_request_email
+    then_i_see_the_candidate_email_is_successfully_sent_for_bounced_email
+    and_i_am_sent_back_to_the_application_form_with_a_flash
+
+    when_i_click_on_the_history_for_the_application
+    then_i_see_a_comment_stating_email_address_bounced_email_has_been_sent
   end
 
   def given_i_am_a_support_user
@@ -29,6 +43,7 @@ RSpec.feature 'Send new referee request to candidate', with_audited: true do
 
   def and_there_is_an_application
     @application = create(:completed_application_form)
+    @candidate_name = "#{@application.first_name} #{@application.last_name}"
     @candidate_email = @application.candidate.email_address
     @referee = @application.application_references.first
   end
@@ -57,13 +72,13 @@ RSpec.feature 'Send new referee request to candidate', with_audited: true do
     click_on 'Continue'
   end
 
-  def then_i_see_a_confirmation_page
-    candidate_name = "#{@application.first_name} #{@application.last_name}"
-    expect(page).to have_content(t('new_referee_request.not_responded.confirm', candidate_name: candidate_name))
+  def then_i_see_a_confirmation_page_for_not_responded_email
+    expect(page).to have_content(t('new_referee_request.confirm', candidate_name: @candidate_name))
+    expect(page).to have_content(t('new_referee_request.not_responded.confirm_text', referee_name: @referee.name))
   end
 
   def when_i_click_to_confirm_sending_the_new_referee_request_email
-    click_on t('new_referee_request.not_responded.confirm_button')
+    click_on t('new_referee_request.confirm_button')
   end
 
   def then_i_see_the_candidate_email_is_successfully_sent
@@ -74,17 +89,47 @@ RSpec.feature 'Send new referee request to candidate', with_audited: true do
 
   def and_i_am_sent_back_to_the_application_form_with_a_flash
     expect(page).to have_content @candidate_email
-    expect(page).to have_content(t('new_referee_request.not_responded.success'))
+    expect(page).to have_content(t('new_referee_request.success'))
   end
 
   def when_i_click_on_the_history_for_the_application
     click_link 'History'
   end
 
-  def then_i_see_a_comment_stating_new_referee_request_email_has_been_sent
+  def then_i_see_a_comment_stating_not_responded_email_has_been_sent
     within('tbody tr:eq(1)') do
       expect(page).to have_content 'Comment on Application Form'
       expect(page).to have_content t('new_referee_request.not_responded.audit_comment', candidate_email: @candidate_email)
+    end
+  end
+
+  def when_i_am_on_the_application_support_page
+    visit support_interface_application_form_path(@application)
+  end
+
+  def and_i_click_on_send_email
+    when_i_click_on_send_email
+  end
+
+  def and_i_choose_referees_email_has_bounced
+    choose t('new_referee_request.email_bounced.option')
+  end
+
+  def then_i_see_a_confirmation_page_for_bounced_email
+    expect(page).to have_content(t('new_referee_request.confirm', candidate_name: @candidate_name))
+    expect(page).to have_content(t('new_referee_request.email_bounced.confirm_text', referee_name: @referee.name))
+  end
+
+  def then_i_see_the_candidate_email_is_successfully_sent_for_bounced_email
+    open_email(@candidate_email)
+
+    expect(current_email.subject).to have_content(t('new_referee_request.email_bounced.subject', referee_name: @referee.name))
+  end
+
+  def then_i_see_a_comment_stating_email_address_bounced_email_has_been_sent
+    within('tbody tr:eq(1)') do
+      expect(page).to have_content 'Comment on Application Form'
+      expect(page).to have_content t('new_referee_request.email_bounced.audit_comment', candidate_email: @candidate_email)
     end
   end
 end
