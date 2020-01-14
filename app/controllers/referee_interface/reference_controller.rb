@@ -44,13 +44,8 @@ module RefereeInterface
     end
 
     def confirm_feedback_refusal
-      case params.dig(:application_reference, :refuse_to_give_feedback)
-      when 'yes'
-        reference.update!(feedback_status: 'feedback_refused')
-        redirect_to referee_interface_confirmation_path(token: @token_param)
-      when 'no'
-        redirect_to referee_interface_reference_feedback_path(token: params[:token])
-      end
+      reference.update!(feedback_status: 'feedback_refused')
+      redirect_to referee_interface_confirmation_path(token: @token_param)
     end
 
   private
