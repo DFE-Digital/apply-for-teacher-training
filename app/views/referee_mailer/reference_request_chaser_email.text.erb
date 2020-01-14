@@ -10,7 +10,7 @@ We haven’t had your reference for <%= @candidate_name %>. They put us in touch
 
 Please use the link below to give a complete reference within 5 working days.
 
-<%= @reference_link %>
+<%= referee_interface_reference_feedback_url(token: @token) %>
 
 If you won’t give <%= @reference.name %> a reference, please let us know by clicking the link below.
 

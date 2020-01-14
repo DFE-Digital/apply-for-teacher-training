@@ -3,16 +3,12 @@ class RefereeMailer < ApplicationMailer
     @application_form = application_form
     @reference = reference
     @candidate_name = application_form.full_name
-
-    unhashed_token = reference.update_token!
-    @reference_link = referee_interface_reference_feedback_url(token: unhashed_token)
-    @refuse_to_give_feedback_link = referee_interface_refuse_feedback_url(token: unhashed_token)
-    template_name = :reference_request_email
+    @unhashed_token = reference.update_token!
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: reference.email_address,
               subject: t('reference_request.subject.initial', candidate_name: @candidate_name),
-              template_name: template_name)
+              template_name: :reference_request_email)
   end
 
   def reference_request_chaser_email(application_form, reference)
@@ -21,8 +17,6 @@ class RefereeMailer < ApplicationMailer
     @candidate_name = application_form.full_name
 
     @token = reference.update_token!
-    @reference_link = referee_interface_reference_feedback_url(token: @token)
-
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: reference.email_address,

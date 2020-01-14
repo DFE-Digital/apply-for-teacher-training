@@ -23,15 +23,10 @@ RSpec.describe RefereeMailer, type: :mailer do
     let(:candidate_name) { "#{application_form.first_name} #{application_form.last_name}" }
     let(:mail) { mailer.reference_request_email(application_form, reference) }
 
-    describe 'with reference_form feature flag on' do
-      before do
-        mail.deliver_now
-      end
-
-      it 'sends an email with a link to the reference form' do
-        body = mail.body.encoded
-        expect(body).to include(referee_interface_reference_feedback_url(token: ''))
-      end
+    it 'sends an email with a link to the reference form' do
+      mail.deliver_now
+      body = mail.body.encoded
+      expect(body).to include(referee_interface_reference_feedback_url(token: ''))
     end
   end
 
