@@ -29,7 +29,9 @@ private
   def status_row
     {
       key: 'Feedback status',
-      value: render(TagComponent, text: feedback_status, type: 'blue'),
+      value: render(TagComponent,
+                    text: ApplicationReference.human_attribute_name("feedback_status.#{feedback_status}"),
+                    type: 'blue'),
     }
   end
 
