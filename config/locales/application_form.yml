@@ -531,7 +531,9 @@ en:
         support_interface/send_reference_email_form:
           attributes:
             choice:
-              blank: Select the action you want to take on the reference
+              blank: Choose the action you want to take on the reference
+            new_referee_email:
+              blank: Choose an email to send
         receive_reference:
           attributes:
             feedback:
