@@ -6,12 +6,8 @@ module SupportInterface
 
     def deliver
       application_form = @reference.application_form
-      CandidateMailer.new_referee_request(application_form, @reference, reason: @reason).deliver
 
-      candidate_email = application_form.candidate.email_address
-      audit_comment = t("new_referee_request.#{@reason}.audit_comment", candidate_email: candidate_email)
-      application_comment = SupportInterface::ApplicationCommentForm.new(comment: audit_comment)
-      application_comment.save(application_form)
+      SendNewRefereeRequestEmail.call(application_form: application_form, reference: @reference, reason: @reason)
 
       flash[:success] = t('new_referee_request.success')
 
