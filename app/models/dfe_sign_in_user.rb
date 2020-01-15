@@ -2,7 +2,7 @@ class DfESignInUser
   attr_reader :email_address, :dfe_sign_in_uid
 
   def initialize(email_address:, dfe_sign_in_uid:)
-    @email_address = email_address
+    @email_address = email_address&.downcase
     @dfe_sign_in_uid = dfe_sign_in_uid
   end
 
