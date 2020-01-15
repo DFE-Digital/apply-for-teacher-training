@@ -42,6 +42,9 @@ RSpec.feature 'See providers' do
   def and_providers_are_configured_to_be_synced
     allow(Rails.application.config).to receive(:providers_to_sync)
       .and_return(codes: %w[ABC DEF GHI])
+    create :provider, code: 'ABC', name: 'Royal Academy of Dance', sync_courses: true
+    create :provider, code: 'DEF', name: 'Gorse SCITT', sync_courses: true
+    create :provider, code: 'GHI', name: 'Somerset SCITT Consortium', sync_courses: true
   end
 
   def then_i_should_see_the_providers
@@ -51,6 +54,21 @@ RSpec.feature 'See providers' do
   end
 
   def and_i_click_the_sync_button
+    @request_all = stub_find_api_all_providers_200([
+      {
+        provider_code: 'ABC',
+        name: 'Royal Academy of Dance',
+      },
+      {
+        provider_code: 'DEF',
+        name: 'Gorse SCITT',
+      },
+      {
+        provider_code: 'GHI',
+        name: 'Somerset SCITT Consortium',
+      },
+    ])
+
     @request1 = stub_find_api_provider_200(
       provider_code: 'ABC',
       provider_name: 'Royal Academy of Dance',

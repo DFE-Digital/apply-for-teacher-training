@@ -1,6 +1,10 @@
 class SyncProviderFromFind
-  def self.call(provider_code:)
-    # Request all providers, courses and sites.
+  def self.call(provider_code:, provider_name: nil, sync_courses: false)
+    provider = create_or_update_provider(provider_name, provider_code, sync_courses)
+
+    return unless provider.sync_courses?
+
+    # Request provider, all courses and sites.
     #
     # For the full response, see:
     # https://api2.publish-teacher-training-courses.service.gov.uk/api/v3/recruitment_cycles/2020/providers/1N1/?include=sites,courses.sites
@@ -10,22 +14,30 @@ class SyncProviderFromFind
       .find(provider_code)
       .first
 
-    provider = create_provider(find_provider)
+    update_provider_name(provider, find_provider.provider_name)
 
     find_provider.courses.each do |find_course|
-      create_course(find_course, provider)
+      create_or_update_course(find_course, provider)
     end
   end
 
-  def self.create_provider(find_provider)
-    provider = Provider.find_or_create_by(code: find_provider.provider_code)
-    provider.name = find_provider.provider_name
-    provider.save!
+  def self.create_or_update_provider(provider_name, provider_code, sync_courses)
+    provider = Provider.find_or_create_by(code: provider_code)
+    if sync_courses
+      provider.sync_courses = sync_courses
+      provider.save!
+    end
+    update_provider_name(provider, provider_name) if provider_name.present?
 
     provider
   end
 
-  def self.create_course(find_course, provider)
+  def self.update_provider_name(provider, provider_name)
+    provider.name = provider_name
+    provider.save!
+  end
+
+  def self.create_or_update_course(find_course, provider)
     course = provider.courses.find_or_create_by(code: find_course.course_code)
     course.name = find_course.name
     course.level = find_course.level
@@ -72,5 +84,5 @@ class SyncProviderFromFind
     course
   end
 
-  private_class_method :create_provider, :create_course
+  private_class_method :create_or_update_provider, :create_or_update_course
 end

@@ -10,16 +10,26 @@ module SupportInterface
     end
 
     def sync
-      SyncFromFind.perform_async
+      SyncAllFromFind.perform_async
       redirect_to action: 'index'
     end
 
     def open_all_courses
+      update_provider('Successfully updated all courses') { |provider| provider.courses.update_all(open_on_apply: true) }
+    end
+
+    def enable_course_syncing
+      update_provider('Successfully updated provider') { |provider| provider.update!(sync_courses: true) }
+    end
+
+  private
+
+    def update_provider(success_message)
       @provider = Provider.find(params[:provider_id])
 
-      @provider.courses.update_all(open_on_apply: true)
+      yield @provider
 
-      flash[:success] = 'Successfully updated all courses'
+      flash[:success] = success_message
       redirect_to support_interface_provider_path(@provider)
     end
   end

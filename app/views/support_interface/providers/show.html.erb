@@ -2,6 +2,8 @@
 
 <h2 class='govuk-heading-l'><%= pluralize(@provider.courses.size, 'course') %> (<%= @provider.courses.applyable.size %> on DfE Apply)</h2>
 
+<%= render(SupportInterface::ProviderSyncCoursesToggleComponent, provider: @provider) %>
+
 <% if @provider.courses.any? %>
   <%= form_with model: @provider, url: support_interface_provider_path(@provider), method: :post do |f| %>
     <h3 class="govuk-heading-m">
