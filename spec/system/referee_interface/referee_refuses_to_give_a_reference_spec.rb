@@ -17,6 +17,7 @@ RSpec.feature 'Refusing to give a reference', sidekiq: true do
     when_i_click_the_refuse_reference_link_in_the_email
     and_i_confirm_that_i_wont_give_a_reference
     and_a_slack_notification_is_sent
+    then_an_email_is_sent_to_the_candidate
 
     when_i_choose_to_be_contactable
     then_i_see_the_thank_you_page
@@ -52,6 +53,12 @@ RSpec.feature 'Refusing to give a reference', sidekiq: true do
 
   def and_i_confirm_that_i_wont_give_a_reference
     click_button 'Yes - I\'m sure'
+  end
+
+  def then_an_email_is_sent_to_the_candidate
+    open_email(@application.candidate.email_address)
+
+    expect(current_email.subject).to have_content(t('new_referee_request.refused.subject', referee_name: 'Terri Tudor'))
   end
 
   def when_i_choose_to_be_contactable
