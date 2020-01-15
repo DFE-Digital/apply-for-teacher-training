@@ -48,10 +48,12 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
         address_line2: Faker::Address.street_address,
         address_line3: Faker::Address.city,
         address_line4: Faker::Address.country,
-        postcode: Faker::Address.postcode,
+        postcode: 'bn1 1aa',
       }
       application_form = build(:application_form)
       contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+
+      form_data[:postcode] = 'BN1 1AA'
 
       expect(contact_details.save_address(application_form)).to eq(true)
       expect(application_form).to have_attributes(form_data)
