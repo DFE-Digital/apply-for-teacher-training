@@ -12,7 +12,7 @@ module SupportInterface
         {
           course_link: govuk_link_to(course.name_and_code, support_interface_course_path(course)),
           provider_link: govuk_link_to(course.provider.name_and_code, support_interface_provider_path(course.provider)),
-          level: course.level,
+          level: course.level.titleize,
           recruitment_cycle_year: course.recruitment_cycle_year,
           apply_from_find_link: link_to_apply_from_find_page(course),
           link_to_find_course_page: link_to_find_course_page(course),
