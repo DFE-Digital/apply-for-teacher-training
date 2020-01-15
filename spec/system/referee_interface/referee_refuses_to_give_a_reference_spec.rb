@@ -16,6 +16,8 @@ RSpec.feature 'Refusing to give a reference', sidekiq: true do
 
     when_i_click_the_refuse_reference_link_in_the_email
     and_i_confirm_that_i_wont_give_a_reference
+    and_a_slack_notification_is_sent
+
     when_i_choose_to_be_contactable
     then_i_see_the_thank_you_page
   end
@@ -42,6 +44,10 @@ RSpec.feature 'Refusing to give a reference', sidekiq: true do
 
   def then_i_see_the_reference_comment_page
     expect(page).to have_content("Give a teacher training reference for #{@application.full_name}")
+  end
+
+  def and_a_slack_notification_is_sent
+    expect_slack_message_with_text ":sadparrot: A referee declined to give feedback for #{@application.first_name}'s application"
   end
 
   def and_i_confirm_that_i_wont_give_a_reference
