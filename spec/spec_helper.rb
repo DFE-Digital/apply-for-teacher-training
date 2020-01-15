@@ -101,6 +101,8 @@ RSpec.configure do |config|
 
   config.before { Redis.new.flushdb }
 
+  config.after { Clockwork::Test.clear! }
+
   # Print the 10 slowest examples and example groups at the
   # end of the spec run, to help surface which specs are running
   # particularly slow.

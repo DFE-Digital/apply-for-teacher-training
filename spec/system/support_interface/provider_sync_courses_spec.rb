@@ -4,8 +4,6 @@ RSpec.feature 'See provider course syncing' do
   include DfESignInHelpers
   include FindAPIHelper
 
-  after { Clockwork::Test.clear! }
-
   scenario 'User switches sync courses on Provider' do
     given_i_am_a_support_user
     and_a_provider_exists
