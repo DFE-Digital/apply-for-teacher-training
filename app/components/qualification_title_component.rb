@@ -5,10 +5,10 @@ class QualificationTitleComponent < ActionView::Component::Base
 
   def qualification_type
     if @qualification.level == 'gcse' && @qualification.missing_qualification?
-      I18n.t('application_form.gcse.qualification_types.gcse')
+      I18n.t('application_form.gcse.qualification_types_abbreviated.gcse')
     elsif @qualification.level == 'gcse'
       I18n.t(
-        "application_form.gcse.qualification_types.#{@qualification.qualification_type}",
+        "application_form.gcse.qualification_types_abbreviated.#{@qualification.qualification_type}",
         default: @qualification.qualification_type,
       )
     else
