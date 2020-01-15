@@ -3,7 +3,8 @@ module SupportInterface
     include ActiveModel::Model
     include ActiveModel::Validations
 
-    attr_accessor :email_address, :provider_ids, :provider_user
+    attr_accessor :provider_ids, :provider_user
+    attr_reader :email_address
 
     validates_presence_of :email_address
     validates :provider_ids, presence: true
@@ -18,6 +19,10 @@ module SupportInterface
         email_address: email_address,
         provider_ids: provider_ids,
       )
+    end
+
+    def email_address=(raw_email_address)
+      @email_address = raw_email_address.downcase
     end
 
     def available_providers

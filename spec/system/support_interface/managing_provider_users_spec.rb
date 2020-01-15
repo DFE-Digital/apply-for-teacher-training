@@ -58,7 +58,7 @@ RSpec.feature 'Managing provider users' do
 
   def and_i_enter_an_existing_email
     create(:provider_user, email_address: 'existing@example.org')
-    fill_in 'support_interface_provider_user_form[email_address]', with: 'existing@example.org'
+    fill_in 'support_interface_provider_user_form[email_address]', with: 'Existing@example.org'
   end
 
   def then_i_see_an_error
