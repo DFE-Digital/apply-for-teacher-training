@@ -46,7 +46,6 @@ RSpec.feature 'Managing provider users' do
 
   def and_i_enter_the_users_email_and_dsi_uid
     fill_in 'support_interface_provider_user_form[email_address]', with: 'harrison@example.com'
-    fill_in 'support_interface_provider_user_form[dfe_sign_in_uid]', with: '12345-ABCDE'
   end
 
   def and_i_select_a_provider
