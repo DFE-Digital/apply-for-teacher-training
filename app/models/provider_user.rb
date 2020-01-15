@@ -1,7 +1,7 @@
 class ProviderUser < ActiveRecord::Base
   has_and_belongs_to_many :providers
 
-  validates :dfe_sign_in_uid, presence: true, uniqueness: true, allow_nil: true
+  validates :dfe_sign_in_uid, uniqueness: true, allow_nil: true
 
   before_save :downcase_email_address
 
