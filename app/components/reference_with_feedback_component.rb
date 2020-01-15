@@ -30,10 +30,10 @@ private
 
   def status_row
     {
-      key: 'Feedback status',
+      key: 'Reference status',
       value: render(TagComponent,
-                    text: ApplicationReference.human_attribute_name("feedback_status.#{feedback_status}"),
-                    type: 'blue'),
+                    text: t("reference_status.#{feedback_status}"),
+                    type: feedback_tag_color(feedback_status)),
     }
   end
 
@@ -71,17 +71,19 @@ private
     if feedback
       {
         key: 'Given consent for research?',
-        value: consent_to_be_contacted_present
+        value: consent_to_be_contacted_present,
       }
     end
   end
 
   def consent_to_be_contacted_present
-    if consent_to_be_contacted.nil? 
-      ' - ' 
-    else
-      consent_to_be_contacted == true ? 'Yes' : 'No'
-    end
+    return ' - ' if consent_to_be_contacted.nil?
+
+    consent_to_be_contacted == true ? 'Yes' : 'No'
+  end
+
+  def feedback_tag_color(feedback_status)
+    feedback_status == 'feedback_refused' ? 'red' : 'blue'
   end
 
   attr_reader :reference, :title, :show_send_email
