@@ -7,6 +7,7 @@ module SupportInterface
 
     validates_presence_of :email_address
     validates :provider_ids, presence: true
+    validate :email_is_unique
 
     def save
       return unless valid?
@@ -33,6 +34,16 @@ module SupportInterface
         email_address: provider_user.email_address,
         provider_ids: provider_user.provider_ids,
       )
+    end
+
+  private
+
+    def email_is_unique
+      return if persisted? && provider_user.email_address == email_address
+
+      return unless ProviderUser.exists?(email_address: email_address)
+
+      errors.add(:email_address, 'This email address is already in use')
     end
   end
 end

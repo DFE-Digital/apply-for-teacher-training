@@ -11,7 +11,11 @@ RSpec.feature 'Managing provider users' do
     and_i_click_the_users_link
     and_i_click_the_manange_provider_users_link
     and_i_click_the_add_user_link
-    and_i_enter_the_users_email_and_dsi_uid
+    and_i_enter_an_existing_email
+    and_i_click_add_user
+    then_i_see_an_error
+
+    and_i_enter_the_users_email
     and_i_select_a_provider
     and_i_click_add_user
 
@@ -44,16 +48,25 @@ RSpec.feature 'Managing provider users' do
     click_link 'Provider users'
   end
 
-  def and_i_enter_the_users_email_and_dsi_uid
-    fill_in 'support_interface_provider_user_form[email_address]', with: 'harrison@example.com'
-  end
-
   def and_i_select_a_provider
     check 'Example provider (ABC)'
   end
 
   def and_i_click_the_add_user_link
     click_link 'Add provider user'
+  end
+
+  def and_i_enter_an_existing_email
+    create(:provider_user, email_address: 'existing@example.org')
+    fill_in 'support_interface_provider_user_form[email_address]', with: 'existing@example.org'
+  end
+
+  def then_i_see_an_error
+    expect(page).to have_content 'This email address is already in use'
+  end
+
+  def and_i_enter_the_users_email
+    fill_in 'support_interface_provider_user_form[email_address]', with: 'harrison@example.com'
   end
 
   def and_i_click_add_user
