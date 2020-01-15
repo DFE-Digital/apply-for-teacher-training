@@ -6,6 +6,7 @@ class ReferenceWithFeedbackComponent < ActionView::Component::Base
            :email_address,
            :relationship,
            :feedback_status,
+           :consent_to_be_contacted,
            to: :reference
 
   def initialize(reference:, title: '', show_send_email: false)
@@ -20,6 +21,7 @@ class ReferenceWithFeedbackComponent < ActionView::Component::Base
       name_row,
       email_address_row,
       relationship_row,
+      consent_row,
       feedback_row,
     ].compact
   end
@@ -62,6 +64,23 @@ private
         key: 'Reference',
         value: feedback,
       }
+    end
+  end
+
+  def consent_row
+    if feedback
+      {
+        key: 'Given consent for research?',
+        value: consent_to_be_contacted_present
+      }
+    end
+  end
+
+  def consent_to_be_contacted_present
+    if consent_to_be_contacted.nil? 
+      ' - ' 
+    else
+      consent_to_be_contacted == true ? 'Yes' : 'No'
     end
   end
 
