@@ -48,6 +48,8 @@ module RefereeInterface
 
       send_slack_notification
 
+      SendNewRefereeRequestEmail.call(application_form: @reference.application_form, reference: @reference, reason: :refused)
+
       redirect_to referee_interface_confirmation_path(token: @token_param)
     end
 
