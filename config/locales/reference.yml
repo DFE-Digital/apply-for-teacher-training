@@ -1,0 +1,6 @@
+en:
+  reference_status:
+    not_requested_yet: 'Not requested yet'
+    feedback_requested: 'Requested'
+    feedback_provided: 'Feedback provided'
+    feedback_refused: 'Declined'

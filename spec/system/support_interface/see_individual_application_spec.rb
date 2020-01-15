@@ -21,7 +21,8 @@ RSpec.feature 'See an application' do
 
     when_i_return_to_the_support_page
     and_i_click_on_an_application_with_a_reference
-    then_i_should_see_that_reference
+    then_i_should_see_the_reference_from_first_referee
+    and_i_should_not_see_reference_from_second_referee
   end
 
   def given_i_am_a_support_user
@@ -35,6 +36,8 @@ RSpec.feature 'See an application' do
   end
 
   def and_an_application_has_received_a_reference
+    @application_with_reference.application_references.first.update(consent_to_be_contacted: true)
+
     action = ReceiveReference.new(
       application_form: @application_with_reference,
       referee_email: @application_with_reference.reload.application_references.first.email_address,
@@ -103,7 +106,18 @@ RSpec.feature 'See an application' do
     click_on @application_with_reference.candidate.email_address
   end
 
-  def then_i_should_see_that_reference
-    expect(page).to have_content('This is my feedback')
+  def then_i_should_see_the_reference_from_first_referee
+    within page.all('[data-qa="reference"]').to_a.first do
+      expect(page).to have_content('This is my feedback')
+      expect(page).to have_content('Given consent for research?')
+      expect(page).to have_content('Yes')
+    end
+  end
+
+  def and_i_should_not_see_reference_from_second_referee
+    within page.all('[data-qa="reference"]').to_a.second do
+      expect(page).not_to have_content('This is my feedback')
+      expect(page).not_to have_content('Given consent for research?')
+    end
   end
 end

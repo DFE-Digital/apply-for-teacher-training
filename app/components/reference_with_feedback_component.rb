@@ -6,6 +6,7 @@ class ReferenceWithFeedbackComponent < ActionView::Component::Base
            :email_address,
            :relationship,
            :feedback_status,
+           :consent_to_be_contacted,
            to: :reference
 
   def initialize(reference:, title: '', show_send_email: false)
@@ -20,6 +21,7 @@ class ReferenceWithFeedbackComponent < ActionView::Component::Base
       name_row,
       email_address_row,
       relationship_row,
+      consent_row,
       feedback_row,
     ].compact
   end
@@ -28,10 +30,10 @@ private
 
   def status_row
     {
-      key: 'Feedback status',
+      key: 'Reference status',
       value: render(TagComponent,
-                    text: ApplicationReference.human_attribute_name("feedback_status.#{feedback_status}"),
-                    type: 'blue'),
+                    text: t("reference_status.#{feedback_status}"),
+                    type: feedback_tag_color(feedback_status)),
     }
   end
 
@@ -63,6 +65,25 @@ private
         value: feedback,
       }
     end
+  end
+
+  def consent_row
+    if feedback
+      {
+        key: 'Given consent for research?',
+        value: consent_to_be_contacted_present,
+      }
+    end
+  end
+
+  def consent_to_be_contacted_present
+    return ' - ' if consent_to_be_contacted.nil?
+
+    consent_to_be_contacted == true ? 'Yes' : 'No'
+  end
+
+  def feedback_tag_color(feedback_status)
+    feedback_status == 'feedback_refused' ? 'red' : 'blue'
   end
 
   attr_reader :reference, :title, :show_send_email

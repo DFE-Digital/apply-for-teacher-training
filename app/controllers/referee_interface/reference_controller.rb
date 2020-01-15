@@ -45,6 +45,9 @@ module RefereeInterface
 
     def confirm_feedback_refusal
       reference.update!(feedback_status: 'feedback_refused')
+
+      send_slack_notification
+
       redirect_to referee_interface_confirmation_path(token: @token_param)
     end
 
@@ -77,6 +80,13 @@ module RefereeInterface
 
     def render_404
       render 'errors/not_found', status: :not_found
+    end
+
+    def send_slack_notification
+      message = ":sadparrot: A referee declined to give feedback for #{reference.application_form.first_name}'s application"
+      url = helpers.support_interface_application_form_url(reference.application_form)
+
+      SlackNotificationWorker.perform_async(message, url)
     end
   end
 end
