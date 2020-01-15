@@ -2,6 +2,9 @@
   <thead class='govuk-table__head'>
     <tr class='govuk-table__row'>
       <th scope='col' class='govuk-table__header'>Course</th>
+      <% if providers_vary? %>
+        <th scope='col' class='govuk-table__header'>Provider</th>
+      <% end %>
       <th scope='col' class='govuk-table__header'>Level</th>
       <th scope='col' class='govuk-table__header'>Recruitment Cycle</th>
       <th scope='col' class='govuk-table__header'>Apply from Find</th>
@@ -12,7 +15,10 @@
   <tbody class='govuk-table__body'>
     <% course_rows.each do |course| %>
       <tr class='govuk-table__row'>
-        <td class='govuk-table__cell'><%= course[:name_and_code] %></td>
+        <td class='govuk-table__cell'><%= course[:course_link] %></td>
+        <% if providers_vary? %>
+          <td class='govuk-table__cell'><%= course[:provider_link] %></td>
+        <% end %>
         <td class='govuk-table__cell'><%= course[:level] %></td>
         <td class='govuk-table__cell'><%= course[:recruitment_cycle_year] %></td>
         <td class='govuk-table__cell'>
