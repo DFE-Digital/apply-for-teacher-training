@@ -39,7 +39,7 @@ module CandidateInterface
         address_line2: address_line2,
         address_line3: address_line3,
         address_line4: address_line4,
-        postcode: postcode,
+        postcode: postcode.upcase,
         country: 'UK',
       )
     end
