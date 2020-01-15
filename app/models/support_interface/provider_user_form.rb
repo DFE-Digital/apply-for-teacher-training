@@ -6,7 +6,7 @@ module SupportInterface
     attr_accessor :provider_ids, :provider_user
     attr_reader :email_address
 
-    validates_presence_of :email_address
+    validates :email_address, presence: true
     validates :provider_ids, presence: true
     validate :email_is_unique
 
