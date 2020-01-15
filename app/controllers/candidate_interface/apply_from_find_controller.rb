@@ -5,17 +5,28 @@ module CandidateInterface
     skip_before_action :authenticate_candidate!
 
     rescue_from ActionController::ParameterMissing, with: :render_not_found
-    rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
 
     def show
-      provider = Provider.find_by!(code: params.fetch(:providerCode))
-      course = provider.courses.where(exposed_in_find: true).find_by!(code: params.fetch(:courseCode))
-      @course = CoursePresenter.new(course)
+      begin
+        provider = Provider.find_by!(code: params.fetch(:providerCode))
+        @course = provider.courses.where(exposed_in_find: true).find_by!(code: params.fetch(:courseCode))
 
-      if course.open_on_apply? && FeatureFlag.active?('pilot_open')
-        render :apply_on_ucas_or_apply
-      else
-        render :apply_on_ucas_only
+        if @course.open_on_apply? && FeatureFlag.active?('pilot_open')
+          render :apply_on_ucas_or_apply
+        else
+          render :apply_on_ucas_only
+        end
+      rescue ActiveRecord::RecordNotFound
+        provider_code = params.fetch(:providerCode)
+        course_code = params.fetch(:courseCode)
+
+        @course = FindAPI::Course.fetch(provider_code, course_code)
+
+        if @course.nil?
+          render_not_found
+        else
+          render :apply_on_ucas_only
+        end
       end
     end
 

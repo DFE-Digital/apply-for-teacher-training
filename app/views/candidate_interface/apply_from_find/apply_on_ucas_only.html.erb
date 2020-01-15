@@ -1,5 +1,5 @@
 <% content_for :title, t('page_titles.application') %>
-<% content_for :service_link, candidate_interface_apply_from_find_path(providerCode: @course.provider_code, courseCode: @course.course_code) %>
+<% content_for :service_link, candidate_interface_apply_from_find_path(providerCode: @course.provider.code, courseCode: @course.code) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -24,13 +24,13 @@
         <li class="govuk-!-margin-bottom-2">
           Training provider code:
           <span class="govuk-!-display-block govuk-!-font-size-36 govuk-!-font-weight-bold">
-            <%= @course.provider_code %>
+            <%= @course.provider.code %>
           </span>
         </li>
         <li>
           Training programme code:
           <span class="govuk-!-display-block govuk-!-font-size-36 govuk-!-font-weight-bold">
-            <%= @course.course_code %>
+            <%= @course.code %>
           </span>
         </li>
       </ul>
