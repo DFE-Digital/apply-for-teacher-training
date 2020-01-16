@@ -1,5 +1,5 @@
 class PerformanceStatistics
-  QUERY = "
+  CANDIDATE_COUNTS_QUERY = "
   WITH raw_data AS (
       SELECT
           COUNT(c.id) FILTER (WHERE f.id IS NOT NULL) candidate_forms,
@@ -24,12 +24,12 @@ class PerformanceStatistics
       raw_data".freeze
 
   def [](key)
-    results[key.to_s]
+    candidate_counts[key.to_s]
   end
 
 private
 
-  def results
-    @results ||= ActiveRecord::Base.connection.execute(QUERY)[0]
+  def candidate_counts
+    @candidate_counts ||= ActiveRecord::Base.connection.execute(CANDIDATE_COUNTS_QUERY)[0]
   end
 end
