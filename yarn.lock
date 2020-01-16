@@ -692,6 +692,13 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
+"@ministryofjustice/frontend@0.0.17-alpha":
+  version "0.0.17-alpha"
+  resolved "https://registry.yarnpkg.com/@ministryofjustice/frontend/-/frontend-0.0.17-alpha.tgz#a5e2e2d2dce58102e9245153bd6d4992e7977c5b"
+  integrity sha512-UOwqFA24kd8xJY6XrWxaQxM2xzr8BHdwb5L82xPk3rG7hgEnWRppk7vt9eszqSt3Hwdfj63pD8aaMTMsi89P4Q==
+  dependencies:
+    moment "^2.22.2"
+
 "@rails/webpacker@^4.2.2":
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/@rails/webpacker/-/webpacker-4.2.2.tgz#b9dd3235fdf4d0badbda8e33f6ebee742a9f3abb"
@@ -4324,6 +4331,11 @@ mixin-deep@^1.2.0:
   integrity sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
   dependencies:
     minimist "0.0.8"
+
+moment@^2.22.2:
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
+  integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
 
 move-concurrently@^1.0.1:
   version "1.0.1"

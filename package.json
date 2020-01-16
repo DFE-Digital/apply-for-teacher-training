@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "^4.2.2",
+    "@ministryofjustice/frontend": "0.0.17-alpha",
     "accessible-autocomplete": "^2.0.1",
     "govuk-frontend": "^3.4.0"
   },
