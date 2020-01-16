@@ -7,7 +7,7 @@ RSpec.describe PerformanceStatistics, type: :model do
 
     stats = PerformanceStatistics.new
 
-    expect(stats[:total_non_dfe_sign_ups]).to eq(1)
+    expect(stats[:total_candidate_count]).to eq(1)
   end
 
   it 'includes only those users in each category' do
@@ -18,7 +18,7 @@ RSpec.describe PerformanceStatistics, type: :model do
 
     stats = PerformanceStatistics.new
 
-    expect(stats[:total_non_dfe_sign_ups]).to eq(10)
+    expect(stats[:total_candidate_count]).to eq(10)
     expect(stats[:candidates_signed_up_but_not_signed_in]).to eq(1)
     expect(stats[:candidates_signed_in_but_not_entered_data]).to eq(2)
     expect(stats[:candidates_with_unsubmitted_forms]).to eq(3)
@@ -31,7 +31,7 @@ RSpec.describe PerformanceStatistics, type: :model do
 
     stats = PerformanceStatistics.new
 
-    expect(stats[:total_non_dfe_sign_ups]).to eq(1)
+    expect(stats[:total_candidate_count]).to eq(1)
     expect(stats[:candidates_with_submitted_forms]).to eq(1)
     expect(stats[:candidates_signed_in_but_not_entered_data]).to eq(0)
   end
