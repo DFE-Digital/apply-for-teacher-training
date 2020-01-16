@@ -1,7 +1,5 @@
 <% content_for :title, @provider.name_and_code %>
 
-<h2 class='govuk-heading-l'><%= pluralize(@provider.courses.size, 'course') %> (<%= @provider.courses.applyable.size %> on DfE Apply)</h2>
-
 <%= render(SupportInterface::ProviderSyncCoursesToggleComponent, provider: @provider) %>
 
 <% if @provider.courses.any? %>
@@ -32,43 +30,13 @@
   <% end %>
 <% end %>
 
-<table class='govuk-table'>
-  <thead class='govuk-table__head'>
-    <tr class='govuk-table__row'>
-      <th scope='col' class='govuk-table__header'>Course</th>
-      <th scope='col' class='govuk-table__header'>Level</th>
-      <th scope='col' class='govuk-table__header'>Recruitment Cycle</th>
-      <th scope='col' class='govuk-table__header'>Apply from Find</th>
-      <th scope='col' class='govuk-table__header'>Page on Find</th>
-    </tr>
-  </thead>
+<h2 class='govuk-heading-m'>Offers <%= pluralize(@provider.courses.size, 'course') %> (<%= @provider.courses.applyable.size %> on DfE Apply)</h2>
+<%= render(SupportInterface::ProviderCoursesTableComponent, provider: @provider, courses: @provider.courses) %>
 
-  <tbody class='govuk-table__body'>
-    <% @provider.courses.order(:name).each do |course| %>
-      <tr class='govuk-table__row'>
-        <td class='govuk-table__cell'><%= govuk_link_to course.name_and_code, support_interface_course_path(course) %></td>
-        <td class='govuk-table__cell'><%= course.level %></td>
-        <td class='govuk-table__cell'><%= course.recruitment_cycle_year %></td>
-        <td class='govuk-table__cell'>
-          <% if course.exposed_in_find? && course.open_on_apply? %>
-            <%= govuk_link_to 'Apply from Find (DfE & UCAS)', candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code) %>
-          <% elsif course.exposed_in_find? %>
-            <%= govuk_link_to 'Apply from Find (UCAS only)', candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code) %>
-          <% else %>
-            <em>N/A - hidden in Find</em>
-          <% end %>
-        </td>
-        <td class='govuk-table__cell'>
-          <% if course.exposed_in_find? %>
-            <%= govuk_link_to 'Find course page', "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{course.provider.code}/#{course.code}" %>
-          <% else %>
-            <em>N/A - hidden in Find</em>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<% if @provider.accredited_courses.any? %>
+  <h2 class='govuk-heading-m'>Accredits <%= pluralize(@provider.accredited_courses.size, 'course') %> (<%= @provider.accredited_courses.applyable.size %> on DfE Apply)</h2>
+  <%= render(SupportInterface::ProviderCoursesTableComponent, provider: @provider, courses: @provider.accredited_courses) %>
+<% end %>
 
 <h2 class='govuk-heading-l'>Sites (<%= @provider.sites.size %>)</h2>
 

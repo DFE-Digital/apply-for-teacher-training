@@ -1,0 +1,42 @@
+<table class='govuk-table'>
+  <thead class='govuk-table__head'>
+    <tr class='govuk-table__row'>
+      <th scope='col' class='govuk-table__header'>Course</th>
+      <% if providers_vary? %>
+        <th scope='col' class='govuk-table__header'>Provider</th>
+      <% end %>
+      <th scope='col' class='govuk-table__header'>Level</th>
+      <th scope='col' class='govuk-table__header'>Recruitment Cycle</th>
+      <th scope='col' class='govuk-table__header'>Apply from Find</th>
+      <th scope='col' class='govuk-table__header'>Page on Find</th>
+    </tr>
+  </thead>
+
+  <tbody class='govuk-table__body'>
+    <% course_rows.each do |course| %>
+      <tr class='govuk-table__row'>
+        <td class='govuk-table__cell'><%= course[:course_link] %></td>
+        <% if providers_vary? %>
+          <td class='govuk-table__cell'><%= course[:provider_link] %></td>
+        <% end %>
+        <td class='govuk-table__cell'><%= course[:level] %></td>
+        <td class='govuk-table__cell'><%= course[:recruitment_cycle_year] %></td>
+        <td class='govuk-table__cell'>
+          <% if course[:apply_from_find_link] %>
+            <%= course[:apply_from_find_link] %>
+          <% else %>
+            <em>N/A - hidden in Find</em>
+          <% end %>
+        </td>
+        <td class='govuk-table__cell'>
+          <% if course[:link_to_find_course_page] %>
+            <%= course[:link_to_find_course_page] %>
+          <% else %>
+            <em>N/A - hidden in Find</em>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

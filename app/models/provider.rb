@@ -10,4 +10,8 @@ class Provider < ApplicationRecord
   def name_and_code
     "#{name} (#{code})"
   end
+
+  def accredited_courses
+    Course.where(accrediting_provider: self)
+  end
 end
