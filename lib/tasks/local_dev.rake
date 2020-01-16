@@ -1,6 +1,8 @@
 desc 'Set up your local development environment with data from Find'
 task setup_local_dev_data: :environment do
   puts 'Syncing data from Find...'
+  SyncAllFromFind.new.perform
+
   ENV['DEV_PROVIDERS_TO_SYNC'].split(',').each do |code|
     SyncProviderFromFind.call(provider_code: code, sync_courses: true)
   end
