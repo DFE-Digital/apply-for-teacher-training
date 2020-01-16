@@ -27,23 +27,28 @@ private
 
   def submit_application
     application_choices.each do |application_choice|
-      edit_by_days = TimeLimitCalculator.new(
-        rule: :edit_by,
-        effective_date: application_form.submitted_at,
-      ).call
-
-      application_choice.edit_by = edit_by_days.business_days.after(application_form.submitted_at).end_of_day
-      ApplicationStateChange.new(application_choice).submit!
-
-      send_to_provider_immediately if sandbox?
+      submit_application_choice(application_choice)
     end
   end
 
-  def sandbox?
-    ENV['SANDBOX'] == 'true'
+  def submit_application_choice(application_choice)
+    return send_to_provider_immediately(application_choice) if sandbox?
+
+    edit_by_days = TimeLimitCalculator.new(
+      rule: :edit_by,
+      effective_date: application_form.submitted_at,
+    ).call
+
+    application_choice.edit_by = edit_by_days.business_days.after(application_form.submitted_at).end_of_day
+    ApplicationStateChange.new(application_choice).submit!
   end
 
-  def send_to_provider_immediately
-    # TODO:
+  def send_to_provider_immediately(application_choice)
+    application_choice.edit_by = Time.zone.now
+    ApplicationStateChange.new(application_choice).submit!
+  end
+
+  def sandbox?
+    ENV.fetch('SANDBOX') { 'false' } == 'true'
   end
 end
