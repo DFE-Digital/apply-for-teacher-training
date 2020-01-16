@@ -141,54 +141,6 @@ stages:
       alertRecipientEmails: '$(alertRecipientEmails)'
 
 
-  #- stage: deploy_pentest
-  #displayName: 'Deploy - Pentest'
-  #dependsOn: publish_arm_template
-  #condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables.deploy_pentest, true))
-  #variables:
-  #- group: APPLY - ENV - Pentest
-  #jobs:
-  #- template: azure-pipelines-deploy-template.yml
-  #  parameters:
-  #    debug: $(debug)
-  #    subscriptionPrefix: 's106'
-  #    subscriptionName: 'Apply (106) - Test'
-  #    environment: 'pentest'
-  #    resourceEnvironmentName: 't03'
-  #    serviceName: 'apply'
-  #    containerImageReference: '$(imageName):$(build.buildNumber)'
-  #    keyVaultName: 's106t01-shared-kv-01'
-  #    keyVaultResourceGroup: 's106t01-shared-rg'
-  #    databaseName: 'apply'
-  #    databaseUsername: 'applyadm512'
-  #    databasePassword: '$(databasePassword)'
-  #    databaseStorageAutoGrow: 'disabled'
-  #    databaseBackupRetentionDays: 7
-  #    dockerhubUsername: '$(dockerHubUsername)'
-  #    railsSecretKeyBase: '$(railsSecretKeyBase)'
-  #    railsEnv: 'production'
-  #    basicAuthEnabled: '$(basicAuthEnabled)'
-  #    basicAuthUsername: '$(basicAuthUsername)'
-  #    basicAuthPassword: '$(basicAuthPassword)'
-  #    supportUsername: '$(supportUsername)'
-  #    supportPassword: '$(supportPassword)'
-  #    authorisedHosts: '$(authorisedHosts)'
-  #    sentryDSN: '$(sentryDSN)'
-  #    logstashEnable: '$(logstashEnable)'
-  #    logstashRemote: '$(logstashRemote)'
-  #    logstashHost: '$(logstashHost)'
-  #    logstashPort: '$(logstashPort)'
-  #    logstashSsl: '$(logstashSsl)'
-  #    govukNotifyAPIKey: '$(govukNotifyAPIKey)'
-  #    findBaseUrl: '$(findBaseUrl)'
-  #    dfeSignInClientId: '$(dfeSignInClientId)'
-  #    dfeSignInSecret: '$(dfeSignInSecret)'
-  #    dfeSignInIssuer: '$(dfeSignInIssuer)'
-  #    stateChangeSlackUrl: '$(stateChangeSlackUrl)'
-  #    customAvailabilityMonitors: '$(customAvailabilityMonitors)'
-  #    alertRecipientEmails: '$(alertRecipientEmails)'
-
-
 - stage: deploy_production
   displayName: 'Deploy - Production'
   dependsOn: publish_arm_template
