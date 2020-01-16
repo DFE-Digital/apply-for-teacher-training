@@ -29,4 +29,8 @@ class Course < ApplicationRecord
   def name_and_code
     "#{name} (#{code})"
   end
+
+  def applyable?
+    exposed_in_find? && open_on_apply?
+  end
 end
