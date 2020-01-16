@@ -4,8 +4,8 @@ class ProviderMailer < ApplicationMailer
 
     view_mail(
       GENERIC_NOTIFY_TEMPLATE,
-      to: provider_user.email_address,
-      subject: t('provider_account_created.email.subject')
+      to: @provider_user.email_address,
+      subject: t('provider_account_created.email.subject'),
     )
   end
 end
