@@ -25,7 +25,7 @@ class NavigationItems
           NavigationItem.new('Features', support_interface_feature_flags_path, is_active(current_controller, 'feature_flags')),
           NavigationItem.new('Performance', support_interface_performance_path, is_active(current_controller, 'performance')),
           NavigationItem.new('Tasks', support_interface_tasks_path, is_active(current_controller, 'tasks')),
-          NavigationItem.new('Users', support_interface_users_path, is_active(current_controller, 'users')),
+          NavigationItem.new('Users', support_interface_users_path, is_active(current_controller, %w[users provider_users support_users])),
           NavigationItem.new(current_support_user.email_address, nil, false),
           NavigationItem.new('Sign out', support_interface_sign_out_path, false),
         ]
