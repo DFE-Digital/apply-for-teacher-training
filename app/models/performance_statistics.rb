@@ -17,7 +17,7 @@ class PerformanceStatistics
   SELECT
       COUNT(*) AS total_non_dfe_sign_ups,
       SUM(CASE WHEN candidate_forms = 0 THEN 1 ELSE 0 END) AS candidates_signed_up_but_not_signed_in,
-      SUM(CASE WHEN candidate_forms > 0 AND candidate_started_form_count = 0 THEN 1 ELSE 0 END) AS candidates_signed_in_but_not_entered_data,
+      SUM(CASE WHEN candidate_forms > 0 AND candidate_started_form_count = 0 AND candidate_submitted_form_count = 0 THEN 1 ELSE 0 END) AS candidates_signed_in_but_not_entered_data,
       SUM(CASE WHEN candidate_started_form_count > 0 AND candidate_submitted_form_count = 0 THEN 1 ELSE 0 END) AS candidates_with_unsubmitted_forms,
       SUM(CASE WHEN candidate_submitted_form_count > 0 THEN 1 ELSE 0 END) AS candidates_with_submitted_forms
   FROM
