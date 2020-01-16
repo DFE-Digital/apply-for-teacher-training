@@ -1,0 +1,13 @@
+<nav class="moj-sub-navigation" aria-label="Sub navigation">
+  <ul class="moj-sub-navigation__list">
+    <% items.each do |item| %>
+      <li class="moj-sub-navigation__item">
+        <% if item[:current] %>
+          <%= link_to item.fetch(:name), item.fetch(:url), class: 'moj-sub-navigation__link', 'aria-current': 'page' %>
+        <% else %>
+          <%= link_to item.fetch(:name), item.fetch(:url), class: 'moj-sub-navigation__link' %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</nav>
