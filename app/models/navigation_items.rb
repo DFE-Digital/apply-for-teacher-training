@@ -21,7 +21,7 @@ class NavigationItems
         [
           NavigationItem.new('Candidates', support_interface_candidates_path, is_active(current_controller, %w[candidates import_references])),
           NavigationItem.new('API Tokens', support_interface_tokens_path, is_active(current_controller, 'api_tokens')),
-          NavigationItem.new('Providers', support_interface_providers_path, is_active(current_controller, 'providers')),
+          NavigationItem.new('Providers', support_interface_providers_path, is_active(current_controller, %w[providers courses])),
           NavigationItem.new('Features', support_interface_feature_flags_path, is_active(current_controller, 'feature_flags')),
           NavigationItem.new('Performance', support_interface_performance_path, is_active(current_controller, 'performance')),
           NavigationItem.new('Tasks', support_interface_tasks_path, is_active(current_controller, 'tasks')),

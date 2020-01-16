@@ -1,5 +1,18 @@
 <% content_for :title, @provider.name_and_code %>
 
+<% content_for :before_content do %>
+  <div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to 'Providers', support_interface_providers_path, class: 'govuk-breadcrumbs__link' %>
+      </li>
+      <li class="govuk-breadcrumbs__list-item" aria-current="page">
+        <%= @provider.name_and_code %>
+      </li>
+    </ol>
+  </div>
+<% end %>
+
 <h2 class="govuk-heading-l">Data Sharing Agreement</h2>
 
 <p class="govuk-body">

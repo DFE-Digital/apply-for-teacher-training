@@ -1,5 +1,23 @@
 <% content_for :title, @course.name_and_code %>
 
+<% content_for :before_content do %>
+  <div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to 'Providers', support_interface_providers_path, class: 'govuk-breadcrumbs__link' %>
+      </li>
+
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to @course.provider.name_and_code, support_interface_providers_path(@provider), class: 'govuk-breadcrumbs__link' %>
+      </li>
+      <li class="govuk-breadcrumbs__list-item" aria-current="page">
+        <%= @course.name_and_code %>
+      </li>
+    </ol>
+  </div>
+<% end %>
+
+
 <dl class="govuk-summary-list">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">
