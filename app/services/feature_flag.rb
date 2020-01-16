@@ -1,6 +1,7 @@
 class FeatureFlag
   FEATURES = %w[
     pilot_open
+    providers_can_change_offers
     training_with_a_disability
     edit_application
     send_reference_email_via_support
