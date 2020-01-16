@@ -1,9 +1,0 @@
-<h3 class="govuk-heading-m">
-  Course syncing
-</h3>
-<p class="govuk-body"><%= status_label %></p>
-<% unless @provider.sync_courses? %>
-  <%= form_with model: @provider, url: toggle_path, method: :post do |f| %>
-    <%= f.govuk_submit button_label %>
-  <% end %>
-<% end %>

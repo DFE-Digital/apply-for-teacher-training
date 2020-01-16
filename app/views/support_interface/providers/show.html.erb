@@ -1,57 +1,33 @@
 <% content_for :title, @provider.name_and_code %>
 
-<%= render(SupportInterface::ProviderSyncCoursesToggleComponent, provider: @provider) %>
+<h2 class="govuk-heading-l">Data Sharing Agreement</h2>
 
-<% if @provider.courses.any? %>
-  <%= form_with model: @provider, url: support_interface_provider_path(@provider), method: :post do |f| %>
-    <h3 class="govuk-heading-m">
-      Data Sharing Agreement
-    </h3>
+<p class="govuk-body">
+  <% if @provider_agreement %>
+    Accepted by <strong>
+    <%= @provider_agreement.provider_user.email_address %>
+    </strong>
+    on
+    <%= @provider_agreement.accepted_at.to_s(:govuk_date) %>.
+  <% else %>
+    No data sharing agreement has been accepted yet.
+  <% end %>
+</p>
 
-    <p class="govuk-body">
-      <% if @provider_agreement %>
-        Accepted by <strong>
-        <%= @provider_agreement.provider_user.email_address %>
-        </strong>
-        on
-        <%= @provider_agreement.accepted_at.to_s(:govuk_date) %>.
-      <% else %>
-        No data sharing agreement has been accepted yet.
-      <% end %>
-    </p>
+<% if @provider.sync_courses? %>
+  <h2 class='govuk-heading-l'>
+    <%= pluralize(@provider.courses.size, 'course') %> (<%= @provider.courses.applyable.size %> on DfE Apply)
+  </h2>
 
-    <h3 class="govuk-heading-m">
-      Open all courses
-    </h3>
+  <p class="govuk-body"><%= t('provider_sync_courses.status_label.enabled') %></p>
 
-    <p class="govuk-body">This will toggle every course on this provider to be available through Apply.</p>
+  <%= render 'courses' %>
+<% else %>
+  <h2 class='govuk-heading-l'>Courses</h2>
 
-    <%= f.govuk_submit "Open #{pluralize(@provider.courses.size, 'course')}" %>
+  <p class="govuk-body"><%= t('provider_sync_courses.status_label.disabled') %></p>
+
+  <%= form_with model: @provider, url: support_interface_enable_provider_course_syncing_path(@provider), method: :post do |f| %>
+    <%= f.govuk_submit t('provider_sync_courses.button_label.enable') %>
   <% end %>
 <% end %>
-
-<h2 class='govuk-heading-m'>Offers <%= pluralize(@provider.courses.size, 'course') %> (<%= @provider.courses.applyable.size %> on DfE Apply)</h2>
-<%= render(SupportInterface::ProviderCoursesTableComponent, provider: @provider, courses: @provider.courses) %>
-
-<% if @provider.accredited_courses.any? %>
-  <h2 class='govuk-heading-m'>Accredits <%= pluralize(@provider.accredited_courses.size, 'course') %> (<%= @provider.accredited_courses.applyable.size %> on DfE Apply)</h2>
-  <%= render(SupportInterface::ProviderCoursesTableComponent, provider: @provider, courses: @provider.accredited_courses) %>
-<% end %>
-
-<h2 class='govuk-heading-l'>Sites (<%= @provider.sites.size %>)</h2>
-
-<table class='govuk-table'>
-  <thead class='govuk-table__head'>
-    <tr class='govuk-table__row'>
-      <th scope='col' class='govuk-table__header'>Name</th>
-    </tr>
-  </thead>
-
-  <tbody class='govuk-table__body'>
-    <% @provider.sites.each do |site| %>
-      <tr class='govuk-table__row'>
-        <td class='govuk-table__cell'><%= site.name_and_code %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
