@@ -13,6 +13,11 @@
       </li>
     </ol>
   </div>
+
+  <%= render SubNavigationComponent, items: [
+    { name: 'Support users', url: support_interface_support_users_path, current: true },
+    { name: 'Provider users', url: support_interface_provider_users_path },
+  ] %>
 <% end %>
 
 <table class='govuk-table'>

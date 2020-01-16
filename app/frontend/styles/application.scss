@@ -10,6 +10,7 @@ $govuk-font-url-function: frontend-font-url;
 $govuk-image-url-function: frontend-image-url;
 
 @import "~govuk-frontend/govuk/all";
+@import "~@ministryofjustice/frontend/moj/components/sub-navigation/sub-navigation";
 @import "_autocomplete";
 @import "_banner";
 @import "_cookie-banner";
