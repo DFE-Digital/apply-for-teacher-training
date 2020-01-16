@@ -1,7 +1,10 @@
 <% content_for :content do %>
+  <%= yield(:before_title) %>
+
   <% if yield(:title).present? %>
     <h1 class='govuk-heading-xl'><%= yield :title %></h1>
   <% end %>
+
   <%= yield %>
 <% end %>
 

@@ -1,11 +1,11 @@
-<nav class="moj-sub-navigation" aria-label="Sub navigation">
+<nav class="moj-sub-navigation govuk-!-margin-bottom-0" aria-label="Sub navigation">
   <ul class="moj-sub-navigation__list">
     <% items.each do |item| %>
       <li class="moj-sub-navigation__item">
-        <% if item[:current] %>
-          <%= link_to item.fetch(:name), item.fetch(:url), class: 'moj-sub-navigation__link', 'aria-current': 'page' %>
+        <% if item[:current] || current_page?(item.fetch(:url)) %>
+          <%= link_to item.fetch(:name), item.fetch(:url), class: 'govuk-link moj-sub-navigation__link', 'aria-current': 'page' %>
         <% else %>
-          <%= link_to item.fetch(:name), item.fetch(:url), class: 'moj-sub-navigation__link' %>
+          <%= link_to item.fetch(:name), item.fetch(:url), class: 'govuk-link moj-sub-navigation__link' %>
         <% end %>
       </li>
     <% end %>

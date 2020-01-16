@@ -1,12 +1,19 @@
 module SupportInterface
   class ProvidersController < SupportInterfaceController
     def index
-      @active_providers = Provider.where(sync_courses: true).includes(:sites, :courses).order(:name)
-      @inactive_providers = Provider.where(sync_courses: false).order(:name)
+      @providers = Provider.where(sync_courses: true).includes(:sites, :courses).order(:name)
+    end
+
+    def inactive_providers
+      @providers = Provider.where(sync_courses: false).order(:name)
     end
 
     def show
       @provider = Provider.includes(:courses, :sites).find(params[:provider_id])
+    end
+
+    def details
+      @provider = Provider.find(params[:provider_id])
       @provider_agreement = ProviderAgreement.data_sharing_agreements.for_provider(@provider).last
     end
 

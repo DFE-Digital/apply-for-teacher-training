@@ -312,7 +312,9 @@ Rails.application.routes.draw do
     post '/tokens' => 'api_tokens#create'
 
     get '/providers' => 'providers#index', as: :providers
+    get '/providers/inactive' => 'providers#inactive_providers', as: :inactive_providers
     get '/providers/:provider_id' => 'providers#show', as: :provider
+    get '/providers/:provider_id/details' => 'providers#details', as: :provider_details
     post '/providers/:provider_id' => 'providers#open_all_courses'
     post '/providers/:provider_id/enable_course_syncing' => 'providers#enable_course_syncing', as: :enable_provider_course_syncing
 

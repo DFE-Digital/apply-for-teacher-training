@@ -1,43 +1,12 @@
-<% content_for :title, @provider.name_and_code %>
+<% content_for :title, "Courses for #{@provider.name_and_code}" %>
 
-<% content_for :before_content do %>
-  <div class="govuk-breadcrumbs">
-    <ol class="govuk-breadcrumbs__list">
-      <li class="govuk-breadcrumbs__list-item">
-        <%= link_to 'Providers', support_interface_providers_path, class: 'govuk-breadcrumbs__link' %>
-      </li>
-      <li class="govuk-breadcrumbs__list-item" aria-current="page">
-        <%= @provider.name_and_code %>
-      </li>
-    </ol>
-  </div>
-<% end %>
-
-<h2 class="govuk-heading-l">Data Sharing Agreement</h2>
-
-<p class="govuk-body">
-  <% if @provider_agreement %>
-    Accepted by <strong>
-    <%= @provider_agreement.provider_user.email_address %>
-    </strong>
-    on
-    <%= @provider_agreement.accepted_at.to_s(:govuk_date) %>.
-  <% else %>
-    No data sharing agreement has been accepted yet.
-  <% end %>
-</p>
+<%= render 'nav' %>
 
 <% if @provider.sync_courses? %>
-  <h2 class='govuk-heading-l'>
-    <%= pluralize(@provider.courses.size, 'course') %> (<%= @provider.courses.applyable.size %> on DfE Apply)
-  </h2>
-
   <p class="govuk-body"><%= t('provider_sync_courses.status_label.enabled') %></p>
 
   <%= render 'courses' %>
 <% else %>
-  <h2 class='govuk-heading-l'>Courses</h2>
-
   <p class="govuk-body"><%= t('provider_sync_courses.status_label.disabled') %></p>
 
   <%= form_with model: @provider, url: support_interface_enable_provider_course_syncing_path(@provider), method: :post do |f| %>

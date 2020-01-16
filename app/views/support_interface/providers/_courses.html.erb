@@ -10,7 +10,8 @@
   <% end %>
 <% end %>
 
-<h2 class='govuk-heading-m'>Offers <%= pluralize(@provider.courses.size, 'course') %> (<%= @provider.courses.count(&:applyable?) %> on DfE Apply)</h2>
+<h2 class='govuk-heading-m'>Offers <%= pluralize(@provider.courses.count(&:exposed_in_find?), 'course') %> - <%= @provider.courses.count(&:applyable?) %> on DfE Apply</h2>
+
 <%= render(SupportInterface::ProviderCoursesTableComponent, provider: @provider, courses: @provider.courses) %>
 
 <% if @provider.accredited_courses.any? %>

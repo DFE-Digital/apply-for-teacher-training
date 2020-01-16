@@ -1,0 +1,26 @@
+<% content_for :title, 'Inactive providers' %>
+
+<% content_for :before_content do %>
+  <%= render SubNavigationComponent, items: [
+    { name: 'Active providers', url: support_interface_providers_path },
+    { name: 'Inactive providers', url: support_interface_inactive_providers_path, current: true },
+  ] %>
+<% end %>
+
+<table class='govuk-table'>
+  <thead class='govuk-table__head'>
+    <tr class='govuk-table__row'>
+      <th scope='col' class='govuk-table__header govuk-!-width-one-half'>Provider Name</th>
+    </tr>
+  </thead>
+
+  <tbody class='govuk-table__body'>
+    <% @providers.each do |provider| %>
+      <tr class='govuk-table__row'>
+        <td class='govuk-table__cell'>
+          <%= govuk_link_to provider.name_and_code, support_interface_provider_path(provider) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

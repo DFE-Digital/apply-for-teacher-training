@@ -7,8 +7,7 @@ RSpec.feature 'See provider course syncing' do
   scenario 'User switches sync courses on Provider' do
     given_i_am_a_support_user
     and_a_provider_exists
-    when_i_visit_the_providers_page
-    then_i_see_that_the_provider_is_not_configured_to_sync_courses
+    when_i_visit_the_inactive_providers_page
 
     when_i_click_on_a_provider
     then_i_see_that_course_syncing_is_off
@@ -28,12 +27,8 @@ RSpec.feature 'See provider course syncing' do
     create :provider, code: 'ABC', name: 'ABC College'
   end
 
-  def when_i_visit_the_providers_page
-    visit support_interface_providers_path
-  end
-
-  def then_i_see_that_the_provider_is_not_configured_to_sync_courses
-    expect(page).to have_content('Not synced from Find')
+  def when_i_visit_the_inactive_providers_page
+    visit support_interface_inactive_providers_path
   end
 
   def when_i_click_on_a_provider
@@ -77,6 +72,6 @@ RSpec.feature 'See provider course syncing' do
   end
 
   def then_i_see_that_a_course_has_been_synced
-    expect(page).to have_content('1 course (0 on DfE Apply)')
+    expect(page).to have_content('1 course - 0 on DfE Apply')
   end
 end

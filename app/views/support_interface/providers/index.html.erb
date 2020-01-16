@@ -1,79 +1,36 @@
-<% content_for :title, 'Providers' %>
+<% content_for :title, 'Active providers' %>
 
 <% content_for :before_content do %>
-  <div class="govuk-breadcrumbs">
-    <ol class="govuk-breadcrumbs__list">
-      <li class="govuk-breadcrumbs__list-item" aria-current="page">
-        <%= link_to 'Providers', support_interface_providers_path, class: 'govuk-breadcrumbs__link' %>
-      </li>
-    </ol>
-  </div>
+  <%= render SubNavigationComponent, items: [
+    { name: 'Active providers', url: support_interface_providers_path, current: true },
+    { name: 'Inactive providers', url: support_interface_inactive_providers_path },
+  ] %>
 <% end %>
 
-<div class="govuk-tabs" data-module="govuk-tabs">
-  <h2 class="govuk-tabs__title">
-    Contents
-  </h2>
-  <ul class="govuk-tabs__list">
-    <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
-      <a class="govuk-tabs__tab" href="#active">
-        Active providers
-      </a>
-    </li>
-    <li class="govuk-tabs__list-item">
-      <a class="govuk-tabs__tab" href="#inactive">
-        Inactive providers
-      </a>
-    </li>
-  </ul>
+<table class='govuk-table'>
+  <thead class='govuk-table__head'>
+    <tr class='govuk-table__row'>
+      <th scope='col' class='govuk-table__header govuk-!-width-one-half'>Provider Name</th>
+      <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Courses</th>
+      <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Sites</th>
+    </tr>
+  </thead>
 
-  <section class="govuk-tabs__panel" id="active">
-    <table class='govuk-table'>
-      <thead class='govuk-table__head'>
-        <tr class='govuk-table__row'>
-          <th scope='col' class='govuk-table__header govuk-!-width-one-half'>Provider Name</th>
-          <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Courses</th>
-          <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Sites</th>
-        </tr>
-      </thead>
+  <tbody class='govuk-table__body'>
+    <% @providers.each do |provider| %>
+      <tr class='govuk-table__row'>
+        <td class='govuk-table__cell'>
+          <%= govuk_link_to provider.name_and_code, support_interface_provider_path(provider) %>
+        </td>
 
-      <tbody class='govuk-table__body'>
-        <% @active_providers.each do |provider| %>
-          <tr class='govuk-table__row'>
-            <td class='govuk-table__cell'>
-              <%= govuk_link_to provider.name_and_code, support_interface_provider_path(provider) %>
-            </td>
+        <td class='govuk-table__cell'>
+          <%= pluralize provider.courses.size, 'course' %> (<%= provider.courses.count(&:applyable?) %> on DfE Apply)
+        </td>
 
-            <td class='govuk-table__cell'>
-              <%= pluralize provider.courses.size, 'course' %> (<%= provider.courses.count(&:applyable?) %> on DfE Apply)
-            </td>
-
-            <td class='govuk-table__cell'>
-              <%= pluralize provider.sites.size, 'sites' %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </section>
-
-  <section class="govuk-tabs__panel govuk-tabs__panel--hidden" id="inactive">
-    <table class='govuk-table'>
-      <thead class='govuk-table__head'>
-        <tr class='govuk-table__row'>
-          <th scope='col' class='govuk-table__header govuk-!-width-one-half'>Provider Name</th>
-        </tr>
-      </thead>
-
-      <tbody class='govuk-table__body'>
-        <% @inactive_providers.each do |provider| %>
-          <tr class='govuk-table__row'>
-            <td class='govuk-table__cell'>
-              <%= govuk_link_to provider.name_and_code, support_interface_provider_path(provider) %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </section>
-</div>
+        <td class='govuk-table__cell'>
+          <%= pluralize provider.sites.size, 'sites' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

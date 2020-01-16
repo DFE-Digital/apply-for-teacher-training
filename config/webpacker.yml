@@ -10,7 +10,9 @@ default: &default
   webpack_compile_output: false
 
   # Additional paths webpack should lookup modules
-  resolved_paths: ['node_modules/govuk-frontend/govuk']
+  resolved_paths:
+    - node_modules/govuk-frontend/govuk
+    - node_modules/@ministryofjustice/frontend
 
   # Reload manifest.json on all requests so we reload latest compiled packs
   cache_manifest: false

@@ -1,0 +1,15 @@
+<% content_for :title, "Details for #{@provider.name_and_code}" %>
+
+<%= render 'nav' %>
+
+<p class="govuk-body">
+  <% if @provider_agreement %>
+    Accepted by <strong>
+    <%= @provider_agreement.provider_user.email_address %>
+    </strong>
+    on
+    <%= @provider_agreement.accepted_at.to_s(:govuk_date) %>.
+  <% else %>
+    No data sharing agreement has been accepted yet.
+  <% end %>
+</p>

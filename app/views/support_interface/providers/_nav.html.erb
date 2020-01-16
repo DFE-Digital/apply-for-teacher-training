@@ -1,0 +1,8 @@
+<% content_for :before_content do %>
+  <%= govuk_back_link_to support_interface_providers_path, 'Providers' %>
+
+  <%= render SubNavigationComponent, items: [
+    { name: 'Courses', url: support_interface_provider_path(@provider) },
+    { name: 'Details', url: support_interface_provider_details_path(@provider) },
+  ] %>
+<% end %>
