@@ -2,7 +2,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">Are you sure you won't give <%= @application.full_name %> a reference?</h1>
+    <h1 class="govuk-heading-xl">Are you sure you won’t give <%= @application.full_name %> a reference?</h1>
 
     <%= form_with model: @reference, url: referee_interface_refuse_feedback_path(token: @token_param), method: :patch do |f| %>
       <%= f.govuk_submit 'Yes - I\'m sure' %>
