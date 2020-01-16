@@ -16,4 +16,12 @@
     </div>
     <%= button_to 'Generate providers for vendors', support_interface_run_task_path('create_vendor_providers'), class: 'govuk-button' %>
   </div>
+
+  <div>
+    <h2 class='govuk-heading-m'>Sync providers</h2>
+    <div class='govuk-body'>
+      Schedule a job to sync providers from the Find service.
+    </div>
+    <%= button_to 'Sync Providers from Find', support_interface_run_task_path('sync_providers'), class: 'govuk-button' %>
+  </div>
 <% end %>

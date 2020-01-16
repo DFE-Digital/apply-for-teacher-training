@@ -9,11 +9,6 @@ module SupportInterface
       @provider_agreement = ProviderAgreement.data_sharing_agreements.for_provider(@provider).last
     end
 
-    def sync
-      SyncAllFromFind.perform_async
-      redirect_to action: 'index'
-    end
-
     def open_all_courses
       update_provider('Successfully updated all courses') { |provider| provider.courses.update_all(open_on_apply: true) }
     end

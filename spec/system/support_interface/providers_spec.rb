@@ -7,10 +7,12 @@ RSpec.feature 'See providers' do
   scenario 'User visits providers page' do
     given_i_am_a_support_user
     and_providers_are_configured_to_be_synced
-    when_i_visit_the_providers_page
+    when_i_visit_the_tasks_page
     and_i_click_the_sync_button
     then_requests_to_find_should_be_made
-    and_i_should_see_the_updated_list_of_providers
+
+    when_i_visit_the_providers_page
+    then_i_should_see_the_updated_list_of_providers
 
     when_i_click_on_a_provider
     then_i_see_the_providers_courses_and_sites
@@ -37,6 +39,10 @@ RSpec.feature 'See providers' do
 
   def when_i_visit_the_providers_page
     visit support_interface_providers_path
+  end
+
+  def when_i_visit_the_tasks_page
+    visit support_interface_tasks_path
   end
 
   def and_providers_are_configured_to_be_synced
@@ -99,7 +105,7 @@ RSpec.feature 'See providers' do
     expect(@request3).to have_been_made
   end
 
-  def and_i_should_see_the_updated_list_of_providers
+  def then_i_should_see_the_updated_list_of_providers
     expect(page).to have_content('Royal Academy of Dance')
     expect(page).to have_content('Gorse SCITT')
     expect(page).to have_content('Somerset SCITT Consortium')

@@ -12,6 +12,10 @@ module SupportInterface
         GenerateVendorProviders.call
         flash[:success] = 'Created test providers for vendors'
         redirect_to support_interface_tasks_path
+      when 'sync_providers'
+        SyncAllFromFind.perform_async
+        flash[:success] = 'Scheduled provider sync'
+        redirect_to support_interface_tasks_path
       else
         render_404
       end
