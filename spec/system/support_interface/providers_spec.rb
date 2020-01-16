@@ -40,8 +40,6 @@ RSpec.feature 'See providers' do
   end
 
   def and_providers_are_configured_to_be_synced
-    allow(Rails.application.config).to receive(:providers_to_sync)
-      .and_return(codes: %w[ABC DEF GHI])
     create :provider, code: 'ABC', name: 'Royal Academy of Dance', sync_courses: true
     create :provider, code: 'DEF', name: 'Gorse SCITT', sync_courses: true
     create :provider, code: 'GHI', name: 'Somerset SCITT Consortium', sync_courses: true
