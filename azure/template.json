@@ -323,6 +323,18 @@
                 "description": "The URL of the DfE Sign-in OIDC interface (differs for test, pre-prod and prod)"
             }
         },
+        "dsiApiUrl": {
+            "type": "string",
+            "metadata": {
+                "description": "The DfE Sign-in API baseurl for this environment"
+            }
+        },
+        "dsiApiSecret": {
+            "type": "string",
+            "metadata": {
+                "description": "The DfE Sign-in API_SECRET for authenticating API requests"
+            }
+        },
         "stateChangeSlackUrl": {
             "type": "string",
             "metadata": {
@@ -676,6 +688,14 @@
                             {
                                 "name": "DFE_SIGN_IN_ISSUER",
                                 "value": "[parameters('dfeSignInIssuer')]"
+                            },
+                            {
+                                "name": "DSI_API_URL",
+                                "value": "[parameters('dsiApiUrl')]"
+                            },
+                            {
+                                "name": "DSI_API_SECRET",
+                                "value": "[parameters('dsiApiSecret')]"
                             },
                             {
                                 "name": "REDIS_URL",

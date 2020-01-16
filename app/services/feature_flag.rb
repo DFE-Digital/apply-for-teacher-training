@@ -5,6 +5,7 @@ class FeatureFlag
     edit_application
     send_reference_email_via_support
     confirm_course_choice_from_find
+    send_dfe_sign_in_invitations
   ].freeze
 
   def self.activate(feature_name)

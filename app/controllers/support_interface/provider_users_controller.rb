@@ -10,8 +10,9 @@ module SupportInterface
 
     def create
       @form = ProviderUserForm.new(provider_user_params)
+      service = InviteProviderUser.new(provider_user_form: @form)
 
-      if @form.save
+      if service.call
         flash[:success] = 'Provider user created'
         redirect_to support_interface_provider_users_path
       else
@@ -40,7 +41,7 @@ module SupportInterface
   private
 
     def provider_user_params
-      params.require(:support_interface_provider_user_form).permit(:email_address, provider_ids: [])
+      params.require(:support_interface_provider_user_form).permit(:email_address, :first_name, :last_name, provider_ids: [])
     end
   end
 end

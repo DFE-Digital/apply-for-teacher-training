@@ -3,7 +3,7 @@ module SupportInterface
     include ActiveModel::Model
     include ActiveModel::Validations
 
-    attr_accessor :provider_ids, :provider_user
+    attr_accessor :first_name, :last_name, :provider_ids, :provider_user
     attr_reader :email_address
 
     validates :email_address, presence: true
