@@ -8,6 +8,7 @@ class RefereeMailer < ApplicationMailer
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: reference.email_address,
               subject: t('reference_request.subject.initial', candidate_name: @candidate_name),
+              reference: "#{Rails.env}-reference_request-#{reference.id}",
               template_name: :reference_request_email)
   end
 

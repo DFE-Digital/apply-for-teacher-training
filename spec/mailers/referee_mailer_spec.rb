@@ -28,6 +28,11 @@ RSpec.describe RefereeMailer, type: :mailer do
       body = mail.body.encoded
       expect(body).to include(referee_interface_reference_feedback_url(token: ''))
     end
+
+    it 'sends a request with a notify reference' do
+      mail.deliver_now
+      expect(mail[:reference].value).to eq("#{Rails.env}-reference_request-#{reference.id}")
+    end
   end
 
   describe 'Send chasing reference email' do
