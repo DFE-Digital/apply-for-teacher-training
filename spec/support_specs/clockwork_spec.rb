@@ -6,8 +6,6 @@ require './app/workers/send_applications_to_provider_worker'
 require './app/workers/decline_offers_by_default_worker'
 
 RSpec.describe Clockwork do
-  after { Clockwork::Test.clear! }
-
   around do |example|
     Sidekiq::Testing.inline! do
       timecop_safe_mode = Timecop.safe_mode?
