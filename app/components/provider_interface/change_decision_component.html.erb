@@ -1,0 +1,19 @@
+<%= form_with url: provider_interface_application_choice_confirm_change_decision_path, method: :post do |f| %>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <p class="govuk-body">
+        <%= choice.current_state %>
+      </p>
+
+      <%= f.govuk_collection_radio_buttons :desired_change, choice.change_options, :value, :label, :description %>
+
+      <%= f.govuk_submit 'Continue' %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(application_choice), class: 'govuk-link--no-visited-state' %>
+      </p>
+    </div>
+  </div>
+<% end %>
