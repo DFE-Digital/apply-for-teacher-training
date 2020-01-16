@@ -26,7 +26,7 @@ class ReceiveReference
 
       if @application_form.application_references_complete?
         @application_form.application_choices.includes(:course_option).each do |application_choice|
-          ApplicationStateChange.new(application_choice).references_complete!
+          complete_references(application_choice)
         end
       end
     end
@@ -44,6 +44,13 @@ private
   def referee_must_exist_on_application_form
     if @application_form.application_references.where(email_address: @referee_email).empty?
       errors.add(:referee_email, 'does not match any of the provided referees')
+    end
+  end
+
+  def complete_references(application_choice)
+    ApplicationStateChange.new(application_choice).references_complete!
+    if application_choice.edit_by <= Time.zone.now
+      SendApplicationToProvider.new(application_choice: application_choice).call
     end
   end
 end
