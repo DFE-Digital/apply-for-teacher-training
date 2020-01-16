@@ -31,5 +31,24 @@ RSpec.describe SubmitApplication do
       SubmitApplication.new(application_form).call
       expect(SlackNotificationWorker).to have_received(:perform_async).once # per application_form, not application_choices
     end
+
+    context 'when running in a provider sandbox' do
+      around do |example|
+        ClimateControl.modify(SANDBOX: 'true') do
+          example.run
+        end
+      end
+
+      it 'sets the edit_by timestamp to now' do
+        now = Time.zone.local(2019, 11, 11, 15, 0, 0)
+        Timecop.freeze(now) do
+          SubmitApplication.new(application_form).call
+
+          expect(application_form.submitted_at).to eq now
+          expect(application_form.application_choices[0].edit_by).to eq now
+          expect(application_form.application_choices[1].edit_by).to eq now
+        end
+      end
+    end
   end
 end

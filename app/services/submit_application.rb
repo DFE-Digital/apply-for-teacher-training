@@ -34,6 +34,16 @@ private
 
       application_choice.edit_by = edit_by_days.business_days.after(application_form.submitted_at).end_of_day
       ApplicationStateChange.new(application_choice).submit!
+
+      send_to_provider_immediately if sandbox?
     end
+  end
+
+  def sandbox?
+    ENV['SANDBOX'] == 'true'
+  end
+
+  def send_to_provider_immediately
+    # TODO:
   end
 end
