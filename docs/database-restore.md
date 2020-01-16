@@ -1,4 +1,4 @@
-# Apply for Postgraduate Teacher Training - Database restoration
+# Restore a database
 
 ## Purpose
 

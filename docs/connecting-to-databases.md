@@ -1,4 +1,4 @@
-# Apply for Postgraduate Teacher Training - Production database access
+# Connect to a production database
 
 ## Purpose
 

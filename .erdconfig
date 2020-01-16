@@ -4,4 +4,5 @@
 # You can regenerate the diagram using `bundle exec erd`
 filename: docs/domain-model
 filetype: png
-title: Apply for postgraduate teacher training domain model
+title: Apply for teacher training - domain model
+inheritance: true

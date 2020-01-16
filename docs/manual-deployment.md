@@ -6,7 +6,7 @@ This document describes the process of manually deploying a new Docker image int
 
 ### When should this process be used?
 
-In the event that code changes are mde to the app but the Azure pipelines fail to complete the deployment stages this process should be followed to deploy the Docker image to the Azure App Service manually. It is anticipated that this process would only be following in response to bug fixes when the deployment pipeline is failing.
+In the event that code changes are made to the app but the Azure pipelines fail to complete the deployment stages this process should be followed to deploy the Docker image to the Azure App Service manually. It is anticipated that this process would only be following in response to bug fixes when the deployment pipeline is failing.
 
 This process assumes that the build and test stage has completed without error and a Docker image has been uploaded to Dockerhub successfully. This process also assumes that no changes are expected to be made to the configuration of the underlying Azure infrastructure hosting the application.
 
