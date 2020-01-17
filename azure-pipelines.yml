@@ -48,6 +48,7 @@ stages:
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         AUTHORISED_HOSTS: $(authorisedHosts)
         FIND_BASE_URL: $(findBaseUrl)
+        GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
 
     - script: make ci.lint-ruby
       displayName: 'Rubocop'
@@ -58,6 +59,7 @@ stages:
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         AUTHORISED_HOSTS: $(authorisedHosts)
         FIND_BASE_URL: $(findBaseUrl)
+        GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
 
     - script: make ci.lint-erb
       displayName: 'ERB lint'
@@ -68,6 +70,7 @@ stages:
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         AUTHORISED_HOSTS: $(authorisedHosts)
         FIND_BASE_URL: $(findBaseUrl)
+        GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
 
     - script: |
         make ci.cucumber
@@ -87,6 +90,7 @@ stages:
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         AUTHORISED_HOSTS: $(authorisedHosts)
         FIND_BASE_URL: $(findBaseUrl)
+        GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
 
     - script: |
         make ci.test
@@ -106,6 +110,7 @@ stages:
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         AUTHORISED_HOSTS: $(authorisedHosts)
         FIND_BASE_URL: $(findBaseUrl)
+        GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
 
     - task: Docker@1
       displayName: Tag image with current build number $(Build.BuildNumber)
@@ -188,6 +193,7 @@ stages:
       stateChangeSlackUrl: '$(stateChangeSlackUrl)'
       customAvailabilityMonitors: '$(customAvailabilityMonitors)'
       alertRecipientEmails: '$(alertRecipientEmails)'
+      govukNotifyCallbackAPIKey: $(govukNotifyCallbackAPIKey)
 
 
 - stage: deploy_devops
@@ -236,3 +242,4 @@ stages:
       stateChangeSlackUrl: '$(stateChangeSlackUrl)'
       customAvailabilityMonitors: '$(customAvailabilityMonitors)'
       alertRecipientEmails: '$(alertRecipientEmails)'
+      govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'

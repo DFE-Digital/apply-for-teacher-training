@@ -31,7 +31,7 @@ RSpec.describe RefereeMailer, type: :mailer do
 
     it 'sends a request with a notify reference' do
       mail.deliver_now
-      expect(mail[:reference].value).to eq("#{Rails.env}-reference_request-#{reference.id}")
+      expect(mail[:reference].value).to eq("test-reference_request-#{reference.id}")
     end
   end
 

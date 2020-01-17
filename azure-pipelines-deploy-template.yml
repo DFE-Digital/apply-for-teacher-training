@@ -55,6 +55,7 @@ parameters:
     "Parent Business Service": "Teacher Services",
     "Service Offering": "Become a Teacher"
   }'
+  govukNotifyCallbackAPIKey:
 
 
 jobs:
@@ -138,7 +139,8 @@ jobs:
                 -dfeSignInSecret "${{parameters.dfeSignInSecret}}"
                 -dfeSignInIssuer "${{parameters.dfeSignInIssuer}}"
                 -customAvailabilityMonitors "${{parameters.customAvailabilityMonitors}}"
-                -alertRecipientEmails "${{parameters.alertRecipientEmails}}"'
+                -alertRecipientEmails "${{parameters.alertRecipientEmails}}"
+                -govukNotifyCallbackAPIKey "${{parameters.govukNotifyCallbackAPIKey}}"'
               deploymentOutputs: DeploymentOutput
 
           - task: AzurePowerShell@3

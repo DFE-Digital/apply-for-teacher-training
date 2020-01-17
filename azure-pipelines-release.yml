@@ -90,6 +90,8 @@ stages:
       stateChangeSlackUrl: '$(stateChangeSlackUrl)'
       customAvailabilityMonitors: '$(customAvailabilityMonitors)'
       alertRecipientEmails: '$(alertRecipientEmails)'
+      govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'
+
 
 
 - stage: deploy_sandbox
@@ -139,6 +141,7 @@ stages:
       stateChangeSlackUrl: '$(stateChangeSlackUrl)'
       customAvailabilityMonitors: '$(customAvailabilityMonitors)'
       alertRecipientEmails: '$(alertRecipientEmails)'
+      govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'
 
 
 - stage: deploy_production
@@ -192,3 +195,4 @@ stages:
       stateChangeSlackUrl: '$(stateChangeSlackUrl)'
       customAvailabilityMonitors: '$(customAvailabilityMonitors)'
       alertRecipientEmails: '$(alertRecipientEmails)'
+      govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'
