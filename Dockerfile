@@ -22,7 +22,7 @@ RUN apk update && \
     gem install bundler -v $BUNDLER_VERSION
 
 WORKDIR $APP_HOME
-    
+
 COPY Gemfile Gemfile.lock package.json yarn.lock ./
 
 RUN bundle install && \
@@ -53,6 +53,7 @@ ENV RAILS_ENV=production
 ENV GOVUK_NOTIFY_API_KEY=TestKey
 ENV AUTHORISED_HOSTS=dummy.build.domain
 ENV SECRET_KEY_BASE=TestKey
+ENV GOVUK_NOTIFY_CALLBACK_API_KEY=TestKey
 
 WORKDIR $APP_HOME
 

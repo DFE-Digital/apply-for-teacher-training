@@ -342,6 +342,12 @@
             "metadata": {
                 "description": "Array of recipients to receive availability email alerts. In form NAME:EMAIL_ADDRESS."
             }
+        },
+        "govukNotifyCallbackAPIKey": {
+          "type": "string",
+          "metadata": {
+              "description": "GOV.UK Notify service callback API key."
+          }
         }
     },
     "variables": {
@@ -674,6 +680,10 @@
                             {
                                 "name": "REDIS_URL",
                                 "secureValue": "[concat('rediss://:', listKeys(resourceId('Microsoft.Cache/Redis', parameters('redisCacheName')), '2018-03-01').primaryKey, '@', parameters('redisCacheName'), '.redis.cache.windows.net:6380')]"
+                            },
+                            {
+                              "name": "GOVUK_NOTIFY_CALLBACK_API_KEY",
+                              "secureValue": "[parameters('govukNotifyCallbackAPIKey')]"
                             }
 			]
                     }
