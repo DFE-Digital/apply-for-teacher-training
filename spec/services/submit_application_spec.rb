@@ -42,7 +42,7 @@ RSpec.describe SubmitApplication do
         end
       end
 
-      it 'sets the edit_by timestamp to now and pushes the status on to `awaiting_provider_decision`' do
+      it 'sets the edit_by timestamp to now' do
         application_form = create_application_form
         now = Time.zone.local(2019, 11, 11, 15, 0, 0)
         Timecop.freeze(now) do

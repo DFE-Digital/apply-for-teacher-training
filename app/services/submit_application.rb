@@ -32,23 +32,20 @@ private
   end
 
   def submit_application_choice(application_choice)
-    return send_to_provider_immediately(application_choice) if sandbox?
-
-    edit_by = TimeLimitCalculator.new(
-      rule: :edit_by,
-      effective_date: application_form.submitted_at,
-    ).call.second
-
+    edit_by = time_limit_calculator.call.second
     application_choice.edit_by = edit_by
-    ApplicationStateChange.new(application_choice).submit!
-  end
-
-  def send_to_provider_immediately(application_choice)
-    application_choice.edit_by = Time.zone.now
     ApplicationStateChange.new(application_choice).submit!
   end
 
   def sandbox?
     ENV.fetch('SANDBOX') { 'false' } == 'true'
+  end
+
+  def time_limit_calculator
+    klass = sandbox? ? SandboxTimeLimitCalculator : TimeLimitCalculator
+    klass.new(
+      rule: :edit_by,
+      effective_date: application_form.submitted_at,
+    )
   end
 end
