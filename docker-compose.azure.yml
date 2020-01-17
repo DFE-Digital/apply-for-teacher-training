@@ -25,3 +25,4 @@ services:
       - STATE_CHANGE_SLACK_URL
       - DSI_API_URL
       - DSI_API_SECRET
+      - SANDBOX
