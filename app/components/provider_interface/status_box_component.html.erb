@@ -42,7 +42,7 @@
     </div>
   <% elsif application_choice.offer? && FeatureFlag.active?('providers_can_change_offers') %>
     <div class="govuk-!-margin-top-6">
-      <%= govuk_button_link_to 'Edit your decision', provider_interface_application_choice_change_decision_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
+      <%= govuk_button_link_to 'Edit response', provider_interface_application_choice_change_decision_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
     </div>
   <% end %>
 </div>
