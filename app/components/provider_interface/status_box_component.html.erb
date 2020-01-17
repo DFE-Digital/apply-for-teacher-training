@@ -7,7 +7,7 @@
     <dd><%= submitted_at %></dd>
 
     <% if application_choice.awaiting_provider_decision? %>
-      <dt>Respond to the applicant by:</dt>
+      <dt>Respond to the candidate by:</dt>
       <dd><%= respond_by %></dd>
     <% elsif application_choice.withdrawn? %>
       <dt>Application withdrawn</dt>
