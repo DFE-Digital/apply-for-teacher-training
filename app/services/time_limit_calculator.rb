@@ -7,6 +7,19 @@ class TimeLimitCalculator
   end
 
   def call
+    days = calculate_days
+    [days, calculate_time(days)]
+  end
+
+private
+
+  def calculate_time(days)
+    return nil unless days
+
+    days.business_days.after(effective_date).end_of_day
+  end
+
+  def calculate_days
     to_and_from_time_limits.each do |time_limit|
       return time_limit.limit if effective_date <= time_limit.to_date && effective_date >= time_limit.from_date
     end
@@ -18,8 +31,6 @@ class TimeLimitCalculator
     end
     default_time_limit&.limit
   end
-
-private
 
   def time_limits_for_rule
     @time_limits_for_rule ||= TimeLimitConfig.limits_for(rule)

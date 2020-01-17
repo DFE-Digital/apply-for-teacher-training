@@ -4,8 +4,8 @@ RSpec.describe SetDeclineByDefault do
   describe '#call' do
     let(:application_form) { create(:completed_application_form, application_choices_count: 3) }
     let(:choices) { application_form.application_choices }
-    let(:time_limit_calculator) { instance_double('TimeLimitCalculator', call: 10) }
     let(:now) { Time.zone.local(2019, 11, 26, 12, 0, 0) }
+    let(:time_limit_calculator) { instance_double('TimeLimitCalculator', call: [10, 9.business_days.after(now).end_of_day]) }
     let(:call_service) { SetDeclineByDefault.new(application_form: application_form).call }
 
     before { allow(TimeLimitCalculator).to receive(:new).and_return(time_limit_calculator) }

@@ -34,12 +34,12 @@ private
   def submit_application_choice(application_choice)
     return send_to_provider_immediately(application_choice) if sandbox?
 
-    edit_by_days = TimeLimitCalculator.new(
+    edit_by = TimeLimitCalculator.new(
       rule: :edit_by,
       effective_date: application_form.submitted_at,
-    ).call
+    ).call.second
 
-    application_choice.edit_by = edit_by_days.business_days.after(application_form.submitted_at).end_of_day
+    application_choice.edit_by = edit_by
     ApplicationStateChange.new(application_choice).submit!
   end
 
