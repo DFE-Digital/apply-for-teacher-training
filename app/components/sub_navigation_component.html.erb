@@ -3,9 +3,9 @@
     <% items.each do |item| %>
       <li class="moj-sub-navigation__item">
         <% if item[:current] %>
-          <%= link_to item.fetch(:name), item.fetch(:url), class: 'moj-sub-navigation__link', 'aria-current': 'page' %>
+          <%= govuk_link_to item.fetch(:name), item.fetch(:url), class: 'moj-sub-navigation__link', 'aria-current': 'page' %>
         <% else %>
-          <%= link_to item.fetch(:name), item.fetch(:url), class: 'moj-sub-navigation__link' %>
+          <%= govuk_link_to item.fetch(:name), item.fetch(:url), class: 'moj-sub-navigation__link' %>
         <% end %>
       </li>
     <% end %>
