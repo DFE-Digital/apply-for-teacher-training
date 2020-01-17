@@ -40,7 +40,7 @@ RSpec.feature 'A provider changes their offer' do
   end
 
   def and_i_click_change_offer
-    click_link 'Change decision'
+    click_link 'Edit your decision'
   end
 
   def and_i_choose_to_reject_the_offer

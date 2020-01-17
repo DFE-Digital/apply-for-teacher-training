@@ -22,7 +22,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
 
     result = render_inline(described_class, application_choice: application_choice)
 
-    expect(result.text).to include('Needs to respond by')
+    expect(result.text).to include('Candidate must respond by:')
   end
 
   it 'outputs a date for applications in the rejected state' do
@@ -30,7 +30,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
 
     result = render_inline(described_class, application_choice: application_choice)
 
-    expect(result.text).to include('Rejected at')
+    expect(result.text).to include('Rejected on')
   end
 
   it 'outputs a date for applications in the pending_conditions (offer accepted) state' do
