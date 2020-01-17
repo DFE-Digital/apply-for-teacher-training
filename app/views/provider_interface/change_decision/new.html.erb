@@ -1,11 +1,11 @@
-<% content_for :browser_title, 'Edit your decision' %>
+<% content_for :browser_title, 'Edit your response' %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice)) %>
 
 <h1 class="govuk-heading-xl">
   <span class="govuk-caption-xl">
     <%= @application_choice.application_form.full_name %>’s application for  <%= @application_choice.course.name_and_code %>
   </span>
-  Edit your decision
+  Edit your response
 </h1>
 
 <%= render(ProviderInterface::ChangeDecisionComponent, application_choice: @application_choice) %>
