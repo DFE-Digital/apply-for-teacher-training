@@ -37,7 +37,7 @@
     </p>
 
     <p class="govuk-body">
-      <%= govuk_button_link_to t('apply_from_find.apply_button'), candidate_interface_eligibility_path, class: 'govuk-!-margin-top-4 govuk-!-margin-bottom-3' %>
+      <%= govuk_button_link_to t('apply_from_find.apply_button'), candidate_interface_eligibility_path(providerCode: params[:providerCode], courseCode: params[:courseCode]), class: 'govuk-!-margin-top-4 govuk-!-margin-bottom-3' %>
     </p>
 
     <p class="govuk-body">or</p>
