@@ -252,8 +252,6 @@ Rails.application.routes.draw do
   end
 
   namespace :provider_interface, path: '/provider' do
-    get '/' => redirect('/provider/applications')
-
     get '/accessibility', to: 'content#accessibility'
     get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
     get '/cookies', to: 'content#cookies_provider', as: :cookies
@@ -274,7 +272,7 @@ Rails.application.routes.draw do
     post '/applications/:application_choice_id/offer/confirm' => 'decisions#confirm_offer', as: :application_choice_confirm_offer
     post '/applications/:application_choice_id/offer' => 'decisions#create_offer', as: :application_choice_create_offer
 
-    get '/sign-in' => 'sessions#new'
+    get '/' => 'sessions#new'
     get '/sign-out' => 'sessions#destroy'
   end
 

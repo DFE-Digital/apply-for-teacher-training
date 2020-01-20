@@ -50,7 +50,7 @@ module ProviderInterface
       end
 
       session['post_dfe_sign_in_path'] = request.path
-      redirect_to provider_interface_sign_in_path
+      redirect_to provider_interface_path
     end
 
     def add_identity_to_log

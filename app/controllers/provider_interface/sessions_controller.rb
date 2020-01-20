@@ -3,7 +3,9 @@ module ProviderInterface
     skip_before_action :authenticate_provider_user!
     skip_before_action :check_data_sharing_agreements
 
-    def new; end
+    def new
+      redirect_to provider_interface_applications_path if current_provider_user
+    end
 
     def destroy
       DfESignInUser.end_session!(session)
