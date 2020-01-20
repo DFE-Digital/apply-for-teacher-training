@@ -281,6 +281,8 @@ Rails.application.routes.draw do
   get '/auth/dfe/callback' => 'dfe_sign_in#callback'
   post '/auth/developer/callback' => 'dfe_sign_in#bypass_callback'
 
+  post '/notify/callback' => 'notify#callback'
+
   namespace :support_interface, path: '/support' do
     get '/' => redirect('/support/candidates')
 
