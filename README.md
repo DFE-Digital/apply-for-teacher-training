@@ -38,7 +38,7 @@ for doing so](/docs/new-environment.md).
 
 We keep track of architecture decisions in [Architecture Decision Records (ADRs)](/adr).
 
-An overview of the Azure hosted infrstructure architecture can be found in the [Azure Infrastructure](/docs/azure-infrastructure.md) document.
+An overview of the Azure hosted infrastructure architecture can be found in the [Azure Infrastructure](/docs/azure-infrastructure.md) document.
 
 ### Domain Model
 
