@@ -109,7 +109,7 @@ GEM
       clockwork
       timecop
     coderay (1.1.2)
-    commonmarker (0.20.1)
+    commonmarker (0.20.2)
       ruby-enum (~> 0.5)
     concurrent-ruby (1.1.5)
     connection_pool (2.2.2)
@@ -289,8 +289,9 @@ GEM
       addressable (~> 2.5)
       omniauth (~> 1.9)
       openid_connect (~> 1.1)
-    openapi3_parser (0.7.0)
+    openapi3_parser (0.8.0)
       commonmarker (~> 0.17)
+      psych (~> 3.1)
     openid_connect (1.1.8)
       activemodel
       attr_required (>= 1.0.0)
@@ -314,6 +315,7 @@ GEM
       pry (~> 0.10)
     pry-rails (0.3.9)
       pry (>= 0.10.4)
+    psych (3.1.0)
     public_suffix (4.0.3)
     puma (4.3.1)
       nio4r (~> 2.0)
@@ -543,7 +545,7 @@ DEPENDENCIES
   omniauth
   omniauth-rails_csrf_protection
   omniauth_openid_connect
-  openapi3_parser (= 0.7.0)
+  openapi3_parser (= 0.8.0)
   pg (~> 1.2.2)
   pry
   pry-byebug
