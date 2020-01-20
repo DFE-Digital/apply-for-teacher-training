@@ -1,0 +1,8 @@
+class AddNamesToSupportUsers < ActiveRecord::Migration[6.0]
+  def change
+    change_table :support_users, bulk: true do |t|
+      t.column :first_name, :string
+      t.column :last_name, :string
+    end
+  end
+end
