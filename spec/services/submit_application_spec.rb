@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SubmitApplication do
   describe 'Submit an application' do
     def create_application_form
-      application_form ||= create(:application_form)
+      application_form = create(:application_form)
       create(:application_choice, application_form: application_form, status: 'unsubmitted')
       create(:application_choice, application_form: application_form, status: 'unsubmitted')
       application_form

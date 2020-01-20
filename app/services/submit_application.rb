@@ -32,17 +32,13 @@ private
   end
 
   def submit_application_choice(application_choice)
-    edit_by = time_limit_calculator.call.second
-    application_choice.edit_by = edit_by
+    _edit_by_days, edit_by_time = time_limit_calculator.call
+    application_choice.edit_by = edit_by_time
     ApplicationStateChange.new(application_choice).submit!
   end
 
-  def sandbox?
-    ENV.fetch('SANDBOX') { 'false' } == 'true'
-  end
-
   def time_limit_calculator
-    klass = sandbox? ? SandboxTimeLimitCalculator : TimeLimitCalculator
+    klass = HostingEnvironment.sandbox? ? SandboxTimeLimitCalculator : TimeLimitCalculator
     klass.new(
       rule: :edit_by,
       effective_date: application_form.submitted_at,
