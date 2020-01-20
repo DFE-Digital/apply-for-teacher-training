@@ -1,19 +1,4 @@
 module CandidateInterface
-  class RequestReference
-    attr_accessor :referee_params, :referee
-
-    def initialize(referee_params)
-      self.referee_params = referee_params
-    end
-
-    def call
-      @referee = current_candidate.current_application
-                                  .application_references
-                                  .build(referee_params)
-      @referee.save
-    end
-  end
-
   class RefereesController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_not_amendable
     before_action :redirect_to_review_referees_if_amendable, except: %i[index review]
@@ -89,7 +74,10 @@ module CandidateInterface
     end
 
     def request_reference_service
-      @request_reference_service ||= RequestReference.new(referee_params)
+      @request_reference_service ||= RequestReference.new(
+        referee_params: referee_params,
+        application_form: current_candidate.current_application,
+      )
     end
   end
 end
