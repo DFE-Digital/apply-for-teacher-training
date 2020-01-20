@@ -1,0 +1,113 @@
+<% content_for :title, t('page_titles.application') %>
+
+<div class="app-masthead">
+  <div class="govuk-width-container">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="app-masthead__title govuk-heading-xl">Manage applications quickly and easily</h1>
+        <div class="app-masthead__description">
+          <p class="govuk-body-l">Try our new service to see how easy it is to use. It’s free for providers and candidates.</p>
+        </div>
+        <%= link_to @pilot_enrolment_form_url, role: 'button', class: 'govuk-button govuk-!-margin-bottom-0 govuk-button--start app-button--inverted', 'data-module': 'govuk-button' do %>
+          Get started
+          <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" role="presentation" focusable="false">
+            <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+          </svg>
+        <% end %>
+        <span class="app-masthead__alternative-action">or <%= govuk_link_to 'sign in', provider_interface_sign_in_path %> if you’ve used it before</span>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <div class="app-masthead__image">
+          <img src="/provider/hero.svg" alt="" role="presentation">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="govuk-width-container">
+  <section class="app-product-section">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-half">
+        <h2 class="govuk-heading-m">View applications</h2>
+        <p class="govuk-body">See the status of applications at a glance.</p>
+      </div>
+      <div class="govuk-grid-column-one-half">
+        <img src="/provider/view.png" alt="A screenshot of the service showing a list of applications and their statuses.">
+      </div>
+    </div>
+  </section>
+
+  <section class="app-product-section">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-half">
+        <h2 class="govuk-heading-m">Review an application</h2>
+        <p class="govuk-body">See if candidates have worked with children.</p>
+        <p class="govuk-body">You’ll also get explanations for gaps in work history.</p>
+      </div>
+      <div class="govuk-grid-column-one-half">
+        <img src="/provider/review.png" alt="A screenshot of the service showing a candidate’s work history.">
+      </div>
+    </div>
+  </section>
+
+  <section class="app-product-section">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-half">
+        <h2 class="govuk-heading-m">Respond to an application</h2>
+        <p class="govuk-body">Make decisions easily using detailed information.</p>
+        <p class="govuk-body">Notify candidates automatically.</p>
+      </div>
+      <div class="govuk-grid-column-one-half">
+        <img src="/provider/respond.png" alt="A screenshot of the service showing the ability to respond to an application, and an example of the email a candidate would receive.">
+      </div>
+    </div>
+  </section>
+
+  <section class="app-product-section app-product-section--with-top-border">
+    <h2 class="govuk-heading-m">Who’s using Apply?</h2>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-third">
+        <dl class="app-count">
+          <div class="app-count__item">
+            <dt class="app-count__key">Providers</dt>
+            <dd class="app-count__value"><%= number_with_delimiter(@provider_count) %></dd>
+          </div>
+          <div class="app-count__item">
+            <dt class="app-count__key">Courses</dt>
+            <dd class="app-count__value"><%= number_with_delimiter(@course_count) %></dd>
+          </div>
+        <dl>
+      </div>
+      <div class="govuk-grid-column-two-thirds">
+        <img src="/provider/providers.png" alt="Logos for Royal Academy of Dance, Shotton Hall SCITT, Suffolk and Norfolk SCITT, Gorse SCITT, Alliance of Leading Learning and SCITTELS.">
+      </div>
+    </div>
+  </section>
+
+  <section class="app-product-section app-product-section--with-top-border">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-third">
+        <h2 class="govuk-heading-m">What providers say</h2>
+      </div>
+      <div class="govuk-grid-column-two-thirds">
+        <blockquote class="govuk-inset-text govuk-!-margin-0">
+          <p class="govuk-body-l">We’re delighted to be one of the providers taking part in the pilot for DfE Apply. We’re passionate about improving the application journey for candidates, so we jumped at the chance to test and shape this new service.</p>
+        </blockquote>
+        <p class="govuk-caption-m">Gorse SCITT</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="app-product-section">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-half">
+        <h2 class="govuk-heading-m app-product-section__title--with-top-border">The team</h2>
+        <p class="govuk-body">Our team is constantly making improvements based on feedback from users. Now is the time to get involved so you can shape the service.</p>
+      </div>
+      <div class="govuk-grid-column-one-half">
+        <img src="http://via.placeholder.com/920x620" alt="">
+      </div>
+    </div>
+  </section>
+</div>

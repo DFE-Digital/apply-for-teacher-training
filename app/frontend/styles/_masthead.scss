@@ -1,0 +1,48 @@
+.app-masthead {
+  @include govuk-responsive-padding(6, "top");
+  @include govuk-responsive-padding(6, "bottom");
+  color: govuk-colour("white");
+  background-color: govuk-colour("blue");
+  margin-top: #{govuk-spacing(2) * -1};
+
+  .app-button--inverted {
+    margin-right: govuk-spacing(3);
+  }
+}
+
+.app-masthead__title {
+  color: govuk-colour("white");
+}
+
+.app-masthead__description {
+  @include govuk-font(24);
+  color: govuk-colour("white");
+
+  * {
+    color: inherit;
+  }
+}
+
+.app-masthead__alternative-action {
+  @include govuk-font($size: 19);
+  white-space: nowrap;
+  position: relative;
+  top: govuk-spacing(2);
+
+  .govuk-link {
+    color: inherit;
+
+    &:focus  {
+      @include govuk-focused-text;
+    }
+  }
+}
+
+.app-masthead__image {
+  padding-top: govuk-spacing(6);
+  text-align: center;
+
+  img {
+    max-width: 300px;
+  }
+}

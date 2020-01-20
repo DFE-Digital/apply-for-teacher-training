@@ -1,120 +1,13 @@
-<!DOCTYPE html>
-<html lang="en" class="govuk-template">
-  <head>
-    <meta charset="utf-8">
-    <title><%= browser_title %></title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<% content_for :body do %>
+  <div class="govuk-width-container">
+    <%= render 'layouts/phase_banner' %>
 
-    <meta name="robots" content="noindex, nofollow">
+    <%= yield(:before_content) %>
+    <main class="govuk-main-wrapper" id="main-content" role="main">
+      <%= render(FlashMessageComponent, flash: flash) %>
+      <%= content_for?(:content) ? yield(:content) : yield %>
+    </main>
+  </div>
+<% end %>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#0b0c0c">
-
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="<%= asset_pack_path('media/images/favicon.ico') %>" type="image/x-icon">
-    <link rel="mask-icon" href="<%= asset_pack_path('media/images/govuk-mask-icon.svg') %>" color="#0b0c0c">
-    <link rel="apple-touch-icon" sizes="180x180" href="<%= asset_pack_path('media/images/govuk-apple-touch-icon-180x180.png') %>">
-    <link rel="apple-touch-icon" sizes="167x167" href="<%= asset_pack_path('media/images/govuk-apple-touch-icon-167x167.png') %>">
-    <link rel="apple-touch-icon" sizes="152x152" href="<%= asset_pack_path('media/images/govuk-apple-touch-icon-152x152.png') %>">
-    <link rel="apple-touch-icon" href="<%= asset_pack_path('media/images/govuk-apple-touch-icon.png') %>">
-
-    <meta property="og:image" content="<%= asset_pack_path('media/images/govuk-opengraph-image.png') %>">
-
-    <%= stylesheet_pack_tag 'application' %>
-
-    <% unless Rails.env.development? %>
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-KW7NPTJ');</script>
-    <% end %>
-  </head>
-
-  <body class="govuk-template__body">
-    <% unless Rails.env.development? %>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KW7NPTJ"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <% end %>
-    <script>
-      document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
-    </script>
-
-    <div class="app-cookie-banner" data-module="cookie-message">
-      <p class="app-cookie-banner__message">GOV.UK uses cookies to make the site simpler. <%= govuk_link_to 'Find out more about cookies', (current_namespace == 'candidate_interface' ? candidate_interface_cookies_path : provider_interface_cookies_path) %></p>
-    </div>
-
-    <a href="#main-content" class="govuk-skip-link">Skip to main content</a>
-
-    <% case current_namespace %>
-    <% when 'candidate_interface' %>
-      <%= render(HeaderComponent,
-                 classes: "app-header--#{HostingEnvironment.environment_name}",
-                 service_name: service_name,
-                 service_url: service_link,
-                 navigation_items: NavigationItems.for_candidate_interface(current_candidate, controller)) %>
-    <% when 'support_interface' %>
-      <%= render(HeaderComponent,
-                 classes: "app-header--#{HostingEnvironment.environment_name}",
-                 service_name: service_name,
-                 service_url: service_link,
-                 navigation_items: NavigationItems.for_support_interface(current_support_user, dfe_sign_in_user, controller)) %>
-    <% when 'provider_interface' %>
-      <%= render(HeaderComponent,
-                 classes: "app-header--#{HostingEnvironment.environment_name}",
-                 service_name: service_name,
-                 service_url: service_link,
-                 navigation_items: NavigationItems.for_provider_interface(current_provider_user, dfe_sign_in_user)) %>
-    <% when 'api_docs' %>
-      <%= render(HeaderComponent,
-                 classes: "app-header--#{HostingEnvironment.environment_name}",
-                 service_name: service_name,
-                 service_url: service_link,
-                 navigation_items: NavigationItems.for_api_docs(controller)) %>
-    <% else %>
-      <%= render(HeaderComponent,
-                 classes: "app-header--#{HostingEnvironment.environment_name}",
-                 service_name: service_name,
-                 service_url: service_link,
-                 navigation_items: []) %>
-    <% end %>
-
-    <div class="govuk-width-container">
-      <div class="govuk-phase-banner">
-        <p class="govuk-phase-banner__content"><strong class="govuk-tag govuk-phase-banner__content__tag app-environment-tag app-environment-tag--<%= HostingEnvironment.environment_name %>">
-          <%= HostingEnvironment.phase %>
-        </strong>
-        <span class="govuk-phase-banner__text">
-          <%= HostingEnvironment.phase_banner_text %>
-        </span>
-        </p>
-      </div>
-      <%= yield(:before_content) %>
-      <main class="govuk-main-wrapper" id="main-content" role="main">
-        <%= render(FlashMessageComponent, flash: flash) %>
-        <%= content_for?(:content) ? yield(:content) : yield %>
-      </main>
-    </div>
-    <footer class="govuk-footer govuk-footer--app" role="contentinfo">
-      <div class="govuk-width-container">
-        <div class="govuk-footer__meta">
-          <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
-            <% case current_namespace %>
-            <% when 'candidate_interface' %>
-              <%= render 'layouts/candidate_footer' %>
-            <% when 'provider_interface' %>
-              <%= render 'layouts/provider_footer' %>
-            <% end %>
-          </div>
-          <div class="govuk-footer__meta-item">
-            <a class="govuk-footer__link govuk-footer__copyright-logo" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">© Crown copyright</a>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <%= javascript_pack_tag 'application' %>
-  </body>
-</html>
+<%= render template: 'layouts/base' %>
