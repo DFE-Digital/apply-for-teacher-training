@@ -4,7 +4,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <%= form_with model: @sign_up_form, url: candidate_interface_sign_up_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder, html: { novalidate: true } do |f| %>
+    <%= form_with model: @sign_up_form, url: candidate_interface_sign_up_path(providerCode: params[:providerCode], courseCode: params[:courseCode]), builder: GOVUKDesignSystemFormBuilder::FormBuilder, html: { novalidate: true } do |f| %>
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">

@@ -4,6 +4,7 @@ class FeatureFlag
     training_with_a_disability
     edit_application
     send_reference_email_via_support
+    confirm_course_choice_from_find
   ].freeze
 
   def self.activate(feature_name)

@@ -16,7 +16,7 @@ module CandidateInterface
       if !@eligibility_form.valid?
         render :eligibility
       elsif @eligibility_form.eligible_to_use_dfe_apply?
-        redirect_to candidate_interface_sign_up_path
+        redirect_to candidate_interface_sign_up_path(providerCode: params[:providerCode], courseCode: params[:courseCode])
       else
         redirect_to candidate_interface_not_eligible_path
       end

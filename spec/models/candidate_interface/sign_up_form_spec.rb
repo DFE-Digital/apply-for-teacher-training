@@ -6,8 +6,8 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
   let(:existing_candidate) { create(:candidate) }
   let(:existing_email) { existing_candidate.email_address }
 
-  def new_form(email:, accept_ts_and_cs:)
-    described_class.new(email_address: email, accept_ts_and_cs: accept_ts_and_cs)
+  def new_form(email:, accept_ts_and_cs:, course_from_find_id: nil)
+    described_class.new(email_address: email, accept_ts_and_cs: accept_ts_and_cs, course_from_find_id: course_from_find_id)
   end
 
   describe '#save' do
@@ -42,6 +42,12 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
       form = new_form(email: existing_email.upcase, accept_ts_and_cs: true)
       expect(form.existing_candidate?).to eq(true)
       expect(form.save).to eq(false)
+    end
+
+    it 'returns true if course_from_find_id if a value is given for course_from_find_id' do
+      form = new_form(email: new_email, accept_ts_and_cs: true, course_from_find_id: 12)
+      expect(form.save).to eq(true)
+      expect(form.course_from_find_id).to eq(12)
     end
   end
 

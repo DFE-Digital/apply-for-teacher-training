@@ -29,7 +29,13 @@ module CandidateInterface
   private
 
     def candidate_sign_up_form_params
-      params.require(:candidate_interface_sign_up_form).permit(:email_address, :accept_ts_and_cs)
+      params.require(:candidate_interface_sign_up_form).permit(:email_address, :accept_ts_and_cs).merge(course_id: course_id)
+    end
+
+    def course_id
+      @provider = Provider.find_by(code: params[:providerCode])
+      @course = @provider.courses.find_by(code: params[:courseCode]) if @provider.present?
+      @course.id if @course.present?
     end
   end
 end
