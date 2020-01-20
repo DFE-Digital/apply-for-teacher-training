@@ -56,7 +56,8 @@ parameters:
     "Service Offering": "Become a Teacher"
   }'
   govukNotifyCallbackAPIKey:
-
+  dsiApiUrl:
+  dsiApiSecret:
 
 jobs:
   - deployment: deploy_${{parameters.resourceEnvironmentName}}
@@ -140,6 +141,8 @@ jobs:
                 -dfeSignInIssuer "${{parameters.dfeSignInIssuer}}"
                 -customAvailabilityMonitors "${{parameters.customAvailabilityMonitors}}"
                 -alertRecipientEmails "${{parameters.alertRecipientEmails}}"
+                -dsiApiUrl "${{parameters.dsiApiUrl}}"
+                -dsiApiSecret "${{parameters.dsiApiSecret}}"
                 -govukNotifyCallbackAPIKey "${{parameters.govukNotifyCallbackAPIKey}}"'
               deploymentOutputs: DeploymentOutput
 

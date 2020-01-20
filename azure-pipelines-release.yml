@@ -91,8 +91,8 @@ stages:
       customAvailabilityMonitors: '$(customAvailabilityMonitors)'
       alertRecipientEmails: '$(alertRecipientEmails)'
       govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'
-
-
+      dsiApiUrl: '$(dsiApiUrl)'
+      dsiApiSecret: '$(dsiApiSecret)'
 
 - stage: deploy_sandbox
   displayName: 'Deploy - Sandbox'
@@ -142,6 +142,8 @@ stages:
       customAvailabilityMonitors: '$(customAvailabilityMonitors)'
       alertRecipientEmails: '$(alertRecipientEmails)'
       govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'
+      dsiApiUrl: '$(dsiApiUrl)'
+      dsiApiSecret: '$(dsiApiSecret)'
 
 
 - stage: deploy_production
@@ -196,3 +198,6 @@ stages:
       customAvailabilityMonitors: '$(customAvailabilityMonitors)'
       alertRecipientEmails: '$(alertRecipientEmails)'
       govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'
+      dsiApiUrl: '$(dsiApiUrl)'
+      dsiApiSecret: '$(dsiApiSecret)'
+

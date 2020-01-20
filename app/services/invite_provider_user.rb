@@ -1,22 +1,18 @@
 require 'jwt'
 
 class InviteProviderUser
-  def initialize(provider_user_form:)
-    @provider_user_form = provider_user_form
+  DSI_JWT_HMAC = 'HS256'.freeze
+
+  def initialize(provider_user:)
+    @provider_user = provider_user
   end
 
-  def call
+  def save_and_invite!
     ActiveRecord::Base.transaction do
-      if @provider_user_form.save
-        invite_user_to_dfe_sign_in
-
-        # TODO: send welcome/invitation email
-        true
-      end
+      @provider_user.save!
+      invite_user_to_dfe_sign_in
+      # TODO: enqueue welcome email
     end
-  rescue DfeSignInApiError => e
-    e.errors.each { |error| @provider_user_form.errors.add(:base, error) }
-    false
   end
 
   def dfe_invite_url
@@ -30,14 +26,13 @@ class InviteProviderUser
     return unless FeatureFlag.active?('send_dfe_sign_in_invitations')
 
     jwt_payload = { iss: 'apply', aud: 'signin.education.gov.uk' }
-    token = JWT.encode jwt_payload, ENV['DSI_API_SECRET'], 'HS256'
+    token = JWT.encode jwt_payload, ENV['DSI_API_SECRET'], DSI_JWT_HMAC
     auth_string = "Bearer #{token}"
-
     request_params = {
-      sourceId: @provider_user_form.provider_user.id,
-      given_name: @provider_user_form.first_name,
-      family_name: @provider_user_form.last_name,
-      email: @provider_user_form.email_address,
+      sourceId: @provider_user.id,
+      given_name: @provider_user.first_name,
+      family_name: @provider_user.last_name,
+      email: @provider_user.email_address,
       userRedirect: Rails.application.routes.url_helpers.provider_interface_url,
     }
 
