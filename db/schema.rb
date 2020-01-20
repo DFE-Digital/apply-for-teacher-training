@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_20_095434) do
+ActiveRecord::Schema.define(version: 2020_01_20_120940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -148,6 +148,7 @@ ActiveRecord::Schema.define(version: 2020_01_20_095434) do
     t.string "magic_link_token"
     t.datetime "magic_link_token_sent_at"
     t.boolean "hide_in_reporting", default: false, null: false
+    t.bigint "course_from_find_id"
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true
     t.index ["magic_link_token"], name: "index_candidates_on_magic_link_token", unique: true
   end
