@@ -4,3 +4,4 @@ en:
     feedback_requested: 'Requested'
     feedback_provided: 'Feedback provided'
     feedback_refused: 'Declined'
+    email_bounced: 'Email bounced'
