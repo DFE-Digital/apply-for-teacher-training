@@ -22,6 +22,7 @@ class ApplicationReference < ApplicationRecord
     feedback_requested: 'feedback_requested',
     feedback_provided: 'feedback_provided',
     feedback_refused: 'feedback_refused',
+    email_bounced: 'email_bounced',
   }
 
   def ordinal
