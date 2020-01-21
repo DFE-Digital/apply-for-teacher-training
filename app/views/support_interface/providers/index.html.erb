@@ -25,7 +25,7 @@
         </td>
         <td class='govuk-table__cell'>
           <% if provider.sync_courses? %>
-            <%= pluralize provider.courses.size, 'course' %> (<%= provider.courses.applyable.size %> on DfE Apply)
+            <%= pluralize provider.courses.size, 'course' %> (<%= provider.courses.open_on_apply.size %> on DfE Apply)
           <% else %>
             Not synced from Find
           <% end %>
