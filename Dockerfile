@@ -1,6 +1,6 @@
 #### Common Build Image Stage ####
 
-FROM ruby:2.6.3-alpine AS common-build-env
+FROM ruby:2.6.5-alpine AS common-build-env
 
 ARG APP_HOME=/app
 ARG BUILD_PACKAGES="build-base"
@@ -71,7 +71,7 @@ RUN rm -rf tmp/cache app/assets lib/assets vendor/assets node_modules
 
 #### Production image builds from scratch and copies the build app components from the prod minify stage ####
 
-FROM ruby:2.6.3-alpine AS prod-build
+FROM ruby:2.6.5-alpine AS prod-build
 ARG bundleWithout=""
 ARG APP_HOME=/app
 ARG PACKAGES="tzdata postgresql-client"
