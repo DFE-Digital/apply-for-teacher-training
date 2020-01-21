@@ -1,8 +1,10 @@
 <% content_for :title, 'Service performance dashboard' %>
 
+<h2 class="govuk-heading-m govuk-!-font-size-27">Candidates</h2>
+
 <div class="app-card app-card--blue govuk-!-margin-bottom-4">
   <span class="app-card__count" id="total-sign-ups"><%= @statistics[:total_candidate_count] %></span>
-  <span>sign ups (excluding DfE users)</span>
+  <span>sign ups (excluding test users)</span>
 </div>
 
 <div class="govuk-grid-row">
