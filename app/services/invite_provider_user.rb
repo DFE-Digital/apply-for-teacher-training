@@ -24,9 +24,9 @@ class InviteProviderUser
     end
   end
 
-  def invite_user_to_dfe_sign_in
-    return unless FeatureFlag.active?('send_dfe_sign_in_invitations')
+private
 
+  def invite_user_to_dfe_sign_in
     jwt_payload = { iss: 'apply', aud: 'signin.education.gov.uk' }
     token = JWT.encode jwt_payload, ENV['DSI_API_SECRET'], DSI_JWT_HMAC
     auth_string = "Bearer #{token}"
@@ -42,12 +42,8 @@ class InviteProviderUser
     raise DfeSignInApiError.new(response) unless response.status.success?
   end
 
-private
-
   def send_welcome_email
-    return unless FeatureFlag.active?('send_dfe_sign_in_invitations')
-
-    ProviderMailer.account_created(@provider_user).deliver
+    ProviderMailer.account_created(@provider_user).deliver_later
   end
 end
 

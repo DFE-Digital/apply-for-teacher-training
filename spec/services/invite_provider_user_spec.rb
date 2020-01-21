@@ -31,6 +31,13 @@ RSpec.describe InviteProviderUser do
       it 'a provider user is created' do
         expect(ProviderUser.find_by_email_address('test+invite_provider_user@example.com')).not_to be_nil
       end
+
+      it 'queues an email' do
+        message_delivery = instance_double(ActionMailer::MessageDelivery, deliver_later: nil)
+        allow(ProviderMailer).to receive(:account_created).and_return(message_delivery)
+        InviteProviderUser.new(provider_user: new_provider_user_from_form).save_and_invite! rescue nil
+        expect(ProviderMailer).to have_received(:account_created)
+      end
     end
 
     describe '#save_and_invite! if API response is not successful' do
@@ -46,6 +53,13 @@ RSpec.describe InviteProviderUser do
       it 'rolls back provider user creation' do
         InviteProviderUser.new(provider_user: new_provider_user_from_form).save_and_invite! rescue nil
         expect(ProviderUser.find_by_email_address('test+invite_provider_user@example.com')).to be_nil
+      end
+
+      it 'does not queue an email' do
+        message_delivery = instance_double(ActionMailer::MessageDelivery)
+        allow(ProviderMailer).to receive(:account_created).and_return(message_delivery)
+        InviteProviderUser.new(provider_user: new_provider_user_from_form).save_and_invite! rescue nil
+        expect(ProviderMailer).not_to have_received(:account_created)
       end
     end
   end
@@ -66,6 +80,13 @@ RSpec.describe InviteProviderUser do
 
     it '#save_and_invite! a provider user is created' do
       expect(ProviderUser.find_by_email_address('test+invite_provider_user@example.com')).not_to be_nil
+    end
+
+    it 'does not queue an email' do
+      message_delivery = instance_double(ActionMailer::MessageDelivery)
+      allow(ProviderMailer).to receive(:account_created).and_return(message_delivery)
+      InviteProviderUser.new(provider_user: new_provider_user_from_form).save_and_invite! rescue nil
+      expect(ProviderMailer).not_to have_received(:account_created)
     end
   end
 end
