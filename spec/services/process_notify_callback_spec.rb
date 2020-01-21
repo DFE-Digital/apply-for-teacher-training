@@ -45,7 +45,7 @@ RSpec.describe ProcessNotifyCallback do
       end
 
       it 'returns not found if reference cannot be found' do
-        allow(ApplicationReference).to receive(:exists?).with(reference.id.to_s).and_return(false)
+        allow(ApplicationReference).to receive(:find).with(reference.id.to_s).and_raise(ActiveRecord::RecordNotFound)
 
         process_notify_callback = ProcessNotifyCallback.call(notify_reference: notify_reference, status: status)
 

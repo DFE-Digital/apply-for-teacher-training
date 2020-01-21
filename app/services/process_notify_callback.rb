@@ -5,11 +5,22 @@ class ProcessNotifyCallback
       @status = status
 
       return :not_updated unless same_environment? && reference_request_email? && permanent_failure_status?
-      return :not_found unless ApplicationReference.exists?(reference_id)
 
-      ApplicationReference.find_by(id: reference_id).update!(feedback_status: 'email_bounced')
+      ActiveRecord::Base.transaction do
+        reference = ApplicationReference.find(reference_id)
+
+        reference.update!(feedback_status: 'email_bounced')
+
+        SendNewRefereeRequestEmail.call(
+          application_form: reference.application_form,
+          reference: reference,
+          reason: :email_bounced,
+        )
+      end
 
       :updated
+    rescue ActiveRecord::RecordNotFound
+      :not_found
     end
 
   private
