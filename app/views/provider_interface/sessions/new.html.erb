@@ -1,1 +1,19 @@
-<%= render(DfESignInButtonComponent, bypass: DfESignIn.bypass?) %>
+<% content_for :title, t('page_titles.sign_in') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.sign_in') %>
+    </h1>
+
+    <p class="govuk-body-l">You must sign in to your account to manage teacher training applications.</p>
+
+    <%= render(DfESignInButtonComponent, bypass: DfESignIn.bypass?) %>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    <h2 class="govuk-heading-m">Ask for an account</h2>
+    <p class="govuk-body">Don’t have an account? You can get one by emailing <%= bat_contact_mail_to %>. Please include the full names and email addresses of anyone who needs access.</p>
+  </div>
+</div>
