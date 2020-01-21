@@ -29,9 +29,12 @@ RSpec.describe RefereeMailer, type: :mailer do
       expect(body).to include(referee_interface_reference_feedback_url(token: ''))
     end
 
-    it 'sends a request with a notify reference' do
-      mail.deliver_now
-      expect(mail[:reference].value).to eq("test-reference_request-#{reference.id}")
+    it 'sends a request with a Notify reference' do
+      ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'example_env' do
+        mail.deliver_now
+      end
+
+      expect(mail[:reference].value).to eq("example_env-reference_request-#{reference.id}")
     end
   end
 
