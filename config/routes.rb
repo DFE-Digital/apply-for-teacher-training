@@ -248,6 +248,7 @@ Rails.application.routes.draw do
 
     post '/test-data/regenerate' => 'test_data#regenerate'
     post '/test-data/generate' => 'test_data#generate'
+    post '/test-data/clear' => 'test_data#clear!'
 
     get '/ping', to: 'ping#ping'
   end

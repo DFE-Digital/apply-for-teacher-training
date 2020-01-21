@@ -18,6 +18,12 @@ module VendorApi
       render json: { data: { ids: application_choices.map { |ac| ac.id.to_s } } }
     end
 
+    def clear!
+      current_provider.application_choices.map(&:delete)
+
+      render json: { data: { message: 'Applications cleared' } }
+    end
+
   private
 
     def check_this_is_a_test_environment
