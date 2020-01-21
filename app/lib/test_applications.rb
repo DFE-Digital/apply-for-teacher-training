@@ -1,5 +1,5 @@
 module TestApplications
-  def self.create_an_application(application_index)
+  def self.create_application(states)
     first_name = Faker::Name.unique.first_name
     last_name = Faker::Name.unique.last_name
     candidate = FactoryBot.create(
@@ -7,6 +7,7 @@ module TestApplications
       email_address: "#{first_name.downcase}.#{last_name.downcase}@example.com",
     )
 
+    #rubocop:disable Metrics/BlockLength
     Audited.audit_class.as_user(candidate) do
       application_form = FactoryBot.create(
         :completed_application_form,
@@ -17,24 +18,20 @@ module TestApplications
         last_name: last_name,
       )
 
-      [1, 2, 3].sample.times do
-        FactoryBot.create(
-          :application_choice,
-          status: 'unsubmitted',
-          course_option: CourseOption.all.sample,
-          application_form: application_form,
-          personal_statement: Faker::Lorem.paragraph(sentence_count: 5),
-        )
-      end
+      application_choices = FactoryBot.create_list(
+        :application_choice,
+        states.count,
+        status: 'unsubmitted',
+        course_option: CourseOption.all.sample,
+        application_form: application_form,
+        personal_statement: Faker::Lorem.paragraph(sentence_count: 5),
+      )
 
-      return if application_index == 1
+      return if states.include? :unsubmitted
 
-      # The application is submitted by the candidate
       SubmitApplication.new(application_form).call
+      return if states.include? :awaiting_references
 
-      return if application_index == 2
-
-      # References come in
       application_form.application_references.each do |reference|
         ReceiveReference.new(
           application_form: application_form,
@@ -42,58 +39,45 @@ module TestApplications
           feedback: 'You are awesome',
         ).save
       end
+      return if states.include? :application_complete
 
-      return if application_index == 3
+      application_choices.map(&:reload)
 
-      application_form.reload
-
-      application_form.application_choices.each do |application_choice|
-        # This is only supposed to happen after 7 days, but SendApplicationToProvider
-        # doesn't check the `edit_by` date of the ApplicationChoice
-        SendApplicationToProvider.new(application_choice: application_choice).call
-
-        # This is so the application is no longer amendable
-        application_choice.update(edit_by: Time.zone.now)
+      states.zip(application_choices).each do |state, application_choice|
+        put_application_choice_in_state(application_choice, state)
       end
+    end
+    #rubocop:enable Metrics/BlockLength
+  end
 
-      return if application_index == 4
+  def self.put_application_choice_in_state(choice, state)
+    # This is only supposed to happen after 7 days, but SendApplicationToProvider
+    # doesn't check the `edit_by` date of the ApplicationChoice
+    SendApplicationToProvider.new(application_choice: choice).call
+    choice.update(edit_by: Time.zone.now)
+    return if state == :awaiting_provider_decision
 
-      main_application_choice = application_form.application_choices[0]
-
-      # First one gets an offer
-      MakeAnOffer.new(application_choice: main_application_choice, offer_conditions: ['Complete DBS']).save
-
-      return if application_index == 5
-
-      if (second = application_form.application_choices[1])
-        RejectApplication.new(application_choice: second, rejection_reason: 'Some').save
-      end
-
-      return if application_index == 6
-
-      if (third = application_form.application_choices[2])
-        RejectApplication.new(application_choice: third, rejection_reason: 'Some').save
-      end
-
-      if application_index == 7
-        DeclineOffer.new(application_choice: main_application_choice).save!
-        return
-      end
-
-      AcceptOffer.new(application_choice: main_application_choice).save!
-
-      return if application_index == 9
-
-      ConfirmOfferConditions.new(application_choice: main_application_choice).save
-
-      if application_index == 10
-        ConfirmEnrolment.new(application_choice: main_application_choice).save
-        return
-      end
-
-      if application_index == 11
-        WithdrawApplication.new(application_choice: main_application_choice).save!
-      end
+    if state == :offer
+      MakeAnOffer.new(application_choice: choice, offer_conditions: ['Complete DBS']).save
+    elsif state == :rejected
+      RejectApplication.new(application_choice: choice, rejection_reason: 'Some').save
+    elsif state == :declined
+      MakeAnOffer.new(application_choice: choice, offer_conditions: ['Complete DBS']).save
+      DeclineOffer.new(application_choice: choice).save!
+    elsif state == :accepted
+      MakeAnOffer.new(application_choice: choice, offer_conditions: ['Complete DBS']).save
+      AcceptOffer.new(application_choice: choice).save!
+    elsif state == :recruited
+      MakeAnOffer.new(application_choice: choice, offer_conditions: ['Complete DBS']).save
+      AcceptOffer.new(application_choice: choice).save!
+      ConfirmOfferConditions.new(application_choice: choice).save
+    elsif state == :enrolled
+      MakeAnOffer.new(application_choice: choice, offer_conditions: ['Complete DBS']).save
+      AcceptOffer.new(application_choice: choice).save!
+      ConfirmOfferConditions.new(application_choice: choice).save
+      ConfirmEnrolment.new(application_choice: choice).save
+    elsif state == :withdrawn
+      WithdrawApplication.new(application_choice: choice).save!
     end
   end
 end
