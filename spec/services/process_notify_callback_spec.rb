@@ -15,13 +15,19 @@ RSpec.shared_examples "a callback that doesn't change the feedback status of a r
 end
 
 RSpec.describe ProcessNotifyCallback do
+  around do |example|
+    ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'example_env' do
+      example.run
+    end
+  end
+
   let(:reference) do
     application_form = create(:application_form)
     create(:reference, feedback_status: 'feedback_requested', application_form: application_form)
   end
 
   context 'when expected Notify reference is provided' do
-    let(:notify_reference) { "test-reference_request-#{reference.id}" }
+    let(:notify_reference) { "example_env-reference_request-#{reference.id}" }
 
     context 'with permanent-failure status' do
       let(:status) { 'permanent-failure' }
@@ -66,7 +72,7 @@ RSpec.describe ProcessNotifyCallback do
 
     context 'with email type not reference request' do
       let(:email_type) { 'survey_email' }
-      let(:notify_reference) { "test-#{email_type}-#{reference.id}" }
+      let(:notify_reference) { "example_env-#{email_type}-#{reference.id}" }
 
       it_behaves_like "a callback that doesn't change the feedback status of a reference"
     end
