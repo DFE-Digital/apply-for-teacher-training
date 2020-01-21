@@ -59,6 +59,9 @@ gem 'clockwork'
 # For outgoing http requests
 gem 'http'
 
+# For DSI api integration
+gem 'jwt'
+
 gem 'openapi3_parser', '0.8.0'
 gem 'rouge'
 

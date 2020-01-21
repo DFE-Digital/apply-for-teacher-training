@@ -536,6 +536,7 @@ DEPENDENCIES
   http
   json-schema
   json_api_client
+  jwt
   launchy
   listen (>= 3.0.5, < 3.3)
   lograge

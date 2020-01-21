@@ -194,6 +194,8 @@ stages:
       customAvailabilityMonitors: '$(customAvailabilityMonitors)'
       alertRecipientEmails: '$(alertRecipientEmails)'
       govukNotifyCallbackAPIKey: $(govukNotifyCallbackAPIKey)
+      dsiApiUrl: '$(dsiApiUrl)'
+      dsiApiSecret: '$(dsiApiSecret)'
 
 
 - stage: deploy_devops
@@ -243,3 +245,6 @@ stages:
       customAvailabilityMonitors: '$(customAvailabilityMonitors)'
       alertRecipientEmails: '$(alertRecipientEmails)'
       govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'
+      dsiApiUrl: '$(dsiApiUrl)'
+      dsiApiSecret: '$(dsiApiSecret)'
+

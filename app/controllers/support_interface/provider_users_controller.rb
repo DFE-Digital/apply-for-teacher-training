@@ -10,11 +10,19 @@ module SupportInterface
 
     def create
       @form = ProviderUserForm.new(provider_user_params)
+      provider_user = @form.build
 
-      if @form.save
-        flash[:success] = 'Provider user created'
-        redirect_to support_interface_provider_users_path
-      else
+      if provider_user
+        service = InviteProviderUser.new(provider_user: provider_user)
+        begin
+          service.save_and_invite!
+          flash[:success] = 'Provider user created'
+          redirect_to support_interface_provider_users_path
+        rescue DfeSignInApiError => e # show errors from api
+          e.errors.each { |error| @form.errors.add(:base, error) }
+          render :new
+        end
+      else # show errors from form e.g. email uniqueness
         render :new
       end
     end
@@ -26,8 +34,8 @@ module SupportInterface
 
     def update
       provider_user = ProviderUser.find(params[:id])
-
-      @form = ProviderUserForm.new(provider_user_params.merge(provider_user: provider_user))
+      @form = ProviderUserForm.from_provider_user(provider_user)
+      @form.assign_attributes provider_user_params
 
       if @form.save
         flash[:success] = 'Provider user updated'
@@ -40,7 +48,7 @@ module SupportInterface
   private
 
     def provider_user_params
-      params.require(:support_interface_provider_user_form).permit(:email_address, provider_ids: [])
+      params.require(:support_interface_provider_user_form).permit(:email_address, :first_name, :last_name, provider_ids: [])
     end
   end
 end
