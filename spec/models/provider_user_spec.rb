@@ -29,4 +29,11 @@ RSpec.describe ProviderUser, type: :model do
       expect(provider_user.reload.dfe_sign_in_uid).to eq 'ABC123'
     end
   end
+
+  describe '#full_name' do
+    it 'concatenates the first and last names of the user' do
+      provider_user = build :provider_user
+      expect(provider_user.full_name).to eq "#{provider_user.first_name} #{provider_user.last_name}"
+    end
+  end
 end
