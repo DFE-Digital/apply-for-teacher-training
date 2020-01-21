@@ -55,6 +55,6 @@ module HostingEnvironment
   end
 
   def self.sandbox?
-    ENV.fetch('SANDBOX') { 'false' } == 'true'
+    ENV.fetch('SANDBOX', 'false') == 'true'
   end
 end
