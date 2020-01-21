@@ -2,9 +2,13 @@
   <% content_for :title, t('page_titles.give_a_reference.finish') %>
   <h1 class="govuk-heading-xl">Thank you</h1>
 
-  <p class="govuk-body">We'll ask the candidate to suggest another referee.</p>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <p class="govuk-body">We'll ask the candidate to suggest another referee.</p>
 
-  <p class="govuk-body">If you have any questions about the Apply for teacher training service, please contact <%= bat_contact_mail_to %>.</p>
+      <p class="govuk-body">If you have any questions about the Apply for teacher training service, please contact <%= bat_contact_mail_to %>.</p>
+    </div>
+  </div>
 <% else %>
   <% content_for :title, t('page_titles.give_a_reference.confirmation') %>
   <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-8">
@@ -13,15 +17,19 @@
     </h1>
   </div>
 
-  <%= form_with model: @reference, url: referee_interface_confirm_consent_path(token: @token_param), method: :patch do |f| %>
-    <%= f.govuk_radio_buttons_fieldset :consent_to_be_contacted, legend: { size: 'm', text: 'Can we contact you for research purposes?' } do %>
-      <p class="govuk-body">
-        You can opt in to being contacted by the Department for Education for research purposes.
-      </p>
-      <%= f.govuk_radio_button :consent_to_be_contacted, true, label: { text: t('contact_form.consent_to_be_contacted') } %>
-      <%= f.govuk_radio_button :consent_to_be_contacted, false, label: { text: t('contact_form.not_consent_to_be_contacted') } %>
-    <% end %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= form_with model: @reference, url: referee_interface_confirm_consent_path(token: @token_param), method: :patch do |f| %>
+        <%= f.govuk_radio_buttons_fieldset :consent_to_be_contacted, legend: { size: 'm', text: 'Can we contact you for research purposes?' } do %>
+          <p class="govuk-body">
+            You can opt in to being contacted by the Department for Education for research purposes.
+          </p>
+          <%= f.govuk_radio_button :consent_to_be_contacted, true, label: { text: t('contact_form.consent_to_be_contacted') } %>
+          <%= f.govuk_radio_button :consent_to_be_contacted, false, label: { text: t('contact_form.not_consent_to_be_contacted') } %>
+        <% end %>
 
-    <%= f.govuk_submit t('contact_form.confirm') %>
-  <% end %>
+        <%= f.govuk_submit t('contact_form.confirm') %>
+      <% end %>
+    </div>
+  </div>
 <% end %>
