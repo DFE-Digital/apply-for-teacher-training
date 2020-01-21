@@ -49,6 +49,7 @@ stages:
         AUTHORISED_HOSTS: $(authorisedHosts)
         FIND_BASE_URL: $(findBaseUrl)
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
+        SANDBOX: $(sandbox)
 
     - script: make ci.lint-ruby
       displayName: 'Rubocop'
@@ -60,6 +61,7 @@ stages:
         AUTHORISED_HOSTS: $(authorisedHosts)
         FIND_BASE_URL: $(findBaseUrl)
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
+        SANDBOX: $(sandbox)
 
     - script: make ci.lint-erb
       displayName: 'ERB lint'
@@ -71,6 +73,7 @@ stages:
         AUTHORISED_HOSTS: $(authorisedHosts)
         FIND_BASE_URL: $(findBaseUrl)
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
+        SANDBOX: $(sandbox)
 
     - script: |
         make ci.cucumber
@@ -91,6 +94,7 @@ stages:
         AUTHORISED_HOSTS: $(authorisedHosts)
         FIND_BASE_URL: $(findBaseUrl)
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
+        SANDBOX: $(sandbox)
 
     - script: |
         make ci.test
@@ -111,6 +115,7 @@ stages:
         AUTHORISED_HOSTS: $(authorisedHosts)
         FIND_BASE_URL: $(findBaseUrl)
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
+        SANDBOX: $(sandbox)
 
     - task: Docker@1
       displayName: Tag image with current build number $(Build.BuildNumber)
@@ -196,6 +201,7 @@ stages:
       govukNotifyCallbackAPIKey: $(govukNotifyCallbackAPIKey)
       dsiApiUrl: '$(dsiApiUrl)'
       dsiApiSecret: '$(dsiApiSecret)'
+      sandbox: '$(sandbox)'
 
 
 - stage: deploy_devops
@@ -247,4 +253,4 @@ stages:
       govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'
       dsiApiUrl: '$(dsiApiUrl)'
       dsiApiSecret: '$(dsiApiSecret)'
-
+      sandbox: '$(sandbox)'

@@ -360,6 +360,12 @@
           "metadata": {
               "description": "GOV.UK Notify service callback API key."
           }
+        },
+        "sandbox": {
+            "type": "string",
+            "metadata": {
+                "description": "Set this to 'true' to switch on Sandox-specific business logic"
+            }
         }
     },
     "variables": {
@@ -702,10 +708,14 @@
                                 "secureValue": "[concat('rediss://:', listKeys(resourceId('Microsoft.Cache/Redis', parameters('redisCacheName')), '2018-03-01').primaryKey, '@', parameters('redisCacheName'), '.redis.cache.windows.net:6380')]"
                             },
                             {
-                              "name": "GOVUK_NOTIFY_CALLBACK_API_KEY",
-                              "secureValue": "[parameters('govukNotifyCallbackAPIKey')]"
+                                "name": "GOVUK_NOTIFY_CALLBACK_API_KEY",
+                                "secureValue": "[parameters('govukNotifyCallbackAPIKey')]"
+                            },
+                            {
+                                "name": "SANDBOX",
+                                "value": "[parameters('sandbox')]"
                             }
-			]
+                        ]
                     }
                 }
             },
@@ -713,7 +723,7 @@
                 "app-service-plan",
                 "app-service-certificate",
                 "redis-cache",
-		"postgresql-database"
+                "postgresql-database"
             ]
         },
         {

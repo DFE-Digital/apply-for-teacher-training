@@ -53,6 +53,23 @@ RSpec.describe ReceiveReference do
     expect(application_form.application_choices).to all(be_awaiting_references)
   end
 
+  it 'progresses the application choices to the "awaiting_provider_decision" status once all references have been received if edit_by has elapsed' do
+    application_form = FactoryBot.create(:completed_application_form, references_count: 0)
+    application_form.application_choices.each { |choice| choice.update(status: 'awaiting_references', edit_by: 1.day.ago) }
+    application_form.application_references << build(:reference, :unsubmitted, email_address: 'ab@c.com')
+    application_form.application_references << build(:reference, :complete)
+
+    action = ReceiveReference.new(
+      application_form: application_form,
+      referee_email: 'ab@c.com',
+      feedback: 'A reference',
+    )
+    action.save
+
+    expect(application_form.reload).to be_application_references_complete
+    expect(application_form.application_choices).to all(be_awaiting_provider_decision)
+  end
+
   describe 'validation' do
     it 'validates the presence of referee email and feedback' do
       action = ReceiveReference.new(

@@ -51,6 +51,7 @@ parameters:
   stateChangeSlackUrl:
   customAvailabilityMonitors: []
   alertRecipientEmails: []
+  sandbox:
   commonResourceTags: '{
     "Parent Business Service": "Teacher Services",
     "Service Offering": "Become a Teacher"
@@ -143,7 +144,8 @@ jobs:
                 -alertRecipientEmails "${{parameters.alertRecipientEmails}}"
                 -dsiApiUrl "${{parameters.dsiApiUrl}}"
                 -dsiApiSecret "${{parameters.dsiApiSecret}}"
-                -govukNotifyCallbackAPIKey "${{parameters.govukNotifyCallbackAPIKey}}"'
+                -govukNotifyCallbackAPIKey "${{parameters.govukNotifyCallbackAPIKey}}"
+                -sandbox "${{parameters.sandbox}}"'
               deploymentOutputs: DeploymentOutput
 
           - task: AzurePowerShell@3

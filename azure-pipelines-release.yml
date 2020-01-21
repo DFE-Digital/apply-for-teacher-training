@@ -93,6 +93,7 @@ stages:
       govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'
       dsiApiUrl: '$(dsiApiUrl)'
       dsiApiSecret: '$(dsiApiSecret)'
+      sandbox: '$(sandbox)'
 
 - stage: deploy_sandbox
   displayName: 'Deploy - Sandbox'
@@ -144,6 +145,7 @@ stages:
       govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'
       dsiApiUrl: '$(dsiApiUrl)'
       dsiApiSecret: '$(dsiApiSecret)'
+      sandbox: '$(sandbox)'
 
 
 - stage: deploy_production
@@ -200,4 +202,4 @@ stages:
       govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'
       dsiApiUrl: '$(dsiApiUrl)'
       dsiApiSecret: '$(dsiApiSecret)'
-
+      sandbox: '$(sandbox)'

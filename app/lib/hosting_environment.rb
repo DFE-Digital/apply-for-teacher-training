@@ -53,4 +53,8 @@ module HostingEnvironment
   def self.production?
     environment_name == 'production'
   end
+
+  def self.sandbox?
+    ENV.fetch('SANDBOX', 'false') == 'true'
+  end
 end
