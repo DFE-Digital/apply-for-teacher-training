@@ -7,6 +7,7 @@ class FeatureFlag
     confirm_course_choice_from_find
     send_dfe_sign_in_invitations
     improved_expired_token_flow
+    work_breaks
   ].freeze
 
   def self.activate(feature_name)

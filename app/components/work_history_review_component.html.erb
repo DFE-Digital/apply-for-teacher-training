@@ -11,14 +11,16 @@
     <% end %>
   <% end %>
 
-  <% if work.next_work_breaks_in_months > 0 %>
-    <section class="app-summary-card govuk-!-margin-bottom-6">
-      <header class="app-summary-card__header">
-        <h3 class="app-summary-card__title">
-          You have a break in your work history (<%= pluralize(work.next_work_breaks_in_months, 'month')%>)
-        </h3>
-      </header>
-    </section>
+  <% if FeatureFlag.active?('work_breaks') %>
+    <% if work.next_work_breaks_in_months > 0 %>
+      <section class="app-summary-card govuk-!-margin-bottom-6">
+        <header class="app-summary-card__header">
+          <h3 class="app-summary-card__title">
+            You have a break in your work history (<%= pluralize(work.next_work_breaks_in_months, 'month')%>)
+          </h3>
+        </header>
+      </section>
+    <% end %>
   <% end %>
 <% end %>
 

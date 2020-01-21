@@ -4,6 +4,8 @@ RSpec.feature 'Entering their work history' do
   include CandidateHelper
 
   scenario 'Candidate submits their work history' do
+    FeatureFlag.activate('work_breaks')
+
     Timecop.travel(Time.zone.local(2019, 12, 1)) do
       given_i_am_signed_in
       and_i_visit_the_site
