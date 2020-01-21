@@ -50,7 +50,7 @@ jobs:
       - name: 'Set up Ruby 2.6'
         uses: actions/setup-ruby@v1
         with:
-          ruby-version: 2.6.3
+          ruby-version: 2.6
 
       - name: 'Install PostgreSQL 11 client'
         run: |
@@ -123,7 +123,7 @@ jobs:
       - name: 'Set up Ruby 2.6'
         uses: actions/setup-ruby@v1
         with:
-          ruby-version: 2.6.3
+          ruby-version: 2.6
 
       - name: 'Install PostgreSQL 11 client'
         run: |
@@ -168,7 +168,7 @@ jobs:
       - name: 'Set up Ruby 2.6'
         uses: actions/setup-ruby@v1
         with:
-          ruby-version: 2.6.3
+          ruby-version: 2.6
 
       - name: 'Install PostgreSQL 11 client'
         run: |
@@ -204,7 +204,7 @@ jobs:
       - name: 'Set up Ruby 2.6'
         uses: actions/setup-ruby@v1
         with:
-          ruby-version: 2.6.3
+          ruby-version: 2.6
 
       - name: 'Install PostgreSQL 11 client'
         run: |
