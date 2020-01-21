@@ -25,24 +25,23 @@ module CandidateInterface
     def authenticate
       candidate = FindCandidateByToken.call(raw_token: params[:token])
 
-      if candidate&.course_from_find_id.present?
+      if candidate
         sign_in(candidate, scope: :candidate)
         add_identity_to_log candidate.id
         course_id = candidate.course_from_find_id
-        if course_has_one_site?(course_id)
-          course_option = CourseOption.find_by!(course_id: course_id)
-          new_application_choice = ApplicationChoice.new(course_option_id: course_option.id)
-          candidate.current_application.application_choices << new_application_choice
-          candidate.update(course_from_find_id: nil)
+        if has_course_from_find?(candidate) && course_has_one_site?(course_id)
+          add_application_choice(course_id, candidate)
+          set_course_from_find_id_to_nil(candidate)
 
           redirect_to candidate_interface_course_choices_review_path
+        elsif has_course_from_find?(candidate)
+          course = Course.find(course_id)
+          set_course_from_find_id_to_nil(candidate)
+
+          redirect_to candidate_interface_course_choices_site_path(course.provider.code, course.code)
         else
-          # render the sites route for that course
+          redirect_to candidate_interface_application_form_path
         end
-      elsif candidate
-        sign_in(candidate, scope: :candidate)
-        add_identity_to_log candidate.id
-        redirect_to candidate_interface_application_form_path
       else
         redirect_to action: :new
       end
@@ -56,6 +55,20 @@ module CandidateInterface
 
     def course_has_one_site?(course_id)
       CourseOption.where(course_id: course_id).one?
+    end
+
+    def add_application_choice(course_id, candidate)
+      course_option = CourseOption.find_by!(course_id: course_id)
+      new_application_choice = ApplicationChoice.new(course_option_id: course_option.id)
+      candidate.current_application.application_choices << new_application_choice
+    end
+
+    def set_course_from_find_id_to_nil(candidate)
+      candidate.update(course_from_find_id: nil)
+    end
+
+    def has_course_from_find?(candidate)
+      candidate.course_from_find_id.present?
     end
   end
 end
