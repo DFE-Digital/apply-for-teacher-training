@@ -12,7 +12,7 @@ module CandidateInterface
       @email_address = params[:email_address]
       @accept_ts_and_cs = params[:accept_ts_and_cs]
       @candidate = Candidate.for_email @email_address
-      @course_from_find_id = params[:course_from_find_id]
+      @course_from_find_id = params[:course_id]
     end
 
     def existing_candidate?
