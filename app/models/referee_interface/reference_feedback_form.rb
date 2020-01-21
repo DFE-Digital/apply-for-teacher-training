@@ -14,18 +14,12 @@ module RefereeInterface
       return unless valid?
 
       ActiveRecord::Base.transaction do
-        reference.update!(feedback: feedback, feedback_status: 'feedback_provided')
-
-        # If all of the references have been provided we need to change the
-        # state of the application choices
-        if reference.application_form.application_references_complete?
-          reference.application_form.application_choices.includes(:course_option).find_each do |application_choice|
-            ApplicationStateChange.new(application_choice).references_complete!
-          end
-        end
+        ReceiveReference.new(
+          application_form: reference.application_form,
+          referee_email: reference.email_address,
+          feedback: feedback,
+        ).save
       end
-
-      true
     end
   end
 end
