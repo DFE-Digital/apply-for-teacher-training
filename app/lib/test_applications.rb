@@ -61,6 +61,8 @@ module TestApplications
       states.zip(application_choices).each do |state, application_choice|
         put_application_choice_in_state(application_choice, state)
       end
+
+      application_choices
     end
   end
 

@@ -238,6 +238,24 @@ paths:
           $ref: "#/components/responses/OK"
         "401":
           $ref: "#/components/responses/Unauthorized"
+  "/test-data/generate":
+    post:
+      tags:
+        - Testing
+      summary: Generate test data
+      description: |
+        Generates n new applications, defaulting to 100. Does not change existing data. Only available on the Sandbox.
+      parameters:
+        - name: count
+          description: How many items to generate (max 100)
+          in: query
+          schema:
+            type: integer
+      responses:
+        "201":
+          $ref: "#/components/responses/TestDataGenerated"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
 
 components:
   responses:
@@ -273,6 +291,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/UnprocessableEntityResponse"
+    TestDataGenerated:
+      description: Returned following successful generation of test data
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/TestDataGeneratedResponse"
 
   schemas:
     MultipleApplicationsResponse:
@@ -1021,6 +1045,21 @@ components:
             message:
               type: string
               example: "OK"
+    TestDataGeneratedResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          required:
+            - ids
+          properties:
+            ids:
+              type: array
+              description: An array of IDs corresponding to the generated applications
+              minItems: 1
+              items:
+                type: string
+                maxLength: 10
   parameters:
     application_id:
       name: application_id

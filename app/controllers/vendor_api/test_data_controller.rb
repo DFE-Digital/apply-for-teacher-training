@@ -10,6 +10,14 @@ module VendorApi
       render json: { data: { message: 'OK, regenerated the test data' } }
     end
 
+    def generate
+      application_choices = (1..count_param).flat_map do
+        TestApplications.create_application [:awaiting_provider_decision]
+      end
+
+      render json: { data: { ids: application_choices.map { |ac| ac.id.to_s } } }
+    end
+
   private
 
     def check_this_is_a_test_environment
