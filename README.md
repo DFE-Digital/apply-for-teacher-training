@@ -23,6 +23,7 @@ for doing so](/docs/new-environment.md).
 
 ## Guides
 
+* [Developer on-boarding](/docs/developer-onboarding.md)
 * [Connect to a production database](/docs/connecting-to-databases.md)
 * [Deploy the application](/docs/deployment.md)
 * [Environment variables](/docs/environment-variables.md)
