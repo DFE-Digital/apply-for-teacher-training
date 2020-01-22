@@ -22,7 +22,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe 'Send reference chaser email' do
-    let(:application_form) { create(:completed_application_form) }
+    let(:application_form) { create(:completed_application_form, references_count: 1, with_gces: true) }
     let(:reference) { application_form.application_references.first }
     let(:mail) { mailer.reference_chaser_email(application_form, reference) }
 

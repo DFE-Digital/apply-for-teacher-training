@@ -31,7 +31,7 @@ RSpec.feature 'Send chase email to referee and candidate', with_audited: true do
   end
 
   def and_there_is_an_application_awaiting_references
-    @application_awaiting_references = create(:completed_application_form)
+    @application_awaiting_references = create(:completed_application_form, references_count: 1, with_gces: true)
     @referee = @application_awaiting_references.application_references.first
   end
 

@@ -56,7 +56,7 @@ RSpec.feature 'Send new referee request to candidate', with_audited: true do
   end
 
   def and_there_is_an_application
-    @application = create(:completed_application_form)
+    @application = create(:completed_application_form, references_count: 1, with_gces: true)
     @candidate_name = "#{@application.first_name} #{@application.last_name}"
     @candidate_email = @application.candidate.email_address
     @referee = @application.application_references.first

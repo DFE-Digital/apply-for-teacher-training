@@ -14,7 +14,6 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.application_under_consideration(
       FactoryBot.build(
         :completed_application_form,
-        :without_application_choices,
         application_choices: [application_choice],
       ),
     )

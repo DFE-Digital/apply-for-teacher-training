@@ -49,7 +49,7 @@ RSpec.feature 'A candidate edits their application' do
 
   def given_i_have_a_completed_application
     current_candidate.current_application.destroy! # Destroy the unsubmitted one that was created earlier for simplicity.
-    @form = create(:completed_application_form, :with_completed_references, :without_application_choices, candidate: current_candidate, submitted_at: Time.zone.local(2019, 12, 16))
+    @form = create(:completed_application_form, :with_completed_references, references_count: 2, with_gces: true, candidate: current_candidate, submitted_at: Time.zone.local(2019, 12, 16))
     create(:application_choice, status: :application_complete, edit_by: Time.zone.local(2019, 12, 20), application_form: @form)
   end
 

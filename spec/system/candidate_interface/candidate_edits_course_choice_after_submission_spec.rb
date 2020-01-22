@@ -44,7 +44,7 @@ RSpec.feature 'A candidate edits their course choice after submission' do
   end
 
   def and_i_have_a_completed_application
-    form = create(:completed_application_form, :with_completed_references, :without_application_choices, candidate: current_candidate, submitted_at: Time.zone.local(2019, 12, 16))
+    form = create(:completed_application_form, :with_completed_references, candidate: current_candidate, submitted_at: Time.zone.local(2019, 12, 16))
     @application_choice = create(:application_choice, status: :awaiting_references, edit_by: Time.zone.local(2019, 12, 20), application_form: form)
   end
 

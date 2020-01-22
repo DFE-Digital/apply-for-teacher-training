@@ -111,7 +111,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
   describe '#application_choices_added?' do
     it 'returns true if application choices are added' do
-      application_form = FactoryBot.build(:completed_application_form)
+      application_form = FactoryBot.build(:completed_application_form, application_choices_count: 1)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).to be_application_choices_added

@@ -42,11 +42,12 @@ FactoryBot.define do
       work_history_completed { true }
 
       transient do
-        application_choices_count { 1 }
-        work_experiences_count { 1 }
-        volunteering_experiences_count { 1 }
-        references_count { 2 }
+        application_choices_count { 0 }
+        work_experiences_count { 0 }
+        volunteering_experiences_count { 0 }
+        references_count { 0 }
         references_state { :unsubmitted }
+        with_gces { false }
       end
 
       trait :with_completed_references do
@@ -55,21 +56,19 @@ FactoryBot.define do
         end
       end
 
-      # Use this trait if you want to create your own application choices
-      trait :without_application_choices do
-        application_choices_count { 0 }
-      end
-
       after(:build) do |application_form, evaluator|
-        create(:application_qualification, application_form: application_form, subject: 'maths', level: 'gcse', qualification_type: 'GCSE')
-        create(:application_qualification, application_form: application_form, subject: 'english', level: 'gcse', qualification_type: 'GCSE')
-        create(:application_qualification, application_form: application_form, subject: 'science', level: 'gcse', qualification_type: 'GCSE')
+        if evaluator.with_gces
+          create(:application_qualification, application_form: application_form, subject: 'maths', level: 'gcse', qualification_type: 'GCSE')
+          create(:application_qualification, application_form: application_form, subject: 'english', level: 'gcse', qualification_type: 'GCSE')
+          create(:application_qualification, application_form: application_form, subject: 'science', level: 'gcse', qualification_type: 'GCSE')
+        end
 
         edit_by = if application_form.submitted_at.nil?
                     nil
                   else
                     5.business_days.after application_form.submitted_at
                   end
+
         create_list(:application_choice, evaluator.application_choices_count, application_form: application_form, status: 'awaiting_references', edit_by: edit_by)
         create_list(:application_work_experience, evaluator.work_experiences_count, application_form: application_form)
         create_list(:application_volunteering_experience, evaluator.volunteering_experiences_count, application_form: application_form)
@@ -81,7 +80,9 @@ FactoryBot.define do
         # We do this here, so we only have to do it in one place, rather than
         # everywhere we refer to application_form.application_references in tests.
         # See https://github.com/thoughtbot/factory_bot/issues/549 for details.
-        application_form.application_references.reload
+        if evaluator.references_count > 0
+          application_form.application_references.reload
+        end
       end
     end
   end
@@ -176,11 +177,11 @@ FactoryBot.define do
       status { 'awaiting_provider_decision' }
       reject_by_default_at { Time.zone.now + 40.days }
       reject_by_default_days { 40 }
-      association :application_form, factory: %i[completed_application_form without_application_choices with_completed_references]
+      association :application_form, factory: %i[completed_application_form with_completed_references]
     end
 
     trait :awaiting_provider_decision do
-      association :application_form, factory: %i[completed_application_form without_application_choices with_completed_references]
+      association :application_form, factory: %i[completed_application_form with_completed_references]
       status { :awaiting_provider_decision }
 
       reject_by_default_days { 40 }

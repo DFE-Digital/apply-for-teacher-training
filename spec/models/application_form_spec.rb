@@ -13,7 +13,7 @@ RSpec.describe ApplicationForm do
     end
 
     it 'can view audit records for ApplicationForm and its associated ApplicationChoices' do
-      application_form = create :completed_application_form
+      application_form = create(:completed_application_form, application_choices_count: 1)
 
       expect {
         application_form.application_choices.first.update!(personal_statement: 'hello again')
