@@ -221,12 +221,13 @@ paths:
           $ref: "#/components/responses/UnprocessableEntity"
   "/test-data/regenerate":
     post:
+      deprecated: true
       tags:
         - Testing
       summary: Regenerate test data
       description: |
         Deletes all applications and generates 100 new applications. Only
-        available on the Sandbox.
+        available on the Sandbox. DEPRECATED: prefer /test-data/generate and /test-data/clear
       parameters:
         - name: count
           description: How many items to generate (max 100)
