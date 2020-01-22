@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Notify Callback - POST /notify/callback', type: :request do
+  let(:application_form) { create(:application_form) }
   let(:reference) do
-    application_form = create(:application_form)
     create(:reference, feedback_status: 'feedback_requested', application_form: application_form)
   end
   let(:notify_callback_token) { ENV.fetch('GOVUK_NOTIFY_CALLBACK_API_KEY') }
@@ -88,5 +88,19 @@ RSpec.describe 'Notify Callback - POST /notify/callback', type: :request do
     post '/notify/callback', headers: headers, params: request_body
 
     expect(reference.reload.feedback_status).to eq('feedback_requested')
+  end
+
+  it 'sends a new referee request email to the candidate' do
+    request_body = {
+      reference: "test-reference_request-#{reference.id}",
+      status: 'permanent-failure',
+    }.to_json
+
+    post '/notify/callback', headers: headers, params: request_body
+
+    candidate_email = application_form.candidate.email_address
+    open_email(candidate_email)
+
+    expect(current_email.subject).to eq(t('new_referee_request.email_bounced.subject', referee_name: reference.name))
   end
 end
