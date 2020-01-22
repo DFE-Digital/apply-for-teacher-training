@@ -1,13 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe GetApplicationFormsReadyToSendToProviders do
-  subject(:returned_application_forms) do
-    GetApplicationFormsReadyToSendToProviders.call
-  end
+  subject(:returned_application_forms) { GetApplicationFormsReadyToSendToProviders.call }
 
-  let(:application_form) do
-    create(:completed_application_form, :without_application_choices)
-  end
+  let(:application_form) { create(:application_form) }
 
   context 'when the edit_by dates have passed and the application_choices are application_complete' do
     before do

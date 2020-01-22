@@ -83,8 +83,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
     end
 
     it 'renders when all offers have been withdrawn' do
-      application_form = create(:completed_application_form, :without_application_choices)
-
+      application_form = create(:application_form)
       create(:application_choice, application_form: application_form, status: :withdrawn)
 
       render_result = render_inline(described_class, application_form: application_form)
@@ -93,8 +92,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
     end
 
     it 'renders when one offer has been withdrawn and one offered' do
-      application_form = create(:completed_application_form, :without_application_choices)
-
+      application_form = create(:application_form)
       create(:application_choice, application_form: application_form, status: :withdrawn)
       create(:application_choice, application_form: application_form, status: :offer, decline_by_default_at: 1.day.from_now)
 
@@ -104,8 +102,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
     end
 
     it 'renders when the only offer has been rejected' do
-      application_form = create(:completed_application_form, :without_application_choices)
-
+      application_form = create(:application_form)
       create(:application_choice, application_form: application_form, status: :rejected)
 
       render_result = render_inline(described_class, application_form: application_form)

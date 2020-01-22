@@ -4,7 +4,7 @@ RSpec.describe ApplicationDates, type: :model do
   let(:submitted_at) { Time.zone.local(2019, 5, 1, 12, 0, 0).end_of_day }
 
   let(:application_form) do
-    create(:completed_application_form, :without_application_choices, submitted_at: submitted_at)
+    create(:application_form, submitted_at: submitted_at)
   end
 
   let!(:application_choice) do

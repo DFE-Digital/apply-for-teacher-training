@@ -55,6 +55,7 @@ FactoryBot.define do
         end
       end
 
+      # Use this trait if you want to create your own application choices
       trait :without_application_choices do
         application_choices_count { 0 }
       end
