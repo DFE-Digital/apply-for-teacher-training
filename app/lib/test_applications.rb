@@ -34,8 +34,7 @@ module TestApplications
 
       application_form.application_references.each do |reference|
         ReceiveReference.new(
-          application_form: application_form,
-          referee_email: reference.email_address,
+          reference: reference,
           feedback: 'You are awesome',
         ).save
       end

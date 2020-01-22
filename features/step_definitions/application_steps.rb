@@ -65,9 +65,10 @@ When(/^the (\w+) takes action "([\w\s]+)"$/) do |_actor, action|
 end
 
 When('{string} provides a reference') do |referee_email|
+  reference = @application_choice.application_form.application_references.find_by!(email_address: referee_email)
+
   action = ReceiveReference.new(
-    application_form: @application_choice.application_form.reload,
-    referee_email: referee_email,
+    reference: reference,
     feedback: Faker::Lorem.sentence(word_count: 20),
   )
   expect(action.save).to be true

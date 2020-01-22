@@ -24,13 +24,15 @@ RSpec.feature 'Vendor receives the application' do
   end
 
   def and_references_have_been_received
-    ReceiveReference.new(application_form: @application,
-                         referee_email: @application.application_references.first.email_address,
-                         feedback: 'My ideal person').save
+    ReceiveReference.new(
+      reference: @application.application_references.first,
+      feedback: 'My ideal person',
+    ).save
 
-    ReceiveReference.new(application_form: @application,
-                         referee_email: @application.application_references.last.email_address,
-                         feedback: 'Lovable').save
+    ReceiveReference.new(
+      reference: @application.application_references.last,
+      feedback: 'Lovable',
+    ).save
   end
 
   def and_the_edit_by_date_has_passed
