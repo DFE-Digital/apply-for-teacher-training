@@ -5,6 +5,9 @@ module VendorApi
     MAX_COUNT = 100
     DEFAULT_COUNT = 100
 
+    MAX_COURSES_COUNT = 3
+    DEFAULT_COURSES_COUNT = 1
+
     def regenerate
       GenerateTestData.new(count_param, current_provider).generate
       render json: { data: { message: 'OK, regenerated the test data' } }
@@ -12,7 +15,8 @@ module VendorApi
 
     def generate
       application_choices = (1..count_param).flat_map do
-        TestApplications.create_application [:awaiting_provider_decision]
+        states = [:awaiting_provider_decision] * courses_per_application_param
+        TestApplications.create_application states: states
       end
 
       render json: { data: { ids: application_choices.map { |ac| ac.id.to_s } } }
@@ -34,6 +38,10 @@ module VendorApi
 
     def count_param
       [(params[:count] || DEFAULT_COUNT).to_i, MAX_COUNT].min
+    end
+
+    def courses_per_application_param
+      [(params[:courses_per_application] || DEFAULT_COURSES_COUNT).to_i, MAX_COURSES_COUNT].min
     end
   end
 end

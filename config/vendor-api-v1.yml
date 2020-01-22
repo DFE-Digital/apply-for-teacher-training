@@ -245,13 +245,22 @@ paths:
         - Testing
       summary: Generate test data
       description: |
-        Generates n new applications, defaulting to 100. Does not change existing data. Only available on the Sandbox.
+        Generates n new applications, defaulting to 100 applications with one course choice per application. Does not change existing data. Only available on the Sandbox.
       parameters:
         - name: count
-          description: How many items to generate (max 100)
+          description: How many applications to generate (max 100)
           in: query
           schema:
             type: integer
+            default: 100
+            maximum: 100
+        - name: courses_per_application
+          description: How many courses each generated application should apply to
+          in: query
+          schema:
+            type: integer
+            default: 1
+            maximum: 3
       responses:
         "201":
           $ref: "#/components/responses/TestDataGenerated"

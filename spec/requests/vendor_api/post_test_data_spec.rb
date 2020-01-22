@@ -34,11 +34,37 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data', type: :request do
 
   describe '/generate' do
     it 'generates test data' do
-      create(:course_option)
+      create(:course_option, course: create(:course, open_on_apply: true))
 
-      post_api_request '/api/v1/test-data/generate?count=2'
+      post_api_request '/api/v1/test-data/generate?count=1'
 
-      expect(Candidate.count).to be(2)
+      expect(Candidate.count).to eq(1)
+      expect(ApplicationChoice.count).to eq(1)
+      expect(parsed_response).to be_valid_against_openapi_schema('TestDataGeneratedResponse')
+    end
+
+    it 'respects the courses_per_application= parameter' do
+      create(:course_option, course: create(:course, open_on_apply: true))
+      create(:course_option, course: create(:course, open_on_apply: true))
+
+      post_api_request '/api/v1/test-data/generate?count=1&courses_per_application=2'
+
+      expect(Candidate.count).to eq(1)
+      expect(ApplicationChoice.count).to eq(2)
+      expect(ApplicationChoice.all.map(&:status).uniq).to eq(['awaiting_provider_decision'])
+
+      expect(parsed_response).to be_valid_against_openapi_schema('TestDataGeneratedResponse')
+    end
+
+    it 'does not generate more than three application_choices per application' do
+      create(:course_option, course: create(:course, open_on_apply: true))
+      create(:course_option, course: create(:course, open_on_apply: true))
+      create(:course_option, course: create(:course, open_on_apply: true))
+
+      post_api_request '/api/v1/test-data/generate?count=1&courses_per_application=99'
+
+      expect(Candidate.count).to eq(1)
+      expect(ApplicationChoice.count).to eq(3)
       expect(parsed_response).to be_valid_against_openapi_schema('TestDataGeneratedResponse')
     end
   end
