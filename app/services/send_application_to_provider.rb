@@ -7,6 +7,8 @@ class SendApplicationToProvider
   end
 
   def call
+    return false unless application_choice.application_complete?
+
     ActiveRecord::Base.transaction do
       set_reject_by_default
       ApplicationStateChange.new(application_choice).send_to_provider!
