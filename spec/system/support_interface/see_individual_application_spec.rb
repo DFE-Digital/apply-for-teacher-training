@@ -39,8 +39,7 @@ RSpec.feature 'See an application' do
     @application_with_reference.application_references.first.update(consent_to_be_contacted: true)
 
     action = ReceiveReference.new(
-      application_form: @application_with_reference,
-      referee_email: @application_with_reference.reload.application_references.first.email_address,
+      reference: @application_with_reference.reload.application_references.first,
       feedback: 'This is my feedback',
     )
     action.save
