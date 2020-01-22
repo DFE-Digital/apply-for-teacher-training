@@ -6,7 +6,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
 
     result = render_inline(described_class, application_choice: application_choice)
 
-    expect(result.text).to include('Respond to the applicant by')
+    expect(result.text).to include('Respond to the candidate by')
   end
 
   it 'outputs a date for applications in the withdrawn state' do
@@ -22,7 +22,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
 
     result = render_inline(described_class, application_choice: application_choice)
 
-    expect(result.text).to include('Needs to respond by')
+    expect(result.text).to include('Candidate must respond by:')
   end
 
   it 'outputs a date for applications in the rejected state' do
@@ -30,7 +30,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
 
     result = render_inline(described_class, application_choice: application_choice)
 
-    expect(result.text).to include('Rejected at')
+    expect(result.text).to include('Rejected on')
   end
 
   it 'outputs a date for applications in the pending_conditions (offer accepted) state' do
@@ -38,7 +38,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
 
     result = render_inline(described_class, application_choice: application_choice)
 
-    expect(result.text).to include('Accepted at')
+    expect(result.text).to include('Accepted on:')
   end
 
   it 'outputs a date for applications in the declined state' do
@@ -46,7 +46,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
 
     result = render_inline(described_class, application_choice: application_choice)
 
-    expect(result.text).to include('Declined at')
+    expect(result.text).to include('Declined on:')
   end
 
   it 'outputs a date for applications in the recruited state' do
@@ -54,7 +54,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
 
     result = render_inline(described_class, application_choice: application_choice)
 
-    expect(result.text).to include('Recruited at')
+    expect(result.text).to include('Recruited on:')
   end
 
   it 'outputs a date for applications in the conditions_not_met state' do
@@ -71,7 +71,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
 
     result = render_inline(described_class, application_choice: application_choice)
 
-    expect(result.text).to include('Enrolled at')
+    expect(result.text).to include('Enrolled on:')
     expect(result.text).to include(now.to_s(:govuk_date))
   end
 
@@ -80,7 +80,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
 
     result = render_inline(described_class, application_choice: application_choice)
 
-    expect(result.text).to include('Enrolled at')
+    expect(result.text).to include('Enrolled on:')
   end
 
   def make_choice(attrs)
