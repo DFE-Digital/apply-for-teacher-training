@@ -12,6 +12,10 @@ module TestApplications
       application_form = FactoryBot.create(
         :completed_application_form,
         application_choices_count: 0,
+        work_experiences_count: 1,
+        volunteering_experiences_count: 1,
+        references_count: 2,
+        with_gces: true,
         submitted_at: nil,
         candidate: candidate,
         first_name: first_name,

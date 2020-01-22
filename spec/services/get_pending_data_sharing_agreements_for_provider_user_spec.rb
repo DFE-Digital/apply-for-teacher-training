@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe GetPendingDataSharingAgreementsForProviderUser do
   describe 'one user, one provider' do
-    let(:provider) { create(:provider, :without_agreements, code: 'ABC', name: 'Example provider') }
+    let(:provider) { create(:provider, code: 'ABC', name: 'Example provider') }
     let(:provider_user) { create(:provider_user) }
 
     before { provider.provider_users << provider_user }
@@ -22,8 +22,8 @@ RSpec.describe GetPendingDataSharingAgreementsForProviderUser do
   end
 
   describe 'one user, many providers' do
-    let(:provider1) { create(:provider, :without_agreements, code: 'ABC', name: 'Example provider 1') }
-    let(:provider2) { create(:provider, :without_agreements, code: 'CBA', name: 'Example provider 2') }
+    let(:provider1) { create(:provider, code: 'ABC', name: 'Example provider 1') }
+    let(:provider2) { create(:provider, code: 'CBA', name: 'Example provider 2') }
     let(:provider_user) { create(:provider_user) }
 
     before do

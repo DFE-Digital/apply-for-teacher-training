@@ -11,6 +11,8 @@ RSpec.describe RefereeMailer, type: :mailer do
         :completed_application_form,
         first_name: 'Harry',
         last_name: "O'Potter",
+        references_count: 1,
+        with_gces: true,
         application_choices_count: 0,
         application_choices: [
           first_application_choice,
@@ -45,9 +47,11 @@ RSpec.describe RefereeMailer, type: :mailer do
     let(:application_form) do
       create(
         :completed_application_form,
+        with_gces: true,
         first_name: 'Harry',
         last_name: 'Potter',
         application_choices_count: 0,
+        references_count: 1,
         application_choices: [
           first_application_choice,
           second_application_choice,

@@ -66,7 +66,7 @@ RSpec.describe ApplicationReference, type: :model do
   # be 1, so that we can still use that to describe 'First referee' etc in the
   # interface
   describe 'after deleting a reference' do
-    let!(:application_form) { create(:completed_application_form, references_count: 2) }
+    let!(:application_form) { create(:completed_application_form, references_count: 2, with_gces: true) }
 
     describe 'the ordinal of the remaining references' do
       let(:ordinals) { application_form.application_references.map(&:ordinal) }

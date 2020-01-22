@@ -42,11 +42,12 @@ FactoryBot.define do
       work_history_completed { true }
 
       transient do
-        application_choices_count { 1 }
-        work_experiences_count { 1 }
-        volunteering_experiences_count { 1 }
-        references_count { 2 }
+        application_choices_count { 0 }
+        work_experiences_count { 0 }
+        volunteering_experiences_count { 0 }
+        references_count { 0 }
         references_state { :unsubmitted }
+        with_gces { false }
       end
 
       trait :with_completed_references do
@@ -55,20 +56,19 @@ FactoryBot.define do
         end
       end
 
-      trait :without_application_choices do
-        application_choices_count { 0 }
-      end
-
       after(:build) do |application_form, evaluator|
-        create(:application_qualification, application_form: application_form, subject: 'maths', level: 'gcse', qualification_type: 'GCSE')
-        create(:application_qualification, application_form: application_form, subject: 'english', level: 'gcse', qualification_type: 'GCSE')
-        create(:application_qualification, application_form: application_form, subject: 'science', level: 'gcse', qualification_type: 'GCSE')
+        if evaluator.with_gces
+          create(:application_qualification, application_form: application_form, subject: 'maths', level: 'gcse', qualification_type: 'GCSE')
+          create(:application_qualification, application_form: application_form, subject: 'english', level: 'gcse', qualification_type: 'GCSE')
+          create(:application_qualification, application_form: application_form, subject: 'science', level: 'gcse', qualification_type: 'GCSE')
+        end
 
         edit_by = if application_form.submitted_at.nil?
                     nil
                   else
                     5.business_days.after application_form.submitted_at
                   end
+
         create_list(:application_choice, evaluator.application_choices_count, application_form: application_form, status: 'awaiting_references', edit_by: edit_by)
         create_list(:application_work_experience, evaluator.work_experiences_count, application_form: application_form)
         create_list(:application_volunteering_experience, evaluator.volunteering_experiences_count, application_form: application_form)
@@ -80,7 +80,9 @@ FactoryBot.define do
         # We do this here, so we only have to do it in one place, rather than
         # everywhere we refer to application_form.application_references in tests.
         # See https://github.com/thoughtbot/factory_bot/issues/549 for details.
-        application_form.application_references.reload
+        if evaluator.references_count > 0
+          application_form.application_references.reload
+        end
       end
     end
   end
@@ -126,9 +128,7 @@ FactoryBot.define do
 
   factory :course_option do
     course
-    site do
-      association(:site, provider: course.provider)
-    end
+    site { association(:site, provider: course.provider) }
 
     vacancy_status { 'B' }
   end
@@ -147,22 +147,17 @@ FactoryBot.define do
     code { Faker::Alphanumeric.alphanumeric(number: 3).upcase }
     name { Faker::Educator.university }
 
-    transient do
-      provider_agreements_count { 1 }
-    end
-
-    trait :without_agreements do
-      provider_agreements_count { 0 }
-    end
-
-    after(:build) do |provider, evaluator|
-      create_list(:provider_agreement, evaluator.provider_agreements_count, provider: provider)
+    trait :with_signed_agreement do
+      after(:build) do |provider|
+        create(:provider_agreement, provider: provider)
+      end
     end
   end
 
   factory :provider_agreement do
-    association :provider, factory: %i[provider without_agreements]
     provider_user
+    provider
+
     agreement_type { :data_sharing_agreement }
     accept_agreement { true }
 
@@ -174,6 +169,7 @@ FactoryBot.define do
   factory :application_choice do
     application_form
     course_option
+
     status { ApplicationStateChange.valid_states.sample }
     personal_statement { 'hello' }
 
@@ -181,11 +177,11 @@ FactoryBot.define do
       status { 'awaiting_provider_decision' }
       reject_by_default_at { Time.zone.now + 40.days }
       reject_by_default_days { 40 }
-      association :application_form, factory: %i[completed_application_form without_application_choices with_completed_references]
+      association :application_form, factory: %i[completed_application_form with_completed_references]
     end
 
     trait :awaiting_provider_decision do
-      association :application_form, factory: %i[completed_application_form without_application_choices with_completed_references]
+      association :application_form, factory: %i[completed_application_form with_completed_references]
       status { :awaiting_provider_decision }
 
       reject_by_default_days { 40 }
@@ -206,14 +202,16 @@ FactoryBot.define do
   end
 
   factory :vendor_api_user do
-    association :vendor_api_token
+    vendor_api_token
+
     full_name { 'Bob' }
     email_address { 'bob@example.com' }
     vendor_user_id { '123' }
   end
 
   factory :vendor_api_token do
-    association :provider
+    provider
+
     hashed_token { '1234567890' }
   end
 
@@ -230,11 +228,6 @@ FactoryBot.define do
       feedback_status { 'feedback_provided' }
       feedback { Faker::Lorem.paragraph(sentence_count: 10) }
     end
-  end
-
-  factory :sign_up_form do
-    email_address { "#{SecureRandom.hex(5)}@example.com" }
-    accept_ts_and_cs { true }
   end
 
   factory :support_user do

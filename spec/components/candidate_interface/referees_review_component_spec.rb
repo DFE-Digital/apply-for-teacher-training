@@ -6,7 +6,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
   end
 
   context 'when referees are editable' do
-    let(:application_form) { create(:completed_application_form, references_count: 2) }
+    let(:application_form) { create(:completed_application_form, references_count: 2, with_gces: true) }
 
     it "renders component with correct values for a referee's name" do
       first_referee = application_form.application_references.first
@@ -50,7 +50,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
   end
 
   context 'when referees are not editable' do
-    let(:application_form) { create(:completed_application_form, references_count: 1) }
+    let(:application_form) { create(:completed_application_form, references_count: 1, with_gces: true) }
 
     it 'renders component without an edit link' do
       result = render_inline(described_class, application_form: application_form, editable: false)

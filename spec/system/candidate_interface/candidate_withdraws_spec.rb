@@ -24,7 +24,7 @@ RSpec.feature 'A candidate withdraws her application' do
   end
 
   def and_i_have_an_application_choice_awaiting_provider_decision
-    form = create(:completed_application_form, :with_completed_references, :without_application_choices, candidate: current_candidate)
+    form = create(:completed_application_form, :with_completed_references, candidate: current_candidate)
     @application_choice = create(:application_choice, :awaiting_provider_decision, application_form: form)
   end
 

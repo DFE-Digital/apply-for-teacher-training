@@ -5,7 +5,7 @@ RSpec.feature 'See applications' do
   include DfESignInHelpers
 
   let(:pre_approved_provider_user) do
-    provider = create(:provider, code: 'ABC')
+    provider = create(:provider, :with_signed_agreement, code: 'ABC')
     create(:provider_user, providers: [provider], dfe_sign_in_uid: nil)
   end
 
