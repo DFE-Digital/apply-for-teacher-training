@@ -1,5 +1,6 @@
 class RequestReference
-  attr_accessor :referee_params, :referee, :application_form
+  attr_accessor :referee_params, :application_form
+  attr_reader :referee
 
   BOT_EMAIL_ADDRESSES = ['refbot1@example.com', 'refbot2@example.com'].freeze
 
@@ -21,7 +22,7 @@ private
   end
 
   def sandbox?
-    ENV.fetch('SANDBOX') { 'false' } == 'true'
+    HostingEnvironment.sandbox?
   end
 
   def email_address_is_a_bot?

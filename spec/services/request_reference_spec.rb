@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe RequestReference do
-  context 'outside the Sandbox environment' do
+  context 'outside the Sandbox environment', sandbox: false do
     it 'saves the reference without feedback' do
       application_form = FactoryBot.create :application_form
 
@@ -21,13 +21,7 @@ RSpec.describe RequestReference do
     end
   end
 
-  context 'in the Sandbox environment' do
-    around do |example|
-      ClimateControl.modify(SANDBOX: 'true') do
-        example.run
-      end
-    end
-
+  context 'in the Sandbox environment', sandbox: true do
     it 'saves the reference without feedback if the email_address does not match the auto-referees' do
       application_form = FactoryBot.create :application_form
 
