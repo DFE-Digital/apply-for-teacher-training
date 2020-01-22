@@ -15,8 +15,7 @@ module RefereeInterface
 
       ActiveRecord::Base.transaction do
         ReceiveReference.new(
-          application_form: reference.application_form,
-          referee_email: reference.email_address,
+          reference: reference,
           feedback: feedback,
         ).save
       end
