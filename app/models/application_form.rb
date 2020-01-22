@@ -31,7 +31,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def application_references_complete?
-    application_references.completed.count == MINIMUM_COMPLETE_REFERENCES
+    application_references.feedback_provided.count == MINIMUM_COMPLETE_REFERENCES
   end
 
   def awaiting_provider_decisions?
