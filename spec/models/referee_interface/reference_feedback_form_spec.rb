@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe RefereeInterface::ReferenceFeedbackForm do
   describe '#save' do
     it 'invokes the ReceiveReference class if input is valid' do
-
       application_form = FactoryBot.create(:completed_application_form, references_count: 0)
       application_form.application_choices.each { |choice| choice.update(status: 'awaiting_references', edit_by: 1.day.from_now) }
       unsubmitted_reference = build(:reference, :unsubmitted)
@@ -29,6 +28,7 @@ RSpec.describe RefereeInterface::ReferenceFeedbackForm do
         reference: unsubmitted_reference,
         feedback: '',
       ).save
+
       expect(ReceiveReference).not_to have_received(:new)
     end
   end
