@@ -18,7 +18,7 @@ RSpec.describe ProviderMailer, type: :mailer do
     end
 
     it 'includes a link to the provider home page' do
-      expect(@mail.body.encoded).to include(provider_interface_applications_url)
+      expect(@mail.body.encoded).to include(provider_interface_url)
     end
   end
 end
