@@ -126,9 +126,7 @@ FactoryBot.define do
 
   factory :course_option do
     course
-    site do
-      association(:site, provider: course.provider)
-    end
+    site { association(:site, provider: course.provider) }
 
     vacancy_status { 'B' }
   end
@@ -161,8 +159,9 @@ FactoryBot.define do
   end
 
   factory :provider_agreement do
-    association :provider, factory: %i[provider without_agreements]
     provider_user
+    association :provider, factory: %i[provider without_agreements]
+
     agreement_type { :data_sharing_agreement }
     accept_agreement { true }
 
@@ -174,6 +173,7 @@ FactoryBot.define do
   factory :application_choice do
     application_form
     course_option
+
     status { ApplicationStateChange.valid_states.sample }
     personal_statement { 'hello' }
 
@@ -206,14 +206,16 @@ FactoryBot.define do
   end
 
   factory :vendor_api_user do
-    association :vendor_api_token
+    vendor_api_token
+
     full_name { 'Bob' }
     email_address { 'bob@example.com' }
     vendor_user_id { '123' }
   end
 
   factory :vendor_api_token do
-    association :provider
+    provider
+
     hashed_token { '1234567890' }
   end
 
