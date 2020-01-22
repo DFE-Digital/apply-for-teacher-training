@@ -5,18 +5,18 @@ class GenerateTestApplications
     raise 'You can\'t generate test data in production' if HostingEnvironment.production?
 
     without_slack_message_sending do
-      TestApplications.create_application [:unsubmitted]
-      TestApplications.create_application [:awaiting_references]
-      TestApplications.create_application [:application_complete]
-      TestApplications.create_application [:awaiting_provider_decision]
-      TestApplications.create_application %i[offer offer]
-      TestApplications.create_application %i[offer rejected]
-      TestApplications.create_application %i[rejected rejected]
-      TestApplications.create_application [:declined]
-      TestApplications.create_application [:accepted]
-      TestApplications.create_application [:recruited]
-      TestApplications.create_application [:enrolled]
-      TestApplications.create_application [:withdrawn]
+      TestApplications.create_application states: [:unsubmitted]
+      TestApplications.create_application states: [:awaiting_references]
+      TestApplications.create_application states: [:application_complete]
+      TestApplications.create_application states: [:awaiting_provider_decision]
+      TestApplications.create_application states: %i[offer offer]
+      TestApplications.create_application states: %i[offer rejected]
+      TestApplications.create_application states: %i[rejected rejected]
+      TestApplications.create_application states: [:declined]
+      TestApplications.create_application states: [:accepted]
+      TestApplications.create_application states: [:recruited]
+      TestApplications.create_application states: [:enrolled]
+      TestApplications.create_application states: [:withdrawn]
     end
   end
 
