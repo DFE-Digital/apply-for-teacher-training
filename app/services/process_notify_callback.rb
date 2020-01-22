@@ -2,7 +2,7 @@ class ProcessNotifyCallback
   def initialize(notify_reference:, status:)
     @environment, @email_type, @reference_id = notify_reference.split('-')
     @status = status
-    @process_status = :not_updated
+    @not_found = false
   end
 
   def call
@@ -19,22 +19,12 @@ class ProcessNotifyCallback
         reason: :email_bounced,
       )
     end
-
-    @process_status = :updated
   rescue ActiveRecord::RecordNotFound
-    @process_status = :not_found
+    @not_found = true
   end
 
   def not_found?
-    @process_status == :not_found
-  end
-
-  def updated?
-    @process_status == :updated
-  end
-
-  def not_updated?
-    @process_status == :not_updated
+    @not_found
   end
 
 private
