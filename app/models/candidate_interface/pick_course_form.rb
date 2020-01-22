@@ -6,13 +6,13 @@ module CandidateInterface
     validates :code, presence: true
     validate :user_cant_apply_to_same_course_twice
 
-    def applyable?
+    def open_on_apply?
       course.open_on_apply?
     end
 
     def available_courses
       @available_courses ||= begin
-        provider.courses.visible_to_candidates.order(:name)
+        provider.courses.exposed_in_find.order(:name)
       end
     end
 

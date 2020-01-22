@@ -20,7 +20,7 @@ module CandidateInterface
 
     def providers
       @courses_by_provider = Course
-        .visible_to_candidates
+        .open_on_apply
         .includes(:provider)
         .group_by { |c| c.provider.name }
         .sort_by { |provider_name, _| provider_name }
