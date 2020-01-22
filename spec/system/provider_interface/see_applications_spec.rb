@@ -33,11 +33,11 @@ RSpec.feature 'See applications' do
 
   def when_my_apply_account_has_been_created
     provider_user = provider_user_exists_in_apply_database
-    create(:provider, code: 'ABC', provider_users: [provider_user])
+    create(:provider, :with_signed_agreement, code: 'ABC', provider_users: [provider_user])
   end
 
   def and_my_training_provider_exists
-    create(:provider, code: 'ABC')
+    create(:provider, :with_signed_agreement, code: 'ABC')
   end
 
   def given_i_am_a_provider_user_authenticated_with_dfe_sign_in

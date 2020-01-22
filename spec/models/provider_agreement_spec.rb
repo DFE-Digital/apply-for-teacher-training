@@ -12,7 +12,7 @@ RSpec.describe ProviderAgreement, type: :model do
 
   describe 'provider/provider_user association' do
     it 'is validated in the model' do
-      provider = create(:provider, :without_agreements)
+      provider = create(:provider)
       provider_user = create(:provider_user)
       agreement = ProviderAgreement.create(agreement_type: :data_sharing_agreement, provider: provider, provider_user: provider_user, accept_agreement: true)
       expect(agreement).not_to be_valid
@@ -21,7 +21,7 @@ RSpec.describe ProviderAgreement, type: :model do
 
   describe ':accepted_at' do
     it 'is set automatically on :create' do
-      provider = create(:provider, :without_agreements)
+      provider = create(:provider)
       provider_user = create(:provider_user)
       provider.provider_users << provider_user
       agreement = ProviderAgreement.create(agreement_type: :data_sharing_agreement, provider: provider, provider_user: provider_user, accept_agreement: true)
@@ -41,7 +41,7 @@ RSpec.describe ProviderAgreement, type: :model do
   describe '#for_provider' do
     it 'returns agreements scoped to a provider' do
       data_sharing_agreement = create(:provider_agreement, agreement_type: :data_sharing_agreement)
-      other_provider = create(:provider, :without_agreements, code: 'ZZZ', name: 'Other')
+      other_provider = create(:provider, code: 'ZZZ', name: 'Other')
       create(:provider_agreement, provider: other_provider)
       expect(ProviderAgreement.count).to eq(2)
       expect(ProviderAgreement.for_provider(data_sharing_agreement.provider).count).to eq(1)

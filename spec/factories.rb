@@ -145,22 +145,16 @@ FactoryBot.define do
     code { Faker::Alphanumeric.alphanumeric(number: 3).upcase }
     name { Faker::Educator.university }
 
-    transient do
-      provider_agreements_count { 1 }
-    end
-
-    trait :without_agreements do
-      provider_agreements_count { 0 }
-    end
-
-    after(:build) do |provider, evaluator|
-      create_list(:provider_agreement, evaluator.provider_agreements_count, provider: provider)
+    trait :with_signed_agreement do
+      after(:build) do |provider|
+        create(:provider_agreement, provider: provider)
+      end
     end
   end
 
   factory :provider_agreement do
     provider_user
-    association :provider, factory: %i[provider without_agreements]
+    provider
 
     agreement_type { :data_sharing_agreement }
     accept_agreement { true }
