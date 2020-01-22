@@ -33,10 +33,7 @@ RSpec.describe InviteProviderUser do
       end
 
       it 'queues an email' do
-        message_delivery = instance_double(ActionMailer::MessageDelivery, deliver_later: nil)
-        allow(ProviderMailer).to receive(:account_created).and_return(message_delivery)
-        InviteProviderUser.new(provider_user: new_provider_user_from_form).save_and_invite! rescue nil
-        expect(ProviderMailer).to have_received(:account_created)
+        expect(ProviderMailer.deliveries.count).to be 1
       end
     end
 
@@ -56,10 +53,7 @@ RSpec.describe InviteProviderUser do
       end
 
       it 'does not queue an email' do
-        message_delivery = instance_double(ActionMailer::MessageDelivery)
-        allow(ProviderMailer).to receive(:account_created).and_return(message_delivery)
-        InviteProviderUser.new(provider_user: new_provider_user_from_form).save_and_invite! rescue nil
-        expect(ProviderMailer).not_to have_received(:account_created)
+        expect(ProviderMailer.deliveries.count).to be 0
       end
     end
   end
