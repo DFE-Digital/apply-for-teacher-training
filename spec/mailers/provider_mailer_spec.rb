@@ -14,7 +14,7 @@ RSpec.describe ProviderMailer, type: :mailer do
     end
 
     it 'addresses the provider by name' do
-      expect(@mail.body.encoded).to include("Dear #{@provider_user.first_name} #{@provider_user.last_name}")
+      expect(@mail.body.encoded).to include("Dear #{@provider_user.full_name}")
     end
 
     it 'includes a link to the provider home page' do
