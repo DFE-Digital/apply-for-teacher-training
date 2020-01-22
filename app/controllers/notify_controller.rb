@@ -1,10 +1,12 @@
 class NotifyController < ApplicationController
+  include ActionController::HttpAuthentication::Token::ControllerMethods
+
   skip_before_action :verify_authenticity_token
 
   rescue_from ActionController::ParameterMissing, with: :render_unprocessable_entity
 
   def callback
-    return render_unauthorized if unauthorized?
+    return render_unauthorized unless authorized?
 
     response = ProcessNotifyCallback.call(notify_reference: params.fetch(:reference), status: params.fetch(:status))
 
@@ -17,12 +19,8 @@ class NotifyController < ApplicationController
 
 private
 
-  def unauthorized?
-    authorization_token.nil? || authorization_token != ENV.fetch('GOVUK_NOTIFY_CALLBACK_API_KEY')
-  end
-
-  def authorization_token
-    request.headers['Authorization']&.gsub('Bearer ', '')
+  def authorized?
+    authenticate_with_http_token { |token| token == ENV.fetch('GOVUK_NOTIFY_CALLBACK_API_KEY') }
   end
 
   def render_unauthorized
