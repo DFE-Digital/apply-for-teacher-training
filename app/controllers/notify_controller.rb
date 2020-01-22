@@ -8,7 +8,9 @@ class NotifyController < ApplicationController
   def callback
     return render_unauthorized unless authorized?
 
-    response = ProcessNotifyCallback.call(notify_reference: params.fetch(:reference), status: params.fetch(:status))
+    process_notify_callback = ProcessNotifyCallback.new(notify_reference: params.fetch(:reference), status: params.fetch(:status))
+
+    response = process_notify_callback.call
 
     if response == :not_found
       render_not_found
