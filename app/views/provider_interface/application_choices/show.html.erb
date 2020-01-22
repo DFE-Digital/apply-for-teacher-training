@@ -62,10 +62,9 @@
 
 <%= render PersonalStatementComponent, application_form: @application_choice.application_form %>
 
-<h2 class="govuk-heading-l govuk-!-margin-top-8" id="first-reference">First reference</h2>
-
-<%= render ReferenceWithFeedbackComponent, reference: @application_choice.application_form.application_references.first %>
-
-<h2 class="govuk-heading-l govuk-!-margin-top-8" id="second-reference">Second reference</h2>
-
-<%= render ReferenceWithFeedbackComponent, reference: @application_choice.application_form.application_references.second %>
+<% if @application_choice.application_form.application_references.any? %>
+  <% @application_choice.application_form.application_references.each_with_index do |reference, i| %>
+    <h2 class="govuk-heading-l govuk-!-margin-top-8"><%= "#{(i + 1).ordinalize} reference" %></h2>
+    <%= render ReferenceWithFeedbackComponent, reference: reference %>
+  <% end %>
+<% end %>
