@@ -1,40 +1,43 @@
 class ProcessNotifyCallback
-  class << self
-    def call(notify_reference:, status:)
-      @environment, @email_type, reference_id = notify_reference.split('-')
-      @status = status
+  def initialize(notify_reference:, status:)
+    @environment, @email_type, @reference_id = notify_reference.split('-')
+    @status = status
+    @not_found = false
+  end
 
-      return :not_updated unless same_environment? && reference_request_email? && permanent_failure_status?
+  def call
+    return unless same_environment? && reference_request_email? && permanent_failure_status?
 
-      ActiveRecord::Base.transaction do
-        reference = ApplicationReference.find(reference_id)
+    ActiveRecord::Base.transaction do
+      reference = ApplicationReference.find(@reference_id)
 
-        reference.update!(feedback_status: 'email_bounced')
+      reference.update!(feedback_status: 'email_bounced')
 
-        SendNewRefereeRequestEmail.call(
-          application_form: reference.application_form,
-          reference: reference,
-          reason: :email_bounced,
-        )
-      end
-
-      :updated
-    rescue ActiveRecord::RecordNotFound
-      :not_found
+      SendNewRefereeRequestEmail.call(
+        application_form: reference.application_form,
+        reference: reference,
+        reason: :email_bounced,
+      )
     end
+  rescue ActiveRecord::RecordNotFound
+    @not_found = true
+  end
 
-  private
+  def not_found?
+    @not_found
+  end
 
-    def same_environment?
-      @environment == HostingEnvironment.environment_name
-    end
+private
 
-    def reference_request_email?
-      @email_type == 'reference_request'
-    end
+  def same_environment?
+    @environment == HostingEnvironment.environment_name
+  end
 
-    def permanent_failure_status?
-      @status == 'permanent-failure'
-    end
+  def reference_request_email?
+    @email_type == 'reference_request'
+  end
+
+  def permanent_failure_status?
+    @status == 'permanent-failure'
   end
 end

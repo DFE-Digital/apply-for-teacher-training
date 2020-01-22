@@ -1,13 +1,18 @@
 class NotifyController < ApplicationController
+  include ActionController::HttpAuthentication::Token::ControllerMethods
+
   skip_before_action :verify_authenticity_token
 
+  rescue_from ActionController::ParameterMissing, with: :render_unprocessable_entity
+
   def callback
-    return render_unauthorized if unauthorized?
-    return render_unprocessable_entity if reference_or_status_missing?
+    return render_unauthorized unless authorized?
 
-    response = ProcessNotifyCallback.call(notify_reference: params['reference'], status: params['status'])
+    process_notify_callback = ProcessNotifyCallback.new(notify_reference: params.fetch(:reference), status: params.fetch(:status))
 
-    if response == :not_found
+    process_notify_callback.call
+
+    if process_notify_callback.not_found?
       render_not_found
     else
       render json: nil, status: :ok
@@ -16,16 +21,8 @@ class NotifyController < ApplicationController
 
 private
 
-  def unauthorized?
-    authorization_token.nil? || authorization_token != ENV.fetch('GOVUK_NOTIFY_CALLBACK_API_KEY')
-  end
-
-  def authorization_token
-    request.headers['Authorization']&.gsub('Bearer ', '')
-  end
-
-  def reference_or_status_missing?
-    params['reference'].nil? || params['status'].nil?
+  def authorized?
+    authenticate_with_http_token { |token| token == ENV.fetch('GOVUK_NOTIFY_CALLBACK_API_KEY') }
   end
 
   def render_unauthorized
@@ -36,10 +33,10 @@ private
     )
   end
 
-  def render_unprocessable_entity
+  def render_unprocessable_entity(e)
     render_error(
       name: 'UnprocessableEntity',
-      message: "A 'reference' or 'status' key was not included on the request body",
+      message: e.message,
       status: :unprocessable_entity,
     )
   end

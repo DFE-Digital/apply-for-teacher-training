@@ -1,14 +1,10 @@
 require 'rails_helper'
 
 RSpec.shared_examples "a callback that doesn't change the feedback status of a reference" do
-  it 'returns not updated' do
-    process_notify_callback = ProcessNotifyCallback.call(notify_reference: notify_reference, status: status)
-
-    expect(process_notify_callback).to eq(:not_updated)
-  end
-
   it 'does not update the feedback status of the reference' do
-    ProcessNotifyCallback.call(notify_reference: notify_reference, status: status)
+    process_notify_callback = ProcessNotifyCallback.new(notify_reference: notify_reference, status: status)
+
+    process_notify_callback.call
 
     expect(reference.reload.feedback_status).to eq('feedback_requested')
   end
@@ -32,24 +28,22 @@ RSpec.describe ProcessNotifyCallback do
     context 'with permanent-failure status' do
       let(:status) { 'permanent-failure' }
 
-      it 'returns updated' do
-        process_notify_callback = ProcessNotifyCallback.call(notify_reference: notify_reference, status: status)
-
-        expect(process_notify_callback).to eq(:updated)
-      end
-
       it 'updates the feedback status of the reference to email bounced' do
-        ProcessNotifyCallback.call(notify_reference: notify_reference, status: status)
+        process_notify_callback = ProcessNotifyCallback.new(notify_reference: notify_reference, status: status)
+
+        process_notify_callback.call
 
         expect(reference.reload.feedback_status).to eq('email_bounced')
       end
 
-      it 'returns not found if reference cannot be found' do
+      it 'sets not found to true if reference cannot be found' do
         allow(ApplicationReference).to receive(:find).with(reference.id.to_s).and_raise(ActiveRecord::RecordNotFound)
 
-        process_notify_callback = ProcessNotifyCallback.call(notify_reference: notify_reference, status: status)
+        process_notify_callback = ProcessNotifyCallback.new(notify_reference: notify_reference, status: status)
 
-        expect(process_notify_callback).to eq(:not_found)
+        process_notify_callback.call
+
+        expect(process_notify_callback).to be_not_found
       end
     end
 
