@@ -2,10 +2,11 @@ class ProcessNotifyCallback
   def initialize(notify_reference:, status:)
     @environment, @email_type, @reference_id = notify_reference.split('-')
     @status = status
+    @process_status = :not_updated
   end
 
   def call
-    return :not_updated unless same_environment? && reference_request_email? && permanent_failure_status?
+    return unless same_environment? && reference_request_email? && permanent_failure_status?
 
     ActiveRecord::Base.transaction do
       reference = ApplicationReference.find(@reference_id)
@@ -19,9 +20,21 @@ class ProcessNotifyCallback
       )
     end
 
-    :updated
+    @process_status = :updated
   rescue ActiveRecord::RecordNotFound
-    :not_found
+    @process_status = :not_found
+  end
+
+  def not_found?
+    @process_status == :not_found
+  end
+
+  def updated?
+    @process_status == :updated
+  end
+
+  def not_updated?
+    @process_status == :not_updated
   end
 
 private

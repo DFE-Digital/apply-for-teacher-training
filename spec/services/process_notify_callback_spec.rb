@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.shared_examples "a callback that doesn't change the feedback status of a reference" do
-  it 'returns not updated' do
+  it 'sets process status to not updated' do
     process_notify_callback = ProcessNotifyCallback.new(notify_reference: notify_reference, status: status)
 
-    response = process_notify_callback.call
+    process_notify_callback.call
 
-    expect(response).to eq(:not_updated)
+    expect(process_notify_callback).to be_not_updated
   end
 
   it 'does not update the feedback status of the reference' do
@@ -36,12 +36,12 @@ RSpec.describe ProcessNotifyCallback do
     context 'with permanent-failure status' do
       let(:status) { 'permanent-failure' }
 
-      it 'returns updated' do
+      it 'sets process status to updated' do
         process_notify_callback = ProcessNotifyCallback.new(notify_reference: notify_reference, status: status)
 
-        response = process_notify_callback.call
+        process_notify_callback.call
 
-        expect(response).to eq(:updated)
+        expect(process_notify_callback).to be_updated
       end
 
       it 'updates the feedback status of the reference to email bounced' do
@@ -52,14 +52,14 @@ RSpec.describe ProcessNotifyCallback do
         expect(reference.reload.feedback_status).to eq('email_bounced')
       end
 
-      it 'returns not found if reference cannot be found' do
+      it 'sets process status to not found if reference cannot be found' do
         allow(ApplicationReference).to receive(:find).with(reference.id.to_s).and_raise(ActiveRecord::RecordNotFound)
 
         process_notify_callback = ProcessNotifyCallback.new(notify_reference: notify_reference, status: status)
 
-        response = process_notify_callback.call
+        process_notify_callback.call
 
-        expect(response).to eq(:not_found)
+        expect(process_notify_callback).to be_not_found
       end
     end
 

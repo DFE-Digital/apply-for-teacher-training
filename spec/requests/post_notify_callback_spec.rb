@@ -56,7 +56,8 @@ RSpec.describe 'Notify Callback - POST /notify/callback', type: :request do
   it 'returns not found if Notify reference includes unknown reference id' do
     process_notify_callback = instance_double('ProcessNotifyCallback')
     allow(ProcessNotifyCallback).to receive(:new).and_return(process_notify_callback)
-    allow(process_notify_callback).to receive(:call).and_return(:not_found)
+    allow(process_notify_callback).to receive(:call)
+    allow(process_notify_callback).to receive(:not_found?).and_return(true)
 
     request_body = {
       reference: "test-reference_request-#{reference.id}",

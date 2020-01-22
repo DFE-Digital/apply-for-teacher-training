@@ -10,9 +10,9 @@ class NotifyController < ApplicationController
 
     process_notify_callback = ProcessNotifyCallback.new(notify_reference: params.fetch(:reference), status: params.fetch(:status))
 
-    response = process_notify_callback.call
+    process_notify_callback.call
 
-    if response == :not_found
+    if process_notify_callback.not_found?
       render_not_found
     else
       render json: nil, status: :ok
