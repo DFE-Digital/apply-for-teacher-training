@@ -1,24 +1,30 @@
 require 'rails_helper'
 
 RSpec.describe SendApplicationToProvider do
-  let(:application_choice) do
-    create(
-      :application_choice,
-      status: 'application_complete',
-      edit_by: 2.business_days.ago,
-    )
-  end
-
   around do |example|
     Timecop.freeze do
       example.run
     end
   end
 
+  def application_choice(status: 'application_complete')
+    @application_choice ||= create(
+      :application_choice,
+      status: status,
+      edit_by: 2.business_days.ago,
+    )
+  end
+
   it 'sets the status to `awaiting_provider_decision`' do
     SendApplicationToProvider.new(application_choice: application_choice).call
 
     expect(application_choice.reload.status).to eq 'awaiting_provider_decision'
+  end
+
+  it 'does nothing if the status is not `application_complete`' do
+    SendApplicationToProvider.new(application_choice: application_choice(status: 'awaiting_references')).call
+
+    expect(application_choice.reload.status).to eq 'awaiting_references'
   end
 
   it 'sets the `reject_by_default_at` date and `reject_by_default_days`' do

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SubmitApplication do
-  describe 'Submit an application' do
+  describe 'Submit an application', sandbox: false do
     def create_application_form
       application_form = create(:application_form)
       create(:application_choice, application_form: application_form, status: 'unsubmitted')
@@ -35,13 +35,7 @@ RSpec.describe SubmitApplication do
       expect(SlackNotificationWorker).to have_received(:perform_async).once # per application_form, not application_choices
     end
 
-    context 'when running in a provider sandbox' do
-      around do |example|
-        ClimateControl.modify(SANDBOX: 'true') do
-          example.run
-        end
-      end
-
+    context 'when running in a provider sandbox', sandbox: true do
       it 'sets the edit_by timestamp to now' do
         application_form = create_application_form
         now = Time.zone.local(2019, 11, 11, 15, 0, 0)
