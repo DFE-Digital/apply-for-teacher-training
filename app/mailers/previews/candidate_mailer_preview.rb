@@ -19,4 +19,11 @@ class CandidateMailerPreview < ActionMailer::Preview
       ),
     )
   end
+
+  def survey_email
+    application_form = FactoryBot.build(:application_form, first_name: 'Gemma', last_name: 'Say')
+    FactoryBot.build(:reference, application_form: application_form)
+
+    CandidateMailer.survey_email(application_form)
+  end
 end
