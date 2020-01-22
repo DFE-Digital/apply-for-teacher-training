@@ -13,12 +13,10 @@ module RefereeInterface
     def save
       return unless valid?
 
-      ActiveRecord::Base.transaction do
-        ReceiveReference.new(
-          reference: reference,
-          feedback: feedback,
-        ).save
-      end
+      ReceiveReference.new(
+        reference: reference,
+        feedback: feedback,
+      ).save
     end
   end
 end
