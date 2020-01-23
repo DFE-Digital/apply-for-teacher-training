@@ -19,10 +19,37 @@ class CandidateMailerPreview < ActionMailer::Preview
     )
   end
 
-  def survey_email
-    application_form = FactoryBot.build(:application_form, first_name: 'Gemma', last_name: 'Say')
-    FactoryBot.build(:reference, application_form: application_form)
+  def reference_chaser_email
+    CandidateMailer.reference_chaser_email(application_form, reference)
+  end
 
+  def survey_email
     CandidateMailer.survey_email(application_form)
+  end
+
+  def survey_chaser_email
+    CandidateMailer.survey_chaser_email(application_form)
+  end
+
+  def new_referee_request_with_not_responded
+    CandidateMailer.new_referee_request(application_form, reference, reason: :not_responded)
+  end
+
+  def new_referee_request_with_refused
+    CandidateMailer.new_referee_request(application_form, reference, reason: :refused)
+  end
+
+  def new_referee_request_with_email_bounced
+    CandidateMailer.new_referee_request(application_form, reference, reason: :email_bounced)
+  end
+
+private
+
+  def application_form
+    FactoryBot.build_stubbed(:application_form, first_name: 'Gemma')
+  end
+
+  def reference
+    FactoryBot.build_stubbed(:reference, application_form: application_form)
   end
 end
