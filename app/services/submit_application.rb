@@ -1,6 +1,8 @@
 class SubmitApplication
   attr_reader :application_form, :application_choices
 
+  REFEREE_BOT_EMAIL_ADDRESSES = ['refbot1@example.com', 'refbot2@example.com'].freeze
+
   def initialize(application_form)
     @application_form = application_form
     @application_choices = application_form.application_choices
@@ -15,6 +17,7 @@ class SubmitApplication
     CandidateMailer.submit_application_email(application_form).deliver_later
     send_reference_request_email_to_referees(application_form)
     StateChangeNotifier.call(:submit_application, application_form: application_form)
+    auto_approve_references_in_sandbox(application_form)
   end
 
 private
@@ -23,6 +26,23 @@ private
     application_form.application_references.includes(:application_form).each do |reference|
       RefereeMailer.reference_request_email(application_form, reference).deliver_later
     end
+  end
+
+  def auto_approve_references_in_sandbox(application_form)
+    application_form.application_references.includes(:application_form).each do |reference|
+      auto_approve_reference(reference) if HostingEnvironment.sandbox? && email_address_is_a_bot?(reference)
+    end
+  end
+
+  def auto_approve_reference(reference)
+    ReceiveReference.new(
+      reference: reference,
+      feedback: I18n.t('new_referee_request.auto_approve_feedback'),
+    ).save
+  end
+
+  def email_address_is_a_bot?(reference)
+    REFEREE_BOT_EMAIL_ADDRESSES.include?(reference.email_address)
   end
 
   def submit_application

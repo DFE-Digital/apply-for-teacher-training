@@ -47,6 +47,23 @@ RSpec.describe SubmitApplication do
           expect(application_form.application_choices[1].edit_by).to eq now
         end
       end
+
+      it 'autocompletes references and pushes status to `awaiting_provider_decision`' do
+        application_form = create_application_form
+        application_form.application_references << build(:reference, email_address: 'refbot1@example.com')
+        application_form.application_references << build(:reference, email_address: 'refbot2@example.com')
+        application_form.application_references.reload
+
+        SubmitApplication.new(application_form).call
+
+        application_form.application_references.reload.each do |reference|
+          expect(reference.feedback).not_to be_nil
+          expect(reference.feedback_status).to eq 'feedback_provided'
+        end
+        application_form.application_choices.reload
+        expect(application_form.application_choices[0]).to be_awaiting_provider_decision
+        expect(application_form.application_choices[1]).to be_awaiting_provider_decision
+      end
     end
   end
 end

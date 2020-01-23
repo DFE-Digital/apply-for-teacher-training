@@ -16,10 +16,12 @@ module CandidateInterface
     end
 
     def create
-      if request_reference_service.call
+      @referee = current_candidate.current_application
+                                  .application_references
+                                  .build(referee_params)
+      if @referee.save
         redirect_to candidate_interface_review_referees_path
       else
-        @referee = request_reference_service.referee
         render :new
       end
     end
@@ -27,7 +29,7 @@ module CandidateInterface
     def edit; end
 
     def update
-      if @referee.update(referee_params)
+      if @referee.save
         redirect_to candidate_interface_review_referees_path
       else
         render :edit
@@ -71,13 +73,6 @@ module CandidateInterface
 
     def redirect_to_review_referees_if_amendable
       redirect_to candidate_interface_review_referees_path if current_application.amendable?
-    end
-
-    def request_reference_service
-      @request_reference_service ||= RequestReference.new(
-        referee_params: referee_params,
-        application_form: current_candidate.current_application,
-      )
     end
   end
 end
