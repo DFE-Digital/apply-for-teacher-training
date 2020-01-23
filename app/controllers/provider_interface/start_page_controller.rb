@@ -14,7 +14,7 @@ module ProviderInterface
     end
 
     def redirect_authenticated_provider_user
-      if current_provider_user
+      if current_provider_user || dfe_sign_in_user
         redirect_to(provider_interface_applications_path)
       end
     end
