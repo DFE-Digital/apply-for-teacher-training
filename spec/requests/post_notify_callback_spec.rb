@@ -53,6 +53,28 @@ RSpec.describe 'Notify Callback - POST /notify/callback', type: :request do
     expect(response).to have_http_status(:unprocessable_entity)
   end
 
+  it 'returns success if Notify reference is nil' do
+    request_body = {
+      reference: nil,
+      status: 'permanent-failure',
+    }.to_json
+
+    post '/notify/callback', headers: headers, params: request_body
+
+    expect(response).to have_http_status(:success)
+  end
+
+  it 'returns unprocessable entity if Notify status is nil' do
+    request_body = {
+      reference: "test-reference_request-#{reference.id}",
+      status: nil,
+    }.to_json
+
+    post '/notify/callback', headers: headers, params: request_body
+
+    expect(response).to have_http_status(:unprocessable_entity)
+  end
+
   it 'returns not found if Notify reference includes unknown reference id' do
     process_notify_callback = instance_double('ProcessNotifyCallback')
     allow(ProcessNotifyCallback).to receive(:new).and_return(process_notify_callback)

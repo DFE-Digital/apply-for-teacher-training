@@ -7,6 +7,8 @@ class NotifyController < ApplicationController
 
   def callback
     return render_unauthorized unless authorized?
+    return render_unprocessable_entity if params.fetch(:status).nil?
+    return render json: nil, status: :ok if params.fetch(:reference).nil?
 
     process_notify_callback = ProcessNotifyCallback.new(notify_reference: params.fetch(:reference), status: params.fetch(:status))
 
@@ -33,10 +35,10 @@ private
     )
   end
 
-  def render_unprocessable_entity(e)
+  def render_unprocessable_entity
     render_error(
       name: 'UnprocessableEntity',
-      message: e.message,
+      message: "A 'reference' or 'status' key was not included or empty in the request body",
       status: :unprocessable_entity,
     )
   end
