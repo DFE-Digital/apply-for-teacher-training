@@ -4,13 +4,17 @@ module CandidateInterface
 
     def initialize(candidate:)
       @candidate = candidate
+      @candidate_already_has_3_courses = false
       @candidate_has_new_course_added = false
       @candidate_should_choose_site = false
       @candidate_does_not_have_a_course_from_find_id = false
     end
 
     def execute
-      if has_course_from_find? && course_has_one_site?
+      if candidate_already_has_3_courses
+        set_course_from_find_id_to_nil
+        @candidate_already_has_3_courses = true
+      elsif has_course_from_find? && course_has_one_site?
         add_application_choice
         set_course_from_find_id_to_nil
         @candidate_has_new_course_added = true
@@ -20,6 +24,10 @@ module CandidateInterface
       else
         @candidate_does_not_have_a_course_from_find_id = true
       end
+    end
+
+    def candidate_already_has_3_courses?
+      @candidate_already_has_3_courses
     end
 
     def candidate_has_new_course_added?
@@ -52,6 +60,10 @@ module CandidateInterface
 
     def course_has_one_site?
       CourseOption.where(course_id: @candidate.course_from_find_id).one?
+    end
+
+    def candidate_already_has_3_courses
+      @candidate.current_application.application_choices.count >= 3
     end
   end
 end
