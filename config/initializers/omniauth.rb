@@ -9,7 +9,7 @@ options = {
   name: :dfe,
   discovery: true,
   response_type: :code,
-  scope: %i[email],
+  scope: %i[email profile],
   path_prefix: '/auth',
   callback_path: '/auth/dfe/callback',
   client_options: {
@@ -25,7 +25,7 @@ options = {
 if DfESignIn.bypass?
   Rails.application.config.middleware.use OmniAuth::Builder do
     provider :developer,
-             fields: %i[uid email],
+             fields: %i[uid email first_name last_name],
              uid_field: :uid
   end
 else
