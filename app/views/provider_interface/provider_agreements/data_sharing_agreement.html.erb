@@ -1,410 +1,357 @@
-<% page_name = 'data_sharing_agreement' %>
-<%= content_for :title, t("page_titles.#{page_name}") %>
+<%= content_for :title, t('page_titles.data_sharing_agreement') %>
+
+<% if @provider_agreement.persisted? %>
+  <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-9">
+    <div class="govuk-panel__body">
+      <strong><%= @provider_agreement.provider.name %></strong>
+      agreed with the practices outlined in this document on
+      <%= @provider_agreement.accepted_at.to_s(:govuk_date_and_time) %>
+    </div>
+  </div>
+<% end %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl govuk-!-margin-bottom-3"><%= t("page_titles.#{page_name}") %></h1>
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-3"><%= t('page_titles.data_sharing_agreement') %></h1>
+    <p class="govuk-body-l">This agreement applies to personal data shared between the Department for Education (DfE) and <%= @provider_agreement.provider.name %>, ‘the provider’, as part of Apply for teacher training.</p>
+
+    <% if !@provider_agreement.persisted? %>
+      <p class="govuk-body">Our data sharing agreement sets out how you should use and look after the data we share with you. Please read the data sharing agreement below in full to check you can meet your responsibilities.</p>
+      <p class="govuk-body">Once you have read it, please scroll to the bottom of the page to accept it.</p>
+    <% end %>
+
+    <h2 class="govuk-heading-s">Contents</h2>
+    <ol class="app-contents-list__list">
+      <li class="app-contents-list__list-item app-contents-list__list-item--parent">
+        <a class="govuk-link app-contents-list__link" href="#section-1">Section 1: Introduction</a>
+        <ol class="app-contents-list__nested-list">
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-1-1">Background</a>
+          </li>
+        </ol>
+      </li>
+      <li class="app-contents-list__list-item app-contents-list__list-item--parent">
+        <a class="govuk-link app-contents-list__link" href="#section-2">Section 2: What personal data DfE and the provider process/share and why</a>
+        <ol class="app-contents-list__nested-list">
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-2-1">What data DfE and the provider will process/share</a>
+          </li>
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-2-2">What the provider can use personal data for</a>
+          </li>
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-2-3">What DfE can use personal data for</a>
+          </li>
+        </ol>
+      </li>
+      <li class="app-contents-list__list-item app-contents-list__list-item--parent">
+        <a class="govuk-link app-contents-list__link" href="#section-3">Section 3: DfE’s legal basis for sharing/processing personal</a>
+        <ol class="app-contents-list__nested-list">
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-3-1">Lawful conditions for sharing/processing personal data</a>
+          </li>
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-3-2">The right to respect for private and family life</a>
+          </li>
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-3-3">Privacy notices</a>
+          </li>
+        </ol>
+      </li>
+      <li class="app-contents-list__list-item app-contents-list__list-item--parent">
+        <a class="govuk-link app-contents-list__link" href="#section-4">Section 4: Data handling</a>
+        <ol class="app-contents-list__nested-list">
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-4-1">Process and systems used for sharing data</a>
+          </li>
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-4-2">Accuracy of the shared data</a>
+          </li>
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-4-3">Assurance of compliance</a>
+          </li>
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-4-4">Third party disclosure</a>
+          </li>
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-4-5">Handling subject access requests (SARs)</a>
+          </li>
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-4-6">Handling Freedom of Information Act Requests</a>
+          </li>
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-4-7">Data storage</a>
+          </li>
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-4-8">Retention schedule</a>
+          </li>
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-4-9">Destruction schedule</a>
+          </li>
+        </ol>
+      </li>
+      <li class="app-contents-list__list-item app-contents-list__list-item--parent">
+        <a class="govuk-link app-contents-list__link" href="#section-5">Section 5: Security breaches</a>
+        <ol class="app-contents-list__nested-list">
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-5-1">Security incidents</a>
+          </li>
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-5-2">Consequences of security incident</a>
+          </li>
+        </ol>
+      </li>
+      <li class="app-contents-list__list-item app-contents-list__list-item--parent">
+        <a class="govuk-link app-contents-list__link" href="#section-6">Section 6: Issues, disputes and resolution between participants</a>
+        <ol class="app-contents-list__nested-list">
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-6-1">Resolving disputes</a>
+          </li>
+        </ol>
+      </li>
+      <li class="app-contents-list__list-item app-contents-list__list-item--parent">
+        <a class="govuk-link app-contents-list__link" href="#section-7">Section 7: Termination</a>
+        <ol class="app-contents-list__nested-list">
+          <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+            <a class="govuk-link app-contents-list__link" href="#section-7-1">When to terminate this agreement</a>
+          </li>
+        </ol>
+      </li>
+    </ol>
+
+    <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
 
     <div class="app-styled-content">
+      <h2 id="section-1">
+        <span class="govuk-caption-l">Section 1</span>
+        Introduction
+      </h2>
+      <h3 id="section-1-1">Background</h3>
+      <h4>What is Apply for teacher training?</h4>
+      <p>Apply for teacher training is a new service designed by the Department for Education (DfE).</p>
+      <p>It will replace UCAS Teacher Training as the new route into initial teacher training.</p>
+      <p>Apply for teacher training and the data processing activities described in this document operate under the Secretary of State for Education’s ministerial common law powers.</p>
 
-      <p>between the Department for Education (DfE) and <em><%= @provider_agreement.provider.name %></em>, ‘the provider’.</p>
+      <h4>Why is DfE developing this service?</h4>
+      <p>DfE research showed that teacher training candidates and training providers find the current application and selection process difficult.</p>
+      <p>DfE is trying to reduce the number of people dropping out of applying for teacher training by building a new application process.</p>
+      <p>Apply for teacher training will eventually share data with approximately 2,000 teacher training providers.</p>
+      <p>DfE is trialling the service with selected teacher training providers. The trial will help DfE improve the service and inform government policy relating to teacher retention and recruitment.</p>
 
-      <h2>What we ask of you when you use and share data</h2>
+      <h4>Why do we need this data sharing agreement?</h4>
+      <p>To run this service, DfE and teacher training providers need to share personal data. This includes sharing the data of:</p>
+      <ul>
+        <li>teacher training applicants</li>
+        <li>staff processing applications (within DfE/within the teacher training organisation)</li>
+        <li>candidates’ referees</li>
+      </ul>
+      <p>This data sharing agreement sets out DfE’s and the provider’s responsibilities when looking after this personal data.</p>
 
-      <p>
-        Our data sharing agreement sets out how you should use and look after the data we share with you.
-        Please read the data sharing agreement below in full to check you can meet your responsibilities.
-        Once you have read it, please scroll to the bottom of the page to accept it.
-      </p>
+      <h2 id="section-2">
+        <span class="govuk-caption-l">Section 2</span>
+        What personal data DfE and the provider process/share and why
+      </h2>
+      <h3 id="section-2-1">What data DfE and the provider will process/share</h3>
+      <h4>Candidates</h4>
+      <p>DfE and the provider will process and share some information about candidates including their:</p>
+      <ul>
+        <li>name</li>
+        <li>address</li>
+        <li>date of birth</li>
+        <li>phone number</li>
+        <li>email address</li>
+        <li>any other personal/special category data that they choose to include in their application form (such as whether they’re disabled)</li>
+      </ul>
+      <p>DfE will also get information from the provider about candidates, such as:</p>
+      <ul>
+        <li>whether candidates were successful in their application (as well as the reasons why/why not)</li>
+        <li>whether candidates met their conditions (including passing an enhanced DBS check)</li>
+        <li>whether candidates enrolled</li>
+      </ul>
 
-      <hr>
+      <h4>Referees</h4>
+      <p>DfE and the provider will process and share some information about referees so that references can be processed. This includes their:</p>
+      <ul>
+        <li>name</li>
+        <li>email address</li>
+        <li>relationship to the candidate</li>
+      </ul>
 
-      <h2>Data sharing agreement for Apply for teacher training</h2>
+      <h4>Staff</h4>
+      <p>DfE and the provider may also share the names and contact details of relevant staff within DfE/within the teacher training organisation so that applications can be processed.</p>
+      <p>It is the provider’s responsibility to communicate this to relevant staff within their organisation.</p>
 
-      <p>
-        This agreement applies to personal data shared between the Department for Education (DfE) and
-        <em><%= @provider_agreement.provider.name %></em>,
-        ‘the provider’, as part of Apply for teacher training.
-      </p>
+      <h3 id="section-2-2">What the provider can use personal data for</h3>
+      <p>The provider can use data to process teacher training applications in the ways outlined by this data sharing agreement.</p>
+      <p>Processing teacher training applications for the provider means:</p>
+      <ul>
+        <li>getting in touch with a candidate about their application/the information they submitted - for example, to ask if a candidate needs reasonable adjustments to attend an interview</li>
+        <li>getting in touch with referees/candidates/relevant DfE staff if there has been a data security issue</li>
+        <li>making decisions on applications</li>
+        <li>getting statistics for internal use</li>
+        <li>contacting relevant staff at DfE if necessary to process an application</li>
+      </ul>
 
-      <h3 class="app-contents-list__title">What’s in this data sharing agreement?</h3>
+      <h3 id="section-2-3">What DfE can use personal data for</h3>
+      <p>DfE can use data to process teacher training applications, build a better teacher training application process and get insight to inform government policy.</p>
+      <p>This includes (but may not be limited to):</p>
+      <ul>
+        <li>processing funding/bursary payments</li>
+        <li>analysing teacher training applications</li>
+        <li>analysing feedback from candidates and providers</li>
+        <li>getting in touch with candidates regarding their application</li>
+        <li>getting in touch with provider staff, candidates or referees if there has been a data security issue</li>
+        <li>getting in touch with relevant staff within the teacher training organisation, if necessary, to process an application</li>
+      </ul>
+      <p>DfE will also share some of the data it collects through Apply for teacher training with UCAS. This is so that DfE can:</p>
+      <ul>
+        <li>ensure candidates are using the two services according to DfE/UCAS policies, and contact candidates if they accept offers on both services</li>
+        <li>allow DfE/UCAS to see how many people are applying for teacher training across UCAS and Apply for teacher training, in order to carry out statistical analysis</li>
+      </ul>
 
-      <ol class="app-contents-list__list">
-        <li class="app-contents-list__list-item app-contents-list__list-item--parent">
-          <a class="app-contents-list__link" href="#section-1">Section 1: Introduction</a>
-          <p style="padding: 12px 0 0 10px;">
-            <a class="app-contents-list__link" href="#section-1-1">1.1 Background</a><br>
-          </p>
-        </li>
+      <h2 id="section-3">
+        <span class="govuk-caption-l">Section 3</span>
+        DfE’s legal basis for sharing/<wbr>processing personal data
+      </h2>
+      <h3 id="section-3-1">Lawful conditions for sharing/<wbr>processing personal data</h3>
+      <p>Apply for teacher training and the data processing activities described in this document operate under the Secretary of State for Education’s Ministerial common law powers.</p>
+      <p>Apply for teacher training is in the public interest, as outlined under the following legislation:</p>
+      <ul>
+        <li>Article 6(1)(e) and Article 9(2)(g) of the General Data Protection Regulation</li>
+        <li>Section 8 of the Data Protection Act 2018</li>
+      </ul>
 
-        <li class="app-contents-list__list-item app-contents-list__list-item--parent">
-          <a class="app-contents-list__link" href="#section-2">
-            Section 2: What personal data DfE and the provider process/share and why
-          </a>
-          <p style="padding: 12px 0 0 10px;">
-            <a class="app-contents-list__link" href="#section-2-1">2.1 What data DfE and the provider will process/share</a><br>
-            <a class="app-contents-list__link" href="#section-2-2">2.2 What the provider can use personal data for</a><br>
-            <a class="app-contents-list__link" href="#section-2-3">2.3 What DfE can use personal data for</a>
-          </p>
-        </li>
+      <h3 id="section-3-2">The right to respect for private and family life</h3>
+      <p>Participants will not be asked to share information related to their private or family lives.</p>
 
-        <li class="app-contents-list__list-item app-contents-list__list-item--parent">
-          <a class="app-contents-list__link" href="#section-3">
-            Section 3: DfE’s legal basis for sharing/processing personal data
-          </a>
-          <p style="padding: 12px 0 0 10px;">
-            <a class="app-contents-list__link" href="#section-3-1">3.1 Lawful conditions for sharing/processing personal data</a><br>
-            <a class="app-contents-list__link" href="#section-3-2">3.2 The right to respect for private and family life</a><br>
-            <a class="app-contents-list__link" href="#section-3-3">3.3 Privacy notices</a>
-          </p>
-        </li>
+      <h3 id="section-3-3">Privacy notices</h3>
+      <p>Please see the <%= link_to 'Apply for teacher training privacy policy for candidates, referees and provider staff', provider_interface_privacy_policy_path %>.</p>
+      <p>DfE will make data subjects aware of how their data will be processed before data is collected through Apply for teacher training.</p>
+      <p>Please see DfE’s Personal Information Charter for more details on the organisation’s data storage and sharing policies.</p>
+      <p>By agreeing to this data sharing agreement, DfE and the provider confirm that their respective privacy policies explain the data sharing activities outlined in this agreement.</p>
+      <p>Privacy policies should outline the purposes of processing data, and the lawful basis for doing so.</p>
 
-        <li class="app-contents-list__list-item app-contents-list__list-item--parent">
-          <a class="app-contents-list__link" href="#section-4">
-            Section 4: Data handling
-          </a>
+      <h2 id="section-4">
+        <span class="govuk-caption-l">Section 2</span>
+        Data handling
+      </h2>
+      <h3 id="section-4-1">Process and systems used for sharing data</h3>
+      <p>DfE and the provider are joint data controllers for the data collected through Apply for teacher training.</p>
+      <p>DfE gives the provider access to the data through a digital service that allows providers to log in securely.</p>
+      <p>Later on in the trial of the service, DfE will give relevant providers access to data through API systems which integrate with providers’ student record systems.</p>
+      <p>DfE uses Zendesk, a customer relationship management system, to handle queries from providers. Zendesk uses various safeguards to look after data.</p>
+      <p>DfE may also use G Suite to collect and share information, such as references, with the provider.</p>
+      <p>DfE and the provider may also share some data through other channels, such as by phone or email.</p>
+      <p>Refer to section on ‘Third party disclosure’ for more information on how DfE shares data.</p>
 
-          <p style="padding: 12px 0 0 10px;">
-            <a class="app-contents-list__link" href="#section-4-1">4.1 Process and systems used for sharing data</a> <br>
-            <a class="app-contents-list__link" href="#section-4-2">4.2 Accuracy of the shared data</a><br>
-            <a class="app-contents-list__link" href="#section-4-3">4.3 Assurance of compliance</a><br>
-            <a class="app-contents-list__link" href="#section-4-4">4.4 Third party disclosure</a><br>
-            <a class="app-contents-list__link" href="#section-4-5">4.5 Handling subject access requests (SARs)</a><br>
-            <a class="app-contents-list__link" href="#section-4-6">4.6 Handling Freedom of Information Act Requests</a><br>
-            <a class="app-contents-list__link" href="#section-4-7">4.7 Data storage</a><br>
-            <a class="app-contents-list__link" href="#section-4-8">4.8 Retention schedule</a><br>
-            <a class="app-contents-list__link" href="#section-4-9">4.9 Destruction schedule</a>
-          </p>
-        </li>
+      <h3 id="section-4-2">Accuracy of the shared data</h3>
+      <p>DfE undertakes to ensure that the data given to the provider accurately reflects the information given to DfE, though the format may be different.</p>
 
-        <li class="app-contents-list__list-item app-contents-list__list-item--parent">
-          <a class="app-contents-list__link" href="#section-5">
-            Section 5: Security breaches
-          </a>
+      <h3 id="section-4-3">Assurance of compliance</h3>
+      <p>DfE’s Personal Information Charter explains the standards expected of DfE when holding personal information.</p>
+      <p>By signing this agreement, the provider confirms that:</p>
+      <ul>
+        <li>their organisation is compliant with GDPR</li>
+        <li>data will be held in secure systems in line with data protection legislation</li>
+        <li>data will be held for only as long as needed for the purposes outlined in this agreement, and destroyed when no longer needed</li>
+        <li>they will comply with the security requirements for holding official data</li>
+        <li>it’s in the interest of both parties to comply with data protection legislation (to protect people’s rights and minimise data processing risks, such as reputational damage)</li>
+      </ul>
 
-          <p style="padding: 12px 0 0 10px;">
-            <a class="app-contents-list__link" href="#section-5-1">5.1 Security incidents</a><br>
-            <a class="app-contents-list__link" href="#section-5-2">5.2 Consequences of security incident</a>
-          </p>
-        </li>
+      <h3 id="section-4-4">Third party disclosure</h3>
+      <p>Within DfE, access to data will be restricted to teams that need it for processing applications, building a better teacher training application and getting insight to inform government policy.</p>
+      <p>DfE uses some third-party data processors, including Google Analytics, G Suite, Zendesk and Microsoft Azure.</p>
+      <p>Providers must follow guidance from the Information Commissioner’s Office on appointing and using appropriate data processors.</p>
+      <p>It is the provider’s responsibility to ensure that data subjects know who processes data on their behalf and under what legal authority.</p>
+      <p>By signing this agreement, the provider confirms that:</p>
+      <ul>
+        <li>their data sharing practices comply with data protection legislation</li>
+        <li>their data sharing practices minimise the risk of individuals being identified by unauthorised parties, using appropriate safeguards to look after shared data</li>
+        <li>they will only share data for the purposes outlined in this agreement</li>
+        <li>they hold data in strict confidence and have appropriate safeguards in place to protect data against unlawful or unauthorised processing</li>
+      </ul>
 
-        <li class="app-contents-list__list-item app-contents-list__list-item--parent">
-          <a class="app-contents-list__link" href="#section-6">
-            Section 6: Issues, disputes and resolution between participants
-          </a>
+      <h3 id="section-4-5">Handling subject access requests (SARs)</h3>
+      <p>DfE will manage SARs regarding any information DfE holds.</p>
+      <p>DfE and the provider will contact each other immediately if they get a request for:</p>
+      <ul>
+        <li>rectification of information (Article 16 of GDPR)</li>
+        <li>erasure of information (Article 17 of GDPR)</li>
+        <li>restriction to process information (Article 18 of GDPR)</li>
+      </ul>
+      <p>For other types of SAR, the provider must notify DFE within 5 working days.</p>
+      <p>Data subjects wanting to make a SAR can email DfE at <%= bat_contact_mail_to %>.</p>
 
-          <p style="padding: 12px 0 0 10px;">
-            <a class="app-contents-list__link" href="#section-6-1">6.1 Resolving disputes</a>
-          </p>
-        </li>
+      <h3 id="section-4-6">Handling Freedom of Information Act Requests</h3>
+      <p>DfE takes responsibility for responding to Freedom of Information Act Requests regarding Apply for teacher training data processing/sharing practices.</p>
+      <p>DfE will contact the provider if any support is needed to process a request.</p>
 
-        <li class="app-contents-list__list-item app-contents-list__list-item--parent">
-          <a class="app-contents-list__link" href="#section-7">
-            Section 7: Termination
-          </a>
+      <h3 id="section-4-7">Data storage</h3>
+      <p>The provider must store shared data securely.</p>
+      <p>Data should be encrypted at rest, using modern, full disk encryption such as Windows BitLocker, or Linux/dm-crypt.</p>
+      <p>The data must be retained within the EEA, for example on cloud providers within Europe.</p>
+      <p>By signing this agreement, DfE and the provider agree to:</p>
+      <ul>
+        <li>hold data in strict confidence</li>
+        <li>have appropriate safeguards in place to protect data against unlawful or unauthorised processing</li>
+      </ul>
 
-          <p style="padding: 12px 0 0 10px;">
-            <a class="app-contents-list__link" href="#section-7-1">7.1 When to terminate this agreement</a>
-          </p>
-        </li>
-      </ol>
+      <h3 id="section-4-8">Retention schedule </h3>
+      <p>Personal data must be kept only as long as needed to carry out the activities outlined in this document.</p>
+      <p>DfE will keep data for 7 years.</p>
+      <p>The provider must set an appropriate time limit, in line with the General Data Protection Regulation, for retaining data before erasure or review.</p>
 
-      <div class="sections" style="padding-top: 10px;">
+      <h3 id="section-4-9">Destruction schedule</h3>
+      <p>The provider should destroy the data when it is no longer needed, or when the retention schedule has expired.</p>
+      <p>The provider should follow the NCSC guidance for secure sanitisation.</p>
 
-        <section id="section-1">
-          <h3>Section 1: Introduction</h3>
+      <h2 id="section-5">
+        <span class="govuk-caption-l">Section 5</span>
+        Security breaches
+      </h2>
+      <h3 id="section-5-1">Security incidents</h3>
+      <p>DfE and the provider are responsible for notifying each other in writing in the event of loss or unauthorised disclosure of information within 24 hours of the event being discovered.</p>
+      <p>The designated points of contact will discuss and agree the next steps relating to the incident, taking specialist advice where appropriate.</p>
+      <p>Such arrangements will include (but will not be limited to):</p>
+      <ul>
+        <li>containing the incident and mitigating any ongoing risk</li>
+        <li>recovering information</li>
+        <li>assessing whether the Information Commissioner should be notified or whether data protection officers or data subjects need to be notified</li>
+      </ul>
+      <p>The arrangements may vary in each case, depending on the sensitivity of the information and the nature of the loss or unauthorised disclosure.</p>
+      <p>Where appropriate and if relevant to the incident, disciplinary misconduct action/criminal proceedings will be considered.</p>
 
-          <h4 id="section-1-1">Background</h4>
+      <h3 id="section-5-2">Consequences of security incident</h3>
+      <p>Any security incident that occurs will not impact DfE’s ongoing cooperation with the provider.</p>
+      <p>In the event of a personal data breach (or where there is a reason to believe that an incident could arise) DfE and the provider will delay data transfers until the signatories of this agreement are satisfied that the cause/incident is resolved.</p>
+      <p>If the issue can’t be resolved or if it’s very serious, data sharing won’t start again until DfE and the provider are satisfied that the cause/incident is resolved.</p>
+      <p>The DfE contact would raise the incident with the DfE departmental security team and complete formal procedures in the event of a personal data breach.</p>
 
-          <h5>What is Apply for teacher training?</h5>
-          <p>
-            Apply for teacher training is a new service designed by the Department for Education (DfE).
-            It will replace UCAS Teacher Training as the new route into initial teacher training.
-            Apply for teacher training and the data processing activities described in this document operate under the Secretary of State for Education’s ministerial common law powers.
-          </p>
+      <h2 id="section-6">
+        <span class="govuk-caption-l">Section 6</span>
+        Issues, disputes and resolution between participants
+      </h2>
+      <h3 id="section-6-1">Resolving disputes</h3>
+      <p>Any issues or disputes that arise as a result of the data sharing covered by this agreement must be directed to the relevant contact points at DfE and the provider.</p>
+      <p>DfE and the provider will be responsible for escalating the issue as necessary within their organisations.</p>
+      <p>Where a problem arises it should be reported as soon as possible.</p>
+      <p>Should the problem be of an urgent nature, it must be reported by phone immediately, and followed up in writing the same day.</p>
+      <p>If the problem is not of an urgent nature it can be reported in writing within 24 hours of the problem occurring.</p>
 
-          <h5>Why is DfE developing this service?</h5>
-          <p>
-            DfE research showed that teacher training candidates and training providers find the current application and selection process difficult.
-            DfE is trying to reduce the number of people dropping out of applying for teacher training by building a new application process.
-            Apply for teacher training will eventually share data with approximately 2,000 teacher training providers.
-            DfE is trialling the service with selected teacher training providers. The trial will help DfE improve the service and inform government policy relating to teacher retention and recruitment.
-          </p>
-
-          <h5>Why do we need this data sharing agreement?</h5>
-          <p>
-            To run this service, DfE and teacher training providers need to share personal data. This includes sharing the data of:
-          </p>
-          <ul>
-            <li>teacher training applicants</li>
-            <li>staff processing applications (within DfE/within the teacher training organisation)</li>
-            <li>candidates’ referees</li>
-          </ul>
-          <p>
-            This data sharing agreement sets out DfE’s and the provider’s responsibilities when looking after this personal data.
-          </p>
-        </section>
-
-        <section id="section-2">
-          <h3>Section 2: What personal data DfE and the provider process/share and why</h3>
-
-          <h4 id="section-2-1">What data DfE and the provider will process/share</h4>
-
-          <h5>Candidates</h5>
-          <p>
-            DfE and the provider will process and share some information about candidates including their:
-          </p>
-          <ul>
-            <li>name</li>
-            <li>address</li>
-            <li>date of birth</li>
-            <li>phone number</li>
-            <li>email address</li>
-            <li>any other personal/special category data that they choose to include in their application form (such as whether they’re disabled)</li>
-          </ul>
-          <p>
-            DfE will also get information from the provider about candidates, such as:
-          </p>
-          <ul>
-            <li>whether candidates were successful in their application (as well as the reasons why/why not)</li>
-            <li>whether candidates met their conditions (including passing an enhanced DBS check)</li>
-            <li>whether candidates enrolled</li>
-          </ul>
-
-          <h5>Referees</h5>
-          <p>
-            DfE and the provider will process and share some information about referees so that references can be processed. This includes their:
-          </p>
-          <ul>
-            <li>name</li>
-            <li>email address</li>
-            <li>relationship to the candidate</li>
-          </ul>
-
-          <h5>Staff</h5>
-          <p>
-            DfE and the provider may also share the names and contact details of relevant staff within DfE/within the teacher training organisation so that applications can be processed.
-            It is the provider’s responsibility to communicate this to relevant staff within their organisation.
-          </p>
-
-          <h4 id="section-2-2">What the provider can use personal data for</h4>
-
-          <p>
-            The provider can use data to process teacher training applications in the ways outlined by this data sharing agreement.
-            Processing teacher training applications for the provider means:
-          </p>
-          <ul>
-            <li>getting in touch with a candidate about their application/the information they submitted - for example, to ask if a candidate needs reasonable adjustments to attend an interview</li>
-            <li>getting in touch with referees/candidates/relevant DfE staff if there has been a data security issue</li>
-            <li>making decisions on applications</li>
-            <li>getting statistics for internal use</li>
-            <li>contacting relevant staff at DfE if necessary to process an application</li>
-          </ul>
-
-          <h4 id="section-2-3">What DfE can use personal data for</h4>
-
-          <p>
-            DfE can use data to process teacher training applications, build a better teacher training application process and get insight to inform government policy.
-            This includes (but may not be limited to):
-          </p>
-          <ul>
-            <li>processing funding/bursary payments</li>
-            <li>analysing teacher training applications</li>
-            <li>analysing feedback from candidates and providers</li>
-            <li>getting in touch with candidates regarding their application</li>
-            <li>getting in touch with provider staff, candidates or referees if there has been a data security issue</li>
-            <li>getting in touch with relevant staff within the teacher training organisation, if necessary, to process an application</li>
-          </ul>
-          <p>
-            DfE will also share some of the data it collects through Apply for teacher training with UCAS. This is so that DfE can:
-          </p>
-          <ul>
-            <li>ensure candidates are using the two services according to DfE/UCAS policies, and contact candidates if they accept offers on both services</li>
-            <li>allow DfE/UCAS to see how many people are applying for teacher training across UCAS and Apply for teacher training, in order to carry out statistical analysis</li>
-          </ul>
-        </section>
-
-        <section id="section-3">
-          <h3>Section 3: DfE’s legal basis for sharing/processing personal data</h3>
-
-          <h4 id="section-3-1">Lawful conditions for sharing/processing personal data</h4>
-          <p>
-            Apply for teacher training and the data processing activities described in this document operate under the Secretary of State for Education’s Ministerial common law powers.
-            Apply for teacher training is in the public interest, as outlined under the following legislation:
-          </p>
-          <ul>
-            <li>Article 6(1)(e) and Article 9(2)(g) of the General Data Protection Regulation</li>
-            <li>Section 8 of the Data Protection Act 2018</li>
-          </ul>
-
-          <h4 id="section-3-2">The right to respect for private and family life</h4>
-          <p>
-            Participants will not be asked to share information related to their private or family lives.
-          </p>
-
-          <h4 id="section-3-3">Privacy notices</h4>
-          <p>
-            Please see the <a href="/provider/privacy-policy">Apply for teacher training privacy policy for candidates, referees and provider staff</a>.
-            DfE will make data subjects aware of how their data will be processed before data is collected through Apply for teacher training.
-            Please see DfE’s Personal Information Charter for more details on the organisation’s data storage and sharing policies.
-            By agreeing to this data sharing agreement, DfE and the provider confirm that their respective privacy policies explain the data sharing activities outlined in this agreement.
-            Privacy policies should outline the purposes of processing data, and the lawful basis for doing so.
-          </p>
-        </section>
-
-        <section id="section-4">
-          <h3>Section 4: Data handling</h3>
-
-          <h4 id="section-4-1">Process and systems used for sharing data</h4>
-          <p>
-            DfE and the provider are joint data controllers for the data collected through Apply for teacher training.<br><br>
-            DfE gives the provider access to the data through a digital service that allows providers to log in securely.<br><br>
-            Later on in the trial of the service, DfE will give relevant providers access to data through API systems which integrate with providers’ student record systems.<br><br>
-            DfE uses Zendesk, a customer relationship management system, to handle queries from providers. Zendesk uses various safeguards to look after data.<br><br>
-            DfE may also use G Suite to collect and share information, such as references, with the provider.<br><br>
-            DfE and the provider may also share some data through other channels, such as by phone or email.<br><br>
-            Refer to section on ‘Third party disclosure’ for more information on how DfE shares data.
-          </p>
-
-          <h4 id="section-4-2">Accuracy of the shared data</h4>
-          <p>
-            DfE undertakes to ensure that the data given to the provider accurately reflects the information given to DfE, though the format may be different.
-          </p>
-
-          <h4 id="section-4-3">Assurance of compliance</h4>
-          <p>
-            DfE’s Personal Information Charter explains the standards expected of DfE when holding personal information.
-            By signing this agreement, the provider confirms that:
-          </p>
-          <ul>
-            <li>their organisation is compliant with GDPR</li>
-            <li>data will be held in secure systems in line with data protection legislation</li>
-            <li>data will be held for only as long as needed for the purposes outlined in this agreement, and destroyed when no longer needed</li>
-            <li>they will comply with the security requirements for holding official data</li>
-            <li>it’s in the interest of both parties to comply with data protection legislation (to protect people’s rights and minimise data processing risks, such as reputational damage)</li>
-          </ul>
-
-          <h4 id="section-4-4">Third party disclosure</h4>
-          <p>
-            Within DfE, access to data will be restricted to teams that need it for processing applications, building a better teacher training application and getting insight to inform government policy.
-            DfE uses some third-party data processors, including Google Analytics, G Suite, Zendesk and Microsoft Azure.
-            Providers must follow guidance from the Information Commissioner’s Office on appointing and using appropriate data processors.
-            It is the provider’s responsibility to ensure that data subjects know who processes data on their behalf and under what legal authority.
-            By signing this agreement, the provider confirms that:
-          </p>
-          <ul>
-            <li>their data sharing practices comply with data protection legislation</li>
-            <li>their data sharing practices minimise the risk of individuals being identified by unauthorised parties, using appropriate safeguards to look after shared data</li>
-            <li>they will only share data for the purposes outlined in this agreement</li>
-            <li>they hold data in strict confidence and have appropriate safeguards in place to protect data against unlawful or unauthorised processing</li>
-          </ul>
-
-          <h4 id="section-4-5">Handling subject access requests (SARs)</h4>
-            <p>
-              DfE will manage SARs regarding any information DfE holds.
-              DfE and the provider will contact each other immediately if they get a request for:
-            </p>
-            <ul>
-              <li>rectification of information (Article 16 of GDPR)</li>
-              <li>erasure of information (Article 17 of GDPR)</li>
-              <li>restriction to process information (Article 18 of GDPR)</li>
-            </ul>
-            <p>
-              For other types of SAR, the provider must notify DFE within 5 working days.
-              Data subjects wanting to make a SAR can email DfE at becomingateacher@digital.education.gov.uk.
-            </p>
-
-          <h4 id="section-4-6">Handling Freedom of Information Act Requests</h4>
-          <p>
-            DfE takes responsibility for responding to Freedom of Information Act Requests regarding Apply for teacher training data processing/sharing practices.
-            DfE will contact the provider if any support is needed to process a request.
-          </p>
-
-          <h4 id="section-4-7">Data storage</h4>
-          <p>
-            The provider must store shared data securely.
-            Data should be encrypted at rest, using modern, full disk encryption such as Windows BitLocker, or Linux/dm-crypt.
-            The data must be retained within the EEA, for example on cloud providers within Europe.
-            By signing this agreement, DfE and the provider agree to:
-          </p>
-          <ul>
-            <li>hold data in strict confidence</li>
-            <li>have appropriate safeguards in place to protect data against unlawful or unauthorised processing</li>
-          </ul>
-
-          <h4 id="section-4-8">Retention schedule </h4>
-          <p>
-            Personal data must be kept only as long as needed to carry out the activities outlined in this document.
-            DfE will keep data for 7 years.
-            The provider must set an appropriate time limit, in line with the General Data Protection Regulation, for retaining data before erasure or review.
-          </p>
-
-          <h4 id="section-4-9">Destruction schedule</h4>
-          <p>
-            The provider should destroy the data when it is no longer needed, or when the retention schedule has expired.
-            The provider should follow the NCSC guidance for secure sanitisation.
-          </p>
-        </section>
-
-        <section id="section-5">
-          <h3>Section 5: Security breaches</h3>
-
-          <h4 id="section-5-1">Security incidents</h4>
-          <p>
-            DfE and the provider are responsible for notifying each other in writing in the event of loss or unauthorised disclosure of information within 24 hours of the event being discovered.
-            The designated points of contact will discuss and agree the next steps relating to the incident, taking specialist advice where appropriate.
-            Such arrangements will include (but will not be limited to):
-          </p>
-          <ul>
-            <li>containing the incident and mitigating any ongoing risk</li>
-            <li>recovering information</li>
-            <li>assessing whether the Information Commissioner should be notified or whether data protection officers or data subjects need to be notified</li>
-          </ul>
-          <p>
-            The arrangements may vary in each case, depending on the sensitivity of the information and the nature of the loss or unauthorised disclosure.
-            Where appropriate and if relevant to the incident, disciplinary misconduct action/criminal proceedings will be considered.
-          </p>
-
-          <h4 id="section-5-2">Consequences of security incident</h4>
-          <p>
-            Any security incident that occurs will not impact DfE’s ongoing cooperation with the provider.
-            In the event of a personal data breach (or where there is a reason to believe that an incident could arise) DfE and the provider will delay data transfers until the signatories of this agreement are satisfied that the cause/incident is resolved.
-            If the issue can’t be resolved or if it’s very serious, data sharing won’t start again until DfE and the provider are satisfied that the cause/incident is resolved.
-            The DfE contact would raise the incident with the DfE departmental security team and complete formal procedures in the event of a personal data breach.
-          </p>
-        </section>
-
-        <section id="section-6">
-          <h3>Section 6: Issues, disputes and resolution between participants</h3>
-
-          <h4 id="section-6-1">Resolving disputes</h4>
-          <p>
-            Any issues or disputes that arise as a result of the data sharing covered by this agreement must be directed to the relevant contact points at DfE and the provider.
-            DfE and the provider will be responsible for escalating the issue as necessary within their organisations.
-            Where a problem arises it should be reported as soon as possible.
-            Should the problem be of an urgent nature, it must be reported by phone immediately, and followed up in writing the same day.
-            If the problem is not of an urgent nature it can be reported in writing within 24 hours of the problem occurring.
-          </p>
-        </section>
-
-        <section id="section-6">
-          <h3>Section 7: Termination</h3>
-
-          <h4 id="section-7-1">When to terminate this agreement</h4>
-          <p>
-            Both participants to this DSA reserve the right to terminate this DSA with three months’ notice in the following circumstances:
-          </p>
-          <ul>
-            <li>by reason of cost, resources or other factors beyond the control of DfE or the provider</li>
-            <li>if any change occurs which, in the opinion of DfE and the provider, significantly impairs the value of the data sharing arrangement in meeting their objectives</li>
-          </ul>
-          <p>
-            In the event of a significant security breach or other serious breach of the terms of this DSA by either participant, the DSA will be terminated or suspended immediately without notice.
-          </p>
-        </section>
-      </div>
+      <h2 id="section-7">
+        <span class="govuk-caption-l">Section 7</span>
+        Termination
+      </h2>
+      <h3 id="section-7-1">When to terminate this agreement</h3>
+      <p>Both participants to this DSA reserve the right to terminate this DSA with three months’ notice in the following circumstances:</p>
+      <ul>
+        <li>by reason of cost, resources or other factors beyond the control of DfE or the provider</li>
+        <li>if any change occurs which, in the opinion of DfE and the provider, significantly impairs the value of the data sharing arrangement in meeting their objectives</li>
+      </ul>
+      <p>In the event of a significant security breach or other serious breach of the terms of this DSA by either participant, the DSA will be terminated or suspended immediately without notice.</p>
 
       <% if !@provider_agreement.persisted? %>
+        <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
         <%= form_with model: @provider_agreement, url: provider_interface_create_data_sharing_agreement_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder, html: { novalidate: false } do |f| %>
           <%= f.govuk_error_summary %>
           <%= f.hidden_field :agreement_type %>
@@ -413,14 +360,6 @@
           <%= f.govuk_check_box :accept_agreement, true, multiple: false, link_errors: true, label: { text: declaration } %>
           <%= f.govuk_submit 'Continue' %>
         <% end %>
-      <% else %>
-        <div class="govuk-panel govuk-panel--confirmation">
-          <div class="govuk-panel__body">
-            <strong><%= @provider_agreement.provider.name %></strong>
-            agreed to comply with the data sharing practices outlined in this agreement on
-            <%= @provider_agreement.accepted_at.to_s(:govuk_date_and_time) %>.
-          </div>
-        </div>
       <% end %>
     </div>
   </div>
