@@ -43,6 +43,7 @@
       { key: 'Status', value: render(SupportInterface::ApplicationStatusTagComponent, application_choice: application_choice) },
     ] %>
     <% rows << { key: 'Reject by default at', value: application_choice.reject_by_default_at.to_s(:govuk_date_and_time) } if application_choice.reject_by_default_at %>
+    <% rows << { key: 'Decline by default at', value: application_choice.decline_by_default_at.to_s(:govuk_date_and_time) } if application_choice.decline_by_default_at %>
 
     <%= render SummaryCardComponent, rows: rows  do %>
       <%= render SummaryCardHeaderComponent, title: application_choice.course.name_and_code %>
