@@ -22,6 +22,14 @@ RSpec.describe AuthenticationMailer, type: :mailer do
     it 'sends an email with a magic link' do
       expect(mail.body.encoded).to include("http://localhost:3000/candidate/authenticate?token=#{token}")
     end
+
+    it 'sends a request with a Notify reference' do
+      ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'example_env' do
+        mail.deliver_now
+      end
+
+      expect(mail[:reference].value).to eq("example_env-sign_up_email-#{candidate.id}")
+    end
   end
 
   describe 'the candidate receives the sign in email containing the magic link' do

@@ -4,7 +4,8 @@ class AuthenticationMailer < ApplicationMailer
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: candidate.email_address,
-              subject: t('authentication.sign_up.email.subject'))
+              subject: t('authentication.sign_up.email.subject'),
+              reference: "#{HostingEnvironment.environment_name}-sign_up_email-#{candidate.id}")
   end
 
   def sign_in_email(candidate:, token:)
