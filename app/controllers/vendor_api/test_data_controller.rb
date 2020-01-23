@@ -1,6 +1,7 @@
 module VendorApi
   class TestDataController < VendorApiController
     before_action :check_this_is_a_test_environment
+    before_action :feature_flag_new_endpoints, only: %i[generate clear!]
 
     MAX_COUNT = 100
     DEFAULT_COUNT = 100
@@ -29,6 +30,12 @@ module VendorApi
     end
 
   private
+
+    def feature_flag_new_endpoints
+      if !FeatureFlag.active?('new_test_data_endpoints')
+        render json: {}, status: :not_found
+      end
+    end
 
     def check_this_is_a_test_environment
       if HostingEnvironment.production?

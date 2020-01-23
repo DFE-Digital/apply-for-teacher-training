@@ -33,6 +33,10 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data', type: :request do
   end
 
   describe '/generate' do
+    before do
+      FeatureFlag.activate('new_test_data_endpoints')
+    end
+
     it 'generates test data' do
       create(:course_option, course: create(:course, open_on_apply: true))
 
@@ -70,6 +74,10 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data', type: :request do
   end
 
   describe '/clear' do
+    before do
+      FeatureFlag.activate('new_test_data_endpoints')
+    end
+
     it 'clears test data' do
       create(
         :application_choice,
