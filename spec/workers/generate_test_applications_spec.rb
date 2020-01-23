@@ -2,10 +2,11 @@ require 'rails_helper'
 
 RSpec.describe GenerateTestApplications do
   before do
-    create(:course_option)
+    create(:course_option, course: create(:course, open_on_apply: true))
+    create(:course_option, course: create(:course, open_on_apply: true))
   end
 
-  it 'generates 11 test candidates with applications in various states' do
+  it 'generates 12 test candidates with applications in various states' do
     GenerateTestApplications.new.perform
 
     expect(Candidate.count).to be 12

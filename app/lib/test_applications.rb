@@ -1,11 +1,23 @@
 module TestApplications
-  def self.create_application(states)
+  def self.create_application(states:)
     first_name = Faker::Name.unique.first_name
     last_name = Faker::Name.unique.last_name
     candidate = FactoryBot.create(
       :candidate,
       email_address: "#{first_name.downcase}.#{last_name.downcase}@example.com",
     )
+
+    courses_to_apply_to = Course.joins(:course_options)
+      .where(open_on_apply: true)
+      .order('RANDOM()')
+      .limit(states.count)
+
+    # it does not make sense to apply to the same course multiple times
+    # in the course of the same application, and it’s forbidden in the UI.
+    # Throw an exception if we try to do that here.
+    if courses_to_apply_to.count < states.count
+      raise "Not enough distinct courses to generate a #{states.count}-course application"
+    end
 
     #rubocop:disable Metrics/BlockLength
     Audited.audit_class.as_user(candidate) do
@@ -22,14 +34,15 @@ module TestApplications
         last_name: last_name,
       )
 
-      application_choices = FactoryBot.create_list(
-        :application_choice,
-        states.count,
-        status: 'unsubmitted',
-        course_option: CourseOption.all.sample,
-        application_form: application_form,
-        personal_statement: Faker::Lorem.paragraph(sentence_count: 5),
-      )
+      application_choices = courses_to_apply_to.map do |course|
+        FactoryBot.create(
+          :application_choice,
+          status: 'unsubmitted',
+          course_option: course.course_options.first,
+          application_form: application_form,
+          personal_statement: Faker::Lorem.paragraph(sentence_count: 5),
+        )
+      end
 
       return if states.include? :unsubmitted
 
