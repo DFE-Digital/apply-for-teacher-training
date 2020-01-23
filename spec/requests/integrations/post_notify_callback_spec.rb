@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Notify Callback - POST /notify/callback', type: :request do
+RSpec.describe 'Notify Callback - POST /integrations/notify/callback', type: :request do
   let(:application_form) { create(:application_form) }
   let(:reference) do
     create(:reference, feedback_status: 'feedback_requested', application_form: application_form)
@@ -16,19 +16,19 @@ RSpec.describe 'Notify Callback - POST /notify/callback', type: :request do
       status: 'permanent-failure',
     }.to_json
 
-    post '/notify/callback', headers: headers, params: request_body
+    post '/integrations/notify/callback', headers: headers, params: request_body
 
     expect(response).to have_http_status(:success)
   end
 
   it 'returns unauthorized if token is not provided' do
-    post '/notify/callback'
+    post '/integrations/notify/callback'
 
     expect(response).to have_http_status(:unauthorized)
   end
 
   it 'returns unauthorized if token does not match environment variable' do
-    post '/notify/callback', headers: { 'Authorization' => 'Bearer invalid-api-key' }
+    post '/integrations/notify/callback', headers: { 'Authorization' => 'Bearer invalid-api-key' }
 
     expect(response).to have_http_status(:unauthorized)
   end
@@ -38,7 +38,7 @@ RSpec.describe 'Notify Callback - POST /notify/callback', type: :request do
       status: 'permanent-failure',
     }.to_json
 
-    post '/notify/callback', headers: headers, params: request_body
+    post '/integrations/notify/callback', headers: headers, params: request_body
 
     expect(response).to have_http_status(:unprocessable_entity)
   end
@@ -48,7 +48,7 @@ RSpec.describe 'Notify Callback - POST /notify/callback', type: :request do
       reference: "test-reference_request-#{reference.id}",
     }.to_json
 
-    post '/notify/callback', headers: headers, params: request_body
+    post '/integrations/notify/callback', headers: headers, params: request_body
 
     expect(response).to have_http_status(:unprocessable_entity)
   end
@@ -59,7 +59,7 @@ RSpec.describe 'Notify Callback - POST /notify/callback', type: :request do
       status: 'permanent-failure',
     }.to_json
 
-    post '/notify/callback', headers: headers, params: request_body
+    post '/integrations/notify/callback', headers: headers, params: request_body
 
     expect(response).to have_http_status(:success)
   end
@@ -70,7 +70,7 @@ RSpec.describe 'Notify Callback - POST /notify/callback', type: :request do
       status: nil,
     }.to_json
 
-    post '/notify/callback', headers: headers, params: request_body
+    post '/integrations/notify/callback', headers: headers, params: request_body
 
     expect(response).to have_http_status(:unprocessable_entity)
   end
@@ -86,7 +86,7 @@ RSpec.describe 'Notify Callback - POST /notify/callback', type: :request do
       status: 'permanent-failure',
     }.to_json
 
-    post '/notify/callback', headers: headers, params: request_body
+    post '/integrations/notify/callback', headers: headers, params: request_body
 
     expect(response).to have_http_status(:not_found)
   end
@@ -97,7 +97,7 @@ RSpec.describe 'Notify Callback - POST /notify/callback', type: :request do
       status: 'permanent-failure',
     }.to_json
 
-    post '/notify/callback', headers: headers, params: request_body
+    post '/integrations/notify/callback', headers: headers, params: request_body
 
     expect(reference.reload.feedback_status).to eq('email_bounced')
   end
@@ -108,7 +108,7 @@ RSpec.describe 'Notify Callback - POST /notify/callback', type: :request do
       status: 'temporary-failure',
     }.to_json
 
-    post '/notify/callback', headers: headers, params: request_body
+    post '/integrations/notify/callback', headers: headers, params: request_body
 
     expect(reference.reload.feedback_status).to eq('feedback_requested')
   end
@@ -119,7 +119,7 @@ RSpec.describe 'Notify Callback - POST /notify/callback', type: :request do
       status: 'permanent-failure',
     }.to_json
 
-    post '/notify/callback', headers: headers, params: request_body
+    post '/integrations/notify/callback', headers: headers, params: request_body
 
     candidate_email = application_form.candidate.email_address
     open_email(candidate_email)
