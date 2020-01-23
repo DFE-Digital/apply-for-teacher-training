@@ -3,26 +3,39 @@ require 'rails_helper'
 RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
   include CandidateHelper
 
+  def candidate_provides_two_referees
+    visit candidate_interface_referees_path
+    click_link 'Continue'
+    candidate_fills_in_referee(
+      name: 'Refbot One',
+      email_address: 'refbot1@example.com',
+      relationship: 'First boss',
+    )
+    click_button 'Save and continue'
+    click_link 'Add a second referee'
+    candidate_fills_in_referee(
+      name: 'Refbot Two',
+      email_address: 'refbot2@example.com',
+      relationship: 'Second boss',
+    )
+    click_button 'Save and continue'
+    click_link 'Continue'
+  end
+
   scenario 'Candidate adds two auto-references' do
     given_i_am_signed_in
-    and_i_visit_the_application_form
+    and_the_training_with_a_disability_feature_flag_is_on
 
-    given_i_have_no_existing_references_on_the_form
-    when_i_click_on_referees
-    i_see_intro_content_about_choosing_your_referees
-    then_when_i_click_continue
-    and_i_fill_in_all_required_fields_for_first_reference
-    and_i_submit_the_form
-    when_i_click_on_back_to_application
-    i_see_referees_is_not_complete
+    when_i_have_completed_my_application
+    and_i_review_my_application
 
-    when_i_click_on_referees
-    and_i_click_on_add_second_referee
-    and_i_fill_in_all_required_fields_for_second_reference
-    and_i_submit_the_form
-    i_see_both_referees
-    save_and_open_page
-    then_when_i_click_continue
+    then_i_should_see_all_sections_are_complete
+
+    and_i_confirm_my_application
+
+    when_i_choose_not_to_add_further_information
+    and_i_can_submit_the_application
+
     i_see_that_the_application_was_sent_to_provider
   end
 
@@ -30,84 +43,47 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
     create_and_sign_in_candidate
   end
 
-  def given_i_have_no_existing_references_on_the_form
-    expect(@current_candidate.application_forms.last.application_references.count).to eq(0)
+  def and_the_training_with_a_disability_feature_flag_is_on
+    FeatureFlag.activate('training_with_a_disability')
   end
 
-  def and_i_visit_the_application_form
+  def when_i_have_completed_my_application
+    candidate_completes_application_form
+  end
+
+  def and_i_review_my_application
+    and_i_visit_the_application_form_page
+    when_i_click_on_check_your_answers
+  end
+
+  def and_i_visit_the_application_form_page
     visit candidate_interface_application_form_path
   end
 
-  def when_i_click_on_referees
-    click_link 'Referees'
+  def when_i_click_on_check_your_answers
+    click_link 'Check your answers before submitting'
   end
 
-  def i_see_intro_content_about_choosing_your_referees
-    expect(page).to have_content('Choosing your referees')
+  def then_i_should_see_all_sections_are_complete
+    CandidateHelper::APPLICATION_FORM_SECTIONS.each do |section|
+      expect(page).not_to have_selector "[aria-describedby='missing-#{section}']"
+    end
   end
 
-  def then_when_i_click_continue
+  def and_i_confirm_my_application
     click_link 'Continue'
   end
 
-  def and_i_click_on_add_referee
-    click_link 'Add referee'
+  def when_i_choose_not_to_add_further_information
+    choose 'No'
   end
 
-  def when_i_click_on_back_to_application
-    click_link 'Back to application'
-  end
-
-  def and_i_fill_in_name_and_email_address
-    fill_in('Full name', with: 'AJP Taylor')
-    fill_in('Email address', with: 'ajptaylor@example.com')
-  end
-
-  def and_i_submit_the_form
-    click_button 'Save and continue'
-  end
-
-  def i_see_a_validation_error_on_relationship
-    expect(page).to have_content t('activerecord.errors.models.application_reference.attributes.relationship.blank')
-  end
-
-  def when_i_enter_a_relationship
-    fill_in(t('application_form.referees.relationship.label'), with: 'Thats my tutor, that is')
-  end
-
-  def i_see_referees_is_complete
-    expect(page).to have_css('#referees-badge-id', text: 'Completed')
-  end
-
-  def i_see_referees_is_not_complete
-    expect(page).not_to have_css('#referees-badge-id', text: 'Completed')
-  end
-
-  def and_i_click_on_add_second_referee
-    click_link 'Add a second referee'
-  end
-
-  def and_i_fill_in_all_required_fields_for_first_reference
-    fill_in('Full name', with: 'Ref Bot 1')
-    fill_in('Email address', with: 'refbot1@example.com')
-    fill_in(t('application_form.referees.relationship.label'), with: 'Automated referee')
-  end
-
-  def and_i_fill_in_all_required_fields_for_second_reference
-    fill_in('Full name', with: 'Ref Bot 2')
-    fill_in('Email address', with: 'refbot2@example.com')
-    fill_in(t('application_form.referees.relationship.label'), with: 'Automated referee')
-  end
-
-  def i_see_both_referees
-    expect(page).to have_content('Ref Bot 1')
-    expect(page).to have_content('refbot1@example.com')
-
-    expect(page).to have_content('Ref Bot 2')
-    expect(page).to have_content('refbot2@example.com')
+  def and_i_can_submit_the_application
+    click_button 'Submit application'
   end
 
   def i_see_that_the_application_was_sent_to_provider
-    require 'pry'; binding.pry
+    visit candidate_interface_application_complete_path
+    expect(page).to have_content('Status Pending')
   end
 end
