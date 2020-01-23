@@ -22,6 +22,7 @@ RSpec.feature 'See candidates' do
   end
 
   def and_there_are_candidates_in_the_system
+    @candidate_with_sign_up_email_bounced = create(:candidate, sign_up_email_bounced: true)
     @candidate_who_has_signed_up_but_not_signed_in = create(:candidate)
     @candidate_with_a_submitted_application = create(:application_form).candidate
   end
@@ -31,6 +32,10 @@ RSpec.feature 'See candidates' do
   end
 
   def then_i_should_see_the_candidates
+    within("[data-qa='candidate-#{@candidate_with_sign_up_email_bounced.id}']") do
+      expect(page).to have_content @candidate_with_sign_up_email_bounced.email_address
+      expect(page).to have_content('Sign up email bounced')
+    end
     within("[data-qa='candidate-#{@candidate_who_has_signed_up_but_not_signed_in.id}']") do
       expect(page).to have_content @candidate_who_has_signed_up_but_not_signed_in.email_address
       expect(page).to have_content('Never signed in')

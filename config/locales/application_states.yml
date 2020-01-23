@@ -1,5 +1,8 @@
 en:
   process_states:
+    sign_up_email_bounced:
+      name: Sign up email bounced
+      description: Candidate was sent a sign up email but it bounced
     never_signed_in:
       name: Never signed in
       description: Candidate has signed up but never signed into the service
