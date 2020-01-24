@@ -50,6 +50,10 @@ module HostingEnvironment
     environment_name == 'review'
   end
 
+  def self.qa?
+    environment_name == 'qa'
+  end
+
   def self.production?
     environment_name == 'production'
   end

@@ -15,6 +15,8 @@ require "action_view/component"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+require "./app/lib/hosting_environment"
+
 module ApplyForPostgraduateTeacherTraining
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
@@ -32,6 +34,7 @@ module ApplyForPostgraduateTeacherTraining
     config.exceptions_app = self.routes
 
     config.action_mailer.preview_path = "#{Rails.root}/app/mailers/previews"
+    config.action_mailer.show_previews = Rails.env.development? || HostingEnvironment.qa? || HostingEnvironment.review?
 
     config.time_zone = 'London'
 
