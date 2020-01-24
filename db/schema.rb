@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_21_165133) do
+ActiveRecord::Schema.define(version: 2020_01_24_114452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -207,9 +207,11 @@ ActiveRecord::Schema.define(version: 2020_01_21_165133) do
     t.index ["email_address"], name: "index_provider_users_on_email_address", unique: true
   end
 
-  create_table "provider_users_providers", id: false, force: :cascade do |t|
+  create_table "provider_users_providers", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.bigint "provider_user_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["provider_id"], name: "index_provider_users_providers_on_provider_id"
     t.index ["provider_user_id"], name: "index_provider_users_providers_on_provider_user_id"
   end
