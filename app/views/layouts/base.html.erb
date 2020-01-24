@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" class="govuk-template">
+  <head>
+    <meta charset="utf-8">
+    <title><%= browser_title %></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0b0c0c">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="<%= asset_pack_path('media/images/favicon.ico') %>" type="image/x-icon">
+    <link rel="mask-icon" href="<%= asset_pack_path('media/images/govuk-mask-icon.svg') %>" color="#0b0c0c">
+    <link rel="apple-touch-icon" sizes="180x180" href="<%= asset_pack_path('media/images/govuk-apple-touch-icon-180x180.png') %>">
+    <link rel="apple-touch-icon" sizes="167x167" href="<%= asset_pack_path('media/images/govuk-apple-touch-icon-167x167.png') %>">
+    <link rel="apple-touch-icon" sizes="152x152" href="<%= asset_pack_path('media/images/govuk-apple-touch-icon-152x152.png') %>">
+    <link rel="apple-touch-icon" href="<%= asset_pack_path('media/images/govuk-apple-touch-icon.png') %>">
+
+    <meta property="og:image" content="<%= asset_pack_path('media/images/govuk-opengraph-image.png') %>">
+
+    <%= stylesheet_pack_tag 'application' %>
+
+    <% unless Rails.env.development? %>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-KW7NPTJ');</script>
+    <% end %>
+  </head>
+
+  <body class="govuk-template__body">
+    <% unless Rails.env.development? %>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KW7NPTJ"
+    height="0" width="0" style="display:none; visibility:hidden"></iframe></noscript>
+    <% end %>
+    <script>
+      document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+    </script>
+
+    <%= render 'layouts/cookie_banner' %>
+
+    <a href="#main-content" class="govuk-skip-link">Skip to main content</a>
+
+    <%= render 'layouts/header' %>
+
+    <%= content_for?(:body) ? yield(:body) : yield %>
+
+    <%= render 'layouts/footer' %>
+
+    <%= javascript_pack_tag 'application' %>
+  </body>
+</html>

@@ -26,6 +26,12 @@ $govuk-image-url-function: frontend-image-url;
 @import "_definition-list";
 @import "_postcode";
 
+// Provider
+@import "_button";
+@import "_count";
+@import "_masthead";
+@import "_product-section";
+
 // Support
 @import "_card";
 

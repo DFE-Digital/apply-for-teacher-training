@@ -252,7 +252,7 @@ Rails.application.routes.draw do
   end
 
   namespace :provider_interface, path: '/provider' do
-    get '/' => redirect('/provider/applications')
+    get '/' => 'start_page#show'
 
     get '/accessibility', to: 'content#accessibility'
     get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
