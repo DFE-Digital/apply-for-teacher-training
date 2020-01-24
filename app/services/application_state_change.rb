@@ -40,6 +40,7 @@ class ApplicationStateChange
       event :reject_application, transitions_to: :rejected
       event :accept, transitions_to: :pending_conditions
       event :decline, transitions_to: :declined
+      event :decline_by_default, transitions_to: :declined
     end
 
     state :pending_conditions do
