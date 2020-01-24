@@ -29,7 +29,7 @@ module CandidateInterface
     def edit; end
 
     def update
-      if @referee.update(referee_params)
+      if @referee.save
         redirect_to candidate_interface_review_referees_path
       else
         render :edit

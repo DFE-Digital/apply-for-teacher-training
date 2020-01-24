@@ -35,3 +35,4 @@ en:
       option: Explain the referee’s email has bounced
       audit_comment: New referee request email has been sent to candidate (%{candidate_email}) explaining email bounce.
       confirm_text: We'll send an email to explain their referee's email has bounced.
+    auto_approve_feedback: Automatically approved.
