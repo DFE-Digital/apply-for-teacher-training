@@ -28,11 +28,7 @@ Bundler/OrderedGems:
   Enabled: false
 
 Metrics/BlockLength:
-  # Disable block length restriction for files that use a DSL around blocks.
-  Exclude:
-    - 'config/routes.rb'
-    - 'spec/**/*'
-    - app/workers/generate_test_applications.rb
+  Enabled: false
 
 RSpec/ExampleLength:
   Enabled: false
