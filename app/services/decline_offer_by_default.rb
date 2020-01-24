@@ -8,7 +8,7 @@ class DeclineOfferByDefault
   def call
     ActiveRecord::Base.transaction do
       application_choice.update(declined_by_default: true, declined_at: Time.zone.now)
-      ApplicationStateChange.new(application_choice).decline!
+      ApplicationStateChange.new(application_choice).decline_by_default!
     end
   end
 end
