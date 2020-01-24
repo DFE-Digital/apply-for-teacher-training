@@ -67,12 +67,12 @@ Feature: successful application statuses
       | application complete       | candidate | withdraw               | withdrawn                  |
       | application complete       | candidate | send to provider       | awaiting provider decision |
       | awaiting provider decision | provider  | make offer             | offer                      |
-      | awaiting provider decision | provider  | reject application     | rejected                   |
+      | awaiting provider decision | provider  | reject                 | rejected                   |
       | awaiting provider decision | candidate | withdraw               | withdrawn                  |
       | offer                      | candidate | accept                 | pending conditions         |
       | offer                      | candidate | decline                | declined                   |
       | offer                      | provider  | make offer             | offer                      |
-      | offer                      | provider  | reject application     | rejected                   |
+      | offer                      | provider  | reject                 | rejected                   |
       | rejected                   | provider  | make offer             | offer                      |
       | pending conditions         | provider  | confirm conditions met | recruited                  |
       | pending conditions         | candidate | withdraw               | withdrawn                  |
