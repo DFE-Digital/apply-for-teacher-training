@@ -14,6 +14,8 @@ RSpec.describe ProviderUser, type: :model do
       dsi_user = DfESignInUser.new(
         email_address: provider_user.email_address,
         dfe_sign_in_uid: 'ABC123',
+        first_name: nil,
+        last_name: nil,
       )
       ProviderUser.onboard!(dsi_user)
       expect(provider_user.reload.dfe_sign_in_uid).to eq 'ABC123'
@@ -24,6 +26,8 @@ RSpec.describe ProviderUser, type: :model do
       dsi_user = DfESignInUser.new(
         email_address: 'BoB@example.com',
         dfe_sign_in_uid: 'ABC123',
+        first_name: nil,
+        last_name: nil,
       )
       ProviderUser.onboard!(dsi_user)
       expect(provider_user.reload.dfe_sign_in_uid).to eq 'ABC123'

@@ -1,7 +1,12 @@
 module DfESignInHelpers
-  def user_exists_in_dfe_sign_in(email_address: 'email@provider.ac.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+  def user_exists_in_dfe_sign_in(email_address: 'email@provider.ac.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID', first_name: nil, last_name: nil)
     OmniAuth.config.mock_auth[:dfe] = OmniAuth::AuthHash.new(
-      fake_dfe_sign_in_auth_hash(email_address: email_address, dfe_sign_in_uid: dfe_sign_in_uid),
+      fake_dfe_sign_in_auth_hash(
+        email_address: email_address,
+        dfe_sign_in_uid: dfe_sign_in_uid,
+        first_name: first_name,
+        last_name: last_name,
+      ),
     )
   end
 
@@ -27,7 +32,7 @@ module DfESignInHelpers
     create(:provider_user, providers: [provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
   end
 
-  def fake_dfe_sign_in_auth_hash(email_address:, dfe_sign_in_uid:)
+  def fake_dfe_sign_in_auth_hash(email_address:, dfe_sign_in_uid:, first_name:, last_name:)
     {
       'provider' => 'dfe',
       'uid' => dfe_sign_in_uid,
@@ -35,8 +40,8 @@ module DfESignInHelpers
         'name' => 'Firstname Lastname',
         'email' => email_address,
         'nickname' => nil,
-        'first_name' => 'Firstname',
-        'last_name' => 'Lastname',
+        'first_name' => first_name,
+        'last_name' => last_name,
         'gender' => nil,
         'image' => nil,
         'phone' => nil,

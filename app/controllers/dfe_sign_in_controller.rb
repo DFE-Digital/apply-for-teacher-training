@@ -4,6 +4,9 @@ class DfESignInController < ActionController::Base
   def callback
     DfESignInUser.begin_session!(session, request.env['omniauth.auth'])
 
+    user = get_support_user || ProviderUser.load_from_session(session)
+    DsiProfile.update_profile_from_dfe_sign_in(dfe_user: DfESignInUser.load_from_session(session), local_user: user) if user
+
     redirect_to session.delete('post_dfe_sign_in_path') || default_authenticated_path
   end
 
@@ -12,14 +15,14 @@ class DfESignInController < ActionController::Base
 private
 
   def default_authenticated_path
-    if authorized_for_support_interface?
+    if get_support_user
       support_interface_path
     else
       provider_interface_path
     end
   end
 
-  def authorized_for_support_interface?
-    SupportUser.load_from_session(session)
+  def get_support_user
+    @user != nil ? @user : @user = (SupportUser.load_from_session(session) || false)
   end
 end
