@@ -52,6 +52,7 @@ stages:
         SANDBOX: $(sandbox)
 
     - script: make ci.lint-ruby
+      name: ci_lint_ruby
       displayName: 'Rubocop'
       env:
         dockerHubUsername: $(dockerHubUsername)
@@ -64,7 +65,9 @@ stages:
         SANDBOX: $(sandbox)
 
     - script: make ci.lint-erb
+      name: ci_lint_erb
       displayName: 'ERB lint'
+      condition: succeededOrFailed()
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
@@ -80,12 +83,52 @@ stages:
         test_result=$?
         if [ "$test_result" == "0" ]
         then
-          true;
+          if [ $(find results/ -type f -name TEST*.xml | wc -l) -gt 0 ]
+          then
+            errors=0
+            warnings=0
+
+            for line in $(grep "^<testsuite " results/TEST*.xml)
+            do
+              if [[ $line == failure* ]]
+              then
+                test_failures=$(echo $line | cut -d '"' -f2)
+                errors=$((errors+test_failures))
+              fi
+              if [[ $line == error* ]]
+              then
+                test_errors=$(echo $line | cut -d '"' -f2)
+                errors=$((errors+test_errors))
+              fi
+              if [[ $line == skipped* ]]
+              then
+                test_skipped=$(echo $line | cut -d '"' -f2)
+                warnings=$((warning+test_skipped))
+              fi
+            done
+
+            if [ $errors -gt 0 ]
+            then
+              echo "##vso[task.logissue type=error]One or more cucumber tests failed."
+              exit 1
+            fi
+            if [ $warnings -gt 0 ]
+            then
+              echo "##vso[task.logissue type=warning]One or more cucumber tests were skipped."
+            fi
+
+          else
+            echo "##vso[task.logissue type=error]Cucumber test result files not found."
+            exit 1
+          fi
+          exit 0
         else
-          echo "ERROR: Cucumber spec tests failed."
-          false
+          echo "##vso[task.logissue type=error]Cucumber test task exited abnormally."
+          exit 1
         fi
+      name: ci_cucumber
       displayName: 'Cucumber specs'
+      condition: succeededOrFailed()
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
@@ -101,12 +144,30 @@ stages:
         test_result=$?
         if [ "$test_result" == "0" ]
         then
-          true;
+          if [ -f results/rspec-results.xml ]
+          then
+            if [ $(grep "^<testsuite name=\"rspec\"" results/rspec-results.xml | cut -d' ' -f5 | cut -d'"' -f2) -gt 0 ]
+            then
+              echo "##vso[task.logissue type=error]One or more rspec tests failed"
+              exit 1
+            fi
+            if [ $(grep "^<testsuite name=\"rspec\"" results/rspec-results.xml | cut -d' ' -f4 | cut -d'"' -f2) -gt 0 ]
+            then
+              echo "##vso[task.logissue type=warning]One or more rspec tests were skipped"
+              exit 1
+            fi
+          else
+            echo "##vso[task.logissue type=error]rspec-results file not found."
+            exit 1
+          fi
+          exit 0
         else
-          echo "ci.test failed"
-          false
+          echo "##vso[task.logissue type=error]Rspec test task exited abnormally."
+          exit 1
         fi
+      name: ci_test
       displayName: 'Execute tests'
+      condition: succeededOrFailed()
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
@@ -149,6 +210,13 @@ stages:
       inputs:
         path: '$(System.DefaultWorkingDirectory)/azure/'
         artifactName: 'arm_template'
+
+    - task: PublishTestResults@2
+      displayName: 'Publish Test Results'
+      condition: succeededOrFailed()
+      inputs:
+        testRunner: JUnit
+        testResultsFiles: 'results/*.xml'
 
 
 - stage: deploy_qa

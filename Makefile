@@ -1,9 +1,9 @@
-RESULTS_PATH = "/results"
+RESULTS_PATH=/results
 
 define copy_test_results
-	#Obtains the results folder from within the stopped container and copies it to the local file system on the agent.
-	container_id=$$(docker ps -a --no-trunc | grep apply-for-postgraduate-teacher-training | cut -d ' ' -f1); \
-        docker cp $$container_id:$(RESULTS_PATH)/ .
+	## Obtains the results folder from within the stopped container and copies it to the local file system on the agent.
+	container_id=$$(docker ps -a --no-trunc | grep apply-for-postgraduate-teacher-training | head -1 | cut -d ' ' -f1); \
+	docker cp $$container_id:$(RESULTS_PATH)/ .
 endef
 
 .PHONY: help
@@ -42,7 +42,7 @@ ci.lint-erb: ## Run the ERB linter
 
 .PHONY: ci.cucumber
 ci.cucumber: ## Run the Cucumber specs
-	docker-compose run web /bin/sh -c 'mkdir $(RESULTS_PATH) && \
+	-docker-compose run web /bin/sh -c 'mkdir $(RESULTS_PATH) && \
 		bundle exec cucumber --format junit --out $(RESULTS_PATH)'
 	$(call copy_test_results)
 	docker-compose rm -f -v web
@@ -52,6 +52,6 @@ ci.test: ## Run the tests with results formatted for CI
 	docker-compose run web /bin/sh -c 'mkdir $(RESULTS_PATH) && \
 		apk add nodejs yarn && \
 		bundle exec rails assets:precompile && \
-		bundle exec --verbose rspec'
+		bundle exec --verbose rspec --failure-exit-code 0 --format RspecJunitFormatter --out $(RESULTS_PATH)/rspec-results.xml'
 	$(call copy_test_results)
 	docker-compose rm -f -v web
