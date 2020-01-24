@@ -31,6 +31,7 @@ class ApplicationStateChange
     state :awaiting_provider_decision do
       event :make_offer, transitions_to: :offer
       event :reject_application, transitions_to: :rejected
+      event :reject_by_default, transitions_to: :rejected
       event :withdraw, transitions_to: :withdrawn
     end
 
