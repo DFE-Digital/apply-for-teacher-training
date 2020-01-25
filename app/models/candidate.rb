@@ -10,6 +10,8 @@ class Candidate < ApplicationRecord
                             email_address: true
 
   has_many :application_forms
+  belongs_to :course_from_find, class_name: 'Course', optional: true
+
 
   def self.for_email(email)
     find_or_initialize_by(email_address: email.downcase) if email

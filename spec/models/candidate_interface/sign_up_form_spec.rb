@@ -7,7 +7,7 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
   let(:existing_email) { existing_candidate.email_address }
 
   def new_form(email:, accept_ts_and_cs:, course_id: nil)
-    described_class.new(email_address: email, accept_ts_and_cs: accept_ts_and_cs, course_id: course_id)
+    described_class.new(email_address: email, accept_ts_and_cs: accept_ts_and_cs, course_from_find_id: course_id)
   end
 
   describe '#save' do

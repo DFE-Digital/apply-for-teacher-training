@@ -11,15 +11,13 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
 
     when_i_arrive_from_find_to_a_course_that_is_open_on_apply
     and_i_click_apply_on_apply
-    then_the_url_should_contain_the_course_code_and_provider_code_param
     when_i_fill_in_the_eligiblity_form_with_yes
-    then_the_url_should_contain_the_course_code_and_provider_code_param
 
     when_i_submit_my_email_address
     and_click_on_the_magic_link
     then_i_should_see_the_courses_review_page
     and_i_should_see_the_course_name_and_code
-    and_i_should_see_the_site(@site)
+    and_i_should_see_the_site
     and_my_find_from_id_course_should_be_set_to_nil
 
     given_the_course_i_selected_has_multiple_sites
@@ -27,8 +25,7 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
     when_i_submit_my_email_address
     and_click_on_the_magic_link
     then_i_should_see_the_course_choices_site_page
-    and_i_should_see_the_site(@site1)
-    and_i_should_see_the_site(@site2)
+    and_i_see_the_form_to_pick_a_location
     and_my_find_from_id_course_should_be_set_to_nil
   end
 
@@ -103,13 +100,28 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
     expect(page).to have_content "#{@course.name} (#{@course.code})"
   end
 
-  def and_i_should_see_the_site(site)
-    expect(page).to have_content site.name
-    expect(page).to have_content site.address_line1
-    expect(page).to have_content site.address_line2
-    expect(page).to have_content site.address_line3
-    expect(page).to have_content site.address_line4
-    expect(page).to have_content site.postcode
+  def and_i_should_see_the_site
+    expect(page).to have_content @site.name
+    expect(page).to have_content @site.address_line1
+    expect(page).to have_content @site.address_line2
+    expect(page).to have_content @site.address_line3
+    expect(page).to have_content @site.address_line4
+    expect(page).to have_content @site.postcode
+  end
+
+  def and_i_see_the_form_to_pick_a_location
+    expect(page).to have_content @site1.name
+    expect(page).to have_content @site1.address_line1
+    expect(page).to have_content @site1.address_line2
+    expect(page).to have_content @site1.address_line3
+    expect(page).to have_content @site1.address_line4
+    expect(page).to have_content @site1.postcode
+    expect(page).to have_content @site2.name
+    expect(page).to have_content @site2.address_line1
+    expect(page).to have_content @site2.address_line2
+    expect(page).to have_content @site2.address_line3
+    expect(page).to have_content @site2.address_line4
+    expect(page).to have_content @site2.postcode
   end
 
   def and_my_find_from_id_course_should_be_set_to_nil
