@@ -24,11 +24,19 @@ module CandidateInterface
 
     def authenticate
       candidate = FindCandidateByToken.call(raw_token: params[:token])
-
       if candidate
         sign_in(candidate, scope: :candidate)
         add_identity_to_log candidate.id
-        redirect_to candidate_interface_application_form_path
+        course = candidate.course_from_find
+        service = ExistingCandidateAuthentication.new(candidate: candidate)
+        service.execute
+        if service.candidate_has_new_course_added?
+          redirect_to candidate_interface_course_choices_review_path
+        elsif service.candidate_should_choose_site?
+          redirect_to candidate_interface_course_choices_site_path(course.provider.code, course.code)
+        elsif service.candidate_does_not_have_a_course_from_find_id?
+          redirect_to candidate_interface_application_form_path
+        end
       else
         redirect_to action: :new
       end

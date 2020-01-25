@@ -40,4 +40,19 @@ RSpec.describe Candidate, type: :model do
       expect { candidate.current_application }.to change { candidate.application_forms.count }.from(0).to(1)
     end
   end
+
+  describe 'find_from_course' do
+    it 'returns the correct course' do
+      course = create(:course)
+      candidate = create(:candidate, course_from_find_id: course.id)
+
+      expect(candidate.course_from_find).to eq(course)
+    end
+
+    it 'returns nil if there is no course_from_find_id' do
+      candidate = create(:candidate)
+
+      expect(candidate.course_from_find).to eq(nil)
+    end
+  end
 end
