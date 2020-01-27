@@ -1,9 +1,13 @@
 class ProviderUser < ActiveRecord::Base
-  has_and_belongs_to_many :providers
+  has_many :provider_users_providers, dependent: :destroy
+  has_many :providers, through: :provider_users_providers
 
   validates :dfe_sign_in_uid, uniqueness: true, allow_nil: true
 
   before_save :downcase_email_address
+
+  audited except: [:last_signed_in_at]
+  has_associated_audits
 
   def self.load_from_session(session)
     dfe_sign_in_user = DfESignInUser.load_from_session(session)
