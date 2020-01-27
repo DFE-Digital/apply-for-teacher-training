@@ -18,7 +18,7 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
     then_i_should_see_the_courses_review_page
     and_i_should_see_the_course_name_and_code
     and_i_should_see_the_site
-    and_my_find_from_id_course_should_be_set_to_nil
+    and_my_course_from_find_id_should_be_set_to_nil
 
     given_the_course_i_selected_has_multiple_sites
 
@@ -26,7 +26,7 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
     and_click_on_the_magic_link
     then_i_should_see_the_course_choices_site_page
     and_i_see_the_form_to_pick_a_location
-    and_my_find_from_id_course_should_be_set_to_nil
+    and_my_course_from_find_id_should_be_set_to_nil
   end
 
   def and_confirm_course_choice_from_find_is_activated
@@ -124,7 +124,7 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
     expect(page).to have_content @site2.postcode
   end
 
-  def and_my_find_from_id_course_should_be_set_to_nil
+  def and_my_course_from_find_id_should_be_set_to_nil
     candidate = Candidate.find_by!(email_address: @email)
     expect(candidate.course_from_find_id).to eq(nil)
   end

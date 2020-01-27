@@ -5,7 +5,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   scenario 'retaining their course selection through the sign up process' do
     given_the_pilot_is_open
     and_confirm_course_choice_from_find_is_activated
-    and_i_an_existing_candidate_on_apply
+    and_i_am_an_existing_candidate_on_apply
     and_i_have_less_than_3_application_options
     and_the_course_i_selected_only_has_one_site
 
@@ -15,10 +15,10 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     then_i_should_see_the_courses_review_page
     and_i_should_see_the_course_name_and_code
     and_i_should_see_the_site
-    and_my_find_from_id_course_should_be_set_to_nil
+    and_my_course_from_find_id_should_be_set_to_nil
 
     given_the_course_i_selected_has_multiple_sites
-    and_i_an_existing_candidate_on_apply
+    and_i_am_an_existing_candidate_on_apply
     and_i_have_less_than_3_application_options
 
     when_i_arrive_at_the_sign_up_page_with_course_params_with_multiple_sites
@@ -26,17 +26,17 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     and_click_on_the_magic_link
     then_i_should_see_the_course_choices_site_page
     and_i_see_the_form_to_pick_a_location
-    and_my_find_from_id_course_should_be_set_to_nil
+    and_my_course_from_find_id_should_be_set_to_nil
 
     and_the_course_i_selected_only_has_one_site
-    and_i_an_existing_candidate_on_apply
+    and_i_am_an_existing_candidate_on_apply
     and_i_have_3_application_options
 
     when_i_arrive_at_the_sign_up_page_with_course_params_with_multiple_sites
     and_i_submit_my_email_address
     and_click_on_the_magic_link
     then_i_should_see_the_courses_review_page
-    and_my_find_from_id_course_should_be_set_to_nil
+    and_my_course_from_find_id_should_be_set_to_nil
     and_i_should_be_informed_i_already_have_3_courses
   end
 
@@ -54,7 +54,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     create(:course_option, site: @site, course: @course, vacancy_status: 'B')
   end
 
-  def and_i_an_existing_candidate_on_apply
+  def and_i_am_an_existing_candidate_on_apply
     @email = "#{SecureRandom.hex}@example.com"
     @candidate = create(:candidate, email_address: @email)
   end
@@ -120,7 +120,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     expect(page).to have_content @site2.postcode
   end
 
-  def and_my_find_from_id_course_should_be_set_to_nil
+  def and_my_course_from_find_id_should_be_set_to_nil
     candidate = Candidate.find_by!(email_address: @email)
     expect(candidate.course_from_find_id).to eq(nil)
   end
