@@ -34,9 +34,9 @@ class ApplicationReference < ApplicationRecord
     errors.add(:email_address, :own) if email_address == candidate_email_address
   end
 
-  def update_token!
+  def refresh_feedback_token!
     unhashed_token, hashed_token = Devise.token_generator.generate(ApplicationReference, :hashed_sign_in_token)
-    update!(hashed_sign_in_token: hashed_token, feedback_status: 'feedback_requested')
+    update!(hashed_sign_in_token: hashed_token)
     unhashed_token
   end
 
