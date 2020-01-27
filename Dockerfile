@@ -4,7 +4,7 @@ FROM ruby:2.6.5-alpine AS common-build-env
 
 ARG APP_HOME=/app
 ARG BUILD_PACKAGES="build-base"
-ARG DEV_PACKAGES="postgresql-dev git nodejs yarn"
+ARG DEV_PACKAGES="postgresql-dev git nodejs yarn graphviz"
 ARG RUBY_PACKAGES="tzdata"
 ARG bundleWithout=""
 
@@ -74,7 +74,7 @@ RUN rm -rf tmp/cache app/assets lib/assets vendor/assets node_modules
 FROM ruby:2.6.5-alpine AS prod-build
 ARG bundleWithout=""
 ARG APP_HOME=/app
-ARG PACKAGES="tzdata postgresql-client"
+ARG PACKAGES="tzdata postgresql-client graphviz"
 
 ENV RAILS_ENV=production
 ENV BUNDLE_WITHOUT=${bundleWithout}
