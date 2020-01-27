@@ -160,6 +160,7 @@ RSpec.feature 'Vendor receives the application' do
         work_experience: {
           jobs: [
             {
+              id: @application.application_work_experiences.first.id,
               start_date: '2014-05-01',
               end_date: '2019-01-01',
               role: 'Teacher',
@@ -171,6 +172,7 @@ RSpec.feature 'Vendor receives the application' do
           ],
           volunteering: [
             {
+              id: @application.application_volunteering_experiences.first.id,
               start_date: '2018-05-01',
               end_date: '2019-01-01',
               role: 'Classroom Volunteer',

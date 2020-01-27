@@ -783,6 +783,7 @@ components:
       type: object
       additionalProperties: false
       required:
+        - id
         - organisation_name
         - start_date
         - end_date
@@ -791,6 +792,10 @@ components:
         - working_with_children
         - commitment
       properties:
+        id:
+          type: integer
+          description: The work experience ID in the Apply system
+          example: 12345
         organisation_name:
           type: string
           description: The organisation worked for

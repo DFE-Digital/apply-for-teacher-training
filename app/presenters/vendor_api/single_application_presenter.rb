@@ -111,6 +111,7 @@ module VendorApi
 
     def experience_to_hash(experience)
       {
+        id: experience.id,
         start_date: experience.start_date.to_date,
         end_date: experience.end_date&.to_date,
         role: experience.role,
