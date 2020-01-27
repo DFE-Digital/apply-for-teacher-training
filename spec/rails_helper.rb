@@ -70,4 +70,6 @@ RSpec.configure do |config|
   config.include ActionView::Component::TestHelpers
 
   config.before { Faker::UniqueGenerator.clear }
+
+  config.before { ActionMailer::Base.deliveries.clear }
 end

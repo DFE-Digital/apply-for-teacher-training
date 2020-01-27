@@ -10,8 +10,10 @@ class InviteProviderUser
   def save_and_invite!
     ActiveRecord::Base.transaction do
       @provider_user.save!
-      invite_user_to_dfe_sign_in
-      # TODO: enqueue welcome email
+      if FeatureFlag.active?('send_dfe_sign_in_invitations')
+        invite_user_to_dfe_sign_in
+        send_welcome_email
+      end
     end
   end
 
@@ -22,9 +24,9 @@ class InviteProviderUser
     end
   end
 
-  def invite_user_to_dfe_sign_in
-    return unless FeatureFlag.active?('send_dfe_sign_in_invitations')
+private
 
+  def invite_user_to_dfe_sign_in
     jwt_payload = { iss: 'apply', aud: 'signin.education.gov.uk' }
     token = JWT.encode jwt_payload, ENV['DSI_API_SECRET'], DSI_JWT_HMAC
     auth_string = "Bearer #{token}"
@@ -38,6 +40,10 @@ class InviteProviderUser
 
     response = HTTP.auth(auth_string).post dfe_invite_url, json: request_params
     raise DfeSignInApiError.new(response) unless response.status.success?
+  end
+
+  def send_welcome_email
+    ProviderMailer.account_created(@provider_user).deliver_later
   end
 end
 
