@@ -24,12 +24,17 @@ module CandidateInterface
 
     def authenticate
       candidate = FindCandidateByToken.call(raw_token: params[:token])
+      flash[:success] = 'Your apply for teacher training account has been created' if candidate&.last_signed_in_at.nil?
+
       if candidate
         sign_in(candidate, scope: :candidate)
         add_identity_to_log candidate.id
+        candidate.update(last_signed_in_at: Time.zone.now)
         course = candidate.course_from_find
+
         service = ExistingCandidateAuthentication.new(candidate: candidate)
         service.execute
+
         if service.candidate_has_new_course_added?
           redirect_to candidate_interface_course_choices_review_path
         elsif service.candidate_should_choose_site?
