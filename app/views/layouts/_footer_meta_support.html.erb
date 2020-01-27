@@ -1,8 +1,13 @@
-<% if Rails.application.config.action_mailer.show_previews %>
-  <h2 class="govuk-heading-m">Development</h2>
-  <ul class="govuk-footer__inline-list">
-    <li class="govuk-footer__inline-list-item">
-      <%= govuk_link_to 'Mail previews', '/rails/mailers' %>
-    </li>
-  </ul>
-<% end %>
+<h2 class="govuk-heading-m">Product development</h2>
+
+<ul class="govuk-footer__inline-list">
+  <li class="govuk-footer__inline-list-item">
+    <%= govuk_link_to 'Process documentation', support_interface_process_path %>
+  </li>
+
+  <% if Rails.application.config.action_mailer.show_previews %>
+  <li class="govuk-footer__inline-list-item">
+    <%= govuk_link_to 'Mail previews', '/rails/mailers' %>
+  </li>
+  <% end %>
+</ul>

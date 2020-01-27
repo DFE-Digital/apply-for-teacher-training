@@ -1,0 +1,21 @@
+<li>
+  <p class='govuk-body'>
+    <strong><%= StateDiagram.event_name(from_state, event) %></strong> (by <%= by %>). <%= description %>
+
+    This will transition the application to the <%= govuk_link_to "#{I18n.t("application_states.#{transitions_to}.name")} state", "##{transitions_to}" %>.
+  </p>
+
+  <p class='govuk-body'>
+    <% if emails_sent_from_event.any? %>
+      Emails sent:
+
+      <ul class='govuk-list govuk-list--bullet'>
+      <% emails_sent_from_event.each do |email| %>
+        <li><%= govuk_link_to email.gsub('-', ' '), "/rails/mailers/" + email.gsub('-', '/') %></li>
+      <% end %>
+      </ul>
+    <% else %>
+      No emails are sent with this transition.
+    <% end %>
+  </p>
+</li>

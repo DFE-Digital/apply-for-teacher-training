@@ -4,7 +4,7 @@ RSpec.describe ApplicationStateChange do
   describe '.valid_states' do
     it 'has human readable translations' do
       expect(ApplicationStateChange.valid_states)
-        .to match_array(I18n.t('support_application_states').keys)
+        .to match_array(I18n.t('application_states').keys)
 
       expect(ApplicationStateChange.valid_states)
         .to match_array(I18n.t('candidate_application_states').keys)

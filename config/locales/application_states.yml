@@ -62,16 +62,191 @@ en:
     unsubmitted: Not submitted yet
     withdrawn: Candidate withdrawn
     conditions_not_met: Conditions not met
-  support_application_states:
-    application_complete: Waiting to be sent
-    awaiting_provider_decision: Awaiting decision
-    awaiting_references: Awaiting references
-    declined: Candidate declined
-    enrolled: Candidate enrolled
-    offer: Offer made
-    pending_conditions: Pending conditions
-    recruited: Candidate recruited
-    rejected: Provider rejected
-    unsubmitted: Not submitted yet
-    withdrawn: Candidate withdrawn
-    conditions_not_met: Conditions not met
+
+  application_states:
+    unsubmitted:
+      name: Not submitted yet
+      description: |
+        When a candidate has filled in their email address, they’ve started an
+        application. Until they submit their application to a provider, it is
+        in the unsubmitted state. The providers don’t see the application at this stage.
+
+    awaiting_references:
+      name: Awaiting references
+      description: |
+        Applicants submit their application choices with list of referees. Until 2 references have been received the application remains at the Awaiting References state.
+        The providers don’t see the application at this stage.
+
+    application_complete:
+      name: Waiting to be sent
+      description: |
+        After the references have come back and have been added to the application.
+        The providers don’t see the application at this stage in order to give
+        candidates a fixed period of 5 days to modify their application. They can't
+        modify the references.
+
+    awaiting_provider_decision:
+      name: Awaiting provider decision
+      description: |
+        The providers only see the application after the references have come back
+        and have been added to the application and 5 days have elapsed for
+        the candidate to review and modify the application.
+
+        When both of these prerequisites are met the application moves to the
+        Awaiting provider decision state.
+
+    offer:
+      name: Offer made
+      description: |
+        A provider makes an offer to the candidate. The candidate then has to accept
+        or reject the offer, which sets the application status to 'Pending
+        conditions'.
+
+        We assume that all offers have some conditions, even if there
+        are no academic conditions.
+
+    recruited:
+      name: Recruited
+      description: |
+        If the candidate has met all conditions of their offer, the provider marks
+        their application as 'recruited'.
+
+    enrolled:
+      name: Candidate enrolled
+      description: |
+        Once a candidate has completed the enrolment process, the provider confirms
+        their enrolment onto the training programme. Since this status would be used
+        to claim bursaries/grants from DfE, the provider may delay enrolling the trainee
+        until a few weeks after the start of the training, since trainees can still
+        not show up on the first day or drop out within the first couple of weeks.
+        This reduces the risk that DfE over-pays that provider for training they didn’t
+        deliver and having to reconcile later on.
+
+    pending_conditions:
+      name: Pending conditions
+      description: Provider is waiting for the candidate to prove that they’ve met the conditions.
+
+    rejected:
+      name: Rejected
+      description: |
+        Provider has rejected the candidate’s application.
+
+    withdrawn:
+      name: Withdrawn
+      description: |
+        If a candidate withdraws an application in progress it moves to the Withdrawn (end) state.
+
+    conditions_not_met:
+      name: Conditions not met
+      description: The candidate did not meet the conditions set out in the offer.
+
+    declined:
+      name: Offer declined
+      description: The candidate has declined the offer.
+
+  events:
+    unsubmitted-submit:
+      name: Candidate submits
+      by: candidate
+      description: The candidate can submit the form once all required fields are completed.
+      emails:
+        - candidate_mailer-submit_application_email
+        - referee_mailer-reference_request_email
+
+    awaiting_references-references_complete:
+      name: References are completed
+      by: referee
+      description: Occurs when 2 referees have provided feedback about the candidate.
+
+    application_complete-send_to_provider:
+      name: Send to provider
+      by: system
+      description: 5 days after submission the application is sent to providers. This is to give candidates the opportunity to edit their application.
+      emails:
+        - candidate_mailer-application_under_consideration
+
+    application_complete-withdraw:
+      name: Withdraw
+      by: candidate
+      description: Candidates can withdraw at any time.
+
+    awaiting_provider_decision-make_offer:
+      name: Provider makes offer
+      by: provider
+      description: |
+        Providers can make offers to candidates. Making an offer guarantees the candidate a place on the course that they applied to. Offers include conditions, that the candidate must meet in order to gain their place on a course.
+
+        All offers must include the following non-academic conditions:
+        - Candidates must pass a DBS & childen’s barred list check
+        - Candidates must pass a fitness to work health check
+
+    awaiting_provider_decision-reject:
+      name: Provider rejects
+      by: provider
+      description: The provider rejects the candidate.
+
+    awaiting_provider_decision-withdraw:
+      name: Withdraw
+      by: candidate
+      description: |
+        A candidate makes a withdrawal decision to inform a provider that they no longer want their application to be considered. A candidate can withdraw an application at any time.
+
+    awaiting_provider_decision-reject_by_default:
+      name: Reject by default
+      by: system
+      description: |
+        An application is rejected by default (RBD) if a provider doesn’t make an offer within 40 working days after they have received an application.
+    offer-make_offer:
+      name: Amend offer conditions
+      by: provider
+      description: Providers can amend the offer conditions as long as its not been accepted or declined by the user.
+
+    offer-decline_by_default:
+      name: Decline by default
+      by: system
+      description: Candidate has to respond within 5 days, otherwise the system will decline the offer.
+
+    offer-reject:
+      name: Provider rescinds offer
+      by: provider
+      description: As long as the candidate hasn’t accepted the offer, the provider can reject the application.
+
+    offer-accept:
+      name: Candidate accepts
+      by: candidate
+      description: The candidate can accept the offer. All other application choices will be withdrawn.
+
+    offer-decline:
+      name: Candidate declines
+      by: candidate
+      description: The candidate can decline the offer from the provider.
+
+    pending_conditions-confirm_conditions_met:
+      name: Confirm conditions are met
+      by: provider
+      description: The provider confirms that the candidate has met the conditions set out in the offer.
+
+    pending_conditions-conditions_not_met:
+      name: Mark conditions as not met
+      by: provider
+      description: The provider says the candidate hasn’t met the conditions set out in the offer.
+
+    pending_conditions-withdraw:
+      name: Withdraw
+      by: candidate
+      description: Candidates can withdraw at any time.
+
+    recruited-confirm_enrolment:
+      name: Confirm enrolment
+      by: provider
+      description: (TBD)
+
+    recruited-withdraw:
+      name: Withdraw
+      by: candidate
+      description: Candidates can withdraw at any time.
+
+    rejected-make_offer:
+      name: Make offer
+      by: provider
+      description: (TBD)

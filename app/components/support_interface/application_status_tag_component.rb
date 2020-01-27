@@ -9,7 +9,7 @@ module SupportInterface
     end
 
     def text
-      I18n.t!("support_application_states.#{status}")
+      I18n.t!("application_states.#{status}.name")
     end
 
     def type

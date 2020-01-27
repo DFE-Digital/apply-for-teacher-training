@@ -104,6 +104,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gem-
 
+      - name: 'Install Graphviz'
+        run: |
+          sudo apt-get -yqq install graphviz
+
       - uses: actions/setup-node@v1
         with:
           node-version: '10.x'
