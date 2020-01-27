@@ -48,5 +48,14 @@ RSpec.describe ProviderUser, type: :model do
       provider_user.update(first_name: 'Alice')
       expect(provider_user.audits.count).to eq 2
     end
+
+    it 'records an audit entry when creating adding an existing ProviderUser to a Provider' do
+      provider_user = create :provider_user, first_name: 'Bob'
+      provider = create :provider
+      expect(provider_user.audits.count).to eq 1
+      provider_user.providers << provider
+      expect(provider_user.associated_audits.count).to eq 1
+      expect(provider_user.associated_audits.first.audited_changes['provider_id']).to eq provider.id
+    end
   end
 end

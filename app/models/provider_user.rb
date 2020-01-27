@@ -7,6 +7,7 @@ class ProviderUser < ActiveRecord::Base
   before_save :downcase_email_address
 
   audited except: [:last_signed_in_at]
+  has_associated_audits
 
   def self.load_from_session(session)
     dfe_sign_in_user = DfESignInUser.load_from_session(session)
