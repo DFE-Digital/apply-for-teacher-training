@@ -3,7 +3,7 @@ class RefereeMailer < ApplicationMailer
     @application_form = application_form
     @reference = reference
     @candidate_name = application_form.full_name
-    @unhashed_token = reference.update_token!
+    @unhashed_token = reference.refresh_feedback_token!
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: reference.email_address,
@@ -16,8 +16,7 @@ class RefereeMailer < ApplicationMailer
     @application_form = application_form
     @reference = reference
     @candidate_name = application_form.full_name
-
-    @token = reference.update_token!
+    @token = reference.refresh_feedback_token!
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: reference.email_address,
