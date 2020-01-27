@@ -3,19 +3,19 @@ class DfESignInController < ActionController::Base
 
   def callback
     DfESignInUser.begin_session!(session, request.env['omniauth.auth'])
-    dfe_sign_in_user = DfESignInUser.load_from_session(session)
+    @dfe_sign_in_user = DfESignInUser.load_from_session(session)
     @target_path = session['post_dfe_sign_in_path']
     @local_user = get_local_user
 
     if @local_user
-      DsiProfile.update_profile_from_dfe_sign_in(dfe_user: dfe_sign_in_user, local_user: @local_user)
+      DsiProfile.update_profile_from_dfe_sign_in(dfe_user: @dfe_sign_in_user, local_user: @local_user)
       @local_user.update!(last_signed_in_at: Time.zone.now)
       redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : default_authenticated_path
     else
       DfESignInUser.end_session!(session)
       render(
         layout: 'application',
-        template: 'provider_interface/account_creation_in_progress',
+        template: choose_error_template,
         status: :forbidden,
       )
     end
@@ -42,6 +42,14 @@ private
       support_interface_path
     else
       provider_interface_path
+    end
+  end
+
+  def choose_error_template
+    if @target_path && @target_path.match(/^#{support_interface_path}/)
+      'support_interface/unauthorized'
+    else
+      'provider_interface/account_creation_in_progress'
     end
   end
 end

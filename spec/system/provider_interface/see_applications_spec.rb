@@ -10,7 +10,7 @@ RSpec.feature 'See applications' do
     and_another_organisation_has_applications
 
     when_i_have_been_assigned_to_my_training_provider
-    and_i_visit_the_provider_page
+    and_i_sign_in_to_the_provider_interface
 
     then_i_should_see_no_applications
   end
@@ -19,12 +19,11 @@ RSpec.feature 'See applications' do
     given_i_am_a_provider_user_authenticated_with_dfe_sign_in
     and_my_organisation_has_applications
 
-    when_i_visit_the_provider_page
+    and_i_sign_in_to_the_provider_interface
     then_i_should_see_the_account_creation_in_progress_page
-    and_i_should_see_a_sign_out_link
 
     when_my_apply_account_has_been_created
-    and_i_visit_the_provider_page
+    and_i_sign_in_to_the_provider_interface
     then_i_should_see_the_applications_from_my_organisation
 
     when_i_click_on_an_application
@@ -47,10 +46,6 @@ RSpec.feature 'See applications' do
 
   def then_i_should_see_the_account_creation_in_progress_page
     expect(page).to have_content('Your account is not ready yet')
-  end
-
-  def and_i_should_see_a_sign_out_link
-    expect(page).to have_link('Sign out')
   end
 
   def when_i_have_been_assigned_to_my_training_provider
