@@ -7,26 +7,16 @@ module CandidateInterface
     rescue_from ActionController::ParameterMissing, with: :render_not_found
 
     def show
-      begin
-        provider = Provider.find_by!(code: params.fetch(:providerCode))
-        @course = provider.courses.where(exposed_in_find: true).find_by!(code: params.fetch(:courseCode))
+      service = ValidateCourseQueryStringParams.new(provider_code: params[:providerCode], course_code: params[:courseCode])
+      service.execute
+      @course = service.return_course
 
-        if @course.open_on_apply? && FeatureFlag.active?('pilot_open')
-          render :apply_on_ucas_or_apply
-        else
-          render :apply_on_ucas_only
-        end
-      rescue ActiveRecord::RecordNotFound
-        provider_code = params.fetch(:providerCode)
-        course_code = params.fetch(:courseCode)
-
-        @course = FindAPI::Course.fetch(provider_code, course_code)
-
-        if @course.nil?
-          render_not_found
-        else
-          render :apply_on_ucas_only
-        end
+      if service.can_apply_on_apply?
+        render :apply_on_ucas_or_apply
+      elsif service.course_on_find?
+        render :apply_on_ucas_only
+      else
+        render_not_found
       end
     end
 
