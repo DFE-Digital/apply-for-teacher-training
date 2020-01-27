@@ -1,5 +1,6 @@
 class ProviderUser < ActiveRecord::Base
-  has_and_belongs_to_many :providers
+  has_many :provider_users_providers, dependent: :destroy
+  has_many :providers, through: :provider_users_providers
 
   validates :dfe_sign_in_uid, uniqueness: true, allow_nil: true
 
