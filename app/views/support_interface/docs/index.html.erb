@@ -1,0 +1,25 @@
+<%= content_for :title, 'Apply process' %>
+
+<p class="govuk-body">
+  This page documents the states and transitions that make up the Apply service.
+</p>
+
+<details class="govuk-details" data-module="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      View full diagram
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    <%= StateDiagram.svg %>
+  </div>
+</details>
+
+<style>
+  svg { max-width: 100%; }
+</style>
+
+<% ApplicationStateChange.workflow_spec.states.each do |_, state| %>
+  <%= render SupportInterface::StateExplanationComponent, state: state %>
+  <hr class='govuk-section-break govuk-section-break--xl govuk-section-break--visible'>
+<% end %>

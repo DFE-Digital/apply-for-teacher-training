@@ -1,0 +1,31 @@
+<h2 class='govuk-heading-l' id='<%= state_name %>'><%= t("application_states.#{state_name}.name") %></h2>
+
+<p class='govuk-body-l'>
+  There <%= link_to pluralize(ApplicationChoice.where(status: state_name).count, 'application'), support_interface_applications_path %> currently in this state
+</p>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-half">
+    <div class="govuk-body">
+      <%= t "application_states.#{state_name}.description" %>
+    </div>
+
+    <% if state.events.any? %>
+      <h4 class='govuk-heading-m'>Actions</h4>
+
+      <ul class="govuk-list">
+      <% state.events.each do |_, events| %>
+        <%= render SupportInterface::StateEventExplanationComponent, from_state: state_name, event: events.first %>
+      <% end %>
+      </ul>
+    <% else %>
+      <div class="govuk-body">
+        This state doesn't have any more actions.
+      </div>
+    <% end %>
+  </div>
+
+  <div class="govuk-grid-column-one-half">
+    <%= StateDiagram.svg(state_name) %>
+  </div>
+</div>

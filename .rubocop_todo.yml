@@ -98,6 +98,7 @@ Rails/OutputSafety:
     - 'app/helpers/content_helper.rb'
     - 'app/helpers/markdown_helper.rb'
     - 'app/helpers/view_helper.rb'
+    - 'app/lib/state_diagram.rb'
 
 # Offense count: 2
 # Configuration parameters: Include.
