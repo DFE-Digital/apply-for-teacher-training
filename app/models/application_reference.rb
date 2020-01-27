@@ -36,7 +36,16 @@ class ApplicationReference < ApplicationRecord
 
   def refresh_feedback_token!
     unhashed_token, hashed_token = Devise.token_generator.generate(ApplicationReference, :hashed_sign_in_token)
-    update!(hashed_sign_in_token: hashed_token)
+
+    # TODO: This is an edge case possible when calling code enqueues a mailer
+    # to request feedback without also setting the feedback_status to feedback_requested.
+    # This calling code has been removed but when we deploy this the two
+    # versions will briefly coexist across the app server and the worker
+    if(feedback_status == 'not_requested_yet')
+      update!(hashed_sign_in_token: hashed_token, feedback_status: 'feedback_requested')
+    else
+      update!(hashed_sign_in_token: hashed_token)
+    end
     unhashed_token
   end
 
