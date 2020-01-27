@@ -12,17 +12,7 @@
   <% end %>
 
   <% if FeatureFlag.active?('work_breaks') %>
-    <%= %>BreaksInWorkHistoryComponent
-    <% break_in_month = GetBreaksInWorkHistory.call(@application_form).fetch(work.id, 0)  %>
-    <% if break_in_month > 0 %>
-      <section class="app-summary-card govuk-!-margin-bottom-6">
-        <header class="app-summary-card__header">
-          <h3 class="app-summary-card__title">
-            You have a break in your work history (<%= pluralize(break_in_month, 'month')%>)
-          </h3>
-        </header>
-      </section>
-    <% end %>
+    <%= render(BreakInWorkHistoryComponent, application_form: @application_form, work_experience: work) %>
   <% end %>
 <% end %>
 

@@ -6,7 +6,6 @@ RSpec.feature 'Entering their work history' do
   scenario 'Candidate submits their work history' do
     FeatureFlag.activate('work_breaks')
 
-    # Timecop.travel(Time.zone.local(2019, 12, 1)) do
     given_i_am_signed_in
     and_i_visit_the_site
 
@@ -62,7 +61,6 @@ RSpec.feature 'Entering their work history' do
     and_i_click_on_continue
     then_i_should_see_the_form
     and_that_the_section_is_completed
-    # end
   end
 
   def given_i_am_signed_in
