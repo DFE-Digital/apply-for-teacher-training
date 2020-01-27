@@ -24,6 +24,12 @@ RSpec.feature 'Candidate adding referees' do
     and_i_fill_in_all_required_fields
     and_i_submit_the_form
     i_see_both_referees
+
+    when_i_click_on_change_first_relationship
+    when_i_enter_an_updated_relationship
+    and_i_submit_the_form
+    i_see_updated_reference
+
     then_when_i_click_continue
     i_see_referees_is_complete
   end
@@ -105,5 +111,17 @@ RSpec.feature 'Candidate adding referees' do
     expect(page).to have_content(full_name_without_trailing_space)
     expect(page).to have_content('lumbergh@example.com')
     expect(page).to have_content('manager for several years')
+  end
+
+  def when_i_click_on_change_first_relationship
+    click_link 'Change relationship for AJP Taylor'
+  end
+
+  def when_i_enter_an_updated_relationship
+    fill_in(t('application_form.referees.relationship.label'), with: 'Taught me everything I know')
+  end
+
+  def i_see_updated_reference
+    expect(page).to have_content('Taught me everything I know')
   end
 end
