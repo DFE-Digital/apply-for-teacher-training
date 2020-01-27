@@ -62,6 +62,25 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
     end
   end
 
+  context 'when a course choice is rejected' do
+    it 'renders component with the status as rejected and displays the reason' do
+      application_form = create(:application_form)
+      create(
+        :application_choice,
+        application_form: application_form,
+        status: 'rejected',
+        rejection_reason: 'Course full',
+      )
+
+      result = render_inline(described_class, application_form: application_form, editable: false, show_status: true)
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Rejected')
+      expect(result.css('.govuk-summary-list__key').text).to include('Reason for rejection')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Course full')
+    end
+  end
+
   context 'when a course choice is application complete' do
     it 'renders component with the status as submitted when application is complete' do
       application_form = create_application_form_with_course_choices(statuses: %w[application_complete])

@@ -18,6 +18,7 @@ module CandidateInterface
         location_row(course_choice),
       ].tap do |r|
         r << status_row(course_choice) if @show_status
+        r << rejection_reason_row(course_choice) if course_choice.rejection_reason.present?
       end
     end
 
@@ -73,6 +74,13 @@ module CandidateInterface
       {
         key: 'Status',
         value: render(TagComponent, text: t("candidate_application_states.#{course_choice.status}"), type: type),
+      }
+    end
+
+    def rejection_reason_row(course_choice)
+      {
+        key: 'Reason for rejection',
+        value: course_choice.rejection_reason,
       }
     end
   end
