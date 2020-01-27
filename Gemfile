@@ -64,6 +64,7 @@ gem 'jwt'
 
 gem 'openapi3_parser', '0.8.0'
 gem 'rouge'
+gem 'ruby-graphviz'
 
 group :development do
   gem 'web-console', '>= 3.3.0'
