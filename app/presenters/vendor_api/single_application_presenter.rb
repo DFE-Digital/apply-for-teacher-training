@@ -163,6 +163,7 @@ module VendorApi
 
     def qualification_to_hash(qualification)
       {
+        id: qualification.id,
         qualification_type: qualification.qualification_type,
         subject: qualification.subject,
         grade: "#{qualification.grade}#{' (Predicted)' if qualification.predicted_grade}",

@@ -93,6 +93,7 @@ RSpec.feature 'Vendor receives the application' do
         qualifications: {
           gcses: [
             {
+              id: @application.english_gcse.id,
               qualification_type: 'gcse',
               subject: 'english',
               grade: 'B',
@@ -102,6 +103,7 @@ RSpec.feature 'Vendor receives the application' do
               equivalency_details: nil,
             },
             {
+              id: @application.maths_gcse.id,
               qualification_type: 'gcse',
               subject: 'maths',
               grade: 'B',
@@ -113,6 +115,7 @@ RSpec.feature 'Vendor receives the application' do
             ],
          degrees: [
            {
+              id: @application.qualification_in_subject(:degree, 'Doge').id,
               qualification_type: 'BA',
               subject: 'Doge',
               grade: 'first',
@@ -124,6 +127,7 @@ RSpec.feature 'Vendor receives the application' do
           ],
          other_qualifications: [
            {
+              id: @application.qualification_in_subject(:other, 'Believing in the Heart of the Cards').id,
               qualification_type: 'A-Level',
               subject: 'Believing in the Heart of the Cards',
               grade: 'A',

@@ -622,6 +622,7 @@ components:
       type: object
       additionalProperties: false
       required:
+        - id
         - qualification_type
         - subject
         - grade
@@ -630,6 +631,10 @@ components:
         - equivalency_details
         - awarding_body
       properties:
+        id:
+          type: integer
+          description: The qualification ID in the Apply system
+          example: 123
         qualification_type:
           type: string
           maxLength: 255
