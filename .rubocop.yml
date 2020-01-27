@@ -70,8 +70,7 @@ RSpec/InstanceVariable:
   Enabled: false
 
 RSpec/PredicateMatcher:
-  Exclude:
-    - 'spec/support_specs/clockwork_spec.rb'
+  Enabled: false
 
 RSpec/DescribeClass:
   Enabled: false
