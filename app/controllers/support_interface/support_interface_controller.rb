@@ -28,16 +28,6 @@ module SupportInterface
       return if current_support_user
 
       session['post_dfe_sign_in_path'] = request.path
-
-      if !current_support_user && dfe_sign_in_user
-        render(
-          template: 'support_interface/unauthorized',
-          status: :forbidden,
-        )
-        return
-      end
-
-      session['post_dfe_sign_in_path'] = request.path
       redirect_to support_interface_sign_in_path
     end
 
