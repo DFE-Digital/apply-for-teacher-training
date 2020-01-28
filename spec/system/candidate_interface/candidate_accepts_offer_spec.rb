@@ -6,7 +6,7 @@ RSpec.feature 'Candidate accepts an offer', sidekiq: true do
   scenario 'Candidate views an offer and accepts' do
     given_i_am_signed_in
     and_i_have_2_offers_on_my_choices
-    and_1_withdrawn_choice
+    and_1_choice_that_is_awaiting_provider_decision
 
     when_i_visit_the_application_dashboard
     and_i_click_on_view_and_respond_to_offer_link
@@ -18,6 +18,7 @@ RSpec.feature 'Candidate accepts an offer', sidekiq: true do
     then_a_slack_notification_is_sent
     and_i_see_that_i_accepted_the_offer
     and_i_see_that_i_declined_the_other_offer
+    and_i_see_that_i_withdrawn_from_the_third_choice
 
     when_i_visit_the_offer_page_of_the_declined_offer
     then_i_see_the_page_not_found
@@ -55,10 +56,10 @@ RSpec.feature 'Candidate accepts an offer', sidekiq: true do
     )
   end
 
-  def and_1_withdrawn_choice
-    create(
+  def and_1_choice_that_is_awaiting_provider_decision
+    @third_application_choice = create(
       :application_choice,
-      status: 'withdrawn',
+      status: 'awaiting_provider_decision',
       application_form: @application_form,
     )
   end
@@ -101,6 +102,12 @@ RSpec.feature 'Candidate accepts an offer', sidekiq: true do
   def and_i_see_that_i_declined_the_other_offer
     within ".qa-application-choice-#{@other_application_choice.id}" do
       expect(page).to have_content 'Declined'
+    end
+  end
+
+  def and_i_see_that_i_withdrawn_from_the_third_choice
+    within ".qa-application-choice-#{@third_application_choice.id}" do
+      expect(page).to have_content 'Withdrawn'
     end
   end
 
