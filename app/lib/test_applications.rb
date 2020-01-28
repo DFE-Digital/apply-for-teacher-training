@@ -1,4 +1,13 @@
 module TestApplications
+  def self.generate_for_provider(provider:, courses_per_application:, count:)
+    1.upto(count).flat_map do
+      create_application(
+        states: [:awaiting_provider_decision] * courses_per_application,
+        courses_to_apply_to: Course.open_on_apply.where(provider: provider),
+      )
+    end
+  end
+
   def self.create_application(states:, courses_to_apply_to: nil)
     first_name = Faker::Name.unique.first_name
     last_name = Faker::Name.unique.last_name
