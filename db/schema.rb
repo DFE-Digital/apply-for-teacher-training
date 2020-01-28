@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_27_171445) do
+ActiveRecord::Schema.define(version: 2020_01_28_110357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(version: 2020_01_27_171445) do
     t.bigint "course_from_find_id"
     t.boolean "sign_up_email_bounced", default: false, null: false
     t.datetime "last_signed_in_at"
+    t.integer "sign_in_count", default: 0, null: false
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true
     t.index ["magic_link_token"], name: "index_candidates_on_magic_link_token", unique: true
   end
