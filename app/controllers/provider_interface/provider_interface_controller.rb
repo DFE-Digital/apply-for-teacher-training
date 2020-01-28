@@ -30,7 +30,7 @@ module ProviderInterface
     end
 
     def current_provider_user
-      ProviderUser.load_from_session(session)
+      @current_provider_user != nil ? @current_provider_user : @current_provider_user = (ProviderUser.load_from_session(session) || false)
     end
 
     def dfe_sign_in_user
@@ -39,16 +39,6 @@ module ProviderInterface
 
     def authenticate_provider_user!
       return if current_provider_user
-
-      session['post_dfe_sign_in_path'] = request.path
-
-      if !current_provider_user && dfe_sign_in_user
-        render(
-          template: 'provider_interface/account_creation_in_progress',
-          status: :forbidden,
-        )
-        return
-      end
 
       session['post_dfe_sign_in_path'] = request.path
       redirect_to provider_interface_sign_in_path

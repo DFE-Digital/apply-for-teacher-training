@@ -9,7 +9,7 @@ module SupportInterface
     helper_method :current_support_user, :dfe_sign_in_user
 
     def current_support_user
-      SupportUser.load_from_session(session)
+      @current_support_user != nil ? @current_support_user : @current_support_user = (SupportUser.load_from_session(session) || false)
     end
 
     def dfe_sign_in_user
@@ -26,16 +26,6 @@ module SupportInterface
 
     def authenticate_support_user!
       return if current_support_user
-
-      session['post_dfe_sign_in_path'] = request.path
-
-      if !current_support_user && dfe_sign_in_user
-        render(
-          template: 'support_interface/unauthorized',
-          status: :forbidden,
-        )
-        return
-      end
 
       session['post_dfe_sign_in_path'] = request.path
       redirect_to support_interface_sign_in_path

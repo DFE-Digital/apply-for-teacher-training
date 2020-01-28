@@ -13,9 +13,12 @@ module DfESignInHelpers
   alias :provider_exists_in_dfe_sign_in :user_exists_in_dfe_sign_in
 
   def provider_signs_in_using_dfe_sign_in
-    visit provider_interface_sign_in_path
+    visit provider_interface_path
+    click_on 'sign in'
     click_button 'Sign in using DfE Sign-in'
   end
+
+  alias :and_i_sign_in_to_the_provider_interface :provider_signs_in_using_dfe_sign_in
 
   def support_user_signs_in_using_dfe_sign_in
     visit support_interface_sign_in_path
