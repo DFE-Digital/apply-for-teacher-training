@@ -1,4 +1,6 @@
 module TestApplications
+  class NotEnoughCoursesError < RuntimeError; end
+
   def self.generate_for_provider(provider:, courses_per_application:, count:)
     1.upto(count).flat_map do
       create_application(
@@ -26,7 +28,7 @@ module TestApplications
     # in the course of the same application, and it’s forbidden in the UI.
     # Throw an exception if we try to do that here.
     if courses_to_apply_to.count < states.count
-      raise "Not enough distinct courses to generate a #{states.count}-course application"
+      raise NotEnoughCoursesError.new("Not enough distinct courses to generate a #{states.count}-course application")
     end
 
     Audited.audit_class.as_user(candidate) do

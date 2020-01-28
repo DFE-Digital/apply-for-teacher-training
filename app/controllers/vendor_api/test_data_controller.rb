@@ -22,6 +22,8 @@ module VendorApi
       )
 
       render json: { data: { ids: application_choices.map { |ac| ac.id.to_s } } }
+    rescue TestApplications::NotEnoughCoursesError => e
+      render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: :unprocessable_entity
     end
 
     def clear!
