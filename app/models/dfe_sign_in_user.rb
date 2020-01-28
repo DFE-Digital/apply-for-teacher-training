@@ -40,6 +40,7 @@ class DfESignInUser
   end
 
   def self.end_session!(session)
+    session.delete('post_dfe_sign_in_path')
     session.delete('dfe_sign_in_user')
   end
 end

@@ -30,7 +30,7 @@ module ProviderInterface
     end
 
     def current_provider_user
-      ProviderUser.load_from_session(session)
+      @current_provider_user != nil ? @current_provider_user : @current_provider_user = (ProviderUser.load_from_session(session) || false)
     end
 
     def dfe_sign_in_user

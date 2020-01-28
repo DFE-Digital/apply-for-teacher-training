@@ -10,13 +10,13 @@
              classes: "app-header--#{HostingEnvironment.environment_name}",
              service_name: service_name,
              service_url: service_link,
-             navigation_items: NavigationItems.for_support_interface(current_support_user, dfe_sign_in_user, controller)) %>
+             navigation_items: NavigationItems.for_support_interface(current_support_user, controller)) %>
 <% when 'provider_interface' %>
   <%= render(HeaderComponent,
              classes: "app-header--#{HostingEnvironment.environment_name}",
              service_name: service_name,
              service_url: service_link,
-             navigation_items: NavigationItems.for_provider_interface(current_provider_user, dfe_sign_in_user)) %>
+             navigation_items: NavigationItems.for_provider_interface(current_provider_user)) %>
 <% when 'api_docs' %>
   <%= render(HeaderComponent,
              classes: "app-header--#{HostingEnvironment.environment_name}",

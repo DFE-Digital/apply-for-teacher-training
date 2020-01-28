@@ -16,7 +16,7 @@ class NavigationItems
       end
     end
 
-    def for_support_interface(current_support_user, dfe_sign_in_user, current_controller)
+    def for_support_interface(current_support_user, current_controller)
       if current_support_user
         [
           NavigationItem.new('Candidates', support_interface_candidates_path, is_active(current_controller, %w[candidates import_references])),
@@ -29,25 +29,15 @@ class NavigationItems
           NavigationItem.new(current_support_user.email_address, nil, false),
           NavigationItem.new('Sign out', support_interface_sign_out_path, false),
         ]
-      elsif dfe_sign_in_user
-        [
-          NavigationItem.new(dfe_sign_in_user.email_address, nil, false),
-          NavigationItem.new('Sign out', support_interface_sign_out_path, false),
-        ]
       else
         []
       end
     end
 
-    def for_provider_interface(current_provider_user, dfe_sign_in_user)
+    def for_provider_interface(current_provider_user)
       if current_provider_user
         [
           NavigationItem.new(current_provider_user.email_address, nil, false),
-          NavigationItem.new('Sign out', provider_interface_sign_out_path, false),
-        ]
-      elsif dfe_sign_in_user
-        [
-          NavigationItem.new(dfe_sign_in_user.email_address, nil, false),
           NavigationItem.new('Sign out', provider_interface_sign_out_path, false),
         ]
       else

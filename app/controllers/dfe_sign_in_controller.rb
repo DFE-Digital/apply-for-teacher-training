@@ -12,7 +12,6 @@ class DfESignInController < ActionController::Base
       @local_user.update!(last_signed_in_at: Time.zone.now)
       redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : default_authenticated_path
     else
-      session.delete('post_dfe_sign_in_path')
       DfESignInUser.end_session!(session)
       render(
         layout: 'application',
@@ -27,7 +26,7 @@ class DfESignInController < ActionController::Base
 private
 
   def get_local_user
-    @target_path && @target_path.match(/^#{support_interface_path}/) ? get_support_user : get_provider_user
+    target_path_is_support_path ? get_support_user : get_provider_user
   end
 
   def get_support_user
@@ -47,10 +46,14 @@ private
   end
 
   def choose_error_template
-    if @target_path && @target_path.match(/^#{support_interface_path}/)
+    if target_path_is_support_path
       'support_interface/unauthorized'
     else
       'provider_interface/account_creation_in_progress'
     end
+  end
+
+  def target_path_is_support_path
+    @target_path && @target_path.match(/^#{support_interface_path}/)
   end
 end
