@@ -15,7 +15,7 @@ module SupportInterface
     end
 
     def open_all_courses
-      update_provider('Successfully updated all courses') { |provider| provider.courses.update_all(open_on_apply: true) }
+      update_provider('Successfully updated all courses') { |provider| OpenProviderCourses.new(provider: provider).call }
     end
 
     def enable_course_syncing
