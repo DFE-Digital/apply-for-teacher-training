@@ -12,6 +12,7 @@ class DfESignInController < ActionController::Base
       @local_user.update!(last_signed_in_at: Time.zone.now)
       redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : default_authenticated_path
     else
+      session.delete('post_dfe_sign_in_path')
       DfESignInUser.end_session!(session)
       render(
         layout: 'application',
