@@ -19,7 +19,6 @@ module TestApplications
       raise "Not enough distinct courses to generate a #{states.count}-course application"
     end
 
-    #rubocop:disable Metrics/BlockLength
     Audited.audit_class.as_user(candidate) do
       application_form = FactoryBot.create(
         :completed_application_form,
@@ -63,7 +62,6 @@ module TestApplications
         put_application_choice_in_state(application_choice, state)
       end
     end
-    #rubocop:enable Metrics/BlockLength
   end
 
   def self.put_application_choice_in_state(choice, state)
