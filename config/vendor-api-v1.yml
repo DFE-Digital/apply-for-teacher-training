@@ -622,6 +622,7 @@ components:
       type: object
       additionalProperties: false
       required:
+        - id
         - qualification_type
         - subject
         - grade
@@ -630,6 +631,10 @@ components:
         - equivalency_details
         - awarding_body
       properties:
+        id:
+          type: integer
+          description: The qualification ID in the Apply system
+          example: 123
         qualification_type:
           type: string
           maxLength: 255
@@ -783,6 +788,7 @@ components:
       type: object
       additionalProperties: false
       required:
+        - id
         - organisation_name
         - start_date
         - end_date
@@ -791,6 +797,10 @@ components:
         - working_with_children
         - commitment
       properties:
+        id:
+          type: integer
+          description: The work experience ID in the Apply system
+          example: 12345
         organisation_name:
           type: string
           description: The organisation worked for

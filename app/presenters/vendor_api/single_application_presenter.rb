@@ -111,6 +111,7 @@ module VendorApi
 
     def experience_to_hash(experience)
       {
+        id: experience.id,
         start_date: experience.start_date.to_date,
         end_date: experience.end_date&.to_date,
         role: experience.role,
@@ -162,6 +163,7 @@ module VendorApi
 
     def qualification_to_hash(qualification)
       {
+        id: qualification.id,
         qualification_type: qualification.qualification_type,
         subject: qualification.subject,
         grade: "#{qualification.grade}#{' (Predicted)' if qualification.predicted_grade}",

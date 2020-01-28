@@ -1,3 +1,10 @@
+### 28th January 2020
+
+New attributes:
+
+- `WorkExperience` now has a unique `id` attribute of type integer.
+- `Qualification` now has a unique `id` attribute of type integer.
+
 ### 14th January 2020
 
 - Introduce `missing_gcses_explanation` field to [`qualifications`](/api-docs/reference#qualifications-object). This contains the candidate’s explanation for any missing GCSE (or equivalent) qualifications.
