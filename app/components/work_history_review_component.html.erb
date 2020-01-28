@@ -1,10 +1,10 @@
-<% @application_form.application_work_experiences.order(:start_date).each do |work| %>
-  <%= render(SummaryCardComponent, rows: work_experience_rows(work), editable: @editable) do %>
-    <%= render(SummaryCardHeaderComponent, title: work.role, heading_level: @heading_level, check_icon: work.working_with_children) do %>
+<%@application_form.application_work_experiences.order(:start_date).to_a.append(nil).each_cons(2) do |work1, work2| %>
+  <%= render(SummaryCardComponent, rows: work_experience_rows(work1), editable: @editable) do %>
+    <%= render(SummaryCardHeaderComponent, title: work1.role, heading_level: @heading_level, check_icon: work1.working_with_children) do %>
       <% if @editable %>
         <div class="app-summary-card__actions">
-          <%= link_to candidate_interface_work_history_destroy_path(work.id), class: 'govuk-link' do %>
-            <%= t('application_form.work_history.delete_entry') %><span class="govuk-visually-hidden"><%= generate_action(work: work) %></span>
+          <%= link_to candidate_interface_work_history_destroy_path(work1.id), class: 'govuk-link' do %>
+            <%= t('application_form.work_history.delete_entry') %><span class="govuk-visually-hidden"><%= generate_action(work: work1) %></span>
           <% end %>
         </div>
       <% end %>
@@ -12,7 +12,7 @@
   <% end %>
 
   <% if FeatureFlag.active?('work_breaks') %>
-    <%= render(BreakInWorkHistoryComponent, application_form: @application_form, work_experience: work) %>
+    <%= render(BreakInWorkHistoryComponent, work1: work1, work2: work2) %>
   <% end %>
 <% end %>
 
