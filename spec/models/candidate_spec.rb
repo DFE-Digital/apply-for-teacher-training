@@ -17,12 +17,20 @@ RSpec.describe Candidate, type: :model do
       candidate = create(:candidate)
       application_form = create(:application_form, candidate: candidate)
       application_choice = create(:application_choice, application_form: application_form)
+      application_work_experience = create(:application_work_experience, application_form: application_form)
+      application_volunteering_experience = create(:application_volunteering_experience, application_form: application_form)
+      application_qualification = create(:application_qualification, application_form: application_form)
+      application_reference = create(:reference, application_form: application_form)
 
       candidate.delete
 
       expect { candidate.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect { application_form.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect { application_choice.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { application_work_experience.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { application_volunteering_experience.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { application_qualification.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { application_reference.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 

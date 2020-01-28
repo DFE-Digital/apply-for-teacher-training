@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_27_171445) do
+ActiveRecord::Schema.define(version: 2020_01_28_164924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -301,7 +301,7 @@ ActiveRecord::Schema.define(version: 2020_01_27_171445) do
   add_foreign_key "courses", "providers"
   add_foreign_key "provider_agreements", "provider_users"
   add_foreign_key "provider_agreements", "providers"
-  add_foreign_key "references", "application_forms"
+  add_foreign_key "references", "application_forms", on_delete: :cascade
   add_foreign_key "sites", "providers"
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
 end
