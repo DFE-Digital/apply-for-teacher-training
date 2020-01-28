@@ -1,5 +1,5 @@
 module TestApplications
-  def self.create_application(states:)
+  def self.create_application(states:, courses_to_apply_to: nil)
     first_name = Faker::Name.unique.first_name
     last_name = Faker::Name.unique.last_name
     candidate = FactoryBot.create(
@@ -7,10 +7,11 @@ module TestApplications
       email_address: "#{first_name.downcase}.#{last_name.downcase}@example.com",
     )
 
-    courses_to_apply_to = Course.joins(:course_options)
-      .where(open_on_apply: true)
+    courses_to_apply_to ||= Course.joins(:course_options)
+      .open_on_apply
       .order('RANDOM()')
-      .limit(states.count)
+
+    courses_to_apply_to = courses_to_apply_to.take(states.count)
 
     # it does not make sense to apply to the same course multiple times
     # in the course of the same application, and it’s forbidden in the UI.
