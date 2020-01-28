@@ -20,6 +20,7 @@ RSpec.describe Candidate, type: :model do
       application_work_experience = create(:application_work_experience, application_form: application_form)
       application_volunteering_experience = create(:application_volunteering_experience, application_form: application_form)
       application_qualification = create(:application_qualification, application_form: application_form)
+      application_reference = create(:reference, application_form: application_form)
 
       candidate.delete
 
@@ -29,6 +30,7 @@ RSpec.describe Candidate, type: :model do
       expect { application_work_experience.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect { application_volunteering_experience.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect { application_qualification.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { application_reference.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
