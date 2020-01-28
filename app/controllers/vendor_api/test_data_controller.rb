@@ -17,7 +17,7 @@ module VendorApi
     def generate
       application_choices = (1..count_param).flat_map do
         states = [:awaiting_provider_decision] * courses_per_application_param
-        TestApplications.create_application states: states
+        TestApplications.create_application states: states, courses_to_apply_to: current_provider.courses
       end
 
       render json: { data: { ids: application_choices.map { |ac| ac.id.to_s } } }

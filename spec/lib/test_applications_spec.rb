@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe TestApplications do
   it 'generates an application with choices in the given states' do
-    create(:course_option, course: create(:course, open_on_apply: true))
-    create(:course_option, course: create(:course, open_on_apply: true))
+    create(:course_option, course: create(:course, :open_on_apply))
+    create(:course_option, course: create(:course, :open_on_apply))
 
     choices = TestApplications.create_application(states: %i[offer rejected])
 

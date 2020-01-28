@@ -38,7 +38,7 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data', type: :request do
     end
 
     it 'generates test data' do
-      create(:course_option, course: create(:course, open_on_apply: true))
+      create(:course_option, course: create(:course, open_on_apply: true, provider: currently_authenticated_provider))
 
       post_api_request '/api/v1/test-data/generate?count=1'
 
@@ -48,8 +48,8 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data', type: :request do
     end
 
     it 'respects the courses_per_application= parameter' do
-      create(:course_option, course: create(:course, open_on_apply: true))
-      create(:course_option, course: create(:course, open_on_apply: true))
+      create(:course_option, course: create(:course, open_on_apply: true, provider: currently_authenticated_provider))
+      create(:course_option, course: create(:course, open_on_apply: true, provider: currently_authenticated_provider))
 
       post_api_request '/api/v1/test-data/generate?count=1&courses_per_application=2'
 
@@ -61,9 +61,9 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data', type: :request do
     end
 
     it 'does not generate more than three application_choices per application' do
-      create(:course_option, course: create(:course, open_on_apply: true))
-      create(:course_option, course: create(:course, open_on_apply: true))
-      create(:course_option, course: create(:course, open_on_apply: true))
+      create(:course_option, course: create(:course, open_on_apply: true, provider: currently_authenticated_provider))
+      create(:course_option, course: create(:course, open_on_apply: true, provider: currently_authenticated_provider))
+      create(:course_option, course: create(:course, open_on_apply: true, provider: currently_authenticated_provider))
 
       post_api_request '/api/v1/test-data/generate?count=1&courses_per_application=99'
 
