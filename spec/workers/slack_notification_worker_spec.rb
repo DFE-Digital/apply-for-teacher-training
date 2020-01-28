@@ -51,7 +51,7 @@ RSpec.describe SlackNotificationWorker do
         end
         expect(HTTP).to have_received(:post).with \
           'https://example.com/webhook',
-          body: '{"username":"ApplyBot","icon_emoji":":parrot:","text":"\u003chttps://example.com/support|example text\u003e","mrkdwn":true}'
+          body: '{"username":"ApplyBot","icon_emoji":":parrot:","text":"[TEST] \u003chttps://example.com/support|example text\u003e","mrkdwn":true}'
       end
     end
   end

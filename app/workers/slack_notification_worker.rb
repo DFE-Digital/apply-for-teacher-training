@@ -19,10 +19,12 @@ private
   end
 
   def post_to_slack(text)
+    slack_message = HostingEnvironment.production? ? text : "[#{HostingEnvironment.environment_name.upcase}] #{text}"
+
     payload = {
       username: 'ApplyBot',
       icon_emoji: ':parrot:',
-      text: text,
+      text: slack_message,
       mrkdwn: true,
     }
     response = HTTP.post @webhook_url, body: payload.to_json
