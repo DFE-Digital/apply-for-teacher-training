@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe GetBreaksInWorkHistory do
   describe '.call' do
     let(:jan2019) { Time.zone.local(2019, 1, 1) }
-    let(:nov2019) { Time.zone.local(2019, 11, 1) }
     let(:dec2019) { Time.zone.local(2019, 12, 1) }
 
     context 'when there are no jobs' do
@@ -33,7 +32,10 @@ RSpec.describe GetBreaksInWorkHistory do
 
     context 'when there is only one job' do
       it 'returns the number of months between end_of_date and current date' do
-        application_form = create(:completed_application_form, work_experiences_count: 2)
+        application_form = create(:completed_application_form,
+                                  work_experiences_count: 2,
+                                  application_choices_count: 0,
+                                  references_count: 0)
 
         application_form.application_work_experiences[0].update(
           start_date: jan2019,

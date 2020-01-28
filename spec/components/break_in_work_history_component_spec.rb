@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe BreakInWorkHistoryComponent do
-  it 'contains the nunber of breaks in months' do
+  it 'contains the number of breaks in months' do
     work_experience = instance_double('ApplicationWorkExperience', id: 1)
     break_in_months = 3
 
