@@ -9,6 +9,12 @@ RSpec.describe SlackNotificationWorker do
     let(:url) { 'https://example.com/support' }
     let(:output) { capture_logstash_output(rails_config) { invoke_worker } }
 
+    around do |example|
+      ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'TEST' do
+        example.run
+      end
+    end
+
     before { allow(HTTP).to receive(:post) }
 
     def invoke_worker

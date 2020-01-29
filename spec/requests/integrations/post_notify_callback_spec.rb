@@ -10,6 +10,12 @@ RSpec.describe 'Notify Callback - POST /integrations/notify/callback', type: :re
     { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{notify_callback_token}" }
   end
 
+  around do |example|
+    ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'test' do
+      example.run
+    end
+  end
+
   it 'returns success if token matches environment variable' do
     request_body = {
       reference: "test-reference_request-#{reference.id}",
