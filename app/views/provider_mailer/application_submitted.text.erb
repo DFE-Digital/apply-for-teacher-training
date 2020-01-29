@@ -1,0 +1,10 @@
+Dear <%= @application.provider_user_name %>
+
+<%= @application.candidate_name %> submitted an application for <%= @application.course_name %> <%= @application.course_code %>. 
+
+Log in to Manage teacher training applications to respond:
+<%= provider_interface_application_choice_url(application_choice_id: @application.application_choice_id) %>
+
+We’ll reject the application on your behalf after 40 working days.   
+
+Contact us at becomingateacher@digital.education.gov.uk
