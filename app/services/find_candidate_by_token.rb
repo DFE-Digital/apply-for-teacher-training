@@ -3,9 +3,8 @@ class FindCandidateByToken
 
   def self.call(raw_token:)
     token = MagicLinkToken.from_raw(raw_token)
-    candidate = Candidate.find_by(magic_link_token: token)
 
-    candidate if self.token_not_expired?(candidate)
+    Candidate.find_by(magic_link_token: token)
   end
 
   def self.token_not_expired?(candidate)

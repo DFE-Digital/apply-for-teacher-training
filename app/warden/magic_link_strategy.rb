@@ -6,7 +6,7 @@ class MagicLinkStrategy < Warden::Strategies::Base
   def authenticate!
     candidate = FindCandidateByToken.call(raw_token: params[:token])
 
-    if candidate.present?
+    if FindCandidateByToken.token_not_expired?(candidate)
       success!(candidate)
     else
       fail!

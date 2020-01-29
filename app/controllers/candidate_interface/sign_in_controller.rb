@@ -35,7 +35,9 @@ module CandidateInterface
     def authenticate
       candidate = FindCandidateByToken.call(raw_token: params[:token])
 
-      if candidate
+      if candidate.nil?
+        redirect_to action: :new
+      elsif FindCandidateByToken.token_not_expired?(candidate)
         flash[:success] = t('apply_from_find.account_created_message') if candidate.last_signed_in_at.nil?
 
         sign_in(candidate, scope: :candidate)
@@ -57,7 +59,7 @@ module CandidateInterface
           redirect_to candidate_interface_course_choices_review_path
         end
       else
-        redirect_to action: :new
+        redirect_to candidate_interface_expired_sign_in_path(id: candidate.id)
       end
     end
 
