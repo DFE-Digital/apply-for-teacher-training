@@ -35,7 +35,7 @@ module VendorApi
   private
 
     def feature_flag_new_endpoints
-      if !FeatureFlag.active?('new_test_data_endpoints')
+      if !FeatureFlag.active?('experimental_api_features')
         render json: {}, status: :not_found
       end
     end

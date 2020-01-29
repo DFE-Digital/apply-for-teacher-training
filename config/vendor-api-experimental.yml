@@ -1,0 +1,51 @@
+paths:
+  "/test-data/regenerate":
+    post:
+      deprecated: true
+      description: |
+        Deletes all applications and generates 100 new applications. Only
+        available on the Sandbox. DEPRECATED: See /test-data/generate and /test-data/clear
+  "/experimental/test-data/generate":
+    post:
+      tags:
+      - Testing
+      summary: Generate test data
+      description: 'Generates n new applications, defaulting to 100 applications with
+        one course choice per application. Does not change existing data. Only available
+        on the Sandbox. EXPERIMENTAL — this endpoint may change or disappear.
+
+        '
+      parameters:
+      - name: count
+        description: How many applications to generate (max 100)
+        in: query
+        schema:
+          type: integer
+          default: 100
+          maximum: 100
+      - name: courses_per_application
+        description: How many courses each generated application should apply to
+        in: query
+        schema:
+          type: integer
+          default: 1
+          maximum: 3
+      responses:
+        '201':
+          "$ref": "#/components/responses/TestDataGenerated"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+  "/experimental/test-data/clear":
+    post:
+      tags:
+      - Testing
+      summary: Clear test data
+      description: 'Clears all application data for the current provider. Only available
+        on the Sandbox. EXPERIMENTAL — this endpoint may change or disappear.
+
+        '
+      responses:
+        '200':
+          "$ref": "#/components/responses/OK"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
