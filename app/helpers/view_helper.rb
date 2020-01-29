@@ -61,16 +61,6 @@ module ViewHelper
     dates.edit_by.to_s(:govuk_date).strip
   end
 
-  def candidate_sign_in_url(candidate)
-    encrypted_candidate_id = Encryptor.encrypt(candidate.id)
-
-    if FeatureFlag.active?('improved_expired_token_flow')
-      candidate_interface_sign_in_url(u: encrypted_candidate_id)
-    else
-      candidate_interface_sign_in_url
-    end
-  end
-
 private
 
   def prepend_css_class(css_class, current_class)

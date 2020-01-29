@@ -1,12 +1,9 @@
 class CandidateMailer < ApplicationMailer
-  helper :view
-
   def submit_application_email(application_form)
     @application_form = application_form
-    @candidate = @application_form.candidate
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
-              to: @candidate.email_address,
+              to: application_form.candidate.email_address,
               subject: t('submit_application_success.email.subject'))
   end
 

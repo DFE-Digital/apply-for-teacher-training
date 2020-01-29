@@ -4,14 +4,9 @@ RSpec.describe CandidateMailer, type: :mailer do
   subject(:mailer) { described_class }
 
   describe 'Send submit application email' do
-    let(:candidate) { build_stubbed(:candidate) }
-    let(:application_form) { build_stubbed(:application_form, support_reference: 'SUPPORT-REFERENCE', candidate: candidate) }
-    let(:mail) { mailer.submit_application_email(application_form) }
+    let(:mail) { mailer.submit_application_email(build_stubbed(:application_form, support_reference: 'SUPPORT-REFERENCE')) }
 
-    before do
-      allow(Encryptor).to receive(:encrypt).with(candidate.id).and_return('example_encrypted_id')
-      mail.deliver_later
-    end
+    before { mail.deliver_later }
 
     it 'sends an email with the correct subject' do
       expect(mail.subject).to include(t('submit_application_success.email.subject'))
@@ -23,23 +18,6 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it 'sends an email containing the support reference' do
       expect(mail.body.encoded).to include('SUPPORT-REFERENCE')
-    end
-
-    context 'when the improved_expired_token_flow feature flag is on' do
-      before { FeatureFlag.activate('improved_expired_token_flow') }
-
-      it 'sends an email containing a link to sign in and id' do
-        expect(mail.body.encoded).to include(candidate_interface_sign_in_url(u: 'example_encrypted_id'))
-      end
-    end
-
-    context 'when the improved_expired_token_flow feature flag is off' do
-      before { FeatureFlag.deactivate('improved_expired_token_flow') }
-
-      it 'sends an email containing a link to sign in without id' do
-        expect(mail.body.encoded).to include(candidate_interface_sign_in_url)
-        expect(mail.body.encoded).not_to include(candidate_interface_sign_in_url(u: 'example_encrypted_id'))
-      end
     end
   end
 

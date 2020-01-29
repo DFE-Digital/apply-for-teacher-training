@@ -12,14 +12,14 @@ Your application reference is <%= @application_form.support_reference %>.
 
 You can track the progress of your <%= 'application'.pluralize(@application_form.application_choices.count) %> here:
 
-<%= candidate_sign_in_url(@candidate) %>
+<%= candidate_interface_application_form_url %>
 
 # Making changes to your application
 
 <% if FeatureFlag.active?('edit_application') %>
   You have 5 working days to edit your application or change your choice of provider, course or training location.
 
-  To make changes, [sign back in to your account](<%= candidate_sign_in_url(@candidate) %>).
+  To make changes, [sign back in to your account](<%= candidate_interface_sign_in_url %>).
 
   You can sign back in to change your name or contact details at any point up until enrolment.
 
@@ -40,7 +40,7 @@ You can track the progress of your <%= 'application'.pluralize(@application_form
 
 You can withdraw your application to your <%= 'course'.pluralize(@application_form.application_choices.count) %> at any point, even after you’ve accepted an offer.
 
-[Sign in to your account](<%= candidate_sign_in_url(@candidate) %>) and click ‘withdraw’ next to the <%= 'course'.pluralize(@application_form.application_choices.count) %> you want to withdraw and we’ll let your training <%= 'provider'.pluralize(@application_form.application_choices.count) %> know.
+[Sign in to your account](<%= candidate_interface_sign_in_url %>) and click ‘withdraw’ next to the <%= 'course'.pluralize(@application_form.application_choices.count) %> you want to withdraw and we’ll let your training <%= 'provider'.pluralize(@application_form.application_choices.count) %> know.
 
 # References
 
