@@ -1,13 +1,13 @@
-<h2 class='govuk-heading-l' id='<%= state_name %>'><%= t("application_states.#{state_name}.name") %></h2>
+<h2 class='govuk-heading-l' id='<%= state_name %>'><%= human_state_name %></h2>
 
 <p class='govuk-body-l'>
-  There <%= link_to pluralize(ApplicationChoice.where(status: state_name).count, 'application'), support_interface_applications_path %> currently in this state
+  We have <%= link_to pluralize(machine.state_count(state_name), 'application'), support_interface_applications_path %> currently in this state
 </p>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-half">
     <div class="govuk-body">
-      <%= t "application_states.#{state_name}.description" %>
+      <%= state_description %>
     </div>
 
     <% if state.events.any? %>
@@ -15,7 +15,7 @@
 
       <ul class="govuk-list">
       <% state.events.each do |_, events| %>
-        <%= render SupportInterface::StateEventExplanationComponent, from_state: state_name, event: events.first %>
+        <%= render SupportInterface::StateEventExplanationComponent, machine: machine, from_state: state_name, event: events.first %>
       <% end %>
       </ul>
     <% else %>
@@ -26,6 +26,6 @@
   </div>
 
   <div class="govuk-grid-column-one-half">
-    <%= StateDiagram.svg(state_name) %>
+    <%= StateDiagram.svg(only_from_state: state_name, machine: machine) %>
   </div>
 </div>

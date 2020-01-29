@@ -2,7 +2,11 @@
 
 <ul class="govuk-footer__inline-list">
   <li class="govuk-footer__inline-list-item">
-    <%= govuk_link_to 'Process documentation', support_interface_process_path %>
+    <%= govuk_link_to 'Provider application flow', support_interface_provider_flow_path %>
+  </li>
+
+  <li class="govuk-footer__inline-list-item">
+    <%= govuk_link_to 'Candidate application flow', support_interface_candidate_flow_path %>
   </li>
 
   <% if Rails.application.config.action_mailer.show_previews %>

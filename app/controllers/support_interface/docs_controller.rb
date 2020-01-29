@@ -1,5 +1,7 @@
 module SupportInterface
   class DocsController < SupportInterfaceController
-    def index; end
+    def provider_flow; end
+
+    def candidate_flow; end
   end
 end
