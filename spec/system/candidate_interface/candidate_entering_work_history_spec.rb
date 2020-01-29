@@ -4,6 +4,8 @@ RSpec.feature 'Entering their work history' do
   include CandidateHelper
 
   scenario 'Candidate submits their work history' do
+    FeatureFlag.activate('work_breaks')
+
     given_i_am_signed_in
     and_i_visit_the_site
 
@@ -28,12 +30,18 @@ RSpec.feature 'Entering their work history' do
     then_i_should_be_asked_for_an_explanation
 
     when_i_click_on_add_job
-    and_i_fill_in_the_job_form
+    and_i_fill_in_the_job_form # 5/2014 - 1/2019
     then_i_should_see_my_completed_job
 
     when_i_click_on_add_another_job
-    and_i_fill_in_the_job_form_with_another_job_with_a_break
+    and_i_fill_in_the_job_form_with_another_job_with_a_break # 3/2019 - current
+    and_i_do_not_fill_in_end_date
+
     then_i_should_see_my_second_job
+
+    and_i_should_see_the_length_of_the_gap_in_months # 1 months
+    and_i_should_not_see_0_months_gap
+
     and_i_should_be_asked_to_explain_the_break_in_my_work_history
 
     when_i_click_to_enter_break_explanation
@@ -175,7 +183,7 @@ RSpec.feature 'Entering their work history' do
     choose 'Full-time'
 
     within('[data-qa="start-date"]') do
-      fill_in 'Month', with: '2'
+      fill_in 'Month', with: '3'
       fill_in 'Year', with: '2019'
     end
 
@@ -186,8 +194,18 @@ RSpec.feature 'Entering their work history' do
     click_button t('application_form.work_history.complete_form_button')
   end
 
+  def and_i_do_not_fill_in_end_date; end
+
   def then_i_should_see_my_second_job
     expect(page).to have_content('Chief of Xenomorph Procurement and Research')
+  end
+
+  def and_i_should_see_the_length_of_the_gap_in_months
+    expect(page).to have_content('You have a break in your work history (1 month)')
+  end
+
+  def and_i_should_not_see_0_months_gap
+    expect(page).not_to have_content('(0 months)')
   end
 
   def and_i_should_be_asked_to_explain_the_break_in_my_work_history
