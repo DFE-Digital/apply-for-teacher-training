@@ -29,7 +29,7 @@
 </div>
 
 <% unless HostingEnvironment.production? %>
-  <%= button_to 'Sign in as this candidate (sandbox-only)', provider_interface_impersonate_candidate_path(@application_choice.application_form.candidate), class: 'govuk-button' %>
+  <%= button_to 'Sign in as this candidate (Test environments only)', provider_interface_impersonate_candidate_path(@application_choice.application_form.candidate), class: 'govuk-button' %>
 <% end %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8" id="course-info">Course</h2>
