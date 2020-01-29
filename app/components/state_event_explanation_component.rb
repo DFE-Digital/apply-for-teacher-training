@@ -1,12 +1,13 @@
 class StateEventExplanationComponent < ActionView::Component::Base
   include ViewHelper
 
-  attr_reader :from_state, :event, :namespace, :machine
+  attr_reader :from_state, :event, :namespace, :machine, :development_details
 
-  def initialize(from_state:, event:, machine:)
+  def initialize(from_state:, event:, machine:, development_details:)
     @from_state = from_state
     @event = event
     @machine = machine
+    @development_details = development_details
     @namespace = machine.i18n_namespace
   end
 

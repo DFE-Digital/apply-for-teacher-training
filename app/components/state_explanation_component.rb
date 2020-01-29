@@ -1,11 +1,12 @@
 class StateExplanationComponent < ActionView::Component::Base
   include ViewHelper
 
-  attr_reader :state, :namespace, :machine
+  attr_reader :state, :namespace, :machine, :development_details
 
-  def initialize(state:, machine:)
+  def initialize(state:, machine:, development_details: false)
     @state = state
     @machine = machine
+    @development_details = development_details
     @namespace = machine.i18n_namespace
   end
 
