@@ -141,6 +141,11 @@ FactoryBot.define do
     name { Faker::Educator.subject }
     level { 'primary' }
     recruitment_cycle_year { 2020 }
+
+    trait :open_on_apply do
+      open_on_apply { true }
+      exposed_in_find { true }
+    end
   end
 
   factory :provider do
