@@ -12,6 +12,7 @@ class CandidateMailer < ApplicationMailer
 
   def application_under_consideration(application_form)
     @application = OpenStruct.new(
+      candidate: application_form.candidate,
       candidate_name: application_form.first_name,
       choice_count: application_form.application_choices.count,
       rbd_date: application_form.application_choices.first.reject_by_default_at,
