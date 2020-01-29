@@ -7,7 +7,7 @@ class Course < ApplicationRecord
   validates :level, presence: true
   validates :code, uniqueness: { scope: :provider_id }
 
-  scope :open_on_apply, -> { where(open_on_apply: true) }
+  scope :open_on_apply, -> { exposed_in_find.where(open_on_apply: true) }
   scope :exposed_in_find, -> { where(exposed_in_find: true) }
 
   CODE_LENGTH = 4
