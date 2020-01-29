@@ -1,21 +1,22 @@
+---
 openapi: 3.0.0
 info:
-  version: "v1"
+  version: v1
   title: Apply API
   contact:
     name: DfE
     email: becomingateacher@digital.education.gov.uk
   description: API for DfE's Apply for postgraduate teacher training service
 servers:
-  - description: Sandbox (test environment for vendors)
-    url: https://sandbox.apply-for-teacher-training.education.gov.uk/api/v1
-  - description: Production
-    url: https://www.apply-for-teacher-training.education.gov.uk/api/v1
+- description: Sandbox (test environment for vendors)
+  url: https://sandbox.apply-for-teacher-training.education.gov.uk/api/v1
+- description: Production
+  url: https://www.apply-for-teacher-training.education.gov.uk/api/v1
 paths:
-  /applications:
+  "/applications":
     get:
       tags:
-        - Application management
+      - Application management
       summary: Get many applications
       description: |
         This endpoint can be used to retrieve applications for the authenticating
@@ -24,58 +25,60 @@ paths:
         Use the `since` parameter to limit the number of results. This is intended
         to make it possible to check for new or updated applications regularly.
       parameters:
-        - name: since
-          description: Include only applications changed or created on or since a date and time. Times should be in ISO 8601 format.
-          in: query
-          required: true
-          example: "2019-12-06T12:00:00Z"
-          schema:
-            type: string
-            format: date-time
+      - name: since
+        description: Include only applications changed or created on or since a date
+          and time. Times should be in ISO 8601 format.
+        in: query
+        required: true
+        example: '2019-12-06T12:00:00Z'
+        schema:
+          type: string
+          format: date-time
       responses:
-        "200":
+        '200':
           description: An array of applications
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/MultipleApplicationsResponse"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "422":
-          $ref: "#/components/responses/ParameterMissing"
+                "$ref": "#/components/schemas/MultipleApplicationsResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '422':
+          "$ref": "#/components/responses/ParameterMissing"
   "/applications/{application_id}":
     get:
       tags:
-        - Application management
+      - Application management
       summary: Get a single application
       parameters:
-        - $ref: "#/components/parameters/application_id"
+      - "$ref": "#/components/parameters/application_id"
       responses:
-        "200":
+        '200':
           description: An application
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SingleApplicationResponse"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "422":
-          $ref: "#/components/responses/UnprocessableEntity"
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
   "/applications/{application_id}/offer":
     post:
       tags:
-        - Application management
+      - Application management
       summary: Make an offer
       description: Make an offer
       parameters:
-        - $ref: '#/components/parameters/application_id'
+      - "$ref": "#/components/parameters/application_id"
       requestBody:
         description: |
           The conditions of the offer
 
-          Providing a request body with an array of conditions is equivalent to making a **conditional** offer. For an **unconditional** offer, provide an empty array.
+          Providing a request body with an array of conditions is equivalent to making a **conditional** offer.
+          For an **unconditional** offer, provide an empty array.
 
           You can provide an optional `course` object if you wish to suggest a different course code, location, or year of entry.
         content:
@@ -84,30 +87,30 @@ paths:
               type: object
               properties:
                 data:
-                  $ref: "#/components/schemas/MakeOffer"
+                  "$ref": "#/components/schemas/MakeOffer"
                 meta:
-                  $ref: '#/components/schemas/MetaData'
+                  "$ref": "#/components/schemas/MetaData"
       responses:
-        "200":
+        '200':
           description: An application
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SingleApplicationResponse"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "422":
-          $ref: "#/components/responses/UnprocessableEntity"
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
   "/applications/{application_id}/confirm-enrolment":
     post:
       tags:
-        - Application management
+      - Application management
       summary: Confirm enrolment
       description: Confirm that the candidate has enrolled
       parameters:
-        - $ref: '#/components/parameters/application_id'
+      - "$ref": "#/components/parameters/application_id"
       requestBody:
         content:
           application/json:
@@ -115,28 +118,29 @@ paths:
               type: object
               properties:
                 meta:
-                  $ref: '#/components/schemas/MetaData'
+                  "$ref": "#/components/schemas/MetaData"
       responses:
-        "200":
+        '200':
           description: An application
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SingleApplicationResponse"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "422":
-          $ref: "#/components/responses/UnprocessableEntity"
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
   "/applications/{application_id}/confirm-conditions-met":
     post:
       tags:
-        - Application management
+      - Application management
       summary: Confirm offer conditions
-      description: Confirm that the candidate has met all the conditions set out in the offer
+      description: Confirm that the candidate has met all the conditions set out in
+        the offer
       parameters:
-        - $ref: '#/components/parameters/application_id'
+      - "$ref": "#/components/parameters/application_id"
       requestBody:
         content:
           application/json:
@@ -144,28 +148,28 @@ paths:
               type: object
               properties:
                 meta:
-                  $ref: '#/components/schemas/MetaData'
+                  "$ref": "#/components/schemas/MetaData"
       responses:
-        "200":
+        '200':
           description: An application
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SingleApplicationResponse"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "422":
-          $ref: "#/components/responses/UnprocessableEntity"
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
   "/applications/{application_id}/conditions-not-met":
     post:
       tags:
-        - Application management
+      - Application management
       summary: Conditions not met
       description: The candidate has not met all the conditions set out in the offer
       parameters:
-        - $ref: '#/components/parameters/application_id'
+      - "$ref": "#/components/parameters/application_id"
       requestBody:
         content:
           application/json:
@@ -173,28 +177,28 @@ paths:
               type: object
               properties:
                 meta:
-                  $ref: '#/components/schemas/MetaData'
+                  "$ref": "#/components/schemas/MetaData"
       responses:
-        "200":
+        '200':
           description: An application
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SingleApplicationResponse"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "422":
-          $ref: "#/components/responses/UnprocessableEntity"
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
   "/applications/{application_id}/reject":
     post:
       tags:
-        - Application management
+      - Application management
       summary: Reject application
       description: Reject the candidate's application with a reason
       parameters:
-        - $ref: '#/components/parameters/application_id'
+      - "$ref": "#/components/parameters/application_id"
       requestBody:
         description: The reason for rejection
         content:
@@ -203,82 +207,86 @@ paths:
               type: object
               properties:
                 data:
-                  $ref: '#/components/schemas/Rejection'
+                  "$ref": "#/components/schemas/Rejection"
                 meta:
-                  $ref: '#/components/schemas/MetaData'
+                  "$ref": "#/components/schemas/MetaData"
       responses:
-        "200":
+        '200':
           description: An application
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SingleApplicationResponse"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "422":
-          $ref: "#/components/responses/UnprocessableEntity"
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
   "/test-data/regenerate":
     post:
       deprecated: true
       tags:
-        - Testing
+      - Testing
       summary: Regenerate test data
       description: |
         Deletes all applications and generates 100 new applications. Only
         available on the Sandbox. DEPRECATED: prefer /test-data/generate and /test-data/clear
       parameters:
-        - name: count
-          description: How many items to generate (max 100)
-          in: query
-          schema:
-            type: integer
+      - name: count
+        description: How many items to generate (max 100)
+        in: query
+        schema:
+          type: integer
       responses:
-        "200":
-          $ref: "#/components/responses/OK"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
+        '200':
+          "$ref": "#/components/responses/OK"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
   "/test-data/generate":
     post:
       tags:
-        - Testing
+      - Testing
       summary: Generate test data
-      description: |
-        Generates n new applications, defaulting to 100 applications with one course choice per application. Does not change existing data. Only available on the Sandbox.
+      description: 'Generates n new applications, defaulting to 100 applications with
+        one course choice per application. Does not change existing data. Only available
+        on the Sandbox.
+
+        '
       parameters:
-        - name: count
-          description: How many applications to generate (max 100)
-          in: query
-          schema:
-            type: integer
-            default: 100
-            maximum: 100
-        - name: courses_per_application
-          description: How many courses each generated application should apply to
-          in: query
-          schema:
-            type: integer
-            default: 1
-            maximum: 3
+      - name: count
+        description: How many applications to generate (max 100)
+        in: query
+        schema:
+          type: integer
+          default: 100
+          maximum: 100
+      - name: courses_per_application
+        description: How many courses each generated application should apply to
+        in: query
+        schema:
+          type: integer
+          default: 1
+          maximum: 3
       responses:
-        "201":
-          $ref: "#/components/responses/TestDataGenerated"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
+        '201':
+          "$ref": "#/components/responses/TestDataGenerated"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
   "/test-data/clear":
     post:
       tags:
-        - Testing
+      - Testing
       summary: Clear test data
-      description: |
-        Clears all application data for the current provider. Only available on the Sandbox.
-      responses:
-        "200":
-          $ref: "#/components/responses/OK"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
+      description: 'Clears all application data for the current provider. Only available
+        on the Sandbox.
 
+        '
+      responses:
+        '200':
+          "$ref": "#/components/responses/OK"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
 components:
   responses:
     OK:
@@ -286,64 +294,62 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/OkResponse"
-
+            "$ref": "#/components/schemas/OkResponse"
     NotFound:
       description: Not found
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/NotFoundResponse"
-
+            "$ref": "#/components/schemas/NotFoundResponse"
     Unauthorized:
       description: Unauthorized
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/UnauthorizedResponse"
+            "$ref": "#/components/schemas/UnauthorizedResponse"
     ParameterMissing:
       description: A required URL parameter was empty or missing
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/ParameterMissingResponse"
+            "$ref": "#/components/schemas/ParameterMissingResponse"
     UnprocessableEntity:
-      description: Returned when the request body was missing data or contained invalid data
+      description: Returned when the request body was missing data or contained invalid
+        data
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/UnprocessableEntityResponse"
+            "$ref": "#/components/schemas/UnprocessableEntityResponse"
     TestDataGenerated:
       description: Returned following successful generation of test data
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/TestDataGeneratedResponse"
-
+            "$ref": "#/components/schemas/TestDataGeneratedResponse"
   schemas:
     MultipleApplicationsResponse:
       type: object
       required:
-        - data
+      - data
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/Application"
+            "$ref": "#/components/schemas/Application"
     SingleApplicationResponse:
       type: object
       required:
-        - data
+      - data
       properties:
         data:
-          $ref: "#/components/schemas/Application"
+          "$ref": "#/components/schemas/Application"
     Application:
       type: object
       additionalProperties: false
       required:
-        - id
-        - type
-        - attributes
+      - id
+      - type
+      - attributes
       properties:
         id:
           type: string
@@ -354,45 +360,45 @@ components:
           type: string
           description: Type of the object, always "application"
           enum:
-            - application
+          - application
           example: application
         attributes:
-          $ref: "#/components/schemas/ApplicationAttributes"
+          "$ref": "#/components/schemas/ApplicationAttributes"
     ApplicationAttributes:
       type: object
       additionalProperties: false
       required:
-        - candidate
-        - phase
-        - contact_details
-        - course
-        - offer
-        - personal_statement
-        - interview_preferences
-        - qualifications
-        - references
-        - rejection
-        - status
-        - submitted_at
-        - updated_at
-        - reject_by_default_at
-        - withdrawal
-        - further_information
-        - work_experience
+      - candidate
+      - phase
+      - contact_details
+      - course
+      - offer
+      - personal_statement
+      - interview_preferences
+      - qualifications
+      - references
+      - rejection
+      - status
+      - submitted_at
+      - updated_at
+      - reject_by_default_at
+      - withdrawal
+      - further_information
+      - work_experience
       properties:
         status:
           type: string
           description: The status of this application
           enum:
-            - awaiting_provider_decision
-            - conditions_not_met
-            - declined
-            - enrolled
-            - offer
-            - pending_conditions
-            - recruited
-            - rejected
-            - withdrawn
+          - awaiting_provider_decision
+          - conditions_not_met
+          - declined
+          - enrolled
+          - offer
+          - pending_conditions
+          - recruited
+          - rejected
+          - withdrawn
           example: awaiting_provider_decision
         phase:
           type: string
@@ -402,89 +408,91 @@ components:
             declined, or withdrawn, the user can go into "Apply 2". This means
             they can choose 1 course at a time.
           enum:
-            - apply_1
-            - apply_2
+          - apply_1
+          - apply_2
           example: apply_1
         submitted_at:
           type: string
           format: date-time
           description: Time of submission
-          example: "2019-06-13T10:44:31Z"
+          example: '2019-06-13T10:44:31Z'
         updated_at:
           type: string
           format: date-time
           description: Time of last change
-          example: "2019-06-13T10:44:31Z"
+          example: '2019-06-13T10:44:31Z'
         reject_by_default_at:
           type: string
           format: date-time
           nullable: true
           description: Time when the application is due to be rejected by default
-          example: "2019-06-13T23:59:59Z"
+          example: '2019-06-13T23:59:59Z'
         personal_statement:
           type: string
-          maxLength: 11264  # 1000 words + 100 for our introductory text
-          description: The candidate’s personal statement, combined from the "Becoming a Teacher" and "Subject Knowledge" fields in the application form
-          example: "Since retiring from the Police Service in 2007..."
+          maxLength: 11264
+          description: The candidate’s personal statement, combined from the "Becoming
+            a Teacher" and "Subject Knowledge" fields in the application form
+          example: Since retiring from the Police Service in 2007...
         interview_preferences:
           type: string
-          maxLength: 2048  # 200 words
+          maxLength: 2048
           description: The candidate’s interview preferences
-          example: "I can’t come to interview on Thursdays"
+          example: I can’t come to interview on Thursdays
         candidate:
-          $ref: "#/components/schemas/Candidate"
+          "$ref": "#/components/schemas/Candidate"
         contact_details:
-          $ref: "#/components/schemas/ContactDetails"
+          "$ref": "#/components/schemas/ContactDetails"
         course:
-          $ref: "#/components/schemas/Course"
+          "$ref": "#/components/schemas/Course"
         qualifications:
-          $ref: "#/components/schemas/Qualifications"
+          "$ref": "#/components/schemas/Qualifications"
         work_experience:
-          $ref: '#/components/schemas/WorkExperiences'
+          "$ref": "#/components/schemas/WorkExperiences"
         references:
           type: array
           items:
-            $ref: "#/components/schemas/Reference"
+            "$ref": "#/components/schemas/Reference"
         offer:
           anyOf:
-            - $ref: "#/components/schemas/Offer"
+          - "$ref": "#/components/schemas/Offer"
           nullable: true
         withdrawal:
           anyOf:
-            - $ref: "#/components/schemas/Withdrawal"
+          - "$ref": "#/components/schemas/Withdrawal"
           nullable: true
         rejection:
           anyOf:
-            - $ref: "#/components/schemas/Rejection"
+          - "$ref": "#/components/schemas/Rejection"
           nullable: true
         hesa_itt_data:
-          $ref: "#/components/schemas/HESAITTData"
+          "$ref": "#/components/schemas/HESAITTData"
         further_information:
           type: string
-          maxLength: 3072  # 300 words
+          maxLength: 3072
           nullable: true
-          description: "Other personal or professional issues relevant to the application which are not covered in the form"
-          example: "I am expecting to be called for jury service in the next 12 months"
+          description: Other personal or professional issues relevant to the application
+            which are not covered in the form
+          example: I am expecting to be called for jury service in the next 12 months
     Candidate:
       type: object
       additionalProperties: false
       required:
-        - id
-        - first_name
-        - last_name
-        - date_of_birth
-        - nationality
-        - uk_residency_status
-        - english_main_language
-        - english_language_qualifications
-        - other_languages
-        - disability_disclosure
+      - id
+      - first_name
+      - last_name
+      - date_of_birth
+      - nationality
+      - uk_residency_status
+      - english_main_language
+      - english_language_qualifications
+      - other_languages
+      - disability_disclosure
       properties:
         id:
           type: string
           description: The candidate’s ID in the Apply system
           maxLength: 10
-          example: "C5432"
+          example: C5432
         first_name:
           type: string
           description: The candidate’s first name
@@ -499,7 +507,7 @@ components:
           type: string
           format: date
           description: The candidate’s date of birth
-          example: "1985-02-02"
+          example: '1985-02-02'
         nationality:
           type: array
           items:
@@ -511,7 +519,7 @@ components:
         uk_residency_status:
           type: string
           maxLength: 256
-          description: "The candidate’s UK residency status, e.g. Citizen"
+          description: The candidate’s UK residency status, e.g. Citizen
           example: UK Citizen
         english_main_language:
           type: boolean
@@ -519,40 +527,43 @@ components:
           example: true
         english_language_qualifications:
           type: string
-          maxLength: 2048  # 200 words
+          maxLength: 2048
           nullable: true
-          description: About this candidate's English language qualifications, if English is not their main language
-          example: "I have a degree in English Language and Literature from the University of Munich"
+          description: About this candidate's English language qualifications, if
+            English is not their main language
+          example: I have a degree in English Language and Literature from the University
+            of Munich
         other_languages:
           type: string
-          maxLength: 2048  # 200 words
+          maxLength: 2048
           nullable: true
           description: Details of the candidate's fluency in other languages
-          example: "I am bilingual in Finnish and English"
+          example: I am bilingual in Finnish and English
         disability_disclosure:
           type: string
-          maxLength: 4096  # 400 words
+          maxLength: 4096
           nullable: true
-          description: Voluntary disclosure of disabliity or SEN so providers can provide appropriate support
-          example: "I am dyslexic"
+          description: Voluntary disclosure of disabliity or SEN so providers can
+            provide appropriate support
+          example: I am dyslexic
     ContactDetails:
       type: object
       additionalProperties: false
       required:
-        - address_line1
-        - address_line2
-        - address_line3
-        - address_line4
-        - postcode
-        - country
-        - email
-        - phone_number
+      - address_line1
+      - address_line2
+      - address_line3
+      - address_line4
+      - postcode
+      - country
+      - email
+      - phone_number
       properties:
         address_line1:
           type: string
           description: The candidate’s address line 1
           maxLength: 50
-          example: "45 Dialstone Lane"
+          example: 45 Dialstone Lane
         address_line2:
           type: string
           description: The candidate’s address line 2
@@ -588,16 +599,16 @@ components:
           type: string
           description: The candidate’s phone number
           maxLength: 50
-          example: "07944386555"
+          example: '07944386555'
     Course:
       type: object
       additionalProperties: false
       required:
-        - recruitment_cycle_year
-        - provider_code
-        - course_code
-        - site_code
-        - study_mode
+      - recruitment_cycle_year
+      - provider_code
+      - course_code
+      - site_code
+      - study_mode
       properties:
         recruitment_cycle_year:
           type: integer
@@ -623,14 +634,14 @@ components:
           description: Can be 'full_time' or 'part_time'
           example: full_time
           enum:
-            - full_time
-            - part_time
+          - full_time
+          - part_time
     Offer:
       type: object
       additionalProperties: false
       required:
-        - conditions
-        - course
+      - conditions
+      - course
       properties:
         conditions:
           type: array
@@ -640,15 +651,15 @@ components:
           description: The conditions of the offer
           maxItems: 20
           example:
-            - Completion of subject knowledge enhancement
-            - Completion of professional skills test
+          - Completion of subject knowledge enhancement
+          - Completion of professional skills test
         course:
-          $ref: "#/components/schemas/Course"
+          "$ref": "#/components/schemas/Course"
     MakeOffer:
       type: object
       additionalProperties: false
       required:
-        - conditions
+      - conditions
       properties:
         conditions:
           type: array
@@ -658,24 +669,24 @@ components:
           description: The conditions of the offer
           maxItems: 20
           example:
-            - Completion of subject knowledge enhancement
-            - Completion of professional skills test
+          - Completion of subject knowledge enhancement
+          - Completion of professional skills test
         course:
           description: An optional `course` that you wish to suggest to the candidate.
           anyOf:
-            - $ref: "#/components/schemas/Course"
+          - "$ref": "#/components/schemas/Course"
     Qualification:
       type: object
       additionalProperties: false
       required:
-        - id
-        - qualification_type
-        - subject
-        - grade
-        - award_year
-        - institution_details
-        - equivalency_details
-        - awarding_body
+      - id
+      - qualification_type
+      - subject
+      - grade
+      - award_year
+      - institution_details
+      - equivalency_details
+      - awarding_body
       properties:
         id:
           type: integer
@@ -695,12 +706,12 @@ components:
           type: string
           maxLength: 255
           description: The grade awarded
-          example: "2:1"
+          example: '2:1'
         award_year:
           type: string
           maxLength: 4
           description: The year the award was made
-          example: "1992"
+          example: '1992'
         institution_details:
           type: string
           description: Details about the institution and awarding body
@@ -709,13 +720,13 @@ components:
           nullable: true
         equivalency_details:
           type: string
-          description: "Details of equivalency, if this qualification was awarded overseas"
+          description: Details of equivalency, if this qualification was awarded overseas
           example: Equivalent to GCSE C
           maxLength: 255
           nullable: true
         awarding_body:
           type: string
-          description: "Details about the qualification awarding body"
+          description: Details about the qualification awarding body
           example: University of Amsterdam
           maxLength: 255
           nullable: true
@@ -723,10 +734,10 @@ components:
       type: object
       additionalProperties: false
       required:
-        - name
-        - email
-        - relationship
-        - reference
+      - name
+      - email
+      - relationship
+      - reference
       properties:
         name:
           type: string
@@ -741,18 +752,18 @@ components:
         relationship:
           type: string
           description: The referee’s relationship to the candidate
-          maxLength: 512  # 0.5k — 50 words
+          maxLength: 512
           example: Julia was my mentor at Cheadle Hulme High
         reference:
           type: string
-          description: "The reference content provided by the referee."
-          maxLength: 3072  # 3k — 300 words
+          description: The reference content provided by the referee.
+          maxLength: 3072
           example: Boris is committed to the profession of teaching...
     Rejection:
       type: object
       additionalProperties: false
       required:
-        - reason
+      - reason
       properties:
         reason:
           type: string
@@ -763,8 +774,8 @@ components:
       type: object
       additionalProperties: false
       required:
-        - reason
-        - date
+      - reason
+      - date
       properties:
         reason:
           type: string
@@ -776,72 +787,74 @@ components:
           type: string
           format: date-time
           description: Time of the withdrawal
-          example: "2019-09-18T15:33:49.216Z"
+          example: '2019-09-18T15:33:49.216Z'
     Qualifications:
       type: object
       additionalProperties: false
       required:
-        - gcses
-        - degrees
-        - other_qualifications
-        - missing_gcses_explanation
+      - gcses
+      - degrees
+      - other_qualifications
+      - missing_gcses_explanation
       properties:
         gcses:
           type: array
           items:
-            $ref: "#/components/schemas/Qualification"
+            "$ref": "#/components/schemas/Qualification"
         degrees:
           type: array
           items:
-            $ref: "#/components/schemas/Qualification"
+            "$ref": "#/components/schemas/Qualification"
         other_qualifications:
           type: array
           items:
-            $ref: "#/components/schemas/Qualification"
+            "$ref": "#/components/schemas/Qualification"
         missing_gcses_explanation:
           type: string
           nullable: true
-          maxLength: 8192 # Up to 800 words
-          description: If the candidate lacks any required GCSEs, this field will contain their free-text explanation of why this is the case.
-          example: 'Maths GCSE or equivalent: I will take Maths GCSE at my local training provider on 18th August 2020'
-
+          maxLength: 8192
+          description: If the candidate lacks any required GCSEs, this field will
+            contain their free-text explanation of why this is the case.
+          example: 'Maths GCSE or equivalent: I will take Maths GCSE at my local training
+            provider on 18th August 2020'
     WorkExperiences:
       type: object
       additionalProperties: false
       required:
-        - jobs
-        - volunteering
-        - work_history_break_explanation
+      - jobs
+      - volunteering
+      - work_history_break_explanation
       properties:
         jobs:
           type: array
           description: The candidate’s professional experience
           items:
-            $ref: "#/components/schemas/WorkExperience"
+            "$ref": "#/components/schemas/WorkExperience"
         volunteering:
           type: array
           description: The candidate’s experience as a volunteer
           items:
-            $ref: "#/components/schemas/WorkExperience"
+            "$ref": "#/components/schemas/WorkExperience"
         work_history_break_explanation:
           type: string
           nullable: true
-          description: The candidate’s explanation for any breaks in work history. Will be null if there aren't any breaks in the candidate’s work history. We define a break in work history as more than a month between 2 jobs.
-          maxLength: 4096 # 400 words
-          example: 'I spent time volunteering overseas...'
-
+          description: The candidate’s explanation for any breaks in work history.
+            Will be null if there aren't any breaks in the candidate’s work history.
+            We define a break in work history as more than a month between 2 jobs.
+          maxLength: 4096
+          example: I spent time volunteering overseas...
     WorkExperience:
       type: object
       additionalProperties: false
       required:
-        - id
-        - organisation_name
-        - start_date
-        - end_date
-        - role
-        - description
-        - working_with_children
-        - commitment
+      - id
+      - organisation_name
+      - start_date
+      - end_date
+      - role
+      - description
+      - working_with_children
+      - commitment
       properties:
         id:
           type: integer
@@ -856,13 +869,13 @@ components:
           type: string
           format: date
           description: The date the position began
-          example: "2020-09-10"
+          example: '2020-09-10'
         end_date:
           type: string
           format: date
           nullable: true
           description: The date the position finished, if applicable
-          example: "2019-04-01"
+          example: '2019-04-01'
         role:
           type: string
           description: The position held by the candidate
@@ -871,8 +884,8 @@ components:
         description:
           type: string
           description: A written description of the work involved
-          maxLength: 1536  # 1.5k — 150 words
-          example: "I lead, develop and enhance the literacy teaching practice of others..."
+          maxLength: 1536
+          example: I lead, develop and enhance the literacy teaching practice of others...
         working_with_children:
           type: boolean
           description: Did this position involve working in a school or with children?
@@ -883,8 +896,8 @@ components:
           type: string
           example: full_time
           enum:
-            - full_time
-            - part_time
+          - full_time
+          - part_time
     HESAITTData:
       type: object
       additionalProperties: false
@@ -893,96 +906,96 @@ components:
         return. This information will only be returned once the application
         status is `enrolled`.
       required:
-        - sex
-        - disability
-        - ethnicity
+      - sex
+      - disability
+      - ethnicity
       properties:
         sex:
           type: string
           nullable: true
           description: The candidate’s sex as a [1-digit HESA code for Sex](https://www.hesa.ac.uk/collection/c19053/e/sexid)
-          example: "1"
+          example: '1'
           enum:
-            - "1"
-            - "2"
-            - "3"
+          - '1'
+          - '2'
+          - '3'
         disability:
           type: string
           nullable: true
           description: The candidate’s disability as [a 2-digit HESA code for Disability](https://www.hesa.ac.uk/collection/c19053/e/disable)
-          example: "00"
+          example: '00'
           enum:
-            - "00"
-            - "08"
-            - "51"
-            - "53"
-            - "54"
-            - "55"
-            - "56"
-            - "57"
-            - "58"
-            - "96"
+          - '00'
+          - '08'
+          - '51'
+          - '53'
+          - '54'
+          - '55'
+          - '56'
+          - '57'
+          - '58'
+          - '96'
         ethnicity:
           type: string
           description: The candidate’s ethnicity as [a 2-digit HESA code for Ethnicity](https://www.hesa.ac.uk/collection/c19053/e/ethnic)
-          example: "10"
+          example: '10'
           enum:
-            - "10"
-            - "15"
-            - "21"
-            - "22"
-            - "29"
-            - "31"
-            - "32"
-            - "33"
-            - "34"
-            - "39"
-            - "41"
-            - "42"
-            - "43"
-            - "49"
-            - "50"
-            - "80"
-            - "90"
-            - "98"
+          - '10'
+          - '15'
+          - '21'
+          - '22'
+          - '29'
+          - '31'
+          - '32'
+          - '33'
+          - '34'
+          - '39'
+          - '41'
+          - '42'
+          - '43'
+          - '49'
+          - '50'
+          - '80'
+          - '90'
+          - '98'
     Attribution:
       type: object
       additionalProperties: false
       required:
-        - full_name
-        - email
-        - user_id
+      - full_name
+      - email
+      - user_id
       properties:
         full_name:
           type: string
           description: The full name of the user who made this update
           maxLength: 120
-          example: "Jane Smith"
+          example: Jane Smith
         email:
           type: string
           description: The email address of the user who made this update
           maxLength: 100
-          example: "jane.smith@example.com"
+          example: jane.smith@example.com
         user_id:
           type: string
           description: The ID of the user in the Student Record System, used for disambiguation
           maxLength: 100
-          example: "12345"
+          example: '12345'
     MetaData:
       type: object
       description: Required under a "meta" key in the body of every POST or PUT request
       additionalProperties: false
       required:
-        - attribution
-        - timestamp
+      - attribution
+      - timestamp
       properties:
         attribution:
-          $ref: '#/components/schemas/Attribution'
+          "$ref": "#/components/schemas/Attribution"
         timestamp:
           type: string
           description: The time this update was made
           format: date-time
-          example: "2019-03-01T15:33:49.216Z"
+          example: '2019-03-01T15:33:49.216Z'
     Error:
       type: object
       additionalProperties: false
@@ -990,90 +1003,90 @@ components:
         error:
           type: string
           description: Name of the current error
-          example: "Unauthorized"
+          example: Unauthorized
         message:
           type: string
           description: Description of the current error
           example: Please provide a valid authentication token
       required:
-        - error
-        - message
+      - error
+      - message
     NotFoundResponse:
       type: object
       required:
-        - errors
+      - errors
       properties:
         errors:
           type: array
           minItems: 1
           description: Error objects describing the problem
           items:
-            $ref: "#/components/schemas/Error"
+            "$ref": "#/components/schemas/Error"
           example:
-            - error: NotFound
-              message: Unable to find Application(s)
+          - error: NotFound
+            message: Unable to find Application(s)
     UnauthorizedResponse:
       type: object
       required:
-        - errors
+      - errors
       properties:
         errors:
           type: array
           minItems: 1
           description: Error objects describing the problem
           items:
-            $ref: "#/components/schemas/Error"
+            "$ref": "#/components/schemas/Error"
           example:
-            - error: Unauthorized
-              message: Please provide a valid authentication token
+          - error: Unauthorized
+            message: Please provide a valid authentication token
     ParameterMissingResponse:
       type: object
       required:
-        - errors
+      - errors
       properties:
         errors:
           type: array
           minItems: 1
           description: Error objects describing the problem
           items:
-            $ref: "#/components/schemas/Error"
+            "$ref": "#/components/schemas/Error"
           example:
-            - error: ParameterMissing
-              message: "param is missing or the value is empty: parameter_name"
+          - error: ParameterMissing
+            message: 'param is missing or the value is empty: parameter_name'
     UnprocessableEntityResponse:
       type: object
       required:
-        - errors
+      - errors
       properties:
         errors:
           type: array
           description: Error objects describing the problem
           minItems: 1
           items:
-            $ref: "#/components/schemas/Error"
+            "$ref": "#/components/schemas/Error"
           example:
-            - error: UnprocessableEntity
-              message: "A 'meta' key was not included on the request body"
+          - error: UnprocessableEntity
+            message: A 'meta' key was not included on the request body
     OkResponse:
       type: object
       required:
-        - data
+      - data
       properties:
         data:
           type: object
           required:
-            - message
+          - message
           properties:
             message:
               type: string
-              example: "OK"
+              example: OK
     TestDataGeneratedResponse:
       type: object
       properties:
         data:
           type: object
           required:
-            - ids
+          - ids
           properties:
             ids:
               type: array
@@ -1096,4 +1109,4 @@ components:
       type: http
       scheme: bearer
 security:
-  - tokenAuth: []
+- tokenAuth: []
