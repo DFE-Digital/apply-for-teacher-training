@@ -1,9 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'A new candidate arriving from Find with a course and provider code' do
-  include FindAPIHelper
-  include ActiveJob::TestHelper
-
   scenario 'retaining their course selection through the sign up process' do
     given_the_pilot_is_open
     and_confirm_course_choice_from_find_is_activated
@@ -16,17 +13,21 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
     when_i_submit_my_email_address
     and_click_on_the_magic_link
     then_i_should_see_the_courses_review_page
+    and_i_should_see_an_account_created_flash_message
     and_i_should_see_the_course_name_and_code
     and_i_should_see_the_site
     and_my_course_from_find_id_should_be_set_to_nil
+    and_my_last_signed_in_at_should_be_now
 
     given_the_course_i_selected_has_multiple_sites
 
     when_i_submit_my_email_address
     and_click_on_the_magic_link
     then_i_should_see_the_course_choices_site_page
+    and_i_should_see_an_account_created_flash_message
     and_i_see_the_form_to_pick_a_location
     and_my_course_from_find_id_should_be_set_to_nil
+    and_my_last_signed_in_at_should_be_now
   end
 
   def and_confirm_course_choice_from_find_is_activated
@@ -125,11 +126,19 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
   end
 
   def and_my_course_from_find_id_should_be_set_to_nil
-    candidate = Candidate.find_by!(email_address: @email)
-    expect(candidate.course_from_find_id).to eq(nil)
+    @candidate = Candidate.find_by!(email_address: @email)
+    expect(@candidate.course_from_find_id).to eq(nil)
   end
 
   def then_i_should_see_the_course_choices_site_page
     expect(page).to have_current_path(candidate_interface_course_choices_site_path(@course_with_multiple_sites.provider.code, @course_with_multiple_sites.code))
+  end
+
+  def and_i_should_see_an_account_created_flash_message
+    expect(page).to have_content(t('apply_from_find.account_created_message'))
+  end
+
+  def and_my_last_signed_in_at_should_be_now
+    expect(@candidate.last_signed_in_at).to be_within(1.second).of(Time.zone.now)
   end
 end
