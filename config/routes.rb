@@ -288,8 +288,8 @@ Rails.application.routes.draw do
   namespace :support_interface, path: '/support' do
     get '/' => redirect('/support/candidates')
 
-    get '/process', to: 'docs#index', as: :process
-    get '/process/diagram', to: 'docs#state_diagram', as: :process_diagram
+    get '/provider-flow', to: 'docs#provider_flow', as: :provider_flow
+    get '/candidate-flow', to: 'docs#candidate_flow', as: :candidate_flow
 
     get '/applications' => 'application_forms#index'
     get '/applications/:application_form_id' => 'application_forms#show', as: :application_form

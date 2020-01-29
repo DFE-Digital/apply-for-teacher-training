@@ -1,5 +1,8 @@
 en:
-  process_states:
+  candidate_flow_application_states:
+    not_signed_up:
+      name: Not signed up
+      description: The candidate hasn't signed up yet
     sign_up_email_bounced:
       name: Sign up email bounced
       description: Candidate was sent a sign up email but it bounced

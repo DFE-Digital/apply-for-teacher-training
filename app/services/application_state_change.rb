@@ -81,4 +81,12 @@ class ApplicationStateChange
   def self.states_visible_to_provider
     valid_states - STATES_NOT_VISIBLE_TO_PROVIDER
   end
+
+  def self.i18n_namespace
+    ''
+  end
+
+  def self.state_count(state_name)
+    ApplicationChoice.where(status: state_name).count
+  end
 end

@@ -1,10 +1,11 @@
 class StateDiagram
-  def self.svg(only_from_state = nil)
+  def self.svg(only_from_state: nil, machine:)
+    namespace = machine.i18n_namespace
     graph = GraphViz.new('G', rankdir: 'TB', ratio: 'fill')
 
     states_to_show = []
 
-    ApplicationStateChange.workflow_spec.states.each do |_, state|
+    machine.workflow_spec.states.each do |_, state|
       next if only_from_state && state.name != only_from_state.to_sym
 
       state.events.flat.each do |event|
@@ -14,12 +15,12 @@ class StateDiagram
         graph.add_edges(
           state.name.to_s,
           event.transitions_to.to_s,
-          label: event_name(state.name, event),
+          label: event_name(state.name, event, namespace),
           fontname: 'Arial',
           color: '#0b0c0c',
           fontcolor: '#0b0c0c',
           fontsize: 12,
-          tooltip: I18n.t!("events.#{state}-#{event}.description"),
+          tooltip: I18n.t!("#{namespace}events.#{state}-#{event}.description"),
         )
       end
     end
@@ -27,14 +28,14 @@ class StateDiagram
     states_to_show.flatten!
     states_to_show.uniq!
 
-    ApplicationStateChange.workflow_spec.states.each do |state_name, state|
+    machine.workflow_spec.states.each do |state_name, state|
       if only_from_state
         next unless only_from_state.to_sym == state.name || state.name.to_sym.in?(states_to_show)
       end
 
       graph.add_nodes(
         state_name.to_s,
-        label: I18n.t!("application_states.#{state_name}.name"),
+        label: I18n.t!("#{namespace}application_states.#{state_name}.name"),
         width: '0.5',
         height: '0.5',
         shape: 'rect',
@@ -44,8 +45,8 @@ class StateDiagram
         fontname: 'Arial',
         fontsize: 15,
         margin: 0.2,
-        tooltip: I18n.t!("application_states.#{state_name}.description"),
-        URL: "/support/process##{state_name}",
+        tooltip: I18n.t!("#{namespace}application_states.#{state_name}.description"),
+        URL: "##{state_name}",
       )
     end
 
@@ -56,8 +57,8 @@ class StateDiagram
     graph.output(svg: String).force_encoding('UTF-8').html_safe
   end
 
-  def self.event_name(state, event)
-    by = I18n.t!("events.#{state}-#{event}.by")
+  def self.event_name(state, event, namespace)
+    by = I18n.t!("#{namespace}events.#{state}-#{event}.by")
 
     emoji = {
       'candidate' => '👩‍🎓',
@@ -66,6 +67,6 @@ class StateDiagram
       'system' => '🤖',
     }.fetch(by)
 
-    emoji + ' ' + I18n.t!("events.#{state}-#{event}.name")
+    emoji + ' ' + I18n.t!("#{namespace}events.#{state}-#{event}.name")
   end
 end

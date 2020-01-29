@@ -85,6 +85,14 @@ class ProcessState
     end
   end
 
+  def self.i18n_namespace
+    'candidate_flow_'
+  end
+
+  def self.state_count(_)
+    '?'
+  end
+
 private
 
   attr_reader :application_form
