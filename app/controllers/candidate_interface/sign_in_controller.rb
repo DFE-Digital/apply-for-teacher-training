@@ -4,7 +4,17 @@ module CandidateInterface
     before_action :redirect_to_application_if_signed_in, except: :authenticate
 
     def new
-      @candidate = Candidate.new
+      if FeatureFlag.active?('improved_expired_token_flow') && params[:u]
+        begin
+          decrypted_candidate_id = Encryptor.decrypt(params[:u])
+
+          redirect_to candidate_interface_expired_sign_in_path(id: decrypted_candidate_id)
+        rescue ActiveSupport::MessageEncryptor::InvalidMessage
+          redirect_to candidate_interface_sign_in_path
+        end
+      else
+        @candidate = Candidate.new
+      end
     end
 
     def create
@@ -43,6 +53,12 @@ module CandidateInterface
       else
         redirect_to action: :new
       end
+    end
+
+    def expired
+      return redirect_to candidate_interface_sign_in_path unless params[:id]
+
+      @candidate = Candidate.find(params[:id])
     end
 
   private
