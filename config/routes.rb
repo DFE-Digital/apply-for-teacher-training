@@ -275,6 +275,8 @@ Rails.application.routes.draw do
     post '/applications/:application_choice_id/offer/confirm' => 'decisions#confirm_offer', as: :application_choice_confirm_offer
     post '/applications/:application_choice_id/offer' => 'decisions#create_offer', as: :application_choice_create_offer
 
+    post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
+
     get '/sign-in' => 'sessions#new'
     get '/sign-out' => 'sessions#destroy'
   end
