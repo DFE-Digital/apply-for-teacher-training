@@ -250,3 +250,86 @@ en:
       name: Make offer
       by: provider
       description: (TBD)
+
+  candidate_flow_events:
+    not_signed_up-sign_up:
+      name: Sign up
+      by: candidate
+      description: ''
+      emails:
+        - authentication_mailer-sign_up_email
+
+    never_signed_in-sign_in:
+      name: Sign in
+      by: candidate
+      description: ''
+
+    unsubmitted-submit:
+      name: Submit
+      by: candidate
+      description: ''
+
+    awaiting_references-all_withdrawn:
+      name: Withdraw
+      by: candidate
+      description: ''
+
+    waiting_to_be_sent-send_to_provider:
+      name: Send to provider
+      by: candidate
+      description: ''
+
+    waiting_to_be_sent-all_withdrawn:
+      name: Withdraw
+      by: candidate
+      description: ''
+
+    awaiting_provider_decisions-at_least_one_offer:
+      name: At least one offer
+      by: provider
+      description: ''
+
+    awaiting_references-references_complete:
+      name: All references completed
+      by: system
+      description: ''
+
+    awaiting_provider_decisions-no_offers:
+      name: No offers
+      by: provider
+      description: ''
+
+    awaiting_provider_decisions-all_rejected:
+      name: All rejected
+      by: provider
+      description: ''
+
+    awaiting_provider_decisions-all_withdrawn:
+      name: Withdraw
+      by: candidate
+      description: ''
+
+    awaiting_candidate_response-offer_accepted:
+      name: Offer accepted
+      by: candidate
+      description: ''
+
+    awaiting_candidate_response-all_offers_declined:
+      name: All offers declined
+      by: candidate
+      description: ''
+
+    pending_conditions-conditions_met:
+      name: Conditions are met
+      by: provider
+      description: ''
+
+    pending_conditions-conditions_not_met:
+      name: Conditions not met
+      by: provider
+      description: ''
+
+    recruited-enrol:
+      name: Enrol
+      by: provider
+      description: ''
