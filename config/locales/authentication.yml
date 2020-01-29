@@ -30,3 +30,6 @@ en:
     sign_in_without_account:
       email:
         subject: Sign up to Apply for teacher training
+    expired_token:
+      heading: The link you clicked has expired
+      button: Email me a new link
