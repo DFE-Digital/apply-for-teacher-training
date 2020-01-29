@@ -1,7 +1,0 @@
-en:
-  provider_account_created:
-    email:
-      subject: Sign in to Manage teacher training applications.
-  provider_application_submitted:
-    email:
-      subject: Application received for %{course_name} %{course_code}
