@@ -8,11 +8,11 @@ RSpec.describe GetRefereesToChase do
       application_form3 = create(:application_form, submitted_at: 6.days.ago)
 
       reference1 = create(:reference, feedback_status: 'feedback_requested', application_form: application_form1)
-      reference2 = create(:reference, :complete, application_form: application_form1)
-      reference3 = create(:reference, feedback_status: 'feedback_requested', application_form: application_form2)
-      reference4 = create(:reference, :complete, application_form: application_form2)
-      reference5 = create(:reference, feedback_status: 'feedback_requested', application_form: application_form3)
-      reference6 = create(:reference, :complete, application_form: application_form3)
+      create(:reference, :complete, application_form: application_form1)
+      create(:reference, feedback_status: 'feedback_requested', application_form: application_form2)
+      create(:reference, :complete, application_form: application_form2)
+      create(:reference, feedback_status: 'feedback_requested', application_form: application_form3)
+      create(:reference, :complete, application_form: application_form3)
 
       create(:application_choice, application_form: application_form1, status: 'awaiting_references')
       create(:application_choice, application_form: application_form2, status: 'awaiting_references')

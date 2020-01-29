@@ -2,11 +2,11 @@ class SendChaseEmailToRefereesWorker
   include Sidekiq::Worker
 
   def perform
-    GetRefereesToChase.call.each do |choice|
+    GetRefereesToChase.new.perform.each do |reference|
       begin
-        SendChaseEmail.new(application_choice: choice).call
+        SendChaseEmail.new.perform(refence: reference)
       rescue StandardError => e
-        Rails.logger.warn "[DBD] ignoring application_choice #{choice.id}: #{e.message}"
+        Rails.logger.warn "[DBD] ignoring reference #{reference.id}: #{e.message}"
       end
     end
   end

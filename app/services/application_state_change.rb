@@ -20,6 +20,11 @@ class ApplicationStateChange
 
     state :awaiting_references do
       event :references_complete, transitions_to: :application_complete
+      event :send_chase_email, transitions_to: :awaiting_references_and_chased
+    end
+
+    state :awaiting_references_and_chased do
+      event :references_complete, transitions_to: :application_complete
     end
 
     state :application_complete do
