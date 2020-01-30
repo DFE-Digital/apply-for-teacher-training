@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_28_164924) do
+ActiveRecord::Schema.define(version: 2020_01_30_131300) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -224,6 +224,19 @@ ActiveRecord::Schema.define(version: 2020_01_28_164924) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "sync_courses", default: false, null: false
     t.index ["code"], name: "index_providers_on_code", unique: true
+  end
+
+  create_table "referee_questionnaires", force: :cascade do |t|
+    t.string "experience_rating"
+    t.string "experience_text"
+    t.string "guidance_rating"
+    t.string "guidance_text"
+    t.boolean "safe_to_work_with_children"
+    t.string "safe_to_work_with_children_text"
+    t.boolean "permission_to_contact"
+    t.string "permission_to_contact_text"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "references", force: :cascade do |t|
