@@ -1,8 +1,10 @@
 <% content_for :title, 'Service performance dashboard' %>
 
+<h2 class="govuk-heading-m govuk-!-font-size-27">Candidates</h2>
+
 <div class="app-card app-card--blue govuk-!-margin-bottom-4">
-  <span class="app-card__count" id="total-sign-ups"><%= @statistics[:total_non_dfe_sign_ups] %></span>
-  <span>sign ups (excluding DfE users)</span>
+  <span class="app-card__count" id="total-sign-ups"><%= @statistics[:total_candidate_count] %></span>
+  <span>sign ups (excluding test users)</span>
 </div>
 
 <div class="govuk-grid-row">
@@ -29,5 +31,36 @@
       <span class="app-card__count"><%= @statistics[:candidates_with_submitted_forms] %></span>
       <span>submitted</span>
     </div>
+  </div>
+</div>
+
+<h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Application forms</h2>
+
+<div class="app-card app-card--blue govuk-!-margin-bottom-4">
+  <span class="app-card__count" id="total-application-forms"><%= @statistics.application_form_counts_total %></span>
+  <span>application forms (excluding test users)</span>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <table class="govuk-table">
+      <caption class="govuk-table__caption">Application form breakdown</caption>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Status</th>
+          <th scope="col" class="govuk-table__header govuk-table__header--numeric">Count</th>
+          <th scope="col" class="govuk-table__header">Description</th>
+        </tr>
+      </thead>
+
+      <tbody class="govuk-table__body">
+        <% @statistics.application_form_status_counts.each do |row| %>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"><%= t("candidate_flow_application_states.#{row['status']}.name") %></th>
+            <td class="govuk-table__cell govuk-table__cell--numeric"><%= row['count'] %></td>
+            <td class="govuk-table__cell"><%= t("candidate_flow_application_states.#{row['status']}.description") %></td>
+          </tr>
+        <% end %>
+    </table>
   </div>
 </div>
