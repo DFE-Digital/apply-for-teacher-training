@@ -61,7 +61,7 @@ module VendorApiSpecHelpers
 
   RSpec::Matchers.define :be_valid_against_openapi_schema do |schema_name|
     match do |item|
-      spec = OpenApi3Specification.new(YAML.load_file("#{Rails.root}/config/vendor-api-v1.yml"))
+      spec = OpenApi3Specification.new(VendorApi::OpenApiSpec.as_hash)
 
       JSONSchemaValidator.new(
         spec.as_json_schema(schema_name),
@@ -70,7 +70,7 @@ module VendorApiSpecHelpers
     end
 
     failure_message do |item|
-      spec = OpenApi3Specification.new(YAML.load_file("#{Rails.root}/config/vendor-api-v1.yml"))
+      spec = OpenApi3Specification.new(VendorApi::OpenApiSpec.as_hash)
 
       JSONSchemaValidator.new(
         spec.as_json_schema(schema_name),

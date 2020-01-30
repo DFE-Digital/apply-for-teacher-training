@@ -1,5 +1,16 @@
 module TestApplications
-  def self.create_application(states:)
+  class NotEnoughCoursesError < RuntimeError; end
+
+  def self.generate_for_provider(provider:, courses_per_application:, count:)
+    1.upto(count).flat_map do
+      create_application(
+        states: [:awaiting_provider_decision] * courses_per_application,
+        courses_to_apply_to: Course.open_on_apply.where(provider: provider),
+      )
+    end
+  end
+
+  def self.create_application(states:, courses_to_apply_to: nil)
     first_name = Faker::Name.unique.first_name
     last_name = Faker::Name.unique.last_name
     candidate = FactoryBot.create(
@@ -7,16 +18,17 @@ module TestApplications
       email_address: "#{first_name.downcase}.#{last_name.downcase}@example.com",
     )
 
-    courses_to_apply_to = Course.joins(:course_options)
-      .where(open_on_apply: true)
+    courses_to_apply_to ||= Course.joins(:course_options)
+      .open_on_apply
       .order('RANDOM()')
-      .limit(states.count)
+
+    courses_to_apply_to = courses_to_apply_to.take(states.count)
 
     # it does not make sense to apply to the same course multiple times
     # in the course of the same application, and it’s forbidden in the UI.
     # Throw an exception if we try to do that here.
     if courses_to_apply_to.count < states.count
-      raise "Not enough distinct courses to generate a #{states.count}-course application"
+      raise NotEnoughCoursesError.new("Not enough distinct courses to generate a #{states.count}-course application")
     end
 
     Audited.audit_class.as_user(candidate) do
@@ -61,6 +73,8 @@ module TestApplications
       states.zip(application_choices).each do |state, application_choice|
         put_application_choice_in_state(application_choice, state)
       end
+
+      application_choices
     end
   end
 

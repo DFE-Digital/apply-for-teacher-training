@@ -8,6 +8,7 @@ class FeatureFlag
     send_dfe_sign_in_invitations
     improved_expired_token_flow
     work_breaks
+    experimental_api_features
   ].freeze
 
   def self.activate(feature_name)

@@ -21,7 +21,7 @@ RSpec.describe ApplicationStateChange do
 
   describe '.states_visible_to_provider' do
     it 'has corresponding entries in the OpenAPI spec' do
-      valid_states_in_openapi = YAML.load_file('config/vendor-api-v1.yml')['components']['schemas']['ApplicationAttributes']['properties']['status']['enum']
+      valid_states_in_openapi = VendorApi::OpenApiSpec.as_hash['components']['schemas']['ApplicationAttributes']['properties']['status']['enum']
 
       expect(ApplicationStateChange.states_visible_to_provider)
         .to match_array(valid_states_in_openapi.map(&:to_sym))
