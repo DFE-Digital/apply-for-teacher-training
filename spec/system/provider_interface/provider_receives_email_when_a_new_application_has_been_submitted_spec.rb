@@ -3,13 +3,14 @@ require 'rails_helper'
 RSpec.feature 'A new application has been submitted' do
   include CourseOptionHelpers
 
-  scenario 'the provider receives email' do
+  scenario 'the provider receives email', with_audited: true do
     given_i_am_a_provider_user_with_a_provider
     and_a_candidate_submited_their_application
 
     when_the_application_is_delivered_to_my_provider
 
     then_i_should_receive_an_email_with_a_link_to_the_application
+    and_an_audit_comment_has_submitted
   end
 
   def given_i_am_a_provider_user_with_a_provider
@@ -28,7 +29,7 @@ RSpec.feature 'A new application has been submitted' do
           create(
             :completed_application_form,
             submitted_at: Time.zone.today,
-),
+          ),
       )
   end
 
@@ -37,12 +38,21 @@ RSpec.feature 'A new application has been submitted' do
   end
 
   def then_i_should_receive_an_email_with_a_link_to_the_application
-    open_email(@application_choice.provider.provider_users.first.email_address)
+    open_email(@provider_user.email_address)
 
     expect(current_email.subject).to include(t('provider_application_submitted.email.subject',
                                                course_name: @application_choice.course.name,
                                                 course_code: @application_choice.course.code))
 
     expect(current_email.body).to include("http://localhost:3000/provider/applications/#{@application_choice.id}")
+  end
+
+  def and_an_audit_comment_has_submitted
+    expected_audit_comment =
+      'New application email have been sent to the provider user' +
+      " (#{@provider_user.email_address}) for application (#{@application_choice.course.name})" +
+      " (#{@application_choice.course.code})."
+
+    expect(@application_choice.application_form.audits.last.comment).to eq(expected_audit_comment)
   end
 end
