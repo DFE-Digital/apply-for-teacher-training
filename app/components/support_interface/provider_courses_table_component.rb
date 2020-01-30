@@ -11,12 +11,12 @@ module SupportInterface
       courses.order(:name).map do |course|
         {
           course_link: govuk_link_to(course.name_and_code, support_interface_course_path(course)),
-          provider_link: govuk_link_to(course.provider.name_and_code, support_interface_provider_path(course.provider)),
+          provider_link: link_to_provider_page(course.provider),
           level: course.level.titleize,
           recruitment_cycle_year: course.recruitment_cycle_year,
           apply_from_find_link: link_to_apply_from_find_page(course),
           link_to_find_course_page: link_to_find_course_page(course),
-          accrediting_provider: course.accrediting_provider&.name,
+          accrediting_provider: link_to_provider_page(course.accrediting_provider),
         }
       end
     end
@@ -44,6 +44,15 @@ module SupportInterface
     def link_to_find_course_page(course)
       if course.exposed_in_find?
         govuk_link_to 'Find course page', "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{course.provider.code}/#{course.code}"
+      end
+    end
+
+    def link_to_provider_page(provider)
+      if provider
+        govuk_link_to(
+          provider.name_and_code,
+          support_interface_provider_path(provider),
+        )
       end
     end
   end
