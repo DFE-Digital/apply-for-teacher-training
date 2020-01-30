@@ -108,6 +108,14 @@ RSpec.describe PerformanceStatistics, type: :model do
     expect(stats.application_form_counts_total).to eq(1)
   end
 
+  it 'excludes candidates without application forms' do
+    create(:candidate)
+
+    stats = PerformanceStatistics.new
+
+    expect(stats.application_form_counts_total).to eq(0)
+  end
+
   it 'breaks down candidates with unsubmitted forms into stages' do
     create(:candidate)
     create_list(:application_form, 2)
