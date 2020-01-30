@@ -43,9 +43,9 @@ class PerformanceStatistics
             ELSE ARRAY['9', 'unknown_state']
           END status
       FROM
-          candidates c
+          application_forms f
       LEFT JOIN
-          application_forms f ON f.candidate_id = c.id
+          candidates c ON f.candidate_id = c.id
       LEFT JOIN
           application_choices ch ON ch.application_form_id = f.id
       WHERE
