@@ -1,0 +1,14 @@
+<%= content_for :title, 'Application lifecycle' %>
+
+<h1 class="govuk-heading-xl">Application lifecycle</h1>
+
+<%= StateDiagram.svg(only_from_state: nil, machine: ApplicationStateChange) %>
+
+<style>
+  svg { max-width: 100%; }
+</style>
+
+<% ApplicationStateChange.workflow_spec.states.each do |_, state| %>
+  <%= render StateExplanationComponent, machine: ApplicationStateChange, state: state %>
+  <hr class='govuk-section-break govuk-section-break--xl govuk-section-break--visible'>
+<% end %>

@@ -51,6 +51,7 @@ class NavigationItems
         NavigationItem.new(t('page_titles.api_docs.usage'), api_docs_usage_path, is_active_action(current_controller, 'usage')),
         NavigationItem.new(t('page_titles.api_docs.reference'), api_docs_reference_path, is_active_action(current_controller, 'reference')),
         NavigationItem.new(t('page_titles.api_docs.release_notes'), api_docs_release_notes_path, is_active_action(current_controller, 'release_notes')),
+        NavigationItem.new(t('page_titles.api_docs.lifecycle'), api_docs_lifecycle_path, is_active_action(current_controller, 'lifecycle')),
         NavigationItem.new(t('page_titles.api_docs.help'), api_docs_help_path, is_active_action(current_controller, 'help')),
       ]
     end
