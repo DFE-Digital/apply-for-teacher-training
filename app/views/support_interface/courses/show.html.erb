@@ -10,6 +10,17 @@
     </dd>
   </div>
 
+  <% if @course.accrediting_provider %>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Accrediting provider
+      </dt>
+      <dd class="govuk-summary-list__value">
+        <%= @course.accrediting_provider&.name_and_code %>
+      </dd>
+    </div>
+  <% end %>
+
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">
       Name
