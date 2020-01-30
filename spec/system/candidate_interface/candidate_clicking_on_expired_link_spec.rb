@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Candidate clicks on an expired link', sidekiq: true do
-  scenario 'Candidate clicks on a link with an id in an email' do
+  scenario 'Candidate clicks on a link with an id and expired token link in an email' do
     given_the_pilot_is_open
     and_the_improved_expired_token_flow_feature_flag_is_on
     and_i_am_a_candidate_with_an_application
@@ -19,6 +19,11 @@ RSpec.feature 'Candidate clicks on an expired link', sidekiq: true do
 
     when_i_visit_the_expired_sign_in_page_without_id_parameter
     then_i_am_taken_to_the_sign_in_page
+
+    when_i_fill_in_the_sign_in_form
+
+    when_i_click_on_the_sign_in_link_with_token_after_one_hour
+    then_i_am_redirected_to_the_expired_link_page
   end
 
   def given_the_pilot_is_open
@@ -70,5 +75,18 @@ RSpec.feature 'Candidate clicks on an expired link', sidekiq: true do
 
   def when_i_visit_the_expired_sign_in_page_without_id_parameter
     visit candidate_interface_expired_sign_in_path
+  end
+
+  def when_i_fill_in_the_sign_in_form
+    fill_in t('authentication.sign_up.email_address.label'), with: @candidate.email_address
+    click_on 'Continue'
+  end
+
+  def when_i_click_on_the_sign_in_link_with_token_after_one_hour
+    Timecop.travel(Time.zone.now + 1.hour + 1.minute) do
+      open_email(@candidate.email_address)
+
+      current_email.find_css('a').first.click
+    end
   end
 end
