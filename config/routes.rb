@@ -8,7 +8,11 @@ Rails.application.routes.draw do
     get '/candidate/sign-out', to: 'devise/sessions#destroy', as: :candidate_interface_sign_out
   end
 
-  root to: redirect('/candidate')
+  if HostingEnvironment.sandbox?
+    root to: 'content#sandbox'
+  else
+    root to: redirect('/candidate')
+  end
 
   namespace :candidate_interface, path: '/candidate' do
     get '/' => 'start_page#show', as: :start

@@ -24,13 +24,15 @@ module HostingEnvironment
   end
 
   def self.phase_banner_text
+    if sandbox?
+      return 'This is a <a href="/">test version of Apply</a> for providers and software vendors'.html_safe
+    end
+
     case environment_name
     when 'production'
       'This is a new service - <a href="mailto:becomingateacher@digital.education.gov.uk?subject=Apply+feedback" class="govuk-link">give feedback or report a problem</a>'.html_safe
     when 'qa'
       'This is the QA version of the Apply service'
-    when 'sandbox'
-      'This is a demo environment for software vendors who integrate with our API'
     when 'staging'
       'This is a internal environment used by DfE to test deploys'
     when 'development'
