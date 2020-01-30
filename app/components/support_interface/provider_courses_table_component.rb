@@ -16,12 +16,17 @@ module SupportInterface
           recruitment_cycle_year: course.recruitment_cycle_year,
           apply_from_find_link: link_to_apply_from_find_page(course),
           link_to_find_course_page: link_to_find_course_page(course),
+          accrediting_provider: course.accrediting_provider&.name,
         }
       end
     end
 
     def providers_vary?
       @providers_vary ||= courses.any? { |c| c.provider != provider }
+    end
+
+    def accrediting_providers_vary?
+      @accrediting_providers_vary ||= courses.any? { |c| c.accrediting_provider && c.accrediting_provider != provider }
     end
 
   private
