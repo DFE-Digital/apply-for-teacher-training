@@ -20,9 +20,8 @@ module TestApplications
 
     courses_to_apply_to ||= Course.joins(:course_options)
       .open_on_apply
-      .order('RANDOM()')
 
-    courses_to_apply_to = courses_to_apply_to.take(states.count)
+    courses_to_apply_to = courses_to_apply_to.sample(states.count)
 
     # it does not make sense to apply to the same course multiple times
     # in the course of the same application, and it’s forbidden in the UI.
