@@ -4,4 +4,13 @@ en:
       subject: Sign in to Manage teacher training applications.
   provider_application_submitted:
     email:
+<<<<<<< HEAD
       subject: Application received for %{course_name_and_code}
+=======
+      subject: Application received for %{course_name} %{course_code}
+  provider_application_rejected_by_default:
+    email:
+      subject: '%{candidate_name}’s application rejected automatically'
+      audit_comment: "Rejected by default email have been sent to the provider user (%{provider_user_email}) for application (%{course_name}) (%{course_code})."
+
+>>>>>>> Extend provider mailer with rejected by default mail

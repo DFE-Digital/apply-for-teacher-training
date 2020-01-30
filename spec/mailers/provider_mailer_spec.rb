@@ -62,4 +62,48 @@ RSpec.describe ProviderMailer, type: :mailer do
       expect(@mail.body.encoded).to include(provider_interface_application_choice_url(application_choice_id: @application_choice.id))
     end
   end
+
+  describe 'Send application rejected by default email' do
+    before do
+      @course_option = course_option_for_provider_code(provider_code: 'ABC')
+      @submission_date = Time.zone.today - 40.days
+      @application_choice = create(:application_choice, status: 'rejected',
+        course_option: @course_option,
+        application_form:
+          create(
+            :completed_application_form,
+            submitted_at: @submission_date,
+        ))
+      @provider_user = @application_choice.provider.provider_users.first
+      @mail = mailer.application_rejected_by_default(@provider_user, @application_choice)
+    end
+
+    it 'sends an email with the correct subject' do
+      expect(@mail.subject).to include(
+        t('provider_application_rejected_by_default.email.subject',
+          candidate_name: @application_choice.application_form.full_name),
+        )
+    end
+
+    it 'addresses the provider user by name' do
+      expect(@mail.body.encoded).to include("Dear #{@provider_user.full_name}")
+    end
+
+    it 'includes the candidate name' do
+      expect(@mail.body.encoded).to include("#{@application_choice.application_form.full_name} submitted an application for")
+    end
+
+    it 'includes the course details' do
+      expect(@mail.body.encoded).to include(@application_choice.course.name)
+      expect(@mail.body.encoded).to include(@application_choice.course.code)
+    end
+
+    it 'includes a readable submission date' do
+      expect(@mail.body.encoded).to include("on #{@submission_date.to_s(:govuk_date).strip}")
+    end
+
+    it 'includes a link to the application' do
+      expect(@mail.body.encoded).to include(provider_interface_application_choice_url(application_choice_id: @application_choice.id))
+    end
+  end
 end

@@ -1,0 +1,15 @@
+Dear <%= @application.provider_user_name %>
+
+# Application rejected automatically  
+
+<%= @application.candidate_name %> submitted an application for <%= @application.course_name %> <%= @application.course_code %> on <%= @application.submitted_at %>. 
+
+You did not respond within 40 working days so we rejected the application on your behalf. 
+
+You can log in to Manage teacher training applications to check the status of your applications:
+
+<%= provider_interface_application_choice_url(application_choice_id: @application.application_choice_id) %>
+
+# Give feedback or report a problem
+
+Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
