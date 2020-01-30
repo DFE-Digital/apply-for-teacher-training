@@ -77,7 +77,7 @@ en:
     awaiting_references:
       name: Awaiting references
       description: |
-        Applicants submit their application choices with list of referees. Until 2 references have been received the application remains at the Awaiting References state.
+        Applicants submit their application choices with a list of referees. Until 2 references have been received all applications remain in the Awaiting references state.
         The providers don’t see the application at this stage.
 
     application_complete:
@@ -124,6 +124,8 @@ en:
         not show up on the first day or drop out within the first couple of weeks.
         This reduces the risk that DfE over-pays that provider for training they didn’t
         deliver and having to reconcile later on.
+
+        The candidate’s HESA equality monitoring information is made available to the provider.
 
     pending_conditions:
       name: Pending conditions
@@ -242,7 +244,7 @@ en:
     recruited-confirm_enrolment:
       name: Confirm enrolment
       by: provider
-      description: (TBD)
+      description: ""
 
     recruited-withdraw:
       name: Withdraw
@@ -252,7 +254,7 @@ en:
     rejected-make_offer:
       name: Make offer
       by: provider
-      description: (TBD)
+      description: ""
 
   candidate_flow_events:
     not_signed_up-sign_up:

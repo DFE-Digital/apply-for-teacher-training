@@ -87,6 +87,7 @@ en:
       reference: API reference
       help: Get help
       release_notes: Release notes
+      lifecycle: Lifecycle
       alpha_release_notes: Alpha release notes
     provider:
       respond: Respond to application

@@ -70,7 +70,10 @@ paths:
       tags:
       - Application management
       summary: Make an offer
-      description: Make an offer
+      description: |
+        Make an offer to the candidate.
+
+        This will transition the application to the [offer state](/api-docs/lifecycle#offer).
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:
@@ -108,7 +111,10 @@ paths:
       tags:
       - Application management
       summary: Confirm enrolment
-      description: Confirm that the candidate has enrolled
+      description: |
+        Confirm that the candidate has enrolled.
+
+        This will transition the application to the [enrolled state](/api-docs/lifecycle#enrolled).
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:
@@ -137,8 +143,10 @@ paths:
       tags:
       - Application management
       summary: Confirm offer conditions
-      description: Confirm that the candidate has met all the conditions set out in
-        the offer
+      description: |
+        Confirm that the candidate has met all the conditions set out in the offer
+
+        This will transition the application to the [recruited state](/api-docs/lifecycle#recruited).
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:
@@ -167,7 +175,10 @@ paths:
       tags:
       - Application management
       summary: Conditions not met
-      description: The candidate has not met all the conditions set out in the offer
+      description: |
+        The candidate has not met all the conditions set out in the offer.
+
+        This will transition the application to the [conditions\_not\_met state](/api-docs/lifecycle#conditions_not_met).
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:
@@ -196,7 +207,10 @@ paths:
       tags:
       - Application management
       summary: Reject application
-      description: Reject the candidate's application with a reason
+      description: |
+        Reject the candidate's application with a reason.
+
+        This will transition the application to the [rejected state](/api-docs/lifecycle#rejected).
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:
@@ -343,7 +357,9 @@ components:
       properties:
         status:
           type: string
-          description: The status of this application
+          description: |
+            The status of this application. Refer to the [application
+            lifecycle diagram](/api-docs/lifecycle) for states and transitions.
           enum:
           - awaiting_provider_decision
           - conditions_not_met

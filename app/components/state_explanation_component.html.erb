@@ -1,8 +1,14 @@
 <h2 class='govuk-heading-l' id='<%= state_name %>'><%= human_state_name %></h2>
 
+<p class="govuk-caption-m">
+  Application status: <%= link_to state_name.inspect, api_docs_reference_path(anchor: 'applicationattributes-object') %>
+</p>
+
+<% if development_details %>
 <p class='govuk-body-l'>
   We have <%= link_to pluralize(machine.state_count(state_name), 'application'), support_interface_applications_path %> currently in this state
 </p>
+<% end %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-half">
@@ -15,7 +21,7 @@
 
       <ul class="govuk-list">
       <% state.events.each do |_, events| %>
-        <%= render SupportInterface::StateEventExplanationComponent, machine: machine, from_state: state_name, event: events.first %>
+        <%= render StateEventExplanationComponent, machine: machine, from_state: state_name, event: events.first, development_details: development_details %>
       <% end %>
       </ul>
     <% else %>

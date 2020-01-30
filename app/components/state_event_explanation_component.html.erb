@@ -5,6 +5,7 @@
     This will transition the application to the <%= govuk_link_to "#{human_transitions_to} state", "##{transitions_to}" %>.
   </p>
 
+  <% if development_details %>
   <p class='govuk-body'>
     <% if emails_sent_from_event.any? %>
       Emails sent:
@@ -24,4 +25,5 @@
       No emails are sent with this transition.
     <% end %>
   </p>
+  <% end %>
 </li>
