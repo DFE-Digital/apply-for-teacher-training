@@ -1,5 +1,6 @@
 module CandidateInterface
   class CourseChoicesReviewComponent < ActionView::Component::Base
+    include ViewHelper
     validates :application_form, presence: true
 
     def initialize(application_form:, editable: true, heading_level: 2, show_status: false, show_incomplete: false, missing_error: false)
@@ -41,9 +42,11 @@ module CandidateInterface
     attr_reader :application_form
 
     def course_row(course_choice)
+      url = "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{course_choice.provider.code}/#{course_choice.course.code}"
+
       {
         key: 'Course',
-        value: "#{course_choice.course.name} (#{course_choice.course.code})",
+        value: govuk_link_to("#{course_choice.course.name} (#{course_choice.course.code})", url, target: '_blank', rel: 'noopener'),
       }
     end
 
