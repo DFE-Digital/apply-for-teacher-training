@@ -38,7 +38,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
 
     result = render_inline(described_class, application_choice: application_choice)
 
-    expect(result.text).to include('Accepted on:')
+    expect(result.text).to include('Offer accepted:')
   end
 
   it 'outputs a date for applications in the declined state' do

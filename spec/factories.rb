@@ -212,6 +212,12 @@ FactoryBot.define do
       decline_by_default_days { 10 }
       offer { { 'conditions' => ['Be cool'] } }
     end
+
+    trait :with_accepted_offer do
+      with_offer
+      status { 'pending_conditions' }
+      accepted_at { Time.zone.now - 2.days }
+    end
   end
 
   factory :vendor_api_user do

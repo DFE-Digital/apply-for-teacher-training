@@ -1,3 +1,7 @@
+.app-tag {
+  white-space: nowrap;
+}
+
 .app-tag--red {
   color: govuk-shade(govuk-colour("red"), 20);
   background: govuk-tint(govuk-colour("red"), 80);
