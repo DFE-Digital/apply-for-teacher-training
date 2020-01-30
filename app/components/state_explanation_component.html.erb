@@ -15,7 +15,7 @@
 
       <ul class="govuk-list">
       <% state.events.each do |_, events| %>
-        <%= render SupportInterface::StateEventExplanationComponent, machine: machine, from_state: state_name, event: events.first %>
+        <%= render StateEventExplanationComponent, machine: machine, from_state: state_name, event: events.first %>
       <% end %>
       </ul>
     <% else %>
