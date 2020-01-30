@@ -139,7 +139,7 @@ RSpec.feature 'See providers' do
   def then_i_see_the_updated_providers_courses_and_sites
     expect(page).to have_content 'ABC-1'
     expect(page).to have_content '1 course (1 on DfE Apply)'
-    expect(page).to have_content 'Accredited provider'
+    expect(page).to have_content 'Accredited body'
     expect(page).to have_content 'University of Chester'
   end
 

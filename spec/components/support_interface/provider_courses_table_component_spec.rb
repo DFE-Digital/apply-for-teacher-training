@@ -26,7 +26,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       expect(fields['Recruitment Cycle']).to eq('2020')
       expect(fields['Apply from Find']).to match(/DfE & UCAS/)
       expect(fields['Page on Find']).to match(/Find course page/)
-      expect(fields).not_to have_key('Accredited provider')
+      expect(fields).not_to have_key('Accredited body')
     end
 
     it 'may include courses the provider accredits' do
@@ -73,8 +73,8 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       expect(fields['Recruitment Cycle']).to eq('2020')
       expect(fields['Apply from Find']).to match(/DfE & UCAS/)
       expect(fields['Page on Find']).to match(/Find course page/)
-      expect(fields).to have_key('Accrediting provider')
-      expect(fields['Accrediting provider']).to eq('Accredited University (AU1)')
+      expect(fields).to have_key('Accredited body')
+      expect(fields['Accredited body']).to eq('Accredited University (AU1)')
     end
   end
 end
