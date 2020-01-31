@@ -84,6 +84,19 @@ module ProviderInterface
       @edit_response = EditResponseForm.new
     end
 
+    def edit_response
+      @edit_response = EditResponseForm.new(
+        edit_response_type: params.dig(:provider_interface_edit_response_form, :edit_response_type),
+      )
+      if @edit_response.edit_response_type == 'withdraw'
+        redirect_to provider_interface_application_choice_new_withdraw_offer_path(
+          application_choice_id: @application_choice.id,
+        )
+      else
+        render nothing: true, status: :bad_request
+      end
+    end
+
   private
 
     def set_application_choice
