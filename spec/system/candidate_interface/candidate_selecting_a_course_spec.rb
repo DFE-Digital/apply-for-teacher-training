@@ -72,6 +72,11 @@ RSpec.feature 'Selecting a course' do
       postcode: 'LS8 5DQ'
     )
     multi_site_course = create(:course, name: 'Primary', code: '2XT2', provider: provider, exposed_in_find: true, open_on_apply: true)
+
+    # TODO: this is a test to check we don't rely on uniqueness of course codes. Replace by a better unit test.
+    clashing_course = create(:course, name: 'A course with the same code, but a different provider', code: '2XT2', exposed_in_find: true, open_on_apply: true)
+    create(:course_option, course: clashing_course)
+
     create(:course_option, site: first_site, course: multi_site_course, vacancy_status: 'B')
     create(:course_option, site: second_site, course: multi_site_course, vacancy_status: 'B')
 

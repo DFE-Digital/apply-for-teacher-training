@@ -17,8 +17,11 @@ module CandidateInterface
     end
 
     def single_site?
-      course_id = Course.find_by(code: code)
-      CourseOption.where(course_id: course_id).one?
+      CourseOption.where(course_id: course.id).one?
+    end
+
+    def course
+      @course ||= provider.courses.find_by!(code: code)
     end
 
   private
@@ -33,10 +36,6 @@ module CandidateInterface
       if application_form.application_choices.any? { |application_choice| application_choice.course == course }
         errors[:base] << 'You have already selected this course'
       end
-    end
-
-    def course
-      @course ||= Course.find_by!(code: code)
     end
   end
 end
