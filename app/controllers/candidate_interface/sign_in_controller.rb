@@ -48,7 +48,9 @@ module CandidateInterface
         service = ExistingCandidateAuthentication.new(candidate: candidate)
         service.execute
 
-        if service.candidate_has_new_course_added?
+        if course.nil?
+          redirect_to candidate_interface_application_form_path
+        elsif service.candidate_has_new_course_added?
           redirect_to candidate_interface_course_choices_review_path
         elsif service.candidate_should_choose_site?
           redirect_to candidate_interface_course_choices_site_path(course.provider.code, course.code)
