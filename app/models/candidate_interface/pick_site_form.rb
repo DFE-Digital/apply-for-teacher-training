@@ -25,7 +25,11 @@ module CandidateInterface
     end
 
     def course
-      @course ||= Course.find_by!(code: course_code)
+      @course ||= provider.courses.find_by!(code: course_code)
+    end
+
+    def provider
+      @provider ||= Provider.find_by!(code: provider_code)
     end
 
     def candidate_can_only_apply_to_3_courses

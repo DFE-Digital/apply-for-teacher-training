@@ -21,7 +21,7 @@ module CandidateInterface
     end
 
     def course
-      @course ||= Course.find_by!(code: code)
+      @course ||= provider.courses.find_by!(code: code)
     end
 
   private
