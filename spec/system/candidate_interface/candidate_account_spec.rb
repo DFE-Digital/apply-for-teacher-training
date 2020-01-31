@@ -110,7 +110,7 @@ RSpec.feature 'Candidate account' do
 
   def when_i_click_the_signin_link
     visit '/'
-    click_on 'sign in'
+    click_on 'Sign in to an existing application'
   end
 
   def when_i_signed_in_more_than_a_week_ago

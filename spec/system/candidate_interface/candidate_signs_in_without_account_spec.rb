@@ -25,7 +25,7 @@ RSpec.feature 'Candidate tries to sign in without an account' do
 
   def when_i_go_to_sign_in
     visit '/'
-    click_on 'sign in'
+    click_on 'Sign in to an existing application'
   end
 
   def and_i_submit_my_email_address
