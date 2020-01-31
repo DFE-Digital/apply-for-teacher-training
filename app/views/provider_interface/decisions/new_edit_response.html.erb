@@ -1,0 +1,56 @@
+<% content_for :browser_title, @edit_response.errors.any? ? 'Error: Edit response' : 'Edit response' %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice.id)) %>
+
+<%= form_with model: @edit_response,
+      url: provider_interface_application_choice_edit_response_path(@application_choice.id),
+      method: :post do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <h1 class="govuk-heading-xl">
+    <span class="govuk-caption-xl">
+      Application for <%= @application_choice.course.name_and_code %>
+    </span>
+    Edit response
+  </h1>
+
+  <%= render SummaryListComponent, rows: [
+    { key: 'Full name', value: @application_choice.application_form.full_name },
+    { key: 'Course', value: @application_choice.course.name_and_code },
+    { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
+    { key: 'Preferred location', value: @application_choice.site.name },
+  ] %>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%
+        edit_response_options = [
+          OpenStruct.new(
+            value: 'different_course',
+            name: 'Offer a different course',
+            description: 'Include any conditions or recommendations',
+          ),
+          OpenStruct.new(
+            id: 'withdraw',
+            name: 'Withdraw offer',
+          )
+        ]
+      %>
+      <%=
+        f.govuk_collection_radio_buttons(
+          :edit_response_type,
+          edit_response_options,
+          :value,
+          :name,
+          :description,
+          legend: { text: 'Choose response' },
+        )
+      %>
+
+      <%= f.govuk_submit 'Continue' %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
+      </p>
+    </div>
+  </div>
+<% end %>

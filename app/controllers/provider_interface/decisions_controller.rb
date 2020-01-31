@@ -80,6 +80,10 @@ module ProviderInterface
       end
     end
 
+    def new_edit_response
+      @edit_response = EditResponseForm.new
+    end
+
   private
 
     def set_application_choice

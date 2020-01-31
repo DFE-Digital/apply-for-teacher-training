@@ -285,6 +285,11 @@ Rails.application.routes.draw do
     get '/applications/:application_choice_id/conditions' => 'conditions#edit', as: :application_choice_edit_conditions
     patch '/applications/:application_choice_id/conditions/confirm' => 'conditions#confirm_update', as: :application_choice_confirm_update_conditions
     patch '/applications/:application_choice_id/conditions' => 'conditions#update', as: :application_choice_update_conditions
+    get '/applications/:application_choice_id/edit_response' => 'decisions#new_edit_response', as: :application_choice_new_edit_response
+    post '/applications/:application_choice_id/edit_response' => 'decisions#edit_response', as: :application_choice_edit_response
+    get '/applications/:application_choice_id/offer/withdraw' => 'decisions#new_withdraw_offer', as: :application_choice_new_withdraw_offer
+    post '/applications/:application_choice_id/offer/withdraw' => 'decisions#withdraw_offer', as: :application_choice_withdraw_offer
+    post '/applications/:application_choice_id/offer/confirm_withdraw' => 'decisions#confirm_withdraw_offer', as: :application_choice_confirm_withdraw_offer
 
     post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
 
