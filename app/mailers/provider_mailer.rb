@@ -10,11 +10,17 @@ class ProviderMailer < ApplicationMailer
   end
 
   def application_submitted(provider_user, application_choice)
-    @application = OpenStruct.new(
-      course_name_and_code: application_choice.course.name_and_code,
-      provider_user_name: provider_user.full_name,
-      candidate_name: application_choice.application_form.full_name,
-      application_choice_id: application_choice.id,
+    @application = 
+      Struct.new(
+        :course_name_and_code,
+        :provider_user_name,
+        :candidate_name,
+        :application_choice_id,
+      ).new(
+          application_choice.course.name_and_code,
+          provider_user.full_name,
+          application_choice.application_form.full_name,
+          application_choice.id,
     )
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
@@ -23,17 +29,23 @@ class ProviderMailer < ApplicationMailer
   end
 
   def application_rejected_by_default(provider_user, application_choice)
-    @application = OpenStruct.new(
-      candidate_name: application_choice.application_form.full_name,
-      provider_user_name: provider_user.full_name,
-      course_name: application_choice.course.name,
-      course_code: application_choice.course.code,
-      submitted_at: application_choice.application_form.submitted_at.to_s(:govuk_date).strip,
-      application_choice_id: application_choice.id,
+    @application = 
+      Struct.new(
+        :candidate_name,
+        :provider_user_name,
+        :course_name_and_code,
+        :submitted_at,
+        :application_choice_id,
+      ).new(
+          application_choice.application_form.full_name,
+          provider_user.full_name,
+          application_choice.course.name_and_code,
+          application_choice.application_form.submitted_at.to_s(:govuk_date).strip,
+          application_choice.id,
     )
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: provider_user.email_address,
-              subject: t('provider_application_rejected_by_default.email.subject', candidate_name: @application.candidate_name))
+              subject: t('provider_application_rejected_by_default.email.subject', course_name_and_code: @application.course_name_and_code))
   end
 end
