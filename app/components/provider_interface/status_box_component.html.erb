@@ -42,6 +42,6 @@
     </div>
   <% elsif application_choice.offer? %>
     <div class="govuk-!-margin-top-6">
-      <%= govuk_button_link_to 'Edit response', provider_interface_application_choice_respond_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
+      <%= govuk_button_link_to 'Edit response', provider_interface_application_choice_edit_response_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
   <% end %>
 </div>

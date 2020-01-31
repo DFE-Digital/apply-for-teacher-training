@@ -280,6 +280,11 @@ Rails.application.routes.draw do
     post '/applications/:application_choice_id/reject' => 'decisions#create_reject', as: :application_choice_create_reject
     post '/applications/:application_choice_id/offer/confirm' => 'decisions#confirm_offer', as: :application_choice_confirm_offer
     post '/applications/:application_choice_id/offer' => 'decisions#create_offer', as: :application_choice_create_offer
+    get '/applications/:application_choice_id/edit_response' => 'decisions#new_edit_response', as: :application_choice_new_edit_response
+    post '/applications/:application_choice_id/edit_response' => 'decisions#edit_response', as: :application_choice_edit_response
+    get '/applications/:application_choice_id/offer/withdraw' => 'decisions#new_withdraw_offer', as: :application_choice_new_withdraw_offer
+    post '/applications/:application_choice_id/offer/withdraw' => 'decisions#withdraw_offer', as: :application_choice_withdraw_offer
+    post '/applications/:application_choice_id/offer/confirm_withdraw' => 'decisions#confirm_withdraw_offer', as: :application_choice_confirm_withdraw_offer
 
     post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
 
