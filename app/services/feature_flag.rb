@@ -12,6 +12,7 @@ class FeatureFlag
     confirm_conditions
     automated_referee_chaser
     automated_provider_chaser
+    provider_edit_response
   ].freeze
 
   def self.activate(feature_name)
