@@ -31,7 +31,7 @@
 <% end %>
 
 <h2 class='govuk-heading-m'>Offers <%= pluralize(@provider.courses.size, 'course') %> (<%= @provider.courses.open_on_apply.size %> on DfE Apply)</h2>
-<%= render(SupportInterface::ProviderCoursesTableComponent, provider: @provider, courses: @provider.courses) %>
+<%= render(SupportInterface::ProviderCoursesTableComponent, provider: @provider, courses: @provider.courses.includes(:accrediting_provider)) %>
 
 <% if @provider.accredited_courses.any? %>
   <h2 class='govuk-heading-m'>Accredits <%= pluralize(@provider.accredited_courses.size, 'course') %> (<%= @provider.accredited_courses.open_on_apply.size %> on DfE Apply)</h2>

@@ -9,6 +9,9 @@
       <th scope='col' class='govuk-table__header'>Recruitment Cycle</th>
       <th scope='col' class='govuk-table__header'>Apply from Find</th>
       <th scope='col' class='govuk-table__header'>Page on Find</th>
+      <% if accredited_bodies_vary? %>
+        <th scope='col' class='govuk-table__header'>Accredited body</th>
+      <% end %>
     </tr>
   </thead>
 
@@ -35,6 +38,9 @@
             <em>N/A - hidden in Find</em>
           <% end %>
         </td>
+        <% if accredited_bodies_vary? %>
+          <td class='govuk-table__cell'><%= course[:accredited_body] %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

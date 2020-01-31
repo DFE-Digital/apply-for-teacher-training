@@ -67,11 +67,15 @@ RSpec.feature 'See providers' do
       },
     ])
 
-    @request1 = stub_find_api_provider_200(
+    @request1 = stub_find_api_provider_200_with_accrediting_provider(
       provider_code: 'ABC',
       provider_name: 'Royal Academy of Dance',
       course_code: 'ABC-1',
       site_code: 'X',
+      accrediting_provider_code: 'XYZ',
+      accrediting_provider_name: 'University of Chester',
+      findable: true,
+      study_mode: 'full_time',
     )
 
     @request2 = stub_find_api_provider_200(
@@ -135,6 +139,8 @@ RSpec.feature 'See providers' do
   def then_i_see_the_updated_providers_courses_and_sites
     expect(page).to have_content 'ABC-1'
     expect(page).to have_content '1 course (1 on DfE Apply)'
+    expect(page).to have_content 'Accredited body'
+    expect(page).to have_content 'University of Chester'
   end
 
   def when_i_click_on_a_different_provider
