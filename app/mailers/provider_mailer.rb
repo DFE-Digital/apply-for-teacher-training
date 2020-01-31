@@ -11,8 +11,7 @@ class ProviderMailer < ApplicationMailer
 
   def application_submitted(provider_user, application_choice)
     @application = OpenStruct.new(
-      course_name: application_choice.course.name,
-      course_code: application_choice.course.code,
+      course_name_and_code: application_choice.course.name_and_code,
       provider_user_name: provider_user.full_name,
       candidate_name: application_choice.application_form.full_name,
       application_choice_id: application_choice.id,
@@ -20,6 +19,6 @@ class ProviderMailer < ApplicationMailer
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: provider_user.email_address,
-              subject: t('provider_application_submitted.email.subject', course_name: @application.course_name, course_code: @application.course_code))
+              subject: t('provider_application_submitted.email.subject', course_name_and_code: @application.course_name_and_code))
   end
 end

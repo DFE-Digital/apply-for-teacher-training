@@ -41,9 +41,8 @@ RSpec.describe ProviderMailer, type: :mailer do
     it 'sends an email with the correct subject' do
       expect(@mail.subject).to include(
         t('provider_application_submitted.email.subject',
-          course_name: @application_choice.course.name,
-           course_code: @application_choice.course.code),
-          )
+          course_name_and_code: @application_choice.course.name_and_code),
+      )
     end
 
     it 'addresses the provider user by name' do

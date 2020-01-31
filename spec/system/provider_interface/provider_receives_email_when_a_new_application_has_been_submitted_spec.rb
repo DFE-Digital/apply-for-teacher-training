@@ -40,9 +40,7 @@ RSpec.feature 'A new application has been submitted' do
   def then_i_should_receive_an_email_with_a_link_to_the_application
     open_email(@provider_user.email_address)
 
-    expect(current_email.subject).to include(t('provider_application_submitted.email.subject',
-                                               course_name: @application_choice.course.name,
-                                                course_code: @application_choice.course.code))
+    expect(current_email.subject).to include("Application received for #{@application_choice.course.name_and_code}")
 
     expect(current_email.body).to include("http://localhost:3000/provider/applications/#{@application_choice.id}")
   end
