@@ -1,0 +1,37 @@
+<% content_for :browser_title, 'Withdraw offer' %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_respond_path(@application_choice.id)) %>
+
+<%= render(FlashMessageComponent, flash: flash) %>
+
+<%= form_with model: @withdraw_offer, url: provider_interface_application_choice_withdraw_offer_path(@application_choice.id), method: :post do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <h1 class="govuk-heading-xl">
+    <span class="govuk-caption-xl">
+      Application for <%= @application_choice.course.name_and_code %>
+    </span>
+    Conditions of offer
+  </h1>
+
+  <%= render SummaryListComponent, rows: [
+    { key: 'Full name', value: @application_choice.application_form.full_name },
+    { key: 'Course', value: @application_choice.course.name_and_code },
+    { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
+    { key: 'Preferred location', value: @application_choice.site.name },
+  ] %>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Tell us why you're withdrawing the offer</legend>
+        <%= f.govuk_text_area :withdraw_offer_reasons, rows: 5, label: { text: '' }, hint_text: 'We\'ll forward your feedback to the candidate' %>
+      </fieldset>
+
+      <%= f.govuk_submit 'Continue' %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
+      </p>
+    </div>
+  </div>
+<% end %>
