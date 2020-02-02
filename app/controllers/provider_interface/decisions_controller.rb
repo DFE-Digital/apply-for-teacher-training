@@ -93,8 +93,12 @@ module ProviderInterface
           application_choice_id: @application_choice.id,
         )
       else
-        render nothing: true, status: :bad_request
+        head :bad_request
       end
+    end
+
+    def new_withdraw_offer
+      @withdraw_offer = WithdrawOfferForm.new
     end
 
   private
