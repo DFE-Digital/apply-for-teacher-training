@@ -32,7 +32,7 @@ private
 
   def auto_approve_references_in_sandbox(application_form)
     application_form.application_references.includes(:application_form).each do |reference|
-      auto_approve_reference(reference) if HostingEnvironment.sandbox? && email_address_is_a_bot?(reference)
+      auto_approve_reference(reference) if HostingEnvironment.sandbox_mode? && email_address_is_a_bot?(reference)
     end
   end
 
@@ -60,7 +60,7 @@ private
   end
 
   def time_limit_calculator
-    klass = HostingEnvironment.sandbox? ? SandboxTimeLimitCalculator : TimeLimitCalculator
+    klass = HostingEnvironment.sandbox_mode? ? SandboxTimeLimitCalculator : TimeLimitCalculator
     klass.new(
       rule: :edit_by,
       effective_date: application_form.submitted_at,

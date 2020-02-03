@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     get '/candidate/sign-out', to: 'devise/sessions#destroy', as: :candidate_interface_sign_out
   end
 
-  if HostingEnvironment.sandbox?
+  if HostingEnvironment.sandbox_mode?
     root to: 'content#sandbox'
   else
     root to: redirect('/candidate')

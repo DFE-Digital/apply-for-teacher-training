@@ -24,7 +24,7 @@ module HostingEnvironment
   end
 
   def self.phase_banner_text
-    if sandbox?
+    if sandbox_mode?
       return 'This is a <a href="/">test version of Apply</a> for providers and software vendors'.html_safe
     end
 
@@ -60,7 +60,7 @@ module HostingEnvironment
     environment_name == 'production'
   end
 
-  def self.sandbox?
+  def self.sandbox_mode?
     ENV.fetch('SANDBOX', 'false') == 'true'
   end
 end
