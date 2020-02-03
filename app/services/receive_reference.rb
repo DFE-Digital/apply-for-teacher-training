@@ -1,22 +1,15 @@
 class ReceiveReference
-  attr_reader :referee_email
-  attr_reader :feedback
+  attr_reader :reference, :feedback
 
   def initialize(reference:, feedback:)
     @reference = reference
-    @application_form = reference.application_form
     @feedback = feedback
   end
 
   def save
     ActiveRecord::Base.transaction do
       @reference.update!(feedback: @feedback, feedback_status: 'feedback_provided')
-
-      if @application_form.application_references_complete?
-        @application_form.application_choices.includes(:course_option).each do |application_choice|
-          complete_references(application_choice)
-        end
-      end
+      progress_application_if_enough_references_have_been_submitted
     end
     true
   rescue Workflow::NoTransitionAllowed
@@ -29,10 +22,17 @@ class ReceiveReference
 
 private
 
-  def complete_references(application_choice)
-    ApplicationStateChange.new(application_choice).references_complete!
-    if application_choice.edit_by <= Time.zone.now
-      SendApplicationToProvider.new(application_choice: application_choice).call
+  def progress_application_if_enough_references_have_been_submitted
+    application_form = reference.application_form
+
+    return unless application_form.application_references_complete?
+
+    application_form.application_choices.each do |application_choice|
+      ApplicationStateChange.new(application_choice).references_complete!
+
+      if application_choice.edit_by <= Time.zone.now
+        SendApplicationToProvider.new(application_choice: application_choice).call
+      end
     end
   end
 end
