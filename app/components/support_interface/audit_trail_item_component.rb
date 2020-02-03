@@ -12,7 +12,7 @@ module SupportInterface
       if audit.comment.present? && audit.audited_changes.empty?
         "Comment on #{audit.auditable_type.titlecase}"
       else
-        "#{audit.action.capitalize} #{audit.auditable_type.titlecase}"
+        "#{audit.action.capitalize} #{audit.auditable_type.titlecase} ##{audit.auditable_id}"
       end
     end
 
