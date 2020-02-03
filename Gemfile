@@ -8,7 +8,7 @@ gem 'puma', '~> 4.3'
 gem 'pg', '~> 1.2.2'
 
 gem 'webpacker'
-gem 'govuk_design_system_formbuilder', '1.1.3'
+gem 'govuk_design_system_formbuilder', '1.1.4'
 
 # GovUK Notify
 gem 'mail-notify'
