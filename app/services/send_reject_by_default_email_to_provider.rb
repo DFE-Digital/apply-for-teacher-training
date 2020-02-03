@@ -11,14 +11,11 @@ class SendRejectByDefaultEmailToProvider
     application_choice.provider.provider_users.each do |provider_user|
       ProviderMailer.application_rejected_by_default(provider_user, application_choice).deliver_now
 
-      course_name = application_choice.course.name
-      course_code = application_choice.course.code
-      audit_comment = I18n.t('provider_application_rejected_by_default.email.audit_comment',
-                             provider_user_email: provider_user.email_address,
-                             course_name: course_name,
-                             course_code: course_code)
-      application_comment = SupportInterface::ApplicationCommentForm.new(comment: audit_comment)
-      application_comment.save(application_choice.application_form)
+      course_name_and_code = application_choice.course.name_and_code
+      audit_comment =
+        'Rejected by default email have been sent to the provider user' +
+        " #{provider_user.email_address} for application #{course_name_and_code}."
+      application_choice.application_form.update!(audit_comment: audit_comment)
     end
   end
 end

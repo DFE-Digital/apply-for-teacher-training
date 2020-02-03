@@ -59,7 +59,7 @@ RSpec.describe ProviderMailer, type: :mailer do
     end
 
     it 'includes a link to the application' do
-      expect(@mail.body.encoded).to include(provider_interface_application_choice_url(application_choice_id: @application_choice.id))
+      expect(@mail.body.encoded).to include(provider_interface_application_choice_url(@application_choice))
     end
   end
 

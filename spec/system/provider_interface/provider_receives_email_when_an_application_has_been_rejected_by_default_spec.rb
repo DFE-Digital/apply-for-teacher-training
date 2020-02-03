@@ -49,8 +49,7 @@ RSpec.feature 'An application has been rejected by default' do
   def and_an_audit_comment_has_submitted
     expected_audit_comment =
       'Rejected by default email have been sent to the provider user' +
-      " (#{@provider_user.email_address}) for application (#{@application_choice.course.name})" +
-      " (#{@application_choice.course.code})."
+      " #{@provider_user.email_address} for application #{@application_choice.course.name_and_code}."
 
     expect(@application_choice.application_form.audits.last.comment).to eq(expected_audit_comment)
   end
