@@ -96,26 +96,4 @@ RSpec.describe ApplicationReference, type: :model do
       expect(reference.audits.last.user).to eq candidate
     end
   end
-
-  describe '#refresh_feedback_token!' do
-    let(:application_form) { create(:application_form) }
-
-    context 'the feedback_status field is anything but "not_requested_yet"' do
-      it 'does not update the feedback_status field' do
-        reference = create(:reference, application_form: application_form, feedback_status: 'feedback_provided')
-
-        expect { reference.refresh_feedback_token! }
-          .not_to change(reference, :feedback_status)
-      end
-    end
-
-    context 'the feedback_status field is "not_requested_yet"' do
-      it 'initialises the feedback_status field to "feedback_requested"' do
-        reference = create(:reference, application_form: application_form, feedback_status: 'not_requested_yet')
-
-        expect { reference.refresh_feedback_token! }
-          .to change(reference, :feedback_status).to('feedback_requested')
-      end
-    end
-  end
 end
