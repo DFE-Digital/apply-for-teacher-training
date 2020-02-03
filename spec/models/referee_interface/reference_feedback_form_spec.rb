@@ -7,7 +7,7 @@ RSpec.describe RefereeInterface::ReferenceFeedbackForm do
       application_form.application_choices.each { |choice| choice.update(status: 'awaiting_references', edit_by: 1.day.from_now) }
       unsubmitted_reference = build(:reference, :unsubmitted)
       application_form.application_references << unsubmitted_reference
-      allow(ReceiveReference).to receive(:new).and_return(instance_double(ReceiveReference, save: true))
+      allow(ReceiveReference).to receive(:new).and_return(instance_double(ReceiveReference, save!: true))
 
       described_class.new(
         reference: unsubmitted_reference,
@@ -22,7 +22,7 @@ RSpec.describe RefereeInterface::ReferenceFeedbackForm do
       application_form.application_choices.each { |choice| choice.update(status: 'awaiting_references') }
       unsubmitted_reference = build(:reference, :unsubmitted)
       application_form.application_references << unsubmitted_reference
-      allow(ReceiveReference).to receive(:new).and_return(instance_double(ReceiveReference, save: true))
+      allow(ReceiveReference).to receive(:new).and_return(instance_double(ReceiveReference, save!: true))
 
       described_class.new(
         reference: unsubmitted_reference,

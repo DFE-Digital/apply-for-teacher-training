@@ -27,12 +27,12 @@ RSpec.feature 'Vendor receives the application' do
     ReceiveReference.new(
       reference: @application.application_references.first,
       feedback: 'My ideal person',
-    ).save
+    ).save!
 
     ReceiveReference.new(
       reference: @application.application_references.last,
       feedback: 'Lovable',
-    ).save
+    ).save!
   end
 
   def and_the_edit_by_date_has_passed

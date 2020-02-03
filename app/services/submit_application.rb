@@ -40,7 +40,7 @@ private
     ReceiveReference.new(
       reference: reference,
       feedback: I18n.t('new_referee_request.auto_approve_feedback'),
-    ).save
+    ).save!
   end
 
   def email_address_is_a_bot?(reference)
