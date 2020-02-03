@@ -16,8 +16,8 @@
     <div class="govuk-header__content">
       <%= link_to service_name, service_url, class: 'govuk-header__link govuk-header__link--service-name' %>
       <% if navigation_items.any? %>
-        <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="navigation" aria-label="Show or hide Top Level Navigation">Menu</button>
-        <ul id="navigation" class="govuk-header__navigation " aria-label="Top Level Navigation">
+        <button type="button" class="govuk-header__menu-button govuk-js-header-toggle app-!-print-display-none" aria-controls="navigation" aria-label="Show or hide Top Level Navigation">Menu</button>
+        <ul id="navigation" class="govuk-header__navigation app-!-print-display-none" aria-label="Top Level Navigation">
           <% navigation_items.each do |nav_item| %>
             <li class="govuk-header__navigation-item <%= nav_item.active ? 'govuk-header__navigation-item--active' : '' %>">
               <% if nav_item.href %>
