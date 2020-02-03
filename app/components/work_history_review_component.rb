@@ -7,6 +7,7 @@ class WorkHistoryReviewComponent < ActionView::Component::Base
     @heading_level = heading_level
     @show_incomplete = show_incomplete
     @missing_error = missing_error
+    @work_history_with_breaks = GetWorkHistoryWithBreaks.new(@application_form.application_work_experiences).call
   end
 
   def work_experience_rows(work)

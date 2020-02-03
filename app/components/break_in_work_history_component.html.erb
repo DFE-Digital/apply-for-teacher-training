@@ -1,9 +1,7 @@
-<% if break_in_months > 0 %>
-  <section class="app-summary-card govuk-!-margin-bottom-6">
-    <header class="app-summary-card__header">
-      <h3 class="app-summary-card__title">
-        You have a break in your work history (<%= pluralize(break_in_months, 'month')%>)
-      </h3>
-    </header>
-  </section>
-<% end %>
+<section class="app-summary-card govuk-!-margin-bottom-6">
+  <header class="app-summary-card__header">
+    <h3 class="app-summary-card__title">
+      You have a break in your work history (<%= pluralize(break_in_months, 'month') %>)
+    </h3>
+  </header>
+</section>
