@@ -5,3 +5,6 @@ en:
   provider_application_submitted:
     email:
       subject: Application received for %{course_name_and_code}
+  provider_application_rejected_by_default:
+    email:
+      subject: '%{candidate_name}’s application rejected automatically'
