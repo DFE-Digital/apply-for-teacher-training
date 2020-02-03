@@ -31,11 +31,11 @@ Codes appear in three contexts:
 
 ### Authentication and authorisation
 
-The data held by the Apply service is confidential and only available to candidates themselves and staff from the training provider to which applications are made. Therefore authentication will be required for all API interactions.
+Requests to the API must be accompanied by an authentication token.
 
-To set up an authenticated connection between the student record system and DfE Apply, users will need to provide an API key to the SRS. To get an API key, the user will need to sign in to the DfE Apply web interface using DfE Sign-in, the Single Sign-on provider used on the existing _Publish teacher training courses_ service, part of [Find postgraduate teacher training](https://find-postgraduate-teacher-training.education.gov.uk). For each provider supported by your SRS, one user needs to generate this key. It is up to SRS vendors to provide a way for users to add the API key to their SRS system.
+Each token is associated with a single provider. It will grant access to applications for courses offered by or accredited by that provider. You can get a token by writing to [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
 
-The API key will expire after 6 months. One month in advance of expiry, DfE Apply will email the user who generated the key so that they know to come back and generate a new one. To prevent a hard cut-over between keys, once a new key is created the old key will continue to work until it expires.
+For instructions on how to authenticate see the [API reference](/api-docs/reference#authentication).
 
 ### Versioning
 
