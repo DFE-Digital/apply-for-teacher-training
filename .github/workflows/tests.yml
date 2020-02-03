@@ -67,6 +67,7 @@ jobs:
           bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
           bin/rails db:setup
+          RAILS_ENV=test rails webpacker:compile
 
       - name: 'Run tests'
         env:
@@ -144,6 +145,7 @@ jobs:
           bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
           bin/rails db:setup
+          RAILS_ENV=test rails webpacker:compile
 
       - name: 'Run tests'
         env:

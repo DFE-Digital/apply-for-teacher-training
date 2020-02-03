@@ -45,8 +45,13 @@ end
 desc 'Run all the linters'
 task linting: %i[rubocop erblint]
 
+desc 'Compile assets for testing'
+task :compile_assets do
+  sh 'RAILS_ENV=test rails webpacker:compile'
+end
+
 desc 'Run all acceptance tests'
 task acceptance_tests: %i[rspec_acceptance_tests cucumber]
 
 desc 'Run all the tests'
-task run_tests: %i[linting spec_without_performance brakeman]
+task run_tests: %i[compile_assets linting spec_without_performance brakeman]
