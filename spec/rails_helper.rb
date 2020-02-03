@@ -30,7 +30,7 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 
-puts "ℹ️ If you change CSS, JS, or Assets - don't forget to run `RAILS_ENV=test rails webpacker:compile` before your test runs"
+puts "ℹ️ If you change CSS, JS, or Assets - don't forget to run `rake compile_assets` before your test runs"
 
 Timecop.safe_mode = true
 
