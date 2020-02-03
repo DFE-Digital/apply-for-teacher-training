@@ -53,7 +53,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def when_i_enter_reasons
-    fill_in('withdraw_an_offer[comments]', with: 'We are very sorry but...')
+    fill_in('provider_interface_withdraw_offer_form[reason]', with: 'We are very sorry but...')
   end
 
   def and_i_click_to_continue
@@ -63,19 +63,15 @@ RSpec.feature 'Provider makes an offer' do
   def then_i_am_asked_to_confirm_withdrawal_of_the_offer
     expect(page).to have_current_path(
       provider_interface_application_choice_confirm_withdraw_offer_path(
-        @application_awaiting_provider_decision.id,
+        @application_offered.id,
       ),
     )
-    expect(page).to have_content 'Confirm withdrawal'
-  end
-
-  def and_i_see_the_correct_offer_conditions
-    expect(page).to have_content 'Fitness to Teach check'
-    expect(page).to have_content 'A further condition'
+    expect(page).to have_content 'Are you sure you want to withdraw this offer?'
+    expect(page).to have_content 'We are very sorry but...'
   end
 
   def when_i_confirm_withdrawal_of_the_offer
-    click_on 'Confirm withdrawal'
+    click_on 'Yes I\'m sure - withdraw offer'
   end
 
   def then_i_am_back_to_the_application_page
@@ -84,11 +80,12 @@ RSpec.feature 'Provider makes an offer' do
         @application_offered.id,
       ),
     )
-    expect(page).to have_content @application_awaiting_provider_decision.application_form.first_name
-    expect(page).to have_content @application_awaiting_provider_decision.application_form.last_name
+    expect(page).to have_content @application_offered.application_form.first_name
+    expect(page).to have_content @application_offered.application_form.last_name
   end
 
   def and_i_can_see_the_application_has_an_offer_made
     expect(page).to have_content 'Application status changed to ‘Offer withdrawn’'
+    expect(page).to have_content 'Withdrawn by us'
   end
 end

@@ -93,12 +93,35 @@ module ProviderInterface
           application_choice_id: @application_choice.id,
         )
       else
+        # TODO: render original form and validation error?
         head :bad_request
       end
     end
 
     def new_withdraw_offer
       @withdraw_offer = WithdrawOfferForm.new
+    end
+
+    def withdraw_offer
+      @withdraw_offer = WithdrawOfferForm.new(
+        reason: params.dig(:provider_interface_withdraw_offer_form, :reason),
+      )
+      if @withdraw_offer.valid?
+        # TODO: Store reason in session or pass as URL param?
+        redirect_to provider_interface_application_choice_new_confirm_withdraw_offer_path(
+          application_choice_id: @application_choice.id,
+        )
+      else
+        render action: :new_withdraw_offer
+      end
+    end
+
+    def new_confirm_withdraw_offer
+      @withdraw_offer = WithdrawOfferForm.new
+    end
+
+    def confirm_withdraw_offer
+      # TODO:
     end
 
   private

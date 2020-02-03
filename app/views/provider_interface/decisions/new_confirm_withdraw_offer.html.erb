@@ -7,10 +7,7 @@
   <%= f.govuk_error_summary %>
 
   <h1 class="govuk-heading-xl">
-    <span class="govuk-caption-xl">
-      Application for <%= @application_choice.course.name_and_code %>
-    </span>
-    Conditions of offer
+    Are you sure you want to withdraw this offer?
   </h1>
 
   <%= render SummaryListComponent, rows: [
@@ -22,12 +19,8 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Tell us why you're withdrawing the offer</legend>
-        <%= f.govuk_text_area :reason, rows: 5, label: { text: '' }, hint_text: 'We\'ll forward your feedback to the candidate' %>
-      </fieldset>
-
-      <%= f.govuk_submit 'Continue' %>
+      <%= f.hidden_field :reason %>
+      <%= f.govuk_submit 'Yes I\'m sure - withdraw offer' %>
 
       <p class="govuk-body">
         <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
