@@ -69,6 +69,6 @@
 <% if @application_choice.application_form.application_references.any? %>
   <% @application_choice.application_form.application_references.each_with_index do |reference, i| %>
     <h2 class="govuk-heading-l govuk-!-margin-top-8"><%= "#{(i + 1).ordinalize} reference" %></h2>
-    <%= render ReferenceWithFeedbackComponent, reference: reference %>
+    <%= render ProviderInterface::ReferenceWithFeedbackComponent, reference: reference %>
   <% end %>
 <% end %>
