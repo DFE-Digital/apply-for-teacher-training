@@ -18,7 +18,6 @@ class PersonalDetailsComponent < ActionView::Component::Base
   def rows
     [
       name_row,
-      date_of_birth_row,
       nationality_row,
       phone_number_row,
       email_row,
@@ -55,13 +54,6 @@ private
     {
       key: 'Nationality',
       value: formatted_nationalities,
-    }
-  end
-
-  def date_of_birth_row
-    {
-      key: 'Date of birth',
-      value: application_form.date_of_birth ? application_form.date_of_birth.to_s(:govuk_date) : MISSING,
     }
   end
 
