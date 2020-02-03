@@ -10,6 +10,8 @@ class GetRefereesToChase
 
     references = application_forms.map(&:application_references).flatten
 
-    references.select(&:feedback_requested?)
+    references_feedback_requested = references.select(&:feedback_requested?)
+
+    references_feedback_requested.select { |reference| reference.chasers_sent.referee_mailer_reference_request_chaser_email.blank? }
   end
 end
