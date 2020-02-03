@@ -22,10 +22,8 @@ private
 
     application_form.application_choices.each do |application_choice|
       ApplicationStateChange.new(application_choice).references_complete!
-
-      if application_choice.edit_by <= Time.zone.now
-        SendApplicationToProvider.new(application_choice: application_choice).call
-      end
     end
+
+    SendApplicationsToProvider.new.call
   end
 end
