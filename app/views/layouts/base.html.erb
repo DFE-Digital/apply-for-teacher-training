@@ -21,7 +21,7 @@
 
     <meta property="og:image" content="<%= asset_pack_path('media/images/govuk-opengraph-image.png') %>">
 
-    <%= stylesheet_pack_tag 'application' %>
+    <%= stylesheet_pack_tag 'application', media: 'all' %>
 
     <% unless Rails.env.development? %>
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

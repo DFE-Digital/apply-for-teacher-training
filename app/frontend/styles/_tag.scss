@@ -1,34 +1,62 @@
 .app-tag--red {
   color: govuk-shade(govuk-colour("red"), 20);
   background: govuk-tint(govuk-colour("red"), 80);
+
+  @include govuk-media-query($media-type: print) {
+    border: 2px solid govuk-shade(govuk-colour("red"), 20);
+  }
 }
 
 .app-tag--blue {
   color: govuk-shade(govuk-colour("blue"), 30);
   background: govuk-tint(govuk-colour("blue"), 80);
+
+  @include govuk-media-query($media-type: print) {
+    border: 2px solid govuk-shade(govuk-colour("blue"), 30);
+  }
 }
 
 .app-tag--purple {
   color: govuk-shade(govuk-colour("purple"), 20);
   background: govuk-tint(govuk-colour("purple"), 80);
+
+  @include govuk-media-query($media-type: print) {
+    border: 2px solid govuk-shade(govuk-colour("purple"), 20);
+  }
 }
 
 .app-tag--grey {
   color: govuk-shade(govuk-colour("dark-grey"), 30);
   background: govuk-tint(govuk-colour("dark-grey"), 90);
+
+  @include govuk-media-query($media-type: print) {
+    border: 2px solid govuk-shade(govuk-colour("dark-grey"), 30);
+  }
 }
 
 .app-tag--turquoise {
   color: govuk-shade(govuk-colour("turquoise"), 40);
   background: govuk-tint(govuk-colour("turquoise"), 70);
+
+  @include govuk-media-query($media-type: print) {
+    border: 2px solid govuk-shade(govuk-colour("turquoise"), 40);
+  }
 }
 
 .app-tag--green {
   color: govuk-shade(govuk-colour("green"), 20);
   background: govuk-tint(govuk-colour("green"), 80);
+
+  @include govuk-media-query($media-type: print) {
+    border: 2px solid govuk-shade(govuk-colour("green"), 20);
+  }
 }
 
 .app-tag--orange {
   color: govuk-shade(govuk-colour("orange"), 55);
   background: govuk-tint(govuk-colour("orange"), 70);
+
+  @include govuk-media-query($media-type: print) {
+    border: 2px solid govuk-shade(govuk-colour("orange"), 55);
+  }
 }

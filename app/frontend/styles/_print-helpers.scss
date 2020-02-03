@@ -1,0 +1,10 @@
+@include govuk-media-query($media-type: print) {
+  .app-\!-print-display-none {
+    display: none !important;
+  }
+
+  // TODO: Remove when breadcrumbs are a component
+  .govuk-breadcrumbs {
+    display: none;
+  }
+}
