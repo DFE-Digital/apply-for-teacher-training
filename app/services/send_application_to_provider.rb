@@ -13,6 +13,7 @@ class SendApplicationToProvider
       set_reject_by_default
       ApplicationStateChange.new(application_choice).send_to_provider!
       StateChangeNotifier.call(:send_application_to_provider, application_choice: application_choice)
+      SendNewApplicationEmailToProvider.new(application_choice: application_choice).call
     end
   end
 
