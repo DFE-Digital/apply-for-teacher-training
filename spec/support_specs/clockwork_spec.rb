@@ -4,6 +4,7 @@ require 'sidekiq'
 require './app/workers/clockwork_check'
 require './app/workers/send_applications_to_provider_worker'
 require './app/workers/decline_offers_by_default_worker'
+require './app/workers/send_chase_email_to_referees_worker'
 
 RSpec.describe Clockwork do
   around do |example|
@@ -92,6 +93,27 @@ RSpec.describe Clockwork do
       Clockwork::Test.run(max_ticks: 60, tick_speed: 1.minute, file: './config/clock.rb')
       Clockwork::Test.block_for('DeclineOffersByDefault').call
       expect(DeclineOffersByDefaultWorker).to have_received(:perform_async)
+    end
+  end
+
+  describe 'SendChaseEmailToRefereesWorker schedule' do
+    it 'runs the job every hour' do
+      start_time = Time.zone.local(2019, 11, 2, 0, 0, 0)
+      end_time = Time.zone.local(2019, 11, 2, 3, 0, 0)
+      Clockwork::Test.run(
+        start_time: start_time,
+        end_time: end_time,
+        tick_speed: 1.minute,
+        file: './config/clock.rb',
+      )
+      expect(Clockwork::Test.times_run('SendChaseEmailToReferees')).to eq 3
+    end
+
+    it 'queues a SendChaseEmailToRefereesWorker task' do
+      allow(SendChaseEmailToRefereesWorker).to receive(:perform_async)
+      Clockwork::Test.run(max_ticks: 60, tick_speed: 1.minute, file: './config/clock.rb')
+      Clockwork::Test.block_for('SendChaseEmailToReferees').call
+      expect(SendChaseEmailToRefereesWorker).to have_received(:perform_async)
     end
   end
 end
