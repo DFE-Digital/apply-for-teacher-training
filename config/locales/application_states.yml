@@ -163,6 +163,11 @@ en:
       by: referee
       description: Occurs when 2 referees have provided feedback about the candidate.
 
+    awaiting_references-send_to_provider:
+      name: Manually send to provider
+      by: referee
+      description: Even if the references have come in, the application can be sent manually to the provider.
+
     application_complete-send_to_provider:
       name: Send to provider
       by: system

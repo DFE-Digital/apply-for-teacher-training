@@ -19,11 +19,15 @@ private
   def progress_application_if_enough_references_have_been_submitted
     return unless there_are_now_enough_references_to_progress?
 
-    application_form.application_choices.each do |application_choice|
-      ApplicationStateChange.new(application_choice).references_complete!
+    if application_form.application_choices.all?(&:awaiting_references?)
+      application_form.application_choices.each do |application_choice|
+        ApplicationStateChange.new(application_choice).references_complete!
+      end
+      SendApplicationsToProvider.new.call
+    else
+      # Perhaps only send an email to the provider that a new reference has
+      # come in.
     end
-
-    SendApplicationsToProvider.new.call
   end
 
   # Only progress the applications if the reference that is being submitted is

@@ -21,6 +21,8 @@ module CandidateHelper
   end
 
   def candidate_completes_application_form
+    FeatureFlag.activate('training_with_a_disability')
+
     given_courses_exist
     create_and_sign_in_candidate
     visit candidate_interface_application_form_path

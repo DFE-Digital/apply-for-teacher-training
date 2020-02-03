@@ -33,6 +33,19 @@
   <%= button_to 'Exclude this candidate from service performance data', support_interface_hide_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button govuk-button--secondary' %>
 <% end %>
 
+<% if @application_form.application_choices.any?(&:awaiting_references?) %>
+<details class="govuk-details" data-module="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      Danger zone
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    <%= button_to 'Send to provider without references', support_interface_send_application_form_path(@application_form), class: 'govuk-button govuk-button--warning', data: { confirm: 'Heja' } %>
+  </div>
+</details>
+<% end %>
+
 <% if @application_form.application_choices.any? %>
   <h2 class="govuk-heading-l govuk-!-margin-top-8">Course choices</h2>
   <% @application_form.application_choices.includes(:course, :provider, :site).each do |application_choice| %>

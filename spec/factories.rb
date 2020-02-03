@@ -237,6 +237,11 @@ FactoryBot.define do
       feedback { nil }
     end
 
+    trait :requested do
+      feedback { nil }
+      feedback_status { 'feedback_requested' }
+    end
+
     trait :complete do
       feedback_status { 'feedback_provided' }
       feedback { Faker::Lorem.paragraph(sentence_count: 10) }

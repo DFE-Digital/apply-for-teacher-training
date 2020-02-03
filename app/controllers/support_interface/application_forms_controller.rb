@@ -13,5 +13,12 @@ module SupportInterface
       @application_form = ApplicationForm
         .find(params[:application_form_id])
     end
+
+    def send_to_provider
+      application_form = ApplicationForm.find(params[:application_form_id])
+      SendApplicationToProviderWithoutReferences.new(application_form).call
+      flash[:success] = 'The application has been send to provider without references'
+      redirect_to support_interface_applications_path(application_form)
+    end
   end
 end

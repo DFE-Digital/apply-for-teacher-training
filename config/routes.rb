@@ -305,6 +305,7 @@ Rails.application.routes.draw do
     get '/applications/:application_form_id/audit' => 'application_forms#audit', as: :application_form_audit
     get '/applications/:application_form_id/comments/new' => 'application_forms/comments#new', as: :application_form_new_comment
     post '/applications/:application_form_id/comments' => 'application_forms/comments#create', as: :application_form_comments
+    post '/applications/:application_form_id/send-to-provider' => 'application_forms#send_to_provider', as: :send_application_form
 
     get '/send-email/:reference_id' => 'send_reference_email#new', as: :send_reference_email
     post '/send-email/:reference_id' => 'send_reference_email#create'

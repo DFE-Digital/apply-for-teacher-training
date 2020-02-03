@@ -21,12 +21,6 @@ RSpec.describe SendApplicationToProvider do
     expect(application_choice.reload.status).to eq 'awaiting_provider_decision'
   end
 
-  it 'does nothing if the status is not `application_complete`' do
-    SendApplicationToProvider.new(application_choice: application_choice(status: 'awaiting_references')).call
-
-    expect(application_choice.reload.status).to eq 'awaiting_references'
-  end
-
   it 'sets the `reject_by_default_at` date and `reject_by_default_days`' do
     reject_by_default_at = 20.business_days.from_now.end_of_day
     time_limit_calculator = instance_double(TimeLimitCalculator, call: [20, reject_by_default_at])

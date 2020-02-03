@@ -1,5 +1,6 @@
 class SendChaseEmailToRefereeAndCandidate
   def self.call(application_form:, reference:)
+    reference.update! feedback_status: 'feedback_requested'
     RefereeMailer.reference_request_chaser_email(application_form, reference).deliver
     CandidateMailer.reference_chaser_email(application_form, reference).deliver
 
