@@ -1,4 +1,11 @@
 FactoryBot.define do
+  factory :chaser_sent do
+    candidate
+    chased_id { candidate.id }
+    chased_type { candidate.class }
+    chased_type { :referee_mailer_reference_request_chaser_email }
+  end
+
   factory :candidate do
     email_address { "#{SecureRandom.hex(5)}@example.com" }
     sign_up_email_bounced { false }
