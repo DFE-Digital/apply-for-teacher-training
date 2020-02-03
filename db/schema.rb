@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_31_130342) do
+ActiveRecord::Schema.define(version: 2020_02_03_115546) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -155,11 +155,13 @@ ActiveRecord::Schema.define(version: 2020_01_31_130342) do
     t.index ["magic_link_token"], name: "index_candidates_on_magic_link_token", unique: true
   end
 
-  create_table "chasers_sents", force: :cascade do |t|
-    t.string "type"
-    t.integer "application_choice_id"
+  create_table "chasers_sent", force: :cascade do |t|
+    t.string "chased_type", null: false
+    t.bigint "chased_id", null: false
+    t.string "chaser_type", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["chased_type", "chased_id"], name: "index_chasers_sent_on_chased_type_and_chased_id"
   end
 
   create_table "course_options", force: :cascade do |t|
