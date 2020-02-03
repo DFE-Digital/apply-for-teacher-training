@@ -202,9 +202,10 @@ en:
       description: |
         An application is rejected by default (RBD) if a provider doesn’t make an offer within 40 working days after they have received an application.
     offer-make_offer:
-      name: Amend offer conditions
+      name: Provider updates offer
       by: provider
-      description: Providers can amend the offer conditions as long as its not been accepted or declined by the user.
+      description: |
+        The provider is able to update their offer at any time before the candidate has accepted it. An updated offer may have different conditions or be for a different course.
 
     offer-decline_by_default:
       name: Decline by default
