@@ -8,7 +8,7 @@
         <%= link_to 'Provider users', support_interface_provider_users_path, class: 'govuk-breadcrumbs__link' %>
       </li>
       <li class="govuk-breadcrumbs__list-item" aria-current="page">
-        Add provider user
+        Edit provider user
       </li>
     </ol>
   </div>
@@ -23,11 +23,11 @@
         Edit provider user
       </h1>
 
-      <%= f.govuk_text_field :email_address, label: { text: 'Email address' } %>
+      <%= f.govuk_text_field :email_address, label: { text: 'Email address', size: 'm' } %>
       <%= f.govuk_text_field :first_name, label: { text: 'First name' } %>
       <%= f.govuk_text_field :last_name, label: { text: 'Last name' } %>
 
-      <%= f.govuk_collection_check_boxes :provider_ids, @form.available_providers, :id, :name_and_code, legend: { text: 'Provider' } %>
+      <%= f.govuk_collection_check_boxes :provider_ids, @form.available_providers, :id, :name_and_code, legend: { text: 'Provider' }, classes: 'app-checkboxes-scroll' %>
 
       <%= f.govuk_submit 'Update user' %>
     <% end %>
