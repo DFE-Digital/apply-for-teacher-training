@@ -10,7 +10,6 @@ $govuk-font-url-function: frontend-font-url;
 $govuk-image-url-function: frontend-image-url;
 
 @import "~govuk-frontend/govuk/all";
-@import "~@ministryofjustice/frontend/moj/components/sub-navigation/sub-navigation";
 @import "_autocomplete";
 @import "_banner";
 @import "_cookie-banner";
@@ -25,6 +24,7 @@ $govuk-image-url-function: frontend-image-url;
 @import "_contents-list";
 @import "_definition-list";
 @import "_postcode";
+@import "_print-helpers";
 
 // Provider
 @import "_button";
@@ -33,6 +33,7 @@ $govuk-image-url-function: frontend-image-url;
 @import "_product-section";
 
 // Support
+@import "~@ministryofjustice/frontend/moj/components/sub-navigation/sub-navigation";
 @import "_card";
 
 // API docs
