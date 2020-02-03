@@ -5,16 +5,16 @@ en:
       description: The candidate hasn't signed up yet
     sign_up_email_bounced:
       name: Sign up email bounced
-      description: Candidate was sent a sign up email but it bounced
+      description: The candidate was sent a sign up email but it bounced
     never_signed_in:
       name: Never signed in
-      description: Candidate has signed up but never signed into the service
+      description: The candidate has signed up but never signed into the service
     unsubmitted:
       name: Unsubmitted
-      description: Candidate hasn’t submitted the form yet
+      description: The candidate hasn’t submitted the form yet
     awaiting_references:
       name: Awaiting references
-      description: Candidate has submitted the form. We’ve asked their references for feedback, and are still waiting on one or more of those.
+      description: The candidate has submitted the form. We’ve asked their references for feedback, and are still waiting on one or more of those.
     waiting_to_be_sent:
       name: Waiting to be sent
       description: All of the references have come in, but we haven’t sent the applications to the provider yet
@@ -38,7 +38,7 @@ en:
       description: All of the candidate’s applications have been withdrawn, rejected or declined.
     unknown_state:
       name: 'Unknown!'
-      description: This application is a state that we don’t recognise. Please report this to a developer.
+      description: This application is in a state that we don’t recognise. Please report this to a developer.
   candidate_application_states:
     application_complete: Submitted
     awaiting_provider_decision: Pending
@@ -70,28 +70,28 @@ en:
     unsubmitted:
       name: Not submitted yet
       description: |
-        When a candidate has filled in their email address, they’ve started an
-        application. Until they submit their application to a provider, it is
-        in the unsubmitted state. The providers don’t see the application at this stage.
+        When a candidate has filled in their email address, they’ve started
+        an application. Until they submit their application, it is in the
+        unsubmitted state. The providers don’t see the application at this
+        stage.
 
     awaiting_references:
       name: Awaiting references
       description: |
-        Applicants submit their application choices with a list of referees. Until 2 references have been received all applications remain in the Awaiting references state.
+        The candidate submits their application choices with a list of referees. Until 2 references have been received all applications remain in the Awaiting references state.
         The providers don’t see the application at this stage.
 
     application_complete:
       name: Waiting to be sent
       description: |
-        After the references have come back and have been added to the application.
-        The providers don’t see the application at this stage in order to give
-        candidates a fixed period of 5 days to modify their application. They can't
-        modify the references.
+        The references have come back and have been added to the application.
+        Candidates are allowed a cooling-off period of 5 days to modify their application before it’s sent to providers.
+        They can't modify the references.
 
     awaiting_provider_decision:
       name: Awaiting provider decision
       description: |
-        The providers only see the application after the references have come back
+        Providers only see the application after the references have come back
         and have been added to the application and 5 days have elapsed for
         the candidate to review and modify the application.
 
@@ -101,7 +101,7 @@ en:
     offer:
       name: Offer made
       description: |
-        A provider makes an offer to the candidate. The candidate then has to accept
+        The provider has made an offer to the candidate. The candidate has to accept
         or reject the offer, which sets the application status to 'Pending
         conditions'.
 
@@ -111,19 +111,18 @@ en:
     recruited:
       name: Recruited
       description: |
-        If the candidate has met all conditions of their offer, the provider marks
-        their application as 'recruited'.
+        When the provider confirms that the offer conditions have been met, the application is marked 'recruited'.
 
     enrolled:
       name: Candidate enrolled
       description: |
-        Once a candidate has completed the enrolment process, the provider confirms
+        Once the candidate has completed the enrolment process, the provider confirms
         their enrolment onto the training programme. Since this status would be used
         to claim bursaries/grants from DfE, the provider may delay enrolling the trainee
         until a few weeks after the start of the training, since trainees can still
         not show up on the first day or drop out within the first couple of weeks.
         This reduces the risk that DfE over-pays that provider for training they didn’t
-        deliver and having to reconcile later on.
+        deliver and has to reconcile later on.
 
         The candidate’s HESA equality monitoring information is made available to the provider.
 
@@ -134,12 +133,12 @@ en:
     rejected:
       name: Rejected
       description: |
-        Provider has rejected the candidate’s application.
+        The provider has rejected the candidate’s application.
 
     withdrawn:
       name: Withdrawn
       description: |
-        If a candidate withdraws an application in progress it moves to the Withdrawn (end) state.
+        If the candidate withdraws an application in progress it moves to the Withdrawn (end) state.
 
     conditions_not_met:
       name: Conditions not met
@@ -182,8 +181,8 @@ en:
         Providers can make offers to candidates. Making an offer guarantees the candidate a place on the course that they applied to. Offers include conditions, that the candidate must meet in order to gain their place on a course.
 
         All offers must include the following non-academic conditions:
-        - Candidates must pass a DBS & childen’s barred list check
-        - Candidates must pass a fitness to work health check
+        candidates must pass a DBS & childen’s barred list check, and
+        candidates must pass a fitness to work health check.
 
     awaiting_provider_decision-reject:
       name: Provider rejects
@@ -194,13 +193,13 @@ en:
       name: Withdraw
       by: candidate
       description: |
-        A candidate makes a withdrawal decision to inform a provider that they no longer want their application to be considered. A candidate can withdraw an application at any time.
+        The candidate makes a withdrawal decision to inform the provider that they no longer want their application to be considered. The candidate can withdraw an application at any time.
 
     awaiting_provider_decision-reject_by_default:
       name: Reject by default
       by: system
       description: |
-        An application is rejected by default (RBD) if a provider doesn’t make an offer within 40 working days after they have received an application.
+        An application is rejected by default (RBD) if the provider doesn’t make an offer within 40 working days after they have received an application.
     offer-make_offer:
       name: Provider updates offer
       by: provider
@@ -210,7 +209,7 @@ en:
     offer-decline_by_default:
       name: Decline by default
       by: system
-      description: Candidate has to respond within 5 days, otherwise the system will decline the offer.
+      description: The candidate has to respond within 5 days, otherwise the system will decline the offer.
 
     offer-reject:
       name: Provider rescinds offer
@@ -218,14 +217,14 @@ en:
       description: As long as the candidate hasn’t accepted the offer, the provider can reject the application.
 
     offer-accept:
-      name: Candidate accepts
+      name: Candidate accepts offer
       by: candidate
       description: The candidate can accept the offer. All other application choices will be withdrawn.
 
     offer-decline:
-      name: Candidate declines
+      name: Candidate declines offer
       by: candidate
-      description: The candidate can decline the offer from the provider.
+      description: The candidate can decline the offer.
 
     pending_conditions-confirm_conditions_met:
       name: Confirm conditions are met
