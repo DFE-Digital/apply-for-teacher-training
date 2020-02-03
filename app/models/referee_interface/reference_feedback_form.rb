@@ -16,7 +16,9 @@ module RefereeInterface
       ReceiveReference.new(
         reference: reference,
         feedback: feedback,
-      ).save
+      ).save!
+
+      true
     end
   end
 end

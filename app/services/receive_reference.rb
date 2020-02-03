@@ -6,18 +6,11 @@ class ReceiveReference
     @feedback = feedback
   end
 
-  def save
+  def save!
     ActiveRecord::Base.transaction do
       @reference.update!(feedback: @feedback, feedback_status: 'feedback_provided')
       progress_application_if_enough_references_have_been_submitted
     end
-    true
-  rescue Workflow::NoTransitionAllowed
-    errors.add(
-      :base,
-      I18n.t('activerecord.errors.models.application_choice.attributes.status.invalid_transition'),
-    )
-    false
   end
 
 private

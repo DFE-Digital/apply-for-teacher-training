@@ -42,7 +42,7 @@ RSpec.feature 'See an application' do
       reference: @application_with_reference.reload.application_references.first,
       feedback: 'This is my feedback',
     )
-    action.save
+    action.save!
   end
 
   def and_i_visit_the_support_page

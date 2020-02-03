@@ -63,7 +63,7 @@ module TestApplications
         ReceiveReference.new(
           reference: reference,
           feedback: 'You are awesome',
-        ).save
+        ).save!
       end
       return if states.include? :application_complete
 

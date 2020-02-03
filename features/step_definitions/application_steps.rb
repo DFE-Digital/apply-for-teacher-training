@@ -71,7 +71,7 @@ When('{string} provides a reference') do |referee_email|
     reference: reference,
     feedback: Faker::Lorem.sentence(word_count: 20),
   )
-  expect(action.save).to be true
+  expect(action.save!).to be true
 end
 
 When(/the (date|time) is "(.*)"/) do |_, date_or_time|
