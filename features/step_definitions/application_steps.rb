@@ -67,11 +67,10 @@ end
 When('{string} provides a reference') do |referee_email|
   reference = @application_choice.application_form.application_references.find_by!(email_address: referee_email)
 
-  action = ReceiveReference.new(
+  ReceiveReference.new(
     reference: reference,
     feedback: Faker::Lorem.sentence(word_count: 20),
-  )
-  expect(action.save!).to be true
+  ).save!
 end
 
 When(/the (date|time) is "(.*)"/) do |_, date_or_time|
