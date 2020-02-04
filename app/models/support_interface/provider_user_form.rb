@@ -6,7 +6,7 @@ module SupportInterface
     attr_accessor :first_name, :last_name, :provider_ids, :provider_user
     attr_reader :email_address
 
-    validates :email_address, presence: true
+    validates :email_address, presence: true, email: true
     validates :provider_ids, presence: true
     validate :email_is_unique
 
@@ -26,7 +26,7 @@ module SupportInterface
     end
 
     def email_address=(raw_email_address)
-      @email_address = raw_email_address.downcase
+      @email_address = raw_email_address.downcase.strip
     end
 
     def available_providers
