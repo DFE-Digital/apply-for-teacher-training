@@ -19,7 +19,9 @@
         <th class="govuk-table__cell"><%= govuk_link_to application_choice.application_form.full_name, provider_interface_application_choice_path(application_choice) %></th>
         <td class="govuk-table__cell">
           <% if current_provider_user.providers.size > 1 %>
-              <%= application_choice.provider.name %> -
+            <span class="govuk-caption-m govuk-!-font-size-16">
+              <%= application_choice.provider.name %>
+            </span>
           <% end %>
 
           <%= application_choice.course.name_and_code %></td>
