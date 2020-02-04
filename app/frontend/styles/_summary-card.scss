@@ -12,6 +12,10 @@
       justify-content: space-between;
       align-items: start;
     }
+
+    @include govuk-media-query($media-type: print) {
+      border-bottom: 1px solid $govuk-border-colour;
+    }
   }
 
   .app-summary-card__title {
