@@ -103,6 +103,7 @@ FactoryBot.define do
     start_date { Faker::Date.between(from: 20.years.ago, to: 5.years.ago) }
     end_date { [Faker::Date.between(from: 4.years.ago, to: Date.today), nil].sample }
     commitment { %w[full_time part_time].sample }
+    working_pattern { Faker::Lorem.paragraph_by_chars(number: 30) }
   end
 
   factory :application_volunteering_experience, parent: :application_experience, class: 'ApplicationVolunteeringExperience'
