@@ -3,7 +3,7 @@
 
 <%= render(FlashMessageComponent, flash: flash) %>
 
-<%= form_with model: @withdraw_offer, url: provider_interface_application_choice_withdraw_offer_path(@application_choice.id), method: :post do |f| %>
+<%= form_with model: @withdraw_offer, url: provider_interface_application_choice_confirm_withdraw_offer_path(@application_choice.id), method: :post do |f| %>
   <%= f.govuk_error_summary %>
 
   <h1 class="govuk-heading-xl">
