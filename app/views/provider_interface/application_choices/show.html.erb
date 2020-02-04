@@ -23,7 +23,7 @@
     <%= render PersonalDetailsComponent, application_form: @application_choice.application_form %>
 
     <% unless HostingEnvironment.production? %>
-      <div class="app-status-box app-status-box--sandbox">
+      <div class="app-status-box app-status-box--sandbox app-!-print-display-none">
         <p class="govuk-body">
           <strong class="govuk-tag govuk-phase-banner__content__tag app-environment-tag app-environment-tag--sandbox">
             sandbox feature
