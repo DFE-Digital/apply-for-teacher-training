@@ -2,3 +2,7 @@
   background: govuk-colour("light-grey");
   padding: 20px;
 }
+
+.app-status-box--sandbox {
+  border-left: 5px solid govuk-colour("purple");
+}
