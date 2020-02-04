@@ -21,11 +21,11 @@
 
       <h1 class='govuk-heading-xl'>Add provider user</h1>
 
-      <%= f.govuk_text_field :email_address, label: { text: 'Email address' } %>
+      <%= f.govuk_text_field :email_address, label: { text: 'Email address', size: 'm' } %>
       <%= f.govuk_text_field :first_name, label: { text: 'First name' } %>
       <%= f.govuk_text_field :last_name, label: { text: 'Last name' } %>
 
-      <%= f.govuk_collection_check_boxes :provider_ids, @form.available_providers, :id, :name_and_code, legend: { text: 'Provider' } %>
+      <%= f.govuk_collection_check_boxes :provider_ids, @form.available_providers, :id, :name_and_code, legend: { text: 'Provider' }, classes: 'app-checkboxes-scroll' %>
 
       <%= f.govuk_submit 'Add provider user' %>
     <% end %>
