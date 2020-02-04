@@ -88,13 +88,12 @@ module ProviderInterface
       @edit_response = EditResponseForm.new(
         edit_response_type: params.dig(:provider_interface_edit_response_form, :edit_response_type),
       )
-      if @edit_response.edit_response_type == 'withdraw'
+      if @edit_response.valid?
         redirect_to provider_interface_application_choice_new_withdraw_offer_path(
           application_choice_id: @application_choice.id,
         )
       else
-        # TODO: render original form and validation error?
-        head :bad_request
+        render action: :new_edit_response
       end
     end
 
@@ -116,7 +115,10 @@ module ProviderInterface
         reason: params.dig(:provider_interface_withdraw_offer_form, :reason),
       )
       if @withdraw_offer.valid?
-        # TODO: Reject the offer
+        WithdrawOffer.new(
+          application_choice: @application_choice,
+          offer_withdrawal_reason: @withdraw_offer.reason,
+        ).save
         redirect_to provider_interface_application_choice_path(
           application_choice_id: @application_choice.id,
         )

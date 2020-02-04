@@ -111,5 +111,19 @@ RSpec.describe StateChangeNotifier do
         expect(SlackNotificationWorker).to have_received(:perform_async).with(anything, arg2)
       end
     end
+
+    describe ':withdraw_offer' do
+      before { StateChangeNotifier.call(:withdraw_offer, application_choice: application_choice) }
+
+      it 'includes the applicant name and course identifier' do
+        arg1 = ":no_good: #{provider_name} has just withdrawn #{applicant}'s offer"
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(arg1, anything)
+      end
+
+      it 'links the notification to the relevant support_interface application_form' do
+        arg2 = helpers.support_interface_application_form_url(application_form_id)
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(anything, arg2)
+      end
+    end
   end
 end
