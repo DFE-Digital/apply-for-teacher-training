@@ -21,16 +21,26 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render PersonalDetailsComponent, application_form: @application_choice.application_form %>
+
+    <% unless HostingEnvironment.production? %>
+      <div class="app-status-box app-status-box--sandbox">
+        <p class="govuk-body">
+          <strong class="govuk-tag govuk-phase-banner__content__tag app-environment-tag app-environment-tag--sandbox">
+            sandbox feature
+          </strong>
+        </p>
+        <p class="govuk-body">
+          See what this application looks like from the candidate side by signing in as <%= @application_choice.application_form.full_name %>:
+        </p>
+        <%= button_to 'Sign in as this candidate', provider_interface_impersonate_candidate_path(@application_choice.application_form.candidate), class: 'govuk-button govuk-!-margin-bottom-0' %>
+      </div>
+    <% end %>
   </div>
 
   <div class="govuk-grid-column-one-third">
     <%= render ProviderInterface::StatusBoxComponent, application_choice: @application_choice %>
   </div>
 </div>
-
-<% unless HostingEnvironment.production? %>
-  <%= button_to 'Sign in as this candidate (Test environments only)', provider_interface_impersonate_candidate_path(@application_choice.application_form.candidate), class: 'govuk-button' %>
-<% end %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8" id="course-info">Course</h2>
 
