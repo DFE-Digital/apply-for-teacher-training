@@ -11,7 +11,7 @@
         <% end %>
       <% end %>
     <% end %>
-  <% elsif history[:type] == :break %>
+  <% elsif history[:type] == :break_placeholder %>
     <% if FeatureFlag.active?('work_breaks') %>
       <%= render(BreakInWorkHistoryComponent, work_break: history[:entry]) %>
     <% end %>
