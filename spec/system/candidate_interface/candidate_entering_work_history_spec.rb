@@ -128,7 +128,9 @@ RSpec.feature 'Entering their work history' do
     fill_in t('role.label', scope: scope), with: 'Chief Terraforming Officer'
     fill_in t('organisation.label', scope: scope), with: 'Weyland-Yutani'
 
-    choose 'Full-time'
+    choose 'Part-time'
+
+    fill_in 'Give details about your working pattern', with: 'I had a working pattern'
 
     within('[data-qa="start-date"]') do
       fill_in 'Month', with: '5'
@@ -149,6 +151,7 @@ RSpec.feature 'Entering their work history' do
 
   def then_i_should_see_my_completed_job
     expect(page).to have_content('Chief Terraforming Officer')
+    expect(page).to have_content('I had a working pattern')
   end
 
   def when_i_click_on_delete_entry
