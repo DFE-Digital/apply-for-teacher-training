@@ -49,7 +49,11 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def then_i_see_a_form_prompting_for_reasons
-    # TODO:
+    expect(page).to have_current_path(
+      provider_interface_application_choice_new_withdraw_offer_path(
+        @application_offered.id,
+      ),
+    )
   end
 
   def when_i_enter_reasons
@@ -67,7 +71,7 @@ RSpec.feature 'Provider makes an offer' do
       ),
     )
     expect(page).to have_content 'Are you sure you want to withdraw this offer?'
-    expect(page).to have_content 'We are very sorry but...'
+    expect(find('#provider_interface_withdraw_offer_form_reason', visible: false).value).to eq 'We are very sorry but...'
   end
 
   def when_i_confirm_withdrawal_of_the_offer
@@ -84,7 +88,7 @@ RSpec.feature 'Provider makes an offer' do
     expect(page).to have_content @application_offered.application_form.last_name
   end
 
-  def and_i_can_see_the_application_has_an_offer_made
+  def and_i_can_see_the_application_offer_is_withdrawn
     expect(page).to have_content 'Application status changed to ‘Offer withdrawn’'
     expect(page).to have_content 'Withdrawn by us'
   end
