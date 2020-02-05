@@ -21,18 +21,14 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
     and_i_click_the_submit_reference_button
     then_i_see_am_told_i_submittted_my_refernce
     then_i_see_the_questionnaire_page
+
+    when_i_choose_to_be_contactable
     and_i_click_the_finish_button
     then_i_see_the_thank_you_page
+    and_i_am_told_i_will_be_contacted
 
-    # when_i_choose_to_be_contactable
-    #
-    # when_i_click_finish_button
-    # then_i_see_the_thank_you_page
-    # and_i_am_told_i_will_be_contacted
-    #
-    # when_i_retry_to_edit_the_feedback
-    # then_i_see_the_thank_you_page
-    # and_i_am_told_i_will_be_contacted
+    when_i_retry_to_edit_the_feedback
+    then_i_see_the_thank_you_page
   end
 
   def given_a_candidate_completed_an_application
@@ -78,11 +74,7 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
   end
 
   def and_i_click_the_finish_button
-    click_button 'Finish'
-  end
-
-  def when_i_click_finish_button
-    click_button t('contact_form.confirm')
+    click_button t('questionnaire_form.confirm')
   end
 
   def then_i_see_am_told_i_submittted_my_refernce
@@ -113,7 +105,8 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
   end
 
   def when_i_choose_to_be_contactable
-    choose t('contact_form.consent_to_be_contacted')
+    choose t('questionnaire_form.consent_to_be_contacted')
+    fill_in 'Please let us know when you’re available', with: 'anytime 012345 678900'
   end
 
 private

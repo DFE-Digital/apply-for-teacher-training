@@ -33,18 +33,13 @@ module RefereeInterface
     end
 
     def submit_questionnaire
+      consent_to_be_contacted = params['consent_to_be_contacted']
+      reference.update!(consent_to_be_contacted: consent_to_be_contacted)
+      
       render :finish
     end
 
     def confirmation; end
-
-    def confirm_consent
-      consent_to_be_contacted = params.dig(:application_reference, :consent_to_be_contacted)
-
-      reference.update!(consent_to_be_contacted: consent_to_be_contacted)
-
-      render :finish
-    end
 
     def refuse_feedback
       @application = reference.application_form
