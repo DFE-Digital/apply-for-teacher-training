@@ -16,6 +16,8 @@ class ApplicationReference < ApplicationRecord
 
   audited associated_with: :application_form
 
+  serialize :questionnaire
+
   enum feedback_status: {
     not_requested_yet: 'not_requested_yet',
     feedback_requested: 'feedback_requested',
