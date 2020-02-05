@@ -150,7 +150,7 @@ en:
       award_year:
         label: Graduation year
         hint_text: For example, 2002. You must have successfully graduated by the time you start your course.
-        review_label: Year awarded
+        review_label: Graduation year
         change_action: year
       base:
         button: Save and continue
