@@ -29,10 +29,6 @@ class ApplicationForm < ApplicationRecord
     submitted_at.present?
   end
 
-  def application_references_complete?
-    application_references.feedback_provided.count == MINIMUM_COMPLETE_REFERENCES
-  end
-
   def awaiting_provider_decisions?
     application_choices.where(status: :awaiting_provider_decision).any?
   end
