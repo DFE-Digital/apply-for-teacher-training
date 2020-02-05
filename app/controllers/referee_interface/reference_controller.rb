@@ -4,7 +4,7 @@ module RefereeInterface
     before_action :add_identity_to_log
     before_action :check_referee_has_valid_token
     before_action :set_token_param
-    before_action :show_finished_page_if_feedback_provided, except: %i[confirmation confirm_consent]
+    before_action :show_finished_page_if_feedback_provided, except: %i[questionnaire submit_questionnaire submit_feedback confirmation confirm_consent]
 
     layout 'application'
 
@@ -22,10 +22,18 @@ module RefereeInterface
       )
 
       if @reference_form.save
-        redirect_to referee_interface_confirmation_path(token: @token_param)
+        redirect_to referee_interface_questionnaire_path(token: @token_param)
       else
         render :feedback
       end
+    end
+
+    def questionnaire
+      render :questionnaire
+    end
+
+    def submit_questionnaire
+      render :finish
     end
 
     def confirmation; end

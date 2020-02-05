@@ -1,0 +1,84 @@
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+    <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-8">
+        <h1 class="govuk-panel__title">
+          Your reference for <%= @reference.application_form.full_name %> has been&nbsp;submitted
+        </h1>
+    </div>
+
+    <div class="govuk-grid-row">
+        <h2 class="govuk-heading-l">Tell us about your experience of giving a&nbsp;reference</h2>
+        <p class="govuk-body">Your feedback will help us to improve our service.</p>
+
+        <%= form_with model: @questionnaire_form, url: referee_interface_submit_questionnaire_path(token: @token_param), method: :patch do |f| %>
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+              <%= f.govuk_radio_buttons_fieldset :experience, legend: { text: 'Please rate your experience of giving a reference', tag: 'span' } do %>
+                <%= f.govuk_radio_button :experience_rating, 'very_poor', label: { text: 'Very poor' } do %>
+                  <%= f.govuk_text_area :experience_explanation_very_poor, label: { text: 'Tell us why you chose that rating' } %>
+                <% end %>
+
+                <%= f.govuk_radio_button :experience_rating, 'poor', label: { text: 'Poor' } do %>
+                  <%= f.govuk_text_area :experience_explanation_poor, label: { text: 'Tell us why you chose that rating' } %>
+                <% end %>
+
+                <%= f.govuk_radio_button :experience_rating, 'ok', label: { text: 'Ok' } do %>
+                  <%= f.govuk_text_area :experience_explanation_ok, label: { text: 'Tell us why you chose that rating' } %>
+                <% end %>
+
+                <%= f.govuk_radio_button :experience_rating, 'good', label: { text: 'Good' } do %>
+                  <%= f.govuk_text_area :experience_explanation_good, label: { text: 'Tell us why you chose that rating' } %>
+                <% end %>
+
+                <%= f.govuk_radio_button :experience_rating, 'very_good', label: { text: 'Very Good' } do %>
+                  <%= f.govuk_text_area :experience_explanation_very_good, label: { text: 'Tell us why you chose that rating' } %>
+                <% end %>
+              <% end %>
+
+
+
+              <%= f.govuk_radio_buttons_fieldset :guidance, legend: { text: 'Please rate how useful our guidance was', tag: 'span' } do %>
+                <%= f.govuk_radio_button :guidance_rating, 'very_poor', label: { text: 'Very poor' } do %>
+                  <%= f.govuk_text_area :guidance_explanation_very_poor, label: { text: 'Tell us why you chose that rating' } %>
+                <% end %>
+
+                <%= f.govuk_radio_button :guidance_rating, 'poor', label: { text: 'Poor' } do %>
+                  <%= f.govuk_text_area :guidance_explanation_poor, label: { text: 'Tell us why you chose that rating' } %>
+                <% end %>
+
+                <%= f.govuk_radio_button :guidance_rating, 'ok', label: { text: 'Ok' } do %>
+                  <%= f.govuk_text_area :guidance_explanation_ok, label: { text: 'Tell us why you chose that rating' } %>
+                <% end %>
+
+                <%= f.govuk_radio_button :guidance_rating, 'good', label: { text: 'Good' } do %>
+                  <%= f.govuk_text_area :guidance_explanation_good, label: { text: 'Tell us why you chose that rating' } %>
+                <% end %>
+
+                <%= f.govuk_radio_button :guidance_rating, 'very_good', label: { text: 'Very Good' } do %>
+                  <%= f.govuk_text_area :guidance_explanation_very_good, label: { text: 'Tell us why you chose that rating' } %>
+                <% end %>
+              <% end %>
+
+
+
+              <%= f.govuk_radio_buttons_fieldset :safe_to_work_with_children, legend: { text: 'If we asked whether a candidate was safe to work with children, would you feel able to answer?', tag: 'span' } do %>
+                <%= f.govuk_radio_button :safe_to_work_with_children, true, label: { text: 'Yes, i could answer' } %>
+
+                <%= f.govuk_radio_button :safe_to_work_with_children, false, label: { text: 'No, I wouldn’t feel able to answer' } do %>
+                  <%= f.govuk_text_area :safe_to_work_with_children_explanation, label: { text: 'Please tell us why' } %>
+                <% end %>
+              <% end %>
+
+              <%= f.govuk_radio_buttons_fieldset :consent_to_be_contacted, legend: { text: 'Can we contact you about your experience of giving a reference?', tag: 'span' }, hint_text: 'We’d ideally like to speak on the phone for half an hour.' do %>
+                <%= f.govuk_radio_button :consent_to_be_contacted, true, label: { text: 'Yes, you can contact me' } do %>
+                  <%= f.govuk_text_area :consent_to_be_contacted_detials, label: { text: 'Please let us know when you’re available and give a phone number' } %>
+                <% end %>
+
+                <%= f.govuk_radio_button :consent_to_be_contacted, false, label: { text: 'No, do not contact me' } %>
+              <% end %>
+          </div>
+      </div>
+
+      <%= f.govuk_submit 'Submit' %>
+      <% end %>
+</main>

@@ -18,16 +18,22 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
     and_i_see_the_list_of_the_courses_the_candidate_applied_to
 
     when_i_fill_in_the_reference_field
+    and_i_click_the_submit_reference_button
+    then_i_see_am_told_i_submittted_my_refernce
+    then_i_see_the_questionnaire_page
     and_i_click_the_submit_button
-    then_i_see_the_success_page
-
-    when_i_choose_to_be_contactable
-
-    when_i_click_finish_button
     then_i_see_the_thank_you_page
 
-    when_i_retry_to_edit_the_feedback
-    then_i_see_the_thank_you_page
+
+
+
+    # when_i_choose_to_be_contactable
+    #
+    # when_i_click_finish_button
+    # then_i_see_the_thank_you_page
+    #
+    # when_i_retry_to_edit_the_feedback
+    # then_i_see_the_thank_you_page
   end
 
   def given_a_candidate_completed_an_application
@@ -68,20 +74,27 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
     fill_in 'Your reference', with: 'This is a reference for the candidate.'
   end
 
-  def and_i_click_the_submit_button
+  def and_i_click_the_submit_reference_button
     click_button t('reference_form.confirm')
+  end
+
+  def and_i_click_the_submit_button
+    click_button 'Submit'
   end
 
   def when_i_click_finish_button
     click_button t('contact_form.confirm')
   end
 
-  def then_i_see_the_success_page
+  def then_i_see_am_told_i_submittted_my_refernce
     expect(page).to have_content("Your reference for #{@application.full_name}")
   end
 
   def then_i_see_the_thank_you_page
     expect(page).to have_content('Thank you')
+  end
+
+  def and_i_am_told_i_will_be_contacted
     expect(page).to have_content('Our user research team will contact you shortly')
   end
 
@@ -96,6 +109,10 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
     end
   end
 
+  def then_i_see_the_questionnaire_page
+    expect(page).to have_current_path(referee_interface_questionnaire_path(token: @token))
+  end
+
   def when_i_choose_to_be_contactable
     choose t('contact_form.consent_to_be_contacted')
   end
@@ -104,6 +121,7 @@ private
 
   def get_reference_feedback_url
     matches = current_email.body.match(/(http:\/\/localhost:3000\/reference\?token=[\w-]{20})/)
+    @token = matches.captures.first.split('=').last
     matches.captures.first unless matches.nil?
   end
 end
