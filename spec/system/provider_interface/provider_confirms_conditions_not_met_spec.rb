@@ -8,6 +8,7 @@ RSpec.feature 'Confirm conditions not met' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_an_authorised_provider_user
     and_i_can_access_the_provider_interface
+    and_the_confirm_conditions_feature_flag_is_on
 
     when_i_navigate_to_an_offer_accepted_by_the_candidate
     and_click_on_confirm_conditions
@@ -32,6 +33,10 @@ RSpec.feature 'Confirm conditions not met' do
     provider_signs_in_using_dfe_sign_in
     visit provider_interface_applications_path
     expect(page).to have_current_path provider_interface_applications_path
+  end
+
+  def and_the_confirm_conditions_feature_flag_is_on
+    FeatureFlag.activate('confirm_conditions')
   end
 
   def when_i_navigate_to_an_offer_accepted_by_the_candidate
