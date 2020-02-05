@@ -1,7 +1,21 @@
 en:
   reference_form:
     confirm: Submit reference
-  contact_form:
+  questionnaire_form:
+    experience: Please rate your experience of giving a reference
+    why_that_rating: Tell us why you chose that rating
+    very_poor: Very poor
+    poor: Poor
+    ok: Ok
+    good: Good
+    very_good: Very Good
+    safe_to_work_with_children: If we asked whether a candidate was safe to work with children, would you feel able to answer?
+    is_safe_to_work_with_children: Yes, i could answer
+    is_not_safe_to_work_with_children: No, I wouldn’t feel able to answer
+    tell_us_why: Please tell us why
+    can_we_contact_you: Can we contact you about your experience of giving a reference?
+    hint_text: We’d ideally like to speak on the phone for half an hour.
     consent_to_be_contacted: Yes, you can contact me
+    availibility: Please let us know when you’re available and give a phone number
     not_consent_to_be_contacted: No, do not contact me
     confirm: Finish

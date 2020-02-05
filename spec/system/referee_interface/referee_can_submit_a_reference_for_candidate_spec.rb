@@ -21,19 +21,18 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
     and_i_click_the_submit_reference_button
     then_i_see_am_told_i_submittted_my_refernce
     then_i_see_the_questionnaire_page
-    and_i_click_the_submit_button
+    and_i_click_the_finish_button
     then_i_see_the_thank_you_page
-
-
-
 
     # when_i_choose_to_be_contactable
     #
     # when_i_click_finish_button
     # then_i_see_the_thank_you_page
+    # and_i_am_told_i_will_be_contacted
     #
     # when_i_retry_to_edit_the_feedback
     # then_i_see_the_thank_you_page
+    # and_i_am_told_i_will_be_contacted
   end
 
   def given_a_candidate_completed_an_application
@@ -78,8 +77,8 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
     click_button t('reference_form.confirm')
   end
 
-  def and_i_click_the_submit_button
-    click_button 'Submit'
+  def and_i_click_the_finish_button
+    click_button 'Finish'
   end
 
   def when_i_click_finish_button
