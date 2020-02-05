@@ -9,7 +9,7 @@ class FeatureFlag
     improved_expired_token_flow
     work_breaks
     experimental_api_features
-    provider_edit_response
+    provider_change_response
   ].freeze
 
   def self.activate(feature_name)

@@ -43,8 +43,8 @@
     <div class="govuk-!-margin-top-6">
       <%= govuk_button_link_to 'Respond to application', provider_interface_application_choice_respond_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
     </div>
-  <% elsif application_choice.offer? && FeatureFlag.active?('provider_edit_response') %>
+  <% elsif application_choice.offer? && FeatureFlag.active?('provider_change_response') %>
     <div class="govuk-!-margin-top-6">
-      <%= govuk_button_link_to 'Edit response', provider_interface_application_choice_edit_response_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
+      <%= govuk_button_link_to 'Change response', provider_interface_application_choice_edit_response_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
   <% end %>
 </div>

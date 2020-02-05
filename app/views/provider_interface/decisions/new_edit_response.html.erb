@@ -1,4 +1,4 @@
-<% content_for :browser_title, @edit_response.errors.any? ? 'Error: Edit response' : 'Edit response' %>
+<% content_for :browser_title, @edit_response.errors.any? ? 'Error: Change response' : 'Change response' %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice.id)) %>
 
 <%= form_with model: @edit_response,
@@ -10,7 +10,7 @@
     <span class="govuk-caption-xl">
       Application for <%= @application_choice.course.name_and_code %>
     </span>
-    Edit response
+    Change response
   </h1>
 
   <%= render SummaryListComponent, rows: [
