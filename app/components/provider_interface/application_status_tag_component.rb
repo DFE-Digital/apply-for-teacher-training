@@ -21,7 +21,7 @@ module ProviderInterface
         :red
       when 'pending_conditions'
         :turquoise
-      when 'declined' || 'offer_withdrawn'
+      when 'declined', 'offer_withdrawn'
         :orange
       when 'enrolled'
         :blue
