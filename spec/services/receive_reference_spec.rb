@@ -13,7 +13,6 @@ RSpec.describe ReceiveReference do
     ).save!
 
     expect(reference.feedback).to eq('A reference')
-    expect(application_form).not_to be_application_references_complete
     expect(application_form.application_choices).to all(be_awaiting_references)
   end
 
@@ -28,7 +27,6 @@ RSpec.describe ReceiveReference do
       feedback: 'A reference',
     ).save!
 
-    expect(application_form.reload).to be_application_references_complete
     expect(application_form.application_choices).to all(be_application_complete)
   end
 
