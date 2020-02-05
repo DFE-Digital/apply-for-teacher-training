@@ -22,29 +22,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <%
-        edit_response_options = [
-          OpenStruct.new(
-            value: 'different_course',
-            name: 'Offer a different course',
-            description: 'Include any conditions or recommendations',
-          ),
-          OpenStruct.new(
-            value: 'withdraw_offer',
-            name: 'Withdraw offer',
-          )
-        ]
-      %>
-      <%=
-        f.govuk_collection_radio_buttons(
-          :edit_response_type,
-          edit_response_options,
-          :value,
-          :name,
-          :description,
-          legend: { text: 'Choose response' },
-        )
-      %>
+      <%= render ProviderInterface::EditResponseOptionsComponent, form: f %>
 
       <%= f.govuk_submit 'Continue' %>
 
