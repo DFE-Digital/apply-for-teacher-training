@@ -114,11 +114,11 @@ module ProviderInterface
       @withdraw_offer = WithdrawOfferForm.new(
         reason: params.dig(:provider_interface_withdraw_offer_form, :reason),
       )
-      if @withdraw_offer.valid?
-        WithdrawOffer.new(
-          application_choice: @application_choice,
-          offer_withdrawal_reason: @withdraw_offer.reason,
-        ).save
+      if WithdrawOffer.new(
+        application_choice: @application_choice,
+        offer_withdrawal_reason: @withdraw_offer.reason,
+      ).save
+        flash[:success] = 'Application status changed to ‘Offer withdrawn’'
         redirect_to provider_interface_application_choice_path(
           application_choice_id: @application_choice.id,
         )
