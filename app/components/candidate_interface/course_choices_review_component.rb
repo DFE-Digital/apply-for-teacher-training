@@ -20,6 +20,7 @@ module CandidateInterface
       ].tap do |r|
         r << status_row(course_choice) if @show_status
         r << rejection_reason_row(course_choice) if course_choice.rejection_reason.present?
+        r << offer_withdrawal_reason_row(course_choice) if course_choice.offer_withdrawal_reason.present?
       end
     end
 
@@ -58,16 +59,14 @@ module CandidateInterface
     end
 
     def status_row(course_choice)
-      type =  case course_choice.status
+      type =  case course_choice.application_status
               when 'awaiting_references', 'application_complete'
                 :grey
               when 'awaiting_provider_decision'
                 :blue
               when 'offer'
                 :green
-              when 'rejected'
-                :red
-              when 'withdrawn'
+              when 'rejected', 'withdrawn', 'offer_withdrawn'
                 :red
               when 'pending_conditions'
                 :turquoise
@@ -76,7 +75,7 @@ module CandidateInterface
               end
       {
         key: 'Status',
-        value: render(TagComponent, text: t("candidate_application_states.#{course_choice.status}"), type: type),
+        value: render(TagComponent, text: t("candidate_application_states.#{course_choice.application_status}"), type: type),
       }
     end
 
@@ -84,6 +83,13 @@ module CandidateInterface
       {
         key: 'Reason for rejection',
         value: course_choice.rejection_reason,
+      }
+    end
+
+    def offer_withdrawal_reason_row(course_choice)
+      {
+        key: 'Reason for offer withdrawal',
+        value: course_choice.offer_withdrawal_reason,
       }
     end
   end
