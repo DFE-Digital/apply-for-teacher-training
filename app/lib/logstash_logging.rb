@@ -9,6 +9,7 @@ class LogstashLogging
     LogStashLogger.configure do |logstash_config|
       logstash_config.customize_event do |event|
         event['domain'] = DOMAIN_FOR_LOGS
+        event['hosting_environment'] = HostingEnvironment.environment_name
         event['service'] = SERVICE_TYPE
         params = RequestLocals.fetch(:params) {} # block is required
         if params
