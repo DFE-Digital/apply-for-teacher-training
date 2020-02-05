@@ -85,7 +85,7 @@ module ProviderInterface
     end
 
     def edit_response
-      raise unless FeatureFlag.active?('provider_edit_response')
+      raise unless FeatureFlag.active?('provider_change_response')
 
       @edit_response = EditResponseForm.new(
         edit_response_type: params.dig(:provider_interface_edit_response_form, :edit_response_type),
@@ -113,7 +113,7 @@ module ProviderInterface
     end
 
     def withdraw_offer
-      raise unless FeatureFlag.active?('provider_edit_response')
+      raise unless FeatureFlag.active?('provider_change_response')
 
       @withdraw_offer = WithdrawOfferForm.new(
         reason: params.dig(:provider_interface_withdraw_offer_form, :reason),

@@ -10,10 +10,10 @@ RSpec.feature 'Provider makes an offer' do
     and_i_am_permitted_to_see_applications_for_my_provider
     and_i_sign_in_to_the_provider_interface
     and_i_view_an_offered_application
-    then_i_cannot_edit_response
+    then_i_cannot_change_response
 
-    when_edit_response_feature_is_activated
-    and_i_edit_response_to_an_application
+    when_change_response_feature_is_activated
+    and_i_change_response_to_an_application
     and_i_choose_to_withdraw_an_offer
     then_i_see_a_form_prompting_for_reasons
 
@@ -39,12 +39,12 @@ RSpec.feature 'Provider makes an offer' do
     provider_user_exists_in_apply_database
   end
 
-  def when_edit_response_feature_is_activated
-    FeatureFlag.activate('provider_edit_response')
+  def when_change_response_feature_is_activated
+    FeatureFlag.activate('provider_change_response')
   end
 
-  def then_i_cannot_edit_response
-    first('a', text: 'Edit response', count: 0)
+  def then_i_cannot_change_response
+    first('a', text: 'Change response', count: 0)
   end
 
   def and_i_view_an_offered_application
@@ -53,11 +53,11 @@ RSpec.feature 'Provider makes an offer' do
     )
   end
 
-  def and_i_edit_response_to_an_application
+  def and_i_change_response_to_an_application
     visit provider_interface_application_choice_path(
       @application_offered.id,
     )
-    click_on 'Edit response'
+    click_on 'Change response'
   end
 
   def and_i_choose_to_withdraw_an_offer
