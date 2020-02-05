@@ -6,6 +6,18 @@
 </ul>
 
 <%= f.govuk_text_field :name, label: { text: t('application_form.referees.name.label'), size: 'm' } %>
+<% if HostingEnvironment.sandbox_mode? %>
+  <div class="app-status-box app-status-box--sandbox govuk-!-margin-bottom-4">
+    <p class="govuk-body">
+      <strong class="govuk-tag govuk-phase-banner__content__tag app-environment-tag app-environment-tag--sandbox">
+        sandbox feature
+      </strong>
+    </p>
+    <p class="govuk-body govuk-!-margin-bottom-0">
+      Enter <code>refbot1@example.com</code> and <code>refbot2@example.com</code> as your referee email addresses to have the references automatically completed
+    </p>
+  </div>
+<% end %>
 <%= f.govuk_text_field :email_address, type: 'email', label: { text: t('application_form.referees.email_address.label'), size: 'm' }, hint_text: t('application_form.referees.email_address.hint_text') %>
 <%= f.govuk_text_area :relationship, label: { text: t('application_form.referees.relationship.label'), size: 'm' }, hint_text: t('application_form.referees.relationship.hint_text'), max_words: 50 %>
 
