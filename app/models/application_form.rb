@@ -11,7 +11,6 @@ class ApplicationForm < ApplicationRecord
   has_many :application_references, -> { order('id ASC') }
 
   MINIMUM_COMPLETE_REFERENCES = 2
-  validates_length_of :application_references, maximum: MINIMUM_COMPLETE_REFERENCES
 
   enum phase: {
     apply_1: 'apply_1',
