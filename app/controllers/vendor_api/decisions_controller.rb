@@ -29,6 +29,7 @@ module VendorApi
     end
 
     def reject
+      # TODO: withdraw the offer when the application choice is in the `offer` state
       decision = RejectApplication.new(
         application_choice: application_choice,
         rejection_reason: params.dig(:data, :reason),
