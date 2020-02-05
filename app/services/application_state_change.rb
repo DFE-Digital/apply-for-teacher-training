@@ -36,7 +36,7 @@ class ApplicationStateChange
 
     state :offer do
       event :make_offer, transitions_to: :offer
-      event :withdrawer_offer, transitions_to: :rejected
+      event :reject, transitions_to: :rejected
       event :accept, transitions_to: :pending_conditions
       event :decline, transitions_to: :declined
       event :decline_by_default, transitions_to: :declined

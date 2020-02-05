@@ -15,7 +15,7 @@ class WithdrawOffer
     return false unless valid?
 
     ActiveRecord::Base.transaction do
-      ApplicationStateChange.new(@application_choice).withdrawer_offer!
+      ApplicationStateChange.new(@application_choice).reject!
       @application_choice.update!(
         offer_withdrawal_reason: @offer_withdrawal_reason,
         offer_withdrawn_at: Time.zone.now,
