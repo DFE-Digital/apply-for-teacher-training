@@ -25,6 +25,12 @@ module ProviderInterface
         :orange
       when 'enrolled'
         :blue
+      when 'recruited'
+        :green
+      when 'conditions_not_met'
+        :red
+      when 'withdrawn'
+        :orange
       end
     end
 

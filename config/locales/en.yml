@@ -129,6 +129,10 @@ en:
           attributes:
             decision:
               blank: Select if you want to make an offer or reject the application
+        provider_interface/confirm_conditions_form:
+          attributes:
+            conditions_met:
+              blank: Please specify if the candidate has met the conditions of the offer
         reject_application:
           attributes:
             rejection_reason:

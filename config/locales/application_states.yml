@@ -60,10 +60,10 @@ en:
     enrolled: Enrolled
     offer: Offered
     pending_conditions: Accepted
-    recruited: Candidate recruited
+    recruited: Conditions met
     rejected: Rejected
     unsubmitted: Not submitted yet
-    withdrawn: Candidate withdrawn
+    withdrawn: Application withdrawn
     conditions_not_met: Conditions not met
 
   application_states:

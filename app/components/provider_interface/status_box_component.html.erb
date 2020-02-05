@@ -25,7 +25,7 @@
       <dt>Declined on:</dt>
       <dd><%= declined_at %></dd>
     <% elsif application_choice.pending_conditions? %>
-      <dt>Accepted on:</dt>
+      <dt>Offer accepted:</dt>
       <dd><%= accepted_at %></dd>
     <% elsif application_choice.conditions_not_met? %>
       <dt>Conditions not met</dt>
@@ -39,6 +39,10 @@
   <% if application_choice.awaiting_provider_decision? %>
     <div class="govuk-!-margin-top-6">
       <%= govuk_button_link_to 'Respond to application', provider_interface_application_choice_respond_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
+    </div>
+  <% elsif application_choice.pending_conditions? && FeatureFlag.active?('confirm_conditions') %>
+    <div class="govuk-!-margin-top-6">
+      <%= govuk_button_link_to 'Confirm conditions', provider_interface_application_choice_edit_conditions_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
     </div>
   <% end %>
 </div>

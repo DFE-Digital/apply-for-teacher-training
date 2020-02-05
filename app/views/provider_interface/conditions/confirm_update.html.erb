@@ -1,0 +1,41 @@
+<% content_for :browser_title, 'Confirm conditions' %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice.id)) %>
+
+<%= form_with model: @conditions_form,
+      url: provider_interface_application_choice_update_conditions_path(@application_choice.id),
+      method: :patch do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <h1 class="govuk-heading-xl">
+    <% if @conditions_form.conditions_met? %>
+      Are you sure the candidate met the conditions?
+    <% else %>
+      Are you sure the candidate did not meet the conditions?
+    <% end %>
+  </h1>
+
+  <%= render SummaryListComponent, rows: [
+    { key: 'Candidate name', value: @application_choice.application_form.full_name },
+    { key: 'Course', value: @application_choice.course.name_and_code },
+    { key: 'Preferred location', value: @application_choice.site.name },
+    { key: 'Provider', value: @application_choice.course.provider.name_and_code },
+  ] %>
+
+  <h2 class="govuk-heading-l">
+    Conditions
+  </h2>
+
+  <%= render ProviderInterface::ConditionsComponent, application_choice: @application_choice %>
+
+  <%= f.hidden_field :conditions_met %>
+
+  <% if @conditions_form.conditions_met? %>
+    <%= f.submit 'Yes I’m sure – they met the conditions', class: 'govuk-button', data: { module: 'govuk-button' } %>
+  <% else %>
+    <%= f.submit 'Yes I’m sure – they did not meet the conditions', class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
+  <% end %>
+
+  <p class="govuk-body">
+    <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
+  </p>
+<% end %>

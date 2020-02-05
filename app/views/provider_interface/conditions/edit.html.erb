@@ -1,0 +1,36 @@
+<% content_for :browser_title, 'Confirm conditions' %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice.id)) %>
+
+<%= form_with model: @conditions_form,
+      url: provider_interface_application_choice_confirm_update_conditions_path(@application_choice.id),
+      method: :patch do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <h1 class="govuk-heading-xl">
+    Confirm if the candidate has met all conditions
+  </h1>
+
+  <%= render SummaryListComponent, rows: [
+    { key: 'Candidate name', value: @application_choice.application_form.full_name },
+    { key: 'Course', value: @application_choice.course.name_and_code },
+    { key: 'Preferred location', value: @application_choice.site.name },
+    { key: 'Provider', value: @application_choice.course.provider.name_and_code },
+  ] %>
+
+  <h2 class="govuk-heading-l govuk-!-margin-top-8">
+    Conditions
+  </h2>
+
+  <%= render ProviderInterface::ConditionsComponent, application_choice: @application_choice %>
+
+  <%= f.govuk_radio_buttons_fieldset :conditions_met, legend: { size: 'm', text: 'Has the candidate met all of the conditions?', tag: 'span' } do %>
+    <%= f.govuk_radio_button :conditions_met, 'yes', label: { text: 'Yes, they’ve met all of the conditions' }, link_errors: true %>
+    <%= f.govuk_radio_button :conditions_met, 'no', label: { text: 'No' } %>
+  <% end %>
+
+  <%= f.govuk_submit 'Continue' %>
+
+  <p class="govuk-body">
+    <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
+  </p>
+<% end %>
