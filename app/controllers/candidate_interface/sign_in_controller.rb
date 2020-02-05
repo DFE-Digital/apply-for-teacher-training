@@ -61,11 +61,18 @@ module CandidateInterface
           redirect_to candidate_interface_course_choices_review_path
         end
       else
-        redirect_to candidate_interface_expired_sign_in_path(id: candidate.id)
+        # rubocop:disable Style/IfInsideElse
+        if FeatureFlag.active?('improved_expired_token_flow')
+          redirect_to candidate_interface_expired_sign_in_path(id: candidate.id)
+        else
+          redirect_to action: :new
+        end
+        # rubocop:enable Style/IfInsideElse
       end
     end
 
     def expired
+      raise unless FeatureFlag.active?('improved_expired_token_flow')
       return redirect_to candidate_interface_sign_in_path unless params[:id]
 
       @candidate = Candidate.find(params[:id])
