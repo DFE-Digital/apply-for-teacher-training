@@ -1,10 +1,10 @@
-Dear <%= @application.provider_user_name %>
+Dear <%= @application.provider_user_name || 'colleague' %>
 
-# Application rejected automatically  
+# Application rejected automatically
 
-<%= @application.candidate_name %> submitted an application for <%= @application.course_name_and_code %> on <%= @application.submitted_at %>. 
+<%= @application.candidate_name %> submitted an application for <%= @application.course_name_and_code %> on <%= @application.submitted_at %>.
 
-You did not respond within 40 working days so we rejected the application on your behalf. 
+You did not respond within 40 working days so we rejected the application on your behalf.
 
 You can log in to Manage teacher training applications to check the status of your applications:
 

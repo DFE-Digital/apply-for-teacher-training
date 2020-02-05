@@ -1,8 +1,8 @@
-Dear <%= @application.provider_user_name %>
+Dear <%= @application.provider_user_name || 'colleague' %>
 
 # Application received
 
-<%= @application.candidate_name %> submitted an application for <%= @application.course_name_and_code %>. 
+<%= @application.candidate_name %> submitted an application for <%= @application.course_name_and_code %>.
 
 # Next steps
 
@@ -10,7 +10,7 @@ Log in to Manage teacher training applications to respond:
 
 <%= provider_interface_application_choice_url(application_choice_id: @application.application_choice_id) %>
 
-We’ll reject the application on your behalf after 40 working days.   
+We’ll reject the application on your behalf after 40 working days.
 
 # Give feedback or report a problem
 

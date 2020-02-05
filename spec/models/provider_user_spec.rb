@@ -39,6 +39,11 @@ RSpec.describe ProviderUser, type: :model do
       provider_user = build :provider_user
       expect(provider_user.full_name).to eq "#{provider_user.first_name} #{provider_user.last_name}"
     end
+
+    it 'is nil if the first and last names are nil' do
+      provider_user = build(:provider_user, first_name: nil, last_name: nil)
+      expect(provider_user.full_name).to be_nil
+    end
   end
 
   describe 'auditing', with_audited: true do
