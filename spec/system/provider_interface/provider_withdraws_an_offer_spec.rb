@@ -71,6 +71,7 @@ RSpec.feature 'Provider makes an offer' do
       ),
     )
     expect(page).to have_content 'Are you sure you want to withdraw this offer?'
+    expect(page).to have_content 'We are very sorry but...'
     expect(find('#provider_interface_withdraw_offer_form_reason', visible: false).value).to eq 'We are very sorry but...'
   end
 

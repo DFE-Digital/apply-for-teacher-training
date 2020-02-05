@@ -10,11 +10,17 @@
     Are you sure you want to withdraw this offer?
   </h1>
 
+  <h2 class="govuk-heading-m">Offer details</h2>
   <%= render SummaryListComponent, rows: [
     { key: 'Full name', value: @application_choice.application_form.full_name },
     { key: 'Course', value: @application_choice.course.name_and_code },
     { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
     { key: 'Preferred location', value: @application_choice.site.name },
+  ] %>
+
+  <h2 class="govuk-heading-m">Reasons for withdrawal</h2>
+  <%= render SummaryListComponent, rows: [
+    { key: 'Reasons for withdrawal', value: @withdraw_offer.reason },
   ] %>
 
   <div class="govuk-grid-row">
