@@ -156,7 +156,7 @@ module CandidateInterface
     end
 
     def all_referees_provided_by_candidate?
-      @application_form.application_references.count == ApplicationForm::MINIMUM_COMPLETE_REFERENCES
+      @application_form.application_references.count >= ApplicationForm::MINIMUM_COMPLETE_REFERENCES
     end
 
   private

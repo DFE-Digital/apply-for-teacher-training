@@ -245,6 +245,16 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
         expect(presenter.all_referees_provided_by_candidate?).to eq(true)
       end
     end
+
+    context 'when there are 3 referees' do
+      before do
+        create_list(:reference, 3, application_form: application_form)
+      end
+
+      it 'returns true' do
+        expect(presenter.all_referees_provided_by_candidate?).to eq(true)
+      end
+    end
   end
 
   describe '#work_experience_path' do

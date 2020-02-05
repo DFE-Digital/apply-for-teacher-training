@@ -11,7 +11,6 @@ class ApplicationForm < ApplicationRecord
   has_many :application_references, -> { order('id ASC') }
 
   MINIMUM_COMPLETE_REFERENCES = 2
-  validates_length_of :application_references, maximum: MINIMUM_COMPLETE_REFERENCES
 
   enum phase: {
     apply_1: 'apply_1',
@@ -28,10 +27,6 @@ class ApplicationForm < ApplicationRecord
 
   def submitted?
     submitted_at.present?
-  end
-
-  def application_references_complete?
-    application_references.feedback_provided.count == MINIMUM_COMPLETE_REFERENCES
   end
 
   def awaiting_provider_decisions?
