@@ -32,6 +32,16 @@ class ApplicationChoice < ApplicationRecord
     edit_by.present? && edit_by < Time.zone.now
   end
 
+  def application_status
+    return 'offer_withdrawn' if offer_withdrawn?
+
+    status
+  end
+
+  def offer_withdrawn?
+    rejected? && !offer_withdrawn_at.nil?
+  end
+
 private
 
   def generate_alphanumeric_id

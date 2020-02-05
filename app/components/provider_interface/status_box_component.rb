@@ -28,6 +28,10 @@ module ProviderInterface
       format_date application_choice.rejected_at
     end
 
+    def offer_withdrawn_at
+      format_date application_choice.offer_withdrawn_at
+    end
+
     def accepted_at
       format_date application_choice.accepted_at
     end

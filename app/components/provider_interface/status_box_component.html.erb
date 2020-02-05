@@ -15,6 +15,9 @@
     <% elsif application_choice.offer? %>
       <dt>Candidate must respond by:</dt>
       <dd><%= candidate_respond_by %></dd>
+    <% elsif application_choice.offer_withdrawn? %>
+      <dt>Withdrawn on:</dt>
+      <dd><%= offer_withdrawn_at %></dd>
     <% elsif application_choice.rejected? %>
       <dt>Rejected on:</dt>
       <dd><%= rejected_at %></dd>
