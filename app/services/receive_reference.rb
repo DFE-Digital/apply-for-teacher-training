@@ -27,8 +27,9 @@ private
   end
 
   # Only progress the applications if the reference that is being submitted is
-  # the 2nd referee, since there might be more than 2 references per form
-  # in the future.
+  # the 2nd referee, since there might be more than 2 references per form. We
+  # don't want to send the references to the provider *again* when the 3rd or
+  # 4th reference is submitted.
   def there_are_now_enough_references_to_progress?
     application_form.application_references.feedback_provided.count == ApplicationForm::MINIMUM_COMPLETE_REFERENCES
   end
