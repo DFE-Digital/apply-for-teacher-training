@@ -10,6 +10,7 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
       working_with_children: [true, true, true, false].sample,
       start_date: Time.zone.local(2018, 5, 1),
       end_date: Time.zone.local(2019, 5, 1),
+      working_pattern: Faker::Lorem.paragraph_by_chars(number: 20),
     }
   end
 
@@ -24,6 +25,7 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
       start_date_year: data[:start_date].year,
       end_date_month: data[:end_date].month,
       end_date_year: data[:end_date].year,
+      working_pattern: data[:working_pattern],
     }
   end
 
@@ -200,8 +202,10 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
       saved_work_experience = work_experience.save(application_form)
 
       work_experience.role = 'Something else'
+      work_experience.working_pattern = 'New working pattern'
       work_experience.update(saved_work_experience)
       expect(saved_work_experience.reload).to have_attributes(role: 'Something else')
+      expect(saved_work_experience.reload).to have_attributes(working_pattern: 'New working pattern')
     end
   end
 

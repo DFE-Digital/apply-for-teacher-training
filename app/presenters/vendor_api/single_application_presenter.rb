@@ -118,8 +118,14 @@ module VendorApi
         organisation_name: experience.organisation,
         working_with_children: experience.working_with_children,
         commitment: experience.commitment,
-        description: experience.details,
+        description: experience_description(experience),
       }
+    end
+
+    def experience_description(experience)
+      return experience.details if experience.working_pattern.blank?
+
+      "Working pattern: #{experience.working_pattern}\n\nDescription: #{experience.details}"
     end
 
     def references

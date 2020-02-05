@@ -180,7 +180,9 @@ module CandidateHelper
     with_options scope: 'application_form.work_history' do |locale|
       fill_in locale.t('role.label'), with: 'Teacher'
       fill_in locale.t('organisation.label'), with: 'Oakleaf Primary School'
-      choose 'Full-time'
+      choose 'Part-time'
+
+      fill_in 'Give details about your working pattern', with: 'I had a working pattern'
 
       within('[data-qa="start-date"]') do
         fill_in 'Month', with: '5'

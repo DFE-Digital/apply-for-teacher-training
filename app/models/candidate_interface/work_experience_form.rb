@@ -4,7 +4,7 @@ module CandidateInterface
     include DateValidationHelper
 
     attr_accessor :role, :organisation, :details, :working_with_children,
-                  :commitment,
+                  :commitment, :working_pattern,
                   :start_date_day, :start_date_month, :start_date_year,
                   :end_date_day, :end_date_month, :end_date_year
 
@@ -22,7 +22,7 @@ module CandidateInterface
     validates :role, :organisation,
               length: { maximum: 60 }
 
-    validates :details,
+    validates :details, :working_pattern,
               word_count: { maximum: 150 }
 
     def self.build_from_experience(work_experience)
@@ -38,6 +38,7 @@ module CandidateInterface
         end_date_day: work_experience.end_date&.day || '',
         end_date_month: work_experience.end_date&.month || '',
         end_date_year: work_experience.end_date&.year || '',
+        working_pattern: work_experience.working_pattern,
       )
     end
 
@@ -52,6 +53,7 @@ module CandidateInterface
         working_with_children: ActiveModel::Type::Boolean.new.cast(working_with_children),
         start_date: start_date,
         end_date: end_date,
+        working_pattern: working_pattern,
       )
     end
 
@@ -66,6 +68,7 @@ module CandidateInterface
         working_with_children: ActiveModel::Type::Boolean.new.cast(working_with_children),
         start_date: start_date,
         end_date: end_date,
+        working_pattern: working_pattern,
       )
     end
 

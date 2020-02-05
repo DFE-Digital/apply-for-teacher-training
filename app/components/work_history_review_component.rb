@@ -13,7 +13,7 @@ class WorkHistoryReviewComponent < ActionView::Component::Base
   def work_experience_rows(work)
     [
       job_row(work),
-      type_row(work),
+      working_pattern_row(work),
       description_row(work),
       dates_row(work),
     ]
@@ -65,10 +65,10 @@ private
     }
   end
 
-  def type_row(work)
+  def working_pattern_row(work)
     {
-      key: 'Type',
-      value: work.commitment.dasherize.humanize,
+      key: 'Working pattern',
+      value: working_pattern(work),
       action: generate_action(work: work, attribute: 'type'),
       change_path: candidate_interface_work_history_edit_path(work.id),
     }
@@ -113,5 +113,11 @@ private
   def any_jobs_with_same_role_and_organisation?(work)
     jobs = @application_form.application_work_experiences.where(role: work.role, organisation: work.organisation)
     jobs.many?
+  end
+
+  def working_pattern(work)
+    return work.commitment.dasherize.humanize if work.working_pattern.blank?
+
+    "#{work.commitment.dasherize.humanize}\n #{work.working_pattern}"
   end
 end

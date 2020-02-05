@@ -50,6 +50,7 @@ RSpec.describe 'A Provider viewing an individual application' do
            role: 'Smuggler',
            organisation: 'The Empire',
            details: 'I used to work for The Empire',
+           working_pattern: 'Working pattern at the Empire',
            working_with_children: false)
 
     create(:application_volunteering_experience,
@@ -98,6 +99,7 @@ RSpec.describe 'A Provider viewing an individual application' do
     within '[data-qa="work-history"]' do
       expect(page).to have_content 'Smuggler'
       expect(page).to have_content 'The Empire'
+      expect(page).to have_content 'Working pattern at the Empire'
       expect(page).to have_content 'I used to work for'
       expect(page).not_to have_content 'This role involved working with children'
 

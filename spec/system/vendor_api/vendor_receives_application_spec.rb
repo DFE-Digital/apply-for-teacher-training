@@ -170,8 +170,8 @@ RSpec.feature 'Vendor receives the application' do
               role: 'Teacher',
               organisation_name: 'Oakleaf Primary School',
               working_with_children: false,
-              commitment: 'full_time',
-              description: 'I learned a lot about teaching',
+              commitment: 'part_time',
+              description: "Working pattern: I had a working pattern\n\nDescription: I learned a lot about teaching",
             },
           ],
           volunteering: [

@@ -13,8 +13,9 @@
 
 <%= f.govuk_radio_buttons_fieldset :commitment, legend: { text: 'Was this job full-time or part-time?', tag: 'span' } do %>
   <%= f.govuk_radio_button :commitment, 'full_time', label: { text: 'Full-time' }, link_errors: true %>
-
-  <%= f.govuk_radio_button :commitment, 'part_time', label: { text: 'Part-time' } %>
+  <%= f.govuk_radio_button :commitment, 'part_time', label: { text: 'Part-time' } do %>
+    <%= f.govuk_text_area :working_pattern, label: { text: 'Give details about your working pattern', size: 's' }, hint_text: 'For example: ‘20 hours per week’', rows: 3 %>
+  <% end %>
 <% end %>
 
 <div class="app-work-experience__start-date" data-qa="start-date">
