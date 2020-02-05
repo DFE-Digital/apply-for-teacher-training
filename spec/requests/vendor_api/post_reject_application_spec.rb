@@ -25,6 +25,8 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
       expect(parsed_response['data']['attributes']['rejection']).to match a_hash_including(
         'reason' => 'Does not meet minimum GCSE requirements',
       )
+      expect(application_choice.reload.rejection_reason).to eq 'Does not meet minimum GCSE requirements'
+      expect(application_choice.reload.rejected_at).to be_present
     end
   end
 
@@ -41,6 +43,11 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
       expect(response).to have_http_status(200)
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
       expect(parsed_response['data']['attributes']['status']).to eq 'rejected'
+      expect(parsed_response['data']['attributes']['rejection']).to match a_hash_including(
+        'reason' => 'Course is over-subscribed',
+      )
+      expect(application_choice.reload.offer_withdrawal_reason).to eq 'Course is over-subscribed'
+      expect(application_choice.reload.offer_withdrawn_at).to be_present
     end
   end
 
