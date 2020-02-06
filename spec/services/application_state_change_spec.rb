@@ -6,10 +6,10 @@ RSpec.describe ApplicationStateChange do
       expect(ApplicationStateChange.valid_states)
         .to match_array(I18n.t('application_states').keys)
 
-      expect(ApplicationStateChange.valid_states)
+      expect(ApplicationStateChange.valid_states + [:offer_withdrawn])
         .to match_array(I18n.t('candidate_application_states').keys)
 
-      expect(ApplicationStateChange.valid_states)
+      expect(ApplicationStateChange.valid_states + [:offer_withdrawn])
         .to match_array(I18n.t('provider_application_states').keys)
     end
 
