@@ -1,0 +1,15 @@
+Dear <%= @application.provider_user_name || 'colleague' %>
+
+# Only 20 working days left to respond
+
+<%= @application.candidate_name %> submitted an application for <%= @application.course_name_and_code %> on <%= @application.submitted_at %>.
+
+Log in to Manage teacher training applications to respond within 20 working days:
+
+<%= provider_interface_application_choice_url(@application.application_choice) %>
+
+If you do not respond to the application by <%= @application.rbd_date.to_s(:govuk_date) %>, we’ll reject it on your behalf.
+
+# Give feedback or report a problem
+
+Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
