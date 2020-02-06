@@ -10,6 +10,7 @@ class FeatureFlag
     work_breaks
     experimental_api_features
     confirm_conditions
+    automated_referee_chaser
   ].freeze
 
   def self.activate(feature_name)
