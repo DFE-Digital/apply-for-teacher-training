@@ -11,10 +11,6 @@ RSpec.feature 'Selecting a course not on Apply' do
     and_i_click_on_course_choices
     and_i_click_on_add_course
     and_i_choose_that_i_know_where_i_want_to_apply
-    and_i_choose_another_provider
-    then_i_see_that_i_should_apply_on_ucas
-
-    when_i_click_on_back
     and_i_choose_a_provider
     and_i_choose_another_course
     then_i_see_that_i_should_apply_on_ucas
@@ -52,21 +48,12 @@ RSpec.feature 'Selecting a course not on Apply' do
     click_button 'Continue'
   end
 
-  def and_i_choose_another_provider
-    choose 'Another provider'
-    click_button 'Continue'
-  end
-
   def then_i_see_that_i_should_apply_on_ucas
     expect(page).to have_content(t('page_titles.not_eligible_yet'))
   end
 
-  def when_i_click_on_back
-    click_link 'Back'
-  end
-
   def and_i_choose_a_provider
-    choose 'Gorse SCITT (1N1)'
+    select 'Gorse SCITT (1N1)'
     click_button 'Continue'
   end
 

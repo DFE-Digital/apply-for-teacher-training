@@ -100,7 +100,7 @@ RSpec.feature 'A candidate edits their course choice after submission' do
     click_link 'Continue'
     choose 'Yes, I know where I want to apply'
     click_button 'Continue'
-    choose 'Gorse SCITT (1N1)'
+    select 'Gorse SCITT (1N1)'
     click_button 'Continue'
     select 'Primary (2XT2)'
     click_button 'Continue'
