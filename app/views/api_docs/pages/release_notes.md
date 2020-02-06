@@ -1,3 +1,9 @@
+### 11th February 2020
+
+New attributes:
+
+- `Rejection` now includes offer withdrawal reasons
+
 ### 5th February 2020
 
 Field lengths updated:

@@ -214,7 +214,7 @@ paths:
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:
-        description: The reason for rejection
+        description: The reason for rejection or offer withdrawal
         content:
           application/json:
             schema:
@@ -738,7 +738,7 @@ components:
       properties:
         reason:
           type: string
-          description: The reason for rejection
+          description: The reason for rejection or offer withdrawal
           maxLength: 10240
           example: Does not meet minimum GCSE requirements
     Withdrawal:
