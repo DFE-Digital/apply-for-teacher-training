@@ -20,7 +20,7 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
     when_i_fill_in_the_reference_field
     and_i_click_the_submit_reference_button
     then_i_see_am_told_i_submittted_my_refernce
-    then_i_see_the_questionnaire_page
+    then_i_see_the_confirmation_page
 
     when_i_choose_to_be_contactable
     and_i_click_the_finish_button
@@ -100,8 +100,8 @@ RSpec.feature 'Referee can submit reference', sidekiq: true do
     end
   end
 
-  def then_i_see_the_questionnaire_page
-    expect(page).to have_current_path(referee_interface_questionnaire_path(token: @token))
+  def then_i_see_the_confirmation_page
+    expect(page).to have_current_path(referee_interface_confirmation_path(token: @token))
   end
 
   def when_i_choose_to_be_contactable
