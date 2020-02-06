@@ -3,7 +3,7 @@ FactoryBot.define do
     candidate
     chased_id { candidate.id }
     chased_type { candidate.class }
-    chased_type { :referee_mailer_reference_request_chaser_email }
+    chaser_type { :reference_request }
   end
 
   factory :candidate do
@@ -236,6 +236,7 @@ FactoryBot.define do
   end
 
   factory :reference, class: 'ApplicationReference' do
+    application_form
     email_address { "#{SecureRandom.hex(5)}@example.com" }
     name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
     relationship { Faker::Lorem.paragraph(sentence_count: 3) }

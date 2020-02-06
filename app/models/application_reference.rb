@@ -1,4 +1,6 @@
 class ApplicationReference < ApplicationRecord
+  include Chased
+
   self.table_name = 'references'
 
   validates :name, presence: true, length: { minimum: 2, maximum: 200 }
