@@ -11,6 +11,7 @@ class FeatureFlag
     experimental_api_features
     confirm_conditions
     automated_referee_chaser
+    google_tag_manager
   ].freeze
 
   def self.activate(feature_name)

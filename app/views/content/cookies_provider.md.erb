@@ -10,6 +10,7 @@ Manage teacher training applications cookies aren’t used to identify you perso
 
 ## How we use cookies
 
+<% if FeatureFlag.active?('google_tag_manager') %>
 ### Measuring website usage (Google Analytics)
 
 We use Google Analytics software to collect information about how you use Manage teacher training applications. We do this to help make sure the site is meeting the needs of its users and to help us make improvements.
@@ -32,6 +33,7 @@ Google Analytics sets the following cookies:
 | \_gat    | Throttle requests	                  | 10 minutes  |
 
 You can opt out of [Google Analytics](https://tools.google.com/dlpage/gaoptout).
+<% end %>
 
 ### Our introductory message
 
