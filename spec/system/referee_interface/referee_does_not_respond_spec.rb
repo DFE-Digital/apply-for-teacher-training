@@ -5,6 +5,7 @@ RSpec.feature 'Referee does not respond within 5 days', sidekiq: true do
 
   scenario 'A chase email is sent if a referee does not respond within 5 days' do
     FeatureFlag.activate('training_with_a_disability')
+    FeatureFlag.activate('automated_referee_chaser')
 
     given_a_candidate_completed_an_application
     when_the_candidate_submits_the_application
