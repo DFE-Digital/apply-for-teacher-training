@@ -4,7 +4,7 @@ module RefereeInterface
     before_action :add_identity_to_log
     before_action :check_referee_has_valid_token
     before_action :set_token_param
-    before_action :show_finished_page_if_feedback_provided, except: %i[questionnaire submit_questionnaire submit_feedback confirmation confirm_consent]
+    before_action :show_finished_page_if_feedback_provided, except: %i[questionnaire submit_questionnaire submit_feedback confirmation]
 
     layout 'application'
 
@@ -33,15 +33,16 @@ module RefereeInterface
     end
 
     def submit_questionnaire
-      update_questionnaire_attribute
+      questionnaire_hash = ReturnQuestionnaireResultsHash.call(params: params)
       consent_to_be_contacted = params['consent_to_be_contacted']
-      reference.update!(consent_to_be_contacted: consent_to_be_contacted)
+      reference.update!(questionnaire: questionnaire_hash, consent_to_be_contacted: consent_to_be_contacted)
 
-
-      render :finish
+      redirect_to referee_interface_confirmation_path(token: @token_param)
     end
 
-    def confirmation; end
+    def confirmation
+      render :finish
+    end
 
     def refuse_feedback
       @application = reference.application_form
@@ -94,30 +95,6 @@ module RefereeInterface
       url = helpers.support_interface_application_form_url(reference.application_form)
 
       SlackNotificationWorker.perform_async(message, url)
-    end
-
-    def update_questionnaire_attribute
-      experience_rating = params['experience_rating']
-      experience_explanation = params["experience_explanation_#{params['experience_rating']}"]
-      guidance_rating = params['guidance_rating']
-      guidance_explanation = params["guidance_explanation_#{params['guidance_rating']}"]
-      safe_to_work_with_children = params['safe_to_work_with_children']
-      safe_to_work_with_children_explanation = params['safe_to_work_with_children_explanation'] if safe_to_work_with_children == 'false'
-      consent_to_be_contacted = params['consent_to_be_contacted']
-      consent_to_be_contacted_details = params['consent_to_be_contacted_details'] if consent_to_be_contacted == 'true'
-
-      reference.update(questionnaire: values)
-        questionnaire: {
-          experience_rating: experience_rating,
-          experience_explanation: experience_explanation,
-          guidance_rating: guidance_rating,
-          guidance_explanation: guidance_explanation,
-          safe_to_work_with_children: safe_to_work_with_children,
-          safe_to_work_with_children_explanation: safe_to_work_with_children_explanation,
-          consent_to_be_contacted: consent_to_be_contacted,
-          consent_to_be_contacted_details: consent_to_be_contacted_details
-        }
-      )
     end
   end
 end
