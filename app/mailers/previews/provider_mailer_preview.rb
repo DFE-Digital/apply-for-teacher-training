@@ -11,6 +11,10 @@ class ProviderMailerPreview < ActionMailer::Preview
     ProviderMailer.application_rejected_by_default(provider_user, application_choice)
   end
 
+  def chase_provider_decision_after_twenty_working_days
+    ProviderMailer.chase_provider_decision(provider_user, application_choice)
+  end
+
 private
 
   def application_choice
