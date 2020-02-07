@@ -5,3 +5,10 @@ en:
     feedback_provided: 'Feedback provided'
     feedback_refused: 'Declined'
     email_bounced: 'Email bounced'
+  candidate_reference_status:
+    not_requested_yet: 'Not requested yet'
+    feedback_requested: 'Awaiting response'
+    feedback_provided: 'Reference given'
+    feedback_refused: 'Declined'
+    email_bounced: 'Email address incorrect'
+    feedback_overdue: 'Response overdue'

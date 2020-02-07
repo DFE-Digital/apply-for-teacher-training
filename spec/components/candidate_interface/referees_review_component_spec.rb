@@ -25,6 +25,22 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
       expect(result.css('.govuk-summary-list__value').to_html).to include(first_referee.email_address)
     end
 
+    it 'renders component with correct value for status for unrequested reference' do
+      result = render_inline(described_class, application_form: application_form)
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Not requested yet')
+    end
+
+    it 'renders component with correct value for status for given reference' do
+      first_referee = application_form.application_references.first
+      first_referee.update_column(:feedback_status, 'feedback_provided')
+      result = render_inline(described_class, application_form: application_form)
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Reference given')
+    end
+
     it 'renders component along with a delete link for each referee' do
       referee_id = application_form.application_references.first.id
       result = render_inline(described_class, application_form: application_form)

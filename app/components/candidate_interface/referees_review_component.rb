@@ -10,11 +10,12 @@ module CandidateInterface
       @missing_error = missing_error
     end
 
-    def referee_rows(work)
+    def referee_rows(referee)
       [
-        name_row(work),
-        email_row(work),
-        relationship_row(work),
+        name_row(referee),
+        email_row(referee),
+        relationship_row(referee),
+        feedback_status_row(referee),
       ]
         .compact
     end
@@ -56,6 +57,17 @@ module CandidateInterface
         action: "relationship for #{referee.name}",
         change_path: candidate_interface_edit_referee_path(referee.id),
       }
+    end
+
+    def feedback_status_row(referee)
+      {
+        key: 'Status',
+        value: feedback_status_label(referee.feedback_status),
+      }
+    end
+
+    def feedback_status_label(status)
+      I18n.t("candidate_reference_status.#{status}")
     end
   end
 end
