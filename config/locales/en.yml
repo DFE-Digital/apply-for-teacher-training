@@ -9,7 +9,7 @@ en:
     edit_application_form: Edit your application
     application_dashboard: Application dashboard
     application_edit: Editing your application
-    eligibility: First, check you can use this service
+    eligibility: Check we’re ready for you to use this service
     error_prefix: 'Error: '
     success_prefix: 'Success: '
     not_eligible_yet: We’re sorry, but we’re not ready for you yet

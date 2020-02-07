@@ -10,7 +10,11 @@
         <%= t('page_titles.eligibility') %>
       </h1>
 
-      <%= f.govuk_radio_buttons_fieldset :eligible_citizen, inline: true, legend: { size: 'm', text: 'Are you a citizen of the UK, EU or EEA?', tag: 'span' } do %>
+      <p class="govuk-body">This service is new so it’s not ready for everyone yet. Check if we’re ready for you by answering the questions below.</p>
+
+      <p class="govuk-body govuk-!-margin-bottom-7">If you can’t use our service, you can still apply for teacher training through&nbsp;<%= govuk_link_to 'UCAS', 'https://2020.teachertraining.apply.ucas.com/apply/student/login.do' %>.</p>
+
+      <%= f.govuk_radio_buttons_fieldset :eligible_citizen, inline: true, legend: { size: 'm', text: 'Are you a citizen of the UK or the EU?', tag: 'span' } do %>
         <%= f.govuk_radio_button :eligible_citizen, 'yes', label: { text: 'Yes' }, link_errors: true %>
         <%= f.govuk_radio_button :eligible_citizen, 'no', label: { text: 'No' } %>
       <% end %>
