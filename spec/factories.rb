@@ -240,6 +240,7 @@ FactoryBot.define do
     email_address { "#{SecureRandom.hex(5)}@example.com" }
     name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
     relationship { Faker::Lorem.paragraph(sentence_count: 3) }
+    questionnaire { nil }
 
     trait :unsubmitted do
       feedback { nil }
@@ -248,6 +249,7 @@ FactoryBot.define do
     trait :complete do
       feedback_status { 'feedback_provided' }
       feedback { Faker::Lorem.paragraph(sentence_count: 10) }
+      questionnaire { Faker::Json.shallow_json }
     end
   end
 

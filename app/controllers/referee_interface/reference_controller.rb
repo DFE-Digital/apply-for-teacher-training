@@ -31,9 +31,7 @@ module RefereeInterface
     end
 
     def submit_questionnaire
-      questionnaire_hash = ReturnQuestionnaireResultsHash.call(params: params['application_reference'])
-      consent_to_be_contacted = params.dig('application_reference', 'consent_to_be_contacted')
-      reference.update!(questionnaire: questionnaire_hash, consent_to_be_contacted: consent_to_be_contacted)
+      @questionnaire_form = ReferenceQuestionnaireForm.new(reference: reference, parameters: params['application_reference']).save
 
       redirect_to referee_interface_confirmation_path(token: @token_param)
     end
