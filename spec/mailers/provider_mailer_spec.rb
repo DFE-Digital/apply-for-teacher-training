@@ -120,6 +120,11 @@ RSpec.describe ProviderMailer, type: :mailer do
       expect(@mail.body.encoded).to include("#{application_choice.application_form.full_name} submitted an application for")
     end
 
+    it 'includes the time limit when we start chasing providers' do
+      expected_days_left = "Only #{TimeLimitConfig.limits_for(:chase_provider_by).first.limit} working days left to respond"
+      expect(@mail.body.encoded).to include(expected_days_left)
+    end
+
     it 'includes the course details' do
       expect(@mail.body.encoded).to include(application_choice.course.name)
       expect(@mail.body.encoded).to include(application_choice.course.code)
