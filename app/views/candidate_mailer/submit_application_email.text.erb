@@ -17,7 +17,7 @@ You can track the progress of your <%= 'application'.pluralize(@application_form
 # Making changes to your application
 
 <% if FeatureFlag.active?('edit_application') %>
-  You have 5 working days to edit your application or change your choice of provider, course or training location.
+  You have <%= TimeLimitConfig.limits_for(:edit_by).first.limit %> working days to edit your application or change your choice of provider, course or training location.
 
   To make changes, [sign back in to your account](<%= candidate_sign_in_url(@candidate) %>).
 
@@ -54,7 +54,7 @@ Your application won’t be sent to your provider until your references are in.
 
 If your training provider decides to progress your application, they’ll contact you directly to organise an interview date.
 
-They should make a decision on whether to make an offer within 40 working days of receiving your application.
+They should make a decision on whether to make an offer within <%= TimeLimitConfig.limits_for(:reject_by_default).first.limit %> working days of receiving your application.
 
 # Need help with your teacher training application?
 

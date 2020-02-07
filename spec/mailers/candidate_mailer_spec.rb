@@ -25,6 +25,20 @@ RSpec.describe CandidateMailer, type: :mailer do
       expect(mail.body.encoded).to include('SUPPORT-REFERENCE')
     end
 
+    it 'sends an email containing RBD time limit' do
+      rbd_time_limit = "to make an offer within #{TimeLimitConfig.limits_for(:reject_by_default).first.limit} working days"
+      expect(mail.body.encoded).to include(rbd_time_limit)
+    end
+
+    context 'when the edit_application feature flag is on' do
+      before { FeatureFlag.activate('edit_application') }
+
+      it 'sends an email containing the remaining time to edit' do
+        edit_by_time_limit = "You have #{TimeLimitConfig.limits_for(:edit_by).first.limit} working days to edit"
+        expect(mail.body.encoded).to include(edit_by_time_limit)
+      end
+    end
+
     context 'when the improved_expired_token_flow feature flag is on' do
       before { FeatureFlag.activate('improved_expired_token_flow') }
 
