@@ -29,7 +29,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
       result = render_inline(described_class, application_form: application_form)
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('Not requested yet')
+      expect(result.css('.govuk-tag.app-tag.app-tag--blue').to_html).to include('Not requested yet')
     end
 
     it 'renders component with correct value for status for given reference' do
@@ -38,7 +38,16 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
       result = render_inline(described_class, application_form: application_form)
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('Reference given')
+      expect(result.css('.govuk-tag.app-tag.app-tag--green').to_html).to include('Reference given')
+    end
+
+    it 'renders component with correct value for status for given declined' do
+      first_referee = application_form.application_references.first
+      first_referee.update_column(:feedback_status, 'feedback_refused')
+      result = render_inline(described_class, application_form: application_form)
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-tag.app-tag.app-tag--red').to_html).to include('Declined')
     end
 
     it 'renders component along with a delete link for each referee' do

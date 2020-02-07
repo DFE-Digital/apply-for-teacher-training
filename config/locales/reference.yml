@@ -11,4 +11,4 @@ en:
     feedback_provided: 'Reference given'
     feedback_refused: 'Declined'
     email_bounced: 'Email address incorrect'
-    feedback_overdue: 'Response overdue'
+    feedback_requested: 'Response overdue'

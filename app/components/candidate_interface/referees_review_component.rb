@@ -67,7 +67,22 @@ module CandidateInterface
     end
 
     def feedback_status_label(status)
-      I18n.t("candidate_reference_status.#{status}")
+      render(
+        TagComponent,
+        text: t("candidate_reference_status.#{status}"),
+        type: feedback_status_colour(status),
+      )
+    end
+
+    def feedback_status_colour(status)
+      case status
+      when 'not_requested_yet', 'feedback_requested'
+        :blue
+      when 'feedback_provided'
+        :green
+      when 'feedback_refused', 'feedback_overdue', 'email_bounced'
+        :red
+      end
     end
   end
 end
