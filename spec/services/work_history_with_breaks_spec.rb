@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GetWorkHistoryWithBreaks do
+RSpec.describe WorkHistoryWithBreaks do
   describe '#call' do
     let(:january2019) { Time.zone.local(2019, 1, 1) }
     let(:february2019) { Time.zone.local(2019, 2, 1) }
@@ -24,8 +24,8 @@ RSpec.describe GetWorkHistoryWithBreaks do
       it 'returns an empty array' do
         work_history = []
 
-        get_work_history_with_breaks = GetWorkHistoryWithBreaks.new(work_history)
-        work_history_with_breaks = get_work_history_with_breaks.call
+        get_work_history_with_breaks = WorkHistoryWithBreaks.new(work_history)
+        work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks).to eq([])
       end
@@ -36,8 +36,8 @@ RSpec.describe GetWorkHistoryWithBreaks do
         job1 = build_stubbed(:application_work_experience, start_date: september2019, end_date: nil)
         work_history = [job1]
 
-        get_work_history_with_breaks = GetWorkHistoryWithBreaks.new(work_history)
-        work_history_with_breaks = get_work_history_with_breaks.call
+        get_work_history_with_breaks = WorkHistoryWithBreaks.new(work_history)
+        work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(1)
         expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
@@ -47,8 +47,8 @@ RSpec.describe GetWorkHistoryWithBreaks do
         job1 = build_stubbed(:application_work_experience, start_date: september2019, end_date: current_date)
         work_history = [job1]
 
-        get_work_history_with_breaks = GetWorkHistoryWithBreaks.new(work_history)
-        work_history_with_breaks = get_work_history_with_breaks.call
+        get_work_history_with_breaks = WorkHistoryWithBreaks.new(work_history)
+        work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(1)
         expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
@@ -58,26 +58,26 @@ RSpec.describe GetWorkHistoryWithBreaks do
         job1 = build_stubbed(:application_work_experience, start_date: september2019, end_date: december2019)
         work_history = [job1]
 
-        get_work_history_with_breaks = GetWorkHistoryWithBreaks.new(work_history)
-        work_history_with_breaks = get_work_history_with_breaks.call
+        get_work_history_with_breaks = WorkHistoryWithBreaks.new(work_history)
+        work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(2)
         expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
-        expect(work_history_with_breaks[1][:type]).to eq(:break)
-        expect(work_history_with_breaks[1][:entry].break_in_months).to eq(1)
+        expect(work_history_with_breaks[1][:type]).to eq(:break_placeholder)
+        expect(work_history_with_breaks[1][:entry].length).to eq(1)
       end
 
       it 'returns an array containing a hash for a job and a break if more than a month break' do
         job1 = build_stubbed(:application_work_experience, start_date: september2019, end_date: october2019)
         work_history = [job1]
 
-        get_work_history_with_breaks = GetWorkHistoryWithBreaks.new(work_history)
-        work_history_with_breaks = get_work_history_with_breaks.call
+        get_work_history_with_breaks = WorkHistoryWithBreaks.new(work_history)
+        work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(2)
         expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
-        expect(work_history_with_breaks[1][:type]).to eq(:break)
-        expect(work_history_with_breaks[1][:entry].break_in_months).to eq(3)
+        expect(work_history_with_breaks[1][:type]).to eq(:break_placeholder)
+        expect(work_history_with_breaks[1][:entry].length).to eq(3)
       end
     end
 
@@ -88,8 +88,8 @@ RSpec.describe GetWorkHistoryWithBreaks do
         job3 = build_stubbed(:application_work_experience, start_date: january2020, end_date: current_date)
         work_history = [job1, job2, job3]
 
-        get_work_history_with_breaks = GetWorkHistoryWithBreaks.new(work_history)
-        work_history_with_breaks = get_work_history_with_breaks.call
+        get_work_history_with_breaks = WorkHistoryWithBreaks.new(work_history)
+        work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(3)
         expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
@@ -103,14 +103,14 @@ RSpec.describe GetWorkHistoryWithBreaks do
         job3 = build_stubbed(:application_work_experience, start_date: january2020, end_date: current_date)
         work_history = [job1, job2, job3]
 
-        get_work_history_with_breaks = GetWorkHistoryWithBreaks.new(work_history)
-        work_history_with_breaks = get_work_history_with_breaks.call
+        get_work_history_with_breaks = WorkHistoryWithBreaks.new(work_history)
+        work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(4)
         expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
         expect(work_history_with_breaks[1]).to eq(type: :job, entry: job2)
-        expect(work_history_with_breaks[2][:type]).to eq(:break)
-        expect(work_history_with_breaks[2][:entry].break_in_months).to eq(1)
+        expect(work_history_with_breaks[2][:type]).to eq(:break_placeholder)
+        expect(work_history_with_breaks[2][:entry].length).to eq(1)
         expect(work_history_with_breaks[3]).to eq(type: :job, entry: job3)
       end
 
@@ -120,8 +120,8 @@ RSpec.describe GetWorkHistoryWithBreaks do
         job3 = build_stubbed(:application_work_experience, start_date: november2019, end_date: december2019)
         work_history = [job1, job2, job3]
 
-        get_work_history_with_breaks = GetWorkHistoryWithBreaks.new(work_history)
-        work_history_with_breaks = get_work_history_with_breaks.call
+        get_work_history_with_breaks = WorkHistoryWithBreaks.new(work_history)
+        work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(3)
         expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
@@ -135,15 +135,30 @@ RSpec.describe GetWorkHistoryWithBreaks do
         job3 = build_stubbed(:application_work_experience, start_date: november2019, end_date: december2019)
         work_history = [job1, job2, job3]
 
-        get_work_history_with_breaks = GetWorkHistoryWithBreaks.new(work_history)
-        work_history_with_breaks = get_work_history_with_breaks.call
+        get_work_history_with_breaks = WorkHistoryWithBreaks.new(work_history)
+        work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(4)
         expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
-        expect(work_history_with_breaks[1][:type]).to eq(:break)
-        expect(work_history_with_breaks[1][:entry].break_in_months).to eq(1)
+        expect(work_history_with_breaks[1][:type]).to eq(:break_placeholder)
+        expect(work_history_with_breaks[1][:entry].length).to eq(1)
         expect(work_history_with_breaks[2]).to eq(type: :job, entry: job2)
         expect(work_history_with_breaks[3]).to eq(type: :job, entry: job3)
+      end
+
+      it 'returns an array containing hashes for jobs if previous job covers break between job after and present' do
+        job1 = build_stubbed(:application_work_experience, start_date: january2019, end_date: december2019)
+        job2 = build_stubbed(:application_work_experience, start_date: april2019, end_date: september2019)
+        job3 = build_stubbed(:application_work_experience, start_date: november2019, end_date: nil)
+        work_history = [job1, job2, job3]
+
+        get_work_history_with_breaks = WorkHistoryWithBreaks.new(work_history)
+        work_history_with_breaks = get_work_history_with_breaks.timeline
+
+        expect(work_history_with_breaks.count).to eq(3)
+        expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
+        expect(work_history_with_breaks[1]).to eq(type: :job, entry: job2)
+        expect(work_history_with_breaks[2]).to eq(type: :job, entry: job3)
       end
     end
   end
