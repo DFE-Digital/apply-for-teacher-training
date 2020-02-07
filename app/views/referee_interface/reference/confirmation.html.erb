@@ -13,15 +13,17 @@
   <% content_for :title, t('page_titles.give_a_reference.confirmation') %>
 
   <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-8">
-      <h1 class="govuk-panel__title">
-        Your reference for <%= @reference.application_form.full_name %> has been submitted
-      </h1>
+    <h1 class="govuk-panel__title">
+      Your reference for <%= @reference.application_form.full_name %> has been submitted
+    </h1>
   </div>
 
-  <%= form_with model: @reference, url: referee_interface_submit_questionnaire_path(token: @token_param), method: :patch do |f| %>
-  <div class="govuk-grid-row">
-    <h2 class="govuk-heading-l">Tell us about your experience of giving a reference</h2>
-    <p class="govuk-body">Your feedback will help us to improve our service.</p>
+  <%= form_with model: @questionnaire_form, url: referee_interface_submit_questionnaire_path(token: @token_param), method: :patch do |f| %>
+    <div class="govuk-grid-row">
+      <h2 class="govuk-heading-l">Tell us about your experience of giving a reference</h2>
+
+      <p class="govuk-body">Your feedback will help us to improve our service.</p>
+
       <div class="govuk-grid-column-two-thirds">
         <%= f.govuk_radio_buttons_fieldset :experience, legend: { text: t('questionnaire_form.experience'), tag: 'span' } do %>
           <%= f.govuk_radio_button :experience_rating, 'very_poor', label: { text: t('questionnaire_form.very_poor') } do %>
@@ -82,8 +84,9 @@
 
           <%= f.govuk_radio_button :consent_to_be_contacted, false, label: { text: t('questionnaire_form.not_consent_to_be_contacted') } %>
         <% end %>
+
+        <%= f.govuk_submit t('questionnaire_form.confirm') %>
       </div>
-  </div>
-  <%= f.govuk_submit t('questionnaire_form.confirm') %>
+    </div>
   <% end %>
 <% end %>

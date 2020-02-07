@@ -31,12 +31,15 @@ module RefereeInterface
     end
 
     def submit_questionnaire
-      @questionnaire_form = ReferenceQuestionnaireForm.new(reference: reference, parameters: params['application_reference']).save
+      @questionnaire_form = QuestionnaireForm.new(questionnaire_params)
+      @questionnaire_form.save(reference)
 
       redirect_to referee_interface_confirmation_path(token: @token_param)
     end
 
-    def confirmation; end
+    def confirmation
+      @questionnaire_form = QuestionnaireForm.new
+    end
 
     def refuse_feedback
       @application = reference.application_form
@@ -95,6 +98,18 @@ module RefereeInterface
       url = helpers.support_interface_application_form_url(reference.application_form)
 
       SlackNotificationWorker.perform_async(message, url)
+    end
+
+    def questionnaire_params
+      params.require(:referee_interface_reference_questionnaire_form).permit(
+        :experience_rating, :experience_explanation_very_poor, :experience_explanation_poor,
+        :experience_explanation_ok, :experience_explanation_good, :experience_explanation_very_good,
+        :guidance_rating, :guidance_explanation_very_poor,
+        :guidance_explanation_poor, :guidance_explanation_ok, :guidance_explanation_good,
+        :guidance_explanation_very_good, :safe_to_work_with_children,
+        :safe_to_work_with_children_explanation, :consent_to_be_contacted,
+        :consent_to_be_contacted_details
+      )
     end
   end
 end

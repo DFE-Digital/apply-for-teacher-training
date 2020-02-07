@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe RefereeInterface::ReferenceQuestionnaireForm do
+RSpec.describe RefereeInterface::QuestionnaireForm do
   let(:params) do
     {
       'experience_rating' => 'very_good',
@@ -37,20 +37,14 @@ RSpec.describe RefereeInterface::ReferenceQuestionnaireForm do
 
   let(:reference) { create(:reference) }
 
-  describe '#extract_parameters' do
-    it 'returns a hash with the correct values' do
-      expect(described_class.new(reference: reference, parameters: params).extract_parameters).to eq correct_params
-    end
-  end
-
   describe '#save' do
-    it 'updates the questionnaire' do
-      described_class.new(reference: reference, parameters: params).save
+    it 'updates the questionnaire for a reference' do
+      described_class.new(params).save(reference)
       expect(reference.questionnaire).to eq(correct_params)
     end
 
-    it 'updates the consent_to_be_contacted' do
-      described_class.new(reference: reference, parameters: params).save
+    it 'updates the consent to be contacted for a reference' do
+      described_class.new(params).save(reference)
       expect(reference.consent_to_be_contacted).to eq(true)
     end
   end
