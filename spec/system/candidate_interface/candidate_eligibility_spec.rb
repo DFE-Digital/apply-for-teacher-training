@@ -33,7 +33,7 @@ RSpec.feature 'Candidate eligibility' do
   end
 
   def and_i_answer_no_to_some_questions
-    within_fieldset('Are you a citizen of the UK, EU or EEA?') do
+    within_fieldset('Are you a citizen of the UK or the EU?') do
       choose 'No'
     end
 
@@ -49,7 +49,7 @@ RSpec.feature 'Candidate eligibility' do
   end
 
   def when_i_answer_yes_to_all_questions
-    within_fieldset('Are you a citizen of the UK, EU or EEA?') do
+    within_fieldset('Are you a citizen of the UK or the EU?') do
       choose 'Yes'
     end
 

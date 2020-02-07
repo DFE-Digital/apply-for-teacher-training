@@ -68,7 +68,7 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
   end
 
   def when_i_fill_in_the_eligiblity_form_with_yes
-    within_fieldset('Are you a citizen of the UK, EU or EEA?') do
+    within_fieldset('Are you a citizen of the UK or the EU?') do
       choose 'Yes'
     end
 
