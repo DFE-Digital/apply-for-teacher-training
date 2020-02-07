@@ -62,22 +62,28 @@ module CandidateInterface
     def feedback_status_row(referee)
       {
         key: 'Status',
-        value: feedback_status_label(referee.feedback_status),
+        value: feedback_status_label(referee),
       }
     end
 
-    def feedback_status_label(status)
+    def feedback_status_label(reference)
       render(
         TagComponent,
-        text: t("candidate_reference_status.#{status}"),
-        type: feedback_status_colour(status),
+        text: feedback_status_text(reference),
+        type: feedback_status_colour(reference),
       )
     end
 
-    def feedback_status_colour(status)
-      case status
+    def feedback_status_text(reference)
+      return t('candidate_reference_status.response_overdue') if reference.response_overdue?
+
+      t("candidate_reference_status.#{reference.feedback_status}")
+    end
+
+    def feedback_status_colour(reference)
+      case reference.feedback_status
       when 'not_requested_yet', 'feedback_requested'
-        :blue
+        reference.response_overdue? ? :red : :blue
       when 'feedback_provided'
         :green
       when 'feedback_refused', 'feedback_overdue', 'email_bounced'

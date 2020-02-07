@@ -65,4 +65,10 @@ class ApplicationReference < ApplicationRecord
 
     replace_referee_at < Time.zone.now
   end
+
+  # TODO: Revisit this to factor out the time limit to a constant and use a
+  # dedicated `request_sent_at` as the start point.
+  def response_overdue?
+    feedback_requested? && created_at < 10.business_days.ago
+  end
 end

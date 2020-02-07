@@ -41,13 +41,25 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
       expect(result.css('.govuk-tag.app-tag.app-tag--green').to_html).to include('Reference given')
     end
 
-    it 'renders component with correct value for status for given declined' do
+    it 'renders component with correct value for status for declined reference' do
       first_referee = application_form.application_references.first
       first_referee.update_column(:feedback_status, 'feedback_refused')
       result = render_inline(described_class, application_form: application_form)
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-tag.app-tag.app-tag--red').to_html).to include('Declined')
+    end
+
+    it 'renders component with correct value for status for expired reference request' do
+      first_referee = application_form.application_references.first
+      first_referee.update_columns(
+        feedback_status: 'feedback_requested',
+        created_at: 11.business_days.ago,
+      )
+      result = render_inline(described_class, application_form: application_form)
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-tag.app-tag.app-tag--red').to_html).to include('Response overdue')
     end
 
     it 'renders component along with a delete link for each referee' do
