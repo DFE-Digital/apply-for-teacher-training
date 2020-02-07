@@ -296,7 +296,7 @@ en:
         label: Full name
       relationship:
         label: What is your relationship to this referee and how long have you known them?
-        hint_text: For example, ‘They were the headteacher at my secondary school between 2003 and 2005’
+        hint_text: For example, ‘They were the headteacher at the school where I worked between 2003 and 2005’
       review:
         button: Continue
       sure_delete_entry: Yes I’m sure - delete this referee
