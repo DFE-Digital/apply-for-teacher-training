@@ -22,14 +22,6 @@
     <meta property="og:image" content="<%= asset_pack_path('media/images/govuk-opengraph-image.png') %>">
 
     <%= stylesheet_pack_tag 'application', media: 'all' %>
-
-    <% unless Rails.env.development? %>
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-KW7NPTJ');</script>
-    <% end %>
   </head>
 
   <body class="govuk-template__body">
@@ -40,8 +32,6 @@
     <script>
       document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
     </script>
-
-    <%= render 'layouts/cookie_banner' %>
 
     <a href="#main-content" class="govuk-skip-link">Skip to main content</a>
 
