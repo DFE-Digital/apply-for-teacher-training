@@ -48,4 +48,27 @@ class ProviderMailer < ApplicationMailer
               to: provider_user.email_address,
               subject: t('provider_application_rejected_by_default.email.subject', candidate_name: @application.candidate_name))
   end
+
+  def chase_provider_decision(provider_user, application_choice)
+    @application =
+      Struct.new(
+        :candidate_name,
+        :provider_user_name,
+        :course_name_and_code,
+        :submitted_at,
+        :application_choice,
+        :rbd_date,
+      ).new(
+        application_choice.application_form.full_name,
+        provider_user.full_name,
+        application_choice.course.name_and_code,
+        application_choice.application_form.submitted_at.to_s(:govuk_date).strip,
+        application_choice,
+        application_choice.reject_by_default_at,
+    )
+
+    view_mail(GENERIC_NOTIFY_TEMPLATE,
+              to: provider_user.email_address,
+              subject: t('provider_application_waiting_for_decision.email.subject', candidate_name: @application.candidate_name))
+  end
 end

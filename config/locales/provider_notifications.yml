@@ -8,3 +8,6 @@ en:
   provider_application_rejected_by_default:
     email:
       subject: '%{candidate_name}’s application rejected automatically'
+  provider_application_waiting_for_decision:
+    email:
+      subject: 'Respond to %{candidate_name}’s application'
