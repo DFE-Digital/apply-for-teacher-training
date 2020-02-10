@@ -4,7 +4,8 @@ module RefereeInterface
     before_action :add_identity_to_log
     before_action :check_referee_has_valid_token
     before_action :set_token_param
-    before_action :show_finished_page_if_feedback_provided, except: %i[confirmation confirm_consent]
+    before_action :show_finished_page_if_feedback_provided, except: %i[submit_feedback submit_questionnaire confirmation finish]
+
 
     layout 'application'
 
@@ -28,14 +29,18 @@ module RefereeInterface
       end
     end
 
-    def confirmation; end
+    def submit_questionnaire
+      @questionnaire_form = QuestionnaireForm.new(questionnaire_params)
 
-    def confirm_consent
-      consent_to_be_contacted = params.dig(:application_reference, :consent_to_be_contacted)
+      if @questionnaire_form.save(reference)
+        redirect_to referee_interface_finish_path(token: @token_param)
+      else
+        render :confirmation
+      end
+    end
 
-      reference.update!(consent_to_be_contacted: consent_to_be_contacted)
-
-      render :finish
+    def confirmation
+      @questionnaire_form = QuestionnaireForm.new
     end
 
     def refuse_feedback
@@ -53,12 +58,14 @@ module RefereeInterface
       redirect_to referee_interface_confirmation_path(token: @token_param)
     end
 
+    def finish; end
+
   private
 
     def show_finished_page_if_feedback_provided
       return if reference.feedback_requested?
 
-      render :finish
+      redirect_to referee_interface_finish_path(token: @token_param)
     end
 
     def add_identity_to_log
@@ -89,6 +96,18 @@ module RefereeInterface
       url = helpers.support_interface_application_form_url(reference.application_form)
 
       SlackNotificationWorker.perform_async(message, url)
+    end
+
+    def questionnaire_params
+      params.require(:referee_interface_questionnaire_form).permit(
+        :experience_rating, :experience_explanation_very_poor, :experience_explanation_poor,
+        :experience_explanation_ok, :experience_explanation_good, :experience_explanation_very_good,
+        :guidance_rating, :guidance_explanation_very_poor,
+        :guidance_explanation_poor, :guidance_explanation_ok, :guidance_explanation_good,
+        :guidance_explanation_very_good, :safe_to_work_with_children,
+        :safe_to_work_with_children_explanation, :consent_to_be_contacted,
+        :consent_to_be_contacted_details
+      )
     end
   end
 end

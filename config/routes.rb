@@ -232,10 +232,12 @@ Rails.application.routes.draw do
 
   namespace :referee_interface, path: '/reference' do
     get '/' => 'reference#feedback', as: :reference_feedback
+
     get '/confirmation' => 'reference#confirmation', as: :confirmation
     patch '/confirmation' => 'reference#submit_feedback', as: :submit_feedback
 
-    patch '/confirm-consent' => 'reference#confirm_consent', as: :confirm_consent
+    patch '/questionnaire' => 'reference#submit_questionnaire', as: :submit_questionnaire
+    get '/finish' => 'reference#finish', as: :finish
 
     get '/refuse-feedback' => 'reference#refuse_feedback', as: :refuse_feedback
     patch '/refuse-feedback' => 'reference#confirm_feedback_refusal'
