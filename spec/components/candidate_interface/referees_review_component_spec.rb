@@ -50,10 +50,24 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
       expect(result.css('.govuk-tag.app-tag.app-tag--red').to_html).to include('Declined')
     end
 
+    it 'renders component with correct value for status for (non-expired) request reference' do
+      first_referee = application_form.application_references.first
+      first_referee.update_columns(
+        feedback_status: 'feedback_requested',
+        requested_at: 9.business_days.ago,
+        created_at: 9.business_days.ago,
+      )
+      result = render_inline(described_class, application_form: application_form)
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-tag.app-tag.app-tag--blue').to_html).to include('Awaiting response')
+    end
+
     it 'renders component with correct value for status for expired reference request' do
       first_referee = application_form.application_references.first
       first_referee.update_columns(
         feedback_status: 'feedback_requested',
+        requested_at: 11.business_days.ago,
         created_at: 11.business_days.ago,
       )
       result = render_inline(described_class, application_form: application_form)

@@ -66,8 +66,7 @@ class ApplicationReference < ApplicationRecord
     replace_referee_at < Time.zone.now
   end
 
-  # TODO: Revisit this to use a dedicated `request_sent_at` as the start point?
   def response_overdue?
-    feedback_requested? && created_at < TimeLimitConfig::DAYS_BEFORE_WE_ASK_FOR_A_NEW_REFEREE.business_days.ago
+    feedback_requested? && replace_referee_at && Time.zone.now > replace_referee_at
   end
 end
