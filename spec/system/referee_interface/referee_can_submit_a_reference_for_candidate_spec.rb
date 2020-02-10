@@ -113,7 +113,7 @@ private
 
   def get_reference_feedback_url
     matches = current_email.body.match(/(http:\/\/localhost:3000\/reference\?token=[\w-]{20})/)
-    @token = matches.captures.first.split('=').last
+    @token = Rack::Utils.parse_query(URI(matches.captures.first).query)['token']
     matches.captures.first unless matches.nil?
   end
 end

@@ -4,7 +4,7 @@ module RefereeInterface
     before_action :add_identity_to_log
     before_action :check_referee_has_valid_token
     before_action :set_token_param
-    before_action :show_finished_page_if_feedback_provided, except: %i[submit_questionnaire submit_feedback confirmation]
+    before_action :show_finished_page_if_feedback_provided, except: %i[submit_questionnaire confirmation]
     before_action :show_finished_page_if_questionnaire_has_been_completed
 
 
@@ -101,7 +101,7 @@ module RefereeInterface
     end
 
     def questionnaire_params
-      params.require(:referee_interface_reference_questionnaire_form).permit(
+      params.require(:referee_interface_questionnaire_form).permit(
         :experience_rating, :experience_explanation_very_poor, :experience_explanation_poor,
         :experience_explanation_ok, :experience_explanation_good, :experience_explanation_very_good,
         :guidance_rating, :guidance_explanation_very_poor,
