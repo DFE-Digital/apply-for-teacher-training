@@ -6,16 +6,12 @@
     <%= form_with model: @pick_provider, url: candidate_interface_course_choices_provider_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :code, legend: { size: 'xl', text: t('page_titles.which_provider') } do %>
-        <div class="govuk-!-margin-top-6">
-          <% @pick_provider.available_providers.each_with_index do |provider, i| %>
-            <%= f.govuk_radio_button :code, provider.code, label: { text: "#{provider.name} (#{provider.code})" }, link_errors: i.zero? %>
+      <%= f.govuk_collection_select :code, select_provider_options(@pick_provider.available_providers), :id, :name, label: { text: t('page_titles.which_provider'), size: 'xl' } do %>
+        <p class="govuk-body">You can
+          <%= link_to candidate_interface_providers_path, class: 'govuk-link' do %>
+            preview a list of training providers and courses
           <% end %>
-
-          <%= f.govuk_radio_divider %>
-
-          <%= f.govuk_radio_button :code, :other, label: { text: 'Another provider' } %>
-        </div>
+        currently available on Apply for teacher training.</p>
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>

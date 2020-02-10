@@ -11,7 +11,7 @@ module CandidateInterface
 
     def available_providers
       @available_providers ||= begin
-        Course.includes(:provider).exposed_in_find.map(&:provider).uniq.sort_by(&:name)
+        Provider.all.order(:name)
       end
     end
   end

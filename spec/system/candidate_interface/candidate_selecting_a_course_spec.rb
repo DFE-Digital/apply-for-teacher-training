@@ -113,7 +113,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def and_i_choose_a_provider
-    choose 'Gorse SCITT (1N1)'
+    select 'Gorse SCITT (1N1)'
     click_button 'Continue'
   end
 
@@ -159,7 +159,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def and_i_choose_another_provider
-    choose 'Royal Academy of Dance (R55)'
+    select 'Royal Academy of Dance (R55)'
     click_button 'Continue'
   end
 
