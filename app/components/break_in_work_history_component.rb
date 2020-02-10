@@ -1,7 +1,9 @@
 class BreakInWorkHistoryComponent < ActionView::Component::Base
-  attr_reader :break_in_months
+  include ViewHelper
+
+  attr_reader :work_break
 
   def initialize(work_break:)
-    @break_in_months = work_break.length
+    @work_break = work_break
   end
 end
