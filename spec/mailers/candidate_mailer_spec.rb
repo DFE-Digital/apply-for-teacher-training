@@ -226,4 +226,22 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
     end
   end
+
+  describe 'send new offer email to candidate' do
+    context 'when there is just a single offer' do
+      let(:candidate) { build_stubbed(:candidate) }
+      let(:application_form) { build_stubbed(:application_form, support_reference: 'SUPPORT-REFERENCE', candidate: candidate) }
+      let(:course_option) { build_stubbed(:course_option) }
+      let(:course) { course_option.course }
+      let(:application_choice) { build_stubbed(:application_choice, application_form: application_form, course_option: course_option) }
+      let(:mail) { mailer.new_offer(application_choice) }
+
+      before { mail.deliver_later }
+
+      it 'works' do
+        expect(application_choice.course_option.course).to be_present
+        expect(mail.body.encoded).to include('Dear Bob')
+      end
+    end
+  end
 end

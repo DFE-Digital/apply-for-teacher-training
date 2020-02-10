@@ -63,4 +63,34 @@ class CandidateMailer < ApplicationMailer
               to: application_form.candidate.email_address,
               subject: t("new_referee_request.#{@reason}.subject", referee_name: @referee.name))
   end
+
+  def new_offer(application_choice)
+    view_mail(GENERIC_NOTIFY_TEMPLATE,
+              to: application_choice.application_form.candidate.email_address,
+              subject: t(
+                "candidate_offer.#{new_offer_template_name(application_choice)}.subject",
+                course_name: application_choice.course_option.course.name_and_code,
+                provider_name: application_choice.course_option.course.provider.name,
+              ),
+              template_path: 'candidate_mailer/new_offer',
+              template_name: new_offer_template_name(application_choice))
+  end
+
+private
+
+  # TODO: work out whether the are multiple/single offers etc.
+  def new_offer_template_name(_application_choice)
+    # candidate_application_choices = application_choice.application_form.application_choices
+    # number_of_pending_decisions = candidate_application_choices.select(&:awaiting_provider_decision?).count
+    # number_of_offers = candidate_application_choices.select(&:offer?).count
+
+    :single_offer
+    # if number_of_pending_decisions.positive?
+    #   :decisions_pending
+    # elsif number_of_offers > 1
+    #   :multiple_offers
+    # else
+    #   :single_offer
+    # end
+  end
 end
