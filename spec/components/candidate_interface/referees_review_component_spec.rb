@@ -26,10 +26,10 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
     end
 
     it 'renders component with correct value for status for unrequested reference' do
+      application_form.update_column(:submitted_at, nil)
       result = render_inline(described_class, application_form: application_form)
 
-      expect(result.css('.govuk-summary-list__key').text).to include('Status')
-      expect(result.css('.govuk-tag.app-tag.app-tag--blue').to_html).to include('Not requested yet')
+      expect(result.css('.govuk-summary-list__key').text).not_to include('Status')
     end
 
     it 'renders component with correct value for status for given reference' do

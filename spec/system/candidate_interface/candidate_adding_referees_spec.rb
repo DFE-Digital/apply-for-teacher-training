@@ -106,7 +106,6 @@ RSpec.feature 'Candidate adding referees' do
     expect(page).to have_content('AJP Taylor')
     expect(page).to have_content('ajptaylor@example.com')
     expect(page).to have_content('Thats my tutor, that is')
-    expect(page).to have_content('Not requested yet')
 
     full_name_without_trailing_space = "Bill Lumbergh\n"
     expect(page).to have_content(full_name_without_trailing_space)

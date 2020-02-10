@@ -60,10 +60,16 @@ module CandidateInterface
     end
 
     def feedback_status_row(referee)
+      return nil unless show_status?(referee)
+
       {
         key: 'Status',
         value: feedback_status_label(referee),
       }
+    end
+
+    def show_status?(referee)
+      referee.application_form.submitted?
     end
 
     def feedback_status_label(reference)
