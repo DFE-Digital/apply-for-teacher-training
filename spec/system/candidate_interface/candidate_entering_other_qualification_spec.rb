@@ -156,7 +156,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_the_section_is_not_completed
-    expect(page).not_to have_css('#other-relevant-academic-and-non-academic-qualifications-badge-id', text: 'Completed')
+    expect(page).not_to have_css('#academic-and-other-relevant-qualifications-badge-id', text: 'Completed')
   end
 
   def then_i_can_check_my_answers
@@ -176,6 +176,6 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#other-relevant-academic-and-non-academic-qualifications-badge-id', text: 'Completed')
+    expect(page).to have_css('#academic-and-other-relevant-qualifications-badge-id', text: 'Completed')
   end
 end

@@ -92,7 +92,7 @@ RSpec.describe 'A Provider viewing an individual application' do
   end
 
   def and_i_should_see_the_candidates_other_qualifications
-    expect(page).to have_selector('[data-qa="qualifications-table-other-qualification"] tbody tr', count: 3)
+    expect(page).to have_selector('[data-qa="qualifications-table-academic-or-other-qualification"] tbody tr', count: 3)
   end
 
   def and_i_should_see_the_candidates_work_history
