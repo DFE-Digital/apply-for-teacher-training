@@ -17,7 +17,7 @@ RSpec.describe TimeLimitCalculator do
       rule: :reject_by_default,
       effective_date: Time.zone.now,
     )
-    expect(calculator.call).to eq [20, Time.zone.local(2019, 7, 1).end_of_day]
+    expect(calculator.call).to eq [20, Time.zone.local(2019, 7, 1).end_of_day, Time.zone.local(2019, 5, 1).end_of_day]
   end
 
   it 'returns value for rule with `from_date` when effective date matches rule' do
@@ -31,7 +31,7 @@ RSpec.describe TimeLimitCalculator do
       rule: :reject_by_default,
       effective_date: Time.zone.now,
     )
-    expect(calculator.call).to eq [10, Time.zone.local(2019, 6, 17).end_of_day]
+    expect(calculator.call).to eq [10, Time.zone.local(2019, 6, 17).end_of_day, Time.zone.local(2019, 5, 16).end_of_day]
   end
 
   it 'returns value for default rule rather than one with `from_date` when effective date does not match rule' do
@@ -45,7 +45,7 @@ RSpec.describe TimeLimitCalculator do
       rule: :reject_by_default,
       effective_date: Time.zone.now,
     )
-    expect(calculator.call).to eq [20, Time.zone.local(2019, 7, 1).end_of_day]
+    expect(calculator.call).to eq [20, Time.zone.local(2019, 7, 1).end_of_day, Time.zone.local(2019, 5, 1).end_of_day]
   end
 
   it 'returns value for rule with `to_date` and `from_date` when effective date matches rule' do
@@ -60,7 +60,7 @@ RSpec.describe TimeLimitCalculator do
       rule: :reject_by_default,
       effective_date: Time.zone.now,
     )
-    expect(calculator.call).to eq [5, Time.zone.local(2019, 6, 10).end_of_day]
+    expect(calculator.call).to eq [5, Time.zone.local(2019, 6, 10).end_of_day, Time.zone.local(2019, 5, 23).end_of_day]
   end
 
   it 'returns nil when there is no rule for the given effective date' do
@@ -69,6 +69,6 @@ RSpec.describe TimeLimitCalculator do
       rule: :reject_by_default,
       effective_date: 20.days.ago,
     )
-    expect(calculator.call).to eq [nil, nil]
+    expect(calculator.call).to eq [nil, nil, nil]
   end
 end

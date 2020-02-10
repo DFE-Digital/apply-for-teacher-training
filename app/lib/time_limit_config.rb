@@ -14,6 +14,12 @@ class TimeLimitConfig
     chase_provider_by: [
       Rule.new(nil, nil, 20),
     ],
+    chase_referee_by: [
+      Rule.new(nil, nil, 5),
+    ],
+    replace_referee_by: [
+      Rule.new(nil, nil, 10),
+    ],
   }.freeze
 
   def self.limits_for(rule)
