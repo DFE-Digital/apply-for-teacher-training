@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_06_110918) do
+ActiveRecord::Schema.define(version: 2020_02_10_111719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -33,9 +33,9 @@ ActiveRecord::Schema.define(version: 2020_02_06_110918) do
     t.integer "decline_by_default_days"
     t.datetime "offered_at"
     t.datetime "rejected_at"
+    t.datetime "withdrawn_at"
     t.datetime "declined_at"
     t.boolean "declined_by_default", default: false, null: false
-    t.datetime "withdrawn_at"
     t.integer "offered_course_option_id"
     t.datetime "accepted_at"
     t.datetime "recruited_at"
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 2020_02_06_110918) do
     t.text "other_language_details"
     t.date "date_of_birth"
     t.text "further_information"
+    t.datetime "submitted_at"
     t.string "phone_number"
     t.string "address_line1"
     t.string "address_line2"
@@ -83,7 +84,6 @@ ActiveRecord::Schema.define(version: 2020_02_06_110918) do
     t.string "address_line4"
     t.string "country"
     t.string "postcode"
-    t.datetime "submitted_at"
     t.string "support_reference", limit: 10
     t.string "disability_disclosure"
     t.string "uk_residency_status"
@@ -151,7 +151,7 @@ ActiveRecord::Schema.define(version: 2020_02_06_110918) do
     t.string "magic_link_token"
     t.datetime "magic_link_token_sent_at"
     t.boolean "hide_in_reporting", default: false, null: false
-    t.bigint "course_from_find_id"
+    t.integer "course_from_find_id"
     t.boolean "sign_up_email_bounced", default: false, null: false
     t.datetime "last_signed_in_at"
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true
