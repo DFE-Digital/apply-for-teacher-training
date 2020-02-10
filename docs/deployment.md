@@ -8,6 +8,14 @@ The apply build and release process is split into two separate Azure DevOps pipe
 
 All members of the Apply development team are able to deploy into any of the environments.
 
+To speed up the release pipeline, logic has been introduced into the pipeline code to only run the full ARM template deployment only if the following conditions are met.
+- Any of the pipeline variable groups associated with the deployment have changed since the last successful deployment
+- Any of the following files have changed in the commit associated with the build:
+  - azure-pipelines-deploy-template.yml
+  - azure/template.json
+  - azure/containers.json
+If none of the above conditions are met the pipeline will simply load the new image into the container staging slot ready for swapping.
+
 ## 1. Check what you're deploying
 
 Go to [the Apply Ops Dashboard](https://apply-ops-dashboard.herokuapp.com/) and find the commit you want to deploy.

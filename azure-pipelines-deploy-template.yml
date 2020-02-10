@@ -64,9 +64,6 @@ jobs:
   - deployment: deploy_${{parameters.resourceEnvironmentName}}
     displayName: 'Deploy App to ${{parameters.subscriptionName}} Subscription'
     environment: '${{parameters.serviceName}}-${{parameters.environment}}'
-    #Your build pipeline references an undefined variable named ‘dockerHubUsername’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
-    #Your build pipeline references a secret variable named ‘databasePassword’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it secret. See https://go.microsoft.com/fwlink/?linkid=865972
-    #Your build pipeline references a secret variable named ‘secretKeyBase’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it secret. See https://go.microsoft.com/fwlink/?linkid=865972
     variables:
       resourceGroupName: '${{parameters.subscriptionPrefix}}${{parameters.resourceEnvironmentName}}-${{parameters.serviceName}}'
       appServiceName: '${{parameters.subscriptionPrefix}}${{parameters.resourceEnvironmentName}}-${{parameters.serviceName}}-as'
@@ -81,9 +78,70 @@ jobs:
       runOnce:
         deploy:
           steps:
-          - task: AzureResourceGroupDeployment@2
-            displayName: 'Azure Deployment:Create Or Update Resource Group action on $(resourceGroupName)'
+          - task: AzurePowerShell@3
+            displayName: 'Azure PowerShell Script - Set Deployment Type for Resource Group $(resourceGroupName)'
             condition: succeeded()
+            env:
+              SYSTEM_ACCESSTOKEN: $(system.accesstoken)
+              COMMIT_HASH: $(build.sourceversion)
+            inputs:
+              azureSubscription: '${{parameters.subscriptionName}}'
+              ScriptType: InlineScript
+              azurePowerShellVersion: LatestVersion
+              Inline: |
+                Param(
+                  [string] $resourceGroupName = "$(resourceGroupName)",
+                  [string] $environment = "${{parameters.environment}}"
+                )
+
+                $fullDeployment = $false
+                $deploymentFiles = @("azure-pipelines-deploy-template.yml", "azure/template.json", "azure/containers.json")
+                $encodedAccessToken = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($env:SYSTEM_ACCESSTOKEN))
+                $variableGroupLastEdit = @()
+
+                #Get the timestamp of the last deployment to the defined Azure environment from Azure API
+                $lastDeployment = (Get-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName | Where-Object {$_.DeploymentName -Like "template-*"})[0].Timestamp
+                 
+                #Get the timestamp of the last update to the variable groups corresponding to the environment defined
+                $variableGroupUri = "https://dev.azure.com/dfe-ssp/Become-A-Teacher/_apis/distributedtask/variablegroups"
+                $variableGroups = Invoke-RestMethod -Method Get -Uri $variableGroupUri -Headers @{Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN"}
+                $variableGroupLastEdit += ($variableGroups.value | Where-Object {$_.name -like "APPLY - ENV - $environment"}).modifiedOn
+                $variableGroupLastEdit += ($variableGroups.value | Where-Object {$_.name -eq "APPLY - Shared Variables"}).modifiedOn
+                $variableGroupLastEdit += ($variableGroups.value | Where-Object {$_.name -eq "Docker Shared Variables"}).modifiedOn
+                $variableGroupLastEditTimestamp = Get-Date -Year ($variableGroupLastEdit | sort -descending)[0].substring(0,4) `
+                  -Month ($variableGroupLastEdit | sort -descending)[0].substring(5,2) `
+                  -Day ($variableGroupLastEdit | sort -descending)[0].substring(8,2) `
+                  -Hour ($variableGroupLastEdit | sort -descending)[0].substring(11,2) `
+                  -Minute ($variableGroupLastEdit | sort -descending)[0].substring(14,2) `
+                  -Second ($variableGroupLastEdit | sort -descending)[0].substring(17,2)
+
+                #Get the list of files changed in the commit the build was triggered from
+                $gitCommitUri= "https://api.github.com/repos/DFE-Digital/apply-for-postgraduate-teacher-training/commits/$env:COMMIT_HASH"
+                $gitCommitFiles = (Invoke-RestMethod -Method Get -Uri $gitCommitUri -Headers @{Authorization = $encodedAccessToken}).files.filename
+
+                if ( $lastDeployment -lt $variableGroupLastEditTimestamp ) {
+                  write-host "Run full deployment - Variable group changed"
+                  $fullDeployment = $true
+                }
+                else {
+                  foreach ( $file in $deploymentFiles ) {
+                    if ( $gitCommitFiles -contains $file ) {
+                      $fullDeployment = $true
+                      break
+                    }
+                  }
+                  if ( $fullDeployment -eq $false ) {
+                    write-host "No deployment required"
+                  } else {
+                    write-host "Run full deployment - Files were changed"
+                  }
+                }
+                
+                Write-Host "##vso[task.setvariable variable=fullDeployment]$fullDeployment"
+
+          - task: AzureResourceGroupDeployment@2
+            displayName: 'ARM Deployment - Create Or Update Resource Group action on $(resourceGroupName)'
+            condition: and(succeeded(), eq(variables['fullDeployment'], true))
             inputs:
               azureSubscription: '${{parameters.subscriptionName}}'
               resourceGroupName: '$(resourceGroupName)'
@@ -91,6 +149,7 @@ jobs:
               csmFile: '$(Pipeline.Workspace)\arm_template\template.json'
               overrideParameters: '-localBranchName "$(Build.SourceBranchName)"
                 -commonResourceTags ${{parameters.commonResourceTags}}
+                -subscriptionPrefix ${{parameters.subscriptionPrefix}}
                 -resourceEnvironmentName "${{parameters.resourceEnvironmentName}}"
                 -serviceName "${{parameters.serviceName}}"
                 -dockerHubUsername "${{parameters.dockerHubUsername}}"
@@ -147,6 +206,68 @@ jobs:
                 -govukNotifyCallbackAPIKey "${{parameters.govukNotifyCallbackAPIKey}}"
                 -sandbox "${{parameters.sandbox}}"'
               deploymentOutputs: DeploymentOutput
+
+          - task: AzureCLI@2
+            displayName: 'Azure CLI - Update Container Images in Resource Group $(resourceGroupName)'
+            condition: and(succeeded(), eq(variables['fullDeployment'], false))
+            inputs:
+              azureSubscription: '${{parameters.subscriptionName}}'
+              ScriptType: ps
+              ScriptLocation: inlineScript
+              InlineScript: |
+                Param(
+                  [string] $resourceGroupName = "$(resourceGroupName)",
+                  [string] $appServiceName = "$(appServiceName)",
+                  [string] $containerImageReference = "${{parameters.dockerHubUsername}}/${{parameters.containerImageReference}}",
+                  [array] $containers = @("clock", "worker")
+                )
+                $output = az webapp config container set --resource-group $resourceGroupName --name $appServiceName --slot staging --docker-custom-image-name $containerImageReference
+                if ( !$output ) {
+                  Write-Error -Message "Unable to set image for Web App $($appServiceName)"
+                  return
+                }
+
+                foreach ( $container in $containers ) {
+                  $containerConfig = az group deployment show --resource-group $resourceGroupName --name "container-instances-$($container)" | ConvertFrom-Json
+
+                  $envVars = @()
+                  $secureEnvVars = @()
+                  foreach ( $var in $containerConfig.properties.parameters.environmentVariables.value ) {
+                    foreach ( $key in $var | get-member -MemberType NoteProperty | select -ExpandProperty Name ) {
+                      if ( $key -eq "name" ) {
+                        $keyName = $var.name
+                      } else {
+                        if ( $key -eq "value" ) {
+                          $keyValuePair = "$keyName=`"$($var.$key)`""
+                          $envVars += $keyValuePair
+                        } else {
+                          $keyValuePair = "$keyName=`"$($var.$key)`""
+                          $secureEnvVars += $keyValuePair
+                        }
+                      }
+                    }
+                  }
+                  
+                  $tags = @()
+                  foreach ( $tag in $containerConfig.properties.parameters.resourceTags.value | get-member -MemberType NoteProperty | select -ExpandProperty Name ) {
+                    $tags += "`"$($tag)`"=`"$($containerConfig.properties.parameters.resourceTags.value.$tag)`""
+                  }
+
+                  $output = az container create --resource-group $resourceGroupName --name $containerConfig.properties.parameters.containerName.value `
+                  --location westeurope `
+                  --image $containerImageReference `
+                  --command-line "$($containerConfig.properties.parameters.command.value)" `
+                  --cpu $containerConfig.properties.parameters.numberCpuCores.value `
+                  --memory $containerConfig.properties.parameters.memory.value `
+                  --os-type $containerConfig.properties.parameters.osType.value `
+                  --restart-policy $containerConfig.properties.parameters.restartPolicy.value `
+                  --environment-variables $envVars `
+                  --secure-environment-variables $secureEnvVars
+                  if ( !$output ) {
+                    Write-Error -Message "Unable to create container instance $($containerConfig.properties.parameters.containerName.value)"
+                    return
+                  }
+                }
 
           - task: AzurePowerShell@3
             displayName: 'Azure PowerShell Script - Tag resource group: $(resourceGroupName)'
