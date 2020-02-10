@@ -16,11 +16,13 @@ class ProviderMailer < ApplicationMailer
         :provider_user_name,
         :candidate_name,
         :application_choice_id,
+        :rbd_days,
       ).new(
         application_choice.course.name_and_code,
         provider_user.full_name,
         application_choice.application_form.full_name,
         application_choice.id,
+        application_choice.reject_by_default_days,
     )
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
