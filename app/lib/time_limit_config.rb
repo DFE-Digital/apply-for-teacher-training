@@ -11,7 +11,7 @@ class TimeLimitConfig
     edit_by: [
       Rule.new(nil, nil, 5),
     ],
-    chase_provider_by: [
+    chase_provider_before_rbd: [
       Rule.new(nil, nil, 20),
     ],
     chase_referee_by: [

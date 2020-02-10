@@ -121,7 +121,7 @@ RSpec.describe ProviderMailer, type: :mailer do
     end
 
     it 'includes the time limit when we start chasing providers' do
-      expected_days_left = "Only #{TimeLimitConfig.limits_for(:chase_provider_by).first.limit} working days left to respond"
+      expected_days_left = "Only #{TimeLimitConfig.limits_for(:chase_provider_before_rbd).first.limit} working days left to respond"
       expect(@mail.body.encoded).to include(expected_days_left)
     end
 
