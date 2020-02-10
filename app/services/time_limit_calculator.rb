@@ -8,15 +8,21 @@ class TimeLimitCalculator
 
   def call
     days = calculate_days
-    [days, calculate_time(days)]
+    [days, calculate_time_in_future(days), calculate_time_in_past(days)]
   end
 
 private
 
-  def calculate_time(days)
+  def calculate_time_in_future(days)
     return nil unless days
 
     days.business_days.after(effective_date).end_of_day
+  end
+
+  def calculate_time_in_past(days)
+    return nil unless days
+
+    days.business_days.before(effective_date).end_of_day
   end
 
   def calculate_days
