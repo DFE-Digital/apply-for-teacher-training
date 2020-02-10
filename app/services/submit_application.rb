@@ -26,7 +26,7 @@ private
     application_form.application_references.includes(:application_form).each do |reference|
       RefereeMailer.reference_request_email(application_form, reference).deliver_later
 
-      reference.update!(feedback_status: 'feedback_requested')
+      reference.update!(feedback_status: 'feedback_requested', requested_at: Time.zone.now)
     end
   end
 

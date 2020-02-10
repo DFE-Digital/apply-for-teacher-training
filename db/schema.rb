@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_06_110918) do
+ActiveRecord::Schema.define(version: 2020_02_10_130142) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -33,9 +33,9 @@ ActiveRecord::Schema.define(version: 2020_02_06_110918) do
     t.integer "decline_by_default_days"
     t.datetime "offered_at"
     t.datetime "rejected_at"
+    t.datetime "withdrawn_at"
     t.datetime "declined_at"
     t.boolean "declined_by_default", default: false, null: false
-    t.datetime "withdrawn_at"
     t.integer "offered_course_option_id"
     t.datetime "accepted_at"
     t.datetime "recruited_at"
@@ -151,7 +151,7 @@ ActiveRecord::Schema.define(version: 2020_02_06_110918) do
     t.string "magic_link_token"
     t.datetime "magic_link_token_sent_at"
     t.boolean "hide_in_reporting", default: false, null: false
-    t.bigint "course_from_find_id"
+    t.integer "course_from_find_id"
     t.boolean "sign_up_email_bounced", default: false, null: false
     t.datetime "last_signed_in_at"
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true
@@ -223,8 +223,8 @@ ActiveRecord::Schema.define(version: 2020_02_06_110918) do
   create_table "provider_users_providers", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.bigint "provider_user_id", null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", default: -> { "now()" }, null: false
+    t.datetime "updated_at", default: -> { "now()" }, null: false
     t.index ["provider_id"], name: "index_provider_users_providers_on_provider_id"
     t.index ["provider_user_id"], name: "index_provider_users_providers_on_provider_user_id"
   end
@@ -250,6 +250,7 @@ ActiveRecord::Schema.define(version: 2020_02_06_110918) do
     t.boolean "consent_to_be_contacted"
     t.string "feedback_status", default: "not_requested_yet", null: false
     t.jsonb "questionnaire"
+    t.datetime "requested_at"
     t.index ["application_form_id", "email_address"], name: "index_references_on_application_form_id_and_email_address", unique: true
     t.index ["application_form_id"], name: "index_references_on_application_form_id"
     t.index ["feedback_status"], name: "index_references_on_feedback_status"

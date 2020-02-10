@@ -18,6 +18,7 @@ module SupportInterface
     def rows
       [
         status_row,
+        requested_row,
         name_row,
         email_address_row,
         relationship_row,
@@ -34,6 +35,13 @@ module SupportInterface
         value: render(TagComponent,
                       text: t("reference_status.#{feedback_status}"),
                       type: feedback_tag_color(feedback_status)),
+      }
+    end
+
+    def requested_row
+      {
+        key: 'Requested at',
+        value: reference.requested_at&.to_s(:govuk_date_and_time),
       }
     end
 
