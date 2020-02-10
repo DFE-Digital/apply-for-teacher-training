@@ -65,6 +65,12 @@ class CandidateMailer < ApplicationMailer
   end
 
   def new_offer(application_choice)
+    @application_choice = application_choice
+    @candidate_name = @application_choice.application_form.first_name
+    @provider_name = @application_choice.course_option.course.provider.name
+    @course_name = @application_choice.course_option.course.name_and_code
+    @conditions = @application_choice.offer&.dig('conditions') || []
+
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: application_choice.application_form.candidate.email_address,
               subject: t(

@@ -1,15 +1,24 @@
-Dear ((CandidateName))
+Dear <%= @candidate_name %>,
 
 # You have an offer
-Congratulations, you have an offer from ((ProviderName)) to study ((Course Name)).
-The provider has set the following condition(s):
-((ConditionsList))
-Contact ((ProviderName)) directly if you have any questions about this.
 
-# Make a decision by ((DBDDate))
-You have 10 working days to make a decision. If you don’t reply by ((DBDDate)), your application will be withdrawn. 
+Congratulations, you have an offer from <%= @provider_name %> to study <%= @course_name %>.
+The provider has set the following condition(s):
+
+<% @conditions.each do |condition| %>
+  - <%= condition %>
+<% end %>
+
+Contact <%= @provider_name %> directly if you have any questions about this.
+
+# Make a decision by <%= @decline_by_default_at %>
+
+You have 10 working days to make a decision. If you don’t reply by <%= @decline_by_default_at %>, your application will be withdrawn. 
+
 Sign in to your account to respond:
-((url))
+
+<%= candidate_sign_in_url(@application_choice.application_form.candidate) %>
 
 # Give feedback or report a problem
-Contact us at becomingateacher@digital.education.gov.uk
+
+[becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
