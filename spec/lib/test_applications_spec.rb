@@ -16,6 +16,12 @@ RSpec.describe TestApplications do
     }.to raise_error(/Not enough distinct courses/)
   end
 
+  it 'throws an exception if zero courses are specified per application' do
+    expect {
+      TestApplications.create_application(states: [])
+    }.to raise_error(/You can't have zero courses per application/)
+  end
+
   describe 'supplying our own courses' do
     it 'creates applications only for the supplied courses' do
       course_we_want = create(:course_option, course: create(:course, :open_on_apply)).course

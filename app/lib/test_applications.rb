@@ -1,5 +1,6 @@
 module TestApplications
   class NotEnoughCoursesError < RuntimeError; end
+  class ZeroCoursesPerApplicationError < RuntimeError; end
 
   def self.generate_for_provider(provider:, courses_per_application:, count:)
     1.upto(count).flat_map do
@@ -11,6 +12,8 @@ module TestApplications
   end
 
   def self.create_application(states:, courses_to_apply_to: nil)
+    raise ZeroCoursesPerApplicationError.new('You can\'t have zero courses per application') unless states.any?
+
     first_name = Faker::Name.unique.first_name
     last_name = Faker::Name.unique.last_name
     candidate = FactoryBot.create(
