@@ -46,4 +46,16 @@ class ApplicationReference < ApplicationRecord
     hashed_token = Devise.token_generator.digest(ApplicationReference, :hashed_sign_in_token, unhashed_token)
     find_by(hashed_sign_in_token: hashed_token)
   end
+
+  def chase_referee_at
+    return unless requested_at
+
+    TimeLimitCalculator.new(rule: :chase_referee_by, effective_date: requested_at).call.second
+  end
+
+  def replace_referee_at
+    return unless requested_at
+
+    TimeLimitCalculator.new(rule: :replace_referee_by, effective_date: requested_at).call.second
+  end
 end

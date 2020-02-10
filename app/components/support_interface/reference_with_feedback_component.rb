@@ -18,13 +18,13 @@ module SupportInterface
     def rows
       [
         status_row,
-        requested_row,
+        date_rows,
         name_row,
         email_address_row,
         relationship_row,
         consent_row,
         feedback_row,
-      ].compact
+      ].flatten.compact
     end
 
   private
@@ -38,11 +38,21 @@ module SupportInterface
       }
     end
 
-    def requested_row
-      {
-        key: 'Requested at',
-        value: reference.requested_at&.to_s(:govuk_date_and_time),
-      }
+    def date_rows
+      [
+        {
+          key: 'Requested on',
+          value: reference.requested_at&.to_s(:govuk_date_and_time),
+        },
+        {
+          key: 'Chase on',
+          value: reference.chase_referee_at&.to_s(:govuk_date_and_time),
+        },
+        {
+          key: 'Replace on',
+          value: reference.replace_referee_at&.to_s(:govuk_date_and_time),
+        },
+      ].select { |row| row[:value] }
     end
 
     def name_row
