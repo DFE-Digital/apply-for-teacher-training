@@ -29,7 +29,7 @@ RSpec.describe SendApplicationToProvider do
 
   it 'sets the `reject_by_default_at` date and `reject_by_default_days`' do
     reject_by_default_at = 20.business_days.from_now.end_of_day
-    time_limit_calculator = instance_double(TimeLimitCalculator, call: [20, reject_by_default_at])
+    time_limit_calculator = instance_double(TimeLimitCalculator, call: { days: 20, time_in_future: reject_by_default_at })
     allow(TimeLimitCalculator).to receive(:new).and_return(time_limit_calculator)
 
     SendApplicationToProvider.new(application_choice: application_choice).call

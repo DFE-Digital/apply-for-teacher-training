@@ -7,6 +7,6 @@ class GetApplicationFormsWaitingForProviderDecision
   end
 
   def self.chase_provider_time_limit
-    TimeLimitCalculator.new(rule: :chase_provider_before_rbd, effective_date: Time.zone.now).call.second
+    TimeLimitCalculator.new(rule: :chase_provider_before_rbd, effective_date: Time.zone.now).call[:time_in_future]
   end
 end

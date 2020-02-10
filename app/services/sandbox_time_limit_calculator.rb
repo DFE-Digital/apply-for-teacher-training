@@ -2,6 +2,6 @@ class SandboxTimeLimitCalculator
   def initialize(*); end
 
   def call
-    [0, Time.zone.now]
+    { days: 0, time_in_future: Time.zone.now }
   end
 end

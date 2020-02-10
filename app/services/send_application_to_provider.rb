@@ -20,10 +20,13 @@ class SendApplicationToProvider
 private
 
   def set_reject_by_default
-    days, time = TimeLimitCalculator.new(
+    time_limit = TimeLimitCalculator.new(
       rule: :reject_by_default,
       effective_date: Time.zone.now,
     ).call
+
+    days = time_limit[:days]
+    time = time_limit[:time_in_future]
 
     application_choice.reject_by_default_days = days
     application_choice.reject_by_default_at = time
