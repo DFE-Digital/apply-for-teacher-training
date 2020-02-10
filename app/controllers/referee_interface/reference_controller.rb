@@ -4,8 +4,7 @@ module RefereeInterface
     before_action :add_identity_to_log
     before_action :check_referee_has_valid_token
     before_action :set_token_param
-    before_action :show_finished_page_if_feedback_provided, except: %i[submit_questionnaire confirmation]
-    before_action :show_finished_page_if_questionnaire_has_been_completed
+    before_action :show_finished_page_if_feedback_provided, except: %i[submit_feedback submit_questionnaire confirmation finish]
 
 
     layout 'application'
@@ -32,9 +31,12 @@ module RefereeInterface
 
     def submit_questionnaire
       @questionnaire_form = QuestionnaireForm.new(questionnaire_params)
-      @questionnaire_form.save(reference)
 
-      redirect_to referee_interface_confirmation_path(token: @token_param)
+      if @questionnaire_form.save(reference)
+        redirect_to referee_interface_finish_path(token: @token_param)
+      else
+        render :confirmation
+      end
     end
 
     def confirmation
@@ -56,18 +58,14 @@ module RefereeInterface
       redirect_to referee_interface_confirmation_path(token: @token_param)
     end
 
+    def finish; end
+
   private
 
     def show_finished_page_if_feedback_provided
       return if reference.feedback_requested?
 
-      render :finish
-    end
-
-    def show_finished_page_if_questionnaire_has_been_completed
-      return if reference.questionnaire.blank?
-
-      render :finish
+      redirect_to referee_interface_finish_path(token: @token_param)
     end
 
     def add_identity_to_log
