@@ -69,6 +69,6 @@ class ProviderMailer < ApplicationMailer
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: provider_user.email_address,
-              subject: t('provider_application_waiting_for_decision.email.subject', candidate_name: @application.candidate_name))
+              subject: I18n.t!('provider_application_waiting_for_decision.email.subject', candidate_name: @application.candidate_name))
   end
 end

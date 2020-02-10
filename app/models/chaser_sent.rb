@@ -3,5 +3,6 @@ class ChaserSent < ApplicationRecord
 
   enum chaser_type: {
     reference_request: 'reference_request',
+    provider_decision_request: 'provider_decision_request',
   }
 end

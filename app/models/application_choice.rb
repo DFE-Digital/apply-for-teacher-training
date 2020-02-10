@@ -1,4 +1,6 @@
 class ApplicationChoice < ApplicationRecord
+  include Chased
+
   before_create :set_initial_status
 
   belongs_to :application_form, touch: true

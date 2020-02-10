@@ -264,4 +264,9 @@ FactoryBot.define do
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
   end
+
+  factory :provider_users_provider do
+    provider
+    provider_user
+  end
 end
