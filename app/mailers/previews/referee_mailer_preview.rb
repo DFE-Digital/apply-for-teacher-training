@@ -1,7 +1,7 @@
 class RefereeMailerPreview < ActionMailer::Preview
   def reference_request_email
     preview_with_rollback do
-      application_form = FactoryBot.create(:application_form)
+      application_form = FactoryBot.create(:application_form, first_name: 'Jane', last_name: 'Smith')
       reference = FactoryBot.create(:reference, application_form: application_form)
 
       RefereeMailer.reference_request_email(application_form, reference)
@@ -10,7 +10,7 @@ class RefereeMailerPreview < ActionMailer::Preview
 
   def reference_request_chaser_email
     preview_with_rollback do
-      application_form = FactoryBot.create(:application_form)
+      application_form = FactoryBot.create(:application_form, first_name: 'Jane', last_name: 'Smith')
       reference = FactoryBot.create(:reference, application_form: application_form)
 
       RefereeMailer.reference_request_chaser_email(application_form, reference)
