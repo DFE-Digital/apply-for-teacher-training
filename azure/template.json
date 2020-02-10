@@ -449,9 +449,18 @@
                     },
                     "enableNonSslPort": {
                         "value": true
+                    },
+                    "dataPersistence": {
+                        "value": "aof"
+                    },
+                    "storageConnectionString": {
+                        "value": "[reference('storage-account').outputs.storageConnectionString.value]"
                     }
                 }
-            }
+            },
+            "dependsOn": [
+                "storage-account"
+            ]
         },
         {
             "name": "app-service-plan",
