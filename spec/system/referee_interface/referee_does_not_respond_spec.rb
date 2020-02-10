@@ -24,7 +24,7 @@ RSpec.feature 'Referee does not respond within 5 days', sidekiq: true do
   end
 
   def and_the_referee_does_not_respond_within_5_days
-    Timecop.travel(Time.zone.now + 5.days + 1.second) do
+    Timecop.travel(6.business_days.from_now) do
       SendChaseEmailToRefereesWorker.perform_async
     end
   end
