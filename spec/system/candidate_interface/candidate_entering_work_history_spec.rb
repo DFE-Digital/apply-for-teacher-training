@@ -36,14 +36,14 @@ RSpec.feature 'Entering their work history' do
     when_i_click_on_add_another_job
     and_i_fill_in_the_job_form_with_another_job_with_a_break # 3/2019 - current
     and_i_do_not_fill_in_end_date
-
     then_i_should_see_my_second_job
-
     and_i_should_see_the_length_of_the_gap_in_months # 1 months
-    and_i_should_not_see_0_months_gap
-
     and_i_should_be_asked_to_explain_the_break_in_my_work_history
 
+    when_i_click_add_another_job_for_my_break
+    then_i_should_see_the_start_and_end_date_filled_in
+
+    given_i_am_on_review_work_history_page
     when_i_click_to_enter_break_explanation
     then_i_see_the_work_history_break_form
 
@@ -171,7 +171,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_click_on_add_another_job
-    click_link t('application_form.work_history.add_another_job')
+    all('a', text: 'Add another job')[1].click
   end
 
   def and_i_fill_in_the_job_form
@@ -207,12 +207,23 @@ RSpec.feature 'Entering their work history' do
     expect(page).to have_content('You have a break in your work history (1 month)')
   end
 
-  def and_i_should_not_see_0_months_gap
-    expect(page).not_to have_content('(0 months)')
-  end
-
   def and_i_should_be_asked_to_explain_the_break_in_my_work_history
     expect(page).to have_content(t('application_form.work_history.break.label'))
+  end
+
+  def when_i_click_add_another_job_for_my_break
+    first(:link, t('application_form.work_history.add_another_job')).click
+  end
+
+  def then_i_should_see_the_start_and_end_date_filled_in
+    expect(page).to have_selector("input[value='1']")
+    expect(page).to have_selector("input[value='2019']")
+    expect(page).to have_selector("input[value='3']")
+    expect(page).to have_selector("input[value='2019']")
+  end
+
+  def given_i_am_on_review_work_history_page
+    visit candidate_interface_work_history_show_path
   end
 
   def when_i_click_to_enter_break_explanation

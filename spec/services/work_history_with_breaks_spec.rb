@@ -65,6 +65,8 @@ RSpec.describe WorkHistoryWithBreaks do
         expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
         expect(work_history_with_breaks[1][:type]).to eq(:break_placeholder)
         expect(work_history_with_breaks[1][:entry].length).to eq(1)
+        expect(work_history_with_breaks[1][:entry].start_date).to eq(Date.new(2019, 12, 1))
+        expect(work_history_with_breaks[1][:entry].end_date).to eq(Date.new(2020, 2, 1))
       end
 
       it 'returns an array containing a hash for a job and a break if more than a month break' do

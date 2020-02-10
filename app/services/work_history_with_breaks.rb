@@ -5,7 +5,11 @@ class WorkHistoryWithBreaks
     end
 
     def start_date
-      @month_range.first
+      @month_range.first.prev_month
+    end
+
+    def end_date
+      @month_range.last.next_month
     end
 
     def length

@@ -3,7 +3,19 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_not_amendable
 
     def new
-      @work_experience_form = WorkExperienceForm.new
+      @work_experience_form = if params[:start_date] && params[:end_date]
+                                start_date = params[:start_date].to_date
+                                end_date = params[:end_date].to_date
+
+                                WorkExperienceForm.new(
+                                  start_date_month: start_date.month,
+                                  start_date_year: start_date.year,
+                                  end_date_month: end_date.month,
+                                  end_date_year: end_date.year,
+                                )
+                              else
+                                WorkExperienceForm.new
+                              end
     end
 
     def create
