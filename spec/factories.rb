@@ -233,6 +233,10 @@ FactoryBot.define do
     provider
 
     hashed_token { '1234567890' }
+
+    trait :with_random_token do
+      hashed_token { _unhashed_token, hashed_token = Devise.token_generator.generate(VendorApiToken, :hashed_token); hashed_token }
+    end
   end
 
   factory :reference, class: 'ApplicationReference' do
