@@ -400,13 +400,13 @@ components:
           example: '2019-06-13T23:59:59Z'
         personal_statement:
           type: string
-          maxLength: 11264
+          maxLength: 10240
           description: The candidate’s personal statement, combined from the "Becoming
             a Teacher" and "Subject Knowledge" fields in the application form
           example: Since retiring from the Police Service in 2007...
         interview_preferences:
           type: string
-          maxLength: 2048
+          maxLength: 10240
           description: The candidate’s interview preferences
           example: I can’t come to interview on Thursdays
         candidate:
@@ -439,7 +439,7 @@ components:
           "$ref": "#/components/schemas/HESAITTData"
         further_information:
           type: string
-          maxLength: 3072
+          maxLength: 10240
           nullable: true
           description: Other personal or professional issues relevant to the application
             which are not covered in the form
@@ -498,7 +498,7 @@ components:
           example: true
         english_language_qualifications:
           type: string
-          maxLength: 2048
+          maxLength: 10240
           nullable: true
           description: About this candidate's English language qualifications, if
             English is not their main language
@@ -506,13 +506,13 @@ components:
             of Munich
         other_languages:
           type: string
-          maxLength: 2048
+          maxLength: 10240
           nullable: true
           description: Details of the candidate's fluency in other languages
           example: I am bilingual in Finnish and English
         disability_disclosure:
           type: string
-          maxLength: 4096
+          maxLength: 10240
           nullable: true
           description: Voluntary disclosure of disabliity or SEN so providers can
             provide appropriate support
@@ -618,7 +618,7 @@ components:
           type: array
           items:
             type: string
-            maxLength: 255
+            maxLength: 256
           description: The conditions of the offer
           maxItems: 20
           example:
@@ -636,7 +636,7 @@ components:
           type: array
           items:
             type: string
-            maxLength: 255
+            maxLength: 256
           description: The conditions of the offer
           maxItems: 20
           example:
@@ -665,17 +665,17 @@ components:
           example: 123
         qualification_type:
           type: string
-          maxLength: 255
+          maxLength: 256
           description: The qualification awarded
           example: BA
         subject:
           type: string
           description: The subject studied
-          maxLength: 255
+          maxLength: 256
           example: History and Politics
         grade:
           type: string
-          maxLength: 255
+          maxLength: 256
           description: The grade awarded
           example: '2:1'
         award_year:
@@ -686,20 +686,20 @@ components:
         institution_details:
           type: string
           description: Details about the institution and awarding body
-          maxLength: 255
+          maxLength: 256
           example: University of Huddersfield
           nullable: true
         equivalency_details:
           type: string
           description: Details of equivalency, if this qualification was awarded overseas
           example: Equivalent to GCSE C
-          maxLength: 255
+          maxLength: 256
           nullable: true
         awarding_body:
           type: string
           description: Details about the qualification awarding body
           example: University of Amsterdam
-          maxLength: 255
+          maxLength: 256
           nullable: true
     Reference:
       type: object
@@ -723,12 +723,12 @@ components:
         relationship:
           type: string
           description: The referee’s relationship to the candidate
-          maxLength: 512
+          maxLength: 10240
           example: Julia was my mentor at Cheadle Hulme High
         reference:
           type: string
           description: The reference content provided by the referee.
-          maxLength: 3072
+          maxLength: 10240
           example: Boris is committed to the profession of teaching...
     Rejection:
       type: object
@@ -739,7 +739,7 @@ components:
         reason:
           type: string
           description: The reason for rejection
-          maxLength: 255
+          maxLength: 10240
           example: Does not meet minimum GCSE requirements
     Withdrawal:
       type: object
@@ -751,7 +751,7 @@ components:
         reason:
           type: string
           description: Optional. The candidate’s reason for withdrawing
-          maxLength: 255
+          maxLength: 10240
           nullable: true
           example: Candidate is unwell
         date:
@@ -783,7 +783,7 @@ components:
         missing_gcses_explanation:
           type: string
           nullable: true
-          maxLength: 8192
+          maxLength: 10240
           description: If the candidate lacks any required GCSEs, this field will
             contain their free-text explanation of why this is the case.
           example: 'Maths GCSE or equivalent: I will take Maths GCSE at my local training
@@ -812,7 +812,7 @@ components:
           description: The candidate’s explanation for any breaks in work history.
             Will be null if there aren't any breaks in the candidate’s work history.
             We define a break in work history as more than a month between 2 jobs.
-          maxLength: 4096
+          maxLength: 10240
           example: I spent time volunteering overseas...
     WorkExperience:
       type: object
@@ -834,7 +834,7 @@ components:
         organisation_name:
           type: string
           description: The organisation worked for
-          maxLength: 60
+          maxLength: 256
           example: Cheadle Hulme High School
         start_date:
           type: string
@@ -850,12 +850,12 @@ components:
         role:
           type: string
           description: The position held by the candidate
-          maxLength: 60
+          maxLength: 256
           example: Whole School Literacy Specialist
         description:
           type: string
           description: A written description of the work involved
-          maxLength: 1536
+          maxLength: 10240
           example: I lead, develop and enhance the literacy teaching practice of others...
         working_with_children:
           type: boolean

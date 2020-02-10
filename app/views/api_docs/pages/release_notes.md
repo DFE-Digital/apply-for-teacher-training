@@ -1,3 +1,10 @@
+### 5th February 2020
+
+Field lengths updated:
+
+- free text coming from inline inputs is standardised to 256 chars
+- free text coming from textareas is standardised to 10240 chars (allowing room for over 1000 words)
+
 ### 28th January 2020
 
 New attributes:
