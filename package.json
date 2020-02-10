@@ -6,8 +6,5 @@
     "@ministryofjustice/frontend": "0.0.17-alpha",
     "accessible-autocomplete": "^2.0.2",
     "govuk-frontend": "^3.5.0"
-  },
-  "devDependencies": {
-    "webpack-dev-server": "^3.10.2"
   }
 }
