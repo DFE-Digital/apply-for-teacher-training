@@ -1,6 +1,7 @@
 class MakeAnOffer
   attr_accessor :standard_conditions
   attr_accessor :further_conditions0, :further_conditions1, :further_conditions2, :further_conditions3
+  attr_accessor :auth
 
   include ActiveModel::Validations
 
@@ -12,12 +13,14 @@ class MakeAnOffer
   validate :validate_further_conditions
 
   def initialize(
+    actor:,
     application_choice:,
     offer_conditions: nil,
     standard_conditions: nil,
     further_conditions: {},
     course_data: nil
   )
+    @auth = ProviderAuthorisation.new(actor: actor)
     @application_choice = application_choice
     @offer_conditions = offer_conditions
     @standard_conditions = standard_conditions
@@ -27,6 +30,8 @@ class MakeAnOffer
 
   def save
     return unless valid?
+
+    @auth.assert_can_make_offer! application_choice: application_choice
 
     ApplicationStateChange.new(application_choice).make_offer!
     application_choice.offered_course_option = offered_course_option

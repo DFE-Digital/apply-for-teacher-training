@@ -85,26 +85,30 @@ module TestApplications
     return if state == :awaiting_provider_decision
 
     if state == :offer
-      MakeAnOffer.new(application_choice: choice, offer_conditions: ['Complete DBS']).save
+      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
     elsif state == :rejected
       RejectApplication.new(application_choice: choice, rejection_reason: 'Some').save
     elsif state == :declined
-      MakeAnOffer.new(application_choice: choice, offer_conditions: ['Complete DBS']).save
+      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
       DeclineOffer.new(application_choice: choice).save!
     elsif state == :accepted
-      MakeAnOffer.new(application_choice: choice, offer_conditions: ['Complete DBS']).save
+      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
       AcceptOffer.new(application_choice: choice).save!
     elsif state == :recruited
-      MakeAnOffer.new(application_choice: choice, offer_conditions: ['Complete DBS']).save
+      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
       AcceptOffer.new(application_choice: choice).save!
       ConfirmOfferConditions.new(application_choice: choice).save
     elsif state == :enrolled
-      MakeAnOffer.new(application_choice: choice, offer_conditions: ['Complete DBS']).save
+      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
       AcceptOffer.new(application_choice: choice).save!
       ConfirmOfferConditions.new(application_choice: choice).save
       ConfirmEnrolment.new(application_choice: choice).save
     elsif state == :withdrawn
       WithdrawApplication.new(application_choice: choice).save!
     end
+  end
+
+  def self.actor
+    SupportUser.first_or_initialize
   end
 end

@@ -3,7 +3,12 @@ module VendorApi
     before_action :validate_metadata!
 
     def make_offer
+      api_user = VendorApiUser.find_or_initialize_by(
+        vendor_api_token_id: @current_vendor_api_token.id,
+      )
+
       decision = MakeAnOffer.new(
+        actor: api_user,
         application_choice: application_choice,
         offer_conditions: params.dig(:data, :conditions),
         course_data: params.dig(:data, :course),

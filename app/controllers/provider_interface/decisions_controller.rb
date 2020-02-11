@@ -19,11 +19,15 @@ module ProviderInterface
     end
 
     def new_offer
-      @application_offer = MakeAnOffer.new(application_choice: @application_choice)
+      @application_offer = MakeAnOffer.new(
+        actor: current_provider_user,
+        application_choice: @application_choice,
+      )
     end
 
     def confirm_offer
       @application_offer = MakeAnOffer.new(
+        actor: current_provider_user,
         application_choice: @application_choice,
         standard_conditions: make_an_offer_params[:standard_conditions],
         further_conditions: make_an_offer_params.permit(
@@ -40,6 +44,7 @@ module ProviderInterface
       offer_conditions_array = JSON.parse(params.dig(:offer_conditions))
 
       @application_offer = MakeAnOffer.new(
+        actor: current_provider_user,
         application_choice: @application_choice,
         offer_conditions: offer_conditions_array,
       )
