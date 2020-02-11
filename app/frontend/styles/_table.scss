@@ -1,0 +1,81 @@
+.app-table-sortable-status {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0
+}
+
+[aria-sort] .sort-link,
+[aria-sort] .sort-link:hover {
+  @include govuk-link-style-default;
+  @include govuk-link-style-no-visited-state;
+  text-decoration: none;
+  background-color: transparent;
+  border-width: 0;
+  box-shadow: 0 0 0 0;
+  color: $govuk-link-colour;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  padding: 0 govuk-spacing(3) 0 0;
+  position: relative;
+  text-align: inherit;
+  font-size: 1em;
+  margin: 0;
+}
+
+[aria-sort]:first-child .sort-link {
+  right: auto;
+}
+
+[aria-sort] .sort-link:before {
+  content: " \25bc";
+  position: absolute;
+  top: 10px;
+  font-size: 0.33em;
+}
+
+[aria-sort] .sort-link:before,
+[aria-sort] .sort-link:after {
+  position: absolute;
+}
+
+[aria-sort] .sort-link:after {
+  content: " \25b2";
+  top: 2px;
+  font-size: 0.33em;
+}
+
+[aria-sort="ascending"] .sort-link:before,
+[aria-sort="descending"] .sort-link:before {
+  content: none;
+}
+
+[aria-sort="ascending"] .sort-link:after {
+  content: " \25b2";
+  font-size: 0.67em;
+  top: 4px;
+}
+
+[aria-sort="descending"] .sort-link:after {
+  content: " \25bc";
+  font-size: 0.67em;
+  top: 4px;
+}
+
+[aria-sort="none"] .sort-link:before,
+[aria-sort="none"] .sort-link:after {
+  right: 3px;
+}
+
+[aria-sort="ascending"] .sort-link:before,
+[aria-sort="ascending"] .sort-link:after,
+[aria-sort="descending"] .sort-link:before,
+[aria-sort="descending"] .sort-link:after {
+  right: 0px;
+}

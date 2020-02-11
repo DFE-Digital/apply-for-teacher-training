@@ -9,7 +9,7 @@
         <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Name</th>
         <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Course</th>
         <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Status</th>
-        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Last updated</th>
+        <%= render ProviderInterface::SortableColumnHeadingComponent, sort_order: @sort_order %>
       </tr>
     </thead>
 
