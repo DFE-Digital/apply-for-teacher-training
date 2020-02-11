@@ -12,7 +12,7 @@ RSpec.feature 'An application is waiting for decision for 20 working days' do
     and_an_application_was_sent_to_provider
     and_i_am_a_provider_user_at_the_course_provider
 
-    when_the_application_is_waiting_for_decision_for_20_working_days
+    when_the_application_is_getting_close_to_the_reject_by_default_date
 
     then_i_should_receive_a_chaser_email_with_a_link_to_the_application
   end
@@ -33,8 +33,9 @@ RSpec.feature 'An application is waiting for decision for 20 working days' do
     create(:provider_users_provider, provider_id: provider_id, provider_user_id: @provider_user.id)
   end
 
-  def when_the_application_is_waiting_for_decision_for_20_working_days
-    Timecop.travel(20.business_days.after(Time.zone.now + 5.minutes)) do
+  def when_the_application_is_getting_close_to_the_reject_by_default_date
+    time_limit_in_buiness_days = TimeLimitConfig.limits_for(:chase_provider_before_rbd).first.limit
+    Timecop.travel(time_limit_in_buiness_days.days.before(@submitted_application_choice.reject_by_default_at)) do
       SendChaseEmailToProvidersWorker.perform_async
     end
   end

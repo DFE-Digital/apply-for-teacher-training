@@ -1,10 +1,10 @@
 Dear <%= @application.provider_user_name || 'colleague' %>
 
-# Only <%= TimeLimitConfig.limits_for(:chase_provider_by).first.limit %> working days left to respond
+# Only <%= TimeLimitConfig.limits_for(:chase_provider_before_rbd).first.limit %> working days left to respond
 
 <%= @application.candidate_name %> submitted an application for <%= @application.course_name_and_code %> on <%= @application.submitted_at %>.
 
-Log in to Manage teacher training applications to respond within <%= TimeLimitConfig.limits_for(:chase_provider_by).first.limit %> working days:
+Log in to Manage teacher training applications to respond within <%= TimeLimitConfig.limits_for(:chase_provider_before_rbd).first.limit %> working days:
 
 <%= provider_interface_application_choice_url(@application.application_choice) %>
 

@@ -12,10 +12,13 @@ class SetDeclineByDefault
       application_choices.maximum(:withdrawn_at),
     ].compact.max
 
-    dbd_days, dbd_time = TimeLimitCalculator.new(
+    dbd_time_limit = TimeLimitCalculator.new(
       rule: :decline_by_default,
       effective_date: most_recent_decision_date,
     ).call
+
+    dbd_days = dbd_time_limit[:days]
+    dbd_time = dbd_time_limit[:time_in_future]
 
     application_choices.where(status: 'offer').update_all(
       decline_by_default_at: dbd_time,
