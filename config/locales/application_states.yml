@@ -163,6 +163,8 @@ en:
       name: References are completed
       by: referee
       description: Occurs when 2 referees have provided feedback about the candidate.
+      emails:
+        - referee_mailer-reference_confirmation_email
 
     application_complete-send_to_provider:
       name: Send to provider

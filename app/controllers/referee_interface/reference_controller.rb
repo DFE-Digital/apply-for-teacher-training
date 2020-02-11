@@ -23,6 +23,10 @@ module RefereeInterface
       )
 
       if @reference_form.save
+        if FeatureFlag.active?('send_reference_confirmation_email')
+          SendReferenceConfirmationEmail.call(application_form: @application, reference: reference)
+        end
+
         redirect_to referee_interface_confirmation_path(token: @token_param)
       else
         render :feedback
