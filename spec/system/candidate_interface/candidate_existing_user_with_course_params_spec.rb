@@ -4,7 +4,6 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   include CourseOptionHelpers
   scenario 'retaining their course selection through the sign up process' do
     given_the_pilot_is_open
-    and_confirm_course_choice_from_find_is_activated
     and_i_am_an_existing_candidate_on_apply
     and_i_have_less_than_3_application_options
     and_the_course_i_selected_only_has_one_site
@@ -38,10 +37,6 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     then_i_should_see_the_courses_review_page
     and_my_course_from_find_id_should_be_set_to_nil
     and_i_should_be_informed_i_already_have_3_courses
-  end
-
-  def and_confirm_course_choice_from_find_is_activated
-    FeatureFlag.activate('confirm_course_choice_from_find')
   end
 
   def given_the_pilot_is_open
