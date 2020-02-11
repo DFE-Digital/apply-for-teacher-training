@@ -29,22 +29,25 @@ RSpec.feature 'Docs' do
 
   def and_it_contains_documentation_for_all_emails
     emails_outside_of_states = %w[
-      candidate_mailer-new_referee_request
-      candidate_mailer-survey_chaser_email
-      candidate_mailer-survey_email
-      referee_mailer-survey_chaser_email
-      referee_mailer-survey_email
-      candidate_mailer-reference_chaser_email
-      referee_mailer-reference_request_chaser_email
-
       authentication_mailer-sign_in_email
       authentication_mailer-sign_in_without_account_email
+      candidate_mailer-new_referee_request
+      candidate_mailer-reference_chaser_email
+      candidate_mailer-survey_chaser_email
+      candidate_mailer-survey_email
+      provider_mailer-account_created
+      provider_mailer-chase_provider_decision
+      referee_mailer-reference_request_chaser_email
+      referee_mailer-survey_chaser_email
+      referee_mailer-survey_email
     ]
 
     # extract all the emails that we send into a list of strings like "referee_mailer-reference_request_chaser_email"
-    emails_sent = [CandidateMailer, RefereeMailer, AuthenticationMailer].flat_map { |k| k.public_instance_methods(false).map { |m| "#{k.name.underscore}-#{m}" } }
+    emails_sent = [CandidateMailer, ProviderMailer, RefereeMailer, AuthenticationMailer].flat_map { |k| k.public_instance_methods(false).map { |m| "#{k.name.underscore}-#{m}" } }
+    documented_application_choice_emails = I18n.t('events').flat_map { |_name, attrs| attrs[:emails] }.compact
+    documented_application_form_emails = I18n.t('candidate_flow_events').flat_map { |_name, attrs| attrs[:emails] }.compact
 
-    emails_documented = I18n.t('events').flat_map { |_name, attrs| attrs[:emails] }.compact + I18n.t('candidate_flow_events').flat_map { |_name, attrs| attrs[:emails] }.compact + emails_outside_of_states
+    emails_documented = documented_application_choice_emails + documented_application_form_emails + emails_outside_of_states
 
     expect(emails_documented).to match_array(emails_sent)
   end
