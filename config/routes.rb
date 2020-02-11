@@ -297,6 +297,7 @@ Rails.application.routes.draw do
 
   namespace :integrations, path: '/integrations' do
     post '/notify/callback' => 'notify#callback'
+    get '/feature-flags' => 'feature_flags#index'
   end
 
   namespace :support_interface, path: '/support' do
