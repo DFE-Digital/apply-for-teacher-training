@@ -4,7 +4,6 @@ class FeatureFlag
     training_with_a_disability
     edit_application
     send_reference_email_via_support
-    confirm_course_choice_from_find
     send_dfe_sign_in_invitations
     improved_expired_token_flow
     work_breaks

@@ -7,22 +7,31 @@ module CandidateInterface
       @candidate_already_has_3_courses = false
       @candidate_has_new_course_added = false
       @candidate_should_choose_site = false
-      @candidate_does_not_have_a_course_from_find_id = false
+      @candidate_does_not_have_a_course_from_find = false
     end
 
     def execute
+      if !has_course_from_find?
+        @candidate_does_not_have_a_course_from_find = true
+        return
+      end
+
+      if candidate.current_application.submitted?
+        # TODO: return a proper status for this case
+        @candidate_does_not_have_a_course_from_find = true
+        return
+      end
+
       if candidate_already_has_3_courses
         set_course_from_find_id_to_nil
         @candidate_already_has_3_courses = true
-      elsif has_course_from_find? && course_has_one_site?
+      elsif course_has_one_site?
         add_application_choice
         set_course_from_find_id_to_nil
         @candidate_has_new_course_added = true
-      elsif has_course_from_find?
+      else
         set_course_from_find_id_to_nil
         @candidate_should_choose_site = true
-      else
-        @candidate_does_not_have_a_course_from_find_id = true
       end
     end
 
@@ -38,8 +47,8 @@ module CandidateInterface
       @candidate_should_choose_site
     end
 
-    def candidate_does_not_have_a_course_from_find_id?
-      @candidate_does_not_have_a_course_from_find_id
+    def candidate_does_not_have_a_course_from_find?
+      @candidate_does_not_have_a_course_from_find
     end
 
   private

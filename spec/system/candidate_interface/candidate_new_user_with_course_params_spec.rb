@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe 'A new candidate arriving from Find with a course and provider code' do
   scenario 'retaining their course selection through the sign up process' do
     given_the_pilot_is_open
-    and_confirm_course_choice_from_find_is_activated
     and_the_course_i_selected_only_has_one_site
 
     when_i_arrive_from_find_to_a_course_that_is_open_on_apply
@@ -28,10 +27,6 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
     and_i_see_the_form_to_pick_a_location
     and_my_course_from_find_id_should_be_set_to_nil
     and_my_last_signed_in_at_should_be_now
-  end
-
-  def and_confirm_course_choice_from_find_is_activated
-    FeatureFlag.activate('confirm_course_choice_from_find')
   end
 
   def given_the_pilot_is_open
