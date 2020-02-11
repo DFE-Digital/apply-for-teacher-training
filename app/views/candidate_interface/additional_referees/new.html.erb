@@ -1,4 +1,4 @@
-<% content_for :title, title_with_error_prefix('Add a new referee', @reference.errors.any?) %>
+<% content_for :title, title_with_error_prefix(@page_title, @reference.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back') %>
 
 <div class="govuk-grid-row">
@@ -7,7 +7,7 @@
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">
-        Add a new referee
+        <%= @page_title %>
       </h1>
 
       <p class="govuk-body">Contact your referee in advance to check they are:</p>
