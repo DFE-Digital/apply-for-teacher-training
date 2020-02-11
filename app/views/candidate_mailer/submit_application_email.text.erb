@@ -2,7 +2,7 @@ Dear <%= @application_form.first_name %>,
 
 # Application submitted
 
-You have successfully submitted an application for:
+You have submitted an application for:
 
 <% @application_form.application_choices.each do |application_choice| %>
 * <%= application_choice.provider.name %> - <%= application_choice.course.name %> (<%= application_choice.course.code %>)
@@ -25,12 +25,10 @@ You can track the progress of your <%= 'application'.pluralize(@application_form
 
   We’ll pass any changes on to the training <%= 'provider'.pluralize(@application_form.application_choices.count) %>.
 <% else %>
-  Get in touch with us as soon as possible if you need to make any amends, as we only have 5 working days to make changes.
+  Get in touch with us as soon as possible if you need to make any amends, as we only have <%= TimeLimitConfig.limits_for(:edit_by).first.limit %> working days to make changes.
 
-  For example, you can add more courses (if you haven’t reached your limit of 3) or change your course choices.
-
-  Once we’ve processed your request, we won’t be able to make any more changes for you.
-
+  Once we’ve processed your request, you can’t make any more changes.
+  
   However, you can ask us to update your name or contact details at any point up until enrolment.
 
   Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) if you need to make changes.
@@ -46,7 +44,7 @@ Sign in to your account and click ‘withdraw’ next to the course(s) you want 
 
 # References
 
-We’ve contacted your referees. If we don’t hear back from them within 10 days, or they choose not to give a reference, we’ll ask you for a replacement.
+We’ve contacted your referees. If we don’t get a reference from them within <%= TimeLimitConfig.limits_for(:replace_referee_by).first.limit %> days we’ll ask you for a replacement.
 
 Your application won’t be sent to your provider until your references are in.
 
@@ -56,7 +54,7 @@ If your training provider decides to progress your application, they’ll contac
 
 They should make a decision on whether to make an offer within <%= TimeLimitConfig.limits_for(:reject_by_default).first.limit %> working days of receiving your application.
 
-# Need help with your teacher training application?
+# Need help?
 
 Contact the team on [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
 
