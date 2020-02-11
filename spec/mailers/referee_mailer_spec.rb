@@ -125,4 +125,32 @@ RSpec.describe RefereeMailer, type: :mailer do
       end
     end
   end
+
+  describe 'Send reference confirmation email' do
+    let(:reference) { build_stubbed(:reference) }
+    let(:application_form) do
+      build_stubbed(
+        :application_form,
+        first_name: 'Elliot',
+        last_name: 'Alderson',
+        application_references: [reference],
+      )
+    end
+
+    let(:mail) { mailer.reference_confirmation_email(application_form, reference) }
+
+    before { mail.deliver_later }
+
+    it 'sends an email to the provided referee' do
+      expect(mail.to).to include(reference.email_address)
+    end
+
+    it 'sends an email with the correct subject' do
+      expect(mail.subject).to include(t('reference_confirmation_email.subject', candidate_name: 'Elliot Alderson'))
+    end
+
+    it 'sends an email with the correct heading' do
+      expect(mail.body.encoded).to include("Dear #{reference.name}")
+    end
+  end
 end

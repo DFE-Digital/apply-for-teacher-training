@@ -44,6 +44,15 @@ class RefereeMailer < ApplicationMailer
               template_name: 'chaser')
   end
 
+  def reference_confirmation_email(application_form, reference)
+    @name = reference.name
+    @candidate_name = application_form.full_name
+
+    view_mail(GENERIC_NOTIFY_TEMPLATE,
+              to: reference.email_address,
+              subject: t('reference_confirmation_email.subject', candidate_name: @candidate_name))
+  end
+
 private
 
   def google_form_url_for(candidate_name, reference)
