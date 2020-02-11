@@ -1,5 +1,7 @@
 module Integrations
   class NotifyController < IntegrationsController
+    include ActionController::HttpAuthentication::Token::ControllerMethods
+
     rescue_from ActionController::ParameterMissing, with: :render_unprocessable_entity
 
     def callback
@@ -39,6 +41,14 @@ module Integrations
         name: 'NotFound',
         message: "Could not find a reference with ID: #{reference_id}",
         status: :not_found,
+      )
+    end
+
+    def render_unauthorized
+      render_error(
+        name: 'Unauthorized',
+        message: 'Please provide a valid authentication token',
+        status: :unauthorized,
       )
     end
   end
