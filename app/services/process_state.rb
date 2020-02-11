@@ -63,10 +63,8 @@ class ProcessState
   def state
     if application_form.nil?
       :never_signed_in
-    elsif application_choices.empty?
-      :unsubmitted
-    elsif all_states_are?('unsubmitted')
-      :unsubmitted
+    elsif application_choices.empty? || all_states_are?('unsubmitted')
+      unchanged?(application_form) ? :unsubmitted_not_started_form : :unsubmitted_in_progress
     elsif any_state_is?('awaiting_references')
       :awaiting_references
     elsif any_state_is?('application_complete')
@@ -112,5 +110,9 @@ private
 
   def any_state_is?(state)
     states.include?(state)
+  end
+
+  def unchanged?(application_form)
+    application_form.created_at.to_i == application_form.updated_at.to_i
   end
 end
