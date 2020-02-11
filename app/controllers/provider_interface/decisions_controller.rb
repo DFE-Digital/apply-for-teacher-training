@@ -1,6 +1,7 @@
 module ProviderInterface
   class DecisionsController < ProviderInterfaceController
     before_action :set_application_choice
+    before_action :requires_provider_change_response_feature_flag, only: %i[new_edit_response edit_response new_withdraw_offer confirm_withdraw_offer withdraw_offer]
 
     def respond
       @pick_response_form = PickResponseForm.new
@@ -85,8 +86,6 @@ module ProviderInterface
     end
 
     def edit_response
-      raise unless FeatureFlag.active?('provider_change_response')
-
       @edit_response = EditResponseForm.new(
         edit_response_type: params.dig(:provider_interface_edit_response_form, :edit_response_type),
       )
@@ -113,8 +112,6 @@ module ProviderInterface
     end
 
     def withdraw_offer
-      raise unless FeatureFlag.active?('provider_change_response')
-
       @withdraw_offer = WithdrawOfferForm.new(
         reason: params.dig(:provider_interface_withdraw_offer_form, :reason),
       )
@@ -132,6 +129,10 @@ module ProviderInterface
     end
 
   private
+
+    def requires_provider_change_response_feature_flag
+      raise unless FeatureFlag.active?('provider_change_response')
+    end
 
     def set_application_choice
       @application_choice = GetApplicationChoicesForProviders.call(providers: current_provider_user.providers)
