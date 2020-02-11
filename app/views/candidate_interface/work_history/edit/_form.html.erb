@@ -9,7 +9,7 @@
 
 <%= f.govuk_text_field :role, label: { text: t('application_form.work_history.role.label'), size: 'm' } %>
 
-<%= f.govuk_text_field :organisation, label: { text: t('application_form.work_history.organisation.label'), size: 'm' } %>
+<%= f.govuk_text_field :organisation, label: { text: t('application_form.work_history.organisation.label'), size: 'm' }, hint_text: 'If you worked for yourself, enter ‘self-employed’. Include the name of your company if you had one.' %>
 
 <%= f.govuk_radio_buttons_fieldset :commitment, legend: { text: 'Was this job full-time or part-time?', tag: 'span' } do %>
   <%= f.govuk_radio_button :commitment, 'full_time', label: { text: 'Full-time' }, link_errors: true %>
