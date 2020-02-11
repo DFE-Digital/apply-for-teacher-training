@@ -99,12 +99,15 @@ module ProviderInterface
     end
 
     def new_withdraw_offer
-      @withdraw_offer = WithdrawOfferForm.new
+      @withdraw_offer = WithdrawOffer.new(
+        application_choice: @application_choice,
+      )
     end
 
     def confirm_withdraw_offer
-      @withdraw_offer = WithdrawOfferForm.new(
-        reason: params.dig(:provider_interface_withdraw_offer_form, :reason),
+      @withdraw_offer = WithdrawOffer.new(
+        application_choice: @application_choice,
+        offer_withdrawal_reason: params.dig(:withdraw_offer, :offer_withdrawal_reason),
       )
       if !@withdraw_offer.valid?
         render action: :new_withdraw_offer
@@ -112,13 +115,11 @@ module ProviderInterface
     end
 
     def withdraw_offer
-      @withdraw_offer = WithdrawOfferForm.new(
-        reason: params.dig(:provider_interface_withdraw_offer_form, :reason),
-      )
-      if WithdrawOffer.new(
+      @withdraw_offer = WithdrawOffer.new(
         application_choice: @application_choice,
-        offer_withdrawal_reason: @withdraw_offer.reason,
-      ).save
+        offer_withdrawal_reason: params.dig(:withdraw_offer, :offer_withdrawal_reason),
+      )
+      if @withdraw_offer.save
         flash[:success] = 'Application status changed to ‘Offer withdrawn’'
         redirect_to provider_interface_application_choice_path(
           application_choice_id: @application_choice.id,

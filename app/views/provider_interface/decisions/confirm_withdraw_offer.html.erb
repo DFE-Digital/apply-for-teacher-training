@@ -20,12 +20,12 @@
 
   <h2 class="govuk-heading-m">Reasons for withdrawal</h2>
   <%= render SummaryListComponent, rows: [
-    { key: 'Reasons for withdrawal', value: @withdraw_offer.reason },
+    { key: 'Reasons for withdrawal', value: @withdraw_offer.offer_withdrawal_reason },
   ] %>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <%= f.hidden_field :reason %>
+      <%= f.hidden_field :offer_withdrawal_reason %>
       <%= f.govuk_submit 'Yes I\'m sure - withdraw offer', warning: true %>
 
       <p class="govuk-body">

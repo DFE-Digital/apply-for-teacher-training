@@ -74,7 +74,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def when_i_enter_reasons
-    fill_in('provider_interface_withdraw_offer_form[reason]', with: 'We are very sorry but...')
+    fill_in('withdraw_offer[offer_withdrawal_reason]', with: 'We are very sorry but...')
   end
 
   def and_i_click_to_continue
@@ -89,7 +89,7 @@ RSpec.feature 'Provider makes an offer' do
     )
     expect(page).to have_content 'Are you sure you want to withdraw this offer?'
     expect(page).to have_content 'We are very sorry but...'
-    expect(find('#provider_interface_withdraw_offer_form_reason', visible: false).value).to eq 'We are very sorry but...'
+    expect(find('#withdraw_offer_offer_withdrawal_reason', visible: false).value).to eq 'We are very sorry but...'
   end
 
   def when_i_confirm_withdrawal_of_the_offer
