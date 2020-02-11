@@ -23,6 +23,7 @@ RSpec.feature 'Entering their work history' do
     and_i_should_see_the_incorrect_date_values
 
     when_i_fill_in_the_job_form
+    and_i_choose_no_to_adding_another_job
     then_i_should_see_my_completed_job
 
     when_i_click_on_delete_entry
@@ -31,11 +32,12 @@ RSpec.feature 'Entering their work history' do
 
     when_i_click_on_add_job
     and_i_fill_in_the_job_form # 5/2014 - 1/2019
-    then_i_should_see_my_completed_job
+    and_i_choose_yes_to_adding_another_job
+    then_i_should_see_the_job_form
 
-    when_i_click_on_add_another_job
-    and_i_fill_in_the_job_form_with_another_job_with_a_break # 3/2019 - current
+    when_i_fill_in_the_job_form_with_another_job_with_a_break # 3/2019 - current
     and_i_do_not_fill_in_end_date
+    and_i_choose_no_to_adding_another_job
     then_i_should_see_my_second_job
     and_i_should_see_the_length_of_the_gap_in_months # 1 months
     and_i_should_be_asked_to_explain_the_break_in_my_work_history
@@ -145,6 +147,16 @@ RSpec.feature 'Entering their work history' do
     fill_in t('details.label', scope: scope), with: 'I gained exposure to breakthrough technologies and questionable business ethics'
 
     choose 'No'
+  end
+
+  def and_i_choose_no_to_adding_another_job
+    choose 'No, I’ve completed my work history'
+
+    click_button t('application_form.work_history.complete_form_button')
+  end
+
+  def and_i_choose_yes_to_adding_another_job
+    choose 'Yes, I want to add another job'
 
     click_button t('application_form.work_history.complete_form_button')
   end
@@ -178,7 +190,7 @@ RSpec.feature 'Entering their work history' do
     when_i_fill_in_the_job_form
   end
 
-  def and_i_fill_in_the_job_form_with_another_job_with_a_break
+  def when_i_fill_in_the_job_form_with_another_job_with_a_break
     scope = 'application_form.work_history'
     fill_in t('role.label', scope: scope), with: 'Chief of Xenomorph Procurement and Research'
     fill_in t('organisation.label', scope: scope), with: 'Weyland-Yutani'
@@ -193,8 +205,6 @@ RSpec.feature 'Entering their work history' do
     fill_in t('details.label', scope: scope), with: 'Gimme Xenomorphs.'
 
     choose 'No'
-
-    click_button t('application_form.work_history.complete_form_button')
   end
 
   def and_i_do_not_fill_in_end_date; end

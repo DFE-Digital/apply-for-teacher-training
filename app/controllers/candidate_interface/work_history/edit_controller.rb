@@ -12,9 +12,10 @@ module CandidateInterface
                                   start_date_year: start_date.year,
                                   end_date_month: end_date.month,
                                   end_date_year: end_date.year,
+                                  add_another_job: true,
                                 )
                               else
-                                WorkExperienceForm.new
+                                WorkExperienceForm.new(add_another_job: true)
                               end
     end
 
@@ -22,7 +23,11 @@ module CandidateInterface
       @work_experience_form = WorkExperienceForm.new(work_experience_form_params)
 
       if @work_experience_form.save(current_application)
-        redirect_to candidate_interface_work_history_show_path
+        if @work_experience_form.add_another_job == 'true'
+          redirect_to candidate_interface_work_history_new_path
+        else
+          redirect_to candidate_interface_work_history_show_path
+        end
       else
         render :new
       end
@@ -32,6 +37,7 @@ module CandidateInterface
       work_experience = current_application
         .application_work_experiences.find(work_experience_params[:id])
       @work_experience_form = WorkExperienceForm.build_from_experience(work_experience)
+      @work_experience_form.add_another_job = false
     end
 
     def update
@@ -54,7 +60,7 @@ module CandidateInterface
         .permit(
           :role, :organisation, :details, :working_with_children, :commitment,
           :working_pattern, :"start_date(3i)", :"start_date(2i)", :"start_date(1i)",
-          :"end_date(3i)", :"end_date(2i)", :"end_date(1i)"
+          :"end_date(3i)", :"end_date(2i)", :"end_date(1i)", :add_another_job
         )
           .transform_keys { |key| start_date_field_to_attribute(key) }
           .transform_keys { |key| end_date_field_to_attribute(key) }
