@@ -1,5 +1,7 @@
 <% content_for :title, t('page_titles.application_dashboard') %>
 
+<%= render CandidateInterface::NewReferencesNeededComponent, application_form: @application_form %>
+
 <h1 class="govuk-heading-xl govuk-heading-xl govuk-!-margin-bottom-2">
   <%= t('page_titles.application_dashboard') %>
 </h1>

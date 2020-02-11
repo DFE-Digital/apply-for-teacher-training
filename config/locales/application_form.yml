@@ -304,6 +304,10 @@ en:
         - (should never appear)
         - First referee
         - Second referee
+        - Third referee
+        - Fourth referee
+        - Fifth referee
+        - Sixth referee
       chase: Chase this referee and notify the candidate
       confirm_chase: Are you sure you want to send emails to chase the referee?
       chase_button: Yes - send the email

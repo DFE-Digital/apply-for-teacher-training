@@ -1,0 +1,39 @@
+<% content_for :title, 'Check your referee’s details before confirming' %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_edit_additional_referee_path(@references.last), 'Back to application') %>
+
+<h1 class="govuk-heading-xl">
+  Check your referee’s details before confirming
+</h1>
+
+<% @references.each_with_index do |reference, i| %>
+  <%= render SummaryCardComponent, editable: true, border: true, rows: [
+      {
+        key: 'Name',
+        value: reference.name,
+        action: "name for #{reference.name}",
+        change_path: candidate_interface_edit_additional_referee_path(reference),
+      },
+      {
+        key: 'Email address',
+        value: reference.email_address,
+        action: "email address for #{reference.name}",
+        change_path: candidate_interface_edit_additional_referee_path(reference),
+      },
+      {
+        key: 'Relationship',
+        value: reference.relationship,
+        action: "relationship for #{reference.name}",
+        change_path: candidate_interface_edit_additional_referee_path(reference),
+      },
+    ] do %>
+    <%= render SummaryCardHeaderComponent, title: reference.name %>
+  <% end %>
+<% end %>
+
+<p class='govuk-body'>
+  We’ll contact your <%= 'referee'.pluralize(@references.size) %> immediately.
+</p>
+
+<%= form_with model: @reference, url: candidate_interface_confirm_additional_referees_path do |f| %>
+  <%= f.govuk_submit "Confirm new #{'referee'.pluralize(@references.size)}" %>
+<% end %>

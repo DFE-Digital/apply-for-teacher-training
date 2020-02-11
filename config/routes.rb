@@ -227,6 +227,17 @@ Rails.application.routes.draw do
         get '/delete/:id' => 'referees#confirm_destroy', as: :confirm_destroy_referee
         delete '/delete/:id' => 'referees#destroy', as: :destroy_referee
       end
+
+      scope '/new-referee' do
+        get '/' => 'additional_referees#new', as: :new_additional_referee
+        post '/' => 'additional_referees#create'
+
+        get '/:application_reference_id/edit' => 'additional_referees#edit', as: :edit_additional_referee
+        patch '/:application_reference_id/edit' => 'additional_referees#update'
+
+        get '/confirm' => 'additional_referees#confirm', as: :confirm_additional_referees
+        post '/confirm' => 'additional_referees#request_references'
+      end
     end
   end
 
