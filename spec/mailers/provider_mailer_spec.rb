@@ -9,6 +9,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   let(:application_choice) do
     build_stubbed(:submitted_application_choice,
                   course_option: course_option,
+                  reject_by_default_days: 123,
                   application_form:
                     build_stubbed(
                       :completed_application_form,
@@ -58,6 +59,10 @@ RSpec.describe ProviderMailer, type: :mailer do
     it 'includes the course details' do
       expect(@mail.body.encoded).to include(application_choice.course.name)
       expect(@mail.body.encoded).to include(application_choice.course.code)
+    end
+
+    it 'includes the reject by default days' do
+      expect(@mail.body.encoded).to include('after 123 working days')
     end
 
     it 'includes a link to the application' do
