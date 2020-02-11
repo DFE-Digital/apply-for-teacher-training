@@ -9,9 +9,12 @@ en:
     never_signed_in:
       name: Never signed in
       description: The candidate has signed up but never signed into the service
-    unsubmitted:
-      name: Unsubmitted
-      description: The candidate hasn’t submitted the form yet
+    unsubmitted_not_started_form:
+      name: Haven’t started form
+      description: The candidate has signed in but hasn’t edited the form yet
+    unsubmitted_in_progress:
+      name: Form started but unsubmitted
+      description: The candidate has started editing but hasn’t submitted the form yet
     awaiting_references:
       name: Awaiting references
       description: The candidate has submitted the form. We’ve asked their references for feedback, and are still waiting on one or more of those.
@@ -277,7 +280,12 @@ en:
       by: candidate
       description: ''
 
-    unsubmitted-submit:
+    unsubmitted_not_started_form-edit_form:
+      name: Edit form
+      by: candidate
+      description: ''
+
+    unsubmitted_in_progress-submit:
       name: Submit
       by: candidate
       description: ''
