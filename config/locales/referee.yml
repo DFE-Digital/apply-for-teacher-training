@@ -19,3 +19,5 @@ en:
     availibility: Please let us know when you’re available and give a phone number
     not_consent_to_be_contacted: No, do not contact me
     confirm: Finish
+  reference_confirmation_email:
+    subject: Reference submitted for %{candidate_name}

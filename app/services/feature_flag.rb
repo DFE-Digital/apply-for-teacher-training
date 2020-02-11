@@ -13,6 +13,7 @@ class FeatureFlag
     automated_referee_chaser
     automated_provider_chaser
     provider_change_response
+    send_reference_confirmation_email
   ].freeze
 
   def self.activate(feature_name)
