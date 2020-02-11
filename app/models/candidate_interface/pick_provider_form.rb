@@ -6,7 +6,7 @@ module CandidateInterface
     validates :code, presence: true
 
     def other?
-      code == 'other'
+      Course.exposed_in_find.pluck(:provider_id).exclude?(Provider.find_by(code: code).id)
     end
 
     def available_providers
