@@ -25,6 +25,57 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
       expect(result.css('.govuk-summary-list__value').to_html).to include(first_referee.email_address)
     end
 
+    it 'renders component with correct value for status for unrequested reference' do
+      application_form.update_column(:submitted_at, nil)
+      result = render_inline(described_class, application_form: application_form)
+
+      expect(result.css('.govuk-summary-list__key').text).not_to include('Status')
+    end
+
+    it 'renders component with correct value for status for given reference' do
+      first_referee = application_form.application_references.first
+      first_referee.update_column(:feedback_status, 'feedback_provided')
+      result = render_inline(described_class, application_form: application_form)
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-tag.app-tag.app-tag--green').to_html).to include('Reference given')
+    end
+
+    it 'renders component with correct value for status for declined reference' do
+      first_referee = application_form.application_references.first
+      first_referee.update_column(:feedback_status, 'feedback_refused')
+      result = render_inline(described_class, application_form: application_form)
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-tag.app-tag.app-tag--red').to_html).to include('Declined')
+    end
+
+    it 'renders component with correct value for status for (non-expired) request reference' do
+      first_referee = application_form.application_references.first
+      first_referee.update_columns(
+        feedback_status: 'feedback_requested',
+        requested_at: 9.business_days.ago,
+        created_at: 9.business_days.ago,
+      )
+      result = render_inline(described_class, application_form: application_form)
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-tag.app-tag.app-tag--blue').to_html).to include('Awaiting response')
+    end
+
+    it 'renders component with correct value for status for expired reference request' do
+      first_referee = application_form.application_references.first
+      first_referee.update_columns(
+        feedback_status: 'feedback_requested',
+        requested_at: 11.business_days.ago,
+        created_at: 11.business_days.ago,
+      )
+      result = render_inline(described_class, application_form: application_form)
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-tag.app-tag.app-tag--red').to_html).to include('Response overdue')
+    end
+
     it 'renders component along with a delete link for each referee' do
       referee_id = application_form.application_references.first.id
       result = render_inline(described_class, application_form: application_form)

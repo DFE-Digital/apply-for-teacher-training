@@ -10,11 +10,12 @@ module CandidateInterface
       @missing_error = missing_error
     end
 
-    def referee_rows(work)
+    def referee_rows(referee)
       [
-        name_row(work),
-        email_row(work),
-        relationship_row(work),
+        name_row(referee),
+        email_row(referee),
+        relationship_row(referee),
+        feedback_status_row(referee),
       ]
         .compact
     end
@@ -56,6 +57,44 @@ module CandidateInterface
         action: "relationship for #{referee.name}",
         change_path: candidate_interface_edit_referee_path(referee.id),
       }
+    end
+
+    def feedback_status_row(referee)
+      return nil unless show_status?(referee)
+
+      {
+        key: 'Status',
+        value: feedback_status_label(referee),
+      }
+    end
+
+    def show_status?(referee)
+      referee.application_form.submitted?
+    end
+
+    def feedback_status_label(reference)
+      render(
+        TagComponent,
+        text: feedback_status_text(reference),
+        type: feedback_status_colour(reference),
+      )
+    end
+
+    def feedback_status_text(reference)
+      return t('candidate_reference_status.feedback_overdue') if reference.feedback_overdue?
+
+      t("candidate_reference_status.#{reference.feedback_status}")
+    end
+
+    def feedback_status_colour(reference)
+      case reference.feedback_status
+      when 'not_requested_yet', 'feedback_requested'
+        reference.feedback_overdue? ? :red : :blue
+      when 'feedback_provided'
+        :green
+      when 'feedback_refused', 'feedback_overdue', 'email_bounced'
+        :red
+      end
     end
   end
 end

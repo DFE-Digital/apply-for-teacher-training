@@ -37,6 +37,7 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
     and_i_can_submit_the_application
 
     i_see_that_the_application_was_sent_to_provider
+    and_i_see_that_references_are_given
   end
 
   def given_i_am_signed_in
@@ -85,5 +86,9 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
   def i_see_that_the_application_was_sent_to_provider
     visit candidate_interface_application_complete_path
     expect(page).to have_content('Status Pending')
+  end
+
+  def and_i_see_that_references_are_given
+    expect(page).to have_content('Reference given')
   end
 end
