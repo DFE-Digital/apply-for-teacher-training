@@ -50,12 +50,12 @@ class ApplicationReference < ApplicationRecord
   def chase_referee_at
     return unless requested_at
 
-    TimeLimitCalculator.new(rule: :chase_referee_by, effective_date: requested_at).call.second
+    TimeLimitCalculator.new(rule: :chase_referee_by, effective_date: requested_at).call[:time_in_future]
   end
 
   def replace_referee_at
     return unless requested_at
 
-    TimeLimitCalculator.new(rule: :replace_referee_by, effective_date: requested_at).call.second
+    TimeLimitCalculator.new(rule: :replace_referee_by, effective_date: requested_at).call[:time_in_future]
   end
 end
