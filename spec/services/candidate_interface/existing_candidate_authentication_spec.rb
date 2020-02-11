@@ -8,7 +8,7 @@ RSpec.describe CandidateInterface::ExistingCandidateAuthentication do
       it 'sets the candidates course_from_find_id to nil and sets candidate_already_has_3_courses to true' do
         new_course = create(:course)
         candidate = create(:candidate, course_from_find_id: new_course.id)
-        create(:completed_application_form, candidate: candidate, application_choices_count: 3)
+        create_list(:application_choice, 3, application_form: create(:application_form, candidate: candidate))
 
         service = described_class.new(candidate: candidate)
         service.execute
@@ -27,7 +27,7 @@ RSpec.describe CandidateInterface::ExistingCandidateAuthentication do
         service = described_class.new(candidate: candidate)
         service.execute
 
-        expect(service.candidate_does_not_have_a_course_from_find?).to eql(true)
+        expect(service.candidate_does_not_have_a_course_from_find?).to be(true)
       end
     end
 

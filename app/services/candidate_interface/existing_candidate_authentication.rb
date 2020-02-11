@@ -16,6 +16,12 @@ module CandidateInterface
         return
       end
 
+      if candidate.current_application.submitted?
+        # TODO: return a proper status for this case
+        @candidate_does_not_have_a_course_from_find = true
+        return
+      end
+
       if candidate_already_has_3_courses
         set_course_from_find_id_to_nil
         @candidate_already_has_3_courses = true
