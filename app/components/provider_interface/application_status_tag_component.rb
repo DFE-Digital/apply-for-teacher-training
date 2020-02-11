@@ -1,18 +1,20 @@
 module ProviderInterface
   class ApplicationStatusTagComponent < ActionView::Component::Base
     validates :application_choice, presence: true
-    delegate :application_status, to: :application_choice
+    delegate :status, to: :application_choice
 
     def initialize(application_choice:)
       @application_choice = application_choice
     end
 
     def text
-      I18n.t!("provider_application_states.#{application_status}")
+      return t('provider_application_states.offer_withdrawn') if application_choice.offer_withdrawn?
+
+      I18n.t!("provider_application_states.#{status}")
     end
 
     def type
-      case application_status
+      case status
       when 'awaiting_provider_decision'
         :purple
       when 'offer'
@@ -21,7 +23,7 @@ module ProviderInterface
         :red
       when 'pending_conditions'
         :turquoise
-      when 'declined', 'offer_withdrawn'
+      when 'declined'
         :orange
       when 'enrolled'
         :blue
