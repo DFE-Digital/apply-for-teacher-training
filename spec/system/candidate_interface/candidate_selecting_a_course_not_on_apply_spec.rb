@@ -11,6 +11,10 @@ RSpec.feature 'Selecting a course not on Apply' do
     and_i_click_on_course_choices
     and_i_click_on_add_course
     and_i_choose_that_i_know_where_i_want_to_apply
+    and_i_choose_a_provider_without_a_course
+    then_i_see_that_i_should_apply_on_ucas
+
+    when_i_click_on_back
     and_i_choose_a_provider
     and_i_choose_another_course
     then_i_see_that_i_should_apply_on_ucas
@@ -33,6 +37,7 @@ RSpec.feature 'Selecting a course not on Apply' do
     course2 = create(:course, name: 'Secondary', code: 'X123', provider: provider, exposed_in_find: true, open_on_apply: false)
     create(:course_option, site: site, course: course1, vacancy_status: 'B')
     create(:course_option, site: site, course: course2, vacancy_status: 'B')
+    create(:provider, name: 'Provider with no courses', code: 'FAKE')
   end
 
   def and_i_click_on_course_choices
@@ -48,8 +53,17 @@ RSpec.feature 'Selecting a course not on Apply' do
     click_button 'Continue'
   end
 
+  def and_i_choose_a_provider_without_a_course
+    select 'Provider with no courses (FAKE)'
+    click_button 'Continue'
+  end
+
   def then_i_see_that_i_should_apply_on_ucas
     expect(page).to have_content(t('page_titles.not_eligible_yet'))
+  end
+
+  def when_i_click_on_back
+    click_link 'Back'
   end
 
   def and_i_choose_a_provider

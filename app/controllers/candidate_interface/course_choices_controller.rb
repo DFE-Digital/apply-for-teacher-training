@@ -34,7 +34,6 @@ module CandidateInterface
 
     def pick_provider
       @pick_provider = PickProviderForm.new(code: params.dig(:candidate_interface_pick_provider_form, :code))
-
       if !@pick_provider.valid?
         render :options_for_provider
       elsif @pick_provider.other?
