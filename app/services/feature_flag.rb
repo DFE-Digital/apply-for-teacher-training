@@ -10,6 +10,7 @@ class FeatureFlag
     work_breaks
     experimental_api_features
     confirm_conditions
+    show_new_referee_needed
     automated_referee_chaser
     automated_provider_chaser
     provider_change_response

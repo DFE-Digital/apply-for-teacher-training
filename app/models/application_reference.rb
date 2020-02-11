@@ -58,4 +58,11 @@ class ApplicationReference < ApplicationRecord
 
     TimeLimitCalculator.new(rule: :replace_referee_by, effective_date: requested_at).call[:time_in_future]
   end
+
+  def feedback_overdue?
+    return unless replace_referee_at
+    return unless feedback_requested?
+
+    replace_referee_at < Time.zone.now
+  end
 end

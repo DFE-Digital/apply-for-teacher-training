@@ -54,7 +54,7 @@ FactoryBot.define do
         work_experiences_count { 0 }
         volunteering_experiences_count { 0 }
         references_count { 0 }
-        references_state { :unsubmitted }
+        references_state { :requested }
         with_gces { false }
       end
 
@@ -243,12 +243,32 @@ FactoryBot.define do
     questionnaire { nil }
 
     trait :unsubmitted do
+      feedback_status { 'not_requested_yet' }
       feedback { nil }
+    end
+
+    trait :refused do
+      feedback_status { 'feedback_refused' }
+      feedback { nil }
+      requested_at { Time.zone.now }
+    end
+
+    trait :email_bounced do
+      feedback_status { 'email_bounced' }
+      feedback { nil }
+      requested_at { Time.zone.now }
+    end
+
+    trait :requested do
+      feedback_status { 'feedback_requested' }
+      feedback { nil }
+      requested_at { Time.zone.now }
     end
 
     trait :complete do
       feedback_status { 'feedback_provided' }
       feedback { Faker::Lorem.paragraph(sentence_count: 10) }
+      requested_at { Time.zone.now }
       questionnaire { Faker::Json.shallow_json }
     end
   end

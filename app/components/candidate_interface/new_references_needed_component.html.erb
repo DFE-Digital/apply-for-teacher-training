@@ -1,0 +1,11 @@
+<div class="app-banner app-banner--info" aria-labelledby="info-message">
+  <div class="app-banner__message">
+    <h2 class="govuk-heading-m" id="info-message">
+      <% if reference_status.number_of_references_that_currently_need_replacing == 1 %>
+        You need to <%= govuk_link_to 'give details of a new referee', candidate_interface_new_additional_referee_path %>
+      <% else %>
+        You need to <%= govuk_link_to 'give details of 2 new referees', candidate_interface_new_additional_referee_path %>
+      <% end %>
+    </h2>
+  </div>
+</div>
