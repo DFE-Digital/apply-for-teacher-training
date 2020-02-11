@@ -53,4 +53,12 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data/generate', type: :request do
 
     expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
   end
+
+  it 'returns error when you ask for zero courses per application' do
+    create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
+
+    post_api_request '/api/v1/experimental/test-data/generate?count=1&courses_per_application=0'
+
+    expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+  end
 end

@@ -4,6 +4,10 @@ New attributes:
 
 - `Rejection` now includes offer withdrawal reasons
 
+### 10 February 2020
+
+- Add minimum of 1 to `courses_per_application` field for [`test-data/generate`](/experimental/test-data/generate). Stops test application data being generated that have zero courses per application.
+
 ### 5th February 2020
 
 Field lengths updated:
