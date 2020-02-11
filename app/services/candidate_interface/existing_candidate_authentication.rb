@@ -7,12 +7,12 @@ module CandidateInterface
       @candidate_already_has_3_courses = false
       @candidate_has_new_course_added = false
       @candidate_should_choose_site = false
-      @candidate_does_not_have_a_course_from_find_id = false
+      @candidate_does_not_have_a_course_from_find = false
     end
 
     def execute
       if !has_course_from_find?
-        @candidate_does_not_have_a_course_from_find_id = true
+        @candidate_does_not_have_a_course_from_find = true
         return
       end
 
@@ -41,8 +41,8 @@ module CandidateInterface
       @candidate_should_choose_site
     end
 
-    def candidate_does_not_have_a_course_from_find_id?
-      @candidate_does_not_have_a_course_from_find_id
+    def candidate_does_not_have_a_course_from_find?
+      @candidate_does_not_have_a_course_from_find
     end
 
   private
