@@ -65,8 +65,4 @@ class ApplicationReference < ApplicationRecord
 
     replace_referee_at < Time.zone.now
   end
-
-  def response_overdue?
-    feedback_requested? && replace_referee_at && Time.zone.now > replace_referee_at
-  end
 end

@@ -81,7 +81,7 @@ module CandidateInterface
     end
 
     def feedback_status_text(reference)
-      return t('candidate_reference_status.response_overdue') if reference.response_overdue?
+      return t('candidate_reference_status.feedback_overdue') if reference.feedback_overdue?
 
       t("candidate_reference_status.#{reference.feedback_status}")
     end
@@ -89,7 +89,7 @@ module CandidateInterface
     def feedback_status_colour(reference)
       case reference.feedback_status
       when 'not_requested_yet', 'feedback_requested'
-        reference.response_overdue? ? :red : :blue
+        reference.feedback_overdue? ? :red : :blue
       when 'feedback_provided'
         :green
       when 'feedback_refused', 'feedback_overdue', 'email_bounced'

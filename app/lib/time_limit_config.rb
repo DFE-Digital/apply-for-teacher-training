@@ -1,6 +1,4 @@
 class TimeLimitConfig
-  DAYS_BEFORE_WE_ASK_FOR_A_NEW_REFEREE = 10
-
   Rule = Struct.new(:from_date, :to_date, :limit)
 
   RULES = {
