@@ -43,14 +43,13 @@ module CandidateInterface
         sign_in(candidate, scope: :candidate)
         add_identity_to_log candidate.id
         candidate.update!(last_signed_in_at: Time.zone.now)
+
         course = candidate.course_from_find
 
         service = ExistingCandidateAuthentication.new(candidate: candidate)
         service.execute
 
-        if course.nil?
-          redirect_to candidate_interface_application_form_path
-        elsif service.candidate_has_new_course_added?
+        if service.candidate_has_new_course_added?
           redirect_to candidate_interface_course_choices_review_path
         elsif service.candidate_should_choose_site?
           redirect_to candidate_interface_course_choices_site_path(course.provider.code, course.code)

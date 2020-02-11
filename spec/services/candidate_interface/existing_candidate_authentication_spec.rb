@@ -19,6 +19,16 @@ RSpec.describe CandidateInterface::ExistingCandidateAuthentication do
         expect(service.candidate_does_not_have_a_course_from_find_id?).to be_falsey
         expect(candidate.course_from_find_id).to eq(nil)
       end
+
+      it 'returns the correct thing when the candidate did not come from Find' do
+        candidate = create(:candidate)
+        create(:completed_application_form, candidate: candidate, application_choices_count: 3)
+
+        service = described_class.new(candidate: candidate)
+        service.execute
+
+        expect(service.candidate_does_not_have_a_course_from_find_id?).to eql(true)
+      end
     end
 
     context 'when the candidate has a course_from_find_id and the course has one site' do
