@@ -28,6 +28,30 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
     end
   end
 
+  describe 'attributes.rejection' do
+    it 'returns a rejection object' do
+      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'British', second_nationality: 'American')
+      application_choice = create(:application_choice, status: 'rejected', application_form: application_form, rejected_at: '2019-01-01', rejection_reason: 'Course full')
+
+      response = VendorApi::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.to_json).to be_valid_against_openapi_schema('Application')
+      expect(response[:attributes][:rejection]).to eq(reason: 'Course full')
+    end
+  end
+
+  describe 'attributes.rejection with a withdrawn offer' do
+    it 'returns a rejection object' do
+      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'British', second_nationality: 'American')
+      application_choice = create(:application_choice, status: 'rejected', application_form: application_form, offer_withdrawn_at: '2019-01-01', offer_withdrawal_reason: 'Course full')
+
+      response = VendorApi::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.to_json).to be_valid_against_openapi_schema('Application')
+      expect(response[:attributes][:rejection]).to eq(reason: 'Course full')
+    end
+  end
+
   describe 'attributes.hesa_itt_data' do
     let(:application_choice) do
       application_form = create(:completed_application_form, :with_completed_references)

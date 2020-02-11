@@ -46,6 +46,7 @@ en:
     declined: Declined
     enrolled: Enrolled
     offer: Offer
+    offer_withdrawn: Offer withdrawn
     pending_conditions: Accepted
     recruited: Conditions met
     rejected: Rejected
@@ -62,6 +63,7 @@ en:
     pending_conditions: Accepted
     recruited: Conditions met
     rejected: Rejected
+    offer_withdrawn: Withdrawn by us
     unsubmitted: Not submitted yet
     withdrawn: Application withdrawn
     conditions_not_met: Conditions not met

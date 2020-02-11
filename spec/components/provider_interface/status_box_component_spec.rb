@@ -83,6 +83,23 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
     expect(result.text).to include('Enrolled on:')
   end
 
+  it 'outputs a `Respond to application` button when the offer is in the `awaiting_provider_decision` state' do
+    application_choice = make_choice(status: 'awaiting_provider_decision', reject_by_default_at: Time.zone.now)
+
+    result = render_inline(described_class, application_choice: application_choice)
+
+    expect(result.css('.govuk-button')[0].text).to include('Respond to application')
+  end
+
+  it 'outputs an `Change response` button when the offer is in the `offer` state' do
+    FeatureFlag.activate('provider_change_response')
+    application_choice = make_choice(status: 'offer', decline_by_default_at: Time.zone.now)
+
+    result = render_inline(described_class, application_choice: application_choice)
+
+    expect(result.css('.govuk-button')[0].text).to include('Change response')
+  end
+
   def make_choice(attrs)
     application_form = create(:application_form, submitted_at: Time.zone.now)
     create(:application_choice, { application_form: application_form }.merge(attrs))

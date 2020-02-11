@@ -8,6 +8,8 @@ module ProviderInterface
     end
 
     def text
+      return t('provider_application_states.offer_withdrawn') if application_choice.offer_withdrawn?
+
       I18n.t!("provider_application_states.#{status}")
     end
 

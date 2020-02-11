@@ -29,10 +29,18 @@ module VendorApi
     end
 
     def reject
-      decision = RejectApplication.new(
-        application_choice: application_choice,
-        rejection_reason: params.dig(:data, :reason),
-      )
+      decision =
+        if application_choice.offer?
+          WithdrawOffer.new(
+            application_choice: application_choice,
+            offer_withdrawal_reason: params.dig(:data, :reason),
+          )
+        else
+          RejectApplication.new(
+            application_choice: application_choice,
+            rejection_reason: params.dig(:data, :reason),
+          )
+        end
 
       respond_to_decision(decision)
     end

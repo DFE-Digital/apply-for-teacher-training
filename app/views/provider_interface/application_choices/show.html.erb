@@ -35,50 +35,51 @@
         <%= button_to 'Sign in as this candidate', provider_interface_impersonate_candidate_path(@application_choice.application_form.candidate), class: 'govuk-button govuk-!-margin-bottom-0' %>
       </div>
     <% end %>
+
+    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="course-info">Course</h2>
+
+    <%= render SummaryListComponent, rows: [
+      { key: 'Provider', value: @application_choice.provider.name_and_code },
+      { key: 'Course', value: @application_choice.course.name_and_code },
+      { key: 'Cycle', value: @application_choice.course.recruitment_cycle_year },
+      { key: 'Preferred location', value: @application_choice.site.name_and_code },
+      { key: 'Study mode', value: @application_choice.course_option.study_mode.humanize },
+    ] %>
+
+    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="qualifications">Qualifications</h2>
+
+    <%= render QualificationsComponent, application_form: @application_choice.application_form %>
+
+    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="work-history">Work history</h2>
+
+    <div data-qa="work-history">
+      <%= render WorkHistoryReviewComponent, application_form: @application_choice.application_form, editable: false, heading_level: 3 %>
+    </div>
+
+    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="volunteering">School experience and volunteering</h2>
+
+    <div data-qa="volunteering">
+      <%= render VolunteeringReviewComponent, application_form: @application_choice.application_form, editable: false, heading_level: 3 %>
+    </div>
+
+    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="language-skills">Language skills</h2>
+
+    <%= render LanguageSkillsComponent, application_form: @application_choice.application_form %>
+
+    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="personal-statement">Personal statement</h2>
+
+    <%= render PersonalStatementComponent, application_form: @application_choice.application_form %>
+
+    <% if @application_choice.application_form.application_references.any? %>
+      <% @application_choice.application_form.application_references.each_with_index do |reference, i| %>
+        <h2 class="govuk-heading-l govuk-!-margin-top-8"><%= "#{(i + 1).ordinalize} reference" %></h2>
+        <%= render ProviderInterface::ReferenceWithFeedbackComponent, reference: reference %>
+      <% end %>
+    <% end %>
   </div>
 
   <div class="govuk-grid-column-one-third">
     <%= render ProviderInterface::StatusBoxComponent, application_choice: @application_choice %>
+
   </div>
 </div>
-
-<h2 class="govuk-heading-l govuk-!-margin-top-8" id="course-info">Course</h2>
-
-<%= render SummaryListComponent, rows: [
-  { key: 'Provider', value: @application_choice.provider.name_and_code },
-  { key: 'Course', value: @application_choice.course.name_and_code },
-  { key: 'Cycle', value: @application_choice.course.recruitment_cycle_year },
-  { key: 'Preferred location', value: @application_choice.site.name_and_code },
-  { key: 'Study mode', value: @application_choice.course_option.study_mode.humanize },
-] %>
-
-<h2 class="govuk-heading-l govuk-!-margin-top-8" id="qualifications">Qualifications</h2>
-
-<%= render QualificationsComponent, application_form: @application_choice.application_form %>
-
-<h2 class="govuk-heading-l govuk-!-margin-top-8" id="work-history">Work history</h2>
-
-<div data-qa="work-history">
-  <%= render WorkHistoryReviewComponent, application_form: @application_choice.application_form, editable: false, heading_level: 3 %>
-</div>
-
-<h2 class="govuk-heading-l govuk-!-margin-top-8" id="volunteering">School experience and volunteering</h2>
-
-<div data-qa="volunteering">
-  <%= render VolunteeringReviewComponent, application_form: @application_choice.application_form, editable: false, heading_level: 3 %>
-</div>
-
-<h2 class="govuk-heading-l govuk-!-margin-top-8" id="language-skills">Language skills</h2>
-
-<%= render LanguageSkillsComponent, application_form: @application_choice.application_form %>
-
-<h2 class="govuk-heading-l govuk-!-margin-top-8" id="personal-statement">Personal statement</h2>
-
-<%= render PersonalStatementComponent, application_form: @application_choice.application_form %>
-
-<% if @application_choice.application_form.application_references.any? %>
-  <% @application_choice.application_form.application_references.each_with_index do |reference, i| %>
-    <h2 class="govuk-heading-l govuk-!-margin-top-8"><%= "#{(i + 1).ordinalize} reference" %></h2>
-    <%= render ProviderInterface::ReferenceWithFeedbackComponent, reference: reference %>
-  <% end %>
-<% end %>

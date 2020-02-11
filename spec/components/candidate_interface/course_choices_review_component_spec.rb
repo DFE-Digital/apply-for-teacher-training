@@ -81,6 +81,26 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
     end
   end
 
+  context 'when a course choice is withdrawn by provider' do
+    it 'renders component with the status as Offer withdrawn and displays the reason' do
+      application_form = create(:application_form)
+      create(
+        :application_choice,
+        application_form: application_form,
+        status: 'rejected',
+        offer_withdrawn_at: Time.zone.now,
+        offer_withdrawal_reason: 'Course full',
+      )
+
+      result = render_inline(described_class, application_form: application_form, editable: false, show_status: true)
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Offer withdrawn')
+      expect(result.css('.govuk-summary-list__key').text).to include('Reason for offer withdrawal')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Course full')
+    end
+  end
+
   context 'when a course choice is application complete' do
     it 'renders component with the status as submitted when application is complete' do
       application_form = create_application_form_with_course_choices(statuses: %w[application_complete])

@@ -15,6 +15,9 @@
     <% elsif application_choice.offer? %>
       <dt>Candidate must respond by:</dt>
       <dd><%= candidate_respond_by %></dd>
+    <% elsif application_choice.offer_withdrawn? %>
+      <dt>Withdrawn on:</dt>
+      <dd><%= offer_withdrawn_at %></dd>
     <% elsif application_choice.rejected? %>
       <dt>Rejected on:</dt>
       <dd><%= rejected_at %></dd>
@@ -44,5 +47,8 @@
     <div class="govuk-!-margin-top-6">
       <%= govuk_button_link_to 'Confirm conditions', provider_interface_application_choice_edit_conditions_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
     </div>
+  <% elsif application_choice.offer? && FeatureFlag.active?('provider_change_response') %>
+    <div class="govuk-!-margin-top-6">
+      <%= govuk_button_link_to 'Change response', provider_interface_application_choice_edit_response_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
   <% end %>
 </div>

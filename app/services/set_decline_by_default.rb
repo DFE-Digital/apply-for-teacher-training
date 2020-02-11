@@ -10,6 +10,7 @@ class SetDeclineByDefault
       application_choices.maximum(:offered_at),
       application_choices.maximum(:rejected_at),
       application_choices.maximum(:withdrawn_at),
+      application_choices.maximum(:offer_withdrawn_at),
     ].compact.max
 
     dbd_time_limit = TimeLimitCalculator.new(

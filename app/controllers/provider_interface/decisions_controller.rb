@@ -1,6 +1,7 @@
 module ProviderInterface
   class DecisionsController < ProviderInterfaceController
     before_action :set_application_choice
+    before_action :requires_provider_change_response_feature_flag, only: %i[new_edit_response edit_response new_withdraw_offer confirm_withdraw_offer withdraw_offer]
 
     def respond
       @pick_response_form = PickResponseForm.new
@@ -80,7 +81,59 @@ module ProviderInterface
       end
     end
 
+    def new_edit_response
+      @edit_response = EditResponseForm.new
+    end
+
+    def edit_response
+      @edit_response = EditResponseForm.new(
+        edit_response_type: params.dig(:provider_interface_edit_response_form, :edit_response_type),
+      )
+      if @edit_response.valid?
+        redirect_to provider_interface_application_choice_new_withdraw_offer_path(
+          application_choice_id: @application_choice.id,
+        )
+      else
+        render action: :new_edit_response
+      end
+    end
+
+    def new_withdraw_offer
+      @withdraw_offer = WithdrawOffer.new(
+        application_choice: @application_choice,
+      )
+    end
+
+    def confirm_withdraw_offer
+      @withdraw_offer = WithdrawOffer.new(
+        application_choice: @application_choice,
+        offer_withdrawal_reason: params.dig(:withdraw_offer, :offer_withdrawal_reason),
+      )
+      if !@withdraw_offer.valid?
+        render action: :new_withdraw_offer
+      end
+    end
+
+    def withdraw_offer
+      @withdraw_offer = WithdrawOffer.new(
+        application_choice: @application_choice,
+        offer_withdrawal_reason: params.dig(:withdraw_offer, :offer_withdrawal_reason),
+      )
+      if @withdraw_offer.save
+        flash[:success] = 'Application status changed to ‘Offer withdrawn’'
+        redirect_to provider_interface_application_choice_path(
+          application_choice_id: @application_choice.id,
+        )
+      else
+        render action: :new_withdraw_offer
+      end
+    end
+
   private
+
+    def requires_provider_change_response_feature_flag
+      raise unless FeatureFlag.active?('provider_change_response')
+    end
 
     def set_application_choice
       @application_choice = GetApplicationChoicesForProviders.call(providers: current_provider_user.providers)
