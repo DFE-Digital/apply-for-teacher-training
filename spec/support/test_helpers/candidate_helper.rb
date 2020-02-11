@@ -58,7 +58,7 @@ module CandidateHelper
     click_link 'Science GCSE or equivalent'
     candidate_explains_a_missing_gcse
 
-    click_link 'Other relevant academic and non-academic qualifications'
+    click_link 'Academic and other relevant qualifications'
     candidate_fills_in_their_other_qualifications
 
     click_link 'Why do you want to be a teacher?'
