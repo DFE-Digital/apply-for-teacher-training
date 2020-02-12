@@ -26,10 +26,12 @@ class PerformanceStatistics
   CANDIDATE_QUERY = "
   WITH raw_data AS (
       SELECT
+          c.id,
           f.id,
           COUNT(f.id) FILTER (WHERE f.id IS NOT NULL) application_forms,
           COUNT(ch.id) FILTER (WHERE f.id IS NOT NULL) application_choices,
           CASE
+            WHEN f.id IS NULL THEN ARRAY['-1', 'never_signed_in']
             WHEN ARRAY_AGG(DISTINCT ch.status) IN ('{NULL}', '{unsubmitted}') AND DATE_TRUNC('second', f.updated_at) = DATE_TRUNC('second', f.created_at) THEN ARRAY['0', 'unsubmitted_not_started_form']
             WHEN ARRAY_AGG(DISTINCT ch.status) IN ('{NULL}', '{unsubmitted}') AND DATE_TRUNC('second', f.updated_at) <> DATE_TRUNC('second', f.created_at) THEN ARRAY['1', 'unsubmitted_in_progress']
             WHEN 'awaiting_references' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['2', 'awaiting_references']
@@ -44,14 +46,14 @@ class PerformanceStatistics
           END status
       FROM
           application_forms f
-      LEFT JOIN
+      FULL OUTER JOIN
           candidates c ON f.candidate_id = c.id
       LEFT JOIN
           application_choices ch ON ch.application_form_id = f.id
       WHERE
           NOT c.hide_in_reporting
       GROUP BY
-          f.id
+          c.id, f.id
   )
   SELECT
       raw_data.status[2],
@@ -72,10 +74,6 @@ class PerformanceStatistics
       .connection
       .execute(CANDIDATE_QUERY)
       .to_a
-  end
-
-  def candidate_counts_total
-    candidate_status_counts.sum { |row| row['count'].to_i }
   end
 
 private

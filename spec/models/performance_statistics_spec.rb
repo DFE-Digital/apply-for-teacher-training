@@ -2,6 +2,14 @@ require 'rails_helper'
 
 RSpec.describe PerformanceStatistics, type: :model do
   describe '#candidate_status_counts' do
+    it 'counts candidates without application forms' do
+      create(:candidate)
+
+      expect(ProcessState.new(nil).state).to be :never_signed_in
+
+      expect(count_for_process_state(:never_signed_in)).to be(1)
+    end
+
     it 'counts unsubmitted, unstarted applications' do
       application_choice = create(:application_choice, status: 'unsubmitted')
       form = application_choice.application_form
@@ -116,15 +124,6 @@ RSpec.describe PerformanceStatistics, type: :model do
     stats = PerformanceStatistics.new
 
     expect(stats[:total_candidate_count]).to eq(1)
-    expect(stats.candidate_counts_total).to eq(1)
-  end
-
-  it 'excludes candidates without application forms' do
-    create(:candidate)
-
-    stats = PerformanceStatistics.new
-
-    expect(stats.candidate_counts_total).to eq(0)
   end
 
   it 'breaks down candidates with unsubmitted forms into stages' do
