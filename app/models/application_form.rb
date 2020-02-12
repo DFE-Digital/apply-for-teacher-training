@@ -9,6 +9,7 @@ class ApplicationForm < ApplicationRecord
   # explicit default order, so that we can preserve 'First' / 'Second' in the UI
   # as we're using numerical IDs with autonumber, 'id' is fine to achieve this
   has_many :application_references, -> { order('id ASC') }
+  has_many :application_work_history_breaks
 
   MINIMUM_COMPLETE_REFERENCES = 2
 
