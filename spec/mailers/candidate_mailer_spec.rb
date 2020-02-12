@@ -228,30 +228,47 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe 'send new offer email to candidate' do
-    context 'when there is just a single offer' do
-      let(:candidate) { build_stubbed(:candidate) }
-      let(:application_form) { build_stubbed(:application_form, support_reference: 'SUPPORT-REFERENCE', candidate: candidate, first_name: 'Bob') }
-      let(:course_option) { build_stubbed(:course_option) }
-      let(:course) { course_option.course }
-      let(:application_choice) { build_stubbed(:application_choice, application_form: application_form, course_option: course_option, offer: { conditions: ['DBS check', 'Pass exams'] }) }
-      let(:mail) { mailer.new_offer(application_choice) }
+    def setup_application
+      @candidate = build_stubbed(:candidate)
+      @application_form = build_stubbed(
+        :application_form,
+        support_reference: 'SUPPORT-REFERENCE',
+        candidate: @candidate,
+        first_name: 'Bob',
+      )
+      course_option = build_stubbed(:course_option)
+      @application_choice = build_stubbed(
+        :application_choice,
+        application_form: @application_form,
+        course_option: course_option,
+        status: :offer,
+        offer: { conditions: ['DBS check', 'Pass exams'] },
+        offered_at: Time.zone.now,
+        offered_course_option: course_option,
+      )
+    end
 
-      before { mail.deliver_later }
+    context 'when there is just a single offer' do
+      before do
+        setup_application
+        @mail = mailer.new_offer(@application_choice)
+        @mail.deliver_later
+      end
 
       it 'sends an email with the correct greeting' do
-        expect(application_choice.course_option.course).to be_present
-        expect(mail.body.encoded).to include('Dear Bob')
+        expect(@application_choice.course_option.course).to be_present
+        expect(@mail.body.encoded).to include('Dear Bob')
       end
 
       it 'sends an email with the correct subject' do
-        expect(application_choice.course_option.course).to be_present
-        expect(mail.subject).to include("Offer received for #{application_choice.course_option.course.name} (#{application_choice.course_option.course.code}) at #{application_choice.course_option.course.provider.name}")
+        expect(@application_choice.course_option.course).to be_present
+        expect(@mail.subject).to include("Offer received for #{@application_choice.course_option.course.name} (#{@application_choice.course_option.course.code}) at #{@application_choice.course_option.course.provider.name}")
       end
 
       it 'sends an email with the correct conditions' do
-        expect(application_choice.course_option.course).to be_present
-        expect(mail.body.encoded).to include('DBS check')
-        expect(mail.body.encoded).to include('Pass exams')
+        expect(@application_choice.course_option.course).to be_present
+        expect(@mail.body.encoded).to include('DBS check')
+        expect(@mail.body.encoded).to include('Pass exams')
       end
     end
   end

@@ -84,19 +84,17 @@ class CandidateMailer < ApplicationMailer
 
 private
 
-  # TODO: work out whether the are multiple/single offers etc.
-  def new_offer_template_name(_application_choice)
-    # candidate_application_choices = application_choice.application_form.application_choices
-    # number_of_pending_decisions = candidate_application_choices.select(&:awaiting_provider_decision?).count
-    # number_of_offers = candidate_application_choices.select(&:offer?).count
+  def new_offer_template_name(application_choice)
+    candidate_application_choices = application_choice.application_form.application_choices
+    number_of_pending_decisions = candidate_application_choices.select(&:awaiting_provider_decision?).count
+    number_of_offers = candidate_application_choices.select(&:offer?).count
 
-    :single_offer
-    # if number_of_pending_decisions.positive?
-    #   :decisions_pending
-    # elsif number_of_offers > 1
-    #   :multiple_offers
-    # else
-    #   :single_offer
-    # end
+    if number_of_pending_decisions.positive?
+      :decisions_pending
+    elsif number_of_offers > 1
+      :multiple_offers
+    else
+      :single_offer
+    end
   end
 end
