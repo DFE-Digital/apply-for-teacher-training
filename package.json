@@ -2,9 +2,10 @@
   "name": "apply-for-postgraduate-teacher-training",
   "private": true,
   "dependencies": {
-    "@rails/webpacker": "^4.2.2",
     "@ministryofjustice/frontend": "0.0.17-alpha",
+    "@rails/webpacker": "^4.2.2",
     "accessible-autocomplete": "^2.0.2",
+    "cypress": "^4.0.1",
     "govuk-frontend": "^3.5.0"
   }
 }
