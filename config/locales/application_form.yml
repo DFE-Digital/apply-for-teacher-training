@@ -291,12 +291,12 @@ en:
       delete: Delete referee
       email_address:
         label: Email address
-        hint_text: We won’t contact your referees until you submit your application
+        hint_text: In most cases, this should be an official email address. Training providers will only accept character references if there's also an academic or professional reference. We won’t contact your referees until you submit your application.
       name:
         label: Full name
       relationship:
         label: What is your relationship to this referee and how long have you known them?
-        hint_text: For example, ‘They were the headteacher at the school where I worked between 2003 and 2005’
+        hint_text: For example, ‘She's the deputy head at the school where I currently volunteer’
       review:
         button: Continue
       sure_delete_entry: Yes I’m sure - delete this referee
