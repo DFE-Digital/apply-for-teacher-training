@@ -30,17 +30,17 @@ class PerformanceStatistics
           COUNT(f.id) FILTER (WHERE f.id IS NOT NULL) application_forms,
           COUNT(ch.id) FILTER (WHERE f.id IS NOT NULL) application_choices,
           CASE
-            WHEN ARRAY_AGG(DISTINCT ch.status) = '{NULL}' THEN ARRAY['0', 'unsubmitted']
-            WHEN ARRAY_AGG(DISTINCT ch.status) = '{unsubmitted}' THEN ARRAY['0', 'unsubmitted']
-            WHEN 'awaiting_references' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['1', 'awaiting_references']
-            WHEN 'application_complete' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['2', 'waiting_to_be_sent']
-            WHEN 'awaiting_provider_decision' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['3', 'awaiting_provider_decisions']
-            WHEN 'offer' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['5', 'awaiting_candidate_response']
-            WHEN 'enrolled' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['8', 'enrolled']
-            WHEN 'recruited' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['7', 'recruited']
-            WHEN 'pending_conditions' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['6', 'pending_conditions']
-            WHEN ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_AGG(DISTINCT ch.status), 'withdrawn'), 'rejected'), 'declined'), 'conditions_not_met') = '{}' THEN ARRAY['4', 'ended_without_success']
-            ELSE ARRAY['9', 'unknown_state']
+            WHEN ARRAY_AGG(DISTINCT ch.status) IN ('{NULL}', '{unsubmitted}') AND f.updated_at = f.created_at THEN ARRAY['0', 'unsubmitted_not_started_form']
+            WHEN ARRAY_AGG(DISTINCT ch.status) IN ('{NULL}', '{unsubmitted}') AND f.updated_at <> f.created_at THEN ARRAY['1', 'unsubmitted_in_progress']
+            WHEN 'awaiting_references' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['2', 'awaiting_references']
+            WHEN 'application_complete' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['3', 'waiting_to_be_sent']
+            WHEN 'awaiting_provider_decision' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['4', 'awaiting_provider_decisions']
+            WHEN 'offer' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['6', 'awaiting_candidate_response']
+            WHEN 'enrolled' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['9', 'enrolled']
+            WHEN 'recruited' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['8', 'recruited']
+            WHEN 'pending_conditions' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['7', 'pending_conditions']
+            WHEN ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_AGG(DISTINCT ch.status), 'withdrawn'), 'rejected'), 'declined'), 'conditions_not_met') = '{}' THEN ARRAY['5', 'ended_without_success']
+            ELSE ARRAY['10', 'unknown_state']
           END status
       FROM
           application_forms f
