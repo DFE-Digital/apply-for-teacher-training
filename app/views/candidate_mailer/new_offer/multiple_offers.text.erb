@@ -17,7 +17,9 @@ You have 10 working days to make a decision. If you don’t reply by <%= @declin
 
 # Offers you’ve received
 
-((ListCourseNamesAndAssociatedProivderNamesThatThey’veHadOffersFor))
+<% @offers.each do |offer| %>
+  - <%= offer %>
+<% end %>
 
 Sign in to your account to respond:
 

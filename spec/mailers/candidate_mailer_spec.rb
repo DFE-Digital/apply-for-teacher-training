@@ -300,6 +300,11 @@ RSpec.describe CandidateMailer, type: :mailer do
         expect(@mail.body.encoded).to include('DBS check')
         expect(@mail.body.encoded).to include('Pass exams')
       end
+
+      it 'sends an email with the correct list of offers' do
+        expect(@mail.body.encoded).to include("#{@application_choice.course_option.course.name} (#{@application_choice.course_option.course.code}) at #{@application_choice.course_option.course.provider.name}")
+        expect(@mail.body.encoded).to include("#{@other_application_choice.course_option.course.name} (#{@other_application_choice.course_option.course.code}) at #{@other_application_choice.course_option.course.provider.name}")
+      end
     end
   end
 end

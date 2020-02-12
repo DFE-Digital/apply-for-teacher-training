@@ -70,6 +70,9 @@ class CandidateMailer < ApplicationMailer
     @provider_name = @application_choice.course_option.course.provider.name
     @course_name = @application_choice.course_option.course.name_and_code
     @conditions = @application_choice.offer&.dig('conditions') || []
+    @offers = @application_choice.application_form.application_choices.select(&:offer?).map do |offer|
+      "#{offer.course_option.course.name_and_code} at #{offer.course_option.course.provider.name}"
+    end
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: application_choice.application_form.candidate.email_address,
