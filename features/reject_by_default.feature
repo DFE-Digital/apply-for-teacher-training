@@ -11,6 +11,7 @@ Feature: Reject by default
 
   Background:
     Given a 3 working day time limit on "reject_by_default"
+    And a 10 working day time limit on "replace_referee_by"
     And a 5 working day time limit on "edit_by"
     And the date is "2019-01-01" # well before the application is sent to the provider
     And the candidate submits a complete application with reference feedback
