@@ -6,7 +6,7 @@ module CandidateInterface
     attr_accessor :role, :organisation, :details, :working_with_children,
                   :commitment, :working_pattern,
                   :start_date_day, :start_date_month, :start_date_year,
-                  :end_date_day, :end_date_month, :end_date_year
+                  :end_date_day, :end_date_month, :end_date_year, :add_another_job
 
     validates :role, :organisation, :details, :working_with_children,
               :commitment,

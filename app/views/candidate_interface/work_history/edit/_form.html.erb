@@ -28,9 +28,18 @@
 
 <%= f.govuk_text_area :details, label: { text: t('application_form.work_history.details.label'), size: 'm' }, hint_text: 'Give a brief overview of your role and explain how you developed transferable skills like communication, creativity and organisation', max_words: 150 %>
 
-<%= f.govuk_radio_buttons_fieldset :working_with_children, legend: { text: 'Did this job involve working in a school or with children?', tag: 'span' }, inline: true do %>
+<%= f.govuk_radio_buttons_fieldset :working_with_children, legend: { text: 'Did this job involve working in a school or with children?', tag: 'span' } do %>
   <%= f.govuk_radio_button :working_with_children, true, label: { text: 'Yes' }, link_errors: true %>
   <%= f.govuk_radio_button :working_with_children, false, label: { text: 'No' } %>
+<% end %>
+
+<% if FeatureFlag.active?('work_breaks') %>
+  <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-bottom-5">
+
+  <%= f.govuk_radio_buttons_fieldset :add_another_job, legend: { text: 'Do you want to add another job?', tag: 'span' } do %>
+    <%= f.govuk_radio_button :add_another_job, true, label: { text: 'Yes, I want to add another job' } %>
+    <%= f.govuk_radio_button :add_another_job, false, label: { text: 'No, I’ve completed my work history' } %>
+  <% end %>
 <% end %>
 
 <%= f.govuk_submit t('application_form.work_history.complete_form_button') %>
