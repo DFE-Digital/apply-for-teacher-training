@@ -1,1 +1,6 @@
-{}
+{
+  "env": {
+    "MAILSLURP_API_KEY": "wip"
+  },
+  "defaultCommandTimeout": 10000
+}

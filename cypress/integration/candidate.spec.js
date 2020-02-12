@@ -1,5 +1,6 @@
 describe("Candidate", () => {
   before(() => {
+    cy.clearCookie("_apply_for_postgraduate_teacher_training_session");
     Cypress.Cookies.defaults({
       whitelist: "_apply_for_postgraduate_teacher_training_session"
     });
@@ -29,10 +30,9 @@ describe("Candidate", () => {
 
   let inbox = null;
 
-  it("can sign up", () => {
+  it("can submit their email", () => {
     cy.newEmailAddress().then(newInbox => {
       inbox = newInbox;
-      cy.get("input[type=email]").type(inbox.emailAddress);
       cy.get("#candidate-interface-sign-up-form-email-address-field").type(
         inbox.emailAddress
       );
@@ -46,9 +46,17 @@ describe("Candidate", () => {
     });
   });
 
-  it("receives sign up email", () => {
+  let token = null;
+
+  it("can sign up via magic link", () => {
     cy.getLatestEmail(inbox).then(email => {
-      expect(email.body).to.eql("");
+      const token = /token=([\d\w]{20})/.exec(email.body)[1];
+      expect(token).to.be.ok;
+
+      cy.visit(
+        `https://qa.apply-for-teacher-training.education.gov.uk/candidate/authenticate?token=${token}`
+      );
+      cy.contains("Your application");
     });
   });
 });
