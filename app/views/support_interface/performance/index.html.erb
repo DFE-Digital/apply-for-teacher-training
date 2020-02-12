@@ -7,29 +7,44 @@
   <span>sign ups (excluding test users)</span>
 </div>
 
+<div class="govuk-grid-row govuk-!-margin-bottom-4">
+  <div class="govuk-grid-column-one-half">
+    <div class="app-card">
+      <span class="app-card__count"><%= @statistics.total_candidate_count(only: %i{never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}) %></span>
+      <span>in pre-submission</span>
+    </div>
+  </div>
+  <div class="govuk-grid-column-one-half">
+    <div class="app-card">
+      <span class="app-card__count"><%= @statistics.total_candidate_count(except: %i{never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}) %></span>
+      <span>submitted</span>
+    </div>
+  </div>
+</div>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-quarter">
     <div class="app-card">
       <span class="app-card__count"><%= @statistics[:never_signed_in] %></span>
-      <span><%= @statistics[:candidates_signed_up_but_not_signed_in] == 1 ? 'hasn’t' : 'haven’t' %> signed in</span>
+      <span>never signed in</span>
     </div>
   </div>
   <div class="govuk-grid-column-one-quarter">
     <div class="app-card">
-      <span class="app-card__count"><%= @statistics[:unsubmitted_not_started_form] %></span>
-      <span><%= @statistics[:candidates_signed_in_but_not_entered_data] == 1 ? 'hasn’t' : 'haven’t' %> started</span>
+      <span class="app-card__count"><%= @statistics.total_candidate_count(only: %i{unsubmitted_not_started_form unsubmitted_in_progress}) %></span>
+      <span>unsubmitted</span>
     </div>
   </div>
   <div class="govuk-grid-column-one-quarter">
-    <div class="app-card">
-      <span class="app-card__count"><%= @statistics[:unsubmitted_in_progress] %></span>
-      <span>in progress</span>
+    <div class="app-card app-card--red">
+      <span class="app-card__count"><%= @statistics.total_candidate_count(only: %i{ended_without_success}) %></span>
+      <span>ended w/o success</span>
     </div>
   </div>
   <div class="govuk-grid-column-one-quarter">
     <div class="app-card app-card--green">
-      <span class="app-card__count"><%= @statistics.total_candidate_count(except: %i{never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}) %></span>
-      <span>submitted</span>
+      <span class="app-card__count"><%= @statistics.total_candidate_count(only: %i{pending_conditions recruited enrolled}) %></span>
+      <span>accepted an offer</span>
     </div>
   </div>
 </div>

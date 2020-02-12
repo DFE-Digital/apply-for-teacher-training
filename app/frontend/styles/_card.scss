@@ -20,6 +20,11 @@
   color: govuk-colour("white");
 }
 
+.app-card--red {
+  color: govuk-shade(govuk-colour("red"), 30);
+  background: govuk-tint(govuk-colour("red"), 80);
+}
+
 .app-card__count {
   @include govuk-font($size: 80, $weight: bold);
   display: block;
