@@ -27,15 +27,28 @@ describe("Candidate", () => {
     cy.contains("Create an Apply for teacher training account");
   });
 
-  it("can sign up", () => {
-    cy.get("#candidate-interface-sign-up-form-email-address-field").type(
-      "theo@vararu.org"
-    );
-    cy.get(
-      "#candidate-interface-sign-up-form-accept-ts-and-cs-true-field"
-    ).click();
+  let inbox = null;
 
-    cy.contains("Continue").click();
-    cy.contains("Check your email");
+  it("can sign up", () => {
+    cy.newEmailAddress().then(newInbox => {
+      inbox = newInbox;
+      cy.get("input[type=email]").type(inbox.emailAddress);
+      cy.get("#candidate-interface-sign-up-form-email-address-field").type(
+        inbox.emailAddress
+      );
+
+      cy.get(
+        "#candidate-interface-sign-up-form-accept-ts-and-cs-true-field"
+      ).click();
+
+      cy.contains("Continue").click();
+      cy.contains("Check your email");
+    });
+  });
+
+  it("receives sign up email", () => {
+    cy.getLatestEmail(inbox).then(email => {
+      expect(email.body).to.eql("");
+    });
   });
 });

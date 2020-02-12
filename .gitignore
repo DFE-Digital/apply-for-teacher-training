@@ -48,3 +48,5 @@ coverage/*
 # Byebug history files
 .byebug_history
 .erblint*
+
+cypress.json

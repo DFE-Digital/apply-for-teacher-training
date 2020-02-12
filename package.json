@@ -6,6 +6,7 @@
     "@rails/webpacker": "^4.2.2",
     "accessible-autocomplete": "^2.0.2",
     "cypress": "^4.0.1",
-    "govuk-frontend": "^3.5.0"
+    "govuk-frontend": "^3.5.0",
+    "mailslurp-client": "^6.7.4"
   }
 }
