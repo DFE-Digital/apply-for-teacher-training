@@ -6,10 +6,10 @@
   <table class="govuk-table">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Name</th>
+        <%= render ProviderInterface::SortableColumnHeadingComponent, sort_order: @sort_order, column_name: "Name", current_sort_by: @sort_by %>
         <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Course</th>
         <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Status</th>
-        <%= render ProviderInterface::SortableColumnHeadingComponent, sort_order: @sort_order %>
+        <%= render ProviderInterface::SortableColumnHeadingComponent, sort_order: @sort_order, column_name: "Last updated", current_sort_by: @sort_by %>
       </tr>
     </thead>
 

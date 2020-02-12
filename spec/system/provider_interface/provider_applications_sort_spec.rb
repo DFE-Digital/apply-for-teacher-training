@@ -4,7 +4,7 @@ RSpec.feature 'Providers should be able to sort applications' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  scenario 'Provider can sort applications by date' do
+  scenario 'by column headings' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
     and_my_organisation_has_courses_with_applications
@@ -14,6 +14,12 @@ RSpec.feature 'Providers should be able to sort applications' do
     then_i_should_see_the_applications_in_descending_date_order
     when_i_sort_by_date
     then_i_should_see_the_applications_in_ascending_date_order
+    when_i_sort_by_date
+    then_i_should_see_the_applications_in_descending_date_order
+
+    when_i_sort_by_name
+    then_i_should_see_the_applications_in_descending_name_order
+
     when_i_sort_by_date
     then_i_should_see_the_applications_in_descending_date_order
   end
@@ -51,5 +57,14 @@ RSpec.feature 'Providers should be able to sort applications' do
   def then_i_should_see_the_applications_in_ascending_date_order
    expect('Bill').to appear_before('Tom')
    expect('Tom').to appear_before('Jim')
+  end
+
+  def when_i_sort_by_name
+    click_link('Name')
+  end
+
+  def then_i_should_see_the_applications_in_descending_name_order
+   expect('Bill Bones').to appear_before('Jim James')
+   expect('Jim James').to appear_before('Tom Jones')
   end
 end
