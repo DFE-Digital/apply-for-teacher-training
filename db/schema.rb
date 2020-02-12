@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_12_093709) do
+ActiveRecord::Schema.define(version: 2020_02_12_152157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -120,6 +120,16 @@ ActiveRecord::Schema.define(version: 2020_02_12_093709) do
     t.string "other_uk_qualification_type", limit: 100
     t.text "missing_explanation"
     t.index ["application_form_id"], name: "index_application_qualifications_on_application_form_id"
+  end
+
+  create_table "application_work_history_breaks", force: :cascade do |t|
+    t.bigint "application_form_id", null: false
+    t.datetime "start_date", null: false
+    t.datetime "end_date", null: false
+    t.text "reason", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["application_form_id"], name: "index_application_work_history_breaks_on_application_form_id"
   end
 
   create_table "audits", force: :cascade do |t|
@@ -305,22 +315,13 @@ ActiveRecord::Schema.define(version: 2020_02_12_093709) do
     t.index ["vendor_api_token_id"], name: "index_vendor_api_users_on_vendor_api_token_id"
   end
 
-  create_table "work_history_breaks", force: :cascade do |t|
-    t.bigint "application_form_id", null: false
-    t.datetime "start_date", null: false
-    t.datetime "end_date", null: false
-    t.text "reason", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["application_form_id"], name: "index_work_history_breaks_on_application_form_id"
-  end
-
   add_foreign_key "application_choices", "application_forms", on_delete: :cascade
   add_foreign_key "application_choices", "course_options"
   add_foreign_key "application_choices", "course_options", column: "offered_course_option_id"
   add_foreign_key "application_experiences", "application_forms", on_delete: :cascade
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
   add_foreign_key "application_qualifications", "application_forms", on_delete: :cascade
+  add_foreign_key "application_work_history_breaks", "application_forms", on_delete: :cascade
   add_foreign_key "course_options", "courses", on_delete: :cascade
   add_foreign_key "course_options", "sites", on_delete: :cascade
   add_foreign_key "courses", "providers"
@@ -329,5 +330,4 @@ ActiveRecord::Schema.define(version: 2020_02_12_093709) do
   add_foreign_key "references", "application_forms", on_delete: :cascade
   add_foreign_key "sites", "providers"
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
-  add_foreign_key "work_history_breaks", "application_forms", on_delete: :cascade
 end
