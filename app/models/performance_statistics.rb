@@ -3,7 +3,7 @@ class PerformanceStatistics
   WITH raw_data AS (
       SELECT
           COUNT(c.id) FILTER (WHERE f.id IS NOT NULL) candidate_forms,
-          SUM(CASE WHEN f.id IS NOT NULL AND f.created_at < f.updated_at THEN 1 ELSE 0 END) candidate_started_form_count,
+          SUM(CASE WHEN f.id IS NOT NULL AND DATE_TRUNC('second', f.updated_at) <> DATE_TRUNC('second', f.created_at) THEN 1 ELSE 0 END) candidate_started_form_count,
           SUM(CASE WHEN f.id IS NOT NULL AND f.submitted_at IS NOT NULL THEN 1 ELSE 0 END) candidate_submitted_form_count
       FROM
           candidates c
@@ -30,8 +30,8 @@ class PerformanceStatistics
           COUNT(f.id) FILTER (WHERE f.id IS NOT NULL) application_forms,
           COUNT(ch.id) FILTER (WHERE f.id IS NOT NULL) application_choices,
           CASE
-            WHEN ARRAY_AGG(DISTINCT ch.status) IN ('{NULL}', '{unsubmitted}') AND f.updated_at = f.created_at THEN ARRAY['0', 'unsubmitted_not_started_form']
-            WHEN ARRAY_AGG(DISTINCT ch.status) IN ('{NULL}', '{unsubmitted}') AND f.updated_at <> f.created_at THEN ARRAY['1', 'unsubmitted_in_progress']
+            WHEN ARRAY_AGG(DISTINCT ch.status) IN ('{NULL}', '{unsubmitted}') AND DATE_TRUNC('second', f.updated_at) = DATE_TRUNC('second', f.created_at) THEN ARRAY['0', 'unsubmitted_not_started_form']
+            WHEN ARRAY_AGG(DISTINCT ch.status) IN ('{NULL}', '{unsubmitted}') AND DATE_TRUNC('second', f.updated_at) <> DATE_TRUNC('second', f.created_at) THEN ARRAY['1', 'unsubmitted_in_progress']
             WHEN 'awaiting_references' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['2', 'awaiting_references']
             WHEN 'application_complete' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['3', 'waiting_to_be_sent']
             WHEN 'awaiting_provider_decision' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['4', 'awaiting_provider_decisions']
