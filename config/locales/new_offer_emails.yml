@@ -2,3 +2,5 @@ en:
   candidate_offer:
     single_offer:
       subject: "Offer received for %{course_name} at %{provider_name}: make a decision"
+    multiple_offers:
+      subject: "Offer received for %{course_name} at %{provider_name}: make a decision"
