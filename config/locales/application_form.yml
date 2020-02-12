@@ -291,7 +291,7 @@ en:
       delete: Delete referee
       email_address:
         label: Email address
-        hint_text: In most cases, this should be an official email address. Training providers will only accept character references if there's also an academic or professional reference. We won’t contact your referees until you submit your application.
+        hint_text: In most cases, this should be a work address. We won’t contact your referees until you submit your application.
       name:
         label: Full name
       relationship:
