@@ -192,4 +192,38 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
     end
   end
+
+  describe 'Send application under consideration email' do
+    let(:application_choice) { build_stubbed(:application_choice, reject_by_default_days: '40') }
+    let(:application_form) do
+      build_stubbed(
+        :application_form,
+        first_name: 'Tyrell',
+        last_name: 'Wellick',
+        application_choices: [application_choice],
+      )
+    end
+
+    context 'when initial email' do
+      let(:mail) { mailer.application_under_consideration(application_form) }
+
+      before { mail.deliver_later }
+
+      it 'sends an email with the correct subject' do
+        expect(mail.subject).to include('Your application is being considered')
+      end
+
+      it 'sends an email with the correct heading' do
+        expect(mail.body.encoded).to include('Dear Tyrell')
+      end
+
+      it 'sends an email with the correct amount of working days the provider has to respond' do
+        expect(mail.body.encoded).to include("We’ve asked them to make a final decision within #{application_choice.reject_by_default_days} working days.")
+      end
+
+      it 'sends an email with candidate sign in url' do
+        expect(mail.body.encoded).to include(candidate_interface_sign_in_url)
+      end
+    end
+  end
 end
