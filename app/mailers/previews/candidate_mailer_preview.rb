@@ -43,10 +43,67 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.new_referee_request(application_form, reference, reason: :email_bounced)
   end
 
+  def new_offer_without_other_offers
+    course_option = FactoryBot.build_stubbed(:course_option)
+    application_choice = application_form.application_choices.build(
+      id: 123,
+      course_option: course_option,
+      status: :offer,
+      offer: { conditions: ['DBS check', 'Pass exams'] },
+      offered_at: Time.zone.now,
+      offered_course_option: course_option,
+    )
+    CandidateMailer.new_offer(application_choice)
+  end
+
+  def new_offer_with_another_offer
+    course_option = FactoryBot.build_stubbed(:course_option)
+    application_choice = application_form.application_choices.build(
+      id: 123,
+      course_option: course_option,
+      status: :offer,
+      offer: { conditions: ['DBS check', 'Pass exams'] },
+      offered_at: Time.zone.now,
+      offered_course_option: course_option,
+    )
+    other_course_option = FactoryBot.build_stubbed(:course_option)
+    application_form.application_choices.build(
+      id: 456,
+      course_option: other_course_option,
+      status: :offer,
+      offer: { conditions: ['Get a degree'] },
+      offered_at: Time.zone.now,
+      offered_course_option: other_course_option,
+    )
+    CandidateMailer.new_offer(application_choice)
+  end
+
+  def new_offer_with_pending_decisions
+    course_option = FactoryBot.build_stubbed(:course_option)
+    application_choice = application_form.application_choices.build(
+      id: 123,
+      course_option: course_option,
+      status: :offer,
+      offer: { conditions: ['DBS check', 'Pass exams'] },
+      offered_at: Time.zone.now,
+      offered_course_option: course_option,
+    )
+    other_course_option = FactoryBot.build_stubbed(:course_option)
+    application_form.application_choices.build(
+      id: 456,
+      course_option: other_course_option,
+      status: :awaiting_provider_decision,
+      offer: { conditions: ['Get a degree'] },
+      offered_at: Time.zone.now,
+      offered_course_option: other_course_option,
+    )
+    CandidateMailer.new_offer(application_choice)
+  end
+
 private
 
   def application_form
-    FactoryBot.build_stubbed(:application_form, first_name: 'Gemma')
+    @application_form ||= FactoryBot.build_stubbed(:application_form, first_name: 'Gemma')
   end
 
   def reference
