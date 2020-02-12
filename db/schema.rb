@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_11_141124) do
+ActiveRecord::Schema.define(version: 2020_02_12_093709) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -305,6 +305,16 @@ ActiveRecord::Schema.define(version: 2020_02_11_141124) do
     t.index ["vendor_api_token_id"], name: "index_vendor_api_users_on_vendor_api_token_id"
   end
 
+  create_table "work_history_breaks", force: :cascade do |t|
+    t.bigint "application_form_id", null: false
+    t.datetime "start_date", null: false
+    t.datetime "end_date", null: false
+    t.text "reason", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["application_form_id"], name: "index_work_history_breaks_on_application_form_id"
+  end
+
   add_foreign_key "application_choices", "application_forms", on_delete: :cascade
   add_foreign_key "application_choices", "course_options"
   add_foreign_key "application_choices", "course_options", column: "offered_course_option_id"
@@ -319,4 +329,5 @@ ActiveRecord::Schema.define(version: 2020_02_11_141124) do
   add_foreign_key "references", "application_forms", on_delete: :cascade
   add_foreign_key "sites", "providers"
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
+  add_foreign_key "work_history_breaks", "application_forms", on_delete: :cascade
 end
