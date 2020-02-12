@@ -296,7 +296,7 @@ en:
         label: Full name
       relationship:
         label: What is your relationship to this referee and how long have you known them?
-        hint_text: For example, ‘She's the deputy head at the school where I currently volunteer’
+        hint_text: For example, “She’s the deputy head at the school where I currently volunteer”
       review:
         button: Continue
       sure_delete_entry: Yes I’m sure - delete this referee
