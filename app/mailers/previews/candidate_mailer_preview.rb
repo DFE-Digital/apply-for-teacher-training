@@ -52,6 +52,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       offer: { conditions: ['DBS check', 'Pass exams'] },
       offered_at: Time.zone.now,
       offered_course_option: course_option,
+      decline_by_default_at: 10.business_days.from_now,
     )
     CandidateMailer.new_offer(application_choice)
   end
@@ -65,6 +66,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       offer: { conditions: ['DBS check', 'Pass exams'] },
       offered_at: Time.zone.now,
       offered_course_option: course_option,
+      decline_by_default_at: 10.business_days.from_now,
     )
     other_course_option = FactoryBot.build_stubbed(:course_option)
     application_form.application_choices.build(
@@ -74,6 +76,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       offer: { conditions: ['Get a degree'] },
       offered_at: Time.zone.now,
       offered_course_option: other_course_option,
+      decline_by_default_at: 7.business_days.from_now,
     )
     CandidateMailer.new_offer(application_choice)
   end
@@ -87,15 +90,13 @@ class CandidateMailerPreview < ActionMailer::Preview
       offer: { conditions: ['DBS check', 'Pass exams'] },
       offered_at: Time.zone.now,
       offered_course_option: course_option,
+      decline_by_default_at: 10.business_days.from_now,
     )
     other_course_option = FactoryBot.build_stubbed(:course_option)
     application_form.application_choices.build(
       id: 456,
       course_option: other_course_option,
       status: :awaiting_provider_decision,
-      offer: { conditions: ['Get a degree'] },
-      offered_at: Time.zone.now,
-      offered_course_option: other_course_option,
     )
     CandidateMailer.new_offer(application_choice)
   end

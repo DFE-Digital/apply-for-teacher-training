@@ -228,6 +228,12 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe 'send new offer email to candidate' do
+    around do |example|
+      Timecop.freeze(Time.zone.local(2020, 2, 11)) do
+        example.run
+      end
+    end
+
     def setup_application
       @candidate = build_stubbed(:candidate)
       @application_form = build_stubbed(
@@ -245,6 +251,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         offer: { conditions: ['DBS check', 'Pass exams'] },
         offered_at: Time.zone.now,
         offered_course_option: course_option,
+        decline_by_default_at: 10.business_days.from_now,
       )
     end
 
@@ -261,6 +268,10 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it 'sends an email with the correct subject' do
         expect(@mail.subject).to include("Offer received for #{@application_choice.course_option.course.name} (#{@application_choice.course_option.course.code}) at #{@application_choice.course_option.course.provider.name}")
+      end
+
+      it 'sends an email with the correct decline by default date' do
+        expect(@mail.body.encoded).to include('Make a decision by 25 February 2020')
       end
 
       it 'sends an email with the correct conditions' do
@@ -281,6 +292,7 @@ RSpec.describe CandidateMailer, type: :mailer do
           offer: { conditions: ['Get a degree'] },
           offered_at: Time.zone.now,
           offered_course_option: other_course_option,
+          decline_by_default_at: 5.business_days.from_now,
         )
         @application_form.id = nil
         @application_form.application_choices = [@application_choice, @other_application_choice]
@@ -294,6 +306,10 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it 'sends an email with the correct subject' do
         expect(@mail.subject).to include("Offer received for #{@application_choice.course_option.course.name} (#{@application_choice.course_option.course.code}) at #{@application_choice.course_option.course.provider.name}")
+      end
+
+      it 'sends an email with the correct decline by default date' do
+        expect(@mail.body.encoded).to include('Make a decision by 25 February 2020')
       end
 
       it 'sends an email with the correct conditions' do
