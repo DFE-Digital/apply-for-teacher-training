@@ -3,32 +3,32 @@
 <h2 class="govuk-heading-m govuk-!-font-size-27">Candidates</h2>
 
 <div class="app-card app-card--blue govuk-!-margin-bottom-4">
-  <span class="app-card__count" id="total-sign-ups"><%= @statistics[:total_candidate_count] %></span>
+  <span class="app-card__count" id="total-sign-ups"><%= @statistics.total_candidate_count %></span>
   <span>sign ups (excluding test users)</span>
 </div>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-quarter">
     <div class="app-card">
-      <span class="app-card__count"><%= @statistics[:candidates_signed_up_but_not_signed_in] %></span>
+      <span class="app-card__count"><%= @statistics[:never_signed_in] %></span>
       <span><%= @statistics[:candidates_signed_up_but_not_signed_in] == 1 ? 'hasn’t' : 'haven’t' %> signed in</span>
     </div>
   </div>
   <div class="govuk-grid-column-one-quarter">
     <div class="app-card">
-      <span class="app-card__count"><%= @statistics[:candidates_signed_in_but_not_entered_data] %></span>
+      <span class="app-card__count"><%= @statistics[:unsubmitted_not_started_form] %></span>
       <span><%= @statistics[:candidates_signed_in_but_not_entered_data] == 1 ? 'hasn’t' : 'haven’t' %> started</span>
     </div>
   </div>
   <div class="govuk-grid-column-one-quarter">
     <div class="app-card">
-      <span class="app-card__count"><%= @statistics[:candidates_with_unsubmitted_forms] %></span>
+      <span class="app-card__count"><%= @statistics[:unsubmitted_in_progress] %></span>
       <span>in progress</span>
     </div>
   </div>
   <div class="govuk-grid-column-one-quarter">
     <div class="app-card app-card--green">
-      <span class="app-card__count"><%= @statistics[:candidates_with_submitted_forms] %></span>
+      <span class="app-card__count"><%= @statistics.total_candidate_count(except: %i{never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}) %></span>
       <span>submitted</span>
     </div>
   </div>

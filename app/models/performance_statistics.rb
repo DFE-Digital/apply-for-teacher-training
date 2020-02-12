@@ -1,28 +1,4 @@
 class PerformanceStatistics
-  CANDIDATE_COUNTS_QUERY = "
-  WITH raw_data AS (
-      SELECT
-          COUNT(c.id) FILTER (WHERE f.id IS NOT NULL) candidate_forms,
-          SUM(CASE WHEN f.id IS NOT NULL AND DATE_TRUNC('second', f.updated_at) <> DATE_TRUNC('second', f.created_at) THEN 1 ELSE 0 END) candidate_started_form_count,
-          SUM(CASE WHEN f.id IS NOT NULL AND f.submitted_at IS NOT NULL THEN 1 ELSE 0 END) candidate_submitted_form_count
-      FROM
-          candidates c
-      LEFT JOIN
-          application_forms f ON f.candidate_id = c.id
-      WHERE
-          NOT c.hide_in_reporting
-      GROUP BY
-          c.id
-  )
-  SELECT
-      COUNT(*) AS total_candidate_count,
-      SUM(CASE WHEN candidate_forms = 0 THEN 1 ELSE 0 END) AS candidates_signed_up_but_not_signed_in,
-      SUM(CASE WHEN candidate_forms > 0 AND candidate_started_form_count = 0 AND candidate_submitted_form_count = 0 THEN 1 ELSE 0 END) AS candidates_signed_in_but_not_entered_data,
-      SUM(CASE WHEN candidate_started_form_count > 0 AND candidate_submitted_form_count = 0 THEN 1 ELSE 0 END) AS candidates_with_unsubmitted_forms,
-      SUM(CASE WHEN candidate_submitted_form_count > 0 THEN 1 ELSE 0 END) AS candidates_with_submitted_forms
-  FROM
-      raw_data".freeze
-
   CANDIDATE_QUERY = "
   WITH raw_data AS (
       SELECT
@@ -66,7 +42,15 @@ class PerformanceStatistics
       raw_data.status[1]".freeze
 
   def [](key)
-    candidate_counts[key.to_s]
+    candidate_status_counts.find { |x| x['status'] == key.to_s }&.[]('count')
+  end
+
+  def total_candidate_count(only: nil, except: [])
+    candidate_status_counts
+     .select { |row| only.nil? || row['status'].to_sym.in?(only) }
+     .reject { |row| row['status'].to_sym.in?(except) }
+     .map { |row| row['count'] }
+     .sum
   end
 
   def candidate_status_counts
@@ -74,11 +58,5 @@ class PerformanceStatistics
       .connection
       .execute(CANDIDATE_QUERY)
       .to_a
-  end
-
-private
-
-  def candidate_counts
-    @candidate_counts ||= ActiveRecord::Base.connection.execute(CANDIDATE_COUNTS_QUERY)[0]
   end
 end
