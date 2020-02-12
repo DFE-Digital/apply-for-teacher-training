@@ -15,6 +15,14 @@ RSpec.describe MakeAnOffer do
         expect(application_choice.offered_at).to eq(Time.zone.now)
       end
     end
+
+    it 'sends an email to the candidate' do
+      application_choice = create(:application_choice, status: :awaiting_provider_decision)
+
+      MakeAnOffer.new(application_choice: application_choice).save
+
+      expect(CandidateMailer.deliveries.count).to be 1
+    end
   end
 
   describe 'validation' do
