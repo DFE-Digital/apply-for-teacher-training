@@ -192,6 +192,14 @@ en:
         candidates must pass a DBS & childen’s barred list check, and
         candidates must pass a fitness to work health check.
 
+        An email is sent to the candidate, the content of which depends
+        on the state of the application, whether there are other offers
+        and whether there are pending decisions from provider.'
+      emails:
+        - candidate_mailer-new_offer_without_other_offers
+        - candidate_mailer-new_offer_with_another_offer
+        - candidate_mailer-new_offer_with_pending_decisions
+
     awaiting_provider_decision-reject:
       name: Provider rejects
       by: provider
@@ -308,7 +316,11 @@ en:
     awaiting_provider_decisions-at_least_one_offer:
       name: At least one offer
       by: provider
-      description: ''
+      description: 'An email is sent to the candidate, the content of which depends on the state of the application, whether there are other offers and whether there are pending decisions from provider.'
+      emails:
+        - candidate_mailer-new_offer_without_other_offers
+        - candidate_mailer-new_offer_with_another_offer
+        - candidate_mailer-new_offer_with_pending_decisions
 
     awaiting_references-references_complete:
       name: All references completed
