@@ -306,5 +306,39 @@ RSpec.describe CandidateMailer, type: :mailer do
         expect(@mail.body.encoded).to include("#{@other_application_choice.course_option.course.name} (#{@other_application_choice.course_option.course.code}) at #{@other_application_choice.course_option.course.provider.name}")
       end
     end
+
+    context 'when there is a different application awaiting provider decision' do
+      before do
+        setup_application
+        other_course_option = build_stubbed(:course_option)
+        @other_application_choice = @application_form.application_choices.build(
+          id: 456,
+          application_form: @application_form,
+          course_option: other_course_option,
+          status: :awaiting_provider_decision,
+        )
+        @application_form.id = nil
+        @application_form.application_choices = [@application_choice, @other_application_choice]
+        @mail = mailer.new_offer(@application_choice)
+        @mail.deliver_later
+      end
+
+      it 'sends an email with the correct greeting' do
+        expect(@mail.body.encoded).to include('Dear Bob')
+      end
+
+      it 'sends an email with the correct subject' do
+        expect(@mail.subject).to include("Offer received for #{@application_choice.course_option.course.name} (#{@application_choice.course_option.course.code}) at #{@application_choice.course_option.course.provider.name}")
+      end
+
+      it 'sends an email with the correct conditions' do
+        expect(@mail.body.encoded).to include('DBS check')
+        expect(@mail.body.encoded).to include('Pass exams')
+      end
+
+      it 'sends an email with the correct instructions' do
+        expect(@mail.body.encoded).to include('You can wait to hear back about your other application(s) before making a decision')
+      end
+    end
   end
 end
