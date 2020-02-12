@@ -4,8 +4,6 @@ RSpec.feature 'Entering their work history' do
   include CandidateHelper
 
   scenario 'Candidate submits their work history' do
-    FeatureFlag.activate('work_breaks')
-
     given_i_am_signed_in
     and_i_visit_the_site
 
@@ -23,7 +21,6 @@ RSpec.feature 'Entering their work history' do
     and_i_should_see_the_incorrect_date_values
 
     when_i_fill_in_the_job_form
-    and_i_choose_no_to_adding_another_job
     then_i_should_see_my_completed_job
 
     when_i_click_on_delete_entry
@@ -32,18 +29,13 @@ RSpec.feature 'Entering their work history' do
 
     when_i_click_on_add_job
     and_i_fill_in_the_job_form # 5/2014 - 1/2019
-    and_i_choose_yes_to_adding_another_job
-    then_i_should_see_the_job_form
+    then_i_should_see_my_completed_job
 
-    when_i_fill_in_the_job_form_with_another_job_with_a_break # 3/2019 - current
+    when_i_click_on_add_another_job
+    and_i_fill_in_the_job_form_with_another_job_with_a_break # 3/2019 - current
     and_i_do_not_fill_in_end_date
-    and_i_choose_no_to_adding_another_job
     then_i_should_see_my_second_job
-    and_i_should_see_the_length_of_the_gap_in_months # 1 months
     and_i_should_be_asked_to_explain_the_break_in_my_work_history
-
-    when_i_click_add_another_job_for_my_break
-    then_i_should_see_the_start_and_end_date_filled_in
 
     given_i_am_on_review_work_history_page
     when_i_click_to_enter_break_explanation
@@ -147,16 +139,6 @@ RSpec.feature 'Entering their work history' do
     fill_in t('details.label', scope: scope), with: 'I gained exposure to breakthrough technologies and questionable business ethics'
 
     choose 'No'
-  end
-
-  def and_i_choose_no_to_adding_another_job
-    choose 'No, I’ve completed my work history'
-
-    click_button t('application_form.work_history.complete_form_button')
-  end
-
-  def and_i_choose_yes_to_adding_another_job
-    choose 'Yes, I want to add another job'
 
     click_button t('application_form.work_history.complete_form_button')
   end
@@ -183,14 +165,14 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_click_on_add_another_job
-    all('a', text: 'Add another job')[1].click
+    click_link 'Add another job'
   end
 
   def and_i_fill_in_the_job_form
     when_i_fill_in_the_job_form
   end
 
-  def when_i_fill_in_the_job_form_with_another_job_with_a_break
+  def and_i_fill_in_the_job_form_with_another_job_with_a_break
     scope = 'application_form.work_history'
     fill_in t('role.label', scope: scope), with: 'Chief of Xenomorph Procurement and Research'
     fill_in t('organisation.label', scope: scope), with: 'Weyland-Yutani'
@@ -205,6 +187,8 @@ RSpec.feature 'Entering their work history' do
     fill_in t('details.label', scope: scope), with: 'Gimme Xenomorphs.'
 
     choose 'No'
+
+    click_button t('application_form.work_history.complete_form_button')
   end
 
   def and_i_do_not_fill_in_end_date; end
@@ -213,23 +197,8 @@ RSpec.feature 'Entering their work history' do
     expect(page).to have_content('Chief of Xenomorph Procurement and Research')
   end
 
-  def and_i_should_see_the_length_of_the_gap_in_months
-    expect(page).to have_content('You have a break in your work history (1 month)')
-  end
-
   def and_i_should_be_asked_to_explain_the_break_in_my_work_history
     expect(page).to have_content(t('application_form.work_history.break.label'))
-  end
-
-  def when_i_click_add_another_job_for_my_break
-    first(:link, t('application_form.work_history.add_another_job')).click
-  end
-
-  def then_i_should_see_the_start_and_end_date_filled_in
-    expect(page).to have_selector("input[value='1']")
-    expect(page).to have_selector("input[value='2019']")
-    expect(page).to have_selector("input[value='3']")
-    expect(page).to have_selector("input[value='2019']")
   end
 
   def given_i_am_on_review_work_history_page
