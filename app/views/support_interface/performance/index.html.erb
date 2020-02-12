@@ -34,17 +34,10 @@
   </div>
 </div>
 
-<h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Application forms</h2>
-
-<div class="app-card app-card--blue govuk-!-margin-bottom-4">
-  <span class="app-card__count" id="total-application-forms"><%= @statistics.application_form_counts_total %></span>
-  <span>application forms (excluding test users)</span>
-</div>
-
-<div class="govuk-grid-row">
+<div class="govuk-grid-row govuk-!-margin-top-4">
   <div class="govuk-grid-column-full">
     <table class="govuk-table">
-      <caption class="govuk-table__caption">Application form breakdown</caption>
+      <caption class="govuk-table__caption">Candidate breakdown</caption>
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
           <th scope="col" class="govuk-table__header">Status</th>
@@ -54,7 +47,7 @@
       </thead>
 
       <tbody class="govuk-table__body">
-        <% @statistics.application_form_status_counts.each do |row| %>
+        <% @statistics.candidate_status_counts.each do |row| %>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header"><%= t("candidate_flow_application_states.#{row['status']}.name") %></th>
             <td class="govuk-table__cell govuk-table__cell--numeric"><%= row['count'] %></td>

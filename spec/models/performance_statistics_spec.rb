@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe PerformanceStatistics, type: :model do
-  describe '#application_form_status_counts' do
+  describe '#candidate_status_counts' do
     it 'counts unsubmitted, unstarted applications' do
       application_choice = create(:application_choice, status: 'unsubmitted')
       form = application_choice.application_form
@@ -104,7 +104,7 @@ RSpec.describe PerformanceStatistics, type: :model do
   end
 
   def count_for_process_state(process_state)
-    PerformanceStatistics.new.application_form_status_counts.find { |x| x['status'] == process_state.to_s }['count']
+    PerformanceStatistics.new.candidate_status_counts.find { |x| x['status'] == process_state.to_s }['count']
   end
 
   it 'excludes candidates marked as hidden from reporting' do
@@ -116,7 +116,7 @@ RSpec.describe PerformanceStatistics, type: :model do
     stats = PerformanceStatistics.new
 
     expect(stats[:total_candidate_count]).to eq(1)
-    expect(stats.application_form_counts_total).to eq(1)
+    expect(stats.candidate_counts_total).to eq(1)
   end
 
   it 'excludes candidates without application forms' do
@@ -124,7 +124,7 @@ RSpec.describe PerformanceStatistics, type: :model do
 
     stats = PerformanceStatistics.new
 
-    expect(stats.application_form_counts_total).to eq(0)
+    expect(stats.candidate_counts_total).to eq(0)
   end
 
   it 'breaks down candidates with unsubmitted forms into stages' do

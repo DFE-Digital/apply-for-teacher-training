@@ -23,7 +23,7 @@ class PerformanceStatistics
   FROM
       raw_data".freeze
 
-  APPLICATION_FORM_STATUS_COUNTS_QUERY = "
+  CANDIDATE_QUERY = "
   WITH raw_data AS (
       SELECT
           f.id,
@@ -67,15 +67,15 @@ class PerformanceStatistics
     candidate_counts[key.to_s]
   end
 
-  def application_form_status_counts
-    @application_form_status_counts ||= ActiveRecord::Base
+  def candidate_status_counts
+    @candidate_status_counts ||= ActiveRecord::Base
       .connection
-      .execute(APPLICATION_FORM_STATUS_COUNTS_QUERY)
+      .execute(CANDIDATE_QUERY)
       .to_a
   end
 
-  def application_form_counts_total
-    application_form_status_counts.sum { |row| row['count'].to_i }
+  def candidate_counts_total
+    candidate_status_counts.sum { |row| row['count'].to_i }
   end
 
 private
