@@ -11,7 +11,9 @@ All members of the Apply development team are able to deploy into any of the env
 To speed up the release pipeline, logic has been introduced into the pipeline code to only run the full ARM template deployment only if the following conditions are met.
 - Any of the pipeline variable groups associated with the deployment have changed since the last successful deployment
 - Any of the following files have changed in the commit associated with the build:
+  - azure-pipelines.yml
   - azure-pipelines-deploy-template.yml
+  - azure-pipelines-release.yml
   - azure/template.json
   - azure/containers.json
 If none of the above conditions are met the pipeline will simply load the new image into the container staging slot ready for swapping.
