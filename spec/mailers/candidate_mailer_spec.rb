@@ -237,8 +237,8 @@ RSpec.describe CandidateMailer, type: :mailer do
         first_name: 'Bob',
       )
       course_option = build_stubbed(:course_option)
-      @application_choice = build_stubbed(
-        :application_choice,
+      @application_choice = @application_form.application_choices.build(
+        id: 123,
         application_form: @application_form,
         course_option: course_option,
         status: :offer,
@@ -248,7 +248,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
 
-    context 'when there is just a single offer' do
+    context 'when there is a single offer' do
       before do
         setup_application
         @mail = mailer.new_offer(@application_choice)
@@ -256,17 +256,47 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
 
       it 'sends an email with the correct greeting' do
-        expect(@application_choice.course_option.course).to be_present
         expect(@mail.body.encoded).to include('Dear Bob')
       end
 
       it 'sends an email with the correct subject' do
-        expect(@application_choice.course_option.course).to be_present
         expect(@mail.subject).to include("Offer received for #{@application_choice.course_option.course.name} (#{@application_choice.course_option.course.code}) at #{@application_choice.course_option.course.provider.name}")
       end
 
       it 'sends an email with the correct conditions' do
-        expect(@application_choice.course_option.course).to be_present
+        expect(@mail.body.encoded).to include('DBS check')
+        expect(@mail.body.encoded).to include('Pass exams')
+      end
+    end
+
+    context 'when there are multiple offers' do
+      before do
+        setup_application
+        other_course_option = build_stubbed(:course_option)
+        @other_application_choice = @application_form.application_choices.build(
+          id: 456,
+          application_form: @application_form,
+          course_option: other_course_option,
+          status: :offer,
+          offer: { conditions: ['Get a degree'] },
+          offered_at: Time.zone.now,
+          offered_course_option: other_course_option,
+        )
+        @application_form.id = nil
+        @application_form.application_choices = [@application_choice, @other_application_choice]
+        @mail = mailer.new_offer(@application_choice)
+        @mail.deliver_later
+      end
+
+      it 'sends an email with the correct greeting' do
+        expect(@mail.body.encoded).to include('Dear Bob')
+      end
+
+      it 'sends an email with the correct subject' do
+        expect(@mail.subject).to include("Offer received for #{@application_choice.course_option.course.name} (#{@application_choice.course_option.course.code}) at #{@application_choice.course_option.course.provider.name}")
+      end
+
+      it 'sends an email with the correct conditions' do
         expect(@mail.body.encoded).to include('DBS check')
         expect(@mail.body.encoded).to include('Pass exams')
       end
