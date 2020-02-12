@@ -57,6 +57,8 @@ RSpec.describe 'Candidate needs to provide a new referee' do
   end
 
   def and_i_fill_in_the_form
+    expect(page).to have_title 'Add a new referee'
+
     fill_in 'Full name', with: 'AO Reference'
     fill_in 'Email address', with: 'betty@example.com'
     fill_in 'What is your relationship to this referee and how long have you known them?', with: 'Just somebody I used to know'

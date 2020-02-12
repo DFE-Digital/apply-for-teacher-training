@@ -4,6 +4,8 @@ module CandidateInterface
 
     def new
       redirect_to_confirm_if_no_more_reference_needed
+
+      @page_title = page_title_for_new_page
       @reference = ApplicationReference.new
     end
 
@@ -69,23 +71,37 @@ module CandidateInterface
     end
 
     def redirect_to_dashboard_if_no_references_needed
-      return if ReferenceStatus.new(current_application).still_more_references_needed?
+      return if reference_status.still_more_references_needed?
 
       redirect_to candidate_interface_application_form_path
     end
 
     def redirect_to_confirm_or_show_another_reference_form
-      if ReferenceStatus.new(current_application).needs_to_draft_another_reference?
-        redirect_to action: :new
+      if reference_status.needs_to_draft_another_reference?
+        redirect_to candidate_interface_new_additional_referee_path(second: true)
       else
         redirect_to candidate_interface_confirm_additional_referees_path
       end
     end
 
     def redirect_to_confirm_if_no_more_reference_needed
-      return if ReferenceStatus.new(current_application).needs_to_draft_another_reference?
+      return if reference_status.needs_to_draft_another_reference?
 
       redirect_to candidate_interface_confirm_additional_referees_path
+    end
+
+    def reference_status
+      @reference_status ||= ReferenceStatus.new(current_application)
+    end
+
+    def page_title_for_new_page
+      if params[:second]
+        'Add your second referee'
+      elsif reference_status.number_of_references_that_currently_need_replacing == 2
+        'Add your first referee'
+      else
+        'Add a new referee'
+      end
     end
   end
 end
