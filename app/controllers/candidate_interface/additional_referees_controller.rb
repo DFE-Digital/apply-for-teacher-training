@@ -9,6 +9,8 @@ module CandidateInterface
       @reference = ApplicationReference.new
     end
 
+    def show; end
+
     def create
       redirect_to_confirm_if_no_more_reference_needed
       reference = current_application.application_references.build(referee_params.merge(replacement: true))

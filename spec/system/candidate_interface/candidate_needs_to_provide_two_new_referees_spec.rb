@@ -4,6 +4,7 @@ RSpec.describe 'Candidate needs to provide 2 new referees' do
   include CandidateHelper
 
   scenario "Candidate provides a new referee because 2 didn't respond" do
+    FeatureFlag.activate('pilot_open')
     FeatureFlag.activate('show_new_referee_needed')
 
     given_i_am_signed_in_as_a_candidate
@@ -12,6 +13,9 @@ RSpec.describe 'Candidate needs to provide 2 new referees' do
 
     when_i_visit_the_application_dashboard
     then_i_see_that_i_need_new_references
+
+    when_i_visit_the_start_page
+    then_i_see_the_interstitial_page_to_add_new_referees
 
     when_i_click_to_add_a_new_referee
     and_i_fill_in_the_form
@@ -46,15 +50,26 @@ RSpec.describe 'Candidate needs to provide 2 new referees' do
   end
 
   def when_i_visit_the_application_dashboard
-    visit candidate_interface_application_form_path
+    visit candidate_interface_application_complete_path
   end
 
   def then_i_see_that_i_need_new_references
     expect(page).to have_content 'You need to give details of 2 new referees'
   end
 
+  def when_i_visit_the_start_page
+    visit candidate_interface_interstitial_path
+  end
+
+  def then_i_see_the_interstitial_page_to_add_new_referees
+    expect(page).to have_content 'You need to add 2 new referees'
+    @application_form.application_references.each do |referee|
+      expect(page).to have_content "#{referee.name} did not respond to our request"
+    end
+  end
+
   def when_i_click_to_add_a_new_referee
-    click_on 'give details of 2 new referees'
+    click_on 'Add new referees'
   end
 
   def and_i_fill_in_the_form

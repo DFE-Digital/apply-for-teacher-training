@@ -40,6 +40,8 @@ Rails.application.routes.draw do
 
     get '/apply', to: 'apply_from_find#show', as: :apply_from_find
 
+    get '/interstitial', to: 'sign_in#interstitial', as: :interstitial
+
     scope '/application' do
       get '/' => 'application_form#show', as: :application_form
       get '/edit' => 'application_form#edit', as: :application_edit
@@ -229,8 +231,9 @@ Rails.application.routes.draw do
       end
 
       scope '/new-referee' do
-        get '/' => 'additional_referees#new', as: :new_additional_referee
-        post '/' => 'additional_referees#create'
+        get '/' => 'additional_referees#show', as: :additional_referee
+        get '/new' => 'additional_referees#new', as: :new_additional_referee
+        post '/new' => 'additional_referees#create'
 
         get '/:application_reference_id/edit' => 'additional_referees#edit', as: :edit_additional_referee
         patch '/:application_reference_id/edit' => 'additional_referees#update'
