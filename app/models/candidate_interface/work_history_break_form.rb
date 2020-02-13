@@ -13,6 +13,14 @@ module CandidateInterface
 
     validates :reason, presence: true, word_count: { maximum: 400 }
 
+    def save(application_form)
+      return false unless valid?
+
+      application_form.application_work_history_breaks.create!(
+        start_date: start_date, end_date: end_date, reason: reason,
+      )
+    end
+
     def start_date
       valid_or_invalid_start_date(start_date_year, start_date_month)
     end
