@@ -16,7 +16,14 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     then_i_see_a_two_months_break_between_my_first_job_and_my_second_job
 
     when_i_click_add_another_job_for_my_break
-    then_i_should_see_the_start_and_end_date_filled_in
+    then_i_see_the_start_and_end_date_filled_in
+
+    given_i_am_on_review_work_history_page
+    when_i_click_to_explain_my_break
+    then_i_see_the_start_and_end_date_filled_in
+
+    when_i_enter_a_reason_for_my_break
+    then_i_can_see_my_reason_on_the_review_page
   end
 
   def given_i_am_signed_in
@@ -92,10 +99,28 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     first(:link, t('application_form.work_history.add_another_job')).click
   end
 
-  def then_i_should_see_the_start_and_end_date_filled_in
+  def then_i_see_the_start_and_end_date_filled_in
     expect(page).to have_selector("input[value='8']")
     expect(page).to have_selector("input[value='2019']")
     expect(page).to have_selector("input[value='11']")
     expect(page).to have_selector("input[value='2019']")
+  end
+
+  def given_i_am_on_review_work_history_page
+    visit candidate_interface_work_history_show_path
+  end
+
+  def when_i_click_to_explain_my_break
+    click_link 'Please explain break'
+  end
+
+  def when_i_enter_a_reason_for_my_break
+    fill_in 'Enter reasons for break in work history', with: 'Painting is tiring.'
+
+    click_button 'Continue'
+  end
+
+  def then_i_can_see_my_reason_on_the_review_page
+    expect(page).to have_content('Painting is tiring.')
   end
 end

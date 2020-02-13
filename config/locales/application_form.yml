@@ -497,6 +497,7 @@ en:
               invalid: Enter an end date in the correct format
               in_the_future: Enter an end date that is not in the future
             reason:
+              blank: Enter reasons for break in work history
               too_many_words: Reasons for break in work history must be %{count} words or fewer
         candidate_interface/gcse_qualification_details_form:
           attributes:

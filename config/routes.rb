@@ -109,6 +109,9 @@ Rails.application.routes.draw do
         get '/explain-breaks' => 'work_history/breaks#edit', as: :work_history_breaks
         post '/explain-breaks' => 'work_history/breaks#update'
 
+        get '/explain-break/new' => 'work_history/break#new', as: :new_work_history_break
+        post '/explain-break/new' => 'work_history/break#create'
+
         get '/new' => 'work_history/edit#new', as: :work_history_new
         post '/create' => 'work_history/edit#create', as: :work_history_create
 
