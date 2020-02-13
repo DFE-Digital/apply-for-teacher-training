@@ -24,6 +24,10 @@ RSpec.feature 'Entering reasons for their work history breaks' do
 
     when_i_enter_a_reason_for_my_break
     then_i_can_see_my_reason_on_the_review_page
+
+    when_i_click_to_delete_my_break
+    and_i_confirm_i_want_to_delete_my_break
+    then_i_no_longer_see_my_reason_on_the_review_page
   end
 
   def given_i_am_signed_in
@@ -122,5 +126,17 @@ RSpec.feature 'Entering reasons for their work history breaks' do
 
   def then_i_can_see_my_reason_on_the_review_page
     expect(page).to have_content('Painting is tiring.')
+  end
+
+  def when_i_click_to_delete_my_break
+    click_link 'Delete entry for break between August 2019 and November 2019'
+  end
+
+  def and_i_confirm_i_want_to_delete_my_break
+    click_button 'Yes I’m sure - delete this entry'
+  end
+
+  def then_i_no_longer_see_my_reason_on_the_review_page
+    expect(page).not_to have_content('Painting is tiring.')
   end
 end
