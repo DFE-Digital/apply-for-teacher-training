@@ -1,23 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe BreakInWorkHistoryComponent do
-  let(:work_break) { double }
-
-  before do
-    allow(work_break).to receive(:length).and_return(3)
-    allow(work_break).to receive(:start_date).and_return(Date.new(2020, 1, 1))
-    allow(work_break).to receive(:end_date).and_return(Date.new(2020, 5, 1))
+  let(:february2019) { Time.zone.local(2019, 2, 1) }
+  let(:april2019) { Time.zone.local(2019, 4, 1) }
+  let(:work_break) do
+    build_stubbed(
+      :application_work_history_break,
+      start_date: february2019,
+      end_date: april2019,
+      reason: 'I feel asleep.',
+    )
   end
 
-  it 'renders the component with the break in months' do
+  it 'renders the component with the break in months, reason and dates' do
     result = render_inline(BreakInWorkHistoryComponent, work_break: work_break)
 
-    expect(result.text).to include('You have a break in your work history (3 months)')
-  end
-
-  it 'renders the component with a link to add another job' do
-    result = render_inline(BreakInWorkHistoryComponent, work_break: work_break)
-
-    expect(result.text).to include('Add another job')
+    expect(result.text).to include('Break in work history (1 month)')
+    expect(result.text).to include('I feel asleep.')
+    expect(result.text).to include('February 2019 - April 2019')
   end
 end
