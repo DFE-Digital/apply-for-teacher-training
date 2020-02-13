@@ -11,7 +11,7 @@ module ProviderInterface
     end
 
     def default_sort_order
-      :desc
+      'desc'
     end
 
     def toggle_sort_order

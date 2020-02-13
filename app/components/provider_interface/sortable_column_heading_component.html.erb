@@ -1,3 +1,9 @@
-<th scope="col" class="govuk-table__header govuk-!-width-one-quarter" aria-sort="<%= should_have_sort? ? aria_sort_order : "none" %>">
-  <%= link_to column_name, url_for(sort_order: toggle_sort_order, sort_by: sort_by), class: "sort-link" %>
-</th>
+<% if should_have_sort? %>
+  <th scope="col" class="govuk-table__header govuk-!-width-one-quarter" aria-sort="<%= aria_sort_order %>">
+    <%= link_to column_name, url_for(sort_order: toggle_sort_order, sort_by: sort_by), class: "sort-link" %>
+  </th>
+<% else %>
+  <th scope="col" class="govuk-table__header govuk-!-width-one-quarter" aria-sort="none">
+    <%= link_to column_name, url_for(sort_order: default_sort_order, sort_by: sort_by), class: "sort-link" %>
+  </th>
+<% end %>

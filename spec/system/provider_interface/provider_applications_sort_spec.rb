@@ -72,13 +72,13 @@ RSpec.feature 'Providers should be able to sort applications' do
   end
 
   def then_i_should_see_the_applications_in_descending_name_order
-    expect('Bill Bones').to appear_before('Jim James')
-    expect('Jim James').to appear_before('Tom Jones')
+    expect('Tom Jones').to appear_before('Jim James')
+    expect('Jim James').to appear_before('Bill Bones')
   end
 
   def then_i_should_see_the_applications_in_ascending_name_order
-    expect('Tom Jones').to appear_before('Jim James')
-    expect('Jim James').to appear_before('Bill Bones')
+    expect('Bill Bones').to appear_before('Jim James')
+    expect('Jim James').to appear_before('Tom Jones')
   end
 
   def when_i_sort_by_course
@@ -86,12 +86,12 @@ RSpec.feature 'Providers should be able to sort applications' do
   end
 
   def then_i_should_see_the_applications_in_descending_course_name_order
-    expect('Alchemy').to appear_before('Divination')
-    expect('Divination').to appear_before('English')
+    expect('English').to appear_before('Divination')
+    expect('Divination').to appear_before('Alchemy')
   end
 
   def then_i_should_see_the_applications_in_ascending_course_name_order
-    expect('English').to appear_before('Divination')
-    expect('Divination').to appear_before('Alchemy')
+    expect('Alchemy').to appear_before('Divination')
+    expect('Divination').to appear_before('English')
   end
 end
