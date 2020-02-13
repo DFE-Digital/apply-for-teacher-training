@@ -64,6 +64,20 @@ class CandidateMailer < ApplicationMailer
               subject: t("new_referee_request.#{@reason}.subject", referee_name: @referee.name))
   end
 
+  def all_application_choices_rejected(application_choice)
+    @application = OpenStruct.new(
+      provider_name: application_choice.provider.name,
+      course_name: application_choice.course.name,
+      rejection_reason: application_choice.rejection_reason,
+      candidate_name: application_choice.application_form.first_name,
+      choice_count: application_choice.application_form.application_choices.count,
+    )
+
+    view_mail(GENERIC_NOTIFY_TEMPLATE,
+              to: application_choice.application_form.candidate.email_address,
+              subject: t('application_choice_rejected_email.subject', provider_name: application_choice.provider.name))
+  end
+
   def new_offer_single_offer(application_choice)
     new_offer(application_choice, :single_offer)
   end

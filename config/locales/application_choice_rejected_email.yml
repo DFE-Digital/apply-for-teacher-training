@@ -1,0 +1,8 @@
+en:
+  application_choice_rejected_email:
+    subject: "%{provider_name} has responded: next steps"
+    git:
+      url: https://getintoteaching.education.gov.uk
+      phone_number: 0800 389 2500
+    bat:
+      url: becomingateacher@digital.education.gov.uk
