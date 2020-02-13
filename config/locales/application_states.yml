@@ -193,12 +193,13 @@ en:
         candidates must pass a fitness to work health check.
 
         An email is sent to the candidate, the content of which depends
-        on the state of the application, whether there are other offers
-        and whether there are pending decisions from provider.'
+        on the state of the other application choices, whether there are
+        other offers and whether there are pending decisions from
+        providers.'
       emails:
-        - candidate_mailer-new_offer_without_other_offers
-        - candidate_mailer-new_offer_with_another_offer
-        - candidate_mailer-new_offer_with_pending_decisions
+        - candidate_mailer-new_offer_single_offer
+        - candidate_mailer-new_offer_multiple_offers
+        - candidate_mailer-new_offer_decisions_pending
 
     awaiting_provider_decision-reject:
       name: Provider rejects
@@ -316,11 +317,7 @@ en:
     awaiting_provider_decisions-at_least_one_offer:
       name: At least one offer
       by: provider
-      description: 'An email is sent to the candidate, the content of which depends on the state of the application, whether there are other offers and whether there are pending decisions from provider.'
-      emails:
-        - candidate_mailer-new_offer_without_other_offers
-        - candidate_mailer-new_offer_with_another_offer
-        - candidate_mailer-new_offer_with_pending_decisions
+      description: ''
 
     awaiting_references-references_complete:
       name: All references completed
