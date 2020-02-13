@@ -13,10 +13,14 @@ class ProcessState
     end
 
     state :never_signed_in do
-      event :sign_in, transitions_to: :unsubmitted
+      event :sign_in, transitions_to: :unsubmitted_not_started_form
     end
 
-    state :unsubmitted do
+    state :unsubmitted_not_started_form do
+      event :edit_form, transitions_to: :unsubmitted_in_progress
+    end
+
+    state :unsubmitted_in_progress do
       event :submit, transitions_to: :awaiting_references
     end
 
@@ -59,10 +63,8 @@ class ProcessState
   def state
     if application_form.nil?
       :never_signed_in
-    elsif application_choices.empty?
-      :unsubmitted
-    elsif all_states_are?('unsubmitted')
-      :unsubmitted
+    elsif application_choices.empty? || all_states_are?('unsubmitted')
+      unchanged?(application_form) ? :unsubmitted_not_started_form : :unsubmitted_in_progress
     elsif any_state_is?('awaiting_references')
       :awaiting_references
     elsif any_state_is?('application_complete')
@@ -108,5 +110,9 @@ private
 
   def any_state_is?(state)
     states.include?(state)
+  end
+
+  def unchanged?(application_form)
+    application_form.created_at.to_i == application_form.updated_at.to_i
   end
 end

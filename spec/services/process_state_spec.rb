@@ -13,15 +13,23 @@ RSpec.describe ProcessState do
 
       state = ProcessState.new(application_form).state
 
-      expect(state).to be(:unsubmitted)
+      expect(state).to be(:unsubmitted_not_started_form)
     end
 
-    it 'returns unsubmitted with unsubmitted choices' do
+    it 'returns unsubmitted_not_started_form when unsubmitted choices exist but form has not been updated' do
       application_form = build_stubbed(:application_form, application_choices: build_list(:application_choice, 2, status: 'unsubmitted'))
-
       state = ProcessState.new(application_form).state
 
-      expect(state).to be(:unsubmitted)
+      expect(state).to be(:unsubmitted_not_started_form)
+    end
+
+    it 'returns unsubmitted_not_started_form when unsubmitted choices exist but form has been updated' do
+      application_form = build_stubbed(:application_form,
+                                       application_choices: build_list(:application_choice, 2, status: 'unsubmitted'),
+                                       updated_at: Time.zone.now + 1.day)
+      state = ProcessState.new(application_form).state
+
+      expect(state).to be(:unsubmitted_in_progress)
     end
 
     it 'returns awaiting_references when awaiting references for all choices' do

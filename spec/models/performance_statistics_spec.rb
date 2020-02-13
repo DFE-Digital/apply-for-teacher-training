@@ -2,12 +2,31 @@ require 'rails_helper'
 
 RSpec.describe PerformanceStatistics, type: :model do
   describe '#application_form_status_counts' do
-    it 'counts unsubmitted applications' do
+    it 'counts unsubmitted, unstarted applications' do
       application_choice = create(:application_choice, status: 'unsubmitted')
+      form = application_choice.application_form
+      form.update_column(:updated_at, form.created_at)
 
-      expect(ProcessState.new(application_choice.application_form).state).to be :unsubmitted
+      expect(ProcessState.new(form).state).to be :unsubmitted_not_started_form
 
-      expect(count_for_process_state(:unsubmitted)).to be(1)
+      expect(count_for_process_state(:unsubmitted_not_started_form)).to be(1)
+    end
+
+    it 'counts unsubmitted, unstarted applications without choices' do
+      form = create(:application_form)
+
+      expect(ProcessState.new(form).state).to be :unsubmitted_not_started_form
+
+      expect(count_for_process_state(:unsubmitted_not_started_form)).to be(1)
+    end
+
+    it 'counts unsubmitted, started applications' do
+      application_choice = create(:application_choice, status: 'unsubmitted')
+      application_choice.application_form.update_column(:updated_at, Time.zone.now + 1.day)
+
+      expect(ProcessState.new(application_choice.application_form).state).to be :unsubmitted_in_progress
+
+      expect(count_for_process_state(:unsubmitted_in_progress)).to be(1)
     end
 
     it 'counts awaiting references applications' do
@@ -66,14 +85,6 @@ RSpec.describe PerformanceStatistics, type: :model do
       expect(ProcessState.new(application_choice.application_form).state).to be :pending_conditions
 
       expect(count_for_process_state(:pending_conditions)).to be(1)
-    end
-
-    it 'counts unsubmitted applications without choices' do
-      form = create(:application_form)
-
-      expect(ProcessState.new(form).state).to be :unsubmitted
-
-      expect(count_for_process_state(:unsubmitted)).to be(1)
     end
 
     it 'counts applications that ended without success' do
