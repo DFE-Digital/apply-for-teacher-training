@@ -106,6 +106,12 @@ FactoryBot.define do
     working_pattern { Faker::Lorem.paragraph_by_chars(number: 30) }
   end
 
+  factory :application_work_history_break do
+    start_date { Faker::Date.between(from: 20.years.ago, to: 5.years.ago) }
+    end_date { [Faker::Date.between(from: 4.years.ago, to: Date.today), nil].sample }
+    reason { Faker::Lorem.sentence(word_count: 400) }
+  end
+
   factory :application_volunteering_experience, parent: :application_experience, class: 'ApplicationVolunteeringExperience'
   factory :application_work_experience, parent: :application_experience, class: 'ApplicationWorkExperience'
 

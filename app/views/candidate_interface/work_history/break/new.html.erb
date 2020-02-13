@@ -1,0 +1,27 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.work_history_break'), @work_break.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_work_history_show_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @work_break, url: candidate_interface_new_work_history_break_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl"><%= t('page_titles.work_history') %></span>
+        <%= t('page_titles.work_history_break') %>
+      </h1>
+
+      <div class="app-work-experience__start-date" data-qa="start-date">
+        <%= f.govuk_date_field :start_date, omit_day: true, legend: { text: 'Start of break', size: 'm', tag: 'span' } %>
+      </div>
+
+      <div class="app-work-experience__end-date" data-qa="end-date">
+        <%= f.govuk_date_field :end_date, omit_day: true, legend: { text: 'End of break', size: 'm', tag: 'span' } %>
+      </div>
+
+      <%= f.govuk_text_area :reason, label: { text: 'Enter reasons for break in work history', size: 'm' }, hint_text: 'For example, parenting or caring responsibilities, unemployment, travel, health, study or other personal reasons', max_words: 400 %>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>

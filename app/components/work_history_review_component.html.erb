@@ -13,6 +13,10 @@
     <% end %>
   <% elsif history[:type] == :break_placeholder %>
     <% if FeatureFlag.active?('work_breaks') %>
+      <%= render(BreakPlaceholderInWorkHistoryComponent, work_break: history[:entry]) %>
+    <% end %>
+  <% elsif history[:type] == :break %>
+    <% if FeatureFlag.active?('work_breaks') %>
       <%= render(BreakInWorkHistoryComponent, work_break: history[:entry]) %>
     <% end %>
   <% end %>
