@@ -1,54 +1,5 @@
-<div class="app-status-box">
-  <h2 class="govuk-heading-m">Status</h2>
-  <%= render ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice) %>
-
-  <dl class="app-definition-list govuk-!-margin-top-4">
-    <dt>Application submitted:</dt>
-    <dd><%= submitted_at %></dd>
-
-    <% if application_choice.awaiting_provider_decision? %>
-      <dt>Respond to the candidate by:</dt>
-      <dd><%= respond_by %></dd>
-    <% elsif application_choice.withdrawn? %>
-      <dt>Application withdrawn</dt>
-      <dd><%= withdrawn_at %></dd>
-    <% elsif application_choice.offer? %>
-      <dt>Candidate must respond by:</dt>
-      <dd><%= candidate_respond_by %></dd>
-    <% elsif application_choice.offer_withdrawn? %>
-      <dt>Withdrawn on:</dt>
-      <dd><%= offer_withdrawn_at %></dd>
-    <% elsif application_choice.rejected? %>
-      <dt>Rejected on:</dt>
-      <dd><%= rejected_at %></dd>
-    <% elsif application_choice.recruited? %>
-      <dt>Recruited on:</dt>
-      <dd><%= recruited_at %></dd>
-    <% elsif application_choice.declined? %>
-      <dt>Declined on:</dt>
-      <dd><%= declined_at %></dd>
-    <% elsif application_choice.pending_conditions? %>
-      <dt>Offer accepted:</dt>
-      <dd><%= accepted_at %></dd>
-    <% elsif application_choice.conditions_not_met? %>
-      <dt>Conditions not met</dt>
-      <dd><%= conditions_not_met_at %></dd>
-    <% elsif application_choice.enrolled? %>
-      <dt>Enrolled on:</dt>
-      <dd><%= enrolled_at %></dd>
-    <% end %>
-  </dl>
-
-  <% if application_choice.awaiting_provider_decision? %>
-    <div class="govuk-!-margin-top-6">
-      <%= govuk_button_link_to 'Respond to application', provider_interface_application_choice_respond_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
-    </div>
-  <% elsif application_choice.pending_conditions? && FeatureFlag.active?('confirm_conditions') %>
-    <div class="govuk-!-margin-top-6">
-      <%= govuk_button_link_to 'Confirm conditions', provider_interface_application_choice_edit_conditions_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
-    </div>
-  <% elsif application_choice.offer? && FeatureFlag.active?('provider_change_response') %>
-    <div class="govuk-!-margin-top-6">
-      <%= govuk_button_link_to 'Change response', provider_interface_application_choice_edit_response_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
-  <% end %>
+<div data-qa="app-status-box">
+  <div class="app-card app-card--white govuk-!-margin-bottom-9">
+    <%= render status_box_component_to_render, application_choice: @application_choice %>
+  </div>
 </div>

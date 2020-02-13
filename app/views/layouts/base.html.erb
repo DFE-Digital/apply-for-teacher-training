@@ -2,7 +2,7 @@
 <html lang="en" class="govuk-template">
   <head>
     <meta charset="utf-8">
-    <title><%= browser_title %></title>
+    <title><%= try(:browser_title) %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
