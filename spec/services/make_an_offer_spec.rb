@@ -19,7 +19,7 @@ RSpec.describe MakeAnOffer do
     it 'sends an email to the candidate' do
       application_choice = create(:application_choice, status: :awaiting_provider_decision)
 
-      MakeAnOffer.new(application_choice: application_choice).save
+      MakeAnOffer.new(actor: user, application_choice: application_choice).save
 
       expect(CandidateMailer.deliveries.count).to be 1
     end
