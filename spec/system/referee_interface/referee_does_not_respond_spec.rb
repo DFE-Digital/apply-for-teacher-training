@@ -1,17 +1,21 @@
 require 'rails_helper'
 
-RSpec.feature 'Referee does not respond within 5 days', sidekiq: true do
+RSpec.feature 'Referee does not respond in time', sidekiq: true do
   include CandidateHelper
 
-  scenario 'A chase email is sent if a referee does not respond within 5 days' do
+  scenario 'Emails are sent if a referee does not respond in time' do
     FeatureFlag.activate('training_with_a_disability')
     FeatureFlag.activate('automated_referee_chaser')
+    FeatureFlag.activate('automated_referee_replacement')
 
     given_a_candidate_completed_an_application
     when_the_candidate_submits_the_application
     and_the_referee_does_not_respond_within_5_days
     then_the_referee_is_sent_a_chase_email
     and_an_email_is_sent_to_the_candidate
+
+    when_if_the_candidate_does_not_respond_within_10_days
+    then_an_email_is_sent_to_the_candidate_asking_for_a_new_referee
   end
 
   def given_a_candidate_completed_an_application
@@ -39,5 +43,17 @@ RSpec.feature 'Referee does not respond within 5 days', sidekiq: true do
     open_email(@application.candidate.email_address)
 
     expect(current_email.subject).to have_content(t('candidate_reference.subject.chaser', referee_name: 'Anne Other'))
+  end
+
+  def when_if_the_candidate_does_not_respond_within_10_days
+    Timecop.travel(11.business_days.from_now) do
+      AskCandidatesForNewRefereesWorker.perform_async
+    end
+  end
+
+  def then_an_email_is_sent_to_the_candidate_asking_for_a_new_referee
+    open_email(@application.candidate.email_address)
+
+    expect(current_email.subject).to have_content('Give details of a new referee')
   end
 end
