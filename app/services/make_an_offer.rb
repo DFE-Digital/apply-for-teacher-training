@@ -41,7 +41,7 @@ class MakeAnOffer
     application_choice.save!
 
     SetDeclineByDefault.new(application_form: application_choice.application_form).call
-    CandidateMailer.new_offer(application_choice).deliver
+    SendNewOfferEmailToCandidate.new(application_choice: @application_choice).call
     StateChangeNotifier.call(:make_an_offer, application_choice: application_choice)
   rescue Workflow::NoTransitionAllowed
     errors.add(

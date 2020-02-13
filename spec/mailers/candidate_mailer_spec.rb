@@ -255,10 +255,10 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
 
-    context 'when there is a single offer' do
+    describe '#new_offer_single_offer' do
       before do
         setup_application
-        @mail = mailer.new_offer(@application_choice)
+        @mail = mailer.new_offer_single_offer(@application_choice)
         @mail.deliver_later
       end
 
@@ -280,7 +280,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
     end
 
-    context 'when there are multiple offers' do
+    describe '#new_offer_multiple_offers' do
       before do
         setup_application
         other_course_option = build_stubbed(:course_option)
@@ -296,7 +296,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         )
         @application_form.id = nil
         @application_form.application_choices = [@application_choice, @other_application_choice]
-        @mail = mailer.new_offer(@application_choice)
+        @mail = mailer.new_offer_multiple_offers(@application_choice)
         @mail.deliver_later
       end
 
@@ -323,7 +323,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
     end
 
-    context 'when there is a different application awaiting provider decision' do
+    describe '#new_offer_decisions_pending' do
       before do
         setup_application
         other_course_option = build_stubbed(:course_option)
@@ -335,7 +335,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         )
         @application_form.id = nil
         @application_form.application_choices = [@application_choice, @other_application_choice]
-        @mail = mailer.new_offer(@application_choice)
+        @mail = mailer.new_offer_decisions_pending(@application_choice)
         @mail.deliver_later
       end
 
