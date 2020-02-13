@@ -1,7 +1,7 @@
 module CandidateInterface
   class SignInController < CandidateInterfaceController
     skip_before_action :authenticate_candidate!
-    before_action :redirect_to_application_if_signed_in, except: :authenticate
+    before_action :redirect_to_application_if_signed_in, except: %i[authenticate interstitial]
 
     def new
       if FeatureFlag.active?('improved_expired_token_flow') && params[:u]
@@ -14,6 +14,14 @@ module CandidateInterface
         end
       else
         @candidate = Candidate.new
+      end
+    end
+
+    def interstitial
+      if more_reference_needed? && FeatureFlag.active?('show_new_referee_needed')
+        redirect_to candidate_interface_additional_referee_path
+      else
+        redirect_to candidate_interface_application_form_path
       end
     end
 
@@ -50,7 +58,7 @@ module CandidateInterface
         service.execute
 
         if service.candidate_does_not_have_a_course_from_find?
-          redirect_to candidate_interface_application_form_path
+          redirect_to candidate_interface_interstitial_path
         elsif service.candidate_has_new_course_added?
           redirect_to candidate_interface_course_choices_review_path
         elsif service.candidate_should_choose_site?

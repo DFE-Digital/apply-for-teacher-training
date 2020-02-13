@@ -4,14 +4,21 @@ RSpec.describe 'Candidate needs to provide a new referee' do
   include CandidateHelper
 
   scenario "Candidate provides a new referee because one didn't respond" do
+    FeatureFlag.activate('pilot_open')
     FeatureFlag.activate('show_new_referee_needed')
 
     given_i_am_signed_in_as_a_candidate
     and_i_have_submitted_my_application
     and_one_of_my_referees_hasnt_responded_within_a_reasonable_timeframe
 
-    when_i_visit_the_application_dashboard
-    then_i_see_that_i_need_a_new_reference
+    when_i_sign_in
+    then_i_see_the_interstitial_page_to_add_new_referee
+
+    when_i_choose_to_continue_without_adding_a_new_referee
+    then_i_see_that_i_need_a_new_reference_on_the_dashboard
+
+    when_i_sign_in_again
+    then_i_see_the_interstitial_page_to_add_new_referee
 
     when_i_click_to_add_a_new_referee
     and_i_fill_in_the_form
@@ -25,6 +32,9 @@ RSpec.describe 'Candidate needs to provide a new referee' do
     then_the_new_referee_should_receive_an_email
     and_i_see_that_my_new_references_have_been_requested
     and_i_should_not_be_asked_to_provide_another_reference
+
+    when_i_sign_in_again
+    then_i_should_not_be_asked_to_provide_another_reference
 
     when_i_go_back_to_the_edit_page
     then_i_see_a_404_page
@@ -41,19 +51,32 @@ RSpec.describe 'Candidate needs to provide a new referee' do
 
   def and_one_of_my_referees_hasnt_responded_within_a_reasonable_timeframe
     create(:reference, :complete, application_form: @application_form, requested_at: Time.zone.now - 30.days)
-    create(:reference, :requested, application_form: @application_form, requested_at: Time.zone.now - 30.days)
+    @late_referee = create(:reference, :requested, application_form: @application_form, requested_at: Time.zone.now - 30.days)
   end
 
-  def when_i_visit_the_application_dashboard
-    visit candidate_interface_application_form_path
+  def when_i_sign_in
+    visit candidate_interface_interstitial_path
   end
 
-  def then_i_see_that_i_need_a_new_reference
+  def when_i_sign_in_again
+    when_i_sign_in
+  end
+
+  def then_i_see_that_i_need_a_new_reference_on_the_dashboard
     expect(page).to have_content 'You need to give details of a new referee'
   end
 
+  def then_i_see_the_interstitial_page_to_add_new_referee
+    expect(page).to have_content 'You need to add a new referee'
+    expect(page).to have_content "#{@late_referee.name} did not respond to our request."
+  end
+
+  def when_i_choose_to_continue_without_adding_a_new_referee
+    click_on 'Continue without adding a new referee'
+  end
+
   def when_i_click_to_add_a_new_referee
-    click_on 'details of a new referee'
+    click_on 'Add a new referee'
   end
 
   def and_i_fill_in_the_form
@@ -101,6 +124,10 @@ RSpec.describe 'Candidate needs to provide a new referee' do
 
   def and_i_should_not_be_asked_to_provide_another_reference
     expect(page).not_to have_content 'You need to give details of a new referee'
+  end
+
+  def then_i_should_not_be_asked_to_provide_another_reference
+    and_i_should_not_be_asked_to_provide_another_reference
   end
 
   def when_i_go_back_to_the_edit_page
