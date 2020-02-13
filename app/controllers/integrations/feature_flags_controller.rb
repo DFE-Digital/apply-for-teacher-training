@@ -10,13 +10,9 @@ module Integrations
         features
       end
 
-      feature_flags['sandbox_mode'] = {
-        name: 'Sandbox mode',
-        active: HostingEnvironment.sandbox_mode?,
-      }
-
       response = {
         hosting_environment: HostingEnvironment.environment_name,
+        sandbox_mode: HostingEnvironment.sandbox_mode?,
         feature_flags: feature_flags,
       }
 
