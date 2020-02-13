@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::RefereesReviewComponent do
-  let(:application_form) do
-    create(:completed_application_form, references_count: 2)
-  end
-
   context 'when referees are editable' do
     let(:application_form) { create(:completed_application_form, references_count: 2, with_gces: true) }
 
