@@ -76,6 +76,8 @@ class CandidateMailer < ApplicationMailer
     new_offer(application_choice, :decisions_pending)
   end
 
+private
+
   def new_offer(application_choice, template_name)
     @application_choice = application_choice
     @candidate_name = @application_choice.application_form.first_name

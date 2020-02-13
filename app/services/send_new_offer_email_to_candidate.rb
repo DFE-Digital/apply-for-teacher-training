@@ -10,9 +10,17 @@ class SendNewOfferEmailToCandidate
       "new_offer_#{mail_type(application_choice)}".to_sym,
       application_choice,
     ).deliver_later
+    add_comment_to_audit_trail
   end
 
 private
+
+  def add_comment_to_audit_trail
+    audit_comment =
+      "New offer email sent to candidate #{application_choice.application_form.candidate.email_address} for " +
+      "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}."
+    application_choice.application_form.update!(audit_comment: audit_comment)
+  end
 
   def mail_type(application_choice)
     candidate_application_choices = application_choice.application_form.application_choices
