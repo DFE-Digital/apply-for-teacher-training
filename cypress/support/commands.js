@@ -31,6 +31,6 @@ Cypress.Commands.add("newEmailAddress", () => {
   return mailslurp.createInbox();
 });
 
-Cypress.Commands.add("getLatestEmail", inbox => {
-  return mailslurp.waitForLatestEmail(inbox.id);
+Cypress.Commands.add("getLatestEmail", inboxId => {
+  return mailslurp.waitForLatestEmail(inboxId());
 });
