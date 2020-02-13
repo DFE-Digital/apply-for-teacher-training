@@ -32,6 +32,7 @@ RSpec.feature 'Receives rejection email' do
 
   def then_i_receive_the_all_applications_rejected_email
     open_email(@application_form.candidate.email_address)
+
     expect(current_email.subject).to include(t('application_choice_rejected_email.subject', provider_name: @application_choice.provider.name))
   end
 end
