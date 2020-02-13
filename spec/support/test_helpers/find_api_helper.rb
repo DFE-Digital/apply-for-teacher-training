@@ -6,7 +6,8 @@ module FindAPIHelper
     site_code: 'X',
     findable: true,
     study_mode: 'full_time',
-    site_address_line2: 'C/O The Bruntcliffe Academy'
+    site_address_line2: 'C/O The Bruntcliffe Academy',
+    region_code: 'north_west'
   )
     stub_find_api_provider(provider_code)
       .to_return(
@@ -19,6 +20,7 @@ module FindAPIHelper
             'attributes': {
               'provider_name': provider_name,
               'provider_code': provider_code,
+              'region_code': region_code,
             },
             'relationships': {
               'sites': {
@@ -73,7 +75,17 @@ module FindAPIHelper
       )
   end
 
-  def stub_find_api_provider_200_with_accrediting_provider(provider_code: 'ABC', provider_name: 'Dummy Provider', course_code: 'X130', site_code: 'X', accrediting_provider_code: 'XYZ', accrediting_provider_name: 'Dummy Accrediting Provider', findable: true, study_mode: 'full_time')
+  def stub_find_api_provider_200_with_accrediting_provider(
+    provider_code: 'ABC',
+    provider_name: 'Dummy Provider',
+    course_code: 'X130',
+    site_code: 'X',
+    accrediting_provider_code: 'XYZ',
+    accrediting_provider_name: 'Dummy Accrediting Provider',
+    findable: true,
+    study_mode: 'full_time',
+    region_code: 'north_west'
+  )
     stub_find_api_provider(provider_code)
       .to_return(
         status: 200,
@@ -85,6 +97,7 @@ module FindAPIHelper
             'attributes': {
               'provider_name': provider_name,
               'provider_code': provider_code,
+              'region_code': region_code,
             },
             'relationships': {
               'sites': {
@@ -142,7 +155,14 @@ module FindAPIHelper
       )
   end
 
-  def stub_find_api_provider_200_with_multiple_sites(provider_code: 'ABC', provider_name: 'Dummy Provider', course_code: 'X130', findable: true, study_mode: 'full_time_or_part_time')
+  def stub_find_api_provider_200_with_multiple_sites(
+    provider_code: 'ABC',
+    provider_name: 'Dummy Provider',
+    course_code: 'X130',
+    findable: true,
+    study_mode: 'full_time_or_part_time',
+    region_code: 'north_west'
+  )
     response_hash = {
       status: 200,
       headers: { 'Content-Type': 'application/vnd.api+json' },
@@ -153,6 +173,7 @@ module FindAPIHelper
           'attributes': {
             'provider_name': provider_name,
             'provider_code': provider_code,
+            'region_code': region_code,
           },
           'relationships': {
             'sites': {
