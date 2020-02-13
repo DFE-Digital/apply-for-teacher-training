@@ -12,6 +12,7 @@ RSpec.feature 'Providers should be able to sort applications' do
 
     when_i_visit_the_provider_page
     then_i_should_see_the_applications_in_descending_date_order
+
     when_i_sort_by_date
     then_i_should_see_the_applications_in_ascending_date_order
     when_i_sort_by_date
@@ -19,9 +20,13 @@ RSpec.feature 'Providers should be able to sort applications' do
 
     when_i_sort_by_name
     then_i_should_see_the_applications_in_descending_name_order
+    when_i_sort_by_name
+    then_i_should_see_the_applications_in_ascending_name_order
 
-    when_i_sort_by_date
-    then_i_should_see_the_applications_in_descending_date_order
+    when_i_sort_by_course
+    then_i_should_see_the_applications_in_descending_course_name_order
+    when_i_sort_by_course
+    then_i_should_see_the_applications_in_ascending_course_name_order
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -34,29 +39,32 @@ RSpec.feature 'Providers should be able to sort applications' do
 
   def and_my_organisation_has_courses_with_applications
     current_provider = create(:provider, :with_signed_agreement, code: 'ABC')
-    course_option = course_option_for_provider(provider: current_provider)
 
-    create(:application_choice, :awaiting_provider_decision, course_option: course_option, application_form: create(:application_form, first_name: 'Jim', last_name: 'James'), updated_at: 1.day.ago)
-    create(:application_choice, :awaiting_provider_decision, course_option: course_option, application_form: create(:application_form, first_name: 'Tom', last_name: 'Jones'), updated_at: 2.days.ago)
-    create(:application_choice, :awaiting_provider_decision, course_option: course_option, application_form: create(:application_form, first_name: 'Bill', last_name: 'Bones'), updated_at: 3.days.ago)
+    course_option_one = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Alchemy', provider: current_provider))
+    course_option_two = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Divination', provider: current_provider))
+    course_option_three = course_option_for_provider(provider: current_provider, course: create(:course, name: 'English', provider: current_provider))
+
+    create(:application_choice, :awaiting_provider_decision, course_option: course_option_one, application_form: create(:application_form, first_name: 'Jim', last_name: 'James'), updated_at: 1.day.ago)
+    create(:application_choice, :awaiting_provider_decision, course_option: course_option_two, application_form: create(:application_form, first_name: 'Tom', last_name: 'Jones'), updated_at: 2.days.ago)
+    create(:application_choice, :awaiting_provider_decision, course_option: course_option_three, application_form: create(:application_form, first_name: 'Bill', last_name: 'Bones'), updated_at: 3.days.ago)
   end
 
   def when_i_visit_the_provider_page
     visit provider_interface_path
   end
 
-  def then_i_should_see_the_applications_in_descending_date_order
-   expect('Jim').to appear_before('Tom')
-   expect('Tom').to appear_before('Bill')
-  end
-
   def when_i_sort_by_date
     click_link('Last updated')
   end
 
+  def then_i_should_see_the_applications_in_descending_date_order
+    expect('Jim').to appear_before('Tom')
+    expect('Tom').to appear_before('Bill')
+  end
+
   def then_i_should_see_the_applications_in_ascending_date_order
-   expect('Bill').to appear_before('Tom')
-   expect('Tom').to appear_before('Jim')
+    expect('Bill').to appear_before('Tom')
+    expect('Tom').to appear_before('Jim')
   end
 
   def when_i_sort_by_name
@@ -64,7 +72,26 @@ RSpec.feature 'Providers should be able to sort applications' do
   end
 
   def then_i_should_see_the_applications_in_descending_name_order
-   expect('Bill Bones').to appear_before('Jim James')
-   expect('Jim James').to appear_before('Tom Jones')
+    expect('Bill Bones').to appear_before('Jim James')
+    expect('Jim James').to appear_before('Tom Jones')
+  end
+
+  def then_i_should_see_the_applications_in_ascending_name_order
+    expect('Tom Jones').to appear_before('Jim James')
+    expect('Jim James').to appear_before('Bill Bones')
+  end
+
+  def when_i_sort_by_course
+    click_link('Course')
+  end
+
+  def then_i_should_see_the_applications_in_descending_course_name_order
+    expect('Alchemy').to appear_before('Divination')
+    expect('Divination').to appear_before('English')
+  end
+
+  def then_i_should_see_the_applications_in_ascending_course_name_order
+    expect('English').to appear_before('Divination')
+    expect('Divination').to appear_before('Alchemy')
   end
 end

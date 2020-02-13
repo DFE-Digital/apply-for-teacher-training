@@ -7,7 +7,7 @@
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <%= render ProviderInterface::SortableColumnHeadingComponent, sort_order: @sort_order, column_name: "Name", current_sort_by: @sort_by %>
-        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Course</th>
+        <%= render ProviderInterface::SortableColumnHeadingComponent, sort_order: @sort_order, column_name: "Course", current_sort_by: @sort_by %>
         <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Status</th>
         <%= render ProviderInterface::SortableColumnHeadingComponent, sort_order: @sort_order, column_name: "Last updated", current_sort_by: @sort_by %>
       </tr>
