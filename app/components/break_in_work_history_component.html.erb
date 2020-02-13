@@ -1,3 +1,11 @@
 <%= render(SummaryCardComponent, rows: work_break_rows) do %>
-  <%= render(SummaryCardHeaderComponent, title: "Break in work history (#{pluralize(@work_break.length, 'month')})") %>
+  <%= render(SummaryCardHeaderComponent, title: "Break in work history (#{pluralize(@work_break.length, 'month')})") do %>
+    <% if @editable %>
+      <div class="app-summary-card__actions">
+        <%= link_to candidate_interface_destroy_work_history_break_path(@work_break), class: 'govuk-link' do %>
+          Delete entry <span class="govuk-visually-hidden">for break between <%= formatted_start_date %> and <%= formatted_end_date %></span>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
 <% end %>
