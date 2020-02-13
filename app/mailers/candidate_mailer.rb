@@ -55,6 +55,7 @@ class CandidateMailer < ApplicationMailer
   end
 
   def new_referee_request(application_form, reference, reason: :not_responded)
+    @candidate = application_form.candidate
     @candidate_name = application_form.first_name
     @referee = reference
     @reason = reason

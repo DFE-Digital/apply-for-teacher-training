@@ -4,4 +4,11 @@ Dear <%= @candidate_name %>,
 
 <%= t("new_referee_request.#{@reason}.explanation", referee_name: @referee.name, referee_email: @referee.email_address) %>
 
+<% if FeatureFlag.active?('show_new_referee_needed') %>
+Please add a new referee:
+<%= candidate_sign_in_url(@candidate) %>
+<% else %>
+Please reply to this email with the name and email address of a new referee, and tell us how you know them.
+<% end %>
+
 We can’t send your application to your teacher training providers without 2 complete references.
