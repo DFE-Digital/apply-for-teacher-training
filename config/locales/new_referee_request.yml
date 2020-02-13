@@ -8,8 +8,6 @@ en:
       subject: "Give details of a new referee: %{referee_name} hasn’t responded"
       explanation: |-
         We haven’t had a reference from %{referee_name}.
-
-        Please reply to this email with the name and email address of a new referee, and tell us how you know them.
       option: Explain the referee has not responded
       audit_comment: New referee request email has been sent to candidate (%{candidate_email}) explaining non-response.
       confirm_text: We'll send an email to explain that their referee (%{referee_name}) has not responded.
@@ -17,8 +15,6 @@ en:
       subject: "%{referee_name} won’t give a reference"
       explanation: |-
         %{referee_name} said they won’t give a reference.
-
-        Please reply to this email with the name and email address of a new referee, and tell us how you know them.
       option: Explain the referee won't give a reference
       audit_comment: New referee request email has been sent to candidate (%{candidate_email}) explaining refusal to provide a reference.
       confirm_text: We'll send an email to explain that their referee (%{referee_name}) won't give a reference.
@@ -28,10 +24,6 @@ en:
         Our email requesting a reference didn’t reach %{referee_name}.
 
         We emailed the referee using this address: %{referee_email}
-
-        Please check you gave the right email address for %{referee_name}. You can ask us to change the details we have by replying to this email.
-
-        Alternatively, please give us the name and email address of a new referee, and tell us how you know them.
       option: Explain the referee’s email has bounced
       audit_comment: New referee request email has been sent to candidate (%{candidate_email}) explaining email bounce.
       confirm_text: We'll send an email to explain their referee's email has bounced.
