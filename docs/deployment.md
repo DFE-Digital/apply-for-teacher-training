@@ -14,7 +14,7 @@ Go to [the Apply Ops Dashboard](https://apply-ops-dashboard.herokuapp.com/) and 
 
 Make sure to check the diff on GitHub to see if there's anything risky.
 
-You also have to make sure that you're deploying only work that has been product reviewed. The "Product Review" column on the [Candidate board](https://trello.com/b/aRIgjf0y/candidate-team-board) and [ProVendor board](https://trello.com/b/5IiPW0Ok/team-board-apply) should be empty.
+You also have to make sure that you're deploying only work that is safe to deploy. It should be either behind a feature flag or product reviewed. 
 
 ## 2. Tell the team ![](https://cultofthepartyparrot.com/parrots/shipitparrot.gif)
 
@@ -52,7 +52,7 @@ before declaring the deploy finished.
 
 ## 7. Move deploy cards to done
 
-Tell your team mates that their work has gone out, and move over all of the cards in "Ready to deploy" to done on the [Candidate board](https://trello.com/b/aRIgjf0y/candidate-team-board) and [ProVendor board](https://trello.com/b/5IiPW0Ok/team-board-apply).
+Tell your team mates that their work has gone out, and move over all of the cards in "Ready to deploy" to "Product review & launch 🚀" on the [Candidate board](https://trello.com/b/aRIgjf0y/candidate-team-board) and [ProVendor board](https://trello.com/b/5IiPW0Ok/team-board-apply).
 
 ## Rolling back
 
