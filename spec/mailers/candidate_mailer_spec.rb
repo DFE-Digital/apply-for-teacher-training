@@ -226,4 +226,135 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
     end
   end
+
+  describe 'send new offer email to candidate' do
+    around do |example|
+      Timecop.freeze(Time.zone.local(2020, 2, 11)) do
+        example.run
+      end
+    end
+
+    def setup_application
+      @candidate = build_stubbed(:candidate)
+      @application_form = build_stubbed(
+        :application_form,
+        support_reference: 'SUPPORT-REFERENCE',
+        candidate: @candidate,
+        first_name: 'Bob',
+      )
+      course_option = build_stubbed(:course_option)
+      @application_choice = @application_form.application_choices.build(
+        id: 123,
+        application_form: @application_form,
+        course_option: course_option,
+        status: :offer,
+        offer: { conditions: ['DBS check', 'Pass exams'] },
+        offered_at: Time.zone.now,
+        offered_course_option: course_option,
+        decline_by_default_at: 10.business_days.from_now,
+      )
+    end
+
+    describe '#new_offer_single_offer' do
+      before do
+        setup_application
+        @mail = mailer.new_offer_single_offer(@application_choice)
+        @mail.deliver_later
+      end
+
+      it 'sends an email with the correct greeting' do
+        expect(@mail.body.encoded).to include('Dear Bob')
+      end
+
+      it 'sends an email with the correct subject' do
+        expect(@mail.subject).to include("Offer received for #{@application_choice.course_option.course.name} (#{@application_choice.course_option.course.code}) at #{@application_choice.course_option.course.provider.name}")
+      end
+
+      it 'sends an email with the correct decline by default date' do
+        expect(@mail.body.encoded).to include('Make a decision by 25 February 2020')
+      end
+
+      it 'sends an email with the correct conditions' do
+        expect(@mail.body.encoded).to include('DBS check')
+        expect(@mail.body.encoded).to include('Pass exams')
+      end
+    end
+
+    describe '#new_offer_multiple_offers' do
+      before do
+        setup_application
+        other_course_option = build_stubbed(:course_option)
+        @other_application_choice = @application_form.application_choices.build(
+          id: 456,
+          application_form: @application_form,
+          course_option: other_course_option,
+          status: :offer,
+          offer: { conditions: ['Get a degree'] },
+          offered_at: Time.zone.now,
+          offered_course_option: other_course_option,
+          decline_by_default_at: 5.business_days.from_now,
+        )
+        @application_form.id = nil
+        @application_form.application_choices = [@application_choice, @other_application_choice]
+        @mail = mailer.new_offer_multiple_offers(@application_choice)
+        @mail.deliver_later
+      end
+
+      it 'sends an email with the correct greeting' do
+        expect(@mail.body.encoded).to include('Dear Bob')
+      end
+
+      it 'sends an email with the correct subject' do
+        expect(@mail.subject).to include("Offer received for #{@application_choice.course_option.course.name} (#{@application_choice.course_option.course.code}) at #{@application_choice.course_option.course.provider.name}")
+      end
+
+      it 'sends an email with the correct decline by default date' do
+        expect(@mail.body.encoded).to include('Make a decision by 25 February 2020')
+      end
+
+      it 'sends an email with the correct conditions' do
+        expect(@mail.body.encoded).to include('DBS check')
+        expect(@mail.body.encoded).to include('Pass exams')
+      end
+
+      it 'sends an email with the correct list of offers' do
+        expect(@mail.body.encoded).to include("#{@application_choice.course_option.course.name} (#{@application_choice.course_option.course.code}) at #{@application_choice.course_option.course.provider.name}")
+        expect(@mail.body.encoded).to include("#{@other_application_choice.course_option.course.name} (#{@other_application_choice.course_option.course.code}) at #{@other_application_choice.course_option.course.provider.name}")
+      end
+    end
+
+    describe '#new_offer_decisions_pending' do
+      before do
+        setup_application
+        other_course_option = build_stubbed(:course_option)
+        @other_application_choice = @application_form.application_choices.build(
+          id: 456,
+          application_form: @application_form,
+          course_option: other_course_option,
+          status: :awaiting_provider_decision,
+        )
+        @application_form.id = nil
+        @application_form.application_choices = [@application_choice, @other_application_choice]
+        @mail = mailer.new_offer_decisions_pending(@application_choice)
+        @mail.deliver_later
+      end
+
+      it 'sends an email with the correct greeting' do
+        expect(@mail.body.encoded).to include('Dear Bob')
+      end
+
+      it 'sends an email with the correct subject' do
+        expect(@mail.subject).to include("Offer received for #{@application_choice.course_option.course.name} (#{@application_choice.course_option.course.code}) at #{@application_choice.course_option.course.provider.name}")
+      end
+
+      it 'sends an email with the correct conditions' do
+        expect(@mail.body.encoded).to include('DBS check')
+        expect(@mail.body.encoded).to include('Pass exams')
+      end
+
+      it 'sends an email with the correct instructions' do
+        expect(@mail.body.encoded).to include('You can wait to hear back about your other application(s) before making a decision')
+      end
+    end
+  end
 end

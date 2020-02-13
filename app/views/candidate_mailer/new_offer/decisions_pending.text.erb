@@ -1,0 +1,27 @@
+Dear <%= @candidate_name %>,
+
+# You have an offer
+
+Congratulations, you have an offer from <%= @provider_name %> to study <%= @course_name %>.
+
+The provider has set the following condition(s):
+
+<% @conditions.each do |condition| %>
+  - <%= condition %>
+<% end %>
+
+Contact <%= @provider_name %> directly if you have any questions about this.
+
+# Next steps
+
+^You can wait to hear back about your other application(s) before making a decision. When the last decision is in, you’ll have 10 working days to respond.
+
+^Or
+
+^You can respond to the offer now. If you accept the offer, your other teacher training application(s) will be withdrawn. Sign in to your account if you want to respond:
+
+<%= candidate_sign_in_url(@application_choice.application_form.candidate) %>
+
+# Give feedback or report a problem
+
+Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
