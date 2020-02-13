@@ -43,7 +43,7 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.new_referee_request(application_form, reference, reason: :email_bounced)
   end
 
-  def new_offer_without_other_offers
+  def new_offer_single_offer
     course_option = FactoryBot.build_stubbed(:course_option)
     application_choice = application_form.application_choices.build(
       id: 123,
@@ -54,10 +54,10 @@ class CandidateMailerPreview < ActionMailer::Preview
       offered_course_option: course_option,
       decline_by_default_at: 10.business_days.from_now,
     )
-    CandidateMailer.new_offer(application_choice)
+    CandidateMailer.new_offer_single_offer(application_choice)
   end
 
-  def new_offer_with_another_offer
+  def new_offer_multiple_offers
     course_option = FactoryBot.build_stubbed(:course_option)
     application_choice = application_form.application_choices.build(
       id: 123,
@@ -78,10 +78,10 @@ class CandidateMailerPreview < ActionMailer::Preview
       offered_course_option: other_course_option,
       decline_by_default_at: 7.business_days.from_now,
     )
-    CandidateMailer.new_offer(application_choice)
+    CandidateMailer.new_offer_multiple_offers(application_choice)
   end
 
-  def new_offer_with_pending_decisions
+  def new_offer_decisions_pending
     course_option = FactoryBot.build_stubbed(:course_option)
     application_choice = application_form.application_choices.build(
       id: 123,
@@ -98,7 +98,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       course_option: other_course_option,
       status: :awaiting_provider_decision,
     )
-    CandidateMailer.new_offer(application_choice)
+    CandidateMailer.new_offer_decisions_pending(application_choice)
   end
 
 private
