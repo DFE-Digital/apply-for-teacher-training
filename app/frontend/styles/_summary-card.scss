@@ -49,13 +49,14 @@
     white-space: nowrap;
 
     @include govuk-media-query($from: desktop) {
+      display: inline-block;
+      margin-left: govuk-spacing(2);
       text-align: right;
     }
   }
 
-  .app-summary-card__actions-list-item:last-child {
-    margin-right: 0;
-    padding-right: 0;
+  .app-summary-card__actions-list-item:first-child {
+    margin-left: 0;
   }
 
   .app-summary-card__body {

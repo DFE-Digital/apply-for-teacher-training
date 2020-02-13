@@ -1,0 +1,18 @@
+<section class="app-summary-card govuk-!-margin-bottom-6">
+  <header class="app-summary-card__header">
+    <h3 class="app-summary-card__title">
+      You have a break in your work history (<%= pluralize(work_break.length, 'month') %>)
+    </h3>
+
+    <div class="app-summary-card__actions">
+      <ul class="app-summary-card__actions-list">
+        <li class="app-summary-card__actions-list-item">
+          <%= govuk_link_to 'Please explain break', candidate_interface_new_work_history_break_path(start_date: work_break.start_date, end_date: work_break.end_date) %>
+        </li>
+        <li class="app-summary-card__actions-list-item">
+          <%= govuk_link_to t('application_form.work_history.add_another_job'), candidate_interface_work_history_new_path(start_date: work_break.start_date, end_date: work_break.end_date) %>
+        </li>
+      </ul>
+    </div>
+  </header>
+</section>
