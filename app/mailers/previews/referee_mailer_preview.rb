@@ -13,14 +13,6 @@ class RefereeMailerPreview < ActionMailer::Preview
     RefereeMailer.reference_request_chaser_email(application_form, reference)
   end
 
-  def survey_email
-    RefereeMailer.survey_email(application_form, reference)
-  end
-
-  def survey_chaser_email
-    RefereeMailer.survey_chaser_email(reference)
-  end
-
   def reference_confirmation_email
     RefereeMailer.reference_confirmation_email(application_form, reference)
   end
