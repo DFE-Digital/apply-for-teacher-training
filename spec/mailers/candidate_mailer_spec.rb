@@ -359,6 +359,12 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe 'application choice rejection emails' do
+    around do |example|
+      Timecop.freeze(Time.zone.local(2020, 2, 11)) do
+        example.run
+      end
+    end
+
     def setup_application
       @provider = create(:provider, name: 'Gorse')
       @course = create(:course, provider: @provider)
@@ -384,16 +390,12 @@ RSpec.describe CandidateMailer, type: :mailer do
         expect(mail.subject).to include(t('application_choice_rejected_email.subject.all_rejected', provider_name: @provider.name))
       end
 
-      it 'sends an email with the correct heading' do
-        expect(mail.body.encoded).to include("Dear #{@application_form.first_name}")
+      it 'sends an email with the correct course name and code' do
+        expect(mail.body.encoded).to include(@course.name_and_code)
       end
 
       it 'sends an email with the providers rejection reason' do
         expect(mail.body.encoded).to include(@application_choice.rejection_reason)
-      end
-
-      it 'sends an email with the correct course name' do
-        expect(mail.body.encoded).to include(@course.name)
       end
 
       it 'sends an email with a link to GIT' do
@@ -420,19 +422,15 @@ RSpec.describe CandidateMailer, type: :mailer do
 
 
       it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(t('application_choice_rejected_email.subject.awaiting_decisions', provider_name: @provider.name, course_name: @course.name))
+        expect(mail.subject).to include(t('application_choice_rejected_email.subject.awaiting_decisions', provider_name: @provider.name, course_name: @course.name_and_code))
       end
 
       it 'sends an email with the correct heading' do
         expect(mail.body.encoded).to include("Dear #{@application_form.first_name}")
       end
 
-      it 'sends an email with the providers rejection reason' do
-        expect(mail.body.encoded).to include(@application_choice.rejection_reason)
-      end
-
-      it 'sends an email with the correct course name' do
-        expect(mail.body.encoded).to include(@course.name)
+      it 'sends an email with the correct course name and code' do
+        expect(mail.body.encoded).to include(@course.name_and_code)
       end
 
       it 'sends an emails informing the candidate which courses they are awaiting decisions on' do
@@ -441,6 +439,102 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it 'sends an emails informing the candidate which providers they are awaiting decisions on' do
         expect(mail.body.encoded).to include(@application_choice2.provider.name)
+      end
+
+      it 'sends an email with the BAT email address' do
+        expect(mail.body.encoded).to include(t('application_choice_rejected_email.bat.url'))
+      end
+    end
+
+    context 'Application rejected and one offer has been made' do
+      let(:mail) { mailer.application_rejected_offers_made(@application_choice) }
+
+
+      before do
+        setup_application
+        @application_choice2 = create(:application_choice,
+                                      status: :offer,
+                                      application_form: @application_form,
+                                      decline_by_default_at: 10.business_days.from_now)
+        mail.deliver_later
+      end
+
+      it 'sends an email with the correct subject' do
+        expect(mail.subject).to include(t('application_choice_rejected_email.subject.offers_made', provider_name: @provider.name))
+      end
+
+      it 'sends an email with the correct heading' do
+        expect(mail.body.encoded).to include("Dear #{@application_form.first_name}")
+      end
+
+      it 'sends an email with the correct course name and code' do
+        expect(mail.body.encoded).to include(@course.name_and_code)
+      end
+
+      it 'sends an emails informing the candidate of the name of the course they got an offer from' do
+        expect(mail.body.encoded).to include(@application_choice2.course.name)
+      end
+
+      it 'sends an emails informing the candidate of the name of the provider they got an offer from' do
+        expect(mail.body.encoded).to include(@application_choice2.provider.name)
+      end
+
+      it 'sends an emails informing the candidate of their DBD date' do
+        expect(mail.body.encoded).to include('Make a decision about your offer by 25 February 2020')
+      end
+
+      it 'sends an email with the BAT email address' do
+        expect(mail.body.encoded).to include(t('application_choice_rejected_email.bat.url'))
+      end
+    end
+
+    context 'Application rejected and multiple offers has been made' do
+      let(:mail) { mailer.application_rejected_offers_made(@application_choice) }
+
+      before do
+        setup_application
+        @application_choice2 = create(:application_choice,
+                                      status: :offer,
+                                      application_form: @application_form,
+                                      decline_by_default_at: 10.business_days.from_now)
+
+        @application_choice3 = create(:application_choice,
+                                      status: :offer,
+                                      application_form: @application_form,
+                                      decline_by_default_at: 8.business_days.from_now)
+        mail.deliver_later
+      end
+
+      it 'sends an email with the correct subject' do
+        expect(mail.subject).to include(t('application_choice_rejected_email.subject.offers_made', provider_name: @provider.name))
+      end
+
+      it 'sends an email with the correct heading' do
+        expect(mail.body.encoded).to include("Dear #{@application_form.first_name}")
+      end
+
+      it 'sends an email with the correct course name and code' do
+        expect(mail.body.encoded).to include(@course.name_and_code)
+      end
+
+      it 'sends an emails informing the candidate of the name of the first course they got an offer from' do
+        expect(mail.body.encoded).to include(@application_choice2.course.name)
+      end
+
+      it 'sends an emails informing the candidate of the name of the first provider they got an offer from' do
+        expect(mail.body.encoded).to include(@application_choice2.provider.name)
+      end
+
+      it 'sends an emails informing the candidate of the name of the second course they got an offer from' do
+        expect(mail.body.encoded).to include(@application_choice3.course.name)
+      end
+
+      it 'sends an emails informing the candidate of the name of the second provider they got an offer from' do
+        expect(mail.body.encoded).to include(@application_choice3.provider.name)
+      end
+
+      it 'sends an emails informing the candidate of their DBD date' do
+        expect(mail.body.encoded).to include('Make a decision about your offers by 25 February 2020')
       end
 
       it 'sends an email with the BAT email address' do

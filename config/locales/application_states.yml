@@ -215,6 +215,7 @@ en:
       emails:
         - candidate_mailer-application_rejected_all_rejected
         - candidate_mailer-application_rejected_awaiting_decisions
+        - candidate_mailer-application_rejected_offers_made
 
     awaiting_provider_decision-withdraw:
       name: Withdraw

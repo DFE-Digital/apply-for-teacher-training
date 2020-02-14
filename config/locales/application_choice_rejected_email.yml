@@ -3,6 +3,7 @@ en:
     subject:
       all_rejected: "%{provider_name} has responded: next steps"
       awaiting_decisions: "%{provider_name} has made a decision on your application for %{course_name}"
+      offers_made: "%{provider_name} has responded: make a decision within 10 working days"
     git:
       url: https://getintoteaching.education.gov.uk
       phone_number: 0800 389 2500
