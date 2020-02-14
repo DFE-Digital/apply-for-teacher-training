@@ -219,5 +219,32 @@ RSpec.describe WorkHistoryWithBreaks do
         expect(work_history_with_breaks[0][:entry].length).to eq(1)
       end
     end
+
+    context 'when an application form has multiple breaks' do
+      it 'returns an array of existing breaks and sorted if no jobs' do
+        work_history = []
+        break1 = build_stubbed(:application_work_history_break, start_date: november2019, end_date: current_date)
+        break2 = build_stubbed(:application_work_history_break, start_date: february2019, end_date: april2019)
+        breaks = [break1, break2]
+        application_form = build_stubbed(
+          :application_form,
+          application_work_experiences: work_history,
+          application_work_history_breaks: breaks,
+        )
+
+        get_work_history_with_breaks = WorkHistoryWithBreaks.new(application_form)
+        work_history_with_breaks = get_work_history_with_breaks.timeline
+
+        expect(work_history_with_breaks.count).to eq(2)
+        expect(work_history_with_breaks[0][:type]).to eq(:break)
+        expect(work_history_with_breaks[0][:entry].start_date).to eq(february2019)
+        expect(work_history_with_breaks[0][:entry].end_date).to eq(april2019)
+        expect(work_history_with_breaks[0][:entry].length).to eq(1)
+        expect(work_history_with_breaks[1][:type]).to eq(:break)
+        expect(work_history_with_breaks[1][:entry].start_date).to eq(november2019)
+        expect(work_history_with_breaks[1][:entry].end_date).to eq(current_date)
+        expect(work_history_with_breaks[1][:entry].length).to eq(2)
+      end
+    end
   end
 end

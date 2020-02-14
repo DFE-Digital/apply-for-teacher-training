@@ -21,24 +21,25 @@ class WorkHistoryWithBreaks
     @work_history = application_form.application_work_experiences.sort_by(&:start_date)
     @existing_breaks = application_form.application_work_history_breaks.sort_by(&:start_date)
     @current_job = nil
-    @work_history_with_breaks = []
-
-    @work_history.each { |job| @work_history_with_breaks << job_entry(job) }
-    @existing_breaks.each { |existing_break| @work_history_with_breaks << break_entry(existing_break) }
   end
 
   def timeline
-    return @work_history_with_breaks if @work_history.empty?
+    work_history_with_breaks = []
 
-    timeline_in_months = month_range(
-      start_date: @work_history.first.start_date,
-      end_date: Time.zone.now - 1.month,
-    )
-    break_months_in_timeline = remove_working_months(timeline_in_months)
-    breaks = break_entries(break_months_in_timeline)
-    @work_history_with_breaks += breaks if breaks.any?
+    @work_history.each { |job| work_history_with_breaks << job_entry(job) }
+    @existing_breaks.each { |existing_break| work_history_with_breaks << break_entry(existing_break) }
 
-    @work_history_with_breaks.sort_by! { |entry| entry[:entry].start_date }
+    if @work_history.any?
+      timeline_in_months = month_range(
+        start_date: @work_history.first.start_date,
+        end_date: Time.zone.now - 1.month,
+      )
+      break_months_in_timeline = remove_working_months(timeline_in_months)
+      breaks = break_entries(break_months_in_timeline)
+      work_history_with_breaks += breaks if breaks.any?
+    end
+
+    work_history_with_breaks.sort_by(&:start_date)
   end
 
 private
