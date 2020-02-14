@@ -66,39 +66,11 @@ class CandidateMailer < ApplicationMailer
   end
 
   def application_rejected_all_rejected(application_choice)
-    @application = OpenStruct.new(
-      provider_name: application_choice.provider.name,
-      course_name: application_choice.course.name,
-      rejection_reason: application_choice.rejection_reason,
-      candidate_name: application_choice.application_form.first_name,
-      choice_count: application_choice.application_form.application_choices.count,
-    )
-
-    view_mail(GENERIC_NOTIFY_TEMPLATE,
-              to: application_choice.application_form.candidate.email_address,
-              subject: t('application_choice_rejected_email.subject.all_rejected', provider_name: application_choice.provider.name),
-              template_path: 'candidate_mailer/application_rejected',
-              template_name: 'all_rejected')
+    application_rejected(application_choice, :all_rejected)
   end
 
   def application_rejected_awaiting_decisions_with_no_offers(application_choice)
-    decisions = application_choice.application_form.application_choices.select(&:awaiting_provider_decision?).map do |decision|
-      "#{decision.course_option.course.name_and_code} at #{decision.course_option.course.provider.name}"
-    end
-
-    @application = OpenStruct.new(
-      provider_name: application_choice.provider.name,
-      course_name: application_choice.course.name,
-      rejection_reason: application_choice.rejection_reason,
-      candidate_name: application_choice.application_form.first_name,
-      choice_count: application_choice.application_form.application_choices.count,
-      decisions: decisions,
-    )
-    view_mail(GENERIC_NOTIFY_TEMPLATE,
-              to: application_choice.application_form.candidate.email_address,
-              subject: t('application_choice_rejected_email.subject.awaiting_decisions_with_no_offers', provider_name: application_choice.provider.name, course_name: application_choice.course.name),
-              template_path: 'candidate_mailer/application_rejected',
-              template_name: 'awaiting_decisions_with_no_offers')
+    application_rejected(application_choice, :awaiting_decisions_with_no_offers)
   end
 
   def new_offer_single_offer(application_choice)
@@ -114,6 +86,30 @@ class CandidateMailer < ApplicationMailer
   end
 
 private
+
+  def application_rejected(application_choice, template_name)
+    decisions = application_choice.application_form.application_choices.select(&:awaiting_provider_decision?).map do |decision|
+      "#{decision.course_option.course.name_and_code} at #{decision.course_option.course.provider.name}"
+    end
+
+    @application = OpenStruct.new(
+      provider_name: application_choice.provider.name,
+      course_name: application_choice.course.name,
+      rejection_reason: application_choice.rejection_reason,
+      candidate_name: application_choice.application_form.first_name,
+      choice_count: application_choice.application_form.application_choices.count,
+      decisions: decisions,
+    )
+    view_mail(
+      GENERIC_NOTIFY_TEMPLATE,
+      to: application_choice.application_form.candidate.email_address,
+      subject: t("application_choice_rejected_email.subject.#{template_name}",
+                 provider_name: application_choice.provider.name,
+                 course_name: application_choice.course.name),
+      template_path: 'candidate_mailer/application_rejected',
+      template_name: template_name,
+      )
+  end
 
   def new_offer(application_choice, template_name)
     @application_choice = application_choice
