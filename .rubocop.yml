@@ -39,6 +39,10 @@ RSpec/MultipleExpectations:
 RSpec/ContextWording:
   Enabled: false
 
+  RSpec/NestedGroups:
+    Exclude:
+      - 'spec/**/*'
+
 Naming/MethodParameterName:
   AllowedNames:
     - e
