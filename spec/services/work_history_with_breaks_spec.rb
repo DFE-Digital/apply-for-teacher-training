@@ -42,7 +42,7 @@ RSpec.describe WorkHistoryWithBreaks do
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(1)
-        expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
+        expect(work_history_with_breaks[0]).to eq(job1)
       end
     end
 
@@ -56,7 +56,7 @@ RSpec.describe WorkHistoryWithBreaks do
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(1)
-        expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
+        expect(work_history_with_breaks[0]).to eq(job1)
       end
     end
 
@@ -70,11 +70,11 @@ RSpec.describe WorkHistoryWithBreaks do
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(2)
-        expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
-        expect(work_history_with_breaks[1][:type]).to eq(:break_placeholder)
-        expect(work_history_with_breaks[1][:entry].length).to eq(1)
-        expect(work_history_with_breaks[1][:entry].start_date).to eq(Date.new(2019, 12, 1))
-        expect(work_history_with_breaks[1][:entry].end_date).to eq(Date.new(2020, 2, 1))
+        expect(work_history_with_breaks[0]).to eq(job1)
+        expect(work_history_with_breaks[1]).to be_instance_of(WorkHistoryWithBreaks::BreakPlaceholder)
+        expect(work_history_with_breaks[1].length).to eq(1)
+        expect(work_history_with_breaks[1].start_date).to eq(Date.new(2019, 12, 1))
+        expect(work_history_with_breaks[1].end_date).to eq(Date.new(2020, 2, 1))
       end
     end
 
@@ -88,9 +88,9 @@ RSpec.describe WorkHistoryWithBreaks do
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(2)
-        expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
-        expect(work_history_with_breaks[1][:type]).to eq(:break_placeholder)
-        expect(work_history_with_breaks[1][:entry].length).to eq(3)
+        expect(work_history_with_breaks[0]).to eq(job1)
+        expect(work_history_with_breaks[1]).to be_instance_of(WorkHistoryWithBreaks::BreakPlaceholder)
+        expect(work_history_with_breaks[1].length).to eq(3)
       end
     end
 
@@ -106,9 +106,9 @@ RSpec.describe WorkHistoryWithBreaks do
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(3)
-        expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
-        expect(work_history_with_breaks[1]).to eq(type: :job, entry: job2)
-        expect(work_history_with_breaks[2]).to eq(type: :job, entry: job3)
+        expect(work_history_with_breaks[0]).to eq(job1)
+        expect(work_history_with_breaks[1]).to eq(job2)
+        expect(work_history_with_breaks[2]).to eq(job3)
       end
     end
 
@@ -124,11 +124,11 @@ RSpec.describe WorkHistoryWithBreaks do
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(4)
-        expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
-        expect(work_history_with_breaks[1]).to eq(type: :job, entry: job2)
-        expect(work_history_with_breaks[2][:type]).to eq(:break_placeholder)
-        expect(work_history_with_breaks[2][:entry].length).to eq(1)
-        expect(work_history_with_breaks[3]).to eq(type: :job, entry: job3)
+        expect(work_history_with_breaks[0]).to eq(job1)
+        expect(work_history_with_breaks[1]).to eq(job2)
+        expect(work_history_with_breaks[2]).to be_instance_of(WorkHistoryWithBreaks::BreakPlaceholder)
+        expect(work_history_with_breaks[2].length).to eq(1)
+        expect(work_history_with_breaks[3]).to eq(job3)
       end
     end
 
@@ -144,9 +144,9 @@ RSpec.describe WorkHistoryWithBreaks do
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(3)
-        expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
-        expect(work_history_with_breaks[1]).to eq(type: :job, entry: job2)
-        expect(work_history_with_breaks[2]).to eq(type: :job, entry: job3)
+        expect(work_history_with_breaks[0]).to eq(job1)
+        expect(work_history_with_breaks[1]).to eq(job2)
+        expect(work_history_with_breaks[2]).to eq(job3)
       end
     end
 
@@ -162,11 +162,11 @@ RSpec.describe WorkHistoryWithBreaks do
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(4)
-        expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
-        expect(work_history_with_breaks[1][:type]).to eq(:break_placeholder)
-        expect(work_history_with_breaks[1][:entry].length).to eq(1)
-        expect(work_history_with_breaks[2]).to eq(type: :job, entry: job2)
-        expect(work_history_with_breaks[3]).to eq(type: :job, entry: job3)
+        expect(work_history_with_breaks[0]).to eq(job1)
+        expect(work_history_with_breaks[1]).to be_instance_of(WorkHistoryWithBreaks::BreakPlaceholder)
+        expect(work_history_with_breaks[1].length).to eq(1)
+        expect(work_history_with_breaks[2]).to eq(job2)
+        expect(work_history_with_breaks[3]).to eq(job3)
       end
     end
 
@@ -182,9 +182,9 @@ RSpec.describe WorkHistoryWithBreaks do
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(3)
-        expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
-        expect(work_history_with_breaks[1]).to eq(type: :job, entry: job2)
-        expect(work_history_with_breaks[2]).to eq(type: :job, entry: job3)
+        expect(work_history_with_breaks[0]).to eq(job1)
+        expect(work_history_with_breaks[1]).to eq(job2)
+        expect(work_history_with_breaks[2]).to eq(job3)
       end
     end
 
@@ -205,12 +205,12 @@ RSpec.describe WorkHistoryWithBreaks do
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(3)
-        expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
-        expect(work_history_with_breaks[1][:type]).to eq(:break)
-        expect(work_history_with_breaks[1][:entry].start_date).to eq(february2019)
-        expect(work_history_with_breaks[1][:entry].end_date).to eq(april2019)
-        expect(work_history_with_breaks[1][:entry].length).to eq(1)
-        expect(work_history_with_breaks[2]).to eq(type: :job, entry: job2)
+        expect(work_history_with_breaks[0]).to eq(job1)
+        expect(work_history_with_breaks[1]).to be_instance_of(ApplicationWorkHistoryBreak)
+        expect(work_history_with_breaks[1].start_date).to eq(february2019)
+        expect(work_history_with_breaks[1].end_date).to eq(april2019)
+        expect(work_history_with_breaks[1].length).to eq(1)
+        expect(work_history_with_breaks[2]).to eq(job2)
       end
     end
 
@@ -229,10 +229,10 @@ RSpec.describe WorkHistoryWithBreaks do
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(1)
-        expect(work_history_with_breaks[0][:type]).to eq(:break)
-        expect(work_history_with_breaks[0][:entry].start_date).to eq(february2019)
-        expect(work_history_with_breaks[0][:entry].end_date).to eq(april2019)
-        expect(work_history_with_breaks[0][:entry].length).to eq(1)
+        expect(work_history_with_breaks[0]).to be_instance_of(ApplicationWorkHistoryBreak)
+        expect(work_history_with_breaks[0].start_date).to eq(february2019)
+        expect(work_history_with_breaks[0].end_date).to eq(april2019)
+        expect(work_history_with_breaks[0].length).to eq(1)
       end
     end
 
@@ -252,14 +252,14 @@ RSpec.describe WorkHistoryWithBreaks do
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(2)
-        expect(work_history_with_breaks[0][:type]).to eq(:break)
-        expect(work_history_with_breaks[0][:entry].start_date).to eq(february2019)
-        expect(work_history_with_breaks[0][:entry].end_date).to eq(april2019)
-        expect(work_history_with_breaks[0][:entry].length).to eq(1)
-        expect(work_history_with_breaks[1][:type]).to eq(:break)
-        expect(work_history_with_breaks[1][:entry].start_date).to eq(november2019)
-        expect(work_history_with_breaks[1][:entry].end_date).to eq(current_date)
-        expect(work_history_with_breaks[1][:entry].length).to eq(2)
+        expect(work_history_with_breaks[0]).to be_instance_of(ApplicationWorkHistoryBreak)
+        expect(work_history_with_breaks[0].start_date).to eq(february2019)
+        expect(work_history_with_breaks[0].end_date).to eq(april2019)
+        expect(work_history_with_breaks[0].length).to eq(1)
+        expect(work_history_with_breaks[1]).to be_instance_of(ApplicationWorkHistoryBreak)
+        expect(work_history_with_breaks[1].start_date).to eq(november2019)
+        expect(work_history_with_breaks[1].end_date).to eq(current_date)
+        expect(work_history_with_breaks[1].length).to eq(2)
       end
     end
   end

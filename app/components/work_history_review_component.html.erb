@@ -1,23 +1,23 @@
-<% @work_history_with_breaks.each do |history| %>
-  <% if history[:type] == :job %>
-    <%= render(SummaryCardComponent, rows: work_experience_rows(history[:entry]), editable: @editable) do %>
-      <%= render(SummaryCardHeaderComponent, title: history[:entry].role, heading_level: @heading_level, check_icon: history[:entry].working_with_children) do %>
+<% @work_history_with_breaks.each do |entry| %>
+  <% if entry.is_a?(ApplicationWorkExperience) %>
+    <%= render(SummaryCardComponent, rows: work_experience_rows(entry), editable: @editable) do %>
+      <%= render(SummaryCardHeaderComponent, title: entry.role, heading_level: @heading_level, check_icon: entry.working_with_children) do %>
         <% if @editable %>
           <div class="app-summary-card__actions">
-            <%= link_to candidate_interface_work_history_destroy_path(history[:entry].id), class: 'govuk-link' do %>
-              <%= t('application_form.work_history.delete_entry') %><span class="govuk-visually-hidden"><%= generate_action(work: history[:entry]) %></span>
+            <%= link_to candidate_interface_work_history_destroy_path(entry.id), class: 'govuk-link' do %>
+              <%= t('application_form.work_history.delete_entry') %><span class="govuk-visually-hidden"><%= generate_action(work: entry) %></span>
             <% end %>
           </div>
         <% end %>
       <% end %>
     <% end %>
-  <% elsif history[:type] == :break_placeholder %>
+  <% elsif entry.is_a?(WorkHistoryWithBreaks::BreakPlaceholder) %>
     <% if FeatureFlag.active?('work_breaks') %>
-      <%= render(BreakPlaceholderInWorkHistoryComponent, work_break: history[:entry]) %>
+      <%= render(BreakPlaceholderInWorkHistoryComponent, work_break: entry) %>
     <% end %>
-  <% elsif history[:type] == :break %>
+  <% elsif entry.is_a?(ApplicationWorkHistoryBreak) %>
     <% if FeatureFlag.active?('work_breaks') %>
-      <%= render(BreakInWorkHistoryComponent, work_break: history[:entry]) %>
+      <%= render(BreakInWorkHistoryComponent, work_break: entry) %>
     <% end %>
   <% end %>
 <% end %>
