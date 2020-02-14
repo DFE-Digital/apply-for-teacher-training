@@ -28,7 +28,25 @@ module CandidateInterface
       end
     end
 
+    def confirm_destroy
+      @work_break = current_work_history_break
+    end
+
+    def destroy
+      current_work_history_break.destroy!
+
+      redirect_to candidate_interface_work_history_show_path
+    end
+
   private
+
+    def current_work_history_break
+      current_application.application_work_history_breaks.find(current_work_history_break_id)
+    end
+
+    def current_work_history_break_id
+      params.permit(:id)[:id]
+    end
 
     def work_history_break_params
       params.require(:candidate_interface_work_history_break_form)

@@ -35,6 +35,7 @@ en:
     work_history: Work history
     work_history_breaks: Tell us about any breaks in your work history
     work_history_break: Please tell us what you were doing over this period
+    destroy_work_history_break: Are you sure you want to delete this entry?
     add_job: Add job
     degree: Degree
     add_undergraduate_degree: Add undergraduate degree

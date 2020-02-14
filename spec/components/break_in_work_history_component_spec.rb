@@ -19,4 +19,16 @@ RSpec.describe BreakInWorkHistoryComponent do
     expect(result.text).to include('I feel asleep.')
     expect(result.text).to include('February 2019 - April 2019')
   end
+
+  it 'renders the component with a delete link if editable' do
+    result = render_inline(BreakInWorkHistoryComponent, work_break: work_break, editable: true)
+
+    expect(result.text).to include('Delete entry for break between February 2019 and April 2019')
+  end
+
+  it 'renders the component without a delete link if editable is false' do
+    result = render_inline(BreakInWorkHistoryComponent, work_break: work_break, editable: false)
+
+    expect(result.text).not_to include('Delete entry for break between February 2019 and April 2019')
+  end
 end

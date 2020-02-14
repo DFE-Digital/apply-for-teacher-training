@@ -21,14 +21,14 @@ class WorkHistoryWithBreaks
     @work_history = application_form.application_work_experiences.sort_by(&:start_date)
     @existing_breaks = application_form.application_work_history_breaks.sort_by(&:start_date)
     @current_job = nil
+    @work_history_with_breaks = []
+
+    @work_history.each { |job| @work_history_with_breaks << job_entry(job) }
+    @existing_breaks.each { |existing_break| @work_history_with_breaks << break_entry(existing_break) }
   end
 
   def timeline
-    return [] if @work_history.empty?
-
-    work_history_with_breaks = []
-
-    @work_history.each { |job| work_history_with_breaks << job_entry(job) }
+    return @work_history_with_breaks if @work_history.empty?
 
     timeline_in_months = month_range(
       start_date: @work_history.first.start_date,
@@ -36,9 +36,9 @@ class WorkHistoryWithBreaks
     )
     break_months_in_timeline = remove_working_months(timeline_in_months)
     breaks = break_entries(break_months_in_timeline)
-    work_history_with_breaks += breaks if breaks.any?
+    @work_history_with_breaks += breaks if breaks.any?
 
-    work_history_with_breaks.sort_by! { |entry| entry[:entry].start_date }
+    @work_history_with_breaks.sort_by! { |entry| entry[:entry].start_date }
   end
 
 private
@@ -82,30 +82,31 @@ private
       if current_break.last.next_month == month
         current_break << month
       else
-        breaks << break_or_break_placeholder_entry(current_break)
+        unless existing_break_covers_break_period?(current_break)
+          breaks << break_placeholder_entry(current_break)
+        end
+
         current_break = [month]
       end
     end
 
-    breaks << break_or_break_placeholder_entry(current_break)
+    unless existing_break_covers_break_period?(current_break)
+      breaks << break_placeholder_entry(current_break)
+    end
+
+    breaks
   end
 
-  def break_or_break_placeholder_entry(current_break)
-    break_placeholder = break_placeholder_entry(current_break)
-
+  def existing_break_covers_break_period?(current_break)
     existing_break_covering_placeholder = @existing_breaks.select do |existing_break|
+      break_placeholder = break_placeholder_entry(current_break)
+
       same_start_date = existing_break.start_date.to_date == break_placeholder[:entry].start_date
       same_end_date = existing_break.end_date.to_date == break_placeholder[:entry].end_date
 
       same_start_date && same_end_date
     end
 
-    if existing_break_covering_placeholder.any?
-      existing_break = existing_break_covering_placeholder.first
-
-      break_entry(existing_break)
-    else
-      break_placeholder
-    end
+    existing_break_covering_placeholder.any?
   end
 end
