@@ -4,11 +4,7 @@ Dear <%= @application.provider_user_name || 'colleague' %>
 
 <%= @application.candidate_name %> submitted an application for <%= @application.course_name_and_code %> on <%= @application.submitted_at %>.
 
-You did not respond within 40 working days so we rejected the application on your behalf.
-
-You can log in to Manage teacher training applications to check the status of your applications:
-
-<%= provider_interface_application_choice_url(@application.application_choice) %>
+This application has been rejected automatically because you did not respond within <%= @application.rbd_days %> working days.
 
 # Give feedback or report a problem
 

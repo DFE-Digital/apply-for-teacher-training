@@ -9,7 +9,7 @@ RSpec.feature 'An application has been rejected by default' do
 
     when_the_application_is_rejected_by_default
 
-    then_i_should_receive_an_email_with_a_link_to_the_application
+    then_i_should_receive_an_email
     and_an_audit_comment_has_submitted
   end
 
@@ -37,13 +37,11 @@ RSpec.feature 'An application has been rejected by default' do
     RejectApplicationsByDefaultWorker.new.perform
   end
 
-  def then_i_should_receive_an_email_with_a_link_to_the_application
+  def then_i_should_receive_an_email
     open_email(@provider_user.email_address)
 
     expect(current_email.subject).to include(t('provider_application_rejected_by_default.email.subject',
                                                candidate_name: @application_choice.application_form.full_name))
-
-    expect(current_email.body).to include("http://localhost:3000/provider/applications/#{@application_choice.id}")
   end
 
   def and_an_audit_comment_has_submitted
