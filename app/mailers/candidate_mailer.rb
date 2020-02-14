@@ -65,7 +65,7 @@ class CandidateMailer < ApplicationMailer
               subject: t("new_referee_request.#{@reason}.subject", referee_name: @referee.name))
   end
 
-  def all_application_choices_rejected(application_choice)
+  def application_rejected_all_rejected(application_choice)
     @application = OpenStruct.new(
       provider_name: application_choice.provider.name,
       course_name: application_choice.course.name,
@@ -76,7 +76,29 @@ class CandidateMailer < ApplicationMailer
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: application_choice.application_form.candidate.email_address,
-              subject: t('application_choice_rejected_email.subject', provider_name: application_choice.provider.name))
+              subject: t('application_choice_rejected_email.subject.all_rejected', provider_name: application_choice.provider.name),
+              template_path: 'candidate_mailer/application_rejected',
+              template_name: 'all_rejected')
+  end
+
+  def application_rejected_awaiting_decisions_with_no_offers(application_choice)
+    decisions = application_choice.application_form.application_choices.select(&:awaiting_provider_decision?).map do |decision|
+      "#{decision.course_option.course.name_and_code} at #{decision.course_option.course.provider.name}"
+    end
+
+    @application = OpenStruct.new(
+      provider_name: application_choice.provider.name,
+      course_name: application_choice.course.name,
+      rejection_reason: application_choice.rejection_reason,
+      candidate_name: application_choice.application_form.first_name,
+      choice_count: application_choice.application_form.application_choices.count,
+      decisions: decisions,
+    )
+    view_mail(GENERIC_NOTIFY_TEMPLATE,
+              to: application_choice.application_form.candidate.email_address,
+              subject: t('application_choice_rejected_email.subject.awaiting_decisions_with_no_offers', provider_name: application_choice.provider.name, course_name: application_choice.course.name),
+              template_path: 'candidate_mailer/application_rejected',
+              template_name: 'awaiting_decisions_with_no_offers')
   end
 
   def new_offer_single_offer(application_choice)

@@ -3,7 +3,7 @@ class SendCandidateRejectionEmail
     candidate_application_choices = application_choice.application_form.application_choices
 
     if candidate_application_choices.all?(&:rejected?)
-      CandidateMailer.send(:all_application_choices_rejected, application_choice).deliver_later
+      CandidateMailer.send(:application_rejected_all_rejected, application_choice).deliver_later
 
       audit_comment =
         "New rejection email sent to candidate #{application_choice.application_form.candidate.email_address} for " +

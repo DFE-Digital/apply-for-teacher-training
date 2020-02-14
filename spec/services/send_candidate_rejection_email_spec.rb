@@ -8,12 +8,12 @@ RSpec.describe SendCandidateRejectionEmail do
     context 'when the candidate has had all of their application choices rejected' do
       before do
         mail = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
-        allow(CandidateMailer).to receive(:all_application_choices_rejected).and_return(mail)
+        allow(CandidateMailer).to receive(:application_rejected_all_rejected).and_return(mail)
       end
 
       it 'sends them the all applications rejected email' do
         described_class.call(application_choice: application_choice)
-        expect(CandidateMailer).to have_received(:all_application_choices_rejected).with(application_choice)
+        expect(CandidateMailer).to have_received(:application_rejected_all_rejected).with(application_choice)
       end
 
       it 'audits the rejection email', with_audited: true do
