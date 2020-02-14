@@ -110,6 +110,8 @@ stages:
       environment: 'sandbox'
       resourceEnvironmentName: 't02'
       serviceName: 'apply'
+      redisCacheSKU: 'Premium'
+      redisCacheFamily: 'P'
       containerImageReference: '$(imageName):$(build.buildNumber)'
       keyVaultName: 's106t01-shared-kv-01'
       keyVaultResourceGroup: 's106t01-shared-rg'
