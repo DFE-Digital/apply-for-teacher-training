@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe WorkHistoryWithBreaks do
-  describe '#call' do
+  describe '#timeline' do
     let(:january2019) { Time.zone.local(2019, 1, 1) }
     let(:february2019) { Time.zone.local(2019, 2, 1) }
     let(:march2019) { Time.zone.local(2019, 3, 1) }
@@ -32,8 +32,8 @@ RSpec.describe WorkHistoryWithBreaks do
       end
     end
 
-    context 'when there is only one job' do
-      it 'returns an array containing a hash if the job is current role i.e. end date is nil' do
+    context 'when there is one job with a nil end date i.e. current job' do
+      it 'returns the job' do
         job1 = build_stubbed(:application_work_experience, start_date: september2019, end_date: nil)
         work_history = [job1]
         application_form = build_stubbed(:application_form, application_work_experiences: work_history)
@@ -44,8 +44,10 @@ RSpec.describe WorkHistoryWithBreaks do
         expect(work_history_with_breaks.count).to eq(1)
         expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
       end
+    end
 
-      it 'returns an array containing a hash if the job ends at current date' do
+    context 'when there is one job that ends at current date i.e. current job' do
+      it 'returns the job' do
         job1 = build_stubbed(:application_work_experience, start_date: september2019, end_date: current_date)
         work_history = [job1]
         application_form = build_stubbed(:application_form, application_work_experiences: work_history)
@@ -56,8 +58,10 @@ RSpec.describe WorkHistoryWithBreaks do
         expect(work_history_with_breaks.count).to eq(1)
         expect(work_history_with_breaks[0]).to eq(type: :job, entry: job1)
       end
+    end
 
-      it 'returns an array containing a hash for a job and a break if one month break' do
+    context 'when there is one job and a one month break between the end date and current date' do
+      it 'returns the job then a break placeholder with a length of one month' do
         job1 = build_stubbed(:application_work_experience, start_date: september2019, end_date: december2019)
         work_history = [job1]
         application_form = build_stubbed(:application_form, application_work_experiences: work_history)
@@ -72,8 +76,10 @@ RSpec.describe WorkHistoryWithBreaks do
         expect(work_history_with_breaks[1][:entry].start_date).to eq(Date.new(2019, 12, 1))
         expect(work_history_with_breaks[1][:entry].end_date).to eq(Date.new(2020, 2, 1))
       end
+    end
 
-      it 'returns an array containing a hash for a job and a break if more than a month break' do
+    context 'when there is one job and more than a month break between the end date and current date' do
+      it 'returns the job then a break placeholder with a length of three months' do
         job1 = build_stubbed(:application_work_experience, start_date: september2019, end_date: october2019)
         work_history = [job1]
         application_form = build_stubbed(:application_form, application_work_experiences: work_history)
@@ -88,12 +94,12 @@ RSpec.describe WorkHistoryWithBreaks do
       end
     end
 
-    context 'when there are multiple jobs' do
-      it 'returns an array containing hashes for jobs if there are no breaks' do
+    context 'when there are multiple jobs with no breaks' do
+      it 'returns all jobs and sorted by start date' do
         job1 = build_stubbed(:application_work_experience, start_date: september2019, end_date: october2019)
         job2 = build_stubbed(:application_work_experience, start_date: october2019, end_date: december2019)
         job3 = build_stubbed(:application_work_experience, start_date: january2020, end_date: current_date)
-        work_history = [job1, job2, job3]
+        work_history = [job2, job1, job3]
         application_form = build_stubbed(:application_form, application_work_experiences: work_history)
 
         get_work_history_with_breaks = WorkHistoryWithBreaks.new(application_form)
@@ -104,8 +110,10 @@ RSpec.describe WorkHistoryWithBreaks do
         expect(work_history_with_breaks[1]).to eq(type: :job, entry: job2)
         expect(work_history_with_breaks[2]).to eq(type: :job, entry: job3)
       end
+    end
 
-      it 'returns an array containing hashes for jobs and a break if there is a break' do
+    context 'when there is a break between two jobs' do
+      it 'returns all jobs with a break inbetween two jobs' do
         job1 = build_stubbed(:application_work_experience, start_date: september2019, end_date: october2019)
         job2 = build_stubbed(:application_work_experience, start_date: october2019, end_date: november2019)
         job3 = build_stubbed(:application_work_experience, start_date: january2020, end_date: current_date)
@@ -122,8 +130,10 @@ RSpec.describe WorkHistoryWithBreaks do
         expect(work_history_with_breaks[2][:entry].length).to eq(1)
         expect(work_history_with_breaks[3]).to eq(type: :job, entry: job3)
       end
+    end
 
-      it 'returns an array containing hashes for jobs if current job covers breaks between following jobs' do
+    context 'when the first job is the current job and there is a break between following jobs' do
+      it 'returns all jobs without a break as current job covers the break between following jobs' do
         job1 = build_stubbed(:application_work_experience, start_date: march2019, end_date: nil)
         job2 = build_stubbed(:application_work_experience, start_date: april2019, end_date: september2019)
         job3 = build_stubbed(:application_work_experience, start_date: november2019, end_date: december2019)
@@ -138,8 +148,10 @@ RSpec.describe WorkHistoryWithBreaks do
         expect(work_history_with_breaks[1]).to eq(type: :job, entry: job2)
         expect(work_history_with_breaks[2]).to eq(type: :job, entry: job3)
       end
+    end
 
-      it 'returns an array containing hashes for jobs and a break if current job covers break between job after and present' do
+    context 'when there is a break before the current job and a break between following jobs' do
+      it 'returns only the break before the current job as current job covers the break between following jobs' do
         job1 = build_stubbed(:application_work_experience, start_date: january2019, end_date: february2019)
         job2 = build_stubbed(:application_work_experience, start_date: april2019, end_date: nil)
         job3 = build_stubbed(:application_work_experience, start_date: november2019, end_date: december2019)
@@ -156,8 +168,10 @@ RSpec.describe WorkHistoryWithBreaks do
         expect(work_history_with_breaks[2]).to eq(type: :job, entry: job2)
         expect(work_history_with_breaks[3]).to eq(type: :job, entry: job3)
       end
+    end
 
-      it 'returns an array containing hashes for jobs if previous job covers break between job after and present' do
+    context 'when there is one job that covers the break between following jobs' do
+      it 'returns all jobs without a break' do
         job1 = build_stubbed(:application_work_experience, start_date: january2019, end_date: december2019)
         job2 = build_stubbed(:application_work_experience, start_date: april2019, end_date: september2019)
         job3 = build_stubbed(:application_work_experience, start_date: november2019, end_date: nil)
@@ -174,8 +188,8 @@ RSpec.describe WorkHistoryWithBreaks do
       end
     end
 
-    context 'when an application form already has a break' do
-      it 'returns an array containing hashes for jobs and the existing break' do
+    context 'when there are multiple jobs and an existing break' do
+      it 'returns all jobs and the existing break and sorted by start date' do
         job1 = build_stubbed(:application_work_experience, start_date: january2019, end_date: february2019)
         job2 = build_stubbed(:application_work_experience, start_date: april2019, end_date: nil)
         work_history = [job1, job2]
@@ -198,8 +212,10 @@ RSpec.describe WorkHistoryWithBreaks do
         expect(work_history_with_breaks[1][:entry].length).to eq(1)
         expect(work_history_with_breaks[2]).to eq(type: :job, entry: job2)
       end
+    end
 
-      it 'returns an array containing a hash for the existing break if no jobs' do
+    context 'when there are no jobs but an existing break' do
+      it 'returns the existing break' do
         work_history = []
         break1 = build_stubbed(:application_work_history_break, start_date: february2019, end_date: april2019)
         breaks = [break1]
@@ -220,12 +236,12 @@ RSpec.describe WorkHistoryWithBreaks do
       end
     end
 
-    context 'when an application form has multiple breaks' do
-      it 'returns an array of existing breaks and sorted if no jobs' do
+    context 'when there are no jobs and multiple existing breaks' do
+      it 'returns all existing breaks and sorted by start date' do
         work_history = []
         break1 = build_stubbed(:application_work_history_break, start_date: november2019, end_date: current_date)
         break2 = build_stubbed(:application_work_history_break, start_date: february2019, end_date: april2019)
-        breaks = [break1, break2]
+        breaks = [break2, break1]
         application_form = build_stubbed(
           :application_form,
           application_work_experiences: work_history,
