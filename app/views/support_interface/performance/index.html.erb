@@ -23,28 +23,48 @@
 </div>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-quarter">
-    <div class="app-card">
-      <span class="app-card__count"><%= @statistics[:never_signed_in] %></span>
-      <span>never signed in</span>
+  <div class="govuk-grid-column-one-half">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-third">
+        <div class="app-card">
+          <span class="app-card__secondary-count"><%= @statistics[:never_signed_in] %></span>
+          <span>never signed in</span>
+        </div>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <div class="app-card">
+          <span class="app-card__secondary-count"><%= @statistics[:unsubmitted_not_started_form] %></span>
+          <span>not started the form</span>
+        </div>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <div class="app-card">
+          <span class="app-card__secondary-count"><%= @statistics[:unsubmitted_in_progress] %></span>
+          <span>form in progress</span>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="govuk-grid-column-one-quarter">
-    <div class="app-card">
-      <span class="app-card__count"><%= @statistics.total_candidate_count(only: %i{unsubmitted_not_started_form unsubmitted_in_progress}) %></span>
-      <span>unsubmitted</span>
-    </div>
-  </div>
-  <div class="govuk-grid-column-one-quarter">
-    <div class="app-card app-card--red">
-      <span class="app-card__count"><%= @statistics.total_candidate_count(only: %i{ended_without_success}) %></span>
-      <span>ended w/o success</span>
-    </div>
-  </div>
-  <div class="govuk-grid-column-one-quarter">
-    <div class="app-card app-card--green">
-      <span class="app-card__count"><%= @statistics.total_candidate_count(only: %i{pending_conditions recruited enrolled}) %></span>
-      <span>accepted an offer</span>
+  <div class="govuk-grid-column-one-half">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-third">
+        <div class="app-card app-card--red">
+          <span class="app-card__secondary-count"><%= @statistics.total_candidate_count(only: %i{ended_without_success}) %></span>
+          <span>ended w/o success</span>
+        </div>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <div class="app-card">
+          <span class="app-card__secondary-count"><%= @statistics.total_candidate_count(except: %i{ended_without_success pending_conditions recruited enrolled never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}) %></span>
+          <span>awaiting decisions</span>
+        </div>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <div class="app-card app-card--green">
+          <span class="app-card__secondary-count"><%= @statistics.total_candidate_count(only: %i{pending_conditions recruited enrolled}) %></span>
+          <span>accepted an offer</span>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -29,3 +29,8 @@
   @include govuk-font($size: 80, $weight: bold);
   display: block;
 }
+
+.app-card__secondary-count {
+  @include govuk-font($size: 48, $weight: bold);
+  display: block;
+}
