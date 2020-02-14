@@ -204,7 +204,15 @@ en:
     awaiting_provider_decision-reject:
       name: Provider rejects
       by: provider
-      description: The provider rejects the candidate.
+      description:  |
+        The provider rejects the candidate.
+
+        An email is sent to the candidate, the content of which depends
+        on the state of the other application choices, whether all choices
+        have been rejected, whether there are other offers and whether there
+        are pending decisions from providers.
+      emails:
+        - candidate_mailer-all_application_choices_rejected
 
     awaiting_provider_decision-withdraw:
       name: Withdraw
