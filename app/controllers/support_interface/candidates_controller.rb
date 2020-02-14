@@ -49,7 +49,7 @@ module SupportInterface
 
       flash[:success] = "You are now signed in as candidate #{candidate.email_address}"
 
-      redirect_to candidate_interface_application_form_path
+      redirect_to candidate_interface_interstitial_path
     end
 
   private

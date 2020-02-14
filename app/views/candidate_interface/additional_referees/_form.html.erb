@@ -21,7 +21,7 @@
       <p class="govuk-body">If you have trouble finding a suitable referee, contact your provider to discuss this.</p>
 
       <%= f.govuk_text_field :name, label: { text: t('application_form.referees.name.label'), size: 'm' } %>
-      <%= f.govuk_text_field :email_address, type: 'email', label: { text: t('application_form.referees.email_address.label'), size: 'm' }, hint_text: t('application_form.referees.email_address.hint_text')[1] %>
+      <%= f.govuk_text_field :email_address, type: 'email', label: { text: t('application_form.referees.email_address.label'), size: 'm' }, hint_text: t('application_form.referees.email_address.hint_text').second %>
       <%= f.govuk_text_area :relationship, label: { text: t('application_form.referees.relationship.label'), size: 'm' }, hint_text: t('application_form.referees.relationship.hint_text'), max_words: 50 %>
 
       <%= f.govuk_submit 'Continue' %>
