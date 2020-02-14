@@ -13,7 +13,7 @@ RSpec.feature 'Receives rejection email' do
 
     when_i_am_awaiting_decisions_and_have_no_offers
     and_a_provider_rejects_my_application
-    then_i_receive_the_application_rejected_awaiting_decisions_with_no_offers_email
+    then_i_receive_the_application_rejected_awaiting_decisions_email
   end
 
   def given_the_pilot_is_open
@@ -46,9 +46,9 @@ RSpec.feature 'Receives rejection email' do
     expect(current_email.subject).to include(t('application_choice_rejected_email.subject.all_rejected', provider_name: @application_choice.provider.name))
   end
 
-  def then_i_receive_the_application_rejected_awaiting_decisions_with_no_offers_email
+  def then_i_receive_the_application_rejected_awaiting_decisions_email
     open_email(@application_form.candidate.email_address)
 
-    expect(current_email.subject).to include(t('application_choice_rejected_email.subject.awaiting_decisions_with_no_offers', provider_name: @application_choice.provider.name, course_name: @application_choice.course.name))
+    expect(current_email.subject).to include(t('application_choice_rejected_email.subject.awaiting_decisions', provider_name: @application_choice.provider.name, course_name: @application_choice.course.name))
   end
 end

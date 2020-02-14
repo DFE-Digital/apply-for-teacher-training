@@ -30,12 +30,12 @@ RSpec.describe SendCandidateRejectionEmail do
       before do
         create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
         mail = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
-        allow(CandidateMailer).to receive(:application_rejected_awaiting_decisions_with_no_offers).and_return(mail)
+        allow(CandidateMailer).to receive(:application_rejected_awaiting_decisions).and_return(mail)
         described_class.new(application_choice: application_choice).call
       end
 
-      it 'sends them the awaiting_decisions_with_no_offers email' do
-        expect(CandidateMailer).to have_received(:application_rejected_awaiting_decisions_with_no_offers).with(application_choice)
+      it 'sends them the awaiting_decisions email' do
+        expect(CandidateMailer).to have_received(:application_rejected_awaiting_decisions).with(application_choice)
       end
 
       it 'audits the rejection email', with_audited: true do

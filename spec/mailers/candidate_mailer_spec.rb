@@ -419,8 +419,8 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
     end
 
-    describe 'Application rejected, awaiting decisions and no offers' do
-      let(:mail) { mailer.application_rejected_awaiting_decisions_with_no_offers(@application_choice) }
+    context 'Application rejected and awaiting further decisions' do
+      let(:mail) { mailer.application_rejected_awaiting_decisions(@application_choice) }
 
       before do
         setup_application
@@ -430,7 +430,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
 
       it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(t('application_choice_rejected_email.subject.awaiting_decisions_with_no_offers', provider_name: @provider.name, course_name: @course.name))
+        expect(mail.subject).to include(t('application_choice_rejected_email.subject.awaiting_decisions', provider_name: @provider.name, course_name: @course.name))
       end
 
       it 'sends an email with the correct heading' do

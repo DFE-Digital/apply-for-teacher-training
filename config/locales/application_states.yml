@@ -213,7 +213,7 @@ en:
         are pending decisions from providers.
       emails:
         - candidate_mailer-application_rejected_all_rejected
-        - candidate_mailer-application_rejected_awaiting_decisions_with_no_offers
+        - candidate_mailer-application_rejected_awaiting_decisions
 
     awaiting_provider_decision-withdraw:
       name: Withdraw

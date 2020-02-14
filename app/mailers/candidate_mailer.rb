@@ -69,8 +69,8 @@ class CandidateMailer < ApplicationMailer
     application_rejected(application_choice, :all_rejected)
   end
 
-  def application_rejected_awaiting_decisions_with_no_offers(application_choice)
-    application_rejected(application_choice, :awaiting_decisions_with_no_offers)
+  def application_rejected_awaiting_decisions(application_choice)
+    application_rejected(application_choice, :awaiting_decisions)
   end
 
   def new_offer_single_offer(application_choice)
