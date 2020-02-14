@@ -1,35 +1,13 @@
 class PerformanceStatistics
-  CANDIDATE_COUNTS_QUERY = "
+  CANDIDATE_QUERY = "
   WITH raw_data AS (
       SELECT
-          COUNT(c.id) FILTER (WHERE f.id IS NOT NULL) candidate_forms,
-          SUM(CASE WHEN f.id IS NOT NULL AND DATE_TRUNC('second', f.updated_at) <> DATE_TRUNC('second', f.created_at) THEN 1 ELSE 0 END) candidate_started_form_count,
-          SUM(CASE WHEN f.id IS NOT NULL AND f.submitted_at IS NOT NULL THEN 1 ELSE 0 END) candidate_submitted_form_count
-      FROM
-          candidates c
-      LEFT JOIN
-          application_forms f ON f.candidate_id = c.id
-      WHERE
-          NOT c.hide_in_reporting
-      GROUP BY
-          c.id
-  )
-  SELECT
-      COUNT(*) AS total_candidate_count,
-      SUM(CASE WHEN candidate_forms = 0 THEN 1 ELSE 0 END) AS candidates_signed_up_but_not_signed_in,
-      SUM(CASE WHEN candidate_forms > 0 AND candidate_started_form_count = 0 AND candidate_submitted_form_count = 0 THEN 1 ELSE 0 END) AS candidates_signed_in_but_not_entered_data,
-      SUM(CASE WHEN candidate_started_form_count > 0 AND candidate_submitted_form_count = 0 THEN 1 ELSE 0 END) AS candidates_with_unsubmitted_forms,
-      SUM(CASE WHEN candidate_submitted_form_count > 0 THEN 1 ELSE 0 END) AS candidates_with_submitted_forms
-  FROM
-      raw_data".freeze
-
-  APPLICATION_FORM_STATUS_COUNTS_QUERY = "
-  WITH raw_data AS (
-      SELECT
+          c.id,
           f.id,
           COUNT(f.id) FILTER (WHERE f.id IS NOT NULL) application_forms,
           COUNT(ch.id) FILTER (WHERE f.id IS NOT NULL) application_choices,
           CASE
+            WHEN f.id IS NULL THEN ARRAY['-1', 'never_signed_in']
             WHEN ARRAY_AGG(DISTINCT ch.status) IN ('{NULL}', '{unsubmitted}') AND DATE_TRUNC('second', f.updated_at) = DATE_TRUNC('second', f.created_at) THEN ARRAY['0', 'unsubmitted_not_started_form']
             WHEN ARRAY_AGG(DISTINCT ch.status) IN ('{NULL}', '{unsubmitted}') AND DATE_TRUNC('second', f.updated_at) <> DATE_TRUNC('second', f.created_at) THEN ARRAY['1', 'unsubmitted_in_progress']
             WHEN 'awaiting_references' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['2', 'awaiting_references']
@@ -44,14 +22,14 @@ class PerformanceStatistics
           END status
       FROM
           application_forms f
-      LEFT JOIN
+      FULL OUTER JOIN
           candidates c ON f.candidate_id = c.id
       LEFT JOIN
           application_choices ch ON ch.application_form_id = f.id
       WHERE
           NOT c.hide_in_reporting
       GROUP BY
-          f.id
+          c.id, f.id
   )
   SELECT
       raw_data.status[2],
@@ -64,23 +42,21 @@ class PerformanceStatistics
       raw_data.status[1]".freeze
 
   def [](key)
-    candidate_counts[key.to_s]
+    candidate_status_counts.find { |x| x['status'] == key.to_s }&.[]('count')
   end
 
-  def application_form_status_counts
-    @application_form_status_counts ||= ActiveRecord::Base
+  def total_candidate_count(only: nil, except: [])
+    candidate_status_counts
+     .select { |row| only.nil? || row['status'].to_sym.in?(only) }
+     .reject { |row| row['status'].to_sym.in?(except) }
+     .map { |row| row['count'] }
+     .sum
+  end
+
+  def candidate_status_counts
+    @candidate_status_counts ||= ActiveRecord::Base
       .connection
-      .execute(APPLICATION_FORM_STATUS_COUNTS_QUERY)
+      .execute(CANDIDATE_QUERY)
       .to_a
-  end
-
-  def application_form_counts_total
-    application_form_status_counts.sum { |row| row['count'].to_i }
-  end
-
-private
-
-  def candidate_counts
-    @candidate_counts ||= ActiveRecord::Base.connection.execute(CANDIDATE_COUNTS_QUERY)[0]
   end
 end

@@ -1,50 +1,78 @@
-<% content_for :title, 'Service performance dashboard' %>
+<% content_for :title, 'Service performance' %>
 
 <h2 class="govuk-heading-m govuk-!-font-size-27">Candidates</h2>
 
 <div class="app-card app-card--blue govuk-!-margin-bottom-4">
-  <span class="app-card__count" id="total-sign-ups"><%= @statistics[:total_candidate_count] %></span>
+  <span class="app-card__count" id="total-sign-ups"><%= @statistics.total_candidate_count %></span>
   <span>sign ups (excluding test users)</span>
 </div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-quarter">
+<div class="govuk-grid-row govuk-!-margin-bottom-4">
+  <div class="govuk-grid-column-one-half">
     <div class="app-card">
-      <span class="app-card__count"><%= @statistics[:candidates_signed_up_but_not_signed_in] %></span>
-      <span><%= @statistics[:candidates_signed_up_but_not_signed_in] == 1 ? 'hasn’t' : 'haven’t' %> signed in</span>
+      <span class="app-card__count"><%= @statistics.total_candidate_count(only: %i{never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}) %></span>
+      <span>in pre-submission</span>
     </div>
   </div>
-  <div class="govuk-grid-column-one-quarter">
+  <div class="govuk-grid-column-one-half">
     <div class="app-card">
-      <span class="app-card__count"><%= @statistics[:candidates_signed_in_but_not_entered_data] %></span>
-      <span><%= @statistics[:candidates_signed_in_but_not_entered_data] == 1 ? 'hasn’t' : 'haven’t' %> started</span>
-    </div>
-  </div>
-  <div class="govuk-grid-column-one-quarter">
-    <div class="app-card">
-      <span class="app-card__count"><%= @statistics[:candidates_with_unsubmitted_forms] %></span>
-      <span>in progress</span>
-    </div>
-  </div>
-  <div class="govuk-grid-column-one-quarter">
-    <div class="app-card app-card--green">
-      <span class="app-card__count"><%= @statistics[:candidates_with_submitted_forms] %></span>
+      <span class="app-card__count"><%= @statistics.total_candidate_count(except: %i{never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}) %></span>
       <span>submitted</span>
     </div>
   </div>
 </div>
 
-<h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Application forms</h2>
-
-<div class="app-card app-card--blue govuk-!-margin-bottom-4">
-  <span class="app-card__count" id="total-application-forms"><%= @statistics.application_form_counts_total %></span>
-  <span>application forms (excluding test users)</span>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-half">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-third">
+        <div class="app-card">
+          <span class="app-card__secondary-count"><%= @statistics[:never_signed_in] %></span>
+          <span>never signed in</span>
+        </div>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <div class="app-card">
+          <span class="app-card__secondary-count"><%= @statistics[:unsubmitted_not_started_form] %></span>
+          <span>not started the form</span>
+        </div>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <div class="app-card">
+          <span class="app-card__secondary-count"><%= @statistics[:unsubmitted_in_progress] %></span>
+          <span>form in progress</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="govuk-grid-column-one-half">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-third">
+        <div class="app-card app-card--red">
+          <span class="app-card__secondary-count"><%= @statistics.total_candidate_count(only: %i{ended_without_success}) %></span>
+          <span>ended w/o success</span>
+        </div>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <div class="app-card">
+          <span class="app-card__secondary-count"><%= @statistics.total_candidate_count(except: %i{ended_without_success pending_conditions recruited enrolled never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}) %></span>
+          <span>awaiting decisions</span>
+        </div>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <div class="app-card app-card--green">
+          <span class="app-card__secondary-count"><%= @statistics.total_candidate_count(only: %i{pending_conditions recruited enrolled}) %></span>
+          <span>accepted an offer</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="govuk-grid-row">
+<div class="govuk-grid-row govuk-!-margin-top-4">
   <div class="govuk-grid-column-full">
     <table class="govuk-table">
-      <caption class="govuk-table__caption">Application form breakdown</caption>
+      <caption class="govuk-table__caption">Candidate breakdown</caption>
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
           <th scope="col" class="govuk-table__header">Status</th>
@@ -54,7 +82,7 @@
       </thead>
 
       <tbody class="govuk-table__body">
-        <% @statistics.application_form_status_counts.each do |row| %>
+        <% @statistics.candidate_status_counts.each do |row| %>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header"><%= t("candidate_flow_application_states.#{row['status']}.name") %></th>
             <td class="govuk-table__cell govuk-table__cell--numeric"><%= row['count'] %></td>

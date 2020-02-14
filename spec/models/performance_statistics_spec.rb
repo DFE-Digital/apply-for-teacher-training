@@ -1,7 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe PerformanceStatistics, type: :model do
-  describe '#application_form_status_counts' do
+  describe '#[]' do
+    it 'counts candidates without application forms' do
+      create(:candidate)
+
+      expect(ProcessState.new(nil).state).to be :never_signed_in
+
+      expect(count_for_process_state(:never_signed_in)).to be(1)
+    end
+
     it 'counts unsubmitted, unstarted applications' do
       application_choice = create(:application_choice, status: 'unsubmitted')
       form = application_choice.application_form
@@ -103,8 +111,22 @@ RSpec.describe PerformanceStatistics, type: :model do
     end
   end
 
+  describe '#total_candidate_count' do
+    it 'optionally filters only on certain process states and excludes certain states' do
+      create(:application_choice, status: 'enrolled')
+      create(:application_choice, status: 'recruited')
+      create(:application_choice, status: 'pending_conditions')
+
+      stats = PerformanceStatistics.new
+
+      expect(stats.total_candidate_count).to eq(3)
+      expect(stats.total_candidate_count(only: %i{enrolled recruited})).to eq(2)
+      expect(stats.total_candidate_count(except: %i{enrolled pending_conditions})).to eq(1)
+    end
+  end
+
   def count_for_process_state(process_state)
-    PerformanceStatistics.new.application_form_status_counts.find { |x| x['status'] == process_state.to_s }['count']
+    PerformanceStatistics.new[process_state]
   end
 
   it 'excludes candidates marked as hidden from reporting' do
@@ -115,41 +137,6 @@ RSpec.describe PerformanceStatistics, type: :model do
 
     stats = PerformanceStatistics.new
 
-    expect(stats[:total_candidate_count]).to eq(1)
-    expect(stats.application_form_counts_total).to eq(1)
-  end
-
-  it 'excludes candidates without application forms' do
-    create(:candidate)
-
-    stats = PerformanceStatistics.new
-
-    expect(stats.application_form_counts_total).to eq(0)
-  end
-
-  it 'breaks down candidates with unsubmitted forms into stages' do
-    create(:candidate)
-    create_list(:application_form, 2)
-    create_list(:application_form, 3, updated_at: 3.minutes.from_now) # changed forms
-    create_list(:completed_application_form, 4, updated_at: 3.minutes.from_now)
-
-    stats = PerformanceStatistics.new
-
-    expect(stats[:total_candidate_count]).to eq(10)
-    expect(stats[:candidates_signed_up_but_not_signed_in]).to eq(1)
-    expect(stats[:candidates_signed_in_but_not_entered_data]).to eq(2)
-    expect(stats[:candidates_with_unsubmitted_forms]).to eq(3)
-    expect(stats[:candidates_with_submitted_forms]).to eq(4)
-  end
-
-  it 'avoids double counting generated test data' do
-    form = create(:completed_application_form)
-    form.update_column(:updated_at, form.created_at) # this form is both unchanged but also submitted
-
-    stats = PerformanceStatistics.new
-
-    expect(stats[:total_candidate_count]).to eq(1)
-    expect(stats[:candidates_with_submitted_forms]).to eq(1)
-    expect(stats[:candidates_signed_in_but_not_entered_data]).to eq(0)
+    expect(stats.total_candidate_count).to eq(1)
   end
 end

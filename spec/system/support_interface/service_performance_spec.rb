@@ -6,7 +6,6 @@ RSpec.feature 'Service performance' do
 
     when_i_visit_the_service_performance_page
     then_i_should_see_the_total_count_of_candidates
-    and_i_should_see_the_total_count_of_application_forms
   end
 
   def given_there_are_candidates_and_application_forms_in_the_system
@@ -19,12 +18,6 @@ RSpec.feature 'Service performance' do
 
   def then_i_should_see_the_total_count_of_candidates
     within '#total-sign-ups' do
-      expect(page).to have_content '3'
-    end
-  end
-
-  def and_i_should_see_the_total_count_of_application_forms
-    within '#total-application-forms' do
       expect(page).to have_content '3'
     end
   end
