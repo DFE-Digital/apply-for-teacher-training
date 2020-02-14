@@ -6,8 +6,8 @@ module FindAPIHelper
     site_code: 'X',
     findable: true,
     study_mode: 'full_time',
-    site_address_line2: 'C/O The Bruntcliffe Academy',
-    region_code: 'north_west'
+    region_code: 'north_west',
+    site_address_line2: 'C/O The Bruntcliffe Academy'
   )
     stub_find_api_provider(provider_code)
       .to_return(

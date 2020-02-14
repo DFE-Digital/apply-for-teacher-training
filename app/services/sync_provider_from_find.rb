@@ -38,7 +38,7 @@ class SyncProviderFromFind
   end
 
   def self.update_provider(provider, find_provider)
-    provider.region_code = find_provider.region_code if find_provider.region_code
+    provider.region_code = find_provider.region_code.strip if find_provider.region_code
     provider.name = find_provider.provider_name if find_provider.provider_name
     provider.save!
   end
