@@ -100,8 +100,8 @@ RSpec.describe ProviderMailer, type: :mailer do
       expect(@mail.body.encoded).to include("on #{submission_date.to_s(:govuk_date).strip}")
     end
 
-    it 'includes a link to the application' do
-      expect(@mail.body.encoded).to include(provider_interface_application_choice_url(application_choice_id: application_choice.id))
+    it 'includes the reject by default days' do
+      expect(@mail.body.encoded).to include('within 123 working days')
     end
   end
 

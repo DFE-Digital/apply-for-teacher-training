@@ -38,12 +38,14 @@ class ProviderMailer < ApplicationMailer
         :course_name_and_code,
         :submitted_at,
         :application_choice,
+        :rbd_days,
       ).new(
         application_choice.application_form.full_name,
         provider_user.full_name,
         application_choice.course.name_and_code,
         application_choice.application_form.submitted_at.to_s(:govuk_date).strip,
         application_choice,
+        application_choice.reject_by_default_days,
     )
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,

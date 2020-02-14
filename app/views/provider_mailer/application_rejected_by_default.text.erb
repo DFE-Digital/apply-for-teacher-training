@@ -4,7 +4,7 @@ Dear <%= @application.provider_user_name || 'colleague' %>
 
 <%= @application.candidate_name %> submitted an application for <%= @application.course_name_and_code %> on <%= @application.submitted_at %>.
 
-This application has been rejected automatically because you did not respond within 40 working days.
+This application has been rejected automatically because you did not respond within <%= @application.rbd_days %> working days.
 
 # Give feedback or report a problem
 
