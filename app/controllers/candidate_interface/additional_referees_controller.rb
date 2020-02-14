@@ -43,6 +43,7 @@ module CandidateInterface
 
     def edit
       @reference = current_reference
+      @page_title = page_title_for_new_page
     end
 
     def update
@@ -98,9 +99,9 @@ module CandidateInterface
 
     def page_title_for_new_page
       if params[:second]
-        'Add your second referee'
+        'Add your second new referee'
       elsif reference_status.number_of_references_that_currently_need_replacing == 2
-        'Add your first referee'
+        'Add your first new referee'
       else
         'Add a new referee'
       end

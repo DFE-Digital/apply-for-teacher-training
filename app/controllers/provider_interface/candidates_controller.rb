@@ -10,7 +10,7 @@ module ProviderInterface
 
         flash[:success] = "You are now signed in as candidate #{candidate.email_address}"
 
-        redirect_to candidate_interface_application_form_path
+        redirect_to candidate_interface_interstitial_path
       else
         flash[:warning] = 'This candidate is not associated with your account'
 

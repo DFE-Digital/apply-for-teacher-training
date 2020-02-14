@@ -291,12 +291,14 @@ en:
       delete: Delete referee
       email_address:
         label: Email address
-        hint_text: In most cases, this should be a work address. We won’t contact your referees until you submit your application.
+        hint_text: 
+          - In most cases, this should be a work address. We won’t contact your referees until you submit your application.
+          - In most cases, this should be a work address.
       name:
         label: Full name
       relationship:
         label: What is your relationship to this referee and how long have you known them?
-        hint_text: For example, “She’s the deputy head at the school where I currently volunteer”
+        hint_text: For example, ’She’s the deputy head at the school where I currently volunteer’
       review:
         button: Continue
       sure_delete_entry: Yes I’m sure - delete this referee

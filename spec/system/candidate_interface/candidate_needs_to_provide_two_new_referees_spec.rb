@@ -73,7 +73,7 @@ RSpec.describe 'Candidate needs to provide 2 new referees' do
   end
 
   def and_i_fill_in_the_form
-    expect(page).to have_title 'Add your first referee'
+    expect(page).to have_title 'Add your first new referee'
 
     fill_in 'Full name', with: 'AO Reference'
     fill_in 'Email address', with: 'betty@example.com'
@@ -82,7 +82,7 @@ RSpec.describe 'Candidate needs to provide 2 new referees' do
   end
 
   def and_i_fill_in_the_second_form
-    expect(page).to have_title 'Add your second referee'
+    expect(page).to have_title 'Add your second new referee'
 
     fill_in 'Full name', with: 'Second Reference'
     fill_in 'Email address', with: 'boppie@example.com'
