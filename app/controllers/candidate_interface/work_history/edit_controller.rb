@@ -7,11 +7,13 @@ module CandidateInterface
                                 start_date = params[:start_date].to_date
                                 end_date = params[:end_date].to_date
 
+                                end_date = nil if end_date.month == Time.zone.today.month && end_date.year == Time.zone.today.year
+
                                 WorkExperienceForm.new(
                                   start_date_month: start_date.month,
                                   start_date_year: start_date.year,
-                                  end_date_month: end_date.month,
-                                  end_date_year: end_date.year,
+                                  end_date_month: end_date&.month || '',
+                                  end_date_year: end_date&.year || '',
                                   add_another_job: true,
                                 )
                               else

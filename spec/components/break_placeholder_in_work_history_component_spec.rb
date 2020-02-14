@@ -12,12 +12,18 @@ RSpec.describe BreakPlaceholderInWorkHistoryComponent do
   it 'renders the component with the break in months' do
     result = render_inline(BreakPlaceholderInWorkHistoryComponent, work_break: work_break)
 
-    expect(result.text).to include('You have a break in your work history (3 months)')
+    expect(result.text).to include('You have a break in your work history in the last 5 years (3 months)')
+  end
+
+  it 'renders the component with a link to explain break' do
+    result = render_inline(BreakPlaceholderInWorkHistoryComponent, work_break: work_break)
+
+    expect(result.text).to include('Please explain break between January 2020 and May 2020')
   end
 
   it 'renders the component with a link to add another job' do
     result = render_inline(BreakPlaceholderInWorkHistoryComponent, work_break: work_break)
 
-    expect(result.text).to include('Add another job')
+    expect(result.text).to include('Add another job between January 2020 and May 2020')
   end
 end
