@@ -6,10 +6,14 @@ RSpec.feature 'Receives rejection email' do
   scenario 'Receives rejection email' do
     given_the_pilot_is_open
     and_candidate_rejected_by_provider_email_is_active
-    and_all_but_one_of_my_application_choices_have_been_rejected
 
-    when_a_provider_rejects_my_last_application
+    when_all_but_one_of_my_application_choices_have_been_rejected
+    and_a_provider_rejects_my_application
     then_i_receive_the_all_applications_rejected_email
+
+    when_i_am_awaiting_decisions_and_have_no_offers
+    and_a_provider_rejects_my_application
+    then_i_receive_the_application_rejected_awaiting_decisions_with_no_offers_email
   end
 
   def given_the_pilot_is_open
@@ -20,13 +24,19 @@ RSpec.feature 'Receives rejection email' do
     FeatureFlag.activate('candidate_rejected_by_provider_email')
   end
 
-  def and_all_but_one_of_my_application_choices_have_been_rejected
+  def when_all_but_one_of_my_application_choices_have_been_rejected
     @application_form = create(:completed_application_form)
     create_list(:application_choice, 2, status: :rejected, application_form: @application_form)
     @application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: @application_form)
   end
 
-  def when_a_provider_rejects_my_last_application
+  def when_i_am_awaiting_decisions_and_have_no_offers
+    @application_form = create(:completed_application_form)
+    create_list(:application_choice, 2, status: :awaiting_provider_decision, application_form: @application_form)
+    @application_choice = @application_form.application_choices.first
+  end
+
+  def and_a_provider_rejects_my_application
     RejectApplication.new(application_choice: @application_choice, rejection_reason: 'No experience working with children.').save
   end
 
@@ -34,5 +44,11 @@ RSpec.feature 'Receives rejection email' do
     open_email(@application_form.candidate.email_address)
 
     expect(current_email.subject).to include(t('application_choice_rejected_email.subject.all_rejected', provider_name: @application_choice.provider.name))
+  end
+
+  def then_i_receive_the_application_rejected_awaiting_decisions_with_no_offers_email
+    open_email(@application_form.candidate.email_address)
+
+    expect(current_email.subject).to include(t('application_choice_rejected_email.subject.awaiting_decisions_with_no_offers', provider_name: @application_choice.provider.name, course_name: @application_choice.course.name))
   end
 end

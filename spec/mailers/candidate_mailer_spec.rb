@@ -462,12 +462,13 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     let(:mail) { mailer.application_rejected_awaiting_decisions_with_no_offers(application_choice) }
 
+    let(:rejection_reason) { 'The application had little detail.' }
+
     before do
       application_choice2
       mail.deliver_later
     end
 
-    let(:rejection_reason) { 'The application had little detail.' }
 
     it 'sends an email with the correct subject' do
       expect(mail.subject).to include(t('application_choice_rejected_email.subject.awaiting_decisions_with_no_offers', provider_name: provider.name, course_name: course.name))

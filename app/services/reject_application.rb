@@ -21,7 +21,7 @@ class RejectApplication
         rejected_at: Time.zone.now,
       )
       if FeatureFlag.active?('candidate_rejected_by_provider_email')
-        SendCandidateRejectionEmail.call(application_choice: @application_choice)
+        SendCandidateRejectionEmail.new(application_choice: @application_choice).call
       end
       SetDeclineByDefault.new(application_form: @application_choice.application_form).call
       StateChangeNotifier.call(:reject_application, application_choice: @application_choice)
