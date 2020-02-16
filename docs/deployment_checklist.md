@@ -1,11 +1,17 @@
-# Deploying Apply - List of checks following deploy
+# Deploying Apply - Post-deployment checks
 
-After deploying a new version of the service there is a short list of
+After deploying a new version of the service we have a short list of
 tests to run through. The aim is to detect any obvious issues that have
 been caused by the new release.
 
 This checklist is meant as a supplement to the full [deployment guide](deployment.md)
 where you will find detailed instructions about how to deploy.
+
+It may be appropriate carry out additional checks specific to the
+changes included in a deployment.
+
+We aim to work in pairs on deployments so that one developer runs the
+deployment itself and a second developer runs through this checklist.
 
 ## 1. Production checks
 
