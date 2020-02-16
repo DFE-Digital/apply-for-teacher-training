@@ -4,7 +4,7 @@ After deploying a new version of the service there is a short list of
 tests to run through. The aim is to detect any obvious issues that have
 been caused by the new release.
 
-This checklist is meant as a supplement to the full [deployment guide](https://github.com/DFE-Digital/apply-for-postgraduate-teacher-training/blob/master/docs/deployment.md)
+This checklist is meant as a supplement to the full [deployment guide](deployment.md)
 where you will find detailed instructions about how to deploy.
 
 ## 1. Production checks
