@@ -46,7 +46,8 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
     it { is_expected.to allow_value(okay_text).for(:details) }
     it { is_expected.not_to allow_value(long_text).for(:details) }
 
-    include_examples 'validation for a start and end date', 'work_experience_form'
+    include_examples 'validation for a start date', 'work_experience_form'
+    include_examples 'validation for an end date that can be blank', 'work_experience_form'
   end
 
   describe '#save' do

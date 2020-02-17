@@ -136,6 +136,7 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
     it { is_expected.to allow_value(okay_text).for(:details) }
     it { is_expected.not_to allow_value(long_text).for(:details) }
 
-    include_examples 'validation for a start and end date', 'volunteering_role_form'
+    include_examples 'validation for a start date', 'volunteering_role_form'
+    include_examples 'validation for an end date that can be blank', 'volunteering_role_form'
   end
 end
