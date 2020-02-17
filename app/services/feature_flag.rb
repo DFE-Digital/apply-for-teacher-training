@@ -3,7 +3,6 @@ class FeatureFlag
     pilot_open
     training_with_a_disability
     edit_application
-    send_reference_email_via_support
     send_dfe_sign_in_invitations
     improved_expired_token_flow
     work_breaks

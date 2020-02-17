@@ -291,7 +291,7 @@ en:
       delete: Delete referee
       email_address:
         label: Email address
-        hint_text: 
+        hint_text:
           - In most cases, this should be a work address. We won’t contact your referees until you submit your application.
           - In most cases, this should be a work address.
       name:
@@ -312,8 +312,6 @@ en:
         - Sixth referee
       chase: Chase this referee and notify the candidate
       confirm_chase: Are you sure you want to send emails to chase the referee?
-      chase_button: Yes - send the email
-      chase_success: Email sent to candidate and referee
       audit_comment: "Chase emails have been sent to the referee (%{referee_email}) and candidate (%{candidate_email})."
       info:
         before_submission: We’ll contact your referees after you submit your application. We’ll let you know if they don’t supply a reference.
@@ -547,12 +545,6 @@ en:
           attributes:
             comment:
               blank: Enter a comment
-        support_interface/send_reference_email_form:
-          attributes:
-            choice:
-              blank: Choose the action you want to take on the reference
-            new_referee_email:
-              blank: Choose an email to send
         receive_reference:
           attributes:
             feedback:

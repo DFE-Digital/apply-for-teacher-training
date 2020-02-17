@@ -336,20 +336,11 @@ Rails.application.routes.draw do
     get '/applications/:application_form_id/comments/new' => 'application_forms/comments#new', as: :application_form_new_comment
     post '/applications/:application_form_id/comments' => 'application_forms/comments#create', as: :application_form_comments
 
-    get '/send-email/:reference_id' => 'send_reference_email#new', as: :send_reference_email
-    post '/send-email/:reference_id' => 'send_reference_email#create'
-
-    get '/send-new-referee-request-email/:reference_id/:reason' => 'new_referee_request#show', as: :new_referee_request
-    post '/send-new-referee-request-email/:reference_id/:reason' => 'new_referee_request#deliver'
-
     get '/candidates' => 'candidates#index'
     get '/candidates/:candidate_id' => 'candidates#show', as: :candidate
     post '/candidates/:candidate_id/hide' => 'candidates#hide_in_reporting', as: :hide_candidate
     post '/candidates/:candidate_id/show' => 'candidates#show_in_reporting', as: :show_candidate
     post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
-
-    get '/chase-reference/:reference_id' => 'chase_reference#show', as: :chase_reference
-    post '/chase-reference/:reference_id' => 'chase_reference#chase'
 
     get '/send-survey-email/:application_form_id' => 'survey_emails#show', as: :survey_emails
     post '/send-survey-email/:application_form_id' => 'survey_emails#deliver'
