@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @work_break, url: candidate_interface_new_work_history_break_path do |f| %>
+    <%= form_with model: @work_break, url: candidate_interface_edit_work_history_break_path, method: :post do |f| %>
       <%= render 'form', f: f %>
     <% end %>
   </div>

@@ -31,6 +31,17 @@ RSpec.describe CandidateInterface::WorkHistoryBreakForm, type: :model do
     include_examples 'validation for a start and end date', 'work_history_break_form'
   end
 
+  describe '.build_from_break' do
+    it 'creates an object based on the work history break' do
+      application_work_history_break = build_stubbed(:application_work_history_break, attributes: data)
+      work_break = CandidateInterface::WorkHistoryBreakForm.build_from_break(
+        application_work_history_break,
+      )
+
+      expect(work_break).to have_attributes(form_data)
+    end
+  end
+
   describe '#save' do
     it 'returns false if not valid' do
       work_break = CandidateInterface::WorkHistoryBreakForm.new
@@ -45,6 +56,28 @@ RSpec.describe CandidateInterface::WorkHistoryBreakForm, type: :model do
       saved_work_break = work_break.save(application_form)
 
       expect(saved_work_break).to have_attributes(data)
+    end
+  end
+
+  describe '#update' do
+    it 'returns false if not valid' do
+      work_break = CandidateInterface::WorkHistoryBreakForm.new
+
+      expect(work_break.save(ApplicationForm.new)).to eq(false)
+    end
+
+    it 'updates work history break if valid' do
+      application_work_history_break = create(
+        :application_work_history_break,
+        application_form: create(:application_form),
+        attributes: data,
+      )
+      work_break = CandidateInterface::WorkHistoryBreakForm.new(form_data)
+      work_break.reason = 'Updated reason.'
+
+      work_break.update(application_work_history_break)
+
+      expect(application_work_history_break.reason).to eq('Updated reason.')
     end
   end
 end
