@@ -193,7 +193,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
   end
 
-  describe 'Send application under consideration email' do
+  describe '.application_sent_to_provider' do
     let(:application_choice) { build_stubbed(:application_choice, reject_by_default_days: '40') }
     let(:application_form) do
       build_stubbed(
@@ -205,7 +205,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
 
     context 'when initial email' do
-      let(:mail) { mailer.application_under_consideration(application_form) }
+      let(:mail) { mailer.application_sent_to_provider(application_form) }
 
       before { mail.deliver_later }
 

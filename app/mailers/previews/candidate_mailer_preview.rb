@@ -8,10 +8,10 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.application_submitted(application_form)
   end
 
-  def application_under_consideration
+  def application_sent_to_provider
     application_choice = FactoryBot.build(:application_choice, :awaiting_provider_decision)
 
-    CandidateMailer.application_under_consideration(
+    CandidateMailer.application_sent_to_provider(
       FactoryBot.build(
         :completed_application_form,
         application_choices: [application_choice],

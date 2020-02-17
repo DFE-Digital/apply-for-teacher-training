@@ -20,6 +20,6 @@ RSpec.feature 'Candidate application choices are delivered to providers' do
   def then_i_should_receive_an_email_saying_my_application_is_under_consideration
     open_email(@application_choice.application_form.candidate.email_address)
 
-    expect(current_email.subject).to end_with(t('application_under_consideration.email.subject'))
+    expect(current_email.subject).to end_with(t('candidate_mailer.application_sent_to_provider.subject'))
   end
 end

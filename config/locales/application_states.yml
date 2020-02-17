@@ -175,7 +175,7 @@ en:
       by: system
       description: 5 days after submission the application is sent to providers. This is to give candidates the opportunity to edit their application.
       emails:
-        - candidate_mailer-application_under_consideration
+        - candidate_mailer-application_sent_to_provider
         - provider_mailer-application_submitted
 
     application_complete-withdraw:

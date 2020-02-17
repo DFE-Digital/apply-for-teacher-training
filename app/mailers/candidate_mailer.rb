@@ -5,17 +5,13 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(application_form)
   end
 
-  def application_under_consideration(application_form)
+  def application_sent_to_provider(application_form)
     @application = OpenStruct.new(
-      candidate: application_form.candidate,
-      candidate_name: application_form.first_name,
       choice_count: application_form.application_choices.count,
-      rbd_days: application_form.application_choices.first.reject_by_default_days,
+      reject_by_default_days: application_form.application_choices.first.reject_by_default_days,
     )
 
-    view_mail(GENERIC_NOTIFY_TEMPLATE,
-              to: application_form.candidate.email_address,
-              subject: t('application_under_consideration.email.subject'))
+    email_for_candidate(application_form)
   end
 
   def reference_chaser_email(application_form, reference)

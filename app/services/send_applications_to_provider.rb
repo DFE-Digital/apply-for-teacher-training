@@ -6,7 +6,7 @@ class SendApplicationsToProvider
         SendApplicationToProvider.new(application_choice: choice).call
       end
 
-      CandidateMailer.application_under_consideration(application_form).deliver_now
+      CandidateMailer.application_sent_to_provider(application_form).deliver_now
     end
   end
 end
