@@ -1,5 +1,5 @@
 desc 'Set up your local development environment with data from Find'
-task setup_local_dev_data: :environment do
+task setup_local_dev_data: %i[environment copy_feature_flags_from_production] do
   puts 'Syncing data from Find...'
   ENV['DEV_PROVIDERS_TO_SYNC'].split(',').each do |code|
     SyncProviderFromFind.call(provider_code: code, sync_courses: true)
@@ -9,8 +9,6 @@ task setup_local_dev_data: :environment do
   Provider.all.each do |provider|
     OpenProviderCourses.new(provider: provider).call
   end
-
-  FeatureFlag.activate('pilot_open')
 
   puts 'Generating some test applications...'
   GenerateTestApplications.new.perform
@@ -25,4 +23,21 @@ task setup_local_dev_data: :environment do
     u.providers = [ApplicationChoice.first.provider]
   end
   SupportUser.find_or_create_by!(dfe_sign_in_uid: 'dev-support', email_address: 'support@example.com')
+end
+
+desc 'Copy feature flags from production to your local dev env'
+task copy_feature_flags_from_production: :environment do
+  flags = JSON.parse(HTTP.get('https://www.apply-for-teacher-training.education.gov.uk/integrations/feature-flags')).fetch('feature_flags')
+
+  puts 'Synchronising feature flags with production...'
+
+  FeatureFlag::FEATURES.each do|f|
+    if flags.dig(f, 'active')
+      puts "+ #{f}"
+      FeatureFlag.activate(f)
+    else
+      puts "- #{f}"
+      FeatureFlag.deactivate(f)
+    end
+  end
 end
