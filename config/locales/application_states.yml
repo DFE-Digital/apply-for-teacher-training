@@ -167,6 +167,7 @@ en:
       by: referee
       description: Occurs when 2 referees have provided feedback about the candidate.
       emails:
+        - candidate_mailer-reference_received
         - referee_mailer-reference_confirmation_email
 
     application_complete-send_to_provider:

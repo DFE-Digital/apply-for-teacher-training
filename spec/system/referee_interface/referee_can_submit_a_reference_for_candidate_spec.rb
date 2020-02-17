@@ -6,6 +6,7 @@ RSpec.feature 'Referee can submit reference', sidekiq: true, with_audited: true 
   scenario 'Referee submits a reference for a candidate' do
     FeatureFlag.activate('training_with_a_disability')
     FeatureFlag.activate('send_reference_confirmation_email')
+    FeatureFlag.activate('notify_candidate_of_new_reference')
 
     given_a_candidate_completed_an_application
     when_the_candidate_submits_the_application
@@ -24,6 +25,7 @@ RSpec.feature 'Referee can submit reference', sidekiq: true, with_audited: true 
     then_i_see_the_confirmation_page
     and_i_receive_an_email_confirmation
     and_an_audit_comment_is_added
+    and_the_candidate_receives_a_notification
 
     when_i_choose_to_be_contactable
     and_i_click_the_finish_button
@@ -94,6 +96,13 @@ RSpec.feature 'Referee can submit reference', sidekiq: true, with_audited: true 
     expect(@application.audits.last.comment).to eq(
       'Reference confirmation email has been sent to the candidate’s reference: Terri Tudor using terri@example.com.',
     )
+  end
+
+  def and_the_candidate_receives_a_notification
+    open_email(current_candidate.email_address)
+
+    expect(current_email.subject).to end_with('You have a reference for your teacher training application')
+    expect(current_email.body).to have_content('Terri Tudor submitted a reference for your teacher training application')
   end
 
   def then_i_see_the_thank_you_page
