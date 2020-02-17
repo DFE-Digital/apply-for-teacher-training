@@ -131,16 +131,17 @@ class CandidateMailerPreview < ActionMailer::Preview
   def reference_received
     CandidateMailer.reference_received(reference)
   end
-  
+
   def application_rejected_offers_made
     provider = FactoryBot.create(:provider)
     course = FactoryBot.create(:course, provider: provider)
     application_form = FactoryBot.create(:application_form, first_name: 'Tyrell', last_name: 'Wellick')
     course_option = FactoryBot.create(:course_option, course: course)
-    FactoryBot.create_list(:application_choice, 2, status: :offer, application_form: application_form)
+    FactoryBot.create_list(:application_choice, 2, :with_offer, decline_by_default_days: 10, application_form: application_form)
     application_choice = FactoryBot.create(:application_choice,
                                            course_option: course_option,
                                            application_form: application_form,
+                                           decline_by_default_days: 10,
                                            rejection_reason: 'Not enough experience.')
 
     CandidateMailer.application_rejected_offers_made(application_choice)

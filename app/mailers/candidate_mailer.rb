@@ -106,6 +106,7 @@ private
     end
     offers = application_choice.application_form.application_choices.select(&:offer?)
     decline_by_default_at = offers.map(&:decline_by_default_at).compact.max&.to_s(:govuk_date)
+    dbd_days = offers.map(&:decline_by_default_days).max
 
     @application = OpenStruct.new(
       application_choice: application_choice,
@@ -117,6 +118,7 @@ private
       decisions: decisions,
       decline_by_default_at: decline_by_default_at,
       offers: offers,
+      dbd_days: dbd_days,
     )
 
     view_mail(
@@ -124,7 +126,8 @@ private
       to: application_choice.application_form.candidate.email_address,
       subject: t("application_choice_rejected_email.subject.#{template_name}",
                  provider_name: application_choice.provider.name,
-                 course_name: application_choice.course.name_and_code),
+                 course_name: application_choice.course.name_and_code,
+                 dbd_days: dbd_days),
       template_path: 'candidate_mailer/application_rejected',
       template_name: template_name,
       )

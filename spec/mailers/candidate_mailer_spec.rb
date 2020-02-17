@@ -372,6 +372,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       course_option = create(:course_option, course: @course)
       @application_choice = create(:application_choice,
                                    course_option: course_option,
+                                   status: :rejected,
                                    application_form: @application_form,
                                    rejection_reason: rejection_reason)
     end
@@ -422,7 +423,9 @@ RSpec.describe CandidateMailer, type: :mailer do
 
 
       it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(t('application_choice_rejected_email.subject.awaiting_decisions', provider_name: @provider.name, course_name: @course.name_and_code))
+        expect(mail.subject).to include(t('application_choice_rejected_email.subject.awaiting_decisions',
+                                          provider_name: @provider.name,
+                                          course_name: @course.name_and_code))
       end
 
       it 'sends an email with the correct heading' do
@@ -449,18 +452,20 @@ RSpec.describe CandidateMailer, type: :mailer do
     context 'Application rejected and one offer has been made' do
       let(:mail) { mailer.application_rejected_offers_made(@application_choice) }
 
-
       before do
         setup_application
         @application_choice2 = create(:application_choice,
                                       status: :offer,
                                       application_form: @application_form,
-                                      decline_by_default_at: 10.business_days.from_now)
+                                      decline_by_default_at: 10.business_days.from_now,
+                                      decline_by_default_days: 10)
         mail.deliver_later
       end
 
       it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(t('application_choice_rejected_email.subject.offers_made', provider_name: @provider.name))
+        expect(mail.subject).to include(t('application_choice_rejected_email.subject.offers_made',
+                                          provider_name: @provider.name,
+                                          dbd_days: @application_choice2.decline_by_default_days))
       end
 
       it 'sends an email with the correct heading' do
@@ -496,17 +501,21 @@ RSpec.describe CandidateMailer, type: :mailer do
         @application_choice2 = create(:application_choice,
                                       status: :offer,
                                       application_form: @application_form,
-                                      decline_by_default_at: 10.business_days.from_now)
+                                      decline_by_default_at: 10.business_days.from_now,
+                                      decline_by_default_days: 10)
 
         @application_choice3 = create(:application_choice,
                                       status: :offer,
                                       application_form: @application_form,
-                                      decline_by_default_at: 8.business_days.from_now)
+                                      decline_by_default_at: 8.business_days.from_now,
+                                      decline_by_default_days: 10)
         mail.deliver_later
       end
 
       it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(t('application_choice_rejected_email.subject.offers_made', provider_name: @provider.name))
+        expect(mail.subject).to include(t('application_choice_rejected_email.subject.offers_made',
+                                          provider_name: @provider.name,
+                                          dbd_days: @application_choice2.decline_by_default_days))
       end
 
       it 'sends an email with the correct heading' do
