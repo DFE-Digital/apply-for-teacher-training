@@ -17,7 +17,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
 
     when_i_click_on_work_history
     and_i_choose_i_have_work_for_more_than_5_years
-    and_i_add_a_job_between_march_2019_to_august_2019
+    and_i_add_a_job_between_february_2015_to_august_2019
     and_i_add_another_job_between_november_2019_and_december_2019
     then_i_see_a_two_months_break_between_my_first_job_and_my_second_job
     and_i_see_a_one_month_break_between_my_second_job_and_now
@@ -63,7 +63,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     click_button 'Continue'
   end
 
-  def and_i_add_a_job_between_march_2019_to_august_2019
+  def and_i_add_a_job_between_february_2015_to_august_2019
     scope = 'application_form.work_history'
     fill_in t('role.label', scope: scope), with: 'Microsoft Painter'
     fill_in t('organisation.label', scope: scope), with: 'Department for Education'
@@ -71,8 +71,8 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     choose 'Full-time'
 
     within('[data-qa="start-date"]') do
-      fill_in 'Month', with: '3'
-      fill_in 'Year', with: '2019'
+      fill_in 'Month', with: '2'
+      fill_in 'Year', with: '2015'
     end
 
     within('[data-qa="end-date"]') do
@@ -124,7 +124,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def when_i_click_add_another_job_for_my_break_between_august_2019_and_november_2019
-    click_link 'Add another job between August 2019 and November 2019'
+    click_link 'add another job between August 2019 and November 2019'
   end
 
   def then_i_see_the_start_and_end_date_filled_for_adding_another_job_between_august_2019_and_november_2019
@@ -143,7 +143,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def when_i_click_add_another_job_for_my_break_between_december_2019_and_now
-    click_link 'Add another job between December 2019 and February 2020'
+    click_link 'add another job between December 2019 and February 2020'
   end
 
   def then_i_only_see_the_start_date_filled_in_for_my_break_between_december_2019_and_now
@@ -154,7 +154,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def when_i_click_to_explain_my_break_between_august_2019_and_november_2019
-    click_link 'Please explain break between August 2019 and November 2019'
+    click_link 'Explain break between August 2019 and November 2019'
   end
 
   def when_i_enter_a_reason_for_my_break_between_august_2019_and_november_2019
