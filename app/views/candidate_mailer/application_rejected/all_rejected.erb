@@ -2,17 +2,9 @@ Dear <%= @application.candidate_name %>,
 
 # Application decision
 
-<% if @application.rejection_reason %>
+<%= @application.provider_name %> has decided not to progress your teacher training application for <%= @application.course_name %> on this occasion. They gave the following feedback:
 
-  <%= @application.provider_name %> has decided not to progress your teacher training application for <%= @application.course_name %> on this occasion. They gave the following feedback:
-
-  <%= @application.rejection_reason %>
-
-<% else %>
-
-  <%= @application.provider_name %> has decided not to progress your teacher training application for <%= @application.course_name %> on this occasion. They declined to give feedback.
-
-<% end %>
+<%= @application.rejection_reason %>
 
 Contact <%= @application.provider_name %> directly if you have any questions about this.
 

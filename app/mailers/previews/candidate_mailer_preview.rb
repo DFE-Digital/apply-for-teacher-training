@@ -101,6 +101,33 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.new_offer_decisions_pending(application_choice)
   end
 
+  def application_rejected_all_rejected
+    provider = create(:provider)
+    course = create(:course, provider: provider)
+    application_form = create(:application_form, first_name: 'Tyrell', last_name: 'Wellick')
+    course_option = create(:course_option, course: course)
+    application_choice = create(:application_choice,
+                                course_option: course_option,
+                                application_form: application_form,
+                                rejection_reason: rejection_reason)
+
+    CandidateMailer.application_rejected_all_rejected(application_choice)
+  end
+
+  def application_rejected_awaiting_decisions
+    provider = create(:provider)
+    course = create(:course, provider: provider)
+    application_form = create(:application_form, first_name: 'Tyrell', last_name: 'Wellick')
+    course_option = create(:course_option, course: course)
+    create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
+    application_choice = create(:application_choice,
+                                course_option: course_option,
+                                application_form: application_form,
+                                rejection_reason: rejection_reason)
+
+    CandidateMailer.application_rejected_awaiting_decisions(application_choice)
+  end
+
 private
 
   def application_form

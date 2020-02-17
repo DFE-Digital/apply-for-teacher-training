@@ -212,7 +212,8 @@ en:
         have been rejected, whether there are other offers and whether there
         are pending decisions from providers.
       emails:
-        - candidate_mailer-all_application_choices_rejected
+        - candidate_mailer-application_rejected_all_rejected
+        - candidate_mailer-application_rejected_awaiting_decisions
 
     awaiting_provider_decision-withdraw:
       name: Withdraw
