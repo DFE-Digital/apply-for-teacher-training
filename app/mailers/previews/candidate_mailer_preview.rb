@@ -102,34 +102,49 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def application_rejected_all_rejected
-    provider = create(:provider)
-    course = create(:course, provider: provider)
-    application_form = create(:application_form, first_name: 'Tyrell', last_name: 'Wellick')
-    course_option = create(:course_option, course: course)
-    application_choice = create(:application_choice,
-                                course_option: course_option,
-                                application_form: application_form,
-                                rejection_reason: rejection_reason)
+    provider = FactoryBot.create(:provider)
+    course = FactoryBot.create(:course, provider: provider)
+    application_form = FactoryBot.create(:application_form, first_name: 'Tyrell', last_name: 'Wellick')
+    course_option = FactoryBot.create(:course_option, course: course)
+    application_choice = FactoryBot.create(:application_choice,
+                                           course_option: course_option,
+                                           application_form: application_form,
+                                           rejection_reason: 'Not enough experience.')
 
     CandidateMailer.application_rejected_all_rejected(application_choice)
   end
 
   def application_rejected_awaiting_decisions
-    provider = create(:provider)
-    course = create(:course, provider: provider)
-    application_form = create(:application_form, first_name: 'Tyrell', last_name: 'Wellick')
-    course_option = create(:course_option, course: course)
-    create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
-    application_choice = create(:application_choice,
-                                course_option: course_option,
-                                application_form: application_form,
-                                rejection_reason: rejection_reason)
+    provider = FactoryBot.create(:provider)
+    course = FactoryBot.create(:course, provider: provider)
+    application_form = FactoryBot.create(:application_form, first_name: 'Tyrell', last_name: 'Wellick')
+    course_option = FactoryBot.create(:course_option, course: course)
+    FactoryBot.create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
+    application_choice = FactoryBot.create(:application_choice,
+                                           course_option: course_option,
+                                           application_form: application_form,
+                                           rejection_reason: 'Not enough experience.')
 
     CandidateMailer.application_rejected_awaiting_decisions(application_choice)
   end
 
   def reference_received
     CandidateMailer.reference_received(reference)
+  end
+
+  def application_rejected_offers_made
+    provider = FactoryBot.create(:provider)
+    course = FactoryBot.create(:course, provider: provider)
+    application_form = FactoryBot.create(:application_form, first_name: 'Tyrell', last_name: 'Wellick')
+    course_option = FactoryBot.create(:course_option, course: course)
+    FactoryBot.create_list(:application_choice, 2, :with_offer, decline_by_default_days: 10, application_form: application_form)
+    application_choice = FactoryBot.create(:application_choice,
+                                           course_option: course_option,
+                                           application_form: application_form,
+                                           decline_by_default_days: 10,
+                                           rejection_reason: 'Not enough experience.')
+
+    CandidateMailer.application_rejected_offers_made(application_choice)
   end
 
 private

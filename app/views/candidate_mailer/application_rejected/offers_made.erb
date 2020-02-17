@@ -1,0 +1,40 @@
+Dear <%= @application.candidate_name %>,
+
+# Application decision
+
+<%= @application.provider_name %> has decided not to progress your teacher training application for <%= @application.course_name %> on this occasion. They gave the following feedback:
+
+<%= @application.rejection_reason %>
+
+Contact <%= @application.provider_name %> directly if you have any questions about this.
+
+# Make a decision about your <%= 'offer'.pluralize(@application.offers.count) %> by <%= @application.decline_by_default_at %>
+
+<% if @application.offers.count > 1  %>
+
+You’ve received the following offers:
+<% @application.offers.each do |offer| %>
+  - <%= "#{offer.course.name_and_code} at #{offer.provider.name}"%>
+<% end %>
+
+If you don’t reply within <%= @application.dbd_days %> working days, your applications will be withdrawn.
+
+<% else %>
+
+You now have <%= @application.dbd_days %> working days to make a decision about your offer for a place on <%= @application.offers.first.course.name_and_code %> at <%= @application.offers.first.provider.name%>.
+
+<% end %>
+
+Sign in to your account to respond:
+
+<%= candidate_sign_in_url(@application.application_choice.application_form.candidate) %>
+
+<% if @application.offers.count > 1  %>
+
+You can only accept one offer.
+
+<% end %>
+
+# Give feedback or report a problem
+
+Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)

@@ -73,6 +73,10 @@ class CandidateMailer < ApplicationMailer
     application_rejected(application_choice, :awaiting_decisions)
   end
 
+  def application_rejected_offers_made(application_choice)
+    application_rejected(application_choice, :offers_made)
+  end
+
   def new_offer_single_offer(application_choice)
     new_offer(application_choice, :single_offer)
   end
@@ -100,21 +104,30 @@ private
     decisions = application_choice.application_form.application_choices.select(&:awaiting_provider_decision?).map do |decision|
       "#{decision.course_option.course.name_and_code} at #{decision.course_option.course.provider.name}"
     end
+    offers = application_choice.application_form.application_choices.select(&:offer?)
+    decline_by_default_at = offers.map(&:decline_by_default_at).compact.max&.to_s(:govuk_date)
+    dbd_days = offers.map(&:decline_by_default_days).max
 
     @application = OpenStruct.new(
+      application_choice: application_choice,
       provider_name: application_choice.provider.name,
-      course_name: application_choice.course.name,
+      course_name: application_choice.course.name_and_code,
       rejection_reason: application_choice.rejection_reason,
       candidate_name: application_choice.application_form.first_name,
       choice_count: application_choice.application_form.application_choices.count,
       decisions: decisions,
+      decline_by_default_at: decline_by_default_at,
+      offers: offers,
+      dbd_days: dbd_days,
     )
+
     view_mail(
       GENERIC_NOTIFY_TEMPLATE,
       to: application_choice.application_form.candidate.email_address,
       subject: t("application_choice_rejected_email.subject.#{template_name}",
                  provider_name: application_choice.provider.name,
-                 course_name: application_choice.course.name),
+                 course_name: application_choice.course.name_and_code,
+                 dbd_days: dbd_days),
       template_path: 'candidate_mailer/application_rejected',
       template_name: template_name,
       )
