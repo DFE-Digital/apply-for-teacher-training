@@ -1,0 +1,67 @@
+[aria-sort] .app-sort-link,
+[aria-sort] .app-sort-link:hover {
+  background-color: transparent;
+  text-decoration: none;
+  border-width: 0;
+  -webkit-box-shadow: 0 0 0 0;
+  -moz-box-shadow: 0 0 0 0;
+  box-shadow: 0 0 0 0;
+  color: #005ea5;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  padding: 0 10px 0 0;
+  position: relative;
+  text-align: inherit;
+  font-size: 1em;
+  margin: 0;
+}
+
+[aria-sort] .app-sort-link:focus {
+  background-color: $govuk-focus-colour;
+  color: $govuk-focus-text-colour;
+  box-shadow: 0 -2px $govuk-focus-colour, 0 4px $govuk-focus-text-colour;
+  outline: none;
+}
+
+[aria-sort]:first-child .app-sort-link {
+  right: auto;
+}
+
+[aria-sort] .app-sort-link:before {
+  content: " \25bc";
+  position: absolute;
+  right: -1px;
+  top: 9px;
+  font-size: 0.5em;
+}
+
+[aria-sort] .app-sort-link:after {
+  content: " \25b2";
+  position: absolute;
+  right: -1px;
+  top: 1px;
+  font-size: 0.5em;
+}
+
+[aria-sort="ascending"] .app-sort-link:before,
+[aria-sort="descending"] .app-sort-link:before {
+  content: none;
+}
+
+[aria-sort="ascending"] .app-sort-link:after {
+  content: " \25b2";
+  font-size: .8em;
+  position: absolute;
+  right: -5px;
+  top: 2px;
+}
+
+[aria-sort="descending"] .app-sort-link:after {
+  content: " \25bc";
+  font-size: .8em;
+  position: absolute;
+  right: -5px;
+  top: 2px;
+}
