@@ -113,6 +113,8 @@ Rails.application.routes.draw do
 
         get '/explain-break/new' => 'work_history/break#new', as: :new_work_history_break
         post '/explain-break/new' => 'work_history/break#create'
+        get '/explain-break/edit/:id' => 'work_history/break#edit', as: :edit_work_history_break
+        post '/explain-break/edit/:id' => 'work_history/break#update'
         get '/explain-break/delete/:id' => 'work_history/break#confirm_destroy', as: :destroy_work_history_break
         post '/explain-break/delete/:id' => 'work_history/break#destroy'
 

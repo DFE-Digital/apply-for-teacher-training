@@ -28,6 +28,20 @@ module CandidateInterface
       end
     end
 
+    def edit
+      @work_break = WorkHistoryBreakForm.build_from_break(current_work_history_break)
+    end
+
+    def update
+      @work_break = WorkHistoryBreakForm.new(work_history_break_params)
+
+      if @work_break.update(current_work_history_break)
+        redirect_to candidate_interface_work_history_show_path
+      else
+        render :edit
+      end
+    end
+
     def confirm_destroy
       @work_break = current_work_history_break
     end

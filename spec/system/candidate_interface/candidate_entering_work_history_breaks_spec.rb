@@ -33,11 +33,15 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     when_i_click_to_explain_my_break_between_august_2019_and_november_2019
     then_i_see_the_start_and_end_date_filled_in_for_my_break_between_august_2019_and_november_2019
 
-    when_i_enter_a_reason_for_my_break
-    then_i_can_see_my_reason_on_the_review_page
+    when_i_enter_a_reason_for_my_break_between_august_2019_and_november_2019
+    then_i_see_my_reason_for_my_break_between_august_2019_and_november_2019_on_the_review_page
 
-    when_i_click_to_delete_my_break
-    and_i_confirm_i_want_to_delete_my_break
+    when_i_click_to_change_my_reason_for_my_break_between_august_2019_and_november_2019
+    and_i_change_my_reason_for_my_break_between_august_2019_and_november_2019
+    then_i_see_my_updated_reason_for_my_break_between_august_2019_and_november_2019_on_the_review_page
+
+    when_i_click_to_delete_my_break_between_august_2019_and_november_2019
+    and_i_confirm_i_want_to_delete_my_break_between_august_2019_and_november_2019
     then_i_no_longer_see_my_reason_on_the_review_page
   end
 
@@ -153,25 +157,39 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     click_link 'Please explain break between August 2019 and November 2019'
   end
 
-  def when_i_enter_a_reason_for_my_break
+  def when_i_enter_a_reason_for_my_break_between_august_2019_and_november_2019
     fill_in 'Enter reasons for break in work history', with: 'Painting is tiring.'
 
     click_button 'Continue'
   end
 
-  def then_i_can_see_my_reason_on_the_review_page
+  def then_i_see_my_reason_for_my_break_between_august_2019_and_november_2019_on_the_review_page
     expect(page).to have_content('Painting is tiring.')
   end
 
-  def when_i_click_to_delete_my_break
+  def when_i_click_to_delete_my_break_between_august_2019_and_november_2019
     click_link 'Delete entry for break between August 2019 and November 2019'
   end
 
-  def and_i_confirm_i_want_to_delete_my_break
+  def and_i_confirm_i_want_to_delete_my_break_between_august_2019_and_november_2019
     click_button 'Yes I’m sure - delete this entry'
   end
 
   def then_i_no_longer_see_my_reason_on_the_review_page
     expect(page).not_to have_content('Painting is tiring.')
+  end
+
+  def when_i_click_to_change_my_reason_for_my_break_between_august_2019_and_november_2019
+    click_link 'Change description for break between August 2019 and November 2019'
+  end
+
+  def and_i_change_my_reason_for_my_break_between_august_2019_and_november_2019
+    fill_in 'Enter reasons for break in work history', with: 'Some updated reason about painting.'
+
+    click_button 'Continue'
+  end
+
+  def then_i_see_my_updated_reason_for_my_break_between_august_2019_and_november_2019_on_the_review_page
+    expect(page).to have_content('Some updated reason about painting.')
   end
 end
