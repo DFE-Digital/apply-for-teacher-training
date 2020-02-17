@@ -53,9 +53,13 @@ through the following checks:
    that final checks are being made.
 2. Check the #twd_apply_tech channel in Slack for runtime errors from
    Sentry.
-3. Open the [production
-   homepage](https://www.apply-for-teacher-training.education.gov.uk)
-   to ensure that the application is running.
+3. Create a new account on
+   [production](https://www.apply-for-teacher-training.education.gov.uk/candidate)
+   with a real email address and check that you receive an email with
+   the magic link and can use it to log in. Use your DfE digital email
+   address so that we can distinguish test users. If you already have an
+   account for your DfE email address it's sufficient to log out and
+   request a new magic link.
 4. Check the Azure Dashboard for the production [s106p01-apply](https://portal.azure.com/#@9c7d9dd3-840c-4b3f-818e-552865082e16/dashboard/arm/subscriptions/67722207-6a10-4c7d-b4bc-c72caa76ef12/resourcegroups/s106p01-apply/providers/microsoft.portal/dashboards/s106p01-apply-dashboard) resource
    group. Make sure that each of the following resources are running -
    this should be clear from the memory percentage and memory usage
