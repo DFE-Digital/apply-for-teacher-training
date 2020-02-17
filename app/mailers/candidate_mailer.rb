@@ -7,7 +7,7 @@ class CandidateMailer < ApplicationMailer
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: @candidate.email_address,
-              subject: t('submit_application_success.email.subject'))
+              subject: t('candidate_mailer.application_submitted.subject'))
   end
 
   def application_under_consideration(application_form)

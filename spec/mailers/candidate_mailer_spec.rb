@@ -14,7 +14,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
 
     it 'sends an email with the correct subject' do
-      expect(mail.subject).to include(t('submit_application_success.email.subject'))
+      expect(mail.subject).to include(t('candidate_mailer.application_submitted.subject'))
     end
 
     it 'sends an email with the correct heading' do

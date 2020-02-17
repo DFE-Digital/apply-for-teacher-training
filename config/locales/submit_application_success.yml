@@ -2,6 +2,4 @@ en:
   submit_application_success:
     title: Application submitted
     heading: Application successfully submitted
-    email:
-      subject: You’ve submitted your teacher training application
     audit_comment: "New application email have been sent to the provider user (%{provider_user_email}) for application (%{course_name}) (%{course_code})."
