@@ -40,7 +40,7 @@ RSpec.feature 'Candidate clicks on an expired link', sidekiq: true do
   end
 
   def and_i_received_the_submitted_application_email
-    CandidateMailer.submit_application_email(@application_form).deliver_now
+    CandidateMailer.application_submitted(@application_form).deliver_now
   end
 
   def when_i_click_on_the_sign_in_link_with_an_id

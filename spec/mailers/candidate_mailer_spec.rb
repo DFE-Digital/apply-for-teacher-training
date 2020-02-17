@@ -6,7 +6,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   describe 'Send submit application email' do
     let(:candidate) { build_stubbed(:candidate) }
     let(:application_form) { build_stubbed(:application_form, support_reference: 'SUPPORT-REFERENCE', candidate: candidate) }
-    let(:mail) { mailer.submit_application_email(application_form) }
+    let(:mail) { mailer.application_submitted(application_form) }
 
     before do
       allow(Encryptor).to receive(:encrypt).with(candidate.id).and_return('example_encrypted_id')

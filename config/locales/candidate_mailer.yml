@@ -2,4 +2,3 @@ en:
   candidate_mailer:
     reference_received:
       subject: 'You have a reference for your teacher training application'
-      

@@ -159,7 +159,7 @@ en:
       by: candidate
       description: The candidate can submit the form once all required fields are completed.
       emails:
-        - candidate_mailer-submit_application_email
+        - candidate_mailer-application_submitted
         - referee_mailer-reference_request_email
 
     awaiting_references-references_complete:

@@ -1,7 +1,7 @@
 class CandidateMailer < ApplicationMailer
   helper :view
 
-  def submit_application_email(application_form)
+  def application_submitted(application_form)
     @application_form = application_form
     @candidate = @application_form.candidate
 
