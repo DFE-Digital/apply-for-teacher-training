@@ -6,9 +6,9 @@ module CandidateInterface
     def new
       if FeatureFlag.active?('improved_expired_token_flow') && params[:u]
         begin
-          decrypted_candidate_id = Encryptor.decrypt(params[:u])
+          Encryptor.decrypt(params[:u])
 
-          redirect_to candidate_interface_expired_sign_in_path(id: decrypted_candidate_id)
+          redirect_to candidate_interface_expired_sign_in_path(u: params[:u])
         rescue ActiveSupport::MessageEncryptor::InvalidMessage
           redirect_to candidate_interface_sign_in_path
         end
@@ -70,7 +70,8 @@ module CandidateInterface
       else
         # rubocop:disable Style/IfInsideElse
         if FeatureFlag.active?('improved_expired_token_flow')
-          redirect_to candidate_interface_expired_sign_in_path(id: candidate.id)
+          encrypted_candidate_id = Encryptor.encrypt(candidate.id)
+          redirect_to candidate_interface_expired_sign_in_path(u: encrypted_candidate_id)
         else
           redirect_to action: :new
         end
@@ -80,9 +81,18 @@ module CandidateInterface
 
     def expired
       raise unless FeatureFlag.active?('improved_expired_token_flow')
-      return redirect_to candidate_interface_sign_in_path unless params[:id]
 
-      @candidate = Candidate.find(params[:id])
+      if params[:u].blank?
+        redirect_to candidate_interface_sign_in_path
+        return
+      end
+
+      begin
+        candidate_id = Encryptor.decrypt(params[:u])
+        @candidate = Candidate.find(candidate_id)
+      rescue ActiveSupport::MessageEncryptor::InvalidMessage
+        redirect_to candidate_interface_sign_in_path
+      end
     end
 
   private
