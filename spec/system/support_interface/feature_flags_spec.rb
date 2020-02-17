@@ -30,7 +30,7 @@ RSpec.feature 'Feature flags' do
   end
 
   def then_i_should_see_the_existing_feature_flags
-    expect(page).to have_content 'Pilot open No'
+    expect(page).to have_content 'Pilot open Inactive'
   end
 
   def when_i_activate_the_feature
@@ -38,7 +38,7 @@ RSpec.feature 'Feature flags' do
   end
 
   def then_the_feature_is_activated
-    expect(page).to have_content 'Pilot open Yes'
+    expect(page).to have_content 'Pilot open Active'
     expect(FeatureFlag.active?('pilot_open')).to be true
   end
 
@@ -47,7 +47,7 @@ RSpec.feature 'Feature flags' do
   end
 
   def then_the_feature_is_deactivated
-    expect(page).to have_content 'Pilot open No'
+    expect(page).to have_content 'Pilot open Inactive'
     expect(FeatureFlag.active?('pilot_open')).to be false
   end
 end
