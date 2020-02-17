@@ -2,12 +2,7 @@ class CandidateMailer < ApplicationMailer
   helper :view
 
   def application_submitted(application_form)
-    @application_form = application_form
-    @candidate = @application_form.candidate
-
-    view_mail(GENERIC_NOTIFY_TEMPLATE,
-              to: @candidate.email_address,
-              subject: t('candidate_mailer.application_submitted.subject'))
+    email_for_candidate(application_form)
   end
 
   def application_under_consideration(application_form)
@@ -153,6 +148,17 @@ private
       ),
       template_path: 'candidate_mailer/new_offer',
       template_name: template_name,
+    )
+  end
+
+  def email_for_candidate(application_form)
+    @application_form = application_form
+    @candidate = @application_form.candidate
+
+    view_mail(
+      GENERIC_NOTIFY_TEMPLATE,
+      to: @candidate.email_address,
+      subject: I18n.t!("candidate_mailer.#{action_name}.subject"),
     )
   end
 end
