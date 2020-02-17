@@ -1,5 +1,9 @@
 <% content_for :title, 'Service performance' %>
 
+<p class='govuk-body'>
+  <%= govuk_link_to 'View in large screen mode', '?screen=1' unless params[:screen] %>
+</p>
+
 <h2 class="govuk-heading-m govuk-!-font-size-27">Candidates</h2>
 
 <div class="app-card app-card--blue govuk-!-margin-bottom-4">
@@ -92,3 +96,10 @@
     </table>
   </div>
 </div>
+
+<% if params[:screen] %>
+<style media="screen">
+  header, footer, .govuk-phase-banner { display: none; }
+  .govuk-width-container { max-width: 99%; }
+</style>
+<% end %>
