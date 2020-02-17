@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CandidateMailer, type: :mailer do
   subject(:mailer) { described_class }
 
-  describe 'Send submit application email' do
+  describe '.application_submitted' do
     let(:candidate) { build_stubbed(:candidate) }
     let(:application_form) { build_stubbed(:application_form, support_reference: 'SUPPORT-REFERENCE', candidate: candidate) }
     let(:mail) { mailer.application_submitted(application_form) }
