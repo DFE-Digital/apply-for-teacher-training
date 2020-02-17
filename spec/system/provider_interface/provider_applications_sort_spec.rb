@@ -4,15 +4,7 @@ RSpec.feature 'Providers should be able to sort applications' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  let(:tom_jones) { 'Tom Jones' }
-  let(:adam_jones) { 'Adam Jones' }
-  let(:jim_james) { 'Jim James' }
-  let(:bill_bones) { 'Bill Bones' }
-
-
-  let(:english) { 'English' }
-  let(:alchemy) { 'Alchemy' }
-  let(:divination) { 'Divination' }
+  #rubocop:disable RSpec/ExpectActual
 
   scenario 'by column headings' do
     given_i_am_a_provider_user_with_dfe_sign_in
@@ -76,13 +68,13 @@ RSpec.feature 'Providers should be able to sort applications' do
   end
 
   def then_i_should_see_the_applications_in_descending_date_order
-    expect(jim_james).to appear_before(tom_jones)
-    expect(tom_jones).to appear_before(bill_bones)
+    expect('Jim James').to appear_before('Tom Jones')
+    expect('Tom Jones').to appear_before('Bill Bones')
   end
 
   def then_i_should_see_the_applications_in_ascending_date_order
-    expect(bill_bones).to appear_before(tom_jones)
-    expect(tom_jones).to appear_before(jim_james)
+    expect('Bill Bones').to appear_before('Tom Jones')
+    expect('Tom Jones').to appear_before('Jim James')
   end
 
   def when_i_sort_by_name
@@ -90,15 +82,15 @@ RSpec.feature 'Providers should be able to sort applications' do
   end
 
   def then_i_should_see_the_applications_in_descending_name_order
-    expect(tom_jones).to appear_before(adam_jones)
-    expect(tom_jones).to appear_before(jim_james)
-    expect(jim_james).to appear_before(bill_bones)
+    expect('Tom Jones').to appear_before('Adam Jones')
+    expect('Tom Jones').to appear_before('Jim James')
+    expect('Jim James').to appear_before('Bill Bones')
   end
 
   def then_i_should_see_the_applications_in_ascending_name_order
-    expect(bill_bones).to appear_before(jim_james)
-    expect(jim_james).to appear_before(tom_jones)
-    expect(adam_jones).to appear_before(tom_jones)
+    expect('Bill Bones').to appear_before('Jim James')
+    expect('Jim James').to appear_before('Tom Jones')
+    expect('Adam Jones').to appear_before('Tom Jones')
   end
 
   def when_i_sort_by_course
@@ -106,12 +98,14 @@ RSpec.feature 'Providers should be able to sort applications' do
   end
 
   def then_i_should_see_the_applications_in_descending_course_name_order
-    expect(english).to appear_before(divination)
-    expect(divination).to appear_before(alchemy)
+    expect('English').to appear_before('Divination')
+    expect('Divination').to appear_before('Alchemy')
   end
 
   def then_i_should_see_the_applications_in_ascending_course_name_order
-    expect(alchemy).to appear_before(divination)
-    expect(divination).to appear_before(english)
+    expect('Alchemy').to appear_before('Divination')
+    expect('Divination').to appear_before('English')
   end
+
+  #rubocop:enable RSpec/ExpectActual
 end
