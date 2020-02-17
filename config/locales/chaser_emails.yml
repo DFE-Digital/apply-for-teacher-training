@@ -8,6 +8,3 @@ en:
     reference_id_entry: entry.1515340886
     candidate_name_entry: entry.1696393181
     referee_name_entry: entry.994572146
-  candidate_reference:
-    subject:
-      chaser: "%{referee_name} hasn’t given a reference yet"

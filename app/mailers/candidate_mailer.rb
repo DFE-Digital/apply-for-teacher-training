@@ -14,14 +14,13 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(application_form)
   end
 
-  def reference_chaser_email(application_form, reference)
-    @candidate_name = application_form.first_name
-    @referee_name = reference.name
-    @referee_email = reference.email_address
+  def chase_reference(reference)
+    @reference = reference
 
-    view_mail(GENERIC_NOTIFY_TEMPLATE,
-              to: application_form.candidate.email_address,
-              subject: t('candidate_reference.subject.chaser', referee_name: @referee_name))
+    email_for_candidate(
+      reference.application_form,
+      subject: I18n.t!('candidate_mailer.chase_reference.subject', referee_name: reference.name),
+    )
   end
 
   def survey_email(application_form)
@@ -147,14 +146,14 @@ private
     )
   end
 
-  def email_for_candidate(application_form)
+  def email_for_candidate(application_form, args = {})
     @application_form = application_form
     @candidate = @application_form.candidate
 
     view_mail(
       GENERIC_NOTIFY_TEMPLATE,
       to: @candidate.email_address,
-      subject: I18n.t!("candidate_mailer.#{action_name}.subject"),
+      subject: args[:subject] || I18n.t!("candidate_mailer.#{action_name}.subject"),
     )
   end
 end

@@ -57,15 +57,15 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
   end
 
-  describe 'Send reference chaser email' do
+  describe '.chase_reference' do
     let(:application_form) { create(:completed_application_form, references_count: 1, with_gces: true) }
     let(:reference) { application_form.application_references.first }
-    let(:mail) { mailer.reference_chaser_email(application_form, reference) }
+    let(:mail) { mailer.chase_reference(reference) }
 
     before { mail.deliver_later }
 
     it 'sends an email with the correct subject' do
-      expect(mail.subject).to include(t('candidate_reference.subject.chaser', referee_name: reference.name))
+      expect(mail.subject).to include(t('candidate_mailer.chase_reference.subject', referee_name: reference.name))
     end
 
     it 'sends an email with the correct heading' do

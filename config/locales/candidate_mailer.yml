@@ -6,3 +6,5 @@ en:
       subject: 'You’ve submitted your teacher training application'
     application_sent_to_provider:
       subject: Your application is being considered
+    chase_reference:
+      subject: "%{referee_name} hasn’t given a reference yet"

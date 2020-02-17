@@ -9,18 +9,16 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def application_sent_to_provider
-    application_choice = FactoryBot.build(:application_choice, :awaiting_provider_decision)
-
-    CandidateMailer.application_sent_to_provider(
-      FactoryBot.build(
-        :completed_application_form,
-        application_choices: [application_choice],
-      ),
+    application_form = FactoryBot.build_stubbed(
+      :completed_application_form,
+      application_choices: [FactoryBot.build_stubbed(:application_choice, :awaiting_provider_decision)],
     )
+
+    CandidateMailer.application_sent_to_provider(application_form)
   end
 
-  def reference_chaser_email
-    CandidateMailer.reference_chaser_email(application_form, reference)
+  def chase_reference
+    CandidateMailer.chase_reference(reference)
   end
 
   def survey_email

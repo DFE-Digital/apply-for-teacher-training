@@ -32,7 +32,7 @@ RSpec.feature 'Docs' do
       authentication_mailer-sign_in_email
       authentication_mailer-sign_in_without_account_email
       candidate_mailer-new_referee_request
-      candidate_mailer-reference_chaser_email
+      candidate_mailer-chase_reference
       candidate_mailer-survey_chaser_email
       candidate_mailer-survey_email
       provider_mailer-account_created
