@@ -380,42 +380,32 @@ RSpec.describe CandidateMailer, type: :mailer do
         mail.deliver_later
       end
 
-      context 'when the provider gives a rejection reason' do
-        it 'sends an email with the correct subject' do
-          expect(mail.subject).to include(t('application_choice_rejected_email.subject.all_rejected', provider_name: @provider.name))
-        end
-
-        it 'sends an email with the correct heading' do
-          expect(mail.body.encoded).to include("Dear #{@application_form.first_name}")
-        end
-
-        it 'sends an email with the providers rejection reason' do
-          expect(mail.body.encoded).to include(@application_choice.rejection_reason)
-        end
-
-        it 'sends an email with the correct course name' do
-          expect(mail.body.encoded).to include(@course.name)
-        end
-
-        it 'sends an email with a link to GIT' do
-          expect(mail.body.encoded).to include(t('application_choice_rejected_email.git.url'))
-        end
-
-        it 'sends an email with GITs phone number' do
-          expect(mail.body.encoded).to include(t('application_choice_rejected_email.git.phone_number'))
-        end
-
-        it 'sends an email with the BAT email address' do
-          expect(mail.body.encoded).to include(t('application_choice_rejected_email.bat.url'))
-        end
+      it 'sends an email with the correct subject' do
+        expect(mail.subject).to include(t('application_choice_rejected_email.subject.all_rejected', provider_name: @provider.name))
       end
 
-      context 'when the provider does not give a rejection reason' do
-        let(:rejection_reason) { nil }
+      it 'sends an email with the correct heading' do
+        expect(mail.body.encoded).to include("Dear #{@application_form.first_name}")
+      end
 
-        it 'sends an email which says the provider did not provide feedback' do
-          expect(mail.body.encoded).to include('They declined to give feedback.')
-        end
+      it 'sends an email with the providers rejection reason' do
+        expect(mail.body.encoded).to include(@application_choice.rejection_reason)
+      end
+
+      it 'sends an email with the correct course name' do
+        expect(mail.body.encoded).to include(@course.name)
+      end
+
+      it 'sends an email with a link to GIT' do
+        expect(mail.body.encoded).to include(t('application_choice_rejected_email.git.url'))
+      end
+
+      it 'sends an email with GITs phone number' do
+        expect(mail.body.encoded).to include(t('application_choice_rejected_email.git.phone_number'))
+      end
+
+      it 'sends an email with the BAT email address' do
+        expect(mail.body.encoded).to include(t('application_choice_rejected_email.bat.url'))
       end
     end
 
