@@ -12,12 +12,12 @@ RSpec.describe 'GET /integrations/feature-flags', type: :request do
 
   it 'tells us when Sandbox mode is on', sandbox: true do
     get '/integrations/feature-flags'
-    expect(parsed_response['feature_flags']['sandbox_mode']['active']).to be(true)
+    expect(parsed_response['sandbox_mode']).to be(true)
   end
 
   it 'tells us when Sandbox mode is off', sandbox: false do
     get '/integrations/feature-flags'
-    expect(parsed_response['feature_flags']['sandbox_mode']['active']).to be(false)
+    expect(parsed_response['sandbox_mode']).to be(false)
   end
 
   def parsed_response
