@@ -1,36 +1,36 @@
 <% content_for :title, 'Applications' %>
 
-<h1 class="govuk-heading-xl">Applications</h1>
+<h1 class='govuk-heading-xl'>Applications</h1>
 
 <% if @application_choices.any? %>
-  <table class="govuk-table">
-    <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Name</th>
-        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Course</th>
-        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Status</th>
-        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Last updated</th>
+  <table class='govuk-table'>
+    <thead class='govuk-table__head'>
+      <tr class='govuk-table__row'>
+        <%= render ProviderInterface::SortableColumnHeadingComponent, sort_order: @sort_order, column_name: 'Name', current_sort_by: @sort_by, css_class: 'govuk-table__header govuk-!-width-one-quarter' %>
+        <%= render ProviderInterface::SortableColumnHeadingComponent, sort_order: @sort_order, column_name: 'Course', current_sort_by: @sort_by, css_class: 'govuk-table__header govuk-!-width-one-quarter' %>
+        <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Status</th>
+        <%= render ProviderInterface::SortableColumnHeadingComponent, sort_order: @sort_order, column_name: 'Last updated', current_sort_by: @sort_by, css_class: 'govuk-table__header govuk-!-width-one-quarter govuk-table__header--numeric' %>
       </tr>
     </thead>
 
-    <tbody class="govuk-table__body">
+    <tbody class='govuk-table__body'>
       <% @application_choices.each do |application_choice| %>
-      <tr class="govuk-table__row">
-        <th class="govuk-table__cell"><%= govuk_link_to application_choice.application_form.full_name, provider_interface_application_choice_path(application_choice) %></th>
-        <td class="govuk-table__cell">
+      <tr class='govuk-table__row'>
+        <th class='govuk-table__cell'><%= govuk_link_to application_choice.application_form.full_name, provider_interface_application_choice_path(application_choice) %></th>
+        <td class='govuk-table__cell'>
           <% if current_provider_user.providers.size > 1 %>
-            <span class="govuk-caption-m govuk-!-font-size-16">
+            <span class='govuk-caption-m govuk-!-font-size-16'>
               <%= application_choice.provider.name %>
             </span>
           <% end %>
 
           <%= application_choice.course.name_and_code %></td>
-        <td class="govuk-table__cell"><%= render ProviderInterface::ApplicationStatusTagComponent, application_choice: application_choice %></td>
-        <td class="govuk-table__cell"><%= application_choice.updated_at.to_s(:govuk_date_and_time) %></td>
+        <td class='govuk-table__cell'><%= render ProviderInterface::ApplicationStatusTagComponent, application_choice: application_choice %></td>
+        <td class='govuk-table__cell govuk-table__header--numeric'><%= application_choice.updated_at.to_s(:govuk_date_short_month) %></td>
       </tr>
       <% end %>
     </tbody>
   </table>
 <% else %>
-  <p class="govuk-body">You haven’t received any applications from <%= t('service_name.apply') %>.</p>
+  <p class='govuk-body'>You haven’t received any applications from <%= t('service_name.apply') %>.</p>
 <% end %>

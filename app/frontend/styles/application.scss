@@ -31,6 +31,7 @@ $govuk-image-url-function: frontend-image-url;
 @import "_masthead";
 @import "_product-section";
 @import "_checkboxes";
+@import "_sortable-table";
 
 // Support
 @import "~@ministryofjustice/frontend/moj/components/sub-navigation/sub-navigation";
