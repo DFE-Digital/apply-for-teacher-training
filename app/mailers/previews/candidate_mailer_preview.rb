@@ -131,6 +131,20 @@ class CandidateMailerPreview < ActionMailer::Preview
   def reference_received
     CandidateMailer.reference_received(reference)
   end
+  
+  def application_rejected_offers_made
+    provider = create(:provider)
+    course = create(:course, provider: provider)
+    application_form = create(:application_form, first_name: 'Tyrell', last_name: 'Wellick')
+    course_option = create(:course_option, course: course)
+    create_list(:application_choice, 2, status: :offer, application_form: application_form)
+    application_choice = create(:application_choice,
+                                course_option: course_option,
+                                application_form: application_form,
+                                rejection_reason: rejection_reason)
+
+    CandidateMailer.application_rejected_offers_made(application_choice)
+  end
 
 private
 

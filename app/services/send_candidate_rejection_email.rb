@@ -11,11 +11,12 @@ class SendCandidateRejectionEmail
 
     if candidate_application_choices.all?(&:rejected?)
       CandidateMailer.send(:application_rejected_all_rejected, application_choice).deliver_later
-      add_audit_comment(application_choice)
     elsif number_of_pending_decisions.positive?
       CandidateMailer.send(:application_rejected_awaiting_decisions, application_choice).deliver_later
-      add_audit_comment(application_choice)
+    else
+      CandidateMailer.send(:application_rejected_offers_made, application_choice).deliver_later
     end
+    add_audit_comment(application_choice)
   end
 
 private

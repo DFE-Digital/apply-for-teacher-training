@@ -13,15 +13,15 @@ Contact <%= @application.provider_name %> directly if you have any questions abo
 <% if @application.offers.count > 1  %>
 
 You’ve received the following offers:
-  <% @application.offers.each do |offer| %>
-    - <%= "#{offer.course.name_and_code} at #{offer.provider.name}"%>
-  <% end %>
+<% @application.offers.each do |offer| %>
+  - <%= "#{offer.course.name_and_code} at #{offer.provider.name}"%>
+<% end %>
 
 If you don’t reply within 10 working days, your applications will be withdrawn.
 
 <% else %>
 
-You now have 10 working days to make a decision about your offer for a place on <%= @application.offers.first.course.name %> at <%= @application.offers.first.provider.name%>.
+You now have 10 working days to make a decision about your offer for a place on <%= @application.offers.first.course.name_and_code %> at <%= @application.offers.first.provider.name%>.
 
 <% end %>
 
