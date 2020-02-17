@@ -33,9 +33,9 @@ ActiveRecord::Schema.define(version: 2020_02_20_161956) do
     t.integer "decline_by_default_days"
     t.datetime "offered_at"
     t.datetime "rejected_at"
-    t.datetime "withdrawn_at"
     t.datetime "declined_at"
     t.boolean "declined_by_default", default: false, null: false
+    t.datetime "withdrawn_at"
     t.integer "offered_course_option_id"
     t.datetime "accepted_at"
     t.datetime "recruited_at"
@@ -162,7 +162,7 @@ ActiveRecord::Schema.define(version: 2020_02_20_161956) do
     t.string "magic_link_token"
     t.datetime "magic_link_token_sent_at"
     t.boolean "hide_in_reporting", default: false, null: false
-    t.integer "course_from_find_id"
+    t.bigint "course_from_find_id"
     t.boolean "sign_up_email_bounced", default: false, null: false
     t.datetime "last_signed_in_at"
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true

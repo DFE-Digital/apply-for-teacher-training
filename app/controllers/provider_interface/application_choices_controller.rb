@@ -3,6 +3,7 @@ module ProviderInterface
     def index
       @sort_order = params[:sort_order].eql?('asc') ? 'asc' : 'desc'
       @sort_by = params[:sort_by].presence || 'last-updated'
+      @filter_visible = params['filter_visible'] ||= 'true'
 
       application_choices = GetApplicationChoicesForProviders.call(providers: current_provider_user.providers)
         .order(ordering_arguments(@sort_by, @sort_order))
