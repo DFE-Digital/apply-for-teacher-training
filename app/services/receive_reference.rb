@@ -10,6 +10,11 @@ class ReceiveReference
   def save!
     ActiveRecord::Base.transaction do
       @reference.update!(feedback: @feedback, feedback_status: 'feedback_provided')
+
+      if FeatureFlag.active?('notify_candidate_of_new_reference')
+        CandidateMailer.reference_received(@reference).deliver_later
+      end
+
       progress_application_if_enough_references_have_been_submitted
     end
   end

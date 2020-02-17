@@ -128,6 +128,10 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.application_rejected_awaiting_decisions(application_choice)
   end
 
+  def reference_received
+    CandidateMailer.reference_received(reference)
+  end
+
 private
 
   def application_form
