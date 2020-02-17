@@ -18,7 +18,8 @@ deployment itself and a second developer runs through this checklist.
 When the production deployment has finished ask another developer to go
 through the following checks:
 
-1. Notify the rest of the team via Slack that production is deployed.
+1. Notify the rest of the team via Slack that production is deployed and
+   that final checks are being made.
 2. Check
    [Sentry](https://sentry.io/organizations/dfe-bat/issues/?project=1765973)
    for runtime errors. These should also be shared in Slack in the
