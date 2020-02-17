@@ -124,7 +124,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def when_i_click_add_another_job_for_my_break_between_august_2019_and_november_2019
-    click_link 'Add another job between August 2019 and November 2019'
+    click_link 'add another job between August 2019 and November 2019'
   end
 
   def then_i_see_the_start_and_end_date_filled_for_adding_another_job_between_august_2019_and_november_2019
@@ -143,7 +143,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def when_i_click_add_another_job_for_my_break_between_december_2019_and_now
-    click_link 'Add another job between December 2019 and February 2020'
+    click_link 'add another job between December 2019 and February 2020'
   end
 
   def then_i_only_see_the_start_date_filled_in_for_my_break_between_december_2019_and_now
@@ -154,7 +154,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def when_i_click_to_explain_my_break_between_august_2019_and_november_2019
-    click_link 'Please explain break between August 2019 and November 2019'
+    click_link 'Explain break between August 2019 and November 2019'
   end
 
   def when_i_enter_a_reason_for_my_break_between_august_2019_and_november_2019
