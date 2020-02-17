@@ -73,4 +73,3 @@ through the following checks:
    interface](https://www.apply-for-teacher-training.education.gov.uk/support/sidekiq)
    for any signs that jobs are failing or that the length of the job
    queue is increasing.
-6. Check [Kibana](https://kibana.logit.io/app/kibana#/discover?_g=(refreshInterval:(pause:!t,value:0),time:(from:now-10m,to:now))&_a=(columns:!(status,hosting_environment),index:'8ac115c0-aac1-11e8-88ea-0383c11b333a',interval:auto,query:(language:kuery,query:''),sort:!('@timestamp',desc))) for errors in the log.
