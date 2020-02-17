@@ -6,4 +6,4 @@ Apply for teacher training cookies may include:
 
 | Name                                                   | Purpose                                        | Expires  |
 | :------------------------------------------------      | :--------------------------------------------- | :------- |
-| \_apply\_for\_postgraduate\_teacher\_training\_session | Used to remember your identity when signed in  | 6 hours  |
+| \_apply\_for\_postgraduate\_teacher\_training\_session | Used to remember your identity when signed in  | 7 days   |
