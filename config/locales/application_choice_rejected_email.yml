@@ -2,7 +2,7 @@ en:
   application_choice_rejected_email:
     subject:
       all_rejected: "%{provider_name} has responded: next steps"
-      awaiting_decisions: "%{provider_name}  has made a decision on your application for %{course_name}"
+      awaiting_decisions: "%{provider_name} has made a decision on your application for %{course_name}"
     git:
       url: https://getintoteaching.education.gov.uk
       phone_number: 0800 389 2500
