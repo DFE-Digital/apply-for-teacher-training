@@ -31,7 +31,7 @@ class WorkHistoryWithBreaks
 
     if @work_history.any?
       timeline_in_months = month_range(
-        start_date: @work_history.first.start_date,
+        start_date: Time.zone.now - 5.years,
         end_date: Time.zone.now - 1.month,
       )
       break_months_in_timeline = remove_working_months(timeline_in_months)
