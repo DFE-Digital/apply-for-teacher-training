@@ -2,4 +2,9 @@ en:
   candidate_mailer:
     reference_received:
       subject: 'You have a reference for your teacher training application'
-      
+    application_submitted:
+      subject: 'You’ve submitted your teacher training application'
+    application_sent_to_provider:
+      subject: Your application is being considered
+    chase_reference:
+      subject: "%{referee_name} hasn’t given a reference yet"

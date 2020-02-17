@@ -1,14 +1,14 @@
-Dear <%= @candidate_name %>,
+Dear <%= @application_form.first_name %>,
 
-# Get in contact with <%= @referee_name %>
+# Get in contact with <%= @reference.name %>
 
 We haven’t heard back from your referee yet.
 
 Ask the referee to check their email and give a reference as soon as possible.
 
-You gave us this address for the referee: <%= @referee_email %>
+You gave us this address for the referee: <%= @reference.email_address %>
 
-We need to hear from <%= @referee_name %> within 5 working days.
+We need to hear from <%= @reference.name %> within 5 working days.
 
 If this email address is wrong please get in touch with us with us at:
 

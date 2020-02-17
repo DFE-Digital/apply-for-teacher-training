@@ -1,36 +1,26 @@
 class CandidateMailer < ApplicationMailer
   helper :view
 
-  def submit_application_email(application_form)
-    @application_form = application_form
-    @candidate = @application_form.candidate
-
-    view_mail(GENERIC_NOTIFY_TEMPLATE,
-              to: @candidate.email_address,
-              subject: t('submit_application_success.email.subject'))
+  def application_submitted(application_form)
+    email_for_candidate(application_form)
   end
 
-  def application_under_consideration(application_form)
+  def application_sent_to_provider(application_form)
     @application = OpenStruct.new(
-      candidate: application_form.candidate,
-      candidate_name: application_form.first_name,
       choice_count: application_form.application_choices.count,
-      rbd_days: application_form.application_choices.first.reject_by_default_days,
+      reject_by_default_days: application_form.application_choices.first.reject_by_default_days,
     )
 
-    view_mail(GENERIC_NOTIFY_TEMPLATE,
-              to: application_form.candidate.email_address,
-              subject: t('application_under_consideration.email.subject'))
+    email_for_candidate(application_form)
   end
 
-  def reference_chaser_email(application_form, reference)
-    @candidate_name = application_form.first_name
-    @referee_name = reference.name
-    @referee_email = reference.email_address
+  def chase_reference(reference)
+    @reference = reference
 
-    view_mail(GENERIC_NOTIFY_TEMPLATE,
-              to: application_form.candidate.email_address,
-              subject: t('candidate_reference.subject.chaser', referee_name: @referee_name))
+    email_for_candidate(
+      reference.application_form,
+      subject: I18n.t!('candidate_mailer.chase_reference.subject', referee_name: reference.name),
+    )
   end
 
   def survey_email(application_form)
@@ -153,6 +143,17 @@ private
       ),
       template_path: 'candidate_mailer/new_offer',
       template_name: template_name,
+    )
+  end
+
+  def email_for_candidate(application_form, args = {})
+    @application_form = application_form
+    @candidate = @application_form.candidate
+
+    view_mail(
+      GENERIC_NOTIFY_TEMPLATE,
+      to: @candidate.email_address,
+      subject: args[:subject] || I18n.t!("candidate_mailer.#{action_name}.subject"),
     )
   end
 end

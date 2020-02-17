@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe CandidateMailer, type: :mailer do
   subject(:mailer) { described_class }
 
-  describe 'Send submit application email' do
+  describe '.application_submitted' do
     let(:candidate) { build_stubbed(:candidate) }
     let(:application_form) { build_stubbed(:application_form, support_reference: 'SUPPORT-REFERENCE', candidate: candidate) }
-    let(:mail) { mailer.submit_application_email(application_form) }
+    let(:mail) { mailer.application_submitted(application_form) }
 
     before do
       allow(Encryptor).to receive(:encrypt).with(candidate.id).and_return('example_encrypted_id')
@@ -14,7 +14,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
 
     it 'sends an email with the correct subject' do
-      expect(mail.subject).to include(t('submit_application_success.email.subject'))
+      expect(mail.subject).to include(t('candidate_mailer.application_submitted.subject'))
     end
 
     it 'sends an email with the correct heading' do
@@ -57,15 +57,15 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
   end
 
-  describe 'Send reference chaser email' do
+  describe '.chase_reference' do
     let(:application_form) { create(:completed_application_form, references_count: 1, with_gces: true) }
     let(:reference) { application_form.application_references.first }
-    let(:mail) { mailer.reference_chaser_email(application_form, reference) }
+    let(:mail) { mailer.chase_reference(reference) }
 
     before { mail.deliver_later }
 
     it 'sends an email with the correct subject' do
-      expect(mail.subject).to include(t('candidate_reference.subject.chaser', referee_name: reference.name))
+      expect(mail.subject).to include(t('candidate_mailer.chase_reference.subject', referee_name: reference.name))
     end
 
     it 'sends an email with the correct heading' do
@@ -193,7 +193,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
   end
 
-  describe 'Send application under consideration email' do
+  describe '.application_sent_to_provider' do
     let(:application_choice) { build_stubbed(:application_choice, reject_by_default_days: '40') }
     let(:application_form) do
       build_stubbed(
@@ -205,7 +205,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
 
     context 'when initial email' do
-      let(:mail) { mailer.application_under_consideration(application_form) }
+      let(:mail) { mailer.application_sent_to_provider(application_form) }
 
       before { mail.deliver_later }
 

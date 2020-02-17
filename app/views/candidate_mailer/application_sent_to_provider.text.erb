@@ -1,13 +1,13 @@
-Dear <%= @application.candidate_name %>,
+Dear <%= @application_form.first_name %>,
 
 # Your application is being considered
 
 Your application is now with your teacher training <%= 'provider'.pluralize(@application.choice_count) %>.
 
-We’ve asked them to make a final decision within <%= @application.rbd_days %> working days.
+We’ve asked them to make a final decision within <%= @application.reject_by_default_days %> working days.
 
 They’ll be in touch with you sooner if they want to arrange an interview.
 
 Sign in to Apply for teacher training to review your application:
 
-<%= candidate_sign_in_url(@application.candidate) %>
+<%= candidate_sign_in_url(@candidate) %>

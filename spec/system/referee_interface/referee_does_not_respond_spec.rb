@@ -42,7 +42,7 @@ RSpec.feature 'Referee does not respond in time', sidekiq: true do
   def and_an_email_is_sent_to_the_candidate
     open_email(@application.candidate.email_address)
 
-    expect(current_email.subject).to have_content(t('candidate_reference.subject.chaser', referee_name: 'Anne Other'))
+    expect(current_email.subject).to end_with('Anne Other hasn’t given a reference yet')
   end
 
   def when_if_the_candidate_does_not_respond_within_10_days
