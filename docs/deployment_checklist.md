@@ -7,7 +7,7 @@ been caused by the new release.
 This checklist is meant as a supplement to the full [deployment guide](deployment.md)
 where you will find detailed instructions about how to deploy.
 
-It may be appropriate carry out additional checks specific to the
+It may be appropriate to carry out additional checks specific to the
 changes included in a deployment.
 
 We aim to work in pairs on deployments so that one developer runs the
