@@ -26,6 +26,8 @@ private
     {
       key: 'Description',
       value: @work_break.reason,
+      action: "description for break between #{formatted_start_date} and #{formatted_end_date}",
+      change_path: candidate_interface_edit_work_history_break_path(@work_break),
     }
   end
 
@@ -33,6 +35,8 @@ private
     {
       key: 'Dates',
       value: "#{formatted_start_date} - #{formatted_end_date}",
+      action: "dates for break between #{formatted_start_date} and #{formatted_end_date}",
+      change_path: candidate_interface_edit_work_history_break_path(@work_break),
     }
   end
 end

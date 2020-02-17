@@ -1,4 +1,4 @@
-<%= render(SummaryCardComponent, rows: work_break_rows) do %>
+<%= render(SummaryCardComponent, rows: work_break_rows, editable: @editable) do %>
   <%= render(SummaryCardHeaderComponent, title: "Break in work history (#{pluralize(@work_break.length, 'month')})") do %>
     <% if @editable %>
       <div class="app-summary-card__actions">
