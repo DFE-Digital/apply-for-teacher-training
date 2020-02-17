@@ -34,9 +34,10 @@ class WorkHistoryWithBreaks
         start_date: Time.zone.now - 5.years,
         end_date: Time.zone.now - 1.month,
       )
-      break_months_in_timeline = remove_working_months(timeline_in_months)
-      breaks = break_entries(break_months_in_timeline)
-      work_history_with_breaks += breaks if breaks.any?
+      break_months_in_timeline = remove_months(timeline: timeline_in_months, entries: @work_history)
+      remaining_months = remove_months(timeline: break_months_in_timeline, entries: @existing_breaks)
+      break_placeholders = break_placeholder_entries(remaining_months)
+      work_history_with_breaks += break_placeholders if break_placeholders.any?
     end
 
     work_history_with_breaks.sort_by(&:start_date)
@@ -48,20 +49,20 @@ private
     (start_date.to_date..end_date.to_date).map(&:beginning_of_month).uniq
   end
 
-  def remove_working_months(timeline_in_months)
-    break_months_in_timeline = timeline_in_months
+  def remove_months(timeline:, entries:)
+    remaining_months_in_timeline = timeline
 
-    @work_history.each do |job|
-      job_end_date = job.end_date.nil? ? Time.zone.now : job.end_date
-      months_in_job_period = month_range(start_date: job.start_date, end_date: job_end_date)
+    entries.each do |entry|
+      entry_end_date = entry.end_date.nil? ? Time.zone.now : entry.end_date
+      months_in_entry_period = month_range(start_date: entry.start_date, end_date: entry_end_date)
 
-      break_months_in_timeline -= months_in_job_period
+      remaining_months_in_timeline -= months_in_entry_period
     end
 
-    break_months_in_timeline
+    remaining_months_in_timeline
   end
 
-  def break_entries(break_months_in_timeline)
+  def break_placeholder_entries(break_months_in_timeline)
     return [] if break_months_in_timeline.empty?
 
     breaks = []
@@ -71,31 +72,11 @@ private
       if current_break.last.next_month == month
         current_break << month
       else
-        unless existing_break_covers_break_period?(current_break)
-          breaks << BreakPlaceholder.new(month_range: current_break)
-        end
-
+        breaks << BreakPlaceholder.new(month_range: current_break)
         current_break = [month]
       end
     end
 
-    unless existing_break_covers_break_period?(current_break)
-      breaks << BreakPlaceholder.new(month_range: current_break)
-    end
-
-    breaks
-  end
-
-  def existing_break_covers_break_period?(current_break)
-    existing_break_covering_break_period = @existing_breaks.select do |existing_break|
-      break_placeholder = BreakPlaceholder.new(month_range: current_break)
-
-      same_start_date = existing_break.start_date.to_date == break_placeholder.start_date
-      same_end_date = existing_break.end_date.to_date == break_placeholder.end_date
-
-      same_start_date && same_end_date
-    end
-
-    existing_break_covering_break_period.any?
+    breaks << BreakPlaceholder.new(month_range: current_break)
   end
 end

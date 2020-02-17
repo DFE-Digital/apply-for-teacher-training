@@ -6,6 +6,7 @@ RSpec.describe WorkHistoryWithBreaks do
     let(:march2014) { Time.zone.local(2014, 3, 1) }
     let(:october2014) { Time.zone.local(2014, 10, 1) }
     let(:february2015) { Time.zone.local(2015, 2, 1) }
+    let(:february2016) { Time.zone.local(2016, 2, 1) }
     let(:january2019) { Time.zone.local(2019, 1, 1) }
     let(:february2019) { Time.zone.local(2019, 2, 1) }
     let(:march2019) { Time.zone.local(2019, 3, 1) }
@@ -280,6 +281,30 @@ RSpec.describe WorkHistoryWithBreaks do
         expect(work_history_with_breaks[1].start_date).to eq(november2019)
         expect(work_history_with_breaks[1].end_date).to eq(current_date)
         expect(work_history_with_breaks[1].length).to eq(2)
+      end
+    end
+
+    context 'when there is an existing break that overlaps with a job' do
+      it 'returns the job and existing break, it does not include a break placeholder' do
+        job1 = build_stubbed(:application_work_experience, start_date: february2015, end_date: february2016)
+        work_history = [job1]
+        break1 = build_stubbed(:application_work_history_break, start_date: february2015, end_date: current_date)
+        breaks = [break1]
+        application_form = build_stubbed(
+          :application_form,
+          application_work_experiences: work_history,
+          application_work_history_breaks: breaks,
+        )
+
+        get_work_history_with_breaks = WorkHistoryWithBreaks.new(application_form)
+        work_history_with_breaks = get_work_history_with_breaks.timeline
+
+        expect(work_history_with_breaks.count).to eq(2)
+        expect(work_history_with_breaks[0]).to eq(job1)
+        expect(work_history_with_breaks[1]).to be_instance_of(ApplicationWorkHistoryBreak)
+        expect(work_history_with_breaks[1].start_date).to eq(february2015)
+        expect(work_history_with_breaks[1].end_date).to eq(current_date)
+        expect(work_history_with_breaks[1].length).to eq(59)
       end
     end
   end
