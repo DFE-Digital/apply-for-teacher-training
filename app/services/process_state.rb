@@ -46,7 +46,9 @@ class ProcessState
       event :all_offers_declined, transitions_to: :ended_without_success
     end
 
-    state :ended_without_success
+    state :ended_without_success do
+      event :start_apply_2, transitions_to: :unsubmitted_in_progress
+    end
 
     state :pending_conditions do
       event :conditions_met, transitions_to: :recruited
