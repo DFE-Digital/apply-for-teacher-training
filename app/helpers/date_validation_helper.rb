@@ -1,5 +1,5 @@
 module DateValidationHelper
-  def valid_end_date_or_nil(year, month)
+  def valid_date_or_nil(year, month)
     date_args = [year, month, 1].map(&:to_i)
     if year.present? && Date.valid_date?(*date_args)
       Date.new(*date_args)
@@ -8,7 +8,7 @@ module DateValidationHelper
     end
   end
 
-  def valid_or_invalid_start_date(year, month)
+  def valid_or_invalid_date(year, month)
     date_args = [year, month, 1].map(&:to_i)
     if year.present? && Date.valid_date?(*date_args)
       Date.new(*date_args)
