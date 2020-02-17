@@ -4,7 +4,7 @@
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th class="govuk-table__header">Feature</th>
-      <th class="govuk-table__header">Activated</th>
+      <th class="govuk-table__header">Activated?</th>
       <th class="govuk-table__header">Action</th>
     </tr>
   </thead>
@@ -17,7 +17,11 @@
         </td>
 
         <td class="govuk-table__cell">
-          <%= FeatureFlag.active?(feature_name) ? 'Yes' : 'No' %>
+          <% if FeatureFlag.active?(feature_name) %>
+            <strong class='govuk-tag app-tag--turquoise'>Active</strong>
+          <% else %>
+            <strong class='govuk-tag app-tag--grey'>Inactive</strong>
+          <% end %>
         </td>
 
         <td class="govuk-table__cell">
