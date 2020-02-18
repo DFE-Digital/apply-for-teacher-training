@@ -163,12 +163,12 @@ FactoryBot.define do
   end
 
   factory :provider do
-    initialize_with { Provider.find_or_create_by code: code }
+    initialize_with { Provider.find_or_initialize_by(code: code) }
     code { Faker::Alphanumeric.alphanumeric(number: 3).upcase }
     name { Faker::Educator.university }
 
     trait :with_signed_agreement do
-      after(:build) do |provider|
+      after(:create) do |provider|
         create(:provider_agreement, provider: provider)
       end
     end
