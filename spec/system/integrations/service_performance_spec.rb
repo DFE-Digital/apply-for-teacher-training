@@ -13,7 +13,7 @@ RSpec.feature 'Service performance' do
   end
 
   def when_i_visit_the_service_performance_page
-    visit support_interface_performance_path
+    visit integrations_performance_path
   end
 
   def then_i_should_see_the_total_count_of_candidates
