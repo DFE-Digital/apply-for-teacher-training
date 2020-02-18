@@ -36,7 +36,7 @@ module ViewHelper
   def select_provider_options(providers)
     [
       OpenStruct.new(id: '', name: t('activemodel.errors.models.candidate_interface/pick_provider_form.attributes.code.blank')),
-    ] + providers.map { |provider| OpenStruct.new(id: provider.code, name: "#{provider.name} (#{provider.code})") }
+    ] + providers.map { |provider| OpenStruct.new(id: provider.id, name: "#{provider.name} (#{provider.code})") }
   end
 
   def submitted_at_date

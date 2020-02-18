@@ -6,7 +6,7 @@
     <%= form_with model: @pick_provider, url: candidate_interface_course_choices_provider_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_collection_select :code, select_provider_options(@pick_provider.available_providers), :id, :name, label: { text: t('page_titles.which_provider'), size: 'xl' } do %>
+      <%= f.govuk_collection_select :provider_id, select_provider_options(@pick_provider.available_providers), :id, :name, label: { text: t('page_titles.which_provider'), size: 'xl' } do %>
         <p class="govuk-body">You can
           <%= link_to candidate_interface_providers_path, class: 'govuk-link' do %>
             preview a list of training providers and courses

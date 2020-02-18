@@ -2,11 +2,11 @@ module CandidateInterface
   class PickProviderForm
     include ActiveModel::Model
 
-    attr_accessor :code
-    validates :code, presence: true
+    attr_accessor :provider_id
+    validates :provider_id, presence: true
 
     def other?
-      Course.exposed_in_find.pluck(:provider_id).exclude?(Provider.find_by(code: code).id)
+      Course.exposed_in_find.where(provider_id: provider_id).blank?
     end
 
     def available_providers
