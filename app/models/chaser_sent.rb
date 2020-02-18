@@ -5,5 +5,6 @@ class ChaserSent < ApplicationRecord
     reference_request: 'reference_request',
     reference_replacement: 'reference_replacement',
     provider_decision_request: 'provider_decision_request',
+    candidate_decision_request: 'candidate_decision_request',
   }
 end
