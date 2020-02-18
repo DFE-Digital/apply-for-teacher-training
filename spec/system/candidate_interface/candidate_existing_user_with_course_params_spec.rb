@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'An existing candidate arriving from Find with a course and provider code' do
   include CourseOptionHelpers
-  scenario 'retaining their course selection through the sign up process' do
+  scenario 'candidate is not signed in and retians their course selection' do
     given_the_pilot_is_open
     and_i_am_an_existing_candidate_on_apply
     and_i_have_less_than_3_application_options
@@ -15,6 +15,13 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     and_i_should_see_the_course_name_and_code
     and_i_should_see_the_site
     and_my_course_from_find_id_should_be_set_to_nil
+
+    when_i_sign_out
+    and_i_arrive_at_the_sign_up_page_with_the_same_course_params
+    and_i_submit_my_email_address
+    and_click_on_the_magic_link
+    then_i_should_see_the_courses_review_page
+    and_i_should_be_informed_i_have_already_selected_that_course
 
     given_the_course_i_selected_has_multiple_sites
     and_i_am_an_existing_candidate_on_apply
@@ -55,7 +62,8 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   end
 
   def and_i_have_less_than_3_application_options
-    application_choice_for_candidate(candidate: @candidate, application_choice_count: 2)
+    application_form = create(:application_form, candidate: @candidate)
+    create(:application_choice, application_form: application_form)
   end
 
   def and_i_have_3_application_options
@@ -80,6 +88,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
   def and_click_on_the_magic_link
     open_email(@email)
+
     current_email.find_css('a').first.click
   end
 
@@ -138,6 +147,18 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
   def and_i_should_be_informed_i_already_have_3_courses
     expect(page).to have_content "You cannot have more than 3 course choices. You must delete a choice if you want to apply to #{@course_with_multiple_sites.name_and_code}"
+  end
+
+  def when_i_sign_out
+    click_link 'Sign out'
+  end
+
+  def and_i_arrive_at_the_sign_up_page_with_the_same_course_params
+    visit candidate_interface_sign_up_path providerCode: @course.provider.code, courseCode: @course.code
+  end
+
+  def and_i_should_be_informed_i_have_already_selected_that_course
+    expect(page).to have_content "You have already selected #{@course.name_and_code}."
   end
 
 private

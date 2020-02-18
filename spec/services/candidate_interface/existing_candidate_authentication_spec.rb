@@ -13,10 +13,10 @@ RSpec.describe CandidateInterface::ExistingCandidateAuthentication do
         service = described_class.new(candidate: candidate)
         service.execute
 
-        expect(service.candidate_already_has_3_courses?).to be_truthy
-        expect(service.candidate_has_new_course_added?).to be_falsey
-        expect(service.candidate_should_choose_site?).to be_falsey
-        expect(service.candidate_does_not_have_a_course_from_find?).to be_falsey
+        expect(service.candidate_already_has_3_courses).to be_truthy
+        expect(service.candidate_has_new_course_added).to be_falsey
+        expect(service.candidate_should_choose_site).to be_falsey
+        expect(service.candidate_does_not_have_a_course_from_find).to be_falsey
         expect(candidate.course_from_find_id).to eq(nil)
       end
 
@@ -27,7 +27,20 @@ RSpec.describe CandidateInterface::ExistingCandidateAuthentication do
         service = described_class.new(candidate: candidate)
         service.execute
 
-        expect(service.candidate_does_not_have_a_course_from_find?).to be(true)
+        expect(service.candidate_does_not_have_a_course_from_find).to be(true)
+      end
+    end
+
+    context 'when the candidate has already submitted their application' do
+      it 'returns candidate_has_submitted_application as true and sets their course_from_find_id to nil' do
+        candidate = create(:candidate, course_from_find_id: 1)
+        create(:completed_application_form, candidate: candidate, application_choices_count: 3)
+
+        service = described_class.new(candidate: candidate)
+        service.execute
+
+        expect(service.candidate_has_submitted_application).to be(true)
+        expect(candidate.course_from_find_id).to eq(nil)
       end
     end
 
@@ -41,10 +54,10 @@ RSpec.describe CandidateInterface::ExistingCandidateAuthentication do
         service = described_class.new(candidate: candidate)
         service.execute
 
-        expect(service.candidate_has_new_course_added?).to be_truthy
-        expect(service.candidate_should_choose_site?).to be_falsey
-        expect(service.candidate_does_not_have_a_course_from_find?).to be_falsey
-        expect(service.candidate_already_has_3_courses?).to be_falsey
+        expect(service.candidate_has_new_course_added).to be_truthy
+        expect(service.candidate_should_choose_site).to be_falsey
+        expect(service.candidate_does_not_have_a_course_from_find).to be_falsey
+        expect(service.candidate_already_has_3_courses).to be_falsey
         expect(candidate.course_from_find_id).to eq(nil)
         expect(candidate.current_application.application_choices.first.course_option_id).to eq(course_options_id)
       end
@@ -59,10 +72,10 @@ RSpec.describe CandidateInterface::ExistingCandidateAuthentication do
         service = described_class.new(candidate: candidate)
         service.execute
 
-        expect(service.candidate_should_choose_site?).to be_truthy
-        expect(service.candidate_has_new_course_added?).to be_falsey
-        expect(service.candidate_does_not_have_a_course_from_find?).to be_falsey
-        expect(service.candidate_already_has_3_courses?).to be_falsey
+        expect(service.candidate_should_choose_site).to be_truthy
+        expect(service.candidate_has_new_course_added).to be_falsey
+        expect(service.candidate_does_not_have_a_course_from_find).to be_falsey
+        expect(service.candidate_already_has_3_courses).to be_falsey
         expect(candidate.course_from_find_id).to eq(nil)
         expect(candidate.current_application.application_choices).not_to be_present
       end
@@ -76,10 +89,25 @@ RSpec.describe CandidateInterface::ExistingCandidateAuthentication do
         service = described_class.new(candidate: candidate)
         service.execute
 
-        expect(service.candidate_does_not_have_a_course_from_find?).to be_truthy
-        expect(service.candidate_has_new_course_added?).to be_falsey
-        expect(service.candidate_should_choose_site?).to be_falsey
-        expect(service.candidate_already_has_3_courses?).to be_falsey
+        expect(service.candidate_does_not_have_a_course_from_find).to be_truthy
+        expect(service.candidate_has_new_course_added).to be_falsey
+        expect(service.candidate_should_choose_site).to be_falsey
+        expect(service.candidate_already_has_3_courses).to be_falsey
+      end
+    end
+
+    context 'when the candidate already has the course as an application choice' do
+      it 'sets the candidates course_from_find_id to nil and sets candidate_has_already_selected_the_course to true' do
+        course = create(:course)
+        candidate = create(:candidate, course_from_find_id: course.id)
+        course_option = create(:course_option, course: course)
+        create(:application_choice, course_option: course_option, application_form: create(:application_form, candidate: candidate))
+
+        service = described_class.new(candidate: candidate)
+        service.execute
+
+        expect(service.candidate_has_already_selected_the_course).to be_truthy
+        expect(candidate.course_from_find_id).to eq(nil)
       end
     end
   end
