@@ -71,6 +71,135 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
     end
   end
 
+  describe 'attributes.work_history_break_explanation' do
+    let(:february2019) { Time.zone.local(2019, 2, 1) }
+    let(:april2019) { Time.zone.local(2019, 4, 1) }
+    let(:september2019) { Time.zone.local(2019, 9, 1) }
+    let(:december2019) { Time.zone.local(2019, 12, 1) }
+
+    context 'when the work breaks feature flag is on and work history breaks field has a value' do
+      it 'returns the work_history_breaks attribute of an application' do
+        FeatureFlag.activate('work_breaks')
+        breaks = []
+        application_form = build_stubbed(
+          :completed_application_form,
+          :with_completed_references,
+          work_history_breaks: 'I was sleeping.',
+          application_work_history_breaks: breaks,
+        )
+        application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+        response = VendorApi::SingleApplicationPresenter.new(application_choice).as_json
+
+        expect(response.to_json).to be_valid_against_openapi_schema('Application')
+        expect(response[:attributes][:work_experience][:work_history_break_explanation]).to eq('I was sleeping.')
+      end
+    end
+
+    context 'when the work breaks feature flag is on and individual breaks have been entered' do
+      it 'returns a concatentation of application_work_history_breaks of an application' do
+        FeatureFlag.activate('work_breaks')
+        break1 = build_stubbed(:application_work_history_break, start_date: february2019, end_date: april2019, reason: 'I was watching TV.')
+        break2 = build_stubbed(:application_work_history_break, start_date: september2019, end_date: december2019, reason: 'I was playing games.')
+        breaks = [break1, break2]
+        application_form = build_stubbed(
+          :completed_application_form,
+          :with_completed_references,
+          work_history_breaks: nil,
+          application_work_history_breaks: breaks,
+        )
+        application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+        response = VendorApi::SingleApplicationPresenter.new(application_choice).as_json
+
+        expect(response.to_json).to be_valid_against_openapi_schema('Application')
+        expect(response[:attributes][:work_experience][:work_history_break_explanation]).to eq(
+          "February 2019 to April 2019: I was watching TV.\n\nSeptember 2019 to December 2019: I was playing games.",
+        )
+      end
+    end
+
+    context 'when the work breaks feature flag is on and no breaks have been entered' do
+      it 'returns an empty string' do
+        FeatureFlag.activate('work_breaks')
+        breaks = []
+        application_form = build_stubbed(
+          :completed_application_form,
+          :with_completed_references,
+          work_history_breaks: nil,
+          application_work_history_breaks: breaks,
+        )
+        application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+        response = VendorApi::SingleApplicationPresenter.new(application_choice).as_json
+
+        expect(response.to_json).to be_valid_against_openapi_schema('Application')
+        expect(response[:attributes][:work_experience][:work_history_break_explanation]).to eq('')
+      end
+    end
+
+    context 'when the work breaks feature flag is off and no breaks have been entered' do
+      it 'returns an empty string' do
+        FeatureFlag.deactivate('work_breaks')
+        breaks = []
+        application_form = build_stubbed(
+          :completed_application_form,
+          :with_completed_references,
+          work_history_breaks: nil,
+          application_work_history_breaks: breaks,
+        )
+        application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+        response = VendorApi::SingleApplicationPresenter.new(application_choice).as_json
+
+        expect(response.to_json).to be_valid_against_openapi_schema('Application')
+        expect(response[:attributes][:work_experience][:work_history_break_explanation]).to eq('')
+      end
+    end
+
+    context 'when the work breaks feature flag is off and work history breaks field has a value' do
+      it 'returns the work_history_breaks attribute of an application' do
+        FeatureFlag.deactivate('work_breaks')
+        breaks = []
+        application_form = build_stubbed(
+          :completed_application_form,
+          :with_completed_references,
+          work_history_breaks: 'I was sleeping.',
+          application_work_history_breaks: breaks,
+        )
+        application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+        response = VendorApi::SingleApplicationPresenter.new(application_choice).as_json
+
+        expect(response.to_json).to be_valid_against_openapi_schema('Application')
+        expect(response[:attributes][:work_experience][:work_history_break_explanation]).to eq('I was sleeping.')
+      end
+    end
+
+    context 'when the work breaks feature flag is off and individual breaks have been entered' do
+      it 'returns a concatentation of application_work_history_breaks of an application' do
+        FeatureFlag.deactivate('work_breaks')
+        break1 = build_stubbed(:application_work_history_break, start_date: february2019, end_date: april2019, reason: 'I was watching TV.')
+        break2 = build_stubbed(:application_work_history_break, start_date: september2019, end_date: december2019, reason: 'I was playing games.')
+        breaks = [break1, break2]
+        application_form = build_stubbed(
+          :completed_application_form,
+          :with_completed_references,
+          work_history_breaks: nil,
+          application_work_history_breaks: breaks,
+        )
+        application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+        response = VendorApi::SingleApplicationPresenter.new(application_choice).as_json
+
+        expect(response.to_json).to be_valid_against_openapi_schema('Application')
+        expect(response[:attributes][:work_experience][:work_history_break_explanation]).to eq(
+          "February 2019 to April 2019: I was watching TV.\n\nSeptember 2019 to December 2019: I was playing games.",
+        )
+      end
+    end
+  end
+
   describe '#as_json' do
     context 'given a relation that includes application_qualifications' do
       let(:application_choice) do
