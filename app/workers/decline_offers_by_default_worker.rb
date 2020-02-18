@@ -2,11 +2,9 @@ class DeclineOffersByDefaultWorker
   include Sidekiq::Worker
 
   def perform
-    GetApplicationChoicesReadyToDeclineByDefault.call.each do |choice|
-      begin
-        DeclineOfferByDefault.new(application_choice: choice).call
-      rescue StandardError => e
-        Rails.logger.warn "[DBD] ignoring application_choice #{choice.id}: #{e.message}"
+    GetApplicationFormsReadyToDeclineByDefault.call.each do |application_form|
+      application_form.application_choices.offer.each do |application_choice_with_offer|
+        DeclineOfferByDefault.new(application_choice: application_choice_with_offer).call
       end
     end
   end
