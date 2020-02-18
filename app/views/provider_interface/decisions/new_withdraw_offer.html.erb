@@ -1,7 +1,7 @@
 <% content_for :browser_title, 'Withdraw offer' %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_respond_path(@application_choice.id)) %>
 
-<%= render(FlashMessageComponent, flash: flash) %>
+<%= render(FlashMessageComponent.new(flash: flash)) %>
 
 <%= form_with model: @withdraw_offer, url: provider_interface_application_choice_confirm_withdraw_offer_path(@application_choice.id), method: :post do |f| %>
   <%= f.govuk_error_summary %>

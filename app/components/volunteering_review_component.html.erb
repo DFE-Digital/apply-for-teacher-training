@@ -1,6 +1,6 @@
 <% @volunteering_roles.each do |volunteering_role| %>
-  <%= render(SummaryCardComponent, rows: volunteering_role_rows(volunteering_role), editable: @editable) do %>
-    <%= render(SummaryCardHeaderComponent, title: volunteering_role.role, heading_level: @heading_level, check_icon: volunteering_role.working_with_children) do %>
+  <%= render(SummaryCardComponent.new(rows: volunteering_role_rows(volunteering_role), editable: @editable)) do %>
+    <%= render(SummaryCardHeaderComponent.new(title: volunteering_role.role, heading_level: @heading_level, check_icon: volunteering_role.working_with_children)) do %>
       <% if @editable %>
         <div class="app-summary-card__actions">
           <%= link_to candidate_interface_confirm_destroy_volunteering_role_path(volunteering_role.id), class: 'govuk-link' do %>
@@ -13,10 +13,10 @@
 <% end %>
 
 <% if show_missing_banner? %>
-  <%= render(SectionMissingBannerComponent, section: :volunteering, section_path: candidate_interface_volunteering_experience_path, error: @missing_error) %>
+  <%= render(SectionMissingBannerComponent.new(section: :volunteering, section_path: candidate_interface_volunteering_experience_path, error: @missing_error)) %>
 <% elsif @application_form.application_volunteering_experiences.empty? %>
   <section class="app-summary-card govuk-!-margin-bottom-6">
-    <%= render(SummaryCardHeaderComponent, title: t('application_form.volunteering.no_experience.summary_card_title')) %>
+    <%= render(SummaryCardHeaderComponent.new(title: t('application_form.volunteering.no_experience.summary_card_title'))) %>
 
     <div class="app-summary-card__body">
       The Department for Education have made it easier for teacher training

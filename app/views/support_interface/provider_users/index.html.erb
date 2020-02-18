@@ -20,4 +20,4 @@
   ] %>
 <% end %>
 
-<%= render(SupportInterface::ProviderUsersTableComponent, provider_users: @provider_users) %>
+<%= render(SupportInterface::ProviderUsersTableComponent.new(provider_users: @provider_users)) %>

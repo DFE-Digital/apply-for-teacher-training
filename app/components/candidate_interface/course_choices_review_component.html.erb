@@ -1,7 +1,7 @@
 <% @course_choices.each do |course_choice| %>
   <div class='qa-application-choice-<%= course_choice.id %>'>
-  <%= render(SummaryCardComponent, rows: course_choice_rows(course_choice), editable: @editable) do %>
-    <%= render(SummaryCardHeaderComponent, title: course_choice.provider.name, heading_level: @heading_level) do %>
+  <%= render(SummaryCardComponent.new(rows: course_choice_rows(course_choice), editable: @editable)) do %>
+    <%= render(SummaryCardHeaderComponent.new(title: course_choice.provider.name, heading_level: @heading_level)) do %>
       <div class='app-summary-card__actions'>
         <% if course_choice.offer? %>
           <%= link_to candidate_interface_offer_path(course_choice.id), class: 'govuk-link', data: { action: :respond } do %>
@@ -30,5 +30,5 @@
 <% end %>
 
 <% if show_missing_banner? %>
-  <%= render(SectionMissingBannerComponent, section: :course_choices, section_path: candidate_interface_course_choices_index_path, error: @missing_error) %>
+  <%= render(SectionMissingBannerComponent.new(section: :course_choices, section_path: candidate_interface_course_choices_index_path, error: @missing_error)) %>
 <% end %>

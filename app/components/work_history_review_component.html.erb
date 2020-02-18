@@ -1,7 +1,7 @@
 <% @work_history_with_breaks.each do |entry| %>
   <% if entry.is_a?(ApplicationWorkExperience) %>
-    <%= render(SummaryCardComponent, rows: work_experience_rows(entry), editable: @editable) do %>
-      <%= render(SummaryCardHeaderComponent, title: entry.role, heading_level: @heading_level, check_icon: entry.working_with_children) do %>
+    <%= render(SummaryCardComponent.new(rows: work_experience_rows(entry), editable: @editable)) do %>
+      <%= render(SummaryCardHeaderComponent.new(title: entry.role, heading_level: @heading_level, check_icon: entry.working_with_children)) do %>
         <% if @editable %>
           <div class="app-summary-card__actions">
             <%= link_to candidate_interface_work_history_destroy_path(entry.id), class: 'govuk-link' do %>
@@ -13,23 +13,23 @@
     <% end %>
   <% elsif entry.is_a?(WorkHistoryWithBreaks::BreakPlaceholder) %>
     <% if FeatureFlag.active?('work_breaks') %>
-      <%= render(BreakPlaceholderInWorkHistoryComponent, work_break: entry) %>
+      <%= render(BreakPlaceholderInWorkHistoryComponent.new(work_break: entry)) %>
     <% end %>
   <% elsif entry.is_a?(ApplicationWorkHistoryBreak) %>
     <% if FeatureFlag.active?('work_breaks') %>
-      <%= render(BreakInWorkHistoryComponent, work_break: entry) %>
+      <%= render(BreakInWorkHistoryComponent.new(work_break: entry)) %>
     <% end %>
   <% end %>
 <% end %>
 
 <% if !show_missing_banner? && @application_form.application_work_experiences.empty? %>
-  <%= render(SummaryCardComponent, rows: no_work_experience_rows, editable: @editable) %>
+  <%= render(SummaryCardComponent.new(rows: no_work_experience_rows, editable: @editable)) %>
 <% end %>
 
 <% if breaks_in_work_history? %>
-  <%= render(SummaryCardComponent, rows: break_in_work_history_rows, editable: @editable) %>
+  <%= render(SummaryCardComponent.new(rows: break_in_work_history_rows, editable: @editable)) %>
 <% end %>
 
 <% if show_missing_banner? %>
-  <%= render(SectionMissingBannerComponent, section: :work_experience, section_path: CandidateInterface::ApplicationFormPresenter.new(@application_form).work_experience_path, error: @missing_error) %>
+  <%= render(SectionMissingBannerComponent.new(section: :work_experience, section_path: CandidateInterface::ApplicationFormPresenter.new(@application_form).work_experience_path, error: @missing_error)) %>
 <% end %>
