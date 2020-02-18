@@ -2,47 +2,41 @@ require 'rails_helper'
 
 RSpec.describe 'An existing candidate arriving from Find with a course and provider code' do
   include CourseOptionHelpers
-  scenario 'candidate is not signed in and retains their course selection through the sign up process' do
+  scenario 'candidate is signed in' do
     given_the_pilot_is_open
     and_i_am_an_existing_candidate_on_apply
     and_i_have_less_than_3_application_options
     and_the_course_i_selected_only_has_one_site
+    and_i_am_signed_in
 
-    when_i_arrive_at_the_sign_up_page_with_course_params_with_one_site
-    and_i_submit_my_email_address
-    and_click_on_the_magic_link
+    when_i_arrive_at_the_apply_from_find_page_with_course_params_with_one_site
+    and_i_click_apply_on_apply
     then_i_should_see_the_courses_review_page
     and_i_should_see_the_course_name_and_code
     and_i_should_see_the_site
-    and_my_course_from_find_id_should_be_set_to_nil
 
-    when_i_sign_out
-    and_i_arrive_at_the_sign_up_page_with_the_same_course_params
-    and_i_submit_my_email_address
-    and_click_on_the_magic_link
+    when_i_arrive_at_the_apply_from_find_page_with_the_same_course_params
+    and_i_click_apply_on_apply
     then_i_should_see_the_courses_review_page
     and_i_should_be_informed_i_have_already_selected_that_course
 
     given_the_course_i_selected_has_multiple_sites
-    and_i_am_an_existing_candidate_on_apply
+    and_i_am_signed_in
     and_i_have_less_than_3_application_options
 
-    when_i_arrive_at_the_sign_up_page_with_course_params_with_multiple_sites
-    and_i_submit_my_email_address
-    and_click_on_the_magic_link
+    when_i_arrive_at_the_apply_from_find_page_with_course_params_with_multiple_sites
+    and_i_click_apply_on_apply
     then_i_should_see_the_course_choices_site_page
     and_i_see_the_form_to_pick_a_location
-    and_my_course_from_find_id_should_be_set_to_nil
 
-    and_the_course_i_selected_only_has_one_site
+    given_the_course_i_selected_has_multiple_sites
     and_i_am_an_existing_candidate_on_apply
+    and_i_am_signed_in
     and_i_have_3_application_options
 
-    when_i_arrive_at_the_sign_up_page_with_course_params_with_multiple_sites
-    and_i_submit_my_email_address
-    and_click_on_the_magic_link
+    when_i_arrive_at_the_apply_from_find_page_with_course_params_with_one_site
+    and_i_click_apply_on_apply
     then_i_should_see_the_courses_review_page
-    and_my_course_from_find_id_should_be_set_to_nil
     and_i_should_be_informed_i_already_have_3_courses
   end
 
@@ -70,20 +64,30 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     application_choice_for_candidate(candidate: @candidate, application_choice_count: 3)
   end
 
-  def when_i_arrive_at_the_sign_up_page_with_course_params_with_one_site
-    visit candidate_interface_sign_up_path providerCode: @course.provider.code, courseCode: @course.code
+  def and_i_am_signed_in
+    login_as(@candidate)
   end
 
-  def when_i_arrive_at_the_sign_up_page_with_course_params_with_multiple_sites
-    visit candidate_interface_sign_up_path providerCode: @course_with_multiple_sites.provider.code, courseCode: @course_with_multiple_sites.code
+  def when_i_arrive_at_the_apply_from_find_page_with_course_params_with_one_site
+    visit candidate_interface_apply_from_find_path providerCode: @course.provider.code, courseCode: @course.code
+  end
+
+  def when_i_arrive_at_the_apply_from_find_page_with_course_params_with_multiple_sites
+    visit candidate_interface_apply_from_find_path providerCode: @course_with_multiple_sites.provider.code, courseCode: @course_with_multiple_sites.code
+  end
+
+  def when_i_arrive_at_the_apply_from_find_page_with_the_same_course_params
+    visit candidate_interface_apply_from_find_path providerCode: @course.provider.code, courseCode: @course.code
+  end
+
+  def and_i_click_apply_on_apply
+    click_on t('apply_from_find.apply_button')
   end
 
   def and_i_submit_my_email_address
-    perform_enqueued_jobs do
-      fill_in t('authentication.sign_up.email_address.label'), with: @email
-      check t('authentication.sign_up.accept_terms_checkbox')
-      click_on t('authentication.sign_up.button_continue')
-    end
+    fill_in t('authentication.sign_up.email_address.label'), with: @email
+    check t('authentication.sign_up.accept_terms_checkbox')
+    click_on t('authentication.sign_up.button_continue')
   end
 
   def and_click_on_the_magic_link
@@ -124,11 +128,6 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     expect(page).to have_content @site2.postcode
   end
 
-  def and_my_course_from_find_id_should_be_set_to_nil
-    candidate = Candidate.find_by!(email_address: @email)
-    expect(candidate.course_from_find_id).to eq(nil)
-  end
-
   def given_the_course_i_selected_has_multiple_sites
     @course_with_multiple_sites = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Herbology')
     @site1 = create(:site, provider: @course_with_multiple_sites.provider)
@@ -138,12 +137,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   end
 
   def then_i_should_see_the_course_choices_site_page
-    expect(page).to have_current_path(
-      candidate_interface_course_choices_site_path(
-        @course_with_multiple_sites.provider.id,
-        @course_with_multiple_sites.id,
-      ),
-    )
+    expect(page).to have_current_path(candidate_interface_course_choices_site_path(@course_with_multiple_sites.provider.code, @course_with_multiple_sites.code))
   end
 
   def then_i_should_see_the_candidate_interface_application_form
@@ -151,14 +145,14 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   end
 
   def and_i_should_be_informed_i_already_have_3_courses
-    expect(page).to have_content "You cannot have more than 3 course choices. You must delete a choice if you want to apply to #{@course_with_multiple_sites.name_and_code}"
+    expect(page).to have_content "You cannot have more than 3 course choices. You must delete a choice if you want to apply to #{@course.name_and_code}"
   end
 
   def when_i_sign_out
     click_link 'Sign out'
   end
 
-  def and_i_arrive_at_the_sign_up_page_with_the_same_course_params
+  def and_i_arrive_at_the_apply_from_find_page_with_the_same_course_params
     visit candidate_interface_sign_up_path providerCode: @course.provider.code, courseCode: @course.code
   end
 
