@@ -2,7 +2,7 @@
 
 # Decisions we’re waiting for
 
-We’re still waiting to hear back about your <%= 'provider'.pluralize(@decisions.size) %> for:
+We’re still waiting to hear back about your <%= 'application'.pluralize(@decisions.size) %> for:
 
 <% @decisions.each do |decision| %>
  - <%= decision.course_option.course.name_and_code %> at <%= decision.course_option.course.provider.name %>
