@@ -67,11 +67,11 @@ module CandidateInterface
     end
 
     def start_date
-      valid_or_invalid_start_date(start_date_year, start_date_month)
+      valid_or_invalid_date(start_date_year, start_date_month)
     end
 
     def end_date
-      valid_end_date_or_nil(end_date_year, end_date_month)
+      valid_date_or_nil(end_date_year, end_date_month)
     end
 
   private
