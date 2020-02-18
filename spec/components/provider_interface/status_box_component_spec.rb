@@ -4,7 +4,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
   it 'outputs a date for applications in the awaiting_provider_decision state' do
     application_choice = make_choice(status: 'awaiting_provider_decision', reject_by_default_at: Time.zone.now)
 
-    result = render_inline(described_class, application_choice: application_choice)
+    result = render_inline(described_class.new(application_choice: application_choice))
 
     expect(result.text).to include('Respond to the candidate by')
   end
@@ -12,7 +12,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
   it 'outputs a date for applications in the withdrawn state' do
     application_choice = make_choice(status: 'withdrawn', withdrawn_at: Time.zone.now)
 
-    result = render_inline(described_class, application_choice: application_choice)
+    result = render_inline(described_class.new(application_choice: application_choice))
 
     expect(result.text).to include('Application withdrawn')
   end
@@ -20,7 +20,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
   it 'outputs a date for applications in the offer state' do
     application_choice = make_choice(status: 'offer', decline_by_default_at: Time.zone.now)
 
-    result = render_inline(described_class, application_choice: application_choice)
+    result = render_inline(described_class.new(application_choice: application_choice))
 
     expect(result.text).to include('Candidate must respond by:')
   end
@@ -28,7 +28,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
   it 'outputs a date for applications in the rejected state' do
     application_choice = make_choice(status: 'rejected', rejected_at: Time.zone.now)
 
-    result = render_inline(described_class, application_choice: application_choice)
+    result = render_inline(described_class.new(application_choice: application_choice))
 
     expect(result.text).to include('Rejected on')
   end
@@ -36,7 +36,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
   it 'outputs a date for applications in the pending_conditions (offer accepted) state' do
     application_choice = make_choice(status: 'pending_conditions', accepted_at: Time.zone.now)
 
-    result = render_inline(described_class, application_choice: application_choice)
+    result = render_inline(described_class.new(application_choice: application_choice))
 
     expect(result.text).to include('Offer accepted:')
   end
@@ -44,7 +44,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
   it 'outputs a date for applications in the declined state' do
     application_choice = make_choice(status: 'declined', declined_at: Time.zone.now)
 
-    result = render_inline(described_class, application_choice: application_choice)
+    result = render_inline(described_class.new(application_choice: application_choice))
 
     expect(result.text).to include('Declined on:')
   end
@@ -52,7 +52,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
   it 'outputs a date for applications in the recruited state' do
     application_choice = make_choice(status: 'recruited', recruited_at: Time.zone.now)
 
-    result = render_inline(described_class, application_choice: application_choice)
+    result = render_inline(described_class.new(application_choice: application_choice))
 
     expect(result.text).to include('Recruited on:')
   end
@@ -60,7 +60,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
   it 'outputs a date for applications in the conditions_not_met state' do
     application_choice = make_choice(status: 'conditions_not_met', conditions_not_met_at: Time.zone.now)
 
-    result = render_inline(described_class, application_choice: application_choice)
+    result = render_inline(described_class.new(application_choice: application_choice))
 
     expect(result.text).to include('Conditions not met')
   end
@@ -69,7 +69,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
     now = Time.zone.now
     application_choice = make_choice(status: 'enrolled', enrolled_at: now)
 
-    result = render_inline(described_class, application_choice: application_choice)
+    result = render_inline(described_class.new(application_choice: application_choice))
 
     expect(result.text).to include('Enrolled on:')
     expect(result.text).to include(now.to_s(:govuk_date))
@@ -78,7 +78,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
   it 'handles nil `enrolled_at` date for applications in the enrolled_at state' do
     application_choice = make_choice(status: 'enrolled', enrolled_at: nil)
 
-    result = render_inline(described_class, application_choice: application_choice)
+    result = render_inline(described_class.new(application_choice: application_choice))
 
     expect(result.text).to include('Enrolled on:')
   end
@@ -86,7 +86,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
   it 'outputs a `Respond to application` button when the offer is in the `awaiting_provider_decision` state' do
     application_choice = make_choice(status: 'awaiting_provider_decision', reject_by_default_at: Time.zone.now)
 
-    result = render_inline(described_class, application_choice: application_choice)
+    result = render_inline(described_class.new(application_choice: application_choice))
 
     expect(result.css('.govuk-button')[0].text).to include('Respond to application')
   end
@@ -95,7 +95,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
     FeatureFlag.activate('provider_change_response')
     application_choice = make_choice(status: 'offer', decline_by_default_at: Time.zone.now)
 
-    result = render_inline(described_class, application_choice: application_choice)
+    result = render_inline(described_class.new(application_choice: application_choice))
 
     expect(result.css('.govuk-button')[0].text).to include('Change response')
   end

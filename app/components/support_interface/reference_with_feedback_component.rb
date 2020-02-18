@@ -32,9 +32,7 @@ module SupportInterface
     def status_row
       {
         key: 'Reference status',
-        value: render(TagComponent,
-                      text: t("reference_status.#{feedback_status}"),
-                      type: feedback_tag_color(feedback_status)),
+        value: render(TagComponent.new(text: t("reference_status.#{feedback_status}"), type: feedback_tag_color(feedback_status))),
       }
     end
 

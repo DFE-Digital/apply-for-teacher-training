@@ -14,10 +14,10 @@
     </ol>
   </div>
 
-  <%= render SubNavigationComponent, items: [
+  <%= render SubNavigationComponent.new(items: [
     { name: 'Support users', url: support_interface_support_users_path },
     { name: 'Provider users', url: support_interface_provider_users_path, current: true },
-  ] %>
+  ]) %>
 <% end %>
 
 <%= render(SupportInterface::ProviderUsersTableComponent.new(provider_users: @provider_users)) %>

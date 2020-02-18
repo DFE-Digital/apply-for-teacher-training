@@ -5,7 +5,7 @@ RSpec.describe SupportInterface::ProviderSyncCoursesToggleComponent do
     before do
       @provider = create :provider
       @rendered_component = render_inline(
-        SupportInterface::ProviderSyncCoursesToggleComponent, provider: @provider
+        SupportInterface::ProviderSyncCoursesToggleComponent.new(provider: @provider),
       )
     end
 
@@ -25,7 +25,7 @@ RSpec.describe SupportInterface::ProviderSyncCoursesToggleComponent do
     before do
       @provider = create :provider, sync_courses: true
       @rendered_component = render_inline(
-        SupportInterface::ProviderSyncCoursesToggleComponent, provider: @provider
+        SupportInterface::ProviderSyncCoursesToggleComponent.new(provider: @provider),
       )
     end
 

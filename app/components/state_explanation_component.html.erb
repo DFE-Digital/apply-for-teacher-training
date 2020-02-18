@@ -21,7 +21,7 @@
 
       <ul class="govuk-list">
       <% state.events.each do |_, events| %>
-        <%= render StateEventExplanationComponent, machine: machine, from_state: state_name, event: events.first, development_details: development_details %>
+        <%= render StateEventExplanationComponent.new(machine: machine, from_state: state_name, event: events.first, development_details: development_details) %>
       <% end %>
       </ul>
     <% else %>

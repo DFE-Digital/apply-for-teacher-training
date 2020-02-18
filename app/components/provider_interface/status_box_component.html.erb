@@ -1,6 +1,6 @@
 <div class="app-status-box">
   <h2 class="govuk-heading-m">Status</h2>
-  <%= render ProviderInterface::ApplicationStatusTagComponent, application_choice: application_choice %>
+  <%= render ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice) %>
 
   <dl class="app-definition-list govuk-!-margin-top-4">
     <dt>Application submitted:</dt>

@@ -17,11 +17,11 @@
   </div>
 <% end %>
 
-<%= render SupportInterface::ApplicationSummaryComponent, application_form: @application_form %>
+<%= render SupportInterface::ApplicationSummaryComponent.new(application_form: @application_form) %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8">Personal details</h2>
 
-<%= render PersonalDetailsComponent, application_form: @application_form %>
+<%= render PersonalDetailsComponent.new(application_form: @application_form) %>
 
 <% unless HostingEnvironment.production? %>
   <%= button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@application_form.candidate), class: 'govuk-button' %>
@@ -46,8 +46,8 @@
     <% rows << { key: 'Reject by default at', value: application_choice.reject_by_default_at.to_s(:govuk_date_and_time) } if application_choice.reject_by_default_at %>
     <% rows << { key: 'Decline by default at', value: application_choice.decline_by_default_at.to_s(:govuk_date_and_time) } if application_choice.decline_by_default_at %>
 
-    <%= render SummaryCardComponent, rows: rows  do %>
-      <%= render SummaryCardHeaderComponent, title: application_choice.course.name_and_code %>
+    <%= render SummaryCardComponent.new(rows: rows) do %>
+      <%= render SummaryCardHeaderComponent.new(title: application_choice.course.name_and_code) %>
     <% end %>
   <% end %>
 <% end %>
@@ -64,29 +64,29 @@
 
 <% if @application_form.application_references.any? %>
   <% @application_form.application_references.each_with_index do |reference, i| %>
-    <%= render SupportInterface::ReferenceWithFeedbackComponent, reference: reference, title: "#{(i + 1).ordinalize} reference #{reference.replacement? ? '(replacement)' : nil}" %>
+    <%= render SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, title: "#{(i + 1).ordinalize} reference #{reference.replacement? ? '(replacement)' : nil}") %>
   <% end %>
 <% end %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8" id="qualifications">Qualifications</h2>
 
-<%= render QualificationsComponent, application_form: @application_form %>
+<%= render QualificationsComponent.new(application_form: @application_form) %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8">Work history</h2>
 
-<%= render WorkHistoryReviewComponent, application_form: @application_form, editable: false, heading_level: 3 %>
+<%= render WorkHistoryReviewComponent.new(application_form: @application_form, editable: false, heading_level: 3) %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8">School experience and volunteering</h2>
 
-<%= render VolunteeringReviewComponent, application_form: @application_form, editable: false, heading_level: 3 %>
+<%= render VolunteeringReviewComponent.new(application_form: @application_form, editable: false, heading_level: 3) %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8">Language skills</h2>
 
-<%= render LanguageSkillsComponent, application_form: @application_form %>
+<%= render LanguageSkillsComponent.new(application_form: @application_form) %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8">Personal statement</h2>
 
-<%= render PersonalStatementComponent, application_form: @application_form %>
+<%= render PersonalStatementComponent.new(application_form: @application_form) %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8">Request feedback</h2>
 

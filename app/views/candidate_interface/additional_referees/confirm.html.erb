@@ -6,7 +6,7 @@
 </h1>
 
 <% @references.each_with_index do |reference, i| %>
-  <%= render SummaryCardComponent, editable: true, border: true, rows: [
+  <%= render SummaryCardComponent.new(editable: true, border: true, rows: [
       {
         key: 'Name',
         value: reference.name,
@@ -25,8 +25,8 @@
         action: "relationship for #{reference.name}",
         change_path: candidate_interface_edit_additional_referee_path(reference),
       },
-    ] do %>
-    <%= render SummaryCardHeaderComponent, title: reference.name %>
+    ]) do %>
+    <%= render SummaryCardHeaderComponent.new(title: reference.name) %>
   <% end %>
 <% end %>
 

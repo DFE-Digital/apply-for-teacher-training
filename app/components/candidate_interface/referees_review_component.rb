@@ -74,9 +74,10 @@ module CandidateInterface
 
     def feedback_status_label(reference)
       render(
-        TagComponent,
-        text: feedback_status_text(reference),
-        type: feedback_status_colour(reference),
+        TagComponent.new(
+          text: feedback_status_text(reference),
+          type: feedback_status_colour(reference),
+        ),
       )
     end
 

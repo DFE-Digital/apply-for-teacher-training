@@ -30,7 +30,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
   subject(:component) { described_class.new(audit: audit) }
 
   def render_result
-    @render_result ||= render_inline(described_class, audit: audit)
+    @render_result ||= render_inline(described_class.new(audit: audit))
   end
 
   it 'renders an update application form audit record' do

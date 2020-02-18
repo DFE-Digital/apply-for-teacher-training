@@ -6,7 +6,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
 
     it "renders component with correct values for a referee's name" do
       first_referee = application_form.application_references.first
-      result = render_inline(described_class, application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.app-summary-card__title').text).to include('First referee')
       expect(result.css('.govuk-summary-list__key').text).to include('Name')
@@ -15,7 +15,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
 
     it "renders component with correct values for a referee's email address" do
       first_referee = application_form.application_references.first
-      result = render_inline(described_class, application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Email address')
       expect(result.css('.govuk-summary-list__value').to_html).to include(first_referee.email_address)
@@ -23,7 +23,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
 
     it 'renders component with correct value for status for unrequested reference' do
       application_form.update_column(:submitted_at, nil)
-      result = render_inline(described_class, application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-summary-list__key').text).not_to include('Status')
     end
@@ -31,7 +31,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
     it 'renders component with correct value for status for given reference' do
       first_referee = application_form.application_references.first
       first_referee.update_column(:feedback_status, 'feedback_provided')
-      result = render_inline(described_class, application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-tag.app-tag.app-tag--green').to_html).to include('Reference given')
@@ -40,7 +40,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
     it 'renders component with correct value for status for declined reference' do
       first_referee = application_form.application_references.first
       first_referee.update_column(:feedback_status, 'feedback_refused')
-      result = render_inline(described_class, application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-tag.app-tag.app-tag--red').to_html).to include('Declined')
@@ -53,7 +53,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
         requested_at: 9.business_days.ago,
         created_at: 9.business_days.ago,
       )
-      result = render_inline(described_class, application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-tag.app-tag.app-tag--blue').to_html).to include('Awaiting response')
@@ -66,7 +66,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
         requested_at: 11.business_days.ago,
         created_at: 11.business_days.ago,
       )
-      result = render_inline(described_class, application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-tag.app-tag.app-tag--red').to_html).to include('Response overdue')
@@ -74,7 +74,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
 
     it 'renders component along with a delete link for each referee' do
       referee_id = application_form.application_references.first.id
-      result = render_inline(described_class, application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.referees.delete'))
       expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
@@ -84,7 +84,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
 
     it 'renders correct text for "Change" links in each attribute row' do
       first_referee = application_form.application_references.first
-      result = render_inline(described_class, application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
 
       change_name = result.css('.govuk-summary-list__actions')[0].text.strip
       change_email = result.css('.govuk-summary-list__actions')[1].text.strip
@@ -100,7 +100,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
     let(:application_form) { create(:completed_application_form, references_count: 1, with_gces: true) }
 
     it 'renders component without an edit link' do
-      result = render_inline(described_class, application_form: application_form, editable: false)
+      result = render_inline(described_class.new(application_form: application_form, editable: false))
 
       expect(result.css('.app-summary-list__actions').text).not_to include('Change')
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.referees.delete'))
@@ -111,7 +111,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
     it 'renders component with content about what happens with referee details provided' do
       application_form = build_stubbed(:application_form, submitted_at: nil)
 
-      result = render_inline(described_class, application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.text).to include(t('application_form.referees.info.before_submission'))
     end
@@ -121,7 +121,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
     it 'renders component with content about referees being contacted' do
       application_form = build_stubbed(:application_form, submitted_at: Time.zone.now)
 
-      result = render_inline(described_class, application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.text).to include(t('application_form.referees.info.after_submission'))
     end
