@@ -13,8 +13,8 @@ Contact <%= @application.provider_name %> directly if you have any questions abo
 <% if @application.offers.count > 1  %>
 
 You’ve received the following offers:
-<% @application.offers.each do |offer| %>
-  - <%= "#{offer.course.name_and_code} at #{offer.provider.name}"%>
+<% @application.offers.each do |offered_application_choice| %>
+  - <%= "#{offered_application_choice.course_option.course.name_and_code} at #{offered_application_choice.course_option.course.provider.name}"%>
 <% end %>
 
 If you don’t reply within <%= @application.dbd_days %> working days, your applications will be withdrawn.

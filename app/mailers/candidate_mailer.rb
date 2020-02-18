@@ -94,10 +94,15 @@ private
     decline_by_default_at = offers.map(&:decline_by_default_at).compact.max&.to_s(:govuk_date)
     dbd_days = offers.map(&:decline_by_default_days).max
 
+    # We can't use `through:` associations with FactoryBot's `build_stubbed`. Using
+    # the association directly instead allows us to use `build_stubbed` in tests
+    # and mailer previews.
+    course = application_choice.course_option.course
+
     @application = OpenStruct.new(
       application_choice: application_choice,
-      provider_name: application_choice.provider.name,
-      course_name: application_choice.course.name_and_code,
+      provider_name: course.provider.name,
+      course_name: course.name_and_code,
       rejection_reason: application_choice.rejection_reason,
       candidate_name: application_choice.application_form.first_name,
       choice_count: application_choice.application_form.application_choices.count,
@@ -111,8 +116,8 @@ private
       GENERIC_NOTIFY_TEMPLATE,
       to: application_choice.application_form.candidate.email_address,
       subject: t("application_choice_rejected_email.subject.#{template_name}",
-                 provider_name: application_choice.provider.name,
-                 course_name: application_choice.course.name_and_code,
+                 provider_name: course.provider.name,
+                 course_name: course.name_and_code,
                  dbd_days: dbd_days),
       template_path: 'candidate_mailer/application_rejected',
       template_name: template_name,
