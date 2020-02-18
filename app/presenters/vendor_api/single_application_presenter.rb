@@ -45,7 +45,7 @@ module VendorApi
           work_experience: {
             jobs: work_experience_jobs,
             volunteering: work_experience_volunteering,
-            work_history_break_explanation: application_form.work_history_breaks,
+            work_history_break_explanation: work_history_breaks,
           },
           offer: offer,
           rejection: get_rejection,
@@ -214,6 +214,25 @@ module VendorApi
         disability: '00',
         ethnicity: '10',
       }
+    end
+
+    def work_history_breaks
+      # With the new feature of adding individual work history breaks, `application_form.work_history_breaks`
+      # is a legacy column. So we'll need to check if an application form has this value first.
+      if application_form.work_history_breaks
+        application_form.work_history_breaks
+      elsif application_form.application_work_history_breaks.any?
+        breaks = application_form.application_work_history_breaks.map do |work_break|
+          start_date = work_break.start_date.to_s(:month_and_year)
+          end_date = work_break.end_date.to_s(:month_and_year)
+
+          "#{start_date} to #{end_date}: #{work_break.reason}"
+        end
+
+        breaks.join("\n\n")
+      else
+        ''
+      end
     end
   end
 end
