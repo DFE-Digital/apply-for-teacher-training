@@ -11,7 +11,7 @@ RSpec.describe QualificationRowComponent do
       grade: :upper_second,
     )
 
-    result = render_inline(described_class, qualification: qualification)
+    result = render_inline(described_class.new(qualification: qualification))
 
     expect(result.text).to include('BSc Psychology')
     expect(result.text).to include('2018')
@@ -29,7 +29,7 @@ RSpec.describe QualificationRowComponent do
       predicted_grade: true,
     )
 
-    result = render_inline(described_class, qualification: qualification)
+    result = render_inline(described_class.new(qualification: qualification))
 
     expect(result.text).to include('MEng Engineering')
     expect(result.text).to include('2020')
@@ -46,7 +46,7 @@ RSpec.describe QualificationRowComponent do
       grade: 'I did my best',
     )
 
-    result = render_inline(described_class, qualification: qualification)
+    result = render_inline(described_class.new(qualification: qualification))
 
     expect(result.text).to include('BSc Chemistry')
     expect(result.text).to include('2001')
@@ -64,7 +64,7 @@ RSpec.describe QualificationRowComponent do
       missing_explanation: 'I am taking the exam this summer',
     )
 
-    result = render_inline(described_class, qualification: qualification)
+    result = render_inline(described_class.new(qualification: qualification))
 
     expect(result.text).to include('GCSE Maths')
     expect(result.text).to include('I am taking the exam this summer')

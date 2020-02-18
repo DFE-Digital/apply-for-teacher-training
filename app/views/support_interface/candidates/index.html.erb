@@ -4,4 +4,4 @@
   You can view applications and their reference numbers in the <%= govuk_link_to 'applications list', support_interface_applications_path %>.
 </p>
 
-<%= render SupportInterface::CandidatesTableComponent, candidates: @candidates %>
+<%= render SupportInterface::CandidatesTableComponent.new(candidates: @candidates) %>

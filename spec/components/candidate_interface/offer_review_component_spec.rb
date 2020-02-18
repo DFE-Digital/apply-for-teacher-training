@@ -16,14 +16,14 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
   end
 
   it 'renders component with correct values for the provider' do
-    result = render_inline(described_class, course_choice: application_choice)
+    result = render_inline(described_class.new(course_choice: application_choice))
 
     expect(result.css('.govuk-summary-list__key').text).to include('Provider')
     expect(result.css('.govuk-summary-list__value').text).to include(course_option.course.provider.name)
   end
 
   it 'renders component with correct values for the course' do
-    result = render_inline(described_class, course_choice: application_choice)
+    result = render_inline(described_class.new(course_choice: application_choice))
 
     expect(result.css('.govuk-summary-list__key').text).to include('Course')
     expect(result.css('.govuk-summary-list__value').text).to include(
@@ -32,13 +32,13 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
   end
 
   it 'renders component with correct values for the location' do
-    result = render_inline(described_class, course_choice: application_choice)
+    result = render_inline(described_class.new(course_choice: application_choice))
 
     expect(result.css('.govuk-summary-list__value').text).to include(course_option.site.name)
   end
 
   it 'renders component with correct values for the conditions' do
-    result = render_inline(described_class, course_choice: application_choice)
+    result = render_inline(described_class.new(course_choice: application_choice))
 
     expect(result.css('.govuk-summary-list__key').text).to include('Conditions')
     expect(result.css('.govuk-summary-list__value').text).to include('Fitness to Teach')

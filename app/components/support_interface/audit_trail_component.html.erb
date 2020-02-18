@@ -8,7 +8,7 @@
 
   <tbody class="govuk-table__body">
     <% audits.each do |audit| %>
-      <%= render SupportInterface::AuditTrailItemComponent, audit: audit %>
+      <%= render SupportInterface::AuditTrailItemComponent.new(audit: audit) %>
     <% end %>
   </tbody>
 </table>

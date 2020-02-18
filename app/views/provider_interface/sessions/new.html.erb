@@ -10,7 +10,7 @@
 
     <p class="govuk-body-l">You must sign in to your account to manage teacher training applications.</p>
 
-    <%= render(DfESignInButtonComponent, bypass: DfESignIn.bypass?) %>
+    <%= render(DfESignInButtonComponent.new(bypass: DfESignIn.bypass?)) %>
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 

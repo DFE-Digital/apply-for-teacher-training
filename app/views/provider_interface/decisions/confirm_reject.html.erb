@@ -14,10 +14,10 @@
     <div class="govuk-grid-column-two-thirds">
       <%= f.govuk_error_summary %>
 
-      <%= render SummaryListComponent, rows: [
+      <%= render SummaryListComponent.new(rows: [
         key: 'Reasons for rejection',
         value: @reject_application.rejection_reason,
-      ] %>
+      ]) %>
     </div>
   </div>
 

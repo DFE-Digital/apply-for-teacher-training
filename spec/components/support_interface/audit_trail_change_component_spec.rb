@@ -3,10 +3,11 @@ require 'rails_helper'
 RSpec.describe SupportInterface::AuditTrailChangeComponent do
   def render_result(attribute: 'title', values: %w[old new])
     @render_result ||= render_inline(
-      described_class,
-      attribute: attribute,
-      values: values,
-      last_change: false,
+      described_class.new(
+        attribute: attribute,
+        values: values,
+        last_change: false,
+      ),
     )
   end
 

@@ -4,7 +4,7 @@
 
     <%= yield(:before_content) %>
     <main class="govuk-main-wrapper" id="main-content" role="main">
-      <%= render(FlashMessageComponent, flash: flash) %>
+      <%= render(FlashMessageComponent.new(flash: flash)) %>
       <%= content_for?(:content) ? yield(:content) : yield %>
     </main>
   </div>

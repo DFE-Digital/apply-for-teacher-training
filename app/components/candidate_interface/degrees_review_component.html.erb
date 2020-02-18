@@ -1,6 +1,6 @@
 <% @degrees.each do |degree| %>
-  <%= render(SummaryCardComponent, rows: degree_rows(degree), editable: @editable) do %>
-    <%= render(SummaryCardHeaderComponent, title: degree.title, heading_level: @heading_level) do %>
+  <%= render(SummaryCardComponent.new(rows: degree_rows(degree), editable: @editable)) do %>
+    <%= render(SummaryCardHeaderComponent.new(title: degree.title, heading_level: @heading_level)) do %>
       <% if @editable %>
         <div class="app-summary-card__actions">
           <%= link_to candidate_interface_confirm_degrees_destroy_path(degree.id), class: 'govuk-link' do %>
@@ -13,5 +13,5 @@
 <% end %>
 
 <% if show_missing_banner? %>
-  <%= render(SectionMissingBannerComponent, section: :degrees, section_path: candidate_interface_degrees_new_base_path, error: @missing_error) %>
+  <%= render(SectionMissingBannerComponent.new(section: :degrees, section_path: candidate_interface_degrees_new_base_path, error: @missing_error)) %>
 <% end %>

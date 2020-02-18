@@ -20,7 +20,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
       stub_application_dates_with_form_editable
       application_form = create_application_form_with_course_choices(statuses: %w[awaiting_references])
 
-      render_result = render_inline(described_class, application_form: application_form)
+      render_result = render_inline(described_class.new(application_form: application_form))
 
       expect(render_result.text).to include(t('application_complete.dashboard.edit_link'))
     end
@@ -31,7 +31,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
       stub_application_dates_with_form_uneditable
       application_form = create_application_form_with_course_choices(statuses: %w[awaiting_references])
 
-      render_result = render_inline(described_class, application_form: application_form)
+      render_result = render_inline(described_class.new(application_form: application_form))
 
       expect(render_result.text).not_to include(t('application_complete.dashboard.edit_link'))
     end
@@ -42,7 +42,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
       stub_application_dates_with_form_uneditable
       application_form = create_application_form_with_course_choices(statuses: %w[awaiting_provider_decision])
 
-      render_result = render_inline(described_class, application_form: application_form)
+      render_result = render_inline(described_class.new(application_form: application_form))
 
       expect(render_result.text).not_to include(t('application_complete.dashboard.edit_link'))
       expect(render_result.text).to include(t('application_complete.dashboard.providers_respond_by', date: '1 January 2020'))
@@ -54,7 +54,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
       stub_application_dates_with_form_uneditable
       application_form = create_application_form_with_course_choices(statuses: %w[offer awaiting_provider_decision])
 
-      render_result = render_inline(described_class, application_form: application_form)
+      render_result = render_inline(described_class.new(application_form: application_form))
 
       expect(render_result.text).to include(t('application_complete.dashboard.some_provider_decisions_made'))
       expect(render_result.text).to include(t('application_complete.dashboard.providers_respond_by', date: '1 January 2020'))
@@ -66,7 +66,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
       stub_application_dates_with_form_uneditable
       application_form = create_application_form_with_course_choices(statuses: %w[offer offer])
 
-      render_result = render_inline(described_class, application_form: application_form)
+      render_result = render_inline(described_class.new(application_form: application_form))
 
       expect(render_result.text).to include(t('application_complete.dashboard.all_provider_decisions_made'))
       expect(render_result.text).to include(t('application_complete.dashboard.candidate_respond_by', remaining_days: '14', date: '5 November 2019'))
@@ -76,7 +76,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
       stub_application_dates_with_form_uneditable
       application_form = create_application_form_with_course_choices(statuses: %w[offer rejected])
 
-      render_result = render_inline(described_class, application_form: application_form)
+      render_result = render_inline(described_class.new(application_form: application_form))
 
       expect(render_result.text).to include(t('application_complete.dashboard.all_provider_decisions_made'))
       expect(render_result.text).to include(t('application_complete.dashboard.candidate_respond_by', remaining_days: '14', date: '5 November 2019'))
@@ -86,7 +86,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
       application_form = create(:application_form)
       create(:application_choice, application_form: application_form, status: :withdrawn)
 
-      render_result = render_inline(described_class, application_form: application_form)
+      render_result = render_inline(described_class.new(application_form: application_form))
 
       expect(render_result.text).to include(t('application_complete.dashboard.all_withdrawn'))
     end
@@ -96,7 +96,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
       create(:application_choice, application_form: application_form, status: :withdrawn)
       create(:application_choice, application_form: application_form, status: :offer, decline_by_default_at: 1.day.from_now)
 
-      render_result = render_inline(described_class, application_form: application_form)
+      render_result = render_inline(described_class.new(application_form: application_form))
 
       expect(render_result.text).to include(t('application_complete.dashboard.all_provider_decisions_made'))
     end
@@ -105,7 +105,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
       application_form = create(:application_form)
       create(:application_choice, application_form: application_form, status: :rejected)
 
-      render_result = render_inline(described_class, application_form: application_form)
+      render_result = render_inline(described_class.new(application_form: application_form))
 
       expect(render_result.text).to include(t('application_complete.dashboard.all_provider_decisions_made'))
     end
@@ -116,7 +116,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
       stub_application_dates_with_form_uneditable
       application_form = create_application_form_with_course_choices(statuses: %w[pending_conditions declined])
 
-      render_result = render_inline(described_class, application_form: application_form)
+      render_result = render_inline(described_class.new(application_form: application_form))
 
       expect(render_result.text).to include(t('application_complete.dashboard.accepted_offer'))
     end
@@ -127,7 +127,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
       stub_application_dates_with_form_uneditable
       application_form = create_application_form_with_course_choices(statuses: %w[recruited declined])
 
-      render_result = render_inline(described_class, application_form: application_form)
+      render_result = render_inline(described_class.new(application_form: application_form))
 
       expect(render_result.text).to include(t('application_complete.dashboard.recruited'))
     end
@@ -138,7 +138,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
       stub_application_dates_with_form_uneditable
       application_form = create_application_form_with_course_choices(statuses: %w[enrolled declined])
 
-      render_result = render_inline(described_class, application_form: application_form)
+      render_result = render_inline(described_class.new(application_form: application_form))
 
       expect(render_result.text).to include(t('application_complete.dashboard.enrolled'))
     end

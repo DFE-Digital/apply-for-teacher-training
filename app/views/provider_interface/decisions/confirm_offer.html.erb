@@ -1,7 +1,7 @@
 <% content_for :title, t('page_titles.provider.confirm') %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_new_offer_path(@application_choice.id)) %>
 
-<%= render(FlashMessageComponent, flash: flash) %>
+<%= render(FlashMessageComponent.new(flash: flash)) %>
 
 <span class="govuk-caption-xl">
   Application for <%= @application_choice.course.name_and_code %>
@@ -28,10 +28,10 @@
         <% end %>
       <% end %>
 
-      <%= render SummaryListComponent, rows: [
+      <%= render SummaryListComponent.new(rows: [
         key: 'Conditions',
         value: conditions,
-      ] %>
+      ]) %>
 
       <p class="govuk-body govuk-!-font-weight-bold">
         Make a note of the conditions you have set.

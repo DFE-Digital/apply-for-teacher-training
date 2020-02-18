@@ -13,7 +13,7 @@ RSpec.describe BreakInWorkHistoryComponent do
   end
 
   it 'renders the component with the break in months, reason and dates' do
-    result = render_inline(BreakInWorkHistoryComponent, work_break: work_break)
+    result = render_inline(BreakInWorkHistoryComponent.new(work_break: work_break))
 
     expect(result.text).to include('Break in work history (1 month)')
     expect(result.text).to include('I feel asleep.')
@@ -22,13 +22,13 @@ RSpec.describe BreakInWorkHistoryComponent do
 
   context 'when editable' do
     it 'renders the component with a delete link' do
-      result = render_inline(BreakInWorkHistoryComponent, work_break: work_break, editable: true)
+      result = render_inline(BreakInWorkHistoryComponent.new(work_break: work_break, editable: true))
 
       expect(result.text).to include('Delete entry for break between February 2019 and April 2019')
     end
 
     it 'renders the component with change links' do
-      result = render_inline(BreakInWorkHistoryComponent, work_break: work_break, editable: true)
+      result = render_inline(BreakInWorkHistoryComponent.new(work_break: work_break, editable: true))
 
       expect(result.text).to include('Change description for break between February 2019 and April 2019')
       expect(result.text).to include('Change dates for break between February 2019 and April 2019')
@@ -37,13 +37,13 @@ RSpec.describe BreakInWorkHistoryComponent do
 
   context 'when not editable' do
     it 'renders the component without a delete link' do
-      result = render_inline(BreakInWorkHistoryComponent, work_break: work_break, editable: false)
+      result = render_inline(BreakInWorkHistoryComponent.new(work_break: work_break, editable: false))
 
       expect(result.text).not_to include('Delete entry for break between February 2019 and April 2019')
     end
 
     it 'renders the component without change links' do
-      result = render_inline(BreakInWorkHistoryComponent, work_break: work_break, editable: false)
+      result = render_inline(BreakInWorkHistoryComponent.new(work_break: work_break, editable: false))
 
       expect(result.text).not_to include('Change description for break between February 2019 and April 2019')
       expect(result.text).not_to include('Change dates for break between February 2019 and April 2019')

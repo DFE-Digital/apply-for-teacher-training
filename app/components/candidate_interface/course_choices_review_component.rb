@@ -75,7 +75,7 @@ module CandidateInterface
               end
       {
         key: 'Status',
-        value: render(TagComponent, text: status_row_value(course_choice), type: type),
+        value: render(TagComponent.new(text: status_row_value(course_choice), type: type)),
       }
     end
 

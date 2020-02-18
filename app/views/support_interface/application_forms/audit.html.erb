@@ -22,4 +22,4 @@
 
 <%= govuk_button_link_to 'Add comment', support_interface_application_form_new_comment_path %>
 
-<%= render SupportInterface::AuditTrailComponent, application_form: @application_form %>
+<%= render SupportInterface::AuditTrailComponent.new(application_form: @application_form) %>

@@ -1,5 +1,5 @@
 <div data-qa="reference">
-  <%= render SummaryCardComponent, rows: rows do %>
-    <%= render(SummaryCardHeaderComponent, title: @title) %>
+  <%= render SummaryCardComponent.new(rows: rows) do %>
+    <%= render(SummaryCardHeaderComponent.new(title: @title)) %>
   <% end %>
 </div>

@@ -10,7 +10,7 @@
       </div>
       <dl class="govuk-summary-list govuk-!-margin-bottom-0 govuk-!-font-size-16">
         <% changes.each_with_index do |(attr, values), index| %>
-          <%= render SupportInterface::AuditTrailChangeComponent, attribute: attr, values: values, last_change: index + 1 == changes.size %>
+          <%= render SupportInterface::AuditTrailChangeComponent.new(attribute: attr, values: values, last_change: index + 1 == changes.size) %>
         <% end %>
       </dl>
     </div>

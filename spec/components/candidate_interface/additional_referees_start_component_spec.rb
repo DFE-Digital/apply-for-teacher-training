@@ -10,7 +10,7 @@ RSpec.describe CandidateInterface::AdditionalRefereesStartComponent do
 
     it 'has a page content that requests one new referee' do
       create(:reference, :email_bounced, application_form: application_form)
-      result = render_inline(described_class, application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-heading-xl').text).to include('You need to add a new referee')
       expect(result.css('.govuk-button').text).to include('Add a new referee')
@@ -19,14 +19,14 @@ RSpec.describe CandidateInterface::AdditionalRefereesStartComponent do
 
     it 'gives a reason when email bounced' do
       bounced_referee = create(:reference, :email_bounced, application_form: application_form)
-      result = render_inline(described_class, application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-body').text).to include("Our email requesting a reference didn’t reach #{bounced_referee.name}.")
     end
 
     it 'gives a reason when referee refused to give feedback' do
       refused_referee = create(:reference, :refused, application_form: application_form)
-      result = render_inline(described_class, application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-body').text).to include("#{refused_referee.name} said they won’t give a reference.")
     end
@@ -34,7 +34,7 @@ RSpec.describe CandidateInterface::AdditionalRefereesStartComponent do
     it 'gives a reason when the feedback is overdue' do
       late_referee = create(:reference, :requested, application_form: application_form)
       late_referee.update!(requested_at: Time.zone.now - 30.days)
-      result = render_inline(described_class, application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-body').text).to include("#{late_referee.name} did not respond to our request.")
     end
@@ -43,7 +43,7 @@ RSpec.describe CandidateInterface::AdditionalRefereesStartComponent do
       create(:reference, :email_bounced, application_form: application_form)
       first_referee = application_form.application_references.first
 
-      result = render_inline(described_class, application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
       expect(result.css('.govuk-body').text).not_to include(first_referee.name.to_s)
     end
   end
@@ -56,7 +56,7 @@ RSpec.describe CandidateInterface::AdditionalRefereesStartComponent do
     end
 
     it 'has a page content that requests new referees' do
-      result = render_inline(described_class, application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-heading-xl').text).to include('You need to add 2 new referees')
       expect(result.css('.govuk-button').text).to include('Add new referees')
@@ -67,7 +67,7 @@ RSpec.describe CandidateInterface::AdditionalRefereesStartComponent do
       first_referee = application_form.application_references.first
       second_referee = application_form.application_references.second
       third_referee = application_form.application_references.third
-      result = render_inline(described_class, application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-body').text).to include('Your referees have not given us a reference:')
       expect(result.css('.govuk-body').text).to include("Our email requesting a reference didn’t reach #{first_referee.name}")

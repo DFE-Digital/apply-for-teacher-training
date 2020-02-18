@@ -5,6 +5,6 @@
   <%= t('page_titles.personal_details') %>
 </h1>
 
-<%= render(SummaryCardComponent, rows: @personal_details_review.rows) %>
+<%= render(SummaryCardComponent.new(rows: @personal_details_review.rows)) %>
 
 <%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>

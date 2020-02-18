@@ -1,10 +1,10 @@
 <%= content_for :title, 'Candidate application flow' %>
 
 <% content_for :before_content do %>
-  <%= render SubNavigationComponent, items: [
+  <%= render SubNavigationComponent.new(items: [
     { name: 'Provider application flow', url: support_interface_provider_flow_path },
     { name: 'Candidate application flow', url: support_interface_candidate_flow_path, current: true },
-  ] %>
+  ]) %>
 <% end %>
 
 <p class="govuk-body">
@@ -23,6 +23,6 @@
 </details>
 
 <% ProcessState.workflow_spec.states.each do |_, state| %>
-  <%= render StateExplanationComponent, state: state, machine: ProcessState, development_details: true %>
+  <%= render StateExplanationComponent.new(state: state, machine: ProcessState, development_details: true) %>
   <hr class='govuk-section-break govuk-section-break--xl govuk-section-break--visible'>
 <% end %>

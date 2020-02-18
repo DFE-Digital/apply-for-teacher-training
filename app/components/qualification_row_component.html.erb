@@ -1,5 +1,5 @@
 <tr class="govuk-table__row">
-  <td class="govuk-table__cell"><%= render QualificationTitleComponent, qualification: qualification %></td>
+  <td class="govuk-table__cell"><%= render QualificationTitleComponent.new(qualification: qualification) %></td>
   <% if qualification.missing_qualification? %>
     <td colspan="2" class="govuk-table__cell"><%= qualification.missing_explanation %></td>
   <% else %>

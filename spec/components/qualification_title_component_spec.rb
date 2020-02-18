@@ -9,7 +9,7 @@ RSpec.describe QualificationTitleComponent do
       subject: 'Psychology',
     )
 
-    result = render_inline(described_class, qualification: qualification)
+    result = render_inline(described_class.new(qualification: qualification))
 
     expect(result.text).to include('BSc Psychology')
   end
@@ -22,7 +22,7 @@ RSpec.describe QualificationTitleComponent do
       subject: 'english',
     )
 
-    result = render_inline(described_class, qualification: qualification)
+    result = render_inline(described_class.new(qualification: qualification))
 
     expect(result.text).to include('GCSE English')
   end
@@ -35,7 +35,7 @@ RSpec.describe QualificationTitleComponent do
       subject: 'maths',
     )
 
-    result = render_inline(described_class, qualification: qualification)
+    result = render_inline(described_class.new(qualification: qualification))
 
     expect(result.text).to include('Other UK Maths')
   end

@@ -20,7 +20,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render PersonalDetailsComponent, application_form: @application_choice.application_form %>
+    <%= render PersonalDetailsComponent.new(application_form: @application_choice.application_form) %>
 
     <% unless HostingEnvironment.production? %>
       <div class="app-status-box app-status-box--sandbox app-!-print-display-none">
@@ -38,48 +38,48 @@
 
     <h2 class="govuk-heading-l govuk-!-margin-top-8" id="course-info">Course</h2>
 
-    <%= render SummaryListComponent, rows: [
+    <%= render SummaryListComponent.new(rows: [
       { key: 'Provider', value: @application_choice.provider.name_and_code },
       { key: 'Course', value: @application_choice.course.name_and_code },
       { key: 'Cycle', value: @application_choice.course.recruitment_cycle_year },
       { key: 'Preferred location', value: @application_choice.site.name_and_code },
       { key: 'Study mode', value: @application_choice.course_option.study_mode.humanize },
-    ] %>
+    ]) %>
 
     <h2 class="govuk-heading-l govuk-!-margin-top-8" id="qualifications">Qualifications</h2>
 
-    <%= render QualificationsComponent, application_form: @application_choice.application_form %>
+    <%= render QualificationsComponent.new(application_form: @application_choice.application_form) %>
 
     <h2 class="govuk-heading-l govuk-!-margin-top-8" id="work-history">Work history</h2>
 
     <div data-qa="work-history">
-      <%= render WorkHistoryReviewComponent, application_form: @application_choice.application_form, editable: false, heading_level: 3 %>
+      <%= render WorkHistoryReviewComponent.new(application_form: @application_choice.application_form, editable: false, heading_level: 3) %>
     </div>
 
     <h2 class="govuk-heading-l govuk-!-margin-top-8" id="volunteering">School experience and volunteering</h2>
 
     <div data-qa="volunteering">
-      <%= render VolunteeringReviewComponent, application_form: @application_choice.application_form, editable: false, heading_level: 3 %>
+      <%= render VolunteeringReviewComponent.new(application_form: @application_choice.application_form, editable: false, heading_level: 3) %>
     </div>
 
     <h2 class="govuk-heading-l govuk-!-margin-top-8" id="language-skills">Language skills</h2>
 
-    <%= render LanguageSkillsComponent, application_form: @application_choice.application_form %>
+    <%= render LanguageSkillsComponent.new(application_form: @application_choice.application_form) %>
 
     <h2 class="govuk-heading-l govuk-!-margin-top-8" id="personal-statement">Personal statement</h2>
 
-    <%= render PersonalStatementComponent, application_form: @application_choice.application_form %>
+    <%= render PersonalStatementComponent.new(application_form: @application_choice.application_form) %>
 
     <% if @application_choice.application_form.application_references.any? %>
       <% @application_choice.application_form.application_references.each_with_index do |reference, i| %>
         <h2 class="govuk-heading-l govuk-!-margin-top-8"><%= "#{(i + 1).ordinalize} reference" %></h2>
-        <%= render ProviderInterface::ReferenceWithFeedbackComponent, reference: reference %>
+        <%= render ProviderInterface::ReferenceWithFeedbackComponent.new(reference: reference) %>
       <% end %>
     <% end %>
   </div>
 
   <div class="govuk-grid-column-one-third">
-    <%= render ProviderInterface::StatusBoxComponent, application_choice: @application_choice %>
+    <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice) %>
 
   </div>
 </div>

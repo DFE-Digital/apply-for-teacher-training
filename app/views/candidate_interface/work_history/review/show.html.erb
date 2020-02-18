@@ -5,7 +5,7 @@
   <%= t('page_titles.work_history') %>
 </h1>
 
-<%= render(WorkHistoryReviewComponent, application_form: @application_form) %>
+<%= render(WorkHistoryReviewComponent.new(application_form: @application_form)) %>
 
 <% if @application_form.application_work_experiences.any? %>
   <%= govuk_button_link_to 'Add another job', candidate_interface_work_history_new_path, class: 'govuk-button--secondary' %>

@@ -8,7 +8,7 @@ RSpec.describe LanguageSkillsComponent do
       other_language_details: 'Details about other languages spoken',
     )
 
-    result = render_inline(described_class, application_form: application_form)
+    result = render_inline(described_class.new(application_form: application_form))
 
     expect(result.css('.govuk-summary-list__key').text).to include('Is English your main language?')
     expect(result.css('.govuk-summary-list__value').text).to include('Yes')
@@ -24,7 +24,7 @@ RSpec.describe LanguageSkillsComponent do
       english_language_details: 'Details about my English skills',
     )
 
-    result = render_inline(described_class, application_form: application_form)
+    result = render_inline(described_class.new(application_form: application_form))
 
     expect(result.css('.govuk-summary-list__key').text).to include('Is English your main language?')
     expect(result.css('.govuk-summary-list__value').text).to include('No')
@@ -40,7 +40,7 @@ RSpec.describe LanguageSkillsComponent do
       other_language_details: '',
     )
 
-    result = render_inline(described_class, application_form: application_form)
+    result = render_inline(described_class.new(application_form: application_form))
     expect(result.css('.govuk-summary-list__value').text).to include('No details given')
   end
 
@@ -51,7 +51,7 @@ RSpec.describe LanguageSkillsComponent do
       english_language_details: '',
     )
 
-    result = render_inline(described_class, application_form: application_form)
+    result = render_inline(described_class.new(application_form: application_form))
     expect(result.css('.govuk-summary-list__value').text).to include('No details given')
   end
 end

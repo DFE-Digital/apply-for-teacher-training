@@ -8,7 +8,7 @@ RSpec.describe SummaryListComponent do
       action: 'Name',
       change_path: '/some/url',
     ]
-    result = render_inline(SummaryListComponent, rows: rows)
+    result = render_inline(SummaryListComponent.new(rows: rows))
 
     expect(result.css('.govuk-summary-list__key').text).to include('Name:')
     expect(result.css('.govuk-summary-list__value').text).to include('Lando Calrissian')
@@ -23,7 +23,7 @@ RSpec.describe SummaryListComponent do
       action: 'Name',
       change_path: '/some/url',
     ]
-    result = render_inline(SummaryListComponent, rows: rows)
+    result = render_inline(SummaryListComponent.new(rows: rows))
 
     expect(result.css('.govuk-summary-list__value').to_html).to include('Whoa Drive<br>Wewvile<br>London')
   end
@@ -35,7 +35,7 @@ RSpec.describe SummaryListComponent do
       action: 'Enter cat sounds',
       action_path: '/cat/sounds',
     ]
-    result = render_inline(SummaryListComponent, rows: rows)
+    result = render_inline(SummaryListComponent.new(rows: rows))
 
     expect(result.css('.govuk-summary-list__key').text).to include('Please enter the sound a cat makes')
     expect(result.css('.govuk-summary-list__value').text).to include('Meow')
@@ -49,7 +49,7 @@ RSpec.describe SummaryListComponent do
       value: '<span class="safe-html">This is safe</span>'.html_safe,
     ]
 
-    result = render_inline(SummaryListComponent, rows: rows)
+    result = render_inline(SummaryListComponent.new(rows: rows))
     expect(result.css('.govuk-summary-list__value > .safe-html').text).to include('This is safe')
   end
 
@@ -59,7 +59,7 @@ RSpec.describe SummaryListComponent do
       value: '<span class="unsafe-html"><script>Unsafe</script></span>',
     ]
 
-    result = render_inline(SummaryListComponent, rows: rows)
+    result = render_inline(SummaryListComponent.new(rows: rows))
     expect(result.css('.govuk-summary-list__value p').to_html).to eq('<p class="govuk-body">Unsafe</p>')
   end
 end

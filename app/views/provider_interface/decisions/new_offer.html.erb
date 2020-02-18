@@ -1,7 +1,7 @@
 <% content_for :browser_title, 'Conditions of offer' %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_respond_path(@application_choice.id)) %>
 
-<%= render(FlashMessageComponent, flash: flash) %>
+<%= render(FlashMessageComponent.new(flash: flash)) %>
 
 <%= form_with model: @application_offer, url: provider_interface_application_choice_confirm_offer_path(@application_choice.id), method: :post do |f| %>
   <%= f.govuk_error_summary %>
@@ -13,12 +13,12 @@
     Conditions of offer
   </h1>
 
-  <%= render SummaryListComponent, rows: [
+  <%= render SummaryListComponent.new(rows: [
     { key: 'Full name', value: @application_choice.application_form.full_name },
     { key: 'Course', value: @application_choice.course.name_and_code },
     { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
     { key: 'Preferred location', value: @application_choice.site.name },
-  ] %>
+  ]) %>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
