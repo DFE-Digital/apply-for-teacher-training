@@ -20,6 +20,9 @@ class TimeLimitConfig
     replace_referee_by: [
       Rule.new(nil, nil, 10),
     ],
+    chase_candidate_before_dbd: [
+      Rule.new(nil, nil, 5),
+    ],
   }.freeze
 
   def self.limits_for(rule)

@@ -41,6 +41,23 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.new_referee_request(reference, reason: :email_bounced)
   end
 
+  def chase_candidate_decision_with_one_offer
+    application_form = application_form_with_course_choices([application_choice_with_offer])
+
+    CandidateMailer.chase_candidate_decision(application_form)
+  end
+
+  def chase_candidate_decision_with_multiple_offers
+    application_choices =
+      [
+      application_choice_with_offer,
+      application_choice_with_offer,
+      application_choice_with_offer,
+      ]
+    application_form = application_form_with_course_choices(application_choices)
+    CandidateMailer.chase_candidate_decision(application_form)
+  end
+
   def new_offer_single_offer
     course_option = FactoryBot.build_stubbed(:course_option)
     application_choice = application_form.application_choices.build(
@@ -161,5 +178,23 @@ private
 
   def reference
     FactoryBot.build_stubbed(:reference, application_form: application_form)
+  end
+
+  def application_form_with_course_choices(course_choices)
+    FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Tyrell',
+      last_name: 'Wellick',
+      application_choices: course_choices,
+    )
+  end
+
+  def application_choice_with_offer
+    course = FactoryBot.build_stubbed(:course)
+    course_option = FactoryBot.build_stubbed(:course_option, course: course)
+
+    FactoryBot.build_stubbed(:application_choice, :with_offer,
+                             course_option: course_option,
+                             decline_by_default_at: Time.zone.now)
   end
 end

@@ -35,6 +35,7 @@ RSpec.feature 'Docs' do
       candidate_mailer-chase_reference
       candidate_mailer-survey_chaser_email
       candidate_mailer-survey_email
+      candidate_mailer-chase_candidate_decision
       provider_mailer-account_created
       provider_mailer-chase_provider_decision
       referee_mailer-reference_request_chaser_email
