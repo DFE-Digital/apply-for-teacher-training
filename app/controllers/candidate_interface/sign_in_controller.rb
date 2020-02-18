@@ -96,7 +96,7 @@ module CandidateInterface
     def expired
       raise unless FeatureFlag.active?('improved_expired_token_flow')
 
-      if params.fetch(:u).blank?
+      if params[:u].blank?
         redirect_to candidate_interface_sign_in_path
         return
       end
