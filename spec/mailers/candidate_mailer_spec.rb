@@ -606,14 +606,14 @@ RSpec.describe CandidateMailer, type: :mailer do
       let(:application_form) { create(:completed_application_form) }
 
       before do
-        create(:submitted_application_choice, :with_offer,
-               course_option: course_option_for_provider_code(provider_code: 'ABC'),
-               decline_by_default_at: Time.zone.now,
-               application_form: application_form)
-        create(:submitted_application_choice, :with_offer,
-               course_option: course_option_for_provider_code(provider_code: 'DEF'),
-               decline_by_default_at: Time.zone.now,
-               application_form: application_form)
+        @first_offer = create(:submitted_application_choice, :with_offer,
+                              course_option: course_option_for_provider_code(provider_code: 'ABC'),
+                              decline_by_default_at: Time.zone.now,
+                              application_form: application_form)
+        @second_offer = create(:submitted_application_choice, :with_offer,
+                               course_option: course_option_for_provider_code(provider_code: 'DEF'),
+                               decline_by_default_at: Time.zone.now,
+                               application_form: application_form)
         create(:submitted_application_choice, :awaiting_provider_decision,
                course_option: course_option_for_provider_code(provider_code: 'GHI'),
                decline_by_default_at: Time.zone.now,
@@ -627,10 +627,10 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
 
       it 'includes each course names and provider names' do
-        expect(@mail.body.encoded).to include(application_form.application_choices.first.course.name)
-        expect(@mail.body.encoded).to include(application_form.application_choices.first.provider.name)
-        expect(@mail.body.encoded).to include(application_form.application_choices.second.course.name)
-        expect(@mail.body.encoded).to include(application_form.application_choices.second.provider.name)
+        expect(@mail.body.encoded).to include(@first_offer.course.name)
+        expect(@mail.body.encoded).to include(@first_offer.provider.name)
+        expect(@mail.body.encoded).to include(@second_offer.course.name)
+        expect(@mail.body.encoded).to include(@second_offer.provider.name)
       end
     end
   end
