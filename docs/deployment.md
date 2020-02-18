@@ -48,11 +48,8 @@ Do whatever it takes to test what you've just deployed. Be sure to keep an eye o
 
 ## 6. Test on production
 
-Wait until the deploy finishes and, if necessary, test on production.
-
-[Check the Production monitoring dashboard in
-Azure](https://portal.azure.com/#@platform.education.gov.uk/dashboard/arm/subscriptions/67722207-6a10-4c7d-b4bc-c72caa76ef12/resourceGroups/s106p01-apply/providers/Microsoft.Portal/dashboards/s106p01-apply-dashboard)
-before declaring the deploy finished.
+Wait until the deploy finishes and run through the [post-deployment
+checklist](deployment_checklist.md) before declaring the deploy finished.
 
 ## 7. Move deploy cards to done
 
