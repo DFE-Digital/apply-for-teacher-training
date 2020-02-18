@@ -34,26 +34,6 @@ module CandidateInterface
       end
     end
 
-    def create_expired
-      if params[:u] && FeatureFlag.active?('improved_expired_token_flow')
-        begin
-          candidate_id = Encryptor.decrypt(params[:u])
-          @candidate = Candidate.find(candidate_id)
-        rescue ActiveSupport::MessageEncryptor::InvalidMessage
-          redirect_to candidate_interface_sign_in_path
-          return
-        end
-      end
-
-      if @candidate&.persisted?
-        MagicLinkSignIn.call(candidate: @candidate)
-        add_identity_to_log @candidate.id
-        redirect_to candidate_interface_check_email_sign_in_path
-      else
-        render :new
-      end
-    end
-
     def authenticate
       candidate = FindCandidateByToken.call(raw_token: params[:token])
 
@@ -106,6 +86,26 @@ module CandidateInterface
         @candidate = Candidate.find(candidate_id)
       rescue ActiveSupport::MessageEncryptor::InvalidMessage
         redirect_to candidate_interface_sign_in_path
+      end
+    end
+
+    def create_from_expired_token
+      if params[:u] && FeatureFlag.active?('improved_expired_token_flow')
+        begin
+          candidate_id = Encryptor.decrypt(params[:u])
+          @candidate = Candidate.find(candidate_id)
+        rescue ActiveSupport::MessageEncryptor::InvalidMessage
+          redirect_to candidate_interface_sign_in_path
+          return
+        end
+      end
+
+      if @candidate.persisted?
+        MagicLinkSignIn.call(candidate: @candidate)
+        add_identity_to_log @candidate.id
+        redirect_to candidate_interface_check_email_sign_in_path
+      else
+        render :new
       end
     end
 
