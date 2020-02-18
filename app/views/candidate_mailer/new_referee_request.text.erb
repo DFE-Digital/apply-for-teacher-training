@@ -1,8 +1,8 @@
-Dear <%= @candidate_name %>,
+Dear <%= @application_form.first_name %>,
 
 # Give details of a new referee
 
-<%= t("new_referee_request.#{@reason}.explanation", referee_name: @referee.name, referee_email: @referee.email_address) %>
+<%= t("candidate_mailer.new_referee_request.#{@reason}.explanation", referee_name: @reference.name, referee_email: @reference.email_address) %>
 
 <% if FeatureFlag.active?('show_new_referee_needed') %>
 Please add a new referee:

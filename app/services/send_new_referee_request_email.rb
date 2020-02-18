@@ -1,6 +1,6 @@
 class SendNewRefereeRequestEmail
   def self.call(application_form:, reference:, reason: :not_responded)
-    CandidateMailer.new_referee_request(application_form, reference, reason: reason).deliver
+    CandidateMailer.new_referee_request(reference, reason: reason).deliver
 
     ChaserSent.create!(chaser_type: :reference_replacement, chased: reference)
 

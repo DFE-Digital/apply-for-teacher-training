@@ -121,24 +121,26 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
   end
 
-  describe 'Send request for new referee email' do
-    let(:reference) { build_stubbed(:reference, name: 'Scott Knowles') }
-    let(:application_form) do
+  describe '.new_referee_request' do
+    let(:reference) do
       build_stubbed(
-        :application_form,
-        first_name: 'Tyrell',
-        last_name: 'Wellick',
-        application_references: [reference],
+        :reference,
+        name: 'Scott Knowles',
+        application_form: build_stubbed(
+          :application_form,
+          first_name: 'Tyrell',
+          last_name: 'Wellick',
+        ),
       )
     end
 
     context 'when referee has not responded' do
-      let(:mail) { mailer.new_referee_request(application_form, reference) }
+      let(:mail) { mailer.new_referee_request(reference, reason: :not_responded) }
 
       before { mail.deliver_later }
 
       it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(t('new_referee_request.not_responded.subject', referee_name: 'Scott Knowles'))
+        expect(mail.subject).to include(t('candidate_mailer.new_referee_request.not_responded.subject', referee_name: 'Scott Knowles'))
       end
 
       it 'sends an email with the correct heading' do
@@ -148,17 +150,17 @@ RSpec.describe CandidateMailer, type: :mailer do
       it 'sends an email saying referee has not responded' do
         explanation = mail.body.encoded.gsub("\r", '')
 
-        expect(explanation).to include(t('new_referee_request.not_responded.explanation', referee_name: 'Scott Knowles'))
+        expect(explanation).to include(t('candidate_mailer.new_referee_request.not_responded.explanation', referee_name: 'Scott Knowles'))
       end
     end
 
     context 'when referee has refused' do
-      let(:mail) { mailer.new_referee_request(application_form, reference, reason: :refused) }
+      let(:mail) { mailer.new_referee_request(reference, reason: :refused) }
 
       before { mail.deliver_later }
 
       it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(t('new_referee_request.refused.subject', referee_name: 'Scott Knowles'))
+        expect(mail.subject).to include(t('candidate_mailer.new_referee_request.refused.subject', referee_name: 'Scott Knowles'))
       end
 
       it 'sends an email with the correct heading' do
@@ -168,17 +170,17 @@ RSpec.describe CandidateMailer, type: :mailer do
       it 'sends an email saying referee has refused' do
         explanation = mail.body.encoded.gsub("\r", '')
 
-        expect(explanation).to include(t('new_referee_request.refused.explanation', referee_name: 'Scott Knowles'))
+        expect(explanation).to include(t('candidate_mailer.new_referee_request.refused.explanation', referee_name: 'Scott Knowles'))
       end
     end
 
     context 'when email address of referee has bounced' do
-      let(:mail) { mailer.new_referee_request(application_form, reference, reason: :email_bounced) }
+      let(:mail) { mailer.new_referee_request(reference, reason: :email_bounced) }
 
       before { mail.deliver_later }
 
       it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(t('new_referee_request.email_bounced.subject', referee_name: 'Scott Knowles'))
+        expect(mail.subject).to include(t('candidate_mailer.new_referee_request.email_bounced.subject', referee_name: 'Scott Knowles'))
       end
 
       it 'sends an email with the correct heading' do
@@ -188,7 +190,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       it 'sends an email saying referee email bounced' do
         explanation = mail.body.encoded.gsub("\r", '')
 
-        expect(explanation).to include(t('new_referee_request.email_bounced.explanation', referee_name: 'Scott Knowles', referee_email: reference.email_address))
+        expect(explanation).to include(t('candidate_mailer.new_referee_request.email_bounced.explanation', referee_name: 'Scott Knowles', referee_email: reference.email_address))
       end
     end
   end

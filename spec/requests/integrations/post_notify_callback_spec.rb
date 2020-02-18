@@ -130,6 +130,6 @@ RSpec.describe 'Notify Callback - POST /integrations/notify/callback', type: :re
     candidate_email = application_form.candidate.email_address
     open_email(candidate_email)
 
-    expect(current_email.subject).to end_with(t('new_referee_request.email_bounced.subject', referee_name: reference.name))
+    expect(current_email.subject).to end_with(t('candidate_mailer.new_referee_request.email_bounced.subject', referee_name: reference.name))
   end
 end

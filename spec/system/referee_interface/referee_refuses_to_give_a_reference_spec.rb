@@ -56,7 +56,7 @@ RSpec.feature 'Refusing to give a reference', sidekiq: true do
   def then_an_email_is_sent_to_the_candidate
     open_email(@application.candidate.email_address)
 
-    expect(current_email.subject).to have_content(t('new_referee_request.refused.subject', referee_name: 'Terri Tudor'))
+    expect(current_email.subject).to have_content(t('candidate_mailer.new_referee_request.refused.subject', referee_name: 'Terri Tudor'))
   end
 
   def and_i_should_see_the_thank_you_page
