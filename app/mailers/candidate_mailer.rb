@@ -81,11 +81,8 @@ class CandidateMailer < ApplicationMailer
 
   def reference_received(reference)
     @reference = reference
-    @candidate_name = reference.application_form.first_name
 
-    view_mail(GENERIC_NOTIFY_TEMPLATE,
-              to: reference.application_form.candidate.email_address,
-              subject: I18n.t!('candidate_mailer.reference_received.subject'))
+    email_for_candidate(reference.application_form)
   end
 
 private
