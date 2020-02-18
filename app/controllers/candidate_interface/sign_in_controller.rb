@@ -26,16 +26,26 @@ module CandidateInterface
     end
 
     def create
-      @candidate = Candidate.for_email candidate_params[:email_address]
+      if params[:u] && FeatureFlag.active?('improved_expired_token_flow')
+        begin
+          candidate_id = Encryptor.decrypt(params[:u])
+          @candidate = Candidate.find(candidate_id)
+        rescue ActiveSupport::MessageEncryptor::InvalidMessage
+          redirect_to candidate_interface_sign_in_path && return
+        end
+      else
+        @candidate = Candidate.for_email candidate_params[:email_address]
+      end
 
-      if @candidate.persisted?
+      if @candidate&.persisted?
         MagicLinkSignIn.call(candidate: @candidate)
         add_identity_to_log @candidate.id
         redirect_to candidate_interface_check_email_sign_in_path
-      elsif @candidate.valid?
+      elsif @candidate&.valid?
         AuthenticationMailer.sign_in_without_account_email(to: @candidate.email_address).deliver_now
         redirect_to candidate_interface_check_email_sign_in_path
       else
+        @candidate = Candidate.new
         render :new
       end
     end

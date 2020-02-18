@@ -10,7 +10,7 @@
         Sign in links only work for one hour, so you need to request a new one. We'll send this by email.
       </p>
 
-      <%= f.hidden_field :email_address %>
+      <%= hidden_field_tag :u, params[:u] %>
 
       <%= f.govuk_submit t('authentication.expired_token.button') %>
     <% end %>
