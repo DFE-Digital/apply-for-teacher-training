@@ -81,6 +81,7 @@ RSpec.describe Clockwork do
     { worker: SendChaseEmailToRefereesWorker, task: 'SendChaseEmailToReferees' },
     { worker: SendChaseEmailToProvidersWorker, task: 'SendChaseEmailToProviders' },
     { worker: AskCandidatesForNewRefereesWorker, task: 'AskCandidatesForNewReferees' },
+    { worker: SendChaseEmailToCandidatesWorker, task: 'SendChaseEmailToCandidates' },
   ].each do |worker|
     describe 'worker schedule' do
       it 'runs the job every hour' do
