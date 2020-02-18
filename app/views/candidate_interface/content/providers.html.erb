@@ -1,22 +1,42 @@
 <% content_for :title, t('page_titles.providers') %>
 
-<h1 class='govuk-heading-xl'>
+<h1 class="govuk-heading-xl">
   <%= t('page_titles.providers') %>
 </h1>
 
-<div class='govuk-grid-row'>
-  <div class='govuk-grid-column-two-thirds'>
-    <div class='govuk-body'>
-      You can apply to the following training providers and courses using <%= govuk_link_to service_name, candidate_interface_start_path %>.
-    </div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">You can apply to a limited number of training providers and courses using <%= govuk_link_to service_name, candidate_interface_start_path %>. Providers not signed up to <%= service_name %> can only receive applications through UCAS.</p>
+    <h2 class="govuk-heading-s">We suggest you use Apply for teacher training if:</h2>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>you want to try out a new, streamlined service with personalised support</li>
+      <li>all the providers on your shortlist are signed up to Apply for teacher training</li>
+    </ul>
+    <h2 class="govuk-heading-s">We suggest you use UCAS if:</h2>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>you’ve already started applying through UCAS</li>
+      <li>some of your preferred providers aren’t signed up for Apply for teacher training and you’d rather not go through different systems</li>
+    </ul>
+
+    <hr class="govuk-section-break govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    <p class="govuk-body">You can apply to the following training providers and courses using <%= service_name %>:</p>
 
     <% @courses_by_provider.each do |provider_name, courses| %>
-      <h2 class='govuk-heading-m govuk-!-margin-bottom-2'><%= provider_name %></h2>
-      <ul class='govuk-list govuk-list--bullet'>
-        <% courses.sort_by(&:name).each do |course| %>
-          <li><%= govuk_link_to course.name_and_code, candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code) %></li>
-        <% end %>
-      </ul>
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-2"><%= provider_name %></h2>
+      <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            View courses<span class="govuk-visually-hidden"> offered by <%= provider_name %></span>
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          <ul class="govuk-list govuk-list--bullet">
+            <% courses.sort_by(&:name).each do |course| %>
+              <li><%= govuk_link_to course.name_and_code, candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code) %></li>
+            <% end %>
+          </ul>
+        </div>
+      </details>
     <% end %>
   </div>
 </div>
