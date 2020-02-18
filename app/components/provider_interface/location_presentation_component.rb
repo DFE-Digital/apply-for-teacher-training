@@ -6,9 +6,17 @@ module ProviderInterface
       @application_choice = application_choice
     end
 
+    def course_option
+      application_choice.offered_course_option || application_choice.course_option
+    end
+
+    def site
+      course_option.site
+    end
+
     def site_address_or_name
-      address = application_choice.site.full_address
-      address.presence || application_choice.site.name
+      address = site.full_address
+      address.presence || site.name
     end
   end
 end

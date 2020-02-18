@@ -22,9 +22,8 @@
 <% else %>
   <% components_url = '/rails/components' if request.path.match(/^\/rails\/components/) %>
   <% components_name = 'ActionView::Component Previews' if request.path.match(/^\/rails\/components/) %>
-  <%= render(HeaderComponent.new(
-             classes: "app-header--#{HostingEnvironment.environment_name}",
-             service_name: components_name || try(:service_name),
-             service_url: components_url || try(:service_url),
-             navigation_items: [])) %>
+  <%= render(HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
+                                 service_name: components_name || try(:service_name),
+                                 service_url: components_url || try(:service_url),
+                                 navigation_items: [])) %>
 <% end %>
