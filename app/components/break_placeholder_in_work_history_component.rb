@@ -10,4 +10,15 @@ class BreakPlaceholderInWorkHistoryComponent < ActionView::Component::Base
   def between_formatted_dates
     "between #{@work_break.start_date.to_s(:month_and_year)} and #{@work_break.end_date.to_s(:month_and_year)}"
   end
+
+  def break_length
+    if @work_break.length <= 12
+      pluralize(@work_break.length, 'month')
+    else
+      years = @work_break.length / 12
+      months = @work_break.length % 12
+
+      "#{pluralize(years, 'year')} and #{pluralize(months, 'month')}"
+    end
+  end
 end
