@@ -30,15 +30,15 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def new_referee_request_with_not_responded
-    CandidateMailer.new_referee_request(application_form, reference, reason: :not_responded)
+    CandidateMailer.new_referee_request(reference, reason: :not_responded)
   end
 
   def new_referee_request_with_refused
-    CandidateMailer.new_referee_request(application_form, reference, reason: :refused)
+    CandidateMailer.new_referee_request(reference, reason: :refused)
   end
 
   def new_referee_request_with_email_bounced
-    CandidateMailer.new_referee_request(application_form, reference, reason: :email_bounced)
+    CandidateMailer.new_referee_request(reference, reason: :email_bounced)
   end
 
   def new_offer_single_offer

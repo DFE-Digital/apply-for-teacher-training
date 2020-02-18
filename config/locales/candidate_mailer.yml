@@ -8,3 +8,18 @@ en:
       subject: Your application is being considered
     chase_reference:
       subject: "%{referee_name} hasn’t given a reference yet"
+    new_referee_request:
+      not_responded:
+        subject: "Give details of a new referee: %{referee_name} hasn’t responded"
+        explanation: |-
+          We haven’t had a reference from %{referee_name}.
+      refused:
+        subject: "%{referee_name} won’t give a reference"
+        explanation: |-
+          %{referee_name} said they won’t give a reference.
+      email_bounced:
+        subject: "Our email didn’t reach %{referee_name}"
+        explanation: |-
+          Our email requesting a reference didn’t reach %{referee_name}.
+
+          We emailed the referee using this address: %{referee_email}

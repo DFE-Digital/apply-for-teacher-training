@@ -44,15 +44,14 @@ class CandidateMailer < ApplicationMailer
               template_name: 'chaser')
   end
 
-  def new_referee_request(application_form, reference, reason: :not_responded)
-    @candidate = application_form.candidate
-    @candidate_name = application_form.first_name
-    @referee = reference
+  def new_referee_request(reference, reason:)
+    @reference = reference
     @reason = reason
 
-    view_mail(GENERIC_NOTIFY_TEMPLATE,
-              to: application_form.candidate.email_address,
-              subject: t("new_referee_request.#{@reason}.subject", referee_name: @referee.name))
+    email_for_candidate(
+      reference.application_form,
+      subject: I18n.t!("candidate_mailer.new_referee_request.#{@reason}.subject", referee_name: @reference.name),
+    )
   end
 
   def application_rejected_all_rejected(application_choice)
