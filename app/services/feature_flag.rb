@@ -16,6 +16,7 @@ class FeatureFlag
     automated_referee_replacement
     candidate_rejected_by_provider_email
     notify_candidate_of_new_reference
+    automated_candidate_chaser
   ].freeze
 
   def self.activate(feature_name)
