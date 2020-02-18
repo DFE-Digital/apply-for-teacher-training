@@ -5,13 +5,7 @@ module CandidateInterface
 
     def new
       if FeatureFlag.active?('improved_expired_token_flow') && params[:u]
-        begin
-          Encryptor.decrypt(params[:u])
-
-          redirect_to candidate_interface_expired_sign_in_path(u: params[:u])
-        rescue ActiveSupport::MessageEncryptor::InvalidMessage
-          redirect_to candidate_interface_sign_in_path
-        end
+        redirect_to candidate_interface_expired_sign_in_path(u: params[:u])
       else
         @candidate = Candidate.new
       end
@@ -26,16 +20,7 @@ module CandidateInterface
     end
 
     def create
-      if params[:u] && FeatureFlag.active?('improved_expired_token_flow')
-        begin
-          candidate_id = Encryptor.decrypt(params[:u])
-          @candidate = Candidate.find(candidate_id)
-        rescue ActiveSupport::MessageEncryptor::InvalidMessage
-          redirect_to candidate_interface_sign_in_path && return
-        end
-      end
-
-      @candidate ||= Candidate.for_email candidate_params[:email_address]
+      @candidate = Candidate.for_email candidate_params[:email_address]
 
       if @candidate.persisted?
         MagicLinkSignIn.call(candidate: @candidate)
@@ -43,6 +28,26 @@ module CandidateInterface
         redirect_to candidate_interface_check_email_sign_in_path
       elsif @candidate.valid?
         AuthenticationMailer.sign_in_without_account_email(to: @candidate.email_address).deliver_now
+        redirect_to candidate_interface_check_email_sign_in_path
+      else
+        render :new
+      end
+    end
+
+    def create_expired
+      if params[:u] && FeatureFlag.active?('improved_expired_token_flow')
+        begin
+          candidate_id = Encryptor.decrypt(params[:u])
+          @candidate = Candidate.find(candidate_id)
+        rescue ActiveSupport::MessageEncryptor::InvalidMessage
+          redirect_to candidate_interface_sign_in_path
+          return
+        end
+      end
+
+      if @candidate&.persisted?
+        MagicLinkSignIn.call(candidate: @candidate)
+        add_identity_to_log @candidate.id
         redirect_to candidate_interface_check_email_sign_in_path
       else
         render :new
@@ -91,7 +96,7 @@ module CandidateInterface
     def expired
       raise unless FeatureFlag.active?('improved_expired_token_flow')
 
-      if params[:u].blank?
+      if params.fetch(:u).blank?
         redirect_to candidate_interface_sign_in_path
         return
       end

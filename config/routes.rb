@@ -33,6 +33,7 @@ Rails.application.routes.draw do
 
     get '/sign-in', to: 'sign_in#new', as: :sign_in
     post '/sign-in', to: 'sign_in#create'
+    post '/sign-in/expired', to: 'sign_in#create_expired', as: :create_expired_sign_in
     get '/sign-in/check-email', to: 'sign_in#check_your_email', as: :check_email_sign_in
     get '/sign-in/expired', to: 'sign_in#expired', as: :expired_sign_in
 
