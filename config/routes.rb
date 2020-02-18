@@ -324,6 +324,7 @@ Rails.application.routes.draw do
   namespace :integrations, path: '/integrations' do
     post '/notify/callback' => 'notify#callback'
     get '/feature-flags' => 'feature_flags#index'
+    get '/performance-dashboard' => 'performance_dashboard#dashboard', as: :performance
   end
 
   namespace :support_interface, path: '/support' do
