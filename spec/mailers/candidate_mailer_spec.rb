@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe CandidateMailer, type: :mailer do
+  include CourseOptionHelpers
+  include ViewHelper
+
   subject(:mailer) { described_class }
 
   describe '.application_submitted' do
@@ -550,6 +553,84 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it 'sends an email with the BAT email address' do
         expect(mail.body.encoded).to include(t('application_choice_rejected_email.bat.url'))
+      end
+    end
+  end
+
+  describe 'Candidate decision chaser email' do
+    context 'when a candidate has one appication choice with offer' do
+      let(:application_choice) do
+        create(:submitted_application_choice, :with_offer,
+               course_option: course_option_for_provider_code(provider_code: 'ABC'),
+               decline_by_default_at: Time.zone.now,
+               application_form:
+                 create(
+                   :completed_application_form,
+                ))
+      end
+
+      before do
+        @mail = mailer.chase_candidate_decision(application_choice.application_form)
+      end
+
+      it 'sends an email with the correct subject' do
+        expect(@mail.subject).to include(I18n.t!('chase_candidate_decision_email.subject_singular'))
+      end
+
+      it 'includes the number of business days left to respond' do
+        expect(@mail.body.encoded).to include("#{TimeLimitConfig.limits_for(:chase_candidate_before_dbd).first.limit} working days")
+      end
+
+      it 'sends an email with the correct heading' do
+        first_name = application_choice.application_form.first_name
+        expect(@mail.body.encoded).to include("Dear #{first_name}")
+      end
+
+      it 'sends an email with the dbd date' do
+        dbd_date = application_choice.decline_by_default_at.to_s(:govuk_date).strip
+        expect(@mail.body.encoded).to include(dbd_date)
+      end
+
+      it 'includes course name and provider name' do
+        expect(@mail.body.encoded).to include(application_choice.course.name)
+        expect(@mail.body.encoded).to include(application_choice.provider.name)
+      end
+
+      it 'has a sign in url link' do
+        candidate = application_choice.application_form.candidate
+        expect(@mail.body.encoded).to include(candidate_sign_in_url(candidate))
+      end
+    end
+
+    context 'when a candidate has multiple application choices with offer' do
+      let(:application_form) { create(:completed_application_form) }
+
+      before do
+        create(:submitted_application_choice, :with_offer,
+               course_option: course_option_for_provider_code(provider_code: 'ABC'),
+               decline_by_default_at: Time.zone.now,
+               application_form: application_form)
+        create(:submitted_application_choice, :with_offer,
+               course_option: course_option_for_provider_code(provider_code: 'DEF'),
+               decline_by_default_at: Time.zone.now,
+               application_form: application_form)
+        create(:submitted_application_choice, :awaiting_provider_decision,
+               course_option: course_option_for_provider_code(provider_code: 'GHI'),
+               decline_by_default_at: Time.zone.now,
+               application_form: application_form)
+
+        @mail = mailer.chase_candidate_decision(application_form)
+      end
+
+      it 'sends an email with the correct pluralised subject' do
+        expect(@mail.subject).to include(I18n.t!('chase_candidate_decision_email.subject_plural'))
+      end
+
+      it 'includes each course names and provider names' do
+        expect(@mail.body.encoded).to include(application_form.application_choices.first.course.name)
+        expect(@mail.body.encoded).to include(application_form.application_choices.first.provider.name)
+        expect(@mail.body.encoded).to include(application_form.application_choices.second.course.name)
+        expect(@mail.body.encoded).to include(application_form.application_choices.second.provider.name)
       end
     end
   end

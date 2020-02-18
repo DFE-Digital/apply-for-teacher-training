@@ -1,0 +1,28 @@
+Dear <%= @application_form.first_name %>
+
+# Respond within <%= TimeLimitConfig.limits_for(:chase_candidate_before_dbd).first.limit %> working days
+
+<% if @application_choices.count > 1 %>
+
+  Respond to your teacher training applications by <%= @dbd_date %>, otherwise they will be withdrawn.
+
+  # Offers you’ve received
+  <% @application_choices.each do |choice| %>
+   - <%= choice.course.name %> at <%= choice.provider.name %>
+  <% end %>
+
+<% else%>
+
+  You have until <%= @dbd_date %> to respond to your offer to study <%= @application_choices.first.course.name %> at <%= @application_choices.first.provider.name %>.
+
+  If you don’t respond by <%= @dbd_date %>, your application will be withdrawn.
+
+<% end %>
+
+Sign in to your account to respond:
+
+<%= candidate_sign_in_url(@application_form.candidate) %>
+
+# Give feedback or report a problem
+
+Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
