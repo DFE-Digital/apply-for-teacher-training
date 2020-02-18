@@ -5,10 +5,12 @@ module ProviderInterface
       @sort_by = params[:sort_by].presence || 'last-updated'
       @filter_visible = params['filter_visible'] ||= 'true'
 
+      @filter_options = filter_options
+
       application_choices = GetApplicationChoicesForProviders.call(providers: current_provider_user.providers)
         .order(ordering_arguments(@sort_by, @sort_order))
 
-      @application_choices = application_choices
+      @application_choices = application_choices.where(status: @filter_options)
     end
 
     def show
@@ -25,5 +27,15 @@ module ProviderInterface
         'name' => { 'last_name' => sort_order, 'first_name' => sort_order },
       }[sort_by]
     end
+
+    def filter_options
+      if params.fetch('filter', false)
+
+        params['filter']['status'].keys
+      else
+        %W(accepted conditions_met declined awaiting_provider_decision offer rejected withdrawn offer_withdrawn)
+      end
+    end
+
   end
 end

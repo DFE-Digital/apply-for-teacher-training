@@ -17,6 +17,5 @@ module ProviderInterface
     def toggle_button_text
       @filter_visible.eql?('true') ? 'Hide filter' : 'Show filter'
     end
-
   end
 end

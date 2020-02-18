@@ -4,8 +4,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-
-  scenario 'can show and hide filters' do
+  scenario 'can filter applications by status' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
     and_my_organisation_has_courses_with_applications
@@ -21,16 +20,6 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     when_i_show_the_filter_dialogue
     then_i_expect_to_see_the_filter_dialogue
-
-  end
-
-  scenario 'can filter applications by status' do
-    given_i_am_a_provider_user_with_dfe_sign_in
-    and_i_am_permitted_to_see_applications_for_my_provider
-    and_my_organisation_has_courses_with_applications
-    and_i_sign_in_to_the_provider_interface
-
-    when_i_visit_the_provider_page
 
     and_filter_for_rejected_applications
 
@@ -62,7 +51,7 @@ RSpec.feature 'Providers should be able to filter applications' do
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_two, status: 'offer', application_form:
            create(:application_form, first_name: 'Adam', last_name: 'Jones'), updated_at: 2.days.ago)
 
-    create(:application_choice, :awaiting_provider_decision, course_option: course_option_two, status: 'offer', application_form:
+    create(:application_choice, :awaiting_provider_decision, course_option: course_option_two, status: 'rejected', application_form:
            create(:application_form, first_name: 'Tom', last_name: 'Jones'), updated_at: 2.days.ago)
 
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_three, status: 'declined', application_form:
@@ -74,7 +63,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_i_expect_to_see_the_filter_dialogue
-    expect(page).to have_content('Apply filters')
+    expect(page).to have_submit_button('Apply filters')
   end
 
   def when_i_hide_the_filter_dialogue
@@ -82,10 +71,24 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_i_do_not_expect_to_see_the_filter_dialogue
-    expect(page).not_to have_content('Apply filters')
+    expect(page).not_to have_submit_button('Apply filters')
   end
 
   def when_i_show_the_filter_dialogue
     click_link('Show filter')
   end
+
+
+  def and_filter_for_rejected_applications
+    find(:css, "#status-rejected").set(true)
+    click_button('Apply filters')
+  end
+
+  def then_only_rejected_applications_should_be_visible
+    expect(page).to have_css('.govuk-table__body', text: 'Rejected')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Offer')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Withdrawn')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Declined')
+  end
+
 end

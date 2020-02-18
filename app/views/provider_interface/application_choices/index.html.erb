@@ -6,7 +6,7 @@
       <%= render ProviderInterface::ToggleFilterComponent, sort_order: @sort_order, current_sort_by: @sort_by, filter_visible: @filter_visible %>
 
       <% if @filter_visible.eql?('true') %>
-        <%= render ProviderInterface::FilterComponent, "" %>
+        <%= render ProviderInterface::FilterComponent, sort_order: @sort_order, current_sort_by: @sort_by %>
       <% end %>
 
       <table class='govuk-table'>
