@@ -200,6 +200,17 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
     end
   end
 
+  describe 'attributes.candidate.nationality' do
+    it 'compacts two nationalities with the same ISO value' do
+      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'Welsh', second_nationality: 'Scottish')
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorApi::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :nationality)).to eq %w(GB)
+    end
+  end
+
   describe '#as_json' do
     context 'given a relation that includes application_qualifications' do
       let(:application_choice) do
