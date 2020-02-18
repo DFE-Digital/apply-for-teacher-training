@@ -14,7 +14,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
 
     it 'sends an email with the correct subject' do
-      expect(mail.subject).to include(t('candidate_mailer.application_submitted.subject'))
+      expect(mail.subject).to include(I18n.t!('candidate_mailer.application_submitted.subject'))
     end
 
     it 'sends an email with the correct heading' do
@@ -65,7 +65,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     before { mail.deliver_later }
 
     it 'sends an email with the correct subject' do
-      expect(mail.subject).to include(t('candidate_mailer.chase_reference.subject', referee_name: reference.name))
+      expect(mail.subject).to include(I18n.t!('candidate_mailer.chase_reference.subject', referee_name: reference.name))
     end
 
     it 'sends an email with the correct heading' do
@@ -140,7 +140,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       before { mail.deliver_later }
 
       it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(t('candidate_mailer.new_referee_request.not_responded.subject', referee_name: 'Scott Knowles'))
+        expect(mail.subject).to include(I18n.t!('candidate_mailer.new_referee_request.not_responded.subject', referee_name: 'Scott Knowles'))
       end
 
       it 'sends an email with the correct heading' do
@@ -150,7 +150,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       it 'sends an email saying referee has not responded' do
         explanation = mail.body.encoded.gsub("\r", '')
 
-        expect(explanation).to include(t('candidate_mailer.new_referee_request.not_responded.explanation', referee_name: 'Scott Knowles'))
+        expect(explanation).to include(I18n.t!('candidate_mailer.new_referee_request.not_responded.explanation', referee_name: 'Scott Knowles'))
       end
     end
 
@@ -160,7 +160,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       before { mail.deliver_later }
 
       it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(t('candidate_mailer.new_referee_request.refused.subject', referee_name: 'Scott Knowles'))
+        expect(mail.subject).to include(I18n.t!('candidate_mailer.new_referee_request.refused.subject', referee_name: 'Scott Knowles'))
       end
 
       it 'sends an email with the correct heading' do
@@ -170,7 +170,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       it 'sends an email saying referee has refused' do
         explanation = mail.body.encoded.gsub("\r", '')
 
-        expect(explanation).to include(t('candidate_mailer.new_referee_request.refused.explanation', referee_name: 'Scott Knowles'))
+        expect(explanation).to include(I18n.t!('candidate_mailer.new_referee_request.refused.explanation', referee_name: 'Scott Knowles'))
       end
     end
 
@@ -180,7 +180,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       before { mail.deliver_later }
 
       it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(t('candidate_mailer.new_referee_request.email_bounced.subject', referee_name: 'Scott Knowles'))
+        expect(mail.subject).to include(I18n.t!('candidate_mailer.new_referee_request.email_bounced.subject', referee_name: 'Scott Knowles'))
       end
 
       it 'sends an email with the correct heading' do
@@ -190,7 +190,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       it 'sends an email saying referee email bounced' do
         explanation = mail.body.encoded.gsub("\r", '')
 
-        expect(explanation).to include(t('candidate_mailer.new_referee_request.email_bounced.explanation', referee_name: 'Scott Knowles', referee_email: reference.email_address))
+        expect(explanation).to include(I18n.t!('candidate_mailer.new_referee_request.email_bounced.explanation', referee_name: 'Scott Knowles', referee_email: reference.email_address))
       end
     end
   end
@@ -390,7 +390,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
 
       it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(t('application_choice_rejected_email.subject.all_rejected', provider_name: @provider.name))
+        expect(mail.subject).to include(I18n.t!('candidate_mailer.application_rejected.all_rejected.subject', provider_name: @provider.name))
       end
 
       it 'sends an email with the correct course name and code' do
@@ -399,18 +399,6 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it 'sends an email with the providers rejection reason' do
         expect(mail.body.encoded).to include(@application_choice.rejection_reason)
-      end
-
-      it 'sends an email with a link to GIT' do
-        expect(mail.body.encoded).to include(t('application_choice_rejected_email.git.url'))
-      end
-
-      it 'sends an email with GITs phone number' do
-        expect(mail.body.encoded).to include(t('application_choice_rejected_email.git.phone_number'))
-      end
-
-      it 'sends an email with the BAT email address' do
-        expect(mail.body.encoded).to include(t('application_choice_rejected_email.bat.url'))
       end
     end
 
@@ -425,9 +413,9 @@ RSpec.describe CandidateMailer, type: :mailer do
 
 
       it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(t('application_choice_rejected_email.subject.awaiting_decisions',
-                                          provider_name: @provider.name,
-                                          course_name: @course.name_and_code))
+        expect(mail.subject).to include(I18n.t!('candidate_mailer.application_rejected.awaiting_decisions.subject',
+                                                provider_name: @provider.name,
+                                                course_name: @course.name_and_code))
       end
 
       it 'sends an email with the correct heading' do
@@ -445,10 +433,6 @@ RSpec.describe CandidateMailer, type: :mailer do
       it 'sends an emails informing the candidate which providers they are awaiting decisions on' do
         expect(mail.body.encoded).to include(@application_choice2.provider.name)
       end
-
-      it 'sends an email with the BAT email address' do
-        expect(mail.body.encoded).to include(t('application_choice_rejected_email.bat.url'))
-      end
     end
 
     context 'Application rejected and one offer has been made' do
@@ -465,9 +449,9 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
 
       it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(t('application_choice_rejected_email.subject.offers_made',
-                                          provider_name: @provider.name,
-                                          dbd_days: @application_choice2.decline_by_default_days))
+        expect(mail.subject).to include(I18n.t!('candidate_mailer.application_rejected.offers_made.subject',
+                                                provider_name: @provider.name,
+                                                dbd_days: @application_choice2.decline_by_default_days))
       end
 
       it 'sends an email with the correct heading' do
@@ -488,10 +472,6 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it 'sends an emails informing the candidate of their DBD date' do
         expect(mail.body.encoded).to include('Make a decision about your offer by 25 February 2020')
-      end
-
-      it 'sends an email with the BAT email address' do
-        expect(mail.body.encoded).to include(t('application_choice_rejected_email.bat.url'))
       end
     end
 
@@ -515,9 +495,9 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
 
       it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(t('application_choice_rejected_email.subject.offers_made',
-                                          provider_name: @provider.name,
-                                          dbd_days: @application_choice2.decline_by_default_days))
+        expect(mail.subject).to include(I18n.t!('candidate_mailer.application_rejected.offers_made.subject',
+                                                provider_name: @provider.name,
+                                                dbd_days: @application_choice2.decline_by_default_days))
       end
 
       it 'sends an email with the correct heading' do
@@ -546,10 +526,6 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it 'sends an emails informing the candidate of their DBD date' do
         expect(mail.body.encoded).to include('Make a decision about your offers by 25 February 2020')
-      end
-
-      it 'sends an email with the BAT email address' do
-        expect(mail.body.encoded).to include(t('application_choice_rejected_email.bat.url'))
       end
     end
   end

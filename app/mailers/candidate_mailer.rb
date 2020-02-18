@@ -55,15 +55,71 @@ class CandidateMailer < ApplicationMailer
   end
 
   def application_rejected_all_rejected(application_choice)
-    application_rejected(application_choice, :all_rejected)
+    course = application_choice.course_option.course
+
+    @intro = OpenStruct.new(
+      provider_name: course.provider.name,
+      course_name: course.name_and_code,
+      rejection_reason: application_choice.rejection_reason,
+    )
+
+    email_for_candidate(
+      application_choice.application_form,
+      subject: I18n.t!('candidate_mailer.application_rejected.all_rejected.subject', provider_name: course.provider.name),
+    )
   end
 
   def application_rejected_awaiting_decisions(application_choice)
-    application_rejected(application_choice, :awaiting_decisions)
+    @decisions = application_choice.application_form.application_choices.awaiting_provider_decision
+
+    # We can't use `through:` associations with FactoryBot's `build_stubbed`. Using
+    # the association directly instead allows us to use `build_stubbed` in tests
+    # and mailer previews.
+    course = application_choice.course_option.course
+
+    @intro = OpenStruct.new(
+      provider_name: course.provider.name,
+      course_name: course.name_and_code,
+      rejection_reason: application_choice.rejection_reason,
+    )
+
+    email_for_candidate(
+      application_choice.application_form,
+      subject: I18n.t!('candidate_mailer.application_rejected.awaiting_decisions.subject',
+                       provider_name: course.provider.name,
+                       course_name: course.name_and_code),
+      )
   end
 
   def application_rejected_offers_made(application_choice)
-    application_rejected(application_choice, :offers_made)
+    offers = application_choice.application_form.application_choices.offer
+    decline_by_default_at = offers.map(&:decline_by_default_at).compact.max&.to_s(:govuk_date)
+    dbd_days = offers.map(&:decline_by_default_days).max
+
+    # We can't use `through:` associations with FactoryBot's `build_stubbed`. Using
+    # the association directly instead allows us to use `build_stubbed` in tests
+    # and mailer previews.
+    course = application_choice.course_option.course
+
+    @application = OpenStruct.new(
+      application_choice: application_choice,
+      decline_by_default_at: decline_by_default_at,
+      offers: offers,
+      dbd_days: dbd_days,
+    )
+
+    @intro = OpenStruct.new(
+      provider_name: course.provider.name,
+      course_name: course.name_and_code,
+      rejection_reason: application_choice.rejection_reason,
+    )
+
+    email_for_candidate(
+      application_choice.application_form,
+      subject: I18n.t!('candidate_mailer.application_rejected.offers_made.subject',
+                       provider_name: course.provider.name,
+                       dbd_days: dbd_days),
+      )
   end
 
   def new_offer_single_offer(application_choice)
@@ -85,39 +141,6 @@ class CandidateMailer < ApplicationMailer
   end
 
 private
-
-  def application_rejected(application_choice, template_name)
-    decisions = application_choice.application_form.application_choices.select(&:awaiting_provider_decision?).map do |decision|
-      "#{decision.course_option.course.name_and_code} at #{decision.course_option.course.provider.name}"
-    end
-    offers = application_choice.application_form.application_choices.select(&:offer?)
-    decline_by_default_at = offers.map(&:decline_by_default_at).compact.max&.to_s(:govuk_date)
-    dbd_days = offers.map(&:decline_by_default_days).max
-
-    @application = OpenStruct.new(
-      application_choice: application_choice,
-      provider_name: application_choice.provider.name,
-      course_name: application_choice.course.name_and_code,
-      rejection_reason: application_choice.rejection_reason,
-      candidate_name: application_choice.application_form.first_name,
-      choice_count: application_choice.application_form.application_choices.count,
-      decisions: decisions,
-      decline_by_default_at: decline_by_default_at,
-      offers: offers,
-      dbd_days: dbd_days,
-    )
-
-    view_mail(
-      GENERIC_NOTIFY_TEMPLATE,
-      to: application_choice.application_form.candidate.email_address,
-      subject: t("application_choice_rejected_email.subject.#{template_name}",
-                 provider_name: application_choice.provider.name,
-                 course_name: application_choice.course.name_and_code,
-                 dbd_days: dbd_days),
-      template_path: 'candidate_mailer/application_rejected',
-      template_name: template_name,
-      )
-  end
 
   def new_offer(application_choice, template_name)
     @application_choice = application_choice

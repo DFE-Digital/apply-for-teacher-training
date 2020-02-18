@@ -1,0 +1,13 @@
+<%= render 'application_rejected_intro' %>
+
+# Decisions we’re waiting for
+
+We’re still waiting to hear back about your <%= 'application'.pluralize(@decisions.size) %> for:
+
+<% @decisions.each do |decision| %>
+ - <%= decision.course_option.course.name_and_code %> at <%= decision.course_option.course.provider.name %>
+<% end %>
+
+# Give feedback or report a problem
+
+Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)

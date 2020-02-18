@@ -74,19 +74,19 @@ RSpec.feature 'Receives rejection email' do
   def then_i_receive_the_all_applications_rejected_email
     open_email(@application_form.candidate.email_address)
 
-    expect(current_email.subject).to include(t('application_choice_rejected_email.subject.all_rejected', provider_name: @application_choice.provider.name))
+    expect(current_email.subject).to include(I18n.t!('candidate_mailer.application_rejected.all_rejected.subject', provider_name: @application_choice.provider.name))
   end
 
   def then_i_receive_the_application_rejected_awaiting_decisions_email
     open_email(@application_form.candidate.email_address)
 
-    expect(current_email.subject).to include(t('application_choice_rejected_email.subject.awaiting_decisions', provider_name: @application_choice.provider.name, course_name: @application_choice.course.name))
+    expect(current_email.subject).to include(I18n.t!('candidate_mailer.application_rejected.awaiting_decisions.subject', provider_name: @application_choice.provider.name, course_name: @application_choice.course.name))
   end
 
   def then_i_receive_the_application_rejected_offers_made_email
     open_email(@application_form.candidate.email_address)
 
-    expect(current_email.subject).to include(t('application_choice_rejected_email.subject.offers_made', provider_name: @application_choice.provider.name, course_name: @application_choice.course.name, dbd_days: @offer.decline_by_default_days))
+    expect(current_email.subject).to include(I18n.t!('candidate_mailer.application_rejected.offers_made.subject', provider_name: @application_choice.provider.name, course_name: @application_choice.course.name, dbd_days: @offer.decline_by_default_days))
   end
 
   def and_it_includes_details_of_my_offer
