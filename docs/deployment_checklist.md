@@ -30,7 +30,7 @@ checks:
    address so that we can distinguish test users.  If needed you can
    suffix your name with `+n` to create a unique email address.
 4. Check the Azure Dashboard for the staging
-   [s106t01-apply](https://portal.azure.com/#@9c7d9dd3-840c-4b3f-818e-552865082e16/dashboard/private/6fef53c1-fbe3-4bd3-aa3d-8575eebb2424) resource
+   [s106t01-apply](https://portal.azure.com/#@platform.education.gov.uk/dashboard/arm/subscriptions/c426dea0-793c-4ab6-9dbc-b45dbdd9ef24/resourceGroups/s106t01-apply/providers/Microsoft.Portal/dashboards/s106t01-apply-dashboard) resource
    group. Make sure that each of the following resources are running -
    this should be clear from the memory percentage and memory usage
    graphs, zero memory usage is a red flag.
@@ -70,3 +70,23 @@ through the following checks:
    interface](https://www.apply-for-teacher-training.education.gov.uk/support/sidekiq)
    for any signs that jobs are failing or that the length of the job
    queue is increasing.
+
+## 3. Sandbox checks
+
+After running checks on production ask another developer to go
+through the following checks for the sandbox environment:
+
+1. Check the #twd_apply_tech channel in Slack for runtime errors from Sentry.
+2. Open
+   [sandbox](https://sandbox.apply-for-teacher-training.education.gov.uk/candidate)
+   and check that the site is running.
+3. Check the Azure Dashboard for the sandbox
+   [s106t02-apply](https://portal.azure.com/#@platform.education.gov.uk/dashboard/arm/subscriptions/c426dea0-793c-4ab6-9dbc-b45dbdd9ef24/resourcegroups/s106t02-apply/providers/microsoft.portal/dashboards/s106t02-apply-dashboard) resource
+   group. Make sure that each of the following resources are running -
+   this should be clear from the memory percentage and memory usage
+   graphs, zero memory usage is a red flag.
+     - Application Service (Web server) - `106t02-apply-asp`
+     - PostgreSQL - `106t02-apply-psql`
+     - Redis - `106t02-apply-redis`
+     - Clock background process - `106t02-apply-ci-clk`
+     - Sidekiq background process - `106t02-apply-ci-wkr`
