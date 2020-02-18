@@ -50,7 +50,10 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
   end
 
   def when_i_arrive_from_find_to_a_course_that_is_open_on_apply
-    visit candidate_interface_apply_from_find_path providerCode: @course.provider.code, courseCode: @course.code
+    visit candidate_interface_apply_from_find_path(
+      providerCode: @course.provider.code,
+      courseCode: @course.code,
+    )
   end
 
   def and_i_click_apply_on_apply
@@ -126,7 +129,12 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
   end
 
   def then_i_should_see_the_course_choices_site_page
-    expect(page).to have_current_path(candidate_interface_course_choices_site_path(@course_with_multiple_sites.provider.code, @course_with_multiple_sites.code))
+    expect(page).to have_current_path(
+      candidate_interface_course_choices_site_path(
+        @course_with_multiple_sites.provider.id,
+        @course_with_multiple_sites.id,
+      ),
+    )
   end
 
   def and_i_should_see_an_account_created_flash_message

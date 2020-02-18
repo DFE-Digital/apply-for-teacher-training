@@ -2,7 +2,7 @@ module CandidateInterface
   class PickSiteForm
     include ActiveModel::Model
 
-    attr_accessor :application_form, :provider_code, :course_code, :course_option_id
+    attr_accessor :application_form, :provider_id, :course_id, :course_option_id
     validates :course_option_id, presence: true
     validate :candidate_can_only_apply_to_3_courses
 
@@ -25,11 +25,11 @@ module CandidateInterface
     end
 
     def course
-      @course ||= provider.courses.find_by!(code: course_code)
+      @course ||= provider.courses.find(course_id)
     end
 
     def provider
-      @provider ||= Provider.find_by!(code: provider_code)
+      @provider ||= Provider.find(provider_id)
     end
 
     def candidate_can_only_apply_to_3_courses
