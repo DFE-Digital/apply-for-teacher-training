@@ -1,4 +1,4 @@
-class GetApplicationChoicesWaitingForCandidateDecision
+class GetApplicationFormsForDeclineByDefaultReminder
   def self.call
     ApplicationForm.where(
       id: ApplicationChoice

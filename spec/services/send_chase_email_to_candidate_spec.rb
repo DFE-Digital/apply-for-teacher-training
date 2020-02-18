@@ -18,8 +18,8 @@ RSpec.describe SendChaseEmailToCandidate do
 
     it 'audits the chase emails', with_audited: true do
       expected_comment =
-        "Chase emails have been sent to candidate (#{application_form.candidate.email_address})" +
-        ' because the application form is close to its DBD date.'
+        'Chase email has been sent to candidate because ' +
+        'the application form is close to its DBD date.'
       expect(application_form.audits.last.comment).to eq(expected_comment)
     end
   end

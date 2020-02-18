@@ -42,41 +42,20 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def chase_candidate_decision_with_one_offer
-    application_choice = OpenStruct.new(
-      provider: OpenStruct.new(name: 'Provider Name'),
-      decline_by_default_at: Time.zone.now,
-      application_form: application_form,
-      course: OpenStruct.new(name: 'Course Name'),
-    )
+    application_form = application_form_with_course_choices([application_choice_with_offer])
 
-    CandidateMailer.chase_candidate_decision(application_form_with_chooices([application_choice]))
+    CandidateMailer.chase_candidate_decision(application_form)
   end
 
   def chase_candidate_decision_with_multiple_offers
-    application_choice = OpenStruct.new(
-      provider: OpenStruct.new(name: 'Wen University'),
-      decline_by_default_at: Time.zone.now,
-      application_form: application_form,
-      course: OpenStruct.new(name: 'Math with Dance'),
-    )
-
-    application_choice_two = OpenStruct.new(
-      provider: OpenStruct.new(name: 'Ting University'),
-      decline_by_default_at: Time.zone.now,
-      application_form: application_form,
-      course: OpenStruct.new(name: 'Dance'),
-    )
-
-    application_choice_three = OpenStruct.new(
-      provider: OpenStruct.new(name: 'Wang College'),
-      decline_by_default_at: Time.zone.now,
-      application_form: application_form,
-      course: OpenStruct.new(name: 'Moar Dance'),
-    )
-
-    CandidateMailer.chase_candidate_decision(application_form_with_chooices(
-                                               [application_choice, application_choice_two, application_choice_three],
-))
+    application_choices =
+      [
+      application_choice_with_offer,
+      application_choice_with_offer,
+      application_choice_with_offer,
+      ]
+    application_form = application_form_with_course_choices(application_choices)
+    CandidateMailer.chase_candidate_decision(application_form)
   end
 
   def new_offer_single_offer
@@ -193,11 +172,21 @@ private
     FactoryBot.build_stubbed(:reference, application_form: application_form)
   end
 
-  def application_form_with_chooices(choices)
-    OpenStruct.new(
-      candidate: OpenStruct.new(email_address: 'candidate@email.com'),
-      first_name: 'Ting',
-      application_choices: choices,
+  def application_form_with_course_choices(course_choices)
+    FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Tyrell',
+      last_name: 'Wellick',
+      application_choices: course_choices,
     )
+  end
+
+  def application_choice_with_offer
+    course = FactoryBot.build_stubbed(:course)
+    course_option = FactoryBot.build_stubbed(:course_option, course: course)
+
+    FactoryBot.build_stubbed(:application_choice, :with_offer,
+                             course_option: course_option,
+                             decline_by_default_at: Time.zone.now)
   end
 end

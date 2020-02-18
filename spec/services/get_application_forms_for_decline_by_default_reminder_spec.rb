@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GetApplicationChoicesWaitingForCandidateDecision do
+RSpec.describe GetApplicationFormsForDeclineByDefaultReminder do
   let(:current_time) { Time.zone.local(2019, 6, 1, 12, 0, 0) }
   let(:time_limit_before_dbd) { TimeLimitConfig.limits_for(:chase_candidate_before_dbd).first.limit }
 

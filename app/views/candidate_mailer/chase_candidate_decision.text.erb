@@ -8,12 +8,12 @@ Dear <%= @application_form.first_name %>
 
   # Offers you’ve received
   <% @application_choices.each do |choice| %>
-   - <%= choice.course.name %> at <%= choice.provider.name %>
+   - <%= choice.course_option.course.name %> at <%= choice.course_option.course.provider.name %>
   <% end %>
 
 <% else%>
 
-  You have until <%= @dbd_date %> to respond to your offer to study <%= @application_choices.first.course.name %> at <%= @application_choices.first.provider.name %>.
+  You have until <%= @dbd_date %> to respond to your offer to study <%= @application_choices.first.course_option.course.name %> at <%= @application_choices.first.course_option.course.provider.name %>.
 
   If you don’t respond by <%= @dbd_date %>, your application will be withdrawn.
 
