@@ -1,0 +1,9 @@
+Dear <%= @application_form.first_name %>,
+
+# Application decision
+
+<%= @intro.provider_name %> has decided not to progress your teacher training application for <%= @intro.course_name %> on this occasion. They gave the following feedback:
+
+<%= @intro.rejection_reason %>
+
+Contact <%= @intro.provider_name %> directly if you have any questions about this.

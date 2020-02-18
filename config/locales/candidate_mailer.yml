@@ -23,3 +23,10 @@ en:
           Our email requesting a reference didn’t reach %{referee_name}.
 
           We emailed the referee using this address: %{referee_email}
+    application_rejected:
+      all_rejected:
+        subject: "%{provider_name} has responded: next steps"
+      awaiting_decisions:
+        subject: "%{provider_name} has made a decision on your application for %{course_name}"
+      offers_made:
+        subject: "%{provider_name} has responded: make a decision within %{dbd_days} working days"
