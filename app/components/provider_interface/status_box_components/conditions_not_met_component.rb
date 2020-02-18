@@ -16,24 +16,15 @@ module ProviderInterface
         [
           {
             key: 'Status',
-            value: render(
-              ProviderInterface::ApplicationStatusTagComponent,
-              application_choice: application_choice,
-            ),
+            value: render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice)),
           },
           {
             key: 'Course',
-            value: render(
-              ProviderInterface::CoursePresentationComponent,
-              application_choice: application_choice,
-            ),
+            value: render(ProviderInterface::CoursePresentationComponent.new(application_choice: application_choice)),
           },
           {
             key: 'Location',
-            value: render(
-              ProviderInterface::LocationPresentationComponent,
-              application_choice: application_choice,
-            ),
+            value: render(ProviderInterface::LocationPresentationComponent.new(application_choice: application_choice)),
           },
         ]
       end

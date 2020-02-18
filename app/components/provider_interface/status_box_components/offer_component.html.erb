@@ -1,7 +1,7 @@
 <h2 class="govuk-heading-l">Offer made to <%= candidate_name %></h2>
 
-<%= render SummaryListComponent, rows: rows %>
-<%= render ProviderInterface::ConditionsComponent, application_choice: application_choice %>
+<%= render SummaryListComponent.new(rows: rows) %>
+<%= render ProviderInterface::ConditionsComponent.new(application_choice: application_choice) %>
 
 <% if FeatureFlag.active?('provider_change_response') %>
   <%= govuk_button_link_to 'Change response', provider_interface_application_choice_edit_response_path(application_choice) %>

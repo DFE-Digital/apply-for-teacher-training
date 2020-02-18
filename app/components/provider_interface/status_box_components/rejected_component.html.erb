@@ -1,6 +1,6 @@
 <% if offer_withdrawn_at %>
-  <%= render SummaryListComponent, rows: offer_withdrawn_rows %>
-  <%= render ProviderInterface::ConditionsComponent, application_choice: application_choice %>
+  <%= render SummaryListComponent.new(rows: offer_withdrawn_rows) %>
+  <%= render ProviderInterface::ConditionsComponent.new(application_choice: application_choice) %>
 <% else %>
-  <%= render SummaryListComponent, rows: rejected_rows %>
+  <%= render SummaryListComponent.new(rows: rejected_rows) %>
 <% end %>

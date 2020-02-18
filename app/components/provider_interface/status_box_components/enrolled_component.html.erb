@@ -1,2 +1,2 @@
-<%= render SummaryListComponent, rows: rows %>
-<%= render ProviderInterface::ConditionsComponent, application_choice: application_choice %>
+<%= render SummaryListComponent.new(rows: rows) %>
+<%= render ProviderInterface::ConditionsComponent.new(application_choice: application_choice) %>

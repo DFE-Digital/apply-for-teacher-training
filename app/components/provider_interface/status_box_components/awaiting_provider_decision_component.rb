@@ -12,10 +12,7 @@ module ProviderInterface
         [
           {
             key: 'Status',
-            value: render(
-              ProviderInterface::ApplicationStatusTagComponent,
-              application_choice: application_choice,
-            ),
+            value: render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice)),
           },
           {
             key: 'Application submitted',

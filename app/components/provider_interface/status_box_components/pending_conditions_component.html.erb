@@ -1,5 +1,5 @@
-<%= render SummaryListComponent, rows: rows %>
-<%= render ProviderInterface::ConditionsComponent, application_choice: application_choice %>
+<%= render SummaryListComponent.new(rows: rows) %>
+<%= render ProviderInterface::ConditionsComponent.new(application_choice: application_choice) %>
 
 <% if FeatureFlag.active?('confirm_conditions') %>
   <%= govuk_button_link_to 'Confirm conditions', provider_interface_application_choice_edit_conditions_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
