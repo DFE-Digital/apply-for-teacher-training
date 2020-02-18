@@ -32,7 +32,7 @@
         <div class="govuk-details__text">
           <ul class="govuk-list govuk-list--bullet">
             <% courses.sort_by(&:name).each do |course| %>
-              <li><%= govuk_link_to course.name_and_code, candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code) %></li>
+              <li><%= govuk_link_to course.name_and_code, candidate_interface_eligibility_path(providerCode: course.provider.code, courseCode: course.code) %></li>
             <% end %>
           </ul>
         </div>
