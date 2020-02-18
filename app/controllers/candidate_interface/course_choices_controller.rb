@@ -47,16 +47,16 @@ module CandidateInterface
 
     def options_for_course
       @pick_course = PickCourseForm.new(
-        provider_code: params.fetch(:provider_code),
+        provider_id: params.fetch(:provider_id),
         application_form: current_application,
       )
     end
 
     def pick_course
-      course_code = params.dig(:candidate_interface_pick_course_form, :code)
+      course_id = params.dig(:candidate_interface_pick_course_form, :course_id)
       @pick_course = PickCourseForm.new(
-        provider_code: params.fetch(:provider_code),
-        code: course_code,
+        provider_id: params.fetch(:provider_id),
+        course_id: course_id,
         application_form: current_application,
       )
 
@@ -69,7 +69,7 @@ module CandidateInterface
 
         pick_site_for_course(course_code, course_option.id)
       else
-        redirect_to candidate_interface_course_choices_site_path(provider_code: @pick_course.provider_code, course_code: @pick_course.code)
+        redirect_to candidate_interface_course_choices_site_path(provider_id: @pick_course.provider_id, course_id: @pick_course.course_id)
       end
     end
 

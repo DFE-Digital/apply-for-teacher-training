@@ -30,7 +30,7 @@ module ViewHelper
   def select_course_options(courses)
     [
       OpenStruct.new(id: '', name: t('activemodel.errors.models.candidate_interface/pick_course_form.attributes.code.blank')),
-    ] + courses.map { |course| OpenStruct.new(id: course.code, name: "#{course.name} (#{course.code})") }
+    ] + courses.map { |course| OpenStruct.new(id: course.id, name: "#{course.name} (#{course.code})") }
   end
 
   def select_provider_options(providers)
