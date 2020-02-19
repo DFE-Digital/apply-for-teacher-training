@@ -77,6 +77,16 @@ module ViewHelper
     end
   end
 
+  def format_months_to_years_and_months(number_of_months)
+    duration_parts = ActiveSupport::Duration.build(number_of_months.months).parts
+
+    if duration_parts[:years].positive?
+      "#{pluralize(duration_parts[:years], 'year')} and #{pluralize(duration_parts[:months], 'month')}"
+    else
+      pluralize(number_of_months, 'month')
+    end
+  end
+
 private
 
   def prepend_css_class(css_class, current_class)
