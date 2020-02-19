@@ -18,6 +18,7 @@ RSpec.feature 'Confirm conditions not met' do
     then_i_get_feedback_that_my_action_succeeded
     and_i_am_back_on_the_application_page
     and_the_application_status_is_conditions_not_met
+    and_the_candidate_receives_an_email_notification
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -40,7 +41,7 @@ RSpec.feature 'Confirm conditions not met' do
   end
 
   def when_i_navigate_to_an_offer_accepted_by_the_candidate
-    course_option = course_option_for_provider_code(provider_code: @provider.code)
+    @course_option = course_option_for_provider_code(provider_code: @provider.code)
     @application_form = create(
       :completed_application_form,
       first_name: 'John',
@@ -49,7 +50,7 @@ RSpec.feature 'Confirm conditions not met' do
     @application_choice = create(
       :application_choice,
       :with_accepted_offer,
-      course_option: course_option,
+      course_option: @course_option,
       application_form: @application_form,
     )
     visit provider_interface_application_choice_path(@application_choice.id)
@@ -82,5 +83,10 @@ RSpec.feature 'Confirm conditions not met' do
   def and_the_application_status_is_conditions_not_met
     expect(@application_choice.reload.conditions_not_met?).to be_truthy
     expect(page).to have_content 'Conditions not met'
+  end
+
+  def and_the_candidate_receives_an_email_notification
+    open_email(@application_choice.application_form.candidate.email_address)
+    expect(current_email.subject).to have_content 'You have not met your conditions for'
   end
 end

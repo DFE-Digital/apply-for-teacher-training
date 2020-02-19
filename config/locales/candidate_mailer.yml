@@ -34,3 +34,7 @@ en:
       subject:
         one: Application withdrawn automatically
         other: Applications withdrawn automatically
+    conditions_met:
+      subject: "You have met your conditions for %{course_name}: next steps"
+    conditions_not_met:
+      subject: "You have not met your conditions for %{course_name}: next steps"

@@ -282,13 +282,15 @@ en:
       name: Provider confirms conditions are met
       by: provider
       description: The provider confirms that the candidate has met the conditions set out in the offer.
-      # https://trello.com/c/XrlNFh5d/1028-email-provider-says-candidate-has-met-all-conditions-candidate
+      emails:
+        - candidate_mailer-conditions_met
 
     pending_conditions-conditions_not_met:
       name: Providers marks conditions as not met
       by: provider
       description: The provider says the candidate hasn’t met the conditions set out in the offer.
-      # https://trello.com/c/QNmoQxi1/1027-email-provider-says-candidate-has-not-met-conditions-candidate
+      emails:
+        - candidate_mailer-conditions_not_met
 
     pending_conditions-withdraw:
       name: Candidate withdraws
