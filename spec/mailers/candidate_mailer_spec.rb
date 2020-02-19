@@ -610,4 +610,50 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
     end
   end
+
+  describe '.decline_by_default' do
+    context 'when a candidate has 1 offer that was declined' do
+      before do
+        application_form = build_stubbed(
+          :application_form,
+          first_name: 'Fred',
+          application_choices: [
+            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
+          ],
+        )
+
+        @mail = mailer.declined_by_default(application_form)
+      end
+
+      it 'sends an email with the correct subject' do
+        expect(@mail.subject).to include('Application withdrawn automatically')
+      end
+
+      it 'includes the number of business days left to respond' do
+        expect(@mail.body.encoded).to include('10 working days')
+      end
+
+      it 'sends an email with the correct heading' do
+        expect(@mail.body.encoded).to include('Dear Fred')
+      end
+    end
+
+    context 'when a candidate has 2 or 3 offers that were declined' do
+      before do
+        application_form = build_stubbed(
+          :application_form,
+          application_choices: [
+            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
+            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
+          ],
+        )
+
+        @mail = mailer.declined_by_default(application_form)
+      end
+
+      it 'sends an email with the correct subject' do
+        expect(@mail.subject).to include('Applications withdrawn automatically')
+      end
+    end
+  end
 end

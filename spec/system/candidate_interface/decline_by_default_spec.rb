@@ -1,16 +1,20 @@
 require 'rails_helper'
 
-RSpec.feature 'An application gets declined by default' do
+RSpec.feature 'Decline by default' do
   include CourseOptionHelpers
   include CandidateHelper
 
-  scenario 'before the DBD date the candidate receives a chaser email', sidekiq: true do
+  scenario 'An application is declined by default', sidekiq: true do
     given_the_pilot_is_open
     and_the_automated_candidate_chaser_is_active
 
     when_i_have_an_offer_waiting_for_my_decision
     and_the_time_limit_before_decline_by_default_date_has_been_exceeded
     then_i_receive_an_email_to_make_a_decision
+
+    and_when_the_decline_by_default_limit_has_been_exceeded
+    then_the_application_choice_is_declined
+    and_the_candidate_receives_an_email
   end
 
   def given_the_pilot_is_open
@@ -19,11 +23,12 @@ RSpec.feature 'An application gets declined by default' do
 
   def and_the_automated_candidate_chaser_is_active
     FeatureFlag.activate('automated_decline_by_default_candidate_chaser')
+    FeatureFlag.activate('decline_by_default_notification_to_candidate')
   end
 
   def when_i_have_an_offer_waiting_for_my_decision
     @application_form = create(:completed_application_form)
-    create(:application_choice, status: :offer, application_form: @application_form, decline_by_default_at: Time.zone.now + 10.days)
+    @application_choice = create(:application_choice, status: :offer, application_form: @application_form, decline_by_default_at: Time.zone.now + 10.days)
   end
 
   def and_the_time_limit_before_decline_by_default_date_has_been_exceeded
@@ -42,5 +47,23 @@ RSpec.feature 'An application gets declined by default' do
     expect(current_email.subject).to include(expected_subject)
 
     expect(current_email.body).to include('http://localhost:3000/candidate/sign-in')
+  end
+
+  def and_when_the_decline_by_default_limit_has_been_exceeded
+    Timecop.travel(30.days.from_now) do
+      DeclineOffersByDefaultWorker.perform_async
+    end
+  end
+
+  def then_the_application_choice_is_declined
+    @application_choice.reload
+
+    expect(@application_choice.reload.status).to eql('declined')
+  end
+
+  def and_the_candidate_receives_an_email
+    open_email(@application_form.candidate.email_address)
+
+    expect(current_email.subject).to include('Application withdrawn automatically')
   end
 end
