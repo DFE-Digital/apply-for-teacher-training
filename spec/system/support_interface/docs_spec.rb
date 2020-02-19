@@ -37,8 +37,9 @@ RSpec.feature 'Docs' do
     # extract all the emails that we send into a list of strings like "referee_mailer-reference_request_chaser_email"
     emails_sent = [CandidateMailer, ProviderMailer, RefereeMailer].flat_map { |k| k.public_instance_methods(false).map { |m| "#{k.name.underscore}-#{m}" } }
     documented_application_choice_emails = I18n.t('events').flat_map { |_name, attrs| attrs[:emails] }.compact.uniq
+    documented_chaser_emails = I18n.t('application_states').flat_map { |_name, attrs| attrs[:emails] }.compact.uniq
 
-    emails_documented = documented_application_choice_emails + emails_outside_of_states
+    emails_documented = documented_application_choice_emails + documented_chaser_emails + emails_outside_of_states
 
     expect(emails_documented).to match_array(emails_sent)
   end

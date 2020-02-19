@@ -19,6 +19,28 @@
 
   <h2 class='govuk-heading-l' id='<%= state_name %>'><%= human_state_name %></h2>
 
+  <p class='govuk-body'>
+    <% chaser_emails = I18n.exists?("application_states.#{state_name}.emails") ? I18n.t!("application_states.#{state_name}.emails") : [] %>
+
+    <% if chaser_emails.any? %>
+      In this state we send these chasers:
+
+      <ul class='govuk-list govuk-list--bullet'>
+      <% chaser_emails.each do |email_id| %>
+        <% email_name = email_id.gsub('-', ' ').gsub('candidate_mailer', 'To candidate: ').gsub('referee_mailer', 'To referee: ').gsub('provider_mailer', 'To provider: ') %>
+
+        <li>
+          <% if Rails.application.config.action_mailer.show_previews %>
+            <%= govuk_link_to email_name, '/rails/mailers/' + email_id.gsub('-', '/') %>
+          <% else %>
+            <%= email_name %>
+          <% end %>
+        </li>
+      <% end %>
+      </ul>
+    <% end %>
+  </p>
+
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
       <ul class="govuk-list">
@@ -26,15 +48,13 @@
 
         <li>
           <p class='govuk-body'>
-            <strong><%= I18n.t!("events.#{state_name}-#{events.first}.name") %></strong> (by <%= I18n.t!("events.#{state_name}-#{events.first}.by") %>)
+            When <strong><%= I18n.t!("events.#{state_name}-#{events.first}.name") %></strong> we send these notifications:
           </p>
 
           <p class='govuk-body'>
             <% emails_sent_from_event = I18n.exists?("events.#{state_name}-#{events.first.name}.emails") ? I18n.t!("events.#{state_name}-#{events.first.name}.emails") : [] %>
 
             <% if emails_sent_from_event.any? %>
-              Emails sent:
-
               <ul class='govuk-list govuk-list--bullet'>
               <% emails_sent_from_event.each do |email_id| %>
                 <% email_name = email_id.gsub('-', ' ').gsub('candidate_mailer', 'To candidate: ').gsub('referee_mailer', 'To referee: ').gsub('provider_mailer', 'To provider: ') %>

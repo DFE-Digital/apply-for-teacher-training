@@ -85,6 +85,10 @@ en:
       description: |
         The candidate submits their application choices with a list of referees. Until 2 references have been received all applications remain in the Awaiting references state.
         The providers don’t see the application at this stage.
+      emails:
+        - candidate_mailer-chase_reference
+        - candidate_mailer-new_referee_request
+        - referee_mailer-reference_request_chaser_email
 
     application_complete:
       name: Waiting to be sent
@@ -102,6 +106,8 @@ en:
 
         When both of these prerequisites are met the application moves to the
         Awaiting provider decision state.
+      emails:
+        - provider_mailer-chase_provider_decision
 
     offer:
       name: Offer made
@@ -112,6 +118,8 @@ en:
 
         We assume that all offers have some conditions, even if there
         are no academic conditions.
+      emails:
+        - candidate_mailer-chase_candidate_decision
 
     recruited:
       name: Recruited
@@ -161,9 +169,6 @@ en:
       emails:
         - candidate_mailer-application_submitted
         - referee_mailer-reference_request_email
-        - referee_mailer-reference_request_chaser_email
-        - candidate_mailer-new_referee_request
-        - candidate_mailer-chase_reference
 
     awaiting_references-references_complete:
       name: References are completed
@@ -180,10 +185,9 @@ en:
       emails:
         - candidate_mailer-application_sent_to_provider
         - provider_mailer-application_submitted
-        - provider_mailer-chase_provider_decision
 
     application_complete-withdraw:
-      name: Withdraw
+      name: Candidate withdraws
       by: candidate
       description: Candidates can withdraw at any time.
 
@@ -205,7 +209,6 @@ en:
         - candidate_mailer-new_offer_single_offer
         - candidate_mailer-new_offer_multiple_offers
         - candidate_mailer-new_offer_decisions_pending
-        - candidate_mailer-chase_candidate_decision
 
     awaiting_provider_decision-reject:
       name: Provider rejects
@@ -223,7 +226,7 @@ en:
         - candidate_mailer-application_rejected_offers_made
 
     awaiting_provider_decision-withdraw:
-      name: Withdraw
+      name: Candidate withdraws
       by: candidate
       description: |
         The candidate makes a withdrawal decision to inform the provider that they no longer want their application to be considered. The candidate can withdraw an application at any time.
@@ -288,7 +291,7 @@ en:
       # https://trello.com/c/QNmoQxi1/1027-email-provider-says-candidate-has-not-met-conditions-candidate
 
     pending_conditions-withdraw:
-      name: Withdraw
+      name: Candidate withdraws
       by: candidate
       description: Candidates can withdraw at any time.
 
@@ -298,7 +301,7 @@ en:
       description: ""
 
     recruited-withdraw:
-      name: Withdraw
+      name: Candidate withdraws
       by: candidate
       description: Candidates can withdraw at any time.
 
