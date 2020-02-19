@@ -8,6 +8,7 @@ class ConfirmOfferConditions
   def save
     ApplicationStateChange.new(@application_choice).confirm_conditions_met!
     @application_choice.update!(recruited_at: Time.zone.now)
+    CandidateMailer.conditions_met(@application_choice).deliver
   rescue Workflow::NoTransitionAllowed
     errors.add(
       :base,

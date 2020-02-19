@@ -1,0 +1,11 @@
+Dear <%= @application_form.first_name %>,
+
+# You have not met your conditions
+
+You can’t enrol on <%= @application_choice.course_option.course.name_and_code %> because <%= @application_choice.course_option.course.provider.name %> told us you have not met your conditions.
+
+Get in touch with <%= @application_choice.course_option.course.provider.name %> if you need further advice.
+
+# Give feedback or report a problem
+
+Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)

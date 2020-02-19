@@ -195,6 +195,14 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.declined_by_default(application_form)
   end
 
+  def conditions_met
+    CandidateMailer.conditions_met(application_choice_with_offer)
+  end
+
+  def conditions_not_met
+    CandidateMailer.conditions_not_met(application_choice_with_offer)
+  end
+
 private
 
   def application_form

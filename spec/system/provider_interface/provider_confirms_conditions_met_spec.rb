@@ -18,6 +18,7 @@ RSpec.feature 'Confirm conditions met' do
     then_i_get_feedback_that_my_action_succeeded
     and_i_am_back_on_the_application_page
     and_the_candidate_is_recruited
+    and_the_candidate_receives_an_email_notification
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -82,5 +83,10 @@ RSpec.feature 'Confirm conditions met' do
   def and_the_candidate_is_recruited
     expect(@application_choice.reload.recruited?).to be_truthy
     expect(page).to have_content 'Recruited'
+  end
+
+  def and_the_candidate_receives_an_email_notification
+    open_email(@application_choice.application_form.candidate.email_address)
+    expect(current_email.subject).to have_content 'You have met your conditions for'
   end
 end

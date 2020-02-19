@@ -155,6 +155,28 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(application_form, subject: I18n.t!('candidate_mailer.declined_by_default.subject', count: @declined_courses.size))
   end
 
+  def conditions_met(application_choice)
+    @application_choice = application_choice
+    course = application_choice.course_option.course
+    course_name = "#{course.name_and_code} at #{course.provider.name}"
+
+    email_for_candidate(
+      application_choice.application_form,
+      subject: I18n.t!('candidate_mailer.conditions_met.subject', course_name: course_name),
+    )
+  end
+
+  def conditions_not_met(application_choice)
+    @application_choice = application_choice
+    course = application_choice.course_option.course
+    course_name = "#{course.name_and_code} at #{course.provider.name}"
+
+    email_for_candidate(
+      application_choice.application_form,
+      subject: I18n.t!('candidate_mailer.conditions_not_met.subject', course_name: course_name),
+    )
+  end
+
 private
 
   def new_offer(application_choice, template_name)
