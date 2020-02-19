@@ -1,17 +1,23 @@
-<h2 class="govuk-heading-m">Product development</h2>
+<% if current_support_user %>
+  <h2 class="govuk-heading-m">Product development</h2>
 
-<ul class="govuk-footer__inline-list">
-  <li class="govuk-footer__inline-list-item">
-    <%= govuk_link_to 'Provider application flow', support_interface_provider_flow_path %>
-  </li>
+  <ul class="govuk-footer__inline-list">
+    <li class="govuk-footer__inline-list-item">
+      <%= govuk_link_to 'Provider application flow', support_interface_provider_flow_path %>
+    </li>
 
-  <li class="govuk-footer__inline-list-item">
-    <%= govuk_link_to 'Candidate application flow', support_interface_candidate_flow_path %>
-  </li>
+    <li class="govuk-footer__inline-list-item">
+      <%= govuk_link_to 'Candidate application flow', support_interface_candidate_flow_path %>
+    </li>
 
-  <% if Rails.application.config.action_mailer.show_previews %>
-  <li class="govuk-footer__inline-list-item">
-    <%= govuk_link_to 'Mail previews', '/rails/mailers' %>
-  </li>
-  <% end %>
-</ul>
+    <li class="govuk-footer__inline-list-item">
+      <%= govuk_link_to 'When emails are sent', support_interface_when_emails_are_sent_path %>
+    </li>
+
+    <% if Rails.application.config.action_mailer.show_previews %>
+    <li class="govuk-footer__inline-list-item">
+      <%= govuk_link_to 'Mail previews', '/rails/mailers' %>
+    </li>
+    <% end %>
+  </ul>
+<% end %>

@@ -29,7 +29,7 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.survey_chaser_email(application_form)
   end
 
-  def new_referee_request_with_not_responded
+  def new_referee_request
     CandidateMailer.new_referee_request(reference, reason: :not_responded)
   end
 

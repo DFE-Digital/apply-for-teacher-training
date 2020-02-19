@@ -23,3 +23,7 @@ linters:
         Enabled: false
       Rails/OutputSafety:
         Enabled: false
+      Layout/ElseAlignment:
+        Enabled: false
+      Layout/IndentationWidth:
+        Enabled: false
