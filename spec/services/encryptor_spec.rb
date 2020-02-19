@@ -6,4 +6,8 @@ RSpec.describe Encryptor do
 
     expect(Encryptor.decrypt(encrypted_data)).to eq('example')
   end
+
+  it 'returns false given an invalid encrypted string' do
+    expect(Encryptor.decrypt('invalid-input')).to be false
+  end
 end

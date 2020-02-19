@@ -7,5 +7,7 @@ class Encryptor
 
   def self.decrypt(text)
     ENCRYPTOR.decrypt_and_verify(text)
+  rescue ActiveSupport::MessageEncryptor::InvalidMessage
+    false
   end
 end

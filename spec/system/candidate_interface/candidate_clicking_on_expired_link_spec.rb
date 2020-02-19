@@ -17,7 +17,7 @@ RSpec.feature 'Candidate clicks on an expired link', sidekiq: true do
     when_i_visit_the_sign_in_page_with_an_invalid_id_parameter
     then_i_am_taken_to_the_sign_in_page
 
-    when_i_visit_the_expired_sign_in_page_without_id_parameter
+    when_i_visit_the_expired_sign_in_page_without_u_parameter
     then_i_am_taken_to_the_sign_in_page
 
     when_i_fill_in_the_sign_in_form
@@ -73,7 +73,7 @@ RSpec.feature 'Candidate clicks on an expired link', sidekiq: true do
     expect(page).to have_content(t('page_titles.sign_in'))
   end
 
-  def when_i_visit_the_expired_sign_in_page_without_id_parameter
+  def when_i_visit_the_expired_sign_in_page_without_u_parameter
     visit candidate_interface_expired_sign_in_path
   end
 
