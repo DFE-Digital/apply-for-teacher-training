@@ -3,9 +3,7 @@ class DeclineOffersByDefaultWorker
 
   def perform
     GetApplicationFormsReadyToDeclineByDefault.call.each do |application_form|
-      application_form.application_choices.offer.each do |application_choice_with_offer|
-        DeclineOfferByDefault.new(application_choice: application_choice_with_offer).call
-      end
+      DeclineOfferByDefault.new(application_form: application_form).call
     end
   end
 end
