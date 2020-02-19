@@ -44,12 +44,16 @@ class WorkHistoryReviewComponent < ActionView::Component::Base
     ]
   end
 
-  def breaks_in_work_history?
-    CheckBreaksInWorkHistory.call(@application_form)
-  end
-
   def show_missing_banner?
     @show_incomplete
+  end
+
+  def show_consolidated_work_history_breaks?
+    breaks_in_work_history? && (@application_form.work_history_breaks || !FeatureFlag.active?('work_breaks'))
+  end
+
+  def show_break_placeholders?
+    FeatureFlag.active?('work_breaks') && @application_form.work_history_breaks.blank? && @editable
   end
 
 private
@@ -119,5 +123,9 @@ private
     return work.commitment.dasherize.humanize if work.working_pattern.blank?
 
     "#{work.commitment.dasherize.humanize}\n #{work.working_pattern}"
+  end
+
+  def breaks_in_work_history?
+    CheckBreaksInWorkHistory.call(@application_form)
   end
 end

@@ -12,13 +12,11 @@
       <% end %>
     <% end %>
   <% elsif entry.is_a?(WorkHistoryWithBreaks::BreakPlaceholder) %>
-    <% if FeatureFlag.active?('work_breaks') %>
+    <% if show_break_placeholders? %>
       <%= render(BreakPlaceholderInWorkHistoryComponent.new(work_break: entry)) %>
     <% end %>
   <% elsif entry.is_a?(ApplicationWorkHistoryBreak) %>
-    <% if FeatureFlag.active?('work_breaks') %>
-      <%= render(BreakInWorkHistoryComponent.new(work_break: entry)) %>
-    <% end %>
+    <%= render(BreakInWorkHistoryComponent.new(work_break: entry, editable: @editable)) %>
   <% end %>
 <% end %>
 
@@ -26,7 +24,7 @@
   <%= render(SummaryCardComponent.new(rows: no_work_experience_rows, editable: @editable)) %>
 <% end %>
 
-<% if breaks_in_work_history? %>
+<% if show_consolidated_work_history_breaks? %>
   <%= render(SummaryCardComponent.new(rows: break_in_work_history_rows, editable: @editable)) %>
 <% end %>
 
