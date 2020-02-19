@@ -1,6 +1,12 @@
 module CandidateInterface
   class ExistingCandidateAuthentication
-    attr_accessor :candidate
+    attr_accessor :candidate,
+                  :candidate_already_has_3_courses,
+                  :candidate_has_new_course_added,
+                  :candidate_should_choose_site,
+                  :candidate_does_not_have_a_course_from_find,
+                  :candidate_has_already_selected_the_course,
+                  :candidate_has_submitted_application
 
     def initialize(candidate:)
       @candidate = candidate
@@ -8,6 +14,8 @@ module CandidateInterface
       @candidate_has_new_course_added = false
       @candidate_should_choose_site = false
       @candidate_does_not_have_a_course_from_find = false
+      @candidate_has_already_selected_the_course = false
+      @candidate_has_submitted_application = false
     end
 
     def execute
@@ -17,14 +25,17 @@ module CandidateInterface
       end
 
       if candidate.current_application.submitted?
-        # TODO: return a proper status for this case
-        @candidate_does_not_have_a_course_from_find = true
+        set_course_from_find_id_to_nil
+        @candidate_has_submitted_application = true
         return
       end
 
-      if candidate_already_has_3_courses
+      if candidate_already_has_3_courses?
         set_course_from_find_id_to_nil
         @candidate_already_has_3_courses = true
+      elsif candidate_has_already_selected_the_course?
+        set_course_from_find_id_to_nil
+        @candidate_has_already_selected_the_course = true
       elsif course_has_one_site?
         add_application_choice
         set_course_from_find_id_to_nil
@@ -33,22 +44,6 @@ module CandidateInterface
         set_course_from_find_id_to_nil
         @candidate_should_choose_site = true
       end
-    end
-
-    def candidate_already_has_3_courses?
-      @candidate_already_has_3_courses
-    end
-
-    def candidate_has_new_course_added?
-      @candidate_has_new_course_added
-    end
-
-    def candidate_should_choose_site?
-      @candidate_should_choose_site
-    end
-
-    def candidate_does_not_have_a_course_from_find?
-      @candidate_does_not_have_a_course_from_find
     end
 
   private
@@ -71,8 +66,15 @@ module CandidateInterface
       CourseOption.where(course_id: @candidate.course_from_find_id).one?
     end
 
-    def candidate_already_has_3_courses
+    def candidate_already_has_3_courses?
       @candidate.current_application.application_choices.count >= 3
+    end
+
+    def candidate_has_already_selected_the_course?
+      potential_course_option_ids_for_course_from_find = CourseOption.where(course_id: @candidate.course_from_find_id).map(&:id)
+      current_course_option_ids = @candidate.current_application.application_choices.map(&:course_option_id)
+
+      (potential_course_option_ids_for_course_from_find & current_course_option_ids).present?
     end
   end
 end
