@@ -85,12 +85,14 @@ module CandidateInterface
       render_404 unless FeatureFlag.active?('improved_expired_token_flow')
 
       candidate_id = Encryptor.decrypt(params.fetch(:u))
-      candidate = Candidate.find(candidate_id)
-      MagicLinkSignIn.call(candidate: candidate)
-      add_identity_to_log candidate.id
-      redirect_to candidate_interface_check_email_sign_in_path
-    rescue ActiveSupport::MessageEncryptor::InvalidMessage
-      render 'errors/not_found', status: :forbidden
+      if candidate_id
+        candidate = Candidate.find(candidate_id)
+        MagicLinkSignIn.call(candidate: candidate)
+        add_identity_to_log candidate.id
+        redirect_to candidate_interface_check_email_sign_in_path
+      else
+        render 'errors/not_found', status: :forbidden
+      end
     end
 
   private
