@@ -1,5 +1,13 @@
 module FindAPIHelper
-  def stub_find_api_provider_200(provider_code: 'ABC', provider_name: 'Dummy Provider', course_code: 'X130', site_code: 'X', findable: true, study_mode: 'full_time')
+  def stub_find_api_provider_200(
+    provider_code: 'ABC',
+    provider_name: 'Dummy Provider',
+    course_code: 'X130',
+    site_code: 'X',
+    findable: true,
+    study_mode: 'full_time',
+    site_address_line2: 'C/O The Bruntcliffe Academy'
+  )
     stub_find_api_provider(provider_code)
       .to_return(
         status: 200,
@@ -33,7 +41,7 @@ module FindAPIHelper
                 'code': site_code,
                 'location_name': 'Main site',
                 'address1': 'Gorse SCITT ',
-                'address2': 'C/O The Bruntcliffe Academy',
+                'address2': site_address_line2,
                 'address3': 'Bruntcliffe Lane',
                 'address4': 'MORLEY, LEEDS',
                 'postcode': 'LS27 0LZ',

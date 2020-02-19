@@ -57,11 +57,11 @@ class SyncProviderFromFind
       site = provider.sites.find_or_create_by(code: find_site.code)
 
       site.name = find_site.location_name
-      site.address_line1 = find_site.address1.strip
-      site.address_line2 = find_site.address2.strip
-      site.address_line3 = find_site.address3.strip
-      site.address_line4 = find_site.address4.strip
-      site.postcode = find_site.postcode.strip
+      site.address_line1 = find_site.address1&.strip
+      site.address_line2 = find_site.address2&.strip
+      site.address_line3 = find_site.address3&.strip
+      site.address_line4 = find_site.address4&.strip
+      site.postcode = find_site.postcode&.strip
       site.save!
 
       study_modes = \
