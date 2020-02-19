@@ -18,6 +18,7 @@ class FeatureFlag
     notify_candidate_of_new_reference
     automated_decline_by_default_candidate_chaser
     decline_by_default_notification_to_candidate
+    offer_accepted_provider_emails
   ].freeze
 
   def self.activate(feature_name)

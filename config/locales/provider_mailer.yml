@@ -1,0 +1,4 @@
+en:
+  provider_mailer:
+    offer_accepted:
+      subject: '%{candidate_name} has accepted your offer'

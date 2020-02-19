@@ -270,7 +270,8 @@ en:
       name: Candidate accepts offer
       by: candidate
       description: The candidate can accept the offer. All other application choices will be withdrawn.
-      # https://trello.com/c/Xt431Th8/1025-email-candidate-has-accepted-offer-provider
+      emails:
+        - provider_mailer-offer_accepted
 
     offer-decline:
       name: Candidate declines offer

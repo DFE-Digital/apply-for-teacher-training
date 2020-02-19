@@ -15,6 +15,10 @@ class ProviderMailerPreview < ActionMailer::Preview
     ProviderMailer.chase_provider_decision(provider_user, application_choice)
   end
 
+  def offer_accepted
+    ProviderMailer.offer_accepted(provider_user, application_choice)
+  end
+
 private
 
   def application_choice

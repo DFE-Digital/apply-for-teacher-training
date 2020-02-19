@@ -4,6 +4,8 @@ RSpec.feature 'Candidate accepts an offer', sidekiq: true do
   include CourseOptionHelpers
 
   scenario 'Candidate views an offer and accepts' do
+    FeatureFlag.activate('offer_accepted_provider_emails')
+
     given_i_am_signed_in
     and_i_have_2_offers_on_my_choices
     and_1_choice_that_is_awaiting_provider_decision
@@ -19,6 +21,7 @@ RSpec.feature 'Candidate accepts an offer', sidekiq: true do
     and_i_see_that_i_accepted_the_offer
     and_i_see_that_i_declined_the_other_offer
     and_i_see_that_i_withdrawn_from_the_third_choice
+    and_the_provider_has_received_an_email
 
     when_i_visit_the_offer_page_of_the_declined_offer
     then_i_see_the_page_not_found
@@ -36,10 +39,12 @@ RSpec.feature 'Candidate accepts an offer', sidekiq: true do
   end
 
   def and_i_have_2_offers_on_my_choices
-    @application_form = create(:application_form, first_name: 'Harry', candidate: @candidate, submitted_at: DateTime.now)
+    @application_form = create(:application_form, first_name: 'Harry', last_name: 'Potter', candidate: @candidate, submitted_at: DateTime.now)
 
     @course_option = course_option_for_provider_code(provider_code: 'ABC')
     other_course_option = course_option_for_provider_code(provider_code: 'DEF')
+
+    @provider_user = create(:provider_user, providers: [@course_option.course.provider])
 
     @application_choice = create(
       :application_choice,
@@ -109,6 +114,11 @@ RSpec.feature 'Candidate accepts an offer', sidekiq: true do
     within ".qa-application-choice-#{@third_application_choice.id}" do
       expect(page).to have_content 'Withdrawn'
     end
+  end
+
+  def and_the_provider_has_received_an_email
+    open_email(@provider_user.email_address)
+    expect(current_email.subject).to have_content 'Harry Potter has accepted your offer'
   end
 
   def when_i_visit_the_offer_page_of_the_declined_offer
