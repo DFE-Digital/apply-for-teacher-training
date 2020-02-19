@@ -176,4 +176,30 @@ RSpec.describe ProviderMailer, type: :mailer do
       expect(@mail.body.encoded).to include(application_choice.course.code)
     end
   end
+
+  describe 'Send email when the application withdrawn' do
+    before do
+      @mail = mailer.application_withrawn(provider_user, application_choice)
+    end
+
+    it 'sends an email with the correct subject' do
+      expect(@mail.subject).to include(
+        t('provider_application_withrawnn.email.subject',
+          candidate_name: application_choice.application_form.full_name),
+        )
+    end
+
+    it 'addresses the provider user by name' do
+      expect(@mail.body.encoded).to include("Dear #{provider_user.full_name}")
+    end
+
+    it 'includes the candidate name' do
+      expect(@mail.body.encoded).to include(application_choice.application_form.full_name.to_s)
+    end
+
+    it 'includes the course details' do
+      expect(@mail.body.encoded).to include(application_choice.course.name)
+      expect(@mail.body.encoded).to include(application_choice.course.code)
+    end
+  end
 end
