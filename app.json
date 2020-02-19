@@ -1,7 +1,7 @@
 {
   "name": "apply-for-teacher-training",
   "scripts": {
-    "postdeploy": "heroku config:set AUTHORISED_HOSTS=${HEROKU_APP_NAME}.herokuapp.com --app ${HEROKU_APP_NAME} && bundle exec rake db:schema:load && bundle exec rake setup_local_dev_data"
+    "postdeploy": "bundle exec rake db:schema:load && bundle exec rake setup_local_dev_data"
   },
   "env": {
     "AUTHORISED_HOSTS": {
