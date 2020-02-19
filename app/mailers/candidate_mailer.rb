@@ -148,6 +148,13 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(application_form, subject: I18n.t!("chase_candidate_decision_email.subject_#{subject_pluralisation}"))
   end
 
+  def declined_by_default(application_form)
+    @declined_courses = application_form.application_choices.select(&:declined_by_default?)
+    @declined_course_names = @declined_courses.map { |application_choice| "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}" }
+
+    email_for_candidate(application_form, subject: I18n.t!('candidate_mailer.declined_by_default.subject', count: @declined_courses.size))
+  end
+
 private
 
   def new_offer(application_choice, template_name)

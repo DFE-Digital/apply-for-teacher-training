@@ -14,6 +14,7 @@ RSpec.feature 'Decline by default' do
 
     and_when_the_decline_by_default_limit_has_been_exceeded
     then_the_application_choice_is_declined
+    and_the_candidate_receives_an_email
   end
 
   def given_the_pilot_is_open
@@ -57,5 +58,11 @@ RSpec.feature 'Decline by default' do
     @application_choice.reload
 
     expect(@application_choice.reload.status).to eql('declined')
+  end
+
+  def and_the_candidate_receives_an_email
+    open_email(@application_form.candidate.email_address)
+
+    expect(current_email.subject).to include('Application withdrawn automatically')
   end
 end
