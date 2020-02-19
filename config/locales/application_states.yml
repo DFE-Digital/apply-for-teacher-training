@@ -179,7 +179,7 @@ en:
         - referee_mailer-reference_confirmation_email
 
     application_complete-send_to_provider:
-      name: Send to provider
+      name: Application is sent to provider
       by: system
       description: 5 days after submission the application is sent to providers. This is to give candidates the opportunity to edit their application.
       emails:
@@ -232,7 +232,7 @@ en:
         The candidate makes a withdrawal decision to inform the provider that they no longer want their application to be considered. The candidate can withdraw an application at any time.
 
     awaiting_provider_decision-reject_by_default:
-      name: Reject by default
+      name: Rejected by default
       by: system
       description: |
         An application is rejected by default (RBD) if the provider doesn’t make an offer within 40 working days after they have received an application.
@@ -250,7 +250,7 @@ en:
         - candidate_mailer-new_offer_decisions_pending
 
     offer-decline_by_default:
-      name: Decline by default
+      name: Declined by default
       by: system
       description: The candidate has to respond within 5 days, otherwise the system will decline the offer.
       emails:
@@ -279,13 +279,13 @@ en:
       # https://trello.com/c/jYzNQIaZ/1047-email-a-candidate-has-declined-an-offer-provider
 
     pending_conditions-confirm_conditions_met:
-      name: Confirm conditions are met
+      name: Provider confirms conditions are met
       by: provider
       description: The provider confirms that the candidate has met the conditions set out in the offer.
       # https://trello.com/c/XrlNFh5d/1028-email-provider-says-candidate-has-met-all-conditions-candidate
 
     pending_conditions-conditions_not_met:
-      name: Mark conditions as not met
+      name: Providers marks conditions as not met
       by: provider
       description: The provider says the candidate hasn’t met the conditions set out in the offer.
       # https://trello.com/c/QNmoQxi1/1027-email-provider-says-candidate-has-not-met-conditions-candidate
@@ -296,7 +296,7 @@ en:
       description: Candidates can withdraw at any time.
 
     recruited-confirm_enrolment:
-      name: Confirm enrolment
+      name: Provider confirms enrolment
       by: provider
       description: ""
 
@@ -306,7 +306,7 @@ en:
       description: Candidates can withdraw at any time.
 
     rejected-make_offer:
-      name: Make offer
+      name: Provider makes offer
       by: provider
       description: ""
       emails:
