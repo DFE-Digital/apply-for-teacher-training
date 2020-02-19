@@ -161,6 +161,9 @@ en:
       emails:
         - candidate_mailer-application_submitted
         - referee_mailer-reference_request_email
+        - referee_mailer-reference_request_chaser_email
+        - candidate_mailer-new_referee_request
+        - candidate_mailer-chase_reference
 
     awaiting_references-references_complete:
       name: References are completed
@@ -177,6 +180,7 @@ en:
       emails:
         - candidate_mailer-application_sent_to_provider
         - provider_mailer-application_submitted
+        - provider_mailer-chase_provider_decision
 
     application_complete-withdraw:
       name: Withdraw
@@ -201,6 +205,7 @@ en:
         - candidate_mailer-new_offer_single_offer
         - candidate_mailer-new_offer_multiple_offers
         - candidate_mailer-new_offer_decisions_pending
+        - candidate_mailer-chase_candidate_decision
 
     awaiting_provider_decision-reject:
       name: Provider rejects
@@ -236,6 +241,10 @@ en:
       by: provider
       description: |
         The provider is able to update their offer at any time before the candidate has accepted it. An updated offer may have different conditions or be for a different course.
+      emails:
+        - candidate_mailer-new_offer_single_offer
+        - candidate_mailer-new_offer_multiple_offers
+        - candidate_mailer-new_offer_decisions_pending
 
     offer-decline_by_default:
       name: Decline by default
@@ -243,31 +252,40 @@ en:
       description: The candidate has to respond within 5 days, otherwise the system will decline the offer.
       emails:
         - candidate_mailer-declined_by_default
+        # https://trello.com/c/UpGaBWKg/1046-email-application-declined-by-default-as-offer-not-responded-to-within-10-days-provider
 
     offer-reject:
       name: Provider rescinds offer
       by: provider
       description: As long as the candidate hasn’t accepted the offer, the provider can reject the application.
+      emails:
+        - candidate_mailer-application_rejected_all_rejected
+        - candidate_mailer-application_rejected_awaiting_decisions
+        - candidate_mailer-application_rejected_offers_made
 
     offer-accept:
       name: Candidate accepts offer
       by: candidate
       description: The candidate can accept the offer. All other application choices will be withdrawn.
+      # https://trello.com/c/Xt431Th8/1025-email-candidate-has-accepted-offer-provider
 
     offer-decline:
       name: Candidate declines offer
       by: candidate
       description: The candidate can decline the offer.
+      # https://trello.com/c/jYzNQIaZ/1047-email-a-candidate-has-declined-an-offer-provider
 
     pending_conditions-confirm_conditions_met:
       name: Confirm conditions are met
       by: provider
       description: The provider confirms that the candidate has met the conditions set out in the offer.
+      # https://trello.com/c/XrlNFh5d/1028-email-provider-says-candidate-has-met-all-conditions-candidate
 
     pending_conditions-conditions_not_met:
       name: Mark conditions as not met
       by: provider
       description: The provider says the candidate hasn’t met the conditions set out in the offer.
+      # https://trello.com/c/QNmoQxi1/1027-email-provider-says-candidate-has-not-met-conditions-candidate
 
     pending_conditions-withdraw:
       name: Withdraw
@@ -288,14 +306,16 @@ en:
       name: Make offer
       by: provider
       description: ""
+      emails:
+        - candidate_mailer-new_offer_single_offer
+        - candidate_mailer-new_offer_multiple_offers
+        - candidate_mailer-new_offer_decisions_pending
 
   candidate_flow_events:
     not_signed_up-sign_up:
       name: Sign up
       by: candidate
       description: ''
-      emails:
-        - authentication_mailer-sign_up_email
 
     never_signed_in-sign_in:
       name: Sign in

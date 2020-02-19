@@ -10,6 +10,10 @@
       <%= govuk_link_to 'Candidate application flow', support_interface_candidate_flow_path %>
     </li>
 
+    <li class="govuk-footer__inline-list-item">
+      <%= govuk_link_to 'When emails are sent', support_interface_when_emails_are_sent_path %>
+    </li>
+
     <% if Rails.application.config.action_mailer.show_previews %>
     <li class="govuk-footer__inline-list-item">
       <%= govuk_link_to 'Mail previews', '/rails/mailers' %>

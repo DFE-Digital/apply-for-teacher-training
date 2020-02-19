@@ -333,6 +333,7 @@ Rails.application.routes.draw do
 
     get '/provider-flow', to: 'docs#provider_flow', as: :provider_flow
     get '/candidate-flow', to: 'docs#candidate_flow', as: :candidate_flow
+    get '/when-emails-are-sent', to: 'docs#when_emails_are_sent', as: :when_emails_are_sent
 
     get '/applications' => 'application_forms#index'
     get '/applications/:application_form_id' => 'application_forms#show', as: :application_form

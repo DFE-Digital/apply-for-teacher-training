@@ -11,14 +11,6 @@ class StateEventExplanationComponent < ActionView::Component::Base
     @namespace = machine.i18n_namespace
   end
 
-  def emails_sent_from_event
-    if I18n.exists?("#{namespace}events.#{from_state}-#{event.name}.emails")
-      I18n.t!("#{namespace}events.#{from_state}-#{event.name}.emails")
-    else
-      []
-    end
-  end
-
   def human_transitions_to
     I18n.t!("#{namespace}application_states.#{transitions_to}.name")
   end
