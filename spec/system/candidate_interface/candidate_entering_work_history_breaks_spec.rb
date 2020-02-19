@@ -10,9 +10,12 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   scenario 'Candidate enters a reason for a work break' do
-    FeatureFlag.activate('work_breaks')
-
     given_i_am_signed_in
+    and_the_work_breaks_feature_flag_is_off
+    when_i_visit_the_new_break_page
+    then_i_am_redirected_to_the_review_work_history_page
+
+    given_the_work_breaks_feature_flag_is_on
     and_i_visit_the_site
 
     when_i_click_on_work_history
@@ -47,6 +50,22 @@ RSpec.feature 'Entering reasons for their work history breaks' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
+  end
+
+  def and_the_work_breaks_feature_flag_is_off
+    FeatureFlag.deactivate('work_breaks')
+  end
+
+  def when_i_visit_the_new_break_page
+    visit candidate_interface_new_work_history_break_path
+  end
+
+  def then_i_am_redirected_to_the_review_work_history_page
+    expect(page).to have_current_path(candidate_interface_work_history_show_path)
+  end
+
+  def given_the_work_breaks_feature_flag_is_on
+    FeatureFlag.activate('work_breaks')
   end
 
   def and_i_visit_the_site
