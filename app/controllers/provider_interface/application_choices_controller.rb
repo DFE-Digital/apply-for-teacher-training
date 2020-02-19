@@ -30,7 +30,6 @@ module ProviderInterface
 
     def filter_options
       if params.fetch('filter', false)
-
         params['filter']['status'].keys
       else
         %W(accepted conditions_met declined awaiting_provider_decision offer rejected withdrawn offer_withdrawn)
