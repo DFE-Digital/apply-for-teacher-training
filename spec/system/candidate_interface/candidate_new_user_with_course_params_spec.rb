@@ -60,11 +60,6 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
     click_on t('apply_from_find.apply_button')
   end
 
-  def then_the_url_should_contain_the_course_code_and_provider_code_param
-    expect(page.current_url).to have_content "providerCode=#{@course.provider.code}"
-    expect(page.current_url).to have_content "courseCode=#{@course.code}"
-  end
-
   def when_i_fill_in_the_eligiblity_form_with_yes
     within_fieldset('Are you a citizen of the UK or the EU?') do
       choose 'Yes'
