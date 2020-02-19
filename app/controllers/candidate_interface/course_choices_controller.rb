@@ -36,7 +36,7 @@ module CandidateInterface
       @pick_provider = PickProviderForm.new(provider_id: params.dig(:candidate_interface_pick_provider_form, :provider_id))
       if !@pick_provider.valid?
         render :options_for_provider
-      elsif @pick_provider.other?
+      elsif !@pick_provider.courses_available?
         redirect_to candidate_interface_course_choices_on_ucas_path
       else
         redirect_to candidate_interface_course_choices_course_path(@pick_provider.provider_id)
