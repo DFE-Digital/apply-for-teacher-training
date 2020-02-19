@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.feature 'An application gets declined by default' do
+RSpec.feature 'Decline by default' do
   include CourseOptionHelpers
   include CandidateHelper
 
-  scenario 'before the DBD date the candidate receives a chaser email', sidekiq: true do
+  scenario 'An application is declined by default', sidekiq: true do
     given_the_pilot_is_open
     and_the_automated_candidate_chaser_is_active
 
