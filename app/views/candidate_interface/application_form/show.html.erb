@@ -21,7 +21,11 @@
       <%= t('page_titles.course_choices') %>
     </h2>
     <% unless @application_form_presenter.application_choices_added? %>
-      <p class="govuk-body"><%= t('application_form.courses.intro') %></p>
+      <% if @application_form_presenter.apply_1? %>
+        <p class="govuk-body"><%= t('application_form.courses.intro') %></p>
+      <% else %>
+        <p class="govuk-body">You can choose 1 course</p>
+      <% end %>
     <% end %>
     <ul class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">

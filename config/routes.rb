@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   namespace :candidate_interface, path: '/candidate' do
     get '/' => 'start_page#show', as: :start
 
+    post '/apply-2' => 'application_form#apply_2', as: :apply_2
+
     get '/accessibility', to: 'content#accessibility'
     get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
     get '/cookies', to: 'content#cookies_candidate', as: :cookies
