@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @pick_site, url: candidate_interface_course_choices_site_path(provider_id: params[:provider_id], course_id: params[:course_id]), builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+    <%= form_with model: @pick_site, url: candidate_interface_course_choices_site_path(params[:provider_id], params[:course_id]), builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset :course_option_id, legend: { size: 'xl', text: t('page_titles.which_location') } do %>

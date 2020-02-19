@@ -69,7 +69,10 @@ module CandidateInterface
 
         pick_site_for_course(course_id, course_option.id)
       else
-        redirect_to candidate_interface_course_choices_site_path(provider_id: @pick_course.provider_id, course_id: @pick_course.course_id)
+        redirect_to candidate_interface_course_choices_site_path(
+          @pick_course.provider_id,
+          @pick_course.course_id,
+        )
       end
     end
 
