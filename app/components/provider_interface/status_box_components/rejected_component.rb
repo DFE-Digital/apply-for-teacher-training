@@ -8,8 +8,13 @@ module ProviderInterface
         @application_choice = application_choice
       end
 
+      def render?
+        application_choice.rejected? || \
+          raise(ProviderInterface::StatusBoxComponent::ComponentMismatchError)
+      end
+
       def offer_withdrawn_at
-        application_choice.offer_withdrawn_at&.to_s(:govuk_date)
+        application_choice.offer_withdrawn_at&.to_s(:govuk_date) # nil is legit here
       end
 
       def offer_withdrawn_rows
@@ -24,11 +29,11 @@ module ProviderInterface
           },
           {
             key: 'Course',
-            value: render(ProviderInterface::CoursePresentationComponent.new(application_choice: application_choice)),
+            value: render(ProviderInterface::OfferedCourseComponent.new(application_choice: application_choice)),
           },
           {
             key: 'Location',
-            value: render(ProviderInterface::LocationPresentationComponent.new(application_choice: application_choice)),
+            value: render(ProviderInterface::OfferedCourseComponent.new(application_choice: application_choice, display: :site)),
           },
         ]
       end
@@ -41,7 +46,7 @@ module ProviderInterface
           },
           {
             key: 'Application rejected',
-            value: application_choice.rejected_at&.to_s(:govuk_date),
+            value: application_choice.rejected_at.to_s(:govuk_date),
           },
         ]
       end

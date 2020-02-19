@@ -8,6 +8,15 @@ module ProviderInterface
         @application_choice = application_choice
       end
 
+      def render?
+        (application_choice.withdrawn? && !application_choice.offer_withdrawn_at) || \
+          raise(ProviderInterface::StatusBoxComponent::ComponentMismatchError)
+      end
+
+      def candidate_name
+        application_choice.application_form.full_name
+      end
+
       def rows
         [
           {
@@ -16,7 +25,7 @@ module ProviderInterface
           },
           {
             key: 'Application withdrawn',
-            value: application_choice.withdrawn_at&.to_s(:govuk_date),
+            value: application_choice.withdrawn_at.to_s(:govuk_date),
           },
         ]
       end

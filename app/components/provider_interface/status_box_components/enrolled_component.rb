@@ -8,6 +8,15 @@ module ProviderInterface
         @application_choice = application_choice
       end
 
+      def render?
+        application_choice.enrolled? || \
+          raise(ProviderInterface::StatusBoxComponent::ComponentMismatchError)
+      end
+
+      def candidate_name
+        application_choice.application_form.full_name
+      end
+
       def rows
         [
           {
@@ -16,15 +25,15 @@ module ProviderInterface
           },
           {
             key: 'Enrolled',
-            value: application_choice.enrolled_at&.to_s(:govuk_date),
+            value: application_choice.enrolled_at.to_s(:govuk_date),
           },
           {
             key: 'Course',
-            value: render(ProviderInterface::CoursePresentationComponent.new(application_choice: application_choice)),
+            value: render(ProviderInterface::OfferedCourseComponent.new(application_choice: application_choice)),
           },
           {
             key: 'Location',
-            value: render(ProviderInterface::LocationPresentationComponent.new(application_choice: application_choice)),
+            value: render(ProviderInterface::OfferedCourseComponent.new(application_choice: application_choice, display: :site)),
           },
         ]
       end

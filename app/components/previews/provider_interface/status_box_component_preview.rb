@@ -1,56 +1,56 @@
 module ProviderInterface
   class StatusBoxComponentPreview < ActionView::Component::Preview
     def awaiting_provider_decision
-      render_component_for ApplicationChoice.find_by(status: :awaiting_provider_decision)
+      render_component_for choices: ApplicationChoice.where(status: :awaiting_provider_decision)
     end
 
     def offer
-      render_component_for ApplicationChoice.find_by(status: :offer)
+      render_component_for choices: ApplicationChoice.where(status: :offer)
     end
 
     def pending_conditions_with_conditions
-      render_component_for ApplicationChoice.find_by(
+      render_component_for choices: ApplicationChoice.where(
         'status = \'pending_conditions\' AND offer IS NOT NULL AND offer->>\'conditions\' != \'[]\'',
       )
     end
 
     def pending_conditions_with_no_conditions
-      render_component_for ApplicationChoice.find_by('status = \'pending_conditions\' AND offer->>\'conditions\' = \'[]\'')
+      render_component_for choices: ApplicationChoice.where('status = \'pending_conditions\' AND offer->>\'conditions\' = \'[]\'')
     end
 
     def rejected
-      render_component_for ApplicationChoice.find_by(status: :rejected)
+      render_component_for choices: ApplicationChoice.where(status: :rejected)
     end
 
     def recruited
-      render_component_for ApplicationChoice.find_by(status: :recruited)
+      render_component_for choices: ApplicationChoice.where(status: :recruited)
     end
 
     def enrolled
-      render_component_for ApplicationChoice.find_by(status: :enrolled)
+      render_component_for choices: ApplicationChoice.where(status: :enrolled)
     end
 
     def declined
-      render_component_for ApplicationChoice.find_by(status: :declined)
+      render_component_for choices: ApplicationChoice.where(status: :declined)
     end
 
     def conditions_not_met
-      render_component_for ApplicationChoice.find_by(status: :conditions_not_met)
+      render_component_for choices: ApplicationChoice.where(status: :conditions_not_met)
     end
 
     def application_withdrawn
-      render_component_for ApplicationChoice.find_by('status = \'withdrawn\' AND offer_withdrawn_at IS NULL')
+      render_component_for choices: ApplicationChoice.where(status: :withdrawn, offer_withdrawn_at: nil)
     end
 
     def offer_withdrawn
-      render_component_for ApplicationChoice.find_by('status = \'rejected\' AND offer_withdrawn_at IS NOT NULL')
+      render_component_for choices: ApplicationChoice.where(status: :rejected).where.not(offer_withdrawn_at: nil)
     end
 
   private
 
-    def render_component_for(application_choice)
-      if application_choice
-        render(ProviderInterface::StatusBoxComponent, application_choice: application_choice)
+    def render_component_for(choices:)
+      if !choices.empty?
+        render ProviderInterface::StatusBoxComponent.new(application_choice: choices.order('RANDOM()').first)
       else
         render template: 'support_interface/docs/missing_test_data'
       end

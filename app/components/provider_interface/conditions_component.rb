@@ -8,6 +8,10 @@ module ProviderInterface
       @application_choice = application_choice
     end
 
+    def render?
+      condition_rows
+    end
+
     def conditions
       application_choice.offer['conditions'] if application_choice.offer.present?
     end

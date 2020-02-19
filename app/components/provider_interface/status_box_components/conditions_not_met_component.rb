@@ -8,6 +8,11 @@ module ProviderInterface
         @application_choice = application_choice
       end
 
+      def render?
+        application_choice.conditions_not_met? || \
+          raise(ProviderInterface::StatusBoxComponent::ComponentMismatchError)
+      end
+
       def candidate_name
         application_choice.application_form.full_name
       end
@@ -20,11 +25,11 @@ module ProviderInterface
           },
           {
             key: 'Course',
-            value: render(ProviderInterface::CoursePresentationComponent.new(application_choice: application_choice)),
+            value: render(ProviderInterface::OfferedCourseComponent.new(application_choice: application_choice)),
           },
           {
             key: 'Location',
-            value: render(ProviderInterface::LocationPresentationComponent.new(application_choice: application_choice)),
+            value: render(ProviderInterface::OfferedCourseComponent.new(application_choice: application_choice, display: :site)),
           },
         ]
       end
