@@ -255,7 +255,7 @@ en:
       description: The candidate has to respond within 5 days, otherwise the system will decline the offer.
       emails:
         - candidate_mailer-declined_by_default
-        # https://trello.com/c/UpGaBWKg/1046-email-application-declined-by-default-as-offer-not-responded-to-within-10-days-provider
+        - provider_mailer-declined_by_default
 
     offer-reject:
       name: Provider rescinds offer
