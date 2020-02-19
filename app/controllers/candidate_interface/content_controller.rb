@@ -19,11 +19,14 @@ module CandidateInterface
     end
 
     def providers
+      provider_courses = Struct.new(:provider_name, :courses)
+
       @courses_by_provider = Course
         .open_on_apply
         .includes(:provider)
         .group_by { |c| c.provider.name }
         .sort_by { |provider_name, _| provider_name }
+        .map { |provider_name, courses| provider_courses.new(provider_name, courses) }
     end
   end
 end

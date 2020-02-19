@@ -6,7 +6,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">You can apply to a limited number of training providers and courses using <%= govuk_link_to service_name, candidate_interface_start_path %>. Providers not signed up to <%= service_name %> can only receive applications through UCAS.</p>
+    <p class="govuk-body">You can apply to the following training providers and courses using <%= govuk_link_to service_name, candidate_interface_start_path %>. Providers not signed up to <%= service_name %> can only receive applications through UCAS.</p>
     <h2 class="govuk-heading-s">We suggest you use Apply for teacher training if:</h2>
     <ul class="govuk-list govuk-list--bullet">
       <li>you want to try out a new, streamlined service with personalised support</li>
@@ -18,25 +18,23 @@
       <li>some of your preferred providers aren’t signed up for Apply for teacher training and you’d rather not go through different systems</li>
     </ul>
 
-    <hr class="govuk-section-break govuk-section-break govuk-section-break--l govuk-section-break--visible">
-    <p class="govuk-body">You can apply to the following training providers and courses using <%= service_name %>:</p>
-
-    <% @courses_by_provider.each do |provider_name, courses| %>
-      <h2 class="govuk-heading-m govuk-!-margin-bottom-2"><%= provider_name %></h2>
-      <details class="govuk-details" data-module="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">
-            View courses<span class="govuk-visually-hidden"> offered by <%= provider_name %></span>
-          </span>
-        </summary>
-        <div class="govuk-details__text">
-          <ul class="govuk-list govuk-list--bullet">
-            <% courses.sort_by(&:name).each do |course| %>
-              <li><%= govuk_link_to course.name_and_code, "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{course.provider.code}/#{course.code}" %></li>
-            <% end %>
-          </ul>
-        </div>
-      </details>
-    <% end %>
+    <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+      <% @courses_by_provider.each_with_index do |provider, index| %>
+        <section class="govuk-accordion__section">
+          <header class="govuk-accordion__section-header">
+            <h2 class="govuk-accordion__section-heading">
+              <span class="govuk-accordion__section-button" id="accordion-default-heading-<%= index %>"><%= provider.provider_name %></span>
+            </h2>
+          </header>
+          <div class="govuk-accordion__section-content" id="accordion-default-content-<%= index %>" aria-labelledby="accordion-default-heading-<%= index %>">
+            <ul class="govuk-list govuk-list--bullet">
+              <% provider.courses.sort_by(&:name).each do |course| %>
+                <li><%= govuk_link_to course.name_and_code, "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{course.provider.code}/#{course.code}" %></li>
+              <% end %>
+            </ul>
+          </div>
+        </section>
+      <% end %>
+    </div>
   </div>
 </div>
