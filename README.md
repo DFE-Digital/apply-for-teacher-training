@@ -4,34 +4,35 @@ A service for candidates to apply for teacher training. We're currently in beta.
 
 ## Live environments
 
-| Name | URL | Description | Azure ID |
-| -- | -- | -- | -- |
-| Production | [www.apply..](https://www.apply-for-teacher-training.education.gov.uk/candidate) | Public site | `s106p01` |
-| Staging | [staging.apply..](https://staging.apply-for-teacher-training.education.gov.uk) | For internal use by DfE to test deploys | `s106t01` |
-| Sandbox | [sandbox.apply..](https://sandbox.apply-for-teacher-training.education.gov.uk) | Demo environment for software vendors who integrate with our API | `s106t02` |
-| QA | [qa.apply..](https://qa.apply-for-teacher-training.education.gov.uk) | For internal use by DfE for testing. Automatically deployed from master | `s106d01` |
+| Name       | URL                                                                              | Description                                                             | Azure ID  |
+| ---------- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | --------- |
+| Production | [www.apply..](https://www.apply-for-teacher-training.education.gov.uk/candidate) | Public site                                                             | `s106p01` |
+| Staging    | [staging.apply..](https://staging.apply-for-teacher-training.education.gov.uk)   | For internal use by DfE to test deploys                                 | `s106t01` |
+| Sandbox    | [sandbox.apply..](https://sandbox.apply-for-teacher-training.education.gov.uk)   | Demo environment for software vendors who integrate with our API        | `s106t02` |
+| QA         | [qa.apply..](https://qa.apply-for-teacher-training.education.gov.uk)             | For internal use by DfE for testing. Automatically deployed from master | `s106d01` |
 
 When setting up a new environment, check you have followed [the instructions
 for doing so](/docs/new-environment.md).
 
 ## Table of Contents
 
-* [Documentation](#documentation)
-* [Dependencies](#dependencies)
-* [Development environment](#development-environment)
-* [DfE Sign-in](#dfe-sign-in)
+- [Documentation](#documentation)
+- [Dependencies](#dependencies)
+- [Development environment](#development-environment)
+- [DfE Sign-in](#dfe-sign-in)
 
 ## Guides
 
-* [Developer on-boarding](/docs/developer-onboarding.md)
-* [Connect to a production database](/docs/connecting-to-databases.md)
-* [Deploy the application](/docs/deployment.md)
-* [Environment variables](/docs/environment-variables.md)
-* [Frontend development](/docs/frontend.md)
-* [Pipeline Variables](/docs/pipeline-variables.md)
-* [Restore a database](/docs/database-restore.md)
-* [Set up a new environment](/docs/new-environment.md)
-* [Testing style guide](/docs/testing-styleguide.md)
+- [Developer on-boarding](/docs/developer-onboarding.md)
+- [Connect to a production database](/docs/connecting-to-databases.md)
+- [Deploy the application](/docs/deployment.md)
+- [Environment variables](/docs/environment-variables.md)
+- [Frontend development](/docs/frontend.md)
+- [Pipeline Variables](/docs/pipeline-variables.md)
+- [Restore a database](/docs/database-restore.md)
+- [Set up a new environment](/docs/new-environment.md)
+- [Testing style guide](/docs/testing-styleguide.md)
+- [Rails components](/docs/components.md)
 
 ## Documentation
 
