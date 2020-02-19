@@ -23,7 +23,7 @@ class SubmitApplication
 private
 
   def send_reference_request_email_to_referees(application_form)
-    application_form.application_references.includes(:application_form).each do |reference|
+    application_form.references.where(feedback: nil).each do |reference|
       RefereeMailer.reference_request_email(application_form, reference).deliver_later
 
       reference.update!(feedback_status: 'feedback_requested', requested_at: Time.zone.now)
@@ -49,7 +49,12 @@ private
 
   def submit_application
     application_choices.each do |application_choice|
-      submit_application_choice(application_choice)
+      application_choice.edit_by = ApplicationDates.new(application_form).edit_by
+      ApplicationStateChange.new(application_choice).submit!
+
+      if application_form.apply_2? && application_form.references_complete?
+        ApplicationStateChange.new(application_choice).references_complete!
+      end
     end
   end
 
