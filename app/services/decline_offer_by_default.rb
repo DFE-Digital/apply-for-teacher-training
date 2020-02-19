@@ -12,7 +12,9 @@ class DeclineOfferByDefault
         ApplicationStateChange.new(application_choice).decline_by_default!
       end
 
-      CandidateMailer.declined_by_default(application_form).deliver
+      if FeatureFlag.active?('decline_by_default_notification_to_candidate')
+        CandidateMailer.declined_by_default(application_form).deliver
+      end
     end
   end
 end
