@@ -15,6 +15,7 @@ RSpec.feature 'Decline by default' do
     and_when_the_decline_by_default_limit_has_been_exceeded
     then_the_application_choice_is_declined
     and_the_candidate_receives_an_email
+    and_the_provider_receives_an_email
   end
 
   def given_the_pilot_is_open
@@ -24,11 +25,14 @@ RSpec.feature 'Decline by default' do
   def and_the_automated_candidate_chaser_is_active
     FeatureFlag.activate('automated_decline_by_default_candidate_chaser')
     FeatureFlag.activate('decline_by_default_notification_to_candidate')
+    FeatureFlag.activate('decline_by_default_notification_to_provider')
   end
 
   def when_i_have_an_offer_waiting_for_my_decision
-    @application_form = create(:completed_application_form)
+    @application_form = create(:completed_application_form, first_name: 'Harry', last_name: 'Potter')
     @application_choice = create(:application_choice, status: :offer, application_form: @application_form, decline_by_default_at: Time.zone.now + 10.days)
+
+    @provider_user = create(:provider_user, providers: [@application_choice.provider])
   end
 
   def and_the_time_limit_before_decline_by_default_date_has_been_exceeded
@@ -65,5 +69,11 @@ RSpec.feature 'Decline by default' do
     open_email(@application_form.candidate.email_address)
 
     expect(current_email.subject).to include('Application withdrawn automatically')
+  end
+
+  def and_the_provider_receives_an_email
+    open_email(@provider_user.email_address)
+
+    expect(current_email.subject).to include('Harry Potter’s application withdrawn automatically')
   end
 end

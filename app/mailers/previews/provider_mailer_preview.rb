@@ -19,6 +19,10 @@ class ProviderMailerPreview < ActionMailer::Preview
     ProviderMailer.offer_accepted(provider_user, application_choice)
   end
 
+  def declined_by_default
+    ProviderMailer.declined_by_default(provider_user, application_choice)
+  end
+
 private
 
   def application_choice

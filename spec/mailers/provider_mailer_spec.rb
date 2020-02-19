@@ -165,4 +165,15 @@ RSpec.describe ProviderMailer, type: :mailer do
       expect(@mail.body.encoded).to include(application_choice.course.name_and_code)
     end
   end
+
+  describe '.declined_by_default' do
+    before do
+      @mail = mailer.declined_by_default(provider_user, application_choice)
+    end
+
+    it 'includes the course details' do
+      expect(@mail.body.encoded).to include(application_choice.course.name)
+      expect(@mail.body.encoded).to include(application_choice.course.code)
+    end
+  end
 end

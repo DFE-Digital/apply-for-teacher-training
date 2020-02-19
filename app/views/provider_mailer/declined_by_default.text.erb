@@ -1,0 +1,9 @@
+Dear <%= @provider_user.full_name || 'colleague' %>
+
+# Application withdrawn automatically
+
+We withdrew <%= @application_choice.application_form.full_name %>’s application for <%= @application_choice.course.name_and_code %> because they didn’t respond to the offer within <%= @application_choice.decline_by_default_days %> working days.
+
+# Give feedback or report a problem
+
+Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
