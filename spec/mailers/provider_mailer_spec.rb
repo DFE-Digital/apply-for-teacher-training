@@ -13,6 +13,8 @@ RSpec.describe ProviderMailer, type: :mailer do
                   application_form:
                     build_stubbed(
                       :completed_application_form,
+                      first_name: 'Harry',
+                      last_name: 'Potter',
                    ))
   end
   let(:provider_user) { application_choice.provider.provider_users.first }
@@ -147,6 +149,20 @@ RSpec.describe ProviderMailer, type: :mailer do
     it 'includes a readable RBD date' do
       rbd_date = application_choice.reject_by_default_at
       expect(@mail.body.encoded).to include("by #{rbd_date.to_s(:govuk_date).strip}")
+    end
+  end
+
+  describe '.offer_accepted' do
+    before do
+      @mail = mailer.offer_accepted(provider_user, application_choice)
+    end
+
+    it 'mentions the candidate' do
+      expect(@mail.body.encoded).to include('Harry Potter has accepted your offer')
+    end
+
+    it 'mentions the course' do
+      expect(@mail.body.encoded).to include(application_choice.course.name_and_code)
     end
   end
 end

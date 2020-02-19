@@ -75,4 +75,25 @@ class ProviderMailer < ApplicationMailer
               to: provider_user.email_address,
               subject: I18n.t!('provider_application_waiting_for_decision.email.subject', candidate_name: @application.candidate_name))
   end
+
+  def offer_accepted(provider_user, application_choice)
+    @application_choice = application_choice
+
+    email_for_provider(
+      provider_user,
+      subject: I18n.t!('provider_mailer.offer_accepted.subject', candidate_name: application_choice.application_form.full_name),
+    )
+  end
+
+private
+
+  def email_for_provider(provider_user, args = {})
+    @provider_user = provider_user
+
+    view_mail(
+      GENERIC_NOTIFY_TEMPLATE,
+      to: provider_user.email_address,
+      subject: args[:subject],
+    )
+  end
 end
