@@ -22,8 +22,8 @@
                                 </legend>
 
                                 <div class="govuk-checkboxes govuk-checkboxes--small">
-                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "accepted", text: "Accepted", filter_options: filter_options %>
-                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "conditions_met", text: "Conditions met", filter_options: filter_options %>
+                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "pending_conditions", text: "Accepted", filter_options: filter_options %>
+                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "recruited", text: "Conditions met", filter_options: filter_options %>
                                     <%= render ProviderInterface::FilterCheckboxComponent, name: "declined", text: "Declined", filter_options: filter_options %>
                                     <%= render ProviderInterface::FilterCheckboxComponent, name: "awaiting_provider_decision", text: "New", filter_options: filter_options %>
                                     <%= render ProviderInterface::FilterCheckboxComponent, name: "offer", text: "Offered", filter_options: filter_options %>
