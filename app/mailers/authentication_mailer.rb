@@ -1,6 +1,9 @@
 class AuthenticationMailer < ApplicationMailer
   def sign_up_email(candidate:, token:)
-    @magic_link = "#{candidate_interface_authenticate_url}?token=#{token}"
+    @magic_link = candidate_interface_authenticate_url(
+      token: token,
+      u: Encryptor.encrypt(candidate.id),
+    )
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: candidate.email_address,
@@ -9,7 +12,10 @@ class AuthenticationMailer < ApplicationMailer
   end
 
   def sign_in_email(candidate:, token:)
-    @magic_link = "#{candidate_interface_authenticate_url}?token=#{token}"
+    @magic_link = candidate_interface_authenticate_url(
+      token: token,
+      u: Encryptor.encrypt(candidate.id),
+    )
 
     view_mail(GENERIC_NOTIFY_TEMPLATE,
               to: candidate.email_address,

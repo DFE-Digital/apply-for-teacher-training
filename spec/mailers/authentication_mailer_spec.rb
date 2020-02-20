@@ -19,8 +19,11 @@ RSpec.describe AuthenticationMailer, type: :mailer do
       expect(mail.body.encoded).to include(t('authentication.sign_up.email.subject'))
     end
 
-    it 'sends an email with a magic link' do
-      expect(mail.body.encoded).to include("http://localhost:3000/candidate/authenticate?token=#{token}")
+    it 'sends an email with a magic link and encrypted candidate id' do
+      allow(Encryptor).to receive(:encrypt).and_return('secret')
+      expect(mail.body.encoded).to include(
+        "http://localhost:3000/candidate/authenticate?token=#{token}&u=secret",
+      )
     end
 
     it 'sends a request with a Notify reference' do
@@ -46,8 +49,11 @@ RSpec.describe AuthenticationMailer, type: :mailer do
       expect(mail.body.encoded).to include(t('authentication.sign_in.email.subject'))
     end
 
-    it 'sends an email with a magic link' do
-      expect(mail.body.encoded).to include("http://localhost:3000/candidate/authenticate?token=#{token}")
+    it 'sends an email with a magic link and encrypted candidate id' do
+      allow(Encryptor).to receive(:encrypt).and_return('secret')
+      expect(mail.body.encoded).to include(
+        "http://localhost:3000/candidate/authenticate?token=#{token}&u=secret",
+      )
     end
   end
 
