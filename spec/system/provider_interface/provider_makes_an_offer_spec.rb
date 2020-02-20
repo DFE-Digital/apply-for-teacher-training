@@ -45,7 +45,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_choose_to_make_an_offer
-    choose 'Make an offer (including any conditions)'
+    choose 'Make an offer'
     click_on 'Continue'
   end
 
@@ -99,6 +99,6 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_can_see_the_application_has_an_offer_made
-    expect(page).to have_content 'Application status changed to ‘Offer made’'
+    expect(page).to have_content 'Offer successfully made to candidate'
   end
 end

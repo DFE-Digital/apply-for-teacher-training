@@ -84,6 +84,6 @@ RSpec.feature 'Provider rejects application' do
   end
 
   def and_i_can_see_the_application_has_just_been_rejected
-    expect(page).to have_content 'Application status changed to ‘Rejected’'
+    expect(page).to have_content 'Application successfully rejected'
   end
 end

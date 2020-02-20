@@ -6,17 +6,20 @@
     <%= form_with model: @pick_response_form, url: provider_interface_application_choice_submit_response_path(@application_choice.id), method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <span class="govuk-caption-xl">
-        Application for <%= @application_choice.course.name_and_code %>
-      </span>
-
       <h1 class="govuk-heading-xl">
         Respond to application
       </h1>
 
-      <%- offer_text = 'Make an offer (including any conditions)' %>
+      <%= render SummaryListComponent.new(rows: [
+        { key: 'Full name', value: @application_choice.application_form.full_name },
+        { key: 'Course', value: @application_choice.course.name_and_code },
+        { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
+        { key: 'Preferred location', value: @application_choice.site.name },
+      ]) %>
+
+      <%- offer_text = 'Make an offer' %>
       <%- reject_text = 'Reject application' %>
-      <%= f.govuk_radio_buttons_fieldset :decision, inline: true, legend: { size: 'm', text: '' } do %>
+      <%= f.govuk_radio_buttons_fieldset :decision, legend: { size: 'm', text: 'Choose response' } do %>
         <%= f.govuk_radio_button :decision, 'offer', label: { text: offer_text }, link_errors: true %>
         <%= f.govuk_radio_button :decision, 'reject', label: { text: reject_text } %>
       <% end %>

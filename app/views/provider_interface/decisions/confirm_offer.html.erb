@@ -3,35 +3,32 @@
 
 <%= render(FlashMessageComponent.new(flash: flash)) %>
 
-<span class="govuk-caption-xl">
-  Application for <%= @application_choice.course.name_and_code %>
-</span>
+<h1 class="govuk-heading-xl">Confirm offer</h1>
 
-<h1 class="govuk-heading-xl">
-  Confirm offer
-</h1>
+<% conditions = capture do %>
+  <% if @application_offer.offer_conditions.empty? %>
+    Unconditional offer
+  <% else %>
+    <ul class="govuk-list govuk-list--bullet">
+      <% @application_offer.offer_conditions.each do |value| %>
+        <li><%= value %></li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>
+
+<%= render SummaryListComponent.new(rows: [
+  { key: 'Full name', value: @application_choice.application_form.full_name },
+  { key: 'Course', value: @application_choice.course.name_and_code },
+  { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
+  { key: 'Preferred location', value: @application_choice.site.name },
+  { key: 'Conditions', value: conditions },
+]) %>
 
 <%= form_with model: @application_offer, url: provider_interface_application_choice_create_offer_path(@application_choice.id), method: :post do |f| %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <%= f.govuk_error_summary %>
-
-      <% conditions = capture do %>
-        <% if @application_offer.offer_conditions.empty? %>
-          Unconditional offer
-        <% else %>
-          <ul class="govuk-list govuk-list--bullet">
-            <% @application_offer.offer_conditions.each do |value| %>
-              <li><%= value %></li>
-            <% end %>
-          </ul>
-        <% end %>
-      <% end %>
-
-      <%= render SummaryListComponent.new(rows: [
-        key: 'Conditions',
-        value: conditions,
-      ]) %>
 
       <p class="govuk-body govuk-!-font-weight-bold">
         Make a note of the conditions you have set.

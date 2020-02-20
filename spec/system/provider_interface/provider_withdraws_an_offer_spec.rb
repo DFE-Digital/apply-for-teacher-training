@@ -87,13 +87,13 @@ RSpec.feature 'Provider makes an offer' do
         @application_offered.id,
       ),
     )
-    expect(page).to have_content 'Are you sure you want to withdraw this offer?'
+    expect(page).to have_content 'Check and confirm withdrawal'
     expect(page).to have_content 'We are very sorry but...'
     expect(find('#withdraw_offer_offer_withdrawal_reason', visible: false).value).to eq 'We are very sorry but...'
   end
 
   def when_i_confirm_withdrawal_of_the_offer
-    click_on 'Yes I\'m sure - withdraw offer'
+    click_on 'Withdraw offer'
   end
 
   def then_i_am_back_to_the_application_page
@@ -107,7 +107,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_can_see_the_application_offer_is_withdrawn
-    expect(page).to have_content 'Application status changed to ‘Offer withdrawn’'
+    expect(page).to have_content 'Offer successfully withdrawn'
     expect(page).to have_content 'Withdrawn by us'
   end
 end

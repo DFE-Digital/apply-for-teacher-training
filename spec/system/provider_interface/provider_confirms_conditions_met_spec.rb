@@ -69,7 +69,7 @@ RSpec.feature 'Confirm conditions met' do
   end
 
   def and_confirm_my_selection_in_the_next_page
-    click_on 'Yes I’m sure – they met the conditions'
+    click_on 'Confirm they have met your conditions'
   end
 
   def then_i_get_feedback_that_my_action_succeeded
