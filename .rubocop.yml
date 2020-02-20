@@ -20,6 +20,9 @@ AllCops:
     - 'features/support/env.rb'
     - 'vendor/**/*'
 
+Style/AndOr:
+  EnforcedStyle: conditionals
+
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: single_quotes
