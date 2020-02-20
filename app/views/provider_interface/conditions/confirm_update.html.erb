@@ -33,9 +33,9 @@
       <%= f.hidden_field :conditions_met %>
 
       <% if @conditions_form.conditions_met? %>
-        <%= f.submit 'Confirm conditions as met', class: 'govuk-button', data: { module: 'govuk-button' } %>
+        <%= f.submit 'Confirm they have met your condition', class: 'govuk-button', data: { module: 'govuk-button' } %>
       <% else %>
-        <%= f.submit 'Confirm conditions as not met', class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
+        <%= f.submit 'Confirm they have not met your condition', class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
       <% end %>
 
       <p class="govuk-body">
