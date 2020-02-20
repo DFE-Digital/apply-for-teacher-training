@@ -99,6 +99,6 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_can_see_the_application_has_an_offer_made
-    expect(page).to have_content 'Application status changed to ‘Offer made’'
+    expect(page).to have_content 'Offer successfully made to candidate'
   end
 end
