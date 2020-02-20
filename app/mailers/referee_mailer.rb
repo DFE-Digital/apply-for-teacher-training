@@ -5,11 +5,13 @@ class RefereeMailer < ApplicationMailer
     @candidate_name = application_form.full_name
     @unhashed_token = reference.refresh_feedback_token!
 
-    view_mail(GENERIC_NOTIFY_TEMPLATE,
-              to: reference.email_address,
-              subject: t('reference_request.subject.initial', candidate_name: @candidate_name),
-              reference: "#{HostingEnvironment.environment_name}-reference_request-#{reference.id}",
-              template_name: :reference_request_email)
+    notify_email(
+      to: reference.email_address,
+      subject: t('reference_request.subject.initial', candidate_name: @candidate_name),
+      reference: "#{HostingEnvironment.environment_name}-reference_request-#{reference.id}",
+      template_name: :reference_request_email,
+      application_form_id: reference.application_form_id,
+    )
   end
 
   def reference_request_chaser_email(application_form, reference)
@@ -18,18 +20,22 @@ class RefereeMailer < ApplicationMailer
     @candidate_name = application_form.full_name
     @token = reference.refresh_feedback_token!
 
-    view_mail(GENERIC_NOTIFY_TEMPLATE,
-              to: reference.email_address,
-              subject: t('reference_request.subject.chaser', candidate_name: @candidate_name))
+    notify_email(
+      to: reference.email_address,
+      subject: t('reference_request.subject.chaser', candidate_name: @candidate_name),
+      application_form_id: reference.application_form_id,
+    )
   end
 
   def reference_confirmation_email(application_form, reference)
     @name = reference.name
     @candidate_name = application_form.full_name
 
-    view_mail(GENERIC_NOTIFY_TEMPLATE,
-              to: reference.email_address,
-              subject: t('reference_confirmation_email.subject', candidate_name: @candidate_name))
+    notify_email(
+      to: reference.email_address,
+      subject: t('reference_confirmation_email.subject', candidate_name: @candidate_name),
+      application_form_id: reference.application_form_id,
+    )
   end
 
 private

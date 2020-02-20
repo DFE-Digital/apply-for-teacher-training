@@ -2,8 +2,7 @@ class ProviderMailer < ApplicationMailer
   def account_created(provider_user)
     @provider_user = provider_user
 
-    view_mail(
-      GENERIC_NOTIFY_TEMPLATE,
+    notify_email(
       to: @provider_user.email_address,
       subject: t('provider_account_created.email.subject'),
     )
@@ -25,9 +24,11 @@ class ProviderMailer < ApplicationMailer
         application_choice.reject_by_default_days,
     )
 
-    view_mail(GENERIC_NOTIFY_TEMPLATE,
-              to: provider_user.email_address,
-              subject: t('provider_application_submitted.email.subject', course_name_and_code: @application.course_name_and_code))
+    notify_email(
+      to: provider_user.email_address,
+      subject: t('provider_application_submitted.email.subject', course_name_and_code: @application.course_name_and_code),
+      application_form_id: application_choice.application_form.id,
+    )
   end
 
   def application_rejected_by_default(provider_user, application_choice)
@@ -48,9 +49,11 @@ class ProviderMailer < ApplicationMailer
         application_choice.reject_by_default_days,
     )
 
-    view_mail(GENERIC_NOTIFY_TEMPLATE,
-              to: provider_user.email_address,
-              subject: t('provider_application_rejected_by_default.email.subject', candidate_name: @application.candidate_name))
+    notify_email(
+      to: provider_user.email_address,
+      subject: t('provider_application_rejected_by_default.email.subject', candidate_name: @application.candidate_name),
+      application_form_id: application_choice.application_form.id,
+    )
   end
 
   def chase_provider_decision(provider_user, application_choice)
@@ -71,9 +74,11 @@ class ProviderMailer < ApplicationMailer
         application_choice.reject_by_default_at,
     )
 
-    view_mail(GENERIC_NOTIFY_TEMPLATE,
-              to: provider_user.email_address,
-              subject: I18n.t!('provider_application_waiting_for_decision.email.subject', candidate_name: @application.candidate_name))
+    notify_email(
+      to: provider_user.email_address,
+      subject: I18n.t!('provider_application_waiting_for_decision.email.subject', candidate_name: @application.candidate_name),
+      application_form_id: application_choice.application_form.id,
+    )
   end
 
   def offer_accepted(provider_user, application_choice)
@@ -81,6 +86,7 @@ class ProviderMailer < ApplicationMailer
 
     email_for_provider(
       provider_user,
+      application_choice.application_form,
       subject: I18n.t!('provider_mailer.offer_accepted.subject', candidate_name: application_choice.application_form.full_name),
     )
   end
@@ -89,6 +95,7 @@ class ProviderMailer < ApplicationMailer
     @application_choice = application_choice
     email_for_provider(
       provider_user,
+      application_choice.application_form,
       subject: I18n.t!('provider_mailer.decline_by_default.subject', candidate_name: application_choice.application_form.full_name),
     )
   end
@@ -98,6 +105,7 @@ class ProviderMailer < ApplicationMailer
 
     email_for_provider(
       provider_user,
+      application_choice.application_form,
       subject: I18n.t!('provider_application_withrawnn.email.subject', candidate_name: application_choice.application_form.full_name),
     )
   end
@@ -112,13 +120,13 @@ class ProviderMailer < ApplicationMailer
 
 private
 
-  def email_for_provider(provider_user, args = {})
+  def email_for_provider(provider_user, application_form, args = {})
     @provider_user = provider_user
 
-    view_mail(
-      GENERIC_NOTIFY_TEMPLATE,
+    notify_email(
       to: provider_user.email_address,
       subject: args[:subject],
+      application_form_id: application_form.id,
     )
   end
 end

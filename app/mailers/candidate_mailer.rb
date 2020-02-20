@@ -27,21 +27,23 @@ class CandidateMailer < ApplicationMailer
     @name = application_form.first_name
     @thank_you_message = t('survey_emails.thank_you.candidate')
 
-    view_mail(GENERIC_NOTIFY_TEMPLATE,
-              to: application_form.candidate.email_address,
-              subject: t('survey_emails.subject.initial'),
-              template_path: 'survey_emails',
-              template_name: 'initial')
+    notify_email(
+      to: application_form.candidate.email_address,
+      subject: t('survey_emails.subject.initial'),
+      template_path: 'survey_emails',
+      template_name: 'initial',
+    )
   end
 
   def survey_chaser_email(application_form)
     @name = application_form.first_name
 
-    view_mail(GENERIC_NOTIFY_TEMPLATE,
-              to: application_form.candidate.email_address,
-              subject: t('survey_emails.subject.chaser'),
-              template_path: 'survey_emails',
-              template_name: 'chaser')
+    notify_email(
+      to: application_form.candidate.email_address,
+      subject: t('survey_emails.subject.chaser'),
+      template_path: 'survey_emails',
+      template_name: 'chaser',
+    )
   end
 
   def new_referee_request(reference, reason:)
@@ -189,8 +191,7 @@ private
       "#{offer.course_option.course.name_and_code} at #{offer.course_option.course.provider.name}"
     end
 
-    view_mail(
-      GENERIC_NOTIFY_TEMPLATE,
+    notify_email(
       to: application_choice.application_form.candidate.email_address,
       subject: t(
         "candidate_offer.#{template_name}.subject",
@@ -199,6 +200,7 @@ private
       ),
       template_path: 'candidate_mailer/new_offer',
       template_name: template_name,
+      application_form_id: application_choice.application_form.id,
     )
   end
 
@@ -206,10 +208,10 @@ private
     @application_form = application_form
     @candidate = @application_form.candidate
 
-    view_mail(
-      GENERIC_NOTIFY_TEMPLATE,
+    notify_email(
       to: @candidate.email_address,
       subject: args[:subject] || I18n.t!("candidate_mailer.#{action_name}.subject"),
+      application_form_id: application_form.id,
     )
   end
 end
