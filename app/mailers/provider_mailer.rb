@@ -114,6 +114,7 @@ class ProviderMailer < ApplicationMailer
     @application_choice = application_choice
     email_for_provider(
       provider_user,
+      application_choice.application_form,
       subject: I18n.t!('provider_mailer.declined.subject', candidate_name: application_choice.application_form.full_name),
     )
   end
