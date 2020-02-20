@@ -4,6 +4,8 @@ RSpec.feature 'Candidate declines an offer', sidekiq: true do
   include CourseOptionHelpers
 
   scenario 'Candidate views an offer and declines' do
+    FeatureFlag.activate('offer_declined_provider_emails')
+
     given_i_am_signed_in
     and_i_have_an_offer
 
@@ -15,6 +17,7 @@ RSpec.feature 'Candidate declines an offer', sidekiq: true do
 
     then_a_slack_notification_is_sent
     and_i_see_that_i_declined_the_offer
+    and_the_provider_receives_a_notification
   end
 
   def given_i_am_signed_in
@@ -23,7 +26,13 @@ RSpec.feature 'Candidate declines an offer', sidekiq: true do
   end
 
   def and_i_have_an_offer
-    application_form = create(:application_form, first_name: 'Harry', candidate: @candidate, submitted_at: DateTime.now)
+    application_form = create(
+      :application_form,
+      first_name: 'Harry',
+      last_name: 'Potter',
+      candidate: @candidate,
+      submitted_at: DateTime.now,
+    )
 
     @course_option = course_option_for_provider_code(provider_code: 'ABC')
 
@@ -33,6 +42,8 @@ RSpec.feature 'Candidate declines an offer', sidekiq: true do
       course_option: @course_option,
       application_form: application_form,
     )
+
+    @provider_user = create(:provider_user, providers: [@application_choice.provider])
   end
 
   def when_i_visit_the_application_dashboard
@@ -60,5 +71,10 @@ RSpec.feature 'Candidate declines an offer', sidekiq: true do
     within ".qa-application-choice-#{@application_choice.id}" do
       expect(page).to have_content 'Declined'
     end
+  end
+
+  def and_the_provider_receives_a_notification
+    open_email(@provider_user.email_address)
+    expect(current_email.subject).to have_content 'Harry Potter declined an offer'
   end
 end

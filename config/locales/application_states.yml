@@ -281,7 +281,8 @@ en:
       name: Candidate declines offer
       by: candidate
       description: The candidate can decline the offer.
-      # https://trello.com/c/jYzNQIaZ/1047-email-a-candidate-has-declined-an-offer-provider
+      emails:
+        - provider_mailer-declined
 
     pending_conditions-confirm_conditions_met:
       name: Provider confirms conditions are met

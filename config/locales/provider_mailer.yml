@@ -4,3 +4,5 @@ en:
       subject: '%{candidate_name} has accepted your offer'
     decline_by_default:
       subject: '%{candidate_name}’s application withdrawn automatically'
+    declined:
+      subject: '%{candidate_name} declined an offer'

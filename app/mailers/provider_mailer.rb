@@ -102,6 +102,14 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
+  def declined(provider_user, application_choice)
+    @application_choice = application_choice
+    email_for_provider(
+      provider_user,
+      subject: I18n.t!('provider_mailer.declined.subject', candidate_name: application_choice.application_form.full_name),
+    )
+  end
+
 private
 
   def email_for_provider(provider_user, args = {})
