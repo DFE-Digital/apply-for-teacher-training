@@ -45,7 +45,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_choose_to_make_an_offer
-    choose 'Make an offer (including any conditions)'
+    choose 'Make an offer'
     click_on 'Continue'
   end
 
