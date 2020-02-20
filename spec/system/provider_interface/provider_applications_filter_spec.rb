@@ -25,6 +25,11 @@ RSpec.feature 'Providers should be able to filter applications' do
     then_only_rejected_applications_should_be_visible
     and_the_rejected_tickbox_should_still_be_checked
 
+    when_i_filter_for_applications_that_i_do_not_have
+    then_i_should_see_the_no_filter_results_error_message
+    then_i_expect_to_see_the_hide_filter_button
+    then_i_expect_to_see_the_filter_dialogue
+
   end
 
   def when_i_visit_the_provider_page
@@ -79,7 +84,6 @@ RSpec.feature 'Providers should be able to filter applications' do
     click_link('Show filter')
   end
 
-
   def when_i_filter_for_rejected_applications
     find(:css, "#status-rejected").set(true)
     click_button('Apply filters')
@@ -95,5 +99,15 @@ RSpec.feature 'Providers should be able to filter applications' do
   def and_the_rejected_tickbox_should_still_be_checked
     rejected_checkbox = find(:css, "#status-rejected")
     expect(rejected_checkbox.checked?).to be(true)
+  end
+
+  def when_i_filter_for_applications_that_i_do_not_have
+    find(:css, "#status-rejected").set(false)
+    find(:css, "#status-pending_conditions").set(true)
+    click_button('Apply filters')
+  end
+
+  def then_i_should_see_the_no_filter_results_error_message
+    expect(page).to have_content('No applications for the selected filters.')
   end
 end

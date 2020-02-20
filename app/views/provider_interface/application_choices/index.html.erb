@@ -2,14 +2,16 @@
 
 <h1 class='govuk-heading-xl'>Applications</h1>
   <div class='moj-filter-layout'>
+
+    <% if @filter_visible.eql?('true') %>
+      <%= render ProviderInterface::FilterComponent, sort_order: @sort_order, current_sort_by: @sort_by, filter_options: @filter_options %>
+    <% end %>
+
+    <%= render ProviderInterface::ToggleFilterComponent, sort_order: @sort_order, current_sort_by: @sort_by, filter_visible: @filter_visible %>
     <% if @application_choices.any? %>
 
-      <% if @filter_visible.eql?('true') %>
-        <%= render ProviderInterface::FilterComponent, sort_order: @sort_order, current_sort_by: @sort_by, filter_options: @filter_options %>
-      <% end %>
 
       <div class='moj-filter-layout__content'>
-        <%= render ProviderInterface::ToggleFilterComponent, sort_order: @sort_order, current_sort_by: @sort_by, filter_visible: @filter_visible %>
         <div class='moj-scrollable-pane'>
           <div class='moj-scrollable-pane__wrapper'>
             <table class='govuk-table'>
@@ -43,6 +45,8 @@
           </div>
         </div>
       </div>
+    <% elsif @filter_options.any? %>
+       <p class='govuk-body'>No applications for the selected filters.</p>
     <% else %>
       <p class='govuk-body'>You haven’t received any applications from <%= t('service_name.apply') %>.</p>
     <% end %>
