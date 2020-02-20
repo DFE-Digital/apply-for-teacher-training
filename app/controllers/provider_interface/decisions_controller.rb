@@ -50,7 +50,7 @@ module ProviderInterface
       )
 
       if @application_offer.save
-        flash[:success] = 'Application status changed to ‘Offer made’'
+        flash[:success] = 'Offer successfully made to candidate'
         redirect_to provider_interface_application_choice_path(
           application_choice_id: @application_choice.id,
         )
@@ -77,7 +77,7 @@ module ProviderInterface
         rejection_reason: params.dig(:reject_application, :rejection_reason),
       )
       if @reject_application.save
-        flash[:success] = 'Application status changed to ‘Rejected’'
+        flash[:success] = 'Application successfully rejected'
         redirect_to provider_interface_application_choice_path(
           application_choice_id: @application_choice.id,
         )
@@ -125,7 +125,7 @@ module ProviderInterface
         offer_withdrawal_reason: params.dig(:withdraw_offer, :offer_withdrawal_reason),
       )
       if @withdraw_offer.save
-        flash[:success] = 'Application status changed to ‘Offer withdrawn’'
+        flash[:success] = 'Offer successfully withdrawn'
         redirect_to provider_interface_application_choice_path(
           application_choice_id: @application_choice.id,
         )
