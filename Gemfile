@@ -42,6 +42,9 @@ gem 'uk_postcode'
 gem 'business_time'
 gem 'holidays'
 
+# Monitoring
+gem 'okcomputer'
+
 # feature flags
 gem 'rollout'
 
