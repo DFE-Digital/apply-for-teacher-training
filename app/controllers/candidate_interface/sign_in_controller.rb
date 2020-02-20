@@ -36,10 +36,16 @@ module CandidateInterface
 
     def authenticate
       candidate = FindCandidateByToken.call(raw_token: params[:token])
+      token_not_expired = FindCandidateByToken.token_not_expired?(candidate)
+
+      if candidate.nil? && FeatureFlag.active?('improved_expired_token_flow') && params[:u]
+        candidate_id = Encryptor.decrypt(params[:u])
+        candidate = Candidate.find(candidate_id) if candidate_id
+      end
 
       if candidate.nil?
         redirect_to action: :new
-      elsif FindCandidateByToken.token_not_expired?(candidate)
+      elsif token_not_expired
         flash[:success] = t('apply_from_find.account_created_message') if candidate.last_signed_in_at.nil?
 
         sign_in(candidate, scope: :candidate)
