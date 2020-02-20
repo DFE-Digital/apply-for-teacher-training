@@ -11,3 +11,6 @@ en:
   provider_application_waiting_for_decision:
     email:
       subject: 'Respond to %{candidate_name}’s application'
+  provider_application_withrawnn:
+    email:
+      subject: '%{candidate_name} withdrew their application'

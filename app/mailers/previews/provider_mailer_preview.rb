@@ -23,6 +23,10 @@ class ProviderMailerPreview < ActionMailer::Preview
     ProviderMailer.declined_by_default(provider_user, application_choice)
   end
 
+  def application_withrawn
+    ProviderMailer.application_withrawn(provider_user, application_choice)
+  end
+
 private
 
   def application_choice

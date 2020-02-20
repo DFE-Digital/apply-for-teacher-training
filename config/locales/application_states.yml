@@ -190,6 +190,8 @@ en:
       name: Candidate withdraws
       by: candidate
       description: Candidates can withdraw at any time.
+      emails:
+        - provider_mailer-application_withrawn
 
     awaiting_provider_decision-make_offer:
       name: Provider makes offer
@@ -230,6 +232,8 @@ en:
       by: candidate
       description: |
         The candidate makes a withdrawal decision to inform the provider that they no longer want their application to be considered. The candidate can withdraw an application at any time.
+      emails:
+        - provider_mailer-application_withrawn
 
     awaiting_provider_decision-reject_by_default:
       name: Rejected by default
@@ -292,7 +296,7 @@ en:
       description: The provider says the candidate hasn’t met the conditions set out in the offer.
       emails:
         - candidate_mailer-conditions_not_met
-
+        - provider_mailer-application_withrawn
     pending_conditions-withdraw:
       name: Candidate withdraws
       by: candidate
@@ -307,6 +311,8 @@ en:
       name: Candidate withdraws
       by: candidate
       description: Candidates can withdraw at any time.
+      emails:
+        - provider_mailer-application_withrawn
 
     rejected-make_offer:
       name: Provider makes offer
