@@ -141,8 +141,8 @@ class CandidateMailer < ApplicationMailer
   end
 
   def chase_candidate_decision(application_form)
-    @dbd_date = application_form.application_choices.first.decline_by_default_at.to_s(:govuk_date).strip
     @application_choices = application_form.application_choices.select(&:offer?)
+    @dbd_date = @application_choices.first.decline_by_default_at.to_s(:govuk_date).strip
 
     subject_pluralisation = @application_choices.count > 1 ? 'plural' : 'singular'
     email_for_candidate(application_form, subject: I18n.t!("chase_candidate_decision_email.subject_#{subject_pluralisation}"))
