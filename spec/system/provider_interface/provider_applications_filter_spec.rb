@@ -21,9 +21,10 @@ RSpec.feature 'Providers should be able to filter applications' do
     when_i_show_the_filter_dialogue
     then_i_expect_to_see_the_filter_dialogue
 
-    and_filter_for_rejected_applications
-
+    when_i_filter_for_rejected_applications
     then_only_rejected_applications_should_be_visible
+    and_the_rejected_tickbox_should_still_be_checked
+
   end
 
   def when_i_visit_the_provider_page
@@ -79,7 +80,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
 
-  def and_filter_for_rejected_applications
+  def when_i_filter_for_rejected_applications
     find(:css, "#status-rejected").set(true)
     click_button('Apply filters')
   end
@@ -91,4 +92,8 @@ RSpec.feature 'Providers should be able to filter applications' do
     expect(page).not_to have_css('.govuk-table__body', text: 'Declined')
   end
 
+  def and_the_rejected_tickbox_should_still_be_checked
+    rejected_checkbox = find(:css, "#status-rejected")
+    expect(rejected_checkbox.checked?).to be(true)
+  end
 end

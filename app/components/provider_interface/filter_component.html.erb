@@ -18,18 +18,18 @@
                             <fieldset class="govuk-fieldset">
 
                                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                    Status
+                                  Status
                                 </legend>
 
                                 <div class="govuk-checkboxes govuk-checkboxes--small">
-                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "accepted", text: "Accepted" %>
-                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "conditions_met", text: "Conditions met" %>
-                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "declined", text: "Declined" %>
-                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "awaiting_provider_decision", text: "New" %>
-                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "offer", text: "Offered" %>
-                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "rejected", text: "Rejected" %>
-                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "withdrawn", text: "Application withdrawn" %>
-                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "offer_withdrawn", text: "Offer withdrawn" %>
+                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "accepted", text: "Accepted", filter_options: filter_options %>
+                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "conditions_met", text: "Conditions met", filter_options: filter_options %>
+                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "declined", text: "Declined", filter_options: filter_options %>
+                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "awaiting_provider_decision", text: "New", filter_options: filter_options %>
+                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "offer", text: "Offered", filter_options: filter_options %>
+                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "rejected", text: "Rejected", filter_options: filter_options %>
+                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "withdrawn", text: "Application withdrawn", filter_options: filter_options %>
+                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "offer_withdrawn", text: "Offer withdrawn", filter_options: filter_options %>
                                 </div>
                             </fieldset>
                         </div>

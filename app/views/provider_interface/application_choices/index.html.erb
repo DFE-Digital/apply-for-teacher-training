@@ -5,7 +5,7 @@
     <% if @application_choices.any? %>
 
       <% if @filter_visible.eql?('true') %>
-        <%= render ProviderInterface::FilterComponent, sort_order: @sort_order, current_sort_by: @sort_by %>
+        <%= render ProviderInterface::FilterComponent, sort_order: @sort_order, current_sort_by: @sort_by, filter_options: @filter_options %>
       <% end %>
 
       <div class='moj-filter-layout__content'>
