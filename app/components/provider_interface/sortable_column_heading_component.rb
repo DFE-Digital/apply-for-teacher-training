@@ -4,11 +4,11 @@ module ProviderInterface
 
     attr_reader :column_name, :current_sort_by, :css_class
 
-    def initialize(sort_order:, column_name:, current_sort_by:, css_class:)
-      @sort_order = sort_order
+    def initialize(column_name:, css_class:, page_state:)
       @column_name = column_name
-      @current_sort_by = current_sort_by
       @css_class = css_class
+      @current_sort_by = page_state.sort_by
+      @sort_order = page_state.sort_order
     end
 
     def default_sort_order

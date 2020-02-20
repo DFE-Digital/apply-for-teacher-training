@@ -4,10 +4,10 @@ module ProviderInterface
 
     attr_reader :sort_order, :current_sort_by, :filter_options
 
-    def initialize(sort_order:, current_sort_by:, filter_options:)
-      @sort_order = sort_order
-      @current_sort_by = current_sort_by
-      @filter_options = filter_options
+    def initialize(page_state:)
+      @sort_order = page_state.sort_order
+      @current_sort_by = page_state.sort_by
+      @filter_options = page_state.filter_options
     end
   end
 end

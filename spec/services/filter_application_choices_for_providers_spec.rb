@@ -5,7 +5,8 @@ RSpec.describe FilterApplicationChoicesForProviders do
 
   it 'can filter application choices by status' do
     current_provider = create(:provider)
-    filter_options = %W(offer rejected)
+
+    page_state = instance_double('ProviderApplicationsPageState', :filter_options => %W(offer rejected))
 
     create(
       :application_choice,
@@ -44,7 +45,7 @@ RSpec.describe FilterApplicationChoicesForProviders do
 
     application_choices = GetApplicationChoicesForProviders.call(providers: current_provider)
 
-    filtered_application_choices = FilterApplicationChoicesForProviders.call(application_choices: application_choices, filter_options: filter_options)
+    filtered_application_choices = FilterApplicationChoicesForProviders.call(application_choices: application_choices, page_state: page_state)
 
     filtered_application_choices_statuses = filtered_application_choices.map { |application_choice| application_choice.status }
 

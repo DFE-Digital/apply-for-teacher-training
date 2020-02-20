@@ -3,11 +3,11 @@
 <h1 class='govuk-heading-xl'>Applications</h1>
   <div class='moj-filter-layout'>
 
-    <% if @filter_visible.eql?('true') %>
-      <%= render ProviderInterface::FilterComponent, sort_order: @sort_order, current_sort_by: @sort_by, filter_options: @filter_options %>
+    <% if @page_state.filter_visible.eql?('true') %>
+      <%= render ProviderInterface::FilterComponent, page_state: @page_state %>
     <% end %>
 
-    <%= render ProviderInterface::ToggleFilterComponent, sort_order: @sort_order, current_sort_by: @sort_by, filter_visible: @filter_visible %>
+    <%= render ProviderInterface::ToggleFilterComponent, page_state: @page_state %>
     <% if @application_choices.any? %>
 
 
@@ -17,10 +17,10 @@
             <table class='govuk-table'>
               <thead class='govuk-table__head'>
                 <tr class='govuk-table__row'>
-                  <%= render ProviderInterface::SortableColumnHeadingComponent, sort_order: @sort_order, column_name: 'Name', current_sort_by: @sort_by, css_class: 'govuk-table__header govuk-!-width-one-quarter' %>
-                  <%= render ProviderInterface::SortableColumnHeadingComponent, sort_order: @sort_order, column_name: 'Course', current_sort_by: @sort_by, css_class: 'govuk-table__header govuk-!-width-one-quarter' %>
+                  <%= render ProviderInterface::SortableColumnHeadingComponent, column_name: 'Name', css_class: 'govuk-table__header govuk-!-width-one-quarter', page_state: @page_state %>
+                  <%= render ProviderInterface::SortableColumnHeadingComponent, column_name: 'Course', css_class: 'govuk-table__header govuk-!-width-one-quarter', page_state: @page_state %>
                   <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Status</th>
-                  <%= render ProviderInterface::SortableColumnHeadingComponent, sort_order: @sort_order, column_name: 'Last updated', current_sort_by: @sort_by, css_class: 'govuk-table__header govuk-!-width-one-quarter govuk-table__header--numeric' %>
+                  <%= render ProviderInterface::SortableColumnHeadingComponent, column_name: 'Last updated', css_class: 'govuk-table__header govuk-!-width-one-quarter govuk-table__header--numeric', page_state: @page_state %>
                 </tr>
               </thead>
 
@@ -45,7 +45,7 @@
           </div>
         </div>
       </div>
-    <% elsif @filter_options.any? %>
+    <% elsif @page_state.filter_options.any? %>
        <p class='govuk-body'>No applications for the selected filters.</p>
     <% else %>
       <p class='govuk-body'>You haven’t received any applications from <%= t('service_name.apply') %>.</p>

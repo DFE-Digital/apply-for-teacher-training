@@ -4,10 +4,10 @@ module ProviderInterface
 
     attr_reader :sort_order, :current_sort_by, :filter_visible, :toggle_button_text
 
-    def initialize(sort_order:, current_sort_by:, filter_visible:)
-      @sort_order = sort_order
-      @current_sort_by = current_sort_by
-      @filter_visible = filter_visible
+    def initialize(page_state:)
+      @sort_order = page_state.sort_order
+      @current_sort_by = page_state.sort_by
+      @filter_visible = page_state.filter_visible
     end
 
     def toggle_filter
