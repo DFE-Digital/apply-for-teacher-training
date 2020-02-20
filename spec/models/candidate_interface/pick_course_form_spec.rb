@@ -9,7 +9,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
       create(:course, exposed_in_find: true, open_on_apply: true, name: 'Course you can apply to', provider: provider)
       create(:course, exposed_in_find: true, open_on_apply: true, name: 'Course from other provider')
 
-      form = CandidateInterface::PickCourseForm.new(provider_code: provider.code)
+      form = CandidateInterface::PickCourseForm.new(provider_id: provider.id)
 
       expect(form.available_courses.map(&:name)).to eql(['Course not open on apply', 'Course you can apply to'])
     end
@@ -19,7 +19,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
     let(:provider) { create(:provider, name: 'Royal Academy of Dance', code: 'R55') }
     let(:course) { create(:course, provider: provider, exposed_in_find: true, open_on_apply: true) }
     let(:site) { create(:site, provider: provider) }
-    let(:pick_course_form) { CandidateInterface::PickCourseForm.new(provider_code: provider.code, code: course.code) }
+    let(:pick_course_form) { CandidateInterface::PickCourseForm.new(provider_id: provider.id, course_id: course.id) }
 
     before { create(:course_option, site: site, course: course) }
 

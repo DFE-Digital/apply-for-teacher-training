@@ -33,13 +33,13 @@ module CandidateInterface
     end
 
     def pick_provider
-      @pick_provider = PickProviderForm.new(code: params.dig(:candidate_interface_pick_provider_form, :code))
+      @pick_provider = PickProviderForm.new(provider_id: params.dig(:candidate_interface_pick_provider_form, :provider_id))
       if !@pick_provider.valid?
         render :options_for_provider
       elsif @pick_provider.other?
         redirect_to candidate_interface_course_choices_on_ucas_path
       else
-        redirect_to candidate_interface_course_choices_course_path(provider_code: @pick_provider.code)
+        redirect_to candidate_interface_course_choices_course_path(@pick_provider.provider_id)
       end
     end
 
@@ -47,16 +47,16 @@ module CandidateInterface
 
     def options_for_course
       @pick_course = PickCourseForm.new(
-        provider_code: params.fetch(:provider_code),
+        provider_id: params.fetch(:provider_id),
         application_form: current_application,
       )
     end
 
     def pick_course
-      course_code = params.dig(:candidate_interface_pick_course_form, :code)
+      course_id = params.dig(:candidate_interface_pick_course_form, :course_id)
       @pick_course = PickCourseForm.new(
-        provider_code: params.fetch(:provider_code),
-        code: course_code,
+        provider_id: params.fetch(:provider_id),
+        course_id: course_id,
         application_form: current_application,
       )
 
@@ -67,24 +67,24 @@ module CandidateInterface
       elsif @pick_course.single_site?
         course_option = CourseOption.where(course_id: @pick_course.course.id).first
 
-        pick_site_for_course(course_code, course_option.id)
+        pick_site_for_course(course_id, course_option.id)
       else
-        redirect_to candidate_interface_course_choices_site_path(provider_code: @pick_course.provider_code, course_code: @pick_course.code)
+        redirect_to candidate_interface_course_choices_site_path(provider_id: @pick_course.provider_id, course_id: @pick_course.course_id)
       end
     end
 
     def options_for_site
       @pick_site = PickSiteForm.new(
-        provider_code: params.fetch(:provider_code),
-        course_code: params.fetch(:course_code),
+        provider_id: params.fetch(:provider_id),
+        course_id: params.fetch(:course_id),
       )
     end
 
     def pick_site
-      course_code = params.fetch(:course_code)
+      course_id = params.fetch(:course_id)
       course_option_id = params.dig(:candidate_interface_pick_site_form, :course_option_id)
 
-      pick_site_for_course(course_code, course_option_id)
+      pick_site_for_course(course_id, course_option_id)
     end
 
     def review
@@ -130,11 +130,11 @@ module CandidateInterface
       params.fetch(:candidate_interface_course_chosen_form, {}).permit(:choice)
     end
 
-    def pick_site_for_course(course_code, course_option_id)
+    def pick_site_for_course(course_id, course_option_id)
       @pick_site = PickSiteForm.new(
         application_form: current_application,
-        provider_code: params.fetch(:provider_code),
-        course_code: course_code,
+        provider_id: params.fetch(:provider_id),
+        course_id: course_id,
         course_option_id: course_option_id,
       )
 

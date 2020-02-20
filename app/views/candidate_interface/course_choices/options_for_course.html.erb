@@ -3,10 +3,21 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @pick_course, url: candidate_interface_course_choices_course_path(provider_code: params[:provider_code]), builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+    <%= form_with(
+          model: @pick_course,
+          url: candidate_interface_course_choices_course_path(provider_id: params[:provider_id]),
+          builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+          id: 'pick-course-form',
+        ) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_collection_select :code, select_course_options(@pick_course.available_courses), :id, :name, label: { text: t('page_titles.which_course'), size: 'xl' } %>
+      <%= f.govuk_collection_select(
+            :course_id,
+            select_course_options(@pick_course.available_courses),
+            :id,
+            :name,
+            label: { text: t('page_titles.which_course'), size: 'xl' },
+          ) %>
 
       <%= f.govuk_submit 'Continue' %>
     <% end %>
