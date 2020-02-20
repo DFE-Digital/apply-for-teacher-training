@@ -94,7 +94,7 @@ class CandidateMailer < ApplicationMailer
   end
 
   def application_rejected_offers_made(application_choice)
-    offers = application_choice.application_form.application_choices.offer
+    offers = application_choice.application_form.application_choices.select(&:offer?)
     decline_by_default_at = offers.map(&:decline_by_default_at).compact.max&.to_s(:govuk_date)
     dbd_days = offers.map(&:decline_by_default_days).max
 
