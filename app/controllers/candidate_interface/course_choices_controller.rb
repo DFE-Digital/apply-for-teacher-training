@@ -18,10 +18,9 @@ module CandidateInterface
 
     def make_choice
       @choice_form = CandidateInterface::CourseChosenForm.new(application_choice_params)
+      render :have_you_chosen and return unless @choice_form.valid?
 
-      if !@choice_form.valid?
-        render :have_you_chosen
-      elsif @choice_form.chosen_a_course?
+      if @choice_form.chosen_a_course?
         redirect_to candidate_interface_course_choices_provider_path
       else
         redirect_to 'https://find-postgraduate-teacher-training.education.gov.uk'
@@ -33,13 +32,15 @@ module CandidateInterface
     end
 
     def pick_provider
-      @pick_provider = PickProviderForm.new(provider_id: params.dig(:candidate_interface_pick_provider_form, :provider_id))
-      if !@pick_provider.valid?
-        render :options_for_provider
-      elsif !@pick_provider.courses_available?
-        redirect_to candidate_interface_course_choices_on_ucas_path
-      else
+      @pick_provider = PickProviderForm.new(
+        provider_id: params.dig(:candidate_interface_pick_provider_form, :provider_id),
+      )
+      render :options_for_provider and return unless @pick_provider.valid?
+
+      if @pick_provider.courses_available?
         redirect_to candidate_interface_course_choices_course_path(@pick_provider.provider_id)
+      else
+        redirect_to_ucas
       end
     end
 
@@ -59,14 +60,12 @@ module CandidateInterface
         course_id: course_id,
         application_form: current_application,
       )
+      render :options_for_course and return unless @pick_course.valid?
 
-      if !@pick_course.valid?
-        render :options_for_course
-      elsif !@pick_course.open_on_apply?
-        redirect_to candidate_interface_course_choices_on_ucas_path
+      if !@pick_course.open_on_apply?
+        redirect_to_ucas
       elsif @pick_course.single_site?
         course_option = CourseOption.where(course_id: @pick_course.course.id).first
-
         pick_site_for_course(course_id, course_option.id)
       else
         redirect_to candidate_interface_course_choices_site_path(
@@ -146,6 +145,10 @@ module CandidateInterface
       else
         render :options_for_site
       end
+    end
+
+    def redirect_to_ucas
+      redirect_to candidate_interface_course_choices_on_ucas_path
     end
   end
 end
