@@ -135,10 +135,14 @@ en:
           attributes:
             conditions_met:
               blank: Please specify if the candidate has met the conditions of the offer
+        withdraw_offer:
+          attributes:
+            offer_withdrawal_reason:
+              blank: Explain why you're withdrawing the offer
         reject_application:
           attributes:
             rejection_reason:
-              blank: Enter feedback for the candidate
+              blank: Explain why you're rejecting the application
   activerecord:
     attributes:
       application_qualification/qualification_type:
