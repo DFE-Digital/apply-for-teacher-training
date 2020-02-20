@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ExistingCandidateAuthentication
+  class AddCourseFromFind
     attr_accessor :candidate,
                   :candidate_already_has_3_courses,
                   :candidate_has_new_course_added,

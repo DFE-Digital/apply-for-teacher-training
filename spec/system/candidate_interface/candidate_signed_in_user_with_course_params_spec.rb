@@ -21,6 +21,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     and_i_should_be_informed_i_have_already_selected_that_course
 
     given_the_course_i_selected_has_multiple_sites
+    and_i_am_an_existing_candidate_on_apply
     and_i_am_signed_in
     and_i_have_less_than_3_application_options
 
@@ -137,7 +138,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   end
 
   def then_i_should_see_the_course_choices_site_page
-    expect(page).to have_current_path(candidate_interface_course_choices_site_path(@course_with_multiple_sites.provider.code, @course_with_multiple_sites.code))
+    expect(page).to have_current_path(candidate_interface_course_choices_site_path(@course_with_multiple_sites.provider.id, @course_with_multiple_sites.id))
   end
 
   def then_i_should_see_the_candidate_interface_application_form
