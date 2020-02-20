@@ -21,6 +21,7 @@ class FeatureFlag
     offer_accepted_provider_emails
     decline_by_default_notification_to_provider
     application_withrawn_provider_email
+    offer_declined_provider_emails
   ].freeze
 
   def self.activate(feature_name)
