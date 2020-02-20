@@ -1,0 +1,44 @@
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Type</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-half">What</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+  <% @emails.each do |email| %>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">
+        <%= email.created_at.to_s(:govuk_date_and_time) %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= email.humanised_email_type %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= render SummaryListComponent.new(rows: [
+          { key: 'To', value: email.to },
+          { key: 'Subject', value: email.subject },
+          { key: 'Application', value: (email.application_form ? govuk_link_to(email.application_form.full_name, support_interface_application_form_path(email.application_form)) : nil) },
+          { key: 'Reference', value: email.notify_reference },
+        ]) %>
+
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              Email body
+            </span>
+          </summary>
+          <div class="govuk-details__text">
+            <%= tag.pre(email.body) %>
+          </div>
+        </details>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<p class='govuk-body'>
+  Note that only emails sent since <%= Email.order(:id).first&.created_at&.to_s(:govuk_date_and_time) %> have been logged.
+<p>
