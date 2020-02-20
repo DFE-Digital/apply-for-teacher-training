@@ -20,7 +20,20 @@ RSpec.describe AuthenticationMailer, type: :mailer do
     end
 
     it 'sends an email with a magic link' do
-      expect(mail.body.encoded).to include("http://localhost:3000/candidate/authenticate?token=#{token}")
+      expect(mail.body.encoded).to include(
+        "http://localhost:3000/candidate/authenticate?token=#{token}",
+      )
+    end
+
+    context 'with the improved_expired_token_flow feature flag' do
+      before { FeatureFlag.activate('improved_expired_token_flow') }
+
+      it 'sends an email with a magic link and encrypted candidate id' do
+        allow(Encryptor).to receive(:encrypt).and_return('secret')
+        expect(mail.body.encoded).to include(
+          "http://localhost:3000/candidate/authenticate?token=#{token}&u=secret",
+        )
+      end
     end
 
     it 'sends a request with a Notify reference' do
@@ -47,7 +60,20 @@ RSpec.describe AuthenticationMailer, type: :mailer do
     end
 
     it 'sends an email with a magic link' do
-      expect(mail.body.encoded).to include("http://localhost:3000/candidate/authenticate?token=#{token}")
+      expect(mail.body.encoded).to include(
+        "http://localhost:3000/candidate/authenticate?token=#{token}",
+      )
+    end
+
+    context 'with the improved_expired_token_flow feature flag' do
+      before { FeatureFlag.activate('improved_expired_token_flow') }
+
+      it 'sends an email with a magic link and encrypted candidate id' do
+        allow(Encryptor).to receive(:encrypt).and_return('secret')
+        expect(mail.body.encoded).to include(
+          "http://localhost:3000/candidate/authenticate?token=#{token}&u=secret",
+        )
+      end
     end
   end
 

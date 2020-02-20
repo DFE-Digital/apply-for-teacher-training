@@ -1,6 +1,6 @@
 class AuthenticationMailer < ApplicationMailer
   def sign_up_email(candidate:, token:)
-    @magic_link = "#{candidate_interface_authenticate_url}?token=#{token}"
+    @magic_link = candidate_interface_authenticate_url(magic_link_params(token, candidate))
 
     notify_email(
       to: candidate.email_address,
@@ -10,7 +10,7 @@ class AuthenticationMailer < ApplicationMailer
   end
 
   def sign_in_email(candidate:, token:)
-    @magic_link = "#{candidate_interface_authenticate_url}?token=#{token}"
+    @magic_link = candidate_interface_authenticate_url(magic_link_params(token, candidate))
 
     notify_email(
       to: candidate.email_address,
@@ -23,5 +23,13 @@ class AuthenticationMailer < ApplicationMailer
       to: to,
       subject: t('authentication.sign_in_without_account.email.subject'),
     )
+  end
+
+private
+
+  def magic_link_params(token, candidate)
+    params = { token: token }
+    params[:u] = Encryptor.encrypt(candidate.id) if FeatureFlag.active?('improved_expired_token_flow')
+    params
   end
 end
