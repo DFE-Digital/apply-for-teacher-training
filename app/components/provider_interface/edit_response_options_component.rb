@@ -9,7 +9,7 @@ module ProviderInterface
     OPTIONS = [
       OpenStruct.new(
         value: 'different_course',
-        name: 'Offer a different course'
+        name: 'Offer a different course',
       ),
       OpenStruct.new(
         value: 'withdraw_offer',
