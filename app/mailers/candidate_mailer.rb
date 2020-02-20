@@ -72,8 +72,7 @@ class CandidateMailer < ApplicationMailer
   end
 
   def application_rejected_awaiting_decisions(application_choice)
-    @decisions = application_choice.application_form.application_choices.awaiting_provider_decision
-
+    @decisions = application_choice.application_form.application_choices.select(&:awaiting_provider_decision?)
     # We can't use `through:` associations with FactoryBot's `build_stubbed`. Using
     # the association directly instead allows us to use `build_stubbed` in tests
     # and mailer previews.
