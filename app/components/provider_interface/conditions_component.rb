@@ -8,16 +8,28 @@ module ProviderInterface
       @application_choice = application_choice
     end
 
+    def render?
+      application_choice.offer.present?
+    end
+
     def conditions
-      @application_choice.offer['conditions']
+      application_choice.offer['conditions']
     end
 
     def condition_rows
-      if conditions.empty?
-        [{ value: 'No conditions have been specified' }]
-      else
-        conditions.map { |condition| { value: condition } }
-      end
+      conditions && conditions.empty? ? ['No conditions have been specified'] : conditions
+    end
+
+    def application_state
+      @application_state ||= ApplicationStateChange.new(application_choice)
+    end
+
+    def conditions_met?
+      application_state.current_state >= :recruited
+    end
+
+    def known_conditions_state?
+      conditions_met? || application_state.conditions_not_met?
     end
   end
 end

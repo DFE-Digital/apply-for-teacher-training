@@ -1,1 +1,21 @@
-<%= render SummaryListComponent.new(rows: condition_rows) %>
+<h2 class="govuk-heading-s">Conditions</h2>
+<table class="govuk-table">
+  <tbody class="govuk-table__body">
+    <% condition_rows.each do |row| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell"><%= row %></td>
+        <td class="govuk-table__cell govuk-table__cell--numeric">
+          <% if conditions.present? %>
+            <% if conditions_met? %>
+              <strong class="govuk-tag app-tag--complete">Met</strong>
+            <% elsif known_conditions_state? %>
+              <strong class="govuk-tag app-tag--red">Not met</strong>
+            <% else %>
+              <strong class="govuk-tag app-tag--grey">Pending</strong>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

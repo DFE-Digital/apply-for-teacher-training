@@ -36,7 +36,7 @@ RSpec.describe 'A Provider can log in as a candidate' do
 
   def and_my_organisation_has_received_an_application
     course_option = course_option_for_provider_code(provider_code: @provider.code)
-    @application_choice = create(:application_choice, status: 'awaiting_provider_decision', course_option: course_option)
+    @application_choice = create(:submitted_application_choice, course_option: course_option)
     @candidate = @application_choice.application_form.candidate
   end
 
@@ -49,7 +49,7 @@ RSpec.describe 'A Provider can log in as a candidate' do
   end
 
   def then_i_am_redirected_to_the_candidate_interface
-    expect(page).to have_current_path(candidate_interface_application_form_path)
+    expect(page).to have_current_path(candidate_interface_application_complete_path)
   end
 
   def and_i_see_a_flash_message

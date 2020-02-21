@@ -1,0 +1,12 @@
+<h2 class="govuk-heading-l">Offer made to candidate</h2>
+
+<%= render SummaryListComponent.new(rows: rows) %>
+<%= render ProviderInterface::ConditionsComponent.new(application_choice: application_choice) %>
+
+<% if FeatureFlag.active?('provider_change_response') %>
+  <%= govuk_button_link_to 'Change response', provider_interface_application_choice_edit_response_path(application_choice) %>
+<% end %>
+
+<p class="govuk-body govuk-!-margin-bottom-0">
+  <%= govuk_link_to 'Withdraw offer', provider_interface_application_choice_new_withdraw_offer_path(@application_choice.id) %>
+</p>

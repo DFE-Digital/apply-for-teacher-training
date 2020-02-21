@@ -25,6 +25,11 @@
   background: govuk-tint(govuk-colour("red"), 80);
 }
 
+.app-card--white {
+  background-color: govuk-colour("white");
+  border: 5px solid #BFC1C3;
+}
+
 .app-card__count {
   @include govuk-font($size: 80, $weight: bold);
   display: block;

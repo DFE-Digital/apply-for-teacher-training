@@ -2,7 +2,7 @@
   <div class="govuk-width-container">
     <div class="govuk-footer__meta">
       <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
-        <% case current_namespace %>
+        <% case try(:current_namespace) %>
         <% when 'candidate_interface' %>
           <%= render 'layouts/footer_meta_candidate' %>
         <% when 'provider_interface' %>

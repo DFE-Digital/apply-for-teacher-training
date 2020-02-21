@@ -19,5 +19,11 @@
       <%= govuk_link_to 'Mail previews', '/rails/mailers' %>
     </li>
     <% end %>
+
+    <% if Rails.application.config.action_view_component.show_previews %>
+    <li class="govuk-footer__inline-list-item">
+      <%= govuk_link_to 'Component previews', '/rails/components' %>
+    </li>
+    <% end %>
   </ul>
 <% end %>

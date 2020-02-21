@@ -91,14 +91,24 @@ module TestApplications
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
     elsif state == :rejected
       RejectApplication.new(application_choice: choice, rejection_reason: 'Some').save
+    elsif state == :offer_withdrawn
+      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
+      WithdrawOffer.new(application_choice: choice, offer_withdrawal_reason: 'Offer withdrawal reason is...').save
     elsif state == :declined
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
       DeclineOffer.new(application_choice: choice).save!
     elsif state == :accepted
-      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
+      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS', 'Fitness to teach check']).save
       AcceptOffer.new(application_choice: choice).save!
+    elsif state == :accepted_no_conditions
+      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: []).save
+      AcceptOffer.new(application_choice: choice).save!
+    elsif state == :conditions_not_met
+      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS', 'Fitness to teach check', 'Complete course']).save
+      AcceptOffer.new(application_choice: choice).save!
+      ConditionsNotMet.new(application_choice: choice).save
     elsif state == :recruited
-      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
+      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS', 'Fitness to teach check']).save
       AcceptOffer.new(application_choice: choice).save!
       ConfirmOfferConditions.new(application_choice: choice).save
     elsif state == :enrolled

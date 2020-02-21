@@ -218,6 +218,7 @@ FactoryBot.define do
       decline_by_default_at { Time.zone.now + 10.days }
       decline_by_default_days { 10 }
       offer { { 'conditions' => ['Be cool'] } }
+      offered_at { Time.zone.now }
     end
 
     trait :with_accepted_offer do

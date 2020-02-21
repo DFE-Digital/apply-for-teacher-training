@@ -15,4 +15,12 @@ class Site < ApplicationRecord
       .reject(&:blank?)
       .join(', ')
   end
+
+  def name_and_address
+    if full_address.present?
+      [name, full_address].join(', ')
+    else
+      name
+    end
+  end
 end
