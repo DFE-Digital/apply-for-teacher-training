@@ -170,6 +170,7 @@ module CandidateInterface
 
     # TODO: Factor these into a separate controller?
     def confirm_selection
+      @course_selection_form = CourseSelectionForm.new
     end
 
     def complete_selection

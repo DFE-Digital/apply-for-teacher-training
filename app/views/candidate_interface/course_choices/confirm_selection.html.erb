@@ -1,1 +1,18 @@
-You selected a course
+<% content_for :title, t('confirm_selection.heading') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @course_selection_form, url: candidate_interface_course_complete_selection_path, method: :post do |f| %>
+      <h1 class="govuk-heading-xl">
+        <%= t('confirm_selection.heading') %>
+      </h1>
+
+      Course name goes here
+
+      <%= f.govuk_radio_buttons_fieldset :confirm, legend: { size: 'm', text: t('confirm_selection.question') } do %>
+        <%= f.govuk_radio_button :confirm, true, label: { text: 'Yes' } %>
+        <%= f.govuk_radio_button :confirm, false, label: { text: 'No' } %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
