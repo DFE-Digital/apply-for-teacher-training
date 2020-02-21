@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_19_160002) do
+ActiveRecord::Schema.define(version: 2020_02_20_161956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_160002) do
     t.text "other_language_details"
     t.date "date_of_birth"
     t.text "further_information"
+    t.datetime "submitted_at"
     t.string "phone_number"
     t.string "address_line1"
     t.string "address_line2"
@@ -83,7 +84,6 @@ ActiveRecord::Schema.define(version: 2020_02_19_160002) do
     t.string "address_line4"
     t.string "country"
     t.string "postcode"
-    t.datetime "submitted_at"
     t.string "support_reference", limit: 10
     t.string "disability_disclosure"
     t.string "uk_residency_status"
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_160002) do
     t.boolean "volunteering_completed", default: false, null: false
     t.boolean "volunteering_experience"
     t.string "phase", default: "apply_1", null: false
+    t.jsonb "equality_and_diversity"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
   end
 
@@ -246,8 +247,8 @@ ActiveRecord::Schema.define(version: 2020_02_19_160002) do
   create_table "provider_users_providers", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.bigint "provider_user_id", null: false
-    t.datetime "created_at", default: -> { "now()" }, null: false
-    t.datetime "updated_at", default: -> { "now()" }, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["provider_id"], name: "index_provider_users_providers_on_provider_id"
     t.index ["provider_user_id"], name: "index_provider_users_providers_on_provider_user_id"
   end
