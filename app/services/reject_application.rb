@@ -21,11 +21,12 @@ class RejectApplication
         rejected_at: Time.zone.now,
       )
       SetDeclineByDefault.new(application_form: @application_choice.application_form).call
-      if FeatureFlag.active?('candidate_rejected_by_provider_email')
-        SendCandidateRejectionEmail.new(application_choice: @application_choice).call
-      end
       StateChangeNotifier.call(:reject_application, application_choice: @application_choice)
     end
+    if FeatureFlag.active?('candidate_rejected_by_provider_email')
+      SendCandidateRejectionEmail.new(application_choice: @application_choice).call
+    end
+    true
   rescue Workflow::NoTransitionAllowed
     errors.add(
       :base,
