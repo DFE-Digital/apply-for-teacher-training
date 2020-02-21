@@ -8,10 +8,10 @@ class GenerateTestApplications
       TestApplications.create_application states: [:unsubmitted]
       TestApplications.create_application states: [:awaiting_references]
       TestApplications.create_application states: [:application_complete]
-      TestApplications.create_application states: 3.times.map { :awaiting_provider_decision }
-      TestApplications.create_application states: 2.times.map { :offer }
+      TestApplications.create_application states: [:awaiting_provider_decision] * 3
+      TestApplications.create_application states: [:offer] * 2
       TestApplications.create_application states: %i[offer rejected]
-      TestApplications.create_application states: 2.times.map { :rejected }
+      TestApplications.create_application states: [:rejected] * 2
       TestApplications.create_application states: [:offer_withdrawn]
       TestApplications.create_application states: [:declined]
       TestApplications.create_application states: [:accepted]

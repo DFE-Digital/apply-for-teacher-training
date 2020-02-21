@@ -28,12 +28,16 @@ module ProviderInterface
             value: application_choice.offered_at.to_s(:govuk_date),
           },
           {
+            key: 'Provider',
+            value: application_choice.offered_course.provider.name,
+          },
+          {
             key: 'Course',
-            value: render(ProviderInterface::OfferedCourseComponent.new(application_choice: application_choice)),
+            value: application_choice.offered_course.name_and_code,
           },
           {
             key: 'Location',
-            value: render(ProviderInterface::OfferedCourseComponent.new(application_choice: application_choice, display: :site)),
+            value: application_choice.offered_site.name_and_address,
           },
         ]
       end

@@ -36,6 +36,16 @@ class ApplicationChoice < ApplicationRecord
     rejected? && !offer_withdrawn_at.nil?
   end
 
+  def offered_course
+    offered_option = offered_course_option || course_option
+    offered_option.course
+  end
+
+  def offered_site
+    offered_option = offered_course_option || course_option
+    offered_option.site
+  end
+
 private
 
   def generate_alphanumeric_id
