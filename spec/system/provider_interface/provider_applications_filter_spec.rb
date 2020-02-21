@@ -30,6 +30,20 @@ RSpec.feature 'Providers should be able to filter applications' do
     then_i_expect_to_see_the_hide_filter_button
     then_i_expect_to_see_the_filter_dialogue
 
+    when_i_filter_for_rejected_and_offered_applications
+    when_i_hide_the_filter_dialogue
+    then_only_rejected_and_offered_applications_should_be_visible
+    when_i_show_the_filter_dialogue
+    then_only_rejected_and_offered_applications_should_be_visible
+
+    when_i_sort_by_name
+    then_only_rejected_and_offered_applications_should_be_visible
+
+    when_i_hide_the_filter_dialogue
+    when_i_sort_by_course
+    then_only_rejected_and_offered_applications_should_be_visible
+    then_i_do_not_expect_to_see_the_filter_dialogue
+
   end
 
   def when_i_visit_the_provider_page
@@ -109,5 +123,27 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def then_i_should_see_the_no_filter_results_error_message
     expect(page).to have_content('No applications for the selected filters.')
+  end
+
+  def when_i_filter_for_rejected_and_offered_applications
+    find(:css, "#status-pending_conditions").set(false)
+    find(:css, "#status-rejected").set(true)
+    find(:css, "#status-offer").set(true)
+    click_button('Apply filters')
+  end
+
+  def then_only_rejected_and_offered_applications_should_be_visible
+    expect(page).to have_css('.govuk-table__body', text: 'Rejected')
+    expect(page).to have_css('.govuk-table__body', text: 'Offer')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Withdrawn')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Declined')
+  end
+
+  def when_i_sort_by_name
+    click_link('Name')
+  end
+
+  def when_i_sort_by_course
+    click_link('Course')
   end
 end

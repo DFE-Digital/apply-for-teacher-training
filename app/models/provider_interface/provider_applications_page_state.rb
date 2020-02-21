@@ -1,6 +1,5 @@
 module ProviderInterface
   class ProviderApplicationsPageState
-
     attr_reader :sort_order, :sort_by, :filter_visible, :filter_options
 
     def initialize(params:)
@@ -11,7 +10,6 @@ module ProviderInterface
       @filter_options = extract_filter_options
     end
 
-
     def ordering_arguments
       {
         'course' => { 'courses.name' => sort_order },
@@ -21,8 +19,15 @@ module ProviderInterface
     end
 
   private
+
     def extract_filter_options
-      @params.fetch('filter', false) ? @params['filter']['status'].keys : []
+      # i.e. url params
+      if @params[:filter].is_a?(Array)
+        @params[:filter]
+      else
+        # i.e. form params
+        @params.fetch('filter', false) ? @params['filter']['status'].keys : []
+      end
     end
   end
 end
