@@ -168,6 +168,13 @@ module CandidateInterface
       end
     end
 
+    # TODO: Factor these into a separate controller?
+    def confirm_selection
+    end
+
+    def complete_selection
+    end
+
   private
 
     def current_course_choice_id
