@@ -2,3 +2,4 @@ en:
   confirm_selection:
     heading: You selected a course
     question: Do you want to apply to this course?
+    submit_button: Continue
