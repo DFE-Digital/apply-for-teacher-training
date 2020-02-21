@@ -69,15 +69,6 @@ RSpec.describe ViewHelper, type: :helper do
     end
   end
 
-  describe '#select_nationality_options' do
-    it 'returns a list of nationalities' do
-      _, nationality = NATIONALITIES.sample
-
-      expect(select_nationality_options).to include(OpenStruct.new(id: '', name: t('application_form.personal_details.nationality.default_option')))
-      expect(select_nationality_options).to include(OpenStruct.new(id: nationality, name: nationality))
-    end
-  end
-
   describe 'application date helpers' do
     before do
       @application_dates = instance_double(
