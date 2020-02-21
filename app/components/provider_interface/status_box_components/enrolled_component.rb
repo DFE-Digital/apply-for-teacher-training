@@ -13,10 +13,6 @@ module ProviderInterface
           raise(ProviderInterface::StatusBoxComponent::ComponentMismatchError)
       end
 
-      def candidate_name
-        application_choice.application_form.full_name
-      end
-
       def rows
         [
           {
