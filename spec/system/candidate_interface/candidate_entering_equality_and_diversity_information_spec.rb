@@ -21,7 +21,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def and_the_equality_and_diversity_feature_flag_is_active
-    FeatureFlag.activate('offer_declined_provider_emails')
+    FeatureFlag.activate('equality_and_diversity')
   end
 
   def and_i_have_an_application_form_that_is_ready_to_submit
