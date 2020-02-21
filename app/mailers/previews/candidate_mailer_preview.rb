@@ -133,15 +133,19 @@ class CandidateMailerPreview < ActionMailer::Preview
   def application_rejected_awaiting_decisions
     provider = FactoryBot.build_stubbed(:provider)
     course = FactoryBot.build_stubbed(:course, provider: provider)
-    application_form = FactoryBot.build_stubbed(:application_form, first_name: 'Tyrell', last_name: 'Wellick')
     course_option = FactoryBot.build_stubbed(:course_option, course: course)
-    FactoryBot.build_stubbed(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
-    application_choice = FactoryBot.build_stubbed(:application_choice,
-                                                  course_option: course_option,
-                                                  application_form: application_form,
-                                                  rejection_reason: 'Not enough experience.')
+    application_form = FactoryBot.build_stubbed(:application_form,
+                                                first_name: 'Tyrell',
+                                                last_name: 'Wellick',
+                                                application_choices: [
+                                                  FactoryBot.build_stubbed(:application_choice, status: :awaiting_provider_decision),
+                                                  FactoryBot.build_stubbed(:application_choice,
+                                                                           course_option: course_option,
+                                                                           status: :rejected,
+                                                                           rejection_reason: 'Not enough experience.'),
+                                                  ])
 
-    CandidateMailer.application_rejected_awaiting_decisions(application_choice)
+    CandidateMailer.application_rejected_awaiting_decisions(application_form.application_choices.last)
   end
 
   def application_rejected_offers_made
