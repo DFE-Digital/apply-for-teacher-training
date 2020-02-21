@@ -2,7 +2,7 @@ module CandidateInterface
   class StartPageController < CandidateInterfaceController
     before_action :show_pilot_holding_page_if_not_open
     skip_before_action :authenticate_candidate!
-    before_action :redirect_to_application_if_signed_in
+    before_action :redirect_to_interstitial_path_if_signed_in
 
     def show; end
 
@@ -25,6 +25,22 @@ module CandidateInterface
     def eligibility_params
       params.fetch(:candidate_interface_eligibility_form, {}).permit(:eligible_citizen, :eligible_qualifications)
         .transform_values(&:strip)
+    end
+
+  private
+
+    def redirect_to_interstitial_path_if_signed_in
+      if current_candidate.present?
+        add_course_from_find_id_to_candidate if params[:providerCode].present?
+
+        redirect_to candidate_interface_interstitial_path
+      end
+    end
+
+    def add_course_from_find_id_to_candidate
+      provider = Provider.find_by(code: params[:providerCode])
+      @course = provider.courses.find_by(code: params[:courseCode]) if provider.present?
+      current_candidate.update!(course_from_find_id: @course.id) if @course.present?
     end
   end
 end

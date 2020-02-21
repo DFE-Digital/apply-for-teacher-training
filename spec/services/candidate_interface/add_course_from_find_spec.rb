@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ExistingCandidateAuthentication do
+RSpec.describe CandidateInterface::AddCourseFromFind do
   include CourseOptionHelpers
 
   describe '#execute' do
