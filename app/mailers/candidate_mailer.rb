@@ -6,11 +6,6 @@ class CandidateMailer < ApplicationMailer
   end
 
   def application_sent_to_provider(application_form)
-    @application = OpenStruct.new(
-      choice_count: application_form.application_choices.count,
-      reject_by_default_days: application_form.application_choices.first.reject_by_default_days,
-    )
-
     email_for_candidate(application_form)
   end
 
@@ -57,69 +52,48 @@ class CandidateMailer < ApplicationMailer
   end
 
   def application_rejected_all_rejected(application_choice)
-    course = application_choice.course_option.course
-
-    @intro = OpenStruct.new(
-      provider_name: course.provider.name,
-      course_name: course.name_and_code,
-      rejection_reason: application_choice.rejection_reason,
-    )
+    @course = application_choice.course_option.course
+    @application_choice = application_choice
 
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.application_rejected.all_rejected.subject', provider_name: course.provider.name),
+      subject: I18n.t!('candidate_mailer.application_rejected.all_rejected.subject', provider_name: @course.provider.name),
     )
   end
 
   def application_rejected_awaiting_decisions(application_choice)
     @decisions = application_choice.application_form.application_choices.select(&:awaiting_provider_decision?)
+    @application_choice = application_choice
+
     # We can't use `through:` associations with FactoryBot's `build_stubbed`. Using
     # the association directly instead allows us to use `build_stubbed` in tests
     # and mailer previews.
-    course = application_choice.course_option.course
-
-    @intro = OpenStruct.new(
-      provider_name: course.provider.name,
-      course_name: course.name_and_code,
-      rejection_reason: application_choice.rejection_reason,
-    )
+    @course = application_choice.course_option.course
 
     email_for_candidate(
       application_choice.application_form,
       subject: I18n.t!('candidate_mailer.application_rejected.awaiting_decisions.subject',
-                       provider_name: course.provider.name,
-                       course_name: course.name_and_code),
+                       provider_name: @course.provider.name,
+                       course_name: @course.name_and_code),
       )
   end
 
   def application_rejected_offers_made(application_choice)
-    offers = application_choice.application_form.application_choices.select(&:offer?)
-    decline_by_default_at = offers.map(&:decline_by_default_at).compact.max&.to_s(:govuk_date)
-    dbd_days = offers.map(&:decline_by_default_days).max
+    @offers = application_choice.application_form.application_choices.select(&:offer?)
+    @decline_by_default_at = @offers.first.decline_by_default_at.to_s(:govuk_date)
+    @dbd_days = @offers.first.decline_by_default_days
+    @application_choice = application_choice
 
     # We can't use `through:` associations with FactoryBot's `build_stubbed`. Using
     # the association directly instead allows us to use `build_stubbed` in tests
     # and mailer previews.
-    course = application_choice.course_option.course
-
-    @application = OpenStruct.new(
-      application_choice: application_choice,
-      decline_by_default_at: decline_by_default_at,
-      offers: offers,
-      dbd_days: dbd_days,
-    )
-
-    @intro = OpenStruct.new(
-      provider_name: course.provider.name,
-      course_name: course.name_and_code,
-      rejection_reason: application_choice.rejection_reason,
-    )
+    @course = application_choice.course_option.course
 
     email_for_candidate(
       application_choice.application_form,
       subject: I18n.t!('candidate_mailer.application_rejected.offers_made.subject',
-                       provider_name: course.provider.name,
-                       dbd_days: dbd_days),
+                       provider_name: @course.provider.name,
+                       dbd_days: @dbd_days),
       )
   end
 

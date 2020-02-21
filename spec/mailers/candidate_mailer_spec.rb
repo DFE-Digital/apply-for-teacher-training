@@ -492,7 +492,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         @application_choice3 = create(:application_choice,
                                       status: :offer,
                                       application_form: @application_form,
-                                      decline_by_default_at: 8.business_days.from_now,
+                                      decline_by_default_at: 10.business_days.from_now,
                                       decline_by_default_days: 10)
         mail.deliver_later
       end

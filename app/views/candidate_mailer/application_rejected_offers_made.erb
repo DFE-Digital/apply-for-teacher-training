@@ -1,19 +1,19 @@
 <%= render 'application_rejected_intro' %>
 
-# Make a decision about your <%= 'offer'.pluralize(@application.offers.count) %> by <%= @application.decline_by_default_at %>
+# Make a decision about your <%= 'offer'.pluralize(@offers.count) %> by <%= @decline_by_default_at %>
 
-<% if @application.offers.count > 1  %>
+<% if @offers.count > 1  %>
 
 You’ve received the following offers:
-<% @application.offers.each do |offered_application_choice| %>
+<% @offers.each do |offered_application_choice| %>
   - <%= "#{offered_application_choice.course_option.course.name_and_code} at #{offered_application_choice.course_option.course.provider.name}"%>
 <% end %>
 
-If you don’t reply within <%= @application.dbd_days %> working days, your applications will be withdrawn.
+If you don’t reply within <%= @dbd_days %> working days, your applications will be withdrawn.
 
 <% else %>
 
-You now have <%= @application.dbd_days %> working days to make a decision about your offer for a place on <%= @application.offers.first.course.name_and_code %> at <%= @application.offers.first.provider.name%>.
+You now have <%= @dbd_days %> working days to make a decision about your offer for a place on <%= @offers.first.course.name_and_code %> at <%= @offers.first.provider.name%>.
 
 <% end %>
 
@@ -21,7 +21,7 @@ Sign in to your account to respond:
 
 <%= candidate_sign_in_url(@candidate) %>
 
-<% if @application.offers.count > 1  %>
+<% if @offers.count > 1  %>
 
 You can only accept one offer.
 
