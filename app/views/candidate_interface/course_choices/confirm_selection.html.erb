@@ -7,7 +7,9 @@
         <%= t('confirm_selection.heading') %>
       </h1>
 
-      Course name goes here
+      <div class="govuk-inset-text">
+        <%= govuk_link_to @course_selection_form.course_and_provider_name, '#' %>
+      </div>
 
       <%= f.govuk_radio_buttons_fieldset :confirm, legend: { size: 'm', text: t('confirm_selection.question') } do %>
         <%= f.govuk_radio_button :confirm, true, label: { text: 'Yes' } %>

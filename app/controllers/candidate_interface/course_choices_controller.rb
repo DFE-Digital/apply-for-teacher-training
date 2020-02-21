@@ -170,7 +170,8 @@ module CandidateInterface
 
     # TODO: Factor these into a separate controller?
     def confirm_selection
-      @course_selection_form = CourseSelectionForm.new
+      course = Course.find(params[:course_id])
+      @course_selection_form = CourseSelectionForm.new(course)
     end
 
     def complete_selection
