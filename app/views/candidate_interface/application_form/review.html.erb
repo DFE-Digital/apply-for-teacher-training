@@ -24,4 +24,8 @@
 
 <%= render 'review', application_form: @application_form, editable: true %>
 
-<%= govuk_button_link_to t('review_application.button_continue'), candidate_interface_application_submit_show_path %>
+<% if FeatureFlag.active?('offer_declined_provider_emails') %>
+  <%= govuk_button_link_to t('review_application.button_continue'), candidate_interface_start_equality_and_diversity_path %>
+<% else %>
+  <%= govuk_button_link_to t('review_application.button_continue'), candidate_interface_application_submit_show_path %>
+<% end %>

@@ -22,6 +22,7 @@ class FeatureFlag
     decline_by_default_notification_to_provider
     application_withrawn_provider_email
     offer_declined_provider_emails
+    equality_and_diversity
   ].freeze
 
   def self.activate(feature_name)

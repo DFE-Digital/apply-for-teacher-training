@@ -249,6 +249,10 @@ Rails.application.routes.draw do
         get '/confirm' => 'additional_referees#confirm', as: :confirm_additional_referees
         post '/confirm' => 'additional_referees#request_references'
       end
+
+      scope '/equality-and-diversity' do
+        get '/' => 'equality_and_diversity#start', as: :start_equality_and_diversity
+      end
     end
   end
 
