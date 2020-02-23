@@ -175,6 +175,18 @@ module CandidateInterface
     end
 
     def complete_selection
+      course = Course.find(params[:course_id])
+      # TODO: refactor this into a service etc.?
+      if CourseOption.where(course_id: course.id).one?
+        course_option = CourseOption.where(course_id: @pick_course.course.id).first
+
+        pick_site_for_course(course_code, course_option.id)
+      else
+        redirect_to candidate_interface_course_choices_site_path(
+          provider_code: course.provider.code,
+          course_code: course.code,
+        )
+      end
     end
 
   private

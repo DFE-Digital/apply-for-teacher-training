@@ -17,6 +17,7 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
 
     when_i_choose_to_continue
     then_i_am_prompted_to_pick_a_location
+    and_i_pick_a_location
   end
 
 
@@ -30,7 +31,7 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
 
   def when_i_follow_a_link_from_find
     @course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Potions')
-    @options = create_list(:course_option, 3, course: @course)
+    @course_options = create_list(:course_option, 3, course: @course)
     visit candidate_interface_apply_from_find_path providerCode: @course.provider.code, courseCode: @course.code
   end
 
@@ -77,6 +78,13 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
   end
 
   def then_i_am_prompted_to_pick_a_location
+    expect(page).to have_content('Which location are you applying to?')
+    @course_options.each do |course_option|
+      expect(page).to have_content(course_option.site.name)
+    end
+  end
+
+  def and_i_pick_a_location
     pending
   end
 end
