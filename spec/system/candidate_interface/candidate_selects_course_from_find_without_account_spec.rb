@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 RSpec.feature 'Candidate tries to sign in after selecting a course in find without an account' do
-  scenario 'Candidate signs in and recieves an email inviting them to sign up' do
+  scenario 'Candidate signs in and recieves an email inviting them to sign up and is prompted to select the course' do
     given_the_pilot_is_open
 
     given_i_am_a_candidate_without_an_account
+    and_there_is_a_course_with_multiple_sites
 
     when_i_follow_a_link_from_find
     and_i_choose_to_use_apply
@@ -31,9 +32,12 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
     @email = "#{SecureRandom.hex}@example.com"
   end
 
-  def when_i_follow_a_link_from_find
+  def and_there_is_a_course_with_multiple_sites
     @course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Potions')
     @course_options = create_list(:course_option, 3, course: @course)
+  end
+
+  def when_i_follow_a_link_from_find
     visit candidate_interface_apply_from_find_path providerCode: @course.provider.code, courseCode: @course.code
   end
 
