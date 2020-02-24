@@ -1,6 +1,7 @@
 class FeatureFlag
   FEATURES = %w[
     pilot_open
+    force_ok_computer_to_fail
     training_with_a_disability
     edit_application
     send_dfe_sign_in_invitations
