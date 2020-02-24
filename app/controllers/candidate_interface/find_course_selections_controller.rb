@@ -24,8 +24,8 @@ module CandidateInterface
         pick_site_for_course(course, course_option.id)
       else
         redirect_to candidate_interface_course_choices_site_path(
-          provider_code: course.provider.code,
-          course_code: course.code,
+          provider_id: course.provider_id,
+          course_id: course.id,
         )
       end
     end
@@ -35,8 +35,8 @@ module CandidateInterface
     def pick_site_for_course(course, course_option_id)
       pick_site = PickSiteForm.new(
         application_form: current_application,
-        provider_code: course.provider.code,
-        course_code: course.code,
+        provider_id: course.provider_id,
+        course_id: course.id,
         course_option_id: course_option_id,
       )
 
