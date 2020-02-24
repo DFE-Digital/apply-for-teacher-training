@@ -199,8 +199,8 @@ Rails.application.routes.draw do
         get '/review' => 'course_choices#review', as: :course_choices_review
         patch '/review' => 'course_choices#complete', as: :course_choices_complete
 
-        get '/confirm_selection/:course_id' => 'course_choices#confirm_selection', as: :course_confirm_selection
-        post '/complete_selection/:course_id' => 'course_choices#complete_selection', as: :course_complete_selection
+        get '/confirm_selection/:course_id' => 'find_course_selections#confirm_selection', as: :course_confirm_selection
+        post '/complete_selection/:course_id' => 'find_course_selections#complete_selection', as: :course_complete_selection
       end
 
       scope '/choice/:id' do
