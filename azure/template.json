@@ -16,6 +16,12 @@
                 "decsription": "A object containing the common tags that should be applied to all Azure resources."
             }
         },
+        "subscriptionPrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "The CIP subscription prefix, e.g. s106."
+            }
+        },
         "resourceEnvironmentName": {
             "type": "string",
             "metadata": {
@@ -371,7 +377,7 @@
     "variables": {
         "deploymentUrlBase": "https://raw.githubusercontent.com/DFE-Digital/bat-platform-building-blocks/master/templates/",
         "deploymentUrlBaseLocal": "[concat('https://raw.githubusercontent.com/DFE-Digital/apply-for-postgraduate-teacher-training/', parameters('localBranchName'),'/azure/')]",
-        "resourceNamePrefix": "[toLower(concat('s106', parameters('resourceEnvironmentName'),'-', parameters('serviceName')))]",
+        "resourceNamePrefix": "[toLower(concat(parameters('subscriptionPrefix'), parameters('resourceEnvironmentName'),'-', parameters('serviceName')))]",
         "appServiceName": "[concat(variables('resourceNamePrefix'), '-as')]",
         "appServicePlanName": "[concat(variables('resourceNamePrefix'), '-asp')]",
         "storageAccountName": "[replace(concat(variables('resourceNamePrefix'), 'str'), '-', '')]",
