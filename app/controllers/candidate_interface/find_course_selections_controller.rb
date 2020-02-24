@@ -19,9 +19,9 @@ module CandidateInterface
 
       # TODO: refactor this into a service etc.?
       if CourseOption.where(course_id: course.id).one?
-        course_option = CourseOption.where(course_id: @pick_course.course.id).first
+        course_option = CourseOption.where(course_id: course.id).first
 
-        pick_site_for_course(course_code, course_option.id)
+        pick_site_for_course(course, course_option.id)
       else
         redirect_to candidate_interface_course_choices_site_path(
           provider_code: course.provider.code,
@@ -32,15 +32,15 @@ module CandidateInterface
 
   private
 
-    def pick_site_for_course(course_code, course_option_id)
-      @pick_site = PickSiteForm.new(
+    def pick_site_for_course(course, course_option_id)
+      pick_site = PickSiteForm.new(
         application_form: current_application,
-        provider_code: params.fetch(:provider_code),
-        course_code: course_code,
+        provider_code: course.provider.code,
+        course_code: course.code,
         course_option_id: course_option_id,
       )
 
-      if @pick_site.save
+      if pick_site.save
         redirect_to candidate_interface_course_choices_index_path
       else
         render :options_for_site
