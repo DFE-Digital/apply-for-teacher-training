@@ -177,6 +177,8 @@ Rails.application.routes.draw do
         get '/choose' => 'course_choices#have_you_chosen', as: :course_choices_choose
         post '/choose' => 'course_choices#make_choice'
 
+        get '/find_a_course' => 'course_choices#go_to_find', as: :go_to_find
+
         get '/delete/:id' => 'course_choices#confirm_destroy', as: :confirm_destroy_course_choice
         delete '/delete/:id' => 'course_choices#destroy'
 
