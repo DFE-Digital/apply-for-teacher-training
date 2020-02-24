@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SyncProviderFromFind do
   include FindAPIHelper
 
-  describe 'ingesting a new brand provider' do
+  describe 'ingesting a brand new provider' do
     it 'just creates the provider without any courses' do
       stub_find_api_provider_200(
         provider_code: 'ABC',
@@ -142,6 +142,19 @@ RSpec.describe SyncProviderFromFind do
         modes_for_site = course_options.where(site_id: site.id).pluck(:study_mode)
         expect(modes_for_site).to match_array %w[full_time part_time]
       end
+    end
+
+    it 'correctly updates the Provider#region_code' do
+      stub_find_api_provider_200(
+        provider_code: 'ABC',
+        course_code: '9CBA',
+        site_code: 'G',
+        findable: true,
+      )
+
+      SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+
+      expect(@existing_provider.reload.region_code).to eq 'north_west'
     end
   end
 end
