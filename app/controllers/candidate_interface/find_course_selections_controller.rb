@@ -11,6 +11,12 @@ module CandidateInterface
     def complete_selection
       course = Course.find(params[:course_id])
 
+      course_selection = CourseSelectionForm.new(course, course_selection_params[:confirm])
+      if !course_selection.confirm
+        redirect_to candidate_interface_course_choices_index_path
+        return
+      end
+
       # TODO: refactor this into a service etc.?
       if CourseOption.where(course_id: course.id).one?
         course_option = CourseOption.where(course_id: @pick_course.course.id).first
@@ -39,6 +45,10 @@ module CandidateInterface
       else
         render :options_for_site
       end
+    end
+
+    def course_selection_params
+      params.fetch(:candidate_interface_course_selection_form, {}).permit(:confirm)
     end
   end
 end
