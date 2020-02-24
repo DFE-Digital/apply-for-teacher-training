@@ -12,22 +12,10 @@ class SendCandidateRejectionEmail
 
     if candidate_application_choices.all?(&:rejected?)
       CandidateMailer.send(:application_rejected_all_rejected, application_choice).deliver_later
-      add_audit_comment(application_choice)
     elsif number_of_pending_decisions.positive?
       CandidateMailer.send(:application_rejected_awaiting_decisions, application_choice).deliver_later
-      add_audit_comment(application_choice)
     elsif number_of_offers.positive?
       CandidateMailer.send(:application_rejected_offers_made, application_choice).deliver_later
-      add_audit_comment(application_choice)
     end
-  end
-
-private
-
-  def add_audit_comment(application_choice)
-    audit_comment =
-      "New rejection email sent to candidate #{application_choice.application_form.candidate.email_address} for " +
-      "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}."
-    application_choice.application_form.update!(audit_comment: audit_comment)
   end
 end

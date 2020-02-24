@@ -6,11 +6,6 @@ RSpec.describe SendCandidateRejectionEmail do
     let(:application_choice) { create(:application_choice, status: :rejected, application_form: application_form) }
     let(:mail) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
 
-    def expected_audit_comment
-      "New rejection email sent to candidate #{application_choice.application_form.candidate.email_address} for " +
-        "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}."
-    end
-
     context 'when the candidate has had all of their application choices rejected' do
       before do
         allow(CandidateMailer).to receive(:application_rejected_all_rejected).and_return(mail)
@@ -19,10 +14,6 @@ RSpec.describe SendCandidateRejectionEmail do
 
       it 'sends them the all applications rejected email' do
         expect(CandidateMailer).to have_received(:application_rejected_all_rejected).with(application_choice)
-      end
-
-      it 'audits the rejection email', with_audited: true do
-        expect(application_choice.application_form.audits.last.comment).to eq(expected_audit_comment)
       end
     end
 
@@ -36,10 +27,6 @@ RSpec.describe SendCandidateRejectionEmail do
       it 'sends them the awaiting_decisions email' do
         expect(CandidateMailer).to have_received(:application_rejected_awaiting_decisions).with(application_choice)
       end
-
-      it 'audits the rejection email', with_audited: true do
-        expect(application_choice.application_form.audits.last.comment).to eq(expected_audit_comment)
-      end
     end
 
     context 'when the candidate receives a rejection and an offer' do
@@ -51,10 +38,6 @@ RSpec.describe SendCandidateRejectionEmail do
 
       it 'sends them the awaiting_decisions email' do
         expect(CandidateMailer).to have_received(:application_rejected_offers_made).with(application_choice)
-      end
-
-      it 'audits the rejection email', with_audited: true do
-        expect(application_choice.application_form.audits.last.comment).to eq(expected_audit_comment)
       end
     end
 
