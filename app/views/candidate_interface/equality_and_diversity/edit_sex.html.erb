@@ -1,0 +1,19 @@
+<% content_for :title, 'What is your sex?' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @sex, url: candidate_interface_update_equality_and_diversity_sex_path, method: :post do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_radio_buttons_fieldset :sex, legend: { size: 'xl', text: 'What is your sex?' } do %>
+        <div class="govuk-!-margin-top-6">
+          <%= f.govuk_radio_button :sex, :female, label: { text: 'Female' }, link_errors: true %>
+          <%= f.govuk_radio_button :sex, :male, label: { text: 'Male' } %>
+          <%= f.govuk_radio_button :sex, :intersex, label: { text: 'Intersex' } %>
+        </div>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>
