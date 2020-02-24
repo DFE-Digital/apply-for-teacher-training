@@ -15,6 +15,5 @@ module ProviderInterface
       @application_choice = GetApplicationChoicesForProviders.call(providers: current_provider_user.providers)
         .find(params[:application_choice_id])
     end
-
   end
 end

@@ -2,7 +2,7 @@ module ProviderInterface
   class ToggleFilterComponent < ActionView::Component::Base
     include ViewHelper
 
-    attr_reader :sort_order, :current_sort_by, :filter_visible, :toggle_button_text, :filter_options
+    attr_reader :sort_order, :current_sort_by, :filter_visible, :filter_options
 
     def initialize(page_state:)
       @sort_order = page_state.sort_order

@@ -43,7 +43,6 @@ RSpec.feature 'Providers should be able to filter applications' do
     when_i_sort_by_course
     then_only_rejected_and_offered_applications_should_be_visible
     then_i_do_not_expect_to_see_the_filter_dialogue
-
   end
 
   def when_i_visit_the_provider_page
@@ -99,7 +98,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_filter_for_rejected_applications
-    find(:css, "#status-rejected").set(true)
+    find(:css, '#status-rejected').set(true)
     click_button('Apply filters')
   end
 
@@ -111,13 +110,13 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def and_the_rejected_tickbox_should_still_be_checked
-    rejected_checkbox = find(:css, "#status-rejected")
+    rejected_checkbox = find(:css, '#status-rejected')
     expect(rejected_checkbox.checked?).to be(true)
   end
 
   def when_i_filter_for_applications_that_i_do_not_have
-    find(:css, "#status-rejected").set(false)
-    find(:css, "#status-pending_conditions").set(true)
+    find(:css, '#status-rejected').set(false)
+    find(:css, '#status-pending_conditions').set(true)
     click_button('Apply filters')
   end
 
@@ -126,9 +125,9 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_filter_for_rejected_and_offered_applications
-    find(:css, "#status-pending_conditions").set(false)
-    find(:css, "#status-rejected").set(true)
-    find(:css, "#status-offer").set(true)
+    find(:css, '#status-pending_conditions').set(false)
+    find(:css, '#status-rejected').set(true)
+    find(:css, '#status-offer').set(true)
     click_button('Apply filters')
   end
 

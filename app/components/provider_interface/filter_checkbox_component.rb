@@ -11,7 +11,7 @@ module ProviderInterface
     end
 
     def should_be_checked
-      @filter_options.include?(@name) ? "checked" : nil
+      @filter_options.include?(@name) ? 'checked' : nil
     end
   end
 end

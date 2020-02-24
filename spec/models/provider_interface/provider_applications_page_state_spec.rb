@@ -94,18 +94,17 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
 
   describe '#filter_options' do
     it 'returns an array of filter options if params[filters][status] is present' do
-      params = { 'filter' => {"status"=> {"recruited"=>"on", "declined"=>"on", "awaiting_provider_decision"=>"on", "offer"=>"on"}} }
+      params = { 'filter' => { 'status' => { 'recruited' => 'on', 'declined' => 'on', 'awaiting_provider_decision' => 'on', 'offer' => 'on' } } }
       state = described_class.new(params: params)
 
       expect(state.filter_options).to eq(%W(recruited declined awaiting_provider_decision offer))
     end
 
     it 'if filter param does not exits it returns an empty array' do
-      params = { }
+      params = {}
       state = described_class.new(params: params)
 
       expect(state.filter_options).to eq([])
     end
   end
 end
-
