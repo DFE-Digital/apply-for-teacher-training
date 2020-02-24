@@ -17,7 +17,9 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
 
     when_i_choose_to_continue
     then_i_am_prompted_to_pick_a_location
-    and_i_pick_a_location
+
+    when_i_pick_a_location
+    then_i_see_my_course_selection
   end
 
 
@@ -84,7 +86,15 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
     end
   end
 
-  def and_i_pick_a_location
-    pending
+  def when_i_pick_a_location
+    choose @course_options[1].site.name
+    click_on 'Continue'
+  end
+
+  def then_i_see_my_course_selection
+    expect(page).to have_content('Course choices')
+    expect(page).to have_content(@course.provider.name)
+    expect(page).to have_content(@course.name)
+    expect(page).to have_content(@course_options[1].site.name)
   end
 end
