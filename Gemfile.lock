@@ -234,6 +234,18 @@ GEM
       faraday_middleware (~> 0.9)
       rack (>= 0.2)
     jwt (2.2.1)
+    kaminari (1.2.0)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.0)
+      kaminari-activerecord (= 1.2.0)
+      kaminari-core (= 1.2.0)
+    kaminari-actionview (1.2.0)
+      actionview
+      kaminari-core (= 1.2.0)
+    kaminari-activerecord (1.2.0)
+      activerecord
+      kaminari-core (= 1.2.0)
+    kaminari-core (1.2.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     listen (3.2.1)
@@ -536,6 +548,7 @@ DEPENDENCIES
   json-schema
   json_api_client
   jwt
+  kaminari
   launchy
   listen (>= 3.0.5, < 3.3)
   lograge
