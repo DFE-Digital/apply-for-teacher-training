@@ -35,6 +35,8 @@ module CandidateInterface
       @qualification = OtherQualificationForm.new(other_qualification_params)
 
       if @qualification.update(current_application)
+        current_application.update!(other_qualifications_completed: false)
+
         redirect_to candidate_interface_review_other_qualifications_path
       else
         render :edit
