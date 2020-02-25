@@ -106,6 +106,8 @@ module CandidateInterface
         .find(current_course_choice_id)
         .destroy!
 
+      current_application.update!(course_choices_completed: false)
+
       redirect_to candidate_interface_course_choices_index_path
     end
 
@@ -143,6 +145,8 @@ module CandidateInterface
       )
 
       if @pick_site.save
+        current_application.update!(course_choices_completed: false)
+
         redirect_to candidate_interface_course_choices_index_path
       else
         render :options_for_site
