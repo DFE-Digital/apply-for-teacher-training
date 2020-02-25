@@ -252,6 +252,9 @@ Rails.application.routes.draw do
 
       scope '/equality-and-diversity' do
         get '/' => 'equality_and_diversity#start', as: :start_equality_and_diversity
+        get '/sex' => 'equality_and_diversity#edit_sex', as: :edit_equality_and_diversity_sex
+        post '/sex' => 'equality_and_diversity#update_sex', as: :update_equality_and_diversity_sex
+        get '/review' => 'equality_and_diversity#review', as: :review_equality_and_diversity
       end
     end
   end

@@ -550,3 +550,7 @@ en:
             feedback:
               blank: Enter your reference
               too_many_words: Your reference must be %{count} words or fewer
+        candidate_interface/equality_and_diversity/sex_form:
+          attributes:
+            sex:
+              blank: Choose your sex
