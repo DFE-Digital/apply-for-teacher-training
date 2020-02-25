@@ -24,7 +24,14 @@ RSpec.feature 'Entering their equality and diversity information' do
 
     when_i_choose_my_sex
     and_i_click_on_continue
-    then_i_can_review_my_answer
+    then_i_am_asked_if_i_have_a_disability
+
+    when_i_try_and_submit_without_choosing_if_i_have_a_disability
+    then_i_see_an_error_to_choose_if_i_have_a_disability
+
+    when_i_choose_no_for_having_a_disability
+    and_i_click_on_continue
+    then_i_can_review_my_answers
 
     when_i_click_change_sex
     then_i_am_asked_to_choose_my_sex
@@ -101,9 +108,10 @@ RSpec.feature 'Entering their equality and diversity information' do
     click_button 'Continue'
   end
 
-  def then_i_can_review_my_answer
+  def then_i_can_review_my_answers
     expect(page).to have_content('Check your answers')
     expect(page).to have_content('Male')
+    expect(page).to have_content('No')
   end
 
   def when_i_click_change_sex
@@ -117,5 +125,21 @@ RSpec.feature 'Entering their equality and diversity information' do
   def then_i_can_review_my_updated_sex
     expect(page).to have_content('Check your answers')
     expect(page).to have_content('Female')
+  end
+
+  def then_i_am_asked_if_i_have_a_disability
+    expect(page).to have_content('Are you disabled?')
+  end
+
+  def when_i_try_and_submit_without_choosing_if_i_have_a_disability
+    click_button 'Continue'
+  end
+
+  def then_i_see_an_error_to_choose_if_i_have_a_disability
+    expect(page).to have_content('Choose if you have a disability')
+  end
+
+  def when_i_choose_no_for_having_a_disability
+    choose 'No'
   end
 end
