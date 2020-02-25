@@ -15,16 +15,10 @@
 
 <div class="govuk-grid-row govuk-!-margin-bottom-4">
   <div class="govuk-grid-column-one-half">
-    <div class="app-card">
-      <span class="app-card__count"><%= @statistics.total_candidate_count(only: %i{never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}) %></span>
-      <span>in pre-submission</span>
-    </div>
+    <%= render SupportInterface::TileComponent.new(count: @statistics.total_candidate_count(only: %i{never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}), label: 'in pre-submission') %>
   </div>
   <div class="govuk-grid-column-one-half">
-    <div class="app-card">
-      <span class="app-card__count"><%= @statistics.total_candidate_count(except: %i{never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}) %></span>
-      <span>submitted</span>
-    </div>
+    <%= render SupportInterface::TileComponent.new(count: @statistics.total_candidate_count(except: %i{never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}), label: 'submitted') %>
   </div>
 </div>
 
