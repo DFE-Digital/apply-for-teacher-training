@@ -14,7 +14,7 @@ module CandidateInterface
     def interstitial
       course = current_candidate.course_from_find
 
-      service = AddCourseFromFind.new(candidate: current_candidate)
+      service = InterstitialRouteSelector.new(candidate: current_candidate)
       service.execute
 
       if service.candidate_does_not_have_a_course_from_find || service.candidate_has_submitted_application
