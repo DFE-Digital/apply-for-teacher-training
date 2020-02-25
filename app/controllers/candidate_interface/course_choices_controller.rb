@@ -23,9 +23,11 @@ module CandidateInterface
       if @choice_form.chosen_a_course?
         redirect_to candidate_interface_course_choices_provider_path
       else
-        redirect_to 'https://find-postgraduate-teacher-training.education.gov.uk'
+        redirect_to candidate_interface_go_to_find_path
       end
     end
+
+    def go_to_find; end
 
     def options_for_provider
       @pick_provider = PickProviderForm.new

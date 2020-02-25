@@ -1,0 +1,17 @@
+<% content_for :title, t('page_titles.find_a_course') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_choose_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.find_a_course') %>
+    </h1>
+
+    <p class="govuk-body-l">Search for courses near you on Find postgraduate teacher training.</p>
+
+    <%= govuk_button_link_to 'Start now', 'https://find-postgraduate-teacher-training.education.gov.uk', class: 'govuk-button--start' %>
+
+    <p class="govuk-body"><%= govuk_link_to 'Return to your application', candidate_interface_application_complete_path %></p>
+
+  </div>
+</div>
