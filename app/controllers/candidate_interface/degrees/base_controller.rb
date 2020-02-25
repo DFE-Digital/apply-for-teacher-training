@@ -28,6 +28,8 @@ module CandidateInterface
       @degree = DegreeForm.new(degree_params)
 
       if @degree.update_base(current_application)
+        current_application.update!(degrees_completed: false)
+
         redirect_to candidate_interface_degrees_review_path
       else
         render_new

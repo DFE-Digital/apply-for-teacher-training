@@ -15,6 +15,8 @@ module CandidateInterface
       @degree = DegreeForm.new(id: current_degree_id, attributes: degree_params)
 
       if @degree.update_year(current_application)
+        current_application.update!(degrees_completed: false)
+
         redirect_to candidate_interface_degrees_review_path
       else
         render :new
