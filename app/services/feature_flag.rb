@@ -13,6 +13,7 @@ class FeatureFlag
     dfe_sign_in_incident
     edit_application
     equality_and_diversity
+<<<<<<< HEAD
     experimental_api_features
     force_ok_computer_to_fail
     improved_expired_token_flow
@@ -28,6 +29,9 @@ class FeatureFlag
     show_new_referee_needed
     training_with_a_disability
     work_breaks
+=======
+    you_selected_a_course_page
+>>>>>>> Feature flag
   ].freeze
 
   def self.activate(feature_name)

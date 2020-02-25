@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate tries to sign in after selecting a course in find without an account then says no to selecting the course' do
   scenario 'Candidate signs in and recieves an email inviting them to sign up and is prompted to select the course' do
     given_the_pilot_is_open
+    and_course_selection_page_is_active
 
     given_i_am_a_candidate_without_an_account
     and_there_is_a_course_with_multiple_sites
@@ -23,6 +24,10 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
+  end
+
+  def and_course_selection_page_is_active
+    FeatureFlag.activate('you_selected_a_course_page')
   end
 
   def given_i_am_a_candidate_without_an_account

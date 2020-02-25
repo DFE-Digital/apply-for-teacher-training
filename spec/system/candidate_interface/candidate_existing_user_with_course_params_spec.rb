@@ -1,9 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe 'An existing candidate arriving from Find with a course and provider code' do
+RSpec.describe 'An existing candidate arriving from Find with a course and provider code (with course selection page)' do
   include CourseOptionHelpers
   scenario 'candidate is not signed in and retains their course selection through the sign up process' do
     given_the_pilot_is_open
+    and_course_selection_page_is_active
     and_i_am_an_existing_candidate_on_apply
     and_i_have_less_than_3_application_options
     and_the_course_i_selected_only_has_one_site
@@ -54,6 +55,10 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
+  end
+
+  def and_course_selection_page_is_active
+    FeatureFlag.activate('you_selected_a_course_page')
   end
 
   def and_the_course_i_selected_only_has_one_site

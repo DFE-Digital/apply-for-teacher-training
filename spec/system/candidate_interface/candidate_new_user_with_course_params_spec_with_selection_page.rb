@@ -1,8 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe 'A new candidate arriving from Find with a course and provider code (without selection page)' do
+RSpec.describe 'A new candidate arriving from Find with a course and provider code' do
   scenario 'retaining their course selection through the sign up process' do
     given_the_pilot_is_open
+    and_course_selection_page_is_active
     and_the_course_i_selected_only_has_one_site
 
     when_i_arrive_from_find_to_a_course_that_is_open_on_apply
@@ -11,6 +12,10 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
 
     when_i_submit_my_email_address
     and_click_on_the_magic_link
+    then_i_should_see_the_course_selection_page
+    and_i_should_see_an_account_created_flash_message
+
+    when_i_say_yes
     then_i_should_see_the_courses_review_page
     and_i_should_see_the_course_name_and_code
     and_i_should_see_the_site
@@ -21,6 +26,10 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
 
     when_i_submit_my_email_address
     and_click_on_the_magic_link
+    then_i_should_see_the_multi_site_course_selection_page
+    and_i_should_see_an_account_created_flash_message
+
+    when_i_say_yes
     then_i_should_see_the_course_choices_site_page
     and_i_see_the_form_to_pick_a_location
     and_my_course_from_find_id_should_be_set_to_nil
@@ -29,6 +38,10 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
+  end
+
+  def and_course_selection_page_is_active
+    FeatureFlag.activate('you_selected_a_course_page')
   end
 
   def and_the_course_i_selected_only_has_one_site
@@ -84,6 +97,24 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
     current_email.find_css('a').first.click
   end
 
+  def then_i_should_see_the_course_selection_page
+    expect(page).to have_content('You selected a course')
+    expect(page).to have_content(@course.provider.name)
+    expect(page).to have_content(@course.name_and_code)
+  end
+
+  def then_i_should_see_the_multi_site_course_selection_page
+    expect(page).to have_content('You selected a course')
+    expect(page).to have_content(@course_with_multiple_sites.provider.name)
+    expect(page).to have_content(@course_with_multiple_sites.name_and_code)
+  end
+
+  def when_i_say_yes
+    choose 'Yes'
+    click_on 'Continue'
+  end
+
+
   def then_i_should_see_the_courses_review_page
     expect(page).to have_current_path(candidate_interface_course_choices_review_path)
   end
@@ -126,7 +157,6 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
       candidate_interface_course_choices_site_path(
         @course_with_multiple_sites.provider.id,
         @course_with_multiple_sites.id,
-        :full_time,
       ),
     )
   end

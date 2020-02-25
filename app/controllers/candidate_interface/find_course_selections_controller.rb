@@ -4,11 +4,15 @@ module CandidateInterface
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
     def confirm_selection
+      render_404 unless FeatureFlag.active?('you_selected_a_course_page')
+
       course = Course.find(params[:course_id])
       @course_selection_form = CourseSelectionForm.new(course)
     end
 
     def complete_selection
+      render_404 unless FeatureFlag.active?('you_selected_a_course_page')
+
       course = Course.find(params[:course_id])
 
       course_selection = CourseSelectionForm.new(course, course_selection_params[:confirm])
