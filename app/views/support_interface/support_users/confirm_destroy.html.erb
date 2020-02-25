@@ -1,0 +1,21 @@
+<% content_for :before_content, govuk_back_link_to(support_interface_support_users_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @support_user,
+      url: support_interface_destroy_support_user_path(@support_user.id),
+      method: :delete do |f| %>
+      <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl">Support user</span>
+        <%= t('support_interface.support_user.confirm_delete',
+              email: @support_user.email_address) %>
+      </h1>
+
+      <%= f.submit t('support_interface.support_user.delete'), class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to 'Cancel', support_interface_support_users_path %>
+      </p>
+    <% end %>
+  </div>
+</div>
