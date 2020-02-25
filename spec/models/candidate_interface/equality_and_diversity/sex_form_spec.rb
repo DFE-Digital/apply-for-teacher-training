@@ -41,6 +41,16 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::SexForm, type: :model d
 
         expect(application_form.equality_and_diversity).to eq('sex' => 'male')
       end
+
+      it 'updates the existing record of equality and diversity information' do
+        application_form = create(:application_form, equality_and_diversity: { 'disabilities' => [] })
+        form = CandidateInterface::EqualityAndDiversity::SexForm.new(sex: 'female')
+        form.save(application_form)
+
+        expect(application_form.equality_and_diversity).to eq(
+          'sex' => 'female', 'disabilities' => [],
+        )
+      end
     end
   end
 
