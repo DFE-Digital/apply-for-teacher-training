@@ -280,7 +280,14 @@ FactoryBot.define do
       feedback_status { 'feedback_provided' }
       feedback { Faker::Lorem.paragraph(sentence_count: 10) }
       requested_at { Time.zone.now }
-      questionnaire { Faker::Json.shallow_json }
+      questionnaire {
+        {
+          'Please rate how useful our guidance was' => "#{%w[very_poor poor ok good very_good].sample} | #{Faker::Lorem.paragraph_by_chars(number: 300)}",
+          'Please rate your experience of giving a reference' =>  "#{%w[very_poor poor ok good very_good].sample} | #{Faker::Lorem.paragraph_by_chars(number: 300)}",
+          'Can we contact you about your experience of giving a reference?' => "#{%w[yes no].sample} | #{Faker::PhoneNumber.cell_phone}",
+          'If we asked whether a candidate was safe to work with children, would you feel able to answer?' => "#{%w[yes no].sample}| ",
+        }
+      }
     end
   end
 

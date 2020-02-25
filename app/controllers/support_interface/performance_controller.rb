@@ -17,5 +17,19 @@ module SupportInterface
 
       render plain: csv
     end
+
+    def referee_survey
+      responses = SupportInterface::RefereeSurveyExport.new.call
+
+      csv = CSV.generate do |rows|
+        rows << responses&.first&.keys
+
+        responses&.each do |response|
+          rows << response.values
+        end
+      end
+
+      send_data csv, filename: "referee-survey-#{Time.zone.today}.csv", disposition: :attachment
+    end
   end
 end
