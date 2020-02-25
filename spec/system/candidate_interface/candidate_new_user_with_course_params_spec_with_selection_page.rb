@@ -114,7 +114,6 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
     click_on 'Continue'
   end
 
-
   def then_i_should_see_the_courses_review_page
     expect(page).to have_current_path(candidate_interface_course_choices_review_path)
   end
