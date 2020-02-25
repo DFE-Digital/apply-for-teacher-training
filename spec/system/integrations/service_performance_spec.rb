@@ -17,7 +17,7 @@ RSpec.feature 'Service performance' do
   end
 
   def then_i_should_see_the_total_count_of_candidates
-    within '#total-sign-ups' do
+    within '#headline-stat' do
       expect(page).to have_content '3'
     end
   end

@@ -1,4 +1,4 @@
-<div class="app-card">
+<div class="app-card<%= colour == :default ? '' : " app-card--#{colour}" %>">
   <span class="app-card__count"><%= count %></span>
   <%= label %>
 </div>
