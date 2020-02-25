@@ -15,7 +15,12 @@ module CandidateInterface
     def save(application_form)
       return false unless valid?
 
-      application_form.update(equality_and_diversity: { 'sex' => sex })
+      if application_form.equality_and_diversity.nil?
+        application_form.update(equality_and_diversity: { 'sex' => sex })
+      else
+        application_form.equality_and_diversity['sex'] = sex
+        application_form.save
+      end
     end
   end
 end

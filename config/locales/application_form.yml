@@ -554,3 +554,7 @@ en:
           attributes:
             sex:
               blank: Choose your sex
+        candidate_interface/equality_and_diversity/disability_status_form:
+          attributes:
+            disability_status:
+              blank: Choose if you have a disability
