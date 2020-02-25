@@ -25,32 +25,20 @@
   <div class="govuk-grid-column-one-half">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-third">
-        <div class="app-card">
-          <span class="app-card__secondary-count"><%= @statistics[:never_signed_in] %></span>
-          <span>never signed in</span>
-        </div>
+        <%= render SupportInterface::TileComponent.new(count: @statistics[:never_signed_in], label: 'never signed in', size: :reduced) %>
       </div>
       <div class="govuk-grid-column-one-third">
-        <div class="app-card">
-          <span class="app-card__secondary-count"><%= @statistics[:unsubmitted_not_started_form] %></span>
-          <span>not started the form</span>
-        </div>
+        <%= render SupportInterface::TileComponent.new(count: @statistics[:unsubmitted_not_started_form], label: 'not started the form', size: :reduced) %>
       </div>
       <div class="govuk-grid-column-one-third">
-        <div class="app-card">
-          <span class="app-card__secondary-count"><%= @statistics[:unsubmitted_in_progress] %></span>
-          <span>form in progress</span>
-        </div>
+        <%= render SupportInterface::TileComponent.new(count: @statistics[:unsubmitted_in_progress], label: 'form in progress', size: :reduced) %>
       </div>
     </div>
   </div>
   <div class="govuk-grid-column-one-half">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-third">
-        <div class="app-card">
-          <span class="app-card__secondary-count"><%= @statistics.total_candidate_count(except: %i{ended_without_success pending_conditions recruited enrolled never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}) %></span>
-          <span>still being processed</span>
-        </div>
+        <%= render SupportInterface::TileComponent.new(count: @statistics.total_candidate_count(except: %i{ended_without_success pending_conditions recruited enrolled never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}), label: 'still being processed', size: :reduced) %>
       </div>
       <div class="govuk-grid-column-one-third">
         <div class="app-card app-card--red">
