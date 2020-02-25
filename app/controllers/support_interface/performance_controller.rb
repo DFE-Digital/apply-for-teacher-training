@@ -19,7 +19,7 @@ module SupportInterface
     end
 
     def referee_survey
-      responses = SupportInterface::RefereeSurveyExport.call
+      responses = SupportInterface::RefereeSurveyExport.new.call
 
       csv = CSV.generate do |rows|
         rows << responses&.first&.keys

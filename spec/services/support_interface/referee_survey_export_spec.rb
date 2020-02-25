@@ -34,33 +34,36 @@ RSpec.describe SupportInterface::RefereeSurveyExport do
       reference2 = create(:reference, questionnaire: questionnaire2)
       create(:reference, questionnaire: questionnaire3)
 
-      reference1_response = {
-        'Name' => reference1.name,
-        'Email_address' => reference1.email_address,
-        'Guidance rating' => reference1.questionnaire.values.first.split(' | ').first,
-        'Guidance explanation' => reference1.questionnaire.values.first.split(' | ').second,
-        'Experience rating' => reference1.questionnaire.values.second.split(' | ').first,
-        'Experience explanation' => reference1.questionnaire.values.second.split(' | ').second,
-        'Consent to be contacted' => reference1.questionnaire.values.third.split(' | ').first,
-        'Contact details' => reference1.questionnaire.values.third.split(' | ').second,
-        'Safe to work with children?' => reference1.questionnaire.values.fourth.split(' | ').first,
-        'Safe to work with children explanation' => reference1.questionnaire.values.fourth.split(' | ').second,
-      }
-
-      reference2_response = {
-      'Name' => reference2.name,
-      'Email_address' => reference2.email_address,
-      'Guidance rating' => reference2.questionnaire.values.first.split(' | ').first,
-      'Guidance explanation' => reference2.questionnaire.values.first.split(' | ').second,
-      'Experience rating' => reference2.questionnaire.values.second.split(' | ').first,
-      'Experience explanation' => reference2.questionnaire.values.second.split(' | ').second,
-      'Consent to be contacted' => reference2.questionnaire.values.third.split(' | ').first,
-      'Contact details' => reference2.questionnaire.values.third.split(' | ').second,
-      'Safe to work with children?' => reference2.questionnaire.values.fourth.split(' | ').first,
-      'Safe to work with children explanation' => reference2.questionnaire.values.fourth.split(' | ').second,
-    }
-
-      expect(described_class.call).to eq [reference1_response, reference2_response]
+      expect(described_class.new.call).to eq [return_expected_hash(reference1), return_expected_hash(reference2)]
     end
+  end
+
+private
+
+  def extract_rating(reference, field)
+    get_response(reference.questionnaire[field]).first
+  end
+
+  def extract_explanation(reference, field)
+    get_response(reference.questionnaire[field]).second
+  end
+
+  def get_response(response)
+    response.split(' | ')
+  end
+
+  def return_expected_hash(reference)
+    {
+      'Name' => reference.name,
+      'Email_address' => reference.email_address,
+      'Guidance rating' => extract_rating(reference, 'Please rate how useful our guidance was'),
+      'Guidance explanation' => extract_explanation(reference, 'Please rate how useful our guidance was'),
+      'Experience rating' => extract_rating(reference, 'Please rate your experience of giving a reference'),
+      'Experience explanation' => extract_explanation(reference, 'Please rate your experience of giving a reference'),
+      'Consent to be contacted' => extract_rating(reference, 'Can we contact you about your experience of giving a reference?'),
+      'Contact details' => extract_explanation(reference, 'Can we contact you about your experience of giving a reference?'),
+      'Safe to work with children?' => extract_rating(reference, 'If we asked whether a candidate was safe to work with children, would you feel able to answer?'),
+      'Safe to work with children explanation' => extract_explanation(reference, 'If we asked whether a candidate was safe to work with children, would you feel able to answer?'),
+    }
   end
 end
