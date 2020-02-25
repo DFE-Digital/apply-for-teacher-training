@@ -26,6 +26,7 @@ $govuk-image-url-function: frontend-image-url;
 @import "_print-helpers";
 
 // Provider
+@import "~@ministryofjustice/frontend/moj/components/pagination/pagination";
 @import "_button";
 @import "_count";
 @import "_masthead";

@@ -1,0 +1,43 @@
+<%# The container tag
+  - available local variables
+    current_page:  a page object for the currently displayed page
+    total_pages:   total number of pages
+    per_page:      number of items to fetch per page
+    remote:        data-remote
+    paginator:     the paginator that renders the pagination tags inside
+-%>
+<%= paginator.render do -%>
+  <nav class="moj-pagination" role="navigation" aria-label="pager">
+    <p class="govuk-visually-hidden" aria-labelledby="pagination-label">Pagination navigation</p>
+
+    <ul class="moj-pagination__list">
+      <%= prev_page_tag unless current_page.first? %>
+
+      <% each_page do |page| -%>
+        <% if page.display_tag? -%>
+          <%= page_tag page %>
+        <% elsif !page.was_truncated? -%>
+          <%= gap_tag %>
+        <% end -%>
+      <% end -%>
+
+      <% unless current_page.out_of_range? %>
+        <%= next_page_tag unless current_page.last? %>
+      <% end %>
+    </ul>
+  </nav>
+
+  <%# <nav class="moj-pagination" id="pagination-label"> %>
+  <%#   <p class="govuk-visually-hidden" aria-labelledby="pagination-label">Pagination navigation</p> %>
+
+  <%#   <ul class="moj-pagination__list"> %>
+  <%#     <li class="moj-pagination__item moj-pagination__item--active">1</li> %>
+  <%#     <li class="moj-pagination__item"> %>
+  <%#       <a class="moj-pagination__link" href="/page=2">2</a></li> %>
+  <%#     <li class="moj-pagination__item  moj-pagination__item--next"> %>
+  <%#       <a class="moj-pagination__link" href="">Next<span class="govuk-visually-hidden"> set of pages</span></a> %>
+  <%#     </li> %>
+  <%#   </ul> %>
+  <%#   <p class="moj-pagination__results">Showing <b>1</b> to <b>15</b> of <b>30</b> results</p> %>
+  <%# </nav> %>
+<% end -%>

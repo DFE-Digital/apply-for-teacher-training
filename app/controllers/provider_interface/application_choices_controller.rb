@@ -6,7 +6,7 @@ module ProviderInterface
 
       application_choices = GetApplicationChoicesForProviders.call(providers: current_provider_user.providers)
         .order(ordering_arguments(@sort_by, @sort_order))
-        .page(1)
+        .page(params[:page] || 1)
         .per(10)
 
       if FeatureFlag.active?('provider_application_filters')
