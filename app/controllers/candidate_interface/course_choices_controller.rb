@@ -98,6 +98,7 @@ module CandidateInterface
           :study_mode,
         ),
       )
+      render :options_for_study_mode and return unless @pick_study_mode.valid?
 
       redirect_to candidate_interface_course_choices_site_path(
         @pick_study_mode.provider_id,

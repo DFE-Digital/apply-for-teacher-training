@@ -56,6 +56,8 @@ RSpec.feature 'Selecting a study mode' do
     select @course.name
     click_button 'Continue'
 
+    click_button 'Continue'
+    expect(page).to have_text "can't be blank"
     choose 'Part time'
     click_button 'Continue'
   end
