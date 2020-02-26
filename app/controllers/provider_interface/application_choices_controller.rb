@@ -7,7 +7,11 @@ module ProviderInterface
       application_choices = GetApplicationChoicesForProviders.call(providers: current_provider_user.providers)
         .order(ordering_arguments(@sort_by, @sort_order))
 
-      @application_choices = application_choices
+      if FeatureFlag.active?('provider_application_filters')
+        raise 'feature not implemented yet'
+      else
+        @application_choices = application_choices
+      end
     end
 
     def show
