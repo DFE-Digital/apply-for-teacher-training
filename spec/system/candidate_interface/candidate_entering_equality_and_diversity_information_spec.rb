@@ -33,12 +33,36 @@ RSpec.feature 'Entering their equality and diversity information' do
     and_i_click_on_continue
     then_i_can_review_my_answers
 
+    when_i_click_change_my_disability
+    then_i_am_asked_if_i_have_a_disability
+
+    when_i_choose_yes_for_having_a_disability
+    and_i_click_on_continue
+    then_i_see_the_disabilities_page
+
+    when_i_try_and_submit_without_ticking_disabilities
+    then_i_see_an_error_to_select_disabilties
+
+    when_i_check_my_disabilities
+    and_i_enter_another_disability
+    and_i_click_on_continue
+    then_i_can_review_my_disabilities
+
     when_i_click_change_sex
     then_i_am_asked_to_choose_my_sex
 
     when_i_choose_a_different_sex
     and_i_click_on_continue
     then_i_can_review_my_updated_sex
+
+    when_i_click_change_my_disability
+    and_i_choose_yes_for_having_a_disability
+    and_i_click_on_continue
+    then_i_see_the_disabilties_i_selected_are_checked
+
+    when_i_change_my_disabilities
+    and_i_click_on_continue
+    then_i_can_review_my_updated_disabilities
   end
 
   def given_i_am_signed_in
@@ -141,5 +165,62 @@ RSpec.feature 'Entering their equality and diversity information' do
 
   def when_i_choose_no_for_having_a_disability
     choose 'No'
+  end
+
+  def when_i_click_change_my_disability
+    click_link 'Change disability'
+  end
+
+  def when_i_choose_yes_for_having_a_disability
+    choose 'Yes'
+  end
+
+  def then_i_see_the_disabilities_page
+    expect(page).to have_content('Please select all that apply to you')
+  end
+
+  def when_i_try_and_submit_without_ticking_disabilities
+    click_button 'Continue'
+  end
+
+  def then_i_see_an_error_to_select_disabilties
+    expect(page).to have_content('Select all disabilities that apply to you')
+  end
+
+  def when_i_check_my_disabilities
+    check 'Blind'
+    check 'Deaf'
+    check 'Other'
+  end
+
+  def and_i_enter_another_disability
+    fill_in 'Describe your disability', with: 'other disability'
+  end
+
+  def then_i_can_review_my_disabilities
+    expect(page).to have_content('Check your answers')
+    expect(page).to have_content('Male')
+    expect(page).to have_content('Yes (Blind, Deaf and other disability)')
+  end
+
+  def and_i_choose_yes_for_having_a_disability
+    choose 'Yes'
+  end
+
+  def then_i_see_the_disabilties_i_selected_are_checked
+    expect(first('input[type=checkbox][value=Blind]')).to be_checked
+    expect(first('input[type=checkbox][value=Deaf]')).to be_checked
+    expect(first('input[type=checkbox][value=Other]')).to be_checked
+    expect(page).to have_selector("input[value='other disability']")
+  end
+
+  def when_i_change_my_disabilities
+    uncheck 'Blind'
+    uncheck 'Other'
+  end
+
+  def then_i_can_review_my_updated_disabilities
+    expect(page).to have_content('Check your answers')
+    expect(page).to have_content('Yes (Deaf)')
   end
 end

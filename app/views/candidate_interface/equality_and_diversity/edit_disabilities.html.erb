@@ -1,0 +1,24 @@
+<% content_for :title, 'Please select all that apply to you' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @disabilities, url: candidate_interface_update_equality_and_diversity_disabilities_path, method: :post do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_check_boxes_fieldset :disabilities, legend: { size: 'xl', text: 'Please select all that apply to you' } do %>
+        <div class="govuk-!-margin-top-6">
+          <% disabilities_checkboxes.each do |checkbox| %>
+            <%= f.govuk_check_box :disabilities, checkbox.name, label: { text: checkbox.name, size: 's' }, hint_text: checkbox.hint_text %>
+          <% end %>
+
+          <%= f.govuk_check_box :disabilities, 'Other', label: { text: 'Other', size: 's' } do %>
+            <%= f.govuk_text_field :other_disability, label: { text: 'Describe your disability (optional)' } %>
+          <% end %>
+
+        </div>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>
