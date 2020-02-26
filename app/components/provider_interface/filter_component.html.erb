@@ -1,0 +1,35 @@
+<div class="moj-filter-layout__filter">
+  <div class="moj-filter" tabindex="-1">
+    <div class="moj-filter__header">
+      <div class="moj-filter__header-title">
+        <h2 class="govuk-heading-m">Filter</h2>
+      </div>
+    </div>
+
+    <div class="moj-filter__content">
+      <div class="moj-filter__options">
+        <form method="get" action="/provider/applications">
+          <%= submit_tag "Apply filters", class: "govuk-button" %>
+
+          <div class="govuk-form-group">
+            <input class="govuk-checkboxes__input" id="sort_by" name="sort_by" type="hidden" value=<%= "#{current_sort_by}" %>>
+            <input class="govuk-checkboxes__input" id="sort_order" name="sort_order" type="hidden" value=<%= "#{sort_order}" %>>
+
+            <fieldse class="govuk-fieldset">
+
+              <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                Status
+              </legend>
+
+              <div class="govuk-checkboxes govuk-checkboxes--small">
+                <% status_filter_checkbox_names_text.each do |name, text| %>
+                  <%= render ProviderInterface::FilterCheckboxComponent, name: name, text: text, filter_options: filter_options %>
+                <% end %>
+              </div>
+            </fieldset>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
