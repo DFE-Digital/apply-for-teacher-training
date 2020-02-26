@@ -19,6 +19,13 @@ RSpec.describe ViewHelper, type: :helper do
 
       expect(anchor_tag).to eq('<a class="govuk-link govuk-link--no-visited-state" target="_blank" href="https://localhost:0103/sheep/baaa">Baaa</a>')
     end
+
+    it 'accepts a block' do
+      anchor_tag = helper.govuk_link_to(nil, 'https://localhost:0103/bee/buzz') do
+        'Buzz'
+      end
+      expect(anchor_tag).to eq('<a class="govuk-link" href="https://localhost:0103/bee/buzz">Buzz</a>')
+    end
   end
 
   describe '#govuk_back_link_to' do

@@ -39,9 +39,9 @@
           <%= support_user.dfe_sign_in_uid %>
         </td>
         <td class='govuk-table__cell'>
-          <%= link_to(
+          <%= govuk_link_to(
+                nil,
                 support_interface_confirm_destroy_support_user_path(support_user),
-                class: 'govuk-link',
           ) do %>
             Delete user<span class='govuk-visually-hidden'> <%= support_user.email_address %></span>
           <% end %>
