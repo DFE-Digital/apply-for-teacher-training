@@ -2,21 +2,37 @@ module ProviderInterface
   class FilterComponent < ActionView::Component::Base
     include ViewHelper
 
-    attr_reader :sort_order, :current_sort_by, :filter_options
+    attr_reader :additional_params, :available_filters, :preselected_filters
 
-    def initialize(page_state:)
-      @sort_order = page_state.sort_order
-      @current_sort_by = page_state.sort_by
-      @filter_options = page_state.filter_options
+    def initialize(path:, available_filters:, preselected_filters:, additional_params:)
+      @path = path
+      @available_filters = available_filters
+      @preselected_filters = preselected_filters
+      @additional_params = additional_params
     end
 
-    def status_filter_checkbox_names_text
-      [
-        ["pending_conditions", "Accepted"], ["recruited", "Conditions met"],
-        ["declined", "Declined"], ["awaiting_provider_decision", "New"],
-        ["offer", "Offered"], ["rejected", "Rejected"],
-        ["withdrawn", "Application withdrawn"], ["offer_withdrawn", "Offer withdrawn"]
-      ]
+    def checkbox_checked?(key_one:, key_two:)
+      preselected_filters.dig(key_one, key_two) ? true : false
+    end
+
+    def params_for_tag_url(heading:, tag_value:, preselected_filters:)
+      tag_preselected_filters = preselected_filters.clone
+      tag_preselected_filters[heading] = preselected_filters[heading].except(tag_value)
+      tag_preselected_filters
+    end
+
+    def filter_full_text(heading, lookup_val)
+      available_filters.each do |available_filter|
+        if available_filter.key(heading)
+          available_filter[:checkbox_config].each do |checkbox_config|
+            return checkbox_config[:text].to_s if checkbox_config.key(lookup_val)
+          end
+        end
+      end
+    end
+
+    def filtering_page_path(*args)
+      send(@path, *args)
     end
   end
 end

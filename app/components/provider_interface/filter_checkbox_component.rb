@@ -2,16 +2,14 @@ module ProviderInterface
   class FilterCheckboxComponent < ActionView::Component::Base
     include ViewHelper
 
-    attr_reader :name, :text
+    attr_reader :name, :text, :value, :selected, :heading
 
-    def initialize(name:, text:, filter_options:)
+    def initialize(name:, text:, value:, selected:, heading:)
       @name = name
       @text = text
-      @filter_options = filter_options
-    end
-
-    def should_be_checked
-      @filter_options.include?(@name) ? 'checked' : nil
+      @value = value
+      @selected = selected
+      @heading = heading
     end
   end
 end

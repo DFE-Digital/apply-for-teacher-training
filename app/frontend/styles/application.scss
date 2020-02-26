@@ -6,6 +6,7 @@
   @return url("~assets/images/" + $filename);
 }
 
+$moj-images-path: '~@ministryofjustice/frontend/moj/assets/images/';
 $govuk-font-url-function: frontend-font-url;
 $govuk-image-url-function: frontend-image-url;
 
@@ -32,6 +33,10 @@ $govuk-image-url-function: frontend-image-url;
 @import "_product-section";
 @import "_checkboxes";
 @import "_sortable-table";
+@import "~@ministryofjustice/frontend/moj/settings/assets";
+@import "~@ministryofjustice/frontend/moj/objects/filter-layout";
+@import "~@ministryofjustice/frontend/moj/components/filter/filter";
+@import "_filter";
 
 // Support
 @import "~@ministryofjustice/frontend/moj/components/sub-navigation/sub-navigation";
