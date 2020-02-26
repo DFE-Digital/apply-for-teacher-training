@@ -190,8 +190,11 @@ Rails.application.routes.draw do
         get '/provider/:provider_id/courses' => 'course_choices#options_for_course', as: :course_choices_course
         post '/provider/:provider_id/courses' => 'course_choices#pick_course'
 
-        get '/provider/:provider_id/courses/:course_id' => 'course_choices#options_for_site', as: :course_choices_site
-        post '/provider/:provider_id/courses/:course_id' => 'course_choices#pick_site'
+        get '/provider/:provider_id/courses/:course_id' => 'course_choices#options_for_study_mode', as: :course_choices_study_mode
+        post '/provider/:provider_id/courses/:course_id' => 'course_choices#pick_study_mode'
+
+        get '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices#options_for_site', as: :course_choices_site
+        post '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices#pick_site'
 
         get '/review' => 'course_choices#review', as: :course_choices_review
         patch '/review' => 'course_choices#complete', as: :course_choices_complete
