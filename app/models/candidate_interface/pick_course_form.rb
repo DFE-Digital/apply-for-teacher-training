@@ -24,6 +24,10 @@ module CandidateInterface
       course.study_mode == 'full_time_or_part_time'
     end
 
+    def study_mode
+      course.study_mode
+    end
+
     def course
       @course ||= provider.courses.find(course_id)
     end

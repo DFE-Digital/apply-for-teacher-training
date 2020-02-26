@@ -78,6 +78,7 @@ module CandidateInterface
         redirect_to candidate_interface_course_choices_site_path(
           @pick_course.provider_id,
           @pick_course.course_id,
+          @pick_course.study_mode,
         )
       end
     end
