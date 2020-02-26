@@ -28,9 +28,27 @@ module CandidateInterface
       @disability_status = EqualityAndDiversity::DisabilityStatusForm.new(disability_status: disability_status_param)
 
       if @disability_status.save(current_application)
-        redirect_to candidate_interface_review_equality_and_diversity_path
+        if disability_status_param == 'no'
+          redirect_to candidate_interface_review_equality_and_diversity_path
+        else
+          redirect_to candidate_interface_edit_equality_and_diversity_disabilities_path
+        end
       else
         render :edit_disability_status
+      end
+    end
+
+    def edit_disabilities
+      @disabilities = EqualityAndDiversity::DisabilitiesForm.build_from_application(current_application)
+    end
+
+    def update_disabilities
+      @disabilities = EqualityAndDiversity::DisabilitiesForm.new(disabilties_params)
+
+      if @disabilities.save(current_application)
+        redirect_to candidate_interface_review_equality_and_diversity_path
+      else
+        render :edit_disabilities
       end
     end
 
@@ -44,6 +62,10 @@ module CandidateInterface
 
     def disability_status_param
       params.dig(:candidate_interface_equality_and_diversity_disability_status_form, :disability_status)
+    end
+
+    def disabilties_params
+      params.require(:candidate_interface_equality_and_diversity_disabilities_form).permit(:other_disability, disabilities: [])
     end
   end
 end

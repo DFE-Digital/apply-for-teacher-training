@@ -558,3 +558,9 @@ en:
           attributes:
             disability_status:
               blank: Choose if you have a disability
+        candidate_interface/equality_and_diversity/disabilities_form:
+          attributes:
+            disabilities:
+              blank: Select all disabilities that apply to you
+            other_disability:
+              blank: Describe your disability

@@ -19,9 +19,11 @@ module CandidateInterface
 
       if application_form.equality_and_diversity.nil?
         application_form.update(equality_and_diversity: { 'disabilities' => [] })
-      else
+      elsif application_form.equality_and_diversity['disabilities'].nil? || disability_status == 'no'
         application_form.equality_and_diversity['disabilities'] = []
         application_form.save
+      else
+        true
       end
     end
   end

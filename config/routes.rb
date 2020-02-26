@@ -258,6 +258,8 @@ Rails.application.routes.draw do
         post '/sex' => 'equality_and_diversity#update_sex', as: :update_equality_and_diversity_sex
         get '/disability-status' => 'equality_and_diversity#edit_disability_status', as: :edit_equality_and_diversity_disability_status
         post '/disability-status' => 'equality_and_diversity#update_disability_status', as: :update_equality_and_diversity_disability_status
+        get '/disabilities' => 'equality_and_diversity#edit_disabilities', as: :edit_equality_and_diversity_disabilities
+        post '/disabilities' => 'equality_and_diversity#update_disabilities', as: :update_equality_and_diversity_disabilities
         get '/review' => 'equality_and_diversity#review', as: :review_equality_and_diversity
       end
     end

@@ -1,0 +1,18 @@
+en:
+  equality_and_diversity:
+    disabilities:
+      blind:
+        hint_text: (or a serious visual impairment which is not corrected by glasses)
+      deaf:
+        hint_text: (or a serious hearing impairment)
+      learning:
+        hint_text: (for example, dyslexia, dyspraxia or ADHD)
+      long_standing:
+        hint_text: (for example, cancer, HIV, diabetes, chronic heart disease or epilepsy)
+      mental:
+        hint_text: (for example, depression, schizophrenia or anxiety disorder)
+      physical:
+        hint_text: (for example, impaired use of arms or legs, use of a wheelchair or crutches)
+      social: 
+        hint_text: (for example Asperger’s, or another autistic spectrum disorder)
+    

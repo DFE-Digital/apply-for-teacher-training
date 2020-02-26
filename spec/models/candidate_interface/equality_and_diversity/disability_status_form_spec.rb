@@ -69,6 +69,26 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilityStatusForm, t
           'sex' => 'male', 'disabilities' => [],
         )
       end
+
+      it 'updates the existing disabilities of equality and diversity information' do
+        application_form = create(:application_form, equality_and_diversity: { 'sex' => 'male', 'disabilities' => %w[Blind] })
+        form = CandidateInterface::EqualityAndDiversity::DisabilityStatusForm.new(disability_status: 'yes')
+        form.save(application_form)
+
+        expect(application_form.equality_and_diversity).to eq(
+          'sex' => 'male', 'disabilities' => %w(Blind),
+        )
+      end
+
+      it 'resets the disabilities of equality and diversity information if disability status is no' do
+        application_form = create(:application_form, equality_and_diversity: { 'sex' => 'male', 'disabilities' => %w[Blind] })
+        form = CandidateInterface::EqualityAndDiversity::DisabilityStatusForm.new(disability_status: 'no')
+        form.save(application_form)
+
+        expect(application_form.equality_and_diversity).to eq(
+          'sex' => 'male', 'disabilities' => [],
+        )
+      end
     end
   end
 
