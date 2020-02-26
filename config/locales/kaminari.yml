@@ -3,7 +3,7 @@ en:
     pagination:
       first: "&laquo; First"
       last: "Last &raquo;"
-      previous: "Previous<span class=\"govuk-visually-hidden\"> set of pages"
+      previous: "Previous<span class=\"govuk-visually-hidden\"> set of pages</span>"
       next: "Next<span class=\"govuk-visually-hidden\"> set of pages</span>"
       truncate: "&hellip;"
   helpers:
