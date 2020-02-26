@@ -361,6 +361,12 @@
                 "description": "Array of recipients to receive availability email alerts. In form NAME:EMAIL_ADDRESS."
             }
         },
+        "alertSlackChannel": {
+            "type": "string",
+            "metadata": {
+                "description": "Slack channel to post alerts into."
+            }
+        },
         "govukNotifyCallbackAPIKey": {
           "type": "string",
           "metadata": {
@@ -798,6 +804,36 @@
         },
         {
             "apiVersion": "2017-05-10",
+            "name": "logic-app-slack",
+            "condition": "[greater(length(parameters('alertRecipientEmails')), 0)]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'), 'logic-app-slack.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "resourceNamePrefix": {
+                        "value": "[variables('resourceNamePrefix')]"
+                    },
+                    "environment": {
+                        "value": "[parameters('environment')]"
+                    },
+                    "slackChannel": {
+                        "value": "[parameters('alertSlackChannel')]"
+                    },
+                    "serviceName": {
+                        "value": "[parameters('serviceName')]"
+                    },
+                    "resourceTags": {
+                        "value": "[parameters('commonResourceTags')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
             "name": "action-groups",
             "condition": "[greater(length(parameters('alertRecipientEmails')), 0)]",
             "type": "Microsoft.Resources/deployments",
@@ -816,9 +852,22 @@
                     },
                     "alertRecipientEmails": {
                         "value": "[variables('alertRecipientEmails')]"
+                    },
+                    "logicAppReceivers": {
+                        "value": [
+                            {
+                                "name": "Slack",
+                                "resourceId": "[reference('logic-app-slack', '2017-05-10').outputs.logicAppResourceId.value]",
+                                "callbackUrl": "[reference('logic-app-slack', '2017-05-10').outputs.WebHookURI.value]",
+                                "useCommonAlertSchema": false
+                            }
+                        ]
                     }
                 }
-            }
+            },
+            "dependsOn": [
+                "logic-app-slack"
+            ]
         },
         {
             "apiVersion": "2017-05-10",
@@ -878,7 +927,7 @@
                         "value": "[if(greater(length(parameters('alertRecipientEmails')), 0), reference('action-groups', '2019-03-01').outputs.actionGroupResourceId.value, '')]"
                     },
                     "alertDescriptionText": {
-                        "value": "[concat('Custom URL availability monitor alert for \"', split(parameters('customAvailabilityMonitors')[copyIndex('customAlerts')], ':')[0], '\".')]"
+                        "value": "[concat('Custom URL availability monitor alert for \"', split(parameters('customAvailabilityMonitors')[copyIndex('customAlerts')], ':')[0], '\"')]"
                     },
                     "alertSeverity": {
                         "value": 1

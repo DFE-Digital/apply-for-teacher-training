@@ -51,6 +51,7 @@ parameters:
   stateChangeSlackUrl:
   customAvailabilityMonitors: []
   alertRecipientEmails: []
+  alertSlackChannel: "#twd_apply_devops"
   sandbox:
   commonResourceTags: '{
     "Parent Business Unit": "Teacher Services",
@@ -106,7 +107,7 @@ jobs:
                 #Add ARM template files to array
                 $gitContentsUri = "https://api.github.com/repos/DFE-Digital/apply-for-postgraduate-teacher-training/contents/azure?ref=$env:COMMIT_HASH"
                 $gitApiResponse = Invoke-RestMethod -Method Get -Uri $gitContentsUri -Headers @{Authorization = $encodedAccessToken}
-                $deploymentFiles += $gitApiResponse | Where-Object {$_.name -like "*.json"} | Select-Object -ExpandProperty Name
+                $deploymentFiles += $gitApiResponse | Where-Object {$_.name -like "*.json"} | Select-Object -ExpandProperty Name | Foreach-Object { "azure/$_" }
                 write-host ("DEBUG - Deployment files to compare changes against: {0}" -f [system.string]::Join(", ", $deploymentFiles))
 
                 #Get the timestamp of the last deployment to the defined Azure environment from Azure API
@@ -128,8 +129,12 @@ jobs:
                   -Minute ($variableGroupLastEdit | sort -descending)[0].substring(14,2) `
                   -Second ($variableGroupLastEdit | sort -descending)[0].substring(17,2)
 
-                #Get the list of files changed in the commit the build was triggered from
-                $gitCompareUri= "https://api.github.com/repos/DFE-Digital/apply-for-postgraduate-teacher-training/compare/$currentDeployedCommit...$env:COMMIT_HASH"
+                #Get the list of files changed in the commit the build was triggered from. If this is a re-run of the same build we will just look at the files changed in that commit"
+                if ( $currentDeployedCommit -eq $env:COMMIT_HASH ) {
+                  $gitCompareUri= "https://api.github.com/repos/DFE-Digital/apply-for-postgraduate-teacher-training/commits/$env:COMMIT_HASH"
+                } else {
+                  $gitCompareUri= "https://api.github.com/repos/DFE-Digital/apply-for-postgraduate-teacher-training/compare/$currentDeployedCommit...$env:COMMIT_HASH"
+                }
                 $gitChangedFiles = (Invoke-RestMethod -Method Get -Uri $gitCompareUri -Headers @{Authorization = $encodedAccessToken}).files.filename
                 write-host ("DEBUG - Changed files list: {0}" -f [system.string]::Join(", ", $gitChangedFiles))
 
@@ -215,6 +220,7 @@ jobs:
                 -dfeSignInIssuer "${{parameters.dfeSignInIssuer}}"
                 -customAvailabilityMonitors "${{parameters.customAvailabilityMonitors}}"
                 -alertRecipientEmails "${{parameters.alertRecipientEmails}}"
+                -alertSlackChannel "${{parameters.alertSlackChannel}}"
                 -dsiApiUrl "${{parameters.dsiApiUrl}}"
                 -dsiApiSecret "${{parameters.dsiApiSecret}}"
                 -govukNotifyCallbackAPIKey "${{parameters.govukNotifyCallbackAPIKey}}"
