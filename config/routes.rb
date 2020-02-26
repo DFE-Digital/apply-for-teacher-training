@@ -389,6 +389,9 @@ Rails.application.routes.draw do
     scope '/users' do
       get '/' => 'users#index', as: :users
 
+      get '/delete/:id' => 'support_users#confirm_destroy', as: :confirm_destroy_support_user
+      delete '/delete/:id' => 'support_users#destroy', as: :destroy_support_user
+
       resources :support_users, only: %i[index new create], path: :support
       resources :provider_users, only: %i[index new create edit update], path: :provider
     end

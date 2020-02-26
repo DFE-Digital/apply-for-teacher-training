@@ -19,6 +19,16 @@ module SupportInterface
       end
     end
 
+    def confirm_destroy
+      @support_user = SupportUser.find(params[:id])
+    end
+
+    def destroy
+      SupportUser.find(params[:id]).destroy!
+      flash[:success] = 'Support user deleted'
+      redirect_to support_interface_support_users_path
+    end
+
   private
 
     def support_user_params
