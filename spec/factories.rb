@@ -160,6 +160,10 @@ FactoryBot.define do
       open_on_apply { true }
       exposed_in_find { true }
     end
+
+    trait :with_both_study_modes do
+      study_mode { 'full_time_or_part_time' }
+    end
   end
 
   factory :provider do

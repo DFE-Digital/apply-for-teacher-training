@@ -20,6 +20,10 @@ module CandidateInterface
       CourseOption.where(course_id: course.id).one?
     end
 
+    def both_study_modes_available?
+      course.study_mode == 'full_time_or_part_time'
+    end
+
     def course
       @course ||= provider.courses.find(course_id)
     end

@@ -16,6 +16,7 @@ module CandidateInterface
     def course_choice_rows(course_choice)
       [
         course_row(course_choice),
+        study_mode_row(course_choice),
         location_row(course_choice),
       ].tap do |r|
         r << status_row(course_choice) if @show_status
@@ -55,6 +56,13 @@ module CandidateInterface
       {
         key: 'Location',
         value: "#{course_choice.site.name}\n#{course_choice.site.full_address}",
+      }
+    end
+
+    def study_mode_row(course_choice)
+      {
+        key: 'Full time or part time',
+        value: course_choice.course_option.study_mode.humanize,
       }
     end
 

@@ -55,6 +55,7 @@ en:
     which_provider: Which training provider are you applying to?
     which_course: Which course are you applying to?
     which_location: Which location are you applying to?
+    which_study_mode: Full time or part time?
     edit_degree: Edit degree
     other_qualification: Academic and other relevant qualifications
     add_other_qualification: Academic and other relevant qualifications

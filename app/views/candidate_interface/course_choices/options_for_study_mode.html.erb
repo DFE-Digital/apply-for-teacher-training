@@ -1,0 +1,23 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.which_study_mode'), @pick_study_mode.errors.any?) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+          model: @pick_study_mode,
+          url: candidate_interface_course_choices_study_mode_path(
+            provider_id: @pick_study_mode.provider_id,
+            course_id: @pick_study_mode.course_id,
+          ),
+          builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+        ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_radio_buttons_fieldset :study_mode, legend: { size: 'xl', text: t('page_titles.which_study_mode'), tag: 'h2' } do %>
+        <%= f.govuk_radio_button :study_mode, :full_time, label: { text: 'Full time' } %>
+        <%= f.govuk_radio_button :study_mode, :part_time, label: { text: 'Part time' } %>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>
