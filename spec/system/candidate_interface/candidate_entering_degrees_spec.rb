@@ -32,7 +32,14 @@ RSpec.feature 'Entering their degrees' do
     and_i_click_on_save_and_continue
     then_i_can_check_my_undergraduate_degree
 
-    when_i_click_on_continue
+    when_i_click_on_delete_degree
+    and_i_confirm_that_i_want_to_delete_my_degree
+    when_i_mark_this_section_as_completed
+    and_i_click_on_continue
+    then_i_am_told_i_need_to_add_a_degree_to_complete_the_section
+
+    when_i_readd_my_degree
+    and_i_click_on_continue
     then_i_should_see_the_form_and_the_section_is_not_completed
     when_i_click_on_degree
     then_i_can_check_my_undergraduate_degree
@@ -155,6 +162,10 @@ RSpec.feature 'Entering their degrees' do
     click_button t('application_form.degree.review.button')
   end
 
+  def and_i_click_on_continue
+    when_i_click_on_continue
+  end
+
   def then_i_should_see_the_form_and_the_section_is_not_completed
     expect(page).to have_content(t('page_titles.application_form'))
     expect(page).not_to have_css('#degree-badge-id', text: 'Completed')
@@ -166,6 +177,18 @@ RSpec.feature 'Entering their degrees' do
 
   def then_i_see_the_add_another_degree_form
     expect(page).to have_content(t('page_titles.add_another_degree'))
+  end
+
+  def when_i_readd_my_degree
+    when_i_click_on_add_another_degree
+    when_i_fill_in_my_undergraduate_degree_base
+    and_i_click_on_save_and_continue
+
+    when_i_select_the_degree_classification
+    and_i_click_on_save_and_continue
+
+    when_i_fill_in_the_graduation_year
+    and_i_click_on_save_and_continue
   end
 
   def when_i_fill_in_my_additional_degree
@@ -188,6 +211,10 @@ RSpec.feature 'Entering their degrees' do
 
   def and_i_confirm_that_i_want_to_delete_my_additional_degree
     click_button t('application_form.degree.confirm_delete')
+  end
+
+  def and_i_confirm_that_i_want_to_delete_my_degree
+    and_i_confirm_that_i_want_to_delete_my_additional_degree
   end
 
   def then_i_can_only_see_my_undergraduate_degree
@@ -265,5 +292,9 @@ RSpec.feature 'Entering their degrees' do
 
   def then_i_can_check_my_answers
     then_i_can_check_my_revised_undergraduate_degree
+  end
+
+  def then_i_am_told_i_need_to_add_a_degree_to_complete_the_section
+    expect(page).to have_content 'You can’t mark this section complete without adding a degree.'
   end
 end
