@@ -63,6 +63,19 @@ RSpec.describe CandidateInterface::AddCourseFromFind do
       end
     end
 
+    context 'when the candidate has a course_from_find_id and the course has a choice of study modes' do
+      it 'sets the course_from_find_id to nil and sets the appropriate boolean flag' do
+        course = create(:course, study_mode: :full_time_or_part_time)
+        candidate = create(:candidate, course_from_find_id: course.id)
+
+        service = described_class.new(candidate: candidate)
+        service.execute
+
+        expect(candidate.course_from_find_id).to eq(nil)
+        expect(service.candidate_should_choose_study_mode).to be_truthy
+      end
+    end
+
     context 'when the candidate has a course_from_find_id and the course has multiple sites' do
       it 'sets the course_from_find_id to nil and sets candidate_should_choose_site to true' do
         course = create(:course)
