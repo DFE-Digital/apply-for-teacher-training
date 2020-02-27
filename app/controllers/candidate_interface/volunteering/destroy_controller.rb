@@ -13,6 +13,8 @@ module CandidateInterface
         .find(current_volunteering_role_id)
         .destroy!
 
+      current_application.update!(volunteering_completed: false)
+
       redirect_to candidate_interface_review_volunteering_path
     end
 
