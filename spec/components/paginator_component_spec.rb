@@ -4,6 +4,11 @@ RSpec.describe PaginatorComponent do
   def rendered_component(current_page: 1, total_count: 12)
     page_size = 25
     relation = ApplicationChoice.all.page(1)
+
+    # Using an `object_double` here because I want to stub the
+    # ActiveRecord::Relation passed into the component and I can't use
+    # `instance_double(ActiveRecord::Relation...)` as it lacks the
+    # extra methods that Kaminari mixes in (e.g. `total_count`)
     scope = object_double(
       relation,
       total_count: total_count,
