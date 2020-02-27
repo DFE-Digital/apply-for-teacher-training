@@ -33,8 +33,8 @@ RSpec.describe ProviderMailer, type: :mailer do
       expect(@mail.body.encoded).to include("Dear #{@provider_user.full_name}")
     end
 
-    it 'includes a link to the provider home page' do
-      expect(@mail.body.encoded).to include(provider_interface_url)
+    it 'includes a link to the provider sign in page' do
+      expect(@mail.body.encoded).to include(provider_interface_sign_in_path)
     end
   end
 
