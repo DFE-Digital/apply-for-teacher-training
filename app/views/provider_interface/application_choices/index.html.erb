@@ -31,7 +31,7 @@
       <% end %>
     </tbody>
   </table>
-  <%= paginate @application_choices %>
+  <%= render(PaginatorComponent.new(scope: @application_choices)) %>
 <% else %>
   <p class='govuk-body'>You haven’t received any applications from <%= t('service_name.apply') %>.</p>
 <% end %>
