@@ -18,6 +18,8 @@ module CandidateInterface
         if award_year_nil?
           redirect_to candidate_interface_degrees_year_path(current_degree_id)
         else
+          current_application.update!(degrees_completed: false)
+
           redirect_to candidate_interface_degrees_review_path
         end
       else

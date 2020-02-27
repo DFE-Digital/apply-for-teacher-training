@@ -11,6 +11,8 @@ module CandidateInterface
         .find(current_degree_id)
         .destroy!
 
+      current_application.update!(degrees_completed: false)
+
       redirect_to candidate_interface_degrees_review_path
     end
 
