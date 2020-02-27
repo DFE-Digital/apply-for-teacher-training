@@ -14,6 +14,8 @@ class ApplicationStateChange
   #   bundle exec rake generate_state_diagram
   #
   workflow do
+    state :withdrawn
+
     state :unsubmitted do
       event :submit, transitions_to: :awaiting_references
     end
@@ -34,6 +36,10 @@ class ApplicationStateChange
       event :withdraw, transitions_to: :withdrawn
     end
 
+    state :rejected do
+      event :make_offer, transitions_to: :offer
+    end
+
     state :offer do
       event :make_offer, transitions_to: :offer
       event :reject, transitions_to: :rejected
@@ -41,6 +47,8 @@ class ApplicationStateChange
       event :decline, transitions_to: :declined
       event :decline_by_default, transitions_to: :declined
     end
+
+    state :declined
 
     state :pending_conditions do
       event :confirm_conditions_met, transitions_to: :recruited
@@ -56,14 +64,6 @@ class ApplicationStateChange
     end
 
     state :enrolled
-
-    state :rejected do
-      event :make_offer, transitions_to: :offer
-    end
-
-    state :declined
-
-    state :withdrawn
   end
 
   def load_workflow_state
