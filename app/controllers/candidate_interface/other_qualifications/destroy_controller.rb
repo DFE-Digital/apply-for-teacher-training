@@ -13,6 +13,8 @@ module CandidateInterface
         .find(current_other_qualification_id)
         .destroy!
 
+      current_application.update!(other_qualifications_completed: false)
+
       redirect_to candidate_interface_review_other_qualifications_path
     end
 
