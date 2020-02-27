@@ -16,10 +16,26 @@ RSpec.describe PaginatorComponent do
     render_inline(component)
   end
 
-  describe 'rendering PaginatorComponent' do
+  context 'when the feature flag is OFF' do
+    context 'when we are on the first of two pages' do
+      it 'renders nothing' do
+        expect(rendered_component(current_page: 1, total_count: 29).text).to eq ''
+      end
+    end
+  end
+
+  context 'when the feature flag is ON' do
+    before { FeatureFlag.activate('provider_interface_pagination') }
+
     context 'when there is only one page' do
       it 'renders nothing' do
         expect(rendered_component.text).to eq ''
+      end
+    end
+
+    context 'when we are on the first of two pages' do
+      it 'renders correct summary message' do
+        expect(rendered_component(current_page: 1, total_count: 29).text).to include 'Showing 1 to 25 of 29'
       end
     end
 
