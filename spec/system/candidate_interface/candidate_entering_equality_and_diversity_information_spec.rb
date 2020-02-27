@@ -31,6 +31,10 @@ RSpec.feature 'Entering their equality and diversity information' do
 
     when_i_choose_no_for_having_a_disability
     and_i_click_on_continue
+    then_i_am_asked_for_my_ethnic_group
+
+    when_i_choose_that_i_prefer_not_to_say_my_ethnic_group
+    and_i_click_on_continue
     then_i_can_review_my_answers
 
     when_i_click_change_my_disability
@@ -63,6 +67,11 @@ RSpec.feature 'Entering their equality and diversity information' do
     when_i_change_my_disabilities
     and_i_click_on_continue
     then_i_can_review_my_updated_disabilities
+
+    when_i_click_change_ethnic_group
+    and_i_choose_another_ethnic_group
+    and_i_click_on_continue
+    then_i_can_review_my_updated_ethnic_group
   end
 
   def given_i_am_signed_in
@@ -136,6 +145,7 @@ RSpec.feature 'Entering their equality and diversity information' do
     expect(page).to have_content('Check your answers')
     expect(page).to have_content('Male')
     expect(page).to have_content('No')
+    expect(page).to have_content('Prefer not to say')
   end
 
   def when_i_click_change_sex
@@ -165,6 +175,14 @@ RSpec.feature 'Entering their equality and diversity information' do
 
   def when_i_choose_no_for_having_a_disability
     choose 'No'
+  end
+
+  def then_i_am_asked_for_my_ethnic_group
+    expect(page).to have_content('What is your ethnic group?')
+  end
+
+  def when_i_choose_that_i_prefer_not_to_say_my_ethnic_group
+    choose 'Prefer not to say'
   end
 
   def when_i_click_change_my_disability
@@ -222,5 +240,18 @@ RSpec.feature 'Entering their equality and diversity information' do
   def then_i_can_review_my_updated_disabilities
     expect(page).to have_content('Check your answers')
     expect(page).to have_content('Yes (Deaf)')
+  end
+
+  def when_i_click_change_ethnic_group
+    click_link 'Change ethnicity'
+  end
+
+  def and_i_choose_another_ethnic_group
+    choose 'White'
+  end
+
+  def then_i_can_review_my_updated_ethnic_group
+    expect(page).to have_content('Check your answers')
+    expect(page).to have_content('White')
   end
 end

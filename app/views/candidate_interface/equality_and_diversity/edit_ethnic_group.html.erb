@@ -1,0 +1,23 @@
+<% content_for :title, 'What is your ethnic group?' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @ethnic_group, url: candidate_interface_update_equality_and_diversity_ethnic_group_path, method: :post do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_radio_buttons_fieldset :ethnic_group, legend: { size: 'xl', text: 'What is your ethnic group?' } do %>
+        <div class="govuk-!-margin-top-6">
+          <%= f.govuk_radio_button :ethnic_group, 'Asian or Asian British', label: { text: 'Asian or Asian British', size: 's' }, hint_text: '(includes any Asian background, for example, Bangladeshi, Chinese, Indian, Pakistani)', link_errors: true %>
+          <%= f.govuk_radio_button :ethnic_group, 'Black, African, Black British or Caribbean', label: { text: 'Black, African, Black British or Caribbean', size: 's' }, hint_text: '(includes any Black background)' %>
+          <%= f.govuk_radio_button :ethnic_group, 'Mixed or multiple ethnic groups', label: { text: 'Mixed or multiple ethnic groups', size: 's' }, hint_text: '(includes any Mixed background)' %>
+          <%= f.govuk_radio_button :ethnic_group, 'White', label: { text: 'White', size: 's' }, hint_text: '(includes any White background)' %>
+          <%= f.govuk_radio_button :ethnic_group, 'Another ethnic group', label: { text: 'Another ethnic group', size: 's' }, hint_text: '(includes any other ethnic group, for example, Arab)' %>
+          <%= f.govuk_radio_divider %>
+          <%= f.govuk_radio_button :ethnic_group, 'Prefer not to say', label: { text: 'Prefer not to say' } %>
+        </div>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>

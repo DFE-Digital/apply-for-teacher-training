@@ -29,7 +29,7 @@ module CandidateInterface
 
       if @disability_status.save(current_application)
         if disability_status_param == 'no'
-          redirect_to candidate_interface_review_equality_and_diversity_path
+          redirect_to candidate_interface_edit_equality_and_diversity_ethnic_group_path
         else
           redirect_to candidate_interface_edit_equality_and_diversity_disabilities_path
         end
@@ -52,6 +52,20 @@ module CandidateInterface
       end
     end
 
+    def edit_ethnic_group
+      @ethnic_group = EqualityAndDiversity::EthnicGroupForm.build_from_application(current_application)
+    end
+
+    def update_ethnic_group
+      @ethnic_group = EqualityAndDiversity::EthnicGroupForm.new(ethnic_group: ethnic_group_param)
+
+      if @ethnic_group.save(current_application)
+        redirect_to candidate_interface_review_equality_and_diversity_path
+      else
+        render :edit_ethnic_group
+      end
+    end
+
     def review; end
 
   private
@@ -66,6 +80,10 @@ module CandidateInterface
 
     def disabilties_params
       params.require(:candidate_interface_equality_and_diversity_disabilities_form).permit(:other_disability, disabilities: [])
+    end
+
+    def ethnic_group_param
+      params.dig(:candidate_interface_equality_and_diversity_ethnic_group_form, :ethnic_group)
     end
   end
 end
