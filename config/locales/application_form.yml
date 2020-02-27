@@ -564,3 +564,7 @@ en:
               blank: Select all disabilities that apply to you
             other_disability:
               blank: Describe your disability
+        candidate_interface/equality_and_diversity/ethnic_background_form:
+          attributes:
+            ethnic_background:
+              blank: Choose your ethnic background
