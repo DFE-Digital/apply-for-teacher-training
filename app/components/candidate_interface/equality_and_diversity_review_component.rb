@@ -6,7 +6,7 @@ module CandidateInterface
     end
 
     def equality_and_diversity_rows
-      [sex_row, disabilities_row]
+      [sex_row, disabilities_row, ethnicity_row]
     end
 
   private
@@ -32,6 +32,23 @@ module CandidateInterface
         value: disabilties,
         action: 'disability',
         change_path: candidate_interface_edit_equality_and_diversity_disability_status_path,
+      }
+    end
+
+    def ethnicity_row
+      ethnicity = if @application_form.equality_and_diversity['ethnic_group'] == 'Prefer not to say'
+                    'Prefer not to say'
+                  elsif @application_form.equality_and_diversity['ethnic_background'] == 'Prefer not to say'
+                    @application_form.equality_and_diversity['ethnic_group']
+                  else
+                    "#{@application_form.equality_and_diversity['ethnic_group']} (#{@application_form.equality_and_diversity['ethnic_background']})"
+                  end
+
+      {
+        key: 'Ethnicity',
+        value: ethnicity,
+        action: 'ethnicity',
+        change_path: candidate_interface_edit_equality_and_diversity_ethnic_group_path,
       }
     end
   end
