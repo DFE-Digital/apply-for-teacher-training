@@ -14,7 +14,7 @@
 <% end %>
 
 <h1 class="govuk-heading-xl">
-  <span class="govuk-caption-xl">Application for <%= @application_choice.provider.name_and_code %> - <%= @application_choice.course.name_and_code %></span>
+  <span class="govuk-caption-xl"><%= @application_choice.application_form.support_reference %></span>
   <%= @application_choice.application_form.full_name %>
 </h1>
 

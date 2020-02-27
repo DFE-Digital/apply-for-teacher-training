@@ -7,6 +7,7 @@ class PersonalDetailsComponent < ActionView::Component::Base
            :last_name,
            :phone_number,
            :candidate,
+           :support_reference,
            to: :application_form
 
   delegate :email_address, to: :candidate
@@ -17,6 +18,7 @@ class PersonalDetailsComponent < ActionView::Component::Base
 
   def rows
     [
+      support_reference_row,
       name_row,
       date_of_birth_row,
       nationality_row,
@@ -77,6 +79,13 @@ private
     {
       key: 'Address',
       value: full_address,
+    }
+  end
+
+  def support_reference_row
+    {
+      key: 'Reference',
+      value: support_reference,
     }
   end
 
