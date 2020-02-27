@@ -24,3 +24,9 @@ To enable email alerting for the custom URLs you must update the `alertRecipient
 `NAMEn` is the display name for the email recipient. At the present time this name cannot contain any spaces. `EMAILn` is the email address of the recipient.
 
 Email alerting is not configured for the `/check` domains using this approach, it only applies to any custom URLs added in the pipeline variables. If no email alerting is required, the `alertRecipientEmails` pipeline variable should be left empty or not set.
+
+### Alerts into Slack
+
+If the `alertRecipientEmails` pipeline variable has been set on an environment it will automatically configure alerting into Slack too. The default channel used for alerts is `#twd_apply_devops` however this can be changed globally or on a per environment basis by setting the `alertSlackChannel` pipeline variable.
+
+*NOTE: The first time Slack alerting is deployed into an environment the API connection to Slack will require authorisation. The process for this can be found in the [BAT Building Blocks repo readme file](https://github.com/DFE-Digital/bat-platform-building-blocks#logic-app-for-slack).*

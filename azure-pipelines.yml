@@ -13,6 +13,8 @@ variables:
   value: 'apply-for-postgraduate-teacher-training'
 - name: debug
   value: true
+- name: deployOnly
+  value: false
 
 stages:
 - stage: build_test_release
@@ -40,6 +42,7 @@ stages:
 
     - script: make setup
       displayName: 'Build & setup'
+      condition: and(succeeded(), eq(variables['deployOnly'], false))
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
@@ -54,6 +57,7 @@ stages:
     - script: make ci.lint-ruby
       name: ci_lint_ruby
       displayName: 'Rubocop'
+      condition: and(succeeded(), eq(variables['deployOnly'], false))
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
@@ -67,7 +71,7 @@ stages:
     - script: make ci.lint-erb
       name: ci_lint_erb
       displayName: 'ERB lint'
-      condition: succeededOrFailed()
+      condition: and(succeededOrFailed(), eq(variables['deployOnly'], false))
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
@@ -128,7 +132,7 @@ stages:
         fi
       name: ci_cucumber
       displayName: 'Cucumber specs'
-      condition: succeededOrFailed()
+      condition: and(succeededOrFailed(), eq(variables['deployOnly'], false))
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
@@ -167,7 +171,7 @@ stages:
         fi
       name: ci_test
       displayName: 'Execute tests'
-      condition: succeededOrFailed()
+      condition: and(succeededOrFailed(), eq(variables['deployOnly'], false))
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
@@ -180,6 +184,7 @@ stages:
 
     - task: Docker@1
       displayName: Tag image with current build number $(Build.BuildNumber)
+      condition: and(succeeded(), eq(variables['deployOnly'], false))
       inputs:
         command: Tag image
         imageName: "$(docker_path):latest"
@@ -187,6 +192,7 @@ stages:
 
     - task: Docker@1
       displayName: Docker Hub login
+      condition: and(succeeded(), eq(variables['deployOnly'], false))
       inputs:
         command: "login"
         containerregistrytype: Container Registry
@@ -194,6 +200,7 @@ stages:
 
     - task: Docker@1
       displayName: Push tagged image
+      condition: and(succeeded(), eq(variables['deployOnly'], false))
       inputs:
         command: Push an image
         imageName: "$(docker_path):$(Build.BuildNumber)"
@@ -213,7 +220,7 @@ stages:
 
     - task: PublishTestResults@2
       displayName: 'Publish Test Results'
-      condition: succeededOrFailed()
+      condition: and(succeededOrFailed(), eq(variables['deployOnly'], false))
       inputs:
         testRunner: JUnit
         testResultsFiles: 'results/*.xml'
@@ -268,6 +275,7 @@ stages:
       stateChangeSlackUrl: '$(stateChangeSlackUrl)'
       customAvailabilityMonitors: '$(customAvailabilityMonitors)'
       alertRecipientEmails: '$(alertRecipientEmails)'
+      alertSlackChannel: '$(alertSlackChannel)'
       govukNotifyCallbackAPIKey: $(govukNotifyCallbackAPIKey)
       dsiApiUrl: '$(dsiApiUrl)'
       dsiApiSecret: '$(dsiApiSecret)'
@@ -289,7 +297,10 @@ stages:
       environment: 'devops'
       resourceEnvironmentName: 'd02'
       serviceName: 'apply'
-      containerImageReference: '$(imageName):$(build.buildNumber)'
+      ${{ if eq(variables['deployOnly'], true) }}:
+        containerImageReference: '$(imageName):latest'
+      ${{ if eq(variables['deployOnly'], false) }}:
+        containerImageReference: '$(imageName):$(build.buildNumber)'
       keyVaultName: 's106d01-shared-kv-01'
       keyVaultResourceGroup: 's106d01-shared-rg'
       databaseName: 'apply'
@@ -320,6 +331,7 @@ stages:
       stateChangeSlackUrl: '$(stateChangeSlackUrl)'
       customAvailabilityMonitors: '$(customAvailabilityMonitors)'
       alertRecipientEmails: '$(alertRecipientEmails)'
+      alertSlackChannel: '$(alertSlackChannel)'
       govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'
       dsiApiUrl: '$(dsiApiUrl)'
       dsiApiSecret: '$(dsiApiSecret)'
