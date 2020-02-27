@@ -82,7 +82,7 @@ module CandidateInterface
     end
 
     def course_has_both_study_modes?
-      Course.find(@candidate.course_from_find_id).study_mode == 'full_time_or_part_time'
+      Course.find(@candidate.course_from_find_id).both_study_modes_available?
     end
   end
 end

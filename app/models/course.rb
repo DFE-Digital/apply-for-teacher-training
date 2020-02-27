@@ -29,4 +29,8 @@ class Course < ApplicationRecord
   def name_and_code
     "#{name} (#{code})"
   end
+
+  def both_study_modes_available?
+    study_mode == 'full_time_or_part_time'
+  end
 end

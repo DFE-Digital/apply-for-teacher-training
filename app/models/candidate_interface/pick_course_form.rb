@@ -21,7 +21,7 @@ module CandidateInterface
     end
 
     def both_study_modes_available?
-      course.study_mode == 'full_time_or_part_time'
+      course.both_study_modes_available?
     end
 
     def study_mode
