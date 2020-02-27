@@ -8,23 +8,16 @@
 
 <h2 class="govuk-heading-m govuk-!-font-size-27">Candidates</h2>
 
-<div class="app-card app-card--blue govuk-!-margin-bottom-4">
-  <span class="app-card__count" id="total-sign-ups"><%= @statistics.total_candidate_count %></span>
-  <span>sign ups (excluding test users)</span>
+<div id="headline-stat" class="govuk-!-margin-bottom-4">
+  <%= render SupportInterface::TileComponent.new(count: @statistics.total_candidate_count, label: 'sign ups (excluding test users)', colour: :blue) %>
 </div>
 
 <div class="govuk-grid-row govuk-!-margin-bottom-4">
   <div class="govuk-grid-column-one-half">
-    <div class="app-card">
-      <span class="app-card__count"><%= @statistics.total_candidate_count(only: %i{never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}) %></span>
-      <span>in pre-submission</span>
-    </div>
+    <%= render SupportInterface::TileComponent.new(count: @statistics.total_candidate_count(only: %i{never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}), label: 'in pre-submission') %>
   </div>
   <div class="govuk-grid-column-one-half">
-    <div class="app-card">
-      <span class="app-card__count"><%= @statistics.total_candidate_count(except: %i{never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}) %></span>
-      <span>submitted</span>
-    </div>
+    <%= render SupportInterface::TileComponent.new(count: @statistics.total_candidate_count(except: %i{never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}), label: 'submitted') %>
   </div>
 </div>
 
@@ -32,44 +25,26 @@
   <div class="govuk-grid-column-one-half">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-third">
-        <div class="app-card">
-          <span class="app-card__secondary-count"><%= @statistics[:never_signed_in] %></span>
-          <span>never signed in</span>
-        </div>
+        <%= render SupportInterface::TileComponent.new(count: @statistics[:never_signed_in], label: 'never signed in', size: :reduced) %>
       </div>
       <div class="govuk-grid-column-one-third">
-        <div class="app-card">
-          <span class="app-card__secondary-count"><%= @statistics[:unsubmitted_not_started_form] %></span>
-          <span>not started the form</span>
-        </div>
+        <%= render SupportInterface::TileComponent.new(count: @statistics[:unsubmitted_not_started_form], label: 'not started the form', size: :reduced) %>
       </div>
       <div class="govuk-grid-column-one-third">
-        <div class="app-card">
-          <span class="app-card__secondary-count"><%= @statistics[:unsubmitted_in_progress] %></span>
-          <span>form in progress</span>
-        </div>
+        <%= render SupportInterface::TileComponent.new(count: @statistics[:unsubmitted_in_progress], label: 'form in progress', size: :reduced) %>
       </div>
     </div>
   </div>
   <div class="govuk-grid-column-one-half">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-third">
-        <div class="app-card">
-          <span class="app-card__secondary-count"><%= @statistics.total_candidate_count(except: %i{ended_without_success pending_conditions recruited enrolled never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}) %></span>
-          <span>still being processed</span>
-        </div>
+        <%= render SupportInterface::TileComponent.new(count: @statistics.total_candidate_count(except: %i{ended_without_success pending_conditions recruited enrolled never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}), label: 'still being processed', size: :reduced) %>
       </div>
       <div class="govuk-grid-column-one-third">
-        <div class="app-card app-card--red">
-          <span class="app-card__secondary-count"><%= @statistics.total_candidate_count(only: %i{ended_without_success}) %></span>
-          <span>ended w/o success</span>
-        </div>
+        <%= render SupportInterface::TileComponent.new(count: @statistics.total_candidate_count(only: %i{ended_without_success}), label: 'ended w/o success', size: :reduced, colour: :red) %>
       </div>
       <div class="govuk-grid-column-one-third">
-        <div class="app-card app-card--green">
-          <span class="app-card__secondary-count"><%= @statistics.total_candidate_count(only: %i{pending_conditions recruited enrolled}) %></span>
-          <span>accepted an offer</span>
-        </div>
+        <%= render SupportInterface::TileComponent.new(count: @statistics.total_candidate_count(only: %i{pending_conditions recruited enrolled}), label: 'accepted an offer', size: :reduced, colour: :green) %>
       </div>
     </div>
   </div>
@@ -95,6 +70,7 @@
             <td class="govuk-table__cell"><%= t("candidate_flow_application_states.#{row['status']}.description") %></td>
           </tr>
         <% end %>
+      </tbody>
     </table>
   </div>
 </div>
