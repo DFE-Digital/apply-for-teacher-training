@@ -11,15 +11,12 @@
   }
 
   &--missing-section {
+    border-width: 0 0 0 $govuk-border-width;
+    padding: govuk-spacing(2);
+    padding-left: govuk-spacing(3);
     @include govuk-responsive-margin(4, "bottom");
 
     .app-banner__message {
-      @include govuk-media-query($from: desktop) {
-        display: flex;
-        justify-content: space-between;
-        align-items: start;
-      }
-
       p {
         @include govuk-typography-weight-bold;
         color: govuk-colour("blue");
@@ -49,8 +46,6 @@
 
 .app-banner__message {
   @include govuk-font($size: 19);
-  display: block;
-  overflow: hidden;
 }
 
 .app-banner__message *:last-child {
