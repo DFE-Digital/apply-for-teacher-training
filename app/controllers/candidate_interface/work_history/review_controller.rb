@@ -7,9 +7,19 @@ module CandidateInterface
     end
 
     def complete
-      current_application.update!(application_form_params)
+      @application_form = current_application
 
-      redirect_to candidate_interface_application_form_path
+      if @application_form.application_work_experiences.blank? && @application_form.work_history_explanation.blank?
+        flash[:warning] = 'Please complete your work history or tell us why you’ve been out of the workplace'
+
+        @application_form.work_history_completed = false
+
+        render :show
+      else
+        @application_form.update!(application_form_params)
+
+        redirect_to candidate_interface_application_form_path
+      end
     end
 
   private
