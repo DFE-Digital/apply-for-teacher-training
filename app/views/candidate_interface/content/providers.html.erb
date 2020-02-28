@@ -1,22 +1,25 @@
 <% content_for :title, t('page_titles.providers') %>
 
-<h1 class="govuk-heading-xl">
+<h1 class="govuk-heading-xl govuk-!-width-two-thirds">
   <%= t('page_titles.providers') %>
 </h1>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">You can apply to the following training providers and courses using <%= govuk_link_to service_name, candidate_interface_start_path %>. Providers not signed up to <%= service_name %> can only receive applications through UCAS.</p>
+    <p class="govuk-body">You can apply to the following training providers and courses using <%= service_name %>. Providers not signed up to <%= service_name %> can only receive applications through UCAS.</p>
     <h2 class="govuk-heading-s">We suggest you use Apply for teacher training if:</h2>
     <ul class="govuk-list govuk-list--bullet">
-      <li>you want to try out a new, streamlined service with personalised support</li>
-      <li>all the providers on your shortlist are signed up to Apply for teacher training</li>
+      <li>you want to try a streamlined service with personalised support</li>
+      <li>all your chosen providers are available on the new service</li>
     </ul>
+    <p class="govuk-body"><%= govuk_link_to 'Use ' + service_name, candidate_interface_start_path %></p>
+
     <h2 class="govuk-heading-s">We suggest you use UCAS if:</h2>
     <ul class="govuk-list govuk-list--bullet">
-      <li>you’ve already started applying through UCAS</li>
-      <li>some of your preferred providers aren’t signed up for Apply for teacher training and you’d rather not go through different systems</li>
+      <li>you’ve already started applying with UCAS</li>
+      <li>some of your chosen providers are not available on <%= service_name %> and you don’t want to use 2 different services.</li>
     </ul>
+    <p class="govuk-body"><%= govuk_link_to 'Use UCAS', 'https://2020.teachertraining.apply.ucas.com/apply/student/login.do' %></p>
 
     <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
       <% @courses_by_provider.each_with_index do |provider, index| %>
