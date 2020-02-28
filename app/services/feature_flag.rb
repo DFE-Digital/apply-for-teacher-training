@@ -25,6 +25,7 @@ class FeatureFlag
     offer_declined_provider_emails
     equality_and_diversity
     provider_application_filters
+    provider_interface_pagination
   ].freeze
 
   def self.activate(feature_name)
