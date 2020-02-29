@@ -568,3 +568,7 @@ en:
           attributes:
             ethnic_background:
               blank: Choose your ethnic background
+        candidate_interface/equality_and_diversity/ethnic_group_form:
+          attributes:
+            ethnic_group:
+              blank: Choose your ethnic group

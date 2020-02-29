@@ -33,6 +33,9 @@ RSpec.feature 'Entering their equality and diversity information' do
     and_i_click_on_continue
     then_i_am_asked_for_my_ethnic_group
 
+    when_i_try_and_submit_without_choosing_my_ethnic_group
+    then_i_see_an_error_to_choose_my_ethnic_group
+
     when_i_choose_that_i_prefer_not_to_say_my_ethnic_group
     and_i_click_on_continue
     then_i_can_review_my_answers
@@ -71,7 +74,15 @@ RSpec.feature 'Entering their equality and diversity information' do
     when_i_click_change_ethnic_group
     and_i_choose_another_ethnic_group
     and_i_click_on_continue
-    then_i_can_review_my_updated_ethnic_group
+    then_i_am_asked_for_my_ethnic_background
+
+    when_i_try_and_submit_without_choosing_my_ethnic_background
+    then_i_see_an_error_to_choose_my_ethnic_background
+
+    when_i_choose_my_ethnic_background
+    and_i_describe_my_other_ethnic_background
+    and_i_click_on_continue
+    then_i_can_review_my_updated_ethnicity
   end
 
   def given_i_am_signed_in
@@ -181,6 +192,14 @@ RSpec.feature 'Entering their equality and diversity information' do
     expect(page).to have_content('What is your ethnic group?')
   end
 
+  def when_i_try_and_submit_without_choosing_my_ethnic_group
+    click_button 'Continue'
+  end
+
+  def then_i_see_an_error_to_choose_my_ethnic_group
+    expect(page).to have_content('Choose your ethnic group')
+  end
+
   def when_i_choose_that_i_prefer_not_to_say_my_ethnic_group
     choose 'Prefer not to say'
   end
@@ -250,8 +269,28 @@ RSpec.feature 'Entering their equality and diversity information' do
     choose 'White'
   end
 
-  def then_i_can_review_my_updated_ethnic_group
+  def then_i_am_asked_for_my_ethnic_background
+    expect(page).to have_content('Which of the following best describes your White background?')
+  end
+
+  def when_i_try_and_submit_without_choosing_my_ethnic_background
+    click_button 'Continue'
+  end
+
+  def then_i_see_an_error_to_choose_my_ethnic_background
+    expect(page).to have_content('Choose your ethnic background')
+  end
+
+  def when_i_choose_my_ethnic_background
+    choose 'Another White background'
+  end
+
+  def and_i_describe_my_other_ethnic_background
+    fill_in 'Your White background', with: 'I am Hungarian'
+  end
+
+  def then_i_can_review_my_updated_ethnicity
     expect(page).to have_content('Check your answers')
-    expect(page).to have_content('White')
+    expect(page).to have_content('White (I am Hungarian)')
   end
 end

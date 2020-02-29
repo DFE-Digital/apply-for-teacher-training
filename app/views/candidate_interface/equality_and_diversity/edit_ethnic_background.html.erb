@@ -1,0 +1,27 @@
+<% content_for :title, ethnic_background_title(@ethnic_group) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @ethnic_background, url: candidate_interface_update_equality_and_diversity_ethnic_background_path, method: :post do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_radio_buttons_fieldset :ethnic_background, legend: { size: 'xl', text: ethnic_background_title(@ethnic_group) } do %>
+        <div class="govuk-!-margin-top-6">
+          <% ethnic_backgrounds(@ethnic_group).each_with_index do |background, i| %>
+              <% if background.textfield_label.nil? %>
+                <%= f.govuk_radio_button :ethnic_background, background.label, label: { text: background.label }, link_errors: i.zero? %>
+              <% else %>
+                <%= f.govuk_radio_button :ethnic_background, background.label, label: { text: background.label } do %>
+                <%= f.govuk_text_field :other_background, label: { text: background.textfield_label } %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <%= f.govuk_radio_divider %>
+          <%= f.govuk_radio_button :ethnic_background, 'Prefer not to say', label: { text: 'Prefer not to say' } %>
+        </div>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>

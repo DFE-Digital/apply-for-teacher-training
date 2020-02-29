@@ -262,6 +262,8 @@ Rails.application.routes.draw do
         post '/disabilities' => 'equality_and_diversity#update_disabilities', as: :update_equality_and_diversity_disabilities
         get '/ethnic-group' => 'equality_and_diversity#edit_ethnic_group', as: :edit_equality_and_diversity_ethnic_group
         post '/ethnic-group' => 'equality_and_diversity#update_ethnic_group', as: :update_equality_and_diversity_ethnic_group
+        get '/ethnic-background' => 'equality_and_diversity#edit_ethnic_background', as: :edit_equality_and_diversity_ethnic_background
+        post '/ethnic-background' => 'equality_and_diversity#update_ethnic_background', as: :update_equality_and_diversity_ethnic_background
         get '/review' => 'equality_and_diversity#review', as: :review_equality_and_diversity
       end
     end
