@@ -46,6 +46,20 @@ features 1 and 2, we just want everything up to `X`.
 4. Merge the `hotfix` branch back to `master`.
 
 
+Do we need to tag releases? At the moment we don't really have record of
+which versions shipped and when in the git repository itself. It makes
+sense to tag releases that ship to production so that we have a readily
+available record of that. It would make finding the commit from which a
+hotfix should be branched a little easier.
+
+Should we get into the habit of creating a release branch for normal
+releases? (A release branch is really a generalisation of a hotfix
+branch)
+
+How can we automate step 4 (merging the hotfix back to master)? We want
+to make sure we don't lose any hotfixes in a subsequent deploy.
+
+
 Issues that are not addressed here:
 
 - What if we had more than one hotfix on the go at a time? The main
