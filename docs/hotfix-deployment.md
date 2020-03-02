@@ -22,20 +22,22 @@ when:
 We assume that we begin in a situation like this:
 
 ```
-master        X------1-----2
-               \    /     /
-feature1        ----     /
-                \       /
-feature2         -------
+master        ---D--------x-----x--------------x--->
+                  \      /     / \            /
+feature1           -x-x-x     /   \          /
+                   \         /     \        /
+feature2            --x-x-x-x       \      /
+                                     \    /
+feature3                              -x-x
 ```
 
-Since last deployed at `X` we've merged two additional features into
+Since last deployed at `D` we've merged two additional features into
 `master`. We urgently need to create a fix that does not include
-features 1 and 2, we just want everything up to `X`.
+features 1, 2 and 3, we just want everything up to `D`.
 
 ### Minimum steps that would work...
 
-1. Fetch `master` to your local machine and create a branch from `X`
+1. Fetch `master` to your local machine and create a branch from `D`
    (not `HEAD` as we normally would).
 2. Implement the fix locally raise a PR and get it approved in the
    normal way. Test it locally or using the Heroku review app that will
@@ -45,6 +47,19 @@ features 1 and 2, we just want everything up to `X`.
    SHA on `master` as we normally do).
 4. Merge the `hotfix` branch back to `master`.
 
+```
+hotfix             ------------------------------x-x-x-H
+                  /                                     \
+master        ---D--------x-----x--------------x----------->
+                  \      /     / \            /
+feature1           -x-x-x     /   \          /
+                   \         /     \        /
+feature2            --x-x-x-x       \      /
+                                     \    /
+feature3                              -x-x
+```
+
+### Some questions
 
 Do we need to tag releases? At the moment we don't really have record of
 which versions shipped and when in the git repository itself. It makes
@@ -59,20 +74,23 @@ branch)
 How can we automate step 4 (merging the hotfix back to master)? We want
 to make sure we don't lose any hotfixes in a subsequent deploy.
 
+Are there any branch naming or other conventions that we want to follow?
+It would be nice not to have to change the current convention for naming
+feature branches.
 
 Issues that are not addressed here:
 
-- What if we had more than one hotfix on the go at a time? The main
-  problem here would be multiple hotfix branches. If we can stick to
-  just a single hotfix branch then we should be fine. That branch could
-  contain more than one actual fix if needed. We would need to make sure
-  that if a hotfix is initiated that the whole team knows about it.
-- What if we deployed normally again to production after branching
-  `hotfix` but before it was merged? If this happened then it would
-  indicate a failure of communication or a hotfix just taking a long
-  time. In this case it might make more sense to roll the hotfix into
-  the regular release as a normal change and ship it as normal.
+#### What if we had more than one hotfix on the go at a time?
+The main problem here would be multiple hotfix branches. If we can stick
+to just a single hotfix branch then we should be fine. That branch could
+contain more than one actual fix if needed. We would need to make sure
+that if a hotfix is initiated that the whole team knows about it.
 
+#### What if we deployed normally again to production after branching `hotfix` but before it was merged?
+If this happened then it would indicate a failure of communication or a
+hotfix just taking a long time. In this case it might make more sense to
+roll the hotfix into the regular release as a normal change and ship it
+as normal.
 
 ## References
 
