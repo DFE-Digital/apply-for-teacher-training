@@ -17,6 +17,14 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilitiesForm, type:
       expect(form.other_disability).to eq('Other disability')
     end
 
+    it 'allows other disability to be undisclosed' do
+      application_form = build_stubbed(:application_form, equality_and_diversity: { 'disabilities' => %w[Blind Deaf Other] })
+      form = CandidateInterface::EqualityAndDiversity::DisabilitiesForm.build_from_application(application_form)
+
+      expect(form.disabilities).to eq(%w[Blind Deaf Other])
+      expect(form.other_disability).to eq(nil)
+    end
+
     it 'returns nil if equality and diversity is nil' do
       application_form = build_stubbed(:application_form, equality_and_diversity: nil)
       form = CandidateInterface::EqualityAndDiversity::DisabilitiesForm.build_from_application(application_form)
@@ -50,6 +58,13 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilitiesForm, type:
         expect(application_form.equality_and_diversity).to eq('disabilities' => ['Blind', 'Other disability'])
       end
 
+      it 'allows other_disability field to be optional' do
+        form = CandidateInterface::EqualityAndDiversity::DisabilitiesForm.new(disabilities: %w[Blind Other], other_disability: '')
+        form.save(application_form)
+
+        expect(application_form.equality_and_diversity).to eq('disabilities' => %w[Blind Other])
+      end
+
       it 'updates the existing record of equality and diversity information' do
         application_form = create(:application_form, equality_and_diversity: { 'sex' => 'male' })
         form = CandidateInterface::EqualityAndDiversity::DisabilitiesForm.new(disabilities: %w[Blind])
@@ -74,28 +89,5 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilitiesForm, type:
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:disabilities) }
-
-    context 'when other disability is chosen' do
-      it 'validates presence of other disability' do
-        form = CandidateInterface::EqualityAndDiversity::DisabilitiesForm.new(disabilities: %w[Other])
-        error_message = I18n.t('activemodel.errors.models.candidate_interface/equality_and_diversity/disabilities_form.attributes.other_disability.blank')
-
-        form.validate
-
-        expect(form.errors.full_messages_for(:other_disability)).to eq(
-          ["Other disability #{error_message}"],
-        )
-      end
-    end
-
-    context 'when other disability is not chosen' do
-      it 'does not validates presence of other disability' do
-        form = CandidateInterface::EqualityAndDiversity::DisabilitiesForm.new(disabilities: %w[Blind])
-
-        form.validate
-
-        expect(form.errors).to be_empty
-      end
-    end
   end
 end

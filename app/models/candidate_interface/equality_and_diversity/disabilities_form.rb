@@ -15,12 +15,11 @@ module CandidateInterface
     attr_accessor :disabilities, :other_disability
 
     validates :disabilities, presence: true
-    validates :other_disability, presence: true, if: :other_disability?
 
     def self.build_from_application(application_form)
       return new(disabilities: nil) if application_form.equality_and_diversity.nil?
 
-      list_of_disabilities = DISABILITIES.map { |_, disability| disability }
+      list_of_disabilities = DISABILITIES.map { |_, disability| disability } << 'Other'
       listed, other = application_form.equality_and_diversity['disabilities'].partition { |d| list_of_disabilities.include?(d) }
 
       if other.any?
@@ -35,8 +34,9 @@ module CandidateInterface
     def save(application_form)
       return false unless valid?
 
-      disabilities << other_disability if disabilities.include?('Other')
-      disabilities.delete('Other')
+      if disabilities.include?('Other') && other_disability.present?
+        disabilities.delete('Other'); disabilities << other_disability
+      end
 
       if application_form.equality_and_diversity.nil?
         application_form.update(equality_and_diversity: { 'disabilities' => disabilities })
@@ -44,14 +44,6 @@ module CandidateInterface
         application_form.equality_and_diversity['disabilities'] = disabilities
         application_form.save
       end
-    end
-
-  private
-
-    def other_disability?
-      return false if disabilities.nil?
-
-      disabilities.include?('Other')
     end
   end
 end
