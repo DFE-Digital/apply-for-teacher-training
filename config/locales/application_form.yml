@@ -243,7 +243,7 @@ en:
         button: Continue
     volunteering:
       experience:
-        label: Do you have experience volunteering with young people or in school?
+        label: Do you have any experience to add?
         button: Save and continue
       no_experience:
         summary_card_title: "Children and young people: no volunteering or experience in school roles entered"
