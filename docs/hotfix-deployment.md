@@ -57,7 +57,7 @@ features 1, 2 and 3, we just want everything up to `D`.
    be automatically created.
 4. After the PR is approved don't merge it to `master` straight away.
    First deploy the `hotfix` branch using the [normal deployment
-   procedure](manual-deployment.md) (except picking `HEAD` of the
+   procedure](deployment.md) (except picking `HEAD` of the
    `hotfix` branch rather than a specific SHA on `master` as we normally
    do).
 5. Merge the `hotfix` branch back to `master`. At this point the `hotfix`
@@ -108,5 +108,3 @@ having two main branches. This article describes something close to the
 process that we are following:
 
 https://www.endoflineblog.com/gitflow-considered-harmful
-
-
