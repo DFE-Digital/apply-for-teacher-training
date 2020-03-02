@@ -316,6 +316,8 @@ GEM
       webfinger (>= 1.0.1)
     orm_adapter (0.5.0)
     parallel (1.19.1)
+    paranoia (2.4.2)
+      activerecord (>= 4.0, < 6.1)
     parser (2.6.5.0)
       ast (~> 2.4.0)
     pg (1.2.2)
@@ -560,6 +562,7 @@ DEPENDENCIES
   omniauth-rails_csrf_protection
   omniauth_openid_connect
   openapi3_parser (= 0.8.0)
+  paranoia
   pg (~> 1.2.2)
   pry
   pry-byebug
