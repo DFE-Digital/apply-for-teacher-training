@@ -54,7 +54,7 @@ features 1, 2 and 3, we just want everything up to `D`.
 
 3. Implement the fix locally, raise a PR and get it approved in the
    normal way. Test it locally or using the Heroku review app that is
-   be automatically created.
+   automatically created.
 4. After the PR is approved don't merge it to `master` straight away.
    First deploy the `hotfix` branch using the [normal deployment
    procedure](deployment.md) (except picking `HEAD` of the
@@ -65,7 +65,7 @@ features 1, 2 and 3, we just want everything up to `D`.
 
 Here is an example of the process where the last 'normal' deployment was
 at `D` and the hotfix was deployed at `H`. After the `hotfix` branch is
-deployed back into `master` it's back to business as usual.
+merged back into `master` it's back to business as usual.
 
 ```
 hotfix             ------------------------------x-x-x-H
@@ -80,7 +80,7 @@ feature3                              -x-x
 ```
 
 ### Notes
-- We always use the name `hotfix` to enforce the rule that only
+- We always use the name `hotfix` to enforce the rule that we only
   ever have one hotfix branch at a time.
 - When starting a hotfix it's important that the rest of the team knows
   about it so that nobody else starts any other kind of deploy until
