@@ -40,7 +40,7 @@ module ProviderInterface
     def authenticate_provider_user!
       return if current_provider_user
 
-      session['post_dfe_sign_in_path'] = request.path
+      session['post_dfe_sign_in_path'] = request.fullpath
       redirect_to provider_interface_sign_in_path
     end
 
