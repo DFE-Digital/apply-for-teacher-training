@@ -41,7 +41,7 @@ features 1, 2 and 3, we just want everything up to `D`.
    thread in Slack to #twd_apply.
 2. Fetch `master` to your local machine and create a branch called
    `hotfix` from the last deployed commit (not `HEAD` as we normally
-   would). You can specify the last deployed commit using it's SHA and
+   would). You can specify the last deployed commit using its SHA and
    find out which SHA to use on the
    [ops dashboard](https://apply-ops-dashboard.herokuapp.com/) - just
    look for the current production version. Push the new branch to Github.
