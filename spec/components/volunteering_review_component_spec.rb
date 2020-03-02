@@ -91,7 +91,7 @@ RSpec.describe VolunteeringReviewComponent do
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.volunteering.review_details.review_label'))
-      expect(result.css('.govuk-summary-list__value').to_html).to include('<p>I interned.</p>')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('<p class="govuk-body">I interned.</p>')
       expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include(
         Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(volunteering_role),
       )
