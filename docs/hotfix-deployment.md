@@ -52,7 +52,7 @@ features 1, 2 and 3, we just want everything up to `D`.
   $ git push origin hotfix
   ```
 
-3. Implement the fix locally raise a PR and get it approved in the
+3. Implement the fix locally, raise a PR and get it approved in the
    normal way. Test it locally or using the Heroku review app that is
    be automatically created.
 4. After the PR is approved don't merge it to `master` straight away.
