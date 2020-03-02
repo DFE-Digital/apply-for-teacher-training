@@ -14,6 +14,14 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     and_click_on_the_magic_link
     then_i_should_see_the_course_selection_page
 
+    when_i_click_on_the_courses_link
+    then_i_should_be_redirected_to_the_course_on_find
+
+    when_i_arrive_at_the_sign_up_page_with_course_params_with_one_site
+    and_i_submit_my_email_address
+    and_click_on_the_magic_link
+    then_i_should_see_the_course_selection_page
+
     when_i_say_yes
     then_i_should_see_the_courses_review_page
     and_i_should_see_the_course_name_and_code
@@ -193,6 +201,14 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
   def and_i_should_be_informed_i_have_already_selected_that_course
     expect(page).to have_content "You have already selected #{@course.name_and_code}."
+  end
+
+  def when_i_click_on_the_courses_link
+    click_link("#{@course.provider.name} #{@course.name_and_code}")
+  end
+
+  def then_i_should_be_redirected_to_the_course_on_find
+    expect(page.current_url).to eq("https://find-postgraduate-teacher-training.education.gov.uk/course/#{@course.provider.code}/#{@course.code}")
   end
 
 private

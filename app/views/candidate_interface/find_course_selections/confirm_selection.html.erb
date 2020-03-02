@@ -7,8 +7,17 @@
         <%= t('confirm_selection.heading') %>
       </h1>
 
-      <div class="govuk-inset-text">
-        <%= govuk_link_to @course_selection_form.course_and_provider_name, '#' %>
+      <div class="govuk-inset-text govuk-!-margin-top-0">
+        <%= link_to "https://find-postgraduate-teacher-training.education.gov.uk/course/#{@course_selection_form.course.provider.code}/#{@course_selection_form.course.code}",
+                    class: 'govuk-!-font-weight-bold govuk-link',
+                    style: 'text-decoration: none' do %>
+        <span class="govuk-!-font-size-19">
+          <%= @course_selection_form.course.provider.name %>
+        </span><br>
+        <span class="search-result-link-name govuk-!-font-size-24" style="text-decoration: underline">
+          <%= @course_selection_form.course.name_and_code %>
+        </span>
+        <% end %>
       </div>
 
       <%= f.govuk_radio_buttons_fieldset :confirm, legend: { size: 'm', text: t('confirm_selection.question') } do %>
