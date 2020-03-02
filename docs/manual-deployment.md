@@ -11,7 +11,7 @@ In the event that code changes are made to the app but the Azure pipelines fail 
 This process assumes that the build and test stage has completed without error and a Docker image has been uploaded to Dockerhub successfully. This process also assumes that no changes are expected to be made to the configuration of the underlying Azure infrastructure hosting the application.
 
 Note that these instructions are for normal deployment. For a hotfix
-deployment, for an urgent fix, please refer to [Hotfix deployment
+deployment, please refer to [Hotfix deployment
 instructions](hotfix-deployment.md).
 
 ## Instructions
