@@ -27,6 +27,7 @@ RSpec.feature 'Selecting a course' do
     and_i_choose_a_provider
     and_i_choose_a_course
     then_i_see_a_message_that_ive_already_chosen_the_course
+    and_the_select_box_has_no_value_selected
 
     given_that_i_am_on_the_course_choices_review_page
     when_i_click_on_add_another_course
@@ -150,6 +151,10 @@ RSpec.feature 'Selecting a course' do
 
   def then_i_see_a_message_that_ive_already_chosen_the_course
     expect(page).to have_css('.govuk-error-summary', text: 'You have already selected this course')
+  end
+
+  def and_the_select_box_has_no_value_selected
+    expect(page.find('#candidate-interface-pick-course-form-course-id-field').value).to eq ''
   end
 
   def given_that_i_am_on_the_course_choices_review_page
