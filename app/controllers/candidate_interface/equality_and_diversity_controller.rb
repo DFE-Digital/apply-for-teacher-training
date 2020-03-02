@@ -1,5 +1,8 @@
 module CandidateInterface
   class EqualityAndDiversityController < CandidateInterfaceController
+    before_action :redirect_to_review_unless_ready_to_submit
+    before_action :redirect_to_review_unless_feature_flag_active
+
     def start; end
 
     def edit_sex
@@ -112,6 +115,18 @@ module CandidateInterface
 
     def ethnic_background_param
       params.require(:candidate_interface_equality_and_diversity_ethnic_background_form).permit(:ethnic_background, :other_background)
+    end
+
+    def redirect_to_review_unless_ready_to_submit
+      redirect_to candidate_interface_application_review_path unless ready_to_submit?
+    end
+
+    def redirect_to_review_unless_feature_flag_active
+      redirect_to candidate_interface_application_review_path unless FeatureFlag.active?('equality_and_diversity')
+    end
+
+    def ready_to_submit?
+      @ready_to_submit ||= CandidateInterface::ApplicationFormPresenter.new(current_application).ready_to_submit?
     end
   end
 end
