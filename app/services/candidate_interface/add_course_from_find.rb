@@ -41,7 +41,7 @@ module CandidateInterface
         add_application_choice
         set_course_from_find_id_to_nil
         @candidate_has_new_course_added = true
-      elsif course_has_both_study_modes?
+      elsif course_has_both_study_modes? && FeatureFlag.active?('choose_study_mode')
         set_course_from_find_id_to_nil
         @candidate_should_choose_study_mode = true
       else

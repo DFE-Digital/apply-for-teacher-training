@@ -4,6 +4,7 @@ RSpec.feature 'Selecting a study mode' do
   include CandidateHelper
 
   scenario 'Candidate selects a part time course' do
+    given_choosing_a_study_mode_is_active
     given_i_am_signed_in
     and_there_are_course_options
 
@@ -12,6 +13,10 @@ RSpec.feature 'Selecting a study mode' do
 
     when_i_select_a_site
     then_i_see_my_course_choice
+  end
+
+  def given_choosing_a_study_mode_is_active
+    FeatureFlag.activate('choose_study_mode')
   end
 
   def given_i_am_signed_in

@@ -14,11 +14,14 @@ module CandidateInterface
     end
 
     def course_choice_rows(course_choice)
-      [
+      rows = [
         course_row(course_choice),
-        study_mode_row(course_choice),
         location_row(course_choice),
-      ].tap do |r|
+      ]
+
+      rows.insert(1, study_mode_row(course_choice)) if FeatureFlag.active?('choose_study_mode')
+
+      rows.tap do |r|
         r << status_row(course_choice) if @show_status
         r << rejection_reason_row(course_choice) if course_choice.rejection_reason.present?
         r << offer_withdrawal_reason_row(course_choice) if course_choice.offer_withdrawal_reason.present?

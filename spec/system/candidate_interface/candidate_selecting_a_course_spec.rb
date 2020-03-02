@@ -137,7 +137,6 @@ RSpec.feature 'Selecting a course' do
   def then_i_see_my_completed_course_choice
     expect(page).to have_content('Gorse SCITT')
     expect(page).to have_content('Primary (2XT2)')
-    expect(page).to have_content('Full time')
     expect(page).to have_content('Main site')
     expect(page).to have_content('Gorse SCITT, C/O The Bruntcliffe Academy, Bruntcliffe Lane, MORLEY, lEEDS, LS27 0LZ')
   end

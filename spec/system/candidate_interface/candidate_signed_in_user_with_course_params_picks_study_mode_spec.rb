@@ -5,6 +5,7 @@ RSpec.describe 'An existing candidate arriving from Find with course params sele
 
   scenario 'Signed in user with Find course params selects a part time course' do
     given_the_pilot_is_open
+    given_choosing_a_study_mode_is_active
     and_i_am_an_existing_candidate_on_apply
     and_the_course_i_selected_has_a_choice_of_study_modes
     and_i_am_signed_in
@@ -19,6 +20,10 @@ RSpec.describe 'An existing candidate arriving from Find with course params sele
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
+  end
+
+  def given_choosing_a_study_mode_is_active
+    FeatureFlag.activate('choose_study_mode')
   end
 
   def and_i_am_an_existing_candidate_on_apply

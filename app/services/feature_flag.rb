@@ -6,6 +6,7 @@ class FeatureFlag
     automated_referee_chaser
     automated_referee_replacement
     candidate_rejected_by_provider_email
+    choose_study_mode
     confirm_conditions
     decline_by_default_notification_to_candidate
     decline_by_default_notification_to_provider

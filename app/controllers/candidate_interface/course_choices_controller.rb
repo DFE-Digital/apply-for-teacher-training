@@ -66,7 +66,7 @@ module CandidateInterface
 
       if !@pick_course.open_on_apply?
         redirect_to_ucas
-      elsif @pick_course.both_study_modes_available?
+      elsif @pick_course.both_study_modes_available? && FeatureFlag.active?('choose_study_mode')
         redirect_to candidate_interface_course_choices_study_mode_path(
           @pick_course.provider_id,
           @pick_course.course_id,
