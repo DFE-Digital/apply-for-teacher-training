@@ -43,9 +43,7 @@ Summarise what you're deploying and tell the team in Slack on the `#twd_apply` c
 
 ## 4. Test on staging
 
-Do whatever it takes to test what you've just deployed. Be sure to keep an eye on [Sentry](https://sentry.io/organizations/dfe-bat/issues/?project=1765973) for any incoming issues.
-
-[Check the Staging monitoring dashboard in Azure](https://portal.azure.com/#@platform.education.gov.uk/dashboard/arm/subscriptions/c426dea0-793c-4ab6-9dbc-b45dbdd9ef24/resourcegroups/s106t01-apply/providers/microsoft.portal/dashboards/s106t01-apply-dashboard) for anomalies before you proceed.
+Follow the testing instructions for staging in the [post-deployment checklist](deployment_checklist.md).
 
 ## 5. Deploy to production, sandbox and pentest
 
