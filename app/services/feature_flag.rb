@@ -26,6 +26,7 @@ class FeatureFlag
     equality_and_diversity
     provider_application_filters
     provider_interface_pagination
+    dfe_sign_in_incident
   ].freeze
 
   def self.activate(feature_name)
