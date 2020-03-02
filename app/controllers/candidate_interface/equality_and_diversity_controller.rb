@@ -1,5 +1,8 @@
 module CandidateInterface
   class EqualityAndDiversityController < CandidateInterfaceController
+    before_action :redirect_to_review_unless_ready_to_submit
+    before_action :redirect_to_review_unless_feature_flag_active
+
     def start; end
 
     def edit_sex
@@ -46,7 +49,11 @@ module CandidateInterface
       @disabilities = EqualityAndDiversity::DisabilitiesForm.new(disabilties_params)
 
       if @disabilities.save(current_application)
-        redirect_to candidate_interface_review_equality_and_diversity_path
+        if current_application.equality_and_diversity['ethnic_group'].nil?
+          redirect_to candidate_interface_edit_equality_and_diversity_ethnic_group_path
+        else
+          redirect_to candidate_interface_review_equality_and_diversity_path
+        end
       else
         render :edit_disabilities
       end
@@ -60,9 +67,29 @@ module CandidateInterface
       @ethnic_group = EqualityAndDiversity::EthnicGroupForm.new(ethnic_group: ethnic_group_param)
 
       if @ethnic_group.save(current_application)
-        redirect_to candidate_interface_review_equality_and_diversity_path
+        if ethnic_group_param == 'Prefer not to say'
+          redirect_to candidate_interface_review_equality_and_diversity_path
+        else
+          redirect_to candidate_interface_edit_equality_and_diversity_ethnic_background_path
+        end
       else
         render :edit_ethnic_group
+      end
+    end
+
+    def edit_ethnic_background
+      @ethnic_background = EqualityAndDiversity::EthnicBackgroundForm.build_from_application(current_application)
+      @ethnic_group = current_application.equality_and_diversity['ethnic_group']
+    end
+
+    def update_ethnic_background
+      @ethnic_background = EqualityAndDiversity::EthnicBackgroundForm.new(ethnic_background_param)
+      @ethnic_group = current_application.equality_and_diversity['ethnic_group']
+
+      if @ethnic_background.save(current_application)
+        redirect_to candidate_interface_review_equality_and_diversity_path
+      else
+        render :edit_ethnic_background
       end
     end
 
@@ -84,6 +111,22 @@ module CandidateInterface
 
     def ethnic_group_param
       params.dig(:candidate_interface_equality_and_diversity_ethnic_group_form, :ethnic_group)
+    end
+
+    def ethnic_background_param
+      params.require(:candidate_interface_equality_and_diversity_ethnic_background_form).permit(:ethnic_background, :other_background)
+    end
+
+    def redirect_to_review_unless_ready_to_submit
+      redirect_to candidate_interface_application_review_path unless ready_to_submit?
+    end
+
+    def redirect_to_review_unless_feature_flag_active
+      redirect_to candidate_interface_application_review_path unless FeatureFlag.active?('equality_and_diversity')
+    end
+
+    def ready_to_submit?
+      @ready_to_submit ||= CandidateInterface::ApplicationFormPresenter.new(current_application).ready_to_submit?
     end
   end
 end

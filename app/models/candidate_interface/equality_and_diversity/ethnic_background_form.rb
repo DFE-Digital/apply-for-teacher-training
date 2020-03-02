@@ -2,14 +2,6 @@ module CandidateInterface
   class EqualityAndDiversity::EthnicBackgroundForm
     include ActiveModel::Model
 
-    ETHNIC_BACKGROUNDS = {
-      'Asian or Asian British' => %w[Bangladeshi Chinese Indian Pakistani],
-      'Black, African, Black British or Caribbean' => %w[African Carribean],
-      'Mixed or multiple ethnic groups' => ['Asian and White', 'Black African and White', 'Black Caribbean and White'],
-      'White' => ['British, English, Northern Irish, Scottish, or Welsh', 'Irish', 'Irish Traveller or Gypsy'],
-      'Another ethnic group' => %w[Arab],
-    }.freeze
-
     attr_accessor :ethnic_background, :other_background
 
     validates :ethnic_background, presence: true
@@ -18,11 +10,13 @@ module CandidateInterface
       group = application_form.equality_and_diversity['ethnic_group']
       background = application_form.equality_and_diversity['ethnic_background']
 
-      if ETHNIC_BACKGROUNDS[group].include?(background) || background == "Another #{group} background"
+      return new if background.nil?
+
+      if listed_ethnic_background?(group, background)
         new(ethnic_background: application_form.equality_and_diversity['ethnic_background'])
       else
         new(
-          ethnic_background: "Another #{group} background",
+          ethnic_background: EthnicBackgroundHelper::OTHER_ETHNIC_BACKGROUNDS[group].first,
           other_background: application_form.equality_and_diversity['ethnic_background'],
         )
       end
@@ -33,7 +27,9 @@ module CandidateInterface
 
       group = application_form.equality_and_diversity['ethnic_group']
 
-      background = ethnic_background == "Another #{group} background" && other_background.present? ? other_background : ethnic_background
+      other_background_present = ethnic_background == EthnicBackgroundHelper::OTHER_ETHNIC_BACKGROUNDS[group].first && other_background.present?
+
+      background = other_background_present ? other_background : ethnic_background
 
       if application_form.equality_and_diversity.nil?
         application_form.update(equality_and_diversity: { 'ethnic_background' => background })
@@ -41,6 +37,10 @@ module CandidateInterface
         application_form.equality_and_diversity['ethnic_background'] = background
         application_form.save
       end
+    end
+
+    def self.listed_ethnic_background?(group, background)
+      EthnicBackgroundHelper::ETHNIC_BACKGROUNDS[group].include?(background) || EthnicBackgroundHelper::OTHER_ETHNIC_BACKGROUNDS[group].include?(background)
     end
   end
 end

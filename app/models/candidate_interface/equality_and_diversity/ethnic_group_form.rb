@@ -16,11 +16,17 @@ module CandidateInterface
     def save(application_form)
       return false unless valid?
 
+      current_ethnic_group = application_form.equality_and_diversity['ethnic_group'] if application_form.equality_and_diversity
+
       if application_form.equality_and_diversity.nil?
         application_form.update(equality_and_diversity: { 'ethnic_group' => ethnic_group })
       else
         application_form.equality_and_diversity['ethnic_group'] = ethnic_group
-        application_form.equality_and_diversity['ethnic_background'] = nil if ethnic_group == 'Prefer not to say'
+
+        if current_ethnic_group
+          application_form.equality_and_diversity['ethnic_background'] = nil if (ethnic_group == 'Prefer not to say') || (current_ethnic_group != ethnic_group)
+        end
+
         application_form.save
       end
     end
