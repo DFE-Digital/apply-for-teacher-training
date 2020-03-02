@@ -146,10 +146,13 @@ module CandidateInterface
     def complete
       @application_form = current_application
 
-      if @application_form.update(application_form_params)
+      if @application_form.application_choices.count.zero?
+        render :index
+      elsif @application_form.update(application_form_params)
         redirect_to candidate_interface_application_form_path
       else
         @course_choices = current_candidate.current_application.application_choices
+
         render :review
       end
     end

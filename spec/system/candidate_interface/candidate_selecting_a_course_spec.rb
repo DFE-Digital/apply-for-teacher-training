@@ -43,6 +43,9 @@ RSpec.feature 'Selecting a course' do
     and_i_delete_one_of_my_course_choice
     and_i_confirm_that_i_want_to_delete_my_choice
     then_i_no_longer_see_my_course_choice
+
+    when_i_mark_this_section_as_completed
+    and_i_click_continue
   end
 
   def given_i_am_signed_in
@@ -200,5 +203,13 @@ RSpec.feature 'Selecting a course' do
 
   def then_i_no_longer_see_my_course_choice
     expect(page).not_to have_content('Primary (2XT2)')
+  end
+
+  def and_i_click_continue
+    when_i_click_continue
+  end
+
+  def then_i_should_i_should_see_the_course_choice_index_page
+    expect(page).to_have current_path(candidate_interface_course_choices_index_path)
   end
 end
