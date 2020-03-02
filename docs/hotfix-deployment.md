@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document describes the process of manually deploying a hotfix
+This document describes the process of manually deploying a hotfix.
 
 ### When should this process be used?
 
@@ -35,17 +35,37 @@ Since last deployed at `D` we've merged two additional features into
 `master`. We urgently need to create a fix that does not include
 features 1, 2 and 3, we just want everything up to `D`.
 
-### Minimum steps that would work...
+### Instructions
 
-1. Fetch `master` to your local machine and create a branch from `D`
-   (not `HEAD` as we normally would).
-2. Implement the fix locally raise a PR and get it approved in the
-   normal way. Test it locally or using the Heroku review app that will
+1. Inform the team that a hotfix is being prepared by posting a new
+   thread in Slack to #twd_apply.
+2. Fetch `master` to your local machine and create a branch called
+   `hotfix` from the last deployed commit (not `HEAD` as we normally
+   would). You can specify the last deployed commit using it's SHA and
+   find out which SHA to use on the
+   [ops dashboard](https://apply-ops-dashboard.herokuapp.com/) - just
+   look for the current production version. Push the new branch to Github.
+
+  ```
+  $ git fetch origin master
+  $ git checkout -b hotfix <sha-from-ops-dashboard>
+  $ git push origin hotfix
+  ```
+
+3. Implement the fix locally raise a PR and get it approved in the
+   normal way. Test it locally or using the Heroku review app that is
    be automatically created.
-3. Deploy the `hotfix` branch using the normal deployment procedure
-   (except picking `HEAD` of the `hotfix` branch rather than a specific
-   SHA on `master` as we normally do).
-4. Merge the `hotfix` branch back to `master`.
+4. After the PR is approved don't merge it to `master` straight away.
+   First deploy the `hotfix` branch using the [normal deployment
+   procedure](manual-deployment.md) (except picking `HEAD` of the
+   `hotfix` branch rather than a specific SHA on `master` as we normally
+   do).
+5. Merge the `hotfix` branch back to `master`. At this point the `hotfix`
+   branch should be automatically deleted.
+
+Here is an example of the process where the last 'normal' deployment was
+at `D` and the hotfix was deployed at `H`. After the `hotfix` branch is
+deployed back into `master` it's back to business as usual.
 
 ```
 hotfix             ------------------------------x-x-x-H
@@ -59,54 +79,33 @@ feature2            --x-x-x-x       \      /
 feature3                              -x-x
 ```
 
-### Some questions
-
-Do we need to tag releases? At the moment we don't really have record of
-which versions shipped and when in the git repository itself. It makes
-sense to tag releases that ship to production so that we have a readily
-available record of that. It would make finding the commit from which a
-hotfix should be branched a little easier.
-
-Should we get into the habit of creating a release branch for normal
-releases? (A release branch is really a generalisation of a hotfix
-branch)
-
-How can we automate step 4 (merging the hotfix back to master)? We want
-to make sure we don't lose any hotfixes in a subsequent deploy.
-
-Are there any branch naming or other conventions that we want to follow?
-It would be nice not to have to change the current convention for naming
-feature branches.
-
-Issues that are not addressed here:
-
-#### What if we had more than one hotfix on the go at a time?
-The main problem here would be multiple hotfix branches. If we can stick
-to just a single hotfix branch then we should be fine. That branch could
-contain more than one actual fix if needed. We would need to make sure
-that if a hotfix is initiated that the whole team knows about it.
-
-#### What if we deployed normally again to production after branching `hotfix` but before it was merged?
-If this happened then it would indicate a failure of communication or a
-hotfix just taking a long time. In this case it might make more sense to
-roll the hotfix into the regular release as a normal change and ship it
-as normal.
+### Notes
+- We always use the name `hotfix` to enforce the rule that only
+  ever have one hotfix branch at a time.
+- When starting a hotfix it's important that the rest of the team knows
+  about it so that nobody else starts any other kind of deploy until
+  the hotfix is complete and merged back into `master`.
+- Pushing the new `hotfix` branch to Github at the start of the
+  process (before any fix commits are made) acts as a signal to other
+  developers/systems that a hotfix is in progress.
 
 ## References
 
 If you Google something like 'git branching strategy for hotfixes' you
 will find that the top hits point to Gitflow, a popular branching model
 that defines a set of conventions and covers developer feature branches,
-regular releases and hotfixes. It's fairly heavy compared to our current
-model and there are alternatives, four of them are reviewed in this
-article:
+regular releases and hotfixes:
+
+https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
+
+Gitflow is fairly heavy compared to our current model and there are
+alternatives, four of them are reviewed in this article:
 
 https://medium.com/@patrickporto/4-branching-workflows-for-git-30d0aaee7bf
 
-If we want to stay as close as possible to the model that we have at the
-moment we should avoid Gitflow, in particular the idea of having two
-main branches. This article describes something close to the minimum
-steps I've outlined above:
+For now we have chosen to avoid Gitflow, in particular the idea of
+having two main branches. This article describes something close to the
+process that we are following:
 
 https://www.endoflineblog.com/gitflow-considered-harmful
 
