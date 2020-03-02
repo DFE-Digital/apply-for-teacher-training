@@ -6,7 +6,7 @@
     <%= form_with model: @ethnic_group, url: candidate_interface_update_equality_and_diversity_ethnic_group_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :ethnic_group, legend: { size: 'xl', text: 'What is your ethnic group?' } do %>
+      <%= f.govuk_radio_buttons_fieldset :ethnic_group, legend: { size: 'xl', text: equality_and_diversity_caption + 'What is your ethnic group?' } do %>
         <div class="govuk-!-margin-top-6">
           <%= f.govuk_radio_button :ethnic_group, 'Asian or Asian British', label: { text: 'Asian or Asian British', size: 's' }, hint_text: '(includes any Asian background, for example, Bangladeshi, Chinese, Indian, Pakistani)', link_errors: true %>
           <%= f.govuk_radio_button :ethnic_group, 'Black, African, Black British or Caribbean', label: { text: 'Black, African, Black British or Caribbean', size: 's' }, hint_text: '(includes any Black background)' %>

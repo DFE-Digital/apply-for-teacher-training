@@ -6,7 +6,7 @@
     <%= form_with model: @ethnic_background, url: candidate_interface_update_equality_and_diversity_ethnic_background_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :ethnic_background, legend: { size: 'xl', text: ethnic_background_title(@ethnic_group) } do %>
+      <%= f.govuk_radio_buttons_fieldset :ethnic_background, legend: { size: 'xl', text: equality_and_diversity_caption + ethnic_background_title(@ethnic_group) } do %>
         <div class="govuk-!-margin-top-6">
           <% ethnic_backgrounds(@ethnic_group).each_with_index do |background, i| %>
               <% if background.textfield_label.nil? %>

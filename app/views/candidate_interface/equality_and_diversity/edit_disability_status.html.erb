@@ -6,7 +6,7 @@
     <%= form_with model: @disability_status, url: candidate_interface_update_equality_and_diversity_disability_status_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :disability_status, legend: { size: 'xl', text: 'Are you disabled?' } do %>
+      <%= f.govuk_radio_buttons_fieldset :disability_status, legend: { size: 'xl', text: equality_and_diversity_caption + 'Are you disabled?' } do %>
         <div class="govuk-!-margin-top-6">
           <%= f.govuk_radio_button :disability_status, :yes, label: { text: 'Yes' }, link_errors: true %>
           <%= f.govuk_radio_button :disability_status, :no, label: { text: 'No' } %>

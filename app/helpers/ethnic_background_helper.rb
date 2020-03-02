@@ -44,4 +44,8 @@ module EthnicBackgroundHelper
 
     "Which of the following best describes your #{group} background?"
   end
+
+  def equality_and_diversity_caption
+    '<span class="govuk-caption-xl">Equality and diversity</span>'.html_safe
+  end
 end

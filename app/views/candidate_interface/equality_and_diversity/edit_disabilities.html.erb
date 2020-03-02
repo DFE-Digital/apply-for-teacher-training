@@ -6,7 +6,7 @@
     <%= form_with model: @disabilities, url: candidate_interface_update_equality_and_diversity_disabilities_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_check_boxes_fieldset :disabilities, legend: { size: 'xl', text: 'Please select all that apply to you' } do %>
+      <%= f.govuk_check_boxes_fieldset :disabilities, legend: { size: 'xl', text: equality_and_diversity_caption + 'Please select all that apply to you' } do %>
         <div class="govuk-!-margin-top-6">
           <% disabilities_checkboxes.each do |checkbox| %>
             <%= f.govuk_check_box :disabilities, checkbox.name, label: { text: checkbox.name, size: 's' }, hint_text: checkbox.hint_text %>
