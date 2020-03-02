@@ -14,10 +14,14 @@ module CandidateInterface
     end
 
     def course_choice_rows(course_choice)
-      [
+      rows = [
         course_row(course_choice),
         location_row(course_choice),
-      ].tap do |r|
+      ]
+
+      rows.insert(1, study_mode_row(course_choice)) if FeatureFlag.active?('choose_study_mode')
+
+      rows.tap do |r|
         r << status_row(course_choice) if @show_status
         r << rejection_reason_row(course_choice) if course_choice.rejection_reason.present?
         r << offer_withdrawal_reason_row(course_choice) if course_choice.offer_withdrawal_reason.present?
@@ -55,6 +59,13 @@ module CandidateInterface
       {
         key: 'Location',
         value: "#{course_choice.site.name}\n#{course_choice.site.full_address}",
+      }
+    end
+
+    def study_mode_row(course_choice)
+      {
+        key: 'Full time or part time',
+        value: course_choice.course_option.study_mode.humanize,
       }
     end
 

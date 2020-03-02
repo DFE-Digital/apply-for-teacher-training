@@ -71,7 +71,7 @@ class SyncProviderFromFind
       site.save!
 
       study_modes = \
-        if course.study_mode == 'full_time_or_part_time'
+        if course.both_study_modes_available?
           %i[full_time part_time]
         else
           [course.study_mode]

@@ -66,6 +66,11 @@ module CandidateInterface
 
       if !@pick_course.open_on_apply?
         redirect_to_ucas
+      elsif @pick_course.both_study_modes_available? && FeatureFlag.active?('choose_study_mode')
+        redirect_to candidate_interface_course_choices_study_mode_path(
+          @pick_course.provider_id,
+          @pick_course.course_id,
+        )
       elsif @pick_course.single_site?
         course_option = CourseOption.where(course_id: @pick_course.course.id).first
         pick_site_for_course(course_id, course_option.id)
@@ -73,14 +78,41 @@ module CandidateInterface
         redirect_to candidate_interface_course_choices_site_path(
           @pick_course.provider_id,
           @pick_course.course_id,
+          @pick_course.study_mode,
         )
       end
+    end
+
+    def options_for_study_mode
+      @pick_study_mode = PickStudyModeForm.new(
+        provider_id: params.fetch(:provider_id),
+        course_id: params.fetch(:course_id),
+      )
+    end
+
+    def pick_study_mode
+      @pick_study_mode = PickStudyModeForm.new(
+        provider_id: params.fetch(:provider_id),
+        course_id: params.fetch(:course_id),
+        study_mode: params.dig(
+          :candidate_interface_pick_study_mode_form,
+          :study_mode,
+        ),
+      )
+      render :options_for_study_mode and return unless @pick_study_mode.valid?
+
+      redirect_to candidate_interface_course_choices_site_path(
+        @pick_study_mode.provider_id,
+        @pick_study_mode.course_id,
+        @pick_study_mode.study_mode,
+      )
     end
 
     def options_for_site
       @pick_site = PickSiteForm.new(
         provider_id: params.fetch(:provider_id),
         course_id: params.fetch(:course_id),
+        study_mode: params.fetch(:study_mode),
       )
     end
 

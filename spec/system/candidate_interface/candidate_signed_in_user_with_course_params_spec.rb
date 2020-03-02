@@ -138,7 +138,13 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   end
 
   def then_i_should_see_the_course_choices_site_page
-    expect(page).to have_current_path(candidate_interface_course_choices_site_path(@course_with_multiple_sites.provider.id, @course_with_multiple_sites.id))
+    expect(page).to have_current_path(
+      candidate_interface_course_choices_site_path(
+        @course_with_multiple_sites.provider.id,
+        @course_with_multiple_sites.id,
+        :full_time,
+      ),
+    )
   end
 
   def then_i_should_see_the_candidate_interface_application_form

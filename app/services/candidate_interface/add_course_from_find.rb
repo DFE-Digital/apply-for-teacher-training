@@ -6,7 +6,8 @@ module CandidateInterface
                   :candidate_should_choose_site,
                   :candidate_does_not_have_a_course_from_find,
                   :candidate_has_already_selected_the_course,
-                  :candidate_has_submitted_application
+                  :candidate_has_submitted_application,
+                  :candidate_should_choose_study_mode
 
     def initialize(candidate:)
       @candidate = candidate
@@ -40,6 +41,9 @@ module CandidateInterface
         add_application_choice
         set_course_from_find_id_to_nil
         @candidate_has_new_course_added = true
+      elsif course_has_both_study_modes? && FeatureFlag.active?('choose_study_mode')
+        set_course_from_find_id_to_nil
+        @candidate_should_choose_study_mode = true
       else
         set_course_from_find_id_to_nil
         @candidate_should_choose_site = true
@@ -75,6 +79,10 @@ module CandidateInterface
       current_course_option_ids = @candidate.current_application.application_choices.map(&:course_option_id)
 
       (potential_course_option_ids_for_course_from_find & current_course_option_ids).present?
+    end
+
+    def course_has_both_study_modes?
+      Course.find(@candidate.course_from_find_id).both_study_modes_available?
     end
   end
 end

@@ -2,12 +2,18 @@ module CandidateInterface
   class PickSiteForm
     include ActiveModel::Model
 
-    attr_accessor :application_form, :provider_id, :course_id, :course_option_id
+    attr_accessor :application_form, :provider_id, :course_id, :study_mode, :course_option_id
     validates :course_option_id, presence: true
     validate :candidate_can_only_apply_to_3_courses
 
     def available_sites
-      CourseOption.includes(:site).where(course_id: course.id).sort_by { |course_option| course_option.site.name }
+      relation = CourseOption.includes(:site).where(course_id: course.id)
+
+      if FeatureFlag.active?('choose_study_mode')
+        relation = relation.where(study_mode: study_mode)
+      end
+
+      relation.sort_by { |course_option| course_option.site.name }
     end
 
     def save

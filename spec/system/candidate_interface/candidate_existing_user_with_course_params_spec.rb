@@ -142,6 +142,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
       candidate_interface_course_choices_site_path(
         @course_with_multiple_sites.provider.id,
         @course_with_multiple_sites.id,
+        :full_time,
       ),
     )
   end
