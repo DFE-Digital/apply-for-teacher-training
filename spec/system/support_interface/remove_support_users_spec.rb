@@ -10,7 +10,7 @@ RSpec.feature 'Remove a support user' do
     and_i_delete_a_support_user
     then_i_should_see_a_confirmation_page
     and_i_confirm_deletion
-    then_the_support_user_is_deleted_from_the_database
+    then_the_support_user_is_soft_deleted_from_the_database
     and_the_support_user_is_not_listed
   end
 
@@ -20,7 +20,8 @@ RSpec.feature 'Remove a support user' do
 
   def and_there_are_some_support_users
     @support_users = create_list(:support_user, 2)
-    @deleted_user_email = @support_users.last.email_address
+    @deleted_user = @support_users.last
+    @deleted_user_email = @deleted_user.email_address
   end
 
   def when_i_visit_the_support_users_page
@@ -41,8 +42,8 @@ RSpec.feature 'Remove a support user' do
     click_on 'Delete support user'
   end
 
-  def then_the_support_user_is_deleted_from_the_database
-    expect(SupportUser.find_by_email_address(@deleted_user_email)).to be_nil
+  def then_the_support_user_is_soft_deleted_from_the_database
+    expect(@deleted_user.reload.deleted_at).not_to be_nil
   end
 
   def and_the_support_user_is_not_listed
