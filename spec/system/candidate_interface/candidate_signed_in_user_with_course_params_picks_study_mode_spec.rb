@@ -69,17 +69,6 @@ RSpec.describe 'An existing candidate arriving from Find with course params sele
   def when_i_choose_the_part_time_course
     choose 'Part time'
     click_button 'Continue'
-
-    choose @site.name
-    click_button 'Continue'
-  end
-
-  def and_i_should_see_the_site
-    expect(page).to have_content @site.address_line1
-    expect(page).to have_content @site.address_line2
-    expect(page).to have_content @site.address_line3
-    expect(page).to have_content @site.address_line4
-    expect(page).to have_content @site.postcode
   end
 
   def then_i_should_see_it_on_my_review_page
