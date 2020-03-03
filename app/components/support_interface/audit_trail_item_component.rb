@@ -22,7 +22,7 @@ module SupportInterface
       elsif audit.user_type == 'VendorApiUser'
         "#{audit.user.email_address} (Vendor API)"
       elsif audit.user_type == 'SupportUser'
-        "#{audit.user.email_address} (Support user)"
+        "#{support_user.email_address} (Support user)"
       elsif audit.username.present?
         audit.username
       else
@@ -44,6 +44,10 @@ module SupportInterface
       else
         value.present?
       end
+    end
+
+    def support_user
+      @support_user ||= SupportUser.with_deleted.find(audit.user_id)
     end
 
     attr_reader :audit
