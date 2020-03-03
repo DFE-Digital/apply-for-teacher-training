@@ -45,8 +45,8 @@ RSpec.feature 'Selecting a course' do
     and_i_confirm_that_i_want_to_delete_my_choice
     then_i_no_longer_see_my_course_choice
 
-    when_i_mark_this_section_as_completed
-    and_i_click_continue
+    when_i_delete_my_remaining_course_choice
+    then_i_should_i_should_see_the_course_choice_index_page
   end
 
   def given_i_am_signed_in
@@ -54,11 +54,11 @@ RSpec.feature 'Selecting a course' do
   end
 
   def and_there_are_course_options
-    provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
+    @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
     first_site = create(
       :site, name: 'Main site',
       code: '-',
-      provider: provider,
+      provider: @provider,
       address_line1: 'Gorse SCITT',
       address_line2: 'C/O The Bruntcliffe Academy',
       address_line3: 'Bruntcliffe Lane',
@@ -68,14 +68,14 @@ RSpec.feature 'Selecting a course' do
     second_site = create(
       :site, name: 'Harehills Primary School',
       code: '1',
-      provider: provider,
+      provider: @provider,
       address_line1: 'Darfield Road',
       address_line2: '',
       address_line3: 'Leeds',
       address_line4: 'West Yorkshire',
       postcode: 'LS8 5DQ'
     )
-    multi_site_course = create(:course, name: 'Primary', code: '2XT2', provider: provider, exposed_in_find: true, open_on_apply: true)
+    multi_site_course = create(:course, name: 'Primary', code: '2XT2', provider: @provider, exposed_in_find: true, open_on_apply: true)
     create(:course_option, site: first_site, course: multi_site_course, vacancy_status: 'B')
     create(:course_option, site: second_site, course: multi_site_course, vacancy_status: 'B')
 
@@ -210,11 +210,20 @@ RSpec.feature 'Selecting a course' do
     expect(page).not_to have_content('Primary (2XT2)')
   end
 
+  def when_i_delete_my_remaining_course_choice
+    and_i_delete_one_of_my_course_choice
+    and_i_confirm_that_i_want_to_delete_my_choice
+  end
+
+  def and_i_mark_this_section_as_completed
+    when_i_mark_this_section_as_completed
+  end
+
   def and_i_click_continue
     when_i_click_continue
   end
 
   def then_i_should_i_should_see_the_course_choice_index_page
-    expect(page).to_have current_path(candidate_interface_course_choices_index_path)
+    expect(page).to have_current_path(candidate_interface_course_choices_index_path)
   end
 end
