@@ -72,7 +72,9 @@ RSpec.feature 'See applications' do
   alias :when_i_visit_the_provider_page :and_i_visit_the_provider_page
 
   def then_i_should_see_the_applications_from_my_organisation
+    expect(page).to have_content @my_provider_choice1.application_form.support_reference
     expect(page).to have_content @my_provider_choice1.application_form.first_name
+    expect(page).to have_content @my_provider_choice2.application_form.support_reference
     expect(page).to have_content @my_provider_choice2.application_form.first_name
   end
 
@@ -90,7 +92,7 @@ RSpec.feature 'See applications' do
   end
 
   def then_i_should_be_on_the_application_view_page
-    expect(page).to have_content 'Application for'
+    expect(page).to have_content @my_provider_choice1.application_form.support_reference
     expect(page).to have_content @my_provider_choice1.application_form.first_name
   end
 end
