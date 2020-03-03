@@ -11,8 +11,10 @@ module ProviderInterface
 
       if FeatureFlag.active?('provider_application_filters')
          @available_filters = available_filters
-         @filter_visible = params[:filter_visible] ||= 'true'
-         @application_choices = application_choices
+         @filter_visible =  filter_params[:filter_visible] ||= 'true'
+         @filter_selections = filter_params[:filter_selections].to_h ||= {}
+         @application_choices = FilterApplicationChoicesForProviders.call(application_choices: application_choices,
+                                                                          status_filters: @filter_selections)
       else
         @application_choices = application_choices
       end
@@ -24,6 +26,10 @@ module ProviderInterface
     end
 
   private
+
+    def filter_params
+      params.permit(:filter_visible,  filter_selections: {status: {}, provider: {}})
+    end
 
     def ordering_arguments(sort_by, sort_order)
       {

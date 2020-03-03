@@ -6,7 +6,10 @@
 
 <div class='moj-filter-layout'>
   <% if @filter_visible.eql?('true') %>
-    <%= render ProviderInterface::FilterComponent.new(path: :provider_interface_applications_path, available_filters: @available_filters , preselected_filters: {}, additional_params: {}) %>
+    <%= render ProviderInterface::FilterComponent.new(path: :provider_interface_applications_path,
+                                                      available_filters: @available_filters,
+                                                      preselected_filters: @filter_selections,
+                                                      additional_params: {}) %>
   <% end %>
 
   <div class='moj-filter-layout__content'>
