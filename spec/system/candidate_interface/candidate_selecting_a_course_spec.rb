@@ -229,16 +229,11 @@ RSpec.feature 'Selecting a course' do
   end
 
   def given_the_provider_has_over_twenty_courses
-    create_list(:course, 20, provider: @provider)
+    create_list(:course, 20, provider: @provider, exposed_in_find: true)
   end
 
   def when_i_click_the_continue_link
     click_link 'Continue'
-  end
-
-  def and_i_select_a_course
-    select 'Primary (2XT2)'
-    click_button 'Continue'
   end
 
   def then_the_select_box_has_no_value_selected

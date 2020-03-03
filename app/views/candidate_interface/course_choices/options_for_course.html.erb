@@ -11,7 +11,7 @@
         ) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <% if @provider.courses.exposed_in_find.count > 20 %>
+      <% if @pick_course.available_courses.count > 20 %>
 
         <%= f.govuk_collection_select(
               :course_id,
@@ -24,15 +24,17 @@
 
       <% else %>
 
-          <%= f.govuk_radio_buttons_fieldset :course_id, legend: { size: 'xl', text: t('page_titles.which_course') } do %>
+        <%= f.govuk_radio_buttons_fieldset :course_id, legend: { size: 'xl', text: t('page_titles.which_course') } do %>
 
-            <div class="govuk-!-margin-top-6">
+          <div class="govuk-!-margin-top-6">
 
-            <% @pick_course.available_courses.each_with_index do |course, i| %>
-              <%= f.govuk_radio_button :course_id, course.id, label: { text: "#{course.name} (#{course.code})" }, link_errors: i.zero? %>
-            <% end %>
-
+          <% @pick_course.available_courses.each_with_index do |course, i| %>
+            <%= f.govuk_radio_button :course_id, course.id, label: { text: "#{course.name} (#{course.code})" }, link_errors: i.zero? %>
           <% end %>
+
+          </div>
+
+        <% end %>
 
       <% end %>
 

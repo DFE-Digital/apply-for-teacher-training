@@ -53,7 +53,6 @@ module CandidateInterface
         provider_id: params.fetch(:provider_id),
         application_form: current_application,
       )
-      @provider = Provider.find(@pick_course.provider_id)
     end
 
     def pick_course
@@ -63,7 +62,6 @@ module CandidateInterface
         course_id: course_id,
         application_form: current_application,
       )
-      @provider = Provider.find(@pick_course.provider_id)
       render :options_for_course and return unless @pick_course.valid?
 
       if !@pick_course.open_on_apply?
