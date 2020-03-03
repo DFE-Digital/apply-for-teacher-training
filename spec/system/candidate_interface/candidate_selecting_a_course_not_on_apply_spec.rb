@@ -72,7 +72,7 @@ RSpec.feature 'Selecting a course not on Apply' do
   end
 
   def and_i_choose_another_course
-    select 'Secondary (X123)'
+    choose 'Secondary (X123)'
     click_button 'Continue'
   end
 end
