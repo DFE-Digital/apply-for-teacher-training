@@ -2,6 +2,16 @@
 
 <h1 class='govuk-heading-xl'>Applications</h1>
 
+<% if FeatureFlag.active?('provider_application_filters') %>
+
+    <% if @filter_visible.eql?('true') %>
+      <%= render ProviderInterface::FilterComponent.new(path: :provider_interface_applications_path, available_filters: @available_filters , preselected_filters: {}, additional_params: {}) %>
+    <% end %>
+
+    <%= render ProviderInterface::ToggleFilterComponent.new(sort_order: @sort_order, current_sort_by: @sort_by, filter_visible: @filter_visible) %>
+<% end %>
+
+
 <% if @application_choices.any? %>
   <table class='govuk-table'>
     <thead class='govuk-table__head'>
