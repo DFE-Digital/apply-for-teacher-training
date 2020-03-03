@@ -1,18 +1,5 @@
 desc 'Set up your local development environment with data from Find'
-task setup_local_dev_data: %i[environment copy_feature_flags_from_production] do
-  puts 'Syncing data from Find...'
-  ENV['DEV_PROVIDERS_TO_SYNC'].split(',').each do |code|
-    SyncProviderFromFind.call(provider_code: code, sync_courses: true)
-  end
-
-  puts 'Making all the courses open on Apply...'
-  Provider.all.each do |provider|
-    OpenProviderCourses.new(provider: provider).call
-  end
-
-  puts 'Generating some test applications...'
-  GenerateTestApplications.new.perform
-
+task setup_local_dev_data: %i[environment copy_feature_flags_from_production sync_dev_providers_and_open_courses generate_test_applications] do
   puts 'Creating a provider-only user with DfE Sign-in UID `dev-provider` and email `provider@example.com`...'
   ProviderUser.find_or_create_by!(dfe_sign_in_uid: 'dev-provider', email_address: 'provider@example.com') do |u|
     u.providers = [ApplicationChoice.first.provider]
@@ -23,6 +10,19 @@ task setup_local_dev_data: %i[environment copy_feature_flags_from_production] do
     u.providers = [ApplicationChoice.first.provider]
   end
   SupportUser.find_or_create_by!(dfe_sign_in_uid: 'dev-support', email_address: 'support@example.com')
+end
+
+desc 'Sync providers whitelisted in DEV_PROVIDERS_TO_SYNC and open all their courses'
+task sync_dev_providers_and_open_courses: :environment do
+  puts 'Syncing data from Find...'
+  ENV['DEV_PROVIDERS_TO_SYNC'].split(',').each do |code|
+    SyncProviderFromFind.call(provider_code: code, sync_courses: true)
+  end
+
+  puts 'Making all the courses open on Apply...'
+  Provider.all.each do |provider|
+    OpenProviderCourses.new(provider: provider).call
+  end
 end
 
 desc 'Copy feature flags from production to your local dev env'
