@@ -23,10 +23,28 @@
         <table class='govuk-table'>
           <thead class='govuk-table__head'>
             <tr class='govuk-table__row'>
-              <%= render ProviderInterface::SortableColumnHeadingComponent.new(sort_order: @sort_order, column_name: 'Name', current_sort_by: @sort_by, css_class: 'govuk-table__header govuk-!-width-one-quarter', filter_selections: @filter_selections) %>
-              <%= render ProviderInterface::SortableColumnHeadingComponent.new(sort_order: @sort_order, column_name: 'Course', current_sort_by: @sort_by, css_class: 'govuk-table__header govuk-!-width-one-quarter', filter_selections: @filter_selections) %>
+              <%= render ProviderInterface::SortableColumnHeadingComponent.new(sort_order: @sort_order,
+                                                                               column_name: 'Name',
+                                                                               current_sort_by: @sort_by,
+                                                                               css_class: 'govuk-table__header govuk-!-width-one-quarter',
+                                                                               filter_selections: @filter_selections,
+                                                                               filter_visible: @filter_visible) %>
+
+              <%= render ProviderInterface::SortableColumnHeadingComponent.new(sort_order: @sort_order,
+                                                                               column_name: 'Course',
+                                                                               current_sort_by: @sort_by,
+                                                                               css_class: 'govuk-table__header govuk-!-width-one-quarter',
+                                                                               filter_selections: @filter_selections,
+                                                                               filter_visible: @filter_visible) %>
+
               <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Status</th>
-              <%= render ProviderInterface::SortableColumnHeadingComponent.new(sort_order: @sort_order, column_name: 'Last updated', current_sort_by: @sort_by, css_class: 'govuk-table__header govuk-!-width-one-quarter govuk-table__header--numeric', filter_selections: @filter_selections) %>
+
+              <%= render ProviderInterface::SortableColumnHeadingComponent.new(sort_order: @sort_order,
+                                                                               column_name: 'Last updated',
+                                                                               current_sort_by: @sort_by,
+                                                                               css_class: 'govuk-table__header govuk-!-width-one-quarter govuk-table__header--numeric',
+                                                                               filter_selections: @filter_selections,
+                                                                               filter_visible: @filter_visible) %>
             </tr>
           </thead>
 
