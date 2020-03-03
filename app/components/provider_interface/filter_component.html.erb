@@ -32,7 +32,7 @@
             <% checkbox_config_values.each do |checkbox_config_key, checkbox_config_value| %>
                 <li>
                 <%= link_to retrieve_tag_text(preselected_filters_key,checkbox_config_value), filtering_page_path(
-                  additional_params.merge({ filter: build_tag_url_query_params(
+                  additional_params.merge({ filter_selections: build_tag_url_query_params(
                                                  heading: preselected_filters_key,
                                                  tag_value: checkbox_config_key,
                                                  preselected_filters: preselected_filters)})), class: "moj-filter__tag", id: "tag-#{checkbox_config_value}" %>
