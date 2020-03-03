@@ -17,7 +17,6 @@ class QualificationTitleComponent < ActionView::Component::Base
 private
 
   def type_for_missing_qualification
-    I18n.t('application_form.gcse.qualification_types_abbreviated.gcse')
     ApplicationQualification.human_attribute_name('qualification_type.gcse')
   end
 
