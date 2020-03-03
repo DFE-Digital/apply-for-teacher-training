@@ -51,6 +51,6 @@ RSpec.describe QualificationTitleComponent do
 
     result = render_inline(described_class.new(qualification: qualification))
 
-    expect(result.text).to include('A Level Maths')
+    expect(result.text).to include('Other UK qualification: A Level Maths')
   end
 end

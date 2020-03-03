@@ -21,7 +21,8 @@ private
   end
 
   def type_for_other_uk_qualification
-    @qualification.other_uk_qualification_type
+    I18n.t('application_form.gcse.qualification_types.other_uk')
+      .concat(': ', @qualification.other_uk_qualification_type)
   end
 
   def type_for_gcse
