@@ -72,7 +72,7 @@ private
   end
 
   def formatted_details(volunteering_role)
-    simple_format(volunteering_role.details)
+    simple_format(volunteering_role.details, class: 'govuk-body')
   end
 
   def formatted_start_date(volunteering_role)
