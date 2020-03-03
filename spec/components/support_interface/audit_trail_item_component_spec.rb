@@ -17,6 +17,10 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
     @support_user ||= SupportUser.new(email_address: 'alice@support.com', dfe_sign_in_uid: 'alice')
   end
 
+  def discarded_support_user
+    @discarded_support_user ||= SupportUser.new(email_address: 'discarded@support.com', dfe_sign_in_uid: 'alice', discarded_at: Time.current)
+  end
+
   def audit
     @audit ||= Audited::Audit.new(
       user: candidate,
@@ -63,6 +67,14 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
     expect(render_result.text).to include('1 October 2019 12:10')
     expect(render_result.text).to include('Update Application Form')
     expect(render_result.text).to include('alice@support.com (Support user)')
+  end
+
+  it 'renders an update on application form audit record with a discarded Support User' do
+    audit.user = discarded_support_user
+    audit.action = 'update'
+    expect(render_result.text).to include('1 October 2019 12:10')
+    expect(render_result.text).to include('Update Application Form')
+    expect(render_result.text).to include('discarded@support.com (Support user)')
   end
 
   it 'renders an update application form audit record with the username (rather than a persistent model)' do
