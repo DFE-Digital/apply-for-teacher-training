@@ -2,13 +2,14 @@ module ProviderInterface
   class SortableColumnHeadingComponent < ActionView::Component::Base
     include ViewHelper
 
-    attr_reader :column_name, :current_sort_by, :css_class
+    attr_reader :column_name, :current_sort_by, :css_class, :filter_selections
 
-    def initialize(sort_order:, column_name:, current_sort_by:, css_class:)
+    def initialize(sort_order:, column_name:, current_sort_by:, css_class:, filter_selections:)
       @sort_order = sort_order
       @column_name = column_name
       @current_sort_by = current_sort_by
       @css_class = css_class
+      @filter_selections = filter_selections
     end
 
     def default_sort_order
