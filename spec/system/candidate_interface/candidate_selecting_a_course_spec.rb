@@ -150,7 +150,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_i_see_a_message_that_ive_already_chosen_the_course
-    expect(page).to have_css('.govuk-error-summary', text: 'You have already selected this course')
+    expect(page).to have_css('.govuk-error-summary', text: 'You have already added Primary (2XT2)')
   end
 
   def and_the_select_box_has_no_value_selected

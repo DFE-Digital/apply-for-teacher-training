@@ -42,7 +42,7 @@ module CandidateInterface
       return if course_id.blank?
 
       if application_form.application_choices.any? { |application_choice| application_choice.course == course }
-        errors[:base] << 'You have already selected this course'
+        errors[:base] << "You have already added #{course.name_and_code}"
       end
     end
   end
