@@ -34,7 +34,7 @@ RSpec.describe SupportInterface::RefereeSurveyExport do
       reference2 = create(:reference, questionnaire: questionnaire2)
       create(:reference, questionnaire: questionnaire3)
 
-      expect(described_class.new.call).to eq [return_expected_hash(reference1), return_expected_hash(reference2)]
+      expect(described_class.new.call).to match_array([return_expected_hash(reference1), return_expected_hash(reference2)])
     end
   end
 
