@@ -101,11 +101,18 @@ module CandidateInterface
       )
       render :options_for_study_mode and return unless @pick_study_mode.valid?
 
-      redirect_to candidate_interface_course_choices_site_path(
-        @pick_study_mode.provider_id,
-        @pick_study_mode.course_id,
-        @pick_study_mode.study_mode,
-      )
+      if @pick_study_mode.single_site_course?
+        pick_site_for_course(
+          @pick_study_mode.course_id,
+          @pick_study_mode.first_site_id,
+        )
+      else
+        redirect_to candidate_interface_course_choices_site_path(
+          @pick_study_mode.provider_id,
+          @pick_study_mode.course_id,
+          @pick_study_mode.study_mode,
+        )
+      end
     end
 
     def options_for_site
