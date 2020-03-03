@@ -1,0 +1,6 @@
+<div class="govuk-checkboxes__item">
+  <input class="govuk-checkboxes__input" id=<%= "#{heading}-#{name}" %> name=<%= "filter_selections[#{heading}][#{name}]" %> value=<%= "#{value}" %> type="checkbox", <%= "checked" if selected %> >
+  <label class="govuk-label govuk-checkboxes__label" for=<%= "#{heading}-#{name}" %>>
+    <%= text %>
+  </label>
+</div>
