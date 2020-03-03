@@ -9,13 +9,6 @@ RSpec.describe SubmitApplication do
       application_form
     end
 
-    it 'updates the application to Submitted' do
-      application_form = create_application_form
-      SubmitApplication.new(application_form).call
-      expect(application_form.application_choices[0]).to be_awaiting_references
-      expect(application_form.application_choices[1]).to be_awaiting_references
-    end
-
     it 'sets application_form.submitted_at' do
       application_form = create_application_form
       Timecop.freeze(Time.zone.local(2019, 11, 11, 15, 0, 0)) do
@@ -36,18 +29,6 @@ RSpec.describe SubmitApplication do
     end
 
     context 'when running in a provider sandbox', sandbox: true do
-      it 'sets the edit_by timestamp to now' do
-        application_form = create_application_form
-        now = Time.zone.local(2019, 11, 11, 15, 0, 0)
-        Timecop.freeze(now) do
-          SubmitApplication.new(application_form).call
-
-          expect(application_form.submitted_at).to eq now
-          expect(application_form.application_choices[0].edit_by).to eq now
-          expect(application_form.application_choices[1].edit_by).to eq now
-        end
-      end
-
       it 'autocompletes references and pushes status to `awaiting_provider_decision`' do
         application_form = create_application_form
         application_form.application_references << build(:reference, email_address: 'refbot1@example.com')

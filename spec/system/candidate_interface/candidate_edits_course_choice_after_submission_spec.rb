@@ -33,6 +33,10 @@ RSpec.feature 'A candidate edits their course choice after submission' do
     given_there_are_course_options
     when_i_add_a_new_course_choice
     then_i_see_the_new_course_choice
+
+    when_i_mark_this_section_as_completed
+    and_i_click_continue
+    then_i_should_see_the_form
   end
 
   def given_the_edit_application_feature_flag_is_on
@@ -154,5 +158,17 @@ RSpec.feature 'A candidate edits their course choice after submission' do
     )
     single_site_course = create(:course, name: 'Dance', code: 'W5X1', provider: another_provider, exposed_in_find: true, open_on_apply: true)
     create(:course_option, site: third_site, course: single_site_course, vacancy_status: 'B')
+  end
+
+  def when_i_mark_this_section_as_completed
+    check t('application_form.courses.complete.completed_checkbox')
+  end
+
+  def and_i_click_continue
+    click_button 'Continue'
+  end
+
+  def then_i_should_see_the_form
+    expect(page).to have_content('Edit your application')
   end
 end

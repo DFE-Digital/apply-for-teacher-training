@@ -153,9 +153,13 @@ module CandidateInterface
     def complete
       @application_form = current_application
 
-      if @application_form.application_choices.count.zero?
-        render :index
-      elsif @application_form.update(application_form_params)
+      render :index if @application_form.application_choices.count.zero?
+
+      if @application_form.submitted?
+        @application_form.application_choices.filter(&:unsubmitted?).each { |choice| SubmitApplicationChoice.new(choice).call }
+      end
+
+      if @application_form.update(application_form_params)
         redirect_to candidate_interface_application_form_path
       else
         @course_choices = current_candidate.current_application.application_choices

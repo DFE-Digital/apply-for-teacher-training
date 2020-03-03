@@ -49,21 +49,7 @@ private
 
   def submit_application
     application_choices.each do |application_choice|
-      submit_application_choice(application_choice)
+      SubmitApplicationChoice.new(application_choice).call
     end
-  end
-
-  def submit_application_choice(application_choice)
-    edit_by_time = time_limit_calculator.call[:time_in_future]
-    application_choice.edit_by = edit_by_time
-    ApplicationStateChange.new(application_choice).submit!
-  end
-
-  def time_limit_calculator
-    klass = HostingEnvironment.sandbox_mode? ? SandboxTimeLimitCalculator : TimeLimitCalculator
-    klass.new(
-      rule: :edit_by,
-      effective_date: application_form.submitted_at,
-    )
   end
 end
