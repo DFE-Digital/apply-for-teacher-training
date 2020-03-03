@@ -1,81 +1,82 @@
-<div class="moj-filter-layout__filter">
-  <div class="moj-filter" tabindex="-1">
-    <div class="moj-filter__header">
-      <div class="moj-filter__header-title">
-        <h2 class="govuk-heading-m">Filter</h2>
-        </div>
-         <div class="moj-filter__header-action">
-        </div>
-    </div>
-
-    <div class="moj-filter__content">
-    <% if preselected_filters.any? %>
-      <div class="moj-filter__selected">
-
-        <div class="moj-filter__selected-heading">
-
-          <div class="moj-filter__heading-title">
-            <h2 class="govuk-heading-m">Selected filters</h2>
+<div class='moj-filter-layout'>
+  <div class="moj-filter-layout__filter">
+    <div class="moj-filter" tabindex="-1">
+      <div class="moj-filter__header">
+        <div class="moj-filter__header-title">
+          <h2 class="govuk-heading-m">Filter</h2>
           </div>
-
-          <div class="moj-filter__heading-action">
-          <p class="govuk-body">
-             <%= link_to "Clear", filtering_page_path(additional_params), class: "govuk-link govuk-link--no-visited-state" %>
-          </p>
+           <div class="moj-filter__header-action">
           </div>
-
-        </div>
-
-        <% preselected_filters.each do |preselected_filters_key, checkbox_config_values| %>
-          <h3 class="govuk-heading-s govuk-!-margin-bottom-0"><%= preselected_filters_key.capitalize %></h3>
-          <ul class="moj-filter-tags">
-          <% checkbox_config_values.each do |checkbox_config_key, checkbox_config_value| %>
-              <li>
-              <%= link_to retrieve_tag_text(preselected_filters_key,checkbox_config_value), filtering_page_path(
-                additional_params.merge({ filter: build_tag_url_query_params(
-                                               heading: preselected_filters_key,
-                                               tag_value: checkbox_config_key,
-                                               preselected_filters: preselected_filters)})), class: "moj-filter__tag", id: "tag-#{checkbox_config_value}" %>
-              </li>
-            <% end %>
-          </ul>
-        <% end %>
-
       </div>
-   <% end %>
 
+      <div class="moj-filter__content">
+      <% if preselected_filters.any? %>
+        <div class="moj-filter__selected">
 
-      <div class="moj-filter__options">
-        <form method="get" action=<%= filtering_page_path %>>
-          <%= submit_tag "Apply filters", class: "govuk-button" %>
-          <% additional_params.each do |key, value| %>
-            <input class="govuk-checkboxes__input" id=<%= key %> name=<%= key %> type="hidden" value=<%= value %> %>
+          <div class="moj-filter__selected-heading">
+
+            <div class="moj-filter__heading-title">
+              <h2 class="govuk-heading-m">Selected filters</h2>
+            </div>
+
+            <div class="moj-filter__heading-action">
+            <p class="govuk-body">
+               <%= link_to "Clear", filtering_page_path(additional_params), class: "govuk-link govuk-link--no-visited-state" %>
+            </p>
+            </div>
+
+          </div>
+
+          <% preselected_filters.each do |preselected_filters_key, checkbox_config_values| %>
+            <h3 class="govuk-heading-s govuk-!-margin-bottom-0"><%= preselected_filters_key.capitalize %></h3>
+            <ul class="moj-filter-tags">
+            <% checkbox_config_values.each do |checkbox_config_key, checkbox_config_value| %>
+                <li>
+                <%= link_to retrieve_tag_text(preselected_filters_key,checkbox_config_value), filtering_page_path(
+                  additional_params.merge({ filter: build_tag_url_query_params(
+                                                 heading: preselected_filters_key,
+                                                 tag_value: checkbox_config_key,
+                                                 preselected_filters: preselected_filters)})), class: "moj-filter__tag", id: "tag-#{checkbox_config_value}" %>
+                </li>
+              <% end %>
+            </ul>
           <% end %>
 
+        </div>
+     <% end %>
 
-          <% available_filters.each do |filter_group| %>
-            <div class="govuk-form-group">
-              <fieldset class="govuk-fieldset">
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                  <%= filter_group[:heading].capitalize %>
-                </legend>
 
-                <% filter_group[:checkbox_config].each do |checkbox_config| %>
-                  <div class="govuk-checkboxes govuk-checkboxes--small">
-                    <%= render ProviderInterface::FilterCheckboxComponent.new(name: checkbox_config[:name],
-                                                                              text: checkbox_config[:text],
-                                                                              value: checkbox_config[:value],
-                                                                              selected: checkbox_checked?(key_one: filter_group[:heading], key_two: checkbox_config[:name]),
-                                                                              heading: filter_group[:heading].parameterize)
-                     %>
-                  </div>
-                <% end %>
-              </fieldset>
-            </div>
+        <div class="moj-filter__options">
+          <form method="get" action=<%= filtering_page_path %>>
+            <%= submit_tag "Apply filters", class: "govuk-button" %>
+            <% additional_params.each do |key, value| %>
+              <input class="govuk-checkboxes__input" id=<%= key %> name=<%= key %> type="hidden" value=<%= value %> %>
             <% end %>
-        </form>
+
+
+            <% available_filters.each do |filter_group| %>
+              <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                  <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                    <%= filter_group[:heading].capitalize %>
+                  </legend>
+
+                  <% filter_group[:checkbox_config].each do |checkbox_config| %>
+                    <div class="govuk-checkboxes govuk-checkboxes--small">
+                      <%= render ProviderInterface::FilterCheckboxComponent.new(name: checkbox_config[:name],
+                                                                                text: checkbox_config[:text],
+                                                                                value: checkbox_config[:value],
+                                                                                selected: checkbox_checked?(key_one: filter_group[:heading], key_two: checkbox_config[:name]),
+                                                                                heading: filter_group[:heading].parameterize)
+                       %>
+                    </div>
+                  <% end %>
+                </fieldset>
+              </div>
+              <% end %>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
