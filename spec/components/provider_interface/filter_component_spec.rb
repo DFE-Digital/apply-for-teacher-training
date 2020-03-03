@@ -192,8 +192,8 @@ RSpec.describe ProviderInterface::FilterComponent do
                                         preselected_filters: preselected_filters_partial,
                                         additional_params: additional_params)
 
-    expect(filter_component.filter_full_text('status', 'offer_withdrawn')).to eq('Withdrawn by us')
-    expect(filter_component.filter_full_text('provider', '2')).to eq('The Beach Teaching School')
+    expect(filter_component.retrieve_tag_text('status', 'offer_withdrawn')).to eq('Withdrawn by us')
+    expect(filter_component.retrieve_tag_text('provider', '2')).to eq('The Beach Teaching School')
   end
 
   it 'can create hash for a tag url that doesn\'t include that tag\'s params' do
@@ -202,7 +202,7 @@ RSpec.describe ProviderInterface::FilterComponent do
                                         preselected_filters: preselected_filters_partial,
                                         additional_params: additional_params)
 
-    hash = filter_component.params_for_tag_url(heading: 'status',
+    hash = filter_component.build_tag_url_query_params(heading: 'status',
                                                tag_value: 'withdrawn',
                                                preselected_filters: preselected_filters_partial)
 

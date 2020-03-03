@@ -15,13 +15,13 @@ module ProviderInterface
       preselected_filters.dig(key_one, key_two) ? true : false
     end
 
-    def params_for_tag_url(heading:, tag_value:, preselected_filters:)
+    def build_tag_url_query_params(heading:, tag_value:, preselected_filters:)
       tag_preselected_filters = preselected_filters.clone
       tag_preselected_filters[heading] = preselected_filters[heading].except(tag_value)
       tag_preselected_filters
     end
 
-    def filter_full_text(heading, lookup_val)
+    def retrieve_tag_text(heading, lookup_val)
       available_filters.each do |available_filter|
         if available_filter.key(heading)
           available_filter[:checkbox_config].each do |checkbox_config|
