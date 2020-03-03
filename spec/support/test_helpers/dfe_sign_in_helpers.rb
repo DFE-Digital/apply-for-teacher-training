@@ -35,6 +35,13 @@ module DfESignInHelpers
     create(:provider_user, providers: [provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
   end
 
+  def provider_user_exists_in_apply_database_with_multiple_providers
+    provider_one = create(:provider, code: 'ABC', name: 'Example Provider')
+    provider_two = create(:provider, code: 'DEF', name: 'Example Provider')
+    provider_three = create(:provider, code: 'GHI', name: 'Example Provider')
+    create(:provider_user, providers: [provider_one, provider_two, provider_three], dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+  end
+
   def fake_dfe_sign_in_auth_hash(email_address:, dfe_sign_in_uid:, first_name:, last_name:)
     {
       'provider' => 'dfe',

@@ -10,7 +10,7 @@ module ProviderInterface
       application_choices = application_choices.page(params[:page] || 1)
 
       if FeatureFlag.active?('provider_application_filters')
-         @available_filters = available_filters
+         @available_filters = available_filters(application_choices: application_choices)
          @filter_visible =  filter_params[:filter_visible] ||= 'true'
          @filter_selections = filter_params[:filter_selections].to_h ||= {}
          @application_choices = FilterApplicationChoicesForProviders.call(application_choices: application_choices,
@@ -39,7 +39,7 @@ module ProviderInterface
       }[sort_by]
     end
 
-    def available_filters
+    def available_filters(application_choices:)
       [
         {
           heading: 'status',
@@ -85,24 +85,23 @@ module ProviderInterface
               value: 'offer_withdrawn',
             },
           ],
- },
-        {
-          heading: 'provider',
-          checkbox_config: [
-            {
-              name: 'somerset-scitt-consortium',
-              text: 'Somerset SCITT consortium',
-              value: '1',
-            },
-            {
-              name: 'the-beach-teaching-school',
-              text: 'The Beach Teaching School',
-              value: '2',
-            },
-
-          ],
- },
-      ]
+ }
+      ] << provider_filters(application_choices: application_choices)
     end
+
+    def provider_filters(application_choices:)
+      {
+        heading: 'provider',
+        checkbox_config: application_choices.map do |choice|
+          provider = choice.provider
+          {
+            name: provider.name.parameterize,
+            text: provider.name,
+            value: provider.id,
+          }
+        end.uniq!
+      }
+    end
+
   end
 end
