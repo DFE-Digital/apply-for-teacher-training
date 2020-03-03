@@ -7,11 +7,11 @@
       method: :delete do |f| %>
       <h1 class="govuk-heading-xl">
         <span class="govuk-caption-xl">Support user</span>
-        <%= t('support_interface.support_user.confirm_delete',
+        <%= t('support_interface.support_user.confirm_remove',
               email: @support_user.email_address) %>
       </h1>
 
-      <%= f.submit t('support_interface.support_user.delete'), class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
+      <%= f.submit t('support_interface.support_user.remove'), class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
 
       <p class="govuk-body">
         <%= govuk_link_to 'Cancel', support_interface_support_users_path %>

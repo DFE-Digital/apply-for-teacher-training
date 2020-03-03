@@ -26,6 +26,7 @@ gem 'omniauth-rails_csrf_protection'
 
 gem 'workflow'
 gem 'audited'
+gem 'discard'
 
 gem 'json-schema'
 gem 'json_api_client'

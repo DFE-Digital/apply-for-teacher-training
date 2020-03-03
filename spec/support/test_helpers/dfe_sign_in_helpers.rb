@@ -77,4 +77,12 @@ module DfESignInHelpers
       email_address:  email_address,
     )
   end
+
+  def user_is_a_removed_support_user(email_address:, dfe_sign_in_uid:, discarded_at: Date.new(2020, 1, 1))
+    SupportUser.find_or_create_by!(
+      dfe_sign_in_uid: dfe_sign_in_uid,
+      email_address:  email_address,
+      discarded_at: discarded_at,
+    )
+  end
 end
