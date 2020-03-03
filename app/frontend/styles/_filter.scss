@@ -11,7 +11,7 @@
 .moj-filter__header {
   background: govuk-colour('white');
   box-shadow: none;
-  border: 1px solid #b1b4b6;
+  border: 1px solid $govuk-border-colour;
   border-bottom: 0;
   padding-top: govuk-spacing(3);
   padding-bottom: govuk-spacing(3);
@@ -19,7 +19,7 @@
 
 .moj-filter__selected {
   box-shadow: none;
-  border: 1px solid #b1b4b6;
+  border: 1px solid $govuk-border-colour;
   border-top: 0;
   border-bottom: 0;
   padding-top: govuk-spacing(5);
