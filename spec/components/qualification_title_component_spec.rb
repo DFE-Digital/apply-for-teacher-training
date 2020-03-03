@@ -39,4 +39,18 @@ RSpec.describe QualificationTitleComponent do
 
     expect(result.text).to include('Other UK Maths')
   end
+
+  it 'renders the correct title for an other_uk GCSE equivalent with a specified type' do
+    qualification = build_stubbed(
+      :application_qualification,
+      level: :gcse,
+      qualification_type: 'other_uk',
+      subject: 'maths',
+      other_uk_qualification_type: 'A Level',
+    )
+
+    result = render_inline(described_class.new(qualification: qualification))
+
+    expect(result.text).to include('A Level Maths')
+  end
 end
