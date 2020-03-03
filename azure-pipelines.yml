@@ -206,8 +206,8 @@ stages:
         imageName: "$(docker_path):$(Build.BuildNumber)"
 
     - task: Docker@1
-      displayName: Push tagged image (latest) if master
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      displayName: Push tagged image (latest) if master or hotfix
+      condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/hotfix')))
       inputs:
         command: Push an image
         imageName: "$(docker_path):latest"

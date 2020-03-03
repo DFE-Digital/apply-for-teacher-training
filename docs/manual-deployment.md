@@ -10,6 +10,10 @@ In the event that code changes are made to the app but the Azure pipelines fail 
 
 This process assumes that the build and test stage has completed without error and a Docker image has been uploaded to Dockerhub successfully. This process also assumes that no changes are expected to be made to the configuration of the underlying Azure infrastructure hosting the application.
 
+Note that these instructions are for normal deployment. For a hotfix
+deployment, please refer to [Hotfix deployment
+instructions](hotfix-deployment.md).
+
 ## Instructions
 
 **NOTE: Before following the steps below you will need to request an elevation of your rights to the 'contributor' role through PIM in the Azure Portal if working on an app hosted in the test or production subscriptions. Guidance on PIM can be found in the [PIM Guide](pim-guide.md) document. PIM is not required in the development subscription.**

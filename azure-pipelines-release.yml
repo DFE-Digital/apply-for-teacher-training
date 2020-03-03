@@ -42,7 +42,7 @@ stages:
 - stage: deploy_staging
   displayName: 'Deploy - Staging'
   dependsOn: publish_arm_template
-  condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables.deploy_staging, true))
+  condition: and(or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/hotfix')), eq(variables.deploy_staging, true))
   variables:
   - group: APPLY - ENV - Staging
   jobs:
@@ -99,7 +99,7 @@ stages:
 - stage: deploy_sandbox
   displayName: 'Deploy - Sandbox'
   dependsOn: publish_arm_template
-  condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables.deploy_sandbox, true))
+  condition: and(or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/hotfix')), eq(variables.deploy_sandbox, true))
   variables:
   - group: APPLY - ENV - Sandbox
   jobs:
@@ -155,7 +155,7 @@ stages:
 - stage: deploy_production
   displayName: 'Deploy - Production'
   dependsOn: publish_arm_template
-  condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables.deploy_production, true))
+  condition: and(or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/hotfix')), eq(variables.deploy_production, true))
   variables:
   - group: APPLY - ENV - Production
   jobs:
