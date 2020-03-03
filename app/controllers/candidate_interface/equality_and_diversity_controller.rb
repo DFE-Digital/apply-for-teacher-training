@@ -32,7 +32,11 @@ module CandidateInterface
 
       if @disability_status.save(current_application)
         if disability_status_param == 'no'
-          redirect_to candidate_interface_edit_equality_and_diversity_ethnic_group_path
+          if current_application.equality_and_diversity['ethnic_group'].nil?
+            redirect_to candidate_interface_edit_equality_and_diversity_ethnic_group_path
+          else
+            redirect_to candidate_interface_review_equality_and_diversity_path
+          end
         else
           redirect_to candidate_interface_edit_equality_and_diversity_disabilities_path
         end
