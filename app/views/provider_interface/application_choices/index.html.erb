@@ -13,7 +13,7 @@
   <% end %>
 
   <div class='moj-filter-layout__content'>
-    <%= render ProviderInterface::ToggleFilterComponent.new(sort_order: @sort_order, current_sort_by: @sort_by, filter_visible: @filter_visible) %>
+    <%= render ProviderInterface::ToggleFilterComponent.new(sort_order: @sort_order, current_sort_by: @sort_by, filter_visible: @filter_visible, filter_selections: @filter_selections) %>
     <div class='moj-scrollable-pane'>
       <div class='moj-scrollable-pane__wrapper'>
 
