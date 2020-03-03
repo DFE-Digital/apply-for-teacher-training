@@ -14,7 +14,7 @@ RSpec.feature 'Provider makes an offer' do
     and_i_choose_to_make_an_offer
     then_i_see_some_application_info
 
-    when_i_select_standard_reasons
+    and_i_see_standard_reasons_are_checked
     and_i_add_optional_further_conditions
     and_i_click_to_continue
     then_i_am_asked_to_confirm_the_offer
@@ -58,8 +58,9 @@ RSpec.feature 'Provider makes an offer' do
       @application_awaiting_provider_decision.application_form.last_name
   end
 
-  def when_i_select_standard_reasons
-    page.check 'Fitness to Teach check', allow_label_click: true
+  def and_i_see_standard_reasons_are_checked
+    expect(find("input[value='Fitness to Teach check']")).to be_checked
+    expect(find("input[value='Disclosure and Barring Service (DBS) check']")).to be_checked
   end
 
   def and_i_add_optional_further_conditions

@@ -7,6 +7,7 @@ class MakeAnOffer
 
   MAX_CONDITIONS_COUNT = 20
   MAX_CONDITION_LENGTH = 255
+  STANDARD_CONDITIONS = ['Fitness to Teach check', 'Disclosure and Barring Service (DBS) check'].freeze
 
   validate :validate_course_data
   validate :validate_conditions_max_length
@@ -16,7 +17,7 @@ class MakeAnOffer
     actor:,
     application_choice:,
     offer_conditions: nil,
-    standard_conditions: nil,
+    standard_conditions: STANDARD_CONDITIONS,
     further_conditions: {},
     course_data: nil
   )
