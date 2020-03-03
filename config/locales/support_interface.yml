@@ -1,5 +1,5 @@
 en:
   support_interface:
     support_user:
-      confirm_delete: Are you sure you want to delete support user %{email}?
-      delete: Delete support user
+      confirm_remove: Are you sure you want to remove support user %{email}?
+      remove: Remove support user

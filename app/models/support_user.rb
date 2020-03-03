@@ -1,4 +1,6 @@
 class SupportUser < ActiveRecord::Base
+  include Discard::Model
+
   validates :dfe_sign_in_uid, presence: true
   validates :email_address, presence: true
 
