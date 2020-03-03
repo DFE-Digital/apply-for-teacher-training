@@ -14,7 +14,7 @@ module ProviderInterface
          @filter_visible =  filter_params[:filter_visible] ||= 'true'
          @filter_selections = filter_params[:filter_selections].to_h ||= {}
          @application_choices = FilterApplicationChoicesForProviders.call(application_choices: application_choices,
-                                                                          status_filters: @filter_selections)
+                                                                          filters: @filter_selections)
       else
         @application_choices = application_choices
       end
