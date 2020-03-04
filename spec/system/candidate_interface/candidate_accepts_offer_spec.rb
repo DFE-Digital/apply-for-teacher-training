@@ -4,8 +4,6 @@ RSpec.feature 'Candidate accepts an offer', sidekiq: true do
   include CourseOptionHelpers
 
   scenario 'Candidate views an offer and accepts' do
-    FeatureFlag.activate('offer_accepted_provider_emails')
-
     given_i_am_signed_in
     and_i_have_2_offers_on_my_choices
     and_1_choice_that_is_awaiting_provider_decision

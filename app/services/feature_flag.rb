@@ -12,7 +12,6 @@ class FeatureFlag
     experimental_api_features
     force_ok_computer_to_fail
     improved_expired_token_flow
-    offer_accepted_provider_emails
     offer_declined_provider_emails
     pilot_open
     provider_application_filters
