@@ -26,7 +26,7 @@ module ProviderInterface
     private
 
     def filter_params
-      params.permit(:filter_visible,  filter_selections: {status: {}, provider: {}})
+      params.permit(:filter_visible, filter_selections: { status: {}, provider: {} })
     end
 
     def ordering_arguments(sort_by, sort_order)
@@ -83,12 +83,16 @@ module ProviderInterface
               value: 'offer_withdrawn',
             },
           ],
+<<<<<<< HEAD
         }
+=======
+ },
+>>>>>>> Rubocop fixes
       ] << provider_filters_builder(application_choices: application_choices)
     end
 
     def provider_filters_builder(application_choices:)
-      {
+      provider_filters = {
         heading: 'provider',
         checkbox_config: application_choices.map do |choice|
           provider = choice.provider
@@ -97,9 +101,10 @@ module ProviderInterface
             text: provider.name,
             value: provider.id.to_s,
           }
-        end.uniq!
+        end,
       }
-    end
 
+      provider_filters.uniq!
+    end
   end
 end
