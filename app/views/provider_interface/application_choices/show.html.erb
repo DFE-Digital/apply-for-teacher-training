@@ -65,7 +65,11 @@
     <h2 class="govuk-heading-m govuk-!-margin-top-8" id="work-history">Work history</h2>
 
     <div data-qa="work-history">
-      <%= render WorkHistoryReviewComponent.new(application_form: @application_choice.application_form, editable: false, heading_level: 3) %>
+      <% if FeatureFlag.active?('work_breaks') %>
+        <%= render ProviderInterface::WorkHistoryComponent.new(application_form: @application_choice.application_form) %>
+      <% else %>
+        <%= render WorkHistoryReviewComponent.new(application_form: @application_choice.application_form, editable: false, heading_level: 3) %>
+      <% end %>
     </div>
 
     <h2 class="govuk-heading-m govuk-!-margin-top-8" id="volunteering">Unpaid experience and volunteering</h2>
