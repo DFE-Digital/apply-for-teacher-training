@@ -14,6 +14,10 @@ A service for candidates to apply for teacher training. We're currently in beta.
 When setting up a new environment, check you have followed [the instructions
 for doing so](/docs/new-environment.md).
 
+The QA database can be reset to a starting state with a useful set of dummy
+data by running `rake reset_qa` from a [shell on one of its container
+instances](docs/connecting-to-databases.md#do-you-need-access-to-the-postgres-database).
+
 ## Table of Contents
 
 - [Documentation](#documentation)
