@@ -1,0 +1,22 @@
+<h1 class="govuk-heading-xl">Change training provider</h2>
+<%= render ProviderInterface::OfferSummaryListComponent.new(application_choice: @application_choice, header: 'Your existing offer') %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <%= form_with model: @change_offer_form,
+          url: provider_interface_application_choice_change_offer_edit_course_path(@application_choice.id),
+          method: :get do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_radio_buttons_fieldset :provider_id, legend: { size: 'm', text: 'Select alternative provider', tag: 'span' } do %>
+        <% @alternative_providers.each do |provider| %>
+          <%= f.govuk_radio_button :provider_id, provider.id, label: { text: provider.name_and_code } %>
+        <% end %>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+
+    <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
+  </div>
+</div>
