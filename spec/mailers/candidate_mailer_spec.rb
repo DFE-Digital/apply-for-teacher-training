@@ -3,657 +3,157 @@ require 'rails_helper'
 RSpec.describe CandidateMailer, type: :mailer do
   include CourseOptionHelpers
   include ViewHelper
+  include TestHelpers::MailerSetupHelper
 
   subject(:mailer) { described_class }
 
-  describe '.application_submitted' do
-    let(:candidate) { build_stubbed(:candidate) }
-    let(:application_form) { build_stubbed(:application_form, support_reference: 'SUPPORT-REFERENCE', candidate: candidate) }
-    let(:mail) { mailer.application_submitted(application_form) }
-
-    before do
-      allow(Encryptor).to receive(:encrypt).with(candidate.id).and_return('example_encrypted_id')
-      mail.deliver_later
-    end
+  shared_examples 'a mail with subject and content' do |mail, subject, content|
+    let(:email) { described_class.send(mail, @application_form) }
 
     it 'sends an email with the correct subject' do
-      expect(mail.subject).to include(I18n.t!('candidate_mailer.application_submitted.subject'))
+      expect(email.subject).to include(subject)
     end
 
-    it 'sends an email with the correct heading' do
-      expect(mail.body.encoded).to include('Application submitted')
+    content.each do |key, expectation|
+      it "sends an email containing the #{key} in the body" do
+        expect(email.body).to include(expectation)
+      end
+    end
+  end
+
+  before do
+    setup_application
+  end
+
+  describe '.application_submitted' do
+    let(:mail) { mailer.application_submitted(@application_form) }
+
+    before do
+      allow(Encryptor).to receive(:encrypt).with(@candidate.id).and_return('example_encrypted_id')
     end
 
-    it 'sends an email containing the support reference' do
-      expect(mail.body.encoded).to include('SUPPORT-REFERENCE')
-    end
-
-    it 'sends an email containing RBD time limit' do
-      rbd_time_limit = "to make an offer within #{TimeLimitConfig.limits_for(:reject_by_default).first.limit} working days"
-      expect(mail.body.encoded).to include(rbd_time_limit)
-    end
+    it_behaves_like('a mail with subject and content', :application_submitted,
+                    I18n.t!('candidate_mailer.application_submitted.subject'),
+                    'heading' => 'Application submitted',
+                    'support reference' => 'SUPPORT-REFERENCE',
+                    'RBD time limit' => "to make an offer within #{TimeLimitConfig.limits_for(:reject_by_default).first.limit} working days")
 
     context 'when the edit_application feature flag is on' do
       before { FeatureFlag.activate('edit_application') }
 
-      it 'sends an email containing the remaining time to edit' do
-        edit_by_time_limit = "You have #{TimeLimitConfig.limits_for(:edit_by).first.limit} working days to edit"
-        expect(mail.body.encoded).to include(edit_by_time_limit)
-      end
+      it_behaves_like('a mail with subject and content', :application_submitted,
+                      I18n.t!('candidate_mailer.application_submitted.subject'),
+                      'edit by time limit' => "You have #{TimeLimitConfig.limits_for(:edit_by).first.limit} working days to edit")
     end
 
     context 'when the improved_expired_token_flow feature flag is on' do
       before { FeatureFlag.activate('improved_expired_token_flow') }
 
-      it 'sends an email containing a link to sign in and id' do
-        expect(mail.body.encoded).to include(candidate_interface_sign_in_url(u: 'example_encrypted_id'))
-      end
+      it_behaves_like('a mail with subject and content', :application_submitted,
+                      I18n.t!('candidate_mailer.application_submitted.subject'),
+                      'link to sign in and id' => 'http://localhost:3000/candidate/sign-in?u=example_encrypted_id')
     end
 
     context 'when the improved_expired_token_flow feature flag is off' do
       before { FeatureFlag.deactivate('improved_expired_token_flow') }
 
-      it 'sends an email containing a link to sign in without id' do
-        expect(mail.body.encoded).to include(candidate_interface_sign_in_url)
-        expect(mail.body.encoded).not_to include(candidate_interface_sign_in_url(u: 'example_encrypted_id'))
-      end
-    end
-  end
-
-  describe '.chase_reference' do
-    let(:application_form) { create(:completed_application_form, references_count: 1, with_gces: true) }
-    let(:reference) { application_form.application_references.first }
-    let(:mail) { mailer.chase_reference(reference) }
-
-    before { mail.deliver_later }
-
-    it 'sends an email with the correct subject' do
-      expect(mail.subject).to include(I18n.t!('candidate_mailer.chase_reference.subject', referee_name: reference.name))
-    end
-
-    it 'sends an email with the correct heading' do
-      expect(mail.body.encoded).to include("Dear #{application_form.first_name}")
-    end
-
-    it 'sends an email containing the referee email' do
-      expect(mail.body.encoded).to include(reference.email_address)
+      it_behaves_like('a mail with subject and content', :application_submitted,
+                      I18n.t!('candidate_mailer.application_submitted.subject'),
+                      'link to sign in and id' => 'http://localhost:3000/candidate/sign-in')
     end
   end
 
   describe 'Send survey email' do
-    let(:application_form) { build_stubbed(:application_form) }
-
     context 'when initial email' do
-      let(:mail) { mailer.survey_email(application_form) }
-
-      before { mail.deliver_later }
-
-      it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(t('survey_emails.subject.initial'))
-      end
-
-      it 'sends an email with the correct heading' do
-        expect(mail.body.encoded).to include("Dear #{application_form.first_name}")
-      end
-
-      it 'sends an email with the correct thank you message' do
-        expect(mail.body.encoded).to include(t('survey_emails.thank_you.candidate'))
-      end
-
-      it 'sends an email with the link to the survey' do
-        expect(mail.body.encoded).to include(t('survey_emails.survey_link'))
-      end
+      it_behaves_like('a mail with subject and content', :survey_email,
+                      I18n.t!('survey_emails.subject.initial'),
+                      'heading' => 'Dear Bob',
+                       'thank you message' => I18n.t!('survey_emails.thank_you.candidate'),
+                       'link to the survey' => I18n.t!('survey_emails.survey_link'))
     end
 
     context 'when chaser email' do
-      let(:mail) { mailer.survey_chaser_email(application_form) }
-
-      before { mail.deliver_later }
-
-      it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(t('survey_emails.subject.chaser'))
-      end
-
-      it 'sends an email with the correct heading' do
-        expect(mail.body.encoded).to include("Dear #{application_form.first_name}")
-      end
-
-      it 'sends an email with the link to the survey' do
-        expect(mail.body.encoded).to include(t('survey_emails.survey_link'))
-      end
-    end
-  end
-
-  describe '.new_referee_request' do
-    let(:reference) do
-      build_stubbed(
-        :reference,
-        name: 'Scott Knowles',
-        application_form: build_stubbed(
-          :application_form,
-          first_name: 'Tyrell',
-          last_name: 'Wellick',
-        ),
-      )
-    end
-
-    context 'when referee has not responded' do
-      let(:mail) { mailer.new_referee_request(reference, reason: :not_responded) }
-
-      before { mail.deliver_later }
-
-      it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(I18n.t!('candidate_mailer.new_referee_request.not_responded.subject', referee_name: 'Scott Knowles'))
-      end
-
-      it 'sends an email with the correct heading' do
-        expect(mail.body.encoded).to include('Dear Tyrell')
-      end
-
-      it 'sends an email saying referee has not responded' do
-        explanation = mail.body.encoded.gsub("\r", '')
-
-        expect(explanation).to include(I18n.t!('candidate_mailer.new_referee_request.not_responded.explanation', referee_name: 'Scott Knowles'))
-      end
-    end
-
-    context 'when referee has refused' do
-      let(:mail) { mailer.new_referee_request(reference, reason: :refused) }
-
-      before { mail.deliver_later }
-
-      it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(I18n.t!('candidate_mailer.new_referee_request.refused.subject', referee_name: 'Scott Knowles'))
-      end
-
-      it 'sends an email with the correct heading' do
-        expect(mail.body.encoded).to include('Dear Tyrell')
-      end
-
-      it 'sends an email saying referee has refused' do
-        explanation = mail.body.encoded.gsub("\r", '')
-
-        expect(explanation).to include(I18n.t!('candidate_mailer.new_referee_request.refused.explanation', referee_name: 'Scott Knowles'))
-      end
-    end
-
-    context 'when email address of referee has bounced' do
-      let(:mail) { mailer.new_referee_request(reference, reason: :email_bounced) }
-
-      before { mail.deliver_later }
-
-      it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(I18n.t!('candidate_mailer.new_referee_request.email_bounced.subject', referee_name: 'Scott Knowles'))
-      end
-
-      it 'sends an email with the correct heading' do
-        expect(mail.body.encoded).to include('Dear Tyrell')
-      end
-
-      it 'sends an email saying referee email bounced' do
-        explanation = mail.body.encoded.gsub("\r", '')
-
-        expect(explanation).to include(I18n.t!('candidate_mailer.new_referee_request.email_bounced.explanation', referee_name: 'Scott Knowles', referee_email: reference.email_address))
-      end
+      it_behaves_like('a mail with subject and content', :survey_chaser_email,
+                      I18n.t!('survey_emails.subject.chaser'),
+                      'heading' => 'Dear Bob',
+                      'link to the survey' => I18n.t!('survey_emails.survey_link'))
     end
   end
 
   describe '.application_sent_to_provider' do
-    let(:application_choice) { build_stubbed(:application_choice, reject_by_default_days: '40') }
-    let(:application_form) do
-      build_stubbed(
-        :application_form,
-        first_name: 'Tyrell',
-        last_name: 'Wellick',
-        application_choices: [application_choice],
-      )
-    end
-
     context 'when initial email' do
-      let(:mail) { mailer.application_sent_to_provider(application_form) }
-
-      before { mail.deliver_later }
-
-      it 'sends an email with the correct subject' do
-        expect(mail.subject).to include('Your application is being considered')
-      end
-
-      it 'sends an email with the correct heading' do
-        expect(mail.body.encoded).to include('Dear Tyrell')
-      end
-
-      it 'sends an email with the correct amount of working days the provider has to respond' do
-        expect(mail.body.encoded).to include("We’ve asked them to make a final decision within #{application_choice.reject_by_default_days} working days.")
-      end
-
-      it 'sends an email with candidate sign in url' do
-        expect(mail.body.encoded).to include(candidate_interface_sign_in_url)
-      end
-    end
-  end
-
-  describe 'send new offer email to candidate' do
-    around do |example|
-      Timecop.freeze(Time.zone.local(2020, 2, 11)) do
-        example.run
-      end
-    end
-
-    def setup_application
-      @candidate = build_stubbed(:candidate)
-      @application_form = build_stubbed(
-        :application_form,
-        support_reference: 'SUPPORT-REFERENCE',
-        candidate: @candidate,
-        first_name: 'Bob',
+      it_behaves_like(
+        'a mail with subject and content', :application_sent_to_provider,
+        'Your application is being considered',
+        'heading' => 'Dear Bob',
+        'working days the provider has to respond' => '10 working days',
+        'sign in url' => 'http://localhost:3000/candidate/sign-in'
       )
-      course_option = build_stubbed(:course_option)
-      @application_choice = @application_form.application_choices.build(
-        id: 123,
-        application_form: @application_form,
-        course_option: course_option,
-        status: :offer,
-        offer: { conditions: ['DBS check', 'Pass exams'] },
-        offered_at: Time.zone.now,
-        offered_course_option: course_option,
-        decline_by_default_at: 10.business_days.from_now,
-      )
-    end
-
-    describe '#new_offer_single_offer' do
-      before do
-        setup_application
-        @mail = mailer.new_offer_single_offer(@application_choice)
-        @mail.deliver_later
-      end
-
-      it 'sends an email with the correct greeting' do
-        expect(@mail.body.encoded).to include('Dear Bob')
-      end
-
-      it 'sends an email with the correct subject' do
-        expect(@mail.subject).to include("Offer received for #{@application_choice.course_option.course.name} (#{@application_choice.course_option.course.code}) at #{@application_choice.course_option.course.provider.name}")
-      end
-
-      it 'sends an email with the correct decline by default date' do
-        expect(@mail.body.encoded).to include('Make a decision by 25 February 2020')
-      end
-
-      it 'sends an email with the correct conditions' do
-        expect(@mail.body.encoded).to include('DBS check')
-        expect(@mail.body.encoded).to include('Pass exams')
-      end
-    end
-
-    describe '#new_offer_multiple_offers' do
-      before do
-        setup_application
-        other_course_option = build_stubbed(:course_option)
-        @other_application_choice = @application_form.application_choices.build(
-          id: 456,
-          application_form: @application_form,
-          course_option: other_course_option,
-          status: :offer,
-          offer: { conditions: ['Get a degree'] },
-          offered_at: Time.zone.now,
-          offered_course_option: other_course_option,
-          decline_by_default_at: 5.business_days.from_now,
-        )
-        @application_form.id = nil
-        @application_form.application_choices = [@application_choice, @other_application_choice]
-        @mail = mailer.new_offer_multiple_offers(@application_choice)
-        @mail.deliver_later
-      end
-
-      it 'sends an email with the correct greeting' do
-        expect(@mail.body.encoded).to include('Dear Bob')
-      end
-
-      it 'sends an email with the correct subject' do
-        expect(@mail.subject).to include("Offer received for #{@application_choice.course_option.course.name} (#{@application_choice.course_option.course.code}) at #{@application_choice.course_option.course.provider.name}")
-      end
-
-      it 'sends an email with the correct decline by default date' do
-        expect(@mail.body.encoded).to include('Make a decision by 25 February 2020')
-      end
-
-      it 'sends an email with the correct conditions' do
-        expect(@mail.body.encoded).to include('DBS check')
-        expect(@mail.body.encoded).to include('Pass exams')
-      end
-
-      it 'sends an email with the correct list of offers' do
-        expect(@mail.body.encoded).to include("#{@application_choice.course_option.course.name} (#{@application_choice.course_option.course.code}) at #{@application_choice.course_option.course.provider.name}")
-        expect(@mail.body.encoded).to include("#{@other_application_choice.course_option.course.name} (#{@other_application_choice.course_option.course.code}) at #{@other_application_choice.course_option.course.provider.name}")
-      end
-    end
-
-    describe '#new_offer_decisions_pending' do
-      before do
-        setup_application
-        other_course_option = build_stubbed(:course_option)
-        @other_application_choice = @application_form.application_choices.build(
-          id: 456,
-          application_form: @application_form,
-          course_option: other_course_option,
-          status: :awaiting_provider_decision,
-        )
-        @application_form.id = nil
-        @application_form.application_choices = [@application_choice, @other_application_choice]
-        @mail = mailer.new_offer_decisions_pending(@application_choice)
-        @mail.deliver_later
-      end
-
-      it 'sends an email with the correct greeting' do
-        expect(@mail.body.encoded).to include('Dear Bob')
-      end
-
-      it 'sends an email with the correct subject' do
-        expect(@mail.subject).to include("Offer received for #{@application_choice.course_option.course.name} (#{@application_choice.course_option.course.code}) at #{@application_choice.course_option.course.provider.name}")
-      end
-
-      it 'sends an email with the correct conditions' do
-        expect(@mail.body.encoded).to include('DBS check')
-        expect(@mail.body.encoded).to include('Pass exams')
-      end
-
-      it 'sends an email with the correct instructions' do
-        expect(@mail.body.encoded).to include('You can wait to hear back about your other application(s) before making a decision')
-      end
-    end
-  end
-
-  describe 'application choice rejection emails' do
-    around do |example|
-      Timecop.freeze(Time.zone.local(2020, 2, 11)) do
-        example.run
-      end
-    end
-
-    def setup_application
-      @provider = create(:provider, name: 'Gorse')
-      @course = create(:course, provider: @provider)
-      @application_form = create(:application_form, first_name: 'Tyrell', last_name: 'Wellick')
-      course_option = create(:course_option, course: @course)
-      @application_choice = create(:application_choice,
-                                   course_option: course_option,
-                                   status: :rejected,
-                                   application_form: @application_form,
-                                   rejection_reason: rejection_reason)
-    end
-
-    let(:rejection_reason) { 'The application had little detail.' }
-
-    context 'All application choices have been rejected email' do
-      let(:mail) { mailer.application_rejected_all_rejected(@application_choice) }
-
-      before do
-        setup_application
-        mail.deliver_later
-      end
-
-      it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(I18n.t!('candidate_mailer.application_rejected.all_rejected.subject', provider_name: @provider.name))
-      end
-
-      it 'sends an email with the correct course name and code' do
-        expect(mail.body.encoded).to include(@course.name_and_code)
-      end
-
-      it 'sends an email with the providers rejection reason' do
-        expect(mail.body.encoded).to include(@application_choice.rejection_reason)
-      end
-    end
-
-    context 'Application rejected and awaiting further decisions' do
-      let(:mail) { mailer.application_rejected_awaiting_decisions(@application_choice) }
-
-      before do
-        setup_application
-        @application_choice2 = create(:application_choice, status: :awaiting_provider_decision, application_form: @application_form)
-        mail.deliver_later
-      end
-
-
-      it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(I18n.t!('candidate_mailer.application_rejected.awaiting_decisions.subject',
-                                                provider_name: @provider.name,
-                                                course_name: @course.name_and_code))
-      end
-
-      it 'sends an email with the correct heading' do
-        expect(mail.body.encoded).to include("Dear #{@application_form.first_name}")
-      end
-
-      it 'sends an email with the correct course name and code' do
-        expect(mail.body.encoded).to include(@course.name_and_code)
-      end
-
-      it 'sends an emails informing the candidate which courses they are awaiting decisions on' do
-        expect(mail.body.encoded).to include(@application_choice2.course.name)
-      end
-
-      it 'sends an emails informing the candidate which providers they are awaiting decisions on' do
-        expect(mail.body.encoded).to include(@application_choice2.provider.name)
-      end
-    end
-
-    context 'Application rejected and one offer has been made' do
-      let(:mail) { mailer.application_rejected_offers_made(@application_choice) }
-
-      before do
-        setup_application
-        @application_choice2 = create(:application_choice,
-                                      status: :offer,
-                                      application_form: @application_form,
-                                      decline_by_default_at: 10.business_days.from_now,
-                                      decline_by_default_days: 10)
-        mail.deliver_later
-      end
-
-      it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(I18n.t!('candidate_mailer.application_rejected.offers_made.subject',
-                                                provider_name: @provider.name,
-                                                dbd_days: @application_choice2.decline_by_default_days))
-      end
-
-      it 'sends an email with the correct heading' do
-        expect(mail.body.encoded).to include("Dear #{@application_form.first_name}")
-      end
-
-      it 'sends an email with the correct course name and code' do
-        expect(mail.body.encoded).to include(@course.name_and_code)
-      end
-
-      it 'sends an emails informing the candidate of the name of the course they got an offer from' do
-        expect(mail.body.encoded).to include(@application_choice2.course.name)
-      end
-
-      it 'sends an emails informing the candidate of the name of the provider they got an offer from' do
-        expect(mail.body.encoded).to include(@application_choice2.provider.name)
-      end
-
-      it 'sends an emails informing the candidate of their DBD date' do
-        expect(mail.body.encoded).to include('Make a decision about your offer by 25 February 2020')
-      end
-    end
-
-    context 'Application rejected and multiple offers has been made' do
-      let(:mail) { mailer.application_rejected_offers_made(@application_choice) }
-
-      before do
-        setup_application
-        @application_choice2 = create(:application_choice,
-                                      status: :offer,
-                                      application_form: @application_form,
-                                      decline_by_default_at: 10.business_days.from_now,
-                                      decline_by_default_days: 10)
-
-        @application_choice3 = create(:application_choice,
-                                      status: :offer,
-                                      application_form: @application_form,
-                                      decline_by_default_at: 10.business_days.from_now,
-                                      decline_by_default_days: 10)
-        mail.deliver_later
-      end
-
-      it 'sends an email with the correct subject' do
-        expect(mail.subject).to include(I18n.t!('candidate_mailer.application_rejected.offers_made.subject',
-                                                provider_name: @provider.name,
-                                                dbd_days: @application_choice2.decline_by_default_days))
-      end
-
-      it 'sends an email with the correct heading' do
-        expect(mail.body.encoded).to include("Dear #{@application_form.first_name}")
-      end
-
-      it 'sends an email with the correct course name and code' do
-        expect(mail.body.encoded).to include(@course.name_and_code)
-      end
-
-      it 'sends an emails informing the candidate of the name of the first course they got an offer from' do
-        expect(mail.body.encoded).to include(@application_choice2.course.name)
-      end
-
-      it 'sends an emails informing the candidate of the name of the first provider they got an offer from' do
-        expect(mail.body.encoded).to include(@application_choice2.provider.name)
-      end
-
-      it 'sends an emails informing the candidate of the name of the second course they got an offer from' do
-        expect(mail.body.encoded).to include(@application_choice3.course.name)
-      end
-
-      it 'sends an emails informing the candidate of the name of the second provider they got an offer from' do
-        expect(mail.body.encoded).to include(@application_choice3.provider.name)
-      end
-
-      it 'sends an emails informing the candidate of their DBD date' do
-        expect(mail.body.encoded).to include('Make a decision about your offers by 25 February 2020')
-      end
     end
   end
 
   describe 'Candidate decision chaser email' do
     context 'when a candidate has one appication choice with offer' do
-      let(:application_choice) do
-        create(:submitted_application_choice, :with_offer,
-               course_option: course_option_for_provider_code(provider_code: 'ABC'),
-               decline_by_default_at: Time.zone.now,
-               application_form:
-                 create(
-                   :completed_application_form,
-                ))
-      end
-
-      before do
-        @mail = mailer.chase_candidate_decision(application_choice.application_form)
-      end
-
-      it 'sends an email with the correct subject' do
-        expect(@mail.subject).to include(I18n.t!('chase_candidate_decision_email.subject_singular'))
-      end
-
-      it 'includes the number of business days left to respond' do
-        expect(@mail.body.encoded).to include("#{TimeLimitConfig.limits_for(:chase_candidate_before_dbd).first.limit} working days")
-      end
-
-      it 'sends an email with the correct heading' do
-        first_name = application_choice.application_form.first_name
-        expect(@mail.body.encoded).to include("Dear #{first_name}")
-      end
-
-      it 'sends an email with the dbd date' do
-        dbd_date = application_choice.decline_by_default_at.to_s(:govuk_date).strip
-        expect(@mail.body.encoded).to include(dbd_date)
-      end
-
-      it 'includes course name and provider name' do
-        expect(@mail.body.encoded).to include(application_choice.course.name)
-        expect(@mail.body.encoded).to include(application_choice.provider.name)
-      end
-
-      it 'has a sign in url link' do
-        candidate = application_choice.application_form.candidate
-        expect(@mail.body.encoded).to include(candidate_sign_in_url(candidate))
-      end
+      it_behaves_like(
+        'a mail with subject and content', :chase_candidate_decision,
+        I18n.t!('chase_candidate_decision_email.subject_singular'),
+        'heading' => 'Dear Bob',
+        'days left to respond' => "#{TimeLimitConfig.limits_for(:chase_candidate_before_dbd).first.limit} working days",
+        'dbd date' => 10.business_days.from_now.to_s(:govuk_date).strip,
+        'course name and code' => 'Applied Science (Psychology)',
+        'provider name' => 'Brighthurst Technical College'
+      )
     end
 
     context 'when a candidate has multiple application choices with offer' do
-      let(:application_form) { create(:completed_application_form) }
-
       before do
-        create(:submitted_application_choice, :awaiting_provider_decision,
-               course_option: course_option_for_provider_code(provider_code: 'GHI'),
-               application_form: application_form)
-
-        @first_offer = create(:submitted_application_choice, :with_offer,
-                              course_option: course_option_for_provider_code(provider_code: 'ABC'),
-                              decline_by_default_at: Time.zone.now,
-                              application_form: application_form)
-        @second_offer = create(:submitted_application_choice, :with_offer,
-                               course_option: course_option_for_provider_code(provider_code: 'DEF'),
-                               decline_by_default_at: Time.zone.now,
-                               application_form: application_form)
-
-        @mail = mailer.chase_candidate_decision(application_form)
+        setup_application_form_with_two_offers(@application_form)
       end
 
-      it 'sends an email with the correct pluralised subject' do
-        expect(@mail.subject).to include(I18n.t!('chase_candidate_decision_email.subject_plural'))
-      end
-
-      it 'includes each course names and provider names' do
-        expect(@mail.body.encoded).to include(@first_offer.course.name)
-        expect(@mail.body.encoded).to include(@first_offer.provider.name)
-        expect(@mail.body.encoded).to include(@second_offer.course.name)
-        expect(@mail.body.encoded).to include(@second_offer.provider.name)
-      end
+      it_behaves_like(
+        'a mail with subject and content', :chase_candidate_decision,
+        I18n.t!('chase_candidate_decision_email.subject_plural'),
+        'first course with offer' => 'MS Painting',
+        'first course provider with offer' => 'Wen University',
+        'second course with offer' => 'Code Refactoring',
+        'second course provider with offer' => 'Ting University'
+      )
     end
   end
 
   describe '.decline_by_default' do
     context 'when a candidate has 1 offer that was declined' do
       before do
-        application_form = build_stubbed(
+        @application_form = build_stubbed(
           :application_form,
           first_name: 'Fred',
           application_choices: [
             build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
           ],
         )
-
-        @mail = mailer.declined_by_default(application_form)
       end
 
-      it 'sends an email with the correct subject' do
-        expect(@mail.subject).to include('Application withdrawn automatically')
-      end
-
-      it 'includes the number of business days left to respond' do
-        expect(@mail.body.encoded).to include('10 working days')
-      end
-
-      it 'sends an email with the correct heading' do
-        expect(@mail.body.encoded).to include('Dear Fred')
-      end
+      it_behaves_like(
+        'a mail with subject and content',
+        :declined_by_default,
+        'Application withdrawn automatically',
+        'heading' => 'Dear Fred',
+        'days left to respond' => '10 working days',
+      )
     end
 
     context 'when a candidate has 2 or 3 offers that were declined' do
       before do
-        application_form = build_stubbed(
+        @application_form = build_stubbed(
           :application_form,
           application_choices: [
             build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
             build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
           ],
         )
-
-        @mail = mailer.declined_by_default(application_form)
       end
 
-      it 'sends an email with the correct subject' do
-        expect(@mail.subject).to include('Applications withdrawn automatically')
-      end
+      it_behaves_like 'a mail with subject and content', :declined_by_default, 'Applications withdrawn automatically', {}
     end
   end
 end

@@ -44,7 +44,6 @@ RSpec.describe SendNewOfferEmailToCandidate do
         setup_application
         other_course_option = create(:course_option)
         @other_application_choice = @application_form.application_choices.create(
-          id: 456,
           application_form: @application_form,
           course_option: other_course_option,
           status: :offer,
