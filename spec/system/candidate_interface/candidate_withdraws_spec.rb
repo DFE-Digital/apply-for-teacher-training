@@ -5,7 +5,6 @@ RSpec.feature 'A candidate withdraws her application' do
 
   scenario 'successful withdrawal', sidekiq: true do
     given_i_am_signed_in_as_a_candidate
-    and_the_application_withdrawn_provider_email_feature_flag_is_active
     and_i_have_an_application_choice_awaiting_provider_decision
 
     when_i_visit_the_application_dashboard
@@ -62,10 +61,6 @@ RSpec.feature 'A candidate withdraws her application' do
 
   def then_i_see_the_page_not_found
     expect(page).to have_content('Page not found')
-  end
-
-  def and_the_application_withdrawn_provider_email_feature_flag_is_active
-    FeatureFlag.activate('application_withrawn_provider_email')
   end
 
   def and_the_provider_has_received_an_email

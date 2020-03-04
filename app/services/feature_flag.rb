@@ -1,6 +1,5 @@
 class FeatureFlag
-  FEATURES = %w[
-    application_withrawn_provider_email
+  FEATURES = %w[  
     automated_decline_by_default_candidate_chaser
     automated_provider_chaser
     automated_referee_chaser
