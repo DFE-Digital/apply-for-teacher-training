@@ -145,7 +145,7 @@ RSpec.describe ProviderInterface::FilterComponent do
     expect(result.text).to include('Selected filters')
   end
 
-  it 'selected filters should include tags that match what has been seleted for' do
+  it 'selected filters should include tags that match what has been selected for' do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
                                         preselected_filters: preselected_filters_partial,
@@ -156,7 +156,7 @@ RSpec.describe ProviderInterface::FilterComponent do
   end
 
 
-  it 'selected filters dialogue should not apprer if is nothing filtered for' do
+  it 'selected filters dialogue should not appear if is nothing filtered for' do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
                                         preselected_filters: {},
