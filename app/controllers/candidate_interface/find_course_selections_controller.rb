@@ -21,7 +21,6 @@ module CandidateInterface
         return
       end
 
-      # TODO: refactor this into a service etc.?
       if CourseOption.where(course_id: course.id).one?
         course_option = CourseOption.where(course_id: course.id).first
 
@@ -30,6 +29,7 @@ module CandidateInterface
         redirect_to candidate_interface_course_choices_site_path(
           provider_id: course.provider_id,
           course_id: course.id,
+          study_mode: course.study_mode,
         )
       end
     end
