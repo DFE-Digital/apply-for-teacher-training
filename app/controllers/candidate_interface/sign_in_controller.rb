@@ -21,9 +21,11 @@ module CandidateInterface
       if service.candidate_does_not_have_a_course_from_find || service.candidate_has_submitted_application
         if more_reference_needed? && FeatureFlag.active?('show_new_referee_needed')
           redirect_to candidate_interface_additional_referee_path
-        elsif flash[:success].present? && FeatureFlag.active?('before_you_start')
+        elsif flash[:success] == t('apply_from_find.account_created_message') && FeatureFlag.active?('before_you_start')
+          flash[:success] = t('apply_from_find.account_created_message')
           redirect_to candidate_interface_before_you_start_path
         else
+          flash[:success] = flash[:success]
           redirect_to candidate_interface_application_form_path
         end
       elsif service.candidate_has_already_selected_the_course

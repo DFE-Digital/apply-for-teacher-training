@@ -42,7 +42,7 @@ Rails.application.routes.draw do
     get '/apply', to: 'apply_from_find#show', as: :apply_from_find
 
     get '/interstitial', to: 'sign_in#interstitial', as: :interstitial
-    
+
     scope '/application' do
       get '/' => 'application_form#show', as: :application_form
       get '/before-you-start', to: 'application_form#before_you_start'

@@ -8,9 +8,7 @@ module CandidateInterface
       @application_form = current_application
     end
 
-    def before_you_start
-      flash[:success] = t('apply_from_find.account_created_message')
-    end
+    def before_you_start; end
 
     def review
       redirect_to candidate_interface_application_complete_path if current_application.submitted?

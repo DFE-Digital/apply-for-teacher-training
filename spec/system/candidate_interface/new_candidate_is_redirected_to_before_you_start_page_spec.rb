@@ -24,6 +24,7 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
 
     when_i_click_on_go_to_my_application
     then_i_should_see_the_application_page
+    and_i_should_not_see_an_account_created_flash_message
   end
 
   def given_the_before_you_start_flag_is_active
@@ -92,5 +93,9 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
 
   def then_i_should_see_the_application_page
     expect(page).to have_current_path(candidate_interface_application_form_path)
+  end
+
+  def and_i_should_not_see_an_account_created_flash_message
+    expect(page).not_to have_content(t('apply_from_find.account_created_message'))
   end
 end
