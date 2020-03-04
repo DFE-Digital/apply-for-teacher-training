@@ -4,7 +4,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  scenario 'can filter applications by status' do
+  scenario 'can filter applications by status and provider' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_provider_application_filters_are_active
     and_i_am_permitted_to_see_applications_from_multiple_providers
@@ -53,6 +53,9 @@ RSpec.feature 'Providers should be able to filter applications' do
     then_i_only_see_applications_for_a_given_provider
 
     and_provider_application_filters_are_deactivated
+
+    when_i_visit_the_provider_page
+    then_i_do_not_expect_to_see_the_filter_dialogue
   end
 
   def when_i_visit_the_provider_page
