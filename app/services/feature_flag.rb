@@ -1,6 +1,5 @@
 class FeatureFlag
-  FEATURES = %w[  
-    automated_referee_chaser
+  FEATURES = %w[
     automated_referee_replacement
     candidate_rejected_by_provider_email
     choose_study_mode
