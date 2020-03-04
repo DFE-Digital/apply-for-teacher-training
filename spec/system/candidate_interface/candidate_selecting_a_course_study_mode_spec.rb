@@ -14,7 +14,7 @@ RSpec.feature 'Selecting a study mode' do
     when_i_select_a_site
     then_i_see_my_course_choice
 
-    given_there_is_a_single_site_full_time_course
+    given_there_is_a_single_site_full_time_course_option
     when_i_select_the_single_site_full_time_course
     then_the_site_is_resolved_automatically_and_i_see_the_course_choice
   end
@@ -30,12 +30,16 @@ RSpec.feature 'Selecting a study mode' do
   def and_there_are_course_options
     @provider = create(:provider)
 
-    @first_site = create(:site, provider: @provider)
-    @second_site = create(:site, provider: @provider)
-    @third_site = create(:site, provider: @provider)
+    @first_site = create(:site, provider: @provider, name: 'Site 1')
+    @second_site = create(:site, provider: @provider, name: 'Site 2')
+    @third_site = create(:site, provider: @provider, name: 'Site 3')
 
     @course = create(
-      :course, :with_both_study_modes, :open_on_apply, provider: @provider, name: 'Software Engineering'
+      :course,
+      :with_both_study_modes,
+      :open_on_apply,
+      provider: @provider,
+      name: 'Software Engineering',
     )
 
     create(
@@ -79,9 +83,13 @@ RSpec.feature 'Selecting a study mode' do
   end
 
   def then_i_can_only_select_sites_with_a_part_time_course
-    expect(page).to have_text @first_site.name
-    expect(page).to have_text @second_site.name
-    expect(page).not_to have_text @third_site.name
+    within '.govuk-radios' do
+      radios = all('.govuk-radios__item')
+      expect(radios.count).to eq 2
+      expect(page).to have_text('Site 1')
+      expect(page).to have_text('Site 2')
+      expect(page).not_to have_text('Site 3')
+    end
   end
 
   def when_i_select_a_site
@@ -95,9 +103,13 @@ RSpec.feature 'Selecting a study mode' do
     expect(page).to have_text 'Part time'
   end
 
-  def given_there_is_a_single_site_full_time_course
+  def given_there_is_a_single_site_full_time_course_option
     @single_site_course = create(
-      :course, :with_both_study_modes, :open_on_apply, provider: @provider, name: 'MS Painting'
+      :course,
+      :with_both_study_modes,
+      :open_on_apply,
+      provider: @provider,
+      name: 'MS Painting',
     )
 
     create(
