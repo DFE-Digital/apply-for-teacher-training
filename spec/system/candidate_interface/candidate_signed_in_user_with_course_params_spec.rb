@@ -4,6 +4,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   include CourseOptionHelpers
   scenario 'candidate is signed in' do
     given_the_pilot_is_open
+    and_course_selection_page_is_active
     and_i_am_an_existing_candidate_on_apply
     and_i_have_less_than_3_application_options
     and_the_course_i_selected_only_has_one_site
@@ -11,6 +12,9 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
     when_i_arrive_at_the_apply_from_find_page_with_course_params_with_one_site
     and_i_click_apply_on_apply
+    then_i_should_see_the_course_selection_page
+
+    when_i_say_yes
     then_i_should_see_the_courses_review_page
     and_i_should_see_the_course_name_and_code
     and_i_should_see_the_site
@@ -27,6 +31,9 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
     when_i_arrive_at_the_apply_from_find_page_with_course_params_with_multiple_sites
     and_i_click_apply_on_apply
+    then_i_should_see_the_multi_site_course_selection_page
+
+    when_i_say_yes
     then_i_should_see_the_course_choices_site_page
     and_i_see_the_form_to_pick_a_location
 
@@ -43,6 +50,10 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
+  end
+
+  def and_course_selection_page_is_active
+    FeatureFlag.activate('you_selected_a_course_page')
   end
 
   def and_the_course_i_selected_only_has_one_site
@@ -83,6 +94,23 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
   def and_i_click_apply_on_apply
     click_on t('apply_from_find.apply_button')
+  end
+
+  def then_i_should_see_the_course_selection_page
+    expect(page).to have_content('You selected a course')
+    expect(page).to have_content(@course.provider.name)
+    expect(page).to have_content(@course.name_and_code)
+  end
+
+  def then_i_should_see_the_multi_site_course_selection_page
+    expect(page).to have_content('You selected a course')
+    expect(page).to have_content(@course_with_multiple_sites.provider.name)
+    expect(page).to have_content(@course_with_multiple_sites.name_and_code)
+  end
+
+  def when_i_say_yes
+    choose 'Yes'
+    click_on 'Continue'
   end
 
   def and_i_submit_my_email_address

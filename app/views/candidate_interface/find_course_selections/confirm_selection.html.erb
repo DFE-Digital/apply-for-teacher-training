@@ -1,0 +1,31 @@
+<% content_for :title, t('confirm_selection.heading') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @course_selection_form, url: candidate_interface_course_complete_selection_path, method: :post do |f| %>
+      <h1 class="govuk-heading-xl">
+        <%= t('confirm_selection.heading') %>
+      </h1>
+
+      <div class="govuk-inset-text govuk-!-margin-top-0">
+        <%= link_to "https://find-postgraduate-teacher-training.education.gov.uk/course/#{@course_selection_form.course.provider.code}/#{@course_selection_form.course.code}",
+                    class: 'govuk-!-font-weight-bold govuk-link',
+                    style: 'text-decoration: none' do %>
+        <span class="govuk-!-font-size-19">
+          <%= @course_selection_form.course.provider.name %>
+        </span><br>
+        <span class="search-result-link-name govuk-!-font-size-24" style="text-decoration: underline">
+          <%= @course_selection_form.course.name_and_code %>
+        </span>
+        <% end %>
+      </div>
+
+      <%= f.govuk_radio_buttons_fieldset :confirm, legend: { size: 'm', text: t('confirm_selection.question') } do %>
+        <%= f.govuk_radio_button :confirm, true, label: { text: 'Yes' } %>
+        <%= f.govuk_radio_button :confirm, false, label: { text: 'No' } %>
+      <% end %>
+
+      <%= f.govuk_submit t('confirm_selection.submit_button') %>
+    <% end %>
+  </div>
+</div>

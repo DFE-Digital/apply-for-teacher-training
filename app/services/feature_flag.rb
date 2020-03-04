@@ -28,6 +28,7 @@ class FeatureFlag
     show_new_referee_needed
     training_with_a_disability
     work_breaks
+    you_selected_a_course_page
   ].freeze
 
   def self.activate(feature_name)

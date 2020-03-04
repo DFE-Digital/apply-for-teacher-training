@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe 'An existing candidate arriving from Find with a course and provider code (with course selection page)' do
+RSpec.describe 'An existing candidate arriving from Find with a course and provider code (without course selection page)' do
   include CourseOptionHelpers
   scenario 'candidate is not signed in and retains their course selection through the sign up process' do
     given_the_pilot_is_open
-    and_course_selection_page_is_active
+    and_the_course_i_selected_only_has_one_site
     and_i_am_an_existing_candidate_on_apply
     and_i_have_less_than_3_application_options
     and_the_course_i_selected_only_has_one_site
@@ -12,17 +12,6 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     when_i_arrive_at_the_sign_up_page_with_course_params_with_one_site
     and_i_submit_my_email_address
     and_click_on_the_magic_link
-    then_i_should_see_the_course_selection_page
-
-    when_i_click_on_the_courses_link
-    then_i_should_be_redirected_to_the_course_on_find
-
-    when_i_arrive_at_the_sign_up_page_with_course_params_with_one_site
-    and_i_submit_my_email_address
-    and_click_on_the_magic_link
-    then_i_should_see_the_course_selection_page
-
-    when_i_say_yes
     then_i_should_see_the_courses_review_page
     and_i_should_see_the_course_name_and_code
     and_i_should_see_the_site
@@ -42,9 +31,6 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     when_i_arrive_at_the_sign_up_page_with_course_params_with_multiple_sites
     and_i_submit_my_email_address
     and_click_on_the_magic_link
-    then_i_should_see_the_multi_site_course_selection_page
-
-    when_i_say_yes
     then_i_should_see_the_course_choices_site_page
     and_i_see_the_form_to_pick_a_location
     and_my_course_from_find_id_should_be_set_to_nil
@@ -111,23 +97,6 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     current_email.find_css('a').first.click
   end
 
-  def then_i_should_see_the_course_selection_page
-    expect(page).to have_content('You selected a course')
-    expect(page).to have_content(@course.provider.name)
-    expect(page).to have_content(@course.name_and_code)
-  end
-
-  def then_i_should_see_the_multi_site_course_selection_page
-    expect(page).to have_content('You selected a course')
-    expect(page).to have_content(@course_with_multiple_sites.provider.name)
-    expect(page).to have_content(@course_with_multiple_sites.name_and_code)
-  end
-
-  def when_i_say_yes
-    choose 'Yes'
-    click_on 'Continue'
-  end
-
   def then_i_should_see_the_courses_review_page
     expect(page).to have_current_path(candidate_interface_course_choices_review_path)
   end
@@ -178,7 +147,6 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
       candidate_interface_course_choices_site_path(
         @course_with_multiple_sites.provider.id,
         @course_with_multiple_sites.id,
-        :full_time,
       ),
     )
   end
@@ -201,14 +169,6 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
   def and_i_should_be_informed_i_have_already_selected_that_course
     expect(page).to have_content "You have already selected #{@course.name_and_code}."
-  end
-
-  def when_i_click_on_the_courses_link
-    click_link("#{@course.provider.name} #{@course.name_and_code}")
-  end
-
-  def then_i_should_be_redirected_to_the_course_on_find
-    expect(page.current_url).to eq("https://find-postgraduate-teacher-training.education.gov.uk/course/#{@course.provider.code}/#{@course.code}")
   end
 
 private

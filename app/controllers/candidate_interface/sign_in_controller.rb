@@ -14,7 +14,8 @@ module CandidateInterface
     def interstitial
       course = current_candidate.course_from_find
 
-      service = AddCourseFromFind.new(candidate: current_candidate)
+      service_klass = FeatureFlag.active?('you_selected_a_course_page') ? InterstitialRouteSelector : AddCourseFromFind
+      service = service_klass.new(candidate: current_candidate)
       service.execute
 
       if service.candidate_does_not_have_a_course_from_find || service.candidate_has_submitted_application
@@ -26,15 +27,21 @@ module CandidateInterface
       elsif service.candidate_has_already_selected_the_course
         flash[:warning] = "You have already selected #{course.name_and_code}."
         redirect_to candidate_interface_course_choices_review_path
-      elsif service.candidate_has_new_course_added
+      elsif !FeatureFlag.active?('you_selected_a_course_page') && service.candidate_has_new_course_added
         redirect_to candidate_interface_course_choices_review_path
-      elsif service.candidate_should_choose_study_mode && FeatureFlag.active?('choose_study_mode')
-        redirect_to candidate_interface_course_choices_study_mode_path(course.provider.id, course.id)
-      elsif service.candidate_should_choose_site
+      elsif !FeatureFlag.active?('you_selected_a_course_page') && service.candidate_should_choose_site
         redirect_to candidate_interface_course_choices_site_path(course.provider.id, course.id, course.study_mode)
+      elsif !FeatureFlag.active?('you_selected_a_course_page') && service.candidate_should_choose_study_mode && FeatureFlag.active?('choose_study_mode')
+        redirect_to candidate_interface_course_choices_study_mode_path(course.provider.id, course.id)
       elsif service.candidate_already_has_3_courses
         flash[:warning] = "You cannot have more than 3 course choices. You must delete a choice if you want to apply to #{course.name_and_code}."
         redirect_to candidate_interface_course_choices_review_path
+      elsif FeatureFlag.active?('you_selected_a_course_page') && !service.candidate_does_not_have_a_course_from_find
+        redirect_to candidate_interface_course_confirm_selection_path(course_id: course.id)
+      elsif FeatureFlag.active?('you_selected_a_course_page') && service.candidate_should_choose_site
+        redirect_to candidate_interface_course_choices_site_path(course.provider.id, course.id, course.study_mode)
+      elsif FeatureFlag.active?('you_selected_a_course_page') && service.candidate_should_choose_study_mode && FeatureFlag.active?('choose_study_mode')
+        redirect_to candidate_interface_course_choices_study_mode_path(course.provider.id, course.id)
       end
     end
 
