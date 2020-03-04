@@ -21,11 +21,9 @@ module CandidateInterface
       if service.candidate_does_not_have_a_course_from_find || service.candidate_has_submitted_application
         if more_reference_needed? && FeatureFlag.active?('show_new_referee_needed')
           redirect_to candidate_interface_additional_referee_path
-        elsif flash[:success] == t('apply_from_find.account_created_message') && FeatureFlag.active?('before_you_start')
-          flash[:success] = t('apply_from_find.account_created_message')
+        elsif session[:first_sign_in] && FeatureFlag.active?('before_you_start')
           redirect_to candidate_interface_before_you_start_path
         else
-          flash[:success] = flash[:success]
           redirect_to candidate_interface_application_form_path
         end
       elsif service.candidate_has_already_selected_the_course
@@ -77,6 +75,7 @@ module CandidateInterface
         redirect_to action: :new
       elsif token_not_expired
         flash[:success] = t('apply_from_find.account_created_message') if candidate.last_signed_in_at.nil?
+        session[:first_sign_in] = true if candidate.last_signed_in_at.nil?
 
         sign_in(candidate, scope: :candidate)
         add_identity_to_log candidate.id
