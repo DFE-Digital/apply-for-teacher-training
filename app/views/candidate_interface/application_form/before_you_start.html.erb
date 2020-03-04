@@ -1,0 +1,19 @@
+<h1 class="govuk-heading-xl">We suggest you choose a course first</h1>
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-two-thirds">
+
+    <p class="govuk-body">Apply for teacher training is a new GOV.UK service that will eventually replace UCAS. For now, you can only apply to some courses using this service.</p>
+    <p class="govuk-body">By choosing a course first, you can check it’s available before you complete the rest of your application.</p>
+    <p class="govuk-body">If you choose a course which is not available on Apply for teacher training, you’ll be guided back to UCAS to make an application.</p>
+
+    <hr class="govuk-section-break govuk-section-break--m">
+
+    <%= govuk_link_to "Choose a course", candidate_interface_course_choices_index_path, class: "govuk-button govuk-button govuk-!-margin-bottom-5" %>
+
+    <p class="govuk-body">or</p>
+
+    <%= govuk_link_to "Go to your application form", candidate_interface_application_form_path, class: "govuk-body" %>
+  </div>
+</div>

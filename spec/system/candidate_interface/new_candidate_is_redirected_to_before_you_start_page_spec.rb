@@ -12,6 +12,18 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
     and_click_on_the_magic_link
     then_i_should_see_the_before_you_start_page
     and_i_should_see_an_account_created_flash_message
+
+    when_i_click_choose_a_course
+    then_i_should_see_the_course_choices_index_page
+
+    when_i_visit_apply
+    and_i_click_start_now
+    and_i_fill_in_the_eligiblity_form_with_yes
+    and_i_submit_my_email_address
+    and_click_on_the_magic_link
+
+    when_i_click_on_go_to_my_application
+    then_i_should_see_the_application_page
   end
 
   def given_the_before_you_start_flag_is_active
@@ -60,5 +72,25 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
 
   def and_i_should_see_an_account_created_flash_message
     expect(page).to have_content(t('apply_from_find.account_created_message'))
+  end
+
+  def when_i_click_choose_a_course
+    click_link 'Choose a course'
+  end
+
+  def then_i_should_see_the_course_choices_index_page
+    expect(page).to have_current_path(candidate_interface_course_choices_index_path)
+  end
+
+  def when_i_visit_the_before_you_start_page
+    visit candidate_interface_before_you_start_path
+  end
+
+  def when_i_click_on_go_to_my_application
+    click_link 'Go to your application form'
+  end
+
+  def then_i_should_see_the_application_page
+    expect(page).to have_current_path(candidate_interface_application_form_path)
   end
 end
