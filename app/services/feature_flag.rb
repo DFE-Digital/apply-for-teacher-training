@@ -1,6 +1,5 @@
 class FeatureFlag
   FEATURES = %w[
-    candidate_rejected_by_provider_email
     choose_study_mode
     confirm_conditions
     dfe_sign_in_incident
