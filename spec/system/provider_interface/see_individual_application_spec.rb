@@ -41,9 +41,9 @@ RSpec.describe 'A Provider viewing an individual application' do
                               english_main_language: true,
                               other_language_details: 'I also speak Spanish and German')
 
-    create_list(:application_qualification, 1, application_form: application_form, level: :degree)
-    create_list(:application_qualification, 2, application_form: application_form, level: :gcse)
-    create_list(:application_qualification, 3, application_form: application_form, level: :other)
+    create_list(:degree_qualification, 1, application_form: application_form)
+    create_list(:gcse_qualification, 2, application_form: application_form)
+    create_list(:other_qualification, 3, application_form: application_form)
 
     create(:application_work_experience,
            application_form: application_form,

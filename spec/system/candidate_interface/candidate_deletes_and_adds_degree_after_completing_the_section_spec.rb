@@ -38,7 +38,7 @@ RSpec.feature 'Candidate edits their degree section' do
 
   def and_i_have_completed_the_degree_section
     @application_form = create(:application_form, candidate: @candidate)
-    create(:application_qualification, application_form: @application_form, level: :degree)
+    create(:degree_qualification, application_form: @application_form)
     @application_form.update!(degrees_completed: true)
   end
 

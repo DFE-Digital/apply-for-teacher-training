@@ -33,7 +33,7 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
 
   def and_i_have_completed_the_other_qualifications_section
     @application_form = create(:application_form, candidate: @candidate)
-    create(:application_qualification, application_form: @application_form, level: :other)
+    create(:other_qualification, application_form: @application_form)
     @application_form.update!(other_qualifications_completed: true)
   end
 
