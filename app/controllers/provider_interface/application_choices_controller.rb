@@ -7,17 +7,16 @@ module ProviderInterface
       application_choices = GetApplicationChoicesForProviders.call(providers: current_provider_user.providers)
         .order(ordering_arguments(@sort_by, @sort_order))
 
-      application_choices = application_choices.page(params[:page] || 1)
-
       if FeatureFlag.active?('provider_application_filters')
          @available_filters = available_filters(application_choices: application_choices)
          @filter_visible =  filter_params[:filter_visible] ||= 'true'
          @filter_selections = filter_params[:filter_selections].to_h ||= {}
-         @application_choices = FilterApplicationChoicesForProviders.call(application_choices: application_choices,
+         application_choices = FilterApplicationChoicesForProviders.call(application_choices: application_choices,
                                                                           filters: @filter_selections)
-      else
-        @application_choices = application_choices
       end
+
+      application_choices = application_choices.page(params[:page] || 1)
+      @application_choices = application_choices
     end
 
     def show
