@@ -27,7 +27,7 @@ module SupportInterface
     def authenticate_support_user!
       return if current_support_user
 
-      session['post_dfe_sign_in_path'] = request.path
+      session['post_dfe_sign_in_path'] = request.fullpath
       redirect_to support_interface_sign_in_path
     end
 

@@ -9,10 +9,12 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
     given_i_am_registered_as_a_provider_user
     and_i_have_a_dfe_sign_in_account
 
-    when_i_visit_the_provider_interface_sign_in_path
+    when_i_visit_the_provider_interface_applications_path
+    then_i_am_redirected_to_the_provider_sign_in_path
     and_i_sign_in_via_dfe_sign_in
 
-    then_i_should_see_my_email_address
+    then_i_am_redirected_to_the_provider_interface_applications_path
+    and_i_should_see_my_email_address
     and_the_timestamp_of_this_sign_in_is_recorded
     and_my_profile_details_are_refreshed
 
@@ -32,15 +34,21 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
     )
   end
 
-  def when_i_visit_the_provider_interface_sign_in_path
-    visit provider_interface_sign_in_path
+  def when_i_visit_the_provider_interface_applications_path
+    visit provider_interface_applications_path(some_key: 'some_value')
+  end
+
+  def then_i_am_redirected_to_the_provider_sign_in_path
+    expect(page).to have_current_path(provider_interface_sign_in_path)
   end
 
   def and_i_sign_in_via_dfe_sign_in
     click_button 'Sign in using DfE Sign-in'
   end
 
-  def then_i_should_be_redirected_to_the_provider_dashboard; end
+  def then_i_am_redirected_to_the_provider_interface_applications_path
+    expect(page).to have_current_path(provider_interface_applications_path(some_key: 'some_value'))
+  end
 
   def and_i_should_see_my_email_address
     expect(page).to have_content('provider@example.com')
