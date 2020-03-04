@@ -8,10 +8,8 @@ class DeclineOffer
     @application_choice.update!(declined_at: Time.zone.now)
     StateChangeNotifier.call(:offer_declined, application_choice: @application_choice)
 
-    if FeatureFlag.active?('offer_declined_provider_emails')
-      @application_choice.provider.provider_users.each do |provider_user|
-        ProviderMailer.declined(provider_user, @application_choice).deliver
-      end
+    @application_choice.provider.provider_users.each do |provider_user|
+      ProviderMailer.declined(provider_user, @application_choice).deliver
     end
   end
 end
