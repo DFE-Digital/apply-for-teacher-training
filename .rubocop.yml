@@ -108,3 +108,13 @@ Rails/RakeEnvironment:
 Rails/NotNullColumn:
   Enabled: false
 
+# Pending cops
+# These will be enabled by default at Rubocop 1.0
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
