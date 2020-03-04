@@ -196,7 +196,6 @@ RSpec.feature 'Providers should be able to filter applications' do
     expect(page).to have_css('.govuk-table__body', text: 'Declined')
   end
 
-
   def when_i_filter_by_provider
     find(:css, '#provider-hoth-teacher-training').set(true)
     find(:css, '#provider-caladan-university').set(true)
