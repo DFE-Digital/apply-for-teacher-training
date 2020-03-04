@@ -97,7 +97,7 @@ module ProviderInterface
           {
             name: provider.name.parameterize,
             text: provider.name,
-            value: provider.id,
+            value: provider.id.to_s,
           }
         end.uniq!
       }

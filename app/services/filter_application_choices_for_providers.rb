@@ -3,7 +3,7 @@ class FilterApplicationChoicesForProviders
     return application_choices if filters.empty?
 
       if filters[:status] && filters[:provider]
-        return application_choices.where(status: page_state.filter_options, 'courses.provider_id' => provider_options)
+        return application_choices.where(status: filters[:status].values, 'courses.provider_id' => filters[:provider].values)
       elsif filters[:status]
         return application_choices.where(status: filters[:status].values)
       else
