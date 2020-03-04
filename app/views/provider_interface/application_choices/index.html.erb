@@ -9,7 +9,8 @@
     <%= render ProviderInterface::FilterComponent.new(path: :provider_interface_applications_path,
                                                       available_filters: @available_filters,
                                                       preselected_filters: @filter_selections,
-                                                      additional_params: {}) %>
+                                                      additional_params: { sort_by: @sort_by,
+                                                                           sort_order: @sort_order }) %>
   <% end %>
 
   <div class='moj-filter-layout__content'>
