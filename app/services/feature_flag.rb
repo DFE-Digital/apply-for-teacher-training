@@ -6,7 +6,6 @@ class FeatureFlag
     candidate_rejected_by_provider_email
     choose_study_mode
     confirm_conditions
-    decline_by_default_notification_to_candidate
     decline_by_default_notification_to_provider
     dfe_sign_in_incident
     edit_application
