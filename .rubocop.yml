@@ -42,6 +42,11 @@ RSpec/MultipleExpectations:
 RSpec/ContextWording:
   Enabled: false
 
+# we have a property called "subject" in some factories
+RSpec/EmptyLineAfterSubject:
+  Exclude:
+    - 'spec/factories.rb'
+
 Naming/MethodParameterName:
   AllowedNames:
     - e
@@ -102,3 +107,4 @@ Rails/RakeEnvironment:
 # when dealing with references
 Rails/NotNullColumn:
   Enabled: false
+

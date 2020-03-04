@@ -66,9 +66,9 @@ FactoryBot.define do
 
       after(:build) do |application_form, evaluator|
         if evaluator.with_gces
-          create(:application_qualification, application_form: application_form, subject: 'maths', level: 'gcse', qualification_type: 'GCSE')
-          create(:application_qualification, application_form: application_form, subject: 'english', level: 'gcse', qualification_type: 'GCSE')
-          create(:application_qualification, application_form: application_form, subject: 'science', level: 'gcse', qualification_type: 'GCSE')
+          create(:gcse_qualification, application_form: application_form, subject: 'maths')
+          create(:gcse_qualification, application_form: application_form, subject: 'english')
+          create(:gcse_qualification, application_form: application_form, subject: 'science')
         end
 
         edit_by = if application_form.submitted_at.nil?
@@ -119,7 +119,6 @@ FactoryBot.define do
     level { %w[degree gcse other].sample }
     qualification_type { %w[BA Masters A-Level GCSE].sample }
     subject { Faker::Educator.subject }
-
     grade { %w[first upper_second A B].sample }
     predicted_grade { %w[true false].sample }
     award_year { Faker::Date.between(from: 60.years.ago, to: 3.years.from_now).year }
@@ -127,6 +126,26 @@ FactoryBot.define do
     institution_country { Faker::Address.country_code }
     awarding_body { Faker::Educator.university }
     equivalency_details { Faker::Lorem.paragraph_by_chars(number: 200) }
+
+    factory :gcse_qualification do
+      level { 'gcse' }
+      qualification_type { 'GCSE' }
+      subject { %w[maths english science].sample }
+      grade { %w[A B C].sample }
+      awarding_body { Faker::Educator.secondary_school }
+    end
+
+    factory :degree_qualification do
+      level { 'degree' }
+      qualification_type { %w[BA Masters].sample }
+      grade { %w[first upper_second lower_second third].sample }
+    end
+
+    factory :other_qualification do
+      level { 'other' }
+      qualification_type { %w[Diploma Doctorate NVQ Foundation].sample }
+      grade { %w[pass merit distinction].sample }
+    end
   end
 
   factory :site do
