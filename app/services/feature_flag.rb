@@ -14,6 +14,7 @@ class FeatureFlag
     training_with_a_disability
     work_breaks
     you_selected_a_course_page
+    before_you_start
   ].freeze
 
   def self.activate(feature_name)

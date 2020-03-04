@@ -42,9 +42,10 @@ Rails.application.routes.draw do
     get '/apply', to: 'apply_from_find#show', as: :apply_from_find
 
     get '/interstitial', to: 'sign_in#interstitial', as: :interstitial
-
+    
     scope '/application' do
       get '/' => 'application_form#show', as: :application_form
+      get '/before-you-start', to: 'application_form#before_you_start'
       get '/edit' => 'application_form#edit', as: :application_edit
       get '/review' => 'application_form#review', as: :application_review
       get '/review/submitted' => 'application_form#review_submitted', as: :application_review_submitted
