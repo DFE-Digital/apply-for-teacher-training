@@ -12,10 +12,11 @@ task setup_local_dev_data: %i[environment copy_feature_flags_from_production syn
   SupportUser.find_or_create_by!(dfe_sign_in_uid: 'dev-support', email_address: 'support@example.com')
 end
 
-desc 'Sync providers whitelisted in DEV_PROVIDERS_TO_SYNC and open all their courses'
+desc 'Sync some pilot-enabled providers and open all their courses'
 task sync_dev_providers_and_open_courses: :environment do
   puts 'Syncing data from Find...'
-  ENV['DEV_PROVIDERS_TO_SYNC'].split(',').each do |code|
+
+  %w[1N1 2LR C58].each do |code|
     SyncProviderFromFind.call(provider_code: code, sync_courses: true)
   end
 
