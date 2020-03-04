@@ -77,7 +77,7 @@
 <% end %>
 
 <%= render(PaginatorComponent.new(scope: @application_choices)) %>
-<% elsif @filter_selections.any? %>
+<% elsif @filter_selections %>
      <p class='govuk-body'>No applications for the selected filters.</p>
 <% else %>
   <p class='govuk-body'>You haven’t received any applications from <%= t('service_name.apply') %>.</p>
