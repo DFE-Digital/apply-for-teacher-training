@@ -10,10 +10,8 @@ class InviteProviderUser
   def save_and_invite!
     ActiveRecord::Base.transaction do
       @provider_user.save!
-      if FeatureFlag.active?('send_dfe_sign_in_invitations')
-        invite_user_to_dfe_sign_in
-        send_welcome_email
-      end
+      invite_user_to_dfe_sign_in
+      send_welcome_email
     end
   end
 

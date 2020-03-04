@@ -33,6 +33,7 @@ RSpec.feature 'See applications' do
   def when_i_have_been_assigned_to_my_training_provider
     provider_user_exists_in_apply_database
   end
+
   def then_i_should_see_no_applications
     expect(page).to have_content 'You haven’t received any applications'
     expect(page).not_to have_selector('.govuk-table')
