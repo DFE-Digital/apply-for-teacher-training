@@ -23,7 +23,6 @@ RSpec.feature 'Decline by default' do
   end
 
   def and_the_automated_candidate_chaser_is_active
-    FeatureFlag.activate('automated_decline_by_default_candidate_chaser')
     FeatureFlag.activate('decline_by_default_notification_to_candidate')
     FeatureFlag.activate('decline_by_default_notification_to_provider')
   end

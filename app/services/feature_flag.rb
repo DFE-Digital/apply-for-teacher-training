@@ -1,6 +1,5 @@
 class FeatureFlag
-  FEATURES = %w[  
-    automated_decline_by_default_candidate_chaser
+  FEATURES = %w[
     automated_provider_chaser
     automated_referee_chaser
     automated_referee_replacement
