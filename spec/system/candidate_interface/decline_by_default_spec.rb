@@ -6,7 +6,7 @@ RSpec.feature 'Decline by default' do
 
   scenario 'An application is declined by default', sidekiq: true do
     given_the_pilot_is_open
-    
+
     when_i_have_an_offer_waiting_for_my_decision
     and_the_time_limit_before_decline_by_default_date_has_been_exceeded
     then_i_receive_an_email_to_make_a_decision
