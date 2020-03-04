@@ -5,7 +5,6 @@ RSpec.feature 'Referee can submit reference', sidekiq: true, with_audited: true 
 
   scenario 'Referee submits a reference for a candidate' do
     FeatureFlag.activate('training_with_a_disability')
-    FeatureFlag.activate('send_reference_confirmation_email')
 
     given_a_candidate_completed_an_application
     when_the_candidate_submits_the_application
