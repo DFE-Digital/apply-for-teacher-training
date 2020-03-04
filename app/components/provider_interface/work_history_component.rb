@@ -7,7 +7,7 @@ module ProviderInterface
     end
 
     def work_history_with_breaks
-      []
+      @work_history_with_breaks ||= WorkHistoryWithBreaks.new(@application_form).timeline
     end
 
   private
