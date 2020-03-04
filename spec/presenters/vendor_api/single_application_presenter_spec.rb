@@ -4,18 +4,6 @@ require 'rails_helper'
 # logic in the presenter. For anything that is passed straight from the database
 # to the API, make sure that spec/system/vendor_api/vendor_receives_application_spec.rb is updated.
 RSpec.describe VendorApi::SingleApplicationPresenter do
-  describe 'attributes.candidate.nationality' do
-    it 'returns nationality in the correct format' do
-      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'British', second_nationality: 'American')
-      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
-
-      response = VendorApi::SingleApplicationPresenter.new(application_choice).as_json
-
-      expect(response.to_json).to be_valid_against_openapi_schema('Application')
-      expect(response[:attributes][:candidate][:nationality]).to eq(%w[GB US])
-    end
-  end
-
   describe 'attributes.withdrawal' do
     it 'returns a withdrawal object' do
       application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'British', second_nationality: 'American')
@@ -208,6 +196,16 @@ RSpec.describe VendorApi::SingleApplicationPresenter do
       response = VendorApi::SingleApplicationPresenter.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :nationality)).to eq %w(GB)
+    end
+
+    it 'returns nationality in the correct format' do
+      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'British', second_nationality: 'American')
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorApi::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.to_json).to be_valid_against_openapi_schema('Application')
+      expect(response[:attributes][:candidate][:nationality]).to eq(%w[GB US])
     end
   end
 

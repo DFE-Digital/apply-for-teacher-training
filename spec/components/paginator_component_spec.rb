@@ -44,12 +44,6 @@ RSpec.describe PaginatorComponent do
       end
     end
 
-    context 'when we are on the first of two pages' do
-      it 'renders correct summary message' do
-        expect(rendered_component(current_page: 1, total_count: 29).text).to include 'Showing 1 to 25 of 29'
-      end
-    end
-
     context 'when we are on the second of two pages' do
       it 'renders correct summary message' do
         expect(rendered_component(current_page: 2, total_count: 29).text).to include 'Showing 26 to 29 of 29'

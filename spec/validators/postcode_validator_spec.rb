@@ -20,7 +20,7 @@ RSpec.describe PostcodeValidator do
     end
   end
 
-  context 'with a valid UK postcode' do
+  context 'with an invalid UK postcode' do
     it 'adds an error' do
       model = Validatable.new
 
