@@ -80,7 +80,7 @@ RSpec.feature 'Candidate edits their choice section' do
   end
 
   def and_i_choose_a_course_with_a_single_site
-    select @course.name_and_code
+    choose @course.name_and_code
     click_button 'Continue'
   end
 end

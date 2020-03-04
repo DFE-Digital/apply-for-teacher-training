@@ -27,7 +27,6 @@ RSpec.feature 'Selecting a course' do
     and_i_choose_a_provider
     and_i_choose_a_course
     then_i_see_a_message_that_ive_already_chosen_the_course
-    and_the_select_box_has_no_value_selected
 
     given_that_i_am_on_the_course_choices_review_page
     when_i_click_on_add_another_course
@@ -47,6 +46,12 @@ RSpec.feature 'Selecting a course' do
 
     when_i_delete_my_remaining_course_choice
     then_i_should_i_should_see_the_course_choice_index_page
+
+    given_the_provider_has_over_twenty_courses
+    when_i_click_the_continue_link
+    and_i_choose_that_i_know_where_i_want_to_apply
+    and_i_choose_a_provider
+    then_the_select_box_has_no_value_selected
   end
 
   def given_i_am_signed_in
@@ -75,9 +80,9 @@ RSpec.feature 'Selecting a course' do
       address_line4: 'West Yorkshire',
       postcode: 'LS8 5DQ'
     )
-    multi_site_course = create(:course, name: 'Primary', code: '2XT2', provider: @provider, exposed_in_find: true, open_on_apply: true)
-    create(:course_option, site: first_site, course: multi_site_course, vacancy_status: 'B')
-    create(:course_option, site: second_site, course: multi_site_course, vacancy_status: 'B')
+    @multi_site_course = create(:course, name: 'Primary', code: '2XT2', provider: @provider, exposed_in_find: true, open_on_apply: true)
+    create(:course_option, site: first_site, course: @multi_site_course, vacancy_status: 'B')
+    create(:course_option, site: second_site, course: @multi_site_course, vacancy_status: 'B')
 
     another_provider = create(:provider, name: 'Royal Academy of Dance', code: 'R55')
     third_site = create(
@@ -121,11 +126,11 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_i_should_see_an_error
-    expect(page).to have_content 'Select a course'
+    expect(page).to have_content "can't be blank"
   end
 
   def and_i_choose_a_course
-    select 'Primary (2XT2)'
+    choose 'Primary (2XT2)'
     click_button 'Continue'
   end
 
@@ -153,10 +158,6 @@ RSpec.feature 'Selecting a course' do
     expect(page).to have_css('.govuk-error-summary', text: 'You have already added Primary (2XT2)')
   end
 
-  def and_the_select_box_has_no_value_selected
-    expect(page.find('#candidate-interface-pick-course-form-course-id-field').value).to eq ''
-  end
-
   def given_that_i_am_on_the_course_choices_review_page
     visit candidate_interface_course_choices_review_path
   end
@@ -167,7 +168,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def and_i_choose_another_course_with_only_one_site
-    select 'Dance (W5X1)'
+    choose 'Dance (W5X1)'
     click_button 'Continue'
   end
 
@@ -225,5 +226,17 @@ RSpec.feature 'Selecting a course' do
 
   def then_i_should_i_should_see_the_course_choice_index_page
     expect(page).to have_current_path(candidate_interface_course_choices_index_path)
+  end
+
+  def given_the_provider_has_over_twenty_courses
+    create_list(:course, 20, provider: @provider, exposed_in_find: true)
+  end
+
+  def when_i_click_the_continue_link
+    click_link 'Continue'
+  end
+
+  def then_the_select_box_has_no_value_selected
+    expect(page.find('#candidate-interface-pick-course-form-course-id-field').value).to eq ''
   end
 end

@@ -52,7 +52,7 @@ RSpec.feature 'Selecting a study mode' do
     select @provider.name
     click_button 'Continue'
 
-    select @single_site_course.name
+    choose @single_site_course.name
     click_button 'Continue'
 
     choose 'Full time'
@@ -115,7 +115,7 @@ RSpec.feature 'Selecting a study mode' do
     select @provider.name
     click_button 'Continue'
 
-    select @course.name
+    choose @course.name
     click_button 'Continue'
 
     click_button 'Continue'
