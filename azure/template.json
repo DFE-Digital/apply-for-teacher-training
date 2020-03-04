@@ -459,9 +459,6 @@
                     "redisCacheCapacity": {
                         "value": "[parameters('redisCacheCapacity')]"
                     },
-                    "enableNonSslPort": {
-                        "value": true
-                    },
                     "dataPersistence": {
                         "value": "aof"
                     },
