@@ -24,6 +24,7 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     when_i_filter_for_rejected_applications
     then_only_rejected_applications_should_be_visible
+    and_a_rejected_tag_should_be_visible
     and_the_rejected_tickbox_should_still_be_checked
 
     when_i_filter_for_applications_that_i_do_not_have
@@ -51,6 +52,11 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     when_i_filter_by_provider
     then_i_only_see_applications_for_a_given_provider
+    then_i_expect_the_relevant_provider_tags_to_be_visible
+
+    when_i_click_to_remove_a_tag
+    then_i_expect_that_tag_not_to_be_visible
+    and_the_remaining_filters_to_still_apply
 
     and_provider_application_filters_are_deactivated
 
@@ -193,12 +199,13 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def when_i_filter_by_provider
     find(:css, '#provider-hoth-teacher-training').set(true)
+    find(:css, '#provider-caladan-university').set(true)
     click_button('Apply filters')
   end
 
   def then_i_only_see_applications_for_a_given_provider
     expect(page).to have_css('.govuk-table__body', text: 'Hoth Teacher Training')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Caladan University')
+    expect(page).to have_css('.govuk-table__body', text: 'Caladan University')
     expect(page).not_to have_css('.govuk-table__body', text: 'University of Arrakis')
   end
 
@@ -208,5 +215,27 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def and_provider_application_filters_are_deactivated
     FeatureFlag.deactivate('provider_application_filters')
+  end
+
+  def then_i_expect_the_relevant_provider_tags_to_be_visible
+    expect(page).to have_css('.moj-filter-tags', text: 'Hoth Teacher Training')
+    expect(page).to have_css('.moj-filter-tags', text: 'Caladan University')
+  end
+
+  def when_i_click_to_remove_a_tag
+    click_link('Hoth Teacher Training')
+  end
+
+  def then_i_expect_that_tag_not_to_be_visible
+    expect(page).not_to have_css('.moj-filter-tags', text: 'Hoth Teacher Training')
+    expect(page).to have_css('.moj-filter-tags', text: 'Caladan University')
+  end
+
+  def and_the_remaining_filters_to_still_apply
+    expect(page).to have_css('.govuk-table__body', text: 'Caladan University')
+  end
+
+  def and_a_rejected_tag_should_be_visible
+    expect(page).to have_css('.moj-filter-tags', text: 'Rejected')
   end
 end
