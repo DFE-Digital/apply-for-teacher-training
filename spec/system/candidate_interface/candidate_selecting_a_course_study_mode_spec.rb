@@ -19,52 +19,6 @@ RSpec.feature 'Selecting a study mode' do
     then_the_site_is_resolved_automatically_and_i_see_the_course_choice
   end
 
-  def given_there_is_a_single_site_full_time_course
-    @third_site = create(:site, provider: @provider)
-
-    @single_site_course = create(
-      :course, :with_both_study_modes, :open_on_apply, provider: @provider, name: 'MS Painting'
-    )
-
-    create(
-      :course_option,
-      site: @third_site,
-      course: @single_site_course,
-      study_mode: :part_time,
-    )
-
-    create(
-      :course_option,
-      site: @third_site,
-      course: @single_site_course,
-      study_mode: :full_time,
-    )
-  end
-
-  def when_i_select_the_single_site_full_time_course
-    visit candidate_interface_application_form_path
-    click_link 'Course choices'
-    click_link 'Add another course'
-
-    choose 'Yes, I know where I want to apply'
-    click_button 'Continue'
-
-    select @provider.name
-    click_button 'Continue'
-
-    choose @single_site_course.name
-    click_button 'Continue'
-
-    choose 'Full time'
-    click_button 'Continue'
-  end
-
-  def then_the_site_is_resolved_automatically_and_i_see_the_course_choice
-    expect(page).to have_text 'Course choices'
-    expect(page).to have_text @single_site_course.name
-    expect(page).to have_text 'Full time'
-  end
-
   def given_choosing_a_study_mode_is_active
     FeatureFlag.activate('choose_study_mode')
   end
@@ -139,5 +93,49 @@ RSpec.feature 'Selecting a study mode' do
     expect(page).to have_text 'Course choices'
     expect(page).to have_text @course.name
     expect(page).to have_text 'Part time'
+  end
+
+  def given_there_is_a_single_site_full_time_course
+    @single_site_course = create(
+      :course, :with_both_study_modes, :open_on_apply, provider: @provider, name: 'MS Painting'
+    )
+
+    create(
+      :course_option,
+      site: @first_site,
+      course: @single_site_course,
+      study_mode: :part_time,
+    )
+
+    create(
+      :course_option,
+      site: @first_site,
+      course: @single_site_course,
+      study_mode: :full_time,
+    )
+  end
+
+  def when_i_select_the_single_site_full_time_course
+    visit candidate_interface_application_form_path
+    click_link 'Course choices'
+    click_link 'Add another course'
+
+    choose 'Yes, I know where I want to apply'
+    click_button 'Continue'
+
+    select @provider.name
+    click_button 'Continue'
+
+    choose @single_site_course.name
+    click_button 'Continue'
+
+    choose 'Full time'
+    click_button 'Continue'
+  end
+
+  def then_the_site_is_resolved_automatically_and_i_see_the_course_choice
+    expect(page).to have_text 'Course choices'
+    expect(page).to have_text @single_site_course.name
+    expect(page).to have_text 'Full time'
   end
 end
