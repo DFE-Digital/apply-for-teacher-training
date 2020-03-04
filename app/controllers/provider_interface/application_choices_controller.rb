@@ -8,13 +8,12 @@ module ProviderInterface
         .order(ordering_arguments(@sort_by, @sort_order))
 
       if FeatureFlag.active?('provider_application_filters')
-         @available_filters = available_filters(application_choices: application_choices)
-         @filter_visible =  filter_params[:filter_visible] ||= 'true'
-         @filter_selections = filter_params[:filter_selections].to_h ||= {}
-         application_choices = FilterApplicationChoicesForProviders.call(application_choices: application_choices,
-                                                                          filters: @filter_selections)
+        @available_filters = available_filters(application_choices: application_choices)
+        @filter_visible =  filter_params[:filter_visible] ||= 'true'
+        @filter_selections = filter_params[:filter_selections].to_h ||= {}
+        application_choices = FilterApplicationChoicesForProviders.call(application_choices: application_choices,
+                                                                        filters: @filter_selections)
       end
-
       application_choices = application_choices.page(params[:page] || 1)
       @application_choices = application_choices
     end
@@ -24,7 +23,7 @@ module ProviderInterface
         .find(params[:application_choice_id])
     end
 
-  private
+    private
 
     def filter_params
       params.permit(:filter_visible,  filter_selections: {status: {}, provider: {}})
@@ -84,11 +83,11 @@ module ProviderInterface
               value: 'offer_withdrawn',
             },
           ],
- }
-      ] << provider_filters(application_choices: application_choices)
+        }
+      ] << provider_filters_builder(application_choices: application_choices)
     end
 
-    def provider_filters(application_choices:)
+    def provider_filters_builder(application_choices:)
       {
         heading: 'provider',
         checkbox_config: application_choices.map do |choice|
