@@ -13,7 +13,6 @@ class FeatureFlag
     dfe_sign_in_incident
     edit_application
     equality_and_diversity
-    experimental_api_features
     force_ok_computer_to_fail
     improved_expired_token_flow
     notify_candidate_of_new_reference
