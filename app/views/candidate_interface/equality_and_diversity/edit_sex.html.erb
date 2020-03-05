@@ -11,6 +11,8 @@
           <%= f.govuk_radio_button :sex, :female, label: { text: 'Female' }, link_errors: true %>
           <%= f.govuk_radio_button :sex, :male, label: { text: 'Male' } %>
           <%= f.govuk_radio_button :sex, :intersex, label: { text: 'Intersex' } %>
+          <%= f.govuk_radio_divider %>
+          <%= f.govuk_radio_button :sex, 'Prefer not to say', label: { text: 'Prefer not to say' } %>
         </div>
       <% end %>
 
