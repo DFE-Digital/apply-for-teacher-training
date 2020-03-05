@@ -7,7 +7,7 @@ module ProviderInterface
       application_choices = GetApplicationChoicesForProviders.call(providers: current_provider_user.providers)
         .order(ordering_arguments(@sort_by, @sort_order))
 
-      application_choices = application_choices.page(params[:page] || 1) if FeatureFlag.active?('provider_interface_pagination')
+      application_choices = application_choices.page(params[:page] || 1)
 
       if FeatureFlag.active?('provider_application_filters')
         raise 'feature not implemented yet'

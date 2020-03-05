@@ -6,7 +6,7 @@ class PaginatorComponent < ActionView::Component::Base
   end
 
   def render?
-    FeatureFlag.active?('provider_interface_pagination') && @scope.total_pages > 1
+    @scope.total_pages > 1
   end
 
   def page_start
