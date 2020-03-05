@@ -4,10 +4,6 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data/clear', type: :request do
   include VendorApiSpecHelpers
   include CourseOptionHelpers
 
-  before do
-    FeatureFlag.activate('experimental_api_features')
-  end
-
   it 'clears test data' do
     create(
       :application_choice,

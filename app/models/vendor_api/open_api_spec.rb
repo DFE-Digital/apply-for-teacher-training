@@ -9,13 +9,9 @@ module VendorApi
     end
 
     def self.spec
-      if FeatureFlag.active?('experimental_api_features')
-        YAML
-          .load_file('config/vendor-api-v1.yml')
-          .deep_merge(YAML.load_file('config/vendor-api-experimental.yml'))
-      else
-        YAML.load_file('config/vendor-api-v1.yml')
-      end
+      YAML
+        .load_file('config/vendor-api-v1.yml')
+        .deep_merge(YAML.load_file('config/vendor-api-experimental.yml'))
     end
   end
 end
