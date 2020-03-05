@@ -136,23 +136,31 @@ jobs:
                   $gitCompareUri= "https://api.github.com/repos/DFE-Digital/apply-for-postgraduate-teacher-training/compare/$currentDeployedCommit...$env:COMMIT_HASH"
                 }
                 $gitChangedFiles = (Invoke-RestMethod -Method Get -Uri $gitCompareUri -Headers @{Authorization = $encodedAccessToken}).files.filename
-                write-host ("DEBUG - Changed files list: {0}" -f [system.string]::Join(", ", $gitChangedFiles))
+                if ( $gitChangedFiles.length -gt 0 ) {
+                  write-host ("DEBUG - Changed files list: {0}" -f [system.string]::Join(", ", $gitChangedFiles))
+                } else {
+                  write-host ("DEBUG - No files changed in commit.")
+                }
 
                 if ( $lastDeployment -lt $variableGroupLastEditTimestamp ) {
                   write-host "Full ARM deployment required - Variable group changes detected."
                   $fullDeployment = $true
                 }
                 else {
-                  foreach ( $file in $deploymentFiles ) {
-                    if ( $gitChangedFiles -contains $file ) {
-                      $fullDeployment = $true
-                      break
+                  if ( $gitChangedFiles.length -gt 0 ) {
+                    foreach ( $file in $deploymentFiles ) {
+                      if ( $gitChangedFiles -contains $file ) {
+                        $fullDeployment = $true
+                        break
+                      }
                     }
-                  }
-                  if ( $fullDeployment -eq $false ) {
-                    write-host "No ARM deployment required."
+                    if ( $fullDeployment -eq $false ) {
+                      write-host "No ARM deployment required."
+                    } else {
+                      write-host "Full ARM deployment required - Template/pipeline file changes detected."
+                    }
                   } else {
-                    write-host "Full ARM deployment required - Template/pipeline file changes detected."
+                    write-host "No ARM deployment required. No files or pipeline variables changed."
                   }
                 }
                 
