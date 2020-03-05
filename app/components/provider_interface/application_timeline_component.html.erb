@@ -1,19 +1,17 @@
 <h2 class="govuk-heading-l">Timeline</h2>
 <div class="app-timeline">
-  <div class="app-timeline__item">
+  <% entries.each do |entry| %>
+    <div class="app-timeline__item">
+      <div class="app-timeline__header">
+        <h2 class="app-timeline__title"><%= entry.action %></h2>
+        <p class="app-timeline__byline">by <%= entry.actor %></p>
+      </div>
 
-    <div class="app-timeline__header">
-      <h2 class="app-timeline__title">Application submitted</h2>
+      <p class="app-timeline__date">
+        <time datetime="<%= entry.date.iso8601 %>"><%= entry.date.to_s(:govuk_date) %></time>
+      </p>
 
-      <p class="app-timeline__byline">by candidate</p>
-
+      <div class="app-timeline__description"></div>
     </div>
-
-    <p class="app-timeline__date">
-    <time datetime="2019-10-10">10 Oct 2019</time>
-    </p>
-
-    <div class="app-timeline__description"></div>
-
-  </div>
+  <% end %>
 </div>
