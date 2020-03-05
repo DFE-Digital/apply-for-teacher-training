@@ -394,6 +394,7 @@ Rails.application.routes.draw do
     get '/performance' => 'performance#index', as: :performance
     get '/performance/application-timings', to: 'performance#application_timings', as: :application_timings
     get '/performance/referee-survey', to: 'performance#referee_survey', as: :referee_survey
+    get '/performance/providers', to: 'performance#providers_export', as: :providers_export
 
     get '/tasks' => 'tasks#index', as: :tasks
     post '/tasks/:task' => 'tasks#run', as: :run_task

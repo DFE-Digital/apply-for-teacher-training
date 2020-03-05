@@ -18,6 +18,20 @@ module SupportInterface
       render plain: csv
     end
 
+    def providers_export
+      providers = SupportInterface::ProvidersExport.new.providers
+
+      csv = CSV.generate do |rows|
+        rows << providers.first.keys
+
+        providers.each do |a|
+          rows << a.values
+        end
+      end
+
+      render plain: csv
+    end
+
     def referee_survey
       responses = SupportInterface::RefereeSurveyExport.new.call
 
