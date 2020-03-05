@@ -108,5 +108,15 @@ class ApplicationForm < ApplicationRecord
     application_choices.none?(&:edit_by_expired?)
   end
 
+  def blank_application?
+    updated_at == created_at &&
+      application_choices.none &&
+      application_work_experiences.none &&
+      application_volunteering_experiences.none &&
+      application_qualifications.none &&
+      application_references.none &&
+      application_work_history_breaks.none
+  end
+
   audited
 end
