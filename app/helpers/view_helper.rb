@@ -64,8 +64,10 @@ module ViewHelper
   def format_months_to_years_and_months(number_of_months)
     duration_parts = ActiveSupport::Duration.build(number_of_months.months).parts
 
-    if duration_parts[:years].positive?
+    if duration_parts[:years].positive? && duration_parts[:months].positive?
       "#{pluralize(duration_parts[:years], 'year')} and #{pluralize(duration_parts[:months], 'month')}"
+    elsif duration_parts[:years].positive?
+      pluralize(duration_parts[:years], 'year')
     else
       pluralize(number_of_months, 'month')
     end

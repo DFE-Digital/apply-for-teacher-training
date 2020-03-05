@@ -13,28 +13,12 @@ RSpec.describe BreakInWorkHistoryComponent do
     )
   end
 
-  context 'when work history break is less than 12 months' do
-    it 'renders the component with the break in months, reason and dates' do
-      result = render_inline(BreakInWorkHistoryComponent.new(work_break: work_break))
+  it 'renders the component with the break length, reason and dates' do
+    result = render_inline(BreakInWorkHistoryComponent.new(work_break: work_break))
 
-      expect(result.text).to include('Break in work history (1 month)')
-      expect(result.text).to include('I fell asleep.')
-      expect(result.text).to include('February 2019 - April 2019')
-    end
-  end
-
-  context 'when work history break is more than 12 months' do
-    it 'renders the component with the break in months' do
-      work_break = build_stubbed(
-        :application_work_history_break,
-        start_date: january2018,
-        end_date: april2019,
-        reason: 'I fell asleep.',
-      )
-      result = render_inline(BreakInWorkHistoryComponent.new(work_break: work_break))
-
-      expect(result.text).to include('Break in work history (1 year and 2 months)')
-    end
+    expect(result.text).to include('Break in work history (1 month)')
+    expect(result.text).to include('I fell asleep.')
+    expect(result.text).to include('February 2019 - April 2019')
   end
 
   context 'when editable' do
