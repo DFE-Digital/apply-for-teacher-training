@@ -17,6 +17,8 @@ Bundler.require(*Rails.groups)
 
 require './app/lib/hosting_environment'
 
+require 'pdfkit'
+
 module ApplyForPostgraduateTeacherTraining
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
@@ -46,5 +48,7 @@ module ApplyForPostgraduateTeacherTraining
     config.action_view.raise_on_missing_translations = true
 
     config.active_job.queue_adapter = :sidekiq
+
+    config.middleware.use PDFKit::Middleware, { print_media_type: true }, only: [%r[^/provider/applications/\d+]]
   end
 end
