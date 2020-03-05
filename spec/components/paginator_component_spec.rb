@@ -21,17 +21,7 @@ RSpec.describe PaginatorComponent do
     render_inline(component)
   end
 
-  context 'when the feature flag is OFF' do
-    context 'when we are on the first of two pages' do
-      it 'renders nothing' do
-        expect(rendered_component(current_page: 1, total_count: 29).text).to eq ''
-      end
-    end
-  end
-
-  context 'when the feature flag is ON' do
-    before { FeatureFlag.activate('provider_interface_pagination') }
-
+  context 'pagination behaviour' do
     context 'when there is only one page' do
       it 'renders nothing' do
         expect(rendered_component.text).to eq ''

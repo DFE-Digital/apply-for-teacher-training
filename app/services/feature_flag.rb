@@ -22,7 +22,6 @@ class FeatureFlag
     pilot_open
     provider_application_filters
     provider_change_response
-    provider_interface_pagination
     send_dfe_sign_in_invitations
     send_reference_confirmation_email
     show_new_referee_needed

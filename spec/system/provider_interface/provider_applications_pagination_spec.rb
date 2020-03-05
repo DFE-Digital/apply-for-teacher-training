@@ -6,7 +6,6 @@ RSpec.feature 'Providers should be able to sort applications' do
 
   scenario 'viewing applications one page at a time' do
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_pagination_feature_is_active
     and_i_am_permitted_to_see_applications_for_my_provider
     and_my_organisation_has_less_than_25_applications
     and_i_sign_in_to_the_provider_interface
@@ -21,18 +20,10 @@ RSpec.feature 'Providers should be able to sort applications' do
     when_i_click_next
     then_i_should_see_page_2
     then_i_should_see_a_paginator_for_page_2
-
-    when_pagination_feature_is_deactivated
-    when_i_visit_the_provider_applications_page
-    then_i_should_not_see_a_paginator
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
     provider_exists_in_dfe_sign_in
-  end
-
-  def and_pagination_feature_is_active
-    FeatureFlag.activate('provider_interface_pagination')
   end
 
   def and_i_am_permitted_to_see_applications_for_my_provider
@@ -101,10 +92,6 @@ RSpec.feature 'Providers should be able to sort applications' do
     expect(page).to have_link('Previous')
     expect(page).to have_link('1')
     expect(page).to have_content('Showing 26 to')
-  end
-
-  def when_pagination_feature_is_deactivated
-    FeatureFlag.deactivate('provider_interface_pagination')
   end
 
   def then_i_should_not_see_a_paginator
