@@ -83,28 +83,27 @@ module ProviderInterface
               value: 'offer_withdrawn',
             },
           ],
-<<<<<<< HEAD
         }
-=======
- },
->>>>>>> Rubocop fixes
       ] << provider_filters_builder(application_choices: application_choices)
     end
 
     def provider_filters_builder(application_choices:)
+      checkbox_config = application_choices.map do |choice|
+        provider = choice.provider
+
+        {
+          name: provider.name.parameterize,
+          text: provider.name,
+          value: provider.id.to_s,
+        }
+      end
+
       provider_filters = {
         heading: 'provider',
-        checkbox_config: application_choices.map do |choice|
-          provider = choice.provider
-          {
-            name: provider.name.parameterize,
-            text: provider.name,
-            value: provider.id.to_s,
-          }
-        end,
+        checkbox_config: checkbox_config.uniq!,
       }
 
-      provider_filters.uniq!
+      provider_filters
     end
   end
 end
