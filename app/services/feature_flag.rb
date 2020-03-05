@@ -1,5 +1,6 @@
 class FeatureFlag
   FEATURES = %w[
+    add_additional_courses_page
     banner_about_problems_with_dfe_sign_in
     choose_study_mode
     confirm_conditions
