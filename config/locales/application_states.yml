@@ -297,11 +297,13 @@ en:
       description: The provider says the candidate hasn’t met the conditions set out in the offer.
       emails:
         - candidate_mailer-conditions_not_met
-        - provider_mailer-application_withrawn
+
     pending_conditions-withdraw:
       name: Candidate withdraws
       by: candidate
       description: Candidates can withdraw at any time.
+      emails:
+        - provider_mailer-application_withrawn
 
     recruited-confirm_enrolment:
       name: Provider confirms enrolment
