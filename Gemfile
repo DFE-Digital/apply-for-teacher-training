@@ -71,6 +71,10 @@ gem 'ruby-graphviz'
 
 gem 'kaminari'
 
+# PDF generation
+gem 'wkhtmltopdf-binary'
+gem 'pdfkit'
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.3'
