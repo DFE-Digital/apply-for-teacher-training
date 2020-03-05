@@ -22,6 +22,11 @@
   <div class="govuk-grid-column-two-thirds">
   <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice) %>
   </div>
+  <% if FeatureFlag.active?('provider_ui_application_timeline') %>
+    <div class="govuk-grid-column-one-third">
+      <%= render ProviderInterface::ApplicationTimelineComponent.new(application_choice: @application_choice) %>
+    </div>
+  <% end %>
 </div>
 
 <div class="govuk-grid-row">

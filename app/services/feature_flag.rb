@@ -15,6 +15,7 @@ class FeatureFlag
     training_with_a_disability
     work_breaks
     you_selected_a_course_page
+    provider_ui_application_timeline
   ].freeze
 
   def self.activate(feature_name)

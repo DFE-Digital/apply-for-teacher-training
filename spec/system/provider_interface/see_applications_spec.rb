@@ -15,8 +15,10 @@ RSpec.feature 'See applications' do
     and_i_sign_in_to_the_provider_interface
     then_i_should_see_the_applications_from_my_organisation
 
+    given_the_timeline_feature_flag_is_on
     when_i_click_on_an_application
     then_i_should_be_on_the_application_view_page
+    and_i_should_see_the_application_timeline_with_a_submitted_date
   end
 
   def when_my_apply_account_has_been_created
@@ -68,5 +70,15 @@ RSpec.feature 'See applications' do
   def then_i_should_be_on_the_application_view_page
     expect(page).to have_content @my_provider_choice1.application_form.support_reference
     expect(page).to have_content @my_provider_choice1.application_form.first_name
+  end
+
+  def given_the_timeline_feature_flag_is_on
+    FeatureFlag.activate('provider_ui_application_timeline')
+  end
+
+  def and_i_should_see_the_application_timeline_with_a_submitted_date
+    within('.app-timeline') do
+      expect(page).to have_content "Application submitted\nby candidate"
+    end
   end
 end
