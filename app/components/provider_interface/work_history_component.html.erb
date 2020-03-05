@@ -1,2 +1,14 @@
-<% work_history_with_breaks.each do |entry| %>
-<% end %>
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header" width="30%">Dates</th>
+      <th scope="col" class="govuk-table__header">Role</th>
+    </tr>
+  </thead>
+
+  <tbody class="govuk-table__body">
+    <% work_history_with_breaks.each do |item| %>
+      <%= render ProviderInterface::WorkHistoryItemComponent.new(item: item) %>
+    <% end %>
+  </tbody>
+</table>
