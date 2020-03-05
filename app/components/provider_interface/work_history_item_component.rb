@@ -16,7 +16,7 @@ module ProviderInterface
       if item.respond_to?(:role) && item.respond_to?(:working_pattern)
         "#{item.role} - #{working_pattern}"
       elsif item.respond_to?(:reason)
-        item.reason
+        explained_absence_title
       else
         unexplained_absence_title
       end
@@ -26,6 +26,7 @@ module ProviderInterface
       properties = {}
       properties['Employer'] = item.organisation if item.respond_to?(:organisation)
       properties['Description'] = item.details if item.respond_to?(:details)
+      properties['Reason'] = item.reason if item.respond_to?(:reason)
       properties
     end
 
@@ -54,6 +55,10 @@ module ProviderInterface
       return item.commitment.dasherize.humanize if item.working_pattern.blank?
 
       "#{item.commitment.dasherize.humanize}\n #{item.working_pattern}"
+    end
+
+    def explained_absence_title
+      "Explained break in work history (#{formatted_duration})"
     end
 
     def unexplained_absence_title
