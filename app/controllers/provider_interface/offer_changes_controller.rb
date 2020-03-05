@@ -44,7 +44,12 @@ module ProviderInterface
     def update
       @change_offer_form.step = :update
       if @change_offer_form.complete?
-        raise 'call me!'
+        ChangeOffer.new(
+          actor: current_provider_user,
+          application_choice: @application_choice,
+          course_option_id: @change_offer_form.course_option_id,
+        ).save!
+        redirect_to provider_interface_application_choice_path(@application_choice.id)
       else
         raise 'cannot update offer'
       end
