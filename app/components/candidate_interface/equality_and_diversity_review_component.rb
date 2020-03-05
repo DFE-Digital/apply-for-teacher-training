@@ -23,6 +23,8 @@ module CandidateInterface
     def disabilities_row
       disabilties = if @application_form.equality_and_diversity['disabilities'].empty?
                       'No'
+                    elsif @application_form.equality_and_diversity['disabilities'].include?('Prefer not to say')
+                      'Prefer not to say'
                     else
                       "Yes (#{@application_form.equality_and_diversity['disabilities'].to_sentence(last_word_connector: ' and ')})"
                     end

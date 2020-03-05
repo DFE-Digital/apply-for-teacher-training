@@ -44,6 +44,18 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
     end
   end
 
+  context 'when the disabilities has value Prefer not to say' do
+    it 'displays "Prefer not to say"' do
+      application_form.equality_and_diversity = { 'sex' => 'male', 'disabilities' => ['Prefer not to say'] }
+
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Disability')
+      expect(result.css('.govuk-summary-list__value').text).to include('Prefer not to say')
+      expect(result.css('.govuk-summary-list__value').text).not_to include('Yes')
+    end
+  end
+
   context 'when there are values for ethnic group and ethnic background' do
     it 'displays the ethnic group and ethnic background in brackets' do
       application_form.equality_and_diversity = {

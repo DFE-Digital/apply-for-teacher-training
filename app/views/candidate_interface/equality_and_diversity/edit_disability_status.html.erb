@@ -10,6 +10,8 @@
         <div class="govuk-!-margin-top-6">
           <%= f.govuk_radio_button :disability_status, :yes, label: { text: 'Yes' }, link_errors: true %>
           <%= f.govuk_radio_button :disability_status, :no, label: { text: 'No' } %>
+          <%= f.govuk_radio_divider %>
+          <%= f.govuk_radio_button :disability_status, 'Prefer not to say', label: { text: 'Prefer not to say' } %>
         </div>
       <% end %>
 

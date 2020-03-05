@@ -31,7 +31,7 @@ module CandidateInterface
       @disability_status = EqualityAndDiversity::DisabilityStatusForm.new(disability_status: disability_status_param)
 
       if @disability_status.save(current_application)
-        if disability_status_param == 'no'
+        if disability_status_param == 'no' || disability_status_param == 'Prefer not to say'
           if current_application.equality_and_diversity['ethnic_group'].nil?
             redirect_to candidate_interface_edit_equality_and_diversity_ethnic_group_path
           else
