@@ -114,4 +114,24 @@ RSpec.describe ViewHelper, type: :helper do
       end
     end
   end
+
+  describe '#format_months_to_years_and_months' do
+    context 'when months is 12 months' do
+      it 'returns years and months' do
+        expect(helper.format_months_to_years_and_months(12)).to eq('1 year')
+      end
+    end
+
+    context 'when months is less than 12 months' do
+      it 'returns just the months' do
+        expect(helper.format_months_to_years_and_months(5)).to eq('5 months')
+      end
+    end
+
+    context 'when months is more than 12 months' do
+      it 'returns just the years and months' do
+        expect(helper.format_months_to_years_and_months(27)).to eq('2 years and 3 months')
+      end
+    end
+  end
 end
