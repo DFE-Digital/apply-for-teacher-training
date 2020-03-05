@@ -10,6 +10,10 @@ module ProviderInterface
       @work_history_with_breaks ||= WorkHistoryWithBreaks.new(@application_form).timeline
     end
 
+    def render?
+      work_history_with_breaks.present?
+    end
+
   private
 
     attr_accessor :application_form
