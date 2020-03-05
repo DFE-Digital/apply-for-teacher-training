@@ -21,8 +21,21 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
     and_i_fill_in_the_eligiblity_form_with_yes
     and_i_submit_my_email_address
     and_click_on_the_magic_link
+    then_i_should_see_the_before_you_start_page
+    and_i_should_not_see_an_account_created_flash_message
 
     when_i_click_on_go_to_my_application
+    then_i_should_see_the_application_page
+    and_i_should_not_see_an_account_created_flash_message
+
+    when_i_amend_my_application
+    and_i_sign_out
+
+    when_i_visit_apply
+    and_i_click_start_now
+    and_i_fill_in_the_eligiblity_form_with_yes
+    and_i_submit_my_email_address
+    and_click_on_the_magic_link
     then_i_should_see_the_application_page
     and_i_should_not_see_an_account_created_flash_message
   end
@@ -56,7 +69,7 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
   end
 
   def and_i_submit_my_email_address
-    @email = "#{SecureRandom.hex}@example.com"
+    @email = "#{SecureRandom.hex}@example.com" if @email.blank?
     fill_in t('authentication.sign_up.email_address.label'), with: @email
     check t('authentication.sign_up.accept_terms_checkbox')
     click_on t('authentication.sign_up.button_continue')
@@ -97,5 +110,19 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
 
   def and_i_should_not_see_an_account_created_flash_message
     expect(page).not_to have_content(t('apply_from_find.account_created_message'))
+  end
+
+  def when_i_amend_my_application
+    click_on 'Maths GCSE or equivalent'
+    choose('GCSE')
+    click_button 'Save and continue'
+    fill_in 'Please specify your grade', with: 'AA'
+    click_button 'Save and continue'
+    fill_in 'Enter year', with: '1990'
+    click_button 'Save and continue'
+  end
+
+  def and_i_sign_out
+    click_on 'Sign out'
   end
 end
