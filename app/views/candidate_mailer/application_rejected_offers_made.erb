@@ -13,7 +13,7 @@ If you don’t reply within <%= @dbd_days %> working days, your applications wil
 
 <% else %>
 
-You now have <%= @dbd_days %> working days to make a decision about your offer for a place on <%= @offers.first.course.name_and_code %> at <%= @offers.first.provider.name%>.
+You now have <%= @dbd_days %> working days to make a decision about your offer for a place on <%= @offers.first.course_option.course.name_and_code %> at <%= @offers.first.course_option.course.provider.name%>.
 
 <% end %>
 

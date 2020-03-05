@@ -5,7 +5,7 @@ Dear <%= @application_form.first_name %>,
 You have submitted an application for:
 
 <% @application_form.application_choices.each do |application_choice| %>
-* <%= application_choice.provider.name %> - <%= application_choice.course.name %> (<%= application_choice.course.code %>)
+* <%= application_choice.course_option.course.provider.name %> - <%= application_choice.course_option.course.name %> (<%= application_choice.course_option.course.code %>)
 <% end %>
 
 Your application reference is <%= @application_form.support_reference %>.

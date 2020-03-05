@@ -61,7 +61,6 @@ class CandidateMailerPreview < ActionMailer::Preview
   def new_offer_single_offer
     course_option = FactoryBot.build_stubbed(:course_option)
     application_choice = application_form.application_choices.build(
-      id: 123,
       course_option: course_option,
       status: :offer,
       offer: { conditions: ['DBS check', 'Pass exams'] },
@@ -75,7 +74,6 @@ class CandidateMailerPreview < ActionMailer::Preview
   def new_offer_multiple_offers
     course_option = FactoryBot.build_stubbed(:course_option)
     application_choice = application_form.application_choices.build(
-      id: 123,
       course_option: course_option,
       status: :offer,
       offer: { conditions: ['DBS check', 'Pass exams'] },
@@ -85,7 +83,6 @@ class CandidateMailerPreview < ActionMailer::Preview
     )
     other_course_option = FactoryBot.build_stubbed(:course_option)
     application_form.application_choices.build(
-      id: 456,
       course_option: other_course_option,
       status: :offer,
       offer: { conditions: ['Get a degree'] },
@@ -99,7 +96,6 @@ class CandidateMailerPreview < ActionMailer::Preview
   def new_offer_decisions_pending
     course_option = FactoryBot.build_stubbed(:course_option)
     application_choice = application_form.application_choices.build(
-      id: 123,
       course_option: course_option,
       status: :offer,
       offer: { conditions: ['DBS check', 'Pass exams'] },
@@ -109,7 +105,6 @@ class CandidateMailerPreview < ActionMailer::Preview
     )
     other_course_option = FactoryBot.build_stubbed(:course_option)
     application_form.application_choices.build(
-      id: 456,
       course_option: other_course_option,
       status: :awaiting_provider_decision,
     )
