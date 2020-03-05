@@ -1,29 +1,17 @@
 class FeatureFlag
   FEATURES = %w[
-    application_withrawn_provider_email
-    automated_decline_by_default_candidate_chaser
-    automated_provider_chaser
-    automated_referee_chaser
-    automated_referee_replacement
-    candidate_rejected_by_provider_email
     choose_study_mode
     confirm_conditions
-    decline_by_default_notification_to_candidate
-    decline_by_default_notification_to_provider
     dfe_sign_in_incident
     edit_application
     equality_and_diversity
     force_ok_computer_to_fail
     improved_expired_token_flow
-    notify_candidate_of_new_reference
-    offer_accepted_provider_emails
-    offer_declined_provider_emails
     pilot_open
     provider_application_filters
     provider_change_response
     provider_interface_pagination
     send_dfe_sign_in_invitations
-    send_reference_confirmation_email
     show_new_referee_needed
     training_with_a_disability
     work_breaks

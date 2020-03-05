@@ -5,8 +5,6 @@ RSpec.feature 'Referee does not respond in time', sidekiq: true do
 
   scenario 'Emails are sent if a referee does not respond in time' do
     FeatureFlag.activate('training_with_a_disability')
-    FeatureFlag.activate('automated_referee_chaser')
-    FeatureFlag.activate('automated_referee_replacement')
 
     given_a_candidate_completed_an_application
     when_the_candidate_submits_the_application

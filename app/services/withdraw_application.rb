@@ -10,7 +10,7 @@ class WithdrawApplication
       SetDeclineByDefault.new(application_form: application_choice.application_form).call
 
       StateChangeNotifier.call(:withdraw, application_choice: application_choice)
-      send_email_notification_to_provider_users(application_choice) if FeatureFlag.active?('application_withrawn_provider_email')
+      send_email_notification_to_provider_users(application_choice)
     end
   end
 
