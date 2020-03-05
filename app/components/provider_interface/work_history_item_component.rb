@@ -30,6 +30,10 @@ module ProviderInterface
       properties
     end
 
+    def working_with_children?
+      item.respond_to?(:working_with_children?) && item.working_with_children?
+    end
+
   private
 
     attr_accessor :item
