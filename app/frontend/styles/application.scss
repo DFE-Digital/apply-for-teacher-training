@@ -38,6 +38,7 @@ $govuk-image-url-function: frontend-image-url;
 @import "~@ministryofjustice/frontend/moj/objects/filter-layout";
 @import "~@ministryofjustice/frontend/moj/components/filter/filter";
 @import "_filter";
+@import "_timeline";
 
 // Support
 @import "~@ministryofjustice/frontend/moj/components/sub-navigation/sub-navigation";
