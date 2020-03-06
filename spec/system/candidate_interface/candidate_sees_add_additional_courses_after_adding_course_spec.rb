@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Add additional courses flow' do
   include CandidateHelper
+  include CourseOptionHelpers
 
   scenario 'Candidate is signed in' do
     given_that_add_additional_courses_page_is_active
@@ -37,7 +38,10 @@ RSpec.describe 'Add additional courses flow' do
 
   def and_there_are_course_options
     @provider = create(:provider)
-    3.times { create(:course, provider: @provider, exposed_in_find: true) }
+    create_list(:course, 3, provider: @provider, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
+    course_option_for_provider(provider: @provider, course: @provider.courses.first)
+    course_option_for_provider(provider: @provider, course: @provider.courses.second)
+    course_option_for_provider(provider: @provider, course: @provider.courses.third)
   end
 
   def and_i_am_signed_in
@@ -72,6 +76,6 @@ RSpec.describe 'Add additional courses flow' do
   end
 
   def then_i_should_be_on_the_add_additional_courses_page
-    # route to go here
+    expect(page).to have_current_path candidate_interface_course_choices_add_another_course_path
   end
 end

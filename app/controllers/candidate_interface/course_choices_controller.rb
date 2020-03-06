@@ -150,6 +150,8 @@ module CandidateInterface
       redirect_to candidate_interface_course_choices_index_path
     end
 
+    def add_another_course; end
+
     def complete
       @application_form = current_application
 
@@ -192,8 +194,14 @@ module CandidateInterface
 
       if @pick_site.save
         current_application.update!(course_choices_completed: false)
+        @course_choices = current_candidate.current_application.application_choices
 
-        redirect_to candidate_interface_course_choices_index_path
+        if @course_choices.count.between?(1, 2)
+          redirect_to candidate_interface_course_choices_add_another_course_path
+        else
+          redirect_to candidate_interface_course_choices_index_path
+        end
+
       else
         render :options_for_site
       end
