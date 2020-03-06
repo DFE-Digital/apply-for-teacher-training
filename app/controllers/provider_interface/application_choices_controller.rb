@@ -23,7 +23,7 @@ module ProviderInterface
         .find(params[:application_choice_id])
     end
 
-    private
+  private
 
     def filter_params
       params.permit(:filter_visible, filter_selections: { status: {}, provider: {} })
@@ -83,7 +83,7 @@ module ProviderInterface
               value: 'offer_withdrawn',
             },
           ],
-        }
+        },
       ] << provider_filters_builder(application_choices: application_choices)
     end
 
