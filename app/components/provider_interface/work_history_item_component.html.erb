@@ -1,47 +1,20 @@
-<tr class="govuk-table__row">
-  <td class="govuk-table__cell">
+<div class="app-experience__item">
+  <h3 class="govuk-heading-s govuk-!-margin-bottom-0">
+    <%= title %>
+  </h3>
+  <p class="govuk-body govuk-!-margin-bottom-0"></p>
+  <p class="govuk-caption-m govuk-!-font-size-16">
     <%= dates %>
-  </td>
-  <td class="govuk-table__cell">
-    <% if properties.present? %>
-      <details class="govuk-details govuk-!-margin-0" data-module="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">
-            <%= title %>
-            <% if working_with_children? %>
-              <svg class="app-icon govuk-!-margin-right-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 200 200" focusable="false" fill="currentColor" aria-hidden="true">
-                <path d="M100 200a100 100 0 1 1 0-200 100 100 0 0 1 0 200zm-60-85l40 40 80-80-20-20-60 60-20-20-20 20z"></path>
-              </svg>
-            <% end %>
-          </span>
-        </summary>
-        <div class="govuk-details__text">
-          <dl class="govuk-summary-list">
-            <% properties.each do |key, value| %>
-              <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                  <%= key %>
-                </dt>
-                <dd class="govuk-summary-list__value">
-                  <p class="govuk-body">
-                    <%= value %>
-                  </p>
-                  <% if working_with_children? && key == 'Description' %>
-                    <p class="govuk-body">
-                      <svg class="app-icon govuk-!-margin-right-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 200 200" focusable="false" fill="currentColor" aria-hidden="true">
-                        <path d="M100 200a100 100 0 1 1 0-200 100 100 0 0 1 0 200zm-60-85l40 40 80-80-20-20-60 60-20-20-20 20z"></path>
-                      </svg>
-                      This role involved working with children
-                    </p>
-                  <% end %>
-                </dd>
-              </div>
-            <% end %>
-          </dl>
-        </div>
-      </details>
-    <% else %>
-      <%= title %>
+  </p>
+  <p class="govuk-body">
+    <%= details %>
+    <% if working_with_children? %>
+      <p class="govuk-body govuk-!-font-size-16">
+        <svg class="app-icon govuk-!-margin-right-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 200 200" focusable="false" fill="currentColor" aria-hidden="true">
+          <path d="M100 200a100 100 0 1 1 0-200 100 100 0 0 1 0 200zm-60-85l40 40 80-80-20-20-60 60-20-20-20 20z"></path>
+        </svg>
+        Worked with children
+      </p>
     <% end %>
-  </td>
-</tr>
+  </p>
+</div>

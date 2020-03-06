@@ -22,12 +22,9 @@ module ProviderInterface
       end
     end
 
-    def properties
-      properties = {}
-      properties['Employer'] = item.organisation if item.respond_to?(:organisation)
-      properties['Description'] = item.details if item.respond_to?(:details)
-      properties['Reason'] = item.reason if item.respond_to?(:reason)
-      properties
+    def details
+      return item.details if item.respond_to?(:details)
+      return item.reason if item.respond_to?(:reason)
     end
 
     def working_with_children?
