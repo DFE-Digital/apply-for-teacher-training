@@ -5,13 +5,6 @@ RSpec.describe SyncProviderFromFind do
 
   describe 'ingesting a brand new provider' do
     it 'just creates the provider without any courses' do
-      stub_find_api_provider_200(
-        provider_code: 'ABC',
-        course_code: '9CBA',
-        site_code: 'G',
-        findable: true,
-      )
-
       SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
 
       provider = Provider.find_by_code('ABC')
