@@ -7,6 +7,7 @@ module SupportInterface
             support_reference: application_form.support_reference,
             submitted_at: application_form.submitted_at,
             choice_id: choice.id,
+            choice_status: choice.status,
             provider_code: choice.provider.code,
             course_code: choice.course.code,
             sent_to_provider_at: sent_to_provider_audit_entry(choice: choice)&.created_at,
