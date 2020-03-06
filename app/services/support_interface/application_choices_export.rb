@@ -23,8 +23,8 @@ module SupportInterface
 
     def sent_to_provider_audit_entry(choice:)
       choice
-        .own_and_associated_audits
-        .find_by(audited_changes: { 'status' => %w[application_complete awaiting_provider_decision] })
+        .audits
+        .detect { |entry| entry.audited_changes == { 'status' => %w[application_complete awaiting_provider_decision] } }
     end
 
     def decision_interpretation(choice:)
@@ -55,7 +55,7 @@ module SupportInterface
       ApplicationForm
         .includes(
           :candidate,
-          :application_choices,
+          application_choices: %i[course provider audits],
         )
         .where('candidates.hide_in_reporting' => false)
         .where.not(submitted_at: nil)
