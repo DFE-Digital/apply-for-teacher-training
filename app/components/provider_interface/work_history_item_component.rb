@@ -53,9 +53,9 @@ module ProviderInterface
     end
 
     def working_pattern
-      return item.commitment.dasherize.humanize if item.working_pattern.blank?
+      return item.working_pattern if item.is_a?(ApplicationVolunteeringExperience)
 
-      "#{item.commitment.dasherize.humanize}\n #{item.working_pattern}"
+      item.commitment.dasherize.humanize;
     end
 
     def explained_absence_title
