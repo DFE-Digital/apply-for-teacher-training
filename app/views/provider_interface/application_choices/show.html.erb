@@ -84,7 +84,7 @@
 
     <% if @application_choice.application_form.application_references.any? %>
       <% @application_choice.application_form.application_references.each_with_index do |reference, i| %>
-        <h2 class="govuk-heading-l govuk-!-margin-top-8"><%= "#{(i + 1).ordinalize} reference" %></h2>
+        <h2 class="govuk-heading-m govuk-!-margin-top-8"><%= "#{TextOrdinalizer.call((i + 1)).capitalize} referee" %></h2>
         <%= render ProviderInterface::ReferenceWithFeedbackComponent.new(reference: reference) %>
       <% end %>
     <% end %>
