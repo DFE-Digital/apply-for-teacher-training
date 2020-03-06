@@ -446,7 +446,8 @@ GEM
       rubocop (>= 0.68.1)
     ruby-enum (0.7.2)
       i18n
-    ruby-graphviz (1.2.4)
+    ruby-graphviz (1.2.5)
+      rexml
     ruby-progressbar (1.10.1)
     rubyzip (2.0.0)
     safe_yaml (1.0.5)
