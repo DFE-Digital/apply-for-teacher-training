@@ -20,8 +20,9 @@ module ProviderInterface
     end
 
     validates_each :course_id do |record, attr, _value|
-      if record.step_after?(:course) && (record.course_id.blank? || !course_matches_provider?(record))
-        record.errors.add attr, 'Please select a course'
+      if record.step_after?(:course)
+        record.errors.add attr, 'Please select a course' if record.course_id.blank? || !course_matches_provider?(record)
+        record.errors.add attr, 'Course not open on Apply' if record.course_id.present? && !course_open_on_apply?(record)
       end
     end
 
@@ -32,7 +33,13 @@ module ProviderInterface
     end
 
     def self.course_matches_provider?(record)
-      record.course_id && Course.find(record.course_id).provider.id == record.provider_id
+      course = Course.find(record.course_id) if record.course_id
+      course && record.provider_id && course.provider.id == record.provider_id
+    end
+
+    def self.course_open_on_apply?(record)
+      course = Course.find(record.course_id)
+      course.open_on_apply
     end
 
     def self.course_option_matches_course?(record)
