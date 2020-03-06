@@ -9,12 +9,19 @@ module SupportInterface
             choice_id: choice.id,
             provider_code: choice.provider.code,
             course_code: choice.course.code,
+            sent_to_provider_at: sent_to_provider_audit_entry(choice: choice)&.created_at,
           }
         end
       end
     end
 
   private
+
+    def sent_to_provider_audit_entry(choice:)
+      choice
+        .own_and_associated_audits
+        .find_by(audited_changes: { 'status' => %w[application_complete awaiting_provider_decision] })
+    end
 
     def relevant_applications
       ApplicationForm
