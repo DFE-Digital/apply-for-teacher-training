@@ -137,11 +137,12 @@ en:
         provider_interface/change_offer_form:
           attributes:
             provider_id:
-              blank: You have not specified an alternative provider
+              blank: You have not specified a provider
             course_id:
-              blank: You have not specified an alternative course
+              blank: You have not specified a course
+              not_open_on_apply: Course not open on Apply
             course_option_id:
-              blank: You have not specified an alternative location
+              blank: You have not specified a location
         provider_interface/confirm_conditions_form:
           attributes:
             conditions_met:
