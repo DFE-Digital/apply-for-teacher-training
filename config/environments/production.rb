@@ -112,8 +112,4 @@ Rails.application.configure do
   HostingEnvironment.authorised_hosts.each do |host|
     config.hosts << host
   end
-
-  if ENV['HEROKU_APP_NAME']
-    config.hosts << "#{ENV['HEROKU_APP_NAME']}.herokuapp.com"
-  end
 end
