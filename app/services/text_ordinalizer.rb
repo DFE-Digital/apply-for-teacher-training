@@ -1,4 +1,7 @@
 class TextOrdinalizer
+  ORDINALIZE_MAPPING = %w[zeroth first second third fourth fifth sixth seventh
+                          eighth ninth tenth].freeze
+
   def self.call(value)
     text_ordinalize(value)
   end
@@ -7,12 +10,7 @@ class TextOrdinalizer
   private
 
     def text_ordinalize(value)
-      ordinalize_mapping[value] || value.ordinalize
-    end
-
-    def ordinalize_mapping
-      %w[zeroth first second third fourth fifth sixth seventh
-         eighth ninth tenth]
+      ORDINALIZE_MAPPING[value] || value.ordinalize
     end
   end
 end
