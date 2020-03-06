@@ -1,5 +1,5 @@
 module ProviderInterface
-  class WorkHistoryComponent < ActionView::Component::Base
+  class VolunteeringHistoryComponent < ActionView::Component::Base
     validates :application_form, presence: true
 
     def initialize(application_form:)
@@ -7,7 +7,7 @@ module ProviderInterface
     end
 
     def history
-      @history ||= WorkHistoryWithBreaks.new(@application_form).timeline
+      @history ||= @application_form.application_volunteering_experiences
     end
 
     def render?

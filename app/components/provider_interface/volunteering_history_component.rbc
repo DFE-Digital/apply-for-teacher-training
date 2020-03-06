@@ -6,12 +6,12 @@ module ProviderInterface
       self.application_form = application_form
     end
 
-    def history
-      @history ||= WorkHistoryWithBreaks.new(@application_form).timeline
+    def work_history_with_breaks
+      @work_history_with_breaks ||= WorkHistoryWithBreaks.new(@application_form).timeline
     end
 
     def render?
-      history.present?
+      work_history_with_breaks.present?
     end
 
   private

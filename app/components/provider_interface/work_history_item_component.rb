@@ -59,11 +59,11 @@ module ProviderInterface
     end
 
     def explained_absence_title
-      "Explained break in work history (#{formatted_duration})"
+      "Break (#{formatted_duration})"
     end
 
     def unexplained_absence_title
-      "Unexplained break in work history (#{formatted_duration})"
+      "Unexplained break (#{formatted_duration})"
     end
   end
 end
