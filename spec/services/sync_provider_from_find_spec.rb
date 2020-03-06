@@ -16,16 +16,11 @@ RSpec.describe SyncProviderFromFind do
 
     context 'ingesting an existing provider not configured to sync courses' do
       before do
-        @existing_provider = create :provider, code: 'ABC', sync_courses: false
+        @existing_provider = create :provider, code: 'ABC', sync_courses: false, name: 'Foobar College'
       end
 
       it 'correctly updates the provider but does not import any courses' do
-        stub_find_api_provider_200(
-          provider_code: 'ABC',
-          course_code: '9CBA',
-          site_code: 'G',
-          findable: true,
-        )
+        stub_find_api_provider_200(provider_code: 'ABC', findable: true)
 
         SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
 
@@ -43,14 +38,12 @@ RSpec.describe SyncProviderFromFind do
         stub_find_api_provider_200(
           provider_code: 'ABC',
           course_code: '9CBA',
-          site_code: 'G',
           findable: true,
         )
 
         SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
 
         course_option = CourseOption.last
-
         expect(course_option.course.provider.code).to eq 'ABC'
         expect(course_option.course.code).to eq '9CBA'
         expect(course_option.course.exposed_in_find).to be true
@@ -67,7 +60,6 @@ RSpec.describe SyncProviderFromFind do
         stub_find_api_provider_200(
           provider_code: 'ABC',
           course_code: '9CBA',
-          site_code: 'G',
           findable: true,
           site_address_line2: nil,
         )
@@ -75,7 +67,6 @@ RSpec.describe SyncProviderFromFind do
         SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
 
         course_option = CourseOption.last
-
         expect(course_option.course.provider.code).to eq 'ABC'
         expect(course_option.course.code).to eq '9CBA'
         expect(course_option.course.exposed_in_find).to be true
@@ -92,7 +83,6 @@ RSpec.describe SyncProviderFromFind do
         stub_find_api_provider_200_with_accrediting_provider(
           provider_code: 'ABC',
           course_code: '9CBA',
-          site_code: 'G',
           study_mode: 'full_time',
           accrediting_provider_code: 'DEF',
           accrediting_provider_name: 'Test Accrediting Provider',
@@ -101,7 +91,6 @@ RSpec.describe SyncProviderFromFind do
         SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
 
         course_option = CourseOption.last
-
         expect(course_option.course.accrediting_provider.code).to eq 'DEF'
         expect(course_option.course.accrediting_provider.name).to eq 'Test Accrediting Provider'
       end
@@ -142,7 +131,6 @@ RSpec.describe SyncProviderFromFind do
         stub_find_api_provider_200(
           provider_code: 'ABC',
           course_code: '9CBA',
-          site_code: 'G',
           findable: true,
         )
 
