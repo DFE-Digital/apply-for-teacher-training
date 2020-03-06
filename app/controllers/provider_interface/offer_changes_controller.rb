@@ -43,7 +43,7 @@ module ProviderInterface
 
     def update
       @change_offer_form.step = :update
-      if @change_offer_form.complete?
+      if @change_offer_form.valid?
         ChangeOffer.new(
           actor: current_provider_user,
           application_choice: @application_choice,
@@ -83,13 +83,13 @@ module ProviderInterface
 
     def set_change_offer_form
       @change_offer_form = ProviderInterface::ChangeOfferForm.new application_choice: @application_choice,
-                                                                  provider_id: (provider.id if safe_provider?),
+                                                                  provider_id: (provider.id if allowed_provider?),
                                                                   course_id: course&.id,
                                                                   course_option_id: course_option&.id
     end
 
-    def safe_provider?
-      @safe_provider != nil ? @safe_provider : @safe_provider = current_provider_user.providers.include?(provider) && provider
+    def allowed_provider?
+      current_provider_user.providers.include?(provider)
     end
 
     def provider
