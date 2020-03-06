@@ -236,6 +236,18 @@ FactoryBot.define do
       edit_by { 1.day.ago }
     end
 
+    trait :with_rejection do
+      status { 'rejected' }
+      rejection_reason { 'candidate did not meet minimum course entry requirements' }
+      rejected_at { Time.zone.now }
+    end
+
+    trait :with_rejection_by_default do
+      status { 'rejected' }
+      rejected_at { Time.zone.now }
+      rejected_by_default { true }
+    end
+
     trait :with_offer do
       status { 'offer' }
       decline_by_default_at { Time.zone.now + 10.days }
@@ -248,6 +260,19 @@ FactoryBot.define do
       with_offer
       status { 'pending_conditions' }
       accepted_at { Time.zone.now - 2.days }
+    end
+
+    trait :with_declined_offer do
+      with_offer
+      status { 'declined' }
+      declined_at { Time.zone.now - 2.days }
+    end
+
+    trait :with_declined_by_default_offer do
+      with_offer
+      status { 'declined' }
+      declined_at { Time.zone.now }
+      declined_by_default { true }
     end
   end
 
