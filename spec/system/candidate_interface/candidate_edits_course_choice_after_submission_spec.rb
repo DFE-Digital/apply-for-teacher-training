@@ -32,6 +32,7 @@ RSpec.feature 'A candidate edits their course choice after submission' do
 
     given_there_are_course_options
     when_i_add_a_new_course_choice
+    and_i_visit_my_course_choices_page
     then_i_see_the_new_course_choice
 
     when_i_mark_this_section_as_completed
@@ -110,6 +111,10 @@ RSpec.feature 'A candidate edits their course choice after submission' do
     click_button 'Continue'
     choose 'Main site'
     click_button 'Continue'
+  end
+
+  def and_i_visit_my_course_choices_page
+    visit candidate_interface_course_choices_review_path
   end
 
   def then_i_see_the_new_course_choice
