@@ -10,8 +10,8 @@ module SupportInterface
             provider_code: choice.provider.code,
             course_code: choice.course.code,
             sent_to_provider_at: sent_to_provider_audit_entry(choice: choice)&.created_at,
-            decided_at: choice.offered_at || choice.rejected_at,
             decision: decision_interpretation(choice: choice),
+            decided_at: choice.offered_at || choice.rejected_at,
             offer_response: offer_response_interpretation(choice: choice),
             offer_response_at: choice.accepted_at || choice.declined_at,
           }
