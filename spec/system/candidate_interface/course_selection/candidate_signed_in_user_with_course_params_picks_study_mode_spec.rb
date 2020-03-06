@@ -15,6 +15,7 @@ RSpec.describe 'An existing candidate arriving from Find with course params sele
     then_i_should_see_the_study_mode_page
 
     when_i_choose_the_part_time_course
+    and_i_visit_my_course_choices_page
     then_i_should_see_it_on_my_review_page
   end
 
@@ -69,6 +70,10 @@ RSpec.describe 'An existing candidate arriving from Find with course params sele
   def when_i_choose_the_part_time_course
     choose 'Part time'
     click_button 'Continue'
+  end
+
+  def and_i_visit_my_course_choices_page
+    visit candidate_interface_course_choices_review_path
   end
 
   def then_i_should_see_it_on_my_review_page

@@ -12,10 +12,12 @@ RSpec.feature 'Selecting a study mode' do
     then_i_can_only_select_sites_with_a_part_time_course
 
     when_i_select_a_site
+    and_i_visit_my_course_choices_page
     then_i_see_my_course_choice
 
     given_there_is_a_single_site_full_time_course_option
     when_i_select_the_single_site_full_time_course
+    and_i_visit_my_course_choices_page
     then_the_site_is_resolved_automatically_and_i_see_the_course_choice
   end
 
@@ -95,6 +97,10 @@ RSpec.feature 'Selecting a study mode' do
   def when_i_select_a_site
     choose @first_site.name
     click_button 'Continue'
+  end
+
+  def and_i_visit_my_course_choices_page
+    visit candidate_interface_course_choices_review_path
   end
 
   def then_i_see_my_course_choice
