@@ -1,20 +1,19 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider makes an offer' do
+RSpec.feature 'Provider withdraws an offer' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
   scenario 'Provider withdraws an offer' do
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_an_offered_application_choice_exist_for_my_provider
+    and_an_offered_application_choice_exists_for_my_provider
     and_i_am_permitted_to_see_applications_for_my_provider
     and_i_sign_in_to_the_provider_interface
     and_i_view_an_offered_application
-    then_i_cannot_change_response
+    then_i_cannot_withdraw_the_offer
 
     when_change_response_feature_is_activated
-    and_i_change_response_to_an_application
-    and_i_choose_to_withdraw_an_offer
+    and_i_click_on_withdraw_application
     then_i_see_a_form_prompting_for_reasons
 
     when_i_enter_reasons
@@ -30,7 +29,7 @@ RSpec.feature 'Provider makes an offer' do
     provider_exists_in_dfe_sign_in
   end
 
-  def and_an_offered_application_choice_exist_for_my_provider
+  def and_an_offered_application_choice_exists_for_my_provider
     course_option = course_option_for_provider_code(provider_code: 'ABC')
     @application_offered = create(:application_choice, status: 'offer', offered_at: Time.zone.now, course_option: course_option, application_form: create(:completed_application_form, first_name: 'Alice', last_name: 'Wunder'))
   end
@@ -43,8 +42,8 @@ RSpec.feature 'Provider makes an offer' do
     FeatureFlag.activate('provider_change_response')
   end
 
-  def then_i_cannot_change_response
-    first('a', text: 'Change response', count: 0)
+  def then_i_cannot_withdraw_the_offer
+    first('a', text: 'Withdraw offer', count: 0)
   end
 
   def and_i_view_an_offered_application
@@ -53,16 +52,11 @@ RSpec.feature 'Provider makes an offer' do
     )
   end
 
-  def and_i_change_response_to_an_application
+  def and_i_click_on_withdraw_application
     visit provider_interface_application_choice_path(
       @application_offered.id,
     )
-    click_on 'Change response'
-  end
-
-  def and_i_choose_to_withdraw_an_offer
-    choose 'Withdraw offer'
-    click_on 'Continue'
+    click_on 'Withdraw offer'
   end
 
   def then_i_see_a_form_prompting_for_reasons
