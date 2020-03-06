@@ -55,7 +55,7 @@ features 1, 2 and 3, we just want everything up to `D`.
 3. Implement the fix locally, raise a PR and get it approved in the
    normal way. Test it locally or using the Heroku review app that is
    automatically created.
-4. After the PR is approved don't merge it to `master` straight away.
+4. After the PR is approved DON'T MERGE IT to `master` straight away.
    First deploy the `hotfix` branch using the [normal deployment
    procedure](deployment.md) (except picking `HEAD` of the
    `hotfix` branch rather than a specific SHA on `master` as we normally
