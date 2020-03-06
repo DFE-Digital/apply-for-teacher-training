@@ -20,6 +20,8 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
           sent_to_provider_at: nil,
           decided_at: nil,
           decision: nil,
+          offer_response: nil,
+          offer_response_at: nil,
         },
         {
           support_reference: submitted_form.support_reference,
@@ -30,6 +32,8 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
           sent_to_provider_at: nil,
           decided_at: nil,
           decision: nil,
+          offer_response: nil,
+          offer_response_at: nil,
         },
       )
     end
@@ -78,6 +82,38 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
         choice_row = described_class.new.application_choices.first
         expect(choice_row).to include(decided_at: decision_time)
         expect(choice_row).to include(decision: :rejected_by_default)
+      end
+    end
+
+    context 'for choices where the candidate has responded to an offer' do
+      it 'returns the offer decision outcome and time for accepted offers' do
+        decision_time = Time.zone.local(2019, 10, 1, 12, 0, 0)
+        choice = create(:application_choice, :with_accepted_offer, accepted_at: decision_time)
+        choice.application_form.update(submitted_at: Time.zone.now)
+
+        choice_row = described_class.new.application_choices.first
+        expect(choice_row).to include(offer_response_at: decision_time)
+        expect(choice_row).to include(offer_response: :accepted)
+      end
+
+      it 'returns the offer decision outcome and time for declined offers' do
+        decision_time = Time.zone.local(2019, 10, 1, 12, 0, 0)
+        choice = create(:application_choice, :with_declined_offer, declined_at: decision_time)
+        choice.application_form.update(submitted_at: Time.zone.now)
+
+        choice_row = described_class.new.application_choices.first
+        expect(choice_row).to include(offer_response_at: decision_time)
+        expect(choice_row).to include(offer_response: :declined)
+      end
+
+      it 'returns the offer decision outcome and time for declined-by-default offers' do
+        decision_time = Time.zone.local(2019, 10, 1, 12, 0, 0)
+        choice = create(:application_choice, :with_declined_by_default_offer, declined_at: decision_time)
+        choice.application_form.update(submitted_at: Time.zone.now)
+
+        choice_row = described_class.new.application_choices.first
+        expect(choice_row).to include(offer_response_at: decision_time)
+        expect(choice_row).to include(offer_response: :declined_by_default)
       end
     end
   end

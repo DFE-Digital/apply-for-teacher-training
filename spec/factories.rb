@@ -261,6 +261,19 @@ FactoryBot.define do
       status { 'pending_conditions' }
       accepted_at { Time.zone.now - 2.days }
     end
+
+    trait :with_declined_offer do
+      with_offer
+      status { 'declined' }
+      declined_at { Time.zone.now - 2.days }
+    end
+
+    trait :with_declined_by_default_offer do
+      with_offer
+      status { 'declined' }
+      declined_at { Time.zone.now }
+      declined_by_default { true }
+    end
   end
 
   factory :vendor_api_user do

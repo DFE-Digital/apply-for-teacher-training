@@ -12,6 +12,8 @@ module SupportInterface
             sent_to_provider_at: sent_to_provider_audit_entry(choice: choice)&.created_at,
             decided_at: choice.offered_at || choice.rejected_at,
             decision: decision_interpretation(choice: choice),
+            offer_response: offer_response_interpretation(choice: choice),
+            offer_response_at: choice.accepted_at || choice.declined_at,
           }
         end
       end
@@ -34,6 +36,18 @@ module SupportInterface
         :rejected
       elsif choice.awaiting_provider_decision?
         :awaiting_provider
+      end
+    end
+
+    def offer_response_interpretation(choice:)
+      if choice.accepted_at.present?
+        :accepted
+      elsif choice.declined_by_default? && choice.declined_at.present?
+        :declined_by_default
+      elsif choice.declined_at.present?
+        :declined
+      elsif choice.offer?
+        :awaiting_candidate
       end
     end
 
