@@ -20,12 +20,13 @@ class ProviderAuthorisation
     end
   end
 
-  def assert_can_make_offer!(application_choice:)
-    raise ProviderAuthorisation::NotAuthorisedError, 'assert_can_make_offer!' if !can_make_offer?(application_choice: application_choice)
-  end
+  # automatically generates assert_can...! methods e.g. #assert_can_make_offer! for #can_make_offer?
+  instance_methods.select { |m| m.match PERMISSION_METHOD_REGEXP }.each do |method|
+    permission_name = method.to_s.scan(PERMISSION_METHOD_REGEXP).last.first
 
-  def assert_can_change_offer!(application_choice:, course_option_id:)
-    raise ProviderAuthorisation::NotAuthorisedError, 'assert_can_change_offer!' if !can_change_offer?(application_choice: application_choice, course_option_id: course_option_id)
+    define_method("assert_can_#{permission_name}!") do |**keyword_args|
+      raise(ProviderAuthorisation::NotAuthorisedError, method.to_s) unless self.send(method, **keyword_args)
+    end
   end
 
   class NotAuthorisedError < StandardError; end
