@@ -31,6 +31,10 @@ module ProviderInterface
       item.respond_to?(:working_with_children?) && item.working_with_children?
     end
 
+    def organisation
+      item.organisation if item.respond_to?(:organisation)
+    end
+
   private
 
     attr_accessor :item
