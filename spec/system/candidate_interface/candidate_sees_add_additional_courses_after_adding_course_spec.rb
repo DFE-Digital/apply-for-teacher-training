@@ -12,9 +12,9 @@ RSpec.describe 'Add additional courses flow' do
     when_i_visit_my_application_page
     and_i_click_on_course_choices
     and_i_click_on_add_course
-    and_i_choose_that_i_know_where_i_want_to_apply
 
-    when_i_choose_a_provider
+    when_i_choose_that_i_know_where_i_want_to_apply
+    and_i_choose_a_provider
     and_i_choose_my_first_course_choice
     then_i_should_be_on_the_add_additional_courses_page
     and_i_should_receive_a_message_that_ive_added_the_first_course
@@ -23,12 +23,17 @@ RSpec.describe 'Add additional courses flow' do
 
     when_i_choose_yes
     then_i_should_see_the_have_you_chosen_a_course_page
+
+    when_i_choose_that_i_know_where_i_want_to_apply
+    and_i_choose_a_provider
+    and_i_choose_my_second_course_choice
+    then_i_should_be_on_the_add_additional_courses_page
     and_i_should_receive_a_message_that_ive_added_the_second_course
-    # and_i_should_be_told_i_can_add_1_more_courses
-    # and_i_should_be_prompted_to_add_an_additional_course
-    #
+    and_i_should_be_told_i_can_add_1_more_courses
+    and_i_should_be_prompted_to_add_an_additional_course
+
     # when_i_add_a_third_course
-    # then_i_should_be_on_the_add_additional_courses_page
+    # then_i_should_be_on_the_application_page
     # and_i_should_receive_a_message_that_ive_added_the_third_course
   end
 
@@ -60,12 +65,12 @@ RSpec.describe 'Add additional courses flow' do
     click_link 'Continue'
   end
 
-  def and_i_choose_that_i_know_where_i_want_to_apply
+  def when_i_choose_that_i_know_where_i_want_to_apply
     choose 'Yes, I know where I want to apply'
     click_button 'Continue'
   end
 
-  def when_i_choose_a_provider
+  def and_i_choose_a_provider
     select @provider.name_and_code
     click_button 'Continue'
   end
@@ -98,5 +103,18 @@ RSpec.describe 'Add additional courses flow' do
 
   def then_i_should_see_the_have_you_chosen_a_course_page
     expect(page).to have_current_path candidate_interface_course_choices_choose_path
+  end
+
+  def and_i_should_receive_a_message_that_ive_added_the_second_course
+    expect(page).to have_content("You’ve added #{@provider.courses.second.name_and_code} to your application")
+  end
+
+  def and_i_choose_my_second_course_choice
+    choose @provider.courses.second.name_and_code
+    click_button 'Continue'
+  end
+
+  def and_i_should_be_told_i_can_add_1_more_courses
+    expect(page).to have_content('You can choose 1 more course')
   end
 end

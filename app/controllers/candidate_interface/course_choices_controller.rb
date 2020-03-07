@@ -151,6 +151,7 @@ module CandidateInterface
     end
 
     def add_another_course
+      @additional_courses_allowed = 3 - current_candidate.current_application.application_choices.count
       @add_another_course = AddAnotherCourseForm.new
     end
 
@@ -212,11 +213,10 @@ module CandidateInterface
 
       if @pick_site.save
         current_application.update!(course_choices_completed: false)
-
         @course_choices = current_candidate.current_application.application_choices
+        flash[:success] = "You’ve added #{@course_choices.last.course.name_and_code} to your application"
 
         if @course_choices.count.between?(1, 2) && FeatureFlag.active?('add_additional_courses_page')
-          flash[:success] = "You’ve added #{@course_choices.last.course.name_and_code} to your application"
           redirect_to candidate_interface_course_choices_add_another_course_path
         else
           redirect_to candidate_interface_course_choices_index_path
