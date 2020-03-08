@@ -1,6 +1,6 @@
 module ProviderInterface
   class VolunteeringHistoryComponentPreview < ActionView::Component::Preview
-    def with_work_history
+    def last_application
       render_component_for application_form: ApplicationForm.last
     end
 
