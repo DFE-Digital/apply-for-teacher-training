@@ -1,7 +1,7 @@
 module SupportInterface
   class SupportUsersController < SupportInterfaceController
     def index
-      @support_users = SupportUser.kept
+      @support_users = params[:removed] == 'true' ? SupportUser.discarded : SupportUser.kept
     end
 
     def new
@@ -22,10 +22,17 @@ module SupportInterface
     def confirm_destroy
       @support_user = SupportUser.find(params[:id])
     end
+    alias confirm_restore confirm_destroy
 
     def destroy
       SupportUser.find(params[:id]).discard
       flash[:success] = 'Support user removed'
+      redirect_to support_interface_support_users_path
+    end
+
+    def restore
+      SupportUser.find(params[:id]).undiscard
+      flash[:success] = 'Support user restored'
       redirect_to support_interface_support_users_path
     end
 

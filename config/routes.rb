@@ -405,6 +405,8 @@ Rails.application.routes.draw do
 
       get '/delete/:id' => 'support_users#confirm_destroy', as: :confirm_destroy_support_user
       delete '/delete/:id' => 'support_users#destroy', as: :destroy_support_user
+      get '/restore/:id' => 'support_users#confirm_restore', as: :confirm_restore_support_user
+      delete '/restore/:id' => 'support_users#restore', as: :restore_support_user
 
       resources :support_users, only: %i[index new create], path: :support
       resources :provider_users, only: %i[index new create edit update], path: :provider
