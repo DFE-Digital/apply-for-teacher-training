@@ -1,0 +1,12 @@
+<% content_for :title, t('page_titles.suitability_to_work_with_children') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path) %>
+
+<h1 class="govuk-heading-xl">
+  <%= t('page_titles.suitability_to_work_with_children') %>
+</h1>
+
+<%= render(SafeguardingReviewComponent.new(application_form: @current_application)) %>
+
+<p class="govuk-body">
+  <%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>
+</p>
