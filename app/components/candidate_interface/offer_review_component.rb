@@ -22,33 +22,29 @@ module CandidateInterface
     def provider_row
       {
         key: 'Provider',
-        value: @course_choice.course.provider.name,
+        value: @course_choice.offered_course.provider.name,
       }
     end
 
     def course_row
       {
         key: 'Course',
-        value: formatted_course_name_and_code,
+        value: @course_choice.offered_course.name_and_code,
       }
     end
 
     def location_row
       {
         key: 'Location',
-        value: @course_choice.course_option.site.name,
+        value: @course_choice.offered_option.site.name,
       }
     end
 
     def conditions_row
       {
         key: 'Conditions',
-        value: render(OfferConditionsReviewComponent.new(conditions: @course_choice.offer['conditions'], provider: @course_choice.course.provider.name)),
+        value: render(OfferConditionsReviewComponent.new(conditions: @course_choice.offer['conditions'], provider: @course_choice.offered_course.provider.name)),
       }
-    end
-
-    def formatted_course_name_and_code
-      "#{@course_choice.course_option.course.name} (#{@course_choice.course_option.course.code})"
     end
   end
 end
