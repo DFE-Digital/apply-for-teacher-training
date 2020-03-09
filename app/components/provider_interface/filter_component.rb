@@ -2,23 +2,23 @@ module ProviderInterface
   class FilterComponent < ActionView::Component::Base
     include ViewHelper
 
-    attr_reader :additional_params, :available_filters, :preselected_filters
+    attr_reader :additional_params, :available_filters, :applied_filters, :path
 
-    def initialize(path:, available_filters:, preselected_filters:, additional_params:)
+    def initialize(path:, available_filters:, applied_filters:, additional_params:)
       @path = path
       @available_filters = available_filters
-      @preselected_filters = preselected_filters
+      @applied_filters = applied_filters
       @additional_params = additional_params
     end
 
-    def checkbox_checked?(key_one:, key_two:)
-      preselected_filters.dig(key_one, key_two) ? true : false
+    def checkbox_checked?(heading:, name:)
+      applied_filters.dig(heading, name) ? true : false
     end
 
-    def build_tag_url_query_params(heading:, tag_value:, preselected_filters:)
-      tag_preselected_filters = preselected_filters.clone
-      tag_preselected_filters[heading] = preselected_filters[heading].except(tag_value)
-      tag_preselected_filters
+    def build_tag_url_query_params(heading:, tag_value:, applied_filters:)
+      tag_applied_filters = applied_filters.clone
+      tag_applied_filters[heading] = applied_filters[heading].except(tag_value)
+      tag_applied_filters
     end
 
     def retrieve_tag_text(heading, lookup_val)
