@@ -11,8 +11,8 @@ module ProviderInterface
       @additional_params = additional_params
     end
 
-    def checkbox_checked?(key_one:, key_two:)
-      preselected_filters.dig(key_one, key_two) ? true : false
+    def checkbox_checked?(heading:, name:)
+      preselected_filters.dig(heading, name) ? true : false
     end
 
     def build_tag_url_query_params(heading:, tag_value:, preselected_filters:)
