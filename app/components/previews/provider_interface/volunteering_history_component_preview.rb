@@ -1,10 +1,16 @@
 module ProviderInterface
   class VolunteeringHistoryComponentPreview < ActionView::Component::Preview
-    def last_application
-      render_component_for application_form: ApplicationForm.last
+    def application
+      render_component_for application_form: application_form
     end
 
   private
+
+    def application_form
+      @application_form ||= ApplicationForm.joins(
+        :application_volunteering_experiences,
+      ).limit(25).sample
+    end
 
     def render_component_for(application_form:)
       if !application_form.application_work_experiences.empty?
