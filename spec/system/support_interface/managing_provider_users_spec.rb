@@ -5,8 +5,7 @@ RSpec.feature 'Managing provider users' do
   include DsiAPIHelper
 
   scenario 'creating a new provider user' do
-    given_the_send_dfe_sign_in_invitations_feature_flag_is_on
-    and_dfe_signin_is_configured
+    given_dfe_signin_is_configured
     and_i_am_a_support_user
     and_providers_exist
 
@@ -31,11 +30,7 @@ RSpec.feature 'Managing provider users' do
     then_i_see_that_they_have_been_added_to_that_organisation
   end
 
-  def given_the_send_dfe_sign_in_invitations_feature_flag_is_on
-    FeatureFlag.activate('send_dfe_sign_in_invitations')
-  end
-
-  def and_dfe_signin_is_configured
+  def given_dfe_signin_is_configured
     set_dsi_api_response(success: true)
   end
 

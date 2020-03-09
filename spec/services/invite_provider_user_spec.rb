@@ -20,67 +20,37 @@ RSpec.describe InviteProviderUser do
     end
   end
 
-  context 'with feature flag on' do
-    describe '#save_and_invite! if API response is successful' do
-      before do
-        FeatureFlag.activate('send_dfe_sign_in_invitations')
-        set_dsi_api_response(success: true)
-        InviteProviderUser.new(provider_user: new_provider_user_from_form).save_and_invite!
-      end
-
-      it 'a provider user is created' do
-        expect(ProviderUser.find_by_email_address('test+invite_provider_user@example.com')).not_to be_nil
-      end
-
-      it 'queues an email' do
-        expect(ProviderMailer.deliveries.count).to be 1
-      end
-    end
-
-    describe '#save_and_invite! if API response is not successful' do
-      before do
-        FeatureFlag.activate('send_dfe_sign_in_invitations')
-        set_dsi_api_response(success: false)
-      end
-
-      it 'raises DfeSignInApiError with errors from the API' do
-        expect { InviteProviderUser.new(provider_user: new_provider_user_from_form).save_and_invite! }.to raise_error(DfeSignInApiError)
-      end
-
-      it 'rolls back provider user creation' do
-        InviteProviderUser.new(provider_user: new_provider_user_from_form).save_and_invite! rescue nil
-        expect(ProviderUser.find_by_email_address('test+invite_provider_user@example.com')).to be_nil
-      end
-
-      it 'does not queue an email' do
-        expect(ProviderMailer.deliveries.count).to be 0
-      end
-    end
-  end
-
-  context 'with feature flag off' do
-    let(:http_spy) { class_spy('HTTP') }
-
+  describe '#save_and_invite! if API response is successful' do
     before do
-      FeatureFlag.deactivate('send_dfe_sign_in_invitations')
-      allow(HTTP).to receive(:auth).and_return http_spy
-
+      set_dsi_api_response(success: true)
       InviteProviderUser.new(provider_user: new_provider_user_from_form).save_and_invite!
     end
 
-    it '#save_and_invite! no DfE Sign-In invitations are triggered' do
-      expect(http_spy).not_to have_received(:post)
-    end
-
-    it '#save_and_invite! a provider user is created' do
+    it 'a provider user is created' do
       expect(ProviderUser.find_by_email_address('test+invite_provider_user@example.com')).not_to be_nil
     end
 
-    it 'does not queue an email' do
-      message_delivery = instance_double(ActionMailer::MessageDelivery)
-      allow(ProviderMailer).to receive(:account_created).and_return(message_delivery)
+    it 'queues an email' do
+      expect(ProviderMailer.deliveries.count).to be 1
+    end
+  end
+
+  describe '#save_and_invite! if API response is not successful' do
+    before do
+      set_dsi_api_response(success: false)
+    end
+
+    it 'raises DfeSignInApiError with errors from the API' do
+      expect { InviteProviderUser.new(provider_user: new_provider_user_from_form).save_and_invite! }.to raise_error(DfeSignInApiError)
+    end
+
+    it 'rolls back provider user creation' do
       InviteProviderUser.new(provider_user: new_provider_user_from_form).save_and_invite! rescue nil
-      expect(ProviderMailer).not_to have_received(:account_created)
+      expect(ProviderUser.find_by_email_address('test+invite_provider_user@example.com')).to be_nil
+    end
+
+    it 'does not queue an email' do
+      expect(ProviderMailer.deliveries.count).to be 0
     end
   end
 end
