@@ -1,8 +1,8 @@
 class FeatureFlag
   FEATURES = %w[
+    banner_about_problems_with_dfe_sign_in
     choose_study_mode
     confirm_conditions
-    dfe_sign_in_incident
     edit_application
     equality_and_diversity
     force_ok_computer_to_fail
