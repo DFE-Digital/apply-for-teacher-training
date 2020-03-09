@@ -16,6 +16,7 @@ class FeatureFlag
     work_breaks
     you_selected_a_course_page
     before_you_start
+    provider_interface_work_breaks
   ].freeze
 
   def self.activate(feature_name)
