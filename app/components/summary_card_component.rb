@@ -20,6 +20,7 @@ private
         unless editable
           r.delete(:change_path)
           r.delete(:action_path)
+          r.delete(:action)
         end
       end
     end
