@@ -1,3 +1,5 @@
-.govuk-width-container {
+@include govuk-media-query($from: wide) {
+  .app-width-container--wide {
     max-width: 1220px;
+  }
 }
