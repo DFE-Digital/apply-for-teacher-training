@@ -37,7 +37,7 @@ module TestApplications
       application_form = FactoryBot.create(
         :completed_application_form,
         application_choices_count: 0,
-        work_experiences_count: 1,
+        full_work_history: true,
         volunteering_experiences_count: 1,
         references_count: 2,
         with_gces: true,
