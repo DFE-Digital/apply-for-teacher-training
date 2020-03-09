@@ -14,8 +14,8 @@ module TestApplications
   def self.create_application(states:, courses_to_apply_to: nil)
     raise ZeroCoursesPerApplicationError.new('You can\'t have zero courses per application') unless states.any?
 
-    first_name = Faker::Name.unique.first_name
-    last_name = Faker::Name.unique.last_name
+    first_name = Faker::Name.first_name
+    last_name = Faker::Name.last_name
     candidate = FactoryBot.create(
       :candidate,
       email_address: "#{first_name.downcase}.#{last_name.downcase}@example.com",
