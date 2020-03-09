@@ -8,12 +8,10 @@
     <%= form_with model: @change_offer_form,
           url: provider_interface_application_choice_change_offer_path(@application_choice.id),
           method: :patch do |f| %>
-      <%= f.govuk_error_summary %>
 
       <%= f.hidden_field :provider_id %>
       <%= f.hidden_field :course_id %>
       <%= f.hidden_field :course_option_id %>
-
       <%= f.govuk_submit 'Change offer' %>
     <% end %>
 

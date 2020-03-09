@@ -6,7 +6,6 @@
     <%= form_with model: @change_offer_form,
           url: provider_interface_application_choice_change_offer_edit_course_path(@application_choice.id),
           method: :get do |f| %>
-      <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset :provider_id, legend: { size: 'm', text: 'Select alternative provider', tag: 'span' } do %>
         <% @alternative_providers.each do |provider| %>

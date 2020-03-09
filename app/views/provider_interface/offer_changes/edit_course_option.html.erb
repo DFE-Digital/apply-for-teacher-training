@@ -5,7 +5,6 @@
     <%= form_with model: @change_offer_form,
           url: provider_interface_application_choice_change_offer_confirmation_path(@application_choice.id),
           method: :get do |f| %>
-      <%= f.govuk_error_summary %>
 
       <%= f.hidden_field :provider_id %>
       <%= f.hidden_field :course_id %>

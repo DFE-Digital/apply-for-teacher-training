@@ -31,8 +31,9 @@ module DfESignInHelpers
   end
 
   def provider_user_exists_in_apply_database
-    provider = create(:provider, code: 'ABC', name: 'Example Provider')
-    create(:provider_user, providers: [provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+    provider_one = create(:provider, :with_signed_agreement, code: 'ABC', name: 'Example Provider')
+    provider_two = create(:provider, :with_signed_agreement, code: 'DEF', name: 'Another Provider')
+    create(:provider_user, providers: [provider_one, provider_two], dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
   end
 
   def provider_user_exists_in_apply_database_with_multiple_providers
