@@ -1,6 +1,52 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :model do
+  describe '.build_from_application' do
+    context 'when safeguarding issues does not have a value' do
+      it 'creates an object based on the application form' do
+        application_form = build_stubbed(:application_form, safeguarding_issues: nil)
+
+        form = CandidateInterface::SafeguardingIssuesDeclarationForm.build_from_application(application_form)
+
+        expect(form.share_safeguarding_issues).to eq(nil)
+        expect(form.safeguarding_issues).to eq(nil)
+      end
+    end
+
+    context 'when safeguarding issues has a value of "Yes"' do
+      it 'creates an object based on the application form' do
+        application_form = build_stubbed(:application_form, safeguarding_issues: 'Yes')
+
+        form = CandidateInterface::SafeguardingIssuesDeclarationForm.build_from_application(application_form)
+
+        expect(form.share_safeguarding_issues).to eq('Yes')
+        expect(form.safeguarding_issues).to eq(nil)
+      end
+    end
+
+    context 'when safeguarding issues has a value of "No"' do
+      it 'creates an object based on the application form' do
+        application_form = build_stubbed(:application_form, safeguarding_issues: 'No')
+
+        form = CandidateInterface::SafeguardingIssuesDeclarationForm.build_from_application(application_form)
+
+        expect(form.share_safeguarding_issues).to eq('No')
+        expect(form.safeguarding_issues).to eq(nil)
+      end
+    end
+
+    context 'when safeguarding issues has details' do
+      it 'creates an object based on the application form' do
+        application_form = build_stubbed(:application_form, safeguarding_issues: 'I have a criminal conviction.')
+
+        form = CandidateInterface::SafeguardingIssuesDeclarationForm.build_from_application(application_form)
+
+        expect(form.share_safeguarding_issues).to eq('Yes')
+        expect(form.safeguarding_issues).to eq('I have a criminal conviction.')
+      end
+    end
+  end
+
   describe '#save' do
     let(:application_form) { create(:application_form) }
 
