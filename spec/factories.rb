@@ -41,6 +41,7 @@ FactoryBot.define do
       work_history_explanation { Faker::Lorem.paragraph_by_chars(number: 600) }
       work_history_breaks { Faker::Lorem.paragraph_by_chars(number: 400) }
       volunteering_experience { [true, false, nil].sample }
+      safeguarding_issues { 'I have a criminal conviction.' }
 
       # Checkboxes to mark a section as complete
       course_choices_completed { true }
