@@ -276,6 +276,7 @@ FactoryBot.define do
     end
 
     trait :ready_to_send_to_provider do
+      association :application_form, factory: %i[completed_application_form with_completed_references]
       status { :application_complete }
       edit_by { 1.day.ago }
     end
@@ -293,6 +294,7 @@ FactoryBot.define do
     end
 
     trait :with_offer do
+      association :application_form, factory: %i[completed_application_form with_completed_references]
       status { 'offer' }
       decline_by_default_at { Time.zone.now + 7.days }
       decline_by_default_days { 10 }

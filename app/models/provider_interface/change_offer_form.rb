@@ -15,20 +15,20 @@ module ProviderInterface
       STEPS.index(step) > STEPS.index(symbol) if step
     end
 
-    validates_each :provider_id do |record, attr, _value|
-      record.errors.add attr, :blank if record.step_after?(:provider) && record.provider_id.blank?
+    validates_each :provider_id do |record, attr, value|
+      record.errors.add attr, :blank if record.step_after?(:provider) && value.blank?
     end
 
-    validates_each :course_id do |record, attr, _value|
+    validates_each :course_id do |record, attr, value|
       if record.step_after?(:course)
-        record.errors.add attr, :blank if record.course_id.blank? || !course_matches_provider?(record)
-        record.errors.add attr, :not_open_on_apply if record.course_id.present? && !course_open_on_apply?(record)
+        record.errors.add attr, :blank if value.blank? || !course_matches_provider?(record)
+        record.errors.add attr, :not_open_on_apply if value.present? && !course_open_on_apply?(record)
       end
     end
 
-    validates_each :course_option_id do |record, attr, _value|
-      if record.step_after?(:course_option) && (record.course_option_id.blank? || !course_option_matches_course?(record))
-        record.errors.add attr, :blank
+    validates_each :course_option_id do |record, attr, value|
+      if record.step_after?(:course_option)
+        record.errors.add attr, :blank if value.blank? || !course_option_matches_course?(record)
       end
     end
 

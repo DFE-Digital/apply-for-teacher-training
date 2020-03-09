@@ -26,17 +26,17 @@ module ProviderInterface
           {
             key: 'Provider',
             value: application_choice.offered_course.provider.name,
-            change_path: change_path(:provider),
+            change_path: change_path(:provider), change_class: 'provider'
           },
           {
             key: 'Course',
             value: application_choice.offered_course.name_and_code,
-            change_path: change_path(:course),
+            change_path: change_path(:course), change_class: 'course'
           },
           {
             key: 'Location',
             value: application_choice.offered_site.name_and_address,
-            change_path: change_path(:course_option),
+            change_path: change_path(:course_option), change_class: 'course_option'
           },
         ]
       end
