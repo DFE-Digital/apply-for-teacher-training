@@ -58,7 +58,7 @@ RSpec.feature 'Remove and restore support user' do
   end
 
   def when_i_visit_the_removed_support_users_page
-    visit support_interface_support_users_path(removed: true)
+    click_on 'Restore a removed user'
   end
 
   def and_i_restore_a_support_user
