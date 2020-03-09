@@ -45,11 +45,11 @@ RSpec.feature 'Candidate edits their volunteering section' do
   end
 
   def then_the_volunteering_section_should_be_marked_as_complete
-    expect(page.text).to include 'Volunteering with children and young people Completed'
+    expect(page.text).to include 'Unpaid experience and volunteering Completed'
   end
 
   def when_i_visit_the_review_volunteering_page
-    click_link 'Volunteering with children and young people'
+    click_link 'Unpaid experience and volunteering'
   end
 
   def and_i_click_to_change_my_role
@@ -65,7 +65,7 @@ RSpec.feature 'Candidate edits their volunteering section' do
   end
 
   def then_the_volunteering_section_should_be_marked_as_incomplete
-    expect(page.text).to include 'Volunteering with children and young people Incomplete'
+    expect(page.text).to include 'Unpaid experience and volunteering Incomplete'
   end
 
   def and_i_mark_this_section_as_completed
