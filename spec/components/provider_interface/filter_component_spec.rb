@@ -97,6 +97,36 @@ RSpec.describe ProviderInterface::FilterComponent do
     ]
   end
 
+  let(:available_filters_only_one_provider) do
+    [
+      {
+        heading: 'status',
+        checkbox_config: [
+          {
+            name: 'pending-conditions',
+            text: 'Accepted',
+            value: 'pending_conditions',
+          },
+          {
+            name: 'offer-withdrawn',
+            text: 'Withdrawn by us',
+            value: 'offer_withdrawn',
+          },
+        ],
+      },
+      {
+        heading: 'provider',
+        checkbox_config: [
+          {
+            name: 'somerset-scitt-consortium',
+            text: 'Somerset SCITT consortium',
+            value: '1',
+          },
+        ],
+       },
+    ]
+  end
+
   let(:additional_params) do
     {
       sort_by: 'desc',
@@ -165,5 +195,15 @@ RSpec.describe ProviderInterface::FilterComponent do
     expect(result.css('#sort_order').attr('value').value).to eq('last-updated')
     expect(result.css('#sort_by').attr('type').value).to eq('hidden')
     expect(result.css('#sort_order').attr('type').value).to eq('hidden')
+  end
+
+  it 'does not render a filter if there is only one possible filter in a filter_group' do
+    result = render_inline described_class.new(path: path,
+                                        available_filters: available_filters_only_one_provider,
+                                        applied_filters: {},
+                                        additional_params: additional_params)
+
+    expect(result.to_html).not_to include('Provider')
+    expect(result.to_html).to include('Status')
   end
 end
