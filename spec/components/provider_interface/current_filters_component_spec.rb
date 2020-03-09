@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::FilterComponent do
+RSpec.describe ProviderInterface::CurrentFiltersComponent do
   let(:path) { :provider_interface_applications_path }
 
   let(:applied_filters_partial) do
@@ -104,66 +104,58 @@ RSpec.describe ProviderInterface::FilterComponent do
     }
   end
 
-  it 'marks checkboxes as checked if they have already been pre-selected' do
+  it 'includes tags that match what has been selected for' do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
                                         applied_filters: applied_filters_partial,
                                         additional_params: additional_params)
 
-    expect(result.css('#status-pending-conditions').attr('checked').value).to eq('checked')
-    expect(result.css('#status-recruited').attr('checked')).to eq(nil)
-    expect(result.css('#status-declined').attr('checked')).to eq(nil)
-    expect(result.css('#status-awaiting-provider-decision').attr('checked').value).to eq('checked')
-    expect(result.css('#status-rejected').attr('checked').value).to eq('checked')
-    expect(result.css('#status-withdrawn').attr('checked').value).to eq('checked')
-    expect(result.css('#provider-somerset-scitt-consortium').attr('checked')).to eq(nil)
-    expect(result.css('#provider-the-beach-teaching-school').attr('checked').value).to eq('checked')
+    expect(result.css('.moj-filter-tags').text).to include('Accepted', 'New', 'Rejected', 'Application withdrawn', 'The Beach Teaching School')
+    expect(result.css('.moj-filter-tags').text).not_to include('Declined', 'Conditions met', 'Somerset SCITT consortium')
   end
 
-  it 'on initial load all of the checkboxes are unchecked' do
-    result = render_inline described_class.new(path: path,
-                                        available_filters: available_filters,
-                                        applied_filters: {},
-                                        additional_params: additional_params)
-
-    expect(result.css('#status-pending-conditions').attr('checked')).to eq(nil)
-    expect(result.css('#status-recruited').attr('checked')).to eq(nil)
-    expect(result.css('#status-declined').attr('checked')).to eq(nil)
-    expect(result.css('#status-awaiting-provider-decision').attr('checked')).to eq(nil)
-    expect(result.css('#status-rejected').attr('checked')).to eq(nil)
-    expect(result.css('#status-withdrawn').attr('checked')).to eq(nil)
-    expect(result.css('#provider-somerset-scitt-consortium').attr('checked')).to eq(nil)
-    expect(result.css('#provider-the-beach-teaching-school').attr('checked')).to eq(nil)
-  end
-
-  it 'when filters have been selected filters dialogue to appear' do
+  it 'has a clear button when filters have been selected' do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
                                         applied_filters: applied_filters_partial,
                                         additional_params: additional_params)
 
-    expect(result.text).to include('Selected filters')
+    expect(result.text).to include('Clear')
   end
 
-  it 'selected filters dialogue should not appear if is nothing filtered for' do
-    result = render_inline described_class.new(path: path,
+  it 'can return a full text of a applied_filters value from the available_filters' do
+    filter_component = described_class.new(path: path,
                                         available_filters: available_filters,
-                                        applied_filters: {},
+                                        applied_filters: applied_filters_partial,
                                         additional_params: additional_params)
 
-    expect(result.text).not_to include('Selected filters')
+    expect(filter_component.retrieve_tag_text('status', 'offer_withdrawn')).to eq('Withdrawn by us')
+    expect(filter_component.retrieve_tag_text('provider', '2')).to eq('The Beach Teaching School')
   end
 
+  it 'can create hash for a tag url that doesn\'t include that tag\'s params' do
+    filter_component = described_class.new(path: path,
+                                        available_filters: available_filters,
+                                        applied_filters: applied_filters_partial,
+                                        additional_params: additional_params)
 
-  it 'returns the additional_params as hidden fields' do
+    hash = filter_component.build_tag_url_query_params(heading: 'status',
+                                               tag_value: 'withdrawn')
+
+    expect(hash).to eq(applied_filters_partial_minus_withdrawn)
+  end
+
+  it 'can create a tag url that doesn\'t include that tag\'s values' do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
                                         applied_filters: applied_filters_partial,
                                         additional_params: additional_params)
 
-    expect(result.css('#sort_by').attr('value').value).to eq('desc')
-    expect(result.css('#sort_order').attr('value').value).to eq('last-updated')
-    expect(result.css('#sort_by').attr('type').value).to eq('hidden')
-    expect(result.css('#sort_order').attr('type').value).to eq('hidden')
+    expect(result.css('#tag-rejected').attr('href').value).not_to include('rejected')
+    expect(result.css('#tag-rejected').attr('href').value).to include('2')
+    expect(result.css('#tag-rejected').attr('href').value).to include('awaiting_provider_decision')
+    expect(result.css('#tag-rejected').attr('href').value).to include('offer')
+    expect(result.css('#tag-rejected').attr('href').value).to include('pending_conditions')
+    expect(result.css('#tag-rejected').attr('href').value).to include('withdrawn')
   end
 end
