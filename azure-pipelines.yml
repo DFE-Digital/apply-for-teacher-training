@@ -68,20 +68,6 @@ stages:
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
         SANDBOX: $(sandbox)
 
-    - script: make ci.lint-erb
-      name: ci_lint_erb
-      displayName: 'ERB lint'
-      condition: and(succeededOrFailed(), eq(variables['deployOnly'], false))
-      env:
-        dockerHubUsername: $(dockerHubUsername)
-        dockerHubImageName: $(imageName)
-        RAILS_ENV: test
-        GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
-        AUTHORISED_HOSTS: $(authorisedHosts)
-        FIND_BASE_URL: $(findBaseUrl)
-        GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
-        SANDBOX: $(sandbox)
-
     - script: |
         make ci.cucumber
         test_result=$?
