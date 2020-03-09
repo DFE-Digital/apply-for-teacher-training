@@ -91,6 +91,7 @@ stages:
       customAvailabilityMonitors: '$(customAvailabilityMonitors)'
       alertRecipientEmails: '$(alertRecipientEmails)'
       alertSlackChannel: '$(alertSlackChannel)'
+      logRetentionDays: 100
       govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'
       dsiApiUrl: '$(dsiApiUrl)'
       dsiApiSecret: '$(dsiApiSecret)'
@@ -146,6 +147,7 @@ stages:
       customAvailabilityMonitors: '$(customAvailabilityMonitors)'
       alertRecipientEmails: '$(alertRecipientEmails)'
       alertSlackChannel: '$(alertSlackChannel)'
+      logRetentionDays: 100
       govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'
       dsiApiUrl: '$(dsiApiUrl)'
       dsiApiSecret: '$(dsiApiSecret)'
@@ -204,6 +206,7 @@ stages:
       customAvailabilityMonitors: '$(customAvailabilityMonitors)'
       alertRecipientEmails: '$(alertRecipientEmails)'
       alertSlackChannel: '$(alertSlackChannel)'
+      logRetentionDays: 365
       govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'
       dsiApiUrl: '$(dsiApiUrl)'
       dsiApiSecret: '$(dsiApiSecret)'
