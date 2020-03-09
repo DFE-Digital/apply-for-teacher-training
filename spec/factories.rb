@@ -56,6 +56,7 @@ FactoryBot.define do
         references_count { 0 }
         references_state { :requested }
         with_gces { false }
+        full_work_history { false }
       end
 
       trait :with_completed_references do
@@ -78,8 +79,6 @@ FactoryBot.define do
                   end
 
         create_list(:application_choice, evaluator.application_choices_count, application_form: application_form, status: 'awaiting_references', edit_by: edit_by)
-        create_list(:application_work_experience, evaluator.work_experiences_count, application_form: application_form)
-        create_list(:application_volunteering_experience, evaluator.volunteering_experiences_count, application_form: application_form)
         create_list(:reference, evaluator.references_count, evaluator.references_state, application_form: application_form)
         # The application_form validates the length of this collection when
         # it is created, which is BEFORE we create the references here.
@@ -91,6 +90,34 @@ FactoryBot.define do
         if evaluator.references_count > 0
           application_form.application_references.reload
         end
+
+        if evaluator.full_work_history
+          first_start_date = rand(63..70).months.ago
+          first_end_date = rand(50..58).months.ago
+          second_start_date = rand(36..47).months.ago
+          second_end_date = rand(6..12).months.ago
+          create(
+            :application_work_experience,
+            application_form: application_form,
+            start_date: first_start_date,
+            end_date: first_end_date,
+          )
+          create(
+            :application_work_history_break,
+            application_form: application_form,
+            start_date: first_end_date,
+            end_date: second_start_date,
+          )
+          create(
+            :application_work_experience,
+            application_form: application_form,
+            start_date: second_start_date,
+            end_date: second_end_date,
+          )
+        else
+          create_list(:application_work_experience, evaluator.work_experiences_count, application_form: application_form)
+        end
+        create_list(:application_volunteering_experience, evaluator.volunteering_experiences_count, application_form: application_form)
       end
     end
   end
