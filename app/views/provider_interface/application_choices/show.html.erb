@@ -55,7 +55,7 @@
     ]) %>
 
     <% if FeatureFlag.active?('training_with_a_disability') %>
-      <%= render TrainingWithDisabilityComponent.new(application_form: @application_choice.application_form) %>
+      <%= render ProviderInterface::TrainingWithDisabilityComponent.new(application_form: @application_choice.application_form) %>
     <% end %>
 
     <h2 class="govuk-heading-m govuk-!-margin-top-8" id="qualifications">Qualifications</h2>
