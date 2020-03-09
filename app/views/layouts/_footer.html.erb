@@ -1,5 +1,5 @@
 <footer class="govuk-footer govuk-footer--app app-!-print-display-none" role="contentinfo">
-  <div class="govuk-width-container">
+  <div class="govuk-width-container<%= yield(:page_width) == "wide" ? " app-width-container--wide" : "" %>">
     <div class="govuk-footer__meta">
       <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
         <% case try(:current_namespace) %>
