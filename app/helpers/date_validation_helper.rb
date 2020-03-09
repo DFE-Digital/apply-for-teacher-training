@@ -35,15 +35,24 @@ module DateValidationHelper
     end
   end
 
+  def start_date_before_current_year_and_month
+    if start_date > Time.zone.today
+      errors.add(:start_date, :in_the_future)
+    end
+  end
+
   def end_date_before_current_year_and_month
-    if end_date.year > Time.zone.today.year || \
-        end_date.year == Time.zone.today.year && end_date.month > Time.zone.today.month
+    if end_date > Time.zone.today
       errors.add(:end_date, :in_the_future)
     end
   end
 
   def start_date_and_end_date_valid?
     end_date.is_a?(Date) && start_date.is_a?(Date)
+  end
+
+  def start_date_valid?
+    start_date.is_a?(Date)
   end
 
   def end_date_valid?
