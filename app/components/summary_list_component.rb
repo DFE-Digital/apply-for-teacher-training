@@ -6,7 +6,7 @@ class SummaryListComponent < ActionView::Component::Base
   end
 
   def has_action_span?
-    @rows.select { |row| row.has_key?(:action_path) }.any?
+    @rows.select { |row| row.has_key?(:action) }.any?
   end
 
 private
