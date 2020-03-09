@@ -192,7 +192,7 @@ FactoryBot.define do
     course
     site { association(:site, provider: course.provider) }
 
-    vacancy_status { 'B' }
+    vacancy_status { 'both_full_time_and_part_time_vacancies' }
   end
 
   factory :course do

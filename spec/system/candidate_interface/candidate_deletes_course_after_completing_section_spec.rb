@@ -57,7 +57,7 @@ RSpec.feature 'Candidate edits their choice section' do
 
   def given_there_are_courses_to_add
     @course = create(:course, exposed_in_find: true, open_on_apply: true)
-    @course_option = create(:course_option, course: @course, vacancy_status: 'B')
+    @course_option = create(:course_option, course: @course)
   end
 
   def and_i_have_added_a_course_and_complete_the_course_choices_section
