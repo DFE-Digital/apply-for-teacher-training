@@ -5,7 +5,7 @@
   <%= f.govuk_error_summary %>
 
   <h1 class="govuk-heading-xl govuk-heading-xl">
-    <span class="govuk-caption-xl"><%= @application_choice.provider.name %> - <%= @application_choice.course_option.course.name %> (<%= @application_choice.course_option.course.code %>)</span>
+    <span class="govuk-caption-xl"><%= @application_choice.offered_course.provider.name %> - <%= @application_choice.offered_course.name %> (<%= @application_choice.offered_course.code %>)</span>
     <%= t('page_titles.view_and_respond_to_offer') %>
   </h1>
 

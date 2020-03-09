@@ -37,9 +37,9 @@
   <h2 class="govuk-heading-l govuk-!-margin-top-8">Course choices</h2>
   <% @application_form.application_choices.includes(:course, :provider, :site).each do |application_choice| %>
     <% rows = [
-      { key: 'Course', value: application_choice.course.name_and_code },
-      { key: 'Provider', value: application_choice.provider.name_and_code },
-      { key: 'Location', value: application_choice.site.name_and_code },
+      { key: 'Course', value: application_choice.offered_course.name_and_code },
+      { key: 'Provider', value: application_choice.offered_course.provider.name_and_code },
+      { key: 'Location', value: application_choice.offered_option.site.name_and_code },
       { key: 'Status', value: render(SupportInterface::ApplicationStatusTagComponent.new(application_choice: application_choice)) },
     ] %>
     <% rows << { key: 'Reason for rejection', value: application_choice.rejection_reason } if application_choice.rejection_reason.present? %>
@@ -47,7 +47,7 @@
     <% rows << { key: 'Decline by default at', value: application_choice.decline_by_default_at.to_s(:govuk_date_and_time) } if application_choice.decline_by_default_at %>
 
     <%= render SummaryCardComponent.new(rows: rows) do %>
-      <%= render SummaryCardHeaderComponent.new(title: application_choice.course.name_and_code) %>
+      <%= render SummaryCardHeaderComponent.new(title: application_choice.offered_course.name_and_code) %>
     <% end %>
   <% end %>
 <% end %>
