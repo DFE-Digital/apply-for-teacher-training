@@ -170,6 +170,29 @@ module FindAPIHelper
                     { 'id': '1', 'type': 'sites' },
                   ],
                 },
+                'site_statuses': {
+                  'data': [
+                    { 'id': '222', 'type': 'site_statuses' },
+                  ],
+                },
+              },
+            },
+            {
+              'id': '222',
+              'type': 'site_statuses',
+              'attributes': {
+                'vac_status': 'full_time_vacancies',
+                'publish': 'published',
+                'status': 'running',
+                'has_vacancies?': true,
+              },
+              'relationships': {
+                'site': {
+                  'data': {
+                    'type': 'sites',
+                    'id': '1',
+                  },
+                },
               },
             },
           ],
@@ -257,6 +280,48 @@ module FindAPIHelper
                   { 'id': '1', 'type': 'sites' },
                   { 'id': '2', 'type': 'sites' },
                 ],
+              },
+              'site_statuses': {
+                'data': [
+                  { 'id': '222', 'type': 'site_statuses' },
+                  { 'id': '223', 'type': 'site_statuses' },
+                ],
+              },
+            },
+          },
+          {
+            'id': '222',
+            'type': 'site_statuses',
+            'attributes': {
+              'vac_status': 'full_time_vacancies',
+              'publish': 'published',
+              'status': 'running',
+              'has_vacancies?': true,
+            },
+            'relationships': {
+              'site': {
+                'data': {
+                  'type': 'sites',
+                  'id': '1',
+                },
+              },
+            },
+          },
+          {
+            'id': '223',
+            'type': 'site_statuses',
+            'attributes': {
+              'vac_status': 'full_time_vacancies',
+              'publish': 'published',
+              'status': 'running',
+              'has_vacancies?': true,
+            },
+            'relationships': {
+              'site': {
+                'data': {
+                  'type': 'sites',
+                  'id': '2',
+                },
               },
             },
           },
