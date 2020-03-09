@@ -37,13 +37,8 @@ task :rubocop do
   sh 'bundle exec rubocop --parallel'
 end
 
-desc 'Lint all *.erb* files in app/views using erblint'
-task :erblint do
-  sh 'erblint app/views'
-end
-
 desc 'Run all the linters'
-task linting: %i[rubocop erblint]
+task linting: %i[rubocop]
 
 desc 'Compile assets for testing'
 task :compile_assets do

@@ -36,10 +36,6 @@ serve: ## Run the service
 ci.lint-ruby: ## Run Rubocop with results formatted for CI
 	docker-compose run --rm web /bin/sh -c "bundle exec rubocop --format clang --parallel"
 
-.PHONY: ci.lint-erb
-ci.lint-erb: ## Run the ERB linter
-	docker-compose run --rm web /bin/sh -c "bundle exec rake erblint"
-
 .PHONY: ci.cucumber
 ci.cucumber: ## Run the Cucumber specs
 	-docker-compose run web /bin/sh -c 'mkdir $(RESULTS_PATH) && \
