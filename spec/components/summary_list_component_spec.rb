@@ -75,7 +75,7 @@ RSpec.describe SummaryListComponent do
 
     result = render_inline(SummaryListComponent.new(rows: rows))
 
-    expect(result.to_html.include?('<span class="govuk-summary-list__actions"></span>')).to eq(false)
+    expect(result.to_html).not_to include('<span class="govuk-summary-list__actions"></span>')
   end
 
   it 'does render a span if any row as an action' do
@@ -91,6 +91,6 @@ RSpec.describe SummaryListComponent do
 
     result = render_inline(SummaryListComponent.new(rows: rows))
 
-    expect(result.to_html.include?('<span class="govuk-summary-list__actions"></span>')).to eq(true)
+    expect(result.to_html).to include('<span class="govuk-summary-list__actions"></span>')
   end
 end
