@@ -79,50 +79,10 @@ RSpec.describe ApplicationForm do
       end
     end
 
-    context 'when a candidate has added a course choice' do
-      it 'returns false' do
-        application_form = create(:application_form)
-        create(:application_choice, application_form: application_form)
-        expect(application_form.blank_application?).to be_falsey
-      end
-    end
-
-    context 'when a candidate has added a job' do
+    context 'when a candidate has amended their application' do
       it 'returns false' do
         application_form = create(:application_form)
         create(:application_work_experience, application_form: application_form)
-        expect(application_form.blank_application?).to be_falsey
-      end
-    end
-
-    context 'when a candidate has added a volunteering experience' do
-      it 'returns false' do
-        application_form = create(:application_form)
-        create(:application_volunteering_experience, application_form: application_form)
-        expect(application_form.blank_application?).to be_falsey
-      end
-    end
-
-    context 'when a candidate has added a qualificaion' do
-      it 'returns false' do
-        application_form = create(:application_form)
-        create(:application_qualification, application_form: application_form)
-        expect(application_form.blank_application?).to be_falsey
-      end
-    end
-
-    context 'when a candidate has added a reference' do
-      it 'returns false' do
-        application_form = create(:application_form)
-        create(:reference, application_form: application_form)
-        expect(application_form.blank_application?).to be_falsey
-      end
-    end
-
-    context 'when a candidate has added a work history break' do
-      it 'returns false' do
-        application_form = create(:application_form)
-        create(:application_work_history_break, application_form: application_form)
         expect(application_form.blank_application?).to be_falsey
       end
     end
