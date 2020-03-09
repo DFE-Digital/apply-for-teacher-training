@@ -8,7 +8,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
         address_line1: Faker::Address.street_name,
         address_line2: Faker::Address.street_address,
         address_line3: Faker::Address.city,
-        address_line4: Faker::Address.country,
+        address_line4: 'United Kingdom',
         postcode: Faker::Address.postcode,
       }
       application_form = build_stubbed(:application_form, data)
@@ -47,7 +47,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
         address_line1: Faker::Address.street_name,
         address_line2: Faker::Address.street_address,
         address_line3: Faker::Address.city,
-        address_line4: Faker::Address.country,
+        address_line4: 'United Kingdom',
         postcode: 'bn1 1aa',
       }
       application_form = build(:application_form)
