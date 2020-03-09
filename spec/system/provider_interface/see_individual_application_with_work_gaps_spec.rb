@@ -34,7 +34,7 @@ RSpec.describe 'A Provider viewing an individual application' do
   end
 
   def and_the_work_breaks_feature_flag_is_active
-    FeatureFlag.activate('work_breaks')
+    FeatureFlag.activate('provider_interface_work_breaks')
   end
 
   def and_i_am_permitted_to_see_applications_for_my_provider
