@@ -2,7 +2,7 @@ module ProviderInterface
   class FilterComponent < ActionView::Component::Base
     include ViewHelper
 
-    attr_reader :additional_params, :available_filters, :applied_filters
+    attr_reader :additional_params, :available_filters, :applied_filters, :path
 
     def initialize(path:, available_filters:, applied_filters:, additional_params:)
       @path = path
