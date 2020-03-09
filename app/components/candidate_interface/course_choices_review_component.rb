@@ -29,7 +29,7 @@ module CandidateInterface
     end
 
     def withdrawable?(course_choice)
-      ApplicationStateChange.new(course_choice).can_withdraw?
+      ApplicationStateChange.new(course_choice).can_withdraw? && course_choice.edit_by < Time.zone.now
     end
 
     def any_withdrawable?

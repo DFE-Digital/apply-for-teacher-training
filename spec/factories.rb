@@ -215,6 +215,7 @@ FactoryBot.define do
 
     status { ApplicationStateChange.valid_states.sample }
     personal_statement { 'hello' }
+    edit_by { Time.zone.now }
 
     factory :submitted_application_choice do
       status { 'awaiting_provider_decision' }
