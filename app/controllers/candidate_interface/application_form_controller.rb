@@ -8,6 +8,8 @@ module CandidateInterface
       @application_form = current_application
     end
 
+    def before_you_start; end
+
     def review
       redirect_to candidate_interface_application_complete_path if current_application.submitted?
       @application_form = current_application

@@ -45,6 +45,7 @@ Rails.application.routes.draw do
 
     scope '/application' do
       get '/' => 'application_form#show', as: :application_form
+      get '/before-you-start', to: 'application_form#before_you_start'
       get '/edit' => 'application_form#edit', as: :application_edit
       get '/review' => 'application_form#review', as: :application_review
       get '/review/submitted' => 'application_form#review_submitted', as: :application_review_submitted

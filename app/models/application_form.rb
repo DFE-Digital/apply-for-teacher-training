@@ -108,5 +108,9 @@ class ApplicationForm < ApplicationRecord
     application_choices.none?(&:edit_by_expired?)
   end
 
+  def blank_application?
+    updated_at == created_at
+  end
+
   audited
 end
