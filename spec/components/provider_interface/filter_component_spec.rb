@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::FilterComponent do
   let(:path) { :provider_interface_applications_path }
 
-  let(:preselected_filters_partial) do
+  let(:applied_filters_partial) do
     {
       'status' => {
         'pending-conditions' => 'pending_conditions',
@@ -17,7 +17,7 @@ RSpec.describe ProviderInterface::FilterComponent do
     }
   end
 
-  let(:preselected_filters_partial_minus_withdrawn) do
+  let(:applied_filters_partial_minus_withdrawn) do
     {
       'status' => {
         'pending-conditions' => 'pending_conditions',
@@ -107,7 +107,7 @@ RSpec.describe ProviderInterface::FilterComponent do
   it 'marks checkboxes as checked if they have already been pre-selected' do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
-                                        preselected_filters: preselected_filters_partial,
+                                        applied_filters: applied_filters_partial,
                                         additional_params: additional_params)
 
     expect(result.css('#status-pending-conditions').attr('checked').value).to eq('checked')
@@ -123,7 +123,7 @@ RSpec.describe ProviderInterface::FilterComponent do
   it 'on initial load all of the checkboxes are unchecked' do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
-                                        preselected_filters: {},
+                                        applied_filters: {},
                                         additional_params: additional_params)
 
     expect(result.css('#status-pending-conditions').attr('checked')).to eq(nil)
@@ -139,7 +139,7 @@ RSpec.describe ProviderInterface::FilterComponent do
   it 'when filters have been selected filters dialogue to appear' do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
-                                        preselected_filters: preselected_filters_partial,
+                                        applied_filters: applied_filters_partial,
                                         additional_params: additional_params)
 
     expect(result.text).to include('Selected filters')
@@ -148,7 +148,7 @@ RSpec.describe ProviderInterface::FilterComponent do
   it 'selected filters should include tags that match what has been selected for' do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
-                                        preselected_filters: preselected_filters_partial,
+                                        applied_filters: applied_filters_partial,
                                         additional_params: additional_params)
 
     expect(result.css('.moj-filter-tags').text).to include('Accepted', 'New', 'Rejected', 'Application withdrawn', 'The Beach Teaching School')
@@ -159,7 +159,7 @@ RSpec.describe ProviderInterface::FilterComponent do
   it 'selected filters dialogue should not appear if is nothing filtered for' do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
-                                        preselected_filters: {},
+                                        applied_filters: {},
                                         additional_params: additional_params)
 
     expect(result.text).not_to include('Selected filters')
@@ -168,7 +168,7 @@ RSpec.describe ProviderInterface::FilterComponent do
   it 'has a clear button when filters have been selected' do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
-                                        preselected_filters: preselected_filters_partial,
+                                        applied_filters: applied_filters_partial,
                                         additional_params: additional_params)
 
     expect(result.text).to include('Clear')
@@ -177,7 +177,7 @@ RSpec.describe ProviderInterface::FilterComponent do
   it 'returns the additional_params as hidden fields' do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
-                                        preselected_filters: preselected_filters_partial,
+                                        applied_filters: applied_filters_partial,
                                         additional_params: additional_params)
 
     expect(result.css('#sort_by').attr('value').value).to eq('desc')
@@ -186,10 +186,10 @@ RSpec.describe ProviderInterface::FilterComponent do
     expect(result.css('#sort_order').attr('type').value).to eq('hidden')
   end
 
-  it 'can return a full text of a preselected_filters value from the available_filters' do
+  it 'can return a full text of a applied_filters value from the available_filters' do
     filter_component = described_class.new(path: path,
                                         available_filters: available_filters,
-                                        preselected_filters: preselected_filters_partial,
+                                        applied_filters: applied_filters_partial,
                                         additional_params: additional_params)
 
     expect(filter_component.retrieve_tag_text('status', 'offer_withdrawn')).to eq('Withdrawn by us')
@@ -199,20 +199,20 @@ RSpec.describe ProviderInterface::FilterComponent do
   it 'can create hash for a tag url that doesn\'t include that tag\'s params' do
     filter_component = described_class.new(path: path,
                                         available_filters: available_filters,
-                                        preselected_filters: preselected_filters_partial,
+                                        applied_filters: applied_filters_partial,
                                         additional_params: additional_params)
 
     hash = filter_component.build_tag_url_query_params(heading: 'status',
                                                tag_value: 'withdrawn',
-                                               preselected_filters: preselected_filters_partial)
+                                               applied_filters: applied_filters_partial)
 
-    expect(hash).to eq(preselected_filters_partial_minus_withdrawn)
+    expect(hash).to eq(applied_filters_partial_minus_withdrawn)
   end
 
   it 'can create a tag url that doesn\'t include that tag\'s values' do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
-                                        preselected_filters: preselected_filters_partial,
+                                        applied_filters: applied_filters_partial,
                                         additional_params: additional_params)
 
     expect(result.css('#tag-rejected').attr('href').value).not_to include('rejected')

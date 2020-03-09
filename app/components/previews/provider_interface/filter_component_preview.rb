@@ -3,34 +3,34 @@ module ProviderInterface
     def fully_selected
       render_component_for(path: :provider_interface_applications_path,
                            available_filters: available_filters,
-                           preselected_filters: preselected_filters_full,
+                           applied_filters: applied_filters_full,
                            additional_params: additional_params)
     end
 
     def partially_selected
       render_component_for(path: :provider_interface_applications_path,
                            available_filters: available_filters,
-                           preselected_filters: preselected_filters_partial,
+                           applied_filters: applied_filters_partial,
                            additional_params: additional_params)
     end
 
     def empty
       render_component_for(path: :provider_interface_applications_path,
                            available_filters: available_filters,
-                           preselected_filters: {},
+                           applied_filters: {},
                            additional_params: additional_params)
     end
 
   private
 
-    def render_component_for(path:, available_filters:, preselected_filters:, additional_params:)
+    def render_component_for(path:, available_filters:, applied_filters:, additional_params:)
       render ProviderInterface::FilterComponent.new(path: path,
                                                     available_filters: available_filters,
-                                                    preselected_filters: preselected_filters,
+                                                    applied_filters: applied_filters,
                                                     additional_params: additional_params)
     end
 
-    def preselected_filters_partial
+    def applied_filters_partial
       {
         'status' => {
           'pending-conditions' => 'pending_conditions',
@@ -45,7 +45,7 @@ module ProviderInterface
       }
     end
 
-    def preselected_filters_full
+    def applied_filters_full
       {
         'status' => {
           'pending-conditions' => 'pending_conditions',
