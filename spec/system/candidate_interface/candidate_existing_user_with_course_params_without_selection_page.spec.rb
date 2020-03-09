@@ -58,7 +58,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   def and_the_course_i_selected_only_has_one_site
     @course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Potions')
     @site = create(:site, provider: @course.provider)
-    create(:course_option, site: @site, course: @course, vacancy_status: 'B')
+    create(:course_option, site: @site, course: @course)
   end
 
   def and_i_am_an_existing_candidate_on_apply
@@ -138,8 +138,8 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     @course_with_multiple_sites = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Herbology')
     @site1 = create(:site, provider: @course_with_multiple_sites.provider)
     @site2 = create(:site, provider: @course_with_multiple_sites.provider)
-    create(:course_option, site: @site1, course: @course_with_multiple_sites, vacancy_status: 'B')
-    create(:course_option, site: @site2, course: @course_with_multiple_sites, vacancy_status: 'B')
+    create(:course_option, site: @site1, course: @course_with_multiple_sites)
+    create(:course_option, site: @site2, course: @course_with_multiple_sites)
   end
 
   def then_i_should_see_the_course_choices_site_page

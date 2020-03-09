@@ -35,8 +35,8 @@ RSpec.feature 'Selecting a course not on Apply' do
     site = create(:site, name: 'Main site', code: '-', provider: provider)
     course1 = create(:course, name: 'Primary', code: '2XT2', provider: provider, exposed_in_find: true, open_on_apply: true)
     course2 = create(:course, name: 'Secondary', code: 'X123', provider: provider, exposed_in_find: true, open_on_apply: false)
-    create(:course_option, site: site, course: course1, vacancy_status: 'B')
-    create(:course_option, site: site, course: course2, vacancy_status: 'B')
+    create(:course_option, site: site, course: course1)
+    create(:course_option, site: site, course: course2)
     create(:provider, name: 'Provider with no courses', code: 'FAKE')
   end
 
