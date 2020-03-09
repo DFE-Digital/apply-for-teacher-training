@@ -11,6 +11,7 @@ class FeatureFlag
     provider_application_filters
     provider_change_response
     show_new_referee_needed
+    suitability_to_work_with_children
     training_with_a_disability
     work_breaks
     you_selected_a_course_page
