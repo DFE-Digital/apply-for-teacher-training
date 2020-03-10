@@ -3,11 +3,11 @@ class FilterApplicationChoicesForProviders
     return application_choices if filters.empty?
 
     if filters[:status] && filters[:provider]
-      application_choices.where(status: filters[:status].values, 'courses.provider_id' => filters[:provider].values)
+      application_choices.where(status: filters[:status].keys, 'courses.provider_id' => filters[:provider].keys)
     elsif filters[:status]
-      application_choices.where(status: filters[:status].values)
+      application_choices.where(status: filters[:status].keys)
     else
-      application_choices.where('courses.provider_id' => filters[:provider].values)
+      application_choices.where('courses.provider_id' => filters[:provider].keys)
     end
   end
 end

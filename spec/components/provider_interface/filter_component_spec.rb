@@ -6,13 +6,13 @@ RSpec.describe ProviderInterface::FilterComponent do
   let(:applied_filters_partial) do
     {
       'status' => {
-        'pending-conditions' => 'pending_conditions',
-        'awaiting-provider-decision' => 'awaiting_provider_decision',
-        'offer' => 'offer',
-        'rejected' => 'rejected',
-        'withdrawn' => 'withdrawn',
+        'pending_conditions' => 'on',
+        'awaiting_provider_decision' => 'on',
+        'offer' => 'on',
+        'rejected' => 'on',
+        'withdrawn' => 'on',
       }, 'provider' => {
-          'the-beach-teaching-school' => '2',
+          '2' => 'on',
         }
     }
   end
@@ -20,12 +20,12 @@ RSpec.describe ProviderInterface::FilterComponent do
   let(:applied_filters_partial_minus_withdrawn) do
     {
       'status' => {
-        'pending-conditions' => 'pending_conditions',
-        'awaiting-provider-decision' => 'awaiting_provider_decision',
-        'offer' => 'offer',
-        'rejected' => 'rejected',
+        'pending_conditions' => 'on',
+        'awaiting_provider_decision' => 'on',
+        'offer' => 'on',
+        'rejected' => 'on',
       }, 'provider' => {
-          'the-beach-teaching-school' => '2',
+          '2' => 'on',
         }
     }
   end
@@ -37,44 +37,36 @@ RSpec.describe ProviderInterface::FilterComponent do
         heading: 'status',
         checkbox_config: [
           {
-            name: 'pending-conditions',
             text: 'Accepted',
-            value: 'pending_conditions',
+            name: 'pending_conditions',
           },
           {
-            name: 'recruited',
             text: 'Conditions met',
-            value: 'recruited',
+            name: 'recruited',
           },
           {
-            name: 'declined',
             text: 'Declined',
-            value: 'declined',
+            name: 'declined',
           },
           {
-            name: 'awaiting-provider-decision',
             text: 'New',
-            value: 'awaiting_provider_decision',
+            name: 'awaiting_provider_decision',
           },
           {
-            name: 'offer',
             text: 'Offered',
-            value: 'offer',
+            name: 'offer',
           },
           {
-            name: 'rejected',
             text: 'Rejected',
-            value: 'rejected',
+            name: 'rejected',
           },
           {
-            name: 'withdrawn',
             text: 'Application withdrawn',
-            value: 'withdrawn',
+            name: 'withdrawn',
           },
           {
-            name: 'offer-withdrawn',
             text: 'Withdrawn by us',
-            value: 'offer_withdrawn',
+            name: 'offer_withdrawn',
           },
         ],
       },
@@ -82,14 +74,12 @@ RSpec.describe ProviderInterface::FilterComponent do
         heading: 'provider',
         checkbox_config: [
           {
-            name: 'somerset-scitt-consortium',
             text: 'Somerset SCITT consortium',
-            value: '1',
+            name: '1',
           },
           {
-            name: 'the-beach-teaching-school',
             text: 'The Beach Teaching School',
-            value: '2',
+            name: '2',
           },
 
         ],
@@ -103,14 +93,12 @@ RSpec.describe ProviderInterface::FilterComponent do
         heading: 'status',
         checkbox_config: [
           {
-            name: 'pending-conditions',
             text: 'Accepted',
-            value: 'pending_conditions',
+            name: 'pending_conditions',
           },
           {
-            name: 'offer-withdrawn',
             text: 'Withdrawn by us',
-            value: 'offer_withdrawn',
+            name: 'offer_withdrawn',
           },
         ],
       },
@@ -118,9 +106,8 @@ RSpec.describe ProviderInterface::FilterComponent do
         heading: 'provider',
         checkbox_config: [
           {
-            name: 'somerset-scitt-consortium',
             text: 'Somerset SCITT consortium',
-            value: '1',
+            name: '1',
           },
         ],
        },
@@ -140,12 +127,13 @@ RSpec.describe ProviderInterface::FilterComponent do
                                         applied_filters: applied_filters_partial,
                                         additional_params: additional_params)
 
-    expect(result.css('#status-pending-conditions').attr('checked').value).to eq('checked')
+
+    expect(result.css('#status-accepted').attr('checked').value).to eq('checked')
     expect(result.css('#status-recruited').attr('checked')).to eq(nil)
     expect(result.css('#status-declined').attr('checked')).to eq(nil)
-    expect(result.css('#status-awaiting-provider-decision').attr('checked').value).to eq('checked')
+    expect(result.css('#status-new').attr('checked').value).to eq('checked')
     expect(result.css('#status-rejected').attr('checked').value).to eq('checked')
-    expect(result.css('#status-withdrawn').attr('checked').value).to eq('checked')
+    expect(result.css('#status-application-withdrawn').attr('checked').value).to eq('checked')
     expect(result.css('#provider-somerset-scitt-consortium').attr('checked')).to eq(nil)
     expect(result.css('#provider-the-beach-teaching-school').attr('checked').value).to eq('checked')
   end
@@ -156,12 +144,12 @@ RSpec.describe ProviderInterface::FilterComponent do
                                         applied_filters: {},
                                         additional_params: additional_params)
 
-    expect(result.css('#status-pending-conditions').attr('checked')).to eq(nil)
+    expect(result.css('#status-accepted').attr('checked')).to eq(nil)
     expect(result.css('#status-recruited').attr('checked')).to eq(nil)
     expect(result.css('#status-declined').attr('checked')).to eq(nil)
-    expect(result.css('#status-awaiting-provider-decision').attr('checked')).to eq(nil)
+    expect(result.css('#status-new').attr('checked')).to eq(nil)
     expect(result.css('#status-rejected').attr('checked')).to eq(nil)
-    expect(result.css('#status-withdrawn').attr('checked')).to eq(nil)
+    expect(result.css('#status-application-withdrawn').attr('checked')).to eq(nil)
     expect(result.css('#provider-somerset-scitt-consortium').attr('checked')).to eq(nil)
     expect(result.css('#provider-the-beach-teaching-school').attr('checked')).to eq(nil)
   end

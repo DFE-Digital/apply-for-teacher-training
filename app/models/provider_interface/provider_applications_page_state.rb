@@ -53,44 +53,36 @@ module ProviderInterface
           heading: 'status',
           checkbox_config: [
             {
-              name: 'pending-conditions',
               text: 'Accepted',
-              value: 'pending_conditions',
+              name: 'pending_conditions',
             },
             {
-              name: 'recruited',
               text: 'Conditions met',
-              value: 'recruited',
+              name: 'recruited',
             },
             {
-              name: 'declined',
               text: 'Declined',
-              value: 'declined',
+              name: 'declined',
             },
             {
-              name: 'awaiting-provider-decision',
               text: 'New',
-              value: 'awaiting_provider_decision',
+              name: 'awaiting_provider_decision',
             },
             {
-              name: 'offer',
               text: 'Offered',
-              value: 'offer',
+              name: 'offer',
             },
             {
-              name: 'rejected',
               text: 'Rejected',
-              value: 'rejected',
+              name: 'rejected',
             },
             {
-              name: 'withdrawn',
               text: 'Application withdrawn',
-              value: 'withdrawn',
+              name: 'withdrawn',
             },
             {
-              name: 'offer-withdrawn',
               text: 'Withdrawn by us',
-              value: 'offer_withdrawn',
+              name: 'offer_withdrawn',
             },
           ],
         },
@@ -102,9 +94,8 @@ module ProviderInterface
         provider = choice.provider
 
         {
-          name: provider.name.parameterize,
           text: provider.name,
-          value: provider.id.to_s,
+          name: provider.id.to_s,
         }
       end
 

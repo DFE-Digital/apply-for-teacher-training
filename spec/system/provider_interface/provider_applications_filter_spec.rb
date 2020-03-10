@@ -155,7 +155,7 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def when_i_filter_for_applications_that_i_do_not_have
     find(:css, '#status-rejected').set(false)
-    find(:css, '#status-pending-conditions').set(true)
+    find(:css, '#status-accepted').set(true)
     click_button('Apply filters')
   end
 
@@ -164,9 +164,9 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_filter_for_rejected_and_offered_applications
-    find(:css, '#status-pending-conditions').set(false)
+    find(:css, '#status-accepted').set(false)
     find(:css, '#status-rejected').set(true)
-    find(:css, '#status-offer').set(true)
+    find(:css, '#status-offered').set(true)
     click_button('Apply filters')
   end
 

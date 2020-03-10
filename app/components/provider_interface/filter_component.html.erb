@@ -37,7 +37,6 @@
                       <div class="govuk-checkboxes govuk-checkboxes--small">
                         <%= render ProviderInterface::FilterCheckboxComponent.new(name: checkbox_config[:name],
                                                                                   text: checkbox_config[:text],
-                                                                                  value: checkbox_config[:value],
                                                                                   selected: checkbox_checked?(heading: filter_group[:heading], name: checkbox_config[:name]),
                                                                                   heading: filter_group[:heading].parameterize)
                          %>
