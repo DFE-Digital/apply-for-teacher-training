@@ -63,9 +63,7 @@ RSpec.feature 'Provider changes an offer' do
 
   def and_i_click_on_change_provider
     visit provider_interface_application_choice_path(@application_offered.id)
-    within('.govuk-summary-list__actions.provider') do
-      click_on 'Change'
-    end
+    click_on 'Change training provider'
   end
 
   def then_i_see_all_my_providers
