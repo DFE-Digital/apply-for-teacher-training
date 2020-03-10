@@ -159,6 +159,10 @@ module CandidateInterface
       @application_form.application_references.count >= ApplicationForm::MINIMUM_COMPLETE_REFERENCES
     end
 
+    def safeguarding_completed?
+      @application_form.safeguarding_issues.present?
+    end
+
   private
 
     def show_review_volunteering?

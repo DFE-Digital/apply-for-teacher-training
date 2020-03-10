@@ -257,6 +257,24 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
+  describe '#safeguarding_completed?' do
+    it 'returns false if safeguarding issues is nil' do
+      application_form = build_stubbed(:application_form, safeguarding_issues: nil)
+
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter.safeguarding_completed?).to eq(false)
+    end
+
+    it 'returns true if safeguarding issues has a value' do
+      application_form = build_stubbed(:application_form, safeguarding_issues: 'I have a criminal conviction.')
+
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter.safeguarding_completed?).to eq(true)
+    end
+  end
+
   describe '#work_experience_path' do
     it 'returns the length path if no work experience' do
       application_form = build(:completed_application_form, work_experiences_count: 0, work_history_explanation: '')
