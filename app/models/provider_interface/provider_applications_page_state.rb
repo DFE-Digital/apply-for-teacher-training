@@ -23,7 +23,7 @@ module ProviderInterface
   private
 
     def calculate_filter_visibility
-      @params[:filter_visible] ||= 'true'
+      filter_params[:filter_visible] ||= 'true'
     end
 
     def calculate_filter_selections
