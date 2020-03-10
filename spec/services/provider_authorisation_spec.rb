@@ -15,8 +15,8 @@ RSpec.describe ProviderAuthorisation do
 
   describe '#can_make_offer?' do
     context 'with provider user' do
-      let(:agreement) { create(:provider_agreement) } # easiest way to associate provider and provider_user
-      let(:provider_user) { agreement.provider_user }
+      let(:provider_user) { create(:provider_user, :with_provider) }
+      let(:provider) { provider_user.providers.first }
 
       it 'is false if user is not associated with the provider that offers the course' do
         application_choice = create(:application_choice, :awaiting_provider_decision)
@@ -25,7 +25,7 @@ RSpec.describe ProviderAuthorisation do
       end
 
       it 'is true if user is associated with the provider that offers the course' do
-        course_option = course_option_for_provider(provider: agreement.provider)
+        course_option = course_option_for_provider(provider: provider)
         application_choice = create(:application_choice, :awaiting_provider_decision, course_option: course_option)
         auth_context = ProviderAuthorisation.new(actor: provider_user)
         expect(auth_context.can_make_offer?(application_choice: application_choice)).to be_truthy
@@ -63,6 +63,30 @@ RSpec.describe ProviderAuthorisation do
         auth_context = ProviderAuthorisation.new(actor: vendor_api_user)
         expect(auth_context.can_make_offer?(application_choice: application_choice)).to be_truthy
       end
+    end
+  end
+
+  describe '#can_change_offer?' do
+    let(:provider_user) { create(:provider_user, :with_provider) }
+    let(:provider) { provider_user.providers.first }
+    let(:course_option) { course_option_for_provider(provider: provider) }
+    let(:application_choice) { create(:application_choice, :with_offer, course_option: course_option) }
+    let(:other_course_option) { course_option_for_provider(provider: provider) }
+
+    it 'is true if provider_user/provider/course/course_option all match' do
+      auth_context = ProviderAuthorisation.new(actor: provider_user)
+      expect(auth_context.can_change_offer?(application_choice: application_choice, course_option_id: other_course_option.id)).to be_truthy
+    end
+
+    it 'is false if user is not associated with the provider for the new course option' do
+      auth_context = ProviderAuthorisation.new(actor: create(:provider_user))
+      expect(auth_context.can_change_offer?(application_choice: application_choice, course_option_id: other_course_option.id)).to be_falsy
+    end
+
+    it 'is true if user is a support user' do
+      auth_context = ProviderAuthorisation.new(actor: create(:support_user))
+      unrelated_course_option = create(:course_option)
+      expect(auth_context.can_change_offer?(application_choice: application_choice, course_option_id: unrelated_course_option.id)).to be_truthy
     end
   end
 end

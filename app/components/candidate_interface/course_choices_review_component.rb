@@ -5,7 +5,7 @@ module CandidateInterface
 
     def initialize(application_form:, editable: true, heading_level: 2, show_status: false, show_incomplete: false, missing_error: false)
       @application_form = application_form
-      @course_choices = @application_form.application_choices.includes(:course, :site, :provider).order(id: :asc)
+      @course_choices = @application_form.application_choices.includes(:course, :site, :provider, :offered_course_option).order(id: :asc)
       @editable = editable
       @heading_level = heading_level
       @show_status = show_status
@@ -51,21 +51,21 @@ module CandidateInterface
 
       {
         key: 'Course',
-        value: govuk_link_to("#{course_choice.course.name} (#{course_choice.course.code})", url, target: '_blank', rel: 'noopener'),
+        value: govuk_link_to("#{course_choice.offered_course.name} (#{course_choice.offered_course.code})", url, target: '_blank', rel: 'noopener'),
       }
     end
 
     def location_row(course_choice)
       {
         key: 'Location',
-        value: "#{course_choice.site.name}\n#{course_choice.site.full_address}",
+        value: "#{course_choice.offered_site.name}\n#{course_choice.offered_site.full_address}",
       }
     end
 
     def study_mode_row(course_choice)
       {
         key: 'Full time or part time',
-        value: course_choice.course_option.study_mode.humanize,
+        value: course_choice.offered_option.study_mode.humanize,
       }
     end
 

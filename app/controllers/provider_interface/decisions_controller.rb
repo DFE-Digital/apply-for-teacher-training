@@ -1,7 +1,7 @@
 module ProviderInterface
   class DecisionsController < ProviderInterfaceController
     before_action :set_application_choice
-    before_action :requires_provider_change_response_feature_flag, only: %i[new_edit_response edit_response new_withdraw_offer confirm_withdraw_offer withdraw_offer]
+    before_action :requires_provider_change_response_feature_flag, only: %i[new_withdraw_offer confirm_withdraw_offer withdraw_offer]
 
     def respond
       @pick_response_form = PickResponseForm.new
@@ -83,23 +83,6 @@ module ProviderInterface
         )
       else
         render action: :new_reject
-      end
-    end
-
-    def new_edit_response
-      @edit_response = EditResponseForm.new
-    end
-
-    def edit_response
-      @edit_response = EditResponseForm.new(
-        edit_response_type: params.dig(:provider_interface_edit_response_form, :edit_response_type),
-      )
-      if @edit_response.valid?
-        redirect_to provider_interface_application_choice_new_withdraw_offer_path(
-          application_choice_id: @application_choice.id,
-        )
-      else
-        render action: :new_edit_response
       end
     end
 

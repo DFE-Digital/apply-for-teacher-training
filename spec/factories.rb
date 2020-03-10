@@ -193,6 +193,14 @@ FactoryBot.define do
     site { association(:site, provider: course.provider) }
 
     vacancy_status { 'both_full_time_and_part_time_vacancies' }
+
+    trait :full_time do
+      study_mode { :full_time }
+    end
+
+    trait :part_time do
+      study_mode { :part_time }
+    end
   end
 
   factory :course do
@@ -209,7 +217,15 @@ FactoryBot.define do
     end
 
     trait :with_both_study_modes do
-      study_mode { 'full_time_or_part_time' }
+      study_mode { :full_time_or_part_time }
+    end
+
+    trait :full_time do
+      study_mode { :full_time }
+    end
+
+    trait :part_time do
+      study_mode { :part_time }
     end
   end
 
@@ -260,6 +276,7 @@ FactoryBot.define do
     end
 
     trait :ready_to_send_to_provider do
+      association :application_form, factory: %i[completed_application_form with_completed_references]
       status { :application_complete }
       edit_by { 1.day.ago }
     end
@@ -277,11 +294,21 @@ FactoryBot.define do
     end
 
     trait :with_offer do
+      association :application_form, factory: %i[completed_application_form with_completed_references]
       status { 'offer' }
-      decline_by_default_at { Time.zone.now + 10.days }
+      decline_by_default_at { Time.zone.now + 7.days }
       decline_by_default_days { 10 }
       offer { { 'conditions' => ['Be cool'] } }
-      offered_at { Time.zone.now }
+      offered_at { Time.zone.now - 3.days }
+    end
+
+    trait :with_modified_offer do
+      with_offer
+
+      after(:build) do |choice, _evaluator|
+        other_course = create(:course, provider: choice.course_option.course.provider)
+        choice.offered_course_option_id = create(:course_option, course: other_course).id
+      end
     end
 
     trait :with_accepted_offer do
@@ -385,6 +412,12 @@ FactoryBot.define do
     email_address { "#{Faker::Name.first_name.downcase}-#{SecureRandom.hex}@example.com" }
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
+
+    trait :with_provider do
+      after(:create) do |user, _evaluator|
+        create(:provider).provider_users << user
+      end
+    end
   end
 
   factory :provider_users_provider do
