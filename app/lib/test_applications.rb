@@ -59,21 +59,23 @@ module TestApplications
 
       return if states.include? :unsubmitted
 
-      SubmitApplication.new(application_form).call
-      return if states.include? :awaiting_references
+      without_slack_message_sending do
+        SubmitApplication.new(application_form).call
+        return if states.include? :awaiting_references
 
-      application_form.application_references.each do |reference|
-        ReceiveReference.new(
-          reference: reference,
-          feedback: 'You are awesome',
-        ).save!
-      end
-      return if states.include? :application_complete
+        application_form.application_references.each do |reference|
+          ReceiveReference.new(
+            reference: reference,
+            feedback: 'You are awesome',
+          ).save!
+        end
+        return if states.include? :application_complete
 
-      application_choices.map(&:reload)
+        application_choices.map(&:reload)
 
-      states.zip(application_choices).each do |state, application_choice|
-        put_application_choice_in_state(application_choice, state)
+        states.zip(application_choices).each do |state, application_choice|
+          put_application_choice_in_state(application_choice, state)
+        end
       end
 
       application_choices
@@ -123,5 +125,11 @@ module TestApplications
 
   def self.actor
     SupportUser.first_or_initialize
+  end
+
+  def self.without_slack_message_sending
+    RequestStore.store[:disable_slack_messages] = true
+    yield
+    RequestStore.store[:disable_slack_messages] = false
   end
 end
