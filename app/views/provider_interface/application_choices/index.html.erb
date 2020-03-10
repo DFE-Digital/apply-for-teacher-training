@@ -32,15 +32,15 @@
                                                                                column_name: 'Name',
                                                                                current_sort_by: @page_state.sort_by,
                                                                                css_class: 'govuk-table__header govuk-!-width-one-quarter',
-                                                                               filter_selections: @page_state.filter_selections,
-                                                                               filter_visible: @page_state.filter_visible) %>
+                                                                               additional_params: { filter_selections: @page_state.filter_selections,
+                                                                                                    filter_visible: @page_state.filter_visible }) %>
 
               <%= render ProviderInterface::SortableColumnHeadingComponent.new(sort_order: @page_state.sort_order,
                                                                                column_name: 'Course',
                                                                                current_sort_by: @page_state.sort_by,
                                                                                css_class: 'govuk-table__header govuk-!-width-one-quarter',
-                                                                               filter_selections: @page_state.filter_selections,
-                                                                               filter_visible: @page_state.filter_visible) %>
+                                                                               additional_params: { filter_selections: @page_state.filter_selections,
+                                                                                                    filter_visible: @page_state.filter_visible }) %>
 
 
               <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Status</th>
@@ -49,8 +49,8 @@
                                                                                column_name: 'Last updated',
                                                                                current_sort_by: @page_state.sort_by,
                                                                                css_class: 'govuk-table__header govuk-!-width-one-quarter govuk-table__header--numeric',
-                                                                               filter_selections: @page_state.filter_selections,
-                                                                               filter_visible: @page_state.filter_visible) %>
+                                                                               additional_params: { filter_selections: @page_state.filter_selections,
+                                                                                                    filter_visible: @page_state.filter_visible }) %>
             </tr>
           </thead>
 
