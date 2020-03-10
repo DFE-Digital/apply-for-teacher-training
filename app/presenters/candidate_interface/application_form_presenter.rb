@@ -106,15 +106,15 @@ module CandidateInterface
     end
 
     def maths_gcse_completed?
-      @application_form.maths_gcse.present?
+      gcse_completed?(@application_form.maths_gcse)
     end
 
     def english_gcse_completed?
-      @application_form.english_gcse.present?
+      gcse_completed?(@application_form.english_gcse)
     end
 
     def science_gcse_completed?
-      @application_form.science_gcse.present?
+      gcse_completed?(@application_form.science_gcse)
     end
 
     def other_qualifications_completed?
@@ -165,6 +165,16 @@ module CandidateInterface
       volunteering_experience_is_set = [true, false].include?(@application_form.volunteering_experience)
 
       volunteering_completed? || volunteering_added? || volunteering_experience_is_set
+    end
+
+    def gcse_completed?(gcse)
+      if gcse.present?
+        if gcse.qualification_type != 'missing'
+          gcse.grade.present? && gcse.award_year.present?
+        else
+          true
+        end
+      end
     end
   end
 end

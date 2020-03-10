@@ -17,6 +17,13 @@ RSpec.feature 'Candidate entering GCSE details' do
     and_i_click_save_and_continue
     then_i_see_add_grade_page
 
+    when_i_visit_the_candidate_application_page
+    then_the_maths_gcse_should_be_incomplete
+
+    when_i_click_on_the_maths_gcse_link
+    and_i_select_gcse_option
+    and_i_click_save_and_continue
+
     when_i_fill_in_the_grade
     and_i_click_save_and_continue
     then_i_see_add_year_page
@@ -64,6 +71,10 @@ RSpec.feature 'Candidate entering GCSE details' do
     choose('GCSE')
   end
 
+  def and_i_select_gcse_option
+    when_i_select_gcse_option
+  end
+
   def when_i_select_gce_option
     choose('GCE O Level')
   end
@@ -76,6 +87,10 @@ RSpec.feature 'Candidate entering GCSE details' do
 
   def when_i_visit_the_candidate_application_page
     visit '/candidate/application'
+  end
+
+  def then_the_maths_gcse_should_be_incomplete
+    expect(page).to have_content 'Maths GCSE or equivalent Incomplete'
   end
 
   def then_i_see_the_add_gcse_maths_page
@@ -160,5 +175,9 @@ RSpec.feature 'Candidate entering GCSE details' do
 
   def i_see_the_maths_gcse_is_completed
     expect(page).to have_css('#maths-gcse-or-equivalent-badge-id', text: 'Completed')
+  end
+
+  def when_i_click_on_the_maths_gcse_link
+    and_i_click_on_the_maths_gcse_link
   end
 end
