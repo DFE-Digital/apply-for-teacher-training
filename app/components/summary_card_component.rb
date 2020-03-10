@@ -2,7 +2,7 @@ class SummaryCardComponent < ActionView::Component::Base
   validates :rows, presence: true
 
   def initialize(rows:, border: true, editable: true)
-    @rows = determine_rows(rows, editable)
+    @rows = rows_including_actions_if_editable(rows, editable)
     @border = border
   end
 
@@ -14,12 +14,13 @@ private
 
   attr_reader :rows
 
-  def determine_rows(rows, editable)
+  def rows_including_actions_if_editable(rows, editable)
     rows.map do |row|
       row.tap do |r|
         unless editable
           r.delete(:change_path)
           r.delete(:action_path)
+          r.delete(:action)
         end
       end
     end

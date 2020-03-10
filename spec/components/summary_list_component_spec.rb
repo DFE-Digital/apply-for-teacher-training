@@ -62,4 +62,35 @@ RSpec.describe SummaryListComponent do
     result = render_inline(SummaryListComponent.new(rows: rows))
     expect(result.css('.govuk-summary-list__value p').to_html).to eq('<p class="govuk-body">Unsafe</p>')
   end
+
+  it 'does not render a span if no row has an action' do
+    rows = [{ key: 'Job',
+             value: ['Teacher', 'Clearcourt High'] },
+            { key: 'Working pattern',
+             value: "Full-time\n Omnis itaque rerum. Velit in ." },
+            { key: 'Description',
+             value: 'Cumque autem veritatis..'  },
+            { key: 'Dates',
+             value: 'May 2003 - November 2019'  }]
+
+    result = render_inline(SummaryListComponent.new(rows: rows))
+
+    expect(result.to_html).not_to include('<span class="govuk-summary-list__actions"></span>')
+  end
+
+  it 'does render a span if any row as an action' do
+    rows = [{ key: 'Job',
+             value: ['Teacher', 'Clearcourt High'] },
+            { key: 'Working pattern',
+             value: "Full-time\n Omnis itaque rerum. Velit in ." },
+            { key: 'Description',
+             value: 'Cumque autem veritatis..' },
+            { key: 'Dates',
+             value: 'May 2003 - November 2019',
+             action: 'dates for Teacher, Clearcourt High' }]
+
+    result = render_inline(SummaryListComponent.new(rows: rows))
+
+    expect(result.to_html).to include('<span class="govuk-summary-list__actions"></span>')
+  end
 end

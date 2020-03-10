@@ -26,7 +26,7 @@
         <dd class="govuk-summary-list__actions">
           <%= link_to row[:action], row[:action_path], class: 'govuk-link' %>
         </dd>
-      <% else %>
+      <% elsif has_action_span? %>
         <span class="govuk-summary-list__actions"></span>
       <% end %>
     </div>
