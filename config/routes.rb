@@ -273,6 +273,12 @@ Rails.application.routes.draw do
         post '/ethnic-background' => 'equality_and_diversity#update_ethnic_background', as: :update_equality_and_diversity_ethnic_background
         get '/review' => 'equality_and_diversity#review', as: :review_equality_and_diversity
       end
+
+      scope '/safeguarding' do
+        get '/' => 'safeguarding#edit', as: :edit_safeguarding
+        post '/' => 'safeguarding#update'
+        get '/review' => 'safeguarding#show', as: :review_safeguarding
+      end
     end
   end
 

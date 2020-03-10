@@ -53,7 +53,7 @@
         <% end %>
         <% if FeatureFlag.active?('suitability_to_work_with_children') %>
           <li class="app-task-list__item">
-            <%= govuk_link_to t('page_titles.suitability_to_work_with_children'), '#' %>
+            <%= govuk_link_to t('page_titles.suitability_to_work_with_children'), candidate_interface_edit_safeguarding_path %>
           </li>
         <% end %>
     </ul>
