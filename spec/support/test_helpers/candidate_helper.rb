@@ -4,6 +4,7 @@ module CandidateHelper
     personal_details
     contact_details
     training_with_a_disability
+    safeguarding
     work_experience
     volunteering
     degrees
@@ -22,6 +23,7 @@ module CandidateHelper
 
   def candidate_completes_application_form
     given_courses_exist
+    and_the_suitability_to_work_with_children_feature_flag_is_on
     create_and_sign_in_candidate
     visit candidate_interface_application_form_path
 
@@ -45,6 +47,9 @@ module CandidateHelper
     candidate_fills_in_disability_info
     click_button t('application_form.training_with_a_disability.complete_form_button')
     click_link t('application_form.training_with_a_disability.review.button')
+
+    click_link t('page_titles.suitability_to_work_with_children')
+    candidate_fills_in_safeguarding_issues
 
     click_link t('page_titles.degree')
     candidate_fills_in_their_degree
@@ -88,6 +93,10 @@ module CandidateHelper
     site = create(:site, name: 'Main site', code: '-', provider: @provider)
     course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Primary', code: '2XT2', provider: @provider)
     create(:course_option, site: site, course: course)
+  end
+
+  def and_the_suitability_to_work_with_children_feature_flag_is_on
+    FeatureFlag.activate('suitability_to_work_with_children')
   end
 
   def candidate_fills_in_course_choices
@@ -178,6 +187,15 @@ module CandidateHelper
   def candidate_fills_in_disability_info
     choose t('application_form.training_with_a_disability.disclose_disability.yes')
     fill_in t('application_form.training_with_a_disability.disability_disclosure.label'), with: 'I have difficulty climbing stairs'
+  end
+
+  def candidate_fills_in_safeguarding_issues
+    choose 'Yes'
+    fill_in 'Give any relevant information', with: 'I have a criminal conviction.'
+
+    click_button 'Continue'
+
+    click_link 'Continue'
   end
 
   def candidate_fills_in_work_experience
