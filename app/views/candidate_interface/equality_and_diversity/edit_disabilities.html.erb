@@ -1,4 +1,4 @@
-<% content_for :title, 'Please select all that apply to you' %>
+<% content_for :title, title_with_error_prefix('Please select all that apply to you', @disabilities.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_edit_equality_and_diversity_disability_status_path) %>
 
 <div class="govuk-grid-row">
