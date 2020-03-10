@@ -5,11 +5,12 @@ RSpec.describe ChangeOffer do
   let(:provider_user) { create(:provider_user, :with_provider) }
   let(:provider) { provider_user.providers.first }
   let(:course) { create(:course, :full_time, provider: provider) }
-  let(:course_option) { course_option_for_provider(provider: provider, course: course) }
-  let(:application_choice) { create(:application_choice, :with_modified_offer, course_option: course_option) }
+  let(:original_course_option) { course_option_for_provider(provider: provider, course: course) }
+  let(:new_course_option) { course_option_for_provider(provider: provider, course: course) }
+  let(:application_choice) { create(:application_choice, :with_modified_offer, course_option: original_course_option) }
 
   def service
-    ChangeOffer.new(actor: provider_user, application_choice: application_choice, course_option_id: course_option.id)
+    ChangeOffer.new(actor: provider_user, application_choice: application_choice, course_option_id: new_course_option.id)
   end
 
   it 'changes offered_course_option_id for the application choice if it is already set' do
@@ -30,5 +31,10 @@ RSpec.describe ChangeOffer do
 
   it 'resets declined_by_default_at for the application choice' do
     expect { service.save! && application_choice.reload }.to change(application_choice, :decline_by_default_at)
+  end
+
+  it 'does not change declined_by_default_at if the offered course option has not changed' do
+    noop = ChangeOffer.new(actor: provider_user, application_choice: application_choice, course_option_id: original_course_option.id)
+    expect { noop.save! }.not_to change(application_choice, :decline_by_default_at)
   end
 end
