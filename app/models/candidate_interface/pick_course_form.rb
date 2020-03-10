@@ -41,7 +41,7 @@ module CandidateInterface
     def user_cant_apply_to_same_course_twice
       return if course_id.blank?
 
-      if application_form.application_choices.any? { |application_choice| application_choice.course == course }
+      if application_form.application_choices.includes([:course]).any? { |application_choice| application_choice.course == course }
         errors[:base] << "You have already added #{course.name_and_code}"
       end
     end

@@ -19,6 +19,7 @@ RSpec.feature 'Selecting a course' do
     and_i_choose_a_course
     then_i_see_the_address
     and_i_choose_a_location
+    and_i_visit_my_course_choices_page
     then_i_see_my_completed_course_choice
 
     # attempt to add the same course
@@ -33,6 +34,7 @@ RSpec.feature 'Selecting a course' do
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_another_provider
     and_i_choose_another_course_with_only_one_site
+    and_i_visit_my_course_choices_page
     then_i_review_my_second_course_choice
 
     when_i_mark_this_section_as_completed
@@ -141,6 +143,10 @@ RSpec.feature 'Selecting a course' do
   def and_i_choose_a_location
     choose 'Main site'
     click_button 'Continue'
+  end
+
+  def and_i_visit_my_course_choices_page
+    visit candidate_interface_course_choices_review_path
   end
 
   def then_i_see_my_completed_course_choice

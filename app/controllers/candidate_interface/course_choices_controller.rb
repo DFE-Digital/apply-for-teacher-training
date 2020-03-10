@@ -150,6 +150,23 @@ module CandidateInterface
       redirect_to candidate_interface_course_choices_index_path
     end
 
+    def add_another_course
+      @additional_courses_allowed = 3 - current_candidate.current_application.application_choices.count
+      @add_another_course = AddAnotherCourseForm.new
+    end
+
+    def add_another_course_selection
+      @additional_courses_allowed = 3 - current_candidate.current_application.application_choices.count
+      @add_another_course = AddAnotherCourseForm.new(add_another_course_params)
+      return render :add_another_course unless @add_another_course.valid?
+
+      if @add_another_course.add_another_course?
+        redirect_to candidate_interface_course_choices_choose_path
+      else
+        redirect_to candidate_interface_application_form_path
+      end
+    end
+
     def complete
       @application_form = current_application
 
@@ -182,6 +199,10 @@ module CandidateInterface
       params.fetch(:candidate_interface_course_chosen_form, {}).permit(:choice)
     end
 
+    def add_another_course_params
+      params.fetch(:candidate_interface_add_another_course_form, {}).permit(:add_another_course)
+    end
+
     def pick_site_for_course(course_id, course_option_id)
       @pick_site = PickSiteForm.new(
         application_form: current_application,
@@ -192,8 +213,15 @@ module CandidateInterface
 
       if @pick_site.save
         current_application.update!(course_choices_completed: false)
+        @course_choices = current_candidate.current_application.application_choices
+        flash[:success] = "You’ve added #{@course_choices.last.course.name_and_code} to your application"
 
-        redirect_to candidate_interface_course_choices_index_path
+        if @course_choices.count.between?(1, 2) && FeatureFlag.active?('add_additional_courses_page')
+          redirect_to candidate_interface_course_choices_add_another_course_path
+        else
+          redirect_to candidate_interface_course_choices_index_path
+        end
+
       else
         render :options_for_site
       end
