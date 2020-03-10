@@ -222,11 +222,11 @@ en:
         label: Tell us what you know about the subject you want to teach
         complete_form_button: Continue
       interview_preferences:
-        key: Interview preferences
-        change_action: interview preferences
-        label: Do you have any preferences for your interview?
+        key: Interview needs
+        change_action: interview needs
+        label: Do you have any interview needs?
         complete_form_button: Save and continue
-        yes_label: What are your interview preferences?
+        yes_label: What are your interview needs?
         no_value: None
     training_with_a_disability:
       complete_form_button: Continue

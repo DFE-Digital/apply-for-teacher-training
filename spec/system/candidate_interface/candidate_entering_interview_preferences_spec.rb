@@ -82,6 +82,6 @@ RSpec.feature 'Entering interview preferences' do
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#interview-preferences-badge-id', text: 'Completed')
+    expect(page).to have_css('#interview-needs-badge-id', text: 'Completed')
   end
 end

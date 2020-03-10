@@ -8,12 +8,32 @@
 
       <h1 class="govuk-heading-xl"><%= t('page_titles.interview_preferences') %></h1>
 
-      <p class="govuk-body">Your interview will usually take place over the course of a day and you will need to attend in person.</p>
-      <p class="govuk-body">Give details of any arrangements you might need. Providers can’t always accomodate your preferences.</p>
+      <p class="govuk-body">
+        Interviews usually take place over the course of a day.
+        You'll need to attend in person.
+      </p>
+
+      <p class="govuk-body">
+        Training providers might not have much flexibility when setting a date
+        and time for interview.
+      </p>
+
+      <p class="govuk-body">
+        If there's a reason why you need some flexibility you can tell us about
+        it here.
+      </p>
+
+      <p class="govuk-body">For example:</p>
+
+      <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-7">
+        <li>you have commitments such as employment or caring responsibilities</li>
+        <li>you'll be travelling a long way to get to the interview</li>
+        <li>you'll need some adjustments because you're disabled</li>
+      </ul>
 
       <%= f.govuk_radio_buttons_fieldset :any_preferences, legend: { size: 'm', text: t('application_form.personal_statement.interview_preferences.label'), tag: 'span' } do %>
         <%= f.govuk_radio_button :any_preferences, 'yes', label: { text: 'Yes' }, link_errors: true do %>
-          <%= f.govuk_text_area :interview_preferences, label: { text: t('application_form.personal_statement.interview_preferences.yes_label'), size: 's' }, hint_text: 'Give a reason if you can', rows: 8, max_words: 200 %>
+          <%= f.govuk_text_area :interview_preferences, label: { text: t('application_form.personal_statement.interview_preferences.yes_label') }, rows: 8, max_words: 200 %>
         <% end %>
 
         <%= f.govuk_radio_button :any_preferences, 'no', label: { text: 'No' } %>
