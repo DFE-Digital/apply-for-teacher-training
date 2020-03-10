@@ -39,4 +39,16 @@ RSpec.describe TestApplications do
       expect(choices.count).to eq(1)
     end
   end
+
+  describe 'full work history' do
+    it 'creates applications with work experience as well as explained and unexplained breaks' do
+      create(:course_option, course: create(:course, :open_on_apply))
+
+      choices = TestApplications.create_application(states: %i[awaiting_provider_decision])
+
+      expect(choices.count).to eq(1)
+      expect(choices.first.application_form.application_work_experiences.count).to eq(2)
+      expect(choices.first.application_form.application_work_history_breaks.count).to eq(1)
+    end
+  end
 end
