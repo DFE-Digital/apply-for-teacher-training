@@ -28,6 +28,8 @@ module CandidateInterface
         "Our email requesting a reference didn’t reach #{referee.name}"
       when 'feedback_refused'
         "#{referee.name} said they won’t give a reference"
+      when 'cancelled'
+        "We've cancelled the reference request for #{referee.name}"
       else
         "#{referee.name} did not respond to our request"
       end

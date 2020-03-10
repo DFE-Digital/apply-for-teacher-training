@@ -11,7 +11,7 @@ RSpec.describe CandidateInterface::PickStudyModeForm, type: :model do
 
       form = described_class.new(course_id: course.id, study_mode: :part_time)
 
-      expect(form.available_sites).to eq(
+      expect(form.available_sites).to match_array(
         [
           pt_course_one,
           pt_course_two,

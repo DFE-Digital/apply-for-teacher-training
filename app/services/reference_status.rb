@@ -21,8 +21,9 @@ class ReferenceStatus
     refused = application_references.select(&:feedback_refused?)
     bounced = application_references.select(&:email_bounced?)
     ignored = application_references.select(&:feedback_overdue?)
+    cancelled = application_references.select(&:cancelled?)
 
-    refused + bounced + ignored
+    refused + bounced + ignored + cancelled
   end
 
 private

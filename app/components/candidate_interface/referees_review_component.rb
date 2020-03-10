@@ -93,7 +93,7 @@ module CandidateInterface
         reference.feedback_overdue? ? :red : :blue
       when 'feedback_provided'
         :green
-      when 'feedback_refused', 'feedback_overdue', 'email_bounced'
+      when 'feedback_refused', 'feedback_overdue', 'email_bounced', 'cancelled'
         :red
       end
     end
