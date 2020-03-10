@@ -32,9 +32,14 @@ RSpec.describe 'Add additional courses flow' do
     and_i_should_be_told_i_can_add_1_more_courses
     and_i_should_be_prompted_to_add_an_additional_course
 
-    # when_i_add_a_third_course
-    # then_i_should_be_on_the_application_page
-    # and_i_should_receive_a_message_that_ive_added_the_third_course
+    when_i_choose_yes
+    then_i_should_see_the_have_you_chosen_a_course_page
+
+    when_i_choose_that_i_know_where_i_want_to_apply
+    and_i_choose_a_provider
+    and_i_choose_my_third_course_choice
+    then_i_should_be_on_the_course_choice_review_page
+    and_i_should_receive_a_message_that_ive_added_the_third_course
   end
 
   def given_that_add_additional_courses_page_is_active
@@ -102,7 +107,7 @@ RSpec.describe 'Add additional courses flow' do
   end
 
   def then_i_should_see_the_have_you_chosen_a_course_page
-    expect(page).to have_current_path candidate_interface_course_choices_choose_path
+    expect(page).to have_current_path(candidate_interface_course_choices_choose_path)
   end
 
   def and_i_should_receive_a_message_that_ive_added_the_second_course
@@ -116,5 +121,18 @@ RSpec.describe 'Add additional courses flow' do
 
   def and_i_should_be_told_i_can_add_1_more_courses
     expect(page).to have_content('You can choose 1 more course')
+  end
+
+  def and_i_choose_my_third_course_choice
+    choose @provider.courses.third.name_and_code
+    click_button 'Continue'
+  end
+
+  def then_i_should_be_on_the_course_choice_review_page
+    expect(page).to have_current_path(candidate_interface_course_choices_review_path)
+  end
+
+  def and_i_should_receive_a_message_that_ive_added_the_third_course
+    expect(page).to have_content("You’ve added #{@provider.courses.third.name_and_code} to your application")
   end
 end
