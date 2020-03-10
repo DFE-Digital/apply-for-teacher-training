@@ -131,7 +131,7 @@ private
   def create_two_course_options_for_course(course:)
     site = create(:site, provider: course.provider)
     site2 = create(:site, provider: course.provider)
-    create(:course_option, site: site, course: course, vacancy_status: 'B')
-    create(:course_option, site: site2, course: course, vacancy_status: 'B')
+    create(:course_option, site: site, course: course)
+    create(:course_option, site: site2, course: course)
   end
 end

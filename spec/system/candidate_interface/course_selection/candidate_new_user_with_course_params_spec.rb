@@ -34,15 +34,15 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
   def and_the_course_i_selected_only_has_one_site
     @course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Potions')
     @site = create(:site, provider: @course.provider)
-    create(:course_option, site: @site, course: @course, vacancy_status: 'B')
+    create(:course_option, site: @site, course: @course)
   end
 
   def given_the_course_i_selected_has_multiple_sites
     @course_with_multiple_sites = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Herbology')
     @site1 = create(:site, provider: @course_with_multiple_sites.provider)
     @site2 = create(:site, provider: @course_with_multiple_sites.provider)
-    create(:course_option, site: @site1, course: @course_with_multiple_sites, vacancy_status: 'B')
-    create(:course_option, site: @site2, course: @course_with_multiple_sites, vacancy_status: 'B')
+    create(:course_option, site: @site1, course: @course_with_multiple_sites)
+    create(:course_option, site: @site2, course: @course_with_multiple_sites)
 
     visit candidate_interface_sign_up_path providerCode: @course_with_multiple_sites.provider.code, courseCode: @course_with_multiple_sites.code
   end

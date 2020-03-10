@@ -142,8 +142,8 @@ RSpec.feature 'A candidate edits their course choice after submission' do
       postcode: 'LS8 5DQ'
     )
     multi_site_course = create(:course, name: 'Primary', code: '2XT2', provider: provider, exposed_in_find: true, open_on_apply: true)
-    create(:course_option, site: first_site, course: multi_site_course, vacancy_status: 'B')
-    create(:course_option, site: second_site, course: multi_site_course, vacancy_status: 'B')
+    create(:course_option, site: first_site, course: multi_site_course)
+    create(:course_option, site: second_site, course: multi_site_course)
 
     another_provider = create(:provider, name: 'Royal Academy of Dance', code: 'R55')
     third_site = create(
@@ -157,7 +157,7 @@ RSpec.feature 'A candidate edits their course choice after submission' do
       postcode: 'SW11 3RA'
     )
     single_site_course = create(:course, name: 'Dance', code: 'W5X1', provider: another_provider, exposed_in_find: true, open_on_apply: true)
-    create(:course_option, site: third_site, course: single_site_course, vacancy_status: 'B')
+    create(:course_option, site: third_site, course: single_site_course)
   end
 
   def when_i_mark_this_section_as_completed

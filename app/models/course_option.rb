@@ -11,6 +11,13 @@ class CourseOption < ApplicationRecord
     part_time: 'part_time',
   }
 
+  enum vacancy_status: {
+    both_full_time_and_part_time_vacancies: 'both_full_time_and_part_time_vacancies',
+    part_time_vacancies: 'part_time_vacancies',
+    full_time_vacancies: 'full_time_vacancies',
+    no_vacancies: 'no_vacancies',
+  }
+
   def validate_providers
     return unless site.present? && course.present?
 

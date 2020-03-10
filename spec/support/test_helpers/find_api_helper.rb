@@ -67,6 +67,29 @@ module FindAPIHelper
                     { 'id': '1', 'type': 'sites' },
                   ],
                 },
+                'site_statuses': {
+                  'data': [
+                    { 'id': '222', 'type': 'site_statuses' },
+                  ],
+                },
+              },
+            },
+            {
+              'id': '222',
+              'type': 'site_statuses',
+              'attributes': {
+                'vac_status': 'full_time_vacancies',
+                'publish': 'published',
+                'status': 'running',
+                'has_vacancies?': true,
+              },
+              'relationships': {
+                'site': {
+                  'data': {
+                    'type': 'sites',
+                    'id': '1',
+                  },
+                },
               },
             },
           ],
@@ -146,6 +169,29 @@ module FindAPIHelper
                   'data': [
                     { 'id': '1', 'type': 'sites' },
                   ],
+                },
+                'site_statuses': {
+                  'data': [
+                    { 'id': '222', 'type': 'site_statuses' },
+                  ],
+                },
+              },
+            },
+            {
+              'id': '222',
+              'type': 'site_statuses',
+              'attributes': {
+                'vac_status': 'full_time_vacancies',
+                'publish': 'published',
+                'status': 'running',
+                'has_vacancies?': true,
+              },
+              'relationships': {
+                'site': {
+                  'data': {
+                    'type': 'sites',
+                    'id': '1',
+                  },
                 },
               },
             },
@@ -234,6 +280,48 @@ module FindAPIHelper
                   { 'id': '1', 'type': 'sites' },
                   { 'id': '2', 'type': 'sites' },
                 ],
+              },
+              'site_statuses': {
+                'data': [
+                  { 'id': '222', 'type': 'site_statuses' },
+                  { 'id': '223', 'type': 'site_statuses' },
+                ],
+              },
+            },
+          },
+          {
+            'id': '222',
+            'type': 'site_statuses',
+            'attributes': {
+              'vac_status': 'full_time_vacancies',
+              'publish': 'published',
+              'status': 'running',
+              'has_vacancies?': true,
+            },
+            'relationships': {
+              'site': {
+                'data': {
+                  'type': 'sites',
+                  'id': '1',
+                },
+              },
+            },
+          },
+          {
+            'id': '223',
+            'type': 'site_statuses',
+            'attributes': {
+              'vac_status': 'full_time_vacancies',
+              'publish': 'published',
+              'status': 'running',
+              'has_vacancies?': true,
+            },
+            'relationships': {
+              'site': {
+                'data': {
+                  'type': 'sites',
+                  'id': '2',
+                },
               },
             },
           },
@@ -329,6 +417,6 @@ private
   def stub_find_api_provider(provider_code)
     stub_request(:get, ENV.fetch('FIND_BASE_URL') +
       'recruitment_cycles/2020' \
-      "/providers/#{provider_code}?include=sites,courses.sites")
+      "/providers/#{provider_code}?include=sites,courses.sites,courses.site_statuses.site")
   end
 end

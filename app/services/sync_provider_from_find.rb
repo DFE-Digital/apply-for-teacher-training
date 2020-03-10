@@ -10,7 +10,7 @@ class SyncProviderFromFind
     # https://api2.publish-teacher-training-courses.service.gov.uk/api/v3/recruitment_cycles/2020/providers/1N1/?include=sites,courses.sites
     find_provider = FindAPI::Provider
       .current_cycle
-      .includes(:sites, courses: [:sites])
+      .includes(:sites, courses: [:sites, site_statuses: [:site]])
       .find(provider_code)
       .first
 
@@ -59,6 +59,8 @@ class SyncProviderFromFind
     end
     course.save!
 
+    site_statuses = find_course.site_statuses
+
     find_course.sites.each do |find_site|
       site = provider.sites.find_or_create_by(code: find_site.code)
 
@@ -70,6 +72,8 @@ class SyncProviderFromFind
       site.postcode = find_site.postcode&.strip
       site.save!
 
+      site_status = site_statuses.find { |ss| ss.site.id == find_site.id }
+
       study_modes = \
         if course.both_study_modes_available?
           %i[full_time part_time]
@@ -78,12 +82,13 @@ class SyncProviderFromFind
         end
 
       study_modes.each do |mode|
-        CourseOption.find_or_create_by(
+        course_option = CourseOption.find_or_create_by(
           site: site,
           course_id: course.id,
           study_mode: mode,
-          vacancy_status: 'B', #TODO: Should this be reflected by `find_course.has_vacancies?`
         )
+
+        course_option.update!(vacancy_status: site_status.vac_status)
       end
     end
 
