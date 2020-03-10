@@ -3,27 +3,32 @@
   <%= render(HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
                                  service_name: service_name,
                                  service_url: service_link,
-                                 navigation_items: NavigationItems.for_candidate_interface(current_candidate, controller))) %>
+                                 navigation_items: NavigationItems.for_candidate_interface(current_candidate, controller),
+                                 wide: yield(:page_width) == "wide")) %>
 <% when 'support_interface' %>
   <%= render(HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
                                  service_name: service_name,
                                  service_url: service_link,
-                                 navigation_items: NavigationItems.for_support_interface(current_support_user, controller))) %>
+                                 navigation_items: NavigationItems.for_support_interface(current_support_user, controller),
+                                 wide: yield(:page_width) == "wide")) %>
 <% when 'provider_interface' %>
   <%= render(HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
                                  service_name: service_name,
                                  service_url: service_link,
-                                 navigation_items: NavigationItems.for_provider_interface(current_provider_user))) %>
+                                 navigation_items: NavigationItems.for_provider_interface(current_provider_user),
+                                 wide: yield(:page_width) == "wide")) %>
 <% when 'api_docs' %>
   <%= render(HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
                                  service_name: service_name,
                                  service_url: service_link,
-                                 navigation_items: NavigationItems.for_api_docs(controller))) %>
+                                 navigation_items: NavigationItems.for_api_docs(controller),
+                                 wide: yield(:page_width) == "wide")) %>
 <% else %>
   <% components_url = '/rails/components' if request.path.match(/^\/rails\/components/) %>
   <% components_name = 'ActionView::Component Previews' if request.path.match(/^\/rails\/components/) %>
   <%= render(HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
                                  service_name: components_name || try(:service_name),
                                  service_url: components_url || try(:service_url),
-                                 navigation_items: [])) %>
+                                 navigation_items: [],
+                                 wide: yield(:page_width) == "wide")) %>
 <% end %>

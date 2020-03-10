@@ -10,6 +10,13 @@ $moj-images-path: '~@ministryofjustice/frontend/moj/assets/images/';
 $govuk-font-url-function: frontend-font-url;
 $govuk-image-url-function: frontend-image-url;
 
+$govuk-breakpoints: (
+  mobile:  320px,
+  tablet:  641px,
+  desktop: 769px,
+  wide:    1300px
+);
+
 @import "~govuk-frontend/govuk/all";
 @import "_autocomplete";
 @import "_banner";
