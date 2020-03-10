@@ -42,6 +42,7 @@
                                                                                filter_selections: @page_state.filter_selections,
                                                                                filter_visible: @page_state.filter_visible) %>
 
+
               <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Status</th>
 
               <%= render ProviderInterface::SortableColumnHeadingComponent.new(sort_order: @page_state.sort_order,
@@ -84,7 +85,7 @@
 <% end %>
 
 <%= render(PaginatorComponent.new(scope: @application_choices)) %>
-<% elsif @page_state.filter_selections %>
+<% elsif @page_state.filter_selections.any? %>
      <p class='govuk-body'>No applications for the selected filters.</p>
 <% else %>
   <p class='govuk-body'>You haven’t received any applications from <%= t('service_name.apply') %>.</p>
