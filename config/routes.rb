@@ -286,7 +286,10 @@ Rails.application.routes.draw do
   end
 
   namespace :referee_interface, path: '/reference' do
-    get '/' => 'reference#feedback', as: :reference_feedback
+    get '/' => 'reference#relationship', as: :reference_relationship
+    patch '/confirm-relationship' => 'reference#confirm_relationship', as: :confirm_relationship
+
+    get '/feedback' => 'reference#feedback', as: :reference_feedback
 
     get '/confirmation' => 'reference#confirmation', as: :confirmation
     patch '/confirmation' => 'reference#submit_feedback', as: :submit_feedback
