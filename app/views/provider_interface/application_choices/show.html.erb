@@ -21,9 +21,14 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice) %>
-    <div class="app-!-print-display-none">
-      <%= govuk_link_to('Print this page', 'javascript:window.print();', class: 'app-print-link__link') %>
-    </div>
+  </div>
+</div>
+
+<div class="govuk-grid-row app-print-link app-!-print-display-none">
+  <div class="govuk-grid-column-two-thirds">
+    <%= govuk_link_to('View as PDF', provider_interface_application_choice_path(@application_choice.id, format: :pdf)) %>
+  </div>
+</div>
 
     <h2 class="govuk-heading-l govuk-!-margin-top-8" id="course-info">Application</h2>
 
