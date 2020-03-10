@@ -2,4 +2,6 @@ en:
   support_interface:
     support_user:
       confirm_remove: Are you sure you want to remove support user %{email}?
+      confirm_restore: Are you sure you want to restore support user %{email}?
       remove: Remove support user
+      restore: Restore support user

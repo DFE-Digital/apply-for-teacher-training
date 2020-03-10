@@ -39,14 +39,17 @@
           <%= support_user.dfe_sign_in_uid %>
         </td>
         <td class='govuk-table__cell'>
-          <%= govuk_link_to(
-                nil,
-                support_interface_confirm_destroy_support_user_path(support_user),
-          ) do %>
-            Remove user<span class='govuk-visually-hidden'> <%= support_user.email_address %></span>
+          <%
+              link_action = support_user.discarded? ? 'Restore' : 'Remove'
+              link_path = support_user_account_management_path(support_user)
+          -%>
+          <%= govuk_link_to(nil, link_path) do %>
+            <%= link_action %> user<span class='govuk-visually-hidden'> <%= support_user.email_address %></span>
           <% end %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<%= govuk_link_to 'Restore a removed user', support_interface_support_users_path(removed: true) unless params[:removed] == 'true' %>
