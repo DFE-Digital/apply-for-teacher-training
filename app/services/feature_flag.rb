@@ -18,6 +18,7 @@ class FeatureFlag
     you_selected_a_course_page
     before_you_start
     provider_interface_work_breaks
+    referee_confirm_relationship_and_safeguarding
   ].freeze
 
   def self.activate(feature_name)
