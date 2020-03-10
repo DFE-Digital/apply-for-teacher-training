@@ -88,7 +88,7 @@ class SyncProviderFromFind
           study_mode: mode,
         )
 
-        course_option.update(vacancy_status: site_status.vac_status)
+        course_option.update!(vacancy_status: site_status.vac_status)
       end
     end
 
