@@ -42,7 +42,6 @@ module ProviderInterface
       @params[:sort_by].presence || 'last-updated'
     end
 
-
     def calculate_available_filters
       status_filters << provider_filters_builder
     end
@@ -106,6 +105,5 @@ module ProviderInterface
 
       provider_filters
     end
-
   end
 end
