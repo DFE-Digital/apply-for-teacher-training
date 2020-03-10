@@ -136,7 +136,11 @@ module ProviderInterface
     end
 
     def set_alternative_courses
-      @alternative_courses = Course.where(open_on_apply: true, provider: provider).order(:name)
+      @alternative_courses = Course.where(
+        open_on_apply: true,
+        provider: provider,
+        study_mode: study_mode_for_alternative_courses,
+      ).order(:name)
     end
 
     def set_alternative_course_options
@@ -146,6 +150,11 @@ module ProviderInterface
         study_mode: current_option.study_mode, # preserving study_mode, for now
         # TODO: check vacancy_status, e.g. 'B'
       ).includes(:site).order('sites.name')
+    end
+
+    def study_mode_for_alternative_courses
+      current_study_mode = @application_choice.offered_option.study_mode
+      [current_study_mode, :full_time_or_part_time]
     end
 
     def change_offer_params
