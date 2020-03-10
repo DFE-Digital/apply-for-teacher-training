@@ -21,4 +21,36 @@ RSpec.describe Course, type: :model do
       expect(course.both_study_modes_available?).to be false
     end
   end
+
+  describe '#full?' do
+    subject(:course) { create(:course) }
+
+    context 'when there are no course options' do
+      it 'returns true' do
+        expect(course.full?).to be true
+      end
+    end
+
+    context 'when a subset of course options have vacancies' do
+      before do
+        create(:course_option, course: course, vacancy_status: 'full_time_vacancies')
+        create(:course_option, course: course, vacancy_status: 'no_vacancies')
+      end
+
+      it 'returns false' do
+        expect(course.full?).to be false
+      end
+    end
+
+    context 'when no course options have vacancies' do
+      before do
+        create(:course_option, course: course, vacancy_status: 'no_vacancies')
+        create(:course_option, course: course, vacancy_status: 'no_vacancies')
+      end
+
+      it 'returns false' do
+        expect(course.full?).to be true
+      end
+    end
+  end
 end
