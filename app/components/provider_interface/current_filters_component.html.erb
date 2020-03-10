@@ -19,10 +19,11 @@
     <ul class="moj-filter-tags">
     <% checkbox_config_values.each do |checkbox_config_key, checkbox_config_value| %>
         <li>
-        <%= link_to retrieve_tag_text(applied_filters_key,checkbox_config_value), filtering_page_path(
-          additional_params.merge({ filter_selections: build_tag_url_query_params(
-                                         heading: applied_filters_key,
-                                         tag_value: checkbox_config_key)})), class: "moj-filter__tag", id: "tag-#{checkbox_config_value}" %>
+          <%= link_to retrieve_tag_text(applied_filters_key,checkbox_config_value),
+                                        filtering_page_path({filter_selections: build_tag_url_query_params(
+                                                                                heading: applied_filters_key,
+                                                                                tag_value: checkbox_config_key)}.merge(additional_params)),
+                                        class: "moj-filter__tag", id: "tag-#{checkbox_config_value}" %>
         </li>
       <% end %>
     </ul>
