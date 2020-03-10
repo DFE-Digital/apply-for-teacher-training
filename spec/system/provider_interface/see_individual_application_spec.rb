@@ -4,8 +4,15 @@ RSpec.describe 'A Provider viewing an individual application' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
+  around do |example|
+    Timecop.freeze(Time.zone.local(2020, 3, 1, 12, 0, 0)) do
+      example.run
+    end
+  end
+
   scenario 'the application data is visible' do
     given_i_am_a_provider_user_with_dfe_sign_in
+    and_the_training_with_disability_feature_flag_is_active
     and_my_organisation_has_received_an_application
     and_i_am_permitted_to_see_applications_for_my_provider
     and_i_sign_in_to_the_provider_interface
@@ -20,10 +27,15 @@ RSpec.describe 'A Provider viewing an individual application' do
     and_i_should_see_the_candidates_personal_statement
     and_i_should_see_the_candidates_language_skills
     and_i_should_see_the_candidates_references
+    and_i_should_see_the_disability_disclosure
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
     provider_exists_in_dfe_sign_in
+  end
+
+  def and_the_training_with_disability_feature_flag_is_active
+    FeatureFlag.activate('training_with_a_disability')
   end
 
   def and_i_am_permitted_to_see_applications_for_my_provider
@@ -39,11 +51,13 @@ RSpec.describe 'A Provider viewing an individual application' do
                               interview_preferences: 'Any date is fine',
                               further_information: 'Nothing further to add',
                               english_main_language: true,
-                              other_language_details: 'I also speak Spanish and German')
+                              other_language_details: 'I also speak Spanish and German',
+                              disclose_disability: true,
+                              disability_disclosure: 'I am hard of hearing')
 
-    create_list(:degree_qualification, 1, application_form: application_form)
-    create_list(:gcse_qualification, 2, application_form: application_form)
-    create_list(:other_qualification, 3, application_form: application_form)
+    create_list(:application_qualification, 1, application_form: application_form, level: :degree)
+    create_list(:application_qualification, 2, application_form: application_form, level: :gcse)
+    create_list(:application_qualification, 3, application_form: application_form, level: :other)
 
     create(:application_work_experience,
            application_form: application_form,
@@ -51,7 +65,25 @@ RSpec.describe 'A Provider viewing an individual application' do
            organisation: 'The Empire',
            details: 'I used to work for The Empire',
            working_pattern: 'Working pattern at the Empire',
-           working_with_children: false)
+           working_with_children: false,
+           start_date: 36.months.ago,
+           end_date: 30.months.ago)
+
+    create(:application_work_experience,
+           application_form: application_form,
+           role: 'Bounty Hunter',
+           organisation: 'The Empire',
+           details: 'I used to work for The Empire',
+           working_pattern: 'Working pattern at the Empire',
+           working_with_children: false,
+           start_date: 24.months.ago,
+           end_date: 18.months.ago)
+
+    create(:application_work_history_break,
+           application_form: application_form,
+           reason: 'Retraining to become a bounty hunter',
+           start_date: 30.months.ago,
+           end_date: 24.months.ago)
 
     create(:application_volunteering_experience,
            application_form: application_form,
@@ -103,6 +135,8 @@ RSpec.describe 'A Provider viewing an individual application' do
       expect(page).to have_content 'I used to work for'
       expect(page).not_to have_content 'This role involved working with children'
 
+      expect(page).to have_content 'Bounty Hunter'
+
       # Work history is not editable
       expect(page).not_to have_content 'Change'
       expect(page).not_to have_content 'Delete'
@@ -148,5 +182,9 @@ RSpec.describe 'A Provider viewing an individual application' do
     expect(page).to have_content 'c3p0@rebellion.org'
     expect(page).to have_content 'Companion droid'
     expect(page).to have_content 'The possibility of successfully'
+  end
+
+  def and_i_should_see_the_disability_disclosure
+    expect(page).to have_content 'I am hard of hearing'
   end
 end
