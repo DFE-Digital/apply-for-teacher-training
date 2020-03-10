@@ -9,7 +9,7 @@ module ProviderInterface
     end
 
     def render?
-      application_form.disclose_disability? && @application_form.disability_disclosure.present?
+      application_form.disclose_disability? && disability_disclosure.present?
     end
 
     def disability_disclosure
