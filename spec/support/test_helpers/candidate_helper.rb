@@ -67,7 +67,7 @@ module CandidateHelper
     click_link 'What do you know about the subject you want to teach?'
     candidate_fills_in_subject_knowledge
 
-    click_link 'Interview preferences'
+    click_link t('page_titles.interview_preferences')
     candidate_fills_in_interview_preferences
 
     candidate_provides_two_referees
