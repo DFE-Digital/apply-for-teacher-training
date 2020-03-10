@@ -1,4 +1,4 @@
-<% content_for :title, ethnic_background_title(@ethnic_group) %>
+<% content_for :title, title_with_error_prefix(ethnic_background_title(@ethnic_group), @ethnic_background.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_edit_equality_and_diversity_ethnic_group_path) %>
 
 <div class="govuk-grid-row">
