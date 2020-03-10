@@ -15,6 +15,7 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
     and_i_can_see_my_personal_details
     and_i_can_see_my_contact_details
     and_i_can_see_my_disability_disclosure
+    and_i_can_see_my_safeguarding_issues
     and_i_can_see_my_volunteering_roles
     and_i_can_see_my_degree
     and_i_can_see_my_gcses
@@ -54,6 +55,10 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
     FeatureFlag.activate('training_with_a_disability')
   end
 
+  def and_the_suitability_to_work_with_children_feature_flag_is_on
+    FeatureFlag.activate('suitability_to_work_with_children')
+  end
+
   def when_i_have_completed_my_application
     candidate_completes_application_form
   end
@@ -91,6 +96,11 @@ RSpec.feature 'Candidate submits the application', sidekiq: true do
   def and_i_can_see_my_disability_disclosure
     expect(page).to have_content 'Yes'
     expect(page).to have_content 'I have difficulty climbing stairs'
+  end
+
+  def and_i_can_see_my_safeguarding_issues
+    expect(page).to have_content 'Yes'
+    expect(page).to have_content 'I have a criminal conviction.'
   end
 
   def and_i_can_see_my_volunteering_roles

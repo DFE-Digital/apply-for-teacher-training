@@ -28,6 +28,12 @@
 
 <%= render(VolunteeringReviewComponent.new(application_form: application_form, editable: editable, heading_level: 3, show_incomplete: true, missing_error: missing_error)) %>
 
+<% if FeatureFlag.active?('suitability_to_work_with_children') %>
+  <h3 class="govuk-heading-m"><%= t('page_titles.suitability_to_work_with_children') %></h3>
+
+  <%= render(SafeguardingReviewComponent.new(application_form: @application_form, editable: editable, missing_error: missing_error)) %>
+<% end %>
+
 <h2 class="govuk-heading-m govuk-!-font-size-27">Qualifications</h2>
 
 <h3 class="govuk-heading-m">Degree(s)</h3>

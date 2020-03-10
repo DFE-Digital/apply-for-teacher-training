@@ -19,6 +19,7 @@ module CandidateInterface
         ([:training_with_a_disability, training_with_a_disability_completed?] if FeatureFlag.active?('training_with_a_disability')),
         [:work_experience, work_experience_completed?],
         [:volunteering, volunteering_completed?],
+        ([:safeguarding, safeguarding_completed?] if FeatureFlag.active?('suitability_to_work_with_children')),
 
         # "Qualifications" section
         [:degrees, degrees_completed?],
