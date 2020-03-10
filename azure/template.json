@@ -367,6 +367,12 @@
                 "description": "Slack channel to post alerts into."
             }
         },
+        "logRetentionDays": {
+            "type": "int",
+            "metadata": {
+                "description": "Number of days to retain logs in storage account."
+            }
+        },
         "govukNotifyCallbackAPIKey": {
           "type": "string",
           "metadata": {
@@ -822,6 +828,15 @@
                     },
                     "serviceName": {
                         "value": "[parameters('serviceName')]"
+                    },
+                    "enableDiagnostics": {
+                        "value": "logs"
+                    },
+                    "logRetentiondays": {
+                        "value": "[parameters('logRetentionDays')]"
+                    },
+                    "storageAccountResourceId": {
+                        "value": "[reference('storage-account', '2018-02-01').outputs.storageAccountResourceId.value]"
                     },
                     "resourceTags": {
                         "value": "[parameters('commonResourceTags')]"

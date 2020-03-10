@@ -52,6 +52,7 @@ parameters:
   customAvailabilityMonitors: []
   alertRecipientEmails: []
   alertSlackChannel: "#twd_apply_devops"
+  logRetentionDays: 365
   sandbox:
   commonResourceTags: '{
     "Parent Business Unit": "Teacher Services",
@@ -229,6 +230,7 @@ jobs:
                 -customAvailabilityMonitors "${{parameters.customAvailabilityMonitors}}"
                 -alertRecipientEmails "${{parameters.alertRecipientEmails}}"
                 -alertSlackChannel "${{parameters.alertSlackChannel}}"
+                -logRetentionDays ${{parameters.logRetentionDays}}
                 -dsiApiUrl "${{parameters.dsiApiUrl}}"
                 -dsiApiSecret "${{parameters.dsiApiSecret}}"
                 -govukNotifyCallbackAPIKey "${{parameters.govukNotifyCallbackAPIKey}}"
