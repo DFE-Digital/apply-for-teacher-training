@@ -1,0 +1,22 @@
+<% content_for :title, "Confirm how you know #{@application.full_name}" %>
+
+<%= form_with model: @relationship_form, url: referee_interface_confirm_relationship_path(token: @token_param), method: :patch do |f| %>
+  <%= f.govuk_error_summary %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">Confirm how you know <%= @application.full_name %></h1>
+
+      <p class="govuk-body"><%= @application.full_name %> describes your relationship as follows:</p>
+      <p class="govuk-inset-text"><%= @relationship %></p>
+
+      <%= f.govuk_radio_buttons_fieldset :relationship_confirmation, legend: { text: 'Is this correct?' } do %>
+          <%= f.govuk_radio_button :relationship_confirmation, :yes, label: { text: 'Yes' }, link_errors: true %>
+          <%= f.govuk_radio_button :relationship_confirmation, :no, label: { text: 'No' } do %>
+            <%= f.govuk_text_area :relationship_correction, label: { text: "Tell us what your relationship is to #{@application.full_name} and how long you’ve known them" }, max_words: 50, rows: 5 %>
+          <% end %>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
+    </div>
+  </div>
+<% end %>

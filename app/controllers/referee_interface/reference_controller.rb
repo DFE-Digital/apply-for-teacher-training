@@ -14,6 +14,27 @@ module RefereeInterface
       @reference_form = ReferenceFeedbackForm.new(reference: reference)
     end
 
+    def relationship
+      redirect_to referee_interface_reference_feedback_path(token: @token_param) unless FeatureFlag.active?('referee_confirm_relationship_and_safeguarding')
+
+      @application = reference.application_form
+      @relationship = reference.relationship
+      @relationship_form = ReferenceRelationshipForm.build_from_reference(reference: reference)
+    end
+
+    def confirm_relationship
+      @application = reference.application_form
+      @relationship = reference.relationship
+      @relationship_form = ReferenceRelationshipForm.new(relationship_params)
+      @relationship_form.candidate = reference.application_form.full_name
+
+      if @relationship_form.save(reference)
+        redirect_to referee_interface_reference_feedback_path(token: @token_param)
+      else
+        render :relationship
+      end
+    end
+
     def submit_feedback
       @application = reference.application_form
 
@@ -110,6 +131,11 @@ module RefereeInterface
         :safe_to_work_with_children_explanation, :consent_to_be_contacted,
         :consent_to_be_contacted_details
       )
+    end
+
+    def relationship_params
+      params.require(:referee_interface_reference_relationship_form)
+            .permit(:relationship_correction, :relationship_confirmation)
     end
   end
 end
