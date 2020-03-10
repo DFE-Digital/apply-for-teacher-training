@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_09_155956) do
+ActiveRecord::Schema.define(version: 2020_03_10_111313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -76,7 +76,6 @@ ActiveRecord::Schema.define(version: 2020_03_09_155956) do
     t.text "other_language_details"
     t.date "date_of_birth"
     t.text "further_information"
-    t.datetime "submitted_at"
     t.string "phone_number"
     t.string "address_line1"
     t.string "address_line2"
@@ -84,6 +83,7 @@ ActiveRecord::Schema.define(version: 2020_03_09_155956) do
     t.string "address_line4"
     t.string "country"
     t.string "postcode"
+    t.datetime "submitted_at"
     t.string "support_reference", limit: 10
     t.string "disability_disclosure"
     t.string "uk_residency_status"
@@ -203,6 +203,8 @@ ActiveRecord::Schema.define(version: 2020_03_09_155956) do
     t.boolean "open_on_apply", default: false, null: false
     t.integer "recruitment_cycle_year", null: false
     t.string "study_mode", limit: 1, default: "F", null: false
+    t.string "qualification"
+    t.string "financial_support"
     t.index ["code"], name: "index_courses_on_code"
     t.index ["exposed_in_find", "open_on_apply"], name: "index_courses_on_exposed_in_find_and_open_on_apply"
     t.index ["provider_id", "code"], name: "index_courses_on_provider_id_and_code", unique: true
@@ -248,8 +250,8 @@ ActiveRecord::Schema.define(version: 2020_03_09_155956) do
   create_table "provider_users_providers", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.bigint "provider_user_id", null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", default: -> { "now()" }, null: false
+    t.datetime "updated_at", default: -> { "now()" }, null: false
     t.index ["provider_id"], name: "index_provider_users_providers_on_provider_id"
     t.index ["provider_user_id"], name: "index_provider_users_providers_on_provider_user_id"
   end
