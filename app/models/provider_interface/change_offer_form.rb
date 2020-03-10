@@ -9,10 +9,10 @@ module ProviderInterface
     # Validation needs to take this into account, e.g. it is fine for course_id to be blank if step == :provider
     #
     STEPS = %i(provider course course_option confirm update).freeze
-    validates :step, presence: true, inclusion: { in: STEPS, message: '%{value} is not a valid option' }
+    validates :step, presence: true, inclusion: { in: STEPS, message: '%{value} is not a valid step' }
 
-    def step_after?(symbol)
-      STEPS.index(step) > STEPS.index(symbol) if step
+    def step_after?(step_symbol)
+      STEPS.index(step) > STEPS.index(step_symbol) if step
     end
 
     validates_each :provider_id do |record, attr, value|
