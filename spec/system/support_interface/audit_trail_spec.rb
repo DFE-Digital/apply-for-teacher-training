@@ -13,6 +13,7 @@ RSpec.feature 'See application history', with_audited: true do
     given_i_am_a_support_user
     and_there_is_an_application_in_the_system_logged_by_a_candidate
     and_a_vendor_updates_the_application_status
+    and_a_provider_updates_the_application_status
     and_i_visit_the_support_page
 
     when_i_click_on_an_application
@@ -55,6 +56,16 @@ RSpec.feature 'See application history', with_audited: true do
     end
   end
 
+  def and_a_provider_updates_the_application_status
+    provider_user = create :provider_user, email_address: 'derek@example.com'
+
+    Timecop.freeze(Time.zone.local(2019, 10, 3, 9, 0, 0)) do
+      Audited.audit_class.as_user(provider_user) do
+        @application_choice.update(status: 'offer')
+      end
+    end
+  end
+
   def and_i_visit_the_support_page
     visit support_interface_path
   end
@@ -74,13 +85,20 @@ RSpec.feature 'See application history', with_audited: true do
 
   def then_i_should_be_able_to_see_history_events
     within('tbody tr:eq(1)') do
+      expect(page).to have_content '3 October 2019'
+      expect(page).to have_content '09:00'
+      expect(page).to have_content 'Update Application Choice'
+      expect(page).to have_content 'derek@example.com (Provider user)'
+      expect(page).to have_content 'status rejected → offer'
+    end
+    within('tbody tr:eq(2)') do
       expect(page).to have_content '2 October 2019'
       expect(page).to have_content '12:00'
       expect(page).to have_content 'Update Application Choice'
       expect(page).to have_content 'bob@example.com (Vendor API)'
       expect(page).to have_content 'status application_complete → rejected'
     end
-    within('tbody tr:eq(2)') do
+    within('tbody tr:eq(3)') do
       expect(page).to have_content '1 October 2019'
       expect(page).to have_content '12:00'
       expect(page).to have_content 'Create Application Choice'
@@ -88,7 +106,7 @@ RSpec.feature 'See application history', with_audited: true do
       expect(page).to have_content 'status application_complete'
       expect(page).to have_content 'personal_statement hello'
     end
-    within('tbody tr:eq(3)') do
+    within('tbody tr:eq(4)') do
       expect(page).to have_content '1 October 2019'
       expect(page).to have_content '12:00'
       expect(page).to have_content 'Create Application Form'
