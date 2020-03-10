@@ -3,7 +3,6 @@ module ProviderInterface
     include LogQueryParams
 
     before_action :authenticate_provider_user!
-    around_action :set_audit_username
     before_action :add_identity_to_log
     before_action :check_data_sharing_agreements
 
@@ -17,21 +16,13 @@ module ProviderInterface
 
     helper_method :current_provider_user, :dfe_sign_in_user
 
-  private
-
-    def set_audit_username
-      Audited.audit_class.as_user(audit_username) do
-        yield
-      end
-    end
-
-    def audit_username
-      current_provider_user ? "#{current_provider_user.email_address} (Provider)" : nil
-    end
-
     def current_provider_user
       @current_provider_user != nil ? @current_provider_user : @current_provider_user = (ProviderUser.load_from_session(session) || false)
     end
+
+    alias :audit_user :current_provider_user
+
+  protected
 
     def dfe_sign_in_user
       DfESignInUser.load_from_session(session)
