@@ -21,6 +21,8 @@ module CandidateInterface
         if service.candidate_does_not_have_a_course_from_find || service.candidate_has_submitted_application
           if more_reference_needed? && FeatureFlag.active?('show_new_referee_needed')
             redirect_to candidate_interface_additional_referee_path
+          elsif current_candidate.current_application.blank_application? && FeatureFlag.active?('before_you_start')
+            redirect_to candidate_interface_before_you_start_path
           else
             redirect_to candidate_interface_application_form_path
           end
@@ -44,6 +46,8 @@ module CandidateInterface
         if service.candidate_does_not_have_a_course_from_find || service.candidate_has_submitted_application
           if more_reference_needed? && FeatureFlag.active?('show_new_referee_needed')
             redirect_to candidate_interface_additional_referee_path
+          elsif current_candidate.current_application.blank_application? && FeatureFlag.active?('before_you_start')
+            redirect_to candidate_interface_before_you_start_path
           else
             redirect_to candidate_interface_application_form_path
           end
