@@ -52,7 +52,7 @@ parameters:
   customAvailabilityMonitors: []
   alertRecipientEmails: []
   alertSlackChannel: "#twd_apply_devops"
-  logRetentionDays: 31
+  logRetentionDays: 365
   sandbox:
   commonResourceTags: '{
     "Parent Business Unit": "Teacher Services",
