@@ -38,6 +38,18 @@ RSpec.describe ReferenceStatus do
       expect(status.needs_to_draft_another_reference?).to be(true)
     end
 
+    it 'knows if cancelled referees need to be replaced' do
+      application_form = create(:application_form)
+      create(:reference, :complete, application_form: application_form)
+      cancelled = create(:reference, :cancelled, application_form: application_form)
+
+      status = ReferenceStatus.new(application_form.reload)
+
+      expect(status.still_more_references_needed?).to be(true)
+      expect(status.references_that_needed_to_be_replaced).to match_array([cancelled])
+      expect(status.needs_to_draft_another_reference?).to be(true)
+    end
+
     it 'knows if referees need to be replaced if we are waiting for the other one' do
       application_form = create(:application_form)
       create(:reference, :requested, application_form: application_form)

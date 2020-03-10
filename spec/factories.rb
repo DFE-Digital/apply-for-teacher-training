@@ -346,6 +346,12 @@ FactoryBot.define do
       requested_at { Time.zone.now }
     end
 
+    trait :cancelled do
+      feedback_status { 'cancelled' }
+      feedback { nil }
+      requested_at { Time.zone.now }
+    end
+
     trait :requested do
       feedback_status { 'feedback_requested' }
       feedback { nil }

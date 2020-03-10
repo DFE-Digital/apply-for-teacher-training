@@ -178,6 +178,7 @@ en:
               blank: Tell us about the referee’s relationship to you and how long they’ve known you
               too_many_words: Relationship to referee must be %{count} words or fewer
             feedback_status:
+              cancelled: Cancelled
               not_requested_yet: Not requested yet
               feedback_requested: Feedback requested
               feedback_provided: Feedback provided

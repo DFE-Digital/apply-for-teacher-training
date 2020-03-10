@@ -17,6 +17,7 @@ class ApplicationReference < ApplicationRecord
   audited associated_with: :application_form
 
   enum feedback_status: {
+    cancelled: 'cancelled',
     not_requested_yet: 'not_requested_yet',
     feedback_requested: 'feedback_requested',
     feedback_provided: 'feedback_provided',
