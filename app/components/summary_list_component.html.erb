@@ -17,7 +17,7 @@
       </dd>
 
       <% if row[:change_path] %>
-        <dd class="govuk-summary-list__actions <%= row[:change_class] %>">
+        <dd class="govuk-summary-list__actions">
           <%= link_to row[:change_path], class: 'govuk-link' do %>
             Change<span class="govuk-visually-hidden"> <%= row[:action] %></span>
           <% end %>
