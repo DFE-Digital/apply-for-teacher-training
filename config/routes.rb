@@ -382,6 +382,9 @@ Rails.application.routes.draw do
     get '/send-survey-email/:application_form_id' => 'survey_emails#show', as: :survey_emails
     post '/send-survey-email/:application_form_id' => 'survey_emails#deliver'
 
+    get '/references/:reference_id/cancel' => 'references#cancel', as: :cancel_reference
+    post '/references/:reference_id/cancel' => 'references#confirm_cancel'
+
     get '/tokens' => 'api_tokens#index', as: :api_tokens
     post '/tokens' => 'api_tokens#create'
 
