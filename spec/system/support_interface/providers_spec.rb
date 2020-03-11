@@ -127,13 +127,13 @@ RSpec.feature 'See providers' do
   end
 
   def when_i_choose_to_open_the_course_on_apply
-    expect(page).to have_content 'Open on Apply No'
+    expect(page).to have_content "Open on Apply\nNo"
     choose 'Yes, this course is available on Apply and UCAS'
     click_button 'Save'
   end
 
   def then_it_should_be_open_on_apply
-    expect(page).to have_content 'Open on Apply Yes'
+    expect(page).to have_content "Open on Apply\nYes"
   end
 
   def then_i_see_the_updated_providers_courses_and_sites

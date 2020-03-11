@@ -1,11 +1,22 @@
 <% content_for :title, @course.name_and_code %>
 
+<h2 class='govuk-heading-m'>Course info</h2>
+
 <%= render(SummaryCardComponent.new(rows: {
+  'Name' => @course.name_and_code,
   'Provider' => @course.provider.name_and_code,
   'Accredited body' => @course.accrediting_provider&.name_and_code || 'None',
-  'Name' => @course.name_and_code,
-  'Level' => @course.level,
+  'Level' => @course.level.humanize,
   'Recruitment cycle year' => @course.recruitment_cycle_year,
+  'Last updated' => @course.updated_at.to_s(:govuk_date_and_time),
+  'Study modes' => @course.study_mode.humanize,
+  'Qualification' => @course.qualification,
+  'Financial support' => @course.financial_support,
+})) %>
+
+<h2 class='govuk-heading-m'>Settings</h2>
+
+<%= render(SummaryCardComponent.new(rows: {
   'Exposed in Find' => @course.exposed_in_find? ? 'Yes' : 'No',
   'Open on Apply' => @course.open_on_apply? ? 'Yes' : 'No',
 })) %>
