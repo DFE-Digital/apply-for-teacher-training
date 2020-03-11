@@ -10,7 +10,7 @@ module ProviderInterface
                                                                         filters: @page_state.filter_selections)
       end
       application_choices = application_choices.page(params[:page] || 1)
-      @application_choices = application_choices.order(@page_state.applications_odering_query)
+      @application_choices = application_choices.order(@page_state.applications_ordering_query)
     end
 
     def show
