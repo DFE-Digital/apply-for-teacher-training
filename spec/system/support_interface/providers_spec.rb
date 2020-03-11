@@ -7,9 +7,11 @@ RSpec.feature 'See providers' do
   scenario 'User visits providers page' do
     given_i_am_a_support_user
     and_providers_are_configured_to_be_synced
-    when_i_visit_the_providers_page
+    when_i_visit_the_tasks_page
     and_i_click_the_sync_button
     then_requests_to_find_should_be_made
+
+    when_i_visit_the_providers_page
     and_i_should_see_the_updated_list_of_providers
 
     when_i_click_on_a_provider
@@ -35,8 +37,8 @@ RSpec.feature 'See providers' do
     sign_in_as_support_user
   end
 
-  def when_i_visit_the_providers_page
-    visit support_interface_providers_path
+  def when_i_visit_the_tasks_page
+    visit support_interface_tasks_path
   end
 
   def and_providers_are_configured_to_be_synced
@@ -101,6 +103,10 @@ RSpec.feature 'See providers' do
     expect(@request1).to have_been_made
     expect(@request2).to have_been_made
     expect(@request3).to have_been_made
+  end
+
+  def when_i_visit_the_providers_page
+    visit support_interface_providers_path
   end
 
   def and_i_should_see_the_updated_list_of_providers
