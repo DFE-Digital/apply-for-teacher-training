@@ -6,6 +6,11 @@ module FindAPIHelper
     site_code: 'X',
     findable: true,
     study_mode: 'full_time',
+    qualification: 'PGCE',
+    financial_support: 'You get nothing!',
+    start_date: Time.zone.local(2020, 10, 31),
+    applications_open_from: Time.zone.local(2019, 9, 1),
+    course_length: 'OneYear',
     region_code: 'north_west',
     site_address_line2: 'C/O The Bruntcliffe Academy'
   )
@@ -57,6 +62,11 @@ module FindAPIHelper
                 'name': 'Primary',
                 'level': 'primary',
                 'study_mode': study_mode,
+                'qualification': qualification,
+                'financial_support': financial_support,
+                'start_date': start_date,
+                'applications_open_from': applications_open_from,
+                'course_length': course_length,
                 'recruitment_cycle_year': '2020',
                 'findable?': findable,
                 'accrediting_provider': nil,
@@ -107,6 +117,11 @@ module FindAPIHelper
     accrediting_provider_name: 'Dummy Accrediting Provider',
     findable: true,
     study_mode: 'full_time',
+    qualification: 'PGCE',
+    financial_support: 'You get nothing!',
+    start_date: Time.zone.local(2020, 10, 31),
+    applications_open_from: Time.zone.local(2019, 9, 1),
+    course_length: 'OneYear',
     region_code: 'north_west'
   )
     stub_find_api_provider(provider_code)
@@ -157,6 +172,11 @@ module FindAPIHelper
                 'name': 'Primary',
                 'level': 'primary',
                 'study_mode': study_mode,
+                'qualification': qualification,
+                'financial_support': financial_support,
+                'start_date': start_date,
+                'applications_open_from': applications_open_from,
+                'course_length': course_length,
                 'recruitment_cycle_year': '2020',
                 'findable?': findable,
                 'accrediting_provider': {
@@ -207,6 +227,11 @@ module FindAPIHelper
     course_code: 'X130',
     findable: true,
     study_mode: 'full_time_or_part_time',
+    qualification: 'PGCE',
+    financial_support: 'You get nothing!',
+    start_date: Time.zone.local(2020, 10, 31),
+    applications_open_from: Time.zone.local(2019, 9, 1),
+    course_length: 'OneYear',
     region_code: 'north_west'
   )
     response_hash = {
@@ -270,6 +295,11 @@ module FindAPIHelper
               'name': 'Primary',
               'level': 'primary',
               'study_mode': study_mode,
+              'qualification': qualification,
+              'financial_support': financial_support,
+              'start_date': start_date,
+              'applications_open_from': applications_open_from,
+              'course_length': course_length,
               'recruitment_cycle_year': '2020',
               'findable?': findable,
               'accrediting_provider': nil,
