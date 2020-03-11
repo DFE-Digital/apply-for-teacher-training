@@ -5,6 +5,7 @@ module RefereeInterface
 
     validates :relationship_confirmation, presence: true
     validate :presence_of_relationship_correction
+    validates :relationship_correction, word_count: { maximum: 50 }
 
     def self.build_from_reference(reference:)
       relationship_confirmation = reference.relationship_correction.blank? ? 'yes' : 'no' unless reference.relationship_correction.nil?
@@ -13,6 +14,7 @@ module RefereeInterface
 
     def save(application_reference)
       return false unless valid?
+
 
       correction = relationship_confirmation == 'yes' ? '' : relationship_correction
 

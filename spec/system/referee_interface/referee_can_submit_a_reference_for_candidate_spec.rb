@@ -41,6 +41,9 @@ RSpec.feature 'Referee can submit reference', sidekiq: true, with_audited: true 
     and_i_see_the_list_of_the_courses_the_candidate_applied_to
 
     when_i_fill_in_the_reference_field
+    and_i_click_on_continue
+    then_i_see_the_reference_review_page
+
     and_i_click_the_submit_reference_button
     then_i_see_am_told_i_submittted_my_refernce
     then_i_see_the_confirmation_page
