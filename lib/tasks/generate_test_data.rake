@@ -5,5 +5,7 @@ end
 
 desc 'Generate test applications for existing providers'
 task generate_test_applications: :environment do
-  GenerateTestApplications.new.perform
+  Sidekiq::Testing.inline! do
+    GenerateTestApplications.new.perform
+  end
 end

@@ -71,6 +71,8 @@ gem 'ruby-graphviz'
 
 gem 'kaminari'
 
+gem 'timecop'
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.3'
@@ -104,5 +106,4 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'bullet'
-  gem 'timecop'
 end
