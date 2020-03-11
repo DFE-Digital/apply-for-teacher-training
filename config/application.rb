@@ -9,7 +9,7 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_view/railtie"
 
-require "view_component/engine"
+require "action_view/component"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
