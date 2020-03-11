@@ -187,4 +187,8 @@ RSpec.describe 'A Provider viewing an individual application' do
   def and_i_should_see_the_disability_disclosure
     expect(page).to have_content 'I am hard of hearing'
   end
+
+  def and_i_should_see_a_link_to_print_this_page
+    expect(page).to have_link 'Print this page'
+  end
 end
