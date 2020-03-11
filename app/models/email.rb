@@ -3,6 +3,14 @@ class Email < ApplicationRecord
   # application form. For sign-ups and sign-ins application_form will be nil.
   belongs_to :application_form, optional: true
 
+  enum delivery_status: {
+    unknown: 'unknown',
+    delivered: 'delivered',
+    permanent_failure: 'permanent_failure',
+    temporary_failure: 'temporary_failure',
+    technical_failure: 'technical_failure',
+  }
+
   def humanised_email_type
     "#{mail_template.humanize} (#{mailer.humanize})"
   end

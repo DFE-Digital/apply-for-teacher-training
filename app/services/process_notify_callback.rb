@@ -1,33 +1,22 @@
 class ProcessNotifyCallback
-  EXPECTED_EMAIL_TYPES = %w[reference_request sign_up_email].freeze
-
   def initialize(notify_reference:, status:)
     @environment, @email_type, @id = notify_reference.split('-')
+    @notify_reference = notify_reference
     @status = status
     @not_found = false
   end
 
   def call
-    return unless same_environment? && expected_email_type? && permanent_failure_status?
+    return unless same_environment?
 
-    if reference_request_email?
-      ActiveRecord::Base.transaction do
-        reference = ApplicationReference.find(@id)
+    update_email_log
 
-        reference.update!(feedback_status: 'email_bounced')
-
-        SendNewRefereeRequestEmail.call(
-          application_form: reference.application_form,
-          reference: reference,
-          reason: :email_bounced,
-        )
-      end
+    if reference_request_email? && permanent_failure_status?
+      mark_reference_as_bounced
     end
 
-    if sign_up_email?
-      candidate = Candidate.find(@id)
-
-      candidate.update!(sign_up_email_bounced: true, hide_in_reporting: true)
+    if sign_up_email? && permanent_failure_status?
+      mark_user_as_bounced
     end
   rescue ActiveRecord::RecordNotFound
     @not_found = true
@@ -43,8 +32,30 @@ private
     @environment == HostingEnvironment.environment_name
   end
 
-  def expected_email_type?
-    EXPECTED_EMAIL_TYPES.include?(@email_type)
+  def update_email_log
+    logged_email = Email.find_by(notify_reference: @notify_reference)
+    return unless logged_email
+
+    logged_email.update!(delivery_status: @status.underscore)
+  end
+
+  def mark_reference_as_bounced
+    ActiveRecord::Base.transaction do
+      reference = ApplicationReference.find(@id)
+
+      reference.update!(feedback_status: 'email_bounced')
+
+      SendNewRefereeRequestEmail.call(
+        application_form: reference.application_form,
+        reference: reference,
+        reason: :email_bounced,
+      )
+    end
+  end
+
+  def mark_user_as_bounced
+    candidate = Candidate.find(@id)
+    candidate.update!(sign_up_email_bounced: true, hide_in_reporting: true)
   end
 
   def reference_request_email?
