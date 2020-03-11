@@ -48,6 +48,11 @@ RSpec.describe SyncProviderFromFind do
         expect(course_option.course.code).to eq '9CBA'
         expect(course_option.course.exposed_in_find).to be true
         expect(course_option.course.recruitment_cycle_year).to be FindAPI::RECRUITMENT_CYCLE_YEAR
+        expect(course_option.course.qualification).to eq 'PGCE'
+        expect(course_option.course.financial_support).to eq 'You get nothing!'
+        expect(course_option.course.start_date).to eq Time.zone.local(2020, 10, 31)
+        expect(course_option.course.apply_from_date).to eq Time.zone.local(2019, 9, 1)
+        expect(course_option.course.course_length).to eq 'OneYear'
         expect(course_option.site.name).to eq 'Main site'
         expect(course_option.site.address_line1).to eq 'Gorse SCITT'
         expect(course_option.site.address_line2).to eq 'C/O The Bruntcliffe Academy'
