@@ -18,6 +18,7 @@ module CandidateInterface
         course_row(course_choice),
         location_row(course_choice),
         qualification_row(course_choice.course),
+        course_length_row(course_choice.course),
       ]
 
       rows.insert(1, study_mode_row(course_choice)) if FeatureFlag.active?('choose_study_mode')
@@ -74,6 +75,13 @@ module CandidateInterface
       {
         key: 'Qualification',
         value: DisplayQualification.call(qualification: course.qualification),
+      }
+    end
+
+    def course_length_row(course)
+      {
+        key: 'Course length',
+        value: DisplayCourseLength.call(course_length: course.course_length),
       }
     end
 

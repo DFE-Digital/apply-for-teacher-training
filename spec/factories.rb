@@ -211,6 +211,7 @@ FactoryBot.define do
     level { 'primary' }
     recruitment_cycle_year { 2020 }
     qualification { 'pgce' }
+    course_length { 'OneYear' }
 
     trait :open_on_apply do
       open_on_apply { true }
