@@ -28,6 +28,10 @@ module CandidateInterface
       course.study_mode
     end
 
+    def full?
+      course.full?
+    end
+
     def course
       @course ||= provider.courses.find(course_id)
     end

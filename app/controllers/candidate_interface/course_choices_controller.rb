@@ -66,6 +66,11 @@ module CandidateInterface
 
       if !@pick_course.open_on_apply?
         redirect_to_ucas
+      elsif @pick_course.full? && FeatureFlag.active?('check_full_courses')
+        redirect_to candidate_interface_course_choices_full_path(
+          @pick_course.provider_id,
+          @pick_course.course_id,
+        )
       elsif @pick_course.both_study_modes_available? && FeatureFlag.active?('choose_study_mode')
         redirect_to candidate_interface_course_choices_study_mode_path(
           @pick_course.provider_id,
@@ -81,6 +86,10 @@ module CandidateInterface
           @pick_course.study_mode,
         )
       end
+    end
+
+    def full
+      @course = Course.find(params[:course_id])
     end
 
     def options_for_study_mode
