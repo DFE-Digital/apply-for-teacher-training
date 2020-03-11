@@ -20,7 +20,7 @@
           { key: 'To', value: email.to },
           { key: 'Subject', value: email.subject },
           { key: 'Application', value: (email.application_form ? govuk_link_to(email.application_form.full_name, support_interface_application_form_path(email.application_form)) : nil) },
-          { key: 'Reference', value: email.notify_reference },
+          { key: 'Status', value: email.delivery_status.humanize },
         ]) %>
 
         <details class="govuk-details" data-module="govuk-details">
