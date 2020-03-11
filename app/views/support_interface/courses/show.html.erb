@@ -1,71 +1,25 @@
 <% content_for :title, @course.name_and_code %>
 
-<dl class="govuk-summary-list">
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Provider
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= @course.provider.name_and_code %>
-    </dd>
-  </div>
+<h2 class='govuk-heading-m'>Course info</h2>
 
-  <% if @course.accrediting_provider %>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">
-        Accredited body
-      </dt>
-      <dd class="govuk-summary-list__value">
-        <%= @course.accrediting_provider&.name_and_code %>
-      </dd>
-    </div>
-  <% end %>
+<%= render(SummaryCardComponent.new(rows: {
+  'Name' => @course.name_and_code,
+  'Provider' => @course.provider.name_and_code,
+  'Accredited body' => @course.accrediting_provider&.name_and_code || 'None',
+  'Level' => @course.level.humanize,
+  'Recruitment cycle year' => @course.recruitment_cycle_year,
+  'Last updated' => @course.updated_at.to_s(:govuk_date_and_time),
+  'Study modes' => @course.study_mode.humanize,
+  'Qualification' => @course.qualification,
+  'Financial support' => @course.financial_support,
+})) %>
 
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Name
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= @course.name_and_code %>
-    </dd>
-  </div>
+<h2 class='govuk-heading-m'>Settings</h2>
 
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Level
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= @course.level %>
-    </dd>
-  </div>
-
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Recruitment cycle year
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= @course.recruitment_cycle_year %>
-    </dd>
-  </div>
-
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Exposed in Find
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= @course.exposed_in_find? ? 'Yes' : 'No' %>
-    </dd>
-  </div>
-
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Open on Apply
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= @course.open_on_apply? ? 'Yes' : 'No' %>
-    </dd>
-  </div>
-</dl>
+<%= render(SummaryCardComponent.new(rows: {
+  'Exposed in Find' => @course.exposed_in_find? ? 'Yes' : 'No',
+  'Open on Apply' => @course.open_on_apply? ? 'Yes' : 'No',
+})) %>
 
 <%= form_with model: @course, url: support_interface_course_path(@course), method: :post do |f| %>
   <%= f.govuk_error_summary %>

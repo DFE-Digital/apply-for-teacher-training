@@ -2,6 +2,7 @@ class SummaryCardComponent < ActionView::Component::Base
   validates :rows, presence: true
 
   def initialize(rows:, border: true, editable: true)
+    rows = transform_hash(rows) if rows.is_a?(Hash)
     @rows = rows_including_actions_if_editable(rows, editable)
     @border = border
   end
@@ -23,6 +24,15 @@ private
           r.delete(:action)
         end
       end
+    end
+  end
+
+  def transform_hash(row_hash)
+    row_hash.map do |key, value|
+      {
+        key: key,
+        value: value,
+      }
     end
   end
 end
