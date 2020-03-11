@@ -2,7 +2,7 @@ en:
   candidate_flow_application_states:
     not_signed_up:
       name: Not signed up
-      description: The candidate hasn't signed up yet
+      description: The candidate hasn’t signed up yet
     sign_up_email_bounced:
       name: Sign up email bounced
       description: The candidate was sent a sign up email but it bounced
@@ -95,7 +95,7 @@ en:
       description: |
         The references have come back and have been added to the application.
         Candidates are allowed a cooling-off period of 5 days to modify their application before it’s sent to providers.
-        They can't modify the references.
+        They can’t modify the references.
 
     awaiting_provider_decision:
       name: Awaiting provider decision
@@ -113,8 +113,8 @@ en:
       name: Offer made
       description: |
         The provider has made an offer to the candidate. The candidate has to accept
-        or reject the offer, which sets the application status to 'Pending
-        conditions'.
+        or reject the offer, which sets the application status to ‘Pending
+        conditions’.
 
         We assume that all offers have some conditions, even if there
         are no academic conditions.
@@ -124,7 +124,7 @@ en:
     recruited:
       name: Recruited
       description: |
-        When the provider confirms that the offer conditions have been met, the application is marked 'recruited'.
+        When the provider confirms that the offer conditions have been met, the application is marked ‘recruited’.
 
     enrolled:
       name: Candidate enrolled
@@ -141,7 +141,7 @@ en:
 
     pending_conditions:
       name: Pending conditions
-      description: Provider is waiting for the candidate to prove that they’ve met the conditions.
+      description: Provider is waiting for the candidate to prove that they have met the conditions.
 
     rejected:
       name: Rejected
@@ -206,7 +206,7 @@ en:
         An email is sent to the candidate, the content of which depends
         on the state of the other application choices, whether there are
         other offers and whether there are pending decisions from
-        providers.'
+        providers.
       emails:
         - candidate_mailer-new_offer_single_offer
         - candidate_mailer-new_offer_multiple_offers
@@ -415,6 +415,6 @@ en:
     ended_without_success-start_apply_2:
       name: Start in Apply 2 (not built)
       by: candidate
-      description: This feature isn't built yet, but in the future candidates
-        will be able to go into a second phase called "Apply 2", where they can
+      description: This feature isn’t built yet, but in the future candidates
+        will be able to go into a second phase called ‘Apply 2’, where they can
         apply to 1 course at a time.
