@@ -212,7 +212,8 @@ FactoryBot.define do
     recruitment_cycle_year { 2020 }
     qualification { 'pgce' }
     course_length { 'OneYear' }
-    financial_support  {  Faker::Lorem.paragraph_by_chars(number: 50) }
+    financial_support { Faker::Lorem.paragraph_by_chars(number: 50) }
+    start_date { Faker::Date.between(from: 1.month.from_now, to: 1.year.from_now) }
 
     trait :open_on_apply do
       open_on_apply { true }
