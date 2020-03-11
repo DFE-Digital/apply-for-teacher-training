@@ -66,7 +66,7 @@ module CandidateInterface
 
       if !@pick_course.open_on_apply?
         redirect_to_ucas
-      elsif @pick_course.full?
+      elsif @pick_course.full? && FeatureFlag.active?('check_full_courses')
         redirect_to candidate_interface_course_choices_full_path(
           @pick_course.provider_id,
           @pick_course.course_id,
