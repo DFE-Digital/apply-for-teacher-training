@@ -6,5 +6,6 @@ Raven.configure do |config|
     'ActionController::UnknownFormat',
     'ActionController::UnknownHttpMethod',
     'ActionDispatch::Http::Parameters::ParseError',
+    'Redis::CannotConnectError',
   ]
 end
