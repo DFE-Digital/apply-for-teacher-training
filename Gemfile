@@ -72,7 +72,7 @@ gem 'ruby-graphviz'
 gem 'kaminari'
 
 # PDF generation
-gem 'wkhtmltopdf-binary'
+gem ENV['WKHTMLTOPDF_GEM'] || 'wkhtmltopdf-binary'
 gem 'pdfkit'
 
 group :development do

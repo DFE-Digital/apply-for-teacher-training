@@ -4,13 +4,14 @@ FROM ruby:2.6.5-alpine AS common-build-env
 
 ARG APP_HOME=/app
 ARG BUILD_PACKAGES="build-base"
-ARG DEV_PACKAGES="postgresql-dev git nodejs yarn graphviz"
+ARG DEV_PACKAGES="postgresql-dev git nodejs yarn graphviz ttf-ubuntu-font-family"
 ARG RUBY_PACKAGES="tzdata"
 ARG bundleWithout=""
 
 ENV BUNDLER_VERSION="2.0.2"
 ENV BUNDLE_PATH="/gems"
 ENV BUNDLE_WITHOUT=${bundleWithout}
+ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine
 
 RUN apk update && \
     apk upgrade && \
@@ -80,6 +81,7 @@ ENV RAILS_ENV=production
 ENV BUNDLE_WITHOUT=${bundleWithout}
 ENV BUNDLE_PATH="/gems"
 ENV BUNDLER_VERSION="2.0.2"
+ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine
 
 WORKDIR $APP_HOME
 
