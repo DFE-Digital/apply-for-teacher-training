@@ -1,11 +1,16 @@
 class SafeguardingReviewComponent < ActionView::Component::Base
-  def initialize(application_form:, editable: true)
+  def initialize(application_form:, editable: true, missing_error: false)
     @safeguarding = CandidateInterface::SafeguardingIssuesDeclarationForm.build_from_application(application_form)
     @editable = editable
+    @missing_error = missing_error
   end
 
   def safeguarding_rows
     [sharing_safeguarding_issues_row, relevant_information_row].compact
+  end
+
+  def show_missing_banner?
+    !@safeguarding.valid? && @editable
   end
 
 private

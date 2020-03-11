@@ -6,6 +6,7 @@ RSpec.feature 'Candidate reviewing an incomplete application' do
   scenario 'sees everything missing from the current state' do
     given_i_am_signed_in
     and_the_training_with_a_disability_feature_flag_is_on
+    and_the_suitability_to_work_with_children_feature_flag_is_on
 
     when_i_visit_the_review_application_page
     then_i_should_be_able_to_click_through_and_complete_each_section_but_science_gcse
@@ -20,6 +21,10 @@ RSpec.feature 'Candidate reviewing an incomplete application' do
 
   def and_the_training_with_a_disability_feature_flag_is_on
     FeatureFlag.activate('training_with_a_disability')
+  end
+
+  def and_the_suitability_to_work_with_children_feature_flag_is_on
+    FeatureFlag.activate('suitability_to_work_with_children')
   end
 
   def when_i_visit_the_review_application_page

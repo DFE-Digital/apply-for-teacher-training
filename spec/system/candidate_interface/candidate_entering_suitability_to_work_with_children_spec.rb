@@ -30,6 +30,9 @@ RSpec.feature 'Entering their suitability to work with children' do
     when_i_choose_no
     and_i_click_on_continue
     then_i_see_my_updated_answer
+
+    when_i_click_on_continue
+    then_i_see_the_section_is_completed
   end
 
   def given_i_am_signed_in
@@ -45,7 +48,7 @@ RSpec.feature 'Entering their suitability to work with children' do
   end
 
   def then_i_dont_see_declaring_any_safeguarding_issues
-    expect(page).not_to have_content('Declaring any safeguarding issues')
+    expect(page).not_to have_content(t('page_titles.suitability_to_work_with_children'))
   end
 
   def when_i_visit_the_declaring_any_safeguarding_issues_form
@@ -100,5 +103,13 @@ RSpec.feature 'Entering their suitability to work with children' do
   def then_i_see_my_updated_answer
     expect(page).to have_content(t('page_titles.suitability_to_work_with_children'))
     expect(page).to have_content('No')
+  end
+
+  def when_i_click_on_continue
+    click_link 'Continue'
+  end
+
+  def then_i_see_the_section_is_completed
+    expect(page).to have_css('#declaring-any-safeguarding-issues-badge-id', text: 'Completed')
   end
 end
