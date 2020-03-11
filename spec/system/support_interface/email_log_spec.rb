@@ -12,6 +12,9 @@ RSpec.feature 'Email log' do
     then_i_see_the_application_reference_in_the_log
     then_i_see_the_all_emails_have_a_reference_in_the_log
     then_i_see_the_all_emails_have_a_type_in_the_log
+
+    when_notify_tells_us_the_emails_have_not_been_delivered
+    then_the_delivery_status_is_displayed_on_the_page
   end
 
   def given_i_am_a_support_user
@@ -20,7 +23,7 @@ RSpec.feature 'Email log' do
 
   def when_an_email_with_custom_reference_is_sent
     AuthenticationMailer.sign_up_email(
-      candidate: build_stubbed(:candidate, email_address: 'harry@example.com'),
+      candidate: create(:candidate, email_address: 'harry@example.com'),
       token: '123',
     ).deliver_now
   end
@@ -46,12 +49,29 @@ RSpec.feature 'Email log' do
   def then_i_see_the_all_emails_have_a_reference_in_the_log
     Email.pluck(:notify_reference).each do |notify_reference|
       expect(notify_reference).not_to be_nil
-      expect(page).to have_content notify_reference
     end
   end
 
   def then_i_see_the_all_emails_have_a_type_in_the_log
     expect(page).to have_content 'Application submitted (Candidate mailer)'
     expect(page).to have_content 'Sign up email (Authentication mailer)'
+  end
+
+  def when_notify_tells_us_the_emails_have_not_been_delivered
+    page.driver.header 'Authorization', "Bearer #{ENV.fetch('GOVUK_NOTIFY_CALLBACK_API_KEY')}"
+
+    Email.pluck(:notify_reference).each do |notify_reference|
+      page.driver.submit(:post, '/integrations/notify/callback', {
+        reference: notify_reference,
+        status: 'permanent-failure',
+      })
+
+      expect(page.status_code).to be(200)
+    end
+  end
+
+  def then_the_delivery_status_is_displayed_on_the_page
+    visit support_interface_email_log_path
+    expect(page).to have_content 'Permanent failure'
   end
 end
