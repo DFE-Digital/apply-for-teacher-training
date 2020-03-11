@@ -12,7 +12,7 @@ module ProviderInterface
       @filter_selections = calculate_filter_selections
     end
 
-    def applications_odering_query
+    def applications_ordering_query
       {
         'course' => { 'courses.name' => @sort_order },
         'last-updated' => { 'application_choices.updated_at' => @sort_order },
