@@ -7,11 +7,11 @@
         <td class="govuk-table__cell govuk-table__cell--numeric">
           <% if conditions.present? %>
             <% if conditions_met? %>
-              <strong class="govuk-tag app-tag--complete">Met</strong>
+              <strong class="govuk-tag app-tag">Met</strong>
             <% elsif known_conditions_state? %>
-              <strong class="govuk-tag app-tag--red">Not met</strong>
+              <strong class="govuk-tag govuk-tag--red app-tag">Not met</strong>
             <% else %>
-              <strong class="govuk-tag app-tag--grey">Pending</strong>
+              <strong class="govuk-tag govuk-tag--grey app-tag">Pending</strong>
             <% end %>
           <% end %>
         </td>
