@@ -20,6 +20,15 @@ module ProviderInterface
       }[@sort_by]
     end
 
+    def to_h
+      {
+        sort_order: @sort_order,
+        sort_by: @sort_by,
+        filter_visible: @filter_visible,
+        filter_selections: @filter_selections,
+      }
+    end
+
   private
 
     def calculate_filter_visibility
