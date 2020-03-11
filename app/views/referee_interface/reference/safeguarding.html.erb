@@ -1,0 +1,20 @@
+<% content_for :title, "Do you know of any reason why #{@application.full_name} should not work with children?" %>
+<% content_for :before_content, govuk_back_link_to(referee_interface_reference_relationship_path(token: @token_param)) %>
+
+<%= form_with model: @safeguarding_form, url: referee_interface_confirm_safeguarding_path(token: @token_param), method: :patch do |f| %>
+  <%= f.govuk_error_summary %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= f.govuk_radio_buttons_fieldset :any_safeguarding_concerns, legend: { size: 'xl', text: "Do you know of any reason why #{@application.full_name} should not work with children?" } do %>
+        <div class="govuk-!-margin-top-6">
+          <%= f.govuk_radio_button :any_safeguarding_concerns, :no, label: { text: 'No' }, link_errors: true %>
+          <%= f.govuk_radio_button :any_safeguarding_concerns, :yes, label: { text: 'Yes' } do %>
+            <%= f.govuk_text_area :safeguarding_concerns, label: { text: "Tell us why you think #{@application.full_name} should not work with children"}, max_words: 150, rows: 5 %>
+          <% end %>
+        <div>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
+    </div>
+  </div>
+<% end %>
