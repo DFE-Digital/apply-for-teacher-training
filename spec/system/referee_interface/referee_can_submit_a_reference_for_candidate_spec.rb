@@ -18,13 +18,24 @@ RSpec.feature 'Referee can submit reference', sidekiq: true, with_audited: true 
     then_i_am_asked_to_confirm_my_relationship_with_the_candidate
 
     when_i_click_on_continue
-    then_i_can_see_an_error_to_confirm_my_relationship_with_the_candidate
+    then_i_see_an_error_to_confirm_my_relationship_with_the_candidate
 
     when_i_confirm_that_the_described_relationship_is_not_correct
     and_i_click_on_continue
-    then_i_can_see_an_error_to_enter_my_relationship_with_the_candidate
+    then_i_see_an_error_to_enter_my_relationship_with_the_candidate
 
     when_i_confirm_that_the_described_relationship_is_correct
+    and_i_click_on_continue
+    then_i_see_the_safeguarding_page
+
+    when_i_click_on_continue
+    then_i_see_an_error_to_choose_if_i_know_any_safeguarding_concerns
+
+    when_i_choose_the_candidate_is_not_suitable_for_working_with_children
+    and_i_click_on_continue
+    then_i_see_an_error_to_enter_my_safeguarding_concerns
+
+    when_i_choose_the_candidate_is_suitable_for_working_with_children
     and_i_click_on_continue
     then_i_see_the_reference_comment_page
     and_i_see_the_list_of_the_courses_the_candidate_applied_to
@@ -84,7 +95,7 @@ RSpec.feature 'Referee can submit reference', sidekiq: true, with_audited: true 
     click_button 'Continue'
   end
 
-  def then_i_can_see_an_error_to_confirm_my_relationship_with_the_candidate
+  def then_i_see_an_error_to_confirm_my_relationship_with_the_candidate
     expect(page).to have_content('Choose if the described relationship is correct')
   end
 
@@ -92,12 +103,32 @@ RSpec.feature 'Referee can submit reference', sidekiq: true, with_audited: true 
     choose 'No'
   end
 
-  def then_i_can_see_an_error_to_enter_my_relationship_with_the_candidate
+  def then_i_see_an_error_to_enter_my_relationship_with_the_candidate
     expect(page).to have_content("Enter your relationship to #{@application.full_name}")
   end
 
   def when_i_confirm_that_the_described_relationship_is_correct
     choose 'Yes'
+  end
+
+  def then_i_see_the_safeguarding_page
+    expect(page).to have_content("Do you know of any reason why #{@application.full_name} should not work with children?")
+  end
+
+  def then_i_see_an_error_to_choose_if_i_know_any_safeguarding_concerns
+    expect(page).to have_content("Select if you know of any reason why #{@application.full_name} should not work with children")
+  end
+
+  def when_i_choose_the_candidate_is_not_suitable_for_working_with_children
+    choose 'Yes'
+  end
+
+  def then_i_see_an_error_to_enter_my_safeguarding_concerns
+    expect(page).to have_content("Enter a reason why #{@application.full_name} should not work with children")
+  end
+
+  def when_i_choose_the_candidate_is_suitable_for_working_with_children
+    choose 'No'
   end
 
   def and_i_click_on_continue

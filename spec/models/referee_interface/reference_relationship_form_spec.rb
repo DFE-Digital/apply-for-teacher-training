@@ -48,7 +48,7 @@ RSpec.describe RefereeInterface::ReferenceRelationshipForm, type: :model do
       end
     end
 
-    context 'when relationship_correction has a value' do
+    context 'when relationship_confirmation has value "no"' do
       it 'updates the application reference with the correction' do
         form = RefereeInterface::ReferenceRelationshipForm.new(relationship_confirmation: 'no', relationship_correction: 'I dont know this person')
 
@@ -57,12 +57,22 @@ RSpec.describe RefereeInterface::ReferenceRelationshipForm, type: :model do
         expect(application_reference.relationship_correction).to eq('I dont know this person')
       end
     end
+
+    context 'when relationship_confirmation has value "yes' do
+      it 'resets the relationship_correction' do
+        form = RefereeInterface::ReferenceRelationshipForm.new(relationship_confirmation: 'yes')
+
+        form.save(application_reference)
+
+        expect(application_reference.relationship_correction).to eq('')
+      end
+    end
   end
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:relationship_confirmation) }
 
-    context 'when other relationship_confirmation has value "no"' do
+    context 'when relationship_confirmation has value "no"' do
       it 'validates presence of relationship_correction' do
         form = RefereeInterface::ReferenceRelationshipForm.new(relationship_confirmation: 'no', candidate: 'Tim Tamagotchi')
         expected_error_message = I18n.t('activemodel.errors.models.referee_interface/reference_relationship_form.attributes.relationship_correction.blank', candidate: 'Tim Tamagotchi')
