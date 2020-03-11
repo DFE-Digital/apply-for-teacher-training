@@ -8,7 +8,7 @@
 
     <div class="moj-filter__heading-action">
     <p class="govuk-body">
-       <%= link_to "Clear", filtering_page_path(additional_params), class: "govuk-link govuk-link--no-visited-state" %>
+       <%= link_to "Clear", filtering_page_path(params_for_current_state.except(:filter_selections)), class: "govuk-link govuk-link--no-visited-state" %>
     </p>
     </div>
 
@@ -17,12 +17,13 @@
   <% applied_filters.each do |applied_filters_key, checkbox_config_values| %>
     <h3 class="govuk-heading-s govuk-!-margin-bottom-0"><%= applied_filters_key.capitalize %></h3>
     <ul class="moj-filter-tags">
-    <% checkbox_config_values.each do |checkbox_config_key, checkbox_config_value| %>
+    <% checkbox_config_values.each do |checkbox_config_name, _| %>
         <li>
-        <%= link_to retrieve_tag_text(applied_filters_key,checkbox_config_value), filtering_page_path(
-          additional_params.merge({ filter_selections: build_tag_url_query_params(
-                                         heading: applied_filters_key,
-                                         tag_value: checkbox_config_key)})), class: "moj-filter__tag", id: "tag-#{checkbox_config_value}" %>
+          <%= link_to retrieve_tag_text(applied_filters_key, checkbox_config_name),
+                                        filtering_page_path(params_for_current_state.merge({filter_selections: build_tag_url_query_params(
+                                                                                heading: applied_filters_key,
+                                                                                tag_value: checkbox_config_name)})),
+                                        class: "moj-filter__tag", id: "tag-#{checkbox_config_name}" %>
         </li>
       <% end %>
     </ul>

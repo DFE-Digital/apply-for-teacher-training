@@ -97,7 +97,7 @@ RSpec.describe ProviderInterface::CurrentFiltersComponent do
     ]
   end
 
-  let(:additional_params) do
+  let(:params_for_current_state) do
     {
       sort_by: 'desc',
       sort_order: 'last-updated',
@@ -108,7 +108,7 @@ RSpec.describe ProviderInterface::CurrentFiltersComponent do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
                                         applied_filters: applied_filters_partial,
-                                        additional_params: additional_params)
+                                        params_for_current_state: params_for_current_state)
 
     expect(result.css('.moj-filter-tags').text).to include('Accepted', 'New', 'Rejected', 'Application withdrawn', 'The Beach Teaching School')
     expect(result.css('.moj-filter-tags').text).not_to include('Declined', 'Conditions met', 'Somerset SCITT consortium')
@@ -118,7 +118,7 @@ RSpec.describe ProviderInterface::CurrentFiltersComponent do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
                                         applied_filters: applied_filters_partial,
-                                        additional_params: additional_params)
+                                        params_for_current_state: params_for_current_state)
 
     expect(result.text).to include('Clear')
   end
@@ -127,7 +127,7 @@ RSpec.describe ProviderInterface::CurrentFiltersComponent do
     filter_component = described_class.new(path: path,
                                         available_filters: available_filters,
                                         applied_filters: applied_filters_partial,
-                                        additional_params: additional_params)
+                                        params_for_current_state: params_for_current_state)
 
     expect(filter_component.retrieve_tag_text('status', 'offer_withdrawn')).to eq('Withdrawn by us')
     expect(filter_component.retrieve_tag_text('provider', '2')).to eq('The Beach Teaching School')
@@ -137,7 +137,7 @@ RSpec.describe ProviderInterface::CurrentFiltersComponent do
     filter_component = described_class.new(path: path,
                                         available_filters: available_filters,
                                         applied_filters: applied_filters_partial,
-                                        additional_params: additional_params)
+                                        params_for_current_state: params_for_current_state)
 
     hash = filter_component.build_tag_url_query_params(heading: 'status',
                                                tag_value: 'withdrawn')
@@ -149,7 +149,7 @@ RSpec.describe ProviderInterface::CurrentFiltersComponent do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
                                         applied_filters: applied_filters_partial,
-                                        additional_params: additional_params)
+                                        params_for_current_state: params_for_current_state)
 
     expect(result.css('#tag-rejected').attr('href').value).not_to include('rejected')
     expect(result.css('#tag-rejected').attr('href').value).to include('2')

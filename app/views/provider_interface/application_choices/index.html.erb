@@ -4,50 +4,50 @@
 <h1 class='govuk-heading-xl'>Applications</h1>
 
 <% if FeatureFlag.active?('provider_application_filters') %>
-  <div class='moj-filter-layout'>
-    <% if @filter_visible.eql?('true') %>
-      <%= render ProviderInterface::FilterComponent.new(path: :provider_interface_applications_path,
-                                                        available_filters: @available_filters,
-                                                        applied_filters: @filter_selections,
-                                                        additional_params: { sort_by: @sort_by,
-                                                                             sort_order: @sort_order }) %>
-    <% end %>
 
-    <div class='moj-filter-layout__content'>
-      <%= render ProviderInterface::ToggleFilterComponent.new(sort_order: @sort_order, current_sort_by: @sort_by, filter_visible: @filter_visible, filter_selections: @filter_selections) %>
-      <div class='moj-scrollable-pane'>
-        <div class='moj-scrollable-pane__wrapper'>
-<% end %>
+<div class='moj-filter-layout'>
+  <% if @page_state.filter_visible.eql?('true') %>
+    <%= render ProviderInterface::FilterComponent.new(path: :provider_interface_applications_path,
+                                                      available_filters: @page_state.available_filters,
+                                                      applied_filters: @page_state.filter_selections,
+                                                      params_for_current_state: @page_state.to_h) %>
+  <% end %>
 
-<% if @application_choices.any? %>
-  <table class='govuk-table'>
-    <thead class='govuk-table__head'>
-      <tr class='govuk-table__row'>
-        <%= render ProviderInterface::SortableColumnHeadingComponent.new(sort_order: @sort_order,
-                                                                         column_name: 'Name',
-                                                                         current_sort_by: @sort_by,
-                                                                         css_class: 'govuk-table__header govuk-!-width-one-quarter',
-                                                                         filter_selections: @filter_selections,
-                                                                         filter_visible: @filter_visible) %>
+  <div class='moj-filter-layout__content'>
+    <%= render ProviderInterface::ToggleFilterComponent.new(filter_visible: @page_state.filter_visible,
+                                                            params_for_current_state: @page_state.to_h) %>
+    <div class='moj-scrollable-pane'>
+      <div class='moj-scrollable-pane__wrapper'>
 
-        <%= render ProviderInterface::SortableColumnHeadingComponent.new(sort_order: @sort_order,
-                                                                         column_name: 'Course',
-                                                                         current_sort_by: @sort_by,
-                                                                         css_class: 'govuk-table__header govuk-!-width-one-quarter',
-                                                                         filter_selections: @filter_selections,
-                                                                         filter_visible: @filter_visible) %>
+      <% end %>
 
-        <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Status</th>
- 
-        <%= render ProviderInterface::SortableColumnHeadingComponent.new(sort_order: @sort_order,
-                                                                         column_name: 'Last updated',
-                                                                         current_sort_by: @sort_by,
-                                                                         css_class: 'govuk-table__header govuk-!-width-one-quarter govuk-table__header--numeric',
-                                                                         filter_selections: @filter_selections,
-                                                                         filter_visible: @filter_visible) %>
-      </tr>
-    </thead>
- 
+      <% if @application_choices.any? %>
+        <table class='govuk-table'>
+          <thead class='govuk-table__head'>
+            <tr class='govuk-table__row'>
+              <%= render ProviderInterface::SortableColumnHeadingComponent.new(sort_order: @page_state.sort_order,
+                                                                               column_name: 'Name',
+                                                                               current_sort_by: @page_state.sort_by,
+                                                                               css_class: 'govuk-table__header govuk-!-width-one-quarter',
+                                                                               params_for_current_state: @page_state.to_h) %>
+
+              <%= render ProviderInterface::SortableColumnHeadingComponent.new(sort_order: @page_state.sort_order,
+                                                                               column_name: 'Course',
+                                                                               current_sort_by: @page_state.sort_by,
+                                                                               css_class: 'govuk-table__header govuk-!-width-one-quarter',
+                                                                               params_for_current_state: @page_state.to_h) %>
+
+
+              <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Status</th>
+
+              <%= render ProviderInterface::SortableColumnHeadingComponent.new(sort_order: @page_state.sort_order,
+                                                                               column_name: 'Last updated',
+                                                                               current_sort_by: @page_state.sort_by,
+                                                                               css_class: 'govuk-table__header govuk-!-width-one-quarter govuk-table__header--numeric',
+                                                                               params_for_current_state: @page_state.to_h) %>
+            </tr>
+          </thead>
+
     <tbody class='govuk-table__body'>
       <% @application_choices.each do |application_choice| %>
         <tr class='govuk-table__row'>
@@ -70,7 +70,7 @@
       <% end %>
     </tbody>
   </table>
- 
+
 <% if FeatureFlag.active?('provider_application_filters') %>
         </div>
       </div>
@@ -79,7 +79,7 @@
 <% end %>
 
 <%= render(PaginatorComponent.new(scope: @application_choices)) %>
-<% elsif @filter_selections %>
+<% elsif @page_state.filter_selections.any? %>
      <p class='govuk-body'>No applications for the selected filters.</p>
 <% else %>
   <p class='govuk-body'>You haven’t received any applications from <%= t('service_name.apply') %>.</p>

@@ -2,10 +2,10 @@ module ProviderInterface
   class CurrentFiltersComponent < ActionView::Component::Base
     include ViewHelper
 
-    attr_reader :applied_filters, :additional_params, :path
+    attr_reader :applied_filters, :params_for_current_state, :path
 
-    def initialize(path:, available_filters:, applied_filters:, additional_params:)
-      @additional_params = additional_params
+    def initialize(path:, available_filters:, applied_filters:, params_for_current_state:)
+      @params_for_current_state = params_for_current_state
       @applied_filters = applied_filters
       @available_filters = available_filters
       @path = path

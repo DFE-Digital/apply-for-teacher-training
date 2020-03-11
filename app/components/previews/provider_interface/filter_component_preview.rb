@@ -4,30 +4,30 @@ module ProviderInterface
       render_component_for(path: :provider_interface_applications_path,
                            available_filters: available_filters,
                            applied_filters: applied_filters_full,
-                           additional_params: additional_params)
+                           params_for_current_state: params_for_current_state)
     end
 
     def partially_selected
       render_component_for(path: :provider_interface_applications_path,
                            available_filters: available_filters,
                            applied_filters: applied_filters_partial,
-                           additional_params: additional_params)
+                           params_for_current_state: params_for_current_state)
     end
 
     def empty
       render_component_for(path: :provider_interface_applications_path,
                            available_filters: available_filters,
                            applied_filters: {},
-                           additional_params: additional_params)
+                           params_for_current_state: params_for_current_state)
     end
 
   private
 
-    def render_component_for(path:, available_filters:, applied_filters:, additional_params:)
+    def render_component_for(path:, available_filters:, applied_filters:, params_for_current_state:)
       render ProviderInterface::FilterComponent.new(path: path,
                                                     available_filters: available_filters,
                                                     applied_filters: applied_filters,
-                                                    additional_params: additional_params)
+                                                    params_for_current_state: params_for_current_state)
     end
 
     def applied_filters_partial
@@ -129,7 +129,7 @@ module ProviderInterface
       ]
     end
 
-    def additional_params
+    def params_for_current_state
       {
         sort_by: 'desc',
         sort_order: 'last-updated',

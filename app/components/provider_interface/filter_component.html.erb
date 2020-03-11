@@ -13,38 +13,39 @@
              <%= render ProviderInterface::CurrentFiltersComponent.new(path: path,
                                                                        available_filters: available_filters,
                                                                        applied_filters: applied_filters,
-                                                                       additional_params: additional_params) %>
+                                                                       params_for_current_state: params_for_current_state) %>
      <% end %>
 
 
         <div class="moj-filter__options">
           <form method="get" action=<%= filtering_page_path %>>
             <%= submit_tag "Apply filters", class: "govuk-button" %>
-            <% additional_params.each do |key, value| %>
+            <% params_for_current_state.except(:filter_selections).each do |key, value| %>
               <input class="govuk-checkboxes__input" id=<%= key %> name=<%= key %> type="hidden" value=<%= value %> %>
             <% end %>
 
 
             <% available_filters.each do |filter_group| %>
-              <div class="govuk-form-group">
-                <fieldset class="govuk-fieldset">
-                  <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                    <%= filter_group[:heading].capitalize %>
-                  </legend>
+              <% unless filter_group[:checkbox_config].size <= 1 %>
+                <div class="govuk-form-group">
+                  <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                      <%= filter_group[:heading].capitalize %>
+                    </legend>
 
-                  <% filter_group[:checkbox_config].each do |checkbox_config| %>
-                    <div class="govuk-checkboxes govuk-checkboxes--small">
-                      <%= render ProviderInterface::FilterCheckboxComponent.new(name: checkbox_config[:name],
-                                                                                text: checkbox_config[:text],
-                                                                                value: checkbox_config[:value],
-                                                                                selected: checkbox_checked?(heading: filter_group[:heading], name: checkbox_config[:name]),
-                                                                                heading: filter_group[:heading].parameterize)
-                       %>
-                    </div>
-                  <% end %>
-                </fieldset>
-              </div>
-              <% end %>
+                    <% filter_group[:checkbox_config].each do |checkbox_config| %>
+                      <div class="govuk-checkboxes govuk-checkboxes--small">
+                        <%= render ProviderInterface::FilterCheckboxComponent.new(name: checkbox_config[:name],
+                                                                                  text: checkbox_config[:text],
+                                                                                  selected: checkbox_checked?(heading: filter_group[:heading], name: checkbox_config[:name]),
+                                                                                  heading: filter_group[:heading].parameterize)
+                         %>
+                      </div>
+                    <% end %>
+                  </fieldset>
+                </div>
+            <% end %>
+          <% end %>
           </form>
         </div>
       </div>
