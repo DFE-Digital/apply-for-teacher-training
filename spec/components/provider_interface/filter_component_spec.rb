@@ -114,7 +114,7 @@ RSpec.describe ProviderInterface::FilterComponent do
     ]
   end
 
-  let(:additional_params) do
+  let(:params_for_current_state) do
     {
       sort_by: 'desc',
       sort_order: 'last-updated',
@@ -125,7 +125,7 @@ RSpec.describe ProviderInterface::FilterComponent do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
                                         applied_filters: applied_filters_partial,
-                                        additional_params: additional_params)
+                                        params_for_current_state: params_for_current_state)
 
 
     expect(result.css('#status-accepted').attr('checked').value).to eq('checked')
@@ -142,7 +142,7 @@ RSpec.describe ProviderInterface::FilterComponent do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
                                         applied_filters: {},
-                                        additional_params: additional_params)
+                                        params_for_current_state: params_for_current_state)
 
     expect(result.css('#status-accepted').attr('checked')).to eq(nil)
     expect(result.css('#status-recruited').attr('checked')).to eq(nil)
@@ -158,7 +158,7 @@ RSpec.describe ProviderInterface::FilterComponent do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
                                         applied_filters: applied_filters_partial,
-                                        additional_params: additional_params)
+                                        params_for_current_state: params_for_current_state)
 
     expect(result.text).to include('Selected filters')
   end
@@ -167,17 +167,17 @@ RSpec.describe ProviderInterface::FilterComponent do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
                                         applied_filters: {},
-                                        additional_params: additional_params)
+                                        params_for_current_state: params_for_current_state)
 
     expect(result.text).not_to include('Selected filters')
   end
 
 
-  it 'returns the additional_params as hidden fields' do
+  it 'returns the params_for_current_state as hidden fields' do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters,
                                         applied_filters: applied_filters_partial,
-                                        additional_params: additional_params)
+                                        params_for_current_state: params_for_current_state)
 
     expect(result.css('#sort_by').attr('value').value).to eq('desc')
     expect(result.css('#sort_order').attr('value').value).to eq('last-updated')
@@ -189,7 +189,7 @@ RSpec.describe ProviderInterface::FilterComponent do
     result = render_inline described_class.new(path: path,
                                         available_filters: available_filters_only_one_provider,
                                         applied_filters: {},
-                                        additional_params: additional_params)
+                                        params_for_current_state: params_for_current_state)
 
     expect(result.to_html).not_to include('Provider')
     expect(result.to_html).to include('Status')
