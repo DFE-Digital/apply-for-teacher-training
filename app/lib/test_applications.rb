@@ -12,6 +12,8 @@ module TestApplications
   end
 
   def self.create_application(states:, courses_to_apply_to: nil)
+    Timecop.freeze(rand(30..60).days.ago)
+
     raise ZeroCoursesPerApplicationError.new('You can\'t have zero courses per application') unless states.any?
 
     first_name = Faker::Name.first_name
@@ -63,9 +65,12 @@ module TestApplications
         SubmitApplication.new(application_form).call
         return if states.include? :awaiting_references
 
+        Timecop.travel(Time.zone.now + rand(1..2).days)
         application_form.application_references.each do |reference|
           reference.relationship_correction = [nil, Faker::Lorem.sentence].sample
           reference.safeguarding_concerns = [nil, Faker::Lorem.sentence].sample
+
+          Timecop.travel(Time.zone.now + rand(1..2).days)
 
           ReceiveReference.new(
             reference: reference,
@@ -83,45 +88,67 @@ module TestApplications
 
       application_choices
     end
+  ensure
+    Timecop.return
   end
 
   def self.put_application_choice_in_state(choice, state)
-    # This is only supposed to happen after 7 days, but SendApplicationToProvider
-    # doesn't check the `edit_by` date of the ApplicationChoice
+    Timecop.travel(Time.zone.now + rand(7..10).days)
     SendApplicationToProvider.new(application_choice: choice).call
     choice.update(edit_by: Time.zone.now)
     return if state == :awaiting_provider_decision
 
     if state == :offer
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
     elsif state == :rejected
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       RejectApplication.new(application_choice: choice, rejection_reason: 'Some').save
     elsif state == :offer_withdrawn
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       WithdrawOffer.new(application_choice: choice, offer_withdrawal_reason: 'Offer withdrawal reason is...').save
     elsif state == :declined
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       DeclineOffer.new(application_choice: choice).save!
     elsif state == :accepted
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS', 'Fitness to teach check']).save
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       AcceptOffer.new(application_choice: choice).save!
     elsif state == :accepted_no_conditions
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: []).save
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       AcceptOffer.new(application_choice: choice).save!
     elsif state == :conditions_not_met
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS', 'Fitness to teach check', 'Complete course']).save
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       AcceptOffer.new(application_choice: choice).save!
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       ConditionsNotMet.new(application_choice: choice).save
     elsif state == :recruited
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS', 'Fitness to teach check']).save
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       AcceptOffer.new(application_choice: choice).save!
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       ConfirmOfferConditions.new(application_choice: choice).save
     elsif state == :enrolled
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       AcceptOffer.new(application_choice: choice).save!
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       ConfirmOfferConditions.new(application_choice: choice).save
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       ConfirmEnrolment.new(application_choice: choice).save
     elsif state == :withdrawn
+      Timecop.travel(Time.zone.now + rand(1..3).days)
       WithdrawApplication.new(application_choice: choice).save!
     end
   end

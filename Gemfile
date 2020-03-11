@@ -85,7 +85,6 @@ group :test do
   gem 'capybara-email'
   gem 'climate_control'
   gem 'launchy'
-  gem 'timecop'
   gem 'guard-rspec'
   gem 'webmock'
   gem 'simplecov', require: false
@@ -105,4 +104,5 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'bullet'
+  gem 'timecop'
 end
