@@ -2,14 +2,14 @@ module ProviderInterface
   class SortableColumnHeadingComponent < ActionView::Component::Base
     include ViewHelper
 
-    attr_reader :column_name, :current_sort_by, :css_class, :additional_params
+    attr_reader :column_name, :current_sort_by, :css_class, :params_for_current_state
 
-    def initialize(sort_order:, column_name:, current_sort_by:, css_class:, additional_params:)
+    def initialize(sort_order:, column_name:, current_sort_by:, css_class:, params_for_current_state:)
       @sort_order = sort_order
       @column_name = column_name
       @current_sort_by = current_sort_by
       @css_class = css_class
-      @additional_params = additional_params
+      @params_for_current_state = params_for_current_state
     end
 
     def default_sort_order

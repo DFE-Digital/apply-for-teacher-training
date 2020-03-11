@@ -2,11 +2,11 @@ module ProviderInterface
   class ToggleFilterComponent < ActionView::Component::Base
     include ViewHelper
 
-    attr_reader :filter_visible, :additional_params
+    attr_reader :filter_visible, :params_for_current_state
 
-    def initialize(filter_visible:, additional_params:)
+    def initialize(filter_visible:, params_for_current_state:)
       @filter_visible = filter_visible
-      @additional_params = additional_params
+      @params_for_current_state = params_for_current_state
     end
 
     def toggle_filter
