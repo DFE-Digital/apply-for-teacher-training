@@ -291,6 +291,9 @@ Rails.application.routes.draw do
     get '/' => 'reference#relationship', as: :reference_relationship
     patch '/confirm-relationship' => 'reference#confirm_relationship', as: :confirm_relationship
 
+    get '/safeguarding' => 'reference#safeguarding', as: :safeguarding
+    patch '/confirm-safeguarding' => 'reference#confirm_safeguarding', as: :confirm_safeguarding
+
     get '/feedback' => 'reference#feedback', as: :reference_feedback
 
     get '/confirmation' => 'reference#confirmation', as: :confirmation

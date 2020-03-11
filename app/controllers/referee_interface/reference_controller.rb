@@ -9,11 +9,6 @@ module RefereeInterface
 
     layout 'application'
 
-    def feedback
-      @application = reference.application_form
-      @reference_form = ReferenceFeedbackForm.new(reference: reference)
-    end
-
     def relationship
       redirect_to referee_interface_reference_feedback_path(token: @token_param) unless FeatureFlag.active?('referee_confirm_relationship_and_safeguarding')
 
@@ -29,10 +24,32 @@ module RefereeInterface
       @relationship_form.candidate = reference.application_form.full_name
 
       if @relationship_form.save(reference)
-        redirect_to referee_interface_reference_feedback_path(token: @token_param)
+        redirect_to referee_interface_safeguarding_path(token: @token_param)
       else
         render :relationship
       end
+    end
+
+    def safeguarding
+      @application = reference.application_form
+      @safeguarding_form = ReferenceSafeguardingForm.build_from_reference(reference: reference)
+    end
+
+    def confirm_safeguarding
+      @application = reference.application_form
+      @safeguarding_form = ReferenceSafeguardingForm.new(safeguarding_params)
+      @safeguarding_form.candidate = reference.application_form.full_name
+
+      if @safeguarding_form.save(reference)
+        redirect_to referee_interface_reference_feedback_path(token: @token_param)
+      else
+        render :safeguarding
+      end
+    end
+
+    def feedback
+      @application = reference.application_form
+      @reference_form = ReferenceFeedbackForm.new(reference: reference)
     end
 
     def submit_feedback
@@ -136,6 +153,11 @@ module RefereeInterface
     def relationship_params
       params.require(:referee_interface_reference_relationship_form)
             .permit(:relationship_correction, :relationship_confirmation)
+    end
+
+    def safeguarding_params
+      params.require(:referee_interface_reference_safeguarding_form)
+            .permit(:any_safeguarding_concerns, :safeguarding_concerns)
     end
   end
 end
