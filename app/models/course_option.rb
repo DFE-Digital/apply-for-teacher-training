@@ -12,9 +12,7 @@ class CourseOption < ApplicationRecord
   }
 
   enum vacancy_status: {
-    both_full_time_and_part_time_vacancies: 'both_full_time_and_part_time_vacancies',
-    part_time_vacancies: 'part_time_vacancies',
-    full_time_vacancies: 'full_time_vacancies',
+    vacancies: 'vacancies',
     no_vacancies: 'no_vacancies',
   }
 

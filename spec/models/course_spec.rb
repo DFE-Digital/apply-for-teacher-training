@@ -33,7 +33,7 @@ RSpec.describe Course, type: :model do
 
     context 'when a subset of course options have vacancies' do
       before do
-        create(:course_option, course: course, vacancy_status: 'full_time_vacancies')
+        create(:course_option, course: course, vacancy_status: 'vacancies')
         create(:course_option, course: course, vacancy_status: 'no_vacancies')
       end
 

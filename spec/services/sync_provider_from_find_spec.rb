@@ -54,7 +54,7 @@ RSpec.describe SyncProviderFromFind do
         expect(course_option.site.address_line3).to eq 'Bruntcliffe Lane'
         expect(course_option.site.address_line4).to eq 'MORLEY, LEEDS'
         expect(course_option.site.postcode).to eq 'LS27 0LZ'
-        expect(course_option.vacancy_status).to eq 'full_time_vacancies'
+        expect(course_option.vacancy_status).to eq 'vacancies'
       end
 
       it 'correctly handles missing address info' do
@@ -92,7 +92,7 @@ RSpec.describe SyncProviderFromFind do
 
         SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
         expect(CourseOption.count).to eq 1
-        expect(CourseOption.first.vacancy_status).to eq 'full_time_vacancies'
+        expect(CourseOption.first.vacancy_status).to eq 'vacancies'
       end
 
       it 'correctly handles accrediting providers' do
@@ -153,6 +153,66 @@ RSpec.describe SyncProviderFromFind do
         SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
 
         expect(@existing_provider.reload.region_code).to eq 'north_west'
+      end
+    end
+  end
+
+  describe '.derive_vacancy_status' do
+    context 'when study_mode is part_time' do
+      let(:study_mode) { 'part_time' }
+
+      [
+        { description: 'no_vacancies', vacancy_status: :no_vacancies },
+        { description: 'both_full_time_and_part_time_vacancies', vacancy_status: :vacancies },
+        { description: 'full_time_vacancies', vacancy_status: :no_vacancies },
+        { description: 'part_time_vacancies', vacancy_status: :vacancies },
+      ].each do |pair|
+        it "returns #{pair[:vacancy_status]} when description is #{pair[:description]}" do
+          derived_status = SyncProviderFromFind.derive_vacancy_status(
+            status_description: pair[:description],
+            study_mode: study_mode,
+          )
+
+          expect(derived_status).to eq pair[:vacancy_status]
+        end
+      end
+
+      it 'raises an error when description is an unexpected value' do
+        expect {
+          SyncProviderFromFind.derive_vacancy_status(
+            status_description: 'foo',
+            study_mode: study_mode,
+          )
+        }.to raise_error(SyncProviderFromFind::InvalidFindVacancyStatusError)
+      end
+    end
+
+    context 'when study_mode is full_time' do
+      let(:study_mode) { 'full_time' }
+
+      [
+        { description: 'no_vacancies', vacancy_status: :no_vacancies },
+        { description: 'both_full_time_and_part_time_vacancies', vacancy_status: :vacancies },
+        { description: 'full_time_vacancies', vacancy_status: :vacancies },
+        { description: 'part_time_vacancies', vacancy_status: :no_vacancies },
+      ].each do |pair|
+        it "returns #{pair[:vacancy_status]} when description is #{pair[:description]}" do
+          derived_status = SyncProviderFromFind.derive_vacancy_status(
+            status_description: pair[:description],
+            study_mode: study_mode,
+          )
+
+          expect(derived_status).to eq pair[:vacancy_status]
+        end
+      end
+
+      it 'raises an error when description is an unexpected value' do
+        expect {
+          SyncProviderFromFind.derive_vacancy_status(
+            status_description: 'foo',
+            study_mode: study_mode,
+          )
+        }.to raise_error(SyncProviderFromFind::InvalidFindVacancyStatusError)
       end
     end
   end
