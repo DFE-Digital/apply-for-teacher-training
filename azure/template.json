@@ -465,6 +465,9 @@
                     "redisCacheCapacity": {
                         "value": "[parameters('redisCacheCapacity')]"
                     },
+                    "minimumTlsVersion": {
+                        "value": "1.2"
+                    },
                     "dataPersistence": {
                         "value": "aof"
                     },
