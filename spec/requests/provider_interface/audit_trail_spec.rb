@@ -12,6 +12,7 @@ RSpec.describe 'Provider interface - audit trail', type: :request, with_audited:
     allow(ProviderUser).to receive(:load_from_session)
       .and_return(
         ProviderUser.new(
+          id: 123,
           email_address: 'alice@example.com',
           dfe_sign_in_uid: 'ABCDEF',
           providers: [application_choice.course.provider],
@@ -28,6 +29,7 @@ RSpec.describe 'Provider interface - audit trail', type: :request, with_audited:
       ), params: { offer_conditions: '["must be clever"]' }
     }.to(change { application_choice.audits.count })
 
-    expect(application_choice.audits.last.username).to eq 'alice@example.com (Provider)'
+    expect(application_choice.audits.last.user_id).to eq 123
+    expect(application_choice.audits.last.user_type).to eq 'ProviderUser'
   end
 end

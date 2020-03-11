@@ -23,6 +23,8 @@ module SupportInterface
         "#{audit.user.email_address} (Vendor API)"
       elsif audit.user_type == 'SupportUser'
         "#{audit.user.email_address} (Support user)"
+      elsif audit.user_type == 'ProviderUser'
+        "#{audit.user.email_address} (Provider user)"
       elsif audit.username.present?
         audit.username
       else
