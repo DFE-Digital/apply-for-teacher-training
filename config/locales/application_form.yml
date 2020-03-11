@@ -588,3 +588,9 @@ en:
               blank: Choose if the described relationship is correct
             relationship_correction:
               blank: "Enter your relationship to %{candidate}"
+        referee_interface/reference_safeguarding_form:
+          attributes:
+            any_safeguarding_concerns:
+              blank: Select if you know of any reason why %{candidate} should not work with children
+            safeguarding_concerns:
+              blank: Enter a reason why %{candidate} should not work with children
