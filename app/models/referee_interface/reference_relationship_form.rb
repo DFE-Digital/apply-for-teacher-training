@@ -14,7 +14,9 @@ module RefereeInterface
     def save(application_reference)
       return false unless valid?
 
-      application_reference.update!(relationship_correction: relationship_correction)
+      correction = relationship_confirmation == 'yes' ? '' : relationship_correction
+
+      application_reference.update!(relationship_correction: correction)
     end
 
     def presence_of_relationship_correction
