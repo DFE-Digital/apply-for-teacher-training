@@ -3,6 +3,7 @@ class FeatureFlag
     add_additional_courses_page
     banner_about_problems_with_dfe_sign_in
     choose_study_mode
+    check_full_courses
     confirm_conditions
     edit_application
     equality_and_diversity
