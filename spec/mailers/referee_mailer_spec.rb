@@ -28,7 +28,7 @@ RSpec.describe RefereeMailer, type: :mailer do
     it 'sends an email with a link to the reference form' do
       mail.deliver_now
       body = mail.body.encoded
-      expect(body).to include(referee_interface_reference_feedback_url(token: ''))
+      expect(body).to include(referee_interface_reference_relationship_url(token: ''))
     end
 
     it 'sends a request with a Notify reference' do
