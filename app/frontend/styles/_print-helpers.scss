@@ -12,3 +12,11 @@
     display: none;
   }
 }
+
+.app-print-link {
+  display: none;
+}
+
+.js-enabled .app-print-link {
+  display: block;
+}
