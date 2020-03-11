@@ -13,6 +13,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       expect(result.css('.app-summary-card__title').text).to include(course_choice.provider.name)
       expect(result.css('.govuk-summary-list__key').text).to include('Course')
       expect(result.css('.govuk-summary-list__value').to_html).to include("#{course_choice.course.name} (#{course_choice.course.code})")
+      expect(result.css('.govuk-summary-list__value').to_html).to include(course_choice.course.qualification)
     end
 
     it 'renders component with correct values for a location' do

@@ -210,6 +210,7 @@ FactoryBot.define do
     name { Faker::Educator.subject }
     level { 'primary' }
     recruitment_cycle_year { 2020 }
+    qualification { 'pgce' }
 
     trait :open_on_apply do
       open_on_apply { true }

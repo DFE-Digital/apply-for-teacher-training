@@ -17,6 +17,7 @@ module CandidateInterface
       rows = [
         course_row(course_choice),
         location_row(course_choice),
+        qualification_row(course_choice.course),
       ]
 
       rows.insert(1, study_mode_row(course_choice)) if FeatureFlag.active?('choose_study_mode')
@@ -66,6 +67,13 @@ module CandidateInterface
       {
         key: 'Full time or part time',
         value: course_choice.offered_option.study_mode.humanize,
+      }
+    end
+
+    def qualification_row(course)
+      {
+        key: 'Qualification',
+        value: DisplayQualification.call(qualification: course.qualification),
       }
     end
 
