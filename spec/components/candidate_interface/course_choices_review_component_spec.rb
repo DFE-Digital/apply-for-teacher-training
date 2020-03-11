@@ -15,6 +15,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       expect(result.css('.govuk-summary-list__value').to_html).to include("#{course_choice.course.name} (#{course_choice.course.code})")
       expect(result.css('.govuk-summary-list__value').to_html).to include('PGCE only (without QTS')
       expect(result.css('.govuk-summary-list__value').to_html).to include('1 year')
+      expect(result.css('.govuk-summary-list__value').to_html).to include(course_choice.course.financial_support)
     end
 
     it 'renders component with correct values for a location' do
