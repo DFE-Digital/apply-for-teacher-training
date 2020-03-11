@@ -32,7 +32,11 @@ module CandidateInterface
       @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
 
       if @application_form_presenter.ready_to_submit?
-        @further_information_form = FurtherInformationForm.new
+        if FeatureFlag.active?('equality_and_diversity')
+          redirect_to candidate_interface_start_equality_and_diversity_path
+        else
+          @further_information_form = FurtherInformationForm.new
+        end
       else
         @errors = @application_form_presenter.section_errors
 
