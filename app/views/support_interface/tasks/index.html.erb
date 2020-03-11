@@ -1,5 +1,13 @@
 <% content_for :title, 'Tasks' %>
 
+<div>
+  <h2 class='govuk-heading-m'>Sync providers</h2>
+  <div class='govuk-body'>
+    Download providers from Find.
+  </div>
+  <%= button_to 'Sync Providers from Find', support_interface_run_task_path('sync_providers'), class: 'govuk-button' %>
+</div>
+
 <% unless HostingEnvironment.production? %>
   <div>
     <h2 class='govuk-heading-m'>Test applications</h2>
