@@ -22,4 +22,14 @@ RSpec.describe GenerateTestApplications do
       'enrolled',
     )
   end
+
+  it 'does not notify Slack', sidekiq: true do
+    ClimateControl.modify(STATE_CHANGE_SLACK_URL: 'https://example.com') do
+      slack_request = stub_request(:post, 'https://example.com')
+
+      GenerateTestApplications.new.perform
+
+      expect(slack_request).not_to have_been_made
+    end
+  end
 end
