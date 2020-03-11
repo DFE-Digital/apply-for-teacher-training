@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_10_161555) do
+ActiveRecord::Schema.define(version: 2020_03_11_164517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -270,6 +270,15 @@ ActiveRecord::Schema.define(version: 2020_03_10_161555) do
     t.index ["code"], name: "index_providers_on_code", unique: true
   end
 
+  create_table "reference_tokens", force: :cascade do |t|
+    t.bigint "application_reference_id", null: false
+    t.string "hashed_token", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["application_reference_id"], name: "index_reference_tokens_on_application_reference_id"
+    t.index ["hashed_token"], name: "index_reference_tokens_on_hashed_token", unique: true
+  end
+
   create_table "references", force: :cascade do |t|
     t.string "email_address", null: false
     t.string "feedback"
@@ -354,6 +363,7 @@ ActiveRecord::Schema.define(version: 2020_03_10_161555) do
   add_foreign_key "emails", "application_forms", on_delete: :cascade
   add_foreign_key "provider_agreements", "provider_users"
   add_foreign_key "provider_agreements", "providers"
+  add_foreign_key "reference_tokens", "\"references\"", column: "application_reference_id", on_delete: :cascade
   add_foreign_key "references", "application_forms", on_delete: :cascade
   add_foreign_key "sites", "providers"
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade

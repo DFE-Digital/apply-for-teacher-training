@@ -13,6 +13,7 @@ class ApplicationReference < ApplicationRecord
   validates_presence_of :application_form_id
 
   belongs_to :application_form, touch: true
+  has_many :reference_tokens, dependent: :destroy
 
   audited associated_with: :application_form
 
