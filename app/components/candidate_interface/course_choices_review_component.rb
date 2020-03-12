@@ -18,7 +18,7 @@ module CandidateInterface
         rows = [
           course_row(course_choice),
           location_row(course_choice),
-          study_mode_options_row(course_choice.course),
+          study_mode_row(course_choice),
           type_row(course_choice.course),
           course_length_row(course_choice.course),
           start_date_row(course_choice.course),
@@ -71,13 +71,6 @@ module CandidateInterface
       {
         key: 'Location',
         value: "#{course_choice.offered_site.name}\n#{course_choice.offered_site.full_address}",
-      }
-    end
-
-    def study_mode_options_row(course)
-      {
-        key: 'Available options',
-        value: course.study_mode.humanize,
       }
     end
 
