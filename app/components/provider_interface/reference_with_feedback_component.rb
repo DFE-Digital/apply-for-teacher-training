@@ -39,7 +39,7 @@ module ProviderInterface
 
     def relationship_row
       {
-        key: 'Relationship to candidate',
+        key: 'Relationship between candidate and referee',
         value: relationship,
       }
     end
