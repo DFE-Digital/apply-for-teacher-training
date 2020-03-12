@@ -71,8 +71,6 @@ gem 'ruby-graphviz'
 
 gem 'kaminari'
 
-gem 'timecop'
-
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.3'
@@ -95,6 +93,7 @@ group :test do
   gem 'clockwork-test'
   gem 'deepsort'
   gem 'rspec-benchmark'
+  gem 'timecop'
 end
 
 group :development, :test do
