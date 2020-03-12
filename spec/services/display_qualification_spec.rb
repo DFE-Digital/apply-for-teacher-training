@@ -13,7 +13,7 @@ RSpec.describe DisplayQualification do
     let(:qualification) { 'pgce' }
 
     it 'returns "PGCE only (without QTS)"' do
-      expect(described_class.call(qualification: qualification)).to eq 'PGCE only (without QTS)'
+      expect(described_class.call(qualification: qualification)).to eq 'PGCE'
     end
   end
 
@@ -21,7 +21,7 @@ RSpec.describe DisplayQualification do
     let(:qualification) { 'pgde' }
 
     it 'returns "PGDE only (without QTS"' do
-      expect(described_class.call(qualification: qualification)).to eq 'PGDE only (without QTS)'
+      expect(described_class.call(qualification: qualification)).to eq 'PGDE'
     end
   end
 
