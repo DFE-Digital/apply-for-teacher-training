@@ -210,7 +210,7 @@ FactoryBot.define do
     name { Faker::Educator.subject }
     level { 'primary' }
     recruitment_cycle_year { 2020 }
-    qualification { 'pgce' }
+    description { 'PGCE with QTS full time' }
     course_length { 'OneYear' }
     financial_support { Faker::Lorem.paragraph_by_chars(number: 50) }
     start_date { Faker::Date.between(from: 1.month.from_now, to: 1.year.from_now) }

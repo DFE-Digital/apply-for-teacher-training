@@ -18,7 +18,8 @@ module CandidateInterface
         rows = [
           course_row(course_choice),
           location_row(course_choice),
-          type_row(course_choice),
+          study_mode_options_row(course_choice.course),
+          type_row(course_choice.course),
           financial_support_row(course_choice.course),
           course_length_row(course_choice.course),
           start_date_row(course_choice.course),
@@ -74,6 +75,13 @@ module CandidateInterface
       }
     end
 
+    def study_mode_options_row(course)
+      {
+        key: 'Available options',
+        value: course.study_mode.humanize,
+      }
+    end
+
     def study_mode_row(course_choice)
       {
         key: 'Full time or part time',
@@ -88,10 +96,10 @@ module CandidateInterface
       }
     end
 
-    def type_row(course_choice)
+    def type_row(course)
       {
         key: 'Type',
-        value: "#{DisplayQualification.call(qualification: course_choice.course.qualification)} #{course_choice.offered_option.study_mode.humanize.downcase}",
+        value: course.description,
       }
     end
 

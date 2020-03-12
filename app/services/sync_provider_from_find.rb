@@ -48,7 +48,7 @@ class SyncProviderFromFind
     course.name = find_course.name
     course.level = find_course.level
     course.study_mode = find_course.study_mode
-    course.qualification = find_course.qualification
+    course.description = find_course.description
     course.financial_support = find_course.financial_support
     course.start_date = find_course.start_date
     course.course_length = find_course.course_length
