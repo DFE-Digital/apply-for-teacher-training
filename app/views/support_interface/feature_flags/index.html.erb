@@ -18,9 +18,9 @@
 
         <td class="govuk-table__cell">
           <% if FeatureFlag.active?(feature_name) %>
-            <strong class='govuk-tag app-tag--turquoise'>Active</strong>
+            <strong class="govuk-tag govuk-tag--turquoise app-tag">Active</strong>
           <% else %>
-            <strong class='govuk-tag app-tag--grey'>Inactive</strong>
+            <strong class="govuk-tag govuk-tag--grey app-tag">Inactive</strong>
           <% end %>
         </td>
 

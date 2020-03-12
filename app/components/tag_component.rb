@@ -9,6 +9,6 @@ private
   attr_reader :text
 
   def css_classes(colour)
-    colour ? "app-tag--#{colour}" : ''
+    colour ? "govuk-tag--#{colour}" : ''
   end
 end
