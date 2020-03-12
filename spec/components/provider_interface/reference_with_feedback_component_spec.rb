@@ -39,7 +39,13 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent do
 
       it 'contains a correction as the row value when corrected' do
         reference.relationship_correction = 'This is not correct'
-        expect(component.rows.fourth[:value]).to eq('This is not correct')
+
+        expect(component.rows.fourth[:value]).to eq('No')
+
+        correction_row = component.rows.fifth
+
+        expect(correction_row[:key]).to eq('Relationship amended by referee')
+        expect(correction_row[:value]).to eq('This is not correct')
       end
     end
 
@@ -56,7 +62,14 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent do
 
       it 'contains safeguarding concerns where present' do
         reference.safeguarding_concerns = 'Is a big bad wolf, has posed as elderly grandparent.'
-        expect(component.rows.fifth[:value]).to eq(reference.safeguarding_concerns)
+        expect(component.rows.fifth[:value]).to eq('Yes')
+
+        safeguarding_concerns_row = component.rows[5]
+
+        expect(safeguarding_concerns_row[:key]).to eq(
+          'Reason(s) given by referee why this candidate should not work with children',
+        )
+        expect(safeguarding_concerns_row[:value]).to eq(reference.safeguarding_concerns)
       end
     end
 
