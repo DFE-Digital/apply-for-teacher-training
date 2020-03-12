@@ -6,6 +6,8 @@ module ProviderInterface
              :name,
              :email_address,
              :relationship,
+             :relationship_confirmation,
+             :relationship_correction,
              to: :reference
 
     def initialize(reference:)
@@ -17,6 +19,7 @@ module ProviderInterface
         name_row,
         email_address_row,
         relationship_row,
+        relationship_confirmation_or_correction_row,
         feedback_row,
       ].compact
     end
@@ -44,6 +47,15 @@ module ProviderInterface
       }
     end
 
+    def relationship_confirmation_or_correction_row
+#      return unless FeatureFlag.active?('referee_confirm_relationship_and_safeguarding')
+
+      {
+        key: 'Relationship confirmed by referee?',
+        value: confirmation_or_correction,
+      }
+    end
+
     def feedback_row
       if feedback
         {
@@ -51,6 +63,12 @@ module ProviderInterface
           value: feedback,
         }
       end
+    end
+
+    def confirmation_or_correction
+      return relationship_correction if relationship_correction.present?
+
+      'Yes'
     end
 
     attr_reader :reference
