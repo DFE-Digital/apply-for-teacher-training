@@ -96,4 +96,26 @@ RSpec.describe ApplicationReference, type: :model do
       expect(reference.audits.last.user).to eq candidate
     end
   end
+
+  describe '#refresh_feedback_token!' do
+    let(:reference) { create(:reference, hashed_sign_in_token: 'old_hashed_token') }
+
+    before do
+      devise_token_generator = instance_double(Devise::TokenGenerator)
+      allow(Devise).to receive(:token_generator).and_return(devise_token_generator)
+      allow(devise_token_generator).to receive(:generate).and_return(%w[new_unhashed_token new_hashed_token])
+    end
+
+    it 'updates the hashed sign in token using Devise' do
+      reference.refresh_feedback_token!
+
+      expect(reference.hashed_sign_in_token).to eq('new_hashed_token')
+    end
+
+    it 'creates a new reference token' do
+      reference.refresh_feedback_token!
+
+      expect(reference.reference_tokens.first.hashed_token).to eq('new_hashed_token')
+    end
+  end
 end
