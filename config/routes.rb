@@ -408,6 +408,8 @@ Rails.application.routes.draw do
     post '/providers/:provider_id' => 'providers#open_all_courses'
     post '/providers/:provider_id/enable_course_syncing' => 'providers#enable_course_syncing', as: :enable_provider_course_syncing
 
+    get '/course-options' => 'course_options#index', as: :course_options
+
     get '/courses/:course_id' => 'courses#show', as: :course
     post '/courses/:course_id' => 'courses#update'
 

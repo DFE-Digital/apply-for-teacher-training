@@ -1,0 +1,3 @@
+<% content_for :title, 'Course options without vacancies' %>
+
+<%= render(SupportInterface::CourseChoicesTableComponent.new(course_options: @course_options)) %>
