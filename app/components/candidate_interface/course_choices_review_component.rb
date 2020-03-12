@@ -20,7 +20,6 @@ module CandidateInterface
           location_row(course_choice),
           study_mode_options_row(course_choice.course),
           type_row(course_choice.course),
-          financial_support_row(course_choice.course),
           course_length_row(course_choice.course),
           start_date_row(course_choice.course),
         ]
@@ -86,13 +85,6 @@ module CandidateInterface
       {
         key: 'Full time or part time',
         value: course_choice.offered_option.study_mode.humanize,
-      }
-    end
-
-    def financial_support_row(course)
-      {
-        key: 'Financial support',
-        value: course.financial_support,
       }
     end
 
