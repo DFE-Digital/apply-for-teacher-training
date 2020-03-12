@@ -28,7 +28,7 @@ end
 
 desc 'Run brakeman'
 task :brakeman do
-  sh 'bundle exec brakeman'
+  sh 'bundle exec brakeman -c brakeman.yml'
 end
 
 desc 'Run rubocop'
