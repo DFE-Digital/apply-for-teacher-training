@@ -15,7 +15,6 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
         expect(result.css('.govuk-summary-list__key').text).to include('Course')
         expect(result.css('.govuk-summary-list__value').to_html).to include("#{course_choice.course.name} (#{course_choice.course.code})")
         expect(result.css('.govuk-summary-list__value').to_html).not_to include('1 year')
-        expect(result.css('.govuk-summary-list__value').to_html).not_to include(course_choice.course.financial_support)
         expect(result.css('.govuk-summary-list__value').to_html).not_to include(course_choice.course.start_date.strftime('%B %Y'))
       end
     end
@@ -31,7 +30,6 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
         expect(result.css('.govuk-summary-list__value').to_html).to include("#{course_choice.course.name} (#{course_choice.course.code})")
         expect(result.css('.govuk-summary-list__value').to_html).to include(course_choice.course.description)
         expect(result.css('.govuk-summary-list__value').to_html).to include('1 year')
-        expect(result.css('.govuk-summary-list__value').to_html).to include(course_choice.course.financial_support)
         expect(result.css('.govuk-summary-list__value').to_html).to include(course_choice.course.start_date.strftime('%B %Y'))
       end
     end
