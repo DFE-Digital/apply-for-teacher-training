@@ -14,16 +14,24 @@ module CandidateInterface
     end
 
     def course_choice_rows(course_choice)
-      rows = [
-        course_row(course_choice),
-        location_row(course_choice),
-        financial_support_row(course_choice.course),
-        qualification_row(course_choice.course),
-        course_length_row(course_choice.course),
-        start_date_row(course_choice.course),
-      ]
+      if FeatureFlag.active?('display_additional_course_details')
+        rows = [
+          course_row(course_choice),
+          location_row(course_choice),
+          type_row(course_choice),
+          financial_support_row(course_choice.course),
+          course_length_row(course_choice.course),
+          start_date_row(course_choice.course),
+        ]
+      else
+        rows = [
+          course_row(course_choice),
+          location_row(course_choice),
+        ]
+        rows.insert(1, study_mode_row(course_choice)) if FeatureFlag.active?('choose_study_mode')
+      end
 
-      rows.insert(1, study_mode_row(course_choice)) if FeatureFlag.active?('choose_study_mode')
+
 
       rows.tap do |r|
         r << status_row(course_choice) if @show_status
@@ -80,10 +88,10 @@ module CandidateInterface
       }
     end
 
-    def qualification_row(course)
+    def type_row(course_choice)
       {
-        key: 'Qualification',
-        value: DisplayQualification.call(qualification: course.qualification),
+        key: 'Type',
+        value: "#{DisplayQualification.call(qualification: course_choice.course.qualification)} #{course_choice.offered_option.study_mode.humanize.downcase}",
       }
     end
 

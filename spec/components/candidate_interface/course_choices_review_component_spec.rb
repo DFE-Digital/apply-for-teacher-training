@@ -6,17 +6,35 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       create_application_form_with_course_choices(statuses: %w[application_complete])
     end
 
-    it 'renders component with correct values for a course' do
-      course_choice = application_form.application_choices.first
-      result = render_inline(described_class.new(application_form: application_form))
+    context 'without display_additional_course_details active' do
+      it 'renders component with correct values for a course' do
+        course_choice = application_form.application_choices.first
+        result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.app-summary-card__title').text).to include(course_choice.provider.name)
-      expect(result.css('.govuk-summary-list__key').text).to include('Course')
-      expect(result.css('.govuk-summary-list__value').to_html).to include("#{course_choice.course.name} (#{course_choice.course.code})")
-      expect(result.css('.govuk-summary-list__value').to_html).to include('PGCE')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('1 year')
-      expect(result.css('.govuk-summary-list__value').to_html).to include(course_choice.course.financial_support)
-      expect(result.css('.govuk-summary-list__value').to_html).to include(course_choice.course.start_date.strftime('%B %Y'))
+        expect(result.css('.app-summary-card__title').text).to include(course_choice.provider.name)
+        expect(result.css('.govuk-summary-list__key').text).to include('Course')
+        expect(result.css('.govuk-summary-list__value').to_html).to include("#{course_choice.course.name} (#{course_choice.course.code})")
+        expect(result.css('.govuk-summary-list__value').to_html).not_to include('PGCE')
+        expect(result.css('.govuk-summary-list__value').to_html).not_to include('1 year')
+        expect(result.css('.govuk-summary-list__value').to_html).not_to include(course_choice.course.financial_support)
+        expect(result.css('.govuk-summary-list__value').to_html).not_to include(course_choice.course.start_date.strftime('%B %Y'))
+      end
+    end
+
+    context 'with display_additional_course_details active' do
+      it 'renders additional values for the course' do
+        FeatureFlag.activate('display_additional_course_details')
+        course_choice = application_form.application_choices.first
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.app-summary-card__title').text).to include(course_choice.provider.name)
+        expect(result.css('.govuk-summary-list__key').text).to include('Course')
+        expect(result.css('.govuk-summary-list__value').to_html).to include("#{course_choice.course.name} (#{course_choice.course.code})")
+        expect(result.css('.govuk-summary-list__value').to_html).to include('PGCE')
+        expect(result.css('.govuk-summary-list__value').to_html).to include('1 year')
+        expect(result.css('.govuk-summary-list__value').to_html).to include(course_choice.course.financial_support)
+        expect(result.css('.govuk-summary-list__value').to_html).to include(course_choice.course.start_date.strftime('%B %Y'))
+      end
     end
 
     it 'renders component with correct values for a location' do
