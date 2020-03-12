@@ -16,7 +16,7 @@ desc 'Sync some pilot-enabled providers and open all their courses'
 task sync_dev_providers_and_open_courses: :environment do
   puts 'Syncing data from Find...'
 
-  %w[1N1 2LR C58].each do |code|
+  %w[1N1 2LR C58 C85].each do |code|
     SyncProviderFromFind.call(provider_code: code, sync_courses: true)
   end
 
