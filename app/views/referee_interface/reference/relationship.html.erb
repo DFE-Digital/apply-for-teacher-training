@@ -1,4 +1,4 @@
-<% content_for :title, "Confirm how you know #{@application.full_name}" %>
+<% content_for :title, title_with_error_prefix("Confirm how you know #{@application.full_name}", @relationship_form.errors.any?) %>
 
 <%= form_with model: @relationship_form, url: referee_interface_confirm_relationship_path(token: @token_param), method: :patch do |f| %>
   <%= f.govuk_error_summary %>

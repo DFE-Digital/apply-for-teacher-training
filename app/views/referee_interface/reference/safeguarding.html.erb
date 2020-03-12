@@ -1,4 +1,4 @@
-<% content_for :title, "Do you know of any reason why #{@application.full_name} should not work with children?" %>
+<% content_for :title, title_with_error_prefix("Do you know of any reason why #{@application.full_name} should not work with children?", @safeguarding_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(referee_interface_reference_relationship_path(token: @token_param)) %>
 
 <%= form_with model: @safeguarding_form, url: referee_interface_confirm_safeguarding_path(token: @token_param), method: :patch do |f| %>
