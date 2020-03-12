@@ -29,7 +29,7 @@
           <div class="govuk-!-margin-top-6">
 
           <% @pick_course.available_courses.each_with_index do |course, i| %>
-            <%= f.govuk_radio_button :course_id, course.id, label: { text: "#{course.name} (#{course.code})" }, link_errors: i.zero? %>
+            <%= f.govuk_radio_button :course_id, course.id, label: { text: "#{course.name} (#{course.code})" }, hint_text: course.description, link_errors: i.zero? %>
           <% end %>
 
           </div>
