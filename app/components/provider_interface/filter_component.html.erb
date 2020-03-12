@@ -26,18 +26,18 @@
 
 
             <% available_filters.each do |filter_group| %>
-              <% unless filter_group[:checkbox_config].size <= 1 %>
+              <% unless filter_group[:input_config].size <= 1 %>
                 <div class="govuk-form-group">
                   <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                       <%= filter_group[:heading].capitalize %>
                     </legend>
 
-                    <% filter_group[:checkbox_config].each do |checkbox_config| %>
+                    <% filter_group[:input_config].each do |input_config| %>
                       <div class="govuk-checkboxes govuk-checkboxes--small">
-                        <%= render ProviderInterface::FilterCheckboxComponent.new(name: checkbox_config[:name],
-                                                                                  text: checkbox_config[:text],
-                                                                                  selected: checkbox_checked?(heading: filter_group[:heading], name: checkbox_config[:name]),
+                        <%= render ProviderInterface::FilterCheckboxComponent.new(name: input_config[:name],
+                                                                                  text: input_config[:text],
+                                                                                  selected: checkbox_checked?(heading: filter_group[:heading], name: input_config[:name]),
                                                                                   heading: filter_group[:heading].parameterize)
                          %>
                       </div>

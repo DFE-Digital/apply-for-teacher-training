@@ -35,7 +35,7 @@ RSpec.describe ProviderInterface::FilterComponent do
     [
       {
         heading: 'status',
-        checkbox_config: [
+        input_config: [
           {
             text: 'Accepted',
             name: 'pending_conditions',
@@ -72,7 +72,7 @@ RSpec.describe ProviderInterface::FilterComponent do
       },
       {
         heading: 'provider',
-        checkbox_config: [
+        input_config: [
           {
             text: 'Somerset SCITT consortium',
             name: '1',
@@ -91,7 +91,7 @@ RSpec.describe ProviderInterface::FilterComponent do
     [
       {
         heading: 'status',
-        checkbox_config: [
+        input_config: [
           {
             text: 'Accepted',
             name: 'pending_conditions',
@@ -104,7 +104,7 @@ RSpec.describe ProviderInterface::FilterComponent do
       },
       {
         heading: 'provider',
-        checkbox_config: [
+        input_config: [
           {
             text: 'Somerset SCITT consortium',
             name: '1',

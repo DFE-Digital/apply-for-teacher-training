@@ -20,8 +20,8 @@ module ProviderInterface
     def retrieve_tag_text(heading, lookup_val)
       @available_filters.each do |available_filter|
         if available_filter.key(heading)
-          available_filter[:checkbox_config].each do |checkbox_config|
-            return checkbox_config[:text].to_s if checkbox_config.key(lookup_val)
+          available_filter[:input_config].each do |input_config|
+            return input_config[:text].to_s if input_config.key(lookup_val)
           end
         end
       end

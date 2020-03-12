@@ -67,7 +67,7 @@ module ProviderInterface
       [
         {
           heading: 'status',
-          checkbox_config: [
+          input_config: [
             {
               name: 'pending-conditions',
               text: 'Accepted',
@@ -112,7 +112,7 @@ module ProviderInterface
  },
         {
           heading: 'provider',
-          checkbox_config: [
+          input_config: [
             {
               name: 'somerset-scitt-consortium',
               text: 'Somerset SCITT consortium',

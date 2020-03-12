@@ -55,11 +55,24 @@ module ProviderInterface
       status_filters << provider_filters_builder
     end
 
+    def search_filters
+      [
+        {
+          heading: 'candidate\'s name',
+          input_config: [{
+            type: 'search',
+            text: '',
+            name: 'candidates_name',
+          }]
+        }
+      ]
+    end
+
     def status_filters
       [
         {
           heading: 'status',
-          checkbox_config: [
+          input_config: [
             {
               text: 'Accepted',
               name: 'pending_conditions',
@@ -98,7 +111,7 @@ module ProviderInterface
     end
 
     def provider_filters_builder
-      checkbox_config = @application_choices.map do |choice|
+      input_config = @application_choices.map do |choice|
         provider = choice.provider
 
         {
@@ -109,7 +122,7 @@ module ProviderInterface
 
       provider_filters = {
         heading: 'provider',
-        checkbox_config: checkbox_config.uniq!,
+        input_config: input_config.uniq!,
       }
 
       provider_filters

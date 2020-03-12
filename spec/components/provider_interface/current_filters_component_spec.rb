@@ -35,7 +35,7 @@ RSpec.describe ProviderInterface::CurrentFiltersComponent do
     [
       {
         heading: 'status',
-        checkbox_config: [
+        input_config: [
           {
             name: 'pending-conditions',
             text: 'Accepted',
@@ -80,7 +80,7 @@ RSpec.describe ProviderInterface::CurrentFiltersComponent do
       },
       {
         heading: 'provider',
-        checkbox_config: [
+        input_config: [
           {
             name: 'somerset-scitt-consortium',
             text: 'Somerset SCITT consortium',
