@@ -52,7 +52,7 @@ module ProviderInterface
     end
 
     def calculate_available_filters
-      status_filters << provider_filters_builder
+      search_filters << status_filters << provider_filters_builder
     end
 
     def search_filters
@@ -69,45 +69,51 @@ module ProviderInterface
     end
 
     def status_filters
-      [
         {
           heading: 'status',
           input_config: [
             {
+              type: 'checkbox',
               text: 'Accepted',
               name: 'pending_conditions',
             },
             {
+              type: 'checkbox',
               text: 'Conditions met',
               name: 'recruited',
             },
             {
+              type: 'checkbox',
               text: 'Declined',
               name: 'declined',
             },
             {
+              type: 'checkbox',
               text: 'New',
               name: 'awaiting_provider_decision',
             },
             {
+              type: 'checkbox',
               text: 'Offered',
               name: 'offer',
             },
             {
+              type: 'checkbox',
               text: 'Rejected',
               name: 'rejected',
             },
             {
+              type: 'checkbox',
               text: 'Application withdrawn',
               name: 'withdrawn',
             },
             {
+              type: 'checkbox',
               text: 'Withdrawn by us',
               name: 'offer_withdrawn',
             },
           ],
-        },
-      ]
+        }
     end
 
     def provider_filters_builder
@@ -115,6 +121,7 @@ module ProviderInterface
         provider = choice.provider
 
         {
+          type: 'checkbox',
           text: provider.name,
           name: provider.id.to_s,
         }

@@ -37,34 +37,42 @@ RSpec.describe ProviderInterface::FilterComponent do
         heading: 'status',
         input_config: [
           {
+            type: 'checkbox',
             text: 'Accepted',
             name: 'pending_conditions',
           },
           {
+            type: 'checkbox',
             text: 'Conditions met',
             name: 'recruited',
           },
           {
+            type: 'checkbox',
             text: 'Declined',
             name: 'declined',
           },
           {
+            type: 'checkbox',
             text: 'New',
             name: 'awaiting_provider_decision',
           },
           {
+            type: 'checkbox',
             text: 'Offered',
             name: 'offer',
           },
           {
+            type: 'checkbox',
             text: 'Rejected',
             name: 'rejected',
           },
           {
+            type: 'checkbox',
             text: 'Application withdrawn',
             name: 'withdrawn',
           },
           {
+            type: 'checkbox',
             text: 'Withdrawn by us',
             name: 'offer_withdrawn',
           },
@@ -74,10 +82,12 @@ RSpec.describe ProviderInterface::FilterComponent do
         heading: 'provider',
         input_config: [
           {
+            type: 'checkbox',
             text: 'Somerset SCITT consortium',
             name: '1',
           },
           {
+            type: 'checkbox',
             text: 'The Beach Teaching School',
             name: '2',
           },
@@ -93,10 +103,12 @@ RSpec.describe ProviderInterface::FilterComponent do
         heading: 'status',
         input_config: [
           {
+            type: 'checkbox',
             text: 'Accepted',
             name: 'pending_conditions',
           },
           {
+            type: 'checkbox',
             text: 'Withdrawn by us',
             name: 'offer_withdrawn',
           },
@@ -106,6 +118,7 @@ RSpec.describe ProviderInterface::FilterComponent do
         heading: 'provider',
         input_config: [
           {
+            type: 'checkbox',
             text: 'Somerset SCITT consortium',
             name: '1',
           },

@@ -69,41 +69,49 @@ module ProviderInterface
           heading: 'status',
           input_config: [
             {
+              type: 'checkbox',
               name: 'pending-conditions',
               text: 'Accepted',
               value: 'pending_conditions',
             },
             {
+              type: 'checkbox',
               name: 'recruited',
               text: 'Conditions met',
               value: 'recruited',
             },
             {
+              type: 'checkbox',
               name: 'declined',
               text: 'Declined',
               value: 'declined',
             },
             {
+              type: 'checkbox',
               name: 'awaiting-provider-decision',
               text: 'New',
               value: 'awaiting_provider_decision',
             },
             {
+              type: 'checkbox',
               name: 'offer',
               text: 'Offered',
               value: 'offer',
             },
             {
+              type: 'checkbox',
               name: 'rejected',
               text: 'Rejected',
               value: 'rejected',
             },
             {
+              type: 'checkbox',
               name: 'withdrawn',
               text: 'Application withdrawn',
               value: 'withdrawn',
             },
             {
+              type: 'checkbox',
               name: 'offer-withdrawn',
               text: 'Withdrawn by us',
               value: 'offer_withdrawn',
@@ -114,11 +122,13 @@ module ProviderInterface
           heading: 'provider',
           input_config: [
             {
+              type: 'checkbox',
               name: 'somerset-scitt-consortium',
               text: 'Somerset SCITT consortium',
               value: '1',
             },
             {
+              type: 'checkbox',
               name: 'the-beach-teaching-school',
               text: 'The Beach Teaching School',
               value: '2',

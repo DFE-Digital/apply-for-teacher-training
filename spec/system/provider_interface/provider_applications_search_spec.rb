@@ -15,37 +15,43 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     then_i_expect_to_see_the_hide_filter_button
     then_i_expect_to_see_the_filter_dialogue
+    then_i_expect_to_see_the_search_input
 
-    when_i_search_for_candidate_name
-    then_only_applications_of_that_name_should_be_visible
+    #
+    # when_i_search_for_candidate_name
+    # then_only_applications_of_that_name_should_be_visible
+    #
+    # when_i_search_for_candidate_name_with_odd_casing
+    # then_only_applications_of_that_name_should_be_visible
+    #
+    # when_i_filter_for_rejected_and_offered_applications
+    # then_i_search_for_candidate_name
+    # then_only_rejected_and_offered_applications_of_that_name_should_be_visible
+    #
+    #
+    # when_i_clear_the_filters
+    # then_i_expect_all_applications_to_be_visible
+    #
+    # when_i_search_for_a_candidate_that_does_not_exist
+    # then_i_should_see_the_no_filter_results_error_message
+    #
+    # when_i_clear_the_filters
+    # then_i_expect_all_applications_to_be_visible
+    #
+    # when_i_filter_by_provider
+    # then_i_search_for_candidate_name
+    # then_only_applications_of_that_name_and_status_should_be_visible
+    # then_the_relevant_tag_headings_shpuld_be_visible
+    # and_the_relevant_tags_should_be_visible
+    #
+    # and_provider_application_filters_are_deactivated
+    #
+    # when_i_visit_the_provider_page
+    # then_i_do_not_expect_to_see_the_filter_dialogue
+  end
 
-    when_i_search_for_candidate_name_with_odd_casing
-    then_only_applications_of_that_name_should_be_visible
-
-    when_i_filter_for_rejected_and_offered_applications
-    then_i_search_for_candidate_name
-    then_only_rejected_and_offered_applications_of_that_name_should_be_visible
-
-
-    when_i_clear_the_filters
-    then_i_expect_all_applications_to_be_visible
-
-    when_i_search_for_a_candidate_that_does_not_exist
-    then_i_should_see_the_no_filter_results_error_message
-
-    when_i_clear_the_filters
-    then_i_expect_all_applications_to_be_visible
-
-    when_i_filter_by_provider
-    then_i_search_for_candidate_name
-    then_only_applications_of_that_name_and_status_should_be_visible
-    then_the_relevant_tag_headings_shpuld_be_visible
-    and_the_relevant_tags_should_be_visible
-
-    and_provider_application_filters_are_deactivated
-
-    when_i_visit_the_provider_page
-    then_i_do_not_expect_to_see_the_filter_dialogue
+  def then_i_expect_to_see_the_search_input
+    expect(page).to have_content('Candidate\'s name')
   end
 
   def when_i_visit_the_provider_page
