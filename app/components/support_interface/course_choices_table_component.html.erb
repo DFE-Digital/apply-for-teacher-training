@@ -1,0 +1,27 @@
+<table class='govuk-table'>
+  <thead class='govuk-table__head'>
+    <tr class='govuk-table__row'>
+      <th scope='col' class='govuk-table__header'>ID</th>
+      <th scope='col' class='govuk-table__header'>Course</th>
+      <th scope='col' class='govuk-table__header'>Vacancy status</th>
+    </tr>
+  </thead>
+
+  <tbody class='govuk-table__body'>
+    <% course_rows.each do |course_option| %>
+      <tr class='govuk-table__row'>
+        <td class='govuk-table__cell'><%= course_option.id %></td>
+        <td class='govuk-table__cell'><%= govuk_link_to(course_option.course.name_and_code, support_interface_course_path(course_option.course)) %> - <%= course_option.study_mode.humanize %> at <%= course_option.site.name %></td>
+        <td class='govuk-table__cell'>
+          <% if course_option.vacancies? %>
+            <%= render TagComponent.new(text: 'Vacancies', type: 'green') %>
+          <% elsif course_option.no_vacancies? %>
+            <%= render TagComponent.new(text: 'No vacancies', type: 'red') %>
+          <% else %>
+            <%= render TagComponent.new(text: '(unknown)', type: 'grey') %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -38,6 +38,9 @@
   <%= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: @provider.accredited_courses)) %>
 <% end %>
 
+<h2 class='govuk-heading-l'>Course choices & vacancies</h2>
+<%= render(SupportInterface::CourseChoicesTableComponent.new(course_options: @course_options)) %>
+
 <h2 class='govuk-heading-l'>Sites (<%= @provider.sites.size %>)</h2>
 
 <table class='govuk-table'>

@@ -11,6 +11,7 @@ module SupportInterface
     def show
       @provider = Provider.includes(:courses, :sites).find(params[:provider_id])
       @provider_agreement = ProviderAgreement.data_sharing_agreements.for_provider(@provider).last
+      @course_options = @provider.course_options.includes(:course, :site)
     end
 
     def open_all_courses
