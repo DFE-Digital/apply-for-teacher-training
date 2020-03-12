@@ -6,6 +6,10 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent do
 
     subject(:component) { described_class.new(reference: reference) }
 
+    before { FeatureFlag.activate('referee_confirm_relationship_and_safeguarding') }
+
+    after { FeatureFlag.deactivate('referee_confirm_relationship_and_safeguarding') }
+
     it 'contains a name row' do
       row = component.rows.first
       expect(row[:key]).to eq('Name')
@@ -24,17 +28,36 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent do
       expect(row[:value]).to eq(reference.relationship)
     end
 
-    it 'contains a confirmation row' do
-      expect(component.rows.fourth[:key]).to eq('Relationship confirmed by referee?')
+    context 'referee relationship confirmation' do
+      it 'contains a confirmation row' do
+        expect(component.rows.fourth[:key]).to eq('Relationship confirmed by referee?')
+      end
+
+      it 'affirms the referee relationship when uncorrected' do
+        expect(component.rows.fourth[:value]).to eq('Yes')
+      end
+
+      it 'contains a correction as the row value when corrected' do
+        reference.relationship_correction = 'This is not correct'
+        expect(component.rows.fourth[:value]).to eq('This is not correct')
+      end
     end
 
-    it 'affirms the referee relationship when uncorrected' do
-      expect(component.rows.fourth[:value]).to eq('Yes')
-    end
+    context 'safeguarding' do
+      it 'contains a safeguarding row' do
+        expect(component.rows.fifth[:key]).to eq(
+          'Does the referee know of any reason why this candidate should not work with children?',
+        )
+      end
 
-    it 'contains a correction as the row value when corrected' do
-      reference.relationship_correction = 'This is not correct'
-      expect(component.rows.fourth[:value]).to eq('This is not correct')
+      it 'affirms safeguarding when no safeguarding concerns are present' do
+        expect(component.rows.fifth[:value]).to eq('No')
+      end
+
+      it 'contains safeguarding concerns where present' do
+        reference.safeguarding_concerns = 'Is a big bad wolf, has posed as elderly grandparent.'
+        expect(component.rows.fifth[:value]).to eq(reference.safeguarding_concerns)
+      end
     end
 
     it 'contains a feedback row' do

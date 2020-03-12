@@ -8,6 +8,7 @@ module ProviderInterface
              :relationship,
              :relationship_confirmation,
              :relationship_correction,
+             :safeguarding_concerns,
              to: :reference
 
     def initialize(reference:)
@@ -19,7 +20,8 @@ module ProviderInterface
         name_row,
         email_address_row,
         relationship_row,
-        relationship_confirmation_or_correction_row,
+        relationship_confirmation_row,
+        safeguarding_row,
         feedback_row,
       ].compact
     end
@@ -47,12 +49,21 @@ module ProviderInterface
       }
     end
 
-    def relationship_confirmation_or_correction_row
-#      return unless FeatureFlag.active?('referee_confirm_relationship_and_safeguarding')
+    def relationship_confirmation_row
+      return unless FeatureFlag.active?('referee_confirm_relationship_and_safeguarding')
 
       {
         key: 'Relationship confirmed by referee?',
-        value: confirmation_or_correction,
+        value: relationship_correction || 'Yes',
+      }
+    end
+
+    def safeguarding_row
+      return unless FeatureFlag.active?('referee_confirm_relationship_and_safeguarding')
+
+      {
+        key: 'Does the referee know of any reason why this candidate should not work with children?',
+        value: safeguarding_concerns || 'No',
       }
     end
 
@@ -63,12 +74,6 @@ module ProviderInterface
           value: feedback,
         }
       end
-    end
-
-    def confirmation_or_correction
-      return relationship_correction if relationship_correction.present?
-
-      'Yes'
     end
 
     attr_reader :reference
