@@ -24,7 +24,11 @@ module RefereeInterface
       @relationship_form.candidate = reference.application_form.full_name
 
       if @relationship_form.save(reference)
-        redirect_to referee_interface_safeguarding_path(token: @token_param)
+        if reference.safeguarding_concerns.nil?
+          redirect_to referee_interface_safeguarding_path(token: @token_param)
+        else
+          redirect_to referee_interface_reference_review_path(token: @token_param)
+        end
       else
         render :relationship
       end
@@ -41,7 +45,11 @@ module RefereeInterface
       @safeguarding_form.candidate = reference.application_form.full_name
 
       if @safeguarding_form.save(reference)
-        redirect_to referee_interface_reference_feedback_path(token: @token_param)
+        if reference.feedback.nil?
+          redirect_to referee_interface_reference_feedback_path(token: @token_param)
+        else
+          redirect_to referee_interface_reference_review_path(token: @token_param)
+        end
       else
         render :safeguarding
       end
@@ -49,7 +57,7 @@ module RefereeInterface
 
     def feedback
       @application = reference.application_form
-      @reference_form = ReferenceFeedbackForm.new(reference: reference)
+      @reference_form = ReferenceFeedbackForm.new(reference: reference, feedback: reference.feedback)
     end
 
     def submit_feedback
@@ -61,12 +69,29 @@ module RefereeInterface
       )
 
       if @reference_form.save
-        SendReferenceConfirmationEmail.call(application_form: @application, reference: reference)
+        if FeatureFlag.active?('referee_confirm_relationship_and_safeguarding')
+          redirect_to referee_interface_reference_review_path(token: @token_param)
+        else
+          SendReferenceConfirmationEmail.call(application_form: @application, reference: reference)
 
-        redirect_to referee_interface_confirmation_path(token: @token_param)
+          redirect_to referee_interface_confirmation_path(token: @token_param)
+        end
       else
         render :feedback
       end
+    end
+
+    def review
+      @reference = reference
+    end
+
+    def submit_reference
+      @application = reference.application_form
+
+      SendReferenceConfirmationEmail.call(application_form: @application, reference: reference)
+      ReceiveReference.new(reference: reference, feedback: reference.feedback).save!
+
+      redirect_to referee_interface_confirmation_path(token: @token_param)
     end
 
     def submit_questionnaire
