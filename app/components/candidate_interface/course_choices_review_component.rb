@@ -14,12 +14,25 @@ module CandidateInterface
     end
 
     def course_choice_rows(course_choice)
-      rows = [
-        course_row(course_choice),
-        location_row(course_choice),
-      ]
+      if FeatureFlag.active?('display_additional_course_details')
+        rows = [
+          course_row(course_choice),
+          location_row(course_choice),
+          study_mode_options_row(course_choice.course),
+          type_row(course_choice.course),
+          financial_support_row(course_choice.course),
+          course_length_row(course_choice.course),
+          start_date_row(course_choice.course),
+        ]
+      else
+        rows = [
+          course_row(course_choice),
+          location_row(course_choice),
+        ]
+        rows.insert(1, study_mode_row(course_choice)) if FeatureFlag.active?('choose_study_mode')
+      end
 
-      rows.insert(1, study_mode_row(course_choice)) if FeatureFlag.active?('choose_study_mode')
+
 
       rows.tap do |r|
         r << status_row(course_choice) if @show_status
@@ -62,10 +75,45 @@ module CandidateInterface
       }
     end
 
+    def study_mode_options_row(course)
+      {
+        key: 'Available options',
+        value: course.study_mode.humanize,
+      }
+    end
+
     def study_mode_row(course_choice)
       {
         key: 'Full time or part time',
         value: course_choice.offered_option.study_mode.humanize,
+      }
+    end
+
+    def financial_support_row(course)
+      {
+        key: 'Financial support',
+        value: course.financial_support,
+      }
+    end
+
+    def type_row(course)
+      {
+        key: 'Type',
+        value: course.description,
+      }
+    end
+
+    def course_length_row(course)
+      {
+        key: 'Course length',
+        value: DisplayCourseLength.call(course_length: course.course_length),
+      }
+    end
+
+    def start_date_row(course)
+      {
+        key: 'Date course starts',
+        value: course.start_date.strftime('%B %Y'),
       }
     end
 
