@@ -6,6 +6,9 @@ module FindAPIHelper
     site_code: 'X',
     findable: true,
     study_mode: 'full_time',
+    description: 'PGCE with QTS full time',
+    start_date: Time.zone.local(2020, 10, 31),
+    course_length: 'OneYear',
     region_code: 'north_west',
     site_address_line2: 'C/O The Bruntcliffe Academy'
   )
@@ -57,6 +60,9 @@ module FindAPIHelper
                 'name': 'Primary',
                 'level': 'primary',
                 'study_mode': study_mode,
+                'description': description,
+                'start_date': start_date,
+                'course_length': course_length,
                 'recruitment_cycle_year': '2020',
                 'findable?': findable,
                 'accrediting_provider': nil,
@@ -107,6 +113,9 @@ module FindAPIHelper
     accrediting_provider_name: 'Dummy Accrediting Provider',
     findable: true,
     study_mode: 'full_time',
+    description: 'PGCE with QTS full time',
+    start_date: Time.zone.local(2020, 10, 31),
+    course_length: 'OneYear',
     region_code: 'north_west'
   )
     stub_find_api_provider(provider_code)
@@ -157,6 +166,9 @@ module FindAPIHelper
                 'name': 'Primary',
                 'level': 'primary',
                 'study_mode': study_mode,
+                'description': description,
+                'start_date': start_date,
+                'course_length': course_length,
                 'recruitment_cycle_year': '2020',
                 'findable?': findable,
                 'accrediting_provider': {
@@ -207,6 +219,9 @@ module FindAPIHelper
     course_code: 'X130',
     findable: true,
     study_mode: 'full_time_or_part_time',
+    description: 'PGCE with QTS full time',
+    start_date: Time.zone.local(2020, 10, 31),
+    course_length: 'OneYear',
     region_code: 'north_west'
   )
     response_hash = {
@@ -270,6 +285,9 @@ module FindAPIHelper
               'name': 'Primary',
               'level': 'primary',
               'study_mode': study_mode,
+              'description': description,
+              'start_date': start_date,
+              'course_length': course_length,
               'recruitment_cycle_year': '2020',
               'findable?': findable,
               'accrediting_provider': nil,
