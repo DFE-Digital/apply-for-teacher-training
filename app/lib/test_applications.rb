@@ -98,7 +98,6 @@ module TestApplications
   end
 
   def self.put_application_choice_in_state(choice, state)
-    # This is only supposed to happen after 7 days, but SendApplicationToProvider
     fast_forward(7..10)
     SendApplicationToProvider.new(application_choice: choice).call
     choice.update(edit_by: Time.zone.now)
