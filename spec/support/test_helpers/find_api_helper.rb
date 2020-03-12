@@ -8,7 +8,6 @@ module FindAPIHelper
     study_mode: 'full_time',
     description: 'PGCE with QTS full time',
     start_date: Time.zone.local(2020, 10, 31),
-    applications_open_from: Time.zone.local(2019, 9, 1),
     course_length: 'OneYear',
     region_code: 'north_west',
     site_address_line2: 'C/O The Bruntcliffe Academy'
@@ -63,7 +62,6 @@ module FindAPIHelper
                 'study_mode': study_mode,
                 'description': description,
                 'start_date': start_date,
-                'applications_open_from': applications_open_from,
                 'course_length': course_length,
                 'recruitment_cycle_year': '2020',
                 'findable?': findable,
@@ -117,7 +115,6 @@ module FindAPIHelper
     study_mode: 'full_time',
     description: 'PGCE with QTS full time',
     start_date: Time.zone.local(2020, 10, 31),
-    applications_open_from: Time.zone.local(2019, 9, 1),
     course_length: 'OneYear',
     region_code: 'north_west'
   )
@@ -171,7 +168,6 @@ module FindAPIHelper
                 'study_mode': study_mode,
                 'description': description,
                 'start_date': start_date,
-                'applications_open_from': applications_open_from,
                 'course_length': course_length,
                 'recruitment_cycle_year': '2020',
                 'findable?': findable,
@@ -225,7 +221,6 @@ module FindAPIHelper
     study_mode: 'full_time_or_part_time',
     description: 'PGCE with QTS full time',
     start_date: Time.zone.local(2020, 10, 31),
-    applications_open_from: Time.zone.local(2019, 9, 1),
     course_length: 'OneYear',
     region_code: 'north_west'
   )
@@ -292,7 +287,6 @@ module FindAPIHelper
               'study_mode': study_mode,
               'description': description,
               'start_date': start_date,
-              'applications_open_from': applications_open_from,
               'course_length': course_length,
               'recruitment_cycle_year': '2020',
               'findable?': findable,
