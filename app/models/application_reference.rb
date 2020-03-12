@@ -40,7 +40,12 @@ class ApplicationReference < ApplicationRecord
 
   def refresh_feedback_token!
     unhashed_token, hashed_token = Devise.token_generator.generate(ApplicationReference, :hashed_sign_in_token)
-    update!(hashed_sign_in_token: hashed_token)
+
+    ActiveRecord::Base.transaction do
+      update!(hashed_sign_in_token: hashed_token)
+      ReferenceToken.create!(application_reference: self, hashed_token: hashed_token)
+    end
+
     unhashed_token
   end
 
