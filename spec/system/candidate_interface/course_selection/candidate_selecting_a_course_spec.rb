@@ -12,6 +12,7 @@ RSpec.feature 'Selecting a course' do
     and_i_click_on_add_course
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
+    then_i_should_see_a_corse_and_its_description
 
     when_submit_without_choosing_a_course
     then_i_should_see_an_error
@@ -122,6 +123,11 @@ RSpec.feature 'Selecting a course' do
     select 'Gorse SCITT (1N1)'
     click_button 'Continue'
   end
+
+  def then_i_should_see_a_corse_and_its_description
+    expect(page).to have_content(@multi_site_course.name_and_code)
+    expect(page).to have_content(@multi_site_course.description)
+  end 
 
   def when_submit_without_choosing_a_course
     click_button 'Continue'
