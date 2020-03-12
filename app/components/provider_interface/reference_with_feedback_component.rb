@@ -6,6 +6,9 @@ module ProviderInterface
              :name,
              :email_address,
              :relationship,
+             :relationship_confirmation,
+             :relationship_correction,
+             :safeguarding_concerns,
              to: :reference
 
     def initialize(reference:)
@@ -17,6 +20,10 @@ module ProviderInterface
         name_row,
         email_address_row,
         relationship_row,
+        relationship_confirmation_row,
+        relationship_correction_row,
+        safeguarding_row,
+        safeguarding_concerns_row,
         feedback_row,
       ].compact
     end
@@ -39,8 +46,44 @@ module ProviderInterface
 
     def relationship_row
       {
-        key: 'Relationship to candidate',
+        key: 'Relationship between candidate and referee',
         value: relationship,
+      }
+    end
+
+    def relationship_confirmation_row
+      return unless referee_relationship_and_safeguarding_feature_enabled?
+
+      {
+        key: 'Relationship confirmed by referee?',
+        value: relationship_correction.present? ? 'No' : 'Yes',
+      }
+    end
+
+    def relationship_correction_row
+      return unless referee_relationship_and_safeguarding_feature_enabled? && relationship_correction.present?
+
+      {
+        key: 'Relationship amended by referee',
+        value: relationship_correction,
+      }
+    end
+
+    def safeguarding_row
+      return unless referee_relationship_and_safeguarding_feature_enabled?
+
+      {
+        key: 'Does the referee know of any reason why this candidate should not work with children?',
+        value: safeguarding_concerns.present? ? 'Yes' : 'No',
+      }
+    end
+
+    def safeguarding_concerns_row
+      return unless referee_relationship_and_safeguarding_feature_enabled? && safeguarding_concerns.present?
+
+      {
+        key: 'Reason(s) given by referee why this candidate should not work with children',
+        value: safeguarding_concerns,
       }
     end
 
@@ -51,6 +94,10 @@ module ProviderInterface
           value: feedback,
         }
       end
+    end
+
+    def referee_relationship_and_safeguarding_feature_enabled?
+      FeatureFlag.active?('referee_confirm_relationship_and_safeguarding')
     end
 
     attr_reader :reference

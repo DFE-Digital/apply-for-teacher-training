@@ -64,6 +64,9 @@ module TestApplications
         return if states.include? :awaiting_references
 
         application_form.application_references.each do |reference|
+          reference.relationship_correction = [nil, Faker::Lorem.sentence].sample
+          reference.safeguarding_concerns = [nil, Faker::Lorem.sentence].sample
+
           ReceiveReference.new(
             reference: reference,
             feedback: 'You are awesome',
