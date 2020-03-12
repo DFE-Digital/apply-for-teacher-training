@@ -192,7 +192,7 @@ FactoryBot.define do
     course
     site { association(:site, provider: course.provider) }
 
-    vacancy_status { 'both_full_time_and_part_time_vacancies' }
+    vacancy_status { 'vacancies' }
 
     trait :full_time do
       study_mode { :full_time }

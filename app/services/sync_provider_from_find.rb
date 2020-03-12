@@ -72,7 +72,7 @@ class SyncProviderFromFind
       site.postcode = find_site.postcode&.strip
       site.save!
 
-      site_status = site_statuses.find { |ss| ss.site.id == find_site.id }
+      find_site_status = site_statuses.find { |ss| ss.site.id == find_site.id }
 
       study_modes = \
         if course.both_study_modes_available?
@@ -88,12 +88,33 @@ class SyncProviderFromFind
           study_mode: mode,
         )
 
-        course_option.update!(vacancy_status: site_status.vac_status)
+        vacancy_status = derive_vacancy_status(
+          status_description: find_site_status.vac_status,
+          study_mode: course_option.study_mode,
+        )
+        course_option.update(vacancy_status: vacancy_status)
       end
     end
 
     course
   end
+
+  def self.derive_vacancy_status(status_description:, study_mode:)
+    case status_description
+    when 'no_vacancies'
+      :no_vacancies
+    when 'both_full_time_and_part_time_vacancies'
+      :vacancies
+    when 'full_time_vacancies'
+      study_mode == 'full_time' ? :vacancies : :no_vacancies
+    when 'part_time_vacancies'
+      study_mode == 'part_time' ? :vacancies : :no_vacancies
+    else
+      raise InvalidFindVacancyStatusError, status_description
+    end
+  end
+
+  class InvalidFindVacancyStatusError < StandardError; end
 
   private_class_method :create_or_update_provider, :create_or_update_course
 end
