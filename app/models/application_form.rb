@@ -14,6 +14,7 @@ class ApplicationForm < ApplicationRecord
   has_many :application_work_history_breaks
 
   MINIMUM_COMPLETE_REFERENCES = 2
+  DECISION_PENDING_STATUSES = %w[awaiting_references application_complete awaiting_provider_decision].freeze
 
   enum phase: {
     apply_1: 'apply_1',
@@ -74,7 +75,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def all_provider_decisions_made?
-    application_choices.any? && application_choices.where(status: %w[awaiting_references application_complete awaiting_provider_decision]).empty?
+    application_choices.any? && (application_choices.map(&:status) & DECISION_PENDING_STATUSES).empty?
   end
 
   def all_choices_withdrawn?
