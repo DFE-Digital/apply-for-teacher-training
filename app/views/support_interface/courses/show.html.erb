@@ -1,5 +1,6 @@
 <% content_for :context, @course.provider.name_and_code %>
 <% content_for :title, @course.name_and_code %>
+<% content_for :before_content, govuk_back_link_to(support_interface_provider_path(@course.provider), 'Back to provider') %>
 
 <h2 class='govuk-heading-m'>Course info</h2>
 
