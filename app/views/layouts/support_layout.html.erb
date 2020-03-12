@@ -1,4 +1,8 @@
 <% content_for :content do %>
+  <% if yield(:context).present? %>
+    <span class="govuk-caption-xl"><%= yield :context %></span>
+  <% end %>
+
   <% if yield(:title).present? %>
     <h1 class='govuk-heading-xl'><%= yield :title %></h1>
   <% end %>
