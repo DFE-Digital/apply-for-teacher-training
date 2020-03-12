@@ -9,30 +9,30 @@ class MakeAnOffer
   MAX_CONDITION_LENGTH = 255
   STANDARD_CONDITIONS = ['Fitness to Teach check', 'Disclosure and Barring Service (DBS) check'].freeze
 
-  validate :validate_course_data
+  # validate :validate_course_data
   validate :validate_conditions_max_length
   validate :validate_further_conditions
 
   def initialize(
     actor:,
     application_choice:,
+    course_option_id: nil,
     offer_conditions: nil,
     standard_conditions: STANDARD_CONDITIONS,
-    further_conditions: {},
-    course_data: nil
+    further_conditions: {}
   )
     @auth = ProviderAuthorisation.new(actor: actor)
     @application_choice = application_choice
+    @course_option_id = course_option_id
     @offer_conditions = offer_conditions
     @standard_conditions = standard_conditions
-    @course_data = course_data
     further_conditions.each { |key, value| self.send("#{key}=", value) }
   end
 
   def save
     return unless valid?
 
-    @auth.assert_can_make_offer! application_choice: application_choice
+    @auth.assert_can_make_offer!(application_choice: application_choice, course_option_id: @course_option_id)
 
     ApplicationStateChange.new(application_choice).make_offer!
     application_choice.offered_course_option = offered_course_option
@@ -64,9 +64,9 @@ private
   attr_reader :application_choice
 
   def offered_course_option
-    return nil if @course_data.nil?
+    return nil unless @course_option_id && @course_option_id != application_choice.course_option.id
 
-    @course_option
+    CourseOption.find @course_option_id
   end
 
   def further_conditions

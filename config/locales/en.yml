@@ -148,6 +148,10 @@ en:
           attributes:
             conditions_met:
               blank: Please specify if the candidate has met the conditions of the offer
+        change_offer:
+          attributes:
+            course_option_id:
+              no_change: You are changing the offer to the same course option
         withdraw_offer:
           attributes:
             offer_withdrawal_reason:
