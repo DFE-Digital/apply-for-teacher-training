@@ -299,6 +299,9 @@ Rails.application.routes.draw do
     get '/confirmation' => 'reference#confirmation', as: :confirmation
     patch '/confirmation' => 'reference#submit_feedback', as: :submit_feedback
 
+    get '/review' => 'reference#review', as: :reference_review
+    patch '/submit' => 'reference#submit_reference', as: :submit_reference
+
     patch '/questionnaire' => 'reference#submit_questionnaire', as: :submit_questionnaire
     get '/finish' => 'reference#finish', as: :finish
 

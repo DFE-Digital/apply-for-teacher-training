@@ -5,6 +5,7 @@ module RefereeInterface
 
     validate :presence_of_any_safeguarding_concerns
     validate :presence_of_safeguarding_concerns
+    validates :safeguarding_concerns, word_count: { maximum: 150 }
 
     def self.build_from_reference(reference:)
       any_safeguarding_concerns = reference.safeguarding_concerns.blank? ? 'no' : 'yes' unless reference.safeguarding_concerns.nil?

@@ -13,10 +13,14 @@ module RefereeInterface
     def save
       return unless valid?
 
-      ReceiveReference.new(
-        reference: reference,
-        feedback: feedback,
-      ).save!
+      if FeatureFlag.active?('referee_confirm_relationship_and_safeguarding')
+        reference.update!(feedback: feedback)
+      else
+        ReceiveReference.new(
+          reference: reference,
+          feedback: feedback,
+        ).save!
+      end
 
       true
     end
