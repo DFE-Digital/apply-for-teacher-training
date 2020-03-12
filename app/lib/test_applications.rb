@@ -98,9 +98,8 @@ module TestApplications
   end
 
   def self.put_application_choice_in_state(choice, state)
-    fast_forward(7..10)
+    travel_to(choice.edit_by) if choice.edit_by > Time.zone.now
     SendApplicationToProvider.new(application_choice: choice).call
-    choice.update(edit_by: Time.zone.now)
     return if state == :awaiting_provider_decision
 
     if state == :offer
