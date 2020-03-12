@@ -44,7 +44,9 @@
                             </div>
                         <% end %>
                       <% elsif input_config[:type].eql?('search') %>
-                        <%= render ProviderInterface::FilterSearchComponent.new(name: input_config[:name], text: input_config[:text]) %>
+                        <%= render ProviderInterface::FilterSearchComponent.new(name: input_config[:name],
+                                                                                type: input_config[:type],
+                                                                                heading: filter_group[:heading]) %>
                       <% end %>
                     <% end %>
                   </fieldset>

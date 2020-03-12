@@ -17,13 +17,14 @@ RSpec.feature 'Providers should be able to filter applications' do
     then_i_expect_to_see_the_filter_dialogue
     then_i_expect_to_see_the_search_input
 
-    #
-    # when_i_search_for_candidate_name
-    # then_only_applications_of_that_name_should_be_visible
-    #
-    # when_i_search_for_candidate_name_with_odd_casing
-    # then_only_applications_of_that_name_should_be_visible
-    #
+    when_i_search_for_candidate_name
+
+    then_only_applications_of_that_name_should_be_visible
+
+    when_i_clear_the_filters
+    when_i_search_for_candidate_name_with_odd_casing
+    then_only_applications_of_that_name_should_be_visible
+
     # when_i_filter_for_rejected_and_offered_applications
     # then_i_search_for_candidate_name
     # then_only_rejected_and_offered_applications_of_that_name_should_be_visible
@@ -48,6 +49,27 @@ RSpec.feature 'Providers should be able to filter applications' do
     #
     # when_i_visit_the_provider_page
     # then_i_do_not_expect_to_see_the_filter_dialogue
+  end
+
+  def when_i_search_for_candidate_name
+    find(:css, '#candidates_name').set('Jim James')
+    click_button('Apply filters')
+  end
+
+  def when_i_search_for_candidate_name_with_odd_casing
+    find(:css, '#candidates_name').set('jiM JAmeS')
+    click_button('Apply filters')
+  end
+
+  def then_only_applications_of_that_name_should_be_visible
+    expect(page).to have_css('.govuk-table__body', text: 'Jim James')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Adam Jones')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Tom Jones')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Bill Bones')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Greg Taft')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Paul Atreides')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Duncan Idaho')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Luke Smith')
   end
 
   def then_i_expect_to_see_the_search_input

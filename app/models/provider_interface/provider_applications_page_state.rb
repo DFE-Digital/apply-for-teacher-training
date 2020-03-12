@@ -40,7 +40,7 @@ module ProviderInterface
     end
 
     def filter_params
-      @params.permit(:filter_visible, filter_selections: { status: {}, provider: {} })
+      @params.permit(:filter_visible, filter_selections: { search: {}, status: {}, provider: {} })
     end
 
     def calculate_sort_order

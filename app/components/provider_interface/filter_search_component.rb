@@ -2,11 +2,12 @@ module ProviderInterface
   class FilterSearchComponent < ActionView::Component::Base
     include ViewHelper
 
-    attr_reader :name, :text
+    attr_reader :name, :type, :heading
 
-    def initialize(name:, text:)
+    def initialize(name:, type:, heading:)
       @name = name
-      @text = text
+      @type = type
+      @heading = heading
     end
   end
 end
