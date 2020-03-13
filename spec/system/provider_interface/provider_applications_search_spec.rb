@@ -22,12 +22,15 @@ RSpec.feature 'Providers should be able to filter applications' do
     then_only_applications_of_that_name_should_be_visible
 
     when_i_clear_the_filters
+    then_i_expect_all_applications_to_be_visible
     when_i_search_for_candidate_name_with_odd_casing
     then_only_applications_of_that_name_should_be_visible
 
-    # when_i_filter_for_rejected_and_offered_applications
-    # then_i_search_for_candidate_name
-    # then_only_rejected_and_offered_applications_of_that_name_should_be_visible
+    when_i_clear_the_filters
+    then_i_filter_for_withdrawn_and_offered_applications
+    then_only_withdrawn_and_offered_applications_should_be_visible
+    then_i_search_for_candidate_name
+    then_only_withdrawn_and_offered_applications_of_that_name_should_be_visible
     #
     #
     # when_i_clear_the_filters
@@ -51,14 +54,57 @@ RSpec.feature 'Providers should be able to filter applications' do
     # then_i_do_not_expect_to_see_the_filter_dialogue
   end
 
+  def then_only_withdrawn_and_offered_applications_should_be_visible
+    expect(page).to have_css('.govuk-table__body', text: 'Application withdrawn')
+    expect(page).to have_css('.govuk-table__body', text: 'Offered')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Rejected')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Declined')
+  end
+
+  def then_only_withdrawn_and_offered_applications_of_that_name_should_be_visible
+    then_only_applications_of_that_name_and_status_should_be_visible
+  end
+
+  def then_i_expect_all_applications_to_be_visible
+    expect(page).to have_css('.govuk-table__body', text: 'Rejected')
+    expect(page).to have_css('.govuk-table__body', text: 'Offered')
+    expect(page).to have_css('.govuk-table__body', text: 'Application withdrawn')
+    expect(page).to have_css('.govuk-table__body', text: 'Declined')
+  end
+
   def when_i_search_for_candidate_name
     find(:css, '#candidates_name').set('Jim James')
+    click_button('Apply filters')
+  end
+
+  def then_i_search_for_candidate_name
+    when_i_search_for_candidate_name
+  end
+
+  def then_i_filter_for_withdrawn_and_offered_applications
+    find(:css, '#status-application-withdrawn').set(true)
+    find(:css, '#status-offered').set(true)
     click_button('Apply filters')
   end
 
   def when_i_search_for_candidate_name_with_odd_casing
     find(:css, '#candidates_name').set('jiM JAmeS')
     click_button('Apply filters')
+  end
+
+  def then_only_applications_of_that_name_and_status_should_be_visible
+    expect(page).to have_css('.govuk-table__body', text: 'Jim James')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Adam Jones')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Tom Jones')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Bill Bones')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Greg Taft')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Paul Atreides')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Duncan Idaho')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Luke Smith')
+
+    expect(page).to have_css('.govuk-table__body', text: 'Application withdrawn')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Rejected')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Declined')
   end
 
   def then_only_applications_of_that_name_should_be_visible
@@ -94,13 +140,6 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def when_i_clear_the_filters
     click_link('Clear')
-  end
-
-  def then_i_expect_all_applications_to_be_visible
-    expect(page).to have_css('.govuk-table__body', text: 'Rejected')
-    expect(page).to have_css('.govuk-table__body', text: 'Offer')
-    expect(page).to have_css('.govuk-table__body', text: 'Application withdrawn')
-    expect(page).to have_css('.govuk-table__body', text: 'Declined')
   end
 
   def and_provider_application_filters_are_active
@@ -186,19 +225,6 @@ RSpec.feature 'Providers should be able to filter applications' do
 
 
 #--------------------
-  def then_only_rejected_applications_should_be_visible
-    expect(page).to have_css('.govuk-table__body', text: 'Rejected')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Offer')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Application withdrawn')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Declined')
-  end
-
-  def then_only_rejected_and_offered_applications_should_be_visible
-    expect(page).to have_css('.govuk-table__body', text: 'Rejected')
-    expect(page).to have_css('.govuk-table__body', text: 'Offer')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Application withdrawn')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Declined')
-  end
 
   def when_i_filter_for_rejected_applications
     find(:css, '#status-rejected').set(true)
@@ -238,19 +264,4 @@ RSpec.feature 'Providers should be able to filter applications' do
     expect(page).to have_css('.moj-filter-tags', text: 'Rejected')
   end
 #--------------------%%%
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 end

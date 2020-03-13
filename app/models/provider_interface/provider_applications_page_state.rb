@@ -63,57 +63,57 @@ module ProviderInterface
             type: 'search',
             text: '',
             name: 'candidates_name',
-          }]
-        }
+          }],
+        },
       ]
     end
 
     def status_filters
-        {
-          heading: 'status',
-          input_config: [
-            {
-              type: 'checkbox',
-              text: 'Accepted',
-              name: 'pending_conditions',
-            },
-            {
-              type: 'checkbox',
-              text: 'Conditions met',
-              name: 'recruited',
-            },
-            {
-              type: 'checkbox',
-              text: 'Declined',
-              name: 'declined',
-            },
-            {
-              type: 'checkbox',
-              text: 'New',
-              name: 'awaiting_provider_decision',
-            },
-            {
-              type: 'checkbox',
-              text: 'Offered',
-              name: 'offer',
-            },
-            {
-              type: 'checkbox',
-              text: 'Rejected',
-              name: 'rejected',
-            },
-            {
-              type: 'checkbox',
-              text: 'Application withdrawn',
-              name: 'withdrawn',
-            },
-            {
-              type: 'checkbox',
-              text: 'Withdrawn by us',
-              name: 'offer_withdrawn',
-            },
-          ],
-        }
+      {
+        heading: 'status',
+        input_config: [
+          {
+            type: 'checkbox',
+            text: 'Accepted',
+            name: 'pending_conditions',
+          },
+          {
+            type: 'checkbox',
+            text: 'Conditions met',
+            name: 'recruited',
+          },
+          {
+            type: 'checkbox',
+            text: 'Declined',
+            name: 'declined',
+          },
+          {
+            type: 'checkbox',
+            text: 'New',
+            name: 'awaiting_provider_decision',
+          },
+          {
+            type: 'checkbox',
+            text: 'Offered',
+            name: 'offer',
+          },
+          {
+            type: 'checkbox',
+            text: 'Rejected',
+            name: 'rejected',
+          },
+          {
+            type: 'checkbox',
+            text: 'Application withdrawn',
+            name: 'withdrawn',
+          },
+          {
+            type: 'checkbox',
+            text: 'Withdrawn by us',
+            name: 'offer_withdrawn',
+          },
+        ],
+      }
     end
 
     def provider_filters_builder
