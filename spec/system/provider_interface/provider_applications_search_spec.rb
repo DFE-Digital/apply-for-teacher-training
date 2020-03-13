@@ -31,13 +31,11 @@ RSpec.feature 'Providers should be able to filter applications' do
     then_only_withdrawn_and_offered_applications_should_be_visible
     then_i_search_for_candidate_name
     then_only_withdrawn_and_offered_applications_of_that_name_should_be_visible
-    #
-    #
-    # when_i_clear_the_filters
-    # then_i_expect_all_applications_to_be_visible
-    #
-    # when_i_search_for_a_candidate_that_does_not_exist
-    # then_i_should_see_the_no_filter_results_error_message
+
+    when_i_clear_the_filters
+    when_i_search_for_a_candidate_that_does_not_exist
+    then_i_should_see_the_no_filter_results_error_message
+
     #
     # when_i_clear_the_filters
     # then_i_expect_all_applications_to_be_visible
@@ -74,6 +72,11 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def when_i_search_for_candidate_name
     find(:css, '#candidates_name').set('Jim James')
+    click_button('Apply filters')
+  end
+
+  def when_i_search_for_a_candidate_that_does_not_exist
+    find(:css, '#candidates_name').set('Simon Says')
     click_button('Apply filters')
   end
 
