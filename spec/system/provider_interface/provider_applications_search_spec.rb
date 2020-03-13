@@ -43,13 +43,14 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     then_i_search_for_candidate_name
     then_only_applications_of_that_name_and_provider_should_be_visible
-    # then_the_relevant_tag_headings_shpuld_be_visible
-    # and_the_relevant_tags_should_be_visible
-    #
-    # and_provider_application_filters_are_deactivated
-    #
-    # when_i_visit_the_provider_page
-    # then_i_do_not_expect_to_see_the_filter_dialogue
+    then_the_relevant_tag_headings_should_be_visible
+
+    and_the_relevant_tags_should_be_visible
+
+    and_provider_application_filters_are_deactivated
+
+    when_i_visit_the_provider_page
+    then_i_do_not_expect_to_see_the_filter_dialogue
   end
 
   def then_only_withdrawn_and_offered_applications_should_be_visible
@@ -57,6 +58,17 @@ RSpec.feature 'Providers should be able to filter applications' do
     expect(page).to have_css('.govuk-table__body', text: 'Offered')
     expect(page).not_to have_css('.govuk-table__body', text: 'Rejected')
     expect(page).not_to have_css('.govuk-table__body', text: 'Declined')
+  end
+
+  def and_the_relevant_tags_should_be_visible
+    expect(page).to have_css('.moj-filter-tags', text: 'Jim James')
+    then_i_expect_the_relevant_provider_tags_to_be_visible
+  end
+
+  def then_the_relevant_tag_headings_should_be_visible
+    expect(page).to have_css('.moj-filter__selected', text: 'Search')
+    expect(page).to have_css('.moj-filter__selected', text: 'Provider')
+
   end
 
   def then_only_withdrawn_and_offered_applications_of_that_name_should_be_visible
