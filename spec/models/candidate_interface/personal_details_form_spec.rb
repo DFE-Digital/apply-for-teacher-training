@@ -159,6 +159,12 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
     it { is_expected.not_to allow_value(long_text).for(:other_language_details) }
 
     describe 'date of birth' do
+      around do |example|
+        Timecop.freeze(Time.zone.local(2019, 1, 1)) do
+          example.run
+        end
+      end
+
       it 'is invalid if not well-formed' do
         personal_details = CandidateInterface::PersonalDetailsForm.new(
           day: '99', month: '99', year: '99',
@@ -181,6 +187,28 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
         expect(personal_details.errors.full_messages_for(:date_of_birth)).to eq(
           ['Date of birth Enter a date of birth that is in the past, for example 31 3 1980'],
         )
+      end
+
+      it 'is invalid if the candidate is younger than 16' do
+        personal_details = CandidateInterface::PersonalDetailsForm.new(
+          day: '2', month: '1', year: '2003',
+        )
+
+        personal_details.validate
+
+        expect(personal_details.errors.full_messages_for(:date_of_birth)).to eq(
+          ['Date of birth Enter a date of birth before 1 January 2003 – you must be over 16 years old to Apply for teacher training'],
+        )
+      end
+
+      it 'is valid if the candidate is older than 16' do
+        personal_details = CandidateInterface::PersonalDetailsForm.new(
+          day: '31', month: '12', year: '2002',
+        )
+
+        personal_details.validate
+
+        expect(personal_details.errors.full_messages_for(:date_of_birth)).to be_empty
       end
     end
   end

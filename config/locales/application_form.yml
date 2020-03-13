@@ -368,6 +368,7 @@ en:
             date_of_birth:
               invalid: Enter a date of birth in the correct format
               future: Enter a date of birth that is in the past, for example 31 3 1980
+              below_lower_age_limit: Enter a date of birth before %{date} – you must be over 16 years old to Apply for teacher training
         candidate_interface/becoming_a_teacher_form:
           attributes:
             becoming_a_teacher:
