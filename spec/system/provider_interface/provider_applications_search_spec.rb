@@ -18,11 +18,11 @@ RSpec.feature 'Providers should be able to filter applications' do
     then_i_expect_to_see_the_search_input
 
     when_i_search_for_candidate_name
-
     then_only_applications_of_that_name_should_be_visible
 
     when_i_clear_the_filters
     then_i_expect_all_applications_to_be_visible
+
     when_i_search_for_candidate_name_with_odd_casing
     then_only_applications_of_that_name_should_be_visible
 
@@ -36,13 +36,13 @@ RSpec.feature 'Providers should be able to filter applications' do
     when_i_search_for_a_candidate_that_does_not_exist
     then_i_should_see_the_no_filter_results_error_message
 
-    #
-    # when_i_clear_the_filters
-    # then_i_expect_all_applications_to_be_visible
-    #
-    # when_i_filter_by_provider
-    # then_i_search_for_candidate_name
-    # then_only_applications_of_that_name_and_status_should_be_visible
+    when_i_clear_the_filters
+
+    when_i_filter_by_provider
+    then_i_only_see_applications_for_a_given_provider
+
+    then_i_search_for_candidate_name
+    then_only_applications_of_that_name_and_provider_should_be_visible
     # then_the_relevant_tag_headings_shpuld_be_visible
     # and_the_relevant_tags_should_be_visible
     #
@@ -68,6 +68,19 @@ RSpec.feature 'Providers should be able to filter applications' do
     expect(page).to have_css('.govuk-table__body', text: 'Offered')
     expect(page).to have_css('.govuk-table__body', text: 'Application withdrawn')
     expect(page).to have_css('.govuk-table__body', text: 'Declined')
+  end
+
+  def then_i_only_see_applications_for_a_given_provider
+    expect(page).to have_css('.govuk-table__body', text: 'Hoth Teacher Training')
+    expect(page).to have_css('.govuk-table__body', text: 'Caladan University')
+    expect(page).not_to have_css('.govuk-table__body', text: 'University of Arrakis')
+  end
+
+  def then_only_applications_of_that_name_and_provider_should_be_visible
+    expect(page).to have_css('.govuk-table__body', text: 'Hoth Teacher Training')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Caladan University')
+    expect(page).not_to have_css('.govuk-table__body', text: 'University of Arrakis')
+    then_only_applications_of_that_name_should_be_visible
   end
 
   def when_i_search_for_candidate_name
