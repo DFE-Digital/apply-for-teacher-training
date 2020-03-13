@@ -16,7 +16,7 @@ class FilterApplicationChoicesForProviders
 
     def options
       # mirrors a three variable boolean truth table
-      # minus all false as this is caught by guard clause
+      # minus all false as this is caught by default
       {
         provider: [false, false, true],
         status: [false, true, false],
@@ -55,6 +55,8 @@ class FilterApplicationChoicesForProviders
     end
 
     def create_filter_query(application_choices, applied_filters, filters)
+      candidates_name = filters[:search][:candidates_name] if search_exists?(filters)
+
       case applied_filters
       when options[:provider]
         return provider(application_choices, filters)
@@ -66,19 +68,15 @@ class FilterApplicationChoicesForProviders
         return provider(status(application_choices, filters), filters)
 
       when options[:search]
-        candidates_name = filters[:search][:candidates_name]
         return search(application_choices, candidates_name)
 
       when options[:search_and_provider]
-        candidates_name = filters[:search][:candidates_name]
         return provider(search(application_choices, candidates_name), filters)
 
       when options[:search_and_status]
-        candidates_name = filters[:search][:candidates_name]
         return search(status(application_choices, filters), candidates_name)
 
       when options[:search_status_and_provider]
-        candidates_name = filters[:search][:candidates_name]
         return provider(search(application_choices, candidates_name), filters)
       else
         return application_choices
