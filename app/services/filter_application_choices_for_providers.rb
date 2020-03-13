@@ -14,20 +14,6 @@ class FilterApplicationChoicesForProviders
       search_terms.downcase.gsub(/\W /, '').split
     end
 
-    def options
-      # mirrors a three variable boolean truth table
-      # minus all false as this is caught by default
-      {
-        provider: [false, false, true],
-        status: [false, true, false],
-        status_and_provider: [false, true, true],
-        search: [true, false, false],
-        search_and_provider: [true, false, true],
-        search_and_status: [true, true, false],
-        search_status_and_provider: [true, true, true],
-      }
-    end
-
     def search(application_choices, candidates_name)
       search_array = prepare_search_array(candidates_name)
       application_choices.where('first_name ILIKE ANY (array[?])', search_array)
@@ -52,6 +38,10 @@ class FilterApplicationChoicesForProviders
 
     def search_exists?(filters)
       filters.fetch(:search, {}).fetch(:candidates_name, "").empty? ? false : true
+    end
+
+    def prepare_search_array(search_terms)
+      search_terms.downcase.gsub(/\W /, '').split
     end
 
     def create_filter_query(application_choices, applied_filters, filters)
@@ -81,6 +71,20 @@ class FilterApplicationChoicesForProviders
       else
         return application_choices
       end
+    end
+
+    def options
+      # mirrors a three variable boolean truth table
+      # minus all false as this is caught by default
+      {
+        provider: [false, false, true],
+        status: [false, true, false],
+        status_and_provider: [false, true, true],
+        search: [true, false, false],
+        search_and_provider: [true, false, true],
+        search_and_status: [true, true, false],
+        search_status_and_provider: [true, true, true],
+      }
     end
   end
 end
