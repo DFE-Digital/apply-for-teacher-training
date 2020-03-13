@@ -36,7 +36,14 @@ module ProviderInterface
     end
 
     def calculate_filter_selections
-      filter_params[:filter_selections].to_h ||= {}
+      filter_selections = filter_params[:filter_selections].to_h ||= {}
+      remove_candiates_name_search_if_empty(filter_selections)
+    end
+
+    def remove_candiates_name_search_if_empty(filter_selections)
+      return filter_selections if filter_selections.empty?
+      filter_selections.delete(:search) if filter_selections.fetch(:search,{}).fetch(:candidates_name, "") == ""
+      filter_selections
     end
 
     def filter_params

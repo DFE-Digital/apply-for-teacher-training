@@ -19,7 +19,7 @@ module ProviderInterface
 
     def retrieve_tag_text(heading, lookup_val)
       if heading.eql?('search')
-        @applied_filters[:search][:candidates_name]
+        return @applied_filters[:search][:candidates_name]
       else
         @available_filters.each do |available_filter|
           if available_filter.key(heading)

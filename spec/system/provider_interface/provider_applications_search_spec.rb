@@ -40,6 +40,7 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     when_i_filter_by_provider
     then_i_only_see_applications_for_a_given_provider
+    and_candidates_name_tags_should_not_be_visible
 
     then_i_search_for_candidate_name
     then_only_applications_of_that_name_and_provider_should_be_visible
@@ -51,6 +52,10 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     when_i_visit_the_provider_page
     then_i_do_not_expect_to_see_the_filter_dialogue
+  end
+
+  def and_candidates_name_tags_should_not_be_visible
+    expect(page).not_to have_css('.moj-filter__selected', text: 'Candidate\'s name')
   end
 
   def then_only_withdrawn_and_offered_applications_should_be_visible
