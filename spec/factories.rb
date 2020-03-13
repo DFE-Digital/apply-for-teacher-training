@@ -403,6 +403,12 @@ FactoryBot.define do
     end
   end
 
+  factory :reference_token do
+    association :application_reference, factory: :reference
+
+    hashed_token { '1234567890' }
+  end
+
   factory :support_user do
     dfe_sign_in_uid { SecureRandom.uuid }
     email_address { "#{Faker::Name.first_name.downcase}@example.com" }
