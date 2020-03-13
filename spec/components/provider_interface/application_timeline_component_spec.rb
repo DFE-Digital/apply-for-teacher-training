@@ -6,7 +6,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       application_choice = instance_double(ApplicationChoice)
 
       rendered = render_inline(described_class.new(application_choice: application_choice))
-      expect(rendered.text).to eq ''
+      expect(rendered.text).to include 'Timeline'
     end
   end
 end
