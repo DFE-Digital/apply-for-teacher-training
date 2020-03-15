@@ -112,5 +112,5 @@ class ApplicationForm < ApplicationRecord
     updated_at == created_at
   end
 
-  audited
+  audited except: :equality_and_diversity
 end
