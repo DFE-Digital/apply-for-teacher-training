@@ -1,6 +1,15 @@
 require 'rails_helper'
 
-RSpec.describe FindStateChangeAudits, with_audited: true do
+RSpec.describe FindStatusChangeAudits, with_audited: true do
+  let(:now) { Time.zone.local(2020, 2, 11) }
+
+  around do |example|
+    @now = Time.zone.local(2020, 2, 11)
+    Timecop.freeze(@now) do
+      example.run
+    end
+  end
+
   context 'for an unsubmitted application' do
     it 'returns an empty array' do
       candidate = create :candidate, email_address: 'alice@example.com'
@@ -23,7 +32,9 @@ RSpec.describe FindStateChangeAudits, with_audited: true do
         result = described_class.new(
           application_choice: application_choice,
         ).call
-        expect(result).to eq [application_choice.audits.last]
+        expect(result).to eq [
+          described_class::StatusChange.new('awaiting_references', @now, candidate),
+        ]
       end
     end
   end
@@ -42,6 +53,13 @@ RSpec.describe FindStateChangeAudits, with_audited: true do
           application_choice: application_choice,
         ).call
         expect(result.count).to be 5
+        expect(result).to eq [
+          described_class::StatusChange.new('awaiting_references', @now, candidate),
+          described_class::StatusChange.new('application_complete', @now, candidate),
+          described_class::StatusChange.new('awaiting_provider_decision', @now, candidate),
+          described_class::StatusChange.new('offer', @now, candidate),
+          described_class::StatusChange.new('pending_conditions', @now, candidate),
+        ]
       end
     end
   end

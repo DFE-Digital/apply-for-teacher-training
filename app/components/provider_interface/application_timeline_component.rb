@@ -12,7 +12,7 @@ module ProviderInterface
   private
 
     def events
-      audits = FindStateChangeAudits.new(application_choice: application_choice)
+      audits = FindStatusChangeAudits.new(application_choice: application_choice)
       audits.map do |audit|
         Event.new(
           title_for(audit),
