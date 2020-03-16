@@ -18,7 +18,7 @@
           { key: 'Type', value: email.humanised_email_type },
           { key: 'To', value: email.to },
           { key: 'Subject', value: email.subject },
-          { key: 'Application', value: (email.application_form ? govuk_link_to(email.application_form.full_name, support_interface_application_form_path(email.application_form)) : nil) },
+          { key: 'Application', value: (email.application_form ? govuk_link_to("#{email.application_form.full_name} (#{email.application_form.support_reference})", support_interface_application_form_path(email.application_form)) : nil) },
           { key: 'Status', value: tag.span(email.delivery_status.humanize, class: "govuk-tag #{email.delivered? ? nil : 'govuk-tag--red'}") },
         ]) %>
 
