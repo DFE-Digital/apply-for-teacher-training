@@ -18,6 +18,7 @@ module CandidateInterface
 
     validate :date_of_birth_valid
     validate :date_of_birth_not_in_future
+    validate :date_of_birth_is_within_lower_age_limit
 
     validates :first_nationality, :second_nationality,
               inclusion: { in: NATIONALITY_DEMONYMS, allow_blank: true }
@@ -81,6 +82,13 @@ module CandidateInterface
 
     def date_of_birth_not_in_future
       errors.add(:date_of_birth, :future) if date_of_birth.is_a?(Date) && date_of_birth > Date.today
+    end
+
+    def date_of_birth_is_within_lower_age_limit
+      return unless date_of_birth.is_a?(Date) && date_of_birth < Date.today
+
+      age_limit = Date.today - 16.years
+      errors.add(:date_of_birth, :below_lower_age_limit, date: age_limit.to_s(:govuk_date)) if date_of_birth > age_limit
     end
 
     def english_main_language?

@@ -63,11 +63,23 @@ RSpec.describe CandidateInterface::DegreeForm, type: :model do
         degree = CandidateInterface::DegreeForm.new(award_year: '2009')
         error_message = t('activemodel.errors.models.candidate_interface/degree_form.attributes.award_year.invalid')
 
-        degree.validate
+        degree.validate(:award_year)
 
         expect(degree.errors.full_messages_for(:award_year)).not_to eq(
           ["Award year #{error_message}"],
         )
+      end
+
+      it 'is invalid if the award year is more than one year into the future' do
+        Timecop.freeze(Time.zone.local(2008, 1, 1)) do
+          degree = CandidateInterface::DegreeForm.new(award_year: '2010')
+
+          degree.validate(:award_year)
+
+          expect(degree.errors.full_messages_for(:award_year)).to eq(
+            ['Award year Enter a year before 2010'],
+          )
+        end
       end
     end
   end

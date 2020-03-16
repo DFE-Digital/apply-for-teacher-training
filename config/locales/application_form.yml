@@ -368,6 +368,7 @@ en:
             date_of_birth:
               invalid: Enter a date of birth in the correct format
               future: Enter a date of birth that is in the past, for example 31 3 1980
+              below_lower_age_limit: Enter a date of birth before %{date} – you must be over 16 years old to Apply for teacher training
         candidate_interface/becoming_a_teacher_form:
           attributes:
             becoming_a_teacher:
@@ -448,6 +449,7 @@ en:
             award_year:
               blank: Enter your graduation year
               invalid: Enter a real graduation year
+              greater_than_limit: 'Enter a year before %{date}'
         candidate_interface/other_qualification_form:
           attributes:
             qualification_type:
@@ -465,7 +467,7 @@ en:
             award_year:
               blank: Enter the year the qualification was awarded
               invalid: Enter a real year
-              in_the_future: Enter a year that is not in the future
+              in_the_future: 'Enter a year before %{date}'
         candidate_interface/work_experience_form:
           attributes:
             role:
@@ -511,6 +513,7 @@ en:
             award_year:
               blank: Enter the year you gained your qualification
               invalid: Enter a real year
+              in_future: Enter a year before %{date}
         candidate_interface/gcse_qualification_type_form:
           attributes:
             qualification_type:

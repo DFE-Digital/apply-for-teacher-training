@@ -75,10 +75,12 @@ module CandidateInterface
   private
 
     def award_year_is_date_and_before_current_year
+      year_limit = Date.today.year.to_i + 1
+
       if !valid_year?(award_year)
         errors.add(:award_year, :invalid)
-      elsif Date.new(award_year.to_i, 1, 1).year > Date.today.year
-        errors.add(:award_year, :in_the_future)
+      elsif award_year.to_i >= year_limit
+        errors.add(:award_year, :in_the_future, date: year_limit)
       end
     end
   end
