@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::SubjectKnowledgeReviewComponent do
-  let(:application_form) { create(:completed_application_form) }
+  let(:application_form) { build_stubbed(:completed_application_form) }
 
   context 'when subject knowledge is editable' do
     it 'renders SummaryCardComponent with valid becoming a teacher' do
