@@ -34,9 +34,9 @@ module ProviderInterface
     end
 
     def actor_for(change)
-      if change.is_a?(Candidate)
+      if change.user.is_a?(Candidate)
         'candidate'
-      elsif change.is_a?(ProviderUser)
+      elsif change.user.is_a?(ProviderUser)
         'provider'
       else
         'system'

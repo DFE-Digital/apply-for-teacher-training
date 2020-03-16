@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ApplicationTimelineComponent do
+  around do |example|
+    @now = Time.zone.local(2020, 2, 11)
+    Timecop.freeze(@now) do
+      example.run
+    end
+  end
+
   def setup_application(changes)
     application_choice = instance_double(ApplicationChoice)
     finder_service = instance_double(FindStatusChangeAudits, call: changes)
@@ -23,6 +30,19 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       application_choice = setup_application([])
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Timeline'
+    end
+  end
+
+  context 'for a submitted application' do
+    it 'renders submit event' do
+      application_choice = setup_application([
+        FindStatusChangeAudits::StatusChange.new('awaiting_references', 20.days.ago, candidate),
+      ])
+      rendered = render_inline(described_class.new(application_choice: application_choice))
+      expect(rendered.text).to include 'Timeline'
+      expect(rendered.text).to include 'Application submitted'
+      expect(rendered.text).to include 'by candidate'
+      expect(rendered.text).to include '22 Jan 2020'
     end
   end
 

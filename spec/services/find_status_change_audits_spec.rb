@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe FindStatusChangeAudits, with_audited: true do
-  let(:now) { Time.zone.local(2020, 2, 11) }
-
   around do |example|
     @now = Time.zone.local(2020, 2, 11)
     Timecop.freeze(@now) do
