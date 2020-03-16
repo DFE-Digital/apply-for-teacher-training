@@ -26,7 +26,7 @@ module SupportInterface
     def last_updated_row
       {
         key: 'Last updated',
-        value: "#{updated_at.to_s(:govuk_date_and_time)} (#{govuk_link_to('History', support_interface_application_form_audit_path(application_form))})".html_safe,
+        value: "#{updated_at.to_s(:govuk_date_and_time)} (#{govuk_link_to('History', support_interface_application_form_audit_path(application_form))}, #{govuk_link_to('Emails about application', support_interface_email_log_path(application_form_id: application_form.id))})".html_safe,
       }
     end
 
