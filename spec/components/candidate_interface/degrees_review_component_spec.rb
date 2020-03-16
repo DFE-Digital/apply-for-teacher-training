@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::DegreesReviewComponent do
-  let(:application_form) { create(:application_form) }
-  let!(:degree1) do
-    application_form.application_qualifications.create(
-      level: 'degree',
+  let(:application_form) { build_stubbed(:application_form) }
+  let(:degree1) do
+    build_stubbed(
+      :degree_qualification,
       qualification_type: 'BA',
       subject: 'Woof',
       institution_name: 'University of Doge',
@@ -14,7 +14,8 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
     )
   end
   let(:degree2) do
-    {
+    build_stubbed(
+      :degree_qualification,
       level: 'degree',
       qualification_type: 'BA',
       subject: 'Meow',
@@ -22,7 +23,13 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       grade: 'First',
       predicted_grade: true,
       award_year: '2010',
-    }
+    )
+  end
+
+  let(:application_qualifications) { ActiveRecordRelationStub.new(ApplicationQualification, [degree1], scopes: [:degrees]) }
+
+  before do
+    allow(application_form).to receive(:application_qualifications).and_return(application_qualifications)
   end
 
   context 'when degrees are editable' do
@@ -63,7 +70,9 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
     end
 
     it 'renders component with correct values for a predicted grade' do
-      application_form.application_qualifications.create(degree2)
+      allow(application_form).to receive(:application_qualifications).and_return(
+        ActiveRecordRelationStub.new(ApplicationQualification, [degree1, degree2], scopes: [:degrees]),
+      )
 
       result = render_inline(described_class.new(application_form: application_form))
 
@@ -72,14 +81,18 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
     end
 
     it 'renders component with correct values for an other grade' do
-      application_form.application_qualifications.create(
-        level: 'degree',
+      degree3 = build_stubbed(
+        :degree_qualification,
         qualification_type: 'BA',
         subject: 'Hoot',
         institution_name: 'University of Owl',
         grade: 'Distinction',
         predicted_grade: false,
         award_year: '2010',
+      )
+
+      allow(application_form).to receive(:application_qualifications).and_return(
+        ActiveRecordRelationStub.new(ApplicationQualification, [degree3], scopes: [:degrees]),
       )
 
       result = render_inline(described_class.new(application_form: application_form))
@@ -89,7 +102,9 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
     end
 
     it 'renders component with correct values for multiple degrees' do
-      application_form.application_qualifications.create(degree2)
+      allow(application_form).to receive(:application_qualifications).and_return(
+        ActiveRecordRelationStub.new(ApplicationQualification, [degree1, degree2], scopes: [:degrees]),
+      )
 
       result = render_inline(described_class.new(application_form: application_form))
 
