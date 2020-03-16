@@ -39,15 +39,14 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
         end
       end
 
-      it 'is invalid if the award year is before the current year' do
+      it 'is invalid if the award year is in the future' do
         Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
           qualification = CandidateInterface::OtherQualificationForm.new(award_year: '2029')
-          error_message = t('award_year.in_the_future', scope: error_message_scope)
 
           qualification.validate
 
           expect(qualification.errors.full_messages_for(:award_year)).to eq(
-            ["Award year #{error_message}"],
+            ['Award year Enter a year before 2020'],
           )
         end
       end
