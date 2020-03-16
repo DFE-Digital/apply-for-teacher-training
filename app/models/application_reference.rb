@@ -51,7 +51,8 @@ class ApplicationReference < ApplicationRecord
 
   def self.find_by_unhashed_token(unhashed_token)
     hashed_token = Devise.token_generator.digest(ApplicationReference, :hashed_sign_in_token, unhashed_token)
-    find_by(hashed_sign_in_token: hashed_token)
+
+    find_by(hashed_sign_in_token: hashed_token) || ReferenceToken.find_by(hashed_token: hashed_token)&.application_reference
   end
 
   def chase_referee_at

@@ -118,4 +118,55 @@ RSpec.describe ApplicationReference, type: :model do
       expect(reference.reference_tokens.first.hashed_token).to eq('new_hashed_token')
     end
   end
+
+  describe '.find_by_unhashed_token' do
+    before do
+      devise_token_generator = instance_double(Devise::TokenGenerator)
+      allow(Devise).to receive(:token_generator).and_return(devise_token_generator)
+      allow(devise_token_generator).to receive(:digest)
+        .with(ApplicationReference, :hashed_sign_in_token, 'unhashed_token')
+        .and_return('hashed_token')
+    end
+
+    context 'when the unhashed token does not match an unhashed sign in token on a reference' do
+      it 'returns nil' do
+        reference = ApplicationReference.find_by_unhashed_token('unhashed_token')
+
+        expect(reference).to eq(nil)
+      end
+    end
+
+    context 'when the unhashed token matches an unhashed sign in token on a reference' do
+      it 'returns the reference' do
+        create(:reference, name: 'Chandler Bing', hashed_sign_in_token: 'hashed_token')
+        create(:reference, name: 'Monica Geller-Bing', hashed_sign_in_token: 'another_hashed_token')
+
+        reference = ApplicationReference.find_by_unhashed_token('unhashed_token')
+
+        expect(reference.name).to eq('Chandler Bing')
+      end
+    end
+
+    context 'when the unhashed token can be found in the reference token table' do
+      it 'returns the reference' do
+        chandler = create(:reference, name: 'Chandler Bing')
+        create(:reference_token, application_reference: chandler, hashed_token: 'hashed_token')
+
+        reference = ApplicationReference.find_by_unhashed_token('unhashed_token')
+
+        expect(reference.name).to eq('Chandler Bing')
+      end
+    end
+
+    context 'when the unhashed token can be found in the reference token table and on a reference' do
+      it 'returns the reference' do
+        chandler = create(:reference, name: 'Chandler Bing', hashed_sign_in_token: 'hashed_token')
+        create(:reference_token, application_reference: chandler, hashed_token: 'hashed_token')
+
+        reference = ApplicationReference.find_by_unhashed_token('unhashed_token')
+
+        expect(reference.name).to eq('Chandler Bing')
+      end
+    end
+  end
 end
