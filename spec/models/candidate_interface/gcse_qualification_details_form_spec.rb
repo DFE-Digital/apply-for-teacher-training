@@ -126,6 +126,16 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
         expect(form.save_year).to eq(false)
       end
 
+      it 'returns validation error if award_year is in the future' do
+        Timecop.freeze(Time.zone.local(2008, 1, 1)) do
+          details_form = CandidateInterface::GcseQualificationDetailsForm.new(award_year: '2009')
+
+          details_form.save_year
+
+          expect(details_form.errors[:award_year]).to include('Enter a year before 2009')
+        end
+      end
+
       it 'updates qualification details if valid' do
         application_form = create(:application_form)
         qualification = ApplicationQualification.create(level: 'gcse', application_form: application_form)

@@ -7,8 +7,7 @@ module CandidateInterface
     validates :grade, presence: true, on: :grade
     validates :award_year, presence: true, on: :award_year
     validates :grade, length: { maximum: 6 }, on: :grade
-    validate :award_year_is_date, if: :award_year, on: :award_year
-
+    validate :award_year_is_a_valid_date, if: :award_year, on: :award_year
     validate :validate_grade_format, unless: :new_record?, on: :grade
 
     def self.build_from_qualification(qualification)
@@ -39,9 +38,21 @@ module CandidateInterface
 
   private
 
-    def award_year_is_date
-      valid_award_year = valid_year?(award_year)
-      errors.add(:award_year, :invalid) unless valid_award_year
+    def award_year_is_not_in_the_future
+      date_limit = Time.zone.now.year.to_i + 1
+      errors.add(:award_year, :in_future, date: date_limit) if award_year.to_i >= date_limit
+    end
+
+    def award_year_is_invalid
+      errors.add(:award_year, :invalid)
+    end
+
+    def award_year_is_a_valid_date
+      if valid_year?(award_year)
+        award_year_is_not_in_the_future
+      else
+        award_year_is_invalid
+      end
     end
 
     def validate_grade_format

@@ -467,7 +467,7 @@ en:
             award_year:
               blank: Enter the year the qualification was awarded
               invalid: Enter a real year
-              in_the_future: Enter a year that is not in the future
+              in_the_future: 'Enter a year before %{date}'
         candidate_interface/work_experience_form:
           attributes:
             role:
@@ -513,6 +513,7 @@ en:
             award_year:
               blank: Enter the year you gained your qualification
               invalid: Enter a real year
+              in_future: Enter a year before %{date}
         candidate_interface/gcse_qualification_type_form:
           attributes:
             qualification_type:
