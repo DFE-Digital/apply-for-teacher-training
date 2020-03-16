@@ -71,7 +71,10 @@ RSpec.feature 'Email log' do
   end
 
   def then_the_delivery_status_is_displayed_on_the_page
-    visit support_interface_email_log_path
+    visit support_interface_email_log_path(delivery_status: 'permanent_failure')
     expect(page).to have_content 'Permanent failure'
+
+    visit support_interface_email_log_path(delivery_status: 'delivered')
+    expect(page).not_to have_content 'Permanent failure'
   end
 end
