@@ -22,16 +22,24 @@ RSpec.feature 'Email log' do
   end
 
   def when_an_email_with_custom_reference_is_sent
+    @candidate = create(:candidate, email_address: 'harry@example.com')
+
     AuthenticationMailer.sign_up_email(
-      candidate: create(:candidate, email_address: 'harry@example.com'),
+      candidate: @candidate,
       token: '123',
     ).deliver_now
+
+    open_email('harry@example.com')
+    expect(current_email.header('reference')).to eql("test-sign_up_email-#{@candidate.id}")
   end
 
   def and_an_email_with_an_application_id_is_sent
     CandidateMailer.application_submitted(
-      create(:application_form, first_name: 'Harry', last_name: 'Potter'),
+      create(:application_form, first_name: 'Harry', last_name: 'Potter', candidate: @candidate),
     ).deliver_now
+
+    open_email('harry@example.com')
+    expect(current_email.header('reference')).not_to be_nil
   end
 
   def and_i_visit_the_email_log
