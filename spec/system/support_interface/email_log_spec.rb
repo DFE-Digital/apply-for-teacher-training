@@ -22,16 +22,24 @@ RSpec.feature 'Email log' do
   end
 
   def when_an_email_with_custom_reference_is_sent
+    @candidate = create(:candidate, email_address: 'harry@example.com')
+
     AuthenticationMailer.sign_up_email(
-      candidate: create(:candidate, email_address: 'harry@example.com'),
+      candidate: @candidate,
       token: '123',
     ).deliver_now
+
+    open_email('harry@example.com')
+    expect(current_email.header('reference')).to eql("test-sign_up_email-#{@candidate.id}")
   end
 
   def and_an_email_with_an_application_id_is_sent
     CandidateMailer.application_submitted(
-      create(:application_form, first_name: 'Harry', last_name: 'Potter'),
+      create(:application_form, first_name: 'Harry', last_name: 'Potter', candidate: @candidate),
     ).deliver_now
+
+    open_email('harry@example.com')
+    expect(current_email.header('reference')).not_to be_nil
   end
 
   def and_i_visit_the_email_log
@@ -71,7 +79,10 @@ RSpec.feature 'Email log' do
   end
 
   def then_the_delivery_status_is_displayed_on_the_page
-    visit support_interface_email_log_path
+    visit support_interface_email_log_path(delivery_status: 'permanent_failure')
     expect(page).to have_content 'Permanent failure'
+
+    visit support_interface_email_log_path(delivery_status: 'delivered')
+    expect(page).not_to have_content 'Permanent failure'
   end
 end
