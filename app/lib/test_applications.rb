@@ -1,6 +1,11 @@
+require 'active_support/testing/time_helpers'
+require 'sidekiq/testing'
+
 module TestApplications
   class NotEnoughCoursesError < RuntimeError; end
   class ZeroCoursesPerApplicationError < RuntimeError; end
+
+  extend ActiveSupport::Testing::TimeHelpers
 
   def self.generate_for_provider(provider:, courses_per_application:, count:)
     1.upto(count).flat_map do
@@ -12,6 +17,7 @@ module TestApplications
   end
 
   def self.create_application(states:, courses_to_apply_to: nil)
+    travel_to rand(30..60).days.ago
     raise ZeroCoursesPerApplicationError.new('You can\'t have zero courses per application') unless states.any?
 
     first_name = Faker::Name.first_name
@@ -34,6 +40,7 @@ module TestApplications
     end
 
     Audited.audit_class.as_user(candidate) do
+      fast_forward(1..2)
       application_form = FactoryBot.create(
         :completed_application_form,
         application_choices_count: 0,
@@ -59,6 +66,7 @@ module TestApplications
 
       return if states.include? :unsubmitted
 
+      fast_forward(1..2)
       without_slack_message_sending do
         SubmitApplication.new(application_form).call
         return if states.include? :awaiting_references
@@ -66,6 +74,8 @@ module TestApplications
         application_form.application_references.each do |reference|
           reference.relationship_correction = [nil, Faker::Lorem.sentence].sample
           reference.safeguarding_concerns = [nil, Faker::Lorem.sentence].sample
+
+          fast_forward(1..2)
 
           ReceiveReference.new(
             reference: reference,
@@ -83,45 +93,67 @@ module TestApplications
 
       application_choices
     end
+  ensure
+    travel_back
   end
 
   def self.put_application_choice_in_state(choice, state)
-    # This is only supposed to happen after 7 days, but SendApplicationToProvider
-    # doesn't check the `edit_by` date of the ApplicationChoice
+    travel_to(choice.edit_by) if choice.edit_by > Time.zone.now
     SendApplicationToProvider.new(application_choice: choice).call
-    choice.update(edit_by: Time.zone.now)
     return if state == :awaiting_provider_decision
 
-    if state == :offer
+    case state
+    when :offer
+      fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
-    elsif state == :rejected
+    when :rejected
+      fast_forward(1..3)
       RejectApplication.new(application_choice: choice, rejection_reason: 'Some').save
-    elsif state == :offer_withdrawn
+    when :offer_withdrawn
+      fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
+      fast_forward(1..3)
       WithdrawOffer.new(application_choice: choice, offer_withdrawal_reason: 'Offer withdrawal reason is...').save
-    elsif state == :declined
+    when :declined
+      fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
+      fast_forward(1..3)
       DeclineOffer.new(application_choice: choice).save!
-    elsif state == :accepted
+    when :accepted
+      fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS', 'Fitness to teach check']).save
+      fast_forward(1..3)
       AcceptOffer.new(application_choice: choice).save!
-    elsif state == :accepted_no_conditions
+    when :accepted_no_conditions
+      fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: []).save
+      fast_forward(1..3)
       AcceptOffer.new(application_choice: choice).save!
-    elsif state == :conditions_not_met
+    when :conditions_not_met
+      fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS', 'Fitness to teach check', 'Complete course']).save
+      fast_forward(1..3)
       AcceptOffer.new(application_choice: choice).save!
+      fast_forward(1..3)
       ConditionsNotMet.new(application_choice: choice).save
-    elsif state == :recruited
+    when :recruited
+      fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS', 'Fitness to teach check']).save
+      fast_forward(1..3)
       AcceptOffer.new(application_choice: choice).save!
+      fast_forward(1..3)
       ConfirmOfferConditions.new(application_choice: choice).save
-    elsif state == :enrolled
+    when :enrolled
+      fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
+      fast_forward(1..3)
       AcceptOffer.new(application_choice: choice).save!
+      fast_forward(1..3)
       ConfirmOfferConditions.new(application_choice: choice).save
+      fast_forward(1..3)
       ConfirmEnrolment.new(application_choice: choice).save
-    elsif state == :withdrawn
+    when :withdrawn
+      fast_forward(1..3)
       WithdrawApplication.new(application_choice: choice).save!
     end
   end
@@ -134,5 +166,9 @@ module TestApplications
     RequestStore.store[:disable_slack_messages] = true
     yield
     RequestStore.store[:disable_slack_messages] = false
+  end
+
+  def self.fast_forward(range)
+    travel_to(Time.zone.now + rand(range).days)
   end
 end
