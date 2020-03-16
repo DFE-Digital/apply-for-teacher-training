@@ -3,6 +3,13 @@ require 'rails_helper'
 RSpec.feature 'Receives rejection email' do
   include CandidateHelper
 
+  around do |example|
+    date_that_avoids_clocks_changing_by_ten_days = Time.zone.local(2020, 3, 13)
+    Timecop.freeze(date_that_avoids_clocks_changing_by_ten_days) do
+      example.run
+    end
+  end
+
   scenario 'Receives rejection email' do
     given_the_pilot_is_open
 
@@ -88,8 +95,7 @@ RSpec.feature 'Receives rejection email' do
     expect(current_email.body).to include(@offer.provider.name)
     expect(current_email.body).to include(@offer.course.name_and_code)
 
-    # TODO: temporarily disabled because the date is off by 1 day
-    # expect(current_email.body).to include("Make a decision about your offer by #{@offer.decline_by_default_at.to_s(:govuk_date)}")
+    expect(current_email.body).to include("Make a decision about your offer by #{@offer.decline_by_default_at.to_s(:govuk_date)}")
   end
 
   def and_it_includes_details_of_my_offers
@@ -97,8 +103,6 @@ RSpec.feature 'Receives rejection email' do
     expect(current_email.body).to include(@offer.course.name_and_code)
     expect(current_email.body).to include(@offer2.provider.name)
     expect(current_email.body).to include(@offer2.course.name_and_code)
-
-    # TODO: temporarily disabled because the date is off by 1 day
-    # expect(current_email.body).to include("Make a decision about your offers by #{@offer.decline_by_default_at.to_s(:govuk_date)}")
+    expect(current_email.body).to include("Make a decision about your offers by #{@offer.decline_by_default_at.to_s(:govuk_date)}")
   end
 end
