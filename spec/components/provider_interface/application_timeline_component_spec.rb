@@ -22,7 +22,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
   end
 
   def provider_user
-    @provider_user ||= ProviderUser.new
+    @provider_user ||= ProviderUser.new(first_name: 'Bob', last_name: 'Roberts')
   end
 
   context 'for a newly created application' do
@@ -46,17 +46,16 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     end
   end
 
-  context 'for an accepted application' do
-    it 'renders sumbit, offer and accept events' do
+  context 'for an offered application' do
+    it 'renders offer event' do
       application_choice = setup_application([
-        FindStatusChangeAudits::StatusChange.new('awaiting_references', 20.days.ago, candidate),
-        FindStatusChangeAudits::StatusChange.new('application_complete', 10.days.ago, candidate),
-        FindStatusChangeAudits::StatusChange.new('awaiting_provider_decision', 5.days.ago, nil),
         FindStatusChangeAudits::StatusChange.new('offer', 3.days.ago, provider_user),
-        FindStatusChangeAudits::StatusChange.new('pending_conditions', 1.day.ago, candidate),
       ])
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Timeline'
+      expect(rendered.text).to include 'Offer made'
+      expect(rendered.text).to include 'by Bob Roberts'
+      expect(rendered.text).to include '8 Feb 2020'
     end
   end
 end

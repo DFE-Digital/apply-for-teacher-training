@@ -44,7 +44,8 @@ module ProviderInterface
       if change.user.is_a?(Candidate)
         'candidate'
       elsif change.user.is_a?(ProviderUser)
-        'provider'
+        # TODO: Work out how to display the provider name (it's ambiguous)
+        change.user.full_name
       else
         'system'
       end
