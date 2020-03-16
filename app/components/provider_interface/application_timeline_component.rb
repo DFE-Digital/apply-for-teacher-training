@@ -10,10 +10,17 @@ module ProviderInterface
     Event = Struct.new(:title, :actor, :date)
 
     TITLES = {
+      'withdrawn' => 'Application withdrawn',
       'awaiting_references' => 'Application submitted',
+      'application_complete' => 'References received',
+      'awaiting_provider_decision' => 'Sent to provider',
+      'rejected' => 'Application rejected',
       'offer' => 'Offer made',
-      'accepted' => 'Offer accepted',
+      'pending_conditions' => 'Offer accepted',
       'declined' => 'Offer declined',
+      'recruited' => 'Recruited',
+      'enrolled' => 'Enrolled',
+      'conditions_not_met' => 'Conditions not met',
     }.freeze
 
   private
