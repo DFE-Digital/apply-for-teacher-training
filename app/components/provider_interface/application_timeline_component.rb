@@ -9,25 +9,38 @@ module ProviderInterface
 
     Event = Struct.new(:title, :actor, :date)
 
+    TITLES = {
+      'awaiting_references' => 'Application submitted',
+      'offer' => 'Offer made',
+      'accepted' => 'Offer accepted',
+      'declined' => 'Offer declined',
+    }.freeze
+
   private
 
     def events
-      audits = FindStatusChangeAudits.new(application_choice: application_choice)
-      audits.map do |audit|
+      changes = FindStatusChangeAudits.new(application_choice: application_choice).call
+      changes.map do |change|
         Event.new(
-          title_for(audit),
-          actor_for(audit),
-          audit.created_at,
+          title_for(change),
+          actor_for(change),
+          change.changed_at,
         )
       end
     end
 
-    def title_for(_audit)
-      'Application submitted'
+    def title_for(change)
+      TITLES[change.status]
     end
 
-    def actor_for(_audit)
-      'candidate'
+    def actor_for(change)
+      if change.is_a?(Candidate)
+        'candidate'
+      elsif change.is_a?(ProviderUser)
+        'provider'
+      else
+        'system'
+      end
     end
   end
 end
