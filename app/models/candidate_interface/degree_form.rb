@@ -18,7 +18,7 @@ module CandidateInterface
     validates :grade, length: { maximum: 255 }, on: :grade
     validates :other_grade, :predicted_grade, length: { maximum: 255 }, on: :grade
 
-    validate :award_year_is_date, if: :award_year, on: :award_year
+    validate :award_year_is_valid_date, if: :award_year, on: :award_year
 
     class << self
       def build_all_from_application(application_form)
@@ -124,9 +124,22 @@ module CandidateInterface
       grade == 'predicted'
     end
 
-    def award_year_is_date
-      valid_award_year = valid_year?(award_year)
-      errors.add(:award_year, :invalid) unless valid_award_year
+    def award_year_is_valid_date
+      if valid_year?(award_year)
+        award_year_is_before_the_end_of_next_year
+      else
+        award_year_is_invalid
+      end
+    end
+
+    def award_year_is_invalid
+      errors.add(:award_year, :invalid)
+    end
+
+    def award_year_is_before_the_end_of_next_year
+      upper_year_limit = Time.zone.now.year.to_i + 2
+
+      errors.add(:award_year, :greater_than_limit, date: upper_year_limit) if award_year.to_i >= upper_year_limit
     end
 
     def determine_grade
