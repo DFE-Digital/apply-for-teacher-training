@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::PersonalDetailsReviewComponent do
-  let(:application_form) { create(:completed_application_form) }
+  let(:application_form) { build_stubbed(:completed_application_form) }
 
   context 'when personal details are editable' do
     it 'renders SummaryCardComponent with valid personal details' do
