@@ -1,9 +1,8 @@
 <table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time</th>
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Type</th>
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-half">What</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-third">Time</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-two-thirds">Email</th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
@@ -13,10 +12,8 @@
         <%= email.created_at.to_s(:govuk_date_and_time) %>
       </td>
       <td class="govuk-table__cell">
-        <%= email.humanised_email_type %>
-      </td>
-      <td class="govuk-table__cell">
         <%= render SummaryListComponent.new(rows: [
+          { key: 'Type', value: email.humanised_email_type },
           { key: 'To', value: email.to },
           { key: 'Subject', value: email.subject },
           { key: 'Application', value: (email.application_form ? govuk_link_to(email.application_form.full_name, support_interface_application_form_path(email.application_form)) : nil) },
