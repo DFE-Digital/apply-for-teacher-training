@@ -102,47 +102,48 @@ module TestApplications
     SendApplicationToProvider.new(application_choice: choice).call
     return if state == :awaiting_provider_decision
 
-    if state == :offer
+    case state
+    when :offer
       fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
-    elsif state == :rejected
+    when :rejected
       fast_forward(1..3)
       RejectApplication.new(application_choice: choice, rejection_reason: 'Some').save
-    elsif state == :offer_withdrawn
+    when :offer_withdrawn
       fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
       fast_forward(1..3)
       WithdrawOffer.new(application_choice: choice, offer_withdrawal_reason: 'Offer withdrawal reason is...').save
-    elsif state == :declined
+    when :declined
       fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
       fast_forward(1..3)
       DeclineOffer.new(application_choice: choice).save!
-    elsif state == :accepted
+    when :accepted
       fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS', 'Fitness to teach check']).save
       fast_forward(1..3)
       AcceptOffer.new(application_choice: choice).save!
-    elsif state == :accepted_no_conditions
+    when :accepted_no_conditions
       fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: []).save
       fast_forward(1..3)
       AcceptOffer.new(application_choice: choice).save!
-    elsif state == :conditions_not_met
+    when :conditions_not_met
       fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS', 'Fitness to teach check', 'Complete course']).save
       fast_forward(1..3)
       AcceptOffer.new(application_choice: choice).save!
       fast_forward(1..3)
       ConditionsNotMet.new(application_choice: choice).save
-    elsif state == :recruited
+    when :recruited
       fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS', 'Fitness to teach check']).save
       fast_forward(1..3)
       AcceptOffer.new(application_choice: choice).save!
       fast_forward(1..3)
       ConfirmOfferConditions.new(application_choice: choice).save
-    elsif state == :enrolled
+    when :enrolled
       fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
       fast_forward(1..3)
@@ -151,7 +152,7 @@ module TestApplications
       ConfirmOfferConditions.new(application_choice: choice).save
       fast_forward(1..3)
       ConfirmEnrolment.new(application_choice: choice).save
-    elsif state == :withdrawn
+    when :withdrawn
       fast_forward(1..3)
       WithdrawApplication.new(application_choice: choice).save!
     end
