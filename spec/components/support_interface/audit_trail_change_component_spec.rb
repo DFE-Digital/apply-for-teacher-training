@@ -22,4 +22,9 @@ RSpec.describe SupportInterface::AuditTrailChangeComponent do
   it 'renders an create with a single value' do
     expect(render_result(values: 'only_one').text).to match(/title\s*only_one/m)
   end
+
+  it 'redacts sensitive information' do
+    expect(render_result(values: [{ 'sex' => 'male' }, { 'sex' => 'male', 'disabilities' => [] }]).text)
+      .to include('{"sex"=>"[REDACTED]"} → {"sex"=>"[REDACTED]", "disabilities"=>"[REDACTED]"}')
+  end
 end
