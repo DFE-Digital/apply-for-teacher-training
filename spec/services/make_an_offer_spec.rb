@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MakeAnOffer do
+RSpec.describe MakeAnOffer, sidekiq: true do
   let(:user) { SupportUser.new }
 
   describe '#save' do

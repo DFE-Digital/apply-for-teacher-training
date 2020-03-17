@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate clicks on an expired link', sidekiq: true do
+RSpec.feature 'Candidate clicks on an expired link' do
   scenario 'Candidate clicks on a link with an id and expired token link in an email' do
     given_the_pilot_is_open
     and_the_improved_expired_token_flow_feature_flag_is_on

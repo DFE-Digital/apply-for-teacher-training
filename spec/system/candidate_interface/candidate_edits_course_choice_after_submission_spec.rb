@@ -9,7 +9,7 @@ RSpec.feature 'A candidate edits their course choice after submission' do
     end
   end
 
-  scenario 'candidate deletes their course choice and add a new one', sidekiq: true do
+  scenario 'candidate deletes their course choice and add a new one' do
     given_the_edit_application_feature_flag_is_on
     and_i_am_signed_in_as_a_candidate
     and_i_have_a_completed_application

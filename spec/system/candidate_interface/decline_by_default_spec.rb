@@ -4,7 +4,7 @@ RSpec.feature 'Decline by default' do
   include CourseOptionHelpers
   include CandidateHelper
 
-  scenario 'An application is declined by default', sidekiq: true do
+  scenario 'An application is declined by default' do
     given_the_pilot_is_open
 
     when_i_have_an_offer_waiting_for_my_decision
