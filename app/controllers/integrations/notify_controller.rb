@@ -1,7 +1,5 @@
 module Integrations
   class NotifyController < IntegrationsController
-    before_action :log_params
-
     include ActionController::HttpAuthentication::Token::ControllerMethods
 
     rescue_from ActionController::ParameterMissing, with: :render_unprocessable_entity
@@ -52,12 +50,6 @@ module Integrations
         message: 'Please provide a valid authentication token',
         status: :unauthorized,
       )
-    end
-
-    def log_params
-      relevant_parameters = params.permit(:reference, :status).to_h
-      RequestLocals.store[:identity] = relevant_parameters
-      Raven.user_context(relevant_parameters)
     end
   end
 end

@@ -1,10 +1,9 @@
-<% content_for :title, 'Email log' %>
-
 <table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time</th>
-      <th class="govuk-table__header govuk-table__header govuk-!-width-three-quarters">Email</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Type</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-half">What</th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
@@ -14,13 +13,14 @@
         <%= email.created_at.to_s(:govuk_date_and_time) %>
       </td>
       <td class="govuk-table__cell">
+        <%= email.humanised_email_type %>
+      </td>
+      <td class="govuk-table__cell">
         <%= render SummaryListComponent.new(rows: [
-          { key: 'Type', value: email.humanised_email_type },
-          { key: 'Reference', value: email.notify_reference },
           { key: 'To', value: email.to },
           { key: 'Subject', value: email.subject },
-          { key: 'Application', value: (email.application_form ? govuk_link_to("#{email.application_form.full_name} (#{email.application_form.support_reference})", support_interface_application_form_path(email.application_form)) : nil) },
-          { key: 'Status', value: tag.span(email.delivery_status.humanize, class: "govuk-tag #{email.delivered? ? nil : 'govuk-tag--red'}") },
+          { key: 'Application', value: (email.application_form ? govuk_link_to(email.application_form.full_name, support_interface_application_form_path(email.application_form)) : nil) },
+          { key: 'Status', value: email.delivery_status.humanize },
         ]) %>
 
         <details class="govuk-details" data-module="govuk-details">
