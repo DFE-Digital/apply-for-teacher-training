@@ -1,5 +1,9 @@
 class SyncProviderFromFind
   def self.call(provider_code:, provider_name: nil, sync_courses: false)
+    new.call(provider_code, provider_name, sync_courses)
+  end
+
+  def call(provider_code, provider_name, sync_courses)
     provider = create_or_update_provider(provider_name, provider_code, sync_courses)
 
     return unless provider.sync_courses?
@@ -21,7 +25,7 @@ class SyncProviderFromFind
     end
   end
 
-  def self.create_or_update_provider(provider_name, provider_code, sync_courses)
+  def create_or_update_provider(provider_name, provider_code, sync_courses)
     provider = Provider.find_or_create_by(code: provider_code)
     if sync_courses
       provider.sync_courses = sync_courses
@@ -32,18 +36,18 @@ class SyncProviderFromFind
     provider
   end
 
-  def self.update_provider_name(provider, provider_name)
+  def update_provider_name(provider, provider_name)
     provider.name = provider_name
     provider.save!
   end
 
-  def self.update_provider(provider, find_provider)
+  def update_provider(provider, find_provider)
     provider.region_code = find_provider.region_code.strip if find_provider.region_code
     provider.name = find_provider.provider_name if find_provider.provider_name
     provider.save!
   end
 
-  def self.create_or_update_course(find_course, provider)
+  def create_or_update_course(find_course, provider)
     course = provider.courses.find_or_create_by(code: find_course.course_code)
     course.name = find_course.name
     course.level = find_course.level
@@ -102,7 +106,7 @@ class SyncProviderFromFind
     course
   end
 
-  def self.derive_vacancy_status(status_description:, study_mode:)
+  def derive_vacancy_status(status_description:, study_mode:)
     case status_description
     when 'no_vacancies'
       :no_vacancies
@@ -118,6 +122,4 @@ class SyncProviderFromFind
   end
 
   class InvalidFindVacancyStatusError < StandardError; end
-
-  private_class_method :create_or_update_provider, :create_or_update_course
 end
