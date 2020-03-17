@@ -9,7 +9,7 @@ class SendRejectByDefaultEmailToProvider
     return false unless application_choice.rejected?
 
     application_choice.provider.provider_users.each do |provider_user|
-      ProviderMailer.application_rejected_by_default(provider_user, application_choice).deliver_now
+      ProviderMailer.application_rejected_by_default(provider_user, application_choice).deliver_later
 
       course_name_and_code = application_choice.course.name_and_code
       audit_comment =

@@ -18,7 +18,7 @@ class AcceptOffer
     end
 
     @application_choice.provider.provider_users.each do |provider_user|
-      ProviderMailer.offer_accepted(provider_user, @application_choice).deliver
+      ProviderMailer.offer_accepted(provider_user, @application_choice).deliver_later
     end
 
     StateChangeNotifier.call(:offer_accepted, application_choice: @application_choice)

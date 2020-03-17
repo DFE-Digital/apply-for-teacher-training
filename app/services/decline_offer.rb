@@ -9,7 +9,7 @@ class DeclineOffer
     StateChangeNotifier.call(:offer_declined, application_choice: @application_choice)
 
     @application_choice.provider.provider_users.each do |provider_user|
-      ProviderMailer.declined(provider_user, @application_choice).deliver
+      ProviderMailer.declined(provider_user, @application_choice).deliver_later
     end
   end
 end
