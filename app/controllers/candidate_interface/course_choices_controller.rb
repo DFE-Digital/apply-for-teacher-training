@@ -172,7 +172,7 @@ module CandidateInterface
       if @add_another_course.add_another_course?
         redirect_to candidate_interface_course_choices_choose_path
       else
-        redirect_to candidate_interface_application_form_path
+        redirect_to candidate_interface_course_choices_index_path
       end
     end
 
