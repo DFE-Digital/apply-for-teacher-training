@@ -10,10 +10,8 @@ module ProviderInterface
     Event = Struct.new(:title, :actor, :date)
 
     TITLES = {
+      'awaiting_provider_decision' => 'Application submitted',
       'withdrawn' => 'Application withdrawn',
-      'awaiting_references' => 'Application submitted',
-      'application_complete' => 'References received',
-      'awaiting_provider_decision' => 'Sent to provider',
       'rejected' => 'Application rejected',
       'offer' => 'Offer made',
       'pending_conditions' => 'Offer accepted',
@@ -31,6 +29,7 @@ module ProviderInterface
 
     def events
       changes = FindStatusChangeAudits.new(application_choice: application_choice).call.reverse
+      changes = changes.select { |change| TITLES.has_key?(change.status) }
       changes.map do |change|
         Event.new(
           title_for(change),
