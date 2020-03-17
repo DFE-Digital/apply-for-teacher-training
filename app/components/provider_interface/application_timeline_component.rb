@@ -30,7 +30,7 @@ module ProviderInterface
   private
 
     def events
-      changes = FindStatusChangeAudits.new(application_choice: application_choice).call
+      changes = FindStatusChangeAudits.new(application_choice: application_choice).call.reverse
       changes.map do |change|
         Event.new(
           title_for(change),
