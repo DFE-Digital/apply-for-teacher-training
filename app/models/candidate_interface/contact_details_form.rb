@@ -40,7 +40,7 @@ module CandidateInterface
         address_line3: address_line3,
         address_line4: address_line4,
         postcode: postcode.upcase,
-        country: 'UK',
+        country: 'GB',
       )
     end
   end
