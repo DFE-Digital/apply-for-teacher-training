@@ -39,20 +39,19 @@ class ApplicationReference < ApplicationRecord
   end
 
   def refresh_feedback_token!
-    unhashed_token, hashed_token = Devise.token_generator.generate(ApplicationReference, :hashed_sign_in_token)
+    unhashed_token, hashed_token = Devise.token_generator.generate(ReferenceToken, :hashed_token)
 
-    ActiveRecord::Base.transaction do
-      update!(hashed_sign_in_token: hashed_token)
-      ReferenceToken.create!(application_reference: self, hashed_token: hashed_token)
-    end
+    ReferenceToken.create!(application_reference: self, hashed_token: hashed_token)
 
     unhashed_token
   end
 
   def self.find_by_unhashed_token(unhashed_token)
-    hashed_token = Devise.token_generator.digest(ApplicationReference, :hashed_sign_in_token, unhashed_token)
+    old_token = Devise.token_generator.digest(ApplicationReference, :hashed_sign_in_token, unhashed_token)
+    new_token = Devise.token_generator.digest(ReferenceToken, :hashed_token, unhashed_token)
 
-    find_by(hashed_sign_in_token: hashed_token) || ReferenceToken.find_by(hashed_token: hashed_token)&.application_reference
+    ReferenceToken.find_by(hashed_token: old_token)&.application_reference ||
+      ReferenceToken.find_by(hashed_token: new_token)&.application_reference
   end
 
   def chase_referee_at
