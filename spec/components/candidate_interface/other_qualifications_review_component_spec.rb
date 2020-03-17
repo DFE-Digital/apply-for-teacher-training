@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
-  let(:application_form) { create(:application_form) }
-  let!(:qualification1) do
-    application_form.application_qualifications.create(
+  let(:application_form) { build_stubbed(:application_form) }
+  let(:qualification1) do
+    build_stubbed(
+      :application_qualification,
       level: 'other',
       qualification_type: 'A-Level',
       subject: 'Making Doggo Sounds',
@@ -13,11 +14,18 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
       award_year: '2012',
     )
   end
-  let!(:qualification2) do
-    application_form.application_qualifications.create(
+  let(:qualification2) do
+    build_stubbed(
+      :application_qualification,
       level: 'other',
       qualification_type: 'A-Level',
       subject: 'Making Cat Sounds',
+    )
+  end
+
+  before do
+    allow(application_form).to receive(:application_qualifications).and_return(
+      ActiveRecordRelationStub.new(ApplicationQualification, [qualification1, qualification2], scopes: [:other]),
     )
   end
 

@@ -1,15 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::AdditionalRefereesStartComponent do
-  let(:application_form) { create(:completed_application_form, references_count: 0, with_gces: true) }
+  let(:application_form) { build_stubbed(:completed_application_form, references_count: 0, with_gces: true) }
+  let(:reference) { build_stubbed(:reference, :complete, application_form: application_form) }
+  let(:references) { [] }
 
-  context 'when one referee request failed' do
-    before do
-      create(:reference, :complete, application_form: application_form)
-    end
+  before { allow(application_form).to receive(:application_references).and_return(references) }
+
+  context 'when one referee request bounced' do
+    let(:bounced_referee) { build_stubbed(:reference, :email_bounced, application_form: application_form) }
+    let(:references) { [reference, bounced_referee] }
 
     it 'has a page content that requests one new referee' do
-      create(:reference, :email_bounced, application_form: application_form)
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-heading-xl').text).to include('You need to add a new referee')
@@ -18,29 +20,40 @@ RSpec.describe CandidateInterface::AdditionalRefereesStartComponent do
     end
 
     it 'gives a reason when email bounced' do
-      bounced_referee = create(:reference, :email_bounced, application_form: application_form)
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-body').text).to include("Our email requesting a reference didn’t reach #{bounced_referee.name}.")
     end
+  end
 
-    it 'gives a reason when referee refused to give feedback' do
-      refused_referee = create(:reference, :refused, application_form: application_form)
+  context 'when one referee refused' do
+    let(:refused_referee) { build_stubbed(:reference, :refused, application_form: application_form) }
+    let(:references) { [reference, refused_referee] }
+
+    it 'gives a reason why referee refused' do
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-body').text).to include("#{refused_referee.name} said they won’t give a reference.")
     end
+  end
 
-    it 'gives a reason when the feedback is overdue' do
-      late_referee = create(:reference, :requested, application_form: application_form)
-      late_referee.update!(requested_at: Time.zone.now - 30.days)
+  context 'when feedback is overdue' do
+    let(:late_referee) { build_stubbed(:reference, :requested, application_form: application_form) }
+    let(:references) { [reference, late_referee] }
+
+    it 'gives a reason that feedback is overdue' do
+      allow(late_referee).to receive(:requested_at).and_return(Time.zone.now - 30.days)
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-body').text).to include("#{late_referee.name} did not respond to our request.")
     end
+  end
+
+  context 'when one valid reference exists' do
+    let(:failed_reference) { build_stubbed(:reference, :email_bounced, application_form: application_form) }
+    let(:references) { [reference, failed_reference] }
 
     it 'does not show a reference that does not need replacing' do
-      create(:reference, :email_bounced, application_form: application_form)
       first_referee = application_form.application_references.first
 
       result = render_inline(described_class.new(application_form: application_form))
@@ -49,10 +62,12 @@ RSpec.describe CandidateInterface::AdditionalRefereesStartComponent do
   end
 
   context 'when multiple referee request failed' do
-    before do
-      create(:reference, :email_bounced, application_form: application_form)
-      create(:reference, :refused, application_form: application_form)
-      create(:reference, :complete, application_form: application_form)
+    let(:references) do
+      [
+        build_stubbed(:reference, :email_bounced, application_form: application_form),
+        build_stubbed(:reference, :refused, application_form: application_form),
+        build_stubbed(:reference, :complete, application_form: application_form),
+      ]
     end
 
     it 'has a page content that requests new referees' do

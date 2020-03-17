@@ -83,8 +83,9 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
     end
 
     it 'renders when all offers have been withdrawn' do
-      application_form = create(:application_form)
-      create(:application_choice, application_form: application_form, status: :withdrawn)
+      application_form = build_stubbed(:application_form, application_choices: [
+        build_stubbed(:application_choice, application_form: application_form, status: :withdrawn),
+      ])
 
       render_result = render_inline(described_class.new(application_form: application_form))
 
@@ -92,9 +93,14 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
     end
 
     it 'renders when one offer has been withdrawn and one offered' do
-      application_form = create(:application_form)
-      create(:application_choice, application_form: application_form, status: :withdrawn)
-      create(:application_choice, application_form: application_form, status: :offer, decline_by_default_at: 1.day.from_now)
+      application_form = build_stubbed(:application_form, application_choices: [
+        build_stubbed(:application_choice, application_form: application_form, status: :withdrawn),
+        build_stubbed(:application_choice, application_form: application_form, status: :offer, decline_by_default_at: 1.day.from_now),
+      ])
+
+      allow(ApplicationDates).to receive(:new).with(application_form).and_return(
+        instance_double(ApplicationDates, decline_by_default_at: 1.day.from_now),
+      )
 
       render_result = render_inline(described_class.new(application_form: application_form))
 
@@ -102,8 +108,9 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
     end
 
     it 'renders when the only offer has been rejected' do
-      application_form = create(:application_form)
-      create(:application_choice, application_form: application_form, status: :rejected)
+      application_form = build_stubbed(:application_form, application_choices: [
+        build_stubbed(:application_choice, application_form: application_form, status: :rejected),
+      ])
 
       render_result = render_inline(described_class.new(application_form: application_form))
 
@@ -167,16 +174,17 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
   end
 
   def create_application_form_with_course_choices(statuses:)
-    application_form = create(:application_form)
-
-    statuses.each do |status|
-      create(
+    application_form = build_stubbed(:application_form)
+    application_choices = statuses.map do |status|
+      build_stubbed(
         :application_choice,
         application_form: application_form,
         status: status,
         reject_by_default_at: first_january_2020,
       )
     end
+
+    allow(application_form).to receive(:application_choices).and_return(application_choices)
 
     application_form
   end
