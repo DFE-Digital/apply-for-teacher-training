@@ -20,6 +20,14 @@ RSpec.describe FindAPI::Course do
       it 'returns nil' do
         expect(fetch_course).to be_nil
       end
+
+      it 'does not report the error to Sentry' do
+        allow(Raven).to receive(:capture_exception)
+
+        fetch_course
+
+        expect(Raven).not_to have_received(:capture_exception)
+      end
     end
 
     context 'when Find returns a 503 error' do
