@@ -28,22 +28,29 @@
             <% available_filters.each do |filter_group| %>
                 <div class="govuk-form-group">
                   <fieldset class="govuk-fieldset">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                      <%= filter_group[:heading].capitalize %>
-                    </legend>
+                    <% if filter_group[:heading].parameterize.eql?('candidate-s-name') %>
+                      <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        <%= filter_group[:heading].capitalize %>
+                      </legend>
+                    <% elsif filter_group[:input_config].size > 1 %>
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                          <%= filter_group[:heading].capitalize %>
+                        </legend>
+                    <% end %>
 
                     <% filter_group[:input_config].each do |input_config| %>
                       <% if input_config[:type].eql?('checkbox') %>
-                        <% unless filter_group[:input_config].size <= 1 %>
+                        <% if filter_group[:input_config].size > 1 %>
                             <div class="govuk-checkboxes govuk-checkboxes--small">
                               <%= render ProviderInterface::FilterCheckboxComponent.new(name: input_config[:name],
                                                                                         text: input_config[:text],
-                                                                                        selected: checkbox_checked?(heading: filter_group[:heading], name: input_config[:name]),
+                                                                                        selected: checkbox_checked?(heading: filter_group[:heading],
+                                                                                                                    name: input_config[:name]),
                                                                                         heading: filter_group[:heading].parameterize)
                                %>
                             </div>
                         <% end %>
-                      <% elsif input_config[:type].eql?('search') %>
+                      <% elsif filter_group[:heading].parameterize.eql?('candidate-s-name')  %>
                         <%= render ProviderInterface::FilterSearchComponent.new(name: input_config[:name],
                                                                                 type: input_config[:type],
                                                                                 heading: filter_group[:heading],
