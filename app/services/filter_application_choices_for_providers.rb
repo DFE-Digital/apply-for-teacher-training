@@ -30,13 +30,9 @@ class FilterApplicationChoicesForProviders
       filters.fetch(:search, {}).fetch(:candidates_name, "").empty? ? false : true
     end
 
-    def prepare_search_array(search_terms)
-      search_terms.downcase.gsub(/\W /, '').split
-    end
-
     def create_filter_query(application_choices, filters)
       filtered_application_choices = application_choices
-      filtered_application_choices = search(filtered_application_choices, filters) if search_exists?(filters)
+      filtered_application_choices = search(filtered_application_choices, filters[:search][:candidates_name]) if search_exists?(filters)
       filtered_application_choices = provider(filtered_application_choices, filters) if filters[:provider]
       filtered_application_choices = status(filtered_application_choices, filters) if filters[:status]
       filtered_application_choices
