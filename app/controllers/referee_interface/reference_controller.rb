@@ -61,8 +61,6 @@ module RefereeInterface
     end
 
     def submit_feedback
-      @application = reference.application_form
-
       @reference_form = ReferenceFeedbackForm.new(
         reference: reference,
         feedback: params[:referee_interface_reference_feedback_form][:feedback],
@@ -72,8 +70,6 @@ module RefereeInterface
         if FeatureFlag.active?('referee_confirm_relationship_and_safeguarding')
           redirect_to referee_interface_reference_review_path(token: @token_param)
         else
-          SendReferenceConfirmationEmail.call(application_form: @application, reference: reference)
-
           redirect_to referee_interface_confirmation_path(token: @token_param)
         end
       else
@@ -86,9 +82,6 @@ module RefereeInterface
     end
 
     def submit_reference
-      @application = reference.application_form
-
-      SendReferenceConfirmationEmail.call(application_form: @application, reference: reference)
       ReceiveReference.new(reference: reference, feedback: reference.feedback).save!
 
       redirect_to referee_interface_confirmation_path(token: @token_param)
