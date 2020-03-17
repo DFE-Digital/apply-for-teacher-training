@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'A Provider viewing an individual application' do
+RSpec.describe 'A Provider viewing an individual application', with_audited: true do
   include CourseOptionHelpers
   include DfESignInHelpers
 
@@ -27,6 +27,7 @@ RSpec.describe 'A Provider viewing an individual application' do
     and_i_should_see_the_candidates_personal_statement
     and_i_should_see_the_candidates_language_skills
     and_i_should_see_the_candidates_references
+    and_i_should_see_the_application_timeline
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -107,9 +108,13 @@ RSpec.describe 'A Provider viewing an individual application' do
            relationship: 'Companion droid',
            feedback: 'The possibility of successfully navigating training is approximately three thousand seven hundred and twenty to one')
 
-    @application_choice = create(:submitted_application_choice,
+    @application_choice = create(:application_choice,
+                                 status: :application_complete,
+                                 reject_by_default_at: 20.days.from_now,
                                  course_option: course_option,
                                  application_form: application_form)
+
+    ApplicationStateChange.new(@application_choice).send_to_provider!
   end
 
   def when_i_visit_that_application_in_the_provider_interface
@@ -196,5 +201,10 @@ RSpec.describe 'A Provider viewing an individual application' do
     expect(page).to have_content 'c3p0@rebellion.org'
     expect(page).to have_content 'Companion droid'
     expect(page).to have_content 'The possibility of successfully'
+  end
+
+  def and_i_should_see_the_application_timeline
+    expect(page).to have_content 'Timeline'
+    expect(page).to have_content 'Sent to provider'
   end
 end
