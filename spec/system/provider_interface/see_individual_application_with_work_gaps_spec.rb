@@ -210,6 +210,6 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   def and_i_should_see_the_application_timeline
     expect(page).to have_content 'Timeline'
-    expect(page).to have_content 'Sent to provider'
+    expect(page).to have_content 'Application submitted'
   end
 end
