@@ -58,7 +58,6 @@ RSpec.feature 'Referee can submit reference', sidekiq: true, with_audited: true 
     then_i_see_am_told_i_submittted_my_refernce
     then_i_see_the_confirmation_page
     and_i_receive_an_email_confirmation
-    and_an_audit_comment_is_added
     and_the_candidate_receives_a_notification
 
     when_i_choose_to_be_contactable
@@ -206,12 +205,6 @@ RSpec.feature 'Referee can submit reference', sidekiq: true, with_audited: true 
     open_email('terri@example.com')
 
     expect(current_email.subject).to have_content(t('reference_confirmation_email.subject', candidate_name: @application.full_name))
-  end
-
-  def and_an_audit_comment_is_added
-    expect(@application.audits.last.comment).to eq(
-      'Reference confirmation email has been sent to the candidate’s reference: Terri Tudor using terri@example.com.',
-    )
   end
 
   def and_the_candidate_receives_a_notification
