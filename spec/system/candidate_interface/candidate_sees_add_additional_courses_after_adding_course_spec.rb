@@ -21,6 +21,10 @@ RSpec.describe 'Add additional courses flow' do
     and_i_should_be_told_i_can_add_2_more_courses
     and_i_should_be_prompted_to_add_an_additional_course
 
+    when_i_choose_no
+    then_i_should_be_on_the_course_choice_review_page
+
+    given_i_am_on_the_additional_courses_page
     when_i_choose_yes
     then_i_should_see_the_have_you_chosen_a_course_page
 
@@ -99,6 +103,15 @@ RSpec.describe 'Add additional courses flow' do
 
   def and_i_should_be_prompted_to_add_an_additional_course
     expect(page).to have_content('Do you want to add another course?')
+  end
+
+  def when_i_choose_no
+    choose 'No, not at the moment'
+    click_on 'Continue'
+  end
+
+  def given_i_am_on_the_additional_courses_page
+    visit candidate_interface_course_choices_add_another_course_path
   end
 
   def when_i_choose_yes
