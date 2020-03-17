@@ -11,7 +11,7 @@ class ReceiveReference
     ActiveRecord::Base.transaction do
       @reference.update!(feedback: @feedback, feedback_status: 'feedback_provided')
       CandidateMailer.reference_received(@reference).deliver_later
-      RefereeMailer.reference_confirmation_email(application_form, reference).deliver
+      RefereeMailer.reference_confirmation_email(application_form, reference).deliver_later
       progress_application_if_enough_references_have_been_submitted
     end
   end
