@@ -1,5 +1,4 @@
 require 'active_support/testing/time_helpers'
-require 'sidekiq/testing'
 
 module TestApplications
   class NotEnoughCoursesError < RuntimeError; end
