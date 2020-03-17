@@ -25,6 +25,7 @@ class FeatureFlag
     provider_interface_work_breaks
     referee_confirm_relationship_and_safeguarding
     referee_type
+    timeline
   ].freeze
 
   def self.activate(feature_name)

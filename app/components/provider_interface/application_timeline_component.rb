@@ -23,6 +23,10 @@ module ProviderInterface
       'conditions_not_met' => 'Conditions not met',
     }.freeze
 
+    def render?
+      FeatureFlag.active?('timeline')
+    end
+
   private
 
     def events
