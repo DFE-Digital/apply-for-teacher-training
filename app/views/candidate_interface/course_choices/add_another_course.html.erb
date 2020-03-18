@@ -1,9 +1,10 @@
-<% content_for :title, title_with_error_prefix('', @add_another_course.errors.any?) %>
+<% title = "You can choose #{@additional_courses_allowed} more #{'course'.pluralize(@additional_courses_allowed)}" %>
+<% content_for :title, title_with_error_prefix(title, @add_another_course.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl ">You can choose <%= @additional_courses_allowed %> more <%= 'course'.pluralize(@additional_courses_allowed) %></h1>
+    <h1 class="govuk-heading-xl "><%= title %></h1>
     <p class="govuk-body">After you submit your application you can’t apply for more courses through this service.</p>
       <%= form_with model: @add_another_course, url: candidate_interface_course_choices_add_another_course_selection_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
         <%= f.govuk_error_summary %>
