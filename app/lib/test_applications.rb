@@ -67,6 +67,9 @@ class TestApplications
       without_slack_message_sending do
         SubmitApplication.new(@application_form, skip_emails: true).call
         @application_form.update_columns(submitted_at: @time)
+        @application_form.application_choices.each do |application_choice|
+          application_choice.update_columns(edit_by: @time + 7.days)
+        end
         return if states.include? :awaiting_references
 
         @application_form.application_references.each do |reference|
