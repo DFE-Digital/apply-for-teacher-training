@@ -160,7 +160,7 @@ RSpec.describe SyncProviderFromFind do
     end
   end
 
-  describe '.derive_vacancy_status' do
+  describe 'CourseVacancyStatus#derive' do
     context 'when study_mode is part_time' do
       let(:study_mode) { 'part_time' }
 
@@ -171,10 +171,10 @@ RSpec.describe SyncProviderFromFind do
         { description: 'part_time_vacancies', vacancy_status: :vacancies },
       ].each do |pair|
         it "returns #{pair[:vacancy_status]} when description is #{pair[:description]}" do
-          derived_status = SyncProviderFromFind.derive_vacancy_status(
-            status_description: pair[:description],
-            study_mode: study_mode,
-          )
+          derived_status = SyncProviderFromFind::CourseVacancyStatus.new(
+            pair[:description],
+            study_mode,
+          ).derive
 
           expect(derived_status).to eq pair[:vacancy_status]
         end
@@ -182,11 +182,10 @@ RSpec.describe SyncProviderFromFind do
 
       it 'raises an error when description is an unexpected value' do
         expect {
-          SyncProviderFromFind.derive_vacancy_status(
-            status_description: 'foo',
-            study_mode: study_mode,
-          )
-        }.to raise_error(SyncProviderFromFind::InvalidFindVacancyStatusError)
+          SyncProviderFromFind::CourseVacancyStatus.new('foo', study_mode).derive
+        }.to raise_error(
+          SyncProviderFromFind::CourseVacancyStatus::InvalidFindStatusDescriptionError,
+        )
       end
     end
 
@@ -200,10 +199,10 @@ RSpec.describe SyncProviderFromFind do
         { description: 'part_time_vacancies', vacancy_status: :no_vacancies },
       ].each do |pair|
         it "returns #{pair[:vacancy_status]} when description is #{pair[:description]}" do
-          derived_status = SyncProviderFromFind.derive_vacancy_status(
-            status_description: pair[:description],
-            study_mode: study_mode,
-          )
+          derived_status = SyncProviderFromFind::CourseVacancyStatus.new(
+            pair[:description],
+            study_mode,
+          ).derive
 
           expect(derived_status).to eq pair[:vacancy_status]
         end
@@ -211,11 +210,10 @@ RSpec.describe SyncProviderFromFind do
 
       it 'raises an error when description is an unexpected value' do
         expect {
-          SyncProviderFromFind.derive_vacancy_status(
-            status_description: 'foo',
-            study_mode: study_mode,
-          )
-        }.to raise_error(SyncProviderFromFind::InvalidFindVacancyStatusError)
+          SyncProviderFromFind::CourseVacancyStatus.new('foo', study_mode).derive
+        }.to raise_error(
+          SyncProviderFromFind::CourseVacancyStatus::InvalidFindStatusDescriptionError,
+        )
       end
     end
   end
