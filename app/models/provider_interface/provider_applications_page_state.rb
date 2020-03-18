@@ -136,7 +136,7 @@ module ProviderInterface
 
       provider_filters = {
         heading: 'provider',
-        input_config: input_config.uniq!,
+        input_config: input_config.uniq,
       }
 
       provider_filters
