@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Refusing to give a reference', sidekiq: true do
+RSpec.feature 'Refusing to give a reference' do
   include CandidateHelper
 
   scenario 'Referee refuses to give a reference' do

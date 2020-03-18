@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'A candidate withdraws her application' do
   include CandidateHelper
 
-  scenario 'successful withdrawal', sidekiq: true do
+  scenario 'successful withdrawal' do
     given_i_am_signed_in_as_a_candidate
     and_i_have_an_application_choice_awaiting_provider_decision
 

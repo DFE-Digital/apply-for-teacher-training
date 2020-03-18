@@ -5,7 +5,7 @@ module SupportInterface
     def show; end
 
     def deliver
-      CandidateMailer.survey_email(@application_form).deliver
+      CandidateMailer.survey_email(@application_form).deliver_later
 
       candidate_email = @application_form.candidate.email_address
       audit_comment = I18n.t('survey_emails.send.audit_comment', candidate_email: candidate_email)

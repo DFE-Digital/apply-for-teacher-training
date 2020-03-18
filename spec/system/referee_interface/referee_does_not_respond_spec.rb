@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Referee does not respond in time', sidekiq: true do
+RSpec.feature 'Referee does not respond in time' do
   include CandidateHelper
 
   scenario 'Emails are sent if a referee does not respond in time' do

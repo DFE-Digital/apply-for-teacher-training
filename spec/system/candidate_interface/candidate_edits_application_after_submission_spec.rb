@@ -9,7 +9,7 @@ RSpec.feature 'A candidate edits their application' do
     end
   end
 
-  scenario 'candidate selects to edit their application', sidekiq: true do
+  scenario 'candidate selects to edit their application' do
     given_the_edit_application_feature_flag_is_on
     and_i_am_signed_in_as_a_candidate
 

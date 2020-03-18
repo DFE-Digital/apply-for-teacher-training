@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate declines an offer', sidekiq: true do
+RSpec.feature 'Candidate declines an offer' do
   include CourseOptionHelpers
 
   scenario 'Candidate views an offer and declines' do

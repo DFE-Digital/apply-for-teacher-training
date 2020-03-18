@@ -12,11 +12,11 @@ class DeclineOfferByDefault
         ApplicationStateChange.new(application_choice).decline_by_default!
 
         application_choice.provider.provider_users.each do |provider_user|
-          ProviderMailer.declined_by_default(provider_user, application_choice).deliver
+          ProviderMailer.declined_by_default(provider_user, application_choice).deliver_later
         end
       end
 
-      CandidateMailer.declined_by_default(application_form).deliver
+      CandidateMailer.declined_by_default(application_form).deliver_later
     end
   end
 end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Referee can use sign in link in the initial and chaser email', sidekiq: true do
+RSpec.feature 'Referee can use sign in link in the initial and chaser email' do
   scenario 'Referee clicks sign in links on the initial and chaser reference request emails' do
     given_the_confirm_relationship_and_safeguarding_feature_flag_is_active
     and_i_am_a_referee_of_an_submitted_application

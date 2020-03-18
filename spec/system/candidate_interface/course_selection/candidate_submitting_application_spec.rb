@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submits the application', sidekiq: true do
+RSpec.feature 'Candidate submits the application' do
   include CandidateHelper
 
   scenario 'Candidate with a completed application' do

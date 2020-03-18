@@ -84,12 +84,10 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
   end
 
   def when_i_submit_my_email_address
-    perform_enqueued_jobs do
-      @email = "#{SecureRandom.hex}@example.com"
-      fill_in t('authentication.sign_up.email_address.label'), with: @email
-      check t('authentication.sign_up.accept_terms_checkbox')
-      click_on t('authentication.sign_up.button_continue')
-    end
+    @email = "#{SecureRandom.hex}@example.com"
+    fill_in t('authentication.sign_up.email_address.label'), with: @email
+    check t('authentication.sign_up.accept_terms_checkbox')
+    click_on t('authentication.sign_up.button_continue')
   end
 
   def and_click_on_the_magic_link

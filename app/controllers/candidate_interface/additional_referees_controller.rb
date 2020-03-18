@@ -32,7 +32,7 @@ module CandidateInterface
       references_to_confirm = not_requested_references.includes(:application_form).to_a
 
       references_to_confirm.each do |reference|
-        RefereeMailer.reference_request_email(current_candidate.current_application, reference).deliver_now
+        RefereeMailer.reference_request_email(current_candidate.current_application, reference).deliver_later
         reference.update!(feedback_status: 'feedback_requested')
       end
 
