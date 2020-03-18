@@ -1,6 +1,12 @@
 <% content_for :title, 'Are you sure you want to decline this offer?' %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_offer_path(@application_choice), 'Back to application dashboard') %>
 
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render CandidateInterface::UcasDowntimeComponent.new  %>
+  </div>
+</div>
+
 <h1 class="govuk-heading-xl govuk-heading-xl">
   Are you sure you want to decline this offer?
 </h1>

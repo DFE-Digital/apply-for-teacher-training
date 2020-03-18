@@ -3,6 +3,8 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <%= render CandidateInterface::UcasDowntimeComponent.new  %>
+
     <h1 class="govuk-heading-xl">
       <span class="govuk-caption-xl"><%= @course.name_and_code %></span>
       <%= t('apply_from_find.heading') %>
