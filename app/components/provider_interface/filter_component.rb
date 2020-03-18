@@ -26,6 +26,5 @@ module ProviderInterface
     def form_group_fields_greater_than_one?(filter_group)
       filter_group[:input_config].size > 1
     end
-
   end
 end

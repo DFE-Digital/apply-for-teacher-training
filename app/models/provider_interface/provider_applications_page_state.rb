@@ -42,7 +42,8 @@ module ProviderInterface
 
     def remove_candiates_name_search_if_empty(filter_selections)
       return filter_selections if filter_selections.empty?
-      filter_selections.delete(:search) if filter_selections.fetch(:search,{}).fetch(:candidates_name, "") == ""
+
+      filter_selections.delete(:search) if filter_selections.fetch(:search, {}).fetch(:candidates_name, '') == ''
       filter_selections
     end
 

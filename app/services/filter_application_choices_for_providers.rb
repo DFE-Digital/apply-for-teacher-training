@@ -27,7 +27,7 @@ class FilterApplicationChoicesForProviders
     end
 
     def search_exists?(filters)
-      filters.fetch(:search, {}).fetch(:candidates_name, "").empty? ? false : true
+      filters.fetch(:search, {}).fetch(:candidates_name, '').empty? ? false : true
     end
 
     def create_filter_query(application_choices, filters)
@@ -37,6 +37,5 @@ class FilterApplicationChoicesForProviders
       filtered_application_choices = status(filtered_application_choices, filters) if filters[:status]
       filtered_application_choices
     end
-
   end
 end

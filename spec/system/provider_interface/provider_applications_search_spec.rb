@@ -78,7 +78,6 @@ RSpec.feature 'Providers should be able to filter applications' do
   def then_the_relevant_tag_headings_should_be_visible
     expect(page).to have_css('.moj-filter__selected', text: 'Candidate\'s name')
     expect(page).to have_css('.moj-filter__selected', text: 'Provider')
-
   end
 
   def then_only_withdrawn_and_offered_applications_of_that_name_should_be_visible

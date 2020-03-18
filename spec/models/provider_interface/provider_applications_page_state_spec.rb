@@ -2,92 +2,89 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::ProviderApplicationsPageState do
   let(:correct_available_filters) {
-        [{
-        :heading => "candidate's name",
-        :input_config => [{
-          :type => "search",
-          :text => "",
-          :name => "candidates_name"
-        }]
-      },
-      {
-        :heading => "status",
-        :input_config => [{
-           type: "checkbox",
-             text: "Accepted",
-             name: "pending_conditions"
-          },
-          {
-             type: "checkbox",
-             text: "Conditions met",
-             name: "recruited"
-          },
-          {
-             type: "checkbox",
-             text: "Declined",
-             name: "declined"
-          },
-          {
-             type: "checkbox",
-             text: "New",
-             name: "awaiting_provider_decision"
-          },
-          {
-             type: "checkbox",
-             text: "Offered",
-             name: "offer"
-          },
-          {
-             type: "checkbox",
-             text: "Rejected",
-             name: "rejected"
-          },
-          {
-             type: "checkbox",
-             text: "Application withdrawn",
-             name: "withdrawn"
-          },
-          {
-             type: "checkbox",
-             text: "Withdrawn by us",
-             name: "offer_withdrawn"
-          }
-        ]
-      },
-      {
-         heading: "provider",
-        input_config: [{
-           type: "checkbox",
-           text: "Gorse SCITT",
-           name: "1"
-        },
-        {
-           type: "checkbox",
-           text: "University of Chichester",
-           name: "4"
-        }
-        ]
-      }
-    ]
+    [{
+    heading: "candidate's name",
+    input_config: [{
+      type: 'search',
+      text: '',
+      name: 'candidates_name',
+    }],
+  },
+     {
+       heading: 'status',
+       input_config: [{
+          type: 'checkbox',
+            text: 'Accepted',
+            name: 'pending_conditions',
+         },
+                      {
+                         type: 'checkbox',
+                         text: 'Conditions met',
+                         name: 'recruited',
+                      },
+                      {
+                         type: 'checkbox',
+                         text: 'Declined',
+                         name: 'declined',
+                      },
+                      {
+                         type: 'checkbox',
+                         text: 'New',
+                         name: 'awaiting_provider_decision',
+                      },
+                      {
+                         type: 'checkbox',
+                         text: 'Offered',
+                         name: 'offer',
+                      },
+                      {
+                         type: 'checkbox',
+                         text: 'Rejected',
+                         name: 'rejected',
+                      },
+                      {
+                         type: 'checkbox',
+                         text: 'Application withdrawn',
+                         name: 'withdrawn',
+                      },
+                      {
+                         type: 'checkbox',
+                         text: 'Withdrawn by us',
+                         name: 'offer_withdrawn',
+                      }],
+     },
+     {
+        heading: 'provider',
+       input_config: [{
+          type: 'checkbox',
+          text: 'Gorse SCITT',
+          name: '1',
+       },
+                      {
+                         type: 'checkbox',
+                         text: 'University of Chichester',
+                         name: '4',
+                      }],
+     }]
   }
 
   describe '#sort_order' do
     it 'calculates correct sort order when params sort order is asc' do
-      params = ActionController::Parameters.new(sort_order: 'asc' )
+      params = ActionController::Parameters.new(sort_order: 'asc')
       state = described_class.new(params: params, application_choices: {})
 
       expect(state.sort_order).to eq('asc')
     end
 
     it 'calculates correct sort order when params sort order is desc' do
-      params = ActionController::Parameters.new(sort_order: 'desc' )
+      params = ActionController::Parameters.new(sort_order: 'desc')
       state = described_class.new(params: params, application_choices: {})
 
       expect(state.sort_order).to eq('desc')
     end
 
     it 'defaults to sort desc if not asc' do
-      params = ActionController::Parameters.new(sort_order: 'these are not the droids you\re looking for' )
+      params = ActionController::Parameters.new(sort_order: 'these are not the droids you\re looking for')
       state = described_class.new(params: params, application_choices: {})
 
       expect(state.sort_order).to eq('desc')
@@ -103,7 +100,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     end
 
     it 'returns value if present' do
-      params = ActionController::Parameters.new(sort_by: 'name' )
+      params = ActionController::Parameters.new(sort_by: 'name')
       state = described_class.new(params: params, application_choices: {})
 
       expect(state.sort_by).to eq('name')
@@ -119,7 +116,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     end
 
     it 'returns value if present' do
-      params = ActionController::Parameters.new(filter_visible: 'false' )
+      params = ActionController::Parameters.new(filter_visible: 'false')
 
       state = described_class.new(params: params, application_choices: {})
 
@@ -129,14 +126,14 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
 
   describe '#applications_ordering_query' do
     it 'returns nil if "course", "updated", or "name" not presend as sort_by values' do
-      params = ActionController::Parameters.new(sort_by: 'something completely different' )
+      params = ActionController::Parameters.new(sort_by: 'something completely different')
       state = described_class.new(params: params, application_choices: {})
 
       expect(state.applications_ordering_query).to eq(nil)
     end
 
     it 'returns a sort order hash when user is sorting by course' do
-      params = ActionController::Parameters.new(sort_by: 'course', sort_order: 'desc' )
+      params = ActionController::Parameters.new(sort_by: 'course', sort_order: 'desc')
       state = described_class.new(params: params, application_choices: {})
 
       expect(state.applications_ordering_query.keys.first).to eq('courses.name')
@@ -144,7 +141,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     end
 
     it 'returns a sort order hash when user is sorting by last-updated' do
-      params = ActionController::Parameters.new(sort_by: 'last-updated', sort_order: 'asc' )
+      params = ActionController::Parameters.new(sort_by: 'last-updated', sort_order: 'asc')
       state = described_class.new(params: params, application_choices: {})
 
       expect(state.applications_ordering_query.keys.first).to eq('application_choices.updated_at')
@@ -152,7 +149,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     end
 
     it 'returns a sort order hash when user is sorting by name' do
-      params = ActionController::Parameters.new(sort_by: 'name', sort_order: 'asc' )
+      params = ActionController::Parameters.new(sort_by: 'name', sort_order: 'asc')
       state = described_class.new(params: params, application_choices: {})
 
       expect(state.applications_ordering_query.keys.first).to eq('last_name')
@@ -164,12 +161,14 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
 
   describe '#available_filters' do
     it 'calculate the correct available_filters' do
-      active_record_relation_stub = double(provider:  double(Provider, id: "1", name:'Gorse SCITT'))
-      active_record_relation_stub_two = double(provider: double(Provider, id: "1", name:'Gorse SCITT'))
+      provider = instance_double(Provider, id: '1', name: 'Gorse SCITT')
+      provider_two = instance_double(Provider, id: '4', name: 'University of Chichester')
+
+      active_record_relation_stub = instance_double(ApplicationChoice, provider: provider)
+      active_record_relation_stub_two = instance_double(ApplicationChoice, provider: provider_two)
 
       params = ActionController::Parameters.new
-      state = described_class.new(params: params, application_choices: [active_record_relation_stub,
-                                                                        active_record_relation_stub_two])
+      state = described_class.new(params: params, application_choices: [active_record_relation_stub, active_record_relation_stub_two])
 
       expect(state.available_filters).to eq(correct_available_filters)
     end
@@ -177,9 +176,9 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
 
   describe '#filter_selections' do
     it 'returns correct hash if values are present' do
-      filter_selections = {filter_selections: {"search"=>{"candidates_name"=>"Ellamae Kunze"},
-                                              "status"=>{"recruited"=>"on", "declined"=>"on"},
-                                              "provider"=>{"1"=>"on"}}}
+      filter_selections = { filter_selections: { 'search' => { 'candidates_name' => 'Ellamae Kunze' },
+                                              'status' => { 'recruited' => 'on', 'declined' => 'on' },
+                                              'provider' => { '1' => 'on' } } }
 
 
       params = ActionController::Parameters.new(filter_selections)
@@ -188,7 +187,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     end
 
     it 'will return an empty hash if there are no filters selected' do
-      filter_selections = {filter_selections: {"search"=>{"candidates_name"=>""}}}
+      filter_selections = { filter_selections: { 'search' => { 'candidates_name' => '' } } }
 
 
       params = ActionController::Parameters.new(filter_selections)
@@ -197,9 +196,9 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     end
 
     it 'will remove candidates_name field if empty (i.e. "")' do
-      filter_selections = {filter_selections: {"search"=>{"candidates_name"=>""},
-                                              "status"=>{"recruited"=>"on", "declined"=>"on"},
-                                              "provider"=>{"1"=>"on"}}}
+      filter_selections = { filter_selections: { 'search' => { 'candidates_name' => '' },
+                                              'status' => { 'recruited' => 'on', 'declined' => 'on' },
+                                              'provider' => { '1' => 'on' } } }
 
 
       params = ActionController::Parameters.new(filter_selections)
