@@ -26,6 +26,13 @@ class ApplicationReference < ApplicationRecord
     email_bounced: 'email_bounced',
   }
 
+  enum referee_type: {
+    academic: 'academic',
+    professional: 'professional',
+    school_based: 'school-based',
+    character: 'character',
+  }
+
   def ordinal
     self.application_form.application_references.find_index(self).to_i + 1
   end

@@ -11,7 +11,7 @@
           <%= t('page_titles.nth_referee')[@referee.ordinal] %>
         </span>
         <% if @referee.referee_type %>
-          Details of <%= @referee.referee_type.downcase %> referee
+          Details of <%= t("referee_type.#{@referee.referee_type}").downcase %> referee
         <% else %>
           <%= t('page_titles.add_referee') %>
         <% end %>
