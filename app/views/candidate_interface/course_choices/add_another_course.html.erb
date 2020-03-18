@@ -8,11 +8,9 @@
       <%= form_with model: @add_another_course, url: candidate_interface_course_choices_add_another_course_selection_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
         <%= f.govuk_error_summary %>
 
-        <%= f.govuk_radio_buttons_fieldset :add_another_course, legend: { size: 'xl', text: 'Do you want to add another course?' } do %>
-          <div class="govuk-!-margin-top-6">
-            <%= f.govuk_radio_button :add_another_course, :yes, label: { text: 'Yes, add another course' }, link_errors: true %>
-            <%= f.govuk_radio_button :add_another_course, :no, label: { text: 'No, not at the moment' } %>
-          </div>
+        <%= f.govuk_radio_buttons_fieldset :add_another_course, legend: { tag: 'h2', size: 'm', text: 'Do you want to add another course?' } do %>
+          <%= f.govuk_radio_button :add_another_course, :yes, label: { text: 'Yes, add another course' }, link_errors: true %>
+          <%= f.govuk_radio_button :add_another_course, :no, label: { text: 'No, not at the moment' } %>
         <% end %>
 
         <%= f.govuk_submit 'Continue' %>
