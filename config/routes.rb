@@ -178,7 +178,8 @@ Rails.application.routes.draw do
         get '/choose' => 'course_choices#have_you_chosen', as: :course_choices_choose
         post '/choose' => 'course_choices#make_choice'
 
-        get '/find_a_course' => 'course_choices#go_to_find', as: :go_to_find
+        get '/find-a-course' => 'course_choices#go_to_find', as: :go_to_find
+        get '/find_a_course', to: redirect('/candidate/application/courses/find-a-course')
 
         get '/delete/:id' => 'course_choices#confirm_destroy', as: :confirm_destroy_course_choice
         delete '/delete/:id' => 'course_choices#destroy'
@@ -205,8 +206,10 @@ Rails.application.routes.draw do
         get '/another' => 'course_choices#add_another_course', as: :course_choices_add_another_course
         post '/another' => 'course_choices#add_another_course_selection', as: :course_choices_add_another_course_selection
 
-        get '/confirm_selection/:course_id' => 'find_course_selections#confirm_selection', as: :course_confirm_selection
-        post '/complete_selection/:course_id' => 'find_course_selections#complete_selection', as: :course_complete_selection
+        get '/confirm-selection/:course_id' => 'find_course_selections#confirm_selection', as: :course_confirm_selection
+        get '/confirm_selection/:course_id', to: redirect('/candidate/application/courses/confirm-selection/%{course_id}')
+        post '/complete-selection/:course_id' => 'find_course_selections#complete_selection', as: :course_complete_selection
+        get '/complete_selection/:course_id', to: redirect('/candidate/application/courses/complete-selection/%{course_id}')
       end
 
       scope '/choice/:id' do
