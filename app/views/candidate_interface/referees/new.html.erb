@@ -3,14 +3,18 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @referee, url: candidate_interface_referees_path do |f| %>
+    <%= form_with model: @referee, url: candidate_interface_referees_path(type: @referee.referee_type) do |f| %>
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">
         <span class="govuk-caption-xl">
           <%= t('page_titles.nth_referee')[@referee.ordinal] %>
         </span>
-        <%= t('page_titles.add_referee') %>
+        <% if @referee.referee_type %>
+          Details of <%= @referee.referee_type.downcase %> referee
+        <% else %>
+          <%= t('page_titles.add_referee') %>
+        <% end %>
       </h1>
 
       <%= render 'form', f: f %>

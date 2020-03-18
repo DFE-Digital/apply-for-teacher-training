@@ -3,7 +3,7 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_not_amendable
     before_action :redirect_to_review_referees_if_amendable, except: %i[index review]
     before_action :set_referee, only: %i[edit update confirm_destroy destroy]
-    before_action :set_referees, only: %i[index review]
+    before_action :set_referees, only: %i[type update_type index review]
 
     def index
       unless @referees.empty?
@@ -11,14 +11,32 @@ module CandidateInterface
       end
     end
 
+    def type
+      @reference_type_form = Reference::RefereeTypeForm.new
+    end
+
+    def update_type
+      @reference_type_form = Reference::RefereeTypeForm.new(referee_type: referee_type_param)
+
+      return render :type unless @reference_type_form.valid?
+
+      redirect_to candidate_interface_new_referee_path(type: referee_type_param)
+    end
+
     def new
-      @referee = current_candidate.current_application.application_references.build
+      @referee = if FeatureFlag.active?('referee_type')
+                   current_candidate.current_application.application_references.build(referee_type: params[:type])
+                 else
+                   current_candidate.current_application.application_references.build
+                 end
     end
 
     def create
       @referee = current_candidate.current_application
                                   .application_references
                                   .build(referee_params)
+      @referee.referee_type = params[:type] if FeatureFlag.active?('referee_type')
+
       if @referee.save
         redirect_to candidate_interface_review_referees_path
       else
@@ -60,6 +78,10 @@ module CandidateInterface
       @referees = current_candidate.current_application
                                     .application_references
                                     .includes(:application_form)
+    end
+
+    def referee_type_param
+      params.dig(:candidate_interface_reference_referee_type_form, :referee_type)
     end
 
     def referee_params

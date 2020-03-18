@@ -239,8 +239,12 @@ Rails.application.routes.draw do
 
       scope '/referees' do
         get '/' => 'referees#index', as: :referees
-        get '/new' => 'referees#new', as: :new_referee
-        post '/' => 'referees#create'
+
+        get '/type/(:id)' => 'referees#type', as: :referees_type
+        post '/update-type/(:id)' => 'referees#update_type', as: :update_referees_type
+
+        get '/new/(:type)' => 'referees#new', as: :new_referee
+        post '/(:type)' => 'referees#create'
 
         get '/review' => 'referees#review', as: :review_referees
         patch '/review' => 'referees#complete', as: :complete_referees
