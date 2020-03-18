@@ -10,20 +10,6 @@ RSpec.describe TestApplications do
     expect(choices.count).to eq(2)
   end
 
-  it 'creates a realistic timeline' do
-    courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
-
-    application_choice = TestApplications.create_application(states: %i[enrolled], courses_to_apply_to: courses_we_want).first
-
-    application_form = application_choice.application_form
-    candidate = application_form.candidate
-    expect(application_choice.created_at - candidate.created_at).to be >= 1.day
-    expect(application_form.submitted_at - application_choice.created_at).to be >= 1.day
-    expect(application_choice.offered_at - application_form.submitted_at).to be >= 1.day
-    expect(application_choice.accepted_at - application_choice.offered_at).to be >= 1.day
-    expect(application_choice.enrolled_at - application_choice.accepted_at).to be >= 1.day
-  end
-
   it 'throws an exception if there aren’t enough courses to apply to' do
     expect {
       TestApplications.create_application(states: %i[offer])
