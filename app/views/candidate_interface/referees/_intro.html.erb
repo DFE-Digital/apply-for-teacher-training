@@ -7,5 +7,9 @@
 </ul>
 
 <p class="govuk-body">
-  <%= govuk_button_link_to 'Continue', candidate_interface_new_referee_path %>
+  <% if FeatureFlag.active?('referee_type') %>
+    <%= govuk_button_link_to 'Continue', candidate_interface_referees_type_path %>
+  <% else %>
+    <%= govuk_button_link_to 'Continue', candidate_interface_new_referee_path %>
+  <% end %>
 </p>
