@@ -336,6 +336,10 @@ en:
           attributes:
             course_option_id:
               blank: Select which location you’re applying to
+        candidate_interface/add_another_course_form:
+          attributes:
+            add_another_course:
+              blank: Select if you want to add another course
         candidate_interface/eligibility_form:
           attributes:
             eligible_citizen:
