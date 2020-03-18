@@ -94,6 +94,42 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
       expect(change_email).to eq("Change email address for #{first_referee.name}")
       expect(change_relationship).to eq("Change relationship for #{first_referee.name}")
     end
+
+    context 'When referee type feature flag is off' do
+      before do
+        FeatureFlag.deactivate('referee_type')
+      end
+
+      it "renders component without a referee's type" do
+        first_referee = application_form.application_references.first
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.govuk-summary-list__key').text).not_to include('Reference type')
+        expect(result.css('.govuk-summary-list__value').to_html).not_to include(first_referee.referee_type.capitalize.dasherize)
+      end
+    end
+
+    context 'When referee type feature flag is on' do
+      before do
+        FeatureFlag.activate('referee_type')
+      end
+
+      it "renders component with correct values for a referee's type" do
+        first_referee = application_form.application_references.first
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.govuk-summary-list__key').text).to include('Reference type')
+        expect(result.css('.govuk-summary-list__value').to_html).to include(first_referee.referee_type.capitalize.dasherize)
+      end
+
+      it 'renders correct text for "Change" links in reference type attribute row' do
+        first_referee = application_form.application_references.first
+        result = render_inline(described_class.new(application_form: application_form))
+        change_reference_type = result.css('.govuk-summary-list__actions')[2].text.strip
+
+        expect(change_reference_type).to eq("Change reference type for #{first_referee.name}")
+      end
+    end
   end
 
   context 'when referees are not editable' do

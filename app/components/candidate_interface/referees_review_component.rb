@@ -14,10 +14,10 @@ module CandidateInterface
       [
         name_row(referee),
         email_row(referee),
+        (reference_type_row(referee) if FeatureFlag.active?('referee_type')),
         relationship_row(referee),
         feedback_status_row(referee),
-      ]
-        .compact
+      ].compact
     end
 
     def minimum_references
@@ -56,6 +56,15 @@ module CandidateInterface
         value: referee.relationship,
         action: "relationship for #{referee.name}",
         change_path: candidate_interface_edit_referee_path(referee.id),
+      }
+    end
+
+    def reference_type_row(referee)
+      {
+        key: 'Reference type',
+        value: referee.referee_type.capitalize.dasherize || '',
+        action: "reference type for #{referee.name}",
+        change_path: candidate_interface_referees_type_path(referee.id),
       }
     end
 
