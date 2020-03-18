@@ -28,6 +28,26 @@ RSpec.describe SubmitApplication do
       expect(SlackNotificationWorker).to have_received(:perform_async).once # per application_form, not application_choices
     end
 
+    it 'sends email to referees' do
+      mailer = instance_double(ActionMailer::MessageDelivery, deliver_later: nil)
+      allow(RefereeMailer).to receive(:reference_request_email).and_return(mailer)
+      application_form = create_application_form
+      create(:reference, application_form: application_form)
+      create(:reference, application_form: application_form)
+      SubmitApplication.new(application_form).call
+      expect(mailer).to have_received(:deliver_later).twice
+    end
+
+    it 'DOES NOT send email to referees with `skip_emails` option' do
+      mailer = instance_double(ActionMailer::MessageDelivery, deliver_later: nil)
+      allow(RefereeMailer).to receive(:reference_request_email).and_return(mailer)
+      application_form = create_application_form
+      create(:reference, application_form: application_form)
+      create(:reference, application_form: application_form)
+      SubmitApplication.new(application_form, skip_emails: true).call
+      expect(mailer).not_to have_received(:deliver_later)
+    end
+
     context 'when running in a provider sandbox', sandbox: true do
       it 'autocompletes references and pushes status to `awaiting_provider_decision`' do
         application_form = create_application_form

@@ -60,7 +60,7 @@ module TestApplications
       return if states.include? :unsubmitted
 
       without_slack_message_sending do
-        SubmitApplication.new(application_form).call
+        SubmitApplication.new(application_form, skip_emails: true).call
         return if states.include? :awaiting_references
 
         application_form.application_references.each do |reference|
