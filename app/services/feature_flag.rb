@@ -2,6 +2,7 @@ class FeatureFlag
   FEATURES = %w[
     add_additional_courses_page
     banner_about_problems_with_dfe_sign_in
+    banner_for_ucas_downtime
     choose_study_mode
     display_additional_course_details
     check_full_courses
