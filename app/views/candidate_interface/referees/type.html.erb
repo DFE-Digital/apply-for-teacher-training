@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @reference_type_form, url: candidate_interface_update_referees_type_path, method: :post do |f| %>
+    <%= form_with model: @reference_type_form, url: candidate_interface_update_referees_type_path(id: @id), method: :post do |f| %>
       <%= f.govuk_error_summary %>
       <h1 class="govuk-heading-xl">
         <% title = @referees.any? ? 'Second referee' : 'First referee' %>
@@ -14,11 +14,11 @@
       <p class="govuk-body">If you’re struggling to find a suitable referee, contact your provider to discuss this.</p>
 
       <%= f.govuk_radio_buttons_fieldset :referee_type, legend: { text: 'What kind of reference is this?' } do %>
-          <%= f.govuk_radio_button :referee_type, 'Academic', link_errors: true, label: { text: 'Academic', size: 's' }, hint_text: 'For example, your university tutor or supervisor. Choose an academic referee if you graduated in the last 5 years or you have a predicted grade for your degree.' %>
-          <%= f.govuk_radio_button :referee_type, 'Professional', label: { text: 'Professional', size: 's' }, hint_text: 'For example, your current line manager or a previous employer. If you’re self-employed, you could use a client or supplier.' %>
-          <%= f.govuk_radio_button :referee_type, 'School-based', label: { text: 'School-based', size: 's' }, hint_text: 'For example, a teacher at a school where you’ve volunteered or gained experience.' %>
+          <%= f.govuk_radio_button :referee_type, 'academic', link_errors: true, label: { text: 'Academic', size: 's' }, hint_text: 'For example, your university tutor or supervisor. Choose an academic referee if you graduated in the last 5 years or you have a predicted grade for your degree.' %>
+          <%= f.govuk_radio_button :referee_type, 'professional', label: { text: 'Professional', size: 's' }, hint_text: 'For example, your current line manager or a previous employer. If you’re self-employed, you could use a client or supplier.' %>
+          <%= f.govuk_radio_button :referee_type, 'school-based', label: { text: 'School-based', size: 's' }, hint_text: 'For example, a teacher at a school where you’ve volunteered or gained experience.' %>
           <%= f.govuk_radio_divider %>
-          <%= f.govuk_radio_button :referee_type, 'Character', label: { text: 'Character', size: 's' }, hint_text: 'Choose a responsible person who can confirm you’re suitable for teaching – for example, a sports coach. Training providers will only accept character references if there’s also an academic or professional reference.' %>
+          <%= f.govuk_radio_button :referee_type, 'character', label: { text: 'Character', size: 's' }, hint_text: 'Choose a responsible person who can confirm you’re suitable for teaching – for example, a sports coach. Training providers will only accept character references if there’s also an academic or professional reference.' %>
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>

@@ -48,6 +48,11 @@ RSpec.feature 'Candidate adding referees' do
     and_i_submit_the_form
     then_i_see_updated_reference
 
+    when_i_click_on_change_second_reference_type
+    and_i_choose_school_based_as_reference_type
+    and_i_click_continue
+    then_i_see_the_updated_reference_type
+
     when_i_click_continue
     then_i_see_referees_is_complete
   end
@@ -143,14 +148,6 @@ RSpec.feature 'Candidate adding referees' do
     expect(page).to have_content('What kind of reference is this?')
   end
 
-  def when_i_choose_school_based_as_reference_type
-    choose 'School-based'
-  end
-
-  def then_i_am_asked_for_the_details_of_my_school_based_referee
-    expect(page).to have_content('Details of school-based referee')
-  end
-
   def when_i_fill_in_all_required_fields
     full_name_with_trailing_space = 'Bill Lumbergh '
     fill_in('Full name', with: full_name_with_trailing_space)
@@ -161,11 +158,13 @@ RSpec.feature 'Candidate adding referees' do
   def then_i_see_both_referees
     expect(page).to have_content('AJP Taylor')
     expect(page).to have_content('ajptaylor@example.com')
+    expect(page).to have_content('Academic')
     expect(page).to have_content('Thats my tutor, that is')
 
     full_name_without_trailing_space = "Bill Lumbergh\n"
     expect(page).to have_content(full_name_without_trailing_space)
     expect(page).to have_content('lumbergh@example.com')
+    expect(page).to have_content('Academic')
     expect(page).to have_content('manager for several years')
   end
 
@@ -179,5 +178,21 @@ RSpec.feature 'Candidate adding referees' do
 
   def then_i_see_updated_reference
     expect(page).to have_content('Taught me everything I know')
+  end
+
+  def when_i_click_on_change_second_reference_type
+    click_link 'Change reference type for Bill Lumbergh'
+  end
+
+  def and_i_choose_school_based_as_reference_type
+    choose 'School-based'
+  end
+
+  def then_i_see_the_updated_reference_type
+    full_name_without_trailing_space = "Bill Lumbergh\n"
+    expect(page).to have_content(full_name_without_trailing_space)
+    expect(page).to have_content('lumbergh@example.com')
+    expect(page).to have_content('School-based')
+    expect(page).to have_content('manager for several years')
   end
 end
