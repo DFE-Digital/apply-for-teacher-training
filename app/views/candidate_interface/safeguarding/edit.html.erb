@@ -32,10 +32,10 @@
         about whether this will affect your application.
       </p>
 
-      <p class="govuk-body">A criminal conviction won’t necessarily stop you becoming a teacher.</p>
+      <p class="govuk-body">It won’t necessarily stop you becoming a teacher.</p>
 
       <%= f.govuk_radio_buttons_fieldset :share_safeguarding_issues, legend: { size: 'm', text: 'Do you want to share any safeguarding issues?' } do %>
-        <%= f.govuk_radio_button :share_safeguarding_issues, 'Yes', label: { text: 'Yes, I want to share something' }, hint_text: 'Talk to your provider directly or tell us about it here. This won’t stop you from submitting your application.' do %>
+        <%= f.govuk_radio_button :share_safeguarding_issues, 'Yes', label: { text: 'Yes, I want to share something' }, hint_text: 'After you have submitted your application, your provider may be in touch to discuss the information you shared. If you prefer, you can contact your provider directly.' do %>
           <%= f.govuk_text_area :safeguarding_issues, rows: 8, label: { text: 'Give any relevant information', size: 's' }, max_words: 400 %>
         <% end %>
 
