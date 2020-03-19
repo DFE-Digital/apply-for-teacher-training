@@ -36,6 +36,29 @@ RSpec.describe TestApplications do
     expect(application_choice.offered_at - application_form.submitted_at).to be >= 1.day
   end
 
+  it 'attributes actions to candidates', with_audited: true do
+    courses_we_want = create_list(:course_option, 1, course: create(:course, :open_on_apply)).map(&:course)
+
+    application_choice = TestApplications.new.create_application(states: %i[enrolled], courses_to_apply_to: courses_we_want).first
+    application_form = application_choice.application_form
+    candidate = application_form.candidate
+
+    submission_audit = application_choice.audits.where("audited_changes @> '{\"status\": [\"unsubmitted\", \"awaiting_references\"]}'").first
+    expect(submission_audit).not_to be_nil
+    expect(submission_audit.user).to eq candidate
+  end
+
+  it 'attributes actions to provider users', with_audited: true do
+    courses_we_want = create_list(:course_option, 1, course: create(:course, :open_on_apply)).map(&:course)
+
+    application_choice = TestApplications.new.create_application(states: %i[enrolled], courses_to_apply_to: courses_we_want).first
+    provider_user = application_choice.provider.provider_users.first
+
+    offer_audit = application_choice.reload.audits.where("audited_changes @> '{\"status\": [\"recruited\", \"enrolled\"]}'").first
+    expect(offer_audit).not_to be_nil
+    expect(offer_audit.user).to eq provider_user
+  end
+
   it 'throws an exception if there aren’t enough courses to apply to' do
     expect {
       TestApplications.new.create_application(states: %i[offer])
