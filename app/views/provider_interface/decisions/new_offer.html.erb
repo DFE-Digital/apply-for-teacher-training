@@ -5,6 +5,7 @@
 
 <%= form_with model: @application_offer, url: provider_interface_application_choice_confirm_offer_path(@application_choice.id), method: :post do |f| %>
   <%= f.govuk_error_summary %>
+  <%= hidden_field_tag :course_option_id, params[:course_option_id] %>
 
   <h1 class="govuk-heading-xl">
     Conditions of offer
@@ -12,9 +13,9 @@
 
   <%= render SummaryListComponent.new(rows: [
     { key: 'Full name', value: @application_choice.application_form.full_name },
-    { key: 'Course', value: @application_choice.course.name_and_code },
+    { key: 'Course', value: @application_choice.offered_course.name_and_code },
     { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
-    { key: 'Preferred location', value: @application_choice.site.name },
+    { key: 'Preferred location', value: @application_choice.offered_site.name },
   ]) %>
 
   <div class="govuk-grid-row">
