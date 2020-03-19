@@ -3,7 +3,7 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_not_amendable
     before_action :redirect_to_review_referees_if_amendable, except: %i[index review]
     before_action :set_referee, only: %i[edit update confirm_destroy destroy]
-    before_action :set_referees, only: %i[type update_type index review]
+    before_action :set_referees, only: %i[type update_type new create index review]
 
     def index
       unless @referees.empty?
