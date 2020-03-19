@@ -144,36 +144,6 @@ class TestApplications
     choice.update_columns(accepted_at: time)
   end
 
-  def make_offer(choice, conditions: ['Complete DBS'])
-    fast_forward(1..3)
-    MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: conditions).save
-    choice.update_columns(offered_at: time)
-  end
-
-  def reject_application(choice)
-    fast_forward(1..3)
-    RejectApplication.new(application_choice: choice, rejection_reason: 'Some').save
-    choice.update_columns(rejected_at: time)
-  end
-
-  def withdraw_offer(choice)
-    fast_forward(1..3)
-    WithdrawOffer.new(application_choice: choice, offer_withdrawal_reason: 'Offer withdrawal reason is...').save
-    choice.update_columns(withdrawn_at: time)
-  end
-
-  def conditions_not_met(choice)
-    fast_forward(1..3)
-    ConditionsNotMet.new(application_choice: choice).save
-    choice.update_columns(conditions_not_met_at: time)
-  end
-
-  def confirm_offer_conditions(choice)
-    fast_forward(1..3)
-    ConfirmOfferConditions.new(application_choice: choice).save
-    choice.update_columns(recruited_at: time)
-  end
-
   def withdraw_application(choice)
     fast_forward(1..3)
     WithdrawApplication.new(application_choice: choice).save!
@@ -186,14 +156,71 @@ class TestApplications
     choice.update_columns(declined_at: time)
   end
 
+  def make_offer(choice, conditions: ['Complete DBS'])
+    as_provider_user(choice) do
+      fast_forward(1..3)
+      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: conditions).save
+      choice.update_columns(offered_at: time)
+    end
+  end
+
+  def reject_application(choice)
+    as_provider_user(choice) do
+      fast_forward(1..3)
+      RejectApplication.new(application_choice: choice, rejection_reason: 'Some').save
+      choice.update_columns(rejected_at: time)
+    end
+  end
+
+  def withdraw_offer(choice)
+    as_provider_user(choice) do
+      fast_forward(1..3)
+      WithdrawOffer.new(application_choice: choice, offer_withdrawal_reason: 'Offer withdrawal reason is...').save
+      choice.update_columns(withdrawn_at: time)
+    end
+  end
+
+  def conditions_not_met(choice)
+    as_provider_user(choice) do
+      fast_forward(1..3)
+      ConditionsNotMet.new(application_choice: choice).save
+      choice.update_columns(conditions_not_met_at: time)
+    end
+  end
+
+  def confirm_offer_conditions(choice)
+    as_provider_user(choice) do
+      fast_forward(1..3)
+      ConfirmOfferConditions.new(application_choice: choice).save
+      choice.update_columns(recruited_at: time)
+    end
+  end
+
   def confirm_enrollment(choice)
-    fast_forward(1..3)
-    ConfirmEnrolment.new(application_choice: choice).save
-    choice.update_columns(enrolled_at: time)
+    as_provider_user(choice) do
+      fast_forward(1..3)
+      ConfirmEnrolment.new(application_choice: choice).save
+      choice.update_columns(enrolled_at: time)
+    end
   end
 
   def actor
     SupportUser.first_or_initialize
+  end
+
+  def provider_user(choice)
+    provider_user = choice.provider.provider_users.first
+    return provider_user if provider_user.present?
+
+    provider_user = FactoryBot.create :provider_user
+    choice.provider.provider_users << provider_user
+    provider_user
+  end
+
+  def as_provider_user(choice)
+    Audited.audit_class.as_user(provider_user(choice)) do
+      yield
+    end
   end
 
   def without_slack_message_sending
