@@ -8,14 +8,8 @@ class FilterApplicationChoicesForProviders
   class << self
   private
 
-    def prepare_search_array(search_terms)
-      search_terms.downcase.split.map { |name| "%#{name}%"}
-    end
-
     def search(application_choices, candidates_name)
-      search_array = prepare_search_array(candidates_name)
-      application_choices.where('first_name ILIKE ANY (array[?])', search_array)
-        .or(application_choices.where('last_name ILIKE ANY (array[?])', search_array))
+      application_choices.where("CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{candidates_name}%")
     end
 
     def status(application_choices, filters)
