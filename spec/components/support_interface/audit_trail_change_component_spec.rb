@@ -45,8 +45,9 @@ RSpec.describe SupportInterface::AuditTrailChangeComponent do
         .to include('{"sex"=>"[REDACTED]"} → {"sex"=>"[REDACTED]", "disabilities"=>"[REDACTED]"}')
     end
 
-    # this doesn’t happen at the moment but it would be suprising
-    # not to support it
-    it 'redacts top level keys as well as nested hashes'
+    it 'redacts top level keys as well as nested hashes' do
+      expect(render_result(attribute: 'sex', values: [nil, 'male']).text)
+        .to include('[REDACTED]')
+    end
   end
 end
