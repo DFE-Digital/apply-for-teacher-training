@@ -28,11 +28,11 @@ module SupportInterface
     def status_tag
       colour_tag = {
         not_tracked: 'govuk-tag--grey',
-        pending: 'govuk-tag--pink',
+        pending: 'govuk-tag--yellow',
         unknown: 'govuk-tag--grey',
         delivered: 'govuk-tag--green',
         permanent_failure: 'govuk-tag--red',
-        temporary_failure: 'govuk-tag--yellow',
+        temporary_failure: 'govuk-tag--pink',
         technical_failure: 'govuk-tag--orange',
       }[email.delivery_status.to_sym]
 
