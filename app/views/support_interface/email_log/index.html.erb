@@ -9,32 +9,7 @@
   </thead>
   <tbody class="govuk-table__body">
   <% @emails.each do |email| %>
-    <tr class="govuk-table__row">
-      <td class="govuk-table__cell">
-        <%= email.created_at.to_s(:govuk_date_and_time) %>
-      </td>
-      <td class="govuk-table__cell">
-        <%= render SummaryListComponent.new(rows: [
-          { key: 'Type', value: email.humanised_email_type },
-          { key: 'Reference', value: email.notify_reference },
-          { key: 'To', value: email.to },
-          { key: 'Subject', value: email.subject },
-          { key: 'Application', value: (email.application_form ? govuk_link_to("#{email.application_form.full_name} (#{email.application_form.support_reference})", support_interface_application_form_path(email.application_form)) : nil) },
-          { key: 'Status', value: tag.span(email.delivery_status.humanize, class: "govuk-tag #{email.delivered? ? nil : 'govuk-tag--red'}") },
-        ]) %>
-
-        <details class="govuk-details" data-module="govuk-details">
-          <summary class="govuk-details__summary">
-            <span class="govuk-details__summary-text">
-              Email body
-            </span>
-          </summary>
-          <div class="govuk-details__text">
-            <%= tag.pre(email.body) %>
-          </div>
-        </details>
-      </td>
-    </tr>
+    <%= render SupportInterface::EmailLogRowComponent.new(email: email) %>
   <% end %>
   </tbody>
 </table>

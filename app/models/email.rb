@@ -4,7 +4,18 @@ class Email < ApplicationRecord
   belongs_to :application_form, optional: true
 
   enum delivery_status: {
+    # Email predates implementation of GOV.UK Notify callback
+    not_tracked: 'not_tracked',
+
+    # Email has been sent, but we're waiting on callback from GOV.UK Notify
+    pending: 'pending',
+
+    # DEPRECATED - do not use
     unknown: 'unknown',
+
+    # Mirrors the state that we get back from GOV.UK Notify
+    #
+    # https://docs.notifications.service.gov.uk/rest-api.html#set-up-callbacks
     delivered: 'delivered',
     permanent_failure: 'permanent_failure',
     temporary_failure: 'temporary_failure',

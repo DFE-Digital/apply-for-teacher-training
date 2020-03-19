@@ -15,6 +15,7 @@ class EmailLogInterceptor
       application_form_id: mail.header['application_form_id']&.value,
       mailer: mail.header['rails_mailer'].value,
       mail_template: mail.header['rails_mail_template'].value,
+      delivery_status: 'pending',
     )
   rescue StandardError => e
     # Email logging should not stop the actual email sending
