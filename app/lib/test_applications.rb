@@ -65,6 +65,7 @@ class TestApplications
       return if states.include? :unsubmitted
 
       without_slack_message_sending do
+        fast_forward(1..2)
         SubmitApplication.new(@application_form, skip_emails: true).call
         @application_form.update_columns(submitted_at: @time)
         @application_form.application_choices.each do |application_choice|
