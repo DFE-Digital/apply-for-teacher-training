@@ -197,6 +197,7 @@ en:
           attributes:
             email_address:
               blank: Email address can’t be blank
+              taken: A support user with this email address already exists
             dfe_sign_in_uid:
               blank: DfE Sign-in UID can’t be blank
         application_choice:

@@ -15,6 +15,9 @@ RSpec.feature 'Managing support users' do
 
     then_i_should_see_the_list_of_support_users
     and_i_should_see_the_user_i_created
+
+    when_i_submit_the_same_email_address_again
+    then_i_see_an_error
   end
 
   def given_i_am_a_support_user
@@ -52,5 +55,15 @@ RSpec.feature 'Managing support users' do
 
   def and_i_should_see_the_user_i_created
     expect(page).to have_content('harrison@example.com')
+  end
+
+  def when_i_submit_the_same_email_address_again
+    and_i_click_the_add_user_link
+    and_i_enter_the_users_email_and_dsi_uid
+    and_i_click_add_user
+  end
+
+  def then_i_see_an_error
+    expect(page).to have_content 'A support user with this email address already exists'
   end
 end
