@@ -26,6 +26,8 @@ module SupportInterface
     end
 
     def redact_equality_and_diversity_data(value)
+      return value unless value.is_a? Hash
+
       %w[sex disabilities ethnic_group ethnic_background].each do |field|
         next unless value[field]
 
