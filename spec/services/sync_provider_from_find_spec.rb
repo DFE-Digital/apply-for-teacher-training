@@ -157,6 +157,33 @@ RSpec.describe SyncProviderFromFind do
 
         expect(@existing_provider.reload.region_code).to eq 'north_west'
       end
+
+      it 'correctly handles existing course options with invalid sites' do
+        stub_find_api_provider_200(
+          provider_code: 'ABC',
+          course_code: '9CBA',
+          site_code: 'A',
+          findable: true,
+        )
+        allow(Raven).to receive(:capture_message)
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        expect(Course.count).to eq 1
+        expect(CourseOption.count).to eq 1
+        course = Course.first
+        valid_course_option = course.course_options.first
+
+        invalid_site_one = create(:site, provider: course.provider, code: 'B')
+        invalid_site_two = create(:site, provider: course.provider, code: 'C')
+        invalid_course_option_one = create(:course_option, course: course, site: invalid_site_one)
+        invalid_course_option_two = create(:course_option, course: course, site: invalid_site_two)
+        create(:application_choice, course_option: invalid_course_option_two)
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+
+        expect(CourseOption.exists?(invalid_course_option_one.id)).to eq false
+        expect(invalid_course_option_two.reload).to be_invalidated_by_find
+        expect(valid_course_option.reload).not_to be_invalidated_by_find
+        expect(Raven).to have_received(:capture_message).with(/1 invalid course option/)
+      end
     end
   end
 

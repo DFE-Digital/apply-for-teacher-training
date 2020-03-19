@@ -95,6 +95,7 @@ private
       end
     end
 
+    handle_course_options_with_invalid_sites(course, find_course)
   end
 
   def assign_course_attributes_from_find(course, find_course)
@@ -116,6 +117,26 @@ private
 
       course.accrediting_provider = accrediting_provider
     end
+  end
+
+  def handle_course_options_with_invalid_sites(course, find_course)
+    course_options = course.course_options.joins(:site)
+    canonical_site_codes = find_course.sites.map(&:code)
+    invalid_course_options = course_options.where.not(sites: { code: canonical_site_codes })
+
+    return if invalid_course_options.blank?
+
+    chosen_course_option_ids = ApplicationChoice.where(course_option: invalid_course_options).pluck(:course_option_id)
+
+    not_part_of_an_application = invalid_course_options.where.not(id: chosen_course_option_ids)
+    not_part_of_an_application.delete_all
+
+    part_of_an_application = invalid_course_options.where(id: chosen_course_option_ids)
+    part_of_an_application.update_all(invalidated_by_find: true)
+
+    Raven.capture_message(
+      "#{part_of_an_application.count} invalid course options chosen by candidates.",
+    )
   end
 
   class CourseVacancyStatus
