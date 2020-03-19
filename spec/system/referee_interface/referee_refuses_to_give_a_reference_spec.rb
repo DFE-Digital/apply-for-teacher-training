@@ -42,7 +42,7 @@ RSpec.feature 'Refusing to give a reference' do
   end
 
   def then_i_see_the_reference_comment_page
-    expect(page).to have_content("Give a teacher training reference for #{@application.full_name}")
+    expect(page).to have_content("Your reference for #{@application.full_name}")
   end
 
   def and_a_slack_notification_is_sent
