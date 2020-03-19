@@ -25,6 +25,9 @@ RSpec.feature 'Provider changes an offer' do
 
     when_i_inspect_and_confirm_these_changes
     then_the_offer_has_new_course_and_location_details
+
+    given_i_am_the_candidate_of_the_changed_offer
+    then_i_receive_an_email_about_the_changed_offer
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -113,5 +116,17 @@ RSpec.feature 'Provider changes an offer' do
     expect(page).to have_content @course_option_three.course.name_and_code
     expect(page).to have_content @course_option_three.site.name_and_address
     expect(@application_offered.reload.offered_option).to eq(@course_option_three)
+  end
+
+  def given_i_am_the_candidate_of_the_changed_offer
+    @candidate = @application_offered.application_form.candidate
+  end
+
+  def then_i_receive_an_email_about_the_changed_offer
+    open_email(@candidate.email_address)
+
+    expect(current_email.subject).to include(
+      t('candidate_mailer.changed_offer.subject', provider_name: @course_option_three.course.provider.name),
+    )
   end
 end
