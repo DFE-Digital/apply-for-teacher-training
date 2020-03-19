@@ -30,7 +30,7 @@ module CandidateInterface
           flash[:warning] = "You have already selected #{course.name_and_code}."
           redirect_to candidate_interface_course_choices_review_path
         elsif service.candidate_already_has_3_courses
-          flash[:warning] = "You cannot have more than 3 course choices. You must delete a choice if you want to apply to #{course.name_and_code}."
+          flash[:warning] = I18n.t('errors.messages.too_many_course_choices', course_name_and_code: course.name_and_code)
           redirect_to candidate_interface_course_choices_review_path
         elsif !service.candidate_does_not_have_a_course_from_find
           redirect_to candidate_interface_course_confirm_selection_path(course_id: course.id)
@@ -55,7 +55,7 @@ module CandidateInterface
           flash[:warning] = "You have already selected #{course.name_and_code}."
           redirect_to candidate_interface_course_choices_review_path
         elsif service.candidate_already_has_3_courses
-          flash[:warning] = "You cannot have more than 3 course choices. You must delete a choice if you want to apply to #{course.name_and_code}."
+          flash[:warning] = I18n.t('errors.messages.too_many_course_choices', course_name_and_code: course.name_and_code)
           redirect_to candidate_interface_course_choices_review_path
         elsif service.candidate_has_new_course_added
           redirect_to candidate_interface_course_choices_review_path

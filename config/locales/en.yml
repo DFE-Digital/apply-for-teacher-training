@@ -4,14 +4,14 @@ en:
     manage: Manage teacher training applications
     support: Support for Apply
   page_titles:
-    application: ''
+    application: ""
     application_form: Your application
     edit_application_form: Edit your application
     application_dashboard: Application dashboard
     application_edit: Editing your application
     eligibility: Check we’re ready for you to use this service
-    error_prefix: 'Error: '
-    success_prefix: 'Success: '
+    error_prefix: "Error: "
+    success_prefix: "Success: "
     not_eligible_yet: We’re sorry, but we’re not ready for you yet
     submitted_application: Your submitted application
     sign_up: Create an account
@@ -88,7 +88,7 @@ en:
     providers: Training providers available through Apply for teacher training
     view_and_respond_to_offer: Details of offer
     api_docs:
-      home:  Apply for teacher training
+      home: Apply for teacher training
       usage: Usage scenarios
       reference: API reference
       help: Get help
@@ -211,6 +211,7 @@ en:
   errors:
     messages:
       too_many_words: Must be %{count} words or fewer
+      too_many_course_choices: You cannot have more than 3 course choices. You must delete a choice if you want to apply to #{course_name_and_code}.
   date:
     formats:
       long: "%e %B %Y"
