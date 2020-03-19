@@ -180,4 +180,37 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
   end
+
+  describe '.changed_offer' do
+    before do
+      application_form = build_stubbed(:application_form, first_name: 'Tingker Bell')
+      provider = build_stubbed(:provider, name: 'Neverland University')
+      course_option = build_stubbed(
+        :course_option,
+        course: build_stubbed(:course, name: 'Flying', code: 'F1Y', provider: provider),
+        site: build_stubbed(:site, name: 'Peter School', provider: provider),
+      )
+      offered_course_option = build_stubbed(
+        :course_option,
+        course: build_stubbed(:course, name: 'Fighting', code: 'F1G', provider: provider),
+        site: build_stubbed(:site, name: 'Pan School', provider: provider),
+      )
+
+      @application_choice = build_stubbed(
+        :submitted_application_choice,
+        course_option: course_option,
+        offered_course_option: offered_course_option,
+        application_form: application_form,
+      )
+    end
+
+    it_behaves_like(
+      'a mail with subject and content',
+      :changed_offer,
+      'Neverland University changed the details of your offer',
+      'heading' => 'Dear Tingker Bell',
+      'previous offer' => 'Flying (F1Y) at Peter School',
+      'new offer' => 'Fighting (F1G) at Pan School with Neverland University',
+    )
+  end
 end

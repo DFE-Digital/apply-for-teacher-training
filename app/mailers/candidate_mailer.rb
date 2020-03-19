@@ -152,6 +152,17 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def changed_offer(application_choice)
+    @application_choice = application_choice
+    @previous_offer = @application_choice.course_option
+    @new_offer = @application_choice.offered_course_option
+
+    email_for_candidate(
+      @application_choice.application_form,
+      subject: I18n.t!('candidate_mailer.changed_offer.subject', provider_name: @previous_offer.course.provider.name),
+    )
+  end
+
 private
 
   def new_offer(application_choice, template_name)
