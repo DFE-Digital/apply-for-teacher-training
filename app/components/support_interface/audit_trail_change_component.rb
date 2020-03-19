@@ -13,11 +13,10 @@ module SupportInterface
 
     def format_audit_values
       if values.is_a? Array
-        before = values[0] ? redact_equality_and_diversity_data(values[0]) : 'nil'
-        after = values[1] ? redact_equality_and_diversity_data(values[1]) : 'nil'
+        before, after = values.map { |v| redact_equality_and_diversity_data(v) || 'nil' }
         "#{before} → #{after}"
       else
-        values.to_s
+        redact_equality_and_diversity_data(values) || 'nil'
       end
     end
 
@@ -33,6 +32,7 @@ module SupportInterface
 
         value[field] = '[REDACTED]'
       end
+
       value
     end
 

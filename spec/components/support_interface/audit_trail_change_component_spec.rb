@@ -35,8 +35,18 @@ RSpec.describe SupportInterface::AuditTrailChangeComponent do
     expect(render_result(values: { 'fox' => 'in socks' }).text).to include('{"fox"=>"in socks"}')
   end
 
-  it 'redacts sensitive information' do
-    expect(render_result(values: [{ 'sex' => 'male' }, { 'sex' => 'male', 'disabilities' => [] }]).text)
-      .to include('{"sex"=>"[REDACTED]"} → {"sex"=>"[REDACTED]", "disabilities"=>"[REDACTED]"}')
+  describe 'redaction' do
+    it 'redacts sensitive information on creates' do
+      expect(render_result(values: { 'sex' => 'male' }).text).to include('{"sex"=>"[REDACTED]"}')
+    end
+
+    it 'redacts sensitive information on updates' do
+      expect(render_result(values: [{ 'sex' => 'male' }, { 'sex' => 'male', 'disabilities' => [] }]).text)
+        .to include('{"sex"=>"[REDACTED]"} → {"sex"=>"[REDACTED]", "disabilities"=>"[REDACTED]"}')
+    end
+
+    # this doesn’t happen at the moment but it would be suprising
+    # not to support it
+    it 'redacts top level keys as well as nested hashes'
   end
 end
