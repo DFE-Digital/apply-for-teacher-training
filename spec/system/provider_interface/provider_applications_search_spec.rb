@@ -68,7 +68,6 @@ RSpec.feature 'Providers should be able to filter applications' do
     expect(page).to have_field('filter_selections[search][candidates_name]', with: 'ame')
   end
 
-
   def and_the_name_should_appear_in_search_field
     expect(page).to have_field('filter_selections[search][candidates_name]', with: 'Jim James')
   end
