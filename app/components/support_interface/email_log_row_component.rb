@@ -9,7 +9,17 @@ module SupportInterface
     end
 
     def status_tag
-      tag.span(email.delivery_status.humanize, class: "govuk-tag #{email.delivered? ? nil : 'govuk-tag--red'}")
+      colour_tag = {
+        not_tracked: 'govuk-tag--grey',
+        pending: 'govuk-tag--pink',
+        unknown: 'govuk-tag--grey',
+        delivered: 'govuk-tag--green',
+        permanent_failure: 'govuk-tag--red',
+        temporary_failure: 'govuk-tag--yellow',
+        technical_failure: 'govuk-tag--orange',
+      }[email.delivery_status.to_sym]
+
+      tag.span(email.delivery_status.humanize, class: "govuk-tag #{colour_tag}")
     end
 
     def application_link
