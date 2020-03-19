@@ -45,5 +45,9 @@ module ProviderInterface
     def self.course_option_matches_course?(record)
       record.course_option_id && CourseOption.find(record.course_option_id).course.id == record.course_id
     end
+
+    def new_offer?
+      application_choice.offer.blank?
+    end
   end
 end

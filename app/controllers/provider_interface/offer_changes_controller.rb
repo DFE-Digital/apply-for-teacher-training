@@ -29,15 +29,14 @@ module ProviderInterface
 
     def confirm_update
       @change_offer_form.step = :confirm
+
       if @change_offer_form.valid?
+        return redirect_to_amend_new_offer if @change_offer_form.new_offer?
+
         @future_application_choice = @application_choice.dup
         @future_application_choice.offered_course_option_id = @change_offer_form.course_option_id
-      elsif @change_offer_form.errors[:provider_id].present?
-        render_providers
-      elsif @change_offer_form.errors[:course_id].present?
-        render_courses
       else
-        render_course_options
+        render_step_for_invalid_form
       end
     end
 
@@ -70,6 +69,21 @@ module ProviderInterface
     def render_course_options
       set_alternative_course_options
       render :edit_course_option
+    end
+
+    def render_step_for_invalid_form
+      return render_providers if @change_offer_form.errors[:provider_id].present?
+      return render_courses if @change_offer_form.errors[:course_id].present?
+
+      render_course_options
+    end
+
+    def redirect_to_amend_new_offer
+      redirect_to(
+        provider_interface_application_choice_new_offer_path(
+          course_option_id: @change_offer_form.course_option_id,
+        ),
+      )
     end
 
     def requires_provider_change_response_feature_flag
