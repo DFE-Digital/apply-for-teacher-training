@@ -2,6 +2,8 @@ class TestApplications
   class NotEnoughCoursesError < RuntimeError; end
   class ZeroCoursesPerApplicationError < RuntimeError; end
 
+  attr_reader :time
+
   def generate_for_provider(provider:, courses_per_application:, count:)
     1.upto(count).flat_map do
       create_application(
@@ -20,7 +22,7 @@ class TestApplications
     candidate = FactoryBot.create(
       :candidate,
       email_address: "#{first_name.downcase}.#{last_name.downcase}@example.com",
-      created_at: @time,
+      created_at: time,
     )
 
     courses_to_apply_to ||= Course.joins(:course_options)
@@ -47,7 +49,7 @@ class TestApplications
         candidate: candidate,
         first_name: first_name,
         last_name: last_name,
-        created_at: @time,
+        created_at: time,
       )
 
       fast_forward(1..2)
@@ -58,7 +60,7 @@ class TestApplications
           course_option: course.course_options.first,
           application_form: @application_form,
           personal_statement: Faker::Lorem.paragraph(sentence_count: 5),
-          created_at: @time,
+          created_at: time,
         )
       end
 
@@ -67,9 +69,9 @@ class TestApplications
       without_slack_message_sending do
         fast_forward(1..2)
         SubmitApplication.new(@application_form, skip_emails: true).call
-        @application_form.update_columns(submitted_at: @time)
+        @application_form.update_columns(submitted_at: time)
         @application_form.application_choices.each do |application_choice|
-          application_choice.update_columns(edit_by: @time + 7.days)
+          application_choice.update_columns(edit_by: time + 7.days)
         end
         return if states.include? :awaiting_references
 
@@ -104,76 +106,76 @@ class TestApplications
     case state
     when :offer
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
-      choice.update_columns(offered_at: @time)
+      choice.update_columns(offered_at: time)
     when :rejected
       fast_forward(1..3)
       RejectApplication.new(application_choice: choice, rejection_reason: 'Some').save
-      choice.update_columns(rejected_at: @time)
+      choice.update_columns(rejected_at: time)
     when :offer_withdrawn
       fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
-      choice.update_columns(offered_at: @time)
+      choice.update_columns(offered_at: time)
       fast_forward(1..3)
       WithdrawOffer.new(application_choice: choice, offer_withdrawal_reason: 'Offer withdrawal reason is...').save
-      choice.update_columns(withdrawn_at: @time)
+      choice.update_columns(withdrawn_at: time)
     when :declined
       fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
-      choice.update_columns(offered_at: @time)
+      choice.update_columns(offered_at: time)
       fast_forward(1..3)
       DeclineOffer.new(application_choice: choice).save!
-      choice.update_columns(declined_at: @time)
+      choice.update_columns(declined_at: time)
     when :accepted
       fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS', 'Fitness to teach check']).save
-      choice.update_columns(offered_at: @time)
+      choice.update_columns(offered_at: time)
       fast_forward(1..3)
       AcceptOffer.new(application_choice: choice).save!
-      choice.update_columns(accepted_at: @time)
+      choice.update_columns(accepted_at: time)
     when :accepted_no_conditions
       fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: []).save
-      choice.update_columns(offered_at: @time)
+      choice.update_columns(offered_at: time)
       fast_forward(1..3)
       AcceptOffer.new(application_choice: choice).save!
-      choice.update_columns(accepted_at: @time)
+      choice.update_columns(accepted_at: time)
     when :conditions_not_met
       fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS', 'Fitness to teach check', 'Complete course']).save
-      choice.update_columns(offered_at: @time)
+      choice.update_columns(offered_at: time)
       fast_forward(1..3)
       AcceptOffer.new(application_choice: choice).save!
-      choice.update_columns(accepted_at: @time)
+      choice.update_columns(accepted_at: time)
       fast_forward(1..3)
       ConditionsNotMet.new(application_choice: choice).save
-      choice.update_columns(conditions_not_met_at: @time)
+      choice.update_columns(conditions_not_met_at: time)
     when :recruited
       fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS', 'Fitness to teach check']).save
-      choice.update_columns(offered_at: @time)
+      choice.update_columns(offered_at: time)
       fast_forward(1..3)
       AcceptOffer.new(application_choice: choice).save!
-      choice.update_columns(accepted_at: @time)
+      choice.update_columns(accepted_at: time)
       fast_forward(1..3)
       ConfirmOfferConditions.new(application_choice: choice).save
-      choice.update_columns(recruited_at: @time)
+      choice.update_columns(recruited_at: time)
     when :enrolled
       fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
-      choice.update_columns(offered_at: @time)
+      choice.update_columns(offered_at: time)
       fast_forward(1..3)
       AcceptOffer.new(application_choice: choice).save!
-      choice.update_columns(accepted_at: @time)
+      choice.update_columns(accepted_at: time)
       fast_forward(1..3)
       ConfirmOfferConditions.new(application_choice: choice).save
-      choice.update_columns(recruited_at: @time)
+      choice.update_columns(recruited_at: time)
       fast_forward(1..3)
       ConfirmEnrolment.new(application_choice: choice).save
-      choice.update_columns(enrolled_at: @time)
+      choice.update_columns(enrolled_at: time)
     when :withdrawn
       fast_forward(1..3)
       WithdrawApplication.new(application_choice: choice).save!
-      choice.update_columns(withdrawn_at: @time)
+      choice.update_columns(withdrawn_at: time)
     end
   end
 
@@ -192,14 +194,14 @@ class TestApplications
   end
 
   def fast_forward(range)
-    @time = @time + rand(range).days
+    @time = time + rand(range).days
     update_new_audits
   end
 
   def update_new_audits
     @last_audit_id ||= 0
     @application_form.own_and_associated_audits.where('id > ?', @last_audit_id).each do |audit|
-      audit.update_columns(created_at: @time)
+      audit.update_columns(created_at: time)
       @last_audit_id = audit.id
     end
   end
