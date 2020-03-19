@@ -258,60 +258,8 @@ RSpec.feature 'Providers should be able to filter applications' do
     click_button('Apply filters')
   end
 
-  def then_i_expect_to_see_the_hide_filter_button
-    expect(page).to have_content('Hide filter')
-  end
-
-  def then_i_expect_to_see_the_filter_dialogue
-    expect(page).to have_button('Apply filters')
-  end
-
-  def when_i_filter_by_provider
-    find(:css, '#provider-hoth-teacher-training').set(true)
-    find(:css, '#provider-caladan-university').set(true)
-    click_button('Apply filters')
-  end
-
-
-
-#--------------------
-
-  def when_i_filter_for_rejected_applications
-    find(:css, '#status-rejected').set(true)
-    click_button('Apply filters')
-  end
-
-  def and_the_rejected_tickbox_should_still_be_checked
-    rejected_checkbox = find(:css, '#status-rejected')
-    expect(rejected_checkbox.checked?).to be(true)
-  end
-
-  def then_i_only_see_applications_for_a_given_provider
-    expect(page).to have_css('.govuk-table__body', text: 'Hoth Teacher Training')
-    expect(page).to have_css('.govuk-table__body', text: 'Caladan University')
-    expect(page).not_to have_css('.govuk-table__body', text: 'University of Arrakis')
-  end
-
   def then_i_expect_the_relevant_provider_tags_to_be_visible
     expect(page).to have_css('.moj-filter-tags', text: 'Hoth Teacher Training')
     expect(page).to have_css('.moj-filter-tags', text: 'Caladan University')
   end
-
-  def when_i_click_to_remove_a_tag
-    click_link('Hoth Teacher Training')
-  end
-
-  def then_i_expect_that_tag_not_to_be_visible
-    expect(page).not_to have_css('.moj-filter-tags', text: 'Hoth Teacher Training')
-    expect(page).to have_css('.moj-filter-tags', text: 'Caladan University')
-  end
-
-  def and_the_remaining_filters_to_still_apply
-    expect(page).to have_css('.govuk-table__body', text: 'Caladan University')
-  end
-
-  def and_a_rejected_tag_should_be_visible
-    expect(page).to have_css('.moj-filter-tags', text: 'Rejected')
-  end
-#--------------------%%%
 end
