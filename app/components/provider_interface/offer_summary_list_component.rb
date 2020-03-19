@@ -8,10 +8,6 @@ module ProviderInterface
       @header = header
     end
 
-    def render?
-      application_choice.offer.present? || raise(NoOfferError)
-    end
-
     def rows
       [
         {
@@ -32,7 +28,5 @@ module ProviderInterface
         },
       ]
     end
-
-    class NoOfferError < StandardError; end
   end
 end
