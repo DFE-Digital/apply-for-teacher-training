@@ -33,19 +33,11 @@ module SupportInterface
     end
 
     def changes
-      audit.audited_changes.merge(comment_change).select { |_, values| audit_value_present?(values) }
+      audit.audited_changes.merge(comment_change).reject { |_, values| values.blank? }
     end
 
     def comment_change
       { 'comment' => audit.comment }
-    end
-
-    def audit_value_present?(value)
-      if value.is_a? Array
-        value.any?(&:present?)
-      else
-        value.present?
-      end
     end
 
     attr_reader :audit

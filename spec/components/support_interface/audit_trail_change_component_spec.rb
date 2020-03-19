@@ -23,8 +23,31 @@ RSpec.describe SupportInterface::AuditTrailChangeComponent do
     expect(render_result(values: 'only_one').text).to match(/title\s*only_one/m)
   end
 
-  it 'redacts sensitive information' do
-    expect(render_result(values: [{ 'sex' => 'male' }, { 'sex' => 'male', 'disabilities' => [] }]).text)
-      .to include('{"sex"=>"[REDACTED]"} → {"sex"=>"[REDACTED]", "disabilities"=>"[REDACTED]"}')
+  it 'renders an update with hash values' do
+    expect(render_result(values: [{ 'fox' => 'in socks' }, { 'cat' => 'in hat' }]).text).to include('{"fox"=>"in socks"} → {"cat"=>"in hat"}')
+  end
+
+  it 'renders an update with an integer value' do
+    expect(render_result(values: [nil, 40]).text).to include('40')
+  end
+
+  it 'renders a create with a hash value' do
+    expect(render_result(values: { 'fox' => 'in socks' }).text).to include('{"fox"=>"in socks"}')
+  end
+
+  describe 'redaction' do
+    it 'redacts sensitive information on creates' do
+      expect(render_result(values: { 'sex' => 'male' }).text).to include('{"sex"=>"[REDACTED]"}')
+    end
+
+    it 'redacts sensitive information on updates' do
+      expect(render_result(values: [{ 'sex' => 'male' }, { 'sex' => 'male', 'disabilities' => [] }]).text)
+        .to include('{"sex"=>"[REDACTED]"} → {"sex"=>"[REDACTED]", "disabilities"=>"[REDACTED]"}')
+    end
+
+    it 'redacts top level keys as well as nested hashes' do
+      expect(render_result(attribute: 'sex', values: [nil, 'male']).text)
+        .to include('[REDACTED]')
+    end
   end
 end

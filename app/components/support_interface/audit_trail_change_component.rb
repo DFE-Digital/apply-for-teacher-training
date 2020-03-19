@@ -2,6 +2,8 @@ module SupportInterface
   class AuditTrailChangeComponent < ActionView::Component::Base
     include ViewHelper
 
+    REDACTED_ATTRIBUTES = %w[sex disabilities ethnic_group ethnic_background].freeze
+
     validates :attribute, presence: true
     validates :values, presence: true
 
@@ -12,13 +14,10 @@ module SupportInterface
     end
 
     def format_audit_values
-      if values.is_a? Array
-        before = values[0] ? redact_equality_and_diversity_data(values[0]) : 'nil'
-        after = values[1] ? redact_equality_and_diversity_data(values[1]) : 'nil'
-        "#{before} → #{after}"
-      else
-        values.to_s
-      end
+      return '[REDACTED]' if REDACTED_ATTRIBUTES.include?(@attribute)
+      return values.map { |v| redact_equality_and_diversity_data(v) || 'nil' }.join(' → ') if values.is_a?(Array)
+
+      redact_equality_and_diversity_data(values) || 'nil'
     end
 
     def style
@@ -26,11 +25,14 @@ module SupportInterface
     end
 
     def redact_equality_and_diversity_data(value)
-      %w[sex disabilities ethnic_group ethnic_background].each do |field|
+      return value unless value.is_a? Hash
+
+      REDACTED_ATTRIBUTES.each do |field|
         next unless value[field]
 
         value[field] = '[REDACTED]'
       end
+
       value
     end
 
