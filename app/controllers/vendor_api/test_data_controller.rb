@@ -14,7 +14,7 @@ module VendorApi
     end
 
     def generate
-      application_choices = TestApplications.generate_for_provider(
+      application_choices = TestApplications.new.generate_for_provider(
         provider: current_provider,
         courses_per_application: courses_per_application_param,
         count: count_param,
