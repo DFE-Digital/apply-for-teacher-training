@@ -19,6 +19,10 @@
         <div class='moj-scrollable-pane__wrapper'>
         <% if @application_choices.any? %>
           <%= render 'application_choices_table' %>
+        <% elsif @page_state.filter_selections.any? %>
+          <p class='govuk-body'>No applications for the selected filters.</p>
+        <% else %>
+          <p class='govuk-body'>You haven’t received any applications from <%= t('service_name.apply') %>.</p>
         <% end %>
         </div>
       </div>
@@ -27,19 +31,12 @@
 
   <%= render(PaginatorComponent.new(scope: @application_choices)) %>
 
-  <% if @page_state.filter_selections.any? %>
-    <p class='govuk-body'>No applications for the selected filters.</p>
-  <% else %>
-    <p class='govuk-body'>You haven’t received any applications from <%= t('service_name.apply') %>.</p>
-  <% end %>
 
 <% else %>
 
   <% if @application_choices.any? %>
     <%= render 'application_choices_table' %>
     <%= render(PaginatorComponent.new(scope: @application_choices)) %>
-  <% elsif @page_state.filter_selections.any? %>
-    <p class='govuk-body'>No applications for the selected filters.</p>
   <% else %>
     <p class='govuk-body'>You haven’t received any applications from <%= t('service_name.apply') %>.</p>
   <% end %>
