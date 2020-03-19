@@ -3,7 +3,7 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_not_amendable
     before_action :redirect_to_review_referees_if_amendable, except: %i[index review]
     before_action :set_referee, only: %i[edit update confirm_destroy destroy]
-    before_action :set_referees, only: %i[type update_type index review]
+    before_action :set_referees, only: %i[type update_type new create index review]
 
     def index
       unless @referees.empty?
@@ -12,15 +12,31 @@ module CandidateInterface
     end
 
     def type
-      @reference_type_form = Reference::RefereeTypeForm.new
+      if params[:id]
+        set_referee_id
+
+        @reference_type_form = Reference::RefereeTypeForm.build_from_reference(@referee)
+      else
+        @reference_type_form = Reference::RefereeTypeForm.new
+      end
     end
 
     def update_type
       @reference_type_form = Reference::RefereeTypeForm.new(referee_type: referee_type_param)
 
-      return render :type unless @reference_type_form.valid?
+      if params[:id]
+        set_referee_id
 
-      redirect_to candidate_interface_new_referee_path(type: referee_type_param)
+        return redirect_to action: 'type', id: @id unless @reference_type_form.valid?
+
+        @reference_type_form.save(@referee)
+
+        redirect_to candidate_interface_review_referees_path
+      else
+        return render :type unless @reference_type_form.valid?
+
+        redirect_to candidate_interface_new_referee_path(type: referee_type_param)
+      end
     end
 
     def new
@@ -72,6 +88,12 @@ module CandidateInterface
                                     .application_references
                                     .includes(:application_form)
                                     .find(params[:id])
+    end
+
+    def set_referee_id
+      set_referee
+
+      @id = @referee.id
     end
 
     def set_referees

@@ -8,10 +8,10 @@
 
       <h1 class="govuk-heading-xl">
         <span class="govuk-caption-xl">
-          <%= t('page_titles.nth_referee')[@referee.ordinal] %>
+          <%= t('page_titles.nth_referee')[(@referees.count + 1)] %>
         </span>
         <% if @referee.referee_type %>
-          Details of <%= @referee.referee_type.downcase %> referee
+          Details of <%= @referee.referee_type.downcase.dasherize %> referee
         <% else %>
           <%= t('page_titles.add_referee') %>
         <% end %>

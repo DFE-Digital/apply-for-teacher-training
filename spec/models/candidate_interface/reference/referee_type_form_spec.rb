@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::Reference::RefereeTypeForm, type: :model do
   describe '.build_from_reference' do
     it 'creates an object based on the reference' do
-      application_reference = build_stubbed(:reference, referee_type: 'School-based')
+      application_reference = build_stubbed(:reference, referee_type: :school_based)
       form = CandidateInterface::Reference::RefereeTypeForm.build_from_reference(application_reference)
 
-      expect(form.referee_type).to eq('School-based')
+      expect(form.referee_type).to eq('school_based')
     end
   end
 
@@ -23,18 +23,18 @@ RSpec.describe CandidateInterface::Reference::RefereeTypeForm, type: :model do
 
     context 'when referee_type has a value' do
       it 'updates the reference' do
-        form = CandidateInterface::Reference::RefereeTypeForm.new(referee_type: 'Professional')
+        form = CandidateInterface::Reference::RefereeTypeForm.new(referee_type: 'professional')
         form.save(application_reference)
 
-        expect(application_reference.referee_type).to eq('Professional')
+        expect(application_reference.referee_type).to eq('professional')
       end
 
       it 'updates the existing referee_type of the reference' do
-        application_reference = create(:reference, referee_type: 'School-based')
-        form = CandidateInterface::Reference::RefereeTypeForm.new(referee_type: 'Professional')
+        application_reference = create(:reference, referee_type: 'school-based')
+        form = CandidateInterface::Reference::RefereeTypeForm.new(referee_type: 'professional')
         form.save(application_reference)
 
-        expect(application_reference.referee_type).to eq('Professional')
+        expect(application_reference.referee_type).to eq('professional')
       end
     end
   end
