@@ -26,6 +26,8 @@ class MakeAnOffer
     @offer_conditions = offer_conditions
     @standard_conditions = standard_conditions
     further_conditions.each { |key, value| self.send("#{key}=", value) }
+
+    @application_choice.offered_course_option = offered_course_option
   end
 
   def save
@@ -58,15 +60,15 @@ class MakeAnOffer
     ].flatten.reject(&:blank?)
   end
 
-private
-
-  attr_reader :application_choice
-
   def offered_course_option
-    return nil unless @course_option_id && @course_option_id != application_choice.course_option.id
+    return unless @course_option_id.present? && @course_option_id != application_choice.course_option.id
 
     CourseOption.find @course_option_id
   end
+
+private
+
+  attr_reader :application_choice
 
   def further_conditions
     [
