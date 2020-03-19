@@ -24,6 +24,10 @@ RSpec.feature 'Providers should be able to filter applications' do
     when_i_clear_the_filters
     then_i_expect_all_applications_to_be_visible
 
+    when_i_search_for_part_of_a_candidate_name
+    then_only_applications_of_that_name_should_be_visible
+    and_the_part_of_the_name_should_appear_in_search_field
+
     when_i_search_for_candidate_name_with_odd_casing
     then_only_applications_of_that_name_should_be_visible
 
@@ -54,6 +58,16 @@ RSpec.feature 'Providers should be able to filter applications' do
     when_i_visit_the_provider_page
     then_i_do_not_expect_to_see_the_filter_dialogue
   end
+
+  def when_i_search_for_part_of_a_candidate_name
+    find(:css, '#candidates_name').set('ame')
+    click_button('Apply filters')
+  end
+
+  def and_the_part_of_the_name_should_appear_in_search_field
+    expect(page).to have_field('filter_selections[search][candidates_name]', with: 'ame')
+  end
+
 
   def and_the_name_should_appear_in_search_field
     expect(page).to have_field('filter_selections[search][candidates_name]', with: 'Jim James')

@@ -9,7 +9,7 @@ class FilterApplicationChoicesForProviders
   private
 
     def prepare_search_array(search_terms)
-      search_terms.downcase.gsub(/\W /, '').split
+      search_terms.downcase.split.map { |name| "%#{name}%"}
     end
 
     def search(application_choices, candidates_name)
