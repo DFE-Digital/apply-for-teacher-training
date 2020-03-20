@@ -7,39 +7,39 @@ class TimeLimitCalculator
   end
 
   def call
-    days = calculate_days
+    days, duration = calculate_days
     {
       days: days,
-      time_in_future: calculate_time_in_future(days),
-      time_in_past: calculate_time_in_past(days),
+      time_in_future: calculate_time_in_future(duration),
+      time_in_past: calculate_time_in_past(duration),
     }
   end
 
 private
 
-  def calculate_time_in_future(days)
-    return nil unless days
+  def calculate_time_in_future(duration)
+    return nil unless duration
 
-    days.business_days.after(effective_date).end_of_day
+    duration.after(effective_date).end_of_day
   end
 
-  def calculate_time_in_past(days)
-    return nil unless days
+  def calculate_time_in_past(duration)
+    return nil unless duration
 
-    days.business_days.before(effective_date).end_of_day
+    duration.before(effective_date).end_of_day
   end
 
   def calculate_days
     to_and_from_time_limits.each do |time_limit|
-      return time_limit.limit if effective_date <= time_limit.to_date && effective_date >= time_limit.from_date
+      return time_limit_to_days(time_limit) if effective_date <= time_limit.to_date && effective_date >= time_limit.from_date
     end
     from_time_limits.each do |time_limit|
-      return time_limit.limit if effective_date >= time_limit.from_date
+      return time_limit_to_days(time_limit) if effective_date >= time_limit.from_date
     end
     to_time_limits.each do |time_limit|
-      return time_limit.limit if effective_date <= time_limit.to_date
+      return time_limit_to_days(time_limit) if effective_date <= time_limit.to_date
     end
-    default_time_limit&.limit
+    time_limit_to_days(default_time_limit)
   end
 
   def time_limits_for_rule
@@ -60,5 +60,14 @@ private
 
   def default_time_limit
     time_limits_for_rule.find { |time_limit| time_limit.to_date.nil? && time_limit.from_date.nil? }
+  end
+
+  def time_limit_to_days(time_limit)
+    duration = time_limit&.limit
+    if time_limit.use_business_days
+      [duration, duration&.business_days]
+    else
+      [duration, duration&.days]
+    end
   end
 end
