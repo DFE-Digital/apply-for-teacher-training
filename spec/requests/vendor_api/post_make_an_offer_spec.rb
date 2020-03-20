@@ -126,62 +126,15 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
   end
 
   describe 'offering for application with a decision' do
-    it 'allows amending of conditions for existing offers' do
+    it 'allows amending of course_option and conditions for existing offers' do
       application_choice = create_application_choice_for_currently_authenticated_provider(
         status: 'awaiting_provider_decision',
       )
-      request_body = {
-        "data": {
-          "conditions": [
-            'Completion of subject knowledge enhancement',
-            'Completion of professional skills test',
-          ],
-        },
-      }
-
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
-
-      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
 
       request_body = {
         "data": {
           "conditions": [
-            'Completion of subject knowledge enhancement',
-            'Completion of professional skills test',
             'DBS Check',
-          ],
-        },
-      }
-
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
-
-      course_option = application_choice.course_option
-      expect(parsed_response['data']['attributes']['offer']).to eq(
-        'conditions' => [
-          'Completion of subject knowledge enhancement',
-          'Completion of professional skills test',
-          'DBS Check',
-        ],
-        'course' => {
-          'recruitment_cycle_year' => course_option.course.recruitment_cycle_year,
-          'provider_code' => course_option.course.provider.code,
-          'course_code' => course_option.course.code,
-          'site_code' => course_option.site.code,
-          'study_mode' => course_option.study_mode,
-        },
-      )
-    end
-
-    it 'allows amending of course_option for existing offers' do
-      application_choice = create_application_choice_for_currently_authenticated_provider(
-        status: 'awaiting_provider_decision',
-      )
-
-      request_body = {
-        "data": {
-          "conditions": [
-            'Completion of subject knowledge enhancement',
-            'Completion of professional skills test',
           ],
         },
       }
@@ -200,6 +153,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       request_body = {
         "data": {
           "conditions": [
+            'DBS Check',
             'Completion of subject knowledge enhancement',
             'Completion of professional skills test',
           ],
@@ -217,6 +171,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [
+          'DBS Check',
           'Completion of subject knowledge enhancement',
           'Completion of professional skills test',
         ],
