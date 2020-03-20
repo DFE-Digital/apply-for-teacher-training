@@ -265,7 +265,7 @@ FactoryBot.define do
 
     factory :submitted_application_choice do
       status { 'awaiting_provider_decision' }
-      reject_by_default_at { Time.zone.now + 40.days }
+      reject_by_default_at { 40.business_days.from_now }
       reject_by_default_days { 40 }
       association :application_form, factory: %i[completed_application_form with_completed_references]
     end
