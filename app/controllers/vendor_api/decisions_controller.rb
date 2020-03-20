@@ -18,13 +18,7 @@ module VendorApi
           site_code: course_data[:site_code],
         ).call
 
-        change_offer_form = ProviderInterface::ChangeOfferForm.new step: :update,
-                                                                   application_choice: application_choice,
-                                                                   provider_id: (course_option.course.provider.id if course_option),
-                                                                   course_id: (course_option.course.id if course_option),
-                                                                   course_option_id: (course_option.id if course_option)
-
-        (render_cannot_find_course_option and return) unless change_offer_form.valid?
+        (render_cannot_find_course_option and return) unless course_option && course_option.course.open_on_apply
       else
         course_option = nil
       end
@@ -96,22 +90,20 @@ module VendorApi
     end
 
     def respond_to_decision(decision)
-      begin
-        if decision.save
-          render json: { data: SingleApplicationPresenter.new(application_choice).as_json }
-        else
-          render_validation_errors(decision.errors)
-        end
-      rescue ProviderAuthorisation::NotAuthorisedError => e
-        render status: :unprocessable_entity, json: {
-          errors: [
-            {
-              error: 'NotAuthorisedError',
-              message: "#{e.message} failed",
-            },
-          ],
-        }
+      if decision.save
+        render json: { data: SingleApplicationPresenter.new(application_choice).as_json }
+      else
+        render_validation_errors(decision.errors)
       end
+    rescue ProviderAuthorisation::NotAuthorisedError => e
+      render status: :unprocessable_entity, json: {
+        errors: [
+          {
+            error: 'NotAuthorisedError',
+            message: "#{e.message} failed",
+          },
+        ],
+      }
     end
 
     # Takes errors from ActiveModel::Validations and render them in the API response

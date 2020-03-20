@@ -3,6 +3,10 @@ class GetCourseOptionFromCodes
   attr_accessor :provider_code, :course_code, :recruitment_cycle_year, :study_mode, :site_code
   attr_accessor :provider, :course, :site, :course_option
 
+  # Using validates_each because validation for each attribute depends on the values of other attributes
+  # The act of validation also performs the relevant lookups and memoizes the results, which are then used
+  # in subsequent validations.
+
   validates_each :provider_code do |record, attr, value|
     record.provider ||= Provider.find_by(code: value)
     record.errors.add(attr, "provider #{value} does not exist") unless record.provider
