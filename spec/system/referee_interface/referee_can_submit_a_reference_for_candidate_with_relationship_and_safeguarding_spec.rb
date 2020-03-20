@@ -38,7 +38,6 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
     when_i_choose_the_candidate_is_suitable_for_working_with_children
     and_i_click_on_continue
     then_i_see_the_reference_comment_page
-    and_i_see_the_list_of_the_courses_the_candidate_applied_to
 
     when_i_fill_in_the_reference_field
     and_i_click_on_continue
@@ -152,7 +151,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def then_i_see_the_reference_comment_page
-    expect(page).to have_content("Give a teacher training reference for #{@application.full_name}")
+    expect(page).to have_content("Your reference for #{@application.full_name}")
   end
 
   def when_i_fill_in_the_reference_field
@@ -224,13 +223,6 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
 
   def when_i_retry_to_edit_the_feedback
     visit @reference_feedback_url
-  end
-
-  def and_i_see_the_list_of_the_courses_the_candidate_applied_to
-    @application.application_choices.each do |application_choice|
-      expect(page).to have_content(application_choice.course.name)
-      expect(page).to have_content(application_choice.site.name)
-    end
   end
 
   def then_i_see_the_confirmation_page
