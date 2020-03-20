@@ -2,19 +2,21 @@ class RecalculateDates
   include Sidekiq::Worker
 
   def perform(*)
-    ApplicationChoice
-      .where(status: :awaiting_provider_decision)
-      .includes(:application_form)
-      .find_each do |application_choice|
-        update_reject_by_default(application_choice)
-      end
+    Audited.audit_class.as_user('RecalculateDates worker') do
+      ApplicationChoice
+        .where(status: :awaiting_provider_decision)
+        .includes(:application_form)
+        .find_each do |application_choice|
+          update_reject_by_default(application_choice)
+        end
 
-    ApplicationChoice
-      .where(status: :offer)
-      .includes(:application_form)
-      .find_each do |application_choice|
-        update_decline_by_default(application_choice)
-      end
+      ApplicationChoice
+        .where(status: :offer)
+        .includes(:application_form)
+        .find_each do |application_choice|
+          update_decline_by_default(application_choice)
+        end
+    end
   end
 
 private
