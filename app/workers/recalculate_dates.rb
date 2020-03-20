@@ -30,9 +30,11 @@ private
     days = time_limit[:days]
     time = time_limit[:time_in_future]
 
-    application_choice.reject_by_default_days = days
-    application_choice.reject_by_default_at = time
-    application_choice.save!
+    if times_are_different(time, application_choice.reject_by_default_at)
+      application_choice.reject_by_default_days = days
+      application_choice.reject_by_default_at = time
+      application_choice.save!
+    end
   end
 
   def update_decline_by_default(application_choice)
@@ -44,8 +46,14 @@ private
     days = time_limit[:days]
     time = time_limit[:time_in_future]
 
-    application_choice.decline_by_default_days = days
-    application_choice.decline_by_default_at = time
-    application_choice.save!
+    if times_are_different(time, application_choice.decline_by_default_at)
+      application_choice.decline_by_default_days = days
+      application_choice.decline_by_default_at = time
+      application_choice.save!
+    end
+  end
+
+  def times_are_different(time1, time2)
+    time1.to_s != time2.to_s
   end
 end
