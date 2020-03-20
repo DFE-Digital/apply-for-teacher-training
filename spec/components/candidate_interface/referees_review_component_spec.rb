@@ -122,6 +122,15 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
         expect(result.css('.govuk-summary-list__value').to_html).to include(first_referee.referee_type.capitalize.dasherize)
       end
 
+      it 'can tolerate when referee type is nil' do
+        first_referee = application_form.application_references.first
+        first_referee.update!(referee_type: nil)
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.govuk-summary-list__key').text).to include('Reference type')
+        expect(result.css('.govuk-summary-list__value').to_html).to include('')
+      end
+
       it 'renders correct text for "Change" links in reference type attribute row' do
         first_referee = application_form.application_references.first
         result = render_inline(described_class.new(application_form: application_form))

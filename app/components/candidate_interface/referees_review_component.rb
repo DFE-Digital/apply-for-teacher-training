@@ -62,7 +62,7 @@ module CandidateInterface
     def reference_type_row(referee)
       {
         key: 'Reference type',
-        value: referee.referee_type.capitalize.dasherize || '',
+        value: referee.referee_type ? referee.referee_type.capitalize.dasherize : '',
         action: "reference type for #{referee.name}",
         change_path: candidate_interface_referees_type_path(referee.id),
       }
