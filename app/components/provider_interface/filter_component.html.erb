@@ -26,25 +26,34 @@
 
 
             <% available_filters.each do |filter_group| %>
-              <% unless filter_group[:checkbox_config].size <= 1 %>
                 <div class="govuk-form-group">
                   <fieldset class="govuk-fieldset">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                      <%= filter_group[:heading].capitalize %>
-                    </legend>
 
-                    <% filter_group[:checkbox_config].each do |checkbox_config| %>
-                      <div class="govuk-checkboxes govuk-checkboxes--small">
-                        <%= render ProviderInterface::FilterCheckboxComponent.new(name: checkbox_config[:name],
-                                                                                  text: checkbox_config[:text],
-                                                                                  selected: checkbox_checked?(heading: filter_group[:heading], name: checkbox_config[:name]),
-                                                                                  heading: filter_group[:heading].parameterize)
-                         %>
-                      </div>
+                    <% if is_candidates_name_search_field?(filter_group) || form_group_fields_greater_than_one?(filter_group) %>
+                      <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        <%= filter_group[:heading].capitalize %>
+                      </legend>
+                    <% end %>
+
+                    <% filter_group[:input_config].each do |input_config| %>
+                      <% if is_candidates_name_search_field?(filter_group) %>
+                        <%= render ProviderInterface::FilterSearchComponent.new(name: input_config[:name],
+                                                                                type: input_config[:type],
+                                                                                heading: filter_group[:heading],
+                                                                                value: applied_filters.fetch(:search, {}).fetch(:candidates_name, "")) %>
+                      <% elsif form_group_fields_greater_than_one?(filter_group) %>
+                         <div class="govuk-checkboxes govuk-checkboxes--small">
+                           <%= render ProviderInterface::FilterCheckboxComponent.new(name: input_config[:name],
+                                                                                     text: input_config[:text],
+                                                                                     selected: checkbox_checked?(heading: filter_group[:heading],
+                                                                                                                 name: input_config[:name]),
+                                                                                     heading: filter_group[:heading].parameterize)
+                           %>
+                        </div>
+                      <% end %>
                     <% end %>
                   </fieldset>
                 </div>
-            <% end %>
           <% end %>
           </form>
         </div>

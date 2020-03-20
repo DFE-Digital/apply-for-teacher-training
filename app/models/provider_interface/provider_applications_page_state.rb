@@ -36,11 +36,19 @@ module ProviderInterface
     end
 
     def calculate_filter_selections
-      filter_params[:filter_selections].to_h ||= {}
+      filter_selections = filter_params[:filter_selections].to_h ||= {}
+      remove_candiates_name_search_if_empty(filter_selections)
+    end
+
+    def remove_candiates_name_search_if_empty(filter_selections)
+      return filter_selections if filter_selections.empty?
+
+      filter_selections.delete(:search) if filter_selections.dig(:search, :candidates_name) == ''
+      filter_selections
     end
 
     def filter_params
-      @params.permit(:filter_visible, filter_selections: { status: {}, provider: {} })
+      @params.permit(:filter_visible, filter_selections: { search: {}, status: {}, provider: {} })
     end
 
     def calculate_sort_order
@@ -52,56 +60,76 @@ module ProviderInterface
     end
 
     def calculate_available_filters
-      status_filters << provider_filters_builder
+      search_filters << status_filters << provider_filters_builder
     end
 
-    def status_filters
+    def search_filters
       [
         {
-          heading: 'status',
-          checkbox_config: [
-            {
-              text: 'Accepted',
-              name: 'pending_conditions',
-            },
-            {
-              text: 'Conditions met',
-              name: 'recruited',
-            },
-            {
-              text: 'Declined',
-              name: 'declined',
-            },
-            {
-              text: 'New',
-              name: 'awaiting_provider_decision',
-            },
-            {
-              text: 'Offered',
-              name: 'offer',
-            },
-            {
-              text: 'Rejected',
-              name: 'rejected',
-            },
-            {
-              text: 'Application withdrawn',
-              name: 'withdrawn',
-            },
-            {
-              text: 'Withdrawn by us',
-              name: 'offer_withdrawn',
-            },
-          ],
+          heading: 'candidate\'s name',
+          input_config: [{
+            type: 'search',
+            text: '',
+            name: 'candidates_name',
+          }],
         },
       ]
     end
 
+    def status_filters
+      {
+        heading: 'status',
+        input_config: [
+          {
+            type: 'checkbox',
+            text: 'Accepted',
+            name: 'pending_conditions',
+          },
+          {
+            type: 'checkbox',
+            text: 'Conditions met',
+            name: 'recruited',
+          },
+          {
+            type: 'checkbox',
+            text: 'Declined',
+            name: 'declined',
+          },
+          {
+            type: 'checkbox',
+            text: 'New',
+            name: 'awaiting_provider_decision',
+          },
+          {
+            type: 'checkbox',
+            text: 'Offered',
+            name: 'offer',
+          },
+          {
+            type: 'checkbox',
+            text: 'Rejected',
+            name: 'rejected',
+          },
+          {
+            type: 'checkbox',
+            text: 'Application withdrawn',
+            name: 'withdrawn',
+          },
+          {
+            type: 'checkbox',
+            text: 'Withdrawn by us',
+            name: 'offer_withdrawn',
+          },
+        ],
+      }
+    end
+
     def provider_filters_builder
-      checkbox_config = @application_choices.map do |choice|
+      input_config = @application_choices.map do |choice|
         provider = choice.provider
 
         {
+          type: 'checkbox',
           text: provider.name,
           name: provider.id.to_s,
         }
@@ -109,7 +137,7 @@ module ProviderInterface
 
       provider_filters = {
         heading: 'provider',
-        checkbox_config: checkbox_config.uniq!,
+        input_config: input_config.uniq,
       }
 
       provider_filters
