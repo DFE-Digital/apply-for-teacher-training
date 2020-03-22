@@ -98,13 +98,14 @@ class TestApplications
   end
 
   def put_application_choice_in_state(choice, state)
-    travel_to(choice.edit_by) if choice.edit_by > Time.zone.now
+    travel_to(choice.edit_by) if choice.edit_by > time
     SendApplicationToProvider.new(application_choice: choice).call
-    choice.update(edit_by: Time.zone.now)
+    choice.update(edit_by: time)
     return if state == :awaiting_provider_decision
 
     case state
     when :offer
+      fast_forward(1..3)
       MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
       choice.update_columns(offered_at: time)
     when :rejected
