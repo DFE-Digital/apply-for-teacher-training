@@ -15,8 +15,8 @@ class DeclineOfferByDefault
           ProviderMailer.declined_by_default(provider_user, application_choice).deliver_later
         end
       end
-
-      CandidateMailer.declined_by_default(application_form).deliver_later
     end
+
+    CandidateMailer.declined_by_default(application_form).deliver_later
   end
 end
