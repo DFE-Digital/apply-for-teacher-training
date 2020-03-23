@@ -14,8 +14,9 @@ class SetRejectByDefault
     days = time_limit[:days]
     time = time_limit[:time_in_future]
 
-    application_choice.reject_by_default_days = days
-    application_choice.reject_by_default_at = time
-    application_choice.save!
+    application_choice.update!(
+      reject_by_default_at: time,
+      reject_by_default_days: days,
+    )
   end
 end
