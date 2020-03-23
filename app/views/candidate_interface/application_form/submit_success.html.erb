@@ -20,6 +20,15 @@
     <p class="govuk-body">We can’t send your application to your training provider(s) without your references.</p>
     <p class="govuk-body">Training providers then have 40 working days to respond to your application.</p>
 
+    <% if FeatureFlag.active?('covid_19') %>
+
+      <h2 class="govuk-heading-m">Coronavirus (COVID-19)</h2>
+      <p class="govuk-body">We have extended the length of time training providers have to access your application. You may also have longer to respond to training providers once all your offers are in.</p>
+      <p class="govuk-body">You can check your deadlines on your <%= govuk_link_to t('page_titles.application_dashboard'), candidate_interface_application_complete_path %>.</p>
+      
+    <% end %>
+
+
     <h2 class="govuk-heading-m">Interview</h2>
     <p class="govuk-body">If your training provider decides to offer you an interview, they will get in touch directly via email to organise a date and give you all the information you need.</p>
 
