@@ -22,5 +22,9 @@ module ProviderInterface
     def terms_provider
       render_content_page :terms_provider
     end
+
+    def covid_19_guidance
+      render_content_page :covid_19_guidance
+    end
   end
 end

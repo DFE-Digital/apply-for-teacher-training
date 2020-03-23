@@ -340,6 +340,7 @@ Rails.application.routes.draw do
     get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
     get '/cookies', to: 'content#cookies_provider', as: :cookies
     get '/terms-of-use', to: 'content#terms_provider', as: :terms
+    get '/covid-19-guidance', to: 'content#covid_19_guidance', as: :covid_19_guidance
 
     get '/data-sharing-agreements/new', to: 'provider_agreements#new_data_sharing_agreement', as: :new_data_sharing_agreement
     post '/data-sharing-agreements', to: 'provider_agreements#create_data_sharing_agreement', as: :create_data_sharing_agreement
