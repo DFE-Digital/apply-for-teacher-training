@@ -10,7 +10,15 @@ Log in to Manage teacher training applications to respond:
 
 <%= provider_interface_application_choice_url(application_choice_id: @application.application_choice_id) %>
 
+<% if FeatureFlag.active?('covid_19') %>
+
+We’ll reject the application automatically if you have not responded by <%= @application.rbd_date.to_s(:govuk_date).strip %>.
+
+<% else %>
+
 We’ll reject the application on your behalf after <%= @application.rbd_days %> working days.
+
+<% end %>
 
 # Give feedback or report a problem
 
