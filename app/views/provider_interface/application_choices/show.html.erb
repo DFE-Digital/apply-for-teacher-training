@@ -65,6 +65,7 @@
     <% end %>
 
     <% binding.pry %>
+    <h2 class="govuk-heading-m govuk-!-margin-top-8" id="qualifications">Criminal convictions and professional misconduct</h2>
 
     <% if FeatureFlag.active?('safeguarding_declaration') %>
       <%= render ProviderInterface::SafeguardingDeclarationComponent.new(application_form: @application_choice.application_form)%>
