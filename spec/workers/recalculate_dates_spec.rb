@@ -19,7 +19,7 @@ RSpec.describe RecalculateDates do
 
     RecalculateDates.new.perform
 
-    new_reject_by_default = Time.zone.local(2020, 6, 17).end_of_day
+    new_reject_by_default = Time.zone.local(2020, 5, 21).end_of_day
 
     expect(application_choice.reload.reject_by_default_at).to be_within(1.second).of new_reject_by_default
   end
@@ -37,7 +37,7 @@ RSpec.describe RecalculateDates do
 
     RecalculateDates.new.perform
 
-    new_decline_by_default = Time.zone.local(2020, 5, 4).end_of_day
+    new_decline_by_default = Time.zone.local(2020, 4, 6).end_of_day
 
     expect(application_choice.reload.decline_by_default_at).to be_within(1.second).of new_decline_by_default
   end

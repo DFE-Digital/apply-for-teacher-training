@@ -1,16 +1,10 @@
 require 'rails_helper'
 
-# Hello!
-# Is this spec broken due to daylight savings?
-# If yes, please increment this counter:
-#
-#   number_of_times_this_spec_has_broken_because_of_dst = 2
-
 RSpec.feature 'Receives rejection email' do
   include CandidateHelper
 
   around do |example|
-    date_that_avoids_clocks_changing_by_ten_days = Time.zone.local(2020, 1, 13)
+    date_that_avoids_clocks_changing_by_ten_days = Time.zone.local(2020, 3, 13)
     Timecop.freeze(date_that_avoids_clocks_changing_by_ten_days) do
       example.run
     end
