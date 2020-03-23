@@ -1,6 +1,11 @@
 Dear <%= @application_form.first_name %>
 
+<% if FeatureFlag.active?('covid_19') %>
+# Respond by <%= @dbd_date %>
+<% else %>
+If you don’t reply within <%= @dbd_days %> working days, your applications will be withdrawn.
 # Respond within <%= TimeLimitConfig.limits_for(:chase_candidate_before_dbd).first.limit %> working days
+<% end %>
 
 <% if @application_choices.count > 1 %>
 

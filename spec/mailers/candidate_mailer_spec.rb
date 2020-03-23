@@ -111,6 +111,16 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe 'Candidate decision chaser email' do
+    context 'when the covid-19 feature flag is on' do
+      before { FeatureFlag.activate('covid_19') }
+
+      it_behaves_like(
+        'a mail with subject and content', :chase_candidate_decision,
+        I18n.t!('chase_candidate_decision_email.subject_singular'),
+        'Date to resbond by' => "Respond by #{10.business_days.from_now.to_s(:govuk_date).strip}"
+    )
+    end
+
     context 'when a candidate has one appication choice with offer' do
       it_behaves_like(
         'a mail with subject and content', :chase_candidate_decision,
