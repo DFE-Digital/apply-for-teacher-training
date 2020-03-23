@@ -2,7 +2,11 @@ Dear <%= @application_form.first_name %>,
 
 # <%= 'Application'.pluralize(@declined_course_names.size) %> withdrawn automatically
 
+<% if FeatureFlag.active?('covid_19') %>
+We withdrew your application for <%= @declined_course_names.to_sentence %> because you didn’t respond in time.
+<% else %>
 We withdrew your application for <%= @declined_course_names.to_sentence %> because you didn’t respond to the <%= 'offer'.pluralize(@declined_course_names.size) %> within <%= @declined_courses.first.decline_by_default_days %> working days.
+<% end %>
 
 # Give feedback or report a problem
 
