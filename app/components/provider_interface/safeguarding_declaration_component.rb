@@ -9,7 +9,7 @@ module ProviderInterface
     end
 
     def has_disclosed_safeguarding_issues?
-      @application_form.safeguarding_issues.eql?('Yes')? true : false
+      @application_form.safeguarding_issues.eql?('Yes') ? true : false
     end
   end
 end

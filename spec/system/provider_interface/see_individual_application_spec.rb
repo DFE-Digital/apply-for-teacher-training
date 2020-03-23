@@ -36,6 +36,7 @@ RSpec.describe 'A Provider viewing an individual application' do
     expect(page).to have_content('Criminal convictions and professional misconduct')
     expect(page).to have_content('No information shared')
   end
+
   def and_the_safeguarding_declaration_feature_flag_is_active
     FeatureFlag.activate('safeguarding_declaration')
   end
