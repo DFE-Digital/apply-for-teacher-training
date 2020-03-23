@@ -7,9 +7,9 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">You have 5 working days after submission to edit most sections of your application.</p>
+    <p class="govuk-body">You have <%= @editable_days_count %> working days after submission to edit most sections of your application.</p>
     <h2 class="govuk-heading-m">Course choice</h2>
-    <p class="govuk-body">You can change your choice of training provider, course or location within the 5 working day editing period.</p>
+    <p class="govuk-body">You can change your choice of training provider, course or location within the <%= @editable_days_count %> working day editing period.</p>
     <p class="govuk-body">You can also delete a course choice.</p>
     <h2 class="govuk-heading-m">References</h2>
     <p class="govuk-body">You can’t edit your choice of referees unless they refuse to give a reference. We’ll email you if this happens, so you can put forward a replacement referee.</p>

@@ -7,11 +7,11 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">You have 5 working days after submission to edit most sections of your application.</p>
+    <p class="govuk-body">You have <%= @editable_days_count %> working days after submission to edit most sections of your application.</p>
     <p class="govuk-body">To edit, you’ll need to email us at <%= govuk_link_to 'becomingateacher@digital.education.gov.uk', 'mailto:becomingateacher@digital.education.gov.uk' %>, explaining which changes you’d like to make.</p>
     <p class="govuk-body">We can only edit your application once.</p>
     <h2 class="govuk-heading-m">Course choice</h2>
-    <p class="govuk-body">We can change your choice of training provider, course or location within the 5 working day editing period.</p>
+    <p class="govuk-body">We can change your choice of training provider, course or location within the <%= @editable_days_count %> working day editing period.</p>
     <p class="govuk-body">We can also delete a course choice.</p>
     <p class="govuk-body">After this, you can email us asking to withdraw your application completely.</p>
     <h2 class="govuk-heading-m">References</h2>
