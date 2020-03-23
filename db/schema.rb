@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_19_111327) do
+ActiveRecord::Schema.define(version: 2020_03_23_154535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 2020_03_19_111327) do
     t.datetime "enrolled_at"
     t.string "offer_withdrawal_reason"
     t.datetime "offer_withdrawn_at"
+    t.datetime "sent_to_provider_at"
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
   end
