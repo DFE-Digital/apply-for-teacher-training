@@ -142,6 +142,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     context 'Application rejected and one offer has been made' do
       before do
+        FeatureFlag.activate('covid_19')
         provider = build_stubbed(:provider, name: 'Vertapple University')
         course_option = build_stubbed(:course_option, course: build_stubbed(:course, name: 'Law', code: 'UFHG', provider: provider))
         @application_choice_with_offer = @application_form.application_choices.build(
@@ -160,12 +161,15 @@ RSpec.describe CandidateMailer, type: :mailer do
         'course name and code' => 'Forensic Science (E0FO)',
         'other course with an offer ' => 'Law (UFHG)',
         'other provider they got an offer from' => 'Vertapple University',
-        'their DBD date' => 'Make a decision about your offer by 25 February 2020'
+        'their DBD date' => 'Make a decision about your offer by 25 February 2020',
+        'prompt to reply with one offer' => 'You’ve received an offer for a place on',
+        'updated covid-19 prompt' => 'If you don’t reply by 25 February 2020 your application will be withdrawn.'
       )
     end
 
     context 'Application rejected and multiple offers has been made' do
       before do
+        FeatureFlag.activate('covid_19')
         setup_application_form_with_two_offers(@application_form)
       end
 
@@ -176,7 +180,9 @@ RSpec.describe CandidateMailer, type: :mailer do
         'course name and code' => 'MS Painting (P00)',
         'first course with offer' => 'Code Refactoring (Z00)',
         'first course provider with offer' => 'Wen University',
-        'their DBD date' => 'Make a decision about your offers by 25 February 2020'
+        'their DBD date' => 'Make a decision about your offers by 25 February 2020',
+        'prompt to reply with multiple offers' => 'You’ve received the following offers:',
+        'updated covid-19 prompt' => 'If you don’t reply by 25 February 2020 your application will be withdrawn.'
       )
     end
   end
