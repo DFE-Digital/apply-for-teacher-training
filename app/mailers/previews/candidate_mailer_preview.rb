@@ -17,6 +17,12 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.application_sent_to_provider(application_form)
   end
 
+  def changed_offer
+    application_choice = FactoryBot.build(:submitted_application_choice, :with_modified_offer)
+
+    CandidateMailer.changed_offer(application_choice)
+  end
+
   def chase_reference
     CandidateMailer.chase_reference(reference)
   end

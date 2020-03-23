@@ -37,4 +37,14 @@ RSpec.describe ChangeOffer do
     noop = ChangeOffer.new(actor: provider_user, application_choice: application_choice, course_option_id: original_course_option.id)
     expect { noop.save! }.not_to change(application_choice, :decline_by_default_at)
   end
+
+  it 'sends an email to the candidate to notify them about the change' do
+    mail = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
+    allow(CandidateMailer).to receive(:changed_offer).and_return(mail)
+
+    service.save!
+
+    expect(CandidateMailer).to have_received(:changed_offer).with(application_choice)
+    expect(mail).to have_received(:deliver_later)
+  end
 end

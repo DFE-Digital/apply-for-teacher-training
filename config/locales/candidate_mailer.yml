@@ -38,3 +38,5 @@ en:
       subject: "You have met your conditions for %{course_name}: next steps"
     conditions_not_met:
       subject: "You have not met your conditions for %{course_name}: next steps"
+    changed_offer:
+      subject: "%{provider_name} changed the details of your offer"
