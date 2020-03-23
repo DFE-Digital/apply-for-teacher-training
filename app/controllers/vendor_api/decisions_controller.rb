@@ -23,21 +23,13 @@ module VendorApi
         course_option = nil
       end
 
-      decision = if application_choice.offer?
-                   ChangeOffer.new(
-                     actor: api_user,
-                     application_choice: application_choice,
-                     course_option_id: course_option&.id,
-                     offer_conditions: params.dig(:data, :conditions),
-                   )
-                 else
-                   MakeAnOffer.new(
-                     actor: api_user,
-                     application_choice: application_choice,
-                     course_option_id: course_option&.id,
-                     offer_conditions: params.dig(:data, :conditions),
-                   )
-                 end
+      service = application_choice.offer? ? ChangeOffer : MakeAnOffer
+      decision = service.new(
+        actor: api_user,
+        application_choice: application_choice,
+        course_option_id: course_option&.id,
+        offer_conditions: params.dig(:data, :conditions),
+      )
 
       respond_to_decision(decision)
     end

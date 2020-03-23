@@ -64,7 +64,7 @@ RSpec.describe ChangeOffer do
     mail = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
     allow(CandidateMailer).to receive(:changed_offer).and_return(mail)
 
-    service.save!
+    service.save
 
     expect(CandidateMailer).to have_received(:changed_offer).with(application_choice)
     expect(mail).to have_received(:deliver_later)

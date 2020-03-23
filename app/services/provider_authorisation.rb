@@ -6,10 +6,10 @@ class ProviderAuthorisation
   end
 
   def can_make_offer?(application_choice:, course_option_id: nil)
+    return true if @actor.is_a?(SupportUser)
+
     supplied_course_option = CourseOption.find(course_option_id) if course_option_id
-    if @actor.is_a?(SupportUser)
-      true
-    elsif supplied_course_option && course_option_id != application_choice.course_option.id
+    if supplied_course_option && course_option_id != application_choice.course_option.id
       application_choice_belongs_to_user_providers?(application_choice: application_choice) && \
         course_option_belongs_to_user_providers?(course_option: supplied_course_option)
     else
