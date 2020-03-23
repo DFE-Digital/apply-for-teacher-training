@@ -15,7 +15,7 @@ class FeatureFlag
     pilot_open
     provider_application_filters
     provider_change_response
-    safeguarding_declaration
+    provider_view_safeguarding
     show_new_referee_needed
     suitability_to_work_with_children
     training_with_a_disability

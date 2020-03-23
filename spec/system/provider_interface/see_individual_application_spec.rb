@@ -38,7 +38,7 @@ RSpec.describe 'A Provider viewing an individual application' do
   end
 
   def and_the_safeguarding_declaration_feature_flag_is_active
-    FeatureFlag.activate('safeguarding_declaration')
+    FeatureFlag.activate('provider_view_safeguarding')
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in

@@ -65,7 +65,7 @@
     <% end %>
 
 
-    <% if FeatureFlag.active?('safeguarding_declaration') %>
+    <% if FeatureFlag.active?('provider_view_safeguarding') %>
       <%= render ProviderInterface::SafeguardingDeclarationComponent.new(application_form: @application_choice.application_form)%>
     <% end %>
 
