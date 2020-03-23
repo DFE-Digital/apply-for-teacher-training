@@ -19,7 +19,7 @@ module Covid19
 
       # Send emails async
       candidates_to_email.each do |candidate|
-        CandidateMailer.covid_19_delay(candidate.current_application).deliver_later
+        Covid19Mailer.potential_delays(candidate.current_application).deliver_later
       end
     end
   end

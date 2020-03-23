@@ -47,7 +47,7 @@ RSpec.describe Covid19::CandidateEmailDelivery, sidekiq: true do
 
       Covid19::CandidateEmailDelivery.new.send_delay_emails
 
-      emails = CandidateMailer.deliveries
+      emails = Covid19Mailer.deliveries
       expect(emails.count).to eq 2
       expect(emails.map(&:to).flatten).to match_array [
         recipient_candidate_one.email_address,
