@@ -34,7 +34,7 @@ RSpec.describe 'A Provider viewing an individual application' do
 
   def and_i_should_see_the_safeguarding_declaration_section
     expect(page).to have_content('Criminal convictions and professional misconduct')
-    expect(page).to have_content('No information shared')
+    expect(page).to have_content('The candidate has shared information related to safeguarding. Please contact them directly for more details.')
   end
 
   def and_the_safeguarding_declaration_feature_flag_is_active
