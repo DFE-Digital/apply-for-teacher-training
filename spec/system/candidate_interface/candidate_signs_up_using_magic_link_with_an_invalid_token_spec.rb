@@ -4,6 +4,7 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
   scenario 'Candidate signs in and receives an email inviting them to sign up' do
     given_the_pilot_is_open
     and_the_improved_expired_token_flow_feature_flag_is_on
+    and_the_covid_19_feature_flag_is_active
 
     given_i_am_a_candidate_without_an_account
 
@@ -20,6 +21,8 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
     then_i_receive_an_email_inviting_me_to_sign_in
     and_i_click_on_the_link_in_my_email
     then_i_am_taken_to_the_sign_up_page
+    and_i_should_see_an_account_created_flash_message
+    and_i_should_not_see_the_covid19_banner
   end
 
 
@@ -29,6 +32,10 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
 
   def and_the_improved_expired_token_flow_feature_flag_is_on
     FeatureFlag.activate('improved_expired_token_flow')
+  end
+
+  def and_the_covid_19_feature_flag_is_active
+    FeatureFlag.activate('covid_19')
   end
 
   def given_i_am_a_candidate_without_an_account
@@ -86,5 +93,13 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
 
   def then_i_am_taken_to_the_sign_up_page
     expect(page).to have_current_path(candidate_interface_application_form_path)
+  end
+
+  def and_i_should_see_an_account_created_flash_message
+    expect(page).to have_content(t('apply_from_find.account_created_message'))
+  end
+
+  def and_i_should_not_see_the_covid19_banner
+    expect(page).not_to have_content 'There might be a delay in processing your teacher training application due to the impact of coronavirus (COVID-19)'
   end
 end
