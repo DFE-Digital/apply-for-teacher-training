@@ -4,7 +4,15 @@ Dear <%= @provider_user_name || 'colleague' %>
 
 <%= @application.candidate_name %> submitted an application for <%= @application.course_name_and_code %> on <%= @application.submitted_at %>.
 
+<% if FeatureFlag.active?('covid_19') %>
+
+This application has been rejected automatically because you did not respond in time.
+
+<% else %>
+
 This application has been rejected automatically because you did not respond within <%= @application.rbd_days %> working days.
+
+<% end %>
 
 # Give feedback or report a problem
 
