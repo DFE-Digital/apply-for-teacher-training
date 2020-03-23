@@ -1,6 +1,14 @@
 <% content_for :title, 'Applications' %>
 <% content_for :page_width, 'wide' %>
 
+<% if FeatureFlag.active?('covid_19') %>
+  <div class="app-banner" aria-labelledby="success-message" data-module="govuk-error-summary" role="alert">
+    <div class="app-banner__message">
+      <h2 class="govuk-heading-m" id="success-message">Check our guidance to see how <%= link_to 'coronavirus (COVID-19) will affect your deadlines for responding to applications', '#', class: 'govuk-link' %></h2>
+    </div>
+  </div>
+<% end %>
+
 <h1 class='govuk-heading-xl'>Applications</h1>
 
 <% if FeatureFlag.active?('provider_application_filters') %>
