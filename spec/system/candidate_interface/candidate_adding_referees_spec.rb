@@ -46,6 +46,9 @@ RSpec.feature 'Candidate adding referees' do
     then_i_see_both_referees
 
     when_i_click_on_change_first_relationship
+    then_i_am_asked_for_the_details_of_my_academic_referee
+    and_i_can_see_the_corresponding_hint_text_for_academic_reference
+
     when_i_enter_an_updated_relationship
     and_i_submit_the_form
     then_i_see_updated_reference
