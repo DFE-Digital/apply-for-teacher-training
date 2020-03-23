@@ -1,15 +1,16 @@
 class TimeLimitConfig
   Rule = Struct.new(:from_date, :to_date, :limit)
 
+  def self.edit_by
+    7
+  end
+
   RULES = {
     reject_by_default: [
       Rule.new(nil, nil, 40),
     ],
     decline_by_default: [
       Rule.new(nil, nil, 10),
-    ],
-    edit_by: [
-      Rule.new(nil, nil, 5),
     ],
     chase_provider_before_rbd: [
       Rule.new(nil, nil, 20),

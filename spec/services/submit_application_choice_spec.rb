@@ -11,8 +11,7 @@ RSpec.describe SubmitApplicationChoice do
     end
 
     it 'updates the application choice to edit_by date' do
-      days_to_edit = TimeLimitCalculator.new(rule: :edit_by, effective_date: application_form.submitted_at).call[:days]
-      expected_edit_by_day = days_to_edit.business_days.after(application_form.submitted_at).end_of_day
+      expected_edit_by_day = 7.days.after(application_form.submitted_at).end_of_day
 
       SubmitApplicationChoice.new(application_choice).call
       expect(application_choice.edit_by).to eq(expected_edit_by_day)
