@@ -3,29 +3,19 @@ require 'rails_helper'
 RSpec.describe MakeAnOffer, sidekiq: true do
   let(:user) { SupportUser.new }
 
-  describe '#save' do
-    it 'sets the offered_at date' do
-      application_choice = create(:application_choice, status: :awaiting_provider_decision)
+  describe 'course_option_id validation' do
+    it 'accepts nil course_option_id' do
+      decision = MakeAnOffer.new(
+        actor: user,
+        application_choice: build_stubbed(:application_choice, status: :awaiting_provider_decision),
+        course_option_id: nil,
+      )
 
-      MakeAnOffer.new(actor: user, application_choice: application_choice)
-
-      Timecop.freeze do
-        MakeAnOffer.new(actor: user, application_choice: application_choice).save
-
-        expect(application_choice.offered_at).to eq(Time.zone.now)
-      end
-    end
-
-    it 'sends an email to the candidate' do
-      application_choice = create(:application_choice, status: :awaiting_provider_decision)
-
-      MakeAnOffer.new(actor: user, application_choice: application_choice).save
-
-      expect(CandidateMailer.deliveries.count).to be 1
+      expect(decision).to be_valid
     end
   end
 
-  describe 'validation' do
+  describe 'conditions validation' do
     it 'accepts nil conditions' do
       decision = MakeAnOffer.new(
         actor: user,
@@ -57,6 +47,28 @@ RSpec.describe MakeAnOffer, sidekiq: true do
     end
   end
 
+  describe '#save' do
+    it 'sets the offered_at date' do
+      application_choice = create(:application_choice, status: :awaiting_provider_decision)
+
+      MakeAnOffer.new(actor: user, application_choice: application_choice)
+
+      Timecop.freeze do
+        MakeAnOffer.new(actor: user, application_choice: application_choice).save
+
+        expect(application_choice.offered_at).to eq(Time.zone.now)
+      end
+    end
+
+    it 'sends an email to the candidate' do
+      application_choice = create(:application_choice, status: :awaiting_provider_decision)
+
+      MakeAnOffer.new(actor: user, application_choice: application_choice).save
+
+      expect(CandidateMailer.deliveries.count).to be 1
+    end
+  end
+
   describe 'decline by default' do
     let(:application_form) { create :application_form }
 
@@ -73,6 +85,30 @@ RSpec.describe MakeAnOffer, sidekiq: true do
 
       expect(application_choice.decline_by_default_at).not_to be_nil
       expect(application_choice.decline_by_default_days).not_to be_nil
+    end
+  end
+
+  describe 'offer a different course option' do
+    let(:application_form) { create :application_form }
+
+    let(:application_choice) {
+      create(:application_choice,
+             application_form: application_form,
+             status: 'awaiting_provider_decision',
+             edit_by: 2.business_days.ago)
+    }
+
+    let(:different_course_option) { create(:course_option, course: application_choice.course) }
+
+    it 'sets application_choice.offered_course_option_id' do
+      MakeAnOffer.new(
+        actor: user,
+        application_choice: application_choice,
+        course_option_id: different_course_option.id,
+      ).save
+      application_choice.reload
+
+      expect(application_choice.offered_course_option_id).to eq(different_course_option.id)
     end
   end
 

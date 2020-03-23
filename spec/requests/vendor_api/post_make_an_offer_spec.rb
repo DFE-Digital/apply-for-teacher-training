@@ -36,7 +36,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
           'provider_code' => course_option.course.provider.code,
           'course_code' => course_option.course.code,
           'site_code' => course_option.site.code,
-          'study_mode' => course_option.course.study_mode,
+          'study_mode' => course_option.study_mode,
         },
       )
     end
@@ -58,7 +58,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
             'provider_code' => other_course_option.course.provider.code,
             'course_code' => other_course_option.course.code,
             'site_code' => other_course_option.site.code,
-            'study_mode' => other_course_option.course.study_mode,
+            'study_mode' => other_course_option.study_mode,
           },
         },
       }
@@ -71,7 +71,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
           'provider_code' => other_course_option.course.provider.code,
           'course_code' => other_course_option.course.code,
           'site_code' => other_course_option.site.code,
-          'study_mode' => other_course_option.course.study_mode,
+          'study_mode' => other_course_option.study_mode,
         },
       )
     end
@@ -91,14 +91,14 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
             'provider_code' => other_course_option.course.provider.code,
             'course_code' => other_course_option.course.code,
             'site_code' => other_course_option.site.code,
-            'study_mode' => other_course_option.course.study_mode,
+            'study_mode' => other_course_option.study_mode,
           },
         },
       }
 
       expect(response).to have_http_status(422)
       expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-      expect(error_response['message']).to match 'Offered course does not belong to provider'
+      expect(error_response['message']).to match 'can_make_offer? failed'
     end
 
     it 'returns an error when specifying a course that does not exist' do
@@ -121,20 +121,20 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       expect(response).to have_http_status(422)
       expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-      expect(error_response['message']).to match 'Offered course provider ABC does not exist'
+      expect(error_response['message']).to match 'Cannot find an appropriate course option for these codes'
     end
   end
 
   describe 'offering for application with a decision' do
-    it 'allows amending of existing offers' do
+    it 'allows amending of course_option and conditions for existing offers' do
       application_choice = create_application_choice_for_currently_authenticated_provider(
         status: 'awaiting_provider_decision',
       )
+
       request_body = {
         "data": {
           "conditions": [
-            'Completion of subject knowledge enhancement',
-            'Completion of professional skills test',
+            'DBS Check',
           ],
         },
       }
@@ -143,31 +143,44 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
 
+      original_course_option = application_choice.course_option
+      new_course_option = create(
+        :course_option,
+        course: original_course_option.course,
+        study_mode: original_course_option.study_mode,
+      )
+
       request_body = {
         "data": {
           "conditions": [
+            'DBS Check',
             'Completion of subject knowledge enhancement',
             'Completion of professional skills test',
-            'DBS Check',
           ],
+          "course": {
+            recruitment_cycle_year: original_course_option.course.recruitment_cycle_year,
+            provider_code: original_course_option.course.provider.code,
+            course_code: original_course_option.course.code,
+            study_mode: new_course_option.study_mode,
+            site_code: new_course_option.site.code,
+          },
         },
       }
 
       post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
 
-      course_option = application_choice.course_option
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [
+          'DBS Check',
           'Completion of subject knowledge enhancement',
           'Completion of professional skills test',
-          'DBS Check',
         ],
         'course' => {
-          'recruitment_cycle_year' => course_option.course.recruitment_cycle_year,
-          'provider_code' => course_option.course.provider.code,
-          'course_code' => course_option.course.code,
-          'site_code' => course_option.site.code,
-          'study_mode' => course_option.course.study_mode,
+          'recruitment_cycle_year' => original_course_option.course.recruitment_cycle_year,
+          'provider_code' => original_course_option.course.provider.code,
+          'course_code' => original_course_option.course.code,
+          'study_mode' => new_course_option.study_mode,
+          'site_code' => new_course_option.site.code,
         },
       )
     end
@@ -206,7 +219,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
           'provider_code' => course_option.course.provider.code,
           'course_code' => course_option.course.code,
           'site_code' => course_option.site.code,
-          'study_mode' => course_option.course.study_mode,
+          'study_mode' => course_option.study_mode,
         },
       )
     end
