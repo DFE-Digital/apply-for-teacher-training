@@ -72,7 +72,7 @@ RSpec.describe ChangeOffer do
 
   it 'calls `StateChangeNotifier` to send a Slack notification' do
     allow(StateChangeNotifier).to receive(:call).and_return(nil)
-    service.save!
+    service.save
     expect(StateChangeNotifier).to have_received(:call).with(:change_an_offer, application_choice: application_choice)
   end
 end
