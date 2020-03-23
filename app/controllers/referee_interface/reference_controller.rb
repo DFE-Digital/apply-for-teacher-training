@@ -130,6 +130,7 @@ module RefereeInterface
 
       RequestLocals.store[:identity] = { reference_id: reference.id }
       Raven.user_context(reference_id: reference.id)
+      Raven.extra_context(application_support_url: support_interface_application_form_url(reference.application_form))
     end
 
     def reference
