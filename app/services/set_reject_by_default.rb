@@ -8,7 +8,7 @@ class SetRejectByDefault
   def call
     time_limit = TimeLimitCalculator.new(
       rule: :reject_by_default,
-      effective_date: Time.zone.now,
+      effective_date: application_choice.sent_to_provider_at,
     ).call
 
     days = time_limit[:days]
