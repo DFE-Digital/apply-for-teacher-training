@@ -163,6 +163,14 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def covid_19_delay(application_form)
+    @application_form = application_form
+    notify_email(
+      to: @application_form.candidate.email_address,
+      subject: 'There might be a delay in processing your teacher training application',
+    )
+  end
+
 private
 
   def new_offer(application_choice, template_name)

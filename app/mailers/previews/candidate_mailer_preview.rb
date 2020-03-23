@@ -208,6 +208,12 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.conditions_not_met(application_choice_with_offer)
   end
 
+  def covid_19_delay
+    application_form = FactoryBot.build_stubbed(:application_form, first_name: 'Rick')
+
+    CandidateMailer.covid_19_delay(application_form)
+  end
+
 private
 
   def application_form
