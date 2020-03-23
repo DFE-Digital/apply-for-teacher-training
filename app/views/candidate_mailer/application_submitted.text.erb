@@ -17,7 +17,7 @@ You can track the progress of your <%= 'application'.pluralize(@application_form
 # Making changes to your application
 
 <% if FeatureFlag.active?('edit_application') %>
-  You have <%= TimeLimitConfig.edit_by %> working days to edit your application or change your choice of provider, course or training location.
+  You have <%= TimeLimitConfig.edit_by %> days to edit your application or change your choice of provider, course or training location.
 
   To make changes, [sign back in to your account](<%= candidate_sign_in_url(@candidate) %>).
 
@@ -25,7 +25,7 @@ You can track the progress of your <%= 'application'.pluralize(@application_form
 
   We’ll pass any changes on to the training <%= 'provider'.pluralize(@application_form.application_choices.count) %>.
 <% else %>
-  Get in touch with us as soon as possible if you need to make any amends, as we only have <%= TimeLimitConfig.edit_by %> working days to make changes.
+  Get in touch with us as soon as possible if you need to make any amends, as we only have <%= TimeLimitConfig.edit_by %> days to make changes.
 
   Once we’ve processed your request, you can’t make any more changes.
 

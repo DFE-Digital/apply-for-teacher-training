@@ -43,7 +43,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like('a mail with subject and content', :application_submitted,
                       I18n.t!('candidate_mailer.application_submitted.subject'),
-                      'edit by time limit' => "You have #{TimeLimitConfig.edit_by} working days to edit")
+                      'edit by time limit' => "You have #{TimeLimitConfig.edit_by} days to edit")
     end
 
     context 'when the improved_expired_token_flow feature flag is on' do
