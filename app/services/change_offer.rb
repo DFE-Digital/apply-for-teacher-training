@@ -14,7 +14,7 @@ class ChangeOffer
 
       SetDeclineByDefault.new(application_form: @application_choice.application_form).call
       CandidateMailer.changed_offer(@application_choice).deliver_later
-      # TODO: StateChangeNotifier.call(:change_offer, application_choice: application_choice)
+      StateChangeNotifier.call(:change_an_offer, application_choice: @application_choice)
     end
   end
 end

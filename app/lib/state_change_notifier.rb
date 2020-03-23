@@ -22,6 +22,9 @@ class StateChangeNotifier
     when :make_an_offer
       text = "#{provider_name} has just made an offer to #{applicant}'s application"
       url = helpers.support_interface_application_form_url(application_form_id)
+    when :change_an_offer
+      text = "#{provider_name} has just changed an offer for #{applicant}'s application"
+      url = helpers.support_interface_application_form_url(application_form_id)
     when :reject_application
       text = "#{provider_name} has just rejected #{applicant}'s application"
       url = helpers.support_interface_application_form_url(application_form_id)

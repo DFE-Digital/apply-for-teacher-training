@@ -47,4 +47,10 @@ RSpec.describe ChangeOffer do
     expect(CandidateMailer).to have_received(:changed_offer).with(application_choice)
     expect(mail).to have_received(:deliver_later)
   end
+
+  it 'calls `StateChangeNotifier` to send a Slack notification' do
+    allow(StateChangeNotifier).to receive(:call).and_return(nil)
+    service.save!
+    expect(StateChangeNotifier).to have_received(:call).with(:change_an_offer, application_choice: application_choice)
+  end
 end
