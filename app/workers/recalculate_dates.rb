@@ -10,12 +10,13 @@ class RecalculateDates
           update_reject_by_default(application_choice)
         end
 
-      ApplicationChoice
-        .where(status: :offer)
-        .includes(:application_form)
-        .find_each do |application_choice|
-          update_decline_by_default(application_choice)
-        end
+      application_forms_with_offers = ApplicationForm.where(
+        id: ApplicationChoice.where(status: :offer).select(:application_form_id)
+      )
+
+      application_forms_with_offers.find_each do |application_form|
+        SetDeclineByDefault.new(application_form: application_form).call
+      end
     end
   end
 
@@ -33,22 +34,6 @@ private
     if times_are_different(time, application_choice.reject_by_default_at)
       application_choice.reject_by_default_days = days
       application_choice.reject_by_default_at = time
-      application_choice.save!
-    end
-  end
-
-  def update_decline_by_default(application_choice)
-    time_limit = TimeLimitCalculator.new(
-      rule: :decline_by_default,
-      effective_date: application_choice.offered_at,
-    ).call
-
-    days = time_limit[:days]
-    time = time_limit[:time_in_future]
-
-    if times_are_different(time, application_choice.decline_by_default_at)
-      application_choice.decline_by_default_days = days
-      application_choice.decline_by_default_at = time
       application_choice.save!
     end
   end
