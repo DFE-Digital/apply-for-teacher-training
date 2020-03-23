@@ -10,6 +10,11 @@ RSpec.feature 'See applications' do
   end
 
   scenario 'Provider user can access interface immediately if pre-approved' do
+    when_the_covid_19_feature_is_active
+    and_i_visit_the_provider_page
+    then_i_expect_to_see_the_covid_19_message
+    then_the_covid_19_feature_is_deactivated
+
     given_a_support_user_has_pre_approved_my_email_address
     and_i_am_a_new_provider_user_authenticated_with_dfe_sign_in
 
@@ -17,6 +22,18 @@ RSpec.feature 'See applications' do
 
     then_i_should_be_on_the_applications_page
     and_my_dfe_sign_in_uid_has_been_stored
+  end
+
+  def then_i_expect_to_see_the_covid_19_message
+    expect(page).to have_content('Coronavirus (COVID-19): find out how this service is changing to help you right now')
+  end
+
+  def when_the_covid_19_feature_is_active
+    FeatureFlag.activate('covid_19')
+  end
+
+  def then_the_covid_19_feature_is_deactivated
+    FeatureFlag.deactivate('covid_19')
   end
 
   def given_a_support_user_has_pre_approved_my_email_address
@@ -35,6 +52,10 @@ RSpec.feature 'See applications' do
 
   def when_i_visit_the_provider_page
     visit provider_interface_path
+  end
+
+  def and_i_visit_the_provider_page
+    when_i_visit_the_provider_page
   end
 
   def then_i_should_be_on_the_applications_page
