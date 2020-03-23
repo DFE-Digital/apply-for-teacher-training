@@ -206,5 +206,12 @@ RSpec.describe SetDeclineByDefault do
         expect(choice.reload.decline_by_default_days).to be_nil
       end
     end
+
+    it 'does not update dates when nothing changes', with_audited: true do
+      choices[0].update(status: :offer, offered_at: 2.business_days.before(now))
+
+      expect { call_service }.to change { Audited::Audit.count }.by(1)
+      expect { call_service }.to change { Audited::Audit.count }.by(0)
+    end
   end
 end

@@ -11,26 +11,10 @@ class SendApplicationToProvider
 
     ActiveRecord::Base.transaction do
       application_choice.update!(sent_to_provider_at: Time.zone.now)
-      set_reject_by_default
+      SetRejectByDefault.new(application_choice).call
       ApplicationStateChange.new(application_choice).send_to_provider!
       StateChangeNotifier.call(:send_application_to_provider, application_choice: application_choice)
       SendNewApplicationEmailToProvider.new(application_choice: application_choice).call
     end
-  end
-
-private
-
-  def set_reject_by_default
-    time_limit = TimeLimitCalculator.new(
-      rule: :reject_by_default,
-      effective_date: Time.zone.now,
-    ).call
-
-    days = time_limit[:days]
-    time = time_limit[:time_in_future]
-
-    application_choice.reject_by_default_days = days
-    application_choice.reject_by_default_at = time
-    application_choice.save!
   end
 end
