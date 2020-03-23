@@ -56,7 +56,6 @@ module RefereeInterface
     end
 
     def feedback
-      @application = reference.application_form
       @reference_form = ReferenceFeedbackForm.new(reference: reference, feedback: reference.feedback)
     end
 
