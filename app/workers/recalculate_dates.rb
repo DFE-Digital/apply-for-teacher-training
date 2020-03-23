@@ -11,7 +11,7 @@ class RecalculateDates
         end
 
       application_forms_with_offers = ApplicationForm.where(
-        id: ApplicationChoice.where(status: :offer).select(:application_form_id)
+        id: ApplicationChoice.where(status: :offer).select(:application_form_id),
       )
 
       application_forms_with_offers.find_each do |application_form|

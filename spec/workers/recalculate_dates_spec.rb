@@ -28,7 +28,7 @@ RSpec.describe RecalculateDates do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: Time.zone.now
+      submitted_at: Time.zone.now,
     )
 
     application_choice = create(
