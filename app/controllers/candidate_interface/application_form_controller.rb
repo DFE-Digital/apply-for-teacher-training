@@ -16,6 +16,7 @@ module CandidateInterface
     end
 
     def edit
+      @editable_days_count = TimeLimitCalculator.new(rule: :edit_by, effective_date: @current_application.submitted_at).call[:days]
       if FeatureFlag.active?('edit_application')
         render :edit
       else
@@ -54,6 +55,7 @@ module CandidateInterface
 
     def submit_success
       @support_reference = current_application.support_reference
+      @editable_days_count = TimeLimitCalculator.new(rule: :edit_by, effective_date: @current_application.submitted_at).call[:days]
     end
 
     def review_submitted
