@@ -4,6 +4,7 @@ class FeatureFlag
     banner_about_problems_with_dfe_sign_in
     banner_for_ucas_downtime
     choose_study_mode
+    covid_19
     display_additional_course_details
     check_full_courses
     confirm_conditions
