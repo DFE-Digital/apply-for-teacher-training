@@ -21,6 +21,12 @@ RSpec.describe SendApplicationToProvider do
     expect(application_choice.reload.status).to eq 'awaiting_provider_decision'
   end
 
+  it 'sets the `sent_to_provider` date' do
+    SendApplicationToProvider.new(application_choice: application_choice).call
+
+    expect(application_choice.reload.sent_to_provider_at).not_to be_nil
+  end
+
   it 'does nothing if the status is not `application_complete`' do
     SendApplicationToProvider.new(application_choice: application_choice(status: 'awaiting_references')).call
 

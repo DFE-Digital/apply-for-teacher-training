@@ -10,6 +10,7 @@ class SendApplicationToProvider
     return false unless application_choice.application_complete?
 
     ActiveRecord::Base.transaction do
+      application_choice.update!(sent_to_provider_at: Time.zone.now)
       set_reject_by_default
       ApplicationStateChange.new(application_choice).send_to_provider!
       StateChangeNotifier.call(:send_application_to_provider, application_choice: application_choice)
