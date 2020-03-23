@@ -98,6 +98,16 @@ RSpec.describe CandidateMailer, type: :mailer do
         'sign in url' => 'http://localhost:3000/candidate/sign-in'
       )
     end
+
+    context 'when the covid-19 feature flag is on' do
+      before { FeatureFlag.activate('covid_19') }
+
+      it_behaves_like(
+        'a mail with subject and content', :application_sent_to_provider,
+        'Your application is being considered',
+        'time frame provider has to respond' => "They’ll be in touch with you if they want to arrange an interview.\r\n\r\nDue to the impact of coronavirus, this may take some time."
+      )
+    end
   end
 
   describe 'Candidate decision chaser email' do
