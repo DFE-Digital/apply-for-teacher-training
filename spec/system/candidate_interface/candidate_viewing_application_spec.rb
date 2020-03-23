@@ -7,6 +7,11 @@ RSpec.feature 'Viewing their new application' do
     given_i_am_signed_in
     when_i_visit_the_site
     then_i_should_see_that_i_have_made_no_choices
+    and_i_should_not_see_the_covid19_banner
+
+    given_covid19_feature_flag_is_active
+    when_i_visit_the_site
+    then_i_should_see_the_covid19_banner
 
     #while I have not submitted an application
     when_i_visit_the_review_page
@@ -45,5 +50,17 @@ RSpec.feature 'Viewing their new application' do
 
   def then_i_am_on_the_application_form_page
     then_i_should_see_that_i_have_made_no_choices
+  end
+
+  def and_i_should_not_see_the_covid19_banner
+    expect(page).not_to have_content 'There might be a delay in processing your teacher training application due to the impact of coronavirus (COVID-19)'
+  end
+
+  def given_covid19_feature_flag_is_active
+    FeatureFlag.activate('covid_19')
+  end
+
+  def then_i_should_see_the_covid19_banner
+    expect(page).to have_content 'There might be a delay in processing your teacher training application due to the impact of coronavirus (COVID-19)'
   end
 end

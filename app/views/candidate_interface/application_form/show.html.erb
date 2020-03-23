@@ -1,5 +1,14 @@
 <% content_for :title, @application_form.amendable? ? t('page_titles.edit_application_form') : t('page_titles.application_form') %>
 
+<% if FeatureFlag.active?('covid_19') %>
+  <div class="app-banner" aria-labelledby="success-message" data-module="govuk-error-summary" role="alert">
+    <div class="app-banner__message">
+      <h2 class="govuk-heading-m" id="success-message">There might be a delay in processing your teacher training application due to the impact of coronavirus (COVID-19)</h2>
+    </div>
+  </div>
+<% end %>
+
+
 <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
   <%= @application_form.amendable? ? t('page_titles.edit_application_form') : t('page_titles.application_form') %>
 </h1>
