@@ -43,7 +43,7 @@ We’ll let candidates know if they have longer to respond to an offer and tell 
 Please update the statuses of your training programmes to tell potential applicants if you’re not recruiting at the moment.
 
 
-Providers in England can do this using [Find postgraduate teacher training courses](https://www2.find-postgraduate-teacher-training.service.gov.uk/).
+Providers in England can do this using [Find postgraduate teacher training courses](https://www.find-postgraduate-teacher-training.service.gov.uk/).
 
 
 Providers in Wales can do this using [UCAS Search](https://digital.ucas.com/search).  
