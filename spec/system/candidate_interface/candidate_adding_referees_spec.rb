@@ -21,6 +21,7 @@ RSpec.feature 'Candidate adding referees' do
     when_i_choose_academic_as_reference_type
     and_i_click_continue
     then_i_am_asked_for_the_details_of_my_academic_referee
+    and_i_can_see_the_corresponding_hint_text_for_academic_reference
 
     when_i_fill_in_name_and_email_address
     and_i_submit_the_form
@@ -35,9 +36,10 @@ RSpec.feature 'Candidate adding referees' do
     and_i_click_on_add_second_referee
     then_i_am_asked_to_specify_the_type_of_my_second_referee
 
-    when_i_choose_academic_as_reference_type
+    when_i_choose_school_based_as_reference_type
     and_i_click_continue
-    then_i_am_asked_for_the_details_of_my_academic_referee
+    then_i_am_asked_for_the_details_of_my_school_based_referee
+    and_i_can_see_the_corresponding_hint_text_for_school_based_reference
 
     when_i_fill_in_all_required_fields
     and_i_submit_the_form
@@ -114,6 +116,10 @@ RSpec.feature 'Candidate adding referees' do
     expect(page).to have_content('Details of academic referee')
   end
 
+  def and_i_can_see_the_corresponding_hint_text_for_school_based_reference
+    expect(page).to have_content('For example, ‘She’s the deputy head at the school where I currently volunteer. I’ve known her for 3 years’.')
+  end
+
   def when_i_fill_in_name_and_email_address
     fill_in('Full name', with: 'AJP Taylor')
     fill_in('Email address', with: 'ajptaylor@example.com')
@@ -146,6 +152,18 @@ RSpec.feature 'Candidate adding referees' do
   def then_i_am_asked_to_specify_the_type_of_my_second_referee
     expect(page).to have_content('Second referee')
     expect(page).to have_content('What kind of reference is this?')
+  end
+
+  def when_i_choose_school_based_as_reference_type
+    choose 'School-based'
+  end
+
+  def then_i_am_asked_for_the_details_of_my_school_based_referee
+    expect(page).to have_content('Details of school-based referee')
+  end
+
+  def and_i_can_see_the_corresponding_hint_text_for_academic_reference
+    expect(page).to have_content('For example, ‘He was my course supervisor at university. I’ve known him for a year’.')
   end
 
   def when_i_fill_in_all_required_fields

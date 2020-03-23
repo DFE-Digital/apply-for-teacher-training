@@ -19,6 +19,7 @@
   </div>
 <% end %>
 <%= f.govuk_text_field :email_address, type: 'email', label: { text: t('application_form.referees.email_address.label'), size: 'm' }, hint_text: t('application_form.referees.email_address.hint_text').first %>
-<%= f.govuk_text_area :relationship, label: { text: t('application_form.referees.relationship.label'), size: 'm' }, hint_text: t('application_form.referees.relationship.hint_text'), max_words: 50 %>
+<% referee_type = @referee.referee_type ? @referee.referee_type : 'academic' %>
+<%= f.govuk_text_area :relationship, label: { text: t('application_form.referees.relationship.label'), size: 'm' }, hint_text: t("application_form.referees.relationship.hint_text.#{referee_type}"), max_words: 50 %>
 
 <%= f.govuk_submit t('application_form.work_history.complete_form_button') %>
