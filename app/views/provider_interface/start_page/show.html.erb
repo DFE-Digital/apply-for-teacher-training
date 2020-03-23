@@ -25,6 +25,16 @@
   </div>
 </div>
 
+<% if FeatureFlag.active?('covid_19') %>
+  <div class="govuk-width-container">
+    <div class="app-banner govuk-!-margin-top-4 govuk-!-margin-bottom-0" aria-labelledby="success-message" data-module="govuk-error-summary" tabindex="-1" role="alert">
+      <div class="app-banner__message">
+        <h2 class="govuk-heading-m" id="success-message">Coronavirus (COVID-19): <%= link_to 'find out how this service is changing','#', class: 'govuk-link' %> to help you right now</h2>
+      </div>
+    </div>
+  </div>
+<% end %>
+
 <div class="govuk-width-container">
   <section class="app-product-section">
     <div class="govuk-grid-row">
