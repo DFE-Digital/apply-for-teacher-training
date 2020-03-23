@@ -61,6 +61,14 @@ RSpec.describe CandidateMailer, type: :mailer do
                       I18n.t!('candidate_mailer.application_submitted.subject'),
                       'link to sign in and id' => 'http://localhost:3000/candidate/sign-in')
     end
+
+    context 'when the covid-19 feature flag is on' do
+      before { FeatureFlag.activate('covid_19') }
+
+      it_behaves_like('a mail with subject and content', :application_submitted,
+                      I18n.t!('candidate_mailer.application_submitted.subject'),
+                      'RBD time limit' => 'Due to the impact of coronavirus, it might take some time for providers to get back to you.')
+    end
   end
 
   describe 'Send survey email' do
