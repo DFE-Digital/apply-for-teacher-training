@@ -1,4 +1,4 @@
-* To give you more time to make decisions, we won’t reject or decline any offers automatically until 20 April 2020. Below we outline what this means for you and your candidates. We’ll keep you updated if anything else changes. 
+To give you more time to make decisions, we won’t reject or decline any offers automatically until 20 April 2020. Below we outline what this means for you and your candidates. We’ll keep you updated if anything else changes. 
 
 ## Giving you more time before applications are rejected by default (RBD)
 
