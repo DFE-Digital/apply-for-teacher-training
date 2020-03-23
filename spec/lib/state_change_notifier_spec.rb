@@ -70,6 +70,20 @@ RSpec.describe StateChangeNotifier do
       end
     end
 
+    describe ':change_an_offer' do
+      before { StateChangeNotifier.call(:change_an_offer, application_choice: application_choice) }
+
+      it 'mentions applicant\s first name and provider name' do
+        arg1 = "#{provider_name} has just changed an offer for #{applicant}'s application"
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(arg1, anything)
+      end
+
+      it 'links the notification to the relevant support_interface application_form' do
+        arg2 = helpers.support_interface_application_form_url(application_form_id)
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(anything, arg2)
+      end
+    end
+
     describe ':reject_application' do
       before { StateChangeNotifier.call(:reject_application, application_choice: application_choice) }
 
