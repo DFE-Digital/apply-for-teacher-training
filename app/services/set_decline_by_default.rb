@@ -6,7 +6,10 @@ class SetDeclineByDefault
   def call
     return false if pending_decisions? || no_offers?
 
-    most_recent_decision_date = [
+    # We only start counting the days for decline by default when all the candidate's
+    # applications have either an offer, been rejected by provider, withdrawn by
+    # the candidate, or have the offer withdrawn.
+    final_decision_date = [
       application_choices.maximum(:offered_at),
       application_choices.maximum(:rejected_at),
       application_choices.maximum(:withdrawn_at),
@@ -15,7 +18,7 @@ class SetDeclineByDefault
 
     dbd_time_limit = TimeLimitCalculator.new(
       rule: :decline_by_default,
-      effective_date: most_recent_decision_date,
+      effective_date: final_decision_date,
     ).call
 
     dbd_days = dbd_time_limit[:days]
