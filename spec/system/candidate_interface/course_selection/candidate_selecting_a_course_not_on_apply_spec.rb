@@ -80,10 +80,11 @@ RSpec.feature 'Selecting a course not on Apply' do
   end
 
   def and_i_should_be_given_the_selected_training_provider_code
-    expect(page).to have_content '1N1'
+    expect(page).to have_content 'FAKE'
   end
 
-  def and_i_should_be_given_the_selected_course_code
+  def and_i_should_be_given_the_selected_training_provider_code_and_course_code
     expect(page).to have_content '1N1'
+    expect(page).to have_content 'X123'
   end
 end
