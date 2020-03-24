@@ -12,13 +12,12 @@ RSpec.feature 'Selecting a course not on Apply' do
     and_i_click_on_add_course
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider_without_a_course
-    then_i_see_that_i_should_apply_on_ucas
-    and_i_should_be_given_the_selected_training_provider_code
+    then_i_see_that_i_should_apply_to_the_provider_on_ucas
 
     when_i_click_on_back
     and_i_choose_a_provider
     and_i_choose_another_course
-    then_i_see_that_i_should_apply_on_ucas
+    then_i_see_that_i_should_apply_to_the_course_on_ucas
     and_i_should_be_given_the_selected_training_provider_code_and_course_code
   end
 
@@ -60,8 +59,12 @@ RSpec.feature 'Selecting a course not on Apply' do
     click_button 'Continue'
   end
 
-  def then_i_see_that_i_should_apply_on_ucas
-    expect(page).to have_content(t('page_titles.apply_on_ucas'))
+  def then_i_see_that_i_should_apply_to_the_provider_on_ucas
+    expect(page).to have_content(t('page_titles.apply_to_provider_on_ucas'))
+  end
+
+  def then_i_see_that_i_should_apply_to_the_course_on_ucas
+    expect(page).to have_content(t('page_titles.apply_to_course_on_ucas'))
   end
 
   def when_i_click_on_back
@@ -83,7 +86,7 @@ RSpec.feature 'Selecting a course not on Apply' do
   end
 
   def and_i_should_be_given_the_selected_training_provider_code_and_course_code
-    expect(page).to have_content '1N1'
-    expect(page).to have_content 'X123'
+    expect(page).to have_content 'Gorse SCITT (1N1)'
+    expect(page).to have_content 'Secondary (X123)'
   end
 end
