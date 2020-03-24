@@ -15,6 +15,10 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
     when_i_click_on_the_link_within_the_email
     then_i_see_the_reference_comment_page
 
+    when_i_fill_in_too_many_words_in_the_reference_field
+    and_i_click_the_submit_reference_button
+    then_i_see_an_error
+
     when_i_fill_in_the_reference_field
     and_i_click_the_submit_reference_button
     then_i_see_am_told_i_submittted_my_refernce
@@ -73,6 +77,14 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
 
   def when_i_fill_in_the_reference_field
     fill_in 'Your reference', with: 'This is a reference for the candidate.'
+  end
+
+  def when_i_fill_in_too_many_words_in_the_reference_field
+    fill_in 'Your reference', with: ('This is a reference for the candidate.' * 100)
+  end
+
+  def then_i_see_an_error
+    expect(page).to have_content 'Your reference must be 300 words or fewer'
   end
 
   def and_i_click_the_submit_reference_button
