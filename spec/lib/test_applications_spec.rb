@@ -19,7 +19,8 @@ RSpec.describe TestApplications do
     candidate = application_form.candidate
     expect(application_choice.created_at - candidate.created_at).to be >= 1.day
     expect(application_form.submitted_at - application_choice.created_at).to be >= 1.day
-    expect(application_choice.offered_at - application_form.submitted_at).to be >= 1.day
+    expect(application_choice.sent_to_provider_at - application_form.submitted_at).to be >= 1.day
+    expect(application_choice.offered_at - application_choice.sent_to_provider_at).to be >= 1.day
     expect(application_choice.accepted_at - application_choice.offered_at).to be >= 1.day
     expect(application_choice.enrolled_at - application_choice.accepted_at).to be >= 1.day
   end
@@ -33,7 +34,8 @@ RSpec.describe TestApplications do
     candidate = application_form.candidate
     expect(application_choice.created_at - candidate.created_at).to be >= 1.day
     expect(application_form.submitted_at - application_choice.created_at).to be >= 1.day
-    expect(application_choice.offered_at - application_form.submitted_at).to be >= 1.day
+    expect(application_choice.sent_to_provider_at - application_form.submitted_at).to be >= 1.day
+    expect(application_choice.offered_at - application_choice.sent_to_provider_at).to be >= 1.day
   end
 
   it 'attributes actions to candidates', with_audited: true do
