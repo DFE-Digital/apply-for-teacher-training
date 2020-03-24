@@ -13,7 +13,8 @@ en:
     error_prefix: 'Error: '
     success_prefix: 'Success: '
     not_eligible_yet: We’re sorry, but we’re not ready for you yet
-    apply_on_ucas: You need to apply for this course on UCAS
+    apply_to_course_on_ucas: You need to apply to this course on UCAS
+    apply_to_provider_on_ucas: You need to apply to this provider on UCAS
     submitted_application: Your submitted application
     sign_up: Create an account
     sign_in: Sign in
