@@ -20,6 +20,8 @@ module ApiDocs
       render_content_page :alpha_release_notes
     end
 
+    def lifecycle; end
+
   private
 
     def render_content_page(page_name)
