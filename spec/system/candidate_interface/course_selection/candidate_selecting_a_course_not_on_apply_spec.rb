@@ -19,8 +19,7 @@ RSpec.feature 'Selecting a course not on Apply' do
     and_i_choose_a_provider
     and_i_choose_another_course
     then_i_see_that_i_should_apply_on_ucas
-    and_i_should_be_given_the_selected_training_provider_code
-    and_i_should_be_given_the_selected_course_code
+    and_i_should_be_given_the_selected_training_provider_code_and_course_code
   end
 
   def given_i_am_not_signed_in; end

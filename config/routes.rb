@@ -187,7 +187,8 @@ Rails.application.routes.draw do
         get '/provider' => 'course_choices#options_for_provider', as: :course_choices_provider
         post '/provider' => 'course_choices#pick_provider'
 
-        get '/apply-on-ucas/provider/:provider_id' => 'course_choices#ucas_no_courses', as: :course_choices_on_ucas
+        get '/apply-on-ucas/provider/:provider_id' => 'course_choices#ucas_no_courses', as: :course_choices_ucas_no_courses
+        get '/apply-on-ucas/provider/:provider_id/course/:course_id' => 'course_choices#ucas_with_course', as: :course_choices_ucas_with_course
 
         get '/provider/:provider_id/courses' => 'course_choices#options_for_course', as: :course_choices_course
         post '/provider/:provider_id/courses' => 'course_choices#pick_course'

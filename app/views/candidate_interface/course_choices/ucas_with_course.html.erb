@@ -13,12 +13,17 @@
     <p class="govuk-body">If your other preferred  providers are signed up to the new service, it’s possible to apply through both systems. You can choose a total of 3 courses across both services.</p>
     <p class="govuk-body">For more information, see our <%= govuk_link_to 'Get into Teaching guidance on applying for teacher training', 'https://getintoteaching.education.gov.uk/how-to-apply-for-teacher-training' %></p>
 
-    <h2 class=govuk-heading-m>Make a note of your training provider code</h2>
-    <p class="govuk-body">When you apply through UCAS, you’ll need this it for the course choices section of your application.</p>
+    <h2 class=govuk-heading-m>Make a note of your course codes</h2>
+    <p class="govuk-body">When you apply through UCAS, you’ll need these codes for the course choices section of your application.</p>
 
-    <div class="govuk-inset-text govuk-!-margin-top-0"> Training provider code:
+    <div class="govuk-inset-text govuk-!-margin-top-0 govuk-body">
+      Training provider code:
       <h2 class="govuk-header-l">
         <%= @provider.code %>
+      </h2>
+      Training programme code:
+      <h2 class="govuk-header-l govuk-!-margin-top-0">
+        <%= @course.code %>
       </h2>
     </div>
 

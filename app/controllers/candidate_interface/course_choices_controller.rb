@@ -42,12 +42,17 @@ module CandidateInterface
       if @pick_provider.courses_available?
         redirect_to candidate_interface_course_choices_course_path(@pick_provider.provider_id)
       else
-        redirect_to candidate_interface_course_choices_on_ucas_path(@pick_provider.provider_id)
+        redirect_to candidate_interface_course_choices_ucas_no_courses_path(@pick_provider.provider_id)
       end
     end
 
     def ucas_no_courses
       @provider = Provider.find_by!(id: params[:provider_id])
+    end
+
+    def ucas_with_course
+      @provider = Provider.find_by!(id: params[:provider_id])
+      @course = Course.find_by!(id: params[:course_id])
     end
 
     def options_for_course
@@ -67,7 +72,7 @@ module CandidateInterface
       render :options_for_course and return unless @pick_course.valid?
 
       if !@pick_course.open_on_apply?
-        redirect_to_ucas
+        redirect_to candidate_interface_course_choices_ucas_with_course_path(@pick_course.provider_id, @pick_course.course_id)
       elsif @pick_course.full? && FeatureFlag.active?('check_full_courses')
         redirect_to candidate_interface_course_choices_full_path(
           @pick_course.provider_id,
@@ -236,10 +241,6 @@ module CandidateInterface
       else
         render :options_for_site
       end
-    end
-
-    def redirect_to_ucas
-      redirect_to candidate_interface_course_choices_on_ucas_path
     end
   end
 end
