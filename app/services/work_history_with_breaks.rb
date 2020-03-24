@@ -18,6 +18,7 @@ class WorkHistoryWithBreaks
   end
 
   def initialize(application_form)
+    @application_form = application_form
     @work_history = application_form.application_work_experiences.sort_by(&:start_date)
     @existing_breaks = application_form.application_work_history_breaks.sort_by(&:start_date)
     @current_job = nil
@@ -31,8 +32,8 @@ class WorkHistoryWithBreaks
 
     if @work_history.any?
       timeline_in_months = month_range(
-        start_date: Time.zone.now - 5.years,
-        end_date: Time.zone.now - 1.month,
+        start_date: submitted_at - 5.years,
+        end_date: submitted_at - 1.month,
       )
       break_months_in_timeline = remove_months(timeline: timeline_in_months, entries: @work_history)
       remaining_months = remove_months(timeline: break_months_in_timeline, entries: @existing_breaks)
@@ -45,6 +46,11 @@ class WorkHistoryWithBreaks
 
 private
 
+  def submitted_at
+    # Time.zone.now
+    @application_form.submitted_at || Time.zone.now
+  end
+
   def month_range(start_date:, end_date:)
     (start_date.to_date..end_date.to_date).map(&:beginning_of_month).uniq
   end
@@ -53,7 +59,7 @@ private
     remaining_months_in_timeline = timeline
 
     entries.each do |entry|
-      entry_end_date = entry.end_date.nil? ? Time.zone.now : entry.end_date
+      entry_end_date = entry.end_date.nil? ? submitted_at : entry.end_date
       months_in_entry_period = month_range(start_date: entry.start_date, end_date: entry_end_date)
 
       remaining_months_in_timeline -= months_in_entry_period

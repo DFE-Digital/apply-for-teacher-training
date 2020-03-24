@@ -17,7 +17,9 @@ RSpec.describe WorkHistoryWithBreaks do
     let(:december2019) { Time.zone.local(2019, 12, 1) }
     let(:january2020) { Time.zone.local(2020, 1, 1) }
     let(:february2020) { Time.zone.local(2020, 2, 1) }
-    let(:current_date) { february2020 }
+    let(:april2020) { Time.zone.local(2020, 4, 1) }
+    let(:current_date) { april2020 }
+    let(:submitted_at) { february2020 }
 
     around do |example|
       Timecop.freeze(current_date) do
@@ -28,7 +30,11 @@ RSpec.describe WorkHistoryWithBreaks do
     context 'when there are no jobs' do
       it 'returns an empty array' do
         work_history = []
-        application_form = build_stubbed(:application_form, application_work_experiences: work_history)
+        application_form = build_stubbed(
+          :application_form,
+          application_work_experiences: work_history,
+          submitted_at: submitted_at,
+        )
 
         get_work_history_with_breaks = WorkHistoryWithBreaks.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
@@ -41,7 +47,11 @@ RSpec.describe WorkHistoryWithBreaks do
       it 'returns the job' do
         job1 = build_stubbed(:application_work_experience, start_date: february2015, end_date: nil)
         work_history = [job1]
-        application_form = build_stubbed(:application_form, application_work_experiences: work_history)
+        application_form = build_stubbed(
+          :application_form,
+          application_work_experiences: work_history,
+          submitted_at: submitted_at,
+        )
 
         get_work_history_with_breaks = WorkHistoryWithBreaks.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
@@ -55,7 +65,29 @@ RSpec.describe WorkHistoryWithBreaks do
       it 'returns the job' do
         job1 = build_stubbed(:application_work_experience, start_date: february2015, end_date: current_date)
         work_history = [job1]
-        application_form = build_stubbed(:application_form, application_work_experiences: work_history)
+        application_form = build_stubbed(
+          :application_form,
+          application_work_experiences: work_history,
+          submitted_at: submitted_at,
+        )
+
+        get_work_history_with_breaks = WorkHistoryWithBreaks.new(application_form)
+        work_history_with_breaks = get_work_history_with_breaks.timeline
+
+        expect(work_history_with_breaks.count).to eq(1)
+        expect(work_history_with_breaks[0]).to eq(job1)
+      end
+    end
+
+    context 'when there is one job that ends at submission_date' do
+      it 'returns the job' do
+        job1 = build_stubbed(:application_work_experience, start_date: february2015, end_date: february2020)
+        work_history = [job1]
+        application_form = build_stubbed(
+          :application_form,
+          application_work_experiences: work_history,
+          submitted_at: submitted_at,
+        )
 
         get_work_history_with_breaks = WorkHistoryWithBreaks.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
@@ -69,7 +101,11 @@ RSpec.describe WorkHistoryWithBreaks do
       it 'returns the job then a break placeholder with a length of one month' do
         job1 = build_stubbed(:application_work_experience, start_date: february2015, end_date: december2019)
         work_history = [job1]
-        application_form = build_stubbed(:application_form, application_work_experiences: work_history)
+        application_form = build_stubbed(
+          :application_form,
+          application_work_experiences: work_history,
+          submitted_at: submitted_at,
+        )
 
         get_work_history_with_breaks = WorkHistoryWithBreaks.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
@@ -87,7 +123,11 @@ RSpec.describe WorkHistoryWithBreaks do
       it 'returns the job then a break placeholder with a length of three months' do
         job1 = build_stubbed(:application_work_experience, start_date: february2015, end_date: october2019)
         work_history = [job1]
-        application_form = build_stubbed(:application_form, application_work_experiences: work_history)
+        application_form = build_stubbed(
+          :application_form,
+          application_work_experiences: work_history,
+          submitted_at: submitted_at,
+        )
 
         get_work_history_with_breaks = WorkHistoryWithBreaks.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
@@ -105,7 +145,11 @@ RSpec.describe WorkHistoryWithBreaks do
         job2 = build_stubbed(:application_work_experience, start_date: october2019, end_date: december2019)
         job3 = build_stubbed(:application_work_experience, start_date: january2020, end_date: current_date)
         work_history = [job2, job1, job3]
-        application_form = build_stubbed(:application_form, application_work_experiences: work_history)
+        application_form = build_stubbed(
+          :application_form,
+          application_work_experiences: work_history,
+          submitted_at: submitted_at,
+        )
 
         get_work_history_with_breaks = WorkHistoryWithBreaks.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
@@ -123,7 +167,11 @@ RSpec.describe WorkHistoryWithBreaks do
         job2 = build_stubbed(:application_work_experience, start_date: october2019, end_date: november2019)
         job3 = build_stubbed(:application_work_experience, start_date: january2020, end_date: current_date)
         work_history = [job1, job2, job3]
-        application_form = build_stubbed(:application_form, application_work_experiences: work_history)
+        application_form = build_stubbed(
+          :application_form,
+          application_work_experiences: work_history,
+          submitted_at: submitted_at,
+        )
 
         get_work_history_with_breaks = WorkHistoryWithBreaks.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
@@ -142,7 +190,11 @@ RSpec.describe WorkHistoryWithBreaks do
         job1 = build_stubbed(:application_work_experience, start_date: january2014, end_date: march2014)
         job2 = build_stubbed(:application_work_experience, start_date: october2014, end_date: current_date)
         work_history = [job1, job2]
-        application_form = build_stubbed(:application_form, application_work_experiences: work_history)
+        application_form = build_stubbed(
+          :application_form,
+          application_work_experiences: work_history,
+          submitted_at: submitted_at,
+        )
 
         get_work_history_with_breaks = WorkHistoryWithBreaks.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
@@ -159,7 +211,11 @@ RSpec.describe WorkHistoryWithBreaks do
         job2 = build_stubbed(:application_work_experience, start_date: april2019, end_date: september2019)
         job3 = build_stubbed(:application_work_experience, start_date: november2019, end_date: december2019)
         work_history = [job1, job2, job3]
-        application_form = build_stubbed(:application_form, application_work_experiences: work_history)
+        application_form = build_stubbed(
+          :application_form,
+          application_work_experiences: work_history,
+          submitted_at: submitted_at,
+        )
 
         get_work_history_with_breaks = WorkHistoryWithBreaks.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
@@ -177,7 +233,11 @@ RSpec.describe WorkHistoryWithBreaks do
         job2 = build_stubbed(:application_work_experience, start_date: april2019, end_date: nil)
         job3 = build_stubbed(:application_work_experience, start_date: november2019, end_date: december2019)
         work_history = [job1, job2, job3]
-        application_form = build_stubbed(:application_form, application_work_experiences: work_history)
+        application_form = build_stubbed(
+          :application_form,
+          application_work_experiences: work_history,
+          submitted_at: submitted_at,
+        )
 
         get_work_history_with_breaks = WorkHistoryWithBreaks.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
@@ -197,7 +257,11 @@ RSpec.describe WorkHistoryWithBreaks do
         job2 = build_stubbed(:application_work_experience, start_date: april2019, end_date: september2019)
         job3 = build_stubbed(:application_work_experience, start_date: november2019, end_date: nil)
         work_history = [job1, job2, job3]
-        application_form = build_stubbed(:application_form, application_work_experiences: work_history)
+        application_form = build_stubbed(
+          :application_form,
+          application_work_experiences: work_history,
+          submitted_at: submitted_at,
+        )
 
         get_work_history_with_breaks = WorkHistoryWithBreaks.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
@@ -220,6 +284,7 @@ RSpec.describe WorkHistoryWithBreaks do
           :application_form,
           application_work_experiences: work_history,
           application_work_history_breaks: breaks,
+          submitted_at: submitted_at,
         )
 
         get_work_history_with_breaks = WorkHistoryWithBreaks.new(application_form)
@@ -244,6 +309,7 @@ RSpec.describe WorkHistoryWithBreaks do
           :application_form,
           application_work_experiences: work_history,
           application_work_history_breaks: breaks,
+          submitted_at: submitted_at,
         )
 
         get_work_history_with_breaks = WorkHistoryWithBreaks.new(application_form)
@@ -260,13 +326,14 @@ RSpec.describe WorkHistoryWithBreaks do
     context 'when there are no jobs and multiple existing breaks' do
       it 'returns all existing breaks and sorted by start date' do
         work_history = []
-        break1 = build_stubbed(:application_work_history_break, start_date: november2019, end_date: current_date)
+        break1 = build_stubbed(:application_work_history_break, start_date: november2019, end_date: submitted_at)
         break2 = build_stubbed(:application_work_history_break, start_date: february2019, end_date: april2019)
         breaks = [break2, break1]
         application_form = build_stubbed(
           :application_form,
           application_work_experiences: work_history,
           application_work_history_breaks: breaks,
+          submitted_at: submitted_at,
         )
 
         get_work_history_with_breaks = WorkHistoryWithBreaks.new(application_form)
@@ -279,7 +346,7 @@ RSpec.describe WorkHistoryWithBreaks do
         expect(work_history_with_breaks[0].length).to eq(1)
         expect(work_history_with_breaks[1]).to be_instance_of(ApplicationWorkHistoryBreak)
         expect(work_history_with_breaks[1].start_date).to eq(november2019)
-        expect(work_history_with_breaks[1].end_date).to eq(current_date)
+        expect(work_history_with_breaks[1].end_date).to eq(submitted_at)
         expect(work_history_with_breaks[1].length).to eq(2)
       end
     end
@@ -288,12 +355,13 @@ RSpec.describe WorkHistoryWithBreaks do
       it 'returns the job and existing break, it does not include a break placeholder' do
         job1 = build_stubbed(:application_work_experience, start_date: february2015, end_date: february2016)
         work_history = [job1]
-        break1 = build_stubbed(:application_work_history_break, start_date: february2015, end_date: current_date)
+        break1 = build_stubbed(:application_work_history_break, start_date: february2015, end_date: submitted_at)
         breaks = [break1]
         application_form = build_stubbed(
           :application_form,
           application_work_experiences: work_history,
           application_work_history_breaks: breaks,
+          submitted_at: submitted_at,
         )
 
         get_work_history_with_breaks = WorkHistoryWithBreaks.new(application_form)
@@ -303,7 +371,7 @@ RSpec.describe WorkHistoryWithBreaks do
         expect(work_history_with_breaks[0]).to eq(job1)
         expect(work_history_with_breaks[1]).to be_instance_of(ApplicationWorkHistoryBreak)
         expect(work_history_with_breaks[1].start_date).to eq(february2015)
-        expect(work_history_with_breaks[1].end_date).to eq(current_date)
+        expect(work_history_with_breaks[1].end_date).to eq(submitted_at)
         expect(work_history_with_breaks[1].length).to eq(59)
       end
     end
