@@ -13,11 +13,14 @@ RSpec.feature 'Selecting a course not on Apply' do
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider_without_a_course
     then_i_see_that_i_should_apply_on_ucas
+    and_i_should_be_given_the_selected_training_provider_code
 
     when_i_click_on_back
     and_i_choose_a_provider
     and_i_choose_another_course
     then_i_see_that_i_should_apply_on_ucas
+    and_i_should_be_given_the_selected_training_provider_code
+    and_i_should_be_given_the_selected_course_code
   end
 
   def given_i_am_not_signed_in; end
@@ -59,7 +62,7 @@ RSpec.feature 'Selecting a course not on Apply' do
   end
 
   def then_i_see_that_i_should_apply_on_ucas
-    expect(page).to have_content(t('page_titles.not_eligible_yet'))
+    expect(page).to have_content(t('page_titles.apply_on_ucas'))
   end
 
   def when_i_click_on_back
@@ -74,5 +77,13 @@ RSpec.feature 'Selecting a course not on Apply' do
   def and_i_choose_another_course
     choose 'Secondary (X123)'
     click_button 'Continue'
+  end
+
+  def and_i_should_be_given_the_selected_training_provider_code
+    expect(page).to have_content '1N1'
+  end
+
+  def and_i_should_be_given_the_selected_course_code
+    expect(page).to have_content '1N1'
   end
 end

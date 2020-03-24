@@ -42,11 +42,13 @@ module CandidateInterface
       if @pick_provider.courses_available?
         redirect_to candidate_interface_course_choices_course_path(@pick_provider.provider_id)
       else
-        redirect_to_ucas
+        redirect_to candidate_interface_course_choices_on_ucas_path(@pick_provider.provider_id)
       end
     end
 
-    def ucas; end
+    def ucas_no_courses
+      @provider = Provider.find_by!(id: params[:provider_id])
+    end
 
     def options_for_course
       @pick_course = PickCourseForm.new(
