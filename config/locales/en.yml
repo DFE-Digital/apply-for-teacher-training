@@ -98,6 +98,7 @@ en:
     provider:
       respond: Respond to application
       confirm: Confirm offer
+    covid_19_guidance: "Coronavirus (COVID-19): new deadlines for processing applications"
   layout:
     accessibility: Accessibility
     terms_of_use: Terms of use
