@@ -64,13 +64,13 @@ class ApplicationReference < ApplicationRecord
   def chase_referee_at
     return unless requested_at
 
-    TimeLimitCalculator.new(rule: :chase_referee_by, effective_date: requested_at).call[:time_in_future]
+    TimeLimitConfig.chase_referee_by.days.after(requested_at)
   end
 
   def replace_referee_at
     return unless requested_at
 
-    TimeLimitCalculator.new(rule: :replace_referee_by, effective_date: requested_at).call[:time_in_future]
+    TimeLimitConfig.replace_referee_by.days.after(requested_at)
   end
 
   def feedback_overdue?

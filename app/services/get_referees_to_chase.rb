@@ -7,6 +7,6 @@ class GetRefereesToChase
   end
 
   def self.chase_referee_time_limit
-    TimeLimitCalculator.new(rule: :chase_referee_by, effective_date: Time.zone.now).call[:time_in_past]
+    TimeLimitConfig.chase_referee_by.days.before(Time.zone.now)
   end
 end
