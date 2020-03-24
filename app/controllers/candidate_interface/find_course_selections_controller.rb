@@ -44,11 +44,11 @@ module CandidateInterface
         course_option_id: course_option_id,
       )
 
-      if pick_site.save
-        redirect_to candidate_interface_course_choices_index_path
-      else
-        render :options_for_site
+      unless pick_site.save
+        flash[:warning] = pick_site.errors.full_messages.first
       end
+
+      redirect_to candidate_interface_course_choices_index_path
     end
 
     def course_selection_params
