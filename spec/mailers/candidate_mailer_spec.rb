@@ -111,6 +111,16 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe 'Candidate decision chaser email' do
+    context 'when the covid-19 feature flag is on' do
+      before { FeatureFlag.activate('covid_19') }
+
+      it_behaves_like(
+        'a mail with subject and content', :chase_candidate_decision,
+        I18n.t!('chase_candidate_decision_email.subject_singular'),
+        'Date to resbond by' => "Respond by #{10.business_days.from_now.to_s(:govuk_date).strip}"
+    )
+    end
+
     context 'when a candidate has one appication choice with offer' do
       it_behaves_like(
         'a mail with subject and content', :chase_candidate_decision,
@@ -140,6 +150,22 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.decline_by_default' do
+    context 'when the covid-19 feature flag is on' do
+      before do
+        FeatureFlag.activate('covid_19')
+        @application_form = build_stubbed(
+          :application_form,
+          application_choices: [build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10)],
+          )
+      end
+
+      it_behaves_like(
+        'a mail with subject and content', :declined_by_default,
+        'Application withdrawn automatically',
+        'Reason' => 'because you didn’t respond in time.'
+      )
+    end
+
     context 'when a candidate has 1 offer that was declined' do
       before do
         @application_form = build_stubbed(

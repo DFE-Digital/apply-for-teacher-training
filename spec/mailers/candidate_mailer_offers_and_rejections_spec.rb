@@ -32,6 +32,16 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe 'send new offer email to candidate' do
+    context 'when the covid-19 feature flag is on' do
+      before { FeatureFlag.activate('covid_19') }
+
+      it_behaves_like(
+        'a mail with subject and content', :new_offer_single_offer,
+        'Offer received for Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
+        'Days to make an offer' => 'If you don’t reply by 25 February 2020'
+      )
+    end
+
     describe '#new_offer_single_offer' do
       it_behaves_like(
         'a mail with subject and content', :new_offer_single_offer,
@@ -39,7 +49,8 @@ RSpec.describe CandidateMailer, type: :mailer do
         'heading' => 'Dear Bob',
         'decline by default date' => 'Make a decision by 25 February 2020',
         'first_condition' => 'DBS check',
-        'second_condition' => 'Pass exams'
+        'second_condition' => 'Pass exams',
+        'Days to make an offer' => 'You have 10 working days to make a decision. If you don’t reply by 25 February 2020'
       )
     end
 
