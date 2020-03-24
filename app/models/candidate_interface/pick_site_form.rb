@@ -41,7 +41,7 @@ module CandidateInterface
     def candidate_can_only_apply_to_3_courses
       return if application_form.application_choices.count <= 2
 
-      errors[:base] << I18n.t('errors.messages.too_many_course_choices', course_name_and_code: course.name_and_code)
+      errors[:base] << I18n.t('errors.messages.too_many_course_choices', course_name_and_code: course_option.course.name_and_code)
     end
   end
 end
