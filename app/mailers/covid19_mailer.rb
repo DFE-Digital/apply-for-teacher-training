@@ -1,4 +1,6 @@
 class Covid19Mailer < ApplicationMailer
+  helper :view
+
   def potential_delays(application_form)
     @application_form = application_form
     notify_email(

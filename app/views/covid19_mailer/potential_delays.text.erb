@@ -2,6 +2,6 @@ Dear <%= @application_form.first_name || 'candidate' %>
 
 Given the impact of coronavirus (COVID-19) on schools and universities, your teacher training application might be processed more slowly than usual.
 
-To check the status of your application, sign in to Apply for teacher training https://www.apply-for-teacher-training.education.gov.uk/candidate/sign-in
+To check the status of your application, sign in to Apply for teacher training <%= candidate_sign_in_url(@application_form.candidate) %>
 
 If you have any questions about this, you can contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
