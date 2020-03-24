@@ -105,83 +105,122 @@ class TestApplications
 
     case state
     when :offer
-      fast_forward(1..3)
-      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
-      choice.update_columns(offered_at: time)
+      make_offer(choice)
     when :rejected
+      reject_application(choice)
+    when :offer_withdrawn
+      make_offer(choice)
+      withdraw_offer(choice)
+    when :declined
+      make_offer(choice)
+      decline_offer(choice)
+    when :accepted
+      make_offer(choice)
+      accept_offer(choice)
+    when :accepted_no_conditions
+      make_offer(choice, conditions: [])
+      accept_offer(choice)
+    when :conditions_not_met
+      make_offer(choice)
+      accept_offer(choice)
+      conditions_not_met(choice)
+    when :recruited
+      make_offer(choice)
+      accept_offer(choice)
+      confirm_offer_conditions(choice)
+    when :enrolled
+      make_offer(choice)
+      accept_offer(choice)
+      confirm_offer_conditions(choice)
+      confirm_enrollment(choice)
+    when :withdrawn
+      withdraw_application(choice)
+    end
+  end
+
+  def accept_offer(choice)
+    fast_forward(1..3)
+    AcceptOffer.new(application_choice: choice).save!
+    choice.update_columns(accepted_at: time)
+  end
+
+  def withdraw_application(choice)
+    fast_forward(1..3)
+    WithdrawApplication.new(application_choice: choice).save!
+    choice.update_columns(withdrawn_at: time)
+  end
+
+  def decline_offer(choice)
+    fast_forward(1..3)
+    DeclineOffer.new(application_choice: choice).save!
+    choice.update_columns(declined_at: time)
+  end
+
+  def make_offer(choice, conditions: ['Complete DBS'])
+    as_provider_user(choice) do
+      fast_forward(1..3)
+      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: conditions).save
+      choice.update_columns(offered_at: time)
+    end
+  end
+
+  def reject_application(choice)
+    as_provider_user(choice) do
       fast_forward(1..3)
       RejectApplication.new(application_choice: choice, rejection_reason: 'Some').save
       choice.update_columns(rejected_at: time)
-    when :offer_withdrawn
-      fast_forward(1..3)
-      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
-      choice.update_columns(offered_at: time)
+    end
+  end
+
+  def withdraw_offer(choice)
+    as_provider_user(choice) do
       fast_forward(1..3)
       WithdrawOffer.new(application_choice: choice, offer_withdrawal_reason: 'Offer withdrawal reason is...').save
       choice.update_columns(withdrawn_at: time)
-    when :declined
-      fast_forward(1..3)
-      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
-      choice.update_columns(offered_at: time)
-      fast_forward(1..3)
-      DeclineOffer.new(application_choice: choice).save!
-      choice.update_columns(declined_at: time)
-    when :accepted
-      fast_forward(1..3)
-      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS', 'Fitness to teach check']).save
-      choice.update_columns(offered_at: time)
-      fast_forward(1..3)
-      AcceptOffer.new(application_choice: choice).save!
-      choice.update_columns(accepted_at: time)
-    when :accepted_no_conditions
-      fast_forward(1..3)
-      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: []).save
-      choice.update_columns(offered_at: time)
-      fast_forward(1..3)
-      AcceptOffer.new(application_choice: choice).save!
-      choice.update_columns(accepted_at: time)
-    when :conditions_not_met
-      fast_forward(1..3)
-      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS', 'Fitness to teach check', 'Complete course']).save
-      choice.update_columns(offered_at: time)
-      fast_forward(1..3)
-      AcceptOffer.new(application_choice: choice).save!
-      choice.update_columns(accepted_at: time)
+    end
+  end
+
+  def conditions_not_met(choice)
+    as_provider_user(choice) do
       fast_forward(1..3)
       ConditionsNotMet.new(application_choice: choice).save
       choice.update_columns(conditions_not_met_at: time)
-    when :recruited
-      fast_forward(1..3)
-      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS', 'Fitness to teach check']).save
-      choice.update_columns(offered_at: time)
-      fast_forward(1..3)
-      AcceptOffer.new(application_choice: choice).save!
-      choice.update_columns(accepted_at: time)
+    end
+  end
+
+  def confirm_offer_conditions(choice)
+    as_provider_user(choice) do
       fast_forward(1..3)
       ConfirmOfferConditions.new(application_choice: choice).save
       choice.update_columns(recruited_at: time)
-    when :enrolled
-      fast_forward(1..3)
-      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: ['Complete DBS']).save
-      choice.update_columns(offered_at: time)
-      fast_forward(1..3)
-      AcceptOffer.new(application_choice: choice).save!
-      choice.update_columns(accepted_at: time)
-      fast_forward(1..3)
-      ConfirmOfferConditions.new(application_choice: choice).save
-      choice.update_columns(recruited_at: time)
+    end
+  end
+
+  def confirm_enrollment(choice)
+    as_provider_user(choice) do
       fast_forward(1..3)
       ConfirmEnrolment.new(application_choice: choice).save
       choice.update_columns(enrolled_at: time)
-    when :withdrawn
-      fast_forward(1..3)
-      WithdrawApplication.new(application_choice: choice).save!
-      choice.update_columns(withdrawn_at: time)
     end
   end
 
   def actor
     SupportUser.first_or_initialize
+  end
+
+  def provider_user(choice)
+    provider_user = choice.provider.provider_users.first
+    return provider_user if provider_user.present?
+
+    provider_user = FactoryBot.create :provider_user
+    choice.provider.provider_users << provider_user
+    provider_user
+  end
+
+  def as_provider_user(choice)
+    Audited.audit_class.as_user(provider_user(choice)) do
+      yield
+    end
   end
 
   def without_slack_message_sending
