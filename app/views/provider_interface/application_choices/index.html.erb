@@ -1,6 +1,23 @@
 <% content_for :title, 'Applications' %>
 <% content_for :page_width, 'wide' %>
 
+<% if FeatureFlag.active?('covid_19') %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="app-banner" aria-labelledby="success-message" data-module="govuk-error-summary" role="alert">
+        <div class="app-banner__message">
+          <h2 class="govuk-heading-m" id="success-message">
+            <%= link_to 'Coronavirus (COVID-19): check our guidance to see new deadlines for processing applications',
+              provider_interface_covid_19_guidance_path,
+              class: 'govuk-link'
+            %>
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
 <h1 class='govuk-heading-xl'>Applications</h1>
 
 <% if FeatureFlag.active?('provider_application_filters') %>
