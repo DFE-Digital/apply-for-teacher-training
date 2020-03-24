@@ -84,6 +84,6 @@ RSpec.feature 'See applications' do
   end
 
   def then_i_should_see_a_covid19_information_banner
-    expect(page).to have_content 'Check our guidance to see how coronavirus (COVID-19)'
+    expect(page).to have_content 'Coronavirus (COVID-19): check our guidance to see new deadlines for processing applications'
   end
 end

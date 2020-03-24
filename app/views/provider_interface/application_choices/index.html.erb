@@ -6,7 +6,12 @@
     <div class="govuk-grid-column-two-thirds">
       <div class="app-banner" aria-labelledby="success-message" data-module="govuk-error-summary" role="alert">
         <div class="app-banner__message">
-          <h2 class="govuk-heading-m" id="success-message">Check our guidance to see how <%= link_to 'coronavirus (COVID-19) will affect your deadlines for responding to applications', provider_interface_covid_19_guidance_path, class: 'govuk-link' %></h2>
+          <h2 class="govuk-heading-m" id="success-message">
+            <%= link_to 'Coronavirus (COVID-19): check our guidance to see new deadlines for processing applications',
+              provider_interface_covid_19_guidance_path,
+              class: 'govuk-link'
+            %>
+          </h2>
         </div>
       </div>
     </div>
