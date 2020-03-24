@@ -13,8 +13,13 @@ RSpec.feature 'See applications' do
     when_the_covid_19_feature_is_active
     and_i_visit_the_provider_page
     then_i_expect_to_see_the_covid_19_message
+
+    when_i_click_the_covid_19_message_link_to_covid_19_guidance
+    then_i_expect_to_see_the_covid_19_guidance_page
+
     then_the_covid_19_feature_is_deactivated
 
+    when_i_visit_the_provider_page
     given_a_support_user_has_pre_approved_my_email_address
     and_i_am_a_new_provider_user_authenticated_with_dfe_sign_in
 
@@ -22,6 +27,14 @@ RSpec.feature 'See applications' do
 
     then_i_should_be_on_the_applications_page
     and_my_dfe_sign_in_uid_has_been_stored
+  end
+
+  def when_i_click_the_covid_19_message_link_to_covid_19_guidance
+    click_link('find out how this service is changing')
+  end
+
+  def then_i_expect_to_see_the_covid_19_guidance_page
+    expect(page).to have_content('Coronavirus (COVID-19): new deadlines for processing applications')
   end
 
   def then_i_expect_to_see_the_covid_19_message
