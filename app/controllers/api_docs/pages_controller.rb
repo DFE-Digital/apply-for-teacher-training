@@ -22,6 +22,8 @@ module ApiDocs
 
     def lifecycle; end
 
+    def when_emails_are_sent; end
+
   private
 
     def render_content_page(page_name)

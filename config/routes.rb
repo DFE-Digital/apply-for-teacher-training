@@ -467,6 +467,7 @@ Rails.application.routes.draw do
     get '/release-notes' => 'pages#release_notes', as: :release_notes
     get '/alpha-release-notes' => 'pages#alpha_release_notes'
     get '/lifecycle' => 'pages#lifecycle'
+    get '/when-emails-are-sent' => 'pages#when_emails_are_sent'
     get '/help' => 'pages#help', as: :help
     get '/spec.yml' => 'openapi#spec', as: :spec
   end
