@@ -44,6 +44,7 @@ RSpec.feature 'Candidate submits the application' do
 
     when_i_click_on_track_your_application
     then_i_can_see_my_application_dashboard
+    and_i_see_the_covid_19_guidance
 
     when_i_click_view_application
     then_i_can_see_my_submitted_application
@@ -55,6 +56,10 @@ RSpec.feature 'Candidate submits the application' do
 
   def and_the_training_with_a_disability_feature_flag_is_on
     FeatureFlag.activate('training_with_a_disability')
+  end
+
+  def and_the_covid_19_feature_flag_is_on
+    FeatureFlag.activate('covid_19')
   end
 
   def and_the_suitability_to_work_with_children_feature_flag_is_on
@@ -226,6 +231,10 @@ RSpec.feature 'Candidate submits the application' do
     expect(page).to have_content 'Gorse SCITT'
     expect(page).to have_content current_candidate.current_application.application_references.first.name
     expect(page).to have_content 'Submitted'
+  end
+
+  def and_i_see_the_covid_19_guidance
+    expect(page).to have_content 'Coronavirus (COVID-19)'
   end
 
   def when_i_click_view_application

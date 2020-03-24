@@ -1,6 +1,11 @@
 <% content_for :title, t('page_titles.application_dashboard') %>
 
-<%= render CandidateInterface::NewReferencesNeededComponent.new(application_form: @application_form) %>
+<% new_references_needed_component = CandidateInterface::NewReferencesNeededComponent.new(application_form: @application_form) %>
+<% if new_references_needed_component.render? %>
+  <%= render new_references_needed_component %>
+<% elsif flash.empty? %>
+  <%= render CandidateInterface::Covid19DashboardBannerComponent.new(application_form: @application_form) %>
+<% end %>
 
 <h1 class="govuk-heading-xl govuk-heading-xl govuk-!-margin-bottom-2">
   <%= t('page_titles.application_dashboard') %>
