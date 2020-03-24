@@ -187,6 +187,7 @@ ActiveRecord::Schema.define(version: 2020_03_23_161500) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "study_mode", default: "full_time", null: false
+    t.boolean "invalidated_by_find", default: false
     t.index ["course_id"], name: "index_course_options_on_course_id"
     t.index ["site_id", "course_id", "study_mode"], name: "index_course_options_on_site_id_and_course_id_and_study_mode", unique: true
     t.index ["site_id"], name: "index_course_options_on_site_id"
