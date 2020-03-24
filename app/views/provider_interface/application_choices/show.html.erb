@@ -19,7 +19,7 @@
       <span class="govuk-caption-xl"><%= @application_choice.application_form.support_reference %></span>
       <%= @application_choice.application_form.full_name %>
     </h1>
-    <p class="app-print-link app-!-print-display-none">
+    <p class="govuk-body govuk-!-margin-bottom-9 app-!-print-display-none">
       <%= govuk_link_to(
         'Download application (PDF)',
         provider_interface_application_choice_path(@application_choice.id, format: :pdf),
