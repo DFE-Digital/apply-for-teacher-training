@@ -25,5 +25,11 @@ RSpec.feature 'API docs' do
 
     click_link 'Get help'
     expect(page).to have_content 'If you have any questions or'
+
+    click_link 'Lifecycle'
+    expect(page).to have_content 'Application lifecycle'
+
+    click_link 'When emails are sent'
+    expect(page).to have_content 'we send these notifications'
   end
 end
