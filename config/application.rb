@@ -49,6 +49,6 @@ module ApplyForPostgraduateTeacherTraining
 
     config.active_job.queue_adapter = :sidekiq
 
-    config.middleware.use PDFKit::Middleware, { print_media_type: true }, only: [%r[^/provider/applications/\d+]]
+    config.middleware.use PDFKit::Middleware, { print_media_type: true }, disposition: 'attachment', only: [%r[^/provider/applications/\d+]]
   end
 end
