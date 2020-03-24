@@ -24,6 +24,13 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
     when_i_visit_the_available_courses_page
     then_i_should_see_the_available_providers_and_courses
 
+    given_i_am_on_the_apply_through_apply_page
+    when_i_do_not_make_a_choice_between_ucas_and_apply
+    then_i_see_an_error
+
+    when_i_choose_to_apply_through_apply
+    then_i_see_the_eligibility_page
+
     given_the_pilot_is_not_open
     when_i_arrive_from_find_to_a_course_that_is_open_on_apply
     then_i_should_be_able_to_apply_through_ucas_only
@@ -57,8 +64,8 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
   end
 
   def when_i_arrive_from_find_to_a_course_that_is_open_on_apply
-    course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Potions')
-    visit candidate_interface_apply_from_find_path providerCode: course.provider.code, courseCode: course.code
+    @course_on_apply = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Potions')
+    visit candidate_interface_apply_from_find_path providerCode: @course_on_apply.provider.code, courseCode: @course_on_apply.code
   end
 
   def then_i_should_see_the_landing_page
@@ -80,7 +87,7 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
   end
 
   def then_i_should_be_able_to_apply_through_apply
-    expect(page).to have_content 'You can apply for this course using a new GOV.UK service'
+    expect(page).to have_content 'Apply for this course'
   end
 
   def when_i_visit_the_available_courses_page
@@ -90,5 +97,27 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
   def then_i_should_see_the_available_providers_and_courses
     expect(page).not_to have_content 'Biology'
     expect(page).to have_content 'Potions'
+  end
+
+  def given_i_am_on_the_apply_through_apply_page
+    visit candidate_interface_apply_from_find_path providerCode: @course_on_apply.provider.code, courseCode: @course_on_apply.code
+  end
+
+  def when_i_do_not_make_a_choice_between_ucas_and_apply
+    click_button 'Continue'
+  end
+
+  def then_i_see_an_error
+    expect(page).to have_content('Choose if you want to use the new GOV.UK service')
+  end
+
+  def when_i_choose_to_apply_through_apply
+    choose 'Yes, I want to apply using the new service'
+
+    click_button 'Continue'
+  end
+
+  def then_i_see_the_eligibility_page
+    expect(page).to have_content('Check we’re ready for you to use this service')
   end
 end
