@@ -10,8 +10,8 @@ RSpec.describe TimeLimitConfig do
       expect(TimeLimitConfig.limits_for(:decline_by_default).first.limit).to eq(10)
     end
 
-    it ':edit_by returns a default limit of 5 days' do
-      expect(TimeLimitConfig.limits_for(:edit_by).first.limit).to eq(5)
+    it ':edit_by returns a limit of 7 days' do
+      expect(TimeLimitConfig.edit_by).to eq(7)
     end
 
     it ':chase_provider_before_rbd returns a default limit of 20 days' do
