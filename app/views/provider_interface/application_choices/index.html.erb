@@ -35,7 +35,13 @@
       <div class='moj-scrollable-pane'>
         <div class='moj-scrollable-pane__wrapper'>
         <% if @application_choices.any? %>
-          <%= render 'application_choices_table' %>
+          <div>
+            <div class="app-application-cards">
+              <% @application_choices.each do |choice| %>
+                <%= render ProviderInterface::ApplicationCardComponent.new(application_choice: choice) %>
+              <% end %>
+            </div>
+          </div>
         <% elsif @page_state.filter_selections.any? %>
           <p class='govuk-body'>No applications for the selected filters.</p>
         <% else %>

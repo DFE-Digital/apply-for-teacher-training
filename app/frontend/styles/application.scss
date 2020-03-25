@@ -49,6 +49,7 @@ $govuk-breakpoints: (
 @import "~@ministryofjustice/frontend/moj/objects/scrollable-pane";
 @import "_filter";
 @import "_provider";
+@import "_application-card";
 
 // Support
 @import "~@ministryofjustice/frontend/moj/components/sub-navigation/sub-navigation";
