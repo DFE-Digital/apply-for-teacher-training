@@ -1,6 +1,13 @@
 .app-summary-card {
   border: 1px solid $govuk-border-colour;
-  &.no-border { border: none; }
+
+  &.no-border {
+    border: none;
+
+    .app-summary-card__body {
+      padding: 0;
+    }
+  }
 
   .app-summary-card__header {
     align-items: center;
