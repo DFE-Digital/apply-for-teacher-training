@@ -40,6 +40,7 @@ Rails.application.routes.draw do
     get '/authenticate', to: 'sign_in#authenticate', as: :authenticate
 
     get '/apply', to: 'apply_from_find#show', as: :apply_from_find
+    post '/apply', to: 'apply_from_find#ucas_or_apply'
 
     get '/interstitial', to: 'sign_in#interstitial', as: :interstitial
 
