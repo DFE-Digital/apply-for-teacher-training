@@ -130,8 +130,6 @@ en:
               blank: First name can’t be blank
             last_name:
               blank: Last name can’t be blank
-            dfe_sign_in_uid:
-              blank: DfE Sign-in UID can’t be blank
             provider_ids:
               blank: Please specify a provider
         support_interface/new_offer_form:
