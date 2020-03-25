@@ -9,15 +9,17 @@ RSpec.feature 'Provider makes changes before making an offer' do
     when_change_response_feature_is_activated
     and_i_am_permitted_to_see_applications_for_two_providers
     and_an_application_choice_exists_for_one_of_my_providers
-    and_another_two_course_options_exist_for_this_provider
+    and_another_two_course_options_exist_for_another_provider
     and_i_sign_in_to_the_provider_interface
     and_i_view_an_application
 
     and_i_click_on_respond_to_application
     then_i_see_options_to_make_an_offer
 
-    when_i_choose_make_offer_but_change_course
-    then_i_see_all_courses_for_this_provider
+    when_i_choose_make_offer_but_change_provider
+    then_i_see_all_providers
+    and_i_can_change_training_provider
+    and_i_see_all_courses_for_this_provider
     and_i_can_change_the_course
     and_i_see_all_available_locations_for_this_course
     and_i_can_change_the_location
@@ -39,16 +41,19 @@ RSpec.feature 'Provider makes changes before making an offer' do
     provider_user_exists_in_apply_database
     @provider_user = ProviderUser.find_by(dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
     @provider = Provider.find_by(code: 'ABC')
+    @another_provider = Provider.find_by(code: 'DEF')
   end
 
   def and_an_application_choice_exists_for_one_of_my_providers
-    @course_option_one = course_option_for_provider_code(provider_code: @provider.code)
+    @course_option_one = course_option_for_provider(provider: @provider)
     @application = create(:application_choice, :awaiting_provider_decision, course_option: @course_option_one)
   end
 
-  def and_another_two_course_options_exist_for_this_provider
-    @course_option_two = course_option_for_provider_code(provider_code: @provider.code)
-    @course_option_three = create(:course_option, course: @course_option_two.course, site: create(:site, provider: @provider))
+  def and_another_two_course_options_exist_for_another_provider
+    @course_option_two = course_option_for_provider(provider: @another_provider)
+    @course_option_three = create(:course_option,
+                                  course: @course_option_two.course,
+                                  site: create(:site, provider: @another_provider))
   end
 
   def and_i_view_an_application
@@ -70,13 +75,22 @@ RSpec.feature 'Provider makes changes before making an offer' do
     expect(page).to have_content 'Reject application'
   end
 
-  def when_i_choose_make_offer_but_change_course
-    choose 'Make an offer but change course'
+  def when_i_choose_make_offer_but_change_provider
+    choose 'Make an offer but change training provider'
     click_on 'Continue'
   end
 
-  def then_i_see_all_courses_for_this_provider
-    @provider.courses.each do |course|
+  def then_i_see_all_providers
+    expect(page).to have_content @another_provider.name_and_code
+  end
+
+  def and_i_can_change_training_provider
+    choose @another_provider.name_and_code
+    click_on 'Continue'
+  end
+
+  def and_i_see_all_courses_for_this_provider
+    @another_provider.courses.each do |course|
       expect(page).to have_content course.name_and_code
     end
   end
