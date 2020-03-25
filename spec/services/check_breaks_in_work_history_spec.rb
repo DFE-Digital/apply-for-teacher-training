@@ -65,7 +65,7 @@ RSpec.describe CheckBreaksInWorkHistory do
         current_date = october2019
 
         Timecop.freeze(current_date) do
-          application_form = create(:application_form) do |form|
+          application_form = create(:application_form, submitted_at: october2019) do |form|
             form.application_work_experiences.create(
               start_date: august2019,
               end_date: september2019,
@@ -82,7 +82,7 @@ RSpec.describe CheckBreaksInWorkHistory do
         current_date = october2019
 
         Timecop.freeze(current_date) do
-          application_form = create(:application_form) do |form|
+          application_form = create(:application_form, submitted_at: october2019) do |form|
             form.application_work_experiences.create(
               start_date: january2019,
               end_date: march2019,

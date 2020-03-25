@@ -7,25 +7,21 @@ class CheckBreaksInWorkHistory
       jobs.each do |job|
         return true if month_or_more_break_between_dates?(latest_end_date, job.start_date)
 
-        return false if less_than_month_to_current_date?(job.end_date)
+        return false unless month_or_more_break_between_dates?(job.end_date, submitted_at(application_form))
 
         latest_end_date = [latest_end_date, job.end_date].compact.max
       end
-      month_or_more_break_between_end_date_and_current_date?(latest_end_date)
+      month_or_more_break_between_dates?(latest_end_date, submitted_at(application_form))
     end
 
   private
-
-    def month_or_more_break_between_end_date_and_current_date?(end_date)
-      month_or_more_break_between_dates?(end_date, Time.zone.now)
-    end
 
     def month_or_more_break_between_dates?(end_date, next_date)
       end_date.present? && end_date.next_month <= next_date
     end
 
-    def less_than_month_to_current_date?(end_date)
-      end_date.nil? || end_date.next_month > Time.zone.now
+    def submitted_at(application_form)
+      application_form.submitted_at || Time.zone.now
     end
   end
 end
