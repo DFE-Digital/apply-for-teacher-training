@@ -613,7 +613,10 @@ en:
               too_many_words: Your reason must be %{count} words or fewer
         referee_interface/reference_feedback_form:
           attributes:
-            feedback: 
+            feedback:
               blank: Enter your reference
               too_many_words: Your reference must be %{count} words or fewer
-              
+        candidate_interface/apply_on_ucas_or_apply_form:
+          attributes:
+            service:
+              blank: Choose if you want to use the new GOV.UK service
