@@ -1,21 +1,23 @@
 require_relative 'boot'
 
-require "rails"
+require 'rails'
 # Pick the frameworks you want:
-require "active_model/railtie"
-require "active_job/railtie"
-require "active_record/railtie"
-require "action_controller/railtie"
-require "action_mailer/railtie"
-require "action_view/railtie"
+require 'active_model/railtie'
+require 'active_job/railtie'
+require 'active_record/railtie'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
+require 'action_view/railtie'
 
-require "action_view/component"
+require 'action_view/component'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-require "./app/lib/hosting_environment"
+require './app/lib/hosting_environment'
+
+require 'pdfkit'
 
 module ApplyForPostgraduateTeacherTraining
   class Application < Rails::Application
@@ -33,10 +35,10 @@ module ApplyForPostgraduateTeacherTraining
 
     config.exceptions_app = self.routes
 
-    config.action_mailer.preview_path = "#{Rails.root}/app/mailers/previews"
+    config.action_mailer.preview_path = Rails.root.join('app/mailers/previews')
     config.action_mailer.show_previews = Rails.env.development? || HostingEnvironment.qa? || HostingEnvironment.review?
 
-    config.action_view_component.preview_path = "#{Rails.root}/app/components/previews"
+    config.action_view_component.preview_path = Rails.root.join('/app/components/previews')
     config.action_view_component.show_previews = Rails.env.development? || HostingEnvironment.qa? || HostingEnvironment.review?
 
     config.time_zone = 'London'
@@ -46,5 +48,7 @@ module ApplyForPostgraduateTeacherTraining
     config.action_view.raise_on_missing_translations = true
 
     config.active_job.queue_adapter = :sidekiq
+
+    config.middleware.use PDFKit::Middleware, { print_media_type: true }, disposition: 'attachment', only: [%r[^/provider/applications/\d+]]
   end
 end
