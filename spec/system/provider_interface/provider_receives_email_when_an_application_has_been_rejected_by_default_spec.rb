@@ -10,7 +10,6 @@ RSpec.feature 'An application has been rejected by default' do
     when_the_application_is_rejected_by_default
 
     then_i_should_receive_an_email
-    and_an_audit_comment_has_submitted
   end
 
   def given_i_am_a_provider_user_with_a_provider
@@ -42,13 +41,5 @@ RSpec.feature 'An application has been rejected by default' do
 
     expect(current_email.subject).to include(t('provider_application_rejected_by_default.email.subject',
                                                candidate_name: @application_choice.application_form.full_name))
-  end
-
-  def and_an_audit_comment_has_submitted
-    expected_audit_comment =
-      'Rejected by default email have been sent to the provider user' +
-      " #{@provider_user.email_address} for application #{@application_choice.course.name_and_code}."
-
-    expect(@application_choice.application_form.audits.last.comment).to eq(expected_audit_comment)
   end
 end

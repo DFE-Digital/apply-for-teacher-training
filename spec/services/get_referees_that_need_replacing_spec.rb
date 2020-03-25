@@ -23,7 +23,7 @@ RSpec.describe GetRefereesThatNeedReplacing do
     it 'does not return referees who have already been sent a chase email' do
       reference = create(:reference, feedback_status: 'feedback_requested', requested_at: 11.business_days.ago)
 
-      SendNewRefereeRequestEmail.call(application_form: reference.application_form, reference: reference, reason: :not_responded)
+      SendNewRefereeRequestEmail.call(reference: reference, reason: :not_responded)
 
       expect(described_class.call).to be_empty
     end

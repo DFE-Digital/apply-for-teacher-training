@@ -27,14 +27,6 @@ RSpec.describe SendNewOfferEmailToCandidate do
         described_class.new(application_choice: @application_choice).call
         expect(CandidateMailer).to have_received(:new_offer_single_offer).with(@application_choice)
       end
-
-      it 'audits the new offer email', with_audited: true do
-        expected_comment =
-          "New offer email sent to candidate #{@application_choice.application_form.candidate.email_address} for " +
-          "#{@application_choice.course_option.course.name_and_code} at #{@application_choice.course_option.course.provider.name}."
-        described_class.new(application_choice: @application_choice).call
-        expect(@application_choice.application_form.audits.last.comment).to eq(expected_comment)
-      end
     end
 
     context 'when there are multiple offers' do
@@ -54,14 +46,6 @@ RSpec.describe SendNewOfferEmailToCandidate do
         described_class.new(application_choice: @application_choice).call
         expect(CandidateMailer).to have_received(:new_offer_multiple_offers).with(@application_choice)
       end
-
-      it 'audits the new offer email', with_audited: true do
-        expected_comment =
-          "New offer email sent to candidate #{@application_choice.application_form.candidate.email_address} for " +
-          "#{@application_choice.course_option.course.name_and_code} at #{@application_choice.course_option.course.provider.name}."
-        described_class.new(application_choice: @application_choice).call
-        expect(@application_choice.application_form.audits.last.comment).to eq(expected_comment)
-      end
     end
 
     context 'when there are decisions pending' do
@@ -80,14 +64,6 @@ RSpec.describe SendNewOfferEmailToCandidate do
       it 'sends new offer email for pending decision case' do
         described_class.new(application_choice: @application_choice).call
         expect(CandidateMailer).to have_received(:new_offer_decisions_pending).with(@application_choice)
-      end
-
-      it 'audits the new offer email', with_audited: true do
-        expected_comment =
-          "New offer email sent to candidate #{@application_choice.application_form.candidate.email_address} for " +
-          "#{@application_choice.course_option.course.name_and_code} at #{@application_choice.course_option.course.provider.name}."
-        described_class.new(application_choice: @application_choice).call
-        expect(@application_choice.application_form.audits.last.comment).to eq(expected_comment)
       end
     end
   end

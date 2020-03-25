@@ -10,7 +10,6 @@ RSpec.feature 'A new application has been submitted' do
     when_the_application_is_delivered_to_my_provider
 
     then_i_should_receive_an_email_with_a_link_to_the_application
-    and_an_audit_comment_has_submitted
   end
 
   def given_i_am_a_provider_user_with_a_provider
@@ -43,14 +42,5 @@ RSpec.feature 'A new application has been submitted' do
     expect(current_email.subject).to include("Application received for #{@application_choice.course.name_and_code}")
 
     expect(current_email.body).to include("http://localhost:3000/provider/applications/#{@application_choice.id}")
-  end
-
-  def and_an_audit_comment_has_submitted
-    expected_audit_comment =
-      'New application email have been sent to the provider user' +
-      " (#{@provider_user.email_address}) for application (#{@application_choice.course.name})" +
-      " (#{@application_choice.course.code})."
-
-    expect(@application_choice.application_form.audits.last.comment).to eq(expected_audit_comment)
   end
 end

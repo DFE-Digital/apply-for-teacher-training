@@ -10,12 +10,6 @@ class SendRejectByDefaultEmailToProvider
 
     application_choice.provider.provider_users.each do |provider_user|
       ProviderMailer.application_rejected_by_default(provider_user, application_choice).deliver_later
-
-      course_name_and_code = application_choice.course.name_and_code
-      audit_comment =
-        'Rejected by default email have been sent to the provider user' +
-        " #{provider_user.email_address} for application #{course_name_and_code}."
-      application_choice.application_form.update!(audit_comment: audit_comment)
     end
   end
 end
