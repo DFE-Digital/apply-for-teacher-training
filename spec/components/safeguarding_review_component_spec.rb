@@ -7,7 +7,7 @@ RSpec.describe SafeguardingReviewComponent do
 
       result = render_inline(SafeguardingReviewComponent.new(application_form: application_form))
 
-      expect(result.text).to include('Do you want to share any information which could have an impact on your application?')
+      expect(result.text).to include('Do you want to share any safeguarding issues?')
       expect(result.text).to include('Yes')
       expect(result.text).to include('Relevant information')
       expect(result.text).to include('Not entered')
@@ -20,7 +20,7 @@ RSpec.describe SafeguardingReviewComponent do
 
       result = render_inline(SafeguardingReviewComponent.new(application_form: application_form))
 
-      expect(result.text).to include('Do you want to share any information which could have an impact on your application?')
+      expect(result.text).to include('Do you want to share any safeguarding issues?')
       expect(result.text).to include('No')
       expect(result.text).not_to include('Relevant information')
     end
@@ -32,7 +32,7 @@ RSpec.describe SafeguardingReviewComponent do
 
       result = render_inline(SafeguardingReviewComponent.new(application_form: application_form))
 
-      expect(result.text).to include('Do you want to share any information which could have an impact on your application?')
+      expect(result.text).to include('Do you want to share any safeguarding issues?')
       expect(result.text).to include('Yes')
       expect(result.text).to include('Relevant information')
       expect(result.text).to include('I have a criminal conviction.')
