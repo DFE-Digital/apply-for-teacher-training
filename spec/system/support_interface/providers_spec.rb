@@ -18,6 +18,12 @@ RSpec.feature 'See providers' do
     and_i_click_on_sites
     then_i_see_the_provider_sites
 
+    when_i_click_on_users
+    then_i_see_the_provider_users
+
+    when_i_click_on_applications
+    then_i_see_the_provider_applications
+
     and_i_click_on_courses
     then_i_see_the_provider_courses
 
@@ -48,7 +54,12 @@ RSpec.feature 'See providers' do
   end
 
   def and_providers_are_configured_to_be_synced
-    create :provider, code: 'ABC', name: 'Royal Academy of Dance', sync_courses: true
+    provider = create :provider, code: 'ABC', name: 'Royal Academy of Dance', sync_courses: true
+    create(:provider_user, email_address: 'harry@example.com', providers: [provider])
+
+    course_option = create(:course_option, course: create(:course, provider: provider))
+    create(:application_choice, application_form: create(:application_form, support_reference: 'XYZ123'), course_option: course_option)
+
     create :provider, code: 'DEF', name: 'Gorse SCITT', sync_courses: true
     create :provider, code: 'GHI', name: 'Somerset SCITT Consortium', sync_courses: true
   end
@@ -133,8 +144,26 @@ RSpec.feature 'See providers' do
     click_link 'Courses'
   end
 
+  def when_i_click_on_users
+    within 'main' do
+      click_link 'Users'
+    end
+  end
+
+  def then_i_see_the_provider_users
+    expect(page).to have_content 'harry@example.com'
+  end
+
+  def when_i_click_on_applications
+    click_link 'Applications'
+  end
+
+  def then_i_see_the_provider_applications
+    expect(page).to have_content 'XYZ123'
+  end
+
   def then_i_see_the_provider_courses
-    expect(page).to have_content '1 course (0 on DfE Apply)'
+    expect(page).to have_content '2 courses (0 on DfE Apply)'
   end
 
   def then_i_see_the_provider_sites
@@ -162,7 +191,7 @@ RSpec.feature 'See providers' do
   def then_i_see_the_updated_providers_courses_and_sites
     expect(page).to have_content 'ABC-1'
     expect(page).to have_content 'Vacancies'
-    expect(page).to have_content '1 course (1 on DfE Apply)'
+    expect(page).to have_content '2 courses (1 on DfE Apply)'
     expect(page).to have_content 'Accredited body'
     expect(page).to have_content 'University of Chester'
   end

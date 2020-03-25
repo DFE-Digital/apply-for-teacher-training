@@ -1,0 +1,5 @@
+<%= render 'provider_navigation', title: 'Users' %>
+
+<%= link_to 'Add provider user', new_support_interface_provider_user_path, class: 'govuk-button' %>
+
+<%= render(SupportInterface::ProviderUsersTableComponent.new(provider_users: @provider.provider_users)) %>

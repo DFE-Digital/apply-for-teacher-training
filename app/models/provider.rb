@@ -30,4 +30,8 @@ class Provider < ApplicationRecord
   def accredited_courses
     Course.where(accrediting_provider: self)
   end
+
+  def application_forms
+    ApplicationForm.where(id: application_choices.select(:application_form_id))
+  end
 end

@@ -1,0 +1,3 @@
+<%= render 'provider_navigation', title: 'Applications' %>
+
+<%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @provider.application_forms) %>

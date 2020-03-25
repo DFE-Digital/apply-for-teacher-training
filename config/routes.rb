@@ -422,6 +422,8 @@ Rails.application.routes.draw do
     get '/providers/:provider_id/courses' => 'providers#courses', as: :provider_courses
     get '/providers/:provider_id/vacancies' => 'providers#vacancies', as: :provider_vacancies
     get '/providers/:provider_id/sites' => 'providers#sites', as: :provider_sites
+    get '/providers/:provider_id/users' => 'providers#users', as: :provider_user_list
+    get '/providers/:provider_id/applications' => 'providers#applications', as: :provider_applications
 
     post '/providers/:provider_id' => 'providers#open_all_courses'
     post '/providers/:provider_id/enable_course_syncing' => 'providers#enable_course_syncing', as: :enable_provider_course_syncing
