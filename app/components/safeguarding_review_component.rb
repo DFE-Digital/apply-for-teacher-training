@@ -17,7 +17,7 @@ private
 
   def sharing_safeguarding_issues_row
     {
-      key: 'Do you want to share any information which could have an impact on your application?',
+      key: 'Do you want to share any safeguarding issues?',
       value: @safeguarding.share_safeguarding_issues,
       action: 'if you want to share any safeguarding issues',
       change_path: candidate_interface_edit_safeguarding_path,
