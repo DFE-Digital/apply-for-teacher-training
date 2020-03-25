@@ -25,9 +25,16 @@ RSpec.feature 'Managing provider users' do
     and_i_should_see_the_user_i_created
     and_the_user_should_be_sent_a_welcome_email
 
-    when_i_click_on_that_user
-    and_i_add_them_to_another_organisation
+    when_the_user_has_not_signed_in_yet
+    and_i_click_on_that_user
+    then_their_email_should_not_be_editable
+
+    when_i_add_them_to_another_organisation
     then_i_see_that_they_have_been_added_to_that_organisation
+
+    when_they_have_signed_in_at_least_once
+    and_i_reload_the_page
+    then_their_email_should_be_editable
   end
 
   def given_dfe_signin_is_configured
@@ -93,11 +100,11 @@ RSpec.feature 'Managing provider users' do
     expect(current_email.subject).to have_content t('provider_account_created.email.subject')
   end
 
-  def when_i_click_on_that_user
+  def and_i_click_on_that_user
     click_link 'harrison@example.com'
   end
 
-  def and_i_add_them_to_another_organisation
+  def when_i_add_them_to_another_organisation
     check 'Another provider (DEF)'
     click_button 'Update user'
   end
@@ -105,5 +112,25 @@ RSpec.feature 'Managing provider users' do
   def then_i_see_that_they_have_been_added_to_that_organisation
     expect(page).to have_checked_field('Example provider (ABC)')
     expect(page).to have_checked_field('Another provider (DEF)')
+  end
+
+  def when_the_user_has_not_signed_in_yet; end
+
+  def then_their_email_should_not_be_editable
+    expect(page).to have_field 'Email address', disabled: true
+    expect(page).to have_content 'The email address is not editable'
+  end
+
+  def when_they_have_signed_in_at_least_once
+    user = ProviderUser.find_by(email_address: 'harrison@example.com')
+    user.update!(dfe_sign_in_uid: 'ABC123')
+  end
+
+  def and_i_reload_the_page
+    page.refresh
+  end
+
+  def then_their_email_should_be_editable
+    expect(page).to have_field 'Email address', disabled: false
   end
 end

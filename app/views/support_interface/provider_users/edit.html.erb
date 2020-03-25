@@ -23,7 +23,11 @@
         Edit provider user
       </h1>
 
-      <%= f.govuk_text_field :email_address, label: { text: 'Email address', size: 'm' } %>
+      <% if @form.provider_user.dfe_sign_in_uid.present? %>
+        <%= f.govuk_text_field :email_address, label: { text: 'Email address', size: 'm' } %>
+      <% else %>
+        <%= f.govuk_text_field :email_address, label: { text: 'Email address', size: 'm' }, disabled: true, hint_text: 'The email address is not editable until the user has signed in for the first time. This is to ensure it continues to match the email on their DfE Sign-in invitation' %>
+      <% end %>
       <%= f.govuk_text_field :first_name, label: { text: 'First name' } %>
       <%= f.govuk_text_field :last_name, label: { text: 'Last name' } %>
 
