@@ -6,6 +6,21 @@ module CandidateInterface
 
     def show; end
 
+    def account_prompt
+      @account_prompt_form = AccountPromptForm.new
+    end
+
+    def account_prompt_handler
+      @account_prompt_form = AccountPromptForm.new(account_prompt_params)
+      render :account_prompt and return unless @account_prompt_form.valid?
+
+      if @account_prompt_form.existing_account?
+        redirect_to candidate_interface_sign_in_path
+      else
+        redirect_to candidate_interface_eligibility_path
+      end
+    end
+
     def eligibility
       @eligibility_form = EligibilityForm.new
     end
@@ -28,6 +43,10 @@ module CandidateInterface
     end
 
   private
+
+    def account_prompt_params
+      params.require(:candidate_interface_account_prompt_form).permit(:existing_account, :email)
+    end
 
     def redirect_to_interstitial_path_if_signed_in
       if current_candidate.present?

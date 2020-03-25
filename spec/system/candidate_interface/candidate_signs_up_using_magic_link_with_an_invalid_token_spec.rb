@@ -45,6 +45,9 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
   def when_i_go_to_sign_up
     visit '/'
     click_on 'Start now'
+
+    choose 'No, I need to create an account'
+    click_button 'Continue'
   end
 
   def and_i_fill_in_the_eligiblity_form_with_yes
