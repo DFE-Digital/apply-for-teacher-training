@@ -7,6 +7,18 @@ en:
   gcse_edit_grade:
     page_title: What grade is your %{subject} qualification?
     guidance:
+      main: >
+        Providers expect you to have a grade C or 4 (or the equivalent) in order
+        to train. If you don’t have this, contact your provider to discuss your
+        options. You might be able to retake an exam or do an equivalence test.
+      triple_gcse_science: If you have a combined or triple GCSE in science, enter your total grade.
+      triple_scottish_national_science: If you studied three science subjects separately or took a general science qualification, enter your total grade.
+      english_literature_only:
+        summary: If you have %{type} in English Literature only
+        details: Enter your grade here – but be aware that providers may want further evidence of your abilities in English.
+      multiple_english_qualifications:
+        summary: If you have more than one English qualification
+        details: Enter any English Literature qualifications under ‘Academic and other relevant qualifications’.
       english:
         gcse: Enter your grade for English Language GCSE. If you have a GCSE in English Literature only, enter this grade – but be aware that providers may want further evidence of your abilities in English.
         gce_o_level: Enter your grade for English Language O level. If you have an O level in English Literature only, enter this grade – but be aware that providers may want further evidence of your abilities in English.
