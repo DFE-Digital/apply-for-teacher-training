@@ -44,7 +44,9 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
   end
 
   def and_i_choose_to_use_apply
-    click_on t('apply_from_find.apply_button')
+    choose 'Yes, I want to apply using the new service'
+
+    click_button 'Continue'
   end
 
   def and_i_answer_eligibility_questions
