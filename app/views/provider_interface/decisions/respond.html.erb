@@ -6,20 +6,15 @@
     <%= form_with model: @pick_response_form, url: provider_interface_application_choice_submit_response_path(@application_choice.id), method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-xl">
-        Respond to application
-      </h1>
-
-      <%= render SummaryListComponent.new(rows: [
-        { key: 'Full name', value: @application_choice.application_form.full_name },
-        { key: 'Course', value: @application_choice.course.name_and_code },
-        { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
-        { key: 'Preferred location', value: @application_choice.site.name },
-      ]) %>
-
       <%- offer_text = 'Make an offer' %>
       <%- reject_text = 'Reject application' %>
-      <%= f.govuk_radio_buttons_fieldset :decision, legend: { size: 'm', text: 'Choose response' } do %>
+
+      <%= f.govuk_radio_buttons_fieldset :decision do %>
+				<h1 class="govuk-heading-xl">
+					<span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+					Respond to application
+				</h1>
+
         <%= f.govuk_radio_button :decision, 'new_offer', label: { text: offer_text }, link_errors: true %>
         <% if FeatureFlag.active?('provider_change_response') -%>
           <%= f.govuk_radio_button :decision, 'edit_course', label: { text: "#{offer_text} but change course" }, link_errors: true %>

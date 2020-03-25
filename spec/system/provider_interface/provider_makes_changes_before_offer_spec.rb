@@ -132,8 +132,6 @@ RSpec.feature 'Provider makes changes before making an offer' do
 
   def and_i_can_add_conditions_to_the_offer
     expect(page).to have_content 'Conditions of offer'
-    expect(page).to have_content(@course_option_three.course.name_and_code)
-    expect(page).to have_content(@course_option_three.site.name)
 
     fill_in 'First condition', with: 'Condition the first'
     fill_in 'Second condition', with: 'Condition the second'
@@ -142,7 +140,7 @@ RSpec.feature 'Provider makes changes before making an offer' do
   end
 
   def and_i_can_see_the_offer_confirmation_details
-    expect(page).to have_content 'Confirm offer'
+    expect(page).to have_content 'Check and confirm offer'
 
     expect(page).to have_content(@course_option_three.course.name_and_code)
     expect(page).to have_content(@course_option_three.site.name)

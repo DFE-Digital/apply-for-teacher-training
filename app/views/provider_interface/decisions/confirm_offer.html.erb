@@ -3,7 +3,10 @@
 
 <%= render(FlashMessageComponent.new(flash: flash)) %>
 
-<h1 class="govuk-heading-xl">Confirm offer</h1>
+<h1 class="govuk-heading-xl">
+	<span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+  Check and confirm offer
+</h1>
 
 <% conditions = capture do %>
   <% if @application_offer.offer_conditions.empty? %>
@@ -18,7 +21,6 @@
 <% end %>
 
 <%= render SummaryListComponent.new(rows: [
-  { key: 'Full name', value: @application_choice.application_form.full_name },
   { key: 'Course', value: @application_choice.offered_course.name_and_code },
   { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
   { key: 'Preferred location', value: @application_choice.offered_site.name },

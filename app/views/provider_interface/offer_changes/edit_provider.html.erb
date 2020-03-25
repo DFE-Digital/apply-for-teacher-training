@@ -1,5 +1,3 @@
-<h1 class="govuk-heading-xl">Change training provider</h2>
-<%= render ProviderInterface::OfferSummaryListComponent.new(application_choice: @application_choice, header: 'Your existing offer') %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
@@ -7,7 +5,12 @@
           url: provider_interface_application_choice_change_offer_edit_course_path(@application_choice.id),
           method: :get do |f| %>
 
-      <%= f.govuk_radio_buttons_fieldset :provider_id, legend: { size: 'm', text: 'Select alternative provider', tag: 'span' } do %>
+      <%= f.govuk_radio_buttons_fieldset :provider_id do %>
+				<h1 class="govuk-heading-xl">
+					<span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+					<%= (@application_choice.offer? ? 'Change' : 'Select alternative').concat(' provider') %>
+				</h1>
+
         <% @alternative_providers.each do |provider| %>
           <%= f.govuk_radio_button :provider_id, provider.id, label: { text: provider.name_and_code } %>
         <% end %>
