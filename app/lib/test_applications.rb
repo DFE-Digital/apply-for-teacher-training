@@ -100,7 +100,7 @@ class TestApplications
   def put_application_choice_in_state(choice, state)
     travel_to(choice.edit_by) if choice.edit_by > time
     SendApplicationToProvider.new(application_choice: choice).call
-    choice.update(edit_by: time)
+    choice.update(edit_by: time, sent_to_provider_at: time)
     return if state == :awaiting_provider_decision
 
     case state
