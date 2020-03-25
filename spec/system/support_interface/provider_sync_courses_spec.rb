@@ -39,6 +39,7 @@ RSpec.feature 'See provider course syncing' do
 
   def when_i_click_on_a_provider
     click_link 'ABC College'
+    click_link 'Courses'
   end
 
   def then_i_see_that_course_syncing_is_off

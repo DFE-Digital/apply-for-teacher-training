@@ -1,0 +1,19 @@
+<%= render 'provider_navigation', title: 'Sites' %>
+
+<table class='govuk-table'>
+  <thead class='govuk-table__head'>
+    <tr class='govuk-table__row'>
+      <th scope='col' class='govuk-table__header'>Name</th>
+      <th scope='col' class='govuk-table__header'>Address</th>
+    </tr>
+  </thead>
+
+  <tbody class='govuk-table__body'>
+    <% @provider.sites.each do |site| %>
+      <tr class='govuk-table__row'>
+        <td class='govuk-table__cell'><%= site.name_and_code %></td>
+        <td class='govuk-table__cell'><%= site.full_address %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

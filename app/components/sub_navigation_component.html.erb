@@ -2,7 +2,7 @@
   <ul class="moj-sub-navigation__list">
     <% items.each do |item| %>
       <li class="moj-sub-navigation__item">
-        <% if item[:current] %>
+        <% if item[:current] || current_page?(item.fetch(:url)) %>
           <%= govuk_link_to item.fetch(:name), item.fetch(:url), class: 'moj-sub-navigation__link', 'aria-current': 'page' %>
         <% else %>
           <%= govuk_link_to item.fetch(:name), item.fetch(:url), class: 'moj-sub-navigation__link' %>

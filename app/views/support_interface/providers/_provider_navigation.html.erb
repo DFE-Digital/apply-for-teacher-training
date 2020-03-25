@@ -1,0 +1,12 @@
+<% content_for :title, "#{@provider.name_and_code} - #{title}" %>
+
+<% content_for :before_content, govuk_back_link_to(support_interface_providers_path, 'Back to providers') %>
+
+<%= render SubNavigationComponent.new(items: [
+  { name: 'Details', url: support_interface_provider_path },
+  { name: 'Courses', url: support_interface_provider_courses_path },
+  { name: 'Vacancies', url: support_interface_provider_vacancies_path },
+  { name: 'Sites', url: support_interface_provider_sites_path },
+]) %>
+
+<h2 class='govuk-heading-l'><%= title %></h2>
