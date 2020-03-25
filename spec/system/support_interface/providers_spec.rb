@@ -15,7 +15,11 @@ RSpec.feature 'See providers' do
     and_i_should_see_the_updated_list_of_providers
 
     when_i_click_on_a_provider
-    then_i_see_the_providers_courses_and_sites
+    and_i_click_on_sites
+    then_i_see_the_provider_sites
+
+    and_i_click_on_courses
+    then_i_see_the_provider_courses
 
     when_i_click_on_a_course
     then_i_see_the_course_information
@@ -25,10 +29,12 @@ RSpec.feature 'See providers' do
 
     when_i_visit_the_providers_page
     when_i_click_on_a_provider
+    and_i_click_on_courses
     then_i_see_the_updated_providers_courses_and_sites
 
     when_i_visit_the_providers_page
     when_i_click_on_a_different_provider
+    and_i_click_on_courses
     and_i_choose_to_open_all_courses
     then_all_courses_should_be_open_on_apply
   end
@@ -119,9 +125,20 @@ RSpec.feature 'See providers' do
     click_link 'Royal Academy of Dance'
   end
 
-  def then_i_see_the_providers_courses_and_sites
-    expect(page).to have_content 'ABC-1'
+  def and_i_click_on_sites
+    click_link 'Sites'
+  end
+
+  def and_i_click_on_courses
+    click_link 'Courses'
+  end
+
+  def then_i_see_the_provider_courses
     expect(page).to have_content '1 course (0 on DfE Apply)'
+  end
+
+  def then_i_see_the_provider_sites
+    expect(page).to have_content 'Main site'
   end
 
   def when_i_click_on_a_course
