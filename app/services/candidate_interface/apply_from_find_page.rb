@@ -2,12 +2,12 @@ module CandidateInterface
   class ApplyFromFindPage
     attr_accessor :course
 
-    def initialize(provider_code:, course_code:, can_apply_on_apply:, course_on_find:, course:)
+    def initialize(provider_code:, course_code:)
       @provider_code = provider_code
       @course_code = course_code
-      @can_apply_on_apply = can_apply_on_apply
-      @course_on_find = course_on_find
-      @course = course
+      @can_apply_on_apply = false
+      @course_on_find = false
+      @course = nil
     end
 
     def determine_whether_course_is_on_find_or_apply
