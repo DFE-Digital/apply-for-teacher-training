@@ -6,6 +6,7 @@ RSpec.describe 'Candidate needs to provide 2 new referees' do
   scenario "Candidate provides a new referee because 2 didn't respond" do
     FeatureFlag.activate('pilot_open')
     FeatureFlag.activate('show_new_referee_needed')
+    FeatureFlag.activate('replacement_referee_with_referee_type')
 
     given_i_am_signed_in_as_a_candidate
     and_i_have_submitted_my_application
@@ -18,9 +19,29 @@ RSpec.describe 'Candidate needs to provide 2 new referees' do
     then_i_see_the_interstitial_page_to_add_new_referees
 
     when_i_click_to_add_a_new_referee
-    and_i_fill_in_the_form
-    and_i_fill_in_the_second_form
+    then_i_am_asked_to_specify_the_type_of_my_first_new_reference
+
+    when_i_click_continue
+    then_i_see_an_error_to_choose_the_type_of_my_first_reference
+
+    when_i_choose_school_based_as_reference_type
+    and_i_click_continue
+    then_i_am_asked_for_the_details_of_my_school_based_referee
+
+    when_i_fill_in_the_form
+    then_i_am_asked_to_specify_the_type_of_my_second_new_reference
+
+    when_i_choose_academic_as_reference_type
+    and_i_click_continue
+    then_i_am_asked_for_the_details_of_my_academic_referee
+
+    when_i_fill_in_the_second_form
     then_i_see_the_reference_review_page
+
+    when_i_click_to_edit_the_referee_type
+    and_i_choose_character_as_reference_type
+    and_i_click_continue
+    then_i_can_see_the_updated_reference_type
 
     when_i_click_to_edit_the_referee
     and_i_edit_the_name
@@ -72,18 +93,52 @@ RSpec.describe 'Candidate needs to provide 2 new referees' do
     click_on 'Add new referees'
   end
 
-  def and_i_fill_in_the_form
-    expect(page).to have_title 'Add your first new referee'
+  def then_i_am_asked_to_specify_the_type_of_my_first_new_reference
+    expect(page).to have_content('Add your first new referee')
+    expect(page).to have_content('What kind of reference are you adding?')
+  end
 
+  def when_i_click_continue
+    click_button 'Continue'
+  end
+
+  def then_i_see_an_error_to_choose_the_type_of_my_first_reference
+    expect(page).to have_content('Choose the type of your reference')
+  end
+
+  def when_i_choose_school_based_as_reference_type
+    choose 'School-based'
+  end
+
+  def and_i_click_continue
+    click_button 'Continue'
+  end
+
+  def then_i_am_asked_for_the_details_of_my_school_based_referee
+    expect(page).to have_content('Details of your new school-based referee')
+  end
+
+  def when_i_fill_in_the_form
     fill_in 'Full name', with: 'AO Reference'
     fill_in 'Email address', with: 'betty@example.com'
     fill_in 'What is your relationship to this referee and how long have you known them?', with: 'Just somebody I used to know'
     click_button 'Continue'
   end
 
-  def and_i_fill_in_the_second_form
-    expect(page).to have_title 'Add your second new referee'
+  def then_i_am_asked_to_specify_the_type_of_my_second_new_reference
+    expect(page).to have_content('Add your second new referee')
+    expect(page).to have_content('What kind of reference are you adding?')
+  end
 
+  def when_i_choose_academic_as_reference_type
+    choose 'Academic'
+  end
+
+  def then_i_am_asked_for_the_details_of_my_academic_referee
+    expect(page).to have_content('Details of your new academic referee')
+  end
+
+  def when_i_fill_in_the_second_form
     fill_in 'Full name', with: 'Second Reference'
     fill_in 'Email address', with: 'boppie@example.com'
     fill_in 'What is your relationship to this referee and how long have you known them?', with: 'Just somebody I used to know'
@@ -93,9 +148,23 @@ RSpec.describe 'Candidate needs to provide 2 new referees' do
   def then_i_see_the_reference_review_page
     expect(page).to have_content 'AO Reference'
     expect(page).to have_content 'betty@example.com'
+    expect(page).to have_content 'School-based'
 
     expect(page).to have_content 'Second Reference'
     expect(page).to have_content 'boppie@example.com'
+    expect(page).to have_content 'Academic'
+  end
+
+  def when_i_click_to_edit_the_referee_type
+    click_on 'Change reference type for AO Reference'
+  end
+
+  def and_i_choose_character_as_reference_type
+    choose 'Character'
+  end
+
+  def then_i_can_see_the_updated_reference_type
+    expect(page).to have_content 'Character'
   end
 
   def when_i_click_to_edit_the_referee

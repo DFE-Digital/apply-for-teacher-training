@@ -1,6 +1,3 @@
-<% content_for :title, title_with_error_prefix(@page_title, @reference.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back') %>
-
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: reference, url: url do |f| %>
@@ -22,7 +19,8 @@
 
       <%= f.govuk_text_field :name, label: { text: t('application_form.referees.name.label'), size: 'm' } %>
       <%= f.govuk_text_field :email_address, type: 'email', label: { text: t('application_form.referees.email_address.label'), size: 'm' }, hint_text: t('application_form.referees.email_address.hint_text').second %>
-      <%= f.govuk_text_area :relationship, label: { text: t('application_form.referees.relationship.label'), size: 'm' }, hint_text: t('application_form.referees.relationship.hint_text.school_based'), max_words: 50 %>
+      <% referee_type = reference.referee_type ? reference.referee_type : 'academic' %>
+      <%= f.govuk_text_area :relationship, label: { text: t('application_form.referees.relationship.label'), size: 'm' }, hint_text: t("application_form.referees.relationship.hint_text.#{referee_type}"), max_words: 50 %>
 
       <%= f.govuk_submit 'Continue' %>
     <% end %>
