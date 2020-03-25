@@ -9,10 +9,7 @@ RSpec.describe CandidateInterface::ApplyFromFindPage do
         FeatureFlag.activate('pilot_open')
         course = create(:course, open_on_apply: true, exposed_in_find: true)
         service = described_class.new(provider_code: course.provider.code,
-                                      course_code: course.code,
-                                      can_apply_on_apply: false,
-                                      course_on_find: false,
-                                      course: nil)
+                                      course_code: course.code)
         service.determine_whether_course_is_on_find_or_apply
 
         expect(service.can_apply_on_apply?).to be_truthy
@@ -26,10 +23,7 @@ RSpec.describe CandidateInterface::ApplyFromFindPage do
         FeatureFlag.activate('pilot_open')
         stub_find_api_course_200('A999', 'B999', 'potions')
         service = described_class.new(provider_code: 'A999',
-                                      course_code: 'B999',
-                                      can_apply_on_apply: false,
-                                      course_on_find: false,
-                                      course: nil)
+                                      course_code: 'B999')
         service.determine_whether_course_is_on_find_or_apply
 
         expect(service.course_on_find?).to be_truthy

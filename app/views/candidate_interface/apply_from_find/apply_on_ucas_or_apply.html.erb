@@ -1,51 +1,53 @@
-<% content_for :title, 'You can apply for this course using a new GOV.UK service' %>
+<% content_for :title, 'Apply for this course' %>
 <% content_for :service_link, candidate_interface_apply_from_find_path(providerCode: @course.provider.code, courseCode: @course.code) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render CandidateInterface::UcasDowntimeComponent.new  %>
+    <%= render CandidateInterface::UcasDowntimeComponent.new %>
 
-    <h1 class="govuk-heading-xl">
-      <span class="govuk-caption-xl"><%= @course.name_and_code %></span>
-       You can apply for this course using a new GOV.UK service
-    </h1>
+    <%= form_with model: @apply_on_ucas_or_apply, url: candidate_interface_apply_from_find_path, method: :post do |f| %>
+      <%= f.govuk_error_summary %>
 
-    <p class="govuk-body">
-      <%= service_name %> is a streamlined new GOV.UK service which is
-      designed to make application easier. It comes with personalised support
-      for candidates.
-    </p>
-    <p class="govuk-body">
-      <a class="govuk-link" href="https://getintoteaching.education.gov.uk/the-way-you-apply-for-teacher-training-is-changing">
-        Learn more about changes to teacher training applications
-      </a>
-    </p>
+      <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl"><%= @course.name_and_code %></span>
+          Apply for this course
+      </h1>
 
-    <h2 class="govuk-heading-l">Is this new service right for you?</h2>
-    <p class="govuk-body">
-      <%= service_name %> is still in development. The service will eventually
-      replace UCAS as the way candidates apply for teacher training. However,
-      for now, it is limited to just a few courses.
-    </p>
-    <p class="govuk-body">
-      You can <%= govuk_link_to 'preview a list of training providers and courses', candidate_interface_providers_path %> currently available on <%= service_name %>.
-    </p>
-    <p class="govuk-body">
-      For most courses, you’ll still need to apply through UCAS.
-    </p>
-    <p class="govuk-body">
-      Additionally, the service isn’t ready yet for international candidates or
-      candidates who’ve studied outside the UK.
-    </p>
+      <p class="govuk-body">
+        The course you’ve chosen is available through a new GOV.UK service called <%= service_name %>.
+      </p>
 
-    <p class="govuk-body">
-      <%= govuk_button_link_to t('apply_from_find.apply_button'), candidate_interface_eligibility_path(providerCode: params[:providerCode], courseCode: params[:courseCode]), class: 'govuk-!-margin-top-4 govuk-!-margin-bottom-3' %>
-    </p>
+      <p class="govuk-body">
+        This will eventually replace UCAS as the way candidates apply for all teacher training.
+        However, for now, the service is limited to certain providers.
+      </p>
 
-    <p class="govuk-body">or</p>
+      <p class="govuk-body">
+        <%= govuk_link_to 'See a list of available training providers and courses', candidate_interface_providers_path %>.
+      </p>
 
-    <p class="govuk-body">
-      <%= govuk_link_to t('apply_from_find.ucas_apply_button'), UCAS.apply_url %>
-    </p>
+      <div class="govuk-!-margin-top-6">
+        <%= f.hidden_field :provider_code, value: @course.provider.code %>
+        <%= f.hidden_field :course_code, value: @course.code %>
+
+        <%= f.govuk_radio_buttons_fieldset :service, legend: { size: 'm', text: 'Do you want to apply using a new GOV.UK service?' } do %>
+          <%= f.govuk_radio_button :service, :apply, label: { text: 'Yes, I want to apply using the new service', size: 's' }, link_errors: true, hint_text:
+            "<p class=\"govuk-body govuk-!-margin-top-2\">Choose this option if:</p>
+            <ul class=\"govuk-list govuk-list--bullet\">
+              <li>all your chosen providers are available on the new service</li>
+              <li>you want to try a streamlined service with personalised support</li>
+            </ul>".html_safe %>
+
+          <%= f.govuk_radio_button :service, :ucas, label: { text: 'No, I want to apply with UCAS', size: 's' }, hint_text:
+            "<p class=\"govuk-body govuk-!-margin-top-2\">Choose this option if:</p>
+            <ul class=\"govuk-list govuk-list--bullet\">
+              <li>some of your chosen providers are not available on #{service_name} and you don’t want to use 2 different services.</li>
+              <li>you’ve already started applying with UCAS</li>
+            </ul>".html_safe %>
+          <% end %>
+
+          <%= f.govuk_submit 'Continue' %>
+        <% end %>
+      </div>
   </div>
 </div>

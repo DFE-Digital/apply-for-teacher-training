@@ -82,7 +82,9 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   end
 
   def and_i_click_apply_on_apply
-    click_on t('apply_from_find.apply_button')
+    choose 'Yes, I want to apply using the new service'
+
+    click_button 'Continue'
   end
 
   def and_i_submit_my_email_address
