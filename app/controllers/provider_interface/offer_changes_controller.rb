@@ -31,7 +31,7 @@ module ProviderInterface
       @change_offer_form.step = :confirm
 
       if @change_offer_form.valid?
-        return redirect_to_amend_new_offer if @change_offer_form.new_offer?
+        return redirect_to_confirm_new_offer if @change_offer_form.new_offer?
 
         @future_application_choice = @application_choice.dup
         @future_application_choice.offered_course_option_id = @change_offer_form.course_option_id
@@ -78,7 +78,7 @@ module ProviderInterface
       render_course_options
     end
 
-    def redirect_to_amend_new_offer
+    def redirect_to_confirm_new_offer
       redirect_to(
         provider_interface_application_choice_new_offer_path(
           course_option_id: @change_offer_form.course_option_id,
