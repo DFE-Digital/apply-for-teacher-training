@@ -707,10 +707,6 @@
                                 "value": "[parameters('stateChangeSlackUrl')]"
                             },
                             {
-                                "name": "SERVICE_TYPE",
-                                "value": "web"
-                            },
-                            {
                                 "name": "DFE_SIGN_IN_CLIENT_ID",
                                 "value": "[parameters('dfeSignInClientId')]"
                             },
