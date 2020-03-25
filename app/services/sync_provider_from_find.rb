@@ -15,17 +15,14 @@ class SyncProviderFromFind
   def call
     @provider = create_or_update_provider
 
-    return unless provider.sync_courses?
+    return unless @provider.sync_courses?
 
     find_provider = fetch_provider_from_find_api
-
     update_provider_details_with_api_response(find_provider)
-
     find_provider.courses.each do |find_course|
       create_or_update_course(find_course)
     end
   end
-
 
 private
 
@@ -57,26 +54,12 @@ private
 
   def create_or_update_course(find_course)
     course = provider.courses.find_or_create_by(code: find_course.course_code)
-    course.name = find_course.name
-    course.level = find_course.level
-    course.study_mode = find_course.study_mode
-    course.description = find_course.description
-    course.start_date = find_course.start_date
-    course.course_length = find_course.course_length
-    course.recruitment_cycle_year = find_course.recruitment_cycle_year
-    course.exposed_in_find = find_course.findable?
+    assign_course_attributes_from_find(course, find_course)
+    add_accrediting_provider(course, find_course[:accrediting_provider])
 
-    if find_course[:accrediting_provider].present?
-      accrediting_provider = Provider.find_or_create_by(code: find_course[:accrediting_provider][:provider_code]) do |accredit_provider|
-        accredit_provider.name = find_course[:accrediting_provider][:provider_name]
-        accredit_provider.save
-      end
-      course.accrediting_provider = accrediting_provider
-    end
     course.save!
 
     site_statuses = find_course.site_statuses
-
     find_course.sites.each do |find_site|
       site = provider.sites.find_or_create_by(code: find_site.code)
 
@@ -112,7 +95,48 @@ private
       end
     end
 
-    course
+    handle_course_options_with_invalid_sites(course, find_course)
+  end
+
+  def assign_course_attributes_from_find(course, find_course)
+    course.name = find_course.name
+    course.level = find_course.level
+    course.study_mode = find_course.study_mode
+    course.description = find_course.description
+    course.start_date = find_course.start_date
+    course.course_length = find_course.course_length
+    course.recruitment_cycle_year = find_course.recruitment_cycle_year
+    course.exposed_in_find = find_course.findable?
+  end
+
+  def add_accrediting_provider(course, find_accrediting_provider)
+    if find_accrediting_provider.present?
+      accrediting_provider = Provider.find_or_initialize_by(code: find_accrediting_provider[:provider_code])
+      accrediting_provider.name = find_accrediting_provider[:provider_name]
+      accrediting_provider.save!
+
+      course.accrediting_provider = accrediting_provider
+    end
+  end
+
+  def handle_course_options_with_invalid_sites(course, find_course)
+    course_options = course.course_options.joins(:site)
+    canonical_site_codes = find_course.sites.map(&:code)
+    invalid_course_options = course_options.where.not(sites: { code: canonical_site_codes })
+
+    return if invalid_course_options.blank?
+
+    chosen_course_option_ids = ApplicationChoice.where(course_option: invalid_course_options).pluck(:course_option_id)
+
+    not_part_of_an_application = invalid_course_options.where.not(id: chosen_course_option_ids)
+    not_part_of_an_application.delete_all
+
+    part_of_an_application = invalid_course_options.where(id: chosen_course_option_ids)
+    part_of_an_application.update_all(invalidated_by_find: true)
+
+    Raven.capture_message(
+      "#{part_of_an_application.count} invalid course options chosen by candidates.",
+    )
   end
 
   class CourseVacancyStatus
