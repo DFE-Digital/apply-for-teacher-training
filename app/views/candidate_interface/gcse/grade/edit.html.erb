@@ -8,7 +8,7 @@
 
       <h1 class="govuk-heading-xl"><%= t('gcse_edit_grade.page_title', subject: @subject) %></h1>
 
-      <%= guidance_for_gcse_edit_grade(@subject, @qualification_type) %>
+      <%= render CandidateInterface::GcseGradeGuidanceComponent.new(@subject, @qualification_type) %>
 
       <%= f.govuk_text_field :grade, label: { text: t('application_form.gcse.grade.label'), size: 'm' }, hint_text: hint_for_gcse_edit_grade(@subject, @qualification_type), width: 10 %>
 
