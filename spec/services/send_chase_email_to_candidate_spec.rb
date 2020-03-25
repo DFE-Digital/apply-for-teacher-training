@@ -15,12 +15,5 @@ RSpec.describe SendChaseEmailToCandidate do
     it 'sends a chaser email to the provider' do
       expect(application_form.chasers_sent.candidate_decision_request.count).to eq(1)
     end
-
-    it 'audits the chase emails', with_audited: true do
-      expected_comment =
-        'Chase email has been sent to candidate because ' +
-        'the application form is close to its DBD date.'
-      expect(application_form.audits.last.comment).to eq(expected_comment)
-    end
   end
 end
