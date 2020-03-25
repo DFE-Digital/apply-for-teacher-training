@@ -5,12 +5,6 @@ module GcseQualificationHelper
     t('application_form.gcse.qualification_types').map { |id, label| option.new(id, label) }
   end
 
-  def guidance_for_gcse_edit_grade(subject, qualification_type)
-    if I18n.exists?("gcse_edit_grade.guidance.#{subject}.#{qualification_type}")
-      tag.p(t("gcse_edit_grade.guidance.#{subject}.#{qualification_type}"), class: 'govuk-body')
-    end
-  end
-
   def heading_for_gcse_edit_type(subject)
     t("gcse_edit_type.page_titles.#{subject}")
   end
