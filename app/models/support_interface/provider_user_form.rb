@@ -6,7 +6,7 @@ module SupportInterface
     attr_accessor :first_name, :last_name, :provider_ids, :provider_user
     attr_reader :email_address
 
-    validates :email_address, presence: true, email: true
+    validates :email_address, :first_name, :last_name, presence: true, email: true
     validates :provider_ids, presence: true
     validate :email_is_unique
 

@@ -17,7 +17,7 @@ RSpec.feature 'Managing provider users' do
     and_i_click_add_user
     then_i_see_an_error
 
-    and_i_enter_the_users_email
+    and_i_enter_the_users_email_and_name
     and_i_select_a_provider
     and_i_click_add_user
 
@@ -72,8 +72,10 @@ RSpec.feature 'Managing provider users' do
     expect(page).to have_content 'This email address is already in use'
   end
 
-  def and_i_enter_the_users_email
+  def and_i_enter_the_users_email_and_name
     fill_in 'support_interface_provider_user_form[email_address]', with: 'harrison@example.com'
+    fill_in 'support_interface_provider_user_form[first_name]', with: 'Harrison'
+    fill_in 'support_interface_provider_user_form[last_name]', with: 'Bergeron'
   end
 
   def and_i_click_add_user

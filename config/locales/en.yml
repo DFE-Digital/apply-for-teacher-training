@@ -126,6 +126,10 @@ en:
           attributes:
             email_address:
               blank: Email address can’t be blank
+            first_name:
+              blank: First name can’t be blank
+            last_name:
+              blank: Last name can’t be blank
             dfe_sign_in_uid:
               blank: DfE Sign-in UID can’t be blank
             provider_ids:
