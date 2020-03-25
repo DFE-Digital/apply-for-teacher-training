@@ -73,13 +73,7 @@ private
 
       find_site_status = site_statuses.find { |ss| ss.site.id == find_site.id }
 
-
-      study_modes = \
-        if course.both_study_modes_available?
-          %i[full_time part_time]
-        else
-          [course.study_mode]
-        end
+      study_modes = CourseStudyModes.new(course).derive
 
       study_modes.each do |mode|
         course_option = CourseOption.find_or_initialize_by(
@@ -162,5 +156,19 @@ private
     end
 
     class InvalidFindStatusDescriptionError < StandardError; end
+  end
+
+  class CourseStudyModes
+    def initialize(course)
+      @course = course
+    end
+
+    def derive
+      both_modes = %w[full_time part_time]
+      return both_modes if @course.both_study_modes_available?
+
+      from_existing_course_options = @course.course_options.pluck(:study_mode).uniq
+      (from_existing_course_options + [@course.study_mode]).uniq
+    end
   end
 end
