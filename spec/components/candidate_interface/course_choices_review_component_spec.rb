@@ -69,8 +69,11 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       end
     end
 
-    context 'when there are multiple site options for course' do
-      before { create(:course_option, course: application_form.application_choices.first.course) }
+    context 'when there are multiple site options for course and edit course choices feature is active' do
+      before do
+        create(:course_option, course: application_form.application_choices.first.course)
+        FeatureFlag.activate('edit_course_choices')
+      end
 
       it 'renders the correct text for "Change" location links' do
         course_choice = application_form.application_choices.first
@@ -91,10 +94,13 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.courses.delete'))
     end
 
-    context 'when there are multiple site options for course' do
+    context 'when there are multiple site options for course and edit course choices feature is active' do
       let(:application_form) { create_application_form_with_course_choices(statuses: %w[application_complete]) }
 
-      before { create(:course_option, course: application_form.application_choices.first.course) }
+      before do
+        create(:course_option, course: application_form.application_choices.first.course)
+        FeatureFlag.activate('edit_course_choices')
+      end
 
       it 'renders without a "Change" location links' do
         result = render_inline(described_class.new(application_form: application_form, editable: false))
