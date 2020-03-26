@@ -3,6 +3,9 @@ class CourseOption < ApplicationRecord
   belongs_to :site
   has_many :application_choices
 
+  audited associated_with: :provider
+  delegate :provider, to: :course
+
   validates :vacancy_status, presence: true
   validate :validate_providers
 
