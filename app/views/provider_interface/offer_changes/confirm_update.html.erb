@@ -1,3 +1,5 @@
+<% content_for :before_content, govuk_back_link_to(request.referer) %>
+
 <h1 class="govuk-heading-xl">
 	<span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
 	Check and confirm changes to offer

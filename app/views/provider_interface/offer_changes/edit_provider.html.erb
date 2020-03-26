@@ -1,3 +1,5 @@
+<% content_for :before_content, govuk_back_link_to(request.referer) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
@@ -6,10 +8,13 @@
           method: :get do |f| %>
 
       <%= f.govuk_radio_buttons_fieldset :provider_id do %>
-				<h1 class="govuk-heading-xl">
-					<span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
-					<%= (@application_choice.offer? ? 'Change' : 'Select alternative').concat(' provider') %>
-				</h1>
+
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+          <h1 class="govuk-fieldset__heading">
+            <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+            <%= (@application_choice.offer? ? 'Change' : 'Select alternative').concat(' provider') %>
+          </h1>
+        </legend>
 
         <% @alternative_providers.each do |provider| %>
           <%= f.govuk_radio_button :provider_id, provider.id, label: { text: provider.name_and_code } %>

@@ -1,3 +1,5 @@
+<% content_for :before_content, govuk_back_link_to(request.referer) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @change_offer_form,
@@ -7,10 +9,12 @@
       <%= f.hidden_field :provider_id %>
       <%= f.govuk_radio_buttons_fieldset :course_id do %>
 
-				<h1 class="govuk-heading-xl">
-					<span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
-					<%= (@application_choice.offer? ? 'Change' : 'Select alternative').concat(' course') %>
-				</h1>
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+          <h1 class="govuk-fieldset__heading">
+					  <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+					  <%= (@application_choice.offer? ? 'Change' : 'Select alternative').concat(' course') %>
+				  </h1>
+        </legend>
 
         <% @alternative_courses.each do |course| %>
           <%= f.govuk_radio_button :course_id, course.id, label: { text: course.name_and_code }, hint_text: nil %>

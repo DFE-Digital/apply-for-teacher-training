@@ -84,7 +84,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def when_i_confirm_the_offer
-    click_on 'Confirm offer'
+    click_on 'Make offer'
   end
 
   def then_i_am_back_to_the_application_page

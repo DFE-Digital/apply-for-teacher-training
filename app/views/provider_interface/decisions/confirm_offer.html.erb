@@ -3,11 +3,6 @@
 
 <%= render(FlashMessageComponent.new(flash: flash)) %>
 
-<h1 class="govuk-heading-xl">
-	<span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
-  Check and confirm offer
-</h1>
-
 <% conditions = capture do %>
   <% if @application_offer.offer_conditions.empty? %>
     Unconditional offer
@@ -20,33 +15,35 @@
   <% end %>
 <% end %>
 
-<%= render SummaryListComponent.new(rows: [
-  { key: 'Course', value: @application_choice.offered_course.name_and_code },
-  { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
-  { key: 'Preferred location', value: @application_choice.offered_site.name },
-  { key: 'Conditions', value: conditions },
-]) %>
-
 <%= form_with model: @application_offer, url: provider_interface_application_choice_create_offer_path(@application_choice.id), method: :post do |f| %>
+  <h1 class="govuk-heading-xl">
+    <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+    Check and confirm offer
+  </h1>
+
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <%= f.govuk_error_summary %>
 
-      <p class="govuk-body govuk-!-font-weight-bold">
-        Make a note of the conditions you have set.
+      <%= render SummaryListComponent.new(rows: [
+        { key: 'Course', value: @application_choice.offered_course.name_and_code },
+        { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
+        { key: 'Preferred location', value: @application_choice.offered_site.name },
+        { key: 'Conditions', value: conditions },
+      ]) %>
+
+      <p class="govuk-body">
+        By making this offer, you guarantee this candidate a place on their chosen course, if they meet the conditions you have set out.
       </p>
       <p class="govuk-body">
-        When you confirm this offer, you’ll guarantee this candidate a place on their chosen course, providing they meet the conditions given.
-      </p>
-      <p class="govuk-body">
-        You can only change the conditions of this offer with the candidate’s permission.
+        Once the candidate has accepted, you can only change the conditions of this offer with their permission.
       </p>
 
       <% if @application_offer.offered_course_option.present? %>
         <%= hidden_field_tag :course_option_id, @application_offer.offered_course_option.id %>
       <% end %>
       <%= hidden_field_tag :offer_conditions, @application_offer.offer_conditions.to_json %>
-      <%= f.govuk_submit 'Confirm offer' %>
+      <%= f.govuk_submit 'Make offer' %>
 
       <p class="govuk-body">
         <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>

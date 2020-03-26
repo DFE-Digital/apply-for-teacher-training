@@ -145,7 +145,7 @@ RSpec.feature 'Provider makes changes before making an offer' do
     expect(page).to have_content(@course_option_three.course.name_and_code)
     expect(page).to have_content(@course_option_three.site.name)
 
-    click_on 'Confirm offer'
+    click_on 'Make offer'
   end
 
   def then_a_new_offer_has_new_course_and_location_details

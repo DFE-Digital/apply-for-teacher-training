@@ -10,10 +10,13 @@
       <%- reject_text = 'Reject application' %>
 
       <%= f.govuk_radio_buttons_fieldset :decision do %>
-				<h1 class="govuk-heading-xl">
-					<span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
-					Respond to application
-				</h1>
+
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+          <h1 class="govuk-fieldset__heading">
+            <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+            Respond to application
+          </h1>
+        </legend>
 
         <%= f.govuk_radio_button :decision, 'new_offer', label: { text: offer_text }, link_errors: true %>
         <% if FeatureFlag.active?('provider_change_response') -%>
