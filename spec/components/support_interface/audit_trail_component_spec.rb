@@ -19,10 +19,10 @@ RSpec.describe SupportInterface::AuditTrailComponent, with_audited: true do
     end
   end
 
-  subject(:component) { described_class.new(application_form: application_form) }
+  subject(:component) { described_class.new(audited_thing: application_form) }
 
   def render_result
-    render_inline(described_class.new(application_form: application_form))
+    render_inline(described_class.new(audited_thing: application_form))
   end
 
   it 'renders a create application form audit record' do

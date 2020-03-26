@@ -2,16 +2,16 @@ module SupportInterface
   class AuditTrailComponent < ActionView::Component::Base
     include ViewHelper
 
-    validates :application_form, presence: true
+    validates :audited_thing, presence: true
 
-    def initialize(application_form:)
-      @application_form = application_form
+    def initialize(audited_thing:)
+      @audited_thing = audited_thing
     end
 
     def audits
-      application_form.own_and_associated_audits.includes(:user).order('id desc')
+      audited_thing.own_and_associated_audits.includes(:user).order('id desc')
     end
 
-    attr_reader :application_form
+    attr_reader :audited_thing
   end
 end
