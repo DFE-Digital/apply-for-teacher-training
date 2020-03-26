@@ -1,1 +1,3 @@
+<% content_for :title, title_with_error_prefix(@page_title, @reference.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_confirm_additional_referees_path, 'Back') %>
 <%= render 'form', reference: @reference, page_title: @page_title, url: candidate_interface_edit_additional_referee_path(@reference) %>

@@ -17,10 +17,12 @@
 
 <p class="govuk-body">We can’t send your application to your teacher training providers without 2 complete references.</p>
 
+<% new_referees_path = FeatureFlag.active?('replacement_referee_with_referee_type') ? candidate_interface_additional_referee_type_path : candidate_interface_new_additional_referee_path %>
+
 <% if reference_status.number_of_references_that_currently_need_replacing == 1 %>
-  <p> <%= govuk_button_link_to 'Add a new referee', candidate_interface_new_additional_referee_path %></p>
+  <p> <%= govuk_button_link_to 'Add a new referee', new_referees_path %></p>
   <p class="govuk-body"><%= govuk_link_to 'Continue without adding a new referee', candidate_interface_application_complete_path %></p>
 <% else %>
-   <%= govuk_button_link_to 'Add new referees', candidate_interface_new_additional_referee_path %>
+   <%= govuk_button_link_to 'Add new referees', new_referees_path %>
   <p class="govuk-body"><%= govuk_link_to 'Continue without adding new referees', candidate_interface_application_complete_path %></p>
 <% end %>

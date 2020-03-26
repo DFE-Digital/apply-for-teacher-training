@@ -263,6 +263,11 @@ Rails.application.routes.draw do
 
       scope '/new-referee' do
         get '/' => 'additional_referees#show', as: :additional_referee
+
+        get '/type/(:id)' => 'additional_referees#type', as: :additional_referee_type
+        post '/type/(:id)' => 'additional_referees#type'
+        post '/update-type/(:id)' => 'additional_referees#update_type', as: :update_additional_referee_type
+
         get '/new' => 'additional_referees#new', as: :new_additional_referee
         post '/new' => 'additional_referees#create'
 

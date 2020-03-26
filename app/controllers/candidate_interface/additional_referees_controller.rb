@@ -2,11 +2,47 @@ module CandidateInterface
   class AdditionalRefereesController < CandidateInterfaceController
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
+    def type
+      @page_title = page_title_for_new_page
+
+      if params[:id]
+        @id = params[:id]
+
+        @reference_type_form = Reference::RefereeTypeForm.build_from_reference(current_referee(@id))
+      else
+        redirect_to_confirm_if_no_more_reference_needed
+
+        @reference_type_form = Reference::RefereeTypeForm.new
+      end
+    end
+
+    def update_type
+      @reference_type_form = Reference::RefereeTypeForm.new(referee_type: referee_type_param)
+
+      if params[:id]
+        @id = params[:id]
+        return redirect_to action: 'type', id: @id unless @reference_type_form.valid?
+
+        @reference_type_form.save(current_referee(@id))
+
+        redirect_to candidate_interface_confirm_additional_referees_path
+      else
+        return render :type unless @reference_type_form.valid?
+
+        redirect_to candidate_interface_new_additional_referee_path(type: referee_type_param)
+      end
+    end
+
     def new
       redirect_to_confirm_if_no_more_reference_needed
 
-      @page_title = page_title_for_new_page
-      @reference = ApplicationReference.new
+      if FeatureFlag.active?('replacement_referee_with_referee_type')
+        @reference = current_candidate.current_application.application_references.build(referee_type: params[:type])
+        @page_title = "Details of your new #{@reference.referee_type.downcase.dasherize} referee"
+      else
+        @page_title = page_title_for_new_page
+        @reference = ApplicationReference.new
+      end
     end
 
     def show; end
@@ -14,6 +50,8 @@ module CandidateInterface
     def create
       redirect_to_confirm_if_no_more_reference_needed
       reference = current_application.application_references.build(referee_params.merge(replacement: true))
+
+      reference.referee_type = params[:type] if FeatureFlag.active?('replacement_referee_with_referee_type')
 
       if reference.save
         redirect_to_confirm_or_show_another_reference_form
@@ -43,7 +81,11 @@ module CandidateInterface
 
     def edit
       @reference = current_reference
-      @page_title = page_title_for_new_page
+      @page_title = if FeatureFlag.active?('replacement_referee_with_referee_type')
+                      "Details of your new #{@reference.referee_type.downcase.dasherize} referee"
+                    else
+                      page_title_for_new_page
+                    end
     end
 
     def update
@@ -65,6 +107,10 @@ module CandidateInterface
       current_application.application_references.not_requested_yet
     end
 
+    def referee_type_param
+      params.dig(:candidate_interface_reference_referee_type_form, :referee_type)
+    end
+
     def referee_params
       params.require(:application_reference).permit(
         :name,
@@ -81,7 +127,11 @@ module CandidateInterface
 
     def redirect_to_confirm_or_show_another_reference_form
       if reference_status.needs_to_draft_another_reference?
-        redirect_to candidate_interface_new_additional_referee_path(second: true)
+        if FeatureFlag.active?('replacement_referee_with_referee_type')
+          redirect_to candidate_interface_additional_referee_type_path(second: true)
+        else
+          redirect_to candidate_interface_new_additional_referee_path(second: true)
+        end
       else
         redirect_to candidate_interface_confirm_additional_referees_path
       end
@@ -105,6 +155,13 @@ module CandidateInterface
       else
         'Add a new referee'
       end
+    end
+
+    def current_referee(referee_id)
+      current_candidate.current_application
+                        .application_references
+                        .includes(:application_form)
+                        .find(referee_id)
     end
   end
 end

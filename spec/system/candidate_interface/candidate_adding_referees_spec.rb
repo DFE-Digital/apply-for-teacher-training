@@ -104,7 +104,7 @@ RSpec.feature 'Candidate adding referees' do
 
   def then_i_am_asked_to_specify_the_type_of_my_first_reference
     expect(page).to have_content('First referee')
-    expect(page).to have_content('What kind of reference is this?')
+    expect(page).to have_content('What kind of reference are you adding?')
   end
 
   def and_i_click_on_add_referee
@@ -154,7 +154,7 @@ RSpec.feature 'Candidate adding referees' do
 
   def then_i_am_asked_to_specify_the_type_of_my_second_referee
     expect(page).to have_content('Second referee')
-    expect(page).to have_content('What kind of reference is this?')
+    expect(page).to have_content('What kind of reference are you adding?')
   end
 
   def when_i_choose_school_based_as_reference_type
