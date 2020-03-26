@@ -10,9 +10,34 @@ module CandidateInterface
       course.open_on_apply?
     end
 
-    def available_courses
-      @available_courses ||= begin
+    DropdownOption = Struct.new(:id, :name)
+
+    def radio_available_courses
+      @radio_available_courses ||= begin
         provider.courses.exposed_in_find.order(:name)
+      end
+    end
+
+    def dropdown_available_courses
+      @dropdown_available_courses ||= begin
+        courses = provider.courses.exposed_in_find.includes(:accrediting_provider)
+
+        courses_with_names = courses.map(&:name)
+        courses_with_descriptions = courses.map(&:name_and_description)
+
+        courses_with_unambiguous_names = courses.map do |course|
+          name = if courses_with_names.count(course.name) == 1
+                   course.name_and_code
+                 elsif courses_with_descriptions.count(course.name_and_description) == 1
+                   course.name_code_and_description
+                 else
+                   course.name_code_and_provider
+                 end
+
+          DropdownOption.new(course.id, name)
+        end
+
+        courses_with_unambiguous_names.sort_by(&:name)
       end
     end
 

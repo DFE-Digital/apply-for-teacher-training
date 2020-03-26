@@ -26,8 +26,24 @@ class Course < ApplicationRecord
     full_time_or_part_time: 'B',
   }
 
+  def name_and_description
+    "#{name} #{description}"
+  end
+
+  def name_and_provider
+    "#{name} #{accrediting_provider&.name}"
+  end
+
   def name_and_code
     "#{name} (#{code})"
+  end
+
+  def name_code_and_description
+    "#{name} (#{code}) – #{description}"
+  end
+
+  def name_code_and_provider
+    "#{name} (#{code}) – #{accrediting_provider&.name}"
   end
 
   def both_study_modes_available?
