@@ -58,6 +58,28 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
         expect(result.css('.app-summary-card__title').text).to include(course_choice.provider.name)
       end
     end
+
+    context 'when course choice is single site and edit course choices feature is active' do
+      before { FeatureFlag.activate('edit_course_choices') }
+
+      it 'renders without the "Change" location links' do
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.govuk-summary-list__actions').text).not_to include('Change')
+      end
+    end
+
+    context 'when there are multiple site options for course' do
+      before { create(:course_option, course: application_form.application_choices.first.course) }
+
+      it 'renders the correct text for "Change" location links' do
+        course_choice = application_form.application_choices.first
+        result = render_inline(described_class.new(application_form: application_form))
+        change_location_link = result.css('.govuk-summary-list__actions')[1].text.strip
+
+        expect(change_location_link).to eq("Change location for #{course_choice.course.name_and_code}")
+      end
+    end
   end
 
   context 'when course choices are not editable' do
@@ -67,6 +89,18 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       result = render_inline(described_class.new(application_form: application_form, editable: false))
 
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.courses.delete'))
+    end
+
+    context 'when there are multiple site options for course' do
+      let(:application_form) { create_application_form_with_course_choices(statuses: %w[application_complete]) }
+
+      before { create(:course_option, course: application_form.application_choices.first.course) }
+
+      it 'renders without a "Change" location links' do
+        result = render_inline(described_class.new(application_form: application_form, editable: false))
+
+        expect(result.css('.govuk-summary-list__actions').text).not_to include('Change')
+      end
     end
   end
 

@@ -68,9 +68,20 @@ module CandidateInterface
     end
 
     def location_row(course_choice)
+      change_path = if FeatureFlag.active?('edit_course_choices') && has_multiple_sites?(course_choice)
+                      candidate_interface_course_choices_site_path(
+                        course_choice.provider.id,
+                        course_choice.course.id,
+                        course_choice.course.study_mode,
+                        course_choice_id: course_choice.id,
+                      )
+                    end
+
       {
         key: 'Location',
         value: "#{course_choice.offered_site.name}\n#{course_choice.offered_site.full_address}",
+        action: "location for #{course_choice.course.name_and_code}",
+        change_path: change_path,
       }
     end
 
@@ -141,6 +152,10 @@ module CandidateInterface
         key: 'Reason for offer withdrawal',
         value: course_choice.offer_withdrawal_reason,
       }
+    end
+
+    def has_multiple_sites?(course_choice)
+      CourseOption.where(course_id: course_choice.course.id).many?
     end
   end
 end
