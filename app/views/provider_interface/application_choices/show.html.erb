@@ -16,9 +16,10 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl govuk-!-margin-bottom-1">
-      <span class="govuk-caption-xl"><%= @application_choice.application_form.support_reference %></span>
       <%= @application_choice.application_form.full_name %>
     </h1>
+  </div>
+  <div class="govuk-grid-column-one-third">
     <p class="govuk-body govuk-!-margin-bottom-9 app-!-print-display-none">
       <%= govuk_link_to(
         'Download application (PDF)',
