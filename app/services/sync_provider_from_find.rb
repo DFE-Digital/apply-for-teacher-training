@@ -73,6 +73,7 @@ private
 
       find_site_status = site_statuses.find { |ss| ss.site.id == find_site.id }
 
+
       study_modes = \
         if course.both_study_modes_available?
           %i[full_time part_time]
@@ -81,7 +82,7 @@ private
         end
 
       study_modes.each do |mode|
-        course_option = CourseOption.find_or_create_by(
+        course_option = CourseOption.find_or_initialize_by(
           site: site,
           course_id: course.id,
           study_mode: mode,
@@ -91,7 +92,8 @@ private
           find_site_status.vac_status,
           course_option.study_mode,
         ).derive
-        course_option.update(vacancy_status: vacancy_status)
+
+        course_option.update!(vacancy_status: vacancy_status)
       end
     end
 
