@@ -20,10 +20,6 @@ module ProviderInterface
       def offer_withdrawn_rows
         [
           {
-            key: 'Status',
-            value: render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice)),
-          },
-          {
             key: 'Offer withdrawn',
             value: offer_withdrawn_at,
           },

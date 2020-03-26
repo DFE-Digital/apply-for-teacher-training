@@ -16,10 +16,6 @@ module ProviderInterface
       def rows
         [
           {
-            key: 'Status',
-            value: render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice)),
-          },
-          {
             key: 'Application submitted',
             value: application_choice.application_form.submitted_at.to_s(:govuk_date),
           },

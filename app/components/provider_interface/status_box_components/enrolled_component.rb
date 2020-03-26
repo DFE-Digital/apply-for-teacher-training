@@ -16,10 +16,6 @@ module ProviderInterface
       def rows
         [
           {
-            key: 'Status',
-            value: render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice)),
-          },
-          {
             key: 'Enrolled',
             value: application_choice.enrolled_at.to_s(:govuk_date),
           },

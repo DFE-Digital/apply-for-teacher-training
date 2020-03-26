@@ -17,8 +17,10 @@
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl govuk-!-margin-bottom-1">
       <%= @application_choice.application_form.full_name %>
+      <%= render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice: @application_choice)) %>
     </h1>
   </div>
+
   <div class="govuk-grid-column-one-third">
     <p class="govuk-body govuk-!-margin-bottom-9 app-!-print-display-none">
       <%= govuk_link_to(
@@ -27,6 +29,11 @@
         download: @application_choice.application_form.support_reference
       ) %>
     </p>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
     <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice) %>
   </div>

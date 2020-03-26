@@ -16,10 +16,6 @@ module ProviderInterface
       def rows
         [
           {
-            key: 'Status',
-            value: render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice)),
-          },
-          {
             key: 'Application withdrawn',
             value: application_choice.withdrawn_at.to_s(:govuk_date),
           },
