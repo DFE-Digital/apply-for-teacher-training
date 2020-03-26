@@ -17,7 +17,10 @@ module CandidateInterface
       if @account_prompt_form.existing_account?
         redirect_to candidate_interface_sign_in_path
       else
-        redirect_to candidate_interface_eligibility_path
+        redirect_to candidate_interface_eligibility_path(
+          providerCode: params[:providerCode],
+          courseCode: params[:courseCode],
+        )
       end
     end
 

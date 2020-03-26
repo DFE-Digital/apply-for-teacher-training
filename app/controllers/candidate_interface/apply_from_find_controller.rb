@@ -29,7 +29,10 @@ module CandidateInterface
 
       if @apply_on_ucas_or_apply.valid?
         if @apply_on_ucas_or_apply.apply?
-          redirect_to candidate_interface_eligibility_path(providerCode: @apply_on_ucas_or_apply.provider_code, courseCode: @apply_on_ucas_or_apply.course_code)
+          redirect_to candidate_interface_account_prompt_path(
+            providerCode: @apply_on_ucas_or_apply.provider_code,
+            courseCode: @apply_on_ucas_or_apply.course_code,
+          )
         else
           redirect_to UCAS.apply_url
         end

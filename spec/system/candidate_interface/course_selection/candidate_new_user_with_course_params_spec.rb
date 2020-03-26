@@ -7,6 +7,7 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
 
     when_i_arrive_from_find_to_a_course_that_is_open_on_apply
     and_i_click_apply_on_apply
+    and_i_confirm_i_am_not_already_signed_up
     when_i_fill_in_the_eligiblity_form_with_yes
 
     when_i_submit_my_email_address
@@ -57,6 +58,11 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
   def and_i_click_apply_on_apply
     choose 'Yes, I want to apply using the new service'
 
+    click_button 'Continue'
+  end
+
+  def and_i_confirm_i_am_not_already_signed_up
+    choose 'No, I need to create an account'
     click_button 'Continue'
   end
 

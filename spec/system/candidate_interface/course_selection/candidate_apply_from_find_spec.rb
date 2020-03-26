@@ -29,6 +29,7 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
     then_i_see_an_error
 
     when_i_choose_to_apply_through_apply
+    and_i_confirm_i_am_not_already_signed_up
     then_i_see_the_eligibility_page
 
     given_the_pilot_is_not_open
@@ -114,6 +115,11 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
   def when_i_choose_to_apply_through_apply
     choose 'Yes, I want to apply using the new service'
 
+    click_button 'Continue'
+  end
+
+  def and_i_confirm_i_am_not_already_signed_up
+    choose 'No, I need to create an account'
     click_button 'Continue'
   end
 
