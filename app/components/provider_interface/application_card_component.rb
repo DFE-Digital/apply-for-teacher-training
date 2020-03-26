@@ -1,6 +1,5 @@
 module ProviderInterface
   class ApplicationCardComponent < ActionView::Component::Base
-
     attr_accessor :accrediting_provider, :application_choice, :application_choice_path,
                   :candidate_name, :course_name_and_code, :course_provider_name, :index, :updated_at
 

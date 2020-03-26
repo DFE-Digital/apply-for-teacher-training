@@ -13,7 +13,6 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     when_i_visit_the_provider_page
 
-    then_i_expect_to_see_the_hide_filter_button
     then_i_expect_to_see_the_filter_dialogue
     then_i_expect_to_see_the_search_input
 
@@ -50,7 +49,6 @@ RSpec.feature 'Providers should be able to filter applications' do
     then_i_search_for_candidate_name
     then_only_applications_of_that_name_and_provider_should_be_visible
     then_the_relevant_tag_headings_should_be_visible
-
     and_the_relevant_tags_should_be_visible
 
     and_provider_application_filters_are_deactivated
@@ -77,10 +75,10 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_only_withdrawn_and_offered_applications_should_be_visible
-    expect(page).to have_css('.govuk-table__body', text: 'Application withdrawn')
-    expect(page).to have_css('.govuk-table__body', text: 'Offered')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Rejected')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Declined')
+    expect(page).to have_css('.app-application-cards', text: 'Application withdrawn')
+    expect(page).to have_css('.app-application-cards', text: 'Offered')
+    expect(page).not_to have_css('.app-application-cards', text: 'Rejected')
+    expect(page).not_to have_css('.app-application-cards', text: 'Declined')
   end
 
   def and_the_relevant_tags_should_be_visible
@@ -98,22 +96,22 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_i_expect_all_applications_to_be_visible
-    expect(page).to have_css('.govuk-table__body', text: 'Rejected')
-    expect(page).to have_css('.govuk-table__body', text: 'Offered')
-    expect(page).to have_css('.govuk-table__body', text: 'Application withdrawn')
-    expect(page).to have_css('.govuk-table__body', text: 'Declined')
+    expect(page).to have_css('.app-application-cards', text: 'Rejected')
+    expect(page).to have_css('.app-application-cards', text: 'Offered')
+    expect(page).to have_css('.app-application-cards', text: 'Application withdrawn')
+    expect(page).to have_css('.app-application-cards', text: 'Declined')
   end
 
   def then_i_only_see_applications_for_a_given_provider
-    expect(page).to have_css('.govuk-table__body', text: 'Hoth Teacher Training')
-    expect(page).to have_css('.govuk-table__body', text: 'Caladan University')
-    expect(page).not_to have_css('.govuk-table__body', text: 'University of Arrakis')
+    expect(page).to have_css('.app-application-cards', text: 'Hoth Teacher Training')
+    expect(page).to have_css('.app-application-cards', text: 'Caladan University')
+    expect(page).not_to have_css('.app-application-cards', text: 'University of Arrakis')
   end
 
   def then_only_applications_of_that_name_and_provider_should_be_visible
-    expect(page).to have_css('.govuk-table__body', text: 'Hoth Teacher Training')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Caladan University')
-    expect(page).not_to have_css('.govuk-table__body', text: 'University of Arrakis')
+    expect(page).to have_css('.app-application-cards', text: 'Hoth Teacher Training')
+    expect(page).not_to have_css('.app-application-cards', text: 'Caladan University')
+    expect(page).not_to have_css('.app-application-cards', text: 'University of Arrakis')
     then_only_applications_of_that_name_should_be_visible
   end
 
@@ -143,29 +141,29 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_only_applications_of_that_name_and_status_should_be_visible
-    expect(page).to have_css('.govuk-table__body', text: 'Jim James')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Adam Jones')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Tom Jones')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Bill Bones')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Greg Taft')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Paul Atreides')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Duncan Idaho')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Luke Smith')
+    expect(page).to have_css('.app-application-cards', text: 'Jim James')
+    expect(page).not_to have_css('.app-application-cards', text: 'Adam Jones')
+    expect(page).not_to have_css('.app-application-cards', text: 'Tom Jones')
+    expect(page).not_to have_css('.app-application-cards', text: 'Bill Bones')
+    expect(page).not_to have_css('.app-application-cards', text: 'Greg Taft')
+    expect(page).not_to have_css('.app-application-cards', text: 'Paul Atreides')
+    expect(page).not_to have_css('.app-application-cards', text: 'Duncan Idaho')
+    expect(page).not_to have_css('.app-application-cards', text: 'Luke Smith')
 
-    expect(page).to have_css('.govuk-table__body', text: 'Application withdrawn')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Rejected')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Declined')
+    expect(page).to have_css('.app-application-cards', text: 'Application withdrawn')
+    expect(page).not_to have_css('.app-application-cards', text: 'Rejected')
+    expect(page).not_to have_css('.app-application-cards', text: 'Declined')
   end
 
   def then_only_applications_of_that_name_should_be_visible
-    expect(page).to have_css('.govuk-table__body', text: 'Jim James')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Adam Jones')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Tom Jones')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Bill Bones')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Greg Taft')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Paul Atreides')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Duncan Idaho')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Luke Smith')
+    expect(page).to have_css('.app-application-cards', text: 'Jim James')
+    expect(page).not_to have_css('.app-application-cards', text: 'Adam Jones')
+    expect(page).not_to have_css('.app-application-cards', text: 'Tom Jones')
+    expect(page).not_to have_css('.app-application-cards', text: 'Bill Bones')
+    expect(page).not_to have_css('.app-application-cards', text: 'Greg Taft')
+    expect(page).not_to have_css('.app-application-cards', text: 'Paul Atreides')
+    expect(page).not_to have_css('.app-application-cards', text: 'Duncan Idaho')
+    expect(page).not_to have_css('.app-application-cards', text: 'Luke Smith')
   end
 
   def then_i_expect_to_see_the_search_input
@@ -178,10 +176,6 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def given_i_am_a_provider_user_with_dfe_sign_in
     provider_exists_in_dfe_sign_in
-  end
-
-  def then_i_expect_to_see_the_hide_filter_button
-    expect(page).to have_content('Hide filter')
   end
 
   def then_i_expect_to_see_the_filter_dialogue
