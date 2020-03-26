@@ -3,7 +3,7 @@
     <% title = if @application_qualification.missing_qualification?
                  t('application_form.gcse.qualification_types.missing')
                else
-                 t('application_form.gcse.qualification_types.gcse')
+                 t("application_form.gcse.qualification_types.#{application_qualification.qualification_type.downcase}")
                end %>
     <%= render(SummaryCardHeaderComponent.new(title: title, heading_level: @heading_level)) %>
   <% end %>
