@@ -1,0 +1,3 @@
+<%= render 'provider_navigation', title: 'History' %>
+
+<%= render SupportInterface::AuditTrailComponent.new(audited_thing: @provider) %>
