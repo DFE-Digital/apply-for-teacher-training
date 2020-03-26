@@ -13,12 +13,14 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-m">What happens next</h2>
-    <p class="govuk-body">The <%= service_name %> service will send you an email to confirm the successful submission of your application.</p>
+    <p class="govuk-body">You’ll get an email to confirm that your application has been submitted.</p>
 
     <h2 class="govuk-heading-m">References</h2>
-    <p class="govuk-body">We will also contact your referees to ask for your references. When we receive them, we’ll add them to your application and send it to your training provider(s).</p>
+    <p class="govuk-body">We’ll contact your referees to ask for your references. When we receive them, we’ll add them to your application and send it to your training provider(s).</p>
     <p class="govuk-body">We can’t send your application to your training provider(s) without your references.</p>
-    <p class="govuk-body">Training providers then have 40 working days to respond to your application.</p>
+    <% unless FeatureFlag.active?('covid_19') %>
+      <p class="govuk-body">Training providers then have 40 working days to respond to your application.</p>
+    <% end %>
 
     <% if FeatureFlag.active?('covid_19') %>
       <h2 class="govuk-heading-m">Coronavirus (COVID-19)</h2>
@@ -27,7 +29,7 @@
     <% end %>
 
     <h2 class="govuk-heading-m">Interview</h2>
-    <p class="govuk-body">If your training provider decides to offer you an interview, they will get in touch directly via email to organise a date and give you all the information you need.</p>
+    <p class="govuk-body">Your training provider will be in touch with you if they want to arrange an interview.</p>
 
     <h2 class="govuk-heading-m">Track, edit or withdraw</h2>
     <p class="govuk-body">You have <%= @editable_days_count %> days to make changes to a submitted application. We won’t send your application to your training provider(s) until the <%= @editable_days_count %> working days are up.</p>
