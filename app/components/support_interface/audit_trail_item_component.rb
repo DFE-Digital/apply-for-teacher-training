@@ -19,6 +19,8 @@ module SupportInterface
     def audit_entry_user_label
       if audit.user_type == 'Candidate'
         "#{audit.user.email_address} (Candidate)"
+      elsif audit.user_type == 'ApplicationReference'
+        "#{audit.user.name} - #{audit.user.email_address} (Referee)"
       elsif audit.user_type == 'VendorApiUser'
         "#{audit.user.email_address} (Vendor API)"
       elsif audit.user_type == 'SupportUser'

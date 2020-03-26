@@ -9,6 +9,10 @@ module RefereeInterface
 
     layout 'application'
 
+    def audit_user
+      reference
+    end
+
     def relationship
       redirect_to referee_interface_reference_feedback_path(token: @token_param) unless FeatureFlag.active?('referee_confirm_relationship_and_safeguarding')
 
