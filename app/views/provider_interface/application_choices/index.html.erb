@@ -30,15 +30,13 @@
     <% end %>
 
     <div class='moj-filter-layout__content'>
-      <%= render ProviderInterface::ToggleFilterComponent.new(filter_visible: @page_state.filter_visible,
-                                                              params_for_current_state: @page_state.to_h) %>
       <div class='moj-scrollable-pane'>
         <div class='moj-scrollable-pane__wrapper'>
         <% if @application_choices.any? %>
           <div>
             <div class="app-application-cards">
-              <% @application_choices.each do |choice| %>
-                <%= render ProviderInterface::ApplicationCardComponent.new(application_choice: choice) %>
+              <% @application_choices.each_with_index do |choice, index| %>
+                <%= render ProviderInterface::ApplicationCardComponent.new(application_choice: choice, index: index) %>
               <% end %>
             </div>
           </div>

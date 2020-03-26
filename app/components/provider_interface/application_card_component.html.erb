@@ -1,20 +1,20 @@
 <div class="app-application-card">
 
   <div class="app-application-card__primary">
-    <h3 class="govuk-heading-m govuk-!-margin-bottom-3">
+    <h3 id="applicant-name-<%= index %>" class="govuk-heading-m govuk-!-margin-bottom-3">
       <%= link_to candidate_name, provider_interface_application_choice_path(application_choice), class: 'govuk-link' %>
     </h3>
-    <p class="govuk-body govuk-!-font-size-16"><%= course_provider_name %></p>
-    <p class="govuk-body govuk-!-margin-bottom-0"><%= course_name_and_code %></p>
-    <p class="govuk-caption-m govuk-!-font-size-16">Accredited body: <%= accrediting_provider %></p>
+    <p id="course-provider-name-<%= index %>" class="govuk-body govuk-!-font-size-16"><%= course_provider_name %></p>
+    <p id="course-name-and-code-<%= index %>" class="govuk-body govuk-!-margin-bottom-0"><%= course_name_and_code %></p>
+    <p id="accredited-body-<%= index %>" class="govuk-body govuk-caption-m govuk-!-font-size-16">Accredited body: <%= accrediting_provider.name if accrediting_provider %></p>
   </div>
 
   <div class="app-application-card__secondary">
-    <div class="app-application-card__status">
+    <div id="status-<%= index %>" class="app-application-card__status">
       <%= render ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice) %>
     </div>
     <div>
-      <p class="govuk-!-margin-bottom-0 govuk-caption-m govuk-!-font-size-16">Updated on <%= updated_at %></p>
+      <p id="updated-at-<%= index %>" class="govuk-!-margin-bottom-0 govuk-caption-m govuk-!-font-size-16">Updated on <%= updated_at %></p>
     </div>
   </div>
 </div>
