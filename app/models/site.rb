@@ -1,6 +1,8 @@
 class Site < ApplicationRecord
   belongs_to :provider
 
+  audited associated_with: :provider
+
   validates :code, presence: true
   validates :name, presence: true
 

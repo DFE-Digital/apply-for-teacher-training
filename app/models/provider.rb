@@ -23,6 +23,8 @@ class Provider < ApplicationRecord
     yorkshire_and_the_humber: 'yorkshire_and_the_humber',
   }
 
+  audited
+
   def name_and_code
     "#{name} (#{code})"
   end

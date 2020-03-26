@@ -26,4 +26,4 @@
   <%= govuk_link_to 'View all emails about this application', support_interface_email_log_path(application_form_id: @application_form.id) %>
 </p>
 
-<%= render SupportInterface::AuditTrailComponent.new(application_form: @application_form) %>
+<%= render SupportInterface::AuditTrailComponent.new(audited_thing: @application_form) %>

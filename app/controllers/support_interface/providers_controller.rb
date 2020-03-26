@@ -34,6 +34,10 @@ module SupportInterface
       @provider = Provider.includes(:courses, :sites).find(params[:provider_id])
     end
 
+    def history
+      @provider = Provider.find(params[:provider_id])
+    end
+
     def open_all_courses
       update_provider('Successfully updated all courses') { |provider| OpenProviderCourses.new(provider: provider).call }
     end
