@@ -6,6 +6,7 @@ RSpec.describe 'Candidate needs to provide a new referee' do
   scenario "Candidate provides a new referee because one didn't respond" do
     FeatureFlag.activate('pilot_open')
     FeatureFlag.activate('show_new_referee_needed')
+    FeatureFlag.activate('replacement_referee_with_referee_type')
     FeatureFlag.activate('covid_19')
 
     given_i_am_signed_in_as_a_candidate
@@ -23,6 +24,10 @@ RSpec.describe 'Candidate needs to provide a new referee' do
     then_i_see_the_interstitial_page_to_add_new_referee
 
     when_i_click_to_add_a_new_referee
+    then_i_am_asked_to_specify_the_type_of_my_first_new_reference
+
+    when_i_choose_school_based_as_reference_type
+    and_i_click_continue
     and_i_fill_in_the_form
     then_i_see_the_reference_review_page
 
@@ -85,9 +90,24 @@ RSpec.describe 'Candidate needs to provide a new referee' do
     click_on 'Add a new referee'
   end
 
-  def and_i_fill_in_the_form
-    expect(page).to have_title 'Add a new referee'
+  def then_i_am_asked_to_specify_the_type_of_my_first_new_reference
+    expect(page).to have_content('Add a new referee')
+    expect(page).to have_content('What kind of reference are you adding?')
+  end
 
+  def when_i_choose_school_based_as_reference_type
+    choose 'School-based'
+  end
+
+  def and_i_click_continue
+    click_button 'Continue'
+  end
+
+  def then_i_am_asked_for_the_details_of_my_school_based_referee
+    expect(page).to have_content('Details of your new school-based referee')
+  end
+
+  def and_i_fill_in_the_form
     fill_in 'Full name', with: 'AO Reference'
     fill_in 'Email address', with: 'betty@example.com'
     fill_in 'What is your relationship to this referee and how long have you known them?', with: 'Just somebody I used to know'
