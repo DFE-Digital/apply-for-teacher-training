@@ -6,7 +6,9 @@
     </h3>
     <p id="course-provider-name-<%= index %>" class="govuk-body govuk-!-font-size-16"><%= course_provider_name %></p>
     <p id="course-name-and-code-<%= index %>" class="govuk-body govuk-!-margin-bottom-0"><%= course_name_and_code %></p>
-    <p id="accredited-body-<%= index %>" class="govuk-body govuk-caption-m govuk-!-font-size-16">Accredited body: <%= accrediting_provider.name if accrediting_provider %></p>
+    <% if accrediting_provider %>
+      <p id="accredited-body-<%= index %>" class="govuk-body govuk-caption-m govuk-!-font-size-16">Accredited body: <%= accrediting_provider.name %> </p>
+    <% end %>
   </div>
 
   <div class="app-application-card__secondary">
