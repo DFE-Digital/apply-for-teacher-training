@@ -31,6 +31,6 @@
 
     <h2 class="govuk-heading-m">Track, edit or withdraw</h2>
     <p class="govuk-body">You have <%= @editable_days_count %> days to make changes to a submitted application. We won’t send your application to your training provider(s) until the <%= @editable_days_count %> working days are up.</p>
-    <p class="govuk-body">To edit your application, return to your <%= govuk_link_to t('page_titles.application_dashboard'), candidate_interface_application_complete_path %>.</p>
+    <p class="govuk-body"><%= govuk_link_to "To edit your application, return to your #{t('page_titles.application_dashboard')}.", candidate_interface_application_complete_path %></p>
   </div>
 </div>
