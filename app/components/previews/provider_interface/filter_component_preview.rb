@@ -117,7 +117,7 @@ module ProviderInterface
               value: 'offer_withdrawn',
             },
           ],
- },
+        },
         {
           heading: 'provider',
           input_config: [
@@ -135,7 +135,7 @@ module ProviderInterface
             },
 
           ],
- },
+        },
       ]
     end
 

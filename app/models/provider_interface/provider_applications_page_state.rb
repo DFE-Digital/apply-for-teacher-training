@@ -60,7 +60,7 @@ module ProviderInterface
     end
 
     def calculate_available_filters
-      search_filters << status_filters << provider_filters_builder
+      search_filters << status_filters << provider_filters_builder << accrediting_provider_filters_builder
     end
 
     def search_filters
@@ -125,6 +125,33 @@ module ProviderInterface
     end
 
     def provider_filters_builder
+      input_config = @application_choices.map do |choice|
+        provider = choice.provider
+
+        {
+          type: 'checkbox',
+          text: provider.name,
+          name: provider.id.to_s,
+        }
+      end
+
+      provider_filters = {
+        heading: 'provider',
+        input_config: input_config.uniq,
+      }
+
+      provider_filters
+    end
+
+    # TODO:
+    # * Updated/New system spec
+    # * Query provider_user -> providers -> courses -> accrediting_providers to get options
+    # * Update tests for ProviderApplicationsPageState
+    # * Implement filtering on the query itself
+    # * Check that filter selections are preserved
+    # * Raise issue about Provider filter (inefficient and wrong?)
+
+    def accrediting_provider_filters_builder
       input_config = @application_choices.map do |choice|
         provider = choice.provider
 

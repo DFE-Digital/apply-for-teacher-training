@@ -2,70 +2,93 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::ProviderApplicationsPageState do
   let(:correct_available_filters) {
-    [{
-    heading: "candidate's name",
-    input_config: [{
-      type: 'search',
-      text: '',
-      name: 'candidates_name',
-    }],
-  },
-     {
-       heading: 'status',
-       input_config: [{
-          type: 'checkbox',
+    [
+      {
+        heading: "candidate's name",
+        input_config: [
+          {
+            type: 'search',
+            text: '',
+            name: 'candidates_name',
+          },
+        ],
+      },
+      {
+        heading: 'status',
+        input_config: [
+          {
+            type: 'checkbox',
             text: 'Accepted',
             name: 'pending_conditions',
-         },
-                      {
-                         type: 'checkbox',
-                         text: 'Conditions met',
-                         name: 'recruited',
-                      },
-                      {
-                         type: 'checkbox',
-                         text: 'Declined',
-                         name: 'declined',
-                      },
-                      {
-                         type: 'checkbox',
-                         text: 'New',
-                         name: 'awaiting_provider_decision',
-                      },
-                      {
-                         type: 'checkbox',
-                         text: 'Offered',
-                         name: 'offer',
-                      },
-                      {
-                         type: 'checkbox',
-                         text: 'Rejected',
-                         name: 'rejected',
-                      },
-                      {
-                         type: 'checkbox',
-                         text: 'Application withdrawn',
-                         name: 'withdrawn',
-                      },
-                      {
-                         type: 'checkbox',
-                         text: 'Withdrawn by us',
-                         name: 'offer_withdrawn',
-                      }],
-     },
-     {
+          },
+          {
+            type: 'checkbox',
+            text: 'Conditions met',
+            name: 'recruited',
+          },
+          {
+            type: 'checkbox',
+            text: 'Declined',
+            name: 'declined',
+          },
+          {
+            type: 'checkbox',
+            text: 'New',
+            name: 'awaiting_provider_decision',
+          },
+          {
+            type: 'checkbox',
+            text: 'Offered',
+            name: 'offer',
+          },
+          {
+            type: 'checkbox',
+            text: 'Rejected',
+            name: 'rejected',
+          },
+          {
+            type: 'checkbox',
+            text: 'Application withdrawn',
+            name: 'withdrawn',
+          },
+          {
+            type: 'checkbox',
+            text: 'Withdrawn by us',
+            name: 'offer_withdrawn',
+          },
+        ],
+      },
+      {
         heading: 'provider',
-       input_config: [{
-          type: 'checkbox',
-          text: 'Gorse SCITT',
-          name: '1',
-       },
-                      {
-                         type: 'checkbox',
-                         text: 'University of Chichester',
-                         name: '4',
-                      }],
-     }]
+        input_config: [
+          {
+            type: 'checkbox',
+            text: 'Gorse SCITT',
+            name: '1',
+          },
+          {
+            type: 'checkbox',
+            text: 'University of Chichester',
+            name: '4',
+          },
+        ],
+      },
+      {
+        heading: 'accrediting_provider',
+        input_config: [
+          {
+            type: 'checkbox',
+            text: 'University of West England',
+            name: '5',
+          },
+          {
+            type: 'checkbox',
+            text: 'University of East England',
+            name: '6',
+          },
+        ],
+      },
+    ]
   }
 
   describe '#sort_order' do
@@ -166,6 +189,13 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
 
       active_record_relation_stub = instance_double(ApplicationChoice, provider: provider)
       active_record_relation_stub_two = instance_double(ApplicationChoice, provider: provider_two)
+
+      provider_service = instance_double(ProviderOptionsService)
+      allow(ProviderOptionsService).to receive(:new).and_return(provider_service)
+      allow(provider_service).to receive(:accrediting_providers).and_return([
+        instance_double(Provider, id: '5', name: 'University of West England'),
+        instance_double(Provider, id: '6', name: 'University of East England'),
+      ])
 
       params = ActionController::Parameters.new
       state = described_class.new(params: params, application_choices: [active_record_relation_stub, active_record_relation_stub_two])
