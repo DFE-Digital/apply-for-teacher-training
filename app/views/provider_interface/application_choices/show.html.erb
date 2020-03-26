@@ -26,17 +26,9 @@
         download: @application_choice.application_form.support_reference
       ) %>
     </p>
-  </div>
-</div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-  <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice) %>
-  </div>
-</div>
+    <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice) %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-l govuk-!-margin-top-8" id="course-info">Application</h2>
 
     <%= render PersonalDetailsComponent.new(application_form: @application_choice.application_form) %>
