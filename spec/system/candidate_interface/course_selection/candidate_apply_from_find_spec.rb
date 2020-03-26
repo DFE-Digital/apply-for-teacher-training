@@ -5,6 +5,7 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
 
   scenario 'seeing their course information on the landing page' do
     given_the_pilot_is_open
+    and_the_create_account_or_sign_in_page_feature_flag_is_active
 
     when_i_arrive_from_find_with_invalid_course_parameters
     then_i_should_see_an_error_page
@@ -43,6 +44,10 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
+  end
+
+  def and_the_create_account_or_sign_in_page_feature_flag_is_active
+    FeatureFlag.activate('create_account_or_sign_in_page')
   end
 
   def when_i_arrive_from_find_with_invalid_course_parameters

@@ -4,6 +4,7 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
   scenario 'retaining their course selection through the sign up process' do
     given_the_pilot_is_open
     and_the_course_i_selected_only_has_one_site
+    and_the_create_account_or_sign_in_page_feature_flag_is_active
 
     when_i_arrive_from_find_to_a_course_that_is_open_on_apply
     and_i_click_apply_on_apply
@@ -30,6 +31,10 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
+  end
+
+  def and_the_create_account_or_sign_in_page_feature_flag_is_active
+    FeatureFlag.activate('create_account_or_sign_in_page')
   end
 
   def and_the_course_i_selected_only_has_one_site
