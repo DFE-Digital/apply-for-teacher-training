@@ -53,7 +53,7 @@ RSpec.feature 'Viewing their new application' do
   end
 
   def and_i_should_not_see_the_covid19_banner
-    expect(page).not_to have_content 'There might be a delay in processing your teacher training application due to the impact of coronavirus (COVID-19)'
+    expect(page).not_to have_content 'There might be a delay in processing your application due to the impact of coronavirus (COVID-19)'
   end
 
   def given_covid19_feature_flag_is_active
@@ -61,6 +61,6 @@ RSpec.feature 'Viewing their new application' do
   end
 
   def then_i_should_see_the_covid19_banner
-    expect(page).to have_content 'There might be a delay in processing your teacher training application due to the impact of coronavirus (COVID-19)'
+    expect(page).to have_content 'There might be a delay in processing your application due to the impact of coronavirus (COVID-19)'
   end
 end
