@@ -1,9 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::WorkHistoryComponent do
+  around do |example|
+    Timecop.freeze(Time.zone.local(2020, 4, 1)) do
+      example.run
+    end
+  end
+
   context 'with an empty history' do
     it 'renders nothing' do
-      application_form = instance_double(ApplicationForm)
+      application_form = instance_double(ApplicationForm, submitted_at: Time.zone.local(2020, 2, 1))
       allow(application_form).to receive(:application_work_experiences).and_return([])
       allow(application_form).to receive(:application_work_history_breaks).and_return([])
 
@@ -14,7 +20,7 @@ RSpec.describe ProviderInterface::WorkHistoryComponent do
 
   context 'with work experiences' do
     it 'renders work experience details' do
-      application_form = instance_double(ApplicationForm)
+      application_form = instance_double(ApplicationForm, submitted_at: Time.zone.local(2020, 2, 1))
       experiences = [
         build(
           :application_work_experience,
@@ -55,7 +61,7 @@ RSpec.describe ProviderInterface::WorkHistoryComponent do
 
   context 'with work experiences working with children' do
     it 'renders work experience details and worked with children flag' do
-      application_form = instance_double(ApplicationForm)
+      application_form = instance_double(ApplicationForm, submitted_at: Time.zone.local(2020, 2, 1))
       experiences = [
         build(
           :application_work_experience,
@@ -81,7 +87,7 @@ RSpec.describe ProviderInterface::WorkHistoryComponent do
 
   context 'with work experiences and unexplained work break' do
     it 'renders work experience details and unexplained break' do
-      application_form = instance_double(ApplicationForm)
+      application_form = instance_double(ApplicationForm, submitted_at: Time.zone.local(2020, 2, 1))
       experiences = [
         build(
           :application_work_experience,
@@ -118,7 +124,7 @@ RSpec.describe ProviderInterface::WorkHistoryComponent do
 
   context 'with work experiences and explained work break' do
     it 'renders work experience details and explained break' do
-      application_form = instance_double(ApplicationForm)
+      application_form = instance_double(ApplicationForm, submitted_at: Time.zone.local(2020, 2, 1))
       breaks = [
         build(
           :application_work_history_break,
