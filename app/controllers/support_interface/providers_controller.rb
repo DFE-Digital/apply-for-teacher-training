@@ -22,6 +22,14 @@ module SupportInterface
       @course_options = @provider.course_options.includes(:course, :site)
     end
 
+    def users
+      @provider = Provider.includes(:provider_users).find(params[:provider_id])
+    end
+
+    def applications
+      @provider = Provider.find(params[:provider_id])
+    end
+
     def sites
       @provider = Provider.includes(:courses, :sites).find(params[:provider_id])
     end
