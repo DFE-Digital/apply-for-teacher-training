@@ -26,12 +26,12 @@
         download: @application_choice.application_form.support_reference
       ) %>
     </p>
-  </div>
-</div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-  <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice) %>
+    <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice) %>
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <%= render ProviderInterface::ApplicationTimelineComponent.new(application_choice: @application_choice) %>
   </div>
 </div>
 
@@ -112,9 +112,5 @@
         <%= render ProviderInterface::ReferenceWithFeedbackComponent.new(reference: reference) %>
       <% end %>
     <% end %>
-  </div>
-
-  <div class="govuk-grid-column-one-third">
-    <%= render ProviderInterface::ApplicationTimelineComponent.new(application_choice: @application_choice) %>
   </div>
 </div>
