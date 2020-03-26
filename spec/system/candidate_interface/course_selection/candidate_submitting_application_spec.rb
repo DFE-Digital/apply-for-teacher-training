@@ -221,7 +221,7 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def when_i_click_on_track_your_application
-    click_link t('page_titles.application_dashboard'), match: :first
+    click_link 'To edit your application, return to your application dashboard.', match: :first
   end
 
   def then_i_can_see_my_application_dashboard

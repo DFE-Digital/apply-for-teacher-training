@@ -23,7 +23,7 @@
     <% if FeatureFlag.active?('covid_19') %>
       <h2 class="govuk-heading-m">Coronavirus (COVID-19)</h2>
       <p class="govuk-body">We’ve made some changes to response deadlines to give providers more time to make decisions. This may affect your response deadlines too.</p>
-      <p class="govuk-body"><%= govuk_link_to "We’ll keep deadlines up to date on your #{t('page_titles.application_dashboard')}.", candidate_interface_application_complete_path %></p>
+      <p class="govuk-body"><%= govuk_link_to 'We’ll keep deadlines up to date on your application dashboard.', candidate_interface_application_complete_path %></p>
     <% end %>
 
     <h2 class="govuk-heading-m">Interview</h2>
@@ -31,6 +31,6 @@
 
     <h2 class="govuk-heading-m">Track, edit or withdraw</h2>
     <p class="govuk-body">You have <%= @editable_days_count %> days to make changes to a submitted application. We won’t send your application to your training provider(s) until the <%= @editable_days_count %> working days are up.</p>
-    <p class="govuk-body"><%= govuk_link_to "To edit your application, return to your #{t('page_titles.application_dashboard')}.", candidate_interface_application_complete_path %></p>
+    <p class="govuk-body"><%= govuk_link_to 'To edit your application, return to your application dashboard.', candidate_interface_application_complete_path %></p>
   </div>
 </div>
