@@ -14,7 +14,10 @@ private
     if HostingEnvironment.sandbox_mode?
       Time.zone.now
     else
-      TimeLimitConfig.edit_by.days.after(@application_choice.application_form.submitted_at).end_of_day
+      days = TimeLimitConfig.edit_by
+      date = days.type == :calendar ? days.count.days : days.count.business_days
+
+      date.after(@application_choice.application_form.submitted_at).end_of_day
     end
   end
 end
