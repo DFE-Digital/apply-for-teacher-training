@@ -51,8 +51,6 @@ RSpec.feature 'Provider makes an offer' do
 
   def then_i_see_some_application_info
     expect(page).to have_content \
-      @application_awaiting_provider_decision.course.name_and_code
-    expect(page).to have_content \
       @application_awaiting_provider_decision.application_form.first_name
     expect(page).to have_content \
       @application_awaiting_provider_decision.application_form.last_name
@@ -77,7 +75,7 @@ RSpec.feature 'Provider makes an offer' do
         @application_awaiting_provider_decision.id,
       ),
     )
-    expect(page).to have_content 'Confirm offer'
+    expect(page).to have_content 'Check and confirm offer'
   end
 
   def and_i_see_the_correct_offer_conditions
@@ -86,7 +84,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def when_i_confirm_the_offer
-    click_on 'Confirm offer'
+    click_on 'Make offer'
   end
 
   def then_i_am_back_to_the_application_page

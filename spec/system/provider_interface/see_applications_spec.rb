@@ -61,9 +61,9 @@ RSpec.feature 'See applications' do
 
   def then_i_should_see_the_applications_from_my_organisation
     expect(page).to have_content @my_provider_choice1.application_form.support_reference
-    expect(page).to have_content @my_provider_choice1.application_form.first_name
+    expect(page).to have_content @my_provider_choice1.application_form.full_name
     expect(page).to have_content @my_provider_choice2.application_form.support_reference
-    expect(page).to have_content @my_provider_choice2.application_form.first_name
+    expect(page).to have_content @my_provider_choice2.application_form.full_name
   end
 
   def and_i_should_not_see_a_covid19_information_banner
@@ -71,12 +71,12 @@ RSpec.feature 'See applications' do
   end
 
   def when_i_click_on_an_application
-    click_on @my_provider_choice1.application_form.first_name
+    click_on @my_provider_choice1.application_form.full_name
   end
 
   def then_i_should_be_on_the_application_view_page
     expect(page).to have_content @my_provider_choice1.application_form.support_reference
-    expect(page).to have_content @my_provider_choice1.application_form.first_name
+    expect(page).to have_content @my_provider_choice1.application_form.full_name
   end
 
   def when_covid19_feature_flag_is_active

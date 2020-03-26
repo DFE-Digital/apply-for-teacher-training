@@ -139,7 +139,7 @@ en:
         provider_interface/pick_response_form:
           attributes:
             decision:
-              blank: Select if you want to make an offer or reject the application
+              inclusion: Select if you want to make an offer or reject the application
         provider_interface/change_offer_form:
           attributes:
             provider_id:

@@ -1,5 +1,9 @@
-<h1 class="govuk-heading-xl">Check and confirm changes to offer</h2>
+<% content_for :before_content, govuk_back_link_to(request.referer) %>
 
+<h1 class="govuk-heading-xl">
+	<span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+	Check and confirm changes to offer
+</h1>
 <%= render ProviderInterface::OfferSummaryListComponent.new(application_choice: @application_choice, header: 'Your existing offer') %>
 <%= render ProviderInterface::OfferSummaryListComponent.new(application_choice: @future_application_choice, header: 'Your new offer') %>
 
