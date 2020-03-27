@@ -26,12 +26,16 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
 
       result = render_inline described_class.new(application_choice: application_choice, index: 1)
 
-      expect(result.css('#applicant-name-1').text).to include('Jim James')
-      expect(result.css('#course-provider-name-1').text).to include('Hoth Teacher Training')
-      expect(result.css('#course-name-and-code-1').text).to include('Alchemy')
-      expect(result.css('#accredited-body-1').text).to include('Hoth Teacher Training')
-      expect(result.css('#status-1').text).to include('Application withdrawn')
-      expect(result.css('#updated-at-1').text).to include('25 Mar 2020')
+      card = result.css('[data-qa=application-card-1]')
+      card_primary = card.css('> div.app-application-card__primary')
+      card_secondary = card.css('> div.app-application-card__secondary')
+
+      expect(card_primary.css('> h3').text).to include('Jim James')
+      expect(card_primary.css('> p:nth-of-type(1)').text).to include('Hoth Teacher Training')
+      expect(card_primary.css('> p:nth-of-type(2)').text).to include('Alchemy')
+      expect(card_primary.css('> p:nth-of-type(3)').text).to include('Hoth Teacher Training')
+      expect(card_secondary.css('> div').text).to include('Application withdrawn')
+      expect(card_secondary.css('> p').text).to include('25 Mar 2020')
     end
   end
 end
