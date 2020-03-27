@@ -4,7 +4,7 @@ module CandidateInterface
 
     attr_accessor :application_form, :provider_id, :course_id, :study_mode, :course_option_id
     validates :course_option_id, presence: true
-    validate :candidate_can_only_apply_to_3_courses
+    validate :candidate_can_only_apply_to_3_courses, on: :save
 
     def available_sites
       relation = CourseOption.includes(:site).where(course_id: course.id)
@@ -17,11 +17,17 @@ module CandidateInterface
     end
 
     def save
-      return unless valid?
+      return unless valid?(:save)
 
       application_form.application_choices.create!(
         course_option: course_option,
       )
+    end
+
+    def update(application_choice)
+      return unless valid?
+
+      application_choice.update!(course_option: course_option)
     end
 
   private
