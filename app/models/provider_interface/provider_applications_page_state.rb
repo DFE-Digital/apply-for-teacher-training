@@ -1,10 +1,11 @@
 module ProviderInterface
   class ProviderApplicationsPageState
-    attr_accessor :sort_order, :sort_by, :available_filters, :filter_visible, :filter_selections
+    attr_accessor :sort_order, :sort_by, :available_filters, :filter_visible, :filter_selections, :provider_user
 
-    def initialize(params:, application_choices:)
+    def initialize(params:, application_choices:, provider_user:)
       @params = params
       @application_choices = application_choices
+      @provider_user = provider_user
       @sort_order = calculate_sort_order
       @sort_by = calculate_sort_by
       @available_filters = calculate_available_filters
@@ -152,9 +153,7 @@ module ProviderInterface
     # * Raise issue about Provider filter (inefficient and wrong?)
 
     def accrediting_provider_filters_builder
-      input_config = @application_choices.map do |choice|
-        provider = choice.provider
-
+      input_config = ProviderOptionsService.new(provider_user).accrediting_providers.map do |provider|
         {
           type: 'checkbox',
           text: provider.name,
@@ -162,12 +161,10 @@ module ProviderInterface
         }
       end
 
-      provider_filters = {
-        heading: 'provider',
+      {
+        heading: 'accrediting_provider',
         input_config: input_config.uniq,
       }
-
-      provider_filters
     end
   end
 end
