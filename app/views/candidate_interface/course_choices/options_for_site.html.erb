@@ -6,7 +6,7 @@
     <%= form_with(
           model: @pick_site,
           url: candidate_interface_course_choices_site_path(
-            params[:provider_id], params[:course_id], params[:study_mode]
+            params[:provider_id], params[:course_id], params[:study_mode], course_choice_id: @course_choice_id
           ),
           builder: GOVUKDesignSystemFormBuilder::FormBuilder,
         ) do |f| %>
