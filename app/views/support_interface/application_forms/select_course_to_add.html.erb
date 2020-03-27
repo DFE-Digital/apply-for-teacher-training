@@ -1,0 +1,25 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @form, url: support_interface_add_course_to_application_path(@form.application_form), builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class='govuk-heading-xl'>
+        Add course to <%= @form.application_form.full_name %>'s application
+      </h1>
+
+      <p class="govuk-body">
+        Warning: there is no way to undo this action.
+      </p>
+
+      <p class="govuk-body">
+        Adding a new course will not email the candidate.
+      </p>
+
+      <%= f.govuk_text_field :course_option_id,
+        label: { text: 'Course Option ID' },
+        hint_text: "You can find this in the Vacancies tab on the provider page" %>
+
+      <%= f.govuk_submit 'Add course to application' %>
+    <% end %>
+  </div>
+</div>

@@ -35,7 +35,7 @@
 
 <% if @application_form.application_choices.any? %>
   <h2 class="govuk-heading-l govuk-!-margin-top-8">Course choices</h2>
-  <% @application_form.application_choices.includes(:course, :provider, :site).each do |application_choice| %>
+  <% @application_form.application_choices.includes(:course, :provider, :site, :offered_course_option).each do |application_choice| %>
     <% rows = [
       { key: 'Course', value: application_choice.offered_course.name_and_code },
       { key: 'Provider', value: application_choice.offered_course.provider.name_and_code },
@@ -51,6 +51,10 @@
       <%= render SummaryCardHeaderComponent.new(title: application_choice.offered_course.name_and_code) %>
     <% end %>
   <% end %>
+<% end %>
+
+<% if @application_form.application_choices.any?(&:awaiting_references?) %>
+  <%= govuk_button_link_to 'Add course', support_interface_add_course_to_application_path(@application_form) %>
 <% end %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8">References</h2>
