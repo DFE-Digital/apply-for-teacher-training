@@ -33,6 +33,10 @@
   }
 }
 
+.app-application-card__accredited-body {
+  color: govuk-colour('dark-grey');
+}
+
 .app-application-card__status {
   margin-bottom: govuk-spacing(2);
   margin-top: govuk-spacing(3);

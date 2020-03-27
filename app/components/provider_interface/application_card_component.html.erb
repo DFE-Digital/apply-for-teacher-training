@@ -7,7 +7,9 @@
     <p class="govuk-body govuk-!-font-size-16"><%= course_provider_name %></p>
     <p class="govuk-body govuk-!-margin-bottom-0"><%= course_name_and_code %></p>
     <% if accrediting_provider %>
-      <p class="govuk-body govuk-caption-m govuk-!-font-size-16">Accredited body: <%= accrediting_provider.name %> </p>
+      <p class="govuk-body govuk-caption-m govuk-!-font-size-16 app-application-card__accredited-body">
+      Accredited body: <%= accrediting_provider.name %>
+      </p>
     <% end %>
   </div>
 
