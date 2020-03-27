@@ -7,6 +7,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     and_course_selection_page_is_active
     and_the_create_account_or_sign_in_page_feature_flag_is_active
 
+    # Single site course
     and_i_am_an_existing_candidate_on_apply
     and_i_have_less_than_3_application_options
     and_the_course_i_selected_only_has_one_site
@@ -31,6 +32,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     then_i_should_see_the_courses_review_page
     and_i_should_be_informed_i_have_already_selected_that_course
 
+    # Multi-site course
     given_the_course_i_selected_has_multiple_sites
     and_i_am_an_existing_candidate_on_apply
     and_i_have_less_than_3_application_options
@@ -39,6 +41,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     and_click_on_the_magic_link
     then_i_should_see_the_multi_site_course_selection_page
     when_i_say_yes
+    and_i_select_the_part_time_study_mode
     then_i_should_see_the_course_choices_site_page
     and_i_see_the_form_to_pick_a_location
     and_my_course_from_find_id_should_be_set_to_nil
@@ -172,11 +175,24 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   end
 
   def given_the_course_i_selected_has_multiple_sites
-    @course_with_multiple_sites = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Herbology')
+    @course_with_multiple_sites = create(
+      :course,
+      :with_both_study_modes,
+      exposed_in_find: true,
+      open_on_apply: true,
+      name: 'Herbology',
+    )
     @site1 = create(:site, provider: @course_with_multiple_sites.provider)
     @site2 = create(:site, provider: @course_with_multiple_sites.provider)
-    create(:course_option, site: @site1, course: @course_with_multiple_sites)
-    create(:course_option, site: @site2, course: @course_with_multiple_sites)
+    @site3 = create(:site, provider: @course_with_multiple_sites.provider)
+    create(:course_option, :full_time, site: @site1, course: @course_with_multiple_sites)
+    create(:course_option, :part_time, site: @site2, course: @course_with_multiple_sites)
+    create(:course_option, :part_time, site: @site3, course: @course_with_multiple_sites)
+  end
+
+  def and_i_select_the_part_time_study_mode
+    choose 'Part time'
+    click_button 'Continue'
   end
 
   def then_i_should_see_the_course_choices_site_page
@@ -184,7 +200,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
       candidate_interface_course_choices_site_path(
         @course_with_multiple_sites.provider.id,
         @course_with_multiple_sites.id,
-        :full_time,
+        :part_time,
       ),
     )
   end

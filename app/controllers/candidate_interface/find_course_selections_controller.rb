@@ -25,6 +25,11 @@ module CandidateInterface
         course_option = CourseOption.where(course_id: course.id).first
 
         pick_site_for_course(course, course_option.id)
+      elsif course.both_study_modes_available?
+        redirect_to candidate_interface_course_choices_study_mode_path(
+          provider_id: course.provider_id,
+          course_id: course.id,
+        )
       else
         redirect_to candidate_interface_course_choices_site_path(
           provider_id: course.provider_id,
