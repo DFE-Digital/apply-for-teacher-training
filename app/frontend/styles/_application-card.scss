@@ -2,9 +2,7 @@
   border-bottom: 1px solid govuk-colour('mid-grey');
   margin-bottom: 15px;
   padding-bottom: 15px;
-  // position: relative;
   @include govuk-media-query($from: tablet) {
-    // overflow: hidden;
     display: flex;
     align-items: stretch;
   }
