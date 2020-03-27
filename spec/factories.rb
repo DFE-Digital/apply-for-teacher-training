@@ -261,7 +261,6 @@ FactoryBot.define do
     course_option
 
     status { ApplicationStateChange.valid_states.sample }
-    personal_statement { 'hello' }
 
     factory :submitted_application_choice do
       status { 'awaiting_provider_decision' }

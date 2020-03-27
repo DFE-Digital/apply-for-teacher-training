@@ -37,7 +37,6 @@ class GenerateTestData
             :awaiting_provider_decision,
             course_option: course_option,
             application_form: application_form,
-            personal_statement: Faker::Lorem.paragraph(sentence_count: 5),
           )
         end
       end

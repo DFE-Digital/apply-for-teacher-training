@@ -16,7 +16,7 @@ RSpec.describe ApplicationForm do
       application_form = create(:completed_application_form, application_choices_count: 1)
 
       expect {
-        application_form.application_choices.first.update!(personal_statement: 'hello again')
+        application_form.application_choices.first.update!(rejection_reason: 'rejected')
       }.to change { application_form.own_and_associated_audits.count }.by(1)
     end
   end

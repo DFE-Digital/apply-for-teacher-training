@@ -26,9 +26,9 @@ RSpec.describe ApplicationChoice, type: :model do
 
   describe 'auditing', with_audited: true do
     it 'creates audit entries' do
-      application_choice = create :application_choice
+      application_choice = create :application_choice, status: 'unsubmitted'
       expect(application_choice.audits.count).to eq 1
-      application_choice.update!(personal_statement: 'hello again')
+      application_choice.update!(status: 'awaiting_references')
       expect(application_choice.audits.count).to eq 2
     end
 

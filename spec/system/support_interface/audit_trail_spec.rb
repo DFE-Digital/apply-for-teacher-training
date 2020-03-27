@@ -104,7 +104,6 @@ RSpec.feature 'See application history', with_audited: true do
       expect(page).to have_content 'Create Application Choice'
       expect(page).to have_content 'alice@example.com (Candidate)'
       expect(page).to have_content 'status application_complete'
-      expect(page).to have_content 'personal_statement hello'
     end
     within('tbody tr:eq(4)') do
       expect(page).to have_content '1 October 2019'
