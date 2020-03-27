@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_23_161500) do
+ActiveRecord::Schema.define(version: 2020_03_27_110814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -18,7 +18,6 @@ ActiveRecord::Schema.define(version: 2020_03_23_161500) do
 
   create_table "application_choices", force: :cascade do |t|
     t.bigint "application_form_id", null: false
-    t.text "personal_statement"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status", null: false

@@ -59,7 +59,6 @@ class TestApplications
           status: 'unsubmitted',
           course_option: course.course_options.first,
           application_form: @application_form,
-          personal_statement: Faker::Lorem.paragraph(sentence_count: 5),
           created_at: time,
         )
       end
