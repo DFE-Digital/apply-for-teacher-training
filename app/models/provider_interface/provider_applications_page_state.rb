@@ -49,7 +49,7 @@ module ProviderInterface
     end
 
     def filter_params
-      @params.permit(:filter_visible, filter_selections: { search: {}, status: {}, provider: {} })
+      @params.permit(:filter_visible, filter_selections: { search: {}, status: {}, provider: {}, accrediting_provider: {} })
     end
 
     def calculate_sort_order
@@ -146,11 +146,11 @@ module ProviderInterface
 
     # TODO:
     # * Updated/New system spec
-    # * Query provider_user -> providers -> courses -> accrediting_providers to get options
-    # * Update tests for ProviderApplicationsPageState
+    # * Query provider_user -> providers -> courses -> accrediting_providers to get options DONE
+    # * Update tests for ProviderApplicationsPageState DONE
     # * Implement filtering on the query itself
     # * Check that filter selections are preserved
-    # * Raise issue about Provider filter (inefficient and wrong?)
+    # * Raise issue about Provider filter (is it efficient?)
 
     def accrediting_provider_filters_builder
       input_config = ProviderOptionsService.new(provider_user).accrediting_providers.map do |provider|

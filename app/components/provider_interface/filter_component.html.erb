@@ -29,11 +29,11 @@
                 <div class="govuk-form-group">
                   <fieldset class="govuk-fieldset">
 
-                    <%# <% if is_candidates_name_search_field?(filter_group) || form_group_fields_greater_than_one?(filter_group) %1> %>
+                    <% if is_candidates_name_search_field?(filter_group) || form_group_fields_greater_than_one?(filter_group) %>
                       <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                        <%= filter_group[:heading].capitalize %>
+                        <%= filter_group[:heading].humanize %>
                       </legend>
-                    <%# <% end %1> %>
+                    <% end %>
 
                     <% filter_group[:input_config].each do |input_config| %>
                       <% if is_candidates_name_search_field?(filter_group) %>
@@ -41,8 +41,7 @@
                                                                                 type: input_config[:type],
                                                                                 heading: filter_group[:heading],
                                                                                 value: applied_filters.fetch(:search, {}).fetch(:candidates_name, "")) %>
-                      <% else %>
-                      <%# <% elsif form_group_fields_greater_than_one?(filter_group) %1> %>
+                      <% elsif form_group_fields_greater_than_one?(filter_group) %>
                          <div class="govuk-checkboxes govuk-checkboxes--small">
                            <%= render ProviderInterface::FilterCheckboxComponent.new(name: input_config[:name],
                                                                                      text: input_config[:text],

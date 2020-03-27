@@ -1,7 +1,9 @@
 module ProviderInterface
   class ApplicationChoicesController < ProviderInterfaceController
     def index
-      application_choices = GetApplicationChoicesForProviders.call(providers: current_provider_user.providers)
+      application_choices = GetApplicationChoicesForProviders.call(
+        providers: current_provider_user.providers,
+      )
 
       @page_state = ProviderApplicationsPageState.new(
         params: params,
@@ -20,8 +22,9 @@ module ProviderInterface
     end
 
     def show
-      @application_choice = GetApplicationChoicesForProviders.call(providers: current_provider_user.providers)
-        .find(params[:application_choice_id])
+      @application_choice = GetApplicationChoicesForProviders.call(
+        providers: current_provider_user.providers,
+      ).find(params[:application_choice_id])
     end
   end
 end

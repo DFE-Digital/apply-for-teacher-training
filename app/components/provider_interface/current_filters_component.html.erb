@@ -18,7 +18,7 @@
     <% if applied_filters_key.eql?('search') %>
       <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Candidate's name</h3>
     <% else %>
-      <h3 class="govuk-heading-s govuk-!-margin-bottom-0"><%= applied_filters_key.capitalize %></h3>
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-0"><%= applied_filters_key.humanize %></h3>
     <% end %>
     <ul class="moj-filter-tags">
     <% input_config_values.each do |input_config_name, _| %>
