@@ -75,10 +75,11 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_only_withdrawn_and_offered_applications_should_be_visible
-    expect(page).to have_css('.app-application-cards', text: 'Application withdrawn')
-    expect(page).to have_css('.app-application-cards', text: 'Offered')
-    expect(page).not_to have_css('.app-application-cards', text: 'Rejected')
-    expect(page).not_to have_css('.app-application-cards', text: 'Declined')
+    cards = find(:css, '.app-application-cards')
+    expect(cards).to have_text('Application withdrawn')
+    expect(cards).to have_text('Offered')
+    expect(cards).not_to have_text('Rejected')
+    expect(cards).not_to have_text('Declined')
   end
 
   def and_the_relevant_tags_should_be_visible
@@ -87,8 +88,9 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_the_relevant_tag_headings_should_be_visible
-    expect(page).to have_css('.moj-filter__selected', text: 'Candidate\'s name')
-    expect(page).to have_css('.moj-filter__selected', text: 'Provider')
+    selected_filters = find(:css, '.moj-filter__selected')
+    expect(selected_filters).to have_text('Candidate\'s name')
+    expect(selected_filters).to have_text('Provider')
   end
 
   def then_only_withdrawn_and_offered_applications_of_that_name_should_be_visible
@@ -96,22 +98,25 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_i_expect_all_applications_to_be_visible
-    expect(page).to have_css('.app-application-cards', text: 'Rejected')
-    expect(page).to have_css('.app-application-cards', text: 'Offered')
-    expect(page).to have_css('.app-application-cards', text: 'Application withdrawn')
-    expect(page).to have_css('.app-application-cards', text: 'Declined')
+    cards = find(:css, '.app-application-cards')
+    expect(cards).to have_text('Rejected')
+    expect(cards).to have_text('Offered')
+    expect(cards).to have_text('Application withdrawn')
+    expect(cards).to have_text('Declined')
   end
 
   def then_i_only_see_applications_for_a_given_provider
-    expect(page).to have_css('.app-application-cards', text: 'Hoth Teacher Training')
-    expect(page).to have_css('.app-application-cards', text: 'Caladan University')
-    expect(page).not_to have_css('.app-application-cards', text: 'University of Arrakis')
+    cards = find(:css, '.app-application-cards')
+    expect(cards).to have_text('Hoth Teacher Training')
+    expect(cards).to have_text('Caladan University')
+    expect(cards).not_to have_text('University of Arrakis')
   end
 
   def then_only_applications_of_that_name_and_provider_should_be_visible
-    expect(page).to have_css('.app-application-cards', text: 'Hoth Teacher Training')
-    expect(page).not_to have_css('.app-application-cards', text: 'Caladan University')
-    expect(page).not_to have_css('.app-application-cards', text: 'University of Arrakis')
+    cards = find(:css, '.app-application-cards')
+    expect(cards).to have_text('Hoth Teacher Training')
+    expect(cards).not_to have_text('Caladan University')
+    expect(cards).not_to have_text('University of Arrakis')
     then_only_applications_of_that_name_should_be_visible
   end
 
@@ -141,29 +146,31 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_only_applications_of_that_name_and_status_should_be_visible
-    expect(page).to have_css('.app-application-cards', text: 'Jim James')
-    expect(page).not_to have_css('.app-application-cards', text: 'Adam Jones')
-    expect(page).not_to have_css('.app-application-cards', text: 'Tom Jones')
-    expect(page).not_to have_css('.app-application-cards', text: 'Bill Bones')
-    expect(page).not_to have_css('.app-application-cards', text: 'Greg Taft')
-    expect(page).not_to have_css('.app-application-cards', text: 'Paul Atreides')
-    expect(page).not_to have_css('.app-application-cards', text: 'Duncan Idaho')
-    expect(page).not_to have_css('.app-application-cards', text: 'Luke Smith')
+    cards = find(:css, '.app-application-cards')
+    expect(cards).to have_text('Jim James')
+    expect(cards).not_to have_text('Adam Jones')
+    expect(cards).not_to have_text('Tom Jones')
+    expect(cards).not_to have_text('Bill Bones')
+    expect(cards).not_to have_text('Greg Taft')
+    expect(cards).not_to have_text('Paul Atreides')
+    expect(cards).not_to have_text('Duncan Idaho')
+    expect(cards).not_to have_text('Luke Smith')
 
-    expect(page).to have_css('.app-application-cards', text: 'Application withdrawn')
-    expect(page).not_to have_css('.app-application-cards', text: 'Rejected')
-    expect(page).not_to have_css('.app-application-cards', text: 'Declined')
+    expect(cards).to have_text('Application withdrawn')
+    expect(cards).not_to have_text('Rejected')
+    expect(cards).not_to have_text('Declined')
   end
 
   def then_only_applications_of_that_name_should_be_visible
-    expect(page).to have_css('.app-application-cards', text: 'Jim James')
-    expect(page).not_to have_css('.app-application-cards', text: 'Adam Jones')
-    expect(page).not_to have_css('.app-application-cards', text: 'Tom Jones')
-    expect(page).not_to have_css('.app-application-cards', text: 'Bill Bones')
-    expect(page).not_to have_css('.app-application-cards', text: 'Greg Taft')
-    expect(page).not_to have_css('.app-application-cards', text: 'Paul Atreides')
-    expect(page).not_to have_css('.app-application-cards', text: 'Duncan Idaho')
-    expect(page).not_to have_css('.app-application-cards', text: 'Luke Smith')
+    cards = find(:css, '.app-application-cards')
+    expect(cards).to have_text('Jim James')
+    expect(cards).not_to have_text('Adam Jones')
+    expect(cards).not_to have_text('Tom Jones')
+    expect(cards).not_to have_text('Bill Bones')
+    expect(cards).not_to have_text('Greg Taft')
+    expect(cards).not_to have_text('Paul Atreides')
+    expect(cards).not_to have_text('Duncan Idaho')
+    expect(cards).not_to have_text('Luke Smith')
   end
 
   def then_i_expect_to_see_the_search_input
@@ -253,7 +260,8 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_i_expect_the_relevant_provider_tags_to_be_visible
-    expect(page).to have_css('.moj-filter-tags', text: 'Hoth Teacher Training')
-    expect(page).to have_css('.moj-filter-tags', text: 'Caladan University')
+    tags = find(:css, '.moj-filter-tags:nth-of-type(2)')
+    expect(tags).to have_text('Hoth Teacher Training')
+    expect(tags).to have_text('Caladan University')
   end
 end
