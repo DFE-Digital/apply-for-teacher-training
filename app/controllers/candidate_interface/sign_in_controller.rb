@@ -1,69 +1,13 @@
 module CandidateInterface
   class SignInController < CandidateInterfaceController
     skip_before_action :authenticate_candidate!
-    before_action :redirect_to_application_if_signed_in, except: %i[authenticate interstitial]
+    before_action :redirect_to_application_if_signed_in, except: %i[authenticate]
 
     def new
       if FeatureFlag.active?('improved_expired_token_flow') && params[:u]
         redirect_to candidate_interface_expired_sign_in_path(u: params[:u])
       else
         @candidate = Candidate.new
-      end
-    end
-
-    def interstitial
-      course = current_candidate.course_from_find
-
-      if FeatureFlag.active?('you_selected_a_course_page')
-        service = InterstitialRouteSelector.new(candidate: current_candidate)
-        service.execute
-
-        if service.candidate_does_not_have_a_course_from_find || service.candidate_has_submitted_application
-          if more_reference_needed? && FeatureFlag.active?('show_new_referee_needed')
-            redirect_to candidate_interface_additional_referee_path
-          elsif current_candidate.current_application.blank_application? && FeatureFlag.active?('before_you_start')
-            redirect_to candidate_interface_before_you_start_path
-          else
-            redirect_to candidate_interface_application_form_path
-          end
-        elsif service.candidate_has_already_selected_the_course
-          flash[:warning] = "You have already selected #{course.name_and_code}."
-          redirect_to candidate_interface_course_choices_review_path
-        elsif service.candidate_already_has_3_courses
-          flash[:warning] = I18n.t('errors.messages.too_many_course_choices', course_name_and_code: course.name_and_code)
-          redirect_to candidate_interface_course_choices_review_path
-        elsif !service.candidate_does_not_have_a_course_from_find
-          redirect_to candidate_interface_course_confirm_selection_path(course_id: course.id)
-        elsif service.candidate_should_choose_site
-          redirect_to candidate_interface_course_choices_site_path(course.provider.id, course.id, course.study_mode)
-        elsif service.candidate_should_choose_study_mode && FeatureFlag.active?('choose_study_mode')
-          redirect_to candidate_interface_course_choices_study_mode_path(course.provider.id, course.id)
-        end
-      else
-        service = AddCourseFromFind.new(candidate: current_candidate)
-        service.execute
-
-        if service.candidate_does_not_have_a_course_from_find || service.candidate_has_submitted_application
-          if more_reference_needed? && FeatureFlag.active?('show_new_referee_needed')
-            redirect_to candidate_interface_additional_referee_path
-          elsif current_candidate.current_application.blank_application? && FeatureFlag.active?('before_you_start')
-            redirect_to candidate_interface_before_you_start_path
-          else
-            redirect_to candidate_interface_application_form_path
-          end
-        elsif service.candidate_has_already_selected_the_course
-          flash[:warning] = "You have already selected #{course.name_and_code}."
-          redirect_to candidate_interface_course_choices_review_path
-        elsif service.candidate_already_has_3_courses
-          flash[:warning] = I18n.t('errors.messages.too_many_course_choices', course_name_and_code: course.name_and_code)
-          redirect_to candidate_interface_course_choices_review_path
-        elsif service.candidate_has_new_course_added
-          redirect_to candidate_interface_course_choices_review_path
-        elsif service.candidate_should_choose_site
-          redirect_to candidate_interface_course_choices_site_path(course.provider.id, course.id, course.study_mode)
-        elsif service.candidate_should_choose_study_mode && FeatureFlag.active?('choose_study_mode')
-          redirect_to candidate_interface_course_choices_study_mode_path(course.provider.id, course.id)
-        end
       end
     end
 
