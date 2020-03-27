@@ -16,7 +16,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @form, url: support_interface_provider_users_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+    <%= form_with model: @form, url: support_interface_provider_users_path do |f| %>
       <%= f.govuk_error_summary %>
 
       <h1 class='govuk-heading-xl'>Add provider user</h1>

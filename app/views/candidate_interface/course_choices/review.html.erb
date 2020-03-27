@@ -5,7 +5,7 @@
   <%= t('page_titles.course_choices') %>
 </h1>
 
-<%= form_with model: @application_form, url: candidate_interface_course_choices_complete_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+<%= form_with model: @application_form, url: candidate_interface_course_choices_complete_path do |f| %>
   <%= f.govuk_error_summary %>
 
   <%= render(CandidateInterface::CourseChoicesReviewComponent.new(application_form: @application_form)) %>
