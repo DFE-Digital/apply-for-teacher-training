@@ -352,7 +352,7 @@
 
       <% if !@provider_agreement.persisted? %>
         <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
-        <%= form_with model: @provider_agreement, url: provider_interface_create_data_sharing_agreement_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder, html: { novalidate: false } do |f| %>
+        <%= form_with model: @provider_agreement, url: provider_interface_create_data_sharing_agreement_path, html: { novalidate: false } do |f| %>
           <%= f.govuk_error_summary %>
           <%= f.hidden_field :agreement_type %>
           <%= f.hidden_field :provider_id %>
