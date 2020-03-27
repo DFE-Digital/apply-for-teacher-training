@@ -1,7 +1,7 @@
 .app-application-card {
   border-bottom: 1px solid govuk-colour('mid-grey');
-  margin-bottom: 15px;
-  padding-bottom: 15px;
+  margin-bottom: govuk-spacing(3);
+  padding-bottom: govuk-spacing(3);
   @include govuk-media-query($from: tablet) {
     display: flex;
     align-items: stretch;
@@ -10,7 +10,7 @@
 
 .app-application-card:first-of-type {
   border-top: 1px solid govuk-colour('mid-grey');
-  padding-top: 15px;
+  padding-top: govuk-spacing(3);
 }
 
 .app-application-card__primary {
@@ -52,7 +52,7 @@
 }
 
 .app-application-card__note {
-  padding-left: 15px;
+  padding-left: govuk-spacing(3);
   display: inline-block;
   padding-top: 1px;
   padding-bottom: 1px;
@@ -61,9 +61,9 @@
 }
 
 .app-application-card__note:before {
-  border-radius: 25px;
-  height: 10px;
-  width: 10px;
+  border-radius: govuk-spacing(5);
+  height: govuk-spacing(2);
+  width: govuk-spacing(2);
   background: govuk-colour('black');
   content: " ";
   position: absolute;
