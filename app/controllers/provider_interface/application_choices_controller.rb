@@ -6,7 +6,7 @@ module ProviderInterface
       @page_state = ProviderApplicationsPageState.new(
         params: params,
         application_choices: application_choices,
-        provider_user: provider_user,
+        provider_user: current_provider_user,
       )
 
       if FeatureFlag.active?('provider_application_filters')
