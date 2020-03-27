@@ -58,6 +58,14 @@ RSpec.feature 'Providers should be able to filter applications' do
     then_i_expect_that_tag_not_to_be_visible
     and_the_remaining_filters_to_still_apply
 
+    when_i_clear_the_filters
+    and_i_filter_by_accrediting_provider
+    then_i_only_see_applications_for_a_given_accrediting_provider
+    then_i_expect_the_relevant_accrediting_provider_tags_to_be_visible
+
+    when_i_click_to_remove_an_accrediting_provider_tag
+    then_i_expect_all_applications_to_be_visible_again
+
     and_provider_application_filters_are_deactivated
 
     when_i_visit_the_provider_page
@@ -81,8 +89,11 @@ RSpec.feature 'Providers should be able to filter applications' do
     second_provider = create(:provider, :with_signed_agreement, code: 'DEF', name: 'Caladan University')
     third_provider = create(:provider, :with_signed_agreement, code: 'GHI', name: 'University of Arrakis')
 
-    course_option_one = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Alchemy', provider: current_provider))
-    course_option_two = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Divination', provider: current_provider))
+    accrediting_provider1 = create(:provider, code: 'JKL', name: 'College of Dumbervale')
+    accrediting_provider2 = create(:provider, code: 'MNO', name: 'Wimleydown University')
+
+    course_option_one = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Alchemy', provider: current_provider, accrediting_provider: accrediting_provider1))
+    course_option_two = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Divination', provider: current_provider, accrediting_provider: accrediting_provider2))
     course_option_three = course_option_for_provider(provider: current_provider, course: create(:course, name: 'English', provider: current_provider))
 
     course_option_four = course_option_for_provider(provider: second_provider, course: create(:course, name: 'Science', provider: second_provider))
@@ -212,6 +223,22 @@ RSpec.feature 'Providers should be able to filter applications' do
     FeatureFlag.activate('provider_application_filters')
   end
 
+  def and_i_filter_by_accrediting_provider
+    find(:css, '#accrediting_provider-wimleydown-university').set(true)
+    click_button('Apply filters')
+  end
+
+  def then_i_only_see_applications_for_a_given_accrediting_provider
+    expect(page).to have_content('Adam Jones')
+    expect(page).to have_content('Tom Jones')
+    expect(page).not_to have_content('Jim James')
+  end
+
+  def then_i_expect_the_relevant_accrediting_provider_tags_to_be_visible
+    expect(page).to have_css('.moj-filter-tags', text: 'Wimleydown University')
+    expect(page).not_to have_css('.moj-filter-tags', text: 'College of Dumbervale')
+  end
+
   def and_provider_application_filters_are_deactivated
     FeatureFlag.deactivate('provider_application_filters')
   end
@@ -236,5 +263,15 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def and_a_rejected_tag_should_be_visible
     expect(page).to have_css('.moj-filter-tags', text: 'Rejected')
+  end
+
+  def when_i_click_to_remove_an_accrediting_provider_tag
+    click_link('Wimleydown University')
+  end
+
+  def then_i_expect_all_applications_to_be_visible_again
+    expect(page).to have_content('Adam Jones')
+    expect(page).to have_content('Tom Jones')
+    expect(page).to have_content('Jim James')
   end
 end
