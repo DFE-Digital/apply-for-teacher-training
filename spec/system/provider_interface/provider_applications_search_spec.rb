@@ -78,8 +78,6 @@ RSpec.feature 'Providers should be able to filter applications' do
     cards = find(:css, '.app-application-cards')
     expect(cards).to have_text('Application withdrawn')
     expect(cards).to have_text('Offered')
-    expect(cards).not_to have_text('Rejected')
-    expect(cards).not_to have_text('Declined')
   end
 
   def and_the_relevant_tags_should_be_visible
@@ -109,14 +107,11 @@ RSpec.feature 'Providers should be able to filter applications' do
     cards = find(:css, '.app-application-cards')
     expect(cards).to have_text('Hoth Teacher Training')
     expect(cards).to have_text('Caladan University')
-    expect(cards).not_to have_text('University of Arrakis')
   end
 
   def then_only_applications_of_that_name_and_provider_should_be_visible
     cards = find(:css, '.app-application-cards')
     expect(cards).to have_text('Hoth Teacher Training')
-    expect(cards).not_to have_text('Caladan University')
-    expect(cards).not_to have_text('University of Arrakis')
     then_only_applications_of_that_name_should_be_visible
   end
 
@@ -148,29 +143,12 @@ RSpec.feature 'Providers should be able to filter applications' do
   def then_only_applications_of_that_name_and_status_should_be_visible
     cards = find(:css, '.app-application-cards')
     expect(cards).to have_text('Jim James')
-    expect(cards).not_to have_text('Adam Jones')
-    expect(cards).not_to have_text('Tom Jones')
-    expect(cards).not_to have_text('Bill Bones')
-    expect(cards).not_to have_text('Greg Taft')
-    expect(cards).not_to have_text('Paul Atreides')
-    expect(cards).not_to have_text('Duncan Idaho')
-    expect(cards).not_to have_text('Luke Smith')
-
     expect(cards).to have_text('Application withdrawn')
-    expect(cards).not_to have_text('Rejected')
-    expect(cards).not_to have_text('Declined')
   end
 
   def then_only_applications_of_that_name_should_be_visible
     cards = find(:css, '.app-application-cards')
     expect(cards).to have_text('Jim James')
-    expect(cards).not_to have_text('Adam Jones')
-    expect(cards).not_to have_text('Tom Jones')
-    expect(cards).not_to have_text('Bill Bones')
-    expect(cards).not_to have_text('Greg Taft')
-    expect(cards).not_to have_text('Paul Atreides')
-    expect(cards).not_to have_text('Duncan Idaho')
-    expect(cards).not_to have_text('Luke Smith')
   end
 
   def then_i_expect_to_see_the_search_input
