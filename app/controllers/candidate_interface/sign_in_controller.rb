@@ -14,7 +14,16 @@ module CandidateInterface
     def create
       @candidate = Candidate.for_email candidate_params[:email_address]
 
+      course_from_find_params = Provider
+        .find_by(code: params[:providerCode])
+        &.courses
+        &.find_by(code: params[:courseCode])
+
       if @candidate.persisted?
+        if course_from_find_params.present?
+          @candidate.update(course_from_find_id: course_from_find_params.id)
+        end
+
         MagicLinkSignIn.call(candidate: @candidate)
         add_identity_to_log @candidate.id
         redirect_to candidate_interface_check_email_sign_in_path
@@ -43,7 +52,7 @@ module CandidateInterface
         add_identity_to_log candidate.id
         candidate.update!(last_signed_in_at: Time.zone.now)
 
-        redirect_to candidate_interface_interstitial_path
+        redirect_to candidate_interface_interstitial_path(providerCode: params[:providerCode], courseCode: params[:courseCode])
       else
         # rubocop:disable Style/IfInsideElse
         if FeatureFlag.active?('improved_expired_token_flow')
