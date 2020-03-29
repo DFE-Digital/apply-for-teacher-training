@@ -9,6 +9,23 @@ class ProviderOptionsService
     Provider
       .joins(:accredited_courses)
       .where(courses: { provider: provider_user.providers })
+      .or(
+        Provider
+          .joins(:accredited_courses)
+          .where(courses: { accrediting_provider: provider_user.providers }),
+      )
+      .distinct
+  end
+
+  def providers
+    Provider
+      .joins(:courses)
+      .where(courses: { accrediting_provider: provider_user.providers })
+      .or(
+        Provider
+          .joins(:courses)
+          .where(courses: { provider: provider_user.providers }),
+      )
       .distinct
   end
 end

@@ -2,9 +2,8 @@ module ProviderInterface
   class ProviderApplicationsPageState
     attr_accessor :sort_order, :sort_by, :available_filters, :filter_visible, :filter_selections, :provider_user
 
-    def initialize(params:, application_choices:, provider_user:)
+    def initialize(params:, provider_user:)
       @params = params
-      @application_choices = application_choices
       @provider_user = provider_user
       @sort_order = calculate_sort_order
       @sort_by = calculate_sort_by
@@ -126,9 +125,7 @@ module ProviderInterface
     end
 
     def provider_filters_builder
-      input_config = @application_choices.map do |choice|
-        provider = choice.provider
-
+      input_config = ProviderOptionsService.new(provider_user).providers.map do |provider|
         {
           type: 'checkbox',
           text: provider.name,
@@ -136,12 +133,10 @@ module ProviderInterface
         }
       end
 
-      provider_filters = {
+      {
         heading: 'provider',
-        input_config: input_config.uniq,
+        input_config: input_config,
       }
-
-      provider_filters
     end
 
     def accrediting_provider_filters_builder
@@ -155,7 +150,7 @@ module ProviderInterface
 
       {
         heading: 'accrediting_provider',
-        input_config: input_config.uniq,
+        input_config: input_config,
       }
     end
   end

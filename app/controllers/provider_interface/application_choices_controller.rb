@@ -1,14 +1,13 @@
 module ProviderInterface
   class ApplicationChoicesController < ProviderInterfaceController
     def index
-      application_choices = GetApplicationChoicesForProviders.call(
-        providers: current_provider_user.providers,
-      )
-
       @page_state = ProviderApplicationsPageState.new(
         params: params,
-        application_choices: application_choices,
         provider_user: current_provider_user,
+      )
+
+      application_choices = GetApplicationChoicesForProviders.call(
+        providers: current_provider_user.providers,
       )
 
       if FeatureFlag.active?('provider_application_filters')

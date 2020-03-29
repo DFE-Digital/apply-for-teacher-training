@@ -99,6 +99,10 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       instance_double(Provider, id: '5', name: 'University of West England'),
       instance_double(Provider, id: '6', name: 'University of East England'),
     ])
+    allow(@provider_service).to receive(:providers).and_return([
+      instance_double(Provider, id: '1', name: 'Gorse SCITT'),
+      instance_double(Provider, id: '4', name: 'University of Chichester'),
+    ])
   end
 
   describe '#sort_order' do
@@ -106,7 +110,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       params = ActionController::Parameters.new(sort_order: 'asc')
       state = described_class.new(
         params: params,
-        application_choices: {},
         provider_user: provider_user,
       )
 
@@ -117,7 +120,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       params = ActionController::Parameters.new(sort_order: 'desc')
       state = described_class.new(
         params: params,
-        application_choices: {},
         provider_user: provider_user,
       )
 
@@ -128,7 +130,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       params = ActionController::Parameters.new(sort_order: 'these are not the droids you\re looking for')
       state = described_class.new(
         params: params,
-        application_choices: {},
         provider_user: provider_user,
       )
 
@@ -141,7 +142,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       params = ActionController::Parameters.new
       state = described_class.new(
         params: params,
-        application_choices: {},
         provider_user: provider_user,
       )
 
@@ -152,7 +152,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       params = ActionController::Parameters.new(sort_by: 'name')
       state = described_class.new(
         params: params,
-        application_choices: {},
         provider_user: provider_user,
       )
 
@@ -165,7 +164,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       params = ActionController::Parameters.new
       state = described_class.new(
         params: params,
-        application_choices: {},
         provider_user: provider_user,
       )
 
@@ -177,7 +175,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
 
       state = described_class.new(
         params: params,
-        application_choices: {},
         provider_user: provider_user,
       )
 
@@ -190,7 +187,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       params = ActionController::Parameters.new(sort_by: 'something completely different')
       state = described_class.new(
         params: params,
-        application_choices: {},
         provider_user: provider_user,
       )
 
@@ -201,7 +197,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       params = ActionController::Parameters.new(sort_by: 'course', sort_order: 'desc')
       state = described_class.new(
         params: params,
-        application_choices: {},
         provider_user: provider_user,
       )
 
@@ -213,7 +208,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       params = ActionController::Parameters.new(sort_by: 'last-updated', sort_order: 'asc')
       state = described_class.new(
         params: params,
-        application_choices: {},
         provider_user: provider_user,
       )
 
@@ -225,7 +219,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       params = ActionController::Parameters.new(sort_by: 'name', sort_order: 'asc')
       state = described_class.new(
         params: params,
-        application_choices: {},
         provider_user: provider_user,
       )
 
@@ -238,16 +231,9 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
 
   describe '#available_filters' do
     it 'calculate the correct available_filters' do
-      provider = instance_double(Provider, id: '1', name: 'Gorse SCITT')
-      provider_two = instance_double(Provider, id: '4', name: 'University of Chichester')
-
-      active_record_relation_stub = instance_double(ApplicationChoice, provider: provider)
-      active_record_relation_stub_two = instance_double(ApplicationChoice, provider: provider_two)
-
       params = ActionController::Parameters.new
       state = described_class.new(
         params: params,
-        application_choices: [active_record_relation_stub, active_record_relation_stub_two],
         provider_user: provider_user,
       )
 
@@ -265,7 +251,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       params = ActionController::Parameters.new(filter_selections)
       state = described_class.new(
         params: params,
-        application_choices: {},
         provider_user: provider_user,
       )
       expect(state.filter_selections).to eq(filter_selections[:filter_selections])
@@ -278,7 +263,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       params = ActionController::Parameters.new(filter_selections)
       state = described_class.new(
         params: params,
-        application_choices: {},
         provider_user: provider_user,
       )
       expect(state.filter_selections).to eq({})
@@ -293,7 +277,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       params = ActionController::Parameters.new(filter_selections)
       state = described_class.new(
         params: params,
-        application_choices: {},
         provider_user: provider_user,
       )
       expect(state.filter_selections).to eq(filter_selections[:filter_selections].except('search'))
