@@ -14,24 +14,22 @@ module CandidateInterface
     end
 
     def course_choice_rows(course_choice)
-      if FeatureFlag.active?('display_additional_course_details')
-        rows = [
-          course_row(course_choice),
-          location_row(course_choice),
-          study_mode_row(course_choice),
-          type_row(course_choice.course),
-          course_length_row(course_choice.course),
-          start_date_row(course_choice.course),
-        ]
-      else
-        rows = [
-          course_row(course_choice),
-          location_row(course_choice),
-        ]
-        rows.insert(1, study_mode_row(course_choice)) if FeatureFlag.active?('choose_study_mode')
-      end
-
-
+      rows = if FeatureFlag.active?('display_additional_course_details')
+               [
+                 course_row(course_choice),
+                 location_row(course_choice),
+                 study_mode_row(course_choice),
+                 type_row(course_choice.course),
+                 course_length_row(course_choice.course),
+                 start_date_row(course_choice.course),
+               ]
+             else
+               [
+                 course_row(course_choice),
+                 location_row(course_choice),
+                 study_mode_row(course_choice),
+               ]
+             end
 
       rows.tap do |r|
         r << status_row(course_choice) if @show_status

@@ -8,11 +8,7 @@ module CandidateInterface
 
     def available_sites
       relation = CourseOption.includes(:site).where(course_id: course.id)
-
-      if FeatureFlag.active?('choose_study_mode')
-        relation = relation.where(study_mode: study_mode)
-      end
-
+      relation = relation.where(study_mode: study_mode)
       relation.sort_by { |course_option| course_option.site.name }
     end
 

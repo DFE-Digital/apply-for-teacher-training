@@ -25,7 +25,7 @@ module CandidateInterface
           redirect_to candidate_interface_course_confirm_selection_path(course_id: course.id)
         elsif service.candidate_should_choose_site
           redirect_to candidate_interface_course_choices_site_path(course.provider.id, course.id, course.study_mode)
-        elsif service.candidate_should_choose_study_mode && FeatureFlag.active?('choose_study_mode')
+        elsif service.candidate_should_choose_study_mode
           redirect_to candidate_interface_course_choices_study_mode_path(course.provider.id, course.id)
         end
       else
@@ -50,7 +50,7 @@ module CandidateInterface
           redirect_to candidate_interface_course_choices_review_path
         elsif service.candidate_should_choose_site
           redirect_to candidate_interface_course_choices_site_path(course.provider.id, course.id, course.study_mode)
-        elsif service.candidate_should_choose_study_mode && FeatureFlag.active?('choose_study_mode')
+        elsif service.candidate_should_choose_study_mode
           redirect_to candidate_interface_course_choices_study_mode_path(course.provider.id, course.id)
         end
       end
