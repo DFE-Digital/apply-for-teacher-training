@@ -5,7 +5,6 @@ class FeatureFlag
     banner_for_ucas_downtime
     create_account_or_sign_in_page
     covid_19
-    display_additional_course_details
     check_full_courses
     confirm_conditions
     edit_application
