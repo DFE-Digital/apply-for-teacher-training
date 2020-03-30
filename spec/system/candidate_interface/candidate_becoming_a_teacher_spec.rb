@@ -1,9 +1,11 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering "Why do you want to be a teacher?"' do
+RSpec.feature 'Entering "Why do you want to be a teacher?"', js: true do
   include CandidateHelper
 
   scenario 'Candidate submits why they want to be a teacher' do
+    WebMock.allow_net_connect!
+
     given_i_am_signed_in
     and_i_visit_the_site
 
@@ -12,6 +14,9 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
     then_i_should_see_validation_errors
 
     when_i_fill_in_an_answer
+    and_i_click_to_leave_the_page
+    then_i_see_an_alert
+
     and_i_submit_the_form
     then_i_can_check_my_answers
 
@@ -54,6 +59,24 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
     fill_in t('becoming_a_teacher.label', scope: scope), with: 'Hello world'
   end
 
+  def and_i_click_to_leave_the_page
+    # save_and_open_page
+    dismiss_prompt(wait: 5) do
+      click_link 'Back to application'
+      page.driver.save_screenshot('/Users/ting/Documents/dfe-apply/apply-for-postgraduate-teacher-training/foo5.png')
+      # click_link('link that triggers appearance of system modal')
+    end
+  end
+
+  def then_i_see_an_alert
+    # binding.pry
+    # accept_confirm('Leave site?')
+
+    # page.driver.browser.dismiss_prompt
+    # page.driver.browser.switch_to.alert.accept
+    # page.driver.browser.switch_to.alert.dismiss
+  end
+
   def then_i_can_check_my_answers
     expect(page).to have_content 'Why do you want to be a teacher?'
     expect(page).to have_content 'Hello world'
@@ -86,6 +109,6 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#why-do-you-want-to-be-a-teacher-badge-id', text: 'Completed')
+    expect(page).to have_css('#why-do-you-want-to-be-a-teacher-badge-id', text: 'Completed'.uppercase)
   end
 end
