@@ -48,7 +48,7 @@ module ProviderInterface
     end
 
     def filter_params
-      @params.permit(:filter_visible, filter_selections: { search: {}, status: {}, provider: {}, accrediting_provider: {} })
+      @params.permit(:filter_visible, filter_selections: { search: {}, status: {}, provider: {}, accredited_provider: {} })
     end
 
     def calculate_sort_order
@@ -60,7 +60,7 @@ module ProviderInterface
     end
 
     def calculate_available_filters
-      search_filters << status_filters << provider_filters_builder << accrediting_provider_filters_builder
+      search_filters << status_filters << provider_filters_builder << accredited_provider_filters_builder
     end
 
     def search_filters
@@ -139,8 +139,8 @@ module ProviderInterface
       }
     end
 
-    def accrediting_provider_filters_builder
-      input_config = ProviderOptionsService.new(provider_user).accrediting_providers.map do |provider|
+    def accredited_provider_filters_builder
+      input_config = ProviderOptionsService.new(provider_user).accredited_providers.map do |provider|
         {
           type: 'checkbox',
           text: provider.name,
@@ -149,7 +149,7 @@ module ProviderInterface
       end
 
       {
-        heading: 'accrediting_provider',
+        heading: 'accredited_provider',
         input_config: input_config,
       }
     end

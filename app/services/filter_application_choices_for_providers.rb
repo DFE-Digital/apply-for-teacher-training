@@ -20,8 +20,8 @@ class FilterApplicationChoicesForProviders
       application_choices.where('courses.provider_id' => filters[:provider].keys)
     end
 
-    def accrediting_provider(application_choices, filters)
-      application_choices.where('courses.accrediting_provider_id' => filters[:accrediting_provider].keys)
+    def accredited_provider(application_choices, filters)
+      application_choices.where('courses.accrediting_provider_id' => filters[:accredited_provider].keys)
     end
 
     def search_exists?(filters)
@@ -32,7 +32,7 @@ class FilterApplicationChoicesForProviders
       filtered_application_choices = application_choices
       filtered_application_choices = search(filtered_application_choices, filters[:search][:candidates_name]) if search_exists?(filters)
       filtered_application_choices = provider(filtered_application_choices, filters) if filters[:provider]
-      filtered_application_choices = accrediting_provider(filtered_application_choices, filters) if filters[:accrediting_provider]
+      filtered_application_choices = accredited_provider(filtered_application_choices, filters) if filters[:accredited_provider]
       filtered_application_choices = status(filtered_application_choices, filters) if filters[:status]
       filtered_application_choices
     end

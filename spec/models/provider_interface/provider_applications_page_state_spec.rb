@@ -74,7 +74,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
         ],
       },
       {
-        heading: 'accrediting_provider',
+        heading: 'accredited_provider',
         input_config: [
           {
             type: 'checkbox',
@@ -93,9 +93,9 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
   let(:provider_user) { instance_double(ProviderUser) }
 
   before do
-    @provider_service = instance_double(ProviderOptionsService)
-    allow(ProviderOptionsService).to receive(:new).and_return(@provider_service)
-    allow(@provider_service).to receive(:accrediting_providers).and_return([
+    @provider_service = instance_double(ProviderInterface::ProviderOptionsService)
+    allow(ProviderInterface::ProviderOptionsService).to receive(:new).and_return(@provider_service)
+    allow(@provider_service).to receive(:accredited_providers).and_return([
       instance_double(Provider, id: '5', name: 'University of West England'),
       instance_double(Provider, id: '6', name: 'University of East England'),
     ])
