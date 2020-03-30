@@ -1,0 +1,28 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.add_other_qualification'), @qualification_type.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @qualification_type, url: candidate_interface_create_other_qualification_type_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.add_other_qualification') %>
+      </h1>
+
+      <p class="govuk-body">
+        Enter your qualifications as completely as you can, including all your GCSEs and A levels (or equivalents), and any other qualifications where you showed skills that might help you as a teacher.
+      </p>
+      <p class="govuk-body">Undergraduate and postgraduate degrees should be included in the ‘Degree’ section.</p>
+
+      <%= f.govuk_radio_buttons_fieldset :choose_qualification_type, legend: { text: 'What type of qualification do you want to add?', tag: 'span' } do %>
+        <%= f.govuk_radio_button :qualification_type, 'GCSE', label: { text: 'GCSE' } %>
+        <%= f.govuk_radio_button :qualification_type, 'A level', label: { text: 'A level' } %>
+        <%= f.govuk_radio_button :qualification_type, 'AS Level', label: { text: 'AS level' } %>
+        <%= f.govuk_radio_button :qualification_type, 'Other', label: { text: 'Other' }  %>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>
