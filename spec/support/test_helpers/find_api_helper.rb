@@ -187,7 +187,110 @@ module FindAPIHelper
                     { 'id': '222', 'type': 'site_statuses' },
                   ],
                 },
-              accrediting_provider: nil,
+              },
+            },
+            {
+              'id': '222',
+              'type': 'site_statuses',
+              'attributes': {
+                'vac_status': 'full_time_vacancies',
+                'publish': 'published',
+                'status': 'running',
+                'has_vacancies?': true,
+              },
+              'relationships': {
+                'site': {
+                  'data': {
+                    'type': 'sites',
+                    'id': '1',
+                  },
+                },
+              },
+            },
+          ],
+          'jsonapi': { 'version': '1.0' },
+        }.to_json,
+      )
+  end
+
+  def stub_find_api_provider_200_with_multiple_sites(
+    provider_code: 'ABC',
+    provider_name: 'Dummy Provider',
+    course_code: 'X130',
+    findable: true,
+    study_mode: 'full_time_or_part_time',
+    description: 'PGCE with QTS full time',
+    start_date: Time.zone.local(2020, 10, 31),
+    course_length: 'OneYear',
+    region_code: 'north_west'
+  )
+    response_hash = {
+      status: 200,
+      headers: { 'Content-Type': 'application/vnd.api+json' },
+      body: {
+        'data': {
+          'id': '1',
+          'type': 'providers',
+          'attributes': {
+            'provider_name': provider_name,
+            'provider_code': provider_code,
+            'region_code': region_code,
+          },
+          'relationships': {
+            'sites': {
+              'data': [
+                { 'id': '1', 'type': 'sites' },
+                { 'id': '2', 'type': 'sites' },
+              ],
+            },
+            'courses': {
+              'data': [
+                { 'id': '1', 'type': 'courses' },
+              ],
+            },
+          },
+        },
+        'included': [
+          {
+            'id': '1',
+            'type': 'sites',
+            'attributes': {
+              'code': 'X',
+              'location_name': 'Main site',
+              'address1': 'Gorse SCITT ',
+              'address2': 'C/O The Bruntcliffe Academy',
+              'address3': 'Bruntcliffe Lane',
+              'address4': 'MORLEY, Leeds',
+              'postcode': 'LS27 0LZ',
+            },
+          },
+          {
+            'id': '2',
+            'type': 'sites',
+            'attributes': {
+              'code': 'Y',
+              'location_name': 'Secondary site',
+              'address1': 'Gorse SCITT ',
+              'address2': 'C/O The Bruntcliffe Academy',
+              'address3': 'Another Lane',
+              'address4': 'MORLEY, Leeds',
+              'postcode': 'LS27 5HT',
+            },
+          },
+          {
+            'id': '1',
+            'type': 'courses',
+            'attributes': {
+              'course_code': course_code,
+              'name': 'Primary',
+              'level': 'primary',
+              'study_mode': study_mode,
+              'description': description,
+              'start_date': start_date,
+              'course_length': course_length,
+              'recruitment_cycle_year': '2020',
+              'findable?': findable,
+              'accrediting_provider': nil,
             },
             'relationships': {
               'sites': {

@@ -103,8 +103,8 @@ RSpec.describe SyncProviderFromFind do
           provider_code: 'ABC',
           course_code: '9CBA',
           study_mode: 'full_time',
-          accrediting_provider_code: 'DEF',
-          accrediting_provider_name: 'Test Accredited Provider',
+          accredited_provider_code: 'DEF',
+          accredited_provider_name: 'Test Accredited Provider',
         )
 
         SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')

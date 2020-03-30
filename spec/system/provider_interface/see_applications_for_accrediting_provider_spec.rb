@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'See applications for accrediting provider' do
+RSpec.feature 'See applications for accredited provider' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
@@ -27,14 +27,13 @@ RSpec.feature 'See applications for accrediting provider' do
     current_provider = create(:provider, :with_signed_agreement, code: 'ABC')
     other_provider = create(:provider, code: 'ANOTHER_ORG')
     course_option = course_option_for_provider(provider: current_provider)
-    accredited_course_option_where_current_provider_is_accredited_option_for_accredited_provider(provider: other_provider, accredited_provider: current_provider)
+    accredited_course_option_where_current_provider_is_accredited = course_option_for_accredited_provider(provider: other_provider, accredited_provider: current_provider)
     accredited_course_option_where_current_provider_is_main_provider = course_option_for_accredited_provider(provider: current_provider, accredited_provider: other_provider)
-
 
     other_course_option = course_option_for_provider(provider: other_provider)
 
     create(:application_choice, status: 'awaiting_provider_decision', course_option: course_option, application_form: create(:application_form, first_name: 'Jim', last_name: 'Jones'))
-    create(:application_choice, status: 'awaiting_provider_decision', course_option: accredited_course_option_where_current_provider_is_accrediting, application_form: create(:application_form, first_name: 'Clancy'))
+    create(:application_choice, status: 'awaiting_provider_decision', course_option: accredited_course_option_where_current_provider_is_accredited, application_form: create(:application_form, first_name: 'Clancy'))
     create(:application_choice, status: 'awaiting_provider_decision', course_option: accredited_course_option_where_current_provider_is_main_provider, application_form: create(:application_form, first_name: 'Harry'))
     create(:application_choice, status: 'awaiting_provider_decision', course_option: other_course_option, application_form: create(:application_form, first_name: 'Bert'))
   end
