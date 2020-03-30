@@ -6,6 +6,7 @@ RSpec.describe 'Candidate edits course choices' do
 
   scenario 'Candidate is signed in' do
     given_that_the_edit_course_choices_feature_flag_is_active
+    and_the_choose_study_mode_feature_flag_is_active
     and_i_am_signed_in
     and_there_is_a_course_with_one_course_option
     and_there_is_a_course_with_multiple_course_options
@@ -19,15 +20,18 @@ RSpec.describe 'Candidate edits course choices' do
     and_i_choose_the_single_site_course_as_my_first_course_choice
     then_i_should_be_on_the_course_choice_review_page
     and_i_should_not_see_a_change_location_link
+    and_i_should_not_see_a_change_study_mode_link
 
     when_i_click_to_add_another_course
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
     and_i_choose_the_multi_site_course_as_my_second_course_choice
+    and_i_choose_the_full_time_study_mode
     and_i_choose_the_first_site
     then_i_should_be_on_the_course_choice_review_page
     and_i_should_see_the_first_site
     and_i_should_see_a_change_location_link
+    and_i_should_see_a_change_study_mode_link
 
     when_i_click_to_change_the_location_of_the_second_course_choice
     and_i_choose_the_second_site
@@ -38,19 +42,30 @@ RSpec.describe 'Candidate edits course choices' do
     FeatureFlag.activate('edit_course_choices')
   end
 
+  def and_the_choose_study_mode_feature_flag_is_active
+    FeatureFlag.activate('choose_study_mode')
+  end
+
   def and_i_am_signed_in
     create_and_sign_in_candidate
   end
 
   def and_there_is_a_course_with_one_course_option
     @provider = create(:provider)
-    create_list(:course, 2, provider: @provider, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
+    create(:course, provider: @provider, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
+
     course_option_for_provider(provider: @provider, course: @provider.courses.first)
   end
 
   def and_there_is_a_course_with_multiple_course_options
+    create(:course, :with_both_study_modes, provider: @provider, exposed_in_find: true, open_on_apply: true)
+
+    # Sites with full time study mode
     course_option_for_provider(provider: @provider, course: @provider.courses.second)
     course_option_for_provider(provider: @provider, course: @provider.courses.second)
+
+    # Site with part time study mode
+    course_option_for_provider(provider: @provider, course: @provider.courses.second, study_mode: 'part_time')
   end
 
   def when_i_visit_my_application_page
@@ -88,6 +103,10 @@ RSpec.describe 'Candidate edits course choices' do
     expect(page).not_to have_content("Change location for #{@provider.courses.first.name}")
   end
 
+  def and_i_should_not_see_a_change_study_mode_link
+    expect(page).not_to have_content("Change study mode for #{@provider.courses.first.name}")
+  end
+
   def when_i_click_to_add_another_course
     click_link 'Add another course'
   end
@@ -98,6 +117,11 @@ RSpec.describe 'Candidate edits course choices' do
 
   def and_i_choose_the_multi_site_course_as_my_second_course_choice
     choose @provider.courses.second.name_and_code
+    click_button 'Continue'
+  end
+
+  def and_i_choose_the_full_time_study_mode
+    choose 'Full time'
     click_button 'Continue'
   end
 
@@ -112,6 +136,10 @@ RSpec.describe 'Candidate edits course choices' do
 
   def and_i_should_see_a_change_location_link
     expect(page).to have_content("Change location for #{@provider.courses.second.name}")
+  end
+
+  def and_i_should_see_a_change_study_mode_link
+    expect(page).to have_content("Change study mode for #{@provider.courses.second.name}")
   end
 
   def when_i_click_to_change_the_location_of_the_second_course_choice
