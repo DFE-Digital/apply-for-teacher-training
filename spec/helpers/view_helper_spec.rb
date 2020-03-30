@@ -134,4 +134,11 @@ RSpec.describe ViewHelper, type: :helper do
       end
     end
   end
+
+  describe '#days_to_respond_to' do
+    it 'returns the number of days before application is rejected' do
+      choice = build(:application_choice, reject_by_default_at: Date.current + 1.week)
+      expect(helper.days_to_respond_to(choice)).to eq(7)
+    end
+  end
 end

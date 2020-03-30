@@ -73,6 +73,10 @@ module ViewHelper
     end
   end
 
+  def days_to_respond_to(application_choice)
+    (application_choice.reject_by_default_at.to_date - Date.current).to_i
+  end
+
 private
 
   def prepend_css_class(css_class, current_class)

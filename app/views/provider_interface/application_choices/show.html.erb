@@ -17,7 +17,7 @@
 <div class="app-banner">
   <div class="app-banner__message">
     <h2 class="govuk-heading-m govuk-!-margin-bottom-0">
-      You have <%= (@application_choice.reject_by_default_at.to_date - Date.current).to_i %> days to send a response. <%= govuk_link_to 'Respond to application', provider_interface_application_choice_respond_path(@application_choice) %>.
+      You have <%= days_to_respond_to(@application_choice) %> days to send a response. <%= govuk_link_to 'Respond to application', provider_interface_application_choice_respond_path(@application_choice) %>.
     </h2>
   </div>
 </div>
