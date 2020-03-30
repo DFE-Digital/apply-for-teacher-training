@@ -192,7 +192,7 @@ GEM
     hashdiff (1.0.1)
     hashie (4.1.0)
     holidays (8.1.0)
-    http (4.4.0)
+    http (4.4.1)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
       http-form_data (~> 2.2)
@@ -473,7 +473,7 @@ GEM
     uk_postcode (2.1.5)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.6)
+    unf_ext (0.0.7.7)
     unicode-display_width (1.6.1)
     uniform_notifier (1.13.0)
     validate_email (0.1.6)
