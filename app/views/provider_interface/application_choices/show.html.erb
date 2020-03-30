@@ -38,7 +38,9 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="course-info">Application</h2>
+    <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice) %>
+
+    <h2 class="govuk-heading-l" id="course-info">Application</h2>
     <%= render PersonalDetailsComponent.new(application_form: @application_choice.application_form) %>
 
     <% unless HostingEnvironment.production? %>
@@ -116,5 +118,4 @@
   <div class="govuk-grid-column-one-third">
     <%= render ProviderInterface::ApplicationTimelineComponent.new(application_choice: @application_choice) %>
   </div>
-
 </div>

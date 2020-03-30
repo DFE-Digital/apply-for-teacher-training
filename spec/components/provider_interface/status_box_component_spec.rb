@@ -11,4 +11,11 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
         'uninitialized constant ProviderInterface::StatusBoxComponents::DummyComponent',
       )
   end
+
+  it 'does not render for certain application choice statuses' do
+    application_choice = instance_double(ApplicationChoice)
+    allow(application_choice).to receive(:status).and_return('withdrawn')
+
+    expect(render_inline(described_class, application_choice: application_choice).to_html).to eq ''
+  end
 end
