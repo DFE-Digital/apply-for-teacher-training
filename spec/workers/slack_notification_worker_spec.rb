@@ -55,9 +55,11 @@ RSpec.describe SlackNotificationWorker do
         ClimateControl.modify STATE_CHANGE_SLACK_URL: webhook_url do
           invoke_worker
         end
-        expect(HTTP).to have_received(:post).with \
+
+        expect(HTTP).to have_received(:post).with(
           'https://example.com/webhook',
-          body: '{"username":"ApplyBot","icon_emoji":":parrot:","text":"[TEST] \u003chttps://example.com/support|example text\u003e","mrkdwn":true}'
+          body: '{"username":"Apply for teacher training","icon_emoji":":shipitbeaver:","channel":"#twd_apply_test","text":"[TEST] \u003chttps://example.com/support|example text\u003e","mrkdwn":true}',
+        )
       end
     end
   end
