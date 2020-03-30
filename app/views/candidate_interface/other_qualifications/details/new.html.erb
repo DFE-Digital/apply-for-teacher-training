@@ -24,6 +24,8 @@
         <%= f.hidden_field :qualification_type, value: @type %>
       <% end %>
 
+      <%= f.hidden_field :id, value: @id %>
+
       <%= f.govuk_text_field :subject, label: { text: t('application_form.other_qualification.subject.label'), size: 'm' } %>
       <%= f.govuk_text_field :grade, label: { text: t('application_form.other_qualification.grade.label'), size: 'm' }, width: 10 %>
       <%= f.govuk_text_field :award_year, label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' }, hint_text: t('application_form.other_qualification.award_year.hint_text'), width: 4 %>
@@ -33,7 +35,7 @@
       <% if @type != 'Other' %>
         <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another #{@type}" } %>
       <% else %>
-          <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another qualificaiton" } %>
+          <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another qualification" } %>
       <% end %>
         <%= f.govuk_radio_button :choice, 'different_type', label: { text: 'Yes, add a different qualification' } %>
         <%= f.govuk_radio_button :choice, 'no', label: { text: 'No, not right  now' } %>
