@@ -35,7 +35,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
 
       create(:course_option, course: create(:course,
                                             provider: other_course_provider,
-                                            accrediting_provider: provider,
+                                            accredited_provider: provider,
                                             name: 'Accredited course'))
 
       render_result = render_inline(SupportInterface::ProviderCoursesTableComponent.new(provider: provider, courses: provider.accredited_courses))
@@ -45,7 +45,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
     end
 
     it 'may include accrediting providers' do
-      accrediting_provider = create(:provider, name: 'Accredited University', code: 'AU1')
+      accredited_provider = create(:provider, name: 'Accredited University', code: 'AU1')
       provider = create(:provider)
 
       course = create(
@@ -57,7 +57,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
         recruitment_cycle_year: 2020,
         exposed_in_find: true,
         open_on_apply: true,
-        accrediting_provider: accrediting_provider,
+        accredited_provider: accredited_provider,
       )
       create(:course_option, course: course)
 

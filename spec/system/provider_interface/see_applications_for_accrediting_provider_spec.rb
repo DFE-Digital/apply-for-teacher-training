@@ -27,8 +27,8 @@ RSpec.feature 'See applications for accrediting provider' do
     current_provider = create(:provider, :with_signed_agreement, code: 'ABC')
     other_provider = create(:provider, code: 'ANOTHER_ORG')
     course_option = course_option_for_provider(provider: current_provider)
-    accredited_course_option_where_current_provider_is_accrediting = course_option_for_accrediting_provider(provider: other_provider, accrediting_provider: current_provider)
-    accredited_course_option_where_current_provider_is_main_provider = course_option_for_accrediting_provider(provider: current_provider, accrediting_provider: other_provider)
+    accredited_course_option_where_current_provider_is_accredited_option_for_accredited_provider(provider: other_provider, accredited_provider: current_provider)
+    accredited_course_option_where_current_provider_is_main_provider = course_option_for_accredited_provider(provider: current_provider, accredited_provider: other_provider)
 
 
     other_course_option = course_option_for_provider(provider: other_provider)

@@ -7,7 +7,7 @@
 <%= render(SummaryCardComponent.new(rows: {
   'Name' => @course.name_and_code,
   'Provider' => @course.provider.name_and_code,
-  'Accredited body' => @course.accrediting_provider&.name_and_code || 'None',
+  'Accredited body' => @course.accredited_provider&.name_and_code || 'None',
   'Level' => @course.level.humanize,
   'Recruitment cycle year' => @course.recruitment_cycle_year,
   'Last updated' => @course.updated_at.to_s(:govuk_date_and_time),

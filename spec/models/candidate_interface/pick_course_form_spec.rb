@@ -42,12 +42,12 @@ RSpec.describe CandidateInterface::PickCourseForm do
     end
 
     context 'when courses have ambiguous names and the same description' do
-      it 'adds the accrediting provider name to the the name of the course' do
+      it 'adds the accredited provider name to the the name of the course' do
         provider = create(:provider)
         provider2 = create(:provider, name: 'BIG SCITT')
         provider3 = create(:provider, name: 'EVEN BIGGER SCITT')
-        create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE with QTS full time', provider: provider, accrediting_provider: provider2)
-        create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '456', description: 'PGCE with QTS full time', provider: provider, accrediting_provider: provider3)
+        create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE with QTS full time', provider: provider, accredited_provider: provider2)
+        create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '456', description: 'PGCE with QTS full time', provider: provider, accredited_provider: provider3)
 
         form = described_class.new(provider_id: provider.id)
 
@@ -55,13 +55,13 @@ RSpec.describe CandidateInterface::PickCourseForm do
       end
     end
 
-    context 'when courses have the same accrediting provider and different descriptions' do
-      it 'prioritises showing the description over the accrediting provider name' do
+    context 'when courses have the same accredited provider and different descriptions' do
+      it 'prioritises showing the description over the accredited provider name' do
         provider = create(:provider)
         provider2 = create(:provider, name: 'BIG SCITT')
         provider3 = create(:provider, name: 'EVEN BIGGER SCITT')
-        create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE full time', provider: provider, accrediting_provider: provider2)
-        create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '456', description: 'PGCE with QTS full time', provider: provider, accrediting_provider: provider3)
+        create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE full time', provider: provider, accredited_provider: provider2)
+        create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '456', description: 'PGCE with QTS full time', provider: provider, accredited_provider: provider3)
 
         form = described_class.new(provider_id: provider.id)
 
@@ -74,12 +74,12 @@ RSpec.describe CandidateInterface::PickCourseForm do
         provider = create(:provider)
         provider2 = create(:provider, name: 'BIG SCITT')
         provider3 = create(:provider, name: 'EVEN BIGGER SCITT')
-        create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE full time', provider: provider, accrediting_provider: provider2)
-        create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '456', description: 'PGCE with QTS full time', provider: provider, accrediting_provider: provider2)
-        create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '789', description: 'PGCE with QTS full time', provider: provider, accrediting_provider: provider3)
-        create(:course, exposed_in_find: true, open_on_apply: true, name: 'English', code: 'A01', description: 'PGCE full time', provider: provider, accrediting_provider: provider3)
-        create(:course, exposed_in_find: true, open_on_apply: true, name: 'English', code: 'A02', description: 'PGCE with QTS full time', provider: provider, accrediting_provider: provider2)
-        create(:course, exposed_in_find: true, open_on_apply: true, name: 'English', code: 'A03', description: 'PGCE with QTS full time', provider: provider, accrediting_provider: provider3)
+        create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE full time', provider: provider, accredited_provider: provider2)
+        create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '456', description: 'PGCE with QTS full time', provider: provider, accredited_provider: provider2)
+        create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '789', description: 'PGCE with QTS full time', provider: provider, accredited_provider: provider3)
+        create(:course, exposed_in_find: true, open_on_apply: true, name: 'English', code: 'A01', description: 'PGCE full time', provider: provider, accredited_provider: provider3)
+        create(:course, exposed_in_find: true, open_on_apply: true, name: 'English', code: 'A02', description: 'PGCE with QTS full time', provider: provider, accredited_provider: provider2)
+        create(:course, exposed_in_find: true, open_on_apply: true, name: 'English', code: 'A03', description: 'PGCE with QTS full time', provider: provider, accredited_provider: provider3)
 
         form = described_class.new(provider_id: provider.id)
 

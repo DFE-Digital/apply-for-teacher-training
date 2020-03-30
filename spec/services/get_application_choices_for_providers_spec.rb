@@ -121,7 +121,7 @@ RSpec.describe GetApplicationChoicesForProviders do
     )
     create(
       :application_choice,
-      course_option: course_option_for_accrediting_provider(provider: alternate_provider, accrediting_provider: current_provider),
+      course_option: course_option_for_accredited_provider(provider: alternate_provider, accredited_provider: current_provider),
       status: 'awaiting_provider_decision',
       application_form: create(:application_form, first_name: 'Harry'),
     )

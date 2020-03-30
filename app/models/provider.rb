@@ -31,7 +31,7 @@ class Provider < ApplicationRecord
   end
 
   def accredited_courses
-    Course.where(accrediting_provider: self)
+    Course.where(accredited_provider: self)
   end
 
   def application_forms
