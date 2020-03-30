@@ -4,9 +4,11 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
   scenario 'Candidate is redirected to the before you start page on their first sign in' do
     given_the_before_you_start_flag_is_active
     and_the_pilot_is_open
+    and_the_create_account_or_sign_in_page_feature_flag_is_active
 
     when_i_visit_apply
     and_i_click_start_now
+    and_i_confirm_i_am_not_already_signed_up
     and_i_fill_in_the_eligiblity_form_with_yes
     and_i_submit_my_email_address
     and_click_on_the_magic_link
@@ -18,6 +20,7 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
 
     when_i_visit_apply
     and_i_click_start_now
+    and_i_confirm_i_am_not_already_signed_up
     and_i_fill_in_the_eligiblity_form_with_yes
     and_i_submit_my_email_address
     and_click_on_the_magic_link
@@ -33,6 +36,7 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
 
     when_i_visit_apply
     and_i_click_start_now
+    and_i_confirm_i_am_not_already_signed_up
     and_i_fill_in_the_eligiblity_form_with_yes
     and_i_submit_my_email_address
     and_click_on_the_magic_link
@@ -48,12 +52,21 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
     FeatureFlag.activate('pilot_open')
   end
 
+  def and_the_create_account_or_sign_in_page_feature_flag_is_active
+    FeatureFlag.activate('create_account_or_sign_in_page')
+  end
+
   def when_i_visit_apply
     visit candidate_interface_start_path
   end
 
   def and_i_click_start_now
     click_on 'Start now'
+  end
+
+  def and_i_confirm_i_am_not_already_signed_up
+    choose 'No, I need to create an account'
+    click_button 'Continue'
   end
 
   def and_i_fill_in_the_eligiblity_form_with_yes

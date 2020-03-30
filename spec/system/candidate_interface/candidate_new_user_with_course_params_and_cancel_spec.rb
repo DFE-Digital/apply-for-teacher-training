@@ -4,12 +4,14 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
   scenario 'Candidate signs in and recieves an email inviting them to sign up and is prompted to select the course' do
     given_the_pilot_is_open
     and_course_selection_page_is_active
+    and_the_create_account_or_sign_in_page_feature_flag_is_active
 
     given_i_am_a_candidate_without_an_account
     and_there_is_a_course_with_multiple_sites
 
     when_i_follow_a_link_from_find
     and_i_choose_to_use_apply
+    and_i_confirm_i_am_not_already_signed_up
     and_i_answer_eligibility_questions
     and_i_submit_my_email_address
     then_i_receive_an_email_inviting_me_to_sign_up
@@ -30,6 +32,10 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
     FeatureFlag.activate('you_selected_a_course_page')
   end
 
+  def and_the_create_account_or_sign_in_page_feature_flag_is_active
+    FeatureFlag.activate('create_account_or_sign_in_page')
+  end
+
   def given_i_am_a_candidate_without_an_account
     @email = "#{SecureRandom.hex}@example.com"
   end
@@ -46,6 +52,11 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
   def and_i_choose_to_use_apply
     choose 'Yes, I want to apply using the new service'
 
+    click_button 'Continue'
+  end
+
+  def and_i_confirm_i_am_not_already_signed_up
+    choose 'No, I need to create an account'
     click_button 'Continue'
   end
 

@@ -3,14 +3,17 @@ require 'rails_helper'
 RSpec.feature 'Candidate eligibility' do
   scenario 'Candidate confirms that they are eligible' do
     given_the_pilot_is_open
+    and_the_create_account_or_sign_in_page_feature_flag_is_active
 
     when_i_click_start_on_the_start_page
+    and_i_confirm_i_am_not_already_signed_up
     and_i_press_continue
     then_i_see_validation_errors
     and_i_answer_no_to_some_questions
     then_i_should_be_redirected_to_ucas
 
     when_i_click_start_on_the_start_page
+    and_i_confirm_i_am_not_already_signed_up
     when_i_answer_yes_to_all_questions
     then_should_be_redirected_to_the_signup_page
   end
@@ -19,9 +22,18 @@ RSpec.feature 'Candidate eligibility' do
     FeatureFlag.activate('pilot_open')
   end
 
+  def and_the_create_account_or_sign_in_page_feature_flag_is_active
+    FeatureFlag.activate('create_account_or_sign_in_page')
+  end
+
   def when_i_click_start_on_the_start_page
     visit '/'
     click_on t('application_form.begin_button')
+  end
+
+  def and_i_confirm_i_am_not_already_signed_up
+    choose 'No, I need to create an account'
+    click_button 'Continue'
   end
 
   def and_i_press_continue

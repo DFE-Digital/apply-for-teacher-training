@@ -23,6 +23,9 @@ Rails.application.routes.draw do
     get '/terms-of-use', to: 'content#terms_candidate', as: :terms
     get '/providers', to: 'content#providers', as: :providers
 
+    get '/account', to: 'start_page#create_account_or_sign_in', as: :create_account_or_sign_in
+    post '/account', to: 'start_page#create_account_or_sign_in_handler'
+
     get '/eligibility' => 'start_page#eligibility', as: :eligibility
     post '/eligibility' => 'start_page#determine_eligibility'
     get '/not-eligible', to: 'start_page#not_eligible', as: :not_eligible

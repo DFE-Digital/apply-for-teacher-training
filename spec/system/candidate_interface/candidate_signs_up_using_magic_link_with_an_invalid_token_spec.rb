@@ -5,6 +5,7 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
     given_the_pilot_is_open
     and_the_improved_expired_token_flow_feature_flag_is_on
     and_the_covid_19_feature_flag_is_active
+    and_the_create_account_or_sign_in_page_feature_flag_is_active
 
     given_i_am_a_candidate_without_an_account
 
@@ -38,6 +39,10 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
     FeatureFlag.activate('covid_19')
   end
 
+  def and_the_create_account_or_sign_in_page_feature_flag_is_active
+    FeatureFlag.activate('create_account_or_sign_in_page')
+  end
+
   def given_i_am_a_candidate_without_an_account
     @email = "#{SecureRandom.hex}@example.com"
   end
@@ -45,6 +50,9 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
   def when_i_go_to_sign_up
     visit '/'
     click_on 'Start now'
+
+    choose 'No, I need to create an account'
+    click_button 'Continue'
   end
 
   def and_i_fill_in_the_eligiblity_form_with_yes

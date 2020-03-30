@@ -1,0 +1,21 @@
+<% content_for :title, t('page_titles.application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      Create an account or sign in
+    </h1>
+
+    <%= form_with(
+      model: @create_account_or_sign_in_form,
+      url: candidate_interface_create_account_or_sign_in_path(providerCode: params[:providerCode], courseCode: params[:courseCode]),
+      method: :post,
+    ) do |f| %>
+      <%= f.govuk_radio_buttons_fieldset :existing_account, legend: { text: 'Do you already have an account?' } do %>
+        <%= f.govuk_radio_button :existing_account, true, label: { text: 'Yes, sign in' } %>
+        <%= f.govuk_radio_button :existing_account, false, label: { text: 'No, I need to create an account' } %>
+      <% end %>
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>
