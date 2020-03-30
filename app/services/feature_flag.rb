@@ -19,7 +19,6 @@ class FeatureFlag
     suitability_to_work_with_children
     training_with_a_disability
     work_breaks
-    you_selected_a_course_page
     before_you_start
     provider_interface_work_breaks
     referee_confirm_relationship_and_safeguarding
