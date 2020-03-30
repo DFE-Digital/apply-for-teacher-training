@@ -1,4 +1,4 @@
-# ADR: Improving security of the support interface
+# 12. Improve security of the support interface
 
 Date: 2020-03-30
 
