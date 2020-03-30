@@ -18,6 +18,44 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       expect(result.css('.govuk-summary-list__value').to_html).to include(course_choice.course.start_date.strftime('%B %Y'))
     end
 
+    context 'When a course has both study modes available' do
+      let(:course_choice) { application_form.application_choices.first }
+      let(:result) { render_inline(described_class.new(application_form: application_form)) }
+
+      before do
+        FeatureFlag.activate('edit_course_choices')
+        course_choice.course.update!(study_mode: 'full_time_or_part_time')
+      end
+
+      it 'renders study mode values' do
+        expect(result.css('.govuk-summary-list__key').text).to include('Full time or part time')
+        expect(result.css('.govuk-summary-list__value').text).to include(course_choice.offered_option.study_mode.humanize.to_s)
+      end
+
+      it 'renders the study mode change link' do
+        change_location_link = result.css('.govuk-summary-list__actions')[1].text.strip
+
+        expect(change_location_link).to eq("Change study mode for #{course_choice.course.name_and_code}")
+      end
+    end
+
+    context 'When a course has one available study mode' do
+      let(:course_choice) { application_form.application_choices.first }
+
+      before do
+        FeatureFlag.activate('edit_course_choices')
+        course_choice.course.update!(study_mode: %w[full_time part_time].sample)
+      end
+
+      it 'renders without the study mode row or change link' do
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.govuk-summary-list__key').text).not_to include('Full time or part time')
+        expect(result.css('.govuk-summary-list__value').text).not_to include(course_choice.offered_option.study_mode.humanize.to_s)
+        expect(result.css('.app-summary-card__actions').text).not_to include("Change study mode for #{course_choice.course.name_and_code}")
+      end
+    end
+
     it 'renders component with correct values for a location' do
       course_choice = application_form.application_choices.first
       result = render_inline(described_class.new(application_form: application_form))
@@ -67,6 +105,19 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
         expect(change_location_link).to eq("Change location for #{course_choice.course.name_and_code}")
       end
     end
+
+    context 'when other site option is a different study mode for course and edit course choices feature is active' do
+      before do
+        create(:course_option, course: application_form.application_choices.first.course, study_mode: 'part_time')
+        FeatureFlag.activate('edit_course_choices')
+      end
+
+      it 'renders without the "Change" location links' do
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.govuk-summary-list__actions').text).not_to include('Change')
+      end
+    end
   end
 
   context 'when course choices are not editable' do
@@ -89,6 +140,26 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       it 'renders without a "Change" location links' do
         result = render_inline(described_class.new(application_form: application_form, editable: false))
 
+        expect(result.css('.govuk-summary-list__actions').text).not_to include('Change')
+      end
+    end
+
+    context 'When a course has both study modes available' do
+      let(:application_form) { create_application_form_with_course_choices(statuses: %w[application_complete]) }
+      let(:course_choice) { application_form.application_choices.first }
+      let(:result) { render_inline(described_class.new(application_form: application_form, editable: false)) }
+
+      before do
+        FeatureFlag.activate('edit_course_choices')
+        course_choice.course.update!(study_mode: 'full_time_or_part_time')
+      end
+
+      it 'renders study mode values' do
+        expect(result.css('.govuk-summary-list__key').text).to include('Full time or part time')
+        expect(result.css('.govuk-summary-list__value').text).to include(course_choice.offered_option.study_mode.humanize.to_s)
+      end
+
+      it 'renders without the change link' do
         expect(result.css('.govuk-summary-list__actions').text).not_to include('Change')
       end
     end
