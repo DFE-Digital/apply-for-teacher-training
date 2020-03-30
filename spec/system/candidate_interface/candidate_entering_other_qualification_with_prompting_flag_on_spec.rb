@@ -9,7 +9,7 @@ RSpec.feature 'Entering their other qualifications' do
     and_i_visit_the_site
 
     when_i_click_on_other_qualifications
-    then_i_see_the_select_qualifcation_type_page
+    then_i_see_the_select_qualification_type_page
 
     when_i_select_add_a_level_qualification
     and_i_click_continue
@@ -28,7 +28,7 @@ RSpec.feature 'Entering their other qualifications' do
     when_i_fill_out_the_remainder_of_the_form
     and_i_choose_a_different_type_of_qualification
     and_click_save_and_continue
-    then_i_see_the_select_qualifcation_type_page
+    then_i_see_the_select_qualification_type_page
 
     when_i_choose_gcse
     and_i_click_continue
@@ -39,6 +39,12 @@ RSpec.feature 'Entering their other qualifications' do
     and_click_save_and_continue
     then_i_see_the_other_qualification_review_page
     and_i_should_see_my_qualifications
+
+    when_i_select_add_anoher_qualification
+    and_choose_as_level
+    and_i_click_continue
+    and_i_visit_the_other_qualification_review_page
+    then_i_should_not_see_an_incomplete_as_level_qualification
 
     when_i_click_on_delete_my_first_qualification
     and_i_confirm_that_i_want_to_delete_my_additional_qualification
@@ -80,7 +86,7 @@ RSpec.feature 'Entering their other qualifications' do
     click_link t('page_titles.other_qualification')
   end
 
-  def then_i_see_the_select_qualifcation_type_page
+  def then_i_see_the_select_qualification_type_page
     expect(page).to have_current_path(candidate_interface_new_other_qualification_type_path)
   end
 
@@ -165,6 +171,22 @@ RSpec.feature 'Entering their other qualifications' do
     expect(page).to have_content('A level Believing in the Heart of the Cards')
     expect(page).to have_content('A level Oh')
     expect(page).to have_content('GCSE Maths')
+  end
+
+  def when_i_select_add_anoher_qualification
+    click_link 'Add another qualification'
+  end
+
+  def and_choose_as_level
+    choose 'AS level'
+  end
+
+  def and_i_visit_the_other_qualification_review_page
+    visit candidate_interface_review_other_qualifications_path
+  end
+
+  def then_i_should_not_see_an_incomplete_as_level_qualification
+    expect(page).not_to have_content('Other')
   end
 
   def when_i_click_on_delete_my_first_qualification

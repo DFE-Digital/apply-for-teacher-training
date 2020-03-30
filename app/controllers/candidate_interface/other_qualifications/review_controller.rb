@@ -4,6 +4,11 @@ module CandidateInterface
 
     def show
       @application_form = current_application
+      @application_form.application_qualifications.other.each do |qualification|
+        if qualification.institution_name.nil? || qualification.grade.nil? || qualification.award_year.nil?
+          qualification.destroy
+        end
+      end
     end
 
     def complete
