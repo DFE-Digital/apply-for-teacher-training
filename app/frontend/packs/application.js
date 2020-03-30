@@ -29,6 +29,15 @@ if (document.getElementsByClassName("govuk-textarea").length >= 1) {
   }
   console.log('show a thing 4')
 
+  // window.addEventListener('beforeunload', function (e) {
+  //   // Cancel the event
+  //   console.log('show a thing 6')
+
+  //   e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+  //   // Chrome requires returnValue to be set
+  //   e.returnValue = '';
+  // });
+
   window.onbeforeunload = function() {
     console.log('show a thing 5')
     return "";

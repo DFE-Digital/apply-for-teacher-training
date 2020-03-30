@@ -39,6 +39,8 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"', js: true do
 
   def and_i_visit_the_site
     visit candidate_interface_application_form_path
+    # page.driver.debug
+
   end
 
   def when_i_click_on_becoming_a_teacher
@@ -61,11 +63,22 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"', js: true do
 
   def and_i_click_to_leave_the_page
     # save_and_open_page
-    dismiss_prompt(wait: 5) do
+    # page.driver.debug
+
+    # binding.pry
+    accept_confirm do
       click_link 'Back to application'
+      # page.driver.debug
       page.driver.save_screenshot('/Users/ting/Documents/dfe-apply/apply-for-postgraduate-teacher-training/foo5.png')
       # click_link('link that triggers appearance of system modal')
     end
+    # page.driver.debug
+
+
+    # message = accept_prompt(with: 'Linus Torvalds') do
+    #   click_link('Show Prompt About Linux')
+    # end
+    # expect(message).to eq('Who is the chief architect of Linux?')
   end
 
   def then_i_see_an_alert
