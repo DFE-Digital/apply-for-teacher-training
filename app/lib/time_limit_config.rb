@@ -10,6 +10,10 @@ class TimeLimitConfig
       @type = type
     end
 
+    def to_days
+      type == :calendar ? count.days : count.business_days
+    end
+
     def to_s
       "#{@count} #{@type} #{'day'.pluralize(@count)}"
     end

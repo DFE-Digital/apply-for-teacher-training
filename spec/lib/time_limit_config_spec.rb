@@ -34,6 +34,10 @@ RSpec.describe TimeLimitConfig do
       it 'displays "7 calendar days"' do
         expect(TimeLimitConfig.edit_by.to_s).to eq('7 calendar days')
       end
+
+      it 'returns days as ActiveSupport:Duration object' do
+        expect(TimeLimitConfig.edit_by.to_days).to be_a_kind_of(ActiveSupport::Duration)
+      end
     end
 
     context 'when the COVID-19 feature flag is off' do
@@ -49,6 +53,10 @@ RSpec.describe TimeLimitConfig do
 
       it 'displays "5 calendar days"' do
         expect(TimeLimitConfig.edit_by.to_s).to eq('5 working days')
+      end
+
+      it 'returns days as BusinessTime::BusinessDays object' do
+        expect(TimeLimitConfig.edit_by.to_days).to be_a_kind_of(BusinessTime::BusinessDays)
       end
     end
   end
