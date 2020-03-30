@@ -232,8 +232,14 @@ Rails.application.routes.draw do
       end
 
       scope '/other-qualifications' do
-        get '/' => 'other_qualifications/base#new', as: :new_other_qualification
-        post '/' => 'other_qualifications/base#create', as: :create_other_qualification
+        get '/' => 'other_qualifications/type#new', as: :new_other_qualification_type
+        post '/' => 'other_qualifications/type#create', as: :create_other_qualification_type
+
+        get '/new/:id' => 'other_qualifications/details#new', as: :new_other_qualification_details
+        post '/new/:id' => 'other_qualifications/details#create', as: :create_other_qualification_details
+
+        get '/new' => 'other_qualifications/base#new', as: :new_other_qualification
+        post '/new' => 'other_qualifications/base#create', as: :create_other_qualification
 
         get '/review' => 'other_qualifications/review#show', as: :review_other_qualifications
         patch '/review' => 'other_qualifications/review#complete', as: :complete_other_qualifications
