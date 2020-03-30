@@ -1,22 +1,35 @@
-<div data-qa="application-card-<%= index %>"class="app-application-card">
+<div class="app-application-card">
 
-  <div class="app-application-card__primary">
-    <h3 class="govuk-heading-m govuk-!-margin-bottom-3">
-      <%= link_to candidate_name, provider_interface_application_choice_path(application_choice), class: 'govuk-link' %>
-    </h3>
-    <p class="govuk-body govuk-!-font-size-16"><%= course_provider_name %></p>
-    <p class="govuk-body govuk-!-margin-bottom-0"><%= course_name_and_code %></p>
-    <% if accrediting_provider %>
-      <p class="govuk-body govuk-caption-m govuk-!-font-size-16 app-application-card__accredited-body">
-      Accredited body: <%= accrediting_provider.name %>
-      </p>
-    <% end %>
-  </div>
-
-  <div class="app-application-card__secondary">
+  <h3 class="govuk-heading-m">
+    <%= link_to candidate_name, provider_interface_application_choice_path(application_choice), class: 'govuk-link' %>
     <div class="app-application-card__status">
       <%= render ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice) %>
+    <div>
+  </h3>
+
+  <dl>
+    <div class="app-application-card__provider" >
+      <dt class="govuk-visually-hidden">Provider:</dt>
+      <dd class="govuk-body"><%= course_provider_name %></dd>
     </div>
-    <p class="govuk-!-margin-bottom-1 govuk-caption-m govuk-!-font-size-16">Updated on <%= updated_at %></p>
-  </div>
+
+    <dt class="govuk-visually-hidden">Course:</dt>
+    <dd class="govuk-body"><%= course_name_and_code %></dd>
+
+    <div class="app-application-card__footer">
+      <div class="app-application-card__secondary">
+        <dt class="govuk-body">Accredited body:</dt>
+        <dd class="govuk-body">
+          <%= accrediting_provider.nil? ? course_provider_name : accrediting_provider.name %>
+        </dd>
+      </div>
+
+      <div class="app-application-card__secondary">
+        <div class="app-application-card__date">
+          <dt class="govuk-visually-hidden">Date:</dt>
+          <dd class="govuk-body">Updated on <%= updated_at %></dd>
+        </div>
+      </div>
+    </div>
+  </dl>
 </div>

@@ -29,3 +29,9 @@
 .moj-filter__options {
   box-shadow: none;
 }
+
+.app-filter {
+  @include govuk-media-query($until: desktop) {
+    display: none;
+  }
+}
