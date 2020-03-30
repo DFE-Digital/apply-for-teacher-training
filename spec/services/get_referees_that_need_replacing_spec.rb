@@ -15,7 +15,7 @@ RSpec.describe GetRefereesThatNeedReplacing do
     end
 
     it 'does not return referees which were sent their reference email less than 5 days ago' do
-      create(:reference, feedback_status: 'feedback_requested', requested_at: 4.business_days.ago)
+      create(:reference, feedback_status: 'feedback_requested', requested_at: 4.days.ago)
 
       expect(described_class.call).to be_empty
     end
