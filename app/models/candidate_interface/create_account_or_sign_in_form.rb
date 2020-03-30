@@ -1,5 +1,5 @@
 module CandidateInterface
-  class AccountPromptForm
+  class CreateAccountOrSignInForm
     include ActiveModel::Model
 
     attr_accessor :existing_account

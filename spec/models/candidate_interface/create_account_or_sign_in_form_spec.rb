@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::AccountPromptForm, type: :model do
+RSpec.describe CandidateInterface::CreateAccountOrSignInForm, type: :model do
   describe '#existing_account?' do
     it "returns false if existing_account is 'false'" do
       form = described_class.new(existing_account: 'false')

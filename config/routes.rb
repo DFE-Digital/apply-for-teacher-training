@@ -23,8 +23,8 @@ Rails.application.routes.draw do
     get '/terms-of-use', to: 'content#terms_candidate', as: :terms
     get '/providers', to: 'content#providers', as: :providers
 
-    get '/account', to: 'start_page#account_prompt', as: :account_prompt
-    post '/account', to: 'start_page#account_prompt_handler'
+    get '/account', to: 'start_page#create_account_or_sign_in', as: :create_account_or_sign_in
+    post '/account', to: 'start_page#create_account_or_sign_in_handler'
 
     get '/eligibility' => 'start_page#eligibility', as: :eligibility
     post '/eligibility' => 'start_page#determine_eligibility'
