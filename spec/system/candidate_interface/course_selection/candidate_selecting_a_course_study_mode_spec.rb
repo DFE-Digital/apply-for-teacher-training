@@ -4,7 +4,6 @@ RSpec.feature 'Selecting a study mode' do
   include CandidateHelper
 
   scenario 'Candidate selects different study modes' do
-    given_choosing_a_study_mode_is_active
     given_i_am_signed_in
     and_there_are_course_options
 
@@ -19,10 +18,6 @@ RSpec.feature 'Selecting a study mode' do
     when_i_select_the_single_site_full_time_course
     and_i_visit_my_course_choices_page
     then_the_site_is_resolved_automatically_and_i_see_the_course_choice
-  end
-
-  def given_choosing_a_study_mode_is_active
-    FeatureFlag.activate('choose_study_mode')
   end
 
   def given_i_am_signed_in

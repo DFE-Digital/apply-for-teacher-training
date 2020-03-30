@@ -65,7 +65,6 @@ RSpec.describe CandidateInterface::AddCourseFromFind do
 
     context 'when the candidate has a course_from_find_id and the course has a choice of study modes' do
       it 'sets the course_from_find_id to nil and sets the appropriate boolean flag' do
-        FeatureFlag.activate('choose_study_mode')
         course = create(:course, study_mode: :full_time_or_part_time)
         candidate = create(:candidate, course_from_find_id: course.id)
 

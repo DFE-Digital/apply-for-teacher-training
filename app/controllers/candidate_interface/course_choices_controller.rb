@@ -78,7 +78,7 @@ module CandidateInterface
           @pick_course.provider_id,
           @pick_course.course_id,
         )
-      elsif @pick_course.both_study_modes_available? && FeatureFlag.active?('choose_study_mode')
+      elsif @pick_course.both_study_modes_available?
         redirect_to candidate_interface_course_choices_study_mode_path(
           @pick_course.provider_id,
           @pick_course.course_id,
