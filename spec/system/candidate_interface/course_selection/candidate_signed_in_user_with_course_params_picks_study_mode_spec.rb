@@ -11,6 +11,9 @@ RSpec.describe 'An existing candidate arriving from Find with course params sele
 
     when_i_arrive_at_the_apply_from_find_page_with_course_params
     and_i_click_apply_on_apply
+    then_i_should_see_the_course_selection_page
+
+    when_i_say_yes
     then_i_should_see_the_study_mode_page
 
     when_i_choose_the_part_time_course
@@ -53,6 +56,17 @@ RSpec.describe 'An existing candidate arriving from Find with course params sele
     choose 'Yes, I want to apply using the new service'
 
     click_button 'Continue'
+  end
+
+  def then_i_should_see_the_course_selection_page
+    expect(page).to have_content('You selected a course')
+    expect(page).to have_content(@course.provider.name)
+    expect(page).to have_content(@course.name_and_code)
+  end
+
+  def when_i_say_yes
+    choose 'Yes'
+    click_on 'Continue'
   end
 
   def then_i_should_see_the_study_mode_page

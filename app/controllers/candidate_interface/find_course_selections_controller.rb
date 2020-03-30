@@ -4,15 +4,11 @@ module CandidateInterface
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
     def confirm_selection
-      render_404 unless FeatureFlag.active?('you_selected_a_course_page')
-
       course = Course.find(params[:course_id])
       @course_selection_form = CourseSelectionForm.new(course)
     end
 
     def complete_selection
-      render_404 unless FeatureFlag.active?('you_selected_a_course_page')
-
       course = Course.find(params[:course_id])
 
       course_selection = CourseSelectionForm.new(course, course_selection_params[:confirm])
@@ -21,7 +17,12 @@ module CandidateInterface
         return
       end
 
-      if CourseOption.where(course_id: course.id).one?
+      if course.full_time_or_part_time?
+        redirect_to candidate_interface_course_choices_study_mode_path(
+          provider_id: course.provider_id,
+          course_id: course.id,
+        )
+      elsif CourseOption.where(course_id: course.id).one?
         course_option = CourseOption.where(course_id: course.id).first
 
         pick_site_for_course(course, course_option.id)
