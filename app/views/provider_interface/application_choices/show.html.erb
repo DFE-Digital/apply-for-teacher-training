@@ -14,13 +14,13 @@
 <% end %>
 
 <% if @application_choice.status == 'awaiting_provider_decision' -%>
-<div class="app-banner">
-  <div class="app-banner__message">
-    <h2 class="govuk-heading-m govuk-!-margin-bottom-0">
-      You have <%= days_to_respond_to(@application_choice) %> days to send a response. <%= govuk_link_to 'Respond to application', provider_interface_application_choice_respond_path(@application_choice) %>.
-    </h2>
+  <div class="app-banner">
+    <div class="app-banner__message">
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-0">
+        You have <%= days_to_respond_to(@application_choice) %> days to send a response. <%= govuk_link_to 'Respond to application', provider_interface_application_choice_respond_path(@application_choice) %>.
+      </h2>
+    </div>
   </div>
-</div>
 <% end -%>
 
 <div class="govuk-grid-row">
@@ -29,9 +29,6 @@
       <%= @application_choice.application_form.full_name %>
       <%= render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice: @application_choice)) %>
     </h1>
-  </div>
-
-  <div class="govuk-grid-column-one-third">
     <p class="govuk-body govuk-!-margin-bottom-9 app-!-print-display-none">
       <%= govuk_link_to(
         'Download application (PDF)',
@@ -40,14 +37,6 @@
       ) %>
     </p>
   </div>
-</div>
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-
-    <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice) %>
-  </div>
-
   <div class="govuk-grid-column-one-third">
     <%= render ProviderInterface::ApplicationTimelineComponent.new(application_choice: @application_choice) %>
   </div>
