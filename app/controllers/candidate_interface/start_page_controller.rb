@@ -15,7 +15,10 @@ module CandidateInterface
       render :create_account_or_sign_in and return unless @create_account_or_sign_in_form.valid?
 
       if @create_account_or_sign_in_form.existing_account?
-        redirect_to candidate_interface_sign_in_path
+        redirect_to candidate_interface_sign_in_path(
+          providerCode: params[:providerCode],
+          courseCode: params[:courseCode],
+        )
       else
         redirect_to candidate_interface_eligibility_path(
           providerCode: params[:providerCode],
