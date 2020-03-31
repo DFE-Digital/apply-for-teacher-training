@@ -37,6 +37,7 @@
       display: flex;
       @include govuk-media-query($from: tablet) {
         float: right;
+        display: inline
       }
     }
   }
