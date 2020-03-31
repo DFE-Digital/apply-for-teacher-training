@@ -5,7 +5,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
           model: @pick_course,
-          url: candidate_interface_course_choices_course_path(provider_id: params[:provider_id]),
+          url: candidate_interface_course_choices_course_path(provider_id: params[:provider_id], course_choice_id: @course_choice_id),
           id: 'pick-course-form',
         ) do |f| %>
       <%= f.govuk_error_summary %>

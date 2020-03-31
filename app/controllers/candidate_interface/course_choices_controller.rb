@@ -56,10 +56,21 @@ module CandidateInterface
     end
 
     def options_for_course
-      @pick_course = PickCourseForm.new(
-        provider_id: params.fetch(:provider_id),
-        application_form: current_application,
-      )
+      if params[:course_choice_id]
+        @course_choice_id = params[:course_choice_id]
+        current_application_choice = current_application.application_choices.find(@course_choice_id)
+
+        @pick_course = PickCourseForm.new(
+          provider_id: params.fetch(:provider_id),
+          application_form: current_application,
+          course_id: current_application_choice.course.id,
+        )
+      else
+        @pick_course = PickCourseForm.new(
+          provider_id: params.fetch(:provider_id),
+          application_form: current_application,
+        )
+      end
     end
 
     def pick_course
@@ -82,15 +93,21 @@ module CandidateInterface
         redirect_to candidate_interface_course_choices_study_mode_path(
           @pick_course.provider_id,
           @pick_course.course_id,
+          course_choice_id: params[:course_choice_id],
         )
       elsif @pick_course.single_site?
         course_option = CourseOption.where(course_id: @pick_course.course.id).first
-        pick_site_for_course(course_id, course_option.id)
+        if params[:course_choice_id]
+          pick_new_site_for_course(course_id, course_option.id)
+        else
+          pick_site_for_course(course_id, course_option.id)
+        end
       else
         redirect_to candidate_interface_course_choices_site_path(
           @pick_course.provider_id,
           @pick_course.course_id,
           @pick_course.study_mode,
+          course_choice_id: params[:course_choice_id],
         )
       end
     end
@@ -105,8 +122,8 @@ module CandidateInterface
         current_application_choice = current_application.application_choices.find(@course_choice_id)
 
         @pick_study_mode = PickStudyModeForm.new(
-          provider_id: current_application_choice.provider.id,
-          course_id: current_application_choice.course.id,
+          provider_id: params.fetch(:provider_id),
+          course_id: params.fetch(:course_id),
           study_mode: current_application_choice.offered_option.study_mode,
         )
       else
@@ -157,8 +174,8 @@ module CandidateInterface
 
         @pick_site = PickSiteForm.new(
           application_form: current_application,
-          provider_id: current_application_choice.provider.id,
-          course_id: current_application_choice.course.id,
+          provider_id: params.fetch(:provider_id),
+          course_id: params.fetch(:course_id),
           study_mode: params.fetch(:study_mode),
           course_option_id: current_application_choice.course_option_id.to_s,
         )
