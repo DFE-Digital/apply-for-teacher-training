@@ -1,10 +1,10 @@
 module ProviderInterface
   class ProviderApplicationsPageState
-    attr_accessor :sort_order, :sort_by, :available_filters, :filter_visible, :filter_selections
+    attr_accessor :sort_order, :sort_by, :available_filters, :filter_visible, :filter_selections, :provider_user
 
-    def initialize(params:, application_choices:)
+    def initialize(params:, provider_user:)
       @params = params
-      @application_choices = application_choices
+      @provider_user = provider_user
       @sort_order = calculate_sort_order
       @sort_by = calculate_sort_by
       @available_filters = calculate_available_filters
@@ -48,7 +48,7 @@ module ProviderInterface
     end
 
     def filter_params
-      @params.permit(:filter_visible, filter_selections: { search: {}, status: {}, provider: {} })
+      @params.permit(:filter_visible, filter_selections: { search: {}, status: {}, provider: {}, accredited_provider: {} })
     end
 
     def calculate_sort_order
@@ -60,7 +60,7 @@ module ProviderInterface
     end
 
     def calculate_available_filters
-      search_filters << status_filters << provider_filters_builder
+      search_filters << status_filters << provider_filters_builder << accredited_provider_filters_builder
     end
 
     def search_filters
@@ -125,9 +125,7 @@ module ProviderInterface
     end
 
     def provider_filters_builder
-      input_config = @application_choices.map do |choice|
-        provider = choice.provider
-
+      input_config = ProviderOptionsService.new(provider_user).providers.map do |provider|
         {
           type: 'checkbox',
           text: provider.name,
@@ -135,12 +133,25 @@ module ProviderInterface
         }
       end
 
-      provider_filters = {
+      {
         heading: 'provider',
-        input_config: input_config.uniq,
+        input_config: input_config,
       }
+    end
 
-      provider_filters
+    def accredited_provider_filters_builder
+      input_config = ProviderOptionsService.new(provider_user).accredited_providers.map do |provider|
+        {
+          type: 'checkbox',
+          text: provider.name,
+          name: provider.id.to_s,
+        }
+      end
+
+      {
+        heading: 'accredited_provider',
+        input_config: input_config,
+      }
     end
   end
 end
