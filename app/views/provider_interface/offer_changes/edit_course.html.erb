@@ -3,10 +3,11 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @change_offer_form,
-          url: provider_interface_application_choice_change_offer_edit_course_option_path(@application_choice.id),
+          url: provider_interface_application_choice_change_offer_edit_course_option_path(@application_choice.id, entry: params[:entry]),
           method: :get do |f| %>
 
       <%= f.hidden_field :provider_id %>
+      <%= f.hidden_field :entry %>
       <%= f.govuk_radio_buttons_fieldset :course_id do %>
 
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">

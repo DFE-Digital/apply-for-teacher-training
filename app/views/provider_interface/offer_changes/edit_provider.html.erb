@@ -7,6 +7,7 @@
           url: provider_interface_application_choice_change_offer_edit_course_path(@application_choice.id),
           method: :get do |f| %>
 
+      <%= f.hidden_field :entry %>
       <%= f.govuk_radio_buttons_fieldset :provider_id do %>
 
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">

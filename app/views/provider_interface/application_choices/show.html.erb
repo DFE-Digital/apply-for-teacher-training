@@ -23,6 +23,28 @@
   </div>
 <% end -%>
 
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-1">
+      <span class="govuk-caption-xl"><%= @application_choice.application_form.support_reference %></span>
+      <%= @application_choice.application_form.full_name %>
+    </h1>
+    <p class="govuk-body govuk-!-margin-bottom-9 app-!-print-display-none">
+      <%= govuk_link_to(
+        'Download application (PDF)',
+        provider_interface_application_choice_path(@application_choice.id, format: :pdf),
+        download: @application_choice.application_form.support_reference
+      ) %>
+    </p>
+
+    <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice, extra_arguments: @extra_statusbox_arguments) %>
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <%= render ProviderInterface::ApplicationTimelineComponent.new(application_choice: @application_choice) %>
+  </div>
+<% end -%>
+
 <h1 class="govuk-heading-xl govuk-!-margin-bottom-1">
   <%= @application_choice.application_form.full_name %>
   <%= render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice: @application_choice)) %>
