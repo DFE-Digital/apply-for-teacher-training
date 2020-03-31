@@ -10,7 +10,6 @@ Feature: successful application statuses
       | original status            | actor     | action                 | new status                 |
       | unsubmitted                | candidate | submit                 | awaiting references        |
       | awaiting references        | candidate | references complete    | application complete       |
-      | application complete       | candidate | withdraw               | withdrawn                  |
       | application complete       | candidate | send to provider       | awaiting provider decision |
       | awaiting provider decision | provider  | make offer             | offer                      |
       | awaiting provider decision | provider  | reject                 | rejected                   |

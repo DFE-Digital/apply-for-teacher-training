@@ -187,13 +187,6 @@ en:
         - candidate_mailer-application_sent_to_provider
         - provider_mailer-application_submitted
 
-    application_complete-withdraw:
-      name: Candidate withdraws
-      by: candidate
-      description: Candidates can withdraw at any time.
-      emails:
-        - provider_mailer-application_withrawn
-
     awaiting_provider_decision-make_offer:
       name: Provider makes offer
       by: provider

@@ -26,7 +26,6 @@ class ApplicationStateChange
 
     state :application_complete do
       event :send_to_provider, transitions_to: :awaiting_provider_decision
-      event :withdraw, transitions_to: :withdrawn
     end
 
     state :awaiting_provider_decision do
