@@ -3,7 +3,7 @@
 
 <% if FeatureFlag.active?('covid_19') %>
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-column-full">
       <div class="app-banner" aria-labelledby="success-message" data-module="govuk-error-summary" role="alert">
         <div class="app-banner__message">
           <h2 class="govuk-heading-m" id="success-message">
@@ -30,12 +30,14 @@
     <% end %>
 
     <div class='moj-filter-layout__content'>
-      <%= render ProviderInterface::ToggleFilterComponent.new(filter_visible: @page_state.filter_visible,
-                                                              params_for_current_state: @page_state.to_h) %>
       <div class='moj-scrollable-pane'>
         <div class='moj-scrollable-pane__wrapper'>
         <% if @application_choices.any? %>
-          <%= render 'application_choices_table' %>
+          <div class="app-application-cards">
+            <% @application_choices.each_with_index do |choice, index| %>
+              <%= render ProviderInterface::ApplicationCardComponent.new(application_choice: choice) %>
+            <% end %>
+          </div>
         <% elsif @page_state.filter_selections.any? %>
           <p class='govuk-body'>No applications for the selected filters.</p>
         <% else %>

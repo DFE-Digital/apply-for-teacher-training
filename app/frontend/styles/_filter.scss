@@ -29,3 +29,10 @@
 .moj-filter__options {
   box-shadow: none;
 }
+
+.app-filter {
+  display: none;
+  @include govuk-media-query($from: large) {
+    display: block;
+  }
+}

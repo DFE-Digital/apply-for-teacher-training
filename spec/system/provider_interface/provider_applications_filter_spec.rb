@@ -13,13 +13,6 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     when_i_visit_the_provider_page
 
-    then_i_expect_to_see_the_hide_filter_button
-    then_i_expect_to_see_the_filter_dialogue
-
-    when_i_hide_the_filter_dialogue
-    then_i_do_not_expect_to_see_the_filter_dialogue
-
-    when_i_show_the_filter_dialogue
     then_i_expect_to_see_the_filter_dialogue
 
     when_i_filter_for_rejected_applications
@@ -29,24 +22,11 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     when_i_filter_for_applications_that_i_do_not_have
     then_i_should_see_the_no_filter_results_error_message
-    then_i_expect_to_see_the_hide_filter_button
     then_i_expect_to_see_the_filter_dialogue
 
     when_i_filter_for_rejected_and_offered_applications
-    when_i_hide_the_filter_dialogue
-    then_only_rejected_and_offered_applications_should_be_visible
-    when_i_show_the_filter_dialogue
     then_only_rejected_and_offered_applications_should_be_visible
 
-    when_i_sort_by_name
-    then_only_rejected_and_offered_applications_should_be_visible
-
-    when_i_hide_the_filter_dialogue
-    when_i_sort_by_course
-    then_only_rejected_and_offered_applications_should_be_visible
-    then_i_do_not_expect_to_see_the_filter_dialogue
-
-    when_i_show_the_filter_dialogue
     when_i_clear_the_filters
     then_i_expect_all_applications_to_be_visible
 
@@ -69,7 +49,6 @@ RSpec.feature 'Providers should be able to filter applications' do
     and_provider_application_filters_are_deactivated
 
     when_i_visit_the_provider_page
-    then_i_do_not_expect_to_see_the_filter_dialogue
   end
 
   def when_i_visit_the_provider_page
@@ -127,24 +106,8 @@ RSpec.feature 'Providers should be able to filter applications' do
            create(:application_form, first_name: 'Luke', last_name: 'Smith'), updated_at: 7.days.ago)
   end
 
-  def then_i_expect_to_see_the_hide_filter_button
-    expect(page).to have_content('Hide filter')
-  end
-
   def then_i_expect_to_see_the_filter_dialogue
     expect(page).to have_button('Apply filters')
-  end
-
-  def when_i_hide_the_filter_dialogue
-    click_link('Hide filter')
-  end
-
-  def then_i_do_not_expect_to_see_the_filter_dialogue
-    expect(page).not_to have_button('Apply filters')
-  end
-
-  def when_i_show_the_filter_dialogue
-    click_link('Show filter')
   end
 
   def when_i_filter_for_rejected_applications
@@ -153,10 +116,10 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_only_rejected_applications_should_be_visible
-    expect(page).to have_css('.govuk-table__body', text: 'Rejected')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Offer')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Application withdrawn')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Declined')
+    expect(page).to have_css('.app-application-cards', text: 'Rejected')
+    expect(page).not_to have_css('.app-application-cards', text: 'Offer')
+    expect(page).not_to have_css('.app-application-cards', text: 'Application withdrawn')
+    expect(page).not_to have_css('.app-application-cards', text: 'Declined')
   end
 
   def and_the_rejected_tickbox_should_still_be_checked
@@ -182,18 +145,10 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_only_rejected_and_offered_applications_should_be_visible
-    expect(page).to have_css('.govuk-table__body', text: 'Rejected')
-    expect(page).to have_css('.govuk-table__body', text: 'Offer')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Application withdrawn')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Declined')
-  end
-
-  def when_i_sort_by_name
-    click_link('Name')
-  end
-
-  def when_i_sort_by_course
-    click_link('Course')
+    expect(page).to have_css('.app-application-cards', text: 'Rejected')
+    expect(page).to have_css('.app-application-cards', text: 'Offer')
+    expect(page).not_to have_css('.app-application-cards', text: 'Application withdrawn')
+    expect(page).not_to have_css('.app-application-cards', text: 'Declined')
   end
 
   def when_i_clear_the_filters
@@ -201,10 +156,10 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_i_expect_all_applications_to_be_visible
-    expect(page).to have_css('.govuk-table__body', text: 'Rejected')
-    expect(page).to have_css('.govuk-table__body', text: 'Offer')
-    expect(page).to have_css('.govuk-table__body', text: 'Application withdrawn')
-    expect(page).to have_css('.govuk-table__body', text: 'Declined')
+    expect(page).to have_css('.app-application-cards', text: 'Rejected')
+    expect(page).to have_css('.app-application-cards', text: 'Offer')
+    expect(page).to have_css('.app-application-cards', text: 'Application withdrawn')
+    expect(page).to have_css('.app-application-cards', text: 'Declined')
   end
 
   def when_i_filter_by_provider
@@ -214,9 +169,9 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_i_only_see_applications_for_a_given_provider
-    expect(page).to have_css('.govuk-table__body', text: 'Hoth Teacher Training')
-    expect(page).to have_css('.govuk-table__body', text: 'Caladan University')
-    expect(page).not_to have_css('.govuk-table__body', text: 'University of Arrakis')
+    expect(page).to have_css('.app-application-cards', text: 'Hoth Teacher Training')
+    expect(page).to have_css('.app-application-cards', text: 'Caladan University')
+    expect(page).not_to have_css('.app-application-cards', text: 'University of Arrakis')
   end
 
   def and_provider_application_filters_are_active
@@ -258,7 +213,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def and_the_remaining_filters_to_still_apply
-    expect(page).to have_css('.govuk-table__body', text: 'Caladan University')
+    expect(page).to have_css('.app-application-cards', text: 'Caladan University')
   end
 
   def and_a_rejected_tag_should_be_visible

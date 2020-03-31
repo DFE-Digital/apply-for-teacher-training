@@ -1,0 +1,54 @@
+.app-application-card:first-of-type {
+  border-top: 1px solid govuk-colour('mid-grey');
+  padding-top: govuk-spacing(3);
+}
+
+.app-application-card {
+  border-bottom: 1px solid govuk-colour('mid-grey');
+  margin-bottom: govuk-spacing(3);
+
+  &__footer {
+    @include govuk-media-query($from: tablet) {
+      display: flex;
+    }
+
+    display: inline;
+  }
+
+  &__secondary {
+    width: 100%;
+
+    dd, dt {
+      font-size: govuk-font(16);
+      color: govuk-colour('dark-grey');
+      display: inline;
+    }
+
+  }
+
+  &__provider {
+    dd {
+      font-size: govuk-font(16);
+    }
+  }
+
+  &__date {
+    dd {
+      display: flex;
+      @include govuk-media-query($from: tablet) {
+        float: right;
+        display: inline
+      }
+    }
+  }
+
+  &__status {
+    float: right;
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+

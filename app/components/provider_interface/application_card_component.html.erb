@@ -1,0 +1,35 @@
+<div class="app-application-card">
+
+  <h3 class="govuk-heading-m">
+    <%= govuk_link_to candidate_name, provider_interface_application_choice_path(application_choice) %>
+    <div class="app-application-card__status">
+      <%= render ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice) %>
+    <div>
+  </h3>
+
+  <dl>
+    <div class="app-application-card__provider" >
+      <dt class="govuk-visually-hidden">Provider:</dt>
+      <dd class="govuk-body"><%= course_provider_name %></dd>
+    </div>
+
+    <dt class="govuk-visually-hidden">Course:</dt>
+    <dd class="govuk-body"><%= course_name_and_code %></dd>
+
+    <div class="app-application-card__footer">
+      <div class="app-application-card__secondary">
+        <dt class="govuk-body">Accredited body:</dt>
+        <dd class="govuk-body">
+          <%= accrediting_provider.nil? ? course_provider_name : accrediting_provider.name %>
+        </dd>
+      </div>
+
+      <div class="app-application-card__secondary">
+        <div class="app-application-card__date">
+          <dt class="govuk-visually-hidden">Date:</dt>
+          <dd class="govuk-body">Updated on <%= updated_at %></dd>
+        </div>
+      </div>
+    </div>
+  </dl>
+</div>

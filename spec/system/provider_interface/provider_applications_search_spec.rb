@@ -13,7 +13,6 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     when_i_visit_the_provider_page
 
-    then_i_expect_to_see_the_hide_filter_button
     then_i_expect_to_see_the_filter_dialogue
     then_i_expect_to_see_the_search_input
 
@@ -50,7 +49,6 @@ RSpec.feature 'Providers should be able to filter applications' do
     then_i_search_for_candidate_name
     then_only_applications_of_that_name_and_provider_should_be_visible
     then_the_relevant_tag_headings_should_be_visible
-
     and_the_relevant_tags_should_be_visible
 
     and_provider_application_filters_are_deactivated
@@ -77,10 +75,9 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_only_withdrawn_and_offered_applications_should_be_visible
-    expect(page).to have_css('.govuk-table__body', text: 'Application withdrawn')
-    expect(page).to have_css('.govuk-table__body', text: 'Offered')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Rejected')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Declined')
+    cards = find(:css, '.app-application-cards')
+    expect(cards).to have_text('Application withdrawn')
+    expect(cards).to have_text('Offered')
   end
 
   def and_the_relevant_tags_should_be_visible
@@ -89,8 +86,9 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_the_relevant_tag_headings_should_be_visible
-    expect(page).to have_css('.moj-filter__selected', text: 'Candidate\'s name')
-    expect(page).to have_css('.moj-filter__selected', text: 'Provider')
+    selected_filters = find(:css, '.moj-filter__selected')
+    expect(selected_filters).to have_text('Candidate\'s name')
+    expect(selected_filters).to have_text('Provider')
   end
 
   def then_only_withdrawn_and_offered_applications_of_that_name_should_be_visible
@@ -98,22 +96,22 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_i_expect_all_applications_to_be_visible
-    expect(page).to have_css('.govuk-table__body', text: 'Rejected')
-    expect(page).to have_css('.govuk-table__body', text: 'Offered')
-    expect(page).to have_css('.govuk-table__body', text: 'Application withdrawn')
-    expect(page).to have_css('.govuk-table__body', text: 'Declined')
+    cards = find(:css, '.app-application-cards')
+    expect(cards).to have_text('Rejected')
+    expect(cards).to have_text('Offered')
+    expect(cards).to have_text('Application withdrawn')
+    expect(cards).to have_text('Declined')
   end
 
   def then_i_only_see_applications_for_a_given_provider
-    expect(page).to have_css('.govuk-table__body', text: 'Hoth Teacher Training')
-    expect(page).to have_css('.govuk-table__body', text: 'Caladan University')
-    expect(page).not_to have_css('.govuk-table__body', text: 'University of Arrakis')
+    cards = find(:css, '.app-application-cards')
+    expect(cards).to have_text('Hoth Teacher Training')
+    expect(cards).to have_text('Caladan University')
   end
 
   def then_only_applications_of_that_name_and_provider_should_be_visible
-    expect(page).to have_css('.govuk-table__body', text: 'Hoth Teacher Training')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Caladan University')
-    expect(page).not_to have_css('.govuk-table__body', text: 'University of Arrakis')
+    cards = find(:css, '.app-application-cards')
+    expect(cards).to have_text('Hoth Teacher Training')
     then_only_applications_of_that_name_should_be_visible
   end
 
@@ -143,29 +141,14 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_only_applications_of_that_name_and_status_should_be_visible
-    expect(page).to have_css('.govuk-table__body', text: 'Jim James')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Adam Jones')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Tom Jones')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Bill Bones')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Greg Taft')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Paul Atreides')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Duncan Idaho')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Luke Smith')
-
-    expect(page).to have_css('.govuk-table__body', text: 'Application withdrawn')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Rejected')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Declined')
+    cards = find(:css, '.app-application-cards')
+    expect(cards).to have_text('Jim James')
+    expect(cards).to have_text('Application withdrawn')
   end
 
   def then_only_applications_of_that_name_should_be_visible
-    expect(page).to have_css('.govuk-table__body', text: 'Jim James')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Adam Jones')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Tom Jones')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Bill Bones')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Greg Taft')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Paul Atreides')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Duncan Idaho')
-    expect(page).not_to have_css('.govuk-table__body', text: 'Luke Smith')
+    cards = find(:css, '.app-application-cards')
+    expect(cards).to have_text('Jim James')
   end
 
   def then_i_expect_to_see_the_search_input
@@ -178,10 +161,6 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def given_i_am_a_provider_user_with_dfe_sign_in
     provider_exists_in_dfe_sign_in
-  end
-
-  def then_i_expect_to_see_the_hide_filter_button
-    expect(page).to have_content('Hide filter')
   end
 
   def then_i_expect_to_see_the_filter_dialogue
@@ -259,7 +238,8 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_i_expect_the_relevant_provider_tags_to_be_visible
-    expect(page).to have_css('.moj-filter-tags', text: 'Hoth Teacher Training')
-    expect(page).to have_css('.moj-filter-tags', text: 'Caladan University')
+    tags = find(:css, '.moj-filter-tags:nth-of-type(2)')
+    expect(tags).to have_text('Hoth Teacher Training')
+    expect(tags).to have_text('Caladan University')
   end
 end
