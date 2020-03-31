@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_30_084106) do
+ActiveRecord::Schema.define(version: 2020_03_31_140515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -32,9 +32,9 @@ ActiveRecord::Schema.define(version: 2020_03_30_084106) do
     t.integer "decline_by_default_days"
     t.datetime "offered_at"
     t.datetime "rejected_at"
-    t.datetime "withdrawn_at"
     t.datetime "declined_at"
     t.boolean "declined_by_default", default: false, null: false
+    t.datetime "withdrawn_at"
     t.integer "offered_course_option_id"
     t.datetime "accepted_at"
     t.datetime "recruited_at"
@@ -163,7 +163,7 @@ ActiveRecord::Schema.define(version: 2020_03_30_084106) do
     t.string "magic_link_token"
     t.datetime "magic_link_token_sent_at"
     t.boolean "hide_in_reporting", default: false, null: false
-    t.integer "course_from_find_id"
+    t.bigint "course_from_find_id"
     t.boolean "sign_up_email_bounced", default: false, null: false
     t.datetime "last_signed_in_at"
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true
@@ -254,8 +254,9 @@ ActiveRecord::Schema.define(version: 2020_03_30_084106) do
   create_table "provider_users_providers", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.bigint "provider_user_id", null: false
-    t.datetime "created_at", default: -> { "now()" }, null: false
-    t.datetime "updated_at", default: -> { "now()" }, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.boolean "manage_users", default: false, null: false
     t.index ["provider_id"], name: "index_provider_users_providers_on_provider_id"
     t.index ["provider_user_id"], name: "index_provider_users_providers_on_provider_user_id"
   end
