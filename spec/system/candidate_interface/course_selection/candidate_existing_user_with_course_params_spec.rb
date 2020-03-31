@@ -94,9 +94,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     click_button 'Continue'
 
     choose 'Yes, sign in'
-    click_button 'Continue'
-
-    fill_in 'Enter your email address', with: @email
+    fill_in 'Email', with: @email
     click_button 'Continue'
   end
 
