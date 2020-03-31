@@ -239,6 +239,7 @@ stages:
       databaseStorageAutoGrow: 'disabled'
       databaseBackupRetentionDays: 7
       dockerhubUsername: '$(dockerHubUsername)'
+      containerStartTimeLimit: '$(appServiceContainerTimeoutSeconds)'
       railsSecretKeyBase: '$(railsSecretKeyBase)'
       railsEnv: 'production'
       basicAuthEnabled: '$(basicAuthEnabled)'
@@ -295,6 +296,7 @@ stages:
       databaseStorageAutoGrow: 'disabled'
       databaseBackupRetentionDays: 7
       dockerhubUsername: '$(dockerHubUsername)'
+      containerStartTimeLimit: '$(appServiceContainerTimeoutSeconds)'
       railsSecretKeyBase: '$(railsSecretKeyBase)'
       railsEnv: 'production'
       basicAuthEnabled: '$(basicAuthEnabled)'
