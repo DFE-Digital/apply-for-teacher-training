@@ -8,6 +8,7 @@
           url: candidate_interface_course_choices_study_mode_path(
             provider_id: @pick_study_mode.provider_id,
             course_id: @pick_study_mode.course_id,
+            course_choice_id: @course_choice_id,
           ),
         ) do |f| %>
       <%= f.govuk_error_summary %>
