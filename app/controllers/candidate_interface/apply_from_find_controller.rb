@@ -9,7 +9,11 @@ module CandidateInterface
     def show
       set_service_and_course(params[:providerCode], params[:courseCode])
 
-      if @service.can_apply_on_apply?
+      if @service.can_apply_on_apply? && current_candidate.present?
+        current_candidate.update!(course_from_find_id: @course.id)
+
+        redirect_to candidate_interface_interstitial_path
+      elsif @service.can_apply_on_apply?
         @apply_on_ucas_or_apply = CandidateInterface::ApplyOnUcasOrApplyForm.new(
           provider_code: params[:providerCode], course_code: params[:courseCode],
         )

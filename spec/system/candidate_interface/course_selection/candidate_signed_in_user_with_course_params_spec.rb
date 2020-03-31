@@ -10,7 +10,6 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     and_i_am_signed_in
 
     when_i_arrive_at_the_apply_from_find_page_with_course_params_with_one_site
-    and_i_click_apply_on_apply
     then_i_should_see_the_course_selection_page
 
     when_i_say_yes
@@ -19,7 +18,6 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     and_i_should_see_the_site
 
     when_i_arrive_at_the_apply_from_find_page_with_the_same_course_params
-    and_i_click_apply_on_apply
     then_i_should_see_the_courses_review_page
     and_i_should_be_informed_i_have_already_selected_that_course
 
@@ -29,7 +27,6 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     and_i_have_less_than_3_application_options
 
     when_i_arrive_at_the_apply_from_find_page_with_course_params_with_multiple_sites
-    and_i_click_apply_on_apply
     then_i_should_see_the_multi_site_course_selection_page
 
     when_i_say_yes
@@ -42,7 +39,6 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     and_i_have_3_application_options
 
     when_i_arrive_at_the_apply_from_find_page_with_course_params_with_one_site
-    and_i_click_apply_on_apply
     then_i_should_see_the_courses_review_page
     and_i_should_be_informed_i_already_have_3_courses
   end
@@ -85,12 +81,6 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
   def when_i_arrive_at_the_apply_from_find_page_with_the_same_course_params
     visit candidate_interface_apply_from_find_path providerCode: @course.provider.code, courseCode: @course.code
-  end
-
-  def and_i_click_apply_on_apply
-    choose 'Yes, I want to apply using the new service'
-
-    click_button 'Continue'
   end
 
   def then_i_should_see_the_course_selection_page
