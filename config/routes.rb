@@ -301,6 +301,10 @@ Rails.application.routes.draw do
         post '/' => 'safeguarding#update'
         get '/review' => 'safeguarding#show', as: :review_safeguarding
       end
+
+      scope '/satisfaction-survey' do
+        get '/' => 'satisfaction_survey#index', as: :start_satisfaction_survey
+      end
     end
   end
 
