@@ -155,18 +155,18 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   end
 
   def and_i_see_the_form_to_pick_a_location
-    expect(page).to have_content @site1.name
-    expect(page).to have_content @site1.address_line1
-    expect(page).to have_content @site1.address_line2
-    expect(page).to have_content @site1.address_line3
-    expect(page).to have_content @site1.address_line4
-    expect(page).to have_content @site1.postcode
     expect(page).to have_content @site2.name
     expect(page).to have_content @site2.address_line1
     expect(page).to have_content @site2.address_line2
     expect(page).to have_content @site2.address_line3
     expect(page).to have_content @site2.address_line4
     expect(page).to have_content @site2.postcode
+    expect(page).to have_content @site3.name
+    expect(page).to have_content @site3.address_line1
+    expect(page).to have_content @site3.address_line2
+    expect(page).to have_content @site3.address_line3
+    expect(page).to have_content @site3.address_line4
+    expect(page).to have_content @site3.postcode
   end
 
   def and_my_course_from_find_id_should_be_set_to_nil
