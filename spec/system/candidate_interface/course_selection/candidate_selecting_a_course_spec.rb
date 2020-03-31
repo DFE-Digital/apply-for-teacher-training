@@ -134,7 +134,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_i_should_see_an_error
-    expect(page).to have_content "can't be blank"
+    expect(page).to have_content 'Select a course'
   end
 
   def and_i_choose_a_course
