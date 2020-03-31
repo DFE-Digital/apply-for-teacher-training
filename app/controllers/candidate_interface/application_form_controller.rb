@@ -16,7 +16,7 @@ module CandidateInterface
     end
 
     def edit
-      @editable_days_count = TimeLimitConfig.edit_by
+      @editable_days = TimeLimitConfig.edit_by
       if FeatureFlag.active?('edit_application')
         render :edit
       else
@@ -55,7 +55,7 @@ module CandidateInterface
 
     def submit_success
       @support_reference = current_application.support_reference
-      @editable_days_count = TimeLimitConfig.edit_by
+      @editable_days = TimeLimitConfig.edit_by
     end
 
     def review_submitted

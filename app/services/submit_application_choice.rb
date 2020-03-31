@@ -14,7 +14,7 @@ private
     if HostingEnvironment.sandbox_mode?
       Time.zone.now
     else
-      TimeLimitConfig.edit_by.days.after(@application_choice.application_form.submitted_at).end_of_day
+      TimeLimitConfig.edit_by.to_days.after(@application_choice.application_form.submitted_at).end_of_day
     end
   end
 end

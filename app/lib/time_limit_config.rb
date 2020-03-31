@@ -1,8 +1,32 @@
 class TimeLimitConfig
+  class Days
+    attr_reader :count, :type
+
+    def initialize(count:, type:)
+      raise ArgumentError, 'Argument is not an integer' unless count.is_a?(Integer)
+      raise ArgumentError, 'Argument is not :calendar or :working' unless (type == :calendar) || (type == :working)
+
+      @count = count
+      @type = type
+    end
+
+    def to_days
+      type == :calendar ? count.days : count.business_days
+    end
+
+    def to_s
+      "#{@count} #{@type} #{'day'.pluralize(@count)}"
+    end
+  end
+
   Rule = Struct.new(:from_date, :to_date, :limit)
 
   def self.edit_by
-    7
+    if FeatureFlag.active?('covid_19')
+      Days.new(count: 7, type: :calendar)
+    else
+      Days.new(count: 5, type: :working)
+    end
   end
 
   def self.chase_referee_by
