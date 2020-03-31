@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_30_084106) do
+ActiveRecord::Schema.define(version: 2020_03_31_132614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(version: 2020_03_30_084106) do
     t.string "phase", default: "apply_1", null: false
     t.jsonb "equality_and_diversity"
     t.text "safeguarding_issues"
+    t.jsonb "satisfaction_survey"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
   end
 
