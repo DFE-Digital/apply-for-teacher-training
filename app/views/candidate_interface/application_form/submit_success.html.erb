@@ -38,7 +38,7 @@
     <% if FeatureFlag.active?('satisfaction_survey') %>
       <h2 class="govuk-heading-m">Tell us what you think of this service</h2>
       <p class="govuk-body">Your feedback will help us improve.</p>
-      <%= govuk_link_to 'Give feedback', candidate_interface_start_satisfaction_survey_path, class: 'govuk-button' %>
+      <%= govuk_link_to 'Give feedback', candidate_interface_satisfaction_survey_recommendation_path, class: 'govuk-button' %>
     <% end %>
   </div>
 </div>

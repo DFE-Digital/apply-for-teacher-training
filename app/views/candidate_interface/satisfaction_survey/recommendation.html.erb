@@ -1,0 +1,24 @@
+<% content_for :title, t('page_titles.recommendation') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path) %>
+
+<%= form_with model: @application_form, url: candidate_interface_satisfaction_survey_submit_recommendation_path, method: :post do |f| %>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h2 class="govuk-heading-xl">
+        <%= t('page_titles.recommendation') %>
+      </h2>
+
+      <%= f.govuk_radio_buttons_fieldset :ratings do %>
+        <%= f.govuk_radio_button :rating, '1', label: { text: '1 - strongly agree' }  %>
+        <%= f.govuk_radio_button :rating, '2', label: { text: '2' }  %>
+        <%= f.govuk_radio_button :rating, '3', label: { text: '3' }  %>
+        <%= f.govuk_radio_button :rating, '4', label: { text: '4' }  %>
+        <%= f.govuk_radio_button :rating, '5', label: { text: '5 - strongly disagree' }  %>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
+    </div>
+  </div>
+<% end %>

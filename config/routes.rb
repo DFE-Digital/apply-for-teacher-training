@@ -303,7 +303,8 @@ Rails.application.routes.draw do
       end
 
       scope '/satisfaction-survey' do
-        get '/' => 'satisfaction_survey#index', as: :start_satisfaction_survey
+        get '/recommendation' => 'satisfaction_survey#recommendation', as: :satisfaction_survey_recommendation
+        post 'recommendation' => 'satisfaction_survey#submit_recommendation', as: :satisfaction_survey_submit_recommendation
       end
     end
   end
