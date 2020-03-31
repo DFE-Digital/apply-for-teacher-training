@@ -16,4 +16,5 @@ class Clock
   every(1.hour, 'SendChaseEmailToProviders', at: '**:25') { SendChaseEmailToProvidersWorker.perform_async }
   every(1.hour, 'AskCandidatesForNewReferees', at: '**:30') { AskCandidatesForNewRefereesWorker.perform_async }
   every(1.hour, 'SendChaseEmailToCandidates', at: '**:35') { SendChaseEmailToCandidatesWorker.perform_async }
+  every(1.day, 'DailyReport', at: '08:00', if: lambda { |_| Time.zone.today.weekday? }) { DailyReport.perform_async }
 end
