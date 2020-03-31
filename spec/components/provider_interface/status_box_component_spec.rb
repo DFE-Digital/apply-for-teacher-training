@@ -5,7 +5,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
     application_choice = instance_double(ApplicationChoice)
     allow(application_choice).to receive(:status).and_return('dummy')
 
-    expect { render_inline(described_class, application_choice: application_choice) }.to \
+    expect { render_inline(described_class.new(application_choice: application_choice)) }.to \
       raise_error(
         NameError,
         'uninitialized constant ProviderInterface::StatusBoxComponents::DummyComponent',
@@ -16,6 +16,6 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
     application_choice = instance_double(ApplicationChoice)
     allow(application_choice).to receive(:status).and_return('withdrawn')
 
-    expect(render_inline(described_class, application_choice: application_choice).to_html).to eq ''
+    expect(render_inline(described_class.new(application_choice: application_choice)).to_html).to eq ''
   end
 end
