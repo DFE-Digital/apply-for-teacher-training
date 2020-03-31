@@ -209,6 +209,7 @@ ActiveRecord::Schema.define(version: 2020_03_31_140515) do
     t.datetime "start_date"
     t.string "course_length"
     t.string "description"
+    t.integer "accredited_provider_id"
     t.index ["code"], name: "index_courses_on_code"
     t.index ["exposed_in_find", "open_on_apply"], name: "index_courses_on_exposed_in_find_and_open_on_apply"
     t.index ["provider_id", "code"], name: "index_courses_on_provider_id_and_code", unique: true

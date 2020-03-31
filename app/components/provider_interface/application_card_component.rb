@@ -6,7 +6,7 @@ module ProviderInterface
                   :candidate_name, :course_name_and_code, :course_provider_name, :updated_at
 
     def initialize(application_choice:)
-      @accrediting_provider = application_choice.accrediting_provider
+      @accrediting_provider = application_choice.accredited_provider
       @application_choice = application_choice
       @candidate_name = application_choice.application_form.full_name
       @course_name_and_code = application_choice.offered_course.name_and_code

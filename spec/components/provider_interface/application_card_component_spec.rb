@@ -10,7 +10,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
            name: 'Hoth Teacher Training')
   end
 
-  let(:accrediting_provider) do
+  let(:accredited_provider) do
     create(:provider,
            :with_signed_agreement,
            code: 'XYZ',
@@ -22,7 +22,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
                                course: create(:course,
                                               name: 'Alchemy',
                                               provider: current_provider,
-                                              accrediting_provider: accrediting_provider))
+                                              accredited_provider: accredited_provider))
   end
 
   let(:application_choice) do
@@ -64,25 +64,25 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
       expect(card).to include('25 Mar 2020')
     end
 
-    context 'when there is no accrediting provider' do
-      let(:course_option_without_accrediting_provider) do
+    context 'when there is no accredited provider' do
+      let(:course_option_without_accredited_provider) do
         course_option_for_provider(provider: current_provider,
                                    course: create(:course,
                                                   name: 'Baking',
                                                   provider: current_provider))
       end
 
-      let(:application_choice_without_accrediting_provider) do
+      let(:application_choice_without_accredited_provider) do
         create(:application_choice,
                :awaiting_provider_decision,
-               course_option: course_option_without_accrediting_provider,
+               course_option: course_option_without_accredited_provider,
                status: 'withdrawn', application_form: create(:application_form,
                                                              first_name: 'Jim',
                                                              last_name: 'James'),
                                                              updated_at: Date.parse('25-03-2020'))
       end
 
-      let(:result) { render_inline described_class.new(application_choice: application_choice_without_accrediting_provider) }
+      let(:result) { render_inline described_class.new(application_choice: application_choice_without_accredited_provider) }
 
       it 'renders the course provider name instead' do
         expect(result.css('.app-application-card__secondary').text).to include('Hoth Teacher Training')

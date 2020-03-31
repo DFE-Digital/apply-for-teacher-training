@@ -21,7 +21,7 @@ class FilterApplicationChoicesForProviders
     end
 
     def accredited_provider(application_choices, filters)
-      application_choices.where('courses.accrediting_provider_id' => filters[:accredited_provider].keys)
+      application_choices.where('courses.accredited_provider_id' => filters[:accredited_provider].keys)
     end
 
     def search_exists?(filters)
