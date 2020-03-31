@@ -29,7 +29,7 @@ The “email\_confirmed” cookie is [signed to avoid tampering](https://apidock
 
 For this ADR we considered a wide variety of options. In addition to solving the 2 issues described above, we looked at how straightforward the implementation would be, the ease of use, the level of security it would provide, and if it could be re-used to provide additional security for the provider interface.
 
-All options have their trade-offs. We’ve chosen to go with the Email confirmation option, since it is fairly straightforward to implement and it fulfills our 2 requirements (unlike B, C, D, E, F). Compared to option G (SSO), it’s easier to migrate to as it doesn’t change as much for users and works for all users.
+All options have their trade-offs. We’ve chosen to go with the Email confirmation option, since it is fairly straightforward to implement and it fulfills our 2 requirements (unlike B, C, D, E, F). Option G (SSO) is not possible as we need to support users on the `@education.gov.uk` domain which is not a Google apps domain.
 
 | What | Description | Advantage | Disadvantage |
 | -- | -- | -- | -- |
