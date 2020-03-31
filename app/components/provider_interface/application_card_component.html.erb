@@ -1,7 +1,7 @@
 <div class="app-application-card">
 
   <h3 class="govuk-heading-m">
-    <%= link_to candidate_name, provider_interface_application_choice_path(application_choice), class: 'govuk-link' %>
+    <%= govuk_link_to candidate_name, provider_interface_application_choice_path(application_choice) %>
     <div class="app-application-card__status">
       <%= render ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice) %>
     <div>
