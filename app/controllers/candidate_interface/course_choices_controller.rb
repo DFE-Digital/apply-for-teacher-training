@@ -100,10 +100,21 @@ module CandidateInterface
     end
 
     def options_for_study_mode
-      @pick_study_mode = PickStudyModeForm.new(
-        provider_id: params.fetch(:provider_id),
-        course_id: params.fetch(:course_id),
-      )
+      if params[:course_choice_id]
+        @course_choice_id = params[:course_choice_id]
+        current_application_choice = current_application.application_choices.find(@course_choice_id)
+
+        @pick_study_mode = PickStudyModeForm.new(
+          provider_id: current_application_choice.provider.id,
+          course_id: current_application_choice.course.id,
+          study_mode: current_application_choice.offered_option.study_mode,
+        )
+      else
+        @pick_study_mode = PickStudyModeForm.new(
+          provider_id: params.fetch(:provider_id),
+          course_id: params.fetch(:course_id),
+        )
+      end
     end
 
     def pick_study_mode
@@ -118,15 +129,23 @@ module CandidateInterface
       render :options_for_study_mode and return unless @pick_study_mode.valid?
 
       if @pick_study_mode.single_site_course?
-        pick_site_for_course(
-          @pick_study_mode.course_id,
-          @pick_study_mode.first_site_id,
-        )
+        if params[:course_choice_id]
+          pick_new_site_for_course(
+            @pick_study_mode.course_id,
+            @pick_study_mode.first_site_id,
+          )
+        else
+          pick_site_for_course(
+            @pick_study_mode.course_id,
+            @pick_study_mode.first_site_id,
+          )
+        end
       else
         redirect_to candidate_interface_course_choices_site_path(
           @pick_study_mode.provider_id,
           @pick_study_mode.course_id,
           @pick_study_mode.study_mode,
+          course_choice_id: params[:course_choice_id],
         )
       end
     end
@@ -140,7 +159,7 @@ module CandidateInterface
           application_form: current_application,
           provider_id: current_application_choice.provider.id,
           course_id: current_application_choice.course.id,
-          study_mode: current_application_choice.offered_option.study_mode,
+          study_mode: params.fetch(:study_mode),
           course_option_id: current_application_choice.course_option_id.to_s,
         )
       else

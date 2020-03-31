@@ -16,12 +16,12 @@ module CandidateInterface
     def course_choice_rows(course_choice)
       rows =   [
                  course_row(course_choice),
-                 location_row(course_choice),
                  study_mode_row(course_choice),
+                 location_row(course_choice),
                  type_row(course_choice.course),
                  course_length_row(course_choice.course),
                  start_date_row(course_choice.course),
-               ]
+               ].compact
 
       rows.tap do |r|
         r << status_row(course_choice) if @show_status
@@ -62,7 +62,7 @@ module CandidateInterface
                       candidate_interface_course_choices_site_path(
                         course_choice.provider.id,
                         course_choice.course.id,
-                        course_choice.course.study_mode,
+                        course_choice.offered_option.study_mode,
                         course_choice_id: course_choice.id,
                       )
                     end
@@ -76,9 +76,21 @@ module CandidateInterface
     end
 
     def study_mode_row(course_choice)
+      return unless course_choice.course.both_study_modes_available?
+
+      change_path = if FeatureFlag.active?('edit_course_choices')
+                      candidate_interface_course_choices_study_mode_path(
+                        course_choice.provider.id,
+                        course_choice.course.id,
+                        course_choice_id: course_choice.id,
+                      )
+                    end
+
       {
         key: 'Full time or part time',
         value: course_choice.offered_option.study_mode.humanize,
+        action: "study mode for #{course_choice.course.name_and_code}",
+        change_path: change_path,
       }
     end
 
@@ -145,7 +157,7 @@ module CandidateInterface
     end
 
     def has_multiple_sites?(course_choice)
-      CourseOption.where(course_id: course_choice.course.id).many?
+      CourseOption.where(course_id: course_choice.course.id, study_mode: course_choice.offered_option.study_mode).many?
     end
   end
 end
