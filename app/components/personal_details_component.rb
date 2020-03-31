@@ -8,6 +8,7 @@ class PersonalDetailsComponent < ActionView::Component::Base
            :phone_number,
            :candidate,
            :support_reference,
+           :submitted_at,
            to: :application_form
 
   delegate :email_address, to: :candidate
@@ -18,6 +19,7 @@ class PersonalDetailsComponent < ActionView::Component::Base
 
   def rows
     [
+      application_submitted_row,
       support_reference_row,
       name_row,
       date_of_birth_row,
@@ -29,6 +31,15 @@ class PersonalDetailsComponent < ActionView::Component::Base
   end
 
 private
+
+  def application_submitted_row
+    return unless submitted_at
+
+    {
+      key: 'Application submitted',
+      value: submitted_at.to_s(:govuk_date),
+    }
+  end
 
   def name_row
     {

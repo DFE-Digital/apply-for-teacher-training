@@ -9,21 +9,7 @@ module ProviderInterface
       end
 
       def render?
-        (application_choice.withdrawn? && !application_choice.offer_withdrawn_at) || \
-          raise(ProviderInterface::StatusBoxComponent::ComponentMismatchError)
-      end
-
-      def rows
-        [
-          {
-            key: 'Status',
-            value: render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice)),
-          },
-          {
-            key: 'Application withdrawn',
-            value: application_choice.withdrawn_at.to_s(:govuk_date),
-          },
-        ]
+        false
       end
     end
   end

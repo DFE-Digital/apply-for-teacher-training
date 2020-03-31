@@ -16,10 +16,6 @@ module ProviderInterface
       def rows
         [
           {
-            key: 'Status',
-            value: render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice)),
-          },
-          {
             key: 'Offer declined',
             value: application_choice.declined_at.to_s(:govuk_date),
           },

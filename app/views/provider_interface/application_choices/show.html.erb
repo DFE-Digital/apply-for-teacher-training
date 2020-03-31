@@ -13,32 +13,34 @@
   </div>
 <% end %>
 
+<% if @application_choice.status == 'awaiting_provider_decision' -%>
+  <div class="app-banner">
+    <div class="app-banner__message">
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-0">
+        You have <%= days_to_respond_to(@application_choice) %> days to send a response. <%= govuk_link_to 'Respond to application', provider_interface_application_choice_respond_path(@application_choice) %>.
+      </h2>
+    </div>
+  </div>
+<% end -%>
+
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-1">
+  <%= @application_choice.application_form.full_name %>
+  <%= render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice: @application_choice)) %>
+</h1>
+<p class="govuk-body govuk-!-margin-bottom-9 app-!-print-display-none">
+  <%= govuk_link_to(
+    'Download application (PDF)',
+    provider_interface_application_choice_path(@application_choice.id, format: :pdf),
+    download: @application_choice.application_form.support_reference
+  ) %>
+</p>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl govuk-!-margin-bottom-1">
-      <span class="govuk-caption-xl"><%= @application_choice.application_form.support_reference %></span>
-      <%= @application_choice.application_form.full_name %>
-    </h1>
-    <p class="govuk-body govuk-!-margin-bottom-9 app-!-print-display-none">
-      <%= govuk_link_to(
-        'Download application (PDF)',
-        provider_interface_application_choice_path(@application_choice.id, format: :pdf),
-        download: @application_choice.application_form.support_reference
-      ) %>
-    </p>
 
     <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice) %>
-  </div>
 
-  <div class="govuk-grid-column-one-third">
-    <%= render ProviderInterface::ApplicationTimelineComponent.new(application_choice: @application_choice) %>
-  </div>
-</div>
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="course-info">Application</h2>
-
+    <h2 class="govuk-heading-l" id="course-info">Application</h2>
     <%= render PersonalDetailsComponent.new(application_form: @application_choice.application_form) %>
 
     <% unless HostingEnvironment.production? %>
@@ -112,5 +114,8 @@
         <%= render ProviderInterface::ReferenceWithFeedbackComponent.new(reference: reference) %>
       <% end %>
     <% end %>
+  </div>
+  <div class="govuk-grid-column-one-third">
+    <%= render ProviderInterface::ApplicationTimelineComponent.new(application_choice: @application_choice) %>
   </div>
 </div>

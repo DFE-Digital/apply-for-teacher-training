@@ -1,5 +1,6 @@
-<div data-qa="app-status-box">
-  <div class="app-card app-card--white govuk-!-margin-bottom-9">
-    <%= render status_box_component_to_render.new(application_choice: @application_choice) %>
+<% status_box_component = status_box_component_to_render.new(application_choice: @application_choice) -%>
+<% if status_box_component.render? -%>
+  <div data-qa="app-status-box" class="govuk-!-margin-bottom-8">
+    <%= render status_box_component %>
   </div>
-</div>
+<% end -%>
