@@ -17,7 +17,7 @@
     <%= render SupportInterface::TileComponent.new(count: @statistics.total_candidate_count(only: %i{never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}), label: 'in pre-submission') %>
   </div>
   <div class="govuk-grid-column-one-half">
-    <%= render SupportInterface::TileComponent.new(count: @statistics.total_candidate_count(except: %i{never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}), label: 'submitted') %>
+    <%= render SupportInterface::TileComponent.new(count: @statistics.total_submitted_count, label: 'submitted') %>
   </div>
 </div>
 
@@ -41,10 +41,10 @@
         <%= render SupportInterface::TileComponent.new(count: @statistics.total_candidate_count(except: %i{ended_without_success pending_conditions recruited enrolled never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}), label: 'still being processed', size: :reduced) %>
       </div>
       <div class="govuk-grid-column-one-third">
-        <%= render SupportInterface::TileComponent.new(count: @statistics.total_candidate_count(only: %i{ended_without_success}), label: 'ended w/o success', size: :reduced, colour: :red) %>
+        <%= render SupportInterface::TileComponent.new(count: @statistics.ended_without_success_count, label: 'ended w/o success', size: :reduced, colour: :red) %>
       </div>
       <div class="govuk-grid-column-one-third">
-        <%= render SupportInterface::TileComponent.new(count: @statistics.total_candidate_count(only: %i{pending_conditions recruited enrolled}), label: 'accepted an offer', size: :reduced, colour: :green) %>
+        <%= render SupportInterface::TileComponent.new(count: @statistics.accepted_offer_count, label: 'accepted an offer', size: :reduced, colour: :green) %>
       </div>
     </div>
   </div>
