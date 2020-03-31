@@ -31,7 +31,7 @@
 }
 
 .app-filter {
-  @include govuk-media-query($until: filter_hide) {
+  @include govuk-media-query($until: large) {
     display: none;
   }
 }
