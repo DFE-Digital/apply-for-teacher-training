@@ -14,8 +14,7 @@ module CandidateInterface
     end
 
     def course_choice_rows(course_choice)
-      rows = if FeatureFlag.active?('display_additional_course_details')
-               [
+      rows =   [
                  course_row(course_choice),
                  location_row(course_choice),
                  study_mode_row(course_choice),
@@ -23,13 +22,6 @@ module CandidateInterface
                  course_length_row(course_choice.course),
                  start_date_row(course_choice.course),
                ]
-             else
-               [
-                 course_row(course_choice),
-                 location_row(course_choice),
-                 study_mode_row(course_choice),
-               ]
-             end
 
       rows.tap do |r|
         r << status_row(course_choice) if @show_status
