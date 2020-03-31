@@ -19,15 +19,23 @@ private
   end
 
   def post_to_slack(text)
-    slack_message = HostingEnvironment.production? ? text : "[#{HostingEnvironment.environment_name.upcase}] #{text}"
+    if HostingEnvironment.production?
+      slack_message = text
+      slack_channel = '#twd_apply_support'
+    else
+      slack_message = "[#{HostingEnvironment.environment_name.upcase}] #{text}"
+      slack_channel = '#twd_apply_test'
+    end
 
     payload = {
-      username: 'ApplyBot',
-      icon_emoji: ':parrot:',
+      username: 'Apply for teacher training',
+      icon_emoji: ':shipitbeaver:',
+      channel: slack_channel,
       text: slack_message,
       mrkdwn: true,
     }
-    response = HTTP.post @webhook_url, body: payload.to_json
+
+    response = HTTP.post(@webhook_url, body: payload.to_json)
     Rails.logger.warn "Notification to slack failed: #{response.status}" if !response.status.success?
   rescue StandardError => e
     Rails.logger.warn "Notification to slack failed: #{e.message}"
