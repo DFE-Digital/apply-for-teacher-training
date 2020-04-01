@@ -7,7 +7,7 @@ module CandidateInterface
     validate :candidate_can_only_apply_to_3_courses, on: :save
 
     def available_sites
-      relation = CourseOption.includes(:site).where(course_id: course.id)
+      relation = CourseOption.selectable.includes(:site).where(course_id: course.id)
       relation = relation.where(study_mode: study_mode)
       relation.sort_by { |course_option| course_option.site.name }
     end
