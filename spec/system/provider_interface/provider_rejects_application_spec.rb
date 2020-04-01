@@ -16,9 +16,7 @@ RSpec.feature 'Provider rejects application' do
 
     when_i_respond_to_an_application
     and_i_choose_to_reject_it
-    then_i_see_some_application_info
-
-    when_i_add_a_rejection_reason
+    and_i_add_a_rejection_reason
     and_i_click_to_continue
     then_i_am_asked_to_confirm_the_rejection
 
@@ -46,17 +44,8 @@ RSpec.feature 'Provider rejects application' do
     click_on 'Continue'
   end
 
-  def then_i_see_some_application_info
-    expect(page).to have_content \
-      application_awaiting_provider_decision.course.name_and_code
-    expect(page).to have_content \
-      application_awaiting_provider_decision.application_form.first_name
-    expect(page).to have_content \
-      application_awaiting_provider_decision.application_form.last_name
-  end
-
-  def when_i_add_a_rejection_reason
-    fill_in('Tell the candidate why their application was rejected', with: 'A rejection reason')
+  def and_i_add_a_rejection_reason
+    fill_in('Tell the candidate why you’re rejecting their application', with: 'A rejection reason')
   end
 
   def and_i_click_to_continue
@@ -72,7 +61,7 @@ RSpec.feature 'Provider rejects application' do
   end
 
   def when_i_confirm_the_rejection
-    click_on 'Confirm rejection'
+    click_on 'Reject application'
   end
 
   def then_i_am_back_to_the_application_page
