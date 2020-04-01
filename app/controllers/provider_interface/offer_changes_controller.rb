@@ -6,13 +6,15 @@ module ProviderInterface
 
     def edit_provider
       @change_offer_form.step = :provider
-      set_alternative_providers
+
+      render_providers
     end
 
     def edit_course
       @change_offer_form.step = :course
+
       if @change_offer_form.valid?
-        set_alternative_courses
+        render_courses
       else
         render_providers
       end
@@ -20,8 +22,9 @@ module ProviderInterface
 
     def edit_course_option
       @change_offer_form.step = :course_option
+
       if @change_offer_form.valid?
-        set_alternative_course_options
+        render_course_options
       else
         render_courses
       end
@@ -64,16 +67,37 @@ module ProviderInterface
 
     def render_providers
       set_alternative_providers
+      @page_title = \
+        if @application_choice.offer? && @change_offer_form.entry == 'provider'
+          'Change training provider'
+        else
+          'Select alternative training provider'
+        end
+
       render :edit_provider
     end
 
     def render_courses
       set_alternative_courses
+      @page_title = \
+        if @application_choice.offer? && @change_offer_form.entry == 'course'
+          'Change course'
+        else
+          'Select alternative course'
+        end
+
       render :edit_course
     end
 
     def render_course_options
       set_alternative_course_options
+      @page_title = \
+        if @application_choice.offer? && @change_offer_form.entry == 'course_option'
+          'Change location'
+        else
+          'Select location'
+        end
+
       render :edit_course_option
     end
 

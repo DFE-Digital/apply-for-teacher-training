@@ -18,17 +18,17 @@ module ProviderInterface
         },
         {
           key: 'Provider',
-          value: application_choice.offered_course.provider.name,
+          value: course_option.course.provider.name,
           change_path: change_path(:provider), action: 'training provider'
         },
         {
           key: 'Course',
-          value: application_choice.offered_course.name_and_code,
+          value: course_option.course.name_and_code,
           change_path: change_path(:course), action: 'course'
         },
         {
           key: 'Location',
-          value: application_choice.offered_site.name_and_address,
+          value: course_option.site.name_and_address,
           change_path: change_path(:course_option), action: 'location'
         },
       ]
@@ -38,14 +38,17 @@ module ProviderInterface
       Rails.application.routes.url_helpers
     end
 
+    # TODO: paths produced preserve the current (unsaved) provider/course/option selection
     def change_path(target)
-      case target
-      when :provider
-        paths.provider_interface_application_choice_change_offer_edit_provider_path(application_choice.id) if show_provider_link?
-      when :course
-        paths.provider_interface_application_choice_change_offer_edit_course_path(application_choice.id) if show_course_link?
-      when :course_option
-        paths.provider_interface_application_choice_change_offer_edit_course_option_path(application_choice.id) if show_course_option_link?
+      if new_course_option
+        case target
+        when :provider
+          paths.provider_interface_application_choice_change_offer_edit_provider_path(application_choice.id) if show_provider_link?
+        when :course
+          paths.provider_interface_application_choice_change_offer_edit_course_path(application_choice.id) if show_course_link?
+        when :course_option
+          paths.provider_interface_application_choice_change_offer_edit_course_option_path(application_choice.id) if show_course_option_link?
+        end
       end
     end
 
@@ -62,8 +65,14 @@ module ProviderInterface
     end
 
     def new_course_option
-      @course_option ||= CourseOption.find(@course_option_id) if @course_option_id
-      @course_option unless @course_option && @course_option.id != application_choice.offered_option.id
+      if @course_option_id
+        @new_course_option ||= CourseOption.find(@course_option_id)
+        @new_course_option if @course_option_id != application_choice.offered_option.id
+      end
+    end
+
+    def course_option
+      new_course_option || application_choice.offered_option
     end
   end
 end

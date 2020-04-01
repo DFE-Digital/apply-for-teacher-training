@@ -3,7 +3,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @change_offer_form,
-          url: provider_interface_application_choice_change_offer_edit_course_option_path(@application_choice.id, entry: params[:entry]),
+          url: provider_interface_application_choice_change_offer_edit_course_option_path(@application_choice.id),
           method: :get do |f| %>
 
       <%= f.hidden_field :provider_id %>
@@ -12,13 +12,13 @@
 
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
           <h1 class="govuk-fieldset__heading">
-					  <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
-					  <%= (@application_choice.offer? ? 'Change' : 'Select alternative').concat(' course') %>
-				  </h1>
+            <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+              <%= @page_title %>
+          </h1>
         </legend>
 
         <% @alternative_courses.each do |course| %>
-          <%= f.govuk_radio_button :course_id, course.id, label: { text: course.name_and_code }, hint_text: nil %>
+          <%= f.govuk_radio_button :course_id, course.id, label: { text: course.name_and_code }, hint_text: course.description %>
         <% end %>
       <% end %>
 

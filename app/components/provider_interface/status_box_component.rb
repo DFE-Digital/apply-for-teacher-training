@@ -2,11 +2,11 @@ module ProviderInterface
   class StatusBoxComponent < ActionView::Component::Base
     include ViewHelper
 
-    attr_reader :application_choice, :extra_arguments
+    attr_reader :application_choice
 
-    def initialize(application_choice:, extra_arguments: nil)
+    def initialize(application_choice:, extra_arguments: {})
       @application_choice = application_choice
-      @extra_arguments = extra_arguments || {}
+      @extra_arguments = extra_arguments
     end
 
     def application_status
