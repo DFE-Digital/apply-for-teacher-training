@@ -13,8 +13,9 @@ class SendApplicationToProvider
       application_choice.update!(sent_to_provider_at: Time.zone.now)
       SetRejectByDefault.new(application_choice).call
       ApplicationStateChange.new(application_choice).send_to_provider!
-      StateChangeNotifier.call(:send_application_to_provider, application_choice: application_choice)
-      SendNewApplicationEmailToProvider.new(application_choice: application_choice).call
     end
+
+    StateChangeNotifier.call(:send_application_to_provider, application_choice: application_choice)
+    SendNewApplicationEmailToProvider.new(application_choice: application_choice).call
   end
 end
