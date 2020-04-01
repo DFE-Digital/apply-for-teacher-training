@@ -16,7 +16,6 @@ RSpec.describe 'Candidate satisfaction survey' do
     when_i_choose_1
     and_click_continue
     then_i_see_the_complexity_page
-
   end
 
   def given_the_satisfaction_survey_flag_is_active
