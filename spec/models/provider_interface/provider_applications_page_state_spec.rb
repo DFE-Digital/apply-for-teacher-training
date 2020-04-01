@@ -28,13 +28,23 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
           },
           {
             type: 'checkbox',
-            text: 'Rejected',
-            name: 'rejected',
+            text: 'Accepted',
+            name: 'pending_conditions',
           },
           {
             type: 'checkbox',
-            text: 'Accepted',
-            name: 'pending_conditions',
+            text: 'Conditions met',
+            name: 'recruited',
+          },
+          {
+            type: 'checkbox',
+            text: 'Enrolled',
+            name: 'enrolled',
+          },
+          {
+            type: 'checkbox',
+            text: 'Rejected',
+            name: 'rejected',
           },
           {
             type: 'checkbox',
@@ -48,18 +58,13 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
           },
           {
             type: 'checkbox',
+            text: 'Conditions not met',
+            name: 'conditions_not_met',
+          },
+          {
+            type: 'checkbox',
             text: 'Withdrawn by us',
             name: 'offer_withdrawn',
-          },
-          {
-            type: 'checkbox',
-            text: 'Conditions met',
-            name: 'recruited',
-          },
-          {
-            type: 'checkbox',
-            text: 'Enrolled',
-            name: 'enrolled',
           },
         ],
       },
