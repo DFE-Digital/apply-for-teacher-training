@@ -74,7 +74,7 @@ RSpec.feature 'Selecting a study mode' do
     click_button 'Continue'
 
     click_button 'Continue'
-    expect(page).to have_text 'Select full time or part time'
+    expect(page).to have_text 'Select if the course is full time or part time'
     choose 'Part time'
     click_button 'Continue'
   end
