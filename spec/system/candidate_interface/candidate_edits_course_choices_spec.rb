@@ -17,8 +17,15 @@ RSpec.describe 'Candidate edits course choices' do
 
     when_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
+    and_i_choose_the_third_course_as_my_first_course_choice
+    and_i_choose_the_full_time_study_mode
+    then_i_should_be_on_the_course_choice_review_page
+    and_i_should_see_a_change_course_link
+
+    when_i_click_to_change_the_course_for_the_first_course_choice
     and_i_choose_the_single_site_course_as_my_first_course_choice
     then_i_should_be_on_the_course_choice_review_page
+    and_i_should_see_the_updated_change_course_link
     and_i_should_not_see_a_change_location_link
     and_i_should_not_see_a_change_study_mode_link
 
@@ -118,6 +125,15 @@ RSpec.describe 'Candidate edits course choices' do
     click_button 'Continue'
   end
 
+  def and_i_choose_the_third_course_as_my_first_course_choice
+    choose @provider.courses.third.name_and_code
+    click_button 'Continue'
+  end
+
+  def when_i_click_to_change_the_course_for_the_first_course_choice
+    click_link "Change course choice for #{@provider.courses.third.name}"
+  end
+
   def and_i_choose_the_single_site_course_as_my_first_course_choice
     choose @provider.courses.first.name_and_code
     click_button 'Continue'
@@ -125,6 +141,14 @@ RSpec.describe 'Candidate edits course choices' do
 
   def then_i_should_be_on_the_course_choice_review_page
     expect(page).to have_current_path(candidate_interface_course_choices_review_path)
+  end
+
+  def and_i_should_see_a_change_course_link
+    expect(page).to have_content("Change course choice for #{@provider.courses.third.name}")
+  end
+
+  def and_i_should_see_the_updated_change_course_link
+    expect(page).to have_content("Change course choice for #{@provider.courses.first.name}")
   end
 
   def and_i_should_not_see_a_change_location_link

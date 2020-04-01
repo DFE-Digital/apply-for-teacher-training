@@ -18,6 +18,35 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       expect(result.css('.govuk-summary-list__value').to_html).to include(course_choice.course.start_date.strftime('%B %Y'))
     end
 
+    context 'When multiple courses available at a privider and edit_course_choices feature is active' do
+      let(:course_choice) { application_form.application_choices.first }
+
+      before do
+        FeatureFlag.activate('edit_course_choices')
+        provider = application_form.application_choices.first.provider
+        create(:course, provider: provider, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
+      end
+
+      it 'renders the course row with change link' do
+        result = render_inline(described_class.new(application_form: application_form))
+        change_location_link = result.css('.govuk-summary-list__actions')[0].text.strip
+
+        expect(change_location_link).to eq("Change course choice for #{course_choice.course.name_and_code}")
+      end
+    end
+
+    context 'When only one course available at a privider and edit_course_choices feature is active' do
+      let(:course_choice) { application_form.application_choices.first }
+
+      before { FeatureFlag.activate('edit_course_choices') }
+
+      it 'renders the course row without change link' do
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.app-summary-card__actions').text).not_to include("Change course for #{course_choice.course.name_and_code}")
+      end
+    end
+
     context 'When a course has both study modes available' do
       let(:course_choice) { application_form.application_choices.first }
       let(:result) { render_inline(described_class.new(application_form: application_form)) }
@@ -127,6 +156,23 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       result = render_inline(described_class.new(application_form: application_form, editable: false))
 
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.courses.delete'))
+    end
+
+    context 'When multiple courses available at a privider and edit_course_choices feature is active' do
+      let(:application_form) { create_application_form_with_course_choices(statuses: %w[application_complete]) }
+      let(:course_choice) { application_form.application_choices.first }
+
+      before do
+        FeatureFlag.activate('edit_course_choices')
+        provider = application_form.application_choices.first.provider
+        create(:course, provider: provider, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
+      end
+
+      it 'renders without the course choice change link' do
+        result = render_inline(described_class.new(application_form: application_form, editable: false))
+
+        expect(result.css('.govuk-summary-list__actions').text).not_to include('Change')
+      end
     end
 
     context 'when there are multiple site options for course and edit course choices feature is active' do

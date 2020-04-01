@@ -50,10 +50,18 @@ module CandidateInterface
 
     def course_row(course_choice)
       url = "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{course_choice.provider.code}/#{course_choice.course.code}"
+      change_path = if FeatureFlag.active?('edit_course_choices') && has_multiple_courses?(course_choice)
+                      candidate_interface_course_choices_course_path(
+                        course_choice.provider.id,
+                        course_choice_id: course_choice.id,
+                      )
+                    end
 
       {
         key: 'Course',
         value: govuk_link_to("#{course_choice.offered_course.name} (#{course_choice.offered_course.code})", url, target: '_blank', rel: 'noopener'),
+        action: "course choice for #{course_choice.course.name_and_code}",
+        change_path: change_path,
       }
     end
 
@@ -158,6 +166,10 @@ module CandidateInterface
 
     def has_multiple_sites?(course_choice)
       CourseOption.where(course_id: course_choice.course.id, study_mode: course_choice.offered_option.study_mode).many?
+    end
+
+    def has_multiple_courses?(course_choice)
+      Course.where(provider: course_choice.provider).many?
     end
   end
 end
