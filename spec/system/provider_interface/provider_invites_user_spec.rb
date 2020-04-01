@@ -9,6 +9,7 @@ RSpec.feature 'Provider invites a new provider user' do
     and_i_can_manage_applications_for_two_providers
     and_i_can_manage_users_for_a_provider
     and_i_sign_in_to_the_provider_interface
+    and_the_provider_add_provider_users_feature_is_enabled
 
     when_i_visit_the_provider_users_index
     and_i_click_invite_user
@@ -31,6 +32,10 @@ RSpec.feature 'Provider invites a new provider user' do
 
   def and_i_can_manage_users_for_a_provider
     @provider_user.provider_users_providers.find_by(provider: @provider).update(manage_users: true)
+  end
+
+  def and_the_provider_add_provider_users_feature_is_enabled
+    FeatureFlag.activate('provider_add_provider_users')
   end
 
   def when_i_visit_the_provider_users_index

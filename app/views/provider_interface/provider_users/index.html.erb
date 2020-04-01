@@ -1,6 +1,8 @@
 <% content_for :title, 'Provider users' %>
 
-<%= link_to 'Invite user', provider_interface_provider_users_new_path, class: 'govuk-button' %>
+<% if FeatureFlag.active?('provider_add_provider_users') -%>
+  <%= link_to 'Invite user', provider_interface_provider_users_new_path, class: 'govuk-button' %>
+<% end -%>
 
 <% content_for :before_content do %>
   <div class="govuk-breadcrumbs">

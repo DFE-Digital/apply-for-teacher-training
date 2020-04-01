@@ -1,5 +1,7 @@
 module ProviderInterface
   class ProviderUsersController < ProviderInterfaceController
+    before_action :requires_provider_add_provider_users_feature_flag, only: %i[new create]
+
     def index
       # TODO: A scope for this?
       @provider_users = ProviderUser
@@ -33,6 +35,10 @@ module ProviderInterface
     def provider_user_params
       params.require(:provider_interface_provider_user_form)
             .permit(:email_address, :first_name, :last_name, provider_ids: [])
+    end
+
+    def requires_provider_add_provider_users_feature_flag
+      raise unless FeatureFlag.active?('provider_add_provider_users')
     end
   end
 end
