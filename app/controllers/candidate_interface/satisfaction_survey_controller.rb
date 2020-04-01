@@ -24,13 +24,15 @@ module CandidateInterface
       @survey = SatisfactionSurveyForm.new(survey_params)
 
       if @survey.save(current_application)
-        redirect_to candidate_interface_satisfaction_survey_complexity_path
+        redirect_to candidate_interface_satisfaction_survey_ease_of_use_path
       else
         @survey = SatisfactionSurveyForm.new
 
         render :complexity
       end
     end
+
+    def ease_of_use; end
 
   private
 
