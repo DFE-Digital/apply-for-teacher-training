@@ -34,7 +34,7 @@ RSpec.feature 'A candidate withdraws her application' do
     form = create(:completed_application_form, :with_completed_references, candidate: current_candidate)
     @application_choice = create(:application_choice, :awaiting_provider_decision, application_form: form)
     @provider_user = create(:provider_user)
-    create(:provider_users_provider, provider_id: @application_choice.provider.id, provider_user_id: @provider_user.id)
+    create(:provider_permissions, provider_id: @application_choice.provider.id, provider_user_id: @provider_user.id)
   end
 
   def when_i_visit_the_application_dashboard
