@@ -329,11 +329,15 @@ en:
               blank: Select if you have chosen a course or not
         candidate_interface/pick_provider_form:
           attributes:
-            code:
-              blank: Select a course provider
+            provider_id:
+              blank: Select a training provider
+        candidate_interface/pick_study_mode_form:
+          attributes:
+            study_mode:
+              blank: Select full time or part time
         candidate_interface/pick_course_form:
           attributes:
-            code:
+            course_id:
               blank: Select a course
         candidate_interface/pick_site_form:
           attributes:

@@ -7,13 +7,13 @@ module SelectOptionsHelper
 
   def select_course_options(courses)
     [
-      OpenStruct.new(id: '', name: t('activemodel.errors.models.candidate_interface/pick_course_form.attributes.code.blank')),
+      OpenStruct.new(id: '', name: t('activemodel.errors.models.candidate_interface/pick_course_form.attributes.course_id.blank')),
     ] + courses.map { |course| OpenStruct.new(id: course.id, name: course.name) }
   end
 
   def select_provider_options(providers)
     [
-      OpenStruct.new(id: '', name: t('activemodel.errors.models.candidate_interface/pick_provider_form.attributes.code.blank')),
+      OpenStruct.new(id: '', name: t('activemodel.errors.models.candidate_interface/pick_provider_form.attributes.provider_id.blank')),
     ] + providers.map { |provider| OpenStruct.new(id: provider.id, name: "#{provider.name} (#{provider.code})") }
   end
 end
