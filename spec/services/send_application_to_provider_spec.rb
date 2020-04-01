@@ -9,7 +9,7 @@ RSpec.describe SendApplicationToProvider do
 
   def application_choice(status: 'application_complete')
     @application_choice ||= create(
-      :application_choice,
+      :submitted_application_choice,
       status: status,
       edit_by: 2.business_days.ago,
     )
@@ -50,5 +50,16 @@ RSpec.describe SendApplicationToProvider do
     SendApplicationToProvider.new(application_choice: application_choice).call
 
     expect(SlackNotificationWorker).to have_received(:perform_async)
+  end
+
+  it 'emails the provider’s provider users', sidekiq: true do
+    user = create(:provider_user)
+    application_choice.provider.provider_users = [user]
+
+    expect {
+      SendApplicationToProvider.new(application_choice: application_choice).call
+    }.to change { ActionMailer::Base.deliveries.count }.by(1)
+
+    expect(ActionMailer::Base.deliveries.first.to.first).to eq(user.email_address)
   end
 end

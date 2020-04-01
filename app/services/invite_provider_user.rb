@@ -11,8 +11,9 @@ class InviteProviderUser
     ActiveRecord::Base.transaction do
       @provider_user.save!
       invite_user_to_dfe_sign_in
-      send_welcome_email
     end
+
+    send_welcome_email
   end
 
   def dfe_invite_url
