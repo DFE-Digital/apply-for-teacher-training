@@ -4,7 +4,11 @@ module CandidateInterface
 
     attr_accessor :question, :response
 
+    validates :question, presence: true
+
     def save(application_form)
+      return false unless valid?
+
       remove_strongly_agree_and_strongly_disagree_text(@response)
       application_form.update(satisfaction_survey: { @question => @response })
     end
