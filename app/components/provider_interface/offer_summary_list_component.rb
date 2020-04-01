@@ -38,16 +38,16 @@ module ProviderInterface
       Rails.application.routes.url_helpers
     end
 
-    # TODO: paths produced preserve the current (unsaved) provider/course/option selection
+    # paths produced preserve the current (unsaved) provider/course/option selection
     def change_path(target)
       if new_course_option
         case target
         when :provider
-          paths.provider_interface_application_choice_change_offer_edit_provider_path(application_choice.id) if show_provider_link?
+          paths.provider_interface_application_choice_change_offer_edit_provider_path(application_choice.id, current_selection_params) if show_provider_link?
         when :course
-          paths.provider_interface_application_choice_change_offer_edit_course_path(application_choice.id) if show_course_link?
+          paths.provider_interface_application_choice_change_offer_edit_course_path(application_choice.id, current_selection_params) if show_course_link?
         when :course_option
-          paths.provider_interface_application_choice_change_offer_edit_course_option_path(application_choice.id) if show_course_option_link?
+          paths.provider_interface_application_choice_change_offer_edit_course_option_path(application_choice.id, current_selection_params) if show_course_option_link?
         end
       end
     end
@@ -73,6 +73,17 @@ module ProviderInterface
 
     def course_option
       new_course_option || application_choice.offered_option
+    end
+
+    def current_selection_params
+      {
+        provider_interface_change_offer_form: {
+          provider_id: course_option.course.provider.id,
+          course_id: course_option.course.id,
+          course_option_id: course_option.id,
+        },
+        entry: @entry,
+      }
     end
   end
 end
