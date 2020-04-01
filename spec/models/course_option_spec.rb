@@ -19,4 +19,13 @@ RSpec.describe CourseOption, type: :model do
       end
     end
   end
+
+  describe '.selectable' do
+    it 'returns only course options where invalidated_by_find is false' do
+      expected_course_option = create(:course_option, invalidated_by_find: false)
+      create(:course_option, invalidated_by_find: true)
+
+      expect(CourseOption.selectable).to match_array [expected_course_option]
+    end
+  end
 end
