@@ -431,6 +431,10 @@ Rails.application.routes.draw do
 
     get '/sign-in' => 'sessions#new'
     get '/sign-out' => 'sessions#destroy'
+
+    get '/provider-users' => 'provider_users#index'
+    get '/provider-users/new' => 'provider_users#new'
+    post '/provider-users' => 'provider_users#create'
   end
 
   get '/auth/dfe/callback' => 'dfe_sign_in#callback'
