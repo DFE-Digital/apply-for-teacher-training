@@ -9,6 +9,11 @@ module CandidateInterface
       I18n.t('page_titles.complexity'),
     ].freeze
 
+    QUESTIONS_WE_ASK = [
+      'I would recommend this service to a friend or colleague',
+      'I found this service unnecessarily complex',
+    ].freeze
+
     validates :question, presence: true
     validates :question, inclusion: { in: QUESTIONS_WE_ASK, allow_blank: false, message: 'Choose one of the options' }
 
