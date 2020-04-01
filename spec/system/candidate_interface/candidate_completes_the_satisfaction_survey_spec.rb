@@ -12,6 +12,11 @@ RSpec.describe 'Candidate satisfaction survey' do
 
     when_they_click_give_feedback
     then_they_should_see_the_recommendation_page
+
+    when_i_choose_1
+    and_click_continue
+    then_i_see_the_complexity_page
+
   end
 
   def given_the_satisfaction_survey_flag_is_active
@@ -36,6 +41,18 @@ RSpec.describe 'Candidate satisfaction survey' do
   end
 
   def then_they_should_see_the_recommendation_page
-    expect(page).to have_content('I would recommend this service to a friend or colleague')
+    expect(page).to have_content(t('page_titles.recommendation'))
+  end
+
+  def when_i_choose_1
+    choose '1 - strongly agree'
+  end
+
+  def and_click_continue
+    click_button 'Continue'
+  end
+
+  def then_i_see_the_complexity_page
+    expect(page).to have_content(t('page_titles.complexity'))
   end
 end
