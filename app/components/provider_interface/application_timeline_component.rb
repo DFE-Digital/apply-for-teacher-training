@@ -18,7 +18,7 @@ module ProviderInterface
       'declined' => 'Offer declined',
       'recruited' => 'Recruited',
       'enrolled' => 'Enrolled',
-      'conditions_not_met' => 'Conditions not met',
+      'conditions_not_met' => 'Conditions marked not met',
     }.freeze
 
     def render?
