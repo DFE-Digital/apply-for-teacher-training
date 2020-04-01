@@ -29,7 +29,7 @@ RSpec.feature 'An application is waiting for decision for 20 working days' do
   def and_i_am_a_provider_user_at_the_course_provider
     @provider_user = create(:provider_user)
     provider_id = @submitted_application_choice.provider.id
-    create(:provider_users_provider, provider_id: provider_id, provider_user_id: @provider_user.id)
+    create(:provider_permissions, provider_id: provider_id, provider_user_id: @provider_user.id)
   end
 
   def when_the_application_is_getting_close_to_the_reject_by_default_date

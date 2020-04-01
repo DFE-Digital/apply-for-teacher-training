@@ -11,7 +11,7 @@ RSpec.describe SendChaseEmailToProvider do
     let(:provider_id) { application_choice.provider.id }
 
     before do
-      create(:provider_users_provider, provider_id: application_choice.provider.id, provider_user_id: provider_user.id)
+      create(:provider_permissions, provider_id: application_choice.provider.id, provider_user_id: provider_user.id)
       described_class.call(application_choice: application_choice)
     end
 

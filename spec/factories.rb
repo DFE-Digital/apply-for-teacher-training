@@ -429,7 +429,7 @@ FactoryBot.define do
     end
   end
 
-  factory :provider_users_provider do
+  factory :provider_permissions do
     provider
     provider_user
   end

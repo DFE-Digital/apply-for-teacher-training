@@ -1,4 +1,6 @@
-class ProviderUsersProvider < ActiveRecord::Base
+class ProviderPermissions < ActiveRecord::Base
+  self.table_name = 'provider_users_providers'
+
   belongs_to :provider_user
   belongs_to :provider
 
