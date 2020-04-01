@@ -18,21 +18,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
         input_config: [
           {
             type: 'checkbox',
-            text: 'Accepted',
-            name: 'pending_conditions',
-          },
-          {
-            type: 'checkbox',
-            text: 'Conditions met',
-            name: 'recruited',
-          },
-          {
-            type: 'checkbox',
-            text: 'Declined',
-            name: 'declined',
-          },
-          {
-            type: 'checkbox',
             text: 'New',
             name: 'awaiting_provider_decision',
           },
@@ -48,6 +33,16 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
           },
           {
             type: 'checkbox',
+            text: 'Accepted',
+            name: 'pending_conditions',
+          },
+          {
+            type: 'checkbox',
+            text: 'Declined',
+            name: 'declined',
+          },
+          {
+            type: 'checkbox',
             text: 'Application withdrawn',
             name: 'withdrawn',
           },
@@ -55,6 +50,16 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
             type: 'checkbox',
             text: 'Withdrawn by us',
             name: 'offer_withdrawn',
+          },
+          {
+            type: 'checkbox',
+            text: 'Conditions met',
+            name: 'recruited',
+          },
+          {
+            type: 'checkbox',
+            text: 'Enrolled',
+            name: 'enrolled',
           },
         ],
       },
