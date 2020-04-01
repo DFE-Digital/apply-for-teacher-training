@@ -4,7 +4,13 @@ module CandidateInterface
 
     attr_accessor :question, :answer
 
+    QUESTIONS_WE_ASK = [
+      'I would recommend this service to a friend or colleague',
+      'I found this service unnecessarily complex',
+    ].freeze
+
     validates :question, presence: true
+    validates :question, inclusion: { in: QUESTIONS_WE_ASK, allow_blank: false }
 
     def save(application_form)
       return false unless valid?
