@@ -334,7 +334,7 @@ en:
         candidate_interface/pick_study_mode_form:
           attributes:
             study_mode:
-              blank: Select full time or part time
+              blank: Select if the course is full time or part time
         candidate_interface/pick_course_form:
           attributes:
             course_id:
