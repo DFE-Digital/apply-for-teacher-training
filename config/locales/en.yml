@@ -73,6 +73,7 @@ en:
     recommendation: I would recommend this service to a friend or colleague
     complexity: I found this service unnecessarily complex
     ease_of_use: I thought this service was easy to use
+    help_needed: I needed help using this service
     volunteering:
       short: Unpaid experience and volunteering
       long: "Unpaid experience working with children and other volunteering"

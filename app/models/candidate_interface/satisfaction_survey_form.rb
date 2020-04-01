@@ -12,6 +12,7 @@ module CandidateInterface
     QUESTIONS_WE_ASK = [
       'I would recommend this service to a friend or colleague',
       'I found this service unnecessarily complex',
+      'I thought this service was easy to use',
     ].freeze
 
     validates :question, presence: true

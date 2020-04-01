@@ -30,7 +30,26 @@ module CandidateInterface
       end
     end
 
-    def ease_of_use; end
+    def ease_of_use
+      @survey = SatisfactionSurveyForm.new
+    end
+
+    def submit_ease_of_use
+      @survey = SatisfactionSurveyForm.new(survey_params)
+
+      if @survey.save(current_application)
+        redirect_to candidate_interface_satisfaction_survey_help_needed_path
+      else
+        @survey = SatisfactionSurveyForm.new
+
+        render :ease_of_use
+      end
+    end
+
+    def help_needed
+      @survey = SatisfactionSurveyForm.new
+    end
+
 
   private
 
