@@ -16,7 +16,21 @@ module CandidateInterface
       end
     end
 
-    def complexity; end
+    def complexity
+      @survey = SatisfactionSurveyForm.new
+    end
+
+    def submit_complexity
+      @survey = SatisfactionSurveyForm.new(survey_params)
+
+      if @survey.save(current_application)
+        redirect_to candidate_interface_satisfaction_survey_complexity_path
+      else
+        @survey = SatisfactionSurveyForm.new
+
+        render :complexity
+      end
+    end
 
   private
 

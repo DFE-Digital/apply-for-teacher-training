@@ -1,1 +1,16 @@
-I found this service unnecessarily complex
+<% content_for :title, t('page_titles.complexity') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_satisfaction_survey_recommendation_path) %>
+
+<%= form_with model: @survey, url: candidate_interface_satisfaction_survey_submit_complexity_path, method: :post do |f| %>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h2 class="govuk-heading-xl">
+        <%= t('page_titles.complexity') %>
+      </h2>
+
+      <%= render 'form', f: f %>
+    </div>
+  </div>
+<% end %>

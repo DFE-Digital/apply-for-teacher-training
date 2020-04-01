@@ -307,6 +307,7 @@ Rails.application.routes.draw do
         post '/recommendation' => 'satisfaction_survey#submit_recommendation', as: :satisfaction_survey_submit_recommendation
 
         get '/complexity' => 'satisfaction_survey#complexity', as: :satisfaction_survey_complexity
+        post '/complexity' => 'satisfaction_survey#submit_complexity', as: :satisfaction_survey_submit_complexity
       end
     end
   end
