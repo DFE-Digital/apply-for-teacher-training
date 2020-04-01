@@ -171,7 +171,7 @@ GEM
     gherkin (5.1.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    govuk_design_system_formbuilder (1.1.6)
+    govuk_design_system_formbuilder (1.1.7)
       actionview (>= 5.2)
       activemodel (>= 5.2)
       activesupport (>= 5.2)
@@ -534,7 +534,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker
-  govuk_design_system_formbuilder (= 1.1.6)
+  govuk_design_system_formbuilder (= 1.1.7)
   guard-rspec
   holidays
   http
