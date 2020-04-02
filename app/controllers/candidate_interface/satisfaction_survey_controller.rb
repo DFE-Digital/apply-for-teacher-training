@@ -28,6 +28,10 @@ module CandidateInterface
       @survey = SatisfactionSurveyForm.new
     end
 
+    def submit_help_needed
+      post_route_action(candidate_interface_satisfaction_survey_organisation_path, :help_needed)
+    end
+
 
   private
 

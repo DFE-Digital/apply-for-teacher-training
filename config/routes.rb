@@ -319,6 +319,9 @@ Rails.application.routes.draw do
         post '/ease-of-use' => 'satisfaction_survey#submit_ease_of_use', as: :satisfaction_survey_submit_ease_of_use
 
         get '/help-needed' => 'satisfaction_survey#help_needed', as: :satisfaction_survey_help_needed
+        post '/help-needed' => 'satisfaction_survey#submit_help_needed', as: :satisfaction_survey_submit_help_needed
+
+        get '/organisation' => 'satisfaction_survey#organisation', as: :satisfaction_survey_organisation
       end
     end
   end

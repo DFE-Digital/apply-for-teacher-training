@@ -24,6 +24,10 @@ RSpec.describe 'Candidate satisfaction survey' do
     when_i_choose_1
     and_click_continue
     then_i_see_the_needed_help_page
+
+    when_i_choose_1
+    and_click_continue
+    then_i_see_the_needed_organisation_page
   end
 
   def given_the_satisfaction_survey_flag_is_active
@@ -73,5 +77,9 @@ RSpec.describe 'Candidate satisfaction survey' do
 
   def then_i_see_the_needed_help_page
     expect(page).to have_content(t('page_titles.help_needed'))
+  end
+
+  def then_i_see_the_needed_organisation_page
+    expect(page).to have_content(t('page_titles.organisation'))
   end
 end
