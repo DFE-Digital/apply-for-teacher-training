@@ -13,6 +13,7 @@ module CandidateInterface
       'I would recommend this service to a friend or colleague',
       'I found this service unnecessarily complex',
       'I thought this service was easy to use',
+      'I needed help using this service',
     ].freeze
 
     validates :question, presence: true

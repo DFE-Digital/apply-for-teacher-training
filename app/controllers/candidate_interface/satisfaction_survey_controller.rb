@@ -32,6 +32,14 @@ module CandidateInterface
       post_route_action(candidate_interface_satisfaction_survey_organisation_path, :help_needed)
     end
 
+    def organisation
+      @survey = SatisfactionSurveyForm.new
+    end
+
+    def submit_organisation
+      post_route_action(candidate_interface_satisfaction_survey_consistency_path, :organisation)
+    end
+
 
   private
 

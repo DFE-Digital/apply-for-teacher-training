@@ -322,6 +322,7 @@ Rails.application.routes.draw do
         post '/help-needed' => 'satisfaction_survey#submit_help_needed', as: :satisfaction_survey_submit_help_needed
 
         get '/organisation' => 'satisfaction_survey#organisation', as: :satisfaction_survey_organisation
+        post '/organisation' => 'satisfaction_survey#submit_organisation', as: :satisfaction_survey_submit_organisation
       end
     end
   end
