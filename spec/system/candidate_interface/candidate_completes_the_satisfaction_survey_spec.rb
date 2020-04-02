@@ -32,6 +32,38 @@ RSpec.describe 'Candidate satisfaction survey' do
     when_i_choose_1
     and_click_continue
     then_i_see_the_consistency_page
+
+    when_i_choose_1
+    and_click_continue
+    then_i_see_the_could_use_quickly_page
+
+    when_i_choose_1
+    and_click_continue
+    then_i_see_the_awkward_page
+
+    when_i_choose_1
+    and_click_continue
+    then_i_see_the_confidence_page
+
+    when_i_choose_1
+    and_click_continue
+    then_i_see_the_needed_additional_learning_page
+
+    when_i_choose_1
+    and_click_continue
+    then_i_see_the_improvments_page
+
+    when_i_give_my_feedback
+    and_click_continue
+    then_i_see_the_other_information_page
+
+    when_i_give_my_other_feedback
+    and_click_continue
+    then_i_see_the_contact_page
+
+    when_i_choose_1
+    and_click_continue
+    then_i_see_the_thank_you_page
   end
 
   def given_the_satisfaction_survey_flag_is_active
@@ -89,5 +121,49 @@ RSpec.describe 'Candidate satisfaction survey' do
 
   def then_i_see_the_consistency_page
     expect(page).to have_content(t('page_titles.consistency'))
+  end
+
+  def then_i_see_the_could_use_quickly_page
+    expect(page).to have_content(t('page_titles.could_use_quickly'))
+  end
+
+  def then_i_see_the_awkward_page
+    expect(page).to have_content(t('page_titles.awkward'))
+  end
+
+  def then_i_see_the_confidence_page
+    expect(page).to have_content(t('page_titles.confidence'))
+  end
+
+  def then_i_see_the_needed_additional_learning_page
+    expect(page).to have_content(t('page_titles.needed_additional_learning'))
+  end
+
+  def then_i_see_the_improvments_page
+    expect(page).to have_content(t('page_titles.improvments'))
+  end
+
+  def when_i_give_my_feedback
+    fill_in 'No it was perfect.'
+  end
+
+  def then_i_see_the_other_information_page
+    expect(page).to have_content(t('page_titles.other_information'))
+  end
+
+  def when_i_give_my_other_feedback
+    fill_in 'None.'
+  end
+
+  def then_i_see_the_contact_page
+    expect(page).to have_content(t('page_titles.contact'))
+  end
+
+  def when_i_click_yes
+    choose 'Yes'
+  end
+
+  def then_i_see_the_thank_you_page
+    expect(page).to have_content(t('page_titles.thank_you'))
   end
 end
