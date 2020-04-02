@@ -77,50 +77,62 @@ module ProviderInterface
     end
 
     def status_filters
+      status_options = [
+        {
+          type: 'checkbox',
+          text: 'New',
+          name: 'awaiting_provider_decision',
+        },
+        {
+          type: 'checkbox',
+          text: 'Offered',
+          name: 'offer',
+        },
+        {
+          type: 'checkbox',
+          text: 'Accepted',
+          name: 'pending_conditions',
+        },
+        {
+          type: 'checkbox',
+          text: 'Conditions met',
+          name: 'recruited',
+        },
+        {
+          type: 'checkbox',
+          text: 'Enrolled',
+          name: 'enrolled',
+        },
+        {
+          type: 'checkbox',
+          text: 'Rejected',
+          name: 'rejected',
+        },
+        {
+          type: 'checkbox',
+          text: 'Declined',
+          name: 'declined',
+        },
+        {
+          type: 'checkbox',
+          text: 'Application withdrawn',
+          name: 'withdrawn',
+        },
+        {
+          type: 'checkbox',
+          text: 'Conditions not met',
+          name: 'conditions_not_met',
+        },
+        {
+          type: 'checkbox',
+          text: 'Withdrawn by us',
+          name: 'offer_withdrawn',
+        },
+      ]
+
       {
         heading: 'status',
-        input_config: [
-          {
-            type: 'checkbox',
-            text: 'Accepted',
-            name: 'pending_conditions',
-          },
-          {
-            type: 'checkbox',
-            text: 'Conditions met',
-            name: 'recruited',
-          },
-          {
-            type: 'checkbox',
-            text: 'Declined',
-            name: 'declined',
-          },
-          {
-            type: 'checkbox',
-            text: 'New',
-            name: 'awaiting_provider_decision',
-          },
-          {
-            type: 'checkbox',
-            text: 'Offered',
-            name: 'offer',
-          },
-          {
-            type: 'checkbox',
-            text: 'Rejected',
-            name: 'rejected',
-          },
-          {
-            type: 'checkbox',
-            text: 'Application withdrawn',
-            name: 'withdrawn',
-          },
-          {
-            type: 'checkbox',
-            text: 'Withdrawn by us',
-            name: 'offer_withdrawn',
-          },
-        ],
+        input_config: status_options,
       }
     end
 
