@@ -340,6 +340,7 @@ Rails.application.routes.draw do
         post '/needed-additional-learning' => 'satisfaction_survey#submit_needed_additional_learning', as: :satisfaction_survey_submit_needed_additional_learning
 
         get '/improvements' => 'satisfaction_survey#improvements', as: :satisfaction_survey_improvements
+        post '/improvements' => 'satisfaction_survey#submit_improvements', as: :satisfaction_survey_submit_improvements
       end
     end
   end

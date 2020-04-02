@@ -1,1 +1,19 @@
-If you could improve anything on Apply for teacher training what would it be?
+<% content_for :title, t('page_titles.improvements') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_satisfaction_survey_needed_additional_learning_path) %>
+
+<%= form_with model: @survey, url: candidate_interface_satisfaction_survey_submit_improvements_path, method: :post do |f| %>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h2 class="govuk-heading-xl">
+        <%= t('page_titles.improvements') %>
+      </h2>
+
+      <%= f.hidden_field :question, value: t('page_titles.improvements') %>
+      <%= f.govuk_text_area :answer, label: { text: '' }, rows: 8, max_words: 400 %>
+    </div>
+  </div>
+
+  <%= f.govuk_submit 'Continue' %>
+<% end %>

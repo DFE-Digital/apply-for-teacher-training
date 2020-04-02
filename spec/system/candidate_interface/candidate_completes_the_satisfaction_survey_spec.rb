@@ -52,18 +52,18 @@ RSpec.describe 'Candidate satisfaction survey' do
     when_i_choose_1
     and_click_continue
     then_i_see_the_improvements_page
-    #
-    # when_i_give_my_feedback
-    # and_click_continue
-    # then_i_see_the_other_information_page
-    #
-    # when_i_give_my_other_feedback
-    # and_click_continue
-    # then_i_see_the_contact_page
-    #
-    # when_i_choose_1
-    # and_click_continue
-    # then_i_see_the_thank_you_page
+
+    when_i_give_my_feedback
+    and_click_continue
+    then_i_see_the_other_information_page
+
+    when_i_give_my_other_feedback
+    and_click_continue
+    then_i_see_the_contact_page
+
+    when_i_choose_1
+    and_click_continue
+    then_i_see_the_thank_you_page
   end
 
   def given_the_satisfaction_survey_flag_is_active
@@ -144,7 +144,7 @@ RSpec.describe 'Candidate satisfaction survey' do
   end
 
   def when_i_give_my_feedback
-    fill_in 'No it was perfect.'
+    page.find('#candidate-interface-satisfaction-survey-form-answer-field').set('No it was perfect.')
   end
 
   def then_i_see_the_other_information_page
