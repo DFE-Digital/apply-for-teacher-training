@@ -1,31 +1,27 @@
 module ProviderInterface
   class FilterComponentPreview < ActionView::Component::Preview
     def fully_selected
-      render_component_for(path: :provider_interface_applications_path,
-                           available_filters: available_filters,
+      render_component_for(available_filters: available_filters,
                            applied_filters: applied_filters_full,
                            params_for_current_state: params_for_current_state)
     end
 
     def partially_selected
-      render_component_for(path: :provider_interface_applications_path,
-                           available_filters: available_filters,
+      render_component_for(available_filters: available_filters,
                            applied_filters: applied_filters_partial,
                            params_for_current_state: params_for_current_state)
     end
 
     def empty
-      render_component_for(path: :provider_interface_applications_path,
-                           available_filters: available_filters,
+      render_component_for(available_filters: available_filters,
                            applied_filters: {},
                            params_for_current_state: params_for_current_state)
     end
 
   private
 
-    def render_component_for(path:, available_filters:, applied_filters:, params_for_current_state:)
-      render ProviderInterface::FilterComponent.new(path: path,
-                                                    available_filters: available_filters,
+    def render_component_for(available_filters:, applied_filters:, params_for_current_state:)
+      render ProviderInterface::FilterComponent.new(available_filters: available_filters,
                                                     applied_filters: applied_filters,
                                                     params_for_current_state: params_for_current_state)
     end

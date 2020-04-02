@@ -135,10 +135,11 @@ RSpec.describe ProviderInterface::FilterComponent do
   end
 
   it 'marks checkboxes as checked if they have already been pre-selected' do
-    result = render_inline described_class.new(path: path,
-                                        available_filters: available_filters,
-                                        applied_filters: applied_filters_partial,
-                                        params_for_current_state: params_for_current_state)
+    result = render_inline described_class.new(
+      available_filters: available_filters,
+      applied_filters: applied_filters_partial,
+      params_for_current_state: params_for_current_state,
+    )
 
 
     expect(result.css('#status-accepted').attr('checked').value).to eq('checked')
@@ -152,10 +153,11 @@ RSpec.describe ProviderInterface::FilterComponent do
   end
 
   it 'on initial load all of the checkboxes are unchecked' do
-    result = render_inline described_class.new(path: path,
-                                        available_filters: available_filters,
-                                        applied_filters: {},
-                                        params_for_current_state: params_for_current_state)
+    result = render_inline described_class.new(
+      available_filters: available_filters,
+      applied_filters: {},
+      params_for_current_state: params_for_current_state,
+    )
 
     expect(result.css('#status-accepted').attr('checked')).to eq(nil)
     expect(result.css('#status-recruited').attr('checked')).to eq(nil)
@@ -168,29 +170,32 @@ RSpec.describe ProviderInterface::FilterComponent do
   end
 
   it 'when filters have been selected filters dialogue to appear' do
-    result = render_inline described_class.new(path: path,
-                                        available_filters: available_filters,
-                                        applied_filters: applied_filters_partial,
-                                        params_for_current_state: params_for_current_state)
+    result = render_inline described_class.new(
+      available_filters: available_filters,
+      applied_filters: applied_filters_partial,
+      params_for_current_state: params_for_current_state,
+    )
 
     expect(result.text).to include('Selected filters')
   end
 
   it 'selected filters dialogue should not appear if is nothing filtered for' do
-    result = render_inline described_class.new(path: path,
-                                        available_filters: available_filters,
-                                        applied_filters: {},
-                                        params_for_current_state: params_for_current_state)
+    result = render_inline described_class.new(
+      available_filters: available_filters,
+      applied_filters: {},
+      params_for_current_state: params_for_current_state,
+    )
 
     expect(result.text).not_to include('Selected filters')
   end
 
 
   it 'returns the params_for_current_state as hidden fields' do
-    result = render_inline described_class.new(path: path,
-                                        available_filters: available_filters,
-                                        applied_filters: applied_filters_partial,
-                                        params_for_current_state: params_for_current_state)
+    result = render_inline described_class.new(
+      available_filters: available_filters,
+      applied_filters: applied_filters_partial,
+      params_for_current_state: params_for_current_state,
+    )
 
     expect(result.css('#sort_by').attr('value').value).to eq('desc')
     expect(result.css('#sort_order').attr('value').value).to eq('last-updated')
@@ -199,10 +204,11 @@ RSpec.describe ProviderInterface::FilterComponent do
   end
 
   it 'does not render a filter if there is only one possible filter in a filter_group' do
-    result = render_inline described_class.new(path: path,
-                                        available_filters: available_filters_only_one_provider,
-                                        applied_filters: {},
-                                        params_for_current_state: params_for_current_state)
+    result = render_inline described_class.new(
+      available_filters: available_filters_only_one_provider,
+      applied_filters: {},
+      params_for_current_state: params_for_current_state,
+    )
 
     expect(result.to_html).not_to include('Provider')
     expect(result.to_html).to include('Status')

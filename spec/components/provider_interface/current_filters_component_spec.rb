@@ -1,8 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::CurrentFiltersComponent do
-  let(:path) { :provider_interface_applications_path }
-
+RSpec.describe ProviderInterface::CurrentFiltersComponent, type: :view do
   let(:applied_filters_partial) do
     {
       'status' => {
@@ -115,39 +113,43 @@ RSpec.describe ProviderInterface::CurrentFiltersComponent do
   end
 
   it 'includes tags that match what has been selected for' do
-    result = render_inline described_class.new(path: path,
-                                        available_filters: available_filters,
-                                        applied_filters: applied_filters_partial,
-                                        params_for_current_state: params_for_current_state)
+    result = render_inline described_class.new(
+      available_filters: available_filters,
+      applied_filters: applied_filters_partial,
+      params_for_current_state: params_for_current_state,
+    )
 
     expect(result.css('.moj-filter-tags').text).to include('Accepted', 'New', 'Rejected', 'Application withdrawn', 'The Beach Teaching School')
     expect(result.css('.moj-filter-tags').text).not_to include('Declined', 'Conditions met', 'Somerset SCITT consortium')
   end
 
   it 'has a clear button when filters have been selected' do
-    result = render_inline described_class.new(path: path,
-                                        available_filters: available_filters,
-                                        applied_filters: applied_filters_partial,
-                                        params_for_current_state: params_for_current_state)
+    result = render_inline described_class.new(
+      available_filters: available_filters,
+      applied_filters: applied_filters_partial,
+      params_for_current_state: params_for_current_state,
+    )
 
     expect(result.text).to include('Clear')
   end
 
   it 'can return a full text of a applied_filters value from the available_filters' do
-    filter_component = described_class.new(path: path,
-                                        available_filters: available_filters,
-                                        applied_filters: applied_filters_partial,
-                                        params_for_current_state: params_for_current_state)
+    filter_component = described_class.new(
+      available_filters: available_filters,
+      applied_filters: applied_filters_partial,
+      params_for_current_state: params_for_current_state,
+    )
 
     expect(filter_component.retrieve_tag_text('status', 'offer_withdrawn')).to eq('Withdrawn by us')
     expect(filter_component.retrieve_tag_text('provider', '2')).to eq('The Beach Teaching School')
   end
 
   it 'can create hash for a tag url that doesn\'t include that tag\'s params' do
-    filter_component = described_class.new(path: path,
-                                        available_filters: available_filters,
-                                        applied_filters: applied_filters_partial,
-                                        params_for_current_state: params_for_current_state)
+    filter_component = described_class.new(
+      available_filters: available_filters,
+      applied_filters: applied_filters_partial,
+      params_for_current_state: params_for_current_state,
+    )
 
     hash = filter_component.build_tag_url_query_params(heading: 'status',
                                                tag_value: 'withdrawn')
@@ -156,10 +158,11 @@ RSpec.describe ProviderInterface::CurrentFiltersComponent do
   end
 
   it 'can create a tag url that doesn\'t include that tag\'s values' do
-    result = render_inline described_class.new(path: path,
-                                        available_filters: available_filters,
-                                        applied_filters: applied_filters_partial,
-                                        params_for_current_state: params_for_current_state)
+    result = render_inline described_class.new(
+      available_filters: available_filters,
+      applied_filters: applied_filters_partial,
+      params_for_current_state: params_for_current_state,
+    )
 
     expect(result.css('#tag-rejected').attr('href').value).not_to include('rejected')
     expect(result.css('#tag-rejected').attr('href').value).to include('2')

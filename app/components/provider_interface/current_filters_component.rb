@@ -2,13 +2,12 @@ module ProviderInterface
   class CurrentFiltersComponent < ActionView::Component::Base
     include ViewHelper
 
-    attr_reader :applied_filters, :params_for_current_state, :path
+    attr_reader :applied_filters, :params_for_current_state
 
-    def initialize(path:, available_filters:, applied_filters:, params_for_current_state:)
+    def initialize(available_filters:, applied_filters:, params_for_current_state:)
       @params_for_current_state = params_for_current_state
       @applied_filters = applied_filters
       @available_filters = available_filters
-      @path = path
     end
 
     def build_tag_url_query_params(heading:, tag_value:)
@@ -29,10 +28,6 @@ module ProviderInterface
           end
         end
       end
-    end
-
-    def filtering_page_path(*args)
-      send(@path, *args)
     end
   end
 end
