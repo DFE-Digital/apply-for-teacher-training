@@ -7,13 +7,18 @@ module CandidateInterface
     QUESTIONS_WE_ASK = [
       I18n.t('page_titles.recommendation'),
       I18n.t('page_titles.complexity'),
-    ].freeze
-
-    QUESTIONS_WE_ASK = [
-      'I would recommend this service to a friend or colleague',
-      'I found this service unnecessarily complex',
       'I thought this service was easy to use',
       'I needed help using this service',
+      'I found all the parts of this service well-organised',
+      'I thought there was too much inconsistency in this website',
+      'I would imagine that people would learn to use this website very quickly',
+      'I found this website very awkward to use',
+      'I felt confident using this service',
+      'I needed to learn a lot of things before I could get going with this website',
+      'If you could improve anything on Apply for teacher training what would it be?',
+      'Is there anything else you would like to tell us?',
+      'Are you happy for us to contact you with follow-up questions to your feedback?',
+      'Thank you for your feedback',
     ].freeze
 
     validates :question, presence: true
