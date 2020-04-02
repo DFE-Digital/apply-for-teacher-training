@@ -335,6 +335,11 @@ Rails.application.routes.draw do
 
         get '/confidence' => 'satisfaction_survey#confidence', as: :satisfaction_survey_confidence
         post '/confidence' => 'satisfaction_survey#submit_confidence', as: :satisfaction_survey_submit_confidence
+
+        get '/needed_additional_learning' => 'satisfaction_survey#needed_additional_learning', as: :satisfaction_survey_needed_additional_learning
+        post '/needed_additional_learning' => 'satisfaction_survey#submit_needed_additional_learning', as: :satisfaction_survey_submit_needed_additional_learning
+
+        get '/improvements' => 'satisfaction_survey#improvements', as: :satisfaction_survey_improvements
       end
     end
   end
