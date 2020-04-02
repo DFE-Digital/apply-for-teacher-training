@@ -19,7 +19,7 @@ module ProviderInterface
       service = InviteProviderUser.new(provider_user: provider_user)
       begin
         service.save_and_invite!
-        flash[:success] = 'Provider user created'
+        flash[:success] = 'Provider user invited'
         redirect_to provider_interface_provider_users_path
       rescue DfeSignInApiError => e # show errors from api
         e.errors.each { |error| @form.errors.add(:base, error) }
