@@ -3,9 +3,8 @@ module ProviderInterface
     attr_accessor :current_provider_user
 
     def available_providers
-      @available_providers ||= Provider.joins(provider_users_providers: :provider_user)
-        .where('provider_users_providers.provider_user': current_provider_user)
-        .where('provider_users_providers.manage_users': true)
+      @available_providers ||= Provider
+        .with_users_manageable_by(current_provider_user)
         .order(name: :asc)
     end
   end

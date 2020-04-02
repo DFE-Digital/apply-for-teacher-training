@@ -3,10 +3,7 @@ module ProviderInterface
     before_action :requires_provider_add_provider_users_feature_flag, only: %i[new create]
 
     def index
-      # TODO: A scope for this?
-      @provider_users = ProviderUser
-        .joins(:provider_users_providers)
-        .where('provider_users_providers.provider': current_provider_user.providers)
+      @provider_users = ProviderUser.visible_to(current_provider_user)
     end
 
     def new

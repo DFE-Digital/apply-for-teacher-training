@@ -31,7 +31,7 @@ RSpec.feature 'Provider invites a new provider user' do
   end
 
   def and_i_can_manage_users_for_a_provider
-    @provider_user.provider_users_providers.find_by(provider: @provider).update(manage_users: true)
+    @provider_user.provider_permissions.find_by(provider: @provider).update(manage_users: true)
   end
 
   def and_the_provider_add_provider_users_feature_is_enabled
