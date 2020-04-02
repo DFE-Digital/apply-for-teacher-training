@@ -74,7 +74,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       expect(fields['Apply from Find']).to match(/DfE & UCAS/)
       expect(fields['Page on Find']).to match(/Find course page/)
       expect(fields).to have_key('Accredited body')
-      expect(fields['Accredited body']).to eq('Accredited University (AU1)')
+      expect(fields['Accredited body']).to match(/Accredited University \(AU1\)/)
     end
   end
 end

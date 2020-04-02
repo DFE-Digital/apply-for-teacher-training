@@ -14,7 +14,7 @@ module SupportInterface
     end
 
     def courses
-      @provider = Provider.includes(:courses).find(params[:provider_id])
+      @provider = Provider.includes(courses: [:accredited_provider]).find(params[:provider_id])
     end
 
     def vacancies
