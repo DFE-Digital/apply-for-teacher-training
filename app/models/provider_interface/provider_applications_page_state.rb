@@ -77,58 +77,24 @@ module ProviderInterface
     end
 
     def status_filters
-      status_options = [
+      status_options = %w[
+        awaiting_provider_decision
+        offer
+        pending_conditions
+        recruited
+        enrolled
+        rejected
+        declined
+        withdrawn
+        conditions_not_met
+        offer_withdrawn
+      ].map do |state_name|
         {
           type: 'checkbox',
-          text: 'New',
-          name: 'awaiting_provider_decision',
-        },
-        {
-          type: 'checkbox',
-          text: 'Offered',
-          name: 'offer',
-        },
-        {
-          type: 'checkbox',
-          text: 'Accepted',
-          name: 'pending_conditions',
-        },
-        {
-          type: 'checkbox',
-          text: 'Conditions met',
-          name: 'recruited',
-        },
-        {
-          type: 'checkbox',
-          text: 'Enrolled',
-          name: 'enrolled',
-        },
-        {
-          type: 'checkbox',
-          text: 'Rejected',
-          name: 'rejected',
-        },
-        {
-          type: 'checkbox',
-          text: 'Declined',
-          name: 'declined',
-        },
-        {
-          type: 'checkbox',
-          text: 'Application withdrawn',
-          name: 'withdrawn',
-        },
-        {
-          type: 'checkbox',
-          text: 'Conditions not met',
-          name: 'conditions_not_met',
-        },
-        {
-          type: 'checkbox',
-          text: 'Withdrawn by us',
-          name: 'offer_withdrawn',
-        },
-      ]
+          text: I18n.t!("provider_application_states.#{state_name}"),
+          name: state_name,
+        }
+      end
 
       {
         heading: 'status',
