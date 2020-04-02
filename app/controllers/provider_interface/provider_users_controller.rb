@@ -7,12 +7,13 @@ module ProviderInterface
     end
 
     def new
-      @form = ProviderUserForm.new
-      @form.current_provider_user = current_provider_user
+      @form = ProviderUserForm.new(current_provider_user: current_provider_user)
     end
 
     def create
-      @form = ProviderUserForm.new(provider_user_params)
+      @form = ProviderUserForm.new(
+        provider_user_params.merge(current_provider_user: current_provider_user),
+      )
       provider_user = @form.build
       render :new && return unless provider_user
 
