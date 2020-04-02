@@ -28,7 +28,7 @@ en:
       name: Awaiting decision from candidate
       description: All providers have responded and it’s now up to the candidate to make a decision
     pending_conditions:
-      name: Pending conditions
+      name: Accepted offer, pending conditions
       description: The candidate has accepted an offer. The provider now has to confirm to us that the candidate has met the conditions in the offer.
     recruited:
       name: Recruited
