@@ -323,6 +323,9 @@ Rails.application.routes.draw do
 
         get '/organisation' => 'satisfaction_survey#organisation', as: :satisfaction_survey_organisation
         post '/organisation' => 'satisfaction_survey#submit_organisation', as: :satisfaction_survey_submit_organisation
+
+        get '/consistency' => 'satisfaction_survey#consistency', as: :satisfaction_survey_consistency
+        post '/consistency' => 'satisfaction_survey#submit_consistency', as: :satisfaction_survey_submit_consistency
       end
     end
   end
