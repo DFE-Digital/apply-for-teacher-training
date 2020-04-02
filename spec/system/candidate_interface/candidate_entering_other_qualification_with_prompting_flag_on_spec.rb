@@ -44,11 +44,11 @@ RSpec.feature 'Entering their other qualifications' do
     and_choose_as_level
     and_i_click_continue
     and_i_visit_the_other_qualification_review_page
-    then_i_should_not_see_an_incomplete_as_level_qualification
+    then_i_should_see_an_incomplete_as_level_qualification
 
     when_i_click_on_delete_my_first_qualification
     and_i_confirm_that_i_want_to_delete_my_additional_qualification
-    then_i_can_only_see_two_qualifacitions
+    then_i_can_only_see_three_qualifacitions
 
     when_i_click_to_change_my_first_qualification
     then_i_see_my_qualification_filled_in
@@ -63,6 +63,14 @@ RSpec.feature 'Entering their other qualifications' do
 
     when_i_click_on_other_qualifications
     then_i_can_check_my_answers
+
+    when_i_mark_this_section_as_completed
+    and_i_click_on_continue
+    then_i_should_be_told_i_cannot_submit_incomplete_qualifications
+
+    when_i_delete_my_incomplete_qualification
+    and_i_confirm_that_i_want_to_delete_my_additional_qualification
+    then_i_can_only_see_two_qualifications
 
     when_i_mark_this_section_as_completed
     and_i_click_on_continue
@@ -185,8 +193,9 @@ RSpec.feature 'Entering their other qualifications' do
     visit candidate_interface_review_other_qualifications_path
   end
 
-  def then_i_should_not_see_an_incomplete_as_level_qualification
-    expect(page).not_to have_content('Other')
+  def then_i_should_see_an_incomplete_as_level_qualification
+    expect(page).to have_content('AS level')
+    expect(all('.govuk-summary-list__value').last.text).to eq ''
   end
 
   def when_i_click_on_delete_my_first_qualification
@@ -199,10 +208,11 @@ RSpec.feature 'Entering their other qualifications' do
     click_button t('application_form.other_qualification.confirm_delete')
   end
 
-  def then_i_can_only_see_two_qualifacitions
+  def then_i_can_only_see_three_qualifacitions
     expect(page).not_to have_content 'A level Losing to Yugi'
     expect(page).to have_content('A level Oh')
     expect(page).to have_content('GCSE Maths')
+    expect(page).to have_content('AS level')
   end
 
   def when_i_click_to_change_my_first_qualification
@@ -243,6 +253,23 @@ RSpec.feature 'Entering their other qualifications' do
 
   def and_i_click_on_continue
     when_i_click_on_continue
+  end
+
+  def then_i_should_be_told_i_cannot_submit_incomplete_qualifications
+    expect(page).to have_content('You can’t complete this section with incomplete qualifications')
+  end
+
+  def when_i_delete_my_incomplete_qualification
+    within(all('.app-summary-card')[2]) do
+      click_link(t('application_form.other_qualification.delete'))
+    end
+  end
+
+  def then_i_can_only_see_two_qualifications
+    expect(page).not_to have_content 'A level Losing to Yugi'
+    expect(page).not_to have_content('AS level')
+    expect(page).to have_content('A level How to Win Against Kaiba')
+    expect(page).to have_content('GCSE Maths')
   end
 
   def then_i_should_see_the_form
