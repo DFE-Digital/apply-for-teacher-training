@@ -4,7 +4,6 @@ module CandidateInterface
       qualifications = OtherQualificationForm.build_all_from_application(current_application)
       last_qualification = qualifications[-2]
       @type = qualifications.last.qualification_type
-      @id = qualifications.last.id
 
       @qualification = if @type == last_qualification&.qualification_type
                          OtherQualificationForm.new(
@@ -21,7 +20,7 @@ module CandidateInterface
 
       if @qualification.valid? && @qualification.choice == 'same_type'
         @qualification.save(current_application)
-        qualification = ApplicationQualification.find_by!(id: params[:id])
+        qualification = ApplicationQualification.find(params[:id])
 
         @qualification_type = OtherQualificationTypeForm.new(
           qualification_type: qualification.qualification_type,
@@ -41,7 +40,6 @@ module CandidateInterface
       else
         qualifications = OtherQualificationForm.build_all_from_application(current_application)
         @type = qualifications.last.qualification_type
-        @id = qualifications.last.id
 
         render :new
       end
@@ -52,7 +50,7 @@ module CandidateInterface
     def other_qualification_params
       params.require(:candidate_interface_other_qualification_form).permit(
         :id, :qualification_type, :subject, :institution_name, :grade, :award_year, :choice
-      ).transform_values(&:strip)
+      ).merge!(id: params[:id]).transform_values(&:strip)
     end
   end
 end

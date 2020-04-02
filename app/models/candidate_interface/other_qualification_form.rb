@@ -41,7 +41,7 @@ module CandidateInterface
       return false unless valid?
 
       if FeatureFlag.active?('prompt_for_additional_qualifications')
-        qualification = ApplicationQualification.find_by!(id: id)
+        qualification = ApplicationQualification.find(id)
         qualification.update!(
           qualification_type: qualification_type,
           subject: subject,
