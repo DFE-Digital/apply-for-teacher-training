@@ -35,7 +35,7 @@ RSpec.describe 'Candidate satisfaction survey' do
 
     when_i_choose_1
     and_click_continue
-    then_i_see_the_could_use_quickly_page
+    then_i_see_the_adaptability_page
 
     when_i_choose_1
     and_click_continue
@@ -123,8 +123,8 @@ RSpec.describe 'Candidate satisfaction survey' do
     expect(page).to have_content(t('page_titles.consistency'))
   end
 
-  def then_i_see_the_could_use_quickly_page
-    expect(page).to have_content(t('page_titles.could_use_quickly'))
+  def then_i_see_the_adaptability_page
+    expect(page).to have_content(t('page_titles.adaptability'))
   end
 
   def then_i_see_the_awkward_page

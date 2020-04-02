@@ -45,9 +45,16 @@ module CandidateInterface
     end
 
     def submit_consistency
-      post_route_action(candidate_interface_satisfaction_survey_could_use_quickly_path, :organisation)
+      post_route_action(candidate_interface_satisfaction_survey_adaptability_path, :organisation)
     end
 
+    def adaptability
+      @survey = SatisfactionSurveyForm.new
+    end
+
+    def submit_adaptability
+      post_route_action(candidate_interface_satisfaction_survey_awkward_path, :adaptability)
+    end
 
   private
 

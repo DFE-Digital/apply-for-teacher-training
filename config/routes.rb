@@ -326,6 +326,9 @@ Rails.application.routes.draw do
 
         get '/consistency' => 'satisfaction_survey#consistency', as: :satisfaction_survey_consistency
         post '/consistency' => 'satisfaction_survey#submit_consistency', as: :satisfaction_survey_submit_consistency
+
+        get '/adaptability' => 'satisfaction_survey#adaptability', as: :satisfaction_survey_adaptability
+        post '/adaptability' => 'satisfaction_survey#submit_adaptability', as: :satisfaction_survey_submit_adaptability
       end
     end
   end
