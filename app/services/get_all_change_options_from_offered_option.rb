@@ -12,6 +12,7 @@ class GetAllChangeOptionsFromOfferedOption
         open_on_apply: true,
         provider: application_choice.offered_course.provider,
         study_mode: study_mode_for_other_courses,
+        recruitment_cycle_year: application_choice.offered_course.recruitment_cycle_year,
       ).order(:name)
 
     @available_course_options = \
