@@ -13,6 +13,12 @@ RSpec.describe CandidateInterface::OtherQualificationTypeForm do
         expect(described_class.new(qualification_type: nil)).not_to be_valid
       end
     end
+
+    context 'with a type that is not in the available options' do
+      it 'is not valid' do
+        expect(described_class.new(qualification_type: 'Invalid qualification')).not_to be_valid
+      end
+    end
   end
 
   describe '#save' do

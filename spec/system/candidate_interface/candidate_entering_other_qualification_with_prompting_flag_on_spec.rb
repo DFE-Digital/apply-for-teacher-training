@@ -23,7 +23,7 @@ RSpec.feature 'Entering their other qualifications' do
     and_select_add_another_a_level
     and_click_save_and_continue
     then_i_see_the_other_qualifications_form
-    and_the_year_and_instituion_fields_are_pre_populated_with_my_previous_details
+    and_the_year_and_institution_fields_are_pre_populated_with_my_previous_details
 
     when_i_fill_out_the_remainder_of_the_form
     and_i_choose_a_different_type_of_qualification
@@ -32,7 +32,7 @@ RSpec.feature 'Entering their other qualifications' do
 
     when_i_choose_gcse
     and_i_click_continue
-    then_the_year_and_instituion_fields_are_not_pre_populated_with_my_previous_details
+    then_the_year_and_institution_fields_are_not_pre_populated_with_my_previous_details
 
     when_i_fill_in_my_gcse_details
     and_i_choose_not_to_add_additional_qualifications
@@ -129,7 +129,7 @@ RSpec.feature 'Entering their other qualifications' do
     click_button 'Save and continue'
   end
 
-  def and_the_year_and_instituion_fields_are_pre_populated_with_my_previous_details
+  def and_the_year_and_institution_fields_are_pre_populated_with_my_previous_details
     expect(page.find('#candidate-interface-other-qualification-form-institution-name-field').value).to eq('Yugi College')
     expect(page.find('#candidate-interface-other-qualification-form-award-year-field').value).to eq('2015')
   end
@@ -147,7 +147,7 @@ RSpec.feature 'Entering their other qualifications' do
     choose 'GCSE'
   end
 
-  def then_the_year_and_instituion_fields_are_not_pre_populated_with_my_previous_details
+  def then_the_year_and_institution_fields_are_not_pre_populated_with_my_previous_details
     expect(page.find('#candidate-interface-other-qualification-form-institution-name-field').value).to eq(nil)
     expect(page.find('#candidate-interface-other-qualification-form-award-year-field').value).to eq(nil)
   end
