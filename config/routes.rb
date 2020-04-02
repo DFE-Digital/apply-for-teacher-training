@@ -329,6 +329,9 @@ Rails.application.routes.draw do
 
         get '/adaptability' => 'satisfaction_survey#adaptability', as: :satisfaction_survey_adaptability
         post '/adaptability' => 'satisfaction_survey#submit_adaptability', as: :satisfaction_survey_submit_adaptability
+
+        get '/awkward' => 'satisfaction_survey#awkward', as: :satisfaction_survey_awkward
+        post '/awkward' => 'satisfaction_survey#submit_awkward', as: :satisfaction_survey_submit_awkward
       end
     end
   end
