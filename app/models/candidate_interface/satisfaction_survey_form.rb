@@ -35,13 +35,5 @@ module CandidateInterface
     def merge_satisfaction_survey_and_answer(application_form)
       application_form.satisfaction_survey.merge!({ @question => @answer })
     end
-
-    def question_already_answered?(application_form)
-      application_form.satisfaction_survey&.keys&.include?(@question)
-    end
-
-    def merge_satisfaction_survey_and_response(application_form)
-      application_form.satisfaction_survey.merge!({ @question => @response })
-    end
   end
 end

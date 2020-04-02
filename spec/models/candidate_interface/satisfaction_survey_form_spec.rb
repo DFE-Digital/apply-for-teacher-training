@@ -61,36 +61,5 @@ RSpec.describe CandidateInterface::SatisfactionSurveyForm, type: :model do
         )
       end
     end
-
-    context 'when the the satisfcation_survey is present and the question exists as a key' do
-      it 'updates their response' do
-        application_form = create(:application_form, satisfaction_survey: {
-          'I would recommend this service to a friend or colleague' => '2',
-          'I found this service unnecessarily complex' => '4',
-          })
-        described_class.new(question: 'I would recommend this service to a friend or colleague', response: '3').save(application_form)
-
-        expect(application_form.satisfaction_survey).to eq(
-          {
-            'I would recommend this service to a friend or colleague' => '3',
-            'I found this service unnecessarily complex' => '4',
-          },
-        )
-      end
-    end
-
-    context 'when the the satisfcation_survey is present and the question does not exist as a key' do
-      it 'adds their response to the satisfaction survey' do
-        application_form = create(:application_form, satisfaction_survey: { 'I would recommend this service to a friend or colleague' => '2' })
-        described_class.new(question: 'I found this service unnecessarily complex', response: '3').save(application_form)
-
-        expect(application_form.satisfaction_survey).to eq(
-          {
-            'I would recommend this service to a friend or colleague' => '2',
-            'I found this service unnecessarily complex' => '3',
-          },
-        )
-      end
-    end
   end
 end
