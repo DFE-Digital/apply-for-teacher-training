@@ -64,6 +64,14 @@ module CandidateInterface
       post_route_action(candidate_interface_satisfaction_survey_confidence_path, :awkward)
     end
 
+    def confidence
+      @survey = SatisfactionSurveyForm.new
+    end
+
+    def submit_confidence
+      post_route_action(candidate_interface_satisfaction_survey_needed_additional_learning_path, :confidence)
+    end
+
   private
 
     def survey_params
