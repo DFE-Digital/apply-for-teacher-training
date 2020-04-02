@@ -22,7 +22,7 @@ module CandidateInterface
 
     def survey_params
       params.require(:candidate_interface_satisfaction_survey_form)
-        .permit(:question, :response)
+        .permit(:question, :answer)
     end
   end
 end
