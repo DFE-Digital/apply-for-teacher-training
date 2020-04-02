@@ -17,6 +17,7 @@ module SupportInterface
           apply_from_find_link: link_to_apply_from_find_page(course),
           link_to_find_course_page: link_to_find_course_page(course),
           accredited_body: link_to_provider_page(course.accredited_provider),
+          accredited_body_onboarded: course.accredited_provider&.onboarded?,
         }
       end
     end
