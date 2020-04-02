@@ -1,0 +1,21 @@
+<% courses_by_provider_and_region.each do |region_code, courses_by_provider| %>
+  <h2 class="govuk-heading-m govuk-!-margin-bottom-2 govuk-!-margin-top-8"><%= t("provider_regions.#{region_code}") %></h2>
+  <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+    <% courses_by_provider.each_with_index do |provider, index| %>
+      <section class="govuk-accordion__section">
+        <header class="govuk-accordion__section-header">
+          <h2 class="govuk-accordion__section-heading">
+            <span class="govuk-accordion__section-button" id="accordion-default-heading-<%= index %>"><%= provider.provider_name %></span>
+          </h2>
+        </header>
+        <div class="govuk-accordion__section-content" id="accordion-default-content-<%= index %>" aria-labelledby="accordion-default-heading-<%= index %>">
+          <ul class="govuk-list govuk-list--bullet">
+            <% provider.courses.sort_by(&:name).each do |course| %>
+              <li><%= govuk_link_to course.name_and_code, "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{course.provider.code}/#{course.code}" %></li>
+            <% end %>
+          </ul>
+        </div>
+      </section>
+    <% end %>
+  </div>
+<% end %>
