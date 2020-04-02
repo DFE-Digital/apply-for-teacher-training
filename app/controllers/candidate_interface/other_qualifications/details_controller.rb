@@ -2,13 +2,12 @@ module CandidateInterface
   class OtherQualifications::DetailsController < CandidateInterfaceController
     def new
       qualifications = OtherQualificationForm.build_all_from_application(current_application)
-      last_qualification = qualifications[-2]
       @type = qualifications.last.qualification_type
 
-      @qualification = if @type == last_qualification&.qualification_type
+      @qualification = if last_two_qualifications_are_of_same_type(qualifications)
                          OtherQualificationForm.new(
-                           institution_name: last_qualification.institution_name,
-                           award_year: last_qualification.award_year,
+                           institution_name: pre_fill_institution_name(qualifications),
+                           award_year: pre_fill_award_year(qualifications),
                          )
                        else
                          OtherQualificationForm.new
@@ -18,25 +17,32 @@ module CandidateInterface
     def create
       @qualification = OtherQualificationForm.new(other_qualification_params)
 
-      if @qualification.valid? && @qualification.choice == 'same_type'
-        @qualification.save(current_application)
-        qualification = ApplicationQualification.find(params[:id])
+      if @qualification.valid?
+        if @qualification.choice == 'same_type'
+          @qualification.save(current_application)
+          qualification = ApplicationQualification.find(params[:id])
 
-        @qualification_type = OtherQualificationTypeForm.new(
-          qualification_type: qualification.qualification_type,
-        )
+          @qualification_type = OtherQualificationTypeForm.new(
+            qualification_type: qualification.qualification_type,
+          )
 
-        @qualification_type.save(current_application)
+          @qualification_type.save(current_application)
 
-        redirect_to candidate_interface_new_other_qualification_details_path(id: current_application.application_qualifications.last.id)
-      elsif @qualification.valid? && @qualification.choice == 'different_type'
-        @qualification.save(current_application)
+          redirect_to candidate_interface_new_other_qualification_details_path(id: current_application.application_qualifications.last.id)
+        elsif @qualification.choice == 'different_type'
+          @qualification.save(current_application)
 
-        redirect_to candidate_interface_new_other_qualification_type_path
-      elsif @qualification.valid? && @qualification.choice == 'no'
-        @qualification.save(current_application)
+          redirect_to candidate_interface_new_other_qualification_type_path
+        elsif @qualification.choice == 'no'
+          @qualification.save(current_application)
 
-        redirect_to candidate_interface_review_other_qualifications_path
+          redirect_to candidate_interface_review_other_qualifications_path
+        else
+          qualifications = OtherQualificationForm.build_all_from_application(current_application)
+          @type = qualifications.last.qualification_type
+
+          render :new
+        end
       else
         qualifications = OtherQualificationForm.build_all_from_application(current_application)
         @type = qualifications.last.qualification_type
@@ -51,6 +57,20 @@ module CandidateInterface
       params.require(:candidate_interface_other_qualification_form).permit(
         :id, :qualification_type, :subject, :institution_name, :grade, :award_year, :choice
       ).merge!(id: params[:id]).transform_values(&:strip)
+    end
+
+    def last_two_qualifications_are_of_same_type(qualifications)
+      second_to_last_qualification = qualifications[-2]
+      last_qualification = qualifications[-1]
+      second_to_last_qualification&.qualification_type == last_qualification.qualification_type
+    end
+
+    def pre_fill_institution_name(qualifications)
+      qualifications[-2].institution_name
+    end
+
+    def pre_fill_award_year(qualifications)
+      qualifications[-2].award_year
     end
   end
 end
