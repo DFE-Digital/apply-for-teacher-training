@@ -5,13 +5,7 @@ module CandidateInterface
     end
 
     def submit_recommendation
-      @survey = SatisfactionSurveyForm.new(survey_params)
-
-      if @survey.save(current_application)
-        redirect_to candidate_interface_satisfaction_survey_complexity_path
-      else
-        render :recommendation
-      end
+      post_route_action(candidate_interface_satisfaction_survey_complexity_path, :recommendation)
     end
 
     def complexity
@@ -19,15 +13,7 @@ module CandidateInterface
     end
 
     def submit_complexity
-      @survey = SatisfactionSurveyForm.new(survey_params)
-
-      if @survey.save(current_application)
-        redirect_to candidate_interface_satisfaction_survey_ease_of_use_path
-      else
-        @survey = SatisfactionSurveyForm.new
-
-        render :complexity
-      end
+      post_route_action(candidate_interface_satisfaction_survey_ease_of_use_path, :complexity)
     end
 
     def ease_of_use
@@ -35,15 +21,7 @@ module CandidateInterface
     end
 
     def submit_ease_of_use
-      @survey = SatisfactionSurveyForm.new(survey_params)
-
-      if @survey.save(current_application)
-        redirect_to candidate_interface_satisfaction_survey_help_needed_path
-      else
-        @survey = SatisfactionSurveyForm.new
-
-        render :ease_of_use
-      end
+      post_route_action(candidate_interface_satisfaction_survey_help_needed_path, :ease_of_use)
     end
 
     def help_needed
@@ -62,6 +40,18 @@ module CandidateInterface
       # removes 'submit_' from the controller action
       page_title = params['action'].split('_').drop(1).join('_')
       t("page_titles.#{page_title}")
+    end
+
+    def post_route_action(next_path, current_view)
+      @survey = SatisfactionSurveyForm.new(survey_params)
+
+      if @survey.save(current_application)
+        redirect_to next_path
+      else
+        @survey = SatisfactionSurveyForm.new
+
+        render current_view
+      end
     end
   end
 end
