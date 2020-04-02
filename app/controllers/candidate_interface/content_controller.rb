@@ -18,15 +18,16 @@ module CandidateInterface
       render_content_page :terms_candidate
     end
 
-    def providers
-      provider_courses = Struct.new(:provider_name, :courses)
+    ProviderCourses = Struct.new(:region_code, :provider_name, :courses)
 
-      @courses_by_provider = Course
+    def providers
+      @courses_by_provider_and_region = Course
         .open_on_apply
         .includes(:provider)
-        .group_by { |c| c.provider.name }
-        .sort_by { |provider_name, _| provider_name }
-        .map { |provider_name, courses| provider_courses.new(provider_name, courses) }
+        .order('providers.region_code', 'providers.name')
+        .group_by { |course| [course.provider.region_code, course.provider.name] }
+        .map { |region_provider, courses| ProviderCourses.new(region_provider[0], region_provider[1], courses) }
+        .group_by(&:region_code)
     end
   end
 end
