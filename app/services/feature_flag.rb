@@ -26,6 +26,7 @@ class FeatureFlag
     replacement_referee_with_referee_type
     timeline
     edit_course_choices
+    satisfaction_survey
   ].freeze
 
   def self.activate(feature_name)
