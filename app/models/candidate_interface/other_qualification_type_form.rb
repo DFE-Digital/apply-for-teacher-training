@@ -6,6 +6,8 @@ module CandidateInterface
 
     validates :qualification_type, presence: true
 
+    validates :qualification_type, inclusion: { in: ['A level', 'AS level', 'GCSE', 'Other'], allow_blank: false }
+
     def save(application_form)
       return false unless valid?
 

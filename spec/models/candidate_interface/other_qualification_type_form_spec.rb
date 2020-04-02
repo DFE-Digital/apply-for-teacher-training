@@ -32,12 +32,12 @@ RSpec.describe CandidateInterface::OtherQualificationTypeForm do
     it 'creates a new other qualification if valid' do
       application_form = create(:application_form)
 
-      form = CandidateInterface::OtherQualificationTypeForm.new(qualification_type: 'other')
+      form = CandidateInterface::OtherQualificationTypeForm.new(qualification_type: 'Other')
 
       form.save(application_form)
 
       expect(application_form.application_qualifications.last.level).to eq('other')
-      expect(application_form.application_qualifications.last.qualification_type).to eq('other')
+      expect(application_form.application_qualifications.last.qualification_type).to eq('Other')
     end
   end
 end
