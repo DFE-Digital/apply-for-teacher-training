@@ -21,9 +21,9 @@
     </ul>
     <p class="govuk-body"><%= govuk_link_to 'Use UCAS', 'https://2020.teachertraining.apply.ucas.com/apply/student/login.do' %></p>
 
-    <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
-      <% @courses_by_provider_and_region.each do |region_code, courses_by_provider| %>
-        <h3><%= t("provider_regions.#{region_code}") %></h3>
+    <% @courses_by_provider_and_region.each do |region_code, courses_by_provider| %>
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-2 govuk-!-margin-top-8"><%= t("provider_regions.#{region_code}") %></h2>
+      <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
         <% courses_by_provider.each_with_index do |provider, index| %>
           <section class="govuk-accordion__section">
             <header class="govuk-accordion__section-header">
@@ -40,7 +40,7 @@
             </div>
           </section>
         <% end %>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   </div>
 </div>
