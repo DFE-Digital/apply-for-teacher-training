@@ -30,11 +30,11 @@
       <%= f.govuk_text_field :institution_name, label: { text: t('application_form.other_qualification.institution_name.label'), size: 'm' } %>
 
       <%= f.govuk_radio_buttons_fieldset :add_another_qualification, legend: { text: 'Do you want to add another qualification?', tag: 'span' } do %>
-      <% if @type != 'Other' %>
-        <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another #{@type}" } %>
-      <% else %>
+        <% if @type != 'Other' %>
+          <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another #{@type}" } %>
+        <% else %>
           <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another qualification" } %>
-      <% end %>
+        <% end %>
         <%= f.govuk_radio_button :choice, 'different_type', label: { text: 'Yes, add a different qualification' } %>
         <%= f.govuk_radio_button :choice, 'no', label: { text: 'No, not right  now' } %>
       <% end %>
