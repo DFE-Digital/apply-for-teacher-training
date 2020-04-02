@@ -23,7 +23,7 @@
 
     <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
       <% @courses_by_provider_and_region.each do |region_code, courses_by_provider| %>
-        <h3><%= region_code %></h3>
+        <h3><%= t("provider_regions.#{region_code}") %></h3>
         <% courses_by_provider.each_with_index do |provider, index| %>
           <section class="govuk-accordion__section">
             <header class="govuk-accordion__section-header">

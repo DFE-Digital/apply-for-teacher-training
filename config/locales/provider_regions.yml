@@ -1,0 +1,14 @@
+en:
+  provider_regions:
+    east_midlands: 'East Midlands'
+    eastern: 'Eastern'
+    london: 'London'
+    no_region: 'No Region'
+    north_east: 'North East'
+    north_west: 'North West'
+    scotland: 'Scotland'
+    south_east: 'South_East'
+    south_west: 'South West'
+    wales: 'Wales'
+    west_midlands: 'West Midlands'
+    yorkshire_and_the_humber: 'Yorkshire and Humber'
