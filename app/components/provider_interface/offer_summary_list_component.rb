@@ -8,6 +8,9 @@ module ProviderInterface
       @header = header
       @course_option_id = extra_arguments[:course_option_id]
       @entry = extra_arguments[:entry]
+      @available_providers = extra_arguments[:available_providers]
+      @available_courses = extra_arguments[:available_courses]
+      @available_course_options = extra_arguments[:available_course_options]
     end
 
     def rows
@@ -53,15 +56,15 @@ module ProviderInterface
     end
 
     def show_provider_link?
-      @entry == 'provider'
+      @entry == 'provider' && @available_providers && @available_providers.count > 1
     end
 
     def show_course_link?
-      @entry != 'course_option'
+      @entry != 'course_option' && @available_courses && @available_courses.count > 1
     end
 
     def show_course_option_link?
-      true
+      @available_course_options && @available_course_options.count > 1
     end
 
     def new_course_option

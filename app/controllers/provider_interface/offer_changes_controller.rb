@@ -36,9 +36,12 @@ module ProviderInterface
       if @change_offer_form.valid?
         return redirect_to_confirm_new_offer if @change_offer_form.new_offer?
 
+        @future_application_choice = @application_choice.dup
+        @future_application_choice.offered_course_option_id = @change_offer_form.course_option_id
+
         @extra_arguments = \
           GetAllChangeOptionsFromOfferedOption.new(
-            application_choice: @application_choice,
+            application_choice: @future_application_choice,
             available_providers: current_provider_user.providers,
           ).call.merge(
             course_option_id: @change_offer_form.course_option_id,
