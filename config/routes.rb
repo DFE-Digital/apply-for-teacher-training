@@ -304,7 +304,7 @@ Rails.application.routes.draw do
 
       scope '/satisfaction-survey' do
         get '/recommendation' => 'satisfaction_survey#recommendation', as: :satisfaction_survey_recommendation
-        post 'recommendation' => 'satisfaction_survey#submit_recommendation', as: :satisfaction_survey_submit_recommendation
+        post '/recommendation' => 'satisfaction_survey#submit_recommendation', as: :satisfaction_survey_submit_recommendation
 
         get '/complexity' => 'satisfaction_survey#complexity', as: :satisfaction_survey_complexity
       end
