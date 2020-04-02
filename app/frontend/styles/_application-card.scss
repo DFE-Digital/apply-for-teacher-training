@@ -19,7 +19,7 @@
     width: 100%;
 
     dd, dt {
-      font-size: govuk-font(16);
+      @include govuk-font($size: 14);
       color: govuk-colour('dark-grey');
       display: inline;
     }
@@ -28,7 +28,7 @@
 
   &__provider {
     dd {
-      font-size: govuk-font(16);
+      @include govuk-font($size: 14);
     }
   }
 
