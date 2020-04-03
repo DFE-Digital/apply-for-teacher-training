@@ -64,6 +64,7 @@ RSpec.describe 'Candidate satisfaction survey' do
     when_i_choose_yes
     and_click_continue
     then_i_see_the_thank_you_page
+    and_my_survey_should_reflect_the_results_i_input
   end
 
   def given_the_satisfaction_survey_flag_is_active
@@ -165,5 +166,29 @@ RSpec.describe 'Candidate satisfaction survey' do
 
   def then_i_see_the_thank_you_page
     expect(page).to have_content(t('page_titles.thank_you'))
+  end
+
+  # i normally wouldn't test something like this in system spec, but as we don't show them any
+  # result i thought we probably should. I know the model tests cover the logic, but
+  # it's a large journey to not check the desired behaviour of.
+
+  def and_my_survey_should_reflect_the_results_i_input
+    expect(ApplicationForm.last.satisfaction_survey).to eq(
+      {
+        'I would recommend this service to a friend or colleague' => '1',
+        'I found this service unnecessarily complex' => '5',
+        'I thought this service was easy to use' => '1',
+        'I needed help using this service' => '1',
+        'I found all the parts of this service well-organised' => '1',
+        'I thought there was too much inconsistency in this website' => '1',
+        'I would imagine that people would learn to use this website very quickly' => '1',
+        'I found this website very awkward to use' => '1',
+        'I felt confident using this service' => '1',
+        'I needed to learn a lot of things before I could get going with this website' => '1',
+        'If you could improve anything on Apply for teacher training what would it be?' => 'No it was perfect.',
+        'Is there anything else you would like to tell us?' => 'None.',
+        'Are you happy for us to contact you with follow-up questions to your feedback?' => 'yes',
+      },
+    )
   end
 end
