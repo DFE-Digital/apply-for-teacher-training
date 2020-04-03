@@ -5,8 +5,8 @@ module CandidateInterface
     attr_accessor :question, :answer
 
     QUESTIONS_WE_ASK = [
-      'I would recommend this service to a friend or colleague',
-      'I found this service unnecessarily complex',
+      I18n.t('page_titles.recommendation'),
+      I18n.t('page_titles.complexity')
     ].freeze
 
     validates :question, presence: true
@@ -15,14 +15,9 @@ module CandidateInterface
     def save(application_form)
       return false unless valid?
 
-      if question_already_answered?(application_form)
-        application_form.satisfaction_survey[@question] = @answer
-        application_form.save
-      elsif application_form.satisfaction_survey.present?
-        application_form.update!(satisfaction_survey: merge_satisfaction_survey_and_answer(application_form))
-      else
-        application_form.update!(satisfaction_survey: { @question => @answer })
-      end
+      application_form.satisfaction_survey ||= {}
+      application_form.satisfaction_survey[@question] = @answer
+      application_form.save
     end
 
   private
