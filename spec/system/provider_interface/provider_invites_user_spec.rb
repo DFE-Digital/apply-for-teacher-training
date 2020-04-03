@@ -6,17 +6,21 @@ RSpec.feature 'Provider invites a new provider user' do
 
   scenario 'Provider sends invite to user' do
     given_i_am_a_provider_user_with_dfe_sign_in
+    and_the_provider_add_provider_users_feature_is_enabled
     and_i_can_manage_applications_for_two_providers
     and_i_can_manage_users_for_a_provider
     and_i_sign_in_to_the_provider_interface
-    and_the_provider_add_provider_users_feature_is_enabled
 
-    when_i_visit_the_provider_users_index
+    when_i_click_on_the_users_link
     and_i_click_invite_user
     and_i_fill_in_and_submit_invite_details
 
     then_a_new_provider_user_is_created
     and_the_user_should_be_sent_a_welcome_email
+  end
+
+  def when_i_click_on_the_users_link
+    click_on("Users")
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -36,10 +40,6 @@ RSpec.feature 'Provider invites a new provider user' do
 
   def and_the_provider_add_provider_users_feature_is_enabled
     FeatureFlag.activate('provider_add_provider_users')
-  end
-
-  def when_i_visit_the_provider_users_index
-    visit provider_interface_provider_users_path
   end
 
   def and_i_click_invite_user
