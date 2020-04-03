@@ -10,8 +10,6 @@ module CandidateInterface
       if @survey.save(current_application)
         redirect_to candidate_interface_satisfaction_survey_complexity_path
       else
-        @survey = SatisfactionSurveyForm.new
-
         render :recommendation
       end
     end
@@ -38,7 +36,13 @@ module CandidateInterface
 
     def survey_params
       params.require(:candidate_interface_satisfaction_survey_form)
-        .permit(:question, :answer)
+        .permit(:answer).merge!(question: get_question_asked_from_params)
+    end
+
+    def get_question_asked_from_params
+      # removes 'submit_' from the controller action
+      page_title = params['action'].split('_').drop(1).join('_')
+      t("page_titles.#{page_title}")
     end
   end
 end

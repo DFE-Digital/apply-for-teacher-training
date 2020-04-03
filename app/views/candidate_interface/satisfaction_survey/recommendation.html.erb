@@ -1,7 +1,8 @@
-<% content_for :title, t('page_titles.recommendation') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.recommendation'), @survey.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path) %>
 
 <%= form_with model: @survey, url: candidate_interface_satisfaction_survey_submit_recommendation_path, method: :post do |f| %>
+  <%= f.govuk_error_summary %>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -9,8 +10,6 @@
       <h2 class="govuk-heading-xl">
         <%= t('page_titles.recommendation') %>
       </h2>
-
-      <%= f.hidden_field :question, value: t('page_titles.recommendation') %>
 
       <%= render 'form', f: f %>
     </div>

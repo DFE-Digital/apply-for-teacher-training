@@ -6,11 +6,11 @@ module CandidateInterface
 
     QUESTIONS_WE_ASK = [
       I18n.t('page_titles.recommendation'),
-      I18n.t('page_titles.complexity')
+      I18n.t('page_titles.complexity'),
     ].freeze
 
     validates :question, presence: true
-    validates :question, inclusion: { in: QUESTIONS_WE_ASK, allow_blank: false }
+    validates :question, inclusion: { in: QUESTIONS_WE_ASK, allow_blank: false, message: 'Choose one of the options' }
 
     def save(application_form)
       return false unless valid?
