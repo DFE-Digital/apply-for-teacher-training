@@ -16,6 +16,10 @@ RSpec.describe 'Candidate satisfaction survey' do
     when_i_choose_1
     and_click_continue
     then_i_see_the_complexity_page
+
+    when_i_choose_5
+    and_click_continue
+    then_i_see_the_ease_of_use_page
   end
 
   def given_the_satisfaction_survey_flag_is_active
@@ -53,5 +57,13 @@ RSpec.describe 'Candidate satisfaction survey' do
 
   def then_i_see_the_complexity_page
     expect(page).to have_content(t('page_titles.complexity'))
+  end
+
+  def when_i_choose_5
+    choose '5 - strongly disagree'
+  end
+
+  def then_i_see_the_ease_of_use_page
+    expect(page).to have_content(t('page_titles.ease_of_use'))
   end
 end

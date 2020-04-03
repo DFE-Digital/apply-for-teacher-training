@@ -1,0 +1,9 @@
+<%= f.govuk_radio_buttons_fieldset :ratings do %>
+  <%= f.govuk_radio_button :answer, '1', label: { text: '1 - strongly agree' }  %>
+  <%= f.govuk_radio_button :answer, '2', label: { text: '2' }  %>
+  <%= f.govuk_radio_button :answer, '3', label: { text: '3' }  %>
+  <%= f.govuk_radio_button :answer, '4', label: { text: '4' }  %>
+  <%= f.govuk_radio_button :answer, '5', label: { text: '5 - strongly disagree' }  %>
+<% end %>
+
+<%= f.govuk_submit 'Continue' %>
