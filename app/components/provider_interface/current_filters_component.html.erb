@@ -1,17 +1,15 @@
 <div class="moj-filter__selected">
 
   <div class="moj-filter__selected-heading">
-
     <div class="moj-filter__heading-title">
       <h2 class="govuk-heading-m">Selected filters</h2>
     </div>
 
     <div class="moj-filter__heading-action">
     <p class="govuk-body">
-       <%= link_to "Clear", filtering_page_path(params_for_current_state.except(:filter_selections)), class: "govuk-link govuk-link--no-visited-state" %>
+       <%= link_to "Clear", '?' + params_for_current_state.except(:filter_selections).to_query, class: "govuk-link govuk-link--no-visited-state" %>
     </p>
     </div>
-
   </div>
 
   <% applied_filters.each do |applied_filters_key, input_config_values| %>
@@ -24,10 +22,14 @@
     <% input_config_values.each do |input_config_name, _| %>
         <li>
           <%= link_to retrieve_tag_text(applied_filters_key, input_config_name),
-                                        filtering_page_path(params_for_current_state.merge({filter_selections: build_tag_url_query_params(
-                                                                                heading: applied_filters_key,
-                                                                                tag_value: input_config_name)})),
-                                        class: "moj-filter__tag", id: "tag-#{input_config_name}" %>
+              '?' +
+                params_for_current_state.merge(
+                  filter_selections: build_tag_url_query_params(
+                    heading: applied_filters_key,
+                    tag_value: input_config_name,
+                  )
+                ).to_query,
+              class: "moj-filter__tag", id: "tag-#{input_config_name}" %>
         </li>
       <% end %>
     </ul>

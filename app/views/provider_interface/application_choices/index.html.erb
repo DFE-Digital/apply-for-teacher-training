@@ -23,10 +23,11 @@
 <% if FeatureFlag.active?('provider_application_filters') %>
   <div class='moj-filter-layout'>
     <% if @page_state.filter_visible.eql?('true') %>
-      <%= render ProviderInterface::FilterComponent.new(path: :provider_interface_applications_path,
-                                                        available_filters: @page_state.available_filters,
-                                                        applied_filters: @page_state.filter_selections,
-                                                        params_for_current_state: @page_state.to_h) %>
+      <%= render ProviderInterface::FilterComponent.new(
+        available_filters: @page_state.available_filters,
+        applied_filters: @page_state.filter_selections,
+        params_for_current_state: @page_state.to_h,
+      ) %>
     <% end %>
 
     <div class='moj-filter-layout__content'>
@@ -61,4 +62,3 @@
   <% end %>
 
 <% end %>
-

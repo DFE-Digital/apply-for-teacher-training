@@ -10,20 +10,19 @@
 
       <div class="moj-filter__content">
       <% if applied_filters.any? %>
-             <%= render ProviderInterface::CurrentFiltersComponent.new(path: path,
-                                                                       available_filters: available_filters,
-                                                                       applied_filters: applied_filters,
-                                                                       params_for_current_state: params_for_current_state) %>
+        <%= render ProviderInterface::CurrentFiltersComponent.new(
+          available_filters: available_filters,
+          applied_filters: applied_filters,
+          params_for_current_state: params_for_current_state,
+        ) %>
      <% end %>
 
-
         <div class="moj-filter__options">
-          <form method="get" action=<%= filtering_page_path %>>
+          <form method="get">
             <%= submit_tag "Apply filters", class: "govuk-button" %>
             <% params_for_current_state.except(:filter_selections).each do |key, value| %>
               <input class="govuk-checkboxes__input" id=<%= key %> name=<%= key %> type="hidden" value=<%= value %> %>
             <% end %>
-
 
             <% available_filters.each do |filter_group| %>
                 <div class="govuk-form-group">
