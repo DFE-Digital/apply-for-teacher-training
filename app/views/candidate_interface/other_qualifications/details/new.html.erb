@@ -1,0 +1,43 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.qualification_details'), @qualification.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @qualification, url: candidate_interface_create_other_qualification_details_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <% if @type != 'Other' %>
+        <h1 class="govuk-heading-xl">
+          <span class="govuk-caption-xl">Academic and other relevant qualifications</span>
+          Add <%= @type %> qualification
+        </h1>
+      <% else %>
+        <h1 class="govuk-heading-xl">
+          <span class="govuk-caption-xl">Academic and other relevant qualifications</span>
+          Qualification Details
+        </h1>
+      <% end %>
+
+      <% if @type == 'Other' %>
+        <%= f.govuk_text_field :qualification_type, label: { text: t('application_form.other_qualification.qualification_type.label'), size: 'm' }, hint_text: 'For example, BTEC, NVQ or non-UK other' %>
+      <% end %>
+
+      <%= f.govuk_text_field :subject, label: { text: t('application_form.other_qualification.subject.label'), size: 'm' } %>
+      <%= f.govuk_text_field :grade, label: { text: t('application_form.other_qualification.grade.label'), size: 'm' }, width: 10 %>
+      <%= f.govuk_text_field :award_year, label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' }, hint_text: t('application_form.other_qualification.award_year.hint_text'), width: 4 %>
+      <%= f.govuk_text_field :institution_name, label: { text: t('application_form.other_qualification.institution_name.label'), size: 'm' } %>
+
+      <%= f.govuk_radio_buttons_fieldset :add_another_qualification, legend: { text: 'Do you want to add another qualification?', tag: 'span' } do %>
+        <% if @type != 'Other' %>
+          <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another #{@type}" } %>
+        <% else %>
+          <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another qualification" } %>
+        <% end %>
+        <%= f.govuk_radio_button :choice, 'different_type', label: { text: 'Yes, add a different qualification' } %>
+        <%= f.govuk_radio_button :choice, 'no', label: { text: 'No, not right  now' } %>
+      <% end %>
+
+      <%= f.govuk_submit t('application_form.other_qualification.base.button') %>
+    <% end %>
+  </div>
+</div>

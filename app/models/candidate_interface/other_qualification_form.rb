@@ -4,7 +4,7 @@ module CandidateInterface
     include ValidationUtils
 
     attr_accessor :id, :qualification_type, :subject, :institution_name, :grade,
-                  :award_year
+                  :award_year, :choice
 
     validates :qualification_type, :subject, :institution_name, :grade, :award_year, presence: true
 
@@ -40,16 +40,27 @@ module CandidateInterface
     def save(application_form)
       return false unless valid?
 
-      application_form.application_qualifications.create!(
-        level: ApplicationQualification.levels[:other],
-        qualification_type: qualification_type,
-        subject: subject,
-        institution_name: institution_name,
-        grade: grade,
-        predicted_grade: false,
-        award_year: award_year,
-      )
-
+      if FeatureFlag.active?('prompt_for_additional_qualifications')
+        qualification = ApplicationQualification.find(id)
+        qualification.update!(
+          qualification_type: qualification_type,
+          subject: subject,
+          institution_name: institution_name,
+          grade: grade,
+          predicted_grade: false,
+          award_year: award_year,
+        )
+      else
+        application_form.application_qualifications.create!(
+          level: ApplicationQualification.levels[:other],
+          qualification_type: qualification_type,
+          subject: subject,
+          institution_name: institution_name,
+          grade: grade,
+          predicted_grade: false,
+          award_year: award_year,
+          )
+      end
       true
     end
 

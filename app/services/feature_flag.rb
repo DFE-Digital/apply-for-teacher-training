@@ -12,6 +12,7 @@ class FeatureFlag
     force_ok_computer_to_fail
     improved_expired_token_flow
     pilot_open
+    prompt_for_additional_qualifications
     provider_application_filters
     provider_change_response
     provider_view_safeguarding

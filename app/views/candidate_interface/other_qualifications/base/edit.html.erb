@@ -10,8 +10,13 @@
         <%= t('page_titles.edit_other_qualification') %>
       </h1>
 
+      <%= render 'candidate_interface/other_qualifications/shared/instructions' %>
+
       <%= f.hidden_field :id, value: @qualification.id %>
+
       <%= render 'form', f: f %>
+
+      <%= f.govuk_submit t('application_form.other_qualification.base.button') %>
     <% end %>
   </div>
 </div>
