@@ -10,7 +10,7 @@ module CandidateInterface
       @application_form = current_candidate.current_application
 
       if section_marked_as_complete? && there_are_incomplete_qualifications?
-        flash[:warning] = 'You can’t complete this section with incomplete qualifications'
+        flash[:warning] = 'You must fill in all your qualifications to complete this section'
 
         render :show
       else

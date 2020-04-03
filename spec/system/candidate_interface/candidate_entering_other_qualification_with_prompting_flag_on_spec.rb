@@ -256,7 +256,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def then_i_should_be_told_i_cannot_submit_incomplete_qualifications
-    expect(page).to have_content('You can’t complete this section with incomplete qualifications')
+    expect(page).to have_content('You must fill in all your qualifications to complete this section')
   end
 
   def when_i_delete_my_incomplete_qualification

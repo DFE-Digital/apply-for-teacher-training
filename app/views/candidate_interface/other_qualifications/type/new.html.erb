@@ -10,10 +10,7 @@
         <%= t('page_titles.add_other_qualification') %>
       </h1>
 
-      <p class="govuk-body">
-        Enter your qualifications as completely as you can, including all your GCSEs and A levels (or equivalents), and any other qualifications where you showed skills that might help you as a teacher.
-      </p>
-      <p class="govuk-body">Undergraduate and postgraduate degrees should be included in the ‘Degree’ section.</p>
+      <%= render 'candidate_interface/other_qualifications/shared/instructions' %>
 
       <%= f.govuk_radio_buttons_fieldset :choose_qualification_type, legend: { text: 'What type of qualification do you want to add?', tag: 'span' } do %>
         <%= f.govuk_radio_button :qualification_type, 'GCSE', label: { text: 'GCSE' } %>

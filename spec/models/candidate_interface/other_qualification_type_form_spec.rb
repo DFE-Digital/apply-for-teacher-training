@@ -22,7 +22,7 @@ RSpec.describe CandidateInterface::OtherQualificationTypeForm do
   end
 
   describe '#save' do
-    it 'return false if not valid' do
+    it 'returns false if not valid' do
       application_form = double
 
       form = CandidateInterface::GcseQualificationTypeForm.new({})

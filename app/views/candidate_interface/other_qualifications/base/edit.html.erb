@@ -10,15 +10,9 @@
         <%= t('page_titles.edit_other_qualification') %>
       </h1>
 
-      <p class="govuk-body">
-        Enter your qualifications as completely as you can, including all your GCSEs and A levels (or equivalents), and any other qualifications where you showed skills that might help you as a teacher.
-      </p>
-      <p class="govuk-body">
-        Undergraduate and postgraduate degrees should be included in the ‘Degree’ section.
-      </p>
+      <%= render 'candidate_interface/other_qualifications/shared/instructions' %>
 
       <%= f.hidden_field :id, value: @qualification.id %>
-      <%= f.hidden_field :qualification_type, value: @qualification.qualification_type %>
 
       <%= render 'form', f: f %>
 

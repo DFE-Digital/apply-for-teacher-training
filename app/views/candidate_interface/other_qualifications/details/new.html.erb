@@ -20,8 +20,6 @@
 
       <% if @type == 'Other' %>
         <%= f.govuk_text_field :qualification_type, label: { text: t('application_form.other_qualification.qualification_type.label'), size: 'm' }, hint_text: 'For example, BTEC, NVQ or non-UK other' %>
-      <% else %>
-        <%= f.hidden_field :qualification_type, value: @type %>
       <% end %>
 
       <%= f.govuk_text_field :subject, label: { text: t('application_form.other_qualification.subject.label'), size: 'm' } %>

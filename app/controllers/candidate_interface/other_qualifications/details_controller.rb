@@ -18,8 +18,9 @@ module CandidateInterface
       @qualification = OtherQualificationForm.new(other_qualification_params)
 
       if @qualification.valid?
+        @qualification.save(current_application)
+
         if @qualification.choice == 'same_type'
-          @qualification.save(current_application)
           qualification = ApplicationQualification.find(params[:id])
 
           @qualification_type = OtherQualificationTypeForm.new(
@@ -30,18 +31,9 @@ module CandidateInterface
 
           redirect_to candidate_interface_new_other_qualification_details_path(id: current_application.application_qualifications.last.id)
         elsif @qualification.choice == 'different_type'
-          @qualification.save(current_application)
-
           redirect_to candidate_interface_new_other_qualification_type_path
         elsif @qualification.choice == 'no'
-          @qualification.save(current_application)
-
           redirect_to candidate_interface_review_other_qualifications_path
-        else
-          qualifications = OtherQualificationForm.build_all_from_application(current_application)
-          @type = qualifications.last.qualification_type
-
-          render :new
         end
       else
         qualifications = OtherQualificationForm.build_all_from_application(current_application)
@@ -55,8 +47,8 @@ module CandidateInterface
 
     def other_qualification_params
       params.require(:candidate_interface_other_qualification_form).permit(
-        :id, :qualification_type, :subject, :institution_name, :grade, :award_year, :choice
-      ).merge!(id: params[:id]).transform_values(&:strip)
+        :id, :subject, :institution_name, :grade, :award_year, :choice
+      ).merge!(id: params[:id], qualification_type: get_qualification_type).transform_values(&:strip)
     end
 
     def last_two_qualifications_are_of_same_type(qualifications)
@@ -71,6 +63,10 @@ module CandidateInterface
 
     def pre_fill_award_year(qualifications)
       qualifications[-2].award_year
+    end
+
+    def get_qualification_type
+      ApplicationQualification.find(params[:id]).qualification_type
     end
   end
 end
