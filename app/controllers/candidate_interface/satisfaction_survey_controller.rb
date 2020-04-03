@@ -88,6 +88,15 @@ module CandidateInterface
       post_route_action(candidate_interface_satisfaction_survey_other_information_path, :improvements)
     end
 
+    def other_information
+      @survey = SatisfactionSurveyForm.new
+    end
+
+    def submit_other_information
+      post_route_action(candidate_interface_satisfaction_survey_contact_path, :other_information)
+    end
+
+
   private
 
     def survey_params

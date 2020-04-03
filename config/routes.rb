@@ -341,6 +341,9 @@ Rails.application.routes.draw do
 
         get '/improvements' => 'satisfaction_survey#improvements', as: :satisfaction_survey_improvements
         post '/improvements' => 'satisfaction_survey#submit_improvements', as: :satisfaction_survey_submit_improvements
+
+        get '/other_information' => 'satisfaction_survey#other_information', as: :satisfaction_survey_other_information
+        post '/other_information' => 'satisfaction_survey#submit_other_information', as: :satisfaction_survey_submit_other_information
       end
     end
   end

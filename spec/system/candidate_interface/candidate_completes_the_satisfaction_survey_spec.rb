@@ -152,7 +152,7 @@ RSpec.describe 'Candidate satisfaction survey' do
   end
 
   def when_i_give_my_other_feedback
-    fill_in 'None.'
+    page.find('#candidate-interface-satisfaction-survey-form-answer-field').set('None.')
   end
 
   def then_i_see_the_contact_page

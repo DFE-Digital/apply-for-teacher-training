@@ -1,0 +1,19 @@
+<% content_for :title, t('page_titles.other_information') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_satisfaction_survey_improvements_path) %>
+
+<%= form_with model: @survey, url: candidate_interface_satisfaction_survey_submit_other_information_path, method: :post do |f| %>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h2 class="govuk-heading-xl">
+        <%= t('page_titles.other_information') %>
+      </h2>
+
+      <%= f.hidden_field :question, value: t('page_titles.other_information') %>
+      <%= f.govuk_text_area :answer, label: { text: '' }, rows: 8, max_words: 400 %>
+    </div>
+  </div>
+
+  <%= f.govuk_submit 'Continue' %>
+<% end %>
