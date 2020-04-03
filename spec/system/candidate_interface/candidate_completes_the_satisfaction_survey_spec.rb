@@ -61,7 +61,7 @@ RSpec.describe 'Candidate satisfaction survey' do
     and_click_continue
     then_i_see_the_contact_page
 
-    when_i_choose_1
+    when_i_choose_yes
     and_click_continue
     then_i_see_the_thank_you_page
   end
@@ -159,8 +159,8 @@ RSpec.describe 'Candidate satisfaction survey' do
     expect(page).to have_content(t('page_titles.contact'))
   end
 
-  def when_i_click_yes
-    choose 'Yes'
+  def when_i_choose_yes
+    choose 'Yes, you can contact me'
   end
 
   def then_i_see_the_thank_you_page
