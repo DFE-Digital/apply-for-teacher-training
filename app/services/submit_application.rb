@@ -38,9 +38,10 @@ private
   end
 
   def auto_approve_reference(reference)
-    ReceiveReference.new(
+    reference.update!(feedback: I18n.t('new_referee_request.auto_approve_feedback'))
+
+    SubmitReference.new(
       reference: reference,
-      feedback: I18n.t('new_referee_request.auto_approve_feedback'),
     ).save!
   end
 

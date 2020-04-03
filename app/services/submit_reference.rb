@@ -1,15 +1,14 @@
-class ReceiveReference
-  attr_reader :reference, :feedback
+class SubmitReference
+  attr_reader :reference
   delegate :application_form, to: :reference
 
-  def initialize(reference:, feedback:)
+  def initialize(reference:)
     @reference = reference
-    @feedback = feedback
   end
 
   def save!
     ActiveRecord::Base.transaction do
-      @reference.update!(feedback: @feedback, feedback_status: 'feedback_provided')
+      @reference.update!(feedback_status: 'feedback_provided')
       progress_application_if_enough_references_have_been_submitted
     end
 

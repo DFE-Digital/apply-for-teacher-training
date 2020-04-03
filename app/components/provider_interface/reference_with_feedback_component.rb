@@ -52,8 +52,6 @@ module ProviderInterface
     end
 
     def relationship_confirmation_row
-      return unless referee_relationship_and_safeguarding_feature_enabled?
-
       {
         key: 'Relationship confirmed by referee?',
         value: relationship_correction.present? ? 'No' : 'Yes',
@@ -61,7 +59,7 @@ module ProviderInterface
     end
 
     def relationship_correction_row
-      return unless referee_relationship_and_safeguarding_feature_enabled? && relationship_correction.present?
+      return if relationship_correction.blank?
 
       {
         key: 'Relationship amended by referee',
@@ -70,8 +68,6 @@ module ProviderInterface
     end
 
     def safeguarding_row
-      return unless referee_relationship_and_safeguarding_feature_enabled?
-
       {
         key: 'Does the referee know of any reason why this candidate should not work with children?',
         value: safeguarding_concerns.present? ? 'Yes' : 'No',
@@ -79,8 +75,6 @@ module ProviderInterface
     end
 
     def safeguarding_concerns_row
-      return unless referee_relationship_and_safeguarding_feature_enabled? && safeguarding_concerns.present?
-
       {
         key: 'Reason(s) given by referee why this candidate should not work with children',
         value: safeguarding_concerns,
@@ -94,10 +88,6 @@ module ProviderInterface
           value: feedback,
         }
       end
-    end
-
-    def referee_relationship_and_safeguarding_feature_enabled?
-      FeatureFlag.active?('referee_confirm_relationship_and_safeguarding')
     end
 
     attr_reader :reference

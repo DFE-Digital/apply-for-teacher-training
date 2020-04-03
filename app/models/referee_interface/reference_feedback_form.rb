@@ -5,7 +5,7 @@ module RefereeInterface
     validates :feedback, presence: true, word_count: { maximum: 300 }
     delegate :application_form, to: :reference
 
-    def initialize(reference:, feedback: nil)
+    def initialize(reference:, feedback:)
       @reference = reference
       @feedback = feedback
     end
@@ -13,15 +13,7 @@ module RefereeInterface
     def save
       return unless valid?
 
-      if FeatureFlag.active?('referee_confirm_relationship_and_safeguarding')
-        reference.update!(feedback: feedback)
-      else
-        ReceiveReference.new(
-          reference: reference,
-          feedback: feedback,
-        ).save!
-      end
-
+      reference.update!(feedback: feedback)
       true
     end
   end

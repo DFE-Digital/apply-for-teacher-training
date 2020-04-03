@@ -67,9 +67,12 @@ end
 When('{string} provides a reference') do |referee_email|
   reference = @application_choice.application_form.application_references.find_by!(email_address: referee_email)
 
-  ReceiveReference.new(
-    reference: reference,
+  reference.update!(
     feedback: Faker::Lorem.sentence(word_count: 20),
+  )
+
+  SubmitReference.new(
+    reference: reference,
   ).save!
 end
 

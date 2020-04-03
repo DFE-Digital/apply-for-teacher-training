@@ -6,10 +6,6 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent do
 
     subject(:component) { described_class.new(reference: reference) }
 
-    before { FeatureFlag.activate('referee_confirm_relationship_and_safeguarding') }
-
-    after { FeatureFlag.deactivate('referee_confirm_relationship_and_safeguarding') }
-
     it 'contains a name row' do
       row = component.rows.first
       expect(row[:key]).to eq('Name')

@@ -22,7 +22,6 @@ class FeatureFlag
     work_breaks
     before_you_start
     provider_interface_work_breaks
-    referee_confirm_relationship_and_safeguarding
     referee_type
     replacement_referee_with_referee_type
     timeline

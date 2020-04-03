@@ -24,14 +24,24 @@ RSpec.feature 'Vendor receives the application' do
   end
 
   def and_references_have_been_received
-    ReceiveReference.new(
-      reference: @application.application_references.first,
+    reference = @application.application_references.first
+
+    reference.update!(
       feedback: 'My ideal person',
+    )
+
+    SubmitReference.new(
+      reference: reference,
     ).save!
 
-    ReceiveReference.new(
-      reference: @application.application_references.last,
+    reference = @application.application_references.last
+
+    reference.update!(
       feedback: 'Lovable',
+    )
+
+    SubmitReference.new(
+      reference: reference,
     ).save!
   end
 

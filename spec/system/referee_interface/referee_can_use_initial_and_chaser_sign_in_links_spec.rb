@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'Referee can use sign in link in the initial and chaser email' do
   scenario 'Referee clicks sign in links on the initial and chaser reference request emails' do
-    given_the_confirm_relationship_and_safeguarding_feature_flag_is_active
-    and_i_am_a_referee_of_an_submitted_application
+    given_i_am_a_referee_of_an_submitted_application
     and_i_received_the_initial_reference_request_email
     when_i_click_on_the_link_within_the_initial_email
     then_i_am_asked_to_confirm_my_relationship_with_the_candidate
@@ -16,11 +15,7 @@ RSpec.feature 'Referee can use sign in link in the initial and chaser email' do
     then_i_am_asked_to_confirm_my_relationship_with_the_candidate
   end
 
-  def given_the_confirm_relationship_and_safeguarding_feature_flag_is_active
-    FeatureFlag.activate('referee_confirm_relationship_and_safeguarding')
-  end
-
-  def and_i_am_a_referee_of_an_submitted_application
+  def given_i_am_a_referee_of_an_submitted_application
     @reference = create(:reference, :requested)
     @application = create(:completed_application_form, application_references: [@reference])
   end
