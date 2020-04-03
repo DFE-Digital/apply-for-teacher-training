@@ -12,8 +12,6 @@
 
       <%= render 'candidate_interface/other_qualifications/shared/instructions' %>
 
-      <%= f.hidden_field :id, value: @qualification.id %>
-
       <%= render 'form', f: f %>
 
       <%= f.govuk_submit t('application_form.other_qualification.base.button') %>

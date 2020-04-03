@@ -32,7 +32,7 @@ module CandidateInterface
     end
 
     def update
-      @qualification = OtherQualificationForm.new(other_qualification_params)
+      @qualification = OtherQualificationForm.new(other_qualifcations_update_params)
 
       if @qualification.update(current_application)
         current_application.update!(other_qualifications_completed: false)
@@ -53,6 +53,13 @@ module CandidateInterface
       params.require(:candidate_interface_other_qualification_form).permit(
         :id, :qualification_type, :subject, :institution_name, :grade, :award_year
       )
+        .transform_values(&:strip)
+    end
+
+    def other_qualifcations_update_params
+      params.require(:candidate_interface_other_qualification_form).permit(
+        :qualification_type, :subject, :institution_name, :grade, :award_year
+      ).merge!(id: params[:id])
         .transform_values(&:strip)
     end
   end
