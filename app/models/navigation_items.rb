@@ -54,17 +54,15 @@ class NavigationItems
             NavigationItem.new('Sign in', provider_interface_sign_in_path, false),
           ]
         end
+      elsif current_provider_user
+        [
+          NavigationItem.new(current_provider_user.email_address, nil, false),
+          NavigationItem.new('Sign out', provider_interface_sign_out_path, false),
+        ]
       else
-        if current_provider_user
-          [
-            NavigationItem.new(current_provider_user.email_address, nil, false),
-            NavigationItem.new('Sign out', provider_interface_sign_out_path, false),
-          ]
-        else
-          [
-            NavigationItem.new('Sign in', provider_interface_sign_in_path, false),
-          ]
-        end
+        [
+          NavigationItem.new('Sign in', provider_interface_sign_in_path, false),
+        ]
       end
     end
 
@@ -79,7 +77,7 @@ class NavigationItems
       ]
     end
 
-    private
+  private
 
     def is_active(current_controller, active_controllers)
       current_controller.controller_name.in?(Array.wrap(active_controllers))

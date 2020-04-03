@@ -20,7 +20,7 @@ RSpec.feature 'Provider invites a new provider user' do
   end
 
   def when_i_click_on_the_users_link
-    click_on("Users")
+    click_on('Users')
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in

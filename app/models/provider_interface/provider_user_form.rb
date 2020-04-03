@@ -12,7 +12,10 @@ module ProviderInterface
 
     def permitted_providers
       return unless provider_ids.any?
-      return if (provider_ids & available_providers.pluck(:id)) == provider_ids
+
+      provider_ids.delete('') # TODO: why does this have a blank value?
+
+      return if (provider_ids.map(&:to_i) & available_providers.pluck(:id).map(&:to_i)) == provider_ids.map(&:to_i)
 
       errors.add(:provider_ids, 'insufficient permissions to manage users for this provider')
     end
