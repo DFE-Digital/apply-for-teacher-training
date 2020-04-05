@@ -1,4 +1,4 @@
-<% content_for :title, t('page_titles.consistency') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.consistency'), @survey.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_satisfaction_survey_organisation_path) %>
 
 <%= form_with model: @survey, url: candidate_interface_satisfaction_survey_submit_consistency_path, method: :post do |f| %>
@@ -9,8 +9,6 @@
       <h2 class="govuk-heading-xl">
         <%= t('page_titles.consistency') %>
       </h2>
-
-      <%= f.hidden_field :question, value: t('page_titles.consistency') %>
 
       <%= render 'form', f: f %>
     </div>

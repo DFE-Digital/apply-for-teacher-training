@@ -7,18 +7,17 @@ module CandidateInterface
     QUESTIONS_WE_ASK = [
       I18n.t('page_titles.recommendation'),
       I18n.t('page_titles.complexity'),
-      'I thought this service was easy to use',
-      'I needed help using this service',
-      'I found all the parts of this service well-organised',
-      'I thought there was too much inconsistency in this website',
-      'I would imagine that people would learn to use this website very quickly',
-      'I found this website very awkward to use',
-      'I felt confident using this service',
-      'I needed to learn a lot of things before I could get going with this website',
-      'If you could improve anything on Apply for teacher training what would it be?',
-      'Is there anything else you would like to tell us?',
-      'Are you happy for us to contact you with follow-up questions to your feedback?',
-      'Thank you for your feedback',
+      I18n.t('page_titles.ease_of_use'),
+      I18n.t('page_titles.help_needed'),
+      I18n.t('page_titles.organisation'),
+      I18n.t('page_titles.consistency'),
+      I18n.t('page_titles.adaptability'),
+      I18n.t('page_titles.awkward'),
+      I18n.t('page_titles.confidence'),
+      I18n.t('page_titles.needed_additional_learning'),
+      I18n.t('page_titles.improvements'),
+      I18n.t('page_titles.other_information'),
+      I18n.t('page_titles.contact'),
     ].freeze
 
     validates :question, presence: true
@@ -30,16 +29,6 @@ module CandidateInterface
       application_form.satisfaction_survey ||= {}
       application_form.satisfaction_survey[@question] = @answer
       application_form.save
-    end
-
-  private
-
-    def question_already_answered?(application_form)
-      application_form.satisfaction_survey&.keys&.include?(@question)
-    end
-
-    def merge_satisfaction_survey_and_answer(application_form)
-      application_form.satisfaction_survey.merge!({ @question => @answer })
     end
   end
 end
