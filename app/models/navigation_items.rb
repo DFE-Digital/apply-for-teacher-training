@@ -37,33 +37,15 @@ class NavigationItems
     end
 
     def for_provider_interface(current_provider_user)
-      if FeatureFlag.active?('provider_add_provider_users')
-        if current_provider_user && current_provider_user.provider_permissions.any?
-          [
-            NavigationItem.new(current_provider_user.email_address, nil, false),
-            NavigationItem.new('Users', provider_interface_provider_users_path, false),
-            NavigationItem.new('Sign out', provider_interface_sign_out_path, false),
-          ]
-        elsif current_provider_user
-          [
-            NavigationItem.new(current_provider_user.email_address, nil, false),
-            NavigationItem.new('Sign out', provider_interface_sign_out_path, false),
-          ]
-        else
-          [
-            NavigationItem.new('Sign in', provider_interface_sign_in_path, false),
-          ]
-        end
-      elsif current_provider_user
-        [
-          NavigationItem.new(current_provider_user.email_address, nil, false),
-          NavigationItem.new('Sign out', provider_interface_sign_out_path, false),
-        ]
-      else
-        [
-          NavigationItem.new('Sign in', provider_interface_sign_in_path, false),
-        ]
+      return [NavigationItem.new('Sign in', provider_interface_sign_in_path, false)] unless current_provider_user
+
+      items = [NavigationItem.new(current_provider_user.email_address, nil, false)]
+
+      if FeatureFlag.active?('provider_add_provider_users') && current_provider_user.can_manage_users?
+        items << NavigationItem.new('Users', provider_interface_provider_users_path, false)
       end
+
+      items << NavigationItem.new('Sign out', provider_interface_sign_out_path, false)
     end
 
     def for_api_docs(current_controller)
