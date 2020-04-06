@@ -14,8 +14,6 @@ module RefereeInterface
     end
 
     def relationship
-      redirect_to referee_interface_reference_feedback_path(token: @token_param) unless FeatureFlag.active?('referee_confirm_relationship_and_safeguarding')
-
       @application = reference.application_form
       @relationship = reference.relationship
       @relationship_form = ReferenceRelationshipForm.build_from_reference(reference: reference)
@@ -60,7 +58,10 @@ module RefereeInterface
     end
 
     def feedback
-      @reference_form = ReferenceFeedbackForm.new(reference: reference, feedback: reference.feedback)
+      @reference_form = ReferenceFeedbackForm.new(
+        reference: reference,
+        feedback: reference.feedback,
+      )
     end
 
     def submit_feedback
@@ -70,11 +71,7 @@ module RefereeInterface
       )
 
       if @reference_form.save
-        if FeatureFlag.active?('referee_confirm_relationship_and_safeguarding')
-          redirect_to referee_interface_reference_review_path(token: @token_param)
-        else
-          redirect_to referee_interface_confirmation_path(token: @token_param)
-        end
+        redirect_to referee_interface_reference_review_path(token: @token_param)
       else
         render :feedback
       end
@@ -85,7 +82,7 @@ module RefereeInterface
     end
 
     def submit_reference
-      ReceiveReference.new(reference: reference, feedback: reference.feedback).save!
+      SubmitReference.new(reference: reference).save!
 
       redirect_to referee_interface_confirmation_path(token: @token_param)
     end

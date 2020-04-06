@@ -75,12 +75,13 @@ class TestApplications
         return if states.include? :awaiting_references
 
         @application_form.application_references.each do |reference|
-          reference.relationship_correction = [nil, Faker::Lorem.sentence].sample
-          reference.safeguarding_concerns = [nil, Faker::Lorem.sentence].sample
+          reference.relationship_correction = ['', Faker::Lorem.sentence].sample
+          reference.safeguarding_concerns = ['', Faker::Lorem.sentence].sample
 
-          ReceiveReference.new(
+          reference.update!(feedback: 'You are awesome')
+
+          SubmitReference.new(
             reference: reference,
-            feedback: 'You are awesome',
           ).save!
         end
         return if states.include? :application_complete

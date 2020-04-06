@@ -1,7 +1,5 @@
 <% content_for :title, title_with_error_prefix("Your reference for #{@reference_form.application_form.full_name}", @reference_form.errors.any?) %>
-<% if FeatureFlag.active?('referee_confirm_relationship_and_safeguarding') %>
-  <% content_for :before_content, govuk_back_link_to(referee_interface_safeguarding_path(token: @token_param)) %>
-<% end %>
+<% content_for :before_content, govuk_back_link_to(referee_interface_safeguarding_path(token: @token_param)) %>
 
 <%= form_with model: @reference_form, url: referee_interface_submit_feedback_path(token: @token_param), method: :patch do |f| %>
   <%= f.govuk_error_summary %>
@@ -13,11 +11,7 @@
 
       <%= f.govuk_text_area :feedback, label: { text: 'Your reference', size: 'm' }, max_words: 300, rows: 15 %>
 
-      <% if FeatureFlag.active?('referee_confirm_relationship_and_safeguarding') %>
-         <%= f.govuk_submit 'Continue' %>
-      <% else %>
-        <%= f.govuk_submit t('reference_form.confirm') %>
-      <% end %>
+      <%= f.govuk_submit 'Continue' %>
     </div>
   </div>
 <% end %>

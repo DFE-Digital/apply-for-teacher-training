@@ -7,7 +7,6 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
     FeatureFlag.activate('training_with_a_disability')
 
     given_a_candidate_completed_an_application
-    and_the_confirm_relationship_and_safeguarding_feature_flag_is_active
     when_the_candidate_submits_the_application
     then_i_receive_an_email_with_a_magic_link
 
@@ -70,10 +69,6 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
 
   def given_a_candidate_completed_an_application
     candidate_completes_application_form
-  end
-
-  def and_the_confirm_relationship_and_safeguarding_feature_flag_is_active
-    FeatureFlag.activate('referee_confirm_relationship_and_safeguarding')
   end
 
   def when_the_candidate_submits_the_application

@@ -39,11 +39,16 @@ RSpec.feature 'See an application' do
   def and_an_application_has_received_a_reference
     @application_with_reference.application_references.first.update(consent_to_be_contacted: true)
 
-    action = ReceiveReference.new(
-      reference: @application_with_reference.reload.application_references.first,
+    reference = @application_with_reference.reload.application_references.first
+    reference.update!(
       feedback: 'This is my feedback',
+      safeguarding_concerns: '',
+      relationship_correction: '',
     )
-    action.save!
+
+    SubmitReference.new(
+      reference: reference,
+    ).save!
   end
 
   def and_i_visit_the_support_page
