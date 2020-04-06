@@ -4,10 +4,9 @@ module ProviderInterface
 
     attr_reader :application_choice
 
-    def initialize(application_choice:, extra_arguments: nil)
-      @application_choice = application_choice
-      @extra_arguments = extra_arguments
-      @extra_arguments ||= {}
+    def initialize(options)
+      @options = options
+      @application_choice = @options[:application_choice]
     end
 
     def application_status

@@ -1,16 +1,13 @@
 module ProviderInterface
   class OfferSummaryListComponent < ActionView::Component::Base
     include ViewHelper
-    attr_reader :application_choice, :header
+    attr_reader :application_choice, :header, :options
 
-    def initialize(application_choice:, header: 'Your offer', extra_arguments: {})
+    def initialize(application_choice:, header: 'Your offer', options: {})
       @application_choice = application_choice
       @header = header
-      @course_option_id = extra_arguments[:course_option_id]
-      @entry = extra_arguments[:entry]
-      @available_providers = extra_arguments[:available_providers]
-      @available_courses = extra_arguments[:available_courses]
-      @available_course_options = extra_arguments[:available_course_options]
+      @course_option_id = options[:new_course_option_id]
+      @entry = options[:entry]
     end
 
     def rows
@@ -50,21 +47,17 @@ module ProviderInterface
         when :course
           paths.provider_interface_application_choice_change_offer_edit_course_path(application_choice.id, current_selection_params) if show_course_link?
         when :course_option
-          paths.provider_interface_application_choice_change_offer_edit_course_option_path(application_choice.id, current_selection_params) if show_course_option_link?
+          paths.provider_interface_application_choice_change_offer_edit_course_option_path(application_choice.id, current_selection_params)
         end
       end
     end
 
     def show_provider_link?
-      @entry == 'provider' && @available_providers && @available_providers.count > 1
+      @entry == 'provider'
     end
 
     def show_course_link?
-      @entry != 'course_option' && @available_courses && @available_courses.count > 1
-    end
-
-    def show_course_option_link?
-      @available_course_options && @available_course_options.count > 1
+      @entry != 'course_option'
     end
 
     def new_course_option

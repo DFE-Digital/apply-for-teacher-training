@@ -7,7 +7,7 @@
       Check and confirm changes to offer
     </h1>
     <%= render ProviderInterface::OfferSummaryListComponent.new(application_choice: @application_choice, header: 'Your existing offer') %>
-    <%= render ProviderInterface::OfferSummaryListComponent.new(application_choice: @application_choice, header: 'Your new offer', extra_arguments: @extra_arguments) %>
+    <%= render ProviderInterface::OfferSummaryListComponent.new(application_choice: @application_choice, header: 'Your new offer', options: @change_options) %>
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">

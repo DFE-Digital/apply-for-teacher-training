@@ -39,14 +39,10 @@ module ProviderInterface
         @future_application_choice = @application_choice.dup
         @future_application_choice.offered_course_option_id = @change_offer_form.course_option_id
 
-        @extra_arguments = \
-          GetAllChangeOptionsFromOfferedOption.new(
-            application_choice: @future_application_choice,
-            available_providers: current_provider_user.providers,
-          ).call.merge(
-            course_option_id: @change_offer_form.course_option_id,
-            entry: @change_offer_form.entry,
-          )
+        @change_options = {
+          new_course_option_id: @change_offer_form.course_option_id,
+          entry: @change_offer_form.entry,
+        }
       else
         render_step_for_invalid_form
       end
