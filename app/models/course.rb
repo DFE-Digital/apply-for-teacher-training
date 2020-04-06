@@ -57,6 +57,6 @@ class Course < ApplicationRecord
   end
 
   def find_url
-    @find_url ||= "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{provider.code}/#{code}"
+    "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{provider.code}/#{code}"
   end
 end
