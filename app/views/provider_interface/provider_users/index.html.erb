@@ -1,5 +1,7 @@
 <% content_for :title, 'Provider users' %>
 
+<h1 class="govuk-heading-xl">Users</h1>
+
 <% if FeatureFlag.active?('provider_add_provider_users') -%>
   <%= link_to 'Invite user', provider_interface_provider_users_new_path, class: 'govuk-button' %>
 <% end -%>
@@ -19,6 +21,6 @@
 
 <div class="govuk-body">
 <% @provider_users.each do |provider_user| %>
-  <p><%= provider_user.full_name || '---' %><br/><%= provider_user.email_address %><hr/></p>
+  <%= render ProviderInterface::UserListCardComponent.new(provider_user: provider_user) %>
 <% end %>
 </div>
