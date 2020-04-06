@@ -48,6 +48,18 @@ class ApplicationChoice < ApplicationRecord
     offered_option.site
   end
 
+  def course_not_available?
+    course_option.course_not_available?
+  end
+
+  def course_full?
+    course_option.course_full?
+  end
+
+  def chosen_site_full?
+    course_option.no_vacancies?
+  end
+
 private
 
   def generate_alphanumeric_id

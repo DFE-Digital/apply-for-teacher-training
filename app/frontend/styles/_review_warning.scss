@@ -1,0 +1,13 @@
+.app-review-warning {
+  @include govuk-responsive-margin(4, "bottom");
+  @include govuk-text-colour;
+  @include govuk-font($size: 19);
+  border: solid govuk-colour("blue");
+  border-width: 0 0 0 $govuk-border-width;
+  padding-left: govuk-spacing(3);
+
+  &--primary-message {
+    @include govuk-typography-weight-bold;
+    color: govuk-colour("blue");
+  }
+}
