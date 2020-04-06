@@ -55,7 +55,7 @@ private
   def create_or_update_course(find_course)
     course = provider.courses.find_or_create_by(code: find_course.course_code)
     assign_course_attributes_from_find(course, find_course)
-    add_accrediting_provider(course, find_course[:accrediting_provider])
+    add_accredited_provider(course, find_course[:accrediting_provider])
 
     course.save!
 
@@ -105,13 +105,13 @@ private
     course.exposed_in_find = find_course.findable?
   end
 
-  def add_accrediting_provider(course, find_accrediting_provider)
-    if find_accrediting_provider.present?
-      accrediting_provider = Provider.find_or_initialize_by(code: find_accrediting_provider[:provider_code])
-      accrediting_provider.name = find_accrediting_provider[:provider_name]
-      accrediting_provider.save!
+  def add_accredited_provider(course, find_accredited_provider)
+    if find_accredited_provider.present?
+      accredited_provider = Provider.find_or_initialize_by(code: find_accredited_provider[:provider_code])
+      accredited_provider.name = find_accredited_provider[:provider_name]
+      accredited_provider.save!
 
-      course.accrediting_provider = accrediting_provider
+      course.accredited_provider = accredited_provider
     end
   end
 

@@ -3,7 +3,7 @@ class Provider < ApplicationRecord
   has_many :sites
   has_many :course_options, through: :courses
   has_many :application_choices, through: :course_options
-  has_many :accredited_courses, class_name: 'Course', inverse_of: :accrediting_provider, foreign_key: :accrediting_provider_id
+  has_many :accredited_courses, class_name: 'Course', inverse_of: :accredited_provider, foreign_key: :accredited_provider_id
 
   has_many :provider_permissions, dependent: :destroy
   has_many :provider_users, through: :provider_permissions
@@ -31,7 +31,7 @@ class Provider < ApplicationRecord
   end
 
   def accredited_courses
-    Course.where(accrediting_provider: self)
+    Course.where(accredited_provider: self)
   end
 
   def application_forms

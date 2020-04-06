@@ -20,7 +20,7 @@ module CandidateInterface
 
     def dropdown_available_courses
       @dropdown_available_courses ||= begin
-        courses = provider.courses.exposed_in_find.includes(:accrediting_provider)
+        courses = provider.courses.exposed_in_find.includes(:accredited_provider)
 
         courses_with_names = courses.map(&:name)
         courses_with_descriptions = courses.map(&:name_and_description)

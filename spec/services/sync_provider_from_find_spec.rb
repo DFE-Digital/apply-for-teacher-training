@@ -98,24 +98,24 @@ RSpec.describe SyncProviderFromFind do
         expect(CourseOption.first.vacancy_status).to eq 'vacancies'
       end
 
-      it 'correctly handles accrediting providers' do
-        stub_find_api_provider_200_with_accrediting_provider(
+      it 'correctly handles accredited providers' do
+        stub_find_api_provider_200_with_accredited_provider(
           provider_code: 'ABC',
           course_code: '9CBA',
           study_mode: 'full_time',
-          accrediting_provider_code: 'DEF',
-          accrediting_provider_name: 'Test Accrediting Provider',
+          accredited_provider_code: 'DEF',
+          accredited_provider_name: 'Test Accredited Provider',
         )
 
         SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
 
         course_option = CourseOption.last
-        expect(course_option.course.accrediting_provider.code).to eq 'DEF'
-        expect(course_option.course.accrediting_provider.name).to eq 'Test Accrediting Provider'
+        expect(course_option.course.accredited_provider.code).to eq 'DEF'
+        expect(course_option.course.accredited_provider.name).to eq 'Test Accredited Provider'
       end
 
       it 'stores full_time/part_time information within courses' do
-        stub_find_api_provider_200_with_accrediting_provider(
+        stub_find_api_provider_200_with_accredited_provider(
           provider_code: 'ABC',
           course_code: '9CBA',
           study_mode: 'full_time_or_part_time',

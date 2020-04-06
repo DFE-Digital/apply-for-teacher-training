@@ -104,13 +104,13 @@ module FindAPIHelper
       )
   end
 
-  def stub_find_api_provider_200_with_accrediting_provider(
+  def stub_find_api_provider_200_with_accredited_provider(
     provider_code: 'ABC',
     provider_name: 'Dummy Provider',
     course_code: 'X130',
     site_code: 'X',
-    accrediting_provider_code: 'XYZ',
-    accrediting_provider_name: 'Dummy Accrediting Provider',
+    accredited_provider_code: 'XYZ',
+    accredited_provider_name: 'Dummy Accredited Provider',
     findable: true,
     study_mode: 'full_time',
     description: 'PGCE with QTS full time',
@@ -172,8 +172,8 @@ module FindAPIHelper
                 'recruitment_cycle_year': '2020',
                 'findable?': findable,
                 'accrediting_provider': {
-                  'provider_name': accrediting_provider_name,
-                  'provider_code': accrediting_provider_code,
+                  'provider_name': accredited_provider_name,
+                  'provider_code': accredited_provider_code,
                 },
               },
               'relationships': {

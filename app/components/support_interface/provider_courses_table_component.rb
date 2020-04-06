@@ -16,7 +16,7 @@ module SupportInterface
           recruitment_cycle_year: course.recruitment_cycle_year,
           apply_from_find_link: link_to_apply_from_find_page(course),
           link_to_find_course_page: link_to_find_course_page(course),
-          accredited_body: link_to_provider_page(course.accrediting_provider),
+          accredited_body: link_to_provider_page(course.accredited_provider),
         }
       end
     end
@@ -26,7 +26,7 @@ module SupportInterface
     end
 
     def accredited_bodies_vary?
-      @accredited_bodies_vary ||= courses.any? { |c| c.accrediting_provider && c.accrediting_provider != provider }
+      @accredited_bodies_vary ||= courses.any? { |c| c.accredited_provider && c.accredited_provider != provider }
     end
 
   private

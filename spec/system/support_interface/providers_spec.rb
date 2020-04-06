@@ -86,13 +86,13 @@ RSpec.feature 'See providers' do
       },
     ])
 
-    @request1 = stub_find_api_provider_200_with_accrediting_provider(
+    @request1 = stub_find_api_provider_200_with_accredited_provider(
       provider_code: 'ABC',
       provider_name: 'Royal Academy of Dance',
       course_code: 'ABC-1',
       site_code: 'X',
-      accrediting_provider_code: 'XYZ',
-      accrediting_provider_name: 'University of Chester',
+      accredited_provider_code: 'XYZ',
+      accredited_provider_name: 'University of Chester',
       findable: true,
       study_mode: 'full_time',
     )

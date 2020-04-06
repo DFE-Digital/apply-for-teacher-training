@@ -5,11 +5,11 @@ RSpec.describe ProviderInterface::ProviderOptionsService do
     @providers = create_list :provider, 5
     @accredited_providers = create_list :provider, 5
     @provider_user = create :provider_user, providers: [@providers[0], @providers[1]]
-    create :course, provider: @providers[0], accrediting_provider: @accredited_providers[0]
-    create :course, provider: @providers[1], accrediting_provider: @accredited_providers[0]
-    create :course, provider: @providers[1], accrediting_provider: @accredited_providers[1]
-    create :course, provider: @providers[2], accrediting_provider: @accredited_providers[1]
-    create :course, provider: @providers[3], accrediting_provider: @accredited_providers[2]
+    create :course, provider: @providers[0], accredited_provider: @accredited_providers[0]
+    create :course, provider: @providers[1], accredited_provider: @accredited_providers[0]
+    create :course, provider: @providers[1], accredited_provider: @accredited_providers[1]
+    create :course, provider: @providers[2], accredited_provider: @accredited_providers[1]
+    create :course, provider: @providers[3], accredited_provider: @accredited_providers[2]
     create :course, provider: @accredited_providers[1]
   end
 

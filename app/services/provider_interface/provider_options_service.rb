@@ -13,7 +13,7 @@ module ProviderInterface
         .or(
           Provider
             .joins(:accredited_courses)
-            .where(courses: { accrediting_provider: provider_user.providers }),
+            .where(courses: { accredited_provider: provider_user.providers }),
         )
         .distinct
     end
@@ -21,7 +21,7 @@ module ProviderInterface
     def providers
       Provider
         .joins(:courses)
-        .where(courses: { accrediting_provider: provider_user.providers })
+        .where(courses: { accredited_provider: provider_user.providers })
         .or(
           Provider
             .joins(:courses)

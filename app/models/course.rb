@@ -2,7 +2,7 @@ class Course < ApplicationRecord
   belongs_to :provider
   has_many :course_options
   has_many :application_choices, through: :course_options
-  belongs_to :accrediting_provider, class_name: 'Provider', optional: true
+  belongs_to :accredited_provider, class_name: 'Provider', optional: true
 
   audited associated_with: :provider
 
@@ -33,7 +33,7 @@ class Course < ApplicationRecord
   end
 
   def name_and_provider
-    "#{name} #{accrediting_provider&.name}"
+    "#{name} #{accredited_provider&.name}"
   end
 
   def name_and_code
@@ -45,7 +45,7 @@ class Course < ApplicationRecord
   end
 
   def name_code_and_provider
-    "#{name} (#{code}) – #{accrediting_provider&.name}"
+    "#{name} (#{code}) – #{accredited_provider&.name}"
   end
 
   def both_study_modes_available?

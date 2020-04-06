@@ -71,8 +71,8 @@ RSpec.feature 'Providers should be able to filter applications' do
     accredited_provider1 = create(:provider, code: 'JKL', name: 'College of Dumbervale')
     accredited_provider2 = create(:provider, code: 'MNO', name: 'Wimleydown University')
 
-    course_option_one = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Alchemy', provider: current_provider, accrediting_provider: accredited_provider1))
-    course_option_two = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Divination', provider: current_provider, accrediting_provider: accredited_provider2))
+    course_option_one = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Alchemy', provider: current_provider, accredited_provider: accredited_provider1))
+    course_option_two = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Divination', provider: current_provider, accredited_provider: accredited_provider2))
     course_option_three = course_option_for_provider(provider: current_provider, course: create(:course, name: 'English', provider: current_provider))
 
     course_option_four = course_option_for_provider(provider: second_provider, course: create(:course, name: 'Science', provider: second_provider))
