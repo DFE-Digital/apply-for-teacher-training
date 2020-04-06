@@ -12,3 +12,4 @@ govUKFrontendInitAll();
 initNationalityAutocomplete();
 initProvidersAutocomplete();
 initCoursesAutocomplete();
+initWarnOnUnsavedChanges();
