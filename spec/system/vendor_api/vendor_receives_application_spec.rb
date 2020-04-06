@@ -28,6 +28,8 @@ RSpec.feature 'Vendor receives the application' do
 
     reference.update!(
       feedback: 'My ideal person',
+      relationship_correction: '',
+      safeguarding_concerns: '',
     )
 
     SubmitReference.new(
@@ -38,6 +40,8 @@ RSpec.feature 'Vendor receives the application' do
 
     reference.update!(
       feedback: 'Lovable',
+      relationship_correction: '',
+      safeguarding_concerns: '',
     )
 
     SubmitReference.new(

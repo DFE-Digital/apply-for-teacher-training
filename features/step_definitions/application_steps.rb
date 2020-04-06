@@ -69,6 +69,8 @@ When('{string} provides a reference') do |referee_email|
 
   reference.update!(
     feedback: Faker::Lorem.sentence(word_count: 20),
+    relationship_correction: '',
+    safeguarding_concerns: '',
   )
 
   SubmitReference.new(

@@ -42,6 +42,8 @@ RSpec.feature 'See an application' do
     reference = @application_with_reference.reload.application_references.first
     reference.update!(
       feedback: 'This is my feedback',
+      safeguarding_concerns: '',
+      relationship_correction: '',
     )
 
     SubmitReference.new(

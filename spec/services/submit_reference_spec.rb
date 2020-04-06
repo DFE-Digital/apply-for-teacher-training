@@ -7,6 +7,8 @@ RSpec.describe SubmitReference do
     create(:reference, :complete, application_form: application_form)
     reference = create(:reference, :unsubmitted, application_form: application_form)
 
+    reference.update!(feedback: 'Trustworthy', relationship_correction: '', safeguarding_concerns: '')
+
     SubmitReference.new(
       reference: reference,
     ).save!
@@ -19,6 +21,8 @@ RSpec.describe SubmitReference do
     create(:application_choice, application_form: application_form, status: 'awaiting_references', edit_by: 1.day.ago)
     create(:reference, :complete, application_form: application_form)
     reference = create(:reference, :unsubmitted, application_form: application_form)
+
+    reference.update!(feedback: 'Trustworthy', relationship_correction: '', safeguarding_concerns: '')
 
     SubmitReference.new(
       reference: reference,
@@ -33,11 +37,15 @@ RSpec.describe SubmitReference do
     create(:reference, :complete, application_form: application_form)
     reference = create(:reference, :unsubmitted, application_form: application_form)
 
+    reference.update!(feedback: 'Trustworthy', relationship_correction: '', safeguarding_concerns: '')
+
     SubmitReference.new(
       reference: reference,
     ).save!
 
     another_reference = create(:reference, :unsubmitted, application_form: application_form)
+
+    another_reference.update!(feedback: 'Trustworthy', relationship_correction: '', safeguarding_concerns: '')
 
     SubmitReference.new(
       reference: another_reference,
