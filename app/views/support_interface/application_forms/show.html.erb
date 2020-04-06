@@ -37,8 +37,8 @@
   <h2 class="govuk-heading-l govuk-!-margin-top-8">Course choices</h2>
   <% @application_form.application_choices.includes(:course, :provider, :site, :offered_course_option).each do |application_choice| %>
     <% rows = [
-      { key: 'Course', value: application_choice.offered_course.name_and_code },
-      { key: 'Provider', value: application_choice.offered_course.provider.name_and_code },
+      { key: 'Course', value: govuk_link_to(application_choice.offered_course.name_and_code, support_interface_course_path(application_choice.offered_course)) },
+      { key: 'Provider', value: govuk_link_to(application_choice.offered_course.provider.name_and_code, support_interface_provider_path(application_choice.offered_course.provider)) },
       { key: 'Location', value: application_choice.offered_option.site.name_and_code },
       { key: 'Status', value: render(SupportInterface::ApplicationStatusTagComponent.new(application_choice: application_choice)) },
     ] %>
