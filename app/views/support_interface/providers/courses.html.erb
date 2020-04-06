@@ -10,6 +10,18 @@
 
     <p class="govuk-body">This will toggle every course on this provider to be available through Apply.</p>
 
+    <% unless @provider.all_associated_accredited_providers_onboarded? %>
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-warning-text__assistive">Warning</span>
+          Some of this provider’s courses are ratified by an accredited body
+          which does not yet participate in the beta. The accredited body might
+          expect to manage applications to those courses. Check before clicking
+          this button.
+        </strong>
+      </div>
+    <% end %>
     <%= f.govuk_submit "Open #{pluralize(@provider.courses.size, 'course')}" %>
   <% end %>
 <% end %>

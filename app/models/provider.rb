@@ -37,4 +37,13 @@ class Provider < ApplicationRecord
   def application_forms
     ApplicationForm.where(id: application_choices.select(:application_form_id))
   end
+
+  def onboarded?
+    provider_agreements.any?
+  end
+
+  def all_associated_accredited_providers_onboarded?
+    accredited_providers = courses.map(&:accredited_provider).uniq.compact
+    accredited_providers.all?(&:onboarded?)
+  end
 end
