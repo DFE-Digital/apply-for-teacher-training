@@ -34,6 +34,10 @@ class ProviderUser < ActiveRecord::Base
     "#{first_name} #{last_name}" if first_name.present? && last_name.present?
   end
 
+  def can_manage_users?
+    provider_permissions.exists?(manage_users: true)
+  end
+
 private
 
   def downcase_email_address
