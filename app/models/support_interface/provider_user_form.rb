@@ -3,7 +3,8 @@ module SupportInterface
     include ActiveModel::Model
     include ActiveModel::Validations
 
-    attr_accessor :first_name, :last_name, :provider_ids, :provider_user
+    attr_accessor :first_name, :last_name, :provider_user
+    attr_writer :provider_ids
     attr_reader :email_address
 
     validates :email_address, :first_name, :last_name, presence: true
@@ -46,6 +47,12 @@ module SupportInterface
         email_address: provider_user.email_address,
         provider_ids: provider_user.provider_ids,
       )
+    end
+
+    def provider_ids
+      return [] unless @provider_ids
+
+      @provider_ids.reject(&:blank?)
     end
 
   private

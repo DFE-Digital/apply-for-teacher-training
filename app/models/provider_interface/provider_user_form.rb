@@ -10,14 +10,18 @@ module ProviderInterface
         .order(name: :asc)
     end
 
+  private
+
     def permitted_providers
       return unless provider_ids.any?
-
-      provider_ids.delete('') # TODO: why does this have a blank value?
-
-      return if (provider_ids.map(&:to_i) & available_providers.pluck(:id).map(&:to_i)) == provider_ids.map(&:to_i)
+      return if provider_ids_valid?
 
       errors.add(:provider_ids, 'insufficient permissions to manage users for this provider')
+    end
+
+    def provider_ids_valid?
+      integer_provider_ids = provider_ids.map(&:to_i)
+      (integer_provider_ids & available_providers.pluck(:id)) == integer_provider_ids
     end
   end
 end
