@@ -25,7 +25,7 @@ RSpec.feature 'Candidate survey CSV' do
   end
 
   def and_i_click_on_download_candidate_survey_results
-    click_link 'Download candidate satisfcation survey results (CSV)'
+    click_link 'Download candidate survey results (CSV)'
   end
 
   def then_i_should_be_able_to_download_a_csv

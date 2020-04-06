@@ -59,5 +59,19 @@ module SupportInterface
 
       send_data csv, filename: "referee-survey-#{Time.zone.today}.csv", disposition: :attachment
     end
+
+    def candidate_survey
+      answers = SupportInterface::CandidateSurveyExport.new.call
+
+      csv = CSV.generate do |rows|
+        rows << answers&.first&.keys
+
+        answers&.each do |answer|
+          rows << answer.values
+        end
+      end
+
+      send_data csv, filename: "candidate-survey-#{Time.zone.today}.csv", disposition: :attachment
+    end
   end
 end
