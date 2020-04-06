@@ -44,7 +44,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       expect(render_result.text).to include('Other provider')
     end
 
-    it 'may include accrediting providers' do
+    it 'may include accredited providers' do
       accredited_provider = create(:provider, name: 'Accredited University', code: 'AU1')
       provider = create(:provider)
 

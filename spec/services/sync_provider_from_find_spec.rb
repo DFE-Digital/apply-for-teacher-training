@@ -98,7 +98,7 @@ RSpec.describe SyncProviderFromFind do
         expect(CourseOption.first.vacancy_status).to eq 'vacancies'
       end
 
-      it 'correctly handles accrediting providers' do
+      it 'correctly handles accredited providers' do
         stub_find_api_provider_200_with_accredited_provider(
           provider_code: 'ABC',
           course_code: '9CBA',

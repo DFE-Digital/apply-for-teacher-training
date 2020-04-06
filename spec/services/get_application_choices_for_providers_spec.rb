@@ -102,7 +102,7 @@ RSpec.describe GetApplicationChoicesForProviders do
     expect(returned_applications.size).to be(3)
   end
 
-  it 'returns application_choice that the provider is the accrediting body for' do
+  it 'returns application_choice that the provider is the accredited body for' do
     current_provider = create(:provider, code: 'BAT')
     alternate_provider = create(:provider, code: 'DIFFERENT')
 
