@@ -55,4 +55,8 @@ class Course < ApplicationRecord
   def full?
     course_options.all?(&:no_vacancies?)
   end
+
+  def find_url
+    @find_url ||= "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{provider.code}/#{code}"
+  end
 end

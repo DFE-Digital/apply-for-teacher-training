@@ -43,7 +43,7 @@ module SupportInterface
 
     def link_to_find_course_page(course)
       if course.exposed_in_find?
-        govuk_link_to 'Find course page', "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{course.provider.code}/#{course.code}"
+        govuk_link_to 'Find course page', course.find_url
       end
     end
 

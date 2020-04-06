@@ -19,10 +19,7 @@
       </li>
       <li>
         contact
-        <%= govuk_link_to(
-          @course.provider.name,
-          "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{@course.provider.code}/#{@course.code}#section-contact"
-        ) %>
+        <%= govuk_link_to @course.provider.name, "#{@course.find_url}#section-contact" %>
       to see if the course will re-open or discuss alternatives
       </li>
     </ul>

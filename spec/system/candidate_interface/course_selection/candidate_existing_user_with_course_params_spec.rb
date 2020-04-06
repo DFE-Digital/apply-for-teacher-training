@@ -215,7 +215,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   end
 
   def then_i_should_be_redirected_to_the_course_on_find
-    expect(page.current_url).to eq("https://find-postgraduate-teacher-training.education.gov.uk/course/#{@course.provider.code}/#{@course.code}")
+    expect(page.current_url).to eq("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{@course.provider.code}/#{@course.code}")
   end
 
   def when_i_return_to_the_course_selection_page
