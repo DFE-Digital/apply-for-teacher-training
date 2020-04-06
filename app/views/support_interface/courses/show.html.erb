@@ -13,6 +13,8 @@
   'Last updated' => @course.updated_at.to_s(:govuk_date_and_time),
   'Study modes' => @course.study_mode.humanize,
   'Financial support' => @course.financial_support,
+  'Info page' => govuk_link_to('View on Find', @course.find_url),
+  'Start on Apply' => govuk_link_to('View on Apply (candidate)', candidate_interface_apply_from_find_path(providerCode: @course.provider.code, courseCode: @course.code)),
 })) %>
 
 <h2 class='govuk-heading-m'>Settings</h2>
