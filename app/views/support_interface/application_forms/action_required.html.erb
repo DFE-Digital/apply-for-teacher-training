@@ -1,0 +1,13 @@
+<% content_for :title, 'Applications - action required' %>
+
+<h2 class='govuk-heading-m'>Applications to courses that no longer are available on Apply</h2>
+
+<%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @monitor.applications_to_disabled_courses) %>
+
+<h2 class='govuk-heading-m'>Applications to courses that have been removed from Find, but were open on Apply</h2>
+
+<%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @monitor.applications_to_hidden_courses) %>
+
+<h2 class='govuk-heading-m'>List of applications that are made to courses that no longer have vacancies</h2>
+
+<%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @monitor.applications_to_full_courses) %>
