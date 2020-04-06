@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent do
   describe '#rows' do
-    let(:reference) { build(:reference, feedback: 'A valuable unit of work') }
+    let(:feedback) { 'A valuable unit of work' }
+    let(:reference) { build(:reference, feedback: feedback) }
 
     subject(:component) { described_class.new(reference: reference) }
 
@@ -46,33 +47,47 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent do
     end
 
     context 'safeguarding' do
+      let(:safeguarding_row) { component.rows[4] }
+      let(:safeguarding_concerns_row) { component.rows[5] }
+
       it 'contains a safeguarding row' do
-        expect(component.rows.fifth[:key]).to eq(
+        expect(safeguarding_row[:key]).to eq(
           'Does the referee know of any reason why this candidate should not work with children?',
         )
       end
 
       it 'affirms safeguarding when no safeguarding concerns are present' do
-        expect(component.rows.fifth[:value]).to eq('No')
+        expect(safeguarding_row[:value]).to eq('No')
       end
 
       it 'contains safeguarding concerns where present' do
         reference.safeguarding_concerns = 'Is a big bad wolf, has posed as elderly grandparent.'
-        expect(component.rows.fifth[:value]).to eq('Yes')
-
-        safeguarding_concerns_row = component.rows[5]
+        expect(safeguarding_row[:value]).to eq('Yes')
 
         expect(safeguarding_concerns_row[:key]).to eq(
           'Reason(s) given by referee why this candidate should not work with children',
         )
         expect(safeguarding_concerns_row[:value]).to eq(reference.safeguarding_concerns)
       end
+
+      it 'does not contain safeguarding concerns when nil' do
+        expect(safeguarding_concerns_row[:key]).to eq('Reference')
+      end
     end
 
-    it 'contains a feedback row' do
-      row = component.rows.last
-      expect(row[:key]).to eq('Reference')
-      expect(row[:value]).to eq(reference.feedback)
+    context 'feedback' do
+      it 'contains a feedback row' do
+        row = component.rows.last
+        expect(row[:key]).to eq('Reference')
+        expect(row[:value]).to eq(reference.feedback)
+      end
+
+      it 'contains a feedback row with "Not answered" when feedback is nil' do
+        reference.feedback = nil
+        row = component.rows.last
+        expect(row[:key]).to eq('Reference')
+        expect(row[:value]).to eq('Not answered')
+      end
     end
   end
 end

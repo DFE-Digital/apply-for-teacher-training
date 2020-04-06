@@ -75,6 +75,8 @@ module ProviderInterface
     end
 
     def safeguarding_concerns_row
+      return nil if safeguarding_concerns.blank?
+
       {
         key: 'Reason(s) given by referee why this candidate should not work with children',
         value: safeguarding_concerns,
@@ -82,12 +84,10 @@ module ProviderInterface
     end
 
     def feedback_row
-      if feedback
-        {
-          key: 'Reference',
-          value: feedback,
-        }
-      end
+      {
+        key: 'Reference',
+        value: feedback.nil? ? 'Not answered' : feedback,
+      }
     end
 
     attr_reader :reference
