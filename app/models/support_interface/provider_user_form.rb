@@ -50,6 +50,7 @@ module SupportInterface
         last_name: provider_user.last_name,
         email_address: provider_user.email_address,
         provider_ids: provider_user.provider_ids,
+        manage_users: provider_user.can_manage_users?,
       )
     end
 

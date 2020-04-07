@@ -36,6 +36,7 @@ RSpec.feature 'Managing provider users' do
     when_they_have_signed_in_at_least_once
     and_i_reload_the_page
     then_their_email_should_be_editable
+    and_they_should_be_able_to_invite_other_users
   end
 
   def given_dfe_signin_is_configured
@@ -139,5 +140,9 @@ RSpec.feature 'Managing provider users' do
 
   def then_their_email_should_be_editable
     expect(page).to have_field 'Email address', disabled: false
+  end
+
+  def and_they_should_be_able_to_invite_other_users
+    expect(page).to have_field('Allow this user to invite others', checked: true)
   end
 end
