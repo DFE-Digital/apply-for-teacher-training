@@ -49,13 +49,11 @@ module ProviderInterface
     def provider_ids
       return [] unless @provider_ids
 
-      @provider_ids.reject(&:blank?)
+      @provider_ids.reject(&:blank?).map(&:to_i)
     end
 
     def available_providers
-      @available_providers ||= Provider
-        .with_users_manageable_by(current_provider_user)
-        .order(name: :asc)
+      @available_providers ||= ProviderOptionsService.new(current_provider_user).providers_with_manageable_users
     end
 
   private
@@ -76,8 +74,7 @@ module ProviderInterface
     end
 
     def provider_ids_valid?
-      integer_provider_ids = provider_ids.map(&:to_i)
-      (integer_provider_ids & available_providers.pluck(:id)) == integer_provider_ids
+      (provider_ids & available_providers.pluck(:id)) == provider_ids
     end
   end
 end
