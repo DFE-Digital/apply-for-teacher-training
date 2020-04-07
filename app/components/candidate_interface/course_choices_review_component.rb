@@ -49,7 +49,6 @@ module CandidateInterface
     attr_reader :application_form
 
     def course_row(course_choice)
-      url = "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{course_choice.provider.code}/#{course_choice.course.code}"
       change_path = if FeatureFlag.active?('edit_course_choices') && has_multiple_courses?(course_choice)
                       candidate_interface_course_choices_course_path(
                         course_choice.provider.id,
@@ -59,7 +58,7 @@ module CandidateInterface
 
       {
         key: 'Course',
-        value: govuk_link_to("#{course_choice.offered_course.name} (#{course_choice.offered_course.code})", url, target: '_blank', rel: 'noopener'),
+        value: govuk_link_to("#{course_choice.offered_course.name} (#{course_choice.offered_course.code})", course_choice.offered_course.find_url, target: '_blank', rel: 'noopener'),
         action: "course choice for #{course_choice.course.name_and_code}",
         change_path: change_path,
       }

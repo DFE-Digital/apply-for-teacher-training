@@ -8,7 +8,7 @@
       </h1>
 
       <div class="govuk-inset-text govuk-!-margin-top-0">
-        <%= link_to "https://find-postgraduate-teacher-training.education.gov.uk/course/#{@course_selection_form.course.provider.code}/#{@course_selection_form.course.code}",
+        <%= link_to @course_selection_form.course.find_url,
                     class: 'govuk-!-font-weight-bold govuk-link',
                     style: 'text-decoration: none' do %>
         <span class="govuk-!-font-size-19">

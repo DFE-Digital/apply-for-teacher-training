@@ -452,6 +452,7 @@ Rails.application.routes.draw do
     get '/email-log', to: 'email_log#index', as: :email_log
 
     get '/applications' => 'application_forms#index'
+    get '/applications/action-required' => 'application_forms#action_required', as: :action_required
     get '/applications/:application_form_id' => 'application_forms#show', as: :application_form
     get '/applications/:application_form_id/add-course' => 'application_forms#select_course_to_add', as: :add_course_to_application
     post '/applications/:application_form_id/add-course' => 'application_forms#add_course'

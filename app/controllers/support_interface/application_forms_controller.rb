@@ -8,6 +8,10 @@ module SupportInterface
       @application_form = application_form
     end
 
+    def action_required
+      @monitor = SupportInterface::ApplicationMonitor.new
+    end
+
     def audit
       @application_form = application_form
     end
