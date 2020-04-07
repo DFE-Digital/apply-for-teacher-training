@@ -1,4 +1,4 @@
-<% status_box_component = status_box_component_to_render.new(@options) %>
+<% status_box_component = status_box_component_to_render.new(application_choice: @application_choice, options: @options) %>
 <% if status_box_component.render? -%>
   <div data-qa="app-status-box" class="govuk-!-margin-bottom-8">
     <%= render status_box_component %>

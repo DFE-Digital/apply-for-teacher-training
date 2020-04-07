@@ -39,9 +39,23 @@ module ProviderInterface
         @future_application_choice = @application_choice.dup
         @future_application_choice.offered_course_option_id = @change_offer_form.course_option_id
 
-        @change_options = {
-          new_course_option_id: @change_offer_form.course_option_id,
-          entry: @change_offer_form.entry,
+        paths = Rails.application.routes.url_helpers
+        entry = @change_offer_form.entry
+
+        current_selection_params = \
+          {
+            provider_interface_change_offer_form: {
+              provider_id: course_option.course.provider.id,
+              course_id: course_option.course.id,
+              course_option_id: course_option.id,
+            },
+            entry: entry,
+          }
+
+        @change_path_options = {
+          change_provider_path: (paths.provider_interface_application_choice_change_offer_edit_provider_path(@application_choice.id, current_selection_params) if entry == 'provider'),
+          change_course_path: (paths.provider_interface_application_choice_change_offer_edit_course_path(@application_choice.id, current_selection_params) if entry != 'course_option'),
+          change_course_option_path: paths.provider_interface_application_choice_change_offer_edit_course_option_path(@application_choice.id, current_selection_params),
         }
       else
         render_step_for_invalid_form

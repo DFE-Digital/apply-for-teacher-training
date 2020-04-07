@@ -31,9 +31,9 @@ module ProviderInterface
                               GetAllChangeOptionsFromOfferedOption.new(
                                 application_choice: @application_choice,
                                 available_providers: available_providers,
-                              ).call.merge(application_choice: @application_choice)
+                              ).call
                             else
-                              { application_choice: @application_choice }
+                              {}
                             end
     end
   end

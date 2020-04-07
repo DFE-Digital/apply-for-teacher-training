@@ -5,11 +5,11 @@ module ProviderInterface
       attr_reader :application_choice
       attr_reader :available_providers, :available_courses, :available_course_options
 
-      def initialize(args)
-        @application_choice = args[:application_choice]
-        @available_providers = args[:available_providers]
-        @available_courses = args[:available_courses]
-        @available_course_options = args[:available_course_options]
+      def initialize(application_choice:, options: {})
+        @application_choice = application_choice
+        @available_providers = options[:available_providers]
+        @available_courses = options[:available_courses]
+        @available_course_options = options[:available_course_options]
       end
 
       def render?
