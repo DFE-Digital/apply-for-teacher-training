@@ -8,17 +8,13 @@ module ProviderInterface
       @application_form = application_form
     end
 
-    HAS_DISCLOSED_MESSAGE = 'The candidate has shared information related to safeguarding. Please contact them directly for more details.'.freeze
-    NO_ANSWER_MESSAGE = 'Not answered'.freeze
-    NO_INFO_MESSAGE = 'No information shared'.freeze
-
     def message
       if has_no_answer?
-        NO_ANSWER_MESSAGE
+        I18n.t('provider_interface.safeguarding_declaration_component.no_answer_message')
       elsif has_disclosed_safeguarding_issues?
-        HAS_DISCLOSED_MESSAGE
+        I18n.t('provider_interface.safeguarding_declaration_component.has_disclosed_message')
       else
-        NO_INFO_MESSAGE
+        I18n.t('provider_interface.safeguarding_declaration_component.no_info_message')
       end
     end
 

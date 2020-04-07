@@ -29,7 +29,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
   end
 
   context 'when the candidate has not shared information related to safeguarding' do
-    it 'displays the corrent text' do
+    it 'displays the correct text' do
       application_form = build_stubbed(:application_form, safeguarding_issues: 'No')
 
       result = render_inline(described_class.new(application_form: application_form))
@@ -40,7 +40,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
   end
 
   context 'when the candidate has not answered the safeguarding question' do
-    it 'displays the corrent text' do
+    it 'displays the correct text' do
       application_form = build_stubbed(:application_form, safeguarding_issues: nil)
 
       result = render_inline(described_class.new(application_form: application_form))

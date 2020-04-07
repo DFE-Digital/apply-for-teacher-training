@@ -7,7 +7,7 @@ RSpec.describe SupportInterface::SafeguardingIssuesComponent do
 
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.text).to include(described_class::HAS_DISCLOSED_MESSAGE)
+      expect(result.text).to include(I18n.t('support_interface.safeguarding_issues_component.has_disclosed_message'))
     end
   end
 
@@ -17,7 +17,7 @@ RSpec.describe SupportInterface::SafeguardingIssuesComponent do
 
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.text).to include(described_class::NO_INFO_MESSAGE)
+      expect(result.text).to include(I18n.t('support_interface.safeguarding_issues_component.no_info_message'))
     end
   end
 
@@ -27,7 +27,7 @@ RSpec.describe SupportInterface::SafeguardingIssuesComponent do
 
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.text).to include(described_class::NO_ANSWER_MESSAGE)
+      expect(result.text).to include(I18n.t('support_interface.safeguarding_issues_component.no_answer_message'))
     end
   end
 end

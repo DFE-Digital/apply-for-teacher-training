@@ -1,0 +1,11 @@
+en:
+  provider_interface:
+    safeguarding_declaration_component:
+      has_disclosed_message: 'The candidate has shared information related to safeguarding. Please contact them directly for more details.'
+      no_answer_message: 'Not answered.'
+      no_info_message: 'No information shared.'
+  support_interface:
+    safeguarding_issues_component:
+      has_disclosed_message: 'The candidate has shared information related to safeguarding.'
+      no_answer_message: 'Not answered.'
+      no_info_message: 'No information shared.'
