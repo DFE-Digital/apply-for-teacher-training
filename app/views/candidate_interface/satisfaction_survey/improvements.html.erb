@@ -1,1 +1,6 @@
-If you could improve anything on Apply for teacher training what would it be?
+<%= render 'survey_page',
+  title: t('page_titles.improvements'),
+  url: candidate_interface_satisfaction_survey_submit_improvements_path,
+  previous_url: candidate_interface_satisfaction_survey_needed_additional_learning_path,
+  five_radio_buttons: false,
+  text_area: true %>
