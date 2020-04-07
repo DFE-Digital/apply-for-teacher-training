@@ -502,6 +502,8 @@ Rails.application.routes.draw do
     get '/performance/submitted-application-choices', to: 'performance#submitted_application_choices', as: :submitted_application_choices
     get '/performance/referee-survey', to: 'performance#referee_survey', as: :referee_survey
     get '/performance/providers', to: 'performance#providers_export', as: :providers_export
+    get '/performance/candidate-survey', to: 'performance#candidate_survey', as: :candidate_survey
+
 
     get '/tasks' => 'tasks#index', as: :tasks
     post '/tasks/:task' => 'tasks#run', as: :run_task

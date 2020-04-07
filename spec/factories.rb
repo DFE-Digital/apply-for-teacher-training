@@ -66,6 +66,26 @@ FactoryBot.define do
         end
       end
 
+      trait :with_survey_completed do
+        satisfaction_survey {
+          {
+             I18n.t('page_titles.recommendation') => [*1..5].sample.to_s,
+             I18n.t('page_titles.complexity') => [*1..5].sample.to_s,
+             I18n.t('page_titles.ease_of_use') => [*1..5].sample.to_s,
+             I18n.t('page_titles.help_needed') => [*1..5].sample.to_s,
+             I18n.t('page_titles.organisation') => [*1..5].sample.to_s,
+             I18n.t('page_titles.consistency') => [*1..5].sample.to_s,
+             I18n.t('page_titles.adaptability') => [*1..5].sample.to_s,
+             I18n.t('page_titles.awkward') => [*1..5].sample.to_s,
+             I18n.t('page_titles.confidence') => [*1..5].sample.to_s,
+             I18n.t('page_titles.needed_additional_learning') => [*1..5].sample.to_s,
+             I18n.t('page_titles.improvements') => Faker::Lorem.paragraph_by_chars(number: 400),
+             I18n.t('page_titles.other_information') => Faker::Lorem.paragraph_by_chars(number: 400),
+             I18n.t('page_titles.contact') => %w[yes no].sample,
+           }
+        }
+      end
+
       after(:build) do |application_form, evaluator|
         if evaluator.with_gces
           create(:gcse_qualification, application_form: application_form, subject: 'maths')
