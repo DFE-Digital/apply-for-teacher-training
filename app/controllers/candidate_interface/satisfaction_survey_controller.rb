@@ -85,8 +85,7 @@ module CandidateInterface
   private
 
     def survey_params
-      params.require(:candidate_interface_satisfaction_survey_form)
-        .permit(:answer).merge!(question: get_question_asked_from_params)
+      { question: get_question_asked_from_params, answer: params.dig('candidate_interface_satisfaction_survey_form', 'answer') }
     end
 
     def get_question_asked_from_params
@@ -101,8 +100,6 @@ module CandidateInterface
       if @survey.save(current_application)
         redirect_to next_path
       else
-        @survey = SatisfactionSurveyForm.new
-
         render current_view
       end
     end

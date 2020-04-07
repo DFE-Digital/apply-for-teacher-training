@@ -1,16 +1,4 @@
-<% content_for :title, title_with_error_prefix(t('page_titles.needed_additional_learning'), @survey.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_satisfaction_survey_confidence_path) %>
-
-<%= form_with model: @survey, url: candidate_interface_satisfaction_survey_submit_needed_additional_learning_path, method: :post do |f| %>
-
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-
-      <h2 class="govuk-heading-xl">
-        <%= t('page_titles.needed_additional_learning') %>
-      </h2>
-
-      <%= render 'form', f: f %>
-    </div>
-  </div>
-<% end %>
+<%= render 'survey_page',
+  title: t('page_titles.needed_additional_learning'),
+  url: candidate_interface_satisfaction_survey_submit_needed_additional_learning_path,
+  previous_url: candidate_interface_satisfaction_survey_confidence_path %>
