@@ -6,7 +6,13 @@ RSpec.feature 'Entering their equality and diversity information' do
   scenario 'Candidate submits equality and diversity information' do
     given_i_am_signed_in
     and_the_equality_and_diversity_feature_flag_is_active
-    and_i_have_an_application_form_that_is_ready_to_submit
+    and_i_have_an_application_form_that_is_not_ready_to_submit
+    and_i_am_on_the_review_page
+
+    when_i_click_on_continue
+    then_i_see_validation_errors
+
+    when_i_have_an_application_form_that_is_ready_to_submit
     and_i_am_on_the_review_page
 
     when_i_click_on_continue
@@ -93,15 +99,19 @@ RSpec.feature 'Entering their equality and diversity information' do
     FeatureFlag.activate('equality_and_diversity')
   end
 
-  def and_i_have_an_application_form_that_is_ready_to_submit
+  def and_i_have_an_application_form_that_is_not_ready_to_submit
     @application = create(
       :completed_application_form,
       :with_completed_references,
       candidate: @current_candidate,
       submitted_at: nil,
-      references_count: 2,
+      references_count: 1,
       with_gces: true,
     )
+  end
+
+  def when_i_have_an_application_form_that_is_ready_to_submit
+    create :reference, application_form: @application
   end
 
   def and_i_am_on_the_review_page
@@ -110,6 +120,11 @@ RSpec.feature 'Entering their equality and diversity information' do
 
   def when_i_click_on_continue
     click_link 'Continue'
+  end
+
+  def then_i_see_validation_errors
+    expect(page).to have_content('There is a problem')
+    expect(page).to have_content('Add 2 referees to your application')
   end
 
   def then_i_see_the_equality_and_diversity_page
