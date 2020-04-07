@@ -20,17 +20,15 @@ module ProviderInterface
         provider_user_params.merge(current_provider_user: current_provider_user),
       )
       provider_user = @form.build
-      render :new && return unless provider_user
+      render :new and return unless provider_user
 
-      service = InviteProviderUser.new(provider_user: provider_user)
-      begin
-        service.save_and_invite!
-        flash[:success] = 'Provider user invited'
-        redirect_to provider_interface_provider_users_path
-      rescue DfeSignInApiError => e # show errors from api
-        e.errors.each { |error| @form.errors.add(:base, error) }
-        render :new
-      end
+      InviteProviderUser.new(provider_user: provider_user).save_and_invite!
+
+      flash[:success] = 'Provider user invited'
+      redirect_to provider_interface_provider_users_path
+    rescue DfeSignInApiError => e
+      handle_dsi_error(e)
+      render :new
     end
 
   private
@@ -42,6 +40,14 @@ module ProviderInterface
 
     def requires_provider_add_provider_users_feature_flag
       raise unless FeatureFlag.active?('provider_add_provider_users')
+    end
+
+    def handle_dsi_error(form, exception)
+      Raven.capture_exception(exception)
+      form.errors.add(
+        :base,
+        'A problem occurred inviting this user. Please try again. If problems persist, please contact support.',
+      )
     end
   end
 end
