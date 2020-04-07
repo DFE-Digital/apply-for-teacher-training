@@ -14,6 +14,7 @@ RSpec.feature 'Managing provider users' do
     and_i_click_the_manange_provider_users_link
     and_i_click_the_add_user_link
     and_i_enter_an_existing_email
+    and_i_check_allow_user_to_invite_other_users
     and_i_click_add_user
     then_i_see_an_error
 
@@ -83,6 +84,10 @@ RSpec.feature 'Managing provider users' do
     fill_in 'support_interface_provider_user_form[email_address]', with: 'harrison@example.com'
     fill_in 'support_interface_provider_user_form[first_name]', with: 'Harrison'
     fill_in 'support_interface_provider_user_form[last_name]', with: 'Bergeron'
+  end
+
+  def and_i_check_allow_user_to_invite_other_users
+    check 'Allow this user to invite others'
   end
 
   def and_i_click_add_user

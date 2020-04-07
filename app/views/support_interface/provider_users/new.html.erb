@@ -27,6 +27,8 @@
 
       <%= f.govuk_collection_check_boxes :provider_ids, @form.available_providers, :id, :name_and_code, legend: { text: 'Provider' }, classes: 'app-checkboxes-scroll' %>
 
+      <%= f.govuk_check_box :manage_users, false, label: { text: 'Allow this user to invite others' } %>
+
       <%= f.govuk_submit 'Add provider user' %>
     <% end %>
   </div>

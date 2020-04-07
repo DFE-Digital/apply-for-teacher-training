@@ -48,7 +48,8 @@ module SupportInterface
   private
 
     def provider_user_params
-      params.require(:support_interface_provider_user_form).permit(:email_address, :first_name, :last_name, provider_ids: [])
+      params.require(:support_interface_provider_user_form)
+        .permit(:email_address, :first_name, :last_name, :manage_users, provider_ids: [])
     end
   end
 end
