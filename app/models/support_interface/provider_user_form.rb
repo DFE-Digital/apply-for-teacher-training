@@ -24,7 +24,11 @@ module SupportInterface
     end
 
     def save
-      @provider_user.save! if build
+      if build
+        @provider_user.save!
+        assign_manage_users_permissions if manage_users
+        @provider_user
+      end
     end
 
     def email_address=(raw_email_address)
@@ -63,6 +67,13 @@ module SupportInterface
       return unless ProviderUser.exists?(email_address: email_address)
 
       errors.add(:email_address, 'This email address is already in use')
+    end
+
+    def assign_manage_users_permissions
+      ProviderPermissions.where(
+        provider_user_id: provider_user.id,
+        provider_id: provider_ids,
+      ).update_all(manage_users: true)
     end
   end
 end
