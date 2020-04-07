@@ -3,7 +3,7 @@ class SyncProviderFromFind
     new(provider_code, provider_name, sync_courses).call
   end
 
-  attr_reader :provider_code, :provider_name, :sync_courses
+  attr_reader :provider_code, :provider_name
   attr_accessor :provider
 
   def initialize(provider_code, provider_name, sync_courses)
@@ -13,25 +13,56 @@ class SyncProviderFromFind
   end
 
   def call
-    @provider = create_or_update_provider
+    if sync_courses?
+      find_provider = fetch_provider_from_find_api
 
-    return unless @provider.sync_courses?
+      @provider = create_or_update_provider(
+        base_provider_attrs.merge(
+          provider_attrs_from(find_provider),
+        ),
+      )
 
-    find_provider = fetch_provider_from_find_api
-    update_provider_details_with_api_response(find_provider)
-    find_provider.courses.each do |find_course|
-      create_or_update_course(find_course)
+      find_provider.courses.each do |find_course|
+        create_or_update_course(find_course)
+      end
+    else
+      @provider = create_or_update_provider(base_provider_attrs)
     end
   end
 
 private
 
-  def create_or_update_provider
-    Provider.find_or_create_by(code: provider_code).tap do |provider_record|
-      provider_record.sync_courses = sync_courses if sync_courses
-      provider_record.name = provider_name if provider_name.present?
-      provider_record.save!
+  def sync_courses?
+    @sync_courses || existing_provider&.sync_courses
+  end
+
+  def base_provider_attrs
+    {
+      sync_courses: sync_courses? || false,
+      name: provider_name,
+    }
+  end
+
+  def provider_attrs_from(find_provider)
+    {
+      region_code: find_provider.region_code&.strip,
+      name: find_provider.provider_name,
+    }
+  end
+
+  def existing_provider
+    Provider.find_by(code: provider_code)
+  end
+
+  def create_or_update_provider(attrs)
+    # Prefer this to find_or_create_by as it results in 3x fewer audits
+    if existing_provider
+      existing_provider.update!(attrs)
+    else
+      new_provider = Provider.new(attrs.merge(code: provider_code)).save!
     end
+
+    existing_provider || new_provider
   end
 
   def fetch_provider_from_find_api
@@ -44,12 +75,6 @@ private
       .includes(:sites, courses: [:sites, site_statuses: [:site]])
       .find(provider_code)
       .first
-  end
-
-  def update_provider_details_with_api_response(find_provider)
-    provider.region_code = find_provider.region_code.strip if find_provider.region_code
-    provider.name = find_provider.provider_name if find_provider.provider_name
-    provider.save!
   end
 
   def create_or_update_course(find_course)
