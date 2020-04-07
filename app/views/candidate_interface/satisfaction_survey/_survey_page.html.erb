@@ -9,8 +9,18 @@
       <h2 class="govuk-heading-xl">
         <%= title %>
       </h2>
-
+    <% if five_radio_buttons %>
       <%= render 'form', f: f %>
+    <% elsif text_area %>
+      <%= f.govuk_text_area :answer, label: { text: '' }, rows: 8, max_words: 400 %>
+      <%= f.govuk_submit 'Continue' %>
+    <% else %>
+      <%= f.govuk_radio_buttons_fieldset :ratings do %>
+        <%= f.govuk_radio_button :answer, 'yes', label: { text: 'Yes, you can contact me' }  %>
+        <%= f.govuk_radio_button :answer, 'no', label: { text: 'No, do not contact me' }  %>
+      <% end %>
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
     </div>
   </div>
 <% end %>

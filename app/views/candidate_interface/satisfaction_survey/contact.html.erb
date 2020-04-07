@@ -1,21 +1,6 @@
-<% content_for :title, t('page_titles.contact') %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_satisfaction_survey_other_information_path) %>
-
-<%= form_with model: @survey, url: candidate_interface_satisfaction_survey_submit_contact_path, method: :post do |f| %>
-
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-
-      <h2 class="govuk-heading-xl">
-        <%= t('page_titles.contact') %>
-      </h2>
-
-      <%= f.govuk_radio_buttons_fieldset :ratings do %>
-        <%= f.govuk_radio_button :answer, 'yes', label: { text: 'Yes, you can contact me' }  %>
-        <%= f.govuk_radio_button :answer, 'no', label: { text: 'No, do not contact me' }  %>
-      <% end %>
-
-      <%= f.govuk_submit 'Continue' %>
-    </div>
-  </div>
-<% end %>
+<%= render 'survey_page',
+  title: t('page_titles.contact'),
+  url: candidate_interface_satisfaction_survey_submit_contact_path,
+  previous_url: candidate_interface_satisfaction_survey_other_information_path,
+  five_radio_buttons: false,
+  text_area: false %>

@@ -168,10 +168,6 @@ RSpec.describe 'Candidate satisfaction survey' do
     expect(page).to have_content(t('page_titles.thank_you'))
   end
 
-  # i normally wouldn't test something like this in system spec, but as we don't show them any
-  # result i thought we probably should. I know the model tests cover the logic, but
-  # it's a large journey to not check the desired behaviour of.
-
   def and_my_survey_should_reflect_the_results_i_input
     expect(ApplicationForm.last.satisfaction_survey).to eq(
       {
