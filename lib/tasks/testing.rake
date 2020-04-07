@@ -26,6 +26,11 @@ rescue LoadError
   nil
 end
 
+desc 'Run JS unit tests'
+task :jest do
+  sh 'yarn jest --coverage'
+end
+
 desc 'Run brakeman'
 task :brakeman do
   sh 'bundle exec brakeman -c brakeman.yml'
@@ -48,4 +53,4 @@ desc 'Run all acceptance tests'
 task acceptance_tests: %i[rspec_acceptance_tests cucumber]
 
 desc 'Run all the tests'
-task run_tests: %i[compile_assets linting spec_without_performance brakeman]
+task run_tests: %i[compile_assets linting spec_without_performance brakeman jest]
