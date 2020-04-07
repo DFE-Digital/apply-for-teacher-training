@@ -19,7 +19,7 @@ RSpec.describe SupportInterface::ApplicationMonitor do
   end
 
   describe '#applications_to_hidden_courses' do
-    it 'returns applications to courses that have been remove from Find' do
+    it 'returns applications to courses that have been removed from Find' do
       application_to_visible_course = create(:application_choice, status: 'awaiting_provider_decision')
       application_to_visible_course.course.update! open_on_apply: true, exposed_in_find: true
       application_to_hidden_course = create(:application_choice, status: 'awaiting_provider_decision')
@@ -32,15 +32,27 @@ RSpec.describe SupportInterface::ApplicationMonitor do
     end
   end
 
-  describe '#applications_to_full_courses' do
+  describe '#applications_to_courses_with_sites_without_vacancies' do
     it 'returns applications to courses that have marked as no longer having vacancies' do
-      with_vacancies = create(:application_choice, status: 'awaiting_provider_decision', course_option: create(:course_option, invalidated_by_find: false))
-      without_vacancies = create(:application_choice, status: 'awaiting_provider_decision', course_option: create(:course_option, invalidated_by_find: true))
+      with_vacancies = create(:application_choice, status: 'awaiting_provider_decision', course_option: create(:course_option, vacancy_status: 'vacancies'))
+      without_vacancies = create(:application_choice, status: 'awaiting_provider_decision', course_option: create(:course_option, vacancy_status: 'no_vacancies'))
 
-      applications = described_class.new.applications_to_full_courses
+      applications = described_class.new.applications_to_courses_with_sites_without_vacancies
 
       expect(applications.map(&:id)).not_to include(with_vacancies.application_form_id)
       expect(applications.map(&:id)).to include(without_vacancies.application_form_id)
+    end
+  end
+
+  describe '#applications_to_removed_sites' do
+    it 'returns applications to sites that have been removed from Find' do
+      with_okay_site = create(:application_choice, status: 'awaiting_provider_decision', course_option: create(:course_option, invalidated_by_find: false))
+      with_removed_site = create(:application_choice, status: 'awaiting_provider_decision', course_option: create(:course_option, invalidated_by_find: true))
+
+      applications = described_class.new.applications_to_removed_sites
+
+      expect(applications.map(&:id)).not_to include(with_okay_site.application_form_id)
+      expect(applications.map(&:id)).to include(with_removed_site.application_form_id)
     end
   end
 end

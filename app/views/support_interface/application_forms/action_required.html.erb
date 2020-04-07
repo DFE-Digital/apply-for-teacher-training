@@ -10,4 +10,8 @@
 
 <h2 class='govuk-heading-m'>List of applications that are made to courses that no longer have vacancies</h2>
 
-<%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @monitor.applications_to_full_courses) %>
+<%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @monitor.applications_to_courses_with_sites_without_vacancies) %>
+
+<h2 class='govuk-heading-m'>List of applications that are made to sites that no longer exist</h2>
+
+<%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @monitor.applications_to_removed_sites) %>
