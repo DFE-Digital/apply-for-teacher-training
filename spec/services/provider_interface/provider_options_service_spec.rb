@@ -55,4 +55,14 @@ RSpec.describe ProviderInterface::ProviderOptionsService do
       ])
     end
   end
+
+  describe '#providers_with_manageable_users' do
+    let(:provider_user) { create(:provider_user, providers: @providers) }
+
+    before { provider_user.provider_permissions.find_by(provider: @providers.last).update(manage_users: true) }
+
+    it 'returns providers with users manageable by the provider user' do
+      expect(described_class.new(provider_user).providers_with_manageable_users).to eq([@providers.last])
+    end
+  end
 end
