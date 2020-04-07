@@ -7,6 +7,17 @@ module CandidateInterface
     QUESTIONS_WE_ASK = [
       I18n.t('page_titles.recommendation'),
       I18n.t('page_titles.complexity'),
+      I18n.t('page_titles.ease_of_use'),
+      I18n.t('page_titles.help_needed'),
+      I18n.t('page_titles.organisation'),
+      I18n.t('page_titles.consistency'),
+      I18n.t('page_titles.adaptability'),
+      I18n.t('page_titles.awkward'),
+      I18n.t('page_titles.confidence'),
+      I18n.t('page_titles.needed_additional_learning'),
+      I18n.t('page_titles.improvements'),
+      I18n.t('page_titles.other_information'),
+      I18n.t('page_titles.contact'),
     ].freeze
 
     validates :question, presence: true
@@ -18,16 +29,6 @@ module CandidateInterface
       application_form.satisfaction_survey ||= {}
       application_form.satisfaction_survey[@question] = @answer
       application_form.save
-    end
-
-  private
-
-    def question_already_answered?(application_form)
-      application_form.satisfaction_survey&.keys&.include?(@question)
-    end
-
-    def merge_satisfaction_survey_and_answer(application_form)
-      application_form.satisfaction_survey.merge!({ @question => @answer })
     end
   end
 end

@@ -316,6 +316,30 @@ Rails.application.routes.draw do
         post '/complexity' => 'satisfaction_survey#submit_complexity', as: :satisfaction_survey_submit_complexity
 
         get '/ease-of-use' => 'satisfaction_survey#ease_of_use', as: :satisfaction_survey_ease_of_use
+        post '/ease-of-use' => 'satisfaction_survey#submit_ease_of_use', as: :satisfaction_survey_submit_ease_of_use
+
+        get '/help-needed' => 'satisfaction_survey#help_needed', as: :satisfaction_survey_help_needed
+        post '/help-needed' => 'satisfaction_survey#submit_help_needed', as: :satisfaction_survey_submit_help_needed
+
+        get '/organisation' => 'satisfaction_survey#organisation', as: :satisfaction_survey_organisation
+        post '/organisation' => 'satisfaction_survey#submit_organisation', as: :satisfaction_survey_submit_organisation
+
+        get '/consistency' => 'satisfaction_survey#consistency', as: :satisfaction_survey_consistency
+        post '/consistency' => 'satisfaction_survey#submit_consistency', as: :satisfaction_survey_submit_consistency
+
+        get '/adaptability' => 'satisfaction_survey#adaptability', as: :satisfaction_survey_adaptability
+        post '/adaptability' => 'satisfaction_survey#submit_adaptability', as: :satisfaction_survey_submit_adaptability
+
+        get '/awkward' => 'satisfaction_survey#awkward', as: :satisfaction_survey_awkward
+        post '/awkward' => 'satisfaction_survey#submit_awkward', as: :satisfaction_survey_submit_awkward
+
+        get '/confidence' => 'satisfaction_survey#confidence', as: :satisfaction_survey_confidence
+        post '/confidence' => 'satisfaction_survey#submit_confidence', as: :satisfaction_survey_submit_confidence
+
+        get '/needed-additional-learning' => 'satisfaction_survey#needed_additional_learning', as: :satisfaction_survey_needed_additional_learning
+        post '/needed-additional-learning' => 'satisfaction_survey#submit_needed_additional_learning', as: :satisfaction_survey_submit_needed_additional_learning
+
+        get '/improvements' => 'satisfaction_survey#improvements', as: :satisfaction_survey_improvements
       end
     end
   end
