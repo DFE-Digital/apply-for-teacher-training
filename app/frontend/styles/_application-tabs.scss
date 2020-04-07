@@ -1,0 +1,16 @@
+.app-tabs {
+  margin-top: govuk-spacing(8);
+
+  &__tab {
+    font-weight: bold !important;
+    text-align: left !important;
+    text-decoration: none !important;
+  }
+
+  &__list-item--selected {
+    background-color: govuk-colour("white") !important;
+    border-top: govuk-spacing(1) solid $govuk-link-colour !important;
+    color: $govuk-text-colour !important;
+    padding-top: govuk-spacing(2) !important;
+  }
+}
