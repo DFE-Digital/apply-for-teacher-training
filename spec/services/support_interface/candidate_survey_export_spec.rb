@@ -18,23 +18,14 @@ private
   def return_expected_hash(application_form)
     survey = application_form.satisfaction_survey
 
+    survey_fields = CandidateInterface::SatisfactionSurveyForm::QUESTIONS_WE_ASK
+      .index_with { |question| survey[question] }
+
+
     {
       'Name' => application_form.full_name,
       'Email_address' => application_form.candidate.email_address,
       'Phone number' => application_form.phone_number,
-      I18n.t('page_titles.recommendation') => survey[I18n.t('page_titles.recommendation').to_s],
-      I18n.t('page_titles.complexity') => survey[I18n.t('page_titles.complexity').to_s],
-      I18n.t('page_titles.ease_of_use') => survey[I18n.t('page_titles.ease_of_use').to_s],
-      I18n.t('page_titles.help_needed') => survey[I18n.t('page_titles.help_needed').to_s],
-      I18n.t('page_titles.organisation') => survey[I18n.t('page_titles.organisation').to_s],
-      I18n.t('page_titles.consistency') => survey[I18n.t('page_titles.consistency').to_s],
-      I18n.t('page_titles.adaptability') => survey[I18n.t('page_titles.adaptability').to_s],
-      I18n.t('page_titles.awkward') => survey[I18n.t('page_titles.awkward').to_s],
-      I18n.t('page_titles.confidence') => survey[I18n.t('page_titles.confidence').to_s],
-      I18n.t('page_titles.needed_additional_learning') => survey[I18n.t('page_titles.needed_additional_learning').to_s],
-      I18n.t('page_titles.improvements') => survey[I18n.t('page_titles.improvements').to_s],
-      I18n.t('page_titles.other_information') => survey[I18n.t('page_titles.other_information').to_s],
-      I18n.t('page_titles.contact') => survey[I18n.t('page_titles.contact').to_s],
-    }
+    }.merge(survey_fields)
   end
 end

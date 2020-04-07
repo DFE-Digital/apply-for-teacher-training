@@ -8,24 +8,15 @@ module SupportInterface
       application_forms.includes(:candidate).each do |application_form|
         survey = application_form.satisfaction_survey
 
+        survey_fields = CandidateInterface::SatisfactionSurveyForm::QUESTIONS_WE_ASK
+          .index_with { |question| survey[question] }
+
+
         answer = {
           'Name' => application_form.full_name,
           'Email_address' => application_form.candidate.email_address,
           'Phone number' => application_form.phone_number,
-          I18n.t('page_titles.recommendation') => survey[I18n.t('page_titles.recommendation')],
-          I18n.t('page_titles.complexity') => survey[I18n.t('page_titles.complexity')],
-          I18n.t('page_titles.ease_of_use') => survey[I18n.t('page_titles.ease_of_use')],
-          I18n.t('page_titles.help_needed') => survey[I18n.t('page_titles.help_needed')],
-          I18n.t('page_titles.organisation') => survey[I18n.t('page_titles.organisation')],
-          I18n.t('page_titles.consistency') => survey[I18n.t('page_titles.consistency')],
-          I18n.t('page_titles.adaptability') => survey[I18n.t('page_titles.adaptability')],
-          I18n.t('page_titles.awkward') => survey[I18n.t('page_titles.awkward')],
-          I18n.t('page_titles.confidence') => survey[I18n.t('page_titles.confidence')],
-          I18n.t('page_titles.needed_additional_learning') => survey[I18n.t('page_titles.needed_additional_learning')],
-          I18n.t('page_titles.improvements') => survey[I18n.t('page_titles.improvements')],
-          I18n.t('page_titles.other_information') => survey[I18n.t('page_titles.other_information')],
-          I18n.t('page_titles.contact') => survey[I18n.t('page_titles.contact')],
-        }
+        }.merge(survey_fields)
 
         output << answer
       end
