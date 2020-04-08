@@ -21,9 +21,20 @@ module ProviderInterface
     end
 
     def show
+      available_providers = current_provider_user.providers
+
       @application_choice = GetApplicationChoicesForProviders.call(
-        providers: current_provider_user.providers,
+        providers: available_providers,
       ).find(params[:application_choice_id])
+
+      @status_box_options = if @application_choice.offer?
+                              GetAllChangeOptionsFromOfferedOption.new(
+                                application_choice: @application_choice,
+                                available_providers: available_providers,
+                              ).call
+                            else
+                              {}
+                            end
     end
   end
 end

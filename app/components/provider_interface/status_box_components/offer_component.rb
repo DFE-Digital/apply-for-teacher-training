@@ -3,9 +3,13 @@ module ProviderInterface
     class OfferComponent < ActionView::Component::Base
       include ViewHelper
       attr_reader :application_choice
+      attr_reader :available_providers, :available_courses, :available_course_options
 
-      def initialize(application_choice:)
+      def initialize(application_choice:, options: {})
         @application_choice = application_choice
+        @available_providers = options[:available_providers]
+        @available_courses = options[:available_courses]
+        @available_course_options = options[:available_course_options]
       end
 
       def render?
@@ -45,10 +49,25 @@ module ProviderInterface
         return nil unless FeatureFlag.active?('provider_change_response')
 
         case target
-        when :provider then paths.provider_interface_application_choice_change_offer_edit_provider_path(application_choice.id)
-        when :course then paths.provider_interface_application_choice_change_offer_edit_course_path(application_choice.id)
-        when :course_option then paths.provider_interface_application_choice_change_offer_edit_course_option_path(application_choice.id)
+        when :provider
+          paths.provider_interface_application_choice_change_offer_edit_provider_path(application_choice.id, entry: 'provider') if show_provider_link?
+        when :course
+          paths.provider_interface_application_choice_change_offer_edit_course_path(application_choice.id, entry: 'course') if show_course_link?
+        when :course_option
+          paths.provider_interface_application_choice_change_offer_edit_course_option_path(application_choice.id, entry: 'course_option') if show_course_option_link?
         end
+      end
+
+      def show_provider_link?
+        available_providers.count > 1 if available_providers
+      end
+
+      def show_course_link?
+        available_courses.count > 1 if available_courses
+      end
+
+      def show_course_option_link?
+        available_course_options.count > 1 if available_course_options
       end
     end
   end

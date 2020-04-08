@@ -4,8 +4,9 @@ module ProviderInterface
       include ViewHelper
       attr_reader :application_choice
 
-      def initialize(application_choice:)
+      def initialize(application_choice:, options: {})
         @application_choice = application_choice
+        @options = options
       end
 
       def render?

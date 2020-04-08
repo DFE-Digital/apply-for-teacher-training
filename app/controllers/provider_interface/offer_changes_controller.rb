@@ -6,13 +6,15 @@ module ProviderInterface
 
     def edit_provider
       @change_offer_form.step = :provider
-      set_alternative_providers
+
+      render_providers
     end
 
     def edit_course
       @change_offer_form.step = :course
+
       if @change_offer_form.valid?
-        set_alternative_courses
+        render_courses
       else
         render_providers
       end
@@ -20,8 +22,9 @@ module ProviderInterface
 
     def edit_course_option
       @change_offer_form.step = :course_option
+
       if @change_offer_form.valid?
-        set_alternative_course_options
+        render_course_options
       else
         render_courses
       end
@@ -35,6 +38,25 @@ module ProviderInterface
 
         @future_application_choice = @application_choice.dup
         @future_application_choice.offered_course_option_id = @change_offer_form.course_option_id
+
+        paths = Rails.application.routes.url_helpers
+        entry = @change_offer_form.entry
+
+        current_selection_params = \
+          {
+            provider_interface_change_offer_form: {
+              provider_id: course_option.course.provider.id,
+              course_id: course_option.course.id,
+              course_option_id: course_option.id,
+            },
+            entry: entry,
+          }
+
+        @change_path_options = {
+          change_provider_path: (paths.provider_interface_application_choice_change_offer_edit_provider_path(@application_choice.id, current_selection_params) if entry == 'provider'),
+          change_course_path: (paths.provider_interface_application_choice_change_offer_edit_course_path(@application_choice.id, current_selection_params) if entry != 'course_option'),
+          change_course_option_path: paths.provider_interface_application_choice_change_offer_edit_course_option_path(@application_choice.id, current_selection_params),
+        }
       else
         render_step_for_invalid_form
       end
@@ -58,16 +80,37 @@ module ProviderInterface
 
     def render_providers
       set_alternative_providers
+      @page_title = \
+        if @application_choice.offer? && @change_offer_form.entry == 'provider'
+          'Change training provider'
+        else
+          'Select alternative training provider'
+        end
+
       render :edit_provider
     end
 
     def render_courses
       set_alternative_courses
+      @page_title = \
+        if @application_choice.offer? && @change_offer_form.entry == 'course'
+          'Change course'
+        else
+          'Select alternative course'
+        end
+
       render :edit_course
     end
 
     def render_course_options
       set_alternative_course_options
+      @page_title = \
+        if @application_choice.offer? && @change_offer_form.entry == 'course_option'
+          'Change location'
+        else
+          'Select location'
+        end
+
       render :edit_course_option
     end
 
@@ -99,7 +142,8 @@ module ProviderInterface
       @change_offer_form = ProviderInterface::ChangeOfferForm.new application_choice: @application_choice,
                                                                   provider_id: (provider.id if allowed_provider?),
                                                                   course_id: course&.id,
-                                                                  course_option_id: course_option&.id
+                                                                  course_option_id: course_option&.id,
+                                                                  entry: change_offer_params[:entry] || params[:entry]
     end
 
     def allowed_provider?
@@ -173,7 +217,7 @@ module ProviderInterface
 
     def change_offer_params
       begin
-        params.require(:provider_interface_change_offer_form).permit(:provider_id, :course_id, :course_option_id)
+        params.require(:provider_interface_change_offer_form).permit(:provider_id, :course_id, :course_option_id, :entry)
       rescue ActionController::ParameterMissing
         {}
       end

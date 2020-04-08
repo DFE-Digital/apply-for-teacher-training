@@ -447,6 +447,12 @@ FactoryBot.define do
         create(:provider).provider_users << user
       end
     end
+
+    trait :with_two_providers do
+      after(:create) do |user, _evaluator|
+        2.times { create(:provider).provider_users << user }
+      end
+    end
   end
 
   factory :provider_permissions do

@@ -1,7 +1,7 @@
 module ProviderInterface
   class ChangeOfferForm
     include ActiveModel::Model
-    attr_accessor :application_choice, :step, :provider_id, :course_id, :course_option_id
+    attr_accessor :application_choice, :step, :provider_id, :course_id, :course_option_id, :entry
 
     validates :application_choice, presence: true
 

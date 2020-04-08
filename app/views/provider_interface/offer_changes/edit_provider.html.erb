@@ -7,12 +7,13 @@
           url: provider_interface_application_choice_change_offer_edit_course_path(@application_choice.id),
           method: :get do |f| %>
 
+      <%= f.hidden_field :entry %>
       <%= f.govuk_radio_buttons_fieldset :provider_id do %>
 
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
           <h1 class="govuk-fieldset__heading">
             <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
-            <%= (@application_choice.offer? ? 'Change' : 'Select alternative').concat(' provider') %>
+            <%= @page_title %>
           </h1>
         </legend>
 
