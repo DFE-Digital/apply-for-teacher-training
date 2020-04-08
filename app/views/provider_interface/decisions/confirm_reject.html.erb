@@ -1,32 +1,38 @@
 <% content_for :title, t('page_titles.application') %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_new_reject_path(@application_choice.id)) %>
 
-<h1 class="govuk-heading-xl">Check and confirm rejection</h1>
 
-<%= render SummaryListComponent.new(rows: [
-  { key: 'Full name', value: @application_choice.application_form.full_name },
-  { key: 'Course', value: @application_choice.course.name_and_code },
-  { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
-  { key: 'Preferred location', value: @application_choice.site.name },
-  { key: 'Reasons for rejection', value: @reject_application.rejection_reason },
-]) %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<%= form_with model: @reject_application, url: provider_interface_application_choice_create_reject_path(@application_choice.id), method: :post do |f| %>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <%= f.govuk_error_summary %>
-    </div>
-  </div>
+    <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+    <h1 class="govuk-heading-xl">Check and confirm rejection</h1>
+      <%= form_with model: @reject_application, url: provider_interface_application_choice_create_reject_path(@application_choice.id), method: :post do |f| %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
+            <%= f.govuk_error_summary %>
+          </div>
+        </div>
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+        <%= render SummaryListComponent.new(rows: [
+          { key: 'Reasons for rejection', value: @reject_application.rejection_reason },
+        ]) %>
 
       <%= f.hidden_field :rejection_reason %>
-      <%= f.govuk_submit 'Confirm rejection' %>
+
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-warning-text__assistive">Warning</span>
+          We’ll tell the candidate you rejected their application, and share your reasons.
+        </strong>
+      </div>
+
+      <%= f.govuk_submit 'Reject application' %>
 
       <p class="govuk-body">
-        <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
+      <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
       </p>
-    </div>
+    <% end %>
   </div>
-<% end %>
+</div>

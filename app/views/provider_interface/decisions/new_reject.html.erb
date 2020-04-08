@@ -1,36 +1,26 @@
 <% content_for :browser_title, @reject_application.errors.any? ? 'Error: Reject application' : 'Reject application' %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_respond_path(@application_choice.id)) %>
 
-<%= form_with model: @reject_application,
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @reject_application,
       url: provider_interface_application_choice_confirm_reject_path(@application_choice.id),
       method: :post do |f| %>
-  <%= f.govuk_error_summary %>
 
-  <h1 class="govuk-heading-xl">
-    Reject application
-  </h1>
+      <%= f.govuk_error_summary %>
 
-  <%= render SummaryListComponent.new(rows: [
-    { key: 'Full name', value: @application_choice.application_form.full_name },
-    { key: 'Course', value: @application_choice.course.name_and_code },
-    { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
-    { key: 'Preferred location', value: @application_choice.site.name },
-  ]) %>
-
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
       <div class="govuk-form-group">
+        <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
         <%= f.govuk_text_area :rejection_reason,
-                              label: { text: 'Tell the candidate why their application was rejected', size: 'm' },
-                              hint_text: 'We’ll forward them your feedback',
-                              rows: 5 %>
+          label: { text: 'Tell the candidate why you’re rejecting their application', size: 'xl' },
+          rows: 5 %>
       </div>
 
       <%= f.govuk_submit 'Continue' %>
 
       <p class="govuk-body">
-        <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
+      <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
       </p>
-    </div>
+    <% end %>
   </div>
-<% end %>
+</div>

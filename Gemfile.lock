@@ -534,7 +534,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker
-  govuk_design_system_formbuilder (= 1.1.9)
+  govuk_design_system_formbuilder (~> 1.1.6)
   guard-rspec
   holidays
   http
