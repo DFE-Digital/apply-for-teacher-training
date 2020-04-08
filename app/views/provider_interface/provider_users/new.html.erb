@@ -24,7 +24,7 @@
       <%= f.govuk_text_field :last_name, label: { text: 'Last name', size: 'm' } %>
       <%= f.govuk_text_field :email_address, label: { text: 'Email address', size: 'm' } %>
 
-      <%= f.govuk_collection_check_boxes :provider_ids, @form.available_providers, :id, :name_and_code, legend: { text: 'Provider' }, classes: 'app-checkboxes-scroll' %>
+      <%= f.govuk_collection_check_boxes :provider_ids, @form.available_providers, :id, :name_and_code, legend: { text: 'Provider' }  %>
 
       <%= f.govuk_submit 'Invite provider user' %>
     <% end %>
