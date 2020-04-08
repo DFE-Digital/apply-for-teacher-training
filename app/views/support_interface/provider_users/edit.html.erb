@@ -35,5 +35,7 @@
 
       <%= f.govuk_submit 'Update user' %>
     <% end %>
+
+    <%= render SupportInterface::AuditTrailComponent.new(audited_thing: @form.provider_user) %>
   </div>
 </div>
