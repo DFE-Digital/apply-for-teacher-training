@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_08_231958) do
+ActiveRecord::Schema.define(version: 2020041408150738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -230,6 +230,17 @@ ActiveRecord::Schema.define(version: 2020_04_08_231958) do
     t.index ["application_form_id"], name: "index_emails_on_application_form_id"
   end
 
+  create_table "notes", force: :cascade do |t|
+    t.string "title"
+    t.text "message"
+    t.bigint "application_choice_id", null: false
+    t.bigint "provider_user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["application_choice_id"], name: "index_notes_on_application_choice_id"
+    t.index ["provider_user_id"], name: "index_notes_on_provider_user_id"
+  end
+
   create_table "provider_agreements", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.bigint "provider_user_id", null: false
@@ -366,6 +377,8 @@ ActiveRecord::Schema.define(version: 2020_04_08_231958) do
   add_foreign_key "course_options", "sites", on_delete: :cascade
   add_foreign_key "courses", "providers"
   add_foreign_key "emails", "application_forms", on_delete: :cascade
+  add_foreign_key "notes", "application_choices", on_delete: :cascade
+  add_foreign_key "notes", "provider_users", on_delete: :cascade
   add_foreign_key "provider_agreements", "provider_users"
   add_foreign_key "provider_agreements", "providers"
   add_foreign_key "reference_tokens", "\"references\"", column: "application_reference_id", on_delete: :cascade
