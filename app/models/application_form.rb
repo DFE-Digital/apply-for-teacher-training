@@ -21,6 +21,13 @@ class ApplicationForm < ApplicationRecord
     apply_2: 'apply_2',
   }
 
+  enum safeguarding_issues_status: {
+    not_answered_yet: 'not_answered_yet',
+    no_safeguarding_issues_to_declare: 'no_safeguarding_issues_to_declare',
+    has_safeguarding_issues_to_declare: 'has_safeguarding_issues_to_declare',
+    never_asked: 'never_asked',
+  }
+
   before_create -> {
     self.support_reference ||= GenerateSupportRef.call
   }
