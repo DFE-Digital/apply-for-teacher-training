@@ -168,6 +168,16 @@ en:
           attributes:
             conditions_met:
               blank: Please specify if the candidate has met the conditions of the offer
+        provider_interface/provider_user_form:
+          attributes:
+            email_address:
+              blank: Email address can’t be blank
+            first_name:
+              blank: First name can’t be blank
+            last_name:
+              blank: Last name can’t be blank
+            provider_ids:
+              blank: Please specify a provider
         change_offer:
           attributes:
             course_option_id:
