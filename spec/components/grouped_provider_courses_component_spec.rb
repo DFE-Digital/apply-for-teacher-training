@@ -24,6 +24,6 @@ RSpec.describe GroupedProviderCoursesComponent do
     )
     expect(result.css('h2').text).to include('South East')
     expect(result.css('h2').text).to include('North West')
-    expect(result.css('h2').text).to include('No Region')
+    expect(result.css('h2').text).to include('No region')
   end
 end
