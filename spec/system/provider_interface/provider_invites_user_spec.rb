@@ -58,7 +58,7 @@ RSpec.feature 'Provider invites a new provider user' do
 
     check @provider.name_and_code
 
-    click_on 'Invite provider user'
+    click_on 'Invite user'
   end
 
   def then_a_new_provider_user_is_created

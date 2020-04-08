@@ -1,4 +1,4 @@
-<% content_for :title, 'Provider users' %>
+<% content_for :title, 'Invite user' %>
 
 <% content_for :before_content do %>
   <div class="govuk-breadcrumbs">
@@ -18,7 +18,7 @@
     <%= form_with model: @form, url: provider_interface_provider_users_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class='govuk-heading-xl'>Invite provider user</h1>
+      <h1 class='govuk-heading-xl'>Invite user</h1>
 
       <%= f.govuk_text_field :first_name, label: { text: 'First name', size: 'm' } %>
       <%= f.govuk_text_field :last_name, label: { text: 'Last name', size: 'm' } %>
@@ -26,7 +26,7 @@
 
       <%= f.govuk_collection_check_boxes :provider_ids, @form.available_providers, :id, :name_and_code, legend: { text: 'Provider' }  %>
 
-      <%= f.govuk_submit 'Invite provider user' %>
+      <%= f.govuk_submit 'Invite user' %>
     <% end %>
   </div>
 </div>
