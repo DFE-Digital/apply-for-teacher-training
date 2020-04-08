@@ -1,5 +1,5 @@
 <% courses_by_provider_and_region.each do |region_code, courses_by_provider| %>
-  <h2 class="govuk-heading-m govuk-!-margin-bottom-2 govuk-!-margin-top-8"><%= t("provider_regions.#{region_code}") %></h2>
+  <h2 class="govuk-heading-m govuk-!-margin-bottom-2 govuk-!-margin-top-8"><%= label_for(region_code) %></h2>
   <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
     <% courses_by_provider.each_with_index do |provider, index| %>
       <section class="govuk-accordion__section">
