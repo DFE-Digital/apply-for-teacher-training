@@ -29,6 +29,7 @@ class FeatureFlag
     satisfaction_survey
     group_providers_by_region
     provider_add_provider_users
+    unavailable_course_option_warnings
   ].freeze
 
   def self.activate(feature_name)

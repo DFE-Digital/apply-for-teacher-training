@@ -1,50 +1,52 @@
 <% @course_choices.each do |course_choice| %>
   <% show_warning = course_choice.course_not_available? || course_choice.course_full? || course_choice.chosen_site_full? %>
-  <div class='qa-application-choice-<%= course_choice.id %> <%= show_warning ? 'app-review-warning'  : '' %>'>
+  <div class='qa-application-choice-<%= course_choice.id %> <%= show_warning && FeatureFlag.active?('unavailable_course_option_warnings')? 'app-review-warning'  : '' %>'>
 
-  <% if course_choice.course_not_available? %>
-    <p class='app-review-warning--primary-message'>You cannot apply to '<%= course_choice.course.name_and_code %>' because it is not running.</p>
-    <p class='govuk-body'><%= course_choice.provider.name %> have decided not to run this course.</p>
-    <p class='govuk-body'>You can:</p>
-    <ul class='govuk-list govuk-list--bullet'>
-      <li><%= govuk_link_to 'delete this choice', candidate_interface_confirm_destroy_course_choice_path(course_choice.id) %></li>
-      <% if course_change_path(course_choice) %>
-        <li><%= govuk_link_to 'change to another course', course_change_path(course_choice) %></li>
-      <% end %>
-      <li>
-        <%= govuk_link_to 'contact the training provider', "#{course_choice.course.find_url}#section-contact" %>
-        to discuss alternatives
-      </li>
-    </ul>
-  <% elsif course_choice.course_full? %>
-    <p class='app-review-warning--primary-message'>You cannot apply to '<%= course_choice.course.name_and_code %>' because it has no vacancies.</p>
-    <p class='govuk-body'>You can:</p>
-    <ul class='govuk-list govuk-list--bullet'>
-      <li><%= govuk_link_to 'delete this choice', candidate_interface_confirm_destroy_course_choice_path(course_choice.id) %></li>
-      <% if course_change_path(course_choice) %>
-        <li><%= govuk_link_to 'change to another course', course_change_path(course_choice) %></li>
-      <% end %>
-      <li>
-        <%= govuk_link_to 'contact the training provider', "#{course_choice.course.find_url}#section-contact" %>
-        to see if the course will re-open or discuss alternatives
-      </li>
-    </ul>
-  <% elsif course_choice.chosen_site_full? %>
-    <p class='app-review-warning--primary-message'>Your chosen site for '<%= course_choice.course.name_and_code %>' has no vacancies.</p>
-    <p class='govuk-body'>You can:</p>
-    <ul class='govuk-list govuk-list--bullet'>
-      <% if site_change_path(course_choice) %>
-        <li><%= govuk_link_to 'pick a new location', site_change_path(course_choice) %></li>
-      <% end %>
-      <li><%= govuk_link_to 'delete this choice', candidate_interface_confirm_destroy_course_choice_path(course_choice.id) %></li>
-      <% if course_change_path(course_choice) %>
-        <li><%= govuk_link_to 'change to another course', course_change_path(course_choice) %></li>
-      <% end %>
-      <li>
-        <%= govuk_link_to 'contact the training provider', "#{course_choice.course.find_url}#section-contact" %>
-        to see if the course will re-open or discuss alternatives
-      </li>
-    </ul>
+  <% if FeatureFlag.active?('unavailable_course_option_warnings') %>
+    <% if course_choice.course_not_available? %>
+      <p class='app-review-warning--primary-message'>You cannot apply to '<%= course_choice.course.name_and_code %>' because it is not running.</p>
+      <p class='govuk-body'><%= course_choice.provider.name %> have decided not to run this course.</p>
+      <p class='govuk-body'>You can:</p>
+      <ul class='govuk-list govuk-list--bullet'>
+        <li><%= govuk_link_to 'delete this choice', candidate_interface_confirm_destroy_course_choice_path(course_choice.id) %></li>
+        <% if course_change_path(course_choice) %>
+          <li><%= govuk_link_to 'change to another course', course_change_path(course_choice) %></li>
+        <% end %>
+        <li>
+          <%= govuk_link_to 'contact the training provider', "#{course_choice.course.find_url}#section-contact" %>
+          to discuss alternatives
+        </li>
+      </ul>
+    <% elsif course_choice.course_full? %>
+      <p class='app-review-warning--primary-message'>You cannot apply to '<%= course_choice.course.name_and_code %>' because it has no vacancies.</p>
+      <p class='govuk-body'>You can:</p>
+      <ul class='govuk-list govuk-list--bullet'>
+        <li><%= govuk_link_to 'delete this choice', candidate_interface_confirm_destroy_course_choice_path(course_choice.id) %></li>
+        <% if course_change_path(course_choice) %>
+          <li><%= govuk_link_to 'change to another course', course_change_path(course_choice) %></li>
+        <% end %>
+        <li>
+          <%= govuk_link_to 'contact the training provider', "#{course_choice.course.find_url}#section-contact" %>
+          to see if the course will re-open or discuss alternatives
+        </li>
+      </ul>
+    <% elsif course_choice.chosen_site_full? %>
+      <p class='app-review-warning--primary-message'>Your chosen site for '<%= course_choice.course.name_and_code %>' has no vacancies.</p>
+      <p class='govuk-body'>You can:</p>
+      <ul class='govuk-list govuk-list--bullet'>
+        <% if site_change_path(course_choice) %>
+          <li><%= govuk_link_to 'pick a new location', site_change_path(course_choice) %></li>
+        <% end %>
+        <li><%= govuk_link_to 'delete this choice', candidate_interface_confirm_destroy_course_choice_path(course_choice.id) %></li>
+        <% if course_change_path(course_choice) %>
+          <li><%= govuk_link_to 'change to another course', course_change_path(course_choice) %></li>
+        <% end %>
+        <li>
+          <%= govuk_link_to 'contact the training provider', "#{course_choice.course.find_url}#section-contact" %>
+          to see if the course will re-open or discuss alternatives
+        </li>
+      </ul>
+    <% end %>
   <% end %>
 
   <%= render(SummaryCardComponent.new(rows: course_choice_rows(course_choice), editable: @editable)) do %>
