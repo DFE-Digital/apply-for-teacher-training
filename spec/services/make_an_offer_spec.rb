@@ -113,7 +113,7 @@ RSpec.describe MakeAnOffer, sidekiq: true do
   end
 
   describe 'authorisation' do
-    xit 'raises error if actor is not authorised' do
+    it 'raises error if actor is not authorised' do
       application_choice = create(:application_choice, status: :awaiting_provider_decision)
       unrelated_user = create(:provider_user, :with_provider)
       new_offer = MakeAnOffer.new(actor: unrelated_user, application_choice: application_choice)
