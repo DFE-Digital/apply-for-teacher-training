@@ -22,7 +22,7 @@ RSpec.feature 'Docs' do
   end
 
   def then_i_see_the_provider_flow_documentation
-    within '.moj-sub-navigation' do
+    within '.govuk-tabs' do
       expect(page).to have_title 'Provider application flow'
     end
   end
@@ -45,7 +45,7 @@ RSpec.feature 'Docs' do
   end
 
   def when_i_click_on_candidate_flow_documentation
-    within '.moj-sub-navigation' do
+    within '.govuk-tabs' do
       click_on 'Candidate application flow'
     end
   end

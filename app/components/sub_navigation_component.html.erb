@@ -1,13 +1,15 @@
-<nav class="moj-sub-navigation" aria-label="Sub navigation">
-  <ul class="moj-sub-navigation__list">
+<div class="govuk-tabs app-tabs">
+  <ul class="govuk-tabs__list">
     <% items.each do |item| %>
-      <li class="moj-sub-navigation__item">
-        <% if item[:current] || current_page?(item.fetch(:url)) %>
-          <%= govuk_link_to item.fetch(:name), item.fetch(:url), class: 'moj-sub-navigation__link', 'aria-current': 'page' %>
-        <% else %>
-          <%= govuk_link_to item.fetch(:name), item.fetch(:url), class: 'moj-sub-navigation__link' %>
-        <% end %>
-      </li>
+      <% if item.fetch(:current, false) || current_page?(item.fetch(:url)) %>
+        <li class="govuk-tabs__list-item govuk-tabs__list-item--selected app-tabs__list-item--selected">
+          <%= govuk_link_to item[:name], item[:url],  class: "govuk-tabs__tab app-tabs__tab", aria: { selected: "true" }, role:"tab" %>
+        </li>
+      <% else %>
+        <li class="govuk-tabs__list-item">
+          <%= govuk_link_to item[:name], item[:url],  class: "govuk-tabs__tab app-tabs__tab", role:"tab" %>
+        </li>
+      <% end %>
     <% end %>
   </ul>
-</nav>
+</div>
