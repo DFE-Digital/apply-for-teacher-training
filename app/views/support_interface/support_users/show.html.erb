@@ -1,0 +1,3 @@
+<% content_for :title, @support_user.display_name %>
+
+<%= render SupportInterface::AuditTrailComponent.new(audited_thing: @support_user) %>
