@@ -39,6 +39,15 @@ RSpec.describe ProviderAuthorisation do
         auth_context = ProviderAuthorisation.new(actor: provider_user)
         expect(auth_context.can_make_offer?(application_choice: application_choice)).to be_truthy
       end
+
+      it 'is true when the user is associated with the accredited provider for this course' do
+        course_option = course_option_for_accredited_provider(provider: create(:provider), accredited_provider: provider)
+        application_choice = create(:application_choice, :awaiting_provider_decision, course_option: course_option)
+
+        auth_context = ProviderAuthorisation.new(actor: provider_user)
+
+        expect(auth_context.can_make_offer?(application_choice: application_choice)).to be_truthy
+      end
     end
 
     context 'with support user' do
@@ -79,7 +88,7 @@ RSpec.describe ProviderAuthorisation do
     end
 
     it 'is false if user is not associated with the provider for the new course option' do
-      auth_context = ProviderAuthorisation.new(actor: create(:provider_user))
+      auth_context = ProviderAuthorisation.new(actor: create(:provider_user, :with_provider))
       expect(auth_context.can_change_offer?(application_choice: application_choice, course_option_id: other_course_option.id)).to be_falsy
     end
 
