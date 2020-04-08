@@ -8,7 +8,9 @@
     <p class='govuk-body'>You can:</p>
     <ul class='govuk-list govuk-list--bullet'>
       <li><%= govuk_link_to 'delete this choice', candidate_interface_confirm_destroy_course_choice_path(course_choice.id) %></li>
-      <li><%= govuk_link_to 'change to another course', course_change_path(course_choice) %></li>
+      <% if course_change_path(course_choice) %>
+        <li><%= govuk_link_to 'change to another course', course_change_path(course_choice) %></li>
+      <% end %>
       <li>
         <%= govuk_link_to 'contact the training provider', "#{course_choice.course.find_url}#section-contact" %>
         to discuss alternatives
@@ -19,7 +21,9 @@
     <p class='govuk-body'>You can:</p>
     <ul class='govuk-list govuk-list--bullet'>
       <li><%= govuk_link_to 'delete this choice', candidate_interface_confirm_destroy_course_choice_path(course_choice.id) %></li>
-      <li><%= govuk_link_to 'change to another course', course_change_path(course_choice) %></li>
+      <% if course_change_path(course_choice) %>
+        <li><%= govuk_link_to 'change to another course', course_change_path(course_choice) %></li>
+      <% end %>
       <li>
         <%= govuk_link_to 'contact the training provider', "#{course_choice.course.find_url}#section-contact" %>
         to see if the course will re-open or discuss alternatives
@@ -29,9 +33,13 @@
     <p class='app-review-warning--primary-message'>Your chosen site for '<%= course_choice.course.name_and_code %>' has no vacancies.</p>
     <p class='govuk-body'>You can:</p>
     <ul class='govuk-list govuk-list--bullet'>
-      <li><%= govuk_link_to 'pick a new location', site_change_path(course_choice) %></li>
+      <% if site_change_path(course_choice) %>
+        <li><%= govuk_link_to 'pick a new location', site_change_path(course_choice) %></li>
+      <% end %>
       <li><%= govuk_link_to 'delete this choice', candidate_interface_confirm_destroy_course_choice_path(course_choice.id) %></li>
-      <li><%= govuk_link_to 'change to another course', course_change_path(course_choice) %></li>
+      <% if course_change_path(course_choice) %>
+        <li><%= govuk_link_to 'change to another course', course_change_path(course_choice) %></li>
+      <% end %>
       <li>
         <%= govuk_link_to 'contact the training provider', "#{course_choice.course.find_url}#section-contact" %>
         to see if the course will re-open or discuss alternatives
