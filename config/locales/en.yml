@@ -171,11 +171,11 @@ en:
         provider_interface/provider_user_form:
           attributes:
             email_address:
-              blank: Email address can’t be blank
+              blank: Enter the user's email address
             first_name:
-              blank: First name can’t be blank
+              blank: Enter the user's first name
             last_name:
-              blank: Last name can’t be blank
+              blank: Enter the user's last name
             provider_ids:
               blank: Please specify a provider
         change_offer:
