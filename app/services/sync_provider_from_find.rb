@@ -72,7 +72,7 @@ private
     # https://api2.publish-teacher-training-courses.service.gov.uk/api/v3/recruitment_cycles/2020/providers/1N1/?include=sites,courses.sites
     FindAPI::Provider
       .current_cycle
-      .includes(:sites, courses: [:sites, site_statuses: [:site]])
+      .includes(:sites, courses: [:sites, :subjects, site_statuses: [:site]])
       .find(provider_code)
       .first
   end
@@ -128,6 +128,8 @@ private
     course.course_length = find_course.course_length
     course.recruitment_cycle_year = find_course.recruitment_cycle_year
     course.exposed_in_find = find_course.findable?
+    course.subject_codes = find_course.subject_codes
+    course.funding_type = find_course.funding_type
   end
 
   def add_accredited_provider(course, find_accredited_provider)

@@ -62,4 +62,48 @@ RSpec.describe FindAPI::Course do
       end
     end
   end
+
+  describe '#subject_codes' do
+    before do
+      stub_find_api_course_200('ABC', 'X123', 'Biology')
+    end
+
+    subject(:fetch_course) { FindAPI::Course.fetch('ABC', 'X123') }
+
+    context 'when there are subjects' do
+      before do
+        fetch_course.subjects = [
+          FindAPI::Provider::Subject.new(
+            attributes: {
+              'type' => 'subjects',
+              'id' => '11',
+              'subject_name' => 'Business studies',
+              'subject_code' => '08',
+              'bursary_amount' => '9000',
+              'early_career_payments' => nil,
+              'scholarship' => nil,
+            },
+          ),
+        ]
+      end
+
+      it 'returns just the codes as an Array' do
+        expect(fetch_course.subject_codes).to eq(%w[08])
+      end
+    end
+
+    context 'when there are no subjects' do
+      before do
+        fetch_course.subjects = nil
+      end
+
+      it 'does not raise an error' do
+        expect { fetch_course.subject_codes }.not_to raise_error
+      end
+
+      it 'returns an empty array' do
+        expect(fetch_course.subject_codes).to eq(%w[])
+      end
+    end
+  end
 end

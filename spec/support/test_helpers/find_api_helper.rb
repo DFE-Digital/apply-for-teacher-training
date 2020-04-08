@@ -10,7 +10,8 @@ module FindAPIHelper
     start_date: Time.zone.local(2020, 10, 31),
     course_length: 'OneYear',
     region_code: 'north_west',
-    site_address_line2: 'C/O The Bruntcliffe Academy'
+    site_address_line2: 'C/O The Bruntcliffe Academy',
+    funding_type: 'fee'
   )
     stub_find_api_provider(provider_code)
       .to_return(
@@ -66,11 +67,17 @@ module FindAPIHelper
                 'recruitment_cycle_year': '2020',
                 'findable?': findable,
                 'accrediting_provider': nil,
+                'funding_type': funding_type,
               },
               'relationships': {
                 'sites': {
                   'data': [
                     { 'id': '1', 'type': 'sites' },
+                  ],
+                },
+                'subjects': {
+                  'data': [
+                    { 'type': 'subjects', 'id': '11' },
                   ],
                 },
                 'site_statuses': {
@@ -96,6 +103,18 @@ module FindAPIHelper
                     'id': '1',
                   },
                 },
+              },
+            },
+            {
+              'id': '11',
+              'type': 'subjects',
+              'attributes': {
+                'subject_name': 'Business studies',
+                'subject_code': '08',
+                'bursary_amount': '9000',
+                'early_career_payments': nil,
+                'scholarship': nil,
+                'subject_knowledge_enhancement_course_available': false,
               },
             },
           ],
@@ -175,11 +194,17 @@ module FindAPIHelper
                   'provider_name': accredited_provider_name,
                   'provider_code': accredited_provider_code,
                 },
+                'funding_type': 'fee',
               },
               'relationships': {
                 'sites': {
                   'data': [
                     { 'id': '1', 'type': 'sites' },
+                  ],
+                },
+                'subjects': {
+                  'data': [
+                    { 'type': 'subjects', 'id': '11' },
                   ],
                 },
                 'site_statuses': {
@@ -291,12 +316,18 @@ module FindAPIHelper
               'recruitment_cycle_year': '2020',
               'findable?': findable,
               'accrediting_provider': nil,
+              'funding_type': 'fee',
             },
             'relationships': {
               'sites': {
                 'data': [
                   { 'id': '1', 'type': 'sites' },
                   { 'id': '2', 'type': 'sites' },
+                ],
+              },
+              'subjects': {
+                'data': [
+                  { 'type': 'subjects', 'id': '11' },
                 ],
               },
               'site_statuses': {
@@ -435,6 +466,6 @@ private
   def stub_find_api_provider(provider_code)
     stub_request(:get, ENV.fetch('FIND_BASE_URL') +
       'recruitment_cycles/2020' \
-      "/providers/#{provider_code}?include=sites,courses.sites,courses.site_statuses.site")
+      "/providers/#{provider_code}?include=sites,courses.sites,courses.subjects,courses.site_statuses.site")
   end
 end

@@ -184,6 +184,19 @@ RSpec.describe SyncProviderFromFind do
         expect(valid_course_option.reload).not_to be_invalidated_by_find
         expect(Raven).to have_received(:capture_message).with(/is now invalid/)
       end
+
+      it 'correctly updates subject_codes' do
+        stub_find_api_provider_200(
+          provider_code: 'ABC',
+          course_code: '9CBA',
+          findable: true,
+        )
+
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        course_option = CourseOption.last
+
+        expect(course_option.course.subject_codes).to eq(%w[08])
+      end
     end
   end
 

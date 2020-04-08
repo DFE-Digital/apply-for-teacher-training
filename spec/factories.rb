@@ -238,6 +238,8 @@ FactoryBot.define do
     course_length { 'OneYear' }
     start_date { Faker::Date.between(from: 1.month.from_now, to: 1.year.from_now) }
 
+    subject_codes { [Faker::Alphanumeric.alphanumeric(number: 2, min_alpha: 1).upcase] }
+
     trait :open_on_apply do
       open_on_apply { true }
       exposed_in_find { true }
