@@ -4,13 +4,14 @@ RSpec.describe InviteProviderUser, sidekiq: true do
   include DsiAPIHelper
 
   let(:provider) { create(:provider) }
-  let(:new_provider_user_from_form) {
-    SupportInterface::ProviderUserForm.new(
+  let(:provider_user) {
+    create(
+      :provider_user,
       email_address: 'test+invite_provider_user@example.com',
       first_name: 'Firstname',
       last_name: 'Lastname',
-      provider_ids: [provider.id],
-    ).build
+      providers: [provider],
+    )
   }
 
   describe '#initialize' do
@@ -20,10 +21,10 @@ RSpec.describe InviteProviderUser, sidekiq: true do
     end
   end
 
-  describe '#save_and_invite! if API response is successful' do
+  describe '#call! if API response is successful' do
     before do
       set_dsi_api_response(success: true)
-      InviteProviderUser.new(provider_user: new_provider_user_from_form).save_and_invite!
+      InviteProviderUser.new(provider_user: provider_user).call!
     end
 
     it 'a provider user is created' do
@@ -35,18 +36,13 @@ RSpec.describe InviteProviderUser, sidekiq: true do
     end
   end
 
-  describe '#save_and_invite! if API response is not successful' do
+  describe '#call! if API response is not successful' do
     before do
       set_dsi_api_response(success: false)
     end
 
     it 'raises DfeSignInApiError with errors from the API' do
-      expect { InviteProviderUser.new(provider_user: new_provider_user_from_form).save_and_invite! }.to raise_error(DfeSignInApiError)
-    end
-
-    it 'rolls back provider user creation' do
-      InviteProviderUser.new(provider_user: new_provider_user_from_form).save_and_invite! rescue nil
-      expect(ProviderUser.find_by_email_address('test+invite_provider_user@example.com')).to be_nil
+      expect { InviteProviderUser.new(provider_user: provider_user).call! }.to raise_error(DfeSignInApiError)
     end
 
     it 'does not queue an email' do
