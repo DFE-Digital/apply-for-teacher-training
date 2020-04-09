@@ -4,7 +4,11 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
   describe '.build_from_application' do
     context 'when safeguarding issues does not have a value' do
       it 'creates an object based on the application form' do
-        application_form = build_stubbed(:application_form, safeguarding_issues: nil)
+        application_form = build_stubbed(
+          :application_form,
+          safeguarding_issues: nil,
+          safeguarding_issues_status: :not_answered_yet,
+        )
 
         form = CandidateInterface::SafeguardingIssuesDeclarationForm.build_from_application(application_form)
 
@@ -13,9 +17,13 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
       end
     end
 
-    context 'when safeguarding issues has a value of "Yes"' do
+    context 'when application has safeguarding issues declared but not value' do
       it 'creates an object based on the application form' do
-        application_form = build_stubbed(:application_form, safeguarding_issues: 'Yes')
+        application_form = build_stubbed(
+          :application_form,
+          safeguarding_issues: nil,
+          safeguarding_issues_status: :has_safeguarding_issues_to_declare,
+        )
 
         form = CandidateInterface::SafeguardingIssuesDeclarationForm.build_from_application(application_form)
 
@@ -24,9 +32,13 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
       end
     end
 
-    context 'when safeguarding issues has a value of "No"' do
+    context 'when application has declared no safeguarding issues' do
       it 'creates an object based on the application form' do
-        application_form = build_stubbed(:application_form, safeguarding_issues: 'No')
+        application_form = build_stubbed(
+          :application_form,
+          safeguarding_issues: nil,
+          safeguarding_issues_status: :no_safeguarding_issues_to_declare,
+        )
 
         form = CandidateInterface::SafeguardingIssuesDeclarationForm.build_from_application(application_form)
 
@@ -35,14 +47,18 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
       end
     end
 
-    context 'when safeguarding issues has details' do
+    context 'when application has safeguarding issues declared and a value' do
       it 'creates an object based on the application form' do
-        application_form = build_stubbed(:application_form, safeguarding_issues: 'I have a criminal conviction.')
+        application_form = build_stubbed(
+          :application_form,
+          safeguarding_issues: 'I have a criminal conviction',
+          safeguarding_issues_status: :has_safeguarding_issues_to_declare,
+        )
 
         form = CandidateInterface::SafeguardingIssuesDeclarationForm.build_from_application(application_form)
 
         expect(form.share_safeguarding_issues).to eq('Yes')
-        expect(form.safeguarding_issues).to eq('I have a criminal conviction.')
+        expect(form.safeguarding_issues).to eq('I have a criminal conviction')
       end
     end
   end
@@ -70,7 +86,8 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
 
         form.save(application_form)
 
-        expect(application_form.safeguarding_issues).to eq('No')
+        expect(application_form.safeguarding_issues).to be_nil
+        expect(application_form.safeguarding_issues_status.to_sym).to eq :no_safeguarding_issues_to_declare
       end
     end
 
@@ -92,7 +109,8 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
 
         form.save(application_form)
 
-        expect(application_form.safeguarding_issues).to eq('Yes')
+        expect(application_form.safeguarding_issues_status.to_sym).to eq :has_safeguarding_issues_to_declare
+        expect(application_form.safeguarding_issues).to eq ''
       end
 
       it 'updates safeguarding issues of the application form to provided issues if nil' do
@@ -103,7 +121,8 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
 
         form.save(application_form)
 
-        expect(application_form.safeguarding_issues).to eq('Yes')
+        expect(application_form.safeguarding_issues_status.to_sym).to eq :has_safeguarding_issues_to_declare
+        expect(application_form.safeguarding_issues).to eq nil
       end
     end
 
@@ -125,7 +144,8 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
 
         form.save(application_form)
 
-        expect(application_form.safeguarding_issues).to eq('I have a criminal conviction.')
+        expect(application_form.safeguarding_issues_status.to_sym).to eq :has_safeguarding_issues_to_declare
+        expect(application_form.safeguarding_issues).to eq 'I have a criminal conviction.'
       end
     end
   end
