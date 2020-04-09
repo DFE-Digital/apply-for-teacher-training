@@ -1,0 +1,26 @@
+<% content_for :title, 'Users' %>
+
+<h1 class="govuk-heading-xl">Users</h1>
+
+<% if FeatureFlag.active?('provider_add_provider_users') -%>
+  <%= link_to 'Invite user', provider_interface_provider_users_new_path, class: 'govuk-button' %>
+<% end -%>
+
+<% content_for :before_content do %>
+  <div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to 'Users', provider_interface_provider_users_path, class: 'govuk-breadcrumbs__link' %>
+      </li>
+      <li class="govuk-breadcrumbs__list-item" aria-current="page">
+        Provider users
+      </li>
+    </ol>
+  </div>
+<% end %>
+
+<div class="govuk-body">
+<% @provider_users.each do |provider_user| %>
+  <%= render ProviderInterface::UserListCardComponent.new(provider_user: provider_user) %>
+<% end %>
+</div>

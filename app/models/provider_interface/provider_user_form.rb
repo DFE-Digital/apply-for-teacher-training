@@ -1,9 +1,9 @@
-module SupportInterface
+module ProviderInterface
   class ProviderUserForm
     include ActiveModel::Model
     include ActiveModel::Validations
 
-    attr_accessor :first_name, :last_name, :provider_user
+    attr_accessor :first_name, :last_name, :provider_user, :current_provider_user
     attr_writer :provider_ids
     attr_reader :email_address
 
@@ -11,6 +11,7 @@ module SupportInterface
     validates :email_address, email: true
     validates :provider_ids, presence: true
     validate :email_is_unique
+    validate :permitted_providers
 
     def build
       return unless valid?
@@ -31,10 +32,6 @@ module SupportInterface
       @email_address = raw_email_address.downcase.strip
     end
 
-    def available_providers
-      @available_providers ||= Provider.order(name: :asc)
-    end
-
     def persisted?
       @provider_user && @provider_user.persisted?
     end
@@ -52,7 +49,11 @@ module SupportInterface
     def provider_ids
       return [] unless @provider_ids
 
-      @provider_ids.reject(&:blank?)
+      @provider_ids.reject(&:blank?).map(&:to_i)
+    end
+
+    def available_providers
+      @available_providers ||= ProviderOptionsService.new(current_provider_user).providers_with_manageable_users
     end
 
   private
@@ -63,6 +64,17 @@ module SupportInterface
       return unless ProviderUser.exists?(email_address: email_address)
 
       errors.add(:email_address, 'This email address is already in use')
+    end
+
+    def permitted_providers
+      return unless provider_ids.any?
+      return if provider_ids_valid?
+
+      errors.add(:provider_ids, 'Insufficient permissions to manage users for this provider')
+    end
+
+    def provider_ids_valid?
+      (provider_ids & available_providers.pluck(:id)) == provider_ids
     end
   end
 end

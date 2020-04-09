@@ -28,6 +28,7 @@ class FeatureFlag
     edit_course_choices
     satisfaction_survey
     group_providers_by_region
+    provider_add_provider_users
   ].freeze
 
   def self.activate(feature_name)

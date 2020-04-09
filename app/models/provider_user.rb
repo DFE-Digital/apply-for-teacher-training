@@ -9,6 +9,11 @@ class ProviderUser < ActiveRecord::Base
   audited except: [:last_signed_in_at]
   has_associated_audits
 
+  scope :visible_to, ->(provider_user) {
+    joins(:provider_permissions)
+      .where(ProviderPermissions.table_name => { provider_id: provider_user.providers.pluck(:id) })
+  }
+
   def self.load_from_session(session)
     dfe_sign_in_user = DfESignInUser.load_from_session(session)
     return unless dfe_sign_in_user
@@ -27,6 +32,10 @@ class ProviderUser < ActiveRecord::Base
 
   def full_name
     "#{first_name} #{last_name}" if first_name.present? && last_name.present?
+  end
+
+  def can_manage_users?
+    provider_permissions.exists?(manage_users: true)
   end
 
 private
