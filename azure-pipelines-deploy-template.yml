@@ -74,13 +74,13 @@ jobs:
       system.debug: ${{parameters.debug}}
 
     pool:
-      vmImage: vs2017-win2016
+      vmImage: windows-latest
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - task: AzurePowerShell@3
+          - task: AzurePowerShell@4
             displayName: 'Azure PowerShell Script - Set Deployment Type for Resource Group $(resourceGroupName)'
             condition: succeeded()
             env:
@@ -91,7 +91,7 @@ jobs:
               ScriptType: InlineScript
               azurePowerShellVersion: LatestVersion
               Inline: |
-                Param(
+                param(
                   [string] $resourceGroupName = "$(resourceGroupName)",
                   [string] $environment = "${{parameters.environment}}"
                 )
@@ -99,6 +99,14 @@ jobs:
                 $fullDeployment = $false
                 $encodedAccessToken = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($env:SYSTEM_ACCESSTOKEN))
                 $variableGroupLastEdit = @()
+
+                #Check if RG exists
+                Get-AzResourceGroup -Name $resourceGroupName -ErrorVariable rgDoesntExist -ErrorAction SilentlyContinue
+                if($rgDoesntExist){
+                  $fullDeployment = $true
+                  Write-Host "##vso[task.setvariable variable=fullDeployment]$fullDeployment"
+                  return
+                }
 
                 #Get array of deployment files, which if changed, should trigger a full ARM deployment.
                 #Add pipeline files to array
@@ -112,10 +120,10 @@ jobs:
                 write-host ("DEBUG - Deployment files to compare changes against: {0}" -f [system.string]::Join(", ", $deploymentFiles))
 
                 #Get the timestamp of the last deployment to the defined Azure environment from Azure API
-                $lastDeployment = (Get-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName | Where-Object {$_.DeploymentName -Like "template-*"})[0].Timestamp
+                $lastDeployment = (Get-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName | Where-Object {$_.DeploymentName -Like "template-*"})[0].Timestamp
 
                 #Get the commit hash for the current version deployed in the environment
-                $currentDeployedCommit = (Get-AzureRmResourceGroup -Name $resourceGroupName).Tags.Version
+                $currentDeployedCommit = (Get-AzResourceGroup -Name $resourceGroupName).Tags.Version
                  
                 #Get the timestamp of the last update to the variable groups corresponding to the environment defined
                 $variableGroupUri = "https://dev.azure.com/dfe-ssp/Become-A-Teacher/_apis/distributedtask/variablegroups"
@@ -302,7 +310,7 @@ jobs:
                   }
                 }
 
-          - task: AzurePowerShell@3
+          - task: AzurePowerShell@4
             displayName: 'Azure PowerShell Script - Tag resource group: $(resourceGroupName)'
             condition: succeeded()
             inputs:
@@ -323,7 +331,7 @@ jobs:
 
                 (ConvertFrom-Json $commonResourceTags).psobject.properties | Foreach { $tags[$_.Name] = $_.Value }
 
-                Set-AzureRmResourceGroup -Name $resourceGroupName -Tag $tags
+                Set-AzResourceGroup -Name $resourceGroupName -Tag $tags
 
 
           - task: AzureAppServiceManage@0
