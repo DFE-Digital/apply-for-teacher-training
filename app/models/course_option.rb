@@ -28,4 +28,12 @@ class CourseOption < ApplicationRecord
 
     errors.add(:site, 'must have the same Provider as the course')
   end
+
+  def course_not_available?
+    !course.exposed_in_find?
+  end
+
+  def course_full?
+    course.course_options.vacancies.blank?
+  end
 end

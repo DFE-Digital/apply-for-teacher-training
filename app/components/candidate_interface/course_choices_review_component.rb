@@ -44,41 +44,45 @@ module CandidateInterface
       @show_incomplete && !@application_form.course_choices_completed && @editable
     end
 
+    def course_change_path(course_choice)
+      if FeatureFlag.active?('edit_course_choices') && has_multiple_courses?(course_choice)
+        candidate_interface_course_choices_course_path(
+          course_choice.provider.id,
+          course_choice_id: course_choice.id,
+        )
+      end
+    end
+
+    def site_change_path(course_choice)
+      if FeatureFlag.active?('edit_course_choices') && has_multiple_sites?(course_choice)
+        candidate_interface_course_choices_site_path(
+          course_choice.provider.id,
+          course_choice.course.id,
+          course_choice.offered_option.study_mode,
+          course_choice_id: course_choice.id,
+        )
+      end
+    end
+
   private
 
     attr_reader :application_form
 
     def course_row(course_choice)
-      change_path = if FeatureFlag.active?('edit_course_choices') && has_multiple_courses?(course_choice)
-                      candidate_interface_course_choices_course_path(
-                        course_choice.provider.id,
-                        course_choice_id: course_choice.id,
-                      )
-                    end
-
       {
         key: 'Course',
         value: govuk_link_to("#{course_choice.offered_course.name} (#{course_choice.offered_course.code})", course_choice.offered_course.find_url, target: '_blank', rel: 'noopener'),
         action: "course choice for #{course_choice.course.name_and_code}",
-        change_path: change_path,
+        change_path: course_change_path(course_choice),
       }
     end
 
     def location_row(course_choice)
-      change_path = if FeatureFlag.active?('edit_course_choices') && has_multiple_sites?(course_choice)
-                      candidate_interface_course_choices_site_path(
-                        course_choice.provider.id,
-                        course_choice.course.id,
-                        course_choice.offered_option.study_mode,
-                        course_choice_id: course_choice.id,
-                      )
-                    end
-
       {
         key: 'Location',
         value: "#{course_choice.offered_site.name}\n#{course_choice.offered_site.full_address}",
         action: "location for #{course_choice.course.name_and_code}",
-        change_path: change_path,
+        change_path: site_change_path(course_choice),
       }
     end
 

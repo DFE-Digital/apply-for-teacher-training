@@ -221,6 +221,10 @@ FactoryBot.define do
     trait :part_time do
       study_mode { :part_time }
     end
+
+    trait :no_vacancies do
+      vacancy_status { 'no_vacancies' }
+    end
   end
 
   factory :course do
