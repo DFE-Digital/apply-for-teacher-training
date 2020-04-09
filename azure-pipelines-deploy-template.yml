@@ -368,3 +368,4 @@ jobs:
               ResourceGroupName: '$(resourceGroupName)'
               Slot: staging
             condition: succeeded()
+            
