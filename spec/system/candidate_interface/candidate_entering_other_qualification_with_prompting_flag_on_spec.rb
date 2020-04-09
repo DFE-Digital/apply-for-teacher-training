@@ -11,6 +11,10 @@ RSpec.feature 'Entering their other qualifications' do
     when_i_click_on_other_qualifications
     then_i_see_the_select_qualification_type_page
 
+    when_i_do_not_select_any_type_option
+    and_i_click_continue
+    then_i_see_the_qualification_type_error
+
     when_i_select_add_a_level_qualification
     and_i_click_continue
     then_i_see_the_other_qualifications_form
@@ -278,5 +282,11 @@ RSpec.feature 'Entering their other qualifications' do
 
   def and_that_the_section_is_completed
     expect(page).to have_css('#academic-and-other-relevant-qualifications-badge-id', text: 'Completed')
+  end
+
+  def when_i_do_not_select_any_type_option; end
+
+  def then_i_see_the_qualification_type_error
+    expect(page).to have_content 'Enter the type of qualification'
   end
 end

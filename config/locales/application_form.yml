@@ -461,6 +461,10 @@ en:
               blank: Enter your graduation year
               invalid: Enter a real graduation year
               greater_than_limit: 'Enter a year before %{date}'
+        candidate_interface/other_qualification_type_form:
+          attributes:
+            qualification_type:
+              blank: Enter the type of qualification
         candidate_interface/other_qualification_form:
           attributes:
             qualification_type:
