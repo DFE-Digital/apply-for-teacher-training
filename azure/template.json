@@ -841,7 +841,10 @@
                         "value": "[parameters('commonResourceTags')]"
                     }
                 }
-            }
+            },
+            "dependsOn" : [
+                "storage-account"
+            ]
         },
         {
             "apiVersion": "2017-05-10",
