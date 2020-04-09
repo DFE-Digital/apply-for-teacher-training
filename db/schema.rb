@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_06_104031) do
+ActiveRecord::Schema.define(version: 2020_04_08_221253) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(version: 2020_04_06_104031) do
     t.jsonb "equality_and_diversity"
     t.text "safeguarding_issues"
     t.jsonb "satisfaction_survey"
+    t.string "safeguarding_issues_status", default: "not_answered_yet", null: false
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
   end
 
@@ -298,6 +299,7 @@ ActiveRecord::Schema.define(version: 2020_04_06_104031) do
     t.string "safeguarding_concerns"
     t.string "relationship_correction"
     t.string "referee_type"
+    t.string "safeguarding_concerns_status", default: "not_answered_yet", null: false
     t.index ["application_form_id", "email_address"], name: "index_references_on_application_form_id_and_email_address", unique: true
     t.index ["application_form_id"], name: "index_references_on_application_form_id"
     t.index ["feedback_status"], name: "index_references_on_feedback_status"
