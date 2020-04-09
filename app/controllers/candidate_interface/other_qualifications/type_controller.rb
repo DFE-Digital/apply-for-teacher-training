@@ -16,7 +16,7 @@ module CandidateInterface
   private
 
     def other_qualification_type_params
-      params.require(:candidate_interface_other_qualification_type_form).permit(
+      params.fetch(:candidate_interface_other_qualification_type_form, {}).permit(
         :qualification_type,
       )
     end

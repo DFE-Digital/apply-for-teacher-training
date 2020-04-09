@@ -77,13 +77,13 @@ RSpec.describe 'Candidate edits course choices' do
 
   def and_there_is_a_course_with_one_course_option
     @provider = create(:provider)
-    create(:course, provider: @provider, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
+    create(:course, name: 'English', provider: @provider, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
 
     course_option_for_provider(provider: @provider, course: @provider.courses.first)
   end
 
   def and_there_is_a_course_with_multiple_course_options
-    create(:course, :with_both_study_modes, provider: @provider, exposed_in_find: true, open_on_apply: true)
+    create(:course, :with_both_study_modes, name: 'Maths', provider: @provider, exposed_in_find: true, open_on_apply: true)
 
     # Sites with full time study mode
     course_option_for_provider(provider: @provider, course: @provider.courses.second, study_mode: 'full_time')
@@ -95,7 +95,7 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def and_there_is_a_course_with_both_study_modes_but_one_site
-    create(:course, :with_both_study_modes, provider: @provider, exposed_in_find: true, open_on_apply: true)
+    create(:course, :with_both_study_modes, name: 'Entomology', provider: @provider, exposed_in_find: true, open_on_apply: true)
 
     site = create(:site, provider: @provider)
 
