@@ -4,6 +4,7 @@ en:
     eastern: 'Eastern'
     london: 'London'
     no_region: 'No region'
+    no_region_specified: 'No region specified'
     north_east: 'North East'
     north_west: 'North West'
     scotland: 'Scotland'
