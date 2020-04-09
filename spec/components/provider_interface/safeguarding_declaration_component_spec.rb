@@ -2,9 +2,6 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
   let(:heading) { 'Criminal convictions and professional misconduct' }
-  let(:has_shared_text) { 'The candidate has shared information related to safeguarding. Please contact them directly for more details.' }
-  let(:has_not_shared_text) { 'No information shared' }
-  let(:has_not_answered_text) { 'Not answered' }
 
   context 'when the candidate was never asked the safeguarding question' do
     it 'displays the correct text' do
