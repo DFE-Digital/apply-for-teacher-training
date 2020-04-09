@@ -26,6 +26,10 @@ class LogstashLogging
     # Log destination: log to STDOUT, plus to a remote Logstash server, if required
     logstash_logger = \
       if ENV['LOGSTASH_REMOTE'] == 'true'
+        # temporary additional STDOUT logger for troubleshooting bg process log loss
+        buffer_logger = Logger.new(STDOUT)
+        buffer_logger.level = Logger::WARN
+
         LogStashLogger.new(
           type: :multi_delegator,
           outputs: [
@@ -37,6 +41,7 @@ class LogstashLogging
               ssl_enable: ENV.fetch('LOGSTASH_SSL') == 'true',
             },
           ],
+          buffer_logger: buffer_logger,
         )
       else
         LogStashLogger.new(type: :stdout)
