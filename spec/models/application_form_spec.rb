@@ -87,4 +87,18 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe 'validations' do
+    context 'has safeguarding issues to declare' do
+      subject(:application_form) { described_class.new(safeguarding_issues_status: :has_safeguarding_issues_to_declare) }
+
+      it { is_expected.to validate_presence_of(:safeguarding_issues) }
+    end
+
+    context 'does not have safeguarding issues to declare' do
+      subject(:application_form) { described_class.new(safeguarding_issues_status: :no_safeguarding_issues_to_declare) }
+
+      it { is_expected.not_to validate_presence_of(:safeguarding_issues) }
+    end
+  end
 end
