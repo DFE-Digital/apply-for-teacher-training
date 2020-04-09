@@ -10,17 +10,17 @@ class ProviderAuthorisation
 
     supplied_course_option = CourseOption.find(course_option_id) if course_option_id
     if supplied_course_option && course_option_id != application_choice.course_option.id
-      application_choice_belongs_to_user_providers?(application_choice: application_choice) && \
+      application_choice_visible_to_user?(application_choice: application_choice) && \
         course_option_belongs_to_user_providers?(course_option: supplied_course_option)
     else
-      application_choice_belongs_to_user_providers?(application_choice: application_choice)
+      application_choice_visible_to_user?(application_choice: application_choice)
     end
   end
 
   def can_change_offer?(application_choice:, course_option_id:)
     new_course_option = CourseOption.find course_option_id
     @actor.is_a?(SupportUser) || \
-      application_choice_belongs_to_user_providers?(application_choice: application_choice) && \
+      application_choice_visible_to_user?(application_choice: application_choice) && \
         course_option_belongs_to_user_providers?(course_option: new_course_option)
   end
 
@@ -37,8 +37,8 @@ class ProviderAuthorisation
 
 private
 
-  def application_choice_belongs_to_user_providers?(application_choice:)
-    @actor.providers.include?(application_choice.course.provider)
+  def application_choice_visible_to_user?(application_choice:)
+    GetApplicationChoicesForProviders.call(providers: @actor.providers).include?(application_choice)
   end
 
   def course_option_belongs_to_user_providers?(course_option:)

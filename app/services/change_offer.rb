@@ -15,7 +15,7 @@ class ChangeOffer
   end
 
   def save
-    # @auth.assert_can_change_offer! application_choice: @application_choice, course_option_id: @course_option_id
+    @auth.assert_can_change_offer! application_choice: @application_choice, course_option_id: @course_option_id
     if valid?
       attributes = {
         offered_course_option_id: @course_option_id,
