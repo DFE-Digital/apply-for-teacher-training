@@ -258,16 +258,48 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
   end
 
   describe '#safeguarding_completed?' do
-    it 'returns false if safeguarding issues is nil' do
-      application_form = build_stubbed(:application_form, safeguarding_issues: nil)
+    it 'returns false if safeguarding issues is not answered yet' do
+      application_form = build_stubbed(
+        :application_form,
+        safeguarding_issues: nil,
+        safeguarding_issues_status: :not_answered_yet,
+      )
 
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter.safeguarding_completed?).to eq(false)
     end
 
-    it 'returns true if safeguarding issues has a value' do
-      application_form = build_stubbed(:application_form, safeguarding_issues: 'I have a criminal conviction.')
+    it 'returns false if safeguarding issues question was not asked' do
+      application_form = build_stubbed(
+        :application_form,
+        safeguarding_issues: nil,
+        safeguarding_issues_status: :never_asked,
+      )
+
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter.safeguarding_completed?).to eq(false)
+    end
+
+    it 'returns true if safeguarding issues are declared' do
+      application_form = build_stubbed(
+        :application_form,
+        safeguarding_issues: 'I have a criminal conviction',
+        safeguarding_issues_status: :has_safeguarding_issues_to_declare,
+      )
+
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter.safeguarding_completed?).to eq(true)
+    end
+
+    it 'returns true if safeguarding issues are denied' do
+      application_form = build_stubbed(
+        :application_form,
+        safeguarding_issues: nil,
+        safeguarding_issues_status: :no_safeguarding_issues_to_declare,
+      )
 
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
