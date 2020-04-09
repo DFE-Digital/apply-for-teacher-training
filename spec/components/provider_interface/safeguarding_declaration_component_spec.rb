@@ -6,47 +6,59 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
   let(:has_not_shared_text) { 'No information shared' }
   let(:has_not_answered_text) { 'Not answered' }
 
-
-  context 'when the candidate has entered "Yes" as an answer to the safeguarding question' do
+  context 'when the candidate was never asked the safeguarding question' do
     it 'displays the correct text' do
-      application_form = build_stubbed(:application_form, safeguarding_issues: 'Yes')
-
+      application_form = build_stubbed(
+        :application_form,
+        safeguarding_issues: nil,
+        safeguarding_issues_status: 'never_asked',
+      )
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.text).to include(heading)
-      expect(result.text).to include(has_shared_text)
+      expect(result.text).to include('Never asked.')
     end
   end
 
   context 'when the candidate has shared information related to safeguarding' do
     it 'displays the correct text' do
-      application_form = build_stubbed(:application_form, safeguarding_issues: 'I have a criminal conviction.')
+      application_form = build_stubbed(
+        :application_form,
+        safeguarding_issues: 'I have a criminal conviction.',
+        safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
+      )
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.text).to include(heading)
-      expect(result.text).to include(has_shared_text)
+      expect(result.text).to include('The candidate has shared information related to safeguarding. Please contact them directly for more details.')
     end
   end
 
   context 'when the candidate has not shared information related to safeguarding' do
     it 'displays the correct text' do
-      application_form = build_stubbed(:application_form, safeguarding_issues: 'No')
-
+      application_form = build_stubbed(
+        :application_form,
+        safeguarding_issues: nil,
+        safeguarding_issues_status: 'no_safeguarding_issues_to_declare',
+      )
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.text).to include(heading)
-      expect(result.text).to include(has_not_shared_text)
+      expect(result.text).to include('No information shared.')
     end
   end
 
   context 'when the candidate has not answered the safeguarding question' do
     it 'displays the correct text' do
-      application_form = build_stubbed(:application_form, safeguarding_issues: nil)
-
+      application_form = build_stubbed(
+        :application_form,
+        safeguarding_issues: nil,
+        safeguarding_issues_status: 'not_answered_yet',
+      )
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.text).to include(heading)
-      expect(result.text).to include(has_not_answered_text)
+      expect(result.text).to include('Not answered yet')
     end
   end
 end
