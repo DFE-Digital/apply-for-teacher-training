@@ -131,7 +131,7 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def when_i_click_to_change_the_course_for_the_first_course_choice
-    click_link "Change course choice for #{@provider.courses.third.name}"
+    click_link "Change course choice for #{@provider.courses.third.name_and_code}"
   end
 
   def and_i_choose_the_single_site_course_as_my_first_course_choice
@@ -144,19 +144,19 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def and_i_should_see_a_change_course_link
-    expect(page).to have_content("Change course choice for #{@provider.courses.third.name}")
+    expect(page).to have_content("Change course choice for #{@provider.courses.third.name_and_code}")
   end
 
   def and_i_should_see_the_updated_change_course_link
-    expect(page).to have_content("Change course choice for #{@provider.courses.first.name}")
+    expect(page).to have_content("Change course choice for #{@provider.courses.first.name_and_code}")
   end
 
   def and_i_should_not_see_a_change_location_link
-    expect(page).not_to have_content("Change location for #{@provider.courses.first.name}")
+    expect(page).not_to have_content("Change location for #{@provider.courses.first.name_and_code}")
   end
 
   def and_i_should_not_see_a_change_study_mode_link
-    expect(page).not_to have_content("Change study mode for #{@provider.courses.first.name}")
+    expect(page).not_to have_content("Change study mode for #{@provider.courses.first.name_and_code}")
   end
 
   def when_i_click_to_add_another_course
@@ -187,11 +187,11 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def and_i_should_see_a_change_location_link
-    expect(page).to have_content("Change location for #{@provider.courses.second.name}")
+    expect(page).to have_content("Change location for #{@provider.courses.second.name_and_code}")
   end
 
   def and_i_should_see_a_change_study_mode_link
-    expect(page).to have_content("Change study mode for #{@provider.courses.second.name}")
+    expect(page).to have_content("Change study mode for #{@provider.courses.second.name_and_code}")
   end
 
   def and_i_choose_the_single_site_course_as_my_third_course_choice
@@ -200,15 +200,15 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def and_i_should_see_another_change_study_mode_link
-    expect(page).to have_content("Change study mode for #{@provider.courses.third.name}")
+    expect(page).to have_content("Change study mode for #{@provider.courses.third.name_and_code}")
   end
 
   def and_i_should_not_see_another_change_location_link
-    expect(page).not_to have_content("Change location for #{@provider.courses.third.name}")
+    expect(page).not_to have_content("Change location for #{@provider.courses.third.name_and_code}")
   end
 
   def when_i_click_to_change_the_location_of_the_second_course_choice
-    click_link "Change location for #{@provider.courses.second.name}"
+    click_link "Change location for #{@provider.courses.second.name_and_code}"
   end
 
   def and_i_choose_the_second_site
