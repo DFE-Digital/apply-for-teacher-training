@@ -153,10 +153,14 @@ private
     part_of_an_application = invalid_course_options.where(id: chosen_course_option_ids)
     return if part_of_an_application.size.zero?
 
-    part_of_an_application.update_all(invalidated_by_find: true)
-    Raven.capture_message(
-      "#{part_of_an_application.count} invalid course options chosen by candidates.",
-    )
+    part_of_an_application.each do |course_option|
+      unless course_option.invalidated_by_find
+        Raven.capture_message(
+          "Course option #{course_option.id}, which is chosen by candidates, is now invalid.",
+        )
+      end
+      course_option.update!(invalidated_by_find: true)
+    end
   end
 
   class CourseVacancyStatus
