@@ -1,0 +1,101 @@
+require 'rails_helper'
+
+RSpec.describe 'Cancelling a reference' do
+  include CandidateHelper
+
+  scenario 'candidate cancels a reference request after completing their application' do
+    given_the_training_with_a_disability_flag_is_active
+    and_i_have_completed_and_submitted_my_application
+    and_the_candidate_cancels_reference_flag_is_active
+    and_the_referee_type_flag_is_active
+    and_edit_application_is_active
+
+    when_i_visit_the_application_complete_page
+    and_i_click_delete_on_my_first_reference
+    then_i_should_see_the_confirm_delete_page
+
+    when_i_click_confirm_delete
+    then_i_should_see_the_add_referee_type_page
+
+    when_i_choose_academic
+    and_click_continue
+    then_i_should_see_the_new_referee_page
+
+    when_i_fill_in_the_form
+    and_i_click_save_and_continue
+    then_i_should_see_the_referee_review_page
+    and_my_reference_should_have_been_added
+  end
+
+  def given_the_training_with_a_disability_flag_is_active
+    FeatureFlag.activate('training_with_a_disability')
+  end
+
+  def and_i_have_completed_and_submitted_my_application
+    candidate_completes_application_form
+    candidate_submits_application
+  end
+
+  def and_the_candidate_cancels_reference_flag_is_active
+    FeatureFlag.activate('candidate_cancels_reference')
+  end
+
+  def and_the_referee_type_flag_is_active
+    FeatureFlag.activate('referee_type')
+  end
+
+  def and_edit_application_is_active
+    FeatureFlag.activate('edit_application')
+  end
+
+  def when_i_visit_the_application_complete_page
+    visit candidate_interface_application_complete_path
+  end
+
+  def and_i_click_delete_on_my_first_reference
+    @reference = ApplicationReference.first
+    click_link "Delete referee #{@reference.name}"
+  end
+
+  def then_i_should_see_the_confirm_delete_page
+    expect(page).to have_current_path(candidate_interface_confirm_destroy_referee_path(@reference.id))
+  end
+
+  def when_i_click_confirm_delete
+    click_button t('application_form.referees.sure_delete_entry')
+  end
+
+  def then_i_should_see_the_add_referee_type_page
+    expect(page).to have_current_path(candidate_interface_referees_type_path)
+  end
+
+  def when_i_choose_academic
+    choose 'Academic'
+  end
+
+  def and_click_continue
+    click_button 'Continue'
+  end
+
+  def then_i_should_see_the_new_referee_page
+    expect(page).to have_current_path(candidate_interface_new_referee_path(:academic))
+  end
+
+  def when_i_fill_in_the_form
+    fill_in 'Full name', with: 'AO Reference'
+    fill_in 'Email address', with: 'betty@example.com'
+    fill_in 'What is your relationship to this referee and how long have you known them?', with: 'Just somebody I used to know'
+  end
+
+  def and_i_click_save_and_continue
+    click_button 'Save and continue'
+  end
+
+  def then_i_should_see_the_referee_review_page
+    expect(page).to have_current_path(candidate_interface_review_referees_path)
+  end
+
+  def and_my_reference_should_have_been_added
+    expect(page).to have_content('AO Reference')
+  end
+end
