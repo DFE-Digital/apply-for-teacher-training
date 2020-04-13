@@ -75,6 +75,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
       disclose_disability: true,
       disability_disclosure: 'I am hard of hearing',
       safeguarding_issues: 'I have something to say...',
+      safeguarding_issues_status: :has_safeguarding_issues_to_declare,
     )
 
     create_list(:application_qualification, 1, application_form: application_form, level: :degree)
