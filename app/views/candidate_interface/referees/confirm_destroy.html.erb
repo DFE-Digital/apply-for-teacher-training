@@ -9,6 +9,12 @@
         <%= t('page_titles.referee_destroy') %>
       </h1>
 
+      <p class='govuk-body'>You have <%= formatted_days_remaining %> (until <%= edit_by_date %>) to edit your application or change your referee.</p>
+
+      <p class='govuk-body'> You will need to provide another referee as we can't send your application to your teacher training providers without 2 complete references.</p>
+
+      <p class='govuk-body'> <% @referee.name %> will be informed that they do not need to provide a reference.</p>
+
       <%= f.submit t('application_form.referees.sure_delete_entry'), class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
 
       <p class="govuk-body">

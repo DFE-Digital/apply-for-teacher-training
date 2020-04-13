@@ -1,7 +1,7 @@
 module CandidateInterface
   class RefereesController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_not_amendable
-    before_action :redirect_to_review_referees_if_amendable, except: %i[index review]
+    before_action :redirect_to_review_referees_if_amendable_and_two_referees_are_present, except: %i[index review destroy confirm_destroy]
     before_action :set_referee, only: %i[edit update confirm_destroy destroy]
     before_action :set_referees, only: %i[type update_type new create index review]
 
@@ -70,11 +70,17 @@ module CandidateInterface
       end
     end
 
-    def confirm_destroy; end
+    def confirm_destroy
+      @application_form = current_application
+    end
 
     def destroy
       @referee.destroy!
-      redirect_to candidate_interface_referees_path
+      if FeatureFlag.active?('candidate_cancels_reference') && current_application.submitted?
+        redirect_to candidate_interface_referees_type_path
+      else
+        redirect_to candidate_interface_referees_path
+      end
     end
 
     def review
@@ -115,8 +121,8 @@ module CandidateInterface
         .transform_values(&:strip)
     end
 
-    def redirect_to_review_referees_if_amendable
-      redirect_to candidate_interface_review_referees_path if current_application.amendable?
+    def redirect_to_review_referees_if_amendable_and_two_referees_are_present
+      redirect_to candidate_interface_review_referees_path if current_application.amendable? && current_application.application_references.count == ApplicationForm::MINIMUM_COMPLETE_REFERENCES
     end
   end
 end
