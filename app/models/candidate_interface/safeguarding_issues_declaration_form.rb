@@ -20,7 +20,7 @@ module CandidateInterface
     def save(application_form)
       return false unless valid?
 
-      if share_safeguarding_issues == 'Yes' && safeguarding_issues.present?
+      if share_safeguarding_issues == 'Yes'
         application_form.update(
           safeguarding_issues: safeguarding_issues,
           safeguarding_issues_status: :has_safeguarding_issues_to_declare,
