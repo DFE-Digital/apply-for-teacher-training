@@ -28,8 +28,6 @@ class ApplicationForm < ApplicationRecord
     never_asked: 'never_asked',
   }
 
-  validates :safeguarding_issues, presence: true, if: :has_safeguarding_issues_to_declare?
-
   before_create -> {
     self.support_reference ||= GenerateSupportRef.call
   }
