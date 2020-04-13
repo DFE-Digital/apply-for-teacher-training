@@ -3,7 +3,11 @@ require 'rails_helper'
 RSpec.describe SafeguardingReviewComponent do
   context 'when safeguarding issues has a value of "Yes"' do
     it 'displays "Yes" for sharing safeguarding issues and "Not entered" for relevant information' do
-      application_form = build_stubbed(:application_form, safeguarding_issues: 'Yes')
+      application_form = build_stubbed(
+        :application_form,
+        safeguarding_issues: nil,
+        safeguarding_issues_status: :has_safeguarding_issues_to_declare,
+      )
 
       result = render_inline(SafeguardingReviewComponent.new(application_form: application_form))
 
@@ -16,7 +20,11 @@ RSpec.describe SafeguardingReviewComponent do
 
   context 'when safeguarding issues has a value of "No"' do
     it 'displays "No" for sharing safeguarding issues and "Not entered" for relevant information' do
-      application_form = build_stubbed(:application_form, safeguarding_issues: 'No')
+      application_form = build_stubbed(
+        :application_form,
+        safeguarding_issues: nil,
+        safeguarding_issues_status: :no_safeguarding_issues_to_declare,
+      )
 
       result = render_inline(SafeguardingReviewComponent.new(application_form: application_form))
 
@@ -28,7 +36,11 @@ RSpec.describe SafeguardingReviewComponent do
 
   context 'when safeguarding issues has details' do
     it 'displays "Yes" for sharing safeguarding issues and the details for relevant information' do
-      application_form = build_stubbed(:application_form, safeguarding_issues: 'I have a criminal conviction.')
+      application_form = build_stubbed(
+        :application_form,
+        safeguarding_issues: 'I have a criminal conviction.',
+        safeguarding_issues_status: :has_safeguarding_issues_to_declare,
+      )
 
       result = render_inline(SafeguardingReviewComponent.new(application_form: application_form))
 
@@ -41,7 +53,11 @@ RSpec.describe SafeguardingReviewComponent do
 
   context 'when editable' do
     it 'renders the component with change links' do
-      application_form = build_stubbed(:application_form, safeguarding_issues: 'Yes')
+      application_form = build_stubbed(
+        :application_form,
+        safeguarding_issues: nil,
+        safeguarding_issues_status: :has_safeguarding_issues_to_declare,
+      )
 
       result = render_inline(SafeguardingReviewComponent.new(application_form: application_form, editable: true))
 
@@ -52,7 +68,11 @@ RSpec.describe SafeguardingReviewComponent do
 
   context 'when not editable' do
     it 'renders the component without change links' do
-      application_form = build_stubbed(:application_form, safeguarding_issues: 'Yes')
+      application_form = build_stubbed(
+        :application_form,
+        safeguarding_issues: nil,
+        safeguarding_issues_status: :has_safeguarding_issues_to_declare,
+      )
 
       result = render_inline(SafeguardingReviewComponent.new(application_form: application_form, editable: false))
 
