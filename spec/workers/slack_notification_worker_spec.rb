@@ -1,50 +1,30 @@
 require 'rails_helper'
 
 RSpec.describe SlackNotificationWorker do
-  include TestHelpers::LoggingHelper
-  let(:rails_config) { environment_config_double }
+  before do
+    @slack_request = stub_request(:post, "https://example.com/webhook")
+      .to_return(status: 200, headers: {})
+  end
 
-  describe 'SlackNotificationWorker' do
-    let(:text) { 'example text' }
-    let(:url) { 'https://example.com/support' }
-
-    around do |example|
-      ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'TEST' do
-        example.run
+  describe '#perform' do
+    it 'sends a Slack notification to this webhook if the URL is set' do
+      ClimateControl.modify STATE_CHANGE_SLACK_URL: 'https://example.com/webhook' do
+        invoke_worker
       end
-    end
 
-    before { allow(HTTP).to receive(:post) }
-
-    def invoke_worker
-      SlackNotificationWorker.new.perform(text, url)
+      expect(@slack_request).to have_been_made
     end
 
     it 'does not send a Slack notification if STATE_CHANGE_SLACK_URL is empty' do
-      ClimateControl.modify STATE_CHANGE_SLACK_URL: nil do invoke_worker end
-      expect(HTTP).not_to have_received(:post)
-    end
-
-    context 'when STATE_CHANGE_SLACK_URL is set' do
-      let(:webhook_url) { 'https://example.com/webhook' }
-
-      it 'sends a Slack notification to this webhook' do
-        ClimateControl.modify STATE_CHANGE_SLACK_URL: webhook_url do
-          invoke_worker
-        end
-        expect(HTTP).to have_received(:post)
+      ClimateControl.modify STATE_CHANGE_SLACK_URL: nil do
+        invoke_worker
       end
 
-      it 'includes hyperlinked text, a username and an emoji' do
-        ClimateControl.modify STATE_CHANGE_SLACK_URL: webhook_url do
-          invoke_worker
-        end
-
-        expect(HTTP).to have_received(:post).with(
-          'https://example.com/webhook',
-          body: '{"username":"Apply for teacher training","icon_emoji":":shipitbeaver:","channel":"#twd_apply_test","text":"[TEST] \u003chttps://example.com/support|example text\u003e","mrkdwn":true}',
-        )
-      end
+      expect(@slack_request).not_to have_been_made
     end
+  end
+
+  def invoke_worker
+    SlackNotificationWorker.new.perform('example text', 'https://example.com/support')
   end
 end
