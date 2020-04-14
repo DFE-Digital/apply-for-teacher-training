@@ -64,6 +64,14 @@ module CandidateInterface
       end
     end
 
+    def warning_css_class(course_choice)
+      return unless FeatureFlag.active?('unavailable_course_option_warnings')
+
+      if course_choice.course_option_availability_error?
+        'app-review-warning'
+      end
+    end
+
   private
 
     attr_reader :application_form

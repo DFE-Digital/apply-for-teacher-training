@@ -1,7 +1,5 @@
 <% @course_choices.each do |course_choice| %>
-  <% show_warning = course_choice.course_not_available? || course_choice.course_full? || course_choice.chosen_site_full? %>
-  <div class='qa-application-choice-<%= course_choice.id %> <%= show_warning && FeatureFlag.active?('unavailable_course_option_warnings')? 'app-review-warning'  : '' %>' id='course-choice-<%= course_choice.id %>'>
-
+  <div id='course-choice-<%= course_choice.id %>' class='qa-application-choice-<%= course_choice.id %> <%= warning_css_class(course_choice) %>'>
   <% if FeatureFlag.active?('unavailable_course_option_warnings') %>
     <% if course_choice.course_not_available? %>
       <p class='app-review-warning--primary-message'><%= course_choice.course_not_available_error %>.</p>

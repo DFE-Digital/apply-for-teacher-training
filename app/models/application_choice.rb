@@ -74,6 +74,14 @@ class ApplicationChoice < ApplicationRecord
     I18n.t('errors.application_choices.chosen_site_full', descriptor: course.provider_and_name_code)
   end
 
+  def course_option_availability_error?
+    [
+      course_not_available?,
+      course_full?,
+      chosen_site_full?,
+    ].any?
+  end
+
 private
 
   def generate_alphanumeric_id
