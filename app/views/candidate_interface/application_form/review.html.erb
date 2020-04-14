@@ -13,6 +13,10 @@
             <a href="<%= "#missing-#{section}-error" %>"><%= t("review_application.#{section}.incomplete", minimum_references: ApplicationForm::MINIMUM_COMPLETE_REFERENCES) %></a>
           </li>
         <% end %>
+
+        <% @application_choice_errors.each do |error| %>
+          <li><%= link_to error.message, error.anchor %></li>
+        <% end %>
       </ul>
     </div>
   </div>

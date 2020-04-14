@@ -44,8 +44,42 @@ module CandidateInterface
         .map(&:first)
     end
 
+    ApplicationChoiceError = Struct.new(:message, :course_choice_id) do
+      def anchor
+        "#course-choice-#{course_choice_id}"
+      end
+    end
+
+    def application_choice_errors
+      [].tap do |error_list|
+        @application_form.application_choices.each do |choice|
+          if choice.course_not_available?
+            error_list << ApplicationChoiceError.new(
+              choice.course_not_available_error, choice.id
+            )
+            next
+          end
+
+          if choice.course_full?
+            error_list << ApplicationChoiceError.new(
+              choice.course_full_error, choice.id
+            )
+            next
+          end
+
+          if choice.chosen_site_full?
+            error_list << ApplicationChoiceError.new(
+              choice.chosen_site_full_error, choice.id
+            )
+            next
+          end
+        end
+      end
+    end
+
     def ready_to_submit?
-      sections_with_completion.map(&:second).all?
+      sections_with_completion.map(&:second).all? &&
+        application_choice_errors.empty?
     end
 
     def application_choices_added?

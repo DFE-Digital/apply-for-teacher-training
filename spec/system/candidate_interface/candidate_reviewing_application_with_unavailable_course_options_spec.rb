@@ -9,10 +9,12 @@ RSpec.feature 'Candidate reviewing an application with unavailable course option
     and_i_chose_course_options_that_have_since_become_unavailable
 
     when_i_visit_the_review_application_page
-
     then_i_see_a_warning_for_the_course_that_is_not_running
     then_i_see_a_warning_for_the_course_with_no_vacancies
     then_i_see_a_warning_for_the_course_with_no_vacancies_at_my_chosen_site
+
+    when_i_submit_the_application
+    then_i_see_error_messages_for_the_things_i_was_warned_about
   end
 
   def given_i_am_signed_in
@@ -62,20 +64,38 @@ RSpec.feature 'Candidate reviewing an application with unavailable course option
   end
 
   def then_i_see_a_warning_for_the_course_that_is_not_running
-    warning_message = \
-      "You cannot apply to '#{@option_where_course_not_running.course.name_and_code}' because it is not running"
-    expect(page).to have_content warning_message
+    expect(page).to have_content course_not_running_message
   end
 
   def then_i_see_a_warning_for_the_course_with_no_vacancies
-    warning_message = \
-      "You cannot apply to '#{@option_where_course_has_no_vacancies.course.name_and_code}' because it has no vacancies"
-    expect(page).to have_content warning_message
+    expect(page).to have_content course_has_no_vacancies_message
   end
 
   def then_i_see_a_warning_for_the_course_with_no_vacancies_at_my_chosen_site
-    warning_message = \
-      "Your chosen site for '#{@option_where_no_vacancies_at_chosen_site.course.name_and_code}' has no vacancies."
-    expect(page).to have_content warning_message
+    expect(page).to have_content chosen_site_has_no_vacancies_message
+  end
+
+  def when_i_submit_the_application
+    click_link 'Continue'
+  end
+
+  def then_i_see_error_messages_for_the_things_i_was_warned_about
+    within('.govuk-error-summary') do
+      expect(page).to have_content course_not_running_message
+    end
+  end
+
+private
+
+  def course_not_running_message
+    "You cannot apply to '#{@option_where_course_not_running.course.provider_and_name_code}' because it is not running"
+  end
+
+  def course_has_no_vacancies_message
+    "You cannot apply to '#{@option_where_course_has_no_vacancies.course.provider_and_name_code}' because it has no vacancies"
+  end
+
+  def chosen_site_has_no_vacancies_message
+    "Your chosen site for '#{@option_where_no_vacancies_at_chosen_site.course.provider_and_name_code}' has no vacancies"
   end
 end
