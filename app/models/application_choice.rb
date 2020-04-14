@@ -58,6 +58,10 @@ class ApplicationChoice < ApplicationRecord
     I18n.t('errors.application_choices.course_not_available', descriptor: course.provider_and_name_code)
   end
 
+  def course_closed_on_apply?
+    course_option.course_closed_on_apply?
+  end
+
   def course_full?
     course_option.course_full?
   end
