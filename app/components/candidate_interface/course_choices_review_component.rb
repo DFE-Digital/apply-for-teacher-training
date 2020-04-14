@@ -3,7 +3,15 @@ module CandidateInterface
     include ViewHelper
     validates :application_form, presence: true
 
-    def initialize(application_form:, editable: true, heading_level: 2, show_status: false, show_incomplete: false, missing_error: false)
+    def initialize(
+      application_form:,
+      editable: true,
+      heading_level: 2,
+      show_status: false,
+      show_incomplete: false,
+      missing_error: false,
+      application_choice_error: false
+    )
       @application_form = application_form
       @course_choices = @application_form.application_choices.includes(:course, :site, :provider, :offered_course_option).order(id: :asc)
       @editable = editable
@@ -11,6 +19,7 @@ module CandidateInterface
       @show_status = show_status
       @show_incomplete = show_incomplete
       @missing_error = missing_error
+      @application_choice_error = application_choice_error
     end
 
     def course_choice_rows(course_choice)
@@ -64,13 +73,14 @@ module CandidateInterface
       end
     end
 
-    def warning_css_class(course_choice)
+    def warning_container_css_class(course_choice)
       return unless FeatureFlag.active?('unavailable_course_option_warnings')
 
       if course_choice.course_option_availability_error?
-        'app-review-warning'
+        @application_choice_error ? 'app-review-warning app-review-warning--error' : 'app-review-warning'
       end
     end
+
 
   private
 

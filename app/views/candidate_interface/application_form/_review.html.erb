@@ -1,8 +1,18 @@
 <% missing_error = @errors && @errors.any? %>
+<% application_choice_error = @application_choice_errors && @application_choice_errors.any? %>
 
 <h2 class="govuk-heading-m govuk-!-font-size-27">Courses</h2>
 
-<%= render(CandidateInterface::CourseChoicesReviewComponent.new(application_form: application_form, editable: editable, heading_level: 3, show_incomplete: true, missing_error: missing_error)) %>
+<%= render(
+  CandidateInterface::CourseChoicesReviewComponent.new(
+    application_form: application_form,
+    editable: editable,
+    heading_level: 3,
+    show_incomplete: true,
+    missing_error: missing_error,
+    application_choice_error: application_choice_error,
+  )
+) %>
 
 <h2 class="govuk-heading-m govuk-!-font-size-27">About you</h2>
 
