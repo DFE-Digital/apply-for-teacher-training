@@ -87,4 +87,15 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '#references_where_feedback_requested_or_feedback_provided' do
+    it 'only returns references with a status of feedback requested or feedback provided' do
+      application_form = create(:application_form)
+      reference1 = create(:reference, application_form: application_form, feedback_status: 'feedback_provided')
+      reference2 = create(:reference, application_form: application_form, feedback_status: 'feedback_requested')
+      create(:reference, application_form: application_form, feedback_status: 'cancelled')
+
+      expect(application_form.references_where_feedback_requested_or_feedback_provided).to eq([reference1, reference2])
+    end
+  end
 end

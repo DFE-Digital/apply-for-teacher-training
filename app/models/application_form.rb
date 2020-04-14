@@ -109,6 +109,10 @@ class ApplicationForm < ApplicationRecord
     application_choices.none?(&:edit_by_expired?)
   end
 
+  def references_where_feedback_requested_or_feedback_provided
+    application_references.select { |reference| reference.feedback_status == 'feedback_requested' || reference.feedback_status == 'feedback_provided' }
+  end
+
   def blank_application?
     updated_at == created_at
   end

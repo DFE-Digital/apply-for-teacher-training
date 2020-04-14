@@ -33,6 +33,11 @@ RSpec.describe 'Cancelling a reference' do
     when_i_click_referees
     then_my_previous_reference_should_be_cancelled
     and_my_new_reference_should_have_been_added
+
+    when_i_click_delete_on_another_reference
+    and_i_click_confirm_delete
+    and_i_visit_the_review_page
+    then_i_should_be_able_to_add_a_third_referee
   end
 
   def given_the_training_with_a_disability_flag_is_active
@@ -129,5 +134,22 @@ RSpec.describe 'Cancelling a reference' do
 
   def and_my_new_reference_should_have_been_added
     expect(page).to have_content('AO Reference')
+  end
+
+  def when_i_click_delete_on_another_reference
+    @reference = ApplicationReference.last
+    click_link "Delete referee #{@reference.name}"
+  end
+
+  def and_i_click_confirm_delete
+    when_i_click_confirm_delete
+  end
+
+  def and_i_visit_the_review_page
+    visit candidate_interface_review_referees_path
+  end
+
+  def then_i_should_be_able_to_add_a_third_referee
+    expect(page).to have_content('Add referee')
   end
 end

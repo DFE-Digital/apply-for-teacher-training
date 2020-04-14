@@ -10,15 +10,20 @@
 <%= render(CandidateInterface::RefereesReviewComponent.new(application_form: @application_form, editable: editable)) %>
 
 <%- if @referees.count < ApplicationForm::MINIMUM_COMPLETE_REFERENCES %>
-<p>
-  <% new_referee_path = FeatureFlag.active?('referee_type') ? candidate_interface_referees_type_path : candidate_interface_new_referee_path %>
+  <p>
+    <% new_referee_path = FeatureFlag.active?('referee_type') ? candidate_interface_referees_type_path : candidate_interface_new_referee_path %>
 
-  <% if @referees.any? %>
-    <%= govuk_button_link_to t('application_form.referees.add_second_referee'), new_referee_path, class: 'govuk-button--secondary' %>
-  <% else %>
-    <%= govuk_button_link_to t('application_form.referees.add_referee'), new_referee_path, class: 'govuk-button--secondary' %>
-  <% end %>
-</p>
+    <% if @referees.any? %>
+      <%= govuk_button_link_to t('application_form.referees.add_second_referee'), new_referee_path, class: 'govuk-button--secondary' %>
+    <% else %>
+      <%= govuk_button_link_to t('application_form.referees.add_referee'), new_referee_path, class: 'govuk-button--secondary' %>
+    <% end %>
+  </p>
+
+<% elsif @application_form.references_where_feedback_requested_or_feedback_provided.count < ApplicationForm::MINIMUM_COMPLETE_REFERENCES && FeatureFlag.active?('candidate_cancels_reference') %>
+  <p>
+    <%= govuk_button_link_to t('application_form.referees.add_referee'), candidate_interface_additional_referee_type_path, class: 'govuk-button--secondary' %>
+  </p>
 <%- end %>
 
 <p>
