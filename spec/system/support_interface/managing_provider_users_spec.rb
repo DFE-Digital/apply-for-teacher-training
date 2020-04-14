@@ -14,12 +14,12 @@ RSpec.feature 'Managing provider users' do
     and_i_click_the_manange_provider_users_link
     and_i_click_the_add_user_link
     and_i_enter_an_existing_email
-    and_i_check_allow_user_to_invite_other_users
     and_i_click_add_user
     then_i_see_an_error
 
     and_i_enter_the_users_email_and_name
     and_i_select_a_provider
+    and_i_check_permission_to_manage_users
     and_i_click_add_user
 
     then_i_should_see_the_list_of_provider_users
@@ -36,7 +36,7 @@ RSpec.feature 'Managing provider users' do
     when_they_have_signed_in_at_least_once
     and_i_reload_the_page
     then_their_email_should_be_editable
-    and_they_should_be_able_to_invite_other_users
+    and_they_should_be_able_to_manage_users
   end
 
   def given_dfe_signin_is_configured
@@ -48,7 +48,7 @@ RSpec.feature 'Managing provider users' do
   end
 
   def and_providers_exist
-    create(:provider, name: 'Example provider', code: 'ABC')
+    @provider = create(:provider, name: 'Example provider', code: 'ABC')
     create(:provider, name: 'Another provider', code: 'DEF')
   end
 
@@ -68,6 +68,12 @@ RSpec.feature 'Managing provider users' do
     check 'Example provider (ABC)'
   end
 
+  def and_i_check_permission_to_manage_users
+    within("#support-interface-provider-user-form-provider-ids-#{@provider.id}-conditional") do
+      check 'Manage users'
+    end
+  end
+
   def and_i_click_the_add_user_link
     click_link 'Add provider user'
   end
@@ -85,10 +91,6 @@ RSpec.feature 'Managing provider users' do
     fill_in 'support_interface_provider_user_form[email_address]', with: 'harrison@example.com'
     fill_in 'support_interface_provider_user_form[first_name]', with: 'Harrison'
     fill_in 'support_interface_provider_user_form[last_name]', with: 'Bergeron'
-  end
-
-  def and_i_check_allow_user_to_invite_other_users
-    check 'Allow this user to invite others'
   end
 
   def and_i_click_add_user
@@ -142,7 +144,9 @@ RSpec.feature 'Managing provider users' do
     expect(page).to have_field 'Email address', disabled: false
   end
 
-  def and_they_should_be_able_to_invite_other_users
-    expect(page).to have_field('Allow this user to invite others', checked: true)
+  def and_they_should_be_able_to_manage_users
+    within("#support-interface-provider-user-form-provider-ids-#{@provider.id}-conditional") do
+      expect(page).to have_checked_field('Manage users')
+    end
   end
 end
