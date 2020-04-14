@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @referee, url: candidate_interface_destroy_referee_path(@referee.id), method: :delete do |f| %>
+    <%= form_with model: @referee, url: candidate_interface_cancel_referee_request_path(@referee.id), method: :patch do |f| %>
       <h1 class="govuk-heading-xl">
         <span class="govuk-caption-xl"><%= @referee.name %></span>
         <%= t('page_titles.referee_destroy') %>

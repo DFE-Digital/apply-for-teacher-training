@@ -267,6 +267,7 @@ Rails.application.routes.draw do
         patch '/update/:id' => 'referees#update', as: :update_referee
 
         get '/delete/:id' => 'referees#confirm_destroy', as: :confirm_destroy_referee
+        patch '/delete/:id' => 'referees#cancel_referee_request', as: :cancel_referee_request
         delete '/delete/:id' => 'referees#destroy', as: :destroy_referee
       end
 

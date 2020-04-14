@@ -23,9 +23,16 @@ RSpec.describe 'Cancelling a reference' do
     then_i_should_see_the_new_referee_page
 
     when_i_fill_in_the_form
-    and_i_click_save_and_continue
-    then_i_should_see_the_referee_review_page
-    and_my_reference_should_have_been_added
+    and_click_continue
+    then_i_should_see_the_confirm_referee_page
+
+    when_i_click_confirm_new_referee
+    then_my_new_referee_should_receive_a_reference_request_email
+    and_i_should_see_the_application_page
+
+    when_i_click_referees
+    then_my_previous_reference_should_be_cancelled
+    and_my_new_reference_should_have_been_added
   end
 
   def given_the_training_with_a_disability_flag_is_active
@@ -67,7 +74,7 @@ RSpec.describe 'Cancelling a reference' do
   end
 
   def then_i_should_see_the_add_referee_type_page
-    expect(page).to have_current_path(candidate_interface_referees_type_path)
+    expect(page).to have_current_path(candidate_interface_additional_referee_type_path)
   end
 
   def and_the_referee_should_be_sent_a_cancelation_email
@@ -85,7 +92,7 @@ RSpec.describe 'Cancelling a reference' do
   end
 
   def then_i_should_see_the_new_referee_page
-    expect(page).to have_current_path(candidate_interface_new_referee_path(:academic))
+    expect(page).to have_current_path(candidate_interface_new_additional_referee_path(type: 'academic'))
   end
 
   def when_i_fill_in_the_form
@@ -94,15 +101,33 @@ RSpec.describe 'Cancelling a reference' do
     fill_in 'What is your relationship to this referee and how long have you known them?', with: 'Just somebody I used to know'
   end
 
-  def and_i_click_save_and_continue
-    click_button 'Save and continue'
+  def then_i_should_see_the_confirm_referee_page
+    expect(page).to have_current_path(candidate_interface_confirm_additional_referees_path)
   end
 
-  def then_i_should_see_the_referee_review_page
-    expect(page).to have_current_path(candidate_interface_review_referees_path)
+  def when_i_click_confirm_new_referee
+    click_button 'Confirm new referee'
   end
 
-  def and_my_reference_should_have_been_added
+  def then_my_new_referee_should_receive_a_reference_request_email
+    open_email('betty@example.com')
+
+    expect(current_email.subject).to have_content(t('reference_request.subject.initial', candidate_name: ApplicationForm.first.full_name))
+  end
+
+  def and_i_should_see_the_application_page
+    expect(page).to have_current_path(candidate_interface_application_form_path)
+  end
+
+  def when_i_click_referees
+    click_link 'Referees'
+  end
+
+  def then_my_previous_reference_should_be_cancelled
+    expect(first('.app-summary-card__body')).to have_content 'Cancelled'
+  end
+
+  def and_my_new_reference_should_have_been_added
     expect(page).to have_content('AO Reference')
   end
 end

@@ -27,9 +27,8 @@
     <%= render(CandidateInterface::RefereesReviewComponent.new(application_form: @application_form, editable: false)) %>
 
     <% if @application_form.submitted? && @application_form.application_references.count < 2 && FeatureFlag.active?('candidate_cancels_reference') %>
-      <%= govuk_button_link_to t('application_form.referees.add_referee'), candidate_interface_referees_type_path, class: 'govuk-button govuk-!-margin-top-4' %>
+      <%= govuk_button_link_to t('application_form.referees.add_referee'), candidate_interface_additional_referee_type_path, class: 'govuk-button govuk-!-margin-top-4' %>
     <% end %>
-
   </div>
 
   <div class="govuk-grid-column-one-third">

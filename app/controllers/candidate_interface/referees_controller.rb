@@ -1,8 +1,8 @@
 module CandidateInterface
   class RefereesController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_not_amendable
-    before_action :redirect_to_review_referees_if_amendable_and_two_referees_are_present, except: %i[index review destroy confirm_destroy]
-    before_action :set_referee, only: %i[edit update confirm_destroy destroy]
+    before_action :redirect_to_review_referees_if_amendable_and_two_referees_are_present, except: %i[index review destroy confirm_destroy cancel_referee_request]
+    before_action :set_referee, only: %i[edit update confirm_destroy destroy cancel_referee_request]
     before_action :set_referees, only: %i[type update_type new create index review]
 
     def index
@@ -74,19 +74,17 @@ module CandidateInterface
       @application_form = current_application
     end
 
+    def cancel_referee_request
+      @referee.update!(feedback_status: 'cancelled')
+      RefereeMailer.reference_cancelled_email(current_application, @referee).deliver_later
+
+      redirect_to candidate_interface_additional_referee_type_path
+    end
+
     def destroy
-      if FeatureFlag.active?('candidate_cancels_reference') && current_application.submitted?
-        ActiveRecord::Base.transaction do
-          RefereeMailer.reference_cancelled_email(current_application, @referee).deliver_later
-          @referee.destroy!
+      @referee.destroy!
 
-          redirect_to candidate_interface_referees_type_path
-        end
-      else
-        @referee.destroy!
-
-        redirect_to candidate_interface_referees_path
-      end
+      redirect_to candidate_interface_referees_path
     end
 
     def review
