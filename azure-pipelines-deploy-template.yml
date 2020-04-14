@@ -74,7 +74,7 @@ jobs:
       system.debug: ${{parameters.debug}}
 
     pool:
-      vmImage: windows-latest
+      vmImage: windows-2019
 
     strategy:
       runOnce:
@@ -268,7 +268,7 @@ jobs:
                 }
 
                 foreach ( $container in $containers ) {
-                  $containerConfig = az group deployment show --resource-group $resourceGroupName --name "container-instances-$($container)" | ConvertFrom-Json
+                  $containerConfig = az deployment group show --resource-group $resourceGroupName --name "container-instances-$($container)" | ConvertFrom-Json
 
                   $envVars = @()
                   $secureEnvVars = @()
