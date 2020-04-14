@@ -75,10 +75,16 @@ module CandidateInterface
     end
 
     def destroy
-      @referee.destroy!
       if FeatureFlag.active?('candidate_cancels_reference') && current_application.submitted?
-        redirect_to candidate_interface_referees_type_path
+        ActiveRecord::Base.transaction do
+          RefereeMailer.reference_cancelled_email(current_application, @referee).deliver_later
+          @referee.destroy!
+
+          redirect_to candidate_interface_referees_type_path
+        end
       else
+        @referee.destroy!
+
         redirect_to candidate_interface_referees_path
       end
     end

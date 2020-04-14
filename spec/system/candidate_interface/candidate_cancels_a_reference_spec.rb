@@ -16,6 +16,7 @@ RSpec.describe 'Cancelling a reference' do
 
     when_i_click_confirm_delete
     then_i_should_see_the_add_referee_type_page
+    and_the_referee_should_be_sent_a_cancelation_email
 
     when_i_choose_academic
     and_click_continue
@@ -67,6 +68,12 @@ RSpec.describe 'Cancelling a reference' do
 
   def then_i_should_see_the_add_referee_type_page
     expect(page).to have_current_path(candidate_interface_referees_type_path)
+  end
+
+  def and_the_referee_should_be_sent_a_cancelation_email
+    open_email(@reference.email_address)
+
+    expect(current_email.subject).to have_content(t('reference_cancelled_email.subject', candidate_name: ApplicationForm.first.full_name))
   end
 
   def when_i_choose_academic
