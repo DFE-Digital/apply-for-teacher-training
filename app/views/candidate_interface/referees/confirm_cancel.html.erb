@@ -1,0 +1,25 @@
+<% content_for :title, t('page_titles.referee_cancel') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_review_referees_path, 'Back') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @referee, url: candidate_interface_cancel_referee_path(@referee.id), method: :patch do |f| %>
+      <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl"><%= @referee.name %></span>
+        <%= t('page_titles.referee_cancel') %>
+      </h1>
+
+      <p class='govuk-body'>You have <%= formatted_days_remaining %> (until <%= edit_by_date %>) to edit your application or change your referee.</p>
+
+      <p class='govuk-body'> You will need to provide another referee as we can't send your application to your teacher training providers without 2 complete references.</p>
+
+      <p class='govuk-body'> <%= @referee.name %> will be informed that they do not need to provide a reference.</p>
+
+      <%= f.submit t('application_form.referees.sure_delete_entry'), class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to 'Cancel', candidate_interface_review_referees_path %>
+      </p>
+    <% end %>
+  </div>
+</div>

@@ -290,6 +290,7 @@ en:
       add_second_referee: Add a second referee
       complete_form_button: Save and continue
       delete: Delete referee
+      cancel: Cancel referee
       email_address:
         label: Email address
         hint_text:
@@ -320,7 +321,6 @@ en:
       info:
         before_submission: We’ll contact your referees after you submit your application. We’ll let you know if they don’t supply a reference.
         after_submission: We’ve contacted the referees you provided below. We’ll let you know if they don’t supply a reference.
-        after_submission_with_replacement_needed: You need to provide another referee. We can't send your application to your teacher training providers without 2 complete references.
   activemodel:
     errors:
       models:
