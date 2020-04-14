@@ -36,6 +36,11 @@ private
     }
 
     response = HTTP.post(@webhook_url, body: payload.to_json)
-  rescue StandardError => e
+
+    unless response.status.success?
+      raise SlackMessageError, "Slack error: #{response.body}"
+    end
   end
+
+  class SlackMessageError < StandardError; end
 end
