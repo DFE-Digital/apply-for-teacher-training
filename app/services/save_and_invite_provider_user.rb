@@ -14,7 +14,10 @@ class SaveAndInviteProviderUser
         invite_service.call!
       end
     end
-  rescue DfeSignInApiError => e
-    e.errors.each { |error| form.errors.add(:base, error) }
+  rescue DfeSignInApiError
+    form.errors.add(
+      :base,
+      'A problem occurred inviting this user. Please try again. If problems persist, please contact support.',
+    )
   end
 end
