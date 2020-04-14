@@ -24,11 +24,7 @@
 
     <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">References</h2>
 
-    <% if FeatureFlag.active?('candidate_cancels_reference') %>
-      <%= render(CandidateInterface::RefereesReviewComponent.new(application_form: @application_form, editable: true)) %>
-    <% else %>
-      <%= render(CandidateInterface::RefereesReviewComponent.new(application_form: @application_form, editable: false)) %>
-    <% end %>
+    <%= render(CandidateInterface::RefereesReviewComponent.new(application_form: @application_form, editable: false)) %>
 
     <% if @application_form.submitted? && @application_form.application_references.count < 2 && FeatureFlag.active?('candidate_cancels_reference') %>
       <%= govuk_button_link_to t('application_form.referees.add_referee'), candidate_interface_referees_type_path, class: 'govuk-button govuk-!-margin-top-4' %>

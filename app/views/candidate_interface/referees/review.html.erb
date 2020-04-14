@@ -5,11 +5,7 @@
   <%= t('page_titles.referees') %>
 </h1>
 
-<% if FeatureFlag.active?('candidate_cancels_reference') %>
-  <% editable = true %>
-<% else %>
-  <% editable = @application_form.amendable? ? false : true %>
-<% end %>
+<% editable = @application_form.amendable? ? false : true %>
 
 <%= render(CandidateInterface::RefereesReviewComponent.new(application_form: @application_form, editable: editable)) %>
 

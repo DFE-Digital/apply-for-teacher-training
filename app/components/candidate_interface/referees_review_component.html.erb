@@ -11,7 +11,7 @@
 <% @application_form.application_references.includes(:application_form).each do |referee| %>
   <%= render(SummaryCardComponent.new(rows: referee_rows(referee), editable: @editable)) do %>
     <%= render(SummaryCardHeaderComponent.new(title: t('application_form.referees.nth_referee')[referee.ordinal], heading_level: @heading_level)) do %>
-      <% if @editable %>
+      <% if FeatureFlag.active?('candidate_cancels_reference') %>
         <div class="app-summary-card__actions">
           <%= link_to candidate_interface_destroy_referee_path(referee.id), class: 'govuk-link' do %>
             <%= t('application_form.referees.delete') %>
