@@ -6,7 +6,7 @@ All the steps required to create and deploy to an Azure environment are written 
 For deploying to a new environment, we need to configure the required variables in a variable group that will hold the values to be passed as parameters to the pipeline deployment steps.
 
 Below are the existing variables groups used in the apply pipelines.
-The groups with `APPLY - ENV` suffix hold environment specific values.
+The groups with `APPLY - ENV` prefix hold environment specific values.
 Variable Groups |
 ------------ |
 APPLY - ENV - DevOps |
