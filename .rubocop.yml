@@ -122,3 +122,4 @@ Style/HashTransformValues:
 
 Naming/MemoizedInstanceVariableName:
   Enabled: false
+

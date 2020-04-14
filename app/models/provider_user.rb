@@ -1,6 +1,7 @@
 class ProviderUser < ActiveRecord::Base
   has_many :provider_permissions, dependent: :destroy
   has_many :providers, through: :provider_permissions
+  has_many :notes, dependent: :destroy
 
   validates :dfe_sign_in_uid, uniqueness: true, allow_nil: true
 
