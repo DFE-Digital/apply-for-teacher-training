@@ -132,8 +132,8 @@ RSpec.feature 'Managing provider users' do
   end
 
   def when_they_have_signed_in_at_least_once
-    user = ProviderUser.find_by(email_address: 'harrison@example.com')
-    user.update!(dfe_sign_in_uid: 'ABC123')
+    @user = ProviderUser.find_by(email_address: 'harrison@example.com')
+    @user.update!(dfe_sign_in_uid: 'ABC123')
   end
 
   def and_i_reload_the_page
@@ -145,6 +145,8 @@ RSpec.feature 'Managing provider users' do
   end
 
   def and_they_should_be_able_to_manage_users
+    expect(@user.reload.provider_permissions.manage_users.first.provider).to eq(@provider)
+
     within("#support-interface-provider-user-form-provider-ids-#{@provider.id}-conditional") do
       expect(page).to have_checked_field('Manage users')
     end
