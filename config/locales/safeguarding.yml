@@ -1,0 +1,13 @@
+en:
+  provider_interface:
+    safeguarding_declaration_component:
+      has_safeguarding_issues_to_declare: 'The candidate has shared information related to safeguarding. Please contact them directly for more details.'
+      not_answered_yet: 'Not answered yet.'
+      never_asked: 'Never asked.'
+      no_safeguarding_issues_to_declare: 'No information shared.'
+  support_interface:
+    safeguarding_issues_component:
+      has_safeguarding_issues_to_declare: 'The candidate has shared information related to safeguarding.'
+      not_answered_yet: 'Not answered yet.'
+      never_asked: 'Never asked.'
+      no_safeguarding_issues_to_declare: 'No information shared.'

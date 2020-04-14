@@ -63,16 +63,20 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   def and_my_organisation_has_received_an_application
     course_option = course_option_for_provider_code(provider_code: 'ABC')
-    application_form = create(:application_form,
-                              submitted_at: Time.zone.now,
-                              becoming_a_teacher: 'This is my personal statement',
-                              subject_knowledge: 'This is my subject knowledge',
-                              interview_preferences: 'Any date is fine',
-                              further_information: 'Nothing further to add',
-                              english_main_language: true,
-                              other_language_details: 'I also speak Spanish and German',
-                              disclose_disability: true,
-                              disability_disclosure: 'I am hard of hearing')
+    application_form = create(
+      :application_form,
+      submitted_at: Time.zone.now,
+      becoming_a_teacher: 'This is my personal statement',
+      subject_knowledge: 'This is my subject knowledge',
+      interview_preferences: 'Any date is fine',
+      further_information: 'Nothing further to add',
+      english_main_language: true,
+      other_language_details: 'I also speak Spanish and German',
+      disclose_disability: true,
+      disability_disclosure: 'I am hard of hearing',
+      safeguarding_issues: 'I have something to say...',
+      safeguarding_issues_status: :has_safeguarding_issues_to_declare,
+    )
 
     create_list(:application_qualification, 1, application_form: application_form, level: :degree)
     create_list(:application_qualification, 2, application_form: application_form, level: :gcse)

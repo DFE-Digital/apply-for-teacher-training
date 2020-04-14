@@ -163,7 +163,8 @@ module CandidateInterface
     end
 
     def safeguarding_completed?
-      @application_form.safeguarding_issues.present?
+      @application_form.no_safeguarding_issues_to_declare? ||
+        @application_form.has_safeguarding_issues_to_declare?
     end
 
   private
