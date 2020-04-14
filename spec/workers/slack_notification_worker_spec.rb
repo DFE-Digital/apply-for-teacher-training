@@ -7,7 +7,6 @@ RSpec.describe SlackNotificationWorker do
   describe 'SlackNotificationWorker' do
     let(:text) { 'example text' }
     let(:url) { 'https://example.com/support' }
-    let(:output) { capture_logstash_output(rails_config) { invoke_worker } }
 
     around do |example|
       ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'TEST' do
@@ -19,14 +18,6 @@ RSpec.describe SlackNotificationWorker do
 
     def invoke_worker
       SlackNotificationWorker.new.perform(text, url)
-    end
-
-    it 'logs it has run to the default Rails logger' do
-      expect(output).not_to be_blank
-    end
-
-    it 'includes the text supplied in the log' do
-      expect(output).to match(text)
     end
 
     it 'does not send a Slack notification if STATE_CHANGE_SLACK_URL is empty' do
@@ -42,13 +33,6 @@ RSpec.describe SlackNotificationWorker do
           invoke_worker
         end
         expect(HTTP).to have_received(:post)
-      end
-
-      it 'warns about Slack notification failures in the logs' do
-        # allow(HTTP).to receive(:post).and_raise(StandardError)
-        ClimateControl.modify STATE_CHANGE_SLACK_URL: webhook_url do
-          expect(output).to match(/Notification to slack failed/)
-        end
       end
 
       it 'includes hyperlinked text, a username and an emoji' do
