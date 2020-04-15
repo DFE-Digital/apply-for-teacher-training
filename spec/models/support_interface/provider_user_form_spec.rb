@@ -32,6 +32,19 @@ RSpec.describe SupportInterface::ProviderUserForm do
     end
   end
 
+  describe '.permissions_for' do
+    let(:provider_user) { create(:provider_user, :with_provider) }
+
+    before { provider_user.provider_permissions.first.update(manage_users: true) }
+
+    it 'returns provider permissions for the given user as an OpenStruct' do
+      permissions = described_class.permissions_for(provider_user)
+
+      expect(permissions).to be_a(OpenStruct)
+      expect(permissions.manage_users).to eq(provider_user.providers.map(&:id))
+    end
+  end
+
   describe '#save' do
     context 'with invalid params' do
       it 'returns nil' do

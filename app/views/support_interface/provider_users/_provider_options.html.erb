@@ -2,22 +2,10 @@
   <div class="app-checkboxes-scroll" %>
     <% f.object.available_providers.each do |provider| %>
       <%= f.govuk_check_box :provider_ids, provider.id, label: { text: provider.name_and_code } do %>
-        <%= f.fields_for :permissions do |pm| %>
+        <%= f.fields_for :permissions, f.object.permissions  do |pm| %>
           <%= pm.govuk_check_boxes_fieldset :permissions, legend: { text: 'Choose permissions', size: 's' } do %>
-						<div class="govuk-checkboxes__item">
-<%# FIXME: Needs refactor, FormBuilder doesn't like the hash lookup for permissions hence the manual check box tag. %>
-							<%= check_box_tag(
-								'support_interface_provider_user_form[permissions][manage_users][]',
-								provider.id,
-								(f.object.permissions || {}).fetch(:manage_users, []).include?(provider.id),
-								class: 'govuk-checkboxes__input',
-								id: "support-interface-provider-user-form-permissions-manage-users-#{provider.id}-field",
-            	) %>
-
-							<label for="support-interface-provider-user-form-permissions-manage-users-<%= provider.id %>-field"
-										 class="govuk-label govuk-checkboxes__label">Manage users</label>
-						</div>
-          <% end %>
+            <%= pm.govuk_check_box :manage_users, provider.id, label: { text: 'Manage users' } %>
+					<% end %>
         <% end %>
       <% end %>
     <% end %>

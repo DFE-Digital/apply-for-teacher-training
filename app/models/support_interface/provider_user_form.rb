@@ -47,7 +47,7 @@ module SupportInterface
         last_name: provider_user.last_name,
         email_address: provider_user.email_address,
         provider_ids: provider_user.provider_ids,
-        permissions: permissions(provider_user),
+        permissions: permissions_for(provider_user),
       )
     end
 
@@ -57,10 +57,10 @@ module SupportInterface
       @provider_ids.reject(&:blank?)
     end
 
-    def self.permissions(provider_user)
-      {
-        manage_users: ProviderPermissions.manage_users.where(provider_user: provider_user).pluck(:provider_id),
-      }
+    def self.permissions_for(provider_user)
+      provider_permissions = ProviderPermissions.manage_users.where(provider_user: provider_user)
+
+      OpenStruct.new({ manage_users: provider_permissions.pluck(:provider_id) })
     end
 
   private
