@@ -24,10 +24,6 @@ module SupportInterface
       @provider_user if @provider_user.valid?
     end
 
-    def save
-      @provider_user.save! if build
-    end
-
     def email_address=(raw_email_address)
       @email_address = raw_email_address.downcase.strip
     end

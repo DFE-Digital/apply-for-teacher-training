@@ -44,25 +44,4 @@ RSpec.describe SupportInterface::ProviderUserForm do
       expect(permissions.manage_users).to eq(provider_user.providers.map(&:id))
     end
   end
-
-  describe '#save' do
-    context 'with invalid params' do
-      it 'returns nil' do
-        expect(provider_user_form.save).to be nil
-      end
-    end
-
-    context 'with valid params' do
-      let(:provider) { create(:provider) }
-      let(:provider_ids) { [provider.id] }
-
-      it 'saves a new ProviderUser' do
-        provider_user_form.save
-        provider_user = ProviderUser.last
-
-        expect(provider_user_form.persisted?).to be true
-        expect(provider_user.providers).to eq([provider])
-      end
-    end
-  end
 end
