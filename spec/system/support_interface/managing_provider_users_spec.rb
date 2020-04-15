@@ -37,6 +37,10 @@ RSpec.feature 'Managing provider users' do
     and_i_reload_the_page
     then_their_email_should_be_editable
     and_they_should_be_able_to_manage_users
+
+    when_i_remove_manage_users_permissions
+    and_i_click_update_user
+    then_they_should_not_be_able_to_manage_users
   end
 
   def given_dfe_signin_is_configured
@@ -149,6 +153,25 @@ RSpec.feature 'Managing provider users' do
 
     within("#support-interface-provider-user-form-provider-ids-#{@provider.id}-conditional") do
       expect(page).to have_checked_field('Manage users')
+    end
+  end
+
+  def when_i_remove_manage_users_permissions
+    within("#support-interface-provider-user-form-provider-ids-#{@provider.id}-conditional") do
+      uncheck 'Manage users'
+    end
+  end
+
+  def and_i_click_update_user
+    click_on 'Update user'
+  end
+
+  def then_they_should_not_be_able_to_manage_users
+    expect(@user.reload.provider_permissions.manage_users).to be_empty
+
+    within("#support-interface-provider-user-form-provider-ids-#{@provider.id}-conditional") do
+      expect(page).to have_field('Manage users')
+      expect(page).not_to have_checked_field('Manage users')
     end
   end
 end

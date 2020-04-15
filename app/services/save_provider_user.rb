@@ -13,11 +13,16 @@ class SaveProviderUser
   end
 
   def update_permissions
-    @permissions.each do |permission, provider_ids|
-      ProviderPermissions.where(
-        provider_user: @provider_user,
-        provider_id: provider_ids,
-      ).update_all(permission => true)
+    ActiveRecord::Base.transaction do
+      ProviderPermissions
+        .where(provider_user: @provider_user)
+        .update_all(reset_permissions_attrs)
+
+      @permissions.each do |permission, provider_ids|
+        ProviderPermissions
+          .where(provider_user: @provider_user, provider_id: provider_ids)
+          .update_all(permission => true)
+      end
     end
   end
 
@@ -28,6 +33,12 @@ class SaveProviderUser
       provider_ids.map!(&:to_i)
       VALID_PERMISSIONS.include?(permission_name.to_sym) &&
         (provider_ids & @provider_user.provider_ids) == provider_ids
+    end
+  end
+
+  def reset_permissions_attrs
+    {}.tap do |hash|
+      VALID_PERMISSIONS.each { |p| hash[p] = false }
     end
   end
 end

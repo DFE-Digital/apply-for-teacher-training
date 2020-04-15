@@ -31,10 +31,11 @@ module SupportInterface
 
     def update
       provider_user = ProviderUser.find(params[:id])
+      provider_user.assign_attributes(provider_user_params.except(:permissions))
       @form = ProviderUserForm.from_provider_user(provider_user)
-      @form.assign_attributes provider_user_params
+      service = SaveProviderUser.new(provider_user: provider_user, permissions: permissions_params)
 
-      if @form.save
+      if service.call!
         flash[:success] = 'Provider user updated'
         redirect_to edit_support_interface_provider_user_path(provider_user)
       else
