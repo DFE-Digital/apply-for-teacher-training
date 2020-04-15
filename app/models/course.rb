@@ -49,7 +49,7 @@ class Course < ApplicationRecord
   end
 
   def provider_and_name_code
-    "#{provider.name} - #{name} (#{code})"
+    "#{provider.name} - #{name_and_code}"
   end
 
   def both_study_modes_available?
