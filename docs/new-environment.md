@@ -24,7 +24,9 @@ To create a new environment, clone an existing environment specific variable gro
 
 There are two deployment stages defined in `azure-pipelines.yml`, `deploy_qa` and `deploy_devops` to deploy to QA and DevOps environment respectively. `deploy_qa` stage is run only if the build is triggered for the `master` branch and `deploy_devops` stage only if the build is triggered from a branch name defined in `devDeployBranchNameOverride` variable inside the `APPLY - ENV - DevOps` variable group.
 
-To create or deploy to a new environment, create a new stage in the pipeline by cloning an existing stage and modifying the run conditions and variables.  
+To create or deploy to a new environment, create a new stage in the pipeline by cloning an existing stage and modifying the run conditions and variables.
+
+Use `azure-pipelines.yml` for new test environments and `azure-pipelines-release.yml` for environments in production.
 
 Make sure to change the `subscriptionPrefix` and `subscriptionName` to reflect the correct Azure Subscription to be used for the new environment.  
 
@@ -33,6 +35,16 @@ The value used for `resourceEnvironmentName` should be used as the prefix for th
 `customAvailabilityMonitors` value should be changed to be used the same host as defined in `authorisedHosts`.
 
 >Eg: If `resourceEnvironmentName` is `d02` and the azure subscription is `s106`, `authorisedHosts` value should be `s106d02-apply-as.azurewebsites.net,s106d02-apply-as-staging.azurewebsites.net`
+
+`resourceEnvironmentName` should follow the below naming format as a policy.
+
+Format | Environment |
+------------ | ------------ |
+dNN | Dev & QA |
+tNN | Staging |
+pNN | Production |
+
+`NN` is a number with 2 digit places. 
 
 The first step defined in the deploy template is a script which determines if a full ARM deployment is required.
 A full ARM deployment will be run when the pipeline is triggered for the first time after a new stage is configured.
@@ -56,3 +68,7 @@ in question.
 INSERT INTO support_users (email_address, dfe_sign_in_uid, created_at, updated_at) 
 VALUES ('EMAIL', 'UID', current_timestamp, current_timestamp);
 ```
+
+## Removing an environment
+
+When there is no longer a need for a environment, please delete all the resources in the environment by deleting the resource group from the Azure portal. Also make sure to delete the corresponding variable group inside Azure DevOps and remove the stages from corresponding pipeline yml file.
