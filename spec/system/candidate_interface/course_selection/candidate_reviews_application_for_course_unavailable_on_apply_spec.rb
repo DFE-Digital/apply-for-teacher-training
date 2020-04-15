@@ -12,7 +12,7 @@ RSpec.feature 'Candidate reviews an application to a course that becomes unavail
     when_i_have_completed_my_application
     and_the_course_i_selected_is_no_longer_open_on_apply
     and_i_review_my_application
-    then_i_should_see_that_my_course_is_no_longer_available
+    then_i_should_see_that_my_course_is_no_longer_on_apply
   end
 
   def given_i_am_signed_in
@@ -45,8 +45,8 @@ RSpec.feature 'Candidate reviews an application to a course that becomes unavail
     when_i_click_on_check_your_answers
   end
 
-  def then_i_should_see_that_my_course_is_no_longer_available
-    expect(page).to have_content("You cannot apply to '#{Course.last.name_and_code}' because it is not running.")
+  def then_i_should_see_that_my_course_is_no_longer_on_apply
+    expect(page).to have_content("'#{Course.last.name_and_code}' is not available on Apply for teacher training anymore.")
   end
 
   def and_i_visit_the_application_form_page
