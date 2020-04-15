@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate reviews an application to a course that becomes unavailable' do
+RSpec.feature 'Candidate reviews an application to a course that becomes unavailable on apply' do
   include CandidateHelper
 
   scenario 'Candidate with a completed application' do
@@ -12,7 +12,6 @@ RSpec.feature 'Candidate reviews an application to a course that becomes unavail
     when_i_have_completed_my_application
     and_the_course_i_selected_is_no_longer_open_on_apply
     and_i_review_my_application
-
     then_i_should_see_that_my_course_is_no_longer_available
   end
 
