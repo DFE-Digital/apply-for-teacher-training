@@ -37,10 +37,10 @@ RSpec.describe SupportInterface::ProviderUserForm do
 
     before { provider_user.provider_permissions.first.update(manage_users: true) }
 
-    it 'returns provider permissions for the given user as an OpenStruct' do
+    it 'returns provider permissions for the given user' do
       permissions = described_class.permissions_for(provider_user)
 
-      expect(permissions).to be_a(OpenStruct)
+      expect(permissions).to be_a(ProviderPermissionsOptions)
       expect(permissions.manage_users).to eq(provider_user.providers.map(&:id))
     end
   end

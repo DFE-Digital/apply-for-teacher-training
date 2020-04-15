@@ -60,7 +60,7 @@ module SupportInterface
     def self.permissions_for(provider_user)
       provider_permissions = ProviderPermissions.manage_users.where(provider_user: provider_user)
 
-      OpenStruct.new({ manage_users: provider_permissions.pluck(:provider_id) })
+      ProviderPermissionsOptions.new(manage_users: provider_permissions.pluck(:provider_id))
     end
 
   private
