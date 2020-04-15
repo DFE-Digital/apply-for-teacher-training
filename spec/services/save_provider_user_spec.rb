@@ -39,5 +39,22 @@ RSpec.describe SaveProviderUser do
 
       expect(expected_permissions.count).to eq(1)
     end
+
+    context 'for permissions on unassigned providers' do
+      let(:another_provider) { create(:provider) }
+      let(:permissions) { { manage_users: [provider.id, another_provider.id] } }
+
+      it 'ignores permissions for these providers' do
+        @provider_user = service.call!
+
+        providers_for_permissions = ProviderPermissions.where(
+          provider_user: @provider_user,
+          manage_users: true,
+        ).map(&:provider).flatten
+
+        expect(providers_for_permissions).to include(provider)
+        expect(providers_for_permissions).not_to include(another_provider)
+      end
+    end
   end
 end

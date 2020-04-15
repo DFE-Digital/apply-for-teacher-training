@@ -10,6 +10,8 @@ class SaveProviderUser
     @provider_user.reload
   end
 
+private
+
   def update_permissions
     ActiveRecord::Base.transaction do
       ProviderPermissions
@@ -25,12 +27,15 @@ class SaveProviderUser
   end
 
   def sanitized_permissions(permissions)
-    return {} unless @provider_user
+    result = {}
+    return result unless @provider_user
 
-    permissions.select do |permission_name, provider_ids|
-      provider_ids.map!(&:to_i)
-      ProviderPermissionsOptions.valid?(permission_name) &&
-        (provider_ids & @provider_user.provider_ids) == provider_ids
+    permissions.each do |permission_name, provider_ids|
+      if ProviderPermissionsOptions.valid?(permission_name)
+        result[permission_name] = provider_ids.map(&:to_i) & @provider_user.provider_ids
+      end
     end
+
+    result
   end
 end
