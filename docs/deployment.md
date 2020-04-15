@@ -61,7 +61,7 @@ checklist](deployment_checklist.md) before declaring the deploy finished.
 
 ## 7. Move deploy cards to done
 
-Tell your team mates that their work has gone out, and move over all of the cards in "Ready to deploy" to "Product review & launch 🚀" on the [Candidate board](https://trello.com/b/aRIgjf0y/candidate-team-board) and [ProVendor board](https://trello.com/b/5IiPW0Ok/team-board-apply).
+Tell your team mates that their work has gone out. They should now move over their deployed cards in "Ready to deploy" to "Product review & launch 🚀" on the [Candidate board](https://trello.com/b/aRIgjf0y/candidate-team-board) and/or [ProVendor board](https://trello.com/b/5IiPW0Ok/team-board-apply).
 
 ## Rolling back
 
