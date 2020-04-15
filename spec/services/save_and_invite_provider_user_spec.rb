@@ -12,8 +12,8 @@ RSpec.describe SaveAndInviteProviderUser do
   }
   let(:permissions) { { manage_users: [provider.id] } }
   let(:provider_user) { form.build }
-  let(:save_service) { SaveProviderUser.new(provider_user: provider_user, permissions: permissions) }
-  let(:invite_service) { InviteProviderUser.new(provider_user: provider_user) }
+  let(:save_service) { instance_double(SaveProviderUser, call!: true) }
+  let(:invite_service) { instance_double(InviteProviderUser, call!: true) }
 
   describe '#initialize' do
     it 'requires a form, create service and invite service' do
@@ -32,7 +32,6 @@ RSpec.describe SaveAndInviteProviderUser do
     context 'an error occurs in create service' do
       before do
         allow(save_service).to receive(:call!).and_raise(ActiveRecord::RecordInvalid)
-        allow(invite_service).to receive(:call!)
       end
 
       it 'exits the transactioni and raises the error' do
@@ -51,10 +50,7 @@ RSpec.describe SaveAndInviteProviderUser do
     end
 
     context 'a DfeSignInApiError occurs' do
-      let(:bad_response) { instance_double(HTTP::Response, body: { 'errors': %w[bad] }.to_json, status: 500) }
-      let(:exception) { DfeSignInApiError.new(bad_response) }
-
-      before { allow(invite_service).to receive(:call!).and_raise(exception) }
+      before { allow(invite_service).to receive(:call!).and_raise(DfeSignInApiError) }
 
       it 'rolls back the transaction' do
         expect { service.call }.not_to change(ProviderUser, :count)
