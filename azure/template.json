@@ -655,14 +655,6 @@
                                 "value": "[parameters('basicAuthPassword')]"
                             },
                             {
-                                "name": "SUPPORT_USERNAME",
-                                "value": "[parameters('supportUsername')]"
-                            },
-                            {
-                                "name": "SUPPORT_PASSWORD",
-                                "secureValue": "[parameters('supportPassword')]"
-                            },
-                            {
                                 "name": "AUTHORISED_HOSTS",
                                 "value": "[variables('rubyAuthHosts')]"
                             },
