@@ -16,6 +16,10 @@ module SupportInterface
         GenerateVendorProviders.call
         flash[:success] = 'Created test providers for vendors'
         redirect_to support_interface_tasks_path
+      when 'recalculate_dates'
+        RecalculateDates.perform_async
+        flash[:success] = 'Scheduled job to recalculate dates'
+        redirect_to support_interface_tasks_path
       else
         render_404
       end

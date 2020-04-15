@@ -8,6 +8,14 @@
   <%= button_to 'Sync Providers from Find', support_interface_run_task_path('sync_providers'), class: 'govuk-button' %>
 </div>
 
+<div>
+  <h2 class='govuk-heading-m'>Recalculate dates</h2>
+  <div class='govuk-body'>
+    Runs the RecalculateDates worker when we add or remove business time holidays in response to things like COVID-19.
+  </div>
+  <%= button_to 'Recalculate dates', support_interface_run_task_path('recalculate_dates'), class: 'govuk-button' %>
+</div>
+
 <% unless HostingEnvironment.production? %>
   <div>
     <h2 class='govuk-heading-m'>Test applications</h2>
