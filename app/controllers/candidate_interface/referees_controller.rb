@@ -71,14 +71,24 @@ module CandidateInterface
     end
 
     def confirm_cancel
-      @application_form = current_application
+      if @referee.feedback_requested?
+        @application_form = current_application
+      else
+        redirect_to candidate_interface_review_referees_path
+      end
     end
 
     def cancel
-      @referee.update!(feedback_status: 'cancelled')
-      RefereeMailer.reference_cancelled_email(current_application, @referee).deliver_later
+      if @referee.feedback_requested?
+        @referee.update!(feedback_status: 'cancelled')
+        RefereeMailer.reference_cancelled_email(current_application, @referee).deliver_later
 
-      redirect_to candidate_interface_additional_referee_type_path
+        send_slack_message
+
+        redirect_to candidate_interface_additional_referee_type_path
+      else
+        redirect_to candidate_interface_review_referees_path
+      end
     end
 
     def confirm_destroy; end
@@ -129,6 +139,13 @@ module CandidateInterface
 
     def redirect_to_review_referees_if_amendable
       redirect_to candidate_interface_review_referees_path if current_application.amendable?
+    end
+
+    def send_slack_message
+      message = "A referee has cancelled their request for a reference from #{@referee.name}."
+      url = helpers.support_interface_application_form_url(current_application)
+
+      SlackNotificationWorker.perform_async(message, url)
     end
   end
 end

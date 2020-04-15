@@ -16,6 +16,7 @@ RSpec.describe 'Cancelling a reference' do
     when_i_click_confirm_delete
     then_i_should_see_the_add_referee_type_page
     and_the_referee_should_be_sent_a_cancelation_email
+    and_a_slack_notification_is_sent
   end
 
   def given_the_training_with_a_disability_flag_is_active
@@ -60,5 +61,9 @@ RSpec.describe 'Cancelling a reference' do
     open_email(@reference.email_address)
 
     expect(current_email.subject).to have_content(t('reference_cancelled_email.subject', candidate_name: ApplicationForm.first.full_name))
+  end
+
+  def and_a_slack_notification_is_sent
+    expect_slack_message_with_text "A referee has cancelled their request for a reference from #{@reference.name}."
   end
 end
