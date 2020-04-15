@@ -26,10 +26,6 @@ class LogstashLogging
     # Log destination: log to STDOUT, plus to a remote Logstash server, if required
     logstash_logger = \
       if ENV['LOGSTASH_REMOTE'] == 'true'
-        # temporary additional STDOUT logger for troubleshooting bg process log loss
-        buffer_logger = Logger.new(STDOUT)
-        buffer_logger.level = Logger::WARN
-
         LogStashLogger.new(
           type: :multi_delegator,
           outputs: [
@@ -41,7 +37,8 @@ class LogstashLogging
               ssl_enable: ENV.fetch('LOGSTASH_SSL') == 'true',
             },
           ],
-          buffer_logger: buffer_logger,
+          buffer_max_items: 200, # buffer capacity, max number of items, default: 50
+          buffer_max_interval: 2, # max number of seconds between flushes, default: 5
         )
       else
         LogStashLogger.new(type: :stdout)
