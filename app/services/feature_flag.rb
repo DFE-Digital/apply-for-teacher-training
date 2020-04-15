@@ -25,6 +25,7 @@ class FeatureFlag
     provider_interface_work_breaks
     referee_type
     replacement_referee_with_referee_type
+    notes
     timeline
     edit_course_choices
     satisfaction_survey
