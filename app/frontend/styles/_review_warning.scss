@@ -6,8 +6,20 @@
   border-width: 0 0 0 $govuk-border-width;
   padding-left: govuk-spacing(3);
 
-  &--primary-message {
+  &__primary-message {
     @include govuk-typography-weight-bold;
     color: govuk-colour("blue");
+  }
+
+}
+
+.app-review-warning--error {
+  @extend .app-review-warning;
+  border: solid govuk-colour("red");
+  border-width: 0 0 0 $govuk-border-width;
+
+  .app-review-warning__primary-message {
+    @include govuk-typography-weight-bold;
+    color: govuk-colour("red");
   }
 }

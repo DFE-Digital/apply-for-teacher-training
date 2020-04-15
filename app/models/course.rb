@@ -48,6 +48,10 @@ class Course < ApplicationRecord
     "#{name} (#{code}) – #{accredited_provider&.name}"
   end
 
+  def provider_and_name_code
+    "#{provider.name} - #{name_and_code}"
+  end
+
   def both_study_modes_available?
     study_mode == 'full_time_or_part_time'
   end

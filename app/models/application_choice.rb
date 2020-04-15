@@ -54,12 +54,32 @@ class ApplicationChoice < ApplicationRecord
     course_option.course_not_available?
   end
 
+  def course_not_available_error
+    I18n.t('errors.application_choices.course_not_available', descriptor: course.provider_and_name_code)
+  end
+
   def course_full?
     course_option.course_full?
   end
 
+  def course_full_error
+    I18n.t('errors.application_choices.course_full', descriptor: course.provider_and_name_code)
+  end
+
   def chosen_site_full?
     course_option.no_vacancies?
+  end
+
+  def chosen_site_full_error
+    I18n.t('errors.application_choices.chosen_site_full', descriptor: course.provider_and_name_code)
+  end
+
+  def course_option_availability_error?
+    [
+      course_not_available?,
+      course_full?,
+      chosen_site_full?,
+    ].any?
   end
 
 private

@@ -36,6 +36,7 @@ module CandidateInterface
         @further_information_form = FurtherInformationForm.new
       else
         @errors = @application_form_presenter.section_errors
+        @application_choice_errors = @application_form_presenter.application_choice_errors
 
         render :review
       end

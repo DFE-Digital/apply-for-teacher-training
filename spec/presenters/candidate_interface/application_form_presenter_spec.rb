@@ -375,4 +375,96 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       )
     end
   end
+
+  describe '#application_choice_errors' do
+    let(:application_choice_1) do
+      instance_double(
+        ApplicationChoice,
+        id: 888,
+        course_not_available?: false,
+        course_full?: false,
+        chosen_site_full?: false,
+      )
+    end
+
+    let(:application_choice_2) do
+      instance_double(
+        ApplicationChoice,
+        id: 999,
+        course_not_available?: false,
+        course_full?: false,
+        chosen_site_full?: false,
+      )
+    end
+
+    let(:application_form) do
+      build_stubbed(:completed_application_form)
+    end
+
+    let(:presenter) { described_class.new(application_form) }
+
+    before do
+      allow(application_form).to receive(:application_choices).and_return([
+        application_choice_1,
+        application_choice_2,
+      ])
+    end
+
+    it 'is empty with valid application choices' do
+      expect(presenter.application_choice_errors).to be_empty
+    end
+
+    context 'a course is not available' do
+      before do
+        allow(application_choice_2).to receive(:course_not_available?).and_return true
+        allow(application_choice_2).to receive(:course_not_available_error).and_return 'course_not_available'
+      end
+
+      it 'returns the appropriate error' do
+        expect(presenter.application_choice_errors.map(&:message)).to eq %w[course_not_available]
+        expect(presenter.application_choice_errors.map(&:anchor)).to eq(['#course-choice-999'])
+      end
+    end
+
+    context 'a course is full' do
+      before do
+        allow(application_choice_2).to receive(:course_full?).and_return true
+        allow(application_choice_2).to receive(:course_full_error).and_return 'course_full'
+      end
+
+      it 'returns the appropriate error' do
+        expect(presenter.application_choice_errors.map(&:message)).to eq %w[course_full]
+        expect(presenter.application_choice_errors.map(&:anchor)).to eq(['#course-choice-999'])
+      end
+    end
+
+    context 'a chosen site is full' do
+      before do
+        allow(application_choice_2).to receive(:chosen_site_full?).and_return true
+        allow(application_choice_2).to receive(:chosen_site_full_error).and_return 'site_full'
+      end
+
+      it 'returns the appropriate error' do
+        expect(presenter.application_choice_errors.map(&:message)).to eq %w[site_full]
+        expect(presenter.application_choice_errors.map(&:anchor)).to eq(['#course-choice-999'])
+      end
+    end
+
+    context 'all application choices have errors' do
+      before do
+        allow(application_choice_1).to receive(:course_not_available?).and_return true
+        allow(application_choice_1).to receive(:course_not_available_error).and_return 'course_not_available'
+        allow(application_choice_2).to receive(:chosen_site_full?).and_return true
+        allow(application_choice_2).to receive(:chosen_site_full_error).and_return 'site_full'
+      end
+
+      it 'returns errors for all choices' do
+        errors = presenter.application_choice_errors
+        expect(errors.map(&:message).zip(errors.map(&:anchor))).to match_array([
+          ['course_not_available', '#course-choice-888'],
+          ['site_full', '#course-choice-999'],
+        ])
+      end
+    end
+  end
 end
