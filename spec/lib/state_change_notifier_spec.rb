@@ -14,20 +14,6 @@ RSpec.describe StateChangeNotifier do
 
     before { allow(SlackNotificationWorker).to receive(:perform_async) }
 
-    describe ':magic_link_sign_up' do
-      before { StateChangeNotifier.call(:magic_link_sign_up, candidate: candidate) }
-
-      it 'mentions the candidate\'s id' do
-        arg1 = "New sign-up [candidate_id: #{candidate.id}]"
-        expect(SlackNotificationWorker).to have_received(:perform_async).with(arg1, anything)
-      end
-
-      it 'links the notification to support interface' do
-        arg2 = helpers.support_interface_candidate_url(candidate)
-        expect(SlackNotificationWorker).to have_received(:perform_async).with(anything, arg2)
-      end
-    end
-
     describe ':submit_application' do
       before { StateChangeNotifier.call(:submit_application, application_form: application_form) }
 

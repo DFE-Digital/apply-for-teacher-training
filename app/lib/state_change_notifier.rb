@@ -1,5 +1,13 @@
 class StateChangeNotifier
-  def self.call(event, candidate: nil, application_choice: nil, application_form: nil)
+  def self.sign_up(candidate)
+    helpers = Rails.application.routes.url_helpers
+    text = "New sign-up [candidate_id: #{candidate.id}]"
+    url = helpers.support_interface_candidate_url(candidate)
+
+    send(text, url)
+  end
+
+  def self.call(event, application_choice: nil, application_form: nil)
     helpers = Rails.application.routes.url_helpers
 
     if application_choice
@@ -10,9 +18,6 @@ class StateChangeNotifier
     end
 
     case event
-    when :magic_link_sign_up
-      text = "New sign-up [candidate_id: #{candidate.id}]"
-      url = helpers.support_interface_candidate_url(candidate)
     when :submit_application
       text = "#{application_form.first_name} has just submitted their application"
       url = helpers.support_interface_application_form_url(application_form)
@@ -47,6 +52,10 @@ class StateChangeNotifier
       raise 'StateChangeNotifier: unsupported state transition event'
     end
 
+    send(text, url)
+  end
+
+  def self.send(text, url)
     if RequestStore.store[:disable_slack_messages]
       Rails.logger.info "Sending Slack messages disabled (message: `#{text}`)"
       return
