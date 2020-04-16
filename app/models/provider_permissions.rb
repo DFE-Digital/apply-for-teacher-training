@@ -5,4 +5,6 @@ class ProviderPermissions < ActiveRecord::Base
   belongs_to :provider
 
   audited associated_with: :provider_user
+
+  scope :manage_users, -> { where(manage_users: true) }
 end

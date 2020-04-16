@@ -19,6 +19,7 @@ RSpec.feature 'Managing provider users' do
 
     and_i_enter_the_users_email_and_name
     and_i_select_a_provider
+    and_i_check_permission_to_manage_users
     and_i_click_add_user
 
     then_i_should_see_the_list_of_provider_users
@@ -35,6 +36,11 @@ RSpec.feature 'Managing provider users' do
     when_they_have_signed_in_at_least_once
     and_i_reload_the_page
     then_their_email_should_be_editable
+    and_they_should_be_able_to_manage_users
+
+    when_i_remove_manage_users_permissions
+    and_i_click_update_user
+    then_they_should_not_be_able_to_manage_users
   end
 
   def given_dfe_signin_is_configured
@@ -46,7 +52,7 @@ RSpec.feature 'Managing provider users' do
   end
 
   def and_providers_exist
-    create(:provider, name: 'Example provider', code: 'ABC')
+    @provider = create(:provider, name: 'Example provider', code: 'ABC')
     create(:provider, name: 'Another provider', code: 'DEF')
   end
 
@@ -64,6 +70,12 @@ RSpec.feature 'Managing provider users' do
 
   def and_i_select_a_provider
     check 'Example provider (ABC)'
+  end
+
+  def and_i_check_permission_to_manage_users
+    within("#support-interface-provider-user-form-provider-ids-#{@provider.id}-conditional") do
+      check 'Manage users'
+    end
   end
 
   def and_i_click_the_add_user_link
@@ -124,8 +136,8 @@ RSpec.feature 'Managing provider users' do
   end
 
   def when_they_have_signed_in_at_least_once
-    user = ProviderUser.find_by(email_address: 'harrison@example.com')
-    user.update!(dfe_sign_in_uid: 'ABC123')
+    @user = ProviderUser.find_by(email_address: 'harrison@example.com')
+    @user.update!(dfe_sign_in_uid: 'ABC123')
   end
 
   def and_i_reload_the_page
@@ -134,5 +146,32 @@ RSpec.feature 'Managing provider users' do
 
   def then_their_email_should_be_editable
     expect(page).to have_field 'Email address', disabled: false
+  end
+
+  def and_they_should_be_able_to_manage_users
+    expect(@user.reload.provider_permissions.manage_users.first.provider).to eq(@provider)
+
+    within("#support-interface-provider-user-form-provider-ids-#{@provider.id}-conditional") do
+      expect(page).to have_checked_field('Manage users')
+    end
+  end
+
+  def when_i_remove_manage_users_permissions
+    within("#support-interface-provider-user-form-provider-ids-#{@provider.id}-conditional") do
+      uncheck 'Manage users'
+    end
+  end
+
+  def and_i_click_update_user
+    click_on 'Update user'
+  end
+
+  def then_they_should_not_be_able_to_manage_users
+    expect(@user.reload.provider_permissions.manage_users).to be_empty
+
+    within("#support-interface-provider-user-form-provider-ids-#{@provider.id}-conditional") do
+      expect(page).to have_field('Manage users')
+      expect(page).not_to have_checked_field('Manage users')
+    end
   end
 end

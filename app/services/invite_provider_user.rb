@@ -7,11 +7,8 @@ class InviteProviderUser
     @provider_user = provider_user
   end
 
-  def save_and_invite!
-    ActiveRecord::Base.transaction do
-      @provider_user.save!
-      invite_user_to_dfe_sign_in
-    end
+  def call!
+    invite_user_to_dfe_sign_in
 
     send_welcome_email
   end

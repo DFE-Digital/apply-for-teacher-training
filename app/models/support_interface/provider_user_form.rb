@@ -3,8 +3,9 @@ module SupportInterface
     include ActiveModel::Model
     include ActiveModel::Validations
 
-    attr_accessor :first_name, :last_name, :provider_user
+    attr_accessor :first_name, :last_name, :permissions, :provider_user
     attr_writer :provider_ids
+
     attr_reader :email_address
 
     validates :email_address, :first_name, :last_name, presence: true
@@ -21,10 +22,6 @@ module SupportInterface
       @provider_user.email_address = email_address
       @provider_user.provider_ids = provider_ids
       @provider_user if @provider_user.valid?
-    end
-
-    def save
-      @provider_user.save! if build
     end
 
     def email_address=(raw_email_address)
@@ -46,6 +43,7 @@ module SupportInterface
         last_name: provider_user.last_name,
         email_address: provider_user.email_address,
         provider_ids: provider_user.provider_ids,
+        permissions: permissions_for(provider_user),
       )
     end
 
@@ -53,6 +51,12 @@ module SupportInterface
       return [] unless @provider_ids
 
       @provider_ids.reject(&:blank?)
+    end
+
+    def self.permissions_for(provider_user)
+      provider_permissions = ProviderPermissions.manage_users.where(provider_user: provider_user)
+
+      ProviderPermissionsOptions.new(manage_users: provider_permissions.pluck(:provider_id))
     end
 
   private
