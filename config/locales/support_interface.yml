@@ -5,3 +5,6 @@ en:
       confirm_restore: Are you sure you want to restore support user %{email}?
       remove: Remove support user
       restore: Restore support user
+
+    change_course:
+      page_title: What kind of change do you want to make?

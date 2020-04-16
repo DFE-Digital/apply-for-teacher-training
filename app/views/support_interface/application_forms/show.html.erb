@@ -54,7 +54,7 @@
 <% end %>
 
 <% if @application_form.application_choices.any?(&:awaiting_references?) %>
-  <%= govuk_button_link_to 'Add course', support_interface_add_course_to_application_path(@application_form) %>
+  <%= govuk_button_link_to 'Make changes to courses', support_interface_change_course_path(@application_form) %>
 <% end %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8">References</h2>
