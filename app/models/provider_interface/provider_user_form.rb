@@ -10,13 +10,17 @@ module ProviderInterface
     validates :email_address, :first_name, :last_name, presence: true
     validates :email_address, email: true
     validates :provider_ids, presence: true
-    validate :email_is_unique
     validate :permitted_providers
 
     def build
       return unless valid?
 
-      @provider_user ||= ProviderUser.new
+      if existing_provider_user
+        @provider_user = existing_provider_user
+      else
+        @provider_user ||= ProviderUser.new
+      end
+
       @provider_user.first_name = first_name
       @provider_user.last_name = last_name
       @provider_user.email_address = email_address
@@ -58,12 +62,8 @@ module ProviderInterface
 
   private
 
-    def email_is_unique
-      return if persisted? && provider_user.email_address == email_address
-
-      return unless ProviderUser.exists?(email_address: email_address)
-
-      errors.add(:email_address, 'This email address is already in use')
+    def existing_provider_user
+      @existing_provider_user ||= ProviderUser.find_by(email_address: email_address)
     end
 
     def permitted_providers

@@ -35,4 +35,32 @@ RSpec.describe ProviderInterface::ProviderUserForm do
       expect(provider_user_form.available_providers).to eq([provider])
     end
   end
+
+  describe '#build' do
+    let(:email_address) { 'provider@example.com' }
+    let(:form_params) do
+      {
+        first_name: 'Jane',
+        last_name: 'Smith',
+        email_address: email_address,
+        provider_ids: provider_ids,
+        current_provider_user: provider_user,
+      }
+    end
+
+    context 'for a new user' do
+      it 'returns a new user' do
+        expect(provider_user_form.build.persisted?).to be false
+      end
+    end
+
+    context 'for an existing user' do
+      let!(:existing_user) { create(:provider_user, :with_provider, email_address: email_address) }
+
+      it 'modifies and returns the existing user' do
+        expect(provider_user_form.build.persisted?).to be true
+        expect(provider_user_form.build).to eq(existing_user)
+      end
+    end
+  end
 end
