@@ -15,6 +15,12 @@ module FindAPI
       "#{name} (#{code})"
     end
 
+    def subject_codes
+      subjects.to_a.map do |subject|
+        subject.try(:attributes).try(:[], 'subject_code')
+      end
+    end
+
     def self.fetch(provider_code, course_code)
       where(recruitment_cycle_year: RECRUITMENT_CYCLE_YEAR)
         .where(provider_code: provider_code)
