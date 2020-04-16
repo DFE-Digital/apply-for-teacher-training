@@ -37,6 +37,7 @@ instances](docs/connecting-to-databases.md#do-you-need-access-to-the-postgres-da
 - [Set up a new environment](/docs/new-environment.md)
 - [Testing style guide](/docs/testing-styleguide.md)
 - [Rails components](/docs/components.md)
+- [Docker for DevOps](/docs/docker-for-devops.md)
 
 ## Documentation
 

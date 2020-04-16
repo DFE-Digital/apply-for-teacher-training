@@ -6,7 +6,7 @@ This document describes the on-boardng steps that need to be undertaken for new 
 
 ## Azure/DevOps steps
 
-These steps can only be completed by members of the DevOps community. At the present time the contacts for this are Tom Pinney, Rizwan Khan, or David Goodyear.
+These steps can only be completed by members of the DevOps community. At the present time the contacts for this are Colin Saliceti, Vignesh Natraj or Karthik Kumar.
 
 1. Azure Portal
    1. Log into the Azure Portal
