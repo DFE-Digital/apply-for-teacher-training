@@ -73,6 +73,13 @@ module CandidateInterface
             )
             next
           end
+
+          if choice.course_closed_on_apply?
+            error_list << ApplicationChoiceError.new(
+              choice.course_closed_on_apply_error, choice.id
+            )
+            next
+          end
         end
       end
     end
