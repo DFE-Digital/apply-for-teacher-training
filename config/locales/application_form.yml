@@ -308,6 +308,7 @@ en:
       review:
         button: Continue
       sure_delete_entry: Yes I’m sure - delete this referee
+      sure_cancel_entry: Yes I'm sure - cancel this reference request
       nth_referee:
         - (should never appear)
         - First referee

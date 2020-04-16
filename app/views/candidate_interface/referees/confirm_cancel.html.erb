@@ -15,7 +15,7 @@
 
       <p class='govuk-body'> <%= @referee.name %> will be informed that they do not need to provide a reference.</p>
 
-      <%= f.submit t('application_form.referees.sure_delete_entry'), class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
+      <%= f.submit t('application_form.referees.sure_cancel_entry'), class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
 
       <p class="govuk-body">
         <%= govuk_link_to 'Cancel', candidate_interface_review_referees_path %>

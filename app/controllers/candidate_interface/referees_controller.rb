@@ -2,7 +2,7 @@ module CandidateInterface
   class RefereesController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_not_amendable, except: %i[confirm_cancel cancel]
     before_action :redirect_to_review_referees_if_amendable, except: %i[index review]
-    before_action :set_referee, only: %i[edit update destroy confirm_destroy confirm_cancel cancel]
+    before_action :set_referee, only: %i[edit update confirm_destroy destroy confirm_cancel cancel]
     before_action :set_referees, only: %i[type update_type new create index review]
 
     def index
@@ -81,7 +81,7 @@ module CandidateInterface
     def cancel
       if @referee.feedback_requested?
         @referee.update!(feedback_status: 'cancelled')
-        RefereeMailer.reference_cancelled_email(current_application, @referee).deliver_later
+        RefereeMailer.reference_cancelled_email(@referee).deliver_later
 
         send_slack_message
 
@@ -142,7 +142,7 @@ module CandidateInterface
     end
 
     def send_slack_message
-      message = "A referee has cancelled their request for a reference from #{@referee.name}."
+      message = "Candidate #{@referee.application_form.first_name} has cancelled one of their references"
       url = helpers.support_interface_application_form_url(current_application)
 
       SlackNotificationWorker.perform_async(message, url)

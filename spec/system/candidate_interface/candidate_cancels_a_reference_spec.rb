@@ -13,7 +13,7 @@ RSpec.describe 'Cancelling a reference' do
     and_i_click_delete_on_my_first_reference
     then_i_should_see_the_confirm_cancel_page
 
-    when_i_click_confirm_delete
+    when_i_click_to_confirm_the_cancellation
     then_i_should_see_the_add_referee_type_page
     and_the_referee_should_be_sent_a_cancelation_email
     and_a_slack_notification_is_sent
@@ -49,8 +49,8 @@ RSpec.describe 'Cancelling a reference' do
     expect(page).to have_current_path(candidate_interface_confirm_cancel_referee_path(@reference.id))
   end
 
-  def when_i_click_confirm_delete
-    click_button t('application_form.referees.sure_delete_entry')
+  def when_i_click_to_confirm_the_cancellation
+    click_button t('application_form.referees.sure_cancel_entry')
   end
 
   def then_i_should_see_the_add_referee_type_page
@@ -64,6 +64,6 @@ RSpec.describe 'Cancelling a reference' do
   end
 
   def and_a_slack_notification_is_sent
-    expect_slack_message_with_text "A referee has cancelled their request for a reference from #{@reference.name}."
+    expect_slack_message_with_text "Candidate #{@reference.application_form.first_name} has cancelled one of their references"
   end
 end

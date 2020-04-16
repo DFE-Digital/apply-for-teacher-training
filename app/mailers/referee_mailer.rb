@@ -38,9 +38,9 @@ class RefereeMailer < ApplicationMailer
     )
   end
 
-  def reference_cancelled_email(application_form, reference)
+  def reference_cancelled_email(reference)
     @name = reference.name
-    @candidate_name = application_form.full_name
+    @candidate_name = reference.application_form.full_name
 
     notify_email(
       to: reference.email_address,

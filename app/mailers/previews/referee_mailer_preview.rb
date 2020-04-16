@@ -18,7 +18,7 @@ class RefereeMailerPreview < ActionMailer::Preview
   end
 
   def reference_cancelled_email
-    RefereeMailer.reference_cancelled_email(application_form, reference)
+    RefereeMailer.reference_cancelled_email(reference)
   end
 
 private

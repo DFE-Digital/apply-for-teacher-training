@@ -99,17 +99,18 @@ RSpec.describe RefereeMailer, type: :mailer do
   end
 
   describe 'Send reference cancelled email' do
-    let(:reference) { build_stubbed(:reference) }
     let(:application_form) do
       build_stubbed(
         :application_form,
         first_name: 'Elliot',
         last_name: 'Alderson',
-        application_references: [reference],
       )
     end
 
-    let(:mail) { mailer.reference_cancelled_email(application_form, reference) }
+    let(:reference) { build_stubbed(:reference, application_form: application_form) }
+
+
+    let(:mail) { mailer.reference_cancelled_email(reference) }
 
     before { mail.deliver_later }
 
