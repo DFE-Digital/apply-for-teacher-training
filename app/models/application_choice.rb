@@ -62,6 +62,14 @@ class ApplicationChoice < ApplicationRecord
     course_option.course_closed_on_apply?
   end
 
+  def course_closed_on_apply_error
+    I18n.t(
+      'errors.application_choices.course_closed_on_apply',
+      course_name_and_code: course.name_and_code,
+      provider_name: course.provider.name,
+    )
+  end
+
   def course_full?
     course_option.course_full?
   end

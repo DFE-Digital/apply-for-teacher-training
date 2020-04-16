@@ -16,7 +16,7 @@
         </li>
       </ul>
     <% elsif course_choice.course_closed_on_apply? %>
-      <p class='app-review-warning__primary-message'>'<%= course_choice.course.name_and_code %>' at <%= course_choice.course.provider.name %> is not available on Apply for teacher training anymore.</p>
+      <p class='app-review-warning__primary-message'><%= course_choice.course_closed_on_apply_error %>.</p>
       <p class='govuk-body'>You can still apply for '<%= course_choice.course.name_and_code %>' on UCAS.</p>
       <p class='govuk-body'>You can:</p>
       <ul class='govuk-list govuk-list--bullet'>
