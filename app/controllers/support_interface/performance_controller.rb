@@ -34,9 +34,15 @@ module SupportInterface
 
     def candidate_survey
       answers = SupportInterface::CandidateSurveyExport.new.call
-      csv = to_csv(answers)
 
-      send_data csv, filename: "candidate-survey-#{Time.zone.today}.csv", disposition: :attachment
+      if answers.present?
+        csv = to_csv(answers)
+        send_data csv, filename: "candidate-survey-#{Time.zone.today}.csv", disposition: :attachment
+      else
+        flash[:warning] = 'No candidates have filled in the survey'
+
+        redirect_to support_interface_performance_path
+      end
     end
 
     def applications_export_for_ucas
