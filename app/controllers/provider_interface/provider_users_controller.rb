@@ -24,6 +24,7 @@ module ProviderInterface
         form: @form,
         save_service: SaveProviderUser.new(provider_user: provider_user),
         invite_service: InviteProviderUser.new(provider_user: provider_user),
+        new_user: !@form.persisted?,
       )
 
       render :new and return unless service.call
