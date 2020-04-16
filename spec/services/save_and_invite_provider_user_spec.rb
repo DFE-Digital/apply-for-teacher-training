@@ -18,6 +18,7 @@ RSpec.describe SaveAndInviteProviderUser do
   describe '#initialize' do
     it 'requires a form, create service and invite service' do
       expect { described_class.new }.to raise_error(ArgumentError)
+
       expect {
         described_class.new(form: form, save_service: save_service, invite_service: invite_service)
       }.not_to raise_error
@@ -27,6 +28,14 @@ RSpec.describe SaveAndInviteProviderUser do
   describe '#call!' do
     subject(:service) do
       described_class.new(form: form, save_service: save_service, invite_service: invite_service)
+    end
+
+    context 'form is invalid' do
+      it 'returns false' do
+        allow(form).to receive(:valid?).and_return(false)
+
+        expect(service.call).to eq(false)
+      end
     end
 
     context 'an error occurs in create service' do
@@ -42,10 +51,10 @@ RSpec.describe SaveAndInviteProviderUser do
     end
 
     context 'an error occurs in invite service' do
-      before { allow(invite_service).to receive(:call!).and_raise }
+      before { allow(invite_service).to receive(:call!).and_raise(Exception) }
 
       it 'rolls back the transaction and raises the error' do
-        expect { service.call }.to raise_error.and change(ProviderUser, :count).by(0)
+        expect { service.call }.to raise_error(Exception).and change(ProviderUser, :count).by(0)
       end
     end
 
