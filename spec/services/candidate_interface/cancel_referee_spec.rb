@@ -8,7 +8,6 @@ RSpec.describe CandidateInterface::CancelReferee do
     let(:message) { "Candidate #{reference.application_form.first_name} has cancelled one of their references" }
     let(:url) { Rails.application.routes.url_helpers.support_interface_application_form_url(reference.application_form) }
 
-
     before do
       allow(RefereeMailer).to receive(:reference_cancelled_email).and_return(mail)
       allow(SlackNotificationWorker).to receive(:perform_async).and_return(true)
