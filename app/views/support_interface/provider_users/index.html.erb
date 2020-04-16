@@ -2,6 +2,12 @@
 
 <%= link_to 'Add provider user', new_support_interface_provider_user_path, class: 'govuk-button' %>
 
+<div class="govuk-!-margin-top-2 govuk-!-margin-bottom-7">
+  <h2 class="govuk-heading-m">Active providers</h2>
+  <p class="govuk-body">The list of provider users that have signed in to apply at least once</p>
+  <%= govuk_link_to 'Download active provider users (CSV)', support_interface_active_provider_users_export_path, class: 'govuk-body' %>  
+</div>
+
 <% content_for :before_content do %>
   <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">

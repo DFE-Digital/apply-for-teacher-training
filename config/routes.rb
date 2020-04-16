@@ -530,6 +530,10 @@ Rails.application.routes.draw do
 
       resources :support_users, only: %i[index new create], path: :support
       resources :provider_users, only: %i[index new create edit update], path: :provider
+
+      scope '/provider' do
+        get '/active' => 'provider_users#active_users_export', as: :active_provider_users_export
+      end
     end
 
     get '/sign-in' => 'sessions#new'
