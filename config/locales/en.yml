@@ -94,7 +94,7 @@ en:
     referees: Referees
     referees_choosing: Choosing your referees
     referee_destroy: Are you sure you want to delete this referee?
-    referee_cancel: Are you sure you want to withraw your reference request for this referee?
+    referee_cancel: Are you sure you want to cancel this request for a reference?
     add_referee: Details of referee
     nth_referee:
       - (should never appear)

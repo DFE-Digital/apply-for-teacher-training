@@ -9,11 +9,11 @@
         <%= t('page_titles.referee_cancel') %>
       </h1>
 
-      <p class='govuk-body'>You have <%= formatted_days_remaining %> (until <%= edit_by_date %>) to edit your application or change your referee.</p>
+      <p class='govuk-body'>You will need to give details of a new referee.</p>
 
-      <p class='govuk-body'> You will need to provide another referee as we can't send your application to your teacher training providers without 2 complete references.</p>
+      <p class='govuk-body'>We cannot send your application to your provider(s) without 2 references.</p>
 
-      <p class='govuk-body'> <%= @referee.name %> will be informed that they do not need to provide a reference.</p>
+      <p class='govuk-body'> We’ll tell <%= @referee.name %> that they do not need to give a reference.</p>
 
       <%= f.submit t('application_form.referees.sure_cancel_entry'), class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
 
