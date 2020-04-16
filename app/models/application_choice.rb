@@ -81,6 +81,7 @@ class ApplicationChoice < ApplicationRecord
   def course_option_availability_error?
     [
       course_not_available?,
+      course_closed_on_apply?,
       course_full?,
       chosen_site_full?,
     ].any?

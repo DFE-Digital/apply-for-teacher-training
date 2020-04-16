@@ -18,7 +18,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       expect(result.css('.govuk-summary-list__value').to_html).to include(course_choice.course.start_date.strftime('%B %Y'))
     end
 
-    context 'When multiple courses available at a privider and edit_course_choices feature is active' do
+    context 'When multiple courses available at a provider and edit_course_choices feature is active' do
       let(:course_choice) { application_form.application_choices.first }
 
       before do
@@ -35,7 +35,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       end
     end
 
-    context 'When only one course available at a privider and edit_course_choices feature is active' do
+    context 'When only one course available at a provider and edit_course_choices feature is active' do
       let(:course_choice) { application_form.application_choices.first }
 
       before { FeatureFlag.activate('edit_course_choices') }
@@ -158,7 +158,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.courses.delete'))
     end
 
-    context 'When multiple courses available at a privider and edit_course_choices feature is active' do
+    context 'When multiple courses available at a provider and edit_course_choices feature is active' do
       let(:application_form) { create_application_form_with_course_choices(statuses: %w[application_complete]) }
       let(:course_choice) { application_form.application_choices.first }
 
