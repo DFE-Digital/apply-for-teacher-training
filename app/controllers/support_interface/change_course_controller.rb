@@ -1,5 +1,7 @@
 module SupportInterface
   class ChangeCourseController < SupportInterfaceController
+    before_action :make_sure_course_can_be_added, only: %w[select_course_to_add add_course]
+
     def options
       @pick_option_form = SupportInterface::ChangeCourseForm.new(application_form: application_form)
     end
@@ -39,6 +41,15 @@ module SupportInterface
 
     def application_form
       @_application_form ||= ApplicationForm.find(params[:application_form_id])
+    end
+
+    def make_sure_course_can_be_added
+      pick_option_form = SupportInterface::ChangeCourseForm.new(application_form: application_form)
+
+      unless pick_option_form.can_add_course?
+        flash[:warning] = 'This application already has 3 courses'
+        redirect_to support_interface_change_course_path(application_form)
+      end
     end
   end
 end

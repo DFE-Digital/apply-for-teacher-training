@@ -7,10 +7,19 @@
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset :change_type, legend: { size: 'xl', text: t('support_interface.change_course.page_title'), tag: 'h1' } do %>
-        <%= f.govuk_radio_button :change_type, :add_course, label: { text: 'Add a course' } %>
+        <% if @pick_option_form.can_add_course? %>
+          <%= f.govuk_radio_button :change_type, :add_course, label: { text: 'Add a course' } %>
+        <% end %>
+
         <%= f.govuk_radio_button :change_type, :replace_course, label: { text: 'Replace a course*' }, hint_text: 'This feature will be available soon' %>
         <%= f.govuk_radio_button :change_type, :remove_course, label: { text: 'Withdraw from a course*' }, hint_text: 'This feature will be available soon' %>
         <%= f.govuk_radio_button :change_type, :cancel_application, label: { text: 'Withdraw from all courses and cancel application*' }, hint_text: 'This feature will be available soon' %>
+      <% end %>
+
+      <% if !@pick_option_form.can_add_course? %>
+        <div class='govuk-body'>
+          You can no longer add a course because this application already has 3.
+        </div>
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>
