@@ -458,11 +458,14 @@ Rails.application.routes.draw do
     get '/applications' => 'application_forms#index'
     get '/applications/action-required' => 'application_forms#action_required', as: :action_required
     get '/applications/:application_form_id' => 'application_forms#show', as: :application_form
-    get '/applications/:application_form_id/add-course' => 'application_forms#select_course_to_add', as: :add_course_to_application
-    post '/applications/:application_form_id/add-course' => 'application_forms#add_course'
     get '/applications/:application_form_id/audit' => 'application_forms#audit', as: :application_form_audit
     get '/applications/:application_form_id/comments/new' => 'application_forms/comments#new', as: :application_form_new_comment
     post '/applications/:application_form_id/comments' => 'application_forms/comments#create', as: :application_form_comments
+
+    get '/applications/:application_form_id/change-course' => 'change_course#options', as: :change_course
+    post '/applications/:application_form_id/change-course' => 'change_course#pick_option'
+    get '/applications/:application_form_id/add-course' => 'change_course#select_course_to_add', as: :add_course_to_application
+    post '/applications/:application_form_id/add-course' => 'change_course#add_course'
 
     get '/candidates' => 'candidates#index'
     get '/candidates/:candidate_id' => 'candidates#show', as: :candidate

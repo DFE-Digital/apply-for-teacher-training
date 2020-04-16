@@ -7,7 +7,8 @@ RSpec.feature 'Adding a course' do
     given_i_am_a_support_user
     and_there_is_a_candidate_who_wants_a_course_added
     when_i_visit_the_application_form
-    and_click_on_the_button_to_add_a_course
+    and_click_on_the_button_to_change_courses
+    and_i_select_the_option_to_add_a_course
     and_i_fill_in_the_course_option_id_for_the_desired_course
     then_the_new_course_is_added_to_the_application
   end
@@ -28,8 +29,13 @@ RSpec.feature 'Adding a course' do
     visit support_interface_application_form_path(@application_form)
   end
 
-  def and_click_on_the_button_to_add_a_course
-    click_on 'Add course'
+  def and_click_on_the_button_to_change_courses
+    click_on 'Make changes to courses'
+  end
+
+  def and_i_select_the_option_to_add_a_course
+    choose 'Add a course'
+    click_on 'Continue'
   end
 
   def and_i_fill_in_the_course_option_id_for_the_desired_course
