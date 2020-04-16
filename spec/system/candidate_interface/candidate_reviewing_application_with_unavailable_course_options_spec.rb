@@ -28,20 +28,20 @@ RSpec.feature 'Candidate reviewing an application with unavailable course option
   def and_i_chose_course_options_that_have_since_become_unavailable
     @option_where_course_not_running = create(
       :course_option,
-      course: create(:course, exposed_in_find: false),
+      course: create(:course, exposed_in_find: false, open_on_apply: true),
     )
 
     @option_where_course_has_no_vacancies = create(
       :course_option,
       :no_vacancies,
-      course: create(:course, exposed_in_find: true),
+      course: create(:course, exposed_in_find: true, open_on_apply: true),
     )
     create(:course_option, :no_vacancies, course: @option_where_course_has_no_vacancies.course)
 
     @option_where_no_vacancies_at_chosen_site = create(
       :course_option,
       :no_vacancies,
-      course: create(:course, exposed_in_find: true),
+      course: create(:course, exposed_in_find: true, open_on_apply: true),
     )
     create(:course_option, course: @option_where_no_vacancies_at_chosen_site.course)
 
