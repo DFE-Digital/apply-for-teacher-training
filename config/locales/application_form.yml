@@ -301,10 +301,10 @@ en:
       relationship:
         label: What is your relationship to this referee and how long have you known them?
         hint_text:
-          academic: For example, ‘He was my course supervisor at university. I’ve known him for a year’.
-          professional: For example, ‘He was my line manager in my last job. I’ve known him for 2 years’.
-          school_based: For example, ‘She’s the deputy head at the school where I currently volunteer. I’ve known her for 3 years’.
-          character: For example, ‘She’s the head coach for my athletics club. I’ve known her for 5 years’.
+          academic: For example, ‘He was my course supervisor at university. I’ve known him for a year’. Your referee will get a copy of the information you give and confirm whether it’s accurate.
+          professional: For example, ‘He was my line manager in my last job. I’ve known him for 2 years’. Your referee will get a copy of the information you give and confirm whether it’s accurate.
+          school_based: For example, ‘She’s the deputy head at the school where I currently volunteer. I’ve known her for 3 years’. Your referee will get a copy of the information you give and confirm whether it’s accurate.
+          character: For example, ‘She’s the head coach for my athletics club. I’ve known her for 5 years’. Your referee will get a copy of the information you give and confirm whether its accurate.
       review:
         button: Continue
       sure_delete_entry: Yes I’m sure - delete this referee
