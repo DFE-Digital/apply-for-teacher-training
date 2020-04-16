@@ -3,6 +3,7 @@ class FeatureFlag
     add_additional_courses_page
     banner_about_problems_with_dfe_sign_in
     banner_for_ucas_downtime
+    candidate_can_cancel_reference
     create_account_or_sign_in_page
     covid_19
     check_full_courses

@@ -268,6 +268,9 @@ Rails.application.routes.draw do
 
         get '/delete/:id' => 'referees#confirm_destroy', as: :confirm_destroy_referee
         delete '/delete/:id' => 'referees#destroy', as: :destroy_referee
+
+        get '/cancel/:id' => 'referees#confirm_cancel', as: :confirm_cancel_referee
+        patch '/cancel/:id' => 'referees#cancel', as: :cancel_referee
       end
 
       scope '/new-referee' do

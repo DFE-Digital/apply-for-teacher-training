@@ -32,6 +32,7 @@ RSpec.feature 'Docs' do
       candidate_mailer-survey_chaser_email
       candidate_mailer-survey_email
       provider_mailer-account_created
+      referee_mailer-reference_cancelled_email
     ]
 
     # extract all the emails that we send into a list of strings like "referee_mailer-reference_request_chaser_email"

@@ -38,6 +38,17 @@ class RefereeMailer < ApplicationMailer
     )
   end
 
+  def reference_cancelled_email(reference)
+    @name = reference.name
+    @candidate_name = reference.application_form.full_name
+
+    notify_email(
+      to: reference.email_address,
+      subject: t('reference_cancelled_email.subject', candidate_name: @candidate_name),
+      application_form_id: reference.application_form_id,
+    )
+  end
+
 private
 
   def google_form_url_for(candidate_name, reference)

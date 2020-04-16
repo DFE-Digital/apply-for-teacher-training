@@ -290,6 +290,7 @@ en:
       add_second_referee: Add a second referee
       complete_form_button: Save and continue
       delete: Delete referee
+      cancel: Cancel referee
       email_address:
         label: Email address
         hint_text:
@@ -307,6 +308,7 @@ en:
       review:
         button: Continue
       sure_delete_entry: Yes I’m sure - delete this referee
+      sure_cancel_entry: Yes I'm sure - cancel this reference request
       nth_referee:
         - (should never appear)
         - First referee

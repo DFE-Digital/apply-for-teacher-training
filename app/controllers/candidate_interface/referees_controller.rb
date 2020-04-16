@@ -1,8 +1,8 @@
 module CandidateInterface
   class RefereesController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_not_amendable
+    before_action :redirect_to_dashboard_if_not_amendable, except: %i[confirm_cancel cancel]
     before_action :redirect_to_review_referees_if_amendable, except: %i[index review]
-    before_action :set_referee, only: %i[edit update confirm_destroy destroy]
+    before_action :set_referee, only: %i[edit update confirm_destroy destroy confirm_cancel cancel]
     before_action :set_referees, only: %i[type update_type new create index review]
 
     def index
@@ -70,10 +70,29 @@ module CandidateInterface
       end
     end
 
+    def confirm_cancel
+      if @referee.feedback_requested?
+        @application_form = current_application
+      else
+        redirect_to candidate_interface_review_referees_path
+      end
+    end
+
+    def cancel
+      if @referee.feedback_requested?
+        CancelReferee.new.call(reference: @referee)
+
+        redirect_to candidate_interface_additional_referee_type_path
+      else
+        redirect_to candidate_interface_review_referees_path
+      end
+    end
+
     def confirm_destroy; end
 
     def destroy
       @referee.destroy!
+
       redirect_to candidate_interface_referees_path
     end
 
