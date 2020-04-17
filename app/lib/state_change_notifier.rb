@@ -1,7 +1,8 @@
 class StateChangeNotifier
   def self.sign_up(candidate)
     helpers = Rails.application.routes.url_helpers
-    text = "New sign-up [candidate_id: #{candidate.id}]"
+    candidate_number = Candidate.where(hide_in_reporting: false).count
+    text = ":sparkles: The #{candidate_number.ordinalize} candidate just signed up"
     url = helpers.support_interface_candidate_url(candidate)
 
     send(text, url)

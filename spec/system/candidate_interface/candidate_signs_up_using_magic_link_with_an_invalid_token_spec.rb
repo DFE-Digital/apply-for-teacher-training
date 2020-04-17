@@ -80,7 +80,7 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
   end
 
   def and_a_slack_message_is_sent
-    expect_slack_message_with_text 'New sign-up'
+    expect_slack_message_with_text ':sparkles: The 1st candidate just signed up'
   end
 
   def when_the_magic_link_token_is_overwritten
