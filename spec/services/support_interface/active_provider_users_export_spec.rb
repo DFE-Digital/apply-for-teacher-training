@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ActiveProviderUsersExport do
   describe '#call' do
-    it 'returns provider_users who have have signd in at least once' do
+    it 'returns provider_users who have have signed in at least once' do
       provider1 = create(:provider)
       provider2 = create(:provider)
       provider_user1 = create(:provider_user, providers: [provider1], last_signed_in_at: 5.days.ago)

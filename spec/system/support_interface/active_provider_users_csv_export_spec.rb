@@ -21,7 +21,7 @@ RSpec.feature 'Active provider users CSV' do
   end
 
   def when_i_visit_the_provider_users_page
-    visit support_interface_provider_users_path
+    visit support_interface_performance_path
   end
 
   def and_i_click_on_download_active_provider_users

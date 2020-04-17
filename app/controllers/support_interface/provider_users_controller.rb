@@ -1,5 +1,3 @@
-require 'csv'
-
 module SupportInterface
   class ProviderUsersController < SupportInterfaceController
     def index
@@ -43,20 +41,6 @@ module SupportInterface
       else
         render :edit
       end
-    end
-
-    def active_users_export
-      provider_users = SupportInterface::ActiveProviderUsersExport.call
-
-      csv = CSV.generate do |rows|
-        rows << provider_users.first.keys
-
-        provider_users.each do |a|
-          rows << a.values
-        end
-      end
-
-      send_data csv, filename: "active-provider-users-#{Time.zone.today}.csv", disposition: :attachment
     end
 
   private

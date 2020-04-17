@@ -515,6 +515,8 @@ Rails.application.routes.draw do
     get '/performance/providers', to: 'performance#providers_export', as: :providers_export
     get '/performance/candidate-survey', to: 'performance#candidate_survey', as: :candidate_survey
     get '/performance/applications-export-for-ucas', to: 'performance#applications_export_for_ucas', as: :applications_export_for_ucas
+    get '/performance/active-provider-users', to: 'performance#active_provider_users', as: :active_provider_users
+
 
 
     get '/tasks' => 'tasks#index', as: :tasks
@@ -530,10 +532,6 @@ Rails.application.routes.draw do
 
       resources :support_users, only: %i[index new create], path: :support
       resources :provider_users, only: %i[index new create edit update], path: :provider
-
-      scope '/provider' do
-        get '/active' => 'provider_users#active_users_export', as: :active_provider_users_export
-      end
     end
 
     get '/sign-in' => 'sessions#new'
