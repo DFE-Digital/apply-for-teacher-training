@@ -14,6 +14,7 @@ class ApplicationForm < ApplicationRecord
   has_many :application_work_history_breaks
 
   MINIMUM_COMPLETE_REFERENCES = 2
+  MAXIMUM_REFERENCES = 10
   DECISION_PENDING_STATUSES = %w[awaiting_references application_complete awaiting_provider_decision].freeze
 
   enum phase: {
