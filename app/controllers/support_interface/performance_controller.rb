@@ -47,6 +47,13 @@ module SupportInterface
       send_data csv, filename: "dfe_apply_itt_applications_#{Time.zone.now.iso8601}.csv", disposition: :attachment
     end
 
+    def active_provider_users
+      provider_users = SupportInterface::ActiveProviderUsersExport.call
+      csv = to_csv(provider_users)
+
+      send_data csv, filename: "active-provider-users-#{Time.zone.today}.csv", disposition: :attachment
+    end
+
   private
 
     def to_csv(objects, header_row = nil)
