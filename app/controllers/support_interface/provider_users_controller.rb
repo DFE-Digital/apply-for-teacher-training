@@ -43,6 +43,10 @@ module SupportInterface
       end
     end
 
+    def audits
+      @provider_user = ProviderUser.find(params[:provider_user_id])
+    end
+
   private
 
     def provider_user_params

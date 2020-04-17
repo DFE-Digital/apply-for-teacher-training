@@ -1,0 +1,30 @@
+<% content_for :before_content do %>
+  <div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to 'Users', support_interface_users_path, class: 'govuk-breadcrumbs__link' %>
+      </li>
+      <li class="govuk-breadcrumbs__list-item" aria-current="page">
+        <%= link_to 'Provider users', support_interface_provider_users_path, class: 'govuk-breadcrumbs__link' %>
+      </li>
+      <li class="govuk-breadcrumbs__list-item" aria-current="page">
+        Edit provider user
+      </li>
+    </ol>
+  </div>
+
+  <%= render SubNavigationComponent.new(items: [
+    { name: 'Details', url: edit_support_interface_provider_user_path(@provider_user) },
+    { name: 'Audit trail', url: support_interface_provider_user_audits_path(@provider_user), current: true },
+  ]) %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <h1 class='govuk-heading-xl'>
+    <%= @provider_user.email_address %>
+  </h1>
+
+  <div class="govuk-grid-column-two-thirds">
+    <%= render SupportInterface::AuditTrailComponent.new(audited_thing: @provider_user) %>
+  </div>
+</div>
