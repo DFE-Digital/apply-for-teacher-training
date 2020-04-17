@@ -1,0 +1,21 @@
+<% content_for :title, "#{@application_choice.application_form.full_name} – #{@application_choice.course.name_and_code} - Notes" %>
+
+<% content_for :before_content do %>
+  <div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to 'Applications', provider_interface_applications_path, class: 'govuk-breadcrumbs__link' %>
+      </li>
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to @application_choice.application_form.full_name, provider_interface_application_choice_path(@application_choice), class: 'govuk-breadcrumbs__link' %>
+      </li>
+      <li class="govuk-breadcrumbs__list-item" aria-current="page">
+        Notes
+      </li>
+    </ol>
+  </div>
+<% end %>
+
+<%= render 'application_choice_header' %>
+
+<% raise 'Notes are wip' %>

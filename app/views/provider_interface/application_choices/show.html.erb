@@ -13,20 +13,7 @@
   </div>
 <% end %>
 
-<% if @application_choice.status == 'awaiting_provider_decision' -%>
-  <div class="app-banner">
-    <div class="app-banner__message">
-      <h2 class="govuk-heading-m govuk-!-margin-bottom-0">
-        You have <%= days_to_respond_to(@application_choice) %> days to send a response. <%= govuk_link_to 'Respond to application', provider_interface_application_choice_respond_path(@application_choice) %>.
-      </h2>
-    </div>
-  </div>
-<% end -%>
-
-<h1 class="govuk-heading-xl govuk-!-margin-bottom-1">
-  <%= @application_choice.application_form.full_name %>
-  <%= render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice: @application_choice)) %>
-</h1>
+<%= render 'application_choice_header' %>
 
 <p class="govuk-body govuk-!-margin-bottom-9 app-!-print-display-none">
   <%= govuk_link_to(
@@ -115,8 +102,5 @@
         <%= render ProviderInterface::ReferenceWithFeedbackComponent.new(reference: reference) %>
       <% end %>
     <% end %>
-  </div>
-  <div class="govuk-grid-column-one-third">
-    <%= render ProviderInterface::ApplicationTimelineComponent.new(application_choice: @application_choice) %>
   </div>
 </div>
