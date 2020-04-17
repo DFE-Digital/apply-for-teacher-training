@@ -60,6 +60,13 @@ module CandidateInterface
             next
           end
 
+          if choice.course_closed_on_apply?
+            error_list << ApplicationChoiceError.new(
+              choice.course_closed_on_apply_error, choice.id
+            )
+            next
+          end
+
           if choice.course_full?
             error_list << ApplicationChoiceError.new(
               choice.course_full_error, choice.id
@@ -70,13 +77,6 @@ module CandidateInterface
           if choice.chosen_site_full?
             error_list << ApplicationChoiceError.new(
               choice.chosen_site_full_error, choice.id
-            )
-            next
-          end
-
-          if choice.course_closed_on_apply?
-            error_list << ApplicationChoiceError.new(
-              choice.course_closed_on_apply_error, choice.id
             )
             next
           end
