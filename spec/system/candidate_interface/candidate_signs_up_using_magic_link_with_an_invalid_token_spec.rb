@@ -13,6 +13,7 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
     and_i_fill_in_the_eligiblity_form_with_yes
     and_i_submit_my_email_address
     then_i_receive_an_email_inviting_me_to_sign_up
+    and_a_slack_message_is_sent
 
     when_the_magic_link_token_is_overwritten
     and_i_click_on_the_link_in_my_email
@@ -76,6 +77,10 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
   def then_i_receive_an_email_inviting_me_to_sign_up
     open_email(@email)
     expect(current_email.subject).to have_content t('authentication.sign_up.email.subject')
+  end
+
+  def and_a_slack_message_is_sent
+    expect_slack_message_with_text ':sparkles: The 1st candidate just signed up'
   end
 
   def when_the_magic_link_token_is_overwritten
