@@ -2,7 +2,7 @@ Holidays.between(Date.civil(2019, 1, 1), 2.years.from_now, :gb_eng, :observed).m
   BusinessTime::Config.holidays << holiday[:date]
 end
 
-(Date.new(2020, 3, 23)..Date.new(2020, 5, 29)).each do |date|
+(Date.new(2020, 3, 23)..Date.new(2020, 5, 28)).each do |date|
   BusinessTime::Config.holidays << date
 end
 
