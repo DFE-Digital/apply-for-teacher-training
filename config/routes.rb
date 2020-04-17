@@ -288,6 +288,8 @@ Rails.application.routes.draw do
 
         get '/confirm' => 'additional_referees#confirm', as: :confirm_additional_referees
         post '/confirm' => 'additional_referees#request_references'
+
+        get '/contact-support' => 'additional_referees#contact_support', as: :additional_referee_contact_support
       end
 
       scope '/equality-and-diversity' do
