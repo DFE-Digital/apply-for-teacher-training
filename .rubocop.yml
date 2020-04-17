@@ -109,6 +109,9 @@ Rails/RakeEnvironment:
 Rails/NotNullColumn:
   Enabled: false
 
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
 # Pending cops
 # These will be enabled by default at Rubocop 1.0
 Style/HashEachMethods:
@@ -120,6 +123,6 @@ Style/HashTransformKeys:
 Style/HashTransformValues:
   Enabled: true
 
-Naming/MemoizedInstanceVariableName:
-  Enabled: false
-
+Rake/Desc:
+  Exclude:
+    - 'lib/tasks/reset_qa.rake'

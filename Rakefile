@@ -5,8 +5,7 @@ require_relative 'config/application'
 
 Rails.application.load_tasks
 
-task(:default).clear
-task default: %i[run_tests]
+task(:default).clear.enhance %i[run_tests]
 
 Rake::Task['db:migrate'].enhance do
   sh 'bundle exec erd' if Rails.env.development?
