@@ -4,7 +4,7 @@ RSpec.feature 'Managing provider users' do
   include DfESignInHelpers
   include DsiAPIHelper
 
-  scenario 'creating a new provider user' do
+  scenario 'creating a new provider user', with_audited: true do
     given_dfe_signin_is_configured
     and_i_am_a_support_user
     and_providers_exist
@@ -29,6 +29,7 @@ RSpec.feature 'Managing provider users' do
     when_the_user_has_not_signed_in_yet
     and_i_click_on_that_user
     then_their_email_should_not_be_editable
+    and_i_should_see_the_audit_trail_for_that_user_record
 
     when_i_add_them_to_another_organisation
     then_i_see_that_they_have_been_added_to_that_organisation
@@ -133,6 +134,11 @@ RSpec.feature 'Managing provider users' do
   def then_their_email_should_not_be_editable
     expect(page).to have_field 'Email address', disabled: true
     expect(page).to have_content 'The email address is not editable'
+  end
+
+  def and_i_should_see_the_audit_trail_for_that_user_record
+    expect(page).to have_content 'Create Provider User'
+    expect(page).to have_content 'email_address harrison@example.com'
   end
 
   def when_they_have_signed_in_at_least_once
