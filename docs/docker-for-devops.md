@@ -17,13 +17,13 @@ The way that developers and the production service interact with the Docker imag
 The diagram below shows the hierachy of the image layers used to build our final **dev-build** and **prod-build** target images that are used by the developers and Azure deployments respectively. The images are defined in the [Dockerfile](../Dockerfile)
 
 ```
-               ---------------------- ruby:2.6.5-alpine ----------------------
-               |                                                             |
-               V                                                             |
-    --- common-build-env ---                                                 |
-    |                      |                                                 |
+               ┏━━━━━━━━━━━━━━━━━━━━━ ruby:2.6.6-alpine ━━━━━━━━━━━━━━━━━━━━━┓
+               ┃                                                             ┃
+               V                                                             ┃
+    ┏━━ common-build-env ━━┓                                                 ┃
+    ┃                      ┃                                                 ┃
     V                      V                                                 V
-dev-build             prod-minify ---(copy app and compiled assets)---> prod-build
+dev-build             prod-minify ━━━(copy app and compiled assets)━━━> prod-build
 ```
 ## Compose files
 
