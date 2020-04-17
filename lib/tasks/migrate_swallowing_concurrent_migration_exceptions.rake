@@ -1,4 +1,3 @@
-# rubocop:disable Lint/SuppressedException
 namespace :db do
   namespace :migrate do
     desc 'Run db:migrate but ignore ActiveRecord::ConcurrentMigrationError errors'
@@ -11,4 +10,3 @@ namespace :db do
     end
   end
 end
-# rubocop:enable Lint/SuppressedException

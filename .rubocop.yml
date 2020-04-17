@@ -123,6 +123,6 @@ Style/HashTransformKeys:
 Style/HashTransformValues:
   Enabled: true
 
-Naming/MemoizedInstanceVariableName:
-  Enabled: false
-
+Rake/Desc:
+  Exclude:
+    - 'lib/tasks/reset_qa.rake'
