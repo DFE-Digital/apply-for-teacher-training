@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_16_094721) do
+ActiveRecord::Schema.define(version: 2020_04_17_145121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -345,6 +345,17 @@ ActiveRecord::Schema.define(version: 2020_04_16_094721) do
     t.index ["dfe_sign_in_uid"], name: "index_support_users_on_dfe_sign_in_uid", unique: true
     t.index ["discarded_at"], name: "index_support_users_on_discarded_at"
     t.index ["email_address"], name: "index_support_users_on_email_address", unique: true
+  end
+
+  create_table "validation_errors", force: :cascade do |t|
+    t.string "form_object", null: false
+    t.integer "user_id", null: false
+    t.string "user_type", null: false
+    t.string "request_path", null: false
+    t.jsonb "details"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["form_object"], name: "index_validation_errors_on_form_object"
   end
 
   create_table "vendor_api_tokens", force: :cascade do |t|
