@@ -33,6 +33,10 @@ class CourseOption < ApplicationRecord
     !course.exposed_in_find?
   end
 
+  def course_closed_on_apply?
+    !course.open_on_apply?
+  end
+
   def course_full?
     course.course_options.vacancies.blank?
   end

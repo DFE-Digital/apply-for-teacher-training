@@ -384,6 +384,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
         course_not_available?: false,
         course_full?: false,
         chosen_site_full?: false,
+        course_closed_on_apply?: false,
       )
     end
 
@@ -394,6 +395,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
         course_not_available?: false,
         course_full?: false,
         chosen_site_full?: false,
+        course_closed_on_apply?: false,
       )
     end
 
@@ -422,6 +424,18 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
       it 'returns the appropriate error' do
         expect(presenter.application_choice_errors.map(&:message)).to eq %w[course_not_available]
+        expect(presenter.application_choice_errors.map(&:anchor)).to eq(['#course-choice-999'])
+      end
+    end
+
+    context 'a course is closed on Apply' do
+      before do
+        allow(application_choice_2).to receive(:course_closed_on_apply?).and_return true
+        allow(application_choice_2).to receive(:course_closed_on_apply_error).and_return 'course_not_available_on_apply'
+      end
+
+      it 'returns the appropriate error' do
+        expect(presenter.application_choice_errors.map(&:message)).to eq %w[course_not_available_on_apply]
         expect(presenter.application_choice_errors.map(&:anchor)).to eq(['#course-choice-999'])
       end
     end
