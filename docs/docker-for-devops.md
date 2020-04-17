@@ -6,7 +6,7 @@ This document describes the docker image used by the apply for teacher training 
 
 ## Docker and Docker Compose
 
-Docker will build an image from a Docker file and enable you to run and interact with the container based on it. Docker Compose on the other hand is used for defining multi-container Docker architectures that allows you to launch such environments from a single command instead of having to pull and launch several containers manually. In the case of the Apply service we have a Dockerfile that defines an image that can be launched in a number of modes and the Docker Compose file defines and launches all the dependent services required by the application, such as PostgreSQL and Redis.
+Docker will build an image from a Docker file and enable you to run and interact with the container based on it. Docker Compose on the other hand is used for defining multi-container Docker architectures that allows you to launch such environments from a single command instead of having to pull several images and launch all the containers manually. In the case of the Apply service we have a Dockerfile that defines an image that can be launched in a number of modes and the Docker Compose file defines and launches all the dependent services required by the application, such as PostgreSQL and Redis.
 
 ## Docker image structure
 
@@ -25,6 +25,18 @@ The diagram below shows the hierachy of the image layers used to build our final
     V                      V                                                 V
 dev-build             prod-minify ---(copy app and compiled assets)---> prod-build
 ```
+## Compose files
+
+The following files are used in Apply's docker compose implementation.
+
+- [docker-compose.yml](../docker-compose.yml)
+  - This file contains the components of the docker environment that are common to both local development and Azure production deployments. This file defines the images required for the Postgres database, Redis cache, application and worker instances and their dependencies.
+- [docker-compose.override.yml](../docker-compose.override.yml)
+  - The override file is automatically loaded at run time by docker compose if it exists and contains overrides to the main `docker-compose.yml` file that apply only to development environments. These overrides include the use of local volumes for data persistance and targeting the 'dev-build' image.
+- [docker-compose.azure.yml](../docker-compose.azure.yml)
+  - The azure override file contains the overrides specific to the production image used in Azure. These changes include targeting the 'prod-build' image, configuring bundler not to include development dependencies and changing the image name to a format that can be pushed to DockerHub.
+
+The Azure pipeline is configures docker compose to use the `docker-compose.azure.yml` file for overrides instead of the default `docker-compose.override.yml` in line 38 of the `azure-pipelines.yml` file. To run a production build locally you must rename the azure file to become the override file as described in the instructions later in this document.
 
 ## Makefile
 
@@ -36,7 +48,8 @@ The following commands all require you to have built and setup the container wit
 - `make serve`: This will run the Docker container in headless mode so that you can interact with the web interface on port 3000.
 - `make shell`: This will launch the Docker container and drop you into a shell environment to interface with the container like any other Linux environment. Run the `exit` command to return to your local terminal.
 - `make test` and `make ci.*`: These command will run the various test suites against the application.
-   - _NOTE: Set_ `RAILS_ENV=test` _in_ `.env` _before running any test commands._
+   - _NOTE 1: Set_ `RAILS_ENV=test` _in_ `.env` _and ensure_ `make setup` _has been run since the environment variable was changed prior to running the tests._
+   - _NOTE 2: Testing should be done based on the 'dev-build' image target as descirbed below. If you have previously done a prod target build you will need to restore the content of the_ `docker-compose.override.yml` _file and amend the environment variables in the_ `.env` _file._
 
 ## Building the Docker images
 
@@ -56,7 +69,7 @@ _NOTE: The environment variables below that are set to 'test' will be sufficient
 
 1. Launch a terminal and clone the `apply-for-teacher-training` Git repo.
 1. Create a copy of the [.env.development](../.env.development) file and name it `.env`.
-1. Edit the .env file ane append the following additional envrionment variables to the end of the file.
+1. Edit the `.env` file ane append the following additional envrionment variables to the end of the file.
    - `GOVUK_NOTIFY_API_KEY=test`
    - `RAILS_ENV=development`
 1. Run the `make build` command. This will take approximately five minutes to complete.
@@ -65,14 +78,16 @@ _NOTE: The environment variables below that are set to 'test' will be sufficient
 
 ### Building and running the 'prod-build' image target locally
 
+Under normal circumstances you will seldom need to run a build using these instructions. It is only required if a build in Azure fails and you need to reproduce the failure locally to debug.
+
 1. Launch a terminal and clone the `apply-for-teacher-training` Git repo.
 1. Create a copy of the [.env.development](../.env.development) file and name it `.env`.
-1. Edit the .env file and append the following additional envrionment variables to the end of the file.
+1. Edit the `.env` file and append the following additional envrionment variables to the end of the file.
    - `GOVUK_NOTIFY_API_KEY=test`
+   - `RAILS_ENV=production`
    - `SECRET_KEY_BASE=test`
    - `AUTHORISED_HOSTS=localhost` (_NOTE: If you are not running the Docker image locally this variable will need to be set to the hostname or IP address of the host running the service. This variable can accept multiple values as a comma separated list if required._)
    - `RAILS_SERVE_STATIC_FILES=true`
-   - `RAILS_ENV=production`
 1. Take a backup of the [docker-compose.override.yml](../docker-compose.override.yml) file by renaming it to something else of your choosing.
 1. Take a copy of the [docker-compose.azure.yml](../docker-compose.azure.yml) and name it `docker-compose.override.yml` to replace the file you backed up in the previous step.
 1. Open the new `docker-compose.override.yml` file and make the following changes to it:
@@ -81,6 +96,8 @@ _NOTE: The environment variables below that are set to 'test' will be sufficient
 1. Run the `make build` command. This will take approximately five minutes to complete.
 1. Run the `make setup` command to initialise the database.
 1. Run the `make serve` or `make shell` command to interact with the image as required. By default the application will run on port 3000.
+
+_NOTE: Don't forget to restore the original configuration of the_ `docker_compose.override.yml` _file once you have finished using the prod image otherwise unexpected bahviour may be observed if you attempt to run a dev build or the tests._
 
 ## Useful docker commands
 
