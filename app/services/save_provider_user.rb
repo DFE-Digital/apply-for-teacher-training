@@ -6,28 +6,28 @@ class SaveProviderUser
 
   def call!
     @provider_user.save!
-    update_permissions
+    update_permissions!
     @provider_user.reload
   end
 
 private
 
-  def update_permissions
+  def update_permissions!
     unselected_permissions = ProviderPermissions
       .where(provider_user: @provider_user)
       .where.not(provider_id: @permissions.values.flatten)
 
     ActiveRecord::Base.transaction do
-      ProviderPermissionsOptions::VALID_PERMISSIONS.each do |permission|
-        unselected_permissions.where(permission => true).each { |perm| perm.update(permission => false) }
+      ProviderPermissionsOptions::VALID_PERMISSIONS.each do |permission_name|
+        unselected_permissions.where(permission_name => true).each do |permission|
+          permission.update!(permission_name => false)
+        end
       end
 
-      @permissions.each do |permission, provider_ids|
-        provider_ids.each do |provider_id|
-          ProviderPermissions
-            .where(provider_user: @provider_user, provider_id: provider_id, permission => false)
-            .update(permission => true)
-        end
+      @permissions.each do |permission_name, provider_ids|
+        ProviderPermissions
+          .where(provider_user: @provider_user, provider_id: provider_ids, permission_name => false)
+          .each { |permission| permission.update!(permission_name => true) }
       end
     end
   end
