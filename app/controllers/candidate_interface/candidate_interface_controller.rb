@@ -22,7 +22,7 @@ module CandidateInterface
       ValidationError.create!(
         form_object: form.class.name,
         request_path: request.path,
-        candidate: current_candidate,
+        user: current_candidate,
         details: form.errors.messages.map { |field, messages| [field, { messages: messages, value: form.public_send(field) }] }.to_h,
       )
     rescue => e
