@@ -9,8 +9,7 @@ module CandidateInterface
     end
 
     def render?
-      FeatureFlag.active?('show_new_referee_needed') &&
-        reference_status.still_more_references_needed?
+      reference_status.still_more_references_needed?
     end
 
   private

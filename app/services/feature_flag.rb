@@ -17,7 +17,6 @@ class FeatureFlag
     provider_application_filters
     provider_change_response
     provider_view_safeguarding
-    show_new_referee_needed
     suitability_to_work_with_children
     training_with_a_disability
     work_breaks
