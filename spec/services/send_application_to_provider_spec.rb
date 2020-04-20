@@ -10,6 +10,8 @@ RSpec.describe SendApplicationToProvider do
   def application_choice(status: 'application_complete')
     @application_choice ||= create(
       :submitted_application_choice,
+      reject_by_default_at: nil,
+      reject_by_default_days: nil,
       status: status,
       edit_by: 2.business_days.ago,
     )
@@ -59,6 +61,7 @@ RSpec.describe SendApplicationToProvider do
     expect {
       SendApplicationToProvider.new(application_choice: application_choice).call
     }.to change { ActionMailer::Base.deliveries.count }.by(1)
+
 
     expect(ActionMailer::Base.deliveries.first.to.first).to eq(user.email_address)
   end
