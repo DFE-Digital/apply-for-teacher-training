@@ -10,11 +10,11 @@ class ReferenceStatus
   end
 
   def number_of_references_that_currently_need_replacing
-    references_that_needed_to_be_replaced.size - replacement_references.reject(&:not_requested_yet?).size
+    ApplicationForm::MINIMUM_COMPLETE_REFERENCES - non_overdue_references.select { |reference| reference.feedback_provided? || reference.feedback_requested? }.size
   end
 
   def needs_to_draft_another_reference?
-    (number_of_references_that_currently_need_replacing - references_currently_not_requested_yet.size).positive?
+    (number_of_references_that_currently_need_replacing - replacement_references.select(&:not_requested_yet?).size).positive?
   end
 
   def references_that_needed_to_be_replaced
@@ -28,16 +28,16 @@ class ReferenceStatus
 
 private
 
-  def references_currently_not_requested_yet
-    application_references.select(&:not_requested_yet?)
-  end
-
   def replacement_references
     application_references.select(&:replacement?)
   end
 
   def feedback_completed?
     application_references.select(&:feedback_provided?).size == 2
+  end
+
+  def non_overdue_references
+    application_references.reject(&:feedback_overdue?)
   end
 
   def application_references

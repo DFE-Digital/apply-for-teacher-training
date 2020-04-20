@@ -95,7 +95,7 @@ en:
     referee_destroy: Are you sure you want to delete this referee?
     referee_cancel: Are you sure you want to cancel this request for a reference?
     add_referee: Details of referee
-    maximum_referees: You have already added the maxiumum amount of referees
+    maximum_referees: You have already added the maximum amount of referees
     nth_referee:
       - (should never appear)
       - First referee

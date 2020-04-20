@@ -1,7 +1,7 @@
 module CandidateInterface
   class AdditionalRefereesController < CandidateInterfaceController
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
-    before_action :redirect_to_contact_support_if_at_maximum_reference_count, only: %i[type update_type new create confirm]
+    before_action :redirect_to_contact_support_if_at_maximum_reference_count, only: %i[type update_type new create]
 
     def type
       @page_title = page_title_for_new_page
@@ -116,13 +116,13 @@ module CandidateInterface
     end
 
     def redirect_to_dashboard_if_no_references_needed
-      return if !reference_status.still_more_references_needed?
+      return if reference_status.still_more_references_needed?
 
       redirect_to candidate_interface_application_form_path
     end
 
     def redirect_to_contact_support_if_at_maximum_reference_count
-      redirect_to candidate_interface_additional_referee_contact_support_path if at_maximum_referee_count && reference_status.still_more_references_needed?
+      redirect_to candidate_interface_additional_referee_contact_support_path if at_maximum_referee_count && reference_status.needs_to_draft_another_reference?
     end
 
     def at_maximum_referee_count
