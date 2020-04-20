@@ -508,7 +508,7 @@ GEM
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
-    wkhtmltopdf-binary-edge-alpine (0.12.5.0)
+    wkhtmltopdf-binary (0.12.5.4)
     workflow (2.0.2)
     xpath (3.2.0)
       nokogiri (~> 1.8)
@@ -584,7 +584,7 @@ DEPENDENCIES
   web-console (>= 3.3.0)
   webmock
   webpacker
-  wkhtmltopdf-binary-edge-alpine
+  wkhtmltopdf-binary
   workflow
 
 RUBY VERSION
