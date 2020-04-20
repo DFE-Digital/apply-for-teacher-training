@@ -465,4 +465,9 @@ FactoryBot.define do
     provider
     provider_user
   end
+
+  factory :validation_error do
+    form_object { 'RefereeInterface::ReferenceFeedbackForm' }
+    details { { feedback: 'must be present' } }
+  end
 end
