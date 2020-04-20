@@ -2,6 +2,8 @@ class ApplicationChoice < ApplicationRecord
   include Chased
 
   before_create :set_initial_status
+  after_commit :send_new_application_email_to_provider, on: :update
+  attr_accessor :allow_new_application_email
 
   belongs_to :application_form, touch: true
   belongs_to :course_option
@@ -29,6 +31,12 @@ class ApplicationChoice < ApplicationRecord
     withdrawn: 'withdrawn',
     conditions_not_met: 'conditions_not_met',
   }
+
+  def send_new_application_email_to_provider
+    if allow_new_application_email
+      SendNewApplicationEmailToProvider.new(application_choice: self).call
+    end
+  end
 
   def edit_by_expired?
     edit_by.present? && edit_by < Time.zone.now

@@ -9,6 +9,7 @@ class SendApplicationToProvider
   def call
     return false unless application_choice.application_complete?
 
+    application_choice.allow_new_application_email = true
     ActiveRecord::Base.transaction do
       application_choice.update!(sent_to_provider_at: Time.zone.now)
       SetRejectByDefault.new(application_choice).call
@@ -16,6 +17,5 @@ class SendApplicationToProvider
     end
 
     StateChangeNotifier.call(:send_application_to_provider, application_choice: application_choice)
-    SendNewApplicationEmailToProvider.new(application_choice: application_choice).call
   end
 end
