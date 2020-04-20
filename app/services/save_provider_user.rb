@@ -13,15 +13,21 @@ class SaveProviderUser
 private
 
   def update_permissions
+    unselected_permissions = ProviderPermissions
+      .where(provider_user: @provider_user)
+      .where.not(provider_id: @permissions.values.flatten)
+
     ActiveRecord::Base.transaction do
-      ProviderPermissions
-        .where(provider_user: @provider_user)
-        .update_all(ProviderPermissionsOptions.reset_attributes)
+      ProviderPermissionsOptions::VALID_PERMISSIONS.each do |permission|
+        unselected_permissions.where(permission => true).each { |perm| perm.update(permission => false) }
+      end
 
       @permissions.each do |permission, provider_ids|
-        ProviderPermissions
-          .where(provider_user: @provider_user, provider_id: provider_ids)
-          .update_all(permission => true)
+        provider_ids.each do |provider_id|
+          ProviderPermissions
+            .where(provider_user: @provider_user, provider_id: provider_id, permission => false)
+            .update(permission => true)
+        end
       end
     end
   end
