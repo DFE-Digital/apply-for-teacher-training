@@ -34,7 +34,7 @@ RSpec.feature 'See applications' do
   end
 
   def then_i_expect_to_see_the_covid_19_guidance_page
-    expect(page).to have_content('Coronavirus (COVID-19): new deadlines for processing applications')
+    expect(page).to have_content('Coronavirus (COVID-19): deadlines for processing applications extended')
   end
 
   def then_i_expect_to_see_the_covid_19_message
