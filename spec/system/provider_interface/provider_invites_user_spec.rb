@@ -82,15 +82,17 @@ RSpec.feature 'Provider invites a new provider user' do
   end
 
   def and_i_add_a_provider_for_an_existing_user
-    fill_in 'First name', with: 'Jane'
-    fill_in 'Last name', with: 'Smith'
     fill_in 'Email address', with: @email_address
     check @another_provider.name_and_code
+
     click_on 'Invite user'
   end
 
   def then_the_provider_is_assigned_to_the_user
     expect(page).to have_content('Provider user invited')
-    expect(@new_provider_user.reload.providers).to include(@another_provider)
+
+    @existing_provider_user = ProviderUser.find_by(email_address: @email_address)
+    expect(@existing_provider_user.providers).to include(@provider)
+    expect(@existing_provider_user.providers).to include(@another_provider)
   end
 end

@@ -13,18 +13,8 @@ module ProviderInterface
     validate :permitted_providers
 
     def build
-      return unless valid?
+      @provider_user = existing_provider_user ? build_from_existing_user : build_new_user
 
-      if existing_provider_user
-        @provider_user = existing_provider_user
-      else
-        @provider_user ||= ProviderUser.new
-      end
-
-      @provider_user.first_name = first_name
-      @provider_user.last_name = last_name
-      @provider_user.email_address = email_address
-      @provider_user.provider_ids = provider_ids
       @provider_user if @provider_user.valid?
     end
 
@@ -61,6 +51,26 @@ module ProviderInterface
     end
 
   private
+
+    def build_new_user
+      return unless valid?
+
+      provider_user ||= ProviderUser.new
+      provider_user.first_name = first_name
+      provider_user.last_name = last_name
+      provider_user.email_address = email_address
+      provider_user.provider_ids = provider_ids
+      provider_user
+    end
+
+    def build_from_existing_user
+      @first_name = existing_provider_user.first_name
+      @last_name = existing_provider_user.last_name
+      @email_address = existing_provider_user.email_address
+
+      existing_provider_user.provider_ids += provider_ids
+      existing_provider_user
+    end
 
     def existing_provider_user
       @existing_provider_user ||= ProviderUser.find_by(email_address: email_address)
