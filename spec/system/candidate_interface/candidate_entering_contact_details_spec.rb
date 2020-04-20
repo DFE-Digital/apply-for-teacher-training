@@ -11,12 +11,12 @@ RSpec.feature 'Entering their contact details' do
     and_i_incorrectly_fill_in_my_phone_number
     and_i_submit_my_phone_number
     then_i_should_see_validation_errors_for_my_phone_number
+    and_a_validation_error_is_logged_for_phone_number
 
     when_i_fill_in_my_phone_number
     and_i_submit_my_phone_number
     and_i_incorrectly_fill_in_my_address
     and_i_submit_my_address
-    then_i_should_see_validation_errors_for_my_address
 
     when_i_fill_in_my_address
     and_i_submit_my_address
@@ -66,6 +66,12 @@ RSpec.feature 'Entering their contact details' do
 
   def then_i_should_see_validation_errors_for_my_phone_number
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.phone_number.invalid')
+  end
+
+  def and_a_validation_error_is_logged_for_phone_number
+    validation_error = ValidationError.last
+    expect(validation_error).to be_present
+    expect(validation_error.details).to(include { satisfy { |error| error['field'] == 'phone_number' } })
   end
 
   def when_i_fill_in_my_phone_number
