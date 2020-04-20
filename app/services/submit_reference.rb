@@ -15,10 +15,9 @@ class SubmitReference
       raise 'Can\'t submit a reference without answers to all questions'
     end
 
-    ActiveRecord::Base.transaction do
-      @reference.update!(feedback_status: 'feedback_provided')
-      progress_application_if_enough_references_have_been_submitted
-    end
+    @reference.update!(feedback_status: 'feedback_provided')
+
+    progress_application_if_enough_references_have_been_submitted
 
     CandidateMailer.reference_received(@reference).deliver_later
     RefereeMailer.reference_confirmation_email(application_form, reference).deliver_later
@@ -29,8 +28,10 @@ private
   def progress_application_if_enough_references_have_been_submitted
     return unless there_are_now_enough_references_to_progress?
 
-    application_form.application_choices.each do |application_choice|
-      ApplicationStateChange.new(application_choice).references_complete!
+    ActiveRecord::Base.transaction do
+      application_form.application_choices.each do |application_choice|
+        ApplicationStateChange.new(application_choice).references_complete!
+      end
     end
 
     SendApplicationsToProvider.new.call
