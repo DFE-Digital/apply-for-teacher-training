@@ -532,8 +532,11 @@ Rails.application.routes.draw do
       get '/restore/:id' => 'support_users#confirm_restore', as: :confirm_restore_support_user
       delete '/restore/:id' => 'support_users#restore', as: :restore_support_user
 
-      resources :support_users, only: %i[index new create], path: :support
-      resources :provider_users, only: %i[index new create edit update], path: :provider
+      resources :support_users, only: %i[index new create show], path: :support
+
+      resources :provider_users, only: %i[index new create edit update], path: :provider do
+        get '/audits' => 'provider_users#audits'
+      end
     end
 
     get '/sign-in' => 'sessions#new'

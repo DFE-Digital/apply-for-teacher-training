@@ -12,6 +12,11 @@
       </li>
     </ol>
   </div>
+
+  <%= render SubNavigationComponent.new(items: [
+    { name: 'Details', url: support_interface_provider_user_path(@form.provider_user), current: true },
+    { name: 'Audit trail', url: support_interface_provider_user_audits_path(@form.provider_user) },
+  ]) %>
 <% end %>
 
 <div class="govuk-grid-row">

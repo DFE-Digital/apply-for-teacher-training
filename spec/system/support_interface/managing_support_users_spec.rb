@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Managing support users' do
   include DfESignInHelpers
 
-  scenario 'creating a new support user' do
+  scenario 'creating a new support user', with_audited: true do
     given_i_am_a_support_user
 
     when_i_visit_the_support_console
@@ -16,7 +16,11 @@ RSpec.feature 'Managing support users' do
     then_i_should_see_the_list_of_support_users
     and_i_should_see_the_user_i_created
 
-    when_i_submit_the_same_email_address_again
+    when_i_click_on_the_user
+    then_i_can_see_the_audit_history
+
+    when_i_go_back_to_the_manage_support_users_page
+    and_i_submit_the_same_email_address_again
     then_i_see_an_error
   end
 
@@ -57,10 +61,24 @@ RSpec.feature 'Managing support users' do
     expect(page).to have_content('harrison@example.com')
   end
 
-  def when_i_submit_the_same_email_address_again
+  def when_i_go_back_to_the_manage_support_users_page
+    click_link 'Users'
+    click_link 'Support users'
+  end
+
+  def and_i_submit_the_same_email_address_again
     and_i_click_the_add_user_link
     and_i_enter_the_users_email_and_dsi_uid
     and_i_click_add_user
+  end
+
+  def when_i_click_on_the_user
+    click_on 'harrison@example.com'
+  end
+
+  def then_i_can_see_the_audit_history
+    expect(page).to have_content('Create Support User')
+    expect(page).to have_content('email_address harrison@example.com')
   end
 
   def then_i_see_an_error

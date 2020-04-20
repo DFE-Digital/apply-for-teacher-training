@@ -15,6 +15,10 @@ class SupportUser < ActiveRecord::Base
     SupportUser.kept.find_by(dfe_sign_in_uid: dfe_sign_in_user.dfe_sign_in_uid)
   end
 
+  def display_name
+    [first_name, last_name].join(' ').presence || email_address
+  end
+
 private
 
   def downcase_email_address
