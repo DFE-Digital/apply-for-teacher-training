@@ -5,8 +5,6 @@ RSpec.feature 'An application is waiting for decision for 20 working days' do
   include CandidateHelper
 
   scenario 'the provider receives a chaser email' do
-    FeatureFlag.activate('training_with_a_disability')
-
     given_a_candidate_has_submitted_an_application_form
     and_an_application_was_sent_to_provider
     and_i_am_a_provider_user_at_the_course_provider

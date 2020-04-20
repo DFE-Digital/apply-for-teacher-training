@@ -4,8 +4,6 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   include CandidateHelper
 
   scenario 'Referee submits a reference for a candidate with relationship, safeguarding and review page' do
-    FeatureFlag.activate('training_with_a_disability')
-
     given_a_candidate_completed_an_application
     when_the_candidate_submits_the_application
     then_i_receive_an_email_with_a_magic_link
