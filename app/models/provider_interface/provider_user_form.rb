@@ -7,7 +7,8 @@ module ProviderInterface
     attr_writer :provider_ids
     attr_reader :email_address
 
-    validates :email_address, :first_name, :last_name, presence: true
+    validates :first_name, :last_name, presence: true, if: -> { existing_provider_user.blank? }
+    validates :email_address, presence: true
     validates :email_address, email: true
     validates :provider_ids, presence: true
     validate :permitted_providers
@@ -64,15 +65,13 @@ module ProviderInterface
     end
 
     def build_from_existing_user
-      @first_name = existing_provider_user.first_name
-      @last_name = existing_provider_user.last_name
-      @email_address = existing_provider_user.email_address
-
       existing_provider_user.provider_ids += provider_ids
       existing_provider_user
     end
 
     def existing_provider_user
+      return if email_address.blank?
+
       @existing_provider_user ||= ProviderUser.find_by(email_address: email_address)
     end
 

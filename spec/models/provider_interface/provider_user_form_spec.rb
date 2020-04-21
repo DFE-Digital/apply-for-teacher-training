@@ -17,7 +17,7 @@ RSpec.describe ProviderInterface::ProviderUserForm do
       let(:provider_ids) { [provider.id, another_provider.id] }
 
       it 'is invalid' do
-        expect(provider_user_form.valid?).to be false
+        expect(provider_user_form).not_to be_valid
         expect(provider_user_form.errors[:provider_ids]).not_to be_empty
       end
     end
@@ -26,6 +26,26 @@ RSpec.describe ProviderInterface::ProviderUserForm do
       it 'is valid' do
         provider_user_form.valid?
         expect(provider_user_form.errors[:provider_ids]).to be_empty
+      end
+    end
+
+    context 'name fields' do
+      it 'are required' do
+        provider_user_form.valid?
+
+        expect(provider_user_form.errors[:first_name]).not_to be_empty
+        expect(provider_user_form.errors[:last_name]).not_to be_empty
+      end
+    end
+
+    context 'with email address of an existing user' do
+      let(:email_address) { 'provider@example.com' }
+      let(:existing_user) { create(:provider_user, :with_provider, email_address: email_address) }
+
+      before { form_params[:email_address] = existing_user.email_address }
+
+      it 'is valid' do
+        expect(provider_user_form).to be_valid
       end
     end
   end
