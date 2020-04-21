@@ -82,8 +82,9 @@ RSpec.describe ProviderUser, type: :model do
     it 'returns provider users with access to the same providers as the passed user' do
       provider = create(:provider)
 
-      user_a = create(:provider_user, providers: [provider])
+      user_a = create(:provider_user)
       user_b = create(:provider_user, providers: [provider])
+      create(:provider_permissions, provider_user: user_a, provider: provider, manage_users: true)
 
       expect(ProviderUser.visible_to(user_a)).to include(user_b)
       expect(ProviderUser.visible_to(user_a).count).to eq(2) # user_a can see themselves plus user_b
@@ -93,11 +94,28 @@ RSpec.describe ProviderUser, type: :model do
       provider_a = create(:provider)
       provider_b = create(:provider)
 
-      user_a = create(:provider_user, providers: [provider_a, provider_b])
+      user_a = create(:provider_user)
       user_b = create(:provider_user, providers: [provider_a, provider_b])
+
+      create(:provider_permissions, provider_user: user_a, provider: provider_a, manage_users: true)
+      create(:provider_permissions, provider_user: user_a, provider: provider_b, manage_users: true)
 
       expect(ProviderUser.visible_to(user_a)).to include(user_b)
       expect(ProviderUser.visible_to(user_a).count).to eq(2) # user_a can see themselves plus user_b
+    end
+
+    it 'returns only users for providers for which the passed user has manage_users permission' do
+      provider_a = create(:provider)
+      provider_b = create(:provider)
+
+      user_a = create(:provider_user)
+      create(:provider_permissions, provider_user: user_a, provider: provider_a, manage_users: true)
+      create(:provider_permissions, provider_user: user_a, provider: provider_b, manage_users: false)
+      user_b = create(:provider_user, providers: [provider_a])
+      user_c = create(:provider_user, providers: [provider_b])
+
+      expect(ProviderUser.visible_to(user_a)).to include(user_b)
+      expect(ProviderUser.visible_to(user_a)).not_to include(user_c)
     end
   end
 end
