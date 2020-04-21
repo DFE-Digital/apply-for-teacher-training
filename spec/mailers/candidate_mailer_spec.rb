@@ -38,14 +38,6 @@ RSpec.describe CandidateMailer, type: :mailer do
                     'support reference' => 'SUPPORT-REFERENCE',
                     'RBD time limit' => "to make an offer within #{TimeLimitConfig.limits_for(:reject_by_default).first.limit} working days")
 
-    context 'when the edit_application feature flag is on' do
-      before { FeatureFlag.activate('edit_application') }
-
-      it_behaves_like('a mail with subject and content', :application_submitted,
-                      I18n.t!('candidate_mailer.application_submitted.subject'),
-                      'edit by time limit' => "You have #{TimeLimitConfig.edit_by} to edit")
-    end
-
     context 'when the improved_expired_token_flow feature flag is on' do
       before { FeatureFlag.activate('improved_expired_token_flow') }
 

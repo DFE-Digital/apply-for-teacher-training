@@ -1,6 +1,6 @@
 module CandidateInterface
   class Volunteering::DestroyController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_not_amendable
+    before_action :redirect_to_dashboard_if_submitted
 
     def confirm_destroy
       current_experience = current_application.application_volunteering_experiences.find(current_volunteering_role_id)

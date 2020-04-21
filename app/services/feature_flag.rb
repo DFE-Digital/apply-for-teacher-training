@@ -8,7 +8,6 @@ class FeatureFlag
     covid_19
     check_full_courses
     confirm_conditions
-    edit_application
     equality_and_diversity
     force_ok_computer_to_fail
     improved_expired_token_flow

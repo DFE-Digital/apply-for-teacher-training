@@ -108,14 +108,6 @@ class ApplicationForm < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
-  def amendable?
-    FeatureFlag.active?('edit_application') && submitted? && within_amend_period?
-  end
-
-  def within_amend_period?
-    application_choices.none?(&:edit_by_expired?)
-  end
-
   def blank_application?
     updated_at == created_at
   end

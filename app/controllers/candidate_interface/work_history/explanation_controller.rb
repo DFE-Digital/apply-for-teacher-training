@@ -1,6 +1,6 @@
 module CandidateInterface
   class WorkHistory::ExplanationController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_not_amendable
+    before_action :redirect_to_dashboard_if_submitted
 
     def show
       @work_explanation_form = WorkExplanationForm.build_from_application(

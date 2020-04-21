@@ -1,7 +1,6 @@
 module CandidateInterface
   class RefereesController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_not_amendable, except: %i[confirm_cancel cancel]
-    before_action :redirect_to_review_referees_if_amendable, except: %i[index review]
+    before_action :redirect_to_dashboard_if_submitted, except: %i[confirm_cancel cancel]
     before_action :set_referee, only: %i[edit update confirm_destroy destroy confirm_cancel cancel]
     before_action :set_referees, only: %i[type update_type new create index review]
 
@@ -132,10 +131,6 @@ module CandidateInterface
         :relationship,
       )
         .transform_values(&:strip)
-    end
-
-    def redirect_to_review_referees_if_amendable
-      redirect_to candidate_interface_review_referees_path if current_application.amendable?
     end
   end
 end

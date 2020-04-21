@@ -1,6 +1,6 @@
 module CandidateInterface
   class OtherQualifications::BaseController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_not_amendable
+    before_action :redirect_to_dashboard_if_submitted
 
     def new
       qualifications = OtherQualificationForm.build_all_from_application(current_application)

@@ -1,5 +1,7 @@
 module CandidateInterface
   class OtherQualifications::DetailsController < CandidateInterfaceController
+    before_action :redirect_to_dashboard_if_submitted
+
     def new
       qualifications = OtherQualificationForm.build_all_from_application(current_application)
       @type = qualifications.last.qualification_type

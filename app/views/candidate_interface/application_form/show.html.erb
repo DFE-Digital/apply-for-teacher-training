@@ -1,4 +1,4 @@
-<% content_for :title, @application_form.amendable? ? t('page_titles.edit_application_form') : t('page_titles.application_form') %>
+<% content_for :title, t('page_titles.application_form') %>
 
 <% if FeatureFlag.active?('covid_19') && flash.empty? %>
   <div class="app-banner" aria-labelledby="success-message" data-module="govuk-error-summary" role="alert">
@@ -10,22 +10,12 @@
 
 
 <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
-  <%= @application_form.amendable? ? t('page_titles.edit_application_form') : t('page_titles.application_form') %>
+  <%= t('page_titles.application_form') %>
 </h1>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <% if @application_form.amendable? %>
-      <div class="govuk-warning-text govuk-!-margin-top-6">
-        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-        <strong class="govuk-warning-text__text">
-          <span class="govuk-warning-text__assistive">Warning</span>
-            <%= t('application_complete.edit_page.warning_text', remaining_days: formatted_days_remaining, date: edit_by_date) %>
-        </strong>
-      </div>
-    <% else %>
-      <p class="govuk-hint govuk-!-margin-bottom-8 govuk-!-margin-top-2"><%= @application_form_presenter.updated_at %></p>
-    <% end %>
+    <p class="govuk-hint govuk-!-margin-bottom-8 govuk-!-margin-top-2"><%= @application_form_presenter.updated_at %></p>
 
     <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">
       <%= t('page_titles.course_choices') %>
@@ -104,35 +94,20 @@
     </ul>
 
     <h2 class="govuk-heading-m govuk-!-font-size-27">References</h2>
-    <% if @application_form.amendable? %>
-      <p class="govuk-body"><%= t('application_complete.edit_page.references_uneditable') %></p>
-    <% end %>
     <ul class="app-task-list govuk-!-margin-bottom-8">
       <li class="app-task-list__item">
-        <% submitted = @application_form.amendable? ? true : false %>
-        <%= render(TaskListItemComponent.new(text: 'Referees', completed: @application_form_presenter.all_referees_provided_by_candidate?, path: candidate_interface_referees_path, submitted: submitted)) %>
+        <%= render(TaskListItemComponent.new(text: 'Referees', completed: @application_form_presenter.all_referees_provided_by_candidate?, path: candidate_interface_referees_path, submitted: false)) %>
       </li>
     </ul>
 
-    <% if @application_form.amendable? %>
-      <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('application_complete.edit_page.resubmit_title') %></h2>
-      <ul class="app-task-list govuk-!-margin-bottom-8">
-        <li class="app-task-list__item">
-          <%= govuk_link_to t('application_complete.edit_page.resubmit_button'),
-                            candidate_interface_application_complete_path,
-                            class: 'app-task-list__task-name' %>
-        </li>
-      </ul>
-    <% else %>
-      <h2 class="govuk-heading-m govuk-!-font-size-27">Review and submit</h2>
-      <ul class="app-task-list govuk-!-margin-bottom-8">
-        <li class="app-task-list__item">
-          <%= govuk_link_to 'Check your answers before submitting',
-                            candidate_interface_application_review_path,
-                            class: 'app-task-list__task-name' %>
-        </li>
-      </ul>
-    <% end %>
+    <h2 class="govuk-heading-m govuk-!-font-size-27">Review and submit</h2>
+    <ul class="app-task-list govuk-!-margin-bottom-8">
+      <li class="app-task-list__item">
+        <%= govuk_link_to 'Check your answers before submitting',
+                          candidate_interface_application_review_path,
+                          class: 'app-task-list__task-name' %>
+      </li>
+    </ul>
   </div>
 
   <div class="govuk-grid-column-one-third">
