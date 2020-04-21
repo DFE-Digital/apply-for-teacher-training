@@ -51,6 +51,12 @@ module ProviderInterface
       @available_providers ||= ProviderOptionsService.new(current_provider_user).providers_with_manageable_users
     end
 
+    def existing_provider_user
+      return if email_address.blank?
+
+      @existing_provider_user ||= ProviderUser.find_by(email_address: email_address)
+    end
+
   private
 
     def build_new_user
@@ -67,12 +73,6 @@ module ProviderInterface
     def build_from_existing_user
       existing_provider_user.provider_ids += provider_ids
       existing_provider_user
-    end
-
-    def existing_provider_user
-      return if email_address.blank?
-
-      @existing_provider_user ||= ProviderUser.find_by(email_address: email_address)
     end
 
     def permitted_providers
