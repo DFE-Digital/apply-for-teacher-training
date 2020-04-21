@@ -19,7 +19,6 @@ RSpec.describe 'A Provider can log in as a candidate' do
 
     when_i_visit_that_application_in_the_provider_interface
     and_the_application_has_a_referee_that_rejected_to_give_feedback
-    and_the_show_new_referee_needed_feature_flag_is_active
     and_i_click_on_the_sign_in_button
 
     then_i_am_redirected_to_the_candidate_additional_referee_path
@@ -62,10 +61,6 @@ RSpec.describe 'A Provider can log in as a candidate' do
 
   def and_the_application_has_a_referee_that_rejected_to_give_feedback
     @application_choice.application_form.application_references << create(:reference, :refused)
-  end
-
-  def and_the_show_new_referee_needed_feature_flag_is_active
-    FeatureFlag.activate('show_new_referee_needed')
   end
 
   def then_i_am_redirected_to_the_candidate_additional_referee_path
