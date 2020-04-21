@@ -12,6 +12,6 @@ RSpec.describe ProviderInterface::StatusBoxComponents::CourseRows do
   it 'displays information about the offered course' do
     rows = helper.course_rows(course_option: create(:course_option))
 
-    expect(rows.map { |r| r[:key] }).to match_array %w[Course Location Provider]
+    expect(rows.map { |r| r[:key] }).to match_array ['Course', 'Location', 'Provider', 'Study mode']
   end
 end

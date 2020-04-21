@@ -12,6 +12,10 @@ module ProviderInterface
             value: course_option.course.name_and_code,
           },
           {
+            key: 'Study mode',
+            value: course_option.full_time? ? 'Full time' : 'Part time',
+          },
+          {
             key: 'Location',
             value: course_option.site.name_and_address,
           },
