@@ -24,7 +24,6 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
 
   scenario 'Candidate adds two auto-references' do
     given_i_am_signed_in
-    and_the_training_with_a_disability_feature_flag_is_on
 
     when_i_have_completed_my_application
     and_i_review_my_application
@@ -42,10 +41,6 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_training_with_a_disability_feature_flag_is_on
-    FeatureFlag.activate('training_with_a_disability')
   end
 
   def when_i_have_completed_my_application

@@ -4,8 +4,6 @@ RSpec.feature 'Refusing to give a reference' do
   include CandidateHelper
 
   scenario 'Referee refuses to give a reference' do
-    FeatureFlag.activate('training_with_a_disability')
-
     given_a_candidate_completed_an_application
     when_the_candidate_submits_the_application
     then_i_receive_an_email_with_a_reference_request

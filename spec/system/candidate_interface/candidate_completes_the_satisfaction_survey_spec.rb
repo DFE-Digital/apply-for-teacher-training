@@ -5,7 +5,6 @@ RSpec.describe 'Candidate satisfaction survey' do
 
   scenario 'Candidate completes the survey' do
     given_the_satisfaction_survey_flag_is_active
-    and_the_training_with_a_disability_flag_is_active
 
     when_the_candidate_completes_and_submits_their_application
     then_they_should_be_asked_to_give_feedback
@@ -69,10 +68,6 @@ RSpec.describe 'Candidate satisfaction survey' do
 
   def given_the_satisfaction_survey_flag_is_active
     FeatureFlag.activate('satisfaction_survey')
-  end
-
-  def and_the_training_with_a_disability_flag_is_active
-    FeatureFlag.activate('training_with_a_disability')
   end
 
   def when_the_candidate_completes_and_submits_their_application

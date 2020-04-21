@@ -4,8 +4,7 @@ RSpec.describe 'Cancelling a reference' do
   include CandidateHelper
 
   scenario 'candidate cancels a reference request after completing their application' do
-    given_the_training_with_a_disability_flag_is_active
-    and_i_have_completed_and_submitted_my_application
+    given_i_have_completed_and_submitted_my_application
     and_the_candidate_can_cancel_reference_flag_is_active
     and_the_referee_type_flag_is_active
 
@@ -19,11 +18,7 @@ RSpec.describe 'Cancelling a reference' do
     and_a_slack_notification_is_sent
   end
 
-  def given_the_training_with_a_disability_flag_is_active
-    FeatureFlag.activate('training_with_a_disability')
-  end
-
-  def and_i_have_completed_and_submitted_my_application
+  def given_i_have_completed_and_submitted_my_application
     candidate_completes_application_form
     candidate_submits_application
   end

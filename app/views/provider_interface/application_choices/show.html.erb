@@ -55,10 +55,7 @@
       { key: 'Study mode', value: @application_choice.course_option.study_mode.humanize },
     ]) %>
 
-    <% if FeatureFlag.active?('training_with_a_disability') %>
-      <%= render ProviderInterface::TrainingWithDisabilityComponent.new(application_form: @application_choice.application_form) %>
-    <% end %>
-
+    <%= render ProviderInterface::TrainingWithDisabilityComponent.new(application_form: @application_choice.application_form) %>
 
     <% if FeatureFlag.active?('provider_view_safeguarding') %>
       <%= render ProviderInterface::SafeguardingDeclarationComponent.new(application_form: @application_choice.application_form)%>

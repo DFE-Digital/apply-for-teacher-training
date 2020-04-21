@@ -19,7 +19,6 @@ class FeatureFlag
     provider_view_safeguarding
     show_new_referee_needed
     suitability_to_work_with_children
-    training_with_a_disability
     work_breaks
     before_you_start
     provider_interface_work_breaks
