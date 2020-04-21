@@ -13,6 +13,7 @@ class ProviderUser < ActiveRecord::Base
   scope :visible_to, ->(provider_user) {
     joins(:provider_permissions)
       .where(ProviderPermissions.table_name => { provider_id: provider_user.providers.pluck(:id) })
+      .distinct
   }
 
   def self.load_from_session(session)
