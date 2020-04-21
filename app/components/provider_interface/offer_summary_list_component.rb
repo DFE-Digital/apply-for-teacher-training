@@ -1,6 +1,8 @@
 module ProviderInterface
   class OfferSummaryListComponent < ViewComponent::Base
     include ViewHelper
+    include ProviderInterface::StatusBoxComponents::CourseRows
+
     attr_reader :application_choice, :header, :options
 
     def initialize(application_choice:, header: 'Your offer', options: {})
@@ -18,22 +20,24 @@ module ProviderInterface
           key: 'Candidate name',
           value: application_choice.application_form.full_name,
         },
-        {
-          key: 'Provider',
-          value: @course_option.course.provider.name,
-          change_path: @change_provider_path, action: 'training provider'
-        },
-        {
-          key: 'Course',
-          value: @course_option.course.name_and_code,
-          change_path: @change_course_path, action: 'course'
-        },
-        {
-          key: 'Location',
-          value: @course_option.site.name_and_address,
-          change_path: @change_course_option_path, action: 'location'
-        },
-      ]
+      ] + add_change_links_to(course_rows(course_option: application_choice.offered_option))
+    end
+
+  private
+
+    def add_change_links_to(rows)
+      rows.map do |row|
+        case row[:key]
+        when 'Provider'
+          row.merge(change_path: @change_provider_path, action: 'training provider')
+        when 'Course'
+          row.merge(change_path: @change_course_path, action: 'course')
+        when 'Location'
+          row.merge(change_path: @change_course_option_path, action: 'location')
+        else
+          row
+        end
+      end
     end
   end
 end
