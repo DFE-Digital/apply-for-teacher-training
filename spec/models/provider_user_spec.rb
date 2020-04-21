@@ -77,4 +77,14 @@ RSpec.describe ProviderUser, type: :model do
       expect(provider_user.can_manage_users?).to be true
     end
   end
+
+  describe '.visible_to' do
+    it 'returns provider users with access to the same providers as the passed user' do
+      provider = create(:provider)
+      user_a = create(:provider_user, providers: [provider])
+      user_b = create(:provider_user, providers: [provider])
+
+      expect(ProviderUser.visible_to(user_a)).to include(user_b)
+    end
+  end
 end
