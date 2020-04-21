@@ -53,12 +53,7 @@ module ViewHelper
 
   def candidate_sign_in_url(candidate)
     encrypted_candidate_id = Encryptor.encrypt(candidate.id)
-
-    if FeatureFlag.active?('improved_expired_token_flow')
-      candidate_interface_sign_in_url(u: encrypted_candidate_id)
-    else
-      candidate_interface_sign_in_url
-    end
+    candidate_interface_sign_in_url(u: encrypted_candidate_id)
   end
 
   def format_months_to_years_and_months(number_of_months)

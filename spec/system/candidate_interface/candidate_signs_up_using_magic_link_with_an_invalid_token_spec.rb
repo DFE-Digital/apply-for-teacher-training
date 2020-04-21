@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Candidate tries to sign up using magic link with an invalid token' do
   scenario 'Candidate signs in and receives an email inviting them to sign up' do
     given_the_pilot_is_open
-    and_the_improved_expired_token_flow_feature_flag_is_on
     and_the_covid_19_feature_flag_is_active
     and_the_create_account_or_sign_in_page_feature_flag_is_active
 
@@ -30,10 +29,6 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
-  end
-
-  def and_the_improved_expired_token_flow_feature_flag_is_on
-    FeatureFlag.activate('improved_expired_token_flow')
   end
 
   def and_the_covid_19_feature_flag_is_active

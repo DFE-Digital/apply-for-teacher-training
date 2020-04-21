@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Candidate clicks on an expired link' do
   scenario 'Candidate clicks on a link with an id and expired token link in an email' do
     given_the_pilot_is_open
-    and_the_improved_expired_token_flow_feature_flag_is_on
     and_i_am_a_candidate_with_an_application
     and_i_received_the_submitted_application_email
 
@@ -28,10 +27,6 @@ RSpec.feature 'Candidate clicks on an expired link' do
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
-  end
-
-  def and_the_improved_expired_token_flow_feature_flag_is_on
-    FeatureFlag.activate('improved_expired_token_flow')
   end
 
   def and_i_am_a_candidate_with_an_application
