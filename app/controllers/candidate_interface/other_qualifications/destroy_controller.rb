@@ -1,6 +1,6 @@
 module CandidateInterface
   class OtherQualifications::DestroyController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_not_amendable
+    before_action :redirect_to_dashboard_if_submitted
 
     def confirm_destroy
       current_qualification = current_application.application_qualifications.other.find(current_other_qualification_id)

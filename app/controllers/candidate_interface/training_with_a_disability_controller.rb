@@ -1,5 +1,7 @@
 module CandidateInterface
   class TrainingWithADisabilityController < CandidateInterfaceController
+    before_action :redirect_to_dashboard_if_submitted
+
     def edit
       @training_with_a_disability_form = TrainingWithADisabilityForm.build_from_application(
         current_application,

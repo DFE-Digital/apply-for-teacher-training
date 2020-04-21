@@ -5,8 +5,7 @@
   <%= t('page_titles.referees') %>
 </h1>
 
-<% editable = @application_form.amendable? ? false : true %>
-<%= render(CandidateInterface::RefereesReviewComponent.new(application_form: @application_form, editable: editable)) %>
+<%= render(CandidateInterface::RefereesReviewComponent.new(application_form: @application_form, editable: true)) %>
 
 <%- if @referees.count < ApplicationForm::MINIMUM_COMPLETE_REFERENCES %>
 <p>

@@ -1,5 +1,6 @@
 module CandidateInterface
   class SafeguardingController < CandidateInterfaceController
+    before_action :redirect_to_dashboard_if_submitted
     before_action :redirect_to_application_form_unless_feature_flag_active
 
     def show; end

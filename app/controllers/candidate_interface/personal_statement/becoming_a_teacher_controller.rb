@@ -1,6 +1,6 @@
 module CandidateInterface
   class PersonalStatement::BecomingATeacherController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_not_amendable
+    before_action :redirect_to_dashboard_if_submitted
 
     def edit
       @becoming_a_teacher_form = BecomingATeacherForm.build_from_application(

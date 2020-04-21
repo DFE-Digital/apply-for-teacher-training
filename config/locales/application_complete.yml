@@ -10,11 +10,3 @@ en:
       accepted_offer: You have accepted an offer
       recruited: You have met your conditions and are ready to be enrolled
       enrolled: You have been enrolled on your chosen course
-    edit_page:
-      edit_button: 'Edit Application'
-      warning_text: >
-        You have %{remaining_days} (until %{date}) to edit your application
-      resubmit_title: 'Go back to application dashboard'
-      resubmit_button: 'Finish and go back to application dashboard'
-      references_uneditable:
-        You can’t change your choice of referees after you’ve submitted your application.

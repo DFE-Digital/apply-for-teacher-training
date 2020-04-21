@@ -30,10 +30,6 @@ class ApplicationChoice < ApplicationRecord
     conditions_not_met: 'conditions_not_met',
   }
 
-  def edit_by_expired?
-    edit_by.present? && edit_by < Time.zone.now
-  end
-
   def offer_withdrawn?
     rejected? && !offer_withdrawn_at.nil?
   end

@@ -1,6 +1,6 @@
 module CandidateInterface
   class WorkHistory::BreakController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_not_amendable
+    before_action :redirect_to_dashboard_if_submitted
     before_action :redirect_to_review_work_history_if_feature_off
 
     def new
