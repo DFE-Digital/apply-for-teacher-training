@@ -15,6 +15,7 @@ module CandidateInterface
       if @subject_knowledge_form.save(current_application)
         render :show
       else
+        track_validation_error(@subject_knowledge_form)
         @course_names = chosen_course_names
         render :edit
       end

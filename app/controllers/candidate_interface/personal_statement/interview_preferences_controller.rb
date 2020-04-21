@@ -14,6 +14,7 @@ module CandidateInterface
       if @interview_preferences_form.save(current_application)
         redirect_to candidate_interface_interview_preferences_show_path
       else
+        track_validation_error(@interview_preferences_form)
         render :edit
       end
     end

@@ -51,6 +51,7 @@ module CandidateInterface
       if @referee.save
         redirect_to candidate_interface_review_referees_path
       else
+        track_validation_error(@referee)
         render :new
       end
     end
@@ -61,6 +62,7 @@ module CandidateInterface
       if @referee.update(referee_params)
         redirect_to candidate_interface_review_referees_path
       else
+        track_validation_error(@referee)
         render :edit
       end
     end

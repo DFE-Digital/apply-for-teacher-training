@@ -22,6 +22,7 @@ module CandidateInterface
         add_identity_to_log @sign_up_form.candidate.id
         redirect_to candidate_interface_check_email_sign_up_path
       else
+        track_validation_error(@sign_up_form)
         render :new
       end
     end

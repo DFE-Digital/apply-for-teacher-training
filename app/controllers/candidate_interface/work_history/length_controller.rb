@@ -16,6 +16,7 @@ module CandidateInterface
           redirect_to candidate_interface_work_history_new_path
         end
       else
+        track_validation_error(@work_details_form)
         render :show
       end
     end
