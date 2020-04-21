@@ -71,7 +71,9 @@ RSpec.feature 'Entering their contact details' do
   def and_a_validation_error_is_logged_for_phone_number
     validation_error = ValidationError.last
     expect(validation_error).to be_present
-    expect(validation_error.details).to(include { satisfy { |error| error['field'] == 'phone_number' } })
+    expect(validation_error.details).to have_key('phone_number')
+    expect(validation_error.user).to eq(current_candidate)
+    expect(validation_error.request_path).to eq(candidate_interface_contact_details_update_base_path)
   end
 
   def when_i_fill_in_my_phone_number
