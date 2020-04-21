@@ -7,20 +7,15 @@ module ProviderInterface
     attr_writer :provider_ids
     attr_reader :email_address
 
-    validates :email_address, :first_name, :last_name, presence: true
+    validates :first_name, :last_name, presence: true, if: -> { existing_provider_user.blank? }
+    validates :email_address, presence: true
     validates :email_address, email: true
     validates :provider_ids, presence: true
-    validate :email_is_unique
     validate :permitted_providers
 
     def build
-      return unless valid?
+      @provider_user = existing_provider_user ? build_from_existing_user : build_new_user
 
-      @provider_user ||= ProviderUser.new
-      @provider_user.first_name = first_name
-      @provider_user.last_name = last_name
-      @provider_user.email_address = email_address
-      @provider_user.provider_ids = provider_ids
       @provider_user if @provider_user.valid?
     end
 
@@ -56,14 +51,28 @@ module ProviderInterface
       @available_providers ||= ProviderOptionsService.new(current_provider_user).providers_with_manageable_users
     end
 
+    def existing_provider_user
+      return if email_address.blank?
+
+      @existing_provider_user ||= ProviderUser.find_by(email_address: email_address)
+    end
+
   private
 
-    def email_is_unique
-      return if persisted? && provider_user.email_address == email_address
+    def build_new_user
+      return unless valid?
 
-      return unless ProviderUser.exists?(email_address: email_address)
+      provider_user ||= ProviderUser.new
+      provider_user.first_name = first_name
+      provider_user.last_name = last_name
+      provider_user.email_address = email_address
+      provider_user.provider_ids = provider_ids
+      provider_user
+    end
 
-      errors.add(:email_address, 'This email address is already in use')
+    def build_from_existing_user
+      existing_provider_user.provider_ids += provider_ids
+      existing_provider_user
     end
 
     def permitted_providers

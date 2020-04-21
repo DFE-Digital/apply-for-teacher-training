@@ -17,6 +17,11 @@ RSpec.feature 'Provider invites a new provider user' do
 
     then_a_new_provider_user_is_created
     and_the_user_should_be_sent_a_welcome_email
+
+    when_i_can_manage_users_for_another_provider
+    and_i_click_invite_user
+    and_i_add_a_provider_for_an_existing_user
+    then_the_provider_is_assigned_to_the_user
   end
 
   def when_i_click_on_the_users_link
@@ -57,7 +62,6 @@ RSpec.feature 'Provider invites a new provider user' do
     expect(page).not_to have_content(@another_provider.name_and_code)
 
     check @provider.name_and_code
-
     click_on 'Invite user'
   end
 
@@ -71,5 +75,24 @@ RSpec.feature 'Provider invites a new provider user' do
   def and_the_user_should_be_sent_a_welcome_email
     open_email(@email_address)
     expect(current_email.subject).to have_content t('provider_account_created.email.subject')
+  end
+
+  def when_i_can_manage_users_for_another_provider
+    @provider_user.provider_permissions.find_by(provider: @another_provider).update(manage_users: true)
+  end
+
+  def and_i_add_a_provider_for_an_existing_user
+    fill_in 'Email address', with: @email_address
+    check @another_provider.name_and_code
+
+    click_on 'Invite user'
+  end
+
+  def then_the_provider_is_assigned_to_the_user
+    expect(page).to have_content('Provider user invited')
+
+    @existing_provider_user = ProviderUser.find_by(email_address: @email_address)
+    expect(@existing_provider_user.providers).to include(@provider)
+    expect(@existing_provider_user.providers).to include(@another_provider)
   end
 end
