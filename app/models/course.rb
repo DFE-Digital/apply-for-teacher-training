@@ -21,6 +21,12 @@ class Course < ApplicationRecord
     further_education: 'Further education',
   }, _suffix: :course
 
+  enum funding_type: {
+    fee: 'fee',
+    salary: 'salary',
+    apprenticeship: 'apprenticeship',
+  }
+
   # also copied from Find
   enum study_mode: {
     full_time: 'F',
