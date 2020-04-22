@@ -198,6 +198,10 @@ en:
         scottish_national_5: Scottish National 5
         other_uk: Other UK
         missing: I don’t have this qualification yet
+      course/funding_type:
+        fee: Fee
+        salary: Salary
+        apprenticeship: Apprenticeship
     errors:
       models:
         candidate:
