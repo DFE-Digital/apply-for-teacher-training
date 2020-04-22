@@ -102,4 +102,56 @@ RSpec.describe ReferenceStatus do
       expect(status.needs_to_draft_another_reference?).to be(true)
     end
   end
+
+  describe '#needs_a_replacement_reference?' do
+    it 'is false if references do not need to be replaced' do
+      application_form = create(:application_form)
+      create(:reference, :complete, application_form: application_form)
+      create(:reference, :requested, application_form: application_form)
+
+      status = ReferenceStatus.new(application_form.reload)
+
+      expect(status.needs_a_replacement_reference?).to be(false)
+    end
+
+    it 'is true if a reference is overdue' do
+      application_form = create(:application_form)
+      create(:reference, :complete, application_form: application_form)
+      create(:reference, :requested, application_form: application_form, requested_at: Time.zone.now - 30.days)
+
+      status = ReferenceStatus.new(application_form.reload)
+
+      expect(status.needs_a_replacement_reference?).to be(true)
+    end
+
+    it 'is true if a reference is refused' do
+      application_form = create(:application_form)
+      create(:reference, :complete, application_form: application_form)
+      create(:reference, :refused, application_form: application_form)
+
+      status = ReferenceStatus.new(application_form.reload)
+
+      expect(status.needs_a_replacement_reference?).to be(true)
+    end
+
+    it 'is true if a reference is cancelled' do
+      application_form = create(:application_form)
+      create(:reference, :complete, application_form: application_form)
+      create(:reference, :cancelled, application_form: application_form)
+
+      status = ReferenceStatus.new(application_form.reload)
+
+      expect(status.needs_a_replacement_reference?).to be(true)
+    end
+
+    it 'is true if an email bounced for a reference' do
+      application_form = create(:application_form)
+      create(:reference, :complete, application_form: application_form)
+      create(:reference, :email_bounced, application_form: application_form)
+
+      status = ReferenceStatus.new(application_form.reload)
+
+      expect(status.needs_a_replacement_reference?).to be(true)
+    end
+  end
 end

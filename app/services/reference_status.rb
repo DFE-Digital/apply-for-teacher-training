@@ -17,6 +17,10 @@ class ReferenceStatus
     (number_of_references_that_currently_need_replacing - replacement_references.select(&:not_requested_yet?).size).positive?
   end
 
+  def needs_a_replacement_reference?
+    (references_that_needed_to_be_replaced.size - replacement_references.reject(&:not_requested_yet?).size).positive?
+  end
+
   def references_that_needed_to_be_replaced
     refused = application_references.select(&:feedback_refused?)
     bounced = application_references.select(&:email_bounced?)
