@@ -69,6 +69,19 @@ RSpec.describe CandidateInterface::PickCourseForm do
       end
     end
 
+    context 'when courses have the same accredited provider, name and description' do
+      it 'prioritises showing the description over the accredited provider name' do
+        provider = create(:provider)
+        provider2 = create(:provider, name: 'BIG SCITT')
+        create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE with QTS full time', provider: provider, accredited_provider: provider2)
+        create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '456', description: 'PGCE with QTS full time', provider: provider, accredited_provider: provider2)
+
+        form = described_class.new(provider_id: provider.id)
+
+        expect(form.dropdown_available_courses.map(&:name)).to eql(['Maths (123)', 'Maths (456)'])
+      end
+    end
+
     context 'with multiple ambigious names' do
       it 'returns the correct values' do
         provider = create(:provider)

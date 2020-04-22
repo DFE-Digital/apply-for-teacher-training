@@ -22,16 +22,19 @@ module CandidateInterface
       @dropdown_available_courses ||= begin
         courses = provider.courses.exposed_in_find.includes(:accredited_provider)
 
-        courses_with_names = courses.map(&:name)
-        courses_with_descriptions = courses.map(&:name_and_description)
+        courses_with_names = courses.map(&:name).map(&:downcase)
+        courses_with_descriptions = courses.map(&:name_and_description).map(&:downcase)
+        courses_with_name_provider_and_description = courses.map(&:name_provider_and_description).map(&:downcase)
 
         courses_with_unambiguous_names = courses.map do |course|
-          name = if courses_with_names.count(course.name) == 1
+          name = if courses_with_names.count(course.name.downcase) == 1
                    course.name_and_code
-                 elsif courses_with_descriptions.count(course.name_and_description) == 1
+                 elsif courses_with_descriptions.count(course.name_and_description.downcase) == 1
                    course.name_code_and_description
-                 else
+                 elsif courses_with_name_provider_and_description.count(course.name_provider_and_description.downcase) == 1
                    course.name_code_and_provider
+                 else
+                   course.name_and_code
                  end
 
           DropdownOption.new(course.id, name)
