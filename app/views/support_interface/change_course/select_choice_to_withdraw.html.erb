@@ -1,0 +1,19 @@
+<% content_for :before_content, govuk_back_link_to(support_interface_change_course_path(@form.application_form)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @form, url: support_interface_withdraw_choice_path(@form.application_form) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_radio_buttons_fieldset :application_choice_id, legend: { size: 'xl', text: 'Which choice do you want to withdraw?' } do %>
+        <div class="govuk-!-margin-top-6">
+          <% @form.courses_that_can_be_cancelled.each_with_index do |option, i| %>
+            <%= f.govuk_radio_button :application_choice_id, option.id, label: { text: "#{option.course.name_and_code} at #{option.provider.name}" }, link_errors: i.zero? %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <%= f.govuk_submit 'Withdraw choice' %>
+    <% end %>
+  </div>
+</div>

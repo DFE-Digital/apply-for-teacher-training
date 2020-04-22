@@ -1,0 +1,20 @@
+<% content_for :title, "Do you want to cancel application #{@application_form.support_reference}?" %>
+<% content_for :before_content, govuk_back_link_to(support_interface_change_course_path(@application_form)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">
+      Are you sure?
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>This will withdraw the candidate from all course choices</li>
+      <li>The candidate will have to go through Apply 2 (UCAS only) if they want to apply again</li>
+      <li>We'll cancel the references, and email referees that their feedback is no longer required</li>
+    </ul>
+
+    <%= form_with model: @application_form, url: support_interface_cancel_application_path(@application_form), method: :post do |f| %>
+      <%= f.submit 'Cancel the application', class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
+    <% end %>
+  </div>
+</div>

@@ -467,10 +467,16 @@ Rails.application.routes.draw do
     get '/applications/:application_form_id/comments/new' => 'application_forms/comments#new', as: :application_form_new_comment
     post '/applications/:application_form_id/comments' => 'application_forms/comments#create', as: :application_form_comments
 
-    get '/applications/:application_form_id/change-course' => 'change_course#options', as: :change_course
-    post '/applications/:application_form_id/change-course' => 'change_course#pick_option'
-    get '/applications/:application_form_id/add-course' => 'change_course#select_course_to_add', as: :add_course_to_application
-    post '/applications/:application_form_id/add-course' => 'change_course#add_course'
+    scope '/applications/:application_form_id' do
+      get '/change-course' => 'change_course#options', as: :change_course
+      post '/change-course' => 'change_course#pick_option'
+      get '/change-course/add-choice' => 'change_course#select_course_to_add', as: :add_course_to_application
+      post '/change-course/add-choice' => 'change_course#add_choice'
+      get '/change-course/withdraw-choice' => 'change_course#select_choice_to_withdraw', as: :withdraw_choice
+      post '/change-course/withdraw-choice' => 'change_course#withdraw_choice'
+      get '/change-course/cancel-application' => 'change_course#confirm_cancel_application', as: :cancel_application
+      post '/change-course/cancel-application' => 'change_course#cancel_application'
+    end
 
     get '/candidates' => 'candidates#index'
     get '/candidates/:candidate_id' => 'candidates#show', as: :candidate

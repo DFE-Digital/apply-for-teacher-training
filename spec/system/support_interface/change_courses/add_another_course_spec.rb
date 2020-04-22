@@ -1,15 +1,17 @@
 require 'rails_helper'
 
-RSpec.feature 'Adding a course' do
+RSpec.feature 'Add another course to application' do
   include DfESignInHelpers
 
   scenario 'A support user adds a course to a application' do
     given_i_am_a_support_user
     and_there_is_a_candidate_who_wants_a_course_added
+
     when_i_visit_the_application_form
     and_click_on_the_button_to_change_courses
     and_i_select_the_option_to_add_a_course
     and_i_fill_in_the_course_option_id_for_the_desired_course
+
     then_the_new_course_is_added_to_the_application
     and_i_can_no_longer_add_a_course_because_3_is_the_max
   end
@@ -32,17 +34,17 @@ RSpec.feature 'Adding a course' do
   end
 
   def and_click_on_the_button_to_change_courses
-    click_on 'Make changes to courses'
+    click_on 'Add or withdraw course choices'
   end
 
   def and_i_select_the_option_to_add_a_course
-    choose 'Add a course'
+    choose I18n.t!('support_interface.change_course.add_course')
     click_on 'Continue'
   end
 
   def and_i_fill_in_the_course_option_id_for_the_desired_course
     fill_in 'Course Option ID', with: @new_course_option.id
-    click_on 'Add course to application'
+    click_on 'Add course'
   end
 
   def then_the_new_course_is_added_to_the_application
@@ -50,12 +52,13 @@ RSpec.feature 'Adding a course' do
   end
 
   def and_i_can_no_longer_add_a_course_because_3_is_the_max
-    click_on 'Make changes to courses'
+    click_on 'Add or withdraw course choices'
 
-    expect(page).to have_content 'You can no longer add a course because this application already has 3'
+    expect(page).to have_content 'Note that you can no longer add a course because this application already has 3'
 
     visit support_interface_add_course_to_application_path(@application_form)
 
+    expect(page).not_to have_content I18n.t!('support_interface.change_course.add_course')
     expect(page).to have_content 'This application already has 3 courses'
   end
 end

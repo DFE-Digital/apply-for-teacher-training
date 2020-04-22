@@ -3,7 +3,9 @@ require 'rails_helper'
 RSpec.describe SubmitReference do
   it 'progresses the application choices to the "application complete" status once all references have been received' do
     application_form = create(:completed_application_form)
-    create(:application_choice, application_form: application_form, status: 'awaiting_references', edit_by: 1.day.from_now)
+    active_application = create(:application_choice, application_form: application_form, status: 'awaiting_references', edit_by: 1.day.from_now)
+    cancelled_application = create(:application_choice, application_form: application_form, status: 'cancelled')
+
     create(:reference, :complete, application_form: application_form)
     reference = create(:reference, :unsubmitted, application_form: application_form)
 
@@ -13,7 +15,8 @@ RSpec.describe SubmitReference do
       reference: reference,
     ).save!
 
-    expect(application_form.application_choices).to all(be_application_complete)
+    expect(active_application.reload).to be_application_complete
+    expect(cancelled_application.reload).to be_cancelled
   end
 
   it 'progresses the application choices to the "awaiting_provider_decision" status once all references have been received if edit_by has elapsed' do
