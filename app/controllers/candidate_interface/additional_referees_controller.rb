@@ -122,11 +122,7 @@ module CandidateInterface
     end
 
     def redirect_to_contact_support_if_at_maximum_reference_count
-      redirect_to candidate_interface_additional_referee_contact_support_path if at_maximum_referee_count && reference_status.needs_to_draft_another_reference?
-    end
-
-    def at_maximum_referee_count
-      current_application.application_references.count >= ApplicationForm::MAXIMUM_REFERENCES
+      redirect_to candidate_interface_additional_referee_contact_support_path if current_application.application_references.count >= ApplicationForm::MAXIMUM_REFERENCES
     end
 
     def redirect_to_confirm_or_show_another_reference_form
