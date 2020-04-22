@@ -17,7 +17,6 @@ class FeatureFlag
     edit_course_choices
     equality_and_diversity
     group_providers_by_region
-    improved_expired_token_flow
     notes
     prompt_for_additional_qualifications
     provider_add_provider_users

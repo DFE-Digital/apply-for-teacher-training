@@ -36,23 +36,8 @@ RSpec.describe CandidateMailer, type: :mailer do
                     I18n.t!('candidate_mailer.application_submitted.subject'),
                     'heading' => 'Application submitted',
                     'support reference' => 'SUPPORT-REFERENCE',
-                    'RBD time limit' => "to make an offer within #{TimeLimitConfig.limits_for(:reject_by_default).first.limit} working days")
-
-    context 'when the improved_expired_token_flow feature flag is on' do
-      before { FeatureFlag.activate('improved_expired_token_flow') }
-
-      it_behaves_like('a mail with subject and content', :application_submitted,
-                      I18n.t!('candidate_mailer.application_submitted.subject'),
-                      'link to sign in and id' => 'http://localhost:3000/candidate/sign-in?u=example_encrypted_id')
-    end
-
-    context 'when the improved_expired_token_flow feature flag is off' do
-      before { FeatureFlag.deactivate('improved_expired_token_flow') }
-
-      it_behaves_like('a mail with subject and content', :application_submitted,
-                      I18n.t!('candidate_mailer.application_submitted.subject'),
-                      'link to sign in and id' => 'http://localhost:3000/candidate/sign-in')
-    end
+                    'RBD time limit' => "to make an offer within #{TimeLimitConfig.limits_for(:reject_by_default).first.limit} working days",
+                    'link to sign in and id' => 'http://localhost:3000/candidate/sign-in?u=example_encrypted_id')
 
     context 'when the covid-19 feature flag is on' do
       before { FeatureFlag.activate('covid_19') }

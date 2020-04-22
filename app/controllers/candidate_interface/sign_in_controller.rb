@@ -4,7 +4,7 @@ module CandidateInterface
     before_action :redirect_to_application_if_signed_in, except: %i[authenticate]
 
     def new
-      if FeatureFlag.active?('improved_expired_token_flow') && params[:u]
+      if params[:u]
         redirect_to candidate_interface_expired_sign_in_path(u: params[:u])
       else
         candidate = Candidate.new
@@ -20,7 +20,7 @@ module CandidateInterface
       candidate = FindCandidateByToken.call(raw_token: params[:token])
       token_not_expired = FindCandidateByToken.token_not_expired?(candidate)
 
-      if candidate.nil? && FeatureFlag.active?('improved_expired_token_flow') && params[:u]
+      if candidate.nil? && params[:u]
         candidate_id = Encryptor.decrypt(params[:u])
         candidate = Candidate.find(candidate_id) if candidate_id
       end
@@ -35,29 +35,20 @@ module CandidateInterface
 
         redirect_to candidate_interface_interstitial_path(providerCode: params[:providerCode], courseCode: params[:courseCode])
       else
-        # rubocop:disable Style/IfInsideElse
-        if FeatureFlag.active?('improved_expired_token_flow')
-          encrypted_candidate_id = Encryptor.encrypt(candidate.id)
-          redirect_to candidate_interface_expired_sign_in_path(u: encrypted_candidate_id)
-        else
-          redirect_to action: :new
-        end
-        # rubocop:enable Style/IfInsideElse
+        encrypted_candidate_id = Encryptor.encrypt(candidate.id)
+        redirect_to candidate_interface_expired_sign_in_path(u: encrypted_candidate_id)
       end
     end
 
     def expired
-      raise unless FeatureFlag.active?('improved_expired_token_flow')
-
       if params[:u].blank?
         redirect_to candidate_interface_sign_in_path
       end
     end
 
     def create_from_expired_token
-      render_404 unless FeatureFlag.active?('improved_expired_token_flow')
-
       candidate_id = Encryptor.decrypt(params.fetch(:u))
+
       if candidate_id
         candidate = Candidate.find(candidate_id)
         MagicLinkSignIn.call(candidate: candidate)

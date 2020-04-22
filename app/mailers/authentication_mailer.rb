@@ -28,8 +28,9 @@ class AuthenticationMailer < ApplicationMailer
 private
 
   def magic_link_params(token, candidate)
-    params = { token: token }
-    params[:u] = Encryptor.encrypt(candidate.id) if FeatureFlag.active?('improved_expired_token_flow')
-    params
+    {
+      token: token,
+      u: Encryptor.encrypt(candidate.id),
+    }
   end
 end
