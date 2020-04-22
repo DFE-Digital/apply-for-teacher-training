@@ -16,8 +16,6 @@ module CandidateInterface
       Raven.extra_context(application_support_url: support_interface_application_form_url(current_application))
     end
 
-  private
-
     def track_validation_error(form)
       ValidationError.create!(
         form_object: form.class.name,
@@ -28,11 +26,16 @@ module CandidateInterface
     rescue StandardError => e
       # Never crash validation error tracking
       Raven.capture_exception(e)
-      puts "Error during track_validation_error: #{e}"
     end
+
+  private
 
     def redirect_to_dashboard_if_submitted
       redirect_to candidate_interface_application_complete_path if current_application.submitted?
+    end
+
+    def redirect_to_dashboard_if_not_amendable
+      redirect_to candidate_interface_application_complete_path if current_application.submitted? && !current_application.amendable?
     end
 
     def redirect_to_application_form_unless_submitted
