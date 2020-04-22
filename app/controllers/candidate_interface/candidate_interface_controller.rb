@@ -17,6 +17,8 @@ module CandidateInterface
     end
 
     def track_validation_error(form)
+      return unless FeatureFlag.active?('track_validation_errors')
+
       ValidationError.create!(
         form_object: form.class.name,
         request_path: request.path,
