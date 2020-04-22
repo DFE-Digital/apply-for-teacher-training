@@ -36,13 +36,8 @@ module CandidateInterface
     def new
       redirect_to_confirm_if_no_more_reference_needed
 
-      if FeatureFlag.active?('replacement_referee_with_referee_type')
-        @reference = current_candidate.current_application.application_references.build(referee_type: params[:type])
-        @page_title = "Details of your new #{@reference.referee_type.downcase.dasherize} referee"
-      else
-        @page_title = page_title_for_new_page
-        @reference = ApplicationReference.new
-      end
+      @reference = current_candidate.current_application.application_references.build(referee_type: params[:type])
+      @page_title = "Details of your new #{@reference.referee_type.downcase.dasherize} referee"
     end
 
     def show; end
@@ -51,7 +46,7 @@ module CandidateInterface
       redirect_to_confirm_if_no_more_reference_needed
       reference = current_application.application_references.build(referee_params.merge(replacement: true))
 
-      reference.referee_type = params[:type] if FeatureFlag.active?('replacement_referee_with_referee_type')
+      reference.referee_type = params[:type]
 
       if reference.save
         redirect_to_confirm_or_show_another_reference_form
@@ -81,11 +76,7 @@ module CandidateInterface
 
     def edit
       @reference = current_reference
-      @page_title = if FeatureFlag.active?('replacement_referee_with_referee_type')
-                      "Details of your new #{@reference.referee_type.downcase.dasherize} referee"
-                    else
-                      page_title_for_new_page
-                    end
+      @page_title = "Details of your new #{@reference.referee_type.downcase.dasherize} referee"
     end
 
     def update
@@ -127,11 +118,7 @@ module CandidateInterface
 
     def redirect_to_confirm_or_show_another_reference_form
       if reference_status.needs_to_draft_another_reference?
-        if FeatureFlag.active?('replacement_referee_with_referee_type')
-          redirect_to candidate_interface_additional_referee_type_path(second: true)
-        else
-          redirect_to candidate_interface_new_additional_referee_path(second: true)
-        end
+        redirect_to candidate_interface_additional_referee_type_path(second: true)
       else
         redirect_to candidate_interface_confirm_additional_referees_path
       end

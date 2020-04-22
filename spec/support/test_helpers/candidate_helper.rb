@@ -271,9 +271,17 @@ module CandidateHelper
   def candidate_provides_two_referees
     visit candidate_interface_referees_path
     click_link 'Continue'
+
+    choose 'Academic'
+    click_button 'Continue'
+
     candidate_fills_in_referee
     click_button 'Save and continue'
     click_link 'Add a second referee'
+
+    choose 'Professional'
+    click_button 'Continue'
+
     candidate_fills_in_referee(
       name: 'Anne Other',
       email_address: 'anne@other.com',

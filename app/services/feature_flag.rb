@@ -24,8 +24,6 @@ class FeatureFlag
     provider_change_response
     provider_interface_work_breaks
     provider_view_safeguarding
-    referee_type
-    replacement_referee_with_referee_type
     satisfaction_survey
     suitability_to_work_with_children
     timeline

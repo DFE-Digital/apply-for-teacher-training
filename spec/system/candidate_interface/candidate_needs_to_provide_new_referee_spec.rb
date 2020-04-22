@@ -5,7 +5,6 @@ RSpec.describe 'Candidate needs to provide a new referee' do
 
   scenario "Candidate provides a new referee because one didn't respond" do
     FeatureFlag.activate('pilot_open')
-    FeatureFlag.activate('replacement_referee_with_referee_type')
     FeatureFlag.activate('covid_19')
 
     given_i_am_signed_in_as_a_candidate
