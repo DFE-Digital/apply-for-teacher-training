@@ -11,8 +11,13 @@ class ProviderUser < ActiveRecord::Base
   has_associated_audits
 
   scope :visible_to, ->(provider_user) {
-    joins(:provider_permissions)
-      .where(ProviderPermissions.table_name => { provider_id: provider_user.providers.pluck(:id) })
+    providers_that_user_can_manage = provider_user.provider_permissions.manage_users.select(:provider_id)
+
+    users_that_user_can_see = ProviderPermissions.where(
+      provider_id: providers_that_user_can_manage,
+    ).select(:provider_user_id)
+
+    where(id: users_that_user_can_see)
   }
 
   def self.load_from_session(session)
