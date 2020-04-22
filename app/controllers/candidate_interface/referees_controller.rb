@@ -39,18 +39,14 @@ module CandidateInterface
     end
 
     def new
-      @referee = if FeatureFlag.active?('referee_type')
-                   current_candidate.current_application.application_references.build(referee_type: params[:type])
-                 else
-                   current_candidate.current_application.application_references.build
-                 end
+      @referee = current_candidate.current_application.application_references.build(referee_type: params[:type])
     end
 
     def create
       @referee = current_candidate.current_application
                                   .application_references
                                   .build(referee_params)
-      @referee.referee_type = params[:type] if FeatureFlag.active?('referee_type')
+      @referee.referee_type = params[:type]
 
       if @referee.save
         redirect_to candidate_interface_review_referees_path

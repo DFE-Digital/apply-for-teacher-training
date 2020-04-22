@@ -88,56 +88,36 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
 
       change_name = result.css('.govuk-summary-list__actions')[0].text.strip
       change_email = result.css('.govuk-summary-list__actions')[1].text.strip
-      change_relationship = result.css('.govuk-summary-list__actions')[2].text.strip
+      change_relationship = result.css('.govuk-summary-list__actions')[3].text.strip
 
       expect(change_name).to eq("Change name for #{first_referee.name}")
       expect(change_email).to eq("Change email address for #{first_referee.name}")
       expect(change_relationship).to eq("Change relationship for #{first_referee.name}")
     end
 
-    context 'When referee type feature flag is off' do
-      before do
-        FeatureFlag.deactivate('referee_type')
-      end
+    it "renders component with correct values for a referee's type" do
+      first_referee = application_form.application_references.first
+      result = render_inline(described_class.new(application_form: application_form))
 
-      it "renders component without a referee's type" do
-        first_referee = application_form.application_references.first
-        result = render_inline(described_class.new(application_form: application_form))
-
-        expect(result.css('.govuk-summary-list__key').text).not_to include('Reference type')
-        expect(result.css('.govuk-summary-list__value').to_html).not_to include(first_referee.referee_type.capitalize.dasherize)
-      end
+      expect(result.css('.govuk-summary-list__key').text).to include('Reference type')
+      expect(result.css('.govuk-summary-list__value').to_html).to include(first_referee.referee_type.capitalize.dasherize)
     end
 
-    context 'When referee type feature flag is on' do
-      before do
-        FeatureFlag.activate('referee_type')
-      end
+    it 'can tolerate when referee type is nil' do
+      first_referee = application_form.application_references.first
+      first_referee.update!(referee_type: nil)
+      result = render_inline(described_class.new(application_form: application_form))
 
-      it "renders component with correct values for a referee's type" do
-        first_referee = application_form.application_references.first
-        result = render_inline(described_class.new(application_form: application_form))
+      expect(result.css('.govuk-summary-list__key').text).to include('Reference type')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('')
+    end
 
-        expect(result.css('.govuk-summary-list__key').text).to include('Reference type')
-        expect(result.css('.govuk-summary-list__value').to_html).to include(first_referee.referee_type.capitalize.dasherize)
-      end
+    it 'renders correct text for "Change" links in reference type attribute row' do
+      first_referee = application_form.application_references.first
+      result = render_inline(described_class.new(application_form: application_form))
+      change_reference_type = result.css('.govuk-summary-list__actions')[2].text.strip
 
-      it 'can tolerate when referee type is nil' do
-        first_referee = application_form.application_references.first
-        first_referee.update!(referee_type: nil)
-        result = render_inline(described_class.new(application_form: application_form))
-
-        expect(result.css('.govuk-summary-list__key').text).to include('Reference type')
-        expect(result.css('.govuk-summary-list__value').to_html).to include('')
-      end
-
-      it 'renders correct text for "Change" links in reference type attribute row' do
-        first_referee = application_form.application_references.first
-        result = render_inline(described_class.new(application_form: application_form))
-        change_reference_type = result.css('.govuk-summary-list__actions')[2].text.strip
-
-        expect(change_reference_type).to eq("Change reference type for #{first_referee.name}")
-      end
+      expect(change_reference_type).to eq("Change reference type for #{first_referee.name}")
     end
   end
 

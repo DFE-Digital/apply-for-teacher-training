@@ -25,12 +25,12 @@
         action: "relationship for #{reference.name}",
         change_path: candidate_interface_edit_additional_referee_path(reference),
       },
-      ({
+      {
         key: 'Reference type',
         value: reference.referee_type ? reference.referee_type.capitalize.dasherize : '',
         action: "reference type for #{reference.name}",
         change_path: candidate_interface_additional_referee_type_path(reference.id),
-      } if FeatureFlag.active?('replacement_referee_with_referee_type')),
+      },
     ].compact
     ) do %>
     <%= render SummaryCardHeaderComponent.new(title: reference.name) %>

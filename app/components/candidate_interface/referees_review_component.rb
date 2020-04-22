@@ -14,7 +14,7 @@ module CandidateInterface
       [
         name_row(referee),
         email_row(referee),
-        (reference_type_row(referee) if FeatureFlag.active?('referee_type')),
+        reference_type_row(referee),
         relationship_row(referee),
         feedback_status_row(referee),
       ].compact

@@ -6,6 +6,10 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
   def candidate_provides_two_referees
     visit candidate_interface_referees_path
     click_link 'Continue'
+
+    choose 'Academic'
+    click_button 'Continue'
+
     candidate_fills_in_referee(
       name: 'Refbot One',
       email_address: 'refbot1@example.com',
@@ -13,6 +17,10 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
     )
     click_button 'Save and continue'
     click_link 'Add a second referee'
+
+    choose 'Professional'
+    click_button 'Continue'
+
     candidate_fills_in_referee(
       name: 'Refbot Two',
       email_address: 'refbot2@example.com',

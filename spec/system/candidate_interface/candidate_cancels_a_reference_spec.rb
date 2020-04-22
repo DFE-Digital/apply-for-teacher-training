@@ -6,7 +6,6 @@ RSpec.describe 'Cancelling a reference' do
   scenario 'candidate cancels a reference request after completing their application' do
     given_i_have_completed_and_submitted_my_application
     and_the_candidate_can_cancel_reference_flag_is_active
-    and_the_referee_type_flag_is_active
 
     when_i_visit_the_application_complete_page
     and_i_click_delete_on_my_first_reference
@@ -25,10 +24,6 @@ RSpec.describe 'Cancelling a reference' do
 
   def and_the_candidate_can_cancel_reference_flag_is_active
     FeatureFlag.activate('candidate_can_cancel_reference')
-  end
-
-  def and_the_referee_type_flag_is_active
-    FeatureFlag.activate('referee_type')
   end
 
   def when_i_visit_the_application_complete_page
