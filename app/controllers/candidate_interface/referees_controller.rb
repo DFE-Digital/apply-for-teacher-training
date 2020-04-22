@@ -11,6 +11,8 @@ module CandidateInterface
     end
 
     def type
+      @nth_referee = "#{TextOrdinalizer::ORDINALIZE_MAPPING[(@referees.count + 1)].capitalize} referee"
+
       if params[:id]
         set_referee_id
 
@@ -40,6 +42,7 @@ module CandidateInterface
 
     def new
       @referee = current_candidate.current_application.application_references.build(referee_type: params[:type])
+      @nth_referee = "#{TextOrdinalizer::ORDINALIZE_MAPPING[(@referees.count + 1)].capitalize} referee"
     end
 
     def create
@@ -55,7 +58,9 @@ module CandidateInterface
       end
     end
 
-    def edit; end
+    def edit
+      @nth_referee = "#{TextOrdinalizer::ORDINALIZE_MAPPING[@referee.ordinal].capitalize} referee"
+    end
 
     def update
       if @referee.update(referee_params)

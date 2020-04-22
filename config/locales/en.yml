@@ -96,10 +96,6 @@ en:
     referee_cancel: Are you sure you want to cancel this request for a reference?
     add_referee: Details of referee
     maximum_referees: You have already added the maximum amount of referees
-    nth_referee:
-      - (should never appear)
-      - First referee
-      - Second referee
     give_a_reference:
       confirmation: Your reference has been submitted
       finish: Thank you

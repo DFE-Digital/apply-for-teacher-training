@@ -309,18 +309,6 @@ en:
         button: Continue
       sure_delete_entry: Yes I’m sure - delete this referee
       sure_cancel_entry: Yes I'm sure - cancel this reference request
-      nth_referee:
-        - (should never appear)
-        - First referee
-        - Second referee
-        - Third referee
-        - Fourth referee
-        - Fifth referee
-        - Sixth referee
-        - Seventh referee
-        - Eighth referee
-        - Ninth referee
-        - Tenth referee
       chase: Chase this referee and notify the candidate
       confirm_chase: Are you sure you want to send emails to chase the referee?
       info:
