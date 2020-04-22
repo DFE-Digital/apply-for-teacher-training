@@ -36,6 +36,10 @@ class Course < ApplicationRecord
     "#{name} #{accredited_provider&.name}"
   end
 
+  def name_provider_and_description
+    "#{name} #{accredited_provider&.name} #{description}"
+  end
+
   def name_and_code
     "#{name} (#{code})"
   end
