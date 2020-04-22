@@ -30,6 +30,9 @@ RSpec.feature 'Selecting a course' do
     and_i_choose_a_course
     then_i_see_a_message_that_ive_already_chosen_the_course
 
+    when_i_visit_the_site_page_for_a_course_i_have_already_selected
+    then_i_see_a_message_that_ive_already_chosen_the_course
+
     given_that_i_am_on_the_course_choices_review_page
     when_i_click_on_add_another_course
     and_i_choose_that_i_know_where_i_want_to_apply
@@ -167,7 +170,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_i_see_a_message_that_ive_already_chosen_the_course
-    expect(page).to have_css('.govuk-error-summary', text: 'You have already added Primary (2XT2)')
+    expect(page).to have_content(I18n.t!('errors.application_choices.already_added', course_name_and_code: @multi_site_course.name_and_code))
   end
 
   def given_that_i_am_on_the_course_choices_review_page
@@ -202,13 +205,6 @@ RSpec.feature 'Selecting a course' do
 
   def when_i_click_continue
     click_button 'Continue'
-  end
-
-  def when_i_click_back
-    # TODO: the back link goes back to the '/candidate/application/courses/provider' instead of going back to the specific provider.
-    # Fix this and use click_link 'Back'
-
-    visit '/candidate/application/courses/provider/R55/courses'
   end
 
   def and_i_delete_one_of_my_course_choice
@@ -250,5 +246,13 @@ RSpec.feature 'Selecting a course' do
 
   def then_the_select_box_has_no_value_selected
     expect(page.find('#candidate-interface-pick-course-form-course-id-field').value).to eq ''
+  end
+
+  def when_i_visit_the_site_page_for_a_course_i_have_already_selected
+    visit candidate_interface_course_choices_site_path(
+      provider_id: @multi_site_course.provider.id,
+      course_id: @multi_site_course.id,
+      study_mode: @multi_site_course.study_mode,
+    )
   end
 end

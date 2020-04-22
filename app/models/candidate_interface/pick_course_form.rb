@@ -74,7 +74,7 @@ module CandidateInterface
       return if course_id.blank?
 
       if application_form.application_choices.includes([:course]).any? { |application_choice| application_choice.course == course }
-        errors[:base] << "You have already added #{course.name_and_code}"
+        errors[:base] << I18n.t!('errors.application_choices.already_added', course_name_and_code: course.name_and_code)
       end
     end
   end
