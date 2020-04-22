@@ -255,6 +255,7 @@ module CandidateInterface
         redirect_to candidate_interface_application_form_path
       else
         @course_choices = current_candidate.current_application.application_choices
+        track_validation_error(@application_form)
 
         render :review
       end

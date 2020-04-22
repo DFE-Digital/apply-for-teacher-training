@@ -15,6 +15,7 @@ module CandidateInterface
       if qualification
         redirect_to candidate_interface_degrees_grade_path(qualification.id)
       else
+        track_validation_error(@degree)
         render_new
       end
     end
@@ -32,6 +33,7 @@ module CandidateInterface
 
         redirect_to candidate_interface_degrees_review_path
       else
+        track_validation_error(@degree)
         render_new
       end
     end

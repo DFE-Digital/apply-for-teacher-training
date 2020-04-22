@@ -26,7 +26,10 @@ module CandidateInterface
       if params[:id]
         set_referee_id
 
-        return redirect_to action: 'type', id: @id unless @reference_type_form.valid?
+        unless @reference_type_form.valid?
+          track_validation_error(@reference_type_form)
+          return redirect_to action: 'type', id: @id
+        end
 
         @reference_type_form.save(@referee)
 

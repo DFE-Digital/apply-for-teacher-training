@@ -15,6 +15,7 @@ module CandidateInterface
       if @personal_details_form.save(current_application)
         render :show
       else
+        track_validation_error(@personal_details_form)
         render :edit
       end
     end
