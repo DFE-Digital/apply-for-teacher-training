@@ -210,7 +210,7 @@ ActiveRecord::Schema.define(version: 2020_04_24_081737) do
     t.string "course_length"
     t.string "description"
     t.integer "accredited_provider_id"
-    t.jsonb "subject_codes"
+    t.jsonb "subjects"
     t.string "funding_type"
     t.string "age_range"
     t.index ["code"], name: "index_courses_on_code"

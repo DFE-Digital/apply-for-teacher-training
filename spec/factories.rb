@@ -86,6 +86,19 @@ FactoryBot.define do
         }
       end
 
+      trait :with_equality_and_diversity_data do
+        equality_and_diversity {
+          {
+            sex: 'intersex',
+            ethnic_group: 'Another ethnic group',
+            ethnic_background: 'Arab',
+            disability_status: 'yes',
+            disabilities: ['physical', 'long_standing', 'other'],
+            other_disability: Faker::Lorem.paragraph(2),
+          }
+        }
+      end
+
       after(:build) do |application_form, evaluator|
         if evaluator.with_gces
           create(:gcse_qualification, application_form: application_form, subject: 'maths')
