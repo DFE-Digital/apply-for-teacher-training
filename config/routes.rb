@@ -413,6 +413,8 @@ Rails.application.routes.draw do
     get '/applications' => 'application_choices#index'
     get '/applications/:application_choice_id' => 'application_choices#show', as: :application_choice
     get '/applications/:application_choice_id/notes' => 'application_choices#notes', as: :application_choice_notes
+    get '/applications/:application_choice_id/notes/new' => 'application_choices#new_note', as: :application_choice_new_note
+    post '/applications/:application_choice_id/notes' => 'application_choices#create_note', as: :application_choice_create_note
     get '/applications/:application_choice_id/timeline' => 'application_choices#timeline', as: :application_choice_timeline
     get '/applications/:application_choice_id/respond' => 'decisions#respond', as: :application_choice_respond
     post '/applications/:application_choice_id/respond' => 'decisions#submit_response', as: :application_choice_submit_response

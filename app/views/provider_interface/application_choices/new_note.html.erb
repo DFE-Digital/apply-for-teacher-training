@@ -1,0 +1,18 @@
+<% content_for :title, "#{@application_choice.application_form.full_name} – #{@application_choice.course.name_and_code} - Add Note" %>
+
+<% content_for :before_content, govuk_back_link_to(request.referer) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">Add note</h1>
+    <%= form_with model: @new_note_form,
+          url: provider_interface_application_choice_create_note_path(@application_choice.id),
+          method: :post do |f| %>
+
+      <%= f.govuk_text_area :title, label: { text: 'Title', size: 'm' }, rows: 1, max_chars: 40 %>
+      <%= f.govuk_text_area :message, label: { text: 'Message', size: 'm' }, max_chars: 500 %>
+
+      <%= f.govuk_submit 'Save note' %>
+    <% end %>
+  </div>
+</div>

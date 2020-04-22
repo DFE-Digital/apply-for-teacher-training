@@ -165,6 +165,17 @@ en:
           attributes:
             conditions_met:
               blank: Please specify if the candidate has met the conditions of the offer
+        provider_interface/new_note_form:
+          attributes:
+            application_choice:
+              blank: Missing application_choice
+            title:
+              blank: Enter a title
+              too_long: "Title must be %{count} characters or fewer"
+            message:
+              blank: Enter a message
+            provider_user:
+              blank: Missing provider_user
         provider_interface/provider_user_form:
           attributes:
             email_address:

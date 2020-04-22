@@ -93,6 +93,10 @@ class TestApplications
         end
       end
 
+      application_choices.each do |application_choice|
+        rand(0..3).times { add_note(application_choice) }
+      end
+
       application_choices
     end
   end
@@ -202,6 +206,26 @@ class TestApplications
       ConfirmEnrolment.new(application_choice: choice).save
       choice.update_columns(enrolled_at: time)
     end
+  end
+
+  def add_note(choice)
+    provider_user = choice.provider.provider_users.first
+    provider_user ||= add_provider_user_to_provider(choice.provider)
+    as_provider_user(choice) do
+      @time = @time + rand(-5..5).days
+      FactoryBot.create(
+        :note,
+        application_choice: choice,
+        provider_user: provider_user,
+        created_at: time,
+      )
+    end
+  end
+
+  def add_provider_user_to_provider(provider)
+    provider_user = FactoryBot.create(:provider_user)
+    provider.provider_users << provider_user
+    provider_user
   end
 
   def actor

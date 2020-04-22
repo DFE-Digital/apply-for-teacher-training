@@ -14,6 +14,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     allow(FindStatusChangeAudits).to receive(:new).with(
       application_choice: application_choice,
     ).and_return(finder_service)
+    allow(application_choice).to receive(:notes).and_return([])
     application_choice
   end
 
@@ -22,7 +23,11 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
   end
 
   def provider_user
-    @provider_user ||= ProviderUser.new(first_name: 'Bob', last_name: 'Roberts')
+    @provider_user ||= ProviderUser.new(
+      first_name: 'Bob',
+      last_name: 'Roberts',
+      email_address: 'bob.roberts@example.com',
+    )
   end
 
   context 'without feature flag' do
@@ -82,6 +87,21 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
         expect(rendered.text).to include 'Offer made'
         expect(rendered.text).to include 'by Bob Roberts'
         expect(rendered.text).to include '8 Feb 2020'
+      end
+    end
+
+    context 'for an application with a note' do
+      it 'renders note event' do
+        application_choice = create(:application_choice)
+        application_choice.notes << Note.new(
+          provider_user: provider_user,
+          title: 'This is a note',
+          message: 'Notes are a new feature',
+        )
+        rendered = render_inline(described_class.new(application_choice: application_choice))
+        expect(rendered.text).to include 'This is a note'
+        expect(rendered.text).to include 'by Bob Roberts'
+        expect(rendered.text).to include '11 Feb 2020'
       end
     end
   end
