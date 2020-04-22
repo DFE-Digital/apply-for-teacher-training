@@ -23,6 +23,9 @@ RSpec.feature 'Provider rejects application' do
     when_i_confirm_the_rejection
     then_i_am_back_to_the_application_page
     and_i_can_see_the_application_has_just_been_rejected
+
+    when_the_change_response_feature_is_activated
+    then_i_can_see_a_link_to_make_an_offer_on_the_application
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -74,5 +77,14 @@ RSpec.feature 'Provider rejects application' do
 
   def and_i_can_see_the_application_has_just_been_rejected
     expect(page).to have_content 'Application successfully rejected'
+  end
+
+  def when_the_change_response_feature_is_activated
+    FeatureFlag.activate('provider_change_response')
+  end
+
+  def then_i_can_see_a_link_to_make_an_offer_on_the_application
+    page.refresh
+    expect(page).to have_link 'Change rejection to offer'
   end
 end

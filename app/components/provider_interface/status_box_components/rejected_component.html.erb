@@ -2,7 +2,18 @@
   <h2 class="govuk-heading-l">Offer</h2>
   <%= render SummaryListComponent.new(rows: offer_withdrawn_rows) %>
   <%= render ProviderInterface::ConditionsComponent.new(application_choice: application_choice) %>
+  <% if FeatureFlag.active?('provider_change_response') %>
+    <p class="govuk-body govuk-!-margin-bottom-0 app-!-print-display-none">
+      <%= govuk_link_to 'Undo withdrawal and make offer', provider_interface_application_choice_new_offer_path(@application_choice.id) %>
+    </p>
+  <% end %>
 <% else %>
   <h2 class="govuk-heading-l">Candidate’s application rejected</h2>
   <%= render SummaryListComponent.new(rows: rejected_rows) %>
+  <% if FeatureFlag.active?('provider_change_response') %>
+    <p class="govuk-body govuk-!-margin-bottom-0 app-!-print-display-none">
+      <%= govuk_link_to 'Change rejection to offer', provider_interface_application_choice_new_offer_path(@application_choice.id) %>
+    </p>
+  <% end %>
 <% end %>
+
