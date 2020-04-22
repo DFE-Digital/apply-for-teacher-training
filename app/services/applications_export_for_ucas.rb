@@ -21,6 +21,12 @@ class ApplicationsExportForUCAS
     nctl_subject: 'NCTL subject',
     course_name: 'Course name',
     course_code: 'Course Code',
+    sex: 'Sex',
+    disability_status: 'Disability status',
+    disabilities: 'Disabilities',
+    other_disability: 'Other disability',
+    ethnic_group: 'Ethnic group',
+    ethnic_background: 'Ethnic background'
   }.freeze
 
   def applications
@@ -77,10 +83,20 @@ private
       nctl_subject: subject_codes(application_choice.course),
       course_name: application_choice.course.name,
       course_code: application_choice.course.code,
+      sex: form.equality_and_diversity.try(:[], :sex),
+      disability_status: form.equality_and_diversity.try(:[], 'disability_status'),
+      disabilities: disabilities(form),
+      other_disability: form.equality_and_diversity.try(:[], 'other_disability'),
+      ethnic_group: form.equality_and_diversity.try(:[], 'ethnic_group'),
+      ethnic_background: form.equality_and_diversity.try(:[], 'ethnic_background')
     }
   end
 
   def subject_codes(course)
     course.subject_codes.to_a.join('|')
+  end
+
+  def disabilities(form)
+    form.equality_and_diversity.try(:[], 'disabilities').to_a.join('|')
   end
 end
