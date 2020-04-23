@@ -30,7 +30,7 @@ RSpec.feature 'Email log' do
     ).deliver_now
 
     open_email('harry@example.com')
-    expect(current_email.header('reference')).to eql("#{HostingEnvironment.environment_name}-sign_up_email-#{@candidate.id}")
+    expect(current_email.header('reference')).to start_with("#{HostingEnvironment.environment_name}-sign_up_email-#{@candidate.id}-")
   end
 
   def and_an_email_with_an_application_id_is_sent

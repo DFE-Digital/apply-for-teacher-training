@@ -31,7 +31,7 @@ RSpec.describe AuthenticationMailer, type: :mailer do
         mail.deliver_now
       end
 
-      expect(mail[:reference].value).to eq("example_env-sign_up_email-#{candidate.id}")
+      expect(mail[:reference].value).to start_with("example_env-sign_up_email-#{candidate.id}")
     end
   end
 

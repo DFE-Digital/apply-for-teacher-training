@@ -36,7 +36,7 @@ RSpec.describe RefereeMailer, type: :mailer do
         mail.deliver_now
       end
 
-      expect(mail[:reference].value).to eq("example_env-reference_request-#{reference.id}")
+      expect(mail[:reference].value).to start_with("example_env-reference_request-#{reference.id}")
     end
   end
 
