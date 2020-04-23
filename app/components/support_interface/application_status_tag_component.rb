@@ -22,7 +22,7 @@ module SupportInterface
         :red
       when 'pending_conditions'
         :turquoise
-      when 'declined'
+      when 'declined', 'withdrawn', 'cancelled'
         :orange
       when 'enrolled'
         :blue

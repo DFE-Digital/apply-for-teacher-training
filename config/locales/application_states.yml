@@ -46,6 +46,7 @@ en:
     application_complete: Submitted
     awaiting_provider_decision: Pending
     awaiting_references: Submitted
+    cancelled: Cancelled
     declined: Declined
     enrolled: Enrolled
     offer: Offer
@@ -60,6 +61,7 @@ en:
     application_complete: New
     awaiting_provider_decision: New
     awaiting_references: Awaiting references
+    cancelled: Cancelled
     declined: Declined
     enrolled: Enrolled
     offer: Offered
@@ -108,6 +110,11 @@ en:
         Awaiting provider decision state.
       emails:
         - provider_mailer-chase_provider_decision
+
+    cancelled:
+      name: Cancelled
+      description: |
+        The application was cancelled before it was sent to the provider.
 
     offer:
       name: Offer made
@@ -178,6 +185,16 @@ en:
       emails:
         - candidate_mailer-reference_received
         - referee_mailer-reference_confirmation_email
+
+    awaiting_references-cancel:
+      name: Candidate cancels
+      by: candidate
+      description: If the application hasn't been sent to the provider, the candidate can still cancel the application.
+
+    application_complete-cancel:
+      name: Candidate cancels
+      by: candidate
+      description: If the application hasn't been sent to the provider, the candidate can still cancel the application.
 
     application_complete-send_to_provider:
       name: Application is sent to provider
