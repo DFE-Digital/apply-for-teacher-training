@@ -7,7 +7,7 @@ RSpec.describe CandidateInterface::UcasDowntimeComponent do
 
       result = render_inline(CandidateInterface::UcasDowntimeComponent.new)
 
-      expect(result.text).to include('UCAS services won’t be available from 6pm on Friday 20 March until Sunday 22 March.')
+      expect(result.text).to include('UCAS services won’t be available from 6pm on Friday 24 April until Sunday 26 April.')
     end
   end
 
