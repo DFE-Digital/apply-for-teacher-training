@@ -55,7 +55,7 @@
 
 <% if @application_form.application_choices.any?(&:awaiting_references?) %>
 <div class='govuk-body'>
-  <%= govuk_link_to 'Add or withdraw course choices', support_interface_change_course_path(@application_form) %>
+  <%= govuk_button_link_to 'Add or withdraw course choices', support_interface_change_course_path(@application_form) %>
 </div>
 <% end %>
 
