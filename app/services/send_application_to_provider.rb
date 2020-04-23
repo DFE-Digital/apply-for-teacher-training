@@ -1,4 +1,3 @@
-# This worker will be scheduled to run nightly
 class SendApplicationToProvider
   attr_accessor :application_choice
 

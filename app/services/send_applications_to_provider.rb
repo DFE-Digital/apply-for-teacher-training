@@ -1,4 +1,3 @@
-# This worker will be scheduled to run nightly
 class SendApplicationsToProvider
   def call
     GetApplicationFormsReadyToSendToProviders.call.each do |application_form|
