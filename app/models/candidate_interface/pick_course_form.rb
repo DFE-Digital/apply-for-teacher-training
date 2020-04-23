@@ -25,6 +25,7 @@ module CandidateInterface
         courses_with_names = courses.map(&:name).map(&:downcase)
         courses_with_descriptions = courses.map(&:name_and_description).map(&:downcase)
         courses_with_name_provider_and_description = courses.map(&:name_provider_and_description).map(&:downcase)
+        courses_with_name_description_provider_and_age_range = courses.map(&:name_description_provider_and_age_range).map(&:downcase)
 
         courses_with_unambiguous_names = courses.map do |course|
           name = if courses_with_names.count(course.name.downcase) == 1
@@ -33,6 +34,8 @@ module CandidateInterface
                    course.name_code_and_description
                  elsif courses_with_name_provider_and_description.count(course.name_provider_and_description.downcase) == 1
                    course.name_code_and_provider
+                 elsif courses_with_name_description_provider_and_age_range.count(course.name_description_provider_and_age_range.downcase) == 1 && course.age_range.present?
+                   course.name_code_and_age_range
                  else
                    course.name_and_code
                  end

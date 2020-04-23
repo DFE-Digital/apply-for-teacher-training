@@ -11,7 +11,8 @@ module FindAPIHelper
     course_length: 'OneYear',
     region_code: 'north_west',
     site_address_line2: 'C/O The Bruntcliffe Academy',
-    funding_type: 'fee'
+    funding_type: 'fee',
+    age_range_in_years: '4 to 8'
   )
     stub_find_api_provider(provider_code)
       .to_return(
@@ -68,6 +69,7 @@ module FindAPIHelper
                 'findable?': findable,
                 'accrediting_provider': nil,
                 'funding_type': funding_type,
+                'age_range_in_years': age_range_in_years,
               },
               'relationships': {
                 'sites': {
@@ -135,7 +137,8 @@ module FindAPIHelper
     description: 'PGCE with QTS full time',
     start_date: Time.zone.local(2020, 10, 31),
     course_length: 'OneYear',
-    region_code: 'north_west'
+    region_code: 'north_west',
+    age_range_in_years: '4 to 8'
   )
     stub_find_api_provider(provider_code)
       .to_return(
@@ -195,6 +198,7 @@ module FindAPIHelper
                   'provider_code': accredited_provider_code,
                 },
                 'funding_type': 'fee',
+                'age_range_in_years': age_range_in_years,
               },
               'relationships': {
                 'sites': {
@@ -247,7 +251,9 @@ module FindAPIHelper
     description: 'PGCE with QTS full time',
     start_date: Time.zone.local(2020, 10, 31),
     course_length: 'OneYear',
-    region_code: 'north_west'
+    region_code: 'north_west',
+    age_range_in_years: '4 to 8'
+
   )
     response_hash = {
       status: 200,
@@ -317,6 +323,7 @@ module FindAPIHelper
               'findable?': findable,
               'accrediting_provider': nil,
               'funding_type': 'fee',
+              'age_range_in_years': age_range_in_years,
             },
             'relationships': {
               'sites': {
