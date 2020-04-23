@@ -1,4 +1,4 @@
-class WhenEmailsAreSentComponent < ActionView::Component::Base
+class WhenEmailsAreSentComponent < ViewComponent::Base
   include ViewHelper
 
   def initialize; end

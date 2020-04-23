@@ -1,4 +1,4 @@
-class PersonalStatementComponent < ActionView::Component::Base
+class PersonalStatementComponent < ViewComponent::Base
   validates :application_form, presence: true
 
   delegate :becoming_a_teacher,

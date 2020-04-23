@@ -1,4 +1,4 @@
-class LanguageSkillsComponent < ActionView::Component::Base
+class LanguageSkillsComponent < ViewComponent::Base
   validates :application_form, presence: true
 
   delegate :english_main_language,

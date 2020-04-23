@@ -1,5 +1,5 @@
 module ProviderInterface
-  class FilterCheckboxComponent < ActionView::Component::Base
+  class FilterCheckboxComponent < ViewComponent::Base
     include ViewHelper
 
     attr_reader :name, :text, :selected, :heading

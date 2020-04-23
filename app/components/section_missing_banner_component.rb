@@ -1,4 +1,4 @@
-class SectionMissingBannerComponent < ActionView::Component::Base
+class SectionMissingBannerComponent < ViewComponent::Base
   validates :section, :section_path, presence: true
 
   def initialize(section:, section_path:, text: t("review_application.#{section}.incomplete"), error: false)

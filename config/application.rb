@@ -9,7 +9,7 @@ require 'action_controller/railtie'
 require 'action_mailer/railtie'
 require 'action_view/railtie'
 
-require 'action_view/component'
+require 'view_component/engine'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -38,8 +38,8 @@ module ApplyForPostgraduateTeacherTraining
     config.action_mailer.preview_path = Rails.root.join('app/mailers/previews')
     config.action_mailer.show_previews = Rails.env.development? || HostingEnvironment.qa? || HostingEnvironment.review?
 
-    config.action_view_component.preview_path = Rails.root.join('spec/components/previews')
-    config.action_view_component.show_previews = Rails.env.development? || HostingEnvironment.qa? || HostingEnvironment.review?
+    config.view_component.preview_path = Rails.root.join('spec/components/previews')
+    config.view_component.show_previews = Rails.env.development? || HostingEnvironment.qa? || HostingEnvironment.review?
 
     config.time_zone = 'London'
 

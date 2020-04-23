@@ -1,6 +1,6 @@
 module ProviderInterface
   module StatusBoxComponents
-    class OfferComponent < ActionView::Component::Base
+    class OfferComponent < ViewComponent::Base
       include ViewHelper
       attr_reader :application_choice
       attr_reader :available_providers, :available_courses, :available_course_options

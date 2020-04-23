@@ -1,4 +1,4 @@
-class FlashMessageComponent < ActionView::Component::Base
+class FlashMessageComponent < ViewComponent::Base
   def initialize(flash:)
     @flash = flash
   end

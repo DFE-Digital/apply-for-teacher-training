@@ -1,4 +1,4 @@
-class GroupedProviderCoursesComponent < ActionView::Component::Base
+class GroupedProviderCoursesComponent < ViewComponent::Base
   include ViewHelper
 
   validates :courses_by_provider_and_region, presence: true

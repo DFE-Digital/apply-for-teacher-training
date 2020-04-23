@@ -1,5 +1,5 @@
 module ProviderInterface
-  class FilterSearchComponent < ActionView::Component::Base
+  class FilterSearchComponent < ViewComponent::Base
     include ViewHelper
 
     attr_reader :name, :type, :heading, :value

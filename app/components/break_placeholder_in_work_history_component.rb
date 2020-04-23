@@ -1,4 +1,4 @@
-class BreakPlaceholderInWorkHistoryComponent < ActionView::Component::Base
+class BreakPlaceholderInWorkHistoryComponent < ViewComponent::Base
   include ViewHelper
 
   attr_reader :work_break

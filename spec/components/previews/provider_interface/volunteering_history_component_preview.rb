@@ -1,5 +1,5 @@
 module ProviderInterface
-  class VolunteeringHistoryComponentPreview < ActionView::Component::Preview
+  class VolunteeringHistoryComponentPreview < ViewComponent::Preview
     def application
       render_component_for application_form: application_form
     end

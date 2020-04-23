@@ -37,7 +37,6 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
-    actionview-component (1.10.0)
     activejob (6.0.2.2)
       activesupport (= 6.0.2.2)
       globalid (>= 0.3.6)
@@ -486,6 +485,8 @@ GEM
     validate_url (1.0.8)
       activemodel (>= 3.0.0)
       public_suffix
+    view_component (2.5.1)
+      activesupport (>= 5.0.0, < 7.0)
     warden (1.2.8)
       rack (>= 2.0.6)
     web-console (4.0.1)
@@ -518,7 +519,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  actionview-component
   audited
   brakeman
   bullet
@@ -581,6 +581,7 @@ DEPENDENCIES
   simplecov
   timecop
   uk_postcode
+  view_component
   web-console (>= 3.3.0)
   webmock
   webpacker

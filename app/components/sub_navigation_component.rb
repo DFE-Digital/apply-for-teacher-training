@@ -1,4 +1,4 @@
-class SubNavigationComponent < ActionView::Component::Base
+class SubNavigationComponent < ViewComponent::Base
   include ViewHelper
   attr_reader :items
 

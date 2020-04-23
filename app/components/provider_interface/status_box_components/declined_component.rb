@@ -1,6 +1,6 @@
 module ProviderInterface
   module StatusBoxComponents
-    class DeclinedComponent < ActionView::Component::Base
+    class DeclinedComponent < ViewComponent::Base
       include ViewHelper
       attr_reader :application_choice
 

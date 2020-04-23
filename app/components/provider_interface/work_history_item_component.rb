@@ -1,5 +1,5 @@
 module ProviderInterface
-  class WorkHistoryItemComponent < ActionView::Component::Base
+  class WorkHistoryItemComponent < ViewComponent::Base
     include ViewHelper
 
     validates :item, presence: true

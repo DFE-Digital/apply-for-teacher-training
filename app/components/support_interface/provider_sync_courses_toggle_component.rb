@@ -1,5 +1,5 @@
 module SupportInterface
-  class ProviderSyncCoursesToggleComponent < ActionView::Component::Base
+  class ProviderSyncCoursesToggleComponent < ViewComponent::Base
     include ViewHelper
 
     def initialize(provider:)

@@ -1,4 +1,4 @@
-class PaginatorComponent < ActionView::Component::Base
+class PaginatorComponent < ViewComponent::Base
   attr_reader :scope
 
   def initialize(scope:)

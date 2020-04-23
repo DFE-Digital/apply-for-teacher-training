@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ToggleFilterComponent < ActionView::Component::Base
+  class ToggleFilterComponent < ViewComponent::Base
     include ViewHelper
 
     attr_reader :filter_visible, :params_for_current_state

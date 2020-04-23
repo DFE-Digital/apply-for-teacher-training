@@ -1,5 +1,5 @@
 module CandidateInterface
-  class GcseQualificationReviewComponent < ActionView::Component::Base
+  class GcseQualificationReviewComponent < ViewComponent::Base
     def initialize(application_qualification:, subject:, editable: true, heading_level: 2, missing_error: false)
       @application_qualification = application_qualification
       @subject = subject

@@ -1,5 +1,5 @@
 module ProviderInterface
-  class OfferSummaryListComponentPreview < ActionView::Component::Preview
+  class OfferSummaryListComponentPreview < ViewComponent::Preview
     def application_choice_with_offer
       render_component_for choices: ApplicationChoice.where(status: :offer)
     end

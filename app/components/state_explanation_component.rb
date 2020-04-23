@@ -1,4 +1,4 @@
-class StateExplanationComponent < ActionView::Component::Base
+class StateExplanationComponent < ViewComponent::Base
   include ViewHelper
 
   attr_reader :state, :namespace, :machine, :development_details

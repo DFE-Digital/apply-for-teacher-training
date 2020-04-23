@@ -1,5 +1,5 @@
 module ProviderInterface
-  class SafeguardingDeclarationComponent < ActionView::Component::Base
+  class SafeguardingDeclarationComponent < ViewComponent::Base
     include ViewHelper
 
     attr_reader :message

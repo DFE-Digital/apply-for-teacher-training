@@ -1,5 +1,5 @@
 module ProviderInterface
-  class VolunteeringHistoryComponent < ActionView::Component::Base
+  class VolunteeringHistoryComponent < ViewComponent::Base
     validates :application_form, presence: true
 
     def initialize(application_form:)

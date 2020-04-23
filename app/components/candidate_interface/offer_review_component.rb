@@ -1,5 +1,5 @@
 module CandidateInterface
-  class OfferReviewComponent < ActionView::Component::Base
+  class OfferReviewComponent < ViewComponent::Base
     validates :course_choice, presence: true
 
     def initialize(course_choice:)

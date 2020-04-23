@@ -1,5 +1,5 @@
 module ProviderInterface
-  class UserListCardComponent < ActionView::Component::Base
+  class UserListCardComponent < ViewComponent::Base
     include ViewHelper
 
     attr_reader :provider_user, :full_name, :email_address

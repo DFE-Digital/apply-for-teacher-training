@@ -1,4 +1,4 @@
-class SummaryListComponent < ActionView::Component::Base
+class SummaryListComponent < ViewComponent::Base
   validates :rows, presence: true
 
   def initialize(rows:)

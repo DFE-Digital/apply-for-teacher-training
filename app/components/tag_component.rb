@@ -1,4 +1,4 @@
-class TagComponent < ActionView::Component::Base
+class TagComponent < ViewComponent::Base
   def initialize(text:, type:)
     @text = text
     @css_classes = css_classes(type)

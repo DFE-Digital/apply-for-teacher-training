@@ -1,4 +1,4 @@
-class SummaryCardComponent < ActionView::Component::Base
+class SummaryCardComponent < ViewComponent::Base
   validates :rows, presence: true
 
   def initialize(rows:, border: true, editable: true)

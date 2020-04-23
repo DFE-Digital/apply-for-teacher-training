@@ -1,4 +1,4 @@
-class SafeguardingReviewComponent < ActionView::Component::Base
+class SafeguardingReviewComponent < ViewComponent::Base
   def initialize(application_form:, editable: true, missing_error: false)
     @safeguarding = CandidateInterface::SafeguardingIssuesDeclarationForm.build_from_application(application_form)
     @editable = editable

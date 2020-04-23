@@ -1,5 +1,5 @@
 module ProviderInterface
-  class SortableColumnHeadingComponent < ActionView::Component::Base
+  class SortableColumnHeadingComponent < ViewComponent::Base
     include ViewHelper
 
     attr_reader :column_name, :current_sort_by, :css_class, :params_for_current_state

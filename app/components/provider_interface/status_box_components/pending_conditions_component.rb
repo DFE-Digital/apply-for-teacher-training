@@ -1,6 +1,6 @@
 module ProviderInterface
   module StatusBoxComponents
-    class PendingConditionsComponent < ActionView::Component::Base
+    class PendingConditionsComponent < ViewComponent::Base
       include ViewHelper
       attr_reader :application_choice
 

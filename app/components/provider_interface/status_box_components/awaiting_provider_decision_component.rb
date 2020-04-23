@@ -1,6 +1,6 @@
 module ProviderInterface
   module StatusBoxComponents
-    class AwaitingProviderDecisionComponent < ActionView::Component::Base
+    class AwaitingProviderDecisionComponent < ViewComponent::Base
       include ViewHelper
       attr_reader :application_choice
 

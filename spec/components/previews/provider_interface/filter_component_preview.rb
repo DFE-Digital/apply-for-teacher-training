@@ -1,5 +1,5 @@
 module ProviderInterface
-  class FilterComponentPreview < ActionView::Component::Preview
+  class FilterComponentPreview < ViewComponent::Preview
     def fully_selected
       render_component_for(available_filters: available_filters,
                            applied_filters: applied_filters_full,

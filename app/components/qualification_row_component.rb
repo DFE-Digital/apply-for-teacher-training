@@ -1,4 +1,4 @@
-class QualificationRowComponent < ActionView::Component::Base
+class QualificationRowComponent < ViewComponent::Base
   validates :qualification, presence: true
   attr_reader :qualification
 

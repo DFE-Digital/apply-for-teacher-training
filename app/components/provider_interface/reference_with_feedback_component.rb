@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ReferenceWithFeedbackComponent < ActionView::Component::Base
+  class ReferenceWithFeedbackComponent < ViewComponent::Base
     validates :reference, presence: true
 
     delegate :feedback,
