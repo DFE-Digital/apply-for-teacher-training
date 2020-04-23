@@ -51,6 +51,7 @@ RSpec.describe SyncProviderFromFind do
         expect(course_option.course.description).to eq 'PGCE with QTS full time'
         expect(course_option.course.start_date).to eq Time.zone.local(2020, 10, 31)
         expect(course_option.course.course_length).to eq 'OneYear'
+        expect(course_option.course.age_range).to eq '4 to 8'
         expect(course_option.site.name).to eq 'Main site'
         expect(course_option.site.address_line1).to eq 'Gorse SCITT'
         expect(course_option.site.address_line2).to eq 'C/O The Bruntcliffe Academy'

@@ -237,6 +237,7 @@ FactoryBot.define do
     description { 'PGCE with QTS full time' }
     course_length { 'OneYear' }
     start_date { Faker::Date.between(from: 1.month.from_now, to: 1.year.from_now) }
+    age_range { '4 to 8' }
 
     subject_codes { [Faker::Alphanumeric.alphanumeric(number: 2, min_alpha: 1).upcase] }
 
