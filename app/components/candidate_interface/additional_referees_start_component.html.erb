@@ -3,7 +3,7 @@
 </h1>
 
 <p class="govuk-body">
-  <% if reference_status.number_of_references_that_currently_need_replacing == 1 %>
+  <% if reference_status.references_that_needed_to_be_replaced.count == 1 %>
     <%= reason_for_replacement(references_that_need_replacement.first) %>.
   <% else %>
     Your referees have not given us a reference:

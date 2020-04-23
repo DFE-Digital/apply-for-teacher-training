@@ -15,6 +15,13 @@ RSpec.describe 'Cancelling a reference' do
     then_i_should_see_the_add_referee_type_page
     and_the_referee_should_be_sent_a_cancelation_email
     and_a_slack_notification_is_sent
+
+    given_that_i_have_10_references
+
+    when_i_visit_the_application_complete_page
+    and_i_click_delete_on_my_last_reference
+    and_i_click_to_confirm_the_cancellation
+    then_i_am_told_to_contact_support_to_add_another_refernce
   end
 
   def given_i_have_completed_and_submitted_my_application
@@ -43,6 +50,10 @@ RSpec.describe 'Cancelling a reference' do
     click_button t('application_form.referees.sure_cancel_entry')
   end
 
+  def and_i_click_to_confirm_the_cancellation
+    when_i_click_to_confirm_the_cancellation
+  end
+
   def then_i_should_see_the_add_referee_type_page
     expect(page).to have_current_path(candidate_interface_additional_referee_type_path)
   end
@@ -55,5 +66,23 @@ RSpec.describe 'Cancelling a reference' do
 
   def and_a_slack_notification_is_sent
     expect_slack_message_with_text "Candidate #{@reference.application_form.first_name} has cancelled one of their references"
+  end
+
+  def given_that_i_have_10_references
+    create_list(:reference, 7, application_form: @reference.application_form, feedback_status: 'cancelled')
+    create(:reference, application_form: @reference.application_form, feedback_status: 'feedback_requested')
+  end
+
+  def when_i_visit_the_application_complete_page
+    visit candidate_interface_application_complete_path
+  end
+
+  def and_i_click_delete_on_my_last_reference
+    @last_reference = ApplicationReference.last
+    click_link "Cancel referee #{@last_reference.name}"
+  end
+
+  def then_i_am_told_to_contact_support_to_add_another_refernce
+    expect(page).to have_content t('page_titles.maximum_referees')
   end
 end

@@ -6,11 +6,7 @@
     <%= form_with model: @reference_type_form, url: candidate_interface_update_referees_type_path(id: @id), method: :post do |f| %>
       <%= f.govuk_error_summary %>
       <h1 class="govuk-heading-xl">
-        <% if @referee %>
-            <%= t('page_titles.nth_referee')[@referee.ordinal] %>
-        <% else %>
-            <%= t('page_titles.nth_referee')[(@referees.count + 1)] %>
-        <% end %>
+        <%= @nth_referee%>
       </h1>
 
       <p class="govuk-body">Referees should not be family members, partners or friends.</p>

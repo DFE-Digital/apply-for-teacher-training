@@ -8,7 +8,7 @@
 
 <% @application_form.application_references.includes(:application_form).each do |referee| %>
   <%= render(SummaryCardComponent.new(rows: referee_rows(referee), editable: @editable)) do %>
-    <%= render(SummaryCardHeaderComponent.new(title: t('application_form.referees.nth_referee')[referee.ordinal], heading_level: @heading_level)) do %>
+    <%= render(SummaryCardHeaderComponent.new(title: "#{TextOrdinalizer::ORDINALIZE_MAPPING[referee.ordinal]&.capitalize} referee", heading_level: @heading_level)) do %>
 
       <% if FeatureFlag.active?('candidate_can_cancel_reference') && referee.feedback_requested? %>
         <div class="app-summary-card__actions">

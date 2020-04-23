@@ -31,7 +31,7 @@ module CandidateInterface
     end
 
     def more_reference_needed?
-      ReferenceStatus.new(current_application).still_more_references_needed?
+      ReferenceStatus.new(current_application).needs_a_replacement_reference?
     end
 
     def show_pilot_holding_page_if_not_open

@@ -3,6 +3,7 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_submitted, except: %i[confirm_cancel cancel]
     before_action :set_referee, only: %i[edit update confirm_destroy destroy confirm_cancel cancel]
     before_action :set_referees, only: %i[type update_type new create index review]
+    before_action :set_nth_referee, only: %i[type new]
 
     def index
       unless @referees.empty?
@@ -55,7 +56,9 @@ module CandidateInterface
       end
     end
 
-    def edit; end
+    def edit
+      @nth_referee = "#{TextOrdinalizer::ORDINALIZE_MAPPING[@referee.ordinal].capitalize} referee"
+    end
 
     def update
       if @referee.update(referee_params)
@@ -114,6 +117,10 @@ module CandidateInterface
       @referees = current_candidate.current_application
                                     .application_references
                                     .includes(:application_form)
+    end
+
+    def set_nth_referee
+      @nth_referee = "#{TextOrdinalizer::ORDINALIZE_MAPPING[(@referees.count + 1)].capitalize} referee"
     end
 
     def referee_type_param
