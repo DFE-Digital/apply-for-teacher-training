@@ -1,4 +1,4 @@
-<% content_for :browser_title, t('support_interface.change_course.page_title') %>
+<% content_for :browser_title, title_with_error_prefix(t('support_interface.change_course.page_title'), @change_course_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@change_course_form.application_form)) %>
 
 <div class="govuk-grid-row">
