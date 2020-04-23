@@ -7,7 +7,12 @@ class Email < ApplicationRecord
     # Email predates implementation of GOV.UK Notify callback
     not_tracked: 'not_tracked',
 
-    # Email has been sent, but we're waiting on callback from GOV.UK Notify
+    # We got an error when trying to send the email to GOV.UK Notify. For example,
+    # this can happen when Notify is temporarily down, when we use the wrong API key,
+    # or the email address is invalid.
+    notify_error: 'notify_error',
+
+    # Email has likely been sent, but we're waiting on callback from GOV.UK Notify
     pending: 'pending',
 
     # DEPRECATED - do not use
