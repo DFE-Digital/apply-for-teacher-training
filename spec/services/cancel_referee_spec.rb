@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::CancelReferee do
+RSpec.describe CancelReferee do
   describe '#call' do
     let(:reference) { create(:reference, feedback_status: 'feedback_requested') }
     let(:execute_service) { described_class.new.call(reference: reference) }
