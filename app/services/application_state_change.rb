@@ -1,7 +1,7 @@
 class ApplicationStateChange
   include Workflow
 
-  STATES_NOT_VISIBLE_TO_PROVIDER = %i[unsubmitted awaiting_references application_complete].freeze
+  STATES_NOT_VISIBLE_TO_PROVIDER = %i[unsubmitted awaiting_references application_complete cancelled].freeze
 
   attr_reader :application_choice
 
@@ -22,10 +22,12 @@ class ApplicationStateChange
 
     state :awaiting_references do
       event :references_complete, transitions_to: :application_complete
+      event :cancel, transitions_to: :cancelled
     end
 
     state :application_complete do
       event :send_to_provider, transitions_to: :awaiting_provider_decision
+      event :cancel, transitions_to: :cancelled
     end
 
     state :awaiting_provider_decision do
@@ -63,6 +65,8 @@ class ApplicationStateChange
     end
 
     state :enrolled
+
+    state :cancelled
   end
 
   def load_workflow_state

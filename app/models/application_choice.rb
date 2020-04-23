@@ -19,6 +19,7 @@ class ApplicationChoice < ApplicationRecord
     unsubmitted: 'unsubmitted',
     awaiting_references: 'awaiting_references',
     application_complete: 'application_complete',
+    cancelled: 'cancelled',
     awaiting_provider_decision: 'awaiting_provider_decision',
     offer: 'offer',
     pending_conditions: 'pending_conditions',

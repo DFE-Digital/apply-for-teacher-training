@@ -44,7 +44,7 @@ private
   def progress_applications
     ActiveRecord::Base.transaction do
       reference_feedback_provided!
-      application_form.application_choices.each do |application_choice|
+      application_form.application_choices.awaiting_references.each do |application_choice|
         ApplicationStateChange.new(application_choice).references_complete!
       end
     end

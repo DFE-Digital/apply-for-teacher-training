@@ -7,4 +7,8 @@ en:
       restore: Restore support user
 
     change_course:
-      page_title: What kind of change do you want to make?
+      page_title: What do you want to do?
+
+      add_course: 'Add another course choice'
+      remove_course: 'Withdraw a course choice'
+      cancel_application: 'Cancel the application and withdraw all choices'

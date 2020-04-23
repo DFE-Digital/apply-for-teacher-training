@@ -1,24 +1,28 @@
-<% content_for :browser_title, t('support_interface.change_course.page_title') %>
-<% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@pick_option_form.application_form)) %>
+<% content_for :browser_title, title_with_error_prefix(t('support_interface.change_course.page_title'), @change_course_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@change_course_form.application_form)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @pick_option_form, url: support_interface_change_course_path(@pick_option_form.application_form) do |f| %>
+    <%= form_with model: @change_course_form, url: support_interface_change_course_path(@change_course_form.application_form) do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset :change_type, legend: { size: 'xl', text: t('support_interface.change_course.page_title'), tag: 'h1' } do %>
-        <% if @pick_option_form.can_add_course? %>
-          <%= f.govuk_radio_button :change_type, :add_course, label: { text: 'Add a course' } %>
-        <% end %>
+        <div class="govuk-!-margin-top-6">
+          <% if @change_course_form.can_add_course? %>
+            <%= f.govuk_radio_button :change_type, :add_course, label: { text: t('support_interface.change_course.add_course') } %>
+          <% end %>
 
-        <%= f.govuk_radio_button :change_type, :replace_course, label: { text: 'Replace a course*' }, hint_text: 'This feature will be available soon' %>
-        <%= f.govuk_radio_button :change_type, :remove_course, label: { text: 'Withdraw from a course*' }, hint_text: 'This feature will be available soon' %>
-        <%= f.govuk_radio_button :change_type, :cancel_application, label: { text: 'Withdraw from all courses and cancel application*' }, hint_text: 'This feature will be available soon' %>
+          <% if @change_course_form.can_withdraw_course? %>
+            <%= f.govuk_radio_button :change_type, :withdraw_choice, label: { text: t('support_interface.change_course.remove_course') } %>
+          <% end %>
+
+          <%= f.govuk_radio_button :change_type, :cancel_application, label: { text: t('support_interface.change_course.cancel_application') } %>
+        </div>
       <% end %>
 
-      <% if !@pick_option_form.can_add_course? %>
+      <% unless @change_course_form.can_add_course? %>
         <div class='govuk-body'>
-          You can no longer add a course because this application already has 3.
+          Note that you can no longer add a course because this application already has 3.
         </div>
       <% end %>
 
