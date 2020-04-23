@@ -91,6 +91,8 @@ module CandidateInterface
 
     def contact_support
       @maximum_referees = ApplicationForm::MAXIMUM_REFERENCES
+
+      redirect_to candidate_interface_review_referees_path unless current_application.application_references.count >= @maximum_referees
     end
 
   private
