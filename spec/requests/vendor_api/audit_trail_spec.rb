@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Vendor API - audit trail', type: :request, with_audited: true do
-  include VendorApiSpecHelpers
+  include VendorAPISpecHelpers
   include CourseOptionHelpers
 
   it 'updates the audit trail with the correct attribution when successfully rejecting an application' do
@@ -19,13 +19,13 @@ RSpec.describe 'Vendor API - audit trail', type: :request, with_audited: true do
     }.to(change { application_choice.audits.count })
     expect(application_choice.audits.last.user).to be_present
     expect(application_choice.audits.last.user.full_name).to eq(
-      VendorApiSpecHelpers::VALID_METADATA[:attribution][:full_name],
+      VendorAPISpecHelpers::VALID_METADATA[:attribution][:full_name],
     )
     expect(application_choice.audits.last.user.email_address).to eq(
-      VendorApiSpecHelpers::VALID_METADATA[:attribution][:email],
+      VendorAPISpecHelpers::VALID_METADATA[:attribution][:email],
     )
     expect(application_choice.audits.last.user.vendor_user_id).to eq(
-      VendorApiSpecHelpers::VALID_METADATA[:attribution][:user_id],
+      VendorAPISpecHelpers::VALID_METADATA[:attribution][:user_id],
     )
   end
 
@@ -35,10 +35,10 @@ RSpec.describe 'Vendor API - audit trail', type: :request, with_audited: true do
     )
     create(
       :vendor_api_user,
-      full_name: VendorApiSpecHelpers::VALID_METADATA[:attribution][:full_name],
+      full_name: VendorAPISpecHelpers::VALID_METADATA[:attribution][:full_name],
       email_address: 'jane.smith@example.com',
-      vendor_user_id: VendorApiSpecHelpers::VALID_METADATA[:attribution][:user_id],
-      vendor_api_token_id: VendorApiToken.find_by_unhashed_token(api_token).id,
+      vendor_user_id: VendorAPISpecHelpers::VALID_METADATA[:attribution][:user_id],
+      vendor_api_token_id: VendorAPIToken.find_by_unhashed_token(api_token).id,
     )
     request_body = {
       "data": {

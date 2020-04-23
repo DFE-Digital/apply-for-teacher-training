@@ -41,8 +41,8 @@ RSpec.describe InviteProviderUser, sidekiq: true do
       set_dsi_api_response(success: false)
     end
 
-    it 'raises DfeSignInApiError with errors from the API' do
-      expect { InviteProviderUser.new(provider_user: provider_user).call! }.to raise_error(DfeSignInApiError)
+    it 'raises DfeSignInAPIError with errors from the API' do
+      expect { InviteProviderUser.new(provider_user: provider_user).call! }.to raise_error(DfeSignInAPIError)
     end
 
     it 'does not queue an email' do

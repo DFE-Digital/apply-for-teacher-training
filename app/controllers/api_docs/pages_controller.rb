@@ -1,5 +1,5 @@
-module ApiDocs
-  class PagesController < ApiDocsController
+module APIDocs
+  class PagesController < APIDocsController
     def home
       render_content_page :home
     end

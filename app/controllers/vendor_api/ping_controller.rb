@@ -1,5 +1,5 @@
-module VendorApi
-  class PingController < VendorApiController
+module VendorAPI
+  class PingController < VendorAPIController
     def ping
       render json: { data: 'pong' }
     end

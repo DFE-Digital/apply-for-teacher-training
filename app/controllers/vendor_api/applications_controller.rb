@@ -1,5 +1,5 @@
-module VendorApi
-  class ApplicationsController < VendorApiController
+module VendorAPI
+  class ApplicationsController < VendorAPIController
     def index
       application_choices = get_application_choices_for_provider_since(
         since: since_param,

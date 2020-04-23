@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
-  include VendorApiSpecHelpers
+  include VendorAPISpecHelpers
   include CourseOptionHelpers
 
 

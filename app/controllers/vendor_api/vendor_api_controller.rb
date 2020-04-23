@@ -1,5 +1,5 @@
-module VendorApi
-  class VendorApiController < ActionController::API
+module VendorAPI
+  class VendorAPIController < ActionController::API
     include ActionController::HttpAuthentication::Token::ControllerMethods
     include LogQueryParams
 
@@ -69,7 +69,7 @@ module VendorApi
 
     def valid_api_token?
       authenticate_with_http_token do |unhashed_token|
-        @current_vendor_api_token = VendorApiToken.find_by_unhashed_token(unhashed_token)
+        @current_vendor_api_token = VendorAPIToken.find_by_unhashed_token(unhashed_token)
       end
     end
 

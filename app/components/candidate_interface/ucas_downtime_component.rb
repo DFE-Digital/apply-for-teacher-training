@@ -1,5 +1,5 @@
 module CandidateInterface
-  class UcasDowntimeComponent < ActionView::Component::Base
+  class UCASDowntimeComponent < ActionView::Component::Base
     def initialize; end
 
     def render?

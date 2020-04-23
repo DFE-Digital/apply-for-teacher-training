@@ -35,7 +35,7 @@ private
     }
 
     response = HTTP.auth(auth_string).post dfe_invite_url, json: request_params
-    raise DfeSignInApiError.new(response) unless response.status.success?
+    raise DfeSignInAPIError.new(response) unless response.status.success?
   end
 
   def send_welcome_email
@@ -43,7 +43,7 @@ private
   end
 end
 
-class DfeSignInApiError < StandardError
+class DfeSignInAPIError < StandardError
   attr_reader :response
 
   def initialize(response = nil)

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Vendor API - POST /api/v1/test-data/generate', type: :request do
-  include VendorApiSpecHelpers
+  include VendorAPISpecHelpers
 
   it 'generates test data' do
     create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))

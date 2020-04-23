@@ -1,4 +1,4 @@
-module VendorApi
+module VendorAPI
   class Metadata
     include ActiveModel::Validations
 

@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::UcasDowntimeComponent do
+RSpec.describe CandidateInterface::UCASDowntimeComponent do
   context 'when the banner for UCAS downtime feature flag is on' do
     it 'renders the banner' do
       FeatureFlag.activate('banner_for_ucas_downtime')
 
-      result = render_inline(CandidateInterface::UcasDowntimeComponent.new)
+      result = render_inline(CandidateInterface::UCASDowntimeComponent.new)
 
       expect(result.text).to include('UCAS services won’t be available from 6pm on Friday 24 April until Sunday 26 April.')
     end
@@ -15,7 +15,7 @@ RSpec.describe CandidateInterface::UcasDowntimeComponent do
     it 'does not render the banner' do
       FeatureFlag.deactivate('banner_for_ucas_downtime')
 
-      result = render_inline(CandidateInterface::UcasDowntimeComponent.new)
+      result = render_inline(CandidateInterface::UCASDowntimeComponent.new)
 
       expect(result.text).to eq('')
     end

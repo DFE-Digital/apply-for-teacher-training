@@ -1,4 +1,4 @@
-module VendorApi
+module VendorAPI
   class AttributionMeta
     include ActiveModel::Validations
 

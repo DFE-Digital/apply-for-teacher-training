@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe OpenApi3Specification do
+RSpec.describe OpenAPI3Specification do
   subject(:spec) { described_class.new(spec_definition) }
 
   describe '#as_json_schema' do
