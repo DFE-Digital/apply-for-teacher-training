@@ -97,7 +97,7 @@ FactoryBot.define do
             ethnic_background: ethnicity.last,
             disability_status: 'yes',
             disabilities: disabilities,
-            other_disability: (disabilities.include?('Other') ? Faker::Lorem.paragraph(2) : nil),
+            other_disability: (disabilities.include?('Other') ? Faker::Lorem.paragraph(sentence_count: 2) : nil),
           }
         }
       end

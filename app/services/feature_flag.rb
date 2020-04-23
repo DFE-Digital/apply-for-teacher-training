@@ -12,6 +12,7 @@ class FeatureFlag
     check_full_courses
     confirm_conditions
     create_account_or_sign_in_page
+    download_dataset1_from_support_page
     edit_course_choices
     equality_and_diversity
     group_providers_by_region
