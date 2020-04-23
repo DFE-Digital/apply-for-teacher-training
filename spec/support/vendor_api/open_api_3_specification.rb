@@ -1,4 +1,4 @@
-class OpenApi3Specification
+class OpenAPI3Specification
   def initialize(open_api_3_spec)
     @spec = open_api_3_spec
   end

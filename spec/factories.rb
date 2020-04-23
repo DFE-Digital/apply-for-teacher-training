@@ -360,7 +360,7 @@ FactoryBot.define do
     end
   end
 
-  factory :vendor_api_user do
+  factory :vendor_api_user, class: 'VendorApiUser' do
     vendor_api_token
 
     full_name { 'Bob' }
@@ -374,7 +374,7 @@ FactoryBot.define do
     hashed_token { '1234567890' }
 
     trait :with_random_token do
-      hashed_token { _unhashed_token, hashed_token = Devise.token_generator.generate(VendorApiToken, :hashed_token); hashed_token }
+      hashed_token { _unhashed_token, hashed_token = Devise.token_generator.generate(VendorAPIToken, :hashed_token); hashed_token }
     end
   end
 

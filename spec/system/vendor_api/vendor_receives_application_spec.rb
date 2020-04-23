@@ -58,7 +58,7 @@ RSpec.feature 'Vendor receives the application' do
   end
 
   def when_i_retrieve_the_application_over_the_api
-    api_token = VendorApiToken.create_with_random_token!(provider: @provider)
+    api_token = VendorAPIToken.create_with_random_token!(provider: @provider)
     page.driver.header 'Authorization', "Bearer #{api_token}"
 
     visit '/api/v1/applications?since=2019-01-01'

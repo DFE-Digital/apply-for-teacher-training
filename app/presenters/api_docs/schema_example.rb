@@ -1,4 +1,4 @@
-module ApiDocs
+module APIDocs
   class SchemaExample
     attr_reader :main_schema
 

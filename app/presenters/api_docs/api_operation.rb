@@ -1,5 +1,5 @@
-module ApiDocs
-  class ApiOperation
+module APIDocs
+  class APIOperation
     attr_reader :path_name, :operation
 
     def initialize(http_verb:, path_name:, operation:)
@@ -69,7 +69,7 @@ module ApiDocs
     end
 
     def schema
-      ApiSchema.new(name: nil, schema: request_body.content['application/json'].schema)
+      APISchema.new(name: nil, schema: request_body.content['application/json'].schema)
     end
 
     def example

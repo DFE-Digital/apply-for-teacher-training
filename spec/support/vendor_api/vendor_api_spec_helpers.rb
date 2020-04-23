@@ -1,4 +1,4 @@
-module VendorApiSpecHelpers
+module VendorAPISpecHelpers
   VALID_METADATA = {
     attribution: {
       full_name: 'Jane Smith',
@@ -37,7 +37,7 @@ module VendorApiSpecHelpers
   end
 
   def api_token
-    @api_token ||= VendorApiToken.create_with_random_token!(provider: currently_authenticated_provider)
+    @api_token ||= VendorAPIToken.create_with_random_token!(provider: currently_authenticated_provider)
   end
 
   def currently_authenticated_provider
@@ -61,7 +61,7 @@ module VendorApiSpecHelpers
 
   RSpec::Matchers.define :be_valid_against_openapi_schema do |schema_name|
     match do |item|
-      spec = OpenApi3Specification.new(VendorApi::OpenApiSpec.as_hash)
+      spec = OpenAPI3Specification.new(VendorAPI::OpenAPISpec.as_hash)
 
       JSONSchemaValidator.new(
         spec.as_json_schema(schema_name),
@@ -70,7 +70,7 @@ module VendorApiSpecHelpers
     end
 
     failure_message do |item|
-      spec = OpenApi3Specification.new(VendorApi::OpenApiSpec.as_hash)
+      spec = OpenAPI3Specification.new(VendorAPI::OpenAPISpec.as_hash)
 
       JSONSchemaValidator.new(
         spec.as_json_schema(schema_name),

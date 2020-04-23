@@ -1,10 +1,10 @@
-module ApiDocs
-  class ApiReference
+module APIDocs
+  class APIReference
     attr_reader :document
     delegate :servers, to: :document
 
     def initialize
-      @document = Openapi3Parser.load(VendorApi::OpenApiSpec.as_hash)
+      @document = Openapi3Parser.load(VendorAPI::OpenAPISpec.as_hash)
     end
 
     def operations
@@ -13,7 +13,7 @@ module ApiDocs
           operation = path.public_send(http_verb)
           next unless operation.is_a?(Openapi3Parser::Node::Operation)
 
-          ApiDocs::ApiOperation.new(http_verb: http_verb, path_name: path_name, operation: operation)
+          APIDocs::APIOperation.new(http_verb: http_verb, path_name: path_name, operation: operation)
         end
       end
 
@@ -22,7 +22,7 @@ module ApiDocs
 
     def schemas
       document.components.schemas.map do |name, schema|
-        ApiSchema.new(name: name, schema: schema)
+        APISchema.new(name: name, schema: schema)
       end
     end
   end

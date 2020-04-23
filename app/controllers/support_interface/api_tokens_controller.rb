@@ -1,12 +1,12 @@
 module SupportInterface
-  class ApiTokensController < SupportInterfaceController
+  class APITokensController < SupportInterfaceController
     def index
-      @api_tokens = VendorApiToken.order(created_at: :desc)
+      @api_tokens = VendorAPIToken.order(created_at: :desc)
     end
 
     def create
       provider = Provider.find(params[:vendor_api_token][:provider_id])
-      @unhashed_token = VendorApiToken.create_with_random_token!(provider: provider)
+      @unhashed_token = VendorAPIToken.create_with_random_token!(provider: provider)
     end
   end
 end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Vendor API - GET /api/v1/applications/:application_id', type: :request do
-  include VendorApiSpecHelpers
+  include VendorAPISpecHelpers
   include CourseOptionHelpers
 
   it 'returns a response that is valid according to the OpenAPI schema' do

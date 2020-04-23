@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ApiDocs::SchemaExample do
+RSpec.describe APIDocs::SchemaExample do
   describe '#as_json' do
     it 'generates an example for an empty schema' do
       example = generate_example({})
@@ -92,7 +92,7 @@ RSpec.describe ApiDocs::SchemaExample do
         },
       )
 
-      ApiDocs::SchemaExample.new(document.components.schemas.first.last).as_json
+      APIDocs::SchemaExample.new(document.components.schemas.first.last).as_json
     end
   end
 end

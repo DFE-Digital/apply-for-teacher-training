@@ -1,5 +1,5 @@
-module VendorApi
-  class DecisionsController < VendorApiController
+module VendorAPI
+  class DecisionsController < VendorAPIController
     before_action :validate_metadata!
 
     def make_offer

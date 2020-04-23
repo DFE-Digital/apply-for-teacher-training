@@ -1,4 +1,4 @@
-module VendorApi
+module VendorAPI
   class SingleApplicationPresenter
     def initialize(application_choice)
       @application_choice = application_choice
