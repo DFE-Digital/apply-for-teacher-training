@@ -5,7 +5,7 @@ class AuthenticationMailer < ApplicationMailer
     notify_email(
       to: candidate.email_address,
       subject: t('authentication.sign_up.email.subject'),
-      reference: "#{HostingEnvironment.environment_name}-sign_up_email-#{candidate.id}",
+      reference: "#{HostingEnvironment.environment_name}-sign_up_email-#{candidate.id}-#{SecureRandom.hex}",
     )
   end
 
