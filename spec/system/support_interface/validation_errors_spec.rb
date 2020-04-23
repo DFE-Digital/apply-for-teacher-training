@@ -19,7 +19,10 @@ RSpec.feature 'Validation errors' do
   end
 
   def and_there_are_some_validation_errors
-    @validation_error = create :validation_error
+    @validation_error = create(
+      :validation_error,
+      created_at: Time.zone.local(2020, 4, 24, 12, 35, 42),
+    )
   end
 
   def when_i_visit_the_validation_errors_page
@@ -36,6 +39,8 @@ RSpec.feature 'Validation errors' do
   end
 
   def then_i_should_see_a_list_of_individual_errors
-    expect(page).to have_current_path(candidate_interface_validation_error_path(@validation_error.form_object))
+    expect(page).to have_current_path(support_interface_validation_error_path(@validation_error.form_object))
+    expect(page).to have_content(@validation_error.request_path)
+    expect(page).to have_content(@validation_error.created_at)
   end
 end

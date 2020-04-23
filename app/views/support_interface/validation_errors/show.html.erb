@@ -1,0 +1,5 @@
+<%= @validation_errors.each do |validation_error| %>
+  <%= validation_error.created_at %>
+  <%= validation_error.request_path %>
+  <%= validation_error.details.to_s %>
+<% end %>
