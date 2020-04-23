@@ -130,7 +130,7 @@ private
     course.exposed_in_find = find_course.findable?
     course.subject_codes = find_course.subject_codes
     course.funding_type = find_course.funding_type
-    course.age_range = find_course.age_range_in_years.humanize
+    course.age_range = find_course.age_range_in_years&.humanize
   end
 
   def add_accredited_provider(course, find_accredited_provider)
