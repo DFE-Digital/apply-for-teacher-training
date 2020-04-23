@@ -70,7 +70,20 @@ RSpec.describe CandidateInterface::PickCourseForm do
     end
 
     context 'when courses have the same accredited provider, name and description' do
-      it 'prioritises showing the description over the accredited provider name' do
+      it 'returns the course name_code_and_age_range' do
+        provider = create(:provider)
+        provider2 = create(:provider, name: 'BIG SCITT')
+        create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE with QTS full time', provider: provider, accredited_provider: provider2)
+        create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '456', age_range: '8 to 12', description: 'PGCE with QTS full time', provider: provider, accredited_provider: provider2)
+
+        form = described_class.new(provider_id: provider.id)
+
+        expect(form.dropdown_available_courses.map(&:name)).to eql(['Maths (123) – 4 to 8', 'Maths (456) – 8 to 12'])
+      end
+    end
+
+    context 'when courses have the same accredited provider, name, description and age range' do
+      it 'returns course name and code' do
         provider = create(:provider)
         provider2 = create(:provider, name: 'BIG SCITT')
         create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE with QTS full time', provider: provider, accredited_provider: provider2)
