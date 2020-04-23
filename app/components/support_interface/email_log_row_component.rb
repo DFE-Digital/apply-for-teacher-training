@@ -31,6 +31,7 @@ module SupportInterface
         pending: 'govuk-tag--yellow',
         unknown: 'govuk-tag--grey',
         delivered: 'govuk-tag--green',
+        notify_error: 'govuk-tag--red',
         permanent_failure: 'govuk-tag--red',
         temporary_failure: 'govuk-tag--pink',
         technical_failure: 'govuk-tag--orange',

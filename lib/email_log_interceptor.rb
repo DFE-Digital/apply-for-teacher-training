@@ -7,7 +7,7 @@ class EmailLogInterceptor
       mail.header['reference'] = notify_reference
     end
 
-    Email.create!(
+    logged_email = Email.create!(
       to: mail.to.first,
       subject: mail.subject,
       body: mail.body.encoded,
@@ -17,6 +17,8 @@ class EmailLogInterceptor
       mail_template: mail.header['rails_mail_template'].value,
       delivery_status: 'pending',
     )
+
+    mail.header['email-log-id'] = logged_email.id
   rescue StandardError => e
     # Email logging should not stop the actual email sending
     Rails.logger.info("Exception occured when trying to log email: #{e.message}")
