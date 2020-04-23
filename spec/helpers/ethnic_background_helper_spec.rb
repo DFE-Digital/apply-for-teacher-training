@@ -47,7 +47,8 @@ RSpec.describe EthnicBackgroundHelper, type: :helper do
     it 'has an entry for each combination of group and background' do
       result = all_combinations
       EthnicBackgroundHelper::ETHNIC_GROUPS.each do |group|
-        expect(result.select{ |e| e.first == group }.map(&:last).sort).to eq(EthnicBackgroundHelper::ETHNIC_BACKGROUNDS[group].sort)
+        sorted_backgrounds = result.select { |e| e.first == group }.map(&:last).sort
+        expect(sorted_backgrounds).to eq(EthnicBackgroundHelper::ETHNIC_BACKGROUNDS[group].sort)
       end
     end
   end

@@ -88,7 +88,7 @@ FactoryBot.define do
 
       trait :with_equality_and_diversity_data do
         equality_and_diversity {
-          ethnicity = EthnicBackgroundHelper.all_combinations.sample
+          ethnicity = Class.new.extend(EthnicBackgroundHelper).all_combinations.sample
           all_disabilities = CandidateInterface::EqualityAndDiversity::DisabilitiesForm::DISABILITIES.map(&:first) << 'Other'
           disabilities = all_disabilities.sample([*1..3].sample)
           {

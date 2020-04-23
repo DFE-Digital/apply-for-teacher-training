@@ -26,7 +26,7 @@ class ApplicationsExportForUCAS
     disabilities: 'Disabilities',
     other_disability: 'Other disability',
     ethnic_group: 'Ethnic group',
-    ethnic_background: 'Ethnic background'
+    ethnic_background: 'Ethnic background',
   }.freeze
 
   def applications
@@ -83,12 +83,12 @@ private
       nctl_subject: subject_codes(application_choice.course),
       course_name: application_choice.course.name,
       course_code: application_choice.course.code,
-      sex: form.equality_and_diversity.try(:[], :sex),
+      sex: form.equality_and_diversity.try(:[], 'sex'),
       disability_status: form.equality_and_diversity.try(:[], 'disability_status'),
       disabilities: disabilities(form),
       other_disability: form.equality_and_diversity.try(:[], 'other_disability'),
       ethnic_group: form.equality_and_diversity.try(:[], 'ethnic_group'),
-      ethnic_background: form.equality_and_diversity.try(:[], 'ethnic_background')
+      ethnic_background: form.equality_and_diversity.try(:[], 'ethnic_background'),
     }
   end
 

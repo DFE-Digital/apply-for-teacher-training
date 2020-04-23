@@ -60,6 +60,4 @@ module EthnicBackgroundHelper
     end
     combos
   end
-
-  module_function :all_combinations
 end
