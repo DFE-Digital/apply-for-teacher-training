@@ -38,7 +38,7 @@ module ApplyForPostgraduateTeacherTraining
     config.action_mailer.preview_path = Rails.root.join('app/mailers/previews')
     config.action_mailer.show_previews = Rails.env.development? || HostingEnvironment.qa? || HostingEnvironment.review?
 
-    config.action_view_component.preview_path = Rails.root.join('/app/components/previews')
+    config.action_view_component.preview_path = Rails.root.join('spec/components/previews')
     config.action_view_component.show_previews = Rails.env.development? || HostingEnvironment.qa? || HostingEnvironment.review?
 
     config.time_zone = 'London'
