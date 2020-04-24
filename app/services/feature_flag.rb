@@ -8,7 +8,6 @@ class FeatureFlag
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = %w[
-    add_additional_courses_page
     before_you_start
     candidate_can_cancel_reference
     check_full_courses
