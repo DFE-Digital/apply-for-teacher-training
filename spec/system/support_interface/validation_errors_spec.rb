@@ -33,7 +33,7 @@ RSpec.feature 'Validation errors' do
 
   def then_i_should_see_a_list_of_error_groups
     expect(page).to have_content(@validation_error.form_object)
-    expect(page).to have_content('(1)')
+    expect(page).to have_content('1')
   end
 
   def when_i_click_on_a_group
@@ -43,6 +43,6 @@ RSpec.feature 'Validation errors' do
   def then_i_should_see_a_list_of_individual_errors
     expect(page).to have_current_path(support_interface_validation_error_path(@validation_error.form_object))
     expect(page).to have_content(@validation_error.request_path)
-    expect(page).to have_content(@validation_error.created_at)
+    expect(page).to have_content('24 April 2020 at 12:35pm')
   end
 end

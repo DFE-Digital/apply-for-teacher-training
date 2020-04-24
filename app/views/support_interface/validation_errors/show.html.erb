@@ -22,6 +22,9 @@
         <%= validation_error.request_path %>
       </td>
       <td class="govuk-table__cell">
+        <% validation_error.details.each do |attribute, _details| %>
+          <%= render SummaryListComponent.new(rows: [{ attribute: attribute }]) %>
+        <% end %>
       </td>
     </tr>
   <% end %>
