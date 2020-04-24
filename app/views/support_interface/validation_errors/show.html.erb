@@ -1,5 +1,29 @@
-<%= @validation_errors.each do |validation_error| %>
-  <%= validation_error.created_at %>
-  <%= validation_error.request_path %>
-  <%= validation_error.details.to_s %>
-<% end %>
+<% content_for :title, "Validation errors for #{@form_object}" %>
+
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header govuk-table__header">Time</th>
+      <th class="govuk-table__header govuk-table__header">Candidate</th>
+      <th class="govuk-table__header govuk-table__header">Request path</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-three-quarters">Errors</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+  <% @validation_errors.each do |validation_error| %>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">
+        <%= validation_error.created_at.to_s(:govuk_date_and_time) %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= validation_error.user&.email_address %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= validation_error.request_path %>
+      </td>
+      <td class="govuk-table__cell">
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

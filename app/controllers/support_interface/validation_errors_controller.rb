@@ -5,7 +5,8 @@ module SupportInterface
     end
 
     def show
-      @validation_errors = ValidationError.where(form_object: params[:form_object]).order('created_at DESC')
+      @form_object = params[:form_object]
+      @validation_errors = ValidationError.where(form_object: @form_object).order('created_at DESC')
     end
   end
 end
