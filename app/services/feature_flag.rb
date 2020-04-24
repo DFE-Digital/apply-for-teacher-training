@@ -24,7 +24,6 @@ class FeatureFlag
     provider_change_response
     provider_interface_work_breaks
     provider_view_safeguarding
-    satisfaction_survey
     suitability_to_work_with_children
     timeline
     unavailable_course_option_warnings

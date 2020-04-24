@@ -4,9 +4,7 @@ RSpec.describe 'Candidate satisfaction survey' do
   include CandidateHelper
 
   scenario 'Candidate completes the survey' do
-    given_the_satisfaction_survey_flag_is_active
-
-    when_the_candidate_completes_and_submits_their_application
+    given_the_candidate_completes_and_submits_their_application
     then_they_should_be_asked_to_give_feedback
 
     when_they_click_give_feedback
@@ -66,11 +64,7 @@ RSpec.describe 'Candidate satisfaction survey' do
     and_my_survey_should_reflect_the_results_i_input
   end
 
-  def given_the_satisfaction_survey_flag_is_active
-    FeatureFlag.activate('satisfaction_survey')
-  end
-
-  def when_the_candidate_completes_and_submits_their_application
+  def given_the_candidate_completes_and_submits_their_application
     candidate_completes_application_form
     candidate_submits_application
   end
