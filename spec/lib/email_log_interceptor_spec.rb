@@ -21,7 +21,7 @@ RSpec.describe EmailLogInterceptor do
     end
 
     def generate_email
-      mail = Mail::Message.new(to: ['test@example.com'], subject: 'Foo', headers: { rails_mailer: 'foo', rails_mail_template: 'bar' })
+      Mail::Message.new(to: ['test@example.com'], subject: 'Foo', headers: { rails_mailer: 'foo', rails_mail_template: 'bar' })
     end
   end
 end
