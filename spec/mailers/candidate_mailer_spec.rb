@@ -23,28 +23,32 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   before do
     setup_application
+    allow(@candidate).to receive(:refresh_magic_link_token!).and_return('raw_token')
+    allow(@candidate).to receive(:encrypted_id).and_return('encrypted_id')
   end
 
   describe '.application_submitted' do
     let(:mail) { mailer.application_submitted(@application_form) }
 
-    before do
-      allow(Encryptor).to receive(:encrypt).with(@candidate.id).and_return('example_encrypted_id')
-    end
-
-    it_behaves_like('a mail with subject and content', :application_submitted,
-                    I18n.t!('candidate_mailer.application_submitted.subject'),
-                    'heading' => 'Application submitted',
-                    'support reference' => 'SUPPORT-REFERENCE',
-                    'RBD time limit' => "to make an offer within #{TimeLimitConfig.limits_for(:reject_by_default).first.limit} working days",
-                    'link to sign in and id' => 'http://localhost:3000/candidate/sign-in?u=example_encrypted_id')
+    it_behaves_like(
+      'a mail with subject and content',
+      :application_submitted,
+      I18n.t!('candidate_mailer.application_submitted.subject'),
+      'heading' => 'Application submitted',
+      'support reference' => 'SUPPORT-REFERENCE',
+      'RBD time limit' => "to make an offer within #{TimeLimitConfig.limits_for(:reject_by_default).first.limit} working days",
+      'magic link to authenticate' => 'http://localhost:3000/candidate/authenticate?token=raw_token&u=encrypted_id',
+    )
 
     context 'when the covid-19 feature flag is on' do
       before { FeatureFlag.activate('covid_19') }
 
-      it_behaves_like('a mail with subject and content', :application_submitted,
-                      I18n.t!('candidate_mailer.application_submitted.subject'),
-                      'RBD time limit' => 'Due to the impact of coronavirus, it might take some time for providers to get back to you.')
+      it_behaves_like(
+        'a mail with subject and content',
+        :application_submitted,
+        I18n.t!('candidate_mailer.application_submitted.subject'),
+        'RBD time limit' => 'Due to the impact of coronavirus, it might take some time for providers to get back to you.',
+      )
     end
   end
 
@@ -72,7 +76,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'Your application is being considered',
         'heading' => 'Dear Bob',
         'working days the provider has to respond' => '10 working days',
-        'sign in url' => 'http://localhost:3000/candidate/sign-in'
+        'magic link to authenticate' => 'http://localhost:3000/candidate/authenticate?token=raw_token&u=encrypted_id'
       )
     end
 

@@ -28,6 +28,19 @@ class Candidate < ApplicationRecord
     application_forms.max_by(&:updated_at)
   end
 
+  def refresh_magic_link_token!
+    magic_link_token = MagicLinkToken.new
+    update!(
+      magic_link_token: magic_link_token.encrypted,
+      magic_link_token_sent_at: Time.zone.now,
+    )
+    magic_link_token.raw
+  end
+
+  def encrypted_id
+    Encryptor.encrypt(id)
+  end
+
 private
 
   def downcase_email
