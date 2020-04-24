@@ -4,12 +4,8 @@ module CandidateInterface
     before_action :redirect_to_application_if_signed_in, except: %i[authenticate]
 
     def new
-      if params[:u]
-        redirect_to candidate_interface_expired_sign_in_path(u: params[:u])
-      else
-        candidate = Candidate.new
-        render 'candidate_interface/sign_in/new', locals: { candidate: candidate }
-      end
+      candidate = Candidate.new
+      render 'candidate_interface/sign_in/new', locals: { candidate: candidate }
     end
 
     def create
