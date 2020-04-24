@@ -130,10 +130,8 @@ module CandidateInterface
     def other_qualification_path
       if other_qualifications_completed? || other_qualifications_added?
         Rails.application.routes.url_helpers.candidate_interface_review_other_qualifications_path
-      elsif FeatureFlag.active?('prompt_for_additional_qualifications')
-        Rails.application.routes.url_helpers.candidate_interface_new_other_qualification_type_path
       else
-        Rails.application.routes.url_helpers.candidate_interface_new_other_qualification_path
+        Rails.application.routes.url_helpers.candidate_interface_new_other_qualification_type_path
       end
     end
 

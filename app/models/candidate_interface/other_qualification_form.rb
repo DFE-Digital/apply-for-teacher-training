@@ -37,30 +37,18 @@ module CandidateInterface
       end
     end
 
-    def save(application_form)
+    def save
       return false unless valid?
 
-      if FeatureFlag.active?('prompt_for_additional_qualifications')
-        qualification = ApplicationQualification.find(id)
-        qualification.update!(
-          qualification_type: qualification_type,
-          subject: subject,
-          institution_name: institution_name,
-          grade: grade,
-          predicted_grade: false,
-          award_year: award_year,
-        )
-      else
-        application_form.application_qualifications.create!(
-          level: ApplicationQualification.levels[:other],
-          qualification_type: qualification_type,
-          subject: subject,
-          institution_name: institution_name,
-          grade: grade,
-          predicted_grade: false,
-          award_year: award_year,
-          )
-      end
+      qualification = ApplicationQualification.find(id)
+      qualification.update!(
+        qualification_type: qualification_type,
+        subject: subject,
+        institution_name: institution_name,
+        grade: grade,
+        predicted_grade: false,
+        award_year: award_year,
+      )
       true
     end
 

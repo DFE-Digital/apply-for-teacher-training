@@ -18,7 +18,6 @@ class FeatureFlag
     equality_and_diversity
     group_providers_by_region
     notes
-    prompt_for_additional_qualifications
     provider_add_provider_users
     provider_application_filters
     provider_change_response

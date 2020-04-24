@@ -141,7 +141,7 @@ RSpec.feature 'Vendor receives the application' do
          other_qualifications: [
            {
               id: @application.qualification_in_subject(:other, 'Believing in the Heart of the Cards').id,
-              qualification_type: 'A-Level',
+              qualification_type: 'A level',
               subject: 'Believing in the Heart of the Cards',
               grade: 'A',
               award_year: '2015',
