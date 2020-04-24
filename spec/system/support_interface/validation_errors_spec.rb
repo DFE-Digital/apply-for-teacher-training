@@ -7,7 +7,7 @@ RSpec.feature 'Validation errors' do
     given_i_am_a_support_user
     and_there_are_some_validation_errors
 
-    when_i_visit_the_validation_errors_page
+    when_i_navigate_to_the_validation_errors_page
     then_i_should_see_a_list_of_error_groups
 
     when_i_click_on_a_group
@@ -25,8 +25,10 @@ RSpec.feature 'Validation errors' do
     )
   end
 
-  def when_i_visit_the_validation_errors_page
-    visit support_interface_validation_errors_path
+  def when_i_navigate_to_the_validation_errors_page
+    visit support_interface_path
+    click_link 'Performance'
+    click_link 'Validation errors'
   end
 
   def then_i_should_see_a_list_of_error_groups
