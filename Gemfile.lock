@@ -97,7 +97,7 @@ GEM
     clockwork (2.0.4)
       activesupport
       tzinfo
-    clockwork-test (0.3.0)
+    clockwork-test (0.4.0)
       clockwork
       timecop
     coderay (1.1.2)
