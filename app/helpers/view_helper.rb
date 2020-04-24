@@ -53,7 +53,13 @@ module ViewHelper
 
   def candidate_sign_in_url(candidate)
     encrypted_candidate_id = Encryptor.encrypt(candidate.id)
-    candidate_interface_sign_in_url(u: encrypted_candidate_id)
+    magic_link_token = MagicLinkToken.new
+    candidate.update!(magic_link_token: magic_link_token.encrypted, magic_link_token_sent_at: Time.zone.now)
+
+    candidate_interface_authenticate_url(
+      token: magic_link_token.raw,
+      u: encrypted_candidate_id,
+    )
   end
 
   def format_months_to_years_and_months(number_of_months)

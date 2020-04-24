@@ -43,7 +43,7 @@ RSpec.feature 'Decline by default' do
     expected_subject = I18n.t('chase_candidate_decision_email.subject_singular')
     expect(current_email.subject).to include(expected_subject)
 
-    expect(current_email.body).to include('http://localhost:3000/candidate/sign-in')
+    expect(current_email.body).to include('http://localhost:3000/candidate/authenticate')
   end
 
   def and_when_the_decline_by_default_limit_has_been_exceeded
