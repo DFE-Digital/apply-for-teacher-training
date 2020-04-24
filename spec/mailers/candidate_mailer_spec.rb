@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe CandidateMailer, type: :mailer do
   include CourseOptionHelpers
-  include ViewHelper
   include TestHelpers::MailerSetupHelper
 
   subject(:mailer) { described_class }

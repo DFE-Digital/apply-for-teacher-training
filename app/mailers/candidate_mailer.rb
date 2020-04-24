@@ -1,6 +1,4 @@
 class CandidateMailer < ApplicationMailer
-  helper :view
-
   def application_submitted(application_form)
     email_for_candidate(application_form)
   end
@@ -198,4 +196,10 @@ private
       application_form_id: application_form.id,
     )
   end
+
+  def candidate_magic_link(candidate)
+    raw_token = candidate.refresh_magic_link_token!
+    candidate_interface_authenticate_url(u: candidate.encrypted_id, token: raw_token)
+  end
+  helper_method :candidate_magic_link
 end

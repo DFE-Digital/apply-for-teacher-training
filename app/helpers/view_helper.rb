@@ -51,11 +51,6 @@ module ViewHelper
     dates.edit_by.to_s(:govuk_date).strip
   end
 
-  def candidate_sign_in_url(candidate)
-    raw_token = candidate.refresh_magic_link_token!
-    candidate_interface_authenticate_url(u: candidate.encrypted_id, token: raw_token)
-  end
-
   def format_months_to_years_and_months(number_of_months)
     duration_parts = ActiveSupport::Duration.build(number_of_months.months).parts
 

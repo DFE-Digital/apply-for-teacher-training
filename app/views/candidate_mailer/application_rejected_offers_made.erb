@@ -10,7 +10,7 @@ You’ve received the following offers:
 <% end %>
 
 <% if FeatureFlag.active?('covid_19') %>
-If you don’t reply by <%= @decline_by_default_at %> your application will be withdrawn. 
+If you don’t reply by <%= @decline_by_default_at %> your application will be withdrawn.
 <% else %>
 If you don’t reply within <%= @dbd_days %> working days, your applications will be withdrawn.
 <% end %>
@@ -19,16 +19,16 @@ If you don’t reply within <%= @dbd_days %> working days, your applications wil
 
 <% if FeatureFlag.active?('covid_19') %>
 You’ve received an offer for a place on <%= @offers.first.course_option.course.name_and_code %> at <%= @offers.first.course_option.course.provider.name%>.
-If you don’t reply by <%= @decline_by_default_at %> your application will be withdrawn. 
+If you don’t reply by <%= @decline_by_default_at %> your application will be withdrawn.
 <% else %>
 You now have <%= @dbd_days %> working days to make a decision about your offer for a place on <%= @offers.first.course_option.course.name_and_code %> at <%= @offers.first.course_option.course.provider.name%>.
 <% end %>
-  
+
 <% end %>
 
 Sign in to your account to respond:
 
-<%= candidate_sign_in_url(@candidate) %>
+<%= candidate_magic_link(@candidate) %>
 
 <% if @offers.count > 1  %>
 

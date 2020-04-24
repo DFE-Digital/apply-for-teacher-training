@@ -7,7 +7,7 @@ Your application is now with your teacher training <%= 'provider'.pluralize(@app
 <% if FeatureFlag.active?('covid_19') %>
 They’ll be in touch with you if they want to arrange an interview.
 
-Due to the impact of coronavirus, this may take some time. 
+Due to the impact of coronavirus, this may take some time.
 <% else %>
 We’ve asked them to make a final decision within <%= @application_form.application_choices.first.reject_by_default_days %> working days.
 
@@ -16,4 +16,4 @@ They’ll be in touch with you sooner if they want to arrange an interview.
 
 Sign in to Apply for teacher training to review your application:
 
-<%= candidate_sign_in_url(@candidate) %>
+<%= candidate_magic_link(@candidate) %>
