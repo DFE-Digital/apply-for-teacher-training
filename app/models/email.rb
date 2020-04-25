@@ -15,6 +15,9 @@ class Email < ApplicationRecord
     # Email has likely been sent, but we're waiting on callback from GOV.UK Notify
     pending: 'pending',
 
+    # We did not try to deliver the email, for example to @example.com addresses
+    skipped: 'skipped',
+
     # DEPRECATED - do not use
     unknown: 'unknown',
 
