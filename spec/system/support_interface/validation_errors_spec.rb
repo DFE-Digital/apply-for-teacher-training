@@ -44,5 +44,6 @@ RSpec.feature 'Validation errors' do
     expect(page).to have_current_path(support_interface_validation_error_path(@validation_error.form_object))
     expect(page).to have_content(@validation_error.request_path)
     expect(page).to have_content('24 April 2020 at 12:35pm')
+    expect(page).to have_content('feedback')
   end
 end
