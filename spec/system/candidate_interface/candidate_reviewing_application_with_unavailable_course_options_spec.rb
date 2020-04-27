@@ -68,7 +68,7 @@ RSpec.feature 'Candidate reviewing an application with unavailable course option
 
   def when_i_visit_the_review_application_page
     visit candidate_interface_application_form_path
-    click_link 'Check your answers before submitting'
+    click_link 'Check and submit your application'
   end
 
   def then_i_see_a_warning_for_the_course_that_is_not_running

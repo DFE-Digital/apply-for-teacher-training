@@ -24,7 +24,7 @@ RSpec.feature 'Candidate reviewing an incomplete application' do
 
   def when_i_visit_the_review_application_page
     visit candidate_interface_application_form_path
-    click_link 'Check your answers before submitting'
+    click_link 'Check and submit your application'
   end
 
   def then_i_should_be_able_to_click_through_and_complete_each_section_but_science_gcse
