@@ -12,7 +12,8 @@ module FindAPIHelper
     region_code: 'north_west',
     site_address_line2: 'C/O The Bruntcliffe Academy',
     funding_type: 'fee',
-    age_range_in_years: '4 to 8'
+    age_range_in_years: '4 to 8',
+    vac_status: 'full_time_vacancies'
   )
     stub_find_api_provider(provider_code)
       .to_return(
@@ -93,7 +94,7 @@ module FindAPIHelper
               'id': '222',
               'type': 'site_statuses',
               'attributes': {
-                'vac_status': 'full_time_vacancies',
+                'vac_status': vac_status,
                 'publish': 'published',
                 'status': 'running',
                 'has_vacancies?': true,
