@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'A new candidate is encouraged to select a course' do
   scenario 'Candidate is redirected to the before you start page on their first sign in' do
-    given_the_before_you_start_flag_is_active
-    and_the_pilot_is_open
+    given_the_pilot_is_open
     and_the_create_account_or_sign_in_page_feature_flag_is_active
 
     when_i_visit_apply
@@ -44,11 +43,7 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
     and_i_should_not_see_an_account_created_flash_message
   end
 
-  def given_the_before_you_start_flag_is_active
-    FeatureFlag.activate('before_you_start')
-  end
-
-  def and_the_pilot_is_open
+  def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
   end
 
