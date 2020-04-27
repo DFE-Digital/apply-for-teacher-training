@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe TestApplications do
+  include DateComparisonHelper
+
   it 'generates an application with choices in the given states' do
     create(:course_option, course: create(:course, :open_on_apply))
     create(:course_option, course: create(:course, :open_on_apply))
@@ -17,12 +19,13 @@ RSpec.describe TestApplications do
 
     application_form = application_choice.application_form
     candidate = application_form.candidate
-    expect(application_choice.created_at - candidate.created_at).to be >= 1.day
-    expect(application_form.submitted_at - application_choice.created_at).to be >= 1.day
-    expect(application_choice.sent_to_provider_at - application_form.submitted_at).to be >= 1.day
-    expect(application_choice.offered_at - application_choice.sent_to_provider_at).to be >= 1.day
-    expect(application_choice.accepted_at - application_choice.offered_at).to be >= 1.day
-    expect(application_choice.enrolled_at - application_choice.accepted_at).to be >= 1.day
+
+    expect(days_between_ignoring_time_of_day(application_choice.created_at, candidate.created_at)).to be >= 1
+    expect(days_between_ignoring_time_of_day(application_form.submitted_at, application_choice.created_at)).to be >= 1
+    expect(days_between_ignoring_time_of_day(application_choice.sent_to_provider_at, application_form.submitted_at)).to be >= 1
+    expect(days_between_ignoring_time_of_day(application_choice.offered_at, application_choice.sent_to_provider_at)).to be >= 1
+    expect(days_between_ignoring_time_of_day(application_choice.accepted_at, application_choice.offered_at)).to be >= 1
+    expect(days_between_ignoring_time_of_day(application_choice.enrolled_at, application_choice.accepted_at)).to be >= 1
   end
 
   it 'creates a realistic timeline for an offered application' do
@@ -32,10 +35,10 @@ RSpec.describe TestApplications do
 
     application_form = application_choice.application_form
     candidate = application_form.candidate
-    expect(application_choice.created_at - candidate.created_at).to be >= 1.day
-    expect(application_form.submitted_at - application_choice.created_at).to be >= 1.day
-    expect(application_choice.sent_to_provider_at - application_form.submitted_at).to be >= 1.day
-    expect(application_choice.offered_at - application_choice.sent_to_provider_at).to be >= 1.day
+    expect(days_between_ignoring_time_of_day(application_choice.created_at, candidate.created_at)).to be >= 1
+    expect(days_between_ignoring_time_of_day(application_form.submitted_at, application_choice.created_at)).to be >= 1
+    expect(days_between_ignoring_time_of_day(application_choice.sent_to_provider_at, application_form.submitted_at)).to be >= 1
+    expect(days_between_ignoring_time_of_day(application_choice.offered_at, application_choice.sent_to_provider_at)).to be >= 1
   end
 
   it 'attributes actions to candidates', with_audited: true do
