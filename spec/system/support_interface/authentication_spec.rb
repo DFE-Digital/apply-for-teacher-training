@@ -4,6 +4,8 @@ RSpec.describe 'A support user authenticates via DfE Sign-in' do
   include DfESignInHelpers
 
   scenario 'signing in successfully' do
+    FeatureFlag.activate('support_sign_in_confirmation_email')
+
     given_i_have_a_dfe_sign_in_account_and_support_authorisation
 
     when_i_visit_the_support_interface_users_path
@@ -13,11 +15,15 @@ RSpec.describe 'A support user authenticates via DfE Sign-in' do
     when_i_sign_in_via_dfe_sign_in
 
     then_i_should_be_redirected_to_the_support_interface_users_path
+    and_i_should_have_received_an_email_about_the_new_login
     and_i_should_see_my_email_address
     and_my_profile_details_are_refreshed
 
     when_i_click_sign_out
     then_i_should_see_the_login_page_again
+
+    when_i_sign_in_via_dfe_sign_in
+    and_i_should_not_have_received_an_email_about_the_new_login
   end
 
   def given_i_have_a_dfe_sign_in_account_and_support_authorisation
@@ -47,6 +53,12 @@ RSpec.describe 'A support user authenticates via DfE Sign-in' do
     expect(page).to have_current_path support_interface_users_path(some_key: 'some_value')
   end
 
+  def and_i_should_have_received_an_email_about_the_new_login
+    open_email('user@apply-support.com')
+    expect(current_email.subject).to have_content('New sign in to Support for Apply for teacher training')
+    clear_emails
+  end
+
   def and_i_should_see_my_email_address
     expect(page).to have_content('user@apply-support.com')
   end
@@ -62,5 +74,10 @@ RSpec.describe 'A support user authenticates via DfE Sign-in' do
 
   def then_i_should_see_the_login_page_again
     expect(page).to have_button('Sign in using DfE Sign-in')
+  end
+
+  def and_i_should_not_have_received_an_email_about_the_new_login
+    open_email('user@apply-support.com')
+    expect(current_email).to be_nil
   end
 end
