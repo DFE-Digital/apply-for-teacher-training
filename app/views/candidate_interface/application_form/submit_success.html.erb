@@ -35,10 +35,8 @@
     <p class="govuk-body">You have <%= @editable_days %> to edit your application. We'll only send your application to your provider(s) when this editing period is over.</p>
     <p class="govuk-body"><%= govuk_link_to 'To edit your application, return to your application dashboard.', candidate_interface_application_complete_path %></p>
 
-    <% if FeatureFlag.active?('satisfaction_survey') %>
-      <h2 class="govuk-heading-m">Tell us what you think of this service</h2>
-      <p class="govuk-body">Your feedback will help us improve.</p>
-      <%= govuk_link_to 'Give feedback', candidate_interface_satisfaction_survey_recommendation_path, class: 'govuk-button' %>
-    <% end %>
+    <h2 class="govuk-heading-m">Tell us what you think of this service</h2>
+    <p class="govuk-body">Your feedback will help us improve.</p>
+    <%= govuk_link_to 'Give feedback', candidate_interface_satisfaction_survey_recommendation_path, class: 'govuk-button' %>
   </div>
 </div>
