@@ -22,23 +22,10 @@ module CandidateInterface
     RegionProviderCourses = Struct.new(:region_code, :provider_name, :courses)
 
     def providers
-      if FeatureFlag.active?('group_providers_by_region')
-        @courses_by_provider_and_region = courses_grouped_by_provider_and_region
-      else
-        @courses_by_provider = courses_grouped_by_provider
-      end
+      @courses_by_provider_and_region = courses_grouped_by_provider_and_region
     end
 
   private
-
-    def courses_grouped_by_provider
-      Course
-        .open_on_apply
-        .includes(:provider)
-        .group_by { |c| c.provider.name }
-        .sort_by { |provider_name, _| provider_name }
-        .map { |provider_name, courses| ProviderCourses.new(provider_name, courses) }
-    end
 
     def courses_grouped_by_provider_and_region
       Course

@@ -14,7 +14,6 @@ class FeatureFlag
     create_account_or_sign_in_page
     edit_course_choices
     equality_and_diversity
-    group_providers_by_region
     notes
     provider_add_provider_users
     provider_application_filters
