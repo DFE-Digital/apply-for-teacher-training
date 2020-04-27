@@ -4,7 +4,6 @@ RSpec.describe 'Selecting a full course' do
   include CandidateHelper
 
   scenario 'Candidate selects a full course' do
-    given_check_full_courses_is_active
     given_i_am_signed_in
     and_there_is_a_full_course
     when_i_select_the_full_course
@@ -13,10 +12,6 @@ RSpec.describe 'Selecting a full course' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def given_check_full_courses_is_active
-    FeatureFlag.activate('check_full_courses')
   end
 
   def and_there_is_a_full_course
