@@ -2,6 +2,8 @@ module ProviderInterface
   module StatusBoxComponents
     class OfferComponent < ViewComponent::Base
       include ViewHelper
+      include StatusBoxComponents::CourseRows
+
       attr_reader :application_choice
       attr_reader :available_providers, :available_courses, :available_course_options
 
@@ -23,23 +25,25 @@ module ProviderInterface
             key: 'Offer made',
             value: application_choice.offered_at.to_s(:govuk_date),
           },
-          {
-            key: 'Provider',
-            value: application_choice.offered_course.provider.name,
-            change_path: change_path(:provider), action: 'training provider'
-          },
-          {
-            key: 'Course',
-            value: application_choice.offered_course.name_and_code,
-            change_path: change_path(:course), action: 'course'
-          },
-          {
-            key: 'Location',
-            value: application_choice.offered_site.name_and_address,
-            change_path: change_path(:course_option), action: 'location'
-          },
-        ]
+        ] + add_change_links_to(course_rows(course_option: application_choice.offered_option))
       end
+
+      def add_change_links_to(rows)
+        rows.map do |row|
+          case row[:key]
+          when 'Provider'
+            row.merge(change_path: change_path(:provider), action: 'training provider')
+          when 'Course'
+            row.merge(change_path: change_path(:course), action: 'course')
+          when 'Location'
+            row.merge(change_path: change_path(:course_option), action: 'location')
+          else
+            row
+          end
+        end
+      end
+
+    private
 
       def paths
         Rails.application.routes.url_helpers

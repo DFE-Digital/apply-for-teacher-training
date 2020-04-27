@@ -2,6 +2,8 @@ module ProviderInterface
   module StatusBoxComponents
     class RejectedComponent < ViewComponent::Base
       include ViewHelper
+      include StatusBoxComponents::CourseRows
+
       attr_reader :application_choice
 
       def initialize(application_choice:, options: {})
@@ -24,19 +26,7 @@ module ProviderInterface
             key: 'Offer withdrawn',
             value: offer_withdrawn_at,
           },
-          {
-            key: 'Provider',
-            value: application_choice.offered_course.provider.name,
-          },
-          {
-            key: 'Course',
-            value: application_choice.offered_course.name_and_code,
-          },
-          {
-            key: 'Location',
-            value: application_choice.offered_site.name_and_address,
-          },
-        ]
+        ] + course_rows(course_option: application_choice.offered_option)
       end
 
       def rejected_rows

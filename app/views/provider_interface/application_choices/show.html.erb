@@ -49,9 +49,9 @@
 
     <%= render SummaryListComponent.new(rows: [
       { key: 'Provider', value: @application_choice.provider.name_and_code },
-      { key: 'Course', value: @application_choice.offered_course.name_and_code },
+      { key: 'Course', value: @application_choice.course.name_and_code },
       { key: 'Cycle', value: @application_choice.course.recruitment_cycle_year },
-      { key: 'Preferred location', value: @application_choice.offered_site.name_and_code },
+      { key: 'Preferred location', value: @application_choice.site.name_and_code },
       { key: 'Study mode', value: @application_choice.course_option.study_mode.humanize },
     ]) %>
 
