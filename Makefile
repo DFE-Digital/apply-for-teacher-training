@@ -43,10 +43,14 @@ ci.lint-ruby: ## Run Rubocop with results formatted for CI
 
 .PHONY: ci.cucumber
 ci.cucumber: ## Run the Cucumber specs
-	-docker-compose run web /bin/sh -c 'mkdir $(RESULTS_PATH) && \
+	docker-compose run web /bin/sh -c 'mkdir $(RESULTS_PATH) && \
 		bundle exec cucumber --format junit --out $(RESULTS_PATH)'
 	$(call copy_test_results)
 	docker-compose rm -f -v web
+
+.PHONY: ci.brakeman
+ci.lint-ruby: ## Run Brakeman tests
+	docker-compose run --rm web /bin/sh -c "bundle exec rake brakeman"
 
 .PHONY: ci.test
 ci.test: ## Run the tests with results formatted for CI

@@ -75,7 +75,7 @@ stages:
   - group: APPLY - ENV - QA
   jobs:
   - job: test_docker_image_batch_1
-    displayName: 'Test Docker Image - Batch 1'
+    displayName: 'Test Docker Image - Rubocop, Cucumber & Brakeman'
     condition: and(succeeded(), eq(variables['deployOnly'], false))
     pool:
       vmImage: 'Ubuntu-16.04'
@@ -186,6 +186,19 @@ stages:
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
         SANDBOX: $(sandbox)
 
+    - script: make ci.brakeman
+      name: ci_brakeman
+      displayName: 'Brakeman'
+      env:
+        dockerHubUsername: $(dockerHubUsername)
+        dockerHubImageName: $(imageName)
+        RAILS_ENV: test
+        GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
+        AUTHORISED_HOSTS: $(authorisedHosts)
+        FIND_BASE_URL: $(findBaseUrl)
+        GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
+        SANDBOX: $(sandbox)
+
     - task: PublishTestResults@2
       displayName: 'Publish test results'
       inputs:
@@ -194,7 +207,7 @@ stages:
 
 
   - job: test_docker_image_batch_2
-    displayName: 'Test Docker Image - Batch 2'
+    displayName: 'Test Docker Image - RSpec'
     condition: and(succeeded(), eq(variables['deployOnly'], false))
     pool:
       vmImage: 'Ubuntu-16.04'
