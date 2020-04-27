@@ -12,6 +12,9 @@ RSpec.feature 'Validation errors' do
 
     when_i_click_on_a_group
     then_i_should_see_a_list_of_individual_errors
+
+    when_i_click_on_link_in_breadcrumb_trail
+    then_i_should_be_back_on_index_page
   end
 
   def given_i_am_a_support_user
@@ -52,7 +55,15 @@ RSpec.feature 'Validation errors' do
     expect(page).to have_content(@validation_error.request_path)
     expect(page).to have_content('24 April 2020 at 12:35pm')
     expect(page).to have_content(/Attribute\s+award_year/)
-    expect(page).to have_content(/Value\s+2222/)
+    expect(page).to have_content(/Value\s+"2222"/)
     expect(page).to have_content(/Errors\s+Enter a year before 2022/)
+  end
+
+  def when_i_click_on_link_in_breadcrumb_trail
+    click_link 'Validation errors'
+  end
+
+  def then_i_should_be_back_on_index_page
+    expect(page).to have_current_path(support_interface_validation_errors_path)
   end
 end
