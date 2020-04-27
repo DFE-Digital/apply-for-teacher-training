@@ -19,7 +19,7 @@ module CandidateInterface
     def create
       @qualification = OtherQualificationForm.new(other_qualification_params)
 
-      if @qualification.save(current_application)
+      if @qualification.save
         redirect_to candidate_interface_review_other_qualifications_path
       else
         render :new

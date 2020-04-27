@@ -11,11 +11,7 @@
 
 <%= render(CandidateInterface::OtherQualificationsReviewComponent.new(application_form: @application_form)) %>
 
-<% if FeatureFlag.active?('prompt_for_additional_qualifications') %>
-  <%= govuk_button_link_to t('application_form.other_qualification.another.button'), candidate_interface_new_other_qualification_type_path, class: 'govuk-button--secondary' %>
-<% else %>
-  <%= govuk_button_link_to t('application_form.other_qualification.another.button'), candidate_interface_new_other_qualification_path, class: 'govuk-button--secondary' %>
-<% end %>
+<%= govuk_button_link_to t('application_form.other_qualification.another.button'), candidate_interface_new_other_qualification_type_path, class: 'govuk-button--secondary' %>
 
 <%= form_with model: @application_form, url: candidate_interface_complete_other_qualifications_path do |f| %>
   <div class='govuk-form-group'>
