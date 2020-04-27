@@ -1,5 +1,5 @@
 module SupportInterface
-  class ProviderUsersTableComponent < ActionView::Component::Base
+  class ProviderUsersTableComponent < ViewComponent::Base
     include ViewHelper
 
     def initialize(provider_users:)

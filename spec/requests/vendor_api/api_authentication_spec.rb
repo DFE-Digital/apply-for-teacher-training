@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'API Authentication', type: :request do
-  include VendorApiSpecHelpers
+  include VendorAPISpecHelpers
 
   it 'returns succesfully if the user has a valid token' do
-    unhashed_token = VendorApiToken.create_with_random_token!(provider: create(:provider))
+    unhashed_token = VendorAPIToken.create_with_random_token!(provider: create(:provider))
 
     get '/api/v1/ping', headers: { 'Authorization' => "Bearer #{unhashed_token}" }
 
@@ -12,12 +12,12 @@ RSpec.describe 'API Authentication', type: :request do
   end
 
   it 'remembers when a token was last used' do
-    unhashed_token = VendorApiToken.create_with_random_token!(provider: create(:provider))
+    unhashed_token = VendorAPIToken.create_with_random_token!(provider: create(:provider))
 
     expect {
       get '/api/v1/ping', headers: { 'Authorization' => "Bearer #{unhashed_token}" }
     }.to change {
-      VendorApiToken.find_by_unhashed_token(unhashed_token).last_used_at
+      VendorAPIToken.find_by_unhashed_token(unhashed_token).last_used_at
     }
   end
 

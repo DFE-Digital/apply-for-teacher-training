@@ -1,6 +1,6 @@
 module ProviderInterface
   module StatusBoxComponents
-    class RecruitedComponent < ActionView::Component::Base
+    class RecruitedComponent < ViewComponent::Base
       include ViewHelper
       attr_reader :application_choice
 

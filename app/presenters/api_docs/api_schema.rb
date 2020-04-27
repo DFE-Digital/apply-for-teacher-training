@@ -1,5 +1,5 @@
-module ApiDocs
-  class ApiSchema
+module APIDocs
+  class APISchema
     attr_reader :name, :schema
     delegate :description, :required, to: :schema
 

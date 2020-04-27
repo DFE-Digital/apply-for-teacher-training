@@ -1,5 +1,5 @@
 module SupportInterface
-  class TileComponentPreview < ActionView::Component::Preview
+  class TileComponentPreview < ViewComponent::Preview
     def regular_tile
       render SupportInterface::TileComponent.new(count: 3, label: 'blind mice')
     end

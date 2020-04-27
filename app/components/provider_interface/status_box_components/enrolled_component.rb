@@ -1,6 +1,6 @@
 module ProviderInterface
   module StatusBoxComponents
-    class EnrolledComponent < ActionView::Component::Base
+    class EnrolledComponent < ViewComponent::Base
       include ViewHelper
       attr_reader :application_choice
 

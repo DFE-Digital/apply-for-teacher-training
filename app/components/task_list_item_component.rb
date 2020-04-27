@@ -1,4 +1,4 @@
-class TaskListItemComponent < ActionView::Component::Base
+class TaskListItemComponent < ViewComponent::Base
   include ViewHelper
 
   validates :path, presence: true

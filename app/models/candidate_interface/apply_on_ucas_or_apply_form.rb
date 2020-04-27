@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ApplyOnUcasOrApplyForm
+  class ApplyOnUCASOrApplyForm
     include ActiveModel::Model
 
     attr_accessor :service, :provider_code, :course_code

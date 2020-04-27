@@ -1,6 +1,6 @@
 module ProviderInterface
   module StatusBoxComponents
-    class RejectedComponent < ActionView::Component::Base
+    class RejectedComponent < ViewComponent::Base
       include ViewHelper
       attr_reader :application_choice
 

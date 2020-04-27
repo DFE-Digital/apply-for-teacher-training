@@ -1,5 +1,5 @@
 module SupportInterface
-  class TileComponent < ActionView::Component::Base
+  class TileComponent < ViewComponent::Base
     attr_reader :count, :label, :colour
 
     def initialize(count:, label:, colour: :default, size: :regular)

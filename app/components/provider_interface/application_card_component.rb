@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ApplicationCardComponent < ActionView::Component::Base
+  class ApplicationCardComponent < ViewComponent::Base
     include ViewHelper
 
     attr_accessor :accredited_provider, :application_choice, :application_choice_path,

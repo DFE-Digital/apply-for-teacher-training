@@ -1,5 +1,5 @@
 module CandidateInterface
-  class OfferConditionsReviewComponent < ActionView::Component::Base
+  class OfferConditionsReviewComponent < ViewComponent::Base
     validates :conditions, :provider, presence: true
 
     def initialize(conditions:, provider:)

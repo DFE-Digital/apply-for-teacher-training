@@ -1,4 +1,4 @@
-class PersonalDetailsComponent < ActionView::Component::Base
+class PersonalDetailsComponent < ViewComponent::Base
   MISSING = '<em>Not provided</em>'.html_safe
 
   include ViewHelper

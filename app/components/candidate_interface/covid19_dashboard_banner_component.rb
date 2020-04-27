@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Covid19DashboardBannerComponent < ActionView::Component::Base
+  class Covid19DashboardBannerComponent < ViewComponent::Base
     def initialize(application_form:)
       @application_form = application_form
     end

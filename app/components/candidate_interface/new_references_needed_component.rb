@@ -1,5 +1,5 @@
 module CandidateInterface
-  class NewReferencesNeededComponent < ActionView::Component::Base
+  class NewReferencesNeededComponent < ViewComponent::Base
     include ViewHelper
 
     validates :application_form, presence: true

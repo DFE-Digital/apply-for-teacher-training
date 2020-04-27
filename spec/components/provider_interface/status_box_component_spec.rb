@@ -8,7 +8,7 @@ RSpec.describe ProviderInterface::StatusBoxComponent do
     expect { render_inline(described_class.new(application_choice: application_choice)) }.to \
       raise_error(
         NameError,
-        'uninitialized constant ProviderInterface::StatusBoxComponents::DummyComponent',
+        %r{uninitialized constant ProviderInterface::StatusBoxComponents::DummyComponent},
       )
   end
 

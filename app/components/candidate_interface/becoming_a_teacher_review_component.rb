@@ -1,5 +1,5 @@
 module CandidateInterface
-  class BecomingATeacherReviewComponent < ActionView::Component::Base
+  class BecomingATeacherReviewComponent < ViewComponent::Base
     validates :application_form, presence: true
 
     def initialize(application_form:, editable: true, missing_error: false)

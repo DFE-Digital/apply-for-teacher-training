@@ -1,5 +1,5 @@
 module SupportInterface
-  class EmailLogRowComponent < ActionView::Component::Base
+  class EmailLogRowComponent < ViewComponent::Base
     include ViewHelper
 
     attr_reader :email

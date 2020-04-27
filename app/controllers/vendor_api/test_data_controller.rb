@@ -1,5 +1,5 @@
-module VendorApi
-  class TestDataController < VendorApiController
+module VendorAPI
+  class TestDataController < VendorAPIController
     before_action :check_this_is_a_test_environment
 
     MAX_COUNT = 100

@@ -14,7 +14,7 @@ module CandidateInterface
 
         redirect_to candidate_interface_interstitial_path
       elsif @service.can_apply_on_apply?
-        @apply_on_ucas_or_apply = CandidateInterface::ApplyOnUcasOrApplyForm.new(
+        @apply_on_ucas_or_apply = CandidateInterface::ApplyOnUCASOrApplyForm.new(
           provider_code: params[:providerCode], course_code: params[:courseCode],
         )
 
@@ -27,7 +27,7 @@ module CandidateInterface
     end
 
     def ucas_or_apply
-      @apply_on_ucas_or_apply = CandidateInterface::ApplyOnUcasOrApplyForm.new(apply_on_ucas_or_apply_params)
+      @apply_on_ucas_or_apply = CandidateInterface::ApplyOnUCASOrApplyForm.new(apply_on_ucas_or_apply_params)
 
       set_service_and_course(@apply_on_ucas_or_apply.provider_code, @apply_on_ucas_or_apply.course_code)
 

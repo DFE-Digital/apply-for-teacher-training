@@ -1,4 +1,4 @@
-module VendorApi
+module VendorAPI
   class MultipleApplicationsPresenter
     attr_reader :application_choices
 

@@ -1,6 +1,6 @@
 # TODO: This component is used by Candidate, Support and Provider Interface, but
 # uses classes from the CandidateInterface namespace directly.
-class VolunteeringReviewComponent < ActionView::Component::Base
+class VolunteeringReviewComponent < ViewComponent::Base
   validates :application_form, presence: true
 
   def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false)

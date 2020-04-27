@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe ApiDocs::ApiSchema do
+RSpec.describe APIDocs::APISchema do
   describe '#object_schema_name' do
     let :schema do
-      @document = Openapi3Parser.load(VendorApi::OpenApiSpec.as_hash)
+      @document = Openapi3Parser.load(VendorAPI::OpenAPISpec.as_hash)
       schema_name, raw_schema = @document.components.schemas.find { |schema_name, _schema| schema_name == 'ApplicationAttributes' }
-      ApiDocs::ApiSchema.new(name: schema_name, schema: raw_schema)
+      APIDocs::APISchema.new(name: schema_name, schema: raw_schema)
     end
 
     it 'finds the object_schema_name specified with $ref' do

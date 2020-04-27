@@ -1,6 +1,6 @@
 module ProviderInterface
   module StatusBoxComponents
-    class ConditionsNotMetComponent < ActionView::Component::Base
+    class ConditionsNotMetComponent < ViewComponent::Base
       include ViewHelper
       attr_reader :application_choice
 

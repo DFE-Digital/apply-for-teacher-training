@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :request do
-  include VendorApiSpecHelpers
+  include VendorAPISpecHelpers
   include CourseOptionHelpers
 
   it_behaves_like 'an endpoint that requires metadata', '/reject'

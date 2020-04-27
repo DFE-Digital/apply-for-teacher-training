@@ -1,5 +1,5 @@
 module ProviderInterface
-  class OfferSummaryListComponent < ActionView::Component::Base
+  class OfferSummaryListComponent < ViewComponent::Base
     include ViewHelper
     attr_reader :application_choice, :header, :options
 

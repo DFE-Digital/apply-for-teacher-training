@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Vendor API - POST /api/v1/test-data/clear', type: :request do
-  include VendorApiSpecHelpers
+  include VendorAPISpecHelpers
   include CourseOptionHelpers
 
   it 'clears test data' do

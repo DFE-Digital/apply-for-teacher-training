@@ -1,5 +1,5 @@
 module ProviderInterface
-  class StatusBoxComponent < ActionView::Component::Base
+  class StatusBoxComponent < ViewComponent::Base
     include ViewHelper
 
     attr_reader :application_choice, :options

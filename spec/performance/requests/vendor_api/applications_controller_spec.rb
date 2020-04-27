@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe VendorApi::ApplicationsController, type: :request do
+RSpec.describe VendorAPI::ApplicationsController, type: :request do
   context 'given two providers with 100 applications in various states' do
     let(:current_provider) { create(:provider, code: 'BAT') }
     let(:other_provider) { create(:provider, code: 'DIFFERENT') }
-    let(:api_token) { VendorApiToken.create_with_random_token!(provider: current_provider) }
+    let(:api_token) { VendorAPIToken.create_with_random_token!(provider: current_provider) }
 
     before do
       GenerateTestData.new(100, current_provider).generate

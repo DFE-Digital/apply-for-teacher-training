@@ -1,5 +1,5 @@
 module SupportInterface
-  class ApplicationSummaryComponent < ActionView::Component::Base
+  class ApplicationSummaryComponent < ViewComponent::Base
     include ViewHelper
 
     delegate :support_reference,

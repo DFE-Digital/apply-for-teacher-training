@@ -1,5 +1,5 @@
 module SupportInterface
-  class ApplicationsTableComponent < ActionView::Component::Base
+  class ApplicationsTableComponent < ViewComponent::Base
     include ViewHelper
 
     def initialize(application_forms:)

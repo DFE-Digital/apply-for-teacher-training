@@ -35,7 +35,7 @@ gem 'sentry-raven'
 gem 'factory_bot_rails'
 gem 'faker'
 
-gem 'actionview-component'
+gem 'view_component'
 
 gem 'uk_postcode'
 

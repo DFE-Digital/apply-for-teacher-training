@@ -1,5 +1,5 @@
-module ApiDocs
-  class ApiDocsController < ActionController::Base
+module APIDocs
+  class APIDocsController < ActionController::Base
     include LogQueryParams
     layout 'application'
   end

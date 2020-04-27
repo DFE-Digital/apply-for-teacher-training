@@ -1,4 +1,4 @@
-class QualificationTitleComponent < ActionView::Component::Base
+class QualificationTitleComponent < ViewComponent::Base
   def initialize(qualification:)
     @qualification = qualification
   end

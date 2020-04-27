@@ -1,5 +1,5 @@
 module SupportInterface
-  class AuditTrailChangeComponent < ActionView::Component::Base
+  class AuditTrailChangeComponent < ViewComponent::Base
     include ViewHelper
 
     REDACTED_ATTRIBUTES = %w[sex disabilities ethnic_group ethnic_background].freeze

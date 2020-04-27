@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ApplicationTimelineComponent < ActionView::Component::Base
+  class ApplicationTimelineComponent < ViewComponent::Base
     attr_reader :application_choice
     validates :application_choice, presence: true
 

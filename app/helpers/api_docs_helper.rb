@@ -1,4 +1,4 @@
-module ApiDocsHelper
+module APIDocsHelper
   def json_code_sample(code)
     source = JSON.pretty_generate(code)
     formatter = Rouge::Formatters::HTML.new

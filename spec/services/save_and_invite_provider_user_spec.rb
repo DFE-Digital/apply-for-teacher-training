@@ -58,8 +58,8 @@ RSpec.describe SaveAndInviteProviderUser do
       end
     end
 
-    context 'a DfeSignInApiError occurs' do
-      before { allow(invite_service).to receive(:call!).and_raise(DfeSignInApiError) }
+    context 'a DfeSignInAPIError occurs' do
+      before { allow(invite_service).to receive(:call!).and_raise(DfeSignInAPIError) }
 
       it 'rolls back the transaction' do
         expect { service.call }.not_to change(ProviderUser, :count)

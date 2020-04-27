@@ -1,5 +1,5 @@
 module ProviderInterface
-  class FilterComponent < ActionView::Component::Base
+  class FilterComponent < ViewComponent::Base
     include ViewHelper
 
     attr_reader :params_for_current_state, :available_filters, :applied_filters

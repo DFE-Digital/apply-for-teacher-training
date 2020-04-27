@@ -1,5 +1,5 @@
 module ProviderInterface
-  class FilterComponentPreview < ActionView::Component::Preview
+  class FilterComponentPreview < ViewComponent::Preview
     def fully_selected
       render_component_for(available_filters: available_filters,
                            applied_filters: applied_filters_full,
@@ -36,8 +36,8 @@ module ProviderInterface
             'rejected' => 'rejected',
             'withdrawn' => 'withdrawn',
         }, 'provider' => {
-            'the-beach-teaching-school' => '2',
-          }
+              'the-beach-teaching-school' => '2',
+            }
       }
     end
 
@@ -53,9 +53,9 @@ module ProviderInterface
           'withdrawn' => 'withdrawn',
           'offer-withdrawn' => 'offer_withdrawn',
         }, 'provider' => {
-          'somerset-scitt-consortium' => '1',
-          'the-beach-teaching-school' => '2',
-        }
+            'somerset-scitt-consortium' => '1',
+            'the-beach-teaching-school' => '2',
+          }
       }
     end
 

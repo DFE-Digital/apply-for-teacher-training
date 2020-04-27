@@ -1,5 +1,5 @@
 module ProviderInterface
-  class StatusBoxComponentPreview < ActionView::Component::Preview
+  class StatusBoxComponentPreview < ViewComponent::Preview
     def awaiting_provider_decision
       render_component_for choices: ApplicationChoice.where(status: :awaiting_provider_decision)
     end

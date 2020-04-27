@@ -1,5 +1,5 @@
 module CandidateInterface
-  class CourseChoicesReviewComponent < ActionView::Component::Base
+  class CourseChoicesReviewComponent < ViewComponent::Base
     include ViewHelper
     validates :application_form, presence: true
 

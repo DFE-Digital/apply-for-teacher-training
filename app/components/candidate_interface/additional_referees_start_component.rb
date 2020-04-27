@@ -1,5 +1,5 @@
 module CandidateInterface
-  class AdditionalRefereesStartComponent < ActionView::Component::Base
+  class AdditionalRefereesStartComponent < ViewComponent::Base
     include ViewHelper
 
     validates :application_form, presence: true

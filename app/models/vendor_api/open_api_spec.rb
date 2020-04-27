@@ -1,5 +1,5 @@
-module VendorApi
-  class OpenApiSpec
+module VendorAPI
+  class OpenAPISpec
     def self.as_yaml
       spec.to_yaml
     end

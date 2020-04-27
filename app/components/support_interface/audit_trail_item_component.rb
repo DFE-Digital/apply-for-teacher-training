@@ -1,5 +1,5 @@
 module SupportInterface
-  class AuditTrailItemComponent < ActionView::Component::Base
+  class AuditTrailItemComponent < ViewComponent::Base
     include ViewHelper
 
     validates :audit, presence: true
