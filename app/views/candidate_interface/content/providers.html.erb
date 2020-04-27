@@ -20,28 +20,6 @@
       <li>some of your chosen providers are not available on <%= service_name %> and you don’t want to use 2 different services.</li>
     </ul>
     <p class="govuk-body"><%= govuk_link_to 'Use UCAS', 'https://2020.teachertraining.apply.ucas.com/apply/student/login.do' %></p>
-
-    <% if FeatureFlag.active?('group_providers_by_region') %>
-      <%= render GroupedProviderCoursesComponent.new(courses_by_provider_and_region: @courses_by_provider_and_region) %>
-    <% else %>
-      <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
-        <% @courses_by_provider.each_with_index do |provider, index| %>
-          <section class="govuk-accordion__section">
-            <header class="govuk-accordion__section-header">
-              <h2 class="govuk-accordion__section-heading">
-                <span class="govuk-accordion__section-button" id="accordion-default-heading-<%= index %>"><%= provider.provider_name %></span>
-              </h2>
-            </header>
-            <div class="govuk-accordion__section-content" id="accordion-default-content-<%= index %>" aria-labelledby="accordion-default-heading-<%= index %>">
-              <ul class="govuk-list govuk-list--bullet">
-                <% provider.courses.sort_by(&:name).each do |course| %>
-                  <li><%= govuk_link_to course.name_and_code, course.find_url %></li>
-                <% end %>
-              </ul>
-            </div>
-          </section>
-        <% end %>
-      </div>
-    <% end %>
+    <%= render GroupedProviderCoursesComponent.new(courses_by_provider_and_region: @courses_by_provider_and_region) %>
   </div>
 </div>
