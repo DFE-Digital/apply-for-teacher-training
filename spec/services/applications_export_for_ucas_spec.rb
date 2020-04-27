@@ -68,7 +68,7 @@ RSpec.describe ApplicationsExportForUCAS do
         expect(result.map { |e| e[:nctl_subject] }.sort).to eq(application.application_choices.map { |e| e.course.subject_codes.join('|') }.sort)
         expect(result.map { |e| e[:course_name] }.sort).to eq(application.application_choices.map { |e| e.course.name }.sort)
         expect(result.map { |e| e[:course_code] }.sort).to eq(application.application_choices.map { |e| e.course.code }.sort)
-        expect(result.map { |e| e[:application_state] }.sort).to eq(application.application_choices.map { |e| e.status }.sort)
+        expect(result.map { |e| e[:application_state] }.sort).to eq(application.application_choices.map(&:status).sort)
         expect(result.map { |e| e[:level] }.sort).to eq(application.application_choices.map { |e| e.course.level }.sort)
       end
 
