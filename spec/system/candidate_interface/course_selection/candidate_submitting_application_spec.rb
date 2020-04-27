@@ -8,6 +8,7 @@ RSpec.feature 'Candidate submits the application' do
     and_the_covid_19_feature_flag_is_on
 
     when_i_have_completed_my_application
+
     and_i_review_my_application
 
     then_i_should_see_all_sections_are_complete
@@ -160,7 +161,7 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def when_i_click_on_check_your_answers
-    click_link 'Check your answers before submitting'
+    click_link 'Check and submit your application'
   end
 
   def and_i_confirm_my_application

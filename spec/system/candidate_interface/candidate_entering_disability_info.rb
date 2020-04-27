@@ -41,7 +41,7 @@ RSpec.feature 'Entering their disability information' do
   end
 
   def when_i_click_on_check_your_answers
-    click_link 'Check your answers before submitting'
+    click_link 'Check and submit your application'
   end
 
   def when_i_submit_my_application

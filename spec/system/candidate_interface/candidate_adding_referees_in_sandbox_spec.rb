@@ -65,7 +65,7 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
   end
 
   def when_i_click_on_check_your_answers
-    click_link 'Check your answers before submitting'
+    click_link 'Check and submit your application'
   end
 
   def then_i_should_see_all_sections_are_complete
