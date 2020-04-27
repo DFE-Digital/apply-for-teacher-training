@@ -35,7 +35,7 @@ module ApplyForPostgraduateTeacherTraining
 
     config.exceptions_app = self.routes
 
-    config.action_mailer.preview_path = Rails.root.join('app/mailers/previews')
+    config.action_mailer.preview_path = Rails.root.join('spec/mailers/previews')
     config.action_mailer.show_previews = Rails.env.development? || HostingEnvironment.qa? || HostingEnvironment.review?
 
     config.view_component.preview_path = Rails.root.join('spec/components/previews')
