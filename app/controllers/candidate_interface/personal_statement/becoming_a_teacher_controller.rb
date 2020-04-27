@@ -14,6 +14,7 @@ module CandidateInterface
       if @becoming_a_teacher_form.save(current_application)
         render :show
       else
+        track_validation_error(@becoming_a_teacher_form)
         render :edit
       end
     end

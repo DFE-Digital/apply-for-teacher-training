@@ -16,6 +16,7 @@ module CandidateInterface
       if @application_qualification.save_base(current_candidate.current_application)
         redirect_to next_gcse_path
       else
+        track_validation_error(@application_qualification)
         render :edit
       end
     end

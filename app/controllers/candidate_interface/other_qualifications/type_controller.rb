@@ -11,6 +11,7 @@ module CandidateInterface
       if @qualification_type.save(current_application)
         redirect_to candidate_interface_new_other_qualification_details_path(id: current_application.application_qualifications.last.id)
       else
+        track_validation_error(@qualification_type)
         render :new
       end
     end

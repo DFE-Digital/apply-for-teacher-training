@@ -16,6 +16,7 @@ module CandidateInterface
           redirect_to candidate_interface_new_volunteering_role_path
         end
       else
+        track_validation_error(@volunteering_experience_form)
         render :show
       end
     end

@@ -22,6 +22,7 @@ module CandidateInterface
       if @qualification.save
         redirect_to candidate_interface_review_other_qualifications_path
       else
+        track_validation_error(@qualification)
         render :new
       end
     end
@@ -39,6 +40,7 @@ module CandidateInterface
 
         redirect_to candidate_interface_review_other_qualifications_path
       else
+        track_validation_error(@qualification)
         render :edit
       end
     end

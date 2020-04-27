@@ -19,6 +19,7 @@ module CandidateInterface
 
         redirect_to candidate_interface_degrees_review_path
       else
+        track_validation_error(@degree)
         render :new
       end
     end

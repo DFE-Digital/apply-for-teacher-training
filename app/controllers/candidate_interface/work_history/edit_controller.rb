@@ -32,6 +32,7 @@ module CandidateInterface
         end
         current_application.update!(work_history_completed: false)
       else
+        track_validation_error(@work_experience_form)
         render :new
       end
     end
@@ -54,6 +55,7 @@ module CandidateInterface
 
         redirect_to candidate_interface_work_history_show_path
       else
+        track_validation_error(@work_experience_form)
         render :edit
       end
     end

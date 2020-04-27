@@ -22,7 +22,11 @@ module CandidateInterface
 
       if params[:id]
         @id = params[:id]
-        return redirect_to action: 'type', id: @id unless @reference_type_form.valid?
+
+        unless @reference_type_form.valid?
+          track_validation_error(@reference_type_form)
+          return redirect_to action: 'type', id: @id
+        end
 
         @reference_type_form.save(current_referee(@id))
 
@@ -52,6 +56,7 @@ module CandidateInterface
       if reference.save
         redirect_to_confirm_or_show_another_reference_form
       else
+        track_validation_error(reference)
         @reference = reference
         render :new
       end
@@ -84,6 +89,7 @@ module CandidateInterface
       if current_reference.update(referee_params)
         redirect_to_confirm_or_show_another_reference_form
       else
+        track_validation_error(current_reference)
         @reference = current_reference
         render :edit
       end

@@ -16,10 +16,28 @@ module CandidateInterface
       Raven.extra_context(application_support_url: support_interface_application_form_url(current_application))
     end
 
+    def track_validation_error(form)
+      return unless FeatureFlag.active?('track_validation_errors')
+
+      ValidationError.create!(
+        form_object: form.class.name,
+        request_path: request.path,
+        user: current_candidate,
+        details: form.errors.messages.map { |field, messages| [field, { messages: messages, value: form.public_send(field) }] }.to_h,
+      )
+    rescue StandardError => e
+      # Never crash validation error tracking
+      Raven.capture_exception(e)
+    end
+
   private
 
     def redirect_to_dashboard_if_submitted
       redirect_to candidate_interface_application_complete_path if current_application.submitted?
+    end
+
+    def redirect_to_dashboard_if_not_amendable
+      redirect_to candidate_interface_application_complete_path if current_application.submitted? && !current_application.amendable?
     end
 
     def redirect_to_application_form_unless_submitted

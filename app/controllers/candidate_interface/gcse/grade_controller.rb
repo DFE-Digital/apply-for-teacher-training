@@ -13,6 +13,7 @@ module CandidateInterface
         redirect_to next_gcse_path
       else
         @application_qualification = details_form
+        track_validation_error(@application_qualification)
 
         render :edit
       end

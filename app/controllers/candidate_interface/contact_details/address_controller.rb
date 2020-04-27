@@ -14,6 +14,7 @@ module CandidateInterface
       if @contact_details_form.save_address(current_application)
         redirect_to candidate_interface_contact_details_review_path
       else
+        track_validation_error(@contact_details_form)
         render :edit
       end
     end

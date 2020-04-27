@@ -40,6 +40,7 @@ module CandidateInterface
       else
         qualifications = OtherQualificationForm.build_all_from_application(current_application)
         @type = qualifications.last.qualification_type
+        track_validation_error(@qualification)
 
         render :new
       end

@@ -46,6 +46,7 @@ module CandidateInterface
 
         redirect_to candidate_interface_application_submit_success_path
       else
+        track_validation_error(@further_information_form)
         render :submit_show
       end
     end

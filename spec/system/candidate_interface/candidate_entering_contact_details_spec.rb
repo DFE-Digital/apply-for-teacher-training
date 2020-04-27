@@ -6,17 +6,18 @@ RSpec.feature 'Entering their contact details' do
   scenario 'Candidate submits their contact details' do
     given_i_am_signed_in
     and_i_visit_the_site
+    and_the_track_validation_errors_feature_is_on
 
     when_i_click_on_contact_details
     and_i_incorrectly_fill_in_my_phone_number
     and_i_submit_my_phone_number
     then_i_should_see_validation_errors_for_my_phone_number
+    and_a_validation_error_is_logged_for_phone_number
 
     when_i_fill_in_my_phone_number
     and_i_submit_my_phone_number
     and_i_incorrectly_fill_in_my_address
     and_i_submit_my_address
-    then_i_should_see_validation_errors_for_my_address
 
     when_i_fill_in_my_address
     and_i_submit_my_address
@@ -52,6 +53,10 @@ RSpec.feature 'Entering their contact details' do
     visit candidate_interface_application_form_path
   end
 
+  def and_the_track_validation_errors_feature_is_on
+    FeatureFlag.activate('track_validation_errors')
+  end
+
   def when_i_click_on_contact_details
     click_link t('page_titles.contact_details')
   end
@@ -66,6 +71,14 @@ RSpec.feature 'Entering their contact details' do
 
   def then_i_should_see_validation_errors_for_my_phone_number
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.phone_number.invalid')
+  end
+
+  def and_a_validation_error_is_logged_for_phone_number
+    validation_error = ValidationError.last
+    expect(validation_error).to be_present
+    expect(validation_error.details).to have_key('phone_number')
+    expect(validation_error.user).to eq(current_candidate)
+    expect(validation_error.request_path).to eq(candidate_interface_contact_details_update_base_path)
   end
 
   def when_i_fill_in_my_phone_number

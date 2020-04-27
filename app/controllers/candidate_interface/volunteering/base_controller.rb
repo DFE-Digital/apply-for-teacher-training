@@ -14,6 +14,7 @@ module CandidateInterface
 
         redirect_to candidate_interface_review_volunteering_path
       else
+        track_validation_error(@volunteering_role)
         render :new
       end
     end
@@ -31,6 +32,7 @@ module CandidateInterface
 
         redirect_to candidate_interface_review_volunteering_path
       else
+        track_validation_error(@volunteering_role)
         render :edit
       end
     end

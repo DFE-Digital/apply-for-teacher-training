@@ -14,6 +14,7 @@ module CandidateInterface
       if @work_explanation_form.save(current_application)
         redirect_to candidate_interface_work_history_show_path
       else
+        track_validation_error(@work_explanation_form)
         render :show
       end
     end

@@ -6,10 +6,12 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
   scenario 'Candidate submits why they want to be a teacher' do
     given_i_am_signed_in
     and_i_visit_the_site
+    and_the_track_validation_errors_feature_is_on
 
     when_i_click_on_becoming_a_teacher
     and_i_submit_the_form
     then_i_should_see_validation_errors
+    and_a_validation_error_is_logged_for_becoming_a_teacher
 
     when_i_fill_in_an_answer
     and_i_submit_the_form
@@ -32,6 +34,10 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
     create_and_sign_in_candidate
   end
 
+  def and_the_track_validation_errors_feature_is_on
+    FeatureFlag.activate('track_validation_errors')
+  end
+
   def and_i_visit_the_site
     visit candidate_interface_application_form_path
   end
@@ -42,6 +48,14 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
 
   def then_i_should_see_validation_errors
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/becoming_a_teacher_form.attributes.becoming_a_teacher.blank')
+  end
+
+  def and_a_validation_error_is_logged_for_becoming_a_teacher
+    validation_error = ValidationError.last
+    expect(validation_error).to be_present
+    expect(validation_error.details).to have_key('becoming_a_teacher')
+    expect(validation_error.user).to eq(current_candidate)
+    expect(validation_error.request_path).to eq(candidate_interface_becoming_a_teacher_show_path)
   end
 
   def and_i_fill_in_some_details_but_omit_some_required_details

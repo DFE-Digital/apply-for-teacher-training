@@ -15,6 +15,7 @@ module CandidateInterface
         @application_form = current_application
         redirect_to candidate_interface_training_with_a_disability_show_path
       else
+        track_validation_error(@training_with_a_disability_form)
         render :edit
       end
     end
