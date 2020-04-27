@@ -19,6 +19,9 @@ RSpec.describe 'Candidate edits course choices' do
     and_i_choose_a_provider
     and_i_choose_the_third_course_as_my_first_course_choice
     and_i_choose_the_full_time_study_mode
+    then_i_should_see_the_add_another_course_page
+
+    when_i_choose_no_not_at_the_moment
     then_i_should_be_on_the_course_choice_review_page
     and_i_should_see_a_change_course_link
 
@@ -35,6 +38,9 @@ RSpec.describe 'Candidate edits course choices' do
     and_i_choose_the_multi_site_course_as_my_second_course_choice
     and_i_choose_the_full_time_study_mode
     and_i_choose_the_first_site
+    then_i_should_see_the_add_another_course_page
+
+    when_i_choose_no_not_at_the_moment
     then_i_should_be_on_the_course_choice_review_page
     and_i_should_see_the_first_site
     and_i_should_see_a_change_location_link
@@ -226,6 +232,15 @@ RSpec.describe 'Candidate edits course choices' do
 
   def and_i_choose_part_time_study_mode
     choose 'Part time'
+    click_button 'Continue'
+  end
+
+  def then_i_should_see_the_add_another_course_page
+    expect(page).to have_current_path(candidate_interface_course_choices_add_another_course_path)
+  end
+
+  def when_i_choose_no_not_at_the_moment
+    choose 'No, not at the moment'
     click_button 'Continue'
   end
 

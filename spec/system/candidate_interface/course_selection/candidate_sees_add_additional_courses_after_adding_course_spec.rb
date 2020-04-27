@@ -5,8 +5,7 @@ RSpec.describe 'Add additional courses flow' do
   include CourseOptionHelpers
 
   scenario 'Candidate is signed in' do
-    given_that_add_additional_courses_page_is_active
-    and_there_are_course_options
+    given_there_are_course_options
     and_i_am_signed_in
 
     when_i_visit_my_application_page
@@ -46,11 +45,7 @@ RSpec.describe 'Add additional courses flow' do
     and_i_should_receive_a_message_that_ive_added_the_third_course
   end
 
-  def given_that_add_additional_courses_page_is_active
-    FeatureFlag.activate('add_additional_courses_page')
-  end
-
-  def and_there_are_course_options
+  def given_there_are_course_options
     @provider = create(:provider)
     create_list(:course, 3, provider: @provider, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
     course_option_for_provider(provider: @provider, course: @provider.courses.first)

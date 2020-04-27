@@ -110,12 +110,8 @@ module CandidateHelper
     choose 'Primary (2XT2)'
     click_button 'Continue'
 
-    if FeatureFlag.active?('add_additional_courses_page')
-      choose 'No, not at the moment'
-      click_button 'Continue'
-
-      click_on 'Course choices'
-    end
+    choose 'No, not at the moment'
+    click_button 'Continue'
 
     check t('application_form.courses.complete.completed_checkbox')
     click_button 'Continue'
