@@ -10,17 +10,25 @@ class ApplicationsExportForUCAS
     address_line_2: 'Address line 2',
     address_line_3: 'Address line 3',
     address_line_4: 'Address line 4',
+    application_state: 'Application state',
     country: 'Country',
     postcode: 'Postcode',
     email_address: 'Email address',
     provider_code: 'Provider code',
     provider_name: 'Provider name',
-    phase: 'Phase',
+    phase: 'Apply stage', # <- what we call our field: how UCAS refer to it
+    level: 'Phase', # <- what we call our field: how UCAS refer to it
     programme_type: 'Programme type',
     programme_outcome: 'Programme outcome',
     nctl_subject: 'NCTL subject',
     course_name: 'Course name',
     course_code: 'Course Code',
+    sex: 'Sex',
+    disability_status: 'Disability status',
+    disabilities: 'Disabilities',
+    other_disability: 'Other disability',
+    ethnic_group: 'Ethnic group',
+    ethnic_background: 'Ethnic background',
   }.freeze
 
   def applications
@@ -66,9 +74,11 @@ private
       address_line_2: form.address_line2,
       address_line_3: form.address_line3,
       address_line_4: form.address_line4,
+      application_state: application_choice.status,
       country: form.country,
       postcode: form.postcode,
       email_address: form.candidate.email_address,
+      level: application_choice.course.level,
       provider_code: application_choice.provider.code,
       provider_name: application_choice.provider.name,
       phase: form.phase,
@@ -77,10 +87,20 @@ private
       nctl_subject: subject_codes(application_choice.course),
       course_name: application_choice.course.name,
       course_code: application_choice.course.code,
+      sex: form.equality_and_diversity.try(:[], 'sex'),
+      disability_status: form.equality_and_diversity.try(:[], 'disability_status'),
+      disabilities: disabilities(form),
+      other_disability: form.equality_and_diversity.try(:[], 'other_disability'),
+      ethnic_group: form.equality_and_diversity.try(:[], 'ethnic_group'),
+      ethnic_background: form.equality_and_diversity.try(:[], 'ethnic_background'),
     }
   end
 
   def subject_codes(course)
     course.subject_codes.to_a.join('|')
+  end
+
+  def disabilities(form)
+    form.equality_and_diversity.try(:[], 'disabilities').to_a.join('|')
   end
 end

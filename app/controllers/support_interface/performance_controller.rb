@@ -46,11 +46,18 @@ module SupportInterface
     end
 
     def applications_export_for_ucas
-      applications = ApplicationsExportForUCAS.new.applications
-      header_row = ApplicationsExportForUCAS.csv_header(applications)
-      csv = to_csv(applications, header_row)
+      if FeatureFlag.active?('download_dataset1_from_support_page')
+        applications = ApplicationsExportForUCAS.new.applications
+        header_row = ApplicationsExportForUCAS.csv_header(applications)
+        csv = to_csv(applications, header_row)
 
-      send_data csv, filename: "dfe_apply_itt_applications_#{Time.zone.now.iso8601}.csv", disposition: :attachment
+        send_data csv, filename: "dfe_apply_itt_applications_#{Time.zone.now.iso8601}.csv", disposition: :attachment
+      else
+        # The unauthorized page expects an instance var that's only set in
+        # the dfe_sign_in_controller
+        @dfe_sign_in_user = dfe_sign_in_user
+        render 'support_interface/unauthorized', status: :forbidden
+      end
     end
 
     def active_provider_users

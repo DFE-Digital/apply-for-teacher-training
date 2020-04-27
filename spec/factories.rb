@@ -86,6 +86,22 @@ FactoryBot.define do
         }
       end
 
+      trait :with_equality_and_diversity_data do
+        equality_and_diversity {
+          ethnicity = Class.new.extend(EthnicBackgroundHelper).all_combinations.sample
+          all_disabilities = CandidateInterface::EqualityAndDiversity::DisabilitiesForm::DISABILITIES.map(&:first) << 'Other'
+          disabilities = all_disabilities.sample([*1..3].sample)
+          {
+            sex: ['male', 'female', 'intersex', 'Prefer not to say'].sample,
+            ethnic_group: ethnicity.first,
+            ethnic_background: ethnicity.last,
+            disability_status: 'yes',
+            disabilities: disabilities,
+            other_disability: (disabilities.include?('Other') ? Faker::Lorem.paragraph(sentence_count: 2) : nil),
+          }
+        }
+      end
+
       after(:build) do |application_form, evaluator|
         if evaluator.with_gces
           create(:gcse_qualification, application_form: application_form, subject: 'maths')

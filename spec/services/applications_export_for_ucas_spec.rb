@@ -30,7 +30,7 @@ RSpec.describe ApplicationsExportForUCAS do
 
     context 'when a relevant application form exists with multiple application_choices' do
       let!(:application) do
-        create(:completed_application_form, application_choices_count: 3)
+        create(:completed_application_form, :with_equality_and_diversity_data, application_choices_count: 3)
       end
 
       it 'returns one element for each choice on the form' do
@@ -68,6 +68,17 @@ RSpec.describe ApplicationsExportForUCAS do
         expect(result.map { |e| e[:nctl_subject] }.sort).to eq(application.application_choices.map { |e| e.course.subject_codes.join('|') }.sort)
         expect(result.map { |e| e[:course_name] }.sort).to eq(application.application_choices.map { |e| e.course.name }.sort)
         expect(result.map { |e| e[:course_code] }.sort).to eq(application.application_choices.map { |e| e.course.code }.sort)
+        expect(result.map { |e| e[:application_state] }.sort).to eq(application.application_choices.map(&:status).sort)
+        expect(result.map { |e| e[:level] }.sort).to eq(application.application_choices.map { |e| e.course.level }.sort)
+      end
+
+      it 'includes the correct equality_and_diversity data' do
+        expect(result.first[:sex]).to eq(application.equality_and_diversity['sex'])
+        expect(result.first[:ethnic_background]).to eq(application.equality_and_diversity['ethnic_background'])
+        expect(result.first[:ethnic_group]).to eq(application.equality_and_diversity['ethnic_group'])
+        expect(result.first[:disability_status]).to eq(application.equality_and_diversity['disability_status'])
+        expect(result.first[:disabilities]).to eq(application.equality_and_diversity['disabilities'].join('|'))
+        expect(result.first[:other_disability]).to eq(application.equality_and_diversity['other_disability'])
       end
     end
   end

@@ -20,9 +20,11 @@ class GenerateTestData
 
       # Most of the time generate an application with a single course choice,
       Audited.audit_class.as_user(candidate) do
+        traits = [:with_completed_references]
+        traits << :with_equality_and_diversity_data if rand < 0.55
         application_form = FactoryBot.create(
           :completed_application_form,
-          :with_completed_references,
+          *traits,
           application_choices_count: 0,
           candidate: candidate,
           first_name: first_name,

@@ -38,4 +38,18 @@ RSpec.describe EthnicBackgroundHelper, type: :helper do
       expect(ethnic_background_title(group)).to include('Which of the following best describes your ethnicity?')
     end
   end
+
+  describe '#all_combinations' do
+    it 'returns an array' do
+      expect(all_combinations).to be_a(Array)
+    end
+
+    it 'has an entry for each combination of group and background' do
+      result = all_combinations
+      EthnicBackgroundHelper::ETHNIC_GROUPS.each do |group|
+        sorted_backgrounds = result.select { |e| e.first == group }.map(&:last).sort
+        expect(sorted_backgrounds).to eq(EthnicBackgroundHelper::ETHNIC_BACKGROUNDS[group].sort)
+      end
+    end
+  end
 end

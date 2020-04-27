@@ -48,4 +48,16 @@ module EthnicBackgroundHelper
   def equality_and_diversity_caption
     '<span class="govuk-caption-xl">Equality and diversity</span>'.html_safe
   end
+
+  # return every possible combination of group + background
+  # used in the factory for generating sensible combinations in test data
+  def all_combinations
+    combos = []
+    ETHNIC_GROUPS.each do |group|
+      ETHNIC_BACKGROUNDS[group].each do |bg|
+        combos << [group, bg]
+      end
+    end
+    combos
+  end
 end
