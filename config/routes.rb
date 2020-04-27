@@ -530,8 +530,8 @@ Rails.application.routes.draw do
     get '/tasks' => 'tasks#index', as: :tasks
     post '/tasks/:task' => 'tasks#run', as: :run_task
 
-    get '/validation_errors' => 'validation_errors#index', as: :validation_errors
-    get '/validation_errors/:form_object' => 'validation_errors#show', as: :validation_error
+    get '/validation-errors' => 'validation_errors#index', as: :validation_errors
+    get '/validation-errors/:form_object' => 'validation_errors#show', as: :validation_error
 
     scope '/users' do
       get '/' => 'users#index', as: :users
