@@ -14,8 +14,6 @@
     <div class="govuk-grid-column-two-thirds">
       <% if @course_choices.count.present? %>
         <% if @course_choices.count.between?(1, 2) %>
-          <h2 class="govuk-heading-m">Do you want to add another course?</h2>
-          <%= render 'guidance' %>
           <%= link_to 'Add another course', candidate_interface_course_choices_choose_path, class: 'govuk-button govuk-button--secondary govuk-!-margin-bottom-9' %>
         <% end %>
 
