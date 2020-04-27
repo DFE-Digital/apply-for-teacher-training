@@ -4,7 +4,6 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   include CourseOptionHelpers
   scenario 'candidate is not signed in and retains their course selection through the sign in process' do
     given_the_pilot_is_open
-    and_the_create_account_or_sign_in_page_feature_flag_is_active
 
     # Single site course
     and_i_am_an_existing_candidate_on_apply
@@ -58,10 +57,6 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
-  end
-
-  def and_the_create_account_or_sign_in_page_feature_flag_is_active
-    FeatureFlag.activate('create_account_or_sign_in_page')
   end
 
   def and_the_course_i_selected_only_has_one_site

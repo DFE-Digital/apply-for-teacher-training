@@ -10,7 +10,6 @@ class FeatureFlag
   TEMPORARY_FEATURE_FLAGS = %w[
     candidate_can_cancel_reference
     confirm_conditions
-    create_account_or_sign_in_page
     download_dataset1_from_support_page
     edit_course_choices
     equality_and_diversity

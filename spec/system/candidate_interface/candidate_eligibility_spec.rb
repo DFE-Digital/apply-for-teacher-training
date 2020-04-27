@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Candidate eligibility' do
   scenario 'Candidate confirms that they are eligible' do
     given_the_pilot_is_open
-    and_the_create_account_or_sign_in_page_feature_flag_is_active
 
     when_i_click_start_on_the_start_page
     and_i_confirm_i_am_not_already_signed_up
@@ -20,10 +19,6 @@ RSpec.feature 'Candidate eligibility' do
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
-  end
-
-  def and_the_create_account_or_sign_in_page_feature_flag_is_active
-    FeatureFlag.activate('create_account_or_sign_in_page')
   end
 
   def when_i_click_start_on_the_start_page

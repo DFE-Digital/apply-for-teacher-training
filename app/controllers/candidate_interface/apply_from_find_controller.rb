@@ -33,14 +33,10 @@ module CandidateInterface
 
       if @apply_on_ucas_or_apply.valid?
         if @apply_on_ucas_or_apply.apply?
-          if FeatureFlag.active?('create_account_or_sign_in_page')
-            redirect_to candidate_interface_create_account_or_sign_in_path(
-              providerCode: @apply_on_ucas_or_apply.provider_code,
-              courseCode: @apply_on_ucas_or_apply.course_code,
-            )
-          else
-            redirect_to candidate_interface_eligibility_path(providerCode: @apply_on_ucas_or_apply.provider_code, courseCode: @apply_on_ucas_or_apply.course_code)
-          end
+          redirect_to candidate_interface_create_account_or_sign_in_path(
+            providerCode: @apply_on_ucas_or_apply.provider_code,
+            courseCode: @apply_on_ucas_or_apply.course_code,
+          )
         else
           redirect_to UCAS.apply_url
         end
