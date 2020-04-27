@@ -49,7 +49,7 @@ ci.cucumber: ## Run the Cucumber specs
 	docker-compose rm -f -v web
 
 .PHONY: ci.brakeman
-ci.lint-ruby: ## Run Brakeman tests
+ci.brakeman: ## Run Brakeman tests
 	docker-compose run --rm web /bin/sh -c "bundle exec rake brakeman"
 
 .PHONY: ci.test
