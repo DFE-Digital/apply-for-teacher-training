@@ -53,8 +53,8 @@ module SupportInterface
 
         send_data csv, filename: "dfe_apply_itt_applications_#{Time.zone.now.iso8601}.csv", disposition: :attachment
       else
-        # workaround spec issue - the unauthorized page expects an instance var
-        # but that's only set in the dfe_sign_in_controller
+        # The unauthorized page expects an instance var that's only set in
+        # the dfe_sign_in_controller
         @dfe_sign_in_user = dfe_sign_in_user
         render 'support_interface/unauthorized', status: :forbidden
       end
