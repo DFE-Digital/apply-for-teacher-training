@@ -22,8 +22,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   before do
     setup_application
-    allow(@candidate).to receive(:refresh_magic_link_token!).and_return('raw_token')
-    allow(@candidate).to receive(:encrypted_id).and_return('encrypted_id')
+    magic_link_stubbing(@candidate)
   end
 
   describe '.application_submitted' do

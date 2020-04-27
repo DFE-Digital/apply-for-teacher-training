@@ -46,5 +46,10 @@ module TestHelpers
 
       application_form.application_choices = application_form.application_choices + [first_application_choice_with_offer, second_application_choice_with_offer]
     end
+
+    def magic_link_stubbing(candidate)
+      allow(candidate).to receive(:refresh_magic_link_token!).and_return('raw_token')
+      allow(candidate).to receive(:encrypted_id).and_return('encrypted_id')
+    end
   end
 end

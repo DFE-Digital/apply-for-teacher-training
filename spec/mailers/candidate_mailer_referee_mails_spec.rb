@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateMailer, type: :mailer do
   include CourseOptionHelpers
-  include ViewHelper
+  include TestHelpers::MailerSetupHelper
 
   subject(:mailer) { described_class }
 
@@ -45,28 +45,36 @@ RSpec.describe CandidateMailer, type: :mailer do
         name: 'Scott Knowles',
         email_address: 'ting@canpaint.com',
         application_form: build_stubbed(:application_form, first_name: 'Tyrell', last_name: 'Wellick'),
-)
+      )
+
+      magic_link_stubbing(@reference.application_form.candidate)
     end
 
     context 'when referee has not responded' do
-      it_behaves_like('a new reference request mail with subject and content', :not_responded,
-                      I18n.t!('candidate_mailer.new_referee_request.not_responded.subject', referee_name: 'Scott Knowles'),
-                      'heading' => 'Dear Tyrell',
-                      'explanation' => I18n.t!('candidate_mailer.new_referee_request.not_responded.explanation', referee_name: 'Scott Knowles'))
+      it_behaves_like(
+        'a new reference request mail with subject and content', :not_responded,
+        I18n.t!('candidate_mailer.new_referee_request.not_responded.subject', referee_name: 'Scott Knowles'),
+        'heading' => 'Dear Tyrell',
+        'explanation' => I18n.t!('candidate_mailer.new_referee_request.not_responded.explanation', referee_name: 'Scott Knowles')
+      )
     end
 
     context 'when referee has refused' do
-      it_behaves_like('a new reference request mail with subject and content', :refused,
-                      I18n.t!('candidate_mailer.new_referee_request.refused.subject', referee_name: 'Scott Knowles'),
-                      'heading' => 'Dear Tyrell',
-                      'explanation' => I18n.t!('candidate_mailer.new_referee_request.refused.explanation', referee_name: 'Scott Knowles'))
+      it_behaves_like(
+        'a new reference request mail with subject and content', :refused,
+        I18n.t!('candidate_mailer.new_referee_request.refused.subject', referee_name: 'Scott Knowles'),
+        'heading' => 'Dear Tyrell',
+        'explanation' => I18n.t!('candidate_mailer.new_referee_request.refused.explanation', referee_name: 'Scott Knowles')
+      )
     end
 
     context 'when email address of referee has bounced' do
-      it_behaves_like('a new reference request mail with subject and content', :email_bounced,
-                      I18n.t!('candidate_mailer.new_referee_request.email_bounced.subject', referee_name: 'Scott Knowles'),
-                      'heading' => 'Dear Tyrell',
-                      'explanation' => "Our email requesting a reference didn’t reach Scott Knowles.\r\n\r\nWe emailed the referee using this address: ting@canpaint.com")
+      it_behaves_like(
+        'a new reference request mail with subject and content', :email_bounced,
+        I18n.t!('candidate_mailer.new_referee_request.email_bounced.subject', referee_name: 'Scott Knowles'),
+        'heading' => 'Dear Tyrell',
+        'explanation' => "Our email requesting a reference didn’t reach Scott Knowles.\r\n\r\nWe emailed the referee using this address: ting@canpaint.com"
+      )
     end
   end
 end
