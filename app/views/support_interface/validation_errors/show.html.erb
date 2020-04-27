@@ -1,0 +1,50 @@
+<% content_for :title, "Validation errors for #{@form_object}" %>
+
+<% content_for :before_content do %>
+  <div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to 'Validation errors', support_interface_validation_errors_path, class: 'govuk-breadcrumbs__link' %>
+      </li>
+      <li class="govuk-breadcrumbs__list-item" aria-current="page">
+        <%= @form_object %>
+      </li>
+    </ol>
+  </div>
+<% end %>
+
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header govuk-table__header">Time</th>
+      <th class="govuk-table__header govuk-table__header">Candidate</th>
+      <th class="govuk-table__header govuk-table__header">Request path</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-three-quarters">Errors</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+  <% @validation_errors.each do |validation_error| %>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">
+        <%= validation_error.created_at.to_s(:govuk_date_and_time) %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= validation_error.user&.email_address %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= validation_error.request_path %>
+      </td>
+      <td class="govuk-table__cell">
+        <% validation_error.details.each do |attribute, details| %>
+          <%= render SummaryListComponent.new(rows: [
+            { key: 'Attribute', value: attribute },
+            { key: 'Value', value: details['value'].inspect },
+            { key: 'Errors', value: details['messages'] },
+          ]) %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<%= render(PaginatorComponent.new(scope: @validation_errors)) %>

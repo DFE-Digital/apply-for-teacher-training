@@ -527,10 +527,11 @@ Rails.application.routes.draw do
     get '/performance/applications-export-for-ucas', to: 'performance#applications_export_for_ucas', as: :applications_export_for_ucas
     get '/performance/active-provider-users', to: 'performance#active_provider_users', as: :active_provider_users
 
-
-
     get '/tasks' => 'tasks#index', as: :tasks
     post '/tasks/:task' => 'tasks#run', as: :run_task
+
+    get '/validation-errors' => 'validation_errors#index', as: :validation_errors
+    get '/validation-errors/:form_object' => 'validation_errors#show', as: :validation_error
 
     scope '/users' do
       get '/' => 'users#index', as: :users
