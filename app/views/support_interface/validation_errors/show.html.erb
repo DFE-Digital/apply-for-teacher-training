@@ -25,7 +25,7 @@
         <% validation_error.details.each do |attribute, details| %>
           <%= render SummaryListComponent.new(rows: [
             { key: 'Attribute', value: attribute },
-            { key: 'Value', value: details['value'] },
+            { key: 'Value', value: details['value'].inspect },
             { key: 'Errors', value: details['messages'] },
           ]) %>
         <% end %>

@@ -8,6 +8,7 @@ module SupportInterface
       @form_object = params[:form_object]
       @validation_errors = ValidationError
         .where(form_object: @form_object)
+        .includes('user')
         .order('created_at DESC')
         .page(params[:page] || 1)
     end
