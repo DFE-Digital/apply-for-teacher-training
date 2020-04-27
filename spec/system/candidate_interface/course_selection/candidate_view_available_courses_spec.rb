@@ -5,7 +5,6 @@ RSpec.describe 'A candidate can view all providers and courses on Apply' do
 
   scenario 'seeing the list of courses grouped by provider and region' do
     given_the_pilot_is_open
-    and_the_create_account_or_sign_in_page_feature_flag_is_active
     and_there_are_providers_with_courses_on_apply
 
     when_i_visit_the_available_courses_page
@@ -14,10 +13,6 @@ RSpec.describe 'A candidate can view all providers and courses on Apply' do
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
-  end
-
-  def and_the_create_account_or_sign_in_page_feature_flag_is_active
-    FeatureFlag.activate('create_account_or_sign_in_page')
   end
 
   def and_there_are_providers_with_courses_on_apply
