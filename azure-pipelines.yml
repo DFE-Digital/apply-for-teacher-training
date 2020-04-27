@@ -17,13 +17,66 @@ variables:
   value: false
 
 stages:
-- stage: build_test_release
-  displayName: 'Build, Test & Release'
+- stage: build_release
+  displayName: 'Build Release'
   variables:
   - group: APPLY - ENV - QA
   jobs:
-  - job: build_and_test_docker_image
-    displayName: 'Build & Test Docker Image'
+  - job: build_docker_image
+    displayName: 'Build Docker Image'
+    condition: eq(variables['deployOnly'], false)
+    pool:
+      vmImage: 'Ubuntu-16.04'
+
+    variables:
+    - name: system.debug
+      value: $(debug)
+
+    steps:
+    - script: | 
+        echo '##vso[task.setvariable variable=compose_file]docker-compose.yml:docker-compose.azure.yml'
+        docker_path=$(dockerHubUsername)/$(imageName)
+        echo "##vso[task.setvariable variable=docker_path;]$docker_path"
+      displayName: 'Configure build environment'
+
+    - script: docker pull $(docker_path):build || true
+      displayName: 'Pull cached intermediate Docker images'
+
+    - script: make build
+      displayName: 'Build Docker image'
+      env:
+        dockerHubUsername: $(dockerHubUsername)
+        dockerHubImageName: $(imageName)
+        railsSecretKeyBase: $(railsSecretKeyBase)
+        RAILS_ENV: test
+        GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
+        AUTHORISED_HOSTS: $(authorisedHosts)
+        FIND_BASE_URL: $(findBaseUrl)
+        GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
+        SANDBOX: $(sandbox)
+
+    - script: |
+        mkdir $(System.DefaultWorkingDirectory)/docker_images
+        docker save $(dockerHubUsername)/$(imageName) | gzip > $(System.DefaultWorkingDirectory)/docker_images/$(imageName)_images.tar.gz
+        docker images $(dockerHubUsername)/$(imageName) | sed 1d | awk '{print $1 " " $2 " " $3}' > $(System.DefaultWorkingDirectory)/docker_images/images_manifest.txt
+      displayName: 'Export Docker image'
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Docker image artifact'
+      inputs:
+        path: '$(System.DefaultWorkingDirectory)/docker_images/'
+        artifactName: 'docker_artifacts' 
+
+  
+- stage: test_release
+  displayName: 'Test & Publish Release'
+  dependsOn: build_release
+  variables:
+  - group: APPLY - ENV - QA
+  jobs:
+  - job: test_docker_image_batch_1
+    displayName: 'Test Docker Image - Rubocop, Cucumber & Brakeman'
+    condition: and(succeeded(), eq(variables['deployOnly'], false))
     pool:
       vmImage: 'Ubuntu-16.04'
 
@@ -33,16 +86,22 @@ stages:
 
     steps:
     - script: |
-        GIT_SHORT_SHA=$(echo $(Build.SourceVersion) | cut -c 1-7)
-        docker_path=$(dockerHubUsername)/$(imageName)
         echo '##vso[task.setvariable variable=compose_file]docker-compose.yml:docker-compose.azure.yml'
-        echo "##vso[build.updatebuildnumber]$GIT_SHORT_SHA"
-        echo "##vso[task.setvariable variable=docker_path;]$docker_path"
-      displayName: 'Set version number'
+      displayName: 'Configure environment'
 
-    - script: make setup
-      displayName: 'Build & setup'
-      condition: and(succeeded(), eq(variables['deployOnly'], false))
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Docker image'
+      inputs:
+        artifact: 'docker_artifacts'
+
+    - script: |
+        docker load < $(Pipeline.Workspace)/$(imageName)_images.tar.gz
+        while read REPOSITORY TAG IMAGE_ID
+        do
+           docker tag "$IMAGE_ID" "$REPOSITORY:$TAG"
+        done < $(Pipeline.Workspace)/images_manifest.txt
+        make az_setup
+      displayName: 'Load Docker image & setup container'
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
@@ -57,7 +116,6 @@ stages:
     - script: make ci.lint-ruby
       name: ci_lint_ruby
       displayName: 'Rubocop'
-      condition: and(succeeded(), eq(variables['deployOnly'], false))
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
@@ -118,7 +176,6 @@ stages:
         fi
       name: ci_cucumber
       displayName: 'Cucumber specs'
-      condition: and(succeededOrFailed(), eq(variables['deployOnly'], false))
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
@@ -129,6 +186,65 @@ stages:
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
         SANDBOX: $(sandbox)
 
+    - script: make ci.brakeman
+      name: ci_brakeman
+      displayName: 'Brakeman'
+      env:
+        dockerHubUsername: $(dockerHubUsername)
+        dockerHubImageName: $(imageName)
+        RAILS_ENV: test
+        GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
+        AUTHORISED_HOSTS: $(authorisedHosts)
+        FIND_BASE_URL: $(findBaseUrl)
+        GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
+        SANDBOX: $(sandbox)
+
+    - task: PublishTestResults@2
+      displayName: 'Publish test results'
+      inputs:
+        testRunner: JUnit
+        testResultsFiles: 'results/*.xml'
+
+
+  - job: test_docker_image_batch_2
+    displayName: 'Test Docker Image - RSpec'
+    condition: and(succeeded(), eq(variables['deployOnly'], false))
+    pool:
+      vmImage: 'Ubuntu-16.04'
+
+    variables:
+    - name: system.debug
+      value: $(debug)
+
+    steps:
+    - script: |
+        echo '##vso[task.setvariable variable=compose_file]docker-compose.yml:docker-compose.azure.yml'
+      displayName: 'Configure environment'
+
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Docker image'
+      inputs:
+        artifact: 'docker_artifacts'
+
+    - script: |
+        docker load < $(Pipeline.Workspace)/$(imageName)_images.tar.gz
+        while read REPOSITORY TAG IMAGE_ID
+        do
+           docker tag "$IMAGE_ID" "$REPOSITORY:$TAG"
+        done < $(Pipeline.Workspace)/images_manifest.txt
+        make az_setup
+      displayName: 'Load Docker image & setup container'
+      env:
+        dockerHubUsername: $(dockerHubUsername)
+        dockerHubImageName: $(imageName)
+        railsSecretKeyBase: $(railsSecretKeyBase)
+        RAILS_ENV: test
+        GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
+        AUTHORISED_HOSTS: $(authorisedHosts)
+        FIND_BASE_URL: $(findBaseUrl)
+        GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
+        SANDBOX: $(sandbox)
+    
     - script: |
         make ci.test
         test_result=$?
@@ -157,7 +273,6 @@ stages:
         fi
       name: ci_test
       displayName: 'Execute tests'
-      condition: and(succeededOrFailed(), eq(variables['deployOnly'], false))
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
@@ -168,8 +283,51 @@ stages:
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
         SANDBOX: $(sandbox)
 
+    - task: PublishTestResults@2
+      displayName: 'Publish test results'
+      inputs:
+        testRunner: JUnit
+        testResultsFiles: 'results/*.xml'
+
+
+  - job: publish_docker_image
+    displayName: 'Publish Docker Image'
+    dependsOn: 
+    - test_docker_image_batch_1
+    - test_docker_image_batch_2
+    condition: and(succeeded('test_docker_image_batch_1'), succeeded('test_docker_image_batch_2'))
+    pool:
+      vmImage: 'Ubuntu-16.04'
+
+    variables:
+    - name: system.debug
+      value: $(debug)
+
+    steps:
+    - script: |
+        GIT_SHORT_SHA=$(echo $(Build.SourceVersion) | cut -c 1-7)
+        docker_path=$(dockerHubUsername)/$(imageName)
+        echo "##vso[build.updatebuildnumber]$GIT_SHORT_SHA"
+        echo "##vso[task.setvariable variable=docker_path;]$docker_path"
+      displayName: 'Set version number'
+
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Docker image'
+      condition: and(succeeded(), eq(variables['deployOnly'], false))
+      inputs:
+        artifact: 'docker_artifacts'
+
+    - script: |
+        docker load < $(Pipeline.Workspace)/$(imageName)_images.tar.gz
+        while read REPOSITORY TAG IMAGE_ID
+        do
+           docker tag "$IMAGE_ID" "$REPOSITORY:$TAG"
+        done < $(Pipeline.Workspace)/images_manifest.txt
+      displayName: 'Load Docker image'
+      condition: and(succeeded(), eq(variables['deployOnly'], false))
+    
     - task: Docker@1
-      displayName: Tag image with current build number $(Build.BuildNumber)
+      displayName: 'Tag image with current build number $(Build.BuildNumber)'
       condition: and(succeeded(), eq(variables['deployOnly'], false))
       inputs:
         command: Tag image
@@ -177,7 +335,7 @@ stages:
         arguments: "$(docker_path):$(Build.BuildNumber)"
 
     - task: Docker@1
-      displayName: Docker Hub login
+      displayName: 'Docker Hub login'
       condition: and(succeeded(), eq(variables['deployOnly'], false))
       inputs:
         command: "login"
@@ -185,37 +343,30 @@ stages:
         dockerRegistryEndpoint: DfE Docker Hub
 
     - task: Docker@1
-      displayName: Push tagged image
+      displayName: 'Push tagged image'
       condition: and(succeeded(), eq(variables['deployOnly'], false))
       inputs:
         command: Push an image
         imageName: "$(docker_path):$(Build.BuildNumber)"
 
     - task: Docker@1
-      displayName: Push tagged image (latest) if master or hotfix
+      displayName: 'Push tagged image (latest) if master or hotfix'
       condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/hotfix')))
       inputs:
         command: Push an image
         imageName: "$(docker_path):latest"
 
     - task: PublishPipelineArtifact@1
-      displayName: 'Publish Pipeline Artifacts'
+      displayName: 'Publish ARM template artifacts'
       inputs:
         path: '$(System.DefaultWorkingDirectory)/azure/'
         artifactName: 'arm_template'
 
-    - task: PublishTestResults@2
-      displayName: 'Publish Test Results'
-      condition: and(succeededOrFailed(), eq(variables['deployOnly'], false))
-      inputs:
-        testRunner: JUnit
-        testResultsFiles: 'results/*.xml'
-
 
 - stage: deploy_qa
   displayName: 'Deploy - QA'
-  dependsOn: build_test_release
-  condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  dependsOn: test_release
+  condition: and(succeeded('test_release'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   variables:
   - group: APPLY - ENV - QA
   jobs:
@@ -271,8 +422,8 @@ stages:
 
 - stage: deploy_devops
   displayName: 'Deploy - DevOps'
-  dependsOn: build_test_release
-  condition: and(succeeded('build_test_release'), eq(variables['Build.SourceBranchName'], variables.devDeployBranchNameOverride))
+  dependsOn: test_release
+  condition: and(succeeded('test_release'), eq(variables['Build.SourceBranchName'], variables.devDeployBranchNameOverride))
   variables:
   - group: APPLY - ENV - DevOps
   jobs:
