@@ -9,7 +9,6 @@ class FeatureFlag
 
   TEMPORARY_FEATURE_FLAGS = %w[
     candidate_can_cancel_reference
-    check_full_courses
     confirm_conditions
     create_account_or_sign_in_page
     edit_course_choices
