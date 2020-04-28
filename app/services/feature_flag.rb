@@ -25,6 +25,7 @@ class FeatureFlag
     unavailable_course_option_warnings
     work_breaks
     track_validation_errors
+    apply_again
   ].freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).freeze
