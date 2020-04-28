@@ -40,4 +40,11 @@ class CourseOption < ApplicationRecord
   def course_full?
     course.course_options.vacancies.blank?
   end
+
+  def invalidated_by_find=(value)
+    self[:invalidated_by_find] = value
+    if self.attributes.keys.include? 'site_still_valid'
+      self[:site_still_valid] = !value
+    end
+  end
 end
