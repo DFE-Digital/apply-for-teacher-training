@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe CandidateMailer, type: :mailer do
   include CourseOptionHelpers
-  include ViewHelper
   include TestHelpers::MailerSetupHelper
 
   subject(:mailer) { described_class }
@@ -23,6 +22,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   before do
     setup_application
+    magic_link_stubbing(@application_form.candidate)
   end
 
   around do |example|
@@ -31,7 +31,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
   end
 
-  describe 'send new offer email to candidate' do
+  describe '.new_offer_single_offer' do
     context 'when the covid-19 feature flag is on' do
       before { FeatureFlag.activate('covid_19') }
 
@@ -42,70 +42,69 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
 
-    describe '#new_offer_single_offer' do
-      it_behaves_like(
-        'a mail with subject and content', :new_offer_single_offer,
-        'Offer received for Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
-        'heading' => 'Dear Bob',
-        'decline by default date' => 'Make a decision by 25 February 2020',
-        'first_condition' => 'DBS check',
-        'second_condition' => 'Pass exams',
-        'Days to make an offer' => 'You have 10 working days to make a decision. If you don’t reply by 25 February 2020'
-      )
-    end
-
-    describe '#new_offer_multiple_offers' do
-      before do
-        provider = build_stubbed(:provider, name: 'Falconholt Technical College')
-        other_course_option = build_stubbed(:course_option, course: build_stubbed(:course, name: 'Forensic Science', code: 'E0FO', provider: provider))
-        @other_application_choice = @application_form.application_choices.build(
-          application_form: @application_form,
-          course_option: other_course_option,
-          status: :offer,
-          offer: { conditions: ['Get a degree'] },
-          offered_at: Time.zone.now,
-          offered_course_option: other_course_option,
-          decline_by_default_at: 5.business_days.from_now,
-        )
-        @application_form.application_choices = [@application_choice, @other_application_choice]
-      end
-
-      it_behaves_like(
-        'a mail with subject and content', :new_offer_multiple_offers,
-        'Offer received for Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
-        'heading' => 'Dear Bob',
-        'decline by default date' => 'Make a decision by 25 February 2020',
-        'first_condition' => 'DBS check',
-        'second_condition' => 'Pass exams',
-        'first_offer' => 'Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
-        'second_offers' => 'Forensic Science (E0FO) at Falconholt Technical College'
-      )
-    end
-
-    describe '#new_offer_decisions_pending' do
-      before do
-        provider = build_stubbed(:provider, name: 'Falconholt Technical College')
-        other_course_option = build_stubbed(:course_option, course: build_stubbed(:course, name: 'Forensic Science', code: 'E0FO', provider: provider))
-        @other_application_choice = @application_form.application_choices.build(
-          application_form: @application_form,
-          course_option: other_course_option,
-          status: :awaiting_provider_decision,
-        )
-        @application_form.application_choices = [@application_choice, @other_application_choice]
-      end
-
-      it_behaves_like(
-        'a mail with subject and content', :new_offer_decisions_pending,
-        'Offer received for Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
-        'heading' => 'Dear Bob',
-        'first_condition' => 'DBS check',
-        'second_condition' => 'Pass exams',
-        'instructions' => 'You can wait to hear back about your other application(s) before making a decision'
-      )
-    end
+    it_behaves_like(
+      'a mail with subject and content', :new_offer_single_offer,
+      'Offer received for Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
+      'heading' => 'Dear Bob',
+      'decline by default date' => 'Make a decision by 25 February 2020',
+      'first_condition' => 'DBS check',
+      'second_condition' => 'Pass exams',
+      'Days to make an offer' => 'You have 10 working days to make a decision. If you don’t reply by 25 February 2020'
+    )
   end
 
-  describe 'application choice rejection emails' do
+  describe '.new_offer_multiple_offers' do
+    before do
+      provider = build_stubbed(:provider, name: 'Falconholt Technical College')
+      other_course_option = build_stubbed(:course_option, course: build_stubbed(:course, name: 'Forensic Science', code: 'E0FO', provider: provider))
+      @other_application_choice = @application_form.application_choices.build(
+        application_form: @application_form,
+        course_option: other_course_option,
+        status: :offer,
+        offer: { conditions: ['Get a degree'] },
+        offered_at: Time.zone.now,
+        offered_course_option: other_course_option,
+        decline_by_default_at: 5.business_days.from_now,
+      )
+      @application_form.application_choices = [@application_choice, @other_application_choice]
+    end
+
+    it_behaves_like(
+      'a mail with subject and content', :new_offer_multiple_offers,
+      'Offer received for Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
+      'heading' => 'Dear Bob',
+      'decline by default date' => 'Make a decision by 25 February 2020',
+      'first_condition' => 'DBS check',
+      'second_condition' => 'Pass exams',
+      'first_offer' => 'Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
+      'second_offers' => 'Forensic Science (E0FO) at Falconholt Technical College'
+    )
+  end
+
+  describe '.new_offer_decisions_pending' do
+    before do
+      provider = build_stubbed(:provider, name: 'Falconholt Technical College')
+      other_course_option = build_stubbed(:course_option, course: build_stubbed(:course, name: 'Forensic Science', code: 'E0FO', provider: provider))
+      @other_application_choice = @application_form.application_choices.build(
+        application_form: @application_form,
+        course_option: other_course_option,
+        status: :awaiting_provider_decision,
+      )
+      @application_form.application_choices = [@application_choice, @other_application_choice]
+    end
+
+    it_behaves_like(
+      'a mail with subject and content', :new_offer_decisions_pending,
+      'Offer received for Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
+      'heading' => 'Dear Bob',
+      'first_condition' => 'DBS check',
+      'second_condition' => 'Pass exams',
+      'instructions' => 'You can wait to hear back about your other application(s) before making a decision'
+    )
+  end
+
+  describe 'rejection emails' do
+    #rubocop:disable RSpec/NestedGroups
     def setup_application
       provider = build_stubbed(:provider, name: 'Falconholt Technical College')
       course_option = build_stubbed(:course_option, course: build_stubbed(:course, name: 'Forensic Science', code: 'E0FO', provider: provider))
@@ -117,9 +116,11 @@ RSpec.describe CandidateMailer, type: :mailer do
         rejection_reason: 'The application had little detail.',
       )
       @application_form.application_choices = [@application_choice]
+
+      magic_link_stubbing(@application_form.candidate)
     end
 
-    context 'All application choices have been rejected email' do
+    describe '.application_rejected_all_rejected' do
       it_behaves_like(
         'a mail with subject and content', :application_rejected_all_rejected,
         I18n.t!('candidate_mailer.application_rejected.all_rejected.subject', provider_name: 'Falconholt Technical College'),
@@ -129,7 +130,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
 
-    context 'Application rejected and awaiting further decisions' do
+    describe '.application_rejected_awaiting_decisions' do
       before do
         provider = build_stubbed(:provider, name: 'Vertapple University')
         course_option = build_stubbed(:course_option, course: build_stubbed(:course, name: 'Law', code: 'UFHG', provider: provider))
@@ -151,51 +152,54 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
 
-    context 'Application rejected and one offer has been made' do
-      before do
-        FeatureFlag.activate('covid_19')
-        provider = build_stubbed(:provider, name: 'Vertapple University')
-        course_option = build_stubbed(:course_option, course: build_stubbed(:course, name: 'Law', code: 'UFHG', provider: provider))
-        @application_choice_with_offer = @application_form.application_choices.build(
-          application_form: @application_form,
-          course_option: course_option,
-          status: :offer,
-          decline_by_default_at: 10.business_days.from_now,
-          decline_by_default_days: 10,
+    describe '.application_rejected_offers_made' do
+      context 'one offer has been made' do
+        before do
+          FeatureFlag.activate('covid_19')
+          provider = build_stubbed(:provider, name: 'Vertapple University')
+          course_option = build_stubbed(:course_option, course: build_stubbed(:course, name: 'Law', code: 'UFHG', provider: provider))
+          @application_choice_with_offer = @application_form.application_choices.build(
+            application_form: @application_form,
+            course_option: course_option,
+            status: :offer,
+            decline_by_default_at: 10.business_days.from_now,
+            decline_by_default_days: 10,
+          )
+        end
+
+        it_behaves_like(
+          'a mail with subject and content', :application_rejected_offers_made,
+          I18n.t!('candidate_mailer.application_rejected.offers_made.subject', provider_name: 'Falconholt Technical College', dbd_days: 10),
+          'heading' => 'Dear Tyrell',
+          'course name and code' => 'Forensic Science (E0FO)',
+          'other course with an offer ' => 'Law (UFHG)',
+          'other provider they got an offer from' => 'Vertapple University',
+          'their DBD date' => 'Make a decision about your offer by 25 February 2020',
+          'prompt to reply with one offer' => 'You’ve received an offer for a place on',
+          'updated covid-19 prompt' => 'If you don’t reply by 25 February 2020 your application will be withdrawn.'
         )
       end
 
-      it_behaves_like(
-        'a mail with subject and content', :application_rejected_offers_made,
-        I18n.t!('candidate_mailer.application_rejected.offers_made.subject', provider_name: 'Falconholt Technical College', dbd_days: 10),
-        'heading' => 'Dear Tyrell',
-        'course name and code' => 'Forensic Science (E0FO)',
-        'other course with an offer ' => 'Law (UFHG)',
-        'other provider they got an offer from' => 'Vertapple University',
-        'their DBD date' => 'Make a decision about your offer by 25 February 2020',
-        'prompt to reply with one offer' => 'You’ve received an offer for a place on',
-        'updated covid-19 prompt' => 'If you don’t reply by 25 February 2020 your application will be withdrawn.'
-      )
-    end
+      context 'multiple offers have been made' do
+        before do
+          FeatureFlag.activate('covid_19')
+          setup_application_form_with_two_offers(@application_form)
+        end
 
-    context 'Application rejected and multiple offers has been made' do
-      before do
-        FeatureFlag.activate('covid_19')
-        setup_application_form_with_two_offers(@application_form)
+        it_behaves_like(
+          'a mail with subject and content', :application_rejected_offers_made,
+          I18n.t!('candidate_mailer.application_rejected.offers_made.subject', provider_name: 'Falconholt Technical College', dbd_days: 10),
+          'heading' => 'Dear Tyrell',
+          'course name and code' => 'MS Painting (P00)',
+          'first course with offer' => 'Code Refactoring (Z00)',
+          'first course provider with offer' => 'Wen University',
+          'their DBD date' => 'Make a decision about your offers by 25 February 2020',
+          'prompt to reply with multiple offers' => 'You’ve received the following offers:',
+          'updated covid-19 prompt' => 'If you don’t reply by 25 February 2020 your application will be withdrawn.'
+        )
       end
-
-      it_behaves_like(
-        'a mail with subject and content', :application_rejected_offers_made,
-        I18n.t!('candidate_mailer.application_rejected.offers_made.subject', provider_name: 'Falconholt Technical College', dbd_days: 10),
-        'heading' => 'Dear Tyrell',
-        'course name and code' => 'MS Painting (P00)',
-        'first course with offer' => 'Code Refactoring (Z00)',
-        'first course provider with offer' => 'Wen University',
-        'their DBD date' => 'Make a decision about your offers by 25 February 2020',
-        'prompt to reply with multiple offers' => 'You’ve received the following offers:',
-        'updated covid-19 prompt' => 'If you don’t reply by 25 February 2020 your application will be withdrawn.'
-      )
     end
+    #rubocop:enable RSpec/NestedGroups
   end
 
   describe '.changed_offer' do
@@ -219,6 +223,8 @@ RSpec.describe CandidateMailer, type: :mailer do
         offered_course_option: offered_course_option,
         application_form: application_form,
       )
+
+      magic_link_stubbing(application_form.candidate)
     end
 
     it_behaves_like(

@@ -7,6 +7,8 @@ RSpec.feature 'Candidate application choices are delivered to providers' do
     when_my_application_is_delivered_to_the_provider
 
     then_i_should_receive_an_email_saying_my_application_is_under_consideration
+
+    and_i_can_sign_in_to_my_account_via_the_email
   end
 
   def given_my_application_is_ready_to_send_to_providers
@@ -21,5 +23,13 @@ RSpec.feature 'Candidate application choices are delivered to providers' do
     open_email(@application_choice.application_form.candidate.email_address)
 
     expect(current_email.subject).to end_with(t('candidate_mailer.application_sent_to_provider.subject'))
+  end
+
+  def and_i_can_sign_in_to_my_account_via_the_email
+    candidate = @application_choice.application_form.candidate
+    open_email(candidate.email_address)
+
+    current_email.find_css('a').first.click
+    expect(page).to have_content 'Application dashboard'
   end
 end

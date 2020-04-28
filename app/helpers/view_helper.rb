@@ -51,11 +51,6 @@ module ViewHelper
     dates.edit_by.to_s(:govuk_date).strip
   end
 
-  def candidate_sign_in_url(candidate)
-    encrypted_candidate_id = Encryptor.encrypt(candidate.id)
-    candidate_interface_sign_in_url(u: encrypted_candidate_id)
-  end
-
   def format_months_to_years_and_months(number_of_months)
     duration_parts = ActiveSupport::Duration.build(number_of_months.months).parts
 
