@@ -113,5 +113,9 @@ class ApplicationForm < ApplicationRecord
     updated_at == created_at
   end
 
+  def apply_again?
+    apply_2?
+  end
+
   audited
 end

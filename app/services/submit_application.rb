@@ -54,7 +54,7 @@ private
     application_choices.each do |application_choice|
       SubmitApplicationChoice.new(application_choice).call
 
-      if application_form.apply_2? && application_form.references_complete?
+      if application_form.apply_again? && application_form.references_complete?
         ApplicationStateChange.new(application_choice).references_complete!
       end
     end
