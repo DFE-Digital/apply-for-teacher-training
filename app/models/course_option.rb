@@ -40,17 +40,4 @@ class CourseOption < ApplicationRecord
   def course_full?
     course.course_options.vacancies.blank?
   end
-
-  # >> Temporary methods - to be removed
-  def invalidated_by_find=(value)
-    self[:invalidated_by_find] = value
-    if attributes.keys.include? 'site_still_valid'
-      self[:site_still_valid] = !value
-    end
-  end
-
-  def self.columns
-    super.reject { |c| c.name == 'invalidated_by_find' }
-  end
-  # <<
 end
