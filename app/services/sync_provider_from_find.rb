@@ -157,12 +157,12 @@ private
     return if part_of_an_application.size.zero?
 
     part_of_an_application.each do |course_option|
-      unless course_option.invalidated_by_find
+      if course_option.site_still_valid
         Raven.capture_message(
           "Course option #{course_option.id}, which is chosen by candidates, is now invalid.",
         )
       end
-      course_option.update!(invalidated_by_find: true)
+      course_option.update!(site_still_valid: false)
     end
   end
 
