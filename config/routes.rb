@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   namespace :candidate_interface, path: '/candidate' do
     get '/' => 'start_page#show', as: :start
 
+    get '/start-apply-again' => 'application_form#start_apply_again', as: :start_apply_again
     post '/apply-again' => 'application_form#apply_again', as: :apply_again
 
     get '/accessibility', to: 'content#accessibility'

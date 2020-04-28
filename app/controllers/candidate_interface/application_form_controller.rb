@@ -10,8 +10,12 @@ module CandidateInterface
 
     def before_you_start; end
 
+    def start_apply_again
+      render_404 and return unless FeatureFlag.active?('apply_again')
+    end
+
     def apply_again
-      render_404 and return unless Feature.active?('apply_again')
+      render_404 and return unless FeatureFlag.active?('apply_again')
 
       DuplicateApplication.new(current_application).duplicate
       redirect_to candidate_interface_application_form_path
