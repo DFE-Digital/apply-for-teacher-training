@@ -15,7 +15,7 @@ module SupportInterface
       choices = SupportInterface::ApplicationChoicesExport.new.application_choices
       csv = to_csv(choices)
 
-      render plain: csv
+      send_data csv, filename: "submitted-application-choices-#{Time.zone.today}.csv", disposition: :attachment
     end
 
     def providers_export
