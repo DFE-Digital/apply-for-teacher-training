@@ -9,7 +9,7 @@ class CourseOption < ApplicationRecord
   validates :vacancy_status, presence: true
   validate :validate_providers
 
-  scope :selectable, -> { where(invalidated_by_find: false) }
+  scope :selectable, -> { where(site_still_valid: true) }
 
   enum study_mode: {
     full_time: 'full_time',
