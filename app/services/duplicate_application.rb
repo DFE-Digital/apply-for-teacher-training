@@ -38,6 +38,12 @@ class DuplicateApplication
       ]))
     end
 
-    true
+    original_application_form.application_work_history_breaks.each do |w|
+      new_application_form.application_work_history_breaks.create!(w.attributes.except(*%w[
+        id created_at updated_at application_form_id
+      ]))
+    end
+
+    new_application_form
   end
 end
