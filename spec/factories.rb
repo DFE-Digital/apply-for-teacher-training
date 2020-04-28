@@ -494,7 +494,7 @@ FactoryBot.define do
     application_choice
     provider_user
 
-    title { Faker::Company.bs }
+    subject { Faker::Company.bs.capitalize }
     message { Faker::Quote.most_interesting_man_in_the_world }
   end
 end

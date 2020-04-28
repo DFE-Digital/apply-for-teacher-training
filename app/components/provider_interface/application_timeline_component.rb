@@ -44,7 +44,7 @@ module ProviderInterface
       if application_choice.notes.present?
         application_choice.notes.order('created_at').map do |note|
           Event.new(
-            note.title,
+            'Note added',
             provider_name(note.provider_user),
             note.created_at,
             'note',

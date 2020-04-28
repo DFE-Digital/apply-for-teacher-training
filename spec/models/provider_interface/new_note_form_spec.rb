@@ -10,18 +10,22 @@ RSpec.describe ProviderInterface::NewNoteForm do
         .with_message('Missing application_choice')
     end
 
-    it 'validates presence and length of :title' do
-      expect(described_class.new).to validate_presence_of(:title)
-        .with_message('Enter a title')
+    it 'validates presence and length of :subject' do
+      expect(described_class.new).to validate_presence_of(:subject)
+        .with_message('Enter a subject')
 
-      expect(described_class.new).to validate_length_of(:title)
+      expect(described_class.new).to validate_length_of(:subject)
         .is_at_most(40)
-        .with_message('Title must be 40 characters or fewer')
+        .with_message('The subject must be 40 characters or fewer')
     end
 
-    it 'validates presence of :message' do
+    it 'validates presence of and length of :message' do
       expect(described_class.new).to validate_presence_of(:message)
-        .with_message('Enter a message')
+        .with_message('Enter a note')
+
+      expect(described_class.new).to validate_length_of(:message)
+        .is_at_most(500)
+        .with_message('The note must be 500 characters or fewer')
     end
 
     it 'validates presence of :provider_user' do
@@ -35,8 +39,8 @@ RSpec.describe ProviderInterface::NewNoteForm do
       valid_form_object = described_class.new(
         application_choice: application_choice,
         provider_user: provider_user,
-        title: 'A title',
-        message: 'A message',
+        subject: 'A subject',
+        message: 'Some text',
       )
 
       expect { valid_form_object.save }.to change { application_choice.notes.count }.from(0).to(1)

@@ -95,11 +95,11 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
         application_choice = create(:application_choice)
         application_choice.notes << Note.new(
           provider_user: provider_user,
-          title: 'This is a note',
+          subject: 'This is a note',
           message: 'Notes are a new feature',
         )
         rendered = render_inline(described_class.new(application_choice: application_choice))
-        expect(rendered.text).to include 'This is a note'
+        expect(rendered.text).to include 'Note added'
         expect(rendered.text).to include 'by Bob Roberts'
         expect(rendered.text).to include '11 Feb 2020'
       end

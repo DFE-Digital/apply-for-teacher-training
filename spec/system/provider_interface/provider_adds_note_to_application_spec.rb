@@ -20,7 +20,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     when_i_visit_that_application_in_the_provider_interface
     and_i_visit_the_notes_tab
     and_i_click_to_add_a_note
-    and_i_write_a_note_with_a_title_and_a_message
+    and_i_write_a_note_with_a_subject_and_some_text
 
     then_i_am_still_on_the_notes_tab
     and_the_notes_tab_includes_the_new_note
@@ -59,11 +59,11 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     click_on 'Add note'
   end
 
-  def and_i_write_a_note_with_a_title_and_a_message
-    @note_title = 'Documents missing'
-    @note_message = 'The candidate has not forwarded the required documents yet.'
-    fill_in 'Title', with: @note_title
-    fill_in 'Message', with: @note_message
+  def and_i_write_a_note_with_a_subject_and_some_text
+    @note_subject = 'Documents missing'
+    @note_text = 'The candidate has not forwarded the required documents yet.'
+    fill_in 'Subject', with: @note_subject
+    fill_in 'Note', with: @note_text
     click_on 'Save note'
   end
 
@@ -72,12 +72,12 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   end
 
   def and_the_notes_tab_includes_the_new_note
-    expect(page).to have_content(@note_title)
-    expect(page).to have_content(@note_message)
+    expect(page).to have_content(@note_subject)
+    expect(page).to have_content(@note_text)
   end
 
   def and_the_new_note_also_appears_on_the_timeline
     click_on 'Timeline'
-    expect(page).to have_content(@note_title)
+    expect(page).to have_content('Note added')
   end
 end

@@ -169,11 +169,12 @@ en:
           attributes:
             application_choice:
               blank: Missing application_choice
-            title:
-              blank: Enter a title
-              too_long: "Title must be %{count} characters or fewer"
+            subject:
+              blank: Enter a subject
+              too_long: "The subject must be %{count} characters or fewer"
             message:
-              blank: Enter a message
+              blank: Enter a note
+              too_long: "The note must be %{count} characters or fewer"
             provider_user:
               blank: Missing provider_user
         provider_interface/provider_user_form:

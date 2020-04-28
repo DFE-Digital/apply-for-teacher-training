@@ -4,13 +4,18 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">Add note</h1>
     <%= form_with model: @new_note_form,
           url: provider_interface_application_choice_create_note_path(@application_choice.id),
           method: :post do |f| %>
 
-      <%= f.govuk_text_area :title, label: { text: 'Title', size: 'm' }, rows: 1, max_chars: 40 %>
-      <%= f.govuk_text_area :message, label: { text: 'Message', size: 'm' }, max_chars: 500 %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">Add note</h1>
+
+      <% subject_hint = 'This appears on your application list by the relevant candidate' %>
+      <%= f.govuk_text_area :subject, label: { text: 'Subject', size: 'm' }, rows: 1, max_chars: 40, hint_text: subject_hint %>
+
+      <%= f.govuk_text_area :message, label: { text: 'Note', size: 'm' }, max_chars: 500 %>
 
       <%= f.govuk_submit 'Save note' %>
     <% end %>

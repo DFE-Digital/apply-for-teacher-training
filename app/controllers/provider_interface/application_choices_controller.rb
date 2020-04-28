@@ -50,9 +50,7 @@ module ProviderInterface
       if FeatureFlag.active?('notes')
         @new_note_form = ProviderInterface::NewNoteForm.new new_note_params
 
-        if @new_note_form.valid?
-          @new_note_form.save
-
+        if @new_note_form.save
           redirect_to provider_interface_application_choice_notes_path(@application_choice)
         else
           render(action: :new_note)
@@ -104,7 +102,7 @@ module ProviderInterface
     end
 
     def new_note_params
-      params.require(:provider_interface_new_note_form).permit(:title, :message).merge \
+      params.require(:provider_interface_new_note_form).permit(:subject, :message).merge \
         application_choice: @application_choice,
         provider_user: current_provider_user
     end
