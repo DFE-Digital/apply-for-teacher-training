@@ -46,7 +46,7 @@ RSpec.feature 'Candidate with unsuccessful application' do
   end
 
   def and_i_click_on_apply_again
-    click_on 'Apply again'
+    click_on 'Do you want to apply again?'
   end
 
   def and_i_click_on_start_now
