@@ -24,13 +24,8 @@ class SubmitApplication
 private
 
   def send_reference_request_email_to_referees(application_form)
-<<<<<<< HEAD
-    application_form.application_references.includes(:application_form).each do |reference|
-      RefereeMailer.reference_request_email(application_form, reference).deliver_later unless skip_emails
-=======
-    application_form.references.where(feedback: nil).each do |reference|
+    application_form.application_references.where(feedback: nil).each do |reference|
       RefereeMailer.reference_request_email(application_form, reference).deliver_later
->>>>>>> Spike into implementing Apply 2
 
       reference.update!(feedback_status: 'feedback_requested', requested_at: Time.zone.now)
     end
@@ -60,16 +55,12 @@ private
 
   def submit_application
     application_choices.each do |application_choice|
-<<<<<<< HEAD
-      SubmitApplicationChoice.new(application_choice).call
-=======
       application_choice.edit_by = ApplicationDates.new(application_form).edit_by
       ApplicationStateChange.new(application_choice).submit!
 
       if application_form.apply_2? && application_form.references_complete?
         ApplicationStateChange.new(application_choice).references_complete!
       end
->>>>>>> Spike into implementing Apply 2
     end
   end
 end

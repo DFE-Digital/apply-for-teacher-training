@@ -46,7 +46,7 @@ module CandidateInterface
 
         errors[:base] << 'You can only apply for up to 3 courses'
       else
-        return if application_form.application_choices.count == 0
+        return if application_form.application_choices.count.zero?
 
         errors[:base] << 'You can only apply to 1 course'
       end

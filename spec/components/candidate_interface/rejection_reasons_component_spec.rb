@@ -4,7 +4,7 @@ RSpec.describe CandidateInterface::RejectionReasonsComponent do
   let(:application_form) { create(:completed_application_form) }
   let(:application_choice) { create(:application_choice, :with_rejection, application_form: application_form) }
 
-  it "renders component with correct values" do
+  it 'renders component with correct values' do
     application_choice
     result = render_inline(described_class.new(application_form: application_form))
 
