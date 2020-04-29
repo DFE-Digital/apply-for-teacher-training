@@ -23,7 +23,7 @@ RSpec.describe RefereeMailer, type: :mailer do
     end
     let(:reference) { application_form.application_references.first }
     let(:candidate_name) { "#{application_form.first_name} #{application_form.last_name}" }
-    let(:mail) { mailer.reference_request_email(application_form, reference) }
+    let(:mail) { mailer.reference_request_email(reference) }
 
     it 'sends an email with a link to the reference form' do
       mail.deliver_now

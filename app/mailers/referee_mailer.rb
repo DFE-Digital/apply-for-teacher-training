@@ -1,8 +1,8 @@
 class RefereeMailer < ApplicationMailer
-  def reference_request_email(application_form, reference)
-    @application_form = application_form
+  def reference_request_email(reference)
+    @application_form = reference.application_form
     @reference = reference
-    @candidate_name = application_form.full_name
+    @candidate_name = @application_form.full_name
     @unhashed_token = reference.refresh_feedback_token!
 
     notify_email(

@@ -21,7 +21,7 @@ RSpec.feature 'Referee can use sign in link in the initial and chaser email' do
   end
 
   def and_i_received_the_initial_reference_request_email
-    RefereeMailer.reference_request_email(@application, @reference).deliver_now
+    RefereeMailer.reference_request_email(@reference).deliver_now
   end
 
   def when_i_click_on_the_link_within_the_initial_email

@@ -1,9 +1,6 @@
 class RefereeMailerPreview < ActionMailer::Preview
   def reference_request_email
-    application_form = FactoryBot.create(:application_form, first_name: 'Jane', last_name: 'Smith')
-    reference = FactoryBot.create(:reference, application_form: application_form)
-
-    RefereeMailer.reference_request_email(application_form, reference)
+    RefereeMailer.reference_request_email(reference)
   end
 
   def reference_request_chaser_email
