@@ -54,7 +54,6 @@ RSpec.feature 'Candidate with unsuccessful application' do
   end
 
   def then_i_see_a_copy_of_my_application
-    pending 'not implemented yet'
     expect(page).to have_content('Your new application is ready for editing')
   end
 end
