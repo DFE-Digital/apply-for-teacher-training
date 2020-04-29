@@ -42,39 +42,6 @@ stages:
         mkdir $(pipelineDockerCachePath)
       displayName: 'Configure build environment'
 
-    - task: Cache@2
-      inputs:
-        key: 'docker | "$(Agent.OS)" | ./Gemfile | ./Gemfile.lock | ./package.json | ./yarn.lock | ./Dockerfile'
-        restoreKeys: |
-          docker | "$(Agent.OS)"
-          docker
-        path: $(pipelineDockerCachePath)
-        cacheHitVar: DOCKER_CACHE_RESTORED
-      displayName: 'Docker image cache'
-      condition: eq(variables.dockerCacheEnable, 'true')
-
-    - script: |
-        echo "Loading images from pipeline cache if present..."
-        if [ $(find $(pipelineDockerCachePath) -name "*.tar.gz" | wc -l) -gt 0 ]
-        then
-          #Load images from cache if present
-          for archive in $(find $(pipelineDockerCachePath) -name "*.tar.gz")
-          do
-            docker load < $archive
-          done
-          #Tag images from reference file
-          while read REPOSITORY TAG IMAGE_ID
-          do 
-            docker tag "$IMAGE_ID" "$REPOSITORY:$TAG"
-          done < $(pipelineDockerCachePath)/images_manifest.txt
-  
-          echo "Cached images loaded."
-        else
-          echo "No images file found in local cache."
-        fi
-      displayName: 'Load Docker images from pipeline cache'
-      condition: and(eq(variables.DOCKER_CACHE_RESTORED, 'true'), eq(variables.dockerCacheEnable, 'true'))
-
     - script: |
          make build
       displayName: 'Build Docker image'
@@ -97,11 +64,6 @@ stages:
         docker images $(dockerHubUsername)/$(imageName) | sed 1d | awk '{print $1 " " $2 " " $3}' > $(System.DefaultWorkingDirectory)/docker_images/images_manifest.txt
       displayName: 'Export Docker image pipeline artifact'
       condition: succeeded()
-
-    - script: |
-        cp $(System.DefaultWorkingDirectory)/docker_images/$(imageName).tar.gz $(System.DefaultWorkingDirectory)/docker_images/images_manifest.txt $(pipelineDockerCachePath)/
-      displayName: 'Update Docker pipeline cache'
-      condition: and(succeeded(), ne(variables.DOCKER_CACHE_RESTORED, 'true'), eq(variables.dockerCacheEnable, 'true'))
 
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Docker image artifact'
