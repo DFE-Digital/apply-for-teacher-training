@@ -18,9 +18,9 @@ RSpec.describe 'Sync from find' do
     and_raven_can_capture_exceptions
 
     when_find_says_that_a_site_is_no_longer_listed_for_that_course
-    and_that_site_is_part_of_an_application
+    and_the_course_option_for_that_site_is_part_of_an_application
     and_sync_provider_from_find_is_called
-    then_the_affected_course_options_invalidated_by_find_attribute_is_set_to_true
+    then_the_affected_course_option_indicates_that_the_site_is_no_longer_valid
     and_raven_captures_an_exception
   end
 
@@ -50,7 +50,7 @@ RSpec.describe 'Sync from find' do
     when_sync_provider_from_find_is_called
   end
 
-  def and_that_site_is_part_of_an_application
+  def and_the_course_option_for_that_site_is_part_of_an_application
     @course_option = @provider.courses.first.course_options.last
     create(:application_choice, course_option: @course_option)
   end
@@ -63,9 +63,9 @@ RSpec.describe 'Sync from find' do
     allow(Raven).to receive(:capture_message)
   end
 
-  def then_the_affected_course_options_invalidated_by_find_attribute_is_set_to_true
+  def then_the_affected_course_option_indicates_that_the_site_is_no_longer_valid
     expect(@provider.courses.first.course_options.count).to eq 2
-    expect(@course_option.reload.invalidated_by_find).to eq true
+    expect(@course_option.reload.site_still_valid).to eq false
   end
 
   def and_raven_captures_an_exception
