@@ -1,0 +1,15 @@
+<details class="govuk-details" data-module="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      See feedback from your previous application
+    </span>
+  </summary>
+
+  <div class="govuk-details__text">
+    <% @application_form.application_choices.rejected.each do |application_choice| %>
+      <%= render(SummaryCardComponent.new(rows: application_choice_rows(application_choice))) do %>
+        <%= render(SummaryCardHeaderComponent.new(title: application_choice.provider.name)) %>
+      <% end %>
+    <% end %>
+  </div>
+</details>
