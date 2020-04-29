@@ -183,7 +183,6 @@ RSpec.describe SyncProviderFromFind do
         expect(CourseOption.exists?(invalid_course_option_one.id)).to eq false
         expect(invalid_course_option_two.reload).not_to be_site_still_valid
         expect(valid_course_option.reload).to be_site_still_valid
-        expect(Raven).to have_received(:capture_message).with(/is now invalid/)
       end
 
       it 'correctly updates subject_codes' do

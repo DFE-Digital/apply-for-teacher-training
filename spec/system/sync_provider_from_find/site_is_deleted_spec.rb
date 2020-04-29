@@ -15,13 +15,12 @@ RSpec.describe 'Sync from find' do
 
     given_there_is_a_course_on_find_with_multiple_sites
     and_sync_provider_from_find_has_been_called
-    and_raven_can_capture_exceptions
 
     when_find_says_that_a_site_is_no_longer_listed_for_that_course
     and_the_course_option_for_that_site_is_part_of_an_application
     and_sync_provider_from_find_is_called
     then_the_affected_course_option_indicates_that_the_site_is_no_longer_valid
-    and_raven_captures_an_exception
+    and_we_are_notified_so_we_can_contact_the_candidates
   end
 
   def given_there_is_a_course_on_find_with_multiple_sites
@@ -59,16 +58,12 @@ RSpec.describe 'Sync from find' do
     when_sync_provider_from_find_is_called
   end
 
-  def and_raven_can_capture_exceptions
-    allow(Raven).to receive(:capture_message)
-  end
-
   def then_the_affected_course_option_indicates_that_the_site_is_no_longer_valid
     expect(@provider.courses.first.course_options.count).to eq 2
     expect(@course_option.reload.site_still_valid).to eq false
   end
 
-  def and_raven_captures_an_exception
-    expect(Raven).to have_received(:capture_message).with("Course option #{@course_option.id}, which is chosen by candidates, is now invalid.")
+  def and_we_are_notified_so_we_can_contact_the_candidates
+    expect_slack_message_with_text "ABC College's course Primary (X130) is no longer available at location 'Secondary site (Y)'. 1 candidate has applied to the course at this location."
   end
 end

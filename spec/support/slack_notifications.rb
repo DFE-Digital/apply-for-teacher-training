@@ -4,9 +4,10 @@ RSpec.configure do |config|
       to_return(status: 200, body: '{}')
   end
 
-  def expect_slack_message_with_text(text)
+  def expect_slack_message_with_text(expected_message)
     expect(WebMock).to have_requested(:post, 'https://example.com/slack-webhook').with { |req|
-      JSON.parse(req.body)['text'].match(text)
+      sent_message = JSON.parse(req.body).fetch('text')
+      sent_message.include?(expected_message)
     }
   end
 end

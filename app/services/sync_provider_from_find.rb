@@ -154,14 +154,23 @@ private
     not_part_of_an_application = invalid_course_options.where.not(id: chosen_course_option_ids)
     not_part_of_an_application.delete_all
     part_of_an_application = invalid_course_options.where(id: chosen_course_option_ids)
+
     return if part_of_an_application.size.zero?
 
     part_of_an_application.each do |course_option|
-      if course_option.site_still_valid
-        Raven.capture_message(
-          "Course option #{course_option.id}, which is chosen by candidates, is now invalid.",
-        )
+      if !course_option.site_still_valid?
+        # This course option is already marked as invalid,
+        # we don't need to send another message.
+        next
       end
+
+      count = course_option.application_choices.count
+
+      SlackNotificationWorker.perform_async(
+        ":mailbox_with_mail: #{course_option.provider.name}'s course #{course_option.course.name_and_code} is no longer available at location '#{course_option.site.name_and_code}'. #{count} #{count == 1 ? 'candidate has' : 'candidates have'} applied to the course at this location.",
+        Rails.application.routes.url_helpers.support_interface_course_path(course_option.course_id),
+      )
+
       course_option.update!(site_still_valid: false)
     end
   end
