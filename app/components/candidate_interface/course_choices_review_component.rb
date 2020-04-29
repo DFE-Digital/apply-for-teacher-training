@@ -74,7 +74,7 @@ module CandidateInterface
     end
 
     def warning_container_css_class(course_choice)
-      return unless FeatureFlag.active?('unavailable_course_option_warnings')
+      return unless FeatureFlag.active?('unavailable_course_option_warnings') && @editable
 
       if course_choice.course_option_availability_error?
         @application_choice_error ? 'app-review-warning app-review-warning--error' : 'app-review-warning'
