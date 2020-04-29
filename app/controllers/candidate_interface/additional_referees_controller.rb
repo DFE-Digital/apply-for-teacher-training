@@ -72,7 +72,7 @@ module CandidateInterface
 
       references_to_confirm.each do |reference|
         RefereeMailer.reference_request_email(current_candidate.current_application, reference).deliver_later
-        reference.update!(feedback_status: 'feedback_requested')
+        reference.update!(feedback_status: 'feedback_requested', requested_at: Time.zone.now)
       end
 
       flash[:success] = I18n.t!('additional_referees.feedback_flash', count: references_to_confirm.size)
