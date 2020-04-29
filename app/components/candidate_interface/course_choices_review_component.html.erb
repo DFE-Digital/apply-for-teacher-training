@@ -1,6 +1,6 @@
 <% @course_choices.each do |course_choice| %>
   <div id='course-choice-<%= course_choice.id %>' class='qa-application-choice-<%= course_choice.id %> <%= warning_container_css_class(course_choice) %>'>
-  <% if FeatureFlag.active?('unavailable_course_option_warnings') %>
+  <% if FeatureFlag.active?('unavailable_course_option_warnings') && @editable %>
     <% if course_choice.course_not_available? %>
       <p class='app-review-warning__primary-message'><%= course_choice.course_not_available_error %>.</p>
       <p class='govuk-body'><%= course_choice.provider.name %> have decided not to run this course.</p>

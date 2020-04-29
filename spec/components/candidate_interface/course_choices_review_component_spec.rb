@@ -147,6 +147,23 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
         expect(result.css('.govuk-summary-list__actions').text).not_to include('Change')
       end
     end
+
+    context 'when course is unavailable and unavailable_course_option_warnings is active' do
+      it 'renders with the unavailable course text' do
+        FeatureFlag.activate('unavailable_course_option_warnings')
+
+        application_form = create(:application_form)
+        create(
+          :submitted_application_choice,
+          application_form: application_form,
+          course_option: create(:course_option, :no_vacancies),
+        )
+
+        result = render_inline(described_class.new(application_form: application_form, editable: true))
+
+        expect(result.text).to include('it is not running')
+      end
+    end
   end
 
   context 'when course choices are not editable' do
@@ -207,6 +224,23 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
       it 'renders without the change link' do
         expect(result.css('.govuk-summary-list__actions').text).not_to include('Change')
+      end
+    end
+
+    context 'when course is unavailable and unavailable_course_option_warnings is active' do
+      it 'renders without the unavailable course text' do
+        FeatureFlag.activate('unavailable_course_option_warnings')
+
+        application_form = create(:application_form)
+        create(
+          :submitted_application_choice,
+          application_form: application_form,
+          course_option: create(:course_option, :no_vacancies),
+        )
+
+        result = render_inline(described_class.new(application_form: application_form, editable: false))
+
+        expect(result.text).not_to include('it is not running')
       end
     end
   end
