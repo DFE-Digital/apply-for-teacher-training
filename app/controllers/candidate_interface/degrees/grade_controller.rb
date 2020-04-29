@@ -28,7 +28,6 @@ module CandidateInterface
       end
     end
 
-
   private
 
     def current_degree_id

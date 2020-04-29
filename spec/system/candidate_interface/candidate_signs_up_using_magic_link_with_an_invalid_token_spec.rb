@@ -28,7 +28,6 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
     then_i_should_see_the_application_page
   end
 
-
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
   end

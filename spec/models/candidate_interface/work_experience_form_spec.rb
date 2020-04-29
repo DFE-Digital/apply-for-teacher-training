@@ -39,7 +39,6 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
     it { is_expected.to validate_length_of(:role).is_at_most(60) }
     it { is_expected.to validate_length_of(:organisation).is_at_most(60) }
 
-
     okay_text = Faker::Lorem.sentence(word_count: 150)
     long_text = Faker::Lorem.sentence(word_count: 151)
 

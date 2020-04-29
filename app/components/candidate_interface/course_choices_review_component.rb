@@ -81,7 +81,6 @@ module CandidateInterface
       end
     end
 
-
   private
 
     attr_reader :application_form

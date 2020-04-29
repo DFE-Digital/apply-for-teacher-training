@@ -69,7 +69,6 @@ RSpec.feature 'See provider course syncing' do
       site_code: 'X',
     )
 
-
     Clockwork::Test.run(max_ticks: 1, file: './config/clock.rb')
     Sidekiq::Testing.inline! do
       Clockwork::Test.block_for('SyncAllFromFind').call

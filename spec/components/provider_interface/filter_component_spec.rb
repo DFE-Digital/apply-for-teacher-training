@@ -30,7 +30,6 @@ RSpec.describe ProviderInterface::FilterComponent do
     }
   end
 
-
   let(:available_filters) do
     [
       {
@@ -141,7 +140,6 @@ RSpec.describe ProviderInterface::FilterComponent do
       params_for_current_state: params_for_current_state,
     )
 
-
     expect(result.css('#status-accepted').attr('checked').value).to eq('checked')
     expect(result.css('#status-recruited').attr('checked')).to eq(nil)
     expect(result.css('#status-declined').attr('checked')).to eq(nil)
@@ -188,7 +186,6 @@ RSpec.describe ProviderInterface::FilterComponent do
 
     expect(result.text).not_to include('Selected filters')
   end
-
 
   it 'returns the params_for_current_state as hidden fields' do
     result = render_inline described_class.new(

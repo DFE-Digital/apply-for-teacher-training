@@ -6,7 +6,6 @@ module RefereeInterface
     before_action :set_token_param
     before_action :show_finished_page_if_feedback_provided, except: %i[submit_feedback submit_questionnaire confirmation finish]
 
-
     layout 'application'
 
     def audit_user
