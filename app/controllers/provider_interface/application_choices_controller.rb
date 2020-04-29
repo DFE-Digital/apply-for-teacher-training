@@ -1,6 +1,7 @@
 module ProviderInterface
   class ApplicationChoicesController < ProviderInterfaceController
     before_action :set_application_choice_and_sub_navigation_items, except: %i[index]
+    before_action :require_notes_feature, only: %i[notes new_note create_note]
 
     def index
       @page_state = ProviderApplicationsPageState.new(
@@ -34,29 +35,21 @@ module ProviderInterface
     end
 
     def notes
-      redirect_to(action: :show) unless FeatureFlag.active?('notes')
-
-      @new_note_form = ProviderInterface::NewNoteForm.new
       @notes = @application_choice.notes.order('created_at DESC')
     end
 
     def new_note
-      redirect_to(action: :show) unless FeatureFlag.active?('notes')
-
       @new_note_form = ProviderInterface::NewNoteForm.new
     end
 
     def create_note
-      if FeatureFlag.active?('notes')
-        @new_note_form = ProviderInterface::NewNoteForm.new new_note_params
+      @new_note_form = ProviderInterface::NewNoteForm.new new_note_params
 
-        if @new_note_form.save
-          redirect_to provider_interface_application_choice_notes_path(@application_choice)
-        else
-          render(action: :new_note)
-        end
+      if @new_note_form.save
+        flash[:success] = 'Note successfully added'
+        redirect_to provider_interface_application_choice_notes_path(@application_choice)
       else
-        redirect_to(action: :show)
+        render(action: :new_note)
       end
     end
 
@@ -68,6 +61,10 @@ module ProviderInterface
 
     def available_providers
       current_provider_user.providers
+    end
+
+    def require_notes_feature
+      redirect_to(action: :show) unless FeatureFlag.active?('notes')
     end
 
     def set_application_choice_and_sub_navigation_items

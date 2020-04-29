@@ -18,12 +18,7 @@
 
 <%= render 'application_choice_header' %>
 
-<%= form_with model: @new_note_form,
-      url: provider_interface_application_choice_new_note_path(@application_choice),
-      method: :get do |f| %>
-
-  <%= f.govuk_submit 'Add note' %>
-<% end %>
+<%= link_to 'Add note', provider_interface_application_choice_new_note_path(@application_choice), class: 'govuk-button' %>
 
 <% unless @notes.empty? %>
   <div class="govuk-grid-row">

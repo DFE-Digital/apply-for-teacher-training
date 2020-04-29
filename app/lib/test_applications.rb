@@ -212,7 +212,7 @@ class TestApplications
     provider_user = choice.provider.provider_users.first
     provider_user ||= add_provider_user_to_provider(choice.provider)
     as_provider_user(choice) do
-      @time = @time + rand(-5..5).days
+      travel_to time + rand(-5..5).days
       FactoryBot.create(
         :note,
         application_choice: choice,
