@@ -12,6 +12,7 @@ RSpec.describe DuplicateApplication do
         full_work_history: true,
       )
       create_list(:reference, 2, feedback_status: :feedback_provided, application_form: @original_application_form)
+      create(:reference, feedback_status: :feedback_refused, application_form: @original_application_form)
     end
     @original_application_form
   end
@@ -44,6 +45,7 @@ RSpec.describe DuplicateApplication do
 
   it 'copies application references' do
     expect(duplicate_application_form.application_references.count).to eq 2
+    expect(duplicate_application_form.application_references).to all(be_feedback_provided)
   end
 
   it 'copies work and volunteering experiences' do
