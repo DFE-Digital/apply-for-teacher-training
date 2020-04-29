@@ -67,7 +67,7 @@ class TestApplications
 
       without_slack_message_sending do
         fast_forward(1..2)
-        SubmitApplication.new(@application_form, skip_emails: true).call
+        SubmitApplication.new(@application_form).call
         @application_form.update_columns(submitted_at: time)
         @application_form.application_choices.each do |application_choice|
           application_choice.update_columns(edit_by: time + 7.days)
