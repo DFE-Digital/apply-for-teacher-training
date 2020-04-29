@@ -55,7 +55,7 @@ FactoryBot.define do
         work_experiences_count { 0 }
         volunteering_experiences_count { 0 }
         references_count { 0 }
-        references_state { :feedback_requested }
+        references_state { :requested }
         with_gces { false }
         full_work_history { false }
       end
@@ -116,7 +116,7 @@ FactoryBot.define do
                   end
 
         create_list(:application_choice, evaluator.application_choices_count, application_form: application_form, status: 'awaiting_references', edit_by: edit_by)
-        create_list(:reference, evaluator.references_count, application_form: application_form)
+        create_list(:reference, evaluator.references_count, evaluator.references_state, application_form: application_form)
         # The application_form validates the length of this collection when
         # it is created, which is BEFORE we create the references here.
         # This then *caches* the association on the  application_form, and means
