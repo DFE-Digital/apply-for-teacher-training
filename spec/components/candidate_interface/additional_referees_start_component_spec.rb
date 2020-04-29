@@ -73,7 +73,6 @@ RSpec.describe CandidateInterface::AdditionalRefereesStartComponent do
     it 'has a page content that requests a new referee' do
       result = render_inline(described_class.new(application_form: application_form))
 
-
       expect(result.css('.govuk-heading-xl').text).to include('You need to add a new referee')
       expect(result.css('.govuk-button').text).to include('Add a new referee')
       expect(result.css('.govuk-link').text).to include('Continue without adding a new referee')

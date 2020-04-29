@@ -20,7 +20,6 @@ RSpec.describe GetRefereesToChase do
       expect(described_class.call).to be_empty
     end
 
-
     it 'does not return referess who have already been sent a chase email' do
       reference = create(:reference, feedback_status: 'feedback_requested', requested_at: 8.days.ago)
 

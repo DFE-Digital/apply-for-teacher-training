@@ -14,7 +14,6 @@ RSpec.feature 'Candidate tries to sign in without an account' do
     then_i_am_taken_to_the_sign_up_page
   end
 
-
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
   end

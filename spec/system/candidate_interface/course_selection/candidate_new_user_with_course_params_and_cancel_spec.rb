@@ -21,7 +21,6 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
     then_i_see_empty_course_review_page
   end
 
-
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
   end

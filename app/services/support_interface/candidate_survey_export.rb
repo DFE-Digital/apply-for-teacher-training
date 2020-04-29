@@ -11,7 +11,6 @@ module SupportInterface
         survey_fields = CandidateInterface::SatisfactionSurveyForm::QUESTIONS_WE_ASK
           .index_with { |question| survey[question] }
 
-
         answer = {
           'Name' => application_form.full_name,
           'Email_address' => application_form.candidate.email_address,

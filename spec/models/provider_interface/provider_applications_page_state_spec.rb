@@ -257,7 +257,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
                                               'status' => { 'recruited' => 'on', 'declined' => 'on' },
                                               'provider' => { '1' => 'on' } } }
 
-
       params = ActionController::Parameters.new(filter_selections)
       state = described_class.new(
         params: params,
@@ -268,7 +267,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
 
     it 'will return an empty hash if there are no filters selected' do
       filter_selections = { filter_selections: { 'search' => { 'candidates_name' => '' } } }
-
 
       params = ActionController::Parameters.new(filter_selections)
       state = described_class.new(
@@ -282,7 +280,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       filter_selections = { filter_selections: { 'search' => { 'candidates_name' => '' },
                                               'status' => { 'recruited' => 'on', 'declined' => 'on' },
                                               'provider' => { '1' => 'on' } } }
-
 
       params = ActionController::Parameters.new(filter_selections)
       state = described_class.new(

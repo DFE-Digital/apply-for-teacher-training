@@ -16,7 +16,6 @@ RSpec.describe CandidateInterface::WorkExplanationForm, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:work_history_explanation) }
 
-
     okay_text = Faker::Lorem.sentence(word_count: 600)
     long_text = Faker::Lorem.sentence(word_count: 601)
 

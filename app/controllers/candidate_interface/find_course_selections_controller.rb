@@ -17,7 +17,6 @@ module CandidateInterface
         return
       end
 
-
       if CourseOption.where(course_id: course.id).one?
         course_option = CourseOption.where(course_id: course.id).first
         pick_site_for_course(course, course_option.id)

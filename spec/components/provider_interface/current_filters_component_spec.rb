@@ -28,7 +28,6 @@ RSpec.describe ProviderInterface::CurrentFiltersComponent, type: :view do
     }
   end
 
-
   let(:available_filters) do
     [
       {
