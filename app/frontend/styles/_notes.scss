@@ -1,0 +1,16 @@
+.app-notes {
+  border-top: 1px solid #b1b4b6;
+}
+
+.app-notes__note {
+  border-bottom: 1px solid #b1b4b6;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  .meta {
+    @include govuk-font($size: 16);
+    color: govuk-colour("dark-grey");
+    margin-top: 5px;
+    margin-bottom: 0;
+  }
+}

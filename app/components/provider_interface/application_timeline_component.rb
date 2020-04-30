@@ -27,8 +27,8 @@ module ProviderInterface
 
   private
 
-    def events
-      changes = FindStatusChangeAudits.new(application_choice: application_choice).call.reverse
+    def status_change_events
+      changes = FindStatusChangeAudits.new(application_choice: application_choice).call
       changes = changes.select { |change| TITLES.has_key?(change.status) }
       changes.map do |change|
         Event.new(
@@ -39,6 +39,24 @@ module ProviderInterface
       end
     end
 
+    def note_events
+      if application_choice.notes.present?
+        application_choice.notes.order('created_at').map do |note|
+          Event.new(
+            'Note added',
+            provider_name(note.provider_user),
+            note.created_at,
+          )
+        end
+      else
+        []
+      end
+    end
+
+    def events
+      (status_change_events + note_events).sort_by(&:date).reverse
+    end
+
     def title_for(change)
       TITLES[change.status]
     end
@@ -47,11 +65,15 @@ module ProviderInterface
       if change.user.is_a?(Candidate)
         'candidate'
       elsif change.user.is_a?(ProviderUser)
-        # TODO: Work out how to display the provider name (it's ambiguous)
-        change.user.full_name
+        provider_name(change.user)
       else
         'system'
       end
+    end
+
+    def provider_name(provider_user)
+      # TODO: Work out how to display the provider name (it's ambiguous)
+      provider_user.full_name
     end
   end
 end

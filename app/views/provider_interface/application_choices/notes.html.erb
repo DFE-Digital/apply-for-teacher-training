@@ -18,4 +18,27 @@
 
 <%= render 'application_choice_header' %>
 
-<% raise 'Notes are wip' %>
+<%= link_to 'Add note', provider_interface_application_choice_new_note_path(@application_choice), class: 'govuk-button' %>
+
+<% unless @notes.empty? %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="app-notes">
+        <% @notes.each do |note| %>
+          <div class="app-notes__note">
+            <h2 class="govuk-heading-m govuk-!-margin-bottom-1">
+              <a id="<%= note.id %>">
+                <%= note.subject %>
+              </a>
+            </h2>
+            <p class="govuk-body govuk-!-margin-top-1 govuk-!-margin-bottom-1"><%= note.message %></p>
+            <p class="meta">
+              <%= "#{note.provider_user.full_name}," if note.provider_user.full_name.present? %>
+              <%= note.created_at.to_s(:govuk_date_and_time) %>
+            </p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
