@@ -7,7 +7,7 @@
   <%= render CandidateInterface::Covid19DashboardBannerComponent.new(application_form: @application_form) %>
 <% end %>
 
-<% if FeatureFlag.active?('apply_again') && ProcessState.new(@application_form).state == :ended_without_success %>
+<% if FeatureFlag.active?('apply_again') && @application_form.ended_without_success? %>
   <div class="app-banner govuk-!-margin-bottom-7">
     <div class="app-banner__message">
       <h2 class="govuk-heading-m">

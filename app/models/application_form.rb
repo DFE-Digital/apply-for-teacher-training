@@ -118,4 +118,8 @@ class ApplicationForm < ApplicationRecord
   end
 
   audited
+
+  def ended_without_success?
+    application_choices.map(&:status).all? { |status| ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status) }
+  end
 end
