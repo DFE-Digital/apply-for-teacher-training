@@ -391,7 +391,10 @@ FactoryBot.define do
     hashed_token { '1234567890' }
 
     trait :with_random_token do
-      hashed_token { _unhashed_token, hashed_token = Devise.token_generator.generate(VendorAPIToken, :hashed_token); hashed_token }
+      hashed_token do
+        _unhashed_token, hashed_token = Devise.token_generator.generate(VendorAPIToken, :hashed_token)
+        hashed_token
+      end
     end
   end
 
@@ -439,7 +442,7 @@ FactoryBot.define do
       questionnaire {
         {
           'Please rate how useful our guidance was' => "#{%w[very_poor poor ok good very_good].sample} | #{Faker::Lorem.paragraph_by_chars(number: 300)}",
-          'Please rate your experience of giving a reference' =>  "#{%w[very_poor poor ok good very_good].sample} | #{Faker::Lorem.paragraph_by_chars(number: 300)}",
+          'Please rate your experience of giving a reference' => "#{%w[very_poor poor ok good very_good].sample} | #{Faker::Lorem.paragraph_by_chars(number: 300)}",
           'Can we contact you about your experience of giving a reference?' => "#{%w[yes no].sample} | #{Faker::PhoneNumber.cell_phone}",
           'If we asked whether a candidate was safe to work with children, would you feel able to answer?' => "#{%w[yes no].sample}| ",
         }

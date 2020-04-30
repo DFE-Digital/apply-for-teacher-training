@@ -32,7 +32,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
            status: 'withdrawn', application_form: create(:application_form,
                                                          first_name: 'Jim',
                                                          last_name: 'James'),
-                                                         updated_at: Date.parse('25-03-2020'))
+           updated_at: Date.parse('25-03-2020'))
   end
 
   let(:result) { render_inline described_class.new(application_choice: application_choice) }
@@ -79,7 +79,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
                status: 'withdrawn', application_form: create(:application_form,
                                                              first_name: 'Jim',
                                                              last_name: 'James'),
-                                                             updated_at: Date.parse('25-03-2020'))
+               updated_at: Date.parse('25-03-2020'))
       end
 
       let(:result) { render_inline described_class.new(application_choice: application_choice_without_accredited_provider) }

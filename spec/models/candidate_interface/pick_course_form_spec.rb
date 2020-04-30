@@ -116,7 +116,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
            'Maths (123) – PGCE full time',
            'Maths (456) – BIG SCITT',
            'Maths (789) – EVEN BIGGER SCITT'],
-         )
+        )
       end
     end
   end

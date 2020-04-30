@@ -10,9 +10,7 @@ module ProviderInterface
       application_choice.offered_course_option || application_choice.course_option
     end
 
-    def site
-      course_option.site
-    end
+    delegate :site, to: :course_option
 
     def site_address_or_name
       address = site.full_address

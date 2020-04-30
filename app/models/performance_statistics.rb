@@ -61,14 +61,14 @@ class PerformanceStatistics
   end
 
   def total_submitted_count
-    total_candidate_count(except: %i{never_signed_in unsubmitted_not_started_form unsubmitted_in_progress})
+    total_candidate_count(except: %i[never_signed_in unsubmitted_not_started_form unsubmitted_in_progress])
   end
 
   def ended_without_success_count
-    total_candidate_count(only: %i{ended_without_success})
+    total_candidate_count(only: %i[ended_without_success])
   end
 
   def accepted_offer_count
-    total_candidate_count(only: %i{pending_conditions recruited enrolled})
+    total_candidate_count(only: %i[pending_conditions recruited enrolled])
   end
 end

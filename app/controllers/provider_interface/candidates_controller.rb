@@ -21,9 +21,9 @@ module ProviderInterface
   private
 
     def verify_provider_association(candidate:, providers:)
-      provider_ids_from_candidate = candidate.application_forms. \
-                                              map(&:application_choices).flatten. \
-                                              map(&:provider).map(&:id).uniq
+      provider_ids_from_candidate = candidate.application_forms
+                                              .map(&:application_choices).flatten
+                                              .map(&:provider).map(&:id).uniq
 
       providers.any? { |provider| provider_ids_from_candidate.include? provider.id }
     end

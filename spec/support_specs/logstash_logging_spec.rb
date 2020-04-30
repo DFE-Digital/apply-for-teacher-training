@@ -17,7 +17,7 @@ RSpec.describe LogstashLogging do
   describe 'logs to STDOUT' do
     let(:logger) { rails_config.logger }
     let(:output) { capture_logstash_output(rails_config) { rails_config.logger.info 'test' } }
-    let(:log)    { JSON.parse(output) rescue nil }
+    let(:log)    { parse(output) }
 
     it 'producing valid JSON' do
       expect { JSON.parse output }.not_to raise_error
@@ -43,7 +43,7 @@ RSpec.describe LogstashLogging do
   describe 'contexts' do
     let(:logger) { rails_config.logger }
     let(:output) { capture_logstash_output(rails_config) { rails_config.logger.info 'test' } }
-    let(:log)    { JSON.parse(output) rescue nil }
+    let(:log)    { parse(output) }
 
     context 'web' do
       it 'adds candidate_id to the log if it is defined' do
@@ -68,5 +68,11 @@ RSpec.describe LogstashLogging do
         expect(log['ctx']).to eq ctx
       end
     end
+  end
+
+  def parse(output)
+    JSON.parse(output)
+  rescue StandardError
+    nil
   end
 end

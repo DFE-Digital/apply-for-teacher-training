@@ -10,7 +10,7 @@ class ApplicationReference < ApplicationRecord
                             uniqueness: { case_sensitive: false, scope: :application_form_id }
   validate :email_address_not_own
   validates :relationship, presence: true, word_count: { maximum: 50 }
-  validates_presence_of :application_form_id
+  validates :application_form_id, presence: true
 
   belongs_to :application_form, touch: true
   has_many :reference_tokens, dependent: :destroy
@@ -34,13 +34,13 @@ class ApplicationReference < ApplicationRecord
   }
 
   def ordinal
-    self.application_form.application_references.find_index(self).to_i + 1
+    application_form.application_references.find_index(self).to_i + 1
   end
 
   def email_address_not_own
-    return if self.application_form.nil?
+    return if application_form.nil?
 
-    candidate_email_address = self.application_form.candidate.email_address
+    candidate_email_address = application_form.candidate.email_address
 
     errors.add(:email_address, :own) if email_address == candidate_email_address
   end

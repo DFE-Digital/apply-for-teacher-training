@@ -29,7 +29,7 @@ class ProviderAuthorisation
     permission_name = method.to_s.scan(PERMISSION_METHOD_REGEXP).last.first
 
     define_method("assert_can_#{permission_name}!") do |**keyword_args|
-      raise(ProviderAuthorisation::NotAuthorisedError, method.to_s) unless self.send(method, **keyword_args)
+      raise(ProviderAuthorisation::NotAuthorisedError, method.to_s) unless send(method, **keyword_args)
     end
   end
 

@@ -4,7 +4,7 @@ module VendorAPI
 
     attr_accessor :full_name, :email, :user_id
 
-    validates_presence_of :full_name, :email, :user_id
+    validates :full_name, :email, :user_id, presence: true
 
     def initialize(attrs = {})
       @full_name = attrs[:full_name]

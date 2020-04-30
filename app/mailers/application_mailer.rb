@@ -6,7 +6,7 @@ class ApplicationMailer < Mail::Notify::Mailer
     # re-raised and we won't be notified via Sentry, and the job won't retry.
     #
     # @see https://github.com/rails/rails/issues/39018
-    email = Email.find(self.headers['email-log-id'].to_s)
+    email = Email.find(headers['email-log-id'].to_s)
     email.update!(delivery_status: 'notify_error')
     raise
   end

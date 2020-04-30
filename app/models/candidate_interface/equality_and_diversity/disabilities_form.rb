@@ -35,7 +35,8 @@ module CandidateInterface
       return false unless valid?
 
       if disabilities.include?('Other') && other_disability.present?
-        disabilities.delete('Other'); disabilities << other_disability
+        disabilities.delete('Other')
+        disabilities << other_disability
       end
 
       if application_form.equality_and_diversity.nil?

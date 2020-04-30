@@ -104,7 +104,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe 'rejection emails' do
-    #rubocop:disable RSpec/NestedGroups
+    # rubocop:disable RSpec/NestedGroups
     def setup_application
       provider = build_stubbed(:provider, name: 'Falconholt Technical College')
       course_option = build_stubbed(:course_option, course: build_stubbed(:course, name: 'Forensic Science', code: 'E0FO', provider: provider))
@@ -199,7 +199,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         )
       end
     end
-    #rubocop:enable RSpec/NestedGroups
+    # rubocop:enable RSpec/NestedGroups
   end
 
   describe '.changed_offer' do

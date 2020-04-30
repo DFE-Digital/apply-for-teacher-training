@@ -9,7 +9,7 @@ RSpec.describe 'GET /provider/applications' do
             email_address: 'email@example.com',
             dfe_sign_in_uid: 'DFE_SIGN_IN_UID',
           ),
-      )
+        )
 
       # do not grant the user permission to view a provider's applications
     end

@@ -3,7 +3,7 @@ module SupportInterface
     include ActiveModel::Model
     attr_accessor :change_type, :application_form
 
-    validates_presence_of :change_type
+    validates :change_type, presence: true
 
     def can_withdraw_course?
       active_application_choices.count > 1

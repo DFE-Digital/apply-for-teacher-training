@@ -151,7 +151,7 @@ RSpec.describe ProviderInterface::CurrentFiltersComponent, type: :view do
     )
 
     hash = filter_component.build_tag_url_query_params(heading: 'status',
-                                               tag_value: 'withdrawn')
+                                                       tag_value: 'withdrawn')
 
     expect(hash).to eq(applied_filters_partial_minus_withdrawn)
   end

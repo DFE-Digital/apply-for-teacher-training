@@ -254,8 +254,8 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
   describe '#filter_selections' do
     it 'returns correct hash if values are present' do
       filter_selections = { filter_selections: { 'search' => { 'candidates_name' => 'Ellamae Kunze' },
-                                              'status' => { 'recruited' => 'on', 'declined' => 'on' },
-                                              'provider' => { '1' => 'on' } } }
+                                                 'status' => { 'recruited' => 'on', 'declined' => 'on' },
+                                                 'provider' => { '1' => 'on' } } }
 
       params = ActionController::Parameters.new(filter_selections)
       state = described_class.new(
@@ -278,8 +278,8 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
 
     it 'will remove candidates_name field if empty (i.e. "")' do
       filter_selections = { filter_selections: { 'search' => { 'candidates_name' => '' },
-                                              'status' => { 'recruited' => 'on', 'declined' => 'on' },
-                                              'provider' => { '1' => 'on' } } }
+                                                 'status' => { 'recruited' => 'on', 'declined' => 'on' },
+                                                 'provider' => { '1' => 'on' } } }
 
       params = ActionController::Parameters.new(filter_selections)
       state = described_class.new(

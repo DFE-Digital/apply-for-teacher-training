@@ -4,7 +4,7 @@ module CandidateInterface
 
     attr_accessor :disclose_disability, :disability_disclosure
 
-    validates_inclusion_of :disclose_disability, in: %w[yes no]
+    validates :disclose_disability, inclusion: { in: %w[yes no] }
 
     validates :disability_disclosure,
               word_count: { maximum: 400 },
@@ -23,11 +23,11 @@ module CandidateInterface
       # explicitly null-out the text field if the user said 'No'
       # so that we don't need to add the boolean field to the API:
       # it just returns null for the text field if they said No
-      self.disability_disclosure = nil if self.disclose_disability.to_s == 'no'
+      self.disability_disclosure = nil if disclose_disability.to_s == 'no'
 
       application_form.update!(
-        disclose_disability: yes_no_to_boolean(self.disclose_disability),
-        disability_disclosure: self.disability_disclosure,
+        disclose_disability: yes_no_to_boolean(disclose_disability),
+        disability_disclosure: disability_disclosure,
       )
     end
 

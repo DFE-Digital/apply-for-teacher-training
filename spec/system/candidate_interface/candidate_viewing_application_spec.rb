@@ -13,7 +13,7 @@ RSpec.feature 'Viewing their new application' do
     when_i_visit_the_site
     then_i_should_see_the_covid19_banner
 
-    #while I have not submitted an application
+    # while I have not submitted an application
     when_i_visit_the_review_page
     then_i_am_on_the_application_form_page
 

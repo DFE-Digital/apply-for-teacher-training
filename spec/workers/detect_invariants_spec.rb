@@ -22,8 +22,8 @@ RSpec.describe DetectInvariants do
 
             #{application_choice.id}
           MSG
-      ),
-)
+        ),
+      )
     end
   end
 end

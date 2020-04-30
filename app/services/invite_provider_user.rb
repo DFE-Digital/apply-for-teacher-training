@@ -53,6 +53,8 @@ class DfeSignInAPIError < StandardError
   end
 
   def errors
-    JSON.parse(response.body)['errors'] rescue []
+    JSON.parse(response.body)['errors']
+  rescue StandardError
+    []
   end
 end

@@ -50,7 +50,7 @@ module EthnicBackgroundHelper
   end
 
   # return every possible combination of group + background
-  # used in the factory for generating sensible combinations in test data
+  #  used in the factory for generating sensible combinations in test data
   def all_combinations
     combos = []
     ETHNIC_GROUPS.each do |group|

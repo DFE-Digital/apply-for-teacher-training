@@ -120,8 +120,8 @@ RSpec.describe PerformanceStatistics, type: :model do
       stats = PerformanceStatistics.new
 
       expect(stats.total_candidate_count).to eq(3)
-      expect(stats.total_candidate_count(only: %i{enrolled recruited})).to eq(2)
-      expect(stats.total_candidate_count(except: %i{enrolled pending_conditions})).to eq(1)
+      expect(stats.total_candidate_count(only: %i[enrolled recruited])).to eq(2)
+      expect(stats.total_candidate_count(except: %i[enrolled pending_conditions])).to eq(1)
     end
   end
 

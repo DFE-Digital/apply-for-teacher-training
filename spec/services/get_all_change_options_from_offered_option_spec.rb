@@ -20,7 +20,7 @@ RSpec.describe GetAllChangeOptionsFromOfferedOption do
 
     it 'returns a hash of available providers, courses and course_options' do
       expect(returned_hash.keys).to \
-        eq %i(available_providers available_courses available_course_options)
+        eq %i[available_providers available_courses available_course_options]
     end
 
     it 'includes all providers associated with the user' do
