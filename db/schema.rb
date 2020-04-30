@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_30_110010) do
+ActiveRecord::Schema.define(version: 2020_04_30_225107) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -351,8 +351,8 @@ ActiveRecord::Schema.define(version: 2020_04_30_110010) do
 
   create_table "validation_errors", force: :cascade do |t|
     t.string "form_object", null: false
-    t.integer "user_id", null: false
-    t.string "user_type", null: false
+    t.integer "user_id"
+    t.string "user_type"
     t.string "request_path", null: false
     t.jsonb "details"
     t.datetime "created_at", precision: 6, null: false
