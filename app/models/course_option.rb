@@ -9,7 +9,7 @@ class CourseOption < ApplicationRecord
   validates :vacancy_status, presence: true
   validate :validate_providers
 
-  scope :selectable, -> { where(invalidated_by_find: false) }
+  scope :selectable, -> { where(site_still_valid: true) }
 
   enum study_mode: {
     full_time: 'full_time',
@@ -41,10 +41,16 @@ class CourseOption < ApplicationRecord
     course.course_options.vacancies.blank?
   end
 
+  # >> Temporary methods - to be removed
   def invalidated_by_find=(value)
     self[:invalidated_by_find] = value
     if attributes.keys.include? 'site_still_valid'
       self[:site_still_valid] = !value
     end
   end
+
+  def self.columns
+    super.reject { |c| c.name == 'invalidated_by_find' }
+  end
+  # <<
 end

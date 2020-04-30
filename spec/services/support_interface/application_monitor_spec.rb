@@ -46,8 +46,8 @@ RSpec.describe SupportInterface::ApplicationMonitor do
 
   describe '#applications_to_removed_sites' do
     it 'returns applications to sites that have been removed from Find' do
-      with_okay_site = create(:application_choice, status: 'awaiting_provider_decision', course_option: create(:course_option, invalidated_by_find: false))
-      with_removed_site = create(:application_choice, status: 'awaiting_provider_decision', course_option: create(:course_option, invalidated_by_find: true))
+      with_okay_site = create(:application_choice, status: 'awaiting_provider_decision', course_option: create(:course_option, site_still_valid: true))
+      with_removed_site = create(:application_choice, status: 'awaiting_provider_decision', course_option: create(:course_option, site_still_valid: false))
 
       applications = described_class.new.applications_to_removed_sites
 
