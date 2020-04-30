@@ -14,7 +14,7 @@ module SupportInterface
 
     def applications_to_removed_sites
       active_applications.where(
-        course_option: CourseOption.where(site_still_valid: false),
+        course_option: CourseOption.where(invalidated_by_find: true),
       ).map(&:application_form)
     end
 

@@ -17,7 +17,7 @@ RSpec.describe 'Sync from find' do
     and_sync_provider_from_find_has_been_called
 
     when_find_says_that_a_site_is_no_longer_listed_for_that_course
-    and_the_course_option_for_that_site_is_part_of_an_application
+    and_that_site_is_part_of_an_application
     and_sync_provider_from_find_is_called
     then_the_affected_course_option_indicates_that_the_site_is_no_longer_valid
     and_we_are_notified_so_we_can_contact_the_candidates
@@ -49,7 +49,7 @@ RSpec.describe 'Sync from find' do
     when_sync_provider_from_find_is_called
   end
 
-  def and_the_course_option_for_that_site_is_part_of_an_application
+  def and_that_site_is_part_of_an_application
     @course_option = @provider.courses.first.course_options.last
     create(:application_choice, course_option: @course_option)
   end
@@ -60,7 +60,7 @@ RSpec.describe 'Sync from find' do
 
   def then_the_affected_course_option_indicates_that_the_site_is_no_longer_valid
     expect(@provider.courses.first.course_options.count).to eq 2
-    expect(@course_option.reload.site_still_valid).to eq false
+    expect(@course_option.reload.invalidated_by_find).to eq true
   end
 
   def and_we_are_notified_so_we_can_contact_the_candidates
