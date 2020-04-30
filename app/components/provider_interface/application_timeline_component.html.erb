@@ -3,13 +3,7 @@
   <% events.each do |event| %>
     <div class="app-timeline__item">
       <div class="app-timeline__header">
-        <% if event.type == 'note' %>
-          <h2 class="app-timeline__title">
-            <%= link_to event.title, provider_interface_application_choice_notes_path(@application_choice, anchor: event.id), style: 'text-decoration: none; color: black;' %>
-          </h2>
-        <% else %>
-          <h2 class="app-timeline__title"><%= event.title %></h2>
-        <% end %>
+        <h2 class="app-timeline__title"><%= event.title %></h2>
         <p class="app-timeline__byline">by <%= event.actor %></p>
       </div>
 
