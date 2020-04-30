@@ -181,8 +181,8 @@ RSpec.describe SyncProviderFromFind do
         SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
 
         expect(CourseOption.exists?(invalid_course_option_one.id)).to eq false
-        expect(invalid_course_option_two.reload).to be_invalidated_by_find
-        expect(valid_course_option.reload).not_to be_invalidated_by_find
+        expect(invalid_course_option_two.reload).not_to be_site_still_valid
+        expect(valid_course_option.reload).to be_site_still_valid
       end
 
       it 'correctly updates subject_codes' do
