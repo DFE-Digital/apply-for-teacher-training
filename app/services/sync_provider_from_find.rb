@@ -158,7 +158,7 @@ private
     return if part_of_an_application.size.zero?
 
     part_of_an_application.each do |course_option|
-      if !course_option.site_still_valid?
+      if course_option.invalidated_by_find?
         # This course option is already marked as invalid,
         # we don't need to send another message.
         next
@@ -171,7 +171,7 @@ private
         Rails.application.routes.url_helpers.support_interface_course_path(course_option.course_id),
       )
 
-      course_option.update!(site_still_valid: false)
+      course_option.update!(invalidated_by_find: true)
     end
   end
 
