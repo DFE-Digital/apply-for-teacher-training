@@ -1,3 +1,37 @@
+<% if FeatureFlag.active?('apply_again_email_content') %>
+
+Dear <%= @application_form.first_name %>,
+
+# Application decision
+
+<%= @course.provider.name %> has decided not to progress your teacher training application for <%= @course.name_and_code %> on this occasion.
+
+# You may still be able to get a place on a course
+
+Your <%= @application_form.application_choices.count > 1 ? 'provider has' : 'providers have' %> left you some feedback. There may be things you can do to get a place on a course this year, next year or in the future.
+
+Review your feedback:
+
+https://www.apply-for-teacher-training.education.gov.uk/candidate/account
+
+# Applying again this year
+
+If now’s the right time for you, it’s easy to apply again this year. We’ve saved your last application, so all you have to do is sign in, choose a course, make any changes and submit.
+
+Sign in to apply again:
+
+https://www.apply-for-teacher-training.education.gov.uk/candidate/account
+
+# Get help
+
+We’re here to help you get a place on a course. Call Get Into Teaching for free on 0800 389 2500 or chat to an adviser online:
+
+https://getintoteaching.education.gov.uk/contact
+
+For any technical issues using Apply for teacher training, contact us at becomingateacher@digital.education.gov.uk
+
+<% else %>
+
 <%= render 'application_rejected_intro' %>
 
 # Apply for more courses
@@ -15,3 +49,5 @@ If you'd like to apply to the same training <%= 'provider'.pluralize(@applicatio
 # Give feedback or report a problem
 
 Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
+
+<% end %>
