@@ -1,0 +1,43 @@
+<% course_name_and_status = capture do %>
+  <%= govuk_link_to(
+    application_choice.offered_course.name_and_code,
+    support_interface_course_path(application_choice.offered_course)
+  ) %>
+
+  <% if application_choice.course_not_available? %>
+    <%= render TagComponent.new(text: 'Course removed from Find', type: 'yellow') %>
+  <% end %>
+
+  <% if application_choice.course_closed_on_apply? %>
+    <%= render TagComponent.new(text: 'Course closed on Apply', type: 'yellow') %>
+  <% end %>
+
+  <% if application_choice.course_full? %>
+    <%= render TagComponent.new(text: 'Course is full', type: 'yellow') %>
+  <% end %>
+<% end %>
+
+<% location_and_status = capture do %>
+  <%= application_choice.offered_option.site.name_and_code %>
+
+  <% if application_choice.chosen_site_full? %>
+    <%= render TagComponent.new(text: 'No vacancies at location', type: 'yellow') %>
+  <% end %>
+<% end %>
+
+<% rows = [
+  { key: 'Provider', value: govuk_link_to(application_choice.offered_course.provider.name_and_code, support_interface_provider_path(application_choice.offered_course.provider)) },
+  { key: 'Course', value: course_name_and_status },
+  { key: 'Location', value: location_and_status },
+  { key: 'Study mode', value: application_choice.offered_option.study_mode.humanize },
+  { key: 'Status', value: render(SupportInterface::ApplicationStatusTagComponent.new(application_choice: application_choice)) },
+] %>
+
+<% rows << { key: 'Reason for rejection', value: application_choice.rejection_reason } if application_choice.rejection_reason.present? %>
+<% rows << { key: 'Sent to provider at', value: application_choice.sent_to_provider_at.to_s(:govuk_date_and_time) } if application_choice.sent_to_provider_at %>
+<% rows << { key: 'Reject by default at', value: application_choice.reject_by_default_at.to_s(:govuk_date_and_time) } if application_choice.reject_by_default_at %>
+<% rows << { key: 'Decline by default at', value: application_choice.decline_by_default_at.to_s(:govuk_date_and_time) } if application_choice.decline_by_default_at %>
+
+<%= render SummaryCardComponent.new(rows: rows) do %>
+  <%= render SummaryCardHeaderComponent.new(title: "Application choice ##{application_choice.id}") %>
+<% end %>
