@@ -124,6 +124,8 @@ class CandidateMailer < ApplicationMailer
   def declined_by_default(application_form)
     @declined_courses = application_form.application_choices.select(&:declined_by_default?)
     @declined_course_names = @declined_courses.map { |application_choice| "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}" }
+    @rejected_course_count = application_form.application_choices.select(&:rejected?).count
+    @last_course_choice_and_none_successful = application_form.application_choices.size == application_form.application_choices.select { |application_choice| application_choice.rejected? || application_choice.withdrawn? || application_choice.declined? }.size
 
     email_for_candidate(application_form, subject: I18n.t!('candidate_mailer.declined_by_default.subject', count: @declined_courses.size))
   end

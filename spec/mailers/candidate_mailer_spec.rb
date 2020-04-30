@@ -178,5 +178,105 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like 'a mail with subject and content', :declined_by_default, 'Applications withdrawn automatically', {}
     end
+
+    context 'when the covid-19 feature flag and the apply_again_email_content flag are on' do
+      before do
+        FeatureFlag.activate('covid_19')
+        FeatureFlag.activate('apply_again_email_content')
+        @application_form = build_stubbed(
+          :application_form,
+          application_choices: [build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10)],
+          )
+      end
+
+      it_behaves_like(
+        'a mail with subject and content', :declined_by_default,
+        'Application withdrawn automatically',
+        'Reason' => 'You did not respond in time so we declined your'
+      )
+    end
+
+    context 'when the covid-19 feature flag is off and the apply_again_email_content flag is on' do
+      before do
+        FeatureFlag.activate('apply_again_email_content')
+        @application_form = build_stubbed(
+          :application_form,
+          application_choices: [build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10)],
+          )
+      end
+
+      it_behaves_like(
+        'a mail with subject and content', :declined_by_default,
+        'Application withdrawn automatically',
+        'Reason' => 'You did not respond within'
+      )
+    end
+
+    context 'when a candidate has 1 offer that was declined, is awaiting another decision and the apply_again_email_content flag is on' do
+      before do
+        FeatureFlag.activate('apply_again_email_content')
+        @application_form = build_stubbed(
+          :application_form,
+          first_name: 'Fred',
+          application_choices: [
+            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
+            build_stubbed(:application_choice, status: 'awaiting_provider_decision', declined_by_default: false, decline_by_default_days: 10),
+          ],
+        )
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        :declined_by_default,
+        'Application withdrawn automatically',
+        'heading' => 'Dear Fred',
+        'days left to respond' => '10 working days',
+      )
+    end
+
+    context 'when a candidate has 1 offer that was declined, has no rejections, is not awaiting further decisions and the apply_again_email_content flag is on' do
+      before do
+        FeatureFlag.activate('apply_again_email_content')
+        @application_form = build_stubbed(
+          :application_form,
+          first_name: 'Fred',
+          application_choices: [
+            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
+          ],
+        )
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        :declined_by_default,
+        'Application withdrawn automatically',
+        'heading' => 'Dear Fred',
+        'days left to respond' => '10 working days',
+        'still_interested' => 'You didn’t pursue your teacher training application',
+      )
+    end
+
+    context 'when a candidate has 1 offer that was declined, has a rejection, is not awaiting further decisions and the apply_again_email_content flag is on' do
+      before do
+        FeatureFlag.activate('apply_again_email_content')
+        @application_form = build_stubbed(
+          :application_form,
+          first_name: 'Fred',
+          application_choices: [
+            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
+            build_stubbed(:application_choice, status: 'rejected', declined_by_default: false, decline_by_default_days: 10),
+          ],
+        )
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        :declined_by_default,
+        'Application withdrawn automatically',
+        'heading' => 'Dear Fred',
+        'days left to respond' => '10 working days',
+        'still_interested' => 'If now’s the right time for you',
+      )
+    end
   end
 end
