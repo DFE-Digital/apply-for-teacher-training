@@ -44,7 +44,7 @@ class CourseOption < ApplicationRecord
   # >> Temporary methods - to be removed
   def invalidated_by_find=(value)
     self[:invalidated_by_find] = value
-    if self.attributes.keys.include? 'site_still_valid'
+    if attributes.keys.include? 'site_still_valid'
       self[:site_still_valid] = !value
     end
   end

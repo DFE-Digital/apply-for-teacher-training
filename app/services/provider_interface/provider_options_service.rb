@@ -31,8 +31,8 @@ module ProviderInterface
     end
 
     def providers_with_manageable_users
-      Provider.
-        joins(provider_permissions: :provider_user)
+      Provider
+        .joins(provider_permissions: :provider_user)
           .where(ProviderPermissions.table_name => {
             provider_user_id: provider_user.id,
             manage_users: true,

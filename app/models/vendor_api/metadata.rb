@@ -7,8 +7,8 @@ module VendorAPI
       :timestamp,
     )
 
-    validates_presence_of :attribution
-    validates_presence_of :timestamp
+    validates :attribution, presence: true
+    validates :timestamp, presence: true
 
     validate :attribution_is_valid, if: -> { attribution.present? }
 

@@ -18,7 +18,7 @@ RSpec.describe 'POST /provider/candidates/:id/impersonate' do
             first_name: provider_user.first_name,
             last_name: provider_user.last_name,
           ),
-      )
+        )
     end
 
     it 'redirects to Candidate Interface if candidate associated with user\'s providers' do

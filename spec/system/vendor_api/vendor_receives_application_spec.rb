@@ -99,7 +99,7 @@ RSpec.feature 'Vendor receives the application' do
           nationality: %w[GB US],
           uk_residency_status: nil,
           english_main_language: true,
-          other_languages:  "I'm great at Galactic Basic so English is a piece of cake",
+          other_languages: "I'm great at Galactic Basic so English is a piece of cake",
           english_language_qualifications: '',
           disability_disclosure: 'I have difficulty climbing stairs',
         },
@@ -126,7 +126,7 @@ RSpec.feature 'Vendor receives the application' do
               equivalency_details: nil,
               },
             ],
-         degrees: [
+          degrees: [
            {
               id: @application.qualification_in_subject(:degree, 'Doge').id,
               qualification_type: 'BA',
@@ -138,7 +138,7 @@ RSpec.feature 'Vendor receives the application' do
               equivalency_details: nil,
             },
           ],
-         other_qualifications: [
+          other_qualifications: [
            {
               id: @application.qualification_in_subject(:other, 'Believing in the Heart of the Cards').id,
               qualification_type: 'A level',

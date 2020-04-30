@@ -17,7 +17,7 @@ RSpec.describe 'Provider interface - audit trail', type: :request, with_audited:
           dfe_sign_in_uid: 'ABCDEF',
           providers: [application_choice.course.provider],
         ),
-    )
+      )
   end
 
   it 'creates audit records attributed to the authenticated provider' do

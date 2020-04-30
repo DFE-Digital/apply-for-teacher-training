@@ -38,7 +38,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
         level: 'gcse',
         subject: 'maths',
         qualification_type: 'gcse',
-        )
+      )
 
       form = CandidateInterface::GcseQualificationTypeForm.build_from_qualification(qualification)
 
@@ -56,7 +56,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
           level: 'gcse',
           subject: 'maths',
           qualification_type: 'other_uk',
-          )
+        )
 
         form = CandidateInterface::GcseQualificationTypeForm.build_from_qualification(qualification)
 
@@ -71,7 +71,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
         level: 'gcse',
         subject: 'maths',
         qualification_type: 'gcse',
-        )
+      )
 
       form = CandidateInterface::GcseQualificationTypeForm.build_from_qualification(qualification)
 

@@ -216,11 +216,9 @@ module ProviderInterface
     end
 
     def change_offer_params
-      begin
-        params.require(:provider_interface_change_offer_form).permit(:provider_id, :course_id, :course_option_id, :entry)
-      rescue ActionController::ParameterMissing
-        {}
-      end
+      params.require(:provider_interface_change_offer_form).permit(:provider_id, :course_id, :course_option_id, :entry)
+    rescue ActionController::ParameterMissing
+      {}
     end
   end
 end

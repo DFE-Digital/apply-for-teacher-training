@@ -6,9 +6,7 @@ module CandidateInterface
     validates :course_id, presence: true
     validate :user_cant_apply_to_same_course_twice
 
-    def open_on_apply?
-      course.open_on_apply?
-    end
+    delegate :open_on_apply?, to: :course
 
     DropdownOption = Struct.new(:id, :name)
 
@@ -51,17 +49,11 @@ module CandidateInterface
       CourseOption.where(course_id: course.id).one?
     end
 
-    def both_study_modes_available?
-      course.both_study_modes_available?
-    end
+    delegate :both_study_modes_available?, to: :course
 
-    def study_mode
-      course.study_mode
-    end
+    delegate :study_mode, to: :course
 
-    def full?
-      course.full?
-    end
+    delegate :full?, to: :course
 
     def course
       @course ||= provider.courses.find(course_id)

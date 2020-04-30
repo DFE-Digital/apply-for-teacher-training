@@ -5,7 +5,7 @@ class GetApplicationFormsForDeclineByDefaultReminder
         .where(status: :offer)
         .where('decline_by_default_at < ?', chase_candidate_time_limit)
         .select(:application_form_id),
-        ).where.not(id: ChaserSent.candidate_decision_request.select(:chased_id))
+    ).where.not(id: ChaserSent.candidate_decision_request.select(:chased_id))
   end
 
   def self.chase_candidate_time_limit

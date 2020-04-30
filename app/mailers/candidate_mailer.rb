@@ -73,7 +73,7 @@ class CandidateMailer < ApplicationMailer
       subject: I18n.t!('candidate_mailer.application_rejected.awaiting_decisions.subject',
                        provider_name: @course.provider.name,
                        course_name: @course.name_and_code),
-      )
+    )
   end
 
   def application_rejected_offers_made(application_choice)
@@ -92,7 +92,7 @@ class CandidateMailer < ApplicationMailer
       subject: I18n.t!('candidate_mailer.application_rejected.offers_made.subject',
                        provider_name: @course.provider.name,
                        dbd_days: @dbd_days),
-      )
+    )
   end
 
   def new_offer_single_offer(application_choice)

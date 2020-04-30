@@ -12,9 +12,8 @@ class OpenAPI3Specification
     spec['$ref'] = "#/components/schemas/#{schema_name}"
 
     schemas = spec['components']['schemas']
-    transformed_schemas = schemas.reduce({}) do |new_schemas, (name, definition)|
-      new_schemas[name] = transform_openapi_schema_to_json_schema(definition)
-      new_schemas
+    transformed_schemas = schemas.transform_values do |definition|
+      transform_openapi_schema_to_json_schema(definition)
     end
 
     spec['components']['schemas'] = transformed_schemas

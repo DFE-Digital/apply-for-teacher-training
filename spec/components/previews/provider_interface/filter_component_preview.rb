@@ -32,9 +32,9 @@ module ProviderInterface
           'pending-conditions' => 'pending_conditions',
           'awaiting-provider-decision' =>
           'awaiting_provider_decision',
-            'offer' => 'offer',
-            'rejected' => 'rejected',
-            'withdrawn' => 'withdrawn',
+          'offer' => 'offer',
+          'rejected' => 'rejected',
+          'withdrawn' => 'withdrawn',
         }, 'provider' => {
               'the-beach-teaching-school' => '2',
             }

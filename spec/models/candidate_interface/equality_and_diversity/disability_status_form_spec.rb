@@ -85,7 +85,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilityStatusForm, t
         form.save(application_form)
 
         expect(application_form.equality_and_diversity).to eq(
-          'sex' => 'male', 'disabilities' => %w(Blind),
+          'sex' => 'male', 'disabilities' => %w[Blind],
         )
       end
 

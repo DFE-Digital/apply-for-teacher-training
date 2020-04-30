@@ -65,13 +65,13 @@ RSpec.describe SummaryListComponent do
 
   it 'does not render a span if no row has an action' do
     rows = [{ key: 'Job',
-             value: ['Teacher', 'Clearcourt High'] },
+              value: ['Teacher', 'Clearcourt High'] },
             { key: 'Working pattern',
-             value: "Full-time\n Omnis itaque rerum. Velit in ." },
+              value: "Full-time\n Omnis itaque rerum. Velit in ." },
             { key: 'Description',
-             value: 'Cumque autem veritatis..'  },
+              value: 'Cumque autem veritatis..'  },
             { key: 'Dates',
-             value: 'May 2003 - November 2019'  }]
+              value: 'May 2003 - November 2019'  }]
 
     result = render_inline(SummaryListComponent.new(rows: rows))
 
@@ -80,14 +80,14 @@ RSpec.describe SummaryListComponent do
 
   it 'does render a span if any row as an action' do
     rows = [{ key: 'Job',
-             value: ['Teacher', 'Clearcourt High'] },
+              value: ['Teacher', 'Clearcourt High'] },
             { key: 'Working pattern',
-             value: "Full-time\n Omnis itaque rerum. Velit in ." },
+              value: "Full-time\n Omnis itaque rerum. Velit in ." },
             { key: 'Description',
-             value: 'Cumque autem veritatis..' },
+              value: 'Cumque autem veritatis..' },
             { key: 'Dates',
-             value: 'May 2003 - November 2019',
-             action: 'dates for Teacher, Clearcourt High' }]
+              value: 'May 2003 - November 2019',
+              action: 'dates for Teacher, Clearcourt High' }]
 
     result = render_inline(SummaryListComponent.new(rows: rows))
 

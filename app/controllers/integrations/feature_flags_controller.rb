@@ -1,13 +1,11 @@
 module Integrations
   class FeatureFlagsController < IntegrationsController
     def index
-      feature_flags = FeatureFlag::FEATURES.reduce({}) do |features, feature_name|
-        features[feature_name] = {
+      feature_flags = FeatureFlag::FEATURES.index_with do |feature_name|
+        {
           name: feature_name.humanize,
           active: FeatureFlag.active?(feature_name),
         }
-
-        features
       end
 
       response = {

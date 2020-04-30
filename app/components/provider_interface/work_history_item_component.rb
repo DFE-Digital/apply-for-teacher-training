@@ -59,7 +59,7 @@ module ProviderInterface
     def working_pattern
       return item.working_pattern if item.is_a?(ApplicationVolunteeringExperience)
 
-      item.commitment.dasherize.humanize;
+      item.commitment.dasherize.humanize
     end
 
     def explained_absence_title

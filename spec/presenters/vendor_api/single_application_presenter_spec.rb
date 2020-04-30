@@ -195,7 +195,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
 
-      expect(response.dig(:attributes, :candidate, :nationality)).to eq %w(GB)
+      expect(response.dig(:attributes, :candidate, :nationality)).to eq %w[GB]
     end
 
     it 'returns nationality in the correct format' do

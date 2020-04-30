@@ -55,8 +55,8 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like('a mail with subject and content', :survey_email,
                       I18n.t!('survey_emails.subject.initial'),
                       'heading' => 'Dear Bob',
-                       'thank you message' => I18n.t!('survey_emails.thank_you.candidate'),
-                       'link to the survey' => I18n.t!('survey_emails.survey_link'))
+                      'thank you message' => I18n.t!('survey_emails.thank_you.candidate'),
+                      'link to the survey' => I18n.t!('survey_emails.survey_link'))
     end
 
     context 'when chaser email' do
@@ -97,7 +97,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'a mail with subject and content', :chase_candidate_decision,
         I18n.t!('chase_candidate_decision_email.subject_singular'),
         'Date to resbond by' => "Respond by #{10.business_days.from_now.to_s(:govuk_date).strip}"
-    )
+      )
     end
 
     context 'when a candidate has one appication choice with offer' do
@@ -135,7 +135,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         @application_form = build_stubbed(
           :application_form,
           application_choices: [build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10)],
-          )
+        )
       end
 
       it_behaves_like(

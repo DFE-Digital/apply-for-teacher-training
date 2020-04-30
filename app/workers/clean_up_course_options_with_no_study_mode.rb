@@ -4,8 +4,8 @@ class CleanUpCourseOptionsWithNoStudyMode
   def perform
     CourseOption.where('study_mode IN (\'0\',\'1\')').find_each do |nil_co|
       intended_study_mode = case nil_co.study_mode_before_type_cast
-                            when '0'; :full_time
-                            when '1'; :part_time
+                            when '0' then :full_time
+                            when '1' then :part_time
                             end
       equivalent_course_option = find_equivalent_course_option nil_co, intended_study_mode
       if equivalent_course_option

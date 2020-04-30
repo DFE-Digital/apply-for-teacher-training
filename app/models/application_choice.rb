@@ -47,17 +47,13 @@ class ApplicationChoice < ApplicationRecord
     offered_option.site
   end
 
-  def course_not_available?
-    course_option.course_not_available?
-  end
+  delegate :course_not_available?, to: :course_option
 
   def course_not_available_error
     I18n.t('errors.application_choices.course_not_available', descriptor: course.provider_and_name_code)
   end
 
-  def course_closed_on_apply?
-    course_option.course_closed_on_apply?
-  end
+  delegate :course_closed_on_apply?, to: :course_option
 
   def course_closed_on_apply_error
     I18n.t(
@@ -67,9 +63,7 @@ class ApplicationChoice < ApplicationRecord
     )
   end
 
-  def course_full?
-    course_option.course_full?
-  end
+  delegate :course_full?, to: :course_option
 
   def course_full_error
     I18n.t('errors.application_choices.course_full', descriptor: course.provider_and_name_code)

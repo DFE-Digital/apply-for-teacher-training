@@ -67,24 +67,26 @@ RSpec.feature 'Selecting a course' do
   def and_there_are_course_options
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
     first_site = create(
-      :site, name: 'Main site',
+      :site,
+      name: 'Main site',
       code: '-',
       provider: @provider,
       address_line1: 'Gorse SCITT',
       address_line2: 'C/O The Bruntcliffe Academy',
       address_line3: 'Bruntcliffe Lane',
       address_line4: 'MORLEY, lEEDS',
-      postcode: 'LS27 0LZ'
+      postcode: 'LS27 0LZ',
     )
     second_site = create(
-      :site, name: 'Harehills Primary School',
+      :site,
+      name: 'Harehills Primary School',
       code: '1',
       provider: @provider,
       address_line1: 'Darfield Road',
       address_line2: '',
       address_line3: 'Leeds',
       address_line4: 'West Yorkshire',
-      postcode: 'LS8 5DQ'
+      postcode: 'LS8 5DQ',
     )
     @multi_site_course = create(:course, name: 'Primary', code: '2XT2', provider: @provider, exposed_in_find: true, open_on_apply: true)
     create(:course_option, site: first_site, course: @multi_site_course)
@@ -92,14 +94,15 @@ RSpec.feature 'Selecting a course' do
 
     another_provider = create(:provider, name: 'Royal Academy of Dance', code: 'R55')
     third_site = create(
-      :site, name: 'Main site',
+      :site,
+      name: 'Main site',
       code: '-',
       provider: another_provider,
       address_line1: 'Royal Academy of Dance',
       address_line2: '36 Battersea Square',
       address_line3: '',
       address_line4: 'London',
-      postcode: 'SW11 3RA'
+      postcode: 'SW11 3RA',
     )
     single_site_course = create(:course, name: 'Dance', code: 'W5X1', provider: another_provider, exposed_in_find: true, open_on_apply: true)
     create(:course_option, site: third_site, course: single_site_course)

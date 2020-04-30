@@ -4,7 +4,7 @@ RSpec.feature 'Providers should be able to sort applications' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  #rubocop:disable RSpec/ExpectActual
+  # rubocop:disable RSpec/ExpectActual
 
   scenario 'by column headings' do
     given_i_am_a_provider_user_with_dfe_sign_in
@@ -107,5 +107,5 @@ RSpec.feature 'Providers should be able to sort applications' do
     expect('Divination').to appear_before('English')
   end
 
-  #rubocop:enable RSpec/ExpectActual
+  # rubocop:enable RSpec/ExpectActual
 end

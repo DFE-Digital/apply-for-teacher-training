@@ -9,7 +9,7 @@ RSpec.describe 'GET /provider' do
             email_address: 'email@example.com',
             dfe_sign_in_uid: 'DFE_SIGN_IN_UID',
           ),
-      )
+        )
     end
 
     it 'redirects them to the Provider Interface' do

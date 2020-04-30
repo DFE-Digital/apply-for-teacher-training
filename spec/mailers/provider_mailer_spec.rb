@@ -33,7 +33,7 @@ RSpec.describe ProviderMailer, type: :mailer do
                                    :completed_application_form,
                                    first_name: 'Harry',
                                    last_name: 'Potter',
-                                  ))
+                                 ))
     @provider_user = @application_choice.provider.provider_users.first
     @provider_user.update(first_name: 'Johny', last_name: 'English')
     @application_choice.application_form.update(submitted_at: Time.zone.now - 5.days)

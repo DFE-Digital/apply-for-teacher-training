@@ -25,7 +25,7 @@ class MakeAnOffer
     @course_option_id = course_option_id
     @offer_conditions = offer_conditions
     @standard_conditions = standard_conditions
-    further_conditions.each { |key, value| self.send("#{key}=", value) }
+    further_conditions.each { |key, value| send("#{key}=", value) }
 
     @application_choice.offered_course_option = offered_course_option
   end
