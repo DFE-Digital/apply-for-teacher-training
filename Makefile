@@ -23,7 +23,7 @@ setup: build ## Set up a clean database and node_modules folder for running the 
 .PHONY: az_setup
 az_setup: ## Set up a clean database and node_modules folder for running the app or the specs in docker
 	touch .env ## Create an empty .env file if it doesn't exist
-	docker-compose run --rm web /bin/sh -c "bundle exec rake db:setup"
+	docker-compose run --rm web bundle exec rake db:setup
 
 .PHONY: test
 test: ## Run the linters and specs

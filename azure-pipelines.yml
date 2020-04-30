@@ -11,6 +11,8 @@ variables:
 - group: APPLY - Shared Variables
 - name: imageName
   value: 'apply-for-postgraduate-teacher-training'
+- name: pipelineDockerCachePath
+  value: $(Pipeline.Workspace)/.docker
 - name: debug
   value: true
 - name: deployOnly
@@ -37,14 +39,15 @@ stages:
         echo '##vso[task.setvariable variable=compose_file]docker-compose.yml:docker-compose.azure.yml'
         docker_path=$(dockerHubUsername)/$(imageName)
         echo "##vso[task.setvariable variable=docker_path;]$docker_path"
+        mkdir $(pipelineDockerCachePath)
       displayName: 'Configure build environment'
 
-    - script: docker pull $(docker_path):build || true
-      displayName: 'Pull cached intermediate Docker images'
-
-    - script: make build
+    - script: |
+         make build
       displayName: 'Build Docker image'
       env:
+        DOCKER_BUILDKIT: $(dockerBuildkitState)
+        COMPOSE_DOCKER_CLI_BUILD: $(dockerBuildkitState)
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
         railsSecretKeyBase: $(railsSecretKeyBase)
@@ -57,9 +60,10 @@ stages:
 
     - script: |
         mkdir $(System.DefaultWorkingDirectory)/docker_images
-        docker save $(dockerHubUsername)/$(imageName) | gzip > $(System.DefaultWorkingDirectory)/docker_images/$(imageName)_images.tar.gz
+        docker save $(docker history -q $(dockerHubUsername)/$(imageName) | grep -v "<missing>") | gzip > $(System.DefaultWorkingDirectory)/docker_images/$(imageName).tar.gz
         docker images $(dockerHubUsername)/$(imageName) | sed 1d | awk '{print $1 " " $2 " " $3}' > $(System.DefaultWorkingDirectory)/docker_images/images_manifest.txt
-      displayName: 'Export Docker image'
+      displayName: 'Export Docker image pipeline artifact'
+      condition: succeeded()
 
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Docker image artifact'
@@ -95,7 +99,7 @@ stages:
         artifact: 'docker_artifacts'
 
     - script: |
-        docker load < $(Pipeline.Workspace)/$(imageName)_images.tar.gz
+        docker load < $(Pipeline.Workspace)/$(imageName).tar.gz
         while read REPOSITORY TAG IMAGE_ID
         do
            docker tag "$IMAGE_ID" "$REPOSITORY:$TAG"
@@ -103,6 +107,8 @@ stages:
         make az_setup
       displayName: 'Load Docker image & setup container'
       env:
+        DOCKER_BUILDKIT: $(dockerBuildkitState)
+        COMPOSE_DOCKER_CLI_BUILD: $(dockerBuildkitState)
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
         railsSecretKeyBase: $(railsSecretKeyBase)
@@ -227,7 +233,7 @@ stages:
         artifact: 'docker_artifacts'
 
     - script: |
-        docker load < $(Pipeline.Workspace)/$(imageName)_images.tar.gz
+        docker load < $(Pipeline.Workspace)/$(imageName).tar.gz
         while read REPOSITORY TAG IMAGE_ID
         do
            docker tag "$IMAGE_ID" "$REPOSITORY:$TAG"
@@ -235,6 +241,8 @@ stages:
         make az_setup
       displayName: 'Load Docker image & setup container'
       env:
+        DOCKER_BUILDKIT: $(dockerBuildkitState)
+        COMPOSE_DOCKER_CLI_BUILD: $(dockerBuildkitState)
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
         railsSecretKeyBase: $(railsSecretKeyBase)
@@ -318,7 +326,7 @@ stages:
         artifact: 'docker_artifacts'
 
     - script: |
-        docker load < $(Pipeline.Workspace)/$(imageName)_images.tar.gz
+        docker load < $(Pipeline.Workspace)/$(imageName).tar.gz
         while read REPOSITORY TAG IMAGE_ID
         do
            docker tag "$IMAGE_ID" "$REPOSITORY:$TAG"

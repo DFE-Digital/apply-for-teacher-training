@@ -8,10 +8,10 @@ ARG DEV_PACKAGES="postgresql-dev git nodejs yarn graphviz ttf-ubuntu-font-family
 ARG RUBY_PACKAGES="tzdata"
 ARG bundleWithout=""
 
-ENV BUNDLER_VERSION="2.0.2"
-ENV BUNDLE_PATH="/gems"
-ENV BUNDLE_WITHOUT=${bundleWithout}
-ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine
+ENV BUNDLER_VERSION="2.1.4" \
+    BUNDLE_PATH="/gems" \
+    BUNDLE_WITHOUT=${bundleWithout} \
+    WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine
 
 RUN apk update && \
     apk upgrade && \
@@ -48,20 +48,21 @@ CMD bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0
 FROM common-build-env AS prod-minify
 
 ARG APP_HOME=/app
+ARG GEM_PATH=ruby/2.6.0/
 
-ENV RAILS_ENV=production
 # These variables are required for running Rails processes like assets:precompile
-ENV GOVUK_NOTIFY_API_KEY=TestKey
-ENV AUTHORISED_HOSTS=dummy.build.domain
-ENV SECRET_KEY_BASE=TestKey
-ENV GOVUK_NOTIFY_CALLBACK_API_KEY=TestKey
+ENV RAILS_ENV=production \
+    GOVUK_NOTIFY_API_KEY=TestKey \
+    AUTHORISED_HOSTS=dummy.build.domain \
+    SECRET_KEY_BASE=TestKey \
+    GOVUK_NOTIFY_CALLBACK_API_KEY=TestKey
 
 WORKDIR $APP_HOME
 
-RUN rm -rf $BUNDLE_PATH/cache/*.gem && \
-    find $BUNDLE_PATH/gems/ -name "*.c" -delete && \
-    find $BUNDLE_PATH/gems/ -name "*.h" -delete && \
-    find $BUNDLE_PATH/gems/ -name "*.o" -delete
+RUN rm -rf $BUNDLE_PATH/$GEM_PATH/cache/*.gem && \
+    find $BUNDLE_PATH/$GEM_PATH/gems -name "*.c" -delete && \
+    find $BUNDLE_PATH/$GEM_PATH/gems -name "*.h" -delete && \
+    find $BUNDLE_PATH/$GEM_PATH/gems -name "*.o" -delete
 
 COPY . .
 
@@ -77,11 +78,11 @@ ARG bundleWithout=""
 ARG APP_HOME=/app
 ARG PACKAGES="tzdata postgresql-client graphviz"
 
-ENV RAILS_ENV=production
-ENV BUNDLE_WITHOUT=${bundleWithout}
-ENV BUNDLE_PATH="/gems"
-ENV BUNDLER_VERSION="2.0.2"
-ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine
+ENV RAILS_ENV=production \
+    BUNDLE_WITHOUT=${bundleWithout} \
+    BUNDLE_PATH="/gems" \
+    BUNDLER_VERSION="2.1.4" \
+    WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine
 
 WORKDIR $APP_HOME
 
