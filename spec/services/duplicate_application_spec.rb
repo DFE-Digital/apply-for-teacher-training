@@ -61,4 +61,9 @@ RSpec.describe DuplicateApplication do
     expect(original_application_form.application_work_history_breaks).to be_present
     expect(duplicate_application_form.application_work_history_breaks.count).to eq 1
   end
+
+  it 'creates a new support reference' do
+    expect(duplicate_application_form.support_reference).to be_present
+    expect(duplicate_application_form.support_reference).not_to eq original_application_form.support_reference
+  end
 end

@@ -5,7 +5,7 @@ class DuplicateApplication
     @original_application_form = original_application_form
   end
 
-  IGNORED_ATTRIBUTES = %w[id created_at updated_at submitted_at course_choices_completed phase].freeze
+  IGNORED_ATTRIBUTES = %w[id created_at updated_at submitted_at course_choices_completed phase support_reference].freeze
   IGNORED_CHILD_ATTRIBUTES = %w[id created_at updated_at application_form_id].freeze
 
   def duplicate
