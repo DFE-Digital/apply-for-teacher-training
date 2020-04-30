@@ -186,7 +186,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         @application_form = build_stubbed(
           :application_form,
           application_choices: [build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10)],
-          )
+        )
       end
 
       it_behaves_like(
@@ -202,7 +202,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         @application_form = build_stubbed(
           :application_form,
           application_choices: [build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10)],
-          )
+        )
       end
 
       it_behaves_like(
