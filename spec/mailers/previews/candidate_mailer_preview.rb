@@ -182,6 +182,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       application_choices: [
         FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true),
         FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true),
+        FactoryBot.build_stubbed(:application_choice, status: 'awaiting_provider_decision', declined_by_default: false),
       ],
     )
 
@@ -189,6 +190,32 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def declined_by_default_only_one_offer
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Harry',
+      application_choices: [
+        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true),
+        FactoryBot.build_stubbed(:application_choice, status: 'awaiting_provider_decision', declined_by_default: false),
+      ],
+    )
+
+    CandidateMailer.declined_by_default(application_form)
+  end
+
+  def declined_by_default_last_action_with_rejection
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Harry',
+      application_choices: [
+        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true),
+        FactoryBot.build_stubbed(:application_choice, status: 'rejected', declined_by_default: false),
+      ],
+    )
+
+    CandidateMailer.declined_by_default(application_form)
+  end
+
+  def declined_by_default_last_action_without_rejection
     application_form = FactoryBot.build_stubbed(
       :application_form,
       first_name: 'Harry',
