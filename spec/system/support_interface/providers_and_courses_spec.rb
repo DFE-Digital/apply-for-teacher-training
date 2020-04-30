@@ -27,7 +27,7 @@ RSpec.feature 'See providers' do
     and_i_click_on_courses
     then_i_see_the_provider_courses
 
-    when_i_click_on_a_course
+    when_i_click_on_a_course_with_applications
     then_i_see_the_course_information
 
     when_i_choose_to_open_the_course_on_apply
@@ -170,12 +170,20 @@ RSpec.feature 'See providers' do
     expect(page).to have_content 'Main site'
   end
 
-  def when_i_click_on_a_course
+  def when_i_click_on_a_course_with_applications
+    course = Course.find_by(code: 'ABC-1')
+    create(:application_choice, course_option: course.course_options.first)
+    create(:application_choice, course_option: course.course_options.first)
     first('table').click_link('ABC-1')
   end
 
   def then_i_see_the_course_information
     expect(page).to have_title 'Primary (ABC-1)'
+    expect(page).to have_content 'Primary (ABC-1) - Full time at Main site Vacancies'
+
+    within '[data-qa="applications"]' do
+      expect(page.all('tbody tr').size).to be(2)
+    end
   end
 
   def when_i_choose_to_open_the_course_on_apply
