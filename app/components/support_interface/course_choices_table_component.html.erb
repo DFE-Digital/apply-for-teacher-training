@@ -11,7 +11,13 @@
     <% course_rows.each do |course_option| %>
       <tr class='govuk-table__row'>
         <td class='govuk-table__cell'><%= course_option.id %></td>
-        <td class='govuk-table__cell'><%= govuk_link_to(course_option.course.name_and_code, support_interface_course_path(course_option.course)) %> - <%= course_option.study_mode.humanize %> at <%= course_option.site.name %></td>
+        <td class='govuk-table__cell'>
+          <% unless course_option.site_still_valid? %>
+            <%= render TagComponent.new(text: 'Course no longer offered at this site', type: 'red') %>
+          <% end %>
+
+          <%= govuk_link_to(course_option.course.name_and_code, support_interface_course_path(course_option.course)) %> - <%= course_option.study_mode.humanize %> at <%= course_option.site.name %>
+        </td>
         <td class='govuk-table__cell'>
           <% if course_option.vacancies? %>
             <%= render TagComponent.new(text: 'Vacancies', type: 'green') %>

@@ -81,4 +81,12 @@ class Course < ApplicationRecord
   def find_url
     "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{provider.code}/#{code}"
   end
+
+  def application_forms
+    ApplicationForm
+      .includes(:candidate, :application_choices)
+      .joins(application_choices: :course_option)
+      .where(application_choices: { course_options: { course: self } })
+      .distinct
+  end
 end

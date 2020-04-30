@@ -18,6 +18,14 @@
   'Start on Apply' => govuk_link_to('View on Apply (candidate)', candidate_interface_apply_from_find_path(providerCode: @course.provider.code, courseCode: @course.code)),
 })) %>
 
+<h2 class='govuk-heading-m'>Vacancies</h2>
+
+<%= render(SupportInterface::CourseChoicesTableComponent.new(course_options: @course.course_options)) %>
+
+<h2 class='govuk-heading-m'>Applications</h2>
+
+<%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @course.application_forms) %>
+
 <h2 class='govuk-heading-m'>Settings</h2>
 
 <%= render(SummaryCardComponent.new(rows: {
