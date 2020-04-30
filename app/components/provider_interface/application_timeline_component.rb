@@ -7,7 +7,7 @@ module ProviderInterface
       @application_choice = application_choice
     end
 
-    Event = Struct.new(:title, :actor, :date, :type, :id)
+    Event = Struct.new(:title, :actor, :date)
 
     TITLES = {
       'awaiting_provider_decision' => 'Application submitted',
@@ -35,7 +35,6 @@ module ProviderInterface
           title_for(change),
           actor_for(change),
           change.changed_at,
-          'status_change',
         )
       end
     end
@@ -47,8 +46,6 @@ module ProviderInterface
             'Note added',
             provider_name(note.provider_user),
             note.created_at,
-            'note',
-            note.id,
           )
         end
       else
