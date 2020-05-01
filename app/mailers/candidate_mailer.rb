@@ -175,6 +175,14 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def withdraw_last_application_choice(application_form)
+    @withdrawn_courses = application_form.application_choices.select(&:withdrawn?)
+    @withdrawn_course_names = @withdrawn_courses.map { |application_choice| "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}" }
+    @rejected_course_count = application_form.application_choices.select(&:rejected?).count
+
+    email_for_candidate(application_form, subject: I18n.t!('candidate_mailer.application_withdrawn.subject', count: @withdrawn_courses.size))
+  end
+
 private
 
   def new_offer(application_choice, template_name)

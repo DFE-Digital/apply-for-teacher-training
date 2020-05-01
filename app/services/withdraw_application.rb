@@ -9,6 +9,10 @@ class WithdrawApplication
       ApplicationStateChange.new(application_choice).withdraw!
       application_choice.update!(withdrawn_at: Time.zone.now)
       SetDeclineByDefault.new(application_form: application_choice.application_form).call
+
+      if no_course_choices_successful && FeatureFlag.active?('apply_again')
+        CandidateMailer.withdraw_last_application_choice(@application_choice.application_form).deliver_later
+      end
     end
 
     StateChangeNotifier.call(:withdraw, application_choice: application_choice)
@@ -26,8 +30,10 @@ private
   end
 
   def no_course_choices_successful
-    @application_choices.size == @application_choices.select { |application_choice| application_choice.rejected? ||
-                                                                                    application_choice.withdrawn? ||
-                                                                                    application_choice.declined? }.size
+    @application_choices.size == @application_choices.select { |application_choice|
+                                   application_choice.rejected? ||
+                                     application_choice.withdrawn? ||
+                                     application_choice.declined?
+                                 } .size
   end
 end
