@@ -42,6 +42,7 @@ FactoryBot.define do
       work_history_breaks { Faker::Lorem.paragraph_by_chars(number: 400) }
       volunteering_experience { [true, false, nil].sample }
       safeguarding_issues { 'I have a criminal conviction.' }
+      phase { :apply_1 }
 
       # Checkboxes to mark a section as complete
       course_choices_completed { true }
@@ -329,7 +330,7 @@ FactoryBot.define do
 
     trait :with_rejection do
       status { 'rejected' }
-      rejection_reason { 'candidate did not meet minimum course entry requirements' }
+      rejection_reason { Faker::Lorem.paragraph_by_chars(number: 300) }
       rejected_at { Time.zone.now }
     end
 

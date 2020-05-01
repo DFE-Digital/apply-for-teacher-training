@@ -13,6 +13,7 @@ class DuplicateApplication
       *IGNORED_ATTRIBUTES,
     ).merge(
       phase: 'apply_2',
+      previous_application_form_id: original_application_form.id,
     )
 
     new_application_form = ApplicationForm.create!(attrs)

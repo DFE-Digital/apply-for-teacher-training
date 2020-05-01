@@ -29,6 +29,10 @@ RSpec.describe DuplicateApplication do
     expect(duplicate_application_form.updated_at).not_to eq original_application_form.updated_at
   end
 
+  it 'set_the_previous_application_form_id to the original application forms id' do
+    expect(duplicate_application_form.previous_application_form_id).to eq original_application_form.id
+  end
+
   it 'does not copy application choices' do
     expect(original_application_form.application_choices).to be_present
     expect(duplicate_application_form.application_choices).to be_empty
