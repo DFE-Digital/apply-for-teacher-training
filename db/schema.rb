@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_30_225107) do
+ActiveRecord::Schema.define(version: 2020_05_01_111039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -104,6 +104,7 @@ ActiveRecord::Schema.define(version: 2020_04_30_225107) do
     t.text "safeguarding_issues"
     t.jsonb "satisfaction_survey"
     t.string "safeguarding_issues_status", default: "not_answered_yet", null: false
+    t.integer "previous_application_form_id"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
   end
 
@@ -385,6 +386,7 @@ ActiveRecord::Schema.define(version: 2020_04_30_225107) do
   add_foreign_key "application_choices", "course_options"
   add_foreign_key "application_choices", "course_options", column: "offered_course_option_id"
   add_foreign_key "application_experiences", "application_forms", on_delete: :cascade
+  add_foreign_key "application_forms", "application_forms", column: "previous_application_form_id"
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
   add_foreign_key "application_qualifications", "application_forms", on_delete: :cascade
   add_foreign_key "application_work_history_breaks", "application_forms", on_delete: :cascade
