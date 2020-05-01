@@ -6,8 +6,14 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
   scenario 'signing in successfully' do
     FeatureFlag.activate('dfe_sign_in_fallback')
 
-    given_i_am_registered_as_a_provider_user
+    given_i_am_registered_as_a_provider_user_without_a_dsi_uid
+    when_i_visit_the_provider_interface_applications_path
+    then_i_am_redirected_to_the_provider_sign_in_path
 
+    when_i_provide_my_email_address
+    then_i_do_not_receive_an_email_with_a_signin_link
+
+    when_i_get_a_dsi_uid
     when_i_visit_the_provider_interface_applications_path
     then_i_am_redirected_to_the_provider_sign_in_path
 
@@ -17,9 +23,13 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
     then_i_am_signed_in
   end
 
-  def given_i_am_registered_as_a_provider_user
+  def given_i_am_registered_as_a_provider_user_without_a_dsi_uid
     @email = 'provider@example.com'
-    @provider_user = create(:provider_user, email_address: @email, dfe_sign_in_uid: 'DFE_SIGN_IN_UID', first_name: 'Michael')
+    @provider_user = create(:provider_user, email_address: @email, dfe_sign_in_uid: nil, first_name: 'Michael')
+  end
+
+  def when_i_get_a_dsi_uid
+    @provider_user.update(dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
   end
 
   def when_i_visit_the_provider_interface_applications_path
@@ -33,6 +43,11 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
   def when_i_provide_my_email_address
     fill_in 'Email address', with: @email
     click_on 'Continue'
+  end
+
+  def then_i_do_not_receive_an_email_with_a_signin_link
+    open_email(@email)
+    expect(current_email).not_to be_present
   end
 
   def then_i_receive_an_email_with_a_signin_link

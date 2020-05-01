@@ -20,7 +20,7 @@ module ProviderInterface
 
       provider_user = ProviderUser.find_by(email_address: params.dig(:provider_user, :email_address))
 
-      if provider_user
+      if provider_user && provider_user.dfe_sign_in_uid.present?
         magic_link_token = MagicLinkToken.new
         ProviderMailer.fallback_sign_in_email(provider_user, magic_link_token.raw).deliver_later
         provider_user.update!(magic_link_token: magic_link_token.encrypted, magic_link_token_sent_at: Time.zone.now)
