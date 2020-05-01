@@ -47,7 +47,7 @@ class ProcessState
     end
 
     state :ended_without_success do
-      event :start_apply_2, transitions_to: :unsubmitted_in_progress
+      event :start_apply_again, transitions_to: :unsubmitted_in_progress
     end
 
     state :pending_conditions do

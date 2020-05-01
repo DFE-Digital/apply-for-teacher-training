@@ -113,5 +113,13 @@ class ApplicationForm < ApplicationRecord
     updated_at == created_at
   end
 
+  def apply_again?
+    apply_2?
+  end
+
   audited
+
+  def ended_without_success?
+    application_choices.map(&:status).all? { |status| ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status) }
+  end
 end

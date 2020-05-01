@@ -69,6 +69,8 @@ class ApplicationStateChange
     state :cancelled
   end
 
+  UNSUCCESSFUL_END_STATES = %w[withdrawn cancelled rejected declined conditions_not_met].freeze
+
   def load_workflow_state
     application_choice.status
   end

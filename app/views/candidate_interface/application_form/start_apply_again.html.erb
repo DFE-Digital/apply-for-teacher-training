@@ -1,0 +1,23 @@
+<h1 class="govuk-heading-xl">Do you want to apply again?</h1>
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-two-thirds">
+
+    <p class="govuk-body">You could still get a place on a course this year.</p>
+    <p class="govuk-body">
+      <ul class="govuk-body">
+        <li>edit your saved application, so you do not need to start again</li>
+        <li>keep your references, so you will not need to request new ones</li>
+      </ul>
+    </p>
+    <p class="govuk-body">You can only apply to one course at a time at this stage of your application.</p>
+
+    <%= button_to 'Start now', candidate_interface_apply_again_path, class: 'govuk-button govuk-button govuk-!-margin-bottom-5' %>
+
+    <p class="govuk-body">or</p>
+
+    <%= govuk_link_to 'Go to your dashboard', candidate_interface_application_form_path, class: 'govuk-body' %>
+  </div>
+</div>
+

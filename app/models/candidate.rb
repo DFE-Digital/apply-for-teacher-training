@@ -19,7 +19,8 @@ class Candidate < ApplicationRecord
   end
 
   def current_application
-    application_form = application_forms.first_or_create!
+    application_form = application_forms.last
+    application_form ||= application_forms.create!
     application_form
   end
 

@@ -423,9 +423,9 @@ en:
       by: provider
       description: ''
 
-    ended_without_success-start_apply_2:
-      name: Start in Apply 2 (not built)
+    ended_without_success-start_apply_again:
+      name: Start in Apply again (not built)
       by: candidate
       description: This feature isn’t built yet, but in the future candidates
-        will be able to go into a second phase called ‘Apply 2’, where they can
+        will be able to go into a second phase called ‘Apply Again’, where they can
         apply to 1 course at a time.

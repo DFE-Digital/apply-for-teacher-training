@@ -8,6 +8,10 @@ module CandidateInterface
       "Last saved on #{@application_form.updated_at.to_s(:govuk_date_and_time)}"
     end
 
+    def apply_again?
+      @application_form.apply_again?
+    end
+
     def sections_with_completion
       [
         # "Courses" section

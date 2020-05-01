@@ -87,4 +87,40 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '#ended_without_success?' do
+    context 'with one rejected application' do
+      it 'returns true' do
+        application_form = described_class.new
+        application_form.application_choices.build status: 'rejected'
+        expect(application_form.ended_without_success?).to be true
+      end
+    end
+
+    context 'with one offered application' do
+      it 'returns false' do
+        application_form = described_class.new
+        application_form.application_choices.build status: 'offer'
+        expect(application_form.ended_without_success?).to be false
+      end
+    end
+
+    context 'with one rejected and one in progress application' do
+      it 'returns false' do
+        application_form = described_class.new
+        application_form.application_choices.build status: 'rejected'
+        application_form.application_choices.build status: 'awaiting_provider_decision'
+        expect(application_form.ended_without_success?).to be false
+      end
+    end
+
+    context 'with one rejected and one withdrawn application' do
+      it 'returns true' do
+        application_form = described_class.new
+        application_form.application_choices.build status: 'rejected'
+        application_form.application_choices.build status: 'withdrawn'
+        expect(application_form.ended_without_success?).to be true
+      end
+    end
+  end
 end
