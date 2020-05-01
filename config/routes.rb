@@ -443,6 +443,8 @@ Rails.application.routes.draw do
 
     get '/sign-in' => 'sessions#new'
     get '/sign-out' => 'sessions#destroy'
+    post '/sign-in-by-email' => 'sessions#sign_in_by_email', as: :sign_in_by_email
+    get '/sign-in-by-email' => 'sessions#authenticate_with_token', as: :authenticate_with_token
 
     get '/provider-users' => 'provider_users#index'
     get '/provider-users/new' => 'provider_users#new'

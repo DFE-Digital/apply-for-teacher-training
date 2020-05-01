@@ -20,6 +20,9 @@ AllCops:
     - 'features/support/env.rb'
     - 'vendor/**/*'
 
+Rails/BulkChangeTable:
+  Enabled: false
+
 Style/AndOr:
   EnforcedStyle: conditionals
 

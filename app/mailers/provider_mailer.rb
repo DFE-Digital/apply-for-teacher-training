@@ -76,6 +76,17 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
+  def fallback_sign_in_email(provider_user, token)
+    @magic_link = provider_interface_authenticate_with_token_url(token: token)
+    @provider_user = provider_user
+    @provider_user_name = provider_user.full_name
+
+    notify_email(
+      to: provider_user.email_address,
+      subject: t('authentication.sign_in.email.subject'),
+    )
+  end
+
 private
 
   def email_for_provider(provider_user, application_form, args = {})
