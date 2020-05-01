@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate can see their rejection reasons on apply again' do
   scenario 'when a candidate visits their apply again application form they can see apply1 rejection reasons' do
-    given_apply_again_rejection_reasons_is_active
+    given_apply_again_is_active
     and_i_am_signed_in
     and_i_have_an_apply1_application_with_3_rejections
     and_i_have_started_my_apply_again_application_form
@@ -11,8 +11,8 @@ RSpec.describe 'Candidate can see their rejection reasons on apply again' do
     then_i_can_see_my_previous_rejection_reasons
   end
 
-  def given_apply_again_rejection_reasons_is_active
-    FeatureFlag.activate('apply_again_rejection_reasons')
+  def given_apply_again_is_active
+    FeatureFlag.activate('apply_again')
   end
 
   def and_i_am_signed_in

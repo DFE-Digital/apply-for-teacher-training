@@ -8,7 +8,6 @@ class FeatureFlag
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = %w[
-    apply_again_rejection_reasons
     candidate_can_cancel_reference
     confirm_conditions
     download_dataset1_from_support_page
