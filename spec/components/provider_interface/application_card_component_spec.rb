@@ -35,6 +35,15 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
            updated_at: Date.parse('25-03-2020'))
   end
 
+  let(:note) do
+    provider_user = current_provider.provider_users.first
+    Note.new(
+      provider_user: provider_user,
+      subject: 'Needs review',
+      message: 'Please review asap as the deadline is looming.',
+    )
+  end
+
   let(:result) { render_inline described_class.new(application_choice: application_choice) }
 
   let(:card) { result.css('.app-application-card').to_html }
@@ -58,6 +67,11 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
 
     it 'renders the status of the application' do
       expect(card).to include('Application withdrawn')
+    end
+
+    it 'renders the subject of the most recent note' do
+      application_choice.notes << note
+      expect(card).to include(note.subject)
     end
 
     it 'renders the last updated date' do

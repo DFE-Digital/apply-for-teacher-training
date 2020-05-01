@@ -13,7 +13,7 @@ module ProviderInterface
       @course_name_and_code = application_choice.offered_course.name_and_code
       @course_provider_name = application_choice.offered_course.provider.name
       @updated_at = application_choice.updated_at.to_s(:govuk_date_short_month)
-      @most_recent_note = nil
+      @most_recent_note = application_choice.notes.order('created_at DESC').first
     end
   end
 end
