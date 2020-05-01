@@ -349,4 +349,45 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
   end
+
+  describe '.withdraw_last_application_choice' do
+    context 'when a candidate has 1 course choice that was withdrawn' do
+      before do
+        @application_form = build_stubbed(
+          :application_form,
+          first_name: 'Fred',
+          application_choices: [
+            build_stubbed(:application_choice, status: 'withdrawn'),
+          ],
+        )
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        :withdraw_last_application_choice,
+        'You’ve withdrawn your application: next steps',
+        'heading' => 'Dear Fred',
+        'application_withdrawn' => 'You’ve withdrawn your application',
+      )
+    end
+
+    context 'when a candidate has 2 or 3 offers that were declined' do
+      before do
+        @application_form = build_stubbed(
+          :application_form,
+          application_choices: [
+            build_stubbed(:application_choice, status: 'withdrawn'),
+            build_stubbed(:application_choice, status: 'withdrawn'),
+          ],
+        )
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        :withdraw_last_application_choice,
+        'You’ve withdrawn your applications: next steps',
+        'application_withdrawn' => 'You’ve withdrawn your application',
+      )
+    end
+  end
 end

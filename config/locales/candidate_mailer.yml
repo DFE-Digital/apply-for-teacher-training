@@ -38,6 +38,10 @@ en:
       subject:
         one: "You did not respond to your offer: next steps"
         other: "You did not respond to your offers: next steps"
+    application_withdrawn:
+      subject:
+        one: "You’ve withdrawn your application: next steps"
+        other: "You’ve withdrawn your applications: next steps"
     conditions_met:
       subject: "You have met your conditions for %{course_name}: next steps"
     conditions_not_met:
