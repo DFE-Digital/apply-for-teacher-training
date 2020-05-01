@@ -5,9 +5,11 @@ RSpec.describe 'Candidate can see their rejection reasons on apply again' do
     given_apply_again_is_active
     and_i_am_signed_in
     and_i_have_an_apply1_application_with_3_rejections
-    and_i_have_started_my_apply_again_application_form
 
-    when_i_visit_my_apply_again_application_form
+    when_i_visit_my_application_complete_page
+    and_i_click_on_apply_again
+    and_i_click_on_start_now
+
     then_i_can_see_my_previous_rejection_reasons
   end
 
@@ -25,12 +27,16 @@ RSpec.describe 'Candidate can see their rejection reasons on apply again' do
     create_list(:application_choice, 3, :with_rejection, application_form: @application_form)
   end
 
-  def and_i_have_started_my_apply_again_application_form
-    create(:application_form, candidate: @candidate, phase: :apply_2)
+  def when_i_visit_my_application_complete_page
+    visit candidate_interface_application_complete_path
   end
 
-  def when_i_visit_my_apply_again_application_form
-    visit candidate_interface_application_form_path
+  def and_i_click_on_apply_again
+    click_link 'Do you want to apply again?'
+  end
+
+  def and_i_click_on_start_now
+    click_button 'Start now'
   end
 
   def then_i_can_see_my_previous_rejection_reasons

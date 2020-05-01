@@ -5,7 +5,7 @@
     </span>
   </summary>
 
-  <div class="govuk-details__text">
+  <div class="govuk-details__text govuk-!-padding-bottom-0">
     <% @application_form.application_choices.includes(:course, :provider, [:offered_course_option]).rejected.each do |application_choice| %>
       <%= render(SummaryCardComponent.new(rows: application_choice_rows(application_choice))) do %>
         <%= render(SummaryCardHeaderComponent.new(title: application_choice.provider.name)) %>
