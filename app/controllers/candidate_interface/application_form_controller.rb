@@ -6,6 +6,7 @@ module CandidateInterface
     def show
       @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
       @application_form = current_application
+      @apply_1_application_form = current_candidate.application_forms.apply_1.last
     end
 
     def before_you_start; end
