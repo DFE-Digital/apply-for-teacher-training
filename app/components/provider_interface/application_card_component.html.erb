@@ -5,7 +5,6 @@
     <div class="app-application-card__status">
       <%= render ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice) %>
       <% if most_recent_note %>
-        <div class="govuk-!-margin-top-0 govuk-!-margin-bottom-0"></div>
         <p class="app-application-card__note"><%= most_recent_note.subject %></p>
       <% end %>
     <div>
