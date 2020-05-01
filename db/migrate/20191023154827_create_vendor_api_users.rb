@@ -1,4 +1,4 @@
-class CreateVendorApiUsers < ActiveRecord::Migration[6.0]
+class CreateVendorAPIUsers < ActiveRecord::Migration[6.0]
   def change
     create_table :vendor_api_users do |t|
       t.string :full_name, null: false

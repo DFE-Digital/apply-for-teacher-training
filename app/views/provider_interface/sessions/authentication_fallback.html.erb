@@ -1,0 +1,32 @@
+<% content_for :title, t('page_titles.sign_in') %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <div class="app-banner app-banner--warning govuk-!-margin-bottom-7">
+        <div class="app-banner__message">
+          <h2 class="govuk-heading-m">Temporary login</h2>
+          <p>DfE Sign In is is experiencing problems. You need to sign in using your email address.</p>
+        </div>
+    </div>
+
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.sign_in') %>
+    </h1>
+
+    <p class="govuk-body-l">You must sign in to your account to manage teacher training applications.</p>
+
+    <%= form_with model: ProviderUser.new, url: provider_interface_sign_in_by_email_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_text_field :email_address, label: { text: 'Email address', size: 'm' }, type: :email, width: 'two-thirds', autocomplete: 'email' %>
+
+      <%= f.submit 'Continue', class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
+    <% end %>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    <h2 class="govuk-heading-m">Ask for an account</h2>
+    <p class="govuk-body">Don’t have an account? You can get one by emailing <%= bat_contact_mail_to %>. Please include the full names and email addresses of anyone who needs access.</p>
+  </div>
+</div>

@@ -3,6 +3,7 @@ class FeatureFlag
     banner_about_problems_with_dfe_sign_in
     banner_for_ucas_downtime
     covid_19
+    dfe_sign_in_fallback
     force_ok_computer_to_fail
     pilot_open
   ].freeze

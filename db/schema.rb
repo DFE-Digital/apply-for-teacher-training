@@ -264,6 +264,8 @@ ActiveRecord::Schema.define(version: 2020_05_01_124618) do
     t.datetime "last_signed_in_at"
     t.string "first_name"
     t.string "last_name"
+    t.string "magic_link_token"
+    t.datetime "magic_link_token_sent_at"
     t.index ["dfe_sign_in_uid"], name: "index_provider_users_on_dfe_sign_in_uid", unique: true
     t.index ["email_address"], name: "index_provider_users_on_email_address", unique: true
   end

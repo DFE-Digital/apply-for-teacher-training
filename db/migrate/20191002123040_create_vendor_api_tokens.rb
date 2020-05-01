@@ -1,4 +1,4 @@
-class CreateVendorApiTokens < ActiveRecord::Migration[6.0]
+class CreateVendorAPITokens < ActiveRecord::Migration[6.0]
   def change
     create_table :vendor_api_tokens do |t|
       t.string :hashed_token, null: false
