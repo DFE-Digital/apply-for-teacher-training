@@ -1,6 +1,7 @@
 class WithdrawApplication
   def initialize(application_choice:)
     @application_choice = application_choice
+    @application_choices = application_choice.application_form.application_choices
   end
 
   def save!
@@ -22,5 +23,11 @@ private
     application_choice.provider.provider_users.each do |provider_user|
       ProviderMailer.application_withrawn(provider_user, application_choice).deliver_later
     end
+  end
+
+  def no_course_choices_successful
+    @application_choices.size == @application_choices.select { |application_choice| application_choice.rejected? ||
+                                                                                    application_choice.withdrawn? ||
+                                                                                    application_choice.declined? }.size
   end
 end
