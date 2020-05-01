@@ -27,7 +27,7 @@ module ProviderInterface
 
         SlackNotificationWorker.perform_async(
           "Provider user #{provider_user.first_name} has requested a fallback signin link",
-          edit_support_interface_provider_user_path(provider_user),
+          edit_support_interface_provider_user_url(provider_user),
         )
       end
     end
@@ -38,7 +38,7 @@ module ProviderInterface
 
       SlackNotificationWorker.perform_async(
         "Provider user #{provider_user.first_name} has signed in via the fallback mechanism",
-        edit_support_interface_provider_user_path(provider_user),
+        edit_support_interface_provider_user_url(provider_user),
       )
 
       # Equivalent to calling DfESignInUser.begin_session!
