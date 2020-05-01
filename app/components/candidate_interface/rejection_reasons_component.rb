@@ -19,7 +19,9 @@ module CandidateInterface
     def course_details_row(application_choice)
       {
         key: 'Course',
-        value: govuk_link_to("#{application_choice.offered_course.name} (#{application_choice.offered_course.code}) <br>".html_safe, application_choice.offered_course.find_url, target: '_blank', rel: 'noopener') + application_choice.course.description
+        value: govuk_link_to("#{application_choice.offered_course.name} (#{application_choice.offered_course.code})",
+                             application_choice.offered_course.find_url, target: '_blank', rel: 'noopener') +
+          content_tag(:p, application_choice.course.description, class: 'govuk-body'),
       }
     end
 

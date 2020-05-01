@@ -26,12 +26,11 @@ RSpec.describe 'Candidate can see their rejection reasons on apply again' do
   end
 
   def and_i_have_started_my_apply_again_application_form
-    create(:application_form, candidate: @candidate, phase: :apply_2 )
+    create(:application_form, candidate: @candidate, phase: :apply_2)
   end
 
   def when_i_visit_my_apply_again_application_form
     visit candidate_interface_application_form_path
-    save_and_open_page
   end
 
   def then_i_can_see_my_previous_rejection_reasons
