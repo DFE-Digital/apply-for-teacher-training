@@ -3,6 +3,18 @@ require 'rails_helper'
 RSpec.feature 'A candidate withdraws her application' do
   include CandidateHelper
 
+# bullet complains about wanting an includes on associated objects.
+# You can't call includes on a build_stubbed object.
+# Our mailer previews are reliant on build_stubbed so we need to exclude this test.
+
+  before do
+    Bullet.raise = false
+  end
+
+  after do
+    Bullet.raise = true
+  end
+
   scenario 'successful withdrawal' do
     given_i_am_signed_in_as_a_candidate
     and_the_covid_19_feature_flag_is_on
