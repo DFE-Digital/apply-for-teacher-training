@@ -20,7 +20,6 @@ RSpec.describe 'Sync from find' do
     and_the_course_option_for_that_site_is_part_of_an_application
     and_sync_provider_from_find_is_called
     then_the_affected_course_option_indicates_that_the_site_is_no_longer_valid
-    and_we_are_notified_so_we_can_contact_the_candidates
   end
 
   def given_there_is_a_course_on_find_with_multiple_sites
@@ -61,9 +60,5 @@ RSpec.describe 'Sync from find' do
   def then_the_affected_course_option_indicates_that_the_site_is_no_longer_valid
     expect(@provider.courses.first.course_options.count).to eq 2
     expect(@course_option.reload.site_still_valid).to eq false
-  end
-
-  def and_we_are_notified_so_we_can_contact_the_candidates
-    expect_slack_message_with_text "ABC College's course Primary (X130) is no longer available at location 'Secondary site (Y)'. 1 candidate has applied to the course at this location."
   end
 end
