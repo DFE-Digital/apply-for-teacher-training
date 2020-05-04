@@ -18,7 +18,7 @@ module ProviderInterface
     def sign_in_by_email
       raise unless FeatureFlag.active?('dfe_sign_in_fallback')
 
-      provider_user = ProviderUser.find_by(email_address: params.dig(:provider_user, :email_address).downcase)
+      provider_user = ProviderUser.find_by(email_address: params.dig(:provider_user, :email_address).downcase.strip)
 
       if provider_user && provider_user.dfe_sign_in_uid.present?
         magic_link_token = MagicLinkToken.new

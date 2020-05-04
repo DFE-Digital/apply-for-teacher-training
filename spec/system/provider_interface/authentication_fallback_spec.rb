@@ -41,7 +41,7 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
   end
 
   def when_i_provide_my_email_address
-    fill_in 'Email address', with: 'pRoViDeR@example.com'
+    fill_in 'Email address', with: 'pRoViDeR@example.com '
     click_on 'Continue'
   end
 
