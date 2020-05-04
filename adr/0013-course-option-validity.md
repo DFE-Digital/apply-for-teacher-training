@@ -8,7 +8,7 @@ Accepted
 
 ## Context
 
-We define a course option as a specific combination of (course, study mode, site). A course has several sites, and each site may offer the course in FT or PT modes. Every course option we create for a course covers one of the combinations.
+We define a course option as a specific combination of (course, study mode, site). A course has several sites, and each site may offer the course in full time or part time modes. Every course option we create for a course covers one of the combinations.
 
 We've recently completed a series of iterations that deal with:
 
