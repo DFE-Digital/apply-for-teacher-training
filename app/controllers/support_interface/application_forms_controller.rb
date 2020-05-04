@@ -8,7 +8,7 @@ module SupportInterface
       @application_form = application_form
     end
 
-    def action_required
+    def unavailable_choices
       @monitor = SupportInterface::ApplicationMonitor.new
     end
 

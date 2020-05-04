@@ -472,7 +472,7 @@ Rails.application.routes.draw do
     get '/email-log', to: 'email_log#index', as: :email_log
 
     get '/applications' => 'application_forms#index'
-    get '/applications/action-required' => 'application_forms#action_required', as: :action_required
+    get '/applications/unavailable-choices' => 'application_forms#unavailable_choices', as: :unavailable_choices
     get '/applications/:application_form_id' => 'application_forms#show', as: :application_form
     get '/applications/:application_form_id/audit' => 'application_forms#audit', as: :application_form_audit
     get '/applications/:application_form_id/comments/new' => 'application_forms/comments#new', as: :application_form_new_comment
