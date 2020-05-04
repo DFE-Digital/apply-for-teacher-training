@@ -18,6 +18,9 @@ RSpec.describe SubmitApplication do
         expect(application_form.submitted_at).to eq Time.zone.now
         expect(application_form.application_choices[0].edit_by).to eq expected_edit_by
         expect(application_form.application_choices[1].edit_by).to eq expected_edit_by
+
+        expect(application_form.application_choices[0].status).to eq 'awaiting_references'
+        expect(application_form.application_choices[1].status).to eq 'awaiting_references'
       end
     end
 
@@ -54,6 +57,24 @@ RSpec.describe SubmitApplication do
         application_form.application_choices.reload
         expect(application_form.application_choices[0]).to be_awaiting_provider_decision
         expect(application_form.application_choices[1]).to be_awaiting_provider_decision
+      end
+    end
+
+    context 'when application is Apply Again' do
+      it 'progresses status to `application_complete`' do
+        original_application_form = create_application_form
+
+        original_application_form.application_references << build(:reference, email_address: 'bob@example.com', feedback_status: :feedback_provided)
+        original_application_form.application_references << build(:reference, email_address: 'alice@example.com', feedback_status: :feedback_provided)
+        original_application_form.application_references.reload
+
+        application_form = DuplicateApplication.new(original_application_form).duplicate
+        application_form.application_choices << build(:application_choice, status: :unsubmitted)
+
+        SubmitApplication.new(application_form).call
+
+        application_form.application_choices.reload
+        expect(application_form.application_choices[0]).to be_application_complete
       end
     end
   end

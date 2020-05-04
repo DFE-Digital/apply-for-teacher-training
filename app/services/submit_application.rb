@@ -53,6 +53,18 @@ private
   def submit_application
     application_choices.each do |application_choice|
       SubmitApplicationChoice.new(application_choice).call
+
+      if application_form.apply_again? && enough_references_have_been_provided?
+        ApplicationStateChange.new(application_choice).references_complete!
+      end
     end
+  end
+
+  def enough_references_have_been_provided?
+    application_form
+      .application_references
+      .feedback_provided
+      .uniq
+      .count >= ApplicationForm::MINIMUM_COMPLETE_REFERENCES
   end
 end

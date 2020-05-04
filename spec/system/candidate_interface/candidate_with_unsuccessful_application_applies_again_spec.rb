@@ -26,6 +26,7 @@ RSpec.feature 'Candidate with unsuccessful application' do
     and_submit_the_application
 
     then_application_is_submitted
+    and_application_choices_are_complete
   end
 
   def given_the_pilot_is_open
@@ -83,11 +84,13 @@ RSpec.feature 'Candidate with unsuccessful application' do
     choose 'No' # "Is there anything else you would like to tell us?"
 
     click_button 'Submit application'
-
-    @application = ApplicationForm.last
   end
 
   def then_application_is_submitted
     expect(page).to have_content('Application successfully submitted')
+  end
+
+  def and_application_choices_are_complete
+    expect(ApplicationForm.last.application_choices.first.reload.status).to eq 'application_complete'
   end
 end
