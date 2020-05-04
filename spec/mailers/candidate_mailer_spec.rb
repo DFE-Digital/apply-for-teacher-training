@@ -390,4 +390,23 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
   end
+
+  describe '.decline_last_application_choice' do
+    let(:email) { described_class.decline_last_application_choice(@application_form.application_choices.first) }
+    before do
+      @application_form = build_stubbed(
+        :application_form,
+        first_name: 'Fred',
+        application_choices: [
+          build_stubbed(:application_choice, status: 'declined'),
+        ],
+      )
+    end
+
+    it 'has the right subject and content' do
+      expect(email.subject).to eq 'You’ve declined an offer: next steps'
+      expect(email).to have_content 'Dear Fred'
+      expect(email).to have_content 'declined your offer to study'
+    end
+  end
 end
