@@ -26,7 +26,7 @@ module ProviderInterface
         provider_user.update!(magic_link_token: magic_link_token.encrypted, magic_link_token_sent_at: Time.zone.now)
 
         SlackNotificationWorker.perform_async(
-          "Provider user #{provider_user.first_name} has requested a fallback signin link",
+          "Provider user #{provider_user.first_name} has requested a fallback sign in link",
           edit_support_interface_provider_user_url(provider_user),
         )
       end
