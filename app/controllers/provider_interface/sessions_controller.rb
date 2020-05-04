@@ -30,7 +30,11 @@ module ProviderInterface
           edit_support_interface_provider_user_url(provider_user),
         )
       end
+
+      redirect_to provider_interface_check_your_email_path
     end
+
+    def check_your_email; end
 
     def authenticate_with_token
       magic_link_token = MagicLinkToken.from_raw(params.fetch(:token))
