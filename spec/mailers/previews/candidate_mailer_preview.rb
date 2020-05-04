@@ -228,6 +228,30 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.declined_by_default_without_rejections(application_form)
   end
 
+  def decline_last_application_choice
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Harry',
+      application_choices: [
+        FactoryBot.build_stubbed(:application_choice, status: 'declined'),
+      ],
+    )
+
+    CandidateMailer.decline_last_application_choice(application_form.application_choices.first)
+  end
+
+  def withdraw_last_application_choice
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Harry',
+      application_choices: [
+        FactoryBot.build_stubbed(:application_choice, status: 'withdrawn'),
+      ],
+    )
+
+    CandidateMailer.withdraw_last_application_choice(application_form)
+  end
+
   def conditions_met
     CandidateMailer.conditions_met(application_choice_with_offer)
   end
