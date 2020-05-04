@@ -179,10 +179,10 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like 'a mail with subject and content', :declined_by_default, 'Applications withdrawn automatically', {}
     end
 
-    context 'when the covid-19 feature flag and the apply_again_email_content flag are on' do
+    context 'when the covid-19 feature flag and the apply_again flag are on' do
       before do
         FeatureFlag.activate('covid_19')
-        FeatureFlag.activate('apply_again_email_content')
+        FeatureFlag.activate('apply_again')
         @application_form = build_stubbed(
           :application_form,
           application_choices: [build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10)],
@@ -196,9 +196,9 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
 
-    context 'when the covid-19 feature flag is off and the apply_again_email_content flag is on' do
+    context 'when the covid-19 feature flag is off and the apply_again flag is on' do
       before do
-        FeatureFlag.activate('apply_again_email_content')
+        FeatureFlag.activate('apply_again')
         @application_form = build_stubbed(
           :application_form,
           application_choices: [build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10)],
@@ -212,9 +212,9 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
 
-    context 'when a candidate has 1 offer that was declined, is awaiting another decision and the apply_again_email_content flag is on' do
+    context 'when a candidate has 1 offer that was declined, is awaiting another decision and the apply_again flag is on' do
       before do
-        FeatureFlag.activate('apply_again_email_content')
+        FeatureFlag.activate('apply_again')
         @application_form = build_stubbed(
           :application_form,
           first_name: 'Fred',
@@ -234,9 +234,9 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
 
-    context 'when a candidate has 1 offer that was declined, has no rejections, is not awaiting further decisions and the apply_again_email_content flag is on' do
+    context 'when a candidate has 1 offer that was declined, has no rejections, is not awaiting further decisions and the apply_again flag is on' do
       before do
-        FeatureFlag.activate('apply_again_email_content')
+        FeatureFlag.activate('apply_again')
         @application_form = build_stubbed(
           :application_form,
           first_name: 'Fred',
@@ -256,9 +256,9 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
 
-    context 'when a candidate has 1 offer that was declined, has a rejection, is not awaiting further decisions and the apply_again_email_content flag is on' do
+    context 'when a candidate has 1 offer that was declined, has a rejection, is not awaiting further decisions and the apply_again flag is on' do
       before do
-        FeatureFlag.activate('apply_again_email_content')
+        FeatureFlag.activate('apply_again')
         @application_form = build_stubbed(
           :application_form,
           first_name: 'Fred',

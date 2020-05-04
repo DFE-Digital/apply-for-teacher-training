@@ -121,7 +121,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
 
     describe '.application_rejected_all_rejected' do
-      if FeatureFlag.active?('apply_again_email_content')
+      if FeatureFlag.active?('apply_again')
         it_behaves_like(
           'a mail with subject and content', :application_rejected_all_rejected,
           I18n.t!('candidate_mailer.application_rejected.all_rejected.subject', provider_name: 'Falconholt Technical College'),
