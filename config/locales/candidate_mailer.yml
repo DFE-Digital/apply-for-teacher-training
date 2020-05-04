@@ -42,6 +42,8 @@ en:
       subject:
         one: "You’ve withdrawn your application: next steps"
         other: "You’ve withdrawn your applications: next steps"
+    application_declined:
+      subject: "You’ve declined an offer: next steps"
     conditions_met:
       subject: "You have met your conditions for %{course_name}: next steps"
     conditions_not_met:
