@@ -3,13 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Candidate with unsuccessful application' do
   include CandidateHelper
 
-  around do |example|
-    date_that_avoids_clocks_changing_by_ten_days = Time.zone.local(2020, 1, 13)
-    Timecop.freeze(date_that_avoids_clocks_changing_by_ten_days) do
-      example.run
-    end
-  end
-
   scenario 'Can apply again' do
     given_the_pilot_is_open
     and_apply_again_feature_flag_is_active
