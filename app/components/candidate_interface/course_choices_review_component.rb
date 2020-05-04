@@ -13,7 +13,7 @@ module CandidateInterface
       application_choice_error: false
     )
       @application_form = application_form
-      @course_choices = @application_form.application_choices.includes(:course, :site, :provider, :offered_course_option).order(id: :asc)
+      @course_choices = @application_form.application_choices.includes(:course, :provider, :site, :offered_course_option).order(id: :asc)
       @editable = editable
       @heading_level = heading_level
       @show_status = show_status

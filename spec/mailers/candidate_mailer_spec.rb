@@ -353,11 +353,11 @@ RSpec.describe CandidateMailer, type: :mailer do
   describe '.withdraw_last_application_choice' do
     context 'when a candidate has 1 course choice that was withdrawn' do
       before do
-        @application_form = build_stubbed(
+        @application_form = create(
           :application_form,
           first_name: 'Fred',
           application_choices: [
-            build_stubbed(:application_choice, status: 'withdrawn'),
+            create(:application_choice, status: 'withdrawn'),
           ],
         )
       end
@@ -393,6 +393,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   describe '.decline_last_application_choice' do
     let(:email) { described_class.decline_last_application_choice(@application_form.application_choices.first) }
+
     before do
       @application_form = build_stubbed(
         :application_form,
