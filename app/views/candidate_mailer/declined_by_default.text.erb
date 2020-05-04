@@ -1,4 +1,4 @@
-<% if FeatureFlag.active?('apply_again_email_content') && @last_course_choice_and_none_successful %>
+<% if FeatureFlag.active?('apply_again') && @last_course_choice_and_none_successful %>
 
 Dear <%= @application_form.first_name %>,
 
