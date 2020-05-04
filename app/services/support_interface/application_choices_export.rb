@@ -10,7 +10,7 @@ module SupportInterface
             choice_status: choice.status,
             provider_code: choice.provider.code,
             course_code: choice.course.code,
-            sent_to_provider_at: sent_to_provider_audit_entry(choice: choice)&.created_at,
+            sent_to_provider_at: choice.sent_to_provider_at,
             reject_by_default_at: choice.reject_by_default_at,
             decline_by_default_at: choice.decline_by_default_at,
             decision: decision_interpretation(choice: choice),
@@ -23,12 +23,6 @@ module SupportInterface
     end
 
   private
-
-    def sent_to_provider_audit_entry(choice:)
-      choice
-        .audits
-        .detect { |entry| entry.audited_changes == { 'status' => %w[application_complete awaiting_provider_decision] } }
-    end
 
     def decision_interpretation(choice:)
       if choice.offered_at.present?
