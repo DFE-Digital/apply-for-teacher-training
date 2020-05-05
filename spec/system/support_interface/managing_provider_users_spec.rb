@@ -39,8 +39,10 @@ RSpec.feature 'Managing provider users' do
     and_they_should_be_able_to_manage_users
 
     when_i_remove_manage_users_permissions
+    and_i_remove_access_to_a_provider
     and_i_click_update_user
     then_they_should_not_be_able_to_manage_users
+    and_they_should_not_have_access_to_the_removed_provider
 
     when_i_click_the_audit_trail_tab
     then_i_should_see_the_audit_trail_for_that_user_record
@@ -76,7 +78,7 @@ RSpec.feature 'Managing provider users' do
   end
 
   def and_i_check_permission_to_manage_users
-    within("#support-interface-provider-user-form-provider-ids-#{@provider.id}-conditional") do
+    within(permissions_fields_id_for_provider(@provider)) do
       check 'Manage users'
     end
   end
@@ -163,15 +165,19 @@ RSpec.feature 'Managing provider users' do
   def and_they_should_be_able_to_manage_users
     expect(@user.reload.provider_permissions.manage_users.first.provider).to eq(@provider)
 
-    within("#support-interface-provider-user-form-provider-ids-#{@provider.id}-conditional") do
+    within(permissions_fields_id_for_provider(@provider)) do
       expect(page).to have_checked_field('Manage users')
     end
   end
 
   def when_i_remove_manage_users_permissions
-    within("#support-interface-provider-user-form-provider-ids-#{@provider.id}-conditional") do
+    within(permissions_fields_id_for_provider(@provider)) do
       uncheck 'Manage users'
     end
+  end
+
+  def and_i_remove_access_to_a_provider
+    uncheck 'Another provider (DEF)'
   end
 
   def and_i_click_update_user
@@ -181,9 +187,20 @@ RSpec.feature 'Managing provider users' do
   def then_they_should_not_be_able_to_manage_users
     expect(@user.reload.provider_permissions.manage_users).to be_empty
 
-    within("#support-interface-provider-user-form-provider-ids-#{@provider.id}-conditional") do
+    within(permissions_fields_id_for_provider(@provider)) do
       expect(page).to have_field('Manage users')
       expect(page).not_to have_checked_field('Manage users')
     end
+  end
+
+  def and_they_should_not_have_access_to_the_removed_provider
+    expect(@user.providers).not_to include(@another_provider)
+
+    expect(page).to have_checked_field('Example provider (ABC)')
+    expect(page).not_to have_checked_field('Another provider (DEF)')
+  end
+
+  def permissions_fields_id_for_provider(provider)
+    "#support-interface-provider-user-form-provider-permissions-forms-#{provider.id}-active-true-conditional"
   end
 end

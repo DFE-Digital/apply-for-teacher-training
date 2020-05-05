@@ -3,7 +3,7 @@
 <h1 class="govuk-heading-xl">Users</h1>
 
 <% if FeatureFlag.active?('provider_add_provider_users') -%>
-  <%= link_to 'Invite user', provider_interface_provider_users_new_path, class: 'govuk-button' %>
+  <%= link_to 'Invite user', new_provider_interface_provider_user_path, class: 'govuk-button' %>
 <% end -%>
 
 <% content_for :before_content do %>

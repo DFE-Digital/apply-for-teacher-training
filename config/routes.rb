@@ -448,9 +448,10 @@ Rails.application.routes.draw do
     get '/sign-in/check-email', to: 'sessions#check_your_email', as: :check_your_email
     get '/sign-in-by-email' => 'sessions#authenticate_with_token', as: :authenticate_with_token
 
-    get '/provider-users' => 'provider_users#index'
-    get '/provider-users/new' => 'provider_users#new'
-    post '/provider-users' => 'provider_users#create'
+    resources :provider_users, only: %i[index new create show], path: 'provider-users' do
+      get 'edit-providers' => 'provider_users#edit_providers', as: :edit_providers
+      patch 'update-providers' => 'provider_users#update_providers', as: :update_providers
+    end
   end
 
   get '/auth/dfe/callback' => 'dfe_sign_in#callback'

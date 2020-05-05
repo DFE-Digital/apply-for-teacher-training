@@ -1,35 +1,78 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ProviderUserForm do
-  let(:provider_user) { create(:provider_user, :with_provider) }
-  let(:provider) { provider_user.providers.first }
-  let(:manageable_user) { create(:provider_user, providers: [provider]) }
-  let(:provider_ids) { [provider.id] }
-  let(:form_params) { { current_provider_user: provider_user, provider_ids: provider_ids } }
+  let(:current_provider_user) { create(:provider_user, providers: providers) }
+  let(:provider) { create(:provider) }
+  let(:providers) { [provider] }
+  let(:provider_user) { create(:provider_user, providers: providers) }
+  let(:provider_permissions) do
+    {
+      provider.id => {
+        provider_permission: {
+          provider_id: provider.id,
+          provider_user_id: provider_user.id,
+        },
+        active: true,
+      },
+    }
+  end
+  let(:form_params) do
+    {
+      current_provider_user: current_provider_user,
+      provider_user: provider_user,
+      provider_permissions: provider_permissions,
+    }
+  end
 
   subject(:provider_user_form) { described_class.new(form_params) }
 
-  before { provider_user.providers.first.provider_permissions.update(manage_users: true) }
+  before { current_provider_user.providers.first.provider_permissions.update(manage_users: true) }
 
   describe 'validations' do
-    context 'with provider_ids for providers the current user cannot manage' do
-      let(:another_provider) { create(:provider) }
-      let(:provider_ids) { [provider.id, another_provider.id] }
+    context 'with no provider_permissions' do
+      let(:provider_permissions) { {} }
 
       it 'is invalid' do
         expect(provider_user_form).not_to be_valid
-        expect(provider_user_form.errors[:provider_ids]).not_to be_empty
+        expect(provider_user_form.errors[:provider_permissions]).not_to be_empty
       end
     end
 
-    context 'with provider_ids for providers the current user can manage' do
+    context 'with provider_permissions for providers the current user cannot manage' do
+      let(:another_provider) { create(:provider) }
+      let(:provider_permissions) do
+        {
+          another_provider.id => {
+            provider_permission: {
+              provider_id: another_provider.id,
+              provider_user_id: provider_user.id,
+            },
+            active: true,
+          },
+        }
+      end
+
+      it 'is invalid' do
+        expect(provider_user_form).not_to be_valid
+        expect(provider_user_form.errors[:provider_permissions]).not_to be_empty
+      end
+    end
+
+    context 'with provider_permissions for providers the current user can manage' do
       it 'is valid' do
         provider_user_form.valid?
-        expect(provider_user_form.errors[:provider_ids]).to be_empty
+        expect(provider_user_form.errors[:provider_permissions]).to be_empty
       end
     end
 
     context 'name fields' do
+      let(:form_params) {
+        {
+          current_provider_user: provider_user,
+          provider_permissions: provider_permissions,
+        }
+      }
+
       it 'are required' do
         provider_user_form.valid?
 
@@ -50,9 +93,20 @@ RSpec.describe ProviderInterface::ProviderUserForm do
     end
   end
 
-  describe '#available_providers' do
-    it 'returns a collection of providers the current provider user can assign to other users' do
-      expect(provider_user_form.available_providers).to eq([provider])
+  describe '#possible_permissions' do
+    let(:providers) do
+      [
+        create(:provider, name: 'ABC'),
+        create(:provider, name: 'AAA'),
+        create(:provider, name: 'ABB'),
+      ]
+    end
+
+    before { current_provider_user.provider_permissions.update_all(manage_users: true) }
+
+    it 'returns a collection of provider permissions the current provider user can assign to other users' do
+      possible_permissions = provider_user_form.possible_permissions.map { |p| p.provider.name }
+      expect(possible_permissions).to eq(%w[AAA ABB ABC])
     end
   end
 
@@ -63,8 +117,8 @@ RSpec.describe ProviderInterface::ProviderUserForm do
         first_name: 'Jane',
         last_name: 'Smith',
         email_address: email_address,
-        provider_ids: provider_ids,
-        current_provider_user: provider_user,
+        current_provider_user: current_provider_user,
+        provider_permissions: provider_permissions,
       }
     end
 
@@ -80,6 +134,17 @@ RSpec.describe ProviderInterface::ProviderUserForm do
       it 'modifies and returns the existing user' do
         expect(provider_user_form.build.persisted?).to be true
         expect(provider_user_form.build).to eq(existing_user)
+      end
+    end
+
+    context 'for an existing user also belonging to non visible providers' do
+      let(:non_visible_provider) { create(:provider) }
+      let(:providers) { [provider, non_visible_provider] }
+
+      before { create(:provider_user, providers: providers, email_address: email_address) }
+
+      it 'only builds permissions for visible providers' do
+        expect(provider_user_form.provider_permissions.map(&:provider)).to eq([provider])
       end
     end
   end

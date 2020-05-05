@@ -1,11 +1,15 @@
 <%= f.govuk_check_boxes_fieldset :provider, legend: { text: 'Provider' } do %>
   <div class="app-checkboxes-scroll" %>
-    <% f.object.available_providers.each do |provider| %>
-      <%= f.govuk_check_box :provider_ids, provider.id, label: { text: provider.name_and_code } do %>
-        <%= f.fields_for :permissions, f.object.permissions  do |pm| %>
-          <%= pm.govuk_check_boxes_fieldset :permissions, legend: { text: 'Choose permissions', size: 's' } do %>
-            <%= pm.govuk_check_box :manage_users, provider.id, label: { text: 'Manage users' } %>
-					<% end %>
+    <% f.object.forms_for_possible_permissions.each do |permission_form| %>
+      <%= f.fields_for "provider_permissions_forms[]", permission_form do |pf| %>
+        <%= pf.govuk_check_box :active, true, multiple: false,
+                               label: { text: permission_form.provider.name_and_code } do %>
+          <%= pf.fields_for :provider_permission, permission_form.provider_permission do |ppf| %>
+            <%= ppf.hidden_field :provider_id %>
+            <%= ppf.govuk_check_boxes_fieldset :permissions, legend: { text: 'Choose permissions', size: 's' } do %>
+              <%= ppf.govuk_check_box :manage_users, true, multiple: false, label: { text: 'Manage users' } %>
+            <% end %>
+          <% end %>
         <% end %>
       <% end %>
     <% end %>

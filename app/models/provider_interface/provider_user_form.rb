@@ -4,17 +4,16 @@ module ProviderInterface
     include ActiveModel::Validations
 
     attr_accessor :first_name, :last_name, :provider_user, :current_provider_user
-    attr_writer :provider_ids
-    attr_reader :email_address
+    attr_reader :email_address, :provider_permissions
 
-    validates :first_name, :last_name, presence: true, if: -> { existing_provider_user.blank? }
-    validates :email_address, presence: true
-    validates :email_address, email: true
-    validates :provider_ids, presence: true
+    validates :first_name, :last_name, presence: true, if: :new_provider_user?
+    validates :email_address, presence: true, if: :new_provider_user?
+    validates :email_address, email: true, if: :new_provider_user?
+    validates :provider_permissions, presence: true
     validate :permitted_providers
 
     def build
-      @provider_user = existing_provider_user ? build_from_existing_user : build_new_user
+      @provider_user = existing_provider_user || build_new_user
 
       @provider_user if @provider_user.valid?
     end
@@ -37,24 +36,56 @@ module ProviderInterface
         first_name: provider_user.first_name,
         last_name: provider_user.last_name,
         email_address: provider_user.email_address,
-        provider_ids: provider_user.provider_ids,
       )
     end
 
-    def provider_ids
-      return [] unless @provider_ids
-
-      @provider_ids.reject(&:blank?).map(&:to_i)
-    end
-
-    def available_providers
-      @available_providers ||= ProviderOptionsService.new(current_provider_user).providers_with_manageable_users
-    end
-
     def existing_provider_user
+      return provider_user if provider_user&.persisted?
       return if email_address.blank?
 
       @existing_provider_user ||= ProviderUser.find_by(email_address: email_address)
+    end
+
+    def new_provider_user?
+      existing_provider_user.blank?
+    end
+
+    def forms_for_possible_permissions
+      possible_permissions.map do |p|
+        ProviderPermissionsForm.new(active: p.persisted?, provider_permission: p)
+      end
+    end
+
+    def possible_permissions
+      provider_ids = current_provider_user
+        .provider_permissions
+        .manage_users
+        .includes(:provider)
+        .order('providers.name')
+        .pluck(:provider_id)
+
+      provider_ids.map do |id|
+        ProviderPermissions.find_or_initialize_by(
+          provider_id: id,
+          provider_user_id: provider_user&.id,
+        )
+      end
+    end
+
+    def provider_permissions=(attributes)
+      forms = attributes.map { |_, attrs| ProviderPermissionsForm.new(attrs) }.select(&:active)
+      @provider_permissions = forms.map do |form|
+        permission = ProviderPermissions.find_or_initialize_by(
+          provider_id: form.provider_permission[:provider_id],
+          provider_user_id: provider_user&.id,
+        )
+        permission.manage_users = form.provider_permission.fetch(:manage_users, false)
+        permission
+      end
+    end
+
+    def deselected_provider_permissions
+      possible_permissions - @provider_permissions
     end
 
   private
@@ -66,24 +97,18 @@ module ProviderInterface
       provider_user.first_name = first_name
       provider_user.last_name = last_name
       provider_user.email_address = email_address
-      provider_user.provider_ids = provider_ids
       provider_user
     end
 
-    def build_from_existing_user
-      existing_provider_user.provider_ids += provider_ids
-      existing_provider_user
-    end
-
     def permitted_providers
-      return unless provider_ids.any?
-      return if provider_ids_valid?
+      return if provider_permissions_valid?
 
-      errors.add(:provider_ids, 'Insufficient permissions to manage users for this provider')
+      errors.add(:provider_permissions, 'Insufficient permissions to manage users for this provider')
     end
 
-    def provider_ids_valid?
-      (provider_ids & available_providers.pluck(:id)) == provider_ids
+    def provider_permissions_valid?
+      providers_for_permissions = provider_permissions.map(&:provider)
+      providers_for_permissions & possible_permissions.map(&:provider) == providers_for_permissions
     end
   end
 end

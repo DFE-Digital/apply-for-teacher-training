@@ -1,7 +1,7 @@
 <div class="app-application-card">
 
   <h3 class="govuk-heading-m">
-    <%= full_name %>
+    <%= govuk_link_to(full_name, provider_interface_provider_user_path(@provider_user)) %>
   </h3>
 
   <dl>

@@ -2,13 +2,23 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ProviderUserForm do
   let(:email_address) { 'provider@example.com' }
-  let(:provider_ids) { [] }
+  let(:provider) { build_stubbed(:provider, id: 2) }
+  let(:provider_permissions) do
+    {
+      provider.id => {
+        provider_permission: {
+          provider_id: provider.id,
+        },
+        active: true,
+      },
+    }
+  end
   let(:form_params) do
     {
       first_name: 'Jane',
       last_name: 'Smith',
       email_address: email_address,
-      provider_ids: provider_ids,
+      provider_permissions: provider_permissions,
     }
   end
 
@@ -24,24 +34,13 @@ RSpec.describe SupportInterface::ProviderUserForm do
       end
     end
 
-    context 'provider_ids are blank' do
+    context 'provider permissions must be present' do
+      let(:provider_permissions) { {} }
+
       it 'is invalid' do
         expect(provider_user_form.valid?).to be false
-        expect(provider_user_form.errors[:provider_ids]).not_to be_empty
+        expect(provider_user_form.errors[:provider_permissions]).not_to be_empty
       end
-    end
-  end
-
-  describe '.permissions_for' do
-    let(:provider_user) { create(:provider_user, :with_provider) }
-
-    before { provider_user.provider_permissions.first.update(manage_users: true) }
-
-    it 'returns provider permissions for the given user' do
-      permissions = described_class.permissions_for(provider_user)
-
-      expect(permissions).to be_a(ProviderPermissionsOptions)
-      expect(permissions.manage_users).to eq(provider_user.providers.map(&:id))
     end
   end
 end
