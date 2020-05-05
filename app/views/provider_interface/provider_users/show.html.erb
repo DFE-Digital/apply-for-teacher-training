@@ -1,0 +1,5 @@
+<%= render ProviderInterface::ProviderUserDetailsComponent.new(
+  provider_user: @provider_user,
+  provider_permissions: @provider_user.provider_permissions,
+  possible_permissions: @possible_permissions,
+) %>

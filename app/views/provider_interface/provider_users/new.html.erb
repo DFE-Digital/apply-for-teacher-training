@@ -24,7 +24,16 @@
       <%= f.govuk_text_field :last_name, label: { text: 'Last name', size: 'm' } %>
       <%= f.govuk_text_field :email_address, label: { text: 'Email address', size: 'm' } %>
 
-      <%= f.govuk_collection_check_boxes :provider_ids, @form.available_providers, :id, :name_and_code, legend: { text: 'Provider' }  %>
+      <% f.object.forms_for_possible_permissions.each do |permission_form| %>
+        <%= f.fields_for "provider_permissions_forms[]", permission_form do |pf| %>
+          <%= pf.govuk_check_box :active, true, multiple: false,
+                                 label: { text: permission_form.provider.name_and_code } do %>
+            <%= pf.fields_for :provider_permission, permission_form.provider_permission do |ppf| %>
+              <%= ppf.hidden_field :provider_id %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
 
       <%= f.govuk_submit 'Invite user' %>
     <% end %>
