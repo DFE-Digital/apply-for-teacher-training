@@ -1,9 +1,3 @@
-@include govuk-media-query($from: wide) {
-  .app-width-container--wide {
-    max-width: 1220px;
-  }
-}
-
 .moj-action-bar {
   overflow: hidden;
 }
