@@ -34,6 +34,10 @@ en:
       subject:
         one: Application withdrawn automatically
         other: Applications withdrawn automatically
+    decline_by_default_last_course_choice:
+      subject:
+        one: "You did not respond to your offer: next steps"
+        other: "You did not respond to your offers: next steps"
     conditions_met:
       subject: "You have met your conditions for %{course_name}: next steps"
     conditions_not_met:
