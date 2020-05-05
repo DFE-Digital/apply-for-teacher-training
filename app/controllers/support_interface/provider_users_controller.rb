@@ -9,12 +9,14 @@ module SupportInterface
     end
 
     def create
-      @form = ProviderUserForm.new(provider_user_params)
+      @form = ProviderUserForm.new(provider_user_params.merge(provider_permissions: provider_permissions_params))
       provider_user = @form.build
-
       service = SaveAndInviteProviderUser.new(
         form: @form,
-        save_service: SaveProviderUser.new(provider_user: provider_user, permissions: permissions_params),
+        save_service: SaveProviderUser.new(
+          provider_user: provider_user,
+          provider_permissions: @form.provider_permissions,
+        ),
         invite_service: InviteProviderUser.new(provider_user: provider_user),
       )
 
@@ -31,9 +33,19 @@ module SupportInterface
 
     def update
       provider_user = ProviderUser.find(params[:id])
-      provider_user.assign_attributes(provider_user_params.except(:permissions))
-      @form = ProviderUserForm.from_provider_user(provider_user)
-      service = SaveProviderUser.new(provider_user: provider_user, permissions: permissions_params)
+
+      @form = ProviderUserForm.new(
+        provider_user_params.merge(
+          provider_user: provider_user,
+          provider_permissions: provider_permissions_params,
+        ),
+      )
+
+      service = SaveProviderUser.new(
+        provider_user: provider_user,
+        provider_permissions: @form.provider_permissions,
+        deselected_provider_permissions: @form.deselected_provider_permissions,
+      )
 
       if service.call!
         flash[:success] = 'Provider user updated'
@@ -51,11 +63,14 @@ module SupportInterface
 
     def provider_user_params
       params.require(:support_interface_provider_user_form)
-        .permit(:email_address, :first_name, :last_name, provider_ids: [], permissions: { manage_users: [] })
+        .permit(:email_address, :first_name, :last_name)
     end
 
-    def permissions_params
-      provider_user_params.fetch(:permissions, {})
+    def provider_permissions_params
+      params.require(:support_interface_provider_user_form)
+            .permit(provider_permissions_forms: {})
+            .fetch(:provider_permissions_forms, {})
+            .to_h
     end
   end
 end
