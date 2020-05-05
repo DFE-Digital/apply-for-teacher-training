@@ -3,3 +3,10 @@
   provider_permissions: @provider_user.provider_permissions,
   possible_permissions: @possible_permissions,
 ) %>
+
+<%= govuk_link_to(
+  'Delete user',
+  provider_interface_provider_user_remove_provider_user_path(@provider_user),
+  class: 'govuk-button govuk-button--warning',
+) %>
+
