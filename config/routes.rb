@@ -451,6 +451,9 @@ Rails.application.routes.draw do
     resources :provider_users, only: %i[index new create show], path: 'provider-users' do
       get 'edit-providers' => 'provider_users#edit_providers', as: :edit_providers
       patch 'update-providers' => 'provider_users#update_providers', as: :update_providers
+
+      get '/remove' => 'provider_users#confirm_remove', as: :confirm_remove_provider_user
+      delete '/remove' => 'provider_users#remove', as: :remove_provider_user
     end
   end
 
