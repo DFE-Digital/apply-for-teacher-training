@@ -39,14 +39,14 @@ RSpec.describe ProviderInterface::ProviderPermissionsListComponent do
     expect(result.css('#provider-12-enabled-permissions').text).to include('Manage users')
   end
 
-  it 'does not expose permissions for non visible providers' do
-    result = render_inline(
-      described_class.new(
+  describe '#visible_provider_permissions' do
+    it 'does not expose permissions for non visible providers' do
+      permissions = described_class.new(
         provider_permissions: provider_permissions,
         possible_permissions: possible_permissions,
-      ),
-    )
+      ).visible_provider_permissions
 
-    expect(result.text).not_to include(providers[3].name)
+      expect(permissions.map(&:provider)).not_to include(providers[3])
+    end
   end
 end
