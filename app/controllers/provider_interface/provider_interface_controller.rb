@@ -47,5 +47,9 @@ module ProviderInterface
         redirect_to provider_interface_new_data_sharing_agreement_path
       end
     end
+
+    def render_404
+      render 'errors/not_found', status: :not_found
+    end
   end
 end

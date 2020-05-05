@@ -8,9 +8,7 @@ module ProviderInterface
     end
 
     def show
-      @provider_user = ProviderUser.visible_to(current_provider_user).find_by(id: params[:id])
-
-      redirect_to(action: :index) and return unless @provider_user
+      @provider_user = find_provider_user
 
       form = ProviderUserForm.new(
         provider_user: @provider_user,
@@ -54,15 +52,14 @@ module ProviderInterface
     end
 
     def edit_providers
-      provider_user = ProviderUser.visible_to(current_provider_user).find_by(id: params[:provider_user_id])
+      provider_user = find_provider_user
+
       @form = ProviderUserForm.from_provider_user(provider_user)
       @form.current_provider_user = current_provider_user
     end
 
     def update_providers
-      provider_user = ProviderUser
-        .visible_to(current_provider_user)
-        .find_by(id: params[:provider_user_id])
+      provider_user = find_provider_user
 
       @form = ProviderUserForm.new(
         provider_user: provider_user,
@@ -103,6 +100,14 @@ module ProviderInterface
     def redirect_unless_permitted_to_manage_users
       can_manage_users = ProviderPermissions.exists?(provider_user: current_provider_user, manage_users: true)
       redirect_to root_path, warning: 'You do not have sufficient permissions to manage other users' unless can_manage_users
+    end
+
+    def find_provider_user
+      ProviderUser
+        .visible_to(current_provider_user)
+        .find(params[:provider_user_id] || params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render_404
     end
   end
 end
