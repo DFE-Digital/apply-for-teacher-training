@@ -5,40 +5,9 @@ Dear <%= @application_form.first_name %>,
 You’ve withdrawn your <%= 'application'.pluralize(@withdrawn_course_names.size) %> for <%= @withdrawn_course_names.to_sentence %>.
 
 <% if @rejected_course_choices_count.zero? %>
-
-# Are you still interested in teaching?
-
-You didn’t pursue your teacher training application, but it’s not too late to apply again for a course if you’ve changed your mind.
-
-We’ve saved your last application, so all you have to do is choose a course, review your application and re-submit.
-
-Sign in to apply again:
-https://www.apply-for-teacher-training.education.gov.uk/candidate/account
-
-# Get help
-
-For advice on becoming a teacher, call Get Into Teaching for free on 0800 389 2500 or chat to an adviser online:
-
-https://getintoteaching.education.gov.uk/contact
-
-For any technical issues using Apply for teacher training, contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
-
+  <%= render 'interested_without_rejections' %>
+  <%= render 'get_help' %>
 <% else %>
-
-# Are you still interested in teaching?
-
-If now’s the right time for you, you can apply for teacher training again this year.
-
-We’ve saved your last application, so all you have to do is choose a course, review your application and re-submit. You can also take a look at the provider feedback in your account if you want to strengthen your application.
-
-Sign in to review feedback and apply again:
-https://www.apply-for-teacher-training.education.gov.uk/candidate/account
-
-# Get help
-
-For advice on becoming a teacher, call Get Into Teaching for free on 0800 389 2500 or chat to an adviser online:
-https://getintoteaching.education.gov.uk/contact
-
-For any technical issues using Apply for teacher training, contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
-
+  <%= render 'interested_with_rejections' %>
+  <%= render 'get_help' %>
 <% end %>
