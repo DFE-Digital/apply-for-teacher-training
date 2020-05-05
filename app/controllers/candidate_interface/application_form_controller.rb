@@ -75,6 +75,13 @@ module CandidateInterface
       @application_form = current_application
     end
 
+    def review_previous_application
+      @application_form = ApplicationForm.find(params['id']) if params['id'].present?
+      @review_previous_application = true
+
+      render :review_submitted
+    end
+
   private
 
     def further_information_params
