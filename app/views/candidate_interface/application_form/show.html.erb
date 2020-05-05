@@ -8,7 +8,6 @@
   </div>
 <% end %>
 
-
 <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
   <%= t('page_titles.application_form') %>
 </h1>
@@ -16,22 +15,49 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <p class="govuk-hint govuk-!-margin-bottom-8 govuk-!-margin-top-2"><%= @application_form_presenter.updated_at %></p>
-    
+
     <% if FeatureFlag.active?('apply_again') && @application_form.apply_2? && @previous_application_form.application_choices.rejected.present?  %>
       <%= render(CandidateInterface::RejectionReasonsComponent.new(application_form: @previous_application_form)) %>
     <% end %>
 
-    <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">
-      <%= t('page_titles.course_choices') %>
-    </h2>
-    <% unless @application_form_presenter.application_choices_added? %>
-      <p class="govuk-body"><%= t('application_form.courses.intro') %></p>
+    <% if FeatureFlag.active?('apply_again') && @application_form.apply_2? %>
+      <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">
+        <%= t('page_titles.course_choice') %>
+      </h2>
+      <ul class="app-task-list govuk-!-margin-bottom-8">
+        <li class="app-task-list__item">
+          <%= render(TaskListItemComponent.new(text: t('page_titles.course_choice'), completed: @application_form_presenter.course_choices_completed?, path: candidate_interface_course_choices_index_path)) %>
+        </li>
+      </ul>
+    <% else %>
+      <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">
+        <%= t('page_titles.course_choices') %>
+      </h2>
+      <% unless @application_form_presenter.application_choices_added? %>
+        <p class="govuk-body"><%= t('application_form.courses.intro') %></p>
+      <% end %>
+      <ul class="app-task-list govuk-!-margin-bottom-8">
+        <li class="app-task-list__item">
+          <% if @application_form_presenter.course_choices_completed? %>
+            <%= render(
+              TaskListItemComponent.new(
+                text: t('page_titles.course_choices'),
+                completed: true,
+                path: candidate_interface_application_review_path,
+              )
+            ) %>
+          <% else %>
+            <%= render(
+              TaskListItemComponent.new(
+                text: t('page_titles.course_choices'),
+                completed: false,
+                path: candidate_interface_course_choices_index_path,
+              )
+            ) %>
+          <% end %>
+        </li>
+      </ul>
     <% end %>
-    <ul class="app-task-list govuk-!-margin-bottom-8">
-      <li class="app-task-list__item">
-        <%= render(TaskListItemComponent.new(text: t('page_titles.course_choices'), completed: @application_form_presenter.course_choices_completed?, path: candidate_interface_course_choices_index_path)) %>
-      </li>
-    </ul>
 
     <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-4">
       About you

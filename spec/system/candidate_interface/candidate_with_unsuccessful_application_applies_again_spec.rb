@@ -12,14 +12,14 @@ RSpec.feature 'Candidate with unsuccessful application' do
     and_i_visit_the_application_dashboard
     and_i_click_on_apply_again
     and_i_click_on_start_now
-
     then_i_see_a_copy_of_my_application
 
-    when_i_select_a_course
-    and_submit_the_application
+    when_i_click_through_to_select_a_course
+    then_i_am_informed_i_can_only_select_one_course
+    and_i_can_indeed_only_select_one_course
 
-    then_application_is_submitted
-    and_application_choices_are_complete
+    when_i_complete_my_application
+    then_my_application_is_submitted
   end
 
   def given_the_pilot_is_open
@@ -63,27 +63,40 @@ RSpec.feature 'Candidate with unsuccessful application' do
     expect(page).to have_content('Your new application is ready for editing')
   end
 
-  def when_i_select_a_course
+  def when_i_click_through_to_select_a_course
+    click_link 'Course choice', exact: true
+  end
+
+  def then_i_am_informed_i_can_only_select_one_course
+    expect(page).to have_content('You can only apply to 1 course at a time at this stage of your application')
+  end
+
+  def and_i_can_indeed_only_select_one_course
     given_courses_exist
-    and_the_suitability_to_work_with_children_feature_flag_is_on
 
-    click_link 'Course choices'
-    candidate_fills_in_course_choices
-  end
-
-  def and_submit_the_application
-    click_link 'Check and submit your application'
     click_link 'Continue'
-    choose 'No' # "Is there anything else you would like to tell us?"
+    choose 'Yes, I know where I want to apply'
+    click_button 'Continue'
 
-    click_button 'Submit application'
+    select 'Gorse SCITT (1N1)'
+    click_button 'Continue'
+
+    choose 'Primary (2XT2)'
+    click_button 'Continue'
+
+    expect(page).to have_link 'Delete choice'
+    expect(page).to have_content 'I have completed this section'
+    expect(page).not_to have_button 'Add another course'
   end
 
-  def then_application_is_submitted
-    expect(page).to have_content('Application successfully submitted')
+  def when_i_complete_my_application
+    check t('application_form.courses.complete.completed_checkbox')
+    click_button 'Continue'
+    candidate_submits_application
   end
 
-  def and_application_choices_are_complete
+  def then_my_application_is_submitted
+    expect(page).to have_content 'Application successfully submitted'
     expect(ApplicationForm.last.application_choices.first.reload.status).to eq 'application_complete'
   end
 end

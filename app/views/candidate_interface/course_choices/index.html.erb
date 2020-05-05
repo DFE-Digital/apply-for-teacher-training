@@ -6,7 +6,11 @@
     <h1 class="govuk-heading-xl">
       <%= t('page_titles.choosing_courses') %>
     </h1>
-    <%= render 'guidance' %>
+    <% if FeatureFlag.active?('apply_again') && application_is_apply_2 %>
+      <%= render 'guidance_apply_2' %>
+    <% else %>
+      <%= render 'guidance' %>
+    <% end %>
     <%= govuk_button_link_to 'Continue', candidate_interface_course_choices_choose_path, class: 'govuk-!-margin-bottom-9' %>
   </div>
 </div>
