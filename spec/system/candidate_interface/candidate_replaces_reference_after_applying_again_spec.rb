@@ -15,6 +15,9 @@ RSpec.feature 'Candidate applying again' do
 
     then_i_see_a_copy_of_my_application
 
+    when_i_view_referees
+    then_i_cannot_change_referee_details
+
     when_i_delete_a_referee
     then_i_can_see_i_only_have_one_referee
 
@@ -59,8 +62,15 @@ RSpec.feature 'Candidate applying again' do
     expect(page).to have_content('Your new application is ready for editing')
   end
 
-  def when_i_delete_a_referee
+  def when_i_view_referees
     click_on 'Referees'
+  end
+
+  def then_i_cannot_change_referee_details
+    expect(page).not_to have_link('Change')
+  end
+
+  def when_i_delete_a_referee
     click_on "Delete referee #{@completed_references[0].name}"
     click_on I18n.t('application_form.referees.sure_delete_entry')
   end
