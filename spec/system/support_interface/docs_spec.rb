@@ -29,8 +29,6 @@ RSpec.feature 'Docs' do
 
   def and_it_contains_documentation_for_all_emails
     emails_outside_of_states = %w[
-      candidate_mailer-decline_last_application_choice
-      candidate_mailer-withdraw_last_application_choice
       candidate_mailer-survey_chaser_email
       candidate_mailer-survey_email
       provider_mailer-account_created
