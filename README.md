@@ -38,6 +38,7 @@ instances](docs/connecting-to-databases.md#do-you-need-access-to-the-postgres-da
 - [Testing style guide](/docs/testing-styleguide.md)
 - [Rails components](/docs/components.md)
 - [Docker for DevOps](/docs/docker-for-devops.md)
+- [Swapping App Service Slots](/docs/swap-slots-pipeline.md)
 
 ## Documentation
 
