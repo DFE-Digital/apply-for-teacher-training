@@ -61,6 +61,8 @@ RSpec.describe SubmitApplication do
     end
 
     context 'when application is Apply Again' do
+      before { FeatureFlag.activate('apply_again') }
+
       it 'progresses status to `application_complete`' do
         original_application_form = create_application_form
 

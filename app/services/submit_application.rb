@@ -54,7 +54,7 @@ private
     application_choices.each do |application_choice|
       SubmitApplicationChoice.new(application_choice).call
 
-      if application_form.apply_again? && enough_references_have_been_provided?
+      if FeatureFlag.active?('apply_again') && enough_references_have_been_provided?
         ApplicationStateChange.new(application_choice).references_complete!
       end
     end
