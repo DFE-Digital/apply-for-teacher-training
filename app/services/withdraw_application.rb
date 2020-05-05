@@ -1,7 +1,6 @@
 class WithdrawApplication
   def initialize(application_choice:)
     @application_choice = application_choice
-    @application_choices = application_choice.application_form.application_choices
   end
 
   def save!
