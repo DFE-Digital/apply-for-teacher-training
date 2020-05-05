@@ -197,6 +197,49 @@ RSpec.describe SyncProviderFromFind do
 
         expect(course_option.course.subject_codes).to eq(%w[08])
       end
+
+      # These fields are not present in the Find API yet, but will be soon
+      # Our code should set them to nil at first, then the correct values
+      # once they are populated
+      it 'correctly updates qualifications and program_type when they are not present' do
+        stub_find_api_provider_200(
+          provider_code: 'ABC',
+          course_code: '9CBA',
+          findable: true,
+        )
+
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        course_option = CourseOption.last
+
+        expect(course_option.course.qualifications).to be_nil
+        expect(course_option.course.program_type).to be_nil
+      end
+
+      it 'correctly updates qualifications when qualifications are present' do
+        stub_find_api_provider_200_with_qualifications_and_program_type(
+          provider_code: 'ABC',
+          course_code: '9CBA',
+          findable: true,
+        )
+
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        course_option = CourseOption.last
+
+        expect(course_option.course.qualifications).to eq(%w[PG PF])
+      end
+
+      it 'correctly updates program_type when program_type is present' do
+        stub_find_api_provider_200_with_qualifications_and_program_type(
+          provider_code: 'ABC',
+          course_code: '9CBA',
+          findable: true,
+        )
+
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        course_option = CourseOption.last
+
+        expect(course_option.course.program_type).to eq('SD')
+      end
     end
   end
 
