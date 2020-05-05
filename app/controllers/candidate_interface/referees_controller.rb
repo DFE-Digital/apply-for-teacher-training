@@ -61,10 +61,14 @@ module CandidateInterface
     end
 
     def edit
+      head :unprocessable_entity and return # unless @referee.editable?
+
       @nth_referee = "#{TextOrdinalizer::ORDINALIZE_MAPPING[@referee.ordinal].capitalize} referee"
     end
 
     def update
+      head :unprocessable_entity and return # unless @referee.editable?
+
       if @referee.update(referee_params)
         redirect_to candidate_interface_review_referees_path
       else

@@ -23,6 +23,7 @@ RSpec.feature 'Candidate applying again' do
 
     when_i_add_a_new_referee
     then_i_can_see_i_have_two_referees
+    and_i_can_change_new_referee_details
     and_references_for_original_application_are_not_affected
   end
 
@@ -95,6 +96,11 @@ RSpec.feature 'Candidate applying again' do
   def then_i_can_see_i_have_two_referees
     expect(page).to have_content @completed_references[1].name
     expect(page).to have_content 'Bob Example'
+  end
+
+  def and_i_can_change_new_referee_details
+    expect(page).to have_link('Change name for Bob Example')
+    expect(page).to have_link('Change email address for Bob Example')
   end
 
   def and_references_for_original_application_are_not_affected
