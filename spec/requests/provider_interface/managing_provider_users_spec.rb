@@ -22,31 +22,21 @@ RSpec.describe 'ProviderUserController actions' do
     it 'redirects GET requests to index' do
       get provider_interface_provider_users_path
 
-      expect(response).to redirect_to(root_path)
+      expect(response).to be_not_found
     end
 
     it 'redirects GET requests to show' do
       another_user = create(:provider_user, providers: [provider])
       get provider_interface_provider_user_path(another_user)
 
-      expect(response).to redirect_to(root_path)
+      expect(response).to be_not_found
     end
 
     it 'redirects GET requests to edit-providers' do
       another_user = create(:provider_user, providers: [provider])
       get provider_interface_provider_user_edit_providers_path(another_user)
 
-      expect(response).to redirect_to(root_path)
-    end
-  end
-
-  context 'when the user is permitted to manage users' do
-    before { provider_user.provider_permissions.update_all(manage_users: true) }
-
-    it 'GET requests to provider users paths respond successfully' do
-      get provider_interface_provider_users_path
-
-      expect(response).to have_http_status(:success)
+      expect(response).to be_not_found
     end
   end
 
