@@ -2,15 +2,20 @@ require 'rails_helper'
 
 RSpec.describe SaveProviderUser do
   let(:provider) { create(:provider) }
-  let(:new_provider_user_from_form) {
-    SupportInterface::ProviderUserForm.new(
-      email_address: 'test+invite_provider_user@example.com',
-      first_name: 'Firstname',
-      last_name: 'Lastname',
-      provider_ids: [provider.id],
-    ).build
-  }
-  let(:permissions) { { manage_users: [provider.id] } }
+  let(:another_provider) { create(:provider) }
+  let(:new_provider) { create(:provider) }
+  let(:provider_user) { create(:provider_user, providers: [provider, another_provider]) }
+  let(:provider_ids) { { selected: [another_provider.id], deselected: [provider.id] } }
+  let(:deselected_provider_permissions) { provider_user.provider_permissions.where(provider: provider) }
+  let(:provider_permissions) do
+    updated_provider_permissions = provider_user.provider_permissions.find_by(provider: another_provider)
+    updated_provider_permissions.manage_users = true
+
+    [
+      ProviderPermissions.new(provider: new_provider, provider_user: provider_user),
+      updated_provider_permissions,
+    ]
+  end
 
   describe '#initialize' do
     it 'requires a provider_user:' do
@@ -21,40 +26,42 @@ RSpec.describe SaveProviderUser do
 
   describe '#call!' do
     subject(:service) do
-      described_class.new(provider_user: new_provider_user_from_form, permissions: permissions)
+      described_class.new(
+        provider_user: provider_user,
+        provider_permissions: provider_permissions,
+        deselected_provider_permissions: deselected_provider_permissions,
+      )
     end
 
     it 'saves the provider user' do
-      expect { service.call! }.to change(ProviderUser, :count).by(1)
+      allow(provider_user).to receive(:save!)
+
+      service.call!
+
+      expect(provider_user).to have_received(:save!)
     end
 
-    it 'updates permissions for the saved user' do
-      expect { @provider_user = service.call! }.to change(ProviderPermissions, :count).by(1)
-
-      expected_permissions = ProviderPermissions.where(
-        provider: provider,
-        provider_user: @provider_user,
-        manage_users: true,
-      )
-
-      expect(expected_permissions.count).to eq(1)
+    it 'adds and updates ProviderPermissions records' do
+      expect { service.call! }.to change(ProviderPermissions, :count).by(2)
     end
 
-    context 'for permissions on unassigned providers' do
-      let(:another_provider) { create(:provider) }
-      let(:permissions) { { manage_users: [provider.id, another_provider.id] } }
+    it 'adds and updates permissions for the saved user' do
+      result = service.call!
 
-      it 'ignores permissions for these providers' do
-        @provider_user = service.call!
+      expect(result.provider_permissions).to include(provider_permissions.first)
+      expect(result.provider_permissions).to include(provider_permissions.last)
+    end
 
-        providers_for_permissions = ProviderPermissions.where(
-          provider_user: @provider_user,
-          manage_users: true,
-        ).map(&:provider).flatten
+    it 'removes deselected provider permissions' do
+      result = service.call!
 
-        expect(providers_for_permissions).to include(provider)
-        expect(providers_for_permissions).not_to include(another_provider)
-      end
+      expect(result.provider_permissions).not_to include(deselected_provider_permissions.first)
+    end
+
+    it 'adds permissions flags for the saved user' do
+      result = service.call!
+
+      expect(result.provider_permissions.manage_users.map(&:provider)).to eq([another_provider])
     end
   end
 end
