@@ -94,7 +94,7 @@ module ProviderInterface
     end
 
     def requires_provider_add_provider_users_feature_flag
-      raise unless FeatureFlag.active?('provider_add_provider_users')
+      render_404 unless FeatureFlag.active?('provider_add_provider_users')
     end
 
     def redirect_unless_permitted_to_manage_users

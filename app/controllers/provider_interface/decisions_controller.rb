@@ -121,7 +121,7 @@ module ProviderInterface
   private
 
     def requires_provider_change_response_feature_flag
-      raise unless FeatureFlag.active?('provider_change_response')
+      render_404 unless FeatureFlag.active?('provider_change_response')
     end
 
     def set_application_choice

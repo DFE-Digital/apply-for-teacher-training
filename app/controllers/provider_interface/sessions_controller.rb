@@ -16,7 +16,7 @@ module ProviderInterface
     end
 
     def sign_in_by_email
-      raise unless FeatureFlag.active?('dfe_sign_in_fallback')
+      render_404 unless FeatureFlag.active?('dfe_sign_in_fallback')
 
       provider_user = ProviderUser.find_by(email_address: params.dig(:provider_user, :email_address).downcase.strip)
 
