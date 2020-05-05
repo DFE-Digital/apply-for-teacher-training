@@ -7,7 +7,7 @@ module CandidateInterface
       @course_choices = current_candidate.current_application.application_choices
       if @course_choices.count < 1
         render :index, locals: {
-          application_is_apply_2: @current_application.apply_2?,
+          apply_again: @current_application.apply_again?,
         }
       else
         redirect_to candidate_interface_course_choices_review_path
@@ -294,7 +294,7 @@ module CandidateInterface
         @course_choices = current_candidate.current_application.application_choices
         flash[:success] = "You’ve added #{@course_choices.last.course.name_and_code} to your application"
 
-        if @course_choices.count.between?(1, 2) && !current_application.apply_2?
+        if @course_choices.count.between?(1, 2) && !current_application.apply_again?
           redirect_to candidate_interface_course_choices_add_another_course_path
         else
           redirect_to candidate_interface_course_choices_index_path
