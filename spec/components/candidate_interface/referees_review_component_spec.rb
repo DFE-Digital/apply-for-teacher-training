@@ -128,6 +128,15 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
       result = render_inline(described_class.new(application_form: application_form, editable: false))
 
       expect(result.css('.app-summary-list__actions').text).not_to include('Change')
+    end
+  end
+
+  context 'when referees are not deletable' do
+    let(:application_form) { create(:completed_application_form, references_count: 1, with_gces: true) }
+
+    it 'renders component without a delete link' do
+      result = render_inline(described_class.new(application_form: application_form, deletable: false))
+
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.referees.delete'))
     end
   end
