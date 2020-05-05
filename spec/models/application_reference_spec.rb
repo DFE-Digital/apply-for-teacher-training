@@ -139,4 +139,16 @@ RSpec.describe ApplicationReference, type: :model do
       end
     end
   end
+
+  describe '#editable?' do
+    it 'returns true for `not_requested_yet`' do
+      expect(described_class.new(feedback_status: :not_requested_yet).editable?).to be true
+    end
+
+    it 'returns false for all other statuses' do
+      ApplicationReference.feedback_statuses.keys.reject { |s| s == 'not_requested_yet' }.each do |status|
+        expect(described_class.new(feedback_status: status).editable?).to be false
+      end
+    end
+  end
 end

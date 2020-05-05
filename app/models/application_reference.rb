@@ -79,4 +79,8 @@ class ApplicationReference < ApplicationRecord
 
     replace_referee_at < Time.zone.now
   end
+
+  def editable?
+    feedback_status == 'not_requested_yet'
+  end
 end
