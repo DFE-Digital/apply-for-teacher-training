@@ -1,10 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::CourseDetailsComponent do
+  let(:application_choice) {
+    create(:application_choice,
+           course: create(:course, funding_type: 'fee'))
+  }
 
-  let(:application_choice) { create(:application_choice) }
-  let(:application_choice_with_accredited_body) { create(:application_choice,
-                                                         course: create(:course, :accredited_provider)) }
+  let(:application_choice_with_accredited_body) {
+    create(:application_choice,
+           course: create(:course, :accredited_provider))
+  }
 
   let(:render) { render_inline(described_class.new(application_choice: application_choice)) }
 
@@ -48,4 +53,8 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
     expect(render.css('.govuk-summary-list__row')[5].text).to include(application_choice.course_option.study_mode.humanize)
   end
 
+  it 'renders financing funding type of a course' do
+    expect(render.css('.govuk-summary-list__row')[6].text).to include('Funding type')
+    expect(render.css('.govuk-summary-list__row')[6].text).to include('Fee paying')
+  end
 end
