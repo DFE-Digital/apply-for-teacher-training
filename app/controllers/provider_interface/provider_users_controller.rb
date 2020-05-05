@@ -19,11 +19,6 @@ module ProviderInterface
     end
 
     def new
-      unless current_provider_user.can_manage_users?
-        flash[:warning] = 'You need specific permissions to manage other providers.'
-        return redirect_to provider_interface_provider_users_path
-      end
-
       @form = ProviderUserForm.new(current_provider_user: current_provider_user)
     end
 
