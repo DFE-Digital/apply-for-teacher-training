@@ -275,10 +275,6 @@ FactoryBot.define do
     trait :part_time do
       study_mode { :part_time }
     end
-
-    trait :accredited_provider do
-      accredited_provider { provider }
-    end
   end
 
   factory :provider do

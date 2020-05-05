@@ -6,9 +6,11 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
            course: create(:course, funding_type: 'fee'))
   }
 
+  let(:accredited_provider) { create(:provider) }
+
   let(:application_choice_with_accredited_body) {
     create(:application_choice,
-           course: create(:course, :accredited_provider))
+           course: create(:course, accredited_provider: accredited_provider))
   }
 
   let(:render) { render_inline(described_class.new(application_choice: application_choice)) }
