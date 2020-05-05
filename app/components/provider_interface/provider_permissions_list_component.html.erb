@@ -1,7 +1,7 @@
 <% visible_provider_permissions.each do |provider_permission| %>
   <h4><%= provider_permission.provider.name %></h4>
   <ul id="provider-<%= provider_permission.provider.id %>-enabled-permissions">
-    <% ProviderPermissionsOptions::VALID_PERMISSIONS.each do |permission_name| %>
+    <% ProviderPermissions::VALID_PERMISSIONS.each do |permission_name| %>
       <li>
         <% if provider_permission.send(permission_name) %>
           <%= permission_name.to_s.humanize %>
