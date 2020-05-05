@@ -1,0 +1,30 @@
+trigger: none
+pr: none
+
+pool:
+  vmImage: 'windows-2019'
+
+parameters:
+  - name: environment
+    displayName: Environment
+    type: string
+    default: 'DevOps'
+    values:
+    - 'DevOps'
+    - 'QA'
+    - 'Staging'
+    - 'Sandbox'
+    - 'Production'
+
+variables:
+- group: 'APPLY - ENV - ${{ parameters.environment }}'
+
+jobs:
+  - job: swap_staging_to_production
+    displayName: Swap Staging Slot to Production in ${{ parameters.environment }}
+    steps:
+      - template: swap-staging-production-template.yml
+        parameters:
+          azureSubscription: $(azureSubscription)
+          resourceGroup: $(resourceGroup)
+          appService: $(appService)
