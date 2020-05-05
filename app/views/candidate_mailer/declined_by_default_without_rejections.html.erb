@@ -8,18 +8,5 @@ You did not respond in time so we declined your <%= 'offer'.pluralize(@declined_
 You did not respond within <%= @declined_courses.first.decline_by_default_days %> working days so we declined your <%= 'offer'.pluralize(@declined_course_names.size) %> for <%= @declined_course_names.to_sentence %>
 <% end %>
 
-# Are you still interested in teaching?
-
-You didn’t pursue your teacher training application, but it’s not too late to apply again for a course if you’ve changed your mind.
-
-We’ve saved your last application, so all you have to do is choose a course, review your application and re-submit.
-
-Sign in to apply again:
-https://www.apply-for-teacher-training.education.gov.uk/candidate/account
-
-# Get help
-
-For advice on becoming a teacher, call Get Into Teaching for free on 0800 389 2500 or chat to an adviser online:
-https://getintoteaching.education.gov.uk/contact
-
-For any technical issues using Apply for teacher training, contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
+<%= render 'interested_without_rejections' %>
+<%= render 'get_help' %>
