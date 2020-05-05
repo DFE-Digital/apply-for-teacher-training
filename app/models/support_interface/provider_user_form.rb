@@ -3,15 +3,15 @@ module SupportInterface
     include ActiveModel::Model
     include ActiveModel::Validations
 
-    attr_accessor :first_name, :last_name, :permissions, :provider_user
-    attr_writer :provider_ids
+    attr_accessor :first_name, :last_name, :provider_user
+    attr_reader :provider_permissions
 
     attr_reader :email_address
 
     validates :email_address, :first_name, :last_name, presence: true
     validates :email_address, email: true
-    validates :provider_ids, presence: true
     validate :email_is_unique
+    validates :provider_permissions, presence: true
 
     def build
       return unless valid?
@@ -20,7 +20,6 @@ module SupportInterface
       @provider_user.first_name = first_name
       @provider_user.last_name = last_name
       @provider_user.email_address = email_address
-      @provider_user.provider_ids = provider_ids
       @provider_user if @provider_user.valid?
     end
 
@@ -42,21 +41,38 @@ module SupportInterface
         first_name: provider_user.first_name,
         last_name: provider_user.last_name,
         email_address: provider_user.email_address,
-        provider_ids: provider_user.provider_ids,
-        permissions: permissions_for(provider_user),
       )
     end
 
-    def provider_ids
-      return [] unless @provider_ids
-
-      @provider_ids.reject(&:blank?)
+    def forms_for_possible_permissions
+      possible_permissions.map do |p|
+        ProviderPermissionsForm.new(active: p.persisted?, provider_permission: p)
+      end
     end
 
-    def self.permissions_for(provider_user)
-      provider_permissions = ProviderPermissions.manage_users.where(provider_user: provider_user)
+    def possible_permissions
+      Provider.all.pluck(:id).map do |id|
+        ProviderPermissions.find_or_initialize_by(
+          provider_id: id,
+          provider_user_id: provider_user.try(:id),
+        )
+      end
+    end
 
-      ProviderPermissionsOptions.new(manage_users: provider_permissions.pluck(:provider_id))
+    def provider_permissions=(attributes)
+      forms = attributes.map { |_, attrs| ProviderPermissionsForm.new(attrs) }.select(&:active)
+      @provider_permissions = forms.map do |form|
+        permission = ProviderPermissions.find_or_initialize_by(
+          provider_id: form.provider_permission[:provider_id],
+          provider_user_id: provider_user.try(:id),
+        )
+        permission.manage_users = form.provider_permission.fetch(:manage_users, false)
+        permission
+      end
+    end
+
+    def deselected_provider_permissions
+      possible_permissions - @provider_permissions
     end
 
   private
