@@ -49,7 +49,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
   end
 
   it 'renders the study mode' do
-    expect(render.css('.govuk-summary-list__row')[5].text).to include('Study mode')
+    expect(render.css('.govuk-summary-list__row')[5].text).to include('Full or part time')
     expect(render.css('.govuk-summary-list__row')[5].text).to include(application_choice.course_option.study_mode.humanize)
   end
 
