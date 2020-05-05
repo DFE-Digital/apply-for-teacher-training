@@ -22,6 +22,18 @@ class DeclineOfferByDefault
       end
     end
 
-    CandidateMailer.declined_by_default(application_form).deliver_later
+    if application_form.ended_without_success? && FeatureFlag.active?('apply_again') && rejected_course_choice_count.zero?
+      CandidateMailer.declined_by_default_without_rejections(application_form).deliver_later
+    elsif application_form.ended_without_success? && FeatureFlag.active?('apply_again')
+      CandidateMailer.declined_by_default_with_rejections(application_form).deliver_later
+    else
+      CandidateMailer.declined_by_default(application_form).deliver_later
+    end
+  end
+
+private
+
+  def rejected_course_choice_count
+    @application_form.application_choices.select(&:rejected?).count
   end
 end
