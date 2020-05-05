@@ -160,6 +160,8 @@ en:
       name: Withdrawn
       description: |
         If the candidate withdraws an application in progress it moves to the Withdrawn (end) state.
+      emails:
+        - candidate_mailer-withdraw_last_application_choice
 
     conditions_not_met:
       name: Conditions not met
@@ -168,6 +170,8 @@ en:
     declined:
       name: Offer declined
       description: The candidate has declined the offer.
+      emails:
+        - candidate_mailer-decline_last_application_choice
 
   events:
     unsubmitted-submit:

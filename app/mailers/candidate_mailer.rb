@@ -191,7 +191,6 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(application_choice.application_form, subject: I18n.t!('candidate_mailer.application_declined.subject'))
   end
 
-
 private
 
   def new_offer(application_choice, template_name)
