@@ -8,15 +8,19 @@
 <%= render(CandidateInterface::RefereesReviewComponent.new(application_form: @application_form, editable: true)) %>
 
 <%- if @referees.count < ApplicationForm::MINIMUM_COMPLETE_REFERENCES %>
-<p>
-  <% if @referees.any? %>
-    <%= govuk_button_link_to t('application_form.referees.add_second_referee'), candidate_interface_referees_type_path, class: 'govuk-button--secondary' %>
-  <% else %>
-    <%= govuk_button_link_to t('application_form.referees.add_referee'), candidate_interface_referees_type_path, class: 'govuk-button--secondary' %>
-  <% end %>
-</p>
-<%- end %>
+  <p>
+    <% if @referees.any? %>
+      <%= govuk_button_link_to t('application_form.referees.add_second_referee'), candidate_interface_referees_type_path %>
+    <% else %>
+      <%= govuk_button_link_to t('application_form.referees.add_referee'), candidate_interface_referees_type_path %>
+    <% end %>
+  </p>
 
-<p>
-  <%= govuk_button_link_to t('application_form.referees.review.button'), candidate_interface_application_form_path %>
-</p>
+  <p>
+    <%= govuk_link_to t('application_form.referees.add_another_later'), candidate_interface_application_form_path %>
+  </p>
+<%- else %>
+  <p>
+    <%= govuk_button_link_to t('application_form.referees.review.button'), candidate_interface_application_form_path %>
+  </p>
+<%- end %>

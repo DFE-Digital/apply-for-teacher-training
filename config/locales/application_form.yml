@@ -287,7 +287,8 @@ en:
         completed_checkbox: I have completed this section
     referees:
       add_referee: Add referee
-      add_second_referee: Add a second referee
+      add_second_referee: Add another referee
+      add_another_later: I'll add another referee later
       complete_form_button: Save and continue
       delete: Delete referee
       cancel: Cancel referee
