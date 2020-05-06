@@ -12,9 +12,10 @@ RSpec.describe ProviderInterface::UserListCardComponent do
   end
 
   let(:provider_user) { build_stubbed(:provider_user, providers: providers) }
-  let(:instance) { described_class.new(provider_user: provider_user) }
+  let(:instance) { described_class.new(provider_user: provider_user, manageable_providers: manageable_providers) }
   let(:result) { render_inline instance }
   let(:card) { result.css('.app-application-card').to_html }
+  let(:manageable_providers) { providers }
 
   describe 'rendering' do
     it 'renders the name of the provider user' do
@@ -42,6 +43,14 @@ RSpec.describe ProviderInterface::UserListCardComponent do
     context 'when more than one provider exists' do
       it 'renders the name of the first provider and cardinal number for others' do
         expect(instance.providers_text).to eq('Hoth Teacher Training and two more')
+      end
+    end
+
+    context 'when manageable_providers are a subset of user providers' do
+      let(:manageable_providers) { [providers.first, providers.last] }
+
+      it 'renders provider text based on intersection with manageable providers' do
+        expect(instance.providers_text).to eq('Hoth Teacher Training and one more')
       end
     end
   end
