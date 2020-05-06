@@ -41,7 +41,7 @@ module CandidateInterface
           role: volunteering_role.role,
           organisation: volunteering_role.organisation,
           details: volunteering_role.details,
-          working_with_children: volunteering_role.working_with_children.to_s,
+          working_with_children: volunteering_role.working_with_children,
           start_date_month: volunteering_role.start_date.month,
           start_date_year: volunteering_role.start_date.year,
           end_date_month: volunteering_role.end_date&.month || '',
