@@ -26,6 +26,10 @@ class Provider < ApplicationRecord
 
   audited
 
+  scope :manageable_by, ->(provider_user) do
+    where(id: provider_user.provider_permissions.manage_users.select(:provider_id))
+  end
+
   def name_and_code
     "#{name} (#{code})"
   end
