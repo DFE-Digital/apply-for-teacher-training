@@ -2,7 +2,14 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::RefereesReviewComponent do
   context 'when referees are editable' do
-    let(:application_form) { create(:completed_application_form, references_count: 2, with_gces: true) }
+    let(:application_form) do
+      create(
+        :completed_application_form,
+        references_state: 'unsubmitted',
+        references_count: 2,
+        with_gces: true,
+      )
+    end
 
     it "renders component with correct values for a referee's name" do
       first_referee = application_form.application_references.first
@@ -50,8 +57,8 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
       first_referee = application_form.application_references.first
       first_referee.update_columns(
         feedback_status: 'feedback_requested',
-        requested_at: 9.business_days.ago,
-        created_at: 9.business_days.ago,
+        requested_at: 5.days.ago,
+        created_at: 5.days.ago,
       )
       result = render_inline(described_class.new(application_form: application_form))
 
@@ -128,6 +135,11 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
       result = render_inline(described_class.new(application_form: application_form, editable: false))
 
       expect(result.css('.app-summary-list__actions').text).not_to include('Change')
+    end
+
+    it 'renders component without a delete link' do
+      result = render_inline(described_class.new(application_form: application_form, editable: false))
+
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.referees.delete'))
     end
   end
