@@ -47,13 +47,7 @@
 
     <h2 class="govuk-heading-m govuk-!-margin-top-8" id="course-info">Course</h2>
 
-    <%= render SummaryListComponent.new(rows: [
-      { key: 'Provider', value: @application_choice.provider.name_and_code },
-      { key: 'Course', value: @application_choice.course.name_and_code },
-      { key: 'Cycle', value: @application_choice.course.recruitment_cycle_year },
-      { key: 'Preferred location', value: @application_choice.site.name_and_code },
-      { key: 'Study mode', value: @application_choice.course_option.study_mode.humanize },
-    ]) %>
+    <%= render ProviderInterface::CourseDetailsComponent.new(application_choice: @application_choice)%>
 
     <%= render ProviderInterface::TrainingWithDisabilityComponent.new(application_form: @application_choice.application_form) %>
 
