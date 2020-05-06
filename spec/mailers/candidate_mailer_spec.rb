@@ -150,6 +150,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         @application_form = build_stubbed(
           :application_form,
           first_name: 'Fred',
+          candidate: @candidate,
           application_choices: [
             build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
           ],
@@ -169,6 +170,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       before do
         @application_form = build_stubbed(
           :application_form,
+          candidate: @candidate,
           application_choices: [
             build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
             build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
@@ -186,6 +188,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         FeatureFlag.activate('covid_19')
         @application_form = build_stubbed(
           :application_form,
+          candidate: @candidate,
           application_choices: [build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10)],
         )
       end
@@ -203,6 +206,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         FeatureFlag.activate('apply_again')
         @application_form = build_stubbed(
           :application_form,
+          candidate: @candidate,
           application_choices: [build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10)],
         )
       end
@@ -221,6 +225,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         @application_form = build_stubbed(
           :application_form,
           first_name: 'Fred',
+          candidate: @candidate,
           application_choices: [
             build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
           ],
@@ -243,6 +248,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         @application_form = build_stubbed(
           :application_form,
           first_name: 'Fred',
+          candidate: @candidate,
           application_choices: [
             build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
             build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
@@ -267,6 +273,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         FeatureFlag.activate('covid_19')
         @application_form = build_stubbed(
           :application_form,
+          candidate: @candidate,
           application_choices: [
             build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
             build_stubbed(:application_choice, status: 'rejected'),
@@ -287,6 +294,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         FeatureFlag.activate('apply_again')
         @application_form = build_stubbed(
           :application_form,
+          candidate: @candidate,
           application_choices: [
             build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
             build_stubbed(:application_choice, status: 'rejected'),
@@ -308,6 +316,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         @application_form = build_stubbed(
           :application_form,
           first_name: 'Fred',
+          candidate: @candidate,
           application_choices: [
             build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
             build_stubbed(:application_choice, status: 'rejected'),
@@ -331,6 +340,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         @application_form = build_stubbed(
           :application_form,
           first_name: 'Fred',
+          candidate: @candidate,
           application_choices: [
             build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
             build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
@@ -356,6 +366,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         @application_form = build_stubbed(
           :application_form,
           first_name: 'Fred',
+          candidate: @candidate,
           application_choices: [
             build_stubbed(:application_choice, status: 'withdrawn'),
           ],
@@ -375,6 +386,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       before do
         @application_form = build_stubbed(
           :application_form,
+          candidate: @candidate,
           application_choices: [
             build_stubbed(:application_choice, status: 'withdrawn'),
             build_stubbed(:application_choice, status: 'withdrawn'),
@@ -398,6 +410,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       @application_form = build_stubbed(
         :application_form,
         first_name: 'Fred',
+        candidate: @candidate,
         application_choices: [
           build_stubbed(:application_choice, status: 'declined'),
         ],

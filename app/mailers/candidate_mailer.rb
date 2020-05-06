@@ -52,6 +52,7 @@ class CandidateMailer < ApplicationMailer
   def application_rejected_all_rejected(application_choice)
     @course = application_choice.course_option.course
     @application_choice = application_choice
+    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
 
     email_for_candidate(
       application_choice.application_form,
