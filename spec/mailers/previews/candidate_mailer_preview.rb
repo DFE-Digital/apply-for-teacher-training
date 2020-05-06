@@ -212,7 +212,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       ],
     )
 
-    CandidateMailer.declined_by_default_with_rejections(application_form)
+    CandidateMailer.declined_by_default(application_form)
   end
 
   def declined_by_default_without_rejections
@@ -225,7 +225,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       ],
     )
 
-    CandidateMailer.declined_by_default_without_rejections(application_form)
+    CandidateMailer.declined_by_default(application_form)
   end
 
   def decline_last_application_choice
