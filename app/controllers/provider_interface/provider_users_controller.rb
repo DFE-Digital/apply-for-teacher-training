@@ -5,6 +5,7 @@ module ProviderInterface
 
     def index
       @provider_users = ProviderUser.visible_to(current_provider_user)
+      @manageable_providers = Provider.manageable_by(current_provider_user)
     end
 
     def show

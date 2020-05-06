@@ -12,7 +12,7 @@ module ProviderInterface
     end
 
     def providers_text
-      providers = provider_user.providers & manageable_providers
+      providers = provider_user.providers.where(id: manageable_providers.pluck(:id)).order(:name)
 
       return providers.first.name if providers.size == 1
 

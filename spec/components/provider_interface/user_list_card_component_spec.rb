@@ -17,6 +17,12 @@ RSpec.describe ProviderInterface::UserListCardComponent do
   let(:card) { result.css('.app-application-card').to_html }
   let(:manageable_providers) { providers }
 
+  before do
+    allow(provider_user).to receive(:providers).and_return(
+      ActiveRecordRelationStub.new(ProviderPermissions, providers),
+    )
+  end
+
   describe 'rendering' do
     it 'renders the name of the provider user' do
       expect(card).to include(provider_user.full_name)
@@ -48,6 +54,12 @@ RSpec.describe ProviderInterface::UserListCardComponent do
 
     context 'when manageable_providers are a subset of user providers' do
       let(:manageable_providers) { [providers.first, providers.last] }
+
+      before do
+        allow(provider_user).to receive(:providers).and_return(
+          ActiveRecordRelationStub.new(ProviderPermissions, manageable_providers),
+        )
+      end
 
       it 'renders provider text based on intersection with manageable providers' do
         expect(instance.providers_text).to eq('Hoth Teacher Training and one more')

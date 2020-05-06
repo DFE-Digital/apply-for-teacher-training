@@ -21,6 +21,9 @@
 
 <div class="govuk-body">
 <% @provider_users.each do |provider_user| %>
-  <%= render ProviderInterface::UserListCardComponent.new(provider_user: provider_user) %>
+  <%= render ProviderInterface::UserListCardComponent.new(
+    provider_user: provider_user,
+    manageable_providers: @manageable_providers,
+  ) %>
 <% end %>
 </div>
