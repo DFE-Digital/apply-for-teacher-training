@@ -34,6 +34,15 @@ class Course < ApplicationRecord
     full_time_or_part_time: 'B',
   }
 
+  # also copied from Find
+  enum program_type: {
+    higher_education_programme: 'HE',
+    school_direct_training_programme: 'SD',
+    school_direct_salaried_training_programme: 'SS',
+    scitt_programme: 'SC',
+    pg_teaching_apprenticeship: 'TA',
+  }
+
   def name_and_description
     "#{name} #{description}"
   end
