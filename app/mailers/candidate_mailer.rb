@@ -123,24 +123,27 @@ class CandidateMailer < ApplicationMailer
   end
 
   def declined_by_default(application_form)
+    @application_form = application_form
     @declined_courses = application_form.application_choices.select(&:declined_by_default?)
     @declined_course_names = @declined_courses.map { |application_choice| "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}" }
 
-    email_for_candidate(application_form, subject: I18n.t!('candidate_mailer.declined_by_default.subject', count: @declined_courses.size))
-  end
+    if application_form.ended_without_success? && FeatureFlag.active?('apply_again') && application_form.application_choices.select(&:rejected?).present?
+      template_name = :declined_by_default_with_rejections
+      subject = I18n.t!('candidate_mailer.decline_by_default_last_course_choice.subject', count: @declined_courses.size)
+    elsif application_form.ended_without_success? && FeatureFlag.active?('apply_again')
+      template_name = :declined_by_default_without_rejections
+      subject = I18n.t!('candidate_mailer.decline_by_default_last_course_choice.subject', count: @declined_courses.size)
+    else
+      template_name = :declined_by_default
+      subject = I18n.t!('candidate_mailer.declined_by_default.subject', count: @declined_courses.size)
+    end
 
-  def declined_by_default_with_rejections(application_form)
-    @declined_courses = application_form.application_choices.select(&:declined_by_default?)
-    @declined_course_names = @declined_courses.map { |application_choice| "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}" }
-
-    email_for_candidate(application_form, subject: I18n.t!('candidate_mailer.decline_by_default_last_course_choice.subject', count: @declined_courses.size))
-  end
-
-  def declined_by_default_without_rejections(application_form)
-    @declined_courses = application_form.application_choices.select(&:declined_by_default?)
-    @declined_course_names = @declined_courses.map { |application_choice| "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}" }
-
-    email_for_candidate(application_form, subject: I18n.t!('candidate_mailer.decline_by_default_last_course_choice.subject', count: @declined_courses.size))
+    notify_email(
+      to: application_form.candidate.email_address,
+      subject: subject,
+      template_name: template_name,
+      application_form_id: application_form.id,
+    )
   end
 
   def conditions_met(application_choice)
@@ -177,6 +180,7 @@ class CandidateMailer < ApplicationMailer
   end
 
   def withdraw_last_application_choice(application_form)
+    @application_form = application_form
     @withdrawn_courses = application_form.application_choices.select(&:withdrawn?)
     @withdrawn_course_names = @withdrawn_courses.map { |application_choice| "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}" }
     @rejected_course_choices_count = application_form.application_choices.select(&:rejected?).count
@@ -185,6 +189,7 @@ class CandidateMailer < ApplicationMailer
   end
 
   def decline_last_application_choice(application_choice)
+    @application_form = application_choice.application_form
     @declined_course = application_choice
     @declined_course_name = "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}"
     @rejected_course_choices_count = application_choice.application_form.application_choices.select(&:rejected?).count
