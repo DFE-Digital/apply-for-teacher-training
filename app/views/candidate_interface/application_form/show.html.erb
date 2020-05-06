@@ -115,10 +115,7 @@
 
     <% if FeatureFlag.active?('apply_again') && @previous_application_form.present? %>
       <h2 class="govuk-heading-s">Previous applications</h2>
-      <%= govuk_link_to 'First application', candidate_interface_application_review_previous_path(@previous_application_form.id) %>
-      <p class="govuk-body-s">
-        <%= "Submitted #{@previous_application_form.submitted_at.to_s(:govuk_date).strip}" %>
-      </p>
+      <%= render(CandidateInterface::LinksToPreviousApplicationsComponent.new(application_form: @application_form)) %>
     <% end %>
   </div>
 </div>
