@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_01_124618) do
+ActiveRecord::Schema.define(version: 2020_05_05_094508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -214,6 +214,8 @@ ActiveRecord::Schema.define(version: 2020_05_01_124618) do
     t.jsonb "subject_codes"
     t.string "funding_type"
     t.string "age_range"
+    t.jsonb "qualifications"
+    t.string "program_type"
     t.index ["code"], name: "index_courses_on_code"
     t.index ["exposed_in_find", "open_on_apply"], name: "index_courses_on_exposed_in_find_and_open_on_apply"
     t.index ["provider_id", "code"], name: "index_courses_on_provider_id_and_code", unique: true
