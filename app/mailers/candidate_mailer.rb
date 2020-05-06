@@ -50,13 +50,22 @@ class CandidateMailer < ApplicationMailer
   end
 
   def application_rejected_all_rejected(application_choice)
+    @application_form = application_choice.application_form
     @course = application_choice.course_option.course
     @application_choice = application_choice
     @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
 
-    email_for_candidate(
-      application_choice.application_form,
+    template_name = if FeatureFlag.active?('apply_again')
+                      :application_rejected_all_rejected_apply_again
+                    else
+                      :application_rejected_all_rejected
+                    end
+
+    notify_email(
+      to: application_choice.application_form.candidate.email_address,
       subject: I18n.t!('candidate_mailer.application_rejected.all_rejected.subject', provider_name: @course.provider.name),
+      template_name: template_name,
+      application_form_id: application_choice.application_form.id,
     )
   end
 
