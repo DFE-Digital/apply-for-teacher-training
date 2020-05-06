@@ -233,12 +233,14 @@ RSpec.describe SyncProviderFromFind do
           provider_code: 'ABC',
           course_code: '9CBA',
           findable: true,
+          program_type: 'SD',
         )
 
         SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
         course_option = CourseOption.last
 
-        expect(course_option.course.program_type).to eq('SD')
+        # the enum field converts the value from the short code to the expanded value
+        expect(course_option.course.program_type).to eq('school_direct_training_programme')
       end
     end
   end
