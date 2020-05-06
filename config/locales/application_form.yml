@@ -288,7 +288,8 @@ en:
     referees:
       add_referee: Add referee
       add_second_referee: Add another referee
-      add_another_later: I'll add another referee later
+      add_another_later: I’ll add another referee later
+      add_referees_later: I’ll add referees later
       complete_form_button: Save and continue
       delete: Delete referee
       cancel: Cancel referee
@@ -313,7 +314,8 @@ en:
       chase: Chase this referee and notify the candidate
       confirm_chase: Are you sure you want to send emails to chase the referee?
       info:
-        before_submission: We’ll contact your referees after you submit your application. We’ll let you know if they don’t supply a reference.
+        before_submission: You need to add 2 referees.
+        <%# before_submission: We’ll contact your referees after you submit your application. We’ll let you know if they don’t supply a reference. %>
         after_submission: We’ve contacted the referees you provided below. We’ll let you know if they don’t supply a reference.
   activemodel:
     errors:
