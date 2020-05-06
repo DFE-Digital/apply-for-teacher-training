@@ -10,8 +10,8 @@ RSpec.describe ProviderInterface::CurrentFiltersComponent, type: :view do
         'rejected' => 'rejected',
         'withdrawn' => 'withdrawn',
       }, 'provider' => {
-          'the-beach-teaching-school' => '2',
-        }
+        'the-beach-teaching-school' => '2',
+      }
     }
   end
 
@@ -23,8 +23,8 @@ RSpec.describe ProviderInterface::CurrentFiltersComponent, type: :view do
         'offer' => 'offer',
         'rejected' => 'rejected',
       }, 'provider' => {
-          'the-beach-teaching-school' => '2',
-        }
+        'the-beach-teaching-school' => '2',
+      }
     }
   end
 
@@ -100,7 +100,7 @@ RSpec.describe ProviderInterface::CurrentFiltersComponent, type: :view do
           },
 
         ],
-       },
+      },
     ]
   end
 

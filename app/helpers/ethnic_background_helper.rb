@@ -8,12 +8,12 @@ module EthnicBackgroundHelper
   ].freeze
 
   ETHNIC_BACKGROUNDS = {
-      'Asian or Asian British' => %w[Bangladeshi Chinese Indian Pakistani],
-      'Black, African, Black British or Caribbean' => %w[African Carribean],
-      'Mixed or multiple ethnic groups' => ['Asian and White', 'Black African and White', 'Black Caribbean and White'],
-      'White' => ['British, English, Northern Irish, Scottish, or Welsh', 'Irish', 'Irish Traveller or Gypsy'],
-      'Another ethnic group' => %w[Arab],
-    }.freeze
+    'Asian or Asian British' => %w[Bangladeshi Chinese Indian Pakistani],
+    'Black, African, Black British or Caribbean' => %w[African Carribean],
+    'Mixed or multiple ethnic groups' => ['Asian and White', 'Black African and White', 'Black Caribbean and White'],
+    'White' => ['British, English, Northern Irish, Scottish, or Welsh', 'Irish', 'Irish Traveller or Gypsy'],
+    'Another ethnic group' => %w[Arab],
+  }.freeze
 
   OTHER_ETHNIC_BACKGROUNDS = {
     'Asian or Asian British' => ['Another Asian background', 'Your Asian background (optional)'],

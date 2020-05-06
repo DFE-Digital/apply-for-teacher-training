@@ -12,8 +12,8 @@ RSpec.describe ProviderInterface::FilterComponent do
         'rejected' => 'on',
         'withdrawn' => 'on',
       }, 'provider' => {
-          '2' => 'on',
-        }
+        '2' => 'on',
+      }
     }
   end
 
@@ -25,8 +25,8 @@ RSpec.describe ProviderInterface::FilterComponent do
         'offer' => 'on',
         'rejected' => 'on',
       }, 'provider' => {
-          '2' => 'on',
-        }
+        '2' => 'on',
+      }
     }
   end
 
@@ -92,7 +92,7 @@ RSpec.describe ProviderInterface::FilterComponent do
           },
 
         ],
-       },
+      },
     ]
   end
 
@@ -122,7 +122,7 @@ RSpec.describe ProviderInterface::FilterComponent do
             name: '1',
           },
         ],
-       },
+      },
     ]
   end
 
