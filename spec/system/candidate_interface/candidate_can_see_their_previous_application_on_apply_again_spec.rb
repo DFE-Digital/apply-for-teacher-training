@@ -11,6 +11,12 @@ RSpec.describe 'Candidate can see previous application on apply again' do
     and_i_click_on_start_now
     and_i_click_on_the_link_to_my_previous_application
     then_i_see_the_review_previous_application_page
+
+    when_i_click_back
+    then_i_see_my_current_application_page
+
+    when_i_try_and_visit_the_page_with_another_candidate_id
+    then_i_am_redirected_to_my_current_application_page
   end
 
   def given_apply_again_is_active
@@ -44,14 +50,23 @@ RSpec.describe 'Candidate can see previous application on apply again' do
   end
 
   def then_i_see_the_review_previous_application_page
-    expect(page).to have_current_path(candidate_interface_application_review_previous_path(@application_form.id))
+    expect(page).to have_current_path(candidate_interface_application_review_previous_path(@candidate.id, @application_form.id))
   end
 
   def when_i_click_back
     click_link 'Back'
   end
 
-  def then_i_see_my_current_application
-    expect(page).to have_content 'First application'
+  def then_i_see_my_current_application_page
+    expect(page).to have_current_path(candidate_interface_application_form_path)
+  end
+
+  def when_i_try_and_visit_the_page_with_another_candidate_id
+    candidate2 = create(:candidate)
+    visit candidate_interface_application_review_previous_path(candidate2.id, @application_form.id)
+  end
+
+  def then_i_am_redirected_to_my_current_application_page
+    expect(page).to have_current_path(candidate_interface_application_form_path)
   end
 end
