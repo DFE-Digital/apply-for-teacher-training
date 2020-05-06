@@ -81,6 +81,6 @@ class ApplicationReference < ApplicationRecord
   end
 
   def editable?
-    feedback_status == 'not_requested_yet'
+    !FeatureFlag.active?('apply_again') || feedback_status == 'not_requested_yet'
   end
 end
