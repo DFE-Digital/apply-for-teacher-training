@@ -56,9 +56,9 @@ class CandidateMailerPreview < ActionMailer::Preview
   def chase_candidate_decision_with_multiple_offers
     application_choices =
       [
-      application_choice_with_offer,
-      application_choice_with_offer,
-      application_choice_with_offer,
+        application_choice_with_offer,
+        application_choice_with_offer,
+        application_choice_with_offer,
       ]
     application_form = application_form_with_course_choices(application_choices)
     CandidateMailer.chase_candidate_decision(application_form)
@@ -144,7 +144,7 @@ class CandidateMailerPreview < ActionMailer::Preview
                                                                            course_option: course_option,
                                                                            status: :rejected,
                                                                            rejection_reason: 'Not enough experience.'),
-                                                  ])
+                                                ])
 
     CandidateMailer.application_rejected_awaiting_decisions(application_form.application_choices.last)
   end
@@ -165,7 +165,7 @@ class CandidateMailerPreview < ActionMailer::Preview
                                  course_option: course_option,
                                  decline_by_default_days: 10,
                                  rejection_reason: 'Not enough experience.'),
-        ],
+      ],
     )
 
     CandidateMailer.application_rejected_offers_made(application_form.application_choices.last)

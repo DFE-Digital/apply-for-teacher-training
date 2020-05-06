@@ -254,13 +254,13 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
   it 'returns a not found error if the application can\'t be found' do
     request_body = {
-                      "data": {
-                        "conditions": [
-                                  'Completion of subject knowledge enhancement',
-                                  'Completion of professional skills test',
-                        ],
-                      },
-                   }
+      "data": {
+        "conditions": [
+          'Completion of subject knowledge enhancement',
+          'Completion of professional skills test',
+        ],
+      },
+    }
 
     post_api_request '/api/v1/applications/non-existent-id/offer', params: request_body
 

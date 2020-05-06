@@ -27,11 +27,11 @@ private
 
     nullable_properties(schema['properties']).each do |prop, value|
       new_props[prop] = {
-                          'oneOf' => [
-                            value.except('nullable'),
-                            { 'type' => 'null' },
-                          ],
-                        }
+        'oneOf' => [
+          value.except('nullable'),
+          { 'type' => 'null' },
+        ],
+      }
     end
 
     schema['properties'].merge!(new_props)

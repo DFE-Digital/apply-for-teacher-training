@@ -36,7 +36,7 @@ RSpec.describe CandidateInterface::SatisfactionSurveyForm, type: :model do
         application_form = create(:application_form, satisfaction_survey: {
           'I would recommend this service to a friend or colleague' => '2',
           'I found this service unnecessarily complex' => '4',
-          })
+        })
         described_class.new(question: 'I would recommend this service to a friend or colleague', answer: '3').save(application_form)
 
         expect(application_form.satisfaction_survey).to eq(

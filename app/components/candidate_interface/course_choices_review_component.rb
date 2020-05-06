@@ -23,14 +23,14 @@ module CandidateInterface
     end
 
     def course_choice_rows(course_choice)
-      rows =   [
-                 course_row(course_choice),
-                 study_mode_row(course_choice),
-                 location_row(course_choice),
-                 type_row(course_choice.course),
-                 course_length_row(course_choice.course),
-                 start_date_row(course_choice.course),
-               ].compact
+      rows = [
+        course_row(course_choice),
+        study_mode_row(course_choice),
+        location_row(course_choice),
+        type_row(course_choice.course),
+        course_length_row(course_choice.course),
+        start_date_row(course_choice.course),
+      ].compact
 
       rows.tap do |r|
         r << status_row(course_choice) if @show_status

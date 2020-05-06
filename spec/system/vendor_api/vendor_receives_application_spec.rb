@@ -124,10 +124,10 @@ RSpec.feature 'Vendor receives the application' do
               institution_details: nil,
               awarding_body: nil,
               equivalency_details: nil,
-              },
-            ],
+            },
+          ],
           degrees: [
-           {
+            {
               id: @application.qualification_in_subject(:degree, 'Doge').id,
               qualification_type: 'BA',
               subject: 'Doge',
@@ -139,7 +139,7 @@ RSpec.feature 'Vendor receives the application' do
             },
           ],
           other_qualifications: [
-           {
+            {
               id: @application.qualification_in_subject(:other, 'Believing in the Heart of the Cards').id,
               qualification_type: 'A level',
               subject: 'Believing in the Heart of the Cards',
