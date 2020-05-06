@@ -74,6 +74,21 @@ module ProviderInterface
       redirect_to provider_interface_provider_user_path(provider_user)
     end
 
+    def confirm_remove
+      @provider_user = find_provider_user
+    end
+
+    def remove
+      @provider_user = find_provider_user
+      service = RemoveProviderUser.new(
+        current_provider_user: current_provider_user,
+        user_to_remove: @provider_user,
+      )
+
+      flash[:success] = 'User’s account successfully deleted' if service.call!
+      redirect_to provider_interface_provider_users_path
+    end
+
   private
 
     def provider_user_params
