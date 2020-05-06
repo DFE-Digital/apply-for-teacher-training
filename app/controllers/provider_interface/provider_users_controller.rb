@@ -12,12 +12,10 @@ module ProviderInterface
 
       redirect_to(action: :index) and return unless @provider_user
 
-      form = ProviderUserForm.new(
-        provider_user: @provider_user,
+      @possible_permissions = ProviderPermissions.possible_permissions(
         current_provider_user: current_provider_user,
+        provider_user: @provider_user,
       )
-      @possible_permissions = form.possible_permissions
-      @provider_permissions = form.provider_permissions
     end
 
     def new

@@ -93,23 +93,6 @@ RSpec.describe ProviderInterface::ProviderUserForm do
     end
   end
 
-  describe '#possible_permissions' do
-    let(:providers) do
-      [
-        create(:provider, name: 'ABC'),
-        create(:provider, name: 'AAA'),
-        create(:provider, name: 'ABB'),
-      ]
-    end
-
-    before { current_provider_user.provider_permissions.update_all(manage_users: true) }
-
-    it 'returns a collection of provider permissions the current provider user can assign to other users' do
-      possible_permissions = provider_user_form.possible_permissions.map { |p| p.provider.name }
-      expect(possible_permissions).to eq(%w[AAA ABB ABC])
-    end
-  end
-
   describe '#build' do
     let(:email_address) { 'provider@example.com' }
     let(:form_params) do

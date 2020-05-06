@@ -56,22 +56,6 @@ module ProviderInterface
       end
     end
 
-    def possible_permissions
-      provider_ids = current_provider_user
-        .provider_permissions
-        .manage_users
-        .includes(:provider)
-        .order('providers.name')
-        .pluck(:provider_id)
-
-      provider_ids.map do |id|
-        ProviderPermissions.find_or_initialize_by(
-          provider_id: id,
-          provider_user_id: provider_user&.id,
-        )
-      end
-    end
-
     def provider_permissions=(attributes)
       forms = attributes.map { |_, attrs| ProviderPermissionsForm.new(attrs) }.select(&:active)
       @provider_permissions = forms.map do |form|
@@ -104,6 +88,13 @@ module ProviderInterface
       return if provider_permissions_valid?
 
       errors.add(:provider_permissions, 'Insufficient permissions to manage users for this provider')
+    end
+
+    def possible_permissions
+      ProviderPermissions.possible_permissions(
+        current_provider_user: current_provider_user,
+        provider_user: provider_user,
+      )
     end
 
     def provider_permissions_valid?
