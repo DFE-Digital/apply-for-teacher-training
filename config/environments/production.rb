@@ -132,11 +132,11 @@ Rails.application.configure do
       # gets to ActionDispatch::RemoteIp
       req = Rack::Request.new(env)
       
-      if(req.forwarded_for.present?)
+      if req.forwarded_for.present?
         env['HTTP_X_FORWARDED_FOR'] = req.forwarded_for.join(',')
       end
 
-      if(!env['HTTP_X_CLIENT_IP'].nil?)
+      if env['HTTP_X_CLIENT_IP'].present?
         env['HTTP_CLIENT_IP'] = env['HTTP_X_CLIENT_IP']
       end
 
