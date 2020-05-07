@@ -2,7 +2,11 @@
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
 <h1 class="govuk-heading-xl">
+  <% if @application_form.apply_again? %>
+    <%= t('page_titles.course_choice') %>
+  <% else %>
   <%= t('page_titles.course_choices') %>
+  <% end %>
 </h1>
 
 <%= form_with model: @application_form, url: candidate_interface_course_choices_complete_path do |f| %>
@@ -12,8 +16,10 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <% if @course_choices.count.present? %>
-        <% if @course_choices.count.between?(1, 2) %>
+      <% if @course_choices.present? %>
+        <% if @application_form.apply_again? %>
+          <% # noop  %>
+        <% elsif @course_choices.count < 3 %>
           <%= link_to 'Add another course', candidate_interface_course_choices_choose_path, class: 'govuk-button govuk-button--secondary govuk-!-margin-bottom-9' %>
         <% end %>
 
@@ -21,12 +27,12 @@
           <%= f.govuk_check_boxes_fieldset :course_choices_completed, legend: {} do %>
             <%= f.hidden_field :course_choices_completed, value: false %>
             <%= f.govuk_check_box :course_choices_completed,
-                                  true,
-                                  multiple: false,
-                                  link_errors: true,
-                                  label: {
-                                    text: t('application_form.courses.complete.completed_checkbox'),
-                                  } %>
+              true,
+              multiple: false,
+              link_errors: true,
+              label: {
+                text: t('application_form.courses.complete.completed_checkbox'),
+              } %>
           <% end %>
 
           <%= f.govuk_submit 'Continue' %>

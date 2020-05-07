@@ -117,6 +117,10 @@ class ApplicationForm < ApplicationRecord
     apply_2?
   end
 
+  def apply_again_course_chosen?
+    apply_again? && application_choices.present?
+  end
+
   audited
 
   def ended_without_success?

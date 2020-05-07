@@ -1,0 +1,19 @@
+<h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">
+  <%= page_title %>
+</h2>
+
+<% unless choices_are_present?  %>
+  <p class="govuk-body"><%= t('application_form.courses.intro') %></p>
+<% end %>
+
+<ul class="app-task-list govuk-!-margin-bottom-8">
+  <li class="app-task-list__item">
+    <%= render(
+      TaskListItemComponent.new(
+        text: page_title,
+        completed: completed?,
+        path: view_courses_path,
+      )
+    ) %>
+  </li>
+</ul>
