@@ -15,6 +15,27 @@ RSpec.feature 'Decline by default' do
     then_the_application_choice_is_declined
     and_the_candidate_receives_an_email
     and_the_provider_receives_an_email
+
+    given_the_apply_again_flag_is_on
+
+    when_i_have_an_offer_waiting_for_my_decision
+    and_the_time_limit_before_decline_by_default_date_has_been_exceeded
+    then_i_receive_an_email_to_make_a_decision
+
+    and_when_the_decline_by_default_limit_has_been_exceeded
+    then_the_application_choice_is_declined
+    and_the_candidate_receives_a_decline_by_default_without_rejection_email
+    and_the_provider_receives_an_email
+
+    when_i_have_an_offer_waiting_for_my_decision
+    and_i_have_a_rejection
+    and_the_time_limit_before_decline_by_default_date_has_been_exceeded
+    then_i_receive_an_email_to_make_a_decision
+
+    and_when_the_decline_by_default_limit_has_been_exceeded
+    then_the_application_choice_is_declined
+    and_the_candidate_receives_a_decline_by_default_with_rejection_email
+    and_the_provider_receives_an_email
   end
 
   def given_the_pilot_is_open
@@ -68,5 +89,27 @@ RSpec.feature 'Decline by default' do
     open_email(@provider_user.email_address)
 
     expect(current_email.subject).to include('Harry Potter’s application withdrawn automatically')
+  end
+
+  def given_the_apply_again_flag_is_on
+    FeatureFlag.activate('apply_again')
+  end
+
+  def and_the_candidate_receives_a_decline_by_default_without_rejection_email
+    open_email(@application_form.candidate.email_address)
+
+    expect(current_email.subject).to include('You did not respond to your offer: next steps')
+    expect(current_email.text).to include('You didn’t pursue your teacher training application')
+  end
+
+  def and_i_have_a_rejection
+    create(:application_choice, status: :rejected, application_form: @application_form)
+  end
+
+  def and_the_candidate_receives_a_decline_by_default_with_rejection_email
+    open_email(@application_form.candidate.email_address)
+
+    expect(current_email.subject).to include('You did not respond to your offer: next steps')
+    expect(current_email.text).to include('If now’s the right time for you, you can apply for teacher training again this year.')
   end
 end

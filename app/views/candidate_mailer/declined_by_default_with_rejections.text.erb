@@ -1,0 +1,12 @@
+Dear <%= @application_form.first_name %>,
+
+# <%= 'Application'.pluralize(@declined_course_names.size) %> withdrawn automatically
+
+<% if FeatureFlag.active?('covid_19') %>
+You did not respond in time so we declined your <%= 'offer'.pluralize(@declined_course_names.size) %> for <%= @declined_course_names.to_sentence %>.
+<% else %>
+You did not respond within <%= @declined_courses.first.decline_by_default_days %> working days so we declined your <%= 'offer'.pluralize(@declined_course_names.size) %> for <%= @declined_course_names.to_sentence %>
+<% end %>
+
+<%= render 'interested_with_rejections' %>
+<%= render 'get_help' %>

@@ -5,17 +5,23 @@ RSpec.feature 'Candidate declines an offer' do
 
   scenario 'Candidate views an offer and declines' do
     given_i_am_signed_in
-    and_i_have_an_offer
+    and_the_apply_again_flag_is_on
+    and_i_have_multiple_offers
 
     when_i_visit_the_application_dashboard
 
-    when_i_click_on_view_and_respond_to_offer_link
+    when_i_click_on_view_and_respond_to_my_first_offer_link
     and_i_decline_the_offer
     and_i_confirm_the_decline
 
     then_a_slack_notification_is_sent
     and_i_see_that_i_declined_the_offer
     and_the_provider_receives_a_notification
+
+    when_i_click_on_view_and_respond_to_my_last_offer_link
+    and_i_decline_the_offer
+    and_i_confirm_the_decline
+    then_the_candidate_is_sent_an_email_about_apply_again
   end
 
   def given_i_am_signed_in
@@ -23,8 +29,12 @@ RSpec.feature 'Candidate declines an offer' do
     login_as(@candidate)
   end
 
-  def and_i_have_an_offer
-    application_form = create(
+  def and_the_apply_again_flag_is_on
+    FeatureFlag.activate('apply_again')
+  end
+
+  def and_i_have_multiple_offers
+    @application_form = create(
       :application_form,
       first_name: 'Harry',
       last_name: 'Potter',
@@ -32,13 +42,23 @@ RSpec.feature 'Candidate declines an offer' do
       submitted_at: DateTime.now,
     )
 
-    @course_option = course_option_for_provider_code(provider_code: 'ABC')
+    provider = create(:provider, code: 'ABC')
+
+    @course_option = course_option_for_provider(provider: provider)
+    course_option2 = course_option_for_provider(provider: provider)
 
     @application_choice = create(
       :application_choice,
       :with_offer,
       course_option: @course_option,
-      application_form: application_form,
+      application_form: @application_form,
+    )
+
+    @application_choice2 = create(
+      :application_choice,
+      :with_offer,
+      course_option: course_option2,
+      application_form: @application_form,
     )
 
     @provider_user = create(:provider_user, providers: [@application_choice.provider])
@@ -48,7 +68,7 @@ RSpec.feature 'Candidate declines an offer' do
     visit candidate_interface_application_complete_path
   end
 
-  def when_i_click_on_view_and_respond_to_offer_link
+  def when_i_click_on_view_and_respond_to_my_first_offer_link
     click_link href: candidate_interface_offer_path(@application_choice)
   end
 
@@ -74,5 +94,14 @@ RSpec.feature 'Candidate declines an offer' do
   def and_the_provider_receives_a_notification
     open_email(@provider_user.email_address)
     expect(current_email.subject).to have_content 'Harry Potter declined an offer'
+  end
+
+  def when_i_click_on_view_and_respond_to_my_last_offer_link
+    click_link href: candidate_interface_offer_path(@application_choice2)
+  end
+
+  def then_the_candidate_is_sent_an_email_about_apply_again
+    open_email(@application_form.candidate.email_address)
+    expect(current_email.subject).to have_content 'You’ve declined an offer: next steps'
   end
 end

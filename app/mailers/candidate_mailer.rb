@@ -50,12 +50,22 @@ class CandidateMailer < ApplicationMailer
   end
 
   def application_rejected_all_rejected(application_choice)
+    @application_form = application_choice.application_form
     @course = application_choice.course_option.course
     @application_choice = application_choice
+    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
 
-    email_for_candidate(
-      application_choice.application_form,
+    template_name = if FeatureFlag.active?('apply_again')
+                      :application_rejected_all_rejected_apply_again
+                    else
+                      :application_rejected_all_rejected
+                    end
+
+    notify_email(
+      to: application_choice.application_form.candidate.email_address,
       subject: I18n.t!('candidate_mailer.application_rejected.all_rejected.subject', provider_name: @course.provider.name),
+      template_name: template_name,
+      application_form_id: application_choice.application_form.id,
     )
   end
 
@@ -122,10 +132,27 @@ class CandidateMailer < ApplicationMailer
   end
 
   def declined_by_default(application_form)
+    @application_form = application_form
     @declined_courses = application_form.application_choices.select(&:declined_by_default?)
     @declined_course_names = @declined_courses.map { |application_choice| "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}" }
 
-    email_for_candidate(application_form, subject: I18n.t!('candidate_mailer.declined_by_default.subject', count: @declined_courses.size))
+    if application_form.ended_without_success? && FeatureFlag.active?('apply_again') && application_form.application_choices.select(&:rejected?).present?
+      template_name = :declined_by_default_with_rejections
+      subject = I18n.t!('candidate_mailer.decline_by_default_last_course_choice.subject', count: @declined_courses.size)
+    elsif application_form.ended_without_success? && FeatureFlag.active?('apply_again')
+      template_name = :declined_by_default_without_rejections
+      subject = I18n.t!('candidate_mailer.decline_by_default_last_course_choice.subject', count: @declined_courses.size)
+    else
+      template_name = :declined_by_default
+      subject = I18n.t!('candidate_mailer.declined_by_default.subject', count: @declined_courses.size)
+    end
+
+    notify_email(
+      to: application_form.candidate.email_address,
+      subject: subject,
+      template_name: template_name,
+      application_form_id: application_form.id,
+    )
   end
 
   def conditions_met(application_choice)
@@ -159,6 +186,24 @@ class CandidateMailer < ApplicationMailer
       @application_choice.application_form,
       subject: I18n.t!('candidate_mailer.changed_offer.subject', provider_name: @previous_offer.course.provider.name),
     )
+  end
+
+  def withdraw_last_application_choice(application_form)
+    @application_form = application_form
+    @withdrawn_courses = application_form.application_choices.select(&:withdrawn?)
+    @withdrawn_course_names = @withdrawn_courses.map { |application_choice| "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}" }
+    @rejected_course_choices_count = application_form.application_choices.select(&:rejected?).count
+
+    email_for_candidate(application_form, subject: I18n.t!('candidate_mailer.application_withdrawn.subject', count: @withdrawn_courses.size))
+  end
+
+  def decline_last_application_choice(application_choice)
+    @application_form = application_choice.application_form
+    @declined_course = application_choice
+    @declined_course_name = "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}"
+    @rejected_course_choices_count = application_choice.application_form.application_choices.select(&:rejected?).count
+
+    email_for_candidate(application_choice.application_form, subject: I18n.t!('candidate_mailer.application_declined.subject'))
   end
 
 private

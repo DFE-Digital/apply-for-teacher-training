@@ -134,6 +134,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         FeatureFlag.activate('covid_19')
         @application_form = build_stubbed(
           :application_form,
+          first_name: 'Fred',
           application_choices: [build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10)],
         )
       end
@@ -150,6 +151,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         @application_form = build_stubbed(
           :application_form,
           first_name: 'Fred',
+          candidate: @candidate,
           application_choices: [
             build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
           ],
@@ -169,6 +171,8 @@ RSpec.describe CandidateMailer, type: :mailer do
       before do
         @application_form = build_stubbed(
           :application_form,
+          first_name: 'Fred',
+          candidate: @candidate,
           application_choices: [
             build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
             build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
@@ -177,6 +181,205 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
 
       it_behaves_like 'a mail with subject and content', :declined_by_default, 'Applications withdrawn automatically', {}
+    end
+  end
+
+  context 'when the covid-19 feature flag is on and the apply again flag is on' do
+    before do
+      FeatureFlag.activate('covid_19')
+      FeatureFlag.activate('apply_again')
+      @application_form = build_stubbed(
+        :application_form,
+        candidate: @candidate,
+        application_choices: [build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10)],
+      )
+    end
+
+    it_behaves_like(
+      'a mail with subject and content',
+      :declined_by_default,
+      'You did not respond to your offer: next steps',
+      'Reason' => 'You did not respond in time so we declined your',
+    )
+  end
+
+  context 'when the covid-19 feature flag is off and the apply_again flag is on' do
+    before do
+      FeatureFlag.activate('apply_again')
+      @application_form = build_stubbed(
+        :application_form,
+        first_name: 'Fred',
+        candidate: @candidate,
+        application_choices: [build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10)],
+      )
+    end
+
+    it_behaves_like(
+      'a mail with subject and content',
+      :declined_by_default,
+      'You did not respond to your offer: next steps',
+      'Reason' => 'You did not respond within',
+    )
+  end
+
+  context 'when a candidate has 1 offer that was declined by default' do
+    before do
+      FeatureFlag.activate('apply_again')
+      @application_form = build_stubbed(
+        :application_form,
+        first_name: 'Fred',
+        candidate: @candidate,
+        application_choices: [
+          build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
+        ],
+      )
+    end
+
+    it_behaves_like(
+      'a mail with subject and content',
+      :declined_by_default,
+      'You did not respond to your offer: next steps',
+      'heading' => 'Dear Fred',
+      'DBD_days_they_had_to_respond' => '10 working days',
+      'still_interested' => 'You didn’t pursue your teacher training application',
+    )
+  end
+
+  context 'when a candidate has 2 offers that were declined by default' do
+    before do
+      FeatureFlag.activate('apply_again')
+      @application_form = build_stubbed(
+        :application_form,
+        first_name: 'Fred',
+        candidate: @candidate,
+        application_choices: [
+          build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
+          build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
+        ],
+      )
+    end
+
+    it_behaves_like(
+      'a mail with subject and content',
+      :declined_by_default,
+      'You did not respond to your offers: next steps',
+      'heading' => 'Dear Fred',
+      'DBD_days_they_had_to_respond' => '10 working days',
+      'still_interested' => 'You didn’t pursue your teacher training application',
+    )
+  end
+
+  context 'when a candidate has 1 offer that was declined by default and a rejection' do
+    before do
+      FeatureFlag.activate('apply_again')
+      @application_form = build_stubbed(
+        :application_form,
+        first_name: 'Fred',
+        candidate: @candidate,
+        application_choices: [
+          build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
+          build_stubbed(:application_choice, status: 'rejected'),
+        ],
+      )
+    end
+
+    it_behaves_like(
+      'a mail with subject and content',
+      :declined_by_default,
+      'You did not respond to your offer: next steps',
+      'heading' => 'Dear Fred',
+      'DBD_days_they_had_to_respond' => '10 working days',
+      'still_interested' => 'If now’s the right time for you',
+    )
+  end
+
+  context 'when a candidate has 2 offers that were declined by default and a rejection' do
+    before do
+      FeatureFlag.activate('apply_again')
+      @application_form = build_stubbed(
+        :application_form,
+        first_name: 'Fred',
+        candidate: @candidate,
+        application_choices: [
+          build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
+          build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
+          build_stubbed(:application_choice, status: 'rejected'),
+        ],
+      )
+    end
+
+    it_behaves_like(
+      'a mail with subject and content',
+      :declined_by_default,
+      'You did not respond to your offers: next steps',
+      'heading' => 'Dear Fred',
+      'DBD_days_they_had_to_respond' => '10 working days',
+      'still_interested' => 'If now’s the right time for you',
+    )
+  end
+
+  describe '.withdraw_last_application_choice' do
+    context 'when a candidate has 1 course choice that was withdrawn' do
+      before do
+        @application_form = build_stubbed(
+          :application_form,
+          first_name: 'Fred',
+          candidate: @candidate,
+          application_choices: [
+            build_stubbed(:application_choice, status: 'withdrawn'),
+          ],
+        )
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        :withdraw_last_application_choice,
+        'You’ve withdrawn your application: next steps',
+        'heading' => 'Dear Fred',
+        'application_withdrawn' => 'You’ve withdrawn your application',
+      )
+    end
+
+    context 'when a candidate has 2 or 3 offers that were declined' do
+      before do
+        @application_form = build_stubbed(
+          :application_form,
+          first_name: 'Fred',
+          candidate: @candidate,
+          application_choices: [
+            build_stubbed(:application_choice, status: 'withdrawn'),
+            build_stubbed(:application_choice, status: 'withdrawn'),
+          ],
+        )
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        :withdraw_last_application_choice,
+        'You’ve withdrawn your applications: next steps',
+        'application_withdrawn' => 'You’ve withdrawn your application',
+      )
+    end
+  end
+
+  describe '.decline_last_application_choice' do
+    let(:email) { described_class.decline_last_application_choice(@application_form.application_choices.first) }
+
+    before do
+      @application_form = build_stubbed(
+        :application_form,
+        first_name: 'Fred',
+        candidate: @candidate,
+        application_choices: [
+          build_stubbed(:application_choice, status: 'declined'),
+        ],
+      )
+    end
+
+    it 'has the right subject and content' do
+      expect(email.subject).to eq 'You’ve declined an offer: next steps'
+      expect(email).to have_content 'Dear Fred'
+      expect(email).to have_content 'declined your offer to study'
     end
   end
 end
