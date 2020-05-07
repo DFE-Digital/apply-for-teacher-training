@@ -136,6 +136,8 @@ Rails.application.configure do
         env['HTTP_X_FORWARDED_FOR'] = req.forwarded_for.join(',')
       end
 
+      # preserves access to sidekiq web
+      # see https://github.com/sinatra/sinatra/blob/master/rack-protection/lib/rack/protection/ip_spoofing.rb#L17
       if env['HTTP_X_CLIENT_IP'].present?
         env['HTTP_CLIENT_IP'] = env['HTTP_X_CLIENT_IP']
       end
