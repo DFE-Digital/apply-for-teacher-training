@@ -14,18 +14,18 @@ RSpec.feature 'Candidate with unsuccessful application' do
     and_i_click_on_start_now
     then_i_see_a_copy_of_my_application
 
+    when_i_click_on_the_link_to_my_previous_application
+    then_i_see_the_review_previous_application_page
+
+    when_i_click_back
+    then_i_see_my_current_application_page
+
     when_i_click_through_to_select_a_course
     then_i_am_informed_i_can_only_select_one_course
     and_i_can_indeed_only_select_one_course
 
     then_application_is_submitted
     and_application_choices_are_complete
-
-    when_i_click_on_the_link_to_my_previous_application
-    then_i_see_the_review_previous_application_page
-
-    when_i_click_back
-    then_i_see_my_current_application_page
   end
 
   def given_the_pilot_is_open
@@ -69,6 +69,22 @@ RSpec.feature 'Candidate with unsuccessful application' do
     expect(page).to have_content('Your new application is ready for editing')
   end
 
+  def when_i_click_on_the_link_to_my_previous_application
+    click_link 'First application'
+  end
+
+  def then_i_see_the_review_previous_application_page
+    expect(page).to have_current_path(candidate_interface_review_previous_application_path(@candidate.id, @application_form.id))
+  end
+
+  def when_i_click_back
+    click_link 'Back'
+  end
+
+  def then_i_see_my_current_application_page
+    expect(page).to have_current_path(candidate_interface_application_form_path)
+  end
+
   def when_i_click_through_to_select_a_course
     click_link 'Course choice', exact: true
   end
@@ -104,21 +120,5 @@ RSpec.feature 'Candidate with unsuccessful application' do
   def then_my_application_is_submitted
     expect(page).to have_content 'Application successfully submitted'
     expect(ApplicationForm.last.application_choices.first.reload.status).to eq 'application_complete'
-  end
-
-  def when_i_click_on_the_link_to_my_previous_application
-    click_link 'First application'
-  end
-
-  def then_i_see_the_review_previous_application_page
-    expect(page).to have_current_path(candidate_interface_review_previous_application_path(@candidate.id, @application_form.id))
-  end
-
-  def when_i_click_back
-    click_link 'Back'
-  end
-
-  def then_i_see_my_current_application_page
-    expect(page).to have_current_path(candidate_interface_application_form_path)
   end
 end

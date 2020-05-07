@@ -50,7 +50,7 @@ Rails.application.routes.draw do
 
     get '/interstitial', to: 'after_sign_in#interstitial', as: :interstitial
 
-    get '/:candidate_id/application/:id/submitted' => 'application_form#review_previous_application', as: :application_review_previous
+    get '/:candidate_id/application/:id/submitted' => 'application_form#review_previous_application', as: :review_previous_application
 
     scope '/application' do
       get '/' => 'application_form#show', as: :application_form
