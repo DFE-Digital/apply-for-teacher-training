@@ -6,8 +6,7 @@ You’ve declined your offer to study <%= @declined_course_name %>.
 
 <% if @rejected_course_choices_count.zero? %>
   <%= render 'interested_without_rejections' %>
-  <%= render 'get_help' %>
 <% else %>
   <%= render 'interested_with_rejections' %>
-  <%= render 'get_help' %>
 <% end %>
+<%= render 'get_help' %>
