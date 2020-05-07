@@ -6,7 +6,7 @@
     <h1 class="govuk-heading-xl">
       <%= t('page_titles.choosing_courses') %>
     </h1>
-    <% if FeatureFlag.active?('apply_again') && apply_again %>
+    <% if apply_again %>
       <%= render 'guidance_apply_again' %>
     <% else %>
       <%= render 'guidance' %>
