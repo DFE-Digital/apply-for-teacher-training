@@ -2,7 +2,6 @@ module CandidateInterface
   class ApplicationFormController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted, only: %i[show review]
     before_action :redirect_to_application_form_unless_submitted, only: %i[review_submitted complete submit_success]
-    before_action :build_previous_application_form, only: %i[review_previous_application]
 
     def show
       @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
@@ -77,13 +76,12 @@ module CandidateInterface
     end
 
     def review_previous_application
-      if @application_form.nil?
-        redirect_to candidate_interface_application_form_path
-      else
-        @review_previous_application = true
+      @application_form = current_candidate.application_forms.find(params[:id])
+      @review_previous_application = true
 
-        render :review_submitted
-      end
+      render :review_submitted
+    rescue ActiveRecord::RecordNotFound
+      render_404
     end
 
   private
@@ -94,12 +92,6 @@ module CandidateInterface
         :further_information_details,
       )
         .transform_values(&:strip)
-    end
-
-    def build_previous_application_form
-      return if params['candidate_id']&.to_i != current_candidate.id
-
-      @application_form = current_candidate.application_forms.find(params['id']) if params['id'].present?
     end
   end
 end
