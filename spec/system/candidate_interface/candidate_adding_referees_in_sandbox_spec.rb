@@ -16,7 +16,7 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
       relationship: 'First boss',
     )
     click_button 'Save and continue'
-    click_link 'Add a second referee'
+    click_link 'Add another referee'
 
     choose 'Professional'
     click_button 'Continue'

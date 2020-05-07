@@ -144,7 +144,7 @@ RSpec.feature 'Candidate adding referees' do
   end
 
   def and_i_click_on_add_second_referee
-    click_link 'Add a second referee'
+    click_link 'Add another referee'
   end
 
   def then_i_am_asked_to_specify_the_type_of_my_second_referee

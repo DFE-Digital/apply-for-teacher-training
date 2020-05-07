@@ -1,7 +1,7 @@
 <p class="govuk-body">
   <% if @application_form.submitted? %>
     <%= t('application_form.referees.info.after_submission') %>
-  <% else %>
+  <% elsif @application_form.application_references.empty? %>
     <%= t('application_form.referees.info.before_submission') %>
   <% end %>
 </p>
