@@ -55,9 +55,6 @@ Rails.application.configure do
   config.action_mailer.notify_settings = {
     api_key: ENV.fetch('GOVUK_NOTIFY_API_KEY')
   }
-  config.action_mailer.default_url_options = {
-    host: HostingEnvironment.hostname
-  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

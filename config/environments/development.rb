@@ -44,8 +44,6 @@ Rails.application.configure do
     end
   })
 
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-
   # Do not buffer STDOUT in Ruby. This behaviour interacts weirdly with the docker-compose
   # log output and causes logs only to be printed when an exception occurs or the process
   # exits.
