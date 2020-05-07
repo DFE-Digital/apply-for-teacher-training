@@ -20,6 +20,7 @@ class ApplicationsExportForUCAS
     level: 'Phase', # <- what we call our field: how UCAS refer to it
     funding_type: 'Funding type',
     program_type: 'Programme type',
+    qualifications: 'Qualifications',
     programme_outcome: 'Programme outcome',
     nctl_subject: 'NCTL subject',
     course_name: 'Course name',
