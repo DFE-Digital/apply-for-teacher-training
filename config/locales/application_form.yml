@@ -315,7 +315,6 @@ en:
       confirm_chase: Are you sure you want to send emails to chase the referee?
       info:
         before_submission: You need to add 2 referees.
-        <%# before_submission: We’ll contact your referees after you submit your application. We’ll let you know if they don’t supply a reference. %>
         after_submission: We’ve contacted the referees you provided below. We’ll let you know if they don’t supply a reference.
   activemodel:
     errors:
