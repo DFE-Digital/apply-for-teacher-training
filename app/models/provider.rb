@@ -27,7 +27,8 @@ class Provider < ApplicationRecord
   audited
 
   scope :manageable_by, ->(provider_user) do
-    where(id: provider_user.provider_permissions.manage_users.select(:provider_id))
+    joins(:provider_permissions)
+      .where(ProviderPermissions.table_name => { provider_user_id: provider_user.id, manage_users: true })
   end
 
   def name_and_code
