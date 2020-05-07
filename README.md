@@ -52,7 +52,7 @@ An overview of the Azure hosted infrastructure architecture can be found in the 
 
 ![The domain model for this application](docs/domain-model.png)
 
-Regenerate this diagram with `bundle exec erd`.
+Regenerate this diagram with `bundle exec rake erd`.
 
 ### Application states
 
