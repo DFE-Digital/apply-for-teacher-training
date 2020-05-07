@@ -301,7 +301,8 @@ module CandidateInterface
         end
 
       else
-        render :options_for_site
+        flash[:warning] = @pick_site.errors.full_messages.first
+        redirect_to candidate_interface_application_form_path
       end
     end
 
