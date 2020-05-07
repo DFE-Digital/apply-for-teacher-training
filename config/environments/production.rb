@@ -131,8 +131,13 @@ Rails.application.configure do
       # so use Rack's own parsing to overwrite this header before it
       # gets to ActionDispatch::RemoteIp
       req = Rack::Request.new(env)
+      
       if(req.forwarded_for.present?)
         env['HTTP_X_FORWARDED_FOR'] = req.forwarded_for.join(',')
+      end
+
+      if(!env['HTTP_X_CLIENT_IP'].nil?)
+        env['HTTP_CLIENT_IP'] = env['HTTP_X_CLIENT_IP']
       end
 
       @app.call(env)
