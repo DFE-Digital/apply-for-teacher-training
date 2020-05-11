@@ -21,7 +21,9 @@
           <%= f.govuk_submit 'Change offer' %>
         <% end %>
 
-        <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
+        <p class="govuk-body">
+          <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
+        </p>
       </div>
     </div>
   </div>
