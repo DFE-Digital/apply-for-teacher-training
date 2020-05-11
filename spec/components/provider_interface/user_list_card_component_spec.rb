@@ -11,17 +11,10 @@ RSpec.describe ProviderInterface::UserListCardComponent do
     ]
   end
 
-  let(:provider_user) { build_stubbed(:provider_user, providers: providers) }
-  let(:instance) { described_class.new(provider_user: provider_user, manageable_providers: manageable_providers) }
+  let(:provider_user) { build_stubbed(:provider_user, id: 111, providers: providers) }
+  let(:instance) { described_class.new(provider_user: provider_user, providers: providers) }
   let(:result) { render_inline instance }
   let(:card) { result.css('.app-application-card').to_html }
-  let(:manageable_providers) { providers }
-
-  before do
-    allow(provider_user).to receive(:providers).and_return(
-      ActiveRecordRelationStub.new(ProviderPermissions, providers),
-    )
-  end
 
   describe 'rendering' do
     it 'renders the name of the provider user' do
@@ -39,7 +32,7 @@ RSpec.describe ProviderInterface::UserListCardComponent do
 
   describe '#providers_text' do
     context 'when one provider exists' do
-      let(:providers) { [create(:provider)] }
+      let(:providers) { [build_stubbed(:provider)] }
 
       it 'renders the name of the first provider' do
         expect(instance.providers_text).to eq(providers.first.name)
@@ -49,20 +42,6 @@ RSpec.describe ProviderInterface::UserListCardComponent do
     context 'when more than one provider exists' do
       it 'renders the name of the first provider and cardinal number for others' do
         expect(instance.providers_text).to eq('Hoth Teacher Training and two more')
-      end
-    end
-
-    context 'when manageable_providers are a subset of user providers' do
-      let(:manageable_providers) { [providers.first, providers.last] }
-
-      before do
-        allow(provider_user).to receive(:providers).and_return(
-          ActiveRecordRelationStub.new(ProviderPermissions, manageable_providers),
-        )
-      end
-
-      it 'renders provider text based on intersection with manageable providers' do
-        expect(instance.providers_text).to eq('Hoth Teacher Training and one more')
       end
     end
   end
