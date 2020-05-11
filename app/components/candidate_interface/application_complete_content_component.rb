@@ -31,6 +31,10 @@ module CandidateInterface
       @dates.decline_by_default_at.to_s(:govuk_date)
     end
 
+    def choice_count
+      application_form.application_choices.size
+    end
+
   private
 
     attr_reader :application_form

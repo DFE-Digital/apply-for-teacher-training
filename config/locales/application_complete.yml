@@ -3,7 +3,9 @@ en:
     dashboard:
       edit_link: Edit your application
       some_provider_decisions_made: Some of your training providers haven’t reached a decision yet
-      all_provider_decisions_made: All your training providers have now reached a decision
+      all_provider_decisions_made:
+        one: Your training provider has now reached a decision
+        other: All your training providers have now reached a decision
       providers_respond_by: Training providers must respond by %{date}.
       candidate_respond_by: You have %{remaining_days} days (until %{date}) to respond to any offers.
       all_withdrawn: You have withdrawn all your choices
