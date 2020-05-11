@@ -16,7 +16,7 @@
       <%= render SummaryListComponent.new(rows: [
         { key: 'Candidate name', value: @application_choice.application_form.full_name },
         { key: 'Course', value: @application_choice.course.name_and_code },
-        { key: 'Preferred location', value: @application_choice.site.name },
+        { key: 'Training location', value: @application_choice.site.name },
         { key: 'Provider', value: @application_choice.course.provider.name_and_code },
       ]) %>
 
