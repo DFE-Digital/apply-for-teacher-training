@@ -121,6 +121,10 @@ class ApplicationForm < ApplicationRecord
     apply_again? && application_choices.present?
   end
 
+  def unique_provider_list
+    application_choices.map(&:provider).uniq
+  end
+
   audited
 
   def ended_without_success?

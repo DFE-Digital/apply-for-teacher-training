@@ -16,8 +16,8 @@
     <p class="govuk-body">You’ll get an email to confirm that your application has been submitted.</p>
 
     <h2 class="govuk-heading-m">References</h2>
-    <p class="govuk-body">We’ll contact your referees to ask for your references. When we receive them, we’ll add them to your application and send it to your training provider(s).</p>
-    <p class="govuk-body">We can’t send your application to your training provider(s) without your references.</p>
+    <p class="govuk-body">We’ll contact your referees to ask for your references. When we receive them, we’ll add them to your application and send it to your training <%= @pluralized_provider_string %>.</p>
+    <p class="govuk-body">We can’t send your application to your training <%= @pluralized_provider_string %> without your references.</p>
     <% unless FeatureFlag.active?('covid_19') %>
       <p class="govuk-body">Training providers then have 40 working days to respond to your application.</p>
     <% end %>
@@ -32,7 +32,7 @@
     <p class="govuk-body">Your training provider will be in touch with you if they want to arrange an interview.</p>
 
     <h2 class="govuk-heading-m">Track, edit or withdraw</h2>
-    <p class="govuk-body">You have <%= @editable_days %> to edit your application. We'll only send your application to your provider(s) when this editing period is over.</p>
+    <p class="govuk-body">You have <%= @editable_days %> to edit your application. We'll only send your application to your <%= @pluralized_provider_string %> when this editing period is over.</p>
     <p class="govuk-body"><%= govuk_link_to 'To edit your application, return to your application dashboard.', candidate_interface_application_complete_path %></p>
 
     <h2 class="govuk-heading-m">Tell us what you think of this service</h2>
