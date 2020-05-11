@@ -24,8 +24,8 @@ RSpec.feature 'Candidate with unsuccessful application' do
     then_i_am_informed_i_can_only_select_one_course
     and_i_can_indeed_only_select_one_course
 
-    then_application_is_submitted
-    and_application_choices_are_complete
+    when_i_complete_my_application
+    then_my_application_is_submitted
   end
 
   def given_the_pilot_is_open
