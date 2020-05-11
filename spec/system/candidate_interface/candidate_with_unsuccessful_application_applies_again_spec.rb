@@ -74,7 +74,7 @@ RSpec.feature 'Candidate with unsuccessful application' do
   end
 
   def then_i_see_the_review_previous_application_page
-    expect(page).to have_current_path(candidate_interface_review_previous_application_path(@candidate.id, @application_form.id))
+    expect(page).to have_current_path(candidate_interface_review_previous_application_path(@application_form.id))
   end
 
   def when_i_click_back
