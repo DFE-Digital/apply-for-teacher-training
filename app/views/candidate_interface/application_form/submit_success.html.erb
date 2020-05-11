@@ -15,11 +15,8 @@
     <h2 class="govuk-heading-m">What happens next</h2>
     <p class="govuk-body">You’ll get an email to confirm that your application has been submitted.</p>
 
-    <h2 class="govuk-heading-m">References</h2>
-    <p class="govuk-body">We’ll contact your referees to ask for your references. When we receive them, we’ll add them to your application and send it to your training <%= @pluralized_provider_string %>.</p>
-    <p class="govuk-body">We can’t send your application to your training <%= @pluralized_provider_string %> without your references.</p>
-    <% unless FeatureFlag.active?('covid_19') %>
-      <p class="govuk-body">Training providers then have 40 working days to respond to your application.</p>
+    <% if @application_form.application_references.feedback_requested.any? %>
+      <%= render CandidateInterface::RefereeGuidanceComponent.new(application_form: @application_form) %>
     <% end %>
 
     <% if FeatureFlag.active?('covid_19') %>
