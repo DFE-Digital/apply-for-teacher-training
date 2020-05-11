@@ -187,6 +187,7 @@ RSpec.feature 'Candidate submits the application' do
 
   def then_i_can_see_my_application_has_been_successfully_submitted
     expect(page).to have_content 'Application successfully submitted'
+    expect(page).to have_content 'Your training provider will be in touch with you if they want to arrange an interview.'
   end
 
   def and_i_can_see_my_support_ref
