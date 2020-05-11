@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @referee, url: candidate_interface_referees_path(type: @referee.referee_type) do |f| %>
+    <%= form_with model: @referee, url: candidate_interface_referees_type_path(type: @referee.referee_type) do |f| %>
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">

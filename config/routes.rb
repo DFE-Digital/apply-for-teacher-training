@@ -255,8 +255,6 @@ Rails.application.routes.draw do
       end
 
       scope '/referees' do
-        get '/' => 'referees#index', as: :referees
-
         get '/type/(:id)' => 'referees#type', as: :referees_type
         post '/update-type/(:id)' => 'referees#update_type', as: :update_referees_type
 

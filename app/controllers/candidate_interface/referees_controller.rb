@@ -100,7 +100,7 @@ module CandidateInterface
     def destroy
       @referee.destroy!
 
-      redirect_to candidate_interface_referees_path
+      redirect_to candidate_interface_review_referees_path
     end
 
     def review
