@@ -46,6 +46,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-tag.govuk-tag--green.app-tag').to_html).to include('Reference given')
+      expect(result.css('.govuk-summary-list__value').to_html).not_to include(t('application_form.referees.info.not_requested_yet'))
     end
 
     it 'renders component with correct value for status for declined reference' do
@@ -155,6 +156,16 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.text).to include(t('application_form.referees.info.after_submission'))
+    end
+
+    it 'does not show guidance in the status key for not_requested_yet refereences' do
+      application_form = create(:application_form, submitted_at: Time.zone.now)
+      create(:reference, feedback_status: 'not_requested_yet', application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Not requested')
+      expect(result.css('.govuk-summary-list__value').to_html).not_to include(t('application_form.referees.info.not_requested_yet'))
     end
   end
 end
