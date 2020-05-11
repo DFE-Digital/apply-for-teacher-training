@@ -9,9 +9,6 @@ RSpec.feature 'Candidate adding referees' do
 
     given_i_have_no_existing_references_on_the_form
     when_i_click_on_referees
-    then_i_see_intro_content_about_choosing_your_referees
-
-    when_i_click_continue
     then_i_am_asked_to_specify_the_type_of_my_first_reference
 
     and_i_click_continue
@@ -32,7 +29,6 @@ RSpec.feature 'Candidate adding referees' do
     then_i_see_referees_is_not_complete
 
     when_i_click_on_referees
-    and_i_click_on_add_second_referee
     then_i_am_asked_to_specify_the_type_of_my_second_referee
 
     when_i_choose_school_based_as_reference_type
@@ -75,10 +71,6 @@ RSpec.feature 'Candidate adding referees' do
 
   def when_i_click_on_referees
     click_link 'Referees'
-  end
-
-  def then_i_see_intro_content_about_choosing_your_referees
-    expect(page).to have_content('Choosing your referees')
   end
 
   def then_i_see_an_error_to_choose_the_type_of_my_first_reference
@@ -141,10 +133,6 @@ RSpec.feature 'Candidate adding referees' do
 
   def then_i_see_referees_is_not_complete
     expect(page).not_to have_css('#referees-badge-id', text: 'Completed')
-  end
-
-  def and_i_click_on_add_second_referee
-    click_link 'Add another referee'
   end
 
   def then_i_am_asked_to_specify_the_type_of_my_second_referee
