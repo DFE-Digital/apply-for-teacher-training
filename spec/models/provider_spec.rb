@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Provider, type: :model do
-  describe '.manageable_by' do
+  describe '.with_users_manageable_by' do
     it 'scopes results to providers the given user is permitted to manage' do
       provider = create(:provider)
       create(:provider)
       provider_user = create(:provider_user, providers: [provider])
       provider_user.provider_permissions.update_all(manage_users: true)
 
-      expect(described_class.manageable_by(provider_user)).to eq([provider])
+      expect(described_class.with_users_manageable_by(provider_user)).to eq([provider])
     end
   end
 
