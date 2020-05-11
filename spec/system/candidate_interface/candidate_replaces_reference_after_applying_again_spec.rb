@@ -25,6 +25,10 @@ RSpec.feature 'Candidate applying again' do
     then_i_can_see_i_have_two_referees
     and_i_can_change_new_referee_details
     and_references_for_original_application_are_not_affected
+
+    when_i_select_a_course
+    and_i_submit_my_application
+    then_i_am_informed_my_new_referee_will_be_contacted
   end
 
   def given_the_pilot_is_open
@@ -41,7 +45,7 @@ RSpec.feature 'Candidate applying again' do
   end
 
   def when_i_have_an_unsuccessful_application_with_references
-    @application_form = create(:completed_application_form, candidate: @candidate)
+    @application_form = create(:completed_application_form, candidate: @candidate, with_gces: true)
     create(:application_choice, status: :rejected, application_form: @application_form)
     @completed_references = create_list(:reference, 2, feedback_status: :feedback_provided, application_form: @application_form)
     @refused_reference = create(:reference, feedback_status: :feedback_refused, application_form: @application_form)
@@ -110,5 +114,35 @@ RSpec.feature 'Candidate applying again' do
       @completed_references[1].name,
       @refused_reference.name,
     ])
+  end
+
+  def when_i_select_a_course
+    click_link 'Back to application'
+    click_link 'Course choice', exact: true
+    given_courses_exist
+
+    click_link 'Continue'
+    choose 'Yes, I know where I want to apply'
+    click_button 'Continue'
+
+    select 'Gorse SCITT (1N1)'
+    click_button 'Continue'
+
+    choose 'Primary (2XT2)'
+    click_button 'Continue'
+
+    expect(page).to have_link 'Delete choice'
+    expect(page).to have_content 'I have completed this section'
+    expect(page).not_to have_button 'Add another course'
+  end
+
+  def and_i_submit_my_application
+    check t('application_form.courses.complete.completed_checkbox')
+    click_button 'Continue'
+    candidate_submits_application
+  end
+
+  def then_i_am_informed_my_new_referee_will_be_contacted
+    expect(page).to have_content 'We’ll contact your referee to ask for your reference'
   end
 end
