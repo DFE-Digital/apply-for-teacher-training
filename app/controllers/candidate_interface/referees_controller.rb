@@ -6,7 +6,9 @@ module CandidateInterface
     before_action :set_nth_referee, only: %i[type new]
 
     def index
-      unless @referees.empty?
+      if @referees.empty?
+        redirect_to candidate_interface_referees_type_path
+      else
         redirect_to candidate_interface_review_referees_path
       end
     end

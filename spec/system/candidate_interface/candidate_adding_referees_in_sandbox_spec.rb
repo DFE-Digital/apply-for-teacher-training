@@ -5,8 +5,6 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
 
   def candidate_provides_two_referees
     visit candidate_interface_referees_type_path
-    click_link 'Continue'
-
     choose 'Academic'
     click_button 'Continue'
 
