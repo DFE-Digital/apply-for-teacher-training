@@ -5,4 +5,11 @@
   <% unless FeatureFlag.active?('covid_19') %>
     <p class="govuk-body">Training providers then have 40 working days to respond to your application.</p>
   <% end %>
+<% else %>
+  <h2 class="govuk-heading-m">References</h2>
+  <p class="govuk-body">We’ll contact your referees to ask for your references. When we receive them, we’ll add them to your application and send it to your training <%= pluralize_provider %>.</p>
+  <p class="govuk-body">We can’t send your application to your training <%= pluralize_provider %> without your references.</p>
+  <% unless FeatureFlag.active?('covid_19') %>
+    <p class="govuk-body">Training providers then have 40 working days to respond to your application.</p>
+  <% end %>
 <% end %>
