@@ -69,16 +69,18 @@ module CandidateInterface
     end
 
     def feedback_status_row(referee)
-      return nil unless show_status?(referee)
-
-      {
-        key: 'Status',
-        value: feedback_status_label(referee),
-      }
-    end
-
-    def show_status?(referee)
-      referee.application_form.submitted?
+      if referee.not_requested_yet? && !referee.application_form.submitted?
+        {
+          key: 'Status',
+          value: feedback_status_label(referee) +
+            content_tag(:p, t('application_form.referees.info.not_requested_yet'), class: 'govuk-body govuk-!-margin-top-2'),
+        }
+      else
+        {
+          key: 'Status',
+          value: feedback_status_label(referee),
+        }
+      end
     end
 
     def feedback_status_label(reference)

@@ -30,9 +30,13 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
 
     it 'renders component with correct value for status for unrequested reference' do
       application_form.update_column(:submitted_at, nil)
+      first_referee = application_form.application_references.first
+      first_referee.update(feedback_status: 'not_requested_yet')
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-summary-list__key').text).not_to include('Status')
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Not requested')
+      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info.not_requested_yet'))
     end
 
     it 'renders component with correct value for status for given reference' do
@@ -42,6 +46,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-tag.govuk-tag--green.app-tag').to_html).to include('Reference given')
+      expect(result.css('.govuk-summary-list__value').to_html).not_to include(t('application_form.referees.info.not_requested_yet'))
     end
 
     it 'renders component with correct value for status for declined reference' do
@@ -144,16 +149,6 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
     end
   end
 
-  context 'when the application has not been submitted' do
-    it 'renders component with content about what happens with referee details provided' do
-      application_form = build_stubbed(:application_form, submitted_at: nil)
-
-      result = render_inline(described_class.new(application_form: application_form))
-
-      expect(result.text).to include(t('application_form.referees.info.before_submission'))
-    end
-  end
-
   context 'when the application has been submitted' do
     it 'renders component with content about referees being contacted' do
       application_form = build_stubbed(:application_form, submitted_at: Time.zone.now)
@@ -161,6 +156,16 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.text).to include(t('application_form.referees.info.after_submission'))
+    end
+
+    it 'does not show guidance in the status key for not_requested_yet refereences' do
+      application_form = create(:application_form, submitted_at: Time.zone.now)
+      create(:reference, feedback_status: 'not_requested_yet', application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Not requested')
+      expect(result.css('.govuk-summary-list__value').to_html).not_to include(t('application_form.referees.info.not_requested_yet'))
     end
   end
 end
