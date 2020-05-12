@@ -28,7 +28,8 @@ RSpec.feature 'Candidate submits the application' do
 
     and_i_confirm_my_application
 
-    when_i_choose_to_add_further_information_but_omit_adding_details
+    when_i_choose_not_to_fill_in_the_equality_and_diversity_survey
+    and_i_choose_to_add_further_information_but_omit_adding_details
     then_i_should_see_validation_errors
 
     when_i_fill_in_further_information
@@ -168,7 +169,11 @@ RSpec.feature 'Candidate submits the application' do
     click_link 'Continue'
   end
 
-  def when_i_choose_to_add_further_information_but_omit_adding_details
+  def when_i_choose_not_to_fill_in_the_equality_and_diversity_survey
+    click_link 'Continue without completing questionnaire'
+  end
+
+  def and_i_choose_to_add_further_information_but_omit_adding_details
     choose 'Yes'
   end
 

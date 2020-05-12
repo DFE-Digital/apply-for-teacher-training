@@ -1,7 +1,6 @@
 module CandidateInterface
   class EqualityAndDiversityController < CandidateInterfaceController
     before_action :redirect_to_review_unless_ready_to_submit
-    before_action :redirect_to_review_unless_feature_flag_active
 
     def start; end
 
@@ -123,10 +122,6 @@ module CandidateInterface
 
     def redirect_to_review_unless_ready_to_submit
       redirect_to candidate_interface_application_submit_show_path unless ready_to_submit?
-    end
-
-    def redirect_to_review_unless_feature_flag_active
-      redirect_to candidate_interface_application_review_path unless FeatureFlag.active?('equality_and_diversity')
     end
 
     def ready_to_submit?

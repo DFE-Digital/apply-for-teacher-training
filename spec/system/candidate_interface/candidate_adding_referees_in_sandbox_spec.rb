@@ -40,10 +40,11 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
 
     and_i_confirm_my_application
 
-    when_i_choose_not_to_add_further_information
-    and_i_can_submit_the_application
+    when_i_choose_not_to_fill_in_the_equality_and_diversity_survey
+    and_i_choose_not_to_add_further_information
+    and_i_submit_the_application
 
-    i_see_that_the_application_was_sent_to_provider
+    then_i_see_that_the_application_was_sent_to_provider
     and_i_see_that_references_are_given
   end
 
@@ -78,15 +79,19 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
     click_link 'Continue'
   end
 
-  def when_i_choose_not_to_add_further_information
+  def when_i_choose_not_to_fill_in_the_equality_and_diversity_survey
+    click_link 'Continue without completing questionnaire'
+  end
+
+  def and_i_choose_not_to_add_further_information
     choose 'No'
   end
 
-  def and_i_can_submit_the_application
+  def and_i_submit_the_application
     click_button 'Submit application'
   end
 
-  def i_see_that_the_application_was_sent_to_provider
+  def then_i_see_that_the_application_was_sent_to_provider
     visit candidate_interface_application_complete_path
     expect(page).to have_content('Status Pending')
   end
