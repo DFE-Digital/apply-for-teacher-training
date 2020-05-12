@@ -29,9 +29,11 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     create(:application_choice,
            :awaiting_provider_decision,
            course_option: course_option,
-           status: 'withdrawn', application_form: create(:application_form,
-                                                         first_name: 'Jim',
-                                                         last_name: 'James'),
+           status: 'withdrawn',
+           application_form: create(:application_form,
+                                     first_name: 'Jim',
+                                     last_name: 'James'),
+           site: create(:site, code: 'L123', name: 'Skywalker Training'),
            updated_at: Date.parse('25-03-2020'))
   end
 
@@ -77,6 +79,10 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
 
     it 'renders the last updated date' do
       expect(card).to include('25 Mar 2020')
+    end
+
+    it 'renders the location of the course' do
+      expect(card).to include('Skywalker Training (L123)')
     end
 
     context 'when there is no accredited provider' do

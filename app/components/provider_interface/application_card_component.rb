@@ -4,7 +4,7 @@ module ProviderInterface
 
     attr_accessor :accredited_provider, :application_choice, :application_choice_path,
                   :candidate_name, :course_name_and_code, :course_provider_name, :updated_at,
-                  :most_recent_note
+                  :most_recent_note, :site_name_and_code
 
     def initialize(application_choice:)
       @accredited_provider = application_choice.accredited_provider
@@ -13,6 +13,7 @@ module ProviderInterface
       @course_name_and_code = application_choice.offered_course.name_and_code
       @course_provider_name = application_choice.offered_course.provider.name
       @updated_at = application_choice.updated_at.to_s(:govuk_date_short_month)
+      @site_name_and_code = application_choice.site.name_and_code
       if FeatureFlag.active?('notes')
         @most_recent_note = application_choice.notes.order('created_at DESC').first
       end
