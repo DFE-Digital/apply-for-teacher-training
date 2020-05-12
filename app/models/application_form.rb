@@ -29,11 +29,11 @@ class ApplicationForm < ApplicationRecord
     never_asked: 'never_asked',
   }
 
-  before_create -> {
+  before_create lambda {
     self.support_reference ||= GenerateSupportRef.call
   }
 
-  after_save -> {
+  after_save lambda {
     application_choices.update_all(updated_at: Time.zone.now)
   }
 

@@ -5,7 +5,7 @@ module CandidateInterface
     before_action :authenticate_candidate!
     before_action :add_identity_to_log
     layout 'application'
-    alias :audit_user :current_candidate
+    alias_method :audit_user, :current_candidate
 
     def add_identity_to_log(candidate_id = current_candidate&.id)
       RequestLocals.store[:identity] = { candidate_id: candidate_id }

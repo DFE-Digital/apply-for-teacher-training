@@ -5,11 +5,11 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
     let(:completed) { true }
 
     context 'choices present' do
-      let(:result) {
+      let(:result) do
         render_inline(
           described_class.new(choices_are_present: true, completed: completed),
         )
-      }
+      end
 
       it 'renders expected content' do
         expect(heading(result)).to eq 'Course choices'
@@ -21,11 +21,11 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
     end
 
     context 'no choices present' do
-      let(:result) {
+      let(:result) do
         render_inline(
           described_class.new(choices_are_present: true, completed: completed),
         )
-      }
+      end
 
       it 'renders without error' do
         # should render without errors but is not an expected state
@@ -38,11 +38,11 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
     let(:completed) { false }
 
     context 'no choices present' do
-      let(:result) {
+      let(:result) do
         render_inline(
           described_class.new(choices_are_present: false, completed: completed),
         )
-      }
+      end
 
       it 'renders expected content' do
         expect(heading(result)).to eq 'Course choices'
@@ -54,11 +54,11 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
     end
 
     context 'choices present' do
-      let(:result) {
+      let(:result) do
         render_inline(
           described_class.new(choices_are_present: true, completed: completed),
         )
-      }
+      end
 
       it 'renders expected content' do
         expect(heading(result)).to eq 'Course choices'

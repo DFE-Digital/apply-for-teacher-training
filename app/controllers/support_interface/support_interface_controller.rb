@@ -16,7 +16,7 @@ module SupportInterface
       DfESignInUser.load_from_session(session)
     end
 
-    alias :audit_user :current_support_user
+    alias_method :audit_user, :current_support_user
 
   private
 

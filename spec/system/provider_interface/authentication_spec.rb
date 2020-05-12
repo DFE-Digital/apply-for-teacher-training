@@ -54,7 +54,7 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
     expect(page).to have_content('provider@example.com')
   end
 
-  alias :then_i_should_see_my_email_address :and_i_should_see_my_email_address
+  alias_method :then_i_should_see_my_email_address, :and_i_should_see_my_email_address
 
   def when_i_click_sign_out
     click_link 'Sign out'

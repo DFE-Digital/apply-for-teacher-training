@@ -64,7 +64,7 @@ RSpec.describe ApplicationReference, type: :model do
   # potential edge case: someone adds 2 references, then deletes the first
   # we want to make sure it updates the ordinal of the remaining second ref. to
   # be 1, so that we can still use that to describe 'First referee' etc in the
-  #  interface
+  # interface
   describe 'after deleting a reference' do
     let!(:application_form) { create(:completed_application_form, references_count: 2, with_gces: true) }
 

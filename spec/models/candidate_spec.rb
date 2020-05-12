@@ -66,11 +66,11 @@ RSpec.describe Candidate, type: :model do
 
   describe '#refresh_magic_link_token!' do
     let(:candidate) { create(:candidate) }
-    let(:magic_link_token) {
+    let(:magic_link_token) do
       instance_double(
         MagicLinkToken, raw: 'RAW', encrypted: 'ENCRYPTED'
       )
-    }
+    end
 
     before do
       allow(MagicLinkToken).to receive(:new).and_return(magic_link_token)

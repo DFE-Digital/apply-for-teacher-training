@@ -66,12 +66,12 @@ RSpec.describe ProviderInterface::ProviderUserForm do
     end
 
     context 'name fields' do
-      let(:form_params) {
+      let(:form_params) do
         {
           current_provider_user: provider_user,
           provider_permissions: provider_permissions,
         }
-      }
+      end
 
       it 'are required' do
         provider_user_form.valid?

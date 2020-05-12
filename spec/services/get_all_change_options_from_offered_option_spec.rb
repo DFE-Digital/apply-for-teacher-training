@@ -8,12 +8,12 @@ RSpec.describe GetAllChangeOptionsFromOfferedOption do
   let(:course_option) { course_option_for_provider_code(provider_code: available_providers.first.code) }
   let(:application_choice) { create(:application_choice, :with_offer, course_option: course_option) }
 
-  let(:service) {
+  let(:service) do
     GetAllChangeOptionsFromOfferedOption.new(
       application_choice: application_choice,
       available_providers: available_providers,
     )
-  }
+  end
 
   describe '#call' do
     let(:returned_hash) { service.call }

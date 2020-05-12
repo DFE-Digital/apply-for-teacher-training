@@ -5,9 +5,9 @@ RSpec.feature 'Provider rejects application' do
   include DfESignInHelpers
 
   let(:course_option) { course_option_for_provider_code(provider_code: 'ABC') }
-  let(:application_awaiting_provider_decision) {
+  let(:application_awaiting_provider_decision) do
     create(:application_choice, status: 'awaiting_provider_decision', course_option: course_option, application_form: create(:completed_application_form, first_name: 'Alice', last_name: 'Wunder'))
-  }
+  end
 
   scenario 'Provider rejects application' do
     given_i_am_a_provider_user_with_dfe_sign_in

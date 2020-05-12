@@ -30,7 +30,7 @@ class RecalculateDates
     #
     adjustment_date = Time.zone.local(2020, 6, 1).end_of_day
     #
-    #  All applications submitted to a provider before the 7th of March should
+    # All applications submitted to a provider before the 7th of March should
     # have an RBD of the 1st of June.
     #
     sent_to_provider_at_cutoff = DateTime.parse('2020-03-07')

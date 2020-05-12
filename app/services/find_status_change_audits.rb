@@ -28,6 +28,6 @@ private
   end
 
   def status_change?(audit)
-    audit.action == 'update' && audit.audited_changes.has_key?('status')
+    audit.action == 'update' && audit.audited_changes.key?('status')
   end
 end

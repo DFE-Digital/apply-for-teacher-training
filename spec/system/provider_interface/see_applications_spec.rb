@@ -57,7 +57,7 @@ RSpec.feature 'See applications' do
     visit provider_interface_path
   end
 
-  alias :when_i_visit_the_provider_page :and_i_visit_the_provider_page
+  alias_method :when_i_visit_the_provider_page, :and_i_visit_the_provider_page
 
   def then_i_should_see_the_applications_from_my_organisation
     expect(page).to have_content @my_provider_choice1.application_form.support_reference

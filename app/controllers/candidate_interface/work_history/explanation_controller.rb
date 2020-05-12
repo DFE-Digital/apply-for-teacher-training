@@ -22,7 +22,7 @@ module CandidateInterface
   private
 
     def work_explanation_form_params
-      return nil unless params.has_key?(:candidate_interface_work_explanation_form)
+      return nil unless params.key?(:candidate_interface_work_explanation_form)
 
       params.require(:candidate_interface_work_explanation_form).permit(
         :work_history_explanation,

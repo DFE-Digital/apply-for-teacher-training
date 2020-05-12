@@ -72,12 +72,12 @@ RSpec.describe MakeAnOffer, sidekiq: true do
   describe 'decline by default' do
     let(:application_form) { create :application_form }
 
-    let(:application_choice) {
+    let(:application_choice) do
       create(:application_choice,
              application_form: application_form,
              status: 'awaiting_provider_decision',
              edit_by: 2.business_days.ago)
-    }
+    end
 
     it 'calls SetDeclineByDefault service' do
       MakeAnOffer.new(actor: user, application_choice: application_choice).save
@@ -91,12 +91,12 @@ RSpec.describe MakeAnOffer, sidekiq: true do
   describe 'offer a different course option' do
     let(:application_form) { create :application_form }
 
-    let(:application_choice) {
+    let(:application_choice) do
       create(:application_choice,
              application_form: application_form,
              status: 'awaiting_provider_decision',
              edit_by: 2.business_days.ago)
-    }
+    end
 
     let(:different_course_option) { create(:course_option, course: application_choice.course) }
 

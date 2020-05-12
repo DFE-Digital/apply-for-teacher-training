@@ -5,7 +5,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   scenario 'candidate is not signed in and retains their course selection through the sign in process' do
     given_the_pilot_is_open
 
-    #  Single site course
+    # Single site course
     and_i_am_an_existing_candidate_on_apply
     and_i_have_less_than_3_application_options
     and_the_course_i_selected_only_has_one_site
@@ -30,7 +30,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     then_i_should_see_the_courses_review_page
     and_i_should_be_informed_i_have_already_selected_that_course
 
-    #  Multi-site course
+    # Multi-site course
     given_the_course_i_selected_has_multiple_sites
     and_i_am_an_existing_candidate_on_apply
     and_i_have_less_than_3_application_options

@@ -31,7 +31,7 @@ class TestApplications
     courses_to_apply_to = courses_to_apply_to.sample(states.count)
 
     # it does not make sense to apply to the same course multiple times
-    # in the course of the same application, and it’s forbidden in the UI.
+    # in the course of the same application, and it's forbidden in the UI.
     # Throw an exception if we try to do that here.
     if courses_to_apply_to.count < states.count
       raise NotEnoughCoursesError.new("Not enough distinct courses to generate a #{states.count}-course application")

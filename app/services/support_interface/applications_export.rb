@@ -51,7 +51,7 @@ module SupportInterface
   private
 
     def last_change_to_form(audits, column)
-      audits.find { |audit| audit.action == 'update' && audit.audited_changes.has_key?(column) }&.created_at
+      audits.find { |audit| audit.action == 'update' && audit.audited_changes.key?(column) }&.created_at
     end
 
     def relevant_applications

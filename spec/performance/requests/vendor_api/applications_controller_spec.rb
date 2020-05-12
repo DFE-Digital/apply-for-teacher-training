@@ -11,10 +11,10 @@ RSpec.describe VendorAPI::ApplicationsController, type: :request do
     end
 
     describe 'calling the index for all results in the last 2 years' do
-      let(:calling_the_index) {
+      let(:calling_the_index) do
         get '/api/v1/applications.json', params: { since: 2.years.ago.to_date },
                                          headers: { 'Authorization' => "Token #{api_token}" }
-      }
+      end
 
       it 'returns a 200 status' do
         calling_the_index
