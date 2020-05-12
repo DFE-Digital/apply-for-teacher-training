@@ -18,7 +18,7 @@ RSpec.describe CandidateInterface::RefereeGuidanceComponent do
 
   context 'when one reference is in the feedback_requested state' do
     context 'when the candidates courses all have the same provider' do
-      it 'renders the correct pluralization for referees, references and providerss' do
+      it 'renders the correct pluralization for referees, references and providers' do
         result = render_inline(described_class.new(application_form: @application_form))
 
         expect(result.css('.govuk-heading-m').text).to eq('Reference')
