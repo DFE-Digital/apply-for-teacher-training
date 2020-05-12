@@ -4,16 +4,22 @@
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th class="govuk-table__header">Feature</th>
+      <th class="govuk-table__header">Owner</th>
       <th class="govuk-table__header">Activated?</th>
       <th class="govuk-table__header">Action</th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
-    <% FeatureFlag::FEATURES.keys.map(&:to_s).each do |feature_name| %>
+    <% FeatureFlag::FEATURES.each do |feature_name, feature| %>
       <tr class="govuk-table__row">
 
         <td class="govuk-table__cell">
-          <%= feature_name.humanize %>
+          <h3 class="govuk-!-margin-top-0"><%= feature_name.humanize %></h3>
+          <p><%= feature.description %></p>
+        </td>
+
+        <td class="govuk-table__cell">
+          <%= feature.owner %>
         </td>
 
         <td class="govuk-table__cell">
