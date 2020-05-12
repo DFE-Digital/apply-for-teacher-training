@@ -9,7 +9,6 @@ class FeatureFlag
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = %w[
-    candidate_can_cancel_reference
     confirm_conditions
     download_dataset1_from_support_page
     edit_course_choices
