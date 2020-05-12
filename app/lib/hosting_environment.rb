@@ -3,7 +3,7 @@ module HostingEnvironment
     if Rails.env.production?
       "https://#{hostname}"
     else
-      'http://localhost:3000'
+      "http://localhost:#{ENV.fetch('PORT', 3000)}"
     end
   end
 

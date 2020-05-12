@@ -56,6 +56,8 @@ Rails.application.configure do
     api_key: ENV.fetch('GOVUK_NOTIFY_API_KEY')
   }
 
+  # for default_url_options, see config/initializers/default_url_options.rb
+
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
