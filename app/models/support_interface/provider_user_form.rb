@@ -51,7 +51,7 @@ module SupportInterface
     end
 
     def possible_permissions
-      Provider.all.pluck(:id).map do |id|
+      Provider.where(sync_courses: true).pluck(:id).map do |id|
         ProviderPermissions.find_or_initialize_by(
           provider_id: id,
           provider_user_id: provider_user.try(:id),

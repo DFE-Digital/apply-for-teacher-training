@@ -13,7 +13,9 @@ RSpec.feature 'Managing provider users' do
     and_i_click_the_users_link
     and_i_click_the_manange_provider_users_link
     and_i_click_the_add_user_link
-    and_i_enter_an_existing_email
+    then_i_see_synced_providers
+
+    when_i_enter_an_existing_email
     and_i_click_add_user
     then_i_see_an_error
 
@@ -57,8 +59,15 @@ RSpec.feature 'Managing provider users' do
   end
 
   def and_providers_exist
-    @provider = create(:provider, name: 'Example provider', code: 'ABC')
-    create(:provider, name: 'Another provider', code: 'DEF')
+    @provider = create(:provider, name: 'Example provider', code: 'ABC', sync_courses: true)
+    create(:provider, name: 'Another provider', code: 'DEF', sync_courses: true)
+    create(:provider, name: 'Not shown provider', code: 'GHI')
+  end
+
+  def then_i_see_synced_providers
+    expect(page).to have_content 'Example provider'
+    expect(page).to have_content 'Another provider'
+    expect(page).not_to have_content 'Not shown provider'
   end
 
   def when_i_visit_the_support_console
@@ -87,7 +96,7 @@ RSpec.feature 'Managing provider users' do
     click_link 'Add provider user'
   end
 
-  def and_i_enter_an_existing_email
+  def when_i_enter_an_existing_email
     create(:provider_user, email_address: 'existing@example.org')
     fill_in 'support_interface_provider_user_form[email_address]', with: 'Existing@example.org'
   end

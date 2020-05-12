@@ -1,4 +1,4 @@
-<%= f.govuk_check_boxes_fieldset :provider, legend: { text: 'Provider' } do %>
+<%= f.govuk_check_boxes_fieldset :provider, legend: { text: 'Provider', tag: 'h2' } do %>
   <div class="app-checkboxes-scroll" %>
     <% f.object.forms_for_possible_permissions.each do |permission_form| %>
       <%= f.fields_for "provider_permissions_forms[]", permission_form do |pf| %>
