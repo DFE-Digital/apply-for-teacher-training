@@ -11,7 +11,6 @@ class FeatureFlag
   TEMPORARY_FEATURE_FLAGS = %w[
     confirm_conditions
     download_dataset1_from_support_page
-    edit_course_choices
     notes
     provider_add_provider_users
     provider_application_filters
