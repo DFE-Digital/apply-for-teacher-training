@@ -5,8 +5,7 @@ RSpec.describe 'Candidate edits course choices' do
   include CourseOptionHelpers
 
   scenario 'Candidate is signed in' do
-    given_that_the_edit_course_choices_feature_flag_is_active
-    and_i_am_signed_in
+    given_i_am_signed_in
     and_there_is_a_course_with_one_course_option
     and_there_is_a_course_with_multiple_course_options
     and_there_is_a_course_with_both_study_modes_but_one_site
@@ -73,11 +72,7 @@ RSpec.describe 'Candidate edits course choices' do
     and_i_should_see_the_updated_study_mode_for_the_third_choice
   end
 
-  def given_that_the_edit_course_choices_feature_flag_is_active
-    FeatureFlag.activate('edit_course_choices')
-  end
-
-  def and_i_am_signed_in
+  def given_i_am_signed_in
     create_and_sign_in_candidate
   end
 

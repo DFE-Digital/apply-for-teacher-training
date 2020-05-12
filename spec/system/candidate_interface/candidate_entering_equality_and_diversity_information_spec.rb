@@ -5,7 +5,6 @@ RSpec.feature 'Entering their equality and diversity information' do
 
   scenario 'Candidate submits equality and diversity information' do
     given_i_am_signed_in
-    and_the_equality_and_diversity_feature_flag_is_active
     and_i_have_an_application_form_that_is_not_ready_to_submit
     and_i_am_on_the_review_page
 
@@ -95,10 +94,6 @@ RSpec.feature 'Entering their equality and diversity information' do
     create_and_sign_in_candidate
   end
 
-  def and_the_equality_and_diversity_feature_flag_is_active
-    FeatureFlag.activate('equality_and_diversity')
-  end
-
   def and_i_have_an_application_form_that_is_not_ready_to_submit
     @application = create(
       :completed_application_form,
@@ -112,6 +107,8 @@ RSpec.feature 'Entering their equality and diversity information' do
 
   def when_i_have_an_application_form_that_is_ready_to_submit
     create :reference, application_form: @application
+    click_link 'Complete section', match: :first
+    candidate_fills_in_safeguarding_issues
   end
 
   def and_i_am_on_the_review_page

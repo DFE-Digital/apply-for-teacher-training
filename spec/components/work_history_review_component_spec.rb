@@ -114,33 +114,12 @@ RSpec.describe WorkHistoryReviewComponent do
       end
     end
 
-    context 'when consolidated work history breaks are editable' do
-      it 'renders summary card for breaks in the work history' do
-        result = render(feature_active: false, explanation: 'WE WERE ON A BREAK!')
-
-        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.work_history.break.label'))
-        expect(result.css('.govuk-summary-list__value').to_html).to include('WE WERE ON A BREAK!')
-        expect(result.css('.govuk-summary-list__actions a')[4].attr('href')).to include(
-          Rails.application.routes.url_helpers.candidate_interface_work_history_breaks_path,
-        )
-        expect(result.css('.govuk-summary-list__actions').text).to include(t('application_form.work_history.break.change_label'))
-      end
-    end
-
-    context 'when consolidated work history breaks are not editable' do
-      it 'renders component without an edit link' do
-        result = render(feature_active: false, explanation: 'I was sleeping.', editable: false)
-
-        expect(result.css('.govuk-summary-list__actions').text).not_to include(t('application_form.work_history.break.change_label'))
-      end
-    end
-
-    context 'when the work breaks feature flag is on, there are existing individual breaks and editable' do
+    context 'There are existing individual breaks and editable' do
       it 'renders component with change and delete links' do
         break1 = build_stubbed(:application_work_history_break, start_date: february2019, end_date: april2019)
         breaks = [break1]
 
-        result = render(feature_active: true, breaks: breaks)
+        result = render(breaks: breaks)
 
         expect(result.text).to include('Delete entry for break between February 2019 and April 2019')
         expect(result.text).to include('Change description for break between February 2019 and April 2019')
@@ -148,12 +127,12 @@ RSpec.describe WorkHistoryReviewComponent do
       end
     end
 
-    context 'when the work breaks feature flag is on, there are existing individual breaks and not editable' do
+    context 'There are existing individual breaks and not editable' do
       it 'renders component without change and delete links' do
         break1 = build_stubbed(:application_work_history_break, start_date: february2019, end_date: april2019)
         breaks = [break1]
 
-        result = render(feature_active: true, breaks: breaks, editable: false)
+        result = render(breaks: breaks, editable: false)
 
         expect(result.text).not_to include('Delete entry for break between February 2019 and April 2019')
         expect(result.text).not_to include('Change description for break between February 2019 and April 2019')
@@ -161,9 +140,9 @@ RSpec.describe WorkHistoryReviewComponent do
       end
     end
 
-    context 'when the work breaks feature flag is on and consolidated work history breaks has a value' do
+    context 'when consolidated work history breaks has a value' do
       it 'renders component with consolidated work breaks and without individual breaks' do
-        result = render(feature_active: true, explanation: 'I was sleeping.')
+        result = render(explanation: 'I was sleeping.')
 
         expect(result.css('.app-summary-card__title').text).not_to include('You have a break in your work history in the last 5 years')
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.work_history.break.label'))
@@ -171,39 +150,19 @@ RSpec.describe WorkHistoryReviewComponent do
       end
     end
 
-    context 'when the work breaks feature flag is on and individual breaks are editable' do
+    context 'when individual breaks are editable' do
       it 'renders component without break placeholders' do
-        result = render(feature_active: true, editable: true)
+        result = render(editable: true)
 
         expect(result.css('.app-summary-card__title').text).to include('You have a break in your work history in the last 5 years')
       end
     end
 
-    context 'when the work breaks feature flag is on and individual breaks are not editable' do
+    context 'when individual breaks are not editable' do
       it 'renders component without break placeholders' do
-        result = render(feature_active: true, editable: false)
+        result = render(editable: false)
 
         expect(result.css('.app-summary-card__title').text).not_to include('You have a break in your work history in the last 5 years')
-      end
-    end
-
-    context 'when the work breaks feature flag is off and there are no breaks' do
-      it 'renders component with consolidated work breaks and without individual breaks' do
-        result = render(feature_active: false)
-
-        expect(result.css('.app-summary-card__title').text).not_to include('You have a break in your work history in the last 5 years')
-        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.work_history.break.label'))
-        expect(result.css('.govuk-summary-list__actions').text).to include(t('application_form.work_history.break.enter_label'))
-      end
-    end
-
-    context 'when the work breaks feature flag is off and consolidated work history breaks has a value' do
-      it 'renders component with consolidated work breaks and without individual breaks' do
-        result = render(feature_active: false, explanation: 'I was sleeping.')
-
-        expect(result.css('.app-summary-card__title').text).not_to include('You have a break in your work history in the last 5 years')
-        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.work_history.break.label'))
-        expect(result.css('.govuk-summary-list__actions').text).to include(t('application_form.work_history.break.change_label'))
       end
     end
   end
@@ -235,13 +194,7 @@ RSpec.describe WorkHistoryReviewComponent do
     end
   end
 
-  def render(feature_active: false, explanation: nil, breaks: [], editable: true)
-    if feature_active
-      FeatureFlag.activate('work_breaks')
-    else
-      FeatureFlag.deactivate('work_breaks')
-    end
-
+  def render(explanation: nil, breaks: [], editable: true)
     data[:start_date] = Time.zone.local(2019, 8, 1)
     data[:end_date] = Time.zone.local(2019, 9, 1)
 

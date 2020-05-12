@@ -31,19 +31,6 @@ RSpec.feature 'Entering their work history' do
     and_i_fill_in_the_job_form # 5/2014 - 1/2019
     then_i_should_see_my_completed_job
 
-    when_i_click_on_add_another_job
-    and_i_fill_in_the_job_form_with_another_job_with_a_break # 3/2019 - current
-    and_i_do_not_fill_in_end_date
-    then_i_should_see_my_second_job
-    and_i_should_be_asked_to_explain_the_break_in_my_work_history
-
-    given_i_am_on_review_work_history_page
-    when_i_click_to_enter_break_explanation
-    then_i_see_the_work_history_break_form
-
-    when_i_fill_in_the_work_history_break_form
-    then_i_see_my_explanation_for_breaks_in_my_work_history
-
     when_i_click_on_change
     and_i_change_the_job_title_to_be_blank
     then_i_should_see_validation_errors
@@ -139,6 +126,7 @@ RSpec.feature 'Entering their work history' do
     fill_in t('details.label', scope: scope), with: 'I gained exposure to breakthrough technologies and questionable business ethics'
 
     choose 'No'
+    choose 'No, I’ve completed my work history'
 
     click_button t('application_form.work_history.complete_form_button')
   end
@@ -164,63 +152,8 @@ RSpec.feature 'Entering their work history' do
     click_link t('application_form.work_history.add_job')
   end
 
-  def when_i_click_on_add_another_job
-    click_link 'Add another job'
-  end
-
   def and_i_fill_in_the_job_form
     when_i_fill_in_the_job_form
-  end
-
-  def and_i_fill_in_the_job_form_with_another_job_with_a_break
-    scope = 'application_form.work_history'
-    fill_in t('role.label', scope: scope), with: 'Chief of Xenomorph Procurement and Research'
-    fill_in t('organisation.label', scope: scope), with: 'Weyland-Yutani'
-
-    choose 'Full-time'
-
-    within('[data-qa="start-date"]') do
-      fill_in 'Month', with: '3'
-      fill_in 'Year', with: '2019'
-    end
-
-    fill_in t('details.label', scope: scope), with: 'Gimme Xenomorphs.'
-
-    choose 'No'
-
-    click_button t('application_form.work_history.complete_form_button')
-  end
-
-  def and_i_do_not_fill_in_end_date; end
-
-  def then_i_should_see_my_second_job
-    expect(page).to have_content('Chief of Xenomorph Procurement and Research')
-  end
-
-  def and_i_should_be_asked_to_explain_the_break_in_my_work_history
-    expect(page).to have_content(t('application_form.work_history.break.label'))
-  end
-
-  def given_i_am_on_review_work_history_page
-    visit candidate_interface_work_history_show_path
-  end
-
-  def when_i_click_to_enter_break_explanation
-    click_link t('application_form.work_history.break.enter_label')
-  end
-
-  def then_i_see_the_work_history_break_form
-    expect(page).to have_content(t('page_titles.work_history_breaks'))
-  end
-
-  def when_i_fill_in_the_work_history_break_form
-    fill_in t('application_form.work_history.break.label'), with: 'WE WERE ON A BREAK!'
-
-    click_button t('application_form.work_history.break.button')
-  end
-
-  def then_i_see_my_explanation_for_breaks_in_my_work_history
-    expect(page).to have_content('WE WERE ON A BREAK!')
   end
 
   def when_i_click_on_change

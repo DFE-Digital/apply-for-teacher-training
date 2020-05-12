@@ -9,22 +9,17 @@ class FeatureFlag
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = %w[
-    candidate_can_cancel_reference
     confirm_conditions
     download_dataset1_from_support_page
-    edit_course_choices
-    equality_and_diversity
     notes
     provider_add_provider_users
     provider_application_filters
     provider_change_response
     provider_interface_work_breaks
     provider_view_safeguarding
-    suitability_to_work_with_children
     support_sign_in_confirmation_email
     timeline
     unavailable_course_option_warnings
-    work_breaks
     track_validation_errors
     apply_again
   ].freeze

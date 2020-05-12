@@ -23,7 +23,6 @@ module CandidateHelper
 
   def candidate_completes_application_form
     given_courses_exist
-    and_the_suitability_to_work_with_children_feature_flag_is_on
     create_and_sign_in_candidate
     visit candidate_interface_application_form_path
 
@@ -81,6 +80,7 @@ module CandidateHelper
   def candidate_submits_application
     click_link 'Check and submit your application'
     click_link 'Continue'
+    click_link 'Continue without completing questionnaire'
     choose 'No' # "Is there anything else you would like to tell us?"
 
     click_button 'Submit application'
@@ -93,10 +93,6 @@ module CandidateHelper
     site = create(:site, name: 'Main site', code: '-', provider: @provider)
     course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Primary', code: '2XT2', provider: @provider)
     create(:course_option, site: site, course: course)
-  end
-
-  def and_the_suitability_to_work_with_children_feature_flag_is_on
-    FeatureFlag.activate('suitability_to_work_with_children')
   end
 
   def candidate_fills_in_course_choices
@@ -219,14 +215,10 @@ module CandidateHelper
       fill_in locale.t('details.label'), with: 'I learned a lot about teaching'
 
       choose 'No'
+      choose 'No, I’ve completed my work history'
     end
 
     click_button t('application_form.work_history.complete_form_button')
-
-    click_link t('application_form.work_history.break.enter_label')
-    fill_in 'candidate_interface_work_breaks_form[work_history_breaks]', with: 'I was unwell'
-    click_button t('application_form.work_history.break.button')
-
     check t('application_form.work_history.review.completed_checkbox')
     click_button t('application_form.work_history.review.button')
   end

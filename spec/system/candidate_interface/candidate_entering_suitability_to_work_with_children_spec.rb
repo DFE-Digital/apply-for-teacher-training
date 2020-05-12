@@ -5,14 +5,6 @@ RSpec.feature 'Entering their suitability to work with children' do
 
   scenario 'Candidate declares any safeguarding issues' do
     given_i_am_signed_in
-    and_the_suitability_to_work_with_children_feature_flag_is_off
-    when_i_visit_the_site
-    then_i_dont_see_declaring_any_safeguarding_issues
-
-    when_i_visit_the_declaring_any_safeguarding_issues_form
-    then_i_see_the_application_form
-
-    given_the_suitability_to_work_with_children_feature_flag_is_on
     when_i_visit_the_site
     then_i_see_declaring_any_safeguarding_issues
 
@@ -41,26 +33,6 @@ RSpec.feature 'Entering their suitability to work with children' do
 
   def when_i_visit_the_site
     visit candidate_interface_application_form_path
-  end
-
-  def and_the_suitability_to_work_with_children_feature_flag_is_off
-    FeatureFlag.deactivate('suitability_to_work_with_children')
-  end
-
-  def then_i_dont_see_declaring_any_safeguarding_issues
-    expect(page).not_to have_content(t('page_titles.suitability_to_work_with_children'))
-  end
-
-  def when_i_visit_the_declaring_any_safeguarding_issues_form
-    visit candidate_interface_edit_safeguarding_path
-  end
-
-  def then_i_see_the_application_form
-    expect(page).to have_content('Your application')
-  end
-
-  def given_the_suitability_to_work_with_children_feature_flag_is_on
-    FeatureFlag.activate('suitability_to_work_with_children')
   end
 
   def then_i_see_declaring_any_safeguarding_issues

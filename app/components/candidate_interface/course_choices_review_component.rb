@@ -54,7 +54,7 @@ module CandidateInterface
     end
 
     def course_change_path(course_choice)
-      if FeatureFlag.active?('edit_course_choices') && has_multiple_courses?(course_choice)
+      if has_multiple_courses?(course_choice)
         candidate_interface_course_choices_course_path(
           course_choice.provider.id,
           course_choice_id: course_choice.id,
@@ -63,7 +63,7 @@ module CandidateInterface
     end
 
     def site_change_path(course_choice)
-      if FeatureFlag.active?('edit_course_choices') && has_multiple_sites?(course_choice)
+      if has_multiple_sites?(course_choice)
         candidate_interface_course_choices_site_path(
           course_choice.provider.id,
           course_choice.course.id,
@@ -106,13 +106,11 @@ module CandidateInterface
     def study_mode_row(course_choice)
       return unless course_choice.course.both_study_modes_available?
 
-      change_path = if FeatureFlag.active?('edit_course_choices')
-                      candidate_interface_course_choices_study_mode_path(
-                        course_choice.provider.id,
-                        course_choice.course.id,
-                        course_choice_id: course_choice.id,
-                      )
-                    end
+      change_path = candidate_interface_course_choices_study_mode_path(
+        course_choice.provider.id,
+        course_choice.course.id,
+        course_choice_id: course_choice.id,
+      )
 
       {
         key: 'Full time or part time',

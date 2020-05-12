@@ -49,11 +49,11 @@ class WorkHistoryReviewComponent < ViewComponent::Base
   end
 
   def show_consolidated_work_history_breaks?
-    breaks_in_work_history? && (@application_form.work_history_breaks || !FeatureFlag.active?('work_breaks'))
+    breaks_in_work_history? && @application_form.work_history_breaks
   end
 
   def show_break_placeholders?
-    FeatureFlag.active?('work_breaks') && @application_form.work_history_breaks.blank? && @editable
+    @application_form.work_history_breaks.blank? && @editable
   end
 
 private

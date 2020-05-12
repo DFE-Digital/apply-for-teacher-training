@@ -18,11 +18,10 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       expect(result.css('.govuk-summary-list__value').to_html).to include(course_choice.course.start_date.strftime('%B %Y'))
     end
 
-    context 'When multiple courses available at a provider and edit_course_choices feature is active' do
+    context 'When multiple courses available at a provider' do
       let(:course_choice) { application_form.application_choices.first }
 
       before do
-        FeatureFlag.activate('edit_course_choices')
         provider = application_form.application_choices.first.provider
         create(:course, provider: provider, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
       end
@@ -35,10 +34,8 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       end
     end
 
-    context 'When only one course available at a provider and edit_course_choices feature is active' do
+    context 'When only one course available at a provider' do
       let(:course_choice) { application_form.application_choices.first }
-
-      before { FeatureFlag.activate('edit_course_choices') }
 
       it 'renders the course row without change link' do
         result = render_inline(described_class.new(application_form: application_form))
@@ -52,7 +49,6 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       let(:result) { render_inline(described_class.new(application_form: application_form)) }
 
       before do
-        FeatureFlag.activate('edit_course_choices')
         course_choice.course.update!(study_mode: 'full_time_or_part_time')
       end
 
@@ -72,7 +68,6 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       let(:course_choice) { application_form.application_choices.first }
 
       before do
-        FeatureFlag.activate('edit_course_choices')
         course_choice.course.update!(study_mode: %w[full_time part_time].sample)
       end
 
@@ -110,9 +105,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       end
     end
 
-    context 'when course choice is single site and edit course choices feature is active' do
-      before { FeatureFlag.activate('edit_course_choices') }
-
+    context 'when course choice is single site' do
       it 'renders without the "Change" location links' do
         result = render_inline(described_class.new(application_form: application_form))
 
@@ -120,10 +113,9 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       end
     end
 
-    context 'when there are multiple site options for course and edit course choices feature is active' do
+    context 'when there are multiple site options for course' do
       before do
         create(:course_option, course: application_form.application_choices.first.course)
-        FeatureFlag.activate('edit_course_choices')
       end
 
       it 'renders the correct text for "Change" location links' do
@@ -135,10 +127,9 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       end
     end
 
-    context 'when other site option is a different study mode for course and edit course choices feature is active' do
+    context 'when other site option is a different study mode for course' do
       before do
         create(:course_option, course: application_form.application_choices.first.course, study_mode: 'part_time')
-        FeatureFlag.activate('edit_course_choices')
       end
 
       it 'renders without the "Change" location links' do
@@ -175,12 +166,11 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.courses.delete'))
     end
 
-    context 'When multiple courses available at a provider and edit_course_choices feature is active' do
+    context 'When multiple courses available at a provider' do
       let(:application_form) { create_application_form_with_course_choices(statuses: %w[application_complete]) }
       let(:course_choice) { application_form.application_choices.first }
 
       before do
-        FeatureFlag.activate('edit_course_choices')
         provider = application_form.application_choices.first.provider
         create(:course, provider: provider, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
       end
@@ -192,12 +182,11 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       end
     end
 
-    context 'when there are multiple site options for course and edit course choices feature is active' do
+    context 'when there are multiple site options for course' do
       let(:application_form) { create_application_form_with_course_choices(statuses: %w[application_complete]) }
 
       before do
         create(:course_option, course: application_form.application_choices.first.course)
-        FeatureFlag.activate('edit_course_choices')
       end
 
       it 'renders without a "Change" location links' do
@@ -213,7 +202,6 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       let(:result) { render_inline(described_class.new(application_form: application_form, editable: false)) }
 
       before do
-        FeatureFlag.activate('edit_course_choices')
         course_choice.course.update!(study_mode: 'full_time_or_part_time')
       end
 
