@@ -17,6 +17,10 @@ RSpec.describe 'Removing a provider user' do
     and_i_confirm_i_want_to_delete_this_user
 
     then_the_deleted_user_has_no_visible_provider_permissions
+
+    when_i_click_invite_user
+    and_i_reinvite_the_deleted_user
+    then_i_can_see_the_user_and_their_permissions
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -65,5 +69,21 @@ RSpec.describe 'Removing a provider user' do
     expect(page).to have_content 'User’s account successfully deleted'
     expect(page).not_to have_content(@user_to_remove.full_name)
     expect(@user_to_remove.reload.providers).to eq([@non_visible_provider])
+  end
+
+  def when_i_click_invite_user
+    click_on 'Invite user'
+  end
+
+  def and_i_reinvite_the_deleted_user
+    fill_in 'Email address', with: @user_to_remove.email_address
+    check @provider.name_and_code
+    click_on 'Invite user'
+  end
+
+  def then_i_can_see_the_user_and_their_permissions
+    expect(page).to have_content('Provider user invited')
+
+    expect(page).to have_content(@user_to_remove.full_name)
   end
 end
