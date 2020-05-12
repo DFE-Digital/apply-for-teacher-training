@@ -65,7 +65,7 @@ gem 'http'
 # For DSI api integration
 gem 'jwt'
 
-gem 'openapi3_parser', '0.8.0'
+gem 'openapi3_parser', '0.8.1'
 gem 'rouge'
 gem 'ruby-graphviz'
 
