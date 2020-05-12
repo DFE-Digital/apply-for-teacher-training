@@ -16,13 +16,13 @@
 
     <% if Rails.application.config.action_mailer.show_previews %>
     <li class="govuk-footer__inline-list-item">
-      <%= govuk_link_to 'Mail previews', '/rails/mailers' %>
+      <%= govuk_link_to 'Mail previews', '/support/mailers' %>
     </li>
     <% end %>
 
     <% if Rails.application.config.view_component.show_previews %>
     <li class="govuk-footer__inline-list-item">
-      <%= govuk_link_to 'Component previews', '/rails/components' %>
+      <%= govuk_link_to 'Component previews', '/rails/view_components' %>
     </li>
     <% end %>
   </ul>
