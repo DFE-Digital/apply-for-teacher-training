@@ -6,6 +6,7 @@ class ActiveRecordRelationStub
   # @param records [Array] list of records the association holds
   # @param scopes [Array] list of stubbed scopes
   def initialize(model_klass, records, scopes: [])
+    @model_klass = model_klass
     @records = records
 
     scopes.each do |scope|
@@ -15,6 +16,10 @@ class ActiveRecordRelationStub
         self
       end
     end
+  end
+
+  def where(_hash)
+    self.class.new(@model_klass, records)
   end
 
   def order(_hash)

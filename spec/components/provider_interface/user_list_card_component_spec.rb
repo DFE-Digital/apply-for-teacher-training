@@ -11,8 +11,8 @@ RSpec.describe ProviderInterface::UserListCardComponent do
     ]
   end
 
-  let(:provider_user) { build_stubbed(:provider_user, providers: providers) }
-  let(:instance) { described_class.new(provider_user: provider_user) }
+  let(:provider_user) { build_stubbed(:provider_user, id: 111, providers: providers) }
+  let(:instance) { described_class.new(provider_user: provider_user, providers: providers) }
   let(:result) { render_inline instance }
   let(:card) { result.css('.app-application-card').to_html }
 
@@ -32,7 +32,7 @@ RSpec.describe ProviderInterface::UserListCardComponent do
 
   describe '#providers_text' do
     context 'when one provider exists' do
-      let(:providers) { [create(:provider)] }
+      let(:providers) { [build_stubbed(:provider)] }
 
       it 'renders the name of the first provider' do
         expect(instance.providers_text).to eq(providers.first.name)

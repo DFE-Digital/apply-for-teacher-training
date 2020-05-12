@@ -4,7 +4,10 @@ module ProviderInterface
     before_action :redirect_unless_permitted_to_manage_users
 
     def index
-      @provider_users = ProviderUser.visible_to(current_provider_user)
+      users = ProviderUser.includes(:providers).visible_to(current_provider_user)
+      providers = Provider.with_users_manageable_by(current_provider_user).order(:name)
+      @provider_users_with_providers = {}
+      users.each { |u| @provider_users_with_providers[u] = providers & u.providers }
     end
 
     def show
