@@ -26,6 +26,7 @@ RSpec.feature 'Candidate with unsuccessful application' do
 
     when_i_complete_my_application
     then_my_application_is_submitted
+    and_i_do_not_see_referee_related_guidance
   end
 
   def given_the_pilot_is_open
@@ -120,5 +121,9 @@ RSpec.feature 'Candidate with unsuccessful application' do
   def then_my_application_is_submitted
     expect(page).to have_content 'Application successfully submitted'
     expect(ApplicationForm.last.application_choices.first.reload.status).to eq 'application_complete'
+  end
+
+  def and_i_do_not_see_referee_related_guidance
+    expect(page).not_to have_content 'References'
   end
 end

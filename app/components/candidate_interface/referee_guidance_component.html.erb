@@ -1,0 +1,13 @@
+<% if @application_form.application_references.feedback_requested.count == 1 %>
+  <h2 class="govuk-heading-m">Reference</h2>
+  <p class="govuk-body">We’ll contact your referee to ask for your reference. When we receive it, we’ll add it to your application and send it to your training <%= pluralize_provider %>.</p>
+  <p class="govuk-body">We can’t send your application to your training <%= pluralize_provider %> without your reference.</p>
+<% else %>
+  <h2 class="govuk-heading-m">References</h2>
+  <p class="govuk-body">We’ll contact your referees to ask for your references. When we receive them, we’ll add them to your application and send it to your training <%= pluralize_provider %>.</p>
+  <p class="govuk-body">We can’t send your application to your training <%= pluralize_provider %> without your references.</p>
+<% end %>
+
+<% unless FeatureFlag.active?('covid_19') %>
+  <p class="govuk-body">Training providers then have <%= TimeLimitConfig.limits_for(:reject_by_default).first.limit %> working days to respond to your application.</p>
+<% end %>

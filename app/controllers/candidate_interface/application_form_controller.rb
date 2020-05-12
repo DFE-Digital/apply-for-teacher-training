@@ -65,6 +65,7 @@ module CandidateInterface
     end
 
     def submit_success
+      @application_form = current_application
       @support_reference = current_application.support_reference
       @editable_days = TimeLimitConfig.edit_by
       provider_count = current_application.unique_provider_list.size
