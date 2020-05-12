@@ -220,14 +220,10 @@ module CandidateHelper
       fill_in locale.t('details.label'), with: 'I learned a lot about teaching'
 
       choose 'No'
+      choose 'No, I’ve completed my work history'
     end
 
     click_button t('application_form.work_history.complete_form_button')
-
-    click_link t('application_form.work_history.break.enter_label')
-    fill_in 'candidate_interface_work_breaks_form[work_history_breaks]', with: 'I was unwell'
-    click_button t('application_form.work_history.break.button')
-
     check t('application_form.work_history.review.completed_checkbox')
     click_button t('application_form.work_history.review.button')
   end

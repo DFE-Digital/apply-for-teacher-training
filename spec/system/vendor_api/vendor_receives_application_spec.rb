@@ -199,13 +199,12 @@ RSpec.feature 'Vendor receives the application' do
               description: 'I volunteered.',
             },
           ],
-          work_history_break_explanation: 'I was unwell',
+          work_history_break_explanation: '',
         },
       },
     }
 
     received_attributes = @api_response['data'].first.deep_symbolize_keys
-
     expect(received_attributes.deep_sort).to eq expected_attributes.deep_sort
   end
 end

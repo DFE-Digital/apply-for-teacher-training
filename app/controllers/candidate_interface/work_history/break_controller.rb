@@ -1,7 +1,6 @@
 module CandidateInterface
   class WorkHistory::BreakController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted
-    before_action :redirect_to_review_work_history_if_feature_off
 
     def new
       @work_break = if params[:start_date] && params[:end_date]
@@ -74,10 +73,6 @@ module CandidateInterface
           .transform_keys { |key| start_date_field_to_attribute(key) }
           .transform_keys { |key| end_date_field_to_attribute(key) }
           .transform_values(&:strip)
-    end
-
-    def redirect_to_review_work_history_if_feature_off
-      redirect_to candidate_interface_work_history_show_path unless FeatureFlag.active?('work_breaks')
     end
   end
 end

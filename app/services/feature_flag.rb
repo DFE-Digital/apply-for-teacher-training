@@ -22,7 +22,6 @@ class FeatureFlag
     support_sign_in_confirmation_email
     timeline
     unavailable_course_option_warnings
-    work_breaks
     track_validation_errors
     apply_again
   ].freeze
