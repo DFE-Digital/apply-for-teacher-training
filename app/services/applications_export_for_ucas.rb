@@ -18,7 +18,9 @@ class ApplicationsExportForUCAS
     provider_name: 'Provider name',
     phase: 'Apply stage', # <- what we call our field: how UCAS refer to it
     level: 'Phase', # <- what we call our field: how UCAS refer to it
-    programme_type: 'Programme type',
+    funding_type: 'Funding type',
+    program_type: 'Programme type',
+    qualifications: 'Qualifications',
     programme_outcome: 'Programme outcome',
     nctl_subject: 'NCTL subject',
     course_name: 'Course name',
@@ -82,25 +84,23 @@ private
       provider_code: application_choice.provider.code,
       provider_name: application_choice.provider.name,
       phase: form.phase,
-      programme_type: application_choice.course.funding_type,
+      funding_type: application_choice.course.funding_type,
+      program_type: application_choice.course.program_type,
       programme_outcome: application_choice.course.description,
-      nctl_subject: subject_codes(application_choice.course),
+      qualifications: concatenate(application_choice.course.qualifications),
+      nctl_subject: concatenate(application_choice.course.subject_codes),
       course_name: application_choice.course.name,
       course_code: application_choice.course.code,
       sex: form.equality_and_diversity.try(:[], 'sex'),
       disability_status: form.equality_and_diversity.try(:[], 'disability_status'),
-      disabilities: disabilities(form),
+      disabilities: concatenate(form.equality_and_diversity.try(:[], 'disabilities')),
       other_disability: form.equality_and_diversity.try(:[], 'other_disability'),
       ethnic_group: form.equality_and_diversity.try(:[], 'ethnic_group'),
       ethnic_background: form.equality_and_diversity.try(:[], 'ethnic_background'),
     }
   end
 
-  def subject_codes(course)
-    course.subject_codes.to_a.join('|')
-  end
-
-  def disabilities(form)
-    form.equality_and_diversity.try(:[], 'disabilities').to_a.join('|')
+  def concatenate(array)
+    array.to_a.join('|')
   end
 end

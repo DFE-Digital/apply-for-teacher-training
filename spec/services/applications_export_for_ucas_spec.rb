@@ -63,9 +63,11 @@ RSpec.describe ApplicationsExportForUCAS do
       it 'returns the correct details from each choice with the expected names' do
         expect(result.map { |e| e[:provider_code] }.sort).to eq(application.application_choices.map { |e| e.provider.code }.sort)
         expect(result.map { |e| e[:provider_name] }.sort).to eq(application.application_choices.map { |e| e.provider.name }.sort)
-        expect(result.map { |e| e[:programme_type] }.sort).to eq(application.application_choices.map { |e| e.course.funding_type }.sort)
+        expect(result.map { |e| e[:program_type] }.sort).to eq(application.application_choices.map { |e| e.course.program_type }.sort)
+        expect(result.map { |e| e[:funding_type] }.sort).to eq(application.application_choices.map { |e| e.course.funding_type }.sort)
         expect(result.map { |e| e[:programme_outcome] }.sort).to eq(application.application_choices.map { |e| e.course.description }.sort)
         expect(result.map { |e| e[:nctl_subject] }.sort).to eq(application.application_choices.map { |e| e.course.subject_codes.join('|') }.sort)
+        expect(result.map { |e| e[:qualifications] }.sort).to eq(application.application_choices.map { |e| e.course.qualifications.to_a.join('|') }.sort)
         expect(result.map { |e| e[:course_name] }.sort).to eq(application.application_choices.map { |e| e.course.name }.sort)
         expect(result.map { |e| e[:course_code] }.sort).to eq(application.application_choices.map { |e| e.course.code }.sort)
         expect(result.map { |e| e[:application_state] }.sort).to eq(application.application_choices.map(&:status).sort)

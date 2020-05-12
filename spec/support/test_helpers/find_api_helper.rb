@@ -462,6 +462,137 @@ module FindAPIHelper
       "/courses/#{course_code}")
   end
 
+  def stub_find_api_provider_200_with_qualifications_and_program_type(
+    provider_code: 'ABC',
+    provider_name: 'Dummy Provider',
+    course_code: 'X130',
+    site_code: 'X',
+    findable: true,
+    study_mode: 'full_time',
+    description: 'PGCE with QTS full time',
+    start_date: Time.zone.local(2020, 10, 31),
+    course_length: 'OneYear',
+    region_code: 'north_west',
+    site_address_line2: 'C/O The Bruntcliffe Academy',
+    funding_type: 'fee',
+    age_range_in_years: '4 to 8',
+    vac_status: 'full_time_vacancies',
+    qualifications: %w[PG PF],
+    program_type: 'SD'
+  )
+    stub_find_api_provider(provider_code)
+      .to_return(
+        status: 200,
+        headers: { 'Content-Type': 'application/vnd.api+json' },
+        body: {
+          'data': {
+            'id': '1',
+            'type': 'providers',
+            'attributes': {
+              'provider_name': provider_name,
+              'provider_code': provider_code,
+              'region_code': region_code,
+            },
+            'relationships': {
+              'sites': {
+                'data': [
+                  { 'id': '1', 'type': 'sites' },
+                ],
+              },
+              'courses': {
+                'data': [
+                  { 'id': '1', 'type': 'courses' },
+                ],
+              },
+            },
+          },
+          'included': [
+            {
+              'id': '1',
+              'type': 'sites',
+              'attributes': {
+                'code': site_code,
+                'location_name': 'Main site',
+                'address1': 'Gorse SCITT ',
+                'address2': site_address_line2,
+                'address3': 'Bruntcliffe Lane',
+                'address4': 'MORLEY, LEEDS',
+                'postcode': 'LS27 0LZ',
+              },
+            },
+            {
+              'id': '1',
+              'type': 'courses',
+              'attributes': {
+                'course_code': course_code,
+                'name': 'Primary',
+                'level': 'primary',
+                'study_mode': study_mode,
+                'description': description,
+                'start_date': start_date,
+                'course_length': course_length,
+                'recruitment_cycle_year': '2020',
+                'findable?': findable,
+                'accrediting_provider': nil,
+                'funding_type': funding_type,
+                'age_range_in_years': age_range_in_years,
+                'program_type': program_type,
+                'qualifications': qualifications,
+              },
+              'relationships': {
+                'sites': {
+                  'data': [
+                    { 'id': '1', 'type': 'sites' },
+                  ],
+                },
+                'subjects': {
+                  'data': [
+                    { 'type': 'subjects', 'id': '11' },
+                  ],
+                },
+                'site_statuses': {
+                  'data': [
+                    { 'id': '222', 'type': 'site_statuses' },
+                  ],
+                },
+              },
+            },
+            {
+              'id': '222',
+              'type': 'site_statuses',
+              'attributes': {
+                'vac_status': vac_status,
+                'publish': 'published',
+                'status': 'running',
+                'has_vacancies?': true,
+              },
+              'relationships': {
+                'site': {
+                  'data': {
+                    'type': 'sites',
+                    'id': '1',
+                  },
+                },
+              },
+            },
+            {
+              'id': '11',
+              'type': 'subjects',
+              'attributes': {
+                'subject_name': 'Business studies',
+                'subject_code': '08',
+                'bursary_amount': '9000',
+                'early_career_payments': nil,
+                'scholarship': nil,
+                'subject_knowledge_enhancement_course_available': false,
+              },
+            },
+          ],
+          'jsonapi': { 'version': '1.0' },
+        }.to_json,
+      )
+  end
+
 private
 
   def stub_find_api_all_providers
