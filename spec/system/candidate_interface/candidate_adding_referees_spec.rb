@@ -9,9 +9,6 @@ RSpec.feature 'Candidate adding referees' do
 
     given_i_have_no_existing_references_on_the_form
     when_i_click_on_referees
-    then_i_see_intro_content_about_choosing_your_referees
-
-    when_i_click_continue
     then_i_am_asked_to_specify_the_type_of_my_first_reference
 
     and_i_click_continue
@@ -75,10 +72,6 @@ RSpec.feature 'Candidate adding referees' do
 
   def when_i_click_on_referees
     click_link 'Referees'
-  end
-
-  def then_i_see_intro_content_about_choosing_your_referees
-    expect(page).to have_content('Choosing your referees')
   end
 
   def then_i_see_an_error_to_choose_the_type_of_my_first_reference
