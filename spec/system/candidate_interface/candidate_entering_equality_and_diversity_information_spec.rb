@@ -107,6 +107,8 @@ RSpec.feature 'Entering their equality and diversity information' do
 
   def when_i_have_an_application_form_that_is_ready_to_submit
     create :reference, application_form: @application
+    click_link 'Complete section', match: :first
+    candidate_fills_in_safeguarding_issues
   end
 
   def and_i_am_on_the_review_page

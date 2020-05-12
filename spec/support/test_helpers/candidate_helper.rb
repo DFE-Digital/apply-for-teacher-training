@@ -23,7 +23,6 @@ module CandidateHelper
 
   def candidate_completes_application_form
     given_courses_exist
-    and_the_suitability_to_work_with_children_feature_flag_is_on
     create_and_sign_in_candidate
     visit candidate_interface_application_form_path
 
@@ -94,10 +93,6 @@ module CandidateHelper
     site = create(:site, name: 'Main site', code: '-', provider: @provider)
     course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Primary', code: '2XT2', provider: @provider)
     create(:course_option, site: site, course: course)
-  end
-
-  def and_the_suitability_to_work_with_children_feature_flag_is_on
-    FeatureFlag.activate('suitability_to_work_with_children')
   end
 
   def candidate_fills_in_course_choices

@@ -18,7 +18,6 @@ class FeatureFlag
     provider_change_response
     provider_interface_work_breaks
     provider_view_safeguarding
-    suitability_to_work_with_children
     support_sign_in_confirmation_email
     timeline
     unavailable_course_option_warnings

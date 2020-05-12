@@ -59,10 +59,6 @@ RSpec.feature 'Candidate submits the application' do
     FeatureFlag.activate('covid_19')
   end
 
-  def and_the_suitability_to_work_with_children_feature_flag_is_on
-    FeatureFlag.activate('suitability_to_work_with_children')
-  end
-
   def and_the_covid_19_feature_flag_is_on
     FeatureFlag.activate('covid_19')
   end

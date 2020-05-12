@@ -54,11 +54,9 @@
       <li class="app-task-list__item">
         <%= render(TaskListItemComponent.new(text: t('page_titles.training_with_a_disability'), completed: @application_form_presenter.training_with_a_disability_completed?, path: @application_form_presenter.training_with_a_disability_completed? ? candidate_interface_training_with_a_disability_show_path : candidate_interface_training_with_a_disability_edit_path)) %>
       </li>
-      <% if FeatureFlag.active?('suitability_to_work_with_children') %>
-        <li class="app-task-list__item">
-          <%= render(TaskListItemComponent.new(text: t('page_titles.suitability_to_work_with_children'), completed: @application_form_presenter.safeguarding_completed?, path: @application_form_presenter.safeguarding_completed? ? candidate_interface_review_safeguarding_path : candidate_interface_edit_safeguarding_path)) %>
-        </li>
-      <% end %>
+      <li class="app-task-list__item">
+        <%= render(TaskListItemComponent.new(text: t('page_titles.suitability_to_work_with_children'), completed: @application_form_presenter.safeguarding_completed?, path: @application_form_presenter.safeguarding_completed? ? candidate_interface_review_safeguarding_path : candidate_interface_edit_safeguarding_path)) %>
+      </li>
     </ul>
 
     <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">
