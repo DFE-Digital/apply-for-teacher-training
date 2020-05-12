@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ProviderApplicationsPageState do
-  let(:correct_available_filters) {
+  let(:correct_available_filters) do
     [
       {
         heading: "candidate's name",
@@ -99,7 +99,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
         ],
       },
     ]
-  }
+  end
   let(:provider_user) { instance_double(ProviderUser) }
 
   before do

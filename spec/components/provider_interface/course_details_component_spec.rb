@@ -1,57 +1,57 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::CourseDetailsComponent do
-  let(:course_option) {
+  let(:course_option) do
     instance_double(CourseOption,
                     study_mode: 'Full time')
-  }
+  end
 
-  let(:site) {
+  let(:site) do
     instance_double(Site,
                     name_and_code: 'First Road (F34)')
-  }
+  end
 
-  let(:provider) {
+  let(:provider) do
     instance_double(Provider,
                     name_and_code: 'Best Training (B54)')
-  }
+  end
 
-  let(:accredited_provider) {
+  let(:accredited_provider) do
     instance_double(Provider,
                     name_and_code: 'Accredit Now (A78)')
-  }
+  end
 
-  let(:course) {
+  let(:course) do
     instance_double(Course,
                     name_and_code: 'Geograpghy (H234)',
                     recruitment_cycle_year: 2020,
                     accredited_provider: nil,
                     funding_type: 'fee')
-  }
+  end
 
-  let(:course_with_accredited_body) {
+  let(:course_with_accredited_body) do
     instance_double(Course,
                     name_and_code: 'Geograpghy (H234)',
                     recruitment_cycle_year: 2020,
                     accredited_provider: accredited_provider,
                     funding_type: 'fee')
-  }
+  end
 
-  let(:application_choice) {
+  let(:application_choice) do
     instance_double(ApplicationChoice,
                     course_option: course_option,
                     provider: provider,
                     course: course,
                     site: site)
-  }
+  end
 
-  let(:application_choice_with_accredited_body) {
+  let(:application_choice_with_accredited_body) do
     instance_double(ApplicationChoice,
                     course_option: course_option,
                     provider: provider,
                     course: course_with_accredited_body,
                     site: site)
-  }
+  end
 
   let(:render) { render_inline(described_class.new(application_choice: application_choice)) }
 

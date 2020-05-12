@@ -15,11 +15,11 @@ RSpec.describe CandidateInterface::ApplicationFormApplyAgainCourseChoiceComponen
   end
 
   context 'completed: false' do
-    let(:result) {
+    let(:result) do
       render_inline(
         described_class.new(completed: false),
       )
-    }
+    end
 
     it 'renders successfully' do
       expect(heading(result)).to eq 'Course choice'

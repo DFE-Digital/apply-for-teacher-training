@@ -68,7 +68,7 @@ FactoryBot.define do
       end
 
       trait :with_survey_completed do
-        satisfaction_survey {
+        satisfaction_survey do
           {
             I18n.t('page_titles.recommendation') => [*1..5].sample.to_s,
             I18n.t('page_titles.complexity') => [*1..5].sample.to_s,
@@ -84,11 +84,11 @@ FactoryBot.define do
             I18n.t('page_titles.other_information') => Faker::Lorem.paragraph_by_chars(number: 400),
             I18n.t('page_titles.contact') => %w[yes no].sample,
           }
-        }
+        end
       end
 
       trait :with_equality_and_diversity_data do
-        equality_and_diversity {
+        equality_and_diversity do
           ethnicity = Class.new.extend(EthnicBackgroundHelper).all_combinations.sample
           all_disabilities = CandidateInterface::EqualityAndDiversity::DisabilitiesForm::DISABILITIES.map(&:first) << 'Other'
           disabilities = all_disabilities.sample([*1..3].sample)
@@ -100,7 +100,7 @@ FactoryBot.define do
             disabilities: disabilities,
             other_disability: (disabilities.include?('Other') ? Faker::Lorem.paragraph(sentence_count: 2) : nil),
           }
-        }
+        end
       end
 
       after(:build) do |application_form, evaluator|
@@ -440,14 +440,14 @@ FactoryBot.define do
       feedback_status { 'feedback_provided' }
       feedback { Faker::Lorem.paragraph(sentence_count: 10) }
       requested_at { Time.zone.now }
-      questionnaire {
+      questionnaire do
         {
           'Please rate how useful our guidance was' => "#{%w[very_poor poor ok good very_good].sample} | #{Faker::Lorem.paragraph_by_chars(number: 300)}",
           'Please rate your experience of giving a reference' => "#{%w[very_poor poor ok good very_good].sample} | #{Faker::Lorem.paragraph_by_chars(number: 300)}",
           'Can we contact you about your experience of giving a reference?' => "#{%w[yes no].sample} | #{Faker::PhoneNumber.cell_phone}",
           'If we asked whether a candidate was safe to work with children, would you feel able to answer?' => "#{%w[yes no].sample}| ",
         }
-      }
+      end
     end
   end
 

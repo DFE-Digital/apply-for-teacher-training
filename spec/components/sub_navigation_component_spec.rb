@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe SubNavigationComponent do
-  let(:items) {
+  let(:items) do
     [{ name: 'Application', url: '#', current: true },
      { name: 'Notes', url: '#' },
      { name: 'Timeline', url: '#' }]
-  }
+  end
 
   context 'nav tabs appearing as selected' do
     it 'when the item is "current" then that tab is selected' do

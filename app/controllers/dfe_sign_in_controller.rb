@@ -26,7 +26,7 @@ class DfESignInController < ActionController::Base
     end
   end
 
-  alias :bypass_callback :callback
+  alias_method :bypass_callback, :callback
 
 private
 

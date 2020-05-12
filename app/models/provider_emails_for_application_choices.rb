@@ -30,7 +30,7 @@ private
   end
 
   # build a hash like this
-  # { email@example.com: {name: "Bob Example", affected_applications: ["* Ella Candidate (ABC123) (Rejected) — http://..."]}}
+  # { email@example.com: {name: "Bob Example", affected_applications: ["* Ella Candidate (ABC123) (Rejected) - http://..."]}}
   def choice_reducer(emails_to_choices, choice_id)
     choice = ApplicationChoice.find(choice_id)
     affected_providers = [choice.course.provider, choice.course.accredited_provider].compact

@@ -29,7 +29,7 @@ module ProviderInterface
 
     def status_change_events
       changes = FindStatusChangeAudits.new(application_choice: application_choice).call
-      changes = changes.select { |change| TITLES.has_key?(change.status) }
+      changes = changes.select { |change| TITLES.key?(change.status) }
       changes.map do |change|
         Event.new(
           title_for(change),

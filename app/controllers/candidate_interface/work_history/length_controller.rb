@@ -24,7 +24,7 @@ module CandidateInterface
   private
 
     def work_history_form_params
-      return nil unless params.has_key?(:candidate_interface_work_history_form)
+      return nil unless params.key?(:candidate_interface_work_history_form)
 
       params.require(:candidate_interface_work_history_form).permit(
         :work_history,

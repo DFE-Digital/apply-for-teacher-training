@@ -8,7 +8,7 @@ module ProviderInterface
 
     layout 'application'
 
-    rescue_from MissingProvider, with: ->(e) {
+    rescue_from MissingProvider, with: lambda { |e|
       Raven.capture_exception(e)
 
       render template: 'provider_interface/account_creation_in_progress', status: :forbidden
@@ -20,7 +20,7 @@ module ProviderInterface
       !@current_provider_user.nil? ? @current_provider_user : @current_provider_user = (ProviderUser.load_from_session(session) || false)
     end
 
-    alias :audit_user :current_provider_user
+    alias_method :audit_user, :current_provider_user
 
   protected
 

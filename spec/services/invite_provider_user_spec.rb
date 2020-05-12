@@ -4,7 +4,7 @@ RSpec.describe InviteProviderUser, sidekiq: true do
   include DsiAPIHelper
 
   let(:provider) { create(:provider) }
-  let(:provider_user) {
+  let(:provider_user) do
     create(
       :provider_user,
       email_address: 'test+invite_provider_user@example.com',
@@ -12,7 +12,7 @@ RSpec.describe InviteProviderUser, sidekiq: true do
       last_name: 'Lastname',
       providers: [provider],
     )
-  }
+  end
 
   describe '#initialize' do
     it 'requires a provider_user:' do

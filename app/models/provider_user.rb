@@ -10,7 +10,7 @@ class ProviderUser < ActiveRecord::Base
   audited except: [:last_signed_in_at]
   has_associated_audits
 
-  scope :visible_to, ->(provider_user) {
+  scope :visible_to, lambda { |provider_user|
     providers_that_user_can_manage = provider_user.provider_permissions.manage_users.select(:provider_id)
 
     users_that_user_can_see = ProviderPermissions.where(

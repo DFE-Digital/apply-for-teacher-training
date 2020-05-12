@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe SaveAndInviteProviderUser do
-  let(:form) {
+  let(:form) do
     SupportInterface::ProviderUserForm.new(
       email_address: 'test+invite_provider_user@example.com',
       first_name: 'Firstname',
       last_name: 'Lastname',
       provider_permissions: { '10' => { provider_permission: { provider_id: 10 }, active: true } },
     )
-  }
+  end
   let(:provider_user) { form.build }
   let(:save_service) { instance_double(SaveProviderUser, call!: true) }
   let(:invite_service) { instance_double(InviteProviderUser, call!: true) }

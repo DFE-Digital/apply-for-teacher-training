@@ -11,15 +11,15 @@ RSpec.describe WordCountValidator do
     end
   end
 
-  let(:model) {
+  let(:model) do
     Validatable.new.tap { |model| model.some_words = some_words_field }
-  }
+  end
 
   let(:expected_errors) { ["Must be #{maximum} words or fewer"] }
 
-  subject! {
+  subject! do
     model.valid?
-  }
+  end
 
   context 'with max valid number of words' do
     let(:some_words_field) { (%w[word] * maximum).join(' ') }

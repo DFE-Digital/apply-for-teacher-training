@@ -134,7 +134,7 @@ RSpec.describe SetDeclineByDefault do
       let(:last_decision_at) { 2.business_days.before(now) }
       let(:old_dbd_date) { 8.business_days.after(now).end_of_day }
 
-      before {
+      before do
         choices[0].update(status: :rejected, rejected_at: 2.business_days.before(last_decision_at))
         choices[1].update(
           status: :offer,
@@ -148,7 +148,7 @@ RSpec.describe SetDeclineByDefault do
           decline_by_default_at: old_dbd_date,
           decline_by_default_days: 10,
         )
-      }
+      end
 
       it 'the DBD for all offers is extended if an offer is updated' do
         choices[1].update(status: :offer, offered_at: last_decision_at + 1.day)

@@ -5,7 +5,7 @@ RSpec.describe GetCourseOptionFromCodes do
 
   let(:course_option) { create(:course_option) }
 
-  let(:service) {
+  let(:service) do
     GetCourseOptionFromCodes.new(
       provider_code: course_option.course.provider.code,
       course_code: course_option.course.code,
@@ -13,7 +13,7 @@ RSpec.describe GetCourseOptionFromCodes do
       site_code: course_option.site.code,
       recruitment_cycle_year: course_option.course.recruitment_cycle_year,
     )
-  }
+  end
 
   describe 'validation' do
     required_attributes = %w[provider_code course_code study_mode site_code recruitment_cycle_year]

@@ -24,7 +24,7 @@ module CandidateInterface
   private
 
     def volunteering_experience_form_params
-      return nil unless params.has_key?(:candidate_interface_volunteering_experience_form)
+      return nil unless params.key?(:candidate_interface_volunteering_experience_form)
 
       params.require(:candidate_interface_volunteering_experience_form).permit(
         :experience,

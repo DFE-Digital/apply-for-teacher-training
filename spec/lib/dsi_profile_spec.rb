@@ -4,14 +4,14 @@ RSpec.describe DsiProfile do
   describe '#update_profile_from_dfe_sign_in' do
     let(:provider_user) { create(:provider_user) }
     let(:support_user) { create(:provider_user) }
-    let(:dfe_user) {
+    let(:dfe_user) do
       DfESignInUser.new(
         email_address: 'new+email@example.com',
         dfe_sign_in_uid: provider_user.dfe_sign_in_uid,
         first_name: provider_user.first_name,
         last_name: provider_user.last_name,
       )
-    }
+    end
 
     context 'local_user\'s email_address' do
       it 'is updated if uid is previously known' do
