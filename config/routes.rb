@@ -56,6 +56,8 @@ Rails.application.routes.draw do
       get '/edit' => 'application_form#edit', as: :application_edit
       get '/review' => 'application_form#review', as: :application_review
       get '/review/submitted' => 'application_form#review_submitted', as: :application_review_submitted
+      get '/review/submitted/:id' => 'application_form#review_previous_application', as: :review_previous_application
+
       get '/complete' => 'application_form#complete', as: :application_complete
       get '/submit' => 'application_form#submit_show', as: :application_submit_show
       post '/submit' => 'application_form#submit', as: :application_submit

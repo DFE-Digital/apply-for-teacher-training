@@ -75,6 +75,15 @@ module CandidateInterface
       @application_form = current_application
     end
 
+    def review_previous_application
+      @application_form = current_candidate.application_forms.find(params[:id])
+      @review_previous_application = true
+
+      render :review_submitted
+    rescue ActiveRecord::RecordNotFound
+      render_404
+    end
+
   private
 
     def further_information_params

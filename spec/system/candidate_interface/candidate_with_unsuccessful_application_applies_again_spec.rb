@@ -14,6 +14,12 @@ RSpec.feature 'Candidate with unsuccessful application' do
     and_i_click_on_start_now
     then_i_see_a_copy_of_my_application
 
+    when_i_click_on_the_link_to_my_previous_application
+    then_i_see_the_review_previous_application_page
+
+    when_i_click_back
+    then_i_see_my_current_application_page
+
     when_i_click_through_to_select_a_course
     then_i_am_informed_i_can_only_select_one_course
     and_i_can_indeed_only_select_one_course
@@ -61,6 +67,22 @@ RSpec.feature 'Candidate with unsuccessful application' do
 
   def then_i_see_a_copy_of_my_application
     expect(page).to have_content('Your new application is ready for editing')
+  end
+
+  def when_i_click_on_the_link_to_my_previous_application
+    click_link 'First application'
+  end
+
+  def then_i_see_the_review_previous_application_page
+    expect(page).to have_current_path(candidate_interface_review_previous_application_path(@application_form.id))
+  end
+
+  def when_i_click_back
+    click_link 'Back'
+  end
+
+  def then_i_see_my_current_application_page
+    expect(page).to have_current_path(candidate_interface_application_form_path)
   end
 
   def when_i_click_through_to_select_a_course
