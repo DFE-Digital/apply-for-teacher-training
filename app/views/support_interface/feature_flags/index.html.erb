@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody class="govuk-table__body">
-    <% FeatureFlag::FEATURES.each do |feature_name| %>
+    <% FeatureFlag::FEATURES.keys.map(&:to_s).each do |feature_name| %>
       <tr class="govuk-table__row">
 
         <td class="govuk-table__cell">
