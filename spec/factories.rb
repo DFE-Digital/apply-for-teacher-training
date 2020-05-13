@@ -448,6 +448,8 @@ FactoryBot.define do
           'If we asked whether a candidate was safe to work with children, would you feel able to answer?' => "#{%w[yes no].sample}| ",
         }
       end
+      safeguarding_concerns { '' }
+      relationship_correction { '' }
     end
   end
 

@@ -25,8 +25,10 @@ module RefereeInterface
       @relationship_form.candidate = reference.application_form.full_name
 
       if @relationship_form.save(reference)
-        if reference.safeguarding_concerns.nil?
+        if reference.safeguarding_concerns.blank?
           redirect_to referee_interface_safeguarding_path(token: @token_param)
+        elsif reference.feedback.blank?
+          redirect_to referee_interface_reference_feedback_path(token: @token_param)
         else
           redirect_to referee_interface_reference_review_path(token: @token_param)
         end
@@ -77,13 +79,22 @@ module RefereeInterface
     end
 
     def review
-      @reference = reference
+      @reference_form = ReferenceReviewForm.new(
+        reference: reference,
+      )
     end
 
     def submit_reference
-      SubmitReference.new(reference: reference).save!
+      @reference_form = ReferenceReviewForm.new(
+        reference: reference,
+      )
 
-      redirect_to referee_interface_confirmation_path(token: @token_param)
+      if @reference_form.valid?
+        SubmitReference.new(reference: reference).save!
+        redirect_to referee_interface_confirmation_path(token: @token_param)
+      else
+        render :review
+      end
     end
 
     def submit_questionnaire
