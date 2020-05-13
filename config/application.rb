@@ -51,6 +51,6 @@ module ApplyForPostgraduateTeacherTraining
 
     config.middleware.use PDFKit::Middleware, { print_media_type: true }, disposition: 'attachment', only: [%r[^/provider/applications/\d+]]
 
-    config.middleware.use Rack::Deflater
+    config.middleware.insert_after ActionDispatch::Static, Rack::Deflater
   end
 end
