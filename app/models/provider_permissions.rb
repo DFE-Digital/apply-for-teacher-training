@@ -1,5 +1,5 @@
 class ProviderPermissions < ActiveRecord::Base
-  VALID_PERMISSIONS = %i[manage_users].freeze
+  VALID_PERMISSIONS = %i[manage_users view_safeguarding_information].freeze
 
   self.table_name = 'provider_users_providers'
 
