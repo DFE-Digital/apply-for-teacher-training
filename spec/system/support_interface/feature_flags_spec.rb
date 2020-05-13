@@ -30,24 +30,38 @@ RSpec.feature 'Feature flags' do
   end
 
   def then_i_should_see_the_existing_feature_flags
-    expect(page).to have_content 'Pilot open Inactive'
+    expect(page).to have_content(
+      "Pilot open\nOwner: #{pilot_open_feature.owner}\n#{pilot_open_feature.description}\nInactive",
+    )
   end
 
   def when_i_activate_the_feature
-    click_button 'Activate ‘Pilot open’'
+    within(pilot_open_row) { click_button 'Activate' }
   end
 
   def then_the_feature_is_activated
-    expect(page).to have_content 'Pilot open Active'
+    expect(page).to have_content(
+      "Pilot open\nOwner: #{pilot_open_feature.owner}\n#{pilot_open_feature.description}\nActive",
+    )
     expect(FeatureFlag.active?('pilot_open')).to be true
   end
 
   def when_i_deactivate_the_feature
-    click_button 'Deactivate ‘Pilot open’'
+    within(pilot_open_row) { click_button 'Deactivate' }
   end
 
   def then_the_feature_is_deactivated
-    expect(page).to have_content 'Pilot open Inactive'
+    expect(page).to have_content(
+      "Pilot open\nOwner: #{pilot_open_feature.owner}\n#{pilot_open_feature.description}\nInactive",
+    )
     expect(FeatureFlag.active?('pilot_open')).to be false
+  end
+
+  def pilot_open_row
+    find(:xpath, "//tr[td[contains(.,'Pilot open')]]")
+  end
+
+  def pilot_open_feature
+    @pilot_open_feature ||= FeatureFlag::FEATURES[:pilot_open]
   end
 end
