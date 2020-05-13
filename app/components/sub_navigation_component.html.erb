@@ -1,4 +1,4 @@
-<div class="govuk-tabs app-tabs">
+<div class="govuk-tabs app-tabs govuk-!-display-none-print">
   <ul class="govuk-tabs__list">
     <% items.each do |item| %>
       <% if item.fetch(:current, false) || current_page?(item.fetch(:url)) %>
