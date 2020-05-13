@@ -30,6 +30,8 @@ class FeatureFlag
     [:unavailable_course_option_warnings, 'Warns candidates at submission time if a course has become unavailable since they originally chose it', 'Malcolm Baig'],
     [:track_validation_errors, 'Captures validation errors triggered by candidates so that they can be reviewed by support staff', 'Steve Hook'],
     [:apply_again, 'Enables unsuccessful candidates to reapply, AKA Apply 2', 'Steve Hook'],
+    [:mark_every_section_complete, 'Each section of the application form should have to be explicitly completed', 'David Gisbey'],
+
   ].freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map { |name, description, owner|
