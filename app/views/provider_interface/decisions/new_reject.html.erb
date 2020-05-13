@@ -13,6 +13,7 @@
         <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
         <%= f.govuk_text_area :rejection_reason,
           label: { text: 'Tell the candidate why you’re rejecting their application', size: 'xl' },
+          max_chars: 255,
           rows: 5 %>
       </div>
 
