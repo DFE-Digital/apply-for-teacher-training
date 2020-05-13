@@ -50,6 +50,7 @@ FactoryBot.define do
       other_qualifications_completed { true }
       volunteering_completed { true }
       work_history_completed { true }
+      personal_details_completed { true }
 
       transient do
         application_choices_count { 0 }
