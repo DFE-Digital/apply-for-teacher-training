@@ -102,7 +102,7 @@ module CandidateInterface
     end
 
     def personal_details_completed?
-      CandidateInterface::PersonalDetailsForm.build_from_application(@application_form).valid?
+      @application_form.personal_details_completed?
     end
 
     def contact_details_completed?

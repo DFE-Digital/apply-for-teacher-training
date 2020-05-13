@@ -22,7 +22,8 @@ RSpec.feature 'Entering their personal details' do
     and_i_submit_the_form
     then_i_can_check_my_revised_answers
 
-    when_i_submit_my_details
+    when_i_mark_the_section_as_completed
+    and_i_submit_my_details
     then_i_should_see_the_form
     and_that_the_section_is_completed
 
@@ -100,8 +101,12 @@ RSpec.feature 'Entering their personal details' do
     expect(page).to have_content 'Billy Dee Williams'
   end
 
-  def when_i_submit_my_details
-    click_link 'Continue'
+  def when_i_mark_the_section_as_completed
+    check t('application_form.completed_checkbox')
+  end
+
+  def and_i_submit_my_details
+    click_button 'Continue'
   end
 
   def then_i_should_see_the_form
