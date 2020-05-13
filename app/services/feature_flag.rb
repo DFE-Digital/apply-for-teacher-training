@@ -25,7 +25,6 @@ class FeatureFlag
     [:provider_change_response, 'Allows providers to change the course that they are offering to a candidate', 'Michael Nacos'],
     [:provider_interface_work_breaks, 'Adds work break information to the provider interface', 'Steve Hook'],
     [:provider_view_safeguarding, 'Allows providers to see whether a candidate has declared safeguarding issues', 'Will McBrien'],
-    [:support_sign_in_confirmation_email, 'Improves security of support interface with confirmation email to user on first login', 'Tijmen Brommet'],
     [:timeline, 'Adds a timeline of status change events to the provider interface', 'Steve Hook'],
     [:unavailable_course_option_warnings, 'Warns candidates at submission time if a course has become unavailable since they originally chose it', 'Malcolm Baig'],
     [:track_validation_errors, 'Captures validation errors triggered by candidates so that they can be reviewed by support staff', 'Steve Hook'],

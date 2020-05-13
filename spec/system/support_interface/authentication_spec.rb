@@ -4,8 +4,6 @@ RSpec.describe 'A support user authenticates via DfE Sign-in' do
   include DfESignInHelpers
 
   scenario 'signing in successfully' do
-    FeatureFlag.activate('support_sign_in_confirmation_email')
-
     given_i_have_a_dfe_sign_in_account_and_support_authorisation
 
     when_i_visit_the_support_interface_users_path
