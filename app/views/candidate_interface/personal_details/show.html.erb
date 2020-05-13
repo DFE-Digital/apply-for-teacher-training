@@ -7,11 +7,6 @@
 
 <%= render(SummaryCardComponent.new(rows: @personal_details_review.rows)) %>
 
-<%= form_with model: @application_form, url: candidate_interface_personal_details_complete_path, method: :post do |f| %>
-  <div class='govuk-form-group'>
-    <%= f.hidden_field :personal_details_completed, value: false %>
-    <%= f.govuk_check_box :personal_details_completed, true, multiple: false, label: { text: t('application_form.completed_checkbox') } %>
-  </div>
-
-  <%= f.govuk_submit t('application_form.continue') %>
-<% end %>
+<%= render(CandidateInterface::CompleteSectionComponent.new(application_form: @application_form,
+                                        path: candidate_interface_personal_details_complete_path,
+                                        field_name: :personal_details_completed)) %>

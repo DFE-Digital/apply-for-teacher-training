@@ -1,0 +1,8 @@
+<%= form_with model: @application_form, url: @path, method: :post do |f| %>
+  <div class='govuk-form-group'>
+    <%= f.hidden_field @field_name, value: false %>
+    <%= f.govuk_check_box @field_name, true, multiple: false, label: { text: t('application_form.completed_checkbox') } %>
+  </div>
+
+  <%= f.govuk_submit t('application_form.continue') %>
+<% end %>
