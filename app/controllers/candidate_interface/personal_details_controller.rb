@@ -1,18 +1,18 @@
 module CandidateInterface
   class PersonalDetailsController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted
-    before_action :set_application_form_to_current_application
 
     def edit
-      @personal_details_form = PersonalDetailsForm.build_from_application(@application_form)
+      @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
     end
 
     def update
+      @application_form = current_application
       @personal_details_form = PersonalDetailsForm.new(personal_details_params)
       @personal_details_review = PersonalDetailsReviewPresenter.new(form: @personal_details_form)
 
       if @personal_details_form.save(current_application)
-        @application_form.update!(personal_details_completed: false)
+        current_application.update!(personal_details_completed: false)
 
         render :show
       else
@@ -22,21 +22,24 @@ module CandidateInterface
     end
 
     def show
-      personal_details_form = PersonalDetailsForm.build_from_application(@application_form)
+      @application_form = current_application
+      personal_details_form = PersonalDetailsForm.build_from_application(current_application)
       @personal_details_review = PersonalDetailsReviewPresenter.new(form: personal_details_form)
     end
 
     def complete
-      if PersonalDetailsForm.build_from_application(@application_form).valid?
-        @application_form.update!(application_form_params)
+      @application_form = current_application
+
+      if PersonalDetailsForm.build_from_application(current_application).valid?
+        current_application.update!(application_form_params)
 
         redirect_to candidate_interface_application_form_path
       else
         flash[:warning] = 'You can’t mark this section as complete without adding all your personal details.'
 
-        @application_form.personal_details_completed = false
+        current_application.personal_details_completed = false
 
-        personal_details_form = PersonalDetailsForm.build_from_application(@application_form)
+        personal_details_form = PersonalDetailsForm.build_from_application(current_application)
         @personal_details_review = PersonalDetailsReviewPresenter.new(form: personal_details_form)
 
         render :show
@@ -44,10 +47,6 @@ module CandidateInterface
     end
 
   private
-
-    def set_application_form_to_current_application
-      @application_form = current_application
-    end
 
     def personal_details_params
       params.require(:candidate_interface_personal_details_form).permit(
