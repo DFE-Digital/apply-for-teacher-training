@@ -31,8 +31,6 @@ class DfESignInController < ActionController::Base
 private
 
   def send_support_sign_in_confirmation_email
-    return unless FeatureFlag.active?('support_sign_in_confirmation_email')
-
     return if cookies.signed[:sign_in_confirmation] == @local_user.id
 
     cookies.signed[:sign_in_confirmation] = {
