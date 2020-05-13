@@ -4,7 +4,6 @@
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th class="govuk-table__header">Feature</th>
-      <th class="govuk-table__header">Owner</th>
       <th class="govuk-table__header">Activated?</th>
       <th class="govuk-table__header">Action</th>
     </tr>
@@ -15,11 +14,8 @@
 
         <td class="govuk-table__cell">
           <h3 class="govuk-!-margin-top-0"><%= feature_name.humanize %></h3>
+          <p>Owner: <%= feature.owner %></p>
           <p><%= feature.description %></p>
-        </td>
-
-        <td class="govuk-table__cell">
-          <%= feature.owner %>
         </td>
 
         <td class="govuk-table__cell">
@@ -32,9 +28,9 @@
 
         <td class="govuk-table__cell">
           <% if FeatureFlag.active?(feature_name) %>
-            <%= button_to "Deactivate ‘#{feature_name.humanize}’", support_interface_deactivate_feature_flag_path(feature_name), class: 'govuk-button govuk-button--secondary govuk-!-margin-bottom-2' %>
+            <%= button_to 'Deactivate', support_interface_deactivate_feature_flag_path(feature_name), class: 'govuk-button govuk-button--secondary govuk-!-margin-bottom-2' %>
           <% else %>
-            <%= button_to "Activate ‘#{feature_name.humanize}’", support_interface_activate_feature_flag_path(feature_name), class: 'govuk-button govuk-button--secondary govuk-!-margin-bottom-2' %>
+            <%= button_to 'Activate', support_interface_activate_feature_flag_path(feature_name), class: 'govuk-button govuk-button--secondary govuk-!-margin-bottom-2' %>
           <% end %>
         </td>
       </tr>
