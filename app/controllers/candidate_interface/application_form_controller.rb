@@ -29,6 +29,8 @@ module CandidateInterface
     end
 
     def edit
+      redirect_to candidate_interface_application_complete_path and return unless current_application.apply_1?
+
       @editable_days = TimeLimitConfig.edit_by
       render :edit_by_support
     end
