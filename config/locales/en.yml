@@ -201,6 +201,9 @@ en:
           attributes:
             rejection_reason:
               blank: Explain why you’re rejecting the application
+              too_long: |
+                The explanation for why you're rejecting the application must be
+                %{count} characters or fewer
   activerecord:
     attributes:
       application_qualification/qualification_type:
