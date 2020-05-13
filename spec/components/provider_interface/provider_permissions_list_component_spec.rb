@@ -12,7 +12,13 @@ RSpec.describe ProviderInterface::ProviderPermissionsListComponent do
 
   let(:provider_permissions) do
     [
-      build_stubbed(:provider_permissions, id: 1, manage_users: true, provider: providers[0]),
+      build_stubbed(
+        :provider_permissions,
+        id: 1,
+        manage_users: true,
+        view_safeguarding_information: true,
+        provider: providers[0],
+      ),
       build_stubbed(:provider_permissions, id: 2, provider: providers[1]),
       build_stubbed(:provider_permissions, id: 3, manage_users: true, provider: providers[2]),
       build_stubbed(:provider_permissions, id: 4, manage_users: true, provider: providers[3]),
@@ -33,6 +39,7 @@ RSpec.describe ProviderInterface::ProviderPermissionsListComponent do
 
     expect(result.text).to include(providers[0].name)
     expect(result.css('#provider-10-enabled-permissions').text).to include('Manage users')
+    expect(result.css('#provider-10-enabled-permissions').text).to include('View safeguarding information')
     expect(result.text).to include(providers[1].name)
     expect(result.css('#provider-11-enabled-permissions').text).to include('No permissions')
     expect(result.text).to include(providers[2].name)
