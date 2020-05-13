@@ -102,7 +102,11 @@ module CandidateInterface
     end
 
     def personal_details_completed?
-      @application_form.personal_details_completed?
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.personal_details_completed?
+      else
+        CandidateInterface::PersonalDetailsForm.build_from_application(@application_form).valid?
+      end
     end
 
     def contact_details_completed?

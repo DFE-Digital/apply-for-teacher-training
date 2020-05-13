@@ -130,10 +130,13 @@ module CandidateHelper
 
     choose 'Yes'
     fill_in t('english_main_language.yes_label', scope: scope), with: "I'm great at Galactic Basic so English is a piece of cake", match: :prefer_exact
-
     click_button t('complete_form_button', scope: scope)
-    check t('application_form.completed_checkbox')
-    click_button t('complete_form_button', scope: scope)
+    if FeatureFlag.active?('mark_every_section_complete')
+      check t('application_form.completed_checkbox')
+      click_button t('complete_form_button', scope: scope)
+    else
+      click_link 'Continue'
+    end
   end
 
   def candidate_fills_in_contact_details
