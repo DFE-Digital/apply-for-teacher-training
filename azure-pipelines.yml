@@ -52,6 +52,7 @@ stages:
         dockerHubImageName: $(imageName)
         railsSecretKeyBase: $(railsSecretKeyBase)
         RAILS_ENV: test
+        RAILS_SERVE_STATIC_FILES: true
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         AUTHORISED_HOSTS: $(authorisedHosts)
         FIND_BASE_URL: $(findBaseUrl)
