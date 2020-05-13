@@ -22,6 +22,7 @@ RSpec.feature 'Managing provider users' do
     and_i_enter_the_users_email_and_name
     and_i_select_a_provider
     and_i_check_permission_to_manage_users
+    and_i_check_permission_to_view_safeguarding_information
     and_i_click_add_user
 
     then_i_should_see_the_list_of_provider_users
@@ -39,6 +40,7 @@ RSpec.feature 'Managing provider users' do
     and_i_reload_the_page
     then_their_email_should_be_editable
     and_they_should_be_able_to_manage_users
+    and_they_should_be_able_to_view_safeguarding_information
 
     when_i_remove_manage_users_permissions
     and_i_remove_access_to_a_provider
@@ -89,6 +91,12 @@ RSpec.feature 'Managing provider users' do
   def and_i_check_permission_to_manage_users
     within(permissions_fields_id_for_provider(@provider)) do
       check 'Manage users'
+    end
+  end
+
+  def and_i_check_permission_to_view_safeguarding_information
+    within(permissions_fields_id_for_provider(@provider)) do
+      check 'View safeguarding information'
     end
   end
 
@@ -176,6 +184,14 @@ RSpec.feature 'Managing provider users' do
 
     within(permissions_fields_id_for_provider(@provider)) do
       expect(page).to have_checked_field('Manage users')
+    end
+  end
+
+  def and_they_should_be_able_to_view_safeguarding_information
+    expect(@user.reload.provider_permissions.view_safeguarding_information.first.provider).to eq(@provider)
+
+    within(permissions_fields_id_for_provider(@provider)) do
+      expect(page).to have_checked_field('View safeguarding information')
     end
   end
 

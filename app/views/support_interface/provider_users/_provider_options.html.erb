@@ -8,6 +8,8 @@
             <%= ppf.hidden_field :provider_id %>
             <%= ppf.govuk_check_boxes_fieldset :permissions, legend: { text: 'Choose permissions', size: 's' } do %>
               <%= ppf.govuk_check_box :manage_users, true, multiple: false, label: { text: 'Manage users' } %>
+              <%= ppf.govuk_check_box :view_safeguarding_information, true, multiple: false,
+                                      label: { text: 'View safeguarding information' } %>
             <% end %>
           <% end %>
         <% end %>

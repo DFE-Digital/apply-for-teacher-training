@@ -9,6 +9,7 @@ class ProviderPermissions < ActiveRecord::Base
   audited associated_with: :provider_user
 
   scope :manage_users, -> { where(manage_users: true) }
+  scope :view_safeguarding_information, -> { where(view_safeguarding_information: true) }
 
   def self.possible_permissions(current_provider_user:, provider_user:)
     provider_ids = current_provider_user
