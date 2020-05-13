@@ -82,7 +82,7 @@ RSpec.describe 'Removing a provider user' do
   end
 
   def then_i_can_see_the_user_and_their_permissions
-    expect(page).to have_content('Provider user invited')
+    expect(page).to have_content('User successfully invited')
 
     expect(page).to have_content(@user_to_remove.full_name)
   end

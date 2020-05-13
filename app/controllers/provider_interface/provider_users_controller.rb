@@ -43,7 +43,7 @@ module ProviderInterface
 
       render :new and return unless service.call
 
-      flash[:success] = 'Provider user invited'
+      flash[:success] = 'User successfully invited'
       redirect_to provider_interface_provider_users_path
     end
 
