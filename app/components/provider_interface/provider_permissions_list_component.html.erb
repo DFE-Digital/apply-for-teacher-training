@@ -1,17 +1,11 @@
 <% visible_provider_permissions.each do |provider_permission| %>
   <h4><%= provider_permission.provider.name %></h4>
   <ul id="provider-<%= provider_permission.provider.id %>-enabled-permissions">
-    <%
-      humanized_permissions = [].tap do |ary|
-        ProviderPermissions::VALID_PERMISSIONS.each do |permission_name|
-          ary << permission_name.to_s.humanize if provider_permission.send(permission_name)
-        end
-      end
-    -%>
-    <% humanized_permissions.each do |humanized_permission| %>
-      <li><%= humanized_permission %></li>
+    <% formatted_permissions = humanized_permissions(provider_permission) -%>
+    <% formatted_permissions.each do |formatted_permission| %>
+      <li><%= formatted_permission %></li>
     <% end %>
-    <% if humanized_permissions.empty? %>
+    <% if formatted_permissions.empty? %>
       <li>No permissions</li>
     <% end %>
   </ul>
