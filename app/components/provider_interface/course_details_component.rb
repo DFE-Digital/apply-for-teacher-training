@@ -18,7 +18,7 @@ module ProviderInterface
 
     def preferred_location_text
       "#{application_choice.site.name_and_code}\n" \
-      "#{address_formatter}"
+      "#{formatted_address}"
     end
 
     def accredited_body
@@ -32,7 +32,8 @@ module ProviderInterface
     end
 
   private
-    def address_formatter
+
+    def formatted_address
       site = application_choice.site
       "#{site.address_line1}, " \
       "#{site.address_line2}, " \
