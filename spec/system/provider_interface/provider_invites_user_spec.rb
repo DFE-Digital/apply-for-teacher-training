@@ -69,7 +69,7 @@ RSpec.feature 'Provider invites a new provider user' do
     @new_provider_user = ProviderUser.find_by(email_address: @email_address)
     expect(@new_provider_user).not_to be nil
     expect(@new_provider_user.providers).to include(@provider)
-    expect(page).to have_content('Provider user invited')
+    expect(page).to have_content('User successfully invited')
   end
 
   def and_the_user_should_be_sent_a_welcome_email
@@ -89,7 +89,7 @@ RSpec.feature 'Provider invites a new provider user' do
   end
 
   def then_the_provider_is_assigned_to_the_user
-    expect(page).to have_content('Provider user invited')
+    expect(page).to have_content('User successfully invited')
 
     @existing_provider_user = ProviderUser.find_by(email_address: @email_address)
     expect(@existing_provider_user.providers).to include(@provider)
