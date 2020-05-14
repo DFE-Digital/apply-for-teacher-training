@@ -21,9 +21,7 @@ module ProviderInterface
       provider_user = ProviderUser.find_by(email_address: params.dig(:provider_user, :email_address).downcase.strip)
 
       if provider_user && provider_user.dfe_sign_in_uid.present?
-        magic_link_token = MagicLinkToken.new
-        ProviderMailer.fallback_sign_in_email(provider_user, magic_link_token.raw).deliver_later
-        provider_user.update!(magic_link_token: magic_link_token.encrypted, magic_link_token_sent_at: Time.zone.now)
+        ProviderInterface::MagicLinkAuthentication.send_token!(provider_user: provider_user)
 
         SlackNotificationWorker.perform_async(
           "Provider user #{provider_user.first_name} has requested a fallback sign in link",
@@ -39,8 +37,7 @@ module ProviderInterface
     def authenticate_with_token
       redirect_to action: :new and return unless FeatureFlag.active?('dfe_sign_in_fallback')
 
-      magic_link_token = MagicLinkToken.from_raw(params.fetch(:token))
-      provider_user = ProviderUser.find_by!(magic_link_token: magic_link_token)
+      provider_user = ProviderInterface::MagicLinkAuthentication.get_user_from_token!(token: params.fetch(:token))
 
       SlackNotificationWorker.perform_async(
         "Provider user #{provider_user.first_name} has signed in via the fallback mechanism",
