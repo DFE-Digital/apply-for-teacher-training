@@ -72,17 +72,46 @@ Regenerate this diagram with `bundle exec rake generate_state_diagram`.
 
 ### Development dependencies
 
+There are two ways to run the application in development. Running a local development environment is the most common approach but it is also possible to run in local Docker containers.
+
+#### Local development dependencies
+
+- `postgresql`
+- `redis`
+- Graphviz 2.22+ (`brew install graphviz`) to generate the [domain model diagram](#domain-model)
+
+#### Docker dependencies
+
 - `docker`
 - `docker-compose`
 - Graphviz 2.22+ (`brew install graphviz`) to generate the [domain model diagram](#domain-model)
 
 ## Development environment
 
+The most common way to run a development version of the application is run with local dependencies.
+
+You'll also need to copy `.env.example` to `.env` and fill in the secrets.
+
+Once Postgresql access is granted for the development db user specified in `$DB_USERNAME` you can set up local development databases and data:
+
+`bundle exec rake db:setup`
+
+Then run the application locally:
+
+`bundle exec rails s` to launch the app on http://localhost:3000
+
+
+### Running the application in Docker
+
+It's also possible to run the application in Docker:
+
 1. Copy `.env.example` to `.env` and fill in the secrets
 1. Run `make setup`
 1. Run `make serve` to launch the app on https://localhost:3000
 
 See `Makefile` for the steps involved in building and running the app.
+
+### Development data
 
 The course and training provider data in the Apply service comes from its
 sister service `Find`. To populate your local database with course data from
