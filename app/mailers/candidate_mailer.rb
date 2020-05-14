@@ -1,10 +1,14 @@
 class CandidateMailer < ApplicationMailer
   def application_submitted(application_form)
-    email_for_candidate(application_form)
+    email_for_candidate(
+      application_form,
+    )
   end
 
   def application_sent_to_provider(application_form)
-    email_for_candidate(application_form)
+    email_for_candidate(
+      application_form,
+    )
   end
 
   def chase_reference(reference)
@@ -120,7 +124,9 @@ class CandidateMailer < ApplicationMailer
   def reference_received(reference)
     @reference = reference
 
-    email_for_candidate(reference.application_form)
+    email_for_candidate(
+      reference.application_form,
+    )
   end
 
   def chase_candidate_decision(application_form)
@@ -128,7 +134,11 @@ class CandidateMailer < ApplicationMailer
     @dbd_date = @application_choices.first.decline_by_default_at.to_s(:govuk_date).strip
 
     subject_pluralisation = @application_choices.count > 1 ? 'plural' : 'singular'
-    email_for_candidate(application_form, subject: I18n.t!("chase_candidate_decision_email.subject_#{subject_pluralisation}"))
+
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!("chase_candidate_decision_email.subject_#{subject_pluralisation}"),
+    )
   end
 
   def declined_by_default(application_form)
@@ -194,7 +204,10 @@ class CandidateMailer < ApplicationMailer
     @withdrawn_course_names = @withdrawn_courses.map { |application_choice| "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}" }
     @rejected_course_choices_count = application_form.application_choices.select(&:rejected?).count
 
-    email_for_candidate(application_form, subject: I18n.t!('candidate_mailer.application_withdrawn.subject', count: @withdrawn_courses.size))
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.application_withdrawn.subject', count: @withdrawn_courses.size),
+    )
   end
 
   def decline_last_application_choice(application_choice)
@@ -203,7 +216,10 @@ class CandidateMailer < ApplicationMailer
     @declined_course_name = "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}"
     @rejected_course_choices_count = application_choice.application_form.application_choices.select(&:rejected?).count
 
-    email_for_candidate(application_choice.application_form, subject: I18n.t!('candidate_mailer.application_declined.subject'))
+    email_for_candidate(
+      application_choice.application_form,
+      subject: I18n.t!('candidate_mailer.application_declined.subject'),
+    )
   end
 
 private
