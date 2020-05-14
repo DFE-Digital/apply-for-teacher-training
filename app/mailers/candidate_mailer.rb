@@ -21,18 +21,14 @@ class CandidateMailer < ApplicationMailer
   end
 
   def survey_email(application_form)
-    @name = application_form.first_name
-
-    notify_email(
-      to: application_form.candidate.email_address,
+    email_for_candidate(
+      application_form,
     )
   end
 
   def survey_chaser_email(application_form)
-    @name = application_form.first_name
-
-    notify_email(
-      to: application_form.candidate.email_address,
+    email_for_candidate(
+      application_form,
     )
   end
 
