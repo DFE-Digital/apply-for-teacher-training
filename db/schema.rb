@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_13_143607) do
+ActiveRecord::Schema.define(version: 2020_05_14_111744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 2020_05_13_143607) do
     t.boolean "subject_knowledge_completed", default: false
     t.boolean "interview_needs_completed", default: false
     t.boolean "references_completed", default: false
+    t.boolean "science_gcse_completed", default: false
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
   end
 
