@@ -13,7 +13,6 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
                     address_line2: 'Morley',
                     address_line3: 'Leeds',
                     postcode: 'LS27 OPD')
-
   end
 
   let(:provider) do

@@ -31,8 +31,8 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
            course_option: course_option,
            status: 'withdrawn',
            application_form: create(:application_form,
-                                     first_name: 'Jim',
-                                     last_name: 'James'),
+                                    first_name: 'Jim',
+                                    last_name: 'James'),
            site: create(:site, code: 'L123', name: 'Skywalker Training'),
            updated_at: Date.parse('25-03-2020'))
   end
