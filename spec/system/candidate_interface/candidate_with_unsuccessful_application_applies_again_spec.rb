@@ -27,6 +27,13 @@ RSpec.feature 'Candidate with unsuccessful application' do
     when_i_complete_my_application
     then_my_application_is_submitted
     and_i_do_not_see_referee_related_guidance
+    and_there_is_no_guidance_on_editing_my_application
+
+    when_i_click_view_my_application
+    then_i_do_not_see_a_link_to_edit_my_application
+
+    when_i_try_and_visit_the_edit_guidance_path
+    then_i_am_redirected_to_my_application_dashboard
   end
 
   def given_the_pilot_is_open
@@ -125,5 +132,25 @@ RSpec.feature 'Candidate with unsuccessful application' do
 
   def and_i_do_not_see_referee_related_guidance
     expect(page).not_to have_content 'References'
+  end
+
+  def and_there_is_no_guidance_on_editing_my_application
+    expect(page).not_to have_link 'To edit your application, return to your application dashboard'
+  end
+
+  def when_i_click_view_my_application
+    click_link 'To view your application, return to your application dashboard'
+  end
+
+  def then_i_do_not_see_a_link_to_edit_my_application
+    expect(page).not_to have_link 'Edit your application'
+  end
+
+  def when_i_try_and_visit_the_edit_guidance_path
+    visit candidate_interface_application_edit_path
+  end
+
+  def then_i_am_redirected_to_my_application_dashboard
+    expect(page).to have_current_path(candidate_interface_application_complete_path)
   end
 end
