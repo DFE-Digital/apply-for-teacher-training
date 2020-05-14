@@ -8,7 +8,7 @@ module SupportInterface
       application_forms.includes(:candidate).each do |application_form|
         survey = application_form.satisfaction_survey
 
-        survey_fields = CandidateInterface::SatisfactionSurveyForm::QUESTIONS_WE_ASK
+        survey_fields = SatisfactionSurvey::QUESTIONS_WE_ASK
           .index_with { |question| survey[question] }
 
         answer = {

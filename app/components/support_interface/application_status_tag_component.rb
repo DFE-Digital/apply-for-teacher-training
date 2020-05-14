@@ -1,4 +1,3 @@
-# TODO: dedupe with the ProviderInterface counterpart
 module SupportInterface
   class ApplicationStatusTagComponent < ViewComponent::Base
     validates :application_choice, presence: true
