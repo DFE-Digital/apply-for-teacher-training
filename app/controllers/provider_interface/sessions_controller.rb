@@ -16,7 +16,7 @@ module ProviderInterface
     end
 
     def sign_in_by_email
-      render_404 unless FeatureFlag.active?('dfe_sign_in_fallback')
+      render_404 and return unless FeatureFlag.active?('dfe_sign_in_fallback')
 
       provider_user = ProviderUser.find_by(email_address: params.dig(:provider_user, :email_address).downcase.strip)
 
@@ -37,6 +37,8 @@ module ProviderInterface
     def check_your_email; end
 
     def authenticate_with_token
+      redirect_to action: :new and return unless FeatureFlag.active?('dfe_sign_in_fallback')
+
       magic_link_token = MagicLinkToken.from_raw(params.fetch(:token))
       provider_user = ProviderUser.find_by!(magic_link_token: magic_link_token)
 
