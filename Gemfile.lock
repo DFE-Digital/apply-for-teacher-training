@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    Ascii85 (1.0.3)
     actioncable (6.0.3)
       actionpack (= 6.0.3)
       nio4r (~> 2.0)
@@ -59,6 +60,7 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     aes_key_wrap (1.0.1)
+    afm (0.2.2)
     ast (2.4.0)
     attr_required (1.0.1)
     audited (4.9.0)
@@ -189,6 +191,7 @@ GEM
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
     hashdiff (1.0.1)
+    hashery (2.1.2)
     hashie (4.1.0)
     holidays (8.2.0)
     http (4.4.1)
@@ -302,6 +305,12 @@ GEM
     parallel (1.19.1)
     parser (2.7.1.2)
       ast (~> 2.4.0)
+    pdf-reader (2.4.0)
+      Ascii85 (~> 1.0.0)
+      afm (~> 0.2.1)
+      hashery (~> 2.0)
+      ruby-rc4
+      ttfunk
     pdfkit (0.8.4.2)
     pg (1.2.3)
     pry (0.13.1)
@@ -435,6 +444,7 @@ GEM
     ruby-graphviz (1.2.5)
       rexml
     ruby-progressbar (1.10.1)
+    ruby-rc4 (0.1.5)
     rubyzip (2.0.0)
     safe_yaml (1.0.5)
     selenium-webdriver (3.142.7)
@@ -469,6 +479,7 @@ GEM
     thor (1.0.1)
     thread_safe (0.3.6)
     timecop (0.9.1)
+    ttfunk (1.6.2.1)
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
     uk_postcode (2.1.5)
@@ -554,6 +565,7 @@ DEPENDENCIES
   omniauth-rails_csrf_protection
   omniauth_openid_connect
   openapi3_parser (= 0.8.1)
+  pdf-reader
   pdfkit
   pg (~> 1.2.3)
   pry

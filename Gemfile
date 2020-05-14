@@ -98,6 +98,7 @@ group :test do
   gem 'clockwork-test'
   gem 'deepsort'
   gem 'rspec-benchmark'
+  gem 'pdf-reader'
 end
 
 group :development, :test do
