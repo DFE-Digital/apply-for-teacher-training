@@ -28,22 +28,9 @@ module CandidateInterface
     end
 
     def complete
-      @application_form = current_application
+      current_application.update!(application_form_params)
 
-      if PersonalDetailsForm.build_from_application(current_application).valid?
-        current_application.update!(application_form_params)
-
-        redirect_to candidate_interface_application_form_path
-      else
-        flash[:warning] = 'You can’t mark this section as complete without adding all your personal details.'
-
-        current_application.personal_details_completed = false
-
-        personal_details_form = PersonalDetailsForm.build_from_application(current_application)
-        @personal_details_review = PersonalDetailsReviewPresenter.new(form: personal_details_form)
-
-        render :show
-      end
+      redirect_to candidate_interface_application_form_path
     end
 
   private
