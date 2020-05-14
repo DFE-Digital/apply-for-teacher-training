@@ -55,5 +55,20 @@ RSpec.feature 'Provider sees an application as PDF' do
     expect(page.driver.response.status).to eq(200)
     expect(page.driver.response.content_type).to eq('application/pdf')
     expect(page.driver.response.length).to be > 0
+
+    expect(pdf_text).to include(@application_form.full_name)
+    expect(pdf_text).to include(@application_form.support_reference)
+  end
+
+  def pdf_text
+    @pdf_text ||= begin
+      temp_pdf = Tempfile.new('pdf')
+      temp_pdf << page.source.force_encoding('UTF-8')
+      reader = PDF::Reader.new(temp_pdf)
+      text = reader.pages.map(&:text).join
+      temp_pdf.close
+
+      text
+    end
   end
 end
