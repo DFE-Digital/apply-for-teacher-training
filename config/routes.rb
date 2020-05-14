@@ -112,6 +112,7 @@ Rails.application.routes.draw do
         patch '/year' => 'gcse/year#update', as: :gcse_details_update_year
 
         get '/review' => 'gcse/review#show', as: :gcse_review
+        post '/complete' => 'gcse/review#complete', as: :gcse_complete
       end
 
       scope '/work-history' do

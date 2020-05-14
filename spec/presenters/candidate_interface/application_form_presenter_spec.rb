@@ -36,6 +36,54 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
+  describe '#maths_gcse_completed?' do
+    it 'returns true if maths gcse section is completed' do
+      application_form = FactoryBot.build(:application_form, maths_gcse_completed: true)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_maths_gcse_completed
+    end
+
+    it 'returns false if maths gcse section is incomplete' do
+      application_form = FactoryBot.build(:application_form, maths_gcse_completed: false)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_maths_gcse_completed
+    end
+  end
+
+  describe '#english_gcse_completed?' do
+    it 'returns true if english gcse section is completed' do
+      application_form = FactoryBot.build(:application_form, english_gcse_completed: true)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_english_gcse_completed
+    end
+
+    it 'returns false if english gcse section is incomplete' do
+      application_form = FactoryBot.build(:application_form, english_gcse_completed: false)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_english_gcse_completed
+    end
+  end
+
+  describe '#science_gcse_completed?' do
+    it 'returns true if science gcse section is completed' do
+      application_form = FactoryBot.build(:application_form, science_gcse_completed: true)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_science_gcse_completed
+    end
+
+    it 'returns false if science gcse section is incomplete' do
+      application_form = FactoryBot.build(:application_form, science_gcse_completed: false)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_science_gcse_completed
+    end
+  end
+
   describe '#degrees_completed?' do
     it 'returns true if degrees section is completed' do
       application_form = FactoryBot.build(:application_form, degrees_completed: true)
