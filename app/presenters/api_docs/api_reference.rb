@@ -4,7 +4,7 @@ module APIDocs
     delegate :servers, to: :document
 
     def initialize
-      @document = Openapi3Parser.load(VendorAPI::OpenAPISpec.as_hash)
+      @document = Openapi3Parser.load(VendorAPISpecification.as_hash)
     end
 
     def operations

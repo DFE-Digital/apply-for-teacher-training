@@ -61,7 +61,7 @@ module VendorAPISpecHelpers
 
   RSpec::Matchers.define :be_valid_against_openapi_schema do |schema_name|
     match do |item|
-      spec = OpenAPI3Specification.new(VendorAPI::OpenAPISpec.as_hash)
+      spec = OpenAPI3Specification.new(VendorAPISpecification.as_hash)
 
       JSONSchemaValidator.new(
         spec.as_json_schema(schema_name),
@@ -70,7 +70,7 @@ module VendorAPISpecHelpers
     end
 
     failure_message do |item|
-      spec = OpenAPI3Specification.new(VendorAPI::OpenAPISpec.as_hash)
+      spec = OpenAPI3Specification.new(VendorAPISpecification.as_hash)
 
       JSONSchemaValidator.new(
         spec.as_json_schema(schema_name),
