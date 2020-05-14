@@ -485,6 +485,8 @@ Rails.application.routes.draw do
     get '/applications/:application_form_id/comments/new' => 'application_forms/comments#new', as: :application_form_new_comment
     post '/applications/:application_form_id/comments' => 'application_forms/comments#create', as: :application_form_comments
 
+    get '/application_choices/:application_choice_id' => 'application_choices#show', as: :application_choice
+
     scope '/applications/:application_form_id' do
       get '/change-course' => 'change_course#options', as: :change_course
       post '/change-course' => 'change_course#pick_option'
