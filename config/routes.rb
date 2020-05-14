@@ -65,6 +65,7 @@ Rails.application.routes.draw do
 
       scope '/personal-details' do
         get '/' => 'personal_details#edit', as: :personal_details_edit
+        post '/' => 'personal_details#complete', as: :personal_details_complete
         post '/review' => 'personal_details#update', as: :personal_details_update
         get '/review' => 'personal_details#show', as: :personal_details_show
       end

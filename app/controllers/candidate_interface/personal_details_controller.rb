@@ -3,16 +3,17 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_submitted
 
     def edit
-      @personal_details_form = PersonalDetailsForm.build_from_application(
-        current_application,
-      )
+      @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
     end
 
     def update
+      @application_form = current_application
       @personal_details_form = PersonalDetailsForm.new(personal_details_params)
       @personal_details_review = PersonalDetailsReviewPresenter.new(form: @personal_details_form)
 
       if @personal_details_form.save(current_application)
+        current_application.update!(personal_details_completed: false)
+
         render :show
       else
         track_validation_error(@personal_details_form)
@@ -21,10 +22,15 @@ module CandidateInterface
     end
 
     def show
-      personal_details_form = PersonalDetailsForm.build_from_application(
-        current_application,
-      )
+      @application_form = current_application
+      personal_details_form = PersonalDetailsForm.build_from_application(current_application)
       @personal_details_review = PersonalDetailsReviewPresenter.new(form: personal_details_form)
+    end
+
+    def complete
+      current_application.update!(application_form_params)
+
+      redirect_to candidate_interface_application_form_path
     end
 
   private
@@ -38,6 +44,11 @@ module CandidateInterface
         :english_language_details, :other_language_details
       )
         .transform_keys { |key| dob_field_to_attribute(key) }
+        .transform_values(&:strip)
+    end
+
+    def application_form_params
+      params.require(:application_form).permit(:personal_details_completed)
         .transform_values(&:strip)
     end
 
