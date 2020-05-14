@@ -10,6 +10,8 @@ module CandidateInterface
       @application_qualification = details_form.save_year
 
       if @application_qualification
+        update_gcse_completed(false)
+
         redirect_to candidate_interface_gcse_review_path
       else
         @application_qualification = details_form
