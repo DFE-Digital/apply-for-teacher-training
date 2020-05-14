@@ -53,7 +53,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   describe 'Send survey email' do
     context 'when initial email' do
       it_behaves_like('a mail with subject and content', :survey_email,
-                      I18n.t!('survey_emails.subject.initial'),
+                      'Was applying for teacher training easy?',
                       'heading' => 'Dear Bob',
                       'thank you message' => I18n.t!('survey_emails.thank_you.candidate'),
                       'link to the survey' => I18n.t!('survey_emails.survey_link'))
@@ -61,7 +61,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     context 'when chaser email' do
       it_behaves_like('a mail with subject and content', :survey_chaser_email,
-                      I18n.t!('survey_emails.subject.chaser'),
+                      'We’d love to hear from you about your teacher training application',
                       'heading' => 'Dear Bob',
                       'link to the survey' => I18n.t!('survey_emails.survey_link'))
     end

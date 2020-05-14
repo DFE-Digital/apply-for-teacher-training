@@ -1,8 +1,5 @@
 en:
   survey_emails:
-    subject:
-      initial: Was applying for teacher training easy?
-      chaser: We’d love to hear from you about your teacher training application
     survey_link: https://forms.gle/QQqurrCs9YSpTfbc8
     thank_you:
       candidate: Thanks for submitting your teacher training application through our new application process, Apply for teacher training.
