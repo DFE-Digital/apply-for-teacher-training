@@ -71,4 +71,6 @@ RSpec.configure do |config|
   config.before { Faker::UniqueGenerator.clear }
 
   config.before { ActionMailer::Base.deliveries.clear }
+
+  config.before { FeatureFlag.reset! }
 end

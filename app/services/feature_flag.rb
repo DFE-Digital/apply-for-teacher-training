@@ -54,6 +54,12 @@ class FeatureFlag
     Feature.find_or_initialize_by(name: feature_name).active?
   end
 
+  def self.reset!
+    return if Rails.env.production?
+
+    Feature.update_all(active: false)
+  end
+
   def self.sync_with_database(feature_name, active)
     feature = Feature.find_or_initialize_by(name: feature_name)
     feature.active = active
