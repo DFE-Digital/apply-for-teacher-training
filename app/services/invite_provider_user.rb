@@ -35,7 +35,7 @@ private
     }
 
     response = HTTP.auth(auth_string).post dfe_invite_url, json: request_params
-    raise DfeSignInAPIError.new(response) unless response.status.success?
+    raise DfeSignInAPIError, response unless response.status.success?
   end
 
   def send_welcome_email

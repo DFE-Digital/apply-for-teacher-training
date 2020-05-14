@@ -25,7 +25,7 @@ module VendorAPI
     def since_param
       params.fetch(:since).to_datetime
     rescue ArgumentError
-      raise ParameterInvalid.new('Parameter is invalid (should be ISO8601): since')
+      raise ParameterInvalid, 'Parameter is invalid (should be ISO8601): since'
     end
   end
 end

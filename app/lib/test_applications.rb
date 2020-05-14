@@ -15,7 +15,7 @@ class TestApplications
 
   def create_application(states:, courses_to_apply_to: nil)
     travel_to rand(30..60).days.ago
-    raise ZeroCoursesPerApplicationError.new('You can\'t have zero courses per application') unless states.any?
+    raise ZeroCoursesPerApplicationError, 'You can\'t have zero courses per application' unless states.any?
 
     first_name = Faker::Name.first_name
     last_name = Faker::Name.last_name
@@ -34,7 +34,7 @@ class TestApplications
     # in the course of the same application, and it's forbidden in the UI.
     # Throw an exception if we try to do that here.
     if courses_to_apply_to.count < states.count
-      raise NotEnoughCoursesError.new("Not enough distinct courses to generate a #{states.count}-course application")
+      raise NotEnoughCoursesError, "Not enough distinct courses to generate a #{states.count}-course application"
     end
 
     Audited.audit_class.as_user(candidate) do
