@@ -27,8 +27,6 @@ class CandidateMailer < ApplicationMailer
     notify_email(
       to: application_form.candidate.email_address,
       subject: t('survey_emails.subject.initial'),
-      template_path: 'survey_emails',
-      template_name: 'initial',
     )
   end
 
@@ -38,8 +36,6 @@ class CandidateMailer < ApplicationMailer
     notify_email(
       to: application_form.candidate.email_address,
       subject: t('survey_emails.subject.chaser'),
-      template_path: 'survey_emails',
-      template_name: 'chaser',
     )
   end
 
