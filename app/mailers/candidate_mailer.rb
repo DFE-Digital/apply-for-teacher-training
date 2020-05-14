@@ -1,10 +1,14 @@
 class CandidateMailer < ApplicationMailer
   def application_submitted(application_form)
-    email_for_candidate(application_form)
+    email_for_candidate(
+      application_form,
+    )
   end
 
   def application_sent_to_provider(application_form)
-    email_for_candidate(application_form)
+    email_for_candidate(
+      application_form,
+    )
   end
 
   def chase_reference(reference)
@@ -17,25 +21,14 @@ class CandidateMailer < ApplicationMailer
   end
 
   def survey_email(application_form)
-    @name = application_form.first_name
-    @thank_you_message = t('survey_emails.thank_you.candidate')
-
-    notify_email(
-      to: application_form.candidate.email_address,
-      subject: t('survey_emails.subject.initial'),
-      template_path: 'survey_emails',
-      template_name: 'initial',
+    email_for_candidate(
+      application_form,
     )
   end
 
   def survey_chaser_email(application_form)
-    @name = application_form.first_name
-
-    notify_email(
-      to: application_form.candidate.email_address,
-      subject: t('survey_emails.subject.chaser'),
-      template_path: 'survey_emails',
-      template_name: 'chaser',
+    email_for_candidate(
+      application_form,
     )
   end
 
@@ -50,7 +43,6 @@ class CandidateMailer < ApplicationMailer
   end
 
   def application_rejected_all_rejected(application_choice)
-    @application_form = application_choice.application_form
     @course = application_choice.course_option.course
     @application_choice = application_choice
     @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
@@ -61,11 +53,10 @@ class CandidateMailer < ApplicationMailer
                       :application_rejected_all_rejected
                     end
 
-    notify_email(
-      to: application_choice.application_form.candidate.email_address,
+    email_for_candidate(
+      application_choice.application_form,
       subject: I18n.t!('candidate_mailer.application_rejected.all_rejected.subject', provider_name: @course.provider.name),
       template_name: template_name,
-      application_form_id: application_choice.application_form.id,
     )
   end
 
@@ -120,7 +111,9 @@ class CandidateMailer < ApplicationMailer
   def reference_received(reference)
     @reference = reference
 
-    email_for_candidate(reference.application_form)
+    email_for_candidate(
+      reference.application_form,
+    )
   end
 
   def chase_candidate_decision(application_form)
@@ -128,11 +121,14 @@ class CandidateMailer < ApplicationMailer
     @dbd_date = @application_choices.first.decline_by_default_at.to_s(:govuk_date).strip
 
     subject_pluralisation = @application_choices.count > 1 ? 'plural' : 'singular'
-    email_for_candidate(application_form, subject: I18n.t!("chase_candidate_decision_email.subject_#{subject_pluralisation}"))
+
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!("chase_candidate_decision_email.subject_#{subject_pluralisation}"),
+    )
   end
 
   def declined_by_default(application_form)
-    @application_form = application_form
     @declined_courses = application_form.application_choices.select(&:declined_by_default?)
     @declined_course_names = @declined_courses.map { |application_choice| "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}" }
 
@@ -147,11 +143,10 @@ class CandidateMailer < ApplicationMailer
       subject = I18n.t!('candidate_mailer.declined_by_default.subject', count: @declined_courses.size)
     end
 
-    notify_email(
-      to: application_form.candidate.email_address,
+    email_for_candidate(
+      application_form,
       subject: subject,
       template_name: template_name,
-      application_form_id: application_form.id,
     )
   end
 
@@ -189,28 +184,31 @@ class CandidateMailer < ApplicationMailer
   end
 
   def withdraw_last_application_choice(application_form)
-    @application_form = application_form
     @withdrawn_courses = application_form.application_choices.select(&:withdrawn?)
     @withdrawn_course_names = @withdrawn_courses.map { |application_choice| "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}" }
     @rejected_course_choices_count = application_form.application_choices.select(&:rejected?).count
 
-    email_for_candidate(application_form, subject: I18n.t!('candidate_mailer.application_withdrawn.subject', count: @withdrawn_courses.size))
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.application_withdrawn.subject', count: @withdrawn_courses.size),
+    )
   end
 
   def decline_last_application_choice(application_choice)
-    @application_form = application_choice.application_form
     @declined_course = application_choice
     @declined_course_name = "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}"
     @rejected_course_choices_count = application_choice.application_form.application_choices.select(&:rejected?).count
 
-    email_for_candidate(application_choice.application_form, subject: I18n.t!('candidate_mailer.application_declined.subject'))
+    email_for_candidate(
+      application_choice.application_form,
+      subject: I18n.t!('candidate_mailer.application_declined.subject'),
+    )
   end
 
 private
 
   def new_offer(application_choice, template_name)
     @application_choice = application_choice
-    @candidate_name = @application_choice.application_form.first_name
     @provider_name = @application_choice.course_option.course.provider.name
     @course_name = @application_choice.course_option.course.name_and_code
     @conditions = @application_choice.offer&.dig('conditions') || []
@@ -218,16 +216,15 @@ private
       "#{offer.course_option.course.name_and_code} at #{offer.course_option.course.provider.name}"
     end
 
-    notify_email(
-      to: application_choice.application_form.candidate.email_address,
-      subject: t(
+    email_for_candidate(
+      application_choice.application_form,
+      subject: I18n.t!(
         "candidate_offer.#{template_name}.subject",
         course_name: application_choice.course_option.course.name_and_code,
         provider_name: application_choice.course_option.course.provider.name,
       ),
       template_path: 'candidate_mailer/new_offer',
       template_name: template_name,
-      application_form_id: application_choice.application_form.id,
     )
   end
 
@@ -235,11 +232,13 @@ private
     @application_form = application_form
     @candidate = @application_form.candidate
 
-    notify_email(
+    mailer_options = {
       to: @candidate.email_address,
-      subject: args[:subject] || I18n.t!("candidate_mailer.#{action_name}.subject"),
+      subject: args.delete(:subject) || I18n.t!("candidate_mailer.#{action_name}.subject"),
       application_form_id: application_form.id,
-    )
+    }.merge(args)
+
+    notify_email(mailer_options)
   end
 
   def candidate_magic_link(candidate)

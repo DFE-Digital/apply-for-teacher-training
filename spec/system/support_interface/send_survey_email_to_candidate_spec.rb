@@ -40,24 +40,24 @@ RSpec.feature 'Send survey email to candidate', with_audited: true do
   end
 
   def when_i_click_on_request_feedback
-    click_link(t('survey_emails.send.link'))
+    click_link(I18n.t!('survey_emails.send.link'))
   end
 
   def then_i_see_a_confirmation_page
-    expect(page).to have_content(t('survey_emails.send.confirm', candidate_name: 'Darlene Alderson'))
+    expect(page).to have_content(I18n.t!('survey_emails.send.confirm', candidate_name: 'Darlene Alderson'))
   end
 
   def when_i_click_to_confirm_sending_the_survey_email
-    click_button t('survey_emails.send.button')
+    click_button I18n.t!('survey_emails.send.button')
   end
 
   def then_i_see_the_survey_email_is_successfully_sent
     open_email(@application.candidate.email_address)
 
-    expect(current_email.subject).to have_content(t('survey_emails.subject.initial'))
+    expect(current_email.subject).to have_content(I18n.t!('candidate_mailer.survey_email.subject'))
   end
 
   def and_i_am_sent_back_to_the_application_form_with_a_flash
-    expect(page).to have_content(t('survey_emails.send.success'))
+    expect(page).to have_content(I18n.t!('survey_emails.send.success'))
   end
 end
