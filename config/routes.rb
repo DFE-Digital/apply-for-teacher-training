@@ -98,6 +98,7 @@ Rails.application.routes.draw do
         post '/address' => 'contact_details/address#update', as: :contact_details_update_address
 
         get '/review' => 'contact_details/review#show', as: :contact_details_review
+        post '/complete' => 'contact_details/review#complete', as: :contact_details_complete
       end
 
       scope '/gcse/:subject', constraints: { subject: /(maths|english|science)/ } do

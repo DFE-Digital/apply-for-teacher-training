@@ -110,9 +110,13 @@ module CandidateInterface
     end
 
     def contact_details_completed?
-      contact_details = CandidateInterface::ContactDetailsForm.build_from_application(@application_form)
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.contact_details_completed
+      else
+        contact_details = CandidateInterface::ContactDetailsForm.build_from_application(@application_form)
 
-      contact_details.valid?(:base) && contact_details.valid?(:address)
+        contact_details.valid?(:base) && contact_details.valid?(:address)
+      end
     end
 
     def work_experience_completed?

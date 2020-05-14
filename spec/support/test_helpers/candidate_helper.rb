@@ -147,7 +147,13 @@ module CandidateHelper
     fill_in t('application_form.contact_details.address_line3.label'), with: 'London'
     fill_in t('application_form.contact_details.postcode.label'), with: 'SW1P 3BT'
     click_button t('application_form.contact_details.address.button')
-    click_link t('application_form.contact_details.review.button')
+
+    if FeatureFlag.active?('mark_every_section_complete')
+      check t('application_form.completed_checkbox')
+      click_button t('application_form.continue')
+    else
+      click_link t('application_form.contact_details.review.button')
+    end
   end
 
   def candidate_fills_in_their_degree
