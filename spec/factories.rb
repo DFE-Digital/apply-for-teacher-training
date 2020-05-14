@@ -505,4 +505,8 @@ FactoryBot.define do
     subject { Faker::Company.bs.capitalize }
     message { Faker::Quote.most_interesting_man_in_the_world }
   end
+
+  factory :feature do
+    name { 'feature_x' }
+  end
 end
