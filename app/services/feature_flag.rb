@@ -40,24 +40,18 @@ class FeatureFlag
     raise unless feature_name.in?(FEATURES)
 
     sync_with_database(feature_name, true)
-    rollout.activate(feature_name)
   end
 
   def self.deactivate(feature_name)
     raise unless feature_name.in?(FEATURES)
 
     sync_with_database(feature_name, false)
-    rollout.deactivate(feature_name)
   end
 
   def self.active?(feature_name)
     raise unless feature_name.in?(FEATURES)
 
-    rollout.active?(feature_name)
-  end
-
-  def self.rollout
-    @rollout ||= Rollout.new(Redis.current)
+    Feature.find_or_initialize_by(name: feature_name).active?
   end
 
   def self.sync_with_database(feature_name, active)
