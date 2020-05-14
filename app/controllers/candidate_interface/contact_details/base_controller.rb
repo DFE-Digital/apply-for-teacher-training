@@ -17,6 +17,8 @@ module CandidateInterface
         )
 
         if updated_contact_details_form.valid?(:address)
+          current_application.update!(contact_details_completed: false)
+
           redirect_to candidate_interface_contact_details_review_path
         else
           redirect_to candidate_interface_contact_details_edit_address_path
