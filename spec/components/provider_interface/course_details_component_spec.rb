@@ -8,7 +8,11 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
 
   let(:site) do
     instance_double(Site,
-                    name_and_code: 'First Road (F34)')
+                    name_and_code: 'First Road (F34)',
+                    address_line1: 'Fountain Street',
+                    address_line2: 'Morley',
+                    address_line3: 'Leeds',
+                    postcode: 'LS27 OPD')
   end
 
   let(:provider) do
@@ -113,6 +117,8 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
 
     expect(render_text).to include('Preferred location')
     expect(render_text).to include('First Road (F34)')
+    expect(render_text).to include('Fountain Street, Morley, Leeds')
+    expect(render_text).to include('LS27 OPD')
   end
 
   it 'renders the study mode' do
