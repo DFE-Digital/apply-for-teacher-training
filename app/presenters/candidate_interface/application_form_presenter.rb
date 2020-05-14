@@ -164,15 +164,27 @@ module CandidateInterface
     end
 
     def maths_gcse_completed?
-      gcse_completed?(@application_form.maths_gcse)
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.maths_gcse_completed
+      else
+        gcse_completed?(@application_form.maths_gcse)
+      end
     end
 
     def english_gcse_completed?
-      gcse_completed?(@application_form.english_gcse)
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.english_gcse_completed
+      else
+        gcse_completed?(@application_form.english_gcse)
+      end
     end
 
     def science_gcse_completed?
-      gcse_completed?(@application_form.science_gcse)
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.science_gcse_completed
+      else
+        gcse_completed?(@application_form.science_gcse)
+      end
     end
 
     def other_qualifications_completed?

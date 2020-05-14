@@ -52,6 +52,9 @@ FactoryBot.define do
       work_history_completed { true }
       personal_details_completed { true }
       contact_details_completed { true }
+      english_gcse_completed { true }
+      maths_gcse_completed { true }
+      science_gcse_completed { true }
 
       transient do
         application_choices_count { 0 }

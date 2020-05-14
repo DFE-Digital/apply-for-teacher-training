@@ -295,7 +295,13 @@ module CandidateHelper
     click_button 'Save and continue'
     fill_in 'Enter year', with: '1990'
     click_button 'Save and continue'
-    click_link 'Back to application'
+
+    if FeatureFlag.active?('mark_every_section_complete')
+      check t('application_form.completed_checkbox')
+      click_button t('application_form.continue')
+    else
+      click_link 'Back to application'
+    end
   end
 
   def candidate_explains_a_missing_gcse
