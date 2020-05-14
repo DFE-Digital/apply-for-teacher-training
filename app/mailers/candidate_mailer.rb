@@ -210,7 +210,6 @@ private
 
   def new_offer(application_choice, template_name)
     @application_choice = application_choice
-    @candidate_name = @application_choice.application_form.first_name
     @provider_name = @application_choice.course_option.course.provider.name
     @course_name = @application_choice.course_option.course.name_and_code
     @conditions = @application_choice.offer&.dig('conditions') || []
@@ -218,16 +217,15 @@ private
       "#{offer.course_option.course.name_and_code} at #{offer.course_option.course.provider.name}"
     end
 
-    notify_email(
-      to: application_choice.application_form.candidate.email_address,
-      subject: t(
+    email_for_candidate(
+      application_choice.application_form,
+      subject: I18n.t!(
         "candidate_offer.#{template_name}.subject",
         course_name: application_choice.course_option.course.name_and_code,
         provider_name: application_choice.course_option.course.provider.name,
       ),
       template_path: 'candidate_mailer/new_offer',
       template_name: template_name,
-      application_form_id: application_choice.application_form.id,
     )
   end
 
@@ -235,11 +233,13 @@ private
     @application_form = application_form
     @candidate = @application_form.candidate
 
-    notify_email(
+    mailer_options = {
       to: @candidate.email_address,
-      subject: args[:subject] || I18n.t!("candidate_mailer.#{action_name}.subject"),
+      subject: args.delete(:subject) || I18n.t!("candidate_mailer.#{action_name}.subject"),
       application_form_id: application_form.id,
-    )
+    }.merge(args)
+
+    notify_email(mailer_options)
   end
 
   def candidate_magic_link(candidate)
