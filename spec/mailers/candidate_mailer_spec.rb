@@ -55,7 +55,6 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like('a mail with subject and content', :survey_email,
                       'Was applying for teacher training easy?',
                       'heading' => 'Dear Bob',
-                      'thank you message' => I18n.t!('survey_emails.thank_you.candidate'),
                       'link to the survey' => I18n.t!('survey_emails.survey_link'))
     end
 

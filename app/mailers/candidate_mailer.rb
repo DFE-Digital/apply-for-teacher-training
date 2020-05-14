@@ -22,7 +22,6 @@ class CandidateMailer < ApplicationMailer
 
   def survey_email(application_form)
     @name = application_form.first_name
-    @thank_you_message = t('survey_emails.thank_you.candidate')
 
     notify_email(
       to: application_form.candidate.email_address,
