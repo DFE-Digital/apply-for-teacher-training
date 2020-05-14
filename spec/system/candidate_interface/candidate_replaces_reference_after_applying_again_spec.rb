@@ -29,6 +29,7 @@ RSpec.feature 'Candidate applying again' do
     when_i_select_a_course
     and_i_submit_my_application
     then_i_am_informed_my_new_referee_will_be_contacted
+    and_my_application_is_awaiting_references
   end
 
   def given_the_pilot_is_open
@@ -139,10 +140,15 @@ RSpec.feature 'Candidate applying again' do
   def and_i_submit_my_application
     check t('application_form.courses.complete.completed_checkbox')
     click_button 'Continue'
-    candidate_submits_application
+    @apply_again_application_form = candidate_submits_application
   end
 
   def then_i_am_informed_my_new_referee_will_be_contacted
     expect(page).to have_content 'We’ll contact your referee to ask for your reference'
+  end
+
+  def and_my_application_is_awaiting_references
+    application_choice = @apply_again_application_form.application_choices.first
+    expect(application_choice.status).to eq 'awaiting_references'
   end
 end
