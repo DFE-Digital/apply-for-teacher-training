@@ -1,11 +1,19 @@
 class SubmitApplicationChoice
-  def initialize(application_choice)
+  def initialize(application_choice, apply_again: false, enough_references: false)
     @application_choice = application_choice
+    @apply_again = apply_again
+    @enough_references = enough_references
   end
 
   def call
-    @application_choice.edit_by = edit_by_time
-    ApplicationStateChange.new(@application_choice).submit!
+    if @apply_again && @enough_references
+      @application_choice.edit_by = Time.zone.now
+      ApplicationStateChange.new(@application_choice).submit!
+      ApplicationStateChange.new(@application_choice).references_complete!
+    else
+      @application_choice.edit_by = edit_by_time
+      ApplicationStateChange.new(@application_choice).submit!
+    end
   end
 
 private

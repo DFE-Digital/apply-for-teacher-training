@@ -26,6 +26,7 @@ RSpec.feature 'Candidate with unsuccessful application' do
 
     when_i_complete_my_application
     then_my_application_is_submitted
+    and_my_application_is_ready_to_send_to_the_provider
     and_i_do_not_see_referee_related_guidance
     and_there_is_no_guidance_on_editing_my_application
 
@@ -127,7 +128,12 @@ RSpec.feature 'Candidate with unsuccessful application' do
 
   def then_my_application_is_submitted
     expect(page).to have_content 'Application successfully submitted'
-    expect(ApplicationForm.last.application_choices.first.reload.status).to eq 'application_complete'
+    @apply_again_choice = ApplicationForm.last.application_choices.first
+    expect(@apply_again_choice.status).to eq 'application_complete'
+  end
+
+  def and_my_application_is_ready_to_send_to_the_provider
+    expect(@apply_again_choice.edit_by.to_date).to eq Time.zone.today
   end
 
   def and_i_do_not_see_referee_related_guidance

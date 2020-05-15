@@ -38,6 +38,9 @@ private
       reference_feedback_provided!
       application_form.application_choices.awaiting_references.each do |application_choice|
         ApplicationStateChange.new(application_choice).references_complete!
+        if application_form.apply_again?
+          application_choice.update(edit_by: Time.zone.now)
+        end
       end
     end
 
