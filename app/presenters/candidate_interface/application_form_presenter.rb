@@ -208,9 +208,13 @@ module CandidateInterface
     end
 
     def training_with_a_disability_completed?
-      @application_form.disclose_disability == false || \
-        (@application_form.disclose_disability == true && \
-          @application_form.disability_disclosure.present?)
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.training_with_a_disability_completed
+      else
+        @application_form.disclose_disability == false || \
+          (@application_form.disclose_disability == true && \
+            @application_form.disability_disclosure.present?)
+      end
     end
 
     def course_choices_completed?
