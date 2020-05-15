@@ -88,6 +88,7 @@ Rails.application.routes.draw do
         get '/' => 'training_with_a_disability#edit', as: :training_with_a_disability_edit
         post '/review' => 'training_with_a_disability#update', as: :training_with_a_disability_update
         get '/review' => 'training_with_a_disability#show', as: :training_with_a_disability_show
+        post '/complete' => 'training_with_a_disability#complete', as: :training_with_a_disability_complete
       end
 
       scope '/contact-details' do

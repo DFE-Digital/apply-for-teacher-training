@@ -55,6 +55,7 @@ FactoryBot.define do
       english_gcse_completed { true }
       maths_gcse_completed { true }
       science_gcse_completed { true }
+      training_with_a_disability_completed { true }
 
       transient do
         application_choices_count { 0 }

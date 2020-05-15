@@ -7,4 +7,10 @@
 
 <%= render(CandidateInterface::TrainingWithADisabilityReviewComponent.new(application_form: @application_form)) %>
 
-<%= govuk_button_link_to t('application_form.training_with_a_disability.review.button'), candidate_interface_application_form_path %>
+<% if FeatureFlag.active?('mark_every_section_complete') %>
+  <%= render(CandidateInterface::CompleteSectionComponent.new(application_form: @application_form,
+                                          path: candidate_interface_training_with_a_disability_complete_path,
+                                          field_name: :training_with_a_disability_completed)) %>
+<% else %>
+  <%= govuk_button_link_to t('application_form.training_with_a_disability.review.button'), candidate_interface_application_form_path %>
+<% end %>
