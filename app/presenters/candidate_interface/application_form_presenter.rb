@@ -212,7 +212,11 @@ module CandidateInterface
     end
 
     def interview_preferences_completed?
-      CandidateInterface::InterviewPreferencesForm.build_from_application(@application_form).valid?
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.interview_preferences_completed
+      else
+        CandidateInterface::InterviewPreferencesForm.build_from_application(@application_form).valid?
+      end
     end
 
     def training_with_a_disability_completed?

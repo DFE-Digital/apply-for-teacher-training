@@ -84,6 +84,7 @@ Rails.application.routes.draw do
         get '/interview-preferences' => 'personal_statement/interview_preferences#edit', as: :interview_preferences_edit
         post '/interview-preferences/review' => 'personal_statement/interview_preferences#update', as: :interview_preferences_update
         get '/interview-preferences/review' => 'personal_statement/interview_preferences#show', as: :interview_preferences_show
+        post '/interview-preferences/complete' => 'personal_statement/interview_preferences#complete', as: :interview_preferences_complete
       end
 
       scope '/training-with-a-disability' do
