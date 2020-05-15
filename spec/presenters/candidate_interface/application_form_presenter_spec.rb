@@ -274,52 +274,18 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
   end
 
   describe '#safeguarding_completed?' do
-    it 'returns false if safeguarding issues is not answered yet' do
-      application_form = build_stubbed(
-        :application_form,
-        safeguarding_issues: nil,
-        safeguarding_issues_status: :not_answered_yet,
-      )
-
+    it 'returns true if the safeguarding section is completed' do
+      application_form = FactoryBot.build(:application_form, safeguarding_issues_completed: true)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
-      expect(presenter.safeguarding_completed?).to eq(false)
+      expect(presenter).to be_safeguarding_completed
     end
 
-    it 'returns false if safeguarding issues question was not asked' do
-      application_form = build_stubbed(
-        :application_form,
-        safeguarding_issues: nil,
-        safeguarding_issues_status: :never_asked,
-      )
-
+    it 'returns false if safeguarding section is incomplete' do
+      application_form = FactoryBot.build(:application_form, safeguarding_issues_completed: false)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
-      expect(presenter.safeguarding_completed?).to eq(false)
-    end
-
-    it 'returns true if safeguarding issues are declared' do
-      application_form = build_stubbed(
-        :application_form,
-        safeguarding_issues: 'I have a criminal conviction',
-        safeguarding_issues_status: :has_safeguarding_issues_to_declare,
-      )
-
-      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
-
-      expect(presenter.safeguarding_completed?).to eq(true)
-    end
-
-    it 'returns true if safeguarding issues are denied' do
-      application_form = build_stubbed(
-        :application_form,
-        safeguarding_issues: nil,
-        safeguarding_issues_status: :no_safeguarding_issues_to_declare,
-      )
-
-      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
-
-      expect(presenter.safeguarding_completed?).to eq(true)
+      expect(presenter).not_to be_safeguarding_completed
     end
   end
 

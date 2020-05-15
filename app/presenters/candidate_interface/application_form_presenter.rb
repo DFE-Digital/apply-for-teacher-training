@@ -234,8 +234,12 @@ module CandidateInterface
     end
 
     def safeguarding_completed?
-      @application_form.no_safeguarding_issues_to_declare? ||
-        @application_form.has_safeguarding_issues_to_declare?
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.safeguarding_issues_completed
+      else
+        @application_form.no_safeguarding_issues_to_declare? ||
+          @application_form.has_safeguarding_issues_to_declare?
+      end
     end
 
   private

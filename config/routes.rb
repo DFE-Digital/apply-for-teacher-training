@@ -320,6 +320,7 @@ Rails.application.routes.draw do
         get '/' => 'safeguarding#edit', as: :edit_safeguarding
         post '/' => 'safeguarding#update'
         get '/review' => 'safeguarding#show', as: :review_safeguarding
+        post '/complete' => 'safeguarding#complete', as: :complete_safeguarding
       end
 
       scope '/satisfaction-survey' do
