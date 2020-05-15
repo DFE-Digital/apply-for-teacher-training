@@ -325,7 +325,12 @@ module CandidateHelper
     fill_in t('application_form.personal_statement.becoming_a_teacher.label'), with: 'I believe I would be a first-rate teacher'
     click_button t('application_form.personal_statement.becoming_a_teacher.complete_form_button')
     # Confirmation page
-    click_link t('application_form.personal_statement.becoming_a_teacher.complete_form_button')
+    if FeatureFlag.active?('mark_every_section_complete')
+      check t('application_form.completed_checkbox')
+      click_button t('application_form.continue')
+    else
+      click_link t('application_form.personal_statement.becoming_a_teacher.complete_form_button')
+    end
   end
 
   def candidate_fills_in_subject_knowledge
