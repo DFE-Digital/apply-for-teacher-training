@@ -30,7 +30,6 @@ class FeatureFlag
     [:track_validation_errors, 'Captures validation errors triggered by candidates so that they can be reviewed by support staff', 'Steve Hook'],
     [:apply_again, 'Enables unsuccessful candidates to reapply, AKA Apply 2', 'Steve Hook'],
     [:mark_every_section_complete, 'Each section of the application form should have to be explicitly completed', 'David Gisbey'],
-
   ].freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map { |name, description, owner|
@@ -40,12 +39,14 @@ class FeatureFlag
   def self.activate(feature_name)
     raise unless feature_name.in?(FEATURES)
 
+    sync_with_database(feature_name, true)
     rollout.activate(feature_name)
   end
 
   def self.deactivate(feature_name)
     raise unless feature_name.in?(FEATURES)
 
+    sync_with_database(feature_name, false)
     rollout.deactivate(feature_name)
   end
 
@@ -57,5 +58,11 @@ class FeatureFlag
 
   def self.rollout
     @rollout ||= Rollout.new(Redis.current)
+  end
+
+  def self.sync_with_database(feature_name, active)
+    feature = Feature.find_or_initialize_by(name: feature_name)
+    feature.active = active
+    feature.save!
   end
 end
