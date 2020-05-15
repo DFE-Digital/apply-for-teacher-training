@@ -196,7 +196,11 @@ module CandidateInterface
     end
 
     def becoming_a_teacher_completed?
-      CandidateInterface::BecomingATeacherForm.build_from_application(@application_form).valid?
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.becoming_a_teacher_completed
+      else
+        CandidateInterface::BecomingATeacherForm.build_from_application(@application_form).valid?
+      end
     end
 
     def subject_knowledge_completed?

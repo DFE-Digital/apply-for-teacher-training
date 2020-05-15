@@ -12,7 +12,9 @@ module CandidateInterface
       @becoming_a_teacher_form = BecomingATeacherForm.new(becoming_a_teacher_params)
 
       if @becoming_a_teacher_form.save(current_application)
-        render :show
+        current_application.update!(becoming_a_teacher_completed: false)
+
+        redirect_to candidate_interface_becoming_a_teacher_show_path
       else
         track_validation_error(@becoming_a_teacher_form)
         render :edit
@@ -20,7 +22,13 @@ module CandidateInterface
     end
 
     def show
-      @becoming_a_teacher_form = current_application
+      @application_form = current_application
+    end
+
+    def complete
+      current_application.update!(application_form_params)
+
+      redirect_to candidate_interface_application_form_path
     end
 
   private
@@ -29,6 +37,11 @@ module CandidateInterface
       params.require(:candidate_interface_becoming_a_teacher_form).permit(
         :becoming_a_teacher,
       )
+        .transform_values(&:strip)
+    end
+
+    def application_form_params
+      params.require(:application_form).permit(:becoming_a_teacher_completed)
         .transform_values(&:strip)
     end
   end

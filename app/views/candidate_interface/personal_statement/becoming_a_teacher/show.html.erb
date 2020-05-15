@@ -13,6 +13,12 @@
 </ul>
 <p class="govuk-body govuk-!-font-weight-bold">You’ll be able to review it again before you submit your application.</p>
 
-<%= render(CandidateInterface::BecomingATeacherReviewComponent.new(application_form: @becoming_a_teacher_form)) %>
+<%= render(CandidateInterface::BecomingATeacherReviewComponent.new(application_form: @application_form)) %>
 
-<%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>
+<% if FeatureFlag.active?('mark_every_section_complete') %>
+  <%= render(CandidateInterface::CompleteSectionComponent.new(application_form: @application_form,
+                                          path: candidate_interface_becoming_a_teacher_complete_path,
+                                          field_name: :becoming_a_teacher_completed)) %>
+<% else %>
+  <%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>
+<% end %>
