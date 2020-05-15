@@ -3,7 +3,9 @@
   <h3 class="govuk-heading-m">
     <%= govuk_link_to candidate_name, provider_interface_application_choice_path(application_choice) %>
     <div class="app-application-card__status">
-      <%= render ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice) %>
+      <div>
+        <%= render ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice) %>
+      </div>
       <% if most_recent_note %>
         <span class="app-application-card__note"><%= most_recent_note.subject %></span>
       <% end %>
