@@ -5,6 +5,12 @@
   <%= t('page_titles.subject_knowledge') %>
 </h1>
 
-<%= render(CandidateInterface::SubjectKnowledgeReviewComponent.new(application_form: @subject_knowledge_form)) %>
+<%= render(CandidateInterface::SubjectKnowledgeReviewComponent.new(application_form: @application_form)) %>
 
-<%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>
+<% if FeatureFlag.active?('mark_every_section_complete') %>
+  <%= render(CandidateInterface::CompleteSectionComponent.new(application_form: @application_form,
+                                          path: candidate_interface_subject_knowledge_complete_path,
+                                          field_name: :subject_knowledge_completed)) %>
+<% else %>
+  <%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>
+<% end %>
