@@ -204,7 +204,11 @@ module CandidateInterface
     end
 
     def subject_knowledge_completed?
-      CandidateInterface::SubjectKnowledgeForm.build_from_application(@application_form).valid?
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.subject_knowledge_completed
+      else
+        CandidateInterface::SubjectKnowledgeForm.build_from_application(@application_form).valid?
+      end
     end
 
     def interview_preferences_completed?

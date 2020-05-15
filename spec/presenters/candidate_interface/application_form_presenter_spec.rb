@@ -479,4 +479,20 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       expect(presenter).not_to be_becoming_a_teacher_completed
     end
   end
+
+  describe '#subject_knowledge_completed?' do
+    it 'returns true if subject knowledge section is completed' do
+      application_form = FactoryBot.build(:application_form, subject_knowledge_completed: true)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_subject_knowledge_completed
+    end
+
+    it 'returns false if subject knowledge section is incomplete' do
+      application_form = FactoryBot.build(:application_form, subject_knowledge_completed: false)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_subject_knowledge_completed
+    end
+  end
 end

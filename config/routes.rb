@@ -79,6 +79,7 @@ Rails.application.routes.draw do
         get '/subject-knowledge' => 'personal_statement/subject_knowledge#edit', as: :subject_knowledge_edit
         post '/subject-knowledge/review' => 'personal_statement/subject_knowledge#update', as: :subject_knowledge_update
         get '/subject-knowledge/review' => 'personal_statement/subject_knowledge#show', as: :subject_knowledge_show
+        post '/subject-knowledge/complete' => 'personal_statement/subject_knowledge#complete', as: :subject_knowledge_complete
 
         get '/interview-preferences' => 'personal_statement/interview_preferences#edit', as: :interview_preferences_edit
         post '/interview-preferences/review' => 'personal_statement/interview_preferences#update', as: :interview_preferences_update
