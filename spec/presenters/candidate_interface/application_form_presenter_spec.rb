@@ -465,14 +465,14 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
   end
 
   describe '#becoming_a_teacher_completed?' do
-    it 'returns true if becoming a teacher section is completed' do
+    it 'returns true if the becoming a teacher section is completed' do
       application_form = FactoryBot.build(:application_form, becoming_a_teacher_completed: true)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).to be_becoming_a_teacher_completed
     end
 
-    it 'returns false if becoming a teacher section is incomplete' do
+    it 'returns false if the becoming a teacher section is incomplete' do
       application_form = FactoryBot.build(:application_form, becoming_a_teacher_completed: false)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
@@ -481,18 +481,34 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
   end
 
   describe '#subject_knowledge_completed?' do
-    it 'returns true if subject knowledge section is completed' do
+    it 'returns true if the interview prefrences section is completed' do
       application_form = FactoryBot.build(:application_form, subject_knowledge_completed: true)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).to be_subject_knowledge_completed
     end
 
-    it 'returns false if subject knowledge section is incomplete' do
+    it 'returns false if the subject knowledge section is incomplete' do
       application_form = FactoryBot.build(:application_form, subject_knowledge_completed: false)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).not_to be_subject_knowledge_completed
+    end
+  end
+
+  describe '#intervew_preferences_completed?' do
+    it 'returns true if the interview prefrences section is completed' do
+      application_form = FactoryBot.build(:application_form, interview_preferences_completed: true)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_interview_preferences_completed
+    end
+
+    it 'returns false if the interview prefrences section is incomplete' do
+      application_form = FactoryBot.build(:application_form, interview_preferences_completed: false)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_interview_preferences_completed
     end
   end
 end
