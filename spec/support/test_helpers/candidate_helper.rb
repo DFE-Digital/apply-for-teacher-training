@@ -203,8 +203,12 @@ module CandidateHelper
     fill_in 'Give any relevant information', with: 'I have a criminal conviction.'
 
     click_button 'Continue'
-
-    click_link 'Continue'
+    if FeatureFlag.active?('mark_every_section_complete')
+      check t('application_form.completed_checkbox')
+      click_button t('application_form.continue')
+    else
+      click_link 'Continue'
+    end
   end
 
   def candidate_fills_in_work_experience

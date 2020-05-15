@@ -5,6 +5,7 @@ RSpec.feature 'Entering their suitability to work with children' do
 
   scenario 'Candidate declares any safeguarding issues' do
     given_i_am_signed_in
+    and_the_mark_every_section_as_complete_flag_is_active
     when_i_visit_the_site
     then_i_see_declaring_any_safeguarding_issues
 
@@ -23,12 +24,17 @@ RSpec.feature 'Entering their suitability to work with children' do
     and_i_click_on_continue
     then_i_see_my_updated_answer
 
-    when_i_click_on_continue
+    when_i_mark_the_section_as_completed
+    and_i_click_on_continue
     then_i_see_the_section_is_completed
   end
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
+  end
+
+  def and_the_mark_every_section_as_complete_flag_is_active
+    FeatureFlag.activate('mark_every_section_complete')
   end
 
   def when_i_visit_the_site
@@ -75,6 +81,10 @@ RSpec.feature 'Entering their suitability to work with children' do
   def then_i_see_my_updated_answer
     expect(page).to have_content(t('page_titles.suitability_to_work_with_children'))
     expect(page).to have_content('No')
+  end
+
+  def when_i_mark_the_section_as_completed
+    check t('application_form.completed_checkbox')
   end
 
   def when_i_click_on_continue
