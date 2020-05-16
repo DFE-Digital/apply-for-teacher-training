@@ -7,6 +7,10 @@ class FeatureFlag
     self.owner = owner
   end
 
+  def feature
+    @feature ||= Feature.find_or_initialize_by(name: name)
+  end
+
   PERMANENT_SETTINGS = [
     [:banner_about_problems_with_dfe_sign_in, 'Displays a banner to notify users that DfE-Sign is having problems', 'Jake Benilov'],
     [:banner_for_ucas_downtime, 'Displays a banner to notify users that UCAS is having problems', 'Theodor Vararu'],
@@ -51,7 +55,7 @@ class FeatureFlag
   def self.active?(feature_name)
     raise unless feature_name.in?(FEATURES)
 
-    Feature.find_or_initialize_by(name: feature_name).active?
+    FEATURES[feature_name].feature.active?
   end
 
   def self.reset!
