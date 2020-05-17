@@ -10,6 +10,7 @@
 <% if FeatureFlag.active?('mark_every_section_complete') %>
   <%= render(CandidateInterface::CompleteSectionComponent.new(application_form: @application_form,
                                           path: candidate_interface_complete_safeguarding_path,
+                                          request_method: :post,
                                           field_name: :safeguarding_issues_completed)) %>
 <% else %>
   <%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>
