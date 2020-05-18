@@ -6,7 +6,6 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   scenario 'can filter applications by status and provider' do
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_provider_application_filters_are_active
     and_i_am_permitted_to_see_applications_from_multiple_providers
     and_my_organisation_has_courses_with_applications
     and_i_sign_in_to_the_provider_interface
@@ -45,10 +44,6 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     when_i_click_to_remove_an_accredited_provider_tag
     then_i_expect_all_applications_to_be_visible_again
-
-    and_provider_application_filters_are_deactivated
-
-    when_i_visit_the_provider_page
   end
 
   def when_i_visit_the_provider_page
@@ -174,10 +169,6 @@ RSpec.feature 'Providers should be able to filter applications' do
     expect(page).not_to have_css('.app-application-cards', text: 'University of Arrakis')
   end
 
-  def and_provider_application_filters_are_active
-    FeatureFlag.activate('provider_application_filters')
-  end
-
   def and_i_filter_by_accredited_provider
     find(:css, '#accredited_provider-wimleydown-university').set(true)
     click_button('Apply filters')
@@ -192,10 +183,6 @@ RSpec.feature 'Providers should be able to filter applications' do
   def then_i_expect_the_relevant_accredited_provider_tags_to_be_visible
     expect(page).to have_css('.moj-filter-tags', text: 'Wimleydown University')
     expect(page).not_to have_css('.moj-filter-tags', text: 'College of Dumbervale')
-  end
-
-  def and_provider_application_filters_are_deactivated
-    FeatureFlag.deactivate('provider_application_filters')
   end
 
   def then_i_expect_the_relevant_provider_tags_to_be_visible

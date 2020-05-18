@@ -13,12 +13,11 @@ module ProviderInterface
         providers: current_provider_user.providers,
       )
 
-      if FeatureFlag.active?('provider_application_filters')
-        application_choices = FilterApplicationChoicesForProviders.call(
-          application_choices: application_choices,
-          filters: @page_state.filter_selections,
-        )
-      end
+      application_choices = FilterApplicationChoicesForProviders.call(
+        application_choices: application_choices,
+        filters: @page_state.filter_selections,
+      )
+
       application_choices = application_choices.page(params[:page] || 1)
       @application_choices = application_choices.order(@page_state.applications_ordering_query)
     end

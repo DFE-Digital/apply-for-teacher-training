@@ -19,40 +19,28 @@
 
 <h1 class='govuk-heading-xl'>Applications</h1>
 
-<% if FeatureFlag.active?('provider_application_filters') %>
-  <div class='moj-filter-layout'>
-    <% if @page_state.filter_visible.eql?('true') %>
-      <%= render ProviderInterface::FilterComponent.new(
-        available_filters: @page_state.available_filters,
-        applied_filters: @page_state.filter_selections,
-        params_for_current_state: @page_state.to_h,
-      ) %>
-    <% end %>
-
-    <div class='moj-filter-layout__content'>
-      <% if @application_choices.any? %>
-        <div class="app-application-cards">
-          <% @application_choices.each_with_index do |choice, index| %>
-            <%= render ProviderInterface::ApplicationCardComponent.new(application_choice: choice) %>
-          <% end %>
-        </div>
-      <% elsif @page_state.filter_selections.any? %>
-        <p class='govuk-body'>No applications for the selected filters.</p>
-      <% else %>
-        <p class='govuk-body'>You haven’t received any applications from <%= t('service_name.apply') %>.</p>
-      <% end %>
-    </div>
-  </div>
-
-  <%= render(PaginatorComponent.new(scope: @application_choices)) %>
-
-<% else %>
-
-  <% if @application_choices.any? %>
-    <%= render 'application_choices_table' %>
-    <%= render(PaginatorComponent.new(scope: @application_choices)) %>
-  <% else %>
-    <p class='govuk-body'>You haven’t received any applications from <%= t('service_name.apply') %>.</p>
+<div class='moj-filter-layout'>
+  <% if @page_state.filter_visible.eql?('true') %>
+    <%= render ProviderInterface::FilterComponent.new(
+      available_filters: @page_state.available_filters,
+      applied_filters: @page_state.filter_selections,
+      params_for_current_state: @page_state.to_h,
+    ) %>
   <% end %>
 
-<% end %>
+  <div class='moj-filter-layout__content'>
+    <% if @application_choices.any? %>
+      <div class="app-application-cards">
+        <% @application_choices.each_with_index do |choice, index| %>
+          <%= render ProviderInterface::ApplicationCardComponent.new(application_choice: choice) %>
+        <% end %>
+      </div>
+    <% elsif @page_state.filter_selections.any? %>
+      <p class='govuk-body'>No applications for the selected filters.</p>
+    <% else %>
+      <p class='govuk-body'>You haven’t received any applications from <%= t('service_name.apply') %>.</p>
+    <% end %>
+  </div>
+</div>
+
+<%= render(PaginatorComponent.new(scope: @application_choices)) %>
