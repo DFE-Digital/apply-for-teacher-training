@@ -36,6 +36,8 @@ module CandidateInterface
 
         @reference_type_form.save(@referee)
 
+        current_application.update!(references_completed: false)
+
         redirect_to candidate_interface_review_referees_path
       else
         return render :type unless @reference_type_form.valid?
@@ -72,6 +74,8 @@ module CandidateInterface
       head :unprocessable_entity and return unless @referee.editable?
 
       if @referee.update(referee_params)
+        current_application.update!(references_completed: false)
+
         redirect_to candidate_interface_review_referees_path
       else
         track_validation_error(@referee)
@@ -101,12 +105,27 @@ module CandidateInterface
 
     def destroy
       @referee.destroy!
+      current_application.update!(references_completed: false)
 
       redirect_to candidate_interface_review_referees_path
     end
 
     def review
       @application_form = current_candidate.current_application
+    end
+
+    def complete
+      if current_application.application_references.count >= ApplicationForm::MINIMUM_COMPLETE_REFERENCES
+        current_application.update!(application_form_params)
+
+        redirect_to candidate_interface_application_form_path
+      else
+        flash[:warning] = 'You can’t mark this section complete without adding two referees.'
+        current_application.references_completed = false
+        @application_form = current_candidate.current_application
+
+        render :review
+      end
     end
 
   private
@@ -144,6 +163,11 @@ module CandidateInterface
         :email_address,
         :relationship,
       )
+        .transform_values(&:strip)
+    end
+
+    def application_form_params
+      params.require(:application_form).permit(:references_completed)
         .transform_values(&:strip)
     end
   end

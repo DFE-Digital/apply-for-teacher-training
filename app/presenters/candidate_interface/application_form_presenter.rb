@@ -242,7 +242,11 @@ module CandidateInterface
     end
 
     def all_referees_provided_by_candidate?
-      @application_form.application_references.count >= ApplicationForm::MINIMUM_COMPLETE_REFERENCES
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.references_completed
+      else
+        @application_form.application_references.count >= ApplicationForm::MINIMUM_COMPLETE_REFERENCES
+      end
     end
 
     def safeguarding_completed?

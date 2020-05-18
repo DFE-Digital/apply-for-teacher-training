@@ -5,6 +5,7 @@ RSpec.feature 'Candidate adding referees' do
 
   scenario 'Candidate adds references' do
     given_i_am_signed_in
+    and_the_mark_every_section_as_complete_flag_is_active
     and_i_visit_the_application_form
 
     given_i_have_no_existing_references_on_the_form
@@ -54,12 +55,17 @@ RSpec.feature 'Candidate adding referees' do
     and_i_click_continue
     then_i_see_the_updated_reference_type
 
-    when_i_click_continue
+    when_i_mark_the_section_as_completed
+    and_i_click_continue
     then_i_see_referees_is_complete
   end
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
+  end
+
+  def and_the_mark_every_section_as_complete_flag_is_active
+    FeatureFlag.activate('mark_every_section_complete')
   end
 
   def given_i_have_no_existing_references_on_the_form
@@ -203,5 +209,9 @@ RSpec.feature 'Candidate adding referees' do
     expect(page).to have_content('lumbergh@example.com')
     expect(page).to have_content('School-based')
     expect(page).to have_content('manager for several years')
+  end
+
+  def when_i_mark_the_section_as_completed
+    check t('application_form.completed_checkbox')
   end
 end

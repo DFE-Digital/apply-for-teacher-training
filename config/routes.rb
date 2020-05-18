@@ -273,7 +273,7 @@ Rails.application.routes.draw do
         post '/(:type)' => 'referees#create'
 
         get '/review' => 'referees#review', as: :review_referees
-        patch '/review' => 'referees#complete', as: :complete_referees
+        patch '/complete' => 'referees#complete', as: :complete_referees
 
         get '/edit/:id' => 'referees#edit', as: :edit_referee
         patch '/update/:id' => 'referees#update', as: :update_referee
