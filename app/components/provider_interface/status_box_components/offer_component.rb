@@ -54,11 +54,11 @@ module ProviderInterface
 
         case target
         when :provider
-          paths.provider_interface_application_choice_change_offer_edit_provider_path(application_choice.id, entry: 'provider') if show_provider_link?
+          paths.provider_interface_application_choice_edit_offer_path(application_choice.id, step: 'provider') if show_provider_link?
         when :course
-          paths.provider_interface_application_choice_change_offer_edit_course_path(application_choice.id, entry: 'course') if show_course_link?
+          paths.provider_interface_application_choice_edit_offer_path(application_choice.id, step: 'course') if show_course_link?
         when :course_option
-          paths.provider_interface_application_choice_change_offer_edit_course_option_path(application_choice.id, entry: 'course_option') if show_course_option_link?
+          paths.provider_interface_application_choice_edit_offer_path(application_choice.id, step: 'course_option') if show_course_option_link?
         end
       end
 

@@ -23,10 +23,7 @@ module ProviderInterface
 
     def show
       @status_box_options = if @application_choice.offer?
-                              GetAllChangeOptionsFromOfferedOption.new(
-                                application_choice: @application_choice,
-                                available_providers: available_providers,
-                              ).call
+                              get_all_change_options @application_choice
                             else
                               {}
                             end
@@ -84,6 +81,13 @@ module ProviderInterface
       )
 
       sub_navigation_items
+    end
+
+    def get_all_change_options(application_choice)
+      GetAllChangeOptionsFromOfferedOption.new(
+        application_choice: application_choice,
+        available_providers: available_providers,
+      ).call
     end
 
     def new_note_params

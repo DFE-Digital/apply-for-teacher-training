@@ -10,17 +10,19 @@ module ProviderInterface
     def submit_response
       @pick_response_form = PickResponseForm.new(decision: params.dig(:provider_interface_pick_response_form, :decision))
       if @pick_response_form.valid?
-        redirect_to submit_response_redirect_attrs
+        redirect_to @pick_response_form.redirect_attrs
       else
         render action: :respond
       end
     end
 
     def new_offer
+      @course_option_id = params[:course_option_id] # from offer_changes/edit_offer
+
       @application_offer = MakeAnOffer.new(
         actor: current_provider_user,
         application_choice: @application_choice,
-        course_option_id: params[:course_option_id],
+        course_option_id: @course_option_id,
       )
     end
 
@@ -131,12 +133,6 @@ module ProviderInterface
 
     def make_an_offer_params
       params.require(:make_an_offer)
-    end
-
-    def submit_response_redirect_attrs
-      attrs = { action: @pick_response_form.decision }
-      attrs[:controller] = 'offer_changes' if @pick_response_form.decision_is_change?
-      attrs
     end
   end
 end
