@@ -60,6 +60,7 @@ FactoryBot.define do
       becoming_a_teacher_completed { true }
       subject_knowledge_completed { true }
       interview_preferences_completed { true }
+      references_completed { true }
 
       transient do
         application_choices_count { 0 }
