@@ -13,11 +13,9 @@ module SupportInterface
 
     def user_label_for(audit)
       if audit.user_type == 'SupportUser'
-        audit.user.email_address
+        " by #{audit.user.email_address}"
       elsif audit.username.present?
-        audit.username
-      else
-        '(Unknown User)'
+        " by #{audit.username}"
       end
     end
 

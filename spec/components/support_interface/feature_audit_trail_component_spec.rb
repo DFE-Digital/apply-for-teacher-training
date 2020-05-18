@@ -35,9 +35,7 @@ RSpec.describe SupportInterface::FeatureAuditTrailComponent, with_audited: true 
     def feature
       @feature ||= begin
         Timecop.freeze(Time.zone.local(2020, 5, 1, 12, 0, 0)) do
-          Audited.audit_class.as_user(bob_support_user) do
-            create(:feature, active: true)
-          end
+          create(:feature, active: true)
         end
       end
       Timecop.freeze(Time.zone.local(2020, 5, 3, 15, 30, 0)) do
@@ -49,11 +47,11 @@ RSpec.describe SupportInterface::FeatureAuditTrailComponent, with_audited: true 
     end
 
     it 'renders the create audit entry' do
-      expect(render_result.text).to include('1 May 2020 12:00 - Created Active by bob@example.com')
+      expect(render_result.text).to include("1 May 2020 12:00 - Created Active\n")
     end
 
     it 'renders the update audit entry' do
-      expect(render_result.text).to include('3 May 2020 15:30 - Changed to Inactive by alice@example.com')
+      expect(render_result.text).to include("3 May 2020 15:30 - Changed to Inactive by alice@example.com\n")
     end
   end
 end
