@@ -8,7 +8,7 @@ class FeatureFlag
   end
 
   def feature
-    @feature ||= Feature.find_or_initialize_by(name: name)
+    Feature.find_or_initialize_by(name: name)
   end
 
   PERMANENT_SETTINGS = [
