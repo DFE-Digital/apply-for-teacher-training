@@ -82,8 +82,6 @@ RSpec.feature 'Managing provider user permissions' do
     within("#provider-#{@provider.id}-enabled-permissions") do
       expect(page).to have_content 'Manage users'
     end
-
-    expect(@managed_user.provider_permissions.first.manage_users).to be true
   end
 
   def when_i_remove_manage_users_permissions_from_a_provider_user
@@ -98,8 +96,6 @@ RSpec.feature 'Managing provider user permissions' do
   def then_i_cant_see_the_manage_users_permission_for_the_provider_user
     expect(page).to have_content 'Providers updated'
     expect(page).not_to have_content 'Manage users'
-
-    expect(@managed_user.provider_permissions.first.manage_users).to be false
   end
 
   def when_i_add_permission_to_view_safeguarding_for_a_provider_user
@@ -116,8 +112,6 @@ RSpec.feature 'Managing provider user permissions' do
     within("#provider-#{@provider.id}-enabled-permissions") do
       expect(page).to have_content 'View safeguarding information'
     end
-
-    expect(@managed_user.provider_permissions.first.view_safeguarding_information).to be true
   end
 
   def permissions_fields_id_for_provider(provider)

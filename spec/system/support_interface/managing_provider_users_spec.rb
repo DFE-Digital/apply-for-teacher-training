@@ -180,16 +180,12 @@ RSpec.feature 'Managing provider users' do
   end
 
   def and_they_should_be_able_to_manage_users
-    expect(@user.reload.provider_permissions.manage_users.first.provider).to eq(@provider)
-
     within(permissions_fields_id_for_provider(@provider)) do
       expect(page).to have_checked_field('Manage users')
     end
   end
 
   def and_they_should_be_able_to_view_safeguarding_information
-    expect(@user.reload.provider_permissions.view_safeguarding_information.first.provider).to eq(@provider)
-
     within(permissions_fields_id_for_provider(@provider)) do
       expect(page).to have_checked_field('View safeguarding information')
     end
@@ -210,8 +206,6 @@ RSpec.feature 'Managing provider users' do
   end
 
   def then_they_should_not_be_able_to_manage_users
-    expect(@user.reload.provider_permissions.manage_users).to be_empty
-
     within(permissions_fields_id_for_provider(@provider)) do
       expect(page).to have_field('Manage users')
       expect(page).not_to have_checked_field('Manage users')
@@ -219,8 +213,6 @@ RSpec.feature 'Managing provider users' do
   end
 
   def and_they_should_not_have_access_to_the_removed_provider
-    expect(@user.providers).not_to include(@another_provider)
-
     expect(page).to have_checked_field('Example provider (ABC)')
     expect(page).not_to have_checked_field('Another provider (DEF)')
   end
