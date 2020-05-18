@@ -78,7 +78,7 @@ RSpec.describe Clockwork do
 
   [
     { worker: DeclineOffersByDefaultWorker, task: 'DeclineOffersByDefault' },
-    { worker: SendChaseEmailToRefereesWorker, task: 'SendChaseEmailToReferees' },
+    { worker: SendReferenceChaseEmailToBothPartiesWorker, task: 'SendReferenceChaseEmailToBothParties' },
     { worker: SendChaseEmailToProvidersWorker, task: 'SendChaseEmailToProviders' },
     { worker: AskCandidatesForNewRefereesWorker, task: 'AskCandidatesForNewReferees' },
     { worker: SendChaseEmailToCandidatesWorker, task: 'SendChaseEmailToCandidates' },

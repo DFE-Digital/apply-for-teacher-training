@@ -12,7 +12,7 @@ class Clock
   every(1.hour, 'SendApplicationsToProvider', at: '**:05') { SendApplicationsToProviderWorker.perform_async }
   every(1.hour, 'RejectApplicationsByDefault', at: '**:10') { RejectApplicationsByDefaultWorker.perform_async }
   every(1.hour, 'DeclineOffersByDefault', at: '**:15') { DeclineOffersByDefaultWorker.perform_async }
-  every(1.hour, 'SendChaseEmailToReferees', at: '**:20') { SendChaseEmailToRefereesWorker.perform_async }
+  every(1.hour, 'SendReferenceChaseEmailToBothParties', at: '**:20') { SendReferenceChaseEmailToBothPartiesWorker.perform_async }
   every(1.hour, 'SendChaseEmailToProviders', at: '**:25') { SendChaseEmailToProvidersWorker.perform_async }
   every(1.hour, 'AskCandidatesForNewReferees', at: '**:30') { AskCandidatesForNewRefereesWorker.perform_async }
   every(1.hour, 'SendChaseEmailToCandidates', at: '**:35') { SendChaseEmailToCandidatesWorker.perform_async }
