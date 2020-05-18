@@ -14,7 +14,7 @@ module ProviderInterface
 
       application_choices = FilterApplicationChoicesForProviders.call(
         application_choices: application_choices,
-        filters: @page_state.filter_selections,
+        filters: @page_state.applied_filters,
       )
 
       application_choices = application_choices.page(params[:page] || 1)

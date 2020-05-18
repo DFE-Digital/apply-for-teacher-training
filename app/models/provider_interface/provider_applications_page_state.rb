@@ -5,52 +5,32 @@ module ProviderInterface
     def initialize(params:, provider_user:)
       @params = params
       @provider_user = provider_user
-      @available_filters = calculate_available_filters
-      @filter_selections = calculate_filter_selections
     end
 
-    def to_h
-      {
-        filter_selections: @filter_selections,
-      }
+    def filters
+      [] << search_filter << status_filter << provider_filter << accredited_provider_filter
+    end
+
+    def filtered?
+      applied_filters.values.any?
+    end
+
+    def applied_filters
+      @params.permit(:candidate_name, provider: [], status: [], accredited_provider: []).to_h
     end
 
   private
 
-    def calculate_filter_selections
-      filter_selections = filter_params[:filter_selections].to_h ||= {}
-      remove_candiates_name_search_if_empty(filter_selections)
+    def search_filter
+      {
+        type: :search,
+        heading: 'Candidate’s name',
+        value: applied_filters[:candidate_name],
+        name: 'candidate_name',
+      }
     end
 
-    def remove_candiates_name_search_if_empty(filter_selections)
-      return filter_selections if filter_selections.empty?
-
-      filter_selections.delete(:search) if filter_selections.dig(:search, :candidates_name) == ''
-      filter_selections
-    end
-
-    def filter_params
-      @params.permit(filter_selections: { search: {}, status: {}, provider: {}, accredited_provider: {} })
-    end
-
-    def calculate_available_filters
-      search_filters << status_filters << provider_filters_builder << accredited_provider_filters_builder
-    end
-
-    def search_filters
-      [
-        {
-          heading: 'candidate\'s name',
-          input_config: [{
-            type: 'search',
-            text: '',
-            name: 'candidates_name',
-          }],
-        },
-      ]
-    end
-
-    def status_filters
+    def status_filter
       status_options = %w[
         awaiting_provider_decision
         offer
@@ -64,45 +44,51 @@ module ProviderInterface
         offer_withdrawn
       ].map do |state_name|
         {
-          type: 'checkbox',
-          text: I18n.t!("provider_application_states.#{state_name}"),
-          name: state_name,
+          value: state_name,
+          label: I18n.t!("provider_application_states.#{state_name}"),
+          checked: applied_filters[:status]&.include?(state_name),
         }
       end
 
       {
-        heading: 'status',
-        input_config: status_options,
+        type: :checkboxes,
+        heading: 'Status',
+        name: 'status',
+        options: status_options,
       }
     end
 
-    def provider_filters_builder
-      input_config = ProviderOptionsService.new(provider_user).providers.map do |provider|
+    def provider_filter
+      provider_options = ProviderOptionsService.new(provider_user).providers.map do |provider|
         {
-          type: 'checkbox',
-          text: provider.name,
-          name: provider.id.to_s,
+          value: provider.id,
+          label: provider.name,
+          checked: applied_filters[:provider]&.include?(provider.id.to_s),
         }
       end
 
       {
-        heading: 'provider',
-        input_config: input_config,
+        type: :checkboxes,
+        heading: 'Provider',
+        name: 'provider',
+        options: provider_options,
       }
     end
 
-    def accredited_provider_filters_builder
-      input_config = ProviderOptionsService.new(provider_user).accredited_providers.map do |provider|
+    def accredited_provider_filter
+      accredited_providers_options = ProviderOptionsService.new(provider_user).accredited_providers.map do |accredited_provider|
         {
-          type: 'checkbox',
-          text: provider.name,
-          name: provider.id.to_s,
+          value: accredited_provider.id,
+          label: accredited_provider.name,
+          checked: applied_filters[:accredited_provider]&.include?(accredited_provider.id.to_s),
         }
       end
 
       {
-        heading: 'accredited_provider',
-        input_config: input_config,
+        type: :checkboxes,
+        heading: 'Accredited provider',
+        name: 'accredited_provider',
+        options: accredited_providers_options,
       }
     end
   end

@@ -4,6 +4,10 @@ RSpec.feature 'Providers should be able to filter applications' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
+  let(:current_provider) { create(:provider, :with_signed_agreement, code: 'ABC', name: 'Hoth Teacher Training') }
+  let(:second_provider) { create(:provider, :with_signed_agreement, code: 'DEF', name: 'Caladan University') }
+  let(:third_provider) { create(:provider, :with_signed_agreement, code: 'GHI', name: 'University of Arrakis') }
+
   scenario 'can filter applications by status and provider' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_from_multiple_providers
@@ -52,20 +56,20 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_search_for_part_of_a_candidate_name
-    find(:css, '#candidates_name').set('ame')
+    find(:css, '#candidate_name').set('ame')
     click_button('Apply filters')
   end
 
   def and_the_part_of_the_name_should_appear_in_search_field
-    expect(page).to have_field('filter_selections[search][candidates_name]', with: 'ame')
+    expect(page).to have_field('candidate_name', with: 'ame')
   end
 
   def and_the_name_should_appear_in_search_field
-    expect(page).to have_field('filter_selections[search][candidates_name]', with: 'Jim James')
+    expect(page).to have_field('candidate_name', with: 'Jim James')
   end
 
   def and_candidates_name_tags_should_not_be_visible
-    expect(page).not_to have_css('.moj-filter__selected', text: 'Candidate\'s name')
+    expect(page).not_to have_css('.moj-filter__selected', text: 'Candidate’s name')
   end
 
   def then_only_withdrawn_and_offered_applications_should_be_visible
@@ -81,7 +85,7 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def then_the_relevant_tag_headings_should_be_visible
     selected_filters = find(:css, '.moj-filter__selected')
-    expect(selected_filters).to have_text('Candidate\'s name')
+    expect(selected_filters).to have_text('Candidate’s name')
     expect(selected_filters).to have_text('Provider')
   end
 
@@ -110,12 +114,12 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_search_for_candidate_name
-    find(:css, '#candidates_name').set('Jim James')
+    find(:css, '#candidate_name').set('Jim James')
     click_button('Apply filters')
   end
 
   def when_i_search_for_a_candidate_that_does_not_exist
-    find(:css, '#candidates_name').set('Simon Says')
+    find(:css, '#candidate_name').set('Simon Says')
     click_button('Apply filters')
   end
 
@@ -124,13 +128,13 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_i_filter_for_withdrawn_and_offered_applications
-    find(:css, '#status-application-withdrawn').set(true)
-    find(:css, '#status-offered').set(true)
+    find(:css, '#status-withdrawn').set(true)
+    find(:css, '#status-offer').set(true)
     click_button('Apply filters')
   end
 
   def when_i_search_for_candidate_name_with_odd_casing
-    find(:css, '#candidates_name').set('jiM JAmeS')
+    find(:css, '#candidate_name').set('jiM JAmeS')
     click_button('Apply filters')
   end
 
@@ -146,7 +150,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_i_expect_to_see_the_search_input
-    expect(page).to have_content('Candidate\'s name')
+    expect(page).to have_content('Candidate’s name')
   end
 
   def when_i_visit_the_provider_page
@@ -174,10 +178,6 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def and_my_organisation_has_courses_with_applications
-    current_provider = create(:provider, :with_signed_agreement, code: 'ABC', name: 'Hoth Teacher Training')
-    second_provider = create(:provider, :with_signed_agreement, code: 'DEF', name: 'Caladan University')
-    third_provider = create(:provider, :with_signed_agreement, code: 'GHI', name: 'University of Arrakis')
-
     course_option_one = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Alchemy', provider: current_provider))
     course_option_two = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Divination', provider: current_provider))
     course_option_three = course_option_for_provider(provider: current_provider, course: create(:course, name: 'English', provider: current_provider))
@@ -218,8 +218,8 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_filter_by_provider
-    find(:css, '#provider-hoth-teacher-training').set(true)
-    find(:css, '#provider-caladan-university').set(true)
+    find(:css, "#provider-#{current_provider.id}").set(true)
+    find(:css, "#provider-#{second_provider.id}").set(true)
     click_button('Apply filters')
   end
 

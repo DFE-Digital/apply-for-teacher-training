@@ -4,6 +4,12 @@ RSpec.feature 'Providers should be able to filter applications' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
+  let(:current_provider) { create(:provider, :with_signed_agreement, code: 'ABC', name: 'Hoth Teacher Training') }
+  let(:second_provider) { create(:provider, :with_signed_agreement, code: 'DEF', name: 'Caladan University') }
+  let(:third_provider) { create(:provider, :with_signed_agreement, code: 'GHI', name: 'University of Arrakis') }
+  let(:accredited_provider1) { create(:provider, code: 'JKL', name: 'College of Dumbervale') }
+  let(:accredited_provider2) { create(:provider, code: 'MNO', name: 'Wimleydown University') }
+
   scenario 'can filter applications by status and provider' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_from_multiple_providers
@@ -59,13 +65,6 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def and_my_organisation_has_courses_with_applications
-    current_provider = create(:provider, :with_signed_agreement, code: 'ABC', name: 'Hoth Teacher Training')
-    second_provider = create(:provider, :with_signed_agreement, code: 'DEF', name: 'Caladan University')
-    third_provider = create(:provider, :with_signed_agreement, code: 'GHI', name: 'University of Arrakis')
-
-    accredited_provider1 = create(:provider, code: 'JKL', name: 'College of Dumbervale')
-    accredited_provider2 = create(:provider, code: 'MNO', name: 'Wimleydown University')
-
     course_option_one = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Alchemy', provider: current_provider, accredited_provider: accredited_provider1))
     course_option_two = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Divination', provider: current_provider, accredited_provider: accredited_provider2))
     course_option_three = course_option_for_provider(provider: current_provider, course: create(:course, name: 'English', provider: current_provider))
@@ -124,7 +123,7 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def when_i_filter_for_applications_that_i_do_not_have
     find(:css, '#status-rejected').set(false)
-    find(:css, '#status-accepted').set(true)
+    find(:css, '#status-pending_conditions').set(true)
     click_button('Apply filters')
   end
 
@@ -133,9 +132,9 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_filter_for_rejected_and_offered_applications
-    find(:css, '#status-accepted').set(false)
+    find(:css, '#status-pending_conditions').set(false)
     find(:css, '#status-rejected').set(true)
-    find(:css, '#status-offered').set(true)
+    find(:css, '#status-offer').set(true)
     click_button('Apply filters')
   end
 
@@ -158,8 +157,8 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_filter_by_provider
-    find(:css, '#provider-hoth-teacher-training').set(true)
-    find(:css, '#provider-caladan-university').set(true)
+    find(:css, "#provider-#{current_provider.id}").set(true)
+    find(:css, "#provider-#{second_provider.id}").set(true)
     click_button('Apply filters')
   end
 
@@ -170,7 +169,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def and_i_filter_by_accredited_provider
-    find(:css, '#accredited_provider-wimleydown-university').set(true)
+    find(:css, "#accredited_provider-#{accredited_provider2.id}").set(true)
     click_button('Apply filters')
   end
 
