@@ -20,9 +20,6 @@
         <div class="moj-filter__options">
           <form method="get">
             <%= submit_tag "Apply filters", class: "govuk-button" %>
-            <% params_for_current_state.except(:filter_selections).each do |key, value| %>
-              <input class="govuk-checkboxes__input" id=<%= key %> name=<%= key %> type="hidden" value=<%= value %> %>
-            <% end %>
 
             <% available_filters.each do |filter_group| %>
                 <div class="govuk-form-group">

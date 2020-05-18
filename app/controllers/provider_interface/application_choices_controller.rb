@@ -19,7 +19,7 @@ module ProviderInterface
       )
 
       application_choices = application_choices.page(params[:page] || 1)
-      @application_choices = application_choices.order(@page_state.applications_ordering_query)
+      @application_choices = application_choices.order('application_choices.updated_at' => :desc)
     end
 
     def show

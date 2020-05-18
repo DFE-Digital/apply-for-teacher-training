@@ -187,19 +187,6 @@ RSpec.describe ProviderInterface::FilterComponent do
     expect(result.text).not_to include('Selected filters')
   end
 
-  it 'returns the params_for_current_state as hidden fields' do
-    result = render_inline described_class.new(
-      available_filters: available_filters,
-      applied_filters: applied_filters_partial,
-      params_for_current_state: params_for_current_state,
-    )
-
-    expect(result.css('#sort_by').attr('value').value).to eq('desc')
-    expect(result.css('#sort_order').attr('value').value).to eq('last-updated')
-    expect(result.css('#sort_by').attr('type').value).to eq('hidden')
-    expect(result.css('#sort_order').attr('type').value).to eq('hidden')
-  end
-
   it 'does not render a filter if there is only one possible filter in a filter_group' do
     result = render_inline described_class.new(
       available_filters: available_filters_only_one_provider,
