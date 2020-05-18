@@ -17,6 +17,8 @@ development:
 test:
   <<: *default
   database: 'bat_apply_test'
+  variables:
+    idle_in_transaction_session_timeout: 0
 
 production:
   <<: *default
