@@ -1,12 +1,11 @@
 module ProviderInterface
   class ProviderApplicationsPageState
-    attr_accessor :available_filters, :filter_visible, :filter_selections, :provider_user
+    attr_accessor :available_filters, :filter_selections, :provider_user
 
     def initialize(params:, provider_user:)
       @params = params
       @provider_user = provider_user
       @available_filters = calculate_available_filters
-      @filter_visible =  calculate_filter_visibility
       @filter_selections = calculate_filter_selections
     end
 
@@ -17,10 +16,6 @@ module ProviderInterface
     end
 
   private
-
-    def calculate_filter_visibility
-      filter_params[:filter_visible] ||= 'true'
-    end
 
     def calculate_filter_selections
       filter_selections = filter_params[:filter_selections].to_h ||= {}
@@ -35,7 +30,7 @@ module ProviderInterface
     end
 
     def filter_params
-      @params.permit(:filter_visible, filter_selections: { search: {}, status: {}, provider: {}, accredited_provider: {} })
+      @params.permit(filter_selections: { search: {}, status: {}, provider: {}, accredited_provider: {} })
     end
 
     def calculate_available_filters

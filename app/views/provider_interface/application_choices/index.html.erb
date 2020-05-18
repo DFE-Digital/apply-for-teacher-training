@@ -20,14 +20,11 @@
 <h1 class='govuk-heading-xl'>Applications</h1>
 
 <div class='moj-filter-layout'>
-  <% if @page_state.filter_visible.eql?('true') %>
-    <%= render ProviderInterface::FilterComponent.new(
-      available_filters: @page_state.available_filters,
-      applied_filters: @page_state.filter_selections,
-      params_for_current_state: @page_state.to_h,
-    ) %>
-  <% end %>
-
+  <%= render ProviderInterface::FilterComponent.new(
+    available_filters: @page_state.available_filters,
+    applied_filters: @page_state.filter_selections,
+    params_for_current_state: @page_state.to_h,
+  ) %>
   <div class='moj-filter-layout__content'>
     <% if @application_choices.any? %>
       <div class="app-application-cards">
