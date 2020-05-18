@@ -1,4 +1,4 @@
-<ul>
+<ul class="govuk-list govuk-list--bullet">
   <% audits.select { |audit| visible?(audit) }.each do |audit| %>
     <li>
       <%= l(audit.created_at.to_date, format: :long) %> <%= l(audit.created_at, format: :time) %> - <%= action_label_for(audit) %> <%= active_value_for(audit) %> by <%= user_label_for(audit) %>
