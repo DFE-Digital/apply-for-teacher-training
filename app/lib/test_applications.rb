@@ -50,6 +50,7 @@ class TestApplications
         first_name: first_name,
         last_name: last_name,
         created_at: time,
+        edit_by: time,
       )
 
       fast_forward(1..2)
@@ -68,10 +69,7 @@ class TestApplications
       without_slack_message_sending do
         fast_forward(1..2)
         SubmitApplication.new(@application_form).call
-        @application_form.update_columns(submitted_at: time)
-        @application_form.application_choices.each do |application_choice|
-          application_choice.update_columns(edit_by: time + 7.days)
-        end
+        @application_form.update_columns(submitted_at: time, edit_by: time + 7.days)
         return if states.include? :awaiting_references
 
         @application_form.application_references.each do |reference|
@@ -102,9 +100,9 @@ class TestApplications
   end
 
   def put_application_choice_in_state(choice, state)
-    travel_to(choice.edit_by) if choice.edit_by > time
+    travel_to(choice.application_form.edit_by) if choice.application_form.edit_by > time
     SendApplicationToProvider.new(application_choice: choice).call
-    choice.update(edit_by: time, sent_to_provider_at: time)
+    choice.update(sent_to_provider_at: time)
     return if state == :awaiting_provider_decision
 
     case state
