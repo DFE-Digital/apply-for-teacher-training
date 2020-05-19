@@ -183,7 +183,7 @@ FactoryBot.define do
 
   factory :application_qualification do
     level { %w[degree gcse other].sample }
-    qualification_type { %w[BA Masters A-Level GCSE].sample }
+    qualification_type { %w[BA Masters A-Level gcse].sample }
     subject { Faker::Educator.subject }
     grade { %w[first upper_second A B].sample }
     predicted_grade { %w[true false].sample }
@@ -195,7 +195,7 @@ FactoryBot.define do
 
     factory :gcse_qualification do
       level { 'gcse' }
-      qualification_type { 'GCSE' }
+      qualification_type { 'gcse' }
       subject { %w[maths english science].sample }
       grade { %w[A B C].sample }
       awarding_body { Faker::Educator.secondary_school }
