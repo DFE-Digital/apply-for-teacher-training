@@ -4,7 +4,7 @@ require 'sidekiq'
 require './app/workers/clockwork_check'
 require './app/workers/send_applications_to_provider_worker'
 require './app/workers/decline_offers_by_default_worker'
-require './app/workers/send_chase_email_to_referees_worker'
+require './app/workers/send_chase_email_to_candidates_worker'
 require './app/workers/send_chase_email_to_providers_worker'
 
 RSpec.describe Clockwork do
@@ -79,8 +79,9 @@ RSpec.describe Clockwork do
   [
     { worker: DeclineOffersByDefaultWorker, task: 'DeclineOffersByDefault' },
     { worker: SendReferenceChaseEmailToBothPartiesWorker, task: 'SendReferenceChaseEmailToBothParties' },
-    { worker: SendChaseEmailToProvidersWorker, task: 'SendChaseEmailToProviders' },
     { worker: AskCandidatesForNewRefereesWorker, task: 'AskCandidatesForNewReferees' },
+    { worker: SendAdditionalReferenceChaseEmailToCandidatesWorker, task: 'SendAdditionalReferenceChaseEmailToCandidates' },
+    { worker: SendChaseEmailToProvidersWorker, task: 'SendChaseEmailToProviders' },
     { worker: SendChaseEmailToCandidatesWorker, task: 'SendChaseEmailToCandidates' },
   ].each do |worker|
     describe 'worker schedule' do
