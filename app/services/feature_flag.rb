@@ -7,6 +7,10 @@ class FeatureFlag
     self.owner = owner
   end
 
+  def feature
+    Feature.find_or_initialize_by(name: name)
+  end
+
   PERMANENT_SETTINGS = [
     [:banner_about_problems_with_dfe_sign_in, 'Displays a banner to notify users that DfE-Sign is having problems', 'Jake Benilov'],
     [:banner_for_ucas_downtime, 'Displays a banner to notify users that UCAS is having problems', 'Theodor Vararu'],
@@ -40,24 +44,24 @@ class FeatureFlag
     raise unless feature_name.in?(FEATURES)
 
     sync_with_database(feature_name, true)
-    rollout.activate(feature_name)
   end
 
   def self.deactivate(feature_name)
     raise unless feature_name.in?(FEATURES)
 
     sync_with_database(feature_name, false)
-    rollout.deactivate(feature_name)
   end
 
   def self.active?(feature_name)
     raise unless feature_name.in?(FEATURES)
 
-    rollout.active?(feature_name)
+    FEATURES[feature_name].feature.active?
   end
 
-  def self.rollout
-    @rollout ||= Rollout.new(Redis.current)
+  def self.reset!
+    return if Rails.env.production?
+
+    Feature.update_all(active: false)
   end
 
   def self.sync_with_database(feature_name, active)

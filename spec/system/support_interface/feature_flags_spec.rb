@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Feature flags' do
+RSpec.feature 'Feature flags', with_audited: true do
   include DfESignInHelpers
 
   scenario 'Manage features' do
@@ -12,9 +12,11 @@ RSpec.feature 'Feature flags' do
 
     when_i_activate_the_feature
     then_the_feature_is_activated
+    and_i_can_see_the_activation_in_the_audit_trail
 
     when_i_deactivate_the_feature
     then_the_feature_is_deactivated
+    and_i_can_see_the_deactivation_in_the_audit_trail
   end
 
   def given_i_am_a_support_user
@@ -31,7 +33,7 @@ RSpec.feature 'Feature flags' do
 
   def then_i_should_see_the_existing_feature_flags
     expect(page).to have_content(
-      "Pilot open\nOwner: #{pilot_open_feature.owner}\n#{pilot_open_feature.description}\nInactive",
+      "Pilot open\nOwner: #{pilot_open_feature.owner}\n#{pilot_open_feature.description}",
     )
   end
 
@@ -41,9 +43,15 @@ RSpec.feature 'Feature flags' do
 
   def then_the_feature_is_activated
     expect(page).to have_content(
-      "Pilot open\nOwner: #{pilot_open_feature.owner}\n#{pilot_open_feature.description}\nActive",
+      /Pilot open\nOwner: #{pilot_open_feature.owner}\n#{pilot_open_feature.description}\n.*\nActive/,
     )
     expect(FeatureFlag.active?('pilot_open')).to be true
+  end
+
+  def and_i_can_see_the_activation_in_the_audit_trail
+    expect(page).to have_content(
+      'Changed to Active by user@apply-support.com',
+    )
   end
 
   def when_i_deactivate_the_feature
@@ -52,9 +60,15 @@ RSpec.feature 'Feature flags' do
 
   def then_the_feature_is_deactivated
     expect(page).to have_content(
-      "Pilot open\nOwner: #{pilot_open_feature.owner}\n#{pilot_open_feature.description}\nInactive",
+      /Pilot open\nOwner: #{pilot_open_feature.owner}\n#{pilot_open_feature.description}\n.*\nInactive/,
     )
     expect(FeatureFlag.active?('pilot_open')).to be false
+  end
+
+  def and_i_can_see_the_deactivation_in_the_audit_trail
+    expect(page).to have_content(
+      'Changed to Inactive by user@apply-support.com',
+    )
   end
 
   def pilot_open_row
