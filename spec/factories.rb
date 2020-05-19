@@ -1,8 +1,6 @@
 FactoryBot.define do
   factory :chaser_sent do
-    candidate
-    chased_id { candidate.id }
-    chased_type { candidate.class }
+    association :chased, factory: :candidate
     chaser_type { :reference_request }
   end
 
