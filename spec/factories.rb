@@ -312,6 +312,20 @@ FactoryBot.define do
     end
   end
 
+  factory :accredited_body_permissions,
+          class: 'ProviderInterface::AccreditedBodyPermissions' do
+    type { 'ProviderInterface::AccreditedBodyPermissions' }
+    ratifying_provider { provider }
+    training_provider { provider }
+  end
+
+  factory :training_provider_permissions,
+          class: 'ProviderInterface::TrainingProviderPermissions' do
+    type { 'ProviderInterface::TrainingProviderPermissions' }
+    ratifying_provider { provider }
+    training_provider { provider }
+  end
+
   factory :application_choice do
     application_form
     course_option
