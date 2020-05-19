@@ -11,7 +11,8 @@ task setup_local_dev_data: %i[environment copy_feature_flags_from_production syn
   end
   SupportUser.find_or_create_by!(dfe_sign_in_uid: 'dev-support', email_address: 'support@example.com')
 
-  ProviderPermissions.update_all(manage_users: true) if FeatureFlag.active?('provider_add_provider_users')
+  ProviderPermissions.update_all(manage_users: true)
+  ProviderPermissions.update_all(view_safeguarding_information: true)
 end
 
 desc 'Sync some pilot-enabled providers and open all their courses'
