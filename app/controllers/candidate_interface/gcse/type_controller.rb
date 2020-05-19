@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Gcse::TypeController < CandidateInterfaceController
+  class Gcse::TypeController < Gcse::DetailsController
     before_action :redirect_to_dashboard_if_submitted
     before_action :set_subject
 
@@ -14,6 +14,8 @@ module CandidateInterface
       @application_qualification.set_attributes(qualification_params)
 
       if @application_qualification.save_base(current_candidate.current_application)
+        update_gcse_completed(false)
+
         redirect_to next_gcse_path
       else
         track_validation_error(@application_qualification)

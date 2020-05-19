@@ -5,6 +5,7 @@ RSpec.feature 'Entering their contact details' do
 
   scenario 'Candidate submits their contact details' do
     given_i_am_signed_in
+    and_the_mark_every_section_as_complete_flag_is_active
     and_i_visit_the_site
     and_the_track_validation_errors_feature_is_on
 
@@ -37,7 +38,8 @@ RSpec.feature 'Entering their contact details' do
     and_i_submit_my_address
     then_i_can_check_my_revised_address
 
-    when_i_submit_my_details
+    when_i_mark_the_section_as_completed
+    and_i_submit_my_details
     then_i_should_see_the_form
     and_that_the_section_is_completed
 
@@ -47,6 +49,10 @@ RSpec.feature 'Entering their contact details' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
+  end
+
+  def and_the_mark_every_section_as_complete_flag_is_active
+    FeatureFlag.activate('mark_every_section_complete')
   end
 
   def and_i_visit_the_site
@@ -148,8 +154,12 @@ RSpec.feature 'Entering their contact details' do
     expect(page).to have_content 'Problems Street'
   end
 
-  def when_i_submit_my_details
-    click_link t('application_form.contact_details.review.button')
+  def when_i_mark_the_section_as_completed
+    check t('application_form.completed_checkbox')
+  end
+
+  def and_i_submit_my_details
+    click_button t('application_form.contact_details.review.button')
   end
 
   def then_i_should_see_the_form

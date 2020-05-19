@@ -5,4 +5,10 @@
 
 <%= render(CandidateInterface::GcseQualificationReviewComponent.new(application_qualification: @application_qualification, subject: @subject)) %>
 
-<%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>
+<% if FeatureFlag.active?('mark_every_section_complete') %>
+ <%= render(CandidateInterface::CompleteSectionComponent.new(application_form: @application_form,
+                                         path: candidate_interface_gcse_complete_path,
+                                         field_name: :gcse_completed)) %>
+<% else %>
+  <%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>
+<% end %>

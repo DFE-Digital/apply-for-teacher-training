@@ -5,6 +5,8 @@ RSpec.feature 'Candidate entering GCSE details' do
 
   scenario 'Candidate submits their maths GCSE details and then update them' do
     given_i_am_signed_in
+    and_the_mark_every_section_as_complete_flag_is_active
+
     when_i_visit_the_candidate_application_page
     and_i_click_on_the_maths_gcse_link
     then_i_see_the_add_gcse_maths_page
@@ -53,12 +55,17 @@ RSpec.feature 'Candidate entering GCSE details' do
     and_i_click_save_and_continue
     then_i_see_the_review_page_with_updated_year
 
-    when_i_visit_the_candidate_application_page
-    i_see_the_maths_gcse_is_completed
+    when_i_mark_the_section_as_completed
+    and_click_continue
+    then_i_see_the_maths_gcse_is_completed
   end
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
+  end
+
+  def and_the_mark_every_section_as_complete_flag_is_active
+    FeatureFlag.activate('mark_every_section_complete')
   end
 
   def given_i_am_not_signed_in; end
@@ -173,8 +180,16 @@ RSpec.feature 'Candidate entering GCSE details' do
     fill_in 'Enter year', with: '2000'
   end
 
-  def i_see_the_maths_gcse_is_completed
+  def when_i_mark_the_section_as_completed
+    check t('application_form.completed_checkbox')
+  end
+
+  def then_i_see_the_maths_gcse_is_completed
     expect(page).to have_css('#maths-gcse-or-equivalent-badge-id', text: 'Completed')
+  end
+
+  def and_click_continue
+    click_button t('application_form.continue')
   end
 
   def when_i_click_on_the_maths_gcse_link

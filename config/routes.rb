@@ -88,6 +88,7 @@ Rails.application.routes.draw do
         get '/' => 'training_with_a_disability#edit', as: :training_with_a_disability_edit
         post '/review' => 'training_with_a_disability#update', as: :training_with_a_disability_update
         get '/review' => 'training_with_a_disability#show', as: :training_with_a_disability_show
+        post '/complete' => 'training_with_a_disability#complete', as: :training_with_a_disability_complete
       end
 
       scope '/contact-details' do
@@ -98,6 +99,7 @@ Rails.application.routes.draw do
         post '/address' => 'contact_details/address#update', as: :contact_details_update_address
 
         get '/review' => 'contact_details/review#show', as: :contact_details_review
+        post '/complete' => 'contact_details/review#complete', as: :contact_details_complete
       end
 
       scope '/gcse/:subject', constraints: { subject: /(maths|english|science)/ } do
@@ -111,6 +113,7 @@ Rails.application.routes.draw do
         patch '/year' => 'gcse/year#update', as: :gcse_details_update_year
 
         get '/review' => 'gcse/review#show', as: :gcse_review
+        post '/complete' => 'gcse/review#complete', as: :gcse_complete
       end
 
       scope '/work-history' do
@@ -317,6 +320,7 @@ Rails.application.routes.draw do
         get '/' => 'safeguarding#edit', as: :edit_safeguarding
         post '/' => 'safeguarding#update'
         get '/review' => 'safeguarding#show', as: :review_safeguarding
+        post '/complete' => 'safeguarding#complete', as: :complete_safeguarding
       end
 
       scope '/satisfaction-survey' do

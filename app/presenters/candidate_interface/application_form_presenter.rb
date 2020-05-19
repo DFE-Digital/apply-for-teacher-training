@@ -110,9 +110,13 @@ module CandidateInterface
     end
 
     def contact_details_completed?
-      contact_details = CandidateInterface::ContactDetailsForm.build_from_application(@application_form)
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.contact_details_completed
+      else
+        contact_details = CandidateInterface::ContactDetailsForm.build_from_application(@application_form)
 
-      contact_details.valid?(:base) && contact_details.valid?(:address)
+        contact_details.valid?(:base) && contact_details.valid?(:address)
+      end
     end
 
     def work_experience_completed?
@@ -160,15 +164,27 @@ module CandidateInterface
     end
 
     def maths_gcse_completed?
-      gcse_completed?(@application_form.maths_gcse)
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.maths_gcse_completed
+      else
+        gcse_completed?(@application_form.maths_gcse)
+      end
     end
 
     def english_gcse_completed?
-      gcse_completed?(@application_form.english_gcse)
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.english_gcse_completed
+      else
+        gcse_completed?(@application_form.english_gcse)
+      end
     end
 
     def science_gcse_completed?
-      gcse_completed?(@application_form.science_gcse)
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.science_gcse_completed
+      else
+        gcse_completed?(@application_form.science_gcse)
+      end
     end
 
     def other_qualifications_completed?
@@ -192,9 +208,13 @@ module CandidateInterface
     end
 
     def training_with_a_disability_completed?
-      @application_form.disclose_disability == false || \
-        (@application_form.disclose_disability == true && \
-          @application_form.disability_disclosure.present?)
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.training_with_a_disability_completed
+      else
+        @application_form.disclose_disability == false || \
+          (@application_form.disclose_disability == true && \
+            @application_form.disability_disclosure.present?)
+      end
     end
 
     def course_choices_completed?
@@ -214,8 +234,12 @@ module CandidateInterface
     end
 
     def safeguarding_completed?
-      @application_form.no_safeguarding_issues_to_declare? ||
-        @application_form.has_safeguarding_issues_to_declare?
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.safeguarding_issues_completed
+      else
+        @application_form.no_safeguarding_issues_to_declare? ||
+          @application_form.has_safeguarding_issues_to_declare?
+      end
     end
 
   private

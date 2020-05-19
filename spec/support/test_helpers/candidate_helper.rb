@@ -44,8 +44,6 @@ module CandidateHelper
 
     click_link t('page_titles.training_with_a_disability')
     candidate_fills_in_disability_info
-    click_button t('application_form.training_with_a_disability.complete_form_button')
-    click_link t('application_form.training_with_a_disability.review.button')
 
     click_link t('page_titles.suitability_to_work_with_children')
     candidate_fills_in_safeguarding_issues
@@ -147,7 +145,13 @@ module CandidateHelper
     fill_in t('application_form.contact_details.address_line3.label'), with: 'London'
     fill_in t('application_form.contact_details.postcode.label'), with: 'SW1P 3BT'
     click_button t('application_form.contact_details.address.button')
-    click_link t('application_form.contact_details.review.button')
+
+    if FeatureFlag.active?('mark_every_section_complete')
+      check t('application_form.completed_checkbox')
+      click_button t('application_form.continue')
+    else
+      click_link t('application_form.contact_details.review.button')
+    end
   end
 
   def candidate_fills_in_their_degree
@@ -184,6 +188,14 @@ module CandidateHelper
   def candidate_fills_in_disability_info
     choose t('application_form.training_with_a_disability.disclose_disability.yes')
     fill_in t('application_form.training_with_a_disability.disability_disclosure.label'), with: 'I have difficulty climbing stairs'
+    click_button t('application_form.training_with_a_disability.complete_form_button')
+
+    if FeatureFlag.active?('mark_every_section_complete')
+      check t('application_form.completed_checkbox')
+      click_button t('application_form.continue')
+    else
+      click_link t('application_form.training_with_a_disability.review.button')
+    end
   end
 
   def candidate_fills_in_safeguarding_issues
@@ -191,8 +203,12 @@ module CandidateHelper
     fill_in 'Give any relevant information', with: 'I have a criminal conviction.'
 
     click_button 'Continue'
-
-    click_link 'Continue'
+    if FeatureFlag.active?('mark_every_section_complete')
+      check t('application_form.completed_checkbox')
+      click_button t('application_form.continue')
+    else
+      click_link 'Continue'
+    end
   end
 
   def candidate_fills_in_work_experience
@@ -289,7 +305,13 @@ module CandidateHelper
     click_button 'Save and continue'
     fill_in 'Enter year', with: '1990'
     click_button 'Save and continue'
-    click_link 'Back to application'
+
+    if FeatureFlag.active?('mark_every_section_complete')
+      check t('application_form.completed_checkbox')
+      click_button t('application_form.continue')
+    else
+      click_link 'Back to application'
+    end
   end
 
   def candidate_explains_a_missing_gcse

@@ -1,6 +1,7 @@
 module CandidateInterface
   class Gcse::GradeController < Gcse::DetailsController
     before_action :redirect_to_dashboard_if_submitted
+    before_action :set_subject
 
     def update
       @qualification_type = details_form.qualification.qualification_type
@@ -10,6 +11,7 @@ module CandidateInterface
       @application_qualification = details_form.save_grade
 
       if @application_qualification
+        update_gcse_completed(false)
         redirect_to next_gcse_path
       else
         @application_qualification = details_form

@@ -1,35 +1,86 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ApplicationFormPresenter do
+  before do
+    FeatureFlag.activate('mark_every_section_complete')
+  end
+
   describe '#personal_details_completed?' do
     it 'returns true if personal details section is completed' do
-      application_form = FactoryBot.build(:completed_application_form)
+      application_form = FactoryBot.build(:application_form, personal_details_completed: true)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).to be_personal_details_completed
     end
 
     it 'returns false if personal details section is incomplete' do
-      application_form = FactoryBot.build(:application_form)
+      application_form = FactoryBot.build(:application_form, personal_details_completed: false)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
-
       expect(presenter).not_to be_personal_details_completed
     end
   end
 
   describe '#contact_details_completed?' do
     it 'returns true if contact details section is completed' do
-      application_form = FactoryBot.build(:completed_application_form)
+      application_form = FactoryBot.build(:application_form, contact_details_completed: true)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).to be_contact_details_completed
     end
 
     it 'returns false if contact details section is incomplete' do
-      application_form = FactoryBot.build(:application_form)
+      application_form = FactoryBot.build(:application_form, contact_details_completed: false)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).not_to be_contact_details_completed
+    end
+  end
+
+  describe '#maths_gcse_completed?' do
+    it 'returns true if maths gcse section is completed' do
+      application_form = FactoryBot.build(:application_form, maths_gcse_completed: true)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_maths_gcse_completed
+    end
+
+    it 'returns false if maths gcse section is incomplete' do
+      application_form = FactoryBot.build(:application_form, maths_gcse_completed: false)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_maths_gcse_completed
+    end
+  end
+
+  describe '#english_gcse_completed?' do
+    it 'returns true if english gcse section is completed' do
+      application_form = FactoryBot.build(:application_form, english_gcse_completed: true)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_english_gcse_completed
+    end
+
+    it 'returns false if english gcse section is incomplete' do
+      application_form = FactoryBot.build(:application_form, english_gcse_completed: false)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_english_gcse_completed
+    end
+  end
+
+  describe '#science_gcse_completed?' do
+    it 'returns true if science gcse section is completed' do
+      application_form = FactoryBot.build(:application_form, science_gcse_completed: true)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_science_gcse_completed
+    end
+
+    it 'returns false if science gcse section is incomplete' do
+      application_form = FactoryBot.build(:application_form, science_gcse_completed: false)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_science_gcse_completed
     end
   end
 
@@ -126,53 +177,18 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
   end
 
   describe '#training_with_a_disability_completed?' do
-    let(:application_form) do
-      FactoryBot.build(:completed_application_form)
-    end
-    let(:presenter) do
-      CandidateInterface::ApplicationFormPresenter.new(application_form)
-    end
+    it 'returns true if training with a disabilitty section is completed' do
+      application_form = FactoryBot.build(:application_form, training_with_a_disability_completed: true)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
-    context 'when the candidate has not selected Yes or No to the disclosure question' do
-      before do
-        application_form.disclose_disability = nil
-      end
-
-      it 'returns false' do
-        expect(presenter.training_with_a_disability_completed?).to eq(false)
-      end
+      expect(presenter).to be_training_with_a_disability_completed
     end
 
-    context 'when the candidate says Yes to disclosure but has not filled in the text field' do
-      before do
-        application_form.disclose_disability = true
-        application_form.disability_disclosure = ''
-      end
+    it 'returns false if maths training with a disabilitty section is incomplete' do
+      application_form = FactoryBot.build(:application_form, training_with_a_disability_completed: false)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
-      it 'returns false' do
-        expect(presenter.training_with_a_disability_completed?).to eq(false)
-      end
-    end
-
-    context 'when the candidate says Yes to disclosure and has filled in the text field' do
-      before do
-        application_form.disclose_disability = true
-        application_form.disability_disclosure = 'I have difficulty climbing stairs'
-      end
-
-      it 'returns true' do
-        expect(presenter.training_with_a_disability_completed?).to eq(true)
-      end
-    end
-
-    context 'when the candidate has selected No to the disclosure question' do
-      before do
-        application_form.disclose_disability = false
-      end
-
-      it 'returns true' do
-        expect(presenter.training_with_a_disability_completed?).to eq(true)
-      end
+      expect(presenter).not_to be_training_with_a_disability_completed
     end
   end
 
@@ -258,52 +274,18 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
   end
 
   describe '#safeguarding_completed?' do
-    it 'returns false if safeguarding issues is not answered yet' do
-      application_form = build_stubbed(
-        :application_form,
-        safeguarding_issues: nil,
-        safeguarding_issues_status: :not_answered_yet,
-      )
-
+    it 'returns true if the safeguarding section is completed' do
+      application_form = FactoryBot.build(:application_form, safeguarding_issues_completed: true)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
-      expect(presenter.safeguarding_completed?).to eq(false)
+      expect(presenter).to be_safeguarding_completed
     end
 
-    it 'returns false if safeguarding issues question was not asked' do
-      application_form = build_stubbed(
-        :application_form,
-        safeguarding_issues: nil,
-        safeguarding_issues_status: :never_asked,
-      )
-
+    it 'returns false if safeguarding section is incomplete' do
+      application_form = FactoryBot.build(:application_form, safeguarding_issues_completed: false)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
-      expect(presenter.safeguarding_completed?).to eq(false)
-    end
-
-    it 'returns true if safeguarding issues are declared' do
-      application_form = build_stubbed(
-        :application_form,
-        safeguarding_issues: 'I have a criminal conviction',
-        safeguarding_issues_status: :has_safeguarding_issues_to_declare,
-      )
-
-      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
-
-      expect(presenter.safeguarding_completed?).to eq(true)
-    end
-
-    it 'returns true if safeguarding issues are denied' do
-      application_form = build_stubbed(
-        :application_form,
-        safeguarding_issues: nil,
-        safeguarding_issues_status: :no_safeguarding_issues_to_declare,
-      )
-
-      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
-
-      expect(presenter.safeguarding_completed?).to eq(true)
+      expect(presenter).not_to be_safeguarding_completed
     end
   end
 

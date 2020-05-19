@@ -1,21 +1,17 @@
 module CandidateInterface
-  class Gcse::ReviewController < CandidateInterfaceController
+  class Gcse::ReviewController < Gcse::DetailsController
     before_action :redirect_to_dashboard_if_submitted
-
     before_action :set_subject
 
     def show
+      @application_form = current_application
       @application_qualification = current_application.qualification_in_subject(:gcse, subject_param)
     end
 
-  private
+    def complete
+      update_gcse_completed(params.dig('application_form', 'gcse_completed'))
 
-    def set_subject
-      @subject = subject_param
-    end
-
-    def subject_param
-      params.require(:subject)
+      redirect_to candidate_interface_application_form_path
     end
   end
 end

@@ -27,5 +27,10 @@ module CandidateInterface
         current_application.qualification_in_subject(:gcse, subject_param),
       )
     end
+
+    def update_gcse_completed(value)
+      attribute_to_update = "#{@subject}_gcse_completed"
+      current_application.update!("#{attribute_to_update}": value)
+    end
   end
 end

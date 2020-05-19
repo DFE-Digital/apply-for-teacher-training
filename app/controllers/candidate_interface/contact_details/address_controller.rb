@@ -12,6 +12,8 @@ module CandidateInterface
       @contact_details_form = ContactDetailsForm.new(contact_details_params)
 
       if @contact_details_form.save_address(current_application)
+        current_application.update!(contact_details_completed: false)
+
         redirect_to candidate_interface_contact_details_review_path
       else
         track_validation_error(@contact_details_form)
