@@ -18,8 +18,10 @@ module CandidateInterface
         set_referee_id
 
         @reference_type_form = Reference::RefereeTypeForm.build_from_reference(@referee)
-      else
+      elsif current_application.can_add_reference?
         @reference_type_form = Reference::RefereeTypeForm.new
+      else
+        redirect_to candidate_interface_review_referees_path
       end
     end
 
