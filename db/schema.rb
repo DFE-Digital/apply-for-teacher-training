@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_19_093014) do
+ActiveRecord::Schema.define(version: 2020_05_19_102317) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -278,6 +278,16 @@ ActiveRecord::Schema.define(version: 2020_05_19_093014) do
     t.index ["provider_user_id"], name: "index_provider_agreements_on_provider_user_id"
   end
 
+  create_table "provider_relationship_permissions", force: :cascade do |t|
+    t.string "type", null: false
+    t.integer "training_provider_id", null: false
+    t.integer "ratifying_provider_id", null: false
+    t.boolean "view_safeguarding_information", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["type", "training_provider_id", "ratifying_provider_id"], name: "index_provider_relationship_permissions_provider_ids_and_type", unique: true
+  end
+
   create_table "provider_users", force: :cascade do |t|
     t.string "email_address", null: false
     t.string "dfe_sign_in_uid"
@@ -423,6 +433,8 @@ ActiveRecord::Schema.define(version: 2020_05_19_093014) do
   add_foreign_key "notes", "provider_users", on_delete: :cascade
   add_foreign_key "provider_agreements", "provider_users"
   add_foreign_key "provider_agreements", "providers"
+  add_foreign_key "provider_relationship_permissions", "providers", column: "ratifying_provider_id"
+  add_foreign_key "provider_relationship_permissions", "providers", column: "training_provider_id"
   add_foreign_key "reference_tokens", "\"references\"", column: "application_reference_id", on_delete: :cascade
   add_foreign_key "references", "application_forms", on_delete: :cascade
   add_foreign_key "sites", "providers"
