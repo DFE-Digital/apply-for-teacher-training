@@ -27,7 +27,7 @@ module CandidateInterface
     def qualification_row
       {
         key: t('application_form.degree.qualification.label'),
-        value: gcse_qualification_types[application_qualification.qualification_type.to_sym],
+        value: gcse_qualification_types[application_qualification.qualification_type.to_sym.downcase],
         action: "qualification for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
         change_path: candidate_interface_gcse_details_edit_type_path(subject: subject),
       }
