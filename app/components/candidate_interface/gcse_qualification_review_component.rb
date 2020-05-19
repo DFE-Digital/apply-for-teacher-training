@@ -27,7 +27,7 @@ module CandidateInterface
     def qualification_row
       {
         key: t('application_form.degree.qualification.label'),
-        value: gcse_qualification_types[application_qualification.qualification_type.to_sym],
+        value: gcse_qualification_types[application_qualification.qualification_type.to_sym.downcase],
         action: "qualification for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
         change_path: candidate_interface_gcse_details_edit_type_path(subject: subject),
       }
@@ -61,12 +61,9 @@ module CandidateInterface
     end
 
     def gcse_qualification_types
-      {
-        gcse: 'GCSE',
-        gce_o_level: 'GCE O Level',
-        scottish_national_5: 'Scottish National 5',
+      t('application_form.gcse.qualification_types').merge(
         other_uk: application_qualification.other_uk_qualification_type,
-      }
+      )
     end
   end
 end
