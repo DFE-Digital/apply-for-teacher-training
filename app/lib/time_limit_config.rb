@@ -37,6 +37,10 @@ class TimeLimitConfig
     14
   end
 
+  def self.additional_reference_chase_calendar_days
+    28
+  end
+
   RULES = {
     reject_by_default: [
       Rule.new(nil, nil, 40),
