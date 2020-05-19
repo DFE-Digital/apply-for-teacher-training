@@ -61,12 +61,9 @@ module CandidateInterface
     end
 
     def gcse_qualification_types
-      {
-        gcse: 'GCSE',
-        gce_o_level: 'GCE O Level',
-        scottish_national_5: 'Scottish National 5',
+      t('application_form.gcse.qualification_types').merge(
         other_uk: application_qualification.other_uk_qualification_type,
-      }
+      )
     end
   end
 end
