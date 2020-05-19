@@ -7,6 +7,8 @@ class SyncAllProvidersFromFind
     find_providers = FindAPI::Provider.current_cycle.all
 
     sync_providers(find_providers)
+
+    FindSyncCheck.set_last_sync(Time.zone.now)
   rescue JsonApiClient::Errors::ConnectionError
     raise SyncFindApiError
   end
