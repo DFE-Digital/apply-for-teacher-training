@@ -52,7 +52,9 @@
     <%= render ProviderInterface::TrainingWithDisabilityComponent.new(application_form: @application_choice.application_form) %>
 
     <% if FeatureFlag.active?('provider_view_safeguarding') %>
-      <%= render ProviderInterface::SafeguardingDeclarationComponent.new(application_form: @application_choice.application_form)%>
+      <% if current_provider_user.can_view_safeguarding_information_for?(@application_choice.provider) %>
+        <%= render ProviderInterface::SafeguardingDeclarationComponent.new(application_form: @application_choice.application_form)%>
+      <% end %>
     <% end %>
 
     <h2 class="govuk-heading-m govuk-!-margin-top-8" id="qualifications">Qualifications</h2>

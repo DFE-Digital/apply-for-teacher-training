@@ -16,11 +16,16 @@ RSpec.feature 'Managing provider user permissions' do
 
     then_i_see_providers_and_permissions
     and_i_add_permission_to_manage_users_for_a_provider_user
-    then_i_can_see_the_new_permission_for_the_provider_user
+    then_i_can_see_the_manage_users_permission_for_the_provider_user
     and_i_click_change_providers_and_permissions
 
-    when_i_remove_a_permissions_from_a_provider_user
-    then_i_cant_see_the_permission_for_the_provider_user
+    when_i_remove_manage_users_permissions_from_a_provider_user
+    then_i_cant_see_the_manage_users_permission_for_the_provider_user
+
+    and_i_click_change_providers_and_permissions
+
+    when_i_add_permission_to_view_safeguarding_for_a_provider_user
+    then_i_can_see_the_view_safeguarding_permission_for_the_provider_user
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -71,17 +76,15 @@ RSpec.feature 'Managing provider user permissions' do
     click_on 'Update providers'
   end
 
-  def then_i_can_see_the_new_permission_for_the_provider_user
+  def then_i_can_see_the_manage_users_permission_for_the_provider_user
     expect(page).to have_content 'Providers updated'
 
     within("#provider-#{@provider.id}-enabled-permissions") do
       expect(page).to have_content 'Manage users'
     end
-
-    expect(@managed_user.provider_permissions.first.manage_users).to be true
   end
 
-  def when_i_remove_a_permissions_from_a_provider_user
+  def when_i_remove_manage_users_permissions_from_a_provider_user
     within(permissions_fields_id_for_provider(@provider)) do
       expect(page).to have_checked_field 'Manage users'
       uncheck 'Manage users'
@@ -90,11 +93,25 @@ RSpec.feature 'Managing provider user permissions' do
     click_on 'Update providers'
   end
 
-  def then_i_cant_see_the_permission_for_the_provider_user
+  def then_i_cant_see_the_manage_users_permission_for_the_provider_user
     expect(page).to have_content 'Providers updated'
     expect(page).not_to have_content 'Manage users'
+  end
 
-    expect(@managed_user.provider_permissions.first.manage_users).to be false
+  def when_i_add_permission_to_view_safeguarding_for_a_provider_user
+    expect(page).not_to have_checked_field 'View safeguarding information'
+
+    within(permissions_fields_id_for_provider(@provider)) do
+      check 'View safeguarding information'
+    end
+
+    click_on 'Update providers'
+  end
+
+  def then_i_can_see_the_view_safeguarding_permission_for_the_provider_user
+    within("#provider-#{@provider.id}-enabled-permissions") do
+      expect(page).to have_content 'View safeguarding information'
+    end
   end
 
   def permissions_fields_id_for_provider(provider)

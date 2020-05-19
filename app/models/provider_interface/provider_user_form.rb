@@ -63,7 +63,11 @@ module ProviderInterface
           provider_id: form.provider_permission[:provider_id],
           provider_user_id: provider_user&.id,
         )
-        permission.manage_users = form.provider_permission.fetch(:manage_users, false)
+
+        ProviderPermissions::VALID_PERMISSIONS.each do |permission_name|
+          permission.send("#{permission_name}=", form.provider_permission.fetch(permission_name, false))
+        end
+
         permission
       end
     end
