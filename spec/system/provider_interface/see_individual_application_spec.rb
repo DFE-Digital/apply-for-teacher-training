@@ -56,6 +56,13 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   def when_i_am_permitted_to_see_safeguarding_information
     ProviderUser.find_by(dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
       .provider_permissions.update_all(view_safeguarding_information: true)
+
+    create(
+      :training_provider_permissions,
+      ratifying_provider: create(:provider),
+      training_provider: @application_choice.course.provider,
+      view_safeguarding_information: true,
+    )
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
