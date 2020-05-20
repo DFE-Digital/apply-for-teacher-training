@@ -30,79 +30,65 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     )
   end
 
-  context 'without feature flag' do
-    it 'renders nothing' do
+  context 'for a newly created application' do
+    it 'renders empty timeline' do
       application_choice = setup_application([])
       rendered = render_inline(described_class.new(application_choice: application_choice))
-      expect(rendered.text).to eq ''
+      expect(rendered.text).to include 'Timeline'
     end
   end
 
-  context 'with feature flag' do
-    before do
-      FeatureFlag.activate('timeline')
+  context 'for a submitted application not sent to provider' do
+    it 'does not renders any events event' do
+      application_choice = setup_application([
+        FindStatusChangeAudits::StatusChange.new('awaiting_references', 20.days.ago, candidate),
+      ])
+      rendered = render_inline(described_class.new(application_choice: application_choice))
+      expect(rendered.text).to include 'Timeline'
+      expect(rendered.text).not_to include 'Application submitted'
     end
+  end
 
-    context 'for a newly created application' do
-      it 'renders empty timeline' do
-        application_choice = setup_application([])
-        rendered = render_inline(described_class.new(application_choice: application_choice))
-        expect(rendered.text).to include 'Timeline'
-      end
+  context 'for a submitted application sent to provider' do
+    it 'renders submit event' do
+      application_choice = setup_application([
+        FindStatusChangeAudits::StatusChange.new('awaiting_references', 20.days.ago, candidate),
+        FindStatusChangeAudits::StatusChange.new('application_complete', 10.days.ago, candidate),
+        FindStatusChangeAudits::StatusChange.new('awaiting_provider_decision', 5.days.ago, candidate),
+      ])
+      rendered = render_inline(described_class.new(application_choice: application_choice))
+      expect(rendered.text).to include 'Timeline'
+      expect(rendered.text).to include 'Application submitted'
+      expect(rendered.text).to include 'by candidate'
+      expect(rendered.text).to include '6 Feb 2020'
     end
+  end
 
-    context 'for a submitted application not sent to provider' do
-      it 'does not renders any events event' do
-        application_choice = setup_application([
-          FindStatusChangeAudits::StatusChange.new('awaiting_references', 20.days.ago, candidate),
-        ])
-        rendered = render_inline(described_class.new(application_choice: application_choice))
-        expect(rendered.text).to include 'Timeline'
-        expect(rendered.text).not_to include 'Application submitted'
-      end
+  context 'for an offered application' do
+    it 'renders offer event' do
+      application_choice = setup_application([
+        FindStatusChangeAudits::StatusChange.new('offer', 3.days.ago, provider_user),
+      ])
+      rendered = render_inline(described_class.new(application_choice: application_choice))
+      expect(rendered.text).to include 'Timeline'
+      expect(rendered.text).to include 'Offer made'
+      expect(rendered.text).to include 'by Bob Roberts'
+      expect(rendered.text).to include '8 Feb 2020'
     end
+  end
 
-    context 'for a submitted application sent to provider' do
-      it 'renders submit event' do
-        application_choice = setup_application([
-          FindStatusChangeAudits::StatusChange.new('awaiting_references', 20.days.ago, candidate),
-          FindStatusChangeAudits::StatusChange.new('application_complete', 10.days.ago, candidate),
-          FindStatusChangeAudits::StatusChange.new('awaiting_provider_decision', 5.days.ago, candidate),
-        ])
-        rendered = render_inline(described_class.new(application_choice: application_choice))
-        expect(rendered.text).to include 'Timeline'
-        expect(rendered.text).to include 'Application submitted'
-        expect(rendered.text).to include 'by candidate'
-        expect(rendered.text).to include '6 Feb 2020'
-      end
-    end
-
-    context 'for an offered application' do
-      it 'renders offer event' do
-        application_choice = setup_application([
-          FindStatusChangeAudits::StatusChange.new('offer', 3.days.ago, provider_user),
-        ])
-        rendered = render_inline(described_class.new(application_choice: application_choice))
-        expect(rendered.text).to include 'Timeline'
-        expect(rendered.text).to include 'Offer made'
-        expect(rendered.text).to include 'by Bob Roberts'
-        expect(rendered.text).to include '8 Feb 2020'
-      end
-    end
-
-    context 'for an application with a note' do
-      it 'renders note event' do
-        application_choice = create(:application_choice)
-        application_choice.notes << Note.new(
-          provider_user: provider_user,
-          subject: 'This is a note',
-          message: 'Notes are a new feature',
-        )
-        rendered = render_inline(described_class.new(application_choice: application_choice))
-        expect(rendered.text).to include 'Note added'
-        expect(rendered.text).to include 'by Bob Roberts'
-        expect(rendered.text).to include '11 Feb 2020'
-      end
+  context 'for an application with a note' do
+    it 'renders note event' do
+      application_choice = create(:application_choice)
+      application_choice.notes << Note.new(
+        provider_user: provider_user,
+        subject: 'This is a note',
+        message: 'Notes are a new feature',
+      )
+      rendered = render_inline(described_class.new(application_choice: application_choice))
+      expect(rendered.text).to include 'Note added'
+      expect(rendered.text).to include 'by Bob Roberts'
+      expect(rendered.text).to include '11 Feb 2020'
     end
   end
 end

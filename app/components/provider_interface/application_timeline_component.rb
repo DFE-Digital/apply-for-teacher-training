@@ -21,10 +21,6 @@ module ProviderInterface
       'conditions_not_met' => 'Conditions marked not met',
     }.freeze
 
-    def render?
-      FeatureFlag.active?('timeline')
-    end
-
   private
 
     def status_change_events
