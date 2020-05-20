@@ -51,9 +51,7 @@ module ProviderInterface
       end
     end
 
-    def timeline
-      redirect_to(action: :show) unless FeatureFlag.active?('timeline')
-    end
+    def timeline; end
 
   private
 
@@ -81,11 +79,9 @@ module ProviderInterface
         { name: 'Notes', url: provider_interface_application_choice_notes_path(@application_choice) },
       )
 
-      if FeatureFlag.active?('timeline')
-        sub_navigation_items.push(
-          { name: 'Timeline', url: provider_interface_application_choice_timeline_path(@application_choice) },
-        )
-      end
+      sub_navigation_items.push(
+        { name: 'Timeline', url: provider_interface_application_choice_timeline_path(@application_choice) },
+      )
 
       sub_navigation_items
     end
