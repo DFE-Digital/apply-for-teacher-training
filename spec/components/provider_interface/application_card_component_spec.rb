@@ -72,7 +72,6 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     end
 
     it 'renders the subject of the most recent note' do
-      FeatureFlag.activate('notes')
       application_choice.notes << note
       expect(card).to include(note.subject)
     end

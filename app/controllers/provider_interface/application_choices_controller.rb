@@ -1,7 +1,6 @@
 module ProviderInterface
   class ApplicationChoicesController < ProviderInterfaceController
     before_action :set_application_choice_and_sub_navigation_items, except: %i[index]
-    before_action :require_notes_feature, only: %i[notes new_note create_note]
 
     def index
       @page_state = ProviderApplicationsPageState.new(
@@ -63,10 +62,6 @@ module ProviderInterface
       current_provider_user.providers
     end
 
-    def require_notes_feature
-      redirect_to(action: :show) unless FeatureFlag.active?('notes')
-    end
-
     def set_application_choice_and_sub_navigation_items
       @application_choice = get_application_choice
       @sub_navigation_items = get_sub_navigation_items
@@ -83,11 +78,9 @@ module ProviderInterface
         { name: 'Application', url: provider_interface_application_choice_path(@application_choice) },
       ]
 
-      if FeatureFlag.active?('notes')
-        sub_navigation_items.push(
-          { name: 'Notes', url: provider_interface_application_choice_notes_path(@application_choice) },
-        )
-      end
+      sub_navigation_items.push(
+        { name: 'Notes', url: provider_interface_application_choice_notes_path(@application_choice) },
+      )
 
       if FeatureFlag.active?('timeline')
         sub_navigation_items.push(
