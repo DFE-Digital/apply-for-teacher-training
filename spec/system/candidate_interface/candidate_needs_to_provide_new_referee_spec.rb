@@ -24,6 +24,9 @@ RSpec.describe 'Candidate needs to provide a new referee' do
     when_i_click_to_add_a_new_referee
     then_i_am_asked_to_specify_the_type_of_my_first_new_reference
 
+    when_i_try_to_add_a_referee_with_an_invalid_type
+    then_i_am_redirected_to_the_referees_type_page
+
     when_i_choose_school_based_as_reference_type
     and_i_click_continue
     and_i_fill_in_the_form
@@ -160,5 +163,13 @@ RSpec.describe 'Candidate needs to provide a new referee' do
 
   def then_i_see_a_404_page
     expect(page).to have_content 'Page not found'
+  end
+
+  def when_i_try_to_add_a_referee_with_an_invalid_type
+    visit candidate_interface_new_additional_referee_path(type: 'not-a-type')
+  end
+
+  def then_i_am_redirected_to_the_referees_type_page
+    expect(page).to have_current_path(candidate_interface_additional_referee_type_path)
   end
 end

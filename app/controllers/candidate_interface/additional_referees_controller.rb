@@ -41,6 +41,12 @@ module CandidateInterface
     def new
       redirect_to_confirm_if_no_more_reference_needed
 
+      referee_type_form = Reference::RefereeTypeForm.new(referee_type: params[:type])
+      unless referee_type_form.valid?
+        track_validation_error(referee_type_form)
+        return redirect_to action: 'type'
+      end
+
       @reference = current_candidate.current_application.application_references.build(referee_type: params[:type])
       @page_title = "Details of your new #{@reference.referee_type.downcase.dasherize} referee"
     end
