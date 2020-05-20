@@ -1,3 +1,10 @@
+### 20th May 2020
+
+Corrections to documentation
+
+- The Application lifecycle incorrectly stated that candidates have 5 days to respond to offers. This has been amended to 10 days.
+- Clarify that we use the two-letter version of ISO 3166, ISO 3166-2, for country codes.
+
 ### 11th February 2020
 
 New attributes:

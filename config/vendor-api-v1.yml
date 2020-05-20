@@ -486,7 +486,7 @@ components:
             pattern: "^[A-Z]{2}$"
             example: NL
           maxItems: 2
-          description: One or more ISO 3166 country codes
+          description: One or more ISO 3166-2 country codes
         uk_residency_status:
           type: string
           maxLength: 256
@@ -558,7 +558,7 @@ components:
         country:
           type: string
           maxLength: 2
-          description: The candidate’s country - ISO 3166 country code
+          description: The candidate’s country - ISO 3166-2 country code
           pattern: "^[A-Z]{2}$"
           example: GB
         email:
