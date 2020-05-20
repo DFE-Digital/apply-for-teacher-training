@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
-  let(:heading) { 'Criminal convictions and professional misconduct' }
-
   context 'when the candidate was never asked the safeguarding question' do
     it 'displays the correct text' do
       application_form = build_stubbed(
@@ -12,7 +10,6 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
       )
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.text).to include(heading)
       expect(result.text).to include('Never asked.')
     end
   end
@@ -26,7 +23,6 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
       )
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.text).to include(heading)
       expect(result.text).to include('The candidate has shared information related to safeguarding. Please contact them directly for more details.')
     end
   end
@@ -40,7 +36,6 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
       )
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.text).to include(heading)
       expect(result.text).to include('No information shared.')
     end
   end
@@ -54,7 +49,6 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
       )
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.text).to include(heading)
       expect(result.text).to include('Not answered yet')
     end
   end

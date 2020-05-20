@@ -28,7 +28,6 @@ RSpec.describe ProviderInterface::TrainingWithDisabilityComponent do
       disability_disclosure: 'I am hard of hearing',
     )
     result = render_inline(described_class.new(application_form: application_form))
-    expect(result.text).to include('Disability and other needs')
     expect(result.text).to include('I am hard of hearing')
   end
 end
