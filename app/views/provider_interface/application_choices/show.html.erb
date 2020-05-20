@@ -57,7 +57,11 @@
       <% end %>
     <% end %>
 
-    <h2 class="govuk-heading-m govuk-!-margin-top-8" id="qualifications">Qualifications</h2>
+    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="qualifications">Interview</h2>
+
+    <%= render InterviewPreferencesComponent.new(application_form: @application_choice.application_form) %>
+
+    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="qualifications">Qualifications</h2>
 
     <%= render QualificationsComponent.new(application_form: @application_choice.application_form) %>
 
