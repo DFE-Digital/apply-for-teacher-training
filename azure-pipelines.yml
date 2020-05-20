@@ -20,7 +20,7 @@ variables:
 
 stages:
 - stage: build_release
-  displayName: 'Build Release'
+  displayName: 'Build & Publish Docker Image'
   variables:
   - group: APPLY - ENV - QA
   jobs:
@@ -35,8 +35,10 @@ stages:
       value: $(debug)
 
     steps:
-    - script: | 
-        echo '##vso[task.setvariable variable=compose_file]docker-compose.yml:docker-compose.azure.yml'
+    - script: |
+        GIT_SHORT_SHA=$(echo $(Build.SourceVersion) | cut -c 1-7)
+        echo "##vso[build.updatebuildnumber]$GIT_SHORT_SHA"
+        echo '##vso[task.setvariable variable=COMPOSE_FILE]docker-compose.yml:docker-compose.azure.yml'
         docker_path=$(dockerHubUsername)/$(imageName)
         echo "##vso[task.setvariable variable=docker_path;]$docker_path"
         mkdir $(pipelineDockerCachePath)
@@ -50,6 +52,7 @@ stages:
         COMPOSE_DOCKER_CLI_BUILD: $(dockerBuildkitState)
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
+        dockerHubImageTag: $(Build.BuildNumber)
         railsSecretKeyBase: $(railsSecretKeyBase)
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
@@ -69,7 +72,53 @@ stages:
       displayName: 'Publish Docker image artifact'
       inputs:
         path: '$(System.DefaultWorkingDirectory)/docker_images/'
-        artifactName: 'docker_artifacts' 
+        artifactName: 'docker_artifacts'
+    
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish ARM template artifacts'
+      inputs:
+        path: '$(System.DefaultWorkingDirectory)/azure/'
+        artifactName: 'arm_template'
+    
+    - task: Docker@2
+      displayName: Login to DockerHub
+      condition: and(succeeded(), eq(variables['deployOnly'], false))
+      inputs:
+        containerRegistry: 'DfE Docker Hub'
+        command: 'login'
+
+    - task: Docker@2
+      displayName: Push image to DockerHub
+      condition: and(succeeded(), eq(variables['deployOnly'], false))
+      inputs:
+        containerRegistry: 'DfE Docker Hub'
+        repository: '$(dockerHubUsername)/$(imageName)'
+        command: 'push'
+        tags: |
+          $(Build.BuildNumber)
+    
+    - script: |
+        docker tag $(dockerHubUsername)/$(imageName):$(Build.BuildNumber) $(dockerHubUsername)/$(imageName):latest
+        docker rmi $(dockerHubUsername)/$(imageName):$(Build.BuildNumber)
+      displayName: Tage image as latest (if master)
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+
+    - task: Docker@2
+      displayName: Push image (latest) to DockerHub
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      inputs:
+        containerRegistry: 'DfE Docker Hub'
+        repository: '$(dockerHubUsername)/$(imageName)'
+        command: 'push'
+        tags: |
+          latest
+
+    - task: Docker@2
+      displayName: Logout of DockerHub
+      condition: and(succeeded(), eq(variables['deployOnly'], false))
+      inputs:
+        containerRegistry: 'DfE Docker Hub'
+        command: 'logout'
 
   
 - stage: test_release
@@ -90,20 +139,11 @@ stages:
 
     steps:
     - script: |
-        echo '##vso[task.setvariable variable=compose_file]docker-compose.yml:docker-compose.azure.yml'
+        echo '##vso[task.setvariable variable=COMPOSE_FILE]docker-compose.yml:docker-compose.azure.yml'
       displayName: 'Configure environment'
 
-    - task: DownloadPipelineArtifact@2
-      displayName: 'Download Docker image'
-      inputs:
-        artifact: 'docker_artifacts'
-
     - script: |
-        docker load < $(Pipeline.Workspace)/$(imageName).tar.gz
-        while read REPOSITORY TAG IMAGE_ID
-        do
-           docker tag "$IMAGE_ID" "$REPOSITORY:$TAG"
-        done < $(Pipeline.Workspace)/images_manifest.txt
+        docker pull $(dockerHubUsername)/$(imageName):$(Build.BuildNumber)
         make az_setup
       displayName: 'Load Docker image & setup container'
       env:
@@ -111,6 +151,7 @@ stages:
         COMPOSE_DOCKER_CLI_BUILD: $(dockerBuildkitState)
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
+        dockerHubImageTag: $(Build.BuildNumber)
         railsSecretKeyBase: $(railsSecretKeyBase)
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
@@ -125,6 +166,7 @@ stages:
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
+        dockerHubImageTag: $(Build.BuildNumber)
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         AUTHORISED_HOSTS: $(authorisedHosts)
@@ -185,6 +227,7 @@ stages:
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
+        dockerHubImageTag: $(Build.BuildNumber)
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         AUTHORISED_HOSTS: $(authorisedHosts)
@@ -198,6 +241,7 @@ stages:
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
+        dockerHubImageTag: $(Build.BuildNumber)
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         AUTHORISED_HOSTS: $(authorisedHosts)
@@ -224,20 +268,11 @@ stages:
 
     steps:
     - script: |
-        echo '##vso[task.setvariable variable=compose_file]docker-compose.yml:docker-compose.azure.yml'
+        echo '##vso[task.setvariable variable=COMPOSE_FILE]docker-compose.yml:docker-compose.azure.yml'
       displayName: 'Configure environment'
 
-    - task: DownloadPipelineArtifact@2
-      displayName: 'Download Docker image'
-      inputs:
-        artifact: 'docker_artifacts'
-
     - script: |
-        docker load < $(Pipeline.Workspace)/$(imageName).tar.gz
-        while read REPOSITORY TAG IMAGE_ID
-        do
-           docker tag "$IMAGE_ID" "$REPOSITORY:$TAG"
-        done < $(Pipeline.Workspace)/images_manifest.txt
+        docker pull $(dockerHubUsername)/$(imageName):$(Build.BuildNumber)
         make az_setup
       displayName: 'Load Docker image & setup container'
       env:
@@ -245,6 +280,7 @@ stages:
         COMPOSE_DOCKER_CLI_BUILD: $(dockerBuildkitState)
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
+        dockerHubImageTag: $(Build.BuildNumber)
         railsSecretKeyBase: $(railsSecretKeyBase)
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
@@ -284,6 +320,7 @@ stages:
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
+        dockerHubImageTag: $(Build.BuildNumber)
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         AUTHORISED_HOSTS: $(authorisedHosts)
@@ -296,79 +333,6 @@ stages:
       inputs:
         testRunner: JUnit
         testResultsFiles: 'results/*.xml'
-
-
-  - job: publish_docker_image
-    displayName: 'Publish Docker Image'
-    dependsOn: 
-    - test_docker_image_batch_1
-    - test_docker_image_batch_2
-    condition: and(succeeded('test_docker_image_batch_1'), succeeded('test_docker_image_batch_2'))
-    pool:
-      vmImage: 'Ubuntu-16.04'
-
-    variables:
-    - name: system.debug
-      value: $(debug)
-
-    steps:
-    - script: |
-        GIT_SHORT_SHA=$(echo $(Build.SourceVersion) | cut -c 1-7)
-        docker_path=$(dockerHubUsername)/$(imageName)
-        echo "##vso[build.updatebuildnumber]$GIT_SHORT_SHA"
-        echo "##vso[task.setvariable variable=docker_path;]$docker_path"
-      displayName: 'Set version number'
-
-    - task: DownloadPipelineArtifact@2
-      displayName: 'Download Docker image'
-      condition: and(succeeded(), eq(variables['deployOnly'], false))
-      inputs:
-        artifact: 'docker_artifacts'
-
-    - script: |
-        docker load < $(Pipeline.Workspace)/$(imageName).tar.gz
-        while read REPOSITORY TAG IMAGE_ID
-        do
-           docker tag "$IMAGE_ID" "$REPOSITORY:$TAG"
-        done < $(Pipeline.Workspace)/images_manifest.txt
-      displayName: 'Load Docker image'
-      condition: and(succeeded(), eq(variables['deployOnly'], false))
-    
-    - task: Docker@1
-      displayName: 'Tag image with current build number $(Build.BuildNumber)'
-      condition: and(succeeded(), eq(variables['deployOnly'], false))
-      inputs:
-        command: Tag image
-        imageName: "$(docker_path):latest"
-        arguments: "$(docker_path):$(Build.BuildNumber)"
-
-    - task: Docker@1
-      displayName: 'Docker Hub login'
-      condition: and(succeeded(), eq(variables['deployOnly'], false))
-      inputs:
-        command: "login"
-        containerregistrytype: Container Registry
-        dockerRegistryEndpoint: DfE Docker Hub
-
-    - task: Docker@1
-      displayName: 'Push tagged image'
-      condition: and(succeeded(), eq(variables['deployOnly'], false))
-      inputs:
-        command: Push an image
-        imageName: "$(docker_path):$(Build.BuildNumber)"
-
-    - task: Docker@1
-      displayName: 'Push tagged image (latest) if master or hotfix'
-      condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/hotfix')))
-      inputs:
-        command: Push an image
-        imageName: "$(docker_path):latest"
-
-    - task: PublishPipelineArtifact@1
-      displayName: 'Publish ARM template artifacts'
-      inputs:
-        path: '$(System.DefaultWorkingDirectory)/azure/'
-        artifactName: 'arm_template'
 
 
 - stage: deploy_qa
