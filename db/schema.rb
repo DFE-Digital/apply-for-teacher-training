@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_19_102317) do
+ActiveRecord::Schema.define(version: 2020_05_20_143639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -281,7 +281,7 @@ ActiveRecord::Schema.define(version: 2020_05_19_102317) do
   create_table "provider_relationship_permissions", force: :cascade do |t|
     t.string "type", null: false
     t.integer "training_provider_id", null: false
-    t.integer "ratifying_provider_id", null: false
+    t.integer "ratifying_provider_id"
     t.boolean "view_safeguarding_information", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
