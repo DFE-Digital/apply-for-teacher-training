@@ -5,7 +5,7 @@ services:
       target: prod-build
       args:
         bundleWithout: 'development'
-    image: ${dockerHubUsername}/${dockerHubImageName}:latest
+    image: ${dockerHubUsername}/${dockerHubImageName}:${dockerHubImageTag}
     environment:
       - RAILS_ENV
       - SERVICE_TYPE
