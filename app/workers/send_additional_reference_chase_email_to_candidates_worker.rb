@@ -2,19 +2,26 @@ class SendAdditionalReferenceChaseEmailToCandidatesWorker
   include Sidekiq::Worker
 
   def perform
-    references_to_chase.each do |reference|
-      CandidateMailer.chase_reference_again(reference).deliver_later
-      ChaserSent.create!(chased: reference, chaser_type: :additional_reference_request)
+    applications_with_outstanding_reference_requests.each do |application_form|
+      CandidateMailer.chase_references_again(application_form).deliver_later
+      ChaserSent.create!(chased: application_form, chaser_type: :follow_up_missing_references)
     end
   end
 
 private
 
-  def references_to_chase
-    ApplicationReference
+  def applications_with_outstanding_reference_requests
+    outstanding_reference_requests = ApplicationReference
       .feedback_requested
       .where(['requested_at < ?', time_limit])
-      .where.not(id: ChaserSent.additional_reference_request.select(:chased_id))
+
+    application_form_ids = outstanding_reference_requests
+      .distinct(:application_form_id)
+      .pluck(:application_form_id)
+
+    ApplicationForm
+      .where(id: application_form_ids)
+      .where.not(id: ChaserSent.follow_up_missing_references.select(:chased_id))
   end
 
   def time_limit
