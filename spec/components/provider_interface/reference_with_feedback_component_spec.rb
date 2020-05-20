@@ -16,7 +16,7 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent do
     it 'contains an email address row' do
       row = component.rows.second
       expect(row[:key]).to eq('Email address')
-      expect(row[:value]).to eq(reference.email_address)
+      expect(row[:value]).to include(reference.email_address)
     end
 
     it 'contains a relationship row' do
