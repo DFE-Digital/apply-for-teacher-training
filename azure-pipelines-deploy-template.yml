@@ -258,7 +258,7 @@ jobs:
                 Param(
                   [string] $resourceGroupName = "$(resourceGroupName)",
                   [string] $appServiceName = "$(appServiceName)",
-                  [string] $containerImageReference = "${{parameters.dockerHubUsername}}/${{parameters.containerImageReference}}",
+                  [string] $containerImageReference = "${{parameters.containerImageReference}}",
                   [array] $containers = @("clock", "worker")
                 )
                 $output = az webapp config container set --resource-group $resourceGroupName --name $appServiceName --slot staging --docker-custom-image-name $containerImageReference
