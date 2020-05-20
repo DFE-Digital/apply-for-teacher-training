@@ -45,23 +45,30 @@
       </div>
     <% end %>
 
-    <h2 class="govuk-heading-m govuk-!-margin-top-8" id="course-info">Course</h2>
+    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="course-info">Course details</h2>
 
     <%= render ProviderInterface::CourseDetailsComponent.new(application_choice: @application_choice)%>
+
+    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="disabilities">Disability, access and other needs</h2>
 
     <%= render ProviderInterface::TrainingWithDisabilityComponent.new(application_form: @application_choice.application_form) %>
 
     <% if FeatureFlag.active?('provider_view_safeguarding') %>
       <% if current_provider_user.can_view_safeguarding_information_for?(@application_choice.provider) %>
+        <h2 class="govuk-heading-l govuk-!-margin-top-8">Criminal convictions and professional misconduct</h2>
         <%= render ProviderInterface::SafeguardingDeclarationComponent.new(application_form: @application_choice.application_form)%>
       <% end %>
     <% end %>
 
-    <h2 class="govuk-heading-m govuk-!-margin-top-8" id="qualifications">Qualifications</h2>
+    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="qualifications">Interview</h2>
+
+    <%= render InterviewPreferencesComponent.new(application_form: @application_choice.application_form) %>
+
+    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="qualifications">Qualifications</h2>
 
     <%= render QualificationsComponent.new(application_form: @application_choice.application_form) %>
 
-    <h2 class="govuk-heading-m govuk-!-margin-top-8" id="work-history">Work history</h2>
+    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="work-history">Work history</h2>
 
     <div data-qa="work-history">
       <% if FeatureFlag.active?('provider_interface_work_breaks') %>
@@ -71,7 +78,7 @@
       <% end %>
     </div>
 
-    <h2 class="govuk-heading-m govuk-!-margin-top-8" id="volunteering">Unpaid experience and volunteering</h2>
+    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="volunteering">Unpaid experience and volunteering</h2>
 
     <div data-qa="volunteering">
       <% if FeatureFlag.active?('provider_interface_work_breaks') %>
@@ -81,15 +88,17 @@
       <% end %>
     </div>
 
-    <h2 class="govuk-heading-m govuk-!-margin-top-8" id="language-skills">Language skills</h2>
+    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="language-skills">Language skills</h2>
 
     <%= render LanguageSkillsComponent.new(application_form: @application_choice.application_form) %>
 
-    <h2 class="govuk-heading-m govuk-!-margin-top-8" id="personal-statement">Personal statement</h2>
+    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="personal-statement">Personal statement</h2>
 
     <%= render PersonalStatementComponent.new(application_form: @application_choice.application_form) %>
 
     <% if @application_choice.application_form.application_references.any? %>
+      <h2 class="govuk-heading-l govuk-!-margin-top-8" id="personal-statement">References</h2>
+
       <% @application_choice.application_form.application_references.each_with_index do |reference, i| %>
         <h2 class="govuk-heading-m govuk-!-margin-top-8"><%= "#{TextOrdinalizer.call((i + 1)).capitalize} referee" %></h2>
         <%= render ProviderInterface::ReferenceWithFeedbackComponent.new(reference: reference) %>

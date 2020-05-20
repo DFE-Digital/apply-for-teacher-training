@@ -1,1 +1,9 @@
-<%= render SummaryListComponent.new(rows: rows) %>
+<h3 class="govuk-heading-s govuk-!-margin-bottom-0">Vocation</h3>
+<p class="govuk-hint govuk-!-margin-top-0">Question to candidate: “Why do you want to be a teacher?”</p>
+<%= simple_format becoming_a_teacher, class: 'govuk-body' %></p>
+<h3 class="govuk-heading-s govuk-!-margin-bottom-0">Subject knowledge</h3>
+<p class="govuk-hint govuk-!-margin-top-0">Question to candidate: “Your knowledge about the subject you want to teach”</p>
+<%= simple_format subject_knowledge, class: 'govuk-body' %></p>
+<h3 class="govuk-heading-s govuk-!-margin-bottom-0">Further information</h3>
+<p class="govuk-hint govuk-!-margin-top-0">Question to candidate: “Is there anything else you would like to tell us about your application?”</p>
+<%= simple_format further_information, class: 'govuk-body' %></p>

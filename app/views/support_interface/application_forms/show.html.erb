@@ -82,6 +82,10 @@
 
 <%= render PersonalStatementComponent.new(application_form: @application_form) %>
 
+<h2 class="govuk-heading-l govuk-!-margin-top-8">Interview</h2>
+
+<%= render InterviewPreferencesComponent.new(application_form: @application_form) %>
+
 <h2 class="govuk-heading-l govuk-!-margin-top-8">Criminal convictions and professional misconduct</h2>
 
 <%= render SupportInterface::SafeguardingIssuesComponent.new(application_form: @application_form) %>
