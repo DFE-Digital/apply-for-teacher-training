@@ -22,10 +22,6 @@ module ProviderInterface
       end
     end
 
-    def filter_should_render?(filter_options:)
-      filter_options && filter_options.count > 1
-    end
-
     def remove_checkbox_tag_link(name, value)
       params = filters_to_params(filters)
       params[name].reject! { |val| val == value }

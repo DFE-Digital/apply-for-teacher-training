@@ -1,15 +1,41 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ProviderApplicationsPageState do
-  let(:provider_user) { create(:provider_user, :with_two_providers) }
+  let(:course1) { create(:course) }
+  let(:course2) { create(:course) }
+  let(:course3) { create(:course) }
+
+  let(:provider1) { create(:provider, courses: [course1]) }
+  let(:provider2) { create(:provider, courses: [course2]) }
+  let(:provider3) { create(:provider, courses: [course3]) }
+
+  let(:provider_user) { create(:provider_user, providers: [provider1, provider2, provider3]) }
+  let(:another_provider_user) { create(:provider_user, providers: [provider1]) }
 
   describe '#filters' do
     it 'calculates a correct list of possible filters' do
       page_state = described_class.new(params: ActionController::Parameters.new,
                                        provider_user: provider_user)
 
+      expected_number_of_filters = 4
+      providers_array_index = 2
+      number_of_courses = 3
+
       expect(page_state.filters).to be_a(Array)
-      expect(page_state.filters.size).to be(4)
+      expect(page_state.filters.size).to be(expected_number_of_filters)
+      expect(page_state.filters[providers_array_index][:options].size).to be(number_of_courses)
+    end
+
+    it 'does not include providers if avaible providers is < 2' do
+      page_state = described_class.new(params: ActionController::Parameters.new,
+                                       provider_user: another_provider_user)
+
+      expected_number_of_filters = 3
+
+      headings = page_state.filters.map { |filter| filter[:heading] }
+
+      expect(page_state.filters.size).to be(expected_number_of_filters)
+      expect(headings).not_to include('Provider')
     end
   end
 

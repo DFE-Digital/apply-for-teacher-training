@@ -8,7 +8,7 @@ module ProviderInterface
     end
 
     def filters
-      [] << search_filter << status_filter << provider_filter << accredited_provider_filter
+      ([] << search_filter << status_filter << provider_filter << accredited_provider_filter).compact
     end
 
     def filtered?
@@ -67,12 +67,16 @@ module ProviderInterface
         }
       end
 
-      {
+      provider_filter = {
         type: :checkboxes,
         heading: 'Provider',
         name: 'provider',
         options: provider_options,
       }
+
+      return provider_filter if provider_filter[:options].size > 1
+
+      nil
     end
 
     def accredited_provider_filter

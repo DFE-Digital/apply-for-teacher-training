@@ -98,17 +98,4 @@ RSpec.describe ProviderInterface::FilterComponent do
 
     expect(result.text).not_to include('Selected filters')
   end
-
-  it 'does not render a filter if there is only one possible filter in a filter_group' do
-    page_state = instance_double(ProviderInterface::ProviderApplicationsPageState,
-                                 filters: filters,
-                                 applied_filters: applied_filters,
-                                 filtered?: true)
-
-    result = render_inline described_class.new(page_state: page_state)
-
-    expect(result.text).not_to include('Provider')
-    expect(result.text).not_to include('Accredited provider')
-    expect(result.text).to include('Status')
-  end
 end

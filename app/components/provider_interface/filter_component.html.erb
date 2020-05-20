@@ -44,14 +44,13 @@
 
             <div class="govuk-form-group">
               <fieldset class="govuk-fieldset">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                  <%= filter[:heading] %>
+                </legend>
                 <% if filter[:type] == :search %>
-                  <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                    <%= filter[:heading] %>
-                  </legend>
                   <input class="govuk-input" id="<%= filter[:name] %>" name="<%= filter[:name] %>" type="text" value="<%= filter[:value] %>" >
 
                 <% elsif filter[:type] == :checkboxes %>
-                  <% if filter_should_render?(filter_options: filter[:options]) %>
                     <% filter[:options].each do |option| %>
                       <div class="govuk-checkboxes govuk-checkboxes--small">
 
@@ -65,7 +64,6 @@
                       </div>
                     <% end %>
                   <% end %>
-                <% end %>
               </fieldset>
             </div>
           <% end %>
