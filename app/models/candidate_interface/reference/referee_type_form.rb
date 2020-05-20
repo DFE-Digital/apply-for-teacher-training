@@ -4,7 +4,7 @@ module CandidateInterface
 
     attr_accessor :referee_type
 
-    validates :referee_type, presence: true
+    validates :referee_type, presence: true, inclusion: { in: ApplicationReference.referee_types.values }
 
     def self.build_from_reference(reference)
       new(referee_type: reference.referee_type)
