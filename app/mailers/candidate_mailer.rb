@@ -20,12 +20,10 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def chase_reference_again(reference)
-    @reference = reference
-
+  def chase_references_again(application_form)
     email_for_candidate(
-      reference.application_form,
-      subject: I18n.t!('candidate_mailer.chase_reference_again.subject', referee_name: reference.name),
+      application_form,
+      subject: I18n.t!('candidate_mailer.chase_references_again.subject'),
     )
   end
 

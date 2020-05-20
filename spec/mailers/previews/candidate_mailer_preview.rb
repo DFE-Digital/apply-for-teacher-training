@@ -27,8 +27,8 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.chase_reference(reference)
   end
 
-  def chase_reference_again
-    CandidateMailer.chase_reference_again(reference)
+  def chase_references_again
+    CandidateMailer.chase_references_again(reference)
   end
 
   def survey_email

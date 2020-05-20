@@ -4,7 +4,7 @@ class ChaserSent < ApplicationRecord
   enum chaser_type: {
     reference_request: 'reference_request',
     reference_replacement: 'reference_replacement',
-    additional_reference_request: 'additional_reference_request',
+    follow_up_missing_references: 'follow_up_missing_references',
     provider_decision_request: 'provider_decision_request',
     candidate_decision_request: 'candidate_decision_request',
   }
