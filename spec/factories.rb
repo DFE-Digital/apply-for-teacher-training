@@ -57,6 +57,10 @@ FactoryBot.define do
       science_gcse_completed { true }
       training_with_a_disability_completed { true }
       safeguarding_issues_completed { true }
+      becoming_a_teacher_completed { true }
+      subject_knowledge_completed { true }
+      interview_preferences_completed { true }
+      references_completed { true }
 
       transient do
         application_choices_count { 0 }

@@ -196,15 +196,27 @@ module CandidateInterface
     end
 
     def becoming_a_teacher_completed?
-      CandidateInterface::BecomingATeacherForm.build_from_application(@application_form).valid?
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.becoming_a_teacher_completed
+      else
+        CandidateInterface::BecomingATeacherForm.build_from_application(@application_form).valid?
+      end
     end
 
     def subject_knowledge_completed?
-      CandidateInterface::SubjectKnowledgeForm.build_from_application(@application_form).valid?
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.subject_knowledge_completed
+      else
+        CandidateInterface::SubjectKnowledgeForm.build_from_application(@application_form).valid?
+      end
     end
 
     def interview_preferences_completed?
-      CandidateInterface::InterviewPreferencesForm.build_from_application(@application_form).valid?
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.interview_preferences_completed
+      else
+        CandidateInterface::InterviewPreferencesForm.build_from_application(@application_form).valid?
+      end
     end
 
     def training_with_a_disability_completed?
@@ -230,7 +242,11 @@ module CandidateInterface
     end
 
     def all_referees_provided_by_candidate?
-      @application_form.application_references.count >= ApplicationForm::MINIMUM_COMPLETE_REFERENCES
+      if FeatureFlag.active?('mark_every_section_complete')
+        @application_form.references_completed
+      else
+        @application_form.application_references.count >= ApplicationForm::MINIMUM_COMPLETE_REFERENCES
+      end
     end
 
     def safeguarding_completed?

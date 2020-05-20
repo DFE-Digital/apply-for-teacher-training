@@ -11,6 +11,7 @@
 <% if FeatureFlag.active?('mark_every_section_complete') %>
   <%= render(CandidateInterface::CompleteSectionComponent.new(application_form: @application_form,
                                           path: candidate_interface_contact_details_complete_path,
+                                          request_method: :post,
                                           field_name: :contact_details_completed)) %>
 <% else %>
   <%= govuk_button_link_to t('application_form.contact_details.review.button'), candidate_interface_application_form_path %>

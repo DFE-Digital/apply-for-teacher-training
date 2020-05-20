@@ -5,6 +5,7 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
 
   scenario 'Candidate submits why they want to be a teacher' do
     given_i_am_signed_in
+    and_the_mark_every_section_as_complete_flag_is_active
     and_i_visit_the_site
     and_the_track_validation_errors_feature_is_on
 
@@ -22,7 +23,8 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
     and_i_submit_the_form
     then_i_can_check_my_revised_answers
 
-    when_i_submit_my_details
+    when_i_mark_the_section_as_completed
+    and_i_submit_the_form
     then_i_should_see_the_form
     and_that_the_section_is_completed
 
@@ -32,6 +34,10 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
+  end
+
+  def and_the_mark_every_section_as_complete_flag_is_active
+    FeatureFlag.activate('mark_every_section_complete')
   end
 
   def and_the_track_validation_errors_feature_is_on
@@ -91,8 +97,8 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
     expect(page).to have_content 'Hello world again'
   end
 
-  def when_i_submit_my_details
-    click_link 'Continue'
+  def when_i_mark_the_section_as_completed
+    check t('application_form.completed_checkbox')
   end
 
   def then_i_should_see_the_form

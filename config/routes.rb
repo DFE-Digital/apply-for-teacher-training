@@ -74,14 +74,17 @@ Rails.application.routes.draw do
         get '/becoming-a-teacher' => 'personal_statement/becoming_a_teacher#edit', as: :becoming_a_teacher_edit
         post '/becoming-a-teacher/review' => 'personal_statement/becoming_a_teacher#update', as: :becoming_a_teacher_update
         get '/becoming-a-teacher/review' => 'personal_statement/becoming_a_teacher#show', as: :becoming_a_teacher_show
+        post '/becoming-a-teacher/complete' => 'personal_statement/becoming_a_teacher#complete', as: :becoming_a_teacher_complete
 
         get '/subject-knowledge' => 'personal_statement/subject_knowledge#edit', as: :subject_knowledge_edit
         post '/subject-knowledge/review' => 'personal_statement/subject_knowledge#update', as: :subject_knowledge_update
         get '/subject-knowledge/review' => 'personal_statement/subject_knowledge#show', as: :subject_knowledge_show
+        post '/subject-knowledge/complete' => 'personal_statement/subject_knowledge#complete', as: :subject_knowledge_complete
 
         get '/interview-preferences' => 'personal_statement/interview_preferences#edit', as: :interview_preferences_edit
         post '/interview-preferences/review' => 'personal_statement/interview_preferences#update', as: :interview_preferences_update
         get '/interview-preferences/review' => 'personal_statement/interview_preferences#show', as: :interview_preferences_show
+        post '/interview-preferences/complete' => 'personal_statement/interview_preferences#complete', as: :interview_preferences_complete
       end
 
       scope '/training-with-a-disability' do
@@ -270,7 +273,7 @@ Rails.application.routes.draw do
         post '/(:type)' => 'referees#create'
 
         get '/review' => 'referees#review', as: :review_referees
-        patch '/review' => 'referees#complete', as: :complete_referees
+        patch '/complete' => 'referees#complete', as: :complete_referees
 
         get '/edit/:id' => 'referees#edit', as: :edit_referee
         patch '/update/:id' => 'referees#update', as: :update_referee
