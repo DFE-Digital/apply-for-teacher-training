@@ -29,6 +29,9 @@ RSpec.feature 'Candidate adding referees' do
     and_i_click_on_back_to_application
     then_i_see_referees_is_not_complete
 
+    when_i_try_to_add_a_referee_with_an_invalid_type
+    then_i_am_redirected_to_the_referees_review_page
+
     when_i_click_on_referees
     and_i_click_on_add_second_referee
     then_i_am_asked_to_specify_the_type_of_my_second_referee
@@ -220,6 +223,10 @@ RSpec.feature 'Candidate adding referees' do
 
   def when_i_navigate_to_the_add_referees_page
     visit candidate_interface_referees_type_path
+  end
+
+  def when_i_try_to_add_a_referee_with_an_invalid_type
+    visit candidate_interface_new_referee_path(type: 'not-a-type')
   end
 
   def then_i_am_redirected_to_the_referees_review_page
