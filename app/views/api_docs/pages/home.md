@@ -24,7 +24,7 @@ DfE Apply will avoid prioprietary codes wherever possible, preferring existing d
 Codes appear in three contexts:
 
 - All dates in the API specification are intended to be [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) compliant
-- Nationality is expressed as an [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) country code
+- Nationality is expressed as an [ISO 3166-2](https://www.iso.org/iso-3166-country-codes.html) country code
 - Demographic data required for HESA reporting uses [HESA codes for the 2019/20 Initial Teacher Training return](https://www.hesa.ac.uk/collection/c19053/e/ittschms). When the HESA codes for the next cycle are released, we will update the documentation to reflect these.
 
 ## How do I connect to this API?
