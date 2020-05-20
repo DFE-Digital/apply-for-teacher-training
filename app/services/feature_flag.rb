@@ -23,7 +23,6 @@ class FeatureFlag
   TEMPORARY_FEATURE_FLAGS = [
     [:download_dataset1_from_support_page, 'Enables the application CSV download from the support interface', 'Al Davidson'],
     [:provider_add_provider_users, 'Allows provider users to invite other provider users', 'Steve Laing'],
-    [:provider_application_filters, 'Allows providers to filter applications returned by the main applications page by status etc.', 'Will McBrien'],
     [:provider_change_response, 'Allows providers to change the course that they are offering to a candidate', 'Michael Nacos'],
     [:provider_interface_work_breaks, 'Adds work break information to the provider interface', 'Steve Hook'],
     [:provider_view_safeguarding, 'Allows providers to see whether a candidate has declared safeguarding issues', 'Will McBrien'],

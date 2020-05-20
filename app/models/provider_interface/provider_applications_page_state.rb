@@ -1,39 +1,21 @@
 module ProviderInterface
   class ProviderApplicationsPageState
-    attr_accessor :sort_order, :sort_by, :available_filters, :filter_visible, :filter_selections, :provider_user
+    attr_accessor :available_filters, :filter_selections, :provider_user
 
     def initialize(params:, provider_user:)
       @params = params
       @provider_user = provider_user
-      @sort_order = calculate_sort_order
-      @sort_by = calculate_sort_by
       @available_filters = calculate_available_filters
-      @filter_visible =  calculate_filter_visibility
       @filter_selections = calculate_filter_selections
-    end
-
-    def applications_ordering_query
-      {
-        'course' => { 'courses.name' => @sort_order },
-        'last-updated' => { 'application_choices.updated_at' => @sort_order },
-        'name' => { 'last_name' => @sort_order, 'first_name' => @sort_order },
-      }[@sort_by]
     end
 
     def to_h
       {
-        sort_order: @sort_order,
-        sort_by: @sort_by,
-        filter_visible: @filter_visible,
         filter_selections: @filter_selections,
       }
     end
 
   private
-
-    def calculate_filter_visibility
-      filter_params[:filter_visible] ||= 'true'
-    end
 
     def calculate_filter_selections
       filter_selections = filter_params[:filter_selections].to_h ||= {}
@@ -48,15 +30,7 @@ module ProviderInterface
     end
 
     def filter_params
-      @params.permit(:filter_visible, filter_selections: { search: {}, status: {}, provider: {}, accredited_provider: {} })
-    end
-
-    def calculate_sort_order
-      @params[:sort_order].eql?('asc') ? 'asc' : 'desc'
-    end
-
-    def calculate_sort_by
-      @params[:sort_by].presence || 'last-updated'
+      @params.permit(filter_selections: { search: {}, status: {}, provider: {}, accredited_provider: {} })
     end
 
     def calculate_available_filters
