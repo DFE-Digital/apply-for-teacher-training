@@ -23,7 +23,6 @@ class FeatureFlag
   TEMPORARY_FEATURE_FLAGS = [
     [:confirm_conditions, 'Allows providers to confirm that conditions related to an offer have been met', 'Michael Nacos'],
     [:download_dataset1_from_support_page, 'Enables the application CSV download from the support interface', 'Al Davidson'],
-    [:notes, 'Allows providers to add notes to applications', 'Michael Nacos'],
     [:provider_add_provider_users, 'Allows provider users to invite other provider users', 'Steve Laing'],
     [:provider_application_filters, 'Allows providers to filter applications returned by the main applications page by status etc.', 'Will McBrien'],
     [:provider_change_response, 'Allows providers to change the course that they are offering to a candidate', 'Michael Nacos'],

@@ -14,9 +14,7 @@ module ProviderInterface
       @course_provider_name = application_choice.offered_course.provider.name
       @updated_at = application_choice.updated_at.to_s(:govuk_date_short_month)
       @site_name_and_code = application_choice.site.name_and_code
-      if FeatureFlag.active?('notes')
-        @most_recent_note = application_choice.notes.order('created_at DESC').first
-      end
+      @most_recent_note = application_choice.notes.order('created_at DESC').first
     end
   end
 end
