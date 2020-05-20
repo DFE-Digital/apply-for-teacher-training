@@ -16,14 +16,18 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     and_the_timeline_feature_flag_is_active
     and_my_organisation_has_received_an_application
     and_i_am_permitted_to_see_applications_for_my_provider
-    and_i_am_permitted_to_see_safeguarding_information
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_that_application_in_the_provider_interface
 
     then_i_should_see_the_candidates_degrees
     and_i_should_see_the_candidates_gcses
-    and_i_should_see_the_safeguarding_declaration_section
+    and_i_should_not_see_the_safeguarding_declaration_section
+
+    when_i_am_permitted_to_see_safeguarding_information
+    and_i_visit_that_application_in_the_provider_interface
+
+    then_i_should_see_the_safeguarding_declaration_section
     and_i_should_see_the_candidates_other_qualifications
     and_i_should_see_the_candidates_work_history
     and_i_should_see_the_candidates_volunteering_history
@@ -36,7 +40,12 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     and_i_should_see_a_link_to_download_as_pdf
   end
 
-  def and_i_should_see_the_safeguarding_declaration_section
+  def and_i_should_not_see_the_safeguarding_declaration_section
+    expect(page).not_to have_content('Criminal convictions and professional misconduct')
+    expect(page).not_to have_content('The candidate has shared information related to safeguarding. Please contact them directly for more details.')
+  end
+
+  def then_i_should_see_the_safeguarding_declaration_section
     expect(page).to have_content('Criminal convictions and professional misconduct')
     expect(page).to have_content('The candidate has shared information related to safeguarding. Please contact them directly for more details.')
   end
@@ -45,7 +54,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     FeatureFlag.activate('provider_view_safeguarding')
   end
 
-  def and_i_am_permitted_to_see_safeguarding_information
+  def when_i_am_permitted_to_see_safeguarding_information
     ProviderUser.find_by(dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
       .provider_permissions.update_all(view_safeguarding_information: true)
   end
@@ -142,6 +151,11 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   def when_i_visit_that_application_in_the_provider_interface
     visit provider_interface_application_choice_path(@application_choice)
   end
+
+  alias_method(
+    :and_i_visit_that_application_in_the_provider_interface,
+    :when_i_visit_that_application_in_the_provider_interface,
+  )
 
   def then_i_should_see_the_candidates_degrees
     expect(page).to have_selector('[data-qa="qualifications-table-degree"] tbody tr', count: 1)
