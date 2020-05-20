@@ -19,6 +19,21 @@ RSpec.describe SyncAllProvidersFromFind do
       expect { SyncAllProvidersFromFind.call }.to change { Provider.count }.by(2)
     end
 
+    it 'sets the last updated timestamp' do
+      FindSyncCheck.clear_last_sync
+
+      stub_find_api_all_providers_200([
+        {
+          provider_code: 'ABC',
+          name: 'ABC College',
+        },
+      ])
+
+      SyncAllProvidersFromFind.call
+
+      expect(FindSyncCheck.last_sync).not_to be_blank
+    end
+
     it 'creates only missing providers when the database contains some of the providers already' do
       create :provider, code: 'DEF', name: 'DEF College'
 
