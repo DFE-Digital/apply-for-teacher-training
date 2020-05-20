@@ -25,14 +25,14 @@ RSpec.describe SetDeclineByDefault do
 
     def expect_all_relevant_decline_by_default_at_values_to_be(expected)
       application_form.application_choices.reload.each do |application_choice|
-        if application_choice.status == 'offer'
-          dbd_at = application_choice.decline_by_default_at
+        next unless application_choice.status == 'offer'
 
-          if !expected.nil?
-            expect_timestamps_to_match_excluding_milliseconds(dbd_at, expected)
-          else
-            expect(dbd_at).to be_nil
-          end
+        dbd_at = application_choice.decline_by_default_at
+
+        if !expected.nil?
+          expect_timestamps_to_match_excluding_milliseconds(dbd_at, expected)
+        else
+          expect(dbd_at).to be_nil
         end
       end
     end

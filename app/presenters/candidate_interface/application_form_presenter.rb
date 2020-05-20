@@ -78,12 +78,11 @@ module CandidateInterface
             next
           end
 
-          if choice.chosen_site_full?
-            error_list << ApplicationChoiceError.new(
-              choice.chosen_site_full_error, choice.id
-            )
-            next
-          end
+          next unless choice.chosen_site_full?
+
+          error_list << ApplicationChoiceError.new(
+            choice.chosen_site_full_error, choice.id
+          )
         end
       end
     end

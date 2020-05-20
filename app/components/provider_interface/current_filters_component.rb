@@ -21,10 +21,10 @@ module ProviderInterface
         @applied_filters[:search][:candidates_name]
       else
         @available_filters.each do |available_filter|
-          if available_filter.key(heading)
-            available_filter[:input_config].each do |input_config|
-              return input_config[:text].to_s if input_config.key(lookup_val)
-            end
+          next unless available_filter.key(heading)
+
+          available_filter[:input_config].each do |input_config|
+            return input_config[:text].to_s if input_config.key(lookup_val)
           end
         end
       end

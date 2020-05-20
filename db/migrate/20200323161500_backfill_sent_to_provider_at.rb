@@ -11,7 +11,9 @@ class BackfillSentToProviderAt < ActiveRecord::Migration[6.0]
         sent_to_provider_at: state_change.created_at,
         audit_comment: 'Backfill of `sent_to_provider_at`',
       )
-      puts "Application form #{application_choice.application_form.id} was sent to the provider at #{state_change.created_at}"
+      Rails.logger.info(
+        "Application form #{application_choice.application_form.id} was sent to the provider at #{state_change.created_at}",
+      )
     end
   end
 
