@@ -10,14 +10,8 @@ class SubmitApplication
 
   def call
     ActiveRecord::Base.transaction do
-      if FeatureFlag.active?('move_edit_by_to_application_form')
-        if application_form.apply_again? && enough_references_have_been_provided?
-          application_form.update!(submitted_at: Time.zone.now, edit_by: Time.zone.now)
-        else
-          application_form.update!(submitted_at: Time.zone.now)
-          application_form.update!(edit_by: edit_by_time)
-        end
-
+      if application_form.apply_again? && enough_references_have_been_provided? && FeatureFlag.active?('move_edit_by_to_application_form')
+        application_form.update!(submitted_at: Time.zone.now, edit_by: Time.zone.now)
       else
         application_form.update!(submitted_at: Time.zone.now)
         application_form.update!(edit_by: edit_by_time)
