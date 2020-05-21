@@ -58,6 +58,9 @@ RSpec.feature 'Candidate adding referees' do
     when_i_mark_the_section_as_completed
     and_i_click_continue
     then_i_see_referees_is_complete
+
+    when_i_navigate_to_the_add_referees_page
+    then_i_am_redirected_to_the_referees_review_page
   end
 
   def given_i_am_signed_in
@@ -213,5 +216,13 @@ RSpec.feature 'Candidate adding referees' do
 
   def when_i_mark_the_section_as_completed
     check t('application_form.completed_checkbox')
+  end
+
+  def when_i_navigate_to_the_add_referees_page
+    visit candidate_interface_referees_type_path
+  end
+
+  def then_i_am_redirected_to_the_referees_review_page
+    expect(page).to have_current_path(candidate_interface_review_referees_path)
   end
 end

@@ -130,4 +130,8 @@ class ApplicationForm < ApplicationRecord
   def ended_without_success?
     application_choices.map(&:status).all? { |status| ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status) }
   end
+
+  def can_add_reference?
+    submitted? || apply_again? || application_references.size < MINIMUM_COMPLETE_REFERENCES
+  end
 end
