@@ -98,4 +98,111 @@ RSpec.describe ProviderAuthorisation do
       expect(auth_context.can_change_offer?(application_choice: application_choice, course_option_id: unrelated_course_option.id)).to be_truthy
     end
   end
+
+  describe '#can_view_safeguarding_information?' do
+    let(:course) { create(:course, provider: training_provider, accredited_provider: accredited_provider) }
+    let(:training_provider) { create(:provider) }
+    let(:ratifying_provider) { create(:provider) }
+    let(:accredited_provider) { ratifying_provider }
+    let(:ratifying_permissions) do
+      create(
+        :accredited_body_permissions,
+        ratifying_provider: ratifying_provider,
+        training_provider: training_provider,
+      )
+    end
+    let(:training_permissions) do
+      create(
+        :training_provider_permissions,
+        ratifying_provider: ratifying_provider,
+        training_provider: training_provider,
+      )
+    end
+
+    subject(:can_view_safeguarding_information) do
+      described_class.new(actor: provider_user)
+        .can_view_safeguarding_information?(course: course)
+    end
+
+    # rubocop:disable RSpec/NestedGroups
+    context 'when a user is permitted to view safeguarding info for a training provider' do
+      let(:provider_user) { create(:provider_user, providers: [training_provider]) }
+
+      before do
+        provider_user.provider_permissions
+          .find_by(provider: training_provider)
+          .update!(view_safeguarding_information: true)
+
+        # These permissions are intentionally unrelated to test
+        # that the correct permissions are checked.
+        create(
+          :training_provider_permissions,
+          ratifying_provider: create(:provider),
+          training_provider: training_provider,
+          view_safeguarding_information: true,
+        )
+      end
+
+      context 'the course is self-ratified' do
+        let(:accredited_provider) { nil }
+
+        it { is_expected.to be true }
+      end
+
+      context 'the course training provider is not permitted, the course accredited provider is permitted' do
+        before { ratifying_permissions.update!(view_safeguarding_information: true) }
+
+        it { is_expected.to be false }
+      end
+
+      context 'the course accredited provider is not permitted, the course training provider is permitted' do
+        before { training_permissions.update!(view_safeguarding_information: true) }
+
+        it { is_expected.to be true }
+      end
+    end
+
+    context 'when a user is permitted to view safeguarding info for the accredited provider' do
+      let(:provider_user) { create(:provider_user, providers: [ratifying_provider]) }
+
+      before do
+        provider_user.provider_permissions
+          .find_by(provider: ratifying_provider)
+          .update!(view_safeguarding_information: true)
+
+        # These permissions are intentionally unrelated to test
+        # that the correct permissions are checked.
+        create(
+          :accredited_body_permissions,
+          ratifying_provider: ratifying_provider,
+          training_provider: create(:provider),
+          view_safeguarding_information: true,
+        )
+      end
+
+      context 'the course training provider is not permitted, the course accredited provider is permitted' do
+        before { ratifying_permissions.update!(view_safeguarding_information: true) }
+
+        it { is_expected.to be true }
+      end
+
+      context 'the course accredited provider is not permitted, the course training provider is permitted' do
+        before { training_permissions.update!(view_safeguarding_information: true) }
+
+        it { is_expected.to be false }
+      end
+    end
+    # rubocop:enable RSpec/NestedGroups
+
+    context 'when a user is not permitted to view safeguarding info' do
+      let(:provider_user) { create(:provider_user, providers: [training_provider]) }
+
+      before do
+        ratifying_permissions.update!(view_safeguarding_information: true)
+        training_permissions.update!(view_safeguarding_information: true)
+      end
+
+      it { is_expected.to be false }
+    end
+  end
 end
