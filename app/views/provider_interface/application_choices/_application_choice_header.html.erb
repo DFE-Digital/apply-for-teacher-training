@@ -1,4 +1,4 @@
-<% if @application_choice.status == 'awaiting_provider_decision' -%>
+<% if @application_choice.status == 'awaiting_provider_decision' && flash.empty? -%>
   <div class="app-banner">
     <div class="app-banner__message">
       <h2 class="govuk-heading-m govuk-!-margin-bottom-0">
