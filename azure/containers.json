@@ -103,8 +103,7 @@
         }
     },
     "variables": {
-        "containerImageName": "[concat(parameters('dockerHubUsername'), '/', parameters('containerImageReference'))]",
-        "appServiceRuntimeStack": "[concat('DOCKER|', parameters('dockerHubUsername'), '/', parameters('containerImageReference'))]",
+        "appServiceRuntimeStack": "[concat('DOCKER|', parameters('containerImageReference'))]",
         "rubyAuthHosts": "[if(greater(length(parameters('customHostName')), 0), concat(parameters('authorisedHosts'), ',', parameters('customHostName')), parameters('authorisedHosts'))]",
         "environmentVariablesWeb": "[concat(parameters('appEnvironmentVariables'), array(json('{\"name\": \"SERVICE_TYPE\", \"value\": \"web\"}')))]",
         "environmentVariablesClk": "[concat(parameters('appEnvironmentVariables'), array(json('{\"name\": \"SERVICE_TYPE\", \"value\": \"clock\"}')))]",
@@ -170,7 +169,7 @@
                         "value": "[concat(parameters('containerInstanceNamePrefix'), '-wkr')]"
                     },
                     "imageName": {
-                        "value": "[variables('containerImageName')]"
+                        "value": "[parameters('containerImageReference')]"
                     },
                     "numberCpuCores": {
                         "value": "[parameters('ciWorkerCpus')]"
@@ -208,7 +207,7 @@
                         "value": "[concat(parameters('containerInstanceNamePrefix'), '-clk')]"
                     },
                     "imageName": {
-                        "value": "[variables('containerImageName')]"
+                        "value": "[parameters('containerImageReference')]"
                     },
                     "numberCpuCores": {
                         "value": "[parameters('ciClockCpus')]"
