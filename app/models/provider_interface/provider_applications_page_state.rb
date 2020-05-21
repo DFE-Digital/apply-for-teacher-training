@@ -59,7 +59,11 @@ module ProviderInterface
     end
 
     def provider_filter
-      provider_options = ProviderOptionsService.new(provider_user).providers.map do |provider|
+      providers = ProviderOptionsService.new(provider_user).providers
+
+      return nil if providers.size < 2
+
+      provider_options = providers.map do |provider|
         {
           value: provider.id,
           label: provider.name,
@@ -67,16 +71,12 @@ module ProviderInterface
         }
       end
 
-      provider_filter = {
+      {
         type: :checkboxes,
         heading: 'Provider',
         name: 'provider',
         options: provider_options,
       }
-
-      return provider_filter if provider_filter[:options].size > 1
-
-      nil
     end
 
     def accredited_provider_filter
