@@ -58,7 +58,7 @@ stages:
       appServicePlanInstances: 2
       redisCacheSKU: 'Premium'
       redisCacheFamily: 'P'
-      containerImageReference: '$(imageName):$(build.buildNumber)'
+      containerImageReference: '$(dockerHubUsername)/$(imageName):$(build.buildNumber)'
       keyVaultName: 's106t01-shared-kv-01'
       keyVaultResourceGroup: 's106t01-shared-rg'
       customHostName: '$(govukHostname)'
@@ -115,7 +115,7 @@ stages:
       serviceName: 'apply'
       redisCacheSKU: 'Premium'
       redisCacheFamily: 'P'
-      containerImageReference: '$(imageName):$(build.buildNumber)'
+      containerImageReference: '$(dockerHubUsername)/$(imageName):$(build.buildNumber)'
       keyVaultName: 's106t01-shared-kv-01'
       keyVaultResourceGroup: 's106t01-shared-rg'
       customHostName: '$(govukHostname)'
@@ -175,7 +175,7 @@ stages:
       appServicePlanInstances: 2
       redisCacheSKU: 'Premium'
       redisCacheFamily: 'P'
-      containerImageReference: '$(imageName):$(build.buildNumber)'
+      containerImageReference: '$(dockerHubUsername)/$(imageName):$(build.buildNumber)'
       keyVaultName: 's106p01-shared-kv-01'
       keyVaultResourceGroup: 's106p01-shared-rg'
       customHostName: '$(govukHostname)'
