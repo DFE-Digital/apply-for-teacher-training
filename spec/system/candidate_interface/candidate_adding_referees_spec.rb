@@ -30,9 +30,8 @@ RSpec.feature 'Candidate adding referees' do
     then_i_see_referees_is_not_complete
 
     when_i_try_to_add_a_referee_with_an_invalid_type
-    then_i_am_redirected_to_the_referees_type_page
-    and_i_click_on_back
-    and_i_click_on_back_to_application
+    then_i_see_a_404_page
+    and_i_visit_the_application_form
     then_i_see_referees_is_not_complete
 
     when_i_click_on_referees
@@ -236,7 +235,7 @@ RSpec.feature 'Candidate adding referees' do
     visit candidate_interface_new_referee_path(type: 'not-a-type')
   end
 
-  def then_i_am_redirected_to_the_referees_type_page
-    expect(page).to have_current_path(candidate_interface_referees_type_path)
+  def then_i_see_a_404_page
+    expect(page).to have_content 'Page not found'
   end
 end
