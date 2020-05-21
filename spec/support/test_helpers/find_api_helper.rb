@@ -420,6 +420,18 @@ module FindAPIHelper
       )
   end
 
+  def stub_find_api_all_providers_503
+    stub_find_api_all_providers
+      .to_return(
+        status: 503,
+        headers: { 'Content-Type': 'application/vnd.api+json' },
+        body: {
+          data: {},
+          jsonapi: { version: '1.0' },
+        }.to_json,
+      )
+  end
+
   def stub_find_api_course_200(provider_code, course_code, course_name)
     stub_find_api_course(provider_code, course_code)
       .to_return(
