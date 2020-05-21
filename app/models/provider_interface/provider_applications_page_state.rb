@@ -97,7 +97,7 @@ module ProviderInterface
     end
 
     def provider_locations_filters
-      providers = ProviderOptionsService.new(provider_user).providers
+      providers = ProviderOptionsService.new(provider_user).providers_with_sites
 
       providers.map do |p|
         {
