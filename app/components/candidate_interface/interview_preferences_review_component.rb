@@ -2,13 +2,14 @@ module CandidateInterface
   class InterviewPreferencesReviewComponent < ViewComponent::Base
     validates :application_form, presence: true
 
-    def initialize(application_form:, editable: true, missing_error: false)
+    def initialize(application_form:, editable: true, missing_error: false, submit_application_attempt: false)
       @application_form = application_form
       @interview_preferences_form = CandidateInterface::InterviewPreferencesForm.build_from_application(
         @application_form,
       )
       @editable = editable
       @missing_error = missing_error
+      @submit_application_attempt = submit_application_attempt
     end
 
     def interview_preferences_form_rows
@@ -16,7 +17,11 @@ module CandidateInterface
     end
 
     def show_missing_banner?
-      !@interview_preferences_form.valid? && @editable
+      if @submit_application_attempt && FeatureFlag.active?('mark_every_section_complete')
+        !@application_form.interview_preferences_completed && @editable
+      else
+        !@interview_preferences_form.valid? && @editable
+      end
     end
 
   private
