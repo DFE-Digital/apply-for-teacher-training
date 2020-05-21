@@ -1,10 +1,10 @@
 class SafeguardingReviewComponent < ViewComponent::Base
-  def initialize(application_form:, editable: true, missing_error: false, submit_show: false)
+  def initialize(application_form:, editable: true, missing_error: false, submit_application_attempt: false)
     @application_form = application_form
     @safeguarding = CandidateInterface::SafeguardingIssuesDeclarationForm.build_from_application(application_form)
     @editable = editable
     @missing_error = missing_error
-    @submit_show = submit_show
+    @submit_application_attempt = submit_application_attempt
   end
 
   def safeguarding_rows
@@ -12,7 +12,7 @@ class SafeguardingReviewComponent < ViewComponent::Base
   end
 
   def show_missing_banner?
-    if @submit_show && FeatureFlag.active?('mark_every_section_complete')
+    if @submit_application_attempt && FeatureFlag.active?('mark_every_section_complete')
       !@application_form.safeguarding_issues_completed && @editable
     else
       !@safeguarding.valid? && @editable

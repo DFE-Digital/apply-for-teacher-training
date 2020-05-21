@@ -2,14 +2,14 @@ module CandidateInterface
   class TrainingWithADisabilityReviewComponent < ViewComponent::Base
     validates :application_form, presence: true
 
-    def initialize(application_form:, editable: true, missing_error: false, submit_show: false)
+    def initialize(application_form:, editable: true, missing_error: false, submit_application_attempt: false)
       @application_form = application_form
       @training_with_a_disability_form = CandidateInterface::TrainingWithADisabilityForm.build_from_application(
         @application_form,
       )
       @editable = editable
       @missing_error = missing_error
-      @submit_show = submit_show
+      @submit_application_attempt = submit_application_attempt
     end
 
     def training_with_a_disability_form_rows
@@ -20,7 +20,7 @@ module CandidateInterface
     end
 
     def show_missing_banner?
-      if @submit_show && FeatureFlag.active?('mark_every_section_complete')
+      if @submit_application_attempt && FeatureFlag.active?('mark_every_section_complete')
         !@application_form.training_with_a_disability_completed && @editable
       else
         !@training_with_a_disability_form.valid? && @editable
