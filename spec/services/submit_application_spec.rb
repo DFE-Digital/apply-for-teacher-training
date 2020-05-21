@@ -2,20 +2,23 @@ require 'rails_helper'
 
 RSpec.describe SubmitApplication do
   describe 'Submit an application', sandbox: false do
+    let(:current_date) { Time.zone.local(2019, 11, 11, 15, 0, 0) }
+
     def create_application_form
-      application_form = create(:application_form)
+      application_form = create(:application_form, submitted_at: current_date)
       create(:application_choice, application_form: application_form, status: 'unsubmitted')
       create(:application_choice, application_form: application_form, status: 'unsubmitted')
       application_form
     end
 
-    it 'sets application_form.submitted_at' do
+    it 'sets application_form.submitted_at and edit_by on the application foorm and choices' do
       application_form = create_application_form
       Timecop.freeze(Time.zone.local(2019, 11, 11, 15, 0, 0)) do
         expected_edit_by = Time.zone.local(2019, 11, 18).end_of_day # business days
         SubmitApplication.new(application_form).call
 
         expect(application_form.submitted_at).to eq Time.zone.now
+        expect(application_form.edit_by).to eq expected_edit_by
         expect(application_form.application_choices[0].edit_by).to eq expected_edit_by
         expect(application_form.application_choices[1].edit_by).to eq expected_edit_by
 

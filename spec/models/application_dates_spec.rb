@@ -4,11 +4,11 @@ RSpec.describe ApplicationDates, type: :model do
   let(:submitted_at) { Time.zone.local(2019, 5, 1, 12, 0, 0).end_of_day }
 
   let(:application_form) do
-    create(:application_form, submitted_at: submitted_at)
+    create(:application_form, submitted_at: submitted_at, edit_by: submitted_at + 5.days, application_choices: [application_choice])
   end
 
-  let!(:application_choice) do
-    create(:application_choice, edit_by: submitted_at + 5.days, application_form: application_form)
+  let(:application_choice) do
+    build(:application_choice, edit_by: submitted_at + 5.days)
   end
 
   subject(:application_dates) do
@@ -36,8 +36,17 @@ RSpec.describe ApplicationDates, type: :model do
   end
 
   describe '#edit_by' do
-    it 'returns date that the candidate can edit by' do
-      expect(application_dates.edit_by).to be_within(1.second).of(application_choice.edit_by)
+    context 'with the move_edit_by_to_application_form flag off' do
+      it 'returns date that the candidate can edit by' do
+        expect(application_dates.edit_by).to be_within(1.second).of(application_choice.edit_by)
+      end
+    end
+
+    context 'with the move_edit_by_to_application_form flag on' do
+      it 'returns date that the candidate can edit by' do
+        FeatureFlag.activate('move_edit_by_to_application_form')
+        expect(application_dates.edit_by).to be_within(1.second).of(application_form.edit_by)
+      end
     end
   end
 

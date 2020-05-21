@@ -10,7 +10,11 @@ class SubmitApplication
 
   def call
     ActiveRecord::Base.transaction do
-      application_form.update!(submitted_at: Time.zone.now)
+      if application_form.apply_again? && enough_references_have_been_provided?
+        application_form.update!(submitted_at: Time.zone.now, edit_by: Time.zone.now)
+      else
+        application_form.update!(submitted_at: Time.zone.now, edit_by: edit_by_time)
+      end
       submit_application
     end
 
@@ -66,5 +70,13 @@ private
       .feedback_provided
       .uniq
       .count >= ApplicationForm::MINIMUM_COMPLETE_REFERENCES
+  end
+
+  def edit_by_time
+    if HostingEnvironment.sandbox_mode?
+      Time.zone.now
+    else
+      TimeLimitConfig.edit_by.to_days.after(Time.zone.now).end_of_day
+    end
   end
 end
