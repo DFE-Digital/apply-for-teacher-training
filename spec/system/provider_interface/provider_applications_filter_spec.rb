@@ -21,6 +21,8 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     then_i_expect_to_see_the_filter_dialogue
 
+    then_i_location_filters_should_not_be_visible
+
     when_i_filter_for_rejected_applications
     then_only_rejected_applications_should_be_visible
     and_a_rejected_tag_should_be_visible
@@ -37,6 +39,7 @@ RSpec.feature 'Providers should be able to filter applications' do
     then_i_expect_all_applications_to_be_visible
 
     when_i_filter_by_provider
+    then_i_location_filters_should_be_visible
     then_i_only_see_applications_for_a_given_provider
     then_i_expect_the_relevant_provider_tags_to_be_visible
 
@@ -50,12 +53,23 @@ RSpec.feature 'Providers should be able to filter applications' do
     then_i_expect_the_relevant_accredited_provider_tags_to_be_visible
     when_i_click_to_remove_an_accredited_provider_tag
 
+    when_i_filter_by_provider
     when_i_filter_by_provider_location
     then_i_only_see_applications_for_that_provider_location
     and_i_expect_the_relevant_provider_location_tags_to_be_visible
 
     when_i_clear_the_filters
     then_i_expect_all_applications_to_be_visible_again
+  end
+
+
+  def then_i_location_filters_should_be_visible
+    expect(page).to have_content('Locations for')
+  end
+
+
+  def then_i_location_filters_should_not_be_visible
+    expect(page).not_to have_content('Locations for')
   end
 
   def then_i_only_see_applications_for_that_provider_location
