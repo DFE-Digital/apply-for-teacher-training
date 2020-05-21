@@ -113,10 +113,6 @@ RSpec.feature 'Candidate adding referees' do
     click_link 'Add referee'
   end
 
-  def and_i_click_on_back
-    click_link 'Back'
-  end
-
   def and_i_click_on_back_to_application
     click_link 'Back to application'
   end
@@ -237,5 +233,9 @@ RSpec.feature 'Candidate adding referees' do
 
   def then_i_see_a_404_page
     expect(page).to have_content 'Page not found'
+  end
+
+  def then_i_am_redirected_to_the_referees_review_page
+    expect(page).to have_current_path(candidate_interface_review_referees_path)
   end
 end

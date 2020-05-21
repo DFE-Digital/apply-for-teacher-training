@@ -21,10 +21,9 @@ RSpec.describe 'Candidate needs to provide a new referee' do
     when_i_sign_in_again
     then_i_see_the_interstitial_page_to_add_new_referee
 
-    and_i_click_to_add_a_new_referee
+    when_i_click_to_add_a_new_referee
     then_i_am_asked_to_specify_the_type_of_my_first_new_reference
 
-    then_i_am_asked_to_specify_the_type_of_my_first_new_reference
     when_i_choose_school_based_as_reference_type
     and_i_click_continue
     and_i_fill_in_the_form
@@ -88,7 +87,7 @@ RSpec.describe 'Candidate needs to provide a new referee' do
     click_on 'Continue without adding a new referee'
   end
 
-  def and_i_click_to_add_a_new_referee
+  def when_i_click_to_add_a_new_referee
     click_on 'Add a new referee'
   end
 
