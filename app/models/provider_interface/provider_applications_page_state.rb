@@ -16,7 +16,7 @@ module ProviderInterface
     end
 
     def applied_filters
-      @params.permit(:candidate_name, provider: [], status: [], accredited_provider: []).to_h
+      @params.permit(:candidate_name, provider: [], status: [], accredited_provider: [], provider_location: []).to_h
     end
 
   private
@@ -103,14 +103,14 @@ module ProviderInterface
         {
           type: :checkboxes,
           heading: "Locations for #{p.name}",
-          name: 'provider_locations',
+          name: 'provider_location',
           options: p.sites.map do |s|
             {
               value: s.id,
               label: s.name,
-              checked: false,
+              checked: applied_filters[:provider_location]&.include?(s.id.to_s),
             }
-          end
+          end,
         }
       end
     end

@@ -4,7 +4,8 @@ RSpec.feature 'Providers should be able to filter applications' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  let(:current_provider) { create(:provider, :with_signed_agreement, code: 'ABC', name: 'Hoth Teacher Training') }
+  let(:site) { create(:site, name: 'Test site name') }
+  let(:current_provider) { create(:provider, :with_signed_agreement, code: 'ABC', name: 'Hoth Teacher Training', sites: [site]) }
   let(:second_provider) { create(:provider, :with_signed_agreement, code: 'DEF', name: 'Caladan University') }
   let(:third_provider) { create(:provider, :with_signed_agreement, code: 'GHI', name: 'University of Arrakis') }
   let(:accredited_provider1) { create(:provider, code: 'JKL', name: 'College of Dumbervale') }
@@ -47,9 +48,29 @@ RSpec.feature 'Providers should be able to filter applications' do
     and_i_filter_by_accredited_provider
     then_i_only_see_applications_for_a_given_accredited_provider
     then_i_expect_the_relevant_accredited_provider_tags_to_be_visible
-
     when_i_click_to_remove_an_accredited_provider_tag
+
+    when_i_filter_by_provider_location
+    then_i_only_see_applications_for_that_provider_location
+    and_i_expect_the_relevant_provider_location_tags_to_be_visible
+
+    when_i_clear_the_filters
     then_i_expect_all_applications_to_be_visible_again
+  end
+
+  def then_i_only_see_applications_for_that_provider_location
+    expect(page).not_to have_content('Adam Jones')
+    expect(page).not_to have_content('Tom Jones')
+    expect(page).to have_content('Jim James')
+  end
+
+  def when_i_filter_by_provider_location
+    find(:css, "#provider_location-#{site.id}").set(true)
+    click_button('Apply filters')
+  end
+
+  def and_i_expect_the_relevant_provider_location_tags_to_be_visible
+    expect(page).to have_css('.moj-filter-tags', text: site.name)
   end
 
   def when_i_visit_the_provider_page
@@ -65,7 +86,13 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def and_my_organisation_has_courses_with_applications
-    course_option_one = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Alchemy', provider: current_provider, accredited_provider: accredited_provider1))
+    course_option_one = course_option_for_provider(provider: current_provider,
+                                                   site: site,
+                                                   course: create(:course,
+                                                                  name: 'Alchemy',
+                                                                  provider: current_provider,
+                                                                  accredited_provider: accredited_provider1))
+
     course_option_two = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Divination', provider: current_provider, accredited_provider: accredited_provider2))
     course_option_three = course_option_for_provider(provider: current_provider, course: create(:course, name: 'English', provider: current_provider))
 
