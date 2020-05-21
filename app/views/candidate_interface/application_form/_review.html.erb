@@ -38,7 +38,7 @@
 
 <h3 class="govuk-heading-m"><%= t('page_titles.suitability_to_work_with_children') %></h3>
 
-<%= render(SafeguardingReviewComponent.new(application_form: @application_form, editable: editable, missing_error: missing_error)) %>
+<%= render(SafeguardingReviewComponent.new(application_form: @application_form, editable: editable, missing_error: missing_error, submit_show: true)) %>
 
 <h2 class="govuk-heading-m govuk-!-font-size-27">Qualifications</h2>
 
