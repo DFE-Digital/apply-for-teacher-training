@@ -34,6 +34,16 @@ RSpec.describe SyncAllProvidersFromFind do
       expect(FindSyncCheck.last_sync).not_to be_blank
     end
 
+    it 'does not set the last updated timestamp when encountering an error' do
+      FindSyncCheck.clear_last_sync
+
+      stub_find_api_all_providers_503
+
+      expect { SyncAllProvidersFromFind.call }.to raise_error(SyncAllProvidersFromFind::SyncFindApiError)
+
+      expect(FindSyncCheck.last_sync).to be_blank
+    end
+
     it 'creates only missing providers when the database contains some of the providers already' do
       create :provider, code: 'DEF', name: 'DEF College'
 
