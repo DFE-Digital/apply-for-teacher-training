@@ -3,12 +3,11 @@ module ProviderInterface
     class ConfirmComponent < ViewComponent::Base
       include ViewHelper
 
-      attr_reader :change_offer_form, :application_choice, :providers, :completion_url, :completion_method
+      attr_reader :change_offer_form, :application_choice, :completion_url, :completion_method
 
-      def initialize(change_offer_form:, providers:, completion_url:, completion_method:)
+      def initialize(change_offer_form:, completion_url:, completion_method:)
         @change_offer_form = change_offer_form
         @application_choice = change_offer_form.application_choice
-        @providers = providers
         @completion_url = completion_url
         @completion_method = completion_method
 

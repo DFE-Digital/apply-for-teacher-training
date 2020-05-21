@@ -52,26 +52,21 @@ module ProviderInterface
       def change_path(target)
         return nil unless FeatureFlag.active?('provider_change_response')
 
-        case target
-        when :provider
-          paths.provider_interface_application_choice_edit_offer_path(application_choice.id, step: 'provider') if show_provider_link?
-        when :course
-          paths.provider_interface_application_choice_edit_offer_path(application_choice.id, step: 'course') if show_course_link?
-        when :course_option
-          paths.provider_interface_application_choice_edit_offer_path(application_choice.id, step: 'course_option') if show_course_option_link?
+        if show_link?(target)
+          paths.provider_interface_application_choice_edit_offer_path(
+            application_choice.id,
+            step: target.to_s,
+          )
         end
       end
 
-      def show_provider_link?
-        available_providers.count > 1 if available_providers
-      end
-
-      def show_course_link?
-        available_courses.count > 1 if available_courses
-      end
-
-      def show_course_option_link?
-        available_course_options.count > 1 if available_course_options
+      def show_link?(target)
+        collection = case target
+                     when :provider then available_providers
+                     when :course then available_courses
+                     when :course_option then available_course_options
+                     end
+        collection.count > 1 if collection
       end
     end
   end

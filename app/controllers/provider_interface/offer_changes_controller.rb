@@ -80,9 +80,5 @@ module ProviderInterface
       redirect_to \
         provider_interface_application_choice_new_offer_path(course_option_id: course_option_id)
     end
-
-    def completion_method_for(form)
-      form.new_offer? ? :get : :patch
-    end
   end
 end

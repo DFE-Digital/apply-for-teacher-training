@@ -14,11 +14,7 @@ module ProviderInterface
       if decision_is_change?
         attrs[:controller] = 'offer_changes'
         attrs[:action] = 'edit_offer'
-        attrs[:step] = case decision
-                       when 'edit_provider' then 'provider'
-                       when 'edit_course' then 'course'
-                       when 'edit_course_option' then 'course_option'
-                       end
+        attrs[:step] = decision.delete_prefix('edit_')
       else
         attrs[:controller] = 'decisions'
         attrs[:action] = decision

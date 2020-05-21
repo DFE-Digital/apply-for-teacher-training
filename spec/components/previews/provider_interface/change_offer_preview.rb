@@ -60,11 +60,12 @@ module ProviderInterface
   private
 
     def render_with(form)
-      render_component \
+      render_component(
         ProviderInterface::ChangeOfferComponent,
         form: form,
         completion_url: '/rails/view_components',
-        completion_method: :get
+        completion_method: :get,
+      )
     end
 
     def provider_user
@@ -118,12 +119,13 @@ module ProviderInterface
         course_id = application_choice.offered_course.id
         course_option_id = application_choice.offered_option.id
       end
-      ProviderInterface::ChangeOfferForm.new \
+      ProviderInterface::ChangeOfferForm.new(
         application_choice: application_choice,
         step: @step,
         provider_id: provider_id,
         course_id: course_id,
-        course_option_id: course_option_id
+        course_option_id: course_option_id,
+      )
     end
 
     def pick_different_option

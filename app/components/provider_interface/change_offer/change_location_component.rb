@@ -3,12 +3,11 @@ module ProviderInterface
     class ChangeLocationComponent < ViewComponent::Base
       include ViewHelper
 
-      attr_reader :change_offer_form, :application_choice, :providers
+      attr_reader :change_offer_form, :application_choice
 
-      def initialize(change_offer_form:, providers:)
+      def initialize(change_offer_form:)
         @change_offer_form = change_offer_form
         @application_choice = change_offer_form.application_choice
-        @providers = providers
 
         if @change_offer_form.valid?
           @change_offer_form.step = @change_offer_form.next_step

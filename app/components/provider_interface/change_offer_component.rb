@@ -10,47 +10,36 @@ module ProviderInterface
       @providers = providers
       @completion_url = completion_url
       @completion_method = completion_method
-      set_entry_from_step
+      @change_offer_form.entry ||= change_offer_form.step # remember entry point
     end
 
     def sub_component
-      step_to_render = \
-        change_offer_form.valid? ? change_offer_form.step : change_offer_form.previous_step
-      get_component_for_step step_to_render
-    end
+      step_to_render = if change_offer_form.valid?
+                         change_offer_form.step
+                       else
+                         change_offer_form.previous_step
+                       end
 
-    def set_entry_from_step
-      change_offer_form.entry ||= change_offer_form.step
-    end
-
-  private
-
-    def setup_component(component)
-      if component == ProviderInterface::ChangeOffer::ConfirmComponent
-        component.new(
+      case step_to_render
+      when :confirm
+        ProviderInterface::ChangeOffer::ConfirmComponent.new(
           change_offer_form: change_offer_form,
-          providers: providers,
           completion_url: completion_url,
           completion_method: completion_method,
         )
-      else
-        component.new(
+      when :course_option
+        ProviderInterface::ChangeOffer::ChangeLocationComponent.new(
+          change_offer_form: change_offer_form,
+        )
+      when :course
+        ProviderInterface::ChangeOffer::ChangeCourseComponent.new(
+          change_offer_form: change_offer_form,
+        )
+      when :provider
+        ProviderInterface::ChangeOffer::ChangeProviderComponent.new(
           change_offer_form: change_offer_form,
           providers: providers,
         )
-      end
-    end
-
-    def get_component_for_step(step)
-      case step
-      when :confirm
-        setup_component ProviderInterface::ChangeOffer::ConfirmComponent
-      when :course_option
-        setup_component ProviderInterface::ChangeOffer::ChangeLocationComponent
-      when :course
-        setup_component ProviderInterface::ChangeOffer::ChangeCourseComponent
-      when :provider
-        setup_component ProviderInterface::ChangeOffer::ChangeProviderComponent
       end
     end
   end
