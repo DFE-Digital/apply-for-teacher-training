@@ -41,6 +41,5 @@ RSpec.describe CandidateInterface::Reference::RefereeTypeForm, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:referee_type) }
-    it { is_expected.to validate_inclusion_of(:referee_type).in_array(ApplicationReference.referee_types.values) }
   end
 end

@@ -49,12 +49,6 @@ module CandidateInterface
     end
 
     def new
-      referee_type_form = Reference::RefereeTypeForm.new(referee_type: params[:type])
-      unless referee_type_form.valid?
-        track_validation_error(referee_type_form)
-        return redirect_to action: 'type'
-      end
-
       @referee = current_candidate.current_application.application_references.build(referee_type: params[:type])
     end
 
