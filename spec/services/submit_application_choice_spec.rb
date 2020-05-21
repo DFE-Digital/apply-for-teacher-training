@@ -92,49 +92,4 @@ RSpec.describe SubmitApplicationChoice do
       end
     end
   end
-
-  describe 'Submit an application choice with the move_edit_by_to_application_form flag on', sandbox: false do
-    it 'updates the application choice to Awaiting References' do
-      FeatureFlag.activate('move_edit_by_to_application_form')
-      SubmitApplicationChoice.new(application_choice).call
-
-      expect(application_choice).to be_awaiting_references
-    end
-  end
-
-  describe 'Submit an Apply Again application choice with the move_edit_by_to_application_form on' do
-    let(:submit_application_choice) do
-      SubmitApplicationChoice.new(
-        application_choice,
-        apply_again: apply_again,
-        enough_references: enough_references,
-      ).call
-    end
-
-    let(:apply_again) { true }
-
-    before do
-      FeatureFlag.activate('move_edit_by_to_application_form')
-    end
-
-    context 'and enough references have been provided' do
-      let(:enough_references) { true }
-
-      it 'updates the application choice state to Application Complete' do
-        submit_application_choice
-
-        expect(application_choice).to be_application_complete
-      end
-    end
-
-    context 'and not enough references have been provided' do
-      let(:enough_references) { false }
-
-      it 'updates the application choice to Awaiting References' do
-        submit_application_choice
-
-        expect(application_choice).to be_awaiting_references
-      end
-    end
-  end
 end

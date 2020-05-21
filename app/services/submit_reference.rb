@@ -38,13 +38,10 @@ private
       reference_feedback_provided!
       application_form.application_choices.awaiting_references.each do |application_choice|
         ApplicationStateChange.new(application_choice).references_complete!
-        if application_form.apply_again? && !FeatureFlag.active?('move_edit_by_to_application_form')
+        if application_form.apply_again?
           application_choice.update!(edit_by: Time.zone.now)
+          application_form.update!(edit_by: Time.zone.now)
         end
-      end
-
-      if application_form.apply_again?
-        application_form.update!(edit_by: Time.zone.now)
       end
     end
 

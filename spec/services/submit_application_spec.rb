@@ -11,37 +11,19 @@ RSpec.describe SubmitApplication do
       application_form
     end
 
-    context 'with the move_edit_by_to_application_form flag off' do
-      it 'sets application_form.submitted_at and edit_by on the application foorm and choices' do
-        application_form = create_application_form
-        Timecop.freeze(Time.zone.local(2019, 11, 11, 15, 0, 0)) do
-          expected_edit_by = Time.zone.local(2019, 11, 18).end_of_day # business days
-          SubmitApplication.new(application_form).call
+    it 'sets application_form.submitted_at and edit_by on the application foorm and choices' do
+      application_form = create_application_form
+      Timecop.freeze(Time.zone.local(2019, 11, 11, 15, 0, 0)) do
+        expected_edit_by = Time.zone.local(2019, 11, 18).end_of_day # business days
+        SubmitApplication.new(application_form).call
 
-          expect(application_form.submitted_at).to eq Time.zone.now
-          expect(application_form.edit_by).to eq expected_edit_by
-          expect(application_form.application_choices[0].edit_by).to eq expected_edit_by
-          expect(application_form.application_choices[1].edit_by).to eq expected_edit_by
+        expect(application_form.submitted_at).to eq Time.zone.now
+        expect(application_form.edit_by).to eq expected_edit_by
+        expect(application_form.application_choices[0].edit_by).to eq expected_edit_by
+        expect(application_form.application_choices[1].edit_by).to eq expected_edit_by
 
-          expect(application_form.application_choices[0].status).to eq 'awaiting_references'
-          expect(application_form.application_choices[1].status).to eq 'awaiting_references'
-        end
-      end
-    end
-
-    context 'with the the move_edit_by_to_application_form flag on' do
-      it 'sets application_form.submitted_at' do
-        FeatureFlag.activate('move_edit_by_to_application_form')
-        application_form = create_application_form
-        Timecop.freeze(Time.zone.local(2019, 11, 11, 15, 0, 0)) do
-          expected_edit_by = Time.zone.local(2019, 11, 18).end_of_day # business days
-          SubmitApplication.new(application_form).call
-
-          expect(application_form.submitted_at).to eq Time.zone.now
-          expect(application_form.edit_by).to eq expected_edit_by
-          expect(application_form.application_choices[0].status).to eq 'awaiting_references'
-          expect(application_form.application_choices[1].status).to eq 'awaiting_references'
-        end
+        expect(application_form.application_choices[0].status).to eq 'awaiting_references'
+        expect(application_form.application_choices[1].status).to eq 'awaiting_references'
       end
     end
 

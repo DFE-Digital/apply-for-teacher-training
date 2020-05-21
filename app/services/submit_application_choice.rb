@@ -6,18 +6,15 @@ class SubmitApplicationChoice
   end
 
   def call
-    if FeatureFlag.active?('move_edit_by_to_application_form')
-      ApplicationStateChange.new(@application_choice).submit!
-      ApplicationStateChange.new(@application_choice).references_complete! if @apply_again && @enough_references
-      true
-    elsif @apply_again && @enough_references
-      @application_choice.edit_by = Time.zone.now
-      ApplicationStateChange.new(@application_choice).submit!
-      ApplicationStateChange.new(@application_choice).references_complete!
-    else
-      @application_choice.edit_by = edit_by_time
-      ApplicationStateChange.new(@application_choice).submit!
-    end
+    @application_choice.edit_by = if @apply_again && @enough_references
+                                    Time.zone.now
+                                  else
+                                    edit_by_time
+                                  end
+
+    ApplicationStateChange.new(@application_choice).submit!
+    ApplicationStateChange.new(@application_choice).references_complete! if @apply_again && @enough_references
+    true
   end
 
 private
