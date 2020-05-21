@@ -8,7 +8,7 @@ module ProviderInterface
     end
 
     def filters
-      ([] << search_filter << status_filter << provider_filter << accredited_provider_filter).compact
+      ([] << search_filter << status_filter << provider_filter << accredited_provider_filter).concat(provider_locations_filters).compact
     end
 
     def filtered?
@@ -94,6 +94,25 @@ module ProviderInterface
         name: 'accredited_provider',
         options: accredited_providers_options,
       }
+    end
+
+    def provider_locations_filters
+      providers = ProviderOptionsService.new(provider_user).providers
+
+      providers.map do |p|
+        {
+          type: :checkboxes,
+          heading: "Locations for #{p.name}",
+          name: 'provider_locations',
+          options: p.sites.map do |s|
+            {
+              value: s.id,
+              label: s.name,
+              checked: false,
+            }
+          end
+        }
+      end
     end
   end
 end
