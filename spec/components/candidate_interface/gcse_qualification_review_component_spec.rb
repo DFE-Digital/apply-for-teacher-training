@@ -11,7 +11,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       grade: 'c',
     )
     result = render_inline(
-      described_class.new(application_qualification: application_qualification, subject: 'maths'),
+      described_class.new(application_form: application_form, application_qualification: application_qualification, subject: 'maths'),
     )
 
     expect(result.text).to match(/Qualification\s+GCSE/)
