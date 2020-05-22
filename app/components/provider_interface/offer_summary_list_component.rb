@@ -11,6 +11,7 @@ module ProviderInterface
       @header = header
       @change_provider_path = options[:change_provider_path]
       @change_course_path = options[:change_course_path]
+      @change_study_mode_path = options[:change_study_mode_path]
       @change_course_option_path = options[:change_course_option_path]
     end
 
@@ -32,6 +33,8 @@ module ProviderInterface
           row.merge(change_path: @change_provider_path, action: 'training provider')
         when 'Course'
           row.merge(change_path: @change_course_path, action: 'course')
+        when 'Study mode'
+          row.merge(change_path: @change_study_mode_path, action: 'study mode')
         when 'Location'
           row.merge(change_path: @change_course_option_path, action: 'location')
         else

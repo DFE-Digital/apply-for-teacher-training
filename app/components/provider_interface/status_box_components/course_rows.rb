@@ -13,7 +13,7 @@ module ProviderInterface
           },
           {
             key: 'Study mode',
-            value: course_option.full_time? ? 'Full time' : 'Part time',
+            value: course_option.study_mode.humanize,
           },
           {
             key: 'Location',

@@ -161,6 +161,11 @@ en:
             course_id:
               blank: You have not chosen a new course
               not_open_on_apply: Course not open on Apply
+            study_mode:
+              blank: Select full time or part time
+              unsupported: Please specify a valid study mode
+              unavailable_for_course: Unavailable for this course
+              no_course_options: No relevant course options available
             course_option_id:
               blank: You have not chosen a new location
         provider_interface/confirm_conditions_form:

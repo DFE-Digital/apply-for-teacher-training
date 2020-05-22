@@ -7,7 +7,7 @@
       <%= f.hidden_field :step %>
       <%= f.hidden_field :entry %>
       <%= f.hidden_field :provider_id %>
-      <%= f.hidden_field :study_mode %>
+      <%= f.hidden_field :course_id %>
       <%= f.hidden_field :course_option_id %>
       <%= f.govuk_radio_buttons_fieldset :course_id do %>
 
@@ -18,8 +18,8 @@
           </h1>
         </legend>
 
-        <% courses.each do |course| %>
-          <%= f.govuk_radio_button :course_id, course.id, label: { text: course.name_and_code }, hint_text: course.description %>
+        <% study_modes.each do |study_mode| %>
+          <%= f.govuk_radio_button :study_mode, study_mode, label: { text: study_mode.to_s.humanize }, hint_text: course.name_and_code %>
         <% end %>
       <% end %>
 

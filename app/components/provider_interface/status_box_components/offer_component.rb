@@ -5,12 +5,13 @@ module ProviderInterface
       include StatusBoxComponents::CourseRows
 
       attr_reader :application_choice
-      attr_reader :available_providers, :available_courses, :available_course_options
+      attr_reader :available_providers, :available_courses, :available_study_modes, :available_course_options
 
       def initialize(application_choice:, options: {})
         @application_choice = application_choice
         @available_providers = options[:available_providers]
         @available_courses = options[:available_courses]
+        @available_study_modes = options[:available_study_modes]
         @available_course_options = options[:available_course_options]
       end
 
@@ -35,6 +36,8 @@ module ProviderInterface
             row.merge(change_path: change_path(:provider), action: 'training provider')
           when 'Course'
             row.merge(change_path: change_path(:course), action: 'course')
+          when 'Study mode'
+            row.merge(change_path: change_path(:study_mode), action: 'study mode')
           when 'Location'
             row.merge(change_path: change_path(:course_option), action: 'location')
           else
@@ -64,6 +67,7 @@ module ProviderInterface
         collection = case target
                      when :provider then available_providers
                      when :course then available_courses
+                     when :study_mode then available_study_modes
                      when :course_option then available_course_options
                      end
         collection.count > 1 if collection

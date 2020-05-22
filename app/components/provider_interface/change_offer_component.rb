@@ -29,6 +29,10 @@ module ProviderInterface
         ProviderInterface::ChangeOffer::ChangeLocationComponent.new(
           change_offer_form: change_offer_form,
         )
+      when :study_mode
+        ProviderInterface::ChangeOffer::ChangeStudyModeComponent.new(
+          change_offer_form: change_offer_form,
+        )
       when :course
         ProviderInterface::ChangeOffer::ChangeCourseComponent.new(
           change_offer_form: change_offer_form,

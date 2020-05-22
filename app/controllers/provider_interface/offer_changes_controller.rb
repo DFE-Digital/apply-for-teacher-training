@@ -9,6 +9,7 @@ module ProviderInterface
             application_choice: @application_choice,
             provider_id: @application_choice.offered_option.provider.id,
             course_id: @application_choice.offered_course.id,
+            study_mode: @application_choice.offered_option.study_mode,
             course_option_id: @application_choice.offered_option.id,
             step: params[:step]&.to_sym,
           )
@@ -63,6 +64,7 @@ module ProviderInterface
         application_choice: @application_choice,
         provider_id: change_offer_params[:provider_id]&.to_i,
         course_id: change_offer_params[:course_id]&.to_i,
+        study_mode: change_offer_params[:study_mode],
         course_option_id: change_offer_params[:course_option_id]&.to_i,
         entry: change_offer_params[:entry],
         step: params[:step]&.to_sym,
@@ -70,7 +72,7 @@ module ProviderInterface
     end
 
     def change_offer_params
-      params.require(:provider_interface_change_offer_form).permit(:provider_id, :course_id, :course_option_id, :entry)
+      params.require(:provider_interface_change_offer_form).permit(:provider_id, :course_id, :study_mode, :course_option_id, :entry)
     rescue ActionController::ParameterMissing
       {}
     end

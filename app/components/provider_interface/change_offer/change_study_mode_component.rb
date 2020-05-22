@@ -1,32 +1,33 @@
 module ProviderInterface
   module ChangeOffer
-    class ChangeLocationComponent < ViewComponent::Base
+    class ChangeStudyModeComponent < ViewComponent::Base
       include ViewHelper
 
-      attr_reader :change_offer_form, :application_choice
+      attr_reader :change_offer_form, :application_choice, :providers
 
       def initialize(change_offer_form:)
         @change_offer_form = change_offer_form
         @application_choice = change_offer_form.application_choice
+        @providers = providers
 
         if @change_offer_form.valid?
           @change_offer_form.step = @change_offer_form.next_step
         end
       end
 
-      def course_options
-        CourseOption.where(
-          course_id: change_offer_form.course_id,
-          study_mode: change_offer_form.study_mode,
-          # TODO: check vacancy_status, e.g. 'B'
-        ).includes(:site).order('sites.name')
+      def study_modes
+        %w[full_time part_time]
+      end
+
+      def course
+        Course.find change_offer_form.course_id
       end
 
       def page_title
-        if application_choice.offer? && change_offer_form.entry == :course_option
-          'Change location'
+        if application_choice.offer? && change_offer_form.entry == :study_mode
+          'Change to full time or part time'
         else
-          'Select location'
+          'Select full time or part time'
         end
       end
 

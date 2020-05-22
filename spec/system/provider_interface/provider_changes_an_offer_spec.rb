@@ -20,11 +20,12 @@ RSpec.feature 'Provider changes an offer' do
     when_i_click_on_continue
     then_i_see_all_courses_for_this_provider
     and_i_can_change_the_course
-    and_i_see_all_available_locations_for_this_course
+    and_i_can_change_the_study_mode
+    and_i_see_all_available_locations_for_this_study_mode
     and_i_can_change_the_location
 
     when_i_inspect_and_confirm_these_changes
-    then_the_offer_has_new_course_and_location_details
+    then_the_offer_has_new_course_study_mode_and_location_details
 
     given_i_am_the_candidate_of_the_changed_offer
     then_i_receive_an_email_about_the_changed_offer
@@ -46,8 +47,9 @@ RSpec.feature 'Provider changes an offer' do
   end
 
   def and_another_two_course_options_exist_for_this_provider
-    @course_option_two = course_option_for_provider_code(provider_code: @provider.code)
-    @course_option_three = create(:course_option, course: @course_option_two.course, site: create(:site, provider: @provider))
+    @other_course = create(:course, :open_on_apply, :with_both_study_modes, provider: @provider)
+    @course_option_two = create(:course_option, :full_time, course: @other_course)
+    @course_option_three = create(:course_option, :part_time, course: @other_course)
   end
 
   def when_change_response_feature_is_activated
@@ -85,14 +87,19 @@ RSpec.feature 'Provider changes an offer' do
   end
 
   def and_i_can_change_the_course
-    choose @course_option_two.course.name_and_code
+    choose @other_course.name_and_code
     click_on 'Continue'
   end
 
-  def and_i_see_all_available_locations_for_this_course
-    @course_option_two.course.course_options.each do |course_option|
-      expect(page).to have_content course_option.site.name
-    end
+  def and_i_can_change_the_study_mode
+    choose 'Part time'
+    click_on 'Continue'
+  end
+
+  def and_i_see_all_available_locations_for_this_study_mode
+    expect(page).not_to have_content @course_option_one.site.name
+    expect(page).not_to have_content @course_option_two.site.name
+    expect(page).to have_content @course_option_three.site.name
   end
 
   def and_i_can_change_the_location
@@ -112,9 +119,10 @@ RSpec.feature 'Provider changes an offer' do
     click_on 'Change offer'
   end
 
-  def then_the_offer_has_new_course_and_location_details
+  def then_the_offer_has_new_course_study_mode_and_location_details
     expect(page).to have_content @course_option_three.course.name_and_code
     expect(page).to have_content @course_option_three.site.name_and_address
+    expect(page).to have_content 'Part time'
     expect(@application_offered.reload.offered_option).to eq(@course_option_three)
   end
 
@@ -126,7 +134,7 @@ RSpec.feature 'Provider changes an offer' do
     open_email(@candidate.email_address)
 
     expect(current_email.subject).to include(
-      t('candidate_mailer.changed_offer.subject', provider_name: @course_option_three.course.provider.name),
+      t('candidate_mailer.changed_offer.subject', provider_name: @provider.reload.name),
     )
   end
 end
