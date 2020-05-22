@@ -18,7 +18,12 @@ class SubmitApplication
       submit_application
     end
 
-    CandidateMailer.application_submitted(application_form).deliver_later
+    if send_to_provider_immediately?
+      CandidateMailer.application_sent_to_provider(@application_form).deliver_later
+    else
+      CandidateMailer.application_submitted(application_form).deliver_later
+    end
+
     send_reference_request_email_to_referees(application_form)
     StateChangeNotifier.call(:submit_application, application_form: application_form)
     auto_approve_references_in_sandbox(application_form)
@@ -58,10 +63,13 @@ private
     application_choices.each do |choice|
       SubmitApplicationChoice.new(
         choice,
-        apply_again: application_form.apply_again?,
-        enough_references: enough_references_have_been_provided?,
+        send_to_provider_immediately: send_to_provider_immediately?,
       ).call
     end
+  end
+
+  def send_to_provider_immediately?
+    application_form.apply_again? && enough_references_have_been_provided?
   end
 
   def enough_references_have_been_provided?
