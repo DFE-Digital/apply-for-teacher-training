@@ -217,8 +217,8 @@ Rails.application.routes.draw do
         get '/review' => 'application_choices#review', as: :course_choices_review
         patch '/review' => 'application_choices#complete', as: :course_choices_complete
 
-        get '/another' => 'course_choices#add_another_course', as: :course_choices_add_another_course
-        post '/another' => 'course_choices#add_another_course_selection', as: :course_choices_add_another_course_selection
+        get '/another' => 'course_choices/add_another_course#ask', as: :course_choices_add_another_course
+        post '/another' => 'course_choices/add_another_course#decide', as: :course_choices_add_another_course_selection
 
         get '/confirm-selection/:course_id' => 'find_course_selections#confirm_selection', as: :course_confirm_selection
         get '/confirm_selection/:course_id', to: redirect('/candidate/application/courses/confirm-selection/%{course_id}')
