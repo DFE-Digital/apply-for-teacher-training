@@ -2,6 +2,7 @@ module CandidateInterface
   class Gcse::GradeController < Gcse::DetailsController
     before_action :redirect_to_dashboard_if_submitted
     before_action :set_subject
+    after_action :complete_section, only: %i[update]
 
     def update
       @qualification_type = details_form.qualification.qualification_type

@@ -1,6 +1,7 @@
 module CandidateInterface
   class Gcse::YearController < Gcse::DetailsController
     before_action :redirect_to_dashboard_if_submitted
+    after_action :complete_section, only: %i[update]
 
     def update
       @qualification_type = details_form.qualification.qualification_type
