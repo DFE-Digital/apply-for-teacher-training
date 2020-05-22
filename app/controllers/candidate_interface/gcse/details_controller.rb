@@ -32,5 +32,13 @@ module CandidateInterface
       attribute_to_update = "#{@subject}_gcse_completed"
       current_application.update!("#{attribute_to_update}": value)
     end
+
+    def complete_section
+      presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
+
+      if presenter.send("#{@subject}_gcse_completed?") && !FeatureFlag.active?('mark_every_section_complete')
+        update_gcse_completed(true)
+      end
+    end
   end
 end

@@ -1,6 +1,7 @@
 module CandidateInterface
   class TrainingWithADisabilityController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted
+    after_action :complete_section, only: %i[update]
 
     def edit
       @training_with_a_disability_form = TrainingWithADisabilityForm.build_from_application(
@@ -46,6 +47,14 @@ module CandidateInterface
     def application_form_params
       params.require(:application_form).permit(:training_with_a_disability_completed)
         .transform_values(&:strip)
+    end
+
+    def complete_section
+      presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
+
+      if presenter.training_with_a_disability_completed? && !FeatureFlag.active?('mark_every_section_complete')
+        current_application.update!(training_with_a_disability_completed: true)
+      end
     end
   end
 end
