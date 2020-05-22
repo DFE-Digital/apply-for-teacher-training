@@ -22,11 +22,11 @@
 
 <h3 class="govuk-heading-m">Contact details</h3>
 
-<%= render(CandidateInterface::ContactDetailsReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error, submit_application_attempt: true)) %>
+<%= render(CandidateInterface::ContactDetailsReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error, submitting_application: true)) %>
 
 <h3 class="govuk-heading-m">Asking for support if you have a disability</h3>
 
-<%= render(CandidateInterface::TrainingWithADisabilityReviewComponent.new(application_form: @application_form, editable: editable, missing_error: missing_error, submit_application_attempt: true)) %>
+<%= render(CandidateInterface::TrainingWithADisabilityReviewComponent.new(application_form: @application_form, editable: editable, missing_error: missing_error, submitting_application: true)) %>
 
 <h2 class="govuk-heading-m govuk-!-font-size-27">Work history</h2>
 
@@ -38,7 +38,7 @@
 
 <h3 class="govuk-heading-m"><%= t('page_titles.suitability_to_work_with_children') %></h3>
 
-<%= render(SafeguardingReviewComponent.new(application_form: @application_form, editable: editable, missing_error: missing_error, submit_application_attempt: true)) %>
+<%= render(SafeguardingReviewComponent.new(application_form: @application_form, editable: editable, missing_error: missing_error, submitting_application: true)) %>
 
 <h2 class="govuk-heading-m govuk-!-font-size-27">Qualifications</h2>
 
@@ -48,16 +48,16 @@
 
 <h3 class="govuk-heading-m">Maths GCSE or equivalent</h3>
 
-<%= render(CandidateInterface::GcseQualificationReviewComponent.new(application_form: @application_form, application_qualification: @application_form.maths_gcse, subject: 'maths', editable: editable, heading_level: 4, missing_error: missing_error, submit_application_attempt: true)) %>
+<%= render(CandidateInterface::GcseQualificationReviewComponent.new(application_form: @application_form, application_qualification: @application_form.maths_gcse, subject: 'maths', editable: editable, heading_level: 4, missing_error: missing_error, submitting_application: true)) %>
 
 <h3 class="govuk-heading-m">English GCSE or equivalent</h3>
 
-<%= render(CandidateInterface::GcseQualificationReviewComponent.new(application_form: @application_form, application_qualification: @application_form.english_gcse, subject: 'english', editable: editable, heading_level: 4, missing_error: missing_error, submit_application_attempt: true)) %>
+<%= render(CandidateInterface::GcseQualificationReviewComponent.new(application_form: @application_form, application_qualification: @application_form.english_gcse, subject: 'english', editable: editable, heading_level: 4, missing_error: missing_error, submitting_application: true)) %>
 
 <% if @application_form.science_gcse_needed? %>
   <h3 class="govuk-heading-m">Science GCSE or equivalent</h3>
 
-  <%= render(CandidateInterface::GcseQualificationReviewComponent.new(application_form: @application_form, application_qualification: @application_form.science_gcse, subject: 'science', editable: editable, heading_level: 4, missing_error: missing_error, submit_application_attempt: true)) %>
+  <%= render(CandidateInterface::GcseQualificationReviewComponent.new(application_form: @application_form, application_qualification: @application_form.science_gcse, subject: 'science', editable: editable, heading_level: 4, missing_error: missing_error, submitting_application: true)) %>
 <% end %>
 
 <h3 class="govuk-heading-m">Academic and other relevant qualifications</h3>
@@ -66,10 +66,10 @@
 
 <h2 class="govuk-heading-m govuk-!-font-size-27">Personal statement and interview</h2>
 
-<%= render(CandidateInterface::BecomingATeacherReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error, submit_application_attempt: true)) %>
-<%= render(CandidateInterface::SubjectKnowledgeReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error, submit_application_attempt: true)) %>
-<%= render(CandidateInterface::InterviewPreferencesReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error, submit_application_attempt: true)) %>
+<%= render(CandidateInterface::BecomingATeacherReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error, submitting_application: true)) %>
+<%= render(CandidateInterface::SubjectKnowledgeReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error, submitting_application: true)) %>
+<%= render(CandidateInterface::InterviewPreferencesReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error, submitting_application: true)) %>
 
 <h2 class="govuk-heading-m govuk-!-font-size-27">References</h2>
 
-<%= render(CandidateInterface::RefereesReviewComponent.new(application_form: application_form, editable: editable, heading_level: 3, show_incomplete: true, missing_error: missing_error, submit_application_attempt: true)) %>
+<%= render(CandidateInterface::RefereesReviewComponent.new(application_form: application_form, editable: editable, heading_level: 3, show_incomplete: true, missing_error: missing_error, submitting_application: true)) %>

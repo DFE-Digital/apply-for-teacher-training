@@ -1,13 +1,13 @@
 module CandidateInterface
   class GcseQualificationReviewComponent < ViewComponent::Base
-    def initialize(application_form:, application_qualification:, subject:, editable: true, heading_level: 2, missing_error: false, submit_application_attempt: false)
+    def initialize(application_form:, application_qualification:, subject:, editable: true, heading_level: 2, missing_error: false, submitting_application: false)
       @application_form = application_form
       @application_qualification = application_qualification
       @subject = subject
       @editable = editable
       @heading_level = heading_level
       @missing_error = missing_error
-      @submit_application_attempt = submit_application_attempt
+      @submitting_application = submitting_application
     end
 
     def gcse_qualification_rows
@@ -24,7 +24,7 @@ module CandidateInterface
 
     def show_missing_banner?
       gcse_completed = "#{@subject}_gcse_completed"
-      if @submit_application_attempt && FeatureFlag.active?('mark_every_section_complete')
+      if @submitting_application && FeatureFlag.active?('mark_every_section_complete')
         !@application_form.send(gcse_completed) && @editable
       else
         @editable && !@application_qualification
