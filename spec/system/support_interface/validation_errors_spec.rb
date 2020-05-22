@@ -54,25 +54,23 @@ RSpec.feature 'Validation errors' do
 
   def then_i_should_see_a_list_of_error_groups
     @validation_error = ValidationError.last
-    expect(page).to have_content(@validation_error.form_object)
+    expect(page).to have_content('Contact details form: Phone number')
     expect(page).to have_content('1')
   end
 
   def when_i_click_on_a_group
-    click_on(@validation_error.form_object)
+    click_on('Phone number')
   end
 
   def then_i_should_see_a_list_of_individual_errors
-    expect(page).to have_current_path(support_interface_validation_error_path(@validation_error.form_object))
-    expect(page).to have_content(@validation_error.request_path)
     expect(page).to have_content('24 April 2020 at 12:35pm')
-    expect(page).to have_content(/Attribute\s+phone_number/)
-    expect(page).to have_content(/Value\s+"ABCDEF"/)
-    expect(page).to have_content(/Errors\s+Enter a phone number/)
+    expect(page).to have_content('Showing errors on the Phone number field in Contact details form by all users')
+    expect(page).to have_content('Contact details form: Phone number')
+    expect(page).to have_content('ABCDEF')
   end
 
   def when_i_click_on_link_in_breadcrumb_trail
-    click_link 'Validation errors'
+    click_link 'Back'
   end
 
   def then_i_should_be_back_on_index_page
