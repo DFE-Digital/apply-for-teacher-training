@@ -51,11 +51,14 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       expect(headings).to include("Locations for #{provider1.name}")
 
       # TODO: think if more specific test that tests multiple provider_locations
-      expect(page_state.filters[3][:options][0][:value]).to eq(provider1.sites.first.id)
-      expect(page_state.filters[3][:options][1][:value]).to eq(provider1.sites.last.id)
+      relevant_provider_ids = [provider1.sites.first.id, provider1.sites.last.id]
+      relevant_provider_names = [provider1.sites.first.name, provider1.sites.last.name]
 
-      expect(page_state.filters[3][:options][0][:label]).to eq(provider1.sites.first.name)
-      expect(page_state.filters[3][:options][1][:label]).to eq(provider1.sites.last.name)
+      expect(relevant_provider_ids).to include(page_state.filters[3][:options][0][:value])
+      expect(relevant_provider_ids).to include(page_state.filters[3][:options][1][:value])
+
+      expect(relevant_provider_names).to include(page_state.filters[3][:options][0][:label])
+      expect(relevant_provider_names).to include(page_state.filters[3][:options][1][:label])
     end
   end
 
