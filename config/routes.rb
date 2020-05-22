@@ -189,16 +189,13 @@ Rails.application.routes.draw do
       end
 
       scope '/courses' do
-        get '/' => 'course_choices#index', as: :course_choices_index
+        get '/' => 'application_choices#index', as: :course_choices_index
 
         get '/choose' => 'course_choices#have_you_chosen', as: :course_choices_choose
         post '/choose' => 'course_choices#make_choice'
 
         get '/find-a-course' => 'course_choices#go_to_find', as: :go_to_find
         get '/find_a_course', to: redirect('/candidate/application/courses/find-a-course')
-
-        get '/delete/:id' => 'course_choices#confirm_destroy', as: :confirm_destroy_course_choice
-        delete '/delete/:id' => 'course_choices#destroy'
 
         get '/provider' => 'course_choices/provider_selection#options_for_provider', as: :course_choices_provider
         post '/provider' => 'course_choices/provider_selection#pick_provider'
@@ -217,8 +214,8 @@ Rails.application.routes.draw do
         get '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/site_selection#options_for_site', as: :course_choices_site
         post '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/site_selection#pick_site'
 
-        get '/review' => 'course_choices#review', as: :course_choices_review
-        patch '/review' => 'course_choices#complete', as: :course_choices_complete
+        get '/review' => 'application_choices#review', as: :course_choices_review
+        patch '/review' => 'application_choices#complete', as: :course_choices_complete
 
         get '/another' => 'course_choices#add_another_course', as: :course_choices_add_another_course
         post '/another' => 'course_choices#add_another_course_selection', as: :course_choices_add_another_course_selection
@@ -227,6 +224,9 @@ Rails.application.routes.draw do
         get '/confirm_selection/:course_id', to: redirect('/candidate/application/courses/confirm-selection/%{course_id}')
         post '/complete-selection/:course_id' => 'find_course_selections#complete_selection', as: :course_complete_selection
         get '/complete_selection/:course_id', to: redirect('/candidate/application/courses/complete-selection/%{course_id}')
+
+        get '/delete/:id' => 'application_choices#confirm_destroy', as: :confirm_destroy_course_choice
+        delete '/delete/:id' => 'application_choices#destroy'
       end
 
       scope '/choice/:id' do
