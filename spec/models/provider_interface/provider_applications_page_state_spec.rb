@@ -62,9 +62,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     end
   end
 
-  xit 'will not renturn locations unless the provider filter is active' do
-  end
-
   describe '#applied_filters' do
     let(:params) do
       ActionController::Parameters.new({ 'status' => %w[
