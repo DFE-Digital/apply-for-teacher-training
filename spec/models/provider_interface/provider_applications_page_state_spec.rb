@@ -20,7 +20,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       page_state = described_class.new(params: ActionController::Parameters.new,
                                        provider_user: provider_user)
 
-      expected_number_of_filters = 7
+      expected_number_of_filters = 4
       providers_array_index = 2
       number_of_courses = 3
 
@@ -33,7 +33,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       page_state = described_class.new(params: ActionController::Parameters.new,
                                        provider_user: another_provider_user)
 
-      expected_number_of_filters = 4
+      expected_number_of_filters = 3
 
       headings = page_state.filters.map { |filter| filter[:heading] }
 
@@ -42,7 +42,8 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     end
 
     it 'can return filter config for a list of provider locations' do
-      page_state = described_class.new(params: ActionController::Parameters.new,
+      page_state = described_class.new(params: ActionController::Parameters.new({ provider: [provider1.id] }),
+
                                        provider_user: another_provider_user)
 
       headings = page_state.filters.map { |filter| filter[:heading] }
