@@ -556,7 +556,7 @@ Rails.application.routes.draw do
     post '/tasks/:task' => 'tasks#run', as: :run_task
 
     get '/validation-errors' => 'validation_errors#index', as: :validation_errors
-    get '/validation-errors/:form_object' => 'validation_errors#show', as: :validation_error
+    get '/validation-errors/search' => 'validation_errors#search', as: :validation_error_search
 
     scope '/users' do
       get '/' => 'users#index', as: :users
