@@ -1,6 +1,7 @@
 module CandidateInterface
-  class ContactDetails::AddressController < CandidateInterfaceController
+  class ContactDetails::AddressController < ContactDetails::BaseController
     before_action :redirect_to_dashboard_if_submitted
+    after_action :complete_section, only: %i[update]
 
     def edit
       @contact_details_form = ContactDetailsForm.build_from_application(
