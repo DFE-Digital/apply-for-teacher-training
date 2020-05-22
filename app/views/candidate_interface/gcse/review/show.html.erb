@@ -9,7 +9,7 @@
  <%= render(CandidateInterface::CompleteSectionComponent.new(application_form: @application_form,
                                          path: candidate_interface_gcse_complete_path,
                                          request_method: :post,
-                                         field_name: :gcse_completed)) %>
+                                         field_name: @field_name)) %>
 <% else %>
   <%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>
 <% end %>
