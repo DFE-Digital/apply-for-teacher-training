@@ -102,6 +102,8 @@ module ProviderInterface
       providers = ProviderOptionsService.new(provider_user).providers_with_sites(provider_ids: applied_filters[:provider])
 
       providers.map do |p|
+        next unless p.sites.count > 1
+
         {
           type: :checkboxes,
           heading: "Locations for #{p.name}",

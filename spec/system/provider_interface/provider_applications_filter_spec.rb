@@ -6,10 +6,13 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   let(:site) { create(:site, name: 'Test site name') }
   let(:site2) { create(:site, name: 'Second test site') }
+  let(:site3) { create(:site, name: 'Second test site') }
+  let(:site4) { create(:site, name: 'Second test site') }
+  let(:site5) { create(:site, name: 'Second test site') }
 
-  let(:current_provider) { create(:provider, :with_signed_agreement, code: 'ABC', name: 'Hoth Teacher Training', sites: [site]) }
-  let(:second_provider) { create(:provider, :with_signed_agreement, code: 'DEF', name: 'Caladan University', sites: [site2]) }
-  let(:third_provider) { create(:provider, :with_signed_agreement, code: 'GHI', name: 'University of Arrakis') }
+  let(:current_provider) { create(:provider, :with_signed_agreement, code: 'ABC', name: 'Hoth Teacher Training', sites: [site, site2]) }
+  let(:second_provider) { create(:provider, :with_signed_agreement, code: 'DEF', name: 'Caladan University', sites: [site3, site4]) }
+  let(:third_provider) { create(:provider, :with_signed_agreement, code: 'GHI', name: 'University of Arrakis', sites: [site5]) }
   let(:accredited_provider1) { create(:provider, code: 'JKL', name: 'College of Dumbervale') }
   let(:accredited_provider2) { create(:provider, code: 'MNO', name: 'Wimleydown University') }
 
@@ -56,7 +59,7 @@ RSpec.feature 'Providers should be able to filter applications' do
     when_i_click_to_remove_an_accredited_provider_tag
 
     when_i_filter_by_providers
-    then_i_should_see_locations_that_belong_to_all_of_the_selected_providers
+    then_i_should_see_locations_that_belong_to_all_of_the_selected_providers_that_have_more_than_one_site
 
     when_i_clear_the_filters
     when_i_filter_by_a_specific_provider
@@ -70,9 +73,10 @@ RSpec.feature 'Providers should be able to filter applications' do
     then_i_expect_all_applications_to_be_visible_again
   end
 
-  def then_i_should_see_locations_that_belong_to_all_of_the_selected_providers
+  def then_i_should_see_locations_that_belong_to_all_of_the_selected_providers_that_have_more_than_one_site
     expect(page).to have_content('Locations for Hoth Teacher Training')
     expect(page).to have_content('Locations for Caladan University')
+    expect(page).not_to have_content('Locations for University of Arrakis')
   end
 
   def then_i_should_only_see_locations_that_belog_to_that_provider
