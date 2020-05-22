@@ -43,6 +43,9 @@ RSpec.describe 'Candidate needs to provide a new referee' do
 
     when_i_go_back_to_the_edit_page
     then_i_see_a_404_page
+
+    when_i_try_to_add_a_referee_with_an_invalid_type
+    then_i_see_a_404_page
   end
 
   def given_i_am_signed_in_as_a_candidate
@@ -156,6 +159,14 @@ RSpec.describe 'Candidate needs to provide a new referee' do
 
   def when_i_go_back_to_the_edit_page
     visit @edit_page_url
+  end
+
+  def then_i_see_a_404_page
+    expect(page).to have_content 'Page not found'
+  end
+
+  def when_i_try_to_add_a_referee_with_an_invalid_type
+    visit candidate_interface_new_additional_referee_path(type: 'not-a-type')
   end
 
   def then_i_see_a_404_page

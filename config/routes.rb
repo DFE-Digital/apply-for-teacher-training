@@ -269,7 +269,7 @@ Rails.application.routes.draw do
         get '/type/(:id)' => 'referees#type', as: :referees_type
         post '/update-type/(:id)' => 'referees#update_type', as: :update_referees_type
 
-        get '/new/(:type)' => 'referees#new', as: :new_referee
+        get '/new/(:type)' => 'referees#new', as: :new_referee, constraints: { type: Regexp.new(ApplicationReference.referee_types.values.join('|')) }
         post '/(:type)' => 'referees#create'
 
         get '/review' => 'referees#review', as: :review_referees
@@ -292,7 +292,7 @@ Rails.application.routes.draw do
         post '/type/(:id)' => 'additional_referees#type'
         post '/update-type/(:id)' => 'additional_referees#update_type', as: :update_additional_referee_type
 
-        get '/new' => 'additional_referees#new', as: :new_additional_referee
+        get '/new' => 'additional_referees#new', as: :new_additional_referee, constraints: ->(request) { request.query_parameters['type'] =~ Regexp.new(ApplicationReference.referee_types.values.join('|')) }
         post '/new' => 'additional_referees#create'
 
         get '/:application_reference_id/edit' => 'additional_referees#edit', as: :edit_additional_referee
