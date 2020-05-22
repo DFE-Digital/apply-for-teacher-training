@@ -200,22 +200,22 @@ Rails.application.routes.draw do
         get '/delete/:id' => 'course_choices#confirm_destroy', as: :confirm_destroy_course_choice
         delete '/delete/:id' => 'course_choices#destroy'
 
-        get '/provider' => 'course_choices#options_for_provider', as: :course_choices_provider
-        post '/provider' => 'course_choices#pick_provider'
+        get '/provider' => 'course_choices/provider_selection#options_for_provider', as: :course_choices_provider
+        post '/provider' => 'course_choices/provider_selection#pick_provider'
 
         get '/apply-on-ucas/provider/:provider_id' => 'course_choices#ucas_no_courses', as: :course_choices_ucas_no_courses
         get '/apply-on-ucas/provider/:provider_id/course/:course_id' => 'course_choices#ucas_with_course', as: :course_choices_ucas_with_course
 
-        get '/provider/:provider_id/courses' => 'course_choices#options_for_course', as: :course_choices_course
-        post '/provider/:provider_id/courses' => 'course_choices#pick_course'
+        get '/provider/:provider_id/courses' => 'course_choices/course_selection#options_for_course', as: :course_choices_course
+        post '/provider/:provider_id/courses' => 'course_choices/course_selection#pick_course'
 
-        get '/provider/:provider_id/courses/:course_id' => 'course_choices#options_for_study_mode', as: :course_choices_study_mode
-        post '/provider/:provider_id/courses/:course_id' => 'course_choices#pick_study_mode'
+        get '/provider/:provider_id/courses/:course_id' => 'course_choices/study_mode_selection#options_for_study_mode', as: :course_choices_study_mode
+        post '/provider/:provider_id/courses/:course_id' => 'course_choices/study_mode_selection#pick_study_mode'
 
         get '/provider/:provider_id/courses/:course_id/full' => 'course_choices#full', as: :course_choices_full
 
-        get '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices#options_for_site', as: :course_choices_site
-        post '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices#pick_site'
+        get '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/site_selection#options_for_site', as: :course_choices_site
+        post '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/site_selection#pick_site'
 
         get '/review' => 'course_choices#review', as: :course_choices_review
         patch '/review' => 'course_choices#complete', as: :course_choices_complete
