@@ -45,6 +45,7 @@ class TestApplications
         volunteering_experiences_count: 1,
         references_count: 2,
         with_gces: true,
+        with_degree: true,
         submitted_at: nil,
         candidate: candidate,
         first_name: first_name,

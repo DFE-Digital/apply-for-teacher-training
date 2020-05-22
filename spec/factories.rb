@@ -70,6 +70,7 @@ FactoryBot.define do
         references_state { :requested }
         with_gces { false }
         full_work_history { false }
+        with_degree { false }
       end
 
       trait :with_completed_references do
@@ -119,6 +120,10 @@ FactoryBot.define do
           create(:gcse_qualification, application_form: application_form, subject: 'maths')
           create(:gcse_qualification, application_form: application_form, subject: 'english')
           create(:gcse_qualification, application_form: application_form, subject: 'science')
+        end
+
+        if evaluator.with_degree
+          create(:degree_qualification, application_form: application_form)
         end
 
         edit_by = if application_form.submitted_at.nil?
