@@ -31,13 +31,15 @@ module ProviderInterface
     end
 
     # TODO: Write test from this in provider_options_service_spec
-    def providers_with_sites
+    def providers_with_sites(provider_ids:)
       Provider
         .joins(:courses)
+        .where(id: provider_ids)
         .where(courses: { accredited_provider: provider_user.providers })
         .or(
           Provider
             .joins(:courses)
+            .where(id: provider_ids)
             .where(courses: { provider: provider_user.providers }),
         )
         .includes([:sites]).distinct

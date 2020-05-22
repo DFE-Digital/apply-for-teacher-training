@@ -5,8 +5,10 @@ RSpec.feature 'Providers should be able to filter applications' do
   include DfESignInHelpers
 
   let(:site) { create(:site, name: 'Test site name') }
+  let(:site2) { create(:site, name: 'Second test site') }
+
   let(:current_provider) { create(:provider, :with_signed_agreement, code: 'ABC', name: 'Hoth Teacher Training', sites: [site]) }
-  let(:second_provider) { create(:provider, :with_signed_agreement, code: 'DEF', name: 'Caladan University') }
+  let(:second_provider) { create(:provider, :with_signed_agreement, code: 'DEF', name: 'Caladan University', sites: [site2]) }
   let(:third_provider) { create(:provider, :with_signed_agreement, code: 'GHI', name: 'University of Arrakis') }
   let(:accredited_provider1) { create(:provider, code: 'JKL', name: 'College of Dumbervale') }
   let(:accredited_provider2) { create(:provider, code: 'MNO', name: 'Wimleydown University') }
@@ -38,8 +40,8 @@ RSpec.feature 'Providers should be able to filter applications' do
     when_i_clear_the_filters
     then_i_expect_all_applications_to_be_visible
 
-    when_i_filter_by_provider
-    then_i_location_filters_should_be_visible
+    when_i_filter_by_providers
+    then_location_filters_should_be_visible
     then_i_only_see_applications_for_a_given_provider
     then_i_expect_the_relevant_provider_tags_to_be_visible
 
@@ -53,7 +55,13 @@ RSpec.feature 'Providers should be able to filter applications' do
     then_i_expect_the_relevant_accredited_provider_tags_to_be_visible
     when_i_click_to_remove_an_accredited_provider_tag
 
-    when_i_filter_by_provider
+    when_i_filter_by_providers
+    then_i_should_see_locations_that_belong_to_all_of_the_selected_providers
+
+    when_i_clear_the_filters
+    when_i_filter_by_a_specific_provider
+    then_i_should_only_see_locations_that_belog_to_that_provider
+
     when_i_filter_by_provider_location
     then_i_only_see_applications_for_that_provider_location
     and_i_expect_the_relevant_provider_location_tags_to_be_visible
@@ -62,11 +70,18 @@ RSpec.feature 'Providers should be able to filter applications' do
     then_i_expect_all_applications_to_be_visible_again
   end
 
-
-  def then_i_location_filters_should_be_visible
-    expect(page).to have_content('Locations for')
+  def then_i_should_see_locations_that_belong_to_all_of_the_selected_providers
+    expect(page).to have_content('Locations for Hoth Teacher Training')
+    expect(page).to have_content('Locations for Caladan University')
   end
 
+  def then_i_should_only_see_locations_that_belog_to_that_provider
+    expect(page).not_to have_content('Locations for Caladan University')
+  end
+
+  def then_location_filters_should_be_visible
+    expect(page).to have_content('Locations for')
+  end
 
   def then_i_location_filters_should_not_be_visible
     expect(page).not_to have_content('Locations for')
@@ -197,9 +212,14 @@ RSpec.feature 'Providers should be able to filter applications' do
     expect(page).to have_css('.app-application-cards', text: 'Declined')
   end
 
-  def when_i_filter_by_provider
+  def when_i_filter_by_providers
     find(:css, "#provider-#{current_provider.id}").set(true)
     find(:css, "#provider-#{second_provider.id}").set(true)
+    click_button('Apply filters')
+  end
+
+  def when_i_filter_by_a_specific_provider
+    find(:css, "#provider-#{current_provider.id}").set(true)
     click_button('Apply filters')
   end
 

@@ -98,7 +98,8 @@ module ProviderInterface
 
     def provider_locations_filters
       return [] if applied_filters[:provider].nil?
-      providers = ProviderOptionsService.new(provider_user).providers_with_sites
+
+      providers = ProviderOptionsService.new(provider_user).providers_with_sites(provider_ids: applied_filters[:provider])
 
       providers.map do |p|
         {
