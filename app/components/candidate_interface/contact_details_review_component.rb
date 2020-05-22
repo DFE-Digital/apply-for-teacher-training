@@ -2,13 +2,14 @@ module CandidateInterface
   class ContactDetailsReviewComponent < ViewComponent::Base
     validates :application_form, presence: true
 
-    def initialize(application_form:, editable: true, missing_error: false)
+    def initialize(application_form:, editable: true, missing_error: false, submitting_application: false)
       @application_form = application_form
       @contact_details_form = CandidateInterface::ContactDetailsForm.build_from_application(
         @application_form,
       )
       @editable = editable
       @missing_error = missing_error
+      @submitting_application = submitting_application
     end
 
     def contact_details_form_rows
@@ -16,7 +17,11 @@ module CandidateInterface
     end
 
     def show_missing_banner?
-      !@contact_details_form.valid?(:base) && !@contact_details_form.valid?(:address) && @editable
+      if @submitting_application && FeatureFlag.active?('mark_every_section_complete')
+        !@application_form.contact_details_completed && @editable
+      else
+        !@contact_details_form.valid?(:base) && !@contact_details_form.valid?(:address) && @editable
+      end
     end
 
   private

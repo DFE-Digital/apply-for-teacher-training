@@ -2,12 +2,13 @@ module CandidateInterface
   class RefereesReviewComponent < ViewComponent::Base
     validates :application_form, presence: true
 
-    def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false)
+    def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false, submitting_application: false)
       @application_form = application_form
       @editable = editable
       @heading_level = heading_level
       @show_incomplete = show_incomplete
       @missing_error = missing_error
+      @submitting_application = submitting_application
     end
 
     def referee_rows(referee)
@@ -25,7 +26,11 @@ module CandidateInterface
     end
 
     def show_missing_banner?
-      @show_incomplete && @application_form.application_references.count < minimum_references && @editable
+      if @submitting_application && FeatureFlag.active?('mark_every_section_complete')
+        !@application_form.references_completed && @editable
+      else
+        @show_incomplete && @application_form.application_references.count < minimum_references && @editable
+      end
     end
 
   private

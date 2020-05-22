@@ -2,13 +2,14 @@ module CandidateInterface
   class BecomingATeacherReviewComponent < ViewComponent::Base
     validates :application_form, presence: true
 
-    def initialize(application_form:, editable: true, missing_error: false)
+    def initialize(application_form:, editable: true, missing_error: false, submitting_application: false)
       @application_form = application_form
       @becoming_a_teacher_form = CandidateInterface::BecomingATeacherForm.build_from_application(
         @application_form,
       )
       @editable = editable
       @missing_error = missing_error
+      @submitting_application = submitting_application
     end
 
     def becoming_a_teacher_form_rows
@@ -16,7 +17,11 @@ module CandidateInterface
     end
 
     def show_missing_banner?
-      !@becoming_a_teacher_form.valid? && @editable
+      if @submitting_application && FeatureFlag.active?('mark_every_section_complete')
+        !@application_form.becoming_a_teacher_completed && @editable
+      else
+        !@becoming_a_teacher_form.valid? && @editable
+      end
     end
 
   private

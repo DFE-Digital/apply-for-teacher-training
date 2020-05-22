@@ -1,4 +1,6 @@
-<% if @application_qualification %>
+<% if show_missing_banner? %>
+  <%= render(SectionMissingBannerComponent.new(section: "#{subject}_gcse", section_path: candidate_interface_gcse_details_edit_type_path(subject: subject.to_sym), error: @missing_error)) %>
+<% elsif @application_qualification %>
   <%= render(SummaryCardComponent.new(rows: gcse_qualification_rows, editable: @editable)) do %>
     <% title = if @application_qualification.missing_qualification?
                  t('application_form.gcse.qualification_types.missing')
@@ -7,8 +9,6 @@
                end %>
     <%= render(SummaryCardHeaderComponent.new(title: title, heading_level: @heading_level)) %>
   <% end %>
-<% elsif @editable %>
-  <%= render(SectionMissingBannerComponent.new(section: "#{subject}_gcse", section_path: candidate_interface_gcse_details_edit_type_path(subject: subject.to_sym), error: @missing_error)) %>
 <% else %>
   <p class="govuk-body">No GCSE entered.</p>
 <% end %>

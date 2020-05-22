@@ -17,6 +17,14 @@ module CandidateInterface
         .rows
     end
 
+    def show_missing_banner?
+      if FeatureFlag.active?('mark_every_section_complete')
+        @editable && !@application_form.personal_details_completed
+      else
+        !@personal_details_form.valid?
+      end
+    end
+
   private
 
     attr_reader :application_form
