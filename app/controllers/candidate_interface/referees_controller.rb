@@ -174,7 +174,7 @@ module CandidateInterface
         .transform_values(&:strip)
     end
 
-    def complete_section
+    def set_section_to_complete_or_incomplete
       presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
 
       if presenter.all_referees_provided_by_candidate? && !FeatureFlag.active?('mark_every_section_complete')

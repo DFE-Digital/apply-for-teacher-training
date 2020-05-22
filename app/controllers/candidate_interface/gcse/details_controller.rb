@@ -36,7 +36,7 @@ module CandidateInterface
     def complete_section
       presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
 
-      if presenter.gcse_completed(current_application.send("#{@subject}_gcse")) && !FeatureFlag.active?('mark_every_section_complete')
+      if presenter.send("#{@subject}_gcse_completed?") && !FeatureFlag.active?('mark_every_section_complete')
         update_gcse_completed(true)
       end
     end
