@@ -58,6 +58,10 @@ module CandidateInterface
         end
       end
 
+      def full
+        @course = Course.find(params[:course_id])
+      end
+
     private
 
       def pick_site_for_course(course_id, course_option_id)
