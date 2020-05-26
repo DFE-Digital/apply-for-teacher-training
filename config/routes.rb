@@ -190,6 +190,10 @@ Rails.application.routes.draw do
 
       scope '/courses' do
         get '/' => 'application_choices#index', as: :course_choices_index
+        get '/review' => 'application_choices#review', as: :course_choices_review
+        patch '/review' => 'application_choices#complete', as: :course_choices_complete
+        get '/delete/:id' => 'application_choices#confirm_destroy', as: :confirm_destroy_course_choice
+        delete '/delete/:id' => 'application_choices#destroy'
 
         get '/choose' => 'course_choices/have_you_chosen#ask', as: :course_choices_choose
         post '/choose' => 'course_choices/have_you_chosen#decide'
@@ -198,34 +202,23 @@ Rails.application.routes.draw do
 
         get '/provider' => 'course_choices/provider_selection#options_for_provider', as: :course_choices_provider
         post '/provider' => 'course_choices/provider_selection#pick_provider'
+        get '/provider/:provider_id/courses' => 'course_choices/course_selection#options_for_course', as: :course_choices_course
+        post '/provider/:provider_id/courses' => 'course_choices/course_selection#pick_course'
+        get '/provider/:provider_id/courses/:course_id' => 'course_choices/study_mode_selection#options_for_study_mode', as: :course_choices_study_mode
+        post '/provider/:provider_id/courses/:course_id' => 'course_choices/study_mode_selection#pick_study_mode'
+        get '/provider/:provider_id/courses/:course_id/full' => 'course_choices/course_selection#full', as: :course_choices_full
+        get '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/site_selection#options_for_site', as: :course_choices_site
+        post '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/site_selection#pick_site'
+        get '/another' => 'course_choices/add_another_course#ask', as: :course_choices_add_another_course
+        post '/another' => 'course_choices/add_another_course#decide', as: :course_choices_add_another_course_selection
 
         get '/apply-on-ucas/provider/:provider_id' => 'course_choices/ucas#no_courses', as: :course_choices_ucas_no_courses
         get '/apply-on-ucas/provider/:provider_id/course/:course_id' => 'course_choices/ucas#with_course', as: :course_choices_ucas_with_course
-
-        get '/provider/:provider_id/courses' => 'course_choices/course_selection#options_for_course', as: :course_choices_course
-        post '/provider/:provider_id/courses' => 'course_choices/course_selection#pick_course'
-
-        get '/provider/:provider_id/courses/:course_id' => 'course_choices/study_mode_selection#options_for_study_mode', as: :course_choices_study_mode
-        post '/provider/:provider_id/courses/:course_id' => 'course_choices/study_mode_selection#pick_study_mode'
-
-        get '/provider/:provider_id/courses/:course_id/full' => 'course_choices/course_selection#full', as: :course_choices_full
-
-        get '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/site_selection#options_for_site', as: :course_choices_site
-        post '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/site_selection#pick_site'
-
-        get '/review' => 'application_choices#review', as: :course_choices_review
-        patch '/review' => 'application_choices#complete', as: :course_choices_complete
-
-        get '/another' => 'course_choices/add_another_course#ask', as: :course_choices_add_another_course
-        post '/another' => 'course_choices/add_another_course#decide', as: :course_choices_add_another_course_selection
 
         get '/confirm-selection/:course_id' => 'find_course_selections#confirm_selection', as: :course_confirm_selection
         get '/confirm_selection/:course_id', to: redirect('/candidate/application/courses/confirm-selection/%{course_id}')
         post '/complete-selection/:course_id' => 'find_course_selections#complete_selection', as: :course_complete_selection
         get '/complete_selection/:course_id', to: redirect('/candidate/application/courses/complete-selection/%{course_id}')
-
-        get '/delete/:id' => 'application_choices#confirm_destroy', as: :confirm_destroy_course_choice
-        delete '/delete/:id' => 'application_choices#destroy'
       end
 
       scope '/choice/:id' do
