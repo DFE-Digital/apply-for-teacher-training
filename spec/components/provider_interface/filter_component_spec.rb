@@ -1,200 +1,101 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::FilterComponent do
-  let(:path) { :provider_interface_applications_path }
-
-  let(:applied_filters_partial) do
-    {
-      'status' => {
-        'pending_conditions' => 'on',
-        'awaiting_provider_decision' => 'on',
-        'offer' => 'on',
-        'rejected' => 'on',
-        'withdrawn' => 'on',
-      }, 'provider' => {
-        '2' => 'on',
-      }
-    }
+  let(:applied_filters) do
+    ActionController::Parameters.new({ 'status' => %w[awaiting_provider_decision
+                                                      pending_conditions
+                                                      recruited
+                                                      declined] })
   end
 
-  let(:applied_filters_partial_minus_withdrawn) do
-    {
-      'status' => {
-        'pending_conditions' => 'on',
-        'awaiting_provider_decision' => 'on',
-        'offer' => 'on',
-        'rejected' => 'on',
-      }, 'provider' => {
-        '2' => 'on',
-      }
-    }
+  let(:filters) do
+    [{ type: :search, heading: 'Candidate’s name', value: '', name: 'candidate_name' },
+     { type: :checkboxes,
+       heading: 'Status',
+       name: 'status',
+       options: [{ value: 'awaiting_provider_decision', label: 'New', checked: false },
+                 { value: 'offer', label: 'Offered', checked: false },
+                 { value: 'pending_conditions', label: 'Accepted', checked: false },
+                 { value: 'recruited', label: 'Conditions met', checked: false },
+                 { value: 'enrolled', label: 'Enrolled', checked: false },
+                 { value: 'rejected', label: 'Rejected', checked: false },
+                 { value: 'declined', label: 'Declined', checked: true },
+                 { value: 'withdrawn', label: 'Application withdrawn', checked: true },
+                 { value: 'conditions_not_met', label: 'Conditions not met', checked: false },
+                 { value: 'offer_withdrawn', label: 'Withdrawn by us', checked: false }] },
+     { type: :checkboxes,
+       heading: 'Provider',
+       name: 'provider',
+       options: [{ value: 1, label: 'Gorse SCITT', checked: false }] },
+     { type: :checkboxes,
+       heading: 'Accredited provider',
+       name: 'accredited_provider',
+       options: [{ value: 5, label: 'Coventry University', checked: nil }] }]
   end
 
-  let(:available_filters) do
-    [
-      {
-        heading: 'status',
-        input_config: [
-          {
-            type: 'checkbox',
-            text: 'Accepted',
-            name: 'pending_conditions',
-          },
-          {
-            type: 'checkbox',
-            text: 'Conditions met',
-            name: 'recruited',
-          },
-          {
-            type: 'checkbox',
-            text: 'Declined',
-            name: 'declined',
-          },
-          {
-            type: 'checkbox',
-            text: 'New',
-            name: 'awaiting_provider_decision',
-          },
-          {
-            type: 'checkbox',
-            text: 'Offered',
-            name: 'offer',
-          },
-          {
-            type: 'checkbox',
-            text: 'Rejected',
-            name: 'rejected',
-          },
-          {
-            type: 'checkbox',
-            text: 'Application withdrawn',
-            name: 'withdrawn',
-          },
-          {
-            type: 'checkbox',
-            text: 'Withdrawn by us',
-            name: 'offer_withdrawn',
-          },
-        ],
-      },
-      {
-        heading: 'provider',
-        input_config: [
-          {
-            type: 'checkbox',
-            text: 'Somerset SCITT consortium',
-            name: '1',
-          },
-          {
-            type: 'checkbox',
-            text: 'The Beach Teaching School',
-            name: '2',
-          },
+  let(:provider_1) { create(:provider) }
+  let(:provider_2) { create(:provider) }
 
-        ],
-      },
-    ]
-  end
-
-  let(:available_filters_only_one_provider) do
-    [
-      {
-        heading: 'status',
-        input_config: [
-          {
-            type: 'checkbox',
-            text: 'Accepted',
-            name: 'pending_conditions',
-          },
-          {
-            type: 'checkbox',
-            text: 'Withdrawn by us',
-            name: 'offer_withdrawn',
-          },
-        ],
-      },
-      {
-        heading: 'provider',
-        input_config: [
-          {
-            type: 'checkbox',
-            text: 'Somerset SCITT consortium',
-            name: '1',
-          },
-        ],
-      },
-    ]
-  end
-
-  let(:params_for_current_state) do
-    {
-      sort_by: 'desc',
-      sort_order: 'last-updated',
-    }
-  end
+  let(:current_provider_user) { build_stubbed(:provider_user) }
 
   it 'marks checkboxes as checked if they have already been pre-selected' do
-    result = render_inline described_class.new(
-      available_filters: available_filters,
-      applied_filters: applied_filters_partial,
-      params_for_current_state: params_for_current_state,
+    page_state = ProviderInterface::ProviderApplicationsPageState.new(
+      params: applied_filters,
+      provider_user: current_provider_user,
     )
 
-    expect(result.css('#status-accepted').attr('checked').value).to eq('checked')
-    expect(result.css('#status-recruited').attr('checked')).to eq(nil)
-    expect(result.css('#status-declined').attr('checked')).to eq(nil)
-    expect(result.css('#status-new').attr('checked').value).to eq('checked')
-    expect(result.css('#status-rejected').attr('checked').value).to eq('checked')
-    expect(result.css('#status-application-withdrawn').attr('checked').value).to eq('checked')
-    expect(result.css('#provider-somerset-scitt-consortium').attr('checked')).to eq(nil)
-    expect(result.css('#provider-the-beach-teaching-school').attr('checked').value).to eq('checked')
+    result = render_inline described_class.new(page_state: page_state)
+
+    expect(result.css('#status-awaiting_provider_decision').attr('checked').value).to eq('checked')
+    expect(result.css('#status-offer').attr('checked')).to eq(nil)
+    expect(result.css('#status-pending_conditions').attr('checked').value).to eq('checked')
+    expect(result.css('#status-recruited').attr('checked').value).to eq('checked')
+    expect(result.css('#status-enrolled').attr('checked')).to eq(nil)
+    expect(result.css('#status-rejected').attr('checked')).to eq(nil)
+    expect(result.css('#status-declined').attr('checked').value).to eq('checked')
+    expect(result.css('#status-withdrawn').attr('checked')).to eq(nil)
+    expect(result.css('#status-conditions_not_met').attr('checked')).to eq(nil)
+    expect(result.css('#status-offer_withdrawn').attr('checked')).to eq(nil)
   end
 
   it 'on initial load all of the checkboxes are unchecked' do
-    result = render_inline described_class.new(
-      available_filters: available_filters,
-      applied_filters: {},
-      params_for_current_state: params_for_current_state,
+    page_state = ProviderInterface::ProviderApplicationsPageState.new(
+      params: ActionController::Parameters.new({}),
+      provider_user: current_provider_user,
     )
+    result = render_inline described_class.new(page_state: page_state)
 
-    expect(result.css('#status-accepted').attr('checked')).to eq(nil)
+    expect(result.css('#status-awaiting_provider_decision').attr('checked')).to eq(nil)
+    expect(result.css('#status-offer').attr('checked')).to eq(nil)
+    expect(result.css('#status-pending_conditions').attr('checked')).to eq(nil)
     expect(result.css('#status-recruited').attr('checked')).to eq(nil)
-    expect(result.css('#status-declined').attr('checked')).to eq(nil)
-    expect(result.css('#status-new').attr('checked')).to eq(nil)
+    expect(result.css('#status-enrolled').attr('checked')).to eq(nil)
     expect(result.css('#status-rejected').attr('checked')).to eq(nil)
-    expect(result.css('#status-application-withdrawn').attr('checked')).to eq(nil)
-    expect(result.css('#provider-somerset-scitt-consortium').attr('checked')).to eq(nil)
-    expect(result.css('#provider-the-beach-teaching-school').attr('checked')).to eq(nil)
+    expect(result.css('#status-declined').attr('checked')).to eq(nil)
+    expect(result.css('#status-withdrawn').attr('checked')).to eq(nil)
+    expect(result.css('#status-conditions_not_met').attr('checked')).to eq(nil)
+    expect(result.css('#status-offer_withdrawn').attr('checked')).to eq(nil)
   end
 
   it 'when filters have been selected filters dialogue to appear' do
-    result = render_inline described_class.new(
-      available_filters: available_filters,
-      applied_filters: applied_filters_partial,
-      params_for_current_state: params_for_current_state,
+    page_state = ProviderInterface::ProviderApplicationsPageState.new(
+      params: applied_filters,
+      provider_user: current_provider_user,
     )
+
+    result = render_inline described_class.new(page_state: page_state)
 
     expect(result.text).to include('Selected filters')
   end
 
   it 'selected filters dialogue should not appear if is nothing filtered for' do
-    result = render_inline described_class.new(
-      available_filters: available_filters,
-      applied_filters: {},
-      params_for_current_state: params_for_current_state,
+    page_state = ProviderInterface::ProviderApplicationsPageState.new(
+      params: ActionController::Parameters.new({}),
+      provider_user: current_provider_user,
     )
+
+    result = render_inline described_class.new(page_state: page_state)
 
     expect(result.text).not_to include('Selected filters')
-  end
-
-  it 'does not render a filter if there is only one possible filter in a filter_group' do
-    result = render_inline described_class.new(
-      available_filters: available_filters_only_one_provider,
-      applied_filters: {},
-      params_for_current_state: params_for_current_state,
-    )
-
-    expect(result.to_html).not_to include('Provider')
-    expect(result.to_html).to include('Status')
   end
 end

@@ -1,168 +1,88 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ProviderApplicationsPageState do
-  let(:correct_available_filters) do
-    [
-      {
-        heading: "candidate's name",
-        input_config: [
-          {
-            type: 'search',
-            text: '',
-            name: 'candidates_name',
-          },
-        ],
-      },
-      {
-        heading: 'status',
-        input_config: [
-          {
-            type: 'checkbox',
-            text: 'New',
-            name: 'awaiting_provider_decision',
-          },
-          {
-            type: 'checkbox',
-            text: 'Offered',
-            name: 'offer',
-          },
-          {
-            type: 'checkbox',
-            text: 'Accepted',
-            name: 'pending_conditions',
-          },
-          {
-            type: 'checkbox',
-            text: 'Conditions met',
-            name: 'recruited',
-          },
-          {
-            type: 'checkbox',
-            text: 'Enrolled',
-            name: 'enrolled',
-          },
-          {
-            type: 'checkbox',
-            text: 'Rejected',
-            name: 'rejected',
-          },
-          {
-            type: 'checkbox',
-            text: 'Declined',
-            name: 'declined',
-          },
-          {
-            type: 'checkbox',
-            text: 'Application withdrawn',
-            name: 'withdrawn',
-          },
-          {
-            type: 'checkbox',
-            text: 'Conditions not met',
-            name: 'conditions_not_met',
-          },
-          {
-            type: 'checkbox',
-            text: 'Withdrawn by us',
-            name: 'offer_withdrawn',
-          },
-        ],
-      },
-      {
-        heading: 'provider',
-        input_config: [
-          {
-            type: 'checkbox',
-            text: 'Gorse SCITT',
-            name: '1',
-          },
-          {
-            type: 'checkbox',
-            text: 'University of Chichester',
-            name: '4',
-          },
-        ],
-      },
-      {
-        heading: 'accredited_provider',
-        input_config: [
-          {
-            type: 'checkbox',
-            text: 'University of West England',
-            name: '5',
-          },
-          {
-            type: 'checkbox',
-            text: 'University of East England',
-            name: '6',
-          },
-        ],
-      },
-    ]
-  end
-  let(:provider_user) { instance_double(ProviderUser) }
+  let(:course1) { create(:course) }
+  let(:course2) { create(:course) }
+  let(:course3) { create(:course) }
 
-  before do
-    @provider_service = instance_double(ProviderInterface::ProviderOptionsService)
-    allow(ProviderInterface::ProviderOptionsService).to receive(:new).and_return(@provider_service)
-    allow(@provider_service).to receive(:accredited_providers).and_return([
-      instance_double(Provider, id: '5', name: 'University of West England'),
-      instance_double(Provider, id: '6', name: 'University of East England'),
-    ])
-    allow(@provider_service).to receive(:providers).and_return([
-      instance_double(Provider, id: '1', name: 'Gorse SCITT'),
-      instance_double(Provider, id: '4', name: 'University of Chichester'),
-    ])
-  end
+  let(:provider1) { create(:provider, courses: [course1]) }
+  let(:provider2) { create(:provider, courses: [course2]) }
+  let(:provider3) { create(:provider, courses: [course3]) }
 
-  describe '#available_filters' do
-    it 'calculate the correct available_filters' do
-      params = ActionController::Parameters.new
-      state = described_class.new(
-        params: params,
-        provider_user: provider_user,
-      )
+  let(:provider_user) { create(:provider_user, providers: [provider1, provider2, provider3]) }
+  let(:another_provider_user) { create(:provider_user, providers: [provider1]) }
 
-      expect(state.available_filters).to eq(correct_available_filters)
+  describe '#filters' do
+    it 'calculates a correct list of possible filters' do
+      page_state = described_class.new(params: ActionController::Parameters.new,
+                                       provider_user: provider_user)
+
+      expected_number_of_filters = 4
+      providers_array_index = 2
+      number_of_courses = 3
+
+      expect(page_state.filters).to be_a(Array)
+      expect(page_state.filters.size).to be(expected_number_of_filters)
+      expect(page_state.filters[providers_array_index][:options].size).to be(number_of_courses)
+    end
+
+    it 'does not include providers if avaible providers is < 2' do
+      page_state = described_class.new(params: ActionController::Parameters.new,
+                                       provider_user: another_provider_user)
+
+      expected_number_of_filters = 3
+
+      headings = page_state.filters.map { |filter| filter[:heading] }
+
+      expect(page_state.filters.size).to be(expected_number_of_filters)
+      expect(headings).not_to include('Provider')
     end
   end
 
-  describe '#filter_selections' do
-    it 'returns correct hash if values are present' do
-      filter_selections = { filter_selections: { 'search' => { 'candidates_name' => 'Ellamae Kunze' },
-                                                 'status' => { 'recruited' => 'on', 'declined' => 'on' },
-                                                 'provider' => { '1' => 'on' } } }
-
-      params = ActionController::Parameters.new(filter_selections)
-      state = described_class.new(
-        params: params,
-        provider_user: provider_user,
-      )
-      expect(state.filter_selections).to eq(filter_selections[:filter_selections])
+  describe '#applied_filters' do
+    let(:params) do
+      ActionController::Parameters.new({ 'status' => %w[
+        awaiting_provider_decision
+        pending_conditions
+        recruited
+        declined
+      ],
+                                         'weekdays' => %w[
+                                           wed
+                                           thurs
+                                           mon
+                                         ] })
     end
 
-    it 'will return an empty hash if there are no filters selected' do
-      filter_selections = { filter_selections: { 'search' => { 'candidates_name' => '' } } }
+    it 'returns a has of permitted parameters' do
+      page_state = described_class.new(params: params, provider_user: provider_user)
 
-      params = ActionController::Parameters.new(filter_selections)
-      state = described_class.new(
-        params: params,
-        provider_user: provider_user,
-      )
-      expect(state.filter_selections).to eq({})
+      expect(page_state.applied_filters).to be_a(Hash)
+      expect(page_state.applied_filters.keys).to include('status')
+      expect(page_state.applied_filters.keys).not_to include('weekdays')
+    end
+  end
+
+  describe '#filtered?' do
+    let(:params) do
+      ActionController::Parameters.new({ 'status' => %w[
+        awaiting_provider_decision
+        pending_conditions
+        recruited
+        declined
+      ] })
     end
 
-    it 'will remove candidates_name field if empty (i.e. "")' do
-      filter_selections = { filter_selections: { 'search' => { 'candidates_name' => '' },
-                                                 'status' => { 'recruited' => 'on', 'declined' => 'on' },
-                                                 'provider' => { '1' => 'on' } } }
+    let(:empty_params) { ActionController::Parameters.new }
 
-      params = ActionController::Parameters.new(filter_selections)
-      state = described_class.new(
-        params: params,
-        provider_user: provider_user,
-      )
-      expect(state.filter_selections).to eq(filter_selections[:filter_selections].except('search'))
+    it 'returns true if filers have been applied' do
+      page_state = described_class.new(params: params, provider_user: provider_user)
+      expect(page_state.filtered?).to be(true)
+    end
+
+    it 'returns false if filters have not been applied' do
+      page_state = described_class.new(params: empty_params, provider_user: provider_user)
+      expect(page_state.filtered?).to be(false)
     end
   end
 end

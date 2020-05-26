@@ -21,9 +21,7 @@
 
 <div class='moj-filter-layout'>
   <%= render ProviderInterface::FilterComponent.new(
-    available_filters: @page_state.available_filters,
-    applied_filters: @page_state.filter_selections,
-    params_for_current_state: @page_state.to_h,
+    page_state: @page_state,
   ) %>
   <div class='moj-filter-layout__content'>
     <% if @application_choices.any? %>
@@ -32,7 +30,7 @@
           <%= render ProviderInterface::ApplicationCardComponent.new(application_choice: choice) %>
         <% end %>
       </div>
-    <% elsif @page_state.filter_selections.any? %>
+    <% elsif @page_state.filtered? %>
       <p class='govuk-body'>No applications for the selected filters.</p>
     <% else %>
       <p class='govuk-body'>You haven’t received any applications from <%= t('service_name.apply') %>.</p>
