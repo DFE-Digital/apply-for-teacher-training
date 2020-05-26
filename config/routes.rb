@@ -191,10 +191,9 @@ Rails.application.routes.draw do
       scope '/courses' do
         get '/' => 'application_choices#index', as: :course_choices_index
 
-        get '/choose' => 'course_choices#have_you_chosen', as: :course_choices_choose
-        post '/choose' => 'course_choices#make_choice'
-
-        get '/find-a-course' => 'course_choices#go_to_find', as: :go_to_find
+        get '/choose' => 'course_choices/have_you_chosen#ask', as: :course_choices_choose
+        post '/choose' => 'course_choices/have_you_chosen#decide'
+        get '/find-a-course' => 'course_choices/have_you_chosen#go_to_find', as: :go_to_find
         get '/find_a_course', to: redirect('/candidate/application/courses/find-a-course')
 
         get '/provider' => 'course_choices/provider_selection#options_for_provider', as: :course_choices_provider
