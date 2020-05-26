@@ -25,8 +25,8 @@ RSpec.feature 'Candidate with unsuccessful application' do
     and_i_can_indeed_only_select_one_course
 
     when_i_complete_my_application
-    then_my_application_is_submitted
-    and_my_application_is_ready_to_send_to_the_provider
+    then_my_application_is_submitted_and_sent_to_the_provider
+    and_i_receive_an_email_that_my_application_has_been_sent
     and_i_do_not_see_referee_related_guidance
     and_there_is_no_guidance_on_editing_my_application
 
@@ -126,14 +126,16 @@ RSpec.feature 'Candidate with unsuccessful application' do
     candidate_submits_application
   end
 
-  def then_my_application_is_submitted
+  def then_my_application_is_submitted_and_sent_to_the_provider
     expect(page).to have_content 'Application successfully submitted'
     @apply_again_choice = ApplicationForm.last.application_choices.first
-    expect(@apply_again_choice.status).to eq 'application_complete'
+    expect(@apply_again_choice.status).to eq 'awaiting_provider_decision'
+    expect(@apply_again_choice.edit_by.to_date).to eq Time.zone.today
   end
 
-  def and_my_application_is_ready_to_send_to_the_provider
-    expect(@apply_again_choice.edit_by.to_date).to eq Time.zone.today
+  def and_i_receive_an_email_that_my_application_has_been_sent
+    open_email(@candidate.email_address)
+    expect(current_email.subject).to have_content t('candidate_mailer.application_sent_to_provider.subject')
   end
 
   def and_i_do_not_see_referee_related_guidance

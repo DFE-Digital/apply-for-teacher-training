@@ -66,7 +66,7 @@ RSpec.describe SubmitApplication do
     context 'when application is Apply Again' do
       before { FeatureFlag.activate('apply_again') }
 
-      it 'progresses status to `application_complete`' do
+      it 'progresses status to `awaiting_provider_decision`' do
         original_application_form = create_application_form
 
         original_application_form.application_references << build(:reference, email_address: 'bob@example.com', feedback_status: :feedback_provided)
@@ -79,7 +79,7 @@ RSpec.describe SubmitApplication do
         SubmitApplication.new(application_form).call
 
         application_form.application_choices.reload
-        expect(application_form.application_choices[0]).to be_application_complete
+        expect(application_form.application_choices[0]).to be_awaiting_provider_decision
       end
     end
   end

@@ -47,19 +47,16 @@ RSpec.describe SubmitApplicationChoice do
     end
   end
 
-  describe 'Submit an Apply Again application choice' do
+  describe 'Submit an application choice to the provider immediately' do
     let(:submit_application_choice) do
       SubmitApplicationChoice.new(
         application_choice,
-        apply_again: apply_again,
-        enough_references: enough_references,
+        send_to_provider_immediately: send_to_provider_immediately,
       ).call
     end
 
-    let(:apply_again) { true }
-
     context 'and enough references have been provided' do
-      let(:enough_references) { true }
+      let(:send_to_provider_immediately) { true }
 
       it 'sets the edit_by timestamp to now' do
         submit_application_choice
@@ -70,12 +67,12 @@ RSpec.describe SubmitApplicationChoice do
       it 'updates the application choice state to Application Complete' do
         submit_application_choice
 
-        expect(application_choice).to be_application_complete
+        expect(application_choice).to be_awaiting_provider_decision
       end
     end
 
     context 'and not enough references have been provided' do
-      let(:enough_references) { false }
+      let(:send_to_provider_immediately) { false }
 
       it 'updates the application choice to Awaiting References' do
         submit_application_choice
