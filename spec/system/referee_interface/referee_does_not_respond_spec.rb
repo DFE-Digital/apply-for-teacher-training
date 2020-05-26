@@ -6,12 +6,15 @@ RSpec.feature 'Referee does not respond in time' do
   scenario 'Emails are sent if a referee does not respond in time' do
     given_a_candidate_completed_an_application
     when_the_candidate_submits_the_application
-    and_the_referee_does_not_respond_within_5_days
+    and_the_referee_does_not_respond_within_7_days
     then_the_referee_is_sent_a_chase_email
     and_an_email_is_sent_to_the_candidate
 
-    when_if_the_candidate_does_not_respond_within_10_days
+    when_the_candidate_does_not_respond_within_14_days
     then_an_email_is_sent_to_the_candidate_asking_for_a_new_referee
+
+    when_the_candidate_does_not_respond_within_28_days
+    then_the_candidate_is_sent_a_chase_email
   end
 
   def given_a_candidate_completed_an_application
@@ -23,9 +26,9 @@ RSpec.feature 'Referee does not respond in time' do
     @application.application_references.first.update!(feedback_status: :feedback_refused)
   end
 
-  def and_the_referee_does_not_respond_within_5_days
-    Timecop.travel(6.business_days.from_now) do
-      SendChaseEmailToRefereesWorker.perform_async
+  def and_the_referee_does_not_respond_within_7_days
+    Timecop.travel(7.days.from_now) do
+      SendReferenceChaseEmailToBothPartiesWorker.perform_async
     end
   end
 
@@ -41,8 +44,8 @@ RSpec.feature 'Referee does not respond in time' do
     expect(current_email.subject).to end_with('Anne Other hasn’t given a reference yet')
   end
 
-  def when_if_the_candidate_does_not_respond_within_10_days
-    Timecop.travel(11.business_days.from_now) do
+  def when_the_candidate_does_not_respond_within_14_days
+    Timecop.travel(14.days.from_now) do
       AskCandidatesForNewRefereesWorker.perform_async
     end
   end
@@ -51,5 +54,17 @@ RSpec.feature 'Referee does not respond in time' do
     open_email(@application.candidate.email_address)
 
     expect(current_email.subject).to have_content('Give details of a new referee')
+  end
+
+  def when_the_candidate_does_not_respond_within_28_days
+    Timecop.travel(28.days.from_now) do
+      SendAdditionalReferenceChaseEmailToCandidatesWorker.perform_async
+    end
+  end
+
+  def then_the_candidate_is_sent_a_chase_email
+    open_email(@application.candidate.email_address)
+
+    expect(current_email.subject).to have_content('Get your references as soon as possible')
   end
 end

@@ -1,4 +1,4 @@
-class GetRefereesToChase
+class GetReferencesToChase
   def self.call
     ApplicationReference
       .feedback_requested

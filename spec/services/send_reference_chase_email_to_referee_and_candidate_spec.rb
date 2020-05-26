@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendChaseEmailToRefereeAndCandidate do
+RSpec.describe SendReferenceChaseEmailToRefereeAndCandidate do
   describe '#call' do
     it 'sends a chaser email to the candidate and referee' do
       application_form = create(:completed_application_form)

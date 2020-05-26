@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GetRefereesToChase do
+RSpec.describe GetReferencesToChase do
   describe '.call' do
     it 'returns referees that were sent their reference email more than 7 days ago and have not already been chased' do
       reference = create(:reference, feedback_status: 'feedback_requested', requested_at: 8.days.ago)
@@ -23,7 +23,7 @@ RSpec.describe GetRefereesToChase do
     it 'does not return referess who have already been sent a chase email' do
       reference = create(:reference, feedback_status: 'feedback_requested', requested_at: 8.days.ago)
 
-      SendChaseEmailToRefereeAndCandidate.call(application_form: reference.application_form, reference: reference)
+      SendReferenceChaseEmailToRefereeAndCandidate.call(application_form: reference.application_form, reference: reference)
 
       expect(described_class.call).to be_empty
     end

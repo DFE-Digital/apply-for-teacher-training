@@ -20,6 +20,13 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def chase_references_again(application_form)
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.chase_references_again.subject'),
+    )
+  end
+
   def survey_email(application_form)
     email_for_candidate(
       application_form,
