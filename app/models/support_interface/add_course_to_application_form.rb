@@ -49,7 +49,7 @@ module SupportInterface
     def application_form_in_correct_state
       return if awaiting_references? || awaiting_provider_decision?
 
-      errors[:base] << 'You can only add a course to an application that has at least 1 other application choice in the "awaiting references" state.'
+      errors[:base] << 'You can only add a course to an application that has at least 1 other application choice in the "awaiting references" or "awaiting_provider_decision" state.'
     end
   end
 end
