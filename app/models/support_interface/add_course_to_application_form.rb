@@ -15,7 +15,10 @@ module SupportInterface
         status: 'unsubmitted',
       )
 
-      SubmitApplicationChoice.new(application_choice).call
+      SubmitApplicationChoice.new(
+        application_choice,
+        send_to_provider_immediately: awaiting_provider_decision?,
+      ).call
     end
 
   private
@@ -32,13 +35,21 @@ module SupportInterface
       errors[:base] << "There's no course option with ID #{course_option_id}"
     end
 
-    # For simplicity we only support adding applications to forms that are in
-    # "Awaiting references" state, because we need to add the choices in the
-    # same state as other applications.
-    def application_form_in_correct_state
-      return if application_form.application_choices.any?(&:awaiting_references?)
+    def awaiting_references?
+      application_form.application_choices.any?(&:awaiting_references?)
+    end
 
-      errors[:base] << 'You can only add a course to an application that has at least 1 other application choice in the "awaiting references" state.'
+    def awaiting_provider_decision?
+      application_form.application_choices.any?(&:awaiting_provider_decision?)
+    end
+
+    # For simplicity we only support adding applications to forms that are in
+    # "Awaiting references" or "Awaiting provider decision" state, because we
+    # need to add the choices in the same state as other applications.
+    def application_form_in_correct_state
+      return if awaiting_references? || awaiting_provider_decision?
+
+      errors[:base] << 'You can only add a course to an application that has at least 1 other application choice in the "awaiting references" or "awaiting_provider_decision" state.'
     end
   end
 end

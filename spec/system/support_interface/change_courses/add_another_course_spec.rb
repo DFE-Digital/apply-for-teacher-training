@@ -14,6 +14,15 @@ RSpec.feature 'Add another course to application' do
 
     then_the_new_course_is_added_to_the_application
     and_i_can_no_longer_add_a_course_because_3_is_the_max
+
+    when_there_is_a_candidate_who_wants_a_course_added_in_awaiting_provider_decision
+
+    when_i_visit_the_application_form
+    and_click_on_the_button_to_change_courses
+    and_i_select_the_option_to_add_a_course
+    and_i_fill_in_the_course_option_id_for_the_desired_course
+
+    then_another_new_course_is_added_to_the_application
   end
 
   def given_i_am_a_support_user
@@ -60,5 +69,18 @@ RSpec.feature 'Add another course to application' do
 
     expect(page).not_to have_content I18n.t!('support_interface.change_course.add_course')
     expect(page).to have_content 'This application already has 3 courses'
+  end
+
+  def when_there_is_a_candidate_who_wants_a_course_added_in_awaiting_provider_decision
+    @application_form = create(:completed_application_form)
+
+    create(:application_choice, status: 'awaiting_provider_decision', application_form: @application_form)
+    create(:application_choice, status: 'awaiting_provider_decision', application_form: @application_form)
+
+    @new_course_option = create(:course_option, course: create(:course, name: 'Another new course'))
+  end
+
+  def then_another_new_course_is_added_to_the_application
+    expect(page).to have_content 'Another new course'
   end
 end
