@@ -13,6 +13,9 @@ class ApplicationForm < ApplicationRecord
   has_many :application_references, -> { order('id ASC') }
   has_many :application_work_history_breaks
 
+  belongs_to :previous_application_form, class_name: 'ApplicationForm', optional: true, inverse_of: 'subsequent_application_form'
+  has_one :subsequent_application_form, class_name: 'ApplicationForm', foreign_key: 'previous_application_form_id', inverse_of: 'previous_application_form'
+
   MINIMUM_COMPLETE_REFERENCES = 2
   MAXIMUM_REFERENCES = 10
   DECISION_PENDING_STATUSES = %w[awaiting_references application_complete awaiting_provider_decision].freeze

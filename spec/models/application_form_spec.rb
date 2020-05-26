@@ -6,6 +6,16 @@ RSpec.describe ApplicationForm do
     expect(application_form.support_reference).to be_present
   end
 
+  describe '#previous_application_form' do
+    it 'refers to the previous application' do
+      previous_application_form = create(:application_form)
+      application_form = create(:application_form, previous_application_form_id: previous_application_form.id)
+
+      expect(application_form.previous_application_form).to eql(previous_application_form)
+      expect(application_form.previous_application_form.subsequent_application_form).to eql(application_form)
+    end
+  end
+
   describe 'auditing', with_audited: true do
     it 'records an audit entry when creating a new ApplicationForm' do
       application_form = create :application_form

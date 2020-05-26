@@ -18,6 +18,8 @@ module SupportInterface
         submitted_row,
         last_updated_row,
         state_row,
+        previous_application_row,
+        subsequent_application_row,
       ].compact
     end
 
@@ -52,6 +54,24 @@ module SupportInterface
       {
         key: 'State',
         value: formatted_status,
+      }
+    end
+
+    def previous_application_row
+      return unless application_form.previous_application_form
+
+      {
+        key: 'Previous application',
+        value: govuk_link_to(application_form.previous_application_form.support_reference, support_interface_application_form_path(application_form.previous_application_form)),
+      }
+    end
+
+    def subsequent_application_row
+      return unless application_form.subsequent_application_form
+
+      {
+        key: 'Subsequent application',
+        value: govuk_link_to(application_form.subsequent_application_form.support_reference, support_interface_application_form_path(application_form.subsequent_application_form)),
       }
     end
 
