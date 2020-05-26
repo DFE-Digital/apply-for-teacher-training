@@ -61,6 +61,22 @@
           to see if the course will re-open or discuss alternatives
         </li>
       </ul>
+    <% elsif course_choice.chosen_study_mode_full? %>
+      <p class='app-review-warning__primary-message'><%= course_choice.chosen_study_mode_full_error %>.</p>
+      <p class='govuk-body'>You can:</p>
+      <ul class='govuk-list govuk-list--bullet'>
+        <% if site_change_path(course_choice) %>
+          <li><%= govuk_link_to 'pick a new location', site_change_path(course_choice) %></li>
+        <% end %>
+        <li><%= govuk_link_to 'delete this choice', candidate_interface_confirm_destroy_course_choice_path(course_choice.id) %></li>
+        <% if course_change_path(course_choice) %>
+          <li><%= govuk_link_to 'change to another course', course_change_path(course_choice) %></li>
+        <% end %>
+        <li>
+          <%= govuk_link_to 'contact the training provider', "#{course_choice.course.find_url}#section-contact" %>
+          to see if the course will re-open or discuss alternatives
+        </li>
+      </ul>
     <% end %>
   <% end %>
 

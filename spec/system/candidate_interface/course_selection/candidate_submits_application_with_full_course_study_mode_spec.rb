@@ -8,7 +8,7 @@ RSpec.feature 'Candidate submits the application' do
     and_i_candidate_completes_their_application
     and_the_selected_full_time_course_option_is_now_full
     and_the_selected_course_is_available_part_time_at_the_same_location
-    and_i_candidate_submits_their_application
+    and_i_submit_my_application
 
     then_i_see_a_warning_that_the_course_is_now_full
     and_i_cannot_proceed
@@ -37,17 +37,17 @@ RSpec.feature 'Candidate submits the application' do
     )
   end
 
-  def and_i_candidate_submits_their_application
+  def and_i_submit_my_application
     click_link 'Check and submit your application'
   end
 
   def then_i_see_a_warning_that_the_course_is_now_full
-    expect(page).to have_content(/You cannot apply for a full time course at .+ because it has no full time vacancies/)
+    expect(page).to have_content(/Your chosen location for .+ has no full time vacancies/)
   end
 
   def and_i_cannot_proceed
     click_link 'Continue'
     expect(page).to have_content('There is a problem')
-    expect(page).to have_content(/You cannot apply for a full time course at .+ because it has no full time vacancies/)
+    expect(page).to have_content(/Your chosen location for .+ has no full time vacancies/)
   end
 end
