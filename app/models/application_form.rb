@@ -124,6 +124,10 @@ class ApplicationForm < ApplicationRecord
     previous_application_form_id.present?
   end
 
+  def candidate_can_choose_single_course?
+    apply_2?
+  end
+
   def apply_again_course_chosen?
     apply_again? && application_choices.present?
   end
