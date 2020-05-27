@@ -3,9 +3,11 @@ class StateChangeNotifier
     helpers = Rails.application.routes.url_helpers
     candidate_number = Candidate.where(hide_in_reporting: false).count
 
-    candidate_number_is_significant = (candidate_number % 1000).zero?
+    return unless (candidate_number % 5).zero?
+
+    candidate_number_is_significant = (candidate_number % 100).zero?
     text = if candidate_number_is_significant
-             ":ultrafastparrot: The #{candidate_number.ordinalize} candidate just signed up @channel"
+             ":ultrafastparrot: The #{candidate_number.ordinalize} candidate just signed up"
            else
              ":sparkles: The #{candidate_number.ordinalize} candidate just signed up"
            end
