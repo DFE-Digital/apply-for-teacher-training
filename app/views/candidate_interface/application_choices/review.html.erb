@@ -16,12 +16,12 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <% if @course_choices.present? %>
+      <% if @application_choices.present? %>
         <% if @application_form.can_add_more_choices? %>
           <%= link_to 'Add another course', candidate_interface_course_choices_choose_path, class: 'govuk-button govuk-button--secondary govuk-!-margin-bottom-9' %>
         <% end %>
 
-        <% if @course_choices.count >= 1 %>
+        <% if @application_choices.count >= 1 %>
           <%= f.govuk_check_boxes_fieldset :course_choices_completed, legend: {} do %>
             <%= f.hidden_field :course_choices_completed, value: false %>
             <%= f.govuk_check_box :course_choices_completed,

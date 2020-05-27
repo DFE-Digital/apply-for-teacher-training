@@ -3,9 +3,9 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_submitted
 
     def index
-      @course_choices = current_candidate.current_application.application_choices
+      @application_choices = current_candidate.current_application.application_choices
 
-      if @course_choices.any?
+      if @application_choices.any?
         redirect_to candidate_interface_course_choices_review_path
       end
     end
@@ -27,7 +27,7 @@ module CandidateInterface
 
     def review
       @application_form = current_application
-      @course_choices = current_candidate.current_application.application_choices
+      @application_choices = current_candidate.current_application.application_choices
     end
 
     def complete
@@ -38,7 +38,7 @@ module CandidateInterface
       if @application_form.update(application_form_params)
         redirect_to candidate_interface_application_form_path
       else
-        @course_choices = current_candidate.current_application.application_choices
+        @application_choices = current_candidate.current_application.application_choices
         track_validation_error(@application_form)
 
         render :review
