@@ -6,7 +6,6 @@ module CandidateInterface
     def show
       @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
       @application_form = current_application
-      @previous_application_form = ApplicationForm.find(current_application.previous_application_form_id) if current_application.previous_application_form_id.present?
     end
 
     def before_you_start; end

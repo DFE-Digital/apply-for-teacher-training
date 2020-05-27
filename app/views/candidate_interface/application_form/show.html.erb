@@ -16,11 +16,11 @@
   <div class="govuk-grid-column-two-thirds">
     <p class="govuk-hint govuk-!-margin-bottom-8 govuk-!-margin-top-2"><%= @application_form_presenter.updated_at %></p>
 
-    <% if FeatureFlag.active?('apply_again') && @application_form.apply_2? && @previous_application_form.application_choices.rejected.any?  %>
-      <%= render(CandidateInterface::RejectionReasonsComponent.new(application_form: @previous_application_form)) %>
-    <% end %>
+    <% if FeatureFlag.active?('apply_again') && @application_form.candidate_has_previously_applied? %>
+      <% if @application_form.previous_application_form.application_choices.rejected.any?  %>
+        <%= render(CandidateInterface::RejectionReasonsComponent.new(application_form: @application_form.previous_application_form)) %>
+      <% end %>
 
-    <% if @application_form_presenter.apply_again? %>
       <%= render(
         CandidateInterface::ApplicationFormApplyAgainCourseChoiceComponent.new(
           completed: @application_form_presenter.course_choices_completed?,
@@ -111,7 +111,7 @@
   <div class="govuk-grid-column-one-third">
     <%= render partial: '/candidate_interface/shared/need_help', locals: { support_reference: @application_form.support_reference } %>
 
-    <% if FeatureFlag.active?('apply_again') && @previous_application_form.present? %>
+    <% if FeatureFlag.active?('apply_again') && @application_form.candidate_has_previously_applied? %>
       <h2 class="govuk-heading-s">Previous applications</h2>
       <%= render(CandidateInterface::LinksToPreviousApplicationsComponent.new(application_form: @application_form)) %>
     <% end %>
