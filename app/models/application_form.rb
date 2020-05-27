@@ -138,6 +138,10 @@ class ApplicationForm < ApplicationRecord
     choices_left_to_make.positive?
   end
 
+  def can_edit_after_submission?
+    apply_1?
+  end
+
   def unique_provider_list
     application_choices.map(&:provider).uniq
   end
