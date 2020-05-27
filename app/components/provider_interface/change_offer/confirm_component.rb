@@ -26,7 +26,7 @@ module ProviderInterface
       end
 
       def study_modes
-        Course.find(change_offer_form.course_id).course_options.pluck(:study_mode).uniq
+        Course.find(change_offer_form.course_id).study_modes_present
       end
 
       def change_path_options
