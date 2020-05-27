@@ -13,6 +13,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   scenario 'the application data is visible' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_the_safeguarding_declaration_feature_flag_is_active
+    and_the_enforce_provider_to_provider_permissions_feature_flag_is_active
     and_my_organisation_has_received_an_application
     and_i_am_permitted_to_see_applications_for_my_provider
     and_i_sign_in_to_the_provider_interface
@@ -51,6 +52,10 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   def and_the_safeguarding_declaration_feature_flag_is_active
     FeatureFlag.activate('provider_view_safeguarding')
+  end
+
+  def and_the_enforce_provider_to_provider_permissions_feature_flag_is_active
+    FeatureFlag.activate('enforce_provider_to_provider_permissions')
   end
 
   def when_i_am_permitted_to_see_safeguarding_information

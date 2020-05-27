@@ -25,11 +25,16 @@ class ProviderAuthorisation
   end
 
   def can_view_safeguarding_information?(course:)
-    @actor.provider_permissions.view_safeguarding_information
-      .exists?(provider: [course.provider, course.accredited_provider].compact) &&
-      (course.accredited_provider.blank? ||
-        ratifying_provider_can_view_safeguarding_information?(course: course) ||
-          training_provider_can_view_safeguarding_information?(course: course))
+    if FeatureFlag.active?(:enforce_provider_to_provider_permissions)
+      @actor.provider_permissions.view_safeguarding_information
+        .exists?(provider: [course.provider, course.accredited_provider].compact) &&
+        (course.accredited_provider.blank? ||
+          ratifying_provider_can_view_safeguarding_information?(course: course) ||
+            training_provider_can_view_safeguarding_information?(course: course))
+    else
+      @actor.provider_permissions.view_safeguarding_information
+        .exists?(provider: [course.provider, course.accredited_provider].compact)
+    end
   end
 
   # automatically generates assert_can...! methods e.g. #assert_can_make_offer! for #can_make_offer?

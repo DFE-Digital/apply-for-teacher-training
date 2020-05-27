@@ -119,6 +119,10 @@ RSpec.describe ProviderAuthorisation do
       )
     end
 
+    before do
+      FeatureFlag.activate(:enforce_provider_to_provider_permissions)
+    end
+
     subject(:can_view_safeguarding_information) do
       described_class.new(actor: provider_user)
         .can_view_safeguarding_information?(course: course)
