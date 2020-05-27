@@ -151,6 +151,6 @@ class ApplicationForm < ApplicationRecord
   end
 
   def can_add_reference?
-    submitted? || candidate_has_previously_applied? || application_references.size < MINIMUM_COMPLETE_REFERENCES
+    application_references.size < MINIMUM_COMPLETE_REFERENCES
   end
 end

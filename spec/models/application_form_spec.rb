@@ -180,27 +180,5 @@ RSpec.describe ApplicationForm do
       )
       expect(application_form.can_add_reference?).to be false
     end
-
-    it 'returns true if there are already 2 references but the form is submitted' do
-      application_reference1 = build :reference
-      application_reference2 = build :reference
-      application_form = build(
-        :application_form,
-        application_references: [application_reference1, application_reference2],
-        submitted_at: 3.days.ago,
-      )
-      expect(application_form.can_add_reference?).to be true
-    end
-
-    it 'returns true if there are already 2 references but its an Apply Again form' do
-      application_reference1 = build :reference
-      application_reference2 = build :reference
-      application_form = build(
-        :application_form,
-        application_references: [application_reference1, application_reference2],
-        phase: 'apply_2',
-      )
-      expect(application_form.can_add_reference?).to be true
-    end
   end
 end

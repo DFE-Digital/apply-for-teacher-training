@@ -7,7 +7,7 @@
 
 <%= render(CandidateInterface::RefereesReviewComponent.new(application_form: @application_form, editable: true)) %>
 
-<%- if @referees.count < ApplicationForm::MINIMUM_COMPLETE_REFERENCES %>
+<% if @application_form.can_add_reference? %>
   <p class="govuk-body">
     <% if @referees.any? %>
       <%= govuk_button_link_to t('application_form.referees.add_second_referee'), candidate_interface_referees_type_path %>
