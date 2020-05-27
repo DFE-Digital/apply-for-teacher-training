@@ -18,9 +18,9 @@ RSpec.describe GetAllChangeOptionsFromOfferedOption do
   describe '#call' do
     let(:returned_hash) { service.call }
 
-    it 'returns a hash of available providers, courses and course_options' do
+    it 'returns a hash of available providers, courses, study_modes and course_options' do
       expect(returned_hash.keys).to \
-        eq %i[available_providers available_courses available_course_options]
+        eq %i[available_providers available_courses available_study_modes available_course_options]
     end
 
     it 'includes all providers associated with the user' do
@@ -42,6 +42,13 @@ RSpec.describe GetAllChangeOptionsFromOfferedOption do
       expect(returned_hash[:available_courses]).not_to include(not_open)
       expect(returned_hash[:available_courses]).not_to include(wrong_year)
       expect(returned_hash[:available_courses]).not_to include(part_time_only)
+    end
+
+    it 'includes all study modes available for the course' do
+      course = course_option.course
+      create(:course_option, :part_time, course: course)
+
+      expect(returned_hash[:available_study_modes]).to eq(%w[full_time part_time])
     end
 
     it 'includes all course options for current course (subject to study_mode)' do

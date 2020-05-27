@@ -27,7 +27,6 @@ RSpec.feature 'Provider makes changes before making an offer' do
     and_i_can_change_training_provider
     and_i_see_all_courses_for_this_provider
     and_i_can_change_the_course
-    and_i_can_select_the_study_mode
     and_i_see_all_available_locations_for_this_course
     and_i_can_change_the_location
 
@@ -117,11 +116,6 @@ RSpec.feature 'Provider makes changes before making an offer' do
 
   def and_i_can_change_the_course
     choose @course_option_two.course.name_and_code
-    click_on 'Continue'
-  end
-
-  def and_i_can_select_the_study_mode
-    choose 'Full time'
     click_on 'Continue'
   end
 
