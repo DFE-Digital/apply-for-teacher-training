@@ -80,9 +80,13 @@ jobs:
       runOnce:
         deploy:
           steps:
+          - template: cancel-build-if-not-latest-template.yml
+            parameters:
+              sourceBranchName: $(Build.SourceBranchName)
+
           - task: AzurePowerShell@4
             displayName: 'Azure PowerShell Script - Set Deployment Type for Resource Group $(resourceGroupName)'
-            condition: succeeded()
+            condition: and(succeeded(), eq(variables['buildCancelled'], false))
             env:
               SYSTEM_ACCESSTOKEN: $(system.accesstoken)
               COMMIT_HASH: $(build.sourceVersion)
@@ -179,7 +183,7 @@ jobs:
 
           - task: AzureResourceGroupDeployment@2
             displayName: 'ARM Deployment - Create Or Update Resource Group action on $(resourceGroupName)'
-            condition: and(succeeded(), eq(variables['fullDeployment'], true))
+            condition: and(eq(variables['buildCancelled'], false), eq(variables['fullDeployment'], true))
             inputs:
               azureSubscription: '${{parameters.subscriptionName}}'
               resourceGroupName: '$(resourceGroupName)'
@@ -249,7 +253,7 @@ jobs:
 
           - task: AzureCLI@2
             displayName: 'Azure CLI - Update Container Images in Resource Group $(resourceGroupName)'
-            condition: and(succeeded(), eq(variables['fullDeployment'], false))
+            condition: and(eq(variables['buildCancelled'], false), eq(variables['fullDeployment'], false))
             inputs:
               azureSubscription: '${{parameters.subscriptionName}}'
               ScriptType: ps
@@ -314,7 +318,7 @@ jobs:
 
           - task: AzurePowerShell@4
             displayName: 'Azure PowerShell Script - Tag resource group: $(resourceGroupName)'
-            condition: succeeded()
+            condition: and(succeeded(), eq(variables['buildCancelled'], false))
             inputs:
               azureSubscription: '${{parameters.subscriptionName}}'
               ScriptType: InlineScript
@@ -335,8 +339,14 @@ jobs:
 
                 Set-AzResourceGroup -Name $resourceGroupName -Tag $tags
 
-          - template: swap-staging-production-template.yml
+          - template: cancel-build-if-not-latest-template.yml
             parameters:
-              azureSubscription: ${{parameters.subscriptionName}}
-              resourceGroup: $(resourceGroupName)
-              appService: $(appServiceName)
+              sourceBranchName: $(Build.SourceBranchName)
+              runStep: ${{ eq(variables['fullDeployment'], false) }}
+
+          - ${{ if eq(variables['buildCancelled'], false) }}:
+            - template: swap-staging-production-template.yml
+              parameters:
+                azureSubscription: ${{parameters.subscriptionName}}
+                resourceGroup: $(resourceGroupName)
+                appService: $(appServiceName)

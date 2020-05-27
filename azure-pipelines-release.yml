@@ -9,6 +9,8 @@ variables:
   value: 'apply-for-postgraduate-teacher-training'
 - name: debug
   value: true
+- name: buildCancelled
+  value: false
 
 stages:
 - stage: publish_arm_template

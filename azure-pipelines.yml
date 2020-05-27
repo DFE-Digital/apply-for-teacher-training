@@ -17,6 +17,8 @@ variables:
   value: true
 - name: deployOnly
   value: false
+- name: buildCancelled
+  value: false
 
 stages:
 - stage: build_release
@@ -43,10 +45,15 @@ stages:
         echo "##vso[task.setvariable variable=docker_path;]$docker_path"
         mkdir $(pipelineDockerCachePath)
       displayName: 'Configure build environment'
+    
+    - template: cancel-build-if-not-latest-template.yml
+      parameters:
+        sourceBranchName: $(Build.SourceBranchName)
 
     - script: |
          make build
       displayName: 'Build Docker image'
+      condition: and(eq(variables['buildCancelled'], false), and(succeeded(), eq(variables['deployOnly'], false)))
       env:
         DOCKER_BUILDKIT: $(dockerBuildkitState)
         COMPOSE_DOCKER_CLI_BUILD: $(dockerBuildkitState)
@@ -66,30 +73,36 @@ stages:
         docker save $(docker history -q $(dockerHubUsername)/$(imageName) | grep -v "<missing>") | gzip > $(System.DefaultWorkingDirectory)/docker_images/$(imageName).tar.gz
         docker images $(dockerHubUsername)/$(imageName) | sed 1d | awk '{print $1 " " $2 " " $3}' > $(System.DefaultWorkingDirectory)/docker_images/images_manifest.txt
       displayName: 'Export Docker image pipeline artifact'
-      condition: succeeded()
+      condition: and(eq(variables['buildCancelled'], false), and(succeeded(), eq(variables['deployOnly'], false)))
 
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Docker image artifact'
+      condition: and(eq(variables['buildCancelled'], false), and(succeeded(), eq(variables['deployOnly'], false)))
       inputs:
         path: '$(System.DefaultWorkingDirectory)/docker_images/'
         artifactName: 'docker_artifacts'
     
     - task: PublishPipelineArtifact@1
       displayName: 'Publish ARM template artifacts'
+      condition: and(eq(variables['buildCancelled'], false), and(succeeded(), eq(variables['deployOnly'], false)))
       inputs:
         path: '$(System.DefaultWorkingDirectory)/azure/'
         artifactName: 'arm_template'
-    
+
+    - template: cancel-build-if-not-latest-template.yml
+      parameters:
+        sourceBranchName: $(Build.SourceBranchName)
+
     - task: Docker@2
       displayName: Login to DockerHub
-      condition: and(succeeded(), eq(variables['deployOnly'], false))
+      condition: and(eq(variables['buildCancelled'], false), and(succeeded(), eq(variables['deployOnly'], false)))
       inputs:
         containerRegistry: 'DfE Docker Hub'
         command: 'login'
 
     - task: Docker@2
       displayName: Push image to DockerHub
-      condition: and(succeeded(), eq(variables['deployOnly'], false))
+      condition: and(eq(variables['buildCancelled'], false), and(succeeded(), eq(variables['deployOnly'], false)))
       inputs:
         containerRegistry: 'DfE Docker Hub'
         repository: '$(dockerHubUsername)/$(imageName)'
@@ -100,12 +113,12 @@ stages:
     - script: |
         docker tag $(dockerHubUsername)/$(imageName):$(Build.BuildNumber) $(dockerHubUsername)/$(imageName):latest
         docker rmi $(dockerHubUsername)/$(imageName):$(Build.BuildNumber)
-      displayName: Tage image as latest (if master)
-      condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+      displayName: Tag image as latest (if master)
+      condition: and(eq(variables['buildCancelled'], false), and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')))
 
     - task: Docker@2
       displayName: Push image (latest) to DockerHub
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: and(eq(variables['buildCancelled'], false), and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')))
       inputs:
         containerRegistry: 'DfE Docker Hub'
         repository: '$(dockerHubUsername)/$(imageName)'
@@ -142,6 +155,10 @@ stages:
         echo '##vso[task.setvariable variable=COMPOSE_FILE]docker-compose.yml:docker-compose.azure.yml'
       displayName: 'Configure environment'
 
+    - template: cancel-build-if-not-latest-template.yml
+      parameters:
+        sourceBranchName: $(Build.SourceBranchName)
+
     - script: |
         docker pull $(dockerHubUsername)/$(imageName):$(Build.BuildNumber)
         make az_setup
@@ -159,6 +176,10 @@ stages:
         FIND_BASE_URL: $(findBaseUrl)
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
         SANDBOX: $(sandbox)
+
+    - template: cancel-build-if-not-latest-template.yml
+      parameters:
+        sourceBranchName: $(Build.SourceBranchName)
 
     - script: make ci.lint-ruby
       name: ci_lint_ruby
@@ -271,6 +292,10 @@ stages:
         echo '##vso[task.setvariable variable=COMPOSE_FILE]docker-compose.yml:docker-compose.azure.yml'
       displayName: 'Configure environment'
 
+    - template: cancel-build-if-not-latest-template.yml
+      parameters:
+        sourceBranchName: $(Build.SourceBranchName)
+
     - script: |
         docker pull $(dockerHubUsername)/$(imageName):$(Build.BuildNumber)
         make az_setup
@@ -289,6 +314,10 @@ stages:
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
         SANDBOX: $(sandbox)
     
+    - template: cancel-build-if-not-latest-template.yml
+      parameters:
+        sourceBranchName: $(Build.SourceBranchName)
+
     - script: |
         make ci.test
         test_result=$?
@@ -338,7 +367,7 @@ stages:
 - stage: deploy_qa
   displayName: 'Deploy - QA'
   dependsOn: build_release
-  condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   variables:
   - group: APPLY - ENV - QA
   jobs:
@@ -395,7 +424,7 @@ stages:
 - stage: deploy_devops
   dependsOn: build_release
   displayName: 'Deploy - DevOps'
-  condition: eq(variables['Build.SourceBranchName'], variables.devDeployBranchNameOverride)
+  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], variables.devDeployBranchNameOverride))
   variables:
   - group: APPLY - ENV - DevOps
   jobs:
