@@ -1,22 +1,18 @@
 # Apply for teacher training
 
-A service for candidates to apply for teacher training. We're currently in beta.
+A service for candidates to [apply for teacher training](https://www.apply-for-teacher-training.education.gov.uk/candidate). We're currently in private beta.
+
+![Screenshot of the candidate-facing interface](docs/screenshot.png)
 
 ## Live environments
 
 | Name       | URL                                                                              | Description                                                             | Azure ID  |
 | ---------- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | --------- |
-| Production | [www.apply..](https://www.apply-for-teacher-training.education.gov.uk/candidate) | Public site                                                             | `s106p01` |
-| Staging    | [staging.apply..](https://staging.apply-for-teacher-training.education.gov.uk)   | For internal use by DfE to test deploys                                 | `s106t01` |
-| Sandbox    | [sandbox.apply..](https://sandbox.apply-for-teacher-training.education.gov.uk)   | Demo environment for software vendors who integrate with our API        | `s106t02` |
-| QA         | [qa.apply..](https://qa.apply-for-teacher-training.education.gov.uk)             | For internal use by DfE for testing. Automatically deployed from master | `s106d01` |
-
-When setting up a new environment, check you have followed [the instructions
-for doing so](/docs/new-environment.md).
-
-The QA database can be reset to a starting state with a useful set of dummy
-data by running `rake reset_qa` from a [shell on one of its container
-instances](docs/connecting-to-databases.md#do-you-need-access-to-the-postgres-database).
+| Production | [www](https://www.apply-for-teacher-training.education.gov.uk/candidate) | Public site                                                             | `s106p01` |
+| Staging    | [staging](https://staging.apply-for-teacher-training.education.gov.uk)   | For internal use by DfE to test deploys                                 | `s106t01` |
+| Sandbox    | [sandbox](https://sandbox.apply-for-teacher-training.education.gov.uk)   | Demo environment for software vendors who integrate with our API        | `s106t02` |
+| QA         | [qa](https://qa.apply-for-teacher-training.education.gov.uk)             | For internal use by DfE for testing. Automatically deployed from master | `s106d01` |
+| DevOps         | [s106d02](https://s106d02-apply-as.azurewebsites.net)             | For testing infrastructure changes | `s106d02` |
 
 ## Table of Contents
 
@@ -40,9 +36,19 @@ instances](docs/connecting-to-databases.md#do-you-need-access-to-the-postgres-da
 - [Docker for DevOps](/docs/docker-for-devops.md)
 - [Swapping App Service Slots](/docs/swap-slots-pipeline.md)
 
-## Documentation
+## How the application works
+
+The application has a number of different interfaces for different types of users:
+
+![Diagram of the Apply interfaces](docs/architecture-context.svg)
+
+<!-- Want to update the diagram? See https://docs.google.com/presentation/d/1_VEUY0RXZpUrS3YuAoS6KcZs9h5hKOSjLnQistz5jp8/edit#slide=id.g8791ae7f92_0_359 -->
 
 ### Architecture
+
+![Diagram of the technical architecture](docs/tech-architecture.svg)
+
+<!-- Want to update the diagram? See https://docs.google.com/presentation/d/1_VEUY0RXZpUrS3YuAoS6KcZs9h5hKOSjLnQistz5jp8/edit#slide=id.g8791ae7f92_0_359 -->
 
 We keep track of architecture decisions in [Architecture Decision Records (ADRs)](/adr).
 
