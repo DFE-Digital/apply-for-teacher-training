@@ -16,6 +16,36 @@ RSpec.describe ApplicationForm do
     end
   end
 
+  describe '#choices_left_to_make' do
+    it 'returns the number of choices that an candidate can make in the first instance' do
+      application_form = create(:application_form)
+
+      expect(application_form.reload.choices_left_to_make).to be(3)
+
+      create(:application_choice, application_form: application_form)
+
+      expect(application_form.reload.choices_left_to_make).to be(2)
+
+      create(:application_choice, application_form: application_form)
+
+      expect(application_form.reload.choices_left_to_make).to be(1)
+
+      create(:application_choice, application_form: application_form)
+
+      expect(application_form.reload.choices_left_to_make).to be(0)
+    end
+
+    it 'returns the number of choices that an candidate can make in "Apply 2"' do
+      application_form = create(:application_form, phase: 'apply_2')
+
+      expect(application_form.reload.choices_left_to_make).to be(1)
+
+      create(:application_choice, application_form: application_form)
+
+      expect(application_form.reload.choices_left_to_make).to be(0)
+    end
+  end
+
   describe 'auditing', with_audited: true do
     it 'records an audit entry when creating a new ApplicationForm' do
       application_form = create :application_form

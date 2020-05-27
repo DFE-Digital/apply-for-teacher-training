@@ -130,6 +130,18 @@ class ApplicationForm < ApplicationRecord
     apply_2?
   end
 
+  def choices_left_to_make
+    number_of_choices_candidate_can_make - application_choices.size
+  end
+
+  def number_of_choices_candidate_can_make
+    candidate_can_choose_single_course? ? 1 : 3
+  end
+
+  def can_add_more_choices?
+    choices_left_to_make.positive?
+  end
+
   def apply_again_course_chosen?
     apply_again? && application_choices.present?
   end
