@@ -73,7 +73,7 @@ class ApplicationChoice < ApplicationRecord
     course_option.no_vacancies? &&
       course.course_options
         .where(vacancy_status: :vacancies)
-        .blank?
+        .present?
   end
 
   def chosen_site_full_error

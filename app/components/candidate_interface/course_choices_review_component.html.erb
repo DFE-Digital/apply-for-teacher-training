@@ -45,8 +45,8 @@
           to see if the course will re-open or discuss alternatives
         </li>
       </ul>
-    <% elsif course_choice.chosen_site_full? %>
-      <p class='app-review-warning__primary-message'><%= course_choice.chosen_site_full_error %>.</p>
+    <% elsif course_choice.chosen_study_mode_full? %>
+      <p class='app-review-warning__primary-message'><%= course_choice.chosen_study_mode_full_error %>.</p>
       <p class='govuk-body'>You can:</p>
       <ul class='govuk-list govuk-list--bullet'>
         <% if site_change_path(course_choice) %>
@@ -61,8 +61,8 @@
           to see if the course will re-open or discuss alternatives
         </li>
       </ul>
-    <% elsif course_choice.chosen_study_mode_full? %>
-      <p class='app-review-warning__primary-message'><%= course_choice.chosen_study_mode_full_error %>.</p>
+    <% elsif course_choice.chosen_site_full? %>
+      <p class='app-review-warning__primary-message'><%= course_choice.chosen_site_full_error %>.</p>
       <p class='govuk-body'>You can:</p>
       <ul class='govuk-list govuk-list--bullet'>
         <% if site_change_path(course_choice) %>
