@@ -415,6 +415,18 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       end
     end
 
+    context 'a chosen study-mode is full' do
+      before do
+        allow(application_choice_2).to receive(:chosen_study_mode_full?).and_return true
+        allow(application_choice_2).to receive(:chosen_study_mode_full_error).and_return 'study_mode_full'
+      end
+
+      it 'returns the appropriate error' do
+        expect(presenter.application_choice_errors.map(&:message)).to eq %w[study_mode_full]
+        expect(presenter.application_choice_errors.map(&:anchor)).to eq(['#course-choice-999'])
+      end
+    end
+
     context 'all application choices have errors' do
       before do
         allow(application_choice_1).to receive(:course_not_available?).and_return true
