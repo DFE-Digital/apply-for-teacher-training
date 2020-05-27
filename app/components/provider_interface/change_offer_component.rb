@@ -2,14 +2,13 @@ module ProviderInterface
   class ChangeOfferComponent < ViewComponent::Base
     include ViewHelper
 
-    attr_reader :change_offer_form, :application_choice, :providers, :completion_url, :completion_method
+    attr_reader :change_offer_form, :application_choice, :providers, :completion_url
 
-    def initialize(change_offer_form:, providers:, completion_url:, completion_method:)
+    def initialize(change_offer_form:, providers:, completion_url:)
       @change_offer_form = change_offer_form
       @application_choice = change_offer_form.application_choice
       @providers = providers
       @completion_url = completion_url
-      @completion_method = completion_method
       @change_offer_form.entry ||= change_offer_form.step # remember entry point
     end
 
@@ -25,7 +24,6 @@ module ProviderInterface
         ProviderInterface::ChangeOffer::ConfirmComponent.new(
           change_offer_form: change_offer_form,
           completion_url: completion_url,
-          completion_method: completion_method,
         )
       when :course_option
         ProviderInterface::ChangeOffer::ChangeLocationComponent.new(

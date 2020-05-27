@@ -3,13 +3,12 @@ module ProviderInterface
     class ConfirmComponent < ViewComponent::Base
       include ViewHelper
 
-      attr_reader :change_offer_form, :application_choice, :completion_url, :completion_method
+      attr_reader :change_offer_form, :application_choice, :completion_url
 
-      def initialize(change_offer_form:, completion_url:, completion_method:)
+      def initialize(change_offer_form:, completion_url:)
         @change_offer_form = change_offer_form
         @application_choice = change_offer_form.application_choice
         @completion_url = completion_url
-        @completion_method = completion_method
 
         if @change_offer_form.valid?
           @change_offer_form.step = @change_offer_form.next_step
@@ -55,7 +54,7 @@ module ProviderInterface
       end
 
       def next_step_method
-        completion_method
+        :patch
       end
     end
   end

@@ -64,7 +64,6 @@ module ProviderInterface
         ProviderInterface::ChangeOfferComponent,
         form: form,
         completion_url: '/rails/view_components',
-        completion_method: :get,
       )
     end
 
@@ -137,13 +136,12 @@ module ProviderInterface
       new_course.course_options.sample
     end
 
-    def render_component(component_to_render, form:, completion_url:, completion_method:)
+    def render_component(component_to_render, form:, completion_url:)
       if form.application_choice
         render component_to_render.new(
           change_offer_form: form,
           providers: available_providers,
           completion_url: completion_url,
-          completion_method: completion_method,
         )
       else
         render template: 'support_interface/docs/missing_test_data'

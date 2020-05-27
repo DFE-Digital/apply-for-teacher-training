@@ -27,7 +27,6 @@ module ProviderInterface
           action: :update_offer,
           application_choice_id: @application_choice.id,
         },
-        completion_method: :patch,
       )
     end
 

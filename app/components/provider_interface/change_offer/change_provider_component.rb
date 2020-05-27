@@ -8,7 +8,7 @@ module ProviderInterface
       def initialize(change_offer_form:, providers:)
         @change_offer_form = change_offer_form
         @application_choice = change_offer_form.application_choice
-        @providers = providers.respond_to?(:order) ? providers.order(:name) : providers
+        @providers = providers.order(:name)
 
         if @change_offer_form.valid?
           @change_offer_form.step = @change_offer_form.next_step
