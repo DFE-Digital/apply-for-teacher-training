@@ -84,6 +84,8 @@ private
 
     course.save!
 
+    add_provider_relationships(course)
+
     site_statuses = find_course.site_statuses
     find_course.sites.each do |find_site|
       site = provider.sites.find_or_create_by(code: find_site.code)
@@ -144,6 +146,19 @@ private
 
       course.accredited_provider = accredited_provider
     end
+  end
+
+  def add_provider_relationships(course)
+    return if course.accredited_provider.blank?
+
+    ProviderInterface::TrainingProviderPermissions.find_or_create_by!(
+      ratifying_provider: course.accredited_provider,
+      training_provider: provider,
+    )
+    ProviderInterface::AccreditedBodyPermissions.find_or_create_by!(
+      ratifying_provider: course.accredited_provider,
+      training_provider: provider,
+    )
   end
 
   def handle_course_options_with_invalid_sites(course, find_course)

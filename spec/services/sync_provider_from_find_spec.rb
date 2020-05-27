@@ -115,6 +115,44 @@ RSpec.describe SyncProviderFromFind do
         expect(course_option.course.accredited_provider.name).to eq 'Test Accredited Provider'
       end
 
+      it 'correctly creates provider relationships' do
+        stub_find_api_provider_200_with_accredited_provider(
+          provider_code: 'ABC',
+          course_code: '9CBA',
+          study_mode: 'full_time',
+          accredited_provider_code: 'DEF',
+          accredited_provider_name: 'Test Accredited Provider',
+        )
+
+        expect {
+          SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        }.to change(ProviderInterface::TrainingProviderPermissions, :count).by(1)
+         .and change(ProviderInterface::AccreditedBodyPermissions, :count).by(1)
+
+        training_provider_permissions = ProviderInterface::TrainingProviderPermissions.last
+        expect(training_provider_permissions.ratifying_provider.code).to eq('DEF')
+        expect(training_provider_permissions.training_provider.code).to eq('ABC')
+        expect(training_provider_permissions.view_safeguarding_information).to be false
+
+        ratifying_provider_permissions = ProviderInterface::TrainingProviderPermissions.last
+        expect(ratifying_provider_permissions.ratifying_provider.code).to eq('DEF')
+        expect(ratifying_provider_permissions.training_provider.code).to eq('ABC')
+        expect(ratifying_provider_permissions.view_safeguarding_information).to be false
+      end
+
+      it 'does not create provider relationships for self ratifying providers' do
+        stub_find_api_provider_200(
+          provider_code: 'ABC',
+          course_code: '9CBA',
+          findable: true,
+        )
+
+        expect {
+          SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        }.to change(ProviderInterface::TrainingProviderPermissions, :count).by(0)
+         .and change(ProviderInterface::AccreditedBodyPermissions, :count).by(0)
+      end
+
       it 'stores full_time/part_time information within courses' do
         stub_find_api_provider_200_with_accredited_provider(
           provider_code: 'ABC',
