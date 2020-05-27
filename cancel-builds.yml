@@ -17,6 +17,8 @@ pool:
 steps:
   - checkout: none
   - powershell: |
+      Write-Host "Test One"
+  - powershell: |
       if($env:DEBUG){
         $DebugPreference = "Continue"
        }
