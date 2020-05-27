@@ -33,6 +33,13 @@ class ApplicationReference < ApplicationRecord
     character: 'character',
   }
 
+  enum safeguarding_concerns_status: {
+    not_answered_yet: 'not_answered_yet',
+    no_safeguarding_concerns_to_declare: 'no_safeguarding_concerns_to_declare',
+    has_safeguarding_concerns_to_declare: 'has_safeguarding_concerns_to_declare',
+    never_asked: 'never_asked',
+  }
+
   def ordinal
     application_form.application_references.find_index(self).to_i + 1
   end
