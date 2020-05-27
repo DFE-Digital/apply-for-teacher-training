@@ -1,6 +1,8 @@
 # The Application Form is filled in and submitted by the Candidate. Candidates
 # can initially apply to 3 different courses, represented by an Application Choice.
 class ApplicationForm < ApplicationRecord
+  audited
+
   include Chased
 
   belongs_to :candidate
@@ -135,8 +137,6 @@ class ApplicationForm < ApplicationRecord
   def unique_provider_list
     application_choices.map(&:provider).uniq
   end
-
-  audited
 
   def ended_without_success?
     application_choices.map(&:status).all? { |status| ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status) }
