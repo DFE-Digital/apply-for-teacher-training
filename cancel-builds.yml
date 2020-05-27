@@ -47,7 +47,7 @@ steps:
 
       $commitsSinceCurrentCommit = Invoke-RestMethod -Uri $gitHubGetNewCommitsToMasterApi -Headers $gitHubApiHeader -Method Get
       if($commitsSinceCurrentCommit){
-        Write-Host "Current Commit to $($env:SOURCE_BRANCH) : $(currentCommitSha)"
+        Write-Host "Current Commit to $($env:SOURCE_BRANCH) : $($currentCommitSha)"
         Write-Host "Latest  Commit to $($env:SOURCE_BRANCH) : $($commitsSinceCurrentCommit.sha[0])"
       }
       
