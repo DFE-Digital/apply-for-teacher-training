@@ -122,7 +122,7 @@ private
   end
 
   def chosen_site_has_no_vacancies_message
-    "Your chosen site for '#{@option_where_no_vacancies_at_chosen_site.course.provider_and_name_code}' has no vacancies"
+    "Your chosen location for '#{@option_where_no_vacancies_at_chosen_site.course.provider_and_name_code}' has no vacancies"
   end
 
   def course_closed_on_apply_message

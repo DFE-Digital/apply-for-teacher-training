@@ -333,6 +333,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
         course_not_available?: false,
         course_full?: false,
         chosen_site_full?: false,
+        chosen_study_mode_full?: false,
         course_closed_on_apply?: false,
       )
     end
@@ -344,6 +345,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
         course_not_available?: false,
         course_full?: false,
         chosen_site_full?: false,
+        chosen_study_mode_full?: false,
         course_closed_on_apply?: false,
       )
     end
