@@ -54,8 +54,7 @@ steps:
       if($currentCommitSha -ne $commitsSinceCurrentCommit.sha[0]){
         Write-Host "There are new commits to master since this commit, Cancelling this build..."
 
-        $currentBuild = Invoke-RestMethod -Uri $azurePipelinesBuildApi -Headers $azureDevOpsAuthorizationHeader 
-                                          -Method Get -ErrorAction Stop -ErrorVariable $errorVariable
+        $currentBuild = Invoke-RestMethod -Uri $azurePipelinesBuildApi -Headers $azureDevOpsAuthorizationHeader -Method Get -ErrorAction Stop -ErrorVariable $errorVariable
         Write-Debug $currentBuild | ConvertTo-Json
         $currentBuild.status = "cancelling"
         $requestBody = @{
@@ -65,9 +64,7 @@ steps:
         } | ConvertTo-Json
         Write-Host "requestBody => is $requestBody"
         
-        $cancelPipeline = Invoke-RestMethod -Uri $azurePipelinesBuildApi -Headers $azureDevOpsAuthorizationHeader 
-                                            -Method Patch -Body $requestBody -ContentType "application/json" 
-                                            -ErrorAction SilentlyContinue -ErrorVariable errorVariable
+        $cancelPipeline = Invoke-RestMethod -Uri $azurePipelinesBuildApi -Headers $azureDevOpsAuthorizationHeader -Method Patch -Body $requestBody -ContentType "application/json" -ErrorAction SilentlyContinue -ErrorVariable errorVariable
         if($errorVariable){
           Write-Error $errorVariable
           exit 1
