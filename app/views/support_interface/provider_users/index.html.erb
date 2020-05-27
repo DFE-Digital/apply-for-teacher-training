@@ -20,4 +20,6 @@
   ]) %>
 <% end %>
 
+<%= govuk_link_to 'Download active provider users (CSV)', support_interface_active_provider_users_path, class: 'govuk-button' %>
+
 <%= render(SupportInterface::ProviderUsersTableComponent.new(provider_users: @provider_users)) %>

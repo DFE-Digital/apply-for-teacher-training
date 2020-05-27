@@ -12,7 +12,9 @@ RSpec.feature 'Managing provider users' do
     when_i_visit_the_support_console
     and_i_click_the_users_link
     and_i_click_the_manange_provider_users_link
-    and_i_click_the_add_user_link
+    then_i_should_see_a_csv_export_button
+
+    when_i_click_the_add_user_link
     then_i_see_synced_providers
 
     when_i_enter_an_existing_email
@@ -84,6 +86,10 @@ RSpec.feature 'Managing provider users' do
     click_link 'Provider users'
   end
 
+  def then_i_should_see_a_csv_export_button
+    expect(page).to have_link('Download active provider users (CSV)')
+  end
+
   def and_i_select_a_provider
     check 'Example provider (ABC)'
   end
@@ -100,7 +106,7 @@ RSpec.feature 'Managing provider users' do
     end
   end
 
-  def and_i_click_the_add_user_link
+  def when_i_click_the_add_user_link
     click_link 'Add provider user'
   end
 
