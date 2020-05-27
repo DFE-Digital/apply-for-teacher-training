@@ -6,7 +6,7 @@
     <h1 class="govuk-heading-xl">
       <%= t('page_titles.choosing_courses') %>
     </h1>
-    <% if apply_again %>
+    <% if @current_application.candidate_can_choose_single_course? %>
       <%= render 'guidance_apply_again' %>
     <% else %>
       <%= render 'guidance' %>

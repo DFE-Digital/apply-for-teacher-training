@@ -62,6 +62,8 @@ module CandidateInterface
       @current_application ||= current_candidate.current_application
     end
 
+    helper_method :current_application
+
     def render_404
       render 'errors/not_found', status: :not_found
     end

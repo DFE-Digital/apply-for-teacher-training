@@ -1,6 +1,8 @@
 # The Application Form is filled in and submitted by the Candidate. Candidates
 # can initially apply to 3 different courses, represented by an Application Choice.
 class ApplicationForm < ApplicationRecord
+  audited
+
   include Chased
 
   belongs_to :candidate
@@ -116,25 +118,39 @@ class ApplicationForm < ApplicationRecord
     updated_at == created_at
   end
 
-  def apply_again?
+  def candidate_has_previously_applied?
+    previous_application_form_id.present?
+  end
+
+  def candidate_can_choose_single_course?
     apply_2?
   end
 
-  def apply_again_course_chosen?
-    apply_again? && application_choices.present?
+  def choices_left_to_make
+    number_of_choices_candidate_can_make - application_choices.size
+  end
+
+  def number_of_choices_candidate_can_make
+    candidate_can_choose_single_course? ? 1 : 3
+  end
+
+  def can_add_more_choices?
+    choices_left_to_make.positive?
+  end
+
+  def can_edit_after_submission?
+    apply_1?
   end
 
   def unique_provider_list
     application_choices.map(&:provider).uniq
   end
 
-  audited
-
   def ended_without_success?
     application_choices.map(&:status).all? { |status| ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status) }
   end
 
   def can_add_reference?
-    submitted? || apply_again? || application_references.size < MINIMUM_COMPLETE_REFERENCES
+    application_references.size < MINIMUM_COMPLETE_REFERENCES
   end
 end

@@ -4,11 +4,8 @@ module CandidateInterface
 
     def index
       @course_choices = current_candidate.current_application.application_choices
-      if @course_choices.count < 1
-        render :index, locals: {
-          apply_again: @current_application.apply_again?,
-        }
-      else
+
+      if @course_choices.any?
         redirect_to candidate_interface_course_choices_review_path
       end
     end

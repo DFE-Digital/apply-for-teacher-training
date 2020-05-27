@@ -1,4 +1,4 @@
-<% title = "You can choose #{@additional_courses_allowed} more #{'course'.pluralize(@additional_courses_allowed)}" %>
+<% title = "You can choose #{current_application.choices_left_to_make} more #{'course'.pluralize(current_application.choices_left_to_make)}" %>
 <% content_for :title, title_with_error_prefix(title, @add_another_course.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path) %>
 

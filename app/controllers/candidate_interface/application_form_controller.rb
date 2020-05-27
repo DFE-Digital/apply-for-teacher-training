@@ -6,7 +6,6 @@ module CandidateInterface
     def show
       @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
       @application_form = current_application
-      @previous_application_form = ApplicationForm.find(current_application.previous_application_form_id) if current_application.previous_application_form_id.present?
     end
 
     def before_you_start; end
@@ -29,7 +28,7 @@ module CandidateInterface
     end
 
     def edit
-      redirect_to candidate_interface_application_complete_path and return unless current_application.apply_1?
+      redirect_to candidate_interface_application_complete_path and return unless current_application.can_edit_after_submission?
 
       @editable_days = TimeLimitConfig.edit_by
       render :edit_by_support

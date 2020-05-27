@@ -16,6 +16,36 @@ RSpec.describe ApplicationForm do
     end
   end
 
+  describe '#choices_left_to_make' do
+    it 'returns the number of choices that an candidate can make in the first instance' do
+      application_form = create(:application_form)
+
+      expect(application_form.reload.choices_left_to_make).to be(3)
+
+      create(:application_choice, application_form: application_form)
+
+      expect(application_form.reload.choices_left_to_make).to be(2)
+
+      create(:application_choice, application_form: application_form)
+
+      expect(application_form.reload.choices_left_to_make).to be(1)
+
+      create(:application_choice, application_form: application_form)
+
+      expect(application_form.reload.choices_left_to_make).to be(0)
+    end
+
+    it 'returns the number of choices that an candidate can make in "Apply 2"' do
+      application_form = create(:application_form, phase: 'apply_2')
+
+      expect(application_form.reload.choices_left_to_make).to be(1)
+
+      create(:application_choice, application_form: application_form)
+
+      expect(application_form.reload.choices_left_to_make).to be(0)
+    end
+  end
+
   describe 'auditing', with_audited: true do
     it 'records an audit entry when creating a new ApplicationForm' do
       application_form = create :application_form
@@ -149,28 +179,6 @@ RSpec.describe ApplicationForm do
         application_references: [application_reference1, application_reference2],
       )
       expect(application_form.can_add_reference?).to be false
-    end
-
-    it 'returns true if there are already 2 references but the form is submitted' do
-      application_reference1 = build :reference
-      application_reference2 = build :reference
-      application_form = build(
-        :application_form,
-        application_references: [application_reference1, application_reference2],
-        submitted_at: 3.days.ago,
-      )
-      expect(application_form.can_add_reference?).to be true
-    end
-
-    it 'returns true if there are already 2 references but its an Apply Again form' do
-      application_reference1 = build :reference
-      application_reference2 = build :reference
-      application_form = build(
-        :application_form,
-        application_references: [application_reference1, application_reference2],
-        phase: 'apply_2',
-      )
-      expect(application_form.can_add_reference?).to be true
     end
   end
 end

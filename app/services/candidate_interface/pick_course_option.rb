@@ -31,7 +31,7 @@ module CandidateInterface
         course_choices = application_form.application_choices
         flash[:success] = "You’ve added #{course_choices.last.course.name_and_code} to your application"
 
-        if course_choices.count.between?(1, 2) && !application_form.apply_again?
+        if application_form.can_add_more_choices?
           redirect_to candidate_interface_course_choices_add_another_course_path
         else
           redirect_to candidate_interface_course_choices_index_path

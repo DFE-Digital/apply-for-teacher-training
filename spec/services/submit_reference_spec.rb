@@ -37,7 +37,7 @@ RSpec.describe SubmitReference do
       end
 
       it 'sets edit_by to current time if Apply Again application' do
-        application_form.apply_2!
+        application_form.update! previous_application_form: create(:application_form)
         create(:application_choice, application_form: application_form, status: 'awaiting_references', edit_by: 2.days.from_now)
         create(:reference, :complete, application_form: application_form)
         reference = create(:reference, :unsubmitted, application_form: application_form)
@@ -114,7 +114,7 @@ RSpec.describe SubmitReference do
       end
 
       it 'sets edit_by to current time if Apply Again application' do
-        application_form = create(:completed_application_form, phase: :apply_2, edit_by: 2.days.from_now)
+        application_form = create(:completed_application_form, previous_application_form: create(:application_form), edit_by: 2.days.from_now)
         application_choice = create(:application_choice, application_form: application_form, status: 'awaiting_references')
         create(:reference, :complete, application_form: application_form)
         reference = create(:reference, :unsubmitted, application_form: application_form)

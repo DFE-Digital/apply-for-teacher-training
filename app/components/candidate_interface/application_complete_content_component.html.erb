@@ -54,11 +54,6 @@
     <%= t('application_complete.dashboard.providers_respond_by', date: respond_by_date) %>
   </p>
 
-<% elsif @application_form.apply_again? %>
-  <h2 class="govuk-heading-m govuk-!-font-size-27">
-    <%= "#{'Course'.pluralize(choice_count)} you’ve applied to" %>
-  </h2>
-
 <% elsif editable? %>
   <h2 class="govuk-heading-m govuk-!-font-size-27">
     <%= "#{'Course'.pluralize(choice_count)} you’ve applied to" %>
@@ -74,4 +69,8 @@
 
     <%= govuk_link_to t('application_complete.dashboard.edit_link'), candidate_interface_application_edit_path %>
   </div>
+<% else %>
+  <h2 class="govuk-heading-m govuk-!-font-size-27">
+    <%= "#{'Course'.pluralize(choice_count)} you’ve applied to" %>
+  </h2>
 <% end %>

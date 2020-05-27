@@ -2,10 +2,10 @@
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
 <h1 class="govuk-heading-xl">
-  <% if @application_form.apply_again? %>
+  <% if @application_form.candidate_can_choose_single_course? %>
     <%= t('page_titles.course_choice') %>
   <% else %>
-  <%= t('page_titles.course_choices') %>
+    <%= t('page_titles.course_choices') %>
   <% end %>
 </h1>
 
@@ -17,9 +17,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <% if @course_choices.present? %>
-        <% if @application_form.apply_again? %>
-          <% # noop  %>
-        <% elsif @course_choices.count < 3 %>
+        <% if @application_form.can_add_more_choices? %>
           <%= link_to 'Add another course', candidate_interface_course_choices_choose_path, class: 'govuk-button govuk-button--secondary govuk-!-margin-bottom-9' %>
         <% end %>
 

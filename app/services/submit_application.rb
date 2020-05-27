@@ -10,11 +10,7 @@ class SubmitApplication
 
   def call
     ActiveRecord::Base.transaction do
-      if application_form.apply_again? && enough_references_have_been_provided?
-        application_form.update!(submitted_at: Time.zone.now, edit_by: Time.zone.now)
-      else
-        application_form.update!(submitted_at: Time.zone.now, edit_by: edit_by_time)
-      end
+      application_form.update!(submitted_at: Time.zone.now, edit_by: edit_by_time)
       submit_application
     end
 
@@ -69,7 +65,7 @@ private
   end
 
   def send_to_provider_immediately?
-    application_form.apply_again? && enough_references_have_been_provided?
+    !application_form.can_edit_after_submission? && enough_references_have_been_provided?
   end
 
   def enough_references_have_been_provided?
