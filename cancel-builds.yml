@@ -24,7 +24,7 @@ steps:
       $gitHubApiHeader = @{ Accept = "application/vnd.github.v3+json" }
       $azurePipelinesBuildApi = "$($env:COLLECTION_URL)$env:PROJECT_ID/_apis/build/builds/$($env:BUILD_ID)?api-version=5.1"
       $gitHubGetCurrentCommitApi = "https://api.github.com/repos/DFE-Digital/apply-for-postgraduate-teacher-training/git/commits/$($env:COMMIT_ID)"
-      $gitHubGetNewCommitsToMasterApi = "https://api.github.com/repos/DFE-Digital/apply-for-postgraduate-teacher-training/commits?sha=master"
+      $gitHubGetNewCommitsToMasterApi = "https://api.github.com/repos/DFE-Digital/apply-for-postgraduate-teacher-training/commits?sha=cancel-build-on-new-commit"
       
       Write-Debug "azurePipelinesBuildApi is $azurePipelinesBuildApi"
       Write-Debug "gitHubGetCurrentCommitApi is $gitHubGetCurrentCommitApi"
@@ -65,6 +65,10 @@ steps:
           exit 1
         }
       }
+      elseif($commitsSinceCurrentCommit){
+        Write-Host "Current Commit to $($env:SOURCE_BRANCH) : $(currentCommitSha)"
+        Write-Host "Latest  Commit to $($env:SOURCE_BRANCH) : $($commitsSinceCurrentCommit.sha[0])"
+      }
     env:
       SYSTEM_ACCESSTOKEN: $(System.AccessToken)
       ORGANISATION_ID: $(System.CollectionId)
@@ -79,7 +83,3 @@ steps:
     displayName: Check for new commits to master
     condition: eq(variables['Build.Reason'], 'IndividualCI')
     continueOnError: false
-  
-  - powershell: |
-      Start-Sleep -Seconds 20
-      Write-Host "Running..."
