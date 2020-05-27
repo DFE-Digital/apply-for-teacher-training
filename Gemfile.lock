@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/DFE-Digital/audited
+  revision: 9b3c366573712801ae43b04e80f827c78397192e
+  specs:
+    audited (4.9.0)
+      activerecord (>= 4.2, < 6.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -61,8 +68,6 @@ GEM
     aes_key_wrap (1.0.1)
     ast (2.4.0)
     attr_required (1.0.1)
-    audited (4.9.0)
-      activerecord (>= 4.2, < 6.1)
     backports (3.15.0)
     bcrypt (3.1.13)
     benchmark-malloc (0.2.0)
@@ -517,7 +522,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  audited
+  audited!
   brakeman
   bullet
   business_time

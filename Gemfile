@@ -24,7 +24,7 @@ gem 'omniauth_openid_connect'
 gem 'omniauth-rails_csrf_protection'
 
 gem 'workflow'
-gem 'audited'
+gem 'audited', git: 'https://github.com/DFE-Digital/audited'
 gem 'discard'
 
 gem 'json-schema'
