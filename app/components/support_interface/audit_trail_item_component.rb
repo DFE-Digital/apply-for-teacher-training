@@ -11,6 +11,8 @@ module SupportInterface
     def audit_entry_event_label
       if audit.comment.present? && audit.audited_changes.empty?
         "Comment on #{audit.auditable_type.titlecase}"
+      elsif audit.auditable_type == 'ProviderPermissions'
+        label_for_provider_permission_change(audit)
       else
         "#{audit.action.capitalize} #{audit.auditable_type.titlecase} ##{audit.auditable_id}"
       end
@@ -43,5 +45,29 @@ module SupportInterface
     end
 
     attr_reader :audit
+
+  private
+
+    def label_for_provider_permission_change(audit)
+      case audit.action
+      when 'create'
+        provider = Provider.find(audit.audited_changes['provider_id'])
+        "Access granted for #{provider.name}"
+      when 'update'
+        # the original might have been destroyed, so get the creation record
+        # to discover which Provider is associated with this change
+        creation_record = Audited::Audit.find_by(
+          auditable_type: 'ProviderPermissions',
+          auditable_id: audit.auditable_id,
+          action: 'create',
+        )
+
+        provider = Provider.find(creation_record.audited_changes['provider_id'])
+        "Permissions changed for #{provider.name}"
+      when 'destroy'
+        provider = Provider.find(audit.audited_changes['provider_id'])
+        "Access revoked for #{provider.name}"
+      end
+    end
   end
 end
