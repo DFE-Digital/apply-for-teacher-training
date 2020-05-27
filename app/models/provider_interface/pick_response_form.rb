@@ -8,6 +8,21 @@ module ProviderInterface
     attr_accessor :decision
     validates :decision, inclusion: { in: VALID_DECISIONS }
 
+    def redirect_attrs
+      attrs = {}
+
+      if decision_is_change?
+        attrs[:controller] = 'offer_changes'
+        attrs[:action] = 'edit_offer'
+        attrs[:step] = decision.delete_prefix('edit_')
+      else
+        attrs[:controller] = 'decisions'
+        attrs[:action] = decision
+      end
+
+      attrs
+    end
+
     def decision_is_change?
       VALID_CHANGE_DECISIONS.include?(decision)
     end

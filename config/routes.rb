@@ -440,11 +440,8 @@ Rails.application.routes.draw do
     get '/applications/:application_choice_id/conditions' => 'conditions#edit', as: :application_choice_edit_conditions
     patch '/applications/:application_choice_id/conditions/confirm' => 'conditions#confirm_update', as: :application_choice_confirm_update_conditions
     patch '/applications/:application_choice_id/conditions' => 'conditions#update', as: :application_choice_update_conditions
-    get '/applications/:application_choice_id/offer/change/provider' => 'offer_changes#edit_provider', as: :application_choice_change_offer_edit_provider
-    get '/applications/:application_choice_id/offer/change/course' => 'offer_changes#edit_course', as: :application_choice_change_offer_edit_course
-    get '/applications/:application_choice_id/offer/change/location' => 'offer_changes#edit_course_option', as: :application_choice_change_offer_edit_course_option
-    get '/applications/:application_choice_id/offer/change/confirm' => 'offer_changes#confirm_update', as: :application_choice_change_offer_confirmation
-    patch '/applications/:application_choice_id/offer/change' => 'offer_changes#update', as: :application_choice_change_offer
+    get '/applications/:application_choice_id/offer/change/*step' => 'offer_changes#edit_offer', as: :application_choice_edit_offer
+    patch '/applications/:application_choice_id/offer/change' => 'offer_changes#update_offer', as: :application_choice_update_offer
     get '/applications/:application_choice_id/offer/new_withdraw' => 'decisions#new_withdraw_offer', as: :application_choice_new_withdraw_offer
     post '/applications/:application_choice_id/offer/confirm_withdraw' => 'decisions#confirm_withdraw_offer', as: :application_choice_confirm_withdraw_offer
     post '/applications/:application_choice_id/offer/withdraw' => 'decisions#withdraw_offer', as: :application_choice_withdraw_offer

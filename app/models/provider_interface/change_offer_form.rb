@@ -15,6 +15,24 @@ module ProviderInterface
       STEPS.index(step) > STEPS.index(step_symbol) if step
     end
 
+    def previous_step
+      idx = STEPS.index(step)
+      if idx && idx.positive?
+        STEPS[idx - 1]
+      else
+        STEPS[0]
+      end
+    end
+
+    def next_step
+      idx = STEPS.index(step)
+      if idx && idx < (STEPS.count - 1)
+        STEPS[idx + 1]
+      else
+        STEPS[(STEPS.count - 1)]
+      end
+    end
+
     validates_each :provider_id do |record, attr, value|
       record.errors.add attr, :blank if record.step_after?(:provider) && value.blank?
     end
