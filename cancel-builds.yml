@@ -51,7 +51,7 @@ steps:
         Write-Host "Latest  Commit to $($env:SOURCE_BRANCH) : $($commitsSinceCurrentCommit[0].sha)"
       }
       
-      if($currentCommitSha -ne $commitsSinceCurrentCommit[0].sha){
+      if($commitsSinceCurrentCommit[0].sha -and $currentCommitSha -ne $commitsSinceCurrentCommit[0].sha){
         Write-Warning "There are new commits to master since this commit, Cancelling this build..."
         Write-Host "##vso[task.logissue type=warning;]There are new commits to master since this commit, Cancelling this build..."
 
