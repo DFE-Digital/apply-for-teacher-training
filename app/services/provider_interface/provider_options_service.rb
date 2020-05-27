@@ -30,7 +30,6 @@ module ProviderInterface
         .distinct
     end
 
-    # TODO: Write test from this in provider_options_service_spec
     def providers_with_sites(provider_ids:)
       Provider
         .joins(:courses)

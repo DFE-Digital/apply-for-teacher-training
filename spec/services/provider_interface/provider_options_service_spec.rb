@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::ProviderOptionsService do
   before do
+    @sites = [create(:site), create(:site)]
     @providers = create_list :provider, 5
     @accredited_providers = create_list :provider, 5
     @provider_user = create :provider_user, providers: [@providers[0], @providers[1]]
@@ -63,6 +64,17 @@ RSpec.describe ProviderInterface::ProviderOptionsService do
 
     it 'returns providers with users manageable by the provider user' do
       expect(described_class.new(provider_user).providers_with_manageable_users).to eq([@providers.last])
+    end
+  end
+
+  describe '#providers_with_sites' do
+    it 'returns providers with sites' do
+      @provider_user.providers.first.update(sites: @sites)
+
+      providers = described_class.new(@provider_user).providers_with_sites(provider_ids: @provider_user.providers.first.id)
+
+      expect(providers.first.association(:sites).loaded?).to eq(true)
+      expect(providers.first.sites).to match_array(@sites)
     end
   end
 end
