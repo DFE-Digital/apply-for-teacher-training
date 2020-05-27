@@ -142,10 +142,6 @@ class ApplicationForm < ApplicationRecord
     choices_left_to_make.positive?
   end
 
-  def apply_again_course_chosen?
-    apply_again? && application_choices.present?
-  end
-
   def unique_provider_list
     application_choices.map(&:provider).uniq
   end

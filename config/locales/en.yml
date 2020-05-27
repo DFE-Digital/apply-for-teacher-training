@@ -264,13 +264,13 @@ en:
     messages:
       too_many_words: Must be %{count} words or fewer
       too_many_course_choices: You cannot have more than 3 course choices. You must delete a choice if you want to apply to #{course_name_and_code}.
+      apply_again_course_already_chosen: You cannot choose more than 1 course when you apply again. You must delete your existing choice if you want to apply to %{course_name_and_code}
     application_choices:
       course_not_available: You cannot apply to '%{descriptor}' because it is not running
       course_full: You cannot apply to '%{descriptor}' because it has no vacancies
       chosen_site_full: Your chosen site for '%{descriptor}' has no vacancies
       course_closed_on_apply: "'%{course_name_and_code}' at %{provider_name} is not available on Apply for teacher training anymore"
       already_added: You have already added %{course_name_and_code}
-      apply_again_course_already_chosen: You cannot choose more than 1 course when you apply again. You must delete your existing choice if you want to apply to %{course_name_and_code}
   date:
     formats:
       long: "%e %B %Y"

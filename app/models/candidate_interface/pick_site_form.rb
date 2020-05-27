@@ -4,8 +4,7 @@ module CandidateInterface
 
     attr_accessor :application_form, :provider_id, :course_id, :study_mode, :course_option_id
     validates :course_option_id, presence: true
-    validate :candidate_can_only_apply_to_3_courses, on: :save
-    validate :only_1_apply_again_course_allowed, on: :save
+    validate :number_of_choices, on: :save
 
     def available_sites
       relation = CourseOption.selectable.includes(:site).where(course_id: course.id)
@@ -41,19 +40,16 @@ module CandidateInterface
       @provider ||= Provider.find(provider_id)
     end
 
-    def candidate_can_only_apply_to_3_courses
-      return if application_form.application_choices.count <= 2
+    def number_of_choices
+      return if application_form.can_add_more_choices?
 
-      errors[:base] << I18n.t('errors.messages.too_many_course_choices', course_name_and_code: course_option.course.name_and_code)
-    end
+      error_key = if application_form.candidate_can_choose_single_course?
+                    'errors.messages.apply_again_course_already_chosen'
+                  else
+                    'errors.messages.too_many_course_choices'
+                  end
 
-    def only_1_apply_again_course_allowed
-      if application_form.apply_again_course_chosen?
-        errors[:base] << I18n.t!(
-          'errors.application_choices.apply_again_course_already_chosen',
-          course_name_and_code: course_option.course.name_and_code,
-        )
-      end
+      errors[:base] << I18n.t!(error_key, course_name_and_code: course_option.course.name_and_code)
     end
   end
 end
