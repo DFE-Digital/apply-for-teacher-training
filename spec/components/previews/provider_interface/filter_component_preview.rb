@@ -1,6 +1,6 @@
 module ProviderInterface
   class FilterComponentPreview < ViewComponent::Preview
-    def defualt_view
+    def default_view
       render_component_for(page_state: page_state_mock(filters: with_name_status_provider_and_accredited_provider))
     end
 

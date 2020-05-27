@@ -63,7 +63,7 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     when_i_clear_the_filters
     when_i_filter_by_a_specific_provider
-    then_i_should_only_see_locations_that_belog_to_that_provider
+    then_i_should_only_see_locations_that_belong_to_that_provider
 
     when_i_filter_by_provider_location
     then_i_only_see_applications_for_that_provider_location
@@ -79,7 +79,7 @@ RSpec.feature 'Providers should be able to filter applications' do
     expect(page).not_to have_content('Locations for University of Arrakis')
   end
 
-  def then_i_should_only_see_locations_that_belog_to_that_provider
+  def then_i_should_only_see_locations_that_belong_to_that_provider
     expect(page).not_to have_content('Locations for Caladan University')
   end
 
