@@ -6,7 +6,7 @@ trigger:
 pr:
   branches:
     include:
-      - master
+      - cancel-build-on-new-commit
 
 variables:
   System.Debug: true
