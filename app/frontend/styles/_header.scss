@@ -1,9 +1,3 @@
-.moj-header {
-  background-color: govuk-colour("black");
-  padding-top: govuk-spacing(3);
-  border-bottom: 10px solid $govuk-brand-colour;
-}
-
 .moj-header__container {
   @include moj-width-container;
   @include govuk-clearfix;
