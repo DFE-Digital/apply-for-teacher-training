@@ -48,11 +48,12 @@ steps:
       $commitsSinceCurrentCommit = Invoke-RestMethod -Uri $gitHubGetNewCommitsToMasterApi -Headers $gitHubApiHeader -Method Get
       if($commitsSinceCurrentCommit){
         Write-Host "Current Commit to $($env:SOURCE_BRANCH) : $($currentCommitSha)"
-        Write-Host "Latest  Commit to $($env:SOURCE_BRANCH) : $($commitsSinceCurrentCommit.sha[0])"
+        Write-Host "Latest  Commit to $($env:SOURCE_BRANCH) : $($commitsSinceCurrentCommit[0].sha)"
       }
       
-      if($currentCommitSha -ne $commitsSinceCurrentCommit.sha[0]){
-        Write-Host "There are new commits to master since this commit, Cancelling this build..."
+      if($currentCommitSha -ne $commitsSinceCurrentCommit[0].sha){
+        Write-Warning "There are new commits to master since this commit, Cancelling this build..."
+        Write-Host "##vso[task.logissue type=warning;]There are new commits to master since this commit, Cancelling this build..."
 
         $currentBuild = Invoke-RestMethod -Uri $azurePipelinesBuildApi -Headers $azureDevOpsAuthorizationHeader -Method Get -ErrorAction Stop -ErrorVariable $errorVariable
         Write-Debug $currentBuild | ConvertTo-Json
