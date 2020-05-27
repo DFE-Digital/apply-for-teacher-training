@@ -35,10 +35,6 @@ module CandidateInterface
 
       render :index if @application_form.application_choices.count.zero?
 
-      if @application_form.submitted?
-        @application_form.application_choices.filter(&:unsubmitted?).each { |choice| SubmitApplicationChoice.new(choice).call }
-      end
-
       if @application_form.update(application_form_params)
         redirect_to candidate_interface_application_form_path
       else
