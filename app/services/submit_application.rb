@@ -65,7 +65,7 @@ private
   end
 
   def send_to_provider_immediately?
-    application_form.apply_again? && enough_references_have_been_provided?
+    application_form.candidate_has_previously_applied? && enough_references_have_been_provided?
   end
 
   def enough_references_have_been_provided?

@@ -118,10 +118,6 @@ class ApplicationForm < ApplicationRecord
     updated_at == created_at
   end
 
-  def apply_again?
-    apply_2?
-  end
-
   def candidate_has_previously_applied?
     previous_application_form_id.present?
   end
@@ -151,6 +147,6 @@ class ApplicationForm < ApplicationRecord
   end
 
   def can_add_reference?
-    submitted? || apply_again? || application_references.size < MINIMUM_COMPLETE_REFERENCES
+    submitted? || candidate_has_previously_applied? || application_references.size < MINIMUM_COMPLETE_REFERENCES
   end
 end
