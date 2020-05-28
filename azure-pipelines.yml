@@ -1,8 +1,4 @@
-trigger:
-  batch: true
-  branches:
-    include:
-      - "*"
+trigger: none
 
 pr: none
 
