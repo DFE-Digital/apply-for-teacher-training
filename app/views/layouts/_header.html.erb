@@ -10,7 +10,7 @@
                                  service_url: service_link,
                                  navigation_items: NavigationItems.for_support_interface(current_support_user, controller))) %>
 <% when 'provider_interface' %>
-  <%= render(HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
+  <%= render(ProviderInterface::HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
                                  service_name: service_name,
                                  service_url: service_link,
                                  navigation_items: NavigationItems.for_provider_interface(current_provider_user))) %>
