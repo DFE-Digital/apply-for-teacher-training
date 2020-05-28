@@ -6,7 +6,7 @@ class SendApplicationToProvider
   end
 
   def call
-    return false unless application_choice.application_complete?
+    return false unless application_choice.unsubmitted? || application_choice.application_complete?
 
     ActiveRecord::Base.transaction do
       application_choice.update!(sent_to_provider_at: Time.zone.now)

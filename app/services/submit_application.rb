@@ -9,20 +9,27 @@ class SubmitApplication
   end
 
   def call
-    ActiveRecord::Base.transaction do
-      application_form.update!(submitted_at: Time.zone.now, edit_by: edit_by_time)
-      submit_application
-    end
+    application_form.update!(
+      submitted_at: Time.zone.now,
+      edit_by: edit_by_time,
+    )
 
-    if send_to_provider_immediately?
+    if application_form.ready_to_be_sent_to_provider?
+      application_choices.each do |application_choice|
+        SendApplicationToProvider.new(application_choice: application_choice).call
+      end
+
       CandidateMailer.application_sent_to_provider(@application_form).deliver_later
     else
-      CandidateMailer.application_submitted(application_form).deliver_later
-    end
+      application_choices.each do |application_choice|
+        ApplicationStateChange.new(application_choice).submit!
+      end
 
-    send_reference_request_email_to_referees(application_form)
-    StateChangeNotifier.call(:submit_application, application_form: application_form)
-    auto_approve_references_in_sandbox(application_form)
+      CandidateMailer.application_submitted(application_form).deliver_later
+      send_reference_request_email_to_referees(application_form)
+      StateChangeNotifier.call(:submit_application, application_form: application_form)
+      auto_approve_references_in_sandbox(application_form)
+    end
   end
 
 private
@@ -55,34 +62,13 @@ private
     REFEREE_BOT_EMAIL_ADDRESSES.include?(reference.email_address)
   end
 
-  def submit_application
-    application_choices.each do |choice|
-      SubmitApplicationChoice.new(
-        choice,
-        send_to_provider_immediately: send_to_provider_immediately?,
-      ).call
-    end
-  end
-
-  def send_to_provider_immediately?
-    !application_form.can_edit_after_submission? && enough_references_have_been_provided?
-  end
-
-  def enough_references_have_been_provided?
-    application_form
-      .application_references
-      .feedback_provided
-      .uniq
-      .count >= ApplicationForm::MINIMUM_COMPLETE_REFERENCES
-  end
-
   def edit_by_time
     if HostingEnvironment.sandbox_mode?
       Time.zone.now
-    elsif application_form.candidate_has_previously_applied?
-      Time.zone.now
-    else
+    elsif application_form.can_edit_after_submission?
       TimeLimitConfig.edit_by.to_days.after(Time.zone.now).end_of_day
+    else
+      Time.zone.now
     end
   end
 end

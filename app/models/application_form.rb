@@ -153,4 +153,14 @@ class ApplicationForm < ApplicationRecord
   def can_add_reference?
     application_references.size < MINIMUM_COMPLETE_REFERENCES
   end
+
+  def ready_to_be_sent_to_provider?
+    !can_edit_after_submission? && enough_references_have_been_provided?
+  end
+
+private
+
+  def enough_references_have_been_provided?
+    application_references.feedback_provided.count >= MINIMUM_COMPLETE_REFERENCES
+  end
 end
