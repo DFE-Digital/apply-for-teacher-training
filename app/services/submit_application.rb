@@ -26,11 +26,10 @@ class SubmitApplication
       end
 
       CandidateMailer.application_submitted(application_form).deliver_later
+      send_reference_request_email_to_referees(application_form)
+      StateChangeNotifier.call(:submit_application, application_form: application_form)
+      auto_approve_references_in_sandbox(application_form)
     end
-
-    send_reference_request_email_to_referees(application_form)
-    StateChangeNotifier.call(:submit_application, application_form: application_form)
-    auto_approve_references_in_sandbox(application_form)
   end
 
 private
