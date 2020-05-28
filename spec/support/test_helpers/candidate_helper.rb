@@ -235,7 +235,7 @@ module CandidateHelper
       fill_in locale.t('details.label'), with: 'I learned a lot about teaching'
 
       choose 'No'
-      choose 'No, I’ve completed my work history'
+      choose 'No, not at the moment'
     end
 
     click_button t('application_form.work_history.complete_form_button')

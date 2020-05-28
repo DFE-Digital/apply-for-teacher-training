@@ -108,7 +108,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
 
     choose 'No'
 
-    choose 'No, I’ve completed my work history'
+    choose 'No, not at the moment'
 
     click_button t('application_form.work_history.complete_form_button')
   end

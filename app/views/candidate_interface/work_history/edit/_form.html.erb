@@ -36,7 +36,7 @@
 
 <%= f.govuk_radio_buttons_fieldset :add_another_job, legend: { text: 'Do you want to add another job?', tag: 'span' } do %>
   <%= f.govuk_radio_button :add_another_job, true, label: { text: 'Yes, I want to add another job' } %>
-  <%= f.govuk_radio_button :add_another_job, false, label: { text: 'No, I’ve completed my work history' } %>
+  <%= f.govuk_radio_button :add_another_job, false, label: { text: 'No, not at the moment' } %>
 <% end %>
 
 <%= f.govuk_submit t('application_form.work_history.complete_form_button') %>
