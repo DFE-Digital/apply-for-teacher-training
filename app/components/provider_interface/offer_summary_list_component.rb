@@ -34,7 +34,7 @@ module ProviderInterface
         when 'Course'
           row.merge(change_path: @change_course_path, action: 'course')
         when 'Study mode'
-          row.merge(change_path: @change_study_mode_path, action: 'study mode')
+          row.merge(change_path: @change_study_mode_path, action: 'to full time or part time')
         when 'Location'
           row.merge(change_path: @change_course_option_path, action: 'location')
         else
