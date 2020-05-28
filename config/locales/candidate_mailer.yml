@@ -56,11 +56,11 @@ en:
       subject: "You have not met your conditions for %{course_name}: next steps"
     changed_offer:
       subject: "%{provider_name} changed the details of your offer"
-    rejected_apply_again_call_to_action:
+    apply_again_rejected_call_to_action:
       subject: "%{provider_name} has responded: next steps"
-    declined_apply_again_call_to_action:
-        subject: "You’ve declined an offer: next steps"
-    withdrawn_apply_again_call_to_action:
-        subject: "You’ve withdrawn your application(s): next steps"
-    not_responded_apply_again_call_to_action:
-        subject: "You did not respond to your offer(s): next steps"
+    apply_again_declined_call_to_action:
+      subject: "You’ve declined an offer: next steps"
+    apply_again_withdrawn_call_to_action:
+      subject: "You’ve withdrawn your application(s): next steps"
+    apply_again_not_responded_call_to_action:
+      subject: "You did not respond to your offer(s): next steps"

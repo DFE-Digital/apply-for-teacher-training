@@ -212,37 +212,37 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def rejected_apply_again_call_to_action(application_choice)
+  def apply_again_rejected_call_to_action(application_choice)
     @course = application_choice.course_option.course
     @provider = @course.provider
 
     email_for_candidate(
       application_choice.application_form,
       subject: I18n.t!(
-        'candidate_mailer.rejected_apply_again_call_to_action.subject',
+        'candidate_mailer.apply_again_rejected_call_to_action.subject',
         provider_name: application_choice.course_option.course.provider.name,
       ),
     )
   end
 
-  def withdrawn_apply_again_call_to_action(application_choice)
+  def apply_again_withdrawn_call_to_action(application_choice)
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.withdrawn_apply_again_call_to_action.subject'),
+      subject: I18n.t!('candidate_mailer.apply_again_withdrawn_call_to_action.subject'),
     )
   end
 
-  def declined_apply_again_call_to_action(application_choice)
+  def apply_again_declined_call_to_action(application_choice)
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.declined_apply_again_call_to_action.subject'),
+      subject: I18n.t!('candidate_mailer.apply_again_declined_call_to_action.subject'),
     )
   end
 
-  def not_responded_apply_again_call_to_action(application_choice)
+  def apply_again_not_responded_call_to_action(application_choice)
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.not_responded_apply_again_call_to_action.subject'),
+      subject: I18n.t!('candidate_mailer.apply_again_not_responded_call_to_action.subject'),
     )
   end
 

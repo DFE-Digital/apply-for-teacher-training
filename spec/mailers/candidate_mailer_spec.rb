@@ -382,7 +382,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
   end
 
-  describe '#rejected_apply_again_call_to_action' do
+  describe '#apply_again_rejected_call_to_action' do
     it 'has the correct subject and content' do
       application_form = build_stubbed(
         :application_form,
@@ -407,11 +407,77 @@ RSpec.describe CandidateMailer, type: :mailer do
           ),
         ],
       )
-      email = described_class.rejected_apply_again_call_to_action(application_form.application_choices.first)
+      email = described_class.apply_again_rejected_call_to_action(application_form.application_choices.first)
 
       expect(email.subject).to eq 'West Brewbury Technical College has responded: next steps'
       expect(email.body).to include('Dear Fred,')
       expect(email.body).to include('West Brewbury Technical College has decided not to progress your teacher training application for English (ABC1)')
+    end
+  end
+
+  describe '#apply_again_withdrawn_call_to_action' do
+    it 'has the correct subject and content' do
+      application_form = build_stubbed(
+        :application_form,
+        first_name: 'Fred',
+        candidate: @candidate,
+        application_choices: [
+          build_stubbed(
+            :application_choice,
+            status: 'withdrawn',
+          ),
+        ],
+      )
+      email = described_class.apply_again_withdrawn_call_to_action(application_form.application_choices.first)
+
+      expect(email.subject).to eq 'You’ve withdrawn your application(s): next steps'
+      expect(email.body).to include('Dear Fred,')
+      pending 'assertions about body content'
+      expect(email.body).to include('TBD')
+    end
+  end
+
+  describe '#apply_again_declined_call_to_action' do
+    it 'has the correct subject and content' do
+      application_form = build_stubbed(
+        :application_form,
+        first_name: 'Fred',
+        candidate: @candidate,
+        application_choices: [
+          build_stubbed(
+            :application_choice,
+            status: 'declined',
+          ),
+        ],
+      )
+      email = described_class.apply_again_declined_call_to_action(application_form.application_choices.first)
+
+      expect(email.subject).to eq 'You’ve declined an offer: next steps'
+      expect(email.body).to include('Dear Fred,')
+      pending 'assertions about body content'
+      expect(email.body).to include('TBD')
+    end
+  end
+
+  describe '#apply_again_not_responded_call_to_action' do
+    it 'has the correct subject and content' do
+      application_form = build_stubbed(
+        :application_form,
+        first_name: 'Fred',
+        candidate: @candidate,
+        application_choices: [
+          build_stubbed(
+            :application_choice,
+            status: 'declined',
+          ),
+        ],
+      )
+      email = described_class.apply_again_not_responded_call_to_action(application_form.application_choices.first)
+
+      expect(email.subject).to eq 'You did not respond to your offer(s): next steps'
+      expect(email.body).to include('Dear Fred,')
+      pending 'assertions about body content'
+      expect(email.body).to include('TBD')
     end
   end
 end
