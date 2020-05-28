@@ -215,6 +215,7 @@ class CandidateMailer < ApplicationMailer
   def apply_again_rejected_call_to_action(application_choice)
     @course = application_choice.course_option.course
     @provider = @course.provider
+    @rejected_application_choices = application_choice.application_form.application_choices.select(&:rejected?)
 
     email_for_candidate(
       application_choice.application_form,
@@ -226,13 +227,26 @@ class CandidateMailer < ApplicationMailer
   end
 
   def apply_again_withdrawn_call_to_action(application_choice)
+    @withdrawn_application_choices = application_choice.application_form.application_choices.select(&:withdrawn?)
+
+    @withdrawn_from = @withdrawn_application_choices.map { |choice|
+      course = choice.course_option.course
+      "#{course.name_and_code} at #{course.provider.name}"
+    }.to_sentence(last_word_connector: ' and ')
+
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.apply_again_withdrawn_call_to_action.subject'),
+      subject: I18n.t!(
+        'candidate_mailer.apply_again_withdrawn_call_to_action.subject',
+        applications: 'application'.pluralize(@withdrawn_application_choices.size),
+      ),
     )
   end
 
   def apply_again_declined_call_to_action(application_choice)
+    @course = application_choice.course_option.course
+    @provider = @course.provider
+
     email_for_candidate(
       application_choice.application_form,
       subject: I18n.t!('candidate_mailer.apply_again_declined_call_to_action.subject'),
@@ -240,6 +254,14 @@ class CandidateMailer < ApplicationMailer
   end
 
   def apply_again_not_responded_call_to_action(application_choice)
+    @declined_application_choices = application_choice.application_form.application_choices.select do |choice|
+      choice.declined? && choice.declined_by_default?
+    end
+    @declined_from = @declined_application_choices.map { |choice|
+      course = choice.course_option.course
+      "#{course.name_and_code} at #{course.provider.name}"
+    }.to_sentence
+
     email_for_candidate(
       application_choice.application_form,
       subject: I18n.t!('candidate_mailer.apply_again_not_responded_call_to_action.subject'),

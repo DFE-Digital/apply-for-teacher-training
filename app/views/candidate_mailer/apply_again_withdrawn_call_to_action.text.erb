@@ -1,6 +1,6 @@
 Dear <%= @application_form.first_name %>,
 
-You’ve withdrawn your application((s)) for ((list relevant course names, course codes and provider names)).
+You’ve withdrawn your <%= 'application'.pluralize(@withdrawn_application_choices.size) %> for <%= @withdrawn_from %>.
 
 ## Are you still interested in teaching?
 You did not pursue your teacher training application, but it’s not too late to apply again for a course if you’ve changed your mind.

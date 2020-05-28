@@ -412,6 +412,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       expect(email.subject).to eq 'West Brewbury Technical College has responded: next steps'
       expect(email.body).to include('Dear Fred,')
       expect(email.body).to include('West Brewbury Technical College has decided not to progress your teacher training application for English (ABC1)')
+      expect(email.body).to include('Your provider has left you some feedback')
     end
   end
 
@@ -425,15 +426,58 @@ RSpec.describe CandidateMailer, type: :mailer do
           build_stubbed(
             :application_choice,
             status: 'withdrawn',
+            course_option: build_stubbed(
+              :course_option,
+              course: build_stubbed(
+                :course,
+                name: 'History',
+                code: 'H101',
+                provider: build_stubbed(
+                  :provider,
+                  name: 'Thursbury College',
+                ),
+              ),
+            ),
+          ),
+          build_stubbed(
+            :application_choice,
+            status: 'withdrawn',
+            course_option: build_stubbed(
+              :course_option,
+              course: build_stubbed(
+                :course,
+                name: 'Geography',
+                code: 'G101',
+                provider: build_stubbed(
+                  :provider,
+                  name: 'Tuesbury Academy',
+                ),
+              ),
+            ),
+          ),
+          build_stubbed(
+            :application_choice,
+            status: 'withdrawn',
+            course_option: build_stubbed(
+              :course_option,
+              course: build_stubbed(
+                :course,
+                name: 'Physics',
+                code: 'P101',
+                provider: build_stubbed(
+                  :provider,
+                  name: 'Wednesbury Tech',
+                ),
+              ),
+            ),
           ),
         ],
       )
       email = described_class.apply_again_withdrawn_call_to_action(application_form.application_choices.first)
 
-      expect(email.subject).to eq 'You’ve withdrawn your application(s): next steps'
+      expect(email.subject).to eq 'You’ve withdrawn your applications: next steps'
       expect(email.body).to include('Dear Fred,')
-      pending 'assertions about body content'
-      expect(email.body).to include('TBD')
+      expect(email.body).to include('You’ve withdrawn your applications for History (H101) at Thursbury College, Geography (G101) at Tuesbury Academy and Physics (P101) at Wednesbury Tech.')
     end
   end
 
@@ -447,6 +491,18 @@ RSpec.describe CandidateMailer, type: :mailer do
           build_stubbed(
             :application_choice,
             status: 'declined',
+            course_option: build_stubbed(
+              :course_option,
+              course: build_stubbed(
+                :course,
+                name: 'Mathematics',
+                code: 'M101',
+                provider: build_stubbed(
+                  :provider,
+                  name: 'Cholbury College',
+                ),
+              ),
+            ),
           ),
         ],
       )
@@ -454,8 +510,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       expect(email.subject).to eq 'You’ve declined an offer: next steps'
       expect(email.body).to include('Dear Fred,')
-      pending 'assertions about body content'
-      expect(email.body).to include('TBD')
+      expect(email.body).to include('You’ve declined your offer to study Mathematics (M101) at Cholbury College')
     end
   end
 
@@ -469,6 +524,36 @@ RSpec.describe CandidateMailer, type: :mailer do
           build_stubbed(
             :application_choice,
             status: 'declined',
+            declined_by_default: true,
+            course_option: build_stubbed(
+              :course_option,
+              course: build_stubbed(
+                :course,
+                name: 'History',
+                code: 'H101',
+                provider: build_stubbed(
+                  :provider,
+                  name: 'Thursbury College',
+                ),
+              ),
+            ),
+          ),
+          build_stubbed(
+            :application_choice,
+            status: 'declined',
+            declined_by_default: true,
+            course_option: build_stubbed(
+              :course_option,
+              course: build_stubbed(
+                :course,
+                name: 'Geography',
+                code: 'G101',
+                provider: build_stubbed(
+                  :provider,
+                  name: 'Tuesbury Academy',
+                ),
+              ),
+            ),
           ),
         ],
       )
@@ -476,8 +561,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       expect(email.subject).to eq 'You did not respond to your offer(s): next steps'
       expect(email.body).to include('Dear Fred,')
-      pending 'assertions about body content'
-      expect(email.body).to include('TBD')
+      expect(email.body).to include('You did not respond in time so we declined your offers for History (H101) at Thursbury College and Geography (G101) at Tuesbury Academy')
     end
   end
 end

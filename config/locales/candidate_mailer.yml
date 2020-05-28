@@ -61,6 +61,6 @@ en:
     apply_again_declined_call_to_action:
       subject: "You’ve declined an offer: next steps"
     apply_again_withdrawn_call_to_action:
-      subject: "You’ve withdrawn your application(s): next steps"
+      subject: "You’ve withdrawn your %{applications}: next steps"
     apply_again_not_responded_call_to_action:
       subject: "You did not respond to your offer(s): next steps"
