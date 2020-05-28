@@ -71,6 +71,50 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     when_i_clear_the_filters
     then_i_expect_all_applications_to_be_visible_again
+    and_i_click_the_sign_out_button
+  end
+
+  scenario 'filter should not have accredited providers heading if none are available' do
+    given_i_am_a_provider_user_with_dfe_sign_in
+    and_i_am_permitted_to_see_applications_from_multiple_providers
+    and_my_organisation_has_courses_with_applications_without_accredited_providers
+    and_i_sign_in_to_the_provider_interface
+
+    and_accept_the_data_sharing_agreement
+
+    when_i_visit_the_provider_page
+    then_i_do_not_expect_to_see_the_accredited_providers_filter_heading
+    and_i_click_the_sign_out_button
+  end
+
+  def and_i_click_the_sign_out_button
+    click_link 'Sign out'
+  end
+
+  def and_accept_the_data_sharing_agreement
+    find(:css, '#provider-agreement-accept-agreement-true-field').set(true)
+    click_button('Continue')
+  end
+
+  def and_my_organisation_has_courses_with_applications_without_accredited_providers
+    course_option_one = course_option_for_provider(provider: current_provider,
+                                                   site: site,
+                                                   course: create(:course,
+                                                                  name: 'Alchemy',
+                                                                  provider: current_provider))
+
+    course_option_two = course_option_for_provider(provider: second_provider, course: create(:course, name: 'Science', provider: second_provider))
+
+    create(:application_choice, :awaiting_provider_decision, course_option: course_option_one, status: 'withdrawn', application_form:
+           create(:application_form, first_name: 'Jim', last_name: 'James'), updated_at: 5.days.ago)
+
+    create(:application_choice, :awaiting_provider_decision, course_option: course_option_two, status: 'offer', application_form:
+           create(:application_form, first_name: 'Greg', last_name: 'Taft'), updated_at: 4.days.ago)
+  end
+
+  def then_i_do_not_expect_to_see_the_accredited_providers_filter_heading
+    expect(page).to have_content('Filter')
+    expect(page).not_to have_content('Accredited provider')
   end
 
   def then_i_should_see_locations_that_belong_to_all_of_the_selected_providers_that_have_more_than_one_site

@@ -20,7 +20,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       page_state = described_class.new(params: ActionController::Parameters.new,
                                        provider_user: provider_user)
 
-      expected_number_of_filters = 4
+      expected_number_of_filters = 3
       providers_array_index = 2
       number_of_courses = 3
 
@@ -33,7 +33,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       page_state = described_class.new(params: ActionController::Parameters.new,
                                        provider_user: another_provider_user)
 
-      expected_number_of_filters = 3
+      expected_number_of_filters = 2
 
       headings = page_state.filters.map { |filter| filter[:heading] }
 
@@ -53,11 +53,11 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       relevant_provider_ids = [provider1.sites.first.id, provider1.sites.last.id]
       relevant_provider_names = [provider1.sites.first.name, provider1.sites.last.name]
 
-      expect(relevant_provider_ids).to include(page_state.filters[3][:options][0][:value])
-      expect(relevant_provider_ids).to include(page_state.filters[3][:options][1][:value])
+      expect(relevant_provider_ids).to include(page_state.filters[2][:options][0][:value])
+      expect(relevant_provider_ids).to include(page_state.filters[2][:options][1][:value])
 
-      expect(relevant_provider_names).to include(page_state.filters[3][:options][0][:label])
-      expect(relevant_provider_names).to include(page_state.filters[3][:options][1][:label])
+      expect(relevant_provider_names).to include(page_state.filters[2][:options][0][:label])
+      expect(relevant_provider_names).to include(page_state.filters[2][:options][1][:label])
     end
   end
 

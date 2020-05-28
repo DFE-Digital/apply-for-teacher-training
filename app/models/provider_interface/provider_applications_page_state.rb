@@ -80,7 +80,11 @@ module ProviderInterface
     end
 
     def accredited_provider_filter
-      accredited_providers_options = ProviderOptionsService.new(provider_user).accredited_providers.map do |accredited_provider|
+      accredited_providers = ProviderOptionsService.new(provider_user).accredited_providers
+
+      return nil if accredited_providers.empty?
+
+      accredited_providers_options = accredited_providers.map do |accredited_provider|
         {
           value: accredited_provider.id,
           label: accredited_provider.name,
