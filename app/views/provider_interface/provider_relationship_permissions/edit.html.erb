@@ -1,0 +1,61 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-xl">Set up permissions</span>
+    <h1 class="govuk-heading-xl">
+      For courses run by <%= @form.training_provider_permissions.training_provider.name %> and ratified by
+      <%= @form.training_provider_permissions.ratifying_provider.name %>
+    </h1>
+    <div class="app-banner">
+      <div class="app-banner__message">
+        <p>All users at your organisation and ratifying organisation(s) will be able to view applications to these courses. You don't need to set permissions for this.</p>
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              More about permissions
+            </span>
+          </summary>
+          <div class="govuk-details__text">
+            <h2 class="govuk-heading-m">Permission to see safeguarding information</h2>
+            <p>You can give this organisation access to information disclosed in:</p>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>the ‘criminal convictions and professional misconduct’ section of the application, which may include highly sensitive material about the candidate</li>
+              <li>the ‘equality and diversity’ section of the application form</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <%= form_with(
+      model: @form,
+      url: provider_interface_confirm_provider_relationship_permissions_path,
+      method: :patch
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <div class="govuk-form-group">
+        <%= f.fields_for :training_provider_permissions, @form.training_provider_permissions do |tpp| %>
+          <%= tpp.govuk_check_boxes_fieldset :permissions, legend: {
+              text: "Select permissions for #{@form.training_provider_permissions.training_provider.name}" } do %>
+            <%= tpp.govuk_check_box :view_safeguarding_information, true, multiple: false,
+                                    label: { text: 'They have access to safeguarding information' } %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="govuk-form-group">
+        <%= f.fields_for :accredited_body_permissions, @form.accredited_body_permissions do |abp| %>
+          <%= abp.govuk_check_boxes_fieldset :permissions, legend: {
+              text: "Select permissions for #{@form.accredited_body_permissions.ratifying_provider.name}" } do %>
+            <%= abp.govuk_check_box :view_safeguarding_information, true, multiple: false,
+                                    label: { text: 'They have access to safeguarding information' } %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <button class="govuk-button" data-module="govuk-button">
+        Continue
+      </button>
+    <% end %>
+  </div>
+</div>
