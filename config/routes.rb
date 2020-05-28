@@ -565,8 +565,6 @@ Rails.application.routes.draw do
     get '/sign-in' => 'sessions#new'
     get '/sign-out' => 'sessions#destroy'
 
-    get '/mailers' => 'mailer_previews#index'
-
     # https://github.com/mperham/sidekiq/wiki/Monitoring#rails-http-basic-auth-from-routes
     require 'sidekiq/web'
     require 'support_user_constraint'
