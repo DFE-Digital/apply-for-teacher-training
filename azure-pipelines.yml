@@ -276,6 +276,12 @@ stages:
         testRunner: JUnit
         testResultsFiles: 'results/*.xml'
 
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Cucumber Results XML'
+      inputs:
+        path: '$(System.DefaultWorkingDirectory)/results/'
+        artifactName: 'cucumberResults'
+
 
   - job: test_docker_image_batch_2
     displayName: 'Test Docker Image - RSpec'
@@ -333,7 +339,6 @@ stages:
             if [ $(grep "^<testsuite name=\"rspec\"" results/rspec-results.xml | cut -d' ' -f4 | cut -d'"' -f2) -gt 0 ]
             then
               echo "##vso[task.logissue type=warning]One or more rspec tests were skipped"
-              exit 1
             fi
           else
             echo "##vso[task.logissue type=error]rspec-results file not found."
@@ -362,6 +367,12 @@ stages:
       inputs:
         testRunner: JUnit
         testResultsFiles: 'results/*.xml'
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish RSpec Results'
+      inputs:
+        path: '$(System.DefaultWorkingDirectory)/results/'
+        artifactName: 'rspecResults'
 
 
 - stage: deploy_qa
