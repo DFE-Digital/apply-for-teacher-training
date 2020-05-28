@@ -7,7 +7,7 @@ module CandidateInterface
 
       def decide
         @choice_form = CandidateInterface::CourseChosenForm.new(application_choice_params)
-        render :have_you_chosen and return unless @choice_form.valid?
+        render :ask and return unless @choice_form.valid?
 
         if @choice_form.chosen_a_course?
           redirect_to candidate_interface_course_choices_provider_path
