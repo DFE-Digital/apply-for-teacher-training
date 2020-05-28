@@ -15,10 +15,11 @@ module SupportInterface
         status: 'unsubmitted',
       )
 
-      SubmitApplicationChoice.new(
-        application_choice,
-        send_to_provider_immediately: awaiting_provider_decision?,
-      ).call
+      if awaiting_provider_decision?
+        SendApplicationToProvider.new(application_choice: application_choice).call
+      else
+        ApplicationStateChange.new(application_choice).submit!
+      end
     end
 
   private
