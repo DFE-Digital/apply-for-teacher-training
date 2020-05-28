@@ -1,7 +1,7 @@
 module CandidateInterface
   module CourseChoices
     class SiteSelectionController < BaseController
-      def options_for_site
+      def new
         candidate_is_updating_a_choice = params[:course_choice_id]
         if candidate_is_updating_a_choice
           @course_choice_id = params[:course_choice_id]
@@ -25,7 +25,7 @@ module CandidateInterface
         end
       end
 
-      def pick_site
+      def create
         course_id = params.fetch(:course_id)
         course_option_id = params.dig(:candidate_interface_pick_site_form, :course_option_id)
 

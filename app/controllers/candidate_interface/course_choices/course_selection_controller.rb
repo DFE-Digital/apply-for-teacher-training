@@ -1,7 +1,7 @@
 module CandidateInterface
   module CourseChoices
     class CourseSelectionController < BaseController
-      def options_for_course
+      def new
         if params[:course_choice_id]
           @course_choice_id = params[:course_choice_id]
           current_application_choice = current_application.application_choices.find(@course_choice_id)
@@ -19,14 +19,14 @@ module CandidateInterface
         end
       end
 
-      def pick_course
+      def create
         course_id = params.dig(:candidate_interface_pick_course_form, :course_id)
         @pick_course = PickCourseForm.new(
           provider_id: params.fetch(:provider_id),
           course_id: course_id,
           application_form: current_application,
         )
-        render :options_for_course and return unless @pick_course.valid?
+        render :new and return unless @pick_course.valid?
 
         if !@pick_course.open_on_apply?
           redirect_to candidate_interface_course_choices_ucas_with_course_path(@pick_course.provider_id, @pick_course.course_id)

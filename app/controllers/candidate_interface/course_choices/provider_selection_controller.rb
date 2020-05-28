@@ -1,15 +1,15 @@
 module CandidateInterface
   module CourseChoices
     class ProviderSelectionController < BaseController
-      def options_for_provider
+      def new
         @pick_provider = PickProviderForm.new
       end
 
-      def pick_provider
+      def create
         @pick_provider = PickProviderForm.new(
           provider_id: params.dig(:candidate_interface_pick_provider_form, :provider_id),
         )
-        render :options_for_provider and return unless @pick_provider.valid?
+        render :new and return unless @pick_provider.valid?
 
         if @pick_provider.courses_available?
           redirect_to candidate_interface_course_choices_course_path(@pick_provider.provider_id)

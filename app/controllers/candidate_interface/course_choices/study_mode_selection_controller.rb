@@ -1,7 +1,7 @@
 module CandidateInterface
   module CourseChoices
     class StudyModeSelectionController < BaseController
-      def options_for_study_mode
+      def new
         if params[:course_choice_id]
           @course_choice_id = params[:course_choice_id]
           current_application_choice = current_application.application_choices.find(@course_choice_id)
@@ -19,7 +19,7 @@ module CandidateInterface
         end
       end
 
-      def pick_study_mode
+      def create
         @pick_study_mode = PickStudyModeForm.new(
           provider_id: params.fetch(:provider_id),
           course_id: params.fetch(:course_id),
@@ -28,7 +28,7 @@ module CandidateInterface
             :study_mode,
           ),
         )
-        render :options_for_study_mode and return unless @pick_study_mode.valid?
+        render :new and return unless @pick_study_mode.valid?
 
         if @pick_study_mode.single_site_course?
           if params[:course_choice_id]
