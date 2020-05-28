@@ -18,14 +18,14 @@ class SubmitApplication
       application_choices.each do |application_choice|
         ApplicationStateChange.new(application_choice).submit!
 
-        if send_to_provider_immediately?
+        if ready_to_be_sent_to_provider?
           ApplicationStateChange.new(application_choice).references_complete!
           SendApplicationToProvider.new(application_choice: application_choice).call
         end
       end
     end
 
-    if send_to_provider_immediately?
+    if ready_to_be_sent_to_provider?
       CandidateMailer.application_sent_to_provider(@application_form).deliver_later
     else
       CandidateMailer.application_submitted(application_form).deliver_later
@@ -66,7 +66,7 @@ private
     REFEREE_BOT_EMAIL_ADDRESSES.include?(reference.email_address)
   end
 
-  def send_to_provider_immediately?
+  def ready_to_be_sent_to_provider?
     !application_form.can_edit_after_submission? && enough_references_have_been_provided?
   end
 
