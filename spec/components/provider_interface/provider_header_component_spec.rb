@@ -5,7 +5,6 @@ RSpec.describe ProviderInterface::ProviderHeaderComponent do
 
   subject(:rendered_component) do
     render_inline(ProviderInterface::ProviderHeaderComponent.new(navigation_items: navigation_items, service_name: '', service_url: '#'))
-
   end
 
   describe 'rendering NavigationItems' do

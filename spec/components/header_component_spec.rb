@@ -53,7 +53,7 @@ RSpec.describe HeaderComponent do
       end
 
       it 'assigns the --active class' do
-        expect(rendered_component.to_s).to include 'moj-header__navigation-item--active'
+        expect(rendered_component.to_s).to include 'govuk-header__navigation-item--active'
       end
     end
   end
