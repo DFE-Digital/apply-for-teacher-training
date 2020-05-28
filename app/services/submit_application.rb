@@ -79,6 +79,8 @@ private
   def edit_by_time
     if HostingEnvironment.sandbox_mode?
       Time.zone.now
+    elsif application_form.candidate_has_previously_applied?
+      Time.zone.now
     else
       TimeLimitConfig.edit_by.to_days.after(Time.zone.now).end_of_day
     end

@@ -22,12 +22,12 @@ RSpec.feature 'A new application has been submitted' do
       create(
         :application_choice,
         status: 'application_complete',
-        edit_by: Time.zone.today,
         course_option: @course_option,
         application_form:
           create(
             :completed_application_form,
             submitted_at: Time.zone.today,
+            edit_by: Time.zone.today,
           ),
       )
   end

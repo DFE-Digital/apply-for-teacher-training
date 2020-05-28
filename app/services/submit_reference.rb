@@ -45,10 +45,6 @@ private
         # edit the application. Hence, we clear out the usual 7-day edit window
         # by resetting the `edit_by` time.
         application_form.update!(edit_by: Time.zone.now)
-
-        # Temporarily here until we've transitioned `ApplicationChoice#edit_by`
-        # to `ApplicationForm#edit_by` - https://trello.com/c/IbvLIdCn.
-        application_choice.update!(edit_by: Time.zone.now)
       end
     end
 

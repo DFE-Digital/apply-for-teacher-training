@@ -11,7 +11,6 @@ RSpec.describe SendApplicationToProvider do
     @application_choice ||= create(
       :submitted_application_choice,
       status: status,
-      edit_by: 2.business_days.ago,
     )
   end
 
