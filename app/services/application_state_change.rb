@@ -18,6 +18,7 @@ class ApplicationStateChange
 
     state :unsubmitted do
       event :submit, transitions_to: :awaiting_references
+      event :send_to_provider, transitions_to: :awaiting_provider_decision
     end
 
     state :awaiting_references do

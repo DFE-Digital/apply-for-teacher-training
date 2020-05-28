@@ -16,11 +16,10 @@ class SubmitApplication
       )
 
       application_choices.each do |application_choice|
-        ApplicationStateChange.new(application_choice).submit!
-
         if ready_to_be_sent_to_provider?
-          ApplicationStateChange.new(application_choice).references_complete!
           SendApplicationToProvider.new(application_choice: application_choice).call
+        else
+          ApplicationStateChange.new(application_choice).submit!
         end
       end
     end
