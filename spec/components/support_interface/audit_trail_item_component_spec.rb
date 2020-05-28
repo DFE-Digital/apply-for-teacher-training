@@ -105,4 +105,65 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
     expect(render_result.text).to include('Update Application Form')
     expect(render_result.text).to include('(Unknown User)')
   end
+
+  context 'the audited item is a ProviderPermissions record' do
+    # let! these so we don't wastefully create audits we don't care about
+    # in the body of the spec
+    let!(:provider) { create(:provider, name: 'The School of Roke') }
+    let!(:user) { create(:provider_user) }
+
+    it 'provides a meaningful label for "create"', with_audited: true do
+      permissions = ProviderPermissions.create(
+        provider: provider,
+        provider_user: user,
+      )
+
+      render_inline(described_class.new(audit: permissions.audits.last))
+
+      assert_includes rendered_component, 'Access granted for The School of Roke'
+    end
+
+    it 'provides a meaningful label for "update"', with_audited: true do
+      permissions = ProviderPermissions.create(
+        provider: provider,
+        provider_user: user,
+      )
+
+      permissions.manage_users = !permissions.manage_users
+      permissions.save
+
+      render_inline(described_class.new(audit: permissions.audits.last))
+
+      assert_includes rendered_component, 'Permissions changed for The School of Roke'
+    end
+
+    it 'provides a meaningful label for "update", even when the original record was destroyed', with_audited: true do
+      permissions = ProviderPermissions.create(
+        provider: provider,
+        provider_user: user,
+      )
+
+      permissions.manage_users = !permissions.manage_users
+      permissions.save
+
+      permissions.destroy
+
+      render_inline(described_class.new(audit: permissions.audits.find_by(action: 'update')))
+
+      assert_includes rendered_component, 'Permissions changed for The School of Roke'
+    end
+
+    it 'provides a meaningful label for "destroy"', with_audited: true do
+      permissions = ProviderPermissions.create(
+        provider: provider,
+        provider_user: user,
+      )
+
+      permissions.destroy
+
+      render_inline(described_class.new(audit: permissions.audits.last))
+
+      assert_includes rendered_component, 'Access revoked for The School of Roke'
+    end
+  end
 end
