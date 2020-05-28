@@ -18,13 +18,18 @@ module ProviderInterface
         Course.where(
           open_on_apply: true,
           provider_id: change_offer_form.provider_id,
-          study_mode: study_mode_for_courses,
+          study_mode: relevant_study_modes,
+          recruitment_cycle_year: recruitment_cycle_year,
         ).order(:name)
       end
 
-      def study_mode_for_courses
-        current_study_mode = application_choice.offered_option.study_mode
-        [current_study_mode, :full_time_or_part_time]
+      def relevant_study_modes
+        current = change_offer_form.study_mode || application_choice.offered_option.study_mode
+        [current, 'full_time_or_part_time']
+      end
+
+      def recruitment_cycle_year
+        application_choice.offered_course.recruitment_cycle_year # same year as application
       end
 
       def page_title

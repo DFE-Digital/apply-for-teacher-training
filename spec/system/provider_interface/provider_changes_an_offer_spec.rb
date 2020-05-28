@@ -8,7 +8,9 @@ RSpec.feature 'Provider changes an offer' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_two_providers
     and_an_offered_application_choice_exists_for_one_of_my_providers
-    and_another_two_course_options_exist_for_this_provider
+    and_another_relevant_course_exists_for_this_provider
+    and_a_part_time_only_course_exists_for_this_provider
+    and_an_older_course_exists_for_this_provider
     and_i_sign_in_to_the_provider_interface
     and_i_view_an_offered_application
     then_i_cannot_change_the_offer
@@ -18,7 +20,7 @@ RSpec.feature 'Provider changes an offer' do
     then_i_see_all_my_providers
 
     when_i_click_on_continue
-    then_i_see_all_courses_for_this_provider
+    then_i_see_all_courses_for_this_provider_year_and_study_mode
     and_i_can_change_the_course
     and_i_can_change_the_study_mode
     and_i_see_all_available_locations_for_this_study_mode
@@ -42,14 +44,30 @@ RSpec.feature 'Provider changes an offer' do
   end
 
   def and_an_offered_application_choice_exists_for_one_of_my_providers
-    @course_option_one = course_option_for_provider_code(provider_code: @provider.code)
+    @course_option_one = course_option_for_provider(provider: @provider, study_mode: 'full_time')
     @application_offered = create(:application_choice, :with_offer, course_option: @course_option_one)
   end
 
-  def and_another_two_course_options_exist_for_this_provider
+  def and_another_relevant_course_exists_for_this_provider
     @other_course = create(:course, :open_on_apply, :with_both_study_modes, provider: @provider)
     @course_option_two = create(:course_option, :full_time, course: @other_course)
     @course_option_three = create(:course_option, :part_time, course: @other_course)
+  end
+
+  def and_a_part_time_only_course_exists_for_this_provider
+    @part_time_course = create(:course, :open_on_apply, :part_time, provider: @provider)
+  end
+
+  def and_an_older_course_exists_for_this_provider
+    @old_course = create(
+      :course,
+      :open_on_apply,
+      :with_both_study_modes,
+      recruitment_cycle_year: 2019,
+      provider: @provider,
+    )
+    create(:course_option, :full_time, course: @old_course)
+    create(:course_option, :part_time, course: @old_course)
   end
 
   def when_change_response_feature_is_activated
@@ -80,10 +98,11 @@ RSpec.feature 'Provider changes an offer' do
     click_on 'Continue'
   end
 
-  def then_i_see_all_courses_for_this_provider
-    @provider.courses.each do |course|
-      expect(page).to have_content course.name_and_code
-    end
+  def then_i_see_all_courses_for_this_provider_year_and_study_mode
+    expect(page).not_to have_content @part_time_course.name_and_code
+    expect(page).not_to have_content @old_course.name_and_code
+    expect(page).to have_content @course_option_one.course.name_and_code
+    expect(page).to have_content @other_course.name_and_code
   end
 
   def and_i_can_change_the_course
