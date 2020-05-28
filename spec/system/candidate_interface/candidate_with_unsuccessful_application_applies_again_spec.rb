@@ -130,7 +130,7 @@ RSpec.feature 'Candidate with unsuccessful application' do
     expect(page).to have_content 'Application successfully submitted'
     @apply_again_choice = ApplicationForm.last.application_choices.first
     expect(@apply_again_choice.status).to eq 'awaiting_provider_decision'
-    expect(@apply_again_choice.edit_by.to_date).to eq Time.zone.today
+    expect(@apply_again_choice.application_form.edit_by.to_date).to eq Time.zone.today
   end
 
   def and_i_receive_an_email_that_my_application_has_been_sent

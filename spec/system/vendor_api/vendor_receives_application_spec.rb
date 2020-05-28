@@ -49,7 +49,7 @@ RSpec.feature 'Vendor receives the application' do
   end
 
   def and_the_edit_by_date_has_passed
-    @application.application_choices.first.update(edit_by: 1.minute.ago)
+    @application.update!(edit_by: 1.minute.ago)
   end
 
   def and_the_daily_application_cron_job_has_run

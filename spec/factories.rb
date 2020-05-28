@@ -26,6 +26,7 @@ FactoryBot.define do
       disclose_disability { %w[true false].sample }
       disability_disclosure { Faker::Lorem.paragraph_by_chars(number: 300) }
       submitted_at { Faker::Time.backward(days: 7, period: :day) }
+      edit_by { submitted_at ? 5.business_days.after(submitted_at) : nil }
       phone_number { Faker::PhoneNumber.cell_phone }
       address_line1 { Faker::Address.street_address }
       address_line2 { Faker::Address.city }
@@ -69,6 +70,10 @@ FactoryBot.define do
         with_gces { false }
         full_work_history { false }
         with_degree { false }
+      end
+
+      trait :ready_to_send_to_provider do
+        edit_by { 1.day.ago }
       end
 
       trait :with_completed_references do
@@ -124,13 +129,7 @@ FactoryBot.define do
           create(:degree_qualification, application_form: application_form)
         end
 
-        edit_by = if application_form.submitted_at.nil?
-                    nil
-                  else
-                    5.business_days.after application_form.submitted_at
-                  end
-
-        create_list(:application_choice, evaluator.application_choices_count, application_form: application_form, status: 'awaiting_references', edit_by: edit_by)
+        create_list(:application_choice, evaluator.application_choices_count, application_form: application_form, status: 'awaiting_references')
         create_list(:reference, evaluator.references_count, evaluator.references_state, application_form: application_form)
         # The application_form validates the length of this collection when
         # it is created, which is BEFORE we create the references here.
@@ -351,9 +350,8 @@ FactoryBot.define do
     end
 
     trait :ready_to_send_to_provider do
-      association :application_form, factory: %i[completed_application_form with_completed_references]
+      association :application_form, factory: %i[completed_application_form with_completed_references ready_to_send_to_provider]
       status { :application_complete }
-      edit_by { 1.day.ago }
     end
 
     trait :with_rejection do

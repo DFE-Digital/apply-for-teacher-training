@@ -7,9 +7,7 @@ RSpec.describe ApplicationDates, type: :model do
     create(:application_form, submitted_at: submitted_at, edit_by: submitted_at + 5.days, application_choices: [application_choice])
   end
 
-  let(:application_choice) do
-    build(:application_choice, edit_by: submitted_at + 5.days)
-  end
+  let(:application_choice) { build(:application_choice) }
 
   subject(:application_dates) do
     described_class.new(application_form)
@@ -36,17 +34,8 @@ RSpec.describe ApplicationDates, type: :model do
   end
 
   describe '#edit_by' do
-    context 'with the move_edit_by_to_application_form flag off' do
-      it 'returns date that the candidate can edit by' do
-        expect(application_dates.edit_by).to be_within(1.second).of(application_choice.edit_by)
-      end
-    end
-
-    context 'with the move_edit_by_to_application_form flag on' do
-      it 'returns date that the candidate can edit by' do
-        FeatureFlag.activate('move_edit_by_to_application_form')
-        expect(application_dates.edit_by).to be_within(1.second).of(application_form.edit_by)
-      end
+    it 'returns date that the candidate can edit by' do
+      expect(application_dates.edit_by).to be_within(1.second).of(application_form.edit_by)
     end
   end
 

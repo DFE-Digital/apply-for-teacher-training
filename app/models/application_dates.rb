@@ -16,11 +16,7 @@ class ApplicationDates
   end
 
   def edit_by
-    if FeatureFlag.active?('move_edit_by_to_application_form')
-      @application_form.edit_by
-    else
-      @application_form.application_choices.first&.edit_by
-    end
+    @application_form.edit_by
   end
 
   def days_remaining_to_edit

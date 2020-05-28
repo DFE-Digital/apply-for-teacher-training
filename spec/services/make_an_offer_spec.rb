@@ -75,8 +75,7 @@ RSpec.describe MakeAnOffer, sidekiq: true do
     let(:application_choice) do
       create(:application_choice,
              application_form: application_form,
-             status: 'awaiting_provider_decision',
-             edit_by: 2.business_days.ago)
+             status: 'awaiting_provider_decision')
     end
 
     it 'calls SetDeclineByDefault service' do
@@ -94,8 +93,7 @@ RSpec.describe MakeAnOffer, sidekiq: true do
     let(:application_choice) do
       create(:application_choice,
              application_form: application_form,
-             status: 'awaiting_provider_decision',
-             edit_by: 2.business_days.ago)
+             status: 'awaiting_provider_decision')
     end
 
     let(:different_course_option) { create(:course_option, course: application_choice.course) }

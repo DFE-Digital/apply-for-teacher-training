@@ -19,8 +19,6 @@ RSpec.describe SubmitApplication do
 
         expect(application_form.submitted_at).to eq Time.zone.now
         expect(application_form.edit_by).to eq expected_edit_by
-        expect(application_form.application_choices[0].edit_by).to eq expected_edit_by
-        expect(application_form.application_choices[1].edit_by).to eq expected_edit_by
 
         expect(application_form.application_choices[0].status).to eq 'awaiting_references'
         expect(application_form.application_choices[1].status).to eq 'awaiting_references'
