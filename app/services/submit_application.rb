@@ -10,7 +10,11 @@ class SubmitApplication
 
   def call
     ActiveRecord::Base.transaction do
-      application_form.update!(submitted_at: Time.zone.now, edit_by: edit_by_time)
+      application_form.update!(
+        submitted_at: Time.zone.now,
+        edit_by: edit_by_time,
+      )
+
       submit_application
     end
 
@@ -79,10 +83,10 @@ private
   def edit_by_time
     if HostingEnvironment.sandbox_mode?
       Time.zone.now
-    elsif application_form.candidate_has_previously_applied?
-      Time.zone.now
-    else
+    elsif application_form.can_edit_after_submission?
       TimeLimitConfig.edit_by.to_days.after(Time.zone.now).end_of_day
+    else
+      Time.zone.now
     end
   end
 end
