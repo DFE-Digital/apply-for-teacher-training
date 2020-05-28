@@ -11,6 +11,7 @@ parameters:
 
 steps:
   - task: AzureAppServiceManage@0
+    condition: eq(variables.buildCancelled, false)
     displayName: Start Staging slot in ${{ parameters.appService }}
     inputs:
       azureSubscription: '${{ parameters.azureSubscription }}'
@@ -21,6 +22,7 @@ steps:
       Slot: 'staging'
 
   - task: PowerShell@2
+    condition: eq(variables.buildCancelled, false)
     displayName: 'GET /check in ${{ parameters.appService }}-staging'
     inputs:
       targetType: 'inline'
@@ -58,6 +60,7 @@ steps:
         }          
 
   - task: AzureAppServiceManage@0
+    condition: eq(variables.buildCancelled, false)
     displayName: Swap Staging slot to Production
     inputs:
       azureSubscription: '${{ parameters.azureSubscription }}'
@@ -67,6 +70,7 @@ steps:
       SourceSlot: 'staging'          
 
   - task: AzureAppServiceManage@0
+    condition: eq(variables.buildCancelled, false)
     displayName: Stop Staging slot in ${{ parameters.appService }}
     inputs:
       azureSubscription: '${{ parameters.azureSubscription }}'

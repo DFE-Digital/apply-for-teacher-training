@@ -18,6 +18,8 @@ parameters:
 
 variables:
 - group: 'APPLY - ENV - ${{ parameters.environment }}'
+- name: buildCancelled
+  value: false
 
 jobs:
   - job: swap_staging_to_production
