@@ -16,7 +16,7 @@ class SubmitApplication
       )
 
       application_choices.each do |application_choice|
-        if ready_to_be_sent_to_provider?
+        if application_form.ready_to_be_sent_to_provider?
           SendApplicationToProvider.new(application_choice: application_choice).call
         else
           ApplicationStateChange.new(application_choice).submit!
@@ -24,7 +24,7 @@ class SubmitApplication
       end
     end
 
-    if ready_to_be_sent_to_provider?
+    if application_form.ready_to_be_sent_to_provider?
       CandidateMailer.application_sent_to_provider(@application_form).deliver_later
     else
       CandidateMailer.application_submitted(application_form).deliver_later
@@ -63,18 +63,6 @@ private
 
   def email_address_is_a_bot?(reference)
     REFEREE_BOT_EMAIL_ADDRESSES.include?(reference.email_address)
-  end
-
-  def ready_to_be_sent_to_provider?
-    !application_form.can_edit_after_submission? && enough_references_have_been_provided?
-  end
-
-  def enough_references_have_been_provided?
-    application_form
-      .application_references
-      .feedback_provided
-      .uniq
-      .count >= ApplicationForm::MINIMUM_COMPLETE_REFERENCES
   end
 
   def edit_by_time
