@@ -56,7 +56,7 @@
 
                         <div class="govuk-checkboxes__item">
                           <input class="govuk-checkboxes__input" id="<%= filter[:name] %>-<%= option[:value] %>" name="<%= filter[:name] %>[]" type="checkbox" <%= "checked" if option[:checked] %> value="<%= option[:value] %>">
-                          <label class="govuk-label govuk-checkboxes__label" for=<%= option[:name] %>>
+                          <label class="govuk-label govuk-checkboxes__label" for="<%= filter[:name] %>-<%= option[:value] %>">
                             <%= option[:label] %>
                           </label>
 

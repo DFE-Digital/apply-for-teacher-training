@@ -32,11 +32,18 @@ class FilterApplicationChoicesForProviders
       application_choices.where('courses.accredited_provider_id' => accredited_providers)
     end
 
+    def provider_location(application_choices, provider_location)
+      return application_choices if provider_location.blank?
+
+      application_choices.where('sites.id' => provider_location)
+    end
+
     def create_filter_query(application_choices, filters)
       filtered_application_choices = search(application_choices, filters[:candidate_name])
       filtered_application_choices = provider(filtered_application_choices, filters[:provider])
       filtered_application_choices = accredited_provider(filtered_application_choices, filters[:accredited_provider])
       filtered_application_choices = status(filtered_application_choices, filters[:status])
+      filtered_application_choices = provider_location(filtered_application_choices, filters[:provider_location])
       filtered_application_choices
     end
   end

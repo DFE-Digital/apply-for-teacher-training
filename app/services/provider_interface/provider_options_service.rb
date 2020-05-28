@@ -30,6 +30,20 @@ module ProviderInterface
         .distinct
     end
 
+    def providers_with_sites(provider_ids:)
+      Provider
+        .joins(:courses)
+        .where(id: provider_ids)
+        .where(courses: { accredited_provider: provider_user.providers })
+        .or(
+          Provider
+            .joins(:courses)
+            .where(id: provider_ids)
+            .where(courses: { provider: provider_user.providers }),
+        )
+        .includes([:sites]).distinct
+    end
+
     def providers_with_manageable_users
       Provider
         .joins(provider_permissions: :provider_user)

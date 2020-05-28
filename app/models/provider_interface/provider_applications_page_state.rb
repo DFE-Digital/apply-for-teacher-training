@@ -8,7 +8,7 @@ module ProviderInterface
     end
 
     def filters
-      ([] << search_filter << status_filter << provider_filter << accredited_provider_filter).compact
+      ([] << search_filter << status_filter << provider_filter << accredited_provider_filter).concat(provider_locations_filters).compact
     end
 
     def filtered?
@@ -16,7 +16,7 @@ module ProviderInterface
     end
 
     def applied_filters
-      @params.permit(:candidate_name, provider: [], status: [], accredited_provider: []).to_h
+      @params.permit(:candidate_name, provider: [], status: [], accredited_provider: [], provider_location: []).to_h
     end
 
   private
@@ -80,7 +80,11 @@ module ProviderInterface
     end
 
     def accredited_provider_filter
-      accredited_providers_options = ProviderOptionsService.new(provider_user).accredited_providers.map do |accredited_provider|
+      accredited_providers = ProviderOptionsService.new(provider_user).accredited_providers
+
+      return nil if accredited_providers.empty?
+
+      accredited_providers_options = accredited_providers.map do |accredited_provider|
         {
           value: accredited_provider.id,
           label: accredited_provider.name,
@@ -94,6 +98,29 @@ module ProviderInterface
         name: 'accredited_provider',
         options: accredited_providers_options,
       }
+    end
+
+    def provider_locations_filters
+      return [] if applied_filters[:provider].nil?
+
+      providers = ProviderOptionsService.new(provider_user).providers_with_sites(provider_ids: applied_filters[:provider])
+
+      providers.map do |p|
+        next unless p.sites.count > 1
+
+        {
+          type: :checkboxes,
+          heading: "Locations for #{p.name}",
+          name: 'provider_location',
+          options: p.sites.map do |s|
+            {
+              value: s.id,
+              label: s.name,
+              checked: applied_filters[:provider_location]&.include?(s.id.to_s),
+            }
+          end,
+        }
+      end
     end
   end
 end

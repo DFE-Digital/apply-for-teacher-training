@@ -4,9 +4,15 @@ RSpec.feature 'Providers should be able to filter applications' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  let(:current_provider) { create(:provider, :with_signed_agreement, code: 'ABC', name: 'Hoth Teacher Training') }
-  let(:second_provider) { create(:provider, :with_signed_agreement, code: 'DEF', name: 'Caladan University') }
-  let(:third_provider) { create(:provider, :with_signed_agreement, code: 'GHI', name: 'University of Arrakis') }
+  let(:site) { create(:site, name: 'Test site name') }
+  let(:site2) { create(:site, name: 'Second test site') }
+  let(:site3) { create(:site, name: 'Second test site') }
+  let(:site4) { create(:site, name: 'Second test site') }
+  let(:site5) { create(:site, name: 'Second test site') }
+
+  let(:current_provider) { create(:provider, :with_signed_agreement, code: 'ABC', name: 'Hoth Teacher Training', sites: [site, site2]) }
+  let(:second_provider) { create(:provider, :with_signed_agreement, code: 'DEF', name: 'Caladan University', sites: [site3, site4]) }
+  let(:third_provider) { create(:provider, :with_signed_agreement, code: 'GHI', name: 'University of Arrakis', sites: [site5]) }
   let(:accredited_provider1) { create(:provider, code: 'JKL', name: 'College of Dumbervale') }
   let(:accredited_provider2) { create(:provider, code: 'MNO', name: 'Wimleydown University') }
 
@@ -19,6 +25,8 @@ RSpec.feature 'Providers should be able to filter applications' do
     when_i_visit_the_provider_page
 
     then_i_expect_to_see_the_filter_dialogue
+
+    then_i_location_filters_should_not_be_visible
 
     when_i_filter_for_rejected_applications
     then_only_rejected_applications_should_be_visible
@@ -35,7 +43,8 @@ RSpec.feature 'Providers should be able to filter applications' do
     when_i_clear_the_filters
     then_i_expect_all_applications_to_be_visible
 
-    when_i_filter_by_provider
+    when_i_filter_by_providers
+    then_location_filters_should_be_visible
     then_i_only_see_applications_for_a_given_provider
     then_i_expect_the_relevant_provider_tags_to_be_visible
 
@@ -47,9 +56,98 @@ RSpec.feature 'Providers should be able to filter applications' do
     and_i_filter_by_accredited_provider
     then_i_only_see_applications_for_a_given_accredited_provider
     then_i_expect_the_relevant_accredited_provider_tags_to_be_visible
-
     when_i_click_to_remove_an_accredited_provider_tag
+
+    when_i_filter_by_providers
+    then_i_should_see_locations_that_belong_to_all_of_the_selected_providers_that_have_more_than_one_site
+
+    when_i_clear_the_filters
+    when_i_filter_by_a_specific_provider
+    then_i_should_only_see_locations_that_belong_to_that_provider
+
+    when_i_filter_by_provider_location
+    then_i_only_see_applications_for_that_provider_location
+    and_i_expect_the_relevant_provider_location_tags_to_be_visible
+
+    when_i_clear_the_filters
     then_i_expect_all_applications_to_be_visible_again
+    and_i_click_the_sign_out_button
+  end
+
+  scenario 'filter should not have accredited providers heading if none are available' do
+    given_i_am_a_provider_user_with_dfe_sign_in
+    and_i_am_permitted_to_see_applications_from_multiple_providers
+    and_my_organisation_has_courses_with_applications_without_accredited_providers
+    and_i_sign_in_to_the_provider_interface
+
+    and_accept_the_data_sharing_agreement
+
+    when_i_visit_the_provider_page
+    then_i_do_not_expect_to_see_the_accredited_providers_filter_heading
+    and_i_click_the_sign_out_button
+  end
+
+  def and_i_click_the_sign_out_button
+    click_link 'Sign out'
+  end
+
+  def and_accept_the_data_sharing_agreement
+    find(:css, '#provider-agreement-accept-agreement-true-field').set(true)
+    click_button('Continue')
+  end
+
+  def and_my_organisation_has_courses_with_applications_without_accredited_providers
+    course_option_one = course_option_for_provider(provider: current_provider,
+                                                   site: site,
+                                                   course: create(:course,
+                                                                  name: 'Alchemy',
+                                                                  provider: current_provider))
+
+    course_option_two = course_option_for_provider(provider: second_provider, course: create(:course, name: 'Science', provider: second_provider))
+
+    create(:application_choice, :awaiting_provider_decision, course_option: course_option_one, status: 'withdrawn', application_form:
+           create(:application_form, first_name: 'Jim', last_name: 'James'), updated_at: 5.days.ago)
+
+    create(:application_choice, :awaiting_provider_decision, course_option: course_option_two, status: 'offer', application_form:
+           create(:application_form, first_name: 'Greg', last_name: 'Taft'), updated_at: 4.days.ago)
+  end
+
+  def then_i_do_not_expect_to_see_the_accredited_providers_filter_heading
+    expect(page).to have_content('Filter')
+    expect(page).not_to have_content('Accredited provider')
+  end
+
+  def then_i_should_see_locations_that_belong_to_all_of_the_selected_providers_that_have_more_than_one_site
+    expect(page).to have_content('Locations for Hoth Teacher Training')
+    expect(page).to have_content('Locations for Caladan University')
+    expect(page).not_to have_content('Locations for University of Arrakis')
+  end
+
+  def then_i_should_only_see_locations_that_belong_to_that_provider
+    expect(page).not_to have_content('Locations for Caladan University')
+  end
+
+  def then_location_filters_should_be_visible
+    expect(page).to have_content('Locations for')
+  end
+
+  def then_i_location_filters_should_not_be_visible
+    expect(page).not_to have_content('Locations for')
+  end
+
+  def then_i_only_see_applications_for_that_provider_location
+    expect(page).not_to have_content('Adam Jones')
+    expect(page).not_to have_content('Tom Jones')
+    expect(page).to have_content('Jim James')
+  end
+
+  def when_i_filter_by_provider_location
+    find(:css, "#provider_location-#{site.id}").set(true)
+    click_button('Apply filters')
+  end
+
+  def and_i_expect_the_relevant_provider_location_tags_to_be_visible
+    expect(page).to have_css('.moj-filter-tags', text: site.name)
   end
 
   def when_i_visit_the_provider_page
@@ -65,7 +163,13 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def and_my_organisation_has_courses_with_applications
-    course_option_one = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Alchemy', provider: current_provider, accredited_provider: accredited_provider1))
+    course_option_one = course_option_for_provider(provider: current_provider,
+                                                   site: site,
+                                                   course: create(:course,
+                                                                  name: 'Alchemy',
+                                                                  provider: current_provider,
+                                                                  accredited_provider: accredited_provider1))
+
     course_option_two = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Divination', provider: current_provider, accredited_provider: accredited_provider2))
     course_option_three = course_option_for_provider(provider: current_provider, course: create(:course, name: 'English', provider: current_provider))
 
@@ -156,9 +260,14 @@ RSpec.feature 'Providers should be able to filter applications' do
     expect(page).to have_css('.app-application-cards', text: 'Declined')
   end
 
-  def when_i_filter_by_provider
+  def when_i_filter_by_providers
     find(:css, "#provider-#{current_provider.id}").set(true)
     find(:css, "#provider-#{second_provider.id}").set(true)
+    click_button('Apply filters')
+  end
+
+  def when_i_filter_by_a_specific_provider
+    find(:css, "#provider-#{current_provider.id}").set(true)
     click_button('Apply filters')
   end
 
