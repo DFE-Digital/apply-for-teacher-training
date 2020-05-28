@@ -15,7 +15,14 @@ class SubmitApplication
         edit_by: edit_by_time,
       )
 
-      submit_application
+      application_choices.each do |application_choice|
+        ApplicationStateChange.new(application_choice).submit!
+
+        if send_to_provider_immediately?
+          ApplicationStateChange.new(application_choice).references_complete!
+          SendApplicationToProvider.new(application_choice: application_choice).call
+        end
+      end
     end
 
     if send_to_provider_immediately?
@@ -57,15 +64,6 @@ private
 
   def email_address_is_a_bot?(reference)
     REFEREE_BOT_EMAIL_ADDRESSES.include?(reference.email_address)
-  end
-
-  def submit_application
-    application_choices.each do |choice|
-      SubmitApplicationChoice.new(
-        choice,
-        send_to_provider_immediately: send_to_provider_immediately?,
-      ).call
-    end
   end
 
   def send_to_provider_immediately?
