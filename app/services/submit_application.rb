@@ -9,24 +9,22 @@ class SubmitApplication
   end
 
   def call
-    ActiveRecord::Base.transaction do
-      application_form.update!(
-        submitted_at: Time.zone.now,
-        edit_by: edit_by_time,
-      )
-
-      application_choices.each do |application_choice|
-        if application_form.ready_to_be_sent_to_provider?
-          SendApplicationToProvider.new(application_choice: application_choice).call
-        else
-          ApplicationStateChange.new(application_choice).submit!
-        end
-      end
-    end
+    application_form.update!(
+      submitted_at: Time.zone.now,
+      edit_by: edit_by_time,
+    )
 
     if application_form.ready_to_be_sent_to_provider?
+      application_choices.each do |application_choice|
+        SendApplicationToProvider.new(application_choice: application_choice).call
+      end
+
       CandidateMailer.application_sent_to_provider(@application_form).deliver_later
     else
+      application_choices.each do |application_choice|
+        ApplicationStateChange.new(application_choice).submit!
+      end
+
       CandidateMailer.application_submitted(application_form).deliver_later
     end
 
