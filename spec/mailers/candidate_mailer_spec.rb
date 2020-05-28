@@ -381,4 +381,37 @@ RSpec.describe CandidateMailer, type: :mailer do
       expect(email).to have_content 'declined your offer to study'
     end
   end
+
+  describe '#rejected_apply_again_call_to_action' do
+    it 'has the correct subject and content' do
+      application_form = build_stubbed(
+        :application_form,
+        first_name: 'Fred',
+        candidate: @candidate,
+        application_choices: [
+          build_stubbed(
+            :application_choice,
+            status: 'rejected',
+            course_option: build_stubbed(
+              :course_option,
+              course: build_stubbed(
+                :course,
+                name: 'English',
+                code: 'ABC1',
+                provider: build_stubbed(
+                  :provider,
+                  name: 'West Brewbury Technical College',
+                ),
+              ),
+            ),
+          ),
+        ],
+      )
+      email = described_class.rejected_apply_again_call_to_action(application_form.application_choices.first)
+
+      expect(email.subject).to eq 'West Brewbury Technical College has responded: next steps'
+      expect(email.body).to include('Dear Fred,')
+      expect(email.body).to include('West Brewbury Technical College has decided not to progress your teacher training application for English (ABC1)')
+    end
+  end
 end
