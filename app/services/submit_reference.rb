@@ -38,13 +38,6 @@ private
       reference_feedback_provided!
       application_form.application_choices.awaiting_references.each do |application_choice|
         ApplicationStateChange.new(application_choice).references_complete!
-
-        next unless application_form.candidate_has_previously_applied?
-
-        # If the candidate has previously applied, they have less of a need to
-        # edit the application. Hence, we clear out the usual 7-day edit window
-        # by resetting the `edit_by` time.
-        application_form.update!(edit_by: Time.zone.now)
       end
     end
 

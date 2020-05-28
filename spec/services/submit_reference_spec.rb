@@ -38,23 +38,6 @@ RSpec.describe SubmitReference do
         expect(application_form.reload.application_choices).to all(be_awaiting_provider_decision)
       end
 
-      it 'sets edit_by to current time if the candidate is applying again' do
-        application_form = create(:completed_application_form, previous_application_form: create(:application_form), edit_by: 2.days.from_now)
-        create(:application_choice, application_form: application_form, status: 'awaiting_references')
-        create(:reference, :complete, application_form: application_form)
-        reference = create(:reference, :unsubmitted, application_form: application_form)
-
-        reference.update!(feedback: 'Trustworthy', relationship_correction: '', safeguarding_concerns: '')
-
-        Timecop.freeze(Time.utc(2020)) do
-          SubmitReference.new(
-            reference: reference,
-          ).save!
-
-          expect(application_form.edit_by).to eq Time.utc(2020)
-        end
-      end
-
       it 'is okay with a 3rd reference being provided' do
         application_form = create(:completed_application_form, edit_by: 1.day.ago)
 
