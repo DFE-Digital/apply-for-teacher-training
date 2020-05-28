@@ -126,7 +126,7 @@ RSpec.feature 'Entering their work history' do
     fill_in t('details.label', scope: scope), with: 'I gained exposure to breakthrough technologies and questionable business ethics'
 
     choose 'No'
-    choose 'No, I’ve completed my work history'
+    choose 'No, not at the moment'
 
     click_button t('application_form.work_history.complete_form_button')
   end
