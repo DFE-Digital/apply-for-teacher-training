@@ -73,7 +73,7 @@ RSpec.feature 'Managing provider user permissions' do
       check 'Manage users'
     end
 
-    click_on 'Update providers'
+    click_on 'Save'
   end
 
   def then_i_can_see_the_manage_users_permission_for_the_provider_user
@@ -90,7 +90,7 @@ RSpec.feature 'Managing provider user permissions' do
       uncheck 'Manage users'
     end
 
-    click_on 'Update providers'
+    click_on 'Save'
   end
 
   def then_i_cant_see_the_manage_users_permission_for_the_provider_user
@@ -105,7 +105,7 @@ RSpec.feature 'Managing provider user permissions' do
       check 'View safeguarding information'
     end
 
-    click_on 'Update providers'
+    click_on 'Save'
   end
 
   def then_i_can_see_the_view_safeguarding_permission_for_the_provider_user
