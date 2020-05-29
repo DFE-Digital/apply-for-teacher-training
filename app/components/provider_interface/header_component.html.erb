@@ -1,6 +1,6 @@
 <header class="govuk-header <%= classes %>" role="banner" data-module="govuk-header">
   <div class="govuk-header__container govuk-width-container">
-    <div class="govuk-header__logo">
+    <div class="govuk-header__logo provider-header__logo">
       <%= link_to 'https://gov.uk', class: 'govuk-header__link govuk-header__link--homepage' do %>
         <span class="govuk-header__logotype">
           <svg role="presentation" focusable="false" class="govuk-header__logotype-crown" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 132 97" height="30" width="36">
@@ -12,12 +12,16 @@
           </span>
         </span>
       <% end %>
+      <%= link_to service_url, class: 'govuk-header__link govuk-header__link--homepage' do %>
+        <span class="govuk-header__product-name">
+          <%= product_name %>
+        </span>
+      <% end %>
     </div>
-    <div class="govuk-header__content">
-      <%= link_to service_name, service_url, class: 'govuk-header__link govuk-header__link--service-name' %>
+    <div class="govuk-header__content provider-header__content">
       <% if navigation_items.any? %>
         <button type="button" class="govuk-header__menu-button govuk-js-header-toggle app-!-print-display-none" aria-controls="navigation" aria-label="Show or hide Top Level Navigation">Menu</button>
-        <ul id="navigation" class="govuk-header__navigation app-!-print-display-none" aria-label="Top Level Navigation">
+        <ul id="navigation" class="govuk-header__navigation--end app-!-print-display-none" aria-label="Top Level Navigation">
           <% navigation_items.each do |nav_item| %>
             <li class="govuk-header__navigation-item <%= nav_item.active ? 'govuk-header__navigation-item--active' : '' %>">
               <% if nav_item.href %>

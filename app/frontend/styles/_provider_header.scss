@@ -1,0 +1,11 @@
+.provider-header__logo {
+  @include govuk-media-query($from: tablet) {
+    width: 60%;
+  }
+}
+
+.provider-header__content {
+  @include govuk-media-query($from: tablet) {
+    width: 40%;
+  }
+}

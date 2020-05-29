@@ -54,6 +54,7 @@ $govuk-breakpoints: (
 @import "_application-card";
 @import "_application-tabs";
 @import "_review_warning";
+@import "_provider_header";
 
 // Support
 @import "~@ministryofjustice/frontend/moj/components/sub-navigation/sub-navigation";
