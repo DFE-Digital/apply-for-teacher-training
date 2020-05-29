@@ -22,4 +22,9 @@ steps:
   - script: |
       echo "New step"
     displayName: New Step
+  
+  - task: PublishBuildArtifacts@1
+    inputs:
+      ArtifactName: drop
+      PathtoPublish: $(System.DefaultWorkingDirectory)
     
