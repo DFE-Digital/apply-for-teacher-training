@@ -3,7 +3,10 @@ trigger:
     branches:
       include:
         - '*'
-pr: none
+pr: 
+  branches:
+    include:
+      - introduce-pr-build-trigger
 
 variables:
   System.Debug: false
@@ -16,8 +19,16 @@ steps:
       echo $BRANCH_NAME
     env:
       BRANCH_NAME: $(Build.SourceBranchName)
+  - script: |
+      echo "New step"
+    displayName: New Step
   
+  - task: PublishBuildArtifacts@1
+    inputs:
+      ArtifactName: drop
+      PathtoPublish: $(System.DefaultWorkingDirectory)
+
   - powershell: |
-      Write-Host "fail this build"
+      Write-Host "Fail this build"
       exit 1
     
