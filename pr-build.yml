@@ -16,7 +16,8 @@ steps:
       echo $BRANCH_NAME
     env:
       BRANCH_NAME: $(Build.SourceBranchName)
-  - script: |
-      echo "New step"
-    displayName: New Step
+  
+  - powershell: |
+      Write-Host "fail this build"
+      exit 1
     
