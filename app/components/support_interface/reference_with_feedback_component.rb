@@ -29,7 +29,7 @@ module SupportInterface
     end
 
     def title
-      "#{@reference_number.ordinalize} reference #{reference.replacement? ? '(replacement)' : nil}"
+      "#{@reference_number.ordinalize} reference ##{reference.id} #{reference.replacement? ? '(replacement)' : nil}"
     end
 
   private

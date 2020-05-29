@@ -35,6 +35,14 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
 
       expect(rendered_component).to include('(replacement)')
     end
+
+    it 'includes the id of the reference' do
+      reference = create(:reference)
+
+      render_inline(SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: 1))
+
+      expect(rendered_component).to include("##{reference.id}")
+    end
   end
 
 end
