@@ -1,11 +1,13 @@
 <div data-qa="reference">
   <%= render SummaryCardComponent.new(rows: rows) do %>
     <%= render(SummaryCardHeaderComponent.new(title: @title)) do %>
-      <div class='app-summary-card__actions'>
-        <%= link_to support_interface_cancel_reference_path(@reference), class: 'govuk-link' do %>
-          Cancel reference<span class="govuk-visually-hidden"> for <%= @reference.name %></span>
-        <% end %>
-      </div>
+      <% unless cancelled? %>
+        <div class='app-summary-card__actions'>
+          <%= link_to support_interface_cancel_reference_path(@reference), class: 'govuk-link' do %>
+            Cancel reference<span class="govuk-visually-hidden"> for <%= @reference.name %></span>
+          <% end %>
+        </div>
+      <% end %>
     <% end %>
   <% end %>
 </div>

@@ -8,6 +8,7 @@ module SupportInterface
              :relationship,
              :feedback_status,
              :consent_to_be_contacted,
+             :cancelled?,
              to: :reference
 
     def initialize(reference:, title: '')
