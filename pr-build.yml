@@ -28,19 +28,7 @@ steps:
     ArtifactName: drop
     PathtoPublish: $(System.DefaultWorkingDirectory)
 
-  - script: |
-      echo $BRANCH_NAME
-    env:
-      BRANCH_NAME: $(Build.SourceBranchName)
-  - script: |
-      echo "New step"
-    displayName: New Step
-  
-  - task: PublishBuildArtifacts@1
-    inputs:
-      ArtifactName: drop
-      PathtoPublish: $(System.DefaultWorkingDirectory)
-
-  - powershell: |
-      Write-Host "Fail this build"
-      exit 1
+- powershell: |
+    Write-Host "Fail this build"
+    exit 1
+    
