@@ -1,9 +1,12 @@
 trigger:
-    batch: true
-    branches:
-      include:
-        - '*'
-pr: none
+  batch: true
+  branches:
+    include:
+      - '*'
+pr: 
+  branches:
+    include:
+    - introduce-pr-build-trigger
 
 variables:
   System.Debug: false
@@ -12,16 +15,15 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-  - script: |
-      echo $BRANCH_NAME
-    env:
-      BRANCH_NAME: $(Build.SourceBranchName)
-  - script: |
-      echo "New step"
-    displayName: New Step
-  
-  - task: PublishBuildArtifacts@1
-    inputs:
-      ArtifactName: drop
-      PathtoPublish: $(System.DefaultWorkingDirectory)
-    
+- script: |
+    echo $BRANCH_NAME
+  env:
+    BRANCH_NAME: $(Build.SourceBranchName)
+- script: |
+    echo "New step"
+  displayName: New Step
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    ArtifactName: drop
+    PathtoPublish: $(System.DefaultWorkingDirectory)
