@@ -11,9 +11,9 @@ module SupportInterface
              :cancelled?,
              to: :reference
 
-    def initialize(reference:, title: '')
+    def initialize(reference:, reference_number:)
       @reference = reference
-      @title = title
+      @reference_number = reference_number
     end
 
     def rows
@@ -26,6 +26,10 @@ module SupportInterface
         consent_row,
         feedback_row,
       ].flatten.compact
+    end
+
+    def title
+      "#{@reference_number.ordinalize} reference #{reference.replacement? ? '(replacement)' : nil}"
     end
 
   private
@@ -103,6 +107,6 @@ module SupportInterface
       feedback_status == 'feedback_refused' ? 'red' : 'blue'
     end
 
-    attr_reader :reference, :title
+    attr_reader :reference
   end
 end

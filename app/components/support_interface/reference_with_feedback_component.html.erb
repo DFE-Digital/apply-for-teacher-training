@@ -1,6 +1,6 @@
 <div data-qa="reference">
   <%= render SummaryCardComponent.new(rows: rows) do %>
-    <%= render(SummaryCardHeaderComponent.new(title: @title)) do %>
+    <%= render(SummaryCardHeaderComponent.new(title: title)) do %>
       <% unless cancelled? %>
         <div class='app-summary-card__actions'>
           <%= link_to support_interface_cancel_reference_path(@reference), class: 'govuk-link' do %>

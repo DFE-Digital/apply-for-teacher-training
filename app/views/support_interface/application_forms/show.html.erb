@@ -58,7 +58,7 @@
 
 <% if @application_form.application_references.any? %>
   <% @application_form.application_references.each_with_index do |reference, i| %>
-    <%= render SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, title: "#{(i + 1).ordinalize} reference #{reference.replacement? ? '(replacement)' : nil}") %>
+    <%= render SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: i + 1) %>
   <% end %>
 <% end %>
 
