@@ -179,7 +179,7 @@ module CandidateHelper
     fill_in t('application_form.other_qualification.institution_name.label'), with: 'Yugi College'
     fill_in t('application_form.other_qualification.grade.label'), with: 'A'
     fill_in t('application_form.other_qualification.award_year.label'), with: '2015'
-    choose 'No, not right now'
+    choose 'No, not at the moment'
     click_button t('application_form.other_qualification.base.button')
     check t('application_form.other_qualification.review.completed_checkbox')
     click_button t('application_form.other_qualification.review.button')
