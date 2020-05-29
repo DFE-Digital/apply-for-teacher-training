@@ -1,5 +1,6 @@
 module SupportInterface
   class ReferenceWithFeedbackComponent < ViewComponent::Base
+    include ViewHelper
     validates :reference, presence: true
 
     delegate :feedback,
@@ -25,6 +26,7 @@ module SupportInterface
         relationship_row,
         consent_row,
         feedback_row,
+        history_row,
       ].flatten.compact
     end
 
@@ -95,6 +97,17 @@ module SupportInterface
           value: consent_to_be_contacted_present,
         }
       end
+    end
+
+    def history_row
+      {
+        key: 'Email history',
+        value: govuk_link_to('View history', support_interface_email_log_path(
+          application_form_id: reference.application_form.id,
+          mailer: 'referee_mailer',
+          to: reference.email_address,
+        )),
+      }
     end
 
     def consent_to_be_contacted_present
