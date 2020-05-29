@@ -6,6 +6,7 @@ module SupportInterface
              :submitted_at,
              :submitted?,
              :updated_at,
+             :edit_by,
              to: :application_form
 
     def initialize(application_form:)
@@ -16,6 +17,7 @@ module SupportInterface
       [
         support_reference_row,
         submitted_row,
+        edit_by_row,
         last_updated_row,
         state_row,
         previous_application_row,
@@ -37,6 +39,15 @@ module SupportInterface
         {
           key: 'Submitted',
           value: submitted_at.to_s(:govuk_date_and_time),
+        }
+      end
+    end
+
+    def edit_by_row
+      if edit_by
+        {
+          key: 'Edit by',
+          value: edit_by.to_s(:govuk_date_and_time).to_s,
         }
       end
     end

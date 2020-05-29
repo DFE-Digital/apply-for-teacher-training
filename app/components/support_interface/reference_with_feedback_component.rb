@@ -1,5 +1,6 @@
 module SupportInterface
   class ReferenceWithFeedbackComponent < ViewComponent::Base
+    include ViewHelper
     validates :reference, presence: true
 
     delegate :feedback,
@@ -8,11 +9,12 @@ module SupportInterface
              :relationship,
              :feedback_status,
              :consent_to_be_contacted,
+             :cancelled?,
              to: :reference
 
-    def initialize(reference:, title: '')
+    def initialize(reference:, reference_number:)
       @reference = reference
-      @title = title
+      @reference_number = reference_number
     end
 
     def rows
@@ -24,7 +26,12 @@ module SupportInterface
         relationship_row,
         consent_row,
         feedback_row,
+        history_row,
       ].flatten.compact
+    end
+
+    def title
+      "#{@reference_number.ordinalize} reference ##{reference.id} #{reference.replacement? ? '(replacement)' : nil}"
     end
 
   private
@@ -92,6 +99,17 @@ module SupportInterface
       end
     end
 
+    def history_row
+      {
+        key: 'Email history',
+        value: govuk_link_to('View history', support_interface_email_log_path(
+                                               application_form_id: reference.application_form.id,
+                                               mailer: 'referee_mailer',
+                                               to: reference.email_address,
+                                             )),
+      }
+    end
+
     def consent_to_be_contacted_present
       return ' - ' if consent_to_be_contacted.nil?
 
@@ -102,6 +120,6 @@ module SupportInterface
       feedback_status == 'feedback_refused' ? 'red' : 'blue'
     end
 
-    attr_reader :reference, :title
+    attr_reader :reference
   end
 end
