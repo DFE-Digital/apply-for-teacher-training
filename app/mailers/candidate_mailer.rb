@@ -212,6 +212,13 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def apply_again_call_to_action(application_form)
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.apply_again_call_to_action.subject'),
+    )
+  end
+
 private
 
   def new_offer(application_choice, template_name)
