@@ -25,6 +25,12 @@ private
   end
 
   def reference
-    FactoryBot.build_stubbed(:reference, application_form: application_form)
+    reference = FactoryBot.build_stubbed(:reference, application_form: application_form)
+
+    def reference.refresh_feedback_token!(*)
+      123456
+    end
+
+    reference
   end
 end
