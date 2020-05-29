@@ -30,7 +30,7 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def chase_references_again
-    CandidateMailer.chase_references_again(reference)
+    CandidateMailer.chase_references_again(reference.application_form)
   end
 
   def survey_email
@@ -231,6 +231,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       application_choices: [
         FactoryBot.build_stubbed(:application_choice, status: 'declined'),
       ],
+      candidate: candidate,
     )
 
     CandidateMailer.decline_last_application_choice(application_form.application_choices.first)
@@ -243,6 +244,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       application_choices: [
         FactoryBot.build_stubbed(:application_choice, status: 'withdrawn'),
       ],
+      candidate: candidate,
     )
 
     CandidateMailer.withdraw_last_application_choice(application_form)
@@ -271,7 +273,7 @@ private
   end
 
   def application_form
-    @application_form ||= FactoryBot.build_stubbed(:application_form, first_name: 'Gemma')
+    @application_form ||= FactoryBot.build_stubbed(:application_form, first_name: 'Gemma', candidate: candidate)
   end
 
   def reference
@@ -284,6 +286,7 @@ private
       first_name: 'Tyrell',
       last_name: 'Wellick',
       application_choices: course_choices,
+      candidate: candidate,
     )
   end
 
