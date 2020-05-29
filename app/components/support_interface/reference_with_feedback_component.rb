@@ -103,10 +103,10 @@ module SupportInterface
       {
         key: 'Email history',
         value: govuk_link_to('View history', support_interface_email_log_path(
-          application_form_id: reference.application_form.id,
-          mailer: 'referee_mailer',
-          to: reference.email_address,
-        )),
+                                               application_form_id: reference.application_form.id,
+                                               mailer: 'referee_mailer',
+                                               to: reference.email_address,
+                                             )),
       }
     end
 

@@ -44,5 +44,4 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
       expect(rendered_component).to include("##{reference.id}")
     end
   end
-
 end

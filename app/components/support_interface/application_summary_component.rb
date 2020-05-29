@@ -47,7 +47,7 @@ module SupportInterface
       if edit_by
         {
           key: 'Edit by',
-          value: "#{edit_by.to_s(:govuk_date_and_time)}",
+          value: edit_by.to_s(:govuk_date_and_time).to_s,
         }
       end
     end
