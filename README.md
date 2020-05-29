@@ -235,5 +235,3 @@ When a new PR is opened, a review app is deployed via Heroku. This has a `HOSTIN
 ## License
 
 [MIT Licence](LICENCE)
-Merge me.
-master is different.
