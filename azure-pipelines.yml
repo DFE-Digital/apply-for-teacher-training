@@ -4,7 +4,10 @@ trigger:
     include:
       - "*"
 
-pr: none
+pr:
+  branches:
+    include:
+      - master
 
 variables:
 - group: Docker Shared variables
