@@ -7,19 +7,19 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
     end
 
     it 'renders component with correct values for a course' do
-      course_choice = application_form.application_choices.first
+      application_choice = application_form.application_choices.first
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.app-summary-card__title').text).to include(course_choice.provider.name)
+      expect(result.css('.app-summary-card__title').text).to include(application_choice.provider.name)
       expect(result.css('.govuk-summary-list__key').text).to include('Course')
-      expect(result.css('.govuk-summary-list__value').to_html).to include("#{course_choice.course.name} (#{course_choice.course.code})")
-      expect(result.css('.govuk-summary-list__value').to_html).to include(course_choice.course.description)
+      expect(result.css('.govuk-summary-list__value').to_html).to include("#{application_choice.course.name} (#{application_choice.course.code})")
+      expect(result.css('.govuk-summary-list__value').to_html).to include(application_choice.course.description)
       expect(result.css('.govuk-summary-list__value').to_html).to include('1 year')
-      expect(result.css('.govuk-summary-list__value').to_html).to include(course_choice.course.start_date.strftime('%B %Y'))
+      expect(result.css('.govuk-summary-list__value').to_html).to include(application_choice.course.start_date.strftime('%B %Y'))
     end
 
     context 'When multiple courses available at a provider' do
-      let(:course_choice) { application_form.application_choices.first }
+      let(:application_choice) { application_form.application_choices.first }
 
       before do
         provider = application_form.application_choices.first.provider
@@ -30,62 +30,62 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
         result = render_inline(described_class.new(application_form: application_form))
         change_location_link = result.css('.govuk-summary-list__actions')[0].text.strip
 
-        expect(change_location_link).to eq("Change course choice for #{course_choice.course.name_and_code}")
+        expect(change_location_link).to eq("Change course choice for #{application_choice.course.name_and_code}")
       end
     end
 
     context 'When only one course available at a provider' do
-      let(:course_choice) { application_form.application_choices.first }
+      let(:application_choice) { application_form.application_choices.first }
 
       it 'renders the course row without change link' do
         result = render_inline(described_class.new(application_form: application_form))
 
-        expect(result.css('.app-summary-card__actions').text).not_to include("Change course for #{course_choice.course.name_and_code}")
+        expect(result.css('.app-summary-card__actions').text).not_to include("Change course for #{application_choice.course.name_and_code}")
       end
     end
 
     context 'When a course has both study modes available' do
-      let(:course_choice) { application_form.application_choices.first }
+      let(:application_choice) { application_form.application_choices.first }
       let(:result) { render_inline(described_class.new(application_form: application_form)) }
 
       before do
-        course_choice.course.update!(study_mode: 'full_time_or_part_time')
+        application_choice.course.update!(study_mode: 'full_time_or_part_time')
       end
 
       it 'renders study mode values' do
         expect(result.css('.govuk-summary-list__key').text).to include('Full time or part time')
-        expect(result.css('.govuk-summary-list__value').text).to include(course_choice.offered_option.study_mode.humanize.to_s)
+        expect(result.css('.govuk-summary-list__value').text).to include(application_choice.offered_option.study_mode.humanize.to_s)
       end
 
       it 'renders the study mode change link' do
         change_location_link = result.css('.govuk-summary-list__actions')[1].text.strip
 
-        expect(change_location_link).to eq("Change study mode for #{course_choice.course.name_and_code}")
+        expect(change_location_link).to eq("Change study mode for #{application_choice.course.name_and_code}")
       end
     end
 
     context 'When a course has one available study mode' do
-      let(:course_choice) { application_form.application_choices.first }
+      let(:application_choice) { application_form.application_choices.first }
 
       before do
-        course_choice.course.update!(study_mode: %w[full_time part_time].sample)
+        application_choice.course.update!(study_mode: %w[full_time part_time].sample)
       end
 
       it 'renders without the study mode row or change link' do
         result = render_inline(described_class.new(application_form: application_form))
 
         expect(result.css('.govuk-summary-list__key').text).not_to include('Full time or part time')
-        expect(result.css('.govuk-summary-list__value').text).not_to include(course_choice.offered_option.study_mode.humanize.to_s)
-        expect(result.css('.app-summary-card__actions').text).not_to include("Change study mode for #{course_choice.course.name_and_code}")
+        expect(result.css('.govuk-summary-list__value').text).not_to include(application_choice.offered_option.study_mode.humanize.to_s)
+        expect(result.css('.app-summary-card__actions').text).not_to include("Change study mode for #{application_choice.course.name_and_code}")
       end
     end
 
     it 'renders component with correct values for a location' do
-      course_choice = application_form.application_choices.first
+      application_choice = application_form.application_choices.first
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Location')
-      expect(result.css('.govuk-summary-list__value').text).to include("#{course_choice.site.name}\n#{course_choice.site.full_address}")
+      expect(result.css('.govuk-summary-list__value').text).to include("#{application_choice.site.name}\n#{application_choice.site.full_address}")
     end
 
     it 'renders component along with a delete link for each course' do
@@ -100,8 +100,8 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
     it 'renders component with correct values for multiple courses' do
       result = render_inline(described_class.new(application_form: application_form))
 
-      application_form.application_choices.each do |course_choice|
-        expect(result.css('.app-summary-card__title').text).to include(course_choice.provider.name)
+      application_form.application_choices.each do |application_choice|
+        expect(result.css('.app-summary-card__title').text).to include(application_choice.provider.name)
       end
     end
 
@@ -119,11 +119,11 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       end
 
       it 'renders the correct text for "Change" location links' do
-        course_choice = application_form.application_choices.first
+        application_choice = application_form.application_choices.first
         result = render_inline(described_class.new(application_form: application_form))
         change_location_link = result.css('.govuk-summary-list__actions')[1].text.strip
 
-        expect(change_location_link).to eq("Change location for #{course_choice.course.name_and_code}")
+        expect(change_location_link).to eq("Change location for #{application_choice.course.name_and_code}")
       end
     end
 
@@ -168,7 +168,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
     context 'When multiple courses available at a provider' do
       let(:application_form) { create_application_form_with_course_choices(statuses: %w[application_complete]) }
-      let(:course_choice) { application_form.application_choices.first }
+      let(:application_choice) { application_form.application_choices.first }
 
       before do
         provider = application_form.application_choices.first.provider
@@ -198,16 +198,16 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
     context 'When a course has both study modes available' do
       let(:application_form) { create_application_form_with_course_choices(statuses: %w[application_complete]) }
-      let(:course_choice) { application_form.application_choices.first }
+      let(:application_choice) { application_form.application_choices.first }
       let(:result) { render_inline(described_class.new(application_form: application_form, editable: false)) }
 
       before do
-        course_choice.course.update!(study_mode: 'full_time_or_part_time')
+        application_choice.course.update!(study_mode: 'full_time_or_part_time')
       end
 
       it 'renders study mode values' do
         expect(result.css('.govuk-summary-list__key').text).to include('Full time or part time')
-        expect(result.css('.govuk-summary-list__value').text).to include(course_choice.offered_option.study_mode.humanize.to_s)
+        expect(result.css('.govuk-summary-list__value').text).to include(application_choice.offered_option.study_mode.humanize.to_s)
       end
 
       it 'renders without the change link' do

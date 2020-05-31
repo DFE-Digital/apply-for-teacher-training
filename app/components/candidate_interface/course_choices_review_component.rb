@@ -13,7 +13,7 @@ module CandidateInterface
       application_choice_error: false
     )
       @application_form = application_form
-      @course_choices = @application_form.application_choices.includes(:course, :site, :provider, :offered_course_option).order(id: :asc)
+      @application_choices = @application_form.application_choices.includes(:course, :site, :provider, :offered_course_option).order(id: :asc)
       @editable = editable
       @heading_level = heading_level
       @show_status = show_status
@@ -22,30 +22,30 @@ module CandidateInterface
       @application_choice_error = application_choice_error
     end
 
-    def course_choice_rows(course_choice)
+    def course_choice_rows(application_choice)
       rows = [
-        course_row(course_choice),
-        study_mode_row(course_choice),
-        location_row(course_choice),
-        type_row(course_choice.course),
-        course_length_row(course_choice.course),
-        start_date_row(course_choice.course),
+        course_row(application_choice),
+        study_mode_row(application_choice),
+        location_row(application_choice),
+        type_row(application_choice.course),
+        course_length_row(application_choice.course),
+        start_date_row(application_choice.course),
       ].compact
 
       rows.tap do |r|
-        r << status_row(course_choice) if @show_status
-        r << rejection_reason_row(course_choice) if course_choice.rejection_reason.present?
-        r << offer_withdrawal_reason_row(course_choice) if course_choice.offer_withdrawal_reason.present?
+        r << status_row(application_choice) if @show_status
+        r << rejection_reason_row(application_choice) if application_choice.rejection_reason.present?
+        r << offer_withdrawal_reason_row(application_choice) if application_choice.offer_withdrawal_reason.present?
       end
     end
 
-    def withdrawable?(course_choice)
-      ApplicationStateChange.new(course_choice).can_withdraw?
+    def withdrawable?(application_choice)
+      ApplicationStateChange.new(application_choice).can_withdraw?
     end
 
     def any_withdrawable?
-      @application_form.application_choices.any? do |course_choice|
-        withdrawable?(course_choice)
+      @application_form.application_choices.any? do |application_choice|
+        withdrawable?(application_choice)
       end
     end
 
@@ -53,30 +53,30 @@ module CandidateInterface
       @show_incomplete && !@application_form.course_choices_completed && @editable
     end
 
-    def course_change_path(course_choice)
-      if has_multiple_courses?(course_choice)
+    def course_change_path(application_choice)
+      if has_multiple_courses?(application_choice)
         candidate_interface_course_choices_course_path(
-          course_choice.provider.id,
-          course_choice_id: course_choice.id,
+          application_choice.provider.id,
+          course_choice_id: application_choice.id,
         )
       end
     end
 
-    def site_change_path(course_choice)
-      if has_multiple_sites?(course_choice)
+    def site_change_path(application_choice)
+      if has_multiple_sites?(application_choice)
         candidate_interface_course_choices_site_path(
-          course_choice.provider.id,
-          course_choice.course.id,
-          course_choice.offered_option.study_mode,
-          course_choice_id: course_choice.id,
+          application_choice.provider.id,
+          application_choice.course.id,
+          application_choice.offered_option.study_mode,
+          course_choice_id: application_choice.id,
         )
       end
     end
 
-    def warning_container_css_class(course_choice)
+    def warning_container_css_class(application_choice)
       return unless FeatureFlag.active?('unavailable_course_option_warnings') && @editable
 
-      if course_choice.course_option_availability_error?
+      if application_choice.course_option_availability_error?
         @application_choice_error ? 'app-review-warning app-review-warning--error' : 'app-review-warning'
       end
     end
@@ -85,37 +85,37 @@ module CandidateInterface
 
     attr_reader :application_form
 
-    def course_row(course_choice)
+    def course_row(application_choice)
       {
         key: 'Course',
-        value: govuk_link_to("#{course_choice.offered_course.name} (#{course_choice.offered_course.code})", course_choice.offered_course.find_url, target: '_blank', rel: 'noopener'),
-        action: "course choice for #{course_choice.course.name_and_code}",
-        change_path: course_change_path(course_choice),
+        value: govuk_link_to("#{application_choice.offered_course.name} (#{application_choice.offered_course.code})", application_choice.offered_course.find_url, target: '_blank', rel: 'noopener'),
+        action: "course choice for #{application_choice.course.name_and_code}",
+        change_path: course_change_path(application_choice),
       }
     end
 
-    def location_row(course_choice)
+    def location_row(application_choice)
       {
         key: 'Location',
-        value: "#{course_choice.offered_site.name}\n#{course_choice.offered_site.full_address}",
-        action: "location for #{course_choice.course.name_and_code}",
-        change_path: site_change_path(course_choice),
+        value: "#{application_choice.offered_site.name}\n#{application_choice.offered_site.full_address}",
+        action: "location for #{application_choice.course.name_and_code}",
+        change_path: site_change_path(application_choice),
       }
     end
 
-    def study_mode_row(course_choice)
-      return unless course_choice.course.both_study_modes_available?
+    def study_mode_row(application_choice)
+      return unless application_choice.course.both_study_modes_available?
 
       change_path = candidate_interface_course_choices_study_mode_path(
-        course_choice.provider.id,
-        course_choice.course.id,
-        course_choice_id: course_choice.id,
+        application_choice.provider.id,
+        application_choice.course.id,
+        course_choice_id: application_choice.id,
       )
 
       {
         key: 'Full time or part time',
-        value: course_choice.offered_option.study_mode.humanize,
-        action: "study mode for #{course_choice.course.name_and_code}",
+        value: application_choice.offered_option.study_mode.humanize,
+        action: "study mode for #{application_choice.course.name_and_code}",
         change_path: change_path,
       }
     end
@@ -141,8 +141,8 @@ module CandidateInterface
       }
     end
 
-    def status_row(course_choice)
-      type =  case course_choice.status
+    def status_row(application_choice)
+      type =  case application_choice.status
               when 'awaiting_references', 'application_complete'
                 :grey
               when 'awaiting_provider_decision'
@@ -158,36 +158,36 @@ module CandidateInterface
               end
       {
         key: 'Status',
-        value: render(TagComponent.new(text: status_row_value(course_choice), type: type)),
+        value: render(TagComponent.new(text: status_row_value(application_choice), type: type)),
       }
     end
 
-    def status_row_value(course_choice)
-      return t('candidate_application_states.offer_withdrawn') if course_choice.offer_withdrawn?
+    def status_row_value(application_choice)
+      return t('candidate_application_states.offer_withdrawn') if application_choice.offer_withdrawn?
 
-      t("candidate_application_states.#{course_choice.status}")
+      t("candidate_application_states.#{application_choice.status}")
     end
 
-    def rejection_reason_row(course_choice)
+    def rejection_reason_row(application_choice)
       {
         key: 'Reason for rejection',
-        value: course_choice.rejection_reason,
+        value: application_choice.rejection_reason,
       }
     end
 
-    def offer_withdrawal_reason_row(course_choice)
+    def offer_withdrawal_reason_row(application_choice)
       {
         key: 'Reason for offer withdrawal',
-        value: course_choice.offer_withdrawal_reason,
+        value: application_choice.offer_withdrawal_reason,
       }
     end
 
-    def has_multiple_sites?(course_choice)
-      CourseOption.where(course_id: course_choice.course.id, study_mode: course_choice.offered_option.study_mode).many?
+    def has_multiple_sites?(application_choice)
+      CourseOption.where(course_id: application_choice.course.id, study_mode: application_choice.offered_option.study_mode).many?
     end
 
-    def has_multiple_courses?(course_choice)
-      Course.where(provider: course_choice.provider).many?
+    def has_multiple_courses?(application_choice)
+      Course.where(provider: application_choice.provider).many?
     end
   end
 end
