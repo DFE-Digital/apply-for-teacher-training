@@ -8,9 +8,9 @@ RSpec.feature 'Candidate submits the application' do
     and_i_complete_my_application
     and_the_selected_course_options_is_now_full
     and_an_alternative_course_option_has_vacancies
-    and_i_candidate_submits_their_application
+    and_i_submit_my_application
 
-    then_i_see_a_warning_that_the_course_is_now_full
+    then_i_see_a_warning_that_there_are_no_vacancies_at_my_chosen_location
     and_i_cannot_proceed
   end
 
@@ -36,11 +36,11 @@ RSpec.feature 'Candidate submits the application' do
     )
   end
 
-  def and_i_candidate_submits_their_application
+  def and_i_submit_my_application
     click_link 'Check and submit your application'
   end
 
-  def then_i_see_a_warning_that_the_course_is_now_full
+  def then_i_see_a_warning_that_there_are_no_vacancies_at_my_chosen_location
     expect(page).to have_content("Your chosen location for '#{current_candidate.current_application.application_choices.first.course.provider_and_name_code}' has no vacancies")
   end
 
