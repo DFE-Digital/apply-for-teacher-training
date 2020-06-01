@@ -285,97 +285,15 @@ stages:
         path: '$(System.DefaultWorkingDirectory)/results/'
         artifactName: 'cucumberResults'
 
-
-  - job: test_docker_image_batch_2
-    displayName: 'Test Docker Image - RSpec'
-    condition: and(succeeded(), eq(variables['deployOnly'], false))
-    pool:
-      vmImage: 'Ubuntu-16.04'
-
-    variables:
-    - name: system.debug
-      value: $(debug)
-
-    steps:
-    - script: |
-        echo '##vso[task.setvariable variable=COMPOSE_FILE]docker-compose.yml:docker-compose.azure.yml'
-      displayName: 'Configure environment'
-
-    - template: cancel-build-if-not-latest-template.yml
-      parameters:
-        sourceBranchName: $(Build.SourceBranchName)
-
-    - script: |
-        docker pull $(dockerHubUsername)/$(imageName):$(Build.BuildNumber)
-        make az_setup
-      displayName: 'Load Docker image & setup container'
-      env:
-        DOCKER_BUILDKIT: $(dockerBuildkitState)
-        COMPOSE_DOCKER_CLI_BUILD: $(dockerBuildkitState)
-        dockerHubUsername: $(dockerHubUsername)
-        dockerHubImageName: $(imageName)
-        dockerHubImageTag: $(Build.BuildNumber)
-        railsSecretKeyBase: $(railsSecretKeyBase)
-        RAILS_ENV: test
-        GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
-        AUTHORISED_HOSTS: $(authorisedHosts)
-        FIND_BASE_URL: $(findBaseUrl)
-        GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
-        SANDBOX: $(sandbox)
-    
-    - template: cancel-build-if-not-latest-template.yml
-      parameters:
-        sourceBranchName: $(Build.SourceBranchName)
-
-    - script: |
-        make ci.test
-        test_result=$?
-        if [ "$test_result" == "0" ]
-        then
-          if [ -f results/rspec-results.xml ]
-          then
-            if [ $(grep "^<testsuite name=\"rspec\"" results/rspec-results.xml | cut -d' ' -f5 | cut -d'"' -f2) -gt 0 ]
-            then
-              echo "##vso[task.logissue type=error]One or more rspec tests failed"
-              exit 1
-            fi
-            if [ $(grep "^<testsuite name=\"rspec\"" results/rspec-results.xml | cut -d' ' -f4 | cut -d'"' -f2) -gt 0 ]
-            then
-              echo "##vso[task.logissue type=warning]One or more rspec tests were skipped"
-            fi
-          else
-            echo "##vso[task.logissue type=error]rspec-results file not found."
-            exit 1
-          fi
-          exit 0
-        else
-          echo "##vso[task.logissue type=error]Rspec test task exited abnormally."
-          exit 1
-        fi
-      name: ci_test
-      displayName: 'Execute tests'
-      env:
-        dockerHubUsername: $(dockerHubUsername)
-        dockerHubImageName: $(imageName)
-        dockerHubImageTag: $(Build.BuildNumber)
-        RAILS_ENV: test
-        GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
-        AUTHORISED_HOSTS: $(authorisedHosts)
-        FIND_BASE_URL: $(findBaseUrl)
-        GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
-        SANDBOX: $(sandbox)
-
-    - task: PublishTestResults@2
-      displayName: 'Publish test results'
-      inputs:
-        testRunner: JUnit
-        testResultsFiles: 'results/*.xml'
-
-    - task: PublishPipelineArtifact@1
-      displayName: 'Publish RSpec Results'
-      inputs:
-        path: '$(System.DefaultWorkingDirectory)/results/'
-        artifactName: 'rspecResults'
+  - template: rspec-job-template.yml
+    parameters:
+      testCommand: 'integration-tests'
+      displayName: 'Integration Tests'
+        
+  - template: rspec-job-template.yml
+    parameters:
+      testCommand: 'unit-tests'
+      displayName: 'Unit Tests'
 
 
 - stage: deploy_qa

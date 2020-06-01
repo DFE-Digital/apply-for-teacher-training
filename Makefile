@@ -1,4 +1,5 @@
 RESULTS_PATH=/results
+INTEGRATION_TEST_PATTERN=spec/{system,requests}/**/*_spec.rb
 
 define copy_test_results
 	## Obtains the results folder from within the stopped container and copies it to the local file system on the agent.
@@ -52,11 +53,18 @@ ci.cucumber: ## Run the Cucumber specs
 ci.brakeman: ## Run Brakeman tests
 	docker-compose run --rm web /bin/sh -c "bundle exec rake brakeman"
 
-.PHONY: ci.test
-ci.test: ## Run the tests with results formatted for CI
+.PHONY: ci.unit-tests
+ci.unit-tests: ## Run the tests with results formatted for CI
+	docker-compose run web /bin/sh -c 'mkdir $(RESULTS_PATH) && \
+		bundle exec --verbose rspec --exclude-pattern $(INTEGRATION_TEST_PATTERN) --failure-exit-code 0 --format RspecJunitFormatter --out $(RESULTS_PATH)/rspec-unit-tests-results.xml'
+	$(call copy_test_results)
+	docker-compose rm -f -v web
+
+.PHONY: ci.integration-tests
+ci.integration-tests: ## Run the tests with results formatted for CI
 	docker-compose run web /bin/sh -c 'mkdir $(RESULTS_PATH) && \
 		apk add nodejs yarn && \
 		bundle exec rails assets:precompile && \
-		bundle exec --verbose rspec --failure-exit-code 0 --format RspecJunitFormatter --out $(RESULTS_PATH)/rspec-results.xml'
+		bundle exec --verbose rspec --pattern $(INTEGRATION_TEST_PATTERN) --failure-exit-code 0 --format RspecJunitFormatter --out $(RESULTS_PATH)/rspec-integration-tests-results.xml'
 	$(call copy_test_results)
 	docker-compose rm -f -v web

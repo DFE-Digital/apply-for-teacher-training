@@ -1,0 +1,63 @@
+parameters:
+  - name: testCommand
+    type: string
+  - name: displayName
+    type: string
+
+jobs:
+- job:
+  displayName: 'RSpec - ${{ parameters.displayName }}'
+  condition: and(succeeded(), eq(variables['deployOnly'], false))
+  pool:
+    vmImage: 'Ubuntu-16.04'
+  variables:
+  - name: system.debug
+    value: $(debug)
+
+  steps:
+  - script: |
+      echo '##vso[task.setvariable variable=COMPOSE_FILE]docker-compose.yml:docker-compose.azure.yml'
+    displayName: 'Configure environment'
+
+  - template: cancel-build-if-not-latest-template.yml
+    parameters:
+      sourceBranchName: $(Build.SourceBranchName)
+
+  - script: |
+      docker pull $(dockerHubUsername)/$(imageName):$(Build.BuildNumber)
+      make az_setup
+    displayName: 'Load Docker image & setup container'
+    env:
+      DOCKER_BUILDKIT: $(dockerBuildkitState)
+      COMPOSE_DOCKER_CLI_BUILD: $(dockerBuildkitState)
+      dockerHubUsername: $(dockerHubUsername)
+      dockerHubImageName: $(imageName)
+      dockerHubImageTag: $(Build.BuildNumber)
+      railsSecretKeyBase: $(railsSecretKeyBase)
+      RAILS_ENV: test
+      GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
+      AUTHORISED_HOSTS: $(authorisedHosts)
+      FIND_BASE_URL: $(findBaseUrl)
+      GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
+      SANDBOX: $(sandbox)
+  
+  - template: cancel-build-if-not-latest-template.yml
+    parameters:
+      sourceBranchName: $(Build.SourceBranchName)
+ 
+  - template: run-rspec-test-template.yml
+    parameters:
+      testCommand: ${{ format('ci.{0}', parameters.testCommand) }}
+      testResultsFile: ${{ format('results/rspec-{0}-results.xml', parameters.testCommand) }}
+
+  - task: PublishTestResults@2
+    displayName: 'Publish test results'
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: 'results/*.xml'
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish RSpec Results'
+    inputs:
+      path: '$(System.DefaultWorkingDirectory)/results/'
+      artifactName: ${{ format('rspec-{0}', parameters.testCommand) }}
