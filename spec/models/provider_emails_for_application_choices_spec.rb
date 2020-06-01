@@ -45,7 +45,7 @@ RSpec.describe ProviderEmailsForApplicationChoices do
       result = ProviderEmailsForApplicationChoices.new([application_choice.id]).as_csv
 
       expect(result).to include "email address,name,affected applications\n"
-      expect(result).to include 'pamela@example.com,Pamela Provider,* Ciara Candidate (ABC123) (New)'
+      expect(result).to include 'pamela@example.com,Pamela Provider,* Ciara Candidate (ABC123) (Submitted)'
       expect(result).to include "https://www.apply-for-teacher-training.education.gov.uk/provider/applications/#{application_choice.id}\n"
     end
   end

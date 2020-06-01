@@ -58,8 +58,8 @@ en:
     withdrawn: Withdrawn
     conditions_not_met: Conditions not met
   provider_application_states:
-    application_complete: New
-    awaiting_provider_decision: New
+    application_complete: Submitted
+    awaiting_provider_decision: Submitted
     awaiting_references: Awaiting references
     cancelled: Cancelled
     declined: Declined
