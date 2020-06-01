@@ -30,6 +30,7 @@
   }
 
   &__primary {
+    padding-top: govuk-spacing(2);
     dd {
       @include govuk-font($size: 16);
     }
