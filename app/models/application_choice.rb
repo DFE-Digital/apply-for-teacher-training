@@ -73,29 +73,21 @@ class ApplicationChoice < ApplicationRecord
     course_option.no_vacancies?
   end
 
-  def chosen_site_full?
-    course_option_full? &&
-      course.course_options
-        .where(vacancy_status: :vacancies)
-        .where.not(site: course_option.site)
-        .present?
+  def site_full?
+    course.course_options.where(site: course_option.site).vacancies.blank?
   end
 
-  def chosen_site_full_error
-    I18n.t('errors.application_choices.chosen_site_full', descriptor: course.provider_and_name_code)
+  def site_full_error
+    I18n.t('errors.application_choices.site_full', descriptor: course.provider_and_name_code)
   end
 
-  def chosen_study_mode_full?
-    course_option_full? &&
-      course.course_options
-        .where(site: course_option.site, vacancy_status: :vacancies)
-        .where.not(study_mode: course_option.study_mode)
-        .present?
+  def study_mode_full?
+    course_option.no_vacancies?
   end
 
-  def chosen_study_mode_full_error
+  def study_mode_full_error
     I18n.t(
-      'errors.application_choices.chosen_study_mode_full',
+      'errors.application_choices.study_mode_full',
       descriptor: course.provider_and_name_code,
       study_mode: course_option.study_mode.humanize.downcase,
     )
@@ -106,8 +98,8 @@ class ApplicationChoice < ApplicationRecord
       course_not_available?,
       course_closed_on_apply?,
       course_full?,
-      chosen_site_full?,
-      chosen_study_mode_full?,
+      site_full?,
+      study_mode_full?,
     ].any?
   end
 

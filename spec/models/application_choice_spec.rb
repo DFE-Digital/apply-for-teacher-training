@@ -67,13 +67,13 @@ RSpec.describe ApplicationChoice, type: :model do
     end
   end
 
-  describe '#course_site_full?' do
+  describe '#site_full?' do
     context 'with 3 options all full' do
-      it 'returns false' do
+      it 'returns true' do
         course = create(:course)
         create_list(:course_option, 3, vacancy_status: :no_vacancies, course: course)
         application_choice = create(:application_choice, course_option: course.course_options.first)
-        expect(application_choice.chosen_site_full?).to be false
+        expect(application_choice.site_full?).to be true
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe ApplicationChoice, type: :model do
         course_option_without_vacancies = create(:course_option, vacancy_status: :no_vacancies, course: course)
         create(:course_option, vacancy_status: :vacancies, course: course)
         application_choice = create :application_choice, course_option: course_option_without_vacancies
-        expect(application_choice.chosen_site_full?).to be true
+        expect(application_choice.site_full?).to be true
       end
     end
 
@@ -94,18 +94,18 @@ RSpec.describe ApplicationChoice, type: :model do
         course_option_without_vacancies = create(:course_option, vacancy_status: :no_vacancies, course: course, site: site, study_mode: 'full_time')
         create(:course_option, vacancy_status: :vacancies, course: course, site: site, study_mode: 'part_time')
         application_choice = create :application_choice, course_option: course_option_without_vacancies
-        expect(application_choice.chosen_site_full?).to be false
+        expect(application_choice.site_full?).to be false
       end
     end
   end
 
   describe '#course_study_mode_full?' do
-    context 'with 3 options all full' do
+    context 'with option that has vacancies' do
       it 'returns false' do
         course = create(:course)
-        create_list(:course_option, 3, vacancy_status: :no_vacancies, course: course)
+        create(:course_option, vacancy_status: :vacancies, course: course)
         application_choice = create(:application_choice, course_option: course.course_options.first)
-        expect(application_choice.chosen_study_mode_full?).to be false
+        expect(application_choice.study_mode_full?).to be false
       end
     end
 
@@ -115,7 +115,7 @@ RSpec.describe ApplicationChoice, type: :model do
         course_option_without_vacancies = create(:course_option, vacancy_status: :no_vacancies, course: course)
         create(:course_option, vacancy_status: :vacancies, course: course)
         application_choice = create :application_choice, course_option: course_option_without_vacancies
-        expect(application_choice.chosen_study_mode_full?).to be false
+        expect(application_choice.study_mode_full?).to be true
       end
     end
 
@@ -126,7 +126,7 @@ RSpec.describe ApplicationChoice, type: :model do
         course_option_without_vacancies = create(:course_option, vacancy_status: :no_vacancies, course: course, site: site, study_mode: 'full_time')
         create(:course_option, vacancy_status: :vacancies, course: course, site: site, study_mode: 'part_time')
         application_choice = create :application_choice, course_option: course_option_without_vacancies
-        expect(application_choice.chosen_study_mode_full?).to be true
+        expect(application_choice.study_mode_full?).to be true
       end
     end
   end

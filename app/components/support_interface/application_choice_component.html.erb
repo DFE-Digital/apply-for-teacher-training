@@ -20,7 +20,7 @@
 <% location_and_status = capture do %>
   <%= application_choice.offered_option.site.name_and_code %>
 
-  <% if application_choice.chosen_site_full? %>
+  <% if application_choice.site_full? %>
     <%= render TagComponent.new(text: 'No vacancies at location', type: 'yellow') %>
   <% end %>
 <% end %>
