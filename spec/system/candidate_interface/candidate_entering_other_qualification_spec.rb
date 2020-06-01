@@ -167,7 +167,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_i_choose_not_to_add_additional_qualifications
-    choose 'No, not right now'
+    choose 'No, not at the moment'
   end
 
   def then_i_see_the_other_qualification_review_page
