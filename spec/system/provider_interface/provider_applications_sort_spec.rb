@@ -4,6 +4,8 @@ RSpec.feature 'Providers should be able to sort applications' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
+  # rubocop:disable RSpec/ExpectActual
+
   scenario 'by column headings' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
@@ -55,4 +57,6 @@ RSpec.feature 'Providers should be able to sort applications' do
     expect('Jim James').to appear_before('Tom Jones')
     expect('Tom Jones').to appear_before('Bill Bones')
   end
+
+  # rubocop:enable RSpec/ExpectActual
 end

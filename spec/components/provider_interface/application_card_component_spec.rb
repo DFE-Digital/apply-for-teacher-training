@@ -76,8 +76,8 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
       expect(card).to include(note.subject)
     end
 
-    it 'renders the last updated date' do
-      expect(card).to include('25 Mar 2020')
+    it 'renders the last "changed at" date in the correct format' do
+      expect(card).to include('Changed 25 March 2020 at 12:00am')
     end
 
     it 'renders the location of the course' do
