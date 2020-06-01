@@ -13,10 +13,12 @@ private
   def unsuccessful_application_forms
     ApplicationForm
       .joins(:application_choices)
+      .joins("LEFT OUTER JOIN emails ON emails.application_form_id = application_forms.id AND emails.mailer = 'candidate_mailer' AND emails.mail_template = 'apply_again_call_to_action'")
       .where
       .not(application_choices: {
         status: ApplicationStateChange.valid_states - ApplicationStateChange::UNSUCCESSFUL_END_STATES.map(&:to_sym),
       })
+      .where(emails: { id: nil })
       .distinct
   end
 end

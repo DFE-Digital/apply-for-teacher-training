@@ -20,5 +20,24 @@ RSpec.describe SendApplyAgainCallToAction do
       expect(ActionMailer::Base.deliveries.first.to).to eq [unsuccessful_application_form.candidate.email_address]
       expect(ActionMailer::Base.deliveries.first.subject).to match(/You can still apply for teacher training/)
     end
+
+    it 'does NOT send a call to action email to the candidate with the unsuccessful application' do
+      unsuccessful_application_form = FactoryBot.create(:completed_application_form)
+      FactoryBot.create(
+        :application_choice,
+        status: :rejected,
+        application_form: unsuccessful_application_form,
+      )
+      Email.create!(
+        application_form_id: unsuccessful_application_form.id,
+        to: unsuccessful_application_form.candidate.email_address,
+        subject: 'You can still apply',
+        body: 'some text',
+        mailer: 'candidate_mailer',
+        mail_template: 'apply_again_call_to_action',
+      )
+
+      expect { described_class.new.perform }.not_to(change { ActionMailer::Base.deliveries.count })
+    end
   end
 end
