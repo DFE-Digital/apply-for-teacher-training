@@ -55,4 +55,15 @@ RSpec.describe GetApplicationFormsReadyToSendToProviders do
       expect(returned_application_forms).to be_empty
     end
   end
+
+  context 'when there are multiple application choices' do
+    before do
+      create(:application_choice, application_form: application_form, status: :application_complete)
+      create(:application_choice, application_form: application_form, status: :application_complete)
+    end
+
+    it 'returns only one form' do
+      expect(returned_application_forms.count).to eq 1
+    end
+  end
 end
