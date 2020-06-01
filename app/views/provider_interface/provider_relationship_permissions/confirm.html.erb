@@ -24,29 +24,9 @@
           value: @form.training_provider_permissions.view_safeguarding_information %>
       <% end %>
 
-      <% if @form.training_provider_permissions.view_safeguarding_information %>
-        <p class="govuk-body"><%= @training_provider_permissions.training_provider.name %> can:</p>
-        <ul class="govuk-list">
-          <li>
-            <svg class="app-icon govuk-!-margin-right-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 200 200" focusable="false" fill="currentColor" aria-hidden="true">
-              <path d="M100 200a100 100 0 1 1 0-200 100 100 0 0 1 0 200zm-60-85l40 40 80-80-20-20-60 60-20-20-20 20z"></path>
-            </svg>
-            see safeguarding information
-          </li>
-        </ul>
-      <% end %>
+      <%= render 'provider_permissions', provider: @training_provider_permissions.training_provider, permissions: @training_provider_permissions %>
 
-      <% if @form.accredited_body_permissions.view_safeguarding_information %>
-        <p class="govuk-body"><%= @accredited_body_permissions.ratifying_provider.name %> can:</p>
-        <ul class="govuk-list">
-          <li>
-            <svg class="app-icon govuk-!-margin-right-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 200 200" focusable="false" fill="currentColor" aria-hidden="true">
-              <path d="M100 200a100 100 0 1 1 0-200 100 100 0 0 1 0 200zm-60-85l40 40 80-80-20-20-60 60-20-20-20 20z"></path>
-            </svg>
-            see safeguarding information
-          </li>
-        </ul>
-      <% end %>
+      <%= render 'provider_permissions', provider: @accredited_body_permissions.ratifying_provider, permissions: @accredited_body_permissions %>
 
       <button class="govuk-button" data-module="govuk-button">
         Save permissions

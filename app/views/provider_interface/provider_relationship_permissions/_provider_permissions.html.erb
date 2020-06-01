@@ -1,0 +1,17 @@
+<p class="govuk-body"><%= provider.name %> can:</p>
+<ul class="govuk-list">
+  <% if permissions.view_safeguarding_information %>
+    <li>
+      <svg class="app-icon govuk-!-margin-right-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 200 200" focusable="false" fill="currentColor" aria-hidden="true">
+        <path d="M100 200a100 100 0 1 1 0-200 100 100 0 0 1 0 200zm-60-85l40 40 80-80-20-20-60 60-20-20-20 20z"></path>
+      </svg>
+      see safeguarding information
+    </li>
+  <% end %>
+  <li>
+    <svg class="app-icon govuk-!-margin-right-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 200 200" focusable="false" fill="currentColor" aria-hidden="true">
+      <path d="M100 200a100 100 0 1 1 0-200 100 100 0 0 1 0 200zm-60-85l40 40 80-80-20-20-60 60-20-20-20 20z"></path>
+    </svg>
+    view applications
+  </li>
+</ul>
