@@ -53,8 +53,13 @@ module CandidateInterface
   private
 
     def set_application_choice
-      @application_choice = current_candidate.current_application.application_choices.find(params[:id])
+      @application_choice = @current_application.application_choices.find(params[:id])
     end
+
+    def single_application_choice?
+      @current_application.application_choices.size == 1
+    end
+    helper_method :single_application_choice?
 
     def check_that_candidate_can_decline
       unless ApplicationStateChange.new(@application_choice).can_decline?
