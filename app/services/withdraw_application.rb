@@ -8,10 +8,10 @@ class WithdrawApplication
       ApplicationStateChange.new(application_choice).withdraw!
       application_choice.update!(withdrawn_at: Time.zone.now)
       SetDeclineByDefault.new(application_form: application_choice.application_form).call
+    end
 
-      if @application_choice.application_form.ended_without_success? && FeatureFlag.active?('apply_again')
-        CandidateMailer.withdraw_last_application_choice(@application_choice.application_form).deliver_later
-      end
+    if @application_choice.application_form.ended_without_success? && FeatureFlag.active?('apply_again')
+      CandidateMailer.withdraw_last_application_choice(@application_choice.application_form).deliver_later
     end
 
     StateChangeNotifier.call(:withdraw, application_choice: application_choice)
