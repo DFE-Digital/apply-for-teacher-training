@@ -76,8 +76,10 @@ module ProviderInterface
     end
 
     def self.study_mode_valid_for_course?(record)
-      course = Course.find(record.course_id) if record.course_id
-      course && (course.both_study_modes_available? || course.study_mode == record.study_mode)
+      if record.course_id
+        course = Course.find(record.course_id)
+        course.supports_study_mode? record.study_mode
+      end
     end
 
     def self.study_mode_with_options?(record)

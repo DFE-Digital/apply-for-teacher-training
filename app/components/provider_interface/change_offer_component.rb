@@ -30,17 +30,15 @@ module ProviderInterface
           change_offer_form: change_offer_form,
         )
       when :study_mode
-        study_modes = Course.find(change_offer_form.course_id).study_modes_present
+        study_modes = Course.find(change_offer_form.course_id).available_study_modes_from_options
         if study_modes.count > 1
           ProviderInterface::ChangeOffer::ChangeStudyModeComponent.new(
             change_offer_form: change_offer_form,
           )
-        else # skip to location
+        else # skip to next step
           change_offer_form.study_mode = study_modes.first
-          change_offer_form.step = :course_option
-          ProviderInterface::ChangeOffer::ChangeLocationComponent.new(
-            change_offer_form: change_offer_form,
-          )
+          change_offer_form.step = change_offer_form.next_step
+          sub_component
         end
       when :course
         ProviderInterface::ChangeOffer::ChangeCourseComponent.new(

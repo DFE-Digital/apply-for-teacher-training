@@ -26,7 +26,7 @@ module ProviderInterface
       end
 
       def study_modes
-        Course.find(change_offer_form.course_id).study_modes_present
+        Course.find(change_offer_form.course_id).available_study_modes_from_options
       end
 
       def change_path_options

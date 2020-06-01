@@ -5,11 +5,7 @@ module ProviderInterface
 
     def respond
       @pick_response_form = PickResponseForm.new
-
-      if @application_choice.course.study_modes_present.count > 1
-        current_study_mode = @application_choice.offered_option.study_mode
-        @other_study_mode = current_study_mode == 'full_time' ? 'part time' : 'full time'
-      end
+      @alternative_study_mode = @application_choice.offered_option.alternative_study_mode
     end
 
     def submit_response

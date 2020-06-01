@@ -21,8 +21,8 @@
         <%= f.govuk_radio_button :decision, 'new_offer', label: { text: offer_text }, link_errors: true %>
         <% if FeatureFlag.active?('provider_change_response') -%>
           <%= f.govuk_radio_button :decision, 'edit_course', label: { text: "#{offer_text} but change course" }, link_errors: true %>
-          <% if @other_study_mode %>
-            <%= f.govuk_radio_button :decision, 'edit_study_mode', label: { text: "#{offer_text} but change to #{@other_study_mode}" }, link_errors: true %>
+          <% if @alternative_study_mode %>
+            <%= f.govuk_radio_button :decision, 'edit_study_mode', label: { text: "#{offer_text} but change to #{@alternative_study_mode.humanize.downcase}" }, link_errors: true %>
           <% end %>
           <%= f.govuk_radio_button :decision, 'edit_course_option', label: { text: "#{offer_text} but change location" }, link_errors: true %>
           <% if current_provider_user.providers.size > 1 %>

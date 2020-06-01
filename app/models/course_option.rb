@@ -40,4 +40,8 @@ class CourseOption < ApplicationRecord
   def course_full?
     course.course_options.vacancies.blank?
   end
+
+  def alternative_study_mode
+    (course.available_study_modes_from_options - [study_mode]).first
+  end
 end
