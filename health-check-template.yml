@@ -42,5 +42,6 @@ steps:
       }
       else{ 
         Write-Host "GET $healthCheckUrl succeeded after $attempt attempt(s)"
+        exit 0
       }
     displayName: Health check - GET ${{ parameters.url }}
