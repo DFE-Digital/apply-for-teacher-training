@@ -332,7 +332,8 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
         id: 888,
         course_not_available?: false,
         course_full?: false,
-        chosen_site_full?: false,
+        site_full?: false,
+        study_mode_full?: false,
         course_closed_on_apply?: false,
       )
     end
@@ -343,7 +344,8 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
         id: 999,
         course_not_available?: false,
         course_full?: false,
-        chosen_site_full?: false,
+        site_full?: false,
+        study_mode_full?: false,
         course_closed_on_apply?: false,
       )
     end
@@ -403,8 +405,8 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
     context 'a chosen site is full' do
       before do
-        allow(application_choice_2).to receive(:chosen_site_full?).and_return true
-        allow(application_choice_2).to receive(:chosen_site_full_error).and_return 'site_full'
+        allow(application_choice_2).to receive(:site_full?).and_return true
+        allow(application_choice_2).to receive(:site_full_error).and_return 'site_full'
       end
 
       it 'returns the appropriate error' do
@@ -413,12 +415,24 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       end
     end
 
+    context 'a chosen study-mode is full' do
+      before do
+        allow(application_choice_2).to receive(:study_mode_full?).and_return true
+        allow(application_choice_2).to receive(:study_mode_full_error).and_return 'study_mode_full'
+      end
+
+      it 'returns the appropriate error' do
+        expect(presenter.application_choice_errors.map(&:message)).to eq %w[study_mode_full]
+        expect(presenter.application_choice_errors.map(&:anchor)).to eq(['#course-choice-999'])
+      end
+    end
+
     context 'all application choices have errors' do
       before do
         allow(application_choice_1).to receive(:course_not_available?).and_return true
         allow(application_choice_1).to receive(:course_not_available_error).and_return 'course_not_available'
-        allow(application_choice_2).to receive(:chosen_site_full?).and_return true
-        allow(application_choice_2).to receive(:chosen_site_full_error).and_return 'site_full'
+        allow(application_choice_2).to receive(:site_full?).and_return true
+        allow(application_choice_2).to receive(:site_full_error).and_return 'site_full'
       end
 
       it 'returns errors for all choices' do

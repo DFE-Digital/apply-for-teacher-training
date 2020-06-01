@@ -74,10 +74,17 @@ module CandidateInterface
             next
           end
 
-          next unless choice.chosen_site_full?
+          if choice.site_full?
+            error_list << ApplicationChoiceError.new(
+              choice.site_full_error, choice.id
+            )
+            next
+          end
+
+          next unless choice.study_mode_full?
 
           error_list << ApplicationChoiceError.new(
-            choice.chosen_site_full_error, choice.id
+            choice.study_mode_full_error, choice.id
           )
         end
       end
