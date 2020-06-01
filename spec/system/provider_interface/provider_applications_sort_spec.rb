@@ -12,6 +12,11 @@ RSpec.feature 'Providers should be able to sort applications' do
 
     when_i_visit_the_provider_page
     then_i_should_see_the_applications_in_descending_date_order
+    and_the_sorted_by_explanation_line_should_be_present
+  end
+
+  def and_the_sorted_by_explanation_line_should_be_present
+    expect(page).to have_content('Sorted by: last changed')
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
