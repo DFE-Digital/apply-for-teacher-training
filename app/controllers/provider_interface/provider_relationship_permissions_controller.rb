@@ -1,6 +1,7 @@
 module ProviderInterface
   class ProviderRelationshipPermissionsController < ProviderInterfaceController
     before_action :render_404_unless_permissions_found
+    before_action :render_403_unless_access_permitted
 
     def success; end
 
@@ -57,6 +58,12 @@ module ProviderInterface
 
     def render_404_unless_permissions_found
       render_404 if accredited_body_permissions.blank? || training_provider_permissions.blank?
+    end
+
+    def render_403_unless_access_permitted
+      render_403 unless current_provider_user.providers.include?(
+        training_provider_permissions.training_provider,
+      )
     end
   end
 end
