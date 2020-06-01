@@ -6,6 +6,9 @@
 .app-application-card {
   border-bottom: 1px solid govuk-colour('mid-grey');
   margin-bottom: govuk-spacing(3);
+  dd {
+    @include govuk-font($size: 24);
+  }
 
   &__footer {
     @include govuk-media-query($from: tablet) {
@@ -19,7 +22,7 @@
     width: 100%;
 
     dd, dt {
-      @include govuk-font($size: 14);
+      @include govuk-font($size: 16);
       color: govuk-colour('dark-grey');
       display: inline;
     }
@@ -28,7 +31,7 @@
 
   &__primary {
     dd {
-      @include govuk-font($size: 14);
+      @include govuk-font($size: 16);
     }
   }
 
