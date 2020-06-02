@@ -16,7 +16,15 @@ module ProviderInterface
       render_with form
     end
 
-    def existing_offer_start_at_3_location(provider_interface_change_offer_form: nil)
+    def existing_offer_start_at_3_study_mode(provider_interface_change_offer_form: nil)
+      initial_step :study_mode
+      set_application_choice application_choice_with_offer
+
+      form = submitted_form(provider_interface_change_offer_form) || new_form
+      render_with form
+    end
+
+    def existing_offer_start_at_4_location(provider_interface_change_offer_form: nil)
       initial_step :course_option
       set_application_choice application_choice_with_offer
 
@@ -49,7 +57,15 @@ module ProviderInterface
       render_with form
     end
 
-    def new_offer_start_at_3_location(provider_interface_change_offer_form: nil)
+    def new_offer_start_at_3_study_mode(provider_interface_change_offer_form: nil)
+      initial_step :study_mode
+      set_application_choice application_choice_awaiting_decision
+
+      form = submitted_form(provider_interface_change_offer_form) || new_form
+      render_with form
+    end
+
+    def new_offer_start_at_4_location(provider_interface_change_offer_form: nil)
       initial_step :course_option
       set_application_choice application_choice_awaiting_decision
 
@@ -112,10 +128,12 @@ module ProviderInterface
       if new_course_option
         provider_id = new_course_option.provider.id
         course_id = new_course_option.course.id
+        study_mode = new_course_option.study_mode
         course_option_id = new_course_option.id
       else
         provider_id = application_choice.offered_course.provider.id
         course_id = application_choice.offered_course.id
+        study_mode = application_choice.offered_option.study_mode
         course_option_id = application_choice.offered_option.id
       end
       ProviderInterface::ChangeOfferForm.new(
@@ -123,6 +141,7 @@ module ProviderInterface
         step: @step,
         provider_id: provider_id,
         course_id: course_id,
+        study_mode: study_mode,
         course_option_id: course_option_id,
       )
     end

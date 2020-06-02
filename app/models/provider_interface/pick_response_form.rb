@@ -2,7 +2,7 @@ module ProviderInterface
   class PickResponseForm
     include ActiveModel::Model
 
-    VALID_CHANGE_DECISIONS = %w[edit_course edit_course_option edit_provider].freeze
+    VALID_CHANGE_DECISIONS = %w[edit_course edit_study_mode edit_course_option edit_provider].freeze
     VALID_DECISIONS = (%w[new_offer new_reject] + VALID_CHANGE_DECISIONS).freeze
 
     attr_accessor :decision

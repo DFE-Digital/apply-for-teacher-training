@@ -5,6 +5,7 @@ module ProviderInterface
 
     def respond
       @pick_response_form = PickResponseForm.new
+      @alternative_study_mode = @application_choice.offered_option.alternative_study_mode
     end
 
     def submit_response

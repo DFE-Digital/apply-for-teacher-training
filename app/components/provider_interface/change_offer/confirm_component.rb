@@ -25,11 +25,16 @@ module ProviderInterface
         end
       end
 
+      def study_modes
+        Course.find(change_offer_form.course_id).available_study_modes_from_options
+      end
+
       def change_path_options
         entry = change_offer_form.entry
         {
           change_provider_path: (params_for_step(:provider) if entry == 'provider'),
           change_course_path: (params_for_step(:course) if %w[provider course].include? entry),
+          change_study_mode_path: (params_for_step(:study_mode) if study_modes.count > 1),
           change_course_option_path: params_for_step(:course_option),
         }
       end
@@ -38,6 +43,7 @@ module ProviderInterface
         new_form_hash = {
           provider_id: change_offer_form.provider_id,
           course_id: change_offer_form.course_id,
+          study_mode: change_offer_form.study_mode,
           course_option_id: change_offer_form.course_option_id,
           entry: change_offer_form.entry,
           step: step_symbol,
