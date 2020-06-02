@@ -12,7 +12,7 @@ module ProviderInterface
             value: course_option.course.name_and_code,
           },
           {
-            key: 'Full time/part time',
+            key: 'Full time or part time',
             value: course_option.study_mode.humanize,
           },
           {

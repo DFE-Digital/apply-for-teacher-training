@@ -36,7 +36,7 @@ module ProviderInterface
             row.merge(change_path: change_path(:provider), action: 'training provider')
           when 'Course'
             row.merge(change_path: change_path(:course), action: 'course')
-          when 'Full time/part time'
+          when 'Full time or part time'
             row.merge(change_path: change_path(:study_mode), action: 'to full time or part time')
           when 'Location'
             row.merge(change_path: change_path(:course_option), action: 'location')

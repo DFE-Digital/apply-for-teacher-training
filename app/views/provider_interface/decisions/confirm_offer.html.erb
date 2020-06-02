@@ -28,7 +28,7 @@
       <%= render SummaryListComponent.new(rows: [
         { key: 'Provider', value: @application_choice.offered_option.provider.name_and_code },
         { key: 'Course', value: @application_choice.offered_course.name_and_code },
-        { key: 'Full time/part time', value: @application_choice.offered_option.study_mode.humanize },
+        { key: 'Full time or part time', value: @application_choice.offered_option.study_mode.humanize },
         { key: 'Location', value: @application_choice.offered_site.name },
         { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
         { key: 'Conditions', value: conditions },
