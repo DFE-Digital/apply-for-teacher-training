@@ -7,6 +7,14 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def application_submitted_apply_again(application_form)
+    @application_choice = application_form.application_choices.first
+
+    email_for_candidate(
+      application_form,
+    )
+  end
+
   def application_sent_to_provider(application_form)
     email_for_candidate(
       application_form,

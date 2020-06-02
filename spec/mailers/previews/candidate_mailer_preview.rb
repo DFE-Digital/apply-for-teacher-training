@@ -3,10 +3,21 @@ class CandidateMailerPreview < ActionMailer::Preview
     application_form = FactoryBot.build_stubbed(
       :completed_application_form,
       candidate: candidate,
-      support_reference: 'ABC-DEF',
+      support_reference: 'ABCDEF',
     )
 
     CandidateMailer.application_submitted(application_form)
+  end
+
+  def application_submitted_apply_again
+    application_form = FactoryBot.build_stubbed(
+      :completed_application_form,
+      candidate: candidate,
+      support_reference: 'ABCDEF',
+      application_choices: [FactoryBot.build_stubbed(:application_choice, :awaiting_provider_decision, course_option: course_option)],
+    )
+
+    CandidateMailer.application_submitted_apply_again(application_form)
   end
 
   def application_sent_to_provider
