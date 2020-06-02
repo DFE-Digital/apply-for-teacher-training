@@ -14,6 +14,11 @@
   font-weight: 400;
   font-size: 1rem;
 
+  display: inline-block;
+  word-break: normal; 
+  max-width: 150px;
+  text-align: left;
+
   &:before {
     position: absolute;
     background: govuk-colour("black");
