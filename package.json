@@ -5,7 +5,7 @@
     "@ministryofjustice/frontend": "0.0.17-alpha",
     "@rails/webpacker": "^5.1.1",
     "accessible-autocomplete": "^2.0.2",
-    "govuk-frontend": "^3.6.0"
+    "govuk-frontend": "^3.7.0"
   },
   "devDependencies": {
     "jest": "^26.0.1",
