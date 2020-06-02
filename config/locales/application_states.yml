@@ -40,7 +40,7 @@ en:
       name: Ended without success
       description: All of the candidate’s applications have been withdrawn, rejected or declined.
     unknown_state:
-      name: 'Unknown!'
+      name: "Unknown!"
       description: This application is in a state that we don’t recognise. Please report this to a developer.
   candidate_application_states:
     application_complete: Submitted
@@ -181,6 +181,7 @@ en:
       description: The candidate can submit the form once all required fields are completed.
       emails:
         - candidate_mailer-application_submitted
+        - candidate_mailer-application_submitted_apply_again
         - referee_mailer-reference_request_email
 
     unsubmitted-send_to_provider:
@@ -245,7 +246,7 @@ en:
     awaiting_provider_decision-reject:
       name: Provider rejects
       by: provider
-      description:  |
+      description: |
         The provider rejects the candidate.
 
         An email is sent to the candidate, the content of which depends
@@ -360,87 +361,87 @@ en:
     not_signed_up-sign_up:
       name: Sign up
       by: candidate
-      description: ''
+      description: ""
 
     never_signed_in-sign_in:
       name: Sign in
       by: candidate
-      description: ''
+      description: ""
 
     unsubmitted_not_started_form-edit_form:
       name: Edit form
       by: candidate
-      description: ''
+      description: ""
 
     unsubmitted_in_progress-submit:
       name: Submit
       by: candidate
-      description: ''
+      description: ""
 
     awaiting_references-all_withdrawn:
       name: Withdraw
       by: candidate
-      description: ''
+      description: ""
 
     waiting_to_be_sent-send_to_provider:
       name: Send to provider
       by: candidate
-      description: ''
+      description: ""
 
     waiting_to_be_sent-all_withdrawn:
       name: Withdraw
       by: candidate
-      description: ''
+      description: ""
 
     awaiting_provider_decisions-at_least_one_offer:
       name: At least one offer
       by: provider
-      description: ''
+      description: ""
 
     awaiting_references-references_complete:
       name: All references completed
       by: system
-      description: ''
+      description: ""
 
     awaiting_provider_decisions-no_offers:
       name: No offers
       by: provider
-      description: ''
+      description: ""
 
     awaiting_provider_decisions-all_rejected:
       name: All rejected
       by: provider
-      description: ''
+      description: ""
 
     awaiting_provider_decisions-all_withdrawn:
       name: Withdraw
       by: candidate
-      description: ''
+      description: ""
 
     awaiting_candidate_response-offer_accepted:
       name: Offer accepted
       by: candidate
-      description: ''
+      description: ""
 
     awaiting_candidate_response-all_offers_declined:
       name: All offers declined
       by: candidate
-      description: ''
+      description: ""
 
     pending_conditions-conditions_met:
       name: Conditions are met
       by: provider
-      description: ''
+      description: ""
 
     pending_conditions-conditions_not_met:
       name: Conditions not met
       by: provider
-      description: ''
+      description: ""
 
     recruited-enrol:
       name: Enrol
       by: provider
-      description: ''
+      description: ""
 
     ended_without_success-start_apply_again:
       name: Start in Apply again (not built)

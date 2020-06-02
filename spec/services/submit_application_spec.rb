@@ -61,10 +61,10 @@ RSpec.describe SubmitApplication do
       end
     end
 
-    context 'when application is Apply Again' do
+    context 'when application is in Apply Again' do
       before { FeatureFlag.activate('apply_again') }
 
-      it 'progresses status to `awaiting_provider_decision`' do
+      it 'progresses to `awaiting_provider_decision` if all references are in' do
         original_application_form = create_application_form
 
         original_application_form.application_references << build(:reference, email_address: 'bob@example.com', feedback_status: :feedback_provided)
@@ -78,6 +78,26 @@ RSpec.describe SubmitApplication do
 
         application_form.application_choices.reload
         expect(application_form.application_choices[0]).to be_awaiting_provider_decision
+      end
+
+      it 'progresses to `awaiting_references` if not all references are in' do
+        mailer = instance_double(ActionMailer::MessageDelivery, deliver_later: nil)
+        allow(CandidateMailer).to receive(:application_submitted_apply_again).and_return(mailer)
+
+        original_application_form = create_application_form
+
+        original_application_form.application_references << build(:reference, email_address: 'bob@example.com', feedback_status: :feedback_provided)
+        original_application_form.application_references << build(:reference, email_address: 'alice@example.com', feedback_status: :not_requested_yet)
+        original_application_form.application_references.reload
+
+        application_form = DuplicateApplication.new(original_application_form).duplicate
+        application_form.application_choices << build(:application_choice, status: :unsubmitted)
+
+        SubmitApplication.new(application_form).call
+
+        application_form.application_choices.reload
+        expect(application_form.application_choices[0]).to be_awaiting_references
+        expect(mailer).to have_received(:deliver_later).once
       end
     end
   end
