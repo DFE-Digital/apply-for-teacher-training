@@ -269,6 +269,19 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.conditions_not_met(application_choice_with_offer)
   end
 
+  def apply_again_call_to_action
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Bob',
+      candidate: candidate,
+      application_choices: [
+        FactoryBot.build_stubbed(:application_choice, status: 'rejected'),
+      ],
+    )
+
+    CandidateMailer.apply_again_call_to_action(application_form)
+  end
+
 private
 
   def candidate

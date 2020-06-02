@@ -381,4 +381,37 @@ RSpec.describe CandidateMailer, type: :mailer do
       expect(email).to have_content 'declined your offer to study'
     end
   end
+
+  describe '#apply_again_call_to_action' do
+    it 'has the correct subject and content' do
+      application_form = build_stubbed(
+        :application_form,
+        first_name: 'Fred',
+        candidate: @candidate,
+        application_choices: [
+          build_stubbed(
+            :application_choice,
+            status: 'rejected',
+            course_option: build_stubbed(
+              :course_option,
+              course: build_stubbed(
+                :course,
+                name: 'Mathematics',
+                code: 'M101',
+                provider: build_stubbed(
+                  :provider,
+                  name: 'Cholbury College',
+                ),
+              ),
+            ),
+          ),
+        ],
+      )
+      email = described_class.apply_again_call_to_action(application_form)
+
+      expect(email.subject).to eq 'You can still apply for teacher training'
+      expect(email.body).to include('Dear Fred,')
+      expect(email.body).to include('You can apply for teacher training again if you have not got a place yet')
+    end
+  end
 end

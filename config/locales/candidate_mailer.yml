@@ -58,3 +58,5 @@ en:
       subject: "You have not met your conditions for %{course_name}: next steps"
     changed_offer:
       subject: "%{provider_name} changed the details of your offer"
+    apply_again_call_to_action:
+      subject: You can still apply for teacher training
