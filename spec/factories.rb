@@ -317,15 +317,15 @@ FactoryBot.define do
   factory :accredited_body_permissions,
           class: 'ProviderInterface::AccreditedBodyPermissions' do
     type { 'ProviderInterface::AccreditedBodyPermissions' }
-    ratifying_provider { provider }
-    training_provider { provider }
+    ratifying_provider { create(:provider) }
+    training_provider { create(:provider) }
   end
 
   factory :training_provider_permissions,
           class: 'ProviderInterface::TrainingProviderPermissions' do
     type { 'ProviderInterface::TrainingProviderPermissions' }
-    ratifying_provider { provider }
-    training_provider { provider }
+    ratifying_provider { create(:provider) }
+    training_provider { create(:provider) }
   end
 
   factory :application_choice do
