@@ -25,7 +25,11 @@ class SubmitApplication
         ApplicationStateChange.new(application_choice).submit!
       end
 
-      CandidateMailer.application_submitted(application_form).deliver_later
+      if application_form.apply_2?
+        CandidateMailer.application_submitted_apply_again(application_form).deliver_later
+      else
+        CandidateMailer.application_submitted(application_form).deliver_later
+      end
       send_reference_request_email_to_referees(application_form)
       StateChangeNotifier.call(:submit_application, application_form: application_form)
       auto_approve_references_in_sandbox(application_form)

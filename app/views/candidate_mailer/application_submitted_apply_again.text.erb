@@ -1,0 +1,19 @@
+Dear <%= @application_form.first_name %>,
+
+# Application submitted
+
+You’ve submitted an application for <%= @application_choice.course_option.course.name_and_code %> at <%= @application_choice.course_option.course.provider.name %>.
+
+Your application reference is <%= @application_form.support_reference %>.
+
+You can track the progress of your application on your dashboard:
+
+<%= candidate_magic_link(@application_form.candidate) %>
+
+# What’s next?
+
+If your training provider decides to progress your application, they’ll contact you to organise an interview.
+
+# Need help?
+
+Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).

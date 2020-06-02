@@ -1,5 +1,15 @@
 class CandidateMailer < ApplicationMailer
   def application_submitted(application_form)
+    @candidate_magic_link = candidate_magic_link(application_form.candidate)
+
+    email_for_candidate(
+      application_form,
+    )
+  end
+
+  def application_submitted_apply_again(application_form)
+    @application_choice = application_form.application_choices.first
+
     email_for_candidate(
       application_form,
     )

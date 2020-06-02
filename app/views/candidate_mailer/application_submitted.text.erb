@@ -12,7 +12,7 @@ Your application reference is <%= @application_form.support_reference %>.
 
 You can track the progress of your <%= 'application'.pluralize(@application_form.application_choices.count) %> here:
 
-<%= candidate_magic_link(@candidate) %>
+<%= @candidate_magic_link %>
 
 # Making changes to your application
 
@@ -30,7 +30,7 @@ You can withdraw your application to your <%= 'course'.pluralize(@application_fo
 
 Sign in to your account and click ‘withdraw’ next to the course(s) you want to withdraw:
 
-<%= candidate_magic_link(@candidate) %>
+<%= @candidate_magic_link %>
 
 # References
 
