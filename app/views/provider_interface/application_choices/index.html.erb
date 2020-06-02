@@ -24,6 +24,7 @@
     page_state: @page_state,
   ) %>
   <div class='moj-filter-layout__content'>
+    <p class='govuk-body applications-sorted-by-explanation'>Sorted by: last changed</p>
     <% if @application_choices.any? %>
       <div class="app-application-cards">
         <% @application_choices.each_with_index do |choice, index| %>
