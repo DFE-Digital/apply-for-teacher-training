@@ -2,13 +2,23 @@
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_complete_path, 'Back to application dashboard') %>
 
 <h1 class="govuk-heading-xl govuk-heading-xl">
-  <%= t('page_titles.withdraw_course_choice') %>
+  Are you sure you want to withdraw this course choice?
 </h1>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">Confirm you would like to withdraw your application to study:</p>
-    <p class="govuk-body"><strong><%= @application_choice.course.name_and_code %> at <%= @application_choice.provider.name %></strong></p>
-    <%= button_to 'Withdraw my application', candidate_interface_withdraw_path, class: 'govuk-button govuk-button--warning' %>
+    <%= render(SummaryListComponent.new(rows: course_choice_rows)) %>
+
+    <% if single_application_choice? %>
+      <p class="govuk-body">
+        If you withdraw this course choice you can still apply for more courses this year.
+      </p>
+    <% else %>
+      <p class="govuk-body">
+        If you withdraw this course choice (and all your other course choices) you can still apply for more courses this year.
+      </p>
+    <% end %>
+
+    <%= button_to "Yes I’m sure - withdraw this course choice", candidate_interface_withdraw_path, class: 'govuk-button govuk-button--warning' %>
   </div>
 </div>

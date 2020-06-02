@@ -76,11 +76,11 @@ RSpec.feature 'A candidate withdraws her application' do
   end
 
   def then_i_see_a_confirmation_page
-    expect(page).to have_content('Confirm')
+    expect(page).to have_content('Are you sure you want to withdraw this course choice?')
   end
 
   def when_i_click_to_confirm_withdrawal
-    click_button 'Withdraw my application'
+    click_button 'Yes I’m sure - withdraw this course choice'
   end
 
   def then_my_application_should_be_withdrawn

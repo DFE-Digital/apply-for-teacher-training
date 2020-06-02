@@ -15,9 +15,15 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render(CandidateInterface::OfferReviewComponent.new(course_choice: @application_choice)) %>
 
-    <p class="govuk-body">
-      If you decline this offer (and all other offers on current applications) you can still apply for more courses this year through <%= govuk_link_to 'UCAS Teacher Training', UCAS.apply_url %>.
-    </p>
+    <% if single_application_choice? %>
+      <p class="govuk-body">
+        If you decline this offer you can still apply for more courses this year.
+      </p>
+    <% else %>
+      <p class="govuk-body">
+          If you decline this offer (and all other other offers on current applications) you can still apply for more courses this year.
+      </p>
+    <% end %>
 
     <%= form_with model: @respond_to_offer, url: candidate_interface_decline_offer_path(@application_choice) do |f| %>
       <%= f.submit 'Yes I’m sure - decline this offer', class: 'govuk-button govuk-button--warning' %>

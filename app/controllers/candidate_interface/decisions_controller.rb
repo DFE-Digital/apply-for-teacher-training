@@ -53,8 +53,13 @@ module CandidateInterface
   private
 
     def set_application_choice
-      @application_choice = current_candidate.current_application.application_choices.find(params[:id])
+      @application_choice = @current_application.application_choices.find(params[:id])
     end
+
+    def single_application_choice?
+      @current_application.application_choices.size == 1
+    end
+    helper_method :single_application_choice?
 
     def check_that_candidate_can_decline
       unless ApplicationStateChange.new(@application_choice).can_decline?
@@ -77,5 +82,23 @@ module CandidateInterface
     def check_that_candidate_has_an_offer
       render_404 unless @application_choice.offer?
     end
+
+    def course_choice_rows
+      [
+        {
+          key: 'Provider',
+          value: @application_choice.offered_course.provider.name,
+        },
+        {
+          key: 'Course',
+          value: @application_choice.offered_course.name_and_code,
+        },
+        {
+          key: 'Location',
+          value: @application_choice.offered_option.site.name,
+        },
+      ]
+    end
+    helper_method :course_choice_rows
   end
 end
