@@ -92,16 +92,10 @@ RSpec.describe TimeLimitCalculator do
 
   describe 'configured reject_by_default limits' do
     context 'before 2020-07-01' do
-      around do |example|
-        Timecop.freeze(Time.zone.local(2020, 6, 15)) do
-          example.run
-        end
-      end
-
       it 'applies the 40 day rule' do
         calculator = TimeLimitCalculator.new(
           rule: :reject_by_default,
-          effective_date: Time.zone.today,
+          effective_date: Time.zone.local(2020, 6, 15),
         )
         expect(calculator.call).to eq(
           days: 40,
@@ -112,21 +106,45 @@ RSpec.describe TimeLimitCalculator do
     end
 
     context 'after 2020-07-01' do
-      around do |example|
-        Timecop.freeze(Time.zone.local(2020, 7, 6)) do
-          example.run
-        end
-      end
-
       it 'applies the 20 day rule' do
         calculator = TimeLimitCalculator.new(
           rule: :reject_by_default,
-          effective_date: Time.zone.today,
+          effective_date: Time.zone.local(2020, 7, 6),
         )
         expect(calculator.call).to eq(
           days: 20,
           time_in_future: Time.zone.local(2020, 8, 3).end_of_day,
           time_in_past: Time.zone.local(2020, 6, 8).end_of_day,
+        )
+      end
+    end
+  end
+
+  describe 'configured chase_provider_before_rbd limits' do
+    context 'before 2020-07-01' do
+      it 'applies the 40 day rule' do
+        calculator = TimeLimitCalculator.new(
+          rule: :chase_provider_before_rbd,
+          effective_date: Time.zone.local(2020, 6, 15),
+        )
+        expect(calculator.call).to eq(
+          days: 20,
+          time_in_future: Time.zone.local(2020, 7, 13).end_of_day,
+          time_in_past: Time.zone.local(2020, 3, 10).end_of_day,
+        )
+      end
+    end
+
+    context 'after 2020-07-01' do
+      it 'applies the 20 day rule' do
+        calculator = TimeLimitCalculator.new(
+          rule: :chase_provider_before_rbd,
+          effective_date: Time.zone.local(2020, 7, 6),
+        )
+        expect(calculator.call).to eq(
+          days: 10,
+          time_in_future: Time.zone.local(2020, 7, 20).end_of_day,
+          time_in_past: Time.zone.local(2020, 6, 22).end_of_day,
         )
       end
     end

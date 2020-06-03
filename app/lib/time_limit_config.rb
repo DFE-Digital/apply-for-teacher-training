@@ -51,6 +51,7 @@ class TimeLimitConfig
     ],
     chase_provider_before_rbd: [
       Rule.new(nil, nil, 20),
+      Rule.new(Time.zone.local(2020, 7, 1), nil, 10),
     ],
     chase_candidate_before_dbd: [
       Rule.new(nil, nil, 5),
