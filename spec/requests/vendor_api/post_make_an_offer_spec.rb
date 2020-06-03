@@ -136,15 +136,9 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       }
 
       post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
-
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
 
-      original_course_option = application_choice.course_option
-      new_course_option = create(
-        :course_option,
-        course: original_course_option.course,
-        study_mode: original_course_option.study_mode,
-      )
+      new_course_option = course_option_for_provider(provider: currently_authenticated_provider)
 
       request_body = {
         "data": {
@@ -153,13 +147,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
             'Completion of subject knowledge enhancement',
             'Completion of professional skills test',
           ],
-          "course": {
-            recruitment_cycle_year: original_course_option.course.recruitment_cycle_year,
-            provider_code: original_course_option.course.provider.code,
-            course_code: original_course_option.course.code,
-            study_mode: new_course_option.study_mode,
-            site_code: new_course_option.site.code,
-          },
+          "course": course_option_to_course_payload(new_course_option),
         },
       }
 
@@ -171,13 +159,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
           'Completion of subject knowledge enhancement',
           'Completion of professional skills test',
         ],
-        'course' => {
-          'recruitment_cycle_year' => original_course_option.course.recruitment_cycle_year,
-          'provider_code' => original_course_option.course.provider.code,
-          'course_code' => original_course_option.course.code,
-          'study_mode' => new_course_option.study_mode,
-          'site_code' => new_course_option.site.code,
-        },
+        'course' => course_option_to_course_payload(new_course_option),
       )
     end
 
