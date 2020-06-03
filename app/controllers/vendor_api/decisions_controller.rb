@@ -18,7 +18,11 @@ module VendorAPI
           site_code: course_data[:site_code],
         ).call
 
-        (render_cannot_find_course_option and return) unless course_option && course_option.course.open_on_apply
+        if !course_option
+          render_cannot_find_course_option and return
+        elsif course_option.course_closed_on_apply?
+          render_course_not_open and return
+        end
       else
         course_option = nil
       end
@@ -110,6 +114,17 @@ module VendorAPI
           {
             error: 'CourseOptionError',
             message: 'Cannot find an appropriate course option for these codes',
+          },
+        ],
+      }
+    end
+
+    def render_course_not_open
+      render status: :unprocessable_entity, json: {
+        errors: [
+          {
+            error: 'CourseOptionError',
+            message: 'This course is not open for applications via the Apply service',
           },
         ],
       }

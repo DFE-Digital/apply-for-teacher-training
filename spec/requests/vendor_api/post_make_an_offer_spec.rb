@@ -101,6 +101,32 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       expect(error_response['message']).to match 'can_make_offer? failed'
     end
 
+    it 'returns an error when specifying a course that is not open on Apply' do
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'awaiting_provider_decision',
+      )
+
+      course = create(:course, provider: currently_authenticated_provider)
+      other_course_option = course_option_for_provider(provider: currently_authenticated_provider, course: course)
+
+      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+        'data' => {
+          'conditions' => [],
+          'course' => {
+            'recruitment_cycle_year' => other_course_option.course.recruitment_cycle_year,
+            'provider_code' => other_course_option.course.provider.code,
+            'course_code' => other_course_option.course.code,
+            'site_code' => other_course_option.site.code,
+            'study_mode' => other_course_option.study_mode,
+          },
+        },
+      }
+
+      expect(response).to have_http_status(422)
+      expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+      expect(error_response['message']).to match 'This course is not open for applications via the Apply service'
+    end
+
     it 'returns an error when specifying a course that does not exist' do
       application_choice = create_application_choice_for_currently_authenticated_provider(
         status: 'awaiting_provider_decision',
