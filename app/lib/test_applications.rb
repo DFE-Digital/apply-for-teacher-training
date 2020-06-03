@@ -87,6 +87,7 @@ class TestApplications
         @application_form.application_references.each do |reference|
           reference.relationship_correction = ['', Faker::Lorem.sentence].sample
           reference.safeguarding_concerns = ['', Faker::Lorem.sentence].sample
+          reference.safeguarding_concerns_status = reference.safeguarding_concerns.blank? ? :no_safeguarding_concerns_to_declare : :has_safeguarding_concerns_to_declare
 
           reference.update!(feedback: 'You are awesome')
 

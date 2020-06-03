@@ -22,9 +22,9 @@ module RefereeInterface
     end
 
     def safeguarding_concerns
-      concerns = if @reference.safeguarding_concerns.nil?
+      concerns = if @reference.not_answered_yet? || @reference.never_asked?
                    'Not answered'
-                 elsif @reference.safeguarding_concerns.blank?
+                 elsif @reference.no_safeguarding_concerns_to_declare?
                    'No'
                  else
                    @reference.safeguarding_concerns
