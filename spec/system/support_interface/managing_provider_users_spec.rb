@@ -26,6 +26,7 @@ RSpec.feature 'Managing provider users' do
     and_i_check_permission_to_manage_users
     and_i_check_permission_to_manage_organisations
     and_i_check_permission_to_view_safeguarding_information
+    and_i_check_permission_to_make_decisions
     and_i_click_add_user
 
     then_i_should_see_the_list_of_provider_users
@@ -45,6 +46,7 @@ RSpec.feature 'Managing provider users' do
     and_they_should_be_able_to_manage_users
     and_they_should_be_able_to_manage_organisations
     and_they_should_be_able_to_view_safeguarding_information
+    and_they_should_be_able_to_make_decisions
 
     when_i_remove_manage_users_permissions
     and_i_remove_manage_organisations_permissions
@@ -113,6 +115,12 @@ RSpec.feature 'Managing provider users' do
   def and_i_check_permission_to_view_safeguarding_information
     within(permissions_fields_id_for_provider(@provider)) do
       check 'View safeguarding information'
+    end
+  end
+
+  def and_i_check_permission_to_make_decisions
+    within(permissions_fields_id_for_provider(@provider)) do
+      check 'Make decisions'
     end
   end
 
@@ -210,6 +218,12 @@ RSpec.feature 'Managing provider users' do
   def and_they_should_be_able_to_view_safeguarding_information
     within(permissions_fields_id_for_provider(@provider)) do
       expect(page).to have_checked_field('View safeguarding information')
+    end
+  end
+
+  def and_they_should_be_able_to_make_decisions
+    within(permissions_fields_id_for_provider(@provider)) do
+      expect(page).to have_checked_field('Make decisions')
     end
   end
 
