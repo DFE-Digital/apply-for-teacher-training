@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_26_122730) do
+ActiveRecord::Schema.define(version: 2020_06_03_070420) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -309,6 +309,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_122730) do
     t.datetime "updated_at", default: -> { "now()" }, null: false
     t.boolean "manage_users", default: false, null: false
     t.boolean "view_safeguarding_information", default: false, null: false
+    t.boolean "make_decisions", default: false, null: false
     t.index ["provider_id", "provider_user_id"], name: "index_provider_users_providers_by_provider_and_provider_user", unique: true
     t.index ["provider_id"], name: "index_provider_users_providers_on_provider_id"
     t.index ["provider_user_id"], name: "index_provider_users_providers_on_provider_user_id"
