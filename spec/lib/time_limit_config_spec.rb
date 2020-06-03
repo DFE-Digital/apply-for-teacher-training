@@ -20,7 +20,6 @@ RSpec.describe TimeLimitConfig do
   end
 
   describe '.edit_by' do
-
     before { FeatureFlag.deactivate('covid_19') }
 
     it 'returns 5 days' do

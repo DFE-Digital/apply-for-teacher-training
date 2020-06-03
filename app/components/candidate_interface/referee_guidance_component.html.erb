@@ -1,11 +1,13 @@
 <% if @application_form.application_references.feedback_requested.count == 1 %>
   <h2 class="govuk-heading-m">Reference</h2>
-  <p class="govuk-body">We’ll contact your referee to ask for your reference. When we receive it, we’ll add it to your application and send it to your training <%= pluralize_provider %>.</p>
-  <p class="govuk-body">We can’t send your application to your training <%= pluralize_provider %> without your reference.</p>
+  <p class="govuk-body">We’ve sent an email to your referee and will send them a reminder in <%= @editable_days %>.</p>
+  <p class="govuk-body">When we get your reference, we’ll add it to your application and send it to your training <%= pluralize_provider %>.</p>
+  <p class="govuk-body">Courses can become full at any time. Keep in touch with your referee to ensure they’re planning on giving a reference as soon as possible.</p>
 <% else %>
   <h2 class="govuk-heading-m">References</h2>
-  <p class="govuk-body">We’ll contact your referees to ask for your references. When we receive them, we’ll add them to your application and send it to your training <%= pluralize_provider %>.</p>
-  <p class="govuk-body">We can’t send your application to your training <%= pluralize_provider %> without your references.</p>
+  <p class="govuk-body">We’ve sent an email to your referees and will send them a reminder in <%= @editable_days %>.</p>
+  <p class="govuk-body">When we get your references, we’ll add them to your application and send it to your training <%= pluralize_provider %>.</p>
+  <p class="govuk-body">Courses can become full at any time. Keep in touch with your referees to ensure they’re planning on giving a reference as soon as possible.</p>
 <% end %>
 
 <% unless FeatureFlag.active?('covid_19') %>

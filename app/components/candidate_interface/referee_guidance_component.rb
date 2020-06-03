@@ -2,8 +2,9 @@ module CandidateInterface
   class RefereeGuidanceComponent < ViewComponent::Base
     attr_reader :application_form
 
-    def initialize(application_form:)
+    def initialize(application_form:, editable_days:)
       @application_form = application_form
+      @editable_days = editable_days
     end
 
     def pluralize_provider

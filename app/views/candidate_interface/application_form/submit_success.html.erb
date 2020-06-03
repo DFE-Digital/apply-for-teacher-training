@@ -16,7 +16,7 @@
     <p class="govuk-body">You’ll get an email to confirm that your application has been submitted.</p>
 
     <% if @application_form.application_references.feedback_requested.any? %>
-      <%= render CandidateInterface::RefereeGuidanceComponent.new(application_form: @application_form) %>
+      <%= render CandidateInterface::RefereeGuidanceComponent.new(application_form: @application_form, editable_days: TimeLimitConfig.edit_by) %>
     <% end %>
 
     <% if FeatureFlag.active?('covid_19') %>

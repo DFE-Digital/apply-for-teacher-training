@@ -144,7 +144,7 @@ RSpec.feature 'Candidate applying again' do
   end
 
   def then_i_am_informed_my_new_referee_will_be_contacted
-    expect(page).to have_content 'We’ll contact your referee to ask for your reference'
+    expect(page).to have_content 'We’ve sent an email to your referee'
   end
 
   def and_my_application_is_awaiting_references
