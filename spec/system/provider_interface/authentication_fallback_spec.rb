@@ -68,7 +68,7 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
 
   def then_i_am_signed_in
     within 'header' do
-      expect(page).to have_content @email
+      expect(page).to have_content 'Sign out'
     end
   end
 

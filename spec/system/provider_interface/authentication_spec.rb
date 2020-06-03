@@ -14,7 +14,7 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
     and_i_sign_in_via_dfe_sign_in
 
     then_i_am_redirected_to_the_provider_interface_applications_path
-    and_i_should_see_my_email_address
+    and_i_should_see_the_link_to_sign_out
     and_the_timestamp_of_this_sign_in_is_recorded
     and_my_profile_details_are_refreshed
 
@@ -50,11 +50,9 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
     expect(page).to have_current_path(provider_interface_applications_path(some_key: 'some_value'))
   end
 
-  def and_i_should_see_my_email_address
-    expect(page).to have_content('provider@example.com')
+  def and_i_should_see_the_link_to_sign_out
+    expect(page).to have_content('Sign out')
   end
-
-  alias_method :then_i_should_see_my_email_address, :and_i_should_see_my_email_address
 
   def when_i_click_sign_out
     click_link 'Sign out'
