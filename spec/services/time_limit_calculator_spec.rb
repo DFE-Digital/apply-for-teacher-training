@@ -89,4 +89,46 @@ RSpec.describe TimeLimitCalculator do
       days: nil, time_in_future: nil, time_in_past: nil,
     )
   end
+
+  describe 'configured reject_by_default limits' do
+    context 'before 2020-07-01' do
+      around do |example|
+        Timecop.freeze(Time.zone.local(2020, 6, 15)) do
+          example.run
+        end
+      end
+
+      it 'applies the 40 day rule' do
+        calculator = TimeLimitCalculator.new(
+          rule: :reject_by_default,
+          effective_date: Time.zone.today,
+        )
+        expect(calculator.call).to eq(
+          days: 40,
+          time_in_future: Time.zone.local(2020, 8, 10).end_of_day,
+          time_in_past: Time.zone.local(2020, 2, 11).end_of_day,
+        )
+      end
+    end
+
+    context 'after 2020-07-01' do
+      around do |example|
+        Timecop.freeze(Time.zone.local(2020, 7, 6)) do
+          example.run
+        end
+      end
+
+      it 'applies the 20 day rule' do
+        calculator = TimeLimitCalculator.new(
+          rule: :reject_by_default,
+          effective_date: Time.zone.today,
+        )
+        expect(calculator.call).to eq(
+          days: 20,
+          time_in_future: Time.zone.local(2020, 8, 3).end_of_day,
+          time_in_past: Time.zone.local(2020, 6, 8).end_of_day,
+        )
+      end
+    end
+  end
 end

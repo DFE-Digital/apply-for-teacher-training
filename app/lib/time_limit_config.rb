@@ -44,6 +44,7 @@ class TimeLimitConfig
   RULES = {
     reject_by_default: [
       Rule.new(nil, nil, 40),
+      Rule.new(Time.zone.local(2020, 7, 1), nil, 20),
     ],
     decline_by_default: [
       Rule.new(nil, nil, 10),
