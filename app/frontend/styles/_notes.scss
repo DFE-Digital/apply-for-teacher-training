@@ -16,19 +16,18 @@
 
   display: inline-block;
   word-break: normal; 
-  max-width: 150px;
-  text-align: left;
+  width: fit-content(20em);
+  max-width: 220px;
+  text-align: right;
+}
 
-  &:before {
-    position: absolute;
-    background: govuk-colour("black");
-    border-radius: 25px;
-    height: 10px;
-    width: 10px;
-    left: 0px;
-    top: 6px;
-    content: " ";
-  }
+.note-bullet-point {
+  display: inline-block;
+  margin-right: 5px;
+  background: govuk-colour("black");
+  border-radius: 50%;
+  height: 10px;
+  width: 10px;
 }
 
 /* for __single application view__ within provider_interface */
