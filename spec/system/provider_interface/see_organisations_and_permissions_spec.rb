@@ -52,7 +52,7 @@ RSpec.feature 'See organisation permissions' do
   end
 
   def when_i_visit_the_provider_organisations_page
-    visit provider_interface_organisations_path
+    click_on 'Organisations'
   end
 
   def then_i_can_see_provider_organisations_i_belong_to
