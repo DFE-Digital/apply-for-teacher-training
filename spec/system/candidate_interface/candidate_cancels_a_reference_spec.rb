@@ -65,7 +65,7 @@ RSpec.describe 'Cancelling a reference' do
 
   def given_that_i_have_10_references
     create_list(:reference, 7, application_form: @reference.application_form, feedback_status: 'cancelled')
-    create(:reference, application_form: @reference.application_form, feedback_status: 'feedback_requested')
+    create(:reference, application_form: @reference.application_form, feedback_status: 'feedback_requested', requested_at: 1.day.ago)
   end
 
   def when_i_visit_the_application_complete_page

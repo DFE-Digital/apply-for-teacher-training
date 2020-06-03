@@ -80,6 +80,36 @@ module CandidateInterface
           value: feedback_status_label(referee) +
             content_tag(:p, t('application_form.referees.info.not_requested_yet'), class: 'govuk-body govuk-!-margin-top-2'),
         }
+      elsif referee.feedback_refused?
+        {
+          key: 'Status',
+          value: feedback_status_label(referee) +
+            content_tag(:p, t('application_form.referees.info.declined'), class: 'govuk-body govuk-!-margin-top-2'),
+        }
+      elsif referee.feedback_overdue?
+        {
+          key: 'Status',
+          value: feedback_status_label(referee) +
+            content_tag(:p, t('application_form.referees.info.feedback_overdue'), class: 'govuk-body govuk-!-margin-top-2'),
+        }
+      elsif referee.feedback_requested? && referee.requested_at > Time.zone.now - 5.days
+        {
+          key: 'Status',
+          value: feedback_status_label(referee) +
+            content_tag(:p, t('application_form.referees.info.awaiting_reference_sent_less_than_5_days_ago'), class: 'govuk-body govuk-!-margin-top-2'),
+        }
+      elsif referee.feedback_requested?
+        {
+          key: 'Status',
+          value: feedback_status_label(referee) +
+            content_tag(:p, t('application_form.referees.info.awaiting_reference_sent_more_than_5_days_ago'), class: 'govuk-body govuk-!-margin-top-2'),
+        }
+      elsif referee.cancelled?
+        {
+          key: 'Status',
+          value: feedback_status_label(referee) +
+            content_tag(:p, t('application_form.referees.info.awaiting_reference_sent_more_than_5_days_ago'), class: 'govuk-body govuk-!-margin-top-2'),
+        }
       else
         {
           key: 'Status',
