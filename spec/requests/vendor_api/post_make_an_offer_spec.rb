@@ -31,13 +31,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
           'Completion of subject knowledge enhancement',
           'Completion of professional skills test',
         ],
-        'course' => {
-          'recruitment_cycle_year' => course_option.course.recruitment_cycle_year,
-          'provider_code' => course_option.course.provider.code,
-          'course_code' => course_option.course.code,
-          'site_code' => course_option.site.code,
-          'study_mode' => course_option.study_mode,
-        },
+        'course' => course_option_to_course_payload(course_option),
       )
     end
   end
@@ -53,26 +47,14 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
         'data' => {
           'conditions' => [],
-          'course' => {
-            'recruitment_cycle_year' => other_course_option.course.recruitment_cycle_year,
-            'provider_code' => other_course_option.course.provider.code,
-            'course_code' => other_course_option.course.code,
-            'site_code' => other_course_option.site.code,
-            'study_mode' => other_course_option.study_mode,
-          },
+          'course' => course_option_to_course_payload(other_course_option),
         },
       }
 
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [],
-        'course' => {
-          'recruitment_cycle_year' => other_course_option.course.recruitment_cycle_year,
-          'provider_code' => other_course_option.course.provider.code,
-          'course_code' => other_course_option.course.code,
-          'site_code' => other_course_option.site.code,
-          'study_mode' => other_course_option.study_mode,
-        },
+        'course' => course_option_to_course_payload(other_course_option),
       )
     end
 
@@ -86,13 +68,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
         'data' => {
           'conditions' => [],
-          'course' => {
-            'recruitment_cycle_year' => other_course_option.course.recruitment_cycle_year,
-            'provider_code' => other_course_option.course.provider.code,
-            'course_code' => other_course_option.course.code,
-            'site_code' => other_course_option.site.code,
-            'study_mode' => other_course_option.study_mode,
-          },
+          'course' => course_option_to_course_payload(other_course_option),
         },
       }
 
@@ -112,13 +88,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
         'data' => {
           'conditions' => [],
-          'course' => {
-            'recruitment_cycle_year' => other_course_option.course.recruitment_cycle_year,
-            'provider_code' => other_course_option.course.provider.code,
-            'course_code' => other_course_option.course.code,
-            'site_code' => other_course_option.site.code,
-            'study_mode' => other_course_option.study_mode,
-          },
+          'course' => course_option_to_course_payload(other_course_option),
         },
       }
 
@@ -240,13 +210,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       expect(parsed_response['data']['attributes']['status']).to eq('offer')
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [],
-        'course' => {
-          'recruitment_cycle_year' => course_option.course.recruitment_cycle_year,
-          'provider_code' => course_option.course.provider.code,
-          'course_code' => course_option.course.code,
-          'site_code' => course_option.site.code,
-          'study_mode' => course_option.study_mode,
-        },
+        'course' => course_option_to_course_payload(course_option),
       )
     end
   end
@@ -293,5 +257,15 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
     expect(response).to have_http_status(404)
     expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
     expect(error_response['message']).to eql('Could not find an application with ID non-existent-id')
+  end
+
+  def course_option_to_course_payload(course_option)
+    {
+      'recruitment_cycle_year' => course_option.course.recruitment_cycle_year,
+      'provider_code' => course_option.course.provider.code,
+      'course_code' => course_option.course.code,
+      'site_code' => course_option.site.code,
+      'study_mode' => course_option.study_mode,
+    }
   end
 end
