@@ -4,6 +4,12 @@ RSpec.feature 'An application is waiting for decision for 20 working days' do
   include CourseOptionHelpers
   include CandidateHelper
 
+  around do |example|
+    Timecop.freeze(Time.zone.local(2020, 1, 1)) do
+      example.run
+    end
+  end
+
   scenario 'the provider receives a chaser email' do
     given_a_candidate_has_submitted_an_application_form
     and_an_application_was_sent_to_provider

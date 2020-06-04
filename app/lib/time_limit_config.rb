@@ -44,12 +44,14 @@ class TimeLimitConfig
   RULES = {
     reject_by_default: [
       Rule.new(nil, nil, 40),
+      Rule.new(Time.zone.local(2020, 7, 1), nil, 20),
     ],
     decline_by_default: [
       Rule.new(nil, nil, 10),
     ],
     chase_provider_before_rbd: [
       Rule.new(nil, nil, 20),
+      Rule.new(Time.zone.local(2020, 7, 1), nil, 10),
     ],
     chase_candidate_before_dbd: [
       Rule.new(nil, nil, 5),

@@ -98,6 +98,10 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'Send provider decision chaser email' do
+    before do
+      @application_choice.update(reject_by_default_at: 20.business_days.from_now)
+    end
+
     context 'with the covid_19 feature flag off' do
       it_behaves_like('a provider mail with subject and content', :chase_provider_decision,
                       I18n.t!('provider_application_waiting_for_decision.email.subject',
@@ -105,9 +109,9 @@ RSpec.describe ProviderMailer, type: :mailer do
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Harry Potter',
                       'course name and code' => 'Computer Science (6IND)',
-                      'time to respond' => "Only #{TimeLimitConfig.limits_for(:chase_provider_before_rbd).first.limit} working days left to respond",
+                      'time to respond' => 'Only 20 working days left to respond',
                       'submission date' => (Time.zone.now - 5.days).to_s(:govuk_date).strip,
-                      'reject by default at' => (Time.zone.now + 40.days).to_s(:govuk_date).strip,
+                      'reject by default at' => 20.business_days.from_now.to_s(:govuk_date).strip,
                       'link to the application' => 'http://localhost:3000/provider/applications/')
     end
 
@@ -121,7 +125,7 @@ RSpec.describe ProviderMailer, type: :mailer do
                       'candidate name' => 'Harry Potter',
                       'course name and code' => 'Computer Science (6IND)',
                       'submission date' => (Time.zone.now - 5.days).to_s(:govuk_date).strip,
-                      'reject by default at' => (Time.zone.now + 40.days).to_s(:govuk_date).strip,
+                      'reject by default at' => 20.business_days.from_now.to_s(:govuk_date).strip,
                       'link to the application' => 'http://localhost:3000/provider/applications/')
     end
   end
