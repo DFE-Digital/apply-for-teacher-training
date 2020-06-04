@@ -415,8 +415,8 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
   end
 
-  describe '.chase_references_again' do
-    let(:email) { described_class.chase_references_again(@referee) }
+  describe '.chase_reference_again' do
+    let(:email) { described_class.chase_reference_again(@referee) }
 
     before do
       @referee = build_stubbed(:reference, application_form: @application_form)
