@@ -13,7 +13,7 @@ en:
     application_sent_to_provider:
       subject: Your application is being considered
     chase_reference:
-      subject: "%{referee_name} hasn’t given a reference yet"
+      subject: "Chase %{referee_name}: they have not given a reference yet"
     chase_references_again:
       subject: Get your references as soon as possible
     new_referee_request:

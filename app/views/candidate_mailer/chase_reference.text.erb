@@ -1,15 +1,23 @@
 Dear <%= @application_form.first_name %>,
 
-# Get in contact with <%= @reference.name %>
+# Get in contact with <%= @reference.name %> as soon as possible
 
-We haven’t heard back from your referee yet.
+<%= @reference.name %> has not given you a reference yet.
 
-Ask the referee to check their email and give a reference as soon as possible.
+Ask them to check their inbox including their junk or spam emails and give a reference as soon as possible.
 
-You gave us this address for the referee: <%= @reference.email_address %>
+# Check you’ve given the right details
 
-We need to hear from <%= @reference.name %> within 5 working days.
+You gave us this email address:
 
-If this email address is wrong please get in touch with us with us at:
+<%= @reference.email_address %>
 
-[becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
+If this is not correct, cancel the reference request and add in the referee details again:
+
+<%= candidate_magic_link(@application_form.candidate) %>
+
+We cannot send applications to teacher training providers without 2 references. Courses can become full at any time - get your reference as soon as possible.
+
+# Need help?
+
+Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
