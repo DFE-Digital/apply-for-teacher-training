@@ -48,6 +48,10 @@ class ProviderUser < ActiveRecord::Base
     provider_permissions.exists?(manage_users: true)
   end
 
+  def can_manage_organisations?
+    ProviderInterface::ProviderRelationshipPermissions.exists?(training_provider: providers)
+  end
+
 private
 
   def downcase_email_address
