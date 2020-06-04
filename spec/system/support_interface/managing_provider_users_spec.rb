@@ -11,7 +11,7 @@ RSpec.feature 'Managing provider users' do
 
     when_i_visit_the_support_console
     and_i_click_the_users_link
-    and_i_click_the_manange_provider_users_link
+    and_i_click_the_manage_provider_users_link
     then_i_should_see_a_csv_export_button
 
     when_i_click_the_add_user_link
@@ -24,6 +24,7 @@ RSpec.feature 'Managing provider users' do
     and_i_enter_the_users_email_and_name
     and_i_select_a_provider
     and_i_check_permission_to_manage_users
+    and_i_check_permission_to_manage_organisations
     and_i_check_permission_to_view_safeguarding_information
     and_i_click_add_user
 
@@ -42,12 +43,15 @@ RSpec.feature 'Managing provider users' do
     and_i_reload_the_page
     then_their_email_should_be_editable
     and_they_should_be_able_to_manage_users
+    and_they_should_be_able_to_manage_organisations
     and_they_should_be_able_to_view_safeguarding_information
 
     when_i_remove_manage_users_permissions
+    and_i_remove_manage_organisations_permissions
     and_i_remove_access_to_a_provider
     and_i_click_update_user
     then_they_should_not_be_able_to_manage_users
+    and_they_should_not_be_able_to_manage_organisations
     and_they_should_not_have_access_to_the_removed_provider
 
     when_i_click_the_audit_trail_tab
@@ -82,7 +86,7 @@ RSpec.feature 'Managing provider users' do
     click_link 'Users'
   end
 
-  def and_i_click_the_manange_provider_users_link
+  def and_i_click_the_manage_provider_users_link
     click_link 'Provider users'
   end
 
@@ -97,6 +101,12 @@ RSpec.feature 'Managing provider users' do
   def and_i_check_permission_to_manage_users
     within(permissions_fields_id_for_provider(@provider)) do
       check 'Manage users'
+    end
+  end
+
+  def and_i_check_permission_to_manage_organisations
+    within(permissions_fields_id_for_provider(@provider)) do
+      check 'Manage organisations'
     end
   end
 
@@ -191,6 +201,12 @@ RSpec.feature 'Managing provider users' do
     end
   end
 
+  def and_they_should_be_able_to_manage_organisations
+    within(permissions_fields_id_for_provider(@provider)) do
+      expect(page).to have_checked_field('Manage organisations')
+    end
+  end
+
   def and_they_should_be_able_to_view_safeguarding_information
     within(permissions_fields_id_for_provider(@provider)) do
       expect(page).to have_checked_field('View safeguarding information')
@@ -200,6 +216,12 @@ RSpec.feature 'Managing provider users' do
   def when_i_remove_manage_users_permissions
     within(permissions_fields_id_for_provider(@provider)) do
       uncheck 'Manage users'
+    end
+  end
+
+  def and_i_remove_manage_organisations_permissions
+    within(permissions_fields_id_for_provider(@provider)) do
+      uncheck 'Manage organisations'
     end
   end
 
@@ -215,6 +237,13 @@ RSpec.feature 'Managing provider users' do
     within(permissions_fields_id_for_provider(@provider)) do
       expect(page).to have_field('Manage users')
       expect(page).not_to have_checked_field('Manage users')
+    end
+  end
+
+  def and_they_should_not_be_able_to_manage_organisations
+    within(permissions_fields_id_for_provider(@provider)) do
+      expect(page).to have_field('Manage organisations')
+      expect(page).not_to have_checked_field('Manage organisations')
     end
   end
 
