@@ -65,6 +65,6 @@ RSpec.feature 'Referee does not respond in time' do
   def then_the_candidate_is_sent_a_chase_email
     open_email(@application.candidate.email_address)
 
-    expect(current_email.subject).to have_content('Get your references as soon as possible')
+    expect(current_email.subject).to have_content('Give new referee as soon as possible: Anne Other has not responded')
   end
 end

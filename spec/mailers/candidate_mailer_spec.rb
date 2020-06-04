@@ -414,4 +414,18 @@ RSpec.describe CandidateMailer, type: :mailer do
       expect(email.body).to include('You can apply for teacher training again if you have not got a place yet')
     end
   end
+
+  describe '.chase_references_again' do
+    let(:email) { described_class.chase_references_again(@referee) }
+
+    before do
+      @referee = build_stubbed(:reference, application_form: @application_form)
+    end
+
+    it 'has the right subject and content' do
+      expect(email.subject).to eq "Give new referee as soon as possible: #{@referee.name} has not responded"
+      expect(email).to have_content 'Dear Bob'
+      expect(email).to have_content "We have not had a reference from #{@referee.name} yet."
+    end
+  end
 end

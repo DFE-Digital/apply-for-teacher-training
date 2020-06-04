@@ -1,13 +1,17 @@
 Dear <%= @application_form.first_name %>,
 
-# Get your references as soon as possible
+# Give a new referee as soon as possible
 
-We’ve noticed that you’re still waiting on references.
+We have not had a reference from <%= @referee.name %> yet.
 
-Check you’re on track to get your references:
+Add a new referee:
 
 <%= candidate_magic_link(@application_form.candidate) %>
 
+If you know <%= @referee.name %> is planning on giving a reference, you can keep chasing them instead. The email may have gone to junk or spam.
+
+We cannot send applications to teacher training providers without 2 references. Courses can become full at any time - get your reference as soon as possible.
+
 # Need help?
 
-Let us know if you’re struggling to get references by contacting us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
+Contact us at becomingateacher@digital.education.gov.uk
