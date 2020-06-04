@@ -2,9 +2,6 @@
   @include govuk-media-query($from: tablet) {
     width: 60%;
   }
-  .govuk-header__logotype-text {
-    font-size: 1.5rem;
-  }
 }
 
 .provider-header__content {
