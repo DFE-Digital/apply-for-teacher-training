@@ -15,6 +15,14 @@ class RefereeMailerPreview < ActionMailer::Preview
     RefereeMailer.reference_cancelled_email(reference(application_form))
   end
 
+  def reference_cancelled_email
+    RefereeMailer.reference_cancelled_email(reference(application_form))
+  end
+
+  def reference_request_chase_again
+    RefereeMailer.reference_request_chase_again(reference(application_form))
+  end
+
 private
 
   def application_form
