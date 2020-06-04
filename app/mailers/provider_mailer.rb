@@ -30,6 +30,7 @@ class ProviderMailer < ApplicationMailer
 
   def chase_provider_decision(provider_user, application_choice)
     @application = map_application_choice_params(application_choice)
+    @working_days_left = Time.zone.now.to_date.business_days_until(application_choice.reject_by_default_at.to_date)
 
     email_for_provider(
       provider_user,
