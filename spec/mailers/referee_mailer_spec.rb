@@ -126,7 +126,7 @@ RSpec.describe RefereeMailer, type: :mailer do
     end
   end
 
-  describe 'Send reference_request_chase_again email' do
+  describe 'Send reference_request_chase_again_email email' do
     let(:application_form) do
       build_stubbed(
         :application_form,
@@ -137,7 +137,7 @@ RSpec.describe RefereeMailer, type: :mailer do
 
     let(:reference) { build_stubbed(:reference, application_form: application_form) }
 
-    let(:mail) { mailer.reference_request_chase_again(reference) }
+    let(:mail) { mailer.reference_request_chase_again_email(reference) }
 
     before { mail.deliver_later }
 

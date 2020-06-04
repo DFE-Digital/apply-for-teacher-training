@@ -49,9 +49,10 @@ class RefereeMailer < ApplicationMailer
     )
   end
 
-  def reference_request_chase_again(reference)
+  def reference_request_chase_again_email(reference)
     @name = reference.name
     @candidate_name = reference.application_form.full_name
+    @token = reference.refresh_feedback_token!
 
     notify_email(
       to: reference.email_address,

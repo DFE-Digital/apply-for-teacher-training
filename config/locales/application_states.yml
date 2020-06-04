@@ -92,7 +92,7 @@ en:
         - candidate_mailer-new_referee_request
         - candidate_mailer-chase_reference_again
         - referee_mailer-reference_request_chaser_email
-        - referee_mailer-reference_request_chase_again
+        - referee_mailer-reference_request_chase_again_email
 
     application_complete:
       name: Waiting to be sent
