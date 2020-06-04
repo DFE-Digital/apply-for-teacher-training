@@ -20,11 +20,14 @@
 <h1 class='govuk-heading-xl'>Applications</h1>
 
 <div class='moj-filter-layout'>
-  <%= render ProviderInterface::FilterComponent.new(
-    page_state: @page_state,
-  ) %>
+  <% if @page_state.filter_visible? %>
+    <%= render ProviderInterface::FilterComponent.new(
+      page_state: @page_state,
+    ) %>
+  <% end %>
   <div class='moj-filter-layout__content'>
     <p class='govuk-body applications-sorted-by-explanation'>Sorted by: last changed</p>
+    <%= render ProviderInterface::FilterToggleComponent.new(page_state: @page_state) %>
     <% if @application_choices.any? %>
       <div class="app-application-cards">
         <% @application_choices.each_with_index do |choice, index| %>
