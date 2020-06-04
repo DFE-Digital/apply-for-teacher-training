@@ -181,4 +181,31 @@ RSpec.describe ApplicationForm do
       expect(application_form.can_add_reference?).to be false
     end
   end
+
+  describe '#equality_and_diversity_answers_provided?' do
+    context 'when minimal expected attributes are present' do
+      it 'is true' do
+        application_form = build(:completed_application_form, :with_equality_and_diversity_data)
+        expect(application_form.equality_and_diversity_answers_provided?).to be true
+      end
+    end
+
+    context 'when minimal expected attributes are not present' do
+      it 'is false' do
+        application_form = build(:completed_application_form)
+        application_form.equality_and_diversity = { 'sex' => 'male' }
+
+        expect(application_form.equality_and_diversity_answers_provided?).to be false
+      end
+    end
+
+    context 'when no attributes are present' do
+      it 'is false' do
+        application_form = build(:completed_application_form)
+        application_form.equality_and_diversity = nil
+
+        expect(application_form.equality_and_diversity_answers_provided?).to be false
+      end
+    end
+  end
 end

@@ -2,7 +2,16 @@ module CandidateInterface
   class EqualityAndDiversityController < CandidateInterfaceController
     before_action :redirect_to_review_unless_ready_to_submit
 
-    def start; end
+    def start
+      entrypoint_path =
+        if current_application.equality_and_diversity_answers_provided?
+          candidate_interface_review_equality_and_diversity_path
+        else
+          candidate_interface_edit_equality_and_diversity_sex_path
+        end
+
+      render :start, locals: { entrypoint_path: entrypoint_path }
+    end
 
     def edit_sex
       @sex = EqualityAndDiversity::SexForm.build_from_application(current_application)
