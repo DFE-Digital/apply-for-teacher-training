@@ -6,6 +6,7 @@ RSpec.feature 'Managing provider user permissions' do
   scenario 'Provider manages permissions for users' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_the_provider_add_provider_users_feature_is_enabled
+    and_the_make_decisions_restriction_feature_flag_is_active
     and_i_can_manage_applications_for_two_providers
     and_i_can_manage_users_for_a_provider
     and_i_sign_in_to_the_provider_interface
@@ -26,6 +27,11 @@ RSpec.feature 'Managing provider user permissions' do
 
     when_i_add_permission_to_view_safeguarding_for_a_provider_user
     then_i_can_see_the_view_safeguarding_permission_for_the_provider_user
+
+    and_i_click_change_providers_and_permissions
+
+    and_i_add_permission_to_make_decisions_for_a_provider_user
+    then_i_can_see_the_make_decisions_permission_for_the_provider_user
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -111,6 +117,26 @@ RSpec.feature 'Managing provider user permissions' do
   def then_i_can_see_the_view_safeguarding_permission_for_the_provider_user
     within("#provider-#{@provider.id}-enabled-permissions") do
       expect(page).to have_content 'View safeguarding information'
+    end
+  end
+
+  def and_the_make_decisions_restriction_feature_flag_is_active
+    FeatureFlag.activate('provider_make_decisions_restriction')
+  end
+
+  def and_i_add_permission_to_make_decisions_for_a_provider_user
+    expect(page).not_to have_checked_field 'Make decisions'
+
+    within(permissions_fields_id_for_provider(@provider)) do
+      check 'Make decisions'
+    end
+
+    click_on 'Save'
+  end
+
+  def then_i_can_see_the_make_decisions_permission_for_the_provider_user
+    within("#provider-#{@provider.id}-enabled-permissions") do
+      expect(page).to have_content 'Make decisions'
     end
   end
 
