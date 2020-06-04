@@ -15,6 +15,7 @@ RSpec.feature 'Referee does not respond in time' do
 
     when_the_candidate_does_not_respond_within_28_days
     then_the_candidate_is_sent_a_chase_email
+    and_the_referee_is_sent_a_chase_email
   end
 
   def given_a_candidate_completed_an_application
@@ -58,7 +59,7 @@ RSpec.feature 'Referee does not respond in time' do
 
   def when_the_candidate_does_not_respond_within_28_days
     Timecop.travel(28.days.from_now) do
-      SendAdditionalReferenceChaseEmailToCandidatesWorker.perform_async
+      SendAdditionalReferenceChaseEmailToBothPartiesWorker.perform_async
     end
   end
 
@@ -66,5 +67,11 @@ RSpec.feature 'Referee does not respond in time' do
     open_email(@application.candidate.email_address)
 
     expect(current_email.subject).to have_content('Give new referee as soon as possible: Anne Other has not responded')
+  end
+
+  def and_the_referee_is_sent_a_chase_email
+    open_email(@application.application_references.second.email_address)
+
+    expect(current_email.subject).to have_content("Will you not give #{@application.full_name} a reference?")
   end
 end

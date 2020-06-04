@@ -1,4 +1,4 @@
-class SendAdditionalReferenceChaseEmailToCandidatesWorker
+class SendAdditionalReferenceChaseEmailToBothPartiesWorker
   include Sidekiq::Worker
 
   def perform
@@ -7,6 +7,7 @@ class SendAdditionalReferenceChaseEmailToCandidatesWorker
       referees_that_need_chasing = application_form.application_references.select { |reference| reference.feedback_overdue? && reference.requested_at < time_limit }
       referees_that_need_chasing.each do |referee|
         CandidateMailer.chase_references_again(referee).deliver_later
+        RefereeMailer.reference_request_chase_again(referee).deliver_later
       end
 
       ChaserSent.create!(chased: application_form, chaser_type: :follow_up_missing_references)

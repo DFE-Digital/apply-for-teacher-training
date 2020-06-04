@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendAdditionalReferenceChaseEmailToCandidatesWorker do
+RSpec.describe SendAdditionalReferenceChaseEmailToBothPartiesWorker do
   describe '#perform', sidekiq: true do
     it 'sends a chaser email for application forms still awaiting reference feedback beyond the configured time limit' do
       application_form = create(
@@ -14,9 +14,11 @@ RSpec.describe SendAdditionalReferenceChaseEmailToCandidatesWorker do
       described_class.new.perform
 
       emails = ActionMailer::Base.deliveries
-      expect(emails.length).to eq 2
+      expect(emails.length).to eq 4
       expect(emails.first.subject).to match "Give new referee as soon as possible: #{reference_triggering_a_chase.name} has not responded"
-      expect(emails.second.subject).to match "Give new referee as soon as possible: #{other_overdue_reference.name} has not responded"
+      expect(emails.second.subject).to match "Will you not give #{application_form.full_name} a reference?"
+      expect(emails.third.subject).to match "Give new referee as soon as possible: #{other_overdue_reference.name} has not responded"
+      expect(emails.fourth.subject).to match "Will you not give #{application_form.full_name} a reference?"
 
       expect(application_form_id_of(emails.first)).to eq reference_triggering_a_chase.application_form.id
     end
