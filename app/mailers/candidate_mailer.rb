@@ -1,6 +1,10 @@
 class CandidateMailer < ApplicationMailer
   def application_submitted(application_form)
     @candidate_magic_link = candidate_magic_link(application_form.candidate)
+    @respond_within_days = TimeLimitCalculator.new(
+      rule: :reject_by_default,
+      effective_date: application_form.application_choices.first.sent_to_provider_at || Time.zone.now,
+    ).call[:days]
 
     email_for_candidate(
       application_form,

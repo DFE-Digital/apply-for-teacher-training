@@ -19,6 +19,7 @@ module TestHelpers
         offer: { conditions: ['DBS check', 'Pass exams'] },
         offered_course_option: course_option,
         decline_by_default_at: 10.business_days.from_now,
+        sent_to_provider_at: 10.business_days.ago,
         reject_by_default_days: 10,
       )
     end

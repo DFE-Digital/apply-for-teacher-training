@@ -45,7 +45,7 @@ If your training provider decides to progress your application, they’ll contac
 <% if FeatureFlag.active?('covid_19') %>
 Due to the impact of coronavirus, it might take some time for providers to get back to you.
 <% else %>
-They should make a decision on whether to make an offer within <%= TimeLimitConfig.limits_for(:reject_by_default).first.limit %> working days of receiving your application.
+They should make a decision on whether to make an offer within <%= @respond_within_days %> working days of receiving your application.
 <% end %>
 
 # Need help?

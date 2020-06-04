@@ -9,5 +9,5 @@
 <% end %>
 
 <% unless FeatureFlag.active?('covid_19') %>
-  <p class="govuk-body">Training providers then have <%= TimeLimitConfig.limits_for(:reject_by_default).first.limit %> working days to respond to your application.</p>
+  <p class="govuk-body">Training providers then have <%= reject_by_default_days %> working days to respond to your application.</p>
 <% end %>

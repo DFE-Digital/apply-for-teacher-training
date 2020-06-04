@@ -12,6 +12,12 @@ RSpec.describe CandidateInterface::RefereeGuidanceComponent do
     create(:reference, :requested, application_form: @application_form)
   end
 
+  around do |example|
+    Timecop.freeze(Time.zone.local(2020, 3, 1, 12, 0, 0)) do
+      example.run
+    end
+  end
+
   before do
     setup_application
   end
@@ -24,6 +30,13 @@ RSpec.describe CandidateInterface::RefereeGuidanceComponent do
         expect(result.css('.govuk-heading-m').text).to eq('Reference')
         expect(result.css('.govuk-body').text).to include('training provider')
         expect(result.css('.govuk-body').text).not_to include('training providers')
+      end
+
+      it 'renders the correct rejection by default time limit' do
+        result = render_inline(described_class.new(application_form: @application_form))
+        expect(result.css('.govuk-body').text).to include(
+          'Training providers then have 40 working days to respond to your application',
+        )
       end
     end
 
