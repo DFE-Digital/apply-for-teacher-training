@@ -13,7 +13,7 @@ module CandidateInterface
     def reject_by_default_days
       @reject_by_default_days ||= TimeLimitCalculator.new(
         rule: :reject_by_default,
-        effective_date: @application_form&.application_choices&.first&.sent_to_provider_at || Time.zone.now,
+        effective_date: @application_form.application_choices.first&.sent_to_provider_at || Time.zone.now,
       ).call[:days]
     end
 
