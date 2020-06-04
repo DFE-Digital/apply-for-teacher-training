@@ -142,7 +142,7 @@ RSpec.describe 'Candidate needs to provide a new referee' do
   def then_the_new_referee_should_receive_an_email
     open_email('betty@example.com')
 
-    expect(current_email.subject).to have_content('Give a reference to support the teacher training application of')
+    expect(current_email.subject).to have_content("Give #{@application_form.full_name} a reference for their teacher training application as soon as possible")
   end
 
   def and_i_see_that_my_new_references_have_been_requested
