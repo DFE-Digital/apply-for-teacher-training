@@ -4,10 +4,16 @@ class RefereeMailerPreview < ActionMailer::Preview
   end
 
   def reference_request_chaser_email
-    application_form = FactoryBot.create(:application_form, first_name: 'Jane', last_name: 'Smith')
-    reference = FactoryBot.create(:reference, application_form: application_form)
+    provider = FactoryBot.build_stubbed(:provider)
+    course = FactoryBot.build_stubbed(:course, provider: provider)
+    site = FactoryBot.build_stubbed(:site)
+    course_option = FactoryBot.build_stubbed(:course_option, course: course, site: site)
+    application_form_with_application_choice = FactoryBot.build_stubbed(:application_form,
+                                                                        first_name: 'Rachael',
+                                                                        last_name: 'Harvey',
+                                                                        application_choices: [FactoryBot.build_stubbed(:application_choice, course_option: course_option, application_form: application_form)])
 
-    RefereeMailer.reference_request_chaser_email(application_form, reference)
+    RefereeMailer.reference_request_chaser_email(application_form_with_application_choice, reference)
   end
 
   def reference_confirmation_email

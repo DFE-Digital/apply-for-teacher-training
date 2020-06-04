@@ -1,21 +1,27 @@
 Dear <%= @reference.name %>,
 
-# Give a reference for <%= @candidate_name %>
+# Give a reference for <%= @candidate_name %> as soon as possible
 
-We haven’t had your reference for <%= @candidate_name %>. They put us in touch with you to get a reference for their teacher training application. They applied to:
+We have not had your reference for <%= @candidate_name %>. They put us in touch with you to get a reference for their teacher training application. They applied to:
 
 <% @application_form.application_choices.each do |application_choice| %>
-* <%= application_choice.provider.name %> - <%= application_choice.course.name %>
+* <%= application_choice.course_option.provider.name %> - <%= application_choice.course_option.course.name %>
 <% end %>
 
-Please use the link below to give a complete reference within 5 working days.
+Give a reference as soon as possible by filling in this short form (it does not take long):
 
 <%= referee_interface_reference_relationship_url(token: @token) %>
 
-If you won’t give <%= @reference.name %> a reference, please let us know by clicking the link below.
+Teacher training places can become full at any time. The sooner <%= @candidate_name %> gets a reference, the more likely it is that they’ll get a place.
+
+Let us know as soon as possible if you will not give a reference:
 
 <%= referee_interface_refuse_feedback_url(token: @token) %>
 
 # Your data
 
 We’ll only use your data to process the candidate’s application, unless you agree to be contacted by us about your experience of giving a reference. We’ll ask about this before you submit any information.
+
+# Need help?
+
+Contact us at becomingateacher@digital.education.gov.uk

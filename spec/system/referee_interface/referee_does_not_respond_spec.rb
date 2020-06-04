@@ -35,7 +35,7 @@ RSpec.feature 'Referee does not respond in time' do
   def then_the_referee_is_sent_a_chase_email
     open_email('anne@other.com')
 
-    expect(current_email.text).to include('We haven’t had your reference')
+    expect(current_email.text).to include('We have not had your reference')
   end
 
   def and_an_email_is_sent_to_the_candidate
