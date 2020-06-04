@@ -20,5 +20,6 @@ class GenerateTestApplications
     test_applications.create_application states: [:conditions_not_met]
     test_applications.create_application states: [:enrolled]
     test_applications.create_application states: [:withdrawn]
+    test_applications.create_application states: [:awaiting_provider_decision], apply_again: true
   end
 end
