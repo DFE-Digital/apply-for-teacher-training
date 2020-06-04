@@ -5,17 +5,30 @@
 <p class="govuk-body">
   <% if reference_status.references_that_needed_to_be_replaced.count == 1 %>
     <%= reason_for_replacement(references_that_need_replacement.first) %>.
+    <p class="govuk-body">Add a new referee as soon as possible. Courses can become full at any time and providers do not consider applications without 2 references.</p>
+
+    <% if overdue_references.any? %>
+      <p class="govuk-body">Adding a new referee will not prevent <%= overdue_references.first.name %> from giving a reference. You can keep chasing <%= overdue_references.first.name %> if you know they’re planning on giving a reference.</p>
+    <% end %>
+
   <% else %>
     Your referees have not given us a reference:
     <ul class="govuk-list govuk-list--bullet">
       <% references_that_need_replacement.each do |ref| %>
-        <li class="govuk-body"><%= reason_for_replacement(ref) %></li>
+        <li class="govuk-body"><%= reason_for_replacement(ref) %>. Add a new referee as soon as possible.</li>
       <% end %>
     </ul>
+
+    <p class="govuk-body">Courses can become full at any time and providers do not consider applications without 2 references.</p>
+
+    <% if overdue_references.count == 1 %>
+      <p class="govuk-body">Adding a new referee will not prevent <%= overdue_references.first.name %> from giving a reference. You can keep chasing <%= overdue_references.first.name %> if you know they’re planning on giving a reference.</p>
+    <% elsif  overdue_references.count == 2 %>
+      <p class="govuk-body">Adding a new referee will not prevent <%= overdue_references.first.name %> and <%= overdue_references.second.name %> from giving a reference. You can keep chasing your referees if you know they’re planning on giving a reference.</p>
+    <% end %>
+
   <% end %>
 </p>
-
-<p class="govuk-body">We can’t send your application to your teacher training providers without 2 complete references.</p>
 
 <% if reference_status.number_of_references_that_currently_need_replacing == 1 %>
   <p> <%= govuk_button_link_to 'Add a new referee', candidate_interface_additional_referee_type_path %></p>

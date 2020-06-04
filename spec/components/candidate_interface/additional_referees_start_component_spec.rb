@@ -46,6 +46,7 @@ RSpec.describe CandidateInterface::AdditionalRefereesStartComponent do
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-body').text).to include("#{late_referee.name} did not respond to our request.")
+      expect(result.css('.govuk-body').text).to include("Adding a new referee will not prevent #{late_referee.name} from giving a reference.")
     end
   end
 
@@ -88,6 +89,23 @@ RSpec.describe CandidateInterface::AdditionalRefereesStartComponent do
       expect(result.css('.govuk-body').text).to include("Our email requesting a reference didn’t reach #{first_referee.name}")
       expect(result.css('.govuk-body').text).to include("#{second_referee.name} said they won’t give a reference")
       expect(result.css('.govuk-body').text).not_to include(third_referee.name.to_s)
+    end
+  end
+
+  context 'when mulitple references are overdue' do
+    let(:late_referee) { build_stubbed(:reference, :requested, application_form: application_form) }
+    let(:late_referee2) { build_stubbed(:reference, :requested, application_form: application_form) }
+
+    let(:references) { [late_referee, late_referee2] }
+
+    it 'gives a reason that feedback is overdue' do
+      allow(late_referee).to receive(:requested_at).and_return(Time.zone.now - 30.days)
+      allow(late_referee2).to receive(:requested_at).and_return(Time.zone.now - 30.days)
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.govuk-body').text).to include("#{late_referee.name} did not respond to our request. Add a new referee as soon as possible.")
+      expect(result.css('.govuk-body').text).to include("#{late_referee2.name} did not respond to our request. Add a new referee as soon as possible.")
+      expect(result.css('.govuk-body').text).to include("Adding a new referee will not prevent #{late_referee.name} and #{late_referee2.name} from giving a reference.")
     end
   end
 end
