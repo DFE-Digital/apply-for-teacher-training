@@ -515,6 +515,9 @@ Rails.application.routes.draw do
     get '/references/:reference_id/cancel' => 'references#cancel', as: :cancel_reference
     post '/references/:reference_id/cancel' => 'references#confirm_cancel'
 
+    get '/references/:reference_id/reinstate' => 'references#reinstate', as: :reinstate_reference
+    post '/references/:reference_id/reinstate' => 'references#confirm_reinstate'
+
     get '/tokens' => 'api_tokens#index', as: :api_tokens
     post '/tokens' => 'api_tokens#create'
 
