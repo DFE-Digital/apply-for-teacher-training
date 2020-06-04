@@ -9,6 +9,17 @@ class ProviderAuthorisation
     return true if @actor.is_a?(SupportUser)
 
     supplied_course_option = CourseOption.find(course_option_id) if course_option_id
+
+    training_provider = if supplied_course_option
+                          supplied_course_option.provider
+                        else
+                          application_choice.offered_option.provider
+                        end
+
+    return false if
+      FeatureFlag.active?('provider_make_decisions_restriction') &&
+        !@actor.provider_permissions.make_decisions.exists?(provider: training_provider)
+
     if supplied_course_option && course_option_id != application_choice.course_option.id
       application_choice_visible_to_user?(application_choice: application_choice) && \
         course_option_belongs_to_user_providers?(course_option: supplied_course_option)

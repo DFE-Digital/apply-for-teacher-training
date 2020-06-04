@@ -27,6 +27,9 @@ module ProviderInterface
                             else
                               {}
                             end
+
+      auth = ProviderAuthorisation.new(actor: current_provider_user)
+      @provider_can_respond = auth.can_make_offer? application_choice: @application_choice
     end
 
     def notes
