@@ -6,9 +6,9 @@ RSpec.feature 'See organisation permissions' do
   scenario 'A provider user views the organisations they belong to' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_the_provider_permissions_feature_is_enabled
-    and_i_sign_in_to_the_provider_interface
     and_i_can_manage_organisations_for_a_provider
     and_the_provider_has_courses_ratified_by_another_provider
+    and_i_sign_in_to_the_provider_interface
 
     when_i_visit_the_provider_organisations_page
     then_i_can_see_provider_organisations_i_belong_to

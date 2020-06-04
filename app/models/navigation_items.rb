@@ -39,10 +39,11 @@ class NavigationItems
     def for_provider_interface(current_provider_user)
       return [NavigationItem.new('Sign in', provider_interface_sign_in_path, false)] unless current_provider_user
 
-      items = [
-        NavigationItem.new('Applications', provider_interface_applications_path, false),
-        NavigationItem.new('Organisations', provider_interface_organisations_path, false),
-      ]
+      items = [NavigationItem.new('Applications', provider_interface_applications_path, false)]
+
+      if current_provider_user.can_manage_organisations?
+        items << NavigationItem.new('Organisations', provider_interface_organisations_path, false)
+      end
 
       if FeatureFlag.active?('provider_add_provider_users') && current_provider_user.can_manage_users?
         items << NavigationItem.new('Users', provider_interface_provider_users_path, false)
