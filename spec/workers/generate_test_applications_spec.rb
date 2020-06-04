@@ -10,7 +10,7 @@ RSpec.describe GenerateTestApplications do
   it 'generates 15 test candidates with applications in various states' do
     GenerateTestApplications.new.perform
 
-    expect(Candidate.count).to be 15
+    expect(Candidate.count).to be 16
     expect(ApplicationChoice.pluck(:status)).to include(
       'awaiting_provider_decision',
       'awaiting_references',

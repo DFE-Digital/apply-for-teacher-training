@@ -13,17 +13,27 @@ class TestApplications
     end
   end
 
-  def create_application(states:, courses_to_apply_to: nil)
-    travel_to rand(30..60).days.ago
-    raise ZeroCoursesPerApplicationError, 'You can\'t have zero courses per application' unless states.any?
+  def create_application(states:, courses_to_apply_to: nil, apply_again: false)
+    candidate = nil
 
-    first_name = Faker::Name.first_name
-    last_name = Faker::Name.last_name
-    candidate = FactoryBot.create(
-      :candidate,
-      email_address: "#{first_name.downcase}.#{last_name.downcase}@example.com",
-      created_at: time,
-    )
+    if apply_again
+      raise OnlyOneCourseWhenApplyingAgainError, 'You can only apply to one course when applying again' unless states.one?
+
+      create_application(states: [:rejected])
+
+      candidate = Candidate.last
+    else
+      travel_to rand(30..60).days.ago
+      raise ZeroCoursesPerApplicationError, 'You can\'t have zero courses per application' unless states.any?
+
+      first_name = Faker::Name.first_name
+      last_name = Faker::Name.last_name
+      candidate = FactoryBot.create(
+        :candidate,
+        email_address: "#{first_name.downcase}.#{last_name.downcase}@example.com",
+        created_at: time,
+      )
+    end
 
     courses_to_apply_to ||= Course.joins(:course_options)
       .open_on_apply
@@ -52,6 +62,7 @@ class TestApplications
         last_name: last_name,
         created_at: time,
         edit_by: time,
+        phase: apply_again ? 'apply_2' : 'apply_1',
       )
 
       fast_forward(1..2)
