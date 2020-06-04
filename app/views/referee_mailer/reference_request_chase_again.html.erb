@@ -1,0 +1,19 @@
+Dear <%= @name %>
+
+# Will you not give <%= @candidate_name %> a reference?
+
+Let us know if you will not give a reference:
+
+<%= referee_interface_refuse_feedback_url(token: @token) %>
+
+Otherwise, give a reference as soon as possible:
+
+<%= referee_interface_reference_relationship_url(token: @token) %>
+
+# Your data
+
+We’ll only use your data to process the candidate’s application, unless you agree to be contacted by us about your experience of giving a reference. We’ll ask about this before you submit any information.
+
+# Need help?
+
+Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
