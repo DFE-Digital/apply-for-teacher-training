@@ -73,7 +73,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'a new reference request mail with subject and content', :email_bounced,
         I18n.t!('candidate_mailer.new_referee_request.email_bounced.subject', referee_name: 'Scott Knowles'),
         'heading' => 'Dear Tyrell',
-        'explanation' => "Our email requesting a reference didn’t reach Scott Knowles.\r\n\r\nWe emailed the referee using this address: ting@canpaint.com"
+        'explanation' => 'Our email requesting a reference didn’t reach Scott Knowles.'
       )
     end
   end

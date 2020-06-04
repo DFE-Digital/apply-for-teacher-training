@@ -1,11 +1,23 @@
 Dear <%= @application_form.first_name %>,
 
+<% if @reason == :email_bounced ||  @reason == :refused %>
+# Give a new referee as soon as possible
+<% else %>
 # Give details of a new referee
+<% end %>
 
-<%= t("candidate_mailer.new_referee_request.#{@reason}.explanation", referee_name: @reference.name, referee_email: @reference.email_address) %>
+<%= t("candidate_mailer.new_referee_request.#{@reason}.explanation", referee_name: @reference.name) %>
 
-Please add a new referee:
+<% if @reason == :email_bounced %>
+Give a new referee or add <%= @reference.name %>’s details again if they were not correct.
+<% else %>
+Give a new referee:
+<% end %>
 
 <%= candidate_magic_link(@candidate) %>
 
-We can’t send your application to your teacher training providers without 2 complete references.
+We cannot send applications to teacher training providers without 2 references. Courses can become full at any time - get your reference as soon as possible.
+
+# Need help?
+
+Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
