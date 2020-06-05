@@ -23,7 +23,7 @@ module ProviderInterface
     end
 
     def toggle_filter_off_params
-      toggle = { filter_visible: [@page_state.filter_visible?] }
+      toggle = { filters_visible: [@page_state.filters_visible?] }
       @page_state.applied_filters.merge(toggle)
     end
 

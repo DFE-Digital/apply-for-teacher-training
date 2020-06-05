@@ -20,7 +20,7 @@
 <h1 class='govuk-heading-xl'>Applications</h1>
 
 <div class='moj-filter-layout'>
-  <% if @page_state.filter_visible? %>
+  <% if @page_state.filters_visible? %>
     <%= render ProviderInterface::FilterComponent.new(
       page_state: @page_state,
     ) %>

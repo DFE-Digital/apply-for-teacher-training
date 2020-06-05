@@ -11,9 +11,9 @@ module ProviderInterface
       ([] << search_filter << status_filter << provider_filter << accredited_provider_filter).concat(provider_locations_filters).compact
     end
 
-    def filter_visible?
-      if applied_filters[:filter_visible]
-        applied_filters[:filter_visible].first.eql?('true') ? false : true
+    def filters_visible?
+      if applied_filters[:filters_visible]
+        applied_filters[:filters_visible].first.eql?('true') ? false : true
       else
         true
       end
@@ -24,7 +24,7 @@ module ProviderInterface
     end
 
     def applied_filters
-      @params.permit(:candidate_name, provider: [], status: [], accredited_provider: [], provider_location: [], filter_visible: []).to_h
+      @params.permit(:candidate_name, provider: [], status: [], accredited_provider: [], provider_location: [], filters_visible: []).to_h
     end
 
   private

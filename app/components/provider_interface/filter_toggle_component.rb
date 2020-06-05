@@ -10,18 +10,18 @@ module ProviderInterface
     end
 
     def toggle_button_text
-      toggle_control ? 'Hide filter' : 'Show filter'
+      toggle_control ? 'Hide filters' : 'Show filters'
     end
 
     def toggle_params
-      toggle = { filter_visible: [toggle_control] }
+      toggle = { filters_visible: [toggle_control] }
       @page_state.applied_filters.merge(toggle)
     end
 
   private
 
     def toggle_control
-      @page_state.filter_visible?
+      @page_state.filters_visible?
     end
   end
 end
