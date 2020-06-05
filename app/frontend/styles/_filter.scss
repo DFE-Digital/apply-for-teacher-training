@@ -26,13 +26,21 @@
   padding-bottom: govuk-spacing(5);
 }
 
+.filter-toggle {
+  max-width: 112.16px;
+  float: right;
+  @include govuk-media-query($from: desktop) {
+    display: none;
+  }
+}
+
+.moj-filter__header-action {
+  @include govuk-media-query($from: desktop) {
+    display: none;
+  }
+}
+
 .moj-filter__options {
   box-shadow: none;
 }
 
-.app-filter {
-  display: none;
-  @include govuk-media-query($from: large) {
-    display: block;
-  }
-}
