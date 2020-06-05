@@ -13,7 +13,7 @@ module ProviderInterface
 
     def filters_visible?
       if applied_filters[:filters_visible]
-        applied_filters[:filters_visible].first.eql?('true') ? false : true
+        applied_filters[:filters_visible].first.eql?('true') ? true : false
       else
         true
       end
