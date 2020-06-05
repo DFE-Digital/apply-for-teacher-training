@@ -1,20 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
-  describe 'Cancel link' do
-    it 'is included when the reference is not cancelled' do
+  describe 'Cancel and reinstate links' do
+    it 'Cancel link is present when the reference is feedback_requested' do
       reference = build_stubbed(:reference, feedback_status: 'feedback_requested')
 
       render_inline(SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: 1))
 
       expect(rendered_component).to include('Cancel reference')
+      expect(rendered_component).not_to include('Reinstate reference')
     end
 
-    it 'is not included when the reference is cancelled' do
+    it 'Reinstate link is present when the reference is cancelled' do
       reference = build_stubbed(:reference, feedback_status: 'cancelled')
 
       render_inline(SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: 1))
 
+      expect(rendered_component).to include('Reinstate reference')
       expect(rendered_component).not_to include('Cancel reference')
     end
   end
