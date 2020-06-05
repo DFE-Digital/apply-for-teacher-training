@@ -5,6 +5,7 @@ module SupportInterface
         application_form.application_choices.map do |choice|
           {
             support_reference: application_form.support_reference,
+            phase: application_form.phase,
             choice_id: choice.id,
             submitted_at: application_form.submitted_at,
             choice_status: choice.status,

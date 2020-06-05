@@ -13,6 +13,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
       expect(choices).to contain_exactly(
         {
           support_reference: submitted_form.support_reference,
+          phase: submitted_form.phase,
           submitted_at: submitted_form.submitted_at,
           choice_id: submitted_form.application_choices[0].id,
           choice_status: submitted_form.application_choices[0].status,
@@ -28,6 +29,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
         },
         {
           support_reference: submitted_form.support_reference,
+          phase: submitted_form.phase,
           submitted_at: submitted_form.submitted_at,
           choice_id: submitted_form.application_choices[1].id,
           choice_status: submitted_form.application_choices[1].status,
