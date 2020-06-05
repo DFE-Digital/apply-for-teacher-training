@@ -5,4 +5,7 @@
 .applications-sorted-by-explanation {
   text-align: right;
 
+  @include govuk-media-query($until: desktop) {
+    text-align: left;
+  }
 }

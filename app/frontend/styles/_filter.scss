@@ -28,6 +28,7 @@
 
 .filter-toggle {
   max-width: 112.16px;
+  font-size: 1rem;
   float: right;
   @include govuk-media-query($from: desktop) {
     display: none;
