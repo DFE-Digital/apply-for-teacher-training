@@ -88,6 +88,9 @@ RSpec.feature 'Entering their equality and diversity information' do
     and_i_describe_my_other_ethnic_background
     and_i_click_on_continue
     then_i_can_review_my_updated_ethnicity
+
+    when_i_manually_restart_the_questionnaire
+    then_i_go_straight_to_the_review_page
   end
 
   def given_i_am_signed_in
@@ -304,5 +307,14 @@ RSpec.feature 'Entering their equality and diversity information' do
   def then_i_can_review_my_updated_ethnicity
     expect(page).to have_content('Check your answers')
     expect(page).to have_content('White (I am Hungarian)')
+  end
+
+  def when_i_manually_restart_the_questionnaire
+    visit candidate_interface_start_equality_and_diversity_path
+    click_link 'Continue'
+  end
+
+  def then_i_go_straight_to_the_review_page
+    expect(page).to have_current_path candidate_interface_review_equality_and_diversity_path
   end
 end

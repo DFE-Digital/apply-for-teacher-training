@@ -21,6 +21,12 @@ class ApplicationForm < ApplicationRecord
   MINIMUM_COMPLETE_REFERENCES = 2
   MAXIMUM_REFERENCES = 10
   DECISION_PENDING_STATUSES = %w[awaiting_references application_complete awaiting_provider_decision].freeze
+  EQUALITY_AND_DIVERSITY_MINIMAL_ATTR = %w[sex disabilities ethnic_group].freeze
+
+  def equality_and_diversity_answers_provided?
+    answered_questions = Hash(equality_and_diversity).keys
+    EQUALITY_AND_DIVERSITY_MINIMAL_ATTR.all? { |attr| attr.in? answered_questions }
+  end
 
   enum phase: {
     apply_1: 'apply_1',
