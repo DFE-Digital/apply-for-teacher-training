@@ -3,7 +3,9 @@ namespace :db do
     desc 'Run db:migrate but ignore ActiveRecord::ConcurrentMigrationError errors'
     task ignore_concurrent_migration_exceptions: :environment do
       Rake::Task['db:migrate'].invoke
+      # rubocop:disable Lint/SuppressedException
     rescue ActiveRecord::ConcurrentMigrationError
+      # rubocop:enable Lint/SuppressedException
       # Do nothing
     end
   end
