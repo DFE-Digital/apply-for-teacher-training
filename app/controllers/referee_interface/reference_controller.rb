@@ -25,7 +25,7 @@ module RefereeInterface
       @relationship_form.candidate = reference.application_form.full_name
 
       if @relationship_form.save(reference)
-        if reference.safeguarding_concerns.blank?
+        if reference.safeguarding_concerns.blank? || reference.never_asked?
           redirect_to referee_interface_safeguarding_path(token: @token_param)
         elsif reference.feedback.blank?
           redirect_to referee_interface_reference_feedback_path(token: @token_param)

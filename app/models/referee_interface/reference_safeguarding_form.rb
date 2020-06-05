@@ -16,8 +16,10 @@ module RefereeInterface
     def save(application_reference)
       return false unless valid?
 
-      concerns = any_safeguarding_concerns == 'no' ? '' : safeguarding_concerns
-      application_reference.update!(safeguarding_concerns: concerns)
+      application_reference.update!(
+        safeguarding_concerns: any_safeguarding_concerns == 'yes' ? safeguarding_concerns : '',
+        safeguarding_concerns_status: any_safeguarding_concerns == 'yes' ? :has_safeguarding_concerns_to_declare : :no_safeguarding_concerns_to_declare,
+      )
     end
 
   private

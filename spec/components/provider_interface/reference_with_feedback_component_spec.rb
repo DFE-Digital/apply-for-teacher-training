@@ -62,6 +62,7 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent do
 
       it 'contains safeguarding concerns where present' do
         reference.safeguarding_concerns = 'Is a big bad wolf, has posed as elderly grandparent.'
+        reference.safeguarding_concerns_status = :has_safeguarding_concerns_to_declare
         expect(safeguarding_row[:value]).to eq('Yes')
 
         expect(safeguarding_concerns_row[:key]).to eq(

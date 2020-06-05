@@ -9,6 +9,7 @@ module ProviderInterface
              :relationship_confirmation,
              :relationship_correction,
              :safeguarding_concerns,
+             :safeguarding_concerns_status,
              to: :reference
 
     def initialize(reference:)
@@ -70,12 +71,12 @@ module ProviderInterface
     def safeguarding_row
       {
         key: 'Does the referee know of any reason why this candidate should not work with children?',
-        value: safeguarding_concerns.present? ? 'Yes' : 'No',
+        value: reference.has_safeguarding_concerns_to_declare? ? 'Yes' : 'No',
       }
     end
 
     def safeguarding_concerns_row
-      return nil if safeguarding_concerns.blank?
+      return nil unless reference.has_safeguarding_concerns_to_declare?
 
       {
         key: 'Reason(s) given by referee why this candidate should not work with children',

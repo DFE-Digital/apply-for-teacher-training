@@ -35,7 +35,13 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
   end
 
   context 'when there are safeguarding concerns' do
-    let(:reference) { build_stubbed(:reference, safeguarding_concerns: 'very very concerned') }
+    let(:reference) do
+      build_stubbed(
+        :reference,
+        safeguarding_concerns: 'very very concerned',
+        safeguarding_concerns_status: :has_safeguarding_concerns_to_declare,
+      )
+    end
 
     it 'displays the safeguarding concerns' do
       result = render_inline(described_class.new(reference: reference))
