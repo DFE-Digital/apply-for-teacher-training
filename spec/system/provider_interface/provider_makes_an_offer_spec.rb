@@ -12,7 +12,10 @@ RSpec.feature 'Provider makes an offer' do
     and_i_am_permitted_to_make_decisions_for_my_provider
     and_i_sign_in_to_the_provider_interface
 
-    when_i_respond_to_an_application
+    when_i_visit_an_application_awaiting_provider_decision
+    then_i_should_see_a_prompt_to_respond_to_the_application
+
+    when_i_click_to_respond_to_the_application
     and_i_choose_to_make_an_offer
     then_i_see_some_application_info
 
@@ -49,10 +52,18 @@ RSpec.feature 'Provider makes an offer' do
     provider_user.provider_permissions.update_all(make_decisions: true)
   end
 
-  def when_i_respond_to_an_application
-    visit provider_interface_application_choice_respond_path(
+  def when_i_visit_an_application_awaiting_provider_decision
+    visit provider_interface_application_choice_path(
       @application_awaiting_provider_decision.id,
     )
+  end
+
+  def then_i_should_see_a_prompt_to_respond_to_the_application
+    expect(page).to have_content(/You have \d+ days to send a response/)
+  end
+
+  def when_i_click_to_respond_to_the_application
+    click_on 'Respond to application'
   end
 
   def and_i_choose_to_make_an_offer
