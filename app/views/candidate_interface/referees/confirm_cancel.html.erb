@@ -9,16 +9,16 @@
         <%= t('page_titles.referee_cancel') %>
       </h1>
 
-      <p class='govuk-body'>You will need to give details of a new referee.</p>
+      <p class='govuk-body'>We’ll tell <%= @referee.name %> that they do not need to give a reference.</p>
 
-      <p class='govuk-body'>We cannot send your application to your provider(s) without 2 references.</p>
+      <p class='govuk-body'>We cannot send your application to your <%= @pluralize_provider %> without 2 references.</p>
 
-      <p class='govuk-body'> We’ll tell <%= @referee.name %> that they do not need to give a reference.</p>
+      <p class='govuk-body'><%= govuk_link_to 'You can check the progress of your reference requests on your dashboard.', candidate_interface_application_complete_path %></p>
 
       <%= f.submit t('application_form.referees.sure_cancel_entry'), class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
 
       <p class="govuk-body">
-        <%= govuk_link_to 'Cancel', candidate_interface_review_referees_path %>
+        <%= govuk_link_to 'No - I’ve changed my mind', candidate_interface_review_referees_path %>
       </p>
     <% end %>
   </div>

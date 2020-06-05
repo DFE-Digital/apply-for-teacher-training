@@ -22,11 +22,7 @@ class TimeLimitConfig
   Rule = Struct.new(:from_date, :to_date, :limit)
 
   def self.edit_by
-    if FeatureFlag.active?('covid_19')
-      Days.new(count: 7, type: :calendar)
-    else
-      Days.new(count: 5, type: :working)
-    end
+    Days.new(count: 5, type: :working)
   end
 
   def self.chase_referee_by

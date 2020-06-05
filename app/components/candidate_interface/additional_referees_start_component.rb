@@ -39,6 +39,10 @@ module CandidateInterface
       @reference_status.references_that_needed_to_be_replaced
     end
 
+    def overdue_references
+      references_that_need_replacement.select(&:feedback_overdue?)
+    end
+
     attr_reader :application_form
   end
 end

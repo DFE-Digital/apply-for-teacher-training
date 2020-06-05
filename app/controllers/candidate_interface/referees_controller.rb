@@ -88,6 +88,8 @@ module CandidateInterface
 
     def confirm_cancel
       if @referee.feedback_requested?
+        provider_count = current_application.application_choices.map(&:provider).uniq.count
+        @pluralize_provider = 'provider'.pluralize(provider_count)
         @application_form = current_application
       else
         redirect_to candidate_interface_review_referees_path

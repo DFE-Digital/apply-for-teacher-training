@@ -318,7 +318,11 @@ en:
       info:
         before_submission: You need to add 2 referees.
         not_requested_yet:  We’ll contact your referees after you submit your application.
-        after_submission: We’ve contacted the referees you provided below. We’ll let you know if they don’t supply a reference.
+        declined: Your referee chose not to give a reference.
+        awaiting_reference_sent_less_than_5_days_ago: We’ve emailed your referee. Keep in touch with them to ensure they’re planning on giving a reference as soon as possible.
+        awaiting_reference_sent_more_than_5_days_ago: Your referee has not responded yet. Ask them if they got the email - it may have gone to junk or spam.
+        cancelled: You cancelled your reference request.
+        feedback_overdue: Your referee has not responded yet. Keep chasing the referee or cancel the request in favour of another referee.
   activemodel:
     errors:
       models:

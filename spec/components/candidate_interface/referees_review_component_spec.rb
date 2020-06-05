@@ -46,7 +46,6 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-tag.govuk-tag--green.app-tag').to_html).to include('Reference given')
-      expect(result.css('.govuk-summary-list__value').to_html).not_to include(t('application_form.referees.info.not_requested_yet'))
     end
 
     it 'renders component with correct value for status for declined reference' do
@@ -56,19 +55,35 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-tag.govuk-tag--red.app-tag').to_html).to include('Declined')
+      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info.declined'))
     end
 
-    it 'renders component with correct value for status for (non-expired) request reference' do
+    it 'renders component with correct value for status for (non-expired) request reference sent less than 5 days ago' do
       first_referee = application_form.application_references.first
       first_referee.update_columns(
         feedback_status: 'feedback_requested',
-        requested_at: 5.days.ago,
-        created_at: 5.days.ago,
+        requested_at: 4.days.ago,
+        created_at: 4.days.ago,
       )
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-tag.govuk-tag--blue.app-tag').to_html).to include('Awaiting response')
+      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info.awaiting_reference_sent_less_than_5_days_ago'))
+    end
+
+    it 'renders component with correct value for status for (non-expired) request reference sent more than 5 days ago' do
+      first_referee = application_form.application_references.first
+      first_referee.update_columns(
+        feedback_status: 'feedback_requested',
+        requested_at: 6.days.ago,
+        created_at: 6.days.ago,
+      )
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-tag.govuk-tag--blue.app-tag').to_html).to include('Awaiting response')
+      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info.awaiting_reference_sent_more_than_5_days_ago'))
     end
 
     it 'renders component with correct value for status for expired reference request' do
@@ -82,6 +97,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-tag.govuk-tag--red.app-tag').to_html).to include('Response overdue')
+      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info.feedback_overdue'))
     end
 
     it 'renders component along with a delete link for each referee' do
@@ -150,14 +166,6 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
   end
 
   context 'when the application has been submitted' do
-    it 'renders component with content about referees being contacted' do
-      application_form = build_stubbed(:application_form, submitted_at: Time.zone.now)
-
-      result = render_inline(described_class.new(application_form: application_form))
-
-      expect(result.text).to include(t('application_form.referees.info.after_submission'))
-    end
-
     it 'does not show guidance in the status key for not_requested_yet refereences' do
       application_form = create(:application_form, submitted_at: Time.zone.now)
       create(:reference, feedback_status: 'not_requested_yet', application_form: application_form)
