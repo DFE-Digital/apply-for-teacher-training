@@ -14,7 +14,7 @@ en:
       subject: Your application is being considered
     chase_reference:
       subject: "Chase %{referee_name}: they have not given a reference yet"
-    chase_references_again:
+    chase_reference_again:
       subject: "Give new referee as soon as possible: %{referee_name} has not responded"
     new_referee_request:
       not_responded:
