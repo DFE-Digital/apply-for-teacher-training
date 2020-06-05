@@ -41,7 +41,7 @@ RSpec.feature 'Referee does not respond in time' do
   def and_an_email_is_sent_to_the_candidate
     open_email(@application.candidate.email_address)
 
-    expect(current_email.subject).to end_with('Anne Other hasn’t given a reference yet')
+    expect(current_email.subject).to end_with('Chase Anne Other: they have not given a reference yet')
   end
 
   def when_the_candidate_does_not_respond_within_14_days
