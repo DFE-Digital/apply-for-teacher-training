@@ -22,6 +22,11 @@ module ProviderInterface
       end
     end
 
+    def toggle_filter_off_params
+      toggle = { filter_visible: [@page_state.filter_visible?] }
+      @page_state.applied_filters.merge(toggle)
+    end
+
     def remove_checkbox_tag_link(name, value)
       params = filters_to_params(filters)
       params[name].reject! { |val| val == value }
