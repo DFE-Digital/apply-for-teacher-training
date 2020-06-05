@@ -1,5 +1,7 @@
 require 'rails_helper'
 RSpec.describe RefereeMailer, type: :mailer do
+  include TestHelpers::MailerSetupHelper
+
   subject(:mailer) { described_class }
 
   describe 'Send request reference email' do
@@ -123,6 +125,39 @@ RSpec.describe RefereeMailer, type: :mailer do
 
     it 'sends an email with the correct heading' do
       expect(mail.body.encoded).to include("Dear #{reference.name}")
+    end
+  end
+
+  describe 'Send reference_request_chase_again_email email' do
+    let!(:application_form) do
+      build_stubbed(
+        :application_form,
+        first_name: 'Elliot',
+        last_name: 'Alderson',
+      )
+    end
+    let(:reference) { build_stubbed(:reference, application_form: application_form) }
+    let(:mail) { mailer.reference_request_chase_again_email(reference) }
+
+    before do
+      allow(reference).to receive(:refresh_feedback_token!).and_return('raw_token')
+      mail.deliver_later
+    end
+
+    it 'sends an email to the provided referee' do
+      expect(mail.to).to include(reference.email_address)
+    end
+
+    it 'sends an email with the correct subject' do
+      expect(mail.subject).to include(t('reference_request.subject.final', candidate_name: 'Elliot Alderson'))
+    end
+
+    it 'sends an email with the correct heading' do
+      expect(mail.body.encoded).to include("Dear #{reference.name}")
+    end
+
+    it 'sends an email with a link to the reference form' do
+      expect(mail.body.encoded).to include(referee_interface_reference_relationship_url(token: ''))
     end
   end
 end

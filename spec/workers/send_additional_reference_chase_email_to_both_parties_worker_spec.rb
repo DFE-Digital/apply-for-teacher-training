@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendAdditionalReferenceChaseEmailToCandidatesWorker do
+RSpec.describe SendAdditionalReferenceChaseEmailToBothPartiesWorker do
   describe '#perform', sidekiq: true do
     it 'sends a chaser email for application forms still awaiting reference feedback beyond the configured time limit' do
       application_form = create(
@@ -8,30 +8,19 @@ RSpec.describe SendAdditionalReferenceChaseEmailToCandidatesWorker do
         application_choices: [create(:application_choice, status: :awaiting_references)],
       )
       reference_triggering_a_chase = create(:reference, :requested, application_form: application_form, requested_at: 29.days.ago)
-      create(:reference, :requested, application_form: application_form, requested_at: 27.days.ago)
+      other_overdue_reference = create(:reference, :requested, application_form: application_form, requested_at: 29.days.ago)
       create(:reference, :complete, application_form: application_form, requested_at: 29.days.ago)
 
       described_class.new.perform
 
       emails = ActionMailer::Base.deliveries
-      expect(emails.length).to eq 1
-      expect(emails.first.subject).to match %r{Get your references as soon as possible}
+      expect(emails.length).to eq 4
+      expect(emails.first.subject).to match "Give new referee as soon as possible: #{reference_triggering_a_chase.name} has not responded"
+      expect(emails.second.subject).to match "Will you not give #{application_form.full_name} a reference?"
+      expect(emails.third.subject).to match "Give new referee as soon as possible: #{other_overdue_reference.name} has not responded"
+      expect(emails.fourth.subject).to match "Will you not give #{application_form.full_name} a reference?"
+
       expect(application_form_id_of(emails.first)).to eq reference_triggering_a_chase.application_form.id
-    end
-
-    it 'sends only one chaser email per application form' do
-      application_form = create(
-        :completed_application_form,
-        application_choices: [create(:application_choice, status: :awaiting_references)],
-      )
-      create(:reference, :requested, requested_at: 29.days.ago, application_form: application_form)
-      create(:reference, :requested, requested_at: 29.days.ago, application_form: application_form)
-
-      described_class.new.perform
-
-      emails = ActionMailer::Base.deliveries
-      expect(emails.length).to eq 1
-      expect(emails.first.subject).to match %r{Get your references as soon as possible}
     end
 
     it 'persists a record of the application form being chased' do
