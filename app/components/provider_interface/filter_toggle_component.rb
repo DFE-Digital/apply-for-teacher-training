@@ -23,6 +23,5 @@ module ProviderInterface
     def toggle_control
       @page_state.filter_visible?
     end
-
   end
 end
