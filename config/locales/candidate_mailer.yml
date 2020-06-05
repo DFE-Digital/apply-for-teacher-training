@@ -60,3 +60,13 @@ en:
       subject: "%{provider_name} changed the details of your offer"
     apply_again_call_to_action:
       subject: You can still apply for teacher training
+    course_unavailable_notification:
+      subject:
+        course_full: There are no more places for %{course_and_code} at %{provider}: update your course choice now
+        location_full: There are no more places at your choice of location for %{course_and_code} at %{provider}: update your course choice now
+        location_withdrawn: %{provider} is not running %{course_and_code} at %{location} anymore: update your course choice now
+        study_mode_full: There are no more %{study_mode} places for %{course_and_code} at %{provider}: update your course choice now
+        study_mode_withdrawn: %{provider} is not running %{study_mode} places for %{course_and_code} anymore: update your course choice now
+        study_mode_location_full: There are no more %{study_mode} places at your choice of location for %{course_and_code} at %{provider}: update your course choice now
+        study_mode_location_withdrawn: %{provider} is not running %{study_mode} places at your choice of location for %{course_and_code}: update your course choice now
+        course_withdrawn: %{course_and_code} at %{provider} is not running anymore: update your course choice now

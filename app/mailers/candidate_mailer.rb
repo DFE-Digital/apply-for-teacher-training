@@ -235,6 +235,14 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def course_unavailable_notification(application_choice, reason)
+    @application_choice = application_choice
+    email_for_candidate(
+      application_choice.application_form,
+      subject: I18n.t!("candidate_mailer.course_unavailable_notification.subject.#{reason}"),
+    )
+  end
+
 private
 
   def new_offer(application_choice, template_name)
