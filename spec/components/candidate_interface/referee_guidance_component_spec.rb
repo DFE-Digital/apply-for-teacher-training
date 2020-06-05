@@ -33,7 +33,7 @@ RSpec.describe CandidateInterface::RefereeGuidanceComponent do
       end
 
       it 'renders the correct rejection by default time limit' do
-        result = render_inline(described_class.new(application_form: @application_form))
+        result = render_inline(described_class.new(application_form: @application_form, editable_days: 5))
         expect(result.css('.govuk-body').text).to include(
           'Training providers then have 40 working days to respond to your application',
         )
