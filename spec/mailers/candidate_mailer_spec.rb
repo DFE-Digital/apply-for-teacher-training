@@ -456,7 +456,10 @@ RSpec.describe CandidateMailer, type: :mailer do
             ),
           ],
         )
-        email = described_class.course_unavailable_notification(application_form.application_choices.first, :course_full)
+        email = described_class.course_unavailable_notification(
+          application_form.application_choices.first,
+          :course_full,
+        )
 
         expect(email.subject).to eq 'There are no more places for Mathematics (M101) at Bilberry College: update your course choice now'
         expect(email.body).to include('Dear Fred,')
