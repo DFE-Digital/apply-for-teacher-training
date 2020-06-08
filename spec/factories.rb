@@ -343,6 +343,13 @@ FactoryBot.define do
       association :application_form, factory: %i[completed_application_form with_completed_references]
     end
 
+    factory :awaiting_references_application_choice do
+      status { 'awaiting_references' }
+      reject_by_default_at { 40.business_days.from_now }
+      reject_by_default_days { 40 }
+      association :application_form, factory: %i[completed_application_form]
+    end
+
     trait :awaiting_provider_decision do
       association :application_form, factory: %i[completed_application_form with_completed_references]
       status { :awaiting_provider_decision }
