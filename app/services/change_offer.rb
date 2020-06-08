@@ -3,6 +3,7 @@ class ChangeOffer
 
   attr_reader :application_choice, :course_option_id
 
+  validates :course_option_id, presence: true
   validates_each :course_option_id do |record, attr, value|
     record.errors.add(attr, :no_change) if value == record.application_choice.offered_option.id
   end
