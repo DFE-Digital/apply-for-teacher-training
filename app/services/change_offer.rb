@@ -28,6 +28,10 @@ class ChangeOffer
       SetDeclineByDefault.new(application_form: @application_choice.application_form).call
       CandidateMailer.changed_offer(@application_choice).deliver_later
       StateChangeNotifier.call(:change_an_offer, application_choice: @application_choice)
+
+      true
+    else
+      false
     end
   end
 end

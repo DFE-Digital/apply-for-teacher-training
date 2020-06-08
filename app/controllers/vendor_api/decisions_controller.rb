@@ -24,7 +24,7 @@ module VendorAPI
           render_course_not_open and return
         end
       else
-        course_option = nil
+        course_option = application_choice.course_option
       end
 
       service = application_choice.offer? ? ChangeOffer : MakeAnOffer

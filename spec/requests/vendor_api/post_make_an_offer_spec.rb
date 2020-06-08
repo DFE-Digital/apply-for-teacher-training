@@ -97,6 +97,30 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       expect(error_response['message']).to match 'This course is not open for applications via the Apply service'
     end
 
+    it 'returns an error when making an offer on the same course twice' do
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'awaiting_provider_decision',
+      )
+
+      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+        'data' => {
+          'conditions' => [],
+        },
+      }
+
+      expect(response).to have_http_status(200)
+
+      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+        'data' => {
+          'conditions' => [],
+        },
+      }
+
+      expect(response).to have_http_status(422)
+      expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+      expect(error_response['message']).to match 'This course is the same as the course currently offered'
+    end
+
     it 'returns an error when specifying a course that does not exist' do
       application_choice = create_application_choice_for_currently_authenticated_provider(
         status: 'awaiting_provider_decision',
