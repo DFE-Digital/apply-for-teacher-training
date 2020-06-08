@@ -6,6 +6,18 @@
 .app-application-card {
   border-bottom: 1px solid govuk-colour('mid-grey');
   margin-bottom: govuk-spacing(3);
+  
+  h3 {
+    margin-bottom: 0;
+  }
+
+  dl {
+    margin-top: govuk-spacing(1);
+  }
+  dd {
+    @include govuk-font($size: 19);
+    margin: 0;
+  }
 
   &__footer {
     @include govuk-media-query($from: tablet) {
@@ -19,7 +31,7 @@
     width: 100%;
 
     dd, dt {
-      @include govuk-font($size: 14);
+      @include govuk-font($size: 16);
       color: govuk-colour('dark-grey');
       display: inline;
     }
@@ -27,8 +39,9 @@
   }
 
   &__primary {
+    padding-top: govuk-spacing(2);
     dd {
-      @include govuk-font($size: 14);
+      @include govuk-font($size: 16);
     }
   }
 
@@ -44,10 +57,6 @@
 
   &__status {
     float: right;
-  }
-
-  dd {
-    margin: 0;
   }
 }
 

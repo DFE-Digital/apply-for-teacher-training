@@ -14,16 +14,18 @@
   font-weight: 400;
   font-size: 1rem;
 
-  &:before {
-    position: absolute;
-    background: govuk-colour("black");
-    border-radius: 25px;
-    height: 10px;
-    width: 10px;
-    left: 0px;
-    top: 6px;
-    content: " ";
-  }
+  display: inline-block;
+  max-width: 240px;
+  text-align: right;
+}
+
+.note-bullet-point {
+  display: inline-block;
+  margin-right: 5px;
+  background: govuk-colour("black");
+  border-radius: 50%;
+  height: 10px;
+  width: 10px;
 }
 
 /* for __single application view__ within provider_interface */
