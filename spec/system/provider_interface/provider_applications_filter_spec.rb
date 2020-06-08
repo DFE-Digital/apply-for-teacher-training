@@ -202,6 +202,9 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_seven, status: 'declined', application_form:
            create(:application_form, first_name: 'Luke', last_name: 'Smith'), updated_at: 7.days.ago)
+
+    create(:application_choice, :awaiting_provider_decision, course_option: course_option_two, status: 'rejected', offer_withdrawn_at: 2.days.ago, application_form:
+           create(:application_form, first_name: 'John', last_name: 'Smith'), updated_at: 8.days.ago)
   end
 
   def then_i_expect_to_see_the_filter_dialogue
@@ -218,6 +221,7 @@ RSpec.feature 'Providers should be able to filter applications' do
     expect(page).not_to have_css('.app-application-cards', text: 'Offer')
     expect(page).not_to have_css('.app-application-cards', text: 'Application withdrawn')
     expect(page).not_to have_css('.app-application-cards', text: 'Declined')
+    expect(page).not_to have_css('.app-application-cards', text: 'Withdrawn by us')
   end
 
   def and_the_rejected_tickbox_should_still_be_checked
