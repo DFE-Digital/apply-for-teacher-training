@@ -9,7 +9,6 @@ ARG RUBY_PACKAGES="tzdata"
 ARG bundleWithout=""
 
 ENV BUNDLER_VERSION="2.1.4" \
-    BUNDLE_PATH="/gems" \
     BUNDLE_WITHOUT=${bundleWithout} \
     WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine
 
@@ -48,7 +47,6 @@ CMD bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0
 FROM common-build-env AS prod-minify
 
 ARG APP_HOME=/app
-ARG GEM_PATH=ruby/2.6.0/
 
 # These variables are required for running Rails processes like assets:precompile
 ENV RAILS_ENV=production \
@@ -59,10 +57,10 @@ ENV RAILS_ENV=production \
 
 WORKDIR $APP_HOME
 
-RUN rm -rf $BUNDLE_PATH/$GEM_PATH/cache/*.gem && \
-    find $BUNDLE_PATH/$GEM_PATH/gems -name "*.c" -delete && \
-    find $BUNDLE_PATH/$GEM_PATH/gems -name "*.h" -delete && \
-    find $BUNDLE_PATH/$GEM_PATH/gems -name "*.o" -delete
+RUN rm -rf /usr/local/bundle/cache/*.gem && \
+    find /usr/local/bundle/gems -name "*.c" -delete && \
+    find /usr/local/bundle/gems -name "*.h" -delete && \
+    find /usr/local/bundle/gems -name "*.o" -delete
 
 COPY . .
 
@@ -80,7 +78,6 @@ ARG PACKAGES="tzdata postgresql-client graphviz"
 
 ENV RAILS_ENV=production \
     BUNDLE_WITHOUT=${bundleWithout} \
-    BUNDLE_PATH="/gems" \
     BUNDLER_VERSION="2.1.4" \
     WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine
 
@@ -98,7 +95,7 @@ RUN apk update && \
     echo "Europe/London" > /etc/timezone
 
 COPY --from=prod-minify $APP_HOME $APP_HOME
-COPY --from=prod-minify $BUNDLE_PATH $BUNDLE_PATH
+COPY --from=prod-minify /usr/local/bundle/ /usr/local/bundle/
 
 # We migrate and ignore concurrent_migration_exceptions because we deploy to
 # multiple instances at the same time.
