@@ -3,9 +3,13 @@ require 'rails_helper'
 RSpec.describe GetApplicationChoicesWithNewlyUnavailableCourses do
   include CourseOptionHelpers
 
-  it 'returns an application choice for a course that has no vacancies' do
+  it 'only returns awaiting references application choices with a course that has no vacancies' do
     application_choice_without_vacancies = create(
       :awaiting_references_application_choice,
+      course_option: create(:course_option, :no_vacancies),
+    )
+    create(
+      :submitted_application_choice,
       course_option: create(:course_option, :no_vacancies),
     )
     create :awaiting_references_application_choice
