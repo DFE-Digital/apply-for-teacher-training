@@ -49,7 +49,7 @@ class ProviderUser < ActiveRecord::Base
   end
 
   def can_manage_organisations?
-    ProviderInterface::ProviderRelationshipPermissions.exists?(training_provider: providers)
+    provider_permissions.exists?(manage_organisations: true)
   end
 
 private

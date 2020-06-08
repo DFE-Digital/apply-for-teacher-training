@@ -78,6 +78,22 @@ RSpec.describe ProviderUser, type: :model do
     end
   end
 
+  describe 'can_manage_organisations?' do
+    let(:provider_user) { create :provider_user, :with_provider }
+
+    it 'is false for users without the manage organisations permission' do
+      expect(provider_user.can_manage_organisations?).to be false
+    end
+
+    it 'is true for users with the manage organisations permission' do
+      provider_user.provider_permissions.first.update(manage_organisations: true)
+
+      expect(provider_user.can_manage_organisations?).to be true
+    end
+  end
+
+
+
   describe '#can_view_safeguarding_information_for?' do
     let(:provider_user) { create :provider_user, :with_provider }
 
