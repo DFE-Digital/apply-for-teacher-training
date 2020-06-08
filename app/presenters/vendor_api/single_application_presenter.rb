@@ -10,6 +10,7 @@ module VendorAPI
         id: application_choice.id.to_s,
         type: 'application',
         attributes: {
+          application_reference: application_form.support_reference,
           status: application_choice.status,
           phase: application_form.phase,
           updated_at: application_choice.updated_at.iso8601,
