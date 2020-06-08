@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.feature 'Managing provider user permissions' do
+RSpec.feature 'Managing provider to provider relationship permissions' do
   include DfESignInHelpers
 
-  scenario 'Provider manages permissions for users' do
+  scenario 'Provider manages permissions for their organisation' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_the_provider_permissions_feature_is_enabled
     and_the_safeguarding_declaration_feature_flag_is_active
@@ -49,8 +49,8 @@ RSpec.feature 'Managing provider user permissions' do
   end
 
   def and_i_can_manage_organisations_for_a_provider
-    # This relies on the 'manage_organisations' permission, yet to be implemented.
     @provider_user = ProviderUser.last
+    @provider_user.provider_permissions.update_all(manage_organisations: true)
     @training_provider = Provider.find_by(code: 'ABC')
     @ratifying_provider = Provider.find_by(code: 'DEF')
   end
