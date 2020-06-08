@@ -68,6 +68,7 @@ RSpec.describe 'ProviderRelationshipPermissions', type: :request do
         ratifying_provider: ratifying_provider,
         training_provider: training_provider,
       )
+      provider_user.provider_permissions.update_all(manage_organisations: true)
     end
 
     context 'GET edit' do

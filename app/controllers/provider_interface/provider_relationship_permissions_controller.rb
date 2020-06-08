@@ -3,6 +3,13 @@ module ProviderInterface
     before_action :render_404_unless_permissions_found
     before_action :render_403_unless_access_permitted
 
+    def setup
+      @training_provider_permissions = TrainingProviderPermissions.where(
+        setup_at: nil,
+        training_provider: current_provider_user.providers,
+      )
+    end
+
     def success; end
 
     def edit
@@ -62,9 +69,10 @@ module ProviderInterface
     end
 
     def render_403_unless_access_permitted
-      render_403 unless current_provider_user.providers.include?(
-        training_provider_permissions.training_provider,
-      )
+      render_403 unless current_provider_user.can_manage_organisations? &&
+        current_provider_user.providers.include?(
+          training_provider_permissions.training_provider,
+        )
     end
   end
 end
