@@ -99,6 +99,20 @@ RSpec.describe SyncProviderFromFind do
         expect(CourseOption.first.vacancy_status).to eq 'vacancies'
       end
 
+      it 'correctly updates withdrawn attribute for an existing course' do
+        stub_find_api_provider_200(
+          provider_code: 'ABC',
+          course_code: '9CBA',
+          content_status: 'withdrawn',
+        )
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        expect(CourseOption.count).to eq 1
+        Course.first.update!(withdrawn: false)
+
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        expect(Course.first.withdrawn).to eq true
+      end
+
       it 'correctly handles accredited providers' do
         stub_find_api_provider_200_with_accredited_provider(
           provider_code: 'ABC',
