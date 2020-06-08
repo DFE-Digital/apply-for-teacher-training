@@ -136,6 +136,7 @@ private
     course.program_type = find_course.try(:program_type)
     course.qualifications = find_course.try(:qualifications)
     course.age_range = find_course.age_range_in_years&.humanize
+    course.withdrawn = find_course.content_status == 'withdrawn'
   end
 
   def add_accredited_provider(course, find_accredited_provider)

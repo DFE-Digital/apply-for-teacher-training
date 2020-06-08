@@ -13,7 +13,8 @@ module FindAPIHelper
     site_address_line2: 'C/O The Bruntcliffe Academy',
     funding_type: 'fee',
     age_range_in_years: '4 to 8',
-    vac_status: 'full_time_vacancies'
+    vac_status: 'full_time_vacancies',
+    content_status: 'published'
   )
     stub_find_api_provider(provider_code)
       .to_return(
@@ -71,6 +72,7 @@ module FindAPIHelper
                 'accrediting_provider': nil,
                 'funding_type': funding_type,
                 'age_range_in_years': age_range_in_years,
+                'content_status': content_status,
               },
               'relationships': {
                 'sites': {
@@ -139,7 +141,8 @@ module FindAPIHelper
     start_date: Time.zone.local(2020, 10, 31),
     course_length: 'OneYear',
     region_code: 'north_west',
-    age_range_in_years: '4 to 8'
+    age_range_in_years: '4 to 8',
+    content_status: 'published'
   )
     stub_find_api_provider(provider_code)
       .to_return(
@@ -194,6 +197,7 @@ module FindAPIHelper
                 'course_length': course_length,
                 'recruitment_cycle_year': '2020',
                 'findable?': findable,
+                'content_status': content_status,
                 'accrediting_provider': {
                   'provider_name': accredited_provider_name,
                   'provider_code': accredited_provider_code,
@@ -253,7 +257,8 @@ module FindAPIHelper
     start_date: Time.zone.local(2020, 10, 31),
     course_length: 'OneYear',
     region_code: 'north_west',
-    age_range_in_years: '4 to 8'
+    age_range_in_years: '4 to 8',
+    content_status: 'published'
 
   )
     response_hash = {
@@ -325,6 +330,7 @@ module FindAPIHelper
               'accrediting_provider': nil,
               'funding_type': 'fee',
               'age_range_in_years': age_range_in_years,
+              'content_status': content_status,
             },
             'relationships': {
               'sites': {
@@ -490,7 +496,8 @@ module FindAPIHelper
     age_range_in_years: '4 to 8',
     vac_status: 'full_time_vacancies',
     qualifications: %w[PG PF],
-    program_type: 'SD'
+    program_type: 'SD',
+    content_status: 'published'
   )
     stub_find_api_provider(provider_code)
       .to_return(
@@ -550,6 +557,7 @@ module FindAPIHelper
                 'age_range_in_years': age_range_in_years,
                 'program_type': program_type,
                 'qualifications': qualifications,
+                'content_status': content_status,
               },
               'relationships': {
                 'sites': {
