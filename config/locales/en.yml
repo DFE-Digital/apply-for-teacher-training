@@ -135,6 +135,8 @@ en:
         further_conditions1: Second condition
         further_conditions2: Third condition
         further_conditions3: Further condition
+      change_offer:
+        course_option_id: The new course
     errors:
       models:
         support_interface/provider_user_form:
@@ -198,7 +200,7 @@ en:
         change_offer:
           attributes:
             course_option_id:
-              no_change: You are changing the offer to the same course option
+              no_change: is the same as the course currently offered
         withdraw_offer:
           attributes:
             offer_withdrawal_reason:
