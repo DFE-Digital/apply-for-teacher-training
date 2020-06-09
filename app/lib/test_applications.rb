@@ -174,7 +174,12 @@ class TestApplications
   def make_offer(choice, conditions: ['Complete DBS'])
     as_provider_user(choice) do
       fast_forward(1..3)
-      MakeAnOffer.new(actor: actor, application_choice: choice, offer_conditions: conditions).save
+      MakeAnOffer.new(
+        actor: actor,
+        course_option: choice.course_option,
+        application_choice: choice,
+        offer_conditions: conditions,
+      ).save
       choice.update_columns(offered_at: time)
     end
   end
