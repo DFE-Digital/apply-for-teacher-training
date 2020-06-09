@@ -337,7 +337,7 @@ components:
       type: object
       additionalProperties: false
       required:
-      - application_reference
+      - support_reference
       - candidate
       - phase
       - contact_details
@@ -356,7 +356,7 @@ components:
       - further_information
       - work_experience
       properties:
-        application_reference:
+        support_reference:
           type: string
           description: The candidate's reference number for their application in the Apply system
           maxLength: 10
