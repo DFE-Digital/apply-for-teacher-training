@@ -2,7 +2,7 @@
 
 New attributes:
 
-- `ApplicationAttributes` now has an `application_reference` attribute of type string.
+- `ApplicationAttributes` now has an `support_reference` attribute of type string.
 
 ### 20th May 2020
 

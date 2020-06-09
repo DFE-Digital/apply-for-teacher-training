@@ -71,7 +71,7 @@ RSpec.feature 'Vendor receives the application' do
       id: @provider.application_choices.first.id.to_s,
       type: 'application',
       attributes: {
-        application_reference: @provider.application_forms.first.support_reference,
+        support_reference: @provider.application_forms.first.support_reference,
         personal_statement: "Why do you want to become a teacher?: I believe I would be a first-rate teacher \n What is your subject knowledge?: Everything",
         interview_preferences: 'Not on a Wednesday',
         offer: nil,
