@@ -2,6 +2,7 @@ class MakeAnOffer
   attr_accessor :standard_conditions
   attr_accessor :further_conditions0, :further_conditions1, :further_conditions2, :further_conditions3
   attr_accessor :auth
+  attr_accessor :course_option
 
   include ActiveModel::Validations
 
@@ -9,34 +10,34 @@ class MakeAnOffer
   MAX_CONDITION_LENGTH = 255
   STANDARD_CONDITIONS = ['Fitness to Teach check', 'Disclosure and Barring Service (DBS) check'].freeze
 
+  validates :course_option, presence: true
+  validate :validate_course_option_is_open_on_apply
   validate :validate_conditions_max_length
   validate :validate_further_conditions
 
   def initialize(
     actor:,
     application_choice:,
-    course_option_id: nil,
+    course_option:,
     offer_conditions: nil,
     standard_conditions: STANDARD_CONDITIONS,
     further_conditions: {}
   )
     @auth = ProviderAuthorisation.new(actor: actor)
     @application_choice = application_choice
-    @course_option_id = course_option_id
+    @course_option = course_option
     @offer_conditions = offer_conditions
     @standard_conditions = standard_conditions
     further_conditions.each { |key, value| send("#{key}=", value) }
-
-    @application_choice.offered_course_option = offered_course_option
   end
 
   def save
     return unless valid?
 
-    @auth.assert_can_make_offer!(application_choice: application_choice, course_option_id: @course_option_id)
+    @auth.assert_can_make_offer!(application_choice: application_choice, course_option_id: @course_option.id)
 
     ApplicationStateChange.new(application_choice).make_offer!
-    application_choice.offered_course_option = offered_course_option
+    application_choice.offered_course_option = course_option
     application_choice.offer = { 'conditions' => offer_conditions }
 
     application_choice.offered_at = Time.zone.now
@@ -58,12 +59,6 @@ class MakeAnOffer
       standard_conditions,
       further_conditions,
     ].flatten.reject(&:blank?)
-  end
-
-  def offered_course_option
-    return unless @course_option_id.present? && @course_option_id != application_choice.course_option.id
-
-    CourseOption.find @course_option_id
   end
 
 private
@@ -100,5 +95,11 @@ private
     return if offer_conditions.is_a?(Array) && offer_conditions.count <= MAX_CONDITIONS_COUNT
 
     errors.add(:offer_conditions, "has over #{MAX_CONDITIONS_COUNT} elements")
+  end
+
+  def validate_course_option_is_open_on_apply
+    if course_option.present? && !course_option.course.open_on_apply?
+      errors.add(:course_option, :not_open_on_apply)
+    end
   end
 end

@@ -1,25 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe MakeAnOffer, sidekiq: true do
+  include CourseOptionHelpers
   let(:user) { SupportUser.new }
-
-  describe 'course_option_id validation' do
-    it 'accepts nil course_option_id' do
-      decision = MakeAnOffer.new(
-        actor: user,
-        application_choice: build_stubbed(:application_choice, status: :awaiting_provider_decision),
-        course_option_id: nil,
-      )
-
-      expect(decision).to be_valid
-    end
-  end
+  let(:application_choice) { create(:application_choice, :awaiting_provider_decision) }
+  # necessary to create_course_option_for_provider as the default course in the default course_option
+  # is not open_on_apply
+  let(:valid_course_option) { course_option_for_provider(provider: application_choice.course_option.provider) }
 
   describe 'conditions validation' do
     it 'accepts nil conditions' do
       decision = MakeAnOffer.new(
         actor: user,
-        application_choice: build_stubbed(:application_choice, status: :awaiting_provider_decision),
+        application_choice: application_choice,
+        course_option: valid_course_option,
         offer_conditions: nil,
       )
 
@@ -29,7 +23,8 @@ RSpec.describe MakeAnOffer, sidekiq: true do
     it 'limits the number of conditions to 20' do
       decision = MakeAnOffer.new(
         actor: user,
-        application_choice: build_stubbed(:application_choice, status: :awaiting_provider_decision),
+        application_choice: application_choice,
+        course_option: valid_course_option,
         offer_conditions: Array.new(21) { 'a condition' },
       )
 
@@ -39,7 +34,8 @@ RSpec.describe MakeAnOffer, sidekiq: true do
     it 'limits the length of individual further_conditions to 255 characters' do
       decision = MakeAnOffer.new(
         actor: user,
-        application_choice: build_stubbed(:application_choice, status: :awaiting_provider_decision),
+        application_choice: application_choice,
+        course_option: valid_course_option,
         further_conditions: { further_conditions2: 'a' * 256 },
       )
 
@@ -49,37 +45,33 @@ RSpec.describe MakeAnOffer, sidekiq: true do
 
   describe '#save' do
     it 'sets the offered_at date' do
-      application_choice = create(:application_choice, status: :awaiting_provider_decision)
-
-      MakeAnOffer.new(actor: user, application_choice: application_choice)
+      offer = MakeAnOffer.new(actor: user, application_choice: application_choice, course_option: valid_course_option)
 
       Timecop.freeze do
-        MakeAnOffer.new(actor: user, application_choice: application_choice).save
+        offer.save
 
         expect(application_choice.offered_at).to eq(Time.zone.now)
       end
     end
 
     it 'sends an email to the candidate' do
-      application_choice = create(:application_choice, status: :awaiting_provider_decision)
+      offer = MakeAnOffer.new(actor: user, application_choice: application_choice, course_option: valid_course_option)
 
-      MakeAnOffer.new(actor: user, application_choice: application_choice).save
+      offer.save
 
       expect(CandidateMailer.deliveries.count).to be 1
     end
-  end
 
-  describe 'decline by default' do
-    let(:application_form) { create :application_form }
+    it 'sets the offered_course_option_id to the offered_course_option’s id' do
+      offer = MakeAnOffer.new(actor: user, application_choice: application_choice, course_option: valid_course_option)
 
-    let(:application_choice) do
-      create(:application_choice,
-             application_form: application_form,
-             status: 'awaiting_provider_decision')
+      offer.save
+
+      expect(application_choice.offered_course_option_id).to eq valid_course_option.id
     end
 
-    it 'calls SetDeclineByDefault service' do
-      MakeAnOffer.new(actor: user, application_choice: application_choice).save
+    it 'sets the decline_by_default_at date' do
+      MakeAnOffer.new(actor: user, application_choice: application_choice, course_option: valid_course_option).save
       application_choice.reload
 
       expect(application_choice.decline_by_default_at).not_to be_nil
@@ -87,48 +79,36 @@ RSpec.describe MakeAnOffer, sidekiq: true do
     end
   end
 
-  describe 'offer a different course option' do
-    let(:application_form) { create :application_form }
+  describe 'course option validation' do
+    it 'checks the course is open on apply' do
+      offer = MakeAnOffer.new(actor: user, application_choice: application_choice, course_option: create(:course_option))
 
-    let(:application_choice) do
-      create(:application_choice,
-             application_form: application_form,
-             status: 'awaiting_provider_decision')
+      offer.valid?
+
+      expect(offer.errors[:course_option]).to include('is not open for applications via the Apply service')
     end
 
-    let(:different_course_option) { create(:course_option, course: application_choice.course) }
+    it 'checks the course is present' do
+      offer = MakeAnOffer.new(actor: user, application_choice: application_choice, course_option: nil)
 
-    it 'sets application_choice.offered_course_option_id' do
-      MakeAnOffer.new(
-        actor: user,
-        application_choice: application_choice,
-        course_option_id: different_course_option.id,
-      ).save
-      application_choice.reload
+      offer.valid?
 
-      expect(application_choice.offered_course_option_id).to eq(different_course_option.id)
+      expect(offer.errors[:course_option]).to include('could not be found')
     end
   end
 
   describe 'authorisation' do
     it 'raises error if actor is not authorised' do
-      application_choice = create(:application_choice, status: :awaiting_provider_decision)
       unrelated_user = create(:provider_user, :with_provider)
-      new_offer = MakeAnOffer.new(actor: unrelated_user, application_choice: application_choice)
+      new_offer = MakeAnOffer.new(actor: unrelated_user, application_choice: application_choice, course_option: valid_course_option)
       expect { new_offer.save }.to raise_error(ProviderAuthorisation::NotAuthorisedError)
     end
 
     it 'does not raise error if actor is authorised' do
-      application_choice = create(:application_choice, status: :awaiting_provider_decision)
       related_user = create(:provider_user)
-      application_choice.course.provider.provider_users << related_user
-      new_offer = MakeAnOffer.new(actor: related_user, application_choice: application_choice)
-      expect { new_offer.save }.not_to raise_error
-    end
+      valid_course_option.provider.provider_users << related_user
 
-    it 'allows support users to make offers for any course' do
-      application_choice = create(:application_choice, status: :awaiting_provider_decision)
-      new_offer = MakeAnOffer.new(actor: SupportUser.new, application_choice: application_choice)
+      new_offer = MakeAnOffer.new(actor: related_user, application_choice: application_choice, course_option: valid_course_option)
       expect { new_offer.save }.not_to raise_error
     end
   end

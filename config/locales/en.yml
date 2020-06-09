@@ -135,6 +135,8 @@ en:
         further_conditions1: Second condition
         further_conditions2: Third condition
         further_conditions3: Further condition
+      make_an_offer:
+        course_option: The requested course
       change_offer:
         course_option: The new course
     errors:
@@ -201,6 +203,11 @@ en:
           attributes:
             course_option:
               no_change: is the same as the course currently offered
+              blank: could not be found
+              not_open_on_apply: is not open for applications via the Apply service
+        make_an_offer:
+          attributes:
+            course_option:
               blank: could not be found
               not_open_on_apply: is not open for applications via the Apply service
         withdraw_offer:
