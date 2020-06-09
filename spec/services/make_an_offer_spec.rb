@@ -98,17 +98,31 @@ RSpec.describe MakeAnOffer, sidekiq: true do
   end
 
   describe 'authorisation' do
-    it 'raises error if actor is not authorised' do
+    it 'raises error if actor is not associated with the right provider' do
+      application_choice = create(:application_choice, status: :awaiting_provider_decision)
       unrelated_user = create(:provider_user, :with_provider)
       new_offer = MakeAnOffer.new(actor: unrelated_user, application_choice: application_choice, course_option: valid_course_option)
       expect { new_offer.save }.to raise_error(ProviderAuthorisation::NotAuthorisedError)
     end
 
-    it 'does not raise error if actor is authorised' do
-      related_user = create(:provider_user)
-      valid_course_option.provider.provider_users << related_user
+    it 'raises error if actor does not have make_decisions permission' do
+      FeatureFlag.activate('provider_make_decisions_restriction')
+      unauthorised_user = create(:provider_user, :with_provider)
+      course = create(:course, provider: unauthorised_user.providers.first)
+      course_option = create(:course_option, course: course)
 
-      new_offer = MakeAnOffer.new(actor: related_user, application_choice: application_choice, course_option: valid_course_option)
+      application_choice = create(:application_choice, :awaiting_provider_decision, course_option: course_option)
+      new_offer = MakeAnOffer.new(actor: unauthorised_user, application_choice: application_choice)
+      expect { new_offer.save }.to raise_error(ProviderAuthorisation::NotAuthorisedError)
+    end
+
+    it 'does not raise error if actor is authorised' do
+      related_user = create(:provider_user, :with_provider, :with_make_decisions)
+      course = create(:course, provider: related_user.providers.first)
+      course_option = create(:course_option, course: course)
+
+      application_choice = create(:application_choice, :awaiting_provider_decision, course_option: course_option)
+      new_offer = MakeAnOffer.new(actor: related_user, application_choice: application_choice, course_option: course_option)
       expect { new_offer.save }.not_to raise_error
     end
   end

@@ -13,4 +13,5 @@ module ProviderUserPermissionsHelper
   end
 
   alias_method :and_i_am_permitted_to_make_decisions_for_my_provider, :permit_make_decisions
+  alias_method :and_i_am_permitted_to_make_decisions_for_my_providers, :permit_make_decisions
 end

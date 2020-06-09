@@ -19,8 +19,9 @@ RSpec.describe ProviderAuthorisation do
       let(:provider) { provider_user.providers.first }
 
       it 'is false if user does not have make_decisions permission' do
+        FeatureFlag.activate('provider_make_decisions_restriction')
         application_choice = create(:application_choice, :awaiting_provider_decision)
-        provider_user.provider_permissions.where(make_decisions: true).destroy_all
+        provider_user.provider_permissions.update_all(make_decisions: false)
         auth_context = ProviderAuthorisation.new(actor: provider_user)
         expect(auth_context.can_make_offer?(application_choice: application_choice)).to be_falsy
       end
@@ -45,6 +46,17 @@ RSpec.describe ProviderAuthorisation do
         auth_context = ProviderAuthorisation.new(actor: provider_user)
 
         expect(auth_context.can_make_offer?(application_choice: application_choice)).to be_truthy
+      end
+
+      it 'is false when the accredited provider user does not have make_decisions' do
+        FeatureFlag.activate('provider_make_decisions_restriction')
+        course_option = course_option_for_accredited_provider(provider: create(:provider), accredited_provider: provider)
+        application_choice = create(:application_choice, :awaiting_provider_decision, course_option: course_option)
+        provider_user.provider_permissions.update_all(make_decisions: false)
+
+        auth_context = ProviderAuthorisation.new(actor: provider_user)
+
+        expect(auth_context.can_make_offer?(application_choice: application_choice)).to be_falsy
       end
     end
 
@@ -74,11 +86,18 @@ RSpec.describe ProviderAuthorisation do
   end
 
   describe '#can_change_offer?' do
-    let(:provider_user) { create(:provider_user, :with_provider) }
+    let(:provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }
     let(:provider) { provider_user.providers.first }
     let(:course_option) { course_option_for_provider(provider: provider) }
     let(:application_choice) { create(:application_choice, :with_offer, course_option: course_option) }
     let(:other_course_option) { course_option_for_provider(provider: provider) }
+
+    it 'is false if user does not have make_decisions permission' do
+      FeatureFlag.activate('provider_make_decisions_restriction')
+      provider_user.provider_permissions.update_all(make_decisions: false)
+      auth_context = ProviderAuthorisation.new(actor: provider_user)
+      expect(auth_context.can_change_offer?(application_choice: application_choice, course_option_id: other_course_option.id)).to be_falsy
+    end
 
     it 'is true if provider_user/provider/course/course_option all match' do
       auth_context = ProviderAuthorisation.new(actor: provider_user)
@@ -86,7 +105,7 @@ RSpec.describe ProviderAuthorisation do
     end
 
     it 'is false if user is not associated with the provider for the new course option' do
-      auth_context = ProviderAuthorisation.new(actor: create(:provider_user, :with_provider))
+      auth_context = ProviderAuthorisation.new(actor: create(:provider_user, :with_provider, :with_make_decisions))
       expect(auth_context.can_change_offer?(application_choice: application_choice, course_option_id: other_course_option.id)).to be_falsy
     end
 

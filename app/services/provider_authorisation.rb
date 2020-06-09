@@ -10,6 +10,7 @@ class ProviderAuthorisation
 
     supplied_course_option = CourseOption.find(course_option_id) if course_option_id
 
+    # enforce 'make_decisions' restriction
     if supplied_course_option
       training_provider = supplied_course_option.provider
       ratifying_provider = supplied_course_option.course.accredited_provider
@@ -23,6 +24,7 @@ class ProviderAuthorisation
       FeatureFlag.active?('provider_make_decisions_restriction') &&
         !actor_has_permission_to_make_decisions?(providers: related_providers)
 
+    # check (indirect) relationship between course_option and @actor
     if supplied_course_option && course_option_id != application_choice.course_option.id
       application_choice_visible_to_user?(application_choice: application_choice) &&
         course_option_belongs_to_user_providers?(course_option: supplied_course_option)
@@ -32,10 +34,10 @@ class ProviderAuthorisation
   end
 
   def can_change_offer?(application_choice:, course_option_id:)
-    new_course_option = CourseOption.find course_option_id
-    @actor.is_a?(SupportUser) || \
-      application_choice_visible_to_user?(application_choice: application_choice) && \
-        course_option_belongs_to_user_providers?(course_option: new_course_option)
+    can_make_offer?(
+      application_choice: application_choice,
+      course_option_id: course_option_id,
+    )
   end
 
   def can_view_safeguarding_information?(course:)

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ChangeOffer do
   include CourseOptionHelpers
-  let(:provider_user) { create(:provider_user, :with_provider) }
+  let(:provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }
   let(:provider) { provider_user.providers.first }
   let(:original_course_option) { course_option_for_provider(provider: provider) }
   let(:new_course_option) { course_option_for_provider(provider: provider) }
