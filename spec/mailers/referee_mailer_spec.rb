@@ -134,8 +134,11 @@ RSpec.describe RefereeMailer, type: :mailer do
         :application_form,
         first_name: 'Elliot',
         last_name: 'Alderson',
+        application_choices: [build_stubbed(:application_choice, course_option: course_option)],
       )
     end
+    let(:course) { build_stubbed(:course) }
+    let(:course_option) { build_stubbed(:course_option, course: course) }
     let(:reference) { build_stubbed(:reference, application_form: application_form) }
     let(:mail) { mailer.reference_request_chase_again_email(reference) }
 
@@ -158,6 +161,10 @@ RSpec.describe RefereeMailer, type: :mailer do
 
     it 'sends an email with a link to the reference form' do
       expect(mail.body.encoded).to include(referee_interface_reference_relationship_url(token: ''))
+    end
+
+    it 'sends an email with the candidates course choice' do
+      expect(mail.body.encoded).to include(course.name)
     end
   end
 end

@@ -22,7 +22,7 @@ RSpec.describe CandidateInterface::AdditionalRefereesStartComponent do
     it 'gives a reason when email bounced' do
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-body').text).to include("Our email requesting a reference didn’t reach #{bounced_referee.name}.")
+      expect(result.css('.govuk-body').text).to include("Our email requesting a reference did not reach #{bounced_referee.name}.")
     end
   end
 
@@ -33,7 +33,7 @@ RSpec.describe CandidateInterface::AdditionalRefereesStartComponent do
     it 'gives a reason why referee refused' do
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-body').text).to include("#{refused_referee.name} said they won’t give a reference.")
+      expect(result.css('.govuk-body').text).to include("#{refused_referee.name} said they will not give a reference.")
     end
   end
 
@@ -86,8 +86,8 @@ RSpec.describe CandidateInterface::AdditionalRefereesStartComponent do
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-body').text).to include('Your referees have not given us a reference:')
-      expect(result.css('.govuk-body').text).to include("Our email requesting a reference didn’t reach #{first_referee.name}")
-      expect(result.css('.govuk-body').text).to include("#{second_referee.name} said they won’t give a reference")
+      expect(result.css('.govuk-body').text).to include("Our email requesting a reference did not reach #{first_referee.name}")
+      expect(result.css('.govuk-body').text).to include("#{second_referee.name} said they will not give a reference")
       expect(result.css('.govuk-body').text).not_to include(third_referee.name.to_s)
     end
   end

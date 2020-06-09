@@ -16,7 +16,7 @@ class RefereeMailerPreview < ActionMailer::Preview
   end
 
   def reference_request_chase_again_email
-    RefereeMailer.reference_request_chase_again_email(reference(application_form))
+    RefereeMailer.reference_request_chase_again_email(reference(application_form_with_application_choice))
   end
 
 private

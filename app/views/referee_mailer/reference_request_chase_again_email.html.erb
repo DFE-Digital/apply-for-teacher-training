@@ -10,6 +10,12 @@ Otherwise, give a reference as soon as possible:
 
 <%= referee_interface_reference_relationship_url(token: @token) %>
 
+<%= @candidate_name %> applied to:
+
+<% @application_form.application_choices.each do |application_choice| %>
+* <%= application_choice.course_option.provider.name %> - <%= application_choice.course_option.course.name %>
+<% end %>
+
 # Your data
 
 We’ll only use your data to process the candidate’s application, unless you agree to be contacted by us about your experience of giving a reference. We’ll ask about this before you submit any information.
