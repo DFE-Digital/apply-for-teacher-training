@@ -9,6 +9,8 @@ module ProviderInterface
     end
 
     def save!
+      @accredited_body_permissions.setup_at = Time.current
+      @training_provider_permissions.setup_at = Time.current
       @accredited_body_permissions.save! && @training_provider_permissions.save!
     end
 

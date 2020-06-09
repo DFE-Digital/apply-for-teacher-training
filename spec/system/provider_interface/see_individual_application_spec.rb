@@ -65,6 +65,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
       ratifying_provider: create(:provider),
       training_provider: @application_choice.course.provider,
       view_safeguarding_information: true,
+      setup_at: Time.current,
     )
   end
 
