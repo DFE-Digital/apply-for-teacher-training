@@ -69,8 +69,8 @@ module ProviderInterface
 
     def check_provider_relationship_permissions
       return unless FeatureFlag.active?('enforce_provider_to_provider_permissions')
-      return if request.path == provider_interface_provider_relationship_permissions_setup_path
       return unless current_provider_user
+      return if performing_provider_organisation_setup?
 
       if provider_permissions_need_setup?
         redirect_to provider_interface_provider_relationship_permissions_setup_path
@@ -88,6 +88,13 @@ module ProviderInterface
       ProviderAuthorisation.new(actor: current_provider_user).can_manage_organisation?(
         provider: permissions.training_provider,
       )
+    end
+
+    def performing_provider_organisation_setup?
+      [
+        ProviderInterface::ProviderAgreementsController,
+        ProviderInterface::ProviderRelationshipPermissionsController,
+      ].include?(request.controller_class)
     end
 
     def render_404

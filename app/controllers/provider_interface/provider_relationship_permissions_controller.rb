@@ -7,7 +7,7 @@ module ProviderInterface
       @training_provider_permissions = TrainingProviderPermissions.where(
         setup_at: nil,
         training_provider: current_provider_user.providers,
-      )
+      ).includes(%i[training_provider ratifying_provider]).order(:created_at)
     end
 
     def success; end
