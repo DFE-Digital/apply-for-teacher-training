@@ -26,9 +26,11 @@ en:
         explanation: |-
           %{referee_name} said they won’t give a reference.
       email_bounced:
-        subject: "Give new referee as soon as possible. Our email didn’t reach %{referee_name}"
+        subject: "Give new referee as soon as possible. Our email did not reach %{referee_name}"
         explanation: |-
-          Our email requesting a reference didn’t reach %{referee_name}.
+          Our email requesting a reference did not reach %{referee_name}.
+
+          We emailed the referee using this address: %{referee_email}
     application_rejected:
       all_rejected:
         subject: "%{provider_name} has responded: next steps"

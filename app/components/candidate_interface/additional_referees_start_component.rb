@@ -25,9 +25,9 @@ module CandidateInterface
     def reason_for_replacement(referee)
       case referee.feedback_status
       when 'email_bounced'
-        "Our email requesting a reference didn’t reach #{referee.name}"
+        "Our email requesting a reference did not reach #{referee.name}"
       when 'feedback_refused'
-        "#{referee.name} said they won’t give a reference"
+        "#{referee.name} said they will not give a reference"
       when 'cancelled'
         "We’ve cancelled the reference request for #{referee.name}"
       else
