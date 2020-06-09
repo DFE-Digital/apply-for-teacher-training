@@ -16,34 +16,38 @@ RSpec.describe 'Organisations', type: :request do
       )
   end
 
-  context 'when the user cannot manage organisations' do
-    before { allow(provider_user).to receive(:can_manage_organisations?).and_return(false) }
-
-    describe 'GET index' do
-      it 'responds with 403' do
-        get provider_interface_organisations_path
-
-        expect(response.status).to eq(403)
-      end
-    end
-
+  context 'when the provider is not associated with the current user' do
     describe 'GET show' do
       it 'responds with 403' do
-        get provider_interface_organisation_path(provider)
+        get provider_interface_organisation_path(create(:provider))
 
         expect(response.status).to eq(403)
       end
     end
   end
 
-  context 'when the provider is not associated with the current user' do
-    before { allow(provider_user).to receive(:can_manage_organisations?).and_return(true) }
-
+  context 'when the provider is a ratifies courses for a provider associated with the current user' do
     describe 'GET show' do
-      it 'responds with 403' do
-        get provider_interface_organisation_path(create(:provider))
+      let(:ratifying_provider) { create(:provider, :with_signed_agreement) }
 
-        expect(response.status).to eq(403)
+      before do
+        create(
+          :accredited_body_permissions,
+          ratifying_provider: ratifying_provider,
+          training_provider: provider,
+        )
+
+        create(
+          :training_provider_permissions,
+          ratifying_provider: ratifying_provider,
+          training_provider: provider,
+        )
+      end
+
+      it 'responds successfully' do
+        get provider_interface_organisation_path(ratifying_provider)
+
+        expect(response.status).to eq(200)
       end
     end
   end

@@ -34,6 +34,8 @@ RSpec.feature 'See organisation permissions' do
     @provider_user = ProviderUser.last
     @training_provider = Provider.find_by(code: 'ABC')
     @ratifying_provider = Provider.find_by(code: 'DEF')
+    @unmanageable_provider = create(:provider, :with_signed_agreement)
+    @provider_user.providers << @unmanageable_provider
   end
 
   def and_the_provider_has_courses_ratified_by_another_provider
@@ -58,6 +60,7 @@ RSpec.feature 'See organisation permissions' do
   def then_i_can_see_provider_organisations_i_belong_to
     expect(page).to have_link(@training_provider.name)
     expect(page).to have_link(@ratifying_provider.name)
+    expect(page).not_to have_link(@unmanageable_provider.name)
   end
 
   def when_i_click_on_a_ratifying_provider_organisation

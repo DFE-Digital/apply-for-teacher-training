@@ -1,9 +1,10 @@
 module ProviderInterface
   class OrganisationsController < ProviderInterfaceController
     before_action :render_403_unless_organisation_valid_for_user, only: :show
-    before_action :render_403_unless_user_can_manage_organisations
 
-    def index; end
+    def index
+      @manageable_providers = Provider.with_permissions_visible_to(current_provider_user)
+    end
 
     def show
       @ratifying_permissions = ProviderRelationshipPermissions
@@ -19,11 +20,7 @@ module ProviderInterface
   private
 
     def render_403_unless_organisation_valid_for_user
-      render_403 unless current_provider_user.providers.include?(provider)
-    end
-
-    def render_403_unless_user_can_manage_organisations
-      render_403 unless current_provider_user.can_manage_organisations?
+      render_403 unless Provider.with_permissions_visible_to(current_provider_user).include?(provider)
     end
 
     def provider
