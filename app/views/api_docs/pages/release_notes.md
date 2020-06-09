@@ -1,3 +1,9 @@
+### 9th June 2020
+
+New attributes:
+
+- `ApplicationAttributes` now has an `application_reference` attribute of type string.
+
 ### 20th May 2020
 
 Corrections to documentation
