@@ -102,4 +102,24 @@ RSpec.describe CourseOption, type: :model do
       end
     end
   end
+
+  describe '#course_withdrawn?' do
+    context 'when a course options course has been withdrawn' do
+      it 'returns true' do
+        course = create(:course, withdrawn: true)
+        course_option = create(:course_option, course: course)
+
+        expect(course_option.course_withdrawn?).to be true
+      end
+    end
+
+    context 'when a course options course has not been withdrawn' do
+      it 'returns false' do
+        course = create(:course, withdrawn: false)
+        course_option = create(:course_option, course: course)
+
+        expect(course_option.course_withdrawn?).to be false
+      end
+    end
+  end
 end
