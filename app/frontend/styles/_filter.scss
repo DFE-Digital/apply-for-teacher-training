@@ -31,8 +31,7 @@
 }
 
 .app-filter {
-  display: none;
-  @include govuk-media-query($from: large) {
-    display: block;
+  @include govuk-media-query($from: tablet) {
+    margin-bottom: govuk-spacing(3);
   }
 }
