@@ -100,6 +100,18 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
       expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info.feedback_overdue'))
     end
 
+    it 'renders component with correct value for status for cancelled reference request' do
+      first_referee = application_form.application_references.first
+      first_referee.update_columns(
+        feedback_status: 'cancelled',
+      )
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-tag.govuk-tag--red.app-tag').to_html).to include('Cancelled')
+      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info.cancelled'))
+    end
+
     it 'renders component along with a delete link for each referee' do
       referee_id = application_form.application_references.first.id
       result = render_inline(described_class.new(application_form: application_form))

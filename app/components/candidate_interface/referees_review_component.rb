@@ -109,7 +109,7 @@ module CandidateInterface
       elsif referee.feedback_requested?
         content_tag(:p, t('application_form.referees.info.awaiting_reference_sent_more_than_5_days_ago'), class: 'govuk-body govuk-!-margin-top-2')
       elsif referee.cancelled?
-        content_tag(:p, t('application_form.referees.info.awaiting_reference_sent_more_than_5_days_ago'), class: 'govuk-body govuk-!-margin-top-2')
+        content_tag(:p, t('application_form.referees.info.cancelled'), class: 'govuk-body govuk-!-margin-top-2')
       end
     end
 
