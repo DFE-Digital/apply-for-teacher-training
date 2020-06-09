@@ -1,18 +1,11 @@
 # rubocop:disable Style/StringLiterals
 HESA_DEGREE_TYPES = [
   [1, "BEd"],
-  [2, "BEd (Hons)"],
   [3, "BSc/Education"],
-  [4, "BSc Hons /Education"],
   [5, "BTech/Education"],
-  [6, "BTech (Hons) /Education"],
   [7, "BA/Education"],
-  [8, "BA (Hons) /Education"],
   [9, "BA Combined Studies/Education of the Deaf"],
-  [10, "BA (Hons) Combined Studies/Education of the Deaf"],
   [12, "BA with intercalated PGCE"],
-  [13, "BSc (Hons) with intercalated PGCE"],
-  [14, "BA (Hons) with intercalated PGCE"],
   [51, "Bachelor of Arts(BA)"],
   [52, "Bachelor of Arts Economics(BA ECON)"],
   [53, "Bachelor of Arts in Architecture(BA ARCH)"],
