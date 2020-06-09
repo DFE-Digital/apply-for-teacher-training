@@ -15,8 +15,15 @@ RSpec.describe ProviderAuthorisation do
 
   describe '#can_make_offer?' do
     context 'with provider user' do
-      let(:provider_user) { create(:provider_user, :with_provider) }
+      let(:provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }
       let(:provider) { provider_user.providers.first }
+
+      it 'is false if user does not have make_decisions permission' do
+        application_choice = create(:application_choice, :awaiting_provider_decision)
+        provider_user.provider_permissions.where(make_decisions: true).destroy_all
+        auth_context = ProviderAuthorisation.new(actor: provider_user)
+        expect(auth_context.can_make_offer?(application_choice: application_choice)).to be_falsy
+      end
 
       it 'is false if user is not associated with the provider that offers the course' do
         application_choice = create(:application_choice, :awaiting_provider_decision)
@@ -26,15 +33,6 @@ RSpec.describe ProviderAuthorisation do
 
       it 'is true if user is associated with the provider that offers the course' do
         course_option = course_option_for_provider(provider: provider)
-        application_choice = create(:application_choice, :awaiting_provider_decision, course_option: course_option)
-        auth_context = ProviderAuthorisation.new(actor: provider_user)
-        expect(auth_context.can_make_offer?(application_choice: application_choice)).to be_truthy
-      end
-
-      it 'is true even if user is associated with multiple providers' do
-        new_provider = create(:provider)
-        new_provider.provider_users << provider_user
-        course_option = course_option_for_provider(provider: new_provider)
         application_choice = create(:application_choice, :awaiting_provider_decision, course_option: course_option)
         auth_context = ProviderAuthorisation.new(actor: provider_user)
         expect(auth_context.can_make_offer?(application_choice: application_choice)).to be_truthy
