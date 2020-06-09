@@ -7,5 +7,6 @@ class ChaserSent < ApplicationRecord
     follow_up_missing_references: 'follow_up_missing_references',
     provider_decision_request: 'provider_decision_request',
     candidate_decision_request: 'candidate_decision_request',
+    course_unavailable_notification: 'course_unavailable_notification',
   }
 end

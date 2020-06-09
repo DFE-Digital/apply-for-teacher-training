@@ -17,11 +17,13 @@ RSpec.describe GetApplicationChoicesWithNewlyUnavailableCourses do
   end
 
   it 'does not return application choices that have already received the notification email' do
-    pending 'need to merge with migration to add the `course_unavailable_notification_sent_at` column'
-    create(
+    application_choice = create(
       :awaiting_references_application_choice,
       course_option: create(:course_option, :no_vacancies),
-      course_unavailable_notification_sent_at: 1.day.ago,
+    )
+    ChaserSent.create!(
+      chased: application_choice,
+      chaser_type: :course_unavailable_notification,
     )
     expect(described_class.call.map(&:id)).to eq([])
   end
