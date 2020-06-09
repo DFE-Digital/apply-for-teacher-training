@@ -46,7 +46,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
   end
 
   def given_i_have_two_full_course_choices
-    application_choice = create(:application_choice, application_form: @application)
+    application_choice = create(:application_choice, application_form: @application, status: 'awaiting_references')
     application_choice.course_option.no_vacancies!
   end
 

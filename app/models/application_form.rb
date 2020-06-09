@@ -175,7 +175,7 @@ private
   end
 
   def withdrawn_course_choices
-    application_choices.map(&:course_option).select(&:course_withdrawn?).map(&:application_choices)
+    application_choices.includes(%i[course_option course]).map(&:course_option).select(&:course_withdrawn?).map(&:application_choices)
   end
 
   def full_course_choices

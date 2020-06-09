@@ -9,7 +9,7 @@ module CandidateInterface
     end
 
     def render?
-      @application_form.course_choices_that_need_replacing.any?
+      @application_form.course_choices_that_need_replacing.any? && @application_form.application_choices.first.awaiting_references?
     end
   end
 end
