@@ -33,6 +33,7 @@ class FeatureFlag
     [:apply_again, 'Enables unsuccessful candidates to reapply, AKA Apply 2', 'Steve Hook'],
     [:mark_every_section_complete, 'Each section of the application form should have to be explicitly completed', 'David Gisbey'],
     [:replace_full_or_withdrawn_application_choices, 'Allows candidates to replace full or withdrawn application choices post-submission', 'David Gisbey'],
+    [:unavailable_course_notifications, 'Candidates with applications waiting for references receive an email notification if their course choice is withdrawn has no vacancies', 'Steve Hook'],
   ].freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map { |name, description, owner|

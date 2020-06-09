@@ -2,13 +2,15 @@ class SendCourseFullNotificationsWorker
   include Sidekiq::Worker
 
   def perform
+    return unless FeatureFlag.active?(:unavailable_course_notifications)
+
     GetApplicationChoicesWithNewlyUnavailableCourses.call.each do |application_choice|
       reason = reason_course_is_unavailable(application_choice)
       CandidateMailer.course_unavailable_notification(application_choice, reason).deliver_later
     end
   end
 
-  private
+private
 
   # TODO: Refactor this logic into a separate class?
   def reason_course_is_unavailable(application_choice)
