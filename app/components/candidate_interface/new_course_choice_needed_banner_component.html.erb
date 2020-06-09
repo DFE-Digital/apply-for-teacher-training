@@ -1,0 +1,13 @@
+<div class="app-banner app-banner--info" aria-labelledby="info-message">
+  <div class="app-banner__message">
+    <h2 class="govuk-heading-m" id="info-message">
+      <% if @application_form.course_choices_that_need_replacing.count == 1 %>
+          One of your choices is not available anymore.
+      <% else %>
+        Some of your choices are not available anymore.
+      <% end %>
+      <br>
+    <%= govuk_link_to 'Update your course choice now', '#' %>.
+    </h2>
+  </div>
+</div>
