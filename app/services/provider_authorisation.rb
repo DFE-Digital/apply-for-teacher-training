@@ -10,18 +10,21 @@ class ProviderAuthorisation
 
     supplied_course_option = CourseOption.find(course_option_id) if course_option_id
 
-    training_provider = if supplied_course_option
-                          supplied_course_option.provider
-                        else
-                          application_choice.offered_option.provider
-                        end
+    if supplied_course_option
+      training_provider = supplied_course_option.provider
+      ratifying_provider = supplied_course_option.course.accredited_provider
+    else
+      training_provider = application_choice.offered_option.provider
+      ratifying_provider = application_choice.offered_course.accredited_provider
+    end
 
+    related_providers = [training_provider, ratifying_provider].compact
     return false if
       FeatureFlag.active?('provider_make_decisions_restriction') &&
-        !actor_has_permission_to_make_decisions?(provider: training_provider)
+        !actor_has_permission_to_make_decisions?(providers: related_providers)
 
     if supplied_course_option && course_option_id != application_choice.course_option.id
-      application_choice_visible_to_user?(application_choice: application_choice) && \
+      application_choice_visible_to_user?(application_choice: application_choice) &&
         course_option_belongs_to_user_providers?(course_option: supplied_course_option)
     else
       application_choice_visible_to_user?(application_choice: application_choice)
@@ -83,8 +86,8 @@ private
         .exists?(ratifying_provider: course.accredited_provider, training_provider: course.provider)
   end
 
-  def actor_has_permission_to_make_decisions?(provider:)
+  def actor_has_permission_to_make_decisions?(providers:)
     @actor.is_a?(VendorApiUser) ||
-      @actor.provider_permissions.make_decisions.exists?(provider: provider)
+      @actor.provider_permissions.make_decisions.exists?(provider: providers)
   end
 end
