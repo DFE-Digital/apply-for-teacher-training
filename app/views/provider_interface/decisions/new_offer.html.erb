@@ -5,7 +5,7 @@
 
 <%= form_with model: @application_offer, url: provider_interface_application_choice_confirm_offer_path(@application_choice.id), method: :post do |f| %>
   <%= f.govuk_error_summary %>
-  <%= hidden_field_tag :course_option_id, @course_option_id %>
+  <%= hidden_field_tag :course_option_id, @application_offer.course_option.id %>
 
 	<h1 class="govuk-heading-xl">
 		<span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
