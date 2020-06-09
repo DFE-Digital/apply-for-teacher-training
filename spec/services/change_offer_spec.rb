@@ -4,22 +4,15 @@ RSpec.describe ChangeOffer do
   include CourseOptionHelpers
   let(:provider_user) { create(:provider_user, :with_provider) }
   let(:provider) { provider_user.providers.first }
-  let(:course) { create(:course, :full_time, provider: provider) }
-  let(:original_course_option) { course_option_for_provider(provider: provider, course: course) }
-  let(:new_course_option) { course_option_for_provider(provider: provider, course: course) }
+  let(:original_course_option) { course_option_for_provider(provider: provider) }
+  let(:new_course_option) { course_option_for_provider(provider: provider) }
   let(:application_choice) { create(:application_choice, :with_modified_offer, course_option: original_course_option) }
 
   def service
-    ChangeOffer.new(actor: provider_user, application_choice: application_choice, course_option_id: new_course_option.id)
+    ChangeOffer.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option)
   end
 
-  it 'changes offered_course_option_id for the application choice if it is already set' do
-    expect { service.save }.to change(application_choice, :offered_course_option_id)
-  end
-
-  it 'sets offered_course_option_id for the application choice if it is not already set' do
-    application_choice.update(offered_course_option_id: nil)
-
+  it 'changes offered_course_option_id for the application choice' do
     expect { service.save }.to change(application_choice, :offered_course_option_id)
   end
 
@@ -29,7 +22,7 @@ RSpec.describe ChangeOffer do
     with_conditions = ChangeOffer.new(
       actor: provider_user,
       application_choice: application_choice,
-      course_option_id: new_course_option.id,
+      course_option: new_course_option,
       offer_conditions: ['First condition', 'Second condition'],
     )
 
@@ -47,19 +40,6 @@ RSpec.describe ChangeOffer do
     expect { service.save && application_choice.reload }.to change(application_choice, :decline_by_default_at)
   end
 
-  it 'does not change declined_by_default_at if the offered course option has not changed' do
-    current_course_option = application_choice.offered_option
-    noop = ChangeOffer.new(actor: provider_user, application_choice: application_choice, course_option_id: current_course_option.id)
-    expect { noop.save }.not_to change(application_choice, :decline_by_default_at)
-  end
-
-  it 'adds :course_option_id validation error if the offered course option has not changed' do
-    current_course_option = application_choice.offered_option
-    noop = ChangeOffer.new(actor: provider_user, application_choice: application_choice, course_option_id: current_course_option.id)
-    expect(noop).not_to be_valid
-    expect(noop.errors[:course_option_id]).not_to be_empty
-  end
-
   it 'sends an email to the candidate to notify them about the change' do
     mail = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
     allow(CandidateMailer).to receive(:changed_offer).and_return(mail)
@@ -74,5 +54,32 @@ RSpec.describe ChangeOffer do
     allow(StateChangeNotifier).to receive(:call).and_return(nil)
     service.save
     expect(StateChangeNotifier).to have_received(:call).with(:change_an_offer, application_choice: application_choice)
+  end
+
+  describe 'course option validation' do
+    it 'checks the course option is present' do
+      change = ChangeOffer.new(actor: provider_user, application_choice: application_choice, course_option: nil)
+
+      expect(change).not_to be_valid
+
+      expect(change.errors[:course_option]).to include('could not be found')
+    end
+
+    it 'checks the course option is different from the current option' do
+      change = ChangeOffer.new(actor: provider_user, application_choice: application_choice, course_option: application_choice.offered_option)
+
+      expect(change).not_to be_valid
+
+      expect(change.errors[:course_option]).to include('is the same as the course currently offered')
+    end
+
+    it 'checks the course is open on apply' do
+      new_course_option = create(:course_option, course: create(:course, provider: provider, open_on_apply: false))
+      change = ChangeOffer.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option)
+
+      expect(change).not_to be_valid
+
+      expect(change.errors[:course_option]).to include('is not open for applications via the Apply service')
+    end
   end
 end
