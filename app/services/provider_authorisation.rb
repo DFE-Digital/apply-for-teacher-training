@@ -18,7 +18,7 @@ class ProviderAuthorisation
 
     return false if
       FeatureFlag.active?('provider_make_decisions_restriction') &&
-        !@actor.provider_permissions.make_decisions.exists?(provider: training_provider)
+        !actor_has_permission_to_make_decisions?(provider: training_provider)
 
     if supplied_course_option && course_option_id != application_choice.course_option.id
       application_choice_visible_to_user?(application_choice: application_choice) && \
@@ -81,5 +81,10 @@ private
       ProviderInterface::TrainingProviderPermissions
         .view_safeguarding_information
         .exists?(ratifying_provider: course.accredited_provider, training_provider: course.provider)
+  end
+
+  def actor_has_permission_to_make_decisions?(provider:)
+    @actor.is_a?(VendorApiUser) ||
+      @actor.provider_permissions.make_decisions.exists?(provider: provider)
   end
 end
