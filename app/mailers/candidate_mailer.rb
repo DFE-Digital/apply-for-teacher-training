@@ -244,7 +244,7 @@ class CandidateMailer < ApplicationMailer
         "candidate_mailer.course_unavailable_notification.subject.#{reason}",
         course_name: application_choice.course_option.course.name_and_code,
         provider_name: application_choice.course_option.course.provider.name,
-        study_mode: application_choice.course_option.study_mode,
+        study_mode: application_choice.course_option.study_mode.humanize.downcase,
       ),
       template_name: "course_unavailable_#{reason}",
     )

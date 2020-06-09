@@ -430,32 +430,40 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '#course_unavailable_notification' do
-    context 'when the selected course option has no vacancies and there are no other locations/study modes available' do
-      it 'has the correct subject and content' do
-        application_form = build_stubbed(
-          :application_form,
-          first_name: 'Fred',
-          candidate: @candidate,
-          application_choices: [
-            build_stubbed(
-              :application_choice,
-              status: 'awaiting_references',
-              course_option: build_stubbed(
-                :course_option,
-                vacancy_status: :no_vacancies,
-                course: build_stubbed(
-                  :course,
-                  name: 'Mathematics',
-                  code: 'M101',
-                  provider: build_stubbed(
-                    :provider,
-                    name: 'Bilberry College',
-                  ),
+    def build_stubbed_application_form
+      build_stubbed(
+        :application_form,
+        first_name: 'Fred',
+        candidate: @candidate,
+        application_choices: [
+          build_stubbed(
+            :application_choice,
+            status: 'awaiting_references',
+            course_option: build_stubbed(
+              :course_option,
+              vacancy_status: :no_vacancies,
+              site: build_stubbed(
+                :site,
+                name: 'West Wilford School',
+              ),
+              course: build_stubbed(
+                :course,
+                name: 'Mathematics',
+                code: 'M101',
+                provider: build_stubbed(
+                  :provider,
+                  name: 'Bilberry College',
                 ),
               ),
             ),
-          ],
-        )
+          ),
+        ],
+      )
+    end
+
+    context 'when the selected course option has no vacancies and there are no other locations/study modes available' do
+      it 'has the correct subject and content' do
+        application_form = build_stubbed_application_form
         application_choice = application_form.application_choices.first
         email = described_class.course_unavailable_notification(
           application_choice,
@@ -470,34 +478,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     context 'when the selected course option has no vacancies and but there are other locations available' do
       it 'has the correct subject and content' do
-        application_form = build_stubbed(
-          :application_form,
-          first_name: 'Fred',
-          candidate: @candidate,
-          application_choices: [
-            build_stubbed(
-              :application_choice,
-              status: 'awaiting_references',
-              course_option: build_stubbed(
-                :course_option,
-                vacancy_status: :no_vacancies,
-                site: build_stubbed(
-                  :site,
-                  name: 'West Wilford School',
-                ),
-                course: build_stubbed(
-                  :course,
-                  name: 'Mathematics',
-                  code: 'M101',
-                  provider: build_stubbed(
-                    :provider,
-                    name: 'Bilberry College',
-                  ),
-                ),
-              ),
-            ),
-          ],
-        )
+        application_form = build_stubbed_application_form
         application_choice = application_form.application_choices.first
         email = described_class.course_unavailable_notification(
           application_choice,
@@ -507,6 +488,21 @@ RSpec.describe CandidateMailer, type: :mailer do
         expect(email.subject).to eq 'There are no more places at your choice of location for Mathematics (M101) at Bilberry College: update your course choice now'
         expect(email.body).to include('Dear Fred,')
         expect(email.body).to include('There are no more places at West Wilford School for Mathematics (M101) at Bilberry College')
+      end
+    end
+
+    context 'when the selected course option has no vacancies and but there are other study modes available at the same location' do
+      it 'has the correct subject and content' do
+        application_form = build_stubbed_application_form
+        application_choice = application_form.application_choices.first
+        email = described_class.course_unavailable_notification(
+          application_choice,
+          :study_mode_full,
+        )
+
+        expect(email.subject).to eq 'There are no more full time places for Mathematics (M101) at Bilberry College: update your course choice now'
+        expect(email.body).to include('Dear Fred,')
+        expect(email.body).to include('There are no more full time places for Mathematics (M101) at Bilberry College')
       end
     end
   end
