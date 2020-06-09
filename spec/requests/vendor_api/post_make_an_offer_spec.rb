@@ -94,7 +94,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       expect(response).to have_http_status(422)
       expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-      expect(error_response['message']).to match 'This course is not open for applications via the Apply service'
+      expect(error_response['message']).to match 'The requested course is not open for applications via the Apply service'
     end
 
     it 'returns an error when making an offer on the same course twice' do
@@ -118,7 +118,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       expect(response).to have_http_status(422)
       expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-      expect(error_response['message']).to match 'This course is the same as the course currently offered'
+      expect(error_response['message']).to match 'The new course is the same as the course currently offered'
     end
 
     it 'returns an error when specifying a course that does not exist' do
@@ -141,7 +141,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       expect(response).to have_http_status(422)
       expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-      expect(error_response['message']).to match 'Cannot find an appropriate course option for these codes'
+      expect(error_response['message']).to match 'The requested course could not be found'
     end
   end
 
