@@ -26,11 +26,11 @@
       <%= f.govuk_error_summary %>
 
       <%= render SummaryListComponent.new(rows: [
-        { key: 'Provider', value: @application_choice.offered_option.provider.name_and_code },
-        { key: 'Course', value: @application_choice.offered_course.name_and_code },
-        { key: 'Full time or part time', value: @application_choice.offered_option.study_mode.humanize },
-        { key: 'Location', value: @application_choice.offered_site.name },
-        { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
+        { key: 'Provider', value: @application_offer.course_option.provider.name_and_code },
+        { key: 'Course', value: @application_offer.course_option.course.name_and_code },
+        { key: 'Full time or part time', value: @application_offer.course_option.study_mode.humanize },
+        { key: 'Location', value: @application_offer.course_option.site.name },
+        { key: 'Starting', value: @application_offer.course_option.course.recruitment_cycle_year },
         { key: 'Conditions', value: conditions },
       ]) %>
 
@@ -41,9 +41,7 @@
         Once the candidate has accepted, you can only change the conditions of this offer with their permission.
       </p>
 
-      <% if @application_offer.offered_course_option.present? %>
-        <%= hidden_field_tag :course_option_id, @application_offer.offered_course_option.id %>
-      <% end %>
+      <%= hidden_field_tag :course_option_id, @application_offer.course_option.id %>
       <%= hidden_field_tag :offer_conditions, @application_offer.offer_conditions.to_json %>
       <%= f.govuk_submit 'Make offer' %>
 

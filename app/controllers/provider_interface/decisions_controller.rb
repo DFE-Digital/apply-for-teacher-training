@@ -18,20 +18,26 @@ module ProviderInterface
     end
 
     def new_offer
-      @course_option_id = params[:course_option_id] # from offer_changes/edit_offer
+      course_option = if params[:course_option_id]
+                        CourseOption.find(params[:course_option_id])
+                      else
+                        @application_choice.course_option
+                      end
 
       @application_offer = MakeAnOffer.new(
         actor: current_provider_user,
         application_choice: @application_choice,
-        course_option_id: @course_option_id,
+        course_option: course_option,
       )
     end
 
     def confirm_offer
+      course_option = CourseOption.find(params[:course_option_id])
+
       @application_offer = MakeAnOffer.new(
         actor: current_provider_user,
         application_choice: @application_choice,
-        course_option_id: params[:course_option_id],
+        course_option: course_option,
         standard_conditions: make_an_offer_params[:standard_conditions],
         further_conditions: make_an_offer_params.permit(
           :further_conditions0,
@@ -45,11 +51,12 @@ module ProviderInterface
 
     def create_offer
       offer_conditions_array = JSON.parse(params.dig(:offer_conditions))
+      course_option = CourseOption.find(params[:course_option_id])
 
       @application_offer = MakeAnOffer.new(
         actor: current_provider_user,
         application_choice: @application_choice,
-        course_option_id: params[:course_option_id],
+        course_option: course_option,
         offer_conditions: offer_conditions_array,
       )
 
