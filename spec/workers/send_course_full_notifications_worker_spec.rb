@@ -10,6 +10,7 @@ RSpec.describe SendCourseFullNotificationsWorker do
         allow(GetApplicationChoicesWithNewlyUnavailableCourses).to receive(:call).and_return([application_choice])
         SendCourseFullNotificationsWorker.new.perform
         expect(CandidateMailer).not_to have_received(:course_unavailable_notification)
+        expect(ChaserSent.where(chased: application_choice, chaser_type: :course_unavailable_notification)).not_to be_present
       end
     end
 
@@ -25,6 +26,7 @@ RSpec.describe SendCourseFullNotificationsWorker do
         allow(GetApplicationChoicesWithNewlyUnavailableCourses).to receive(:call).and_return([application_choice])
         SendCourseFullNotificationsWorker.new.perform
         expect(CandidateMailer).to have_received(:course_unavailable_notification).with(application_choice, :course_full).at_least(:once)
+        expect(ChaserSent.where(chased: application_choice, chaser_type: :course_unavailable_notification)).to be_present
       end
 
       it 'sends emails to candidates that applied to a course that is now full at the selected location' do
@@ -35,6 +37,7 @@ RSpec.describe SendCourseFullNotificationsWorker do
         allow(GetApplicationChoicesWithNewlyUnavailableCourses).to receive(:call).and_return([application_choice])
         SendCourseFullNotificationsWorker.new.perform
         expect(CandidateMailer).to have_received(:course_unavailable_notification).with(application_choice, :location_full).at_least(:once)
+        expect(ChaserSent.where(chased: application_choice, chaser_type: :course_unavailable_notification)).to be_present
       end
     end
   end
