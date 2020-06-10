@@ -8,7 +8,6 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     given_the_replace_full_or_withdrawn_application_choices_is_active
     and_i_have_submitted_my_application
     and_one_of_my_application_choices_has_become_full
-    and_another_course_exists
 
     when_i_arrive_at_my_application_dashboard
     then_i_see_that_one_of_my_choices_in_not_available
@@ -30,6 +29,10 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     and_click_continue
     then_i_arrive_at_the_replace_course_choice_page
     and_i_see_my_first_course_choice
+
+    when_i_choose_to_add_a_new_location
+    and_click_continue
+    then_i_see_the_update_location_page
   end
 
   def given_the_replace_full_or_withdrawn_application_choices_is_active
@@ -46,10 +49,6 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     @course_option.no_vacancies!
   end
 
-  def and_another_course_exists
-    course_option_for_provider(provider: @course_option.provider)
-  end
-
   def when_i_arrive_at_my_application_dashboard
     visit candidate_interface_application_complete_path
   end
@@ -59,6 +58,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
   end
 
   def given_i_have_two_full_course_choices
+    course_option_for_provider(provider: @course_option.provider)
     @application_choice = create(:application_choice, application_form: @application, status: 'awaiting_references')
     @application_choice.course_option.no_vacancies!
   end
@@ -76,11 +76,11 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
   end
 
   def and_i_see_my_first_course_choice
-    expect(page).to have_content(@course_option.course.name)
+    expect(page).to have_content(@course_option.course.name_and_code)
   end
 
   def and_i_see_my_second_course_choice
-    expect(page).to have_content(@application_choice.course.name)
+    expect(page).to have_content(@application_choice.course.name_and_code)
   end
 
   def when_i_click_continue_without_selecting_an_option
@@ -101,5 +101,13 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
 
   def then_i_arrive_at_the_replace_course_choice_page
     expect(page).to have_current_path candidate_interface_replace_course_choice_path(@course_option.application_choices.first.id)
+  end
+
+  def when_i_choose_to_add_a_new_location
+    choose 'Choose a different course'
+  end
+
+  def then_i_see_the_update_location_page
+    expect(page).to have_content t('page_titles.which_location')
   end
 end
