@@ -23,8 +23,9 @@ module CandidateInterface
         else
           @pick_choice_to_replace = PickChoiceToReplaceForm.new
           @choices = current_application.course_choices_that_need_replacing
+          flash[:warning] = 'Please select a course choice to update.'
 
-          render :select_choice
+          render :pick_choice_to_replace
         end
       end
 
@@ -41,6 +42,8 @@ module CandidateInterface
       end
 
       def pick_choice_to_replace_params
+        return nil unless params.key?(:candidate_interface_pick_choice_to_replace_form)
+
         params.require(:candidate_interface_pick_choice_to_replace_form).permit(:id)
       end
     end

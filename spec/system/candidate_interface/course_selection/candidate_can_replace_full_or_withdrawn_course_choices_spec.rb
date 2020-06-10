@@ -23,6 +23,9 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     and_i_see_my_first_course_choice
     and_i_see_my_second_course_choice
 
+    when_i_click_continue_without_selecting_an_option
+    then_i_am_told_i_need_to_select_a_course_choice
+
     when_i_choose_my_first_course_choice
     and_click_continue
     then_i_arrive_at_the_replace_course_choice_page
@@ -80,12 +83,20 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     expect(page).to have_content(@application_choice.course.name)
   end
 
+  def when_i_click_continue_without_selecting_an_option
+    click_button 'Continue'
+  end
+
+  def then_i_am_told_i_need_to_select_a_course_choice
+    expect(page).to have_content 'Please select a course choice to update.'
+  end
+
   def when_i_choose_my_first_course_choice
     choose "#{@course_option.provider.name} – #{@course_option.course.name_and_code}"
   end
 
   def and_click_continue
-    click_button 'Continue'
+    when_i_click_continue_without_selecting_an_option
   end
 
   def then_i_arrive_at_the_replace_course_choice_page
