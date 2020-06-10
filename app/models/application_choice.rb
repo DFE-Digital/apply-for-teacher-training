@@ -31,6 +31,8 @@ class ApplicationChoice < ApplicationRecord
     conditions_not_met: 'conditions_not_met',
   }
 
+  scope :offer_withdrawn, -> { where(status: 'rejected').where.not(offer_withdrawn_at: nil) }
+
   def offer_withdrawn?
     rejected? && !offer_withdrawn_at.nil?
   end

@@ -130,4 +130,13 @@ RSpec.describe ApplicationChoice, type: :model do
       end
     end
   end
+
+  describe 'offer_withdrawn scope' do
+    it 'returns offer withdrawn application choices' do
+      create(:application_choice, status: 'rejected', offer_withdrawn_at: nil)
+      offer_withdraw_application_choice = create(:application_choice, status: 'rejected', offer_withdrawn_at: 2.days.ago)
+      expect(described_class.offer_withdrawn.count).to eq 1
+      expect(described_class.offer_withdrawn).to eq [offer_withdraw_application_choice]
+    end
+  end
 end
