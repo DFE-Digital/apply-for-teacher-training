@@ -149,7 +149,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def unique_provider_list
-    application_choices.map(&:provider).uniq
+    application_choices.includes([:provider]).map(&:provider).uniq
   end
 
   def ended_without_success?

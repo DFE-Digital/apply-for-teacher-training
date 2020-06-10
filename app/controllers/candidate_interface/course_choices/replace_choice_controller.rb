@@ -29,7 +29,18 @@ module CandidateInterface
         end
       end
 
-      def choose_option; end
+      def choose_action
+        # @pick_replacement_action = PickReplacmentActionForm.new
+        @course_choice = current_application.application_choices.find(params['id'])
+        @pluralize_provider = 'provider'.pluralize(current_application.unique_provider_list.count)
+        @course_name_and_code = @course_choice.course.name_and_code
+        @provider_name = @course_choice.provider.name
+        @site_name = @course_choice.site.name
+      end
+
+      def route_action
+        binding.pry
+      end
 
     private
 
