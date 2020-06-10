@@ -41,6 +41,10 @@ class CourseOption < ApplicationRecord
     course.course_options.vacancies.blank?
   end
 
+  def course_withdrawn?
+    course.withdrawn
+  end
+
   def alternative_study_mode
     (course.available_study_modes_from_options - [study_mode]).first
   end

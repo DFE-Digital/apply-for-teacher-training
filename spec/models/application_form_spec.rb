@@ -208,4 +208,23 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '#course_choices_that_need_replacing' do
+    it 'returns course_choices whose courses have been withdrawn or course_option has become full' do
+      application_form = create(:application_form)
+      course1 = create(:course, withdrawn: true)
+      course2 = create(:course, withdrawn: false)
+      course3 = create(:course, withdrawn: false)
+
+      course_option1 = create(:course_option, course: course1, vacancy_status: 'no_vacancies')
+      course_option2 = create(:course_option, course: course2, vacancy_status: 'no_vacancies')
+      course_option3 = create(:course_option, course: course3, vacancy_status: 'vacancies')
+
+      application_choice1 = create(:application_choice, application_form: application_form, course_option: course_option1)
+      application_choice2 = create(:application_choice, application_form: application_form, course_option: course_option2)
+      create(:application_choice, application_form: application_form, course_option: course_option3)
+
+      expect(application_form.course_choices_that_need_replacing).to eq [application_choice1, application_choice2]
+    end
+  end
 end

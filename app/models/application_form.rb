@@ -164,9 +164,21 @@ class ApplicationForm < ApplicationRecord
     !can_edit_after_submission? && enough_references_have_been_provided?
   end
 
+  def course_choices_that_need_replacing
+    (withdrawn_course_choices + full_course_choices).flatten.uniq
+  end
+
 private
 
   def enough_references_have_been_provided?
     application_references.feedback_provided.count >= MINIMUM_COMPLETE_REFERENCES
+  end
+
+  def withdrawn_course_choices
+    application_choices.includes(%i[course_option course]).map(&:course_option).select(&:course_withdrawn?).map(&:application_choices)
+  end
+
+  def full_course_choices
+    application_choices.map(&:course_option).select(&:no_vacancies?).map(&:application_choices)
   end
 end

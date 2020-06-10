@@ -32,6 +32,7 @@ class FeatureFlag
     [:track_validation_errors, 'Captures validation errors triggered by candidates so that they can be reviewed by support staff', 'Steve Hook'],
     [:apply_again, 'Enables unsuccessful candidates to reapply, AKA Apply 2', 'Steve Hook'],
     [:mark_every_section_complete, 'Each section of the application form should have to be explicitly completed', 'David Gisbey'],
+    [:replace_full_or_withdrawn_application_choices, 'Allows candidates to replace full or withdrawn application choices post-submission', 'David Gisbey'],
   ].freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map { |name, description, owner|
