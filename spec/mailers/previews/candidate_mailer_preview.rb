@@ -283,27 +283,35 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def course_unavailable_notification_course_full
-    application_choice = ApplicationChoice.awaiting_references.first
-
-    CandidateMailer.course_unavailable_notification(application_choice, :course_full)
+    application_form = application_form_with_course_choices([application_choice_awaiting_references])
+    CandidateMailer.course_unavailable_notification(
+      application_form.application_choices.first,
+      :course_full,
+    )
   end
 
   def course_unavailable_notification_course_withdrawn
-    application_choice = ApplicationChoice.awaiting_references.first
-
-    CandidateMailer.course_unavailable_notification(application_choice, :course_withdrawn)
+    application_form = application_form_with_course_choices([application_choice_awaiting_references])
+    CandidateMailer.course_unavailable_notification(
+      application_form.application_choices.first,
+      :course_withdrawn,
+    )
   end
 
   def course_unavailable_notification_location_full
-    application_choice = ApplicationChoice.awaiting_references.first
-
-    CandidateMailer.course_unavailable_notification(application_choice, :location_full)
+    application_form = application_form_with_course_choices([application_choice_awaiting_references])
+    CandidateMailer.course_unavailable_notification(
+      application_form.application_choices.first,
+      :location_full,
+    )
   end
 
   def course_unavailable_notification_study_mode_full
-    application_choice = ApplicationChoice.awaiting_references.first
-
-    CandidateMailer.course_unavailable_notification(application_choice, :study_mode_full)
+    application_form = application_form_with_course_choices([application_choice_awaiting_references])
+    CandidateMailer.course_unavailable_notification(
+      application_form.application_choices.first,
+      :study_mode_full,
+    )
   end
 
 private
@@ -358,5 +366,29 @@ private
     FactoryBot.build_stubbed(:application_choice, :with_offer,
                              course_option: course_option,
                              decline_by_default_at: Time.zone.now)
+  end
+
+  def application_choice_awaiting_references
+    FactoryBot.build_stubbed(
+      :application_choice,
+      status: 'awaiting_references',
+      course_option: FactoryBot.build_stubbed(
+        :course_option,
+        vacancy_status: :no_vacancies,
+        site: FactoryBot.build_stubbed(
+          :site,
+          name: 'West Wilford School',
+        ),
+        course: FactoryBot.build_stubbed(
+          :course,
+          name: 'Mathematics',
+          code: 'M101',
+          provider: FactoryBot.build_stubbed(
+            :provider,
+            name: 'Bilberry College',
+          ),
+        ),
+      ),
+    )
   end
 end
