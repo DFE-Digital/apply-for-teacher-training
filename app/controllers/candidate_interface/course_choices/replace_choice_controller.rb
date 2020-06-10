@@ -43,15 +43,17 @@ module CandidateInterface
         @course_choice = current_application.application_choices.find(params['id'])
 
         if @pick_replacement_action.valid? && @pick_replacement_action.replacement_action == 'change_location'
-          redirect_to candidate_interface_replace_location_path
+          redirect_to candidate_interface_replace_course_choice_location_path(@course_choice.id)
         elsif !@pick_replacement_action.valid?
           flash[:warning] = 'Please select an option to update your course choice.'
 
           redirect_to candidate_interface_replace_course_choice_path(@course_choice.id)
         else
-
           render :contact_support
         end
+      end
+
+      def change_location
       end
 
     private
