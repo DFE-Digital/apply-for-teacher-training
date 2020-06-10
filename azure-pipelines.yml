@@ -17,7 +17,7 @@ variables:
 - name: pipelineDockerCachePath
   value: $(Pipeline.Workspace)/.docker
 - name: debug
-  value: true
+  value: false
 - name: deployOnly
   value: false
 - name: buildCancelled

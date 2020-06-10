@@ -178,7 +178,7 @@ jobs:
                   $fullDeployment = $true
                   Write-Host "Full ARM deployment required as $resourceGroupName not found in subscription."
                 }
-                
+                Write-Host "##vso[task.setvariable variable=deploymentStartTime]$(Get-Date)"
                 Write-Host "##vso[task.setvariable variable=fullDeployment]$fullDeployment"
 
           - task: AzureResourceGroupDeployment@2
@@ -348,3 +348,15 @@ jobs:
               azureSubscription: ${{parameters.subscriptionName}}
               resourceGroup: $(resourceGroupName)
               appService: $(appServiceName)
+
+          - template: metrics-check-template.yml
+            parameters:
+              azureSubscription: ${{ parameters.subscriptionName }}
+              resourceGroup: $(resourceGroupName)
+              containerName: ${{ format('{0}-{1}', variables.containerInstanceNamePrefix,'wkr') }}
+          
+          - template: metrics-check-template.yml
+            parameters:
+              azureSubscription: ${{ parameters.subscriptionName }}
+              resourceGroup: $(resourceGroupName)
+              containerName: ${{ format('{0}-{1}', variables.containerInstanceNamePrefix,'clk') }}
