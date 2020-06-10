@@ -95,12 +95,12 @@ RSpec.describe TimeLimitCalculator do
       it 'applies the 40 day rule' do
         calculator = TimeLimitCalculator.new(
           rule: :reject_by_default,
-          effective_date: Time.zone.local(2020, 6, 15),
+          effective_date: Time.zone.local(2020, 6, 1),
         )
         expect(calculator.call).to eq(
           days: 40,
-          time_in_future: Time.zone.local(2020, 8, 10).end_of_day,
-          time_in_past: Time.zone.local(2020, 2, 11).end_of_day,
+          time_in_future: Time.zone.local(2020, 7, 27).end_of_day,
+          time_in_past: Time.zone.local(2020, 1, 28).end_of_day,
         )
       end
     end
@@ -125,12 +125,12 @@ RSpec.describe TimeLimitCalculator do
       it 'applies the 40 day rule' do
         calculator = TimeLimitCalculator.new(
           rule: :chase_provider_before_rbd,
-          effective_date: Time.zone.local(2020, 6, 15),
+          effective_date: Time.zone.local(2020, 6, 1),
         )
         expect(calculator.call).to eq(
           days: 20,
-          time_in_future: Time.zone.local(2020, 7, 13).end_of_day,
-          time_in_past: Time.zone.local(2020, 3, 10).end_of_day,
+          time_in_future: Time.zone.local(2020, 6, 29).end_of_day,
+          time_in_past: Time.zone.local(2020, 2, 25).end_of_day,
         )
       end
     end
