@@ -30,7 +30,15 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     then_i_arrive_at_the_replace_course_choice_page
     and_i_see_my_first_course_choice
 
-    when_i_choose_to_add_a_new_location
+    when_i_click_continue_without_selecting_an_option
+    then_i_am_told_i_need_to_select_an_option
+
+    when_i_choose_to_add_a_different_course
+    and_click_continue
+    then_i_am_told_to_contact_support
+
+    when_i_click_back
+    and_i_choose_to_add_a_new_location
     and_click_continue
     then_i_see_the_update_location_page
   end
@@ -103,8 +111,24 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     expect(page).to have_current_path candidate_interface_replace_course_choice_path(@course_option.application_choices.first.id)
   end
 
-  def when_i_choose_to_add_a_new_location
+  def then_i_am_told_i_need_to_select_an_option
+    expect(page).to have_content 'Please select an option to update your course choice.'
+  end
+
+  def when_i_choose_to_add_a_different_course
     choose 'Choose a different course'
+  end
+
+  def then_i_am_told_to_contact_support
+    expect(page).to have_content 'You can currently only change the location of your course choice through the service.'
+  end
+
+  def when_i_click_back
+    click_link 'Back'
+  end
+
+  def and_i_choose_to_add_a_new_location
+    choose 'Choose a different location'
   end
 
   def then_i_see_the_update_location_page
