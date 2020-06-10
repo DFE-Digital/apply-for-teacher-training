@@ -282,6 +282,30 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.apply_again_call_to_action(application_form)
   end
 
+  def course_unavailable_notification_course_full
+    application_choice = ApplicationChoice.awaiting_references.first
+
+    CandidateMailer.course_unavailable_notification(application_choice, :course_full)
+  end
+
+  def course_unavailable_notification_course_withdrawn
+    application_choice = ApplicationChoice.awaiting_references.first
+
+    CandidateMailer.course_unavailable_notification(application_choice, :course_withdrawn)
+  end
+
+  def course_unavailable_notification_location_full
+    application_choice = ApplicationChoice.awaiting_references.first
+
+    CandidateMailer.course_unavailable_notification(application_choice, :location_full)
+  end
+
+  def course_unavailable_notification_study_mode_full
+    application_choice = ApplicationChoice.awaiting_references.first
+
+    CandidateMailer.course_unavailable_notification(application_choice, :study_mode_full)
+  end
+
 private
 
   def candidate
