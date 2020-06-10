@@ -83,6 +83,10 @@ RSpec.feature 'See organisation permissions' do
   def then_i_can_see_permissions_for_the_training_provider
     expect(page).to have_content("For courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}")
     expect(page).to have_content("#{@training_provider.name} can:\nview applications")
+
+    expect(page).to have_link('Change', href: provider_interface_edit_provider_relationship_permissions_path(
+      ratifying_provider_id: @ratifying_provider.id, training_provider_id: @training_provider.id,
+    ))
   end
 
   def and_i_can_see_permissions_for_the_ratifying_provider

@@ -32,6 +32,13 @@
 
       <p class="govuk-!-margin-bottom-1 govuk-body"><%= ratifying_permission.ratifying_provider.name %> can:</p>
       <%= render 'permissions_list', permission: ratifying_permission %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to 'Change', provider_interface_edit_provider_relationship_permissions_path(
+          training_provider_id: training_permission.training_provider.id,
+          ratifying_provider_id: training_permission.ratifying_provider.id,
+        ) if current_provider_user.can_manage_organisations? %>
+      </p>
     <% end %>
   </div>
 </div>
