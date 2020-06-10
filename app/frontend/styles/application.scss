@@ -45,10 +45,12 @@ $govuk-breakpoints: (
 @import "_work-history";
 @import "_timeline";
 @import "_notes";
+@import "~@ministryofjustice/frontend/moj/helpers/hidden";
 @import "~@ministryofjustice/frontend/moj/settings/assets";
 @import "~@ministryofjustice/frontend/moj/objects/filter-layout";
 @import "~@ministryofjustice/frontend/moj/components/filter/filter";
 @import "~@ministryofjustice/frontend/moj/objects/scrollable-pane";
+@import "~@ministryofjustice/frontend/moj/utilities/hidden";
 @import "_filter";
 @import "_provider";
 @import "_application-card";

@@ -1,3 +1,18 @@
+.moj-action-bar__filter {
+  @include govuk-media-query($from: desktop) {
+    display: none;
+  }
+}
+
+.filter-toggle-button {
+  float: right;
+  border-bottom: govuk-spacing(3);
+  @include govuk-media-query($from: desktop) {
+    display: none;
+  }
+}
+
+
 .moj-action-bar__filter:after {
   background: none;
 }
