@@ -265,7 +265,7 @@ en:
       description: |
         The candidate makes a withdrawal decision to inform the provider that they no longer want their application to be considered. The candidate can withdraw an application at any time.
       emails:
-        - provider_mailer-application_withrawn
+        - provider_mailer-application_withdrawn
 
     awaiting_provider_decision-reject_by_default:
       name: Rejected by default
@@ -335,7 +335,7 @@ en:
       by: candidate
       description: Candidates can withdraw at any time.
       emails:
-        - provider_mailer-application_withrawn
+        - provider_mailer-application_withdrawn
 
     recruited-confirm_enrolment:
       name: Provider confirms enrolment
@@ -347,7 +347,7 @@ en:
       by: candidate
       description: Candidates can withdraw at any time.
       emails:
-        - provider_mailer-application_withrawn
+        - provider_mailer-application_withdrawn
 
     rejected-make_offer:
       name: Provider makes offer

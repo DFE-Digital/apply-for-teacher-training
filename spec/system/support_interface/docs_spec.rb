@@ -45,6 +45,10 @@ RSpec.feature 'Docs' do
 
     emails_documented = documented_application_choice_emails + documented_chaser_emails + emails_outside_of_states
 
+    # TODO: remove this once application_withrawn is completely gone
+    emails_documented -= %w[provider_mailer-application_withrawn]
+    emails_sent -= %w[provider_mailer-application_withrawn]
+
     expect(emails_documented).to match_array(emails_sent)
   end
 

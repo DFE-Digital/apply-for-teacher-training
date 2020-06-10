@@ -146,7 +146,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'Send email when the application withdrawn' do
-    it_behaves_like('a provider mail with subject and content', :application_withrawn,
+    it_behaves_like('a provider mail with subject and content', :application_withdrawn,
                     'Harry Potter withdrew their application',
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
