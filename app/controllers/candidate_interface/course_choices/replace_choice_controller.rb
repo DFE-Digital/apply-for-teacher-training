@@ -28,7 +28,7 @@ module CandidateInterface
         end
       end
 
-      def show; end
+      def choose_option; end
 
     private
 

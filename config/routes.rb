@@ -202,7 +202,7 @@ Rails.application.routes.draw do
 
         get '/replace' => 'course_choices/replace_choice#pick_choice_to_replace', as: :replace_course_choices
         post '/replace' => 'course_choices/replace_choice#picked_choice'
-        get '/replace/:id' => 'course_choices/replace_choice#show', as: :replace_course_choice
+        get '/replace/:id' => 'course_choices/replace_choice#choose_option', as: :replace_course_choice
 
         get '/provider' => 'course_choices/provider_selection#new', as: :course_choices_provider
         post '/provider' => 'course_choices/provider_selection#create'
