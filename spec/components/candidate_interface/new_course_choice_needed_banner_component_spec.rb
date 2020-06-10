@@ -4,6 +4,8 @@ RSpec.describe CandidateInterface::NewCourseChoiceNeededBannerComponent do
   describe '#render?' do
     let(:application_form) { create(:application_form) }
 
+    before { FeatureFlag.activate('replace_full_or_withdrawn_application_choices') }
+
     context 'when a course has been withdrawn and the candidate is awaiting their references' do
       it 'renders the component' do
         course = create(:course, withdrawn: true)
