@@ -50,6 +50,7 @@ class ApplicationChoice < ApplicationRecord
   end
 
   delegate :course_not_available?, to: :course_option
+  delegate :withdrawn?, to: :course, prefix: true
 
   def course_not_available_error
     I18n.t('errors.application_choices.course_not_available', descriptor: course.provider_and_name_code)

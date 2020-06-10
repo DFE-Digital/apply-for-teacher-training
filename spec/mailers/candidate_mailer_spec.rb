@@ -476,6 +476,22 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
     end
 
+    context 'when the selected course has been withdrawn' do
+      it 'has the correct subject and content' do
+        application_form = build_stubbed_application_form
+        application_choice = application_form.application_choices.first
+        email = described_class.course_unavailable_notification(
+          application_choice,
+          :course_withdrawn,
+        )
+
+        expect(email.subject).to eq('Mathematics (M101) at Bilberry College is not running anymore: update your course choice now')
+        expect(email.body).to include('Dear Fred,')
+        expect(email.body).to include('Your course is not running anymore')
+        expect(email.body).to include('Bilberry College is not running Mathematics (M101) anymore.')
+      end
+    end
+
     context 'when the selected course option has no vacancies and but there are other locations available' do
       it 'has the correct subject and content' do
         application_form = build_stubbed_application_form
