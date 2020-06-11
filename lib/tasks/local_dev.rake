@@ -1,8 +1,8 @@
 desc 'Set up your local development environment with data from Find'
-task setup_local_dev_data: %i[environment copy_feature_flags_from_production sync_dev_providers_and_open_courses generate_test_applications] do
+task setup_local_dev_data: %i[environment copy_feature_flags_from_production sync_dev_providers_and_open_courses] do
   puts 'Creating a provider-only user with DfE Sign-in UID `dev-provider` and email `provider@example.com`...'
   ProviderUser.find_or_create_by!(dfe_sign_in_uid: 'dev-provider', email_address: 'provider@example.com') do |u|
-    u.providers = [ApplicationChoice.first.provider]
+    u.providers = Provider.where(code: '1JA').all
   end
 
   puts 'Creating a support & provider user with DfE Sign-in UID `dev-support` and email `support@example.com`...'
@@ -19,6 +19,8 @@ task setup_local_dev_data: %i[environment copy_feature_flags_from_production syn
     view_safeguarding_information: true,
     make_decisions: true,
   )
+
+  Rake::Task['generate_test_applications'].invoke
 end
 
 desc 'Sync some pilot-enabled providers and open all their courses'
