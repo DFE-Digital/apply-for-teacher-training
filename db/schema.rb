@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_05_131701) do
+ActiveRecord::Schema.define(version: 2020_06_11_094517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 2020_06_05_131701) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "other_uk_qualification_type", limit: 100
     t.text "missing_explanation"
+    t.string "start_year"
     t.index ["application_form_id"], name: "index_application_qualifications_on_application_form_id"
   end
 
