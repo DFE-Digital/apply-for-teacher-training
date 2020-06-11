@@ -207,7 +207,6 @@ Rails.application.routes.draw do
         get '/replace/:id/location' => 'course_choices/replace_choice#replace_location', as: :replace_course_choice_location
         post '/replace/:id/location' => 'course_choices/replace_choice#update_location', as: :update_course_choice_location
 
-
         get '/provider' => 'course_choices/provider_selection#new', as: :course_choices_provider
         post '/provider' => 'course_choices/provider_selection#create'
         get '/provider/:provider_id/courses' => 'course_choices/course_selection#new', as: :course_choices_course

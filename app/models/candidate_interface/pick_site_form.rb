@@ -9,6 +9,7 @@ module CandidateInterface
     def available_sites
       relation = CourseOption.selectable.includes(:site).where(course_id: course.id)
       relation = relation.where(study_mode: study_mode)
+      relation = relation.reject(&:no_vacancies?)
       relation.sort_by { |course_option| course_option.site.name }
     end
 

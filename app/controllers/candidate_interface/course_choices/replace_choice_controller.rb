@@ -42,7 +42,7 @@ module CandidateInterface
         @pick_replacement_action = PickReplacementActionForm.new(replacement_action_params)
         @course_choice = current_application.application_choices.find(params['id'])
 
-        if @pick_replacement_action.valid? && @pick_replacement_action.replacement_action == 'change_location'
+        if @pick_replacement_action.valid? && @pick_replacement_action.replacement_action == 'replace_location'
           redirect_to candidate_interface_replace_course_choice_location_path(@course_choice.id)
         elsif !@pick_replacement_action.valid?
           flash[:warning] = 'Please select an option to update your course choice.'
@@ -53,7 +53,16 @@ module CandidateInterface
         end
       end
 
-      def change_location
+      def replace_location
+        @choice = current_application.application_choices.find(params['id'])
+
+        @pick_site = PickSiteForm.new(
+          application_form: current_application,
+          provider_id: @choice.provider.id,
+          course_id: @choice.course.id,
+          study_mode: @choice.course_option.study_mode,
+          course_option_id: params['id'],
+        )
       end
 
     private
