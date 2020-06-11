@@ -99,17 +99,17 @@ module CandidateInterface
 
     def feedback_status_content(referee)
       if referee.not_requested_yet? && !referee.application_form.submitted?
-        content_tag(:p, t('application_form.referees.info.not_requested_yet'), class: 'govuk-body govuk-!-margin-top-2')
+        tag.p(t('application_form.referees.info.not_requested_yet'), class: 'govuk-body govuk-!-margin-top-2')
       elsif referee.feedback_refused?
-        content_tag(:p, t('application_form.referees.info.declined'), class: 'govuk-body govuk-!-margin-top-2')
+        tag.p(t('application_form.referees.info.declined'), class: 'govuk-body govuk-!-margin-top-2')
       elsif referee.feedback_overdue?
-        content_tag(:p, t('application_form.referees.info.feedback_overdue'), class: 'govuk-body govuk-!-margin-top-2')
+        tag.p(t('application_form.referees.info.feedback_overdue'), class: 'govuk-body govuk-!-margin-top-2')
       elsif referee.feedback_requested? && referee.requested_at > Time.zone.now - 5.days
-        content_tag(:p, t('application_form.referees.info.awaiting_reference_sent_less_than_5_days_ago'), class: 'govuk-body govuk-!-margin-top-2')
+        tag.p(t('application_form.referees.info.awaiting_reference_sent_less_than_5_days_ago'), class: 'govuk-body govuk-!-margin-top-2')
       elsif referee.feedback_requested?
-        content_tag(:p, t('application_form.referees.info.awaiting_reference_sent_more_than_5_days_ago'), class: 'govuk-body govuk-!-margin-top-2')
+        tag.p(t('application_form.referees.info.awaiting_reference_sent_more_than_5_days_ago'), class: 'govuk-body govuk-!-margin-top-2')
       elsif referee.cancelled?
-        content_tag(:p, t('application_form.referees.info.cancelled'), class: 'govuk-body govuk-!-margin-top-2')
+        tag.p(t('application_form.referees.info.cancelled'), class: 'govuk-body govuk-!-margin-top-2')
       end
     end
 
