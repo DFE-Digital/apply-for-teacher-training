@@ -16,6 +16,27 @@
   <div class="govuk-grid-column-two-thirds">
     <p class="govuk-hint govuk-!-margin-bottom-8 govuk-!-margin-top-2"><%= @application_form_presenter.updated_at %></p>
 
+    <h2 class="govuk-heading-m govuk-!-font-size-27">🆕 References</h2>
+    <ul class="app-task-list govuk-!-margin-bottom-8">
+      <li class="app-task-list__item">
+        <%= render(TaskListItemComponent.new(text: 'Referees', completed: @application_form_presenter.all_referees_provided_by_candidate?, path: candidate_interface_referees_path, submitted: false)) %>
+      </li>
+      <% if @application_form_presenter.all_referees_provided_by_candidate? %>
+        <li class="app-task-list__item">
+          <span class="app-task-list__task-name"><%= @application_form.application_references.first.name %></span>
+          <strong class="govuk-tag govuk-tag--grey app-tag">
+            <%= @application_form.application_references.first.feedback_status.titleize %>
+          </strong>
+        </li>
+        <li class="app-task-list__item">
+          <span class="app-task-list__task-name"><%= @application_form.application_references.second.name %></span>
+          <strong class="govuk-tag govuk-tag--grey app-tag">
+            <%= @application_form.application_references.second.feedback_status.titleize %>
+          </strong>
+        </li>
+      <% end %>
+    </ul>
+
     <% if FeatureFlag.active?('apply_again') && @application_form.candidate_has_previously_applied? %>
       <% if @application_form.previous_application_form.application_choices.rejected.any?  %>
         <%= render(CandidateInterface::RejectionReasonsComponent.new(application_form: @application_form.previous_application_form)) %>
@@ -94,13 +115,6 @@
       </li>
       <li class="app-task-list__item govuk-hint">
         <%= render(TaskListItemComponent.new(text: t('page_titles.interview_preferences'), completed: @application_form_presenter.interview_preferences_completed?, path: @application_form_presenter.interview_preferences_completed? ? candidate_interface_interview_preferences_show_path : candidate_interface_interview_preferences_edit_path)) %>
-      </li>
-    </ul>
-
-    <h2 class="govuk-heading-m govuk-!-font-size-27">References</h2>
-    <ul class="app-task-list govuk-!-margin-bottom-8">
-      <li class="app-task-list__item">
-        <%= render(TaskListItemComponent.new(text: 'Referees', completed: @application_form_presenter.all_referees_provided_by_candidate?, path: candidate_interface_referees_path, submitted: false)) %>
       </li>
     </ul>
 

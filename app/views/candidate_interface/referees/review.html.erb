@@ -28,7 +28,7 @@
 
   <% if FeatureFlag.active?('mark_every_section_complete') %>
     <%= render(CandidateInterface::CompleteSectionComponent.new(application_form: @application_form,
-                                            path: candidate_interface_complete_referees_path,
+                                            path: candidate_interface_confirm_complete_referees_path,
                                             request_method: :patch,
                                             field_name: :references_completed)) %>
   <% else %>

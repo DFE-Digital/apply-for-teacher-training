@@ -119,9 +119,17 @@ module CandidateInterface
       @application_form = current_candidate.current_application
     end
 
+    def confirm_complete
+      @application_form = current_candidate.current_application
+    end
+
     def complete
       if current_application.application_references.count >= ApplicationForm::MINIMUM_COMPLETE_REFERENCES
-        current_application.update!(application_form_params)
+        flash[:success] = "We’ve emailed your referees."
+        current_application.update!(references_completed: true)
+        current_application.application_references.not_requested_yet.includes(:application_form).each do |reference|
+          CandidateInterface::RequestReference.call(reference)
+        end
 
         redirect_to candidate_interface_application_form_path
       else

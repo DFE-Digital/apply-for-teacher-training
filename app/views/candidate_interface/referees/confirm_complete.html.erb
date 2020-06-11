@@ -1,0 +1,26 @@
+<% content_for :title, 'Do you want us to contact your referees now?' %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_review_referees_path, 'Back') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @application_form, url: candidate_interface_complete_referees_path, method: :patch do |f| %>
+      <h1 class="govuk-heading-xl">
+        🆕 Do you want us to contact your referees now?
+      </h1>
+
+      <p class="govuk-body">We’ll email <%= @application_form.application_references.first.name %> and <%= @application_form.application_references.second.name %> and ask them to provide a reference.</p>
+
+      <p class="govuk-body">You can fill in the rest of your application while you wait.</p>
+
+      <p class="govuk-body">If your references do not reply, you can cancel and replace them at any time.</p>
+
+      <p class='govuk-body'>You cannot submit your application without 2 complete references.</p>
+
+      <%= f.govuk_submit "Contact my referees" %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to "No - I'll contact them later", candidate_interface_application_form_path %>
+      </p>
+    <% end %>
+  </div>
+</div>

@@ -317,7 +317,7 @@ en:
       confirm_chase: Are you sure you want to send emails to chase the referee?
       info:
         before_submission: You need to add 2 referees.
-        not_requested_yet:  We’ll contact your referees after you submit your application.
+        not_requested_yet:  🆕 We’ll contact your referees once you mark this section as completed.
         declined: Your referee chose not to give a reference.
         awaiting_reference_sent_less_than_5_days_ago: We’ve emailed your referee. Keep in touch with them to ensure they’re planning on giving a reference as soon as possible.
         awaiting_reference_sent_more_than_5_days_ago: Your referee has not responded yet. Ask them if they got the email - it may have gone to junk or spam.
