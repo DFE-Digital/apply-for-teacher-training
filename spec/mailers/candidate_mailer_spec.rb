@@ -428,4 +428,98 @@ RSpec.describe CandidateMailer, type: :mailer do
       expect(email).to have_content "We have not had a reference from #{@referee.name} yet."
     end
   end
+
+  describe '#course_unavailable_notification' do
+    def build_stubbed_application_form
+      build_stubbed(
+        :application_form,
+        first_name: 'Fred',
+        candidate: @candidate,
+        application_choices: [
+          build_stubbed(
+            :application_choice,
+            status: 'awaiting_references',
+            course_option: build_stubbed(
+              :course_option,
+              vacancy_status: :no_vacancies,
+              site: build_stubbed(
+                :site,
+                name: 'West Wilford School',
+              ),
+              course: build_stubbed(
+                :course,
+                name: 'Mathematics',
+                code: 'M101',
+                provider: build_stubbed(
+                  :provider,
+                  name: 'Bilberry College',
+                ),
+              ),
+            ),
+          ),
+        ],
+      )
+    end
+
+    context 'when the selected course option has no vacancies and there are no other locations/study modes available' do
+      it 'has the correct subject and content' do
+        application_form = build_stubbed_application_form
+        application_choice = application_form.application_choices.first
+        email = described_class.course_unavailable_notification(
+          application_choice,
+          :course_full,
+        )
+
+        expect(email.subject).to eq 'There are no more places for Mathematics (M101) at Bilberry College: update your course choice now'
+        expect(email.body).to include('Dear Fred,')
+        expect(email.body).to include('There are no more places for Mathematics (M101) at Bilberry College')
+      end
+    end
+
+    context 'when the selected course has been withdrawn' do
+      it 'has the correct subject and content' do
+        application_form = build_stubbed_application_form
+        application_choice = application_form.application_choices.first
+        email = described_class.course_unavailable_notification(
+          application_choice,
+          :course_withdrawn,
+        )
+
+        expect(email.subject).to eq('Mathematics (M101) at Bilberry College is not running anymore: update your course choice now')
+        expect(email.body).to include('Dear Fred,')
+        expect(email.body).to include('Your course is not running anymore')
+        expect(email.body).to include('Bilberry College is not running Mathematics (M101) anymore.')
+      end
+    end
+
+    context 'when the selected course option has no vacancies and but there are other locations available' do
+      it 'has the correct subject and content' do
+        application_form = build_stubbed_application_form
+        application_choice = application_form.application_choices.first
+        email = described_class.course_unavailable_notification(
+          application_choice,
+          :location_full,
+        )
+
+        expect(email.subject).to eq 'There are no more places at your choice of location for Mathematics (M101) at Bilberry College: update your course choice now'
+        expect(email.body).to include('Dear Fred,')
+        expect(email.body).to include('There are no more places at West Wilford School for Mathematics (M101) at Bilberry College')
+      end
+    end
+
+    context 'when the selected course option has no vacancies and but there are other study modes available at the same location' do
+      it 'has the correct subject and content' do
+        application_form = build_stubbed_application_form
+        application_choice = application_form.application_choices.first
+        email = described_class.course_unavailable_notification(
+          application_choice,
+          :study_mode_full,
+        )
+
+        expect(email.subject).to eq 'There are no more full time places for Mathematics (M101) at Bilberry College: update your course choice now'
+        expect(email.body).to include('Dear Fred,')
+        expect(email.body).to include('There are no more full time places for Mathematics (M101) at Bilberry College')
+      end
+    end
+  end
 end

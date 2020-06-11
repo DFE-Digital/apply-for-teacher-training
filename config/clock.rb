@@ -19,4 +19,5 @@ class Clock
 
   every(1.hour, 'SendChaseEmailToProviders', at: '**:35') { SendChaseEmailToProvidersWorker.perform_async }
   every(1.hour, 'SendChaseEmailToCandidates', at: '**:40') { SendChaseEmailToCandidatesWorker.perform_async }
+  every(1.hour, 'SendCourseFullNotifications', at: '**:45') { SendCourseFullNotificationsWorker.perform_async }
 end
