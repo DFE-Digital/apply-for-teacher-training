@@ -12,10 +12,27 @@ RSpec.describe SendCourseFullNotificationsWorker do
         SendCourseFullNotificationsWorker.new.perform
         expect(CandidateMailer).not_to have_received(:course_unavailable_notification)
         expect(ChaserSent.where(chased: application_choice, chaser_type: :course_unavailable_notification)).not_to be_present
+        expect(ChaserSent.where(chased: application_choice, chaser_type: :course_unavailable_slack_notification)).to be_present
         expect(SlackNotificationWorker).to have_received(:perform_async).with(
           "#{application_choice.course.name_and_code} at #{application_choice.course.provider.name} became full while #{application_choice.application_form.first_name} was awaiting references",
           Rails.application.routes.url_helpers.support_interface_application_form_url(application_choice.application_form),
         )
+      end
+
+      it 'does not send repeated Slack notification if ChaserSent record is already present' do
+        application_choice = create :application_choice
+        application_choice.course_option.update(vacancy_status: :no_vacancies)
+        allow(SlackNotificationWorker).to receive(:perform_async)
+        allow(CandidateMailer).to receive(:course_unavailable_notification)
+        allow(GetApplicationChoicesWithNewlyUnavailableCourses).to receive(:call).and_return([application_choice])
+        ChaserSent.create!(
+          chased: application_choice,
+          chaser_type: :course_unavailable_slack_notification,
+        )
+        SendCourseFullNotificationsWorker.new.perform
+        expect(CandidateMailer).not_to have_received(:course_unavailable_notification)
+        expect(ChaserSent.where(chased: application_choice, chaser_type: :course_unavailable_notification)).not_to be_present
+        expect(SlackNotificationWorker).not_to have_received(:perform_async)
       end
     end
 
@@ -32,6 +49,7 @@ RSpec.describe SendCourseFullNotificationsWorker do
         SendCourseFullNotificationsWorker.new.perform
         expect(CandidateMailer).to have_received(:course_unavailable_notification).with(application_choice, :course_withdrawn).at_least(:once)
         expect(ChaserSent.where(chased: application_choice, chaser_type: :course_unavailable_notification)).to be_present
+        expect(ChaserSent.where(chased: application_choice, chaser_type: :course_unavailable_slack_notification)).to be_present
       end
 
       it 'sends emails to candidates that applied to a course that is now full' do
@@ -42,6 +60,7 @@ RSpec.describe SendCourseFullNotificationsWorker do
         SendCourseFullNotificationsWorker.new.perform
         expect(CandidateMailer).to have_received(:course_unavailable_notification).with(application_choice, :course_full).at_least(:once)
         expect(ChaserSent.where(chased: application_choice, chaser_type: :course_unavailable_notification)).to be_present
+        expect(ChaserSent.where(chased: application_choice, chaser_type: :course_unavailable_slack_notification)).to be_present
       end
 
       it 'sends emails to candidates that applied to a course that is now full at the selected location' do
@@ -53,6 +72,7 @@ RSpec.describe SendCourseFullNotificationsWorker do
         SendCourseFullNotificationsWorker.new.perform
         expect(CandidateMailer).to have_received(:course_unavailable_notification).with(application_choice, :location_full).at_least(:once)
         expect(ChaserSent.where(chased: application_choice, chaser_type: :course_unavailable_notification)).to be_present
+        expect(ChaserSent.where(chased: application_choice, chaser_type: :course_unavailable_slack_notification)).to be_present
       end
 
       it 'sends emails to candidates that applied to a course that is now full for the selected study mode' do
@@ -64,6 +84,7 @@ RSpec.describe SendCourseFullNotificationsWorker do
         SendCourseFullNotificationsWorker.new.perform
         expect(CandidateMailer).to have_received(:course_unavailable_notification).with(application_choice, :study_mode_full).at_least(:once)
         expect(ChaserSent.where(chased: application_choice, chaser_type: :course_unavailable_notification)).to be_present
+        expect(ChaserSent.where(chased: application_choice, chaser_type: :course_unavailable_slack_notification)).to be_present
       end
     end
   end
