@@ -23,12 +23,12 @@ RSpec.feature 'Entering their degrees' do
 
     when_i_select_the_degree_classification
     and_i_click_on_save_and_continue
-    then_i_can_see_the_graduation_year_page
+    then_i_can_see_the_start_and_graduation_year_page
 
     when_i_click_on_save_and_continue
     then_i_see_validation_errors_for_graduation_year
 
-    when_i_fill_in_the_graduation_year
+    when_i_fill_in_the_start_and_graduation_year
     and_i_click_on_save_and_continue
     then_i_can_check_my_undergraduate_degree
 
@@ -51,7 +51,7 @@ RSpec.feature 'Entering their degrees' do
     and_i_click_on_save_and_continue
     when_i_select_the_degree_classification
     and_i_click_on_save_and_continue
-    when_i_fill_in_the_graduation_year
+    when_i_fill_in_the_start_and_graduation_year
     and_i_click_on_save_and_continue
     then_i_can_check_my_additional_degree
 
@@ -140,7 +140,8 @@ RSpec.feature 'Entering their degrees' do
     choose t('application_form.degree.grade.first.label')
   end
 
-  def then_i_can_see_the_graduation_year_page
+  def then_i_can_see_the_start_and_graduation_year_page
+    expect(page).to have_content(t('page_titles.what_year_did_you_start_your_degree'))
     expect(page).to have_content(t('page_titles.what_year_did_you_graduate'))
   end
 
@@ -148,8 +149,10 @@ RSpec.feature 'Entering their degrees' do
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/degree_form.attributes.award_year.blank')
   end
 
-  def when_i_fill_in_the_graduation_year
+  def when_i_fill_in_the_start_and_graduation_year
+    year_with_trailing_space = '2006 '
     year_with_preceding_space = ' 2009'
+    fill_in t('application_form.degree.start_year.label'), with: year_with_trailing_space
     fill_in t('application_form.degree.award_year.label'), with: year_with_preceding_space
   end
 
@@ -187,7 +190,7 @@ RSpec.feature 'Entering their degrees' do
     when_i_select_the_degree_classification
     and_i_click_on_save_and_continue
 
-    when_i_fill_in_the_graduation_year
+    when_i_fill_in_the_start_and_graduation_year
     and_i_click_on_save_and_continue
   end
 
