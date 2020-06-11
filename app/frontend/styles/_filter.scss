@@ -1,3 +1,23 @@
+.moj-filter-layout__content {
+  .moj-action-bar {
+    height: 60px;
+  }
+}
+
+.moj-action-bar__filter {
+  @include govuk-media-query($from: desktop) {
+    display: none;
+  }
+}
+
+.filter-toggle-button {
+  float: right;
+  margin-bottom: govuk-spacing(1);
+  @include govuk-media-query($from: desktop) {
+    display: none;
+  }
+}
+
 .moj-action-bar__filter:after {
   background: none;
 }
@@ -17,6 +37,10 @@
   padding-bottom: govuk-spacing(3);
 }
 
+.applications-sorted-by-explanation {
+  margin-top: govuk-spacing(2);
+}
+
 .moj-filter__selected {
   box-shadow: none;
   border: 1px solid $govuk-border-colour;
@@ -31,8 +55,7 @@
 }
 
 .app-filter {
-  display: none;
-  @include govuk-media-query($from: large) {
-    display: block;
+  @include govuk-media-query($from: tablet) {
+    margin-bottom: govuk-spacing(3);
   }
 }
