@@ -135,6 +135,10 @@ en:
         further_conditions1: Second condition
         further_conditions2: Third condition
         further_conditions3: Further condition
+      make_an_offer:
+        course_option: The requested course
+      change_offer:
+        course_option: The new course
     errors:
       models:
         support_interface/provider_user_form:
@@ -167,7 +171,7 @@ en:
               unsupported: Please specify a valid study mode
               unavailable_for_course: Unavailable for this course
               no_course_options: No relevant course options available
-            course_option_id:
+            course_option:
               blank: You have not chosen a new location
         provider_interface/confirm_conditions_form:
           attributes:
@@ -197,8 +201,15 @@ en:
               blank: Please specify a provider
         change_offer:
           attributes:
-            course_option_id:
-              no_change: You are changing the offer to the same course option
+            course_option:
+              no_change: is the same as the course currently offered
+              blank: could not be found
+              not_open_on_apply: is not open for applications via the Apply service
+        make_an_offer:
+          attributes:
+            course_option:
+              blank: could not be found
+              not_open_on_apply: is not open for applications via the Apply service
         withdraw_offer:
           attributes:
             offer_withdrawal_reason:

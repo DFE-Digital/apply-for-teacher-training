@@ -89,5 +89,11 @@ module ProviderInterface
     def new_offer?
       application_choice.offer.blank?
     end
+
+    def selected_course_option
+      if course_option_id.present?
+        CourseOption.find(course_option_id)
+      end
+    end
   end
 end
