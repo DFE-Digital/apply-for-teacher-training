@@ -70,3 +70,8 @@ en:
         study_mode_location_full: "There are no more %{study_mode} places at your choice of location for %{course_name} at %{provider_name}: update your course choice now"
         study_mode_location_withdrawn: "%{provider_name} is not running %{study_mode} places at your choice of location for %{course_name}: update your course choice now"
         course_withdrawn: '%{course_name} at %{provider_name} is not running anymore: update your course choice now'
+      slack_message:
+        course_withdrawn: '%{course_name} at %{provider_name} was withdrawn while %{candidate_name} was awaiting references'
+        course_full: "%{course_name} at %{provider_name} became full while %{candidate_name} was awaiting references"
+        location_full: "%{course_name} at %{provider_name} became full at %{location} while %{candidate_name} was awaiting references"
+        study_mode_full: "%{study_mode} places for %{course_name} at %{provider_name} became full while %{candidate_name} was awaiting references"
