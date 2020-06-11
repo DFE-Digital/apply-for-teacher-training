@@ -8,5 +8,6 @@ class ChaserSent < ApplicationRecord
     provider_decision_request: 'provider_decision_request',
     candidate_decision_request: 'candidate_decision_request',
     course_unavailable_notification: 'course_unavailable_notification',
+    course_unavailable_slack_notification: 'course_unavailable_slack_notification',
   }
 end

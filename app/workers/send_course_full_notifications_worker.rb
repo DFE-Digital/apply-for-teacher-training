@@ -10,15 +10,23 @@ class SendCourseFullNotificationsWorker
           chaser_type: :course_unavailable_notification,
         )
         CandidateMailer.course_unavailable_notification(application_choice, reason).deliver_later
-      else
-        send_slack_message(application_choice, reason)
       end
+      send_slack_message(application_choice, reason)
     end
   end
 
 private
 
   def send_slack_message(application_choice, reason)
+    return if ChaserSent.find_by(
+      chased: application_choice,
+      chaser_type: :course_unavailable_slack_notification,
+    ).present?
+
+    ChaserSent.create!(
+      chased: application_choice,
+      chaser_type: :course_unavailable_slack_notification,
+    )
     message = I18n.t!(
       "candidate_mailer.course_unavailable_notification.slack_message.#{reason}",
       course_name: application_choice.course_option.course.name_and_code,
