@@ -141,8 +141,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_can_see_the_start_and_graduation_year_page
-    expect(page).to have_content(t('page_titles.what_year_did_you_start_your_degree'))
-    expect(page).to have_content(t('page_titles.what_year_did_you_graduate'))
+    expect(page).to have_content(t('page_titles.when_did_you_study_for_your_degree'))
   end
 
   def then_i_see_validation_errors_for_graduation_year

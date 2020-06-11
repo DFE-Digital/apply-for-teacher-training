@@ -149,9 +149,14 @@ en:
           conditional:
             label: Please give details of your predicted grade.
             hint_text: Predicted grades must be validated by an academic referee in the ‘References’ section.
+      start_year:
+        label: Year started course
+        hint_text: For example, 1999
+        review_label: Start year
+        change_action: year
       award_year:
         label: Graduation year
-        hint_text: For example, 2002. You must have successfully graduated by the time you start your course.
+        hint_text: For example, 2002
         review_label: Graduation year
         change_action: year
       base:
