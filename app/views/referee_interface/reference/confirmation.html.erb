@@ -69,14 +69,6 @@
           <% end %>
         <% end %>
 
-        <%= f.govuk_radio_buttons_fieldset :safe_to_work_with_children, legend: { text: t('questionnaire_form.safe_to_work_with_children'), tag: 'span' } do %>
-          <%= f.govuk_radio_button :safe_to_work_with_children, true, label: { text: t('questionnaire_form.is_safe_to_work_with_children') } %>
-
-          <%= f.govuk_radio_button :safe_to_work_with_children, false, label: { text: t('questionnaire_form.is_not_safe_to_work_with_children') } do %>
-            <%= f.govuk_text_area :safe_to_work_with_children_explanation, label: { text: t('questionnaire_form.tell_us_why') } %>
-          <% end %>
-        <% end %>
-
         <%= f.govuk_radio_buttons_fieldset :consent_to_be_contacted, legend: { text: t('questionnaire_form.can_we_contact_you'), tag: 'span' }, hint_text: t('questionnaire_form.hint_text') do %>
           <%= f.govuk_radio_button :consent_to_be_contacted, true, label: { text: t('questionnaire_form.consent_to_be_contacted') } do %>
             <%= f.govuk_text_area :consent_to_be_contacted_details, label: { text: t('questionnaire_form.availibility') } %>
