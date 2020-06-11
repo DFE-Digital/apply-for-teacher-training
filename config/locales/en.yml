@@ -116,6 +116,7 @@ en:
       confirm: Confirm offer
     covid_19_guidance: "Coronavirus (COVID-19): deadlines for processing applications extended to 31 May 2020"
     start_apply_again: Do you want to apply again?
+    pick_choice_to_replace: Some of your choices are not available anymore
   layout:
     accessibility: Accessibility
     terms_of_use: Terms of use

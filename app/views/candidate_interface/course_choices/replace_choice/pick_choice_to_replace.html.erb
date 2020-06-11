@@ -1,0 +1,21 @@
+<% content_for :title, t('page_titles.pick_choice_to_replace') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_complete_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @pick_choice_to_replace, url: candidate_interface_replace_course_choices_path, method: :post do |f| %>
+
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.pick_choice_to_replace') %>
+    </h1>
+
+    <%= f.govuk_radio_buttons_fieldset :replacement_decision, legend: { text: 'Which course choice do you want to update first?' } do %>
+      <% @choices.each do |choice| %>
+        <%= f.govuk_radio_button :id, choice.id, label: { text: "#{choice.provider.name } – #{choice.course.name_and_code}" } %>
+      <% end %>
+    <% end %>
+
+    <%= f.govuk_submit 'Continue' %>
+  <% end %>
+  </div>
+</div>
