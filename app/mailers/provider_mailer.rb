@@ -94,11 +94,10 @@ private
     @provider_user = provider_user
     @provider_user_name = provider_user.full_name
 
-    notify_email(
-      to: provider_user.email_address,
-      subject: args[:subject],
-      application_form_id: application_form.id,
-    )
+    notify_email(args.merge(
+                   to: provider_user.email_address,
+                   application_form_id: application_form.id,
+                 ))
   end
 
   def map_application_choice_params(application_choice)
