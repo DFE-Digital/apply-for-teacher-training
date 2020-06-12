@@ -22,9 +22,9 @@ RSpec.describe RefereeInterface::QuestionnaireForm do
 
   let(:correct_params) do
     {
-      'Please rate your experience of giving a reference' => 'very_good | definitely should be returned',
-      'Please rate how useful our guidance was' => 'good | definitely should be returned',
-      'Can we contact you about your experience of giving a reference?' => 'true | anytime 012345 678900',
+      RefereeQuestionnaire::EXPERIENCE_QUESTION => 'very_good | definitely should be returned',
+      RefereeQuestionnaire::GUIDANCE_QUESTION => 'good | definitely should be returned',
+      RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => 'true | anytime 012345 678900',
     }
   end
 

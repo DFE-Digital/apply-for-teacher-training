@@ -25,7 +25,7 @@
       <p class="govuk-body">Your feedback will help us to improve our service.</p>
 
       <div class="govuk-grid-column-two-thirds">
-        <%= f.govuk_radio_buttons_fieldset :experience, legend: { text: t('questionnaire_form.experience'), tag: 'span' } do %>
+        <%= f.govuk_radio_buttons_fieldset :experience, legend: { text: RefereeQuestionnaire::EXPERIENCE_QUESTION, tag: 'span' } do %>
           <%= f.govuk_radio_button :experience_rating, 'very_poor', label: { text: t('questionnaire_form.very_poor') } do %>
             <%= f.govuk_text_area :experience_explanation_very_poor, label: { text: t('questionnaire_form.why_that_rating') } %>
           <% end %>
@@ -47,7 +47,7 @@
           <% end %>
         <% end %>
 
-        <%= f.govuk_radio_buttons_fieldset :guidance, legend: { text: 'Please rate how useful our guidance was', tag: 'span' } do %>
+        <%= f.govuk_radio_buttons_fieldset :guidance, legend: { text: RefereeQuestionnaire::GUIDANCE_QUESTION, tag: 'span' } do %>
           <%= f.govuk_radio_button :guidance_rating, 'very_poor', label: { text: t('questionnaire_form.very_poor') } do %>
             <%= f.govuk_text_area :guidance_explanation_very_poor, label: { text: t('questionnaire_form.why_that_rating') } %>
           <% end %>
@@ -69,7 +69,7 @@
           <% end %>
         <% end %>
 
-        <%= f.govuk_radio_buttons_fieldset :consent_to_be_contacted, legend: { text: t('questionnaire_form.can_we_contact_you'), tag: 'span' }, hint_text: t('questionnaire_form.hint_text') do %>
+        <%= f.govuk_radio_buttons_fieldset :consent_to_be_contacted, legend: { text: RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION, tag: 'span' }, hint_text: t('questionnaire_form.hint_text') do %>
           <%= f.govuk_radio_button :consent_to_be_contacted, true, label: { text: t('questionnaire_form.consent_to_be_contacted') } do %>
             <%= f.govuk_text_area :consent_to_be_contacted_details, label: { text: t('questionnaire_form.availibility') } %>
           <% end %>

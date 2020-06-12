@@ -4,28 +4,28 @@ RSpec.describe SupportInterface::RefereeSurveyExport do
   describe '#call' do
     let(:questionnaire1) do
       {
-        'Please rate how useful our guidance was' => "very_poor | I couldn't read it.",
-        'Please rate your experience of giving a reference' => 'very_good | I could read it.',
-        'Can we contact you about your experience of giving a reference?' => 'yes | 02113131',
-        'If we asked whether a candidate was safe to work with children, would you feel able to answer?' => 'yes | ',
+        RefereeQuestionnaire::GUIDANCE_QUESTION => "very_poor | I couldn't read it.",
+        RefereeQuestionnaire::EXPERIENCE_QUESTION => 'very_good | I could read it.',
+        RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => 'yes | 02113131',
+        RefereeQuestionnaire::SAFE_TO_WORK_WITH_CHILDREN_QUESTION => 'yes | ',
       }
     end
 
     let(:questionnaire2) do
       {
-        'Please rate how useful our guidance was' => 'good | ',
-        'Please rate your experience of giving a reference' => 'poor | ',
-        'Can we contact you about your experience of giving a reference?' => ' | ',
-        'If we asked whether a candidate was safe to work with children, would you feel able to answer?' => ' | ',
+        RefereeQuestionnaire::GUIDANCE_QUESTION => 'good | ',
+        RefereeQuestionnaire::EXPERIENCE_QUESTION => 'poor | ',
+        RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => ' | ',
+        RefereeQuestionnaire::SAFE_TO_WORK_WITH_CHILDREN_QUESTION => ' | ',
       }
     end
 
     let(:questionnaire3) do
       {
-        'Please rate how useful our guidance was' => ' | ',
-        'Please rate your experience of giving a reference' => ' | ',
-        'Can we contact you about your experience of giving a reference?' => ' | ',
-        'If we asked whether a candidate was safe to work with children, would you feel able to answer?' => ' | ',
+        RefereeQuestionnaire::GUIDANCE_QUESTION => ' | ',
+        RefereeQuestionnaire::EXPERIENCE_QUESTION => ' | ',
+        RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => ' | ',
+        RefereeQuestionnaire::SAFE_TO_WORK_WITH_CHILDREN_QUESTION => ' | ',
       }
     end
 
@@ -56,14 +56,14 @@ private
     {
       'Name' => reference.name,
       'Email_address' => reference.email_address,
-      'Guidance rating' => extract_rating(reference, 'Please rate how useful our guidance was'),
-      'Guidance explanation' => extract_explanation(reference, 'Please rate how useful our guidance was'),
-      'Experience rating' => extract_rating(reference, 'Please rate your experience of giving a reference'),
-      'Experience explanation' => extract_explanation(reference, 'Please rate your experience of giving a reference'),
-      'Consent to be contacted' => extract_rating(reference, 'Can we contact you about your experience of giving a reference?'),
-      'Contact details' => extract_explanation(reference, 'Can we contact you about your experience of giving a reference?'),
-      'Safe to work with children?' => extract_rating(reference, 'If we asked whether a candidate was safe to work with children, would you feel able to answer?'),
-      'Safe to work with children explanation' => extract_explanation(reference, 'If we asked whether a candidate was safe to work with children, would you feel able to answer?'),
+      'Guidance rating' => extract_rating(reference, RefereeQuestionnaire::GUIDANCE_QUESTION),
+      'Guidance explanation' => extract_explanation(reference, RefereeQuestionnaire::GUIDANCE_QUESTION),
+      'Experience rating' => extract_rating(reference, RefereeQuestionnaire::EXPERIENCE_QUESTION),
+      'Experience explanation' => extract_explanation(reference, RefereeQuestionnaire::EXPERIENCE_QUESTION),
+      'Consent to be contacted' => extract_rating(reference, RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION),
+      'Contact details' => extract_explanation(reference, RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION),
+      'Safe to work with children?' => extract_rating(reference, RefereeQuestionnaire::SAFE_TO_WORK_WITH_CHILDREN_QUESTION),
+      'Safe to work with children explanation' => extract_explanation(reference, RefereeQuestionnaire::SAFE_TO_WORK_WITH_CHILDREN_QUESTION),
     }
   end
 end

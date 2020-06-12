@@ -477,9 +477,9 @@ FactoryBot.define do
       requested_at { Time.zone.now }
       questionnaire do
         {
-          'Please rate how useful our guidance was' => "#{%w[very_poor poor ok good very_good].sample} | #{Faker::Lorem.paragraph_by_chars(number: 300)}",
-          'Please rate your experience of giving a reference' => "#{%w[very_poor poor ok good very_good].sample} | #{Faker::Lorem.paragraph_by_chars(number: 300)}",
-          'Can we contact you about your experience of giving a reference?' => "#{%w[yes no].sample} | #{Faker::PhoneNumber.cell_phone}",
+          RefereeQuestionnaire::GUIDANCE_QUESTION => "#{%w[very_poor poor ok good very_good].sample} | #{Faker::Lorem.paragraph_by_chars(number: 300)}",
+          RefereeQuestionnaire::EXPERIENCE_QUESTION => "#{%w[very_poor poor ok good very_good].sample} | #{Faker::Lorem.paragraph_by_chars(number: 300)}",
+          RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => "#{%w[yes no].sample} | #{Faker::PhoneNumber.cell_phone}",
           'If we asked whether a candidate was safe to work with children, would you feel able to answer?' => "#{%w[yes no].sample}| ",
         }
       end

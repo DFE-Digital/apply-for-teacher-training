@@ -2,14 +2,12 @@ en:
   reference_form:
     confirm: Submit reference
   questionnaire_form:
-    experience: Please rate your experience of giving a reference
     why_that_rating: Tell us why you chose that rating
     very_poor: Very poor
     poor: Poor
     ok: Ok
     good: Good
     very_good: Very Good
-    can_we_contact_you: Can we contact you about your experience of giving a reference?
     hint_text: We’d ideally like to speak on the phone for half an hour.
     consent_to_be_contacted: Yes, you can contact me
     availibility: Please let us know when you’re available and give a phone number
