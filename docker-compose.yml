@@ -7,11 +7,10 @@ services:
     environment:
       - POSTGRES_PASSWORD=developmentpassword
   redis:
-    image: redis
+    image: redis:alpine
   web:
     build: .
     image: apply-for-postgraduate-teacher-training
-    working_dir: /app
     ports:
       - "3000:3000"
     depends_on:
@@ -61,6 +60,6 @@ services:
       - REDIS_URL=redis://redis:6379/1
     env_file:
       - .env
-    command: /bin/sh -c "bundle exec clockwork config/clock.rb"
+    command: /bin/sh -c "bundle exec clockwork config/clock.rb"    
 volumes:
   db_data:
