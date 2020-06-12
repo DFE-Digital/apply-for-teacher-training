@@ -1,0 +1,3 @@
+<%= render(SummaryCardComponent.new(rows: course_option_rows)) do %>
+  <%= render(SummaryCardHeaderComponent.new(title: @course_option.provider.name)) %>
+<% end %>
