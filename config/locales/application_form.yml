@@ -465,6 +465,10 @@ en:
             predicted_grade:
               blank: Enter your predicted grade
               too_long: Your predicted grade must be %{count} characters or fewer
+            start_year:
+              blank: Enter your start year
+              invalid: Enter a real start year
+              greater_than_award_year: 'Enter a year before award year'
             award_year:
               blank: Enter your graduation year
               invalid: Enter a real graduation year

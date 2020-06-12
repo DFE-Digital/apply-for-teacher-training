@@ -6,7 +6,7 @@ module CandidateInterface
     CLASSES = %w[first upper_second lower_second third].freeze
 
     attr_accessor :id, :qualification_type, :subject, :institution_name, :grade,
-                  :other_grade, :predicted_grade, :award_year
+                  :other_grade, :predicted_grade, :start_year, :award_year
 
     validates :qualification_type, :subject, :institution_name, presence: true, on: :base
     validates :grade, presence: true, on: :grade
@@ -18,6 +18,7 @@ module CandidateInterface
     validates :grade, length: { maximum: 255 }, on: :grade
     validates :other_grade, :predicted_grade, length: { maximum: 255 }, on: :grade
 
+    validate :start_year_is_valid_date, if: :start_year, on: :start_year
     validate :award_year_is_valid_date, if: :award_year, on: :award_year
 
     class << self
@@ -44,6 +45,7 @@ module CandidateInterface
           grade: grade,
           other_grade: grade == 'other' ? degree.grade : '',
           predicted_grade: degree.predicted_grade ? degree.grade : '',
+          start_year: degree.start_year,
           award_year: degree.award_year,
         )
       end
@@ -87,11 +89,12 @@ module CandidateInterface
     end
 
     def update_year(application_form)
-      return false unless valid?(:award_year)
+      return false unless valid?(:start_year) && valid?(:award_year)
 
       degree = application_form.application_qualifications.find(id)
 
       degree.update!(
+        start_year: start_year,
         award_year: award_year,
       )
 
@@ -124,6 +127,16 @@ module CandidateInterface
       grade == 'predicted'
     end
 
+    def start_year_is_valid_date
+      return true if start_year.blank?
+
+      if valid_year?(start_year)
+        start_year_is_before_the_award_year
+      else
+        start_year_is_invalid
+      end
+    end
+
     def award_year_is_valid_date
       if valid_year?(award_year)
         award_year_is_before_the_end_of_next_year
@@ -132,8 +145,16 @@ module CandidateInterface
       end
     end
 
+    def start_year_is_invalid
+      errors.add(:start_year, :invalid)
+    end
+
     def award_year_is_invalid
       errors.add(:award_year, :invalid)
+    end
+
+    def start_year_is_before_the_award_year
+      errors.add(:start_year, :greater_than_award_year, date: award_year) if award_year.present? && award_year.to_i < start_year.to_i
     end
 
     def award_year_is_before_the_end_of_next_year

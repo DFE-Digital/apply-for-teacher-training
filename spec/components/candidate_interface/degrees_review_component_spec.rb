@@ -10,6 +10,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       institution_name: 'University of Doge',
       grade: 'upper_second',
       predicted_grade: false,
+      start_year: '2005',
       award_year: '2008',
     )
   end
@@ -22,6 +23,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       institution_name: 'University of Cate',
       grade: 'First',
       predicted_grade: true,
+      start_year: '2007',
       award_year: '2010',
     )
   end
@@ -52,6 +54,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
 
       expect(result.css('.app-summary-card__title').text).to include('BA Woof')
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.award_year.review_label'))
+      expect(result.css('.govuk-summary-list__value').text).to include('2005')
       expect(result.css('.govuk-summary-list__value').text).to include('2008')
       expect(result.css('.govuk-summary-list__actions').text).to include(
         "Change #{t('application_form.degree.award_year.change_action')} for BA, Woof, University of Doge, 2008",
@@ -88,6 +91,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
         institution_name: 'University of Owl',
         grade: 'Distinction',
         predicted_grade: false,
+        start_year: '2007',
         award_year: '2010',
       )
 

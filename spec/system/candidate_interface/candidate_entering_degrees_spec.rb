@@ -233,7 +233,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_click_to_change_my_undergraduate_degree_grade
-    page.all('.govuk-summary-list__actions').to_a.third.click_link 'Change grade'
+    page.all('.govuk-summary-list__actions').to_a.fourth.click_link 'Change grade'
   end
 
   def then_i_see_my_undergraduate_degree_filled_in
@@ -243,7 +243,8 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_see_my_undergraduate_degree_year_filled_in
-    expect(page).to have_selector("input[value='2009']")
+    expect(page).to have_selector("input[name='candidate_interface_degree_form[start_year]'][value='2006']")
+    expect(page).to have_selector("input[name='candidate_interface_degree_form[award_year]'][value='2009']")
   end
 
   def then_i_see_my_undergraduate_degree_grade_filled_in
@@ -256,6 +257,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_change_my_undergraduate_degree_year
+    fill_in t('application_form.degree.start_year.label'), with: '2008'
     fill_in t('application_form.degree.award_year.label'), with: '2011'
   end
 
@@ -269,6 +271,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_year
+    expect(page).to have_content '2008'
     expect(page).to have_content '2011'
   end
 

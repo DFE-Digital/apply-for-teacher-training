@@ -133,6 +133,7 @@ RSpec.feature 'Vendor receives the application' do
               qualification_type: 'BA',
               subject: 'Doge',
               grade: 'first',
+              start_year: '2006',
               award_year: '2009',
               institution_details: 'University of Much Wow',
               awarding_body: nil,

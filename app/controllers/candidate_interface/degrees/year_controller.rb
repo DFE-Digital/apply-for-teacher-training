@@ -32,6 +32,7 @@ module CandidateInterface
 
     def degree_params
       params.require(:candidate_interface_degree_form).permit(
+        :start_year,
         :award_year,
       ).transform_values(&:strip)
     end

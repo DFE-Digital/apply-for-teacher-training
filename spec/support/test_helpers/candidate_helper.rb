@@ -165,6 +165,7 @@ module CandidateHelper
     choose t('application_form.degree.grade.first.label')
     click_button t('application_form.degree.base.button')
 
+    fill_in t('application_form.degree.start_year.label'), with: '2006'
     fill_in t('application_form.degree.award_year.label'), with: '2009'
     click_button t('application_form.degree.base.button')
 

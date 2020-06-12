@@ -10,6 +10,7 @@ RSpec.describe ApplicationQualification, type: :model do
       'subject',
       'grade',
       'predicted_grade',
+      'start_year',
       'award_year',
       'institution_name',
       'institution_country',
