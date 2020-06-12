@@ -51,6 +51,10 @@ RSpec.feature 'Provider makes changes before making an offer' do
     @provider_user = create(:provider_user, providers: [@provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
   end
 
+  def and_i_am_permitted_to_make_decisions_for_my_provider
+    permit_make_decisions!
+  end
+
   def and_an_application_choice_exists_for_my_provider
     @course_option_one = course_option_for_provider(provider: @provider)
     @application = create(:application_choice, :awaiting_provider_decision, course_option: @course_option_one)
@@ -98,7 +102,7 @@ RSpec.feature 'Provider makes changes before making an offer' do
   end
 
   def and_i_am_permitted_to_make_decisions_for_this_provider
-    permit_make_decisions(provider: @another_provider)
+    permit_make_decisions!(provider: @another_provider)
   end
 
   def and_i_can_choose_to_make_an_offer_but_change_provider

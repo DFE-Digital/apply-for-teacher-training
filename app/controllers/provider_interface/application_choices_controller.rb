@@ -29,7 +29,10 @@ module ProviderInterface
                             end
 
       auth = ProviderAuthorisation.new(actor: current_provider_user)
-      @provider_can_respond = auth.can_make_offer? application_choice: @application_choice
+      @provider_can_respond = auth.can_make_offer?(
+        application_choice: @application_choice,
+        course_option_id: @application_choice.offered_option.id,
+      )
     end
 
     def notes

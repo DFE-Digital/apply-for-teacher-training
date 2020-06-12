@@ -43,6 +43,10 @@ RSpec.feature 'Provider makes an offer' do
     provider_user_exists_in_apply_database
   end
 
+  def and_i_am_permitted_to_make_decisions_for_my_provider
+    permit_make_decisions!
+  end
+
   def when_i_visit_an_application_awaiting_provider_decision
     visit provider_interface_application_choice_path(
       @application_awaiting_provider_decision.id,

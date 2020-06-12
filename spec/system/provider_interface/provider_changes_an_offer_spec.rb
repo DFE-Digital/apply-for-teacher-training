@@ -44,6 +44,10 @@ RSpec.feature 'Provider changes an offer' do
     @provider = Provider.find_by(code: 'ABC')
   end
 
+  def and_i_am_permitted_to_make_decisions_for_my_providers
+    permit_make_decisions!
+  end
+
   def and_an_offered_application_choice_exists_for_one_of_my_providers
     # Course @course_option_one belongs to is exclusively full-time
     @course_option_one = course_option_for_provider(provider: @provider, study_mode: 'full_time')
