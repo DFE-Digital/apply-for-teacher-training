@@ -22,6 +22,8 @@ class TestApplications
       create_application(states: [:rejected])
 
       candidate = Candidate.last
+      first_name = candidate.current_application.first_name
+      last_name = candidate.current_application.last_name
     else
       travel_to rand(30..60).days.ago
       raise ZeroCoursesPerApplicationError, 'You can\'t have zero courses per application' unless states.any?

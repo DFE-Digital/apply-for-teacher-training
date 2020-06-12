@@ -1,26 +1,33 @@
 desc 'Set up your local development environment with data from Find'
-task setup_local_dev_data: %i[environment copy_feature_flags_from_production sync_dev_providers_and_open_courses generate_test_applications] do
+task setup_local_dev_data: %i[environment copy_feature_flags_from_production sync_dev_providers_and_open_courses] do
   puts 'Creating a provider-only user with DfE Sign-in UID `dev-provider` and email `provider@example.com`...'
   ProviderUser.find_or_create_by!(dfe_sign_in_uid: 'dev-provider', email_address: 'provider@example.com') do |u|
-    u.providers = [ApplicationChoice.first.provider]
+    u.providers = Provider.where(code: '1JA').all
   end
 
   puts 'Creating a support & provider user with DfE Sign-in UID `dev-support` and email `support@example.com`...'
-  ProviderUser.find_or_create_by!(dfe_sign_in_uid: 'dev-support', email_address: 'support@example.com') do |u|
-    u.providers = [ApplicationChoice.first.provider]
-  end
+
   SupportUser.find_or_create_by!(dfe_sign_in_uid: 'dev-support', email_address: 'support@example.com')
 
-  ProviderPermissions.update_all(manage_users: true)
-  ProviderPermissions.update_all(view_safeguarding_information: true)
-  ProviderPermissions.update_all(make_decisions: true)
+  admin_provider_user = ProviderUser.find_or_create_by!(dfe_sign_in_uid: 'dev-support', email_address: 'support@example.com') do |u|
+    u.providers = Provider.where(code: %w[1JA 24J]).all
+  end
+
+  admin_provider_user.provider_permissions.update_all(
+    manage_users: true,
+    manage_organisations: true,
+    view_safeguarding_information: true,
+    make_decisions: true,
+  )
+
+  Rake::Task['generate_test_applications'].invoke
 end
 
 desc 'Sync some pilot-enabled providers and open all their courses'
 task sync_dev_providers_and_open_courses: :environment do
   puts 'Syncing data from Find...'
 
-  provider_codes = HostingEnvironment.review? ? %w[C85] : %w[1N1 2LR C58 C85]
+  provider_codes = HostingEnvironment.review? ? %w[1JA 24J] : %w[1JA 24J 1N1]
   provider_codes.each do |code|
     SyncProviderFromFind.call(provider_code: code, sync_courses: true)
   end

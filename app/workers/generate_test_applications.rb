@@ -1,25 +1,39 @@
 class GenerateTestApplications
   include Sidekiq::Worker
 
+  def initialize
+    @test_applications = TestApplications.new
+
+    dev_support_user = ProviderUser.find_by_dfe_sign_in_uid 'dev-support'
+    @courses_to_apply_to = dev_support_user.providers.map(&:courses).map(&:open_on_apply).flatten if dev_support_user
+  end
+
   def perform
     raise 'You can\'t generate test data in production' if HostingEnvironment.production?
 
-    test_applications = TestApplications.new
-    test_applications.create_application states: [:unsubmitted]
-    test_applications.create_application states: [:awaiting_references]
-    test_applications.create_application states: [:application_complete]
-    test_applications.create_application states: [:awaiting_provider_decision] * 3
-    test_applications.create_application states: [:offer] * 2
-    test_applications.create_application states: %i[offer rejected]
-    test_applications.create_application states: [:rejected] * 2
-    test_applications.create_application states: [:offer_withdrawn]
-    test_applications.create_application states: [:declined]
-    test_applications.create_application states: [:accepted]
-    test_applications.create_application states: [:accepted_no_conditions]
-    test_applications.create_application states: [:recruited]
-    test_applications.create_application states: [:conditions_not_met]
-    test_applications.create_application states: [:enrolled]
-    test_applications.create_application states: [:withdrawn]
-    test_applications.create_application states: [:awaiting_provider_decision], apply_again: true
+    create states: [:unsubmitted]
+    create states: [:awaiting_references]
+    create states: [:application_complete]
+    create states: [:awaiting_provider_decision] * 3
+    create states: [:offer] * 2
+    create states: %i[offer rejected]
+    create states: [:rejected] * 2
+    create states: [:offer_withdrawn]
+    create states: [:declined]
+    create states: [:accepted]
+    create states: [:accepted_no_conditions]
+    create states: [:recruited]
+    create states: [:conditions_not_met]
+    create states: [:enrolled]
+    create states: [:withdrawn]
+    create states: [:awaiting_provider_decision], apply_again: true
+  end
+
+  def create(states:, apply_again: false)
+    @test_applications.create_application(
+      courses_to_apply_to: @courses_to_apply_to,
+      states: states,
+      apply_again: apply_again,
+    )
   end
 end
