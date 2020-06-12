@@ -54,15 +54,34 @@ module CandidateInterface
       end
 
       def replace_location
-        @choice = current_application.application_choices.find(params['id'])
+        @course_choice = current_application.application_choices.find(params['id'])
+        @pick_site = PickSiteForm.new(
+          application_form: current_application,
+          provider_id: @course_choice.provider.id,
+          course_id: @course_choice.course.id,
+          study_mode: @course_choice.course_option.study_mode,
+          course_option_id: @course_choice.course_option.id,
+        )
+      end
+
+      def validate_location
+        @course_choice = current_application.application_choices.find(params['id'])
+        @new_course_option = params.dig('candidate_interface_pick_site_form', 'course_option_id')
 
         @pick_site = PickSiteForm.new(
           application_form: current_application,
-          provider_id: @choice.provider.id,
-          course_id: @choice.course.id,
-          study_mode: @choice.course_option.study_mode,
-          course_option_id: params['id'],
+          provider_id: @course_choice.provider.id,
+          course_id: @course_choice.course.id,
+          study_mode: @course_choice.course_option.study_mode,
+          course_option_id: @new_course_option,
         )
+
+        if @pick_site.valid?
+          redirect_to candidate_interface_confirm_replacment_path(@course_choice.id, @new_course_option.id)
+        else
+          flash[:warning] = 'Please select a new location.'
+          redirect_to candidate_interface_replace_course_choice_location_path(@course_choice.id)
+        end
       end
 
     private
