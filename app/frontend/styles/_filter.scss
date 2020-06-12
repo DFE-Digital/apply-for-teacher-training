@@ -54,6 +54,10 @@
   box-shadow: none;
 }
 
+.moj-pagination__list {
+  padding-left: 3px;
+}
+
 .app-filter {
   @include govuk-media-query($from: tablet) {
     margin-bottom: govuk-spacing(3);

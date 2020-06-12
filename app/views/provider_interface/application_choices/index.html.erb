@@ -41,7 +41,7 @@
     <% else %>
       <p class='govuk-body'>You haven’t received any applications from <%= t('service_name.apply') %>.</p>
     <% end %>
+    <%= render(PaginatorComponent.new(scope: @application_choices)) %>
   </div>
 </div>
 
-<%= render(PaginatorComponent.new(scope: @application_choices)) %>
