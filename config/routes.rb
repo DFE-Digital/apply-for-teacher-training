@@ -207,8 +207,8 @@ Rails.application.routes.draw do
         get '/replace/:id/location' => 'course_choices/replace_choice#replace_location', as: :replace_course_choice_location
         post '/replace/:id/location' => 'course_choices/replace_choice#validate_location', as: :validate_new_course_choice_location
 
-        get '/replace/:id/confirm/:course_choice_id' => 'course_choices/replace_choice#confirm_choice', as: :confirm_replacement_course_choice
-        get '/replace/:id/update/:course_choice_id' => 'course_choices/replace_choice#update_choice', as: :update_replacement_course_choice
+        get '/replace/:id/confirm/:course_option_id' => 'course_choices/replace_choice#confirm_choice', as: :confirm_replacement_course_choice
+        get '/replace/:id/update/:course_option_id' => 'course_choices/replace_choice#update_choice', as: :update_replacement_course_choice
 
         get '/provider' => 'course_choices/provider_selection#new', as: :course_choices_provider
         post '/provider' => 'course_choices/provider_selection#create'
