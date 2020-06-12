@@ -44,6 +44,16 @@ module CandidateInterface
 
           params.require(:candidate_interface_pick_choice_to_replace_form).permit(:id)
         end
+
+        def create_pick_site_form(course_choice, course_option_id)
+          PickSiteForm.new(
+            application_form: current_application,
+            provider_id: course_choice.provider.id,
+            course_id: course_choice.course.id,
+            study_mode: course_choice.course_option.study_mode,
+            course_option_id: course_option_id,
+          )
+        end
       end
     end
   end

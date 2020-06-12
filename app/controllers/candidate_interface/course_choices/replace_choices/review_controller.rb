@@ -10,14 +10,7 @@ module CandidateInterface
         def update_choice
           @course_choice = current_application.application_choices.find(params['id'])
           @replacement_course_option_id = params['course_option_id']
-
-          @pick_site = PickSiteForm.new(
-            application_form: current_application,
-            provider_id: @course_choice.provider.id,
-            course_id: @course_choice.course.id,
-            study_mode: @course_choice.course_option.study_mode,
-            course_option_id: @replacement_course_option_id,
-          )
+          @pick_site = create_pick_site_form(@course_choice, @replacement_course_option_id)
 
           if @pick_site.valid?
             @course_choice.update!(course_option_id: @replacement_course_option_id)
