@@ -1,0 +1,26 @@
+<%= form_with model: @reasons_form, url: provider_interface_rejection_reasons_path do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <% @reasons_form.questions.each do |q| %>
+    <%= f.fields_for :questions, q do |qf| %>
+      <%= qf.govuk_radio_buttons_fieldset :y_or_n, legend: { text: q.label } do %>
+        <%= qf.hidden_field :label %>
+        <%= qf.govuk_radio_button :y_or_n, 'Y', label: { text: 'Yes' } do %>
+          <% q.reasons.each do |r| %>
+            <%= qf.fields_for :reasons, r do |rf| %>
+              <%= rf.govuk_check_boxes_fieldset :value, small: true do %>
+                <%= rf.hidden_field :label %>
+                <%= rf.govuk_check_box :value, "true", multiple: false, label: { text: r.label } do %>
+                  <%= rf.govuk_text_area :explanation %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <%= qf.govuk_radio_button :y_or_n, 'N', label: { text: 'No' }  %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= f.submit %>
+<% end %>
