@@ -202,8 +202,8 @@ Rails.application.routes.draw do
 
         get '/replace' => 'course_choices/replace_choices/base#pick_choice_to_replace', as: :replace_course_choices
         post '/replace' => 'course_choices/replace_choices/base#picked_choice'
-        get '/replace/:id' => 'course_choices/replace_choices/base#choose_action', as: :replace_course_choice
-        post '/replace/:id' => 'course_choices/replace_choices/base#route_action'
+        get '/replace/:id' => 'course_choices/replace_choices/decision#choose_action', as: :replace_course_choice
+        post '/replace/:id' => 'course_choices/replace_choices/decision#route_action'
         get '/replace/:id/location' => 'course_choices/replace_choices/base#replace_location', as: :replace_course_choice_location
         post '/replace/:id/location' => 'course_choices/replace_choices/base#validate_location', as: :validate_new_course_choice_location
         get '/replace/:id/confirm/:course_option_id' => 'course_choices/replace_choices/base#confirm_choice', as: :confirm_replacement_course_choice
