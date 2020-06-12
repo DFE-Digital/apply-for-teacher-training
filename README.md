@@ -85,7 +85,7 @@ There are two ways to run the application in development. Running a local develo
 - `postgresql`
 - `redis`
 - Graphviz 2.22+ (`brew install graphviz`) to generate the [domain model diagram](#domain-model)
-- `ruby 2.6.6`
+- [`ruby`](.ruby-version)
 - `bundle 2.1.4+`
 
 #### Docker dependencies

@@ -12,10 +12,8 @@ class ValidationError < ApplicationRecord
       end
     end
 
-    # TODO: use Ruby 2.7's #tally once upgraded
     distinct_errors
-      .group_by { |v| v }
-      .transform_values(&:size)
+      .tally
       .sort_by { |_a, b| b }
       .reverse
   end
