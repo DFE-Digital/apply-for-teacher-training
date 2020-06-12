@@ -42,7 +42,9 @@
         <h2 class="govuk-heading-m">View applications</h2>
         <p class="govuk-body">See newly submitted applications at a glance.</p>
         <p class="govuk-body">Filter by status, training provider, ratifying body – and soon, reject by default date.</p>
+      <% if FeatureFlag.active?('provider_add_provider_users') %>
         <p class="govuk-body">Choose who in your organisation can make decisions and view sensitive info.</p>
+      <% end %>
       </div>
       <div class="govuk-grid-column-one-half">
         <img src="/provider/view.png" alt="A screenshot of the service showing a list of applications and their statuses.">
