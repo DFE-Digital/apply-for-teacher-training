@@ -82,7 +82,6 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def new_offer_single_offer
-    course_option = FactoryBot.build_stubbed(:course_option)
     application_choice = application_form.application_choices.build(
       course_option: course_option,
       status: :offer,
@@ -191,6 +190,7 @@ class CandidateMailerPreview < ActionMailer::Preview
         FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option: course_option),
         FactoryBot.build_stubbed(:application_choice, status: 'awaiting_provider_decision', declined_by_default: false, course_option: course_option),
       ],
+      candidate: candidate,
     )
 
     CandidateMailer.declined_by_default(application_form)
@@ -217,6 +217,7 @@ class CandidateMailerPreview < ActionMailer::Preview
         FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option: course_option),
         FactoryBot.build_stubbed(:application_choice, status: 'rejected', declined_by_default: false, course_option: course_option),
       ],
+      candidate: candidate,
     )
 
     CandidateMailer.declined_by_default(application_form)
@@ -230,6 +231,7 @@ class CandidateMailerPreview < ActionMailer::Preview
         FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option: course_option),
         FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option: course_option),
       ],
+      candidate: candidate,
     )
 
     CandidateMailer.declined_by_default(application_form)
@@ -240,7 +242,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       first_name: 'Harry',
       application_choices: [
-        FactoryBot.build_stubbed(:application_choice, status: 'declined'),
+        FactoryBot.build_stubbed(:application_choice, status: 'declined', course_option: course_option),
       ],
       candidate: candidate,
     )
@@ -253,7 +255,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       first_name: 'Harry',
       application_choices: [
-        FactoryBot.build_stubbed(:application_choice, status: 'withdrawn'),
+        FactoryBot.build_stubbed(:application_choice, status: 'withdrawn', course_option: course_option),
       ],
       candidate: candidate,
     )
@@ -275,7 +277,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       first_name: 'Bob',
       candidate: candidate,
       application_choices: [
-        FactoryBot.build_stubbed(:application_choice, status: 'rejected'),
+        FactoryBot.build_stubbed(:application_choice, status: 'rejected', course_option: course_option),
       ],
     )
 
@@ -378,6 +380,7 @@ private
         site: FactoryBot.build_stubbed(
           :site,
           name: 'West Wilford School',
+          code: 'W',
         ),
         course: FactoryBot.build_stubbed(
           :course,
@@ -386,6 +389,7 @@ private
           provider: FactoryBot.build_stubbed(
             :provider,
             name: 'Bilberry College',
+            code: 'B',
           ),
         ),
       ),
