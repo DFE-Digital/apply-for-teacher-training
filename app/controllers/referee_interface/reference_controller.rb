@@ -168,14 +168,7 @@ module RefereeInterface
     end
 
     def questionnaire_params
-      params.require(:referee_interface_questionnaire_form).permit(
-        :experience_rating, :experience_explanation_very_poor, :experience_explanation_poor,
-        :experience_explanation_ok, :experience_explanation_good, :experience_explanation_very_good,
-        :guidance_rating, :guidance_explanation_very_poor,
-        :guidance_explanation_poor, :guidance_explanation_ok, :guidance_explanation_good,
-        :guidance_explanation_very_good, :consent_to_be_contacted,
-        :consent_to_be_contacted_details
-      )
+      params.require(:referee_interface_questionnaire_form).permit(*QuestionnaireForm::FORM_KEYS)
     end
 
     def relationship_params

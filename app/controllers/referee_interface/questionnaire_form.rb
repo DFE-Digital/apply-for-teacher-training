@@ -2,12 +2,26 @@ module RefereeInterface
   class QuestionnaireForm
     include ActiveModel::Model
 
-    attr_accessor :experience_rating, :experience_explanation_very_poor, :experience_explanation_poor,
-                  :experience_explanation_ok, :experience_explanation_good, :experience_explanation_very_good,
-                  :guidance_rating, :guidance_explanation_very_poor,
-                  :guidance_explanation_poor, :guidance_explanation_ok, :guidance_explanation_good,
-                  :guidance_explanation_very_good, :consent_to_be_contacted,
-                  :consent_to_be_contacted_details
+    FORM_KEYS = %i[
+      experience_rating
+      experience_explanation_very_poor
+      experience_explanation_poor
+      experience_explanation_ok
+      experience_explanation_good
+      experience_explanation_very_good
+
+      guidance_rating
+      guidance_explanation_very_poor
+      guidance_explanation_poor
+      guidance_explanation_ok
+      guidance_explanation_good
+      guidance_explanation_very_good
+
+      consent_to_be_contacted
+      consent_to_be_contacted_details
+    ]
+
+    attr_accessor *FORM_KEYS
 
     def save(reference)
       questionnaire = {
