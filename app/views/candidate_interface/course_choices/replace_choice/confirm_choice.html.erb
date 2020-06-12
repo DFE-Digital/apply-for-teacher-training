@@ -1,0 +1,17 @@
+<% content_for :title, t('page_titles.confirm_replacement_course_choice') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_replace_course_choice_path(@course_choice.id)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.confirm_replacement_course_choice') %>
+    </h1>
+
+    <p class='govuk-body'>You are replacing:</p>
+
+    <p class='govuk-body'>With:</p>
+
+    <%= govuk_link_to 'Replace course choice', candidate_interface_update_replacement_course_choice_path(@course_choice.id, @replacment_course_option.id) %>
+  </div>
+</div>
