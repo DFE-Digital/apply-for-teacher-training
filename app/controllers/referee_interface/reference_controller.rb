@@ -173,8 +173,7 @@ module RefereeInterface
         :experience_explanation_ok, :experience_explanation_good, :experience_explanation_very_good,
         :guidance_rating, :guidance_explanation_very_poor,
         :guidance_explanation_poor, :guidance_explanation_ok, :guidance_explanation_good,
-        :guidance_explanation_very_good, :safe_to_work_with_children,
-        :safe_to_work_with_children_explanation, :consent_to_be_contacted,
+        :guidance_explanation_very_good, :consent_to_be_contacted,
         :consent_to_be_contacted_details
       )
     end
