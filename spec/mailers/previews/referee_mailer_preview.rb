@@ -44,7 +44,7 @@ private
   end
 
   def site
-    FactoryBot.build_stubbed(:site)
+    @site ||= FactoryBot.build_stubbed(:site, code: '-', name: 'Main site')
   end
 
   def course_option

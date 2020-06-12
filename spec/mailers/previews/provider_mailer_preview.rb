@@ -33,9 +33,18 @@ class ProviderMailerPreview < ActionMailer::Preview
 
 private
 
+  def provider
+    @provider ||= FactoryBot.create(:provider)
+  end
+
+  def site
+    @site ||= FactoryBot.create(:site, code: '-', name: 'Main site', provider: provider)
+  end
+
   def application_choice
-    course_option = FactoryBot.create(:course_option, course: FactoryBot.build(:course))
-    FactoryBot.create(:submitted_application_choice, course_option: course_option)
+    course = FactoryBot.create(:course, provider: provider)
+    course_option = FactoryBot.create(:course_option, course: course, site: site)
+    FactoryBot.create(:submitted_application_choice, course_option: course_option, course: course)
   end
 
   def provider_user
