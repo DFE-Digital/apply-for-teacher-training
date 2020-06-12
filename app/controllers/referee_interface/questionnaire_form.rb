@@ -11,9 +11,9 @@ module RefereeInterface
 
     def save(reference)
       questionnaire = {
-        'Please rate your experience of giving a reference' => "#{experience_rating} | #{experience_explanation}",
-        'Please rate how useful our guidance was' => "#{guidance_rating} | #{guidance_explanation}",
-        'Can we contact you about your experience of giving a reference?' => consent_to_be_contacted_response,
+        RefereeQuestionnaire::EXPERIENCE_QUESTION => "#{experience_rating} | #{experience_explanation}",
+        RefereeQuestionnaire::GUIDANCE_QUESTION => "#{guidance_rating} | #{guidance_explanation}",
+        RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => consent_to_be_contacted_response,
       }
 
       reference.update!(questionnaire: questionnaire, consent_to_be_contacted: consent_to_be_contacted)
