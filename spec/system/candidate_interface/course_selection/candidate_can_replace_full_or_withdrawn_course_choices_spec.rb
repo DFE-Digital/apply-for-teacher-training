@@ -8,6 +8,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     given_the_replace_full_or_withdrawn_application_choices_is_active
     and_i_have_submitted_my_application
     and_one_of_my_application_choices_has_become_full
+    and_there_is_another_location_available
 
     when_i_arrive_at_my_application_dashboard
     then_i_see_that_one_of_my_choices_in_not_available
@@ -41,6 +42,14 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     and_i_choose_to_add_a_new_location
     and_click_continue
     then_i_see_the_update_location_page
+    and_i_can_see_my_another_choice_of_location
+
+    when_i_click_continue_without_selecting_an_option
+    then_i_am_told_i_need_to_select_a_location
+
+    when_i_select_a_location
+    and_click_continue
+    then_i_see_the_confirm_replacement_course_choice_page
   end
 
   def given_the_replace_full_or_withdrawn_application_choices_is_active
@@ -55,6 +64,11 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
   def and_one_of_my_application_choices_has_become_full
     @course_option = @application.application_choices.first.course_option
     @course_option.no_vacancies!
+  end
+
+  def and_there_is_another_location_available
+    @site = create(:site, provider: @course_option.provider)
+    @course_option2 = create(:course_option, site: @site, course: @course_option.course)
   end
 
   def when_i_arrive_at_my_application_dashboard
@@ -133,5 +147,21 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
 
   def then_i_see_the_update_location_page
     expect(page).to have_content t('page_titles.which_location')
+  end
+
+  def and_i_can_see_my_another_choice_of_location
+    expect(page).to have_content @course_option2.site.full_address
+  end
+
+  def then_i_am_told_i_need_to_select_a_location
+    expect(page).to have_content 'Please select a new location.'
+  end
+
+  def when_i_select_a_location
+    choose @course_option2.site.name
+  end
+
+  def then_i_see_the_confirm_replacement_course_choice_page
+    expect(page).to have_current_path candidate_interface_confirm_replacement_course_choice_path(@course_option.application_choices.first.id, @course_option2.id)
   end
 end
