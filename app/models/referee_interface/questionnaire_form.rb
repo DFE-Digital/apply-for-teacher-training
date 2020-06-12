@@ -19,9 +19,9 @@ module RefereeInterface
 
       consent_to_be_contacted
       consent_to_be_contacted_details
-    ]
+    ].freeze
 
-    attr_accessor *FORM_KEYS
+    attr_accessor(*FORM_KEYS)
 
     def save(reference)
       questionnaire = {
