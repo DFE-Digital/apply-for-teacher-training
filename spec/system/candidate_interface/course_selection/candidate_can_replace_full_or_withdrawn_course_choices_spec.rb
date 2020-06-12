@@ -50,6 +50,11 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     when_i_select_a_location
     and_click_continue
     then_i_see_the_confirm_replacement_course_choice_page
+
+    when_i_click_replace_course_choice
+    then_i_arrrive_at_my_dashboard
+    and_i_can_see_my_new_course_choice
+    and_i_cannot_see_my_old_course_choice
   end
 
   def given_the_replace_full_or_withdrawn_application_choices_is_active
@@ -163,5 +168,21 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
 
   def then_i_see_the_confirm_replacement_course_choice_page
     expect(page).to have_current_path candidate_interface_confirm_replacement_course_choice_path(@course_option.application_choices.first.id, @course_option2.id)
+  end
+
+  def when_i_click_replace_course_choice
+    click_link 'Replace course choice'
+  end
+
+  def then_i_arrrive_at_my_dashboard
+    expect(page).to have_current_path candidate_interface_application_complete_path
+  end
+
+  def and_i_can_see_my_new_course_choice
+    expect(page).to have_content @course_option2.site.full_address
+  end
+
+  def and_i_cannot_see_my_old_course_choice
+    expect(page).to have_content @course_option2.site.full_address
   end
 end
