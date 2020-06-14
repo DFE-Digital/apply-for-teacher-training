@@ -1,3 +1,9 @@
+### 15th June 2020
+
+New attributes:
+
+- `Qualification` now has a `start_year` attribute of type string.
+
 ### 9th June 2020
 
 New attributes:

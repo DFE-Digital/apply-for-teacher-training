@@ -687,6 +687,7 @@ components:
           example: '2:1'
         start_year:
           type: string
+          nullable: true
           maxLength: 4
           description: The year the candidate started qualification
           example: '1989'
