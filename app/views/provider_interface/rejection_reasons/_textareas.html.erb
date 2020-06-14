@@ -1,0 +1,5 @@
+<% textareas ||= [] %>
+<% textareas.each do |textarea| %>
+  <%= reasons_fields.hidden_field :textareas, value: textarea, multiple: true %>
+  <%= reasons_fields.govuk_text_area textarea, rows: 5, max_words: 100, label: { text: (textarea == :explanation ? 'Please give details' : 'What could they do to improve?') } %>
+<% end %>
