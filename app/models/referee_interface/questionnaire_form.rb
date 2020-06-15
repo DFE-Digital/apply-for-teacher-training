@@ -2,18 +2,32 @@ module RefereeInterface
   class QuestionnaireForm
     include ActiveModel::Model
 
-    attr_accessor :experience_rating, :experience_explanation_very_poor, :experience_explanation_poor,
-                  :experience_explanation_ok, :experience_explanation_good, :experience_explanation_very_good,
-                  :guidance_rating, :guidance_explanation_very_poor,
-                  :guidance_explanation_poor, :guidance_explanation_ok, :guidance_explanation_good,
-                  :guidance_explanation_very_good, :consent_to_be_contacted,
-                  :consent_to_be_contacted_details
+    FORM_KEYS = %i[
+      experience_rating
+      experience_explanation_very_poor
+      experience_explanation_poor
+      experience_explanation_ok
+      experience_explanation_good
+      experience_explanation_very_good
+
+      guidance_rating
+      guidance_explanation_very_poor
+      guidance_explanation_poor
+      guidance_explanation_ok
+      guidance_explanation_good
+      guidance_explanation_very_good
+
+      consent_to_be_contacted
+      consent_to_be_contacted_details
+    ].freeze
+
+    attr_accessor(*FORM_KEYS)
 
     def save(reference)
       questionnaire = {
-        'Please rate your experience of giving a reference' => "#{experience_rating} | #{experience_explanation}",
-        'Please rate how useful our guidance was' => "#{guidance_rating} | #{guidance_explanation}",
-        'Can we contact you about your experience of giving a reference?' => consent_to_be_contacted_response,
+        RefereeQuestionnaire::EXPERIENCE_QUESTION => "#{experience_rating} | #{experience_explanation}",
+        RefereeQuestionnaire::GUIDANCE_QUESTION => "#{guidance_rating} | #{guidance_explanation}",
+        RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => consent_to_be_contacted_response,
       }
 
       reference.update!(questionnaire: questionnaire, consent_to_be_contacted: consent_to_be_contacted)
