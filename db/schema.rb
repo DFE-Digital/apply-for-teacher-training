@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_12_105651) do
+ActiveRecord::Schema.define(version: 2020_06_12_133537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -237,6 +237,20 @@ ActiveRecord::Schema.define(version: 2020_06_12_105651) do
     t.index ["provider_id"], name: "index_courses_on_provider_id"
   end
 
+  create_table "draft_degrees", force: :cascade do |t|
+    t.string "degree_type"
+    t.string "subject"
+    t.string "institution_name"
+    t.string "grade"
+    t.boolean "predicted_grade"
+    t.string "start_year"
+    t.string "award_year"
+    t.bigint "application_form_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["application_form_id"], name: "index_draft_degrees_on_application_form_id"
+  end
+
   create_table "emails", force: :cascade do |t|
     t.string "to", null: false
     t.string "subject", null: false
@@ -434,6 +448,7 @@ ActiveRecord::Schema.define(version: 2020_06_12_105651) do
   add_foreign_key "course_options", "courses", on_delete: :cascade
   add_foreign_key "course_options", "sites", on_delete: :cascade
   add_foreign_key "courses", "providers"
+  add_foreign_key "draft_degrees", "application_forms"
   add_foreign_key "emails", "application_forms", on_delete: :cascade
   add_foreign_key "notes", "application_choices", on_delete: :cascade
   add_foreign_key "notes", "provider_users", on_delete: :cascade
