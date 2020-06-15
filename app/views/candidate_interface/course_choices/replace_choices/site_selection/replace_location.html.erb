@@ -1,0 +1,11 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.which_location'), @pick_site.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_replace_course_choice_path(params['id'])) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(model: @pick_site, url: candidate_interface_validate_new_course_choice_location_path) do |f| %>
+      <%= render partial: 'candidate_interface/course_choices/shared/site_fields', locals: { f: f }  %>
+      <%= f.govuk_error_summary %>
+    <% end %>
+  </div>
+</div>

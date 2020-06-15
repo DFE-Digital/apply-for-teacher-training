@@ -1,0 +1,14 @@
+<%= content_for :title, 'Please contact support to change your course choice' %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_replace_course_choice_path(@course_choice.id), 'Back') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl"><%= 'Please contact support to change your course choice' %></h1>
+    <p class="govuk-body">
+      You can currently only change the location of your course choice through the service.
+    </p>
+    <p class="govuk-body">
+      For any other changes, please contact us at: <%= bat_contact_mail_to %>.
+    </p>
+  </div>
+</div>
