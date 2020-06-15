@@ -22,17 +22,17 @@ module ProviderInterface
     end
 
     def show
-      @status_box_options = if @application_choice.offer?
-                              get_all_change_options @application_choice
-                            else
-                              {}
-                            end
-
       auth = ProviderAuthorisation.new(actor: current_provider_user)
       @provider_can_respond = auth.can_make_offer?(
         application_choice: @application_choice,
         course_option_id: @application_choice.offered_option.id,
       )
+
+      @status_box_options = if @application_choice.offer? && @provider_can_respond
+                              get_all_change_options @application_choice
+                            else
+                              {}
+                            end
     end
 
     def notes

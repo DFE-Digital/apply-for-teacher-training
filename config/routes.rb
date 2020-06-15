@@ -474,8 +474,6 @@ Rails.application.routes.draw do
           as: :confirm_provider_relationship_permissions
     patch '/provider-relationship-permissions/:training_provider_id/:ratifying_provider_id' => 'provider_relationship_permissions#update',
           as: :update_provider_relationship_permissions
-
-    get '/provider-user-permissions/:provider_id/:provider_user_id/requires/:permission' => 'provider_user_permissions#missing_permission', as: :missing_permission
   end
 
   get '/auth/dfe/callback' => 'dfe_sign_in#callback'
