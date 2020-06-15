@@ -7,15 +7,12 @@ RSpec.describe 'Configuration' do
     end
   end
 
-  describe 'azure-pipelines.yml' do
-    it 'is valid YAML' do
-      YAML.load_file('azure-pipelines.yml')
-    end
-  end
-
-  describe 'azure-pipelines-deploy-template.yml' do
-    it 'is valid YAML' do
-      YAML.load_file('azure-pipelines-deploy-template.yml')
+  describe 'azure-pipelines-yaml-files' do
+    it 'are valid YAML' do
+      Dir.glob(['azure-*.yml', '*-template.yml']).each do |template|
+        puts template
+        YAML.load_file(template)
+      end
     end
   end
 end

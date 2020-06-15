@@ -1,2 +1,9 @@
+.git/
+.github/
 node_modules
 coverage
+log
+tmp
+docs
+*.gem
+*.rdb
