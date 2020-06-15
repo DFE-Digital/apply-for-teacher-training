@@ -13,6 +13,13 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     when_i_arrive_at_my_application_dashboard
     then_i_see_that_one_of_my_choices_in_not_available
 
+    when_i_click_update_my_course_choice
+    then_i_arrive_at_the_replace_course_choice_page
+
+    when_i_choose_submit_application_anyway
+    and_click_continue
+    then_i_arrive_at_my_dashboard
+
     given_i_have_two_full_course_choices
 
     when_i_arrive_at_my_application_dashboard
@@ -34,7 +41,13 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     when_i_click_continue_without_selecting_an_option
     then_i_am_told_i_need_to_select_an_option
 
-    when_i_choose_to_add_a_different_course
+    when_i_choose_submit_application_anyway
+    and_click_continue
+    then_i_see_the_replace_course_choices_page
+
+    when_i_choose_my_first_course_choice
+    and_click_continue
+    and_i_choose_to_add_a_different_course
     and_click_continue
     then_i_am_told_to_contact_support
 
@@ -54,7 +67,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     and_i_can_see_my_old_course_choice
 
     when_i_click_replace_course_choice
-    then_i_arrrive_at_my_dashboard
+    then_i_arrive_at_my_dashboard
     and_i_can_see_my_new_course_choice
     and_i_cannot_see_my_old_course_choice
 
@@ -68,7 +81,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     and_i_can_see_my_old_course_choices_study_mode
 
     when_i_click_replace_course_choice
-    then_i_arrrive_at_my_dashboard
+    then_i_arrive_at_my_dashboard
     and_my_new_course_choice_is_part_time
   end
 
@@ -117,6 +130,10 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     expect(page).to have_current_path candidate_interface_replace_course_choices_path
   end
 
+  def when_i_choose_submit_application_anyway
+    choose 'Submit application anyway'
+  end
+
   def and_i_see_my_first_course_choice
     expect(page).to have_content(@course_option.course.name_and_code)
   end
@@ -149,7 +166,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     expect(page).to have_content 'Please select an option to update your course choice.'
   end
 
-  def when_i_choose_to_add_a_different_course
+  def and_i_choose_to_add_a_different_course
     choose 'Choose a different course'
   end
 
@@ -189,7 +206,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     click_link 'Replace course choice'
   end
 
-  def then_i_arrrive_at_my_dashboard
+  def then_i_arrive_at_my_dashboard
     expect(page).to have_current_path candidate_interface_application_complete_path
   end
 
