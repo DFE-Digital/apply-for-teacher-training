@@ -24,7 +24,7 @@ private
 
   def send_email_notification_to_provider_users(application_choice)
     application_choice.provider.provider_users.each do |provider_user|
-      ProviderMailer.application_withrawn(provider_user, application_choice).deliver_later
+      ProviderMailer.application_withdrawn(provider_user, application_choice).deliver_later
     end
   end
 end

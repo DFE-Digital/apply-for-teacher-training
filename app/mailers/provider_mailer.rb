@@ -58,15 +58,19 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
-  def application_withrawn(provider_user, application_choice)
+  def application_withdrawn(provider_user, application_choice)
     @application_choice = application_choice
 
     email_for_provider(
       provider_user,
       application_choice.application_form,
-      subject: I18n.t!('provider_application_withrawnn.email.subject', candidate_name: application_choice.application_form.full_name),
+      subject: I18n.t!('provider_application_withdrawn.email.subject', candidate_name: application_choice.application_form.full_name),
+      template_name: 'application_withdrawn', # TODO: remove this
     )
   end
+
+  # TODO: remove this
+  alias_method :application_withrawn, :application_withdrawn
 
   def declined(provider_user, application_choice)
     @application_choice = application_choice
@@ -94,11 +98,10 @@ private
     @provider_user = provider_user
     @provider_user_name = provider_user.full_name
 
-    notify_email(
-      to: provider_user.email_address,
-      subject: args[:subject],
-      application_form_id: application_form.id,
-    )
+    notify_email(args.merge(
+                   to: provider_user.email_address,
+                   application_form_id: application_form.id,
+                 ))
   end
 
   def map_application_choice_params(application_choice)
