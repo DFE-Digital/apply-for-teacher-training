@@ -4,7 +4,7 @@
   <div class="govuk-width-container">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <h1 class="app-masthead__title govuk-heading-xl">Manage applications quickly and easily</h1>
+        <h1 class="app-masthead__title govuk-heading-xl">Manage your applications quickly and easily</h1>
         <div class="app-masthead__description">
           <p class="govuk-body-l">Try our new service to see how easy it is to use. It’s free for providers and candidates.</p>
         </div>
@@ -40,7 +40,11 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-half">
         <h2 class="govuk-heading-m">View applications</h2>
-        <p class="govuk-body">See the status of applications at a glance.</p>
+        <p class="govuk-body">See newly submitted applications at a glance.</p>
+        <p class="govuk-body">Filter by status, training provider, ratifying body – and soon, reject by default date.</p>
+      <% if FeatureFlag.active?('provider_add_provider_users') %>
+        <p class="govuk-body">Choose who in your organisation can make decisions and view sensitive info.</p>
+      <% end %>
       </div>
       <div class="govuk-grid-column-one-half">
         <img src="/provider/view.png" alt="A screenshot of the service showing a list of applications and their statuses.">
@@ -51,9 +55,11 @@
   <section class="app-product-section">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-half">
-        <h2 class="govuk-heading-m">Review an application</h2>
+        <h2 class="govuk-heading-m">Review applications</h2>
         <p class="govuk-body">See if candidates have worked with children.</p>
-        <p class="govuk-body">You’ll also get explanations for gaps in work history.</p>
+        <p class="govuk-body">Get explanations for gaps in work history.</p>
+        <p class="govuk-body">Add notes and create an audit trail.</p>
+
       </div>
       <div class="govuk-grid-column-one-half">
         <img src="/provider/review.png" alt="A screenshot of the service showing a candidate’s work history.">
@@ -64,8 +70,9 @@
   <section class="app-product-section">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-half">
-        <h2 class="govuk-heading-m">Respond to an application</h2>
-        <p class="govuk-body">Make decisions easily using detailed information.</p>
+        <h2 class="govuk-heading-m">Respond to applications</h2>
+        <p class="govuk-body">Offer a different course, training provider or location.</p>
+        <p class="govuk-body">When you reject, give helpful feedback easily and quickly.</p>
         <p class="govuk-body">Notify candidates automatically.</p>
       </div>
       <div class="govuk-grid-column-one-half">
@@ -96,12 +103,22 @@
   </section>
 
   <section class="app-product-section app-product-section--with-top-border">
+    <h2 class="govuk-heading-m">What providers say</h2>
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-third">
-        <h2 class="govuk-heading-m">What providers say</h2>
+        <blockquote class="govuk-!-margin-0">
+          <p class="govuk-body-l">I like the fact that the layout is very clear and easy to read. I like the personal statement split into ‘why’ and ‘subject knowledge’, it really makes a difference. I was singing the service’s praises after the initial meeting and I have been ever since!</p>
+        </blockquote>
+        <p class="govuk-caption-m">Somerset SCITT</p>
       </div>
-      <div class="govuk-grid-column-two-thirds">
-        <blockquote class="govuk-inset-text govuk-!-margin-0">
+      <div class="govuk-grid-column-one-third">
+        <blockquote class="govuk-!-margin-0">
+          <p class="govuk-body-l">I really like the new DfE system, it’s so much simpler for the candidate. In particular, we like the work history. The way you calculate gaps, so we can explore these at interview, is great – it’s very clever!</p>
+        </blockquote>
+        <p class="govuk-caption-m">Alliance of Leading Learning</p>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <blockquote class="govuk-!-margin-0">
           <p class="govuk-body-l">We’re delighted to be one of the providers taking part in the pilot for DfE Apply. We’re passionate about improving the application journey for candidates, so we jumped at the chance to test and shape this new service.</p>
         </blockquote>
         <p class="govuk-caption-m">Gorse SCITT</p>
@@ -113,7 +130,7 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-half">
         <h2 class="govuk-heading-m app-product-section__title--with-top-border">The team</h2>
-        <p class="govuk-body">Our team is constantly making improvements based on feedback from users. Now is the time to get involved so you can shape the service.</p>
+        <p class="govuk-body">Our team is constantly making improvements based on feedback from users. To get involved so you can shape the service, email us at <a class="govuk-link" href="mailto:becomingateacher@digital.education.gov.uk">becomingateacher<wbr>@digital.education.gov.uk</a></p>
       </div>
       <div class="govuk-grid-column-one-half">
         <img src="/provider/team.jpg" alt="The Apply team sat round a desk.">
