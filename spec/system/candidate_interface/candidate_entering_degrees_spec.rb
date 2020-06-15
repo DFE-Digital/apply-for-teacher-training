@@ -23,12 +23,12 @@ RSpec.feature 'Entering their degrees' do
 
     when_i_select_the_degree_classification
     and_i_click_on_save_and_continue
-    then_i_can_see_the_graduation_year_page
+    then_i_can_see_the_start_and_graduation_year_page
 
     when_i_click_on_save_and_continue
     then_i_see_validation_errors_for_graduation_year
 
-    when_i_fill_in_the_graduation_year
+    when_i_fill_in_the_start_and_graduation_year
     and_i_click_on_save_and_continue
     then_i_can_check_my_undergraduate_degree
 
@@ -51,7 +51,7 @@ RSpec.feature 'Entering their degrees' do
     and_i_click_on_save_and_continue
     when_i_select_the_degree_classification
     and_i_click_on_save_and_continue
-    when_i_fill_in_the_graduation_year
+    when_i_fill_in_the_start_and_graduation_year
     and_i_click_on_save_and_continue
     then_i_can_check_my_additional_degree
 
@@ -140,16 +140,18 @@ RSpec.feature 'Entering their degrees' do
     choose t('application_form.degree.grade.first.label')
   end
 
-  def then_i_can_see_the_graduation_year_page
-    expect(page).to have_content(t('page_titles.what_year_did_you_graduate'))
+  def then_i_can_see_the_start_and_graduation_year_page
+    expect(page).to have_content(t('page_titles.when_did_you_study_for_your_degree'))
   end
 
   def then_i_see_validation_errors_for_graduation_year
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/degree_form.attributes.award_year.blank')
   end
 
-  def when_i_fill_in_the_graduation_year
+  def when_i_fill_in_the_start_and_graduation_year
+    year_with_trailing_space = '2006 '
     year_with_preceding_space = ' 2009'
+    fill_in t('application_form.degree.start_year.label'), with: year_with_trailing_space
     fill_in t('application_form.degree.award_year.label'), with: year_with_preceding_space
   end
 
@@ -187,7 +189,7 @@ RSpec.feature 'Entering their degrees' do
     when_i_select_the_degree_classification
     and_i_click_on_save_and_continue
 
-    when_i_fill_in_the_graduation_year
+    when_i_fill_in_the_start_and_graduation_year
     and_i_click_on_save_and_continue
   end
 
@@ -231,7 +233,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_click_to_change_my_undergraduate_degree_grade
-    page.all('.govuk-summary-list__actions').to_a.third.click_link 'Change grade'
+    page.all('.govuk-summary-list__actions').to_a.fourth.click_link 'Change grade'
   end
 
   def then_i_see_my_undergraduate_degree_filled_in
@@ -241,7 +243,8 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_see_my_undergraduate_degree_year_filled_in
-    expect(page).to have_selector("input[value='2009']")
+    expect(page).to have_selector("input[name='candidate_interface_degree_form[start_year]'][value='2006']")
+    expect(page).to have_selector("input[name='candidate_interface_degree_form[award_year]'][value='2009']")
   end
 
   def then_i_see_my_undergraduate_degree_grade_filled_in
@@ -254,6 +257,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_change_my_undergraduate_degree_year
+    fill_in t('application_form.degree.start_year.label'), with: '2008'
     fill_in t('application_form.degree.award_year.label'), with: '2011'
   end
 
@@ -267,6 +271,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_year
+    expect(page).to have_content '2008'
     expect(page).to have_content '2011'
   end
 

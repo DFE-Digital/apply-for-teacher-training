@@ -16,6 +16,7 @@ module CandidateInterface
     def degree_rows(degree)
       [
         qualification_row(degree),
+        start_year_row(degree),
         award_year_row(degree),
         grade_row(degree),
       ]
@@ -35,6 +36,15 @@ module CandidateInterface
         value: formatted_qualification(degree),
         action: generate_action(degree: degree, attribute: t('application_form.degree.qualification.change_action')),
         change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id),
+      }
+    end
+
+    def start_year_row(degree)
+      {
+        key: t('application_form.degree.start_year.review_label'),
+        value: degree.start_year,
+        action: generate_action(degree: degree, attribute: t('application_form.degree.start_year.change_action')),
+        change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_year_edit_path(degree.id),
       }
     end
 

@@ -178,6 +178,7 @@ module VendorAPI
         qualification_type: qualification.qualification_type,
         subject: qualification.subject,
         grade: "#{qualification.grade}#{' (Predicted)' if qualification.predicted_grade}",
+        start_year: qualification.start_year,
         award_year: qualification.award_year,
         institution_details: institution_details(qualification),
         awarding_body: qualification.awarding_body,

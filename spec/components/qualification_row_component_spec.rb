@@ -7,6 +7,7 @@ RSpec.describe QualificationRowComponent do
       level: :degree,
       qualification_type: 'BSc',
       subject: 'Psychology',
+      start_year: '2015',
       award_year: '2018',
       grade: :upper_second,
     )
@@ -14,6 +15,7 @@ RSpec.describe QualificationRowComponent do
     result = render_inline(described_class.new(qualification: qualification))
 
     expect(result.text).to include('BSc Psychology')
+    expect(result.text).to include('2015')
     expect(result.text).to include('2018')
     expect(result.text).to include('2:1')
   end
@@ -24,6 +26,7 @@ RSpec.describe QualificationRowComponent do
       level: :degree,
       qualification_type: 'MEng',
       subject: 'Engineering',
+      start_year: '2017',
       award_year: '2020',
       grade: :first,
       predicted_grade: true,
@@ -42,6 +45,7 @@ RSpec.describe QualificationRowComponent do
       level: :degree,
       qualification_type: 'BSc',
       subject: 'Chemistry',
+      start_year: '1998',
       award_year: '2001',
       grade: 'I did my best',
     )

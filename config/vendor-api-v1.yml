@@ -660,6 +660,7 @@ components:
       - qualification_type
       - subject
       - grade
+      - start_year
       - award_year
       - institution_details
       - equivalency_details
@@ -684,6 +685,12 @@ components:
           maxLength: 256
           description: The grade awarded
           example: '2:1'
+        start_year:
+          type: string
+          nullable: true
+          maxLength: 4
+          description: The year the candidate started qualification
+          example: '1989'
         award_year:
           type: string
           maxLength: 4

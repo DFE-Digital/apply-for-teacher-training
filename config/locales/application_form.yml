@@ -149,9 +149,14 @@ en:
           conditional:
             label: Please give details of your predicted grade.
             hint_text: Predicted grades must be validated by an academic referee in the ‘References’ section.
+      start_year:
+        label: Year started course
+        hint_text: "For example, %{example_year}"
+        review_label: Start year
+        change_action: year
       award_year:
         label: Graduation year
-        hint_text: For example, 2002. You must have successfully graduated by the time you start your course.
+        hint_text: "For example, %{example_year}"
         review_label: Graduation year
         change_action: year
       base:
@@ -460,6 +465,10 @@ en:
             predicted_grade:
               blank: Enter your predicted grade
               too_long: Your predicted grade must be %{count} characters or fewer
+            start_year:
+              blank: Enter your start year
+              invalid: Enter a real start year
+              greater_than_award_year: 'Enter a start year before graduation year'
             award_year:
               blank: Enter your graduation year
               invalid: Enter a real graduation year

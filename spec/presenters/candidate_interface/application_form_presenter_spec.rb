@@ -110,6 +110,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
           institution_name: 'University of Doge',
           grade: 'first',
           predicted_grade: false,
+          start_year: '2005',
           award_year: '2008',
         )
       end
