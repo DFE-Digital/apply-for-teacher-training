@@ -25,29 +25,25 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionsForm do
     end
   end
 
-  describe '#save!' do
+  describe '#update!' do
+    let(:permissions_attrs) do
+      { training_provider_permissions: { view_safeguarding_information: 'true' } }
+    end
+    let(:the_time) { Time.current }
+
     before do
-      allow(accredited_body_permissions).to receive(:save!).and_return(true)
-      allow(training_provider_permissions).to receive(:save!).and_return(true)
-    end
-
-    it 'saves accredited and training provider permissions models' do
-      form.save!
-
-      expect(accredited_body_permissions).to have_received(:save!)
-      expect(training_provider_permissions).to have_received(:save!)
-    end
-
-    it 'assigns current time to setup_at attribute' do
-      the_time = Time.current
-      allow(accredited_body_permissions).to receive(:setup_at=)
-      allow(training_provider_permissions).to receive(:setup_at=)
+      allow(accredited_body_permissions).to receive(:update!).and_return(true)
+      allow(training_provider_permissions).to receive(:update!).and_return(true)
       allow(Time).to receive(:current).and_return(the_time)
+    end
 
-      form.save!
+    it 'updates accredited and training provider permissions models' do
+      form.update!(permissions_attrs)
 
-      expect(accredited_body_permissions).to have_received(:setup_at=).with(the_time)
-      expect(training_provider_permissions).to have_received(:setup_at=).with(the_time)
+      expect(accredited_body_permissions).to have_received(:update!)
+        .with({ view_safeguarding_information: false, setup_at: the_time })
+      expect(training_provider_permissions).to have_received(:update!)
+        .with({ view_safeguarding_information: true, setup_at: the_time })
     end
   end
 end

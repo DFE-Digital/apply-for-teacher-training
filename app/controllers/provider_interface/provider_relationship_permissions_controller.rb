@@ -23,9 +23,8 @@ module ProviderInterface
 
     def update
       initialize_form
-      @form.assign_permissions_attributes(provider_relationship_permissions_form_params)
 
-      if @form.save!
+      if @form.update!(provider_relationship_permissions_form_params)
         redirect_to provider_interface_provider_relationship_permissions_success_path
       else
         flash[:warning] = 'Unable to save permissions, please try again. If problems persist please contact support.'
