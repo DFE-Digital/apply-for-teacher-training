@@ -10,7 +10,17 @@
       <%= t('page_titles.pick_replacement_action') %>
     </h1>
 
-    <p class='govuk-body'>There are no more places at <%= @site_name %> for <%= @course_name_and_code %>.</p>
+    <% if @course_choice.course.withdrawn %>
+      <p class='govuk-body'><%= @course_name_and_code %> is not running anymore.</p>
+    <% elsif @other_locations_available && @other_study_mode %>
+      <p class='govuk-body'> There are no more <%= @study_mode %> places for <%= @course_name_and_code %> at your choice of location.</p>
+    <% elsif @other_study_mode %>
+      <p class='govuk-body'> There are no more <%= @study_mode %> places for <%= @course_name_and_code %>.</p>
+    <% elsif @other_locations_available %>
+      <p class='govuk-body'>There are no more places at <%= @site_name %> for <%= @course_name_and_code %>.</p>
+    <% else %>
+      <p class='govuk-body'><%= @course_name_and_code %> is now full.</p>
+    <% end %>
 
     <p class='govuk-body'>Update your course choice now: when your references come in we’ll send your application to your <%= @pluralize_provider %>.</p>
 
@@ -18,7 +28,7 @@
       <% if @other_locations_available %>
         <%= f.govuk_radio_button :replacement_action, 'replace_location', label: { text: 'Choose a different location' } %>
       <% end %>
-      <% if @other_study_mode.present? %>
+      <% if @other_study_mode %>
         <%= f.govuk_radio_button :replacement_action, 'replace_study_mode', label: { text: "Study #{@other_study_mode} instead" } %>
       <% end %>
         <%= f.govuk_radio_button :replacement_action, 'replace_course', label: { text: 'Choose a different course' } %>

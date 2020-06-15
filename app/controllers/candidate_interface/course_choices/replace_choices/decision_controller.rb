@@ -9,6 +9,7 @@ module CandidateInterface
           @course_name_and_code = @course_choice.course.name_and_code
           @provider_name = @course_choice.provider.name
           @site_name = @course_choice.site.name
+          @study_mode = @course_choice.course_option.study_mode
           @other_locations_available = create_pick_site_form(@course_choice, @course_choice.course_option).available_sites.present?
           @other_study_mode = @course_choice.course_option.alternative_study_mode
         end
