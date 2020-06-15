@@ -12,7 +12,7 @@
 
     <p class='govuk-body'>There are no more places at <%= @site_name %> for <%= @course_name_and_code %>.</p>
 
-    <p class='govuk-body'>Update your course choice now: when your references come in we’ll send your application to your <%= @pluralize_provider %></p>
+    <p class='govuk-body'>Update your course choice now: when your references come in we’ll send your application to your <%= @pluralize_provider %>.</p>
 
     <%= f.govuk_radio_buttons_fieldset :choices, legend: { text: 'What do you want to do?' } do %>
         <%= f.govuk_radio_button :replacement_action, 'replace_location', label: { text: 'Choose a different location' } %>

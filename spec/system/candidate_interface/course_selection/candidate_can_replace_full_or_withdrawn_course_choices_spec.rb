@@ -183,6 +183,6 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
   end
 
   def and_i_cannot_see_my_old_course_choice
-    expect(page).to have_content @course_option2.site.full_address
+    expect(page).not_to have_content @course_option.site.full_address
   end
 end
