@@ -24,7 +24,6 @@ class FeatureFlag
     [:download_dataset1_from_support_page, 'Enables the application CSV download from the support interface', 'Al Davidson'],
     [:provider_add_provider_users, 'Allows provider users to invite other provider users', 'Steve Laing'],
     [:provider_change_response, 'Allows providers to change the course that they are offering to a candidate', 'Michael Nacos'],
-    [:provider_interface_work_breaks, 'Adds work break information to the provider interface', 'Steve Hook'],
     [:provider_view_safeguarding, 'Allows providers to see whether a candidate has declared safeguarding issues', 'Will McBrien'],
     [:provider_make_decisions_restriction, 'Restricts ability to respond to users with make_decision permission', 'Michael Nacos'],
     [:enforce_provider_to_provider_permissions, 'Provider-to-provider permissions affect what provider users can see and do', 'Duncan Brown'],

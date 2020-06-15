@@ -107,7 +107,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            working_pattern: 'Working pattern at the Empire',
            working_with_children: false,
            start_date: 36.months.ago,
-           end_date: 30.months.ago)
+           end_date: 30.months.ago,
+           commitment: 'part_time')
 
     create(:application_work_experience,
            application_form: application_form,
@@ -117,7 +118,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            working_pattern: 'Working pattern at the Empire',
            working_with_children: false,
            start_date: 24.months.ago,
-           end_date: 18.months.ago)
+           end_date: 18.months.ago,
+           commitment: 'full_time')
 
     create(:application_work_history_break,
            application_form: application_form,
@@ -130,7 +132,9 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            role: 'Defence co-ordinator',
            organisation: 'Rebel Alliance',
            details: 'Worked with children to help them survive clone attacks',
-           working_with_children: true)
+           working_with_children: true,
+           start_date: 10.months.ago,
+           end_date: nil)
 
     create(:reference,
            application_form: application_form,
@@ -177,18 +181,34 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   end
 
   def and_i_should_see_the_candidates_work_history
-    within '[data-qa="work-history"]' do
-      expect(page).to have_content 'Smuggler'
-      expect(page).to have_content 'The Empire'
-      expect(page).to have_content 'Working pattern at the Empire'
-      expect(page).to have_content 'I used to work for'
-      expect(page).not_to have_content 'This role involved working with children'
+    within 'div[data-qa="work-history"]' do
+      within 'div.app-experience__item:eq(1)' do
+        expect(page).to have_content 'Unexplained break (2 years and 1 month)'
+        expect(page).to have_content 'February 2015 - March 2017'
+      end
 
-      expect(page).to have_content 'Bounty Hunter'
+      within 'div.app-experience__item:eq(2)' do
+        expect(page).to have_content 'Smuggler - Part-time'
+        expect(page).to have_content 'March 2017 - September 2017'
+        expect(page).to have_content 'The Empire'
+        expect(page).to have_content 'I used to work for'
+        expect(page).not_to have_content 'Worked with children'
+      end
 
-      # Work history is not editable
-      expect(page).not_to have_content 'Change'
-      expect(page).not_to have_content 'Delete'
+      within 'div.app-experience__item:eq(3)' do
+        expect(page).to have_content 'Break (6 months)'
+        expect(page).to have_content 'September 2017 - March 2018'
+      end
+
+      within 'div.app-experience__item:eq(4)' do
+        expect(page).to have_content 'Bounty Hunter - Full-time'
+        expect(page).to have_content 'March 2018 - September 2018'
+      end
+
+      within 'div.app-experience__item:eq(5)' do
+        expect(page).to have_content 'Unexplained break (1 year and 6 months)'
+        expect(page).to have_content 'September 2018 - March 2020'
+      end
     end
   end
 
@@ -197,7 +217,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
       expect(page).to have_content 'Defence co-ordinator'
       expect(page).to have_content 'Rebel Alliance'
       expect(page).to have_content 'survive clone attacks'
-      expect(page).to have_content 'This role involved working with children'
+      expect(page).to have_content 'Worked with children'
+      expect(page).to have_content 'May 2019 - Present'
 
       # Volunteering is not editable
       expect(page).not_to have_content 'Change'
