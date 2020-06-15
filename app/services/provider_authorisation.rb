@@ -28,13 +28,6 @@ class ProviderAuthorisation
     end
   end
 
-  def can_change_offer?(application_choice:, course_option_id:)
-    can_make_offer?(
-      application_choice: application_choice,
-      course_option_id: course_option_id,
-    )
-  end
-
   def can_view_safeguarding_information?(course:)
     if FeatureFlag.active?(:enforce_provider_to_provider_permissions)
       @actor.provider_permissions.view_safeguarding_information

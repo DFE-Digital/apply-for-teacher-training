@@ -126,37 +126,6 @@ RSpec.describe ProviderAuthorisation do
     end
   end
 
-  describe '#can_change_offer?' do
-    let(:provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }
-    let(:provider) { provider_user.providers.first }
-    let(:course_option) { course_option_for_provider(provider: provider) }
-    let(:application_choice) { create(:application_choice, :with_offer, course_option: course_option) }
-    let(:other_course_option) { course_option_for_provider(provider: provider) }
-
-    it 'is false if user does not have make_decisions permission' do
-      FeatureFlag.activate('provider_make_decisions_restriction')
-      provider_user.provider_permissions.update_all(make_decisions: false)
-      auth_context = ProviderAuthorisation.new(actor: provider_user)
-      expect(auth_context.can_change_offer?(application_choice: application_choice, course_option_id: other_course_option.id)).to be_falsy
-    end
-
-    it 'is true if provider_user/provider/course/course_option all match' do
-      auth_context = ProviderAuthorisation.new(actor: provider_user)
-      expect(auth_context.can_change_offer?(application_choice: application_choice, course_option_id: other_course_option.id)).to be_truthy
-    end
-
-    it 'is false if user is not associated with the provider for the new course option' do
-      auth_context = ProviderAuthorisation.new(actor: create(:provider_user, :with_provider, :with_make_decisions))
-      expect(auth_context.can_change_offer?(application_choice: application_choice, course_option_id: other_course_option.id)).to be_falsy
-    end
-
-    it 'is true if user is a support user' do
-      auth_context = ProviderAuthorisation.new(actor: create(:support_user))
-      unrelated_course_option = create(:course_option)
-      expect(auth_context.can_change_offer?(application_choice: application_choice, course_option_id: unrelated_course_option.id)).to be_truthy
-    end
-  end
-
   describe '#can_view_safeguarding_information?' do
     let(:course) { create(:course, provider: training_provider, accredited_provider: accredited_provider) }
     let(:training_provider) { create(:provider) }
