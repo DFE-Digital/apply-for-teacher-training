@@ -64,7 +64,7 @@ module ProviderInterface
       provider = @application_choice.offered_course.provider
 
       if FeatureFlag.active?('provider_make_decisions_restriction') &&
-          !current_provider_user.can_make_decisions_for?(provider)
+          !provider.users_with_make_decisions.include?(current_provider_user)
 
         redirect_to provider_interface_missing_permission_path(
           provider_id: provider.id,

@@ -40,10 +40,6 @@ class ProviderUser < ActiveRecord::Base
     provider_permissions.view_safeguarding_information.exists?(provider: provider)
   end
 
-  def can_make_decisions_for?(provider)
-    provider_permissions.make_decisions.exists?(provider: provider)
-  end
-
   def full_name
     "#{first_name} #{last_name}" if first_name.present? && last_name.present?
   end

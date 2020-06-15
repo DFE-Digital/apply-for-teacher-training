@@ -84,7 +84,10 @@ private
   end
 
   def actor_has_permission_to_make_decisions?(providers:)
-    @actor.is_a?(VendorApiUser) ||
-      @actor.provider_permissions.make_decisions.exists?(provider: providers)
+    return true if @actor.is_a?(VendorApiUser)
+
+    providers.any? do |provider|
+      provider.users_with_make_decisions.include? @actor
+    end
   end
 end
