@@ -290,7 +290,7 @@ GEM
       addressable (~> 2.5)
       omniauth (~> 1.9)
       openid_connect (~> 1.1)
-    openapi3_parser (0.8.1)
+    openapi3_parser (0.8.2)
       commonmarker (~> 0.17)
       psych (~> 3.1)
     openid_connect (1.2.0)
@@ -562,7 +562,7 @@ DEPENDENCIES
   omniauth
   omniauth-rails_csrf_protection
   omniauth_openid_connect
-  openapi3_parser (= 0.8.1)
+  openapi3_parser (= 0.8.2)
   pdfkit
   pg (~> 1.2.3)
   pry
