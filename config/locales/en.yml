@@ -123,6 +123,7 @@ en:
     pick_choice_to_replace: Some of your choices are not available anymore
     pick_replacement_action: Update course choice
     confirm_replacement_course_choice: Your updated course choice
+    remove_course_choice: Remove your course choice
   layout:
     accessibility: Accessibility
     terms_of_use: Terms of use
