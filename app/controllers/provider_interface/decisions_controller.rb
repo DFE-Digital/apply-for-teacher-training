@@ -141,10 +141,10 @@ module ProviderInterface
       if FeatureFlag.active?('provider_make_decisions_restriction') &&
           !provider.users_with_make_decisions.include?(current_provider_user)
 
-        redirect_to provider_interface_missing_permission_path(
-          provider_id: provider.id,
-          provider_user_id: current_provider_user.id,
+        raise MissingPermission.new(
           permission: 'make_decisions',
+          provider: provider,
+          provider_user: current_provider_user,
         )
       end
     end

@@ -14,6 +14,13 @@ module ProviderInterface
       render template: 'provider_interface/account_creation_in_progress', status: :forbidden
     }
 
+    rescue_from MissingPermission, with: lambda { |e|
+      Raven.capture_exception(e)
+
+      @error = e
+      render template: 'provider_interface/provider_user_permissions/missing_permission', status: :forbidden
+    }
+
     helper_method :current_provider_user, :dfe_sign_in_user
 
     def current_provider_user
