@@ -222,6 +222,8 @@ Rails.application.routes.draw do
         post '/replace/:id/location' => 'course_choices/replace_choices/site_selection#validate_location', as: :validate_new_course_choice_location
         get '/replace/:id/confirm/:course_option_id' => 'course_choices/replace_choices/review#confirm_choice', as: :confirm_replacement_course_choice
         get '/replace/:id/update/:course_option_id' => 'course_choices/replace_choices/review#update_choice', as: :update_replacement_course_choice
+        get '/replace/:id/confirm_destroy' => 'course_choices/replace_choices/destroy#confirm_destroy', as: :confirm_destroy_full_course_choice
+        get '/replace/:id/destroy' => 'course_choices/replace_choices/destroy#destroy', as: :destroy_full_course_choice
 
         get '/provider' => 'course_choices/provider_selection#new', as: :course_choices_provider
         post '/provider' => 'course_choices/provider_selection#create'

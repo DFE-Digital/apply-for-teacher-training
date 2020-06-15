@@ -22,6 +22,8 @@ module CandidateInterface
             else
               redirect_to candidate_interface_replace_course_choices_path
             end
+          elsif @pick_replacement_action.replacement_action == 'remove_course'
+            redirect_to candidate_interface_confirm_destroy_full_course_choice_path
           elsif !@pick_replacement_action.valid?
             flash[:warning] = 'Please select an option to update your course choice.'
 
