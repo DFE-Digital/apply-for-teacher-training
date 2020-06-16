@@ -1,0 +1,42 @@
+<% content_for :title, t('page_titles.pick_replacement_action') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_complete_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: pick_replacement_action_form, url: candidate_interface_replace_course_choice_path(id: @course_choice.id), method: :post do |f| %>
+
+    <h1 class="govuk-heading-xl">
+      <span class="govuk-caption-xl"> <%= "#{provider_name} - #{course_name_and_code}" %></span>
+      <%= t('page_titles.pick_replacement_action') %>
+    </h1>
+
+    <% if @course_choice.course.withdrawn %>
+      <p class='govuk-body'><%= course_name_and_code %> is not running anymore.</p>
+    <% elsif other_locations_available? && other_study_mode && other_study_mode.vacancies? %>
+      <p class='govuk-body'> There are no more <%= study_mode %> places for <%= course_name_and_code %> at your choice of location.</p>
+    <% elsif !other_locations_available? && other_study_mode && other_study_mode.vacancies? %>
+      <p class='govuk-body'> There are no more <%= study_mode %> places for <%= course_name_and_code %>.</p>
+    <% elsif other_locations_available? %>
+        <p class='govuk-body'>There are no more places at <%= site_name %> for <%= course_name_and_code %>.</p>
+    <% else %>
+      <p class='govuk-body'><%= course_name_and_code %> is now full.</p>
+    <% end %>
+
+    <p class='govuk-body'>Update your course choice now: when your references come in we’ll send your application to your <%= pluralize_provider %>.</p>
+
+    <%= f.govuk_radio_buttons_fieldset :choices, legend: { text: 'What do you want to do?' } do %>
+      <% if other_locations_available? %>
+        <%= f.govuk_radio_button :replacement_action, 'replace_location', label: { text: 'Choose a different location' } %>
+      <% end %>
+      <% if other_study_mode && other_study_mode.vacancies? %>
+        <%= f.govuk_radio_button :replacement_action, 'replace_study_mode', label: { text: "Study #{other_study_mode.study_mode.humanize.downcase} instead" } %>
+      <% end %>
+        <%= f.govuk_radio_button :replacement_action, 'replace_course', label: { text: 'Choose a different course' } %>
+        <%= f.govuk_radio_button :replacement_action, 'remove_course', label: { text: 'Remove course from application' } %>
+        <%= f.govuk_radio_button :replacement_action, 'keep_choice', label: { text: 'Submit application anyway' }, hint_text: "#{provider_name} will get your application but there’s no guarantee they’ll consider it." %>
+    <% end %>
+
+    <%= f.govuk_submit 'Continue' %>
+  <% end %>
+  </div>
+</div>

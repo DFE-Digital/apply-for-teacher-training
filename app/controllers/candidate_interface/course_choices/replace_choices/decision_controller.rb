@@ -3,15 +3,7 @@ module CandidateInterface
     module ReplaceChoices
       class DecisionController < BaseController
         def choose_action
-          @pick_replacement_action = PickReplacementActionForm.new
           @course_choice = current_application.application_choices.find(params['id'])
-          @pluralize_provider = 'provider'.pluralize(current_application.unique_provider_list.count)
-          @course_name_and_code = @course_choice.course.name_and_code
-          @provider_name = @course_choice.provider.name
-          @site_name = @course_choice.site.name
-          @study_mode = @course_choice.course_option.study_mode.humanize.downcase
-          @other_locations_available = create_pick_site_form(@course_choice, @course_choice.course_option).available_sites.present?
-          @other_study_mode = @course_choice.course_option.get_alternative_study_mode
         end
 
         def route_action
