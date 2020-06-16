@@ -167,16 +167,18 @@ Rails.application.routes.draw do
       end
 
       scope '/degrees' do
-        get '/' => 'degrees/base#new', as: :degrees_new_base
-        post '/' => 'degrees/base#create', as: :degrees_create_base
-
-        get '/:id/grade' => 'degrees/grade#new', as: :degrees_grade
         get '/:id/grade/edit' => 'degrees/grade#edit', as: :degrees_grade_edit
-        post '/:id/grade' => 'degrees/grade#update', as: :degrees_create_grade
-
-        get '/:id/year' => 'degrees/year#new', as: :degrees_year
         get '/:id/year/edit' => 'degrees/year#edit', as: :degrees_year_edit
-        post '/:id/year' => 'degrees/year#update', as: :degrees_create_year
+        get '/' => 'degrees/type#new', as: :new_degree
+        post '/' => 'degrees/type#create'
+        get '/:id/subject' => 'degrees/subject#new', as: :degree_subject
+        post '/:id/subject' => 'degrees/subject#create'
+        get '/:id/institution' => 'degrees/institution#new', as: :degree_institution
+        post '/:id/institution' => 'degrees/institution#create'
+        get '/:id/grade' => 'degrees/grade#new', as: :degree_grade
+        post '/:id/grade' => 'degrees/grade#create'
+        get '/:id/year' => 'degrees/year#new', as: :degree_year
+        post '/:id/year' => 'degrees/year#create'
 
         get '/review' => 'degrees/review#show', as: :degrees_review
         patch '/review' => 'degrees/review#complete', as: :degrees_complete
