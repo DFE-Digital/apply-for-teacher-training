@@ -48,6 +48,12 @@ class ProviderAuthorisation
     end
   end
 
+  def can_manage_organisation?(provider:)
+    return true if @actor.is_a?(SupportUser)
+
+    @actor.provider_permissions.exists?(provider: provider, manage_organisations: true)
+  end
+
   # automatically generates assert_can...! methods e.g. #assert_can_make_offer! for #can_make_offer?
   instance_methods.select { |m| m.match PERMISSION_METHOD_REGEXP }.each do |method|
     permission_name = method.to_s.scan(PERMISSION_METHOD_REGEXP).last.first
