@@ -18,6 +18,7 @@ class FeatureFlag
     [:dfe_sign_in_fallback, 'Use this when DfE Sign-in is down', 'Tijmen Brommet'],
     [:force_ok_computer_to_fail, 'OK Computer implements a health check endpoint, this flag forces it to fail for testing purposes', 'Michael Nacos'],
     [:pilot_open, 'Enables the Apply for Teacher Training service', 'Tijmen Brommet'],
+    [:switch_to_2021_recruitment_cycle, 'Sync and serve courses for the 2021 recruitment cycle. DO NOT ENABLE IN PRODUCTION.', 'Duncan Brown'],
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
