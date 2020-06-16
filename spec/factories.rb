@@ -518,6 +518,12 @@ FactoryBot.define do
         2.times { create(:provider).provider_users << user }
       end
     end
+
+    trait :with_make_decisions do
+      after(:create) do |user, _evaluator|
+        user.provider_permissions.update_all(make_decisions: true)
+      end
+    end
   end
 
   factory :provider_permissions do

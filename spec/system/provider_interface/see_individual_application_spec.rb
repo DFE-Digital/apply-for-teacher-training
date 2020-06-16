@@ -35,7 +35,6 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     and_i_should_see_the_candidates_language_skills
     and_i_should_see_the_candidates_references
     and_i_should_see_the_disability_disclosure
-    and_i_should_see_a_link_to_respond_to_the_application
     and_i_should_see_a_link_to_download_as_pdf
   end
 
@@ -255,11 +254,6 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   def and_i_should_see_the_disability_disclosure
     expect(page).to have_content 'I am hard of hearing'
-  end
-
-  def and_i_should_see_a_link_to_respond_to_the_application
-    expect(page).to have_content(/You have \d+ days to send a response/)
-    expect(page).to have_link 'Respond to application'
   end
 
   def and_i_should_see_a_link_to_download_as_pdf

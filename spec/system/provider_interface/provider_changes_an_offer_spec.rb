@@ -3,10 +3,12 @@ require 'rails_helper'
 RSpec.feature 'Provider changes an offer' do
   include CourseOptionHelpers
   include DfESignInHelpers
+  include ProviderUserPermissionsHelper
 
   scenario 'Provider changes an offer' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_two_providers
+    and_i_am_permitted_to_make_decisions_for_my_providers
     and_an_offered_application_choice_exists_for_one_of_my_providers
     and_other_full_time_and_part_time_courses_exist_for_this_provider
     and_an_older_course_exists_for_this_provider
@@ -40,6 +42,10 @@ RSpec.feature 'Provider changes an offer' do
     provider_user_exists_in_apply_database
     @provider_user = ProviderUser.find_by(dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
     @provider = Provider.find_by(code: 'ABC')
+  end
+
+  def and_i_am_permitted_to_make_decisions_for_my_providers
+    permit_make_decisions!
   end
 
   def and_an_offered_application_choice_exists_for_one_of_my_providers

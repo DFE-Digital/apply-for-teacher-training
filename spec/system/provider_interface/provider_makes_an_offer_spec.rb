@@ -3,14 +3,19 @@ require 'rails_helper'
 RSpec.feature 'Provider makes an offer' do
   include CourseOptionHelpers
   include DfESignInHelpers
+  include ProviderUserPermissionsHelper
 
   scenario 'Provider makes an offer' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_application_choices_exist_for_my_provider
     and_i_am_permitted_to_see_applications_for_my_provider
+    and_i_am_permitted_to_make_decisions_for_my_provider
     and_i_sign_in_to_the_provider_interface
 
-    when_i_respond_to_an_application
+    when_i_visit_an_application_awaiting_provider_decision
+    then_i_should_see_a_prompt_to_respond_to_the_application
+
+    when_i_click_to_respond_to_the_application
     and_i_choose_to_make_an_offer
     then_i_see_some_application_info
 
@@ -31,17 +36,29 @@ RSpec.feature 'Provider makes an offer' do
 
   def and_application_choices_exist_for_my_provider
     course_option = course_option_for_provider_code(provider_code: 'ABC')
-    @application_awaiting_provider_decision = create(:application_choice, status: 'awaiting_provider_decision', course_option: course_option, application_form: create(:completed_application_form, first_name: 'Alice', last_name: 'Wunder'))
+    @application_awaiting_provider_decision = create(:application_choice, :awaiting_provider_decision, course_option: course_option, application_form: create(:completed_application_form, first_name: 'Alice', last_name: 'Wunder'))
   end
 
   def and_i_am_permitted_to_see_applications_for_my_provider
     provider_user_exists_in_apply_database
   end
 
-  def when_i_respond_to_an_application
-    visit provider_interface_application_choice_respond_path(
+  def and_i_am_permitted_to_make_decisions_for_my_provider
+    permit_make_decisions!
+  end
+
+  def when_i_visit_an_application_awaiting_provider_decision
+    visit provider_interface_application_choice_path(
       @application_awaiting_provider_decision.id,
     )
+  end
+
+  def then_i_should_see_a_prompt_to_respond_to_the_application
+    expect(page).to have_content(/You have \d+ days to send a response/)
+  end
+
+  def when_i_click_to_respond_to_the_application
+    click_on 'Respond to application'
   end
 
   def and_i_choose_to_make_an_offer

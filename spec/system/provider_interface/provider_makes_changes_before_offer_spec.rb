@@ -3,11 +3,13 @@ require 'rails_helper'
 RSpec.feature 'Provider makes changes before making an offer' do
   include CourseOptionHelpers
   include DfESignInHelpers
+  include ProviderUserPermissionsHelper
 
   scenario 'Provider makes changes to course and location' do
     given_i_am_a_provider_user_with_dfe_sign_in
     when_change_response_feature_is_activated
     and_i_am_permitted_to_see_applications_for_a_provider
+    and_i_am_permitted_to_make_decisions_for_my_provider
     and_an_application_choice_exists_for_my_provider
     and_i_sign_in_to_the_provider_interface
     and_i_view_an_application
@@ -16,7 +18,8 @@ RSpec.feature 'Provider makes changes before making an offer' do
     then_i_see_options_to_make_an_offer
 
     when_i_am_permitted_to_see_applications_for_another_provider
-    and_two_course_options_exist_for_another_provider
+    and_two_course_options_exist_for_this_provider
+    and_i_am_permitted_to_make_decisions_for_this_provider
     and_i_view_an_application
     and_i_click_on_respond_to_application
 
@@ -46,6 +49,10 @@ RSpec.feature 'Provider makes changes before making an offer' do
   def and_i_am_permitted_to_see_applications_for_a_provider
     @provider = create(:provider, :with_signed_agreement, code: 'ABC', name: 'Example Provider')
     @provider_user = create(:provider_user, providers: [@provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+  end
+
+  def and_i_am_permitted_to_make_decisions_for_my_provider
+    permit_make_decisions!
   end
 
   def and_an_application_choice_exists_for_my_provider
@@ -87,11 +94,15 @@ RSpec.feature 'Provider makes changes before making an offer' do
     @provider_user.providers << @another_provider
   end
 
-  def and_two_course_options_exist_for_another_provider
+  def and_two_course_options_exist_for_this_provider
     @course_option_two = course_option_for_provider(provider: @another_provider)
     @course_option_three = create(:course_option,
                                   course: @course_option_two.course,
                                   site: create(:site, provider: @another_provider))
+  end
+
+  def and_i_am_permitted_to_make_decisions_for_this_provider
+    permit_make_decisions!(provider: @another_provider)
   end
 
   def and_i_can_choose_to_make_an_offer_but_change_provider

@@ -1,4 +1,14 @@
 module ProviderInterface
+  class MissingPermission < StandardError
+    attr_reader :permission, :provider, :provider_user
+
+    def initialize(hash)
+      @permission = hash[:permission]
+      @provider = hash[:provider]
+      @provider_user = hash[:provider_user]
+    end
+  end
+
   class ProviderInterfaceController < ActionController::Base
     include LogQueryParams
 
@@ -14,6 +24,8 @@ module ProviderInterface
       render template: 'provider_interface/account_creation_in_progress', status: :forbidden
     }
 
+    rescue_from ProviderInterface::MissingPermission, with: :permission_error
+
     helper_method :current_provider_user, :dfe_sign_in_user
 
     def current_provider_user
@@ -23,6 +35,12 @@ module ProviderInterface
     alias_method :audit_user, :current_provider_user
 
   protected
+
+    def permission_error(e)
+      Raven.capture_exception(e)
+      @error = e
+      render template: 'provider_interface/permission_error', status: :forbidden
+    end
 
     def dfe_sign_in_user
       DfESignInUser.load_from_session(session)

@@ -44,6 +44,10 @@ class Provider < ApplicationRecord
     where(id: provider_ids).order(:name)
   end
 
+  def users_with_make_decisions
+    provider_users.merge provider_permissions.make_decisions
+  end
+
   def name_and_code
     "#{name} (#{code})"
   end

@@ -5,23 +5,27 @@ class ProviderAuthorisation
     @actor = actor
   end
 
-  def can_make_offer?(application_choice:, course_option_id: nil)
+  def can_make_offer?(application_choice:, course_option_id:)
     return true if @actor.is_a?(SupportUser)
 
-    supplied_course_option = CourseOption.find(course_option_id) if course_option_id
-    if supplied_course_option && course_option_id != application_choice.course_option.id
-      application_choice_visible_to_user?(application_choice: application_choice) && \
-        course_option_belongs_to_user_providers?(course_option: supplied_course_option)
+    course_option = CourseOption.find(course_option_id)
+
+    # enforce 'make_decisions' restriction
+    training_provider = course_option.provider
+    ratifying_provider = course_option.course.accredited_provider
+
+    related_providers = [training_provider, ratifying_provider].compact
+    return false if
+      FeatureFlag.active?('provider_make_decisions_restriction') &&
+        !actor_has_permission_to_make_decisions?(providers: related_providers)
+
+    # check (indirect) relationship between course_option and @actor
+    if course_option_id != application_choice.course_option.id
+      application_choice_visible_to_user?(application_choice: application_choice) &&
+        course_option_belongs_to_user_providers?(course_option: course_option)
     else
       application_choice_visible_to_user?(application_choice: application_choice)
     end
-  end
-
-  def can_change_offer?(application_choice:, course_option_id:)
-    new_course_option = CourseOption.find course_option_id
-    @actor.is_a?(SupportUser) || \
-      application_choice_visible_to_user?(application_choice: application_choice) && \
-        course_option_belongs_to_user_providers?(course_option: new_course_option)
   end
 
   def can_view_safeguarding_information?(course:)
@@ -70,5 +74,13 @@ private
       ProviderInterface::TrainingProviderPermissions
         .view_safeguarding_information
         .exists?(ratifying_provider: course.accredited_provider, training_provider: course.provider)
+  end
+
+  def actor_has_permission_to_make_decisions?(providers:)
+    return true if @actor.is_a?(VendorApiUser)
+
+    providers.any? do |provider|
+      provider.users_with_make_decisions.include? @actor
+    end
   end
 end

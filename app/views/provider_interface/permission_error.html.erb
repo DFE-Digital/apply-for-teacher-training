@@ -1,0 +1,13 @@
+<%= content_for :title, "Requires ‘#{@error.permission}’" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">Access denied</h1>
+    <p class="govuk-body">
+      To perform this action you need permission to ‘<%= @error.permission %>’.
+    </p>
+    <p class="govuk-body">
+      Please contact <strong><%= @error.provider.name %></strong> for more information.
+    </p>
+  </div>
+</div>
