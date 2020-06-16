@@ -6,6 +6,18 @@ There are no more places at <%= @application_choice.course_option.site.name %> f
 
 The places filled up while we were waiting for your references, so the provider has not got your application.
 
+<% if FeatureFlag.active?(:replace_full_or_withdrawn_application_choices) %>
+
+# Update your course choice now
+
+Find out about other options for <%= @application_choice.course_option.course.name_and_code %> and edit or replace the course choice:
+
+<%= candidate_magic_link(@application_form.candidate) %>
+
+If you do nothing, we’ll send your application to the provider when your references come in. There’s no guarantee they’ll consider it. 
+
+<% else %>
+
 # Decide what you want to do and let us know as soon as possible
 
 Email us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) to let us know what you want to do.
@@ -18,3 +30,5 @@ You can:
 - keep the course on your application
 
 If you do nothing, we’ll send your application to the provider when your references come in. There’s no guarantee they’ll consider it.
+
+<% end %>
