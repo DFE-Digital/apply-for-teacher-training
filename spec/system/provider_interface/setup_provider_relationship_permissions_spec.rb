@@ -40,13 +40,13 @@ RSpec.feature 'Setting up provider relationship permissions' do
 
   def and_i_can_manage_organisations
     @provider_user = ProviderUser.last
-    @provider_user.provider_permissions.update_all(manage_organisations: true)
     @training_provider = Provider.find_by(code: 'ABC')
     @ratifying_provider = Provider.find_by(code: 'DEF')
 
     @another_training_provider = create(:provider, :with_signed_agreement)
     @another_ratifying_provider = create(:provider, :with_signed_agreement)
     @provider_user.providers << @another_training_provider
+    @provider_user.provider_permissions.update_all(manage_organisations: true)
   end
 
   def and_my_organisations_have_not_had_permissions_setup
