@@ -17,9 +17,11 @@
       Inviting users
     </h2>
 
-    <p class="govuk-body">
-      Select <%= govuk_link_to 'Users', provider_interface_provider_users_path %> (at the top of every page) to add users and manage their permissions.
-    </p>
+    <% if current_provider_user.can_manage_users? %>
+      <p class="govuk-body">
+        Select <%= govuk_link_to 'Users', provider_interface_provider_users_path %> (at the top of every page) to add users and manage their permissions.
+      </p>
+    <% end %>
     <h2 class="govuk-heading-m">
       Manage your applications
     </h2>

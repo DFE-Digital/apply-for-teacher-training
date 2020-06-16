@@ -98,6 +98,19 @@ RSpec.describe ProviderUser, type: :model do
     end
   end
 
+  describe '#can_manage_organisations?' do
+    let(:provider_user) { create :provider_user, :with_provider }
+
+    it 'is false when no provider relationship permissions exist for associated providers' do
+      expect(provider_user.can_manage_organisations?).to be(false)
+    end
+
+    it 'is true when provider relationship permissions exist for associated providers' do
+      create(:training_provider_permissions, training_provider: provider_user.providers.first)
+      expect(provider_user.can_manage_organisations?).to be(true)
+    end
+  end
+
   describe '.visible_to' do
     it 'returns provider users with access to the same providers as the passed user' do
       provider = create(:provider)

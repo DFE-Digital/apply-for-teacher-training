@@ -49,7 +49,7 @@ module ProviderInterface
 
     def provider_relationship_permissions_form_params
       permissions_attrs = %i[view_safeguarding_information]
-      params.require(:provider_interface_provider_relationship_permissions_form)
+      params.fetch(:provider_interface_provider_relationship_permissions_form, {})
         .permit(
           accredited_body_permissions: permissions_attrs,
           training_provider_permissions: permissions_attrs,

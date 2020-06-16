@@ -31,6 +31,19 @@ class Provider < ApplicationRecord
       .where(ProviderPermissions.table_name => { provider_user_id: provider_user.id, manage_users: true })
   end
 
+  def self.with_permissions_visible_to(provider_user)
+    provider_ids = ProviderInterface::ProviderRelationshipPermissions
+      .where(training_provider: provider_user.providers)
+      .or(
+        ProviderInterface::ProviderRelationshipPermissions.where(
+          ratifying_provider_id: provider_user.providers,
+        ),
+      )
+      .pluck(:ratifying_provider_id, :training_provider_id).flatten
+
+    where(id: provider_ids).order(:name)
+  end
+
   def name_and_code
     "#{name} (#{code})"
   end
