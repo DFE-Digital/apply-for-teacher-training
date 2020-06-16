@@ -35,7 +35,6 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     and_i_should_see_the_candidates_language_skills
     and_i_should_see_the_candidates_references
     and_i_should_see_the_disability_disclosure
-    and_i_should_see_the_application_timeline
     and_i_should_see_a_link_to_respond_to_the_application
     and_i_should_see_a_link_to_download_as_pdf
   end
@@ -265,10 +264,5 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   def and_i_should_see_a_link_to_download_as_pdf
     expect(page).to have_link 'Download application (PDF)'
-  end
-
-  def and_i_should_see_the_application_timeline
-    expect(page).to have_content 'Timeline'
-    expect(page).to have_content 'Application submitted'
   end
 end
