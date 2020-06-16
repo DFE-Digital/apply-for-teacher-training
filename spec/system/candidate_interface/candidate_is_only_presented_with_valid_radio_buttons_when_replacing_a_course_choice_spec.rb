@@ -23,9 +23,6 @@ RSpec.describe 'Candidate replacing a full or withdrawn course option post submi
     and_i_click_update_my_course_choice
     then_i_arrive_on_the_replace_course_choice_page
     and_i_should_be_told_there_are_no_more_full_time_places_at_my_location
-    and_i_should_have_the_option_to_replace_my_course_choice
-    and_i_should_have_the_option_to_delete_my_course_choice
-    and_i_should_have_the_option_to_keep_my_course_choice
     and_i_should_have_the_option_to_change_the_location_of_my_course_choice
     and_i_should_have_the_option_to_replace_the_study_mode_course_choice
 
@@ -35,9 +32,6 @@ RSpec.describe 'Candidate replacing a full or withdrawn course option post submi
     and_i_click_update_my_course_choice
     then_i_arrive_on_the_replace_course_choice_page
     and_i_should_be_told_there_are_no_more_places_at_that_location_available
-    and_i_should_have_the_option_to_replace_my_course_choice
-    and_i_should_have_the_option_to_delete_my_course_choice
-    and_i_should_have_the_option_to_keep_my_course_choice
     and_i_should_have_the_option_to_change_the_location_of_my_course_choice
     and_i_should_not_have_the_option_to_replace_the_study_mode_course_choice
 
@@ -47,9 +41,6 @@ RSpec.describe 'Candidate replacing a full or withdrawn course option post submi
     and_i_click_update_my_course_choice
     then_i_arrive_on_the_replace_course_choice_page
     and_i_should_be_told_there_are_no_more_full_time_places_available
-    and_i_should_have_the_option_to_replace_my_course_choice
-    and_i_should_have_the_option_to_delete_my_course_choice
-    and_i_should_have_the_option_to_keep_my_course_choice
     and_i_should_not_have_the_option_to_change_the_location_of_my_course_choice
     and_i_should_have_the_option_to_replace_the_study_mode_course_choice
 
@@ -59,9 +50,6 @@ RSpec.describe 'Candidate replacing a full or withdrawn course option post submi
     and_i_click_update_my_course_choice
     then_i_arrive_on_the_replace_course_choice_page
     and_i_should_be_told_that_the_course_has_been_withdrawn
-    and_i_should_have_the_option_to_replace_my_course_choice
-    and_i_should_have_the_option_to_delete_my_course_choice
-    and_i_should_have_the_option_to_keep_my_course_choice
     and_i_should_not_have_the_option_to_change_the_location_of_my_course_choice
     and_i_should_not_have_the_option_to_replace_the_study_mode_course_choice
   end
