@@ -227,13 +227,18 @@ RSpec.describe SyncProviderFromFind do
 
         invalid_site_one = create(:site, provider: course.provider, code: 'B')
         invalid_site_two = create(:site, provider: course.provider, code: 'C')
+        invalid_site_three = create(:site, provider: course.provider, code: 'D')
         invalid_course_option_one = create(:course_option, course: course, site: invalid_site_one)
         invalid_course_option_two = create(:course_option, course: course, site: invalid_site_two)
+        invalid_course_option_three = create(:course_option, course: course, site: invalid_site_three)
+
         create(:application_choice, course_option: invalid_course_option_two)
+        create(:application_choice, course_option: valid_course_option, offered_course_option: invalid_course_option_three)
         SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
 
         expect(CourseOption.exists?(invalid_course_option_one.id)).to eq false
         expect(invalid_course_option_two.reload).not_to be_site_still_valid
+        expect(invalid_course_option_three.reload).not_to be_site_still_valid
         expect(valid_course_option.reload).to be_site_still_valid
       end
 
