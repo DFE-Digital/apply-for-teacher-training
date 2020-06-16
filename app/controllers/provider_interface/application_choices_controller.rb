@@ -57,8 +57,12 @@ module ProviderInterface
     def timeline; end
 
     def emails
-      @emails = Email.includes(:application_form)
-        .where(application_form_id: @application_choice.application_form)
+      if HostingEnvironment.sandbox_mode?
+        @emails = Email.includes(:application_form)
+          .where(application_form_id: @application_choice.application_form)
+      else
+        render_403
+      end
     end
 
   private
