@@ -4,9 +4,11 @@ RSpec.describe CandidateInterface::PickCourseForm do
   describe '#radio_available_courses' do
     it 'returns courses that candidates can choose from' do
       provider = create(:provider, name: 'School with courses')
+
       create(:course, exposed_in_find: false, open_on_apply: true, name: 'Course not shown in Find', provider: provider)
       create(:course, exposed_in_find: true, open_on_apply: false, name: 'Course not open on apply', provider: provider)
       create(:course, exposed_in_find: true, open_on_apply: true, name: 'Course you can apply to', provider: provider)
+      create(:course, exposed_in_find: true, open_on_apply: true, name: 'Course from another cycle', provider: provider, recruitment_cycle_year: 2016)
       create(:course, exposed_in_find: true, open_on_apply: true, name: 'Course from other provider')
 
       form = described_class.new(provider_id: provider.id)
@@ -16,6 +18,16 @@ RSpec.describe CandidateInterface::PickCourseForm do
   end
 
   describe '#dropdown_available_courses' do
+    it 'respects the current recruitment cycle' do
+      provider = create(:provider)
+      create(:course, :open_on_apply, name: 'This cycle', code: 'A', provider: provider)
+      create(:course, :open_on_apply, name: 'A past cycle', code: 'F', provider: provider, recruitment_cycle_year: 2016)
+
+      form = described_class.new(provider_id: provider.id)
+
+      expect(form.dropdown_available_courses.map(&:name)).to eql(['This cycle (A)'])
+    end
+
     context 'with no ambiguous courses' do
       it 'returns each courses name and code' do
         provider = create(:provider)
