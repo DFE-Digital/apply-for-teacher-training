@@ -8,7 +8,7 @@ class TestApplications
     1.upto(count).flat_map do
       create_application(
         states: [:awaiting_provider_decision] * courses_per_application,
-        courses_to_apply_to: Course.open_on_apply.where(provider: provider),
+        courses_to_apply_to: Course.current_cycle.open_on_apply.where(provider: provider),
       )
     end
   end
