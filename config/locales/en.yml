@@ -124,6 +124,7 @@ en:
     pick_replacement_action: Update course choice
     confirm_replacement_course_choice: Your updated course choice
     remove_course_choice: Remove your course choice
+    withdraw_application: Are you sure you want to withdraw your application?
   layout:
     accessibility: Accessibility
     terms_of_use: Terms of use

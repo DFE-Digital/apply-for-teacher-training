@@ -1,0 +1,13 @@
+<%= content_for :title, t('page_titles.withdraw_application') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_replace_course_choice_path(@course_choice.id), 'Back') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl"><%= t('page_titles.withdraw_application') %></h1>
+    <p class="govuk-body">Your application does not have any course choices.</p>
+
+      <%= govuk_link_to 'Yes - withdraw application', candidate_interface_withdraw_full_course_choice_path, class: 'govuk-button govuk-button--warning' %>
+      <br>
+      <%= govuk_link_to 'Cancel and return to application dashboard', candidate_interface_application_complete_path, class: 'govuk-body' %>
+  </div>
+</div>
