@@ -1,1 +1,15 @@
-<%= render 'grade_form', degree: @degree %>
+<% content_for :title, title_with_error_prefix(t('page_titles.degree_grade'), @degree_grade_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @degree_grade_form, url: candidate_interface_edit_degree_grade_path(@degree_grade_form.degree), method: :patch do |f| %>
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.degree_grade') %>
+      </h1>
+
+      <%= render 'form_fields', f: f %>
+
+    <% end %>
+  </div>
+</div>

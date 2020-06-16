@@ -11,5 +11,10 @@ module CandidateInterface
 
       degree.update!(subject: subject)
     end
+
+    def fill_form_values
+      self.subject = degree.subject
+      self
+    end
   end
 end

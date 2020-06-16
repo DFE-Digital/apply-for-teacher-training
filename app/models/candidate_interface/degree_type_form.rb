@@ -14,5 +14,16 @@ module CandidateInterface
         qualification_type: type_description,
       )
     end
+
+    def update
+      return false unless valid?
+
+      degree.update!(qualification_type: type_description)
+    end
+
+    def fill_form_values
+      self.type_description = degree.qualification_type
+      self
+    end
   end
 end

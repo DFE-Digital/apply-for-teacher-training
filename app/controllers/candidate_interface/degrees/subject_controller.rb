@@ -14,6 +14,19 @@ module CandidateInterface
         end
       end
 
+      def edit
+        @degree_subject_form = DegreeSubjectForm.new(degree: degree).fill_form_values
+      end
+
+      def update
+        @degree_subject_form = DegreeSubjectForm.new(subject_params)
+        if @degree_subject_form.save
+          redirect_to candidate_interface_degrees_review_path
+        else
+          render :edit
+        end
+      end
+
     private
 
       def degree

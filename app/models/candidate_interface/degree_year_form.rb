@@ -16,6 +16,12 @@ module CandidateInterface
       degree.update!(start_year: start_year, award_year: award_year)
     end
 
+    def fill_form_values
+      self.start_year = degree.start_year
+      self.award_year = degree.award_year
+      self
+    end
+
   private
 
     def start_year_is_valid_date

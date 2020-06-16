@@ -1,0 +1,23 @@
+<%= f.govuk_radio_buttons_fieldset :grade, legend: { tag: 'span' } do %>
+
+  <% CandidateInterface::DegreeGradeForm::CLASSES.each_with_index do |degree_class, index| %>
+    <%= f.govuk_radio_button :grade, degree_class, label: { text: t("application_form.degree.grade.#{degree_class}.label") }, link_errors: index.zero? %>
+  <% end %>
+
+  <%= f.govuk_radio_button :grade, 'other', label: { text: t('application_form.degree.grade.other.label') } do %>
+    <%= f.govuk_text_field :other_grade, label: { text: t('application_form.degree.grade.other.conditional.label') }, width: 10 %>
+  <% end %>
+
+  <%= f.govuk_radio_divider %>
+
+  <%= f.govuk_radio_button :grade, 'predicted', label: { text: t('application_form.degree.grade.predicted.label') } do %>
+    <%= f.govuk_text_field(
+      :predicted_grade,
+      label: { text: t('application_form.degree.grade.predicted.conditional.label') },
+      hint_text: t('application_form.degree.grade.predicted.conditional.hint_text'),
+      width: 10
+    ) %>
+  <% end %>
+<% end %>
+
+<%= f.govuk_submit t('application_form.degree.base.button') %>

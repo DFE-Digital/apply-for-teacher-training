@@ -17,6 +17,19 @@ module CandidateInterface
         end
       end
 
+      def edit
+        @degree_type_form = DegreeTypeForm.new(degree: degree).fill_form_values
+      end
+
+      def update
+        @degree_type_form = DegreeTypeForm.new(update_params)
+        if @degree_type_form.update
+          redirect_to candidate_interface_degrees_review_path
+        else
+          render :edit
+        end
+      end
+
     private
 
       def degree_type_params
@@ -27,6 +40,10 @@ module CandidateInterface
 
       def create_params
         degree_type_params.merge(application_form: current_application)
+      end
+
+      def update_params
+        degree_type_params.merge(degree: degree)
       end
 
       def degree_already_added?

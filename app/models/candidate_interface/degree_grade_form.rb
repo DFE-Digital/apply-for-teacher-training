@@ -13,7 +13,24 @@ module CandidateInterface
     def save
       return false unless valid?
 
-      degree.update!(grade: determine_grade)
+      degree.update!(
+        grade: determine_submitted_grade,
+        predicted_grade: grade == 'predicted' ? true : false
+      )
+    end
+
+    def fill_form_values
+      if degree.grade.in? CLASSES
+        self.grade = degree.grade
+      elsif degree.predicted_grade?
+        self.grade = 'predicted'
+        self.predicted_grade = degree.grade
+      else
+        self.grade = 'other'
+        self.other_grade = degree.grade
+      end
+
+      self
     end
 
   private
@@ -26,7 +43,7 @@ module CandidateInterface
       grade == 'predicted'
     end
 
-    def determine_grade
+    def determine_submitted_grade
       case grade
       when 'other'
         other_grade
