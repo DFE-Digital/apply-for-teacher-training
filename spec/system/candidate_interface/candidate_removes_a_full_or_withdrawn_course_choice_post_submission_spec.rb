@@ -20,6 +20,10 @@ RSpec.describe 'Both a candidates course choices have become full or been withdr
 
     when_i_click_remove_my_course_choice
     then_i_arrive_on_my_second_full_course_choice_page
+
+    when_i_choose_to_remove_my_course
+    and_click_continue
+    and_i_click_remove_my_course_choice
   end
 
   def given_the_replace_full_or_withdrawn_application_choices_is_active
@@ -60,7 +64,7 @@ RSpec.describe 'Both a candidates course choices have become full or been withdr
   end
 
   def then_i_see_the_confirm_destroy_page
-    expect(page).to have_current_path candidate_interface_confirm_destroy_full_course_choice_path(@course_option.application_choices.first.id)
+    expect(page).to have_current_path candidate_interface_confirm_cancel_full_course_choice_path(@course_option.application_choices.first.id)
   end
 
   def and_i_see_the_courses_details
@@ -73,5 +77,29 @@ RSpec.describe 'Both a candidates course choices have become full or been withdr
 
   def then_i_arrive_on_my_second_full_course_choice_page
     expect(page).to have_current_path candidate_interface_replace_course_choice_path(@application_choice.id)
+  end
+
+  def when_i_choose_to_remove_my_course
+    and_i_choose_to_remove_my_course
+  end
+
+  def and_i_click_remove_my_course_choice
+    when_i_click_remove_my_course_choice
+  end
+
+  def then_i_see_the_confirm_withdraw_page
+    expect(page).to have_current_path candidate_interface_confirm_withdraw_full_course_choice_path(@course_option.application_choices.first.id)
+  end
+
+  def when_i_click_withdraw_application
+    click_link 'Yes - withdraw application'
+  end
+
+  def then_i_see_my_application_dashboard
+    expect(page).to have_current_path candidate_interface_application_complete_path
+  end
+
+  def and_i_am_told_i_can_apply_again
+    expect(page).to have_content 'Your application has been withdrawn.'
   end
 end
