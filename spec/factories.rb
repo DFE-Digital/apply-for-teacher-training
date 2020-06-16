@@ -279,6 +279,10 @@ FactoryBot.define do
       exposed_in_find { true }
     end
 
+    trait :with_accredited_provider do
+      accredited_provider { create(:provider) }
+    end
+
     trait :with_both_study_modes do
       study_mode { :full_time_or_part_time }
     end

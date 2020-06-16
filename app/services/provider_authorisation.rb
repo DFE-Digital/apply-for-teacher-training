@@ -9,11 +9,13 @@ class ProviderAuthorisation
     return true if @actor.is_a?(SupportUser)
 
     course_option = CourseOption.find(course_option_id)
-
-    # enforce 'make_decisions' restriction
     training_provider = course_option.provider
     ratifying_provider = course_option.course.accredited_provider
 
+    # enforce org-level 'make_decisions' restriction
+    # FIXME: implementation
+
+    # enforce user-level 'make_decisions' restriction
     related_providers = [training_provider, ratifying_provider].compact
     return false if
       FeatureFlag.active?('provider_make_decisions_restriction') &&

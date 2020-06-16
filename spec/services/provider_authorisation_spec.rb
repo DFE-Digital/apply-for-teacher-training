@@ -14,114 +14,126 @@ RSpec.describe ProviderAuthorisation do
   end
 
   describe '#can_make_offer?' do
-    context 'with provider user' do
-      let(:provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }
-      let(:provider) { provider_user.providers.first }
+    let(:training_provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }
+    let(:training_provider) { training_provider_user.providers.first }
 
-      it 'is false if user does not have make_decisions permission' do
+    let(:ratifying_provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }
+    let(:ratifying_provider) { ratifying_provider_user.providers.first }
+
+    let(:course) do
+      create(
+        :course,
+        :open_on_apply,
+        provider: training_provider,
+        accredited_provider: ratifying_provider,
+      )
+    end
+    let(:course_option) { create(:course_option, course: course) }
+    let(:application_choice) do
+      create(
+        :application_choice,
+        :awaiting_provider_decision,
+        course_option: course_option,
+      )
+    end
+
+    let(:training_provider_permissions) do
+      create(:training_provider_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
+    end
+    let(:ratifying_provider_permissions) do
+      create(:accredited_body_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
+    end
+
+    # org-level 'make_decisions' are now required for happy path
+    before do
+      training_provider_permissions.update(make_decisions: true)
+      ratifying_provider_permissions.update(make_decisions: true)
+    end
+
+    def can_make_offer?(actor:, choice: application_choice)
+      auth_context = ProviderAuthorisation.new(actor: actor)
+      auth_context.can_make_offer?(
+        application_choice: choice,
+        course_option_id: choice.course_option.id,
+      )
+    end
+
+    context 'with provider user (org-level permissions)' do
+      it 'training_provider without make_decisions' do
         FeatureFlag.activate('provider_make_decisions_restriction')
-        application_choice = create(:application_choice, :awaiting_provider_decision)
-        provider_user.provider_permissions.update_all(make_decisions: false)
-        auth_context = ProviderAuthorisation.new(actor: provider_user)
-        expect(
-          auth_context.can_make_offer?(
-            application_choice: application_choice,
-            course_option_id: application_choice.course_option.id,
-          ),
-        ).to be_falsy
+
+        training_provider_permissions.update(make_decisions: false)
+
+        expect(can_make_offer?(actor: ratifying_provider_user)).to be_truthy
+        expect(can_make_offer?(actor: training_provider_user)).to be_falsy
       end
 
+      it 'ratifying_provider without make_decisions' do
+        FeatureFlag.activate('provider_make_decisions_restriction')
+
+        ratifying_provider_permissions.update(make_decisions: false)
+
+        expect(can_make_offer?(actor: training_provider_user)).to be_truthy
+        expect(can_make_offer?(actor: ratifying_provider_user)).to be_falsy
+      end
+    end
+
+    context 'with provider user (user-level permissions)' do
+      it 'training_provider_user without make_decisions' do
+        FeatureFlag.activate('provider_make_decisions_restriction')
+
+        training_provider_user.provider_permissions.update_all(make_decisions: false)
+
+        expect(can_make_offer?(actor: training_provider_user)).to be_falsy
+      end
+
+      it 'ratifying_provider_user without make_decisions' do
+        FeatureFlag.activate('provider_make_decisions_restriction')
+
+        ratifying_provider_user.provider_permissions.update_all(make_decisions: false)
+
+        expect(can_make_offer?(actor: ratifying_provider_user)).to be_falsy
+      end
+    end
+
+    context 'with provider user (offer association checks)' do
       it 'is false if user is not associated with the provider that offers the course' do
-        application_choice = create(:application_choice, :awaiting_provider_decision)
-        auth_context = ProviderAuthorisation.new(actor: provider_user)
-        expect(
-          auth_context.can_make_offer?(
-            application_choice: application_choice,
-            course_option_id: application_choice.course_option.id,
-          ),
-        ).to be_falsy
+        unrelated_choice = create(:application_choice, :awaiting_provider_decision)
+        expect(can_make_offer?(actor: training_provider_user, choice: unrelated_choice)).to be_falsy
       end
 
       it 'is true if user is associated with the provider that offers the course' do
-        course_option = course_option_for_provider(provider: provider)
-        application_choice = create(:application_choice, :awaiting_provider_decision, course_option: course_option)
-        auth_context = ProviderAuthorisation.new(actor: provider_user)
-        expect(
-          auth_context.can_make_offer?(
-            application_choice: application_choice,
-            course_option_id: course_option.id,
-          ),
-        ).to be_truthy
+        expect(can_make_offer?(actor: training_provider_user)).to be_truthy
       end
 
       it 'is true when the user is associated with the accredited provider for this course' do
-        course_option = course_option_for_accredited_provider(provider: create(:provider), accredited_provider: provider)
-        application_choice = create(:application_choice, :awaiting_provider_decision, course_option: course_option)
-
-        auth_context = ProviderAuthorisation.new(actor: provider_user)
-
-        expect(
-          auth_context.can_make_offer?(
-            application_choice: application_choice,
-            course_option_id: course_option.id,
-          ),
-        ).to be_truthy
-      end
-
-      it 'is false when the accredited provider user does not have make_decisions' do
-        FeatureFlag.activate('provider_make_decisions_restriction')
-        course_option = course_option_for_accredited_provider(provider: create(:provider), accredited_provider: provider)
-        application_choice = create(:application_choice, :awaiting_provider_decision, course_option: course_option)
-        provider_user.provider_permissions.update_all(make_decisions: false)
-
-        auth_context = ProviderAuthorisation.new(actor: provider_user)
-
-        expect(
-          auth_context.can_make_offer?(
-            application_choice: application_choice,
-            course_option_id: course_option.id,
-          ),
-        ).to be_falsy
+        expect(can_make_offer?(actor: ratifying_provider_user)).to be_truthy
       end
     end
 
     context 'with support user' do
       it 'is true no matter what' do
-        unrelated_course_option = create(:course_option)
-        application_choice = create(:application_choice, :awaiting_provider_decision)
-        auth_context = ProviderAuthorisation.new(actor: create(:support_user))
-        expect(
-          auth_context.can_make_offer?(
-            application_choice: application_choice,
-            course_option_id: unrelated_course_option.id,
-          ),
-        ).to be_truthy
+        unrelated_choice = create(:application_choice, :awaiting_provider_decision)
+        expect(can_make_offer?(actor: create(:support_user), choice: unrelated_choice)).to be_truthy
       end
     end
 
     context 'with api key' do
-      it 'is false if api key is not associated with the provider that offers the course' do
-        application_choice = create(:application_choice, :awaiting_provider_decision)
-        auth_context = ProviderAuthorisation.new(actor: create(:vendor_api_user))
-        expect(
-          auth_context.can_make_offer?(
-            application_choice: application_choice,
-            course_option_id: application_choice.course_option.id,
-          ),
-        ).to be_falsy
+      it 'is false if api key belongs to a random provider' do
+        unrelated_choice = create(:application_choice, :awaiting_provider_decision)
+        expect(can_make_offer?(actor: create(:vendor_api_user), choice: unrelated_choice)).to be_falsy
       end
 
-      it 'is true if api key is associated with the provider that offers the course' do
-        vendor_api_user = create(:vendor_api_user)
-        course_option = course_option_for_provider(provider: vendor_api_user.vendor_api_token.provider)
-        application_choice = create(:application_choice, :awaiting_provider_decision, course_option: course_option)
-        auth_context = ProviderAuthorisation.new(actor: vendor_api_user)
-        expect(
-          auth_context.can_make_offer?(
-            application_choice: application_choice,
-            course_option_id: course_option.id,
-          ),
-        ).to be_truthy
+      it 'is true if api key is associated with the training provider' do
+        vendor_api_token = create(:vendor_api_token, provider: training_provider)
+        vendor_api_user = create(:vendor_api_user, vendor_api_token: vendor_api_token)
+        expect(can_make_offer?(actor: vendor_api_user)).to be_truthy
+      end
+
+      it 'is true if api key is associated with the provider ratifying the course' do
+        vendor_api_token = create(:vendor_api_token, provider: ratifying_provider)
+        vendor_api_user = create(:vendor_api_user, vendor_api_token: vendor_api_token)
+        expect(can_make_offer?(actor: vendor_api_user)).to be_truthy
       end
     end
   end
