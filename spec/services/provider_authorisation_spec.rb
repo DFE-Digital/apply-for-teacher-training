@@ -58,10 +58,10 @@ RSpec.describe ProviderAuthorisation do
       )
     end
 
-    context 'with provider user (org-level permissions)' do
-      it 'training_provider without make_decisions' do
-        FeatureFlag.activate('provider_make_decisions_restriction')
+    context 'actor: provider user (org-level permissions)' do
+      before { FeatureFlag.activate('provider_make_decisions_restriction') }
 
+      it 'training_provider without make_decisions' do
         training_provider_permissions.update(make_decisions: false)
 
         expect(can_make_offer?(actor: ratifying_provider_user)).to be_truthy
@@ -69,8 +69,6 @@ RSpec.describe ProviderAuthorisation do
       end
 
       it 'ratifying_provider without make_decisions' do
-        FeatureFlag.activate('provider_make_decisions_restriction')
-
         ratifying_provider_permissions.update(make_decisions: false)
 
         expect(can_make_offer?(actor: training_provider_user)).to be_truthy
@@ -78,47 +76,45 @@ RSpec.describe ProviderAuthorisation do
       end
     end
 
-    context 'with provider user (user-level permissions)' do
-      it 'training_provider_user without make_decisions' do
-        FeatureFlag.activate('provider_make_decisions_restriction')
+    context 'actor: provider user (user-level permissions)' do
+      before { FeatureFlag.activate('provider_make_decisions_restriction') }
 
+      it 'training_provider_user without make_decisions' do
         training_provider_user.provider_permissions.update_all(make_decisions: false)
 
         expect(can_make_offer?(actor: training_provider_user)).to be_falsy
       end
 
       it 'ratifying_provider_user without make_decisions' do
-        FeatureFlag.activate('provider_make_decisions_restriction')
-
         ratifying_provider_user.provider_permissions.update_all(make_decisions: false)
 
         expect(can_make_offer?(actor: ratifying_provider_user)).to be_falsy
       end
     end
 
-    context 'with provider user (offer association checks)' do
-      it 'is false if user is not associated with the provider that offers the course' do
+    context 'actor: provider user (no permissions, by association only)' do
+      it 'is false if not associated with the provider that offers the course' do
         unrelated_choice = create(:application_choice, :awaiting_provider_decision)
         expect(can_make_offer?(actor: training_provider_user, choice: unrelated_choice)).to be_falsy
       end
 
-      it 'is true if user is associated with the provider that offers the course' do
+      it 'is true if associated with the provider that offers the course' do
         expect(can_make_offer?(actor: training_provider_user)).to be_truthy
       end
 
-      it 'is true when the user is associated with the accredited provider for this course' do
+      it 'is true if associated with the accredited provider for this course' do
         expect(can_make_offer?(actor: ratifying_provider_user)).to be_truthy
       end
     end
 
-    context 'with support user' do
+    context 'actor: support user' do
       it 'is true no matter what' do
         unrelated_choice = create(:application_choice, :awaiting_provider_decision)
         expect(can_make_offer?(actor: create(:support_user), choice: unrelated_choice)).to be_truthy
       end
     end
 
-    context 'with api key' do
+    context 'actor: api user (no permissions, by association only)' do
       it 'is false if api key belongs to a random provider' do
         unrelated_choice = create(:application_choice, :awaiting_provider_decision)
         expect(can_make_offer?(actor: create(:vendor_api_user), choice: unrelated_choice)).to be_falsy
@@ -134,6 +130,26 @@ RSpec.describe ProviderAuthorisation do
         vendor_api_token = create(:vendor_api_token, provider: ratifying_provider)
         vendor_api_user = create(:vendor_api_user, vendor_api_token: vendor_api_token)
         expect(can_make_offer?(actor: vendor_api_user)).to be_truthy
+      end
+    end
+
+    context 'actor: api user (org-level permissions)' do
+      before { FeatureFlag.activate('provider_make_decisions_restriction') }
+
+      it 'is false for training_provider without make_decisions' do
+        training_provider_permissions.update(make_decisions: false)
+
+        vendor_api_token = create(:vendor_api_token, provider: training_provider)
+        vendor_api_user = create(:vendor_api_user, vendor_api_token: vendor_api_token)
+        expect(can_make_offer?(actor: vendor_api_user)).to be_falsy
+      end
+
+      it 'is false for ratifying_provider without make_decisions' do
+        ratifying_provider_permissions.update(make_decisions: false)
+
+        vendor_api_token = create(:vendor_api_token, provider: ratifying_provider)
+        vendor_api_user = create(:vendor_api_user, vendor_api_token: vendor_api_token)
+        expect(can_make_offer?(actor: vendor_api_user)).to be_falsy
       end
     end
   end
