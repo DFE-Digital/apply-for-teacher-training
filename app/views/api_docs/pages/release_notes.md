@@ -2,7 +2,7 @@
 
 Sandbox changes:
 
-- Sandbox no longer sends emails to providers about application state changes.
+- Sandbox no longer sends emails to providers about application state changes
 
 ### 15th June 2020
 

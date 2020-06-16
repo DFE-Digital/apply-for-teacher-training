@@ -56,6 +56,11 @@ module ProviderInterface
 
     def timeline; end
 
+    def emails
+      @emails = Email.includes(:application_form)
+        .where(application_form_id: @application_choice.application_form)
+    end
+
   private
 
     def available_providers
@@ -85,6 +90,12 @@ module ProviderInterface
       sub_navigation_items.push(
         { name: 'Timeline', url: provider_interface_application_choice_timeline_path(@application_choice) },
       )
+
+      if HostingEnvironment.sandbox_mode?
+        sub_navigation_items.push(
+          { name: 'Emails (Sandbox only)', url: provider_interface_application_choice_emails_path(@application_choice) },
+        )
+      end
 
       sub_navigation_items
     end

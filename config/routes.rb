@@ -446,6 +446,7 @@ Rails.application.routes.draw do
     get '/applications/:application_choice_id/notes/new' => 'application_choices#new_note', as: :application_choice_new_note
     post '/applications/:application_choice_id/notes' => 'application_choices#create_note', as: :application_choice_create_note
     get '/applications/:application_choice_id/timeline' => 'application_choices#timeline', as: :application_choice_timeline
+    get '/applications/:application_choice_id/emails' => 'application_choices#emails', as: :application_choice_emails
     get '/applications/:application_choice_id/respond' => 'decisions#respond', as: :application_choice_respond
     post '/applications/:application_choice_id/respond' => 'decisions#submit_response', as: :application_choice_submit_response
     get '/applications/:application_choice_id/offer' => 'decisions#new_offer', as: :application_choice_new_offer
