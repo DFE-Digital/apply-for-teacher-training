@@ -27,7 +27,7 @@
   </thead>
   <tbody class="govuk-table__body">
   <% @emails.each do |email| %>
-    <%= render SupportInterface::EmailLogRowComponent.new(email: email) %>
+    <%= render ProviderInterface::EmailLogRowComponent.new(email: email) %>
   <% end %>
   </tbody>
 </table>
