@@ -141,11 +141,11 @@ module ProviderInterface
       if FeatureFlag.active?('provider_make_decisions_restriction') &&
           !provider.users_with_make_decisions.include?(current_provider_user)
 
-        raise MissingPermission.new(
+        raise ProviderInterface::MissingPermission.new({
           permission: 'make_decisions',
           provider: provider,
           provider_user: current_provider_user,
-        )
+        }), 'make_decisions required'
       end
     end
 
