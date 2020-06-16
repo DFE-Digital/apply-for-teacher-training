@@ -17,7 +17,7 @@ class GetApplicationChoicesForProviders
     ]
 
     ApplicationChoice.includes(*includes)
-      .where('courses.provider_id' => providers)
+      .where('courses.provider_id' => providers, 'courses.recruitment_cycle_year' => RecruitmentCycle.current_year)
       .or(ApplicationChoice.includes(*includes)
         .where('courses.accredited_provider_id' => providers))
       .where('status IN (?)', ApplicationStateChange.states_visible_to_provider).includes([:accredited_provider])
