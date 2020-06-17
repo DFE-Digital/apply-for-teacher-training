@@ -1,10 +1,12 @@
-RESULTS_PATH=/results
+CUCUMBER_RESULTS_PATH=/cucumber-results
+RSPEC_RESULTS_PATH=/rspec-results
 INTEGRATION_TEST_PATTERN=spec/{system,requests}/**/*_spec.rb
+COVERAGE_RESULT_PATH=/app/coverage
 
-define copy_test_results
+define copy_to_host
 	## Obtains the results folder from within the stopped container and copies it to the local file system on the agent.
 	container_id=$$(docker ps -a --no-trunc | grep apply-for-postgraduate-teacher-training | head -1 | cut -d ' ' -f1); \
-	docker cp $$container_id:$(RESULTS_PATH)/ .
+	docker cp $$container_id:$(1)/ testArtifacts/
 endef
 
 .PHONY: help
@@ -44,9 +46,9 @@ ci.lint-ruby: ## Run Rubocop with results formatted for CI
 
 .PHONY: ci.cucumber
 ci.cucumber: ## Run the Cucumber specs
-	docker-compose run web /bin/sh -c 'mkdir $(RESULTS_PATH) && \
-		bundle exec cucumber --format junit --out $(RESULTS_PATH)'
-	$(call copy_test_results)
+	docker-compose run web /bin/sh -c 'mkdir $(CUCUMBER_RESULTS_PATH) && \
+		bundle exec cucumber --format junit --out $(CUCUMBER_RESULTS_PATH)'
+	$(call copy_to_host,$(CUCUMBER_RESULTS_PATH))
 	docker-compose rm -f -v web
 
 .PHONY: ci.brakeman
@@ -55,16 +57,18 @@ ci.brakeman: ## Run Brakeman tests
 
 .PHONY: ci.unit-tests
 ci.unit-tests: ## Run the tests with results formatted for CI
-	docker-compose run web /bin/sh -c 'mkdir $(RESULTS_PATH) && \
-		bundle exec --verbose rspec --exclude-pattern $(INTEGRATION_TEST_PATTERN) --failure-exit-code 0 --format RspecJunitFormatter --out $(RESULTS_PATH)/rspec-unit-tests-results.xml'
-	$(call copy_test_results)
+	docker-compose run web /bin/sh -c 'mkdir $(RSPEC_RESULTS_PATH) && \
+		bundle exec --verbose rspec --exclude-pattern $(INTEGRATION_TEST_PATTERN) --failure-exit-code 0 --format RspecJunitFormatter --out $(RSPEC_RESULTS_PATH)/rspec-unit-tests-results.xml'
+	$(call copy_to_host,$(RSPEC_RESULTS_PATH))
+	$(call copy_to_host,$(COVERAGE_RESULT_PATH))
 	docker-compose rm -f -v web
 
 .PHONY: ci.integration-tests
 ci.integration-tests: ## Run the tests with results formatted for CI
-	docker-compose run web /bin/sh -c 'mkdir $(RESULTS_PATH) && \
+	docker-compose run web /bin/sh -c 'mkdir $(RSPEC_RESULTS_PATH) && \
 		apk add nodejs yarn && \
 		bundle exec rails assets:precompile && \
-		bundle exec --verbose rspec --pattern $(INTEGRATION_TEST_PATTERN) --failure-exit-code 0 --format RspecJunitFormatter --out $(RESULTS_PATH)/rspec-integration-tests-results.xml'
-	$(call copy_test_results)
+		bundle exec --verbose rspec --pattern $(INTEGRATION_TEST_PATTERN) --failure-exit-code 0 --format RspecJunitFormatter --out $(RSPEC_RESULTS_PATH)/rspec-integration-tests-results.xml'
+	$(call copy_to_host,$(RSPEC_RESULTS_PATH))
+	$(call copy_to_host,$(COVERAGE_RESULT_PATH))
 	docker-compose rm -f -v web
