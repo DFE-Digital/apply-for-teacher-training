@@ -38,9 +38,11 @@ yarn-debug.log*
 
 # ignore code coverage reports
 coverage/*
+testArtifacts/*
 
 # dotenv
 .env
+.envrc
 
 # Mac OS thumbnail DBs
 .DS_Store
@@ -48,3 +50,6 @@ coverage/*
 # Byebug history files
 .byebug_history
 .erblint*
+
+# ignore asdf-vm file, supports running multiple ruby version
+.tool-versions
