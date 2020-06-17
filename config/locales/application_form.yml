@@ -118,19 +118,23 @@ en:
       base:
         button: Save and continue
       qualification:
-        label: Qualification
         change_action: qualification
       qualification_type:
         label: Type of degree
+        review_label: Degree type
         hint_text:
           undergraduate: For example, BA, BSc or other
           another: For example, Masters, PhD, or other
           all: For example, BA, BSc, Masters, PhD, or other
       subject:
         label: What subject is your degree?
+        review_label: Subject
         hint_text: For example, History with French, Maths, Film studies
+        change_action: subject
       institution_name:
         label: What institution did you study at?
+        review_label: Institution
+        change_action: institution
       grade:
         label: What class is your degree?
         review_label: Grade
@@ -170,6 +174,8 @@ en:
       delete: Delete degree
       confirm_delete: Yes I’m sure - delete this degree
     gcse:
+      qualification:
+        label: Qualification
       qualification_type:
         label: Type of qualification
       qualification_types:
