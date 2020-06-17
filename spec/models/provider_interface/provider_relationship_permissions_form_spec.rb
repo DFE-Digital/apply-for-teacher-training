@@ -18,10 +18,10 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionsForm do
 
       form.assign_permissions_attributes({ training_provider_permissions: { view_safeguarding_information: 'true' } })
       expect(accredited_body_permissions).to have_received(:assign_attributes)
-        .with({ view_safeguarding_information: false })
+        .with({ make_decisions: false, view_safeguarding_information: false })
 
       expect(training_provider_permissions).to have_received(:assign_attributes)
-        .with({ view_safeguarding_information: true })
+        .with({ make_decisions: false, view_safeguarding_information: true })
     end
   end
 
