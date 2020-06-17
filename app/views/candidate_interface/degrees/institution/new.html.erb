@@ -4,10 +4,6 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @degree_institution_form, url: candidate_interface_degree_institution_path(@degree_institution_form.degree) do |f| %>
-      <h1 class="govuk-heading-xl">
-        <%= t('page_titles.degree_institution') %>
-      </h1>
-
       <%= render 'form_fields', f: f %>
     <% end %>
   </div>

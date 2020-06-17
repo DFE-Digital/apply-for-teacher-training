@@ -1,3 +1,7 @@
-<%= f.govuk_text_field(:subject, label: { text: '' }) %>
+<%= f.govuk_text_field(
+  :subject,
+  label: { text: t('application_form.degree.subject.label'), size: 'xl' },
+  hint_text: t('application_form.degree.subject.hint_text')
+) %>
 
 <%= f.govuk_submit t('application_form.degree.base.button') %>

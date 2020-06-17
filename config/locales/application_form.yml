@@ -115,6 +115,8 @@ en:
       explanation:
         label: Tell us why you’ve been out of the workplace
     degree:
+      base:
+        button: Save and continue
       qualification:
         label: Qualification
         change_action: qualification
@@ -125,9 +127,10 @@ en:
           another: For example, Masters, PhD, or other
           all: For example, BA, BSc, Masters, PhD, or other
       subject:
-        label: Subject of degree
+        label: What subject is your degree?
+        hint_text: For example, History with French, Maths, Film studies
       institution_name:
-        label: Institution where you studied
+        label: What institution did you study at?
       grade:
         label: What class is your degree?
         review_label: Grade
@@ -159,8 +162,6 @@ en:
         hint_text: "For example, %{example_year}"
         review_label: Graduation year
         change_action: year
-      base:
-        button: Save and continue
       review:
         completed_checkbox: I have completed this section
         button: Continue
@@ -445,17 +446,38 @@ en:
             work_history_explanation:
               blank: Please explain why you’ve been out of the workplace
               too_many_words: Explanation for why you’ve been out of the workplace must be %{count} words or fewer
-        candidate_interface/degree_form:
+        candidate_interface/degree_type_form:
           attributes:
-            qualification_type:
+            type_description:
               blank: Enter your degree type
               too_long: Type of degree must be %{count} characters or fewer
+        candidate_interface/degree_subject_form:
+          attributes:
             subject:
               blank: Enter your degree subject
               too_long: Subject of degree must be %{count} characters or fewer
+        candidate_interface/degree_institution_form:
+          attributes:
             institution_name:
               blank: Enter the institution where you studied
               too_long: The institution where you studied must be %{count} characters or fewer
+        candidate_interface/degree_grade_form:
+          attributes:
+            grade_name:
+              blank: Enter your degree grade
+              too_long: grade of degree must be %{count} characters or fewer
+        candidate_interface/degree_year_form:
+          attributes:
+            start_year:
+              blank: Enter your start year
+              invalid: Enter a real start year
+              greater_than_award_year: 'Enter a start year before graduation year'
+            award_year:
+              blank: Enter your graduation year
+              invalid: Enter a real graduation year
+              greater_than_limit: 'Enter a year before %{date}'
+
+        candidate_interface/degree_form:
             grade:
               blank: Select your degree class
               too_long: The class of your degree must be %{count} characters or fewer

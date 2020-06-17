@@ -8,10 +8,6 @@
       url: candidate_interface_edit_degree_institution_path(@degree_institution_form.degree),
       method: :patch
     ) do |f| %>
-      <h1 class="govuk-heading-xl">
-        <%= t('page_titles.degree_institution') %>
-      </h1>
-
       <%= render 'form_fields', f: f %>
     <% end %>
   </div>

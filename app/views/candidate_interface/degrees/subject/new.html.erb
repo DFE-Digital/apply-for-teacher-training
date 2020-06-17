@@ -7,9 +7,6 @@
       model: @degree_subject_form,
       url: candidate_interface_degree_subject_path(@degree_subject_form.degree)
     ) do |f| %>
-      <h1 class="govuk-heading-xl">
-        <%= t('page_titles.degree_subject') %>
-      </h1>
 
       <%= render 'form_fields', f: f %>
     <% end %>

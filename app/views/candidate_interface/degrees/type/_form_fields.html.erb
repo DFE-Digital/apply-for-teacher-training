@@ -1,7 +1,7 @@
 <%= f.govuk_text_field(
   :type_description,
-  label: { text: 'Type of degree', size: 'm' },
-  hint_text: 'For example, BA, BSc or other'
+  label: { text: t('application_form.degree.qualification_type.label'), size: 'm' },
+  hint_text: t('application_form.degree.qualification_type.hint_text.undergraduate')
 ) %>
 
 <%= f.govuk_submit t('application_form.degree.base.button') %>
