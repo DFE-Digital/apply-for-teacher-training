@@ -88,14 +88,16 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
 
   describe 'validations' do
     context 'for a UK address' do
-      before { allow(subject).to receive(:international_address?).and_return(false) }
+      subject(:form) { described_class.new(international_address: false) }
+
       it { is_expected.to validate_presence_of(:address_line1).on(:address) }
       it { is_expected.to validate_presence_of(:address_line3).on(:address) }
       it { is_expected.to validate_presence_of(:postcode).on(:address) }
     end
 
     context 'for an international address' do
-      before { allow(subject).to receive(:international_address?).and_return(true) }
+      subject(:form) { described_class.new(international_address: true) }
+
       it { is_expected.to validate_presence_of(:international_address_text).on(:address) }
     end
 
