@@ -118,13 +118,13 @@ jobs:
                   $gitApiResponse = Invoke-RestMethod -Method Get -Uri $gitContentsUri -Headers @{Authorization = $encodedAccessToken}
                   $deploymentFiles += $gitApiResponse | Where-Object {$_.name -like "*.json"} | Select-Object -ExpandProperty Name | Foreach-Object { "azure/$_" }
                   write-host ("DEBUG - Deployment files to compare changes against: {0}" -f [system.string]::Join(", ", $deploymentFiles))
-  
+
                   #Get the timestamp of the last deployment to the defined Azure environment from Azure API
                   $lastDeployment = (Get-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName | Where-Object {$_.DeploymentName -Like "template-*"})[0].Timestamp
-  
+
                   #Get the commit hash for the current version deployed in the environment
                   $currentDeployedCommit = (Get-AzResourceGroup -Name $resourceGroupName).Tags.Version
-                   
+
                   #Get the timestamp of the last update to the variable groups corresponding to the environment defined
                   $variableGroupUri = "https://dev.azure.com/dfe-ssp/Become-A-Teacher/_apis/distributedtask/variablegroups"
                   $variableGroups = Invoke-RestMethod -Method Get -Uri $variableGroupUri -Headers @{Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN"}
@@ -137,7 +137,7 @@ jobs:
                     -Hour ($variableGroupLastEdit | sort -descending)[0].substring(11,2) `
                     -Minute ($variableGroupLastEdit | sort -descending)[0].substring(14,2) `
                     -Second ($variableGroupLastEdit | sort -descending)[0].substring(17,2)
-  
+
                   #Get the list of files changed in the commit the build was triggered from. If this is a re-run of the same build we will just look at the files changed in that commit"
                   if ( $currentDeployedCommit -eq $env:COMMIT_HASH ) {
                     $gitCompareUri= "https://api.github.com/repos/DFE-Digital/apply-for-postgraduate-teacher-training/commits/$env:COMMIT_HASH"
@@ -150,7 +150,7 @@ jobs:
                   } else {
                     write-host ("DEBUG - No files changed in commit.")
                   }
-  
+
                   if ( $lastDeployment -lt $variableGroupLastEditTimestamp ) {
                     write-host "Full ARM deployment required - Variable group changes detected."
                     $fullDeployment = $true
@@ -294,7 +294,7 @@ jobs:
 
                   $entrypointCommand = "$($containerConfig.properties.parameters.command.value[0..1]) '$($containerConfig.properties.parameters.command.value[2..$containerConfig.properties.parameters.command.value.length])'"
                   write-host ("DEBUG - entrypoint command used for '{0}' container instance: {1}" -f $container, $entrypointCommand)
-                  
+
                   $tags = @()
                   foreach ( $tag in $containerConfig.properties.parameters.resourceTags.value | get-member -MemberType NoteProperty | select -ExpandProperty Name ) {
                     $tags += "`"$($tag)`"=`"$($containerConfig.properties.parameters.resourceTags.value.$tag)`""
@@ -354,9 +354,28 @@ jobs:
               azureSubscription: ${{ parameters.subscriptionName }}
               resourceGroup: $(resourceGroupName)
               containerName: ${{ format('{0}-{1}', variables.containerInstanceNamePrefix,'wkr') }}
-          
+
           - template: metrics-check-template.yml
             parameters:
               azureSubscription: ${{ parameters.subscriptionName }}
               resourceGroup: $(resourceGroupName)
               containerName: ${{ format('{0}-{1}', variables.containerInstanceNamePrefix,'clk') }}
+
+          - powershell: |
+              $uri = "https://api.github.com/repos/DFE-Digital/apply-for-teacher-training-tests/dispatches"
+
+              $body = @{
+               "event_type" = "Deploy ${{ parameters.environment }}"
+              } | ConvertTo-Json
+
+              $header = @{
+               "Accept" = "application/vnd.github.everest-preview+json"
+               "Authorization" = "token $($env:GITHUB_TOKEN)"
+              }
+
+              Invoke-WebRequest -Method POST -Header $header -Body $body -Uri $uri
+            displayName: 'Trigger smoke tests on GitHub'
+            continueOnError: true
+            condition: and(succeeded(), eq(variables['buildCancelled'], false))
+            env:
+              GITHUB_TOKEN: $(smokeTestsGitHubToken)
