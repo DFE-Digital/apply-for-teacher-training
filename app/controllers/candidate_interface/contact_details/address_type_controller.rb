@@ -9,10 +9,11 @@ module CandidateInterface
     def update
       @contact_details_form = ContactDetailsForm.new(address_type_params)
 
-      if @contact_details_form.save_international_address(current_application)
+      if @contact_details_form.save_address_type(current_application)
         current_application.update!(contact_details_completed: false)
 
-        redirect_to candidate_interface_contact_details_review_path
+        # TODO: redirect to the correct form
+        redirect_to candidate_interface_contact_details_edit_address_path
       else
         track_validation_error(@contact_details_form)
         render :edit
@@ -21,9 +22,9 @@ module CandidateInterface
 
   private
 
-    def international_address_params
+    def address_type_params
       params.require(:candidate_interface_contact_details_form).permit(
-        :international_address,
+        :address_type,
       )
     end
   end

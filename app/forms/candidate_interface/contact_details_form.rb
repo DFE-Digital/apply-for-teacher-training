@@ -3,11 +3,11 @@ module CandidateInterface
     include ActiveModel::Model
 
     attr_accessor :phone_number, :address_line1, :address_line2, :address_line3,
-                  :address_line4, :postcode, :international_address, :international_address_text
-    alias_method :international_address?, :international_address
+                  :address_line4, :postcode, :address_type, :international_address
 
-    validates :address_line1, :address_line3, :postcode, presence: true, on: :address, unless: :international_address?
-    validates :international_address_text, presence: true, on: :address, if: :international_address?
+    validates :address_line1, :address_line3, :postcode, presence: true, on: :address, if: :uk?
+    validates :international_address, presence: true, on: :address, if: :international?
+    validates :address_type, presence: true, on: :address
 
     validates :address_line1, :address_line2, :address_line3, :address_line4,
               length: { maximum: 50 }, on: :address
@@ -24,8 +24,8 @@ module CandidateInterface
         address_line3: application_form.address_line3,
         address_line4: application_form.address_line4,
         postcode: application_form.postcode,
+        address_type: application_form.address_type || 'uk',
         international_address: application_form.international_address,
-        international_address_text: application_form.international_address_text,
       )
     end
 
@@ -50,19 +50,27 @@ module CandidateInterface
       )
     end
 
+    def save_address_type(application_form)
+      application_form.update(
+        address_type: address_type,
+      )
+    end
+
     def save_international_address(application_form)
+      # TODO: Reset structured address attributes?
+      # TODO: Extract country from free text?
+
       application_form.update(
         international_address: international_address,
       )
     end
 
-    def save_international_address_text(application_form)
-      # TODO: Reset structured address attributes?
-      # TODO: Extract country from free text?
+    def uk?
+      address_type == 'uk'
+    end
 
-      application_form.update(
-        international_address_text: international_address_text,
-      )
+    def international?
+      address_type == 'international'
     end
   end
 end

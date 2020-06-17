@@ -11,6 +11,7 @@ FactoryBot.define do
 
   factory :application_form do
     candidate
+    address_type { 'uk' }
 
     factory :completed_application_form do
       support_reference { GenerateSupportRef.call }

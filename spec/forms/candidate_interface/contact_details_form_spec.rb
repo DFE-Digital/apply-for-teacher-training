@@ -44,6 +44,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
 
     it 'updates the provided ApplicationForm with the address fields if valid' do
       form_data = {
+        address_type: 'uk',
         address_line1: Faker::Address.street_name,
         address_line2: Faker::Address.street_address,
         address_line3: Faker::Address.city,
@@ -60,10 +61,23 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
     end
   end
 
+  describe '#save_address_type' do
+    it 'updates the provided ApplicationForm with the address fields if valid' do
+      form_data = {
+        address_type: 'uk',
+      }
+      application_form = build(:application_form)
+      contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+
+      expect(contact_details.save_address_type(application_form)).to eq(true)
+      expect(application_form).to have_attributes(form_data)
+    end
+  end
+
   describe '#save_international_address' do
     it 'updates the provided ApplicationForm with the address fields if valid' do
       form_data = {
-        international_address: true,
+        international_address: '123 Chandni Chowk, Old Delhi, India',
       }
       application_form = build(:application_form)
       contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
@@ -73,22 +87,11 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
     end
   end
 
-  describe '#save_international_address_text' do
-    it 'updates the provided ApplicationForm with the address fields if valid' do
-      form_data = {
-        international_address_text: '123 Chandni Chowk, Old Delhi, India',
-      }
-      application_form = build(:application_form)
-      contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
-
-      expect(contact_details.save_international_address_text(application_form)).to eq(true)
-      expect(application_form).to have_attributes(form_data)
-    end
-  end
-
   describe 'validations' do
+    it { is_expected.to validate_presence_of(:address_type).on(:address) }
+
     context 'for a UK address' do
-      subject(:form) { described_class.new(international_address: false) }
+      subject(:form) { described_class.new(address_type: 'uk') }
 
       it { is_expected.to validate_presence_of(:address_line1).on(:address) }
       it { is_expected.to validate_presence_of(:address_line3).on(:address) }
@@ -96,9 +99,9 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
     end
 
     context 'for an international address' do
-      subject(:form) { described_class.new(international_address: true) }
+      subject(:form) { described_class.new(address_type: 'international') }
 
-      it { is_expected.to validate_presence_of(:international_address_text).on(:address) }
+      it { is_expected.to validate_presence_of(:international_address).on(:address) }
     end
 
     it { is_expected.to validate_length_of(:address_line1).is_at_most(50).on(:address) }

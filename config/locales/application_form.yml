@@ -78,6 +78,8 @@ en:
         button: Save and continue
       address:
         button: Save and continue
+      address_type:
+        button: Save and continue
       review:
         button: Continue
     work_history:
