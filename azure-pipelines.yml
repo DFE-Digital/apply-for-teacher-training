@@ -22,6 +22,8 @@ variables:
   value: false
 - name: buildCancelled
   value: false
+- name: disable.coverage.autogenerate
+  value: true
 
 stages:
 - stage: build_release
@@ -71,20 +73,6 @@ stages:
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
         SANDBOX: $(sandbox)
 
-    - script: |
-        mkdir $(System.DefaultWorkingDirectory)/docker_images
-        docker save $(docker history -q $(dockerHubUsername)/$(imageName) | grep -v "<missing>") | gzip > $(System.DefaultWorkingDirectory)/docker_images/$(imageName).tar.gz
-        docker images $(dockerHubUsername)/$(imageName) | sed 1d | awk '{print $1 " " $2 " " $3}' > $(System.DefaultWorkingDirectory)/docker_images/images_manifest.txt
-      displayName: 'Export Docker image pipeline artifact'
-      condition: and(eq(variables['buildCancelled'], false), and(succeeded(), eq(variables['deployOnly'], false)))
-
-    - task: PublishPipelineArtifact@1
-      displayName: 'Publish Docker image artifact'
-      condition: and(eq(variables['buildCancelled'], false), and(succeeded(), eq(variables['deployOnly'], false)))
-      inputs:
-        path: '$(System.DefaultWorkingDirectory)/docker_images/'
-        artifactName: 'docker_artifacts'
-    
     - task: PublishPipelineArtifact@1
       displayName: 'Publish ARM template artifacts'
       condition: and(eq(variables['buildCancelled'], false), and(succeeded(), eq(variables['deployOnly'], false)))
@@ -203,12 +191,12 @@ stages:
         test_result=$?
         if [ "$test_result" == "0" ]
         then
-          if [ $(find results/ -type f -name TEST*.xml | wc -l) -gt 0 ]
+          if [ $(find testArtifacts/ -type f -name TEST*.xml | wc -l) -gt 0 ]
           then
             errors=0
             warnings=0
 
-            for line in $(grep "^<testsuite " results/TEST*.xml)
+            for line in $(grep "^<testsuite " testArtifacts/TEST*.xml)
             do
               if [[ $line == failure* ]]
               then
@@ -275,25 +263,29 @@ stages:
 
     - task: PublishTestResults@2
       displayName: 'Publish test results'
+      condition: succeededOrFailed()
       inputs:
         testRunner: JUnit
-        testResultsFiles: 'results/*.xml'
+        testResultsFiles: 'testArtifacts/**/TEST-*.xml'
 
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Cucumber Results XML'
+      condition: succeededOrFailed()
       inputs:
-        path: '$(System.DefaultWorkingDirectory)/results/'
-        artifactName: 'cucumberResults'
+        path: '$(System.DefaultWorkingDirectory)/testArtifacts/'
+        artifactName: 'cucumber-results'
 
   - template: rspec-job-template.yml
     parameters:
       testCommand: 'integration-tests'
       displayName: 'Integration Tests'
+      jobId: 'integration_tests'
         
   - template: rspec-job-template.yml
     parameters:
       testCommand: 'unit-tests'
       displayName: 'Unit Tests'
+      jobId: 'unit_tests'
 
 
 - stage: deploy_qa
