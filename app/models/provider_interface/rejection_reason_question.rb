@@ -5,16 +5,24 @@ module ProviderInterface
     attr_accessor :label
     attr_accessor :y_or_n
     attr_accessor :reasons
+    attr_accessor :explanation
     attr_accessor :answered
+    attr_accessor :requires_reasons
     attr_accessor :additional_question
 
     validates :y_or_n, presence: true
     validate :enough_reasons?, if: -> { y_or_n == 'Y' }
     validate :reasons_all_valid?, if: -> { y_or_n == 'Y' }
+    validate :explanation_valid?, if: -> { y_or_n == 'Y' && explanation.present? }
+
+    def initialize(*args)
+      super(*args)
+      @requires_reasons ||= reasons.count.positive?
+    end
 
     def enough_reasons?
-      if reasons.any? && reasons.select(&:value).count.zero?
-        errors.add(:y_or_n, 'Please select a reason')
+      if requires_reasons && reasons.select(&:selected?).count.zero?
+        errors.add(:reasons, 'Please give a reason')
       end
     end
 

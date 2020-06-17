@@ -7,31 +7,13 @@
     <%= qf.hidden_field :additional_question %>
     <% q.reasons.each do |r| %>
       <%= qf.fields_for :reasons, r do |rf| %>
-        <% if q.additional_question.present? %>
-          <% # check_boxes_fieldset %>
-          <%= rf.hidden_field :label %>
-          <%= rf.hidden_field :value, value: true %>
-          <% if r.textareas.present? %>
-            <% # checkbox above textarea>%>
-            <%= rf.hidden_field :label %>
-            <%= rf.hidden_field :value, value: true %>
-              <% r.textareas.each do |textarea| %>
-                <%= rf.hidden_field :textareas, value: textarea, multiple: true %>
-              <% end %>
-          <% else %>
-            <% # checkbox %>
-            <%= rf.hidden_field :label %>
-            <%= rf.hidden_field :value, value: true %>
-          <% end %>
-        <% else %>
-          <% if r.textareas.present? %>
-            <% r.textareas.each do |textarea| %>
-              <%= rf.hidden_field :textareas, value: textarea, multiple: true %>
-            <% end %>
-          <% else %>
-            <% # checkbox %>
-            <%= rf.hidden_field :label %>
-            <%= rf.hidden_field :value, value: true %>
+        <% # check_boxes_fieldset %>
+        <%= rf.hidden_field :label %>
+        <%= rf.hidden_field :value, value: true %>
+        <% r.textareas.each do |textarea| %>
+          <%= rf.fields_for :textareas, ta do |tf| %>
+            <%= tf.hidden_field :label %>
+            <%= tf.hidden_field :textareas, value: textarea, multiple: true %>
           <% end %>
         <% end %>
       <% end %>

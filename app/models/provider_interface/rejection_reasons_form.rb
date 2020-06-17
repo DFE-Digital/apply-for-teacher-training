@@ -9,7 +9,10 @@ module ProviderInterface
         reasons: [
           RejectionReasonReason.new(label: 'Didn’t reply to our interview offer'),
           RejectionReasonReason.new(label: 'Didn’t attend interview'),
-          RejectionReasonReason.new(label: 'Other', textareas: %i[explanation advice]),
+          RejectionReasonReason.new(label: 'Other', textareas: [
+            RejectionReasonTextarea.new(label: 'Please give details'),
+            RejectionReasonTextarea.new(label: 'What could they do to improve?'),
+          ]),
         ],
       ),
       RejectionReasonQuestion.new(
@@ -18,7 +21,9 @@ module ProviderInterface
         reasons: [
           RejectionReasonReason.new(label: 'Personal statement'),
           RejectionReasonReason.new(label: 'Subject knowledge'),
-          RejectionReasonReason.new(label: 'Other', textareas: [:advice]),
+          RejectionReasonReason.new(label: 'Other', textareas: [
+            RejectionReasonTextarea.new(label: 'What could they do to improve?'),
+          ]),
         ],
       ),
       RejectionReasonQuestion.new(
@@ -26,19 +31,25 @@ module ProviderInterface
         additional_question: 'Which qualifications?',
         reasons: [
           RejectionReasonReason.new(label: 'No Maths GCSE grade 4 (C) or above, or valid equivalent'),
-          RejectionReasonReason.new(label: 'Other', textareas: [:explanation]),
+          RejectionReasonReason.new(label: 'Other', textareas: [
+            RejectionReasonTextarea.new(label: 'Please give details'),
+          ]),
         ],
       ),
       RejectionReasonQuestion.new(
         label: 'Was it related to their performance at interview?',
         reasons: [
-          RejectionReasonReason.new(textareas: [:explanation]),
+          RejectionReasonReason.new(textareas: [
+            RejectionReasonTextarea.new(label: 'Please give details'),
+          ]),
         ],
       ),
       RejectionReasonQuestion.new(
         label: 'Is there any other advice or feedback you’d like to give?',
         reasons: [
-          RejectionReasonReason.new(label: 'Please give details', textareas: [:explanation]),
+          RejectionReasonReason.new(label: 'Please give details', textareas: [
+            RejectionReasonTextarea.new(label: 'Please give details'),
+          ]),
         ],
       ),
     ].freeze

@@ -1,5 +1,4 @@
 <%= form_with model: @reasons_form, url: provider_interface_rejection_reasons_path do |f| %>
-  <%= f.object.errors.inspect %>
   <%= f.govuk_error_summary %>
 
   <%= render "hidden_fields", f: f %>
@@ -18,11 +17,16 @@
               <%= rf.hidden_field :label %>
               <% if q.additional_question.present? %>
                 <%= rf.govuk_check_boxes_fieldset :value, small: true do %>
-                  <%= rf.govuk_check_box :value, "true", multiple: false, label: { text: r.label } do %>
-                    <%= render 'textareas', reasons_fields: rf, textareas: r.textareas %>
+                  <% if r.textareas.any? %>
+                    <%= rf.govuk_check_box :value, 'true', multiple: false, label: { text: r.label } do %>
+                      <%= render 'textareas', reasons_fields: rf, textareas: r.textareas %>
+                    <% end %>
+                  <% else %>
+                    <%= rf.govuk_check_box :value, 'true', multiple: false, label: { text: r.label } %>
                   <% end %>
                 <% end %>
               <% else %>
+                <%= rf.hidden_field :value, value: 'true' %>
                 <%= render 'textareas', reasons_fields: rf, textareas: r.textareas %>
               <% end %>
             <% end %>
