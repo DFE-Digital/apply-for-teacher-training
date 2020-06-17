@@ -9,11 +9,18 @@ class ProviderAuthorisation
     return true if @actor.is_a?(SupportUser)
 
     course_option = CourseOption.find(course_option_id)
-
-    # enforce 'make_decisions' restriction
     training_provider = course_option.provider
     ratifying_provider = course_option.course.accredited_provider
 
+    # enforce org-level 'make_decisions' restriction
+    return false if FeatureFlag.active?(:enforce_provider_to_provider_permissions) &&
+      FeatureFlag.active?('provider_make_decisions_restriction') &&
+      provider_relationship_permissions_for_actor(
+        training_provider: training_provider,
+        ratifying_provider: ratifying_provider,
+      ).none?(&:make_decisions)
+
+    # enforce user-level 'make_decisions' restriction
     related_providers = [training_provider, ratifying_provider].compact
     return false if
       FeatureFlag.active?('provider_make_decisions_restriction') &&
@@ -60,6 +67,26 @@ private
 
   def course_option_belongs_to_user_providers?(course_option:)
     @actor.providers.include?(course_option.course.provider)
+  end
+
+  def provider_relationship_permissions_for_actor(training_provider:, ratifying_provider:)
+    permissions = []
+
+    if @actor.providers.include?(training_provider)
+      permissions.push ProviderInterface::TrainingProviderPermissions.find_by(
+        training_provider: training_provider,
+        ratifying_provider: ratifying_provider,
+      )
+    end
+
+    if ratifying_provider && @actor.providers.include?(ratifying_provider)
+      permissions.push ProviderInterface::AccreditedBodyPermissions.find_by(
+        training_provider: training_provider,
+        ratifying_provider: ratifying_provider,
+      )
+    end
+
+    permissions.compact
   end
 
   def ratifying_provider_can_view_safeguarding_information?(course:)
