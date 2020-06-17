@@ -15,6 +15,9 @@ module CandidateInterface
         @application_form.degrees_completed = false
 
         render :show
+      elsif @application_form.incomplete_degree_information?
+        flash[:warning] = 'You can’t mark this section complete with incomplete degree information.'
+        render :show
       else
         @application_form.update!(application_form_params)
 

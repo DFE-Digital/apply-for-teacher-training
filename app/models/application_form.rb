@@ -168,6 +168,10 @@ class ApplicationForm < ApplicationRecord
     (withdrawn_course_choices + full_course_choices).flatten.uniq
   end
 
+  def incomplete_degree_information?
+    application_qualifications.degree.any?(&:incomplete_degree_information?)
+  end
+
 private
 
   def enough_references_have_been_provided?
