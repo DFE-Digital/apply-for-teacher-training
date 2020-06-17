@@ -220,8 +220,8 @@ RSpec.describe ApplicationForm do
       course_option2 = create(:course_option, course: course2, vacancy_status: 'no_vacancies')
       course_option3 = create(:course_option, course: course3, vacancy_status: 'vacancies')
 
-      application_choice1 = create(:application_choice, application_form: application_form, course_option: course_option1)
-      application_choice2 = create(:application_choice, application_form: application_form, course_option: course_option2)
+      application_choice1 = create(:application_choice, status: :awaiting_references, application_form: application_form, course_option: course_option1)
+      application_choice2 = create(:application_choice, status: :awaiting_references, application_form: application_form, course_option: course_option2)
       create(:application_choice, application_form: application_form, course_option: course_option3)
 
       expect(application_form.course_choices_that_need_replacing).to eq [application_choice1, application_choice2]

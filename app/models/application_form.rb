@@ -179,7 +179,7 @@ private
   end
 
   def withdrawn_course_choices
-    application_choices.includes(%i[course]).select { |choice| choice.course.withdrawn == true  }
+    application_choices.includes(%i[provider course]).select { |choice| choice.course.withdrawn == true }
   end
 
   def full_course_choices
