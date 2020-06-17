@@ -60,10 +60,44 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
     end
   end
 
+  describe '#save_international_address' do
+    it 'updates the provided ApplicationForm with the address fields if valid' do
+      form_data = {
+        international_address: true,
+      }
+      application_form = build(:application_form)
+      contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+
+      expect(contact_details.save_international_address(application_form)).to eq(true)
+      expect(application_form).to have_attributes(form_data)
+    end
+  end
+
+  describe '#save_international_address_text' do
+    it 'updates the provided ApplicationForm with the address fields if valid' do
+      form_data = {
+        international_address_text: '123 Chandni Chowk, Old Delhi, India',
+      }
+      application_form = build(:application_form)
+      contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+
+      expect(contact_details.save_international_address_text(application_form)).to eq(true)
+      expect(application_form).to have_attributes(form_data)
+    end
+  end
+
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:address_line1).on(:address) }
-    it { is_expected.to validate_presence_of(:address_line3).on(:address) }
-    it { is_expected.to validate_presence_of(:postcode).on(:address) }
+    context 'for a UK address' do
+      before { allow(subject).to receive(:international_address?).and_return(false) }
+      it { is_expected.to validate_presence_of(:address_line1).on(:address) }
+      it { is_expected.to validate_presence_of(:address_line3).on(:address) }
+      it { is_expected.to validate_presence_of(:postcode).on(:address) }
+    end
+
+    context 'for an international address' do
+      before { allow(subject).to receive(:international_address?).and_return(true) }
+      it { is_expected.to validate_presence_of(:international_address_text).on(:address) }
+    end
 
     it { is_expected.to validate_length_of(:address_line1).is_at_most(50).on(:address) }
     it { is_expected.to validate_length_of(:address_line2).is_at_most(50).on(:address) }
