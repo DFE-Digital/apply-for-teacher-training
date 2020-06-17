@@ -1,0 +1,40 @@
+<% @reasons_form.answered_questions.each do |q| %>
+  <%= f.fields_for :questions, q do |qf| %>
+    <%= qf.hidden_field :answered, value: true %>
+    <% # radios %>
+    <%= qf.hidden_field :label %>
+    <%= qf.hidden_field :y_or_n %>
+    <%= qf.hidden_field :additional_question %>
+    <% q.reasons.each do |r| %>
+      <%= qf.fields_for :reasons, r do |rf| %>
+        <% if q.additional_question.present? %>
+          <% # check_boxes_fieldset %>
+          <%= rf.hidden_field :label %>
+          <%= rf.hidden_field :value, value: true %>
+          <% if r.textareas.present? %>
+            <% # checkbox above textarea>%>
+            <%= rf.hidden_field :label %>
+            <%= rf.hidden_field :value, value: true %>
+              <% r.textareas.each do |textarea| %>
+                <%= rf.hidden_field :textareas, value: textarea, multiple: true %>
+              <% end %>
+          <% else %>
+            <% # checkbox %>
+            <%= rf.hidden_field :label %>
+            <%= rf.hidden_field :value, value: true %>
+          <% end %>
+        <% else %>
+          <% if r.textareas.present? %>
+            <% r.textareas.each do |textarea| %>
+              <%= rf.hidden_field :textareas, value: textarea, multiple: true %>
+            <% end %>
+          <% else %>
+            <% # checkbox %>
+            <%= rf.hidden_field :label %>
+            <%= rf.hidden_field :value, value: true %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
