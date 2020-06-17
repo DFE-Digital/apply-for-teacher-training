@@ -10,10 +10,10 @@
         <% # check_boxes_fieldset %>
         <%= rf.hidden_field :label %>
         <%= rf.hidden_field :value, value: true %>
-        <% r.textareas.each do |textarea| %>
+        <% r.textareas.each do |ta| %>
           <%= rf.fields_for :textareas, ta do |tf| %>
             <%= tf.hidden_field :label %>
-            <%= tf.hidden_field :textareas, value: textarea, multiple: true %>
+            <%= tf.hidden_field :value %>
           <% end %>
         <% end %>
       <% end %>

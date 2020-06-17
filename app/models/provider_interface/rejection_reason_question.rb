@@ -4,7 +4,7 @@ module ProviderInterface
 
     attr_accessor :label
     attr_accessor :y_or_n
-    attr_accessor :reasons
+    attr_writer :reasons
     attr_accessor :explanation
     attr_accessor :answered
     attr_accessor :requires_reasons
@@ -18,6 +18,10 @@ module ProviderInterface
     def initialize(*args)
       super(*args)
       @requires_reasons ||= reasons.count.positive?
+    end
+
+    def reasons
+      @reasons ||= []
     end
 
     def enough_reasons?

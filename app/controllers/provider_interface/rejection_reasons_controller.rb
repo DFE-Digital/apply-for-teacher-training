@@ -20,7 +20,8 @@ module ProviderInterface
     end
 
     def form_params
-      params.require('provider_interface_rejection_reasons_form').permit(questions_attributes: {})
+      params.require('provider_interface_rejection_reasons_form')
+        .permit(:alternative_rejection_reason, questions_attributes: {})
     end
   end
 end

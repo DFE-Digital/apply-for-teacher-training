@@ -3,11 +3,22 @@
 
   <%= render "hidden_fields", f: f %>
 
+  <% if @reasons_form.all_answers_no? %>
+    <div class="govuk-form-group">
+      <%= f.govuk_text_area(
+        :alternative_rejection_reason,
+        rows: 5,
+        max_words: 100,
+        label: { text: 'Why are you rejecting this application?', size: 'm'}
+      ) %>
+    </div>
+  <% end %>
+
   <% @reasons_form.questions.each do |q| %>
     <%= f.fields_for :questions, q do |qf| %>
+      <%= qf.hidden_field :label %>
+      <%= qf.hidden_field :additional_question %>
       <%= qf.govuk_radio_buttons_fieldset :y_or_n, legend: { text: q.label } do %>
-        <%= qf.hidden_field :label %>
-        <%= qf.hidden_field :additional_question %>
         <%= qf.govuk_radio_button :y_or_n, 'Y', label: { text: 'Yes' } do %>
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
             <%= q.additional_question %>
@@ -37,5 +48,5 @@
     <% end %>
   <% end %>
 
-  <%= f.submit %>
+  <%= f.submit 'Continue', class: 'govuk-button' %>
 <% end %>
