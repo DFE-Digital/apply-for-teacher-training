@@ -42,7 +42,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.qualification.label'))
       expect(result.css('.govuk-summary-list__value').to_html).to include('BA Woof<br>University of Doge')
       expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree1),
+        Rails.application.routes.url_helpers.candidate_interface_edit_degree_type_path(degree1),
       )
       expect(result.css('.govuk-summary-list__actions').text).to include(
         "Change #{t('application_form.degree.qualification.change_action')} for BA, Woof, University of Doge, 2008",

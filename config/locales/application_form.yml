@@ -466,6 +466,12 @@ en:
             grade_name:
               blank: Enter your degree grade
               too_long: grade of degree must be %{count} characters or fewer
+            other_grade:
+              blank: Enter your degree grade
+              too_long: Your degree grade must be %{count} characters or fewer
+            predicted_grade:
+              blank: Enter your predicted grade
+              too_long: Your predicted grade must be %{count} characters or fewer
         candidate_interface/degree_year_form:
           attributes:
             start_year:

@@ -15,16 +15,16 @@ module CandidateInterface
 
       degree.update!(
         grade: determine_submitted_grade,
-        predicted_grade: grade == 'predicted' ? true : false
+        predicted_grade: grade == 'predicted',
       )
     end
 
     def fill_form_values
-      if degree.grade.in? CLASSES
-        self.grade = degree.grade
-      elsif degree.predicted_grade?
+      if degree.predicted_grade?
         self.grade = 'predicted'
         self.predicted_grade = degree.grade
+      elsif degree.grade.in? CLASSES
+        self.grade = degree.grade
       else
         self.grade = 'other'
         self.other_grade = degree.grade
