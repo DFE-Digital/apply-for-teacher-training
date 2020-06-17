@@ -6,6 +6,7 @@ module CandidateInterface
     attr_accessor :application_form, :degree
 
     validates :type_description, presence: true
+    validates :type_description, length: { maximum: 255 }
 
     def save
       return false unless valid?

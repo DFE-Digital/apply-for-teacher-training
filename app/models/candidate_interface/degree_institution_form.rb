@@ -5,6 +5,7 @@ module CandidateInterface
     attr_accessor :institution_name, :degree
 
     validates :institution_name, presence: true
+    validates :institution_name, length: { maximum: 255 }
 
     def save
       return false unless valid?

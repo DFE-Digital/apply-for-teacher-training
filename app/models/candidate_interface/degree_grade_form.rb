@@ -10,6 +10,8 @@ module CandidateInterface
     validates :other_grade, presence: true, if: :other_grade?
     validates :predicted_grade, presence: true, if: :predicted_grade?
 
+    validates :grade, :other_grade, :predicted_grade, length: { maximum: 255 }
+
     def save
       return false unless valid?
 
