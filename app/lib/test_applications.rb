@@ -80,6 +80,11 @@ class TestApplications
 
       return if states.include? :unsubmitted
 
+      if states.include? :cancelled
+        SupportInterface::CancelApplicationForm.new(application_form: @application_form).save!
+        return
+      end
+
       without_slack_message_sending do
         fast_forward(1..2)
         SubmitApplication.new(@application_form).call
