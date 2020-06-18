@@ -187,7 +187,7 @@ module CandidateInterface
     end
 
     def has_multiple_courses?(application_choice)
-      Course.where(provider: application_choice.provider).many?
+      Course.current_cycle.where(provider: application_choice.provider).many?
     end
   end
 end

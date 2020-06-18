@@ -12,13 +12,13 @@ module CandidateInterface
 
     def radio_available_courses
       @radio_available_courses ||= begin
-        provider.courses.exposed_in_find.order(:name)
+        courses_for_current_cycle.exposed_in_find.order(:name)
       end
     end
 
     def dropdown_available_courses
       @dropdown_available_courses ||= begin
-        courses = provider.courses.exposed_in_find.includes(:accredited_provider)
+        courses = courses_for_current_cycle.exposed_in_find.includes(:accredited_provider)
 
         courses_with_names = courses.map(&:name).map(&:downcase)
         courses_with_descriptions = courses.map(&:name_and_description).map(&:downcase)
@@ -47,6 +47,10 @@ module CandidateInterface
 
     def single_site?
       CourseOption.where(course_id: course.id).one?
+    end
+
+    def courses_for_current_cycle
+      provider.courses.current_cycle
     end
 
     delegate :both_study_modes_available?, to: :course

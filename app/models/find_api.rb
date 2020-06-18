@@ -1,3 +1,0 @@
-module FindAPI
-  RECRUITMENT_CYCLE_YEAR = ENV.fetch('RECRUITMENT_CYCLE_YEAR') { 2020 }
-end
