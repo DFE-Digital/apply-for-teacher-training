@@ -131,7 +131,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
   end
 
   def when_i_choose_submit_application_anyway
-    choose 'Submit application anyway'
+    choose 'Keep this course choice anyway'
   end
 
   def and_i_see_my_first_course_choice

@@ -33,7 +33,7 @@
       <% end %>
         <%= f.govuk_radio_button :replacement_action, 'replace_course', label: { text: 'Choose a different course' } %>
         <%= f.govuk_radio_button :replacement_action, 'remove_course', label: { text: 'Remove course from application' } %>
-        <%= f.govuk_radio_button :replacement_action, 'keep_choice', label: { text: 'Submit application anyway' }, hint_text: "#{provider_name} will get your application but there’s no guarantee they’ll consider it." %>
+        <%= f.govuk_radio_button :replacement_action, 'keep_choice', label: { text: 'Keep this course choice anyway' }, hint_text: "When your references come in we'll send your application to #{provider_name}, but there’s no guarantee they’ll consider it." %>
     <% end %>
 
     <%= f.govuk_submit 'Continue' %>
