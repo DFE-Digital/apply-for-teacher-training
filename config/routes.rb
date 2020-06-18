@@ -224,9 +224,9 @@ Rails.application.routes.draw do
         get '/replace/:id/confirm/:course_option_id' => 'course_choices/replace_choices/review#confirm_choice', as: :confirm_replacement_course_choice
         get '/replace/:id/update/:course_option_id' => 'course_choices/replace_choices/review#update_choice', as: :update_replacement_course_choice
         get '/replace/:id/confirm_cancel' => 'course_choices/replace_choices/cancel#confirm_cancel', as: :confirm_cancel_full_course_choice
-        get '/replace/:id/cancel' => 'course_choices/replace_choices/cancel#cancel', as: :cancel_full_course_choice
+        post '/replace/:id/cancel' => 'course_choices/replace_choices/cancel#cancel', as: :cancel_full_course_choice
         get '/replace/:id/confirm_withdraw' => 'course_choices/replace_choices/cancel#confirm_withdraw', as: :confirm_withdraw_full_course_choice
-        get '/replace/:id/withdraw' => 'course_choices/replace_choices/cancel#withdraw', as: :withdraw_full_course_choice
+        post '/replace/:id/withdraw' => 'course_choices/replace_choices/cancel#withdraw', as: :withdraw_full_course_choice
 
         get '/provider' => 'course_choices/provider_selection#new', as: :course_choices_provider
         post '/provider' => 'course_choices/provider_selection#create'

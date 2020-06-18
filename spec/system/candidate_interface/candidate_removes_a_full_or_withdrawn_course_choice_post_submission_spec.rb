@@ -5,7 +5,7 @@ RSpec.describe 'Both a candidates course choices have become full or been withdr
   include CourseOptionHelpers
 
   scenario 'when a candidate arrives at the dashboard they can follow the replace course flow' do
-    given_the_replace_full_or_withdrawn_application_choices_is_active
+    given_the_replace_full_or_withdrawn_application_choices_is_active?
     and_i_have_submitted_my_application
     and_both_of_my_application_choices_have_become_full
 
@@ -26,7 +26,7 @@ RSpec.describe 'Both a candidates course choices have become full or been withdr
     and_i_click_remove_my_course_choice
   end
 
-  def given_the_replace_full_or_withdrawn_application_choices_is_active
+  def given_the_replace_full_or_withdrawn_application_choices_is_active?
     FeatureFlag.activate('replace_full_or_withdrawn_application_choices')
   end
 

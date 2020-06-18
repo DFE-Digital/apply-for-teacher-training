@@ -183,6 +183,6 @@ private
   end
 
   def full_course_choices
-    application_choices.select { |choice| choice.course_option.no_vacancies? }
+    application_choices.includes(%i[course_option]).select { |choice| choice.course_option.no_vacancies? }
   end
 end

@@ -224,7 +224,7 @@ RSpec.describe ApplicationForm do
       application_choice2 = create(:application_choice, status: :awaiting_references, application_form: application_form, course_option: course_option2)
       create(:application_choice, application_form: application_form, course_option: course_option3)
 
-      expect(application_form.course_choices_that_need_replacing).to eq [application_choice1, application_choice2]
+      expect(application_form.course_choices_that_need_replacing).to match_array [application_choice1, application_choice2]
     end
 
     it 'does not return application_choices that have been withdrawn' do

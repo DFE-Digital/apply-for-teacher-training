@@ -7,6 +7,6 @@
     <p class="govuk-body">You are removing:</p>
       <%= render(CandidateInterface::CourseOptionReviewComponent.new(course_option: @course_choice.course_option)) %>
 
-      <%= govuk_link_to 'Remove course choice', candidate_interface_cancel_full_course_choice_path(@course_choice.id), class: 'govuk-button' %>
+      <%= govuk_link_to 'Remove course choice', candidate_interface_cancel_full_course_choice_path(@course_choice.id), method: :post, class: 'govuk-button' %>
   </div>
 </div>
