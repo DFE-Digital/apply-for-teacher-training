@@ -1,3 +1,5 @@
+require 'find_sync_check'
+
 class SimulatedFailureCheck < OkComputer::Check
   def check
     if FeatureFlag.active?('force_ok_computer_to_fail')
