@@ -2,6 +2,8 @@ class ApplicationStateChange
   include Workflow
 
   STATES_NOT_VISIBLE_TO_PROVIDER = %i[unsubmitted awaiting_references application_complete cancelled].freeze
+  ACCEPTED_STATES = %i[pending_conditions conditions_not_met recruited enrolled].freeze
+  OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer]).freeze
 
   attr_reader :application_choice
 
