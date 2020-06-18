@@ -88,7 +88,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
   end
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:address_type).on(:address) }
+    it { is_expected.to validate_presence_of(:address_type).on(:address_type) }
 
     context 'for a UK address' do
       subject(:form) { described_class.new(address_type: 'uk') }
@@ -96,12 +96,16 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
       it { is_expected.to validate_presence_of(:address_line1).on(:address) }
       it { is_expected.to validate_presence_of(:address_line3).on(:address) }
       it { is_expected.to validate_presence_of(:postcode).on(:address) }
+      it { is_expected.not_to validate_presence_of(:international_address).on(:address) }
     end
 
     context 'for an international address' do
       subject(:form) { described_class.new(address_type: 'international') }
 
       it { is_expected.to validate_presence_of(:international_address).on(:address) }
+      it { is_expected.not_to validate_presence_of(:address_line1).on(:address) }
+      it { is_expected.not_to validate_presence_of(:address_line3).on(:address) }
+      it { is_expected.not_to validate_presence_of(:postcode).on(:address) }
     end
 
     it { is_expected.to validate_length_of(:address_line1).is_at_most(50).on(:address) }

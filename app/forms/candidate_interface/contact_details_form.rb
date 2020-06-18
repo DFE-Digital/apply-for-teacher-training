@@ -7,7 +7,7 @@ module CandidateInterface
 
     validates :address_line1, :address_line3, :postcode, presence: true, on: :address, if: :uk?
     validates :international_address, presence: true, on: :address, if: :international?
-    validates :address_type, presence: true, on: :address
+    validates :address_type, presence: true, on: :address_type
 
     validates :address_line1, :address_line2, :address_line3, :address_line4,
               length: { maximum: 50 }, on: :address
@@ -45,12 +45,14 @@ module CandidateInterface
         address_line2: address_line2,
         address_line3: address_line3,
         address_line4: address_line4,
-        postcode: postcode.upcase,
+        postcode: postcode&.upcase,
         country: 'GB',
       )
     end
 
     def save_address_type(application_form)
+      return false unless valid?(:address_type)
+
       application_form.update(
         address_type: address_type,
       )
@@ -58,7 +60,8 @@ module CandidateInterface
 
     def save_international_address(application_form)
       # TODO: Reset structured address attributes?
-      # TODO: Extract country from free text?
+
+      return false unless valid?(:address)
 
       application_form.update(
         international_address: international_address,
