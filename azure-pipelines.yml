@@ -48,7 +48,7 @@ stages:
         echo "##vso[task.setvariable variable=docker_path;]$docker_path"
         mkdir $(pipelineDockerCachePath)
       displayName: 'Configure build environment'
-    
+
     - template: cancel-build-if-not-latest-template.yml
       parameters:
         sourceBranchName: $(Build.SourceBranchName)
@@ -84,7 +84,7 @@ stages:
       inputs:
         path: '$(System.DefaultWorkingDirectory)/docker_images/'
         artifactName: 'docker_artifacts'
-    
+
     - task: PublishPipelineArtifact@1
       displayName: 'Publish ARM template artifacts'
       condition: and(eq(variables['buildCancelled'], false), and(succeeded(), eq(variables['deployOnly'], false)))
@@ -112,7 +112,7 @@ stages:
         command: 'push'
         tags: |
           $(Build.BuildNumber)
-    
+
     - script: |
         docker tag $(dockerHubUsername)/$(imageName):$(Build.BuildNumber) $(dockerHubUsername)/$(imageName):latest
         docker rmi $(dockerHubUsername)/$(imageName):$(Build.BuildNumber)
@@ -136,7 +136,7 @@ stages:
         containerRegistry: 'DfE Docker Hub'
         command: 'logout'
 
-  
+
 - stage: test_release
   displayName: 'Test & Publish Release'
   dependsOn: build_release
@@ -289,7 +289,7 @@ stages:
     parameters:
       testCommand: 'integration-tests'
       displayName: 'Integration Tests'
-        
+
   - template: rspec-job-template.yml
     parameters:
       testCommand: 'unit-tests'
