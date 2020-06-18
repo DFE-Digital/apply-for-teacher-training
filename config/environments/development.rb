@@ -69,5 +69,11 @@ Rails.application.configure do
 
   # Logging configuration
   config.log_level = :debug
-  LogstashLogging.enable(config) if ENV['LOGSTASH_ENABLE'] == 'true'
+  if ENV['LOGSTASH_ENABLE'] == 'true'
+    LogstashLogging.enable(config) if ENV['LOGSTASH_ENABLE'] == 'true'
+  else
+    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter = config.log_formatter
+    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+  end
 end
