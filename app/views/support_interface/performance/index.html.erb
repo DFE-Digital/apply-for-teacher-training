@@ -83,4 +83,14 @@
 
 <p class="govuk-body">The list of provider users that have signed in to apply at least once</p>
 
-<%= govuk_link_to 'Download active provider users (CSV)', support_interface_active_provider_users_path, class: 'govuk-body' %>
+<p class='govuk-body'>
+  <%= govuk_link_to 'Download active provider users (CSV)', support_interface_active_provider_users_path %>
+</p>
+
+<h3 class="govuk-heading-m">Provider performance for TAD</h3>
+
+<p class="govuk-body">A list of all application/offered/accepted counts for all courses in Apply</p>
+
+<p class='govuk-body'>
+  <%= govuk_link_to 'Download provider performance for TAD (CSV)', support_interface_tad_provider_performance_path %>
+</p>
