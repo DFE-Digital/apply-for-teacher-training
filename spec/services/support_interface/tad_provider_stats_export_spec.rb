@@ -6,16 +6,23 @@ RSpec.describe SupportInterface::TADProviderStatsExport do
   subject(:exported_rows) { SupportInterface::TADProviderStatsExport.new.call }
 
   describe 'calculating offers and acceptances' do
+    accepted_states = ApplicationStateChange::ACCEPTED_STATES
+    offered_states = ApplicationStateChange::OFFERED_STATES
+
+    unless accepted_states.count < offered_states.count &&
+        (offered_states & accepted_states) == accepted_states
+      raise 'This spec assumes that ApplicationStateChange::ACCEPTED_STATES is a subset of ApplicationStateChange::OFFERED_STATES'
+    end
+
     test_data = [
-      [%i[awaiting_provider_decision offer recruited enrolled], 4, 3, 2],
-      [%i[recruited enrolled], 2, 2, 2],
-      [[], 0, 0, 0],
-      [%i[withdrawn rejected], 2, 0, 0],
+      [%i[awaiting_provider_decision], 1, 0, 0],
+      [ApplicationStateChange::OFFERED_STATES, offered_states.count, offered_states.count, accepted_states.count],
+      [ApplicationStateChange::ACCEPTED_STATES, accepted_states.count, accepted_states.count, accepted_states.count],
       [ApplicationStateChange::STATES_NOT_VISIBLE_TO_PROVIDER, 0, 0, 0],
     ]
 
     test_data.each do |states, applications, offers, acceptances|
-      it "correctly reports overall/offered/accepted tallies for applications in the state #{states}" do
+      it "correctly reports overall/offered/accepted tallies for applications in the states #{states}" do
         provider = create(:provider)
         course_option = course_option_for_provider(provider: provider)
         generator = TestApplications.new

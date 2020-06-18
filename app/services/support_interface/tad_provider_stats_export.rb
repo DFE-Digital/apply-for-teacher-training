@@ -1,8 +1,5 @@
 module SupportInterface
   class TADProviderStatsExport
-    OFFERED_STATES = %w[offer enrolled recruited declined].freeze
-    ACCEPTED_STATES = %w[recruited enrolled].freeze
-
     def call
       Course.all
         .map { |c| course_to_row(c) }
@@ -32,8 +29,8 @@ module SupportInterface
       }
 
       statuses.reduce(row_template) do |row, status|
-        row[:offers] += 1 if OFFERED_STATES.include?(status)
-        row[:acceptances] += 1 if ACCEPTED_STATES.include?(status)
+        row[:offers] += 1 if ApplicationStateChange::OFFERED_STATES.include?(status.to_sym)
+        row[:acceptances] += 1 if ApplicationStateChange::ACCEPTED_STATES.include?(status.to_sym)
         row
       end
     end
