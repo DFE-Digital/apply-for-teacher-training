@@ -27,7 +27,7 @@ module CandidateInterface
         current_application.update!(degrees_completed: false)
         redirect_to candidate_interface_degrees_review_path
       else
-        track_validation_error(@degree)
+        track_validation_error(@degree_grade_form)
         render :new
       end
     end
