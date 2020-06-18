@@ -33,6 +33,10 @@ module CandidateInterface
           end
         end
 
+        def contact_support
+          @course_choice = current_application.application_choices.find(params['id'])
+        end
+
       private
 
         def replacement_action_params

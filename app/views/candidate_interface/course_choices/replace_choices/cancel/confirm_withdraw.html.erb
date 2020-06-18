@@ -4,10 +4,15 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl"><%= t('page_titles.withdraw_application') %></h1>
-    <p class="govuk-body">Your application does not have any course choices.</p>
 
-      <%= govuk_link_to 'Yes - withdraw application', candidate_interface_withdraw_full_course_choice_path, class: 'govuk-button govuk-button--warning' %>
-      <br>
-      <%= govuk_link_to 'Cancel and return to application dashboard', candidate_interface_application_complete_path, class: 'govuk-body' %>
+    <p class="govuk-body">Cancelling this course choice means your application will be withdrawn.</p>
+
+    <p class="govuk-body">You'll have to make a new application later if you still want to apply.</p>
+
+    <p class="govuk-body"><%= govuk_link_to 'Go back to edit your course choice', candidate_interface_replace_course_choice_path(@course_choice.id) %>.</p>
+
+    <p class="govuk-body">  <%= govuk_link_to 'Contact us to replace your course', candidate_interface_replace_course_choice_contact_support_path(@course_choice.id), class: 'govuk-body' %>.</p>
+
+    <p class="govuk-body"><%= govuk_link_to 'Withdraw application', candidate_interface_withdraw_full_course_choice_path, class: 'govuk-button govuk-button--warning' %></p>
   </div>
 </div>
