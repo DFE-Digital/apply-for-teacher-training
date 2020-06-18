@@ -1,12 +1,16 @@
 module CandidateInterface
   class ContactDetails::AddressTypeController < ContactDetails::BaseController
     def edit
+      render_404 and return unless FeatureFlag.active?(:international_addresses)
+
       @contact_details_form = ContactDetailsForm.build_from_application(
         current_application,
       )
     end
 
     def update
+      render_404 and return unless FeatureFlag.active?(:international_addresses)
+
       @contact_details_form = ContactDetailsForm.new(address_type_params)
 
       if @contact_details_form.save_address_type(current_application)

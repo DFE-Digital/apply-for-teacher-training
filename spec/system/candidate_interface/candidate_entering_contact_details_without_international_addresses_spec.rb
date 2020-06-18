@@ -1,12 +1,13 @@
 require 'rails_helper'
 
+# Delete this file when we remove the `international_addresses` feature flag
+
 RSpec.feature 'Entering their contact details' do
   include CandidateHelper
 
   scenario 'Candidate submits their contact details' do
     given_i_am_signed_in
     and_the_mark_every_section_as_complete_flag_is_active
-    and_the_international_addresses_flag_is_active
     and_i_visit_the_site
     and_the_track_validation_errors_feature_is_on
 
@@ -18,7 +19,6 @@ RSpec.feature 'Entering their contact details' do
 
     when_i_fill_in_my_phone_number
     and_i_submit_my_phone_number
-    and_i_select_live_in_uk
     and_i_incorrectly_fill_in_my_address
     and_i_submit_my_address
 
@@ -57,10 +57,6 @@ RSpec.feature 'Entering their contact details' do
     FeatureFlag.activate('mark_every_section_complete')
   end
 
-  def and_the_international_addresses_flag_is_active
-    FeatureFlag.activate('international_addresses')
-  end
-
   def and_i_visit_the_site
     visit candidate_interface_application_form_path
   end
@@ -95,12 +91,6 @@ RSpec.feature 'Entering their contact details' do
 
   def when_i_fill_in_my_phone_number
     fill_in t('application_form.contact_details.phone_number.label'), with: '07700 900 982'
-  end
-
-  def and_i_select_live_in_uk
-    expect(page).to have_content('Where do you live?')
-    choose 'In the UK'
-    click_button t('application_form.contact_details.base.button')
   end
 
   def and_i_incorrectly_fill_in_my_address
