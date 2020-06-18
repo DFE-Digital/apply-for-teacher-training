@@ -59,7 +59,7 @@ RSpec.describe 'ProviderRelationshipPermissions', type: :request do
 
     before do
       create(
-        :accredited_body_permissions,
+        :ratifying_provider_permissions,
         ratifying_provider: ratifying_provider,
         training_provider: training_provider,
       )

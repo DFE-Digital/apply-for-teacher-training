@@ -141,7 +141,7 @@ RSpec.describe SyncProviderFromFind do
         expect {
           SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
         }.to change(ProviderInterface::TrainingProviderPermissions, :count).by(1)
-         .and change(ProviderInterface::AccreditedBodyPermissions, :count).by(1)
+         .and change(ProviderInterface::RatifyingProviderPermissions, :count).by(1)
 
         training_provider_permissions = ProviderInterface::TrainingProviderPermissions.last
         expect(training_provider_permissions.ratifying_provider.code).to eq('DEF')
@@ -164,7 +164,7 @@ RSpec.describe SyncProviderFromFind do
         expect {
           SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
         }.to change(ProviderInterface::TrainingProviderPermissions, :count).by(0)
-         .and change(ProviderInterface::AccreditedBodyPermissions, :count).by(0)
+         .and change(ProviderInterface::RatifyingProviderPermissions, :count).by(0)
       end
 
       it 'stores full_time/part_time information within courses' do

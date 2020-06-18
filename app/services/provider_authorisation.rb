@@ -87,7 +87,7 @@ private
     end
 
     if ratifying_provider && @actor.providers.include?(ratifying_provider)
-      permissions.push ProviderInterface::AccreditedBodyPermissions.find_by(
+      permissions.push ProviderInterface::RatifyingProviderPermissions.find_by(
         training_provider: training_provider,
         ratifying_provider: ratifying_provider,
       )
@@ -98,7 +98,7 @@ private
 
   def ratifying_provider_can_view_safeguarding_information?(course:)
     @actor.providers.include?(course.accredited_provider) &&
-      ProviderInterface::AccreditedBodyPermissions
+      ProviderInterface::RatifyingProviderPermissions
         .view_safeguarding_information
         .exists?(ratifying_provider: course.accredited_provider, training_provider: course.provider)
   end

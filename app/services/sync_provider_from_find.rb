@@ -167,7 +167,7 @@ private
       ratifying_provider: course.accredited_provider,
       training_provider: provider,
     )
-    ProviderInterface::AccreditedBodyPermissions.find_or_create_by!(
+    ProviderInterface::RatifyingProviderPermissions.find_or_create_by!(
       ratifying_provider: course.accredited_provider,
       training_provider: provider,
     )

@@ -51,7 +51,7 @@ RSpec.describe ProviderAuthorisation do
       create(:training_provider_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
     end
     let(:ratifying_provider_permissions) do
-      create(:accredited_body_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
+      create(:ratifying_provider_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
     end
 
     # org-level 'make_decisions' are now required for happy path
@@ -187,7 +187,7 @@ RSpec.describe ProviderAuthorisation do
     let(:accredited_provider) { ratifying_provider }
     let(:ratifying_permissions) do
       create(
-        :accredited_body_permissions,
+        :ratifying_provider_permissions,
         ratifying_provider: ratifying_provider,
         training_provider: training_provider,
       )
@@ -258,7 +258,7 @@ RSpec.describe ProviderAuthorisation do
         # These permissions are intentionally unrelated to test
         # that the correct permissions are checked.
         create(
-          :accredited_body_permissions,
+          :ratifying_provider_permissions,
           ratifying_provider: ratifying_provider,
           training_provider: create(:provider),
           view_safeguarding_information: true,
