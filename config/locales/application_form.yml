@@ -488,25 +488,6 @@ en:
               blank: Enter your graduation year
               invalid: Enter a real graduation year
               greater_than_limit: 'Enter a year before %{date}'
-
-        candidate_interface/degree_form:
-            grade:
-              blank: Select your degree class
-              too_long: The class of your degree must be %{count} characters or fewer
-            other_grade:
-              blank: Enter your degree grade
-              too_long: Your degree grade must be %{count} characters or fewer
-            predicted_grade:
-              blank: Enter your predicted grade
-              too_long: Your predicted grade must be %{count} characters or fewer
-            start_year:
-              blank: Enter your start year
-              invalid: Enter a real start year
-              greater_than_award_year: 'Enter a start year before graduation year'
-            award_year:
-              blank: Enter your graduation year
-              invalid: Enter a real graduation year
-              greater_than_limit: 'Enter a year before %{date}'
         candidate_interface/other_qualification_type_form:
           attributes:
             qualification_type:
