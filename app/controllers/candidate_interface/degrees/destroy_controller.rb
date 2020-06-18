@@ -3,8 +3,7 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_submitted
 
     def confirm_destroy
-      current_qualification = current_application.application_qualifications.degrees.find(current_degree_id)
-      @degree = DegreeForm.build_from_qualification(current_qualification)
+      @degree = current_application.application_qualifications.degrees.find(current_degree_id)
     end
 
     def destroy
