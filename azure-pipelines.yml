@@ -50,7 +50,7 @@ stages:
         echo "##vso[task.setvariable variable=docker_path;]$docker_path"
         mkdir $(pipelineDockerCachePath)
       displayName: 'Configure build environment'
-    
+
     - template: cancel-build-if-not-latest-template.yml
       parameters:
         sourceBranchName: $(Build.SourceBranchName)
@@ -100,7 +100,7 @@ stages:
         command: 'push'
         tags: |
           $(Build.BuildNumber)
-    
+
     - script: |
         docker tag $(dockerHubUsername)/$(imageName):$(Build.BuildNumber) $(dockerHubUsername)/$(imageName):latest
         docker rmi $(dockerHubUsername)/$(imageName):$(Build.BuildNumber)
@@ -124,7 +124,7 @@ stages:
         containerRegistry: 'DfE Docker Hub'
         command: 'logout'
 
-  
+
 - stage: test_release
   displayName: 'Test & Publish Release'
   dependsOn: build_release

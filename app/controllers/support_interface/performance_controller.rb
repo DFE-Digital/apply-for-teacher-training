@@ -67,6 +67,13 @@ module SupportInterface
       send_data csv, filename: "active-provider-users-#{Time.zone.today}.csv", disposition: :attachment
     end
 
+    def tad_provider_performance
+      export_rows = SupportInterface::TADProviderStatsExport.new.call
+      csv = to_csv(export_rows)
+
+      send_data csv, filename: "tad-provider-performance-#{Time.zone.today}.csv", disposition: :attachment
+    end
+
   private
 
     def to_csv(objects, header_row = nil)

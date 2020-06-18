@@ -80,10 +80,20 @@ class TestApplications
 
       return if states.include? :unsubmitted
 
+      if states.include? :cancelled
+        SupportInterface::CancelApplicationForm.new(application_form: @application_form).save!
+        return
+      end
+
       without_slack_message_sending do
         fast_forward(1..2)
         SubmitApplication.new(@application_form).call
-        @application_form.update_columns(submitted_at: time, edit_by: time + 7.days)
+
+        # To prevent immediate sending to provider, which uses the current
+        # time to decide whether edit_by has passed, temporarily set edit_by to
+        # a date in the future relative to now
+        @application_form.update_columns(submitted_at: time, edit_by: Time.zone.now + 1.day)
+
         return if states.include? :awaiting_references
 
         @application_form.application_references.each do |reference|
@@ -97,6 +107,12 @@ class TestApplications
             reference: reference,
           ).save!
         end
+
+        # Now that the application has *not* been sent to the provider as a side effect
+        # of SubmitReference, set edit_by back to a time which makes sense with the
+        # false timeline we're building for this application
+        @application_form.update_columns(edit_by: time + 7.days)
+
         return if states.include? :application_complete
 
         application_choices.map(&:reload)

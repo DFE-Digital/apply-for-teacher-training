@@ -115,6 +115,10 @@ Rails/NotNullColumn:
 Naming/MemoizedInstanceVariableName:
   Enabled: false
 
+# sometimes reduce is fine
+Style/EachWithObject:
+  Enabled: false
+
 # Pending cops
 # These will be enabled by default at Rubocop 1.0
 Style/HashEachMethods:

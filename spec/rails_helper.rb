@@ -73,4 +73,9 @@ RSpec.configure do |config|
   config.before { ActionMailer::Base.deliveries.clear }
 
   config.before { FeatureFlag.reset! }
+
+  # Make the ActiveModel matchers like `validate_inclusion_of` available to form objects
+  config.define_derived_metadata(file_path: Regexp.new('/spec/forms/')) do |metadata|
+    metadata[:type] = 'model'
+  end
 end
