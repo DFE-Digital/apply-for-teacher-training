@@ -1,6 +1,8 @@
 module CandidateInterface
   module Degrees
     class TypeController < CandidateInterfaceController
+      before_action :redirect_to_dashboard_if_submitted
+
       def new
         @degree_type_form = DegreeTypeForm.new
         degree_already_added? ? render('add_another') : render('new')

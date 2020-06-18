@@ -1,6 +1,8 @@
 module CandidateInterface
   module Degrees
     class SubjectController < CandidateInterfaceController
+      before_action :redirect_to_dashboard_if_submitted
+
       def new
         @degree_subject_form = DegreeSubjectForm.new(degree: degree)
       end

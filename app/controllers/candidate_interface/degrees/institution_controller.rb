@@ -1,6 +1,8 @@
 module CandidateInterface
   module Degrees
     class InstitutionController < CandidateInterfaceController
+      before_action :redirect_to_dashboard_if_submitted
+
       def new
         @degree_institution_form = DegreeInstitutionForm.new(degree: degree)
       end
