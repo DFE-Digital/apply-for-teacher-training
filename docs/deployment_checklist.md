@@ -21,15 +21,9 @@ checks:
 
 1. Notify the rest of the team via Slack that staging is deployed and
    that final pre-production checks can be made.
-2. Check the #twd_apply_tech channel in Slack for runtime errors from
-   Sentry.
-3. Create a new account on
-   [staging](https://staging.apply-for-teacher-training.education.gov.uk/candidate)
-   with a real email address and check that you receive an email with
-   the magic link and can use it to log in. Use your DfE digital email
-   address so that we can distinguish test users.  If needed you can
-   suffix your name with `+n` to create a unique email address.
-4. Check the Azure Dashboard for the staging
+1. Check the #twd_apply_tech channel in Slack for runtime errors from
+   Sentry or the Cypress smoke tests.
+1. Check the Azure Dashboard for the staging
    [s106t01-apply](https://portal.azure.com/#@platform.education.gov.uk/dashboard/arm/subscriptions/c426dea0-793c-4ab6-9dbc-b45dbdd9ef24/resourceGroups/s106t01-apply/providers/Microsoft.Portal/dashboards/s106t01-apply-dashboard) resource
    group. Make sure that each of the following resources are running -
    this should be clear from the memory percentage and memory usage
@@ -39,7 +33,7 @@ checks:
      - Redis - `106t01-apply-redis`
      - Clock background process - `106t01-apply-ci-clk`
      - Sidekiq background process - `106t01-apply-ci-wkr`
-5. Check the [Sidekiq management
+1. Check the [Sidekiq management
    interface](https://staging.apply-for-teacher-training.education.gov.uk/support/sidekiq)
    for any signs that jobs are failing or that the length of the job
    queue is increasing.
