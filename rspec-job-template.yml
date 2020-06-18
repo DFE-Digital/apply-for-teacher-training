@@ -3,9 +3,11 @@ parameters:
     type: string
   - name: displayName
     type: string
+  - name: jobId
+    type: string    
 
 jobs:
-- job:
+- job: ${{ parameters.jobId }}
   displayName: 'RSpec - ${{ parameters.displayName }}'
   condition: and(succeeded(), eq(variables['deployOnly'], false))
   pool:
@@ -48,16 +50,18 @@ jobs:
   - template: run-rspec-test-template.yml
     parameters:
       testCommand: ${{ format('ci.{0}', parameters.testCommand) }}
-      testResultsFile: ${{ format('results/rspec-{0}-results.xml', parameters.testCommand) }}
+      testResultsFile: ${{ format('testArtifacts/rspec-{0}-results.xml', parameters.testCommand) }}
 
   - task: PublishTestResults@2
+    condition: succeededOrFailed()
     displayName: 'Publish test results'
     inputs:
-      testRunner: JUnit
-      testResultsFiles: 'results/*.xml'
+      testResultsFiles: 'testArtifacts/**/rspec-*.xml'
+      testRunTitle: ${{ parameters.testCommand }}
 
   - task: PublishPipelineArtifact@1
-    displayName: 'Publish RSpec Results'
+    condition: succeededOrFailed()
+    displayName: 'Publish Test Artifacts'
     inputs:
-      path: '$(System.DefaultWorkingDirectory)/results/'
+      path: '$(System.DefaultWorkingDirectory)/testArtifacts/'
       artifactName: ${{ format('rspec-{0}', parameters.testCommand) }}
