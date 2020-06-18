@@ -17,11 +17,15 @@
       <%= f.fields_for :accredited_body_permissions do |abp| %>
         <%= abp.hidden_field :view_safeguarding_information,
           value: @form.accredited_body_permissions.view_safeguarding_information %>
+        <%= abp.hidden_field :make_decisions,
+          value: @form.accredited_body_permissions.make_decisions %>
       <% end %>
 
       <%= f.fields_for :training_provider_permissions do |tpp| %>
         <%= tpp.hidden_field :view_safeguarding_information,
           value: @form.training_provider_permissions.view_safeguarding_information %>
+        <%= tpp.hidden_field :make_decisions,
+          value: @form.training_provider_permissions.make_decisions %>
       <% end %>
 
       <%= render 'provider_permissions', provider: @training_provider_permissions.training_provider, permissions: @training_provider_permissions %>

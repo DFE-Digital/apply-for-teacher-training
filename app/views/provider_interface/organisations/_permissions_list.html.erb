@@ -5,6 +5,12 @@
       access safeguarding information
     </li>
   <% end %>
+  <% if permission.make_decisions %>
+    <li>
+      <%= render 'check_icon' %>
+      make decisions
+    </li>
+  <% end %>
   <li>
     <%= render 'check_icon' %>
     view applications
