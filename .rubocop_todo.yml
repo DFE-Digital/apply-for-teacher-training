@@ -40,8 +40,8 @@ Rails/CreateTableWithTimestamps:
 # SupportedStyles: strict, flexible
 Rails/Date:
   Exclude:
-    - 'app/models/candidate_interface/other_qualification_form.rb'
-    - 'app/models/candidate_interface/personal_details_form.rb'
+    - 'app/forms/candidate_interface/other_qualification_form.rb'
+    - 'app/forms/candidate_interface/personal_details_form.rb'
     - 'spec/factories.rb'
 
 # Offense count: 1
