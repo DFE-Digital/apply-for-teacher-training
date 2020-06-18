@@ -14,7 +14,7 @@ module CandidateInterface
 
           if @pick_site.valid?
             @course_choice.update!(course_option_id: @replacement_course_option_id)
-            flash[:success] = 'Your application has been updated'
+            flash[:success] = 'Your application has been updated.'
 
             redirect_to candidate_interface_application_complete_path
           else

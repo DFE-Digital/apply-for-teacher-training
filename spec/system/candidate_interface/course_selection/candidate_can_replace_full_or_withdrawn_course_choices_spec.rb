@@ -171,7 +171,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
   end
 
   def then_i_am_told_to_contact_support
-    expect(page).to have_content 'You can currently only change the location of your course choice through the service.'
+    expect(page).to have_content 'You can only edit existing course choices through the service.'
   end
 
   def when_i_click_back

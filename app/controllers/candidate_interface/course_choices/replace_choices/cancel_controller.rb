@@ -11,7 +11,7 @@ module CandidateInterface
 
           @course_choice = current_application.application_choices.find(params['id'])
           ApplicationStateChange.new(@course_choice).cancel!
-          flash[:success] = 'Your application has been updated'
+          flash[:success] = 'Your application has been updated.'
 
           if current_application.course_choices_that_need_replacing.any?
             redirect_to candidate_interface_replace_course_choices_path
