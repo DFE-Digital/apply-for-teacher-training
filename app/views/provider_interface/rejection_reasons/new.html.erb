@@ -19,31 +19,35 @@
       <%= qf.hidden_field :label %>
       <%= qf.hidden_field :additional_question %>
       <%= qf.govuk_radio_buttons_fieldset :y_or_n, legend: { text: t(q.label, candidates_name: 'TODO') } do %>
-        <%= qf.govuk_radio_button :y_or_n, 'Y', label: { text: 'Yes' } do %>
-          <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-            <%= t(q.additional_question) %>
-          </legend>
-          <% q.reasons.each do |r| %>
-            <%= qf.fields_for :reasons, r do |rf| %>
-              <%= rf.hidden_field :label %>
-              <% if q.additional_question.present? %>
-                <%= rf.govuk_check_boxes_fieldset :value, small: true do %>
-                  <% if r.textareas.any? %>
-                    <%= rf.govuk_check_box :value, 'true', multiple: false, label: { text: t(r.label) } do %>
-                      <%= render 'textareas', reasons_fields: rf, textareas: r.textareas %>
+        <% if q.reasons.any? %>
+          <%= qf.govuk_radio_button :y_or_n, 'Y', label: { text: 'Yes' } do %>
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <%= t(q.additional_question) %>
+            </legend>
+            <% q.reasons.each do |r| %>
+              <%= qf.fields_for :reasons, r do |rf| %>
+                <%= rf.hidden_field :label %>
+                <% if q.additional_question.present? %>
+                  <%= rf.govuk_check_boxes_fieldset :value, small: true do %>
+                    <% if r.textareas.any? %>
+                      <%= rf.govuk_check_box :value, 'true', multiple: false, label: { text: t(r.label) } do %>
+                        <%= render 'textareas', reasons_fields: rf, textareas: r.textareas %>
+                      <% end %>
+                    <% else %>
+                      <%= rf.govuk_check_box :value, 'true', multiple: false, label: { text: t(r.label) } %>
                     <% end %>
-                  <% else %>
-                    <%= rf.govuk_check_box :value, 'true', multiple: false, label: { text: t(r.label) } %>
                   <% end %>
+                <% else %>
+                  <%= rf.hidden_field :value, value: 'true' %>
+                  <%= render 'textareas', reasons_fields: rf, textareas: r.textareas %>
                 <% end %>
-              <% else %>
-                <%= rf.hidden_field :value, value: 'true' %>
-                <%= render 'textareas', reasons_fields: rf, textareas: r.textareas %>
               <% end %>
             <% end %>
           <% end %>
+        <% else %>
+          <%= qf.govuk_radio_button :y_or_n, 'Y', label: { text: 'Yes' } %>
         <% end %>
-        <%= qf.govuk_radio_button :y_or_n, 'N', label: { text: 'No' }  %>
+          <%= qf.govuk_radio_button :y_or_n, 'N', label: { text: 'No' } %>
       <% end %>
     <% end %>
   <% end %>
