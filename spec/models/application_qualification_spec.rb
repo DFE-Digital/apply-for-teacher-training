@@ -48,4 +48,36 @@ RSpec.describe ApplicationQualification, type: :model do
       expect(application_qualification.audits.last.associated).to eq application_qualification.application_form
     end
   end
+
+  describe '#incomplete_degree_information?' do
+    it 'returns false if not a degree' do
+      qualification = build_stubbed(:gcse_qualification)
+
+      expect(qualification.incomplete_degree_information?).to eq false
+    end
+
+    it 'returns false if all expected information is present' do
+      qualification = build_stubbed(:degree_qualification)
+
+      expect(qualification.incomplete_degree_information?).to eq false
+    end
+
+    it 'returns true if the predicted_grade boolean is not present' do
+      qualification = build_stubbed(:degree_qualification)
+      qualification.predicted_grade = nil
+
+      expect(qualification.incomplete_degree_information?).to eq true
+    end
+
+    it 'returns true if any expected information is missing' do
+      qualification = build_stubbed(:degree_qualification)
+
+      ApplicationQualification::EXPECTED_DEGREE_DATA.each do |field|
+        qualification.send("#{field}=", nil)
+        expect(qualification.incomplete_degree_information?).to eq true
+        qualification.send("#{field}=", '')
+        expect(qualification.incomplete_degree_information?).to eq true
+      end
+    end
+  end
 end

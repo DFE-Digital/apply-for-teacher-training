@@ -13,5 +13,5 @@
 <% end %>
 
 <% if show_missing_banner? %>
-  <%= render(SectionMissingBannerComponent.new(section: :degrees, section_path: candidate_interface_degrees_new_base_path, error: @missing_error)) %>
+  <%= render(SectionMissingBannerComponent.new(section: :degrees, section_path: candidate_interface_new_degree_path, error: @missing_error)) %>
 <% end %>

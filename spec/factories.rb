@@ -200,6 +200,7 @@ FactoryBot.define do
     subject { Faker::Educator.subject }
     grade { %w[first upper_second A B].sample }
     predicted_grade { %w[true false].sample }
+    start_year { Date.today.year }
     award_year { Faker::Date.between(from: 60.years.ago, to: 3.years.from_now).year }
     institution_name { Faker::Educator.university }
     institution_country { Faker::Address.country_code }

@@ -7,7 +7,7 @@
 
 <%= render(CandidateInterface::DegreesReviewComponent.new(application_form: @application_form)) %>
 
-<%= govuk_button_link_to t('application_form.degree.another.button'), candidate_interface_degrees_new_base_path, class: 'govuk-button--secondary' %>
+<%= govuk_button_link_to t('application_form.degree.another.button'), candidate_interface_new_degree_path, class: 'govuk-button--secondary' %>
 
 <%= form_with model: @application_form, url: candidate_interface_degrees_complete_path do |f| %>
   <div class='govuk-form-group'>

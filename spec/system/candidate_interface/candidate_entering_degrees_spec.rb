@@ -6,39 +6,54 @@ RSpec.feature 'Entering their degrees' do
   scenario 'Candidate submits their degrees' do
     given_i_am_signed_in
     and_i_visit_the_site
-
     when_i_click_on_degree
     then_i_see_the_undergraduate_degree_form
 
-    when_i_fill_in_some_of_my_undergraduate_degree_but_omit_some_required_fields
-    and_i_click_on_save_and_continue
-    then_i_see_validation_errors_for_my_undergraduate_degree
-
-    when_i_fill_in_my_undergraduate_degree_base
-    and_i_click_on_save_and_continue
-    then_i_can_see_the_degree_classification_page
-
+    # Add degree type
     when_i_click_on_save_and_continue
-    then_i_see_validation_errors_for_degree_classification
-
-    when_i_select_the_degree_classification
+    then_i_see_validation_errors_for_degree_type
+    when_i_fill_in_the_degree_type
     and_i_click_on_save_and_continue
-    then_i_can_see_the_start_and_graduation_year_page
 
+    # Add subject
+    then_i_can_see_the_degree_subject_page
+    when_i_click_on_save_and_continue
+    then_i_see_validation_errors_for_degree_subject
+    when_i_fill_in_the_degree_subject
+    and_i_click_on_save_and_continue
+
+    # Add institution
+    then_i_can_see_the_degree_institution_page
+    when_i_click_on_save_and_continue
+    then_i_see_validation_errors_for_degree_institution
+    when_i_fill_in_the_degree_institution
+    and_i_click_on_save_and_continue
+
+    # Add grade
+    then_i_can_see_the_degree_grade_page
+    when_i_click_on_save_and_continue
+    then_i_see_validation_errors_for_degree_grade
+    when_i_select_the_degree_grade
+    and_i_click_on_save_and_continue
+
+    # Add years
+    then_i_can_see_the_start_and_graduation_year_page
     when_i_click_on_save_and_continue
     then_i_see_validation_errors_for_graduation_year
-
     when_i_fill_in_the_start_and_graduation_year
     and_i_click_on_save_and_continue
+
+    # Review
     then_i_can_check_my_undergraduate_degree
 
+    # Delete and replace
     when_i_click_on_delete_degree
     and_i_confirm_that_i_want_to_delete_my_degree
     when_i_mark_this_section_as_completed
     and_i_click_on_continue
     then_i_am_told_i_need_to_add_a_degree_to_complete_the_section
 
-    when_i_readd_my_degree
+    when_i_add_my_degree_back_in
     and_i_click_on_continue
     then_i_should_see_the_form_and_the_section_is_not_completed
     when_i_click_on_degree
@@ -46,40 +61,45 @@ RSpec.feature 'Entering their degrees' do
 
     when_i_click_on_add_another_degree
     then_i_see_the_add_another_degree_form
-
     when_i_fill_in_my_additional_degree
-    and_i_click_on_save_and_continue
-    when_i_select_the_degree_classification
-    and_i_click_on_save_and_continue
-    when_i_fill_in_the_start_and_graduation_year
-    and_i_click_on_save_and_continue
     then_i_can_check_my_additional_degree
 
     when_i_click_on_delete_degree
     and_i_confirm_that_i_want_to_delete_my_additional_degree
     then_i_can_only_see_my_undergraduate_degree
 
-    when_i_click_to_change_my_undergraduate_degree
-    then_i_see_my_undergraduate_degree_filled_in
-
-    when_i_change_my_undergraduate_degree
+    # Edit details
+    when_i_click_to_change_my_undergraduate_degree_type
+    then_i_see_my_undergraduate_degree_type_filled_in
+    when_i_change_my_undergraduate_degree_type
     and_i_click_on_save_and_continue
-    then_i_can_check_my_revised_undergraduate_degree
+    then_i_can_check_my_revised_undergraduate_degree_type
 
     when_i_click_to_change_my_undergraduate_degree_year
     then_i_see_my_undergraduate_degree_year_filled_in
-
     when_i_change_my_undergraduate_degree_year
     and_i_click_on_save_and_continue
     then_i_can_check_my_revised_undergraduate_degree_year
 
+    when_i_click_to_change_my_undergraduate_degree_subject
+    then_i_see_my_undergraduate_degree_subject_filled_in
+    when_i_change_my_undergraduate_degree_subject
+    and_i_click_on_save_and_continue
+    then_i_can_check_my_revised_undergraduate_degree_subject
+
+    when_i_click_to_change_my_undergraduate_degree_institution
+    then_i_see_my_undergraduate_degree_institution_filled_in
+    when_i_change_my_undergraduate_degree_institution
+    and_i_click_on_save_and_continue
+    then_i_can_check_my_revised_undergraduate_degree_institution
+
     when_i_click_to_change_my_undergraduate_degree_grade
     then_i_see_my_undergraduate_degree_grade_filled_in
-
     when_i_change_my_undergraduate_degree_grade
     and_i_click_on_save_and_continue
     then_i_can_check_my_revised_undergraduate_degree_grade
 
+    # Mark section as complete
     when_i_mark_this_section_as_completed
     and_i_click_on_continue
     then_i_should_see_the_form
@@ -98,16 +118,11 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_click_on_degree
-    click_link t('page_titles.degree')
+    click_link 'Degree'
   end
 
   def then_i_see_the_undergraduate_degree_form
-    expect(page).to have_content(t('page_titles.add_undergraduate_degree'))
-  end
-
-  def when_i_fill_in_some_of_my_undergraduate_degree_but_omit_some_required_fields
-    fill_in t('application_form.degree.qualification_type.label'), with: 'BSc'
-    fill_in t('application_form.degree.subject.label'), with: 'Computer Science'
+    expect(page).to have_content 'Add undergraduate degree'
   end
 
   def and_i_click_on_save_and_continue
@@ -118,46 +133,68 @@ RSpec.feature 'Entering their degrees' do
     click_button t('application_form.degree.base.button')
   end
 
-  def then_i_see_validation_errors_for_my_undergraduate_degree
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/degree_form.attributes.institution_name.blank')
+  def then_i_see_validation_errors_for_degree_type
+    expect(page).to have_content 'Enter your degree type'
   end
 
-  def when_i_fill_in_my_undergraduate_degree_base
-    fill_in t('application_form.degree.qualification_type.label'), with: 'BA'
-    fill_in t('application_form.degree.subject.label'), with: 'Doge'
-    fill_in t('application_form.degree.institution_name.label'), with: 'University of Much Wow'
+  def when_i_fill_in_the_degree_type
+    fill_in 'Type of degree', with: 'BSc'
   end
 
-  def then_i_can_see_the_degree_classification_page
-    expect(page).to have_content(t('page_titles.what_class_is_your_degree'))
+  def then_i_can_see_the_degree_subject_page
+    expect(page).to have_content 'What subject is your degree?'
   end
 
-  def then_i_see_validation_errors_for_degree_classification
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/degree_form.attributes.grade.blank')
+  def then_i_see_validation_errors_for_degree_subject
+    expect(page).to have_content 'Enter your degree subject'
   end
 
-  def when_i_select_the_degree_classification
-    choose t('application_form.degree.grade.first.label')
+  def when_i_fill_in_the_degree_subject
+    fill_in 'What subject is your degree?', with: 'Computer Science'
+  end
+
+  def then_i_can_see_the_degree_institution_page
+    expect(page).to have_content 'What institution did you study at?'
+  end
+
+  def then_i_see_validation_errors_for_degree_institution
+    expect(page).to have_content 'Enter the institution where you studied'
+  end
+
+  def when_i_fill_in_the_degree_institution
+    fill_in 'What institution did you study at?', with: 'MIT'
+  end
+
+  def then_i_can_see_the_degree_grade_page
+    expect(page).to have_content('What grade is your degree?')
+  end
+
+  def then_i_see_validation_errors_for_degree_grade
+    expect(page).to have_content 'Enter your degree grade'
+  end
+
+  def when_i_select_the_degree_grade
+    choose 'First'
   end
 
   def then_i_can_see_the_start_and_graduation_year_page
-    expect(page).to have_content(t('page_titles.when_did_you_study_for_your_degree'))
+    expect(page).to have_content('When did you study for your degree?')
   end
 
   def then_i_see_validation_errors_for_graduation_year
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/degree_form.attributes.award_year.blank')
+    expect(page).to have_content 'Enter your graduation year'
   end
 
   def when_i_fill_in_the_start_and_graduation_year
     year_with_trailing_space = '2006 '
     year_with_preceding_space = ' 2009'
-    fill_in t('application_form.degree.start_year.label'), with: year_with_trailing_space
-    fill_in t('application_form.degree.award_year.label'), with: year_with_preceding_space
+    fill_in 'Year started course', with: year_with_trailing_space
+    fill_in 'Graduation year', with: year_with_preceding_space
   end
 
   def then_i_can_check_my_undergraduate_degree
-    expect(page).to have_content t('application_form.degree.qualification.label')
-    expect(page).to have_content 'BA Doge'
+    expect(page).to have_current_path candidate_interface_degrees_review_path
+    expect(page).to have_content 'Computer Science'
   end
 
   def when_i_click_on_continue
@@ -181,12 +218,18 @@ RSpec.feature 'Entering their degrees' do
     expect(page).to have_content(t('page_titles.add_another_degree'))
   end
 
-  def when_i_readd_my_degree
+  def when_i_add_my_degree_back_in
     when_i_click_on_add_another_degree
-    when_i_fill_in_my_undergraduate_degree_base
+    when_i_fill_in_the_degree_type
     and_i_click_on_save_and_continue
 
-    when_i_select_the_degree_classification
+    when_i_fill_in_the_degree_subject
+    and_i_click_on_save_and_continue
+
+    when_i_fill_in_the_degree_institution
+    and_i_click_on_save_and_continue
+
+    when_i_select_the_degree_grade
     and_i_click_on_save_and_continue
 
     when_i_fill_in_the_start_and_graduation_year
@@ -194,9 +237,16 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_fill_in_my_additional_degree
-    fill_in t('application_form.degree.qualification_type.label'), with: 'Masters'
-    fill_in t('application_form.degree.subject.label'), with: 'Cate'
-    fill_in t('application_form.degree.institution_name.label'), with: 'University of Much Wow'
+    fill_in 'Type of degree', with: 'Masters'
+    and_i_click_on_save_and_continue
+    fill_in 'What subject is your degree?', with: 'Maths'
+    and_i_click_on_save_and_continue
+    fill_in 'What institution did you study at?', with: 'Thames Valley University'
+    and_i_click_on_save_and_continue
+    when_i_select_the_degree_grade
+    and_i_click_on_save_and_continue
+    when_i_fill_in_the_start_and_graduation_year
+    and_i_click_on_save_and_continue
   end
 
   def and_i_submit_the_add_another_degree_form
@@ -204,7 +254,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_can_check_my_additional_degree
-    expect(page).to have_content 'Masters Cate'
+    expect(page).to have_content 'Masters Maths'
   end
 
   def when_i_click_on_delete_degree
@@ -221,58 +271,86 @@ RSpec.feature 'Entering their degrees' do
 
   def then_i_can_only_see_my_undergraduate_degree
     then_i_can_check_my_undergraduate_degree
-    expect(page).not_to have_content 'Masters Cate'
+    expect(page).not_to have_content 'Masters Maths'
   end
 
-  def when_i_click_to_change_my_undergraduate_degree
+  def when_i_click_to_change_my_undergraduate_degree_type
     page.all('.govuk-summary-list__actions').to_a.first.click_link 'Change qualification'
   end
 
   def when_i_click_to_change_my_undergraduate_degree_year
-    page.all('.govuk-summary-list__actions').to_a.second.click_link 'Change year'
+    page.all('.govuk-summary-list__actions').to_a.fourth.click_link 'Change year'
   end
 
   def when_i_click_to_change_my_undergraduate_degree_grade
-    page.all('.govuk-summary-list__actions').to_a.fourth.click_link 'Change grade'
+    page.all('.govuk-summary-list__actions').to_a[5].click_link 'Change grade'
   end
 
-  def then_i_see_my_undergraduate_degree_filled_in
-    expect(page).to have_selector("input[value='BA']")
-    expect(page).to have_selector("input[value='Doge']")
-    expect(page).to have_selector("input[value='University of Much Wow']")
+  def when_i_click_to_change_my_undergraduate_degree_subject
+    page.all('.govuk-summary-list__actions').to_a.second.click_link 'Change subject'
+  end
+
+  def when_i_click_to_change_my_undergraduate_degree_institution
+    page.all('.govuk-summary-list__actions').to_a.third.click_link 'Change institution'
+  end
+
+  def then_i_see_my_undergraduate_degree_type_filled_in
+    expect(page).to have_selector("input[value='BSc']")
   end
 
   def then_i_see_my_undergraduate_degree_year_filled_in
-    expect(page).to have_selector("input[name='candidate_interface_degree_form[start_year]'][value='2006']")
-    expect(page).to have_selector("input[name='candidate_interface_degree_form[award_year]'][value='2009']")
+    expect(page).to have_selector("input[name='candidate_interface_degree_year_form[start_year]'][value='2006']")
+    expect(page).to have_selector("input[name='candidate_interface_degree_year_form[award_year]'][value='2009']")
+  end
+
+  def then_i_see_my_undergraduate_degree_subject_filled_in
+    expect(page).to have_selector("input[value='Computer Science']")
+  end
+
+  def then_i_see_my_undergraduate_degree_institution_filled_in
+    expect(page).to have_selector("input[value='MIT']")
   end
 
   def then_i_see_my_undergraduate_degree_grade_filled_in
     expect(page).to have_selector("input[value='first']")
   end
 
-  def when_i_change_my_undergraduate_degree
-    fill_in t('application_form.degree.subject.label'), with: 'Wolf'
-    fill_in t('application_form.degree.institution_name.label'), with: 'University of Moon Moon'
+  def when_i_change_my_undergraduate_degree_type
+    fill_in 'Type of degree', with: 'BA'
   end
 
   def when_i_change_my_undergraduate_degree_year
-    fill_in t('application_form.degree.start_year.label'), with: '2008'
-    fill_in t('application_form.degree.award_year.label'), with: '2011'
+    fill_in 'Year started course', with: '2008'
+    fill_in 'Graduation year', with: '2011'
+  end
+
+  def when_i_change_my_undergraduate_degree_subject
+    fill_in 'What subject is your degree?', with: 'Computer Science and AI'
+  end
+
+  def when_i_change_my_undergraduate_degree_institution
+    fill_in 'What institution did you study at?', with: 'Stanford'
   end
 
   def when_i_change_my_undergraduate_degree_grade
     choose t('application_form.degree.grade.lower_second.label')
   end
 
-  def then_i_can_check_my_revised_undergraduate_degree
-    expect(page).to have_content 'BA Wolf'
-    expect(page).to have_content 'University of Moon Moon'
+  def then_i_can_check_my_revised_undergraduate_degree_type
+    expect(page).to have_content 'BA'
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_year
     expect(page).to have_content '2008'
     expect(page).to have_content '2011'
+  end
+
+  def then_i_can_check_my_revised_undergraduate_degree_subject
+    expect(page).to have_content 'Computer Science and AI'
+  end
+
+  def then_i_can_check_my_revised_undergraduate_degree_institution
+    expect(page).to have_content 'Computer Science and AI'
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_grade
@@ -296,7 +374,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_can_check_my_answers
-    then_i_can_check_my_revised_undergraduate_degree
+    then_i_can_check_my_revised_undergraduate_degree_type
   end
 
   def then_i_am_told_i_need_to_add_a_degree_to_complete_the_section

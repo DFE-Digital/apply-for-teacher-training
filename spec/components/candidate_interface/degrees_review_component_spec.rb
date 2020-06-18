@@ -35,14 +35,39 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
   end
 
   context 'when degrees are editable' do
-    it 'renders component with correct values for a qualification' do
+    it 'renders component with correct values for a degree type' do
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.app-summary-card__title').text).to include('BA Woof')
-      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.qualification.label'))
-      expect(result.css('.govuk-summary-list__value').to_html).to include('BA Woof<br>University of Doge')
+      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.qualification_type.review_label'))
+      expect(result.css('.govuk-summary-list__value')[0].text.strip).to eq('BA')
       expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree1),
+        Rails.application.routes.url_helpers.candidate_interface_edit_degree_type_path(degree1),
+      )
+      expect(result.css('.govuk-summary-list__actions').text).to include(
+        "Change #{t('application_form.degree.qualification.change_action')} for BA, Woof, University of Doge, 2008",
+      )
+    end
+
+    it 'renders component with correct values for a subject' do
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.subject.review_label'))
+      expect(result.css('.govuk-summary-list__value')[1].text.strip).to eq('Woof')
+      expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(
+        Rails.application.routes.url_helpers.candidate_interface_edit_degree_subject_path(degree1),
+      )
+      expect(result.css('.govuk-summary-list__actions').text).to include(
+        "Change #{t('application_form.degree.qualification.change_action')} for BA, Woof, University of Doge, 2008",
+      )
+    end
+
+    it 'renders component with correct values for an institution' do
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.institution_name.review_label'))
+      expect(result.css('.govuk-summary-list__value')[2].text.strip).to eq('University of Doge')
+      expect(result.css('.govuk-summary-list__actions a')[2].attr('href')).to include(
+        Rails.application.routes.url_helpers.candidate_interface_edit_degree_institution_path(degree1),
       )
       expect(result.css('.govuk-summary-list__actions').text).to include(
         "Change #{t('application_form.degree.qualification.change_action')} for BA, Woof, University of Doge, 2008",
@@ -52,7 +77,6 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
     it 'renders component with correct values for an award year' do
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.app-summary-card__title').text).to include('BA Woof')
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.award_year.review_label'))
       expect(result.css('.govuk-summary-list__value').text).to include('2005')
       expect(result.css('.govuk-summary-list__value').text).to include('2008')
@@ -64,7 +88,6 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
     it 'renders component with correct values for a known degree grade' do
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.app-summary-card__title').text).to include('BA Woof')
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.grade.review_label'))
       expect(result.css('.govuk-summary-list__value').text).to include(t('application_form.degree.grade.upper_second.label'))
       expect(result.css('.govuk-summary-list__actions').text).to include(

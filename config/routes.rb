@@ -167,16 +167,30 @@ Rails.application.routes.draw do
       end
 
       scope '/degrees' do
-        get '/' => 'degrees/base#new', as: :degrees_new_base
-        post '/' => 'degrees/base#create', as: :degrees_create_base
+        get '/' => 'degrees/type#new', as: :new_degree
+        post '/' => 'degrees/type#create'
+        get '/:id/type/edit' => 'degrees/type#edit', as: :edit_degree_type
+        patch '/:id/type/edit' => 'degrees/type#update'
 
-        get '/:id/grade' => 'degrees/grade#new', as: :degrees_grade
-        get '/:id/grade/edit' => 'degrees/grade#edit', as: :degrees_grade_edit
-        post '/:id/grade' => 'degrees/grade#update', as: :degrees_create_grade
+        get '/:id/subject' => 'degrees/subject#new', as: :degree_subject
+        post '/:id/subject' => 'degrees/subject#create'
+        get '/:id/subject/edit' => 'degrees/subject#edit', as: :edit_degree_subject
+        patch '/:id/subject/edit' => 'degrees/subject#update'
 
-        get '/:id/year' => 'degrees/year#new', as: :degrees_year
-        get '/:id/year/edit' => 'degrees/year#edit', as: :degrees_year_edit
-        post '/:id/year' => 'degrees/year#update', as: :degrees_create_year
+        get '/:id/institution' => 'degrees/institution#new', as: :degree_institution
+        post '/:id/institution' => 'degrees/institution#create'
+        get '/:id/institution/edit' => 'degrees/institution#edit', as: :edit_degree_institution
+        patch '/:id/institution/edit' => 'degrees/institution#update'
+
+        get '/:id/grade' => 'degrees/grade#new', as: :degree_grade
+        post '/:id/grade' => 'degrees/grade#create'
+        get '/:id/grade/edit' => 'degrees/grade#edit', as: :edit_degree_grade
+        patch '/:id/grade/edit' => 'degrees/grade#update'
+
+        get '/:id/year' => 'degrees/year#new', as: :degree_year
+        post '/:id/year' => 'degrees/year#create'
+        get '/:id/year/edit' => 'degrees/year#edit', as: :edit_degree_year
+        patch '/:id/year/edit' => 'degrees/year#update'
 
         get '/review' => 'degrees/review#show', as: :degrees_review
         patch '/review' => 'degrees/review#complete', as: :degrees_complete

@@ -155,18 +155,24 @@ module CandidateHelper
   end
 
   def candidate_fills_in_their_degree
-    visit candidate_interface_degrees_new_base_path
+    visit candidate_interface_new_degree_path
 
-    fill_in t('application_form.degree.qualification_type.label'), with: 'BA'
-    fill_in t('application_form.degree.subject.label'), with: 'Doge'
-    fill_in t('application_form.degree.institution_name.label'), with: 'University of Much Wow'
+    fill_in 'Type of degree', with: 'BA'
     click_button t('application_form.degree.base.button')
 
-    choose t('application_form.degree.grade.first.label')
+    fill_in 'What subject is your degree?', with: 'Doge'
     click_button t('application_form.degree.base.button')
 
-    fill_in t('application_form.degree.start_year.label'), with: '2006'
-    fill_in t('application_form.degree.award_year.label'), with: '2009'
+    fill_in 'What institution did you study at?', with: 'University of Much Wow'
+    click_button t('application_form.degree.base.button')
+
+    choose 'First'
+    click_button t('application_form.degree.base.button')
+
+    year_with_trailing_space = '2006 '
+    year_with_preceding_space = ' 2009'
+    fill_in 'Year started course', with: year_with_trailing_space
+    fill_in 'Graduation year', with: year_with_preceding_space
     click_button t('application_form.degree.base.button')
 
     check t('application_form.degree.review.completed_checkbox')

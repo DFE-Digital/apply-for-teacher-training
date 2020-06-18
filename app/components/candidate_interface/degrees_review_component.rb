@@ -15,7 +15,9 @@ module CandidateInterface
 
     def degree_rows(degree)
       [
-        qualification_row(degree),
+        degree_type_row(degree),
+        subject_row(degree),
+        institution_row(degree),
         start_year_row(degree),
         award_year_row(degree),
         grade_row(degree),
@@ -30,12 +32,30 @@ module CandidateInterface
 
     attr_reader :application_form
 
-    def qualification_row(degree)
+    def degree_type_row(degree)
       {
-        key: t('application_form.degree.qualification.label'),
-        value: formatted_qualification(degree),
+        key: t('application_form.degree.qualification_type.review_label'),
+        value: degree.qualification_type,
         action: generate_action(degree: degree, attribute: t('application_form.degree.qualification.change_action')),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_edit_path(degree.id),
+        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_type_path(degree.id),
+      }
+    end
+
+    def subject_row(degree)
+      {
+        key: t('application_form.degree.subject.review_label'),
+        value: degree.subject,
+        action: generate_action(degree: degree, attribute: t('application_form.degree.subject.change_action')),
+        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_subject_path(degree.id),
+      }
+    end
+
+    def institution_row(degree)
+      {
+        key: t('application_form.degree.institution_name.review_label'),
+        value: degree.institution_name,
+        action: generate_action(degree: degree, attribute: t('application_form.degree.institution_name.change_action')),
+        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_institution_path(degree.id),
       }
     end
 
@@ -44,7 +64,7 @@ module CandidateInterface
         key: t('application_form.degree.start_year.review_label'),
         value: degree.start_year,
         action: generate_action(degree: degree, attribute: t('application_form.degree.start_year.change_action')),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_year_edit_path(degree.id),
+        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_year_path(degree.id),
       }
     end
 
@@ -53,7 +73,7 @@ module CandidateInterface
         key: t('application_form.degree.award_year.review_label'),
         value: degree.award_year,
         action: generate_action(degree: degree, attribute: t('application_form.degree.award_year.change_action')),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_year_edit_path(degree.id),
+        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_year_path(degree.id),
       }
     end
 
@@ -62,12 +82,8 @@ module CandidateInterface
         key: t('application_form.degree.grade.review_label'),
         value: formatted_grade(degree),
         action: generate_action(degree: degree, attribute: t('application_form.degree.grade.change_action')),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_degrees_grade_edit_path(degree.id),
+        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_grade_path(degree.id),
       }
-    end
-
-    def formatted_qualification(degree)
-      [degree.title, degree.institution_name]
     end
 
     def formatted_grade(degree)
