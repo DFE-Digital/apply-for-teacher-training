@@ -12,8 +12,8 @@ RSpec.feature 'Provider content' do
     when_i_click_on_the_privacy_policy
     then_i_can_see_the_privacy_policy
 
-    when_i_click_on_the_terms_of_use
-    then_i_can_see_the_terms_provider
+    when_i_click_on_the_service_guidance
+    then_i_can_see_the_service_guidance_provider
   end
 
   def given_i_am_on_the_provider_interface
@@ -44,11 +44,11 @@ RSpec.feature 'Provider content' do
     expect(page).to have_content(t('page_titles.privacy_policy'))
   end
 
-  def when_i_click_on_the_terms_of_use
-    within('.govuk-footer') { click_link t('layout.terms_of_use') }
+  def when_i_click_on_the_service_guidance
+    within('.govuk-footer') { click_link t('layout.service_guidance') }
   end
 
-  def then_i_can_see_the_terms_provider
-    expect(page).to have_content(t('page_titles.terms_provider'))
+  def then_i_can_see_the_service_guidance_provider
+    expect(page).to have_content(t('page_titles.service_guidance_provider'))
   end
 end
