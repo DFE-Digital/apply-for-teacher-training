@@ -24,6 +24,7 @@ module CandidateInterface
       def update
         @degree_institution_form = DegreeInstitutionForm.new(institution_params)
         if @degree_institution_form.save
+          current_application.update!(degrees_completed: false)
           redirect_to candidate_interface_degrees_review_path
         else
           render :edit

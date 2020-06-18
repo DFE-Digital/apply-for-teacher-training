@@ -25,7 +25,6 @@ module CandidateInterface
 
       if @degree_year_form.save
         current_application.update!(degrees_completed: false)
-
         redirect_to candidate_interface_degrees_review_path
       else
         track_validation_error(@degree_year_form)
