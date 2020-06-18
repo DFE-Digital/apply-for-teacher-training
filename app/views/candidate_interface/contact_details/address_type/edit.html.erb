@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.where_do_you_live'), @contact_details_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_contact_details_edit_base_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -10,6 +10,10 @@
         <%= t('page_titles.where_do_you_live') %>
       </h1>
 
+      <%= f.govuk_radio_buttons_fieldset :address_types do %>
+          <%= f.govuk_radio_button :address_type, 'uk', label: { text: t('application_form.contact_details.address_type.values.uk') } %>
+          <%= f.govuk_radio_button :address_type, 'international', label: { text: t('application_form.contact_details.address_type.values.international') } %>
+      <% end %>
 
       <%= f.govuk_submit t('application_form.contact_details.address_type.button') %>
     <% end %>

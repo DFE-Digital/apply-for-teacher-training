@@ -80,6 +80,9 @@ en:
         button: Save and continue
       address_type:
         button: Save and continue
+        values:
+          uk: 'In the UK'
+          international: 'Outside the UK'
       review:
         button: Continue
     work_history:
