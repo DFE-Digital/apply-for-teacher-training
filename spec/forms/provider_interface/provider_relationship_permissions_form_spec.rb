@@ -41,9 +41,9 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionsForm do
       form.update!(permissions_attrs)
 
       expect(accredited_body_permissions).to have_received(:update!)
-        .with({ view_safeguarding_information: false, setup_at: the_time })
+        .with({ make_decisions: false, view_safeguarding_information: false, setup_at: the_time })
       expect(training_provider_permissions).to have_received(:update!)
-        .with({ view_safeguarding_information: true, setup_at: the_time })
+        .with({ make_decisions: false, view_safeguarding_information: true, setup_at: the_time })
     end
   end
 end
