@@ -62,11 +62,20 @@ RSpec.describe ApplicationQualification, type: :model do
       expect(qualification.incomplete_degree_information?).to eq false
     end
 
+    it 'returns true if the predicted_grade boolean is not present' do
+      qualification = build_stubbed(:degree_qualification)
+      qualification.predicted_grade = nil
+
+      expect(qualification.incomplete_degree_information?).to eq true
+    end
+
     it 'returns true if any expected information is missing' do
       qualification = build_stubbed(:degree_qualification)
 
-      ApplicationQualification::EXPECTED_DEGREE_FIELDS.each do |field|
+      ApplicationQualification::EXPECTED_DEGREE_DATA.each do |field|
         qualification.send("#{field}=", nil)
+        expect(qualification.incomplete_degree_information?).to eq true
+        qualification.send("#{field}=", '')
         expect(qualification.incomplete_degree_information?).to eq true
       end
     end

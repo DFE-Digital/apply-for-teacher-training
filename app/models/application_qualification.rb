@@ -1,11 +1,11 @@
 class ApplicationQualification < ApplicationRecord
-  EXPECTED_DEGREE_FIELDS = %i[
+  EXPECTED_DEGREE_DATA = %i[
     qualification_type
     subject
-    predicted_grade
+    institution_name
+    grade
     start_year
     award_year
-    institution_name
   ].freeze
 
   belongs_to :application_form, touch: true
@@ -28,11 +28,10 @@ class ApplicationQualification < ApplicationRecord
 
   def incomplete_degree_information?
     return false unless degree?
+    return true if predicted_grade.nil?
 
-    EXPECTED_DEGREE_FIELDS.each do |field|
-      if send(field).nil?
-        return true
-      end
+    return true if EXPECTED_DEGREE_DATA.any? do |field_name|
+      send(field_name).blank?
     end
 
     false
