@@ -1,0 +1,115 @@
+---
+- !ruby/object:ProviderInterface::RejectionReasonQuestion
+  label: rejection_reasons.questions.candidate_behaviour.label
+  additional_question: rejection_reasons.questions.candidate_behaviour.additional_question
+  reasons:
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    label: rejection_reasons.reasons.candidate_behaviour.didnt_reply_to_our_interview_offer
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    label: rejection_reasons.reasons.candidate_behaviour.didnt_attend_interview
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    label: rejection_reasons.reasons.other
+    textareas:
+    - !ruby/object:ProviderInterface::RejectionReasonTextarea
+      label: rejection_reasons.text_area.details.label
+    - !ruby/object:ProviderInterface::RejectionReasonTextarea
+      label: rejection_reasons.text_area.advice.label
+  requires_reasons: true
+- !ruby/object:ProviderInterface::RejectionReasonQuestion
+  label: rejection_reasons.questions.quality_of_their_application.label
+  additional_question: rejection_reasons.questions.quality_of_their_application.additional_question
+  reasons:
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    label: rejection_reasons.reasons.quality_of_their_application.personal_statement
+    textareas:
+    - !ruby/object:ProviderInterface::RejectionReasonTextarea
+      label: rejection_reasons.text_area.advice.label
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    label: rejection_reasons.reasons.quality_of_their_application.subject_knowledge
+    textareas:
+    - !ruby/object:ProviderInterface::RejectionReasonTextarea
+      label: rejection_reasons.text_area.advice.label
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    label: rejection_reasons.reasons.other
+    textareas:
+    - !ruby/object:ProviderInterface::RejectionReasonTextarea
+      label: rejection_reasons.text_area.advice.label
+  requires_reasons: true
+- !ruby/object:ProviderInterface::RejectionReasonQuestion
+  label: rejection_reasons.questions.qualifications.label
+  additional_question: rejection_reasons.questions.qualifications.additional_question
+  reasons:
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    label: rejection_reasons.reasons.qualifications.no_maths
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    label: rejection_reasons.reasons.qualifications.no_english
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    label: rejection_reasons.reasons.qualifications.no_science
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    label: rejection_reasons.reasons.qualifications.no_degree
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    label: rejection_reasons.reasons.qualifications.degree_doesnt_meet_course_requiremnets
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    label: rejection_reasons.reasons.other
+    textareas:
+    - !ruby/object:ProviderInterface::RejectionReasonTextarea
+      label: rejection_reasons.text_area.details.label
+  requires_reasons: true
+- !ruby/object:ProviderInterface::RejectionReasonQuestion
+  label: rejection_reasons.questions.performance_at_interview.label
+  reasons:
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    textareas:
+    - !ruby/object:ProviderInterface::RejectionReasonTextarea
+      label: rejection_reasons.text_area.details.label
+  requires_reasons: true
+- !ruby/object:ProviderInterface::RejectionReasonQuestion
+  label: rejection_reasons.questions.course_is_full.label
+  reasons: []
+  requires_reasons: false
+- !ruby/object:ProviderInterface::RejectionReasonQuestion
+  label: rejection_reasons.questions.offered_them_a_place_on_another_course.label
+  reasons: []
+  requires_reasons: false
+- !ruby/object:ProviderInterface::RejectionReasonQuestion
+  label: rejection_reasons.questions.concerns_about_honesty_and_professionalism.label
+  additional_question: rejection_reasons.questions.concerns_about_honesty_and_professionalism.additional_question
+  reasons:
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    label: rejection_reasons.reasons.concerns_about_honesty_and_professionalism.false_or_inaccurate_information
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    label: rejection_reasons.reasons.concerns_about_honesty_and_professionalism.plagiarism
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    label: rejection_reasons.reasons.concerns_about_honesty_and_professionalism.references_didnt_support_application
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    label: rejection_reasons.reasons.other
+    textareas:
+    - !ruby/object:ProviderInterface::RejectionReasonTextarea
+      label: rejection_reasons.text_area.details.label
+  requires_reasons: true
+- !ruby/object:ProviderInterface::RejectionReasonQuestion
+  label: rejection_reasons.questions.safeguarding.label
+  additional_question: rejection_reasons.questions.safeguarding.additional_question
+  reasons:
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    label: rejection_reasons.reasons.safeguarding.information_disclosed
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    label: rejection_reasons.reasons.safeguarding.vetting_process
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    label: rejection_reasons.reasons.other
+    textareas:
+    - !ruby/object:ProviderInterface::RejectionReasonTextarea
+      label: rejection_reasons.text_area.details.label
+  requires_reasons: true
+- !ruby/object:ProviderInterface::RejectionReasonQuestion
+  label: rejection_reasons.questions.any_other_advice.label
+  reasons:
+  - !ruby/object:ProviderInterface::RejectionReasonReason
+    textareas:
+    - !ruby/object:ProviderInterface::RejectionReasonTextarea
+      label: rejection_reasons.text_area.details.label
+  requires_reasons: true
+- !ruby/object:ProviderInterface::RejectionReasonQuestion
+  label: rejection_reasons.questions.future_applications.label
+  reasons: []
+  requires_reasons: false

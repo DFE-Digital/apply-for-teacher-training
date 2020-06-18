@@ -1,6 +1,6 @@
 <% textareas.each do |ta| %>
   <%= reasons_fields.fields_for :textareas, ta do |tf| %>
     <%= tf.hidden_field :label %>
-    <%= tf.govuk_text_area :value, rows: 5, max_words: 100, label: { text: ta.label } %>
+    <%= tf.govuk_text_area :value, rows: 5, max_words: 100, label: { text: t(ta.label) } %>
   <% end %>
 <% end %>

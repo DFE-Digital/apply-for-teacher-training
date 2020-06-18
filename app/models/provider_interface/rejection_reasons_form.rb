@@ -4,84 +4,88 @@ module ProviderInterface
 
     QUESTIONS = [
       RejectionReasonQuestion.new(
-        label: 'Was it related to candidate behaviour?',
-        additional_question: 'What did the candidate do?',
+        label: 'rejection_resons.questions.candidate_behaviour.label',
+        additional_question: 'rejection_resons.questions.candidate_behaviour.additional_question',
         reasons: [
-          RejectionReasonReason.new(label: 'Didn’t reply to our interview offer'),
-          RejectionReasonReason.new(label: 'Didn’t attend interview'),
-          RejectionReasonReason.new(label: 'Other', textareas: [
-            RejectionReasonTextarea.new(label: 'Please give details'),
-            RejectionReasonTextarea.new(label: 'What could they do to improve?'),
+          RejectionReasonReason.new(label: 'rejection_resons.reasons.candidate_behaviour.didnt_reply_to_our_interview_offer'),
+          RejectionReasonReason.new(label: 'rejection_resons.reasons.candidate_behaviour.didnt_attend_interview'),
+          RejectionReasonReason.new(label: 'rejection_resons.reasons.other', textareas: [
+            RejectionReasonTextarea.new(label: 'rejection_resons.text_area.details.label'),
+            RejectionReasonTextarea.new(label: 'rejection_resons.text_area.advice.label'),
           ]),
         ],
       ),
       RejectionReasonQuestion.new(
-        label: 'Was it related to the quality of their application?',
-        additional_question: 'Which parts of the application needed improvement?',
+        label: 'rejection_resons.questions.quality_of_their_application.label',
+        additional_question: 'rejection_resons.questions.quality_of_their_application.additional_question',
         reasons: [
-          RejectionReasonReason.new(label: 'Personal statement'),
-          RejectionReasonReason.new(label: 'Subject knowledge'),
-          RejectionReasonReason.new(label: 'Other', textareas: [
-            RejectionReasonTextarea.new(label: 'What could they do to improve?'),
+          RejectionReasonReason.new(label: 'rejection_resons.reasons.quality_of_their_application.personal_statement'),
+          RejectionReasonReason.new(label: 'rejection_resons.reasons.quality_of_their_application.subject_knowledge'),
+          RejectionReasonReason.new(label: 'rejection_resons.reasons.other', textareas: [
+            RejectionReasonTextarea.new(label: 'rejection_resons.text_area.advice.label'),
           ]),
         ],
       ),
       RejectionReasonQuestion.new(
-        label: 'Was it related to qualifications?',
-        additional_question: 'Which qualifications?',
+        label: 'rejection_resons.questions.qualifications.label',
+        additional_question: 'rejection_resons.questions.qualifications.additional_question',
         reasons: [
-          RejectionReasonReason.new(label: 'No Maths GCSE grade 4 (C) or above, or valid equivalent'),
-          RejectionReasonReason.new(label: 'Other', textareas: [
-            RejectionReasonTextarea.new(label: 'Please give details'),
+          RejectionReasonReason.new(label: 'rejection_resons.reasons.qualifications.no_maths'),
+          RejectionReasonReason.new(label: 'rejection_resons.reasons.qualifications.no_english'),
+          RejectionReasonReason.new(label: 'rejection_resons.reasons.qualifications.no_science'),
+          RejectionReasonReason.new(label: 'rejection_resons.reasons.qualifications.no_degree'),
+          RejectionReasonReason.new(label: 'rejection_resons.reasons.qualifications.degree_doesnt_meet_course_requiremnets'),
+          RejectionReasonReason.new(label: 'rejection_resons.reasons.other', textareas: [
+            RejectionReasonTextarea.new(label: 'rejection_resons.text_area.details.label'),
           ]),
         ],
       ),
       RejectionReasonQuestion.new(
-        label: 'Was it related to their performance at interview?',
+        label: 'rejection_resons.questions.performance_at_interview.label',
         reasons: [
           RejectionReasonReason.new(textareas: [
-            RejectionReasonTextarea.new(label: 'Please give details'),
+            RejectionReasonTextarea.new(label: 'rejection_resons.text_area.details.label'),
           ]),
         ],
       ),
-      RejectionReasonQuestion.new(label: 'Was it because this course is full?'),
+      RejectionReasonQuestion.new(label: 'rejection_resons.questions.course_is_full.label'),
       RejectionReasonQuestion.new(
-        label: 'Was it because you offered them a place on another course?',
+        label: 'rejection_resons.questions.offered_them_a_place_on_another_course.label',
       ),
       RejectionReasonQuestion.new(
-        label: 'Was it related to concerns about the candidate’s honesty and professionalism?',
-        additional_question: 'What concerns did you have?',
+        label: 'rejection_resons.questions.concerns_about_honesty_and_professionalism.label',
+        additional_question: 'rejection_resons.questions.concerns_about_honesty_and_professionalism.additional_question',
         reasons: [
-          RejectionReasonReason.new(label: 'Information given on application form false or inaccurate'),
-          RejectionReasonReason.new(label: 'Evidence of plagiarism in personal statement or elsewhere'),
-          RejectionReasonReason.new(label: 'References didn’t support application'),
-          RejectionReasonReason.new(label: 'Other', textareas: [
-            RejectionReasonTextarea.new(label: 'Please give details'),
+          RejectionReasonReason.new(label: 'rejection_resons.reasons.concerns_about_honesty_and_professionalism.false_or_inaccurate_information'),
+          RejectionReasonReason.new(label: 'rejection_resons.reasons.concerns_about_honesty_and_professionalism.plagiarism'),
+          RejectionReasonReason.new(label: 'rejection_resons.reasons.concerns_about_honesty_and_professionalism.references_didnt_support_application'),
+          RejectionReasonReason.new(label: 'rejection_resons.reasons.other', textareas: [
+            RejectionReasonTextarea.new(label: 'rejection_resons.text_area.details.label'),
           ]),
         ],
       ),
       RejectionReasonQuestion.new(
-        label: 'Was it related to safeguarding?',
-        additional_question: 'Which safeguarding issues in particular?',
+        label: 'rejection_resons.questions.safeguarding.label',
+        additional_question: 'rejection_resons.questions.safeguarding.additional_question',
         reasons: [
-          RejectionReasonReason.new(label: 'Information disclosed by candidate makes them unsuitable to work with children'),
-          RejectionReasonReason.new(label: 'Information revealed by our vetting process makes the candidate unsuitable to work with children'),
-          RejectionReasonReason.new(label: 'Other', textareas: [
-            RejectionReasonTextarea.new(label: 'Please give details'),
+          RejectionReasonReason.new(label: 'rejection_resons.reasons.safeguarding.information_disclosed'),
+          RejectionReasonReason.new(label: 'rejection_resons.reasons.safeguarding.vetting_process'),
+          RejectionReasonReason.new(label: 'rejection_resons.reasons.other', textareas: [
+            RejectionReasonTextarea.new(label: 'rejection_resons.text_area.details.label'),
           ]),
         ],
       ),
 
       # STEP 2
       RejectionReasonQuestion.new(
-        label: 'Is there any other advice or feedback you’d like to give?',
+        label: 'rejection_resons.questions.any_other_advice.label',
         reasons: [
-          RejectionReasonReason.new(label: 'Please give details', textareas: [
-            RejectionReasonTextarea.new(label: 'Please give details'),
+          RejectionReasonReason.new(textareas: [
+            RejectionReasonTextarea.new(label: 'rejection_resons.text_area.details.label'),
           ]),
         ],
       ),
-      RejectionReasonQuestion.new(label: 'Would you be interested in future applications from !TODO!?'),
+      RejectionReasonQuestion.new(label: 'rejection_resons.questions.future_applications.label'),
     ].freeze
 
     attr_writer :questions

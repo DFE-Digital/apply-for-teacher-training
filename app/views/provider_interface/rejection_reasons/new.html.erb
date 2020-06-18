@@ -9,7 +9,7 @@
         :alternative_rejection_reason,
         rows: 5,
         max_words: 100,
-        label: { text: 'Why are you rejecting this application?', size: 'm'}
+        label: { text: t('rejection_reasons.questions.alternative_rejection_reason.label'), size: 'm'}
       ) %>
     </div>
   <% end %>
@@ -18,10 +18,10 @@
     <%= f.fields_for :questions, q do |qf| %>
       <%= qf.hidden_field :label %>
       <%= qf.hidden_field :additional_question %>
-      <%= qf.govuk_radio_buttons_fieldset :y_or_n, legend: { text: q.label } do %>
+      <%= qf.govuk_radio_buttons_fieldset :y_or_n, legend: { text: t(q.label, candidates_name: 'TODO') } do %>
         <%= qf.govuk_radio_button :y_or_n, 'Y', label: { text: 'Yes' } do %>
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-            <%= q.additional_question %>
+            <%= t(q.additional_question) %>
           </legend>
           <% q.reasons.each do |r| %>
             <%= qf.fields_for :reasons, r do |rf| %>
@@ -29,11 +29,11 @@
               <% if q.additional_question.present? %>
                 <%= rf.govuk_check_boxes_fieldset :value, small: true do %>
                   <% if r.textareas.any? %>
-                    <%= rf.govuk_check_box :value, 'true', multiple: false, label: { text: r.label } do %>
+                    <%= rf.govuk_check_box :value, 'true', multiple: false, label: { text: t(r.label) } do %>
                       <%= render 'textareas', reasons_fields: rf, textareas: r.textareas %>
                     <% end %>
                   <% else %>
-                    <%= rf.govuk_check_box :value, 'true', multiple: false, label: { text: r.label } %>
+                    <%= rf.govuk_check_box :value, 'true', multiple: false, label: { text: t(r.label) } %>
                   <% end %>
                 <% end %>
               <% else %>

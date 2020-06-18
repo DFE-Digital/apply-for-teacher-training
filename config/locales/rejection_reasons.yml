@@ -1,0 +1,56 @@
+en:
+  rejection_reasons:
+    questions:
+      candidate_behaviour:
+        label: Was it related to candidate behaviour?
+        additional_question: What did the candidate do?
+      quality_of_their_application:
+        label: Was it related to the quality of their application?
+        additional_question: Which parts of the application needed improvement?
+      qualifications:
+        label: Was it related to qualifications?
+        additional_question: Which qualifications?
+      performance_at_interview:
+        label: Was it related to their performance at interview?
+      course_is_full:
+        label: Was it because this course is full?
+      offered_them_a_place_on_another_course:
+        label: Was it because you offered them a place on another course?
+      concerns_about_honesty_and_professionalism:
+        label: Was it related to concerns about the candidate’s honesty and professionalism?
+        additional_question: What concerns did you have?
+      safeguarding:
+        label: Was it related to safeguarding?
+        additional_question: Which safeguarding issues in particular?
+      alternative_rejection_reason:
+        label: Why are you rejecting this application?
+      any_other_advice:
+        label: Is there any other advice or feedback you’d like to give %{candidates_name}?
+      future_applications:
+        label: Would you be interested in future applications from %{candidates_name}?
+    reasons:
+      other: Other
+      candidate_behaviour:
+        didnt_reply_to_our_interview_offer: Didn’t reply to our interview offer
+        didnt_attend_interview: Didn’t attend interview
+      quality_of_their_application:
+        personal_statement: Personal statement
+        subject_knowledge: Subject knowledge
+      qualifications:
+        no_maths: No Maths GCSE grade 4 (C) or above, or valid equivalent
+        no_english: No English GCSE grade 4 (C) or above, or valid equivalent
+        no_science: No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants)
+        no_degree: No degree
+        degree_doesnt_meet_course_requiremnets: Degree doesn’t meet course requirements
+      concerns_about_honesty_and_professionalism:
+        false_or_inaccurate_information: Information given on application form false or inaccurate
+        plagiarism: Evidence of plagiarism in personal statement or elsewhere
+        references_didnt_support_application: References didn’t support application
+      safeguarding:
+        information_disclosed: Information disclosed by candidate makes them unsuitable to work with children
+        vetting_process: Information revealed by our vetting process makes the candidate unsuitable to work with children
+    text_area:
+      details:
+        label: Please give details
+      advice:
+        label: What could they do to improve?
