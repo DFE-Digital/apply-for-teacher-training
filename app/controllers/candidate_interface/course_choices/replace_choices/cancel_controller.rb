@@ -7,7 +7,7 @@ module CandidateInterface
         end
 
         def cancel
-          redirect_to candidate_interface_confirm_withdraw_full_course_choice_path(params['id']) and return if only_one_course_choice_needs_replacing?
+          redirect_to candidate_interface_confirm_withdraw_full_course_choice_path(params['id']) and return if only_one_course_choice_awaiting_references?
 
           @course_choice = current_application.application_choices.find(params['id'])
           ApplicationStateChange.new(@course_choice).cancel!
@@ -30,6 +30,12 @@ module CandidateInterface
           flash[:notice] = 'Your application has been withdrawn.'
 
           redirect_to candidate_interface_application_complete_path
+        end
+
+      private
+
+        def only_one_course_choice_awaiting_references?
+          current_application.application_choices.select(&:awaiting_references?).count == 1
         end
       end
     end
