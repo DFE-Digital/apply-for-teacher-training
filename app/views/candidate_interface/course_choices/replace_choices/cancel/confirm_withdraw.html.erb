@@ -13,6 +13,8 @@
 
     <p class="govuk-body">  <%= govuk_link_to 'Contact us to replace your course', candidate_interface_replace_course_choice_contact_support_path(@course_choice.id), class: 'govuk-body' %>.</p>
 
-    <p class="govuk-body"><%= govuk_link_to 'Withdraw application', candidate_interface_withdraw_full_course_choice_path, method: :post, class: 'govuk-button govuk-button--warning' %></p>
+    <%= form_with url: candidate_interface_withdraw_full_course_choice_path(@course_choice.id), method: :post do |f| %>
+      <p class="govuk-body"><%= f.submit 'Withdraw application', class: 'govuk-button govuk-button--warning' %>
+    <% end %>
   </div>
 </div>

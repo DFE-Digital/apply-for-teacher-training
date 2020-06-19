@@ -6,7 +6,8 @@
     <h1 class="govuk-heading-xl"><%= t('page_titles.remove_course_choice') %></h1>
     <p class="govuk-body">You are removing:</p>
       <%= render(CandidateInterface::CourseOptionReviewComponent.new(course_option: @course_choice.course_option)) %>
-
-      <%= govuk_link_to 'Remove course choice', candidate_interface_cancel_full_course_choice_path(@course_choice.id), method: :post, class: 'govuk-button' %>
+      <%= form_with url: candidate_interface_cancel_full_course_choice_path(@course_choice.id), method: :post do |f| %>
+        <%= f.submit 'Remove course choice', class: 'govuk-button' %>
+      <% end %>
   </div>
 </div>
