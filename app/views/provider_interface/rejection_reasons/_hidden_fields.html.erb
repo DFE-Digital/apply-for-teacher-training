@@ -1,3 +1,4 @@
+<%= f.hidden_field :alternative_rejection_reason %>
 <% @reasons_form.answered_questions.each do |q| %>
   <%= f.fields_for :questions, q do |qf| %>
     <%= qf.hidden_field :answered, value: true %>
