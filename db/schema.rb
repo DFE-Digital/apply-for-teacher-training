@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_17_112939) do
+ActiveRecord::Schema.define(version: 2020_06_19_132510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -140,7 +140,15 @@ ActiveRecord::Schema.define(version: 2020_06_17_112939) do
     t.string "other_uk_qualification_type", limit: 100
     t.text "missing_explanation"
     t.string "start_year"
+    t.bigint "qualification_type_hesa_code"
+    t.bigint "subject_hesa_code"
+    t.bigint "institution_hesa_code"
+    t.bigint "grade_hesa_code"
     t.index ["application_form_id"], name: "index_application_qualifications_on_application_form_id"
+    t.index ["grade_hesa_code"], name: "qualifications_by_grade_hesa_code"
+    t.index ["institution_hesa_code"], name: "qualifications_by_institution_hesa_code"
+    t.index ["qualification_type_hesa_code"], name: "qualifications_by_type_hesa_code"
+    t.index ["subject_hesa_code"], name: "qualifications_by_subject_hesa_code"
   end
 
   create_table "application_work_history_breaks", force: :cascade do |t|
