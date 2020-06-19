@@ -1,7 +1,8 @@
 module ProviderInterface
   class OfferChangesController < ProviderInterfaceController
     before_action :set_application_choice
-    before_action :requires_provider_user_make_decisions_permission
+
+    include RequiresMakeDecisionsPermission
 
     def edit_offer
       change_offer_form = \
@@ -58,20 +59,6 @@ module ProviderInterface
       @application_choice = GetApplicationChoicesForProviders.call(
         providers: available_providers,
       ).find(params[:application_choice_id])
-    end
-
-    def requires_provider_user_make_decisions_permission
-      provider = @application_choice.offered_course.provider
-
-      if FeatureFlag.active?('provider_make_decisions_restriction') &&
-          !provider.users_with_make_decisions.include?(current_provider_user)
-
-        raise ProviderInterface::MissingPermission.new({
-          permission: 'make_decisions',
-          provider: provider,
-          provider_user: current_provider_user,
-        }), 'make_decisions required'
-      end
     end
 
     def change_offer_form_from_params

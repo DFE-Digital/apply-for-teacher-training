@@ -10,7 +10,7 @@ class ProviderAuthorisation
 
     course_option = CourseOption.find(course_option_id)
     training_provider = course_option.provider
-    ratifying_provider = course_option.course.accredited_provider
+    ratifying_provider = course_option.course.accredited_provider || training_provider
 
     # enforce org-level 'make_decisions' restriction
     return false if FeatureFlag.active?(:enforce_provider_to_provider_permissions) &&

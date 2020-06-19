@@ -1,8 +1,9 @@
 module ProviderInterface
   class DecisionsController < ProviderInterfaceController
     before_action :set_application_choice
-    before_action :requires_provider_user_make_decisions_permission
     before_action :requires_provider_change_response_feature_flag, only: %i[new_withdraw_offer confirm_withdraw_offer withdraw_offer]
+
+    include RequiresMakeDecisionsPermission
 
     def respond
       @pick_response_form = PickResponseForm.new
@@ -133,20 +134,6 @@ module ProviderInterface
 
     def requires_provider_change_response_feature_flag
       render_404 unless FeatureFlag.active?('provider_change_response')
-    end
-
-    def requires_provider_user_make_decisions_permission
-      provider = @application_choice.offered_course.provider
-
-      if FeatureFlag.active?('provider_make_decisions_restriction') &&
-          !provider.users_with_make_decisions.include?(current_provider_user)
-
-        raise ProviderInterface::MissingPermission.new({
-          permission: 'make_decisions',
-          provider: provider,
-          provider_user: current_provider_user,
-        }), 'make_decisions required'
-      end
     end
 
     def set_application_choice
