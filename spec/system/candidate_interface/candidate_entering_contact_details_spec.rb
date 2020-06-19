@@ -124,6 +124,8 @@ RSpec.feature 'Entering their contact details' do
   end
 
   def then_i_can_check_my_answers
+    expect(page).to have_content t('application_form.contact_details.address_type.label')
+    expect(page).to have_content 'In the UK'
     expect(page).to have_content t('application_form.contact_details.phone_number.label')
     expect(page).to have_content '07700 900 982'
   end

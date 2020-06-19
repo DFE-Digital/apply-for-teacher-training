@@ -80,6 +80,8 @@ en:
         button: Save and continue
       address_type:
         button: Save and continue
+        label: Where do you live?
+        change_action: where I live
         values:
           uk: 'In the UK'
           international: 'Outside the UK'

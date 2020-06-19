@@ -13,7 +13,7 @@ module CandidateInterface
     end
 
     def contact_details_form_rows
-      [phone_number_row, address_row]
+      [phone_number_row, address_type_row, address_row]
     end
 
     def show_missing_banner?
@@ -34,6 +34,15 @@ module CandidateInterface
         value: @contact_details_form.phone_number,
         action: t('application_form.contact_details.phone_number.change_action'),
         change_path: Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_base_path,
+      }
+    end
+
+    def address_type_row
+      {
+        key: t('application_form.contact_details.address_type.label'),
+        value: t("application_form.contact_details.address_type.values.#{@contact_details_form.address_type}"),
+        action: t('application_form.contact_details.address_type.change_action'),
+        change_path: Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_type_path,
       }
     end
 

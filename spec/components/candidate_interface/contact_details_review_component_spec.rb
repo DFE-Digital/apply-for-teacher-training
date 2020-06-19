@@ -23,12 +23,21 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent do
       expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.contact_details.phone_number.change_action')}")
     end
 
+    it 'renders component with correct values for address type' do
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.contact_details.address_type.label'))
+      expect(result.css('.govuk-summary-list__value').text).to include('In the UK')
+      expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_type_path)
+      expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.contact_details.address_type.change_action')}")
+    end
+
     it 'renders component with correct values for an address' do
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.contact_details.full_address.label'))
       expect(result.css('.govuk-summary-list__value').to_html).to include('42<br>Much Wow Street<br>London<br>England<br>SW1P 3BT')
-      expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_path)
+      expect(result.css('.govuk-summary-list__actions a')[2].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_path)
       expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.contact_details.full_address.change_action')}")
     end
 
