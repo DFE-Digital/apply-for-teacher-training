@@ -25,4 +25,8 @@ class ActiveRecordRelationStub
   def order(_hash)
     records
   end
+
+  def each(&block)
+    records.each(&block)
+  end
 end

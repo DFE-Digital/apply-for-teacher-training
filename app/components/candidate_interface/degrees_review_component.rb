@@ -4,9 +4,7 @@ module CandidateInterface
 
     def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false)
       @application_form = application_form
-      @degrees = CandidateInterface::DegreeForm.build_all_from_application(
-        @application_form,
-      )
+      @degrees = application_form.application_qualifications.degrees
       @editable = editable
       @heading_level = heading_level
       @show_incomplete = show_incomplete
@@ -26,6 +24,10 @@ module CandidateInterface
 
     def show_missing_banner?
       @show_incomplete && !@application_form.degrees_completed && @editable
+    end
+
+    def title(degree)
+      "#{degree.qualification_type} #{degree.subject}"
     end
 
   private
@@ -87,12 +89,13 @@ module CandidateInterface
     end
 
     def formatted_grade(degree)
-      if degree.predicted_grade.present?
-        "#{degree.predicted_grade} (Predicted)"
-      elsif degree.other_grade.present?
-        degree.other_grade
+      grade_form = DegreeGradeForm.new(degree: degree).fill_form_values
+      if grade_form.predicted_grade.present?
+        "#{grade_form.predicted_grade} (Predicted)"
+      elsif grade_form.other_grade.present?
+        grade_form.other_grade
       else
-        t("application_form.degree.grade.#{degree.grade}.label")
+        t("application_form.degree.grade.#{grade_form.grade}.label")
       end
     end
 

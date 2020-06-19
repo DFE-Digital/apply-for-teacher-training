@@ -146,7 +146,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
         "#{t('application_form.degree.delete')} for BA, Woof, University of Doge, 2008",
       )
       expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_confirm_degrees_destroy_path(degree1),
+        Rails.application.routes.url_helpers.candidate_interface_confirm_degree_destroy_path(degree1),
       )
     end
   end

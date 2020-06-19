@@ -1,9 +1,9 @@
 <% @degrees.each do |degree| %>
   <%= render(SummaryCardComponent.new(rows: degree_rows(degree), editable: @editable)) do %>
-    <%= render(SummaryCardHeaderComponent.new(title: degree.title, heading_level: @heading_level)) do %>
+    <%= render(SummaryCardHeaderComponent.new(title: title(degree), heading_level: @heading_level)) do %>
       <% if @editable %>
         <div class="app-summary-card__actions">
-          <%= link_to candidate_interface_confirm_degrees_destroy_path(degree.id), class: 'govuk-link' do %>
+          <%= link_to candidate_interface_confirm_degree_destroy_path(degree.id), class: 'govuk-link' do %>
             <%= t('application_form.degree.delete') %><span class="govuk-visually-hidden"><%= generate_action(degree: degree) %></span>
           <% end %>
         </div>

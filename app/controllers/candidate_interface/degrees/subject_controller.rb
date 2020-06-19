@@ -1,6 +1,8 @@
 module CandidateInterface
   module Degrees
     class SubjectController < CandidateInterfaceController
+      before_action :redirect_to_dashboard_if_submitted
+
       def new
         @degree_subject_form = DegreeSubjectForm.new(degree: degree)
       end
@@ -21,8 +23,10 @@ module CandidateInterface
       def update
         @degree_subject_form = DegreeSubjectForm.new(subject_params)
         if @degree_subject_form.save
+          current_application.update!(degrees_completed: false)
           redirect_to candidate_interface_degrees_review_path
         else
+          track_validation_error(@degree_subject_form)
           render :edit
         end
       end

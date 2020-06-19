@@ -3,9 +3,9 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @degree, url: candidate_interface_confirm_degrees_destroy_path(@degree.id), method: :delete do |f| %>
+    <%= form_with model: @degree, url: candidate_interface_confirm_degree_destroy_path(@degree.id), method: :delete do |f| %>
       <h1 class="govuk-heading-xl">
-        <span class="govuk-caption-xl"><%= @degree.title %></span>
+        <span class="govuk-caption-xl"><%= "#{@degree.qualification_type} #{@degree.subject}" %></span>
         <%= t('page_titles.destroy_degree') %>
       </h1>
 
