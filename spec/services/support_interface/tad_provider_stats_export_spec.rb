@@ -25,10 +25,9 @@ RSpec.describe SupportInterface::TADProviderStatsExport do
       it "correctly reports overall/offered/accepted tallies for applications in the states #{states}" do
         provider = create(:provider)
         course_option = course_option_for_provider(provider: provider)
-        generator = TestApplications.new
 
         states.each do |state|
-          generator.create_application(states: [state], courses_to_apply_to: [course_option.course])
+          create(:application_choice, status: state, course_option: course_option)
         end
 
         expect(exported_rows.first[:applications]).to eq applications
