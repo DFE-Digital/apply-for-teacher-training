@@ -64,7 +64,7 @@ RSpec.feature 'Entering their degrees' do
     when_i_fill_in_my_additional_degree
     then_i_can_check_my_additional_degree
 
-    when_i_click_on_delete_degree
+    when_i_click_delete_on_my_additional_degree
     and_i_confirm_that_i_want_to_delete_my_additional_degree
     then_i_can_only_see_my_undergraduate_degree
 
@@ -255,6 +255,12 @@ RSpec.feature 'Entering their degrees' do
 
   def then_i_can_check_my_additional_degree
     expect(page).to have_content 'Masters Maths'
+  end
+
+  def when_i_click_delete_on_my_additional_degree
+    within(find_all('.app-summary-card__header')[1]) do
+      click_link(t('application_form.degree.delete'))
+    end
   end
 
   def when_i_click_on_delete_degree
