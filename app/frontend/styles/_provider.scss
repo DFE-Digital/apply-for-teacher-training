@@ -5,3 +5,12 @@
 .applications-sorted-by-explanation {
   text-align: left;
 }
+
+.feedback {
+  background-color: govuk-colour('light-grey');
+  padding: govuk-spacing(4);
+  margin-bottom: govuk-spacing(4);
+  p:last-child {
+    margin-bottom: 0;
+  }
+}

@@ -37,6 +37,10 @@ module ProviderInterface
       answered_questions.map(&:y_or_n).flatten.uniq == %w[N]
     end
 
+    def interested_in_future_applications?
+      answered_questions.find { |q| q.label.include?('future_applications') }.y_or_n == 'Y'
+    end
+
     def questions_for_current_step
       if answered_questions.count.zero?
         ProviderInterface::RejectionReasonsForm.questions.take(8)

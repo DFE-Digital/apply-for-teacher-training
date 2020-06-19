@@ -4,51 +4,89 @@ en:
       candidate_behaviour:
         label: Was it related to candidate behaviour?
         additional_question: What did the candidate do?
+        feedback: Something you did
       quality_of_their_application:
         label: Was it related to the quality of their application?
         additional_question: Which parts of the application needed improvement?
+        feedback: Quality of application
       qualifications:
         label: Was it related to qualifications?
         additional_question: Which qualifications?
+        feedback: Qualifications
       performance_at_interview:
         label: Was it related to their performance at interview?
+        feedback: Preformance at interview
       course_is_full:
         label: Was it because this course is full?
+        feedback: Course full
       offered_them_a_place_on_another_course:
         label: Was it because you offered them a place on another course?
+        feedback: They offered you something else
       concerns_about_honesty_and_professionalism:
         label: Was it related to concerns about the candidate’s honesty and professionalism?
         additional_question: What concerns did you have?
+        feedback: Honesty and professionalism
       safeguarding:
         label: Was it related to safeguarding?
         additional_question: Which safeguarding issues in particular?
+        feedback: Safeguarding issues
       alternative_rejection_reason:
         label: Why are you rejecting this application?
       any_other_advice:
         label: Is there any other advice or feedback you’d like to give %{candidates_name}?
+        feedback: Additional advice
       future_applications:
         label: Would you be interested in future applications from %{candidates_name}?
+        feedback: TO REMOVE
     reasons:
       other: Other
       candidate_behaviour:
-        didnt_reply_to_our_interview_offer: Didn’t reply to our interview offer
-        didnt_attend_interview: Didn’t attend interview
+        didnt_reply_to_our_interview_offer:
+          label: Didn’t reply to our interview offer
+          feedback: Didn’t reply to our interview offer
+        didnt_attend_interview:
+          label: Didn’t attend interview
+          feedback: Didn’t attend interview
       quality_of_their_application:
-        personal_statement: Personal statement
-        subject_knowledge: Subject knowledge
+        personal_statement:
+          label: Personal statement
+          feedback: Your personal statement could be improved.
+        subject_knowledge:
+          label: Subject knowledge
+          feedback: Your subject knowledge could be improved.
       qualifications:
-        no_maths: No Maths GCSE grade 4 (C) or above, or valid equivalent
-        no_english: No English GCSE grade 4 (C) or above, or valid equivalent
-        no_science: No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants)
-        no_degree: No degree
-        degree_doesnt_meet_course_requiremnets: Degree doesn’t meet course requirements
+        no_maths:
+          label: No Maths GCSE grade 4 (C) or above, or valid equivalent
+          feedback: No Maths GCSE grade 4 (C) or above, or valid equivalent.
+        no_english:
+          label: No English GCSE grade 4 (C) or above, or valid equivalent
+          feedback: No English GCSE grade 4 (C) or above, or valid equivalent.
+        no_science:
+          label: No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants)
+          feedback: No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants).
+        no_degree:
+          label: No degree
+          feedback: No degree.
+        degree_doesnt_meet_course_requiremnets:
+          label: Degree doesn’t meet course requirements
+          feedback: Degree doesn’t meet course requirements.
       concerns_about_honesty_and_professionalism:
-        false_or_inaccurate_information: Information given on application form false or inaccurate
-        plagiarism: Evidence of plagiarism in personal statement or elsewhere
-        references_didnt_support_application: References didn’t support application
+        false_or_inaccurate_information:
+          label: Information given on application form false or inaccurate
+          feedback: Information given on application form was false or inaccurate
+        plagiarism:
+          label: Evidence of plagiarism in personal statement or elsewhere
+          feedback: The provider found evidence of plagiarism in your personal statement or elsewhere in your application.
+        references_didnt_support_application:
+          label: References didn’t support application
+          feedback: Your references didn’t support your application.
       safeguarding:
-        information_disclosed: Information disclosed by candidate makes them unsuitable to work with children
-        vetting_process: Information revealed by our vetting process makes the candidate unsuitable to work with children
+        information_disclosed:
+          label: Information disclosed by candidate makes them unsuitable to work with children
+          feedback: You disclosed information in your application which makes you unsuitable to work with children.
+        vetting_process:
+          label: Information revealed by our vetting process makes the candidate unsuitable to work with children
+          feedback: The provider’s vetting process found information which makes you unsuitable to work with children.
     text_area:
       details:
         label: Please give details

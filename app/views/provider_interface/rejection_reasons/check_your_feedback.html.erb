@@ -1,0 +1,68 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-xl">TODO: candidate's name</span>
+      <h1 class="govuk-heading-xl">Check your feedback and reject application</h1>
+      <p class="govuk-body">Your feedback will be given to the candidate in the format below.</p>
+      <div class="feedback">
+        <% if @reasons_form.interested_in_future_applications? %>
+         <h2 class="govuk-heading-m">The provider would be interested in future applications from you</h2>
+        <% end %>
+        <p class="govuk-body">Here’s why your application was unsuccessful.</p>
+
+        <% if @reasons_form.all_answers_no? %>
+          <h3 class="govuk-heading-s">Reasons why your application was unsuccessful</h3>
+          <p class="govuk-body"><%= params.dig("provider_interface_rejection_reasons_form", "alternative_rejection_reason") %></p>
+        <% else %>
+          <% @reasons_form.answered_questions.reject { |q| q.label.include?('future_applications') }.each do |q| %>
+
+            <% if q.y_or_n == "Y" %>
+              <h3 class="govuk-heading-s"><%= t(q.label.gsub('label', 'feedback')) %></h3>
+              <% if q.additional_question.present? %>
+                <ul class="govuk-list govuk-list--bulle app-list--spaced">
+                  <% q.reasons.each do |r| %>
+                    <% if r.value.present? %>
+                    <li><%= t(r.label.gsub('label', 'feedback')) %></li>
+                      <% if r.textareas.any? %>
+                        <% r.textareas.each do |ta| %>
+                          <% if ta.value.present? %>
+                            <% if ta.label.include?('details') %>
+                              <p class="govuk-body">
+                                <% unless r.label.include?('other') %>Details: <% end %>
+                                <%= ta.value%>
+                              </p>
+                            <% else %>
+                              <p class="govuk-body">Advice: <%= ta.value%></p>
+                            <% end %>
+                          <% end %>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </ul>
+                <% else %>
+                  <% if q.reasons.any? %>
+                    <p class="govuk-body"><%= q.reasons.first.textareas.first.value %></p>
+                  <% end %>
+                  <% # do something with course full, offered another course feedback %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <% unless @reasons_form.interested_in_future_applications? %>
+          <h3 class="govuk-heading-s">Future applications</h3>
+          <p class="govuk-body">The provider would not be interested in future applications from you.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+<%= form_with model: @reasons_form, url: provider_interface_rejection_reasons_path do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <%= render "hidden_fields", f: f %>
+
+  <%= f.submit 'Reject application', class: 'govuk-button' %>
+<% end %>
+
+<p class="govuk-link"><a href="">Cancel</a></p>

@@ -10,7 +10,7 @@ module ProviderInterface
       if @reasons_form.valid?
         @reasons_form.next_step!
         if @reasons_form.done?
-          render inline: "<code>#{params.inspect}</code>"
+          render :check_your_feedback
         else
           render :new
         end

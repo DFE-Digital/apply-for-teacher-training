@@ -4,9 +4,9 @@
   additional_question: rejection_reasons.questions.candidate_behaviour.additional_question
   reasons:
   - !ruby/object:ProviderInterface::RejectionReasonReason
-    label: rejection_reasons.reasons.candidate_behaviour.didnt_reply_to_our_interview_offer
+    label: rejection_reasons.reasons.candidate_behaviour.didnt_reply_to_our_interview_offer.label
   - !ruby/object:ProviderInterface::RejectionReasonReason
-    label: rejection_reasons.reasons.candidate_behaviour.didnt_attend_interview
+    label: rejection_reasons.reasons.candidate_behaviour.didnt_attend_interview.label
   - !ruby/object:ProviderInterface::RejectionReasonReason
     label: rejection_reasons.reasons.other
     textareas:
@@ -20,12 +20,12 @@
   additional_question: rejection_reasons.questions.quality_of_their_application.additional_question
   reasons:
   - !ruby/object:ProviderInterface::RejectionReasonReason
-    label: rejection_reasons.reasons.quality_of_their_application.personal_statement
+    label: rejection_reasons.reasons.quality_of_their_application.personal_statement.label
     textareas:
     - !ruby/object:ProviderInterface::RejectionReasonTextarea
       label: rejection_reasons.text_area.advice.label
   - !ruby/object:ProviderInterface::RejectionReasonReason
-    label: rejection_reasons.reasons.quality_of_their_application.subject_knowledge
+    label: rejection_reasons.reasons.quality_of_their_application.subject_knowledge.label
     textareas:
     - !ruby/object:ProviderInterface::RejectionReasonTextarea
       label: rejection_reasons.text_area.advice.label
@@ -40,15 +40,15 @@
   additional_question: rejection_reasons.questions.qualifications.additional_question
   reasons:
   - !ruby/object:ProviderInterface::RejectionReasonReason
-    label: rejection_reasons.reasons.qualifications.no_maths
+    label: rejection_reasons.reasons.qualifications.no_maths.label
   - !ruby/object:ProviderInterface::RejectionReasonReason
-    label: rejection_reasons.reasons.qualifications.no_english
+    label: rejection_reasons.reasons.qualifications.no_english.label
   - !ruby/object:ProviderInterface::RejectionReasonReason
-    label: rejection_reasons.reasons.qualifications.no_science
+    label: rejection_reasons.reasons.qualifications.no_science.label
   - !ruby/object:ProviderInterface::RejectionReasonReason
-    label: rejection_reasons.reasons.qualifications.no_degree
+    label: rejection_reasons.reasons.qualifications.no_degree.label
   - !ruby/object:ProviderInterface::RejectionReasonReason
-    label: rejection_reasons.reasons.qualifications.degree_doesnt_meet_course_requiremnets
+    label: rejection_reasons.reasons.qualifications.degree_doesnt_meet_course_requiremnets.label
   - !ruby/object:ProviderInterface::RejectionReasonReason
     label: rejection_reasons.reasons.other
     textareas:
@@ -76,11 +76,11 @@
   additional_question: rejection_reasons.questions.concerns_about_honesty_and_professionalism.additional_question
   reasons:
   - !ruby/object:ProviderInterface::RejectionReasonReason
-    label: rejection_reasons.reasons.concerns_about_honesty_and_professionalism.false_or_inaccurate_information
+    label: rejection_reasons.reasons.concerns_about_honesty_and_professionalism.false_or_inaccurate_information.label
   - !ruby/object:ProviderInterface::RejectionReasonReason
-    label: rejection_reasons.reasons.concerns_about_honesty_and_professionalism.plagiarism
+    label: rejection_reasons.reasons.concerns_about_honesty_and_professionalism.plagiarism.label
   - !ruby/object:ProviderInterface::RejectionReasonReason
-    label: rejection_reasons.reasons.concerns_about_honesty_and_professionalism.references_didnt_support_application
+    label: rejection_reasons.reasons.concerns_about_honesty_and_professionalism.references_didnt_support_application.label
   - !ruby/object:ProviderInterface::RejectionReasonReason
     label: rejection_reasons.reasons.other
     textareas:
@@ -92,9 +92,9 @@
   additional_question: rejection_reasons.questions.safeguarding.additional_question
   reasons:
   - !ruby/object:ProviderInterface::RejectionReasonReason
-    label: rejection_reasons.reasons.safeguarding.information_disclosed
+    label: rejection_reasons.reasons.safeguarding.information_disclosed.label
   - !ruby/object:ProviderInterface::RejectionReasonReason
-    label: rejection_reasons.reasons.safeguarding.vetting_process
+    label: rejection_reasons.reasons.safeguarding.vetting_process.label
   - !ruby/object:ProviderInterface::RejectionReasonReason
     label: rejection_reasons.reasons.other
     textareas:
