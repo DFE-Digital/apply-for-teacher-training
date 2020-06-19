@@ -220,11 +220,20 @@ RSpec.describe ApplicationForm do
       course_option2 = create(:course_option, course: course2, vacancy_status: 'no_vacancies')
       course_option3 = create(:course_option, course: course3, vacancy_status: 'vacancies')
 
-      application_choice1 = create(:application_choice, application_form: application_form, course_option: course_option1)
-      application_choice2 = create(:application_choice, application_form: application_form, course_option: course_option2)
+      application_choice1 = create(:application_choice, status: :awaiting_references, application_form: application_form, course_option: course_option1)
+      application_choice2 = create(:application_choice, status: :awaiting_references, application_form: application_form, course_option: course_option2)
       create(:application_choice, application_form: application_form, course_option: course_option3)
 
-      expect(application_form.course_choices_that_need_replacing).to eq [application_choice1, application_choice2]
+      expect(application_form.course_choices_that_need_replacing).to match_array [application_choice1, application_choice2]
+    end
+
+    it 'does not return application_choices that have been withdrawn' do
+      application_form = create(:application_form)
+      course = create(:course, withdrawn: false)
+      course_option = create(:course_option, course: course, vacancy_status: 'vacancies')
+      create(:application_choice, application_form: application_form, course_option: course_option)
+
+      expect(application_form.course_choices_that_need_replacing).to eq []
     end
   end
 end

@@ -11,13 +11,7 @@
 <% end %>
 
 <% if FeatureFlag.active?('apply_again') && @application_form.ended_without_success? %>
-  <div class="app-banner govuk-!-margin-bottom-7">
-    <div class="app-banner__message">
-      <h2 class="govuk-heading-m">
-        <%= govuk_link_to 'Do you want to apply again?', candidate_interface_start_apply_again_path %>
-      </h2>
-    </div>
-  </div>
+  <%= render CandidateInterface::ApplyAgainBannerComponent.new(application_form: @application_form) %>
 <% end %>
 
 <h1 class="govuk-heading-xl govuk-heading-xl govuk-!-margin-bottom-2">

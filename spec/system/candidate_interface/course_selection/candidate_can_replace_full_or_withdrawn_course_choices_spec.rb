@@ -5,7 +5,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
   include CourseOptionHelpers
 
   scenario 'when a candidate arrives at the dashboard they can follow the replace course flow' do
-    given_the_replace_full_or_withdrawn_application_choices_is_active
+    given_the_replace_full_or_withdrawn_application_choices_is_active?
     and_i_have_submitted_my_application
     and_one_of_my_application_choices_has_become_full
     and_there_is_another_location_available
@@ -85,7 +85,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     and_my_new_course_choice_is_part_time
   end
 
-  def given_the_replace_full_or_withdrawn_application_choices_is_active
+  def given_the_replace_full_or_withdrawn_application_choices_is_active?
     FeatureFlag.activate('replace_full_or_withdrawn_application_choices')
   end
 
@@ -131,7 +131,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
   end
 
   def when_i_choose_submit_application_anyway
-    choose 'Submit application anyway'
+    choose 'Keep this course choice anyway'
   end
 
   def and_i_see_my_first_course_choice
@@ -171,7 +171,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
   end
 
   def then_i_am_told_to_contact_support
-    expect(page).to have_content 'You can currently only change the location of your course choice through the service.'
+    expect(page).to have_content 'You can only edit existing course choices through the service.'
   end
 
   def when_i_click_back

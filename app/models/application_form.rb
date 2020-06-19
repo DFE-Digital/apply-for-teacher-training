@@ -165,7 +165,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def course_choices_that_need_replacing
-    (withdrawn_course_choices + full_course_choices).flatten.uniq
+    (withdrawn_course_choices + full_course_choices).flatten.uniq.select(&:awaiting_references?)
   end
 
   def incomplete_degree_information?
@@ -179,10 +179,10 @@ private
   end
 
   def withdrawn_course_choices
-    application_choices.includes(%i[course_option course]).map(&:course_option).select(&:course_withdrawn?).map(&:application_choices)
+    application_choices.includes(%i[provider course]).select { |choice| choice.course.withdrawn == true }
   end
 
   def full_course_choices
-    application_choices.includes([:provider]).select { |choice| choice.course_option.no_vacancies? }
+    application_choices.includes(%i[course_option]).select { |choice| choice.course_option.no_vacancies? }
   end
 end

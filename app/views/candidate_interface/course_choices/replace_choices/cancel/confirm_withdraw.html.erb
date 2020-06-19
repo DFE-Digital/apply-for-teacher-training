@@ -1,0 +1,20 @@
+<%= content_for :title, t('page_titles.withdraw_application') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_replace_course_choice_path(@course_choice.id), 'Back') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl"><%= t('page_titles.withdraw_application') %></h1>
+
+    <p class="govuk-body">Cancelling this course choice means your application will be withdrawn.</p>
+
+    <p class="govuk-body">You'll have to make a new application later if you still want to apply.</p>
+
+    <p class="govuk-body"><%= govuk_link_to 'Go back to edit your course choice', candidate_interface_replace_course_choice_path(@course_choice.id) %>.</p>
+
+    <p class="govuk-body">  <%= govuk_link_to 'Contact us to replace your course', candidate_interface_replace_course_choice_contact_support_path(@course_choice.id), class: 'govuk-body' %>.</p>
+
+    <%= form_with url: candidate_interface_withdraw_full_course_choice_path(@course_choice.id), method: :post do |f| %>
+      <p class="govuk-body"><%= f.submit 'Withdraw application', class: 'govuk-button govuk-button--warning' %>
+    <% end %>
+  </div>
+</div>

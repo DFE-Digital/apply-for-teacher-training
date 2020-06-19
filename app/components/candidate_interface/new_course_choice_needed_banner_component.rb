@@ -10,8 +10,7 @@ module CandidateInterface
 
     def render?
       FeatureFlag.active?('replace_full_or_withdrawn_application_choices') &&
-        @application_form.course_choices_that_need_replacing.any? &&
-        @application_form.application_choices.first.awaiting_references?
+        @application_form.course_choices_that_need_replacing.any?
     end
   end
 end
