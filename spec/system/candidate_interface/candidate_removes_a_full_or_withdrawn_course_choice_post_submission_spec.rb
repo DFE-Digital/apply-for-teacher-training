@@ -6,6 +6,7 @@ RSpec.describe 'Both a candidates course choices have become full or been withdr
 
   scenario 'when a candidate arrives at the dashboard they can follow the replace course flow' do
     given_the_replace_full_or_withdrawn_application_choices_is_active?
+    and_apply_again_is_open
     and_i_have_submitted_my_application
     and_both_of_my_application_choices_have_become_full
 
@@ -24,10 +25,19 @@ RSpec.describe 'Both a candidates course choices have become full or been withdr
     when_i_choose_to_remove_my_course
     and_click_continue
     and_i_click_remove_my_course_choice
+    then_i_see_the_confirm_withdraw_page
+
+    when_i_click_withdraw_application
+    then_i_see_my_application_dashboard
+    and_i_am_told_i_can_apply_again
   end
 
   def given_the_replace_full_or_withdrawn_application_choices_is_active?
     FeatureFlag.activate('replace_full_or_withdrawn_application_choices')
+  end
+
+  def and_apply_again_is_open
+    FeatureFlag.activate('apply_again')
   end
 
   def and_i_have_submitted_my_application
@@ -72,7 +82,7 @@ RSpec.describe 'Both a candidates course choices have become full or been withdr
   end
 
   def when_i_click_remove_my_course_choice
-    click_link 'Remove course choice'
+    click_button 'Remove course choice'
   end
 
   def then_i_arrive_on_my_second_full_course_choice_page
@@ -88,11 +98,11 @@ RSpec.describe 'Both a candidates course choices have become full or been withdr
   end
 
   def then_i_see_the_confirm_withdraw_page
-    expect(page).to have_current_path candidate_interface_confirm_withdraw_full_course_choice_path(@course_option.application_choices.first.id)
+    expect(page).to have_current_path candidate_interface_confirm_withdraw_full_course_choice_path(@application_choice.id)
   end
 
   def when_i_click_withdraw_application
-    click_link 'Yes - withdraw application'
+    click_button 'Withdraw application'
   end
 
   def then_i_see_my_application_dashboard
@@ -100,6 +110,6 @@ RSpec.describe 'Both a candidates course choices have become full or been withdr
   end
 
   def and_i_am_told_i_can_apply_again
-    expect(page).to have_content 'Your application has been withdrawn.'
+    expect(page).to have_content 'Your application has been withdrawn. Do you want to apply again?'
   end
 end
