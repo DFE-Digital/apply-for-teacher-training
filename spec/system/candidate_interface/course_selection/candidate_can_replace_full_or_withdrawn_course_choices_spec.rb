@@ -13,6 +13,13 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     when_i_arrive_at_my_application_dashboard
     then_i_see_that_one_of_my_choices_in_not_available
 
+    when_i_click_update_my_course_choice
+    then_i_arrive_at_the_replace_course_choice_page
+
+    when_i_choose_submit_application_anyway
+    and_click_continue
+    then_i_arrive_at_my_dashboard
+
     given_i_have_two_full_course_choices
 
     when_i_arrive_at_my_application_dashboard
@@ -34,7 +41,13 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     when_i_click_continue_without_selecting_an_option
     then_i_am_told_i_need_to_select_an_option
 
-    when_i_choose_to_add_a_different_course
+    when_i_choose_submit_application_anyway
+    and_click_continue
+    then_i_see_the_replace_course_choices_page
+
+    when_i_choose_my_first_course_choice
+    and_click_continue
+    and_i_choose_to_add_a_different_course
     and_click_continue
     then_i_am_told_to_contact_support
 
@@ -50,11 +63,26 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     when_i_select_a_location
     and_click_continue
     then_i_see_the_confirm_replacement_course_choice_page
+    and_i_can_see_my_new_course_choice
+    and_i_can_see_my_old_course_choice
 
     when_i_click_replace_course_choice
-    then_i_arrrive_at_my_dashboard
+    then_i_arrive_at_my_dashboard
     and_i_can_see_my_new_course_choice
     and_i_cannot_see_my_old_course_choice
+
+    given_my_course_choice_has_another_study_mode_option
+
+    when_i_click_update_my_course_choice
+    and_i_choose_to_study_part_time
+    and_click_continue
+    then_i_see_the_confirm_replacement_course_choice_page_for_my_second_course_choice
+    and_i_can_see_my_new_course_choices_study_mode
+    and_i_can_see_my_old_course_choices_study_mode
+
+    when_i_click_replace_course_choice
+    then_i_arrive_at_my_dashboard
+    and_my_new_course_choice_is_part_time
   end
 
   def given_the_replace_full_or_withdrawn_application_choices_is_active
@@ -102,6 +130,10 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     expect(page).to have_current_path candidate_interface_replace_course_choices_path
   end
 
+  def when_i_choose_submit_application_anyway
+    choose 'Submit application anyway'
+  end
+
   def and_i_see_my_first_course_choice
     expect(page).to have_content(@course_option.course.name_and_code)
   end
@@ -134,7 +166,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     expect(page).to have_content 'Please select an option to update your course choice.'
   end
 
-  def when_i_choose_to_add_a_different_course
+  def and_i_choose_to_add_a_different_course
     choose 'Choose a different course'
   end
 
@@ -174,7 +206,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     click_link 'Replace course choice'
   end
 
-  def then_i_arrrive_at_my_dashboard
+  def then_i_arrive_at_my_dashboard
     expect(page).to have_current_path candidate_interface_application_complete_path
   end
 
@@ -182,7 +214,36 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     expect(page).to have_content @course_option2.site.full_address
   end
 
+  def and_i_can_see_my_old_course_choice
+    expect(page).to have_content @course_option.site.full_address
+  end
+
   def and_i_cannot_see_my_old_course_choice
     expect(page).not_to have_content @course_option.site.full_address
+  end
+
+  def given_my_course_choice_has_another_study_mode_option
+    @part_time_course_option = create(:course_option, :part_time, site: @application_choice.course_option.site, course: @application_choice.course_option.course)
+    @application_choice.course.update!(study_mode: 'full_time_or_part_time')
+  end
+
+  def and_i_choose_to_study_part_time
+    choose 'Study part time instead'
+  end
+
+  def then_i_see_the_confirm_replacement_course_choice_page_for_my_second_course_choice
+    expect(page).to have_current_path candidate_interface_confirm_replacement_course_choice_path(@application_choice.id, @part_time_course_option.id)
+  end
+
+  def and_i_can_see_my_new_course_choices_study_mode
+    expect(page).to have_content @application_choice.course_option.study_mode.humanize
+  end
+
+  def and_i_can_see_my_old_course_choices_study_mode
+    expect(page).to have_content @part_time_course_option.study_mode.humanize
+  end
+
+  def and_my_new_course_choice_is_part_time
+    expect(page).to have_content @part_time_course_option.study_mode.humanize
   end
 end

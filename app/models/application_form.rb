@@ -183,6 +183,6 @@ private
   end
 
   def full_course_choices
-    application_choices.map(&:course_option).select(&:no_vacancies?).map(&:application_choices)
+    application_choices.includes([:provider]).select { |choice| choice.course_option.no_vacancies? }
   end
 end
