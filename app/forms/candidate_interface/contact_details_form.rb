@@ -38,16 +38,24 @@ module CandidateInterface
     def save_address(application_form)
       return false unless valid?(:address)
 
-      # TODO: Reset international address attributes?
+      if uk?
+        # TODO: Reset international address attributes?
 
-      application_form.update(
-        address_line1: address_line1,
-        address_line2: address_line2,
-        address_line3: address_line3,
-        address_line4: address_line4,
-        postcode: postcode&.upcase,
-        country: 'GB',
-      )
+        application_form.update(
+          address_line1: address_line1,
+          address_line2: address_line2,
+          address_line3: address_line3,
+          address_line4: address_line4,
+          postcode: postcode&.upcase,
+          country: 'GB',
+        )
+      else
+        # TODO: Reset structured address attributes?
+
+        application_form.update(
+          international_address: international_address,
+        )
+      end
     end
 
     def save_address_type(application_form)
@@ -55,16 +63,6 @@ module CandidateInterface
 
       application_form.update(
         address_type: address_type,
-      )
-    end
-
-    def save_international_address(application_form)
-      # TODO: Reset structured address attributes?
-
-      return false unless valid?(:address)
-
-      application_form.update(
-        international_address: international_address,
       )
     end
 

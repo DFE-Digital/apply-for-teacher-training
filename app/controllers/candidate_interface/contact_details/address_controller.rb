@@ -7,7 +7,9 @@ module CandidateInterface
     end
 
     def update
-      @contact_details_form = ContactDetailsForm.new(contact_details_params)
+      @contact_details_form = ContactDetailsForm.new(
+        contact_details_params.merge(address_type: current_application.address_type),
+      )
 
       if @contact_details_form.save_address(current_application)
         current_application.update!(contact_details_completed: false)
@@ -23,7 +25,7 @@ module CandidateInterface
 
     def contact_details_params
       params.require(:candidate_interface_contact_details_form).permit(
-        :address_line1, :address_line2, :address_line3, :address_line4, :postcode
+        :address_line1, :address_line2, :address_line3, :address_line4, :postcode, :international_address
       )
         .transform_values(&:strip)
     end

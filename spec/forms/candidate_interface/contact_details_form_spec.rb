@@ -59,6 +59,17 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
       expect(contact_details.save_address(application_form)).to eq(true)
       expect(application_form).to have_attributes(form_data)
     end
+
+    it 'updates the provided ApplicationForm with the international address field if valid' do
+      form_data = {
+        international_address: '123 Chandni Chowk, Old Delhi, India',
+      }
+      application_form = build(:application_form)
+      contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+
+      expect(contact_details.save_address(application_form)).to eq(true)
+      expect(application_form).to have_attributes(form_data)
+    end
   end
 
   describe '#save_address_type' do
@@ -70,19 +81,6 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
       contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
 
       expect(contact_details.save_address_type(application_form)).to eq(true)
-      expect(application_form).to have_attributes(form_data)
-    end
-  end
-
-  describe '#save_international_address' do
-    it 'updates the provided ApplicationForm with the address fields if valid' do
-      form_data = {
-        international_address: '123 Chandni Chowk, Old Delhi, India',
-      }
-      application_form = build(:application_form)
-      contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
-
-      expect(contact_details.save_international_address(application_form)).to eq(true)
       expect(application_form).to have_attributes(form_data)
     end
   end

@@ -85,6 +85,9 @@ en:
         values:
           uk: 'In the UK'
           international: 'Outside the UK'
+      international_address:
+        label: Enter your address
+        button: Save and continue
       review:
         button: Continue
     work_history:

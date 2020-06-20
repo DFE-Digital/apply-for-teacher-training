@@ -56,14 +56,20 @@ module CandidateInterface
     end
 
     def full_address
-      [
-        @contact_details_form.address_line1,
-        @contact_details_form.address_line2,
-        @contact_details_form.address_line3,
-        @contact_details_form.address_line4,
-        @contact_details_form.postcode,
-      ]
-        .reject(&:blank?)
+      if @contact_details_form.uk?
+        [
+          @contact_details_form.address_line1,
+          @contact_details_form.address_line2,
+          @contact_details_form.address_line3,
+          @contact_details_form.address_line4,
+          @contact_details_form.postcode,
+        ]
+          .reject(&:blank?)
+      else
+        [
+          @contact_details_form.international_address,
+        ]
+      end
     end
   end
 end
