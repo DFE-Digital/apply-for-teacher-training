@@ -1,5 +1,9 @@
 <% content_for :title, t('page_titles.confirm_replacement_course_choice') %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_replace_course_choice_path(@course_choice.id)) %>
+<% if params['provider_id'].present? %>
+  <% content_for :before_content, govuk_back_link_to(candidate_interface_replace_course_choice_location_path(@course_choice.id, params['provider_id'], params['course_id'], params['study_mode'])) %>
+<% else %>
+  <% content_for :before_content, govuk_back_link_to(candidate_interface_replace_course_choice_path(@course_choice.id)) %>
+<% end %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
