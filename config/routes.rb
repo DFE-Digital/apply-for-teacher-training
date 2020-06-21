@@ -247,6 +247,11 @@ Rails.application.routes.draw do
         post '/:id/provider' => 'course_choices/replace_choices/provider_selection#create'
 
         get '/:id/apply-on-ucas/provider/:provider_id' => 'course_choices/replace_choices/ucas#no_courses', as: :replace_course_choice_ucas_no_courses
+        get '/:id/apply-on-ucas/provider/:provider_id/course/:course_id' => 'course_choices/replace_choices/ucas#with_course', as: :replace_course_choice_ucas_with_course
+
+        get '/:id/provider/:provider_id/course' => 'course_choices/replace_choices/course_selection#new', as: :replace_course_choice_course
+        post '/:id/provider/:provider_id/course' => 'course_choices/replace_choices/course_selection#create'
+        get '/:id/provider/:provider_id/courses/:course_id/full' => 'course_choices/replace_choices/course_selection#full', as: :replace_course_choice_full
 
         get '/replace/:id/location' => 'course_choices/replace_choices/site_selection#replace_location', as: :replace_course_choice_location
         post '/replace/:id/location' => 'course_choices/replace_choices/site_selection#validate_location', as: :validate_new_course_choice_location
