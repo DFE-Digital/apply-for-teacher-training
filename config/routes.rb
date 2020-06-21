@@ -211,20 +211,6 @@ Rails.application.routes.draw do
         get '/find-a-course' => 'course_choices/have_you_chosen#go_to_find', as: :go_to_find
         get '/find_a_course', to: redirect('/candidate/application/courses/find-a-course')
 
-        get '/replace' => 'course_choices/replace_choices/base#pick_choice_to_replace', as: :replace_course_choices
-        post '/replace' => 'course_choices/replace_choices/base#picked_choice'
-        get '/replace/:id' => 'course_choices/replace_choices/decision#choose_action', as: :replace_course_choice
-        post '/replace/:id' => 'course_choices/replace_choices/decision#route_action'
-        get '/replace/:id/contact-support' => 'course_choices/replace_choices/decision#contact_support', as: :replace_course_choice_contact_support
-        get '/replace/:id/location' => 'course_choices/replace_choices/site_selection#replace_location', as: :replace_course_choice_location
-        post '/replace/:id/location' => 'course_choices/replace_choices/site_selection#validate_location', as: :validate_new_course_choice_location
-        get '/replace/:id/confirm/:course_option_id' => 'course_choices/replace_choices/review#confirm_choice', as: :confirm_replacement_course_choice
-        get '/replace/:id/update/:course_option_id' => 'course_choices/replace_choices/review#update_choice', as: :update_replacement_course_choice
-        get '/replace/:id/confirm_cancel' => 'course_choices/replace_choices/cancel#confirm_cancel', as: :confirm_cancel_full_course_choice
-        post '/replace/:id/cancel' => 'course_choices/replace_choices/cancel#cancel', as: :cancel_full_course_choice
-        get '/replace/:id/confirm_withdraw' => 'course_choices/replace_choices/cancel#confirm_withdraw', as: :confirm_withdraw_full_course_choice
-        post '/replace/:id/withdraw' => 'course_choices/replace_choices/cancel#withdraw', as: :withdraw_full_course_choice
-
         get '/provider' => 'course_choices/provider_selection#new', as: :course_choices_provider
         post '/provider' => 'course_choices/provider_selection#create'
         get '/provider/:provider_id/courses' => 'course_choices/course_selection#new', as: :course_choices_course
@@ -244,6 +230,36 @@ Rails.application.routes.draw do
         get '/confirm_selection/:course_id', to: redirect('/candidate/application/courses/confirm-selection/%{course_id}')
         post '/complete-selection/:course_id' => 'find_course_selections#complete_selection', as: :course_complete_selection
         get '/complete_selection/:course_id', to: redirect('/candidate/application/courses/complete-selection/%{course_id}')
+      end
+
+      scope '/replace' do
+        get '/:id/choose' => 'course_choices/replace_choices/have_you_chosen#ask', as: :replace_course_choices_choose
+        post '/:id/choose' => 'course_choices/replace_choices/have_you_chosen#decide'
+        get '/:id/find-a-course' => 'course_choices/replace_choices/have_you_chosen#go_to_find', as: :replace_go_to_find
+
+        get '/' => 'course_choices/replace_choices/base#pick_choice_to_replace', as: :replace_course_choices
+        post '/' => 'course_choices/replace_choices/base#picked_choice'
+
+        get '/:id' => 'course_choices/replace_choices/decision#choose_action', as: :replace_course_choice
+        post '/:id' => 'course_choices/replace_choices/decision#route_action'
+        get '/replace/:id/contact-support' => 'course_choices/replace_choices/decision#contact_support', as: :replace_course_choice_contact_support
+
+        get '/:id/provider' => 'course_choices/replace_choices/provider_selection#new', as: :replace_course_choice_provider
+        post '/:id/provider' => 'course_choices/replace_choices/provider_selection#create'
+
+        get '/:id/apply-on-ucas/provider/:provider_id' => 'course_choices/replace_choices/ucas#no_courses', as: :replace_course_choice_ucas_no_courses
+
+        get '/replace/:id/location' => 'course_choices/replace_choices/site_selection#replace_location', as: :replace_course_choice_location
+        post '/replace/:id/location' => 'course_choices/replace_choices/site_selection#validate_location', as: :validate_new_course_choice_location
+
+        get '/:id/confirm_cancel' => 'course_choices/replace_choices/cancel#confirm_cancel', as: :confirm_cancel_full_course_choice
+        post '/:id/cancel' => 'course_choices/replace_choices/cancel#cancel', as: :cancel_full_course_choice
+
+        get '/:id/confirm_withdraw' => 'course_choices/replace_choices/cancel#confirm_withdraw', as: :confirm_withdraw_full_course_choice
+        post '/:id/withdraw' => 'course_choices/replace_choices/cancel#withdraw', as: :withdraw_full_course_choice
+
+        get '/:id/confirm/:course_option_id' => 'course_choices/replace_choices/review#confirm_choice', as: :confirm_replacement_course_choice
+        get '/:id/update/:course_option_id' => 'course_choices/replace_choices/review#update_choice', as: :update_replacement_course_choice
       end
 
       scope '/choice/:id' do
