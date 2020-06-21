@@ -1,0 +1,25 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render CandidateInterface::UCASDowntimeComponent.new  %>
+
+    <h1 class="govuk-heading-xl">
+      <span class="govuk-caption-xl"><%= @provider.name %></span>
+      <%= t('page_titles.apply_to_provider_on_ucas') %>
+    </h1>
+
+    <p class="govuk-body"><%= @provider.name %> is not yet signed up to the <%= service_name %> service. You must apply to their courses using UCAS.</p>
+
+    <p class="govuk-body">You can:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>submit an application to <%= @provider.name %> through UCAS</li>
+      <li>still submit your current application to other providers</li>
+    </ul>
+
+    <p class="govuk-body govuk-!-margin-bottom-6">For more information, see our <%= govuk_link_to 'Get Into Teaching guidance on applying for teacher training', 'https://getintoteaching.education.gov.uk/how-to-apply-for-teacher-training' %></p>
+
+    <p class="govuk-body govuk-!-margin-bottom-0">
+      <%= govuk_button_link_to t('apply_from_find.ucas_apply_button'), UCAS.apply_url %>
+    </p>
+    <p class="govuk-body">or</p>
+  </div>
+</div>
