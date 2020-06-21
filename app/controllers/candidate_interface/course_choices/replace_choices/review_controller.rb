@@ -5,6 +5,11 @@ module CandidateInterface
         def confirm_choice
           @course_choice = current_application.application_choices.find(params['id'])
           @replacement_course_option = CourseOption.find(params['course_option_id'])
+          @single_site_course =  if params['study_mode'].present?
+                                   CourseOption.where(course_id: params['course_id'], study_mode: params['study_mode']).one?
+                                 elsif params['course_id'].present?
+                                   CourseOption.where(course_id: params['course_id']).one?
+                                 end
         end
 
         def update_choice

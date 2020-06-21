@@ -1,6 +1,10 @@
 <% content_for :title, t('page_titles.confirm_replacement_course_choice') %>
-<% if params['provider_id'].present? %>
+<% if params['study_mode'].present? && @single_site_course %>
+  <% content_for :before_content, govuk_back_link_to(candidate_interface_replace_course_choice_study_mode_path(@course_choice.id, params['provider_id'], params['course_id'])) %>
+<% elsif params['study_mode'].present? %>
   <% content_for :before_content, govuk_back_link_to(candidate_interface_replace_course_choice_location_path(@course_choice.id, params['provider_id'], params['course_id'], params['study_mode'])) %>
+<% elsif params['course_code'].present? %>
+  <% content_for :before_content, govuk_back_link_to(candidate_interface_replace_course_choice_course_path(@course_choice.id, params['provider_id'], params['course_id'])) %>
 <% else %>
   <% content_for :before_content, govuk_back_link_to(candidate_interface_replace_course_choice_path(@course_choice.id)) %>
 <% end %>
