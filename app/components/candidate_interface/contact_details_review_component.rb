@@ -13,7 +13,7 @@ module CandidateInterface
     end
 
     def contact_details_form_rows
-      [phone_number_row, address_type_row, address_row]
+      [phone_number_row, address_type_row, address_row].compact
     end
 
     def show_missing_banner?
@@ -38,6 +38,8 @@ module CandidateInterface
     end
 
     def address_type_row
+      return nil unless FeatureFlag.active?(:international_addresses)
+
       {
         key: t('application_form.contact_details.address_type.label'),
         value: t("application_form.contact_details.address_type.values.#{@contact_details_form.address_type}"),
