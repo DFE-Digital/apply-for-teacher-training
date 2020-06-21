@@ -1,0 +1,26 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.full_course') %>
+    </h1>
+
+    <p class="govuk-body">The course '<%= @course.name_and_code %>' is full.</p>
+    <p class="govuk-body">You can:</p>
+    <ul class="govuk-list govuk-list--bullet govuk-!-padding-bottom-8">
+      <li>
+        <%= link_to(
+          'choose another course',
+          course_choices_path,
+          class: 'govuk-link'
+        ) %>
+      </li>
+      <li>
+        contact
+        <%= govuk_link_to @course.provider.name, "#{@course.find_url}#section-contact" %>
+      to see if the course will re-open or discuss alternatives
+      </li>
+    </ul>
+
+    <p class="govuk-body"><%= govuk_link_to 'Return to your application', candidate_interface_application_form_path %></p>
+  </div>
+</div>
