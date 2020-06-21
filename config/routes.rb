@@ -242,7 +242,6 @@ Rails.application.routes.draw do
 
         get '/:id' => 'course_choices/replace_choices/decision#choose_action', as: :replace_course_choice
         post '/:id' => 'course_choices/replace_choices/decision#route_action'
-        get '/replace/:id/contact-support' => 'course_choices/replace_choices/decision#contact_support', as: :replace_course_choice_contact_support
 
         get '/:id/provider' => 'course_choices/replace_choices/provider_selection#new', as: :replace_course_choice_provider
         post '/:id/provider' => 'course_choices/replace_choices/provider_selection#create'
