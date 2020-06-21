@@ -1,0 +1,40 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render CandidateInterface::UCASDowntimeComponent.new  %>
+
+    <h1 class="govuk-heading-xl">
+      <span class="govuk-caption-xl"><%= @course.name_and_code %></span>
+      <%= t('page_titles.apply_to_course_on_ucas') %>
+    </h1>
+
+    <p class="govuk-body">It’s not available through the <%= service_name %> service yet.</p>
+
+    <p class="govuk-body">You can:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>submit an application to this course through UCAS</li>
+      <li>still submit your current application with other course choices</li>
+    </ul>
+
+    <p class="govuk-body govuk-!-margin-bottom-6">For more information, see our <%= govuk_link_to 'Get Into Teaching guidance on applying for teacher training', 'https://getintoteaching.education.gov.uk/how-to-apply-for-teacher-training' %></p>
+
+    <h2 class=govuk-heading-m>Make a note of your choice</h2>
+    <p class="govuk-body">When you apply through UCAS, you’ll need these details for the course choices section of your application:</p>
+
+    <div class="govuk-inset-text govuk-!-margin-top-0 govuk-body">
+      Training provider:
+      <h2 class="govuk-header-l">
+        <%= @provider.name_and_code %>
+      </h2>
+      Training programme:
+      <h2 class="govuk-header-l govuk-!-margin-top-0">
+        <%= @course.name_and_code %>
+      </h2>
+    </div>
+
+    <p class="govuk-body govuk-!-margin-bottom-0">
+      <%= govuk_button_link_to t('apply_from_find.ucas_apply_button'), UCAS.apply_url %>
+    </p>
+    <p class="govuk-body">or</p>
+    <p class="govuk-body"><%= govuk_link_to 'Return to your application', candidate_interface_application_form_path %></p>
+  </div>
+</div>
