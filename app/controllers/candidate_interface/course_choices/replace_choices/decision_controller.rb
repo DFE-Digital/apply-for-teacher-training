@@ -10,9 +10,9 @@ module CandidateInterface
           @pick_replacement_action = PickReplacementActionForm.new(replacement_action_params)
           @course_choice = current_application.application_choices.find(params['id'])
 
-          if @pick_replacement_action.valid? && @pick_replacement_action.replacement_action == 'replace_location'
+          if @pick_replacement_action.replacement_action == 'replace_location'
             redirect_to candidate_interface_replace_course_choice_location_path(@course_choice.id)
-          elsif @pick_replacement_action.valid? && @pick_replacement_action.replacement_action == 'replace_study_mode'
+          elsif @pick_replacement_action.replacement_action == 'replace_study_mode'
             replacement_course_option_id = @course_choice.course_option.get_alternative_study_mode.id
 
             redirect_to candidate_interface_confirm_replacement_course_choice_path(@course_choice.id, replacement_course_option_id)
@@ -24,6 +24,8 @@ module CandidateInterface
             end
           elsif @pick_replacement_action.replacement_action == 'remove_course'
             redirect_to candidate_interface_confirm_cancel_full_course_choice_path
+          elsif @pick_replacement_action.replacement_action == 'replace_course'
+            redirect_to candidate_interface_replace_course_choices_choose_path(@course_choice.id)
           elsif !@pick_replacement_action.valid?
             flash[:warning] = 'Please select an option to update your course choice.'
 
