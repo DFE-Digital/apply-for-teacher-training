@@ -34,6 +34,7 @@ class TestApplications
         :candidate,
         email_address: "#{first_name.downcase}.#{last_name.downcase}@example.com",
         created_at: time,
+        last_signed_in_at: time,
       )
     end
 

@@ -20,6 +20,7 @@ RSpec.describe TestApplications do
     application_form = application_choice.application_form
     candidate = application_form.candidate
 
+    expect(candidate.created_at).to eq candidate.last_signed_in_at
     expect(days_between_ignoring_time_of_day(application_choice.created_at, candidate.created_at)).to be >= 1
     expect(days_between_ignoring_time_of_day(application_form.submitted_at, application_choice.created_at)).to be >= 1
     expect(days_between_ignoring_time_of_day(application_choice.sent_to_provider_at, application_form.submitted_at)).to be >= 1
