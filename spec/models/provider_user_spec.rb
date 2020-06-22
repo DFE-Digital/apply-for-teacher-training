@@ -78,36 +78,17 @@ RSpec.describe ProviderUser, type: :model do
     end
   end
 
-  describe '#can_view_safeguarding_information_for?' do
+  describe 'can_manage_organisations?' do
     let(:provider_user) { create :provider_user, :with_provider }
 
-    it 'is false without the correct permission' do
-      provider = provider_user.providers.first
-      expect(provider_user.can_view_safeguarding_information_for?(provider)).to be false
+    it 'is false for users without the manage organisations permission' do
+      expect(provider_user.can_manage_organisations?).to be false
     end
 
-    it 'is false without the correct permission for the given provider' do
-      provider_user.provider_permissions.update_all(view_safeguarding_information: true)
-      expect(provider_user.can_view_safeguarding_information_for?(build_stubbed(:provider))).to be false
-    end
+    it 'is true for users with the manage organisations permission' do
+      provider_user.provider_permissions.first.update(manage_organisations: true)
 
-    it 'is true with the correct permission for the given provider' do
-      provider_user.provider_permissions.update_all(view_safeguarding_information: true)
-      provider = provider_user.providers.first
-      expect(provider_user.can_view_safeguarding_information_for?(provider)).to be true
-    end
-  end
-
-  describe '#can_manage_organisations?' do
-    let(:provider_user) { create :provider_user, :with_provider }
-
-    it 'is false when no provider relationship permissions exist for associated providers' do
-      expect(provider_user.can_manage_organisations?).to be(false)
-    end
-
-    it 'is true when provider relationship permissions exist for associated providers' do
-      create(:training_provider_permissions, training_provider: provider_user.providers.first)
-      expect(provider_user.can_manage_organisations?).to be(true)
+      expect(provider_user.can_manage_organisations?).to be true
     end
   end
 

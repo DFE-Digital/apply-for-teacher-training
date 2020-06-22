@@ -8,8 +8,12 @@ module ProviderInterface
       @training_provider_permissions.assign_attributes(training_provider_permissions_from_params(params))
     end
 
-    def save!
-      @accredited_body_permissions.save! && @training_provider_permissions.save!
+    def update!(params)
+      @accredited_body_permissions.update!(
+        accredited_body_permissions_from_params(params).merge(setup_at: Time.current),
+      ) && @training_provider_permissions.update!(
+        training_provider_permissions_from_params(params).merge(setup_at: Time.current),
+      )
     end
 
   private

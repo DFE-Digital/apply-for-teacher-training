@@ -11,7 +11,7 @@
     </h2>
 
     <p class="govuk-body">
-      Select <a href="<%= provider_interface_organisations_path %>">Organisations</a> (at the top of every page) to update your permissions.
+      Select <%= govuk_link_to 'Organisations', provider_interface_organisations_path %> (at the top of every page) to update your permissions.
     </p>
     <h2 class="govuk-heading-m">
       Inviting users
@@ -29,9 +29,7 @@
       Continue to your applications.
     </p>
     <p>
-      <a href="/" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
-        Continue
-      </a>
+      <%= govuk_link_to 'Continue', provider_interface_applications_path, class: 'govuk-button' %>
     </p>
   </div>
 </div>

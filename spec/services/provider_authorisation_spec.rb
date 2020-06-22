@@ -270,4 +270,42 @@ RSpec.describe ProviderAuthorisation do
       it { is_expected.to be false }
     end
   end
+
+  describe 'can_manage_organisation?' do
+    context 'for a support user' do
+      let(:support_user) { create(:support_user) }
+
+      subject(:auth_context) { ProviderAuthorisation.new(actor: support_user) }
+
+      it 'is true' do
+        expect(auth_context.can_manage_organisation?(provider: create(:provider))).to be true
+      end
+    end
+
+    context 'for a provider user with permission to manage an organisation' do
+      let(:provider_user) { create(:provider_user, :with_provider) }
+
+      subject(:auth_context) { ProviderAuthorisation.new(actor: provider_user) }
+
+      it 'is true' do
+        provider = provider_user.providers.first
+        provider_user.provider_permissions.find_by(provider: provider).update(manage_organisations: true)
+
+        expect(auth_context.can_manage_organisation?(provider: provider)).to be true
+      end
+    end
+
+    context 'for a provider user without permission to manage an organisation' do
+      let(:provider_user) { create(:provider_user, :with_provider) }
+
+      subject(:auth_context) { ProviderAuthorisation.new(actor: provider_user) }
+
+      it 'is false' do
+        provider = provider_user.providers.first
+        provider_user.provider_permissions.find_by(provider: provider).update(manage_organisations: true)
+
+        expect(auth_context.can_manage_organisation?(provider: create(:provider))).to be false
+      end
+    end
+  end
 end

@@ -482,6 +482,8 @@ Rails.application.routes.draw do
 
     resources :organisations, only: %i[index show], path: 'organisations'
 
+    get '/provider-relationship-permissions/setup' => 'provider_relationship_permissions#setup',
+        as: :provider_relationship_permissions_setup
     get '/provider-relationship-permissions/:training_provider_id/:ratifying_provider_id/success' => 'provider_relationship_permissions#success',
         as: :provider_relationship_permissions_success
     get '/provider-relationship-permissions/:training_provider_id/:ratifying_provider_id/edit' => 'provider_relationship_permissions#edit',

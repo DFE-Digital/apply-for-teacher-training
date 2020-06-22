@@ -15,6 +15,7 @@ module ProviderInterface
     before_action :authenticate_provider_user!
     before_action :add_identity_to_log
     before_action :check_data_sharing_agreements
+    before_action :check_provider_relationship_permissions
 
     layout 'application'
 
@@ -64,6 +65,36 @@ module ProviderInterface
       if GetPendingDataSharingAgreementsForProviderUser.call(provider_user: current_provider_user).any?
         redirect_to provider_interface_new_data_sharing_agreement_path
       end
+    end
+
+    def check_provider_relationship_permissions
+      return unless FeatureFlag.active?('enforce_provider_to_provider_permissions')
+      return unless current_provider_user
+      return if performing_provider_organisation_setup?
+
+      if provider_permissions_need_setup?
+        redirect_to provider_interface_provider_relationship_permissions_setup_path
+      end
+    end
+
+    def provider_permissions_need_setup?
+      permissions = TrainingProviderPermissions.find_by(
+        setup_at: nil,
+        training_provider: current_provider_user.providers,
+      )
+
+      return false if permissions.blank?
+
+      ProviderAuthorisation.new(actor: current_provider_user).can_manage_organisation?(
+        provider: permissions.training_provider,
+      )
+    end
+
+    def performing_provider_organisation_setup?
+      [
+        ProviderInterface::ProviderAgreementsController,
+        ProviderInterface::ProviderRelationshipPermissionsController,
+      ].include?(request.controller_class)
     end
 
     def render_404

@@ -36,6 +36,7 @@ RSpec.feature 'See organisation permissions' do
     @ratifying_provider = Provider.find_by(code: 'DEF')
     @unmanageable_provider = create(:provider, :with_signed_agreement)
     @provider_user.providers << @unmanageable_provider
+    @provider_user.provider_permissions.update_all(manage_organisations: true)
   end
 
   def and_the_provider_has_courses_ratified_by_another_provider
@@ -44,12 +45,14 @@ RSpec.feature 'See organisation permissions' do
       ratifying_provider: @ratifying_provider,
       training_provider: @training_provider,
       view_safeguarding_information: true,
+      setup_at: Time.current,
     )
 
     create(
       :training_provider_permissions,
       ratifying_provider: @ratifying_provider,
       training_provider: @training_provider,
+      setup_at: Time.current,
     )
   end
 

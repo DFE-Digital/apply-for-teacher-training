@@ -3,6 +3,13 @@ module ProviderInterface
     before_action :render_404_unless_permissions_found
     before_action :render_403_unless_access_permitted
 
+    def setup
+      @training_provider_permissions = TrainingProviderPermissions.where(
+        setup_at: nil,
+        training_provider: current_provider_user.providers,
+      ).includes(%i[training_provider ratifying_provider]).order(:created_at)
+    end
+
     def success; end
 
     def edit
@@ -16,9 +23,8 @@ module ProviderInterface
 
     def update
       initialize_form
-      @form.assign_permissions_attributes(provider_relationship_permissions_form_params)
 
-      if @form.save!
+      if @form.update!(provider_relationship_permissions_form_params)
         redirect_to provider_interface_provider_relationship_permissions_success_path
       else
         flash[:warning] = 'Unable to save permissions, please try again. If problems persist please contact support.'
@@ -62,9 +68,10 @@ module ProviderInterface
     end
 
     def render_403_unless_access_permitted
-      render_403 unless current_provider_user.providers.include?(
-        training_provider_permissions.training_provider,
-      )
+      training_provider = training_provider_permissions.training_provider
+
+      render_403 unless ProviderAuthorisation.new(actor: current_provider_user)
+        .can_manage_organisation?(provider: training_provider)
     end
   end
 end
