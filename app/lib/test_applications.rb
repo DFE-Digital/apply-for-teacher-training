@@ -147,7 +147,7 @@ class TestApplications
     when :declined
       make_offer(choice)
       decline_offer(choice)
-    when :accepted
+    when :accepted, :pending_conditions
       make_offer(choice)
       accept_offer(choice)
     when :accepted_no_conditions
