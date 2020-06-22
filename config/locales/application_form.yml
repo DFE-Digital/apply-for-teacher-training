@@ -85,6 +85,9 @@ en:
         values:
           uk: 'In the UK'
           international: 'Outside the UK'
+      country:
+        label: Country
+        default_option: Select a country
       international_address:
         label: Enter your address
         button: Save and continue
