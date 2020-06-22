@@ -1,8 +1,7 @@
 module ProviderInterface
   class OfferChangesController < ProviderInterfaceController
     before_action :set_application_choice
-
-    include RequiresMakeDecisionsPermission
+    before_action :requires_make_decisions_permission
 
     def edit_offer
       change_offer_form = \

@@ -2,8 +2,7 @@ module ProviderInterface
   class DecisionsController < ProviderInterfaceController
     before_action :set_application_choice
     before_action :requires_provider_change_response_feature_flag, only: %i[new_withdraw_offer confirm_withdraw_offer withdraw_offer]
-
-    include RequiresMakeDecisionsPermission
+    before_action :requires_make_decisions_permission
 
     def respond
       @pick_response_form = PickResponseForm.new
