@@ -10,7 +10,7 @@
       <%= qf.fields_for :reasons, r do |rf| %>
         <% # check_boxes_fieldset %>
         <%= rf.hidden_field :label %>
-        <%= rf.hidden_field :value, value: true %>
+        <%= rf.hidden_field :value, value: r.value %>
         <% r.textareas.each do |ta| %>
           <%= rf.fields_for :textareas, ta do |tf| %>
             <%= tf.hidden_field :label %>

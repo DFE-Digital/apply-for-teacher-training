@@ -22,7 +22,7 @@
         <% if q.reasons.any? %>
           <%= qf.govuk_radio_button :y_or_n, 'Y', label: { text: 'Yes' } do %>
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-              <%= t(q.additional_question) %>
+              <%= t(q.additional_question) if q.additional_question.present? %>
             </legend>
             <% q.reasons.each do |r| %>
               <%= qf.fields_for :reasons, r do |rf| %>
@@ -38,7 +38,7 @@
                     <% end %>
                   <% end %>
                 <% else %>
-                  <%= rf.hidden_field :value, value: 'true' %>
+                  <%= rf.hidden_field :value, value: r.value %>
                   <%= render 'textareas', reasons_fields: rf, textareas: r.textareas %>
                 <% end %>
               <% end %>
