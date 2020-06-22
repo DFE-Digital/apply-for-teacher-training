@@ -1,14 +1,15 @@
 class SyncProviderFromFind
-  def self.call(provider_code:, provider_name: nil, sync_courses: false)
-    new(provider_code, provider_name, sync_courses).call
+  def self.call(provider_code:, provider_name: nil, provider_recruitment_cycle_year:, sync_courses: false)
+    new(provider_code, provider_name, provider_recruitment_cycle_year, sync_courses).call
   end
 
-  attr_reader :provider_code, :provider_name
+  attr_reader :provider_code, :provider_name, :provider_recruitment_cycle_year
   attr_accessor :provider
 
-  def initialize(provider_code, provider_name, sync_courses)
+  def initialize(provider_code, provider_name, provider_recruitment_cycle_year, sync_courses)
     @provider_code = provider_code
     @provider_name = provider_name
+    @provider_recruitment_cycle_year = provider_recruitment_cycle_year
     @sync_courses = sync_courses
   end
 
@@ -71,7 +72,7 @@ private
     # For the full response, see:
     # https://api2.publish-teacher-training-courses.service.gov.uk/api/v3/recruitment_cycles/2020/providers/1N1/?include=sites,courses.sites
     FindAPI::Provider
-      .current_cycle
+      .recruitment_cycle(provider_recruitment_cycle_year)
       .includes(:sites, courses: [:sites, :subjects, site_statuses: [:site]])
       .find(provider_code)
       .first

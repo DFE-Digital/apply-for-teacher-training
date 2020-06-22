@@ -6,7 +6,7 @@ RSpec.describe SyncProviderFromFind do
   describe '.call' do
     context 'ingesting a brand new provider' do
       it 'just creates the provider without any courses' do
-        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
 
         provider = Provider.find_by_code('ABC')
         expect(provider).to be_present
@@ -22,7 +22,7 @@ RSpec.describe SyncProviderFromFind do
       it 'correctly updates the provider but does not import any courses' do
         stub_find_api_provider_200(provider_code: 'ABC', findable: true)
 
-        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
 
         expect(@existing_provider.reload.courses).to be_blank
         expect(@existing_provider.reload.name).to eq 'ABC College'
@@ -41,15 +41,15 @@ RSpec.describe SyncProviderFromFind do
           findable: true,
         )
 
-        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
 
         course_option = CourseOption.last
         expect(course_option.course.provider.code).to eq 'ABC'
         expect(course_option.course.code).to eq '9CBA'
         expect(course_option.course.exposed_in_find).to be true
-        expect(course_option.course.recruitment_cycle_year).to eql RecruitmentCycle.current_year
+        expect(course_option.course.recruitment_cycle_year).to eql stubbed_recruitment_cycle_year
         expect(course_option.course.description).to eq 'PGCE with QTS full time'
-        expect(course_option.course.start_date).to eq Time.zone.local(2020, 10, 31)
+        expect(course_option.course.start_date).to eq Time.zone.local(stubbed_recruitment_cycle_year, 10, 31)
         expect(course_option.course.course_length).to eq 'OneYear'
         expect(course_option.course.age_range).to eq '4 to 8'
         expect(course_option.site.name).to eq 'Main site'
@@ -69,13 +69,13 @@ RSpec.describe SyncProviderFromFind do
           site_address_line2: nil,
         )
 
-        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
 
         course_option = CourseOption.last
         expect(course_option.course.provider.code).to eq 'ABC'
         expect(course_option.course.code).to eq '9CBA'
         expect(course_option.course.exposed_in_find).to be true
-        expect(course_option.course.recruitment_cycle_year).to eql RecruitmentCycle.current_year
+        expect(course_option.course.recruitment_cycle_year).to eql stubbed_recruitment_cycle_year
         expect(course_option.site.name).to eq 'Main site'
         expect(course_option.site.address_line1).to eq 'Gorse SCITT'
         expect(course_option.site.address_line2).to be_nil
@@ -90,11 +90,11 @@ RSpec.describe SyncProviderFromFind do
           course_code: '9CBA',
           findable: true,
         )
-        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
         expect(CourseOption.count).to eq 1
         CourseOption.first.update!(vacancy_status: 'no_vacancies')
 
-        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
         expect(CourseOption.count).to eq 1
         expect(CourseOption.first.vacancy_status).to eq 'vacancies'
       end
@@ -105,11 +105,11 @@ RSpec.describe SyncProviderFromFind do
           course_code: '9CBA',
           content_status: 'withdrawn',
         )
-        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
         expect(CourseOption.count).to eq 1
         Course.first.update!(withdrawn: false)
 
-        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
         expect(Course.first.withdrawn).to eq true
       end
 
@@ -122,7 +122,7 @@ RSpec.describe SyncProviderFromFind do
           accredited_provider_name: 'Test Accredited Provider',
         )
 
-        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
 
         course_option = CourseOption.last
         expect(course_option.course.accredited_provider.code).to eq 'DEF'
@@ -139,7 +139,7 @@ RSpec.describe SyncProviderFromFind do
         )
 
         expect {
-          SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+          SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
         }.to change(ProviderInterface::TrainingProviderPermissions, :count).by(1)
          .and change(ProviderInterface::AccreditedBodyPermissions, :count).by(1)
 
@@ -162,7 +162,7 @@ RSpec.describe SyncProviderFromFind do
         )
 
         expect {
-          SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+          SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
         }.to change(ProviderInterface::TrainingProviderPermissions, :count).by(0)
          .and change(ProviderInterface::AccreditedBodyPermissions, :count).by(0)
       end
@@ -174,7 +174,7 @@ RSpec.describe SyncProviderFromFind do
           study_mode: 'full_time_or_part_time',
         )
 
-        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
 
         course = Provider.find_by_code('ABC').courses.find_by_code('9CBA')
         expect(course.study_mode).to eq 'full_time_or_part_time'
@@ -187,7 +187,7 @@ RSpec.describe SyncProviderFromFind do
           study_mode: 'full_time_or_part_time',
         )
 
-        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
 
         provider = Provider.find_by_code('ABC')
         course_options = provider.courses.find_by_code('9CBA').course_options
@@ -206,7 +206,7 @@ RSpec.describe SyncProviderFromFind do
           findable: true,
         )
 
-        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
 
         expect(@existing_provider.reload.region_code).to eq 'north_west'
       end
@@ -219,9 +219,12 @@ RSpec.describe SyncProviderFromFind do
           findable: true,
         )
         allow(Raven).to receive(:capture_message)
-        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
+
         expect(Course.count).to eq 1
         expect(CourseOption.count).to eq 1
+
         course = Course.first
         valid_course_option = course.course_options.first
 
@@ -234,7 +237,8 @@ RSpec.describe SyncProviderFromFind do
 
         create(:application_choice, course_option: invalid_course_option_two)
         create(:application_choice, course_option: valid_course_option, offered_course_option: invalid_course_option_three)
-        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
 
         expect(CourseOption.exists?(invalid_course_option_one.id)).to eq false
         expect(invalid_course_option_two.reload).not_to be_site_still_valid
@@ -249,7 +253,7 @@ RSpec.describe SyncProviderFromFind do
           findable: true,
         )
 
-        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
         course_option = CourseOption.last
 
         expect(course_option.course.subject_codes).to eq(%w[08])
@@ -265,7 +269,7 @@ RSpec.describe SyncProviderFromFind do
           findable: true,
         )
 
-        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
         course_option = CourseOption.last
 
         expect(course_option.course.qualifications).to be_nil
@@ -279,7 +283,7 @@ RSpec.describe SyncProviderFromFind do
           findable: true,
         )
 
-        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
         course_option = CourseOption.last
 
         expect(course_option.course.qualifications).to eq(%w[PG PF])
@@ -293,7 +297,7 @@ RSpec.describe SyncProviderFromFind do
           program_type: 'SD',
         )
 
-        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
         course_option = CourseOption.last
 
         # the enum field converts the value from the short code to the expanded value

@@ -27,7 +27,7 @@ RSpec.describe 'Sync from find' do
   end
 
   def when_sync_provider_from_find_is_called
-    SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', sync_courses: true)
+    SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year, sync_courses: true)
   end
 
   def then_the_correct_course_options_are_created_on_apply
