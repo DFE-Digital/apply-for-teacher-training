@@ -36,6 +36,10 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 - [Docker for DevOps](/docs/docker-for-devops.md)
 - [Swapping App Service Slots](/docs/swap-slots-pipeline.md)
 
+We keep track of the things we learn:
+
+- [Lessons learned](/docs/lessons-learned.md)
+
 ## How the application works
 
 The application has a number of different interfaces for different types of users:
