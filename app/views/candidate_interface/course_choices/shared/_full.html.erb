@@ -8,11 +8,19 @@
     <p class="govuk-body">You can:</p>
     <ul class="govuk-list govuk-list--bullet govuk-!-padding-bottom-8">
       <li>
-        <%= link_to(
-          'choose another course',
-          course_choices_path,
-          class: 'govuk-link'
-        ) %>
+        <% if @course_choice.present? %>
+          <%= link_to(
+              'choose another course',
+              candidate_interface_replace_course_choice_course_path(params['id'], params['provider_id']),
+              class: 'govuk-link'
+            ) %>
+        <% else %>
+          <%= link_to(
+            'choose another course',
+            course_choices_path,
+            class: 'govuk-link'
+          ) %>
+        <% end %>
       </li>
       <li>
         contact
