@@ -29,6 +29,7 @@ module CandidateInterface
     def address_type_params
       params.require(:candidate_interface_contact_details_form).permit(
         :address_type,
+        :country,
       )
     end
   end

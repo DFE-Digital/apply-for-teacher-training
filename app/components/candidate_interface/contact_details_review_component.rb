@@ -13,7 +13,7 @@ module CandidateInterface
     end
 
     def contact_details_form_rows
-      [phone_number_row, address_type_row, address_row].compact
+      [phone_number_row, address_row].compact
     end
 
     def show_missing_banner?
@@ -37,23 +37,19 @@ module CandidateInterface
       }
     end
 
-    def address_type_row
-      return nil unless FeatureFlag.active?(:international_addresses)
-
-      {
-        key: t('application_form.contact_details.address_type.label'),
-        value: t("application_form.contact_details.address_type.values.#{@contact_details_form.address_type}"),
-        action: t('application_form.contact_details.address_type.change_action'),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_type_path,
-      }
-    end
-
     def address_row
+      change_path =
+        if FeatureFlag.active?(:international_addresses)
+          Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_type_path
+        else
+          Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_path
+        end
+
       {
         key: t('application_form.contact_details.full_address.label'),
         value: full_address,
         action: t('application_form.contact_details.full_address.change_action'),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_path,
+        change_path: change_path,
       }
     end
 
@@ -70,7 +66,9 @@ module CandidateInterface
       else
         [
           @contact_details_form.international_address,
+          @contact_details_form.country,
         ]
+          .reject(&:blank?)
       end
     end
   end

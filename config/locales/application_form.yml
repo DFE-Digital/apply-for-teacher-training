@@ -86,7 +86,7 @@ en:
           uk: 'In the UK'
           international: 'Outside the UK'
       country:
-        label: Country
+        label: Which country?
         default_option: Select a country
       international_address:
         label: Enter your address

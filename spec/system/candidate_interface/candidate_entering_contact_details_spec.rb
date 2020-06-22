@@ -125,8 +125,6 @@ RSpec.feature 'Entering their contact details' do
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content t('application_form.contact_details.address_type.label')
-    expect(page).to have_content 'In the UK'
     expect(page).to have_content t('application_form.contact_details.phone_number.label')
     expect(page).to have_content '07700 900 982'
   end
@@ -165,18 +163,18 @@ RSpec.feature 'Entering their contact details' do
   def when_i_select_outside_the_uk
     expect(page).to have_content('Where do you live?')
     choose 'Outside the UK'
+    select('India', from: t('application_form.contact_details.country.label'))
     click_button t('application_form.contact_details.base.button')
   end
 
   def and_fill_in_an_international_address
-    fill_in t('application_form.contact_details.international_address.label'), with: '123 Chandni Chowk, Old Delhi, India'
+    fill_in t('application_form.contact_details.international_address.label'), with: '123 Chandni Chowk, Old Delhi'
   end
 
   def then_i_can_check_my_revised_address
-    expect(page).to have_content t('application_form.contact_details.address_type.label')
-    expect(page).to have_content 'Outside the UK'
     expect(page).to have_content t('application_form.contact_details.full_address.label')
-    expect(page).to have_content '123 Chandni Chowk, Old Delhi, India'
+    expect(page).to have_content '123 Chandni Chowk, Old Delhi'
+    expect(page).to have_content 'India'
   end
 
   def when_i_mark_the_section_as_completed

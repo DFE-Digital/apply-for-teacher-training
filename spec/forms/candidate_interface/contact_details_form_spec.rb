@@ -62,7 +62,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
 
     it 'updates the provided ApplicationForm with the international address field if valid' do
       form_data = {
-        international_address: '123 Chandni Chowk, Old Delhi, India',
+        international_address: '123 Chandni Chowk, Old Delhi',
       }
       application_form = build(:application_form)
       contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
@@ -73,7 +73,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
   end
 
   describe '#save_address_type' do
-    it 'updates the provided ApplicationForm with the address fields if valid' do
+    it 'updates the provided ApplicationForm with the address type fields for a valid UK address' do
       form_data = {
         address_type: 'uk',
       }
@@ -82,6 +82,28 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
 
       expect(contact_details.save_address_type(application_form)).to eq(true)
       expect(application_form).to have_attributes(form_data)
+    end
+
+    it 'updates the provided ApplicationForm with the address type fields for a valid international address' do
+      form_data = {
+        address_type: 'international',
+        country: 'India',
+      }
+      application_form = build(:application_form)
+      contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+
+      expect(contact_details.save_address_type(application_form)).to eq(true)
+      expect(application_form).to have_attributes(form_data)
+    end
+
+    it 'returns validation errors for an invalid international address' do
+      form_data = {
+        address_type: 'international',
+      }
+      application_form = build(:application_form)
+      contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+
+      expect(contact_details.save_address_type(application_form)).to eq(false)
     end
   end
 

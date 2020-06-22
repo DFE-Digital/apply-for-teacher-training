@@ -44,21 +44,12 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent do
     context 'when `international_addresses` feature is active' do
       before { FeatureFlag.activate(:international_addresses) }
 
-      it 'renders component with correct values for address type' do
-        result = render_inline(described_class.new(application_form: application_form))
-
-        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.contact_details.address_type.label'))
-        expect(result.css('.govuk-summary-list__value').text).to include('In the UK')
-        expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_type_path)
-        expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.contact_details.address_type.change_action')}")
-      end
-
       it 'renders component with correct values for a UK address' do
         result = render_inline(described_class.new(application_form: application_form))
 
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.contact_details.full_address.label'))
         expect(result.css('.govuk-summary-list__value').to_html).to include('42<br>Much Wow Street<br>London<br>England<br>SW1P 3BT')
-        expect(result.css('.govuk-summary-list__actions a')[2].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_path)
+        expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_type_path)
         expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.contact_details.full_address.change_action')}")
       end
 
@@ -67,13 +58,14 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent do
           :application_form,
           phone_number: '+91 1234567890',
           address_type: 'international',
-          international_address: '321 MG Road, Mumbai, India',
+          international_address: '321 MG Road, Mumbai',
+          country: 'India',
         )
         result = render_inline(described_class.new(application_form: application_form))
 
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.contact_details.full_address.label'))
-        expect(result.css('.govuk-summary-list__value').to_html).to include('321 MG Road, Mumbai, India')
-        expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_path)
+        expect(result.css('.govuk-summary-list__value').to_html).to include('321 MG Road, Mumbai<br>India')
+        expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_type_path)
         expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.contact_details.full_address.change_action')}")
       end
     end
