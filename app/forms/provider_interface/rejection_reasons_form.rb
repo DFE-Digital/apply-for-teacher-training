@@ -10,7 +10,7 @@ module ProviderInterface
     STEP_1_QUESTION_COUNT = 8
 
     def self.questions
-      @questions ||= YAML.load_file('rejection_reasons_questions.yml')
+      @questions ||= YAML.load_file(Rails.root.join('config/rejection_reasons_questions.yml'))
     end
 
     def initialize(*args)
@@ -43,15 +43,19 @@ module ProviderInterface
       answered_questions.find { |q| q.label.include?('future_applications') }.y_or_n == 'Y'
     end
 
+    def step_2_questions?
+      @answered_questions.count == STEP_1_QUESTION_COUNT && last_2_answers_no?
+    end
+
     def last_2_answers_no?
       answered_questions.map(&:y_or_n).flatten.last(2).include?('N')
     end
 
     def questions_for_current_step
       if answered_questions.count.zero?
-        QUESTIONS.take(STEP_1_QUESTION_COUNT)
-      elsif last_2_answers_no?
-        QUESTIONS.drop(STEP_1_QUESTION_COUNT)
+        self.class.questions.take(STEP_1_QUESTION_COUNT)
+      elsif step_2_questions?
+        self.class.questions.drop(STEP_1_QUESTION_COUNT)
       else
         []
       end
