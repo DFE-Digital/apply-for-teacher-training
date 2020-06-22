@@ -232,15 +232,15 @@ Rails.application.routes.draw do
         get '/complete_selection/:course_id', to: redirect('/candidate/application/courses/complete-selection/%{course_id}')
 
         scope '/replace' do
-          get '/:id/choose' => 'course_choices/replace_choices/have_you_chosen#ask', as: :replace_course_choices_choose
-          post '/:id/choose' => 'course_choices/replace_choices/have_you_chosen#decide'
-          get '/:id/find-a-course' => 'course_choices/replace_choices/have_you_chosen#go_to_find', as: :replace_go_to_find
-
           get '/' => 'course_choices/replace_choices/base#pick_choice_to_replace', as: :replace_course_choices
           post '/' => 'course_choices/replace_choices/base#picked_choice'
 
           get '/:id' => 'course_choices/replace_choices/decision#choose_action', as: :replace_course_choice
           post '/:id' => 'course_choices/replace_choices/decision#route_action'
+
+          get '/:id/choose' => 'course_choices/replace_choices/have_you_chosen#ask', as: :replace_course_choices_choose
+          post '/:id/choose' => 'course_choices/replace_choices/have_you_chosen#decide'
+          get '/:id/find-a-course' => 'course_choices/replace_choices/have_you_chosen#go_to_find', as: :replace_go_to_find
 
           get '/:id/provider' => 'course_choices/replace_choices/provider_selection#new', as: :replace_course_choice_provider
           post '/:id/provider' => 'course_choices/replace_choices/provider_selection#create'
