@@ -1,14 +1,13 @@
 class RejectApplication
   include ActiveModel::Validations
 
-  attr_accessor :rejection_reason
+  attr_accessor :rejection_reasons
 
-  validates_presence_of :rejection_reason
-  validates_length_of :rejection_reason, maximum: 255
+  validates_presence_of :rejection_reasons
 
-  def initialize(application_choice:, rejection_reason: nil)
+  def initialize(application_choice:, rejection_reasons: nil)
     @application_choice = application_choice
-    @rejection_reason = rejection_reason
+    @rejection_reasons = rejection_reasons
   end
 
   def save
@@ -17,7 +16,7 @@ class RejectApplication
     ActiveRecord::Base.transaction do
       ApplicationStateChange.new(@application_choice).reject!
       @application_choice.update!(
-        rejection_reason: @rejection_reason,
+        structured_rejection_reasons: @rejection_reasons,
         rejected_at: Time.zone.now,
       )
       SetDeclineByDefault.new(application_form: @application_choice.application_form).call
