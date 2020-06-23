@@ -5,7 +5,7 @@ RSpec.describe Course, type: :model do
     subject(:course) { create(:course) }
 
     it { is_expected.to validate_presence_of :level }
-    it { is_expected.to validate_uniqueness_of(:code).scoped_to(:provider_id) }
+    it { is_expected.to validate_uniqueness_of(:code).scoped_to(%i[recruitment_cycle_year provider_id]) }
   end
 
   describe '#both_study_modes_available?' do
