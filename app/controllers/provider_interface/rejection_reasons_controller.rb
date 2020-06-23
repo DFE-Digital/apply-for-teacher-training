@@ -26,7 +26,7 @@ module ProviderInterface
       @reasons_form = RejectionReasonsForm.new(form_params)
       @reject_application = RejectApplication.new(
         application_choice: @application_choice,
-        rejection_reasons: @reasons_form.all_answered_questions.to_yaml,
+        rejection_reasons: @reasons_form.all_answered_questions,
       )
 
       if @reject_application.save

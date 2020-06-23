@@ -1,6 +1,8 @@
 class ApplicationChoice < ApplicationRecord
   include Chased
 
+  serialize :structured_rejection_reasons
+
   before_create :set_initial_status
 
   belongs_to :application_form, touch: true
