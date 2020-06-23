@@ -1,7 +1,9 @@
 <%= f.govuk_text_field(
   :type_description,
+  id: 'degree-type',
   label: { text: t('application_form.degree.qualification_type.label'), size: 'm' },
   hint_text: t('application_form.degree.qualification_type.hint_text.undergraduate')
 ) %>
+<%= tag.div(id: 'degree-type-autocomplete', class: 'govuk-form-group', data: { source: @degree_types }) %>
 
 <%= f.govuk_submit t('application_form.degree.base.button') %>

@@ -2,6 +2,7 @@ module CandidateInterface
   module Degrees
     class TypeController < CandidateInterfaceController
       before_action :redirect_to_dashboard_if_submitted
+      before_action :set_degree_type_names
 
       def new
         @degree_type_form = DegreeTypeForm.new
@@ -35,6 +36,10 @@ module CandidateInterface
       end
 
     private
+
+      def set_degree_type_names
+        @degree_types = Hesa::DegreeType.abbreviations_and_names
+      end
 
       def degree_type_params
         params
