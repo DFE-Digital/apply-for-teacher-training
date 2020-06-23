@@ -4,6 +4,7 @@ RSpec.feature 'Provider responds to application' do
   include CourseOptionHelpers
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
+  include ProviderRelationshipPermissionsHelper
 
   let(:course_option) { course_option_for_provider_code(provider_code: 'ABC') }
 
@@ -15,22 +16,11 @@ RSpec.feature 'Provider responds to application' do
     create(:submitted_application_choice, status: 'rejected', rejected_at: Time.zone.now, course_option: course_option)
   end
 
-  scenario 'Provider cannot respond to an application without make_decisions' do
-    given_i_am_a_provider_user_with_dfe_sign_in
-    and_i_am_permitted_to_see_applications_for_my_provider
-    and_i_am_not_permitted_to_make_decisions_for_my_provider
-    and_i_sign_in_to_the_provider_interface
-
-    when_i_try_to_respond_to_an_application
-    then_i_get_access_denied
-  end
-
-  scenario 'Provider can respond to an application currently awaiting_provider_decision' do
+  scenario 'Provider can respond to an application' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
     and_i_sign_in_to_the_provider_interface
 
-    and_i_am_permitted_to_make_decisions_for_my_provider
     when_i_visit_a_application_with_status_awaiting_provider_decision
     then_i_can_see_its_status application_awaiting_provider_decision
     and_i_can_respond_to_the_application
@@ -43,7 +33,6 @@ RSpec.feature 'Provider responds to application' do
   scenario 'Provider cannot respond to application currently rejected' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
-    and_i_am_permitted_to_make_decisions_for_my_provider
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_a_application_with_status_rejected
@@ -59,20 +48,6 @@ RSpec.feature 'Provider responds to application' do
     provider_user_exists_in_apply_database
   end
 
-  def and_i_am_permitted_to_make_decisions_for_my_provider
-    permit_make_decisions!
-  end
-
-  def and_i_am_not_permitted_to_make_decisions_for_my_provider
-    FeatureFlag.activate 'provider_make_decisions_restriction'
-  end
-
-  def when_i_try_to_respond_to_an_application
-    visit provider_interface_application_choice_respond_path(
-      application_awaiting_provider_decision.id,
-    )
-  end
-
   def when_i_visit_a_application_with_status_awaiting_provider_decision
     visit provider_interface_application_choice_path(
       application_awaiting_provider_decision.id,
@@ -83,10 +58,6 @@ RSpec.feature 'Provider responds to application' do
     visit provider_interface_application_choice_path(
       application_rejected.id,
     )
-  end
-
-  def then_i_get_access_denied
-    expect(page).to have_content 'Access denied'
   end
 
   def then_i_can_see_its_status(application)

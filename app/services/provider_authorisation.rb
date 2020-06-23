@@ -13,7 +13,8 @@ class ProviderAuthorisation
     ratifying_provider = course_option.course.accredited_provider
 
     # enforce org-level 'make_decisions' restriction
-    return false if FeatureFlag.active?(:enforce_provider_to_provider_permissions) &&
+    return false if ratifying_provider &&
+      FeatureFlag.active?(:enforce_provider_to_provider_permissions) &&
       FeatureFlag.active?('provider_make_decisions_restriction') &&
       provider_relationship_permissions_for_actor(
         training_provider: training_provider,

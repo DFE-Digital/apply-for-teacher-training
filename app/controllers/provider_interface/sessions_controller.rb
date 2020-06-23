@@ -2,6 +2,7 @@ module ProviderInterface
   class SessionsController < ProviderInterfaceController
     skip_before_action :authenticate_provider_user!
     skip_before_action :check_data_sharing_agreements
+    skip_before_action :check_provider_relationship_permissions
 
     def new
       if FeatureFlag.active?('dfe_sign_in_fallback')

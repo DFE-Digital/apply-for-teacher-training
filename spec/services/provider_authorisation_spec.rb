@@ -20,7 +20,7 @@ RSpec.describe ProviderAuthorisation do
     let(:ratifying_provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }
     let(:ratifying_provider) { ratifying_provider_user.providers.first }
 
-    let(:course) do
+    let(:ratified_course) do
       create(
         :course,
         :open_on_apply,
@@ -28,12 +28,22 @@ RSpec.describe ProviderAuthorisation do
         accredited_provider: ratifying_provider,
       )
     end
-    let(:course_option) { create(:course_option, course: course) }
+    let(:course_option_A) { create(:course_option, course: ratified_course) }
+
+    let(:self_ratified_course) do
+      create(
+        :course,
+        :open_on_apply,
+        provider: training_provider,
+      )
+    end
+    let(:course_option_B) { create(:course_option, course: self_ratified_course) }
+
     let(:application_choice) do
       create(
         :application_choice,
         :awaiting_provider_decision,
-        course_option: course_option,
+        course_option: course_option_A,
       )
     end
 
@@ -76,6 +86,16 @@ RSpec.describe ProviderAuthorisation do
 
         expect(can_make_offer?(actor: training_provider_user)).to be_truthy
         expect(can_make_offer?(actor: ratifying_provider_user)).to be_falsy
+      end
+
+      it 'training_provider for self-ratified course can always offer' do
+        for_self_ratified_course = create(
+          :application_choice,
+          :awaiting_provider_decision,
+          course_option: course_option_B,
+        )
+
+        expect(can_make_offer?(actor: training_provider_user, choice: for_self_ratified_course)).to be_truthy
       end
     end
 

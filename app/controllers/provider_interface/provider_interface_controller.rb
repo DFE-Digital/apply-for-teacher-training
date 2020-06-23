@@ -1,10 +1,11 @@
 module ProviderInterface
-  class MissingPermission < StandardError
-    attr_reader :permission, :provider, :provider_user
+  class AccessDenied < StandardError
+    attr_reader :permission, :training_provider, :ratifying_provider, :provider_user
 
     def initialize(hash)
       @permission = hash[:permission]
-      @provider = hash[:provider]
+      @training_provider = hash[:training_provider]
+      @ratifying_provider = hash[:ratifying_provider]
       @provider_user = hash[:provider_user]
     end
   end
@@ -25,7 +26,7 @@ module ProviderInterface
       render template: 'provider_interface/account_creation_in_progress', status: :forbidden
     }
 
-    rescue_from ProviderInterface::MissingPermission, with: :permission_error
+    rescue_from ProviderInterface::AccessDenied, with: :permission_error
 
     helper_method :current_provider_user, :dfe_sign_in_user
 
@@ -95,6 +96,22 @@ module ProviderInterface
         ProviderInterface::ProviderAgreementsController,
         ProviderInterface::ProviderRelationshipPermissionsController,
       ].include?(request.controller_class)
+    end
+
+    def requires_make_decisions_permission
+      auth = ProviderAuthorisation.new(actor: current_provider_user)
+
+      if !auth.can_make_offer?(
+        application_choice: @application_choice,
+        course_option_id: @application_choice.offered_option.id,
+      )
+        raise ProviderInterface::AccessDenied.new({
+          permission: 'make_decisions',
+          training_provider: @application_choice.offered_course.provider,
+          ratifying_provider: @application_choice.offered_course.accredited_provider,
+          provider_user: current_provider_user,
+        }), 'make_decisions required'
+      end
     end
 
     def render_404
