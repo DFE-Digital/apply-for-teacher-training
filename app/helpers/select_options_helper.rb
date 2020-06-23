@@ -8,7 +8,7 @@ module SelectOptionsHelper
   def select_country_options
     [
       OpenStruct.new(id: '', name: t('application_form.contact_details.country.default_option')),
-    ] + COUNTRIES.map { |iso3166, country| OpenStruct.new(id: iso3166, name: country) }
+    ] + COUNTRIES.except('GB').map { |iso3166, country| OpenStruct.new(id: iso3166, name: country) }
   end
 
   def select_course_options(courses)
