@@ -4,7 +4,7 @@ module ProviderInterface
     before_action :render_403_unless_access_permitted
 
     def setup
-      @training_provider_permissions = TrainingProviderPermissions.where(
+      @relationships_pending_setup = TrainingProviderPermissions.where(
         setup_at: nil,
         training_provider: current_provider_user.providers,
       ).includes(%i[training_provider ratifying_provider]).order(:created_at)

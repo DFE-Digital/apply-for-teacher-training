@@ -14,7 +14,7 @@
     <p>You can change these settings at any time.</p>
     <h2 class="govuk-heading-m">Your organisations that need setting up</h2>
 
-    <% @training_provider_permissions.each do |permission| %>
+    <% @relationships_pending_setup.each do |permission| %>
       <div class="app-application-card govuk-!-margin-bottom-7">
         <div>
           <h2 class="govuk-heading-s govuk-!-margin-bottom-0"><%= permission.training_provider.name %></h2>
@@ -29,8 +29,8 @@
     <%= govuk_link_to(
       'Continue',
       provider_interface_edit_provider_relationship_permissions_path(
-        ratifying_provider_id: @training_provider_permissions.first.ratifying_provider.id,
-        training_provider_id: @training_provider_permissions.first.training_provider.id,
+        ratifying_provider_id: @relationships_pending_setup.first.ratifying_provider.id,
+        training_provider_id: @relationships_pending_setup.first.training_provider.id,
       ),
       class: "govuk-button",
     ) %>
