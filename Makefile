@@ -5,7 +5,7 @@ COVERAGE_RESULT_PATH=/app/coverage
 
 define copy_to_host
 	## Obtains the results folder from within the stopped container and copies it to the local file system on the agent.
-	container_id=$$(docker ps -a --no-trunc | grep apply-for-postgraduate-teacher-training | head -1 | cut -d ' ' -f1); \
+	container_id=$$(docker ps -a --no-trunc | grep apply-for-teacher-training | head -1 | cut -d ' ' -f1); \
 	docker cp $$container_id:$(1)/ testArtifacts/
 endef
 

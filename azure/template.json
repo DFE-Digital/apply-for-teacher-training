@@ -388,7 +388,7 @@
     },
     "variables": {
         "deploymentUrlBase": "https://raw.githubusercontent.com/DFE-Digital/bat-platform-building-blocks/master/templates/",
-        "deploymentUrlBaseLocal": "[concat('https://raw.githubusercontent.com/DFE-Digital/apply-for-postgraduate-teacher-training/', parameters('localBranchName'),'/azure/')]",
+        "deploymentUrlBaseLocal": "[concat('https://raw.githubusercontent.com/DFE-Digital/apply-for-teacher-training/', parameters('localBranchName'),'/azure/')]",
         "resourceNamePrefix": "[toLower(concat(parameters('subscriptionPrefix'), parameters('resourceEnvironmentName'),'-', parameters('serviceName')))]",
         "appServiceName": "[concat(variables('resourceNamePrefix'), '-as')]",
         "appServicePlanName": "[concat(variables('resourceNamePrefix'), '-asp')]",

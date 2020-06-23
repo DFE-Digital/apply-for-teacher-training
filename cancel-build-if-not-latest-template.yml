@@ -15,8 +15,8 @@ steps:
       $azureDevOpsAuthorizationHeader = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
       $gitHubApiHeader = @{ Accept = "application/vnd.github.v3+json" }
       $azurePipelinesBuildApi = "$($env:COLLECTION_URL)$env:PROJECT_ID/_apis/build/builds/$($env:BUILD_ID)?api-version=5.1"
-      $gitHubGetCurrentCommitApi = "https://api.github.com/repos/DFE-Digital/apply-for-postgraduate-teacher-training/git/commits/$($env:COMMIT_ID)"
-      $gitHubGetNewCommitsToMasterApi = "https://api.github.com/repos/DFE-Digital/apply-for-postgraduate-teacher-training/commits?sha=$($env:SOURCE_BRANCH)"
+      $gitHubGetCurrentCommitApi = "https://api.github.com/repos/DFE-Digital/apply-for-teacher-training/git/commits/$($env:COMMIT_ID)"
+      $gitHubGetNewCommitsToMasterApi = "https://api.github.com/repos/DFE-Digital/apply-for-teacher-training/commits?sha=$($env:SOURCE_BRANCH)"
       
       Write-Debug "azurePipelinesBuildApi is $azurePipelinesBuildApi"
       Write-Debug "gitHubGetCurrentCommitApi is $gitHubGetCurrentCommitApi"

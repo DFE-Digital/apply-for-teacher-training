@@ -1,6 +1,6 @@
 # Creating and Deploying to a new environment in Azure
 
-All the steps required to create and deploy to an Azure environment are written in the [Pipelines deploy template file](https://github.com/DFE-Digital/apply-for-postgraduate-teacher-training/blob/master/azure-pipelines-deploy-template.yml). This template is referenced inside the main Azure Pipelines configuration file and reused with appropriate parameters for the required environment.
+All the steps required to create and deploy to an Azure environment are written in the [Pipelines deploy template file](https://github.com/DFE-Digital/apply-for-teacher-training/blob/master/azure-pipelines-deploy-template.yml). This template is referenced inside the main Azure Pipelines configuration file and reused with appropriate parameters for the required environment.
 
 ## Configure Variable Groups in Azure DevOps
 For deploying to a new environment, we need to configure the required variables in a variable group that will hold the values to be passed as parameters to the pipeline deployment steps.

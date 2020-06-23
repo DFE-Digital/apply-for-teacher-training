@@ -110,11 +110,11 @@ jobs:
                   #RG exists, proceed with other checks
                   #Get array of deployment files, which if changed, should trigger a full ARM deployment.
                   #Add pipeline files to array
-                  $gitContentsUri = "https://api.github.com/repos/DFE-Digital/apply-for-postgraduate-teacher-training/contents?ref=$env:COMMIT_HASH"
+                  $gitContentsUri = "https://api.github.com/repos/DFE-Digital/apply-for-teacher-training/contents?ref=$env:COMMIT_HASH"
                   $gitApiResponse = Invoke-RestMethod -Method Get -Uri $gitContentsUri -Headers @{Authorization = $encodedAccessToken}
                   $deploymentFiles = $gitApiResponse | Where-Object {$_.name -like "azure-pipelines*.yml"} | Select-Object -ExpandProperty Name
                   #Add ARM template files to array
-                  $gitContentsUri = "https://api.github.com/repos/DFE-Digital/apply-for-postgraduate-teacher-training/contents/azure?ref=$env:COMMIT_HASH"
+                  $gitContentsUri = "https://api.github.com/repos/DFE-Digital/apply-for-teacher-training/contents/azure?ref=$env:COMMIT_HASH"
                   $gitApiResponse = Invoke-RestMethod -Method Get -Uri $gitContentsUri -Headers @{Authorization = $encodedAccessToken}
                   $deploymentFiles += $gitApiResponse | Where-Object {$_.name -like "*.json"} | Select-Object -ExpandProperty Name | Foreach-Object { "azure/$_" }
                   write-host ("DEBUG - Deployment files to compare changes against: {0}" -f [system.string]::Join(", ", $deploymentFiles))
@@ -140,9 +140,9 @@ jobs:
 
                   #Get the list of files changed in the commit the build was triggered from. If this is a re-run of the same build we will just look at the files changed in that commit"
                   if ( $currentDeployedCommit -eq $env:COMMIT_HASH ) {
-                    $gitCompareUri= "https://api.github.com/repos/DFE-Digital/apply-for-postgraduate-teacher-training/commits/$env:COMMIT_HASH"
+                    $gitCompareUri= "https://api.github.com/repos/DFE-Digital/apply-for-teacher-training/commits/$env:COMMIT_HASH"
                   } else {
-                    $gitCompareUri= "https://api.github.com/repos/DFE-Digital/apply-for-postgraduate-teacher-training/compare/$currentDeployedCommit...$env:COMMIT_HASH"
+                    $gitCompareUri= "https://api.github.com/repos/DFE-Digital/apply-for-teacher-training/compare/$currentDeployedCommit...$env:COMMIT_HASH"
                   }
                   $gitChangedFiles = (Invoke-RestMethod -Method Get -Uri $gitCompareUri -Headers @{Authorization = $encodedAccessToken}).files.filename
                   if ( $gitChangedFiles.length -gt 0 ) {
