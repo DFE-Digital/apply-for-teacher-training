@@ -147,42 +147,59 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
   describe 'attributes.candidate.contact_details' do
     it 'returns contact details in correct format for UK addresses' do
-      contact_detail_attributes = {
+      application_form_attributes = {
         phone_number: '07700 900 982',
-        address_type: 'uk',
         address_line1: '42',
         address_line2: 'Much Wow Street',
         address_line3: 'London',
         address_line4: 'England',
-        country: 'United Kingdom',
+        country: 'GB',
         postcode: 'SW1P 3BT',
       }
-      application_form = create(:completed_application_form, :with_completed_references, contact_detail_attributes)
-      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+      application_form = create(
+        :completed_application_form,
+        :with_completed_references,
+        application_form_attributes,
+      )
+      application_choice = create(
+        :application_choice,
+        status: 'awaiting_provider_decision',
+        application_form: application_form,
+      )
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
 
+      expected_contact_details = application_form_attributes.merge(email: application_form.candidate.email_address)
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
-      expect(response.dig(:attributes, :contact_details)).to eq contact_detail_attributes
+      expect(response.dig(:attributes, :contact_details)).to eq expected_contact_details
     end
 
     it 'returns contact details in correct format for international addresses' do
-      contact_detail_attributes = {
+      application_form_attributes = {
         phone_number: '07700 900 982',
         address_type: 'international',
         international_address: '456 Marine Drive, Mumbai',
-        country: 'India',
+        country: 'IN',
       }
-      application_form = create(:completed_application_form, :with_completed_references, contact_detail_attributes)
-      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+      application_form = create(
+        :completed_application_form,
+        :with_completed_references,
+        application_form_attributes,
+      )
+      application_choice = create(
+        :application_choice,
+        status: 'awaiting_provider_decision',
+        application_form: application_form,
+      )
 
+      FeatureFlag.activate(:international_addresses)
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
 
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
       expect(response.dig(:attributes, :contact_details)).to eq({
         phone_number: '07700 900 982',
         address_line1: '456 Marine Drive, Mumbai',
-        country: 'India',
+        country: 'IN',
         email: application_form.candidate.email_address,
       })
     end
