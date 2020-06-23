@@ -32,6 +32,7 @@ en:
         feedback: Safeguarding issues
       alternative_rejection_reason:
         label: Why are you rejecting this application?
+        feedback: Reasons why your application was unsuccessful
       any_other_advice:
         label: Is there any other advice or feedback you’d like to give %{candidates_name}?
         feedback: Additional advice

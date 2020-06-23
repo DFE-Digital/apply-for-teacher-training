@@ -26,6 +26,21 @@ module ProviderInterface
       @answered_questions || []
     end
 
+    def all_answered_questions
+      answered_questions << alternative_rejection_reason_question
+    end
+
+    def alternative_rejection_reason_question
+      RejectionReasonQuestion.new(label: 'rejection_reasons.questions.alternative_rejection_reason.label', reasons: [
+        RejectionReasonReason.new(label: 'rejection_reasons.questions.alternative_rejection_reason.label', textareas: [
+          RejectionReasonTextarea.new(
+            label: 'rejection_reasons.questions.alternative_rejection_reason.label',
+            value: alternative_rejection_reason,
+          ),
+        ]),
+      ])
+    end
+
     def assign_answered_questions
       @answered_questions, @questions = questions.partition(&:answered)
     end
@@ -40,7 +55,7 @@ module ProviderInterface
     end
 
     def answered_yes_to_question?(question_key)
-      answered_questions.find { |q| q.label.include?(question_key) }.y_or_n == 'Y'
+      answered_questions.find { |q| q.label.include?(question_key) }&.y_or_n == 'Y'
     end
 
     def step_2_questions?
