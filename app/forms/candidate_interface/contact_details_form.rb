@@ -41,8 +41,6 @@ module CandidateInterface
       return false unless valid?(:address)
 
       if uk?
-        # TODO: Reset international address attributes?
-
         application_form.update(
           address_line1: address_line1,
           address_line2: address_line2,
@@ -50,11 +48,15 @@ module CandidateInterface
           address_line4: address_line4,
           postcode: postcode&.upcase,
           country: 'GB',
+          international_address: nil,
         )
       else
-        # TODO: Reset structured address attributes?
-
         application_form.update(
+          address_line1: nil,
+          address_line2: nil,
+          address_line3: nil,
+          address_line4: nil,
+          postcode: nil,
           international_address: international_address,
         )
       end

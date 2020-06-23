@@ -51,13 +51,14 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
         address_line4: 'United Kingdom',
         postcode: 'bn1 1aa',
       }
-      application_form = build(:application_form)
+      application_form = build(:application_form, international_address: 'some old address')
       contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
 
       form_data[:postcode] = 'BN1 1AA'
 
       expect(contact_details.save_address(application_form)).to eq(true)
       expect(application_form).to have_attributes(form_data)
+      expect(application_form.international_address).to be_nil
     end
 
     it 'updates the provided ApplicationForm with the international address field if valid' do
@@ -69,6 +70,11 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
 
       expect(contact_details.save_address(application_form)).to eq(true)
       expect(application_form).to have_attributes(form_data)
+      expect(application_form.address_line1).to be_nil
+      expect(application_form.address_line2).to be_nil
+      expect(application_form.address_line3).to be_nil
+      expect(application_form.address_line4).to be_nil
+      expect(application_form.postcode).to be_nil
     end
   end
 
