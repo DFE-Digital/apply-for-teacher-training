@@ -19,6 +19,18 @@ RSpec.describe InviteProviderUser, sidekiq: true do
       expect { InviteProviderUser.new }.to raise_error(ArgumentError)
       expect { InviteProviderUser.new(provider_user: ProviderUser.new) }.not_to raise_error
     end
+
+    it 'blows up when DSI_API_URL ENV var is missing' do
+      ClimateControl.modify(DSI_API_SECRET: 'something', DSI_API_URL: nil) do
+        expect { InviteProviderUser.new(provider_user: ProviderUser.new) }.to raise_error(KeyError, /DSI_API_URL/)
+      end
+    end
+
+    it 'blows up when DSI_API_SECRET ENV var is missing' do
+      ClimateControl.modify(DSI_API_SECRET: nil, DSI_API_URL: 'something') do
+        expect { InviteProviderUser.new(provider_user: ProviderUser.new) }.to raise_error(KeyError, /DSI_API_SECRET/)
+      end
+    end
   end
 
   describe '#call! if API response is successful' do

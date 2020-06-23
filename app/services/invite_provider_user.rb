@@ -5,6 +5,8 @@ class InviteProviderUser
 
   def initialize(provider_user:)
     @provider_user = provider_user
+    @dsi_api_url = ENV.fetch('DSI_API_URL')
+    @dsi_api_secret = ENV.fetch('DSI_API_SECRET')
   end
 
   def call!
@@ -14,17 +16,14 @@ class InviteProviderUser
   end
 
   def dfe_invite_url
-    baseurl = ENV.fetch('DSI_API_URL')
-    if baseurl.present?
-      "#{baseurl}/services/apply/invitations"
-    end
+    "#{@dsi_api_url}/services/apply/invitations"
   end
 
 private
 
   def invite_user_to_dfe_sign_in
     jwt_payload = { iss: 'apply', aud: 'signin.education.gov.uk' }
-    token = JWT.encode jwt_payload, ENV['DSI_API_SECRET'], DSI_JWT_HMAC
+    token = JWT.encode jwt_payload, @dsi_api_secret, DSI_JWT_HMAC
     auth_string = "Bearer #{token}"
     request_params = {
       sourceId: @provider_user.id,
