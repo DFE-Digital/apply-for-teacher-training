@@ -70,6 +70,10 @@ en:
         degree_doesnt_meet_course_requiremnets:
           label: Degree doesn’t meet course requirements
           feedback: Degree doesn’t meet course requirements.
+      course_is_full:
+          feedback: We’re sorry to tell you that the course you applied to was full.
+      offered_them_a_place_on_another_course:
+          feedback: This provider has offered you a place on one of your other choices. Check your email or application dashboard for details.
       concerns_about_honesty_and_professionalism:
         false_or_inaccurate_information:
           label: Information given on application form false or inaccurate

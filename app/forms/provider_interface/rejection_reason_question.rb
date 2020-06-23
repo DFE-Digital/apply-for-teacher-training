@@ -47,6 +47,10 @@ module ProviderInterface
       end
     end
 
+    def answered_yes?(question_key)
+      label.include?(question_key) && y_or_n == 'Y'
+    end
+
     alias_method :id, :label
   end
 end

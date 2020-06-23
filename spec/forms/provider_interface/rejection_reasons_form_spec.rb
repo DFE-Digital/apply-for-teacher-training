@@ -56,4 +56,51 @@ RSpec.describe ProviderInterface::RejectionReasonsForm do
       end
     end
   end
+
+  describe '#all_answers_no?' do
+    let(:attr_hash) { {} }
+    let(:questions_attributes) { { questions_attributes: attr_hash } }
+
+    subject(:rejection_reasons_form) { described_class.new(questions_attributes) }
+
+    it 'returns true if all step 1 questions were answered no' do
+      described_class::STEP_1_QUESTION_COUNT.times { |n| attr_hash["questions[#{n}]"] = { y_or_n: 'N', answered: true } }
+
+      expect(rejection_reasons_form.all_answers_no?).to eq(true)
+    end
+
+    it 'returns false if not all step 1 questions were answered no' do
+      described_class::STEP_1_QUESTION_COUNT.times { |n| attr_hash["questions[#{n}]"] = { y_or_n: 'Y', answered: true } }
+
+      expect(rejection_reasons_form.all_answers_no?).to eq(false)
+    end
+  end
+
+  describe '#answered_yes_to_question?' do
+    let(:attr_hash) { {} }
+    let(:question_key) { 'future_applications' }
+    let(:questions_attributes) { { questions_attributes: attr_hash } }
+
+    subject(:rejection_reasons_form) { described_class.new(questions_attributes) }
+
+    it 'returns true if question was answered yes' do
+      attr_hash['questions[9]'] = {
+        label: 'rejection_reasons.questions.future_applications.label',
+        y_or_n: 'Y',
+        answered: true,
+      }
+
+      expect(rejection_reasons_form.answered_yes_to_question?(question_key)).to eq(true)
+    end
+
+    it 'returns false if question was answered no' do
+      attr_hash['questions[9]'] = {
+        label: 'rejection_reasons.questions.future_applications.label',
+        y_or_n: 'N',
+        answered: true,
+      }
+
+      expect(rejection_reasons_form.answered_yes_to_question?(question_key)).to eq(false)
+    end
+  end
 end
