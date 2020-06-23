@@ -26,7 +26,9 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice, options: @status_box_options) %>
+    <%= render ProviderInterface::RejectionReasonsComponent.new(
+      rejection_reasons: @application_choice.load_structured_rejection_reasons
+    ) if @application_choice.structured_rejection_reasons.present? %>
 
     <h2 class="govuk-heading-l" id="course-info">Application</h2>
     <%= render PersonalDetailsComponent.new(application_form: @application_choice.application_form) %>
