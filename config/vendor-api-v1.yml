@@ -528,10 +528,6 @@ components:
       additionalProperties: false
       required:
       - address_line1
-      - address_line2
-      - address_line3
-      - address_line4
-      - postcode
       - country
       - email
       - phone_number
@@ -546,21 +542,25 @@ components:
           description: The candidate’s address line 2
           maxLength: 50
           example: Stockport
+          nullable: true
         address_line3:
           type: string
           description: The candidate’s address line 3
           maxLength: 50
           example: Greater Manchester
+          nullable: true
         address_line4:
           type: string
           description: The candidate’s address line 4
           maxLength: 50
           example: England
+          nullable: true
         postcode:
           type: string
           description: The candidate’s postcode
           maxLength: 8
           example: SK2 6AA
+          nullable: true
         country:
           type: string
           maxLength: 2
