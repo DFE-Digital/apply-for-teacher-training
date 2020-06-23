@@ -19,4 +19,4 @@
 - [ ] This code doesn't rely on migrations in the same Pull Request
 - [ ] If this code includes a migration adding or changing columns, it also backfills existing records for consistency
 - [ ] API release notes have been updated if necessary
-- [ ] New environment variables have been [added to the Azure config](https://github.com/DFE-Digital/apply-for-postgraduate-teacher-training#azure-hosting-devops-pipeline)
+- [ ] New environment variables have been [added to the Azure config](https://github.com/DFE-Digital/apply-for-teacher-training#azure-hosting-devops-pipeline)

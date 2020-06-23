@@ -1,5 +1,5 @@
 {
-  "name": "apply-for-postgraduate-teacher-training",
+  "name": "apply-for-teacher-training",
   "private": true,
   "dependencies": {
     "@ministryofjustice/frontend": "^0.0.19-alpha",
