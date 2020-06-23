@@ -59,7 +59,7 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent do
           phone_number: '+91 1234567890',
           address_type: 'international',
           international_address: '321 MG Road, Mumbai',
-          country: 'India',
+          country: 'IN',
         )
         result = render_inline(described_class.new(application_form: application_form))
 

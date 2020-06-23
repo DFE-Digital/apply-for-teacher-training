@@ -66,7 +66,7 @@ module CandidateInterface
       else
         [
           @contact_details_form.international_address,
-          @contact_details_form.country,
+          COUNTRIES[@contact_details_form.country],
         ]
           .reject(&:blank?)
       end
