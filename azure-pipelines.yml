@@ -1,8 +1,24 @@
+# this build, apply-for-teacher-training will be triggered as a downstream build to Apply/build-gems-node-modules-image
+resources:
+  pipelines:
+    - pipeline: gems_node_modules_build_pipeline
+      source: Apply/build-gems-node-modules-image
+      trigger:
+        branches:
+          include:
+            - "*"
 trigger:
   batch: true
   branches:
     include:
       - "*"
+  # excluding CI trigger for these paths as this build will be trigged as downstream build after creating base packages image.
+  paths:
+    exclude:
+      - Gemfile
+      - Gemfile.lock
+      - package.json
+      - yarn.lock
 
 pr:
   branches:
@@ -14,8 +30,8 @@ variables:
 - group: APPLY - Shared Variables
 - name: imageName
   value: 'apply-for-postgraduate-teacher-training'
-- name: pipelineDockerCachePath
-  value: $(Pipeline.Workspace)/.docker
+- name: gemsNodeModulesImageName
+  value: 'apply-for-teacher-training-gems-node-modules'
 - name: debug
   value: false
 - name: deployOnly
@@ -44,11 +60,18 @@ stages:
     steps:
     - script: |
         GIT_SHORT_SHA=$(echo $(Build.SourceVersion) | cut -c 1-7)
+        GEM_NODE_PACKAGE_FILES_SHA=$(sha1sum Gemfile Gemfile.lock Dockerfile package.json yarn.lock)
+        echo $GEM_NODE_PACKAGE_FILES_SHA
+        DEPENDENCIES_SHA=$(echo $GEM_NODE_PACKAGE_FILES_SHA | sha1sum | cut -c 1-7)
         echo "##vso[build.updatebuildnumber]$GIT_SHORT_SHA"
         echo '##vso[task.setvariable variable=COMPOSE_FILE]docker-compose.yml:docker-compose.azure.yml'
         docker_path=$(dockerHubUsername)/$(imageName)
-        echo "##vso[task.setvariable variable=docker_path;]$docker_path"
-        mkdir $(pipelineDockerCachePath)
+        echo "##vso[task.setvariable variable=docker_path]$docker_path"
+
+        DEPENDENCIES_PACKAGE_IMAGE=$(dockerHubUsername)/$(gemsNodeModulesImageName):$DEPENDENCIES_SHA
+        docker pull $DEPENDENCIES_PACKAGE_IMAGE || DEPENDENCIES_PACKAGE_IMAGE=$(gemsNodeModulesImageName)
+        echo "##vso[task.setvariable variable=gemsNodeModulesImageName]$DEPENDENCIES_PACKAGE_IMAGE"
+        echo "##[command]$DEPENDENCIES_PACKAGE_IMAGE"
       displayName: 'Configure build environment'
 
     - template: cancel-build-if-not-latest-template.yml
@@ -65,6 +88,7 @@ stages:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)
         dockerHubImageTag: $(Build.BuildNumber)
+        gemsNodeModulesImageName: $(gemsNodeModulesImageName)
         railsSecretKeyBase: $(railsSecretKeyBase)
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
