@@ -1,11 +1,13 @@
 module ProviderInterface
   class RejectionReasonsController < ProviderInterfaceController
     def new
+      @application_choice = ApplicationChoice.find(params[:application_choice_id])
       @reasons_form = RejectionReasonsForm.new
       @reasons_form.begin!
     end
 
     def create
+      @application_choice = ApplicationChoice.find(params[:application_choice_id])
       @reasons_form = RejectionReasonsForm.new(form_params)
       if @reasons_form.valid?
         @reasons_form.next_step!
