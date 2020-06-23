@@ -4,6 +4,7 @@ import { initAll as govUKFrontendInitAll } from "govuk-frontend";
 import initNationalityAutocomplete from "./nationality-autocomplete";
 import initCoursesAutocomplete from "./courses-autocomplete";
 import initProvidersAutocomplete from "./providers-autocomplete";
+import initDegreeTypeAutocomplete from "./degree-type-autocomplete";
 import initWarnOnUnsavedChanges from "./warn-on-unsaved-changes";
 import providerFilter from "./provider-filter";
 
@@ -14,5 +15,6 @@ govUKFrontendInitAll();
 initNationalityAutocomplete();
 initProvidersAutocomplete();
 initCoursesAutocomplete();
+initDegreeTypeAutocomplete();
 initWarnOnUnsavedChanges();
 providerFilter();
