@@ -464,6 +464,7 @@ Rails.application.routes.draw do
     post '/applications/:application_choice_id/offer/withdraw' => 'decisions#withdraw_offer', as: :application_choice_withdraw_offer
 
     get '/applications/:application_choice_id/rejection-reasons' => 'rejection_reasons#new', as: :new_rejection_reasons
+    post '/applications/:application_choice_id/rejection-reasons/confirm' => 'rejection_reasons#confirm', as: :confirm_rejection_reasons
     post '/applications/:application_choice_id/rejection-reasons' => 'rejection_reasons#create', as: :rejection_reasons
 
     post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate

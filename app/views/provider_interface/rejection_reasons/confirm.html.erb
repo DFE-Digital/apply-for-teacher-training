@@ -1,0 +1,19 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+    <h1 class="govuk-heading-xl">Check your feedback and reject application</h1>
+    <p class="govuk-body">Your feedback will be given to the candidate in the format below.</p>
+
+    <%= render ProviderInterface::RejectionReasonsComponent.new(rejection_reasons: @reasons_form.all_answered_questions) %>
+  </div>
+</div>
+
+<%= form_with model: @reasons_form, url: provider_interface_rejection_reasons_path do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <%= render "hidden_fields", f: f %>
+
+  <%= f.submit 'Reject application', class: 'govuk-button' %>
+<% end %>
+
+<p class="govuk-link"><a href="">Cancel</a></p>
