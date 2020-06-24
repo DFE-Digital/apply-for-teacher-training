@@ -113,6 +113,7 @@ steps:
       }
       sourceVersion = $env:SOURCE_VERSION
       sourceBranch = $env:SOURCE_BRANCH
+      reason = "triggered"
     }
     $requestBody = $newBuild | ConvertTo-Json
     $requestBody
