@@ -63,7 +63,7 @@ module ProviderInterface
     end
 
     def check_data_sharing_agreements
-      if GetPendingDataSharingAgreementsForProviderUser.call(provider_user: current_provider_user).any?
+      if ProviderSetup.new(provider_user: current_provider_user).next_agreement_pending
         redirect_to provider_interface_new_data_sharing_agreement_path
       end
     end
