@@ -1,4 +1,12 @@
 module FindAPIHelper
+  def set_stubbed_recruitment_cycle_year!(year)
+    @stubbed_recruitment_cycle_year = year
+  end
+
+  def stubbed_recruitment_cycle_year
+    @stubbed_recruitment_cycle_year || 2020
+  end
+
   def stub_find_api_provider_200(
     provider_code: 'ABC',
     provider_name: 'Dummy Provider',
@@ -7,7 +15,7 @@ module FindAPIHelper
     findable: true,
     study_mode: 'full_time',
     description: 'PGCE with QTS full time',
-    start_date: Time.zone.local(2020, 10, 31),
+    start_date: Time.zone.local(stubbed_recruitment_cycle_year, 10, 31),
     course_length: 'OneYear',
     region_code: 'north_west',
     site_address_line2: 'C/O The Bruntcliffe Academy',
@@ -67,7 +75,7 @@ module FindAPIHelper
                 'description': description,
                 'start_date': start_date,
                 'course_length': course_length,
-                'recruitment_cycle_year': '2020',
+                'recruitment_cycle_year': stubbed_recruitment_cycle_year.to_s,
                 'findable?': findable,
                 'accrediting_provider': nil,
                 'funding_type': funding_type,
@@ -138,7 +146,7 @@ module FindAPIHelper
     findable: true,
     study_mode: 'full_time',
     description: 'PGCE with QTS full time',
-    start_date: Time.zone.local(2020, 10, 31),
+    start_date: Time.zone.local(stubbed_recruitment_cycle_year, 10, 31),
     course_length: 'OneYear',
     region_code: 'north_west',
     age_range_in_years: '4 to 8',
@@ -195,7 +203,7 @@ module FindAPIHelper
                 'description': description,
                 'start_date': start_date,
                 'course_length': course_length,
-                'recruitment_cycle_year': '2020',
+                'recruitment_cycle_year': stubbed_recruitment_cycle_year.to_s,
                 'findable?': findable,
                 'content_status': content_status,
                 'accrediting_provider': {
@@ -254,7 +262,7 @@ module FindAPIHelper
     findable: true,
     study_mode: 'full_time_or_part_time',
     description: 'PGCE with QTS full time',
-    start_date: Time.zone.local(2020, 10, 31),
+    start_date: Time.zone.local(stubbed_recruitment_cycle_year, 10, 31),
     course_length: 'OneYear',
     region_code: 'north_west',
     age_range_in_years: '4 to 8',
@@ -325,7 +333,7 @@ module FindAPIHelper
               'description': description,
               'start_date': start_date,
               'course_length': course_length,
-              'recruitment_cycle_year': '2020',
+              'recruitment_cycle_year': stubbed_recruitment_cycle_year.to_s,
               'findable?': findable,
               'accrediting_provider': nil,
               'funding_type': 'fee',
@@ -403,7 +411,7 @@ module FindAPIHelper
         attributes: {
           provider_code: attributes[:provider_code],
           provider_name: attributes[:name],
-          recruitment_cycle_year: '2020',
+          recruitment_cycle_year: stubbed_recruitment_cycle_year.to_s,
         },
         relationships: {
           courses: {
@@ -475,7 +483,7 @@ module FindAPIHelper
 
   def stub_find_api_course(provider_code, course_code)
     stub_request(:get, ENV.fetch('FIND_BASE_URL') +
-      'recruitment_cycles/2020' \
+      "recruitment_cycles/#{stubbed_recruitment_cycle_year}" \
       "/providers/#{provider_code}" \
       "/courses/#{course_code}")
   end
@@ -488,7 +496,7 @@ module FindAPIHelper
     findable: true,
     study_mode: 'full_time',
     description: 'PGCE with QTS full time',
-    start_date: Time.zone.local(2020, 10, 31),
+    start_date: Time.zone.local(stubbed_recruitment_cycle_year, 10, 31),
     course_length: 'OneYear',
     region_code: 'north_west',
     site_address_line2: 'C/O The Bruntcliffe Academy',
@@ -550,7 +558,7 @@ module FindAPIHelper
                 'description': description,
                 'start_date': start_date,
                 'course_length': course_length,
-                'recruitment_cycle_year': '2020',
+                'recruitment_cycle_year': stubbed_recruitment_cycle_year.to_s,
                 'findable?': findable,
                 'accrediting_provider': nil,
                 'funding_type': funding_type,
@@ -618,13 +626,13 @@ private
   def stub_find_api_all_providers
     stub_request(
       :get,
-      "#{ENV.fetch('FIND_BASE_URL')}recruitment_cycles/2020/providers",
+      "#{ENV.fetch('FIND_BASE_URL')}recruitment_cycles/#{stubbed_recruitment_cycle_year}/providers",
     )
   end
 
   def stub_find_api_provider(provider_code)
     stub_request(:get, ENV.fetch('FIND_BASE_URL') +
-      'recruitment_cycles/2020' \
+      "recruitment_cycles/#{stubbed_recruitment_cycle_year}" \
       "/providers/#{provider_code}?include=sites,courses.sites,courses.subjects,courses.site_statuses.site")
   end
 end

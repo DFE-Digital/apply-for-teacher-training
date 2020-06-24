@@ -12,8 +12,8 @@ module FindAPI
     # elegant way, feel free.
     class Subject < FindAPI::Resource; end
 
-    def self.current_cycle
-      where(recruitment_cycle_year: RecruitmentCycle.current_year)
+    def self.recruitment_cycle(year)
+      where(recruitment_cycle_year: year)
     end
   end
 end

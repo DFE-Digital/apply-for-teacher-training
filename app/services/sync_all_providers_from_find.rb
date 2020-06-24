@@ -4,7 +4,7 @@ class SyncAllProvidersFromFind
     #
     # For the full response, see:
     # https://api2.publish-teacher-training-courses.service.gov.uk/api/v3/recruitment_cycles/2020/providers
-    find_providers = FindAPI::Provider.current_cycle.all
+    find_providers = FindAPI::Provider.recruitment_cycle(RecruitmentCycle.current_year).all
 
     sync_providers(find_providers)
 
@@ -18,6 +18,7 @@ class SyncAllProvidersFromFind
       SyncProviderFromFind.call(
         provider_name: find_provider.provider_name,
         provider_code: find_provider.provider_code,
+        provider_recruitment_cycle_year: find_provider.recruitment_cycle_year,
       )
     end
   end
