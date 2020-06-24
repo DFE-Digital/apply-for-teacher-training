@@ -73,22 +73,8 @@ module ProviderInterface
       return unless current_provider_user
       return if performing_provider_organisation_setup?
 
-      if (provider_id = next_training_provider_to_setup&.id)
-        redirect_to provider_interface_provider_relationship_permissions_setup_path(training_provider_id: provider_id)
-      end
-    end
-
-    def next_training_provider_to_setup
-      permissions = TrainingProviderPermissions.find_by(
-        setup_at: nil,
-        training_provider: current_provider_user.providers,
-      )
-
-      if permissions.present?
-        auth = ProviderAuthorisation.new(actor: current_provider_user)
-
-        training_provider = permissions.training_provider
-        training_provider if auth.can_manage_organisation?(provider: training_provider)
+      if ProviderSetup.new(provider_user: current_provider_user).next_relationship_pending
+        redirect_to provider_interface_provider_relationship_permissions_setup_path
       end
     end
 

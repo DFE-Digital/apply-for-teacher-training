@@ -29,11 +29,11 @@ RSpec.describe 'ProviderRelationshipPermissions setup', type: :request do
         get provider_interface_applications_path
 
         expect(response.status).to eq(302)
-        expect(response.redirect_url).to eq(provider_interface_provider_relationship_permissions_setup_url(training_provider_id: provider.id))
+        expect(response.redirect_url).to eq(provider_interface_provider_relationship_permissions_setup_url)
       end
     end
 
-    context 'when the user does not have  permissions to manage the provider' do
+    context 'when the user does not have permissions to manage the provider' do
       before do
         create(:training_provider_permissions, ratifying_provider: provider, setup_at: nil)
         provider_user.provider_permissions.find_by(provider: provider).update(manage_organisations: true)
@@ -49,6 +49,7 @@ RSpec.describe 'ProviderRelationshipPermissions setup', type: :request do
 
   describe 'when no relevant permissions need setup' do
     before do
+      create(:training_provider_permissions, setup_at: nil)
       create(:training_provider_permissions, ratifying_provider: provider, setup_at: Time.current)
       provider_user.provider_permissions.find_by(provider: provider).update(manage_organisations: true)
     end

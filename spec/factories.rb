@@ -529,6 +529,12 @@ FactoryBot.define do
         user.provider_permissions.update_all(make_decisions: true)
       end
     end
+
+    trait :with_manage_organisations do
+      after(:create) do |user, _evaluator|
+        user.provider_permissions.update_all(manage_organisations: true)
+      end
+    end
   end
 
   factory :provider_permissions do

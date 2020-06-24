@@ -46,7 +46,12 @@ module ProviderInterface
     end
 
     def training_provider_permissions
-      @training_provider_permissions ||= TrainingProviderPermissions.find_by(provider_relationship_params)
+      @training_provider_permissions = \
+        if provider_relationship_params[:training_provider_id]
+          TrainingProviderPermissions.find_by(provider_relationship_params)
+        else
+          ProviderSetup.new(provider_user: current_provider_user).next_relationship_pending
+        end
     end
 
     def provider_relationship_params
