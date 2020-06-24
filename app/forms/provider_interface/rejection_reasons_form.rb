@@ -31,10 +31,10 @@ module ProviderInterface
     end
 
     def alternative_rejection_reason_question
-      RejectionReasonQuestion.new(label: 'rejection_reasons.questions.alternative_rejection_reason.label', reasons: [
-        RejectionReasonReason.new(label: 'rejection_reasons.questions.alternative_rejection_reason.label', textareas: [
+      RejectionReasonQuestion.new(label: 'questions.alternative_rejection_reason', reasons: [
+        RejectionReasonReason.new(label: 'questions.alternative_rejection_reason', textareas: [
           RejectionReasonTextarea.new(
-            label: 'rejection_reasons.questions.alternative_rejection_reason.label',
+            label: 'questions.alternative_rejection_reason',
             value: alternative_rejection_reason,
           ),
         ]),

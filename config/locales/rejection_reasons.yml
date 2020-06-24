@@ -40,7 +40,8 @@ en:
         label: Would you be interested in future applications from %{candidates_name}?
         feedback: TO REMOVE
     reasons:
-      other: Other
+      other:
+        label: Other
       candidate_behaviour:
         didnt_reply_to_our_interview_offer:
           label: Didn’t reply to our interview offer

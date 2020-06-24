@@ -5,12 +5,12 @@
   <p class="govuk-body">Here’s why your application was unsuccessful.</p>
 
   <% renderable_reasons.each do |rr| %>
-    <h3 class="govuk-heading-s"><%= t(rr.label.gsub('label', 'feedback')) %></h3>
+    <h3 class="govuk-heading-s"><%= t("rejection_reasons.#{rr.label}.feedback") %></h3>
     <% if rr.additional_question.present? %>
       <ul class="govuk-list">
         <% rr.reasons.each do |r| %>
           <% if r.value.present? %>
-          <li><%= t(r.label.gsub('label', 'feedback')) unless r.label.include?('other') %></li>
+          <li><%= t("rejection_reasons.#{r.label}.feedback") unless r.label.include?('other') %></li>
             <% if r.textareas.any? %>
               <% r.textareas.each do |ta| %>
                 <% if ta.value.present? %>
