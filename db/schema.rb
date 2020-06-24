@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_23_104452) do
+ActiveRecord::Schema.define(version: 2020_06_24_145616) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -184,6 +184,16 @@ ActiveRecord::Schema.define(version: 2020_06_23_104452) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
+  create_table "authentication_tokens", force: :cascade do |t|
+    t.bigint "authenticable_id", null: false
+    t.string "authenticable_type", null: false
+    t.string "hashed_token", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["authenticable_id", "authenticable_type"], name: "index_authentication_tokens_on_id_and_type"
+    t.index ["hashed_token"], name: "index_authentication_tokens_on_hashed_token", unique: true
+  end
+
   create_table "candidates", force: :cascade do |t|
     t.string "email_address", null: false
     t.datetime "created_at", null: false
@@ -231,13 +241,13 @@ ActiveRecord::Schema.define(version: 2020_06_23_104452) do
     t.boolean "open_on_apply", default: false, null: false
     t.integer "recruitment_cycle_year", null: false
     t.string "study_mode", limit: 1, default: "F", null: false
+    t.string "financial_support"
     t.datetime "start_date"
     t.string "course_length"
     t.string "description"
     t.integer "accredited_provider_id"
     t.jsonb "subject_codes"
     t.string "funding_type"
-    t.string "financial_support"
     t.string "age_range"
     t.jsonb "qualifications"
     t.string "program_type"
