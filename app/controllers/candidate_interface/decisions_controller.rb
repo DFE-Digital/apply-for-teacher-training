@@ -46,8 +46,12 @@ module CandidateInterface
       withdrawal = WithdrawApplication.new(application_choice: @application_choice)
       withdrawal.save!
 
-      flash[:success] = 'Your application has been withdrawn'
-      redirect_to candidate_interface_application_form_path
+      redirect_to candidate_interface_withdraw_feedback_path
+    end
+
+    def feedback
+      @provider = @application_choice.provider
+      @course = @application_choice.course
     end
 
   private

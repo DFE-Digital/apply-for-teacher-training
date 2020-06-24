@@ -1,0 +1,41 @@
+<% content_for :title, t('page_titles.withdraw_feedback') %>
+
+<div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-8">
+  <h1 class="govuk-panel__title">
+    <%= t('page_titles.withdraw_feedback') %>
+  </h1>
+
+  <div class="govuk-panel__body">
+      We will let <%= @provider.name %> know that you have withdrawn your application for <%= @course.name_and_code %>
+  </div>
+</div>
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @withdrawal_feedback_form, url: candidate_interface_confirm_withdraw_path do |f| %>
+      <%= f.govuk_radio_buttons_fieldset :withdrawl_reason, legend: { text: 'Do you have a reason for withdrawing?', tag: 'span' } do %>
+
+        <%= f.govuk_radio_button :feedback, 'yes', label: { text: 'Yes. I’d like to share my reason with the Department for Education' } do %>
+          <%= f.govuk_text_area :explanation, label: { text: 'Please explain your reason for withdrawing from this course.' }, hint_text: 'Your provider will not see this feedback.' %>
+        <% end %>
+
+        <%= f.govuk_radio_button :feedback, 'no', label: { text: 'I’d prefer not to say' } %>
+      <% end %>
+
+
+      <%= f.govuk_radio_buttons_fieldset :can_be_contacted,
+                                          legend: { text: 'Can we contact you about your experience of using this service?', tag: 'span' },
+                                          hint_text: 'We’d ideally like to speak on the phone for half an hour.' do %>
+
+        <%= f.govuk_radio_button :consent_to_be_contacted, 'yes', label: { text: 'Yes, you can contact me' } do %>
+          <%= f.govuk_text_area :contact_details, label: { text: 'Please let us know when you’re available and give a phone number.' } %>
+        <% end %>
+
+        <%= f.govuk_radio_button :consent_to_be_contacted, 'no', label: { text: 'I’d prefer not to say' } %>
+      <% end %>
+
+      <%= f.submit 'Continue', class: 'govuk-button' %>
+    <% end %>
+  </div>
+</div>
