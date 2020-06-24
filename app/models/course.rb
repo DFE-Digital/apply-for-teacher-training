@@ -7,7 +7,7 @@ class Course < ApplicationRecord
   audited associated_with: :provider
 
   validates :level, presence: true
-  validates :code, uniqueness: { scope: :provider_id }
+  validates :code, uniqueness: { scope: %i[recruitment_cycle_year provider_id] }
 
   scope :open_on_apply, -> { exposed_in_find.where(open_on_apply: true) }
   scope :exposed_in_find, -> { where(exposed_in_find: true) }

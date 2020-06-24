@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_23_101243) do
+ActiveRecord::Schema.define(version: 2020_06_23_104452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -231,21 +231,21 @@ ActiveRecord::Schema.define(version: 2020_06_23_101243) do
     t.boolean "open_on_apply", default: false, null: false
     t.integer "recruitment_cycle_year", null: false
     t.string "study_mode", limit: 1, default: "F", null: false
-    t.string "financial_support"
     t.datetime "start_date"
     t.string "course_length"
     t.string "description"
     t.integer "accredited_provider_id"
     t.jsonb "subject_codes"
     t.string "funding_type"
+    t.string "financial_support"
     t.string "age_range"
     t.jsonb "qualifications"
     t.string "program_type"
     t.boolean "withdrawn"
     t.index ["code"], name: "index_courses_on_code"
     t.index ["exposed_in_find", "open_on_apply"], name: "index_courses_on_exposed_in_find_and_open_on_apply"
-    t.index ["provider_id", "code"], name: "index_courses_on_provider_id_and_code", unique: true
     t.index ["provider_id"], name: "index_courses_on_provider_id"
+    t.index ["recruitment_cycle_year", "provider_id", "code"], name: "index_courses_on_cycle_provider_and_code", unique: true
   end
 
   create_table "emails", force: :cascade do |t|
