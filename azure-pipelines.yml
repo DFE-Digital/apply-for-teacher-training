@@ -1,12 +1,3 @@
-# this build, apply-for-teacher-training will be triggered as a downstream build to Apply/build-gems-node-modules-image
-resources:
-  pipelines:
-    - pipeline: gems_node_modules_build_pipeline
-      source: Apply/build-gems-node-modules-image
-      trigger:
-        branches:
-          include:
-            - "*"
 trigger:
   batch: true
   branches:
@@ -24,6 +15,11 @@ pr:
   branches:
     include:
       - master
+    exclude:
+      - Gemfile
+      - Gemfile.lock
+      - package.json
+      - yarn.lock
 
 variables:
 - group: Docker Shared variables
