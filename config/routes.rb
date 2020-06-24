@@ -260,7 +260,7 @@ Rails.application.routes.draw do
         post '/withdraw' => 'decisions#confirm_withdraw'
 
         get '/withdraw/feedback' => 'decisions#feedback', as: :withdraw_feedback
-        post '/withdraw/confirm' => 'decisions#confirm_withdraw', as: :confirm_withdraw
+        post '/withdraw/confirm-feedback' => 'decisions#confirm_feedback', as: :confirm_feedback
       end
 
       scope '/other-qualifications' do

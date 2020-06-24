@@ -54,6 +54,9 @@ module CandidateInterface
       @course = @application_choice.course
     end
 
+    def confirm_feedback
+    end 
+
   private
 
     def set_application_choice

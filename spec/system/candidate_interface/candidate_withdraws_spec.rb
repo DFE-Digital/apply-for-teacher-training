@@ -90,11 +90,11 @@ RSpec.feature 'A candidate withdraws her application' do
   end
 
   def then_i_see_the_withdraw_choice_feedback_page
-    expect(page).to have_current_path candidate_interface_withdraw_feedback_path
+    expect(page).to have_current_path candidate_interface_withdraw_feedback_path(@application_choice.id)
   end
 
   def and_my_application_should_be_withdrawn
-    expect(page).to have_content('Your application has been withdrawn')
+    expect(page).to have_content('Course choice withdrawn')
   end
 
   def then_my_application_should_be_withdrawn
@@ -124,7 +124,7 @@ RSpec.feature 'A candidate withdraws her application' do
 
   def when_i_fill_in_my_feedback
     choose 'Yes, I’d like to share my reason with the Department for Education'
-    fill_in :reason_explanation, with: 'I don’t want to go there.'
+    fill_in :explanation, with: 'I don’t want to go there.'
     choose 'Yes, you can contact me'
     fill_in :contact_details, with: 'Anytime, 012345 678900'
   end

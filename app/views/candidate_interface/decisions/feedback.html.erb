@@ -13,10 +13,10 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @withdrawal_feedback_form, url: candidate_interface_confirm_withdraw_path do |f| %>
-      <%= f.govuk_radio_buttons_fieldset :withdrawl_reason, legend: { text: 'Do you have a reason for withdrawing?', tag: 'span' } do %>
+    <%= form_with model: @withdrawal_feedback_form, url: candidate_interface_confirm_feedback_path do |f| %>
+      <%= f.govuk_radio_buttons_fieldset :withdrawal_reason, legend: { text: 'Do you have a reason for withdrawing?', tag: 'span' } do %>
 
-        <%= f.govuk_radio_button :feedback, 'yes', label: { text: 'Yes. I’d like to share my reason with the Department for Education' } do %>
+        <%= f.govuk_radio_button :feedback, 'yes', label: { text: 'Yes, I’d like to share my reason with the Department for Education' } do %>
           <%= f.govuk_text_area :explanation, label: { text: 'Please explain your reason for withdrawing from this course.' }, hint_text: 'Your provider will not see this feedback.' %>
         <% end %>
 
