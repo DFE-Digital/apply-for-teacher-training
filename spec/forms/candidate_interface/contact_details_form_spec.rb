@@ -44,26 +44,95 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
 
     it 'updates the provided ApplicationForm with the address fields if valid' do
       form_data = {
+        address_type: 'uk',
         address_line1: Faker::Address.street_name,
         address_line2: Faker::Address.street_address,
         address_line3: Faker::Address.city,
         address_line4: 'United Kingdom',
         postcode: 'bn1 1aa',
       }
-      application_form = build(:application_form)
+      application_form = build(:application_form, international_address: 'some old address')
       contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
 
       form_data[:postcode] = 'BN1 1AA'
 
       expect(contact_details.save_address(application_form)).to eq(true)
       expect(application_form).to have_attributes(form_data)
+      expect(application_form.international_address).to be_nil
+    end
+
+    it 'updates the provided ApplicationForm with the international address field if valid' do
+      form_data = {
+        international_address: '123 Chandni Chowk, Old Delhi',
+      }
+      application_form = build(:application_form)
+      contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+
+      expect(contact_details.save_address(application_form)).to eq(true)
+      expect(application_form).to have_attributes(form_data)
+      expect(application_form.address_line1).to be_nil
+      expect(application_form.address_line2).to be_nil
+      expect(application_form.address_line3).to be_nil
+      expect(application_form.address_line4).to be_nil
+      expect(application_form.postcode).to be_nil
+    end
+  end
+
+  describe '#save_address_type' do
+    it 'updates the provided ApplicationForm with the address type fields for a valid UK address' do
+      form_data = {
+        address_type: 'uk',
+      }
+      application_form = build(:application_form)
+      contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+
+      expect(contact_details.save_address_type(application_form)).to eq(true)
+      expect(application_form).to have_attributes(form_data)
+    end
+
+    it 'updates the provided ApplicationForm with the address type fields for a valid international address' do
+      form_data = {
+        address_type: 'international',
+        country: 'India',
+      }
+      application_form = build(:application_form)
+      contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+
+      expect(contact_details.save_address_type(application_form)).to eq(true)
+      expect(application_form).to have_attributes(form_data)
+    end
+
+    it 'returns validation errors for an invalid international address' do
+      form_data = {
+        address_type: 'international',
+      }
+      application_form = build(:application_form)
+      contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+
+      expect(contact_details.save_address_type(application_form)).to eq(false)
     end
   end
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:address_line1).on(:address) }
-    it { is_expected.to validate_presence_of(:address_line3).on(:address) }
-    it { is_expected.to validate_presence_of(:postcode).on(:address) }
+    it { is_expected.to validate_presence_of(:address_type).on(:address_type) }
+
+    context 'for a UK address' do
+      subject(:form) { described_class.new(address_type: 'uk') }
+
+      it { is_expected.to validate_presence_of(:address_line1).on(:address) }
+      it { is_expected.to validate_presence_of(:address_line3).on(:address) }
+      it { is_expected.to validate_presence_of(:postcode).on(:address) }
+      it { is_expected.not_to validate_presence_of(:international_address).on(:address) }
+    end
+
+    context 'for an international address' do
+      subject(:form) { described_class.new(address_type: 'international') }
+
+      it { is_expected.to validate_presence_of(:international_address).on(:address) }
+      it { is_expected.not_to validate_presence_of(:address_line1).on(:address) }
+      it { is_expected.not_to validate_presence_of(:address_line3).on(:address) }
+      it { is_expected.not_to validate_presence_of(:postcode).on(:address) }
+    end
 
     it { is_expected.to validate_length_of(:address_line1).is_at_most(50).on(:address) }
     it { is_expected.to validate_length_of(:address_line2).is_at_most(50).on(:address) }

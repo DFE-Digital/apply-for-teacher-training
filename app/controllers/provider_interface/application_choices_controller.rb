@@ -17,7 +17,7 @@ module ProviderInterface
         filters: @page_state.applied_filters,
       )
 
-      application_choices = application_choices.page(params[:page] || 1)
+      application_choices = application_choices.page(params[:page] || 1).limit(5)
       @application_choices = application_choices.order('application_choices.updated_at' => :desc)
     end
 

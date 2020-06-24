@@ -1,0 +1,23 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.where_do_you_live'), @contact_details_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_contact_details_edit_base_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @contact_details_form, url: candidate_interface_contact_details_update_address_type_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.where_do_you_live') %>
+      </h1>
+
+      <%= f.govuk_radio_buttons_fieldset :address_types do %>
+        <%= f.govuk_radio_button :address_type, 'uk', label: { text: t('application_form.contact_details.address_type.values.uk') } %>
+        <%= f.govuk_radio_button :address_type, 'international', label: { text: t('application_form.contact_details.address_type.values.international') }, link_errors: true do %>
+          <%= f.govuk_collection_select :country, select_country_options, :id, :name, label: { text: t('application_form.contact_details.country.label') } %>
+        <% end %>
+      <% end %>
+
+      <%= f.govuk_submit t('application_form.contact_details.address_type.button') %>
+    <% end %>
+  </div>
+</div>

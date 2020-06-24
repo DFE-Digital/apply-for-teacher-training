@@ -1,12 +1,13 @@
 require 'rails_helper'
 
+# Delete this file when we remove the `international_addresses` feature flag
+
 RSpec.feature 'Entering their contact details' do
   include CandidateHelper
 
   scenario 'Candidate submits their contact details' do
     given_i_am_signed_in
     and_the_mark_every_section_as_complete_flag_is_active
-    and_the_international_addresses_flag_is_active
     and_i_visit_the_site
     and_the_track_validation_errors_feature_is_on
 
@@ -18,7 +19,6 @@ RSpec.feature 'Entering their contact details' do
 
     when_i_fill_in_my_phone_number
     and_i_submit_my_phone_number
-    and_i_select_live_in_uk
     and_i_incorrectly_fill_in_my_address
     and_i_submit_my_address
 
@@ -33,11 +33,10 @@ RSpec.feature 'Entering their contact details' do
     and_i_submit_my_phone_number
     then_i_can_check_my_revised_phone_number
 
-    when_i_click_to_change_my_address_type
-    then_i_can_see_my_address_type
+    when_i_click_to_change_my_address
+    then_i_can_see_my_address
 
-    when_i_select_outside_the_uk
-    and_fill_in_an_international_address
+    when_i_fill_in_a_different_address
     and_i_submit_my_address
     then_i_can_check_my_revised_address
 
@@ -56,10 +55,6 @@ RSpec.feature 'Entering their contact details' do
 
   def and_the_mark_every_section_as_complete_flag_is_active
     FeatureFlag.activate('mark_every_section_complete')
-  end
-
-  def and_the_international_addresses_flag_is_active
-    FeatureFlag.activate('international_addresses')
   end
 
   def and_i_visit_the_site
@@ -96,12 +91,6 @@ RSpec.feature 'Entering their contact details' do
 
   def when_i_fill_in_my_phone_number
     fill_in t('application_form.contact_details.phone_number.label'), with: '07700 900 982'
-  end
-
-  def and_i_select_live_in_uk
-    expect(page).to have_content('Where do you live?')
-    choose 'In the UK'
-    click_button t('application_form.contact_details.base.button')
   end
 
   def and_i_incorrectly_fill_in_my_address
@@ -146,8 +135,8 @@ RSpec.feature 'Entering their contact details' do
     expect(page).to have_content '07700 424 242'
   end
 
-  def when_i_click_to_change_my_address_type
-    find_link('Change', href: candidate_interface_contact_details_edit_address_type_path).click
+  def when_i_click_to_change_my_address
+    find_link('Change', href: candidate_interface_contact_details_edit_address_path).click
   end
 
   def then_i_can_see_my_address
@@ -156,25 +145,15 @@ RSpec.feature 'Entering their contact details' do
     expect(page).to have_selector("input[value='SW1P 3BT']")
   end
 
-  def then_i_can_see_my_address_type
-    expect(page).to have_selector("input[value='uk']")
-  end
-
-  def when_i_select_outside_the_uk
-    expect(page).to have_content('Where do you live?')
-    choose 'Outside the UK'
-    select('India', from: t('application_form.contact_details.country.label'))
-    click_button t('application_form.contact_details.base.button')
-  end
-
-  def and_fill_in_an_international_address
-    fill_in t('application_form.contact_details.international_address.label'), with: '123 Chandni Chowk, Old Delhi'
+  def when_i_fill_in_a_different_address
+    fill_in t('application_form.contact_details.address_line1.label'), with: '99'
+    fill_in t('application_form.contact_details.address_line2.label'), with: 'Problems Street'
   end
 
   def then_i_can_check_my_revised_address
     expect(page).to have_content t('application_form.contact_details.full_address.label')
-    expect(page).to have_content '123 Chandni Chowk, Old Delhi'
-    expect(page).to have_content 'India'
+    expect(page).to have_content '99'
+    expect(page).to have_content 'Problems Street'
   end
 
   def when_i_mark_the_section_as_completed

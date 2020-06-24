@@ -6,7 +6,9 @@ const initNationalityAutocomplete = () => {
       "#candidate-interface-personal-details-form-first-nationality-field",
       "#candidate-interface-personal-details-form-first-nationality-field-error",
       "#candidate-interface-personal-details-form-second-nationality-field",
-      "#candidate-interface-personal-details-form-second-nationality-field-error"
+      "#candidate-interface-personal-details-form-second-nationality-field-error",
+      "#candidate-interface-contact-details-form-country-field",
+      "#candidate-interface-contact-details-form-country-field-error",
     ].forEach(id => {
       const nationalitySelect = document.querySelector(id);
 

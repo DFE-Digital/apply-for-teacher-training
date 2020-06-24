@@ -78,6 +78,19 @@ en:
         button: Save and continue
       address:
         button: Save and continue
+      address_type:
+        button: Save and continue
+        label: Where do you live?
+        change_action: where I live
+        values:
+          uk: 'In the UK'
+          international: 'Outside the UK'
+      country:
+        label: Which country?
+        default_option: Select a country
+      international_address:
+        label: Enter your address
+        button: Save and continue
       review:
         button: Continue
     work_history:
@@ -438,6 +451,12 @@ en:
             postcode:
               blank: Enter a postcode
               invalid: Enter a real postcode (for example, BN1 1AA)
+            address_type:
+              blank: Select where you live
+            country:
+              blank: Enter a country
+            international_address:
+              blank: Enter your address
         candidate_interface/work_history_form:
           attributes:
             work_history:

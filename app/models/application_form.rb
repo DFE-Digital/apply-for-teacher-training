@@ -40,6 +40,12 @@ class ApplicationForm < ApplicationRecord
     never_asked: 'never_asked',
   }
 
+  enum address_type: {
+    uk: 'uk',
+    international: 'international',
+  }
+  attribute :address_type, :string, default: 'uk'
+
   before_create lambda {
     self.support_reference ||= GenerateSupportRef.call
   }

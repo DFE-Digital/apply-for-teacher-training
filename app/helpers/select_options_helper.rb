@@ -5,6 +5,12 @@ module SelectOptionsHelper
     ] + NATIONALITIES.map { |_, nationality| OpenStruct.new(id: nationality, name: nationality) }
   end
 
+  def select_country_options
+    [
+      OpenStruct.new(id: '', name: t('application_form.contact_details.country.default_option')),
+    ] + COUNTRIES.except('GB').map { |iso3166, country| OpenStruct.new(id: iso3166, name: country) }
+  end
+
   def select_course_options(courses)
     [
       OpenStruct.new(id: '', name: t('activemodel.errors.models.candidate_interface/pick_course_form.attributes.course_id.blank')),
