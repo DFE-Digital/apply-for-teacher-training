@@ -10,7 +10,7 @@ gem 'pg', '~> 1.2.3'
 gem 'webpacker'
 gem 'govuk_design_system_formbuilder', '~> 1.2.0'
 
-# GovUK Notify test123
+# GovUK Notify test1234
 gem 'mail-notify'
 
 gem 'redcarpet'
