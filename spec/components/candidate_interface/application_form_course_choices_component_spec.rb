@@ -14,7 +14,7 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
       it 'renders expected content' do
         expect(heading(result)).to eq 'Course choices'
         expect(link_text(result)).to eq 'Course choices'
-        expect(href(result)).to eq '/candidate/application/review'
+        expect(href(result)).to eq '/candidate/application/courses/review'
         expect(status_text(result)).to eq 'Completed'
         expect(first_paragraph(result)).not_to be_present
       end

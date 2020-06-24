@@ -11,7 +11,7 @@ module CandidateInterface
 
     def view_courses_path
       if completed?
-        candidate_interface_application_review_path
+        candidate_interface_course_choices_review_path
       else
         candidate_interface_course_choices_index_path
       end
