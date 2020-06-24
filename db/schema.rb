@@ -43,7 +43,8 @@ ActiveRecord::Schema.define(version: 2020_06_23_101243) do
     t.string "offer_withdrawal_reason"
     t.datetime "offer_withdrawn_at"
     t.datetime "sent_to_provider_at"
-    t.text "structured_rejection_reasons"
+    t.jsonb "structured_rejection_reasons"
+    t.jsonb "withdrawal_feedback"
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
   end
