@@ -6,6 +6,9 @@ const initDegreeTypeAutocomplete = () => {
     const input = document.getElementById(inputId);
     const containerId = "degree-type-autocomplete";
     const container = document.getElementById(containerId);
+
+    if (!container) return;
+
     const sourceData = JSON.parse(container.dataset.source);
 
     function inputTemplate(result) {
@@ -24,8 +27,6 @@ const initDegreeTypeAutocomplete = () => {
       }
       return `<strong>${descriptor[1]}</strong>`
     }
-
-    if (!container) return;
 
     input.remove();
 
