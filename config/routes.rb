@@ -258,6 +258,9 @@ Rails.application.routes.draw do
 
         get '/withdraw' => 'decisions#withdraw', as: :withdraw
         post '/withdraw' => 'decisions#confirm_withdraw'
+
+        get '/withdraw/feedback' => 'decisions#feedback', as: :withdraw_feedback
+        post '/withdraw/confirm' => 'decisions#confirm_withdraw', as: :confirm_withdraw
       end
 
       scope '/other-qualifications' do
