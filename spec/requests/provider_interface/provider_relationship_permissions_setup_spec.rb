@@ -29,7 +29,7 @@ RSpec.describe 'ProviderRelationshipPermissions setup', type: :request do
         get provider_interface_applications_path
 
         expect(response.status).to eq(302)
-        expect(response.redirect_url).to eq(provider_interface_provider_relationship_permissions_setup_url)
+        expect(response.redirect_url).to eq(provider_interface_provider_relationship_permissions_setup_url(training_provider_id: provider.id))
       end
     end
 
