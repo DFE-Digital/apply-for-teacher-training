@@ -526,6 +526,9 @@ components:
     ContactDetails:
       type: object
       additionalProperties: false
+      description: UK addresses have country code 'GB' and `address_line1`, `address_line2`,
+        `address_line3`, `address_line4` and `postcode` attributes. International addresses have
+        a valid `country` value and the address itself is serialised to `address_line1`.
       required:
       - address_line1
       - country
