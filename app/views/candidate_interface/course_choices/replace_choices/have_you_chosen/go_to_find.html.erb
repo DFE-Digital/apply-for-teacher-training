@@ -1,4 +1,4 @@
 <% content_for :title, t('page_titles.find_a_course') %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_choose_path) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_replace_course_choices_choose_path(@course_choice.id)) %>
 
 <%= render partial: 'candidate_interface/course_choices/shared/go_to_find'  %>

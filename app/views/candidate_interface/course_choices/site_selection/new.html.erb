@@ -9,8 +9,6 @@
             params[:provider_id], params[:course_id], params[:study_mode], course_choice_id: @course_choice_id
           ),
         ) do |f| %>
-        <%= f.govuk_error_summary %>
-
         <%= render partial: 'candidate_interface/course_choices/shared/site_fields', locals: { f: f }  %>
         <% end %>
   </div>

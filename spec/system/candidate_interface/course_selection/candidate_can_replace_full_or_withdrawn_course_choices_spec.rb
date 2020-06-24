@@ -47,11 +47,6 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
 
     when_i_choose_my_first_course_choice
     and_click_continue
-    and_i_choose_to_add_a_different_course
-    and_click_continue
-    then_i_am_told_to_contact_support
-
-    when_i_click_back
     and_i_choose_to_add_a_new_location
     and_click_continue
     then_i_see_the_update_location_page
@@ -164,18 +159,6 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
 
   def then_i_am_told_i_need_to_select_an_option
     expect(page).to have_content 'Please select an option to update your course choice.'
-  end
-
-  def and_i_choose_to_add_a_different_course
-    choose 'Choose a different course'
-  end
-
-  def then_i_am_told_to_contact_support
-    expect(page).to have_content 'You can only edit existing course choices through the service.'
-  end
-
-  def when_i_click_back
-    click_link 'Back'
   end
 
   def and_i_choose_to_add_a_new_location

@@ -1,0 +1,6 @@
+<% content_for :title, t('page_titles.apply_to_provider_on_ucas') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_replace_course_choice_provider_path(@course_choice.id)) %>
+
+<%= render partial: 'candidate_interface/course_choices/shared/no_courses' %>
+
+<p class="govuk-body"><%= govuk_link_to 'Choose another provider', candidate_interface_replace_course_choice_provider_path(@course_choice.id) %></p>
