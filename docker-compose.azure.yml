@@ -2,9 +2,10 @@ version: "3.6"
 services:
   web:
     build:
-      target: prod-build
+      target: production
       args:
         bundleWithout: 'development'
+        BASE_RUBY_IMAGE_WITH_GEMS_AND_NODE_MODULES: ${gemsNodeModulesImageName:-apply-for-teacher-training-gems-node-modules}
     image: ${dockerHubUsername}/${dockerHubImageName}:${dockerHubImageTag}
     environment:
       - RAILS_ENV

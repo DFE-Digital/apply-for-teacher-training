@@ -1,0 +1,17 @@
+name: Trigger gem-node-modules image build
+
+# On new branch creation
+on:
+  create
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Trigger gem-node-modules build
+      uses: Azure/pipelines@v1
+      with:
+        azure-devops-project-url: 'https://dev.azure.com/dfe-ssp/Become-A-Teacher'
+        azure-pipeline-name: 'build-gems-node-modules-image'
+        azure-devops-token: '${{ secrets.AZURE_DEVOPS_TOKEN }}'
