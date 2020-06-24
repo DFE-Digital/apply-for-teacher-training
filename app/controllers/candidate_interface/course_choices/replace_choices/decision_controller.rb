@@ -11,7 +11,7 @@ module CandidateInterface
           @course_choice = current_application.application_choices.find(params['id'])
 
           if @pick_replacement_action.replacement_action == 'replace_location'
-            redirect_to candidate_interface_replace_course_choice_location_path(@course_choice.id)
+            redirect_to candidate_interface_replace_course_choice_update_location_path(@course_choice.id)
           elsif @pick_replacement_action.replacement_action == 'replace_study_mode'
             replacement_course_option_id = @course_choice.course_option.get_alternative_study_mode.id
 

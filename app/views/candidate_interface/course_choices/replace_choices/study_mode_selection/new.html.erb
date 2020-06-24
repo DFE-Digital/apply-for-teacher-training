@@ -1,14 +1,14 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.which_study_mode'), @pick_study_mode.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_course_choices_course_path(@pick_study_mode.provider_id)) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_course_choices_course_path(params['id'], params['provider_id'])) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
           model: @pick_study_mode,
-          url: candidate_interface_course_choices_study_mode_path(
-            provider_id: @pick_study_mode.provider_id,
-            course_id: @pick_study_mode.course_id,
-            course_choice_id: @course_choice_id,
+          url: candidate_interface_replace_course_choice_study_mode_path(
+            params['id'],
+            params['provider_id'],
+            params['course_id'],
           ),
         ) do |f| %>
 

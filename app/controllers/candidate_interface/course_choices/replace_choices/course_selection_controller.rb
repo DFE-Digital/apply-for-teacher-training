@@ -41,14 +41,14 @@ module CandidateInterface
               @pick_course.course_id,
             )
           elsif @pick_course.single_site?
-            course_option = CourseOption.where(course_id: @pick_course.course.id).first
-            PickCourseOption.new(
-              course_id,
-              course_option.id,
-              current_application,
-              params.fetch(:provider_id),
-              self,
-            ).call
+            @replacement_course_option_id = CourseOption.find(params['course_id']).id
+
+            redirect_to candidate_interface_confirm_replacement_course_choice_path(
+              @course_choice.id,
+              @replacement_course_option_id,
+              provider_id: params['provider_id'],
+              course_id: params['course_id'],
+            )
           else
             redirect_to candidate_interface_replace_course_choice_location_path(
               @course_choice.id,
