@@ -1,0 +1,5 @@
+<% content_for :title, t('page_titles.full_course') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_replace_course_choice_course_path(@course_choice.id, @course.provider)) %>
+
+<%= render partial: 'candidate_interface/course_choices/shared/full',
+           locals: { course_choices_path: candidate_interface_course_choices_course_path(@course_choice.id, @course.provider) }  %>
