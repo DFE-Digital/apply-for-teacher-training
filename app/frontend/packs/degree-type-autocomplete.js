@@ -19,28 +19,35 @@ const initDegreeTypeAutocomplete = () => {
   }
 
   try {
-    const inputId = "degree-type";
-    const input = document.getElementById(inputId);
-    const containerId = "degree-type-autocomplete";
-    const container = document.getElementById(containerId);
+    const inputIds = [
+      "candidate-interface-degree-type-form-type-description-field",
+      "candidate-interface-degree-type-form-type-description-field-error"
+    ];
 
-    if (!container) return;
+    inputIds.forEach(inputId => {
+      const input = document.getElementById(inputId);
+      if (!input) return;
 
-    const sourceData = JSON.parse(container.dataset.source);
+      const containerId = "degree-type-autocomplete";
+      const container = document.getElementById(containerId);
+      if (!container) return;
 
-    accessibleAutocomplete({
-      element: container,
-      id: inputId,
-      name: input.name,
-      source: sourceData,
-      showNoOptionsFound: true,
-      templates: {
-        inputValue: inputTemplate,
-        suggestion: suggestionTemplate
-      }
+      const sourceData = JSON.parse(container.dataset.source);
+
+      accessibleAutocomplete({
+        element: container,
+        id: inputId,
+        name: input.name,
+        source: sourceData,
+        showNoOptionsFound: true,
+        templates: {
+          inputValue: inputTemplate,
+          suggestion: suggestionTemplate
+        }
+      });
+
+      input.remove();
     });
-
-    input.remove();
 
   } catch (err) {
     console.error("Could not enhance degree type input:", err);
