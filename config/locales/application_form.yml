@@ -451,6 +451,12 @@ en:
             postcode:
               blank: Enter a postcode
               invalid: Enter a real postcode (for example, BN1 1AA)
+            address_type:
+              blank: Select where you live
+            country:
+              blank: Enter a country
+            international_address:
+              blank: Enter your address
         candidate_interface/work_history_form:
           attributes:
             work_history:
