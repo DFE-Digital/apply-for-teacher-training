@@ -11,9 +11,9 @@ module ProviderInterface
     attr_accessor :additional_question
 
     validates :y_or_n, presence: true
-    validate :enough_reasons?, if: -> { y_or_n == 'Y' }
-    validate :reasons_all_valid?, if: -> { y_or_n == 'Y' }
-    validate :explanation_valid?, if: -> { y_or_n == 'Y' && explanation.present? }
+    validate :enough_reasons?, if: -> { yes? }
+    validate :reasons_all_valid?, if: -> { yes? }
+    validate :explanation_valid?, if: -> { yes? && explanation.present? }
 
     def initialize(*args)
       super(*args)
@@ -48,7 +48,15 @@ module ProviderInterface
     end
 
     def answered_yes?(question_key)
-      label.include?(question_key) && y_or_n == 'Y'
+      label.include?(question_key) && yes?
+    end
+
+    def yes?
+      y_or_n == 'Y'
+    end
+
+    def no?
+      !yes?
     end
 
     alias_method :id, :label

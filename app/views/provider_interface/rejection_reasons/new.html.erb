@@ -3,7 +3,7 @@
 
   <%= render "hidden_fields", f: f %>
 
-  <% if @reasons_form.all_answers_no? %>
+  <% if @reasons_form.all_step_1_answers_no? %>
     <div class="govuk-form-group">
       <%= f.govuk_text_area(
         :alternative_rejection_reason,

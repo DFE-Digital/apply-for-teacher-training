@@ -4,7 +4,7 @@ module ProviderInterface
 
     attr_writer :questions
     attr_accessor :alternative_rejection_reason
-    validates :alternative_rejection_reason, presence: true, if: -> { all_answers_no? }
+    validates :alternative_rejection_reason, presence: true, if: -> { all_step_1_answers_no? }
     validate :questions_all_valid?
 
     STEP_1_QUESTION_COUNT = 8
@@ -50,12 +50,12 @@ module ProviderInterface
       @questions = questions_for_current_step
     end
 
-    def all_answers_no?
-      answered_questions.map(&:y_or_n).flatten.uniq == %w[N]
+    def all_step_1_answers_no?
+      answered_questions.any? && answered_questions.take(STEP_1_QUESTION_COUNT).map(&:no?).all?
     end
 
     def answered_yes_to_question?(question_key)
-      answered_questions.find { |q| q.label.include?(question_key) }&.y_or_n == 'Y'
+      answered_questions.find { |q| q.label.include?(question_key) }&.yes?
     end
 
     def step_2_questions?
@@ -63,7 +63,7 @@ module ProviderInterface
     end
 
     def last_2_answers_no?
-      answered_questions.map(&:y_or_n).flatten.last(2).include?('N')
+      answered_questions.last(2).map(&:no?).all?
     end
 
     def questions_for_current_step

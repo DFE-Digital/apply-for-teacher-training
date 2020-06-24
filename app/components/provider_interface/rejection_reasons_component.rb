@@ -6,7 +6,7 @@ module ProviderInterface
 
     def renderable_reasons
       result = @rejection_reasons.reject do |r|
-        r.y_or_n == 'N' || r.label.include?('future_applications')
+        r.no? || r.label.include?('future_applications')
       end
 
       if result.last.label.include?('alternative_rejection_reason')
@@ -17,7 +17,7 @@ module ProviderInterface
     end
 
     def answered_yes_to_question?(question_key)
-      @rejection_reasons.find { |rr| rr.label.include?(question_key) }&.y_or_n == 'Y'
+      @rejection_reasons.find { |rr| rr.label.include?(question_key) }&.yes?
     end
   end
 end
