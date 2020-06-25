@@ -150,7 +150,7 @@ module CandidateInterface
               when 'offer'
                 :green
               when 'rejected'
-                :red
+                :pink
               when 'pending_conditions'
                 :turquoise
               when 'declined', 'withdrawn', 'cancelled'
