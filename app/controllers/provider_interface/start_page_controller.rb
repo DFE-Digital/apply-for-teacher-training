@@ -1,7 +1,7 @@
 module ProviderInterface
   class StartPageController < ProviderInterfaceController
     before_action :redirect_authenticated_provider_user
-    skip_before_action :authenticate_provider_user!, :check_data_sharing_agreements
+    skip_before_action :authenticate_provider_user!
 
     layout 'base'
 
