@@ -26,7 +26,7 @@ module CandidateInterface
         [:maths_gcse, maths_gcse_completed?],
         [:english_gcse, english_gcse_completed?],
         ([:science_gcse, science_gcse_completed?] if @application_form.science_gcse_needed?),
-        # "Other qualifications" is intentionally omitted, since it's optional
+        [:other_qualifications, no_incomplete_qualifications?],
 
         # "Personal statement and interview" section
         [:becoming_a_teacher, becoming_a_teacher_completed?],
@@ -258,6 +258,17 @@ module CandidateInterface
         @application_form.no_safeguarding_issues_to_declare? ||
           @application_form.has_safeguarding_issues_to_declare?
       end
+    end
+
+    def no_incomplete_qualifications?
+      incomplete_qualifications = @application_form.application_qualifications.other.select do |qualification|
+        qualification.qualification_type.nil? ||
+          qualification.subject.nil? ||
+          qualification.grade.nil? ||
+          qualification.institution_name.nil?
+      end
+
+      incomplete_qualifications.blank?
     end
 
   private

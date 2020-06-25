@@ -493,4 +493,23 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       expect(presenter).not_to be_interview_preferences_completed
     end
   end
+
+  describe '#no_incomplete_qualifications?' do
+    it 'returns true if there are no incomplete qualifications' do
+      application_form = create(:application_form)
+      create(:other_qualification, application_form: application_form)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_no_incomplete_qualifications
+    end
+
+    it 'returns false if there is an incomplete qualification' do
+      application_form = create(:application_form)
+      create(:application_qualification, application_form: application_form, level: 'other', grade: nil)
+
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_no_incomplete_qualifications
+    end
+  end
 end
