@@ -29,7 +29,7 @@ task sync_dev_providers_and_open_courses: :environment do
 
   provider_codes = HostingEnvironment.review? ? %w[1JA 24J] : %w[1JA 24J 1N1]
   provider_codes.each do |code|
-    SyncProviderFromFind.call(provider_code: code, sync_courses: true)
+    SyncProviderFromFind.call(provider_code: code, sync_courses: true, provider_recruitment_cycle_year: RecruitmentCycle.current_year)
   end
 
   puts 'Making all the courses open on Apply...'
