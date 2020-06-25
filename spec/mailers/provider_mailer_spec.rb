@@ -19,13 +19,16 @@ RSpec.describe ProviderMailer, type: :mailer do
     end
   end
 
+  let(:provider) { create(:provider, :with_signed_agreement, code: 'ABC') }
+  let(:site) { create(:site, provider: provider) }
+  let(:offered_course_option) { nil }
+
   before do
-    provider = create(:provider, :with_signed_agreement, code: 'ABC')
     course = create(:course, provider: provider, name: 'Computer Science', code: '6IND')
-    site = create(:site, provider: provider)
     @course_option = create(:course_option, course: course, site: site)
     @application_choice = create(:submitted_application_choice,
                                  course_option: @course_option,
+                                 offered_course_option: offered_course_option,
                                  reject_by_default_at: Time.zone.now + 40.days,
                                  reject_by_default_days: 123,
                                  application_form:
@@ -135,6 +138,16 @@ RSpec.describe ProviderMailer, type: :mailer do
                     'Harry Potter has accepted your offer',
                     'provider name' => 'Dear Johny English',
                     'course name and code' => 'Computer Science (6IND)')
+
+    context 'with an alternative course offer' do
+      let(:alternative_course) { create(:course, provider: provider, name: 'Welding', code: '9ABC') }
+      let(:offered_course_option) { create(:course_option, course: alternative_course, site: site) }
+
+      it_behaves_like('a provider mail with subject and content', :offer_accepted,
+                      'Harry Potter has accepted your offer',
+                      'provider name' => 'Dear Johny English',
+                      'course name and code' => 'Welding (9ABC)')
+    end
   end
 
   describe '.declined_by_default' do
