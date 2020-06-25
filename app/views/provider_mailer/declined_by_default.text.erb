@@ -1,9 +1,11 @@
 Dear <%= @provider_user.full_name || 'colleague' %>
 
-# Application withdrawn automatically
+# Offer declined by default
 
-We withdrew <%= @application_choice.application_form.full_name %>’s application for <%= @application_choice.offered_course.name_and_code %> because they didn’t respond to the offer within <%= @application_choice.decline_by_default_days %> working days.
+<%= @application_choice.application_form.full_name %> had 10 working days to respond to your offer to study <%= @application_choice.offered_course.name_and_code %>. They haven’t replied, so the offer has been automatically declined.
 
-# Give feedback or report a problem
+# Get help, give feedback or report a problem
 
-Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
+For an overview of Manage teacher training applications, see our [Service guidance](https://www.apply-for-teacher-training.education.gov.uk/provider/service-guidance).
+
+You can also contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).

@@ -4,16 +4,18 @@ Dear <%= @provider_user.full_name || 'colleague' %>
 
 <%= @application_choice.application_form.full_name %> has accepted your offer to study <%= @application_choice.offered_course.name_and_code %>.
 
-# Tell us when the candidate has met their conditions
+# Track conditions
 
-Sign in to Manage teacher training applications to update the application status when they’ve met their conditions:
+Sign in to Manage teacher training applications to update the conditions of this offer as the candidate meets them:
 
 <%= provider_interface_application_choice_url(@application_choice) %>
 
-# Update the database of teacher training providers
+# Update the Database of Teacher Training Providers
 
-Enter the candidate’s details into the database of teacher training providers (DTTP) when they’ve started the course.
+Enter the candidate’s details into the Database of Teacher Training Providers (DTTP) when they’ve started the course.
 
-# Give feedback or report a problem
+# Get help, give feedback or report a problem
 
-Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
+For an overview of Manage teacher training applications, see our [Service guidance](https://www.apply-for-teacher-training.education.gov.uk/provider/service-guidance). 
+
+You can also contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
