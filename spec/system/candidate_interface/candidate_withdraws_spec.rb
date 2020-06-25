@@ -124,9 +124,9 @@ RSpec.feature 'A candidate withdraws her application' do
 
   def when_i_fill_in_my_feedback
     choose 'Yes, I’d like to share my reason with the Department for Education'
-    fill_in :explanation, with: 'I don’t want to go there.'
+    fill_in 'candidate-interface-withdrawal-feedback-form-explanation-field', with: 'I don’t want to go there.'
     choose 'Yes, you can contact me'
-    fill_in :contact_details, with: 'Anytime, 012345 678900'
+    fill_in 'candidate-interface-withdrawal-feedback-form-contact-details-field', with: 'Anytime, 012345 678900'
   end
 
   def and_i_click_continue
