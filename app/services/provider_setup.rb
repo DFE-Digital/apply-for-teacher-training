@@ -3,6 +3,21 @@ class ProviderSetup
     @provider_user = provider_user
   end
 
+  def next_agreement_pending
+    providers = @provider_user.providers
+    pending_dsa_providers = providers.where.not(
+      id: ProviderAgreement.data_sharing_agreements.for_provider(providers).select(:provider_id),
+    )
+
+    if pending_dsa_providers.present?
+      ProviderAgreement.new(
+        agreement_type: :data_sharing_agreement,
+        provider: pending_dsa_providers.first,
+        provider_user: @provider_user,
+      )
+    end
+  end
+
   def next_relationship_pending
     permissions = ProviderInterface::TrainingProviderPermissions.find_by(
       setup_at: nil,

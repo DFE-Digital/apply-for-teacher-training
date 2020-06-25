@@ -2,7 +2,7 @@ module ProviderInterface
   class ContentController < ProviderInterfaceController
     include ContentHelper
     skip_before_action :authenticate_provider_user!
-    skip_before_action :check_data_sharing_agreements
+    skip_before_action :redirect_if_setup_required
     layout 'application'
 
     helper_method :current_provider_user

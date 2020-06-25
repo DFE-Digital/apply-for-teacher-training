@@ -1,9 +1,8 @@
 module ProviderInterface
   class ProviderAgreementsController < ProviderInterfaceController
-    skip_before_action :check_data_sharing_agreements
-
     def new_data_sharing_agreement
-      @provider_agreement = GetPendingDataSharingAgreementsForProviderUser.call(provider_user: current_provider_user).first
+      @provider_agreement = ProviderSetup.new(provider_user: current_provider_user).next_agreement_pending
+
       if @provider_agreement
         render :data_sharing_agreement
       else
