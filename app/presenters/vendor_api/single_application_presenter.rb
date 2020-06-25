@@ -30,16 +30,7 @@ module VendorAPI
             other_languages: application_form.other_language_details,
             disability_disclosure: application_form.disability_disclosure,
           },
-          contact_details: {
-            phone_number: application_form.phone_number,
-            address_line1: application_form.address_line1,
-            address_line2: application_form.address_line2,
-            address_line3: application_form.address_line3,
-            address_line4: application_form.address_line4,
-            postcode: application_form.postcode,
-            country: application_form.country,
-            email: application_form.candidate.email_address,
-          },
+          contact_details: contact_details,
           course: course_info_for(application_choice.course_option),
           references: references,
           qualifications: qualifications,
@@ -194,6 +185,28 @@ module VendorAPI
 
     def personal_statement
       "Why do you want to become a teacher?: #{application_form.becoming_a_teacher} \n What is your subject knowledge?: #{application_form.subject_knowledge}"
+    end
+
+    def contact_details
+      if application_form.international? && FeatureFlag.active?(:international_addresses)
+        {
+          phone_number: application_form.phone_number,
+          address_line1: application_form.international_address,
+          country: application_form.country,
+          email: application_form.candidate.email_address,
+        }
+      else
+        {
+          phone_number: application_form.phone_number,
+          address_line1: application_form.address_line1,
+          address_line2: application_form.address_line2,
+          address_line3: application_form.address_line3,
+          address_line4: application_form.address_line4,
+          postcode: application_form.postcode,
+          country: application_form.country,
+          email: application_form.candidate.email_address,
+        }
+      end
     end
 
     def offered_course

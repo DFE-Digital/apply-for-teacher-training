@@ -1,3 +1,9 @@
+### 24th June 2020
+
+Changes to existing attributes:
+
+- `ContactDetails` attributes `address_line1`, `address_line2`, `address_line3` and `postcode` are no longer required attributes.
+
 ### 16th June 2020
 
 Sandbox changes:
