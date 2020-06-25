@@ -50,12 +50,26 @@ module CandidateInterface
     end
 
     def feedback
+      @withdrawal_feedback_form = WithdrawalFeedbackForm.new
       @provider = @application_choice.provider
       @course = @application_choice.course
     end
 
     def confirm_feedback
-    end 
+      @withdrawal_feedback_form = WithdrawalFeedbackForm.new(withdrawl_feedback_params)
+
+      if @withdrawal_feedback_form.save(@application_choice)
+        flash[:success] = 'Thank you for your feedback.'
+
+        redirect_to candidate_interface_application_complete_path
+      else
+        track_validation_error(@withdrawal_feedback_form)
+        @provider = @application_choice.provider
+        @course = @application_choice.course
+
+        render :feedback
+      end
+    end
 
   private
 
@@ -88,6 +102,10 @@ module CandidateInterface
 
     def check_that_candidate_has_an_offer
       render_404 unless @application_choice.offer?
+    end
+
+    def withdrawl_feedback_params
+      params.fetch(:candidate_interface_withdrawal_feedback_form, {}).permit(:feedback, :explanation, :consent_to_be_contacted, :contact_details)
     end
 
     def course_choice_rows
