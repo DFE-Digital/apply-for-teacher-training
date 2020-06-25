@@ -4,7 +4,9 @@ parameters:
   - name: displayName
     type: string
   - name: jobId
-    type: string    
+    type: string
+  - name: jobAttempt
+    type: string 
 
 jobs:
 - job: ${{ parameters.jobId }}
@@ -64,4 +66,4 @@ jobs:
     displayName: 'Publish Test Artifacts'
     inputs:
       path: '$(System.DefaultWorkingDirectory)/testArtifacts/'
-      artifactName: ${{ format('rspec-{0}', parameters.testCommand) }}
+      artifactName: ${{ format('rspec-{0}-{1}', parameters.testCommand, parameters.jobAttempt) }}
