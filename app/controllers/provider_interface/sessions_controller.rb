@@ -22,11 +22,6 @@ module ProviderInterface
 
       if provider_user && provider_user.dfe_sign_in_uid.present?
         ProviderInterface::MagicLinkAuthentication.send_token!(provider_user: provider_user)
-
-        SlackNotificationWorker.perform_async(
-          "Provider user #{provider_user.first_name} has requested a fallback sign in link",
-          edit_support_interface_provider_user_url(provider_user),
-        )
       end
 
       redirect_to provider_interface_check_your_email_path
@@ -38,11 +33,6 @@ module ProviderInterface
       redirect_to action: :new and return unless FeatureFlag.active?('dfe_sign_in_fallback')
 
       provider_user = ProviderInterface::MagicLinkAuthentication.get_user_from_token!(token: params.fetch(:token))
-
-      SlackNotificationWorker.perform_async(
-        "Provider user #{provider_user.first_name} has signed in via the fallback mechanism",
-        edit_support_interface_provider_user_url(provider_user),
-      )
 
       # Equivalent to calling DfESignInUser.begin_session!
       session['dfe_sign_in_user'] = {
