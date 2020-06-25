@@ -586,6 +586,7 @@ Rails.application.routes.draw do
     get '/performance/applications-export-for-ucas', to: 'performance#applications_export_for_ucas', as: :applications_export_for_ucas
     get '/performance/active-provider-users', to: 'performance#active_provider_users', as: :active_provider_users
     get '/performance/tad-provider-performance', to: 'performance#tad_provider_performance', as: :tad_provider_performance
+    get '/performance/course-choice-withdrawal', to: 'performance#course_choice_withdrawal', as: :course_choice_withdrawal_survey
 
     get '/tasks' => 'tasks#index', as: :tasks
     post '/tasks/:task' => 'tasks#run', as: :run_task
