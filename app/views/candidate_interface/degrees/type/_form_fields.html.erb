@@ -3,5 +3,7 @@
   label: { text: t('application_form.degree.qualification_type.label'), size: 'm' },
   hint_text: t('application_form.degree.qualification_type.hint_text.undergraduate')
 ) %>
-
+<% if FeatureFlag.active? :hesa_degree_data %>
+  <%= tag.div(id: 'degree-type-autocomplete', class: 'govuk-form-group', data: { source: @degree_types }) %>
+<% end %>
 <%= f.govuk_submit t('application_form.degree.base.button') %>
