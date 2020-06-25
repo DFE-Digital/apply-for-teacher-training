@@ -8,4 +8,11 @@ class SupportMailerPreview < ActionMailer::Preview
       },
     )
   end
+
+  def fallback_sign_in_email
+    SupportMailer.fallback_sign_in_email(
+      FactoryBot.build_stubbed(:support_user),
+      token: 'ABC-FOO',
+    )
+  end
 end

@@ -8,4 +8,13 @@ class SupportMailer < ApplicationMailer
       subject: 'New sign in to Support for Apply for teacher training',
     )
   end
+
+  def fallback_sign_in_email(support_user, token)
+    @token = token
+
+    notify_email(
+      to: support_user.email_address,
+      subject: t('authentication.sign_in.email.subject'),
+    )
+  end
 end

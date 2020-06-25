@@ -507,6 +507,10 @@ FactoryBot.define do
     last_name { Faker::Name.last_name }
   end
 
+  factory :authentication_token do
+    authenticable { support_user }
+  end
+
   factory :provider_user do
     dfe_sign_in_uid { SecureRandom.uuid }
     email_address { "#{Faker::Name.first_name.downcase}-#{SecureRandom.hex}@example.com" }

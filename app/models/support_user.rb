@@ -4,6 +4,8 @@ class SupportUser < ActiveRecord::Base
   validates :dfe_sign_in_uid, presence: true
   validates :email_address, presence: true, uniqueness: true
 
+  has_many :authentication_tokens, as: :authenticable, dependent: :destroy
+
   before_save :downcase_email_address
 
   audited except: [:last_signed_in_at]
