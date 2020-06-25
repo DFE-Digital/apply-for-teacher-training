@@ -32,6 +32,13 @@ class ProviderMailerPreview < ActionMailer::Preview
     ProviderMailer.declined(provider_user, application_choice)
   end
 
+  def fallback_sign_in_email
+    ProviderMailer.fallback_sign_in_email(
+      FactoryBot.build_stubbed(:provider_user),
+      token: 'ABC-FOO',
+    )
+  end
+
 private
 
   def provider

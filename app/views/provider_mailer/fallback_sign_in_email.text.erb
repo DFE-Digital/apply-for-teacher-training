@@ -2,4 +2,4 @@
 
 Click the link below to sign in to the <%= t('service_name.apply') %> service.
 
-<%= @magic_link %>
+<%= provider_interface_authenticate_with_token_url(token: @token) %>
