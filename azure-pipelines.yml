@@ -293,19 +293,21 @@ stages:
       condition: succeededOrFailed()
       inputs:
         path: '$(System.DefaultWorkingDirectory)/testArtifacts/'
-        artifactName: 'cucumber-results'
+        artifactName: 'cucumber-results-$(System.JobAttempt)'
 
   - template: rspec-job-template.yml
     parameters:
       testCommand: 'integration-tests'
       displayName: 'Integration Tests'
       jobId: 'integration_tests'
+      jobAttempt: $(System.JobAttempt)
         
   - template: rspec-job-template.yml
     parameters:
       testCommand: 'unit-tests'
       displayName: 'Unit Tests'
       jobId: 'unit_tests'
+      jobAttempt: $(System.JobAttempt)
 
 
 - stage: deploy_qa
