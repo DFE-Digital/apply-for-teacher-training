@@ -53,7 +53,7 @@ en:
     offer_withdrawn: Offer withdrawn
     pending_conditions: Accepted
     recruited: Conditions met
-    rejected: Rejected
+    rejected: Unsuccessful
     unsubmitted: Not submitted yet
     withdrawn: Withdrawn
     conditions_not_met: Conditions not met
