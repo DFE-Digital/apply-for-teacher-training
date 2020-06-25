@@ -2,20 +2,15 @@ import accessibleAutocomplete from "accessible-autocomplete";
 
 const initDegreeTypeAutocomplete = () => {
   function inputTemplate(result) {
-    if (result) {
-      const descriptor = result.split('|');
-
-      return descriptor[1]
-    }
+    return result ? result.split('|').pop() : '';
   }
 
   function suggestionTemplate(result) {
     const descriptor = result.split('|');
 
-    if (descriptor[0]) {
-      return `<strong>${descriptor[0]}</strong> <span class="autocomplete__option--hint">${descriptor[1]}</span>`
-    }
-    return `<strong>${descriptor[1]}</strong>`
+    return descriptor.length === 1
+      ? `<strong>${descriptor[0]}</strong>`
+      : `<strong>${descriptor[0]}</strong> <span class="autocomplete__option--hint">${descriptor[1]}</span>`
   }
 
   try {
@@ -40,6 +35,7 @@ const initDegreeTypeAutocomplete = () => {
         name: input.name,
         source: sourceData,
         showNoOptionsFound: true,
+        defaultValue: input.value,
         templates: {
           inputValue: inputTemplate,
           suggestion: suggestionTemplate
