@@ -304,6 +304,45 @@ RSpec.describe SyncProviderFromFind do
         expect(course_option.course.program_type).to eq('school_direct_training_programme')
       end
     end
+
+    context 'ingesting a provider when it existed in the previous recruitment cycle' do
+      before do
+        set_stubbed_recruitment_cycle_year!(2020)
+        @existing_provider = create :provider, code: 'ABC', sync_courses: true
+
+        stub_find_api_provider_200(provider_code: 'ABC', course_code: '9CBA', findable: true)
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: 2020)
+
+        set_stubbed_recruitment_cycle_year!(2021)
+      end
+
+      it 'creates separate courses for the courses in this cycle' do
+        expect(Course.count).to eq 1
+
+        stub_find_api_provider_200(provider_code: 'ABC', course_code: '9CBA', findable: true)
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: 2021)
+
+        expect(Course.count).to eq 2
+      end
+
+      it 'carries over the previous course’s open_on_apply status the first time it appears in the new cycle but not the second time' do
+        existing_course = Course.find_by(recruitment_cycle_year: 2020)
+        existing_course.update(open_on_apply: true)
+
+        stub_find_api_provider_200(provider_code: 'ABC', course_code: '9CBA', findable: true)
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: 2021)
+
+        new_course = Course.find_by(recruitment_cycle_year: 2021)
+        expect(new_course).to be_open_on_apply
+
+        new_course.update(open_on_apply: false)
+
+        stub_find_api_provider_200(provider_code: 'ABC', course_code: '9CBA', findable: true)
+        SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: 2021)
+
+        expect(new_course.reload).not_to be_open_on_apply
+      end
+    end
   end
 
   describe 'CourseVacancyStatus#derive' do

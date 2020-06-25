@@ -53,4 +53,21 @@ RSpec.describe Course, type: :model do
       end
     end
   end
+
+  describe '#in_previous_cycle' do
+    it 'returns nil when there is no equivalent in the previous cycle' do
+      course = create(:course)
+
+      expect(course.in_previous_cycle).to be_nil
+    end
+
+    it 'returns the equivalent in the previous cycle when there is one' do
+      provider = create(:provider)
+      course_in_previous_cycle = create(:course, code: 'ABC', provider: provider, recruitment_cycle_year: 2019)
+
+      course = create(:course, code: 'ABC', provider: provider, recruitment_cycle_year: 2020)
+
+      expect(course.in_previous_cycle).to eq course_in_previous_cycle
+    end
+  end
 end

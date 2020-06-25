@@ -79,7 +79,17 @@ private
   end
 
   def create_or_update_course(find_course)
-    course = provider.courses.find_or_create_by(code: find_course.course_code)
+    course = provider.courses.find_or_create_by(
+      code: find_course.course_code,
+      recruitment_cycle_year: find_course.recruitment_cycle_year,
+    ) do |new_course|
+      new_course.open_on_apply = if new_course.in_previous_cycle&.open_on_apply
+                                   true
+                                 else
+                                   false
+                                 end
+    end
+
     assign_course_attributes_from_find(course, find_course)
     add_accredited_provider(course, find_course[:accrediting_provider])
 
