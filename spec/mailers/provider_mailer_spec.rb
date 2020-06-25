@@ -164,6 +164,16 @@ RSpec.describe ProviderMailer, type: :mailer do
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)')
+
+    context 'with an alternative course offer' do
+      let(:alternative_course) { create(:course, provider: provider, name: 'Welding', code: '9ABC') }
+      let(:offered_course_option) { create(:course_option, course: alternative_course, site: site) }
+
+      it_behaves_like('a provider mail with subject and content', :application_withdrawn,
+                      'Harry Potter withdrew their application',
+                      'provider name' => 'Dear Johny English',
+                      'course name and code' => 'Welding (9ABC)')
+    end
   end
 
   describe '.declined' do

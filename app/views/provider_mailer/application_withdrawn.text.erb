@@ -2,7 +2,7 @@ Dear <%= @provider_user.full_name || 'colleague' %>
 
 # Application withdrawn
 
-<%= @application_choice.application_form.full_name %> withdrew their application for <%= @application_choice.course_option.course.name_and_code %>.
+<%= @application_choice.application_form.full_name %> withdrew their application for <%= @application_choice.offered_course.name_and_code %>.
 
 # Give feedback or report a problem
 
