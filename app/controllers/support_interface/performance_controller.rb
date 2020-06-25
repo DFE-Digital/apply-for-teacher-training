@@ -74,6 +74,19 @@ module SupportInterface
       send_data csv, filename: "tad-provider-performance-#{Time.zone.today}.csv", disposition: :attachment
     end
 
+    def course_choice_withdrawal
+      answers = SupportInterface::CourseChoiceWithdrawalSurveyExport.call
+
+      if answers.present?
+        csv = to_csv(answers)
+        send_data csv, filename: "course-choice_withdrawl-survey-#{Time.zone.today}.csv", disposition: :attachment
+      else
+        flash[:warning] = 'No candidates have filled in the survey'
+
+        redirect_to support_interface_performance_path
+      end
+    end
+
   private
 
     def to_csv(objects, header_row = nil)

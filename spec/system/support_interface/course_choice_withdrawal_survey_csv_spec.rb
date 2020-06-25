@@ -34,7 +34,7 @@ RSpec.feature 'Course choice withdrawal survey CSV' do
   end
 
   def given_there_are_candidate_survey_results
-    create_list(:application_choice, 3, :withdrawn, :with_survey_completed)
+    create_list(:application_choice, 3, :withdrawn_with_survey_completed)
   end
 
   def then_i_should_be_able_to_download_a_csv

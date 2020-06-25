@@ -368,6 +368,19 @@ FactoryBot.define do
       status { :application_complete }
     end
 
+    trait :withdrawn_with_survey_completed do
+      association :application_form, factory: %i[completed_application_form with_completed_references ready_to_send_to_provider]
+      status { :withdrawn }
+      withdrawal_feedback do
+        {
+          CandidateInterface::WithdrawalQuestionnaire::EXPLANATION_QUESTION => 'yes',
+          'Explanation' => Faker::Lorem.paragraph_by_chars(number: 300),
+          CandidateInterface::WithdrawalQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => 'yes',
+          'Contact details' => Faker::PhoneNumber.cell_phone,
+        }
+      end
+    end
+
     trait :with_rejection do
       status { 'rejected' }
       rejection_reason { Faker::Lorem.paragraph_by_chars(number: 300) }
