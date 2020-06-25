@@ -85,8 +85,4 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
       expect(page).not_to have_content @email
     end
   end
-
-  def and_we_have_been_notified
-    expect_slack_message_with_text "Provider user #{@provider_user.first_name} has signed in via the fallback mechanism"
-  end
 end
