@@ -101,4 +101,34 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.other_qualification.delete'))
     end
   end
+
+  describe '#show_missing_banner?' do
+    context 'when they have not added an other qualification and are submitting the application' do
+      it 'returns false' do
+        application_form = build_stubbed(:application_form)
+        expect(described_class.new(application_form: application_form, submitting_application: true).show_missing_banner?).to eq false
+      end
+    end
+
+    context 'when they have fully completed their other qualifications and are submitting their application' do
+      it 'returns false' do
+        expect(described_class.new(application_form: application_form, submitting_application: true).show_missing_banner?).to eq false
+      end
+    end
+
+    context 'when they have an incomplete qualification and are submtting their application' do
+      let(:qualification2) do
+        build_stubbed(
+          :application_qualification,
+          level: 'other',
+          qualification_type: nil,
+          subject: nil,
+        )
+      end
+
+      it 'returns true' do
+        expect(described_class.new(application_form: application_form, submitting_application: true).show_missing_banner?).to eq true
+      end
+    end
+  end
 end
