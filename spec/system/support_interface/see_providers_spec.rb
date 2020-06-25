@@ -12,6 +12,7 @@ RSpec.feature 'See providers' do
     and_i_should_see_the_list_of_providers
     and_i_should_see_providers_course_count
     and_i_should_see_providers_sites_count
+    and_i_should_see_providers_dsa_signed_date
 
     and_when_i_click_the_other_providers_tab
     and_i_should_see_the_list_of_other_providers
@@ -57,6 +58,13 @@ RSpec.feature 'See providers' do
     expect(@second_provider_cells[2].text).to eq('0')
     expect(@third_provider_cells[2].text).to eq('1')
     expect(@fourth_provider_cells[2].text).to eq('0')
+  end
+
+  def and_i_should_see_providers_dsa_signed_date
+    expect(@first_provider_cells[3].text).to eq('Not accepted yet')
+    expect(@second_provider_cells[3].text).to eq('Not accepted yet')
+    expect(@third_provider_cells[3].text).to eq('Not accepted yet')
+    expect(@fourth_provider_cells[3].text).to eq(Time.zone.today.to_s(:govuk_date))
   end
 
   def and_when_i_click_the_other_providers_tab
