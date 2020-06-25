@@ -19,7 +19,7 @@ class ProviderSetup
   end
 
   def next_relationship_pending
-    permissions = ProviderInterface::TrainingProviderPermissions.find_by(
+    permissions = TrainingProviderPermissions.find_by(
       setup_at: nil,
       training_provider: @provider_user.providers,
     )

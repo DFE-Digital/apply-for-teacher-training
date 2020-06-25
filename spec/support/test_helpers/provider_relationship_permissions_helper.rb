@@ -3,12 +3,12 @@ module ProviderRelationshipPermissionsHelper
     FeatureFlag.activate 'enforce_provider_to_provider_permissions'
 
     if ratifying_provider
-      ProviderInterface::TrainingProviderPermissions.find_or_create_by(
+      TrainingProviderPermissions.find_or_create_by(
         training_provider: training_provider,
         ratifying_provider: ratifying_provider,
       ).update(make_decisions: true)
 
-      ProviderInterface::AccreditedBodyPermissions.find_or_create_by(
+      RatifyingProviderPermissions.find_or_create_by(
         training_provider: training_provider,
         ratifying_provider: ratifying_provider,
       ).update(make_decisions: true)

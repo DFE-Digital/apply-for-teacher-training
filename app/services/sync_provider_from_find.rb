@@ -163,11 +163,11 @@ private
   def add_provider_relationships(course)
     return if course.accredited_provider.blank?
 
-    ProviderInterface::TrainingProviderPermissions.find_or_create_by!(
+    TrainingProviderPermissions.find_or_create_by!(
       ratifying_provider: course.accredited_provider,
       training_provider: provider,
     )
-    ProviderInterface::RatifyingProviderPermissions.find_or_create_by!(
+    RatifyingProviderPermissions.find_or_create_by!(
       ratifying_provider: course.accredited_provider,
       training_provider: provider,
     )

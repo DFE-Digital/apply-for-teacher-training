@@ -1,0 +1,2 @@
+class TrainingProviderPermissions < ProviderRelationshipPermissions
+end

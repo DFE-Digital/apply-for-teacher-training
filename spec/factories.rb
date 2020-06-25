@@ -324,15 +324,15 @@ FactoryBot.define do
   end
 
   factory :ratifying_provider_permissions,
-          class: 'ProviderInterface::RatifyingProviderPermissions' do
-    type { 'ProviderInterface::RatifyingProviderPermissions' }
+          class: 'RatifyingProviderPermissions' do
+    type { 'RatifyingProviderPermissions' }
     ratifying_provider { create(:provider) }
     training_provider { create(:provider) }
   end
 
   factory :training_provider_permissions,
-          class: 'ProviderInterface::TrainingProviderPermissions' do
-    type { 'ProviderInterface::TrainingProviderPermissions' }
+          class: 'TrainingProviderPermissions' do
+    type { 'TrainingProviderPermissions' }
     ratifying_provider { create(:provider) }
     training_provider { create(:provider) }
   end
