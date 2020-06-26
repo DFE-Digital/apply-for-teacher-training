@@ -221,7 +221,7 @@ RSpec.feature 'Providers should be able to filter applications' do
     expect(page).not_to have_css('.app-application-cards', text: 'Offer')
     expect(page).not_to have_css('.app-application-cards', text: 'Application withdrawn')
     expect(page).not_to have_css('.app-application-cards', text: 'Declined')
-    expect(page).not_to have_css('.app-application-cards', text: 'Withdrawn by us')
+    expect(page).not_to have_css('.app-application-cards', text: 'Offer withdrawn')
   end
 
   def and_the_rejected_tickbox_should_still_be_checked

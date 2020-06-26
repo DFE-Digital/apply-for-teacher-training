@@ -29,7 +29,7 @@ RSpec.describe FilterApplicationChoicesForProviders do
           { filter: 'Declined', filter_status: 'declined' },
           { filter: 'Application withdrawn', filter_status: 'withdrawn' },
           { filter: 'Conditions not met', filter_status: 'conditions_not_met' },
-          { filter: 'Withdrawn by us', filter_status: 'offer_withdrawn' },
+          { filter: 'Offer withdrawn', filter_status: 'offer_withdrawn' },
         ]
 
       test_data.each_with_index do |example, index|
@@ -48,7 +48,7 @@ RSpec.describe FilterApplicationChoicesForProviders do
         end
       end
 
-      it 'combined Submitted and Rejected filters return submitted and withdrawn by us application choices' do
+      it 'combined Submitted and Rejected filters return submitted and rejected application choices' do
         filters = { status: %w[awaiting_provider_decision rejected] }
         returned_application_choices = described_class.call(
           application_choices: application_choices,
@@ -57,7 +57,7 @@ RSpec.describe FilterApplicationChoicesForProviders do
         expect(returned_application_choices).to match_array([submitted_application_choice, rejected_application_choice])
       end
 
-      it 'combined Submitted and Withdrawn by us filters return submitted and withdrawn by us application choices' do
+      it 'combined Submitted and Offer withdrawn filters return submitted and withdrawn application choices' do
         filters = { status: %w[awaiting_provider_decision offer_withdrawn] }
         returned_application_choices = described_class.call(
           application_choices: application_choices,
