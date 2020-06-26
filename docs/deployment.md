@@ -41,11 +41,12 @@ Summarise what you're deploying and tell the team in Slack on the `#twd_apply` c
 1. Under the Variables section, make sure only `deploy_staging` is set to true (this should be the default)
 1. Click the Run button to start the deployment.
 
-## 4. Test on staging
+## 4. Check if staging is deployed successfully
 
-Follow the testing instructions for staging in the [post-deployment checklist](deployment_checklist.md).
+Check the `#twd_apply_tech` channel in Slack for runtime errors from
+Sentry or the smoke tests.
 
-## 5. Deploy to production, sandbox
+## 5. Deploy to production and sandbox
 
 1. Load the [apply-for-teacher-training-releases](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build?definitionId=325&_a=summary) page in Azure DevOps.
 1. Click the blue "Run pipeline" button (sometimes it says "Queue") at the top right of the page which will open the run pipeline menu.
@@ -54,10 +55,10 @@ Follow the testing instructions for staging in the [post-deployment checklist](d
 1. Under the Variables section set `deploy_staging` to `false` and `deploy_production` and `deploy_sandbox` to `true`.
 1. Click the Run button to start the deployment
 
-## 6. Test on production
+## 6. Check if production and sandbox are deployed successfully
 
-Wait until the deploy finishes and run through the [post-deployment
-checklist](deployment_checklist.md) before declaring the deploy finished.
+Check the `#twd_apply_tech` channel in Slack for runtime errors from
+Sentry or the smoke tests.
 
 ## 7. Move deploy cards to done
 
