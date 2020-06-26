@@ -19,8 +19,8 @@ module SupportInterface
     end
 
     def application_choice_timings
-      # TODO: Implementation to follow
-      csv = to_csv([])
+      application_choices = SupportInterface::ApplicationChoiceTimingsExport.new.application_choices
+      csv = to_csv(application_choices)
 
       send_data csv, filename: "application-choices-timings-#{Time.zone.today}.csv", disposition: :attachment
     end
