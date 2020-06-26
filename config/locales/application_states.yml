@@ -49,7 +49,7 @@ en:
     cancelled: Cancelled
     declined: Declined
     enrolled: Enrolled
-    offer: Offer
+    offer: Offer received
     offer_withdrawn: Offer withdrawn
     pending_conditions: Accepted
     recruited: Conditions met
