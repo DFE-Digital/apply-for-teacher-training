@@ -54,7 +54,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
-      expect(result.css('.govuk-tag.govuk-tag--red.app-tag').to_html).to include('Declined')
+      expect(result.css('.govuk-tag.govuk-tag--red.app-tag').to_html).to include('Reference declined')
       expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info.declined'))
     end
 
