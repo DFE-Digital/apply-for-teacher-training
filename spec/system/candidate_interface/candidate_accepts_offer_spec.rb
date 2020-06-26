@@ -98,7 +98,7 @@ RSpec.feature 'Candidate accepts an offer' do
     expect(page).to have_content 'You have accepted an offer'
 
     within ".qa-application-choice-#{@application_choice.id}" do
-      expect(page).to have_content 'Accepted'
+      expect(page).to have_content 'Offer accepted'
     end
   end
 
