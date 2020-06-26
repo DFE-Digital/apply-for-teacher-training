@@ -297,11 +297,11 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
   context 'when a course choice is awaiting provider decision' do
     let(:application_form) { create_application_form_with_course_choices(statuses: %w[awaiting_provider_decision]) }
 
-    it 'renders component with the status as pending' do
+    it 'renders component with the status as awaiting decision' do
       result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('Pending')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Awaiting decision')
     end
 
     it 'renders component with a withdraw link' do

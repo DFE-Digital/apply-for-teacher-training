@@ -44,7 +44,7 @@ en:
       description: This application is in a state that we don’t recognise. Please report this to a developer.
   candidate_application_states:
     application_complete: Submitted
-    awaiting_provider_decision: Pending
+    awaiting_provider_decision: Awaiting decision
     awaiting_references: Submitted
     cancelled: Cancelled
     declined: Declined

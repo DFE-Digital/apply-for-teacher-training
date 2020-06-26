@@ -91,7 +91,7 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
 
   def then_i_see_that_the_application_was_sent_to_provider
     visit candidate_interface_application_complete_path
-    expect(page).to have_content('Status Pending')
+    expect(page).to have_content('Status Awaiting decision')
   end
 
   def and_i_see_that_references_are_given
