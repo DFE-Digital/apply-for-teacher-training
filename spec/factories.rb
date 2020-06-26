@@ -196,6 +196,7 @@ FactoryBot.define do
   factory :application_work_experience, parent: :application_experience, class: 'ApplicationWorkExperience'
 
   factory :application_qualification do
+    application_form
     level { %w[degree gcse other].sample }
     qualification_type { %w[BA Masters A-Level gcse].sample }
     subject { Faker::Educator.subject }

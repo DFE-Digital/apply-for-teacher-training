@@ -9,5 +9,9 @@ module Hesa
     def self.names
       all.map(&:name)
     end
+
+    def self.find_by_name(subject_name)
+      all.find { |subject| subject.name == subject_name }
+    end
   end
 end
