@@ -30,18 +30,18 @@ RSpec.describe CandidateInterface::WithdrawalFeedbackForm, type: :model do
     it 'updates the withdrawl feedback column if valid' do
       application_choice = create(:application_choice, status: 'withdrawn')
       withdrawal_feedback = described_class.new(
-        feedback: true,
+        feedback: 'yes',
         explanation: 'I do not want to travel that far.',
-        consent_to_be_contacted: true,
+        consent_to_be_contacted: 'yes',
         contact_details: 'Anytime. 012345 678900',
       )
 
       expect(withdrawal_feedback.save(application_choice)).to eq(true)
       expect(application_choice.withdrawal_feedback).to eq(
         {
-          CandidateInterface::WithdrawalQuestionnaire::EXPLANATION_QUESTION => true,
+          CandidateInterface::WithdrawalQuestionnaire::EXPLANATION_QUESTION => 'yes',
           'Explanation' => 'I do not want to travel that far.',
-          CandidateInterface::WithdrawalQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => true,
+          CandidateInterface::WithdrawalQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => 'yes',
           'Contact details' => 'Anytime. 012345 678900',
         },
       )
