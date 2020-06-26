@@ -1,7 +1,5 @@
 # rubocop:disable Style/StringLiterals
 HESA_DEGREE_SUBJECTS = [
-  [999999, "Not known"],
-  [999998, "Not applicable"],
   [100003, "Ceramics"],
   [100005, "Clinical engineering"],
   [100033, "Metallurgy"],
