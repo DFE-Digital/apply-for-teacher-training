@@ -2,11 +2,11 @@ module CandidateInterface
   module Degrees
     class TypeController < CandidateInterfaceController
       before_action :redirect_to_dashboard_if_submitted
-      before_action :set_degree_type_names
+      before_action :set_degree_type_names, only: %i[edit update]
 
       def new
         @degree_type_form = DegreeTypeForm.new
-        degree_already_added? ? render('add_another') : render('new')
+        conditionally_render_new_degree_type_form
       end
 
       def create
@@ -16,7 +16,7 @@ module CandidateInterface
             @degree_type_form.degree,
           )
         else
-          render :new
+          conditionally_render_new_degree_type_form
         end
       end
 
@@ -39,6 +39,16 @@ module CandidateInterface
 
       def set_degree_type_names
         @degree_types = Hesa::DegreeType.abbreviations_and_names
+      end
+
+      def conditionally_render_new_degree_type_form
+        if degree_already_added?
+          @degree_types = Hesa::DegreeType.abbreviations_and_names
+          render :add_another
+        else
+          @degree_types = Hesa::DegreeType.abbreviations_and_names(level: :undergraduate)
+          render :new
+        end
       end
 
       def degree_type_params

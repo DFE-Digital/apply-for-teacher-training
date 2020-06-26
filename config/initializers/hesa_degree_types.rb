@@ -82,5 +82,4 @@ HESA_DEGREE_TYPES = [
   [400, nil, 'First Degree', :other],
   [401, nil, 'Higher Degree', :other],
   [402, nil, 'Degree equivalent', :other],
-  [999, nil, 'Unknown', :other],
 ].freeze
