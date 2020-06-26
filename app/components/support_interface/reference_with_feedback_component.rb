@@ -40,7 +40,7 @@ module SupportInterface
     def status_row
       {
         key: 'Reference status',
-        value: render(TagComponent.new(text: t("reference_status.#{feedback_status}"), type: feedback_tag_color(feedback_status))),
+        value: render(TagComponent.new(text: t("reference_status.#{feedback_status}"), type: feedback_status_colour(reference))),
       }
     end
 
@@ -117,8 +117,21 @@ module SupportInterface
       consent_to_be_contacted == true ? 'Yes' : 'No'
     end
 
-    def feedback_tag_color(feedback_status)
-      feedback_status == 'feedback_refused' ? 'red' : 'blue'
+    def feedback_status_colour(reference)
+      case reference.feedback_status
+      when 'not_requested_yet'
+        :grey
+      when 'feedback_requested'
+        reference.feedback_overdue? ? :yellow : :purple
+      when 'feedback_provided'
+        :green
+      when 'feedback_overdue'
+        :yellow
+      when 'cancelled'
+        :orange
+      when 'feedback_refused', 'email_bounced'
+        :red
+      end
     end
 
     attr_reader :reference

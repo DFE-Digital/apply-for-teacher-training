@@ -115,11 +115,17 @@ module CandidateInterface
 
     def feedback_status_colour(reference)
       case reference.feedback_status
-      when 'not_requested_yet', 'feedback_requested'
-        reference.feedback_overdue? ? :red : :blue
+      when 'not_requested_yet'
+        :grey
+      when 'feedback_requested'
+        reference.feedback_overdue? ? :yellow : :purple
       when 'feedback_provided'
         :green
-      when 'feedback_refused', 'feedback_overdue', 'email_bounced', 'cancelled'
+      when 'feedback_overdue'
+        :yellow
+      when 'cancelled'
+        :orange
+      when 'feedback_refused', 'email_bounced'
         :red
       end
     end
