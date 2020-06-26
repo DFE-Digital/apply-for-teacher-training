@@ -374,7 +374,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('Declined')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Offer declined')
     end
   end
 

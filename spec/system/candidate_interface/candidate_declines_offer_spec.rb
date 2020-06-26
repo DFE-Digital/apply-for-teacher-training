@@ -87,7 +87,7 @@ RSpec.feature 'Candidate declines an offer' do
 
   def and_i_see_that_i_declined_the_offer
     within ".qa-application-choice-#{@application_choice.id}" do
-      expect(page).to have_content 'Declined'
+      expect(page).to have_content 'Offer declined'
     end
   end
 

@@ -47,7 +47,7 @@ en:
     awaiting_provider_decision: Awaiting decision
     awaiting_references: Submitted
     cancelled: Cancelled
-    declined: Declined
+    declined: Offer declined
     enrolled: Enrolled
     offer: Offer received
     offer_withdrawn: Offer withdrawn
