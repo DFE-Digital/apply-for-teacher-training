@@ -34,3 +34,5 @@ en:
       incomplete: Work history is not marked as completed
     safeguarding:
       incomplete: Safeguarding information not entered
+    other_qualifications:
+      incomplete: Your Other Qualifications section has an incomplete qualification

@@ -23,13 +23,13 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
     )
   end
 
-  before do
-    allow(application_form).to receive(:application_qualifications).and_return(
-      ActiveRecordRelationStub.new(ApplicationQualification, [qualification1, qualification2], scopes: [:other]),
-    )
-  end
-
   context 'when other qualifications are editable' do
+    before do
+      allow(application_form).to receive(:application_qualifications).and_return(
+        ActiveRecordRelationStub.new(ApplicationQualification, [qualification1, qualification2], scopes: [:other]),
+      )
+    end
+
     it 'renders component with correct values for a qualification' do
       result = render_inline(described_class.new(application_form: application_form))
 
@@ -99,6 +99,30 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
 
       expect(result.css('.app-summary-list__actions').text).not_to include('Change')
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.other_qualification.delete'))
+    end
+  end
+
+  describe '#show_missing_banner?' do
+    let(:application_form) { create(:application_form) }
+
+    context 'when they have not added an other qualification and are submitting the application' do
+      it 'returns false' do
+        expect(described_class.new(application_form: application_form, submitting_application: true).show_missing_banner?).to eq false
+      end
+    end
+
+    context 'when they have fully completed their other qualifications and are submitting their application' do
+      it 'returns false' do
+        create(:other_qualification, application_form: application_form)
+        expect(described_class.new(application_form: application_form, submitting_application: true).show_missing_banner?).to eq false
+      end
+    end
+
+    context 'when they have an incomplete qualification and are submtting their application' do
+      it 'returns true' do
+        create(:other_qualification, application_form: application_form, award_year: nil)
+        expect(described_class.new(application_form: application_form, submitting_application: true).show_missing_banner?).to eq true
+      end
     end
   end
 end

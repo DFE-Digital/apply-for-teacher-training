@@ -2,7 +2,7 @@ module CandidateInterface
   class OtherQualificationsReviewComponent < ViewComponent::Base
     validates :application_form, presence: true
 
-    def initialize(application_form:, editable: true, heading_level: 2, missing_error: false)
+    def initialize(application_form:, editable: true, heading_level: 2, missing_error: false, submitting_application: false)
       @application_form = application_form
       @qualifications = CandidateInterface::OtherQualificationForm.build_all_from_application(
         @application_form,
@@ -10,6 +10,7 @@ module CandidateInterface
       @editable = editable
       @heading_level = heading_level
       @missing_error = missing_error
+      @submitting_application = submitting_application
     end
 
     def other_qualifications_rows(qualification)
@@ -19,6 +20,10 @@ module CandidateInterface
         award_year_row(qualification),
         grade_row(qualification),
       ]
+    end
+
+    def show_missing_banner?
+      @submitting_application && @application_form.application_qualifications.other.any?(&:incomplete_other_qualification?)
     end
 
   private
