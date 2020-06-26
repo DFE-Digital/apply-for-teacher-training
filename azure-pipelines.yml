@@ -25,7 +25,7 @@ variables:
 - group: Docker Shared variables
 - group: APPLY - Shared Variables
 - name: imageName
-  value: 'apply-for-postgraduate-teacher-training'
+  value: 'apply-for-teacher-training'
 - name: gemsNodeModulesImageName
   value: 'apply-for-teacher-training-gems-node-modules'
 - name: debug
