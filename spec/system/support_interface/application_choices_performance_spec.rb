@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Application choices performance CSV' do
+RSpec.feature 'Application choices timings CSV' do
   include DfESignInHelpers
 
   scenario 'support user can download a CSV with the application choice performance report' do

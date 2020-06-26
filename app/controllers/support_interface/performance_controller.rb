@@ -18,6 +18,13 @@ module SupportInterface
       send_data csv, filename: "submitted-application-choices-#{Time.zone.today}.csv", disposition: :attachment
     end
 
+    def application_choice_timings
+      # TODO: Implementation to follow
+      csv = to_csv([])
+
+      send_data csv, filename: "application-choices-timings-#{Time.zone.today}.csv", disposition: :attachment
+    end
+
     def providers_export
       providers = SupportInterface::ProvidersExport.new.providers
       csv = to_csv(providers)
