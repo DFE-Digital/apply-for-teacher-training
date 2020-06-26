@@ -11,8 +11,9 @@
   <thead class='govuk-table__head'>
     <tr class='govuk-table__row'>
       <th scope='col' class='govuk-table__header govuk-!-width-one-half'>Provider Name</th>
-      <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Courses</th>
-      <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Sites</th>
+      <th scope='col' class='govuk-table__header'>Courses</th>
+      <th scope='col' class='govuk-table__header'>Sites</th>
+      <th scope='col' class='govuk-table__header'>DSA signed date</th>
     </tr>
   </thead>
 
@@ -28,6 +29,13 @@
         </td>
         <td class='govuk-table__cell'>
           <%= provider.sites.size %>
+        </td>
+        <td class='govuk-table__cell'>
+          <% if provider.provider_agreements.data_sharing_agreements.any? %>
+            <%= provider.provider_agreements.data_sharing_agreements.first.accepted_at.to_s(:govuk_date) %>
+          <% else %>
+            Not accepted yet
+          <% end %>
         </td>
       </tr>
     <% end %>

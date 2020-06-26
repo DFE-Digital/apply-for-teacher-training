@@ -1,7 +1,9 @@
 module SupportInterface
   class ProvidersController < SupportInterfaceController
     def index
-      @providers = Provider.where(sync_courses: true).includes(:sites, :courses).order(:name)
+      @providers = Provider.where(sync_courses: true)
+        .includes(:sites, :courses, :provider_agreements)
+        .order(:name)
     end
 
     def other_providers
