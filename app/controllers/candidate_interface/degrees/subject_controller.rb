@@ -2,6 +2,7 @@ module CandidateInterface
   module Degrees
     class SubjectController < CandidateInterfaceController
       before_action :redirect_to_dashboard_if_submitted
+      before_action :set_subject_names
 
       def new
         @degree_subject_form = DegreeSubjectForm.new(degree: degree)
@@ -35,6 +36,10 @@ module CandidateInterface
 
       def degree
         @degree ||= ApplicationQualification.find(params[:id])
+      end
+
+      def set_subject_names
+        @subjects = Hesa::Subject.names
       end
 
       def subject_params
