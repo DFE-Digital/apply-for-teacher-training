@@ -26,10 +26,16 @@ RSpec.feature 'A candidate withdraws her application' do
     then_i_see_a_confirmation_page
 
     when_i_click_to_confirm_withdrawal
-    then_my_application_should_be_withdrawn
-    and_i_do_not_see_the_covid_19_guidance
+    then_i_see_the_withdraw_choice_feedback_page
+    and_my_application_should_be_withdrawn
     and_a_slack_notification_is_sent
     and_the_provider_has_received_an_email
+
+    when_i_fill_in_my_feedback
+    and_i_click_continue
+    then_i_see_my_application_dashboard
+    and_i_am_thanked_for_my_feedback
+    and_i_do_not_see_the_covid_19_guidance
 
     when_i_try_to_visit_the_withdraw_page
     then_i_see_the_page_not_found
@@ -83,8 +89,16 @@ RSpec.feature 'A candidate withdraws her application' do
     click_button 'Yes I’m sure - withdraw this course choice'
   end
 
+  def then_i_see_the_withdraw_choice_feedback_page
+    expect(page).to have_current_path candidate_interface_withdraw_feedback_path(@application_choice.id)
+  end
+
+  def and_my_application_should_be_withdrawn
+    expect(page).to have_content('Course choice withdrawn')
+  end
+
   def then_my_application_should_be_withdrawn
-    expect(page).to have_content('Your application has been withdrawn')
+    and_my_application_should_be_withdrawn
   end
 
   def and_i_do_not_see_the_covid_19_guidance
@@ -106,6 +120,25 @@ RSpec.feature 'A candidate withdraws her application' do
   def and_the_provider_has_received_an_email
     open_email(@provider_user.email_address)
     expect(current_email.subject).to have_content "#{@application_choice.application_form.full_name} withdrew their application"
+  end
+
+  def when_i_fill_in_my_feedback
+    choose 'Yes, I’d like to share my reason with the Department for Education'
+    fill_in 'candidate-interface-withdrawal-feedback-form-explanation-field', with: 'I don’t want to go there.'
+    choose 'Yes, you can contact me'
+    fill_in 'candidate-interface-withdrawal-feedback-form-contact-details-field', with: 'Anytime, 012345 678900'
+  end
+
+  def and_i_click_continue
+    click_button 'Continue'
+  end
+
+  def then_i_see_my_application_dashboard
+    expect(page).to have_current_path candidate_interface_application_complete_path
+  end
+
+  def and_i_am_thanked_for_my_feedback
+    expect(page).to have_content 'Thank you for your feedback.'
   end
 
   def and_the_candidate_has_received_an_email_with_information_on_apply_again
