@@ -17,7 +17,7 @@ module ProviderInterface
     end
 
     def condition_rows
-      conditions && conditions.empty? ? ['No conditions have been specified'] : conditions
+      conditions && conditions.empty? ? ['No conditions have been set for this offer.'] : conditions
     end
 
     def application_state
