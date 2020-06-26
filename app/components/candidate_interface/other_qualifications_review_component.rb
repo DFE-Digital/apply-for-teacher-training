@@ -23,12 +23,7 @@ module CandidateInterface
     end
 
     def show_missing_banner?
-      @submitting_application && @qualifications.any? do |qualification|
-        qualification.qualification_type.nil? ||
-          qualification.subject.nil? ||
-          qualification.grade.nil? ||
-          qualification.institution_name.nil?
-      end
+      @submitting_application && @application_form.application_qualifications.other.any?(&:incomplete_other_qualification?)
     end
 
   private

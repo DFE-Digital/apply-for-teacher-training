@@ -261,13 +261,7 @@ module CandidateInterface
     end
 
     def no_incomplete_qualifications?
-      incomplete_qualifications = @application_form.application_qualifications.other.select do |qualification|
-        qualification.qualification_type.nil? ||
-          qualification.subject.nil? ||
-          qualification.grade.nil? ||
-          qualification.institution_name.nil?
-      end
-
+      incomplete_qualifications = @application_form.application_qualifications.other.select(&:incomplete_other_qualification?)
       incomplete_qualifications.blank?
     end
 
