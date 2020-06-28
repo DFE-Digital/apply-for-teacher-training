@@ -1,5 +1,5 @@
 module SupportInterface
-  class ApplicationChoiceTimingsExport
+  class CandidateJourneyTrackingExport
     def application_choices
       all_application_choices.find_each.map do |choice|
         {

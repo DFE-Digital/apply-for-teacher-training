@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::ApplicationChoiceTimingsExport, with_audited: true do
+RSpec.describe SupportInterface::CandidateJourneyTrackingExport, with_audited: true do
   describe '#application_choices' do
     it 'returns application choices with timings' do
       unsubmitted_form = create(:application_form)

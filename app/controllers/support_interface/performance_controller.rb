@@ -18,11 +18,11 @@ module SupportInterface
       send_data csv, filename: "submitted-application-choices-#{Time.zone.today}.csv", disposition: :attachment
     end
 
-    def application_choice_timings
-      application_choices = SupportInterface::ApplicationChoiceTimingsExport.new.application_choices
+    def candidate_journey_tracking
+      application_choices = SupportInterface::CandidateJourneyTrackingExport.new.application_choices
       csv = to_csv(application_choices)
 
-      send_data csv, filename: "application-choices-timings-#{Time.zone.today}.csv", disposition: :attachment
+      send_data csv, filename: "candidate-journey-tracking-#{Time.zone.today}.csv", disposition: :attachment
     end
 
     def providers_export
