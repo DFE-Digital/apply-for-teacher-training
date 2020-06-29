@@ -40,6 +40,10 @@ module SupportInterface
       references_created_at.size >= 2 ? references_created_at[2] : nil
     end
 
+    def references_completed
+      earliest_update_audit_for(@application_choice.application_form, references_completed: true)
+    end
+
   private
 
     def all_references
@@ -81,9 +85,9 @@ module SupportInterface
     # - [x] `reference_2_received`
     # - [x] `reference_reminder_email_sent`
     # - [x] `new_reference_request_email_sent`
+    # - [x] `new_reference_added` - `created_by` of the third reference?
+    # - [x] `references_complete` - from audit trail when `ApplicationForm#references_completed` gets set to true? (can happen more than once)
 
-    # - [ ] `new_reference_added` - `created_by` of the third reference?
-    # - [ ] `references_complete` - from audit trail when `ApplicationForm#references_completed` gets set to true? (can happen more than once)
     # - [ ] `waiting_to_be_sent_to_provider` - not sure what this one means
     # - [ ] `application_sent_to_provider` - `ApplicationChoice#sent_to_provider_at`
     # - [ ] `awaiting_decision` QUESTION - not sure what this means (isn't it the same as `sent_to_provider_at`?)
