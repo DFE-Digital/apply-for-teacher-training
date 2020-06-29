@@ -148,6 +148,30 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       expect(described_class.new(application_choice).new_reference_request_email_sent).to eq(now + 1.day)
     end
   end
+
+  describe '#new_reference_added' do
+    it 'returns nil when there are only two references' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :awaiting_references, application_form: application_form)
+      create(:reference, :requested, application_form: application_form)
+      create(:reference, :requested, application_form: application_form)
+
+      expect(described_class.new(application_choice).new_reference_added).to be_nil
+    end
+
+    it 'returns time of the earliest chaser sent' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :awaiting_references, application_form: application_form)
+      create(:reference, :requested, application_form: application_form)
+      create(:reference, :refused, application_form: application_form)
+
+      Timecop.freeze(now + 1.day) do
+        create(:reference, :requested, application_form: application_form)
+      end
+
+      expect(described_class.new(application_choice).new_reference_added).to eq(now + 1.day)
+    end
+  end
 end
 
 # Form not started - created_at?

@@ -35,13 +35,21 @@ module SupportInterface
       earliest_chaser_sent(:reference_replacement)
     end
 
+    def new_reference_added
+      references_created_at = all_references.map(&:created_at).sort
+      references_created_at.size >= 2 ? references_created_at[2] : nil
+    end
+
   private
 
-    def received_references
-      @received_references ||= @application_choice
+    def all_references
+      @all_references ||= @application_choice
         .application_form
         .application_references
-        .select(&:feedback_provided?)
+    end
+
+    def received_references
+      @received_references ||= all_references.select(&:feedback_provided?)
     end
 
     def received_reference_times
@@ -66,30 +74,37 @@ module SupportInterface
       chasers.select { |chaser| chaser.chaser_type == chaser_type.to_s }.map(&:created_at).min
     end
 
-    # def new_reference_request_email_sent: nil, # - emails?
-    # def new_reference_added: nil, # - ?
-    # def references_complete: nil, # - from audit trail when `ApplicationForm#references_completed` gets set to true? (can happen more than once)
-    # def waiting_to_be_sent_to_provider: nil, # - not sure what this one means
-    # def application_sent_to_provider: nil, # - `ApplicationChoice#sent_to_provider_at`
-    # def awaiting_decision: nil, # QUESTION - not sure what this means (isn't it the same as `sent_to_provider_at`?)
-    # def rbd_date: nil, # - `ApplicationChoice#sent_to_provider_at`
-    # def rbd_reminder_sent: nil, # - Is this the `chase_provider_decision` email? `ChaserSent#provider_decision_request` ?
-    # def application_rbd: nil, # - Combination of `ApplicationChoice#rejected_at` and `rejected_by_default`
-    # def provider_decision: nil, # (Reject/Offer) - `ApplicationChoice#rejected_at` or `ApplicationChoice#offered_at`
-    # def offer_made: nil, # awaiting decision from candidate - `ApplicationChoice#offered_at`
-    # def email_sent_to_candidate: nil, # - the offer email? also the reject email?
-    # def dbd_date: nil, # - `ApplicationChoice#decline_by_default_at`
-    # def dbd_reminder_email: nil, # - `ChaserSent#chaser_type`
-    # def candidate_decision: nil, # (accept/decline) - `ApplicationChoice#accepted_at` or `ApplicationChoice#declined_at`
-    # def offer_declined: nil, # - `ApplicationChoice#declined_at`
-    # def offer_accepted: nil, # - `ApplicationChoice#accepted_at`
-    # def email_sent_to_candidate_2: nil, # - the offer accepted email? QUESTION
-    # def pending_conditions: nil, # - from audit trail
-    # def conditions_outcome: nil, # - from audit trail
-    # def conditions_met: nil, # - from audit trail
-    # def conditions_not_met: nil, # - from audit trail
-    # def enrolled: nil, # - from audit trail
-    # def ended_without_success: nil, # - audit trail?
-    # def send_rejection_email: nil, # - emails?
+    # - [x] `form_not_started`
+    # - [x] `form_started_and_not_submitted`
+    # - [x] `submitted_and_awaiting_references`
+    # - [x] `reference_1_received`
+    # - [x] `reference_2_received`
+    # - [x] `reference_reminder_email_sent`
+    # - [x] `new_reference_request_email_sent`
+
+    # - [ ] `new_reference_added` - `created_by` of the third reference?
+    # - [ ] `references_complete` - from audit trail when `ApplicationForm#references_completed` gets set to true? (can happen more than once)
+    # - [ ] `waiting_to_be_sent_to_provider` - not sure what this one means
+    # - [ ] `application_sent_to_provider` - `ApplicationChoice#sent_to_provider_at`
+    # - [ ] `awaiting_decision` QUESTION - not sure what this means (isn't it the same as `sent_to_provider_at`?)
+    # - [ ] `rbd_date` - `ApplicationChoice#sent_to_provider_at`
+    # - [ ] `rbd_reminder_sent` - Is this the `chase_provider_decision` email? `ChaserSent#provider_decision_request` ?
+    # - [ ] `application_rbd` - Combination of `ApplicationChoice#rejected_at` and `rejected_by_default`
+    # - [ ] `provider_decision` (Reject/Offer) - `ApplicationChoice#rejected_at` or `ApplicationChoice#offered_at`
+    # - [ ] `offer_made` awaiting decision from candidate - `ApplicationChoice#offered_at`
+    # - [ ] `email_sent_to_candidate` - the offer email? also the reject email?
+    # - [ ] `dbd_date` - `ApplicationChoice#decline_by_default_at`
+    # - [ ] `dbd_reminder_email` - `ChaserSent#chaser_type`
+    # - [ ] `candidate_decision` (accept/decline) - `ApplicationChoice#accepted_at` or `ApplicationChoice#declined_at`
+    # - [ ] `offer_declined` - `ApplicationChoice#declined_at`
+    # - [ ] `offer_accepted` - `ApplicationChoice#accepted_at`
+    # - [ ] `email_sent_to_candidate_2` - the offer accepted email? QUESTION
+    # - [ ] `pending_conditions` - from audit trail
+    # - [ ] `conditions_outcome` - from audit trail
+    # - [ ] `conditions_met` - from audit trail
+    # - [ ] `conditions_not_met` - from audit trail
+    # - [ ] `enrolled` - from audit trail
+    # - [ ] `ended_without_success` - from audit trail?
+    # - [ ] `send_rejection_email` - from emails?
   end
 end
