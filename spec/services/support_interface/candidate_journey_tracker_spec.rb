@@ -57,6 +57,52 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       expect(described_class.new(application_choice).submitted_and_awaiting_references).to be_nil
     end
   end
+
+  describe '#reference_1_received' do
+    it 'returns nil if not references were received' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
+
+      expect(described_class.new(application_choice).reference_1_received).to be_nil
+    end
+
+    it 'returns the time when the first reference was received' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
+      application_reference = create(:reference, :requested, application_form: application_form)
+      Timecop.freeze(now + 1.day) do
+        application_reference.update!(feedback_status: 'feedback_provided')
+      end
+      expect(described_class.new(application_choice).reference_1_received).to eq(now + 1.day)
+    end
+  end
+
+  describe '#reference_2_received' do
+    it 'returns nil if only one reference has been received' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
+      application_reference1 = create(:reference, :requested, application_form: application_form)
+      _application_reference2 = create(:reference, :requested, application_form: application_form)
+      Timecop.freeze(now + 1.day) do
+        application_reference1.update!(feedback_status: 'feedback_provided')
+      end
+      expect(described_class.new(application_choice).reference_2_received).to be_nil
+    end
+
+    it 'returns the time when the second reference was received' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
+      application_reference1 = create(:reference, :requested, application_form: application_form)
+      application_reference2 = create(:reference, :requested, application_form: application_form)
+      Timecop.freeze(now + 1.day) do
+        application_reference1.update!(feedback_status: 'feedback_provided')
+      end
+      Timecop.freeze(now + 2.days) do
+        application_reference2.update!(feedback_status: 'feedback_provided')
+      end
+      expect(described_class.new(application_choice).reference_2_received).to eq(now + 2.days)
+    end
+  end
 end
 
 # Form not started - created_at?

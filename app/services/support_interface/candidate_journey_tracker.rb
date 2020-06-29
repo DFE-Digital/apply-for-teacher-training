@@ -18,6 +18,41 @@ module SupportInterface
     def submitted_and_awaiting_references
       @application_choice.application_form.submitted_at
     end
+
+    def reference_1_received
+      received_reference_times[0]
+    end
+
+    def reference_2_received
+      received_reference_times[1]
+    end
+
+  private
+
+    def received_references
+      @received_references ||= @application_choice
+        .application_form
+        .application_references
+        .select(&:feedback_provided?)
+    end
+
+    def received_reference_times
+      @received_reference_times ||=
+        received_references.map { |reference| earliest_update_audit_for(reference, feedback_status: 'feedback_provided') }.compact.sort
+    end
+
+    def earliest_update_audit_for(model, attributes)
+      audits = model.audits.select do |audit|
+        audit.action == 'update' &&
+          attributes.all? do |attribute, value|
+            change = audit.audited_changes[attribute.to_s]
+            change && change[1] == value
+          end
+      end
+
+      audits.map(&:created_at).min
+    end
+
     # def reference_1_received: nil, # - from audit trail (reference status change)?
     # def reference_2_recieved: nil, # - from audit trail (reference status change)?
     # def reference_reminder_email_sent: nil, # - from chasers sent (chaser_type: :reference_request)
