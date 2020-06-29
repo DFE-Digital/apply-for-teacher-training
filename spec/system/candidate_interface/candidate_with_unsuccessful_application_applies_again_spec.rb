@@ -12,9 +12,11 @@ RSpec.feature 'Candidate with unsuccessful application' do
     and_i_visit_the_application_dashboard
     and_i_click_on_apply_again
     and_i_click_on_start_now
-    then_i_see_a_copy_of_my_application
+    then_i_see_the_before_you_start_page
+    and_i_am_told_my_new_application_is_ready_to_edit
 
-    when_i_click_on_the_link_to_my_previous_application
+    when_i_click_go_to_my_application_form
+    and_i_click_on_the_link_to_my_previous_application
     then_i_see_the_review_previous_application_page
 
     when_i_click_back
@@ -74,11 +76,23 @@ RSpec.feature 'Candidate with unsuccessful application' do
     click_on 'Start now'
   end
 
-  def then_i_see_a_copy_of_my_application
+  def and_i_click_go_to_my_application_form
+    click_link 'Go to your application form'
+  end
+
+  def then_i_see_the_before_you_start_page
+    expect(page).to have_current_path candidate_interface_before_you_start_path
+  end
+
+  def and_i_am_told_my_new_application_is_ready_to_edit
     expect(page).to have_content('Your new application is ready for editing')
   end
 
-  def when_i_click_on_the_link_to_my_previous_application
+  def when_i_click_go_to_my_application_form
+    click_link 'Go to your application form'
+  end
+
+  def and_i_click_on_the_link_to_my_previous_application
     click_link 'First application'
   end
 

@@ -19,7 +19,7 @@ module CandidateInterface
 
       DuplicateApplication.new(current_application).duplicate
       flash[:success] = 'Your new application is ready for editing'
-      redirect_to candidate_interface_application_form_path
+      redirect_to candidate_interface_before_you_start_path
     end
 
     def review
