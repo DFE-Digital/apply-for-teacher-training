@@ -110,7 +110,7 @@ RSpec.feature 'Candidate accepts an offer' do
 
   def and_i_see_that_i_withdrawn_from_the_third_choice
     within ".qa-application-choice-#{@third_application_choice.id}" do
-      expect(page).to have_content 'Withdrawn'
+      expect(page).to have_content 'Application withdrawn'
     end
   end
 

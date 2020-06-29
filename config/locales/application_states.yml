@@ -55,7 +55,7 @@ en:
     recruited: Conditions met
     rejected: Unsuccessful
     unsubmitted: Not submitted yet
-    withdrawn: Withdrawn
+    withdrawn: Application withdrawn
     conditions_not_met: Conditions not met
   provider_application_states:
     application_complete: Submitted
