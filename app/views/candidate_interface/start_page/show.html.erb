@@ -2,36 +2,26 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">
-      <%= service_name %>
-    </h1>
-    <p class="govuk-body-l">
-      <%= service_name %> is a new GOV.UK service being trialled with a small number of training providers in England.
-    </p>
+    <h1 class="govuk-heading-xl"><%= service_name %></h1>
+    <p class="govuk-body-l">We’re trialling this service with teacher training providers in England.</p>
     <div class="govuk-inset-text">
-      Learn more about teacher training in <%= govuk_link_to('Wales', 'https://www.discoverteaching.wales/routes-into-teaching/', target: :_blank) %>, <%= govuk_link_to('Scotland', 'https://teachinscotland.scot/', target: :_blank) %> and <%= govuk_link_to('Northern Ireland', 'https://www.education-ni.gov.uk/articles/initial-teacher-education-courses-northern-ireland', target: :_blank) %>
+      <p class="govuk-body">Learn more about teacher training in <%= govuk_link_to('Wales', 'https://www.discoverteaching.wales/routes-into-teaching/') %>, <%= govuk_link_to('Scotland', 'https://teachinscotland.scot/') %> and <%= govuk_link_to('Northern Ireland', 'https://www.education-ni.gov.uk/articles/initial-teacher-education-courses-northern-ireland') %></p>
     </div>
 
-    <h2 class="govuk-heading-m">What you’ll need</h2>
-    <p class="govuk-body">
-      To be eligible for teacher training, you need these qualifications (or their non-UK equivalents):
-    </p>
+    <h2 class="govuk-heading-m">Eligibility for teacher training</h2>
+    <p class="govuk-body">You need these qualifications or their equivalents:</p>
     <ul class="govuk-list govuk-list--bullet">
       <li>a degree</li>
-      <li>grade 4 (C) or above in English and maths GCSEs</li>
-      <li>grade 4 (C) or above in GCSE science if you want to teach primary</li>
+      <li>English GCSE grade 4 (C) or above</li>
+      <li>Maths GCSE grade 4 (C) or above</li>
+      <li>Science GCSE grade 4 (C) or above if you want to teach in primary education</li>
     </ul>
-    <p class="govuk-body">
-      Before you start a teacher training course, your training provider will usually send you a health questionnaire to complete. This confirms you have the fitness and physical capacity to start training.
-    </p>
-    <h2 class="govuk-heading-m">If you have a disability</h2>
-      <p class="govuk-body">It is against the law for training providers to discriminate against teacher training candidates with disabilities or special educational needs. <%= govuk_link_to 'Learn more about training to teach if you have a disability', 'https://getintoteaching.education.gov.uk/train-to-teach-with-a-disability' %>.</p>
+    <p class="govuk-body">Your provider will also ask you to fill out a health questionnaire to check that teacher training is suitable for you.</p>
+    <p class="govuk-body"><%= govuk_link_to('Learn more about eligibility for teacher training', 'https://getintoteaching.education.gov.uk/eligibility-for-teacher-training') %>.</p>
 
-    <h2 class="govuk-heading-m">If you do not have a degree</h2>
-    <p class="govuk-body">
-      You can teach in further education (age 14 to adult), or study for a degree leading to qualified teacher status.
-      <%= govuk_link_to('Learn more about eligibility for teacher training', 'https://getintoteaching.education.gov.uk/eligibility-for-teacher-training', target: :_blank) %>.
-    </p>
+    <h2 class="govuk-heading-m">If you’re disabled or have a health condition</h2>
+    <p class="govuk-body">Training providers should be able to tell you how they can support you to attend the interview or do the course.</p>
+    <p class="govuk-body"><%= govuk_link_to('Learn more about training to teach if you have a disability', 'https://getintoteaching.education.gov.uk/train-to-teach-with-a-disability') %>.</p>
 
     <%= link_to candidate_interface_create_account_or_sign_in_path, role: 'button', class: 'govuk-button govuk-!-margin-top-4 govuk-!-margin-bottom-4 govuk-button--start', 'data-module': 'govuk-button' do %>
       <%= t('application_form.begin_button') %>
