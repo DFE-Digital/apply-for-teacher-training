@@ -7,14 +7,14 @@ module ProviderInterface
     end
 
     def show
-      @ratifying_permissions = ProviderRelationshipPermissions
-        .includes(:training_provider, :ratifying_provider)
-        .where(ratifying_provider: provider)
-        .group_by(&:training_provider_id)
-      @training_permissions = ProviderRelationshipPermissions
-        .includes(:training_provider, :ratifying_provider)
-        .where(training_provider: provider)
-        .group_by(&:ratifying_provider_id)
+      scope = ProviderRelationshipPermissions.includes(:training_provider, :ratifying_provider)
+
+      @ratifying_permissions = ProviderRelationshipPermissionsPair.pairs_from_collection(
+        scope.where(ratifying_provider: provider),
+      )
+      @training_permissions = ProviderRelationshipPermissionsPair.pairs_from_collection(
+        scope.where(training_provider: provider),
+      )
     end
 
   private

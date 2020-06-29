@@ -1,8 +1,11 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl"><%= @provider.name %></h1>
-    <% @ratifying_permissions.each do |_id, permissions| %>
-      <% ratifying_permission, training_permission = permissions %>
+    <% @ratifying_permissions.each do |permissions_pair| %>
+      <%
+        ratifying_permission = permissions_pair.ratifying_provider_permissions
+        training_permission = permissions_pair.training_provider_permissions
+      -%>
       <h2 class="govuk-heading-m">
         For courses ratified by <%= ratifying_permission.ratifying_provider.name %> and run by <%= ratifying_permission.training_provider.name %>
       </h2>
@@ -22,8 +25,11 @@
       <%= render 'permissions_list', permission: training_permission %>
     <% end %>
 
-    <% @training_permissions.each do |_id, permissions| %>
-      <% ratifying_permission, training_permission = permissions %>
+    <% @training_permissions.each do |permissions_pair| %>
+      <%
+        ratifying_permission = permissions_pair.ratifying_provider_permissions
+        training_permission = permissions_pair.training_provider_permissions
+      -%>
       <h2 class="govuk-heading-m">
         For courses run by <%= training_permission.training_provider.name %> and ratified by <%= training_permission.ratifying_provider.name %>
       </h2>
