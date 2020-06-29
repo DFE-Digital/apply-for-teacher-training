@@ -46,7 +46,7 @@ en:
     application_complete: Submitted
     awaiting_provider_decision: Awaiting decision
     awaiting_references: Submitted
-    cancelled: Cancelled
+    cancelled: Application cancelled
     declined: Offer declined
     enrolled: Enrolled
     offer: Offer received
@@ -61,7 +61,7 @@ en:
     application_complete: Submitted
     awaiting_provider_decision: Submitted
     awaiting_references: Awaiting references
-    cancelled: Cancelled
+    cancelled: Application cancelled
     declined: Declined
     enrolled: Enrolled
     offer: Offered
