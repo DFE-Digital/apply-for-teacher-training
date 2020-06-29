@@ -44,6 +44,10 @@ module SupportInterface
       earliest_update_audit_for(@application_choice.application_form, references_completed: true)
     end
 
+    def application_sent_to_provider
+      @application_choice.sent_to_provider_at
+    end
+
   private
 
     def all_references

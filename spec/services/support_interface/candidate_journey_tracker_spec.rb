@@ -191,6 +191,20 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       expect(described_class.new(application_choice).references_completed).to eq(now + 1.day)
     end
   end
+
+  describe '#application_sent_to_provider' do
+    it 'returns the correct timestamp' do
+      application_form = create(:application_form)
+      application_choice = create(
+        :application_choice,
+        status: :awaiting_provider_decision,
+        sent_to_provider_at: now + 1.day,
+        application_form: application_form,
+      )
+
+      expect(described_class.new(application_choice).application_sent_to_provider).to eq(now + 1.day)
+    end
+  end
 end
 
 # Form not started - created_at?
