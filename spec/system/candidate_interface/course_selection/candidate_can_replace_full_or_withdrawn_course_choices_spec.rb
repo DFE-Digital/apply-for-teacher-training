@@ -117,6 +117,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
       @application.application_choices.first.id,
       @removed_course.provider.id,
       @removed_course.id,
+      choose_action: true,
     )
   end
 

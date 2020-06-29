@@ -31,6 +31,7 @@ module CandidateInterface
               @course_choice.id,
               @course_choice.provider.id,
               @course_choice.course.id,
+              choose_action: true,
             )
           elsif !@pick_replacement_action.valid?
             flash[:warning] = 'Please select an option to update your course choice.'
