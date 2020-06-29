@@ -7,6 +7,19 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
   scenario 'when a candidate arrives at the dashboard they can follow the replace course flow' do
     given_the_replace_full_or_withdrawn_application_choices_is_active?
     and_i_have_submitted_my_application
+    and_my_course_is_only_available_on_ucas
+
+    when_i_arrive_at_my_application_dashboard
+    then_i_see_that_one_of_my_choices_in_not_available
+
+    when_i_click_update_my_course_choice
+    then_i_arrive_at_the_replace_course_choice_page
+
+    when_i_choose_to_apply_through_ucas
+    and_click_continue
+    then_i_arrive_at_the_ucas_with_course_page
+
+    given_the_course_becomes_available_on_apply
     and_one_of_my_application_choices_has_become_full
     and_there_is_another_location_available
 
@@ -87,10 +100,27 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
   def and_i_have_submitted_my_application
     candidate_completes_application_form
     candidate_submits_application
+    @course_option = @application.application_choices.first.course_option
+  end
+
+  def and_my_course_is_only_available_on_ucas
+    @removed_course = @application.application_choices.first.course
+    @removed_course.update!(open_on_apply: false)
+  end
+
+  def when_i_choose_to_apply_through_ucas
+    choose 'Apply for this course through UCAS'
+  end
+
+  def then_i_arrive_at_the_ucas_with_course_page
+    expect(page).to have_current_path candidate_interface_course_choices_ucas_with_course_path(@application.application_choices.first.id, @removed_course.provider.id, @removed_course.id)
+  end
+
+  def given_the_course_becomes_available_on_apply
+    @removed_course.update!(open_on_apply: true)
   end
 
   def and_one_of_my_application_choices_has_become_full
-    @course_option = @application.application_choices.first.course_option
     @course_option.no_vacancies!
   end
 
