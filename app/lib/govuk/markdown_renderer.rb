@@ -1,5 +1,5 @@
 module Govuk
-  class MarkdownRenderer < ::Redcarpet::Render::Safe
+  class MarkdownRenderer < ::Redcarpet::Render::HTML
     def table(header, body)
       <<~HTML
         <table class='govuk-table'>

@@ -19,8 +19,8 @@ module ProviderInterface
       render_content_page :cookies_provider
     end
 
-    def terms_provider
-      render_content_page :terms_provider
+    def service_guidance_provider
+      render_content_page :service_guidance_provider
     end
 
     def covid_19_guidance

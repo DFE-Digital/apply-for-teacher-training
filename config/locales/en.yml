@@ -29,7 +29,7 @@ en:
     accessibility: Accessibility statement
     privacy_policy: How we look after your personal data
     terms_candidate: Terms of use
-    terms_provider: Terms of use for teacher training providers
+    service_guidance_provider: Service guidance for teacher training providers
     cookies_candidate: Cookies
     cookies_provider: Cookies
     contact_details: Contact details
@@ -132,6 +132,7 @@ en:
     terms_of_use: Terms of use
     privacy_policy: Privacy policy
     cookie_policy: Cookie policy
+    service_guidance: Service guidance
   activemodel:
     attributes:
       vendor_api/metadata:
