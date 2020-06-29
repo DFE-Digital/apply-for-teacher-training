@@ -1,5 +1,5 @@
 # rubocop:disable Style/StringLiterals
-HESA_DEGREE_ESTABLISHMENTS = [
+HESA_DEGREE_INSTITUTIONS = [
   [1, "The Open University"],
   [2, "Cranfield University"],
   [3, "Royal College of Art"],
