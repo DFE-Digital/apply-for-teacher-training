@@ -1,6 +1,10 @@
 module Hesa
   class DegreeType
-    DegreeTypeStruct = Struct.new(:hesa_code, :abbreviation, :name, :level)
+    DegreeTypeStruct = Struct.new(:hesa_code, :abbreviation, :name, :level) do
+      def shortest_display_name
+        abbreviation || name
+      end
+    end
     UNDERGRADUATE_LEVELS = %i[bachelor master].freeze
 
     class << self
@@ -22,6 +26,10 @@ module Hesa
 
       def find_by_name(name)
         all.find { |type| type.name == name }
+      end
+
+      def find_by_hesa_code(code)
+        all.find { |type| type.hesa_code == code }
       end
     end
   end

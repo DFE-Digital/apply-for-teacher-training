@@ -63,4 +63,22 @@ RSpec.describe Hesa::DegreeType do
       end
     end
   end
+
+  describe '.find_by_hesa_code' do
+    context 'given a valid code' do
+      it 'returns the matching struct' do
+        result = described_class.find_by_hesa_code(51)
+
+        expect(result.abbreviation).to eq 'BA'
+      end
+    end
+
+    context 'given an unrecognised code' do
+      it 'returns nil' do
+        result = described_class.find_by_hesa_code(99999999)
+
+        expect(result).to eq nil
+      end
+    end
+  end
 end

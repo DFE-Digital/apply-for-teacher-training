@@ -14,7 +14,8 @@ RSpec.describe QualificationRowComponent do
 
     result = render_inline(described_class.new(qualification: qualification))
 
-    expect(result.text).to include('BSc Psychology')
+    expect(result.text).to include('BSc')
+    expect(result.text).to include('Psychology')
     expect(result.text).to include('2015')
     expect(result.text).to include('2018')
     expect(result.text).to include('2:1')
@@ -34,7 +35,8 @@ RSpec.describe QualificationRowComponent do
 
     result = render_inline(described_class.new(qualification: qualification))
 
-    expect(result.text).to include('MEng Engineering')
+    expect(result.text).to include('MEng')
+    expect(result.text).to include('Engineering')
     expect(result.text).to include('2020')
     expect(result.text).to include('First (predicted)')
   end
@@ -52,7 +54,8 @@ RSpec.describe QualificationRowComponent do
 
     result = render_inline(described_class.new(qualification: qualification))
 
-    expect(result.text).to include('BSc Chemistry')
+    expect(result.text).to include('BSc')
+    expect(result.text).to include('Chemistry')
     expect(result.text).to include('2001')
     expect(result.text).to include('I did my best')
   end
@@ -70,7 +73,8 @@ RSpec.describe QualificationRowComponent do
 
     result = render_inline(described_class.new(qualification: qualification))
 
-    expect(result.text).to include('GCSE Maths')
+    expect(result.text).to include('GCSE')
+    expect(result.text).to include('Maths')
     expect(result.text).to include('I am taking the exam this summer')
   end
 end

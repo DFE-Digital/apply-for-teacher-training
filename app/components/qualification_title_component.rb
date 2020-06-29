@@ -9,9 +9,24 @@ class QualificationTitleComponent < ViewComponent::Base
       return type_for_other_uk_qualification if @qualification.other_uk_qualification_type.present?
 
       return type_for_gcse
+    elsif @qualification.degree?
+      return type_for_degree
     end
 
     @qualification.qualification_type
+  end
+
+  def type_for_degree
+    hesa_degree_type = Hesa::DegreeType.find_by_hesa_code(hesa_code)
+    if hesa_degree_type
+      hesa_degree_type.shortest_display_name
+    else
+      @qualification.qualification_type
+    end
+  end
+
+  def hesa_code
+    @qualification.qualification_type_hesa_code
   end
 
 private
