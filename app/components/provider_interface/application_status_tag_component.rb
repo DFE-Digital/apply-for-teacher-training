@@ -18,21 +18,15 @@ module ProviderInterface
       when 'awaiting_provider_decision'
         :purple
       when 'offer'
-        :green
-      when 'rejected'
-        :pink
-      when 'pending_conditions'
         :turquoise
-      when 'declined'
-        :orange
-      when 'enrolled'
+      when 'pending_conditions'
         :blue
       when 'recruited'
         :green
-      when 'conditions_not_met'
-        :red
-      when 'withdrawn'
+      when 'rejected', 'conditions_not_met'
         :orange
+      when 'declined', 'withdrawn'
+        :red
       end
     end
 

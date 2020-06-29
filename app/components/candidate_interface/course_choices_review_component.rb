@@ -146,15 +146,19 @@ module CandidateInterface
               when 'awaiting_references', 'application_complete'
                 :grey
               when 'awaiting_provider_decision'
-                :blue
+                :purple
               when 'offer'
-                :green
+                :turquoise
               when 'rejected'
                 :pink
               when 'pending_conditions'
-                :turquoise
+                :blue
+              when 'recruited'
+                :green
               when 'declined', 'withdrawn', 'cancelled'
                 :orange
+              when 'conditions_not_met'
+                :red
               end
       {
         key: 'Status',
