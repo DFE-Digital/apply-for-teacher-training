@@ -2,5 +2,8 @@
   :institution_name,
   label: { text: t('application_form.degree.institution_name.label'), size: 'xl' }
 ) %>
+<% if FeatureFlag.active? :hesa_degree_data %>
+  <%= tag.div(id: 'degree-institution-autocomplete', class: 'govuk-form-group', data: { source: @institutions }) %>
+<% end %>
 
 <%= f.govuk_submit t('application_form.degree.base.button') %>

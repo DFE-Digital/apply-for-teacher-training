@@ -2,6 +2,7 @@ module CandidateInterface
   module Degrees
     class InstitutionController < CandidateInterfaceController
       before_action :redirect_to_dashboard_if_submitted
+      before_action :set_institution_names
 
       def new
         @degree_institution_form = DegreeInstitutionForm.new(degree: degree)
@@ -36,6 +37,10 @@ module CandidateInterface
 
       def degree
         @degree ||= ApplicationQualification.find(params[:id])
+      end
+
+      def set_institution_names
+        @institutions = Hesa::Institution.names
       end
 
       def institution_params
