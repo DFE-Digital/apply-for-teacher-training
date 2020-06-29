@@ -11,7 +11,22 @@ RSpec.describe QualificationTitleComponent do
 
     result = render_inline(described_class.new(qualification: qualification))
 
-    expect(result.text).to include('BSc Psychology')
+    expect(result.text).to include('BSc')
+  end
+
+  it 'renders the correct title for a degree with HESA degree type data' do
+    qualification = build_stubbed(
+      :application_qualification,
+      level: :degree,
+      qualification_type: 'BA with intercalated PGCE',
+      qualification_type_hesa_code: 12,
+      subject: 'Psychology',
+    )
+
+    result = render_inline(described_class.new(qualification: qualification))
+
+    expect(result.text).to include('BA with intercalated PGCE')
+    expect(result.text).to include('(12)')
   end
 
   it 'renders the correct title for a GCSE' do
@@ -24,7 +39,7 @@ RSpec.describe QualificationTitleComponent do
 
     result = render_inline(described_class.new(qualification: qualification))
 
-    expect(result.text).to include('GCSE English')
+    expect(result.text).to include('GCSE')
   end
 
   it 'renders the correct title for an other_uk GCSE equivalent' do
@@ -37,7 +52,7 @@ RSpec.describe QualificationTitleComponent do
 
     result = render_inline(described_class.new(qualification: qualification))
 
-    expect(result.text).to include('Other UK Maths')
+    expect(result.text).to include('Other UK')
   end
 
   it 'renders the correct title for an other_uk GCSE equivalent with a specified type' do
@@ -51,6 +66,6 @@ RSpec.describe QualificationTitleComponent do
 
     result = render_inline(described_class.new(qualification: qualification))
 
-    expect(result.text).to include('Other UK qualification: A Level Maths')
+    expect(result.text).to include('Other UK qualification: A Level')
   end
 end

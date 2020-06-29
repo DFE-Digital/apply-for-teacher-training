@@ -1,1 +1,4 @@
-<%= qualification_type %> <%= @qualification.subject&.titleize %>
+<%= qualification_type %>
+<% if hesa_code %>
+  </br>(<%= hesa_code %>)
+<% end %>
