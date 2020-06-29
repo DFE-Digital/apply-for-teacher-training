@@ -50,5 +50,9 @@ module CandidateInterface
     def other_study_mode
       @course_choice.course_option.get_alternative_study_mode
     end
+
+    def course_only_available_on_ucas?
+      @course_choice.course.exposed_in_find && !@course_choice.course.open_on_apply
+    end
   end
 end
