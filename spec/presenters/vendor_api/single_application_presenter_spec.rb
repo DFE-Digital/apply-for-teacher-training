@@ -24,7 +24,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
 
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
-      expect(response[:attributes][:rejection]).to eq(reason: 'Course full')
+      expect(response[:attributes][:rejection]).to eq(reason: 'Course full', date: '2019-01-01T00:00:00+00:00')
     end
   end
 
@@ -36,7 +36,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
 
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
-      expect(response[:attributes][:rejection]).to eq(reason: 'Course full')
+      expect(response[:attributes][:rejection]).to eq(reason: 'Course full', date: '2019-01-01T00:00:00+00:00')
     end
   end
 
