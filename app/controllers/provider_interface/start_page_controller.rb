@@ -10,7 +10,7 @@ module ProviderInterface
       @course_count = courses.count
       @provider_count = courses.map(&:provider).uniq.count
 
-      @pilot_enrolment_form_url = 'https://forms.gle/p4zZP51LEji8v1hp6'
+      @pilot_enrolment_form_url = 'https://forms.gle/D7GQ5XCoJnsneniH9'
       session['post_dfe_sign_in_path'] = provider_interface_applications_path
     end
 
