@@ -27,6 +27,10 @@ module SupportInterface
       received_reference_times[1]
     end
 
+    def reference_reminder_email_sent
+      earliest_chaser_sent(:reference_request)
+    end
+
   private
 
     def received_references
@@ -53,8 +57,11 @@ module SupportInterface
       audits.map(&:created_at).min
     end
 
-    # def reference_1_received: nil, # - from audit trail (reference status change)?
-    # def reference_2_recieved: nil, # - from audit trail (reference status change)?
+    def earliest_chaser_sent(chaser_type)
+      chasers = @application_choice.application_form.application_references.map(&:chasers_sent).flatten
+      chasers.select { |chaser| chaser.chaser_type == chaser_type.to_s }.map(&:created_at).min
+    end
+
     # def reference_reminder_email_sent: nil, # - from chasers sent (chaser_type: :reference_request)
     # def new_reference_request_email_sent: nil, # - emails?
     # def new_reference_added: nil, # - ?
