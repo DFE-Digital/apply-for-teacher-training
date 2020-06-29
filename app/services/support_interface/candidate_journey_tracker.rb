@@ -31,6 +31,10 @@ module SupportInterface
       earliest_chaser_sent(:reference_request)
     end
 
+    def new_reference_request_email_sent
+      earliest_chaser_sent(:reference_replacement)
+    end
+
   private
 
     def received_references
@@ -62,7 +66,6 @@ module SupportInterface
       chasers.select { |chaser| chaser.chaser_type == chaser_type.to_s }.map(&:created_at).min
     end
 
-    # def reference_reminder_email_sent: nil, # - from chasers sent (chaser_type: :reference_request)
     # def new_reference_request_email_sent: nil, # - emails?
     # def new_reference_added: nil, # - ?
     # def references_complete: nil, # - from audit trail when `ApplicationForm#references_completed` gets set to true? (can happen more than once)
