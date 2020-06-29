@@ -113,7 +113,11 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
   end
 
   def then_i_arrive_at_the_ucas_with_course_page
-    expect(page).to have_current_path candidate_interface_course_choices_ucas_with_course_path(@application.application_choices.first.id, @removed_course.provider.id, @removed_course.id)
+    expect(page).to have_current_path candidate_interface_replace_course_choice_ucas_with_course_path(
+      @application.application_choices.first.id,
+      @removed_course.provider.id,
+      @removed_course.id,
+    )
   end
 
   def given_the_course_becomes_available_on_apply

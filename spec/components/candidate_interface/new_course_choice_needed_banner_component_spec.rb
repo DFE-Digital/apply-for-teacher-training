@@ -6,10 +6,9 @@ RSpec.describe CandidateInterface::NewCourseChoiceNeededBannerComponent do
 
     before { FeatureFlag.activate('replace_full_or_withdrawn_application_choices') }
 
-
-    context 'when a course has been withdrawn and the candidate is awaiting their references' do
+    context 'when a course is only available on ucas and the candidate is awaiting their references' do
       it 'renders the component' do
-        course = create(:course, withdrawn: false, open_on_apply: false)
+        create(:course, withdrawn: false, open_on_apply: false)
         create(:application_choice, application_form: application_form, status: 'awaiting_references')
 
         expect(described_class.new(application_form: application_form).render?).to be_truthy
