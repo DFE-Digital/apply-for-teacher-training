@@ -64,7 +64,7 @@ module ProviderInterface
           provider_user_id: provider_user&.id,
         )
 
-        ProviderPermissions::VALID_PERMISSIONS.each do |permission_name|
+        valid_permissions.each do |permission_name|
           permission.send("#{permission_name}=", form.provider_permission.fetch(permission_name, false))
         end
 
@@ -104,6 +104,10 @@ module ProviderInterface
     def provider_permissions_valid?
       providers_for_permissions = provider_permissions.map(&:provider)
       providers_for_permissions & possible_permissions.map(&:provider) == providers_for_permissions
+    end
+
+    def valid_permissions
+      ProviderPermissions::VALID_PERMISSIONS.reject { |p| p == :manage_organisations }
     end
   end
 end

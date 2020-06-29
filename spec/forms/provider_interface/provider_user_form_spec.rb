@@ -131,4 +131,33 @@ RSpec.describe ProviderInterface::ProviderUserForm do
       end
     end
   end
+
+  describe '#provider_permissions=' do
+    let(:provider_permissions_attrs) do
+      {
+        provider.id => {
+          provider_permission: {
+            provider_id: provider.id,
+            provider_user_id: provider_user.id,
+            manage_users: 'true',
+          },
+          active: true,
+        },
+      }
+    end
+
+    let(:provider_permission) { provider_user.provider_permissions.find_by(provider: provider, provider_user: provider_user) }
+
+    before do
+      provider_permission.update!(manage_organisations: true)
+    end
+
+    it 'only assigns permissions valid for the provider interface' do
+      provider_user_form.provider_permissions = provider_permissions_attrs
+      assigned_permission = provider_user_form.provider_permissions.find { |p| p.provider_user_id = provider_user.id && p.provider_id == provider.id }
+
+      expect(assigned_permission.manage_users).to be true
+      expect(assigned_permission.manage_organisations).to be true
+    end
+  end
 end
