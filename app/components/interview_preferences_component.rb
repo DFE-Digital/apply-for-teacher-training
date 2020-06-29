@@ -1,11 +1,13 @@
 class InterviewPreferencesComponent < ViewComponent::Base
-  delegate :interview_preferences, to: :application_form
+  attr_reader :application_form
 
   def initialize(application_form:)
     @application_form = application_form
   end
 
-private
+  def interview_preferences
+    return application_form.interview_preferences if application_form.interview_preferences.present?
 
-  attr_reader :application_form
+    'No preferences.'
+  end
 end
