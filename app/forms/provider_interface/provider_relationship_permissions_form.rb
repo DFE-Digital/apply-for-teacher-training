@@ -1,11 +1,11 @@
 module ProviderInterface
   class ProviderRelationshipPermissionsForm
     include ActiveModel::Model
-    attr_accessor :accredited_body_permissions, :training_provider_permissions
+    attr_accessor :ratifying_provider_permissions, :training_provider_permissions
 
     def initialize(*args)
       super(*args)
-      @doing_setup = [@accredited_body_permissions, @training_provider_permissions].any? do |p|
+      @doing_setup = [@ratifying_provider_permissions, @training_provider_permissions].any? do |p|
         p.setup_at.blank?
       end
     end
@@ -15,13 +15,13 @@ module ProviderInterface
     end
 
     def assign_permissions_attributes(params)
-      @accredited_body_permissions.assign_attributes(accredited_body_permissions_from_params(params))
+      @ratifying_provider_permissions.assign_attributes(ratifying_provider_permissions_from_params(params))
       @training_provider_permissions.assign_attributes(training_provider_permissions_from_params(params))
     end
 
     def update!(params)
-      @accredited_body_permissions.update!(
-        accredited_body_permissions_from_params(params).merge(setup_at: Time.current),
+      @ratifying_provider_permissions.update!(
+        ratifying_provider_permissions_from_params(params).merge(setup_at: Time.current),
       ) && @training_provider_permissions.update!(
         training_provider_permissions_from_params(params).merge(setup_at: Time.current),
       )
@@ -29,8 +29,8 @@ module ProviderInterface
 
   private
 
-    def accredited_body_permissions_from_params(params)
-      permissions_from_params(params.fetch(:accredited_body_permissions, {}))
+    def ratifying_provider_permissions_from_params(params)
+      permissions_from_params(params.fetch(:ratifying_provider_permissions, {}))
     end
 
     def training_provider_permissions_from_params(params)

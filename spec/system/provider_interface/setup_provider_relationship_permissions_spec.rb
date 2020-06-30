@@ -49,7 +49,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
 
   def and_my_organisations_have_not_had_permissions_setup
     create(
-      :accredited_body_permissions,
+      :ratifying_provider_permissions,
       ratifying_provider: @ratifying_provider,
       training_provider: @training_provider,
     )
@@ -61,7 +61,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
     )
 
     create(
-      :accredited_body_permissions,
+      :ratifying_provider_permissions,
       ratifying_provider: @another_ratifying_provider,
       training_provider: @another_training_provider,
     )

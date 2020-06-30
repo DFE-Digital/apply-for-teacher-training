@@ -49,9 +49,9 @@
       </div>
 
       <div class="govuk-form-group">
-        <%= f.fields_for :accredited_body_permissions, @form.accredited_body_permissions do |ratifying_provider| %>
+        <%= f.fields_for :ratifying_provider_permissions, @form.ratifying_provider_permissions do |ratifying_provider| %>
           <%= ratifying_provider.govuk_check_boxes_fieldset :permissions, classes: 'accredited-body', legend: {
-              text: "Select permissions for #{@form.accredited_body_permissions.ratifying_provider.name}" } do %>
+              text: "Select permissions for #{@form.ratifying_provider_permissions.ratifying_provider.name}" } do %>
             <%= ratifying_provider.govuk_check_box :make_decisions, true, multiple: false,
                                     label: { text: 'They can make decisions on applications' } %>
             <%= ratifying_provider.govuk_check_box :view_safeguarding_information, true, multiple: false,

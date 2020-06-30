@@ -44,13 +44,13 @@ module ProviderInterface
 
     def initialize_form
       @form = ProviderRelationshipPermissionsForm.new(
-        accredited_body_permissions: accredited_body_permissions,
+        ratifying_provider_permissions: ratifying_provider_permissions,
         training_provider_permissions: training_provider_permissions,
       )
     end
 
-    def accredited_body_permissions
-      @accredited_body_permissions ||= AccreditedBodyPermissions.find_by(provider_relationship_params)
+    def ratifying_provider_permissions
+      @ratifying_provider_permissions ||= RatifyingProviderPermissions.find_by(provider_relationship_params)
     end
 
     def training_provider_permissions
@@ -72,7 +72,7 @@ module ProviderInterface
 
       if permissions_params.present?
         permissions_params.permit(
-          accredited_body_permissions: permissions_attrs,
+          ratifying_provider_permissions: permissions_attrs,
           training_provider_permissions: permissions_attrs,
         ).to_h
       else
@@ -81,7 +81,7 @@ module ProviderInterface
     end
 
     def render_404_unless_permissions_found
-      render_404 if accredited_body_permissions.blank? || training_provider_permissions.blank?
+      render_404 if ratifying_provider_permissions.blank? || training_provider_permissions.blank?
     end
 
     def render_403_unless_access_permitted

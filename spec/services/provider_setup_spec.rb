@@ -61,7 +61,7 @@ RSpec.describe ProviderSetup do
         setup_at: nil,
       )
 
-      expect(next_relationship_pending).to be_a(ProviderInterface::TrainingProviderPermissions)
+      expect(next_relationship_pending).to be_a(TrainingProviderPermissions)
     end
 
     it 'provides all relationships pending setup for the user when called multiple times' do

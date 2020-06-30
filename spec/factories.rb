@@ -323,16 +323,16 @@ FactoryBot.define do
     end
   end
 
-  factory :accredited_body_permissions,
-          class: 'ProviderInterface::AccreditedBodyPermissions' do
-    type { 'ProviderInterface::AccreditedBodyPermissions' }
+  factory :ratifying_provider_permissions,
+          class: 'RatifyingProviderPermissions' do
+    type { 'RatifyingProviderPermissions' }
     ratifying_provider { create(:provider) }
     training_provider { create(:provider) }
   end
 
   factory :training_provider_permissions,
-          class: 'ProviderInterface::TrainingProviderPermissions' do
-    type { 'ProviderInterface::TrainingProviderPermissions' }
+          class: 'TrainingProviderPermissions' do
+    type { 'TrainingProviderPermissions' }
     ratifying_provider { create(:provider) }
     training_provider { create(:provider) }
   end

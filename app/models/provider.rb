@@ -32,10 +32,10 @@ class Provider < ApplicationRecord
   end
 
   def self.with_permissions_visible_to(provider_user)
-    provider_ids = ProviderInterface::ProviderRelationshipPermissions
+    provider_ids = ProviderRelationshipPermissions
       .where(training_provider: provider_user.providers)
       .or(
-        ProviderInterface::ProviderRelationshipPermissions.where(
+        ProviderRelationshipPermissions.where(
           ratifying_provider_id: provider_user.providers,
         ),
       )

@@ -61,7 +61,7 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
 
   def and_the_provider_has_courses_ratified_by_another_provider
     create(
-      :accredited_body_permissions,
+      :ratifying_provider_permissions,
       ratifying_provider: @ratifying_provider,
       training_provider: @training_provider,
       setup_at: Time.zone.now,
