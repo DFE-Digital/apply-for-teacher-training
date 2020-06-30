@@ -14,6 +14,14 @@ module Hesa
       def other
         all.select { |g| g.visual_grouping == :other }
       end
+
+      def find_by_description(description)
+        all.find { |g| g.description == description }
+      end
+
+      def find_by_hesa_code(hesa_code)
+        all.find { |g| g.hesa_code == hesa_code }
+      end
     end
   end
 end
