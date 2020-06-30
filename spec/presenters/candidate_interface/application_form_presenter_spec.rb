@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ApplicationFormPresenter do
-  before do
-    FeatureFlag.activate('mark_every_section_complete')
-  end
-
   describe '#personal_details_completed?' do
     it 'returns true if personal details section is completed' do
       application_form = FactoryBot.build(:application_form, personal_details_completed: true)
