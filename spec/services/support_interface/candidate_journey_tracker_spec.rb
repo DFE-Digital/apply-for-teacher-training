@@ -279,6 +279,80 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       expect(described_class.new(application_choice).application_rbd).to eq(now + 1.day)
     end
   end
+
+  describe '#pending_conditions' do
+    it 'returns nil if the status has never been set' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
+
+      expect(described_class.new(application_choice).pending_conditions).to be_nil
+    end
+
+    it 'returns time when application moved to pending_conditions status' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
+      application_choice.update(status: :pending_conditions, accepted_at: now + 5.days)
+    end
+  end
+
+  describe '#conditions_outcome' do
+    it 'returns nil if the status has never been set' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :pending_conditions, application_form: application_form)
+
+      expect(described_class.new(application_choice).conditions_outcome).to be_nil
+    end
+
+    it 'returns time when application moved to recruited status' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :pending_conditions, application_form: application_form)
+      application_choice.update(status: :recruited, recruited_at: now + 5.days)
+
+      expect(described_class.new(application_choice).conditions_outcome).to eq(now + 5.days)
+    end
+
+    it 'returns time when application moved to conditions_not_met status' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :pending_conditions, application_form: application_form)
+      application_choice.update(status: :conditions_not_met, conditions_not_met_at: now + 5.days)
+
+      expect(described_class.new(application_choice).conditions_outcome).to eq(now + 5.days)
+    end
+  end
+
+  describe '#conditions_met' do
+    it 'returns nil if the status has never been set' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :pending_conditions, application_form: application_form)
+
+      expect(described_class.new(application_choice).conditions_met).to be_nil
+    end
+
+    it 'returns time when application moved to recruited status' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :pending_conditions, application_form: application_form)
+      application_choice.update(status: :recruited, recruited_at: now + 5.days)
+
+      expect(described_class.new(application_choice).conditions_met).to eq(now + 5.days)
+    end
+  end
+
+  describe '#conditions_not_met' do
+    it 'returns nil if the status has never been set' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :pending_conditions, application_form: application_form)
+
+      expect(described_class.new(application_choice).conditions_not_met).to be_nil
+    end
+
+    it 'returns time when application moved to conditions_not_met status' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :pending_conditions, application_form: application_form)
+      application_choice.update(status: :conditions_not_met, conditions_not_met_at: now + 5.days)
+
+      expect(described_class.new(application_choice).conditions_not_met).to eq(now + 5.days)
+    end
+  end
 end
 
 # Form not started - created_at?

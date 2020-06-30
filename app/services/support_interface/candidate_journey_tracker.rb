@@ -60,6 +60,22 @@ module SupportInterface
       @application_choice.rejected_by_default ? @application_choice.rejected_at : nil
     end
 
+    def pending_conditions
+      @application_choice.accepted_at
+    end
+
+    def conditions_outcome
+      @application_choice.recruited_at || @application_choice.conditions_not_met_at
+    end
+
+    def conditions_met
+      @application_choice.recruited_at
+    end
+
+    def conditions_not_met
+      @application_choice.conditions_not_met_at
+    end
+
   private
 
     def all_references
