@@ -210,21 +210,24 @@ RSpec.describe ApplicationForm do
   end
 
   describe '#course_choices_that_need_replacing' do
-    it 'returns course_choices whose courses have been withdrawn or course_option has become full' do
+    it 'returns course_choices that are not on apply, whose courses have been withdrawn or course_option has become full' do
       application_form = create(:application_form)
-      course1 = create(:course, withdrawn: true)
-      course2 = create(:course, withdrawn: false)
-      course3 = create(:course, withdrawn: false)
+      course1 = create(:course, withdrawn: true, open_on_apply: true)
+      course2 = create(:course, withdrawn: false, open_on_apply: true)
+      course3 = create(:course, withdrawn: false, open_on_apply: true)
+      course4 = create(:course, withdrawn: false, open_on_apply: false)
 
       course_option1 = create(:course_option, course: course1, vacancy_status: 'no_vacancies')
       course_option2 = create(:course_option, course: course2, vacancy_status: 'no_vacancies')
       course_option3 = create(:course_option, course: course3, vacancy_status: 'vacancies')
+      course_option4 = create(:course_option, course: course4, vacancy_status: 'vacancies')
 
       application_choice1 = create(:application_choice, status: :awaiting_references, application_form: application_form, course_option: course_option1)
       application_choice2 = create(:application_choice, status: :awaiting_references, application_form: application_form, course_option: course_option2)
       create(:application_choice, application_form: application_form, course_option: course_option3)
+      application_choice4 = create(:application_choice, status: :awaiting_references, application_form: application_form, course_option: course_option4)
 
-      expect(application_form.course_choices_that_need_replacing).to match_array [application_choice1, application_choice2]
+      expect(application_form.course_choices_that_need_replacing).to match_array [application_choice1, application_choice2, application_choice4]
     end
 
     it 'does not return application_choices that have been withdrawn' do

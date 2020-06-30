@@ -171,7 +171,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def course_choices_that_need_replacing
-    (withdrawn_course_choices + full_course_choices).flatten.uniq.select(&:awaiting_references?)
+    (withdrawn_course_choices + full_course_choices + courses_not_on_apply).flatten.uniq.select(&:awaiting_references?)
   end
 
   def incomplete_degree_information?
@@ -190,5 +190,9 @@ private
 
   def full_course_choices
     application_choices.includes(%i[course_option]).select { |choice| choice.course_option.no_vacancies? }
+  end
+
+  def courses_not_on_apply
+    application_choices.includes(%i[course]).reject { |choice| choice.course.open_on_apply }
   end
 end

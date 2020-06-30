@@ -3,9 +3,25 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::ReplacementActionComponent do
   let(:application_form) { create(:completed_application_form) }
 
+  context 'when the course is now only available on UCAS' do
+    it 'renders the component with the correct values' do
+      course = create(:course, exposed_in_find: true, open_on_apply: false)
+      course_option = create(:course_option, course: course)
+      application_choice = create(:awaiting_references_application_choice, application_form: application_form, course_option: course_option)
+      result = render_inline(described_class.new(course_choice: application_choice))
+
+      expect(result.text).to include "#{course.provider.name} has said they do not want to get applications for #{course.name_and_code} through Apply for teacher training at the moment."
+      expect(result.text).to include 'Apply for this course through UCAS'
+      expect(result.text).to include 'Choose a different course on Apply for teacher training'
+      expect(result.text).not_to include 'Choose a different location'
+      expect(result.text).not_to include "Study #{course_option.alternative_study_mode} instead"
+      expect(result.text).not_to include 'Remove course from application'
+    end
+  end
+
   context 'when the course_options course is withdrawn' do
     it 'renders component with correct values' do
-      course = create(:course, withdrawn: true)
+      course = create(:course, withdrawn: true, exposed_in_find: true, open_on_apply: true)
       course_option = create(:course_option, :no_vacancies, course: course)
       application_choice = create(:awaiting_references_application_choice, application_form: application_form, course_option: course_option)
       result = render_inline(described_class.new(course_choice: application_choice))
@@ -18,7 +34,7 @@ RSpec.describe CandidateInterface::ReplacementActionComponent do
 
   context 'when the course_option is full and there is no other location or study modes available' do
     it 'renders component with correct values' do
-      course = create(:course)
+      course = create(:course, exposed_in_find: true, open_on_apply: true)
       course_option = create(:course_option, :no_vacancies, :full_time, course: course)
       application_choice = create(:awaiting_references_application_choice, application_form: application_form, course_option: course_option)
       result = render_inline(described_class.new(course_choice: application_choice))
@@ -47,7 +63,7 @@ RSpec.describe CandidateInterface::ReplacementActionComponent do
 
   context 'when the course_option is full and there is another location, but no study mode available' do
     it 'renders component with correct values' do
-      course = create(:course)
+      course = create(:course, exposed_in_find: true, open_on_apply: true)
       course_option = create(:course_option, :no_vacancies, course: course)
       application_choice = create(:awaiting_references_application_choice, application_form: application_form, course_option: course_option)
       site = create(:site, provider: course.provider)
