@@ -28,7 +28,8 @@ RSpec.feature 'Candidate applying again' do
     and_i_can_change_new_referee_details
     and_references_for_original_application_are_not_affected
 
-    when_i_select_a_course
+    when_i_complete_the_section
+    and_i_select_a_course
     and_i_submit_my_application
     then_i_am_informed_my_new_referee_will_be_contacted
     and_my_application_is_awaiting_references
@@ -127,8 +128,12 @@ RSpec.feature 'Candidate applying again' do
     ])
   end
 
-  def when_i_select_a_course
-    click_link 'Back to application'
+  def when_i_complete_the_section
+    check t('application_form.completed_checkbox')
+    click_button t('application_form.continue')
+  end
+
+  def and_i_select_a_course
     click_link 'Course choice', exact: true
     given_courses_exist
 
