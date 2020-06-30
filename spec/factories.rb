@@ -233,7 +233,7 @@ FactoryBot.define do
   factory :site do
     provider
 
-    code { Faker::Alphanumeric.unique.alphanumeric(number: 1).upcase }
+    code { Faker::Alphanumeric.unique.alphanumeric(number: 5).upcase }
     name { Faker::Educator.unique.secondary_school }
     address_line1 { Faker::Address.street_address }
     address_line2 { Faker::Address.city }

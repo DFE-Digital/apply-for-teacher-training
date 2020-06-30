@@ -142,30 +142,10 @@ module CandidateInterface
     end
 
     def status_row(application_choice)
-      type =  case application_choice.status
-              when 'awaiting_references', 'application_complete'
-                :grey
-              when 'awaiting_provider_decision'
-                :blue
-              when 'offer'
-                :green
-              when 'rejected'
-                :pink
-              when 'pending_conditions'
-                :turquoise
-              when 'declined', 'withdrawn', 'cancelled'
-                :orange
-              end
       {
         key: 'Status',
-        value: render(TagComponent.new(text: status_row_value(application_choice), type: type)),
+        value: render(ApplicationStatusTagComponent.new(application_choice: application_choice)),
       }
-    end
-
-    def status_row_value(application_choice)
-      return t('candidate_application_states.offer_withdrawn') if application_choice.offer_withdrawn?
-
-      t("candidate_application_states.#{application_choice.status}")
     end
 
     def rejection_reason_row(application_choice)

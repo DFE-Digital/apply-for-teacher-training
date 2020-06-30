@@ -1,4 +1,4 @@
-module ProviderInterface
+module CandidateInterface
   class ApplicationStatusTagComponent < ViewComponent::Base
     validates :application_choice, presence: true
     delegate :status, to: :application_choice
@@ -8,26 +8,28 @@ module ProviderInterface
     end
 
     def text
-      return t('provider_application_states.offer_withdrawn') if application_choice.offer_withdrawn?
+      return t('candidate_application_states.offer_withdrawn') if application_choice.offer_withdrawn?
 
-      I18n.t!("provider_application_states.#{status}")
+      t("candidate_application_states.#{application_choice.status}")
     end
 
     def type
-      case status
-      when 'unsubmitted', 'application_complete', 'cancelled', 'awaiting_references'
-        # will mever be visible to the provider
+      case application_choice.status
+      when 'unsubmitted', 'awaiting_references', 'application_complete'
+        :grey
       when 'awaiting_provider_decision'
         :purple
       when 'offer'
         :turquoise
+      when 'rejected'
+        :pink
       when 'pending_conditions'
         :blue
       when 'recruited'
         :green
-      when 'rejected', 'conditions_not_met'
+      when 'declined', 'withdrawn', 'cancelled'
         :orange
-      when 'declined', 'withdrawn'
+      when 'conditions_not_met'
         :red
       when 'enrolled'
         :default

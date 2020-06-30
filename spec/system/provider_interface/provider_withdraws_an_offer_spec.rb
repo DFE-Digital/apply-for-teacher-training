@@ -102,6 +102,6 @@ RSpec.feature 'Provider withdraws an offer' do
 
   def and_i_can_see_the_application_offer_is_withdrawn
     expect(page).to have_content 'Offer successfully withdrawn'
-    expect(page).to have_content 'Withdrawn by us'
+    expect(page).to have_content 'Offer withdrawn'
   end
 end

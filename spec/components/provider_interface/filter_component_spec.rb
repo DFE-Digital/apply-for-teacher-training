@@ -22,7 +22,7 @@ RSpec.describe ProviderInterface::FilterComponent do
                  { value: 'declined', label: 'Declined', checked: true },
                  { value: 'withdrawn', label: 'Application withdrawn', checked: true },
                  { value: 'conditions_not_met', label: 'Conditions not met', checked: false },
-                 { value: 'offer_withdrawn', label: 'Withdrawn by us', checked: false }] },
+                 { value: 'offer_withdrawn', label: 'Offer withdrawn', checked: false }] },
      { type: :checkboxes,
        heading: 'Provider',
        name: 'provider',

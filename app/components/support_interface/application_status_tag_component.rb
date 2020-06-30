@@ -13,18 +13,22 @@ module SupportInterface
 
     def type
       case status
-      when 'awaiting_provider_decision'
-        :purple
+      when 'unsubmitted'
+        :grey
+      when 'application_complete', 'awaiting_references', 'awaiting_provider_decision'
+        :yellow
       when 'offer'
-        :green
-      when 'rejected'
-        :pink
-      when 'pending_conditions'
         :turquoise
-      when 'declined', 'withdrawn', 'cancelled'
-        :orange
-      when 'enrolled'
+      when 'pending_conditions'
         :blue
+      when 'recruited'
+        :green
+      when 'conditions_not_met', 'declined', 'rejected', 'withdrawn', 'cancelled'
+        :red
+      when 'enrolled'
+        :default
+      else
+        raise "You need to define a colour for the #{status} state"
       end
     end
 
