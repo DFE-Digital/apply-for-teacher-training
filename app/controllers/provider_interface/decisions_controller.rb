@@ -51,14 +51,13 @@ module ProviderInterface
     end
 
     def create_offer
-      offer_conditions_array = JSON.parse(params.dig(:offer_conditions))
       course_option = CourseOption.find(params[:course_option_id])
 
       @application_offer = MakeAnOffer.new(
         actor: current_provider_user,
         application_choice: @application_choice,
         course_option: course_option,
-        offer_conditions: offer_conditions_array,
+        offer_conditions: params.dig(:offer_conditions),
       )
 
       if @application_offer.save

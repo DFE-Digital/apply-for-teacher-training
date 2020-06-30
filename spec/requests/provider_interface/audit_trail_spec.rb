@@ -20,7 +20,7 @@ RSpec.describe 'Provider interface - audit trail', type: :request, with_audited:
       post provider_interface_application_choice_create_offer_path(
         application_choice_id: application_choice.id,
         course_option_id: course_option.id,
-      ), params: { offer_conditions: '["must be clever"]' }
+      ), params: { offer_conditions: ['must be clever'] }
     }.to(change { application_choice.audits.count })
 
     expect(application_choice.audits.last.user_id).to eq provider_user.id
