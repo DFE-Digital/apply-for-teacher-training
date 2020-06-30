@@ -496,6 +496,7 @@ Rails.application.routes.draw do
 
     post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
 
+    get '/account' => 'account#show'
     get '/sign-in' => 'sessions#new'
     get '/sign-out' => 'sessions#destroy'
 

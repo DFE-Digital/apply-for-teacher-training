@@ -49,6 +49,7 @@ class NavigationItems
         items << NavigationItem.new('Users', provider_interface_provider_users_path, false)
       end
 
+      items << NavigationItem.new('Account', provider_interface_account_path, false)
       items << NavigationItem.new('Sign out', provider_interface_sign_out_path, false)
     end
 
