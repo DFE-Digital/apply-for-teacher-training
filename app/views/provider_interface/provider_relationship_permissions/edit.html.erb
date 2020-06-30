@@ -15,15 +15,15 @@
             </span>
           </summary>
           <div class="govuk-details__text">
+            <h2 class="govuk-heading-m">Permission to make decisions</h2>
+            <p>You can allow this organisation to make offers, amend offers and reject applications.</p>
+
             <h2 class="govuk-heading-m">Permission to see safeguarding information</h2>
             <p>You can give this organisation access to information disclosed in:</p>
             <ul class="govuk-list govuk-list--bullet">
               <li>the ‘criminal convictions and professional misconduct’ section of the application, which may include highly sensitive material about the candidate</li>
               <li>the ‘equality and diversity’ section of the application form</li>
             </ul>
-
-            <h2 class="govuk-heading-m">Permission to make decisions</h2>
-            <p>You can allow this organisation to make offers, amend offers and reject applications.</p>
           </div>
         </details>
       </div>
@@ -37,25 +37,25 @@
       <%= f.govuk_error_summary %>
 
       <div class="govuk-form-group">
-        <%= f.fields_for :training_provider_permissions, @form.training_provider_permissions do |tpp| %>
-          <%= tpp.govuk_check_boxes_fieldset :permissions, classes: 'training-provider', legend: {
+        <%= f.fields_for :training_provider_permissions, @form.training_provider_permissions do |training_provider| %>
+          <%= training_provider.govuk_check_boxes_fieldset :permissions, classes: 'training-provider', legend: {
               text: "Select permissions for #{@form.training_provider_permissions.training_provider.name}" } do %>
-            <%= tpp.govuk_check_box :view_safeguarding_information, true, multiple: false,
-                                    label: { text: 'They have access to safeguarding information' } %>
-            <%= tpp.govuk_check_box :make_decisions, true, multiple: false,
+            <%= training_provider.govuk_check_box :make_decisions, true, multiple: false,
                                     label: { text: 'They can make decisions on applications' } %>
+            <%= training_provider.govuk_check_box :view_safeguarding_information, true, multiple: false,
+                                    label: { text: 'They have access to safeguarding information' } %>
           <% end %>
         <% end %>
       </div>
 
       <div class="govuk-form-group">
-        <%= f.fields_for :accredited_body_permissions, @form.accredited_body_permissions do |abp| %>
-          <%= abp.govuk_check_boxes_fieldset :permissions, classes: 'accredited-body', legend: {
+        <%= f.fields_for :accredited_body_permissions, @form.accredited_body_permissions do |ratifying_provider| %>
+          <%= ratifying_provider.govuk_check_boxes_fieldset :permissions, classes: 'accredited-body', legend: {
               text: "Select permissions for #{@form.accredited_body_permissions.ratifying_provider.name}" } do %>
-            <%= abp.govuk_check_box :view_safeguarding_information, true, multiple: false,
-                                    label: { text: 'They have access to safeguarding information' } %>
-            <%= abp.govuk_check_box :make_decisions, true, multiple: false,
+            <%= ratifying_provider.govuk_check_box :make_decisions, true, multiple: false,
                                     label: { text: 'They can make decisions on applications' } %>
+            <%= ratifying_provider.govuk_check_box :view_safeguarding_information, true, multiple: false,
+                                    label: { text: 'They have access to safeguarding information' } %>
           <% end %>
         <% end %>
       </div>
