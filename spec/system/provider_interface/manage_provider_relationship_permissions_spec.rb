@@ -106,7 +106,7 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   end
 
   def and_i_allow_my_training_provider_to_view_safeguarding_information
-    within(find('.training-provider .govuk-checkboxes__item', match: :first)) do
+    within(find('.training-provider')) do
       check 'They have access to safeguarding information'
     end
 
@@ -131,13 +131,13 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   end
 
   def and_i_allow_the_ratifying_provider_to_view_safeguarding_information
-    within(find('.accredited-body .govuk-checkboxes__item', match: :first)) do
+    within(find('.accredited-body')) do
       check 'They have access to safeguarding information'
     end
   end
 
   def and_i_deny_my_training_provider_permission_to_view_safeguarding_information
-    within(find('.training-provider .govuk-checkboxes__item', match: :first)) do
+    within(find('.training-provider')) do
       uncheck 'They have access to safeguarding information'
     end
 

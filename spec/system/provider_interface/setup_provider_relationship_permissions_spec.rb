@@ -88,7 +88,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
   def and_i_choose_permissions_for_the_provider_relationship
     expect(page).to have_content("For courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}")
 
-    within(find('.govuk-checkboxes__item', match: :first)) do
+    within(find('.training-provider')) do
       check 'They have access to safeguarding information'
     end
 
@@ -109,7 +109,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
   def and_i_choose_permissions_for_another_provider_relationship
     expect(page).to have_content("For courses run by #{@another_training_provider.name} and ratified by #{@another_ratifying_provider.name}")
 
-    within(find('.govuk-checkboxes__item', match: :first)) do
+    within(find('.accredited-body')) do
       check 'They have access to safeguarding information'
     end
 
