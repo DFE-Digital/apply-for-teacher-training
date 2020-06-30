@@ -64,6 +64,14 @@ module SupportInterface
       @application_choice.accepted_at
     end
 
+    def provider_decision
+      @application_choice.offered_at || @application_choice.rejected_at
+    end
+
+    def offer_made
+      @application_choice.offered_at
+    end
+
     def candidate_decision
       @application_choice.accepted_at || @application_choice.declined_at
     end
@@ -152,9 +160,9 @@ module SupportInterface
     # - [ ] `email_sent_to_candidate` - the offer email? also the reject email?
     # - [ ] `dbd_date` - `ApplicationChoice#decline_by_default_at`
     # - [ ] `dbd_reminder_email` - `ChaserSent#chaser_type`
-    # - [ ] `candidate_decision` (accept/decline) - `ApplicationChoice#accepted_at` or `ApplicationChoice#declined_at`
-    # - [ ] `offer_declined` - `ApplicationChoice#declined_at`
-    # - [ ] `offer_accepted` - `ApplicationChoice#accepted_at`
+    # - [x] `candidate_decision` (accept/decline) - `ApplicationChoice#accepted_at` or `ApplicationChoice#declined_at`
+    # - [x] `offer_declined` - `ApplicationChoice#declined_at`
+    # - [x] `offer_accepted` - `ApplicationChoice#accepted_at`
     # - [ ] `email_sent_to_candidate_2` - the offer accepted email? QUESTION
     # - [x] `pending_conditions` - from audit trail
     # - [x] `conditions_outcome` - from audit trail

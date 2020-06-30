@@ -295,6 +295,55 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
     end
   end
 
+  describe '#provider_decision' do
+    it 'returns nil if application has never been offered or rejected' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
+
+      expect(described_class.new(application_choice).provider_decision).to be_nil
+    end
+
+    it 'returns time when offer was made' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
+      application_choice.update(status: :offer, offered_at: now + 5.days)
+
+      expect(described_class.new(application_choice).provider_decision).to eq(now + 5.days)
+    end
+
+    it 'returns time when application was rejected' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
+      application_choice.update(status: :rejected, rejected_at: now + 5.days)
+
+      expect(described_class.new(application_choice).provider_decision).to eq(now + 5.days)
+    end
+  end
+
+  describe '#offer_made' do
+    it 'returns nil if application has never been offered' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
+
+      expect(described_class.new(application_choice).offer_made).to be_nil
+    end
+
+    it 'returns time when offer was made' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
+      application_choice.update(status: :offer, offered_at: now + 5.days)
+
+      expect(described_class.new(application_choice).offer_made).to eq(now + 5.days)
+    end
+  end
+
+
+
+
+
+
+
+
   describe '#candidate_decision' do
     it 'returns nil if application has never been accepted or declined' do
       application_form = create(:application_form)
@@ -353,19 +402,6 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       expect(described_class.new(application_choice).offer_accepted).to eq(now + 5.days)
     end
   end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   describe '#conditions_outcome' do
     it 'returns nil if the status has never been set' do
