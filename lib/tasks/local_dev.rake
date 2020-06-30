@@ -1,15 +1,30 @@
 desc 'Set up your local development environment with data from Find'
 task setup_local_dev_data: %i[environment copy_feature_flags_from_production sync_dev_providers_and_open_courses] do
   puts 'Creating a provider-only user with DfE Sign-in UID `dev-provider` and email `provider@example.com`...'
-  ProviderUser.find_or_create_by!(dfe_sign_in_uid: 'dev-provider', email_address: 'provider@example.com') do |u|
+  ProviderUser.create!(
+    dfe_sign_in_uid: 'dev-provider',
+    email_address: 'provider@example.com',
+    first_name: 'Peter',
+    last_name: 'Rovider',
+  ) do |u|
     u.providers = Provider.where(code: '1JA').all
   end
 
   puts 'Creating a support & provider user with DfE Sign-in UID `dev-support` and email `support@example.com`...'
 
-  SupportUser.find_or_create_by!(dfe_sign_in_uid: 'dev-support', email_address: 'support@example.com')
+  SupportUser.create!(
+    dfe_sign_in_uid: 'dev-support',
+    email_address: 'support@example.com',
+    first_name: 'Susan',
+    last_name: 'Upport',
+  )
 
-  admin_provider_user = ProviderUser.find_or_create_by!(dfe_sign_in_uid: 'dev-support', email_address: 'support@example.com') do |u|
+  admin_provider_user = ProviderUser.create!(
+    dfe_sign_in_uid: 'dev-support',
+    email_address: 'support@example.com',
+    first_name: 'Susan',
+    last_name: 'Upport',
+  ) do |u|
     u.providers = Provider.where(code: %w[1JA 24J]).all
   end
 
