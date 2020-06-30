@@ -32,6 +32,14 @@ class ProviderMailerPreview < ActionMailer::Preview
     ProviderMailer.declined(provider_user, application_choice)
   end
 
+  def application_submitted_over_5_days_ago
+    ProviderMailer.application_submitted_over_5_days_ago(provider_user, application_choice)
+  end
+
+  def application_submitted_with_safeguarding
+    ProviderMailer.application_submitted_with_safeguarding(provider_user, application_choice)
+  end
+
   def fallback_sign_in_email
     ProviderMailer.fallback_sign_in_email(
       FactoryBot.build_stubbed(:provider_user),

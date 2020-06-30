@@ -1,0 +1,27 @@
+Dear <%= @provider_user_name || 'colleague' %>
+
+# Application submitted more than 5 days ago
+
+<%= @application.candidate_name %> submitted an application for <%= @application.course_name_and_code %> more than 5 days ago. So far, you haven't responded.
+
+# Next steps
+
+Log in to Manage teacher training applications to respond:
+
+<%= provider_interface_application_choice_url(application_choice_id: @application.application_choice_id) %>
+
+<% if FeatureFlag.active?('covid_19') %>
+
+We’ll reject the application automatically if you have not responded by <%= @application.rbd_date.to_s(:govuk_date).strip %>.
+
+<% else %>
+
+We’ll reject the application on your behalf <%= @application.rbd_days %> working days after the date of submission.
+
+<% end %>
+
+# Get help, give feedback or report a problem
+
+Check our [Service guidance for training providers](https://www.apply-for-teacher-training.education.gov.uk/provider/service-guidance) to get an overview of Manage teacher training applications.
+
+You can also contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).

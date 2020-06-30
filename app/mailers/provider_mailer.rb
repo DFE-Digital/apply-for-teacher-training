@@ -90,6 +90,24 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
+  def application_submitted_over_5_days_ago(provider_user, application_choice)
+    @application = map_application_choice_params(application_choice)
+    email_for_provider(
+      provider_user,
+      application_choice.application_form,
+      subject: I18n.t!('provider_mailer.application_submitted_over_5_days.subject'),
+    )
+  end
+
+  def application_submitted_with_safeguarding(provider_user, application_choice)
+    @application = map_application_choice_params(application_choice)
+    email_for_provider(
+      provider_user,
+      application_choice.application_form,
+      subject: I18n.t!('provider_mailer.application_submitted_with_safeguarding.subject'),
+    )
+  end
+
 private
 
   def email_for_provider(provider_user, application_form, args = {})
