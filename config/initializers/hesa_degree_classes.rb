@@ -7,7 +7,6 @@ HESA_DEGREE_CLASSES = [
   [6, 'Fourth class honours'],
   [7, 'Unclassified honours'],
   [8, 'Aegrotat (whether to honours or pass)'],
-  [9, 'Pass - degree awarded without honours following an honours course'],
   [10, 'Ordinary (including divisions of ordinary, if any) degree awarded after following a non-honours course'],
   [11, 'General degree - degree awarded after following a non-honours course/degree that was not available to be classified'],
   [12, 'Distinction'],
