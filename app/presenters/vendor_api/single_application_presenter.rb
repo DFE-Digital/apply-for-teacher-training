@@ -59,10 +59,12 @@ module VendorAPI
       if application_choice.rejection_reason?
         {
           reason: application_choice.rejection_reason,
+          date: application_choice.rejected_at,
         }
       elsif application_choice.offer_withdrawal_reason?
         {
           reason: application_choice.offer_withdrawal_reason,
+          date: application_choice.offer_withdrawn_at,
         }
       end
     end

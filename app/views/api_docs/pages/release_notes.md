@@ -1,3 +1,9 @@
+### 30th June 2020
+
+New attributes:
+
+- `Rejection` now has a `date` attribute of type string.
+
 ### 24th June 2020
 
 Changes to existing attributes:
@@ -20,7 +26,7 @@ New attributes:
 
 New attributes:
 
-- `ApplicationAttributes` now has an `support_reference` attribute of type string.
+- `ApplicationAttributes` now has a `support_reference` attribute of type string.
 
 ### 20th May 2020
 
