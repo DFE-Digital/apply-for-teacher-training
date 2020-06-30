@@ -20,11 +20,7 @@ module CandidateInterface
     end
 
     def show_missing_banner?
-      if @submitting_application && FeatureFlag.active?('mark_every_section_complete')
-        !@application_form.training_with_a_disability_completed && @editable
-      else
-        !@training_with_a_disability_form.valid? && @editable
-      end
+      !@application_form.training_with_a_disability_completed && @editable if @submitting_application
     end
 
   private

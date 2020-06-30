@@ -12,11 +12,7 @@ class SafeguardingReviewComponent < ViewComponent::Base
   end
 
   def show_missing_banner?
-    if @submitting_application && FeatureFlag.active?('mark_every_section_complete')
-      !@application_form.safeguarding_issues_completed && @editable
-    else
-      !@safeguarding.valid? && @editable
-    end
+    !@application_form.safeguarding_issues_completed && @editable if @submitting_application
   end
 
 private
