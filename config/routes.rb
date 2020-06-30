@@ -64,10 +64,10 @@ Rails.application.routes.draw do
       get '/submit-success' => 'application_form#submit_success', as: :application_submit_success
 
       scope '/personal-details' do
-        get '/' => 'personal_details#edit', as: :personal_details_edit
-        post '/' => 'personal_details#complete', as: :personal_details_complete
-        post '/review' => 'personal_details#update', as: :personal_details_update
-        get '/review' => 'personal_details#show', as: :personal_details_show
+        get '/' => 'personal_details/base#edit', as: :personal_details_edit
+        post '/' => 'personal_details/base#complete', as: :personal_details_complete
+        post '/review' => 'personal_details/base#update', as: :personal_details_update
+        get '/review' => 'personal_details/base#show', as: :personal_details_show
       end
 
       scope '/personal-statement' do
