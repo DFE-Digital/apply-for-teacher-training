@@ -31,6 +31,8 @@ module CandidateInterface
         :orange
       when 'conditions_not_met'
         :red
+      else
+        raise "You need to define a color for the #{status} state"
       end
     end
 

@@ -25,6 +25,8 @@ module SupportInterface
         :green
       when 'conditions_not_met', 'declined', 'rejected', 'withdrawn', 'cancelled'
         :red
+      else
+        raise "You need to define a color for the #{status} state"
       end
     end
 
