@@ -9,11 +9,13 @@ module VendorAPISpecHelpers
   }.freeze
 
   def get_api_request(url, options = {})
-    get url, {
+    headers_and_params = {
       headers: {
         'Authorization' => auth_header,
       },
     }.deep_merge(options)
+
+    get url, **headers_and_params
   end
 
   def post_api_request(url, options = {})
@@ -29,7 +31,7 @@ module VendorAPISpecHelpers
 
     headers_and_params[:params] = headers_and_params[:params].to_json
 
-    post url, headers_and_params
+    post url, **headers_and_params
   end
 
   def auth_header
