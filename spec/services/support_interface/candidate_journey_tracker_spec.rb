@@ -192,6 +192,23 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
     end
   end
 
+  describe '#waiting_to_be_sent_to_provider' do
+    it 'returns nil if the application never made it to application_complete status' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :awaiting_references, application_form: application_form)
+
+      expect(described_class.new(application_choice).references_completed).to be_nil
+    end
+
+    it 'returns the first time when the status changed to `application_complete` in the audit trail', audited: true do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :awaiting_references, application_form: application_form)
+      Timecop.freeze(now + 1.day) { application_choice.update(status: 'application_complete') }
+
+      expect(described_class.new(application_choice).waiting_to_be_sent_to_provider).to eq(now + 1.day)
+    end
+  end
+
   describe '#application_sent_to_provider' do
     it 'returns the correct timestamp' do
       application_form = create(:application_form)

@@ -44,6 +44,10 @@ module SupportInterface
       earliest_update_audit_for(@application_choice.application_form, references_completed: true)
     end
 
+    def waiting_to_be_sent_to_provider
+      earliest_update_audit_for(@application_choice, status: 'application_complete')
+    end
+
     def application_sent_to_provider
       @application_choice.sent_to_provider_at
     end
@@ -155,7 +159,7 @@ module SupportInterface
     # - [x] `reference_reminder_email_sent`
     # - [x] `new_reference_request_email_sent`
     # - [x] `new_reference_added` - `created_by` of the third reference?
-    # - [x] `references_complete` - from audit trail when `ApplicationForm#references_completed` gets set to true? (can happen more than once)
+    # - [x] `references_completed` - from audit trail when `ApplicationForm#references_completed` gets set to true? (can happen more than once)
 
     # - [ ] `waiting_to_be_sent_to_provider` - not sure what this one means
     # - [x] `application_sent_to_provider` - `ApplicationChoice#sent_to_provider_at`
