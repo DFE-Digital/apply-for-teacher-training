@@ -64,12 +64,14 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
       :accredited_body_permissions,
       ratifying_provider: @ratifying_provider,
       training_provider: @training_provider,
+      setup_at: Time.zone.now,
     )
 
     create(
       :training_provider_permissions,
       ratifying_provider: @ratifying_provider,
       training_provider: @training_provider,
+      setup_at: Time.zone.now,
     )
   end
 
