@@ -17,11 +17,7 @@ module CandidateInterface
     end
 
     def show_missing_banner?
-      if @submitting_application && FeatureFlag.active?('mark_every_section_complete')
-        !@application_form.subject_knowledge_completed && @editable
-      else
-        !@subject_knowledge_form.valid? && @editable
-      end
+      !@application_form.subject_knowledge_completed && @editable if @submitting_application
     end
 
   private

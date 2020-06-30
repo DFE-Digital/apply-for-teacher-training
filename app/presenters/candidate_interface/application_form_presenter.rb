@@ -104,21 +104,11 @@ module CandidateInterface
     end
 
     def personal_details_completed?
-      if FeatureFlag.active?('mark_every_section_complete')
-        @application_form.personal_details_completed?
-      else
-        CandidateInterface::PersonalDetailsForm.build_from_application(@application_form).valid?
-      end
+      @application_form.personal_details_completed?
     end
 
     def contact_details_completed?
-      if FeatureFlag.active?('mark_every_section_complete')
-        @application_form.contact_details_completed
-      else
-        contact_details = CandidateInterface::ContactDetailsForm.build_from_application(@application_form)
-
-        contact_details.valid?(:base) && contact_details.valid?(:address)
-      end
+      @application_form.contact_details_completed
     end
 
     def work_experience_completed?
@@ -166,27 +156,15 @@ module CandidateInterface
     end
 
     def maths_gcse_completed?
-      if FeatureFlag.active?('mark_every_section_complete')
-        @application_form.maths_gcse_completed
-      else
-        gcse_completed?(@application_form.maths_gcse)
-      end
+      @application_form.maths_gcse_completed
     end
 
     def english_gcse_completed?
-      if FeatureFlag.active?('mark_every_section_complete')
-        @application_form.english_gcse_completed
-      else
-        gcse_completed?(@application_form.english_gcse)
-      end
+      @application_form.english_gcse_completed
     end
 
     def science_gcse_completed?
-      if FeatureFlag.active?('mark_every_section_complete')
-        @application_form.science_gcse_completed
-      else
-        gcse_completed?(@application_form.science_gcse)
-      end
+      @application_form.science_gcse_completed
     end
 
     def other_qualifications_completed?
@@ -198,37 +176,19 @@ module CandidateInterface
     end
 
     def becoming_a_teacher_completed?
-      if FeatureFlag.active?('mark_every_section_complete')
-        @application_form.becoming_a_teacher_completed
-      else
-        CandidateInterface::BecomingATeacherForm.build_from_application(@application_form).valid?
-      end
+      @application_form.becoming_a_teacher_completed
     end
 
     def subject_knowledge_completed?
-      if FeatureFlag.active?('mark_every_section_complete')
-        @application_form.subject_knowledge_completed
-      else
-        CandidateInterface::SubjectKnowledgeForm.build_from_application(@application_form).valid?
-      end
+      @application_form.subject_knowledge_completed
     end
 
     def interview_preferences_completed?
-      if FeatureFlag.active?('mark_every_section_complete')
-        @application_form.interview_preferences_completed
-      else
-        CandidateInterface::InterviewPreferencesForm.build_from_application(@application_form).valid?
-      end
+      @application_form.interview_preferences_completed
     end
 
     def training_with_a_disability_completed?
-      if FeatureFlag.active?('mark_every_section_complete')
-        @application_form.training_with_a_disability_completed
-      else
-        @application_form.disclose_disability == false || \
-          (@application_form.disclose_disability == true && \
-            @application_form.disability_disclosure.present?)
-      end
+      @application_form.training_with_a_disability_completed
     end
 
     def course_choices_completed?
@@ -244,20 +204,11 @@ module CandidateInterface
     end
 
     def all_referees_provided_by_candidate?
-      if FeatureFlag.active?('mark_every_section_complete')
-        @application_form.references_completed
-      else
-        @application_form.application_references.count >= ApplicationForm::MINIMUM_COMPLETE_REFERENCES
-      end
+      @application_form.references_completed
     end
 
     def safeguarding_completed?
-      if FeatureFlag.active?('mark_every_section_complete')
-        @application_form.safeguarding_issues_completed
-      else
-        @application_form.no_safeguarding_issues_to_declare? ||
-          @application_form.has_safeguarding_issues_to_declare?
-      end
+      @application_form.safeguarding_issues_completed
     end
 
     def no_incomplete_qualifications?

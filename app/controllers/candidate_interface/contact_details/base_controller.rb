@@ -1,7 +1,6 @@
 module CandidateInterface
   class ContactDetails::BaseController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted
-    after_action :complete_section, only: %i[update]
 
     def edit
       @contact_details_form = ContactDetailsForm.build_from_application(
@@ -37,14 +36,6 @@ module CandidateInterface
     def contact_details_params
       params.require(:candidate_interface_contact_details_form).permit(:phone_number)
         .transform_values(&:strip)
-    end
-
-    def complete_section
-      presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
-
-      if presenter.contact_details_completed? && !FeatureFlag.active?('mark_every_section_complete')
-        current_application.update!(contact_details_completed: true)
-      end
     end
   end
 end

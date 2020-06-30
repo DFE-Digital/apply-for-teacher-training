@@ -25,7 +25,8 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
       relationship: 'Second boss',
     )
     click_button 'Save and continue'
-    click_link 'Continue'
+    check t('application_form.completed_checkbox')
+    click_button t('application_form.continue')
   end
 
   scenario 'Candidate adds two auto-references' do

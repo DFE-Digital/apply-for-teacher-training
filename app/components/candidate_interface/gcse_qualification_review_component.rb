@@ -23,11 +23,9 @@ module CandidateInterface
     end
 
     def show_missing_banner?
-      gcse_completed = "#{@subject}_gcse_completed"
-      if @submitting_application && FeatureFlag.active?('mark_every_section_complete')
+      if @submitting_application
+        gcse_completed = "#{@subject}_gcse_completed"
         !@application_form.send(gcse_completed) && @editable
-      else
-        @editable && !@application_qualification
       end
     end
 

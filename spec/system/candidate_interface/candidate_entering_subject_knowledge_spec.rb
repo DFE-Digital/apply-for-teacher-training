@@ -5,7 +5,6 @@ RSpec.feature 'Entering subject knowledge' do
 
   scenario 'Candidate submits their subject knowledge' do
     given_courses_exist
-    and_the_mark_every_section_as_complete_flag_is_active
 
     given_i_am_signed_in
     and_i_visit_the_site
@@ -36,10 +35,6 @@ RSpec.feature 'Entering subject knowledge' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_mark_every_section_as_complete_flag_is_active
-    FeatureFlag.activate('mark_every_section_complete')
   end
 
   def and_i_visit_the_site

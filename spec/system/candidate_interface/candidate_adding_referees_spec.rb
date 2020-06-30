@@ -5,7 +5,6 @@ RSpec.feature 'Candidate adding referees' do
 
   scenario 'Candidate adds references' do
     given_i_am_signed_in
-    and_the_mark_every_section_as_complete_flag_is_active
     and_i_visit_the_application_form
 
     given_i_have_no_existing_references_on_the_form
@@ -70,10 +69,6 @@ RSpec.feature 'Candidate adding referees' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_mark_every_section_as_complete_flag_is_active
-    FeatureFlag.activate('mark_every_section_complete')
   end
 
   def given_i_have_no_existing_references_on_the_form

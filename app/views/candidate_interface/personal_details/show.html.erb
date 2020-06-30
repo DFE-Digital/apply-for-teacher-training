@@ -7,11 +7,7 @@
 
 <%= render(SummaryCardComponent.new(rows: @personal_details_review.rows)) %>
 
-<% if FeatureFlag.active?('mark_every_section_complete') %>
-  <%= render(CandidateInterface::CompleteSectionComponent.new(application_form: @application_form,
-                                          path: candidate_interface_personal_details_complete_path,
-                                          request_method: :post,
-                                          field_name: :personal_details_completed)) %>
-<% else %>
-  <%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>
-<% end %>
+<%= render(CandidateInterface::CompleteSectionComponent.new(application_form: @application_form,
+                                        path: candidate_interface_personal_details_complete_path,
+                                        request_method: :post,
+                                        field_name: :personal_details_completed)) %>

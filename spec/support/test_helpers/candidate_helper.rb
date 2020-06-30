@@ -129,12 +129,8 @@ module CandidateHelper
     choose 'Yes'
     fill_in t('english_main_language.yes_label', scope: scope), with: "I'm great at Galactic Basic so English is a piece of cake", match: :prefer_exact
     click_button t('complete_form_button', scope: scope)
-    if FeatureFlag.active?('mark_every_section_complete')
-      check t('application_form.completed_checkbox')
-      click_button t('complete_form_button', scope: scope)
-    else
-      click_link 'Continue'
-    end
+    check t('application_form.completed_checkbox')
+    click_button t('complete_form_button', scope: scope)
   end
 
   def candidate_fills_in_contact_details
@@ -146,12 +142,8 @@ module CandidateHelper
     fill_in t('application_form.contact_details.postcode.label'), with: 'SW1P 3BT'
     click_button t('application_form.contact_details.address.button')
 
-    if FeatureFlag.active?('mark_every_section_complete')
-      check t('application_form.completed_checkbox')
-      click_button t('application_form.continue')
-    else
-      click_link t('application_form.contact_details.review.button')
-    end
+    check t('application_form.completed_checkbox')
+    click_button t('application_form.continue')
   end
 
   def candidate_fills_in_their_degree
@@ -174,7 +166,6 @@ module CandidateHelper
     fill_in 'Year started course', with: year_with_trailing_space
     fill_in 'Graduation year', with: year_with_preceding_space
     click_button t('application_form.degree.base.button')
-
     check t('application_form.degree.review.completed_checkbox')
     click_button t('application_form.degree.review.button')
   end
@@ -196,26 +187,16 @@ module CandidateHelper
     choose t('application_form.training_with_a_disability.disclose_disability.yes')
     fill_in t('application_form.training_with_a_disability.disability_disclosure.label'), with: 'I have difficulty climbing stairs'
     click_button t('application_form.training_with_a_disability.complete_form_button')
-
-    if FeatureFlag.active?('mark_every_section_complete')
-      check t('application_form.completed_checkbox')
-      click_button t('application_form.continue')
-    else
-      click_link t('application_form.training_with_a_disability.review.button')
-    end
+    check t('application_form.completed_checkbox')
+    click_button t('application_form.continue')
   end
 
   def candidate_fills_in_safeguarding_issues
     choose 'Yes'
     fill_in 'Give any relevant information', with: 'I have a criminal conviction.'
-
     click_button 'Continue'
-    if FeatureFlag.active?('mark_every_section_complete')
-      check t('application_form.completed_checkbox')
-      click_button t('application_form.continue')
-    else
-      click_link 'Continue'
-    end
+    check t('application_form.completed_checkbox')
+    click_button t('application_form.continue')
   end
 
   def candidate_fills_in_work_experience
@@ -302,7 +283,8 @@ module CandidateHelper
       relationship: 'First boss',
     )
     click_button 'Save and continue'
-    click_link 'Continue'
+    check t('application_form.completed_checkbox')
+    click_button t('application_form.continue')
   end
 
   def candidate_fills_in_a_gcse
@@ -312,44 +294,32 @@ module CandidateHelper
     click_button 'Save and continue'
     fill_in 'Enter year', with: '1990'
     click_button 'Save and continue'
-
-    if FeatureFlag.active?('mark_every_section_complete')
-      check t('application_form.completed_checkbox')
-      click_button t('application_form.continue')
-    else
-      click_link 'Back to application'
-    end
+    check t('application_form.completed_checkbox')
+    click_button t('application_form.continue')
   end
 
   def candidate_explains_a_missing_gcse
     choose('I don’t have this qualification yet')
     fill_in t('application_form.gcse.missing_explanation.label'), with: 'I will sit the exam at my local college this summer.'
     click_button 'Save and continue'
-    click_link 'Continue'
+    check t('application_form.completed_checkbox')
+    click_button t('application_form.continue')
   end
 
   def candidate_fills_in_becoming_a_teacher
     fill_in t('application_form.personal_statement.becoming_a_teacher.label'), with: 'I believe I would be a first-rate teacher'
     click_button t('application_form.personal_statement.becoming_a_teacher.complete_form_button')
     # Confirmation page
-    if FeatureFlag.active?('mark_every_section_complete')
-      check t('application_form.completed_checkbox')
-      click_button t('application_form.continue')
-    else
-      click_link t('application_form.personal_statement.becoming_a_teacher.complete_form_button')
-    end
+    check t('application_form.completed_checkbox')
+    click_button t('application_form.continue')
   end
 
   def candidate_fills_in_subject_knowledge
     fill_in t('application_form.personal_statement.subject_knowledge.label'), with: 'Everything'
     click_button t('application_form.personal_statement.subject_knowledge.complete_form_button')
     # Confirmation page
-    if FeatureFlag.active?('mark_every_section_complete')
-      check t('application_form.completed_checkbox')
-      click_button t('application_form.continue')
-    else
-      click_link t('application_form.personal_statement.subject_knowledge.complete_form_button')
-    end
+    check t('application_form.completed_checkbox')
+    click_button t('application_form.continue')
   end
 
   def candidate_fills_in_interview_preferences
@@ -357,12 +327,8 @@ module CandidateHelper
     fill_in t('application_form.personal_statement.interview_preferences.yes_label'), with: 'Not on a Wednesday'
     click_button t('application_form.personal_statement.interview_preferences.complete_form_button')
     # Confirmation page
-    if FeatureFlag.active?('mark_every_section_complete')
-      check t('application_form.completed_checkbox')
-      click_button t('application_form.continue')
-    else
-      click_link 'Continue'
-    end
+    check t('application_form.completed_checkbox')
+    click_button t('application_form.continue')
   end
 
   def current_candidate

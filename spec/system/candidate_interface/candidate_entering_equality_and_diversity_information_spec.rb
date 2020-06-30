@@ -103,15 +103,16 @@ RSpec.feature 'Entering their equality and diversity information' do
       :with_completed_references,
       candidate: @current_candidate,
       submitted_at: nil,
-      references_count: 1,
+      references_completed: false,
       with_gces: true,
     )
   end
 
   def when_i_have_an_application_form_that_is_ready_to_submit
-    create :reference, application_form: @application
+    create_list :reference, 2, application_form: @application
     click_link 'Complete section', match: :first
-    candidate_fills_in_safeguarding_issues
+    check t('application_form.completed_checkbox')
+    click_button t('application_form.continue')
   end
 
   def and_i_am_on_the_review_page

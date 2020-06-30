@@ -5,7 +5,6 @@ RSpec.feature 'Candidate entering GCSE details' do
 
   scenario 'Candidate submits their maths GCSE details and then update them' do
     given_i_am_signed_in
-    and_the_mark_every_section_as_complete_flag_is_active
 
     when_i_visit_the_candidate_application_page
     and_i_click_on_the_maths_gcse_link
@@ -62,10 +61,6 @@ RSpec.feature 'Candidate entering GCSE details' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_mark_every_section_as_complete_flag_is_active
-    FeatureFlag.activate('mark_every_section_complete')
   end
 
   def given_i_am_not_signed_in; end

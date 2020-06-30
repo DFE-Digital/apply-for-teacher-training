@@ -5,7 +5,6 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
 
   scenario 'Candidate submits why they want to be a teacher' do
     given_i_am_signed_in
-    and_the_mark_every_section_as_complete_flag_is_active
     and_i_visit_the_site
     and_the_track_validation_errors_feature_is_on
 
@@ -34,10 +33,6 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_mark_every_section_as_complete_flag_is_active
-    FeatureFlag.activate('mark_every_section_complete')
   end
 
   def and_the_track_validation_errors_feature_is_on
