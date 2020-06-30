@@ -15,7 +15,7 @@ module CandidateInterface
 
     def type
       case application_choice.status
-      when 'awaiting_references', 'application_complete'
+      when 'unsubmitted', 'awaiting_references', 'application_complete'
         :grey
       when 'awaiting_provider_decision'
         :purple
@@ -31,6 +31,8 @@ module CandidateInterface
         :orange
       when 'conditions_not_met'
         :red
+      when 'enrolled'
+        :default
       else
         raise "You need to define a colour for the #{status} state"
       end
