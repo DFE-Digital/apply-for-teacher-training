@@ -3,6 +3,17 @@ module ProviderInterface
     include ActiveModel::Model
     attr_accessor :accredited_body_permissions, :training_provider_permissions
 
+    def initialize(*args)
+      super(*args)
+      @doing_setup = [@accredited_body_permissions, @training_provider_permissions].any? do |p|
+        p.setup_at.blank?
+      end
+    end
+
+    def doing_setup?
+      @doing_setup
+    end
+
     def assign_permissions_attributes(params)
       @accredited_body_permissions.assign_attributes(accredited_body_permissions_from_params(params))
       @training_provider_permissions.assign_attributes(training_provider_permissions_from_params(params))
