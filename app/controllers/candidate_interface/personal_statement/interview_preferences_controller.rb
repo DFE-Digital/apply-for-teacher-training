@@ -1,7 +1,6 @@
 module CandidateInterface
   class PersonalStatement::InterviewPreferencesController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted
-    after_action :complete_section, only: %i[update]
 
     def edit
       @interview_preferences_form = InterviewPreferencesForm.build_from_application(
@@ -44,14 +43,6 @@ module CandidateInterface
     def application_form_params
       params.require(:application_form).permit(:interview_preferences_completed)
         .transform_values(&:strip)
-    end
-
-    def complete_section
-      presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
-
-      if presenter.interview_preferences_completed? && !FeatureFlag.active?('mark_every_section_complete')
-        current_application.update!(interview_preferences_completed: true)
-      end
     end
   end
 end

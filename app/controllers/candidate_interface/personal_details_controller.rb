@@ -1,7 +1,6 @@
 module CandidateInterface
   class PersonalDetailsController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted
-    after_action :complete_section, only: %i[update]
 
     def edit
       @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
@@ -59,14 +58,6 @@ module CandidateInterface
       when 'date_of_birth(2i)' then 'month'
       when 'date_of_birth(1i)' then 'year'
       else key
-      end
-    end
-
-    def complete_section
-      presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
-
-      if presenter.personal_details_completed? && !FeatureFlag.active?('mark_every_section_complete')
-        current_application.update!(personal_details_completed: true)
       end
     end
   end

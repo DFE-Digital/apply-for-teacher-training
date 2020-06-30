@@ -2,7 +2,6 @@ module CandidateInterface
   class Gcse::TypeController < Gcse::DetailsController
     before_action :redirect_to_dashboard_if_submitted
     before_action :set_subject
-    after_action :complete_section, only: %i[update]
 
     # 1st step - Edit qualification type
     def edit

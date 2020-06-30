@@ -4,7 +4,6 @@ module CandidateInterface
     before_action :set_referee, only: %i[edit update confirm_destroy destroy confirm_cancel cancel]
     before_action :set_referees, only: %i[type update_type new create index review]
     before_action :set_nth_referee, only: %i[type new]
-    after_action :set_section_to_complete_or_incomplete, only: %i[update_type create update destroy]
 
     def index
       if @referees.empty?
@@ -174,16 +173,6 @@ module CandidateInterface
     def application_form_params
       params.require(:application_form).permit(:references_completed)
         .transform_values(&:strip)
-    end
-
-    def set_section_to_complete_or_incomplete
-      presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
-
-      if presenter.all_referees_provided_by_candidate? && !FeatureFlag.active?('mark_every_section_complete')
-        current_application.update!(references_completed: true)
-      elsif !FeatureFlag.active?('mark_every_section_complete')
-        current_application.update!(references_completed: false)
-      end
     end
   end
 end
