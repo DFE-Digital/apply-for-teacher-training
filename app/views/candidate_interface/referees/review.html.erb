@@ -24,15 +24,12 @@
     <% end %>
   </p>
 <% else %>
-<p class="govuk-body">
-
-  <% if FeatureFlag.active?('mark_every_section_complete') %>
+  <p class="govuk-body">
     <%= render(CandidateInterface::CompleteSectionComponent.new(application_form: @application_form,
                                             path: candidate_interface_complete_referees_path,
                                             request_method: :patch,
                                             field_name: :references_completed)) %>
-  <% else %>
-      <%= govuk_button_link_to t('application_form.referees.review.button'), candidate_interface_application_form_path %>
-    </p>
-  <% end %>
+
+    <%= govuk_button_link_to t('application_form.referees.review.button'), candidate_interface_application_form_path %>
+  </p>
 <% end %>
