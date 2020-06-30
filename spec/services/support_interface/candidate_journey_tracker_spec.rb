@@ -295,6 +295,78 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
     end
   end
 
+  describe '#candidate_decision' do
+    it 'returns nil if application has never been accepted or declined' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :offer, application_form: application_form)
+
+      expect(described_class.new(application_choice).candidate_decision).to be_nil
+    end
+
+    it 'returns time when offer was declined' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :offer, application_form: application_form)
+      application_choice.update(status: :declined, declined_at: now + 5.days)
+
+      expect(described_class.new(application_choice).candidate_decision).to eq(now + 5.days)
+    end
+
+    it 'returns time when offer was accepted' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :offer, application_form: application_form)
+      application_choice.update(status: :pending_conditions, accepted_at: now + 5.days)
+
+      expect(described_class.new(application_choice).candidate_decision).to eq(now + 5.days)
+    end
+  end
+
+  describe '#offer_declined' do
+    it 'returns nil if application has never been declined' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :offer, application_form: application_form)
+
+      expect(described_class.new(application_choice).offer_declined).to be_nil
+    end
+
+    it 'returns time when offer was declined' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :offer, application_form: application_form)
+      application_choice.update(status: :declined, declined_at: now + 5.days)
+
+      expect(described_class.new(application_choice).offer_declined).to eq(now + 5.days)
+    end
+  end
+
+  describe '#offer_accepted' do
+    it 'returns nil if application has never been accepted' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :offer, application_form: application_form)
+
+      expect(described_class.new(application_choice).offer_accepted).to be_nil
+    end
+
+    it 'returns time when offer was accepted' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :offer, application_form: application_form)
+      application_choice.update(status: :pending_conditions, accepted_at: now + 5.days)
+
+      expect(described_class.new(application_choice).offer_accepted).to eq(now + 5.days)
+    end
+  end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   describe '#conditions_outcome' do
     it 'returns nil if the status has never been set' do
       application_form = create(:application_form)

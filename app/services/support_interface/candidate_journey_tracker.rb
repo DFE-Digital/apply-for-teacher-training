@@ -64,6 +64,18 @@ module SupportInterface
       @application_choice.accepted_at
     end
 
+    def candidate_decision
+      @application_choice.accepted_at || @application_choice.declined_at
+    end
+
+    def offer_declined
+      @application_choice.declined_at
+    end
+
+    def offer_accepted
+      @application_choice.accepted_at
+    end
+
     def conditions_outcome
       @application_choice.recruited_at || @application_choice.conditions_not_met_at
     end
@@ -133,8 +145,8 @@ module SupportInterface
     # - [x] `application_sent_to_provider` - `ApplicationChoice#sent_to_provider_at`
     # - [ ] `awaiting_decision` QUESTION - not sure what this means (isn't it the same as `sent_to_provider_at`?)
     # - [x] `rbd_date` - `ApplicationChoice#reject_by_default_at`
-    # - [ ] `rbd_reminder_sent` - Is this the `chase_provider_decision` email? `ChaserSent#provider_decision_request` ?
-    # - [ ] `application_rbd` - Combination of `ApplicationChoice#rejected_at` and `rejected_by_default`
+    # - [x] `rbd_reminder_sent` - Is this the `chase_provider_decision` email? `ChaserSent#provider_decision_request` ?
+    # - [x] `application_rbd` - Combination of `ApplicationChoice#rejected_at` and `rejected_by_default`
     # - [ ] `provider_decision` (Reject/Offer) - `ApplicationChoice#rejected_at` or `ApplicationChoice#offered_at`
     # - [ ] `offer_made` awaiting decision from candidate - `ApplicationChoice#offered_at`
     # - [ ] `email_sent_to_candidate` - the offer email? also the reject email?
@@ -148,7 +160,7 @@ module SupportInterface
     # - [x] `conditions_outcome` - from audit trail
     # - [x] `conditions_met` - from audit trail
     # - [x] `conditions_not_met` - from audit trail
-    # - [ ] `enrolled` - from audit trail
+    # - [x] `enrolled` - from audit trail
     # - [ ] `ended_without_success` - from audit trail?
     # - [ ] `send_rejection_email` - from emails?
   end
