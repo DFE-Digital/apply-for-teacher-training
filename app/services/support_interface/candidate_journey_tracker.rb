@@ -150,38 +150,5 @@ module SupportInterface
       chasers = @application_choice.chasers_sent
       chasers.select { |chaser| chaser.chaser_type == chaser_type.to_s }.map(&:created_at).min
     end
-
-    # - [x] `form_not_started`
-    # - [x] `form_started_and_not_submitted`
-    # - [x] `submitted_and_awaiting_references`
-    # - [x] `reference_1_received`
-    # - [x] `reference_2_received`
-    # - [x] `reference_reminder_email_sent`
-    # - [x] `new_reference_request_email_sent`
-    # - [x] `new_reference_added` - `created_by` of the third reference?
-    # - [x] `references_completed` - from audit trail when `ApplicationForm#references_completed` gets set to true? (can happen more than once)
-
-    # - [ ] `waiting_to_be_sent_to_provider` - not sure what this one means
-    # - [x] `application_sent_to_provider` - `ApplicationChoice#sent_to_provider_at`
-    # - [ ] `awaiting_decision` QUESTION - not sure what this means (isn't it the same as `sent_to_provider_at`?)
-    # - [x] `rbd_date` - `ApplicationChoice#reject_by_default_at`
-    # - [x] `rbd_reminder_sent` - Is this the `chase_provider_decision` email? `ChaserSent#provider_decision_request` ?
-    # - [x] `application_rbd` - Combination of `ApplicationChoice#rejected_at` and `rejected_by_default`
-    # - [x] `provider_decision` (Reject/Offer) - `ApplicationChoice#rejected_at` or `ApplicationChoice#offered_at`
-    # - [x] `offer_made` awaiting decision from candidate - `ApplicationChoice#offered_at`
-    # - [ ] `email_sent_to_candidate` - the offer email? also the reject email?
-    # - [x] `dbd_date` - `ApplicationChoice#decline_by_default_at`
-    # - [x] `dbd_reminder_email` - `ChaserSent#chaser_type`
-    # - [x] `candidate_decision` (accept/decline) - `ApplicationChoice#accepted_at` or `ApplicationChoice#declined_at`
-    # - [x] `offer_declined` - `ApplicationChoice#declined_at`
-    # - [x] `offer_accepted` - `ApplicationChoice#accepted_at`
-    # - [ ] `email_sent_to_candidate_2` - the offer accepted email? QUESTION
-    # - [x] `pending_conditions` - from audit trail
-    # - [x] `conditions_outcome` - from audit trail
-    # - [x] `conditions_met` - from audit trail
-    # - [x] `conditions_not_met` - from audit trail
-    # - [x] `enrolled` - from audit trail
-    # - [ ] `ended_without_success` - from audit trail?
-    # - [ ] `send_rejection_email` - from emails?
   end
 end

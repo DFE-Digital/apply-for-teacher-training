@@ -17,13 +17,15 @@ module SupportInterface
     def journey_items(application_choice)
       tracker = CandidateJourneyTracker.new(application_choice)
 
-      tracker.public_methods(false).index_with { |item| [item, tracker.send(item)] }
+      tracker.public_methods(false).index_with { |item| tracker.send(item)&.iso8601 }
     end
 
     def all_application_choices
       ApplicationChoice
         .includes(
-          application_form: %i[candidate],
+          application_form: %i[candidate audits chasers_sent],
+          audits: [],
+          chasers_sent: [],
         )
         .joins(:application_form)
         .order('application_forms.submitted_at asc, application_forms.id asc, id asc')
