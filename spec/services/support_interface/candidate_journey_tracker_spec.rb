@@ -337,13 +337,6 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
     end
   end
 
-
-
-
-
-
-
-
   describe '#candidate_decision' do
     it 'returns nil if application has never been accepted or declined' do
       application_form = create(:application_form)
@@ -400,6 +393,48 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_choice.update(status: :pending_conditions, accepted_at: now + 5.days)
 
       expect(described_class.new(application_choice).offer_accepted).to eq(now + 5.days)
+    end
+  end
+
+  describe '#dbd_date' do
+    it 'returns the correct timestamp' do
+      application_form = create(:application_form)
+      application_choice = create(
+        :application_choice,
+        status: :awaiting_provider_decision,
+        decline_by_default_at: now + 10.days,
+        application_form: application_form,
+      )
+
+      expect(described_class.new(application_choice).dbd_date).to eq(now + 10.days)
+    end
+  end
+
+  describe '#dbd_reminder_sent' do
+    it 'returns nil when no chaser has been sent' do
+      application_form = create(:application_form)
+      application_choice = create(
+        :application_choice,
+        status: :offer,
+        application_form: application_form,
+      )
+
+      expect(described_class.new(application_choice).dbd_reminder_sent).to be_nil
+    end
+
+    it 'returns the time when the chaser was sent' do
+      application_form = create(:application_form)
+      application_choice = create(
+        :application_choice,
+        status: :offer,
+        application_form: application_form,
+      )
+
+      Timecop.freeze(now + 1.day) do
+        ChaserSent.create!(chased: application_choice, chaser_type: :candidate_decision_request)
+      end
+
+      expect(described_class.new(application_choice).dbd_reminder_sent).to eq(now + 1.day)
     end
   end
 

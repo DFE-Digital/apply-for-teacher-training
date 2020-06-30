@@ -72,6 +72,14 @@ module SupportInterface
       @application_choice.offered_at
     end
 
+    def dbd_date
+      @application_choice.decline_by_default_at
+    end
+
+    def dbd_reminder_sent
+      earliest_application_chaser_sent(:candidate_decision_request)
+    end
+
     def candidate_decision
       @application_choice.accepted_at || @application_choice.declined_at
     end
@@ -155,11 +163,11 @@ module SupportInterface
     # - [x] `rbd_date` - `ApplicationChoice#reject_by_default_at`
     # - [x] `rbd_reminder_sent` - Is this the `chase_provider_decision` email? `ChaserSent#provider_decision_request` ?
     # - [x] `application_rbd` - Combination of `ApplicationChoice#rejected_at` and `rejected_by_default`
-    # - [ ] `provider_decision` (Reject/Offer) - `ApplicationChoice#rejected_at` or `ApplicationChoice#offered_at`
-    # - [ ] `offer_made` awaiting decision from candidate - `ApplicationChoice#offered_at`
+    # - [x] `provider_decision` (Reject/Offer) - `ApplicationChoice#rejected_at` or `ApplicationChoice#offered_at`
+    # - [x] `offer_made` awaiting decision from candidate - `ApplicationChoice#offered_at`
     # - [ ] `email_sent_to_candidate` - the offer email? also the reject email?
-    # - [ ] `dbd_date` - `ApplicationChoice#decline_by_default_at`
-    # - [ ] `dbd_reminder_email` - `ChaserSent#chaser_type`
+    # - [x] `dbd_date` - `ApplicationChoice#decline_by_default_at`
+    # - [x] `dbd_reminder_email` - `ChaserSent#chaser_type`
     # - [x] `candidate_decision` (accept/decline) - `ApplicationChoice#accepted_at` or `ApplicationChoice#declined_at`
     # - [x] `offer_declined` - `ApplicationChoice#declined_at`
     # - [x] `offer_accepted` - `ApplicationChoice#accepted_at`
