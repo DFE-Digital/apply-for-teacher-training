@@ -64,7 +64,7 @@
   <%= govuk_link_to 'Download candidate survey results (CSV)', support_interface_candidate_survey_path %>
 </p>
 
-<%- if FeatureFlag.active?('download_dataset1_from_support_page') %>
+<% unless HostingEnvironment.production? %>
   <h3 class='govuk-heading-m'>Applications export for UCAS</h3>
 
   <p class='govuk-body'>
@@ -77,7 +77,7 @@
   <p class='govuk-body'>
     <%= govuk_link_to 'Download Dataset 1 (CSV)', support_interface_applications_export_for_ucas_path %>
   </p>
-<%- end %>
+<% end %>
 
 <h3 class="govuk-heading-m">Active provider users</h3>
 

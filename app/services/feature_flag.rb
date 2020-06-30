@@ -23,7 +23,6 @@ class FeatureFlag
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
-    [:download_dataset1_from_support_page, 'Enables the application CSV download from the support interface', 'Al Davidson'],
     [:provider_add_provider_users, 'Allows provider users to invite other provider users', 'Steve Laing'],
     [:provider_change_response, 'Allows providers to change the course that they are offering to a candidate', 'Michael Nacos'],
     [:provider_view_safeguarding, 'Allows providers to see whether a candidate has declared safeguarding issues', 'Will McBrien'],

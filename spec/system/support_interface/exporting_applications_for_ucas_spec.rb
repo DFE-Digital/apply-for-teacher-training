@@ -7,7 +7,7 @@ RSpec.feature 'Exporting applications for UCAS as CSV' do
     given_i_am_a_support_user
     and_there_are_submitted_applications
 
-    when_the_feature_is_not_enabled
+    when_i_am_on_production
     and_i_visit_the_service_performance_page
     then_i_should_not_see_a_link_to_download_dataset_1
 
@@ -15,7 +15,7 @@ RSpec.feature 'Exporting applications for UCAS as CSV' do
     and_if_i_try_to_download_it_directly
     then_i_should_get_a_forbidden_error
 
-    when_the_feature_is_enabled
+    when_i_am_on_a_test_environment
     and_i_visit_the_service_performance_page
     then_i_should_see_a_link_to_download_dataset_1
     when_i_click_on_download_dataset_1
@@ -36,12 +36,12 @@ RSpec.feature 'Exporting applications for UCAS as CSV' do
     visit support_interface_performance_path
   end
 
-  def when_the_feature_is_not_enabled
-    FeatureFlag.deactivate('download_dataset1_from_support_page')
+  def when_i_am_on_production
+    ENV['HOSTING_ENVIRONMENT_NAME'] = 'production'
   end
 
-  def when_the_feature_is_enabled
-    FeatureFlag.activate('download_dataset1_from_support_page')
+  def when_i_am_on_a_test_environment
+    ENV['HOSTING_ENVIRONMENT_NAME'] = 'test'
   end
 
   def then_i_should_see_a_link_to_download_dataset_1
