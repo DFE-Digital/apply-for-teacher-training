@@ -10,8 +10,6 @@ module ProviderInterface
       ).includes(%i[training_provider ratifying_provider]).order(:created_at)
     end
 
-    def success; end
-
     def edit
       initialize_form
     end
@@ -25,7 +23,17 @@ module ProviderInterface
       initialize_form
 
       if @form.update!(provider_relationship_permissions_form_params)
-        redirect_to provider_interface_provider_relationship_permissions_success_path
+        if @form.doing_setup?
+          if ProviderSetup.new(provider_user: current_provider_user).next_relationship_pending
+            redirect_to provider_interface_provider_relationship_permissions_setup_path
+            flash[:success] = 'Permissions successfully set'
+          else
+            redirect_to provider_interface_provider_relationship_permissions_success_path
+          end
+        else
+          flash[:success] = 'Permissions successfully changed'
+          redirect_to provider_interface_applications_path
+        end
       else
         flash[:warning] = 'Unable to save permissions, please try again. If problems persist please contact support.'
         render :edit
