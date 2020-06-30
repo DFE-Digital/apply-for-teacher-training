@@ -28,11 +28,11 @@ module SupportInterface
     end
 
     def reference_reminder_email_sent
-      earliest_chaser_sent(:reference_request)
+      earliest_reference_chaser_sent(:reference_request)
     end
 
     def new_reference_request_email_sent
-      earliest_chaser_sent(:reference_replacement)
+      earliest_reference_chaser_sent(:reference_replacement)
     end
 
     def new_reference_added
@@ -46,6 +46,18 @@ module SupportInterface
 
     def application_sent_to_provider
       @application_choice.sent_to_provider_at
+    end
+
+    def rbd_date
+      @application_choice.reject_by_default_at
+    end
+
+    def rbd_reminder_sent
+      earliest_application_chaser_sent(:provider_decision_request)
+    end
+
+    def application_rbd
+      @application_choice.rejected_by_default ? @application_choice.rejected_at : nil
     end
 
   private
@@ -77,8 +89,13 @@ module SupportInterface
       audits.map(&:created_at).min
     end
 
-    def earliest_chaser_sent(chaser_type)
+    def earliest_reference_chaser_sent(chaser_type)
       chasers = @application_choice.application_form.application_references.map(&:chasers_sent).flatten
+      chasers.select { |chaser| chaser.chaser_type == chaser_type.to_s }.map(&:created_at).min
+    end
+
+    def earliest_application_chaser_sent(chaser_type)
+      chasers = @application_choice.chasers_sent
       chasers.select { |chaser| chaser.chaser_type == chaser_type.to_s }.map(&:created_at).min
     end
 
@@ -93,9 +110,9 @@ module SupportInterface
     # - [x] `references_complete` - from audit trail when `ApplicationForm#references_completed` gets set to true? (can happen more than once)
 
     # - [ ] `waiting_to_be_sent_to_provider` - not sure what this one means
-    # - [ ] `application_sent_to_provider` - `ApplicationChoice#sent_to_provider_at`
+    # - [x] `application_sent_to_provider` - `ApplicationChoice#sent_to_provider_at`
     # - [ ] `awaiting_decision` QUESTION - not sure what this means (isn't it the same as `sent_to_provider_at`?)
-    # - [ ] `rbd_date` - `ApplicationChoice#sent_to_provider_at`
+    # - [x] `rbd_date` - `ApplicationChoice#reject_by_default_at`
     # - [ ] `rbd_reminder_sent` - Is this the `chase_provider_decision` email? `ChaserSent#provider_decision_request` ?
     # - [ ] `application_rbd` - Combination of `ApplicationChoice#rejected_at` and `rejected_by_default`
     # - [ ] `provider_decision` (Reject/Offer) - `ApplicationChoice#rejected_at` or `ApplicationChoice#offered_at`

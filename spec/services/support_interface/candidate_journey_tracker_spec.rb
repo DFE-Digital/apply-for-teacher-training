@@ -205,6 +205,80 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       expect(described_class.new(application_choice).application_sent_to_provider).to eq(now + 1.day)
     end
   end
+
+  describe '#rbd_date' do
+    it 'returns the correct timestamp' do
+      application_form = create(:application_form)
+      application_choice = create(
+        :application_choice,
+        status: :awaiting_provider_decision,
+        reject_by_default_at: now + 40.days,
+        application_form: application_form,
+      )
+
+      expect(described_class.new(application_choice).rbd_date).to eq(now + 40.days)
+    end
+  end
+
+  describe '#rbd_reminder_sent' do
+    it 'returns nil when no chaser has been sent' do
+      application_form = create(:application_form)
+      application_choice = create(
+        :application_choice,
+        status: :awaiting_provider_decision,
+        application_form: application_form,
+      )
+
+      expect(described_class.new(application_choice).rbd_reminder_sent).to be_nil
+    end
+
+    it 'returns the time when the chaser was sent' do
+      application_form = create(:application_form)
+      application_choice = create(
+        :application_choice,
+        status: :awaiting_provider_decision,
+        application_form: application_form,
+      )
+
+      Timecop.freeze(now + 1.day) do
+        ChaserSent.create!(chased: application_choice, chaser_type: :provider_decision_request)
+      end
+
+      expect(described_class.new(application_choice).rbd_reminder_sent).to eq(now + 1.day)
+    end
+  end
+
+  describe '#application_rbd' do
+    it 'returns nil if the application was explicitly rejected' do
+      application_form = create(:application_form)
+      application_choice = create(
+        :application_choice,
+        status: :awaiting_provider_decision,
+        application_form: application_form,
+      )
+
+      Timecop.freeze(now + 1.day) do
+        application_choice.update(rejected_at: now + 1.day)
+      end
+
+      expect(described_class.new(application_choice).application_rbd).to be_nil
+    end
+
+    it 'returns rejected_at if the application was rejected by default' do
+      application_form = create(:application_form)
+      application_choice = create(
+        :application_choice,
+        status: :awaiting_provider_decision,
+        application_form: application_form,
+      )
+
+      Timecop.freeze(now + 1.day) do
+        application_choice.update(rejected_at: now + 1.day, rejected_by_default: true)
+      end
+
+      expect(described_class.new(application_choice).application_rbd).to eq(now + 1.day)
+    end
+  end
 end
 
 # Form not started - created_at?
