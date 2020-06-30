@@ -28,7 +28,7 @@ module ProviderInterface
       when 'declined', 'withdrawn'
         :red
       else
-        raise "You need to define a color for the #{status} state"
+        raise "You need to define a colour for the #{status} state"
       end
     end
 
