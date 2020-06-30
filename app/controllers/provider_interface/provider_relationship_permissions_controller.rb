@@ -60,12 +60,16 @@ module ProviderInterface
 
     def provider_relationship_permissions_form_params
       permissions_attrs = ProviderRelationshipPermissions::VALID_PERMISSIONS
+      permissions_params = params[:provider_interface_provider_relationship_permissions_form]
 
-      params.require(:provider_interface_provider_relationship_permissions_form)
-        .permit(
+      if permissions_params.present?
+        permissions_params.permit(
           accredited_body_permissions: permissions_attrs,
           training_provider_permissions: permissions_attrs,
         ).to_h
+      else
+        {}
+      end
     end
 
     def render_404_unless_permissions_found
