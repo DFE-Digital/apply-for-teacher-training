@@ -42,7 +42,11 @@
       </p>
 
       <%= hidden_field_tag :course_option_id, @application_offer.course_option.id %>
-      <%= hidden_field_tag :offer_conditions, @application_offer.offer_conditions.to_json %>
+
+      <% @application_offer.offer_conditions.each do |condition| %>
+        <%= hidden_field_tag :"offer_conditions[]", condition %>
+      <% end %>
+
       <%= f.govuk_submit 'Make offer' %>
 
       <p class="govuk-body">

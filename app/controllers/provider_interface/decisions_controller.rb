@@ -51,7 +51,7 @@ module ProviderInterface
     end
 
     def create_offer
-      offer_conditions_array = JSON.parse(params.dig(:offer_conditions))
+      offer_conditions_array = params.dig(:offer_conditions)
       course_option = CourseOption.find(params[:course_option_id])
 
       @application_offer = MakeAnOffer.new(
