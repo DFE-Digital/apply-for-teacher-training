@@ -10,7 +10,6 @@ The groups with `APPLY - ENV` prefix hold environment specific values.
 Variable Groups |
 ------------ |
 APPLY - ENV - DevOps |
-APPLY - ENV - Pentest |
 APPLY - ENV - Production |
 APPLY - ENV - QA |
 APPLY - ENV - Sandbox |

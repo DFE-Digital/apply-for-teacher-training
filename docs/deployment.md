@@ -45,13 +45,13 @@ Summarise what you're deploying and tell the team in Slack on the `#twd_apply` c
 
 Follow the testing instructions for staging in the [post-deployment checklist](deployment_checklist.md).
 
-## 5. Deploy to production, sandbox and pentest
+## 5. Deploy to production, sandbox
 
 1. Load the [apply-for-teacher-training-releases](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build?definitionId=325&_a=summary) page in Azure DevOps.
 1. Click the blue "Run pipeline" button (sometimes it says "Queue") at the top right of the page which will open the run pipeline menu.
 1. Ensure the branch is set to "master".
 1. Specify the commit again - **don't forget this**
-1. Under the Variables section set `deploy_staging` to `false` and `deploy_pentest`, `deploy_production` and `deploy_sandbox` to `true`.
+1. Under the Variables section set `deploy_staging` to `false` and `deploy_production` and `deploy_sandbox` to `true`.
 1. Click the Run button to start the deployment
 
 ## 6. Test on production
