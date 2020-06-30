@@ -23,7 +23,9 @@ module VendorAPI
     end
 
     def since_param
-      params.fetch(:since).to_datetime
+      params.fetch(:since).to_datetime.tap do |since|
+        raise ParameterInvalid, 'Parameter is invalid (date is nonsense): since' unless since.year.positive?
+      end
     rescue ArgumentError
       raise ParameterInvalid, 'Parameter is invalid (should be ISO8601): since'
     end
