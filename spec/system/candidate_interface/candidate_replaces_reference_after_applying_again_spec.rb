@@ -12,7 +12,9 @@ RSpec.feature 'Candidate applying again' do
     and_i_visit_the_application_dashboard
     and_i_click_on_apply_again
     and_i_click_on_start_now
+    and_i_am_told_my_new_application_is_ready_to_edit
 
+    when_i_click_go_to_my_application_form
     then_i_see_a_copy_of_my_application
 
     when_i_view_referees
@@ -64,8 +66,16 @@ RSpec.feature 'Candidate applying again' do
     click_on 'Start now'
   end
 
-  def then_i_see_a_copy_of_my_application
+  def and_i_am_told_my_new_application_is_ready_to_edit
     expect(page).to have_content('Your new application is ready for editing')
+  end
+
+  def when_i_click_go_to_my_application_form
+    click_link 'Go to your application form'
+  end
+
+  def then_i_see_a_copy_of_my_application
+    expect(page).to have_title('Your application')
   end
 
   def when_i_view_referees
