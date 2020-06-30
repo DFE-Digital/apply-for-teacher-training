@@ -6,6 +6,9 @@
 
   <%= f.govuk_radio_button :grade, 'other', label: { text: t('application_form.degree.grade.other.label') } do %>
     <%= f.govuk_text_field :other_grade, label: { text: t('application_form.degree.grade.other.conditional.label') }, width: 10 %>
+    <% if FeatureFlag.active? :hesa_degree_data %>
+      <%= tag.div(id: 'degree-grade-autocomplete', class: 'govuk-form-group', data: { source: @other_grades }) %>
+    <% end %>
   <% end %>
 
   <%= f.govuk_radio_divider %>
