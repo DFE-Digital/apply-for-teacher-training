@@ -72,7 +72,7 @@ RSpec.feature 'See organisation permissions' do
 
   def then_i_can_see_permissions_for_the_ratifying_provider
     expect(page).to have_content("For courses ratified by #{@ratifying_provider.name} and run by #{@training_provider.name}")
-    expect(page).to have_content("#{@ratifying_provider.name} can:\naccess safeguarding information")
+    expect(page).to have_content("#{@ratifying_provider.name} can:\nview applications access safeguarding information")
   end
 
   def and_i_can_see_permissions_for_the_training_provider

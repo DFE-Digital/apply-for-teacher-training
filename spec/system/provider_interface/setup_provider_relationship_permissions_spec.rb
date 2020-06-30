@@ -15,15 +15,13 @@ RSpec.feature 'Setting up provider relationship permissions' do
     when_i_click_continue
     and_i_choose_permissions_for_the_provider_relationship
     and_i_confirm_my_choices
-    then_i_see_permissions_were_successfully_saved
-
-    when_i_click_continue
     then_i_can_see_the_permissions_setup_page
+    and_i_see_permissions_were_successfully_set
 
     when_i_click_continue
     and_i_choose_permissions_for_another_provider_relationship
     and_i_confirm_my_choices_again
-    then_i_see_permissions_were_successfully_saved
+    then_i_see_permissions_setup_has_finished
 
     when_i_click_continue
     then_i_can_see_candidate_applications
@@ -88,7 +86,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
   def and_i_choose_permissions_for_the_provider_relationship
     expect(page).to have_content("For courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}")
 
-    within(find('.govuk-checkboxes__item', match: :first)) do
+    within(find('.training-provider')) do
       check 'They have access to safeguarding information'
     end
 
@@ -96,20 +94,20 @@ RSpec.feature 'Setting up provider relationship permissions' do
   end
 
   def and_i_confirm_my_choices
-    expect(page).to have_content("#{@training_provider.name} can:\nsee safeguarding information view applications")
+    expect(page).to have_content("#{@training_provider.name} can:\nview applications see safeguarding information")
     expect(page).to have_content("#{@ratifying_provider.name} can:\nview applications")
 
     click_on 'Save permissions'
   end
 
-  def then_i_see_permissions_were_successfully_saved
-    expect(page).to have_content('Permissions successfully set up')
+  def and_i_see_permissions_were_successfully_set
+    expect(page).to have_content('Permissions successfully set')
   end
 
   def and_i_choose_permissions_for_another_provider_relationship
     expect(page).to have_content("For courses run by #{@another_training_provider.name} and ratified by #{@another_ratifying_provider.name}")
 
-    within(find('.govuk-checkboxes__item', match: :first)) do
+    within(find('.accredited-body')) do
       check 'They have access to safeguarding information'
     end
 
@@ -117,10 +115,14 @@ RSpec.feature 'Setting up provider relationship permissions' do
   end
 
   def and_i_confirm_my_choices_again
-    expect(page).to have_content("#{@another_training_provider.name} can:\nsee safeguarding information view applications")
-    expect(page).to have_content("#{@another_ratifying_provider.name} can:\nview applications")
+    expect(page).to have_content("#{@another_training_provider.name} can:\nview applications\n#{@another_ratifying_provider.name}")
+    expect(page).to have_content("#{@another_ratifying_provider.name} can:\nview applications see safeguarding information")
 
     click_on 'Save permissions'
+  end
+
+  def then_i_see_permissions_setup_has_finished
+    expect(page).to have_content('Permissions successfully set up')
   end
 
   def then_i_can_see_candidate_applications

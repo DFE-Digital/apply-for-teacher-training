@@ -14,16 +14,19 @@
     <p>You can change these settings at any time.</p>
     <h2 class="govuk-heading-m">Your organisations that need setting up</h2>
 
-    <% @relationships_pending_setup.each do |permission| %>
+    <% @relationships_pending_setup.pluck(:training_provider_id).uniq.each do |provider_id| %>
       <div class="app-application-card govuk-!-margin-bottom-7">
         <div>
-          <h2 class="govuk-heading-s govuk-!-margin-bottom-0"><%= permission.training_provider.name %></h2>
+          <% provider_relationships = @relationships_pending_setup.where(training_provider_id: provider_id) %>
+          <h2 class="govuk-heading-s govuk-!-margin-bottom-0"><%= provider_relationships.first.training_provider.name %></h2>
           <p class="govuk-!-margin-top-1 govuk-!-margin-bottom-1">Organisations that ratify your courses:</p>
           <ul class="govuk-list govuk-list--bullet">
-            <li><%= permission.ratifying_provider.name %></li>
+            <% provider_relationships.each do |permissions| %>
+              <li><%= permissions.ratifying_provider.name %></li>
+            <% end %>
           </ul>
+          </div>
         </div>
-      </div>
     <% end %>
 
     <%= govuk_link_to(

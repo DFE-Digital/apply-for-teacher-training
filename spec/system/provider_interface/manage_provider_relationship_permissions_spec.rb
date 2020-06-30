@@ -64,12 +64,14 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
       :accredited_body_permissions,
       ratifying_provider: @ratifying_provider,
       training_provider: @training_provider,
+      setup_at: Time.zone.now,
     )
 
     create(
       :training_provider_permissions,
       ratifying_provider: @ratifying_provider,
       training_provider: @training_provider,
+      setup_at: Time.zone.now,
     )
   end
 
@@ -104,7 +106,7 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   end
 
   def and_i_allow_my_training_provider_to_view_safeguarding_information
-    within(find('.training-provider .govuk-checkboxes__item', match: :first)) do
+    within(find('.training-provider')) do
       check 'They have access to safeguarding information'
     end
 
@@ -112,8 +114,8 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   end
 
   def then_i_am_asked_to_confirm_the_training_provider_permission_to_view_safeguarding
-    expect(page).to have_content("#{@training_provider.name} can:\nsee safeguarding information")
-    expect(page).not_to have_content("#{@ratifying_provider.name} can:\nsee safeguarding information")
+    expect(page).to have_content("#{@training_provider.name} can:\nview applications see safeguarding information")
+    expect(page).not_to have_content("#{@ratifying_provider.name} can:\nview applications see safeguarding information")
   end
 
   def when_i_confirm_the_permissions
@@ -121,7 +123,7 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   end
 
   def then_i_can_see_the_permissions_were_successfully_changed
-    expect(page).to have_content('Permissions successfully set up')
+    expect(page).to have_content('Permissions successfully changed')
   end
 
   def then_i_should_see_the_safeguarding_declaration_section
@@ -129,13 +131,13 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   end
 
   def and_i_allow_the_ratifying_provider_to_view_safeguarding_information
-    within(find('.accredited-body .govuk-checkboxes__item', match: :first)) do
+    within(find('.accredited-body')) do
       check 'They have access to safeguarding information'
     end
   end
 
   def and_i_deny_my_training_provider_permission_to_view_safeguarding_information
-    within(find('.training-provider .govuk-checkboxes__item', match: :first)) do
+    within(find('.training-provider')) do
       uncheck 'They have access to safeguarding information'
     end
 
@@ -143,7 +145,7 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   end
 
   def then_i_am_asked_to_confirm_the_ratifying_provider_permission_to_view_safeguarding
-    expect(page).not_to have_content("#{@training_provider.name} can:\nsee safeguarding information")
-    expect(page).to have_content("#{@ratifying_provider.name} can:\nsee safeguarding information")
+    expect(page).not_to have_content("#{@training_provider.name} can:\nview applications see safeguarding information")
+    expect(page).to have_content("#{@ratifying_provider.name} can:\nview applications see safeguarding information")
   end
 end
