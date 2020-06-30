@@ -15,7 +15,7 @@ module SupportInterface
       case status
       when 'unsubmitted'
         :grey
-      when 'awaiting_references', 'awaiting_provider_decision'
+      when 'application_complete', 'awaiting_references', 'awaiting_provider_decision'
         :yellow
       when 'offer'
         :turquoise
