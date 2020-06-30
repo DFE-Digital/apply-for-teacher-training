@@ -530,4 +530,33 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       expect(described_class.new(application_choice).enrolled).to eq(now + 5.days)
     end
   end
+
+  describe '#ended_without_success' do
+    it 'returns nil if an unsuccessful end status has never been set' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :recruited, application_form: application_form)
+
+      expect(described_class.new(application_choice).enrolled).to be_nil
+    end
+
+    it 'returns time when application moved to rejected status' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
+      Timecop.freeze(now + 5.days) do
+        application_choice.update(status: :rejected, rejected_at: Time.zone.now)
+      end
+
+      expect(described_class.new(application_choice).ended_without_success).to eq(now + 5.days)
+    end
+
+    it 'returns time when application moved to conditions_not_met status', audited: true do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :pending_conditions, application_form: application_form)
+      Timecop.freeze(now + 5.days) do
+        application_choice.update(status: :conditions_not_met, conditions_not_met_at: Time.zone.now)
+      end
+
+      expect(described_class.new(application_choice).ended_without_success).to eq(now + 5.days)
+    end
+  end
 end

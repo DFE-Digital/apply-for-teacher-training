@@ -112,6 +112,13 @@ module SupportInterface
       @application_choice.enrolled_at
     end
 
+    def ended_without_success
+      earliest_update_audit_for(
+        @application_choice,
+        status: ApplicationStateChange::UNSUCCESSFUL_END_STATES,
+      )
+    end
+
   private
 
     def all_references
@@ -134,7 +141,11 @@ module SupportInterface
         audit.action == 'update' &&
           attributes.all? do |attribute, value|
             change = audit.audited_changes[attribute.to_s]
-            change && change[1] == value
+            if value.is_a?(Array)
+              change && value.include?(change[1])
+            else
+              change && change[1] == value
+            end
           end
       end
 
