@@ -183,7 +183,7 @@ The Provider interface at `/provider` and Support interface at
 
 ### Environments
 
-In development, QA, and pentest we use the **Test** environment of DfE Sign-in:
+In development and QA we use the **Test** environment of DfE Sign-in:
 
 [Manage console (test)](https://test-manage.signin.education.gov.uk)
 
