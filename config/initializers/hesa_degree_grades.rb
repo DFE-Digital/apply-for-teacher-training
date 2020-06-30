@@ -1,4 +1,4 @@
-HESA_DEGREE_CLASSES = [
+HESA_DEGREE_GRADES = [
   [1, 'First class honours'],
   [2, 'Upper second-class honours (2:1)'],
   [3, 'Lower second-class honours (2:2)'],
