@@ -114,8 +114,8 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   end
 
   def then_i_am_asked_to_confirm_the_training_provider_permission_to_view_safeguarding
-    expect(page).to have_content("#{@training_provider.name} can:\nsee safeguarding information")
-    expect(page).not_to have_content("#{@ratifying_provider.name} can:\nsee safeguarding information")
+    expect(page).to have_content("#{@training_provider.name} can:\nview applications see safeguarding information")
+    expect(page).not_to have_content("#{@ratifying_provider.name} can:\nview applications see safeguarding information")
   end
 
   def when_i_confirm_the_permissions
@@ -145,7 +145,7 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   end
 
   def then_i_am_asked_to_confirm_the_ratifying_provider_permission_to_view_safeguarding
-    expect(page).not_to have_content("#{@training_provider.name} can:\nsee safeguarding information")
-    expect(page).to have_content("#{@ratifying_provider.name} can:\nsee safeguarding information")
+    expect(page).not_to have_content("#{@training_provider.name} can:\nview applications see safeguarding information")
+    expect(page).to have_content("#{@ratifying_provider.name} can:\nview applications see safeguarding information")
   end
 end

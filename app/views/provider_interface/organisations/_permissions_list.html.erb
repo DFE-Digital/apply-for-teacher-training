@@ -1,18 +1,18 @@
 <ul class="govuk-list">
-  <% if permission.view_safeguarding_information %>
-    <li>
-      <%= render 'check_icon' %>
-      access safeguarding information
-    </li>
-  <% end %>
+  <li>
+    <%= render 'provider_interface/check_icon' %>
+    view applications
+  </li>
   <% if permission.make_decisions %>
     <li>
-      <%= render 'check_icon' %>
+      <%= render 'provider_interface/check_icon' %>
       make decisions
     </li>
   <% end %>
-  <li>
-    <%= render 'check_icon' %>
-    view applications
-  </li>
+  <% if permission.view_safeguarding_information %>
+    <li>
+      <%= render 'provider_interface/check_icon' %>
+      access safeguarding information
+    </li>
+  <% end %>
 </ul>

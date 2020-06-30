@@ -117,8 +117,8 @@ RSpec.feature 'Setting up provider relationship permissions' do
   end
 
   def and_i_confirm_my_choices_again
-    expect(page).to have_content("#{@another_training_provider.name} can:\nsee safeguarding information view applications")
-    expect(page).to have_content("#{@another_ratifying_provider.name} can:\nview applications")
+    expect(page).to have_content("#{@another_training_provider.name} can:\nview applications\n#{@another_ratifying_provider.name}")
+    expect(page).to have_content("#{@another_ratifying_provider.name} can:\nview applications see safeguarding information")
 
     click_on 'Save permissions'
   end
