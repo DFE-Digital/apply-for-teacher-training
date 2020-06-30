@@ -76,6 +76,10 @@ module SupportInterface
       @application_choice.conditions_not_met_at
     end
 
+    def enrolled
+      @application_choice.enrolled_at
+    end
+
   private
 
     def all_references
@@ -140,10 +144,10 @@ module SupportInterface
     # - [ ] `offer_declined` - `ApplicationChoice#declined_at`
     # - [ ] `offer_accepted` - `ApplicationChoice#accepted_at`
     # - [ ] `email_sent_to_candidate_2` - the offer accepted email? QUESTION
-    # - [ ] `pending_conditions` - from audit trail
-    # - [ ] `conditions_outcome` - from audit trail
-    # - [ ] `conditions_met` - from audit trail
-    # - [ ] `conditions_not_met` - from audit trail
+    # - [x] `pending_conditions` - from audit trail
+    # - [x] `conditions_outcome` - from audit trail
+    # - [x] `conditions_met` - from audit trail
+    # - [x] `conditions_not_met` - from audit trail
     # - [ ] `enrolled` - from audit trail
     # - [ ] `ended_without_success` - from audit trail?
     # - [ ] `send_rejection_email` - from emails?
