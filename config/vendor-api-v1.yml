@@ -74,6 +74,10 @@ paths:
         Make an offer to the candidate.
 
         This will transition the application to the [offer state](/api-docs/lifecycle#offer).
+
+        If the application has already received an offer, POSTing a second offer will change that offer.
+
+        The replacement offer must be for a different course to that originally offered.
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:

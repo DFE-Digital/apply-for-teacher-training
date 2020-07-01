@@ -1,3 +1,10 @@
+### 2nd July 2020
+
+The documentation around the `/offer` endpoint has been clarified to show that:
+
+- it is possible to change the offer by POSTing to that endpoint again
+- for the time being, a changed offer must have a changed course, not just changed conditions
+
 ### 30th June 2020
 
 New attributes:
