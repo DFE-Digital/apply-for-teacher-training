@@ -8,7 +8,6 @@ RSpec.feature 'Candidate journey tracking CSV' do
     and_there_are_applications_in_the_system
 
     when_i_visit_the_service_performance_page
-    and_i_click_on_download_candidate_journey_tracking_report
     then_i_should_be_able_to_download_a_csv
   end
 
@@ -24,11 +23,7 @@ RSpec.feature 'Candidate journey tracking CSV' do
     visit support_interface_performance_path
   end
 
-  def and_i_click_on_download_candidate_journey_tracking_report
-    click_link 'Download candidate journey tracking (CSV)'
-  end
-
   def then_i_should_be_able_to_download_a_csv
-    pending 'not implemented yet'
+    click_link 'Download candidate journey tracking (CSV)'
   end
 end
