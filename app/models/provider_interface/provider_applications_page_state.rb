@@ -16,7 +16,21 @@ module ProviderInterface
     end
 
     def applied_filters
-      @params.permit(:candidate_name, provider: [], status: [], accredited_provider: [], provider_location: []).to_h
+      @params.permit(:candidate_name, :sort_by, provider: [], status: [], accredited_provider: [], provider_location: []).to_h
+    end
+
+    def sort_by
+      sort_options.include?(@params[:sort_by]) ? @params[:sort_by] : 'Last changed'
+    end
+
+    def sort_options
+      ['Last changed', 'Days left to respond']
+    end
+
+    def sort_order
+      return { reject_by_default_at: :desc, updated_at: :desc } if sort_by == 'Days left to respond'
+
+      { updated_at: :desc }
     end
 
   private

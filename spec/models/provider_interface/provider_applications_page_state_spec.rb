@@ -104,4 +104,46 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       expect(page_state.filtered?).to be(false)
     end
   end
+
+  describe '#sort_order' do
+    let(:params) { ActionController::Parameters.new }
+
+    subject(:page_state) { described_class.new(params: params, provider_user: provider_user) }
+
+    context 'when no sort params are present' do
+      it 'defaults to updated_at descending' do
+        expect(page_state.sort_order).to eq({ updated_at: :desc })
+      end
+    end
+
+    context 'when sort param is RBD date' do
+      let(:params) do
+        ActionController::Parameters.new({ 'sort_by' => 'Days left to respond' })
+      end
+
+      it 'returns reject_by_default_date and updated_at descending' do
+        expect(page_state.sort_order).to eq({ reject_by_default_at: :desc, updated_at: :desc })
+      end
+    end
+
+    context 'when sort param is Last changed' do
+      let(:params) do
+        ActionController::Parameters.new({ 'sort_by' => 'Last changed' })
+      end
+
+      it 'returns updated_at descending' do
+        expect(page_state.sort_order).to eq({ updated_at: :desc })
+      end
+    end
+  end
+
+  describe '#sort_options' do
+    let(:params) { ActionController::Parameters.new }
+
+    subject(:page_state) { described_class.new(params: params, provider_user: provider_user) }
+
+    it 'returns an array of sort options' do
+      expect(page_state.sort_options).to eq(['Last changed', 'Days left to respond'])
+    end
+  end
 end
