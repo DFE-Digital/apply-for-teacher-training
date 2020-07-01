@@ -7,13 +7,13 @@ RSpec.feature 'Providers should be able to sort applications' do
   scenario 'viewing applications one page at a time' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
-    and_my_organisation_has_less_than_25_applications
+    and_my_organisation_has_fewer_than_15_applications
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_the_provider_applications_page
     then_i_should_not_see_a_paginator
 
-    given_my_organisation_has_more_than_25_applications
+    given_my_organisation_has_more_than_15_applications
     when_i_visit_the_provider_applications_page
     then_i_should_see_a_paginator
 
@@ -30,7 +30,7 @@ RSpec.feature 'Providers should be able to sort applications' do
     provider_user_exists_in_apply_database
   end
 
-  def and_my_organisation_has_less_than_25_applications
+  def and_my_organisation_has_fewer_than_15_applications
     current_provider = create(:provider, :with_signed_agreement, code: 'ABC')
 
     @course_option_one = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Alchemy', provider: current_provider))
@@ -59,10 +59,10 @@ RSpec.feature 'Providers should be able to sort applications' do
     expect(page).not_to have_content('Showing 1 to')
   end
 
-  def given_my_organisation_has_more_than_25_applications
+  def given_my_organisation_has_more_than_15_applications
     create_list(
       :application_choice,
-      25,
+      15,
       :awaiting_provider_decision,
       course_option: @course_option_one,
       application_form: create(:application_form),
@@ -91,7 +91,7 @@ RSpec.feature 'Providers should be able to sort applications' do
   def then_i_should_see_a_paginator_for_page_2
     expect(page).to have_link('Previous')
     expect(page).to have_link('1')
-    expect(page).to have_content('Showing 26 to')
+    expect(page).to have_content('Showing 16 to')
   end
 
   def then_i_should_not_see_a_paginator
