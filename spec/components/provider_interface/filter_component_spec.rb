@@ -98,4 +98,27 @@ RSpec.describe ProviderInterface::FilterComponent do
 
     expect(result.text).not_to include('Selected filters')
   end
+
+  it 'preserves sort order in filter tag links' do
+    page_state = ProviderInterface::ProviderApplicationsPageState.new(
+      params: ActionController::Parameters.new({ sort_by: 'Last changed' }),
+      provider_user: current_provider_user,
+    )
+
+    component = described_class.new(page_state: page_state)
+
+    expect(component.remove_checkbox_tag_link('status', 'accepted')).to include('sort_by=Last+changed')
+    expect(component.remove_search_tag_link('candidate_name')).to include('sort_by=Last+changed')
+  end
+
+  it 'preserves sort order in filtering form' do
+    page_state = ProviderInterface::ProviderApplicationsPageState.new(
+      params: ActionController::Parameters.new({ sort_by: 'Last changed' }),
+      provider_user: current_provider_user,
+    )
+
+    result = render_inline described_class.new(page_state: page_state)
+
+    expect(result.css('input[name=sort_by][type=hidden]').attr('value').value).to eq('Last changed')
+  end
 end

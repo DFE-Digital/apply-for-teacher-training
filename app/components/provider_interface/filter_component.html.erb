@@ -38,6 +38,8 @@
 
       <div class="moj-filter__options">
         <form method="get">
+          <%= hidden_field_tag :sort_by, page_state.sort_by %>
+
           <%= submit_tag "Apply filters", class: "govuk-button" %>
 
           <% filters.each do |filter, idx| %>
