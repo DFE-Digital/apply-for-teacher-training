@@ -4,13 +4,6 @@ module SupportInterface
   class PerformanceController < SupportInterfaceController
     def index; end
 
-    def application_timings
-      applications = SupportInterface::ApplicationsExport.new.applications
-      csv = to_csv(applications)
-
-      render plain: csv
-    end
-
     def submitted_application_choices
       choices = SupportInterface::ApplicationChoicesExport.new.application_choices
       csv = to_csv(choices)
