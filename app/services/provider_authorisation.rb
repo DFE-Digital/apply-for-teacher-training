@@ -6,8 +6,6 @@ class ProviderAuthorisation
   end
 
   def can_make_offer?(application_choice:, course_option_id:)
-    return true if @actor.is_a?(SupportUser)
-
     course_option = CourseOption.find(course_option_id)
     training_provider = course_option.provider
     ratifying_provider = course_option.course.accredited_provider
@@ -50,8 +48,6 @@ class ProviderAuthorisation
   end
 
   def can_manage_organisation?(provider:)
-    return true if @actor.is_a?(SupportUser)
-
     @actor.provider_permissions.exists?(provider: provider, manage_organisations: true)
   end
 
