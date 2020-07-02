@@ -20,6 +20,7 @@ module ProviderInterface
 
     def contextual_date
       return changed_at_date unless sort_by && sort_by == 'Days left to respond'
+      return changed_at_date unless application_choice.status == 'awaiting_provider_decision'
       return changed_at_date unless reject_by_default_in_future?
 
       return '1 day to respond' if days_to_respond == 1

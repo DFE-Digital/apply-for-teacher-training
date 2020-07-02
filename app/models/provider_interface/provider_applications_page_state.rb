@@ -28,9 +28,20 @@ module ProviderInterface
     end
 
     def sort_order
-      return { reject_by_default_at: :desc, updated_at: :desc } if sort_by == 'Days left to respond'
+      return { updated_at: :desc } if sort_by != 'Days left to respond'
 
-      { updated_at: :desc }
+      Arel.sql(
+        <<-ORDER_BY.strip_heredoc,
+        (
+          CASE
+            WHEN (status='awaiting_provider_decision' AND (DATE(reject_by_default_at) > NOW())) THEN 1
+            ELSE 0
+          END
+        ) DESC,
+        reject_by_default_at ASC,
+        application_choices.updated_at DESC
+        ORDER_BY
+      )
     end
 
   private

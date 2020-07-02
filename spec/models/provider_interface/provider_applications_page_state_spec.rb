@@ -122,7 +122,18 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       end
 
       it 'returns reject_by_default_date and updated_at descending' do
-        expect(page_state.sort_order).to eq({ reject_by_default_at: :desc, updated_at: :desc })
+        expect(page_state.sort_order).to eq(
+          <<-ORDER_BY.strip_heredoc,
+          (
+            CASE
+              WHEN (status='awaiting_provider_decision' AND (DATE(reject_by_default_at) > NOW())) THEN 1
+              ELSE 0
+            END
+          ) DESC,
+          reject_by_default_at ASC,
+          application_choices.updated_at DESC
+          ORDER_BY
+        )
       end
     end
 

@@ -41,7 +41,6 @@ RSpec.feature 'Providers should be able to sort applications' do
       :application_choice,
       :awaiting_provider_decision,
       course_option: course_option_one,
-      status: 'withdrawn',
       application_form: create(:application_form, first_name: 'Jim', last_name: 'James'),
       reject_by_default_at: 1.day.from_now,
       updated_at: 1.day.ago,
@@ -51,7 +50,6 @@ RSpec.feature 'Providers should be able to sort applications' do
       :application_choice,
       :awaiting_provider_decision,
       course_option: course_option_two,
-      status: 'offer',
       application_form: create(:application_form, first_name: 'Adam', last_name: 'Jones'),
       reject_by_default_at: 5.days.from_now,
       updated_at: 2.days.ago,
@@ -61,7 +59,6 @@ RSpec.feature 'Providers should be able to sort applications' do
       :application_choice,
       :awaiting_provider_decision,
       course_option: course_option_two,
-      status: 'offer',
       application_form: create(:application_form, first_name: 'Tom', last_name: 'Jones'),
       reject_by_default_at: 10.days.from_now,
       updated_at: 2.days.ago,
@@ -71,7 +68,6 @@ RSpec.feature 'Providers should be able to sort applications' do
       :application_choice,
       :awaiting_provider_decision,
       course_option: course_option_three,
-      status: 'declined',
       application_form: create(:application_form, first_name: 'Bill', last_name: 'Bones'),
       reject_by_default_at: 1.day.ago,
       updated_at: 3.days.ago,
@@ -98,8 +94,8 @@ RSpec.feature 'Providers should be able to sort applications' do
     cards = all('.app-application-card')
 
     within(cards[0]) do
-      expect(page).to have_content('Tom Jones')
-      expect(page).to have_content('10 days to respond')
+      expect(page).to have_content('Jim James')
+      expect(page).to have_content('1 day to respond')
     end
 
     within(cards[1]) do
@@ -108,8 +104,8 @@ RSpec.feature 'Providers should be able to sort applications' do
     end
 
     within(cards[2]) do
-      expect(page).to have_content('Jim James')
-      expect(page).to have_content('1 day to respond')
+      expect(page).to have_content('Tom Jones')
+      expect(page).to have_content('10 days to respond')
     end
 
     within(cards[3]) do
