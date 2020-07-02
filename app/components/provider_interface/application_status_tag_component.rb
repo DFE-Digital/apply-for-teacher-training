@@ -8,8 +8,6 @@ module ProviderInterface
     end
 
     def text
-      return t('provider_application_states.offer_withdrawn') if application_choice.offer_withdrawn?
-
       I18n.t!("provider_application_states.#{status}")
     end
 
@@ -25,7 +23,7 @@ module ProviderInterface
         :blue
       when 'recruited'
         :green
-      when 'rejected', 'conditions_not_met'
+      when 'rejected', 'conditions_not_met', 'offer_withdrawn'
         :orange
       when 'declined', 'withdrawn'
         :red

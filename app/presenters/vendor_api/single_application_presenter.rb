@@ -11,7 +11,7 @@ module VendorAPI
         type: 'application',
         attributes: {
           support_reference: application_form.support_reference,
-          status: application_choice.status,
+          status: status,
           phase: application_form.phase,
           updated_at: application_choice.updated_at.iso8601,
           submitted_at: application_form.submitted_at.iso8601,
@@ -54,6 +54,15 @@ module VendorAPI
   private
 
     attr_reader :application_choice, :application_form
+
+    # V2: for backwards compatibility `offer_withdrawn` state is displayed as `rejected` in the API.
+    def status
+      if application_choice.offer_withdrawn?
+        'rejected'
+      else
+        application_choice.status
+      end
+    end
 
     def get_rejection
       if application_choice.rejection_reason?

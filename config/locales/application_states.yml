@@ -158,6 +158,13 @@ en:
       description: |
         The provider has rejected the candidate’s application.
 
+    offer_withdrawn:
+      name: Offer withdrawn
+      description: |
+        The provider has made an offer but withdrew it later.
+
+        This is called `rejected` in the API.
+
     withdrawn:
       name: Withdrawn
       description: |
@@ -350,6 +357,15 @@ en:
         - provider_mailer-application_withdrawn
 
     rejected-make_offer:
+      name: Provider makes offer
+      by: provider
+      description: ""
+      emails:
+        - candidate_mailer-new_offer_single_offer
+        - candidate_mailer-new_offer_multiple_offers
+        - candidate_mailer-new_offer_decisions_pending
+
+    offer_withdrawn-make_offer:
       name: Provider makes offer
       by: provider
       description: ""

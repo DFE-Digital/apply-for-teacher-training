@@ -8,8 +8,6 @@ module CandidateInterface
     end
 
     def text
-      return t('candidate_application_states.offer_withdrawn') if application_choice.offer_withdrawn?
-
       t("candidate_application_states.#{application_choice.status}")
     end
 
@@ -21,7 +19,7 @@ module CandidateInterface
         :purple
       when 'offer'
         :turquoise
-      when 'rejected'
+      when 'rejected', 'offer_withdrawn'
         :pink
       when 'pending_conditions'
         :blue

@@ -17,7 +17,7 @@ Feature: successful application statuses
       | offer                      | candidate | accept                 | pending conditions         |
       | offer                      | candidate | decline                | declined                   |
       | offer                      | provider  | make offer             | offer                      |
-      | offer                      | provider  | reject                 | rejected                   |
+      | offer                      | provider  | reject                 | offer_withdrawn            |
       | rejected                   | provider  | make offer             | offer                      |
       | pending conditions         | provider  | confirm conditions met | recruited                  |
       | pending conditions         | candidate | withdraw               | withdrawn                  |

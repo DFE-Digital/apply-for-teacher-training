@@ -13,7 +13,7 @@ RSpec.describe FilterApplicationChoicesForProviders do
     let(:declined_application_choice) { create(:application_choice, :with_declined_offer, status: 'declined') }
     let(:application_withdrawn_application_choice) { create(:application_choice, status: 'withdrawn') }
     let(:conditions_not_met_application_choice) { create(:application_choice, status: 'conditions_not_met') }
-    let(:withdrawn_by_us_application_choice) { create(:application_choice, status: 'rejected', offer_withdrawn_at: 2.days.ago) }
+    let(:withdrawn_by_us_application_choice) { create(:application_choice, status: 'offer_withdrawn', offer_withdrawn_at: 2.days.ago) }
 
     context 'when filtering by status' do
       let(:application_choices) { ApplicationChoice.all }
@@ -46,24 +46,6 @@ RSpec.describe FilterApplicationChoicesForProviders do
 
           expect(returned_application_choices).to eq([ordered_expected_application_choices[index]])
         end
-      end
-
-      it 'combined Submitted and Rejected filters return submitted and rejected application choices' do
-        filters = { status: %w[awaiting_provider_decision rejected] }
-        returned_application_choices = described_class.call(
-          application_choices: application_choices,
-          filters: filters,
-        )
-        expect(returned_application_choices).to match_array([submitted_application_choice, rejected_application_choice])
-      end
-
-      it 'combined Submitted and Offer withdrawn filters return submitted and withdrawn application choices' do
-        filters = { status: %w[awaiting_provider_decision offer_withdrawn] }
-        returned_application_choices = described_class.call(
-          application_choices: application_choices,
-          filters: filters,
-        )
-        expect(returned_application_choices).to match_array([submitted_application_choice, withdrawn_by_us_application_choice])
       end
     end
   end

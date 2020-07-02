@@ -1,8 +1,2 @@
-<% if offer_withdrawn_at %>
-  <h2 class="govuk-heading-l">Offer</h2>
-  <%= render SummaryListComponent.new(rows: offer_withdrawn_rows) %>
-  <%= render ProviderInterface::ConditionsComponent.new(application_choice: application_choice) %>
-<% else %>
-  <h2 class="govuk-heading-l">Candidate’s application rejected</h2>
-  <%= render SummaryListComponent.new(rows: rejected_rows) %>
-<% end %>
+<h2 class="govuk-heading-l">Candidate’s application rejected</h2>
+<%= render SummaryListComponent.new(rows: rejected_rows) %>

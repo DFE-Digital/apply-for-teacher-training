@@ -1,6 +1,6 @@
 module ProviderInterface
   module StatusBoxComponents
-    class RejectedComponent < ViewComponent::Base
+    class OfferWithdrawnComponent < ViewComponent::Base
       include ViewHelper
       include StatusBoxComponents::CourseRows
 
@@ -12,21 +12,21 @@ module ProviderInterface
       end
 
       def render?
-        application_choice.rejected? || \
+        application_choice.offer_withdrawn? || \
           raise(ProviderInterface::StatusBoxComponent::ComponentMismatchError)
       end
 
-      def rejected_rows
+      def offer_withdrawn_at
+        application_choice.offer_withdrawn_at.to_s(:govuk_date)
+      end
+
+      def offer_withdrawn_rows
         [
           {
-            key: 'Status',
-            value: render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice)),
+            key: 'Offer withdrawn',
+            value: offer_withdrawn_at,
           },
-          {
-            key: 'Application rejected',
-            value: application_choice.rejected_at.to_s(:govuk_date),
-          },
-        ]
+        ] + course_rows(course_option: application_choice.offered_option)
       end
     end
   end
