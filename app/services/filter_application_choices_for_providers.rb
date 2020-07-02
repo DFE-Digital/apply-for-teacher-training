@@ -17,15 +17,7 @@ class FilterApplicationChoicesForProviders
     def status(application_choices, statuses)
       return application_choices if statuses.blank?
 
-      filtered_application_choices = application_choices.where(status: statuses)
-
-      if statuses.include?('offer_withdrawn')
-        filtered_application_choices = filtered_application_choices.or(application_choices.offer_withdrawn)
-      elsif statuses.include?('rejected')
-        filtered_application_choices = filtered_application_choices.where(offer_withdrawn_at: nil)
-      end
-
-      filtered_application_choices
+      application_choices.where(status: statuses)
     end
 
     def provider(application_choices, providers)

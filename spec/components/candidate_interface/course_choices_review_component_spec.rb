@@ -269,7 +269,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       create(
         :application_choice,
         application_form: application_form,
-        status: 'rejected',
+        status: 'offer_withdrawn',
         offer_withdrawn_at: Time.zone.now,
         offer_withdrawal_reason: 'Course full',
       )

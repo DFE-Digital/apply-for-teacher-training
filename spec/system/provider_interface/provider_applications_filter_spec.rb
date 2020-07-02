@@ -203,7 +203,7 @@ RSpec.feature 'Providers should be able to filter applications' do
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_seven, status: 'declined', application_form:
            create(:application_form, first_name: 'Luke', last_name: 'Smith'), updated_at: 7.days.ago)
 
-    create(:application_choice, :awaiting_provider_decision, course_option: course_option_two, status: 'rejected', offer_withdrawn_at: 2.days.ago, application_form:
+    create(:application_choice, :awaiting_provider_decision, course_option: course_option_two, status: 'offer_withdrawn', offer_withdrawn_at: 2.days.ago, application_form:
            create(:application_form, first_name: 'John', last_name: 'Smith'), updated_at: 8.days.ago)
   end
 

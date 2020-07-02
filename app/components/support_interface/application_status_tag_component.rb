@@ -23,7 +23,7 @@ module SupportInterface
         :blue
       when 'recruited'
         :green
-      when 'conditions_not_met', 'declined', 'rejected', 'withdrawn', 'cancelled'
+      when 'conditions_not_met', 'declined', 'rejected', 'offer_withdrawn', 'withdrawn', 'cancelled'
         :red
       when 'enrolled'
         :default

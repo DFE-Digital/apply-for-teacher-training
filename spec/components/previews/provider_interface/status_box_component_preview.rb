@@ -39,11 +39,11 @@ module ProviderInterface
     end
 
     def application_withdrawn
-      render_component_for choices: ApplicationChoice.where(status: :withdrawn, offer_withdrawn_at: nil)
+      render_component_for choices: ApplicationChoice.where(status: :withdrawn)
     end
 
     def offer_withdrawn
-      render_component_for choices: ApplicationChoice.where(status: :rejected).where.not(offer_withdrawn_at: nil)
+      render_component_for choices: ApplicationChoice.where(status: :offer_withdrawn)
     end
 
   private

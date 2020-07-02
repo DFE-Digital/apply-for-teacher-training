@@ -26,16 +26,11 @@ class ApplicationChoice < ApplicationRecord
     recruited: 'recruited',
     enrolled: 'enrolled',
     rejected: 'rejected',
+    offer_withdrawn: 'offer_withdrawn',
     declined: 'declined',
     withdrawn: 'withdrawn',
     conditions_not_met: 'conditions_not_met',
   }
-
-  scope :offer_withdrawn, -> { where(status: 'rejected').where.not(offer_withdrawn_at: nil) }
-
-  def offer_withdrawn?
-    rejected? && !offer_withdrawn_at.nil?
-  end
 
   def offered_option
     offered_course_option || course_option

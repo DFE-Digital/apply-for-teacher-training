@@ -8,7 +8,7 @@ RSpec.describe WithdrawOffer do
       withdrawal_reason = 'We are so sorry...'
       WithdrawOffer.new(application_choice: application_choice, offer_withdrawal_reason: withdrawal_reason).save
 
-      expect(application_choice.reload.status).to eq 'rejected'
+      expect(application_choice.reload.status).to eq 'offer_withdrawn'
     end
 
     it 'does not change the state of the application_choice to "rejected" without a valid reason' do

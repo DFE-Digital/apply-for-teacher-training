@@ -6,10 +6,10 @@ RSpec.describe ApplicationStateChange do
       expect(ApplicationStateChange.valid_states)
         .to match_array(I18n.t('application_states').keys)
 
-      expect(ApplicationStateChange.valid_states + [:offer_withdrawn])
+      expect(ApplicationStateChange.valid_states)
         .to match_array(I18n.t('candidate_application_states').keys)
 
-      expect(ApplicationStateChange.valid_states + [:offer_withdrawn])
+      expect(ApplicationStateChange.valid_states)
         .to match_array(I18n.t('provider_application_states').keys)
     end
 
@@ -23,7 +23,7 @@ RSpec.describe ApplicationStateChange do
     it 'has corresponding entries in the OpenAPI spec' do
       valid_states_in_openapi = VendorAPISpecification.as_hash['components']['schemas']['ApplicationAttributes']['properties']['status']['enum']
 
-      expect(ApplicationStateChange.states_visible_to_provider)
+      expect(ApplicationStateChange.states_visible_to_provider - %i[offer_withdrawn])
         .to match_array(valid_states_in_openapi.map(&:to_sym))
     end
   end
