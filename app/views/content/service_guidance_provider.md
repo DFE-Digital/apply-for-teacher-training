@@ -64,7 +64,7 @@ Onboarding is quick and easy, usually taking place over a single working day.
 We’re available to give you full support at every stage.
 
 ##<a name="using-the-service"></a>Using the service
-[Manage teacher training applications](https://www.apply-for-teacher-training.education.gov.uk/provider) allows you to process applications from submission through to unconditional offer.
+[Manage teacher training applications](https://www.apply-for-teacher-training.education.gov.uk/provider) allows you to process applications from submission through to offer.
 
 ###Viewing applications
 

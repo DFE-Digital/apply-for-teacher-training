@@ -5,7 +5,7 @@
 
 <% conditions = capture do %>
   <% if @application_offer.offer_conditions.empty? %>
-    Unconditional offer
+    No conditions have been set for this offer
   <% else %>
     <ul class="govuk-list govuk-list--bullet">
       <% @application_offer.offer_conditions.each do |value| %>
