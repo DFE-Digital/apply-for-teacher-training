@@ -149,8 +149,18 @@ RSpec.describe GetApplicationChoicesForProviders do
 
   it 'returns application choices for courses in this recruitment cycle only' do
     current_provider = create(:provider)
+    provider_we_ratify = create(:provider)
+
     course_option_for_this_cycle = course_option_for_provider(provider: current_provider)
     course_option_for_past_cycle = course_option_for_provider(provider: current_provider).tap do |option|
+      option.course.update!(recruitment_cycle_year: 2016)
+      option.reload
+    end
+
+    ratified_course_option_for_past_cycle = course_option_for_accredited_provider(
+      provider: provider_we_ratify,
+      accredited_provider: current_provider,
+    ).tap do |option|
       option.course.update!(recruitment_cycle_year: 2016)
       option.reload
     end
@@ -167,9 +177,16 @@ RSpec.describe GetApplicationChoicesForProviders do
       course_option: course_option_for_past_cycle,
     )
 
+    ratified_choice_for_past_cycle = create(
+      :application_choice,
+      :awaiting_provider_decision,
+      course_option: ratified_course_option_for_past_cycle,
+    )
+
     returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider)
 
     expect(returned_applications.map(&:id)).to include(choice_for_this_cycle.id)
     expect(returned_applications.map(&:id)).not_to include(choice_for_past_cycle.id)
+    expect(returned_applications.map(&:id)).not_to include(ratified_choice_for_past_cycle.id)
   end
 end
