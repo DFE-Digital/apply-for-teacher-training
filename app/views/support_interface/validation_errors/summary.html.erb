@@ -1,0 +1,26 @@
+<% content_for :title, 'Validation error summary' %>
+
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-half"></th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Error count</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Unique users</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+  <% @validation_error_summary.each do |label, counts| %>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">
+        <%= label.to_s.humanize %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= counts[:incidents] %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= counts[:distinct_users] %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

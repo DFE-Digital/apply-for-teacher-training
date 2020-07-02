@@ -13,6 +13,35 @@ module SupportInterface
         .page(params[:page] || 1)
     end
 
+    def summary
+      @validation_error_summary = ValidationErrorSummary.new.call
+    end
+
+    class ValidationErrorSummary
+      COUNT_QUERY =
+        'SELECT COUNT(*) AS incidents, COUNT(DISTINCT user_id) AS distinct_users
+        FROM validation_errors
+        WHERE created_at > $1'.freeze
+
+      def call
+        {
+          last_week: errors_since(1.week.ago),
+          last_month: errors_since(1.month.ago),
+          all_time: errors_since(Time.zone.local(2000, 1, 1)),
+        }
+      end
+
+    private
+
+      def errors_since(start_date)
+        ActiveRecord::Base.connection.exec_query(
+          COUNT_QUERY,
+          'SQL',
+          [[nil, start_date]],
+        ).first.with_indifferent_access
+      end
+    end
+
     class ValidationErrorSearch
       def self.search(params)
         scope = ValidationError
@@ -24,20 +53,4 @@ module SupportInterface
       end
     end
   end
-
-  # Per calendar month stats
-  # SELECT
-  #   EXTRACT(month FROM created_at) AS month,
-  #   EXTRACT(year FROM created_at) AS year,
-  #   COUNT(*) AS incidents,
-  #   COUNT(DISTINCT user_id) AS distinct_users
-  # FROM validation_errors
-  # GROUP BY month, year;
-  #
-  # Last week (etc.)
-  # SELECT
-  #   COUNT(*) AS incidents,
-  #   COUNT(DISTINCT user_id) AS distinct_users
-  # FROM validation_errors
-  # WHERE created_at > date_trunc('day', NOW() - interval '1 week');
 end
