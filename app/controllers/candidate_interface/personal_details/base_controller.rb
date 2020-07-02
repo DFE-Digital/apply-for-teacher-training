@@ -24,7 +24,13 @@ module CandidateInterface
       def show
         @application_form = current_application
         personal_details_form = PersonalDetailsForm.build_from_application(current_application)
-        @personal_details_review = PersonalDetailsReviewPresenter.new(form: personal_details_form)
+        nationalities_form = NationalitiesForm.build_from_application(current_application)
+        languages_form = LanguagesForm.build_from_application(current_application)
+        @personal_details_review = PersonalDetailsReviewPresenter.new(
+          personal_details_form: personal_details_form,
+          nationalities_form: nationalities_form,
+          languages_form: languages_form,
+        )
       end
 
       def complete
