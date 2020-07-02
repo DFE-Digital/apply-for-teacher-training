@@ -47,10 +47,7 @@ module SupportInterface
 
     def applications_export_for_ucas
       if HostingEnvironment.production?
-        # The unauthorized page expects an instance var that's only set in
-        # the dfe_sign_in_controller
-        @dfe_sign_in_user = dfe_sign_in_user
-        render 'support_interface/unauthorized', status: :forbidden
+        render_404
       else
         applications = ApplicationsExportForUCAS.new.applications
         header_row = ApplicationsExportForUCAS.csv_header(applications)

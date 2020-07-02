@@ -13,7 +13,7 @@ RSpec.feature 'Exporting applications for UCAS as CSV' do
 
     given_i_am_a_support_user
     and_if_i_try_to_download_it_directly
-    then_i_should_get_a_forbidden_error
+    then_i_should_get_a_404
 
     when_i_am_on_a_test_environment
     and_i_visit_the_service_performance_page
@@ -56,8 +56,8 @@ RSpec.feature 'Exporting applications for UCAS as CSV' do
     visit support_interface_applications_export_for_ucas_path
   end
 
-  def then_i_should_get_a_forbidden_error
-    expect(page.status_code).to eq(403)
+  def then_i_should_get_a_404
+    expect(page.status_code).to eq(404)
   end
 
   def when_i_click_on_download_dataset_1
