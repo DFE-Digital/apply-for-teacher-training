@@ -134,7 +134,7 @@ RSpec.feature 'Vendor receives the application' do
               id: @application.qualification_in_subject(:degree, 'Doge').id,
               qualification_type: 'BA',
               subject: 'Doge',
-              grade: 'first',
+              grade: 'First class honours',
               start_year: '2006',
               award_year: '2009',
               institution_details: 'University of Much Wow',

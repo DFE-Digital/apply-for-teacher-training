@@ -4,6 +4,7 @@ RSpec.feature 'Entering their degrees' do
   include CandidateHelper
 
   scenario 'Candidate submits their degrees' do
+    given_the_hesa_data_feature_flag_is_active
     given_i_am_signed_in
     and_i_visit_the_site
     when_i_click_on_degree
@@ -109,6 +110,10 @@ RSpec.feature 'Entering their degrees' do
     then_i_can_check_my_answers
   end
 
+  def given_the_hesa_data_feature_flag_is_active
+    FeatureFlag.activate :hesa_degree_data
+  end
+
   def given_i_am_signed_in
     create_and_sign_in_candidate
   end
@@ -174,7 +179,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_select_the_degree_grade
-    choose 'First'
+    choose 'First class honours'
   end
 
   def then_i_can_see_the_start_and_graduation_year_page
@@ -312,7 +317,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_see_my_undergraduate_degree_grade_filled_in
-    expect(page).to have_selector("input[value='first']")
+    expect(page).to have_selector("input[value='First class honours']")
   end
 
   def when_i_change_my_undergraduate_degree_type
@@ -333,7 +338,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_change_my_undergraduate_degree_grade
-    choose t('application_form.degree.grade.lower_second.label')
+    choose 'Lower second-class honours'
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_type
@@ -354,7 +359,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_grade
-    expect(page).to have_content t('application_form.degree.grade.lower_second.label')
+    expect(page).to have_content 'Lower second-class honours'
   end
 
   def when_i_mark_this_section_as_completed
