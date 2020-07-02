@@ -1,0 +1,21 @@
+<div class="govuk-form-group govuk-!-margin-bottom-2">
+  <form method="get">
+    <% page_state.applied_filters.each do |k,v| %>
+      <% if v.is_a?(Array) %>
+        <% v.each do |val| %>
+          <%= hidden_field_tag "#{k}[]", val %>
+        <% end %>
+      <% else %>
+        <%= hidden_field_tag "#{k}", v %>
+      <% end %>
+    <% end %>
+    <label class="govuk-label govuk-visually-hidden" for="sort_by">Sorted by</label>
+    <%= select_tag(
+      :sort_by,
+      options_for_select(page_state.sort_options, selected: page_state.sort_by),
+      id: "sort_by",
+      class: "govuk-select sortby-selector",
+    ) %>
+    <%= submit_tag 'Sort', class: 'govuk-button govuk-buton--secondary govuk-!-margin-bottom-2', data: { module: 'govuk-button' } %>
+  </form>
+</div>
