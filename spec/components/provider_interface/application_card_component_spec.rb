@@ -4,37 +4,49 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
   include CourseOptionHelpers
 
   let(:current_provider) do
-    create(:provider,
-           :with_signed_agreement,
-           code: 'ABC',
-           name: 'Hoth Teacher Training')
+    create(
+      :provider,
+      :with_signed_agreement,
+      code: 'ABC',
+      name: 'Hoth Teacher Training',
+    )
   end
 
   let(:accredited_provider) do
-    create(:provider,
-           :with_signed_agreement,
-           code: 'XYZ',
-           name: 'Yavin University')
+    create(
+      :provider,
+      :with_signed_agreement,
+      code: 'XYZ',
+      name: 'Yavin University',
+    )
   end
 
   let(:course_option) do
-    course_option_for_provider(provider: current_provider,
-                               course: create(:course,
-                                              name: 'Alchemy',
-                                              provider: current_provider,
-                                              accredited_provider: accredited_provider))
+    course_option_for_provider(
+      provider: current_provider,
+      course: create(
+        :course,
+        name: 'Alchemy',
+        provider: current_provider,
+        accredited_provider: accredited_provider,
+      ),
+    )
   end
 
   let(:application_choice) do
-    create(:application_choice,
-           :awaiting_provider_decision,
-           course_option: course_option,
-           status: 'withdrawn',
-           application_form: create(:application_form,
-                                    first_name: 'Jim',
-                                    last_name: 'James'),
-           site: create(:site, code: 'L123', name: 'Skywalker Training'),
-           updated_at: Date.parse('25-03-2020'))
+    create(
+      :application_choice,
+      :awaiting_provider_decision,
+      course_option: course_option,
+      status: 'withdrawn',
+      application_form: create(
+        :application_form,
+        first_name: 'Jim',
+        last_name: 'James',
+      ),
+      site: create(:site, code: 'L123', name: 'Skywalker Training'),
+      updated_at: Date.parse('25-03-2020'),
+    )
   end
 
   let(:note) do
@@ -86,20 +98,29 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
 
     context 'when there is no accredited provider' do
       let(:course_option_without_accredited_provider) do
-        course_option_for_provider(provider: current_provider,
-                                   course: create(:course,
-                                                  name: 'Baking',
-                                                  provider: current_provider))
+        course_option_for_provider(
+          provider: current_provider,
+          course: create(
+            :course,
+            name: 'Baking',
+            provider: current_provider,
+          ),
+        )
       end
 
       let(:application_choice_without_accredited_provider) do
-        create(:application_choice,
-               :awaiting_provider_decision,
-               course_option: course_option_without_accredited_provider,
-               status: 'withdrawn', application_form: create(:application_form,
-                                                             first_name: 'Jim',
-                                                             last_name: 'James'),
-               updated_at: Date.parse('25-03-2020'))
+        create(
+          :application_choice,
+          :awaiting_provider_decision,
+          course_option: course_option_without_accredited_provider,
+          status: 'withdrawn',
+          application_form: create(
+            :application_form,
+            first_name: 'Jim',
+            last_name: 'James',
+          ),
+          updated_at: Date.parse('25-03-2020'),
+        )
       end
 
       let(:result) { render_inline described_class.new(application_choice: application_choice_without_accredited_provider) }
