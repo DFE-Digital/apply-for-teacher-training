@@ -1,6 +1,4 @@
 class ProviderAuthorisation
-  PERMISSION_METHOD_REGEXP = /^can_(\w+)\?$/.freeze
-
   def initialize(actor:)
     @actor = actor
   end
@@ -55,13 +53,10 @@ class ProviderAuthorisation
     @actor.provider_permissions.exists?(provider: provider, manage_organisations: true)
   end
 
-  # automatically generates assert_can...! methods e.g. #assert_can_make_offer! for #can_make_offer?
-  instance_methods.select { |m| m.match PERMISSION_METHOD_REGEXP }.each do |method|
-    permission_name = method.to_s.scan(PERMISSION_METHOD_REGEXP).last.first
+  def assert_can_make_offer!(application_choice:, course_option_id:)
+    return if can_make_offer?(application_choice: application_choice, course_option_id: course_option_id)
 
-    define_method("assert_can_#{permission_name}!") do |**keyword_args|
-      raise(ProviderAuthorisation::NotAuthorisedError, method.to_s) unless send(method, **keyword_args)
-    end
+    raise NotAuthorisedError, 'You are not allowed to make this offer'
   end
 
   class NotAuthorisedError < StandardError; end
