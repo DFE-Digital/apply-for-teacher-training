@@ -2,10 +2,4 @@ Dear <%= @provider_user.full_name || 'colleague' %>
 
 # Offer declined
 
-<%= @application_choice.application_form.full_name %> has declined your offer to study <%= @application_choice.course.name_and_code %>.
-
-# Get help, give feedback or report a problem
-
-For an overview of Manage teacher training applications, see our [Service guidance](https://www.apply-for-teacher-training.education.gov.uk/provider/service-guidance). 
-
-You can also contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
+<%= @application_choice.application_form.full_name %> has declined your offer to study <%= @application_choice.offered_course.name_and_code %>.
