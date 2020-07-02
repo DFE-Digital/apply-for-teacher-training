@@ -25,6 +25,7 @@ en:
     unprocessable_entity: Sorry, there is a problem with the service
     personal_details: Personal details
     nationalities: What is your nationality?
+    languages: Languages
     review_application: Review your application
     data_sharing_agreement: Data sharing agreement
     accessibility: Accessibility statement
