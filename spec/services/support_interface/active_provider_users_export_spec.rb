@@ -10,7 +10,7 @@ RSpec.describe SupportInterface::ActiveProviderUsersExport do
       provider_user3 = create(:provider_user, providers: [provider1, provider2], last_signed_in_at: 5.days.ago)
       create(:provider_user, providers: [provider1])
 
-      expect(described_class.call).to eq([
+      expect(described_class.call).to match_array([
         {
           name: provider_user1.full_name,
           email_address: provider_user1.email_address,
