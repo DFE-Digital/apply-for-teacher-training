@@ -101,14 +101,6 @@ class ApplicationChoice < ApplicationRecord
     ].any?
   end
 
-  def edit_by
-    raise '`ApplicationChoice#edit_by` has been removed. Use `ApplicationForm#edit_by`.'
-  end
-
-  def edit_by=(_)
-    raise '`ApplicationChoice#edit_by=` has been removed. Use `ApplicationForm#edit_by=`.'
-  end
-
 private
 
   def generate_alphanumeric_id

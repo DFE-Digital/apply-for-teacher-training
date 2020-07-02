@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_01_072718) do
+ActiveRecord::Schema.define(version: 2020_07_02_131703) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -24,7 +24,6 @@ ActiveRecord::Schema.define(version: 2020_07_01_072718) do
     t.json "offer"
     t.string "rejection_reason"
     t.bigint "course_option_id", null: false
-    t.datetime "edit_by"
     t.datetime "reject_by_default_at"
     t.boolean "rejected_by_default", default: false, null: false
     t.integer "reject_by_default_days"
