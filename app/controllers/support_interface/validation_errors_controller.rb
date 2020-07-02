@@ -14,32 +14,7 @@ module SupportInterface
     end
 
     def summary
-      @validation_error_summary = ValidationErrorSummary.new.call
-    end
-
-    class ValidationErrorSummary
-      COUNT_QUERY =
-        'SELECT COUNT(*) AS incidents, COUNT(DISTINCT user_id) AS distinct_users
-        FROM validation_errors
-        WHERE created_at > $1'.freeze
-
-      def call
-        {
-          last_week: errors_since(1.week.ago),
-          last_month: errors_since(1.month.ago),
-          all_time: errors_since(Time.zone.local(2000, 1, 1)),
-        }
-      end
-
-    private
-
-      def errors_since(start_date)
-        ActiveRecord::Base.connection.exec_query(
-          COUNT_QUERY,
-          'SQL',
-          [[nil, start_date]],
-        ).first.with_indifferent_access
-      end
+      @validation_error_summary = ValidationErrorSummaryQuery.new.call
     end
 
     class ValidationErrorSearch
