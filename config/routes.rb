@@ -527,6 +527,7 @@ Rails.application.routes.draw do
   end
 
   get '/auth/dfe/callback' => 'dfe_sign_in#callback'
+  get '/auth/dfe/sign-out' => 'dfe_sign_in#callback_after_signout'
   post '/auth/developer/callback' => 'dfe_sign_in#bypass_callback'
 
   namespace :integrations, path: '/integrations' do

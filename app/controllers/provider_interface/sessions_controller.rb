@@ -10,9 +10,7 @@ module ProviderInterface
     end
 
     def destroy
-      DfESignInUser.end_session!(session)
-
-      redirect_to action: :new
+      redirect_to dfe_sign_in_user.provider_interface_logout_url
     end
 
     def sign_in_by_email
