@@ -3,7 +3,7 @@ trigger:
   branches:
     include:
       - "*"
-  # excluding CI trigger for these paths as this build will be trigged as downstream build after creating base packages image.
+  # excluding these paths as this build will be trigged after gems-node-modules-image build is completed.
   paths:
     exclude:
       - Gemfile
@@ -15,6 +15,8 @@ pr:
   branches:
     include:
       - master
+  # excluding these paths as this build will be trigged after gems-node-modules-image build is completed.
+  paths:
     exclude:
       - Gemfile
       - Gemfile.lock
