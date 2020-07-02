@@ -10,12 +10,11 @@ module CandidateInterface
       def update
         @application_form = current_application
         @personal_details_form = PersonalDetailsForm.new(personal_details_params)
-        @personal_details_review = PersonalDetailsReviewPresenter.new(form: @personal_details_form)
 
         if @personal_details_form.save(current_application)
           current_application.update!(personal_details_completed: false)
 
-          render :show
+          redirect_to candidate_interface_nationalities_path
         else
           track_validation_error(@personal_details_form)
           render :edit
@@ -40,9 +39,6 @@ module CandidateInterface
         params.require(:candidate_interface_personal_details_form).permit(
           :first_name, :last_name,
           :"date_of_birth(3i)", :"date_of_birth(2i)", :"date_of_birth(1i)",
-          :first_nationality, :second_nationality,
-          :english_main_language,
-          :english_language_details, :other_language_details
         )
           .transform_keys { |key| dob_field_to_attribute(key) }
           .transform_values(&:strip)

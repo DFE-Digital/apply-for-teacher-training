@@ -65,9 +65,11 @@ Rails.application.routes.draw do
 
       scope '/personal-details' do
         get '/' => 'personal_details/base#edit', as: :personal_details_edit
-        post '/' => 'personal_details/base#complete', as: :personal_details_complete
         post '/review' => 'personal_details/base#update', as: :personal_details_update
+        get '/nationalities' => 'personal_details/nationalities#edit', as: :nationalities
+        post '/nationalities' => 'personal_details/nationalities#update'
         get '/review' => 'personal_details/base#show', as: :personal_details_show
+        post '/' => 'personal_details/base#complete', as: :personal_details_complete
       end
 
       scope '/personal-statement' do
