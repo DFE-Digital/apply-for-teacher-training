@@ -24,4 +24,20 @@ module SupportInterface
       end
     end
   end
+
+  # Per calendar month stats
+  # SELECT
+  #   EXTRACT(month FROM created_at) AS month,
+  #   EXTRACT(year FROM created_at) AS year,
+  #   COUNT(*) AS incidents,
+  #   COUNT(DISTINCT user_id) AS distinct_users
+  # FROM validation_errors
+  # GROUP BY month, year;
+  #
+  # Last week (etc.)
+  # SELECT
+  #   COUNT(*) AS incidents,
+  #   COUNT(DISTINCT user_id) AS distinct_users
+  # FROM validation_errors
+  # WHERE created_at > date_trunc('day', NOW() - interval '1 week');
 end
