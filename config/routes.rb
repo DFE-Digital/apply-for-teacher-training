@@ -64,8 +64,10 @@ Rails.application.routes.draw do
       get '/submit-success' => 'application_form#submit_success', as: :application_submit_success
 
       scope '/personal-details' do
-        get '/' => 'personal_details/base#edit', as: :personal_details_edit
-        post '/review' => 'personal_details/base#update', as: :personal_details_update
+        get '/' => 'personal_details/base#new', as: :personal_details_new
+        post '/' => 'personal_details/base#create', as: :personal_details_create
+        get '/edit' => 'personal_details/base#edit', as: :personal_details_edit
+        post '/edit' => 'personal_details/base#update', as: :personal_details_update
         get '/nationalities' => 'personal_details/nationalities#edit', as: :nationalities
         post '/nationalities' => 'personal_details/nationalities#update'
         get '/languages' => 'personal_details/languages#edit', as: :languages
