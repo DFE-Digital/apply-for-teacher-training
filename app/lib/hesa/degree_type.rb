@@ -4,6 +4,10 @@ module Hesa
       def shortest_display_name
         abbreviation || name
       end
+
+      def bachelor?
+        level == :bachelor
+      end
     end
     UNDERGRADUATE_LEVELS = %i[bachelor master].freeze
 

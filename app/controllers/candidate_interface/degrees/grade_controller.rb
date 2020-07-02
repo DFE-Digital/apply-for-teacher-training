@@ -42,11 +42,13 @@ module CandidateInterface
       end
 
       def set_main_grades
-        @main_grades = Hesa::Grade.main.map(&:description)
+        @main_grades = Hesa::Grade.grouping_for(
+          degree_type_code: degree.qualification_type_hesa_code,
+        ).map(&:description)
       end
 
       def set_other_grades
-        @other_grades = Hesa::Grade.other.map(&:description)
+        @other_grades = Hesa::Grade.other_grouping.map(&:description)
       end
 
       def grade_params
