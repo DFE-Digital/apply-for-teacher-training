@@ -21,7 +21,7 @@ RSpec.feature 'Entering their personal details' do
     and_i_submit_the_form
     then_i_see_the_languages_page
 
-    when_i_choose_that_english_is_my_primary_lanuage
+    when_i_choose_that_english_is_my_primary_language
     and_i_submit_the_form
     then_i_can_check_my_answers
 
@@ -94,20 +94,20 @@ RSpec.feature 'Entering their personal details' do
     expect(page).to have_current_path candidate_interface_languages_path
   end
 
-  def when_i_choose_that_english_is_my_primary_lanuage
+  def when_i_choose_that_english_is_my_primary_language
     choose 'Yes'
-    fill_in t('english_main_language.yes_label', scope: scope), with: "I'm great at Galactic Basic so English is a piece of cake", match: :prefer_exact
+    fill_in t('english_main_language.yes_label', scope: @scope), with: "I'm great at Galactic Basic so English is a piece of cake", match: :prefer_exact
   end
 
   def then_i_can_check_my_answers
     expect(page).to have_content 'Name'
     expect(page).to have_content 'Lando Calrissian'
-    expect(pape).to have_content 'British and American'
-    expect(pape).to have_content "I'm great at Galactic Basic so English is a piece of cake"
+    expect(page).to have_content 'British and American'
+    expect(page).to have_content "I'm great at Galactic Basic so English is a piece of cake"
   end
 
   def when_i_click_to_change_my_answer
-    first('.govuk-summary-list__actions').click_link 'Change'
+    click_link 'Change', match: :first
   end
 
   def and_i_fill_in_a_different_answer
