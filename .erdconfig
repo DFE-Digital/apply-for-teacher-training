@@ -6,3 +6,4 @@ filename: docs/domain-model
 filetype: png
 title: Apply for teacher training - domain model
 inheritance: true
+exclude: Audited::Audit
