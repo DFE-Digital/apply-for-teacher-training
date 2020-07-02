@@ -68,6 +68,8 @@ Rails.application.routes.draw do
         post '/review' => 'personal_details/base#update', as: :personal_details_update
         get '/nationalities' => 'personal_details/nationalities#edit', as: :nationalities
         post '/nationalities' => 'personal_details/nationalities#update'
+        get '/languages' => 'personal_details/languages#edit', as: :languages
+        post '/languages' => 'personal_details/languages#update'
         get '/review' => 'personal_details/base#show', as: :personal_details_show
         post '/' => 'personal_details/base#complete', as: :personal_details_complete
       end
