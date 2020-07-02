@@ -71,6 +71,16 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
     expect(error_response['message']).to eql('Parameter is invalid (should be ISO8601): since')
   end
 
+  it 'returns HTTP status 422 given a parseable but nonsensensical `since` date value' do
+    get_api_request '/api/v1/applications?since=-004713-03-23T11:52:19.448Z' # this happened
+
+    expect(response).to have_http_status(422)
+
+    expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+
+    expect(error_response['message']).to eql('Parameter is invalid (date is nonsense): since')
+  end
+
   it 'returns applications that are in a viewable state' do
     create_list(
       :submitted_application_choice,
