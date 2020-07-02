@@ -12,7 +12,9 @@ class ProviderMailerPreview < ActionMailer::Preview
   end
 
   def chase_provider_decision_after_twenty_working_days
-    ProviderMailer.chase_provider_decision(provider_user, application_choice)
+    choice = application_choice
+    choice.update(reject_by_default_at: 20.business_days.from_now)
+    ProviderMailer.chase_provider_decision(provider_user, choice)
   end
 
   def offer_accepted
