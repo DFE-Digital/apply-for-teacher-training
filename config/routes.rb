@@ -68,8 +68,10 @@ Rails.application.routes.draw do
         post '/' => 'personal_details/base#create', as: :personal_details_create
         get '/edit' => 'personal_details/base#edit', as: :personal_details_edit
         post '/edit' => 'personal_details/base#update', as: :personal_details_update
-        get '/nationalities' => 'personal_details/nationalities#edit', as: :nationalities
-        post '/nationalities' => 'personal_details/nationalities#update'
+        get '/nationalities' => 'personal_details/nationalities#new', as: :nationalities
+        post '/nationalities' => 'personal_details/nationalities#create'
+        get '/nationalities/edit' => 'personal_details/nationalities#edit', as: :edit_nationalities
+        post '/nationalities/edit' => 'personal_details/nationalities#update'
         get '/languages' => 'personal_details/languages#edit', as: :languages
         post '/languages' => 'personal_details/languages#update'
         get '/review' => 'personal_details/review#show', as: :personal_details_show

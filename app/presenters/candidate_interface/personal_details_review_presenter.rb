@@ -43,7 +43,7 @@ module CandidateInterface
         key: I18n.t('application_form.personal_details.nationality.label'),
         value: formatted_nationalities,
         action: ('nationality' if @editable),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_nationalities_path,
+        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_nationalities_path,
       }
     end
 
