@@ -229,14 +229,5 @@ RSpec.describe ApplicationForm do
 
       expect(application_form.course_choices_that_need_replacing).to match_array [application_choice1, application_choice2, application_choice4]
     end
-
-    it 'does not return application_choices that have been withdrawn' do
-      application_form = create(:application_form)
-      course = create(:course, withdrawn: false)
-      course_option = create(:course_option, course: course, vacancy_status: 'vacancies')
-      create(:application_choice, application_form: application_form, course_option: course_option)
-
-      expect(application_form.course_choices_that_need_replacing).to eq []
-    end
   end
 end
