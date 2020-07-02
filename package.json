@@ -4,7 +4,7 @@
   "dependencies": {
     "@ministryofjustice/frontend": "^0.0.19-alpha",
     "@rails/webpacker": "^5.1.1",
-    "accessible-autocomplete": "^2.0.2",
+    "accessible-autocomplete": "^2.0.3",
     "govuk-frontend": "^3.7.0",
     "jquery": "^3.5.1"
   },
