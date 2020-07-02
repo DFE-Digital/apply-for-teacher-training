@@ -17,7 +17,7 @@ module SupportInterface
     def journey_items(application_choice)
       tracker = CandidateJourneyTracker.new(application_choice)
 
-      tracker.public_methods(false).index_with { |item| tracker.send(item)&.iso8601 }
+      CandidateJourneyTracker::DATA_POINTS.index_with { |item| tracker.send(item)&.iso8601 }
     end
 
     def all_application_choices

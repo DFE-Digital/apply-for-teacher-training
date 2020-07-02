@@ -4,6 +4,36 @@ module SupportInterface
       @application_choice = application_choice
     end
 
+    DATA_POINTS = %i[
+      form_not_started
+      form_started_and_not_submitted
+      submitted_and_awaiting_references
+      reference_1_received
+      reference_2_received
+      reference_reminder_email_sent
+      new_reference_request_email_sent
+      new_reference_added
+      references_completed
+      waiting_to_be_sent_to_provider
+      application_sent_to_provider
+      rbd_date
+      rbd_reminder_sent
+      application_rbd
+      provider_decision
+      offer_made
+      dbd_date
+      dbd_reminder_sent
+      candidate_decision
+      offer_declined
+      offer_accepted
+      pending_conditions
+      conditions_outcome
+      conditions_met
+      conditions_not_met
+      enrolled
+      ended_without_success
+    ].freeze
+
     def form_not_started
       @application_choice.application_form.created_at
     end
