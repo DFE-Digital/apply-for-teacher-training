@@ -23,9 +23,14 @@ module SupportInterface
     def all_application_choices
       ApplicationChoice
         .includes(
-          application_form: %i[candidate audits chasers_sent],
-          audits: [],
-          chasers_sent: [],
+          :audits,
+          :chasers_sent,
+          application_form: [
+            :candidate,
+            :audits,
+            :chasers_sent,
+            { application_references: %i[audits] },
+          ],
         )
         .joins(:application_form)
         .order('application_forms.submitted_at asc, application_forms.id asc, id asc')
