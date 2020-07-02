@@ -27,12 +27,20 @@ module CandidateInterface
     end
 
     def title(degree)
-      "#{degree.qualification_type} #{degree.subject}"
+      "#{degree_type_with_honours(degree)} #{degree.subject}"
     end
 
   private
 
     attr_reader :application_form
+
+    def degree_type_with_honours(degree)
+      if degree.grade&.include? 'honours'
+        "#{degree.qualification_type} (Hons)"
+      else
+        degree.qualification_type
+      end
+    end
 
     def degree_type_row(degree)
       {

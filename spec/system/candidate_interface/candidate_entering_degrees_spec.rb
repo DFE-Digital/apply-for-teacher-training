@@ -259,7 +259,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_can_check_my_additional_degree
-    expect(page).to have_content 'Masters Maths'
+    expect(page).to have_content 'Masters (Hons) Maths'
   end
 
   def when_i_click_on_delete_degree
