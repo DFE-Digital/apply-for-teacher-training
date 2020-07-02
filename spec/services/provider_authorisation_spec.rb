@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe ProviderAuthorisation do
   include CourseOptionHelpers
 
-  describe 'assert! methods' do
-    it 'raise errors if the corresponding permission methods return false' do
+  describe '#assert_can_make_offer!' do
+    it 'raises an error if the actor cannot make offers' do
       auth_context = ProviderAuthorisation.new(actor: nil)
       allow(auth_context).to receive(:can_make_offer?).and_return(true)
       expect { auth_context.assert_can_make_offer!(application_choice: nil, course_option_id: nil) }.not_to raise_error
