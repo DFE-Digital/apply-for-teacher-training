@@ -4,7 +4,11 @@ module CandidateInterface
       before_action :redirect_to_dashboard_if_submitted
 
       def new
-        @nationalities_form = NationalitiesForm.build_from_application(current_application)
+        if Featureflag.active?('international_personal_details')
+          @nationalities_form =  NationalitiesForm.new
+        else
+          @nationalities_form = NationalitiesForm.build_from_application(current_application)
+        end 
       end
 
       def create

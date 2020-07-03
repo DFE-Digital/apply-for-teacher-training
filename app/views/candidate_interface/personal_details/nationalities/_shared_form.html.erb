@@ -1,20 +1,36 @@
 <%= f.govuk_error_summary %>
 
-<h1 class="govuk-heading-xl">
-  <%= t('page_titles.nationalities') %>
-</h1>
+<% if FeatureFlag.active?('international_personal_details') %>
 
-<%= f.govuk_collection_select :first_nationality, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label'), size: 'm' } %>
+  <%= f.govuk_radio_buttons_fieldset :nationality, legend: { size: 'xl', text: t('page_titles.nationalities'), tag: 'h2' } do %>
+    <%= f.govuk_radio_button :first_nationality, :british, label: { text: 'British' } %>
+    <%= f.govuk_radio_button :first_nationality, :irish, label: { text: 'Irish' } %>
+    <%= f.govuk_radio_button :first_nationality, :other, label: { text: 'Other' } do %>
+      <%= f.govuk_collection_select :other_nationality, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label'), size: 'm' } %>
+    <% end %>
+    <%= f.govuk_radio_button :first_nationality, :multiple, label: { text: 'I have multiple nationalities' } do %>
+      <%= f.govuk_text_area :multiple_nationalities, label: { text: 'Give details' } %>
+    <% end %>
+  <% end %>
 
-<details class="govuk-details" data-module="govuk-details" <%= 'open' if @nationalities_form.second_nationality.present? %>>
-  <summary class="govuk-details__summary">
-    <span class="govuk-details__summary-text">
-      Add another nationality
-    </span>
-  </summary>
-  <div class="govuk-details__text">
-    <%= f.govuk_collection_select :second_nationality, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.second_nationality.label') } %>
-  </div>
-</details>
+<% else %>
+
+  <h1 class="govuk-heading-xl">
+    <%= t('page_titles.nationalities') %>
+  </h1>
+
+  <%= f.govuk_collection_select :first_nationality, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label'), size: 'm' } %>
+
+  <details class="govuk-details" data-module="govuk-details" <%= 'open' if @nationalities_form.second_nationality.present? %>>
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        Add another nationality
+      </span>
+    </summary>
+    <div class="govuk-details__text">
+      <%= f.govuk_collection_select :second_nationality, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.second_nationality.label') } %>
+    </div>
+  </details>
+<% end %>
 
 <%= f.govuk_submit 'Save and continue' %>
