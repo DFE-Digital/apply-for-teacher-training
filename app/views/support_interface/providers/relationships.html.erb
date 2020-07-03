@@ -1,0 +1,15 @@
+<% content_for :title, 'Provider relationships' %>
+
+<%= @diagram.svg %>
+
+<h2 class='govuk-heading-m'>Providers without relationships</h2>
+
+<p class='govuk-body'>
+  Providers that do not have a relationship aren't visible in the diagram. These are:
+</p>
+
+<ul class='govuk-list govuk-list--bullet'>
+  <% @diagram.providers_without_relationships.each do |provider| %>
+    <li><%= govuk_link_to provider.name_and_code, support_interface_provider_path(provider) %>
+  <% end %>
+</ul>
