@@ -22,4 +22,14 @@ RSpec.describe ProviderInterface::ProviderAccountComponent do
     expect(result.css('.govuk-summary-list__key').text).to include('Organisations you have access to')
     expect(result.css('.govuk-summary-list__value').text).to include(provider1.name, provider2.name)
   end
+
+  it 'renders correct link to the DfE Sign-in profile page in qa' do
+    ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'qa' do
+      expect(result.css('.govuk-link').attribute('href').value).to eq('https://test-profile.signin.education.gov.uk')
+    end
+  end
+
+  it 'renders correct link to the DfE Sign-in profile page in non-qa environments' do
+    expect(result.css('.govuk-link').attribute('href').value).to eq('https://profile.signin.education.gov.uk')
+  end
 end

@@ -10,6 +10,7 @@ RSpec.feature 'Managing provider user permissions' do
 
     when_i_click_on_the_account_link
     then_i_see_account_page_with_user_details
+    and_i_see_a_link_to_dfe_signin_to_change_details
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -35,5 +36,9 @@ RSpec.feature 'Managing provider user permissions' do
     expect(rows[1].text).to eq(@user.last_name)
     expect(rows[2].text).to eq(@user.email_address)
     expect(rows[3].text).to include(@example_provider.name, @another_provider.name)
+  end
+
+  def and_i_see_a_link_to_dfe_signin_to_change_details
+    expect(page).to have_link('Change your details in DfE Sign-in', href: 'https://profile.signin.education.gov.uk')
   end
 end

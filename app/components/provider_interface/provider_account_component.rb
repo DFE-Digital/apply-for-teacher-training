@@ -17,6 +17,12 @@ module ProviderInterface
       ]
     end
 
+    def dsi_profile_url
+      return 'https://test-profile.signin.education.gov.uk' if HostingEnvironment.qa?
+
+      'https://profile.signin.education.gov.uk'
+    end
+
   private
 
     def organisations_row
