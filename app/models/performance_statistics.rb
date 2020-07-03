@@ -17,7 +17,7 @@ class PerformanceStatistics
             WHEN 'enrolled' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['9', 'enrolled']
             WHEN 'recruited' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['8', 'recruited']
             WHEN 'pending_conditions' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['7', 'pending_conditions']
-            WHEN ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_AGG(DISTINCT ch.status), 'cancelled'), 'withdrawn'), 'rejected'), 'declined'), 'conditions_not_met') = '{}' THEN ARRAY['5', 'ended_without_success']
+            WHEN ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_AGG(DISTINCT ch.status), 'cancelled'), 'withdrawn'), 'offer_withdrawn'), 'rejected'), 'declined'), 'conditions_not_met') = '{}' THEN ARRAY['5', 'ended_without_success']
             ELSE ARRAY['10', 'unknown_state']
           END status
       FROM

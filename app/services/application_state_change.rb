@@ -3,7 +3,8 @@ class ApplicationStateChange
 
   STATES_NOT_VISIBLE_TO_PROVIDER = %i[unsubmitted awaiting_references application_complete cancelled].freeze
   ACCEPTED_STATES = %i[pending_conditions conditions_not_met recruited enrolled].freeze
-  OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer]).freeze
+  OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer offer_withdrawn]).freeze
+  UNSUCCESSFUL_END_STATES = %w[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn].freeze
 
   attr_reader :application_choice
 
@@ -75,8 +76,6 @@ class ApplicationStateChange
 
     state :cancelled
   end
-
-  UNSUCCESSFUL_END_STATES = %w[withdrawn cancelled rejected declined conditions_not_met].freeze
 
   def load_workflow_state
     application_choice.status
