@@ -3,5 +3,6 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">Account</h1>
+    <%= render ProviderInterface::ProviderAccountComponent.new(current_provider_user: current_provider_user) %>
   </div>
 </div>

@@ -9,6 +9,7 @@ RSpec.feature 'Managing provider user permissions' do
     and_i_sign_in_to_the_provider_interface
 
     when_i_click_on_the_account_link
+    then_i_see_account_page_with_user_details
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -26,5 +27,13 @@ RSpec.feature 'Managing provider user permissions' do
     within('#navigation') do
       click_on('Account')
     end
+  end
+
+  def then_i_see_account_page_with_user_details
+    rows = find('div .govuk-summary-list').all('dd')
+    expect(rows[0].text).to eq(@user.first_name)
+    expect(rows[1].text).to eq(@user.last_name)
+    expect(rows[2].text).to eq(@user.email_address)
+    expect(rows[3].text).to include(@example_provider.name, @another_provider.name)
   end
 end
