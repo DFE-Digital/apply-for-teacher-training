@@ -74,6 +74,8 @@ Rails.application.routes.draw do
         post '/nationalities/edit' => 'personal_details/nationalities#update'
         get '/languages' => 'personal_details/languages#edit', as: :languages
         post '/languages' => 'personal_details/languages#update'
+        get '/languages/edit' => 'personal_details/languages#edit', as: :edit_languages
+        post '/languages/edit' => 'personal_details/languages#update'
         get '/review' => 'personal_details/review#show', as: :personal_details_show
         post '/review' => 'personal_details/review#complete', as: :personal_details_complete
       end
