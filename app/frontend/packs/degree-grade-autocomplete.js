@@ -9,12 +9,10 @@ const initDegreeGradeAutocomplete = () => {
 
     inputIds.forEach(inputId => {
       const input = document.getElementById(inputId);
-      console.log(input);
       if (!input) return;
 
       const containerId = "degree-grade-autocomplete";
       const container = document.getElementById(containerId);
-      console.log(container);
       if (!container) return;
 
       const sourceData = JSON.parse(container.dataset.source);
