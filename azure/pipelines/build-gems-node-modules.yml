@@ -7,7 +7,7 @@ trigger:
       - Gemfile.lock
       - package.json
       - yarn.lock
-      - build-gems-node-modules-pipeline.yml
+      - build-gems-node-modules.yml
 
 pr:
   paths:
@@ -17,7 +17,7 @@ pr:
       - Gemfile.lock
       - package.json
       - yarn.lock
-      - build-gems-node-modules-pipeline.yml
+      - build-gems-node-modules.yml
 
 pool:
   vmImage: 'Ubuntu-16.04'

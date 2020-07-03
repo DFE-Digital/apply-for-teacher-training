@@ -48,7 +48,7 @@ stages:
   variables:
   - group: APPLY - ENV - Staging
   jobs:
-  - template: azure-pipelines-deploy-template.yml
+  - template: templates/azure-pipelines-deploy-template.yml
     parameters:
       debug: $(debug)
       subscriptionPrefix: 's106'
@@ -107,7 +107,7 @@ stages:
   variables:
   - group: APPLY - ENV - Sandbox
   jobs:
-  - template: azure-pipelines-deploy-template.yml
+  - template: templates/azure-pipelines-deploy-template.yml
     parameters:
       debug: $(debug)
       subscriptionPrefix: 's106'
@@ -165,7 +165,7 @@ stages:
   variables:
   - group: APPLY - ENV - Production
   jobs:
-  - template: azure-pipelines-deploy-template.yml
+  - template: templates/azure-pipelines-deploy-template.yml
     parameters:
       debug: $(debug)
       subscriptionPrefix: 's106'

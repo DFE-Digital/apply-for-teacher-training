@@ -80,7 +80,7 @@ jobs:
       runOnce:
         deploy:
           steps:
-          - template: cancel-build-if-not-latest-template.yml
+          - template: cancel-build-if-not-latest.yml
             parameters:
               sourceBranchName: $(Build.SourceBranchName)
 
@@ -339,23 +339,23 @@ jobs:
 
                 Set-AzResourceGroup -Name $resourceGroupName -Tag $tags
 
-          - template: cancel-build-if-not-latest-template.yml
+          - template: cancel-build-if-not-latest.yml
             parameters:
               sourceBranchName: $(Build.SourceBranchName)
 
-          - template: swap-staging-production-template.yml
+          - template: swap-staging-production-slots.yml
             parameters:
               azureSubscription: ${{parameters.subscriptionName}}
               resourceGroup: $(resourceGroupName)
               appService: $(appServiceName)
 
-          - template: metrics-check-template.yml
+          - template: metrics-check.yml
             parameters:
               azureSubscription: ${{ parameters.subscriptionName }}
               resourceGroup: $(resourceGroupName)
               containerName: ${{ format('{0}-{1}', variables.containerInstanceNamePrefix,'wkr') }}
 
-          - template: metrics-check-template.yml
+          - template: metrics-check.yml
             parameters:
               azureSubscription: ${{ parameters.subscriptionName }}
               resourceGroup: $(resourceGroupName)
