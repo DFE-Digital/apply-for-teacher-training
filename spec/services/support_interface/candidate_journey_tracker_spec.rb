@@ -59,7 +59,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
   end
 
   describe '#reference_1_received' do
-    it 'returns nil if not references were received' do
+    it 'returns nil if no references were received' do
       application_form = create(:application_form)
       application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
 
