@@ -2,6 +2,8 @@ module CandidateInterface
   module Degrees
     class GradeController < CandidateInterfaceController
       before_action :redirect_to_dashboard_if_submitted
+      before_action :set_main_grades
+      before_action :set_other_grades
 
       def new
         @degree_grade_form = DegreeGradeForm.new(degree: degree)
@@ -37,6 +39,14 @@ module CandidateInterface
 
       def degree
         @degree = ApplicationQualification.find(params[:id])
+      end
+
+      def set_main_grades
+        @main_grades = Hesa::Grade.main.map(&:description)
+      end
+
+      def set_other_grades
+        @other_grades = Hesa::Grade.other.map(&:description)
       end
 
       def grade_params
