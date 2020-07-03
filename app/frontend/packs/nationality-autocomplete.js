@@ -3,10 +3,10 @@ import accessibleAutocomplete from "accessible-autocomplete";
 const initNationalityAutocomplete = () => {
   try {
     const nationalitySelects = [
-      "#candidate-interface-personal-details-form-first-nationality-field",
-      "#candidate-interface-personal-details-form-first-nationality-field-error",
-      "#candidate-interface-personal-details-form-second-nationality-field",
-      "#candidate-interface-personal-details-form-second-nationality-field-error",
+      "#candidate-interface-nationalities-form-first-nationality-field",
+      "#candidate-interface-nationalities-form-first-nationality-field-error",
+      "#candidate-interface-nationalities-form-second-nationality-field",
+      "#candidate-interface-nationalities-form-second-nationality-field-error",
       "#candidate-interface-contact-details-form-country-field",
       "#candidate-interface-contact-details-form-country-field-error",
     ].forEach(id => {
