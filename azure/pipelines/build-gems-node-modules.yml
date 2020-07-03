@@ -7,7 +7,7 @@ trigger:
       - Gemfile.lock
       - package.json
       - yarn.lock
-      - build-gems-node-modules-pipeline.yml
+      - build-gems-node-modules.yml
 
 pr:
   paths:
@@ -17,7 +17,7 @@ pr:
       - Gemfile.lock
       - package.json
       - yarn.lock
-      - build-gems-node-modules-pipeline.yml
+      - build-gems-node-modules.yml
 
 pool:
   vmImage: 'Ubuntu-16.04'
@@ -118,7 +118,7 @@ steps:
     $requestBody
     $azurePipelinesBuildApi = "$($env:COLLECTION_URL)$env:PROJECT_ID/_apis/build/builds?api-version=5.1"
     Invoke-RestMethod -Uri $azurePipelinesBuildApi -Headers $azureDevOpsAuthorizationHeader -Method Post -Body $requestBody -ContentType "application/json" -ErrorAction SilentlyContinue
-  condition: and(succeeded(), eq(variables['IMAGE_EXISTS_IN_HUB'], false))
+  condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['IMAGE_EXISTS_IN_HUB'], false)))
   displayName: Trigger apply-for-teacher-training build
   env:
     SYSTEM_ACCESSTOKEN: $(System.AccessToken)

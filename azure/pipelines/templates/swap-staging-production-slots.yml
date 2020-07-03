@@ -21,7 +21,7 @@ steps:
       ResourceGroupName: '${{ parameters.resourceGroup }}'
       Slot: 'staging'
   
-  - template: health-check-template.yml
+  - template: health-check.yml
     parameters:
       url: ${{ format('https://{0}-staging.azurewebsites.net/check', parameters.appService) }}
 
@@ -35,7 +35,7 @@ steps:
       ResourceGroupName: '${{ parameters.resourceGroup }}'
       SourceSlot: 'staging'
   
-  - template: health-check-template.yml
+  - template: health-check.yml
     parameters:
       url: ${{ format('https://{0}.azurewebsites.net/check', parameters.appService) }}
       waitBeforeFirstPing: false

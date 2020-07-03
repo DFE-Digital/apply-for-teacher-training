@@ -23,7 +23,7 @@ jobs:
       echo '##vso[task.setvariable variable=COMPOSE_FILE]docker-compose.yml:docker-compose.azure.yml'
     displayName: 'Configure environment'
 
-  - template: cancel-build-if-not-latest-template.yml
+  - template: cancel-build-if-not-latest.yml
     parameters:
       sourceBranchName: $(Build.SourceBranchName)
 
@@ -45,11 +45,11 @@ jobs:
       GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
       SANDBOX: $(sandbox)
   
-  - template: cancel-build-if-not-latest-template.yml
+  - template: cancel-build-if-not-latest.yml
     parameters:
       sourceBranchName: $(Build.SourceBranchName)
  
-  - template: run-rspec-test-template.yml
+  - template: run-rspec-test.yml
     parameters:
       testCommand: ${{ format('ci.{0}', parameters.testCommand) }}
       testResultsFile: ${{ format('testArtifacts/rspec-{0}-results.xml', parameters.testCommand) }}

@@ -72,7 +72,7 @@ stages:
         echo "##[command]$DEPENDENCIES_PACKAGE_IMAGE"
       displayName: 'Configure build environment'
 
-    - template: cancel-build-if-not-latest-template.yml
+    - template: templates/cancel-build-if-not-latest.yml
       parameters:
         sourceBranchName: $(Build.SourceBranchName)
 
@@ -102,7 +102,7 @@ stages:
         path: '$(System.DefaultWorkingDirectory)/azure/'
         artifactName: 'arm_template'
 
-    - template: cancel-build-if-not-latest-template.yml
+    - template: templates/cancel-build-if-not-latest.yml
       parameters:
         sourceBranchName: $(Build.SourceBranchName)
 
@@ -168,7 +168,7 @@ stages:
         echo '##vso[task.setvariable variable=COMPOSE_FILE]docker-compose.yml:docker-compose.azure.yml'
       displayName: 'Configure environment'
 
-    - template: cancel-build-if-not-latest-template.yml
+    - template: templates/cancel-build-if-not-latest.yml
       parameters:
         sourceBranchName: $(Build.SourceBranchName)
 
@@ -190,7 +190,7 @@ stages:
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
         SANDBOX: $(sandbox)
 
-    - template: cancel-build-if-not-latest-template.yml
+    - template: templates/cancel-build-if-not-latest.yml
       parameters:
         sourceBranchName: $(Build.SourceBranchName)
 
@@ -297,14 +297,14 @@ stages:
         path: '$(System.DefaultWorkingDirectory)/testArtifacts/'
         artifactName: 'cucumber-results-$(System.JobAttempt)'
 
-  - template: rspec-job-template.yml
+  - template: templates/rspec-job.yml
     parameters:
       testCommand: 'integration-tests'
       displayName: 'Integration Tests'
       jobId: 'integration_tests'
       jobAttempt: $(System.JobAttempt)
         
-  - template: rspec-job-template.yml
+  - template: templates/rspec-job.yml
     parameters:
       testCommand: 'unit-tests'
       displayName: 'Unit Tests'
@@ -319,7 +319,7 @@ stages:
   variables:
   - group: APPLY - ENV - QA
   jobs:
-  - template: azure-pipelines-deploy-template.yml
+  - template: templates/deploy.yml
     parameters:
       debug: $(debug)
       subscriptionPrefix: 's106'
@@ -376,7 +376,7 @@ stages:
   variables:
   - group: APPLY - ENV - DevOps
   jobs:
-  - template: azure-pipelines-deploy-template.yml
+  - template: templates/deploy.yml
     parameters:
       debug: $(debug)
       subscriptionPrefix: 's106'

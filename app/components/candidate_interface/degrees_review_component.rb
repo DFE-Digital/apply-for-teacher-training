@@ -95,7 +95,7 @@ module CandidateInterface
       elsif grade_form.other_grade.present?
         grade_form.other_grade
       else
-        t("application_form.degree.grade.#{grade_form.grade}.label")
+        grade_form.grade
       end
     end
 

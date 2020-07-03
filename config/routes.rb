@@ -496,6 +496,7 @@ Rails.application.routes.draw do
 
     post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
 
+    get '/account' => 'account#show'
     get '/sign-in' => 'sessions#new'
     get '/sign-out' => 'sessions#destroy'
 
@@ -583,6 +584,7 @@ Rails.application.routes.draw do
 
     get '/providers' => 'providers#index', as: :providers
     get '/providers/other' => 'providers#other_providers', as: :other_providers
+    get '/providers/relationships' => 'providers#relationships', as: :provider_relationships
 
     get '/providers/:provider_id' => 'providers#show', as: :provider
     get '/providers/:provider_id/courses' => 'providers#courses', as: :provider_courses
@@ -614,6 +616,7 @@ Rails.application.routes.draw do
     get '/performance/active-provider-users', to: 'performance#active_provider_users', as: :active_provider_users
     get '/performance/tad-provider-performance', to: 'performance#tad_provider_performance', as: :tad_provider_performance
     get '/performance/course-choice-withdrawal', to: 'performance#course_choice_withdrawal', as: :course_choice_withdrawal_survey
+    get '/performance/candidate-journey-tracking', to: 'performance#candidate_journey_tracking', as: :candidate_journey_tracking
 
     get '/tasks' => 'tasks#index', as: :tasks
     post '/tasks/:task' => 'tasks#run', as: :run_task

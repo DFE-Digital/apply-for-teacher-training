@@ -25,7 +25,7 @@ jobs:
   - job: swap_staging_to_production
     displayName: Swap Staging Slot to Production in ${{ parameters.environment }}
     steps:
-      - template: swap-staging-production-template.yml
+      - template: templates/swap-staging-production-slots.yml
         parameters:
           azureSubscription: $(azureSubscription)
           resourceGroup: $(resourceGroup)

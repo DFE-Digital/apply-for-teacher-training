@@ -158,7 +158,7 @@ module CandidateHelper
     fill_in 'What institution did you study at?', with: 'University of Much Wow'
     click_button t('application_form.degree.base.button')
 
-    choose 'First'
+    choose 'First class honours'
     click_button t('application_form.degree.base.button')
 
     year_with_trailing_space = '2006 '

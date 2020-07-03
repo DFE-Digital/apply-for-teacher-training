@@ -8,7 +8,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       qualification_type: 'BA',
       subject: 'Woof',
       institution_name: 'University of Doge',
-      grade: 'upper_second',
+      grade: 'Upper second',
       predicted_grade: false,
       start_year: '2005',
       award_year: '2008',
@@ -89,7 +89,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.grade.review_label'))
-      expect(result.css('.govuk-summary-list__value').text).to include(t('application_form.degree.grade.upper_second.label'))
+      expect(result.css('.govuk-summary-list__value').text).to include('Upper second')
       expect(result.css('.govuk-summary-list__actions').text).to include(
         "Change #{t('application_form.degree.grade.change_action')} for BA, Woof, University of Doge, 2008",
       )
