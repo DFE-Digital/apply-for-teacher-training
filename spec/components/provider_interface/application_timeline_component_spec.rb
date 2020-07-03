@@ -91,4 +91,8 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       expect(rendered.text).to include '11 Feb 2020'
     end
   end
+
+  it 'has a title for all state transitions' do
+    expect(ApplicationStateChange.states_visible_to_provider).to match_array(ProviderInterface::ApplicationTimelineComponent::TITLES.keys.map(&:to_sym))
+  end
 end
