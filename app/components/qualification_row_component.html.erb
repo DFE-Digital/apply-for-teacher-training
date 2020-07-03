@@ -6,6 +6,6 @@
   <% else %>
     <td class="govuk-table__cell"><%= qualification.start_year %></td>
     <td class="govuk-table__cell"><%= qualification.award_year %></td>
-    <td class="govuk-table__cell"><%= grade %></td>
+    <td class="govuk-table__cell"><%= render QualificationGradeComponent.new(qualification: qualification) %></td>
   <% end %>
 </tr>
