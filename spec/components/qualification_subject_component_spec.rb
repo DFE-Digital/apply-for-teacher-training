@@ -30,17 +30,15 @@ RSpec.describe QualificationSubjectComponent, type: :component do
   context 'given a GCSE' do
     let(:qualification) do
       build_stubbed(
-        :application_qualification,
-        level: :degree,
-        qualification_type: 'BSc',
-        subject: 'psychology',
+        :gcse_qualification,
+        subject: 'maths',
       )
     end
 
     it 'correctly renders the subject' do
       result = render_inline(described_class.new(qualification: qualification))
 
-      expect(result.text).to include('Psychology')
+      expect(result.text).to include('Maths')
     end
   end
 end
