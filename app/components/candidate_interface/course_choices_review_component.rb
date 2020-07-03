@@ -150,7 +150,7 @@ module CandidateInterface
 
     def rejection_reason_row(application_choice)
       {
-        key: 'Reason for rejection',
+        key: 'Feedback',
         value: application_choice.rejection_reason,
       }
     end
