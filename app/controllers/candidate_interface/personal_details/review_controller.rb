@@ -16,18 +16,18 @@ module CandidateInterface
       end
 
       def complete
-        if PersonalDetailsForm.build_from_application(current_application).valid? &&
-            NationalitiesForm.build_from_application(current_application).valid? &&
-            LanguagesForm.build_from_application(current_application).valid?
+        @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
+        @nationalities_form = NationalitiesForm.build_from_application(current_application)
+        @languages_form = LanguagesForm.build_from_application(current_application)
+
+        if @personal_details_form.valid? &&
+            @nationalities_form.valid? &&
+            @languages_form.valid?
 
           current_application.update!(application_form_params)
 
           redirect_to candidate_interface_application_form_path
         else
-          @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
-          @nationalities_form = NationalitiesForm.build_from_application(current_application)
-          @languages_form = LanguagesForm.build_from_application(current_application)
-
           render :show
         end
       end

@@ -393,21 +393,25 @@ en:
             last_name:
               blank: Enter your last name or family name
               too_long: Last name must be %{count} characters or fewer
+            date_of_birth:
+              invalid: Enter a date of birth in the correct format
+              future: Enter a date of birth that is in the past, for example 31 3 1980
+              below_lower_age_limit: Enter a date of birth before %{date} – you must be over 16 years old to Apply for teacher training
+        candidate_interface/nationalities_form:
+          attributes:
             first_nationality:
               blank: Select your nationality from the list
               inclusion: Select your nationality from the list
             second_nationality:
               inclusion: Select your second nationality from the list
+        candidate_interface/languages_form:
+          attributes:
             english_main_language:
               blank: Select if English is your main language
             english_language_details:
               too_many_words: English language qualifications and other languages spoken must be %{count} words or fewer
             other_language_details:
               too_many_words: Other languages spoken must be %{count} words or fewer
-            date_of_birth:
-              invalid: Enter a date of birth in the correct format
-              future: Enter a date of birth that is in the past, for example 31 3 1980
-              below_lower_age_limit: Enter a date of birth before %{date} – you must be over 16 years old to Apply for teacher training
         candidate_interface/becoming_a_teacher_form:
           attributes:
             becoming_a_teacher:
