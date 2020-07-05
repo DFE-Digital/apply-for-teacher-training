@@ -35,10 +35,24 @@ RSpec.feature 'Entering their personal details' do
 
     when_i_click_change_on_my_nationality
     and_i_choose_other
-    and_i_select_i_am_german
+    and_select_i_am_british
     and_i_submit_the_form
     then_i_see_the_personal_details_review_page
-    and_i_see_i_am_german
+    and_i_see_i_am_british
+
+    when_i_click_change_on_my_nationality
+    and_i_choose_other
+    and_i_select_i_am_german
+    then_i_see_the_right_to_work_or_study_page
+
+    when_i_choose_yes
+    and_i_submit_the_form
+    then_i_am_told_i_need_to_provide_details
+
+    when_i_fill_in_my_right_to_work_details
+    and_i_submit_the_form
+    then_i_see_the_personal_details_review_page
+    and_i_can_see_my_updated_details
 
     when_i_mark_the_section_as_completed
     and_i_submit_my_details
@@ -133,12 +147,41 @@ RSpec.feature 'Entering their personal details' do
     choose 'Other'
   end
 
+  def and_select_i_am_british
+    select 'British'
+  end
+
+  def and_i_see_i_am_british
+    expect(page).to have_content 'British'
+  end
+
   def and_i_select_i_am_german
     select 'German'
   end
 
   def and_i_see_i_am_german
     expect(page).to have_content 'German'
+  end
+
+  def then_i_see_the_right_to_work_or_study_page
+    expect(page).to have_current_path candidate_interface_right_to_work_path
+  end
+
+  def when_i_choose_yes
+    choose 'Yes'
+  end
+
+  def then_i_am_told_i_need_to_provide_details
+    expect(page).to have_content "can't be blank"
+  end
+
+  def when_i_fill_in_my_right_to_work_details
+    fill_in :details, with: "Borders? I don't believe in no stinking borders."
+  end
+
+  def and_i_can_see_my_updated_details
+    expect(page).to have_content 'German'
+    expect(page).to have_content "Borders? I don't believe in no stinking borders."
   end
 
   def when_i_mark_the_section_as_completed
