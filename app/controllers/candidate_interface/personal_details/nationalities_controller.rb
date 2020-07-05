@@ -4,15 +4,16 @@ module CandidateInterface
       before_action :redirect_to_dashboard_if_submitted
 
       def new
-        if Featureflag.active?('international_personal_details')
-          @nationalities_form =  NationalitiesForm.new
-        else
-          @nationalities_form = NationalitiesForm.build_from_application(current_application)
-        end 
+        @nationalities_form = if FeatureFlag.active?('international_personal_details')
+                                NationalitiesForm.new
+                              else
+                                NationalitiesForm.build_from_application(current_application)
+                              end
       end
 
       def create
         @application_form = current_application
+
         @nationalities_form = NationalitiesForm.new(nationalities_params)
 
         if @nationalities_form.save(current_application)
@@ -47,7 +48,7 @@ module CandidateInterface
 
       def nationalities_params
         params.require(:candidate_interface_nationalities_form).permit(
-          :first_nationality, :second_nationality
+          :first_nationality, :second_nationality, :other_nationality, :multiple_nationalities
         )
       end
     end

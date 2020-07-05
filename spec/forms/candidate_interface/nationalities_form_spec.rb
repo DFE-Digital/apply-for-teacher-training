@@ -21,7 +21,6 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
       nationalities = CandidateInterface::NationalitiesForm.build_from_application(
         application_form,
       )
-
       expect(nationalities).to have_attributes(form_data)
     end
   end
@@ -33,12 +32,64 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
       expect(nationalities.save(ApplicationForm.new)).to eq(false)
     end
 
-    it 'updates the provided ApplicationForm if valid' do
-      application_form = FactoryBot.create(:application_form)
-      nationalities = CandidateInterface::NationalitiesForm.new(form_data)
+    context 'when first nationality is british and the international_personal_details flag on' do
+      let(:form_data) { { first_nationality: 'british' } }
 
-      expect(nationalities.save(application_form)).to eq(true)
-      expect(application_form).to have_attributes(data)
+      it 'updates the provided ApplicationForm if valid' do
+        FeatureFlag.activate('international_personal_details')
+        application_form = FactoryBot.create(:application_form)
+        nationalities = CandidateInterface::NationalitiesForm.new(form_data)
+
+        expect(nationalities.save(application_form)).to eq(true)
+        expect(application_form.first_nationality).to eq 'British'
+      end
+    end
+
+    context 'when first nationality is other and the international_personal_details flag on' do
+      let(:form_data) do
+        {
+          first_nationality: 'other',
+          other_nationality: 'German',
+        }
+      end
+
+      it 'updates the provided ApplicationForm if valid' do
+        FeatureFlag.activate('international_personal_details')
+        application_form = FactoryBot.create(:application_form)
+        nationalities = CandidateInterface::NationalitiesForm.new(form_data)
+
+        expect(nationalities.save(application_form)).to eq(true)
+        expect(application_form.first_nationality).to eq 'German'
+      end
+    end
+
+    context 'when first nationality is multiple and the international_personal_details flag on' do
+      let(:form_data) do
+        {
+          first_nationality: 'multiple',
+          multiple_nationalities: 'German and Austrian',
+        }
+      end
+
+      it 'updates the provided ApplicationForm if valid' do
+        FeatureFlag.activate('international_personal_details')
+        application_form = FactoryBot.create(:application_form)
+        nationalities = CandidateInterface::NationalitiesForm.new(form_data)
+
+        expect(nationalities.save(application_form)).to eq(true)
+        expect(application_form.first_nationality).to eq 'multiple'
+        expect(application_form.multiple_nationalities_details).to eq 'German and Austrian'
+      end
+    end
+
+    context 'with the international_personal_details flag off' do
+      it 'updates the provided ApplicationForm if valid' do
+        application_form = FactoryBot.create(:application_form)
+        nationalities = CandidateInterface::NationalitiesForm.new(form_data)
+
+        expect(nationalities.save(application_form)).to eq(true)
+        expect(application_form).to have_attributes(data)
+      end
     end
   end
 
