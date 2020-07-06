@@ -1,29 +1,27 @@
 require 'rails_helper'
 
-RSpec.describe QualificationSubjectComponent, type: :component do
+RSpec.describe QualificationGradeComponent, type: :component do
   context 'given a degree' do
     let(:qualification) do
       build_stubbed(
-        :application_qualification,
-        level: :degree,
-        qualification_type: 'BSc',
-        subject: 'psychology',
+        :degree_qualification,
+        grade: 'First class honours',
       )
     end
 
-    it 'correctly renders the subject' do
+    it 'correctly renders the grade' do
       result = render_inline(described_class.new(qualification: qualification))
 
-      expect(result.text).to include('Psychology')
+      expect(result.text).to include('First class honours')
     end
 
     it 'correctly renders the HESA code if present' do
-      qualification.subject_hesa_code = 22
+      qualification.grade_hesa_code = 1
 
       result = render_inline(described_class.new(qualification: qualification))
 
-      expect(result.text).to include('Psychology')
-      expect(result.text).to include('(22)')
+      expect(result.text).to include('First class honours')
+      expect(result.text).to include('(1)')
     end
   end
 
@@ -31,14 +29,14 @@ RSpec.describe QualificationSubjectComponent, type: :component do
     let(:qualification) do
       build_stubbed(
         :gcse_qualification,
-        subject: 'maths',
+        grade: 'A*',
       )
     end
 
-    it 'correctly renders the subject' do
+    it 'correctly renders the grade' do
       result = render_inline(described_class.new(qualification: qualification))
 
-      expect(result.text).to include('Maths')
+      expect(result.text).to include('A*')
     end
   end
 end

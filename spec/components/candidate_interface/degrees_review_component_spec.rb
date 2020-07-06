@@ -112,7 +112,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
         qualification_type: 'BA',
         subject: 'Hoot',
         institution_name: 'University of Owl',
-        grade: 'Distinction',
+        grade: 'Third-class honours',
         predicted_grade: false,
         start_year: '2007',
         award_year: '2010',
@@ -124,8 +124,8 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
 
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.app-summary-card__title').text).to include('BA Hoot')
-      expect(result.css('.govuk-summary-list__value').text).to include('Distinction')
+      expect(result.css('.app-summary-card__title').text).to include('BA (Hons) Hoot')
+      expect(result.css('.govuk-summary-list__value').text).to include('Third-class honours')
     end
 
     it 'renders component with correct values for multiple degrees' do

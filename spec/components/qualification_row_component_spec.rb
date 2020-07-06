@@ -9,7 +9,7 @@ RSpec.describe QualificationRowComponent do
       subject: 'Psychology',
       start_year: '2015',
       award_year: '2018',
-      grade: :upper_second,
+      grade: 'Upper second',
     )
 
     result = render_inline(described_class.new(qualification: qualification))
@@ -18,7 +18,7 @@ RSpec.describe QualificationRowComponent do
     expect(result.text).to include('Psychology')
     expect(result.text).to include('2015')
     expect(result.text).to include('2018')
-    expect(result.text).to include('2:1')
+    expect(result.text).to include('Upper second')
   end
 
   it 'renders a qualification with a predicted grade' do
@@ -29,7 +29,7 @@ RSpec.describe QualificationRowComponent do
       subject: 'Engineering',
       start_year: '2017',
       award_year: '2020',
-      grade: :first,
+      grade: 'First',
       predicted_grade: true,
     )
 

@@ -6,10 +6,6 @@ class QualificationRowComponent < ViewComponent::Base
     @qualification = qualification
   end
 
-  def grade
-    qualification.predicted_grade ? "#{friendly_grade} (predicted)" : friendly_grade
-  end
-
 private
 
   def friendly_grade
