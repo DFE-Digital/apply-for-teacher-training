@@ -11,6 +11,8 @@ module CandidateInterface
 
     validates :multiple_nationalities, presence: true, if: :multiple_nationalities_selected?
 
+    validates :multiple_nationalities, length: { maximum: 200 }
+
     validates :first_nationality, :second_nationality,
               inclusion: { in: NATIONALITY_DEMONYMS, allow_blank: true },
               unless: :international_flag_is_on?

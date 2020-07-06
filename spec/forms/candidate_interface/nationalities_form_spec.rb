@@ -96,25 +96,61 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:first_nationality) }
 
-    it 'validates nationalities against the NATIONALITY_DEMONYMS list' do
-      details_with_invalid_nationality = CandidateInterface::NationalitiesForm.new(
-        first_nationality: 'Tralfamadorian',
-        second_nationality: 'Czechoslovakian',
-      )
+    context 'with the international_personal_details flag off' do
+      it 'validates nationalities against the NATIONALITY_DEMONYMS list' do
+        details_with_invalid_nationality = CandidateInterface::NationalitiesForm.new(
+          first_nationality: 'Tralfamadorian',
+          second_nationality: 'Czechoslovakian',
+        )
 
-      details_with_valid_nationality = CandidateInterface::NationalitiesForm.new(
-        first_nationality: NATIONALITY_DEMONYMS.sample,
-        second_nationality: NATIONALITY_DEMONYMS.sample,
-      )
+        details_with_valid_nationality = CandidateInterface::NationalitiesForm.new(
+          first_nationality: NATIONALITY_DEMONYMS.sample,
+          second_nationality: NATIONALITY_DEMONYMS.sample,
+        )
 
-      details_with_valid_nationality.validate
-      details_with_invalid_nationality.validate
+        details_with_valid_nationality.validate
+        details_with_invalid_nationality.validate
 
-      expect(details_with_valid_nationality.errors.keys).not_to include :first_nationality
-      expect(details_with_valid_nationality.errors.keys).not_to include :second_nationality
+        expect(details_with_valid_nationality.errors.keys).not_to include :first_nationality
+        expect(details_with_valid_nationality.errors.keys).not_to include :second_nationality
 
-      expect(details_with_invalid_nationality.errors.keys).to include :first_nationality
-      expect(details_with_invalid_nationality.errors.keys).to include :second_nationality
+        expect(details_with_invalid_nationality.errors.keys).to include :first_nationality
+        expect(details_with_invalid_nationality.errors.keys).to include :second_nationality
+      end
+    end
+
+    context 'with the international_personal_details flag on' do
+      let(:nationalities_form) { subject }
+
+      before do
+        FeatureFlag.activate('international_personal_details')
+        allow(nationalities_form).to receive(:first_nationality_is_other?).and_return(true)
+        allow(nationalities_form).to receive(:multiple_nationalities_selected?).and_return(true)
+      end
+
+      it { is_expected.to validate_presence_of(:other_nationality) }
+      it { is_expected.to validate_presence_of(:multiple_nationalities) }
+
+      it 'validates nationalities against the NATIONALITY_DEMONYMS list' do
+        details_with_invalid_nationality = CandidateInterface::NationalitiesForm.new(
+          first_nationality: 'other',
+          other_nationality: 'Tralfamadorian',
+        )
+
+        details_with_valid_nationality = CandidateInterface::NationalitiesForm.new(
+          first_nationality: 'Other',
+          other_nationality: NATIONALITY_DEMONYMS.sample,
+        )
+
+        details_with_valid_nationality.validate
+        details_with_invalid_nationality.validate
+
+        expect(details_with_valid_nationality.errors.keys).not_to include :first_nationality
+        expect(details_with_valid_nationality.errors.keys).not_to include :other_nationality
+
+        expect(details_with_invalid_nationality.errors.keys).not_to include :first_nationality
+        expect(details_with_invalid_nationality.errors.keys).to include :other_nationality
+      end
     end
   end
 end
