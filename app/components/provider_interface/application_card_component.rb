@@ -6,7 +6,7 @@ module ProviderInterface
                   :candidate_name, :course_name_and_code, :course_provider_name, :changed_at,
                   :most_recent_note, :site_name_and_code, :show_date
 
-    def initialize(application_choice:, show_date: :updated_at)
+    def initialize(application_choice:, show_date: 'last_changed')
       @accredited_provider = application_choice.accredited_provider
       @application_choice = application_choice
       @candidate_name = application_choice.application_form.full_name
@@ -19,7 +19,7 @@ module ProviderInterface
     end
 
     def contextual_date
-      return changed_at_date unless show_date == :reject_by_default_at
+      return changed_at_date unless show_date == 'days_left_to_respond'
       return changed_at_date unless application_choice.status == 'awaiting_provider_decision'
       return changed_at_date unless reject_by_default_in_future?
 

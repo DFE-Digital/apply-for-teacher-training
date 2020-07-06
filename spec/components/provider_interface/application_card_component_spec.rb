@@ -135,7 +135,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     let(:reject_by_default_at) { DateTime.parse('2020-06-02T09:05:00+01:00') }
     let(:updated_at) { DateTime.parse('2020-06-02T09:05:00+01:00') }
     let(:status) { 'awaiting_provider_decision' }
-    let(:show_date) { :reject_by_default_at }
+    let(:show_date) { 'days_left_to_respond' }
     let(:application_choice) do
       build_stubbed(
         :application_choice,
@@ -149,7 +149,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     subject(:contextual_date) { described_class.new(application_choice: application_choice, show_date: show_date).contextual_date }
 
     context 'when not sorting by reject by default date' do
-      let(:show_date) { :updated_at }
+      let(:show_date) { 'last_changed' }
 
       it { is_expected.to eq('Changed  2 June 2020 at  9:05am') }
     end

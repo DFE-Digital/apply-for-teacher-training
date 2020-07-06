@@ -105,68 +105,25 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     end
   end
 
-  describe '#sort_order' do
-    let(:params) { ActionController::Parameters.new }
-
-    subject(:page_state) { described_class.new(params: params, provider_user: provider_user) }
-
-    context 'when no sort params are present' do
-      it 'defaults to updated_at descending' do
-        expect(page_state.sort_order).to eq({ updated_at: :desc })
-      end
-    end
-
-    context 'when sort param is RBD date' do
-      let(:params) do
-        ActionController::Parameters.new({ 'sort_by' => 'Days left to respond' })
-      end
-
-      it 'returns reject_by_default_date and updated_at descending' do
-        expect(page_state.sort_order).to eq(
-          <<-ORDER_BY.strip_heredoc,
-          (
-            CASE
-              WHEN (status='awaiting_provider_decision' AND (DATE(reject_by_default_at) > NOW())) THEN 1
-              ELSE 0
-            END
-          ) DESC,
-          reject_by_default_at ASC,
-          application_choices.updated_at DESC
-          ORDER_BY
-        )
-      end
-    end
-
-    context 'when sort param is Last changed' do
-      let(:params) do
-        ActionController::Parameters.new({ 'sort_by' => 'Last changed' })
-      end
-
-      it 'returns updated_at descending' do
-        expect(page_state.sort_order).to eq({ updated_at: :desc })
-      end
-    end
-  end
-
   describe '#sort_options' do
     let(:params) { ActionController::Parameters.new }
 
     subject(:sort_options) { described_class.new(params: params, provider_user: provider_user).sort_options }
 
-    it { is_expected.to eq(['Last changed', 'Days left to respond']) }
+    it { is_expected.to eq([['Last changed', 'last_changed'], ['Days left to respond', 'days_left_to_respond']]) }
   end
 
-  describe '#sort_by_attribute' do
+  describe '#sort_by' do
     let(:params) { ActionController::Parameters.new }
 
-    subject(:sort_by_attribute) { described_class.new(params: params, provider_user: provider_user).sort_by_attribute }
+    subject(:sort_by) { described_class.new(params: params, provider_user: provider_user).sort_by }
 
-    it { is_expected.to eq(:updated_at) }
+    it { is_expected.to eq('last_changed') }
 
-    context 'when params contain a valid sort option' do
-      let(:params) { ActionController::Parameters.new({ 'sort_by' => 'Days left to respond' }) }
+    context 'with a valid sort option' do
+      let(:params) { ActionController::Parameters.new({ 'sort_by' => 'days_left_to_respond' }) }
 
-      it { is_expected.to eq(:reject_by_default_at) }
+      it { is_expected.to eq('days_left_to_respond') }
     end
   end
 end
