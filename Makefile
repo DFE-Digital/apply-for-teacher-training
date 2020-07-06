@@ -66,8 +66,6 @@ ci.unit-tests: ## Run the tests with results formatted for CI
 .PHONY: ci.integration-tests
 ci.integration-tests: ## Run the tests with results formatted for CI
 	docker-compose run web /bin/sh -c 'mkdir $(RSPEC_RESULTS_PATH) && \
-		apk add nodejs yarn && \
-		bundle exec rails assets:precompile && \
 		bundle exec --verbose rspec --pattern $(INTEGRATION_TEST_PATTERN) --failure-exit-code 0 --format RspecJunitFormatter --out $(RSPEC_RESULTS_PATH)/rspec-integration-tests-results.xml'
 	$(call copy_to_host,$(RSPEC_RESULTS_PATH))
 	$(call copy_to_host,$(COVERAGE_RESULT_PATH))
