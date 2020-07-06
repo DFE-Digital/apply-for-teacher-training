@@ -1,7 +1,6 @@
 module CandidateInterface
   class NationalitiesForm
     include ActiveModel::Model
-    include ValidationUtils
 
     attr_accessor :first_nationality, :second_nationality, :other_nationality, :multiple_nationalities
 
@@ -67,6 +66,16 @@ module CandidateInterface
       elsif second_nationality.present?
         "#{first_nationality} and #{second_nationality}"
       end
+    end
+
+  private
+
+    def first_nationality_is_other?
+      first_nationality == 'other'
+    end
+
+    def multiple_nationalities_selected?
+      first_nationality == 'multiple'
     end
 
     def international_flag_is_on?

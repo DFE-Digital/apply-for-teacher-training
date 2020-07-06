@@ -20,10 +20,6 @@ RSpec.feature 'Entering their personal details' do
 
     when_i_choose_that_i_am_british
     and_i_submit_the_form
-    then_i_see_the_languages_page
-
-    when_i_choose_that_english_is_my_primary_language
-    and_i_submit_the_form
     then_i_see_the_personal_details_review_page
     and_i_can_check_my_answers
 
@@ -117,11 +113,6 @@ RSpec.feature 'Entering their personal details' do
 
   def then_i_see_the_personal_details_review_page
     expect(page).to have_current_path candidate_interface_personal_details_show_path
-  end
-
-  def when_i_choose_that_english_is_my_primary_language
-    choose 'Yes'
-    fill_in t('english_main_language.yes_label', scope: @scope), with: "I'm great at Galactic Basic so English is a piece of cake", match: :prefer_exact
   end
 
   def and_i_can_check_my_answers

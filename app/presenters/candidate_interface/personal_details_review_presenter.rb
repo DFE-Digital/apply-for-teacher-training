@@ -8,14 +8,23 @@ module CandidateInterface
     end
 
     def rows
-      [
-        name_row,
-        date_of_birth_row,
-        nationality_row,
-        english_main_language_row,
-        language_details_row,
-      ]
+      if FeatureFlag.active?('international_personal_details')
+        [
+          name_row,
+          date_of_birth_row,
+          nationality_row,
+        ]
         .compact
+      else
+        [
+          name_row,
+          date_of_birth_row,
+          nationality_row,
+          english_main_language_row,
+          language_details_row,
+        ]
+          .compact
+      end
     end
 
   private
