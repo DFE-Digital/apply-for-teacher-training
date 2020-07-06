@@ -13,6 +13,9 @@ RSpec.feature 'Validation errors summary' do
 
     when_i_navigate_to_the_validation_errors_summary_page
     then_i_should_see_numbers_for_the_past_week_month_and_all_time
+
+    when_i_click_on_link_to_drilldown_contact_details_form_errors
+    then_i_should_see_errors_for_contact_details_form_only
   end
 
   def given_i_am_a_candidate
@@ -41,6 +44,16 @@ RSpec.feature 'Validation errors summary' do
   end
 
   def then_i_should_see_numbers_for_the_past_week_month_and_all_time
-    expect(find('table').all('tr')[2].text).to eq 'CandidateInterface::ContactDetailsForm Phone number 1 1 1 1 1 1'
+    expect(find('table').all('tr')[2].text).to eq 'Contact details form Phone number 1 1 1 1 1 1'
+  end
+
+  def when_i_click_on_link_to_drilldown_contact_details_form_errors
+    click_link 'Contact details form'
+  end
+
+  def then_i_should_see_errors_for_contact_details_form_only
+    expect(page).to have_current_path(
+      support_interface_validation_error_search_path(form_object: 'CandidateInterface::ContactDetailsForm'),
+    )
   end
 end

@@ -24,10 +24,16 @@
   <% @validation_error_summary.each do |row| %>
     <tr class="govuk-table__row">
       <td class="govuk-table__cell">
-        <%= row['form_object'].to_s %>
+        <%= govuk_link_to(
+          row['form_object'].to_s.demodulize.underscore.humanize,
+          support_interface_validation_error_search_path(form_object: row['form_object'].to_s),
+        ) %>
       </td>
       <td class="govuk-table__cell">
-        <%= row['attribute'].to_s.humanize %>
+        <%= govuk_link_to(
+          row['attribute'].to_s.humanize,
+          support_interface_validation_error_search_path(form_object: row['form_object'], attribute: row['attribute']),
+        ) %>
       </td>
       <td class="govuk-table__cell">
         <%= row['incidents_all_time'] %>
