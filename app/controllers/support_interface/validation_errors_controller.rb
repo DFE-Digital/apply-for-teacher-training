@@ -14,7 +14,7 @@ module SupportInterface
     end
 
     def summary
-      @validation_error_summary = ValidationErrorSummaryQuery.new.call
+      @validation_error_summary = ::ValidationErrorSummaryQuery.new.call
     end
 
     class ValidationErrorSearch

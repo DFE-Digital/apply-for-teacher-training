@@ -3,11 +3,7 @@ require 'rails_helper'
 RSpec.describe ValidationErrorSummaryQuery do
   describe '#call' do
     it 'returns an empty result' do
-      expect(described_class.new.call).to eq({
-        last_week: { distinct_users: 0, incidents: 0 },
-        last_month: { distinct_users: 0, incidents: 0 },
-        all_time: { distinct_users: 0, incidents: 0 },
-      })
+      expect(described_class.new.call).to eq([])
     end
 
     it 'returns data for each time period' do
@@ -16,11 +12,18 @@ RSpec.describe ValidationErrorSummaryQuery do
       old_error = create :validation_error, created_at: 60.days.ago
       create :validation_error, created_at: 60.days.ago, user: old_error.user
 
-      expect(described_class.new.call).to eq({
-        last_week: { distinct_users: 1, incidents: 1 },
-        last_month: { distinct_users: 2, incidents: 2 },
-        all_time: { distinct_users: 3, incidents: 4 },
-      })
+      expect(described_class.new.call).to eq([
+        {
+          'attribute' => 'feedback',
+          'form_object' => 'RefereeInterface::ReferenceFeedbackForm',
+          'incidents_all_time' => 4,
+          'incidents_last_month' => 2,
+          'incidents_last_week' => 1,
+          'unique_users_all_time' => 3,
+          'unique_users_last_month' => 2,
+          'unique_users_last_week' => 1,
+        },
+      ])
     end
   end
 end

@@ -3,22 +3,49 @@
 <table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-half"></th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter"></th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter"></th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter" colspan="2">All time</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter" colspan="2">Last month</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter" colspan="2">Last week</th>
+    </tr>
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter"></th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter"></th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Error count</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Unique users</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Error count</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Unique users</th>
       <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Error count</th>
       <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Unique users</th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
-  <% @validation_error_summary.each do |label, counts| %>
+  <% @validation_error_summary.each do |row| %>
     <tr class="govuk-table__row">
       <td class="govuk-table__cell">
-        <%= label.to_s.humanize %>
+        <%= row['form_object'].to_s %>
       </td>
       <td class="govuk-table__cell">
-        <%= counts[:incidents] %>
+        <%= row['attribute'].to_s.humanize %>
       </td>
       <td class="govuk-table__cell">
-        <%= counts[:distinct_users] %>
+        <%= row['incidents_all_time'] %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= row['unique_users_all_time'] %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= row['incidents_last_month'] %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= row['unique_users_last_month'] %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= row['incidents_last_week'] %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= row['unique_users_last_week'] %>
       </td>
     </tr>
   <% end %>
