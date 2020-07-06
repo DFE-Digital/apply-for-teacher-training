@@ -46,7 +46,7 @@ module UCASMatching
     # good as Hash keys, so we convert the first objects' keys to
     # those human-readable values here
     def self.csv_header(applications)
-      applications.first.keys.map { |key| HEADER_NAMES[key] }
+      applications.first.keys.map { |key| HEADER_NAMES.fetch(key) }
     end
 
   private

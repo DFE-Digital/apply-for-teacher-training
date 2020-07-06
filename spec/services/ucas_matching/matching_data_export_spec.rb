@@ -33,6 +33,10 @@ RSpec.describe UCASMatching::MatchingDataExport do
         create(:completed_application_form, :with_equality_and_diversity_data, application_choices_count: 3)
       end
 
+      it 'contains all the specified keys' do
+        expect(result.first.keys).to match_array(UCASMatching::MatchingDataExport::HEADER_NAMES.keys)
+      end
+
       it 'returns one element for each choice on the form' do
         expect(result.size).to eq(3)
       end
