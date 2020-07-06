@@ -13,12 +13,12 @@ class DfESignInUser
     @id_token = id_token
   end
 
-  def provider_interface_logout_url
-    logout_url_for(interface: :provider)
+  def provider_interface_dsi_logout_url
+    dsi_logout_url(interface: :provider)
   end
 
-  def support_interface_logout_url
-    logout_url_for(interface: :support)
+  def support_interface_dsi_logout_url
+    dsi_logout_url(interface: :support)
   end
 
   def self.begin_session!(session, omniauth_payload)
@@ -62,8 +62,8 @@ private
 
   # a URL the user can visit to log them out of DSI and be redirected to our
   # after-sign-out path where we'll delete their local session
-  def logout_url_for(interface:)
-    dsi_logout_url = URI.parse("#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end").tap do |url|
+  def dsi_logout_url(interface:)
+    logout_url = URI.parse("#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end").tap do |url|
       url.query = {
         post_logout_redirect_uri: auth_dfe_sign_out_url,
         id_token_hint: @id_token,
@@ -71,6 +71,6 @@ private
       }.to_query
     end
 
-    dsi_logout_url.to_s
+    logout_url.to_s
   end
 end

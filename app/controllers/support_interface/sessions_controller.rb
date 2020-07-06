@@ -10,7 +10,9 @@ module SupportInterface
     end
 
     def destroy
-      redirect_to dfe_sign_in_user.support_interface_logout_url
+      dsi_logout_url = dfe_sign_in_user.support_interface_dsi_logout_url
+      DfESignInUser.end_session!(session)
+      redirect_to dsi_logout_url
     end
 
     def sign_in_by_email

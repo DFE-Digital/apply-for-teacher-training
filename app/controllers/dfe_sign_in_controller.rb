@@ -28,13 +28,12 @@ class DfESignInController < ActionController::Base
 
   alias_method :bypass_callback, :callback
 
-  # This is called by a redirect from DfE Sign-in after visiting
-  # DfESignInUser#logout_url_for(interface: (provider|support)).
+  # This is called by a redirect from DfE Sign-in after visiting the signout
+  # link on DSI. We tell DSI to redirect here using the
+  # post_logout_redirect_uri parameter - see DfESignInUser#dsi_logout_url
   #
-  # The given interface will appear here in the :state param.
-  def callback_after_signout
-    DfESignInUser.end_session!(session)
-
+  # The interface we signed out from will appear here in the :state param.
+  def redirect_after_dsi_signout
     if params[:state] == 'support'
       redirect_to support_interface_path
     else
