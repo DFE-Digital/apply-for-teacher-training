@@ -146,62 +146,48 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
       )
     end
 
-    subject(:component) { described_class.new(application_choice: application_choice, show_date: show_date) }
+    subject(:contextual_date) { described_class.new(application_choice: application_choice, show_date: show_date).contextual_date }
 
     context 'when not sorting by reject by default date' do
       let(:show_date) { :updated_at }
 
-      it 'presents the last changed date' do
-        expect(component.contextual_date).to eq('Changed  2 June 2020 at  9:05am')
-      end
+      it { is_expected.to eq('Changed  2 June 2020 at  9:05am') }
     end
 
     context 'when application is not in awaiting_provider_decision state' do
       let(:status) { 'withdrawn' }
 
-      it 'presents the last changed date' do
-        expect(component.contextual_date).to eq('Changed  2 June 2020 at  9:05am')
-      end
+      it { is_expected.to eq('Changed  2 June 2020 at  9:05am') }
     end
 
     context 'when reject_by_default_at is nil' do
       let(:reject_by_default_at) { nil }
 
-      it 'presents the last changed date' do
-        expect(component.contextual_date).to eq('Changed  2 June 2020 at  9:05am')
-      end
+      it { is_expected.to eq('Changed  2 June 2020 at  9:05am') }
     end
 
     context 'when reject_by_default_at is in the past' do
       let(:reject_by_default_at) { 1.day.ago }
 
-      it 'presents the last changed date' do
-        expect(component.contextual_date).to eq('Changed  2 June 2020 at  9:05am')
-      end
+      it { is_expected.to eq('Changed  2 June 2020 at  9:05am') }
     end
 
     context 'when reject_by_default_at is less than a day away' do
       let(:reject_by_default_at) { 1.hour.from_now }
 
-      it 'presents "Less than 1 day to respond"' do
-        expect(described_class.new(application_choice: application_choice, show_date: show_date).contextual_date).to eq('Less than 1 day to respond')
-      end
+      it { is_expected.to eq('Less than 1 day to respond') }
     end
 
     context 'when reject_by_default_at is a day away' do
       let(:reject_by_default_at) { 1.day.from_now }
 
-      it 'presents "1 day to respond"' do
-        expect(described_class.new(application_choice: application_choice, show_date: show_date).contextual_date).to eq('1 day to respond')
-      end
+      it { is_expected.to eq('1 day to respond') }
     end
 
     context 'when reject_by_default_at is more than a day away' do
       let(:reject_by_default_at) { 5.days.from_now }
 
-      it 'presents the number of days left to respond' do
-        expect(described_class.new(application_choice: application_choice, show_date: show_date).contextual_date).to eq('5 days to respond')
-      end
+      it { is_expected.to eq('5 days to respond') }
     end
   end
 end
