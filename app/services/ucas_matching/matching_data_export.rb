@@ -1,5 +1,3 @@
-# Returns an array of hashes, where each hash is in the format expected by
-# UCAS as 'Dataset 1', defined in the Data Sharing Agreement between us
 module UCASMatching
   class MatchingDataExport
     HEADER_NAMES = {
@@ -34,6 +32,9 @@ module UCASMatching
       ethnic_background: 'Ethnic background',
     }.freeze
 
+    # Returns an array of hashes, where each hash is in the format expected by
+    # UCAS as 'Dataset 1', defined in the Data Sharing Agreement between us
+    # and UCAS.
     def applications
       relevant_applications.flat_map do |application_form|
         application_form.application_choices.map do |choice|
