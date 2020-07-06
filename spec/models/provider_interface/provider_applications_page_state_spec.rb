@@ -151,10 +151,22 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
   describe '#sort_options' do
     let(:params) { ActionController::Parameters.new }
 
-    subject(:page_state) { described_class.new(params: params, provider_user: provider_user) }
+    subject(:sort_options) { described_class.new(params: params, provider_user: provider_user).sort_options }
 
-    it 'returns an array of sort options' do
-      expect(page_state.sort_options).to eq(['Last changed', 'Days left to respond'])
+    it { is_expected.to eq(['Last changed', 'Days left to respond']) }
+  end
+
+  describe '#sort_by_attribute' do
+    let(:params) { ActionController::Parameters.new }
+
+    subject(:sort_by_attribute) { described_class.new(params: params, provider_user: provider_user).sort_by_attribute }
+
+    it { is_expected.to eq(:updated_at) }
+
+    context 'when params contain a valid sort option' do
+      let(:params) { ActionController::Parameters.new({ 'sort_by' => 'Days left to respond' }) }
+
+      it { is_expected.to eq(:reject_by_default_at) }
     end
   end
 end

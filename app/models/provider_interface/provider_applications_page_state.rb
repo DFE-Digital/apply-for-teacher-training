@@ -23,6 +23,10 @@ module ProviderInterface
       sort_options.include?(@params[:sort_by]) ? @params[:sort_by] : 'Last changed'
     end
 
+    def sort_by_attribute
+      sort_by == 'Days left to respond' ? :reject_by_default_at : :updated_at
+    end
+
     def sort_options
       ['Last changed', 'Days left to respond']
     end
