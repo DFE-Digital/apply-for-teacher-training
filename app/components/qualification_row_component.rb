@@ -5,14 +5,4 @@ class QualificationRowComponent < ViewComponent::Base
   def initialize(qualification:)
     @qualification = qualification
   end
-
-private
-
-  def friendly_grade
-    if qualification.degree?
-      t("application_form.degree.grade.#{qualification.grade}.label", default: qualification.grade)
-    else
-      qualification.grade
-    end
-  end
 end

@@ -149,17 +149,8 @@ en:
         review_label: Institution
         change_action: institution
       grade:
-        label: What class is your degree?
         review_label: Grade
         change_action: grade
-        first:
-          label: First
-        upper_second:
-          label: Upper second (2:1)
-        lower_second:
-          label: Lower second (2:2)
-        third:
-          label: Third
         other:
           label: Other
           conditional:
