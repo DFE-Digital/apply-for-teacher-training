@@ -135,7 +135,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     let(:reject_by_default_at) { DateTime.parse('2020-06-02T09:05:00+01:00') }
     let(:updated_at) { DateTime.parse('2020-06-02T09:05:00+01:00') }
     let(:status) { 'awaiting_provider_decision' }
-    let(:sort_by) { 'Days left to respond' }
+    let(:show_date) { :reject_by_default_at }
     let(:application_choice) do
       build_stubbed(
         :application_choice,
@@ -146,10 +146,10 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
       )
     end
 
-    subject(:component) { described_class.new(application_choice: application_choice, sort_by: sort_by) }
+    subject(:component) { described_class.new(application_choice: application_choice, show_date: show_date) }
 
     context 'when not sorting by reject by default date' do
-      let(:sort_by) { 'foo' }
+      let(:show_date) { :updated_at }
 
       it 'presents the last changed date' do
         expect(component.contextual_date).to eq('Changed  2 June 2020 at  9:05am')
@@ -184,7 +184,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
       let(:reject_by_default_at) { 1.hour.from_now }
 
       it 'presents "Less than 1 day to respond"' do
-        expect(described_class.new(application_choice: application_choice, sort_by: sort_by).contextual_date).to eq('Less than 1 day to respond')
+        expect(described_class.new(application_choice: application_choice, show_date: show_date).contextual_date).to eq('Less than 1 day to respond')
       end
     end
 
@@ -192,7 +192,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
       let(:reject_by_default_at) { 1.day.from_now }
 
       it 'presents "1 day to respond"' do
-        expect(described_class.new(application_choice: application_choice, sort_by: sort_by).contextual_date).to eq('1 day to respond')
+        expect(described_class.new(application_choice: application_choice, show_date: show_date).contextual_date).to eq('1 day to respond')
       end
     end
 
@@ -200,7 +200,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
       let(:reject_by_default_at) { 5.days.from_now }
 
       it 'presents the number of days left to respond' do
-        expect(described_class.new(application_choice: application_choice, sort_by: sort_by).contextual_date).to eq('5 days to respond')
+        expect(described_class.new(application_choice: application_choice, show_date: show_date).contextual_date).to eq('5 days to respond')
       end
     end
   end
