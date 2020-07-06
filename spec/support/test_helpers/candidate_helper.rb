@@ -119,18 +119,20 @@ module CandidateHelper
     fill_in 'Day', with: '6'
     fill_in 'Month', with: '4'
     fill_in 'Year', with: '1937'
+    click_button t('complete_form_button', scope: scope)
 
     select('British', from: t('nationality.label', scope: scope))
     find('details').click
     within('details') do
       select('American', from: t('second_nationality.label', scope: scope))
     end
+    click_button t('complete_form_button', scope: scope)
 
     choose 'Yes'
     fill_in t('english_main_language.yes_label', scope: scope), with: "I'm great at Galactic Basic so English is a piece of cake", match: :prefer_exact
     click_button t('complete_form_button', scope: scope)
     check t('application_form.completed_checkbox')
-    click_button t('complete_form_button', scope: scope)
+    click_button 'Continue'
   end
 
   def candidate_fills_in_contact_details

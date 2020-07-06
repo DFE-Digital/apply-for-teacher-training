@@ -7,13 +7,19 @@ module CandidateInterface
       @personal_details_form = CandidateInterface::PersonalDetailsForm.build_from_application(
         application_form,
       )
+      @nationalities_form = CandidateInterface::NationalitiesForm.build_from_application(
+        application_form,
+      )
+      @languages_form = CandidateInterface::LanguagesForm.build_from_application(
+        application_form,
+      )
       @editable = editable
       @missing_error = missing_error
     end
 
     def rows
       CandidateInterface::PersonalDetailsReviewPresenter
-        .new(form: @personal_details_form)
+        .new(personal_details_form: @personal_details_form, nationalities_form: @nationalities_form, languages_form: @languages_form)
         .rows
     end
 
