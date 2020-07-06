@@ -5,25 +5,25 @@ class ValidationErrorSummaryQuery
         form_object,
         jsonb_object_keys(details) AS attribute,
         CASE
-          WHEN created_at > date_trunc('day', NOW() - interval '1 week') THEN
+          WHEN created_at > $1 THEN
             1
           ELSE
             0
         END AS incident_last_week,
         CASE
-          WHEN created_at > date_trunc('day', NOW() - interval '1 week') THEN
+          WHEN created_at > $1 THEN
             user_id
           ELSE
             NULL
         END AS user_id_last_week,
         CASE
-          WHEN created_at > date_trunc('day', NOW() - interval '1 month') THEN
+          WHEN created_at > $2 THEN
             1
           ELSE
             0
         END AS incident_last_month,
         CASE
-          WHEN created_at > date_trunc('day', NOW() - interval '1 month') THEN
+          WHEN created_at > $2 THEN
             user_id
           ELSE
             NULL
@@ -46,6 +46,10 @@ class ValidationErrorSummaryQuery
     ORDER BY incidents_all_time DESC".freeze
 
   def call
-    ActiveRecord::Base.connection.exec_query(COUNT_SQL).to_a
+    ActiveRecord::Base.connection.exec_query(
+      COUNT_SQL,
+      'SQL',
+      [[nil, 1.week.ago.beginning_of_day], [nil, 1.month.ago.beginning_of_day]],
+    ).to_a
   end
 end
