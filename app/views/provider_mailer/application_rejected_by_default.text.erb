@@ -1,6 +1,6 @@
 Dear <%= @provider_user_name || 'colleague' %>
 
-# Application rejected automatically
+# Application rejected by default
 
 <%= @application.candidate_name %> submitted an application for <%= @application.course_name_and_code %> on <%= @application.submitted_at %>.
 
@@ -13,7 +13,3 @@ This application has been rejected automatically because you did not respond in 
 This application has been rejected automatically because you did not respond within <%= @application.rbd_days %> working days.
 
 <% end %>
-
-# Give feedback or report a problem
-
-Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).

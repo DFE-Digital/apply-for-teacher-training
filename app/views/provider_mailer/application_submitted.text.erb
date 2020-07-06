@@ -1,8 +1,8 @@
 Dear <%= @provider_user_name || 'colleague' %>
 
-# Application received
+# Application submitted
 
-<%= @application.candidate_name %> submitted an application for <%= @application.course_name_and_code %>.
+<%= @application.candidate_name %> has submitted an application for <%= @application.course_name_and_code %>.
 
 # Next steps
 
@@ -12,14 +12,10 @@ Log in to Manage teacher training applications to respond:
 
 <% if FeatureFlag.active?('covid_19') %>
 
-We’ll reject the application automatically if you have not responded by <%= @application.rbd_date.to_s(:govuk_date).strip %>.
+You have <%= @application.rbd_date.to_s(:govuk_date).strip %> to respond. After that, the application will be automatically rejected.
 
 <% else %>
 
 We’ll reject the application on your behalf after <%= @application.rbd_days %> working days.
 
 <% end %>
-
-# Give feedback or report a problem
-
-Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).

@@ -1,4 +1,6 @@
 class ProviderMailer < ApplicationMailer
+  layout 'provider_email_with_footer', except: %i[account_created fallback_sign_in_email]
+
   def account_created(provider_user)
     @provider_user = provider_user
 
