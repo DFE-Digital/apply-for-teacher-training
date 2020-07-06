@@ -20,13 +20,7 @@
 
       <%= f.hidden_field :rejection_reason %>
 
-      <div class="govuk-warning-text">
-        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-        <strong class="govuk-warning-text__text">
-          <span class="govuk-warning-text__assistive">Warning</span>
-          We’ll tell the candidate you rejected their application, and share your reasons.
-        </strong>
-      </div>
+      <%= render WarningTextComponent.new(text: 'We’ll tell the candidate you rejected their application, and share your reasons.') %>
 
       <%= f.govuk_submit 'Reject application' %>
 
