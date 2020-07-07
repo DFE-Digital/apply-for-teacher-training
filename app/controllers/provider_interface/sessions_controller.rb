@@ -10,9 +10,14 @@ module ProviderInterface
     end
 
     def destroy
-      dsi_logout_url = dfe_sign_in_user.provider_interface_dsi_logout_url
+      post_signout_redirect = if dfe_sign_in_user.needs_dsi_signout?
+                                dfe_sign_in_user.provider_interface_dsi_logout_url
+                              else
+                                provider_interface_path
+                              end
+
       DfESignInUser.end_session!(session)
-      redirect_to dsi_logout_url
+      redirect_to post_signout_redirect
     end
 
     def sign_in_by_email

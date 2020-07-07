@@ -21,6 +21,10 @@ class DfESignInUser
     dsi_logout_url(interface: :support)
   end
 
+  def needs_dsi_signout?
+    @id_token.present?
+  end
+
   def self.begin_session!(session, omniauth_payload)
     session['dfe_sign_in_user'] = {
       'email_address' => omniauth_payload['info']['email'],
