@@ -27,7 +27,7 @@ module CandidateInterface
 
     def rejection_reasons_row(application_choice)
       {
-        key: 'Reasons for rejection',
+        key: 'Feedback',
         value: application_choice.rejection_reason,
       }
     end

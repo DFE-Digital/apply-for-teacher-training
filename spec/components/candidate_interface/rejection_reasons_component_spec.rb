@@ -12,7 +12,7 @@ RSpec.describe CandidateInterface::RejectionReasonsComponent do
     expect(result.css('.govuk-summary-list__key').text).to include('Course')
     expect(result.css('.govuk-summary-list__value').to_html).to include(application_choice.course.name_and_code)
     expect(result.css('.govuk-summary-list__value').to_html).to include(application_choice.course.description)
-    expect(result.css('.govuk-summary-list__key').text).to include('Reasons for rejection')
+    expect(result.css('.govuk-summary-list__key').text).to include('Feedback')
     expect(result.css('.govuk-summary-list__value').to_html).to include(application_choice.rejection_reason)
   end
 end

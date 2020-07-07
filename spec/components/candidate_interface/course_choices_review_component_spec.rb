@@ -258,7 +258,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Unsuccessful')
-      expect(result.css('.govuk-summary-list__key').text).to include('Reason for rejection')
+      expect(result.css('.govuk-summary-list__key').text).to include('Feedback')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Course full')
     end
   end
