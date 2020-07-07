@@ -6,7 +6,7 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data/generate', type: :request do
   it 'generates test data' do
     create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
 
-    post_api_request '/api/v1/experimental/test-data/generate?count=1'
+    post_api_request '/api/v1/test-data/generate?count=1'
 
     expect(Candidate.count).to eq(1)
     expect(ApplicationChoice.count).to eq(1)
@@ -16,7 +16,7 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data/generate', type: :request do
     create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
     create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
 
-    post_api_request '/api/v1/experimental/test-data/generate?count=1&courses_per_application=2'
+    post_api_request '/api/v1/test-data/generate?count=1&courses_per_application=2'
 
     expect(Candidate.count).to eq(1)
     expect(ApplicationChoice.count).to eq(2)
@@ -28,7 +28,7 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data/generate', type: :request do
     create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
     create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
 
-    post_api_request '/api/v1/experimental/test-data/generate?count=1&courses_per_application=99'
+    post_api_request '/api/v1/test-data/generate?count=1&courses_per_application=99'
 
     expect(Candidate.count).to eq(1)
     expect(ApplicationChoice.count).to eq(3)
@@ -37,7 +37,7 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data/generate', type: :request do
   it 'returns responses conforming to the schema' do
     create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
 
-    post_api_request '/api/v1/experimental/test-data/generate?count=1'
+    post_api_request '/api/v1/test-data/generate?count=1'
 
     expect(parsed_response).to be_valid_against_openapi_schema('TestDataGeneratedResponse')
   end
@@ -45,7 +45,7 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data/generate', type: :request do
   it 'returns error responses on invalid input' do
     create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
 
-    post_api_request '/api/v1/experimental/test-data/generate?count=1&courses_per_application=2'
+    post_api_request '/api/v1/test-data/generate?count=1&courses_per_application=2'
 
     expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
   end
@@ -53,7 +53,7 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data/generate', type: :request do
   it 'returns error when you ask for zero courses per application' do
     create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
 
-    post_api_request '/api/v1/experimental/test-data/generate?count=1&courses_per_application=0'
+    post_api_request '/api/v1/test-data/generate?count=1&courses_per_application=0'
 
     expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
   end

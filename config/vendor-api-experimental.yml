@@ -5,7 +5,7 @@ paths:
       description: |
         Deletes all applications and generates 100 new applications. Only
         available on the Sandbox. DEPRECATED: See /test-data/generate and /test-data/clear
-  "/experimental/test-data/generate":
+  "/test-data/generate":
     post:
       tags:
       - Testing
@@ -36,7 +36,7 @@ paths:
           "$ref": "#/components/responses/TestDataGenerated"
         '401':
           "$ref": "#/components/responses/Unauthorized"
-  "/experimental/test-data/clear":
+  "/test-data/clear":
     post:
       tags:
       - Testing
