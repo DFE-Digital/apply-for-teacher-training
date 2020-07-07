@@ -1,0 +1,18 @@
+<% content_for :title, 'Providers' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @wizard, url: provider_interface_update_invitation_provider_permissions_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">Set permissions for <%= @permissions_form.provider.name %></h1>
+
+      <%= f.fields_for "provider_permissions[]", @permissions_form do |pf| %>
+        <%= pf.hidden_field :provider_id %>
+        <%= pf.govuk_collection_check_boxes :permissions, @permissions_form.available_permissions, :slug, :name %>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>

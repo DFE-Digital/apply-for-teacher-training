@@ -529,6 +529,15 @@ Rails.application.routes.draw do
       delete '/remove' => 'provider_users#remove', as: :remove_provider_user
     end
 
+    get 'users/new' => 'provider_users_invitations#edit_details', as: :edit_invitation_basic_details
+    post 'users/new' => 'provider_users_invitations#update_details', as: :update_invitation_basic_details
+    get 'users/new/providers' => 'provider_users_invitations#edit_providers', as: :edit_invitation_providers
+    post 'users/new/providers' => 'provider_users_invitations#update_providers', as: :update_invitation_providers
+    get 'users/new/providers/:provider_id/permissions' => 'provider_users_invitations#edit_permissions', as: :edit_invitation_provider_permissions
+    post 'users/new/providers/:provider_id/permissions' => 'provider_users_invitations#update_permissions', as: :update_invitation_provider_permissions
+    get 'users/new/check' => 'provider_users_invitations#check', as: :check_invitation
+    post 'users/new/commit' => 'provider_users_invitations#commit', as: :commit_invitation
+
     resources :organisations, only: %i[index show], path: 'organisations'
 
     get '/provider-relationship-permissions/setup' => 'provider_relationship_permissions#setup',
