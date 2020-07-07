@@ -460,6 +460,7 @@ Rails.application.routes.draw do
     post '/applications/:application_id/reject' => 'decisions#reject'
     post '/applications/:application_id/confirm-enrolment' => 'decisions#confirm_enrolment'
 
+    post '/test-data/regenerate' => 'test_data#regenerate'
     post '/test-data/generate' => 'test_data#generate'
     post '/test-data/clear' => 'test_data#clear!'
 
