@@ -20,7 +20,6 @@ class ApplicationQualification < ApplicationRecord
 
   scope :degrees, -> { where level: 'degree' }
   scope :gcses, -> { where level: 'gcse' }
-  scope :other, -> { where level: 'other' }
 
   enum level: {
     degree: 'degree',
