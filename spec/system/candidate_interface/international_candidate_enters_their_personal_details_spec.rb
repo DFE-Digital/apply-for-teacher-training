@@ -39,6 +39,7 @@ RSpec.feature 'Entering their personal details' do
     when_i_click_change_on_my_nationality
     and_i_choose_other
     and_i_select_i_am_german
+    and_i_submit_the_form
     then_i_see_the_right_to_work_or_study_page
 
     when_i_choose_yes
@@ -119,7 +120,6 @@ RSpec.feature 'Entering their personal details' do
     expect(page).to have_content 'Name'
     expect(page).to have_content 'Lando Calrissian'
     expect(page).to have_content 'British'
-    expect(page).to have_content "I'm great at Galactic Basic so English is a piece of cake"
   end
 
   def when_i_click_change_on_my_nationality
