@@ -41,7 +41,7 @@ paths:
       tags:
       - Testing
       summary: Clear test data
-      description: 'Clears all application data for the current provider. Only available
+      description: 'Deletes ALL application data for the current provider regardless of how it was created. Only available
         on the Sandbox. EXPERIMENTAL — this endpoint may change or disappear.
 
         '
