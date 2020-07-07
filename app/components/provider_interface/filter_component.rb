@@ -3,7 +3,7 @@ module ProviderInterface
     include ViewHelper
 
     attr_reader :page_state
-    delegate :filters, to: :page_state
+    delegate :filters, :sort_by, to: :page_state
 
     def initialize(page_state:)
       @page_state = page_state
@@ -24,12 +24,14 @@ module ProviderInterface
 
     def remove_checkbox_tag_link(name, value)
       params = filters_to_params(filters)
+      params[:sort_by] = sort_by if sort_by
       params[name].reject! { |val| val == value }
       '?' + params.to_query
     end
 
     def remove_search_tag_link(name)
       params = filters_to_params(filters)
+      params[:sort_by] = sort_by if sort_by
       params.delete(name)
       '?' + params.to_query
     end

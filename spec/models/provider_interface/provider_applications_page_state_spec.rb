@@ -17,8 +17,10 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
 
   describe '#filters' do
     it 'calculates a correct list of possible filters' do
-      page_state = described_class.new(params: ActionController::Parameters.new,
-                                       provider_user: provider_user)
+      page_state = described_class.new(
+        params: ActionController::Parameters.new,
+        provider_user: provider_user,
+      )
 
       expected_number_of_filters = 3
       providers_array_index = 2
@@ -30,8 +32,10 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     end
 
     it 'does not include providers if avaible providers is < 2' do
-      page_state = described_class.new(params: ActionController::Parameters.new,
-                                       provider_user: another_provider_user)
+      page_state = described_class.new(
+        params: ActionController::Parameters.new,
+        provider_user: another_provider_user,
+      )
 
       expected_number_of_filters = 2
 
@@ -42,9 +46,10 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     end
 
     it 'can return filter config for a list of provider locations' do
-      page_state = described_class.new(params: ActionController::Parameters.new({ provider: [provider1.id] }),
-
-                                       provider_user: another_provider_user)
+      page_state = described_class.new(
+        params: ActionController::Parameters.new({ provider: [provider1.id] }),
+        provider_user: another_provider_user,
+      )
 
       headings = page_state.filters.map { |filter| filter[:heading] }
 
@@ -63,17 +68,12 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
 
   describe '#applied_filters' do
     let(:params) do
-      ActionController::Parameters.new({ 'status' => %w[
-        awaiting_provider_decision
-        pending_conditions
-        recruited
-        declined
-      ],
-                                         'weekdays' => %w[
-                                           wed
-                                           thurs
-                                           mon
-                                         ] })
+      ActionController::Parameters.new(
+        {
+          'status' => %w[awaiting_provider_decision pending_conditions recruited declined],
+          'weekdays' => %w[wed thurs mon],
+        },
+      )
     end
 
     it 'returns a has of permitted parameters' do
@@ -87,12 +87,9 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
 
   describe '#filtered?' do
     let(:params) do
-      ActionController::Parameters.new({ 'status' => %w[
-        awaiting_provider_decision
-        pending_conditions
-        recruited
-        declined
-      ] })
+      ActionController::Parameters.new({
+        'status' => %w[awaiting_provider_decision pending_conditions recruited declined],
+      })
     end
 
     let(:empty_params) { ActionController::Parameters.new }
@@ -105,6 +102,28 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     it 'returns false if filters have not been applied' do
       page_state = described_class.new(params: empty_params, provider_user: provider_user)
       expect(page_state.filtered?).to be(false)
+    end
+  end
+
+  describe '#sort_options' do
+    let(:params) { ActionController::Parameters.new }
+
+    subject(:sort_options) { described_class.new(params: params, provider_user: provider_user).sort_options }
+
+    it { is_expected.to eq([['Last changed', 'last_changed'], ['Days left to respond', 'days_left_to_respond']]) }
+  end
+
+  describe '#sort_by' do
+    let(:params) { ActionController::Parameters.new }
+
+    subject(:sort_by) { described_class.new(params: params, provider_user: provider_user).sort_by }
+
+    it { is_expected.to eq('last_changed') }
+
+    context 'with a valid sort option' do
+      let(:params) { ActionController::Parameters.new({ 'sort_by' => 'days_left_to_respond' }) }
+
+      it { is_expected.to eq('days_left_to_respond') }
     end
   end
 end
