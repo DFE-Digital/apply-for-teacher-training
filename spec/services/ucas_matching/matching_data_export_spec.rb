@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe ApplicationsExportForUCAS do
+RSpec.describe UCASMatching::MatchingDataExport do
   let(:unsubmitted_form) { create(:application_form) }
   let(:submitted_form) { create(:completed_application_form, application_choices_count: 3) }
 
   describe '#relevant_applications' do
-    let(:result) { ApplicationsExportForUCAS.new.send(:relevant_applications) }
+    let(:result) { described_class.new.send(:relevant_applications) }
 
     it 'includes ApplicationForms which are submitted' do
       expect(result).to include(submitted_form)
@@ -22,7 +22,7 @@ RSpec.describe ApplicationsExportForUCAS do
   end
 
   describe '#applications' do
-    let(:result) { ApplicationsExportForUCAS.new.applications }
+    let(:result) { described_class.new.applications }
 
     it 'returns an array' do
       expect(result).to be_a(Array)
@@ -31,6 +31,10 @@ RSpec.describe ApplicationsExportForUCAS do
     context 'when a relevant application form exists with multiple application_choices' do
       let!(:application) do
         create(:completed_application_form, :with_equality_and_diversity_data, application_choices_count: 3)
+      end
+
+      it 'contains all the specified keys' do
+        expect(result.first.keys).to match_array(UCASMatching::MatchingDataExport::HEADER_NAMES.keys)
       end
 
       it 'returns one element for each choice on the form' do

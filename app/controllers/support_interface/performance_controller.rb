@@ -52,18 +52,6 @@ module SupportInterface
       end
     end
 
-    def applications_export_for_ucas
-      if HostingEnvironment.production?
-        render_404
-      else
-        applications = ApplicationsExportForUCAS.new.applications
-        header_row = ApplicationsExportForUCAS.csv_header(applications)
-        csv = to_csv(applications, header_row)
-
-        send_data csv, filename: "dfe_apply_itt_applications_#{Time.zone.now.iso8601}.csv", disposition: :attachment
-      end
-    end
-
     def active_provider_users
       provider_users = SupportInterface::ActiveProviderUsersExport.call
       csv = to_csv(provider_users)
