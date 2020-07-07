@@ -1,3 +1,13 @@
+### 7th July 2020
+
+Documentation has been amended to emphasise the stability of `/applications` endpoints
+in contrast to the `/test-data` endpoints.
+
+Experimental endpoints have also been updated:
+
+- `/test-data/regenerate` endpoint has been deactivated. The response contains an explanatory error message.
+- `/experimental/test-data/*` endpoints moved to `/test-data/*` and POST requests to the old paths return 410 status with a message detailing the new location.
+
 ### 2nd July 2020
 
 The documentation around the `/offer` endpoint has been clarified to show that:
