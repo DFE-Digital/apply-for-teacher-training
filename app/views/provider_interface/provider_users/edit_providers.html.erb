@@ -22,10 +22,8 @@
                     <%= ppf.govuk_check_box :manage_users, true, multiple: false, label: { text: 'Manage users' } %>
                     <%= ppf.govuk_check_box :view_safeguarding_information, true, multiple: false,
                                             label: { text: 'View safeguarding information' } %>
-                    <% if FeatureFlag.active?('provider_make_decisions_restriction') %>
                     <%= ppf.govuk_check_box :make_decisions, true, multiple: false,
                                             label: { text: 'Make decisions' } %>
-                    <% end %>
                   <% end %>
                 <% end %>
               <% end %>

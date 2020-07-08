@@ -13,7 +13,7 @@ class OfferAuthorisation
     # enforce org-level 'make_decisions' restriction
     return false if ratifying_provider &&
       FeatureFlag.active?(:enforce_provider_to_provider_permissions) &&
-      FeatureFlag.active?('provider_make_decisions_restriction') &&
+      FeatureFlag.active?(:providers_can_manage_users_and_permissions) &&
       provider_relationship_permissions_for_actor(
         training_provider: training_provider,
         ratifying_provider: ratifying_provider,
@@ -22,7 +22,7 @@ class OfferAuthorisation
     # enforce user-level 'make_decisions' restriction
     related_providers = [training_provider, ratifying_provider].compact
     return false if
-      FeatureFlag.active?('provider_make_decisions_restriction') &&
+      FeatureFlag.active?(:providers_can_manage_users_and_permissions) &&
         !actor_has_permission_to_make_decisions?(providers: related_providers)
 
     # check (indirect) relationship between course_option and @actor

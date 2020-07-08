@@ -106,7 +106,8 @@ RSpec.describe MakeAnOffer, sidekiq: true do
     end
 
     it 'raises error if actor does not have make_decisions permission' do
-      FeatureFlag.activate('provider_make_decisions_restriction')
+      FeatureFlag.activate(:providers_can_manage_users_and_permissions)
+
       unauthorised_user = create(:provider_user, :with_provider)
       course = create(:course, :open_on_apply, provider: unauthorised_user.providers.first)
       course_option = create(:course_option, course: course)

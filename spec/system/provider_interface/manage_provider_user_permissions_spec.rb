@@ -4,9 +4,9 @@ RSpec.feature 'Managing provider user permissions' do
   include DfESignInHelpers
 
   scenario 'Provider manages permissions for users' do
+    FeatureFlag.activate(:providers_can_manage_users_and_permissions)
+
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_the_provider_add_provider_users_feature_is_enabled
-    and_the_make_decisions_restriction_feature_flag_is_active
     and_i_can_manage_applications_for_two_providers
     and_i_can_manage_users_for_a_provider
     and_i_sign_in_to_the_provider_interface
@@ -48,10 +48,6 @@ RSpec.feature 'Managing provider user permissions' do
   def and_i_can_manage_users_for_a_provider
     @managed_user = create(:provider_user, providers: [@provider])
     @managing_user.provider_permissions.find_by(provider: @provider).update(manage_users: true)
-  end
-
-  def and_the_provider_add_provider_users_feature_is_enabled
-    FeatureFlag.activate('provider_add_provider_users')
   end
 
   def when_i_click_on_the_users_link
@@ -118,10 +114,6 @@ RSpec.feature 'Managing provider user permissions' do
     within("#provider-#{@provider.id}-enabled-permissions") do
       expect(page).to have_content 'View safeguarding information'
     end
-  end
-
-  def and_the_make_decisions_restriction_feature_flag_is_active
-    FeatureFlag.activate('provider_make_decisions_restriction')
   end
 
   def and_i_add_permission_to_make_decisions_for_a_provider_user

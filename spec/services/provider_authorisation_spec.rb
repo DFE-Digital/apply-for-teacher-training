@@ -70,8 +70,8 @@ RSpec.describe ProviderAuthorisation do
 
     context 'actor: provider user (org-level permissions)' do
       before do
-        FeatureFlag.activate('enforce_provider_to_provider_permissions')
-        FeatureFlag.activate('provider_make_decisions_restriction')
+        FeatureFlag.activate(:enforce_provider_to_provider_permissions)
+        FeatureFlag.activate(:providers_can_manage_users_and_permissions)
       end
 
       it 'training_provider without make_decisions' do
@@ -100,7 +100,7 @@ RSpec.describe ProviderAuthorisation do
     end
 
     context 'actor: provider user (user-level permissions)' do
-      before { FeatureFlag.activate('provider_make_decisions_restriction') }
+      before { FeatureFlag.activate(:providers_can_manage_users_and_permissions) }
 
       it 'training_provider_user without make_decisions' do
         training_provider_user.provider_permissions.update_all(make_decisions: false)
@@ -158,8 +158,8 @@ RSpec.describe ProviderAuthorisation do
 
     context 'actor: api user (org-level permissions)' do
       before do
-        FeatureFlag.activate('enforce_provider_to_provider_permissions')
-        FeatureFlag.activate('provider_make_decisions_restriction')
+        FeatureFlag.activate(:enforce_provider_to_provider_permissions)
+        FeatureFlag.activate(:providers_can_manage_users_and_permissions)
       end
 
       it 'is false for training_provider without make_decisions' do

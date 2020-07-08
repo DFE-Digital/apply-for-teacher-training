@@ -5,7 +5,7 @@ RSpec.describe 'ProviderUserController actions' do
   let(:provider_user) { create(:provider_user, providers: [provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
 
   before do
-    FeatureFlag.activate('provider_add_provider_users')
+    FeatureFlag.activate(:providers_can_manage_users_and_permissions)
 
     allow(DfESignInUser).to receive(:load_from_session)
       .and_return(
