@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_02_131703) do
+ActiveRecord::Schema.define(version: 2020_07_08_095213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -147,6 +147,9 @@ ActiveRecord::Schema.define(version: 2020_07_02_131703) do
     t.bigint "subject_hesa_code"
     t.bigint "institution_hesa_code"
     t.bigint "grade_hesa_code"
+    t.boolean "international", default: false, null: false
+    t.string "naric_reference"
+    t.string "comparable_uk_degree"
     t.index ["application_form_id"], name: "index_application_qualifications_on_application_form_id"
     t.index ["grade_hesa_code"], name: "qualifications_by_grade_hesa_code"
     t.index ["institution_hesa_code"], name: "qualifications_by_institution_hesa_code"
