@@ -48,18 +48,18 @@ module CandidateInterface
   private
 
     def first_nationality_is_other?
-      first_nationality == 'other'
+      first_nationality == 'Other'
     end
 
     def multiple_nationalities_selected?
-      first_nationality == 'multiple'
+      first_nationality == 'Multiple'
     end
 
     def nationality
       case first_nationality
-      when 'other'
+      when 'Other'
         other_nationality
-      when 'multiple'
+      when 'Multiple'
         first_nationality
       else
         first_nationality.capitalize

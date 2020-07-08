@@ -48,7 +48,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
     context 'when first nationality is other and the international_personal_details flag on' do
       let(:form_data) do
         {
-          first_nationality: 'other',
+          first_nationality: 'Other',
           other_nationality: 'German',
         }
       end
@@ -77,7 +77,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
         nationalities = CandidateInterface::NationalitiesForm.new(form_data)
 
         expect(nationalities.save(application_form)).to eq(true)
-        expect(application_form.first_nationality).to eq 'multiple'
+        expect(application_form.first_nationality).to eq 'Multiple'
         expect(application_form.multiple_nationalities_details).to eq 'German and Austrian'
       end
     end
@@ -134,7 +134,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
 
       it 'validates nationalities against the NATIONALITY_DEMONYMS list' do
         details_with_invalid_nationality = CandidateInterface::NationalitiesForm.new(
-          first_nationality: 'other',
+          first_nationality: 'Other',
           other_nationality: 'Tralfamadorian',
         )
 
