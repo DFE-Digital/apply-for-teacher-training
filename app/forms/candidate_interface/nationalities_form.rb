@@ -20,6 +20,8 @@ module CandidateInterface
               inclusion: { in: NATIONALITY_DEMONYMS, allow_blank: true },
               if: :international_flag_is_on?
 
+    UK_AND_IRISH_NATIONALITIES = ['British', 'Welsh', 'Scottish', 'Northern Irish', 'Irish', 'English']
+
     def self.build_from_application(application_form)
       new(
         first_nationality: application_form.first_nationality,
