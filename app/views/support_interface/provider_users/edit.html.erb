@@ -1,3 +1,5 @@
+  <% content_for :browser_title, "Edit provider user #{@form.provider_user.full_name}" %>
+
 <% content_for :before_content do %>
   <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
@@ -13,6 +15,10 @@
     </ol>
   </div>
 
+  <h1 class='govuk-heading-xl'>
+    Provider user <%= @form.provider_user.full_name %> - Edit
+  </h1>
+
   <%= render SubNavigationComponent.new(items: [
     { name: 'Details', url: support_interface_provider_user_path(@form.provider_user), current: true },
     { name: 'Audit trail', url: support_interface_provider_user_audits_path(@form.provider_user) },
@@ -24,17 +30,14 @@
     <%= form_with model: @form, url: support_interface_provider_user_path(@form.provider_user) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class='govuk-heading-xl'>
-        Edit provider user
-      </h1>
-
-      <% if @form.provider_user.dfe_sign_in_uid.present? %>
-        <%= f.govuk_text_field :email_address, label: { text: 'Email address', size: 'm' } %>
-      <% else %>
-        <%= f.govuk_text_field :email_address, label: { text: 'Email address', size: 'm' }, disabled: true, hint_text: 'The email address is not editable until the user has signed in for the first time. This is to ensure it continues to match the email on their DfE Sign-in invitation' %>
-      <% end %>
-      <%= f.govuk_text_field :first_name, label: { text: 'First name' } %>
-      <%= f.govuk_text_field :last_name, label: { text: 'Last name' } %>
+      <%= render SummaryListComponent.new(rows: {
+        'First name' => @form.provider_user.first_name,
+        'Last name' => @form.provider_user.last_name,
+        'Email address' => @form.provider_user.email_address,
+        'DfE Sign-in UID' => @form.provider_user.dfe_sign_in_uid,
+        'Account created at' => @form.provider_user.created_at.to_s(:govuk_date_and_time),
+        'Last sign in at' => @form.provider_user.last_signed_in_at&.to_s(:govuk_date_and_time) || 'Not signed in yet',
+      }) %>
 
       <%= render 'provider_options', f: f %>
 

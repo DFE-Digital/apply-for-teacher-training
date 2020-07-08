@@ -1,0 +1,19 @@
+<ul class='govuk-list'>
+  <li><%= render CheckIcon.new %> View applications</li>
+
+  <% if @permission_model.manage_users? %>
+    <li><%= render CheckIcon.new %> Manage users</li>
+  <% end %>
+
+  <% if @permission_model.manage_organisations? %>
+    <li><%= render CheckIcon.new %> Manage organisations</li>
+  <% end %>
+
+  <% if @permission_model.view_safeguarding_information? %>
+    <li><%= render CheckIcon.new %> View safeguarding information</li>
+  <% end %>
+
+  <% if @permission_model.make_decisions? %>
+    <li><%= render CheckIcon.new %> Make decisions</li>
+  <% end %>
+</ul>
