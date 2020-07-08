@@ -34,7 +34,7 @@
         'First name' => @form.provider_user.first_name,
         'Last name' => @form.provider_user.last_name,
         'Email address' => @form.provider_user.email_address,
-        'DfE Signin UID' => @form.provider_user.dfe_sign_in_uid,
+        'DfE Sign-in UID' => @form.provider_user.dfe_sign_in_uid,
         'Account created at' => @form.provider_user.created_at.to_s(:govuk_date_and_time),
         'Last sign in at' => @form.provider_user.last_signed_in_at&.to_s(:govuk_date_and_time) || 'Not signed in yet',
       }) %>
