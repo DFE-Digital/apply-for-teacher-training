@@ -159,7 +159,7 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def then_i_am_told_i_need_to_provide_details
-    expect(page).to have_content "can't be blank"
+    expect(page).to have_content 'Please provide details of your right to work or study in the UK.'
   end
 
   def when_i_fill_in_my_right_to_work_details

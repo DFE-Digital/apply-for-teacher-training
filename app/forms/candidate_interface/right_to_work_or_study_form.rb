@@ -8,6 +8,8 @@ module CandidateInterface
 
     validates :right_to_work_or_study_details, presence: true, if: :has_right_to_work_or_study?
 
+    validates :right_to_work_or_study_details, word_count: { maximum: 200 }
+
     def self.build_from_application(application_form)
       new(
         right_to_work_or_study: application_form.right_to_work_or_study,

@@ -11,6 +11,12 @@ RSpec.describe CandidateInterface::RightToWorkOrStudyForm, type: :model do
     it { is_expected.to validate_presence_of(:right_to_work_or_study) }
     it { is_expected.to validate_presence_of(:right_to_work_or_study_details) }
 
+    okay_text = Faker::Lorem.sentence(word_count: 200)
+    long_text = Faker::Lorem.sentence(word_count: 201)
+
+    it { is_expected.to allow_value(okay_text).for(:right_to_work_or_study_details) }
+    it { is_expected.not_to allow_value(long_text).for(:right_to_work_or_study_details) }
+
     describe '.build_from_application' do
       let(:form_data) do
         {
