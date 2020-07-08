@@ -35,10 +35,8 @@ module SupportInterface
       provider_user = ProviderUser.find(params[:id])
 
       @form = ProviderUserForm.new(
-        provider_user_params.merge(
-          provider_user: provider_user,
-          provider_permissions: provider_permissions_params,
-        ),
+        provider_user: provider_user,
+        provider_permissions: provider_permissions_params,
       )
 
       service = SaveProviderUser.new(

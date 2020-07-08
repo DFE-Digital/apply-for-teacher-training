@@ -1,3 +1,5 @@
+  <% content_for :browser_title, "Edit provider user #{@form.provider_user.full_name}" %>
+
 <% content_for :before_content do %>
   <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
@@ -13,6 +15,10 @@
     </ol>
   </div>
 
+  <h1 class='govuk-heading-xl'>
+    Provider user <%= @form.provider_user.full_name %> - Edit
+  </h1>
+
   <%= render SubNavigationComponent.new(items: [
     { name: 'Details', url: support_interface_provider_user_path(@form.provider_user), current: true },
     { name: 'Audit trail', url: support_interface_provider_user_audits_path(@form.provider_user) },
@@ -24,9 +30,14 @@
     <%= form_with model: @form, url: support_interface_provider_user_path(@form.provider_user) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class='govuk-heading-xl'>
-        Edit provider user
-      </h1>
+      <%= render SummaryListComponent.new(rows: {
+        'First name' => @form.provider_user.first_name,
+        'Last name' => @form.provider_user.last_name,
+        'Email address' => @form.provider_user.email_address,
+        'DfE Signin UID' => @form.provider_user.dfe_sign_in_uid,
+        'Account created at' => @form.provider_user.created_at.to_s(:govuk_date_and_time),
+        'Last sign in at' => @form.provider_user.last_signed_in_at&.to_s(:govuk_date_and_time) || 'Not signed in yet',
+      }) %>
 
       <% if @form.provider_user.dfe_sign_in_uid.present? %>
         <%= f.govuk_text_field :email_address, label: { text: 'Email address', size: 'm' } %>

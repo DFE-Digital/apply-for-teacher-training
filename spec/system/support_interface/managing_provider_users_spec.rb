@@ -161,7 +161,7 @@ RSpec.feature 'Managing provider users' do
   end
 
   def and_i_click_on_that_user
-    click_link 'harrison@example.com'
+    click_link 'Harrison Bergeron'
   end
 
   def when_i_add_them_to_another_organisation

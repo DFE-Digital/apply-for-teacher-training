@@ -1,3 +1,5 @@
+<% content_for :browser_title, "Audit trail for provider user #{@provider_user.full_name}" %>
+
 <% content_for :before_content do %>
   <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
@@ -13,6 +15,10 @@
     </ol>
   </div>
 
+  <h1 class='govuk-heading-xl'>
+    Provider user <%= @provider_user.full_name %> - Audit Trail
+  </h1>
+
   <%= render SubNavigationComponent.new(items: [
     { name: 'Details', url: edit_support_interface_provider_user_path(@provider_user) },
     { name: 'Audit trail', url: support_interface_provider_user_audits_path(@provider_user), current: true },
@@ -20,10 +26,6 @@
 <% end %>
 
 <div class="govuk-grid-row">
-  <h1 class='govuk-heading-xl'>
-    <%= @provider_user.email_address %>
-  </h1>
-
   <div class="govuk-grid-column-two-thirds">
     <%= render SupportInterface::AuditTrailComponent.new(audited_thing: @provider_user) %>
   </div>

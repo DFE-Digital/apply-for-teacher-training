@@ -2,9 +2,8 @@
   <table class="govuk-table">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header">Email address</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-third">Name and email address</th>
         <th scope="col" class="govuk-table__header">Providers</th>
-        <th scope="col" class="govuk-table__header">DfE Sign-in UID</th>
         <th scope="col" class="govuk-table__header">Last signed in at</th>
       </tr>
     </thead>
@@ -12,9 +11,18 @@
     <tbody class="govuk-table__body">
       <% table_rows.each do |row| %>
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell"><%= row[:email_address] %></td>
-          <td class="govuk-table__cell"><%= row[:links_to_providers].html_safe %></td>
-          <td class="govuk-table__cell"><%= row[:dfe_sign_in_uid] %></td>
+          <td class="govuk-table__cell">
+            <%= govuk_link_to(row[:provider_user].full_name, edit_support_interface_provider_user_path(row[:provider_user])) %><br/>
+            <span style='word-break: break-all;'><%= row[:provider_user].email_address %></span>
+          </td>
+          <td class="govuk-table__cell">
+            <% row[:provider_user].provider_permissions.each do |permission| %>
+              <div class='govuk-!-margin-bottom-2'>
+                <h3 class='govuk-heading-s'><%= permission.provider.name_and_code %></h3>
+                <%= render PermissionsList.new(permission) %>
+              </div>
+            <% end %>
+          </td>
           <% if row[:last_signed_in_at] %>
             <td class="govuk-table__cell"><%= row[:last_signed_in_at] %></td>
           <% else %>
@@ -23,7 +31,7 @@
             <% else %>
               <td class="govuk-table__cell"><em>Never signed in</em></td>
             <% end %>
-          <%end %>
+          <% end %>
         </tr>
       <% end %>
     </tbody>
